@@ -1,108 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632832BD031;
-	Thu, 21 Aug 2025 09:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE8E2BD031;
+	Thu, 21 Aug 2025 09:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755767124; cv=none; b=Mx7zBVxjUqG/BfKpDUxjW26vgiJc5HXNIRBH7LZSUARBc8HrBYSc5/a+tI+rFOwdIhrPWqwxTzMHLlLdKBYKa0FwN7lc/Da68LS5vHVdC69CZh5AP3GNILpc0GnF9ZXndlZ1xzJDBtf1eXmCMAFhsD7UHg89DvAWr1ypBuYj+KQ=
+	t=1755767232; cv=none; b=a8Puz/aY7JKJWSmi1EANeB02zzs9MKopngoXrpOvjvSPSqVfl1cb93yzeSpzRtrr2USj28B4TLT3O0rr8vNszCComPssEQkcbnu4IT+fqfxNscFKWN2TmUOp3Tw4Rzowqf+Qkrd4DuTKLNFMW9NPkD0AsJUf7pV2LMDgekEDnJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755767124; c=relaxed/simple;
-	bh=6m8VkLTn5CveIiBhG3nSr49Vkn2mPSrdpHQymVKyjFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zbv0CtxIPmrNNIt2dLZ+W+WRkOlSOIkDjiCHERK+BRGxHm8DBJFHagK6TFWkgngxdpAnVI/ufCXzXubXDH8UJ71KComS80eYfMxxNkitvB3l5rsjyUfWvt5F65eewPLMhkVznimTJ6YvtZa/AlXyPIqGkm8+svG7m8/xiP8cB9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDUlwJ2E; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDUlwJ2E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72135C4CEEB;
-	Thu, 21 Aug 2025 09:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755767124;
-	bh=6m8VkLTn5CveIiBhG3nSr49Vkn2mPSrdpHQymVKyjFI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HDUlwJ2EmohArI1fC1Akm4jTOxlqiU+m3pUzPJDD6lNS8l2ua+nD4ooUPnPgIldiU
-	 wb5mldq5XbpxigBYnm4tN15EM42gF0So48Q9MrFuEueD4gPCSA/69PewL8SHXa4zpZ
-	 YNFzF7uOVqUASZvT7XXrC9OkBVpPqLLdlvdrCkGm0pfvrmwVYAVWmcQ4IEYbC8Dap8
-	 ZawdsErTkjlfQyYSJWMWOXvPNOiEk6cJ9/LhBkVODJLt4adKuC9piZ6ko99t2c7YI1
-	 3erMd+Mat2qOb319sQHnJpOLVRxk37JU6JnUKiLtplp7HYqs1iMpQuZ4GbEvLOV8/S
-	 0F+tnnHXnjXxw==
-Date: Thu, 21 Aug 2025 11:05:21 +0200
-From: Amit Shah <amit@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	bp@alien8.de, tglx@linutronix.de, peterz@infradead.org,
-	jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
-	corbet@lwn.net, mingo@redhat.com, dave.hansen@linux.intel.com,
-	hpa@zytor.com, pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com, sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
-	david.kaplan@amd.com, dwmw@amazon.co.uk, andrew.cooper3@citrix.com,
-	amit.shah@amd.com
-Subject: Re: [PATCH v5 1/1] x86: kvm: svm: set up ERAPS support for guests
-Message-ID: <aKbhUcAURkOXIVY-@mun-amitshah-l>
-References: <20250515152621.50648-1-amit@kernel.org>
- <20250515152621.50648-2-amit@kernel.org>
- <43bbb306-782b-401d-ac96-cc8ca550af7d@amd.com>
- <c4adbc456e702b6e04b160efb996212fe3ee9d04.camel@kernel.org>
- <aKX1VZ90_wBxMI7l@google.com>
+	s=arc-20240116; t=1755767232; c=relaxed/simple;
+	bh=Zh+kkBZNDfZfIiwJzIeX6K/FMXbnoYDsLw2oj5rNOsk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nare+ksjeuP0DiKSLu5eu1khHb1pssztNTSepE5B+UHlBr0q7R+5/t5nSCupOOUYM8JcUYaJPyPh+foEr74rXrOGRB3CIyTz+gba2OeFSweSEZvDmmgY9gBA8v4eVRFlymZUzc4zH5S5LIkTzmTjdK9Vj6hsORgnL9EXAltrD6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c6y9t4GNYz6JBWR;
+	Thu, 21 Aug 2025 17:06:42 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 43D6A1400DB;
+	Thu, 21 Aug 2025 17:06:58 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 21 Aug
+ 2025 11:06:56 +0200
+Date: Thu, 21 Aug 2025 10:06:55 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Mike Rapoport <rppt@kernel.org>
+CC: Shiju Jose <shiju.jose@huawei.com>, "rafael@kernel.org"
+	<rafael@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, Linuxarm <linuxarm@huawei.com>, "rientjes@google.com"
+	<rientjes@google.com>, "jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
+	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
+	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
+	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
+	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, Roberto
+ Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
+ range of memory from the node ID
+Message-ID: <20250821100655.00003942@huawei.com>
+In-Reply-To: <aKX_rk0DasbDgJrS@kernel.org>
+References: <20250812142616.2330-1-shiju.jose@huawei.com>
+	<20250812142616.2330-2-shiju.jose@huawei.com>
+	<20250819175420.00007ce6@huawei.com>
+	<aKV6dVkPiBPw595T@kernel.org>
+	<20250820095413.00003bd7@huawei.com>
+	<964fc2721fb7499daa5f49eddfed54ff@huawei.com>
+	<aKX_rk0DasbDgJrS@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aKX1VZ90_wBxMI7l@google.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On (Wed) 20 Aug 2025 [09:18:29], Sean Christopherson wrote:
-> On Wed, May 28, 2025, Amit Shah wrote:
-> > On Mon, 2025-05-19 at 16:22 -0500, Tom Lendacky wrote:
-> > > > +static inline void vmcb_set_flush_guest_rap(struct vmcb *vmcb)
-> > > > +{
-> > > > +	vmcb->control.erap_ctl |= ERAP_CONTROL_FLUSH_RAP;
-> > > > +}
-> > > > +
-> > > > +static inline void vmcb_clr_flush_guest_rap(struct vmcb *vmcb)
-> > > > +{
-> > > > +	vmcb->control.erap_ctl &= ~ERAP_CONTROL_FLUSH_RAP;
-> > > > +}
-> > > > +
-> > > > +static inline void vmcb_enable_extended_rap(struct vmcb *vmcb)
-> > > 
-> > > s/extended/larger/ to match the bit name ?
+On Wed, 20 Aug 2025 20:02:38 +0300
+Mike Rapoport <rppt@kernel.org> wrote:
+
+> On Wed, Aug 20, 2025 at 10:00:50AM +0000, Shiju Jose wrote:
+> > >-----Original Message-----
+> > >From: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > >Sent: 20 August 2025 09:54
+> > >To: Mike Rapoport <rppt@kernel.org>
+> > >Cc: Shiju Jose <shiju.jose@huawei.com>; rafael@kernel.org; bp@alien8.de;
+> > >akpm@linux-foundation.org; dferguson@amperecomputing.com; linux-
+> > >edac@vger.kernel.org; linux-acpi@vger.kernel.org; linux-mm@kvack.org; linux-
+> > >doc@vger.kernel.org; tony.luck@intel.com; lenb@kernel.org;
+> > >leo.duran@amd.com; Yazen.Ghannam@amd.com; mchehab@kernel.org;
+> > >Linuxarm <linuxarm@huawei.com>; rientjes@google.com;
+> > >jiaqiyan@google.com; Jon.Grimm@amd.com; dave.hansen@linux.intel.com;
+> > >naoya.horiguchi@nec.com; james.morse@arm.com; jthoughton@google.com;
+> > >somasundaram.a@hpe.com; erdemaktas@google.com; pgonda@google.com;
+> > >duenwen@google.com; gthelen@google.com;
+> > >wschwartz@amperecomputing.com; wbs@os.amperecomputing.com;
+> > >nifan.cxl@gmail.com; tanxiaofei <tanxiaofei@huawei.com>; Zengtao (B)
+> > ><prime.zeng@hisilicon.com>; Roberto Sassu <roberto.sassu@huawei.com>;
+> > >kangkang.shen@futurewei.com; wanghuiqiang <wanghuiqiang@huawei.com>
+> > >Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
+> > >range of memory from the node ID
+> > >
+> > >On Wed, 20 Aug 2025 10:34:13 +0300
+> > >Mike Rapoport <rppt@kernel.org> wrote:
+> > >  
+> > >> On Tue, Aug 19, 2025 at 05:54:20PM +0100, Jonathan Cameron wrote:  
+> > >> > On Tue, 12 Aug 2025 15:26:13 +0100
+> > >> > <shiju.jose@huawei.com> wrote:
+> > >> >  
+> > >> > > From: Shiju Jose <shiju.jose@huawei.com>
+> > >> > >
+> > >> > > In the numa_memblks, a lookup facility is required to retrieve the
+> > >> > > physical address range of memory in a NUMA node. ACPI RAS2 memory
+> > >> > > features are among the use cases.
+> > >> > >
+> > >> > > Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > >> > > Signed-off-by: Shiju Jose <shiju.jose@huawei.com>  
+> > >> >
+> > >> > Looks fine to me.  Mike, what do you think?  
+> > >>
+> > >> I still don't see why we can't use existing functions like
+> > >> get_pfn_range_for_nid() or memblock_search_pfn_nid().
+> > >>
+> > >> Or even node_start_pfn() and node_spanned_pages().  
+> > >
+> > >Good point.  No reason anyone would scrub this on memory that hasn't been
+> > >hotplugged yet, so no need to use numa-memblk to get the info.
+> > >I guess I was thinking of the wrong hammer :)
+> > >
+> > >I'm not sure node_spanned_pages() works though as we need not to include
+> > >ranges that might be on another node as we'd give a wrong impression of what
+> > >was being scrubbed.  
+> 
+> If nodes are not interleaved node_spanned_pages() would work, even if there
+> are holes inside the node, like e.g. e820-reserved memory.
+> So with non-interleaved nodes node_start_pfn() and either
+> node_spanned_pages() or node_end_pfn() will give the node extents and they
+> are faster than get_pfn_range_for_nid().
+> 
+> If the nodes are interleaved, though, a single mem_base, mem_size are not
+> enough for a node as there are a few contiguous ranges in that node, e.g.
+> 
+>   0              4G              8G             12G            16G
+>   +-------------+ +-------------+ +-------------+ +-------------+
+>   |    node 0   | |    node 1   | |    node 0   | |    node 1   |
+>   +-------------+ +-------------+ +-------------+ +-------------+
+> 
+> I didn't look into the details of the RAS2 driver, but isn't it's something
+> it should handle?
+
+The aim here is that a query prior to setting a specific range returns
+data for at least a range that the scrub controller covers and nothing
+it doesn't. So just presenting the first chunk for a node is fine.
+There is plenty of info for userspace to figure things out if it wants
+to trigger a scrub on 8-12G in your example, but until it does we want
+to return 0-4G for the default range.
+
+I hacked up some SRAT tables to give something like the above for testing.
+> 
+> > >Should be able to use some combination of node_start_pfn() and maybe
+> > >memblock_search_pfn_nid() to get it though (that also gets the nid we already
+> > >know but meh, no ral harm in that.)  
 > > 
-> > I also prefer it with the "larger" name, but that is a confusing bit
-> > name -- so after the last round of review, I renamed the accessor
-> > functions to be "better", while leaving the bit defines match what the
-> > CPU has.
+> > Thanks Mike and Jonathan.
 > > 
-> > I don't mind switching this back - anyone else have any other opinions?
+> > The following approaches were tried as you suggested, instead of newly proposed
+> > nid_get_mem_physaddr_range().
+> > Methods 1 to 3 give the same result as nid_get_mem_physaddr_range(), but
+> > Method 4 gives a different value for the size.  
 > 
-> They both suck equally?  :-)
+> I believe that's because on x86 the node 0 is really scrambled because of
+> e820/efi reservations that never make it to memblock.
+
+Fun question of whether we should take any notice of those.
+Would depend on whether anyone's scrub firmware gets confused if we scrub
+them and they aren't backed by memory.  If they are we can rely on system
+constraints refusing to scrub that stuff at an 'unsafe' level and if we
+set it higher than it otherwise would be only possibility is we see earlier
+error detections in those and have to deal with them.
+
+Jonathan
+
+
+>  
+> > Please advise which method should be used for the RAS2?
+> > 
+> > Thanks,
+> > Shiju
+> >   
 > 
-> My dislike of "larger" is that it's a relative and intermediate term.  What is
-> the "smaller" size?  Is there an "even larger" or "largest size"?
-> 
-> "extended" doesn't help in any way, because that simply "solves" the problem of
-> size ambiguity by saying absolutely nothing about the size.
 
-I agree with that; but it's just how the bit is named in the APM, so...
-
-> I also dislike "allow", because in virtualization context, "allow" usually refers
-> to what the _guest_ can do, but in this case "allow" refers to what the CPU can
-> do.
-
-(same as above)
-
-> If we want to diverge from the APM, my vote would be for something like
-> 
->   ERAP_CONTROL_FULL_SIZE_RAP
-
-Oh I def didn't want to diverge from the APM (for the name of the bit).  I
-only wnat to check what's palatable for the accessors -- but a quick read of
-the followup reply shows you're asking to drop them and just use the checks
-directly, that's fine - no need for these accessors and this renaming.
-
-	  	 Amit
