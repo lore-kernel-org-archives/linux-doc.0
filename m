@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABA4279DBB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB38279DB6;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=e5RV5fbJUEteFUJQavPIvXBPXjo5KA0rwVK/u3Rubdnz6Snuao76pFxPdgGmtOVnWH9A7OcXbw7Etb7e4kHvWQQvwz32vYeuo7nYb/vKn/ELrD4oSZ9v384b2DDvQTDjXJ9xW4qDXB9NUPxrR7evNd8tVh6sJYWmjH4dTmgb29M=
+	t=1755786099; cv=none; b=YpWPVzZllUlvxqabbZrPp6W4GjB6LuZupkXVhb/w3JlwcTbsGdKSUGimevHLokUOw+xc5zJTV1MXlssBK/lAq2zIBCtIRNE7ofCfy2vC7p6FZul81L3wVAPuOHbS4Zn6jr0YIIe1H84yRmlrc9ax0wxKowkbDi7K1GczLP2L/Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=xaVYPkTp3UCaFGLlpkZHV5Y3yGQI0qRfBiGX9ydW30c=;
+	bh=6KNyilChtfEfKAJL2KTz7S3+EmJ+UL4s3OTBvprovpQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VOzYofgx58BZSXJ/D1IsuJELJDYJV/FnC/m4t817ry20eyoDChlJIRj6K/Xd+yG0VVsSob5RwKdbn4JO6OHBSXVTfJZvrKrXQL8ajSBAD5jQvpsBo2FbmbKZgISw/0EL9q7NuBNCA3xlFFjttN01QTK0maHaho8aqTJiiYzeAxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rGK50HqV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=k+PunpL4vdGsXE/aGQdU2km4QF4xJ7EyaGijHfV74GJF16pUKn945Hxt/sroxbtP4BVt5Xo72ZxIZyy5x+/d357XetwaAniwjETa5nd/OG2xpfp8vMuKcJm3o89w9U12z57fJ+Y+X2UG9E75pEKcJXnR3TOOLpALIw5R6rVUkKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGd/ulva; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rGK50HqV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CEEC113CF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGd/ulva"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE08C4CEF4;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=xaVYPkTp3UCaFGLlpkZHV5Y3yGQI0qRfBiGX9ydW30c=;
+	bh=6KNyilChtfEfKAJL2KTz7S3+EmJ+UL4s3OTBvprovpQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rGK50HqV4D2ftJ2wJq/Of1l9eBbyC4BggYHUAfuBniHo9urdjCJ7IDlYwSoMBj7gF
-	 gm8NDxRgbuQW4RFF5/xx++rbT64HbhwNvgRzBosFVnQwgmQ1fsTyYpL/2il5sMBtN0
-	 b2mnyjM0zsZcyf20ZmPXNa+Ug/hj4vYeJll7axZebnqjQQy5RpexOuVrBqhRNa+Xc1
-	 mwOCWaGkwrsV4p39o+Zorhx1wORB0g2132toww4ME8F6rq2fBWZWwSvYpClJaHMUgj
-	 CPHyCEntf1vSxs0PZBFWkx1soa+/Ot0V1V7of1I8qZlc+hmybUXqwSqJPyzxFLyXgG
-	 edf6tdxcgRJpA==
+	b=MGd/ulvamzFNYwH8HntAI+wJCTDGmKqFD+/O6YmHkSRqjxWmSOl1kFLxtf1xUhCiB
+	 j6egBehk81HRFuGoVZ79wloy7jC7cLXZZN6jZ2wmICNfpy6wCJpnyzsqv4AM2f2Q3k
+	 7ztjg83kBZG8lZ8L07tuB1ewqXKPrwBbHgK0qSSkqtvSt+yEeFGm4lBOwhtDZm7CHH
+	 Cq9Dh0nohIYuD72buLaK1YwjK/tdjPF1M1vHQwKSbIr5mlrdn8YfVxqto4slbXfBJN
+	 1D98HLM2zqrwUjZczkMH4HLrr0iEO1FE0nF/ZRrJvoprbx4NG0jntmR/LoER/veBFu
+	 v/ZrC2xoz1wlA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT8K-0TDw;
+	id 1up6Ab-0000000BT8a-0uCv;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 05/24] docs: parse-headers.py: simplify the rules for hashes
-Date: Thu, 21 Aug 2025 16:21:11 +0200
-Message-ID: <dd7cd90d1f080d44e035daa72909ecda7215b95e.1755784930.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH 09/24] docs: uapi: media: Makefile: use parse-headers.py
+Date: Thu, 21 Aug 2025 16:21:15 +0200
+Message-ID: <a1530f4abe90fe86de97e4515d566619e624868a.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -50,52 +52,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Normal :ref domain accept either hashes or underscores, but
-c-domain ones don't. Fix it and remove unneeded places where
-we opt to disable underscore transformation.
-
-Ideally, we should have a rule about the default, or change
-the way media docs have their references.
+Now that we have a new parser, use it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/parse-headers.py | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ Documentation/userspace-api/media/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/sphinx/parse-headers.py b/Documentation/sphinx/parse-headers.py
-index f4ab9c49d2f5..344090ef259c 100755
---- a/Documentation/sphinx/parse-headers.py
-+++ b/Documentation/sphinx/parse-headers.py
-@@ -162,7 +162,8 @@ class ParseHeader:
-                 if not ref_name:
-                     ref_name = symbol.lower()
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+index 3d8aaf5c253b..accc734d045a 100644
+--- a/Documentation/userspace-api/media/Makefile
++++ b/Documentation/userspace-api/media/Makefile
+@@ -3,7 +3,7 @@
+ # Rules to convert a .h file to inline RST documentation
  
--                if replace_underscores:
-+                # c-type references don't support hash
-+                if ref_type == ":ref" and replace_underscores:
-                     ref_name = ref_name.replace("_", "-")
+ SRC_DIR=$(srctree)/Documentation/userspace-api/media
+-PARSER = $(srctree)/Documentation/sphinx/parse-headers.pl
++PARSER = $(srctree)/tools/docs/parse-headers.py
+ UAPI = $(srctree)/include/uapi/linux
+ KAPI = $(srctree)/include/linux
  
-                 ref_link = f"{ref_type}:`{symbol} <{ref_name}>`"
-@@ -258,8 +259,7 @@ class ParseHeader:
-                 if match:
-                     name = match.group(2).strip()
-                     symbol = match.group(3)
--                    self.store_type("typedef", symbol, ref_name=name,
--                                    replace_underscores=False)
-+                    self.store_type("typedef", symbol, ref_name=name)
-                     continue
- 
-                 for re_enum in self.RE_ENUMS:
-@@ -272,8 +272,7 @@ class ParseHeader:
-                 for re_struct in self.RE_STRUCTS:
-                     match = re_struct.match(line)
-                     if match:
--                        self.store_type("struct", match.group(1),
--                                        replace_underscores=False)
-+                        self.store_type("struct", match.group(1))
-                         break
- 
-     def process_exceptions(self, fname: str):
 -- 
 2.50.1
 
