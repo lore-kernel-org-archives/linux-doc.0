@@ -1,111 +1,162 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7000636299B;
-	Thu, 21 Aug 2025 20:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDB4322A1E;
+	Thu, 21 Aug 2025 20:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755807492; cv=none; b=gdfrCusXrlqhlKHfxGLY8y8tD9zLerYJoeE5sKRp8xIuMILY/baJSixlEmPTP8uwzc8/9yS983VyhbT49xNOqqbDVeBfCzsascgKD/iZ9tZEzO6Nq1RJ13gEsfJbU5FRP400aaGLhRMLxLNBdr0c67WW8NxmZ1FmYvYPVDWhBgw=
+	t=1755808464; cv=none; b=Uvglke9KS4nA3VjHJvJUfIsjXZseRCWRRTa0pV9t7bkA4Q8KN+iKfn+sMRm5TcVrR0JZPIxE4oU6VHOpFS/60xBkD0czs2Fpy5CsiYvth/kxQ9yGC8Cj9NHS8zQSofMqLGa3dBaamWIjBvBNMOE4N7KNMspwJgntSvuvUsBAI+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755807492; c=relaxed/simple;
-	bh=c8DsSrJaMnEWoX23jkNnLC7l/EoU9r/NMUCpOmQwdx8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=g3rb9lVLrW7wWi09HIy7UlCpLTYeF+pIL8GE4oHPgZiHeVv2XaJnndNRl6dDtZCpT/3BFn6CZrbZKGneqHcTD0RX/+VQNh1hovtd1X/2phLDIyhs/gtFmluxZSxrq6MDJ8CsOj6SxYt8FfNz6U9MQp6KOsrdZSFY9JIjQCdxrLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=R7ga1qJb; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1755808464; c=relaxed/simple;
+	bh=U0Zv9xWVRHMVUW3bwnQ1taT/AfB91xGbJzGBFeVtNdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ieeze4AoOzXuFu5NF5sG0JM546JN4EcKDYiYH8CIftaiwRgDQ758itHKxQgnztUNkFobaangMmyg72yzrdfGsQFqhw/vV2rDPMECgJf9pNi2BnRrL6v7hc2GE6TRriqKIrpnRvo3vZxyN9L/lVIwfVpeFJIcXOFq1djmybbCfuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e16NItCk; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="R7ga1qJb"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3A66D40AD5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755807489; bh=L1y7dswyjIEQ5uiwA4dVswHTuGstruSKu9IMPlOfEdg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=R7ga1qJb4qvrSTghd1VS8VQ13x9q94khWTr4AC2roiKr6XmBfxQaqq1reRUxSOAIo
-	 mvdP619YphXUm8uDkEQwrCYhnzlNH9HwIV92EI3LfFuTdgiiiICBqbJmnDNpzMQV3o
-	 KkxrAKbGzs4HNRdQnTpARqr1jyGbfgQhyt2sNdbS8B+YZzl0oyHp1bKEhGyvzxIPuv
-	 YBpvEZfToIIlGjhcJO0IIMBN3RCfGTnAzzMryrQu+KUFrFc6Gv/r8Jty4vGs3fTA4B
-	 oIXTE0yAMuq6QmO9Phv0+H5zcs0kuqBaLTmn5eT+qgqHIckF33NgYviWRxlhhqoYY0
-	 OmRbTtLmoyuYA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::824])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3A66D40AD5;
-	Thu, 21 Aug 2025 20:18:09 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, =?utf-8?Q?Bj=C3=B6?=
- =?utf-8?Q?rn?=
- Roy Baron <bjorn3_gh@protonmail.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Alice Ryhl <aliceryhl@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary
- Guo <gary@garyguo.net>, Trevor Gross <tmgross@umich.edu>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 04/11] scripts: sphinx-build-wrapper: add a wrapper for
- sphinx-build
-In-Reply-To: <20250821214308.08835b9f@foz.lan>
-References: <cover.1755258303.git.mchehab+huawei@kernel.org>
- <88a95c7f6996cafb247d6706060173b17a46d570.1755258303.git.mchehab+huawei@kernel.org>
- <87v7mg5ux3.fsf@trenco.lwn.net> <20250821214308.08835b9f@foz.lan>
-Date: Thu, 21 Aug 2025 14:18:08 -0600
-Message-ID: <87bjo8qvi7.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e16NItCk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755808464; x=1787344464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U0Zv9xWVRHMVUW3bwnQ1taT/AfB91xGbJzGBFeVtNdY=;
+  b=e16NItCkMHUSPU/pmZ9UimZTVJIpZFu5e0j9eGVj7eGSnCJHqob211NX
+   t2RTjbSxdSvFkIIl1WlZsrAvXxGsd1kqfJ/KPTc1yMNNUveCua8kDz+qv
+   zr2PAoiOAw4Xwjo5YDixD/Tz/7magTE6CLwz5fJqflGXcMh0TEr57U1ON
+   A5wNaDdfNOvbA6nwFdxx3Fsda+42LWTZw2EG9sBIlgU4JEIxhD8hm9oZU
+   DmBGoKXpFez54iLL9uU8ljbTZ+7RSNPtscujrwlFP3TxMGd0K/QPxPG3r
+   75JZaqQOK44WFySCYApLVmazJbvC0U9AShWiLaIEx5kG7swhxN/SZtxac
+   A==;
+X-CSE-ConnectionGUID: zLZaju6XTM+p3K0vWxnQnQ==
+X-CSE-MsgGUID: xbbUVUx8TEezfrhsN7HA8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58060802"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="58060802"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 13:34:23 -0700
+X-CSE-ConnectionGUID: 5Zh/bL79Q4qiEpcW6oo8Qw==
+X-CSE-MsgGUID: vVhSmUzmS+WslFhCOD7wpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="169323007"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Aug 2025 13:34:17 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1upBzC-000Kdt-2j;
+	Thu, 21 Aug 2025 20:34:14 +0000
+Date: Fri, 22 Aug 2025 04:34:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-doc@vger.kernel.org,
+	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v8 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+Message-ID: <202508220436.qjXO4p8r-lkp@intel.com>
+References: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-3-7066680f138a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-3-7066680f138a@oss.qualcomm.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hi Amirreza,
 
-> Em Thu, 21 Aug 2025 13:36:24 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->> 
->> > There are too much magic inside docs Makefile to properly run
->> > sphinx-build. Create an ancillary script that contains all
->> > kernel-related sphinx-build call logic currently at Makefile.  
->> 
->> So I am just now looking at the script and seeking to understand it, but
->> one thing has jumped at me that I wanted to toss out there...
->> 
->> > +# Minimal supported Python version needed by Sphinx and its extensions
->> > +MIN_PYTHON_VERSION = parse_version("3.7")
->> > +
->> > +# Default value for --venv parameter
->> > +VENV_DEFAULT = "sphinx_latest"
->> > +
->> > +# List of make targets and its corresponding builder and output directory
->> > +TARGETS = {  
->> 
->> We don't at this point have a formal coding standard for Python code,
->> but I do think that we should, to the extent possible, stick to the
->> rules that have been established for C code.  One thing I would really
->> like to see is in the comment style; our rules want:
->> 
->>     /*
->>      * ...C comments spread out with the markers on separate lines
->>      * like this...
->>      */
->> 
->> so can we do something similar for Python?
->> 
->>     #
->>     # Markers above and below
->>     #
->> 
->> I will confess that this matches my personal subject preference, but it
->> also brings us closer to what our C code looks like.
->
-> Fine for me. Can I do such changes on a patch at the end of the series
-> to prevent rebase conflicts?
+kernel test robot noticed the following build warnings:
 
-Yes, of course - and I don't think we have to fix everything right away
-either.  We already have plenty of inconsistent stuff, we can deal with
-it in the usual manner, cleaning it up when we're in the neighborhood
-anyway.
+[auto build test WARNING on 5303936d609e09665deda94eaedf26a0e5c3a087]
 
-Thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250821-074358
+base:   5303936d609e09665deda94eaedf26a0e5c3a087
+patch link:    https://lore.kernel.org/r/20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-3-7066680f138a%40oss.qualcomm.com
+patch subject: [PATCH v8 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+config: arm-randconfig-r133-20250821 (https://download.01.org/0day-ci/archive/20250822/202508220436.qjXO4p8r-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce: (https://download.01.org/0day-ci/archive/20250822/202508220436.qjXO4p8r-lkp@intel.com/reproduce)
 
-jon
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508220436.qjXO4p8r-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tee/tee_core.c:640:33: sparse: sparse: cast removes address space '__user' of expression
+
+vim +/__user +640 drivers/tee/tee_core.c
+
+   618	
+   619	static int params_to_supp(struct tee_context *ctx,
+   620				  struct tee_ioctl_param __user *uparams,
+   621				  size_t num_params, struct tee_param *params)
+   622	{
+   623		size_t n;
+   624	
+   625		for (n = 0; n < num_params; n++) {
+   626			struct tee_ioctl_param ip;
+   627			struct tee_param *p = params + n;
+   628	
+   629			ip.attr = p->attr;
+   630			switch (p->attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
+   631			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+   632			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+   633				ip.a = p->u.value.a;
+   634				ip.b = p->u.value.b;
+   635				ip.c = p->u.value.c;
+   636				break;
+   637			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+   638			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+   639			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+ > 640				ip.a = (u64)p->u.ubuf.uaddr;
+   641				ip.b = p->u.ubuf.size;
+   642				ip.c = 0;
+   643				break;
+   644			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+   645			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+   646			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+   647				ip.b = p->u.memref.size;
+   648				if (!p->u.memref.shm) {
+   649					ip.a = 0;
+   650					ip.c = (u64)-1; /* invalid shm id */
+   651					break;
+   652				}
+   653				ip.a = p->u.memref.shm_offs;
+   654				ip.c = p->u.memref.shm->id;
+   655				break;
+   656			default:
+   657				ip.a = 0;
+   658				ip.b = 0;
+   659				ip.c = 0;
+   660				break;
+   661			}
+   662	
+   663			if (copy_to_user(uparams + n, &ip, sizeof(ip)))
+   664				return -EFAULT;
+   665		}
+   666	
+   667		return 0;
+   668	}
+   669	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
