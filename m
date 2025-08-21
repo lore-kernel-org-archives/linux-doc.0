@@ -1,164 +1,80 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA3534166A
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 17:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C252DF3CF;
+	Thu, 21 Aug 2025 17:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755798401; cv=none; b=S+bMnUPOUELs/pJYr755YO6VYu4f7wPB2HUNtUrnpd99/I+S583ZXY+XbwV9+ropsOeur7LD28E9CMZpBfYlotFjD5R3pjTp1a4fHG4e+3KMPf5vNOz/2LiUBR5aBIpE3jUVgqPsu+xH99Fk3GFuc3c9joiydOPhRB/g9171efk=
+	t=1755798685; cv=none; b=mHPz0KDEWFJQcUzy0IYNJgdD3ixDzJ6dPmYHlDyxHoQMW2sP+sojH1O+S285R6KOqT8pzsqZjZpgc59BQYmCagv6jHq0Z861DGgj8SuhZjYpivdPlsk0XrAqx7j/LH7vHtWiBzaM0cdm/r0s5HBksaPdv9phlzGBnfvs9QqYZLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755798401; c=relaxed/simple;
-	bh=+6CPkCJkU3jwdrOKTxcDt42eFa4pUWh02uNfZWyKCUU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hGwYZAmrdk+WemKzIJBf9O2/5plrGkZyxwFbRVo2kOVuQ88LdAIXHwEFe8qnOF+XBfQa8eRd61t7C2gkqTab9vD8HfCe2pvR93wdHLwmxE/g4VsCXGglbQ01rOnm3mCMxo6Vi5mHKrDNCszx5pmITYnBgFmKHnV2C2Db8wp17jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ufjD5Ioc; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1755798685; c=relaxed/simple;
+	bh=wCAFsgAQdAjADY6fv4y4Kojg0L7QZpmm1WOfbOukUP4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=u4gY6iAtJXP5d28sD7jmuQkYKmATmdHmNWR9QQSCc6xZqtM5qfwnY3fm+YMYRF/5uvQ6jxoNihwR5hITRnhd1jPvYVxhFBLOzYOaKkYexBQgg1APerBDoIHX3CTcBlUsHNJarVnGsFAGyobayDvYOKAzFIz9K5KwfGIw9T8spxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gT/RNrnP; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ufjD5Ioc"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4b109c6b9fcso13662881cf.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 10:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755798398; x=1756403198; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uzrL+hxbYv3dn1xiOMrlh++7JUhUx/rmU8UbpYquXTw=;
-        b=ufjD5Ioc6f3aeem10cQp6hRCB3ScljLN/y+3d2qWbFN9Eimq8y+FWt+QtvVmXw9dA4
-         opeulrOPmQX5n/mFtbIL/TGlMlZbnTUNNxB6KW6NoHeNABHeSUynR/TgbIGoe2x4zCI6
-         nvopJFZyGt9f6xVR3CQ6tv4ba4GsIlScUEt2kQtHgO9bK/3yrzBsOK6NfZlkRf7O4/ut
-         EqJ9vy9ofIhpmGP3KAjUpbQjMUKP8Pc+HiXVaCxnU2m2kb6QMiPr5JJGGhibv43aZ1Yd
-         tPpr2o+f7YA7GJ8tiVAI7LiTSl9p8BZHc4RputahW2t/HP5d75rCiZ0gDvsgP6mZqPdd
-         3o9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755798398; x=1756403198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uzrL+hxbYv3dn1xiOMrlh++7JUhUx/rmU8UbpYquXTw=;
-        b=g/bZMVzKZJd2oXs0Hjt1zSteoiIe8tsOlDJN9zjsIod0TV3bAZj7jzF2eacfKTMlgw
-         mDOaxvd8QfdDsxNs1KQ9CPjNvE2gRblothmtHBpo/WDGQT1ccCA6wLQcb0jcVSW7p8Tz
-         8PN8qMsMP7Bq9OW1aHBeUxlrvFMjL0XiFCD0Oi9x/Mxi4ySXP68btuGngh/brHL+PHS8
-         bwF2cNYxCf08SAg3RX9ySjTfBGZO1DwwBhsItjWLDdS+sGr9quqoHweW77vkzwFsFxpy
-         EN2NKDlFP72EQkQcHgrlzLguretW9ttSPCyckJBqjcvg5HBYEbZg6A1v/B4KNN9G7J9M
-         fAXg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyWwb+Ysvy0zU3nHKphafAalYtqtqxAlVzpVSnATduhhMyWC1k6ApBExF8+f8Wjz68+dP/XjeJtW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqeMWHWv9ZVvNDlWq7fNO8RTZ+INi3PGpt+iIf0A+0dV8c7nFD
-	ipWAO9uAyiHSa8eEgfCCCeyEmDnFO4SRXXe6ZLoUSY6iH00jA+N3udBq6wp4Wa2ubKvSHpqsyRo
-	b+WClVwx0qQsmkOaLCq628JGhia8xQIgayClnCqJs
-X-Gm-Gg: ASbGncs4d56C/AmOkuEHAih8Flf4xe8ZnQVKDMo3zLugtoamP8byddzcw3Z0Kz477IP
-	peQWlUhMDswmRwEmcI3P7sODkE6IJ2+rVPz5MfUZhzYS+mTfYSsfRrbJzbknch/23y2MDW0Fgdo
-	ub20m3wqqOtiUjl8L+O66eKNnv0KbVXz0WcGXg+f6xe5m+vdT+hjRUu5wAF/okx6fh9jJn1wUdU
-	TxyzlHOD/LO
-X-Google-Smtp-Source: AGHT+IEPW6QZom8xTHjRvXzIsbS/Xb3yKjPQUt3+2w0w7igAKtZFc1SFusSTDUIJPiCoiwOQWVVN1GDfEbX7kTFDR6k=
-X-Received: by 2002:a05:622a:4246:b0:4a9:c8e3:a38 with SMTP id
- d75a77b69052e-4b2aaa43606mr2186881cf.30.1755798398051; Thu, 21 Aug 2025
- 10:46:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gT/RNrnP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6C4D340AB4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755798683; bh=hBwRWuKw3Z3dZICd18TkYfxbhcfBicekVpzn2o+lql8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gT/RNrnPVvetSoiiy0kOUBIgUSfIdoY1gUINWdsu8TxG6FpOT8Kz3oTB8lz9NnCl5
+	 fVqxTQmtcGmQbokDePhl+mNxKcG0mED+PSA4xhOSHHdLRB03LrA2nNeMBzxX2QfHJu
+	 R8f6Qn4KxBAgh9161bNlOF9VA6lKcJ7hp4fShqnqpf16JsRzUTecHcAa5BLEoBwtkU
+	 1iUCzXKDvUPgot14Ishg9x8xOepJiButZXUTuSedRNQ6ZM/dEDvaz9pk0lNd5PccEU
+	 MJdSwtZYzhYCk3ad0UCYiwz7QXviKCzun4rv9vSFbz2IR+M7M8qDDmMvtnjpcfPjwZ
+	 CjsV7G0hRwQ/A==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6C4D340AB4;
+	Thu, 21 Aug 2025 17:51:23 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux USB <linux-usb@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH] Documentation: driver-api: usb: Limit toctree depth
+In-Reply-To: <20250820050416.25219-1-bagasdotme@gmail.com>
+References: <20250820050416.25219-1-bagasdotme@gmail.com>
+Date: Thu, 21 Aug 2025 11:51:22 -0600
+Message-ID: <87jz2w7ecl.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250815083930.10547-1-chia-yu.chang@nokia-bell-labs.com>
- <20250815083930.10547-11-chia-yu.chang@nokia-bell-labs.com>
- <CANn89iKPTWBdi8upoxjFok2CPFhkGB9S3crZcefZ0mRhFHGPhQ@mail.gmail.com> <PAXPR07MB798496F6B674558AFD2B1641A332A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-In-Reply-To: <PAXPR07MB798496F6B674558AFD2B1641A332A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 21 Aug 2025 10:46:26 -0700
-X-Gm-Features: Ac12FXzuY5h4-8nywf9JRUgDh45lUrIesLySxStr10g3ePmx7oNQt6qd-NsptN8
-Message-ID: <CANn89iKyU-r93MWukKRh4qPmEgLwSNKudOp_xQ2A6YpaWoUJFw@mail.gmail.com>
-Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>, Neal Cardwell <ncardwell@google.com>
-Cc: "pabeni@redhat.com" <pabeni@redhat.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org" <dsahern@kernel.org>, 
-	"kuniyu@amazon.com" <kuniyu@amazon.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "jhs@mojatatu.com" <jhs@mojatatu.com>, 
-	"kuba@kernel.org" <kuba@kernel.org>, "stephen@networkplumber.org" <stephen@networkplumber.org>, 
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>, 
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
-	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
-	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
-	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>, 
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Thu, Aug 21, 2025 at 7:58=E2=80=AFAM Chia-Yu Chang (Nokia)
-<chia-yu.chang@nokia-bell-labs.com> wrote:
->
-> > -----Original Message-----
-> > From: Eric Dumazet <edumazet@google.com>
-> > Sent: Thursday, August 21, 2025 2:30 PM
-> > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-> > Cc: pabeni@redhat.com; linux-doc@vger.kernel.org; corbet@lwn.net; horms=
-@kernel.org; dsahern@kernel.org; kuniyu@amazon.com; bpf@vger.kernel.org; ne=
-tdev@vger.kernel.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.or=
-g; stephen@networkplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us; =
-davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fi=
-berby.net; liuhangbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.ker=
-nel.org; ij@kernel.org; ncardwell@google.com; Koen De Schepper (Nokia) <koe=
-n.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com; ingemar.s.johans=
-son@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire@apple.com; rs.iet=
-f@gmx.at; Jason_Livingood@comcast.com; vidhi_goel@apple.com
-> > Subject: Re: [PATCH v15 net-next 10/14] tcp: accecn: AccECN option
-> >
-> >
-> > CAUTION: This is an external email. Please be very careful when clickin=
-g links or opening attachments. See the URL nok.it/ext for additional infor=
-mation.
-> >
-> >
-> >
-> > On Fri, Aug 15, 2025 at 1:40=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.=
-com> wrote:
-> [...]
-> > >  /* Used for make_synack to form the ACE flags */ diff --git
-> > > a/include/uapi/linux/tcp.h b/include/uapi/linux/tcp.h index
-> > > bdac8c42fa82..53e0e85b52be 100644
-> > > --- a/include/uapi/linux/tcp.h
-> > > +++ b/include/uapi/linux/tcp.h
-> > > @@ -316,6 +316,13 @@ struct tcp_info {
-> > >                                          * in milliseconds, including=
- any
-> > >                                          * unfinished recovery.
-> > >                                          */
-> > > +       __u32   tcpi_received_ce;    /* # of CE marks received */
-> > > +       __u32   tcpi_delivered_e1_bytes;  /* Accurate ECN byte counte=
-rs */
-> > > +       __u32   tcpi_delivered_e0_bytes;
-> > > +       __u32   tcpi_delivered_ce_bytes;
-> > > +       __u32   tcpi_received_e1_bytes;
-> > > +       __u32   tcpi_received_e0_bytes;
-> > > +       __u32   tcpi_received_ce_bytes;
-> > >  };
-> > >
-> >
-> > We do not add more fields to tcp_info, unless added fields are a multip=
-le of 64 bits.
-> >
-> > Otherwise a hole is added and can not be recovered.
->
-> Hi Eric,
->
-> Thanks for the feedback.
->
-> Then, would it make sense to add __u32 reserved; here or this is not an o=
-ption?
->
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-I would prefer we take the opportunity to export a 32bit field right
-there, instead of a hole.
+> toctree index in USB driver api docs currently spoils the entire docs
+> headings due to lack of :maxdepth: option. Add the option to limit
+> toctree depth to 1, mirroring usb subsystem docs in
+> Documentation/usb/index.rst.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/driver-api/usb/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/driver-api/usb/index.rst b/Documentation/driver-api/usb/index.rst
+> index cfa8797ea6144b..fcb24d0500d91d 100644
+> --- a/Documentation/driver-api/usb/index.rst
+> +++ b/Documentation/driver-api/usb/index.rst
+> @@ -3,6 +3,7 @@ Linux USB API
+>  =============
+>  
+>  .. toctree::
+> +   :maxdepth: 1
+>  
 
-A reserved field makes it difficult for ss commands to know if a new
-kernel is using it for a different purpose.
+It's still kind of a mess, but that does make it better.  Applied,
+thanks.
 
-Neal, any idea of what would be useful ?
-
-I was thinking lately of sk_err_soft, but I am not yet convinced.
+jon
