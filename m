@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84C02857CF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A88285C9D;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=XixoRb/5uheiGz9kbwCW8ycGpcpydByJLDlWDi/2+2X0JXzRA00u8BGvGBEwb29YIzDKK1qaM5JtccZJJN186L97ePSV77haiROzFAS2cwGn750U34SCj2xVTrGX3UtM1ZOiiDBQ+cXh55KF0Y4+YuQzc0d6ryQe1iIr4TG/rjw=
+	t=1755786100; cv=none; b=hAkZc5/vVtyCw6TZH6bLTEe5bRszbE2MRJ9cnwTTBjJKVnHSIpvFTIPIUJsbV8sZARvE+ojgtTMMnU1fgN6U1G1k0AN1MqHAzXPW+EbK90rTYTe7mY3vWBK6DWUxoeIwIqZoRQW6LdhgQVrC9bDSoSKaDvGY/G7EoYqmZN9SVQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=XLpGjVmiz7KWSgkDl0zwCX9wJOnCvElrKCUuUORJrj4=;
+	s=arc-20240116; t=1755786100; c=relaxed/simple;
+	bh=QHi7tmIl6nunuTAnM3ij6+YulhA5kpLqxpviwyDbWAA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HhhXKY2f4sNaCkeA2usVInqZD94rYkuq4v7KirfdUuF/vsuZD/BX+1jnDp4lbBkQlImekujx6T5vw7xcWGPp2BbW9DfXYUGXlDUsaslRvw3yneAL6ro4aICZiN+CXjVRl1WJ01nM1fvE9SlHBPFR9/+6FaDFSqN15T+foJRopHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0vyeHCE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=PRLqwhDZyPapofQQQ+cqwcq+50rL1M2MMOLSJp+ZbB5UfKZe8HozIijeoUIMX3K+xTP2I/33WTe1LMpaUWkwmY+/8u4aSomt/cFmt8TirRvkNZ6iGmEst0Y+yeFluXN7zK+ABF+nFRW/R4R+ogntSYD3x3CW1gI3blO+j5NuA2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ln2v4AlA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0vyeHCE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A51C2BCB5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ln2v4AlA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2644BC2BC86;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=XLpGjVmiz7KWSgkDl0zwCX9wJOnCvElrKCUuUORJrj4=;
+	bh=QHi7tmIl6nunuTAnM3ij6+YulhA5kpLqxpviwyDbWAA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S0vyeHCE3qfDsq0D4MUgUVrAQDhsIuCEzI/P548tnM9nZ5Muk91VVYMiRaeedD7Wt
-	 vTONdyjILJMfX/ePvRar4MwZo7QGt34OAeIoPCd2OiuiJX8XR38CqmKFkqo4p0AJFu
-	 xe9TEBOUOyTC4wzlOy7TWgGRz4VWvem0b0vZDy3NQVRv0ouIJqdPhpfxJZMsfeQwG0
-	 phEHbF5YW44ATkBx4awRTIX9X5NjyexQ2E9szQYUqsurXoPTOYpndaqupjL2EfLWmh
-	 BKUKPFEkGBom6ji4hWIoDLbspnhuSiYjN7Q3MNksPH8NBWlAzjNhxqXFaoHax/GD+V
-	 /60orX2LtmQCA==
+	b=ln2v4AlA8O21gO/gkX0Ap2mbzGys9N9GousLxteJMiuK44zLRQmeIlvWvKDvky1dU
+	 quCDx3bGJKNp4cF/yLdrDGvonoPnrRyK5mWQxT2etx+7ItprxaPzmPCyxsRJts1hve
+	 vnbQN8oJG3xC+2JA0Nie4SoGo9Oymz1uCPsCGpiX09qugkMOxtGdQBR0Y7YgLtTnw3
+	 IQ1F9GtJu+YX8Q4vGpCnBvEtBm1pFQU9RkBzV9zDrTs+EMM46/pK4oOuzJe+FYZWxl
+	 3vOT0ELBVVN4R5o5mfL76UnOSef6xEJXEchfRqiJ7gZzjPcZJxvzym3qa+1KegQ0vS
+	 k9pyiDo4K8USQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT92-1ftd;
+	id 1up6Ab-0000000BT8e-115S;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 16/24] docs: kernel_include.py: move code and literal functions
-Date: Thu, 21 Aug 2025 16:21:22 +0200
-Message-ID: <32c0cee9ef85f8d4789f50514d77f719118b3217.1755784930.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 10/24] docs: kernel_include.py: Update its coding style
+Date: Thu, 21 Aug 2025 16:21:16 +0200
+Message-ID: <6ff25e39e2f0548ef8906c7c4ecc5edbcd9f1b70.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -51,144 +51,216 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Simplify run() even more by moving the code which handles
-with code and literal blocks to their own functions.
+With the help of tools like black, pylint, autopep8 and flake,
+improve the code style in preparation for further changes.
 
 No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 100 +++++++++++++++----------
- 1 file changed, 59 insertions(+), 41 deletions(-)
+ Documentation/sphinx/kernel_include.py | 100 ++++++++++++-------------
+ 1 file changed, 47 insertions(+), 53 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index 4cdd1c77982e..0909eb3a07ea 100755
+index 1e566e87ebcd..1212786ac516 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -160,6 +160,52 @@ class KernelInclude(Include):
+@@ -1,7 +1,6 @@
+ #!/usr/bin/env python3
+-# -*- coding: utf-8; mode: python -*-
+ # SPDX-License-Identifier: GPL-2.0
+-# pylint: disable=R0903, C0330, R0914, R0912, E0401
++# pylint: disable=R0903, R0912, R0914, R0915, C0209,W0707
  
-         return rawtext
+ """
+     kernel-include
+@@ -40,41 +39,38 @@ from docutils.parsers.rst import directives
+ from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
+ from docutils.parsers.rst.directives.misc import Include
  
-+    def literal(self, path, tab_width, rawtext):
-+        """Output a literal block"""
+-__version__  = '1.0'
++__version__ = "1.0"
 +
-+        # Convert tabs to spaces, if `tab_width` is positive.
-+        if tab_width >= 0:
-+            text = rawtext.expandtabs(tab_width)
-+        else:
-+            text = rawtext
-+        literal_block = nodes.literal_block(rawtext, source=path,
-+                                            classes=self.options.get("class", []))
-+        literal_block.line = 1
-+        self.add_name(literal_block)
-+        if "number-lines" in self.options:
-+            try:
-+                startline = int(self.options["number-lines"] or 1)
-+            except ValueError:
-+                raise self.error(":number-lines: with non-integer start value")
-+            endline = startline + len(include_lines)
-+            if text.endswith("\n"):
-+                text = text[:-1]
-+            tokens = NumberLines([([], text)], startline, endline)
-+            for classes, value in tokens:
-+                if classes:
-+                    literal_block += nodes.inline(value, value,
-+                                                    classes=classes)
-+                else:
-+                    literal_block += nodes.Text(value, value)
-+        else:
-+            literal_block += nodes.Text(text, text)
-+        return [literal_block]
+ 
+ # ==============================================================================
+ def setup(app):
+-# ==============================================================================
+-
++    """Setup Sphinx exension"""
+     app.add_directive("kernel-include", KernelInclude)
+-    return dict(
+-        version = __version__,
+-        parallel_read_safe = True,
+-        parallel_write_safe = True
+-    )
++    return {
++        "version": __version__,
++        "parallel_read_safe": True,
++        "parallel_write_safe": True,
++    }
 +
-+    def code(self, path, include_lines):
-+        """Output a code block"""
-+
-+        self.options["source"] = path
-+        codeblock = CodeBlock(self.name,
-+                                [self.options.pop("code")],  # arguments
-+                                self.options,
-+                                include_lines,
-+                                self.lineno,
-+                                self.content_offset,
-+                                self.block_text,
-+                                self.state,
-+                                self.state_machine)
-+        return codeblock.run()
-+
+ 
+ # ==============================================================================
+ class KernelInclude(Include):
+-# ==============================================================================
+-
+     """KernelInclude (``kernel-include``) directive"""
+ 
      def run(self):
-         """Include a file as part of the content of this reST file."""
          env = self.state.document.settings.env
-@@ -200,6 +246,13 @@ class KernelInclude(Include):
-         startline = self.options.get("start-line", None)
-         endline = self.options.get("end-line", None)
+-        path = os.path.realpath(
+-            os.path.expandvars(self.arguments[0]))
++        path = os.path.realpath(os.path.expandvars(self.arguments[0]))
  
-+        if "literal" in self.options:
-+            ouptut_type = "literal"
-+        elif "code" in self.options:
-+            ouptut_type = "code"
-+        else:
-+            ouptut_type = "normal"
-+
-         # Get optional arguments to related to cross-references generation
-         if 'generate-cross-refs' in self.options:
-             rawtext = self.read_rawtext_with_xrefs(env, path)
-@@ -213,50 +266,15 @@ class KernelInclude(Include):
+         # to get a bit security back, prohibit /etc:
+         if path.startswith(os.sep + "etc"):
+-            raise self.severe(
+-                'Problems with "%s" directive, prohibited path: %s'
+-                % (self.name, path))
++            raise self.severe('Problems with "%s" directive, prohibited path: %s' %
++                              (self.name, path))
  
-         rawtext = self.apply_range(rawtext)
+         self.arguments[0] = path
  
-+        if ouptut_type == "literal":
-+            return self.literal(path, tab_width, rawtext)
-+
+         env.note_dependency(os.path.abspath(path))
+ 
+-        #return super(KernelInclude, self).run() # won't work, see HINTs in _run()
++        # return super(KernelInclude, self).run() # won't work, see HINTs in _run()
+         return self._run()
+ 
+     def _run(self):
+@@ -87,41 +83,39 @@ class KernelInclude(Include):
+ 
+         if not self.state.document.settings.file_insertion_enabled:
+             raise self.warning('"%s" directive disabled.' % self.name)
+-        source = self.state_machine.input_lines.source(
+-            self.lineno - self.state_machine.input_offset - 1)
++        source = self.state_machine.input_lines.source(self.lineno -
++                                                       self.state_machine.input_offset - 1)
+         source_dir = os.path.dirname(os.path.abspath(source))
+         path = directives.path(self.arguments[0])
+-        if path.startswith('<') and path.endswith('>'):
++        if path.startswith("<") and path.endswith(">"):
+             path = os.path.join(self.standard_include_path, path[1:-1])
+         path = os.path.normpath(os.path.join(source_dir, path))
+ 
+         # HINT: this is the only line I had to change / commented out:
+-        #path = utils.relative_path(None, path)
++        # path = utils.relative_path(None, path)
+ 
+-        encoding = self.options.get(
+-            'encoding', self.state.document.settings.input_encoding)
+-        e_handler=self.state.document.settings.input_encoding_error_handler
+-        tab_width = self.options.get(
+-            'tab-width', self.state.document.settings.tab_width)
++        encoding = self.options.get("encoding",
++                                    self.state.document.settings.input_encoding)
++        e_handler = self.state.document.settings.input_encoding_error_handler
++        tab_width = self.options.get("tab-width",
++                                     self.state.document.settings.tab_width)
+         try:
+             self.state.document.settings.record_dependencies.add(path)
+-            include_file = io.FileInput(source_path=path,
+-                                        encoding=encoding,
++            include_file = io.FileInput(source_path=path, encoding=encoding,
+                                         error_handler=e_handler)
+-        except UnicodeEncodeError as error:
++        except UnicodeEncodeError:
+             raise self.severe('Problems with "%s" directive path:\n'
+                               'Cannot encode input file path "%s" '
+-                              '(wrong locale?).' %
+-                              (self.name, SafeString(path)))
++                              "(wrong locale?)." % (self.name, SafeString(path)))
+         except IOError as error:
+-            raise self.severe('Problems with "%s" directive path:\n%s.' %
+-                      (self.name, ErrorString(error)))
+-        startline = self.options.get('start-line', None)
+-        endline = self.options.get('end-line', None)
++            raise self.severe('Problems with "%s" directive path:\n%s.'
++                              % (self.name, ErrorString(error)))
++        startline = self.options.get("start-line", None)
++        endline = self.options.get("end-line", None)
+         try:
+             if startline or (endline is not None):
+                 lines = include_file.readlines()
+-                rawtext = ''.join(lines[startline:endline])
++                rawtext = "".join(lines[startline:endline])
+             else:
+                 rawtext = include_file.read()
+         except UnicodeError as error:
+@@ -129,43 +123,43 @@ class KernelInclude(Include):
+                               (self.name, ErrorString(error)))
+         # start-after/end-before: no restrictions on newlines in match-text,
+         # and no restrictions on matching inside lines vs. line boundaries
+-        after_text = self.options.get('start-after', None)
++        after_text = self.options.get("start-after", None)
+         if after_text:
+             # skip content in rawtext before *and incl.* a matching text
+             after_index = rawtext.find(after_text)
+             if after_index < 0:
+                 raise self.severe('Problem with "start-after" option of "%s" '
+-                                  'directive:\nText not found.' % self.name)
+-            rawtext = rawtext[after_index + len(after_text):]
+-        before_text = self.options.get('end-before', None)
++                                  "directive:\nText not found." % self.name)
++            rawtext = rawtext[after_index + len(after_text) :]
++        before_text = self.options.get("end-before", None)
+         if before_text:
+             # skip content in rawtext after *and incl.* a matching text
+             before_index = rawtext.find(before_text)
+             if before_index < 0:
+                 raise self.severe('Problem with "end-before" option of "%s" '
+-                                  'directive:\nText not found.' % self.name)
++                                  "directive:\nText not found." % self.name)
+             rawtext = rawtext[:before_index]
+ 
          include_lines = statemachine.string2lines(rawtext, tab_width,
                                                    convert_whitespace=True)
--        if "literal" in self.options:
--            # Convert tabs to spaces, if `tab_width` is positive.
--            if tab_width >= 0:
--                text = rawtext.expandtabs(tab_width)
--            else:
--                text = rawtext
--            literal_block = nodes.literal_block(rawtext, source=path,
--                                                classes=self.options.get("class", [])
--            )
--            literal_block.line = 1
--            self.add_name(literal_block)
--            if "number-lines" in self.options:
--                try:
--                    startline = int(self.options["number-lines"] or 1)
--                except ValueError:
--                    raise self.error(":number-lines: with non-integer start value")
--                endline = startline + len(include_lines)
--                if text.endswith("\n"):
--                    text = text[:-1]
--                tokens = NumberLines([([], text)], startline, endline)
--                for classes, value in tokens:
--                    if classes:
--                        literal_block += nodes.inline(value, value,
--                                                      classes=classes)
--                    else:
--                        literal_block += nodes.Text(value, value)
--            else:
--                literal_block += nodes.Text(text, text)
--            return [literal_block]
- 
--        if "code" in self.options:
--            self.options["source"] = path
--            codeblock = CodeBlock(self.name,
--                                  [self.options.pop("code")],  # arguments
--                                  self.options,
--                                  include_lines,  # content
--                                  self.lineno,
--                                  self.content_offset,
--                                  self.block_text,
--                                  self.state,
--                                  self.state_machine)
--            return codeblock.run()
-+        if ouptut_type == "code":
-+            return self.code(path, include_lines)
-+
-         self.state_machine.insert_input(include_lines, path)
-         return []
- 
+-        if 'literal' in self.options:
++        if "literal" in self.options:
+             # Convert tabs to spaces, if `tab_width` is positive.
+             if tab_width >= 0:
+                 text = rawtext.expandtabs(tab_width)
+             else:
+                 text = rawtext
+             literal_block = nodes.literal_block(rawtext, source=path,
+-                                    classes=self.options.get('class', []))
++                                                classes=self.options.get("class", [])
++            )
+             literal_block.line = 1
+             self.add_name(literal_block)
+-            if 'number-lines' in self.options:
++            if "number-lines" in self.options:
+                 try:
+-                    startline = int(self.options['number-lines'] or 1)
++                    startline = int(self.options["number-lines"] or 1)
+                 except ValueError:
+-                    raise self.error(':number-lines: with non-integer '
+-                                     'start value')
++                    raise self.error(":number-lines: with non-integer start value")
+                 endline = startline + len(include_lines)
+-                if text.endswith('\n'):
++                if text.endswith("\n"):
+                     text = text[:-1]
+                 tokens = NumberLines([([], text)], startline, endline)
+                 for classes, value in tokens:
+@@ -177,12 +171,12 @@ class KernelInclude(Include):
+             else:
+                 literal_block += nodes.Text(text, text)
+             return [literal_block]
+-        if 'code' in self.options:
+-            self.options['source'] = path
++        if "code" in self.options:
++            self.options["source"] = path
+             codeblock = CodeBlock(self.name,
+-                                  [self.options.pop('code')], # arguments
++                                  [self.options.pop("code")],  # arguments
+                                   self.options,
+-                                  include_lines, # content
++                                  include_lines,  # content
+                                   self.lineno,
+                                   self.content_offset,
+                                   self.block_text,
 -- 
 2.50.1
 
