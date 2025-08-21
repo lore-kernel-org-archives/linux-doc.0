@@ -1,182 +1,161 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC837263A
-	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 10:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DE32F28FA
+	for <linux-doc@vger.kernel.org>; Thu, 21 Aug 2025 10:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755770721; cv=none; b=UxSQBAyTEABfFzhXJ6pYqio57kyZ/Az5ybEAXYKiEtagCoO123KHp+KagIUgRmJGYB+VLXgjbMbJek2tBfbaNXfeqsZsjZaULeZ11B0IyOH57hha0FXGAtO99dNEdkGcXuGxaz0jDq2JJ//8o2R5OI/1U5kwmfJQOEIU6Zf1L6g=
+	t=1755771370; cv=none; b=MS94cImiwgktZy2KbY4qpn2WNEk1dH+jRXoU3+0lczGoU9scKi4gx3Opv0z4OyMdxgfoMDBuz0GZ4JciWAd/VXHFRRZt7T2ZO58wUOMVVHrWKqdsoy5e1d1+H+td/tHn7B8L5pQ06TwSGzUV/lA7o4c7zN710+qb1nRl3Sqx0gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755770721; c=relaxed/simple;
-	bh=Kuiy6M+c34XOWZ6h6vh9kbd23reNtEjtUaOCR7T8gLk=;
+	s=arc-20240116; t=1755771370; c=relaxed/simple;
+	bh=GBwCNdsSPTgkl6+MZ/58UzFmAiMnptb1wekxJ049+9E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7jjOvgXUonLzx700Hx+CCSmwkkusppvPIefWuWo4l2XcXVn3mZpiUYilSmapYEQZ6uyzTwcuIryHG5zS3u7ITn0nbw6zR11NVu0LXpHospnPdqfwT6zj7J/OHJObKrPLfUqWhqnIGQvSGUoRx/eLhI+sODAJx9fymNpKqxENCM=
+	 Content-Type:Content-Disposition:In-Reply-To; b=GeLi/w7w76FBeiB9gmYnmFAwhXZ1zqIVYzegF6H9G8LtBr9O58yuTToFNK+0cq+ovqI/DVw5wZLkFtRIzMYMMGNON9CFaW1lcQ5kJ0jp9HgCmBZxGwCD7EOxJYTxGcpHBd/GroqEVe3vc0me+2+kGmoHvhvJpyVHJ+KxsmIEq00=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1up2AP-0000TZ-AE; Thu, 21 Aug 2025 12:05:09 +0200
+	(envelope-from <ore@pengutronix.de>)
+	id 1up2Kk-0001Yg-Jm; Thu, 21 Aug 2025 12:15:50 +0200
 Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1up2AO-001OXg-36;
-	Thu, 21 Aug 2025 12:05:08 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1up2AO-007znM-2e;
-	Thu, 21 Aug 2025 12:05:08 +0200
-Date: Thu, 21 Aug 2025 12:05:08 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Frieder Schrempf <frieder.schrempf@kontron.de>,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	Frank Li <frank.li@nxp.com>
-Subject: Re: [PATCH v18 0/7] firmware: imx: driver for NXP secure-enclave
-Message-ID: <20250821100508.sh35kuosczdhadpa@pengutronix.de>
-References: <20250619-imx-se-if-v18-0-c98391ba446d@nxp.com>
- <41909d9a-0ee8-460b-8c0a-1ceee0cf8723@kontron.de>
- <20250821095032.5o2trkwf6mdmyx4w@pengutronix.de>
- <PAXPR04MB845980CB4C7EDB091495DC058832A@PAXPR04MB8459.eurprd04.prod.outlook.com>
+	(envelope-from <ore@pengutronix.de>)
+	id 1up2Ki-001OYX-0t;
+	Thu, 21 Aug 2025 12:15:48 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1up2Ki-00805O-0T;
+	Thu, 21 Aug 2025 12:15:48 +0200
+Date: Thu, 21 Aug 2025 12:15:48 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v4 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <aKbx1EoO0iWe2bMU@pengutronix.de>
+References: <20250821091101.1979201-1-o.rempel@pengutronix.de>
+ <20250821091101.1979201-3-o.rempel@pengutronix.de>
+ <20250821115830.3a231885@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB845980CB4C7EDB091495DC058832A@PAXPR04MB8459.eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250821115830.3a231885@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Peng,
+Hello Kory,
 
-On 25-08-21, Peng Fan wrote:
-> Hi Marco,
+On Thu, Aug 21, 2025 at 11:59:14AM +0200, Kory Maincent wrote:
+> Hello Oleksij,
 > 
-> > Subject: Re: [PATCH v18 0/7] firmware: imx: driver for NXP secure-
-> > enclave
-> > 
-> > > Shawn mentioned for the v17, he wanted to test this [1]. Marco had
-> > > some concerns on the general approach [2]. How can we move on?
-> > >
-> > > FWIW I have tested the v15 of this series with the ELE OTP driver [3]
-> > > on
-> > > i.MX93 and we use this currently in our downstream kernel.
-> > 
-> > From my pov, this series causes more confusions till the ELE FW fix is
-> > available because you need to be really careful during the integration
-> > in case of a verified-boot setup which are the most common setups
-> > these days.
-> > 
-> > Not sure why NXP doesn't just add the OP-TEE support for the required
-> > features e.g. eFuses, watchdog, HWRNG. The whole Linux part is mostly
-> > in place.
+> Le Thu, 21 Aug 2025 11:10:58 +0200,
+> Oleksij Rempel <o.rempel@pengutronix.de> a écrit :
 > 
-> You mean let OP-TEE handle eFuses, watchdog, HWRNG, then linux
-> relies on OP-TEE to use the features?
+> > Introduce the userspace entry point for PHY MSE diagnostics via
+> > ethtool netlink. This exposes the core API added previously and
+> > returns both configuration and one or more snapshots.
+> > 
+> > Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
+> > selector. The reply carries:
+> >   - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
+> >     capability bitmask
+> >   - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
+> >     with the selected channel
+> > 
+> > If no channel is requested, the kernel returns snapshots for all
+> > supported selectors (per‑channel if available, otherwise WORST,
+> > otherwise LINK). Requests for unsupported selectors fail with
+> > -EOPNOTSUPP; link down returns -ENOLINK.
+> > 
+> > Changes:
+> >   - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
+> >     the mse-get operation
+> >   - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
+> >     ETHTOOL_MSG_MSE_GET/REPLY
+> >   - ethtool core: add net/ethtool/mse.c implementing the request,
+> >     register genl op, and hook into ethnl dispatch
+> >   - docs: document MSE_GET in ethtool-netlink.rst
+> > 
+> > The include/uapi/linux/ethtool_netlink_generated.h is generated
+> > from Documentation/netlink/specs/ethtool.yaml.
+> > 
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> 
+> ...
+> 
+> > +MSE Configuration
+> > +-----------------
+> > +
+> > +This nested attribute contains the full configuration properties for the MSE
+> > +measurements
+> > +
+> > +  ===============================================  ======
+> > ====================
+> > +  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_mse scale
+> > +  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_mse scale
+> > +  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample rate (ps)
+> > +  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols per sample
+> > +  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability bitmask
+> > +  ===============================================  ======
+> > ==================== +
+> 
+> Why did you remove the kernel doc identifiers to phy_mse_config?
+> It was useful for the documentation.
+> 
+> > +MSE Snapshot
+> > +------------
+> > +
+> > +This nested attribute contains an atomic snapshot of MSE values for a
+> > specific +channel or for the link as a whole.
+> > +
+> > +  ===============================================  ======
+> > ======================
+> > +  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel enum value
+> > +  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average MSE value
+> > +  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current peak MSE
+> > +  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case peak
+> > MSE
+> > +  ===============================================  ======
+> 
+> Same question here for phy_mse_snapshot.
 
-Exactly, due to the FW issue only one MU can be used. OP-TEE could use
-the secure MU and Linux uses the features via OP-TEE because these
-features are not very timing critical and some features are _only_
-available through OP-TEE, e.g. writing eFuses after the device was
-locked-down.
+I had following warnings:
+Documentation/networking/ethtool-netlink:2499: ./include/linux/phy.h:3: WARNING: Duplicate C declaration, also defined at kapi:892. 
+Declaration is '.. c:struct:: phy_mse_config'. 
+Documentation/networking/ethtool-netlink:2515: ./include/linux/phy.h:3: WARNING: Duplicate C declaration, also defined at kapi:915.
+Declaration is '.. c:struct:: phy_mse_snapshot'
 
-Regards,
-  Marco
+I didn't found proper was to solve it, so I removed them.
 
-
-> 
-> Thanks,
-> Peng.
-> 
-> > 
-> > Regards,
-> >   Marco
-> > 
-> > >
-> > > [1]
-> > >
-> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2F
-> > patc
-> > > hwork.kernel.org%2Fproject%2Flinux-
-> > mm%2Fpatch%2F20250424111632.103637-
-> > > 1-
-> > lorenzo.stoakes%40oracle.com%2F%2326356782&data=05%7C02%7C
-> > peng.fan%4
-> > >
-> > 0nxp.com%7C1ac2ac137e8a41d871c508dde098450d%7C686ea1d3bc
-> > 2b4c6fa92cd99c
-> > >
-> > 5c301635%7C0%7C0%7C638913666802700666%7CUnknown%7CTW
-> > FpbGZsb3d8eyJFbXB0
-> > >
-> > eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiT
-> > WFpbCIsIl
-> > >
-> > dUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2FSC9WU4CoKtPrVuhjL
-> > uLC7trQhAcbEkaCu
-> > > xohN%2FIuM0%3D&reserved=0
-> > > [2]
-> > >
-> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2F
-> > patc
-> > > hwork.kernel.org%2Fproject%2Flinux-arm-
-> > kernel%2Fpatch%2F20250619-imx-s
-> > > e-if-v18-3-
-> > c98391ba446d%40nxp.com%2F%2326443037&data=05%7C02%7Cpe
-> > ng.fa
-> > >
-> > n%40nxp.com%7C1ac2ac137e8a41d871c508dde098450d%7C686ea1
-> > d3bc2b4c6fa92cd
-> > >
-> > 99c5c301635%7C0%7C0%7C638913666802714776%7CUnknown%7C
-> > TWFpbGZsb3d8eyJFb
-> > >
-> > XB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
-> > joiTWFpbCI
-> > >
-> > sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=B%2BUZWN6OjkEu27C
-> > By1%2FFKte9Uw9NQ
-> > > DA%2Be9EdPZhtAUk%3D&reserved=0
-> > > [3]
-> > >
-> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2F
-> > patc
-> > > hwork.kernel.org%2Fproject%2Flinux-arm-
-> > kernel%2Fpatch%2F20250416142715
-> > > .1042363-2-
-> > frieder%40fris.de%2F&data=05%7C02%7Cpeng.fan%40nxp.com%7C1a
-> > >
-> > c2ac137e8a41d871c508dde098450d%7C686ea1d3bc2b4c6fa92cd99c
-> > 5c301635%7C0%
-> > >
-> > 7C0%7C638913666802731697%7CUnknown%7CTWFpbGZsb3d8eyJFb
-> > XB0eU1hcGkiOnRyd
-> > >
-> > WUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoy
-> > fQ%3D%3
-> > >
-> > D%7C0%7C%7C%7C&sdata=RilSInf5N%2FfrF04qOubqT2yNjC%2FwAhy
-> > Oe6GIEfwtIGs%3
-> > > D&reserved=0
-> > >
-> 
-> 
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
