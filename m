@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E280A2857F7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84C02857CF;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786100; cv=none; b=pxY7T9luwTGbR55Dna40FH2ZBuoLJ0xGsuNxU93/YK+AM01EA8fHP1XW7PIxLxv6wC/Ij7uXVzF9/npoGvdgf7+xnZvEdqCNviuh5OYvSSu9DcuNrTaEduiP1lIvaiPJr8w1gKKE1h0snzl2kJgdwnZRHAVooKV1uUEV4c3qijI=
+	t=1755786099; cv=none; b=XixoRb/5uheiGz9kbwCW8ycGpcpydByJLDlWDi/2+2X0JXzRA00u8BGvGBEwb29YIzDKK1qaM5JtccZJJN186L97ePSV77haiROzFAS2cwGn750U34SCj2xVTrGX3UtM1ZOiiDBQ+cXh55KF0Y4+YuQzc0d6ryQe1iIr4TG/rjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755786100; c=relaxed/simple;
-	bh=LQfriqJ7w45m1TsmRVR1XR73bImTQyUEqk93YtSCuzA=;
+	s=arc-20240116; t=1755786099; c=relaxed/simple;
+	bh=XLpGjVmiz7KWSgkDl0zwCX9wJOnCvElrKCUuUORJrj4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N8XPqzh21EX9QPpYlZyiZlxpYyuzZHupActfJPI91rWqVmRvNvmx9KZw963CgTIntYYM39wQgXSBJir931XKFhvsZ/dXNTuDG0fTTANoP7D64IdrWkqGO0DYKyvUdkSvoCa0OinYASPHlvG91XB3x0Pv+cwJsBdyuOjIn8BIykE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HrSDWfIf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=HhhXKY2f4sNaCkeA2usVInqZD94rYkuq4v7KirfdUuF/vsuZD/BX+1jnDp4lbBkQlImekujx6T5vw7xcWGPp2BbW9DfXYUGXlDUsaslRvw3yneAL6ro4aICZiN+CXjVRl1WJ01nM1fvE9SlHBPFR9/+6FaDFSqN15T+foJRopHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0vyeHCE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HrSDWfIf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D934C2BCF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0vyeHCE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A51C2BCB5;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=LQfriqJ7w45m1TsmRVR1XR73bImTQyUEqk93YtSCuzA=;
+	bh=XLpGjVmiz7KWSgkDl0zwCX9wJOnCvElrKCUuUORJrj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HrSDWfIf7ufCni7PxZ62/b7X3KzBuHr3HM03lebFs6XM9xW98cOU+TplnNkMgCi1d
-	 kyx2B39dd6dIqq/LaBPX0pf9c+whwhkjz/BugfmXqYA7v9gk+3Q1FWeTSswzBWgLO7
-	 gkcZgyanlORJ1W5VX7ZVZyCU6dLvYThv9wGu3wfh8J3yFxe3/MfwuBHry8dZBRFJ9k
-	 eptdpIda1A7cMJY76XXOSfGp3Y93DzPdVvrPORrhrozdSmz3LELXVhrYDceuUUOyDz
-	 JGzLZWMNW/Qvabcl32hLlsBLaAvHR2kReC5OjOMOTK5UnGmOvGU7Bg4+/UBPsEz8Cf
-	 Bq3UlqEqMT2TQ==
+	b=S0vyeHCE3qfDsq0D4MUgUVrAQDhsIuCEzI/P548tnM9nZ5Muk91VVYMiRaeedD7Wt
+	 vTONdyjILJMfX/ePvRar4MwZo7QGt34OAeIoPCd2OiuiJX8XR38CqmKFkqo4p0AJFu
+	 xe9TEBOUOyTC4wzlOy7TWgGRz4VWvem0b0vZDy3NQVRv0ouIJqdPhpfxJZMsfeQwG0
+	 phEHbF5YW44ATkBx4awRTIX9X5NjyexQ2E9szQYUqsurXoPTOYpndaqupjL2EfLWmh
+	 BKUKPFEkGBom6ji4hWIoDLbspnhuSiYjN7Q3MNksPH8NBWlAzjNhxqXFaoHax/GD+V
+	 /60orX2LtmQCA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT9M-2DIg;
+	id 1up6Ab-0000000BT92-1ftd;
 	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 21/24] docs: kernel_include.py: remove Include class inheritance
-Date: Thu, 21 Aug 2025 16:21:27 +0200
-Message-ID: <69206f9a5709c39591be515397fde851658eedc0.1755784930.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 16/24] docs: kernel_include.py: move code and literal functions
+Date: Thu, 21 Aug 2025 16:21:22 +0200
+Message-ID: <32c0cee9ef85f8d4789f50514d77f719118b3217.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
 References: <cover.1755784929.git.mchehab+huawei@kernel.org>
@@ -51,97 +51,144 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While the original code came from the Sphinx Include class,
-such class is monolithic: it has only one function that does
-everything, and 3 variables that are used:
+Simplify run() even more by moving the code which handles
+with code and literal blocks to their own functions.
 
-	- required_arguments
-	- optional_arguments
-	- option_spec
-
-So, basically those are the only members that remain from
-the original class, but hey! Those are the same vars that every
-other Sphinx directive extension has to define!
-
-In summary, keeping inheritance here doesn't make much sense.
-
-Worse than that, kernel-include doesn't support the current set
-of options that the original Include class has, but it also
-has its own set of options.
-
-So, let's fill in the argument vars with what it does
-support, dropping the rest.
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 40 ++++++++++++++++++++------
- 1 file changed, 32 insertions(+), 8 deletions(-)
+ Documentation/sphinx/kernel_include.py | 100 +++++++++++++++----------
+ 1 file changed, 59 insertions(+), 41 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index 3a1753486319..e6f734476ab3 100755
+index 4cdd1c77982e..0909eb3a07ea 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -62,9 +62,8 @@ import sys
- from docutils import io, nodes, statemachine
- from docutils.statemachine import ViewList
- from docutils.utils.error_reporting import SafeString, ErrorString
--from docutils.parsers.rst import directives
-+from docutils.parsers.rst import Directive, directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
--from docutils.parsers.rst.directives.misc import Include
+@@ -160,6 +160,52 @@ class KernelInclude(Include):
  
- from sphinx.util import logging
+         return rawtext
  
-@@ -81,18 +80,43 @@ RE_SIMPLE_REF = re.compile(r'`([^`]+)`')
- 
- 
- # ==============================================================================
--class KernelInclude(Include):
--    """KernelInclude (``kernel-include``) directive"""
-+class KernelInclude(Directive):
-+    """
-+    KernelInclude (``kernel-include``) directive
- 
--    # Add extra options
--    option_spec = Include.option_spec.copy()
-+    Most of the stuff here came from Include directive defined at:
-+        docutils/parsers/rst/directives/misc.py
- 
--    option_spec.update({
-+    Yet, overriding the class don't has any benefits: the original class
-+    only have run() and argument list. Not all of them are implemented,
-+    when checked against latest Sphinx version, as with time more arguments
-+    were added.
++    def literal(self, path, tab_width, rawtext):
++        """Output a literal block"""
 +
-+    So, keep its own list of supported arguments
-+    """
++        # Convert tabs to spaces, if `tab_width` is positive.
++        if tab_width >= 0:
++            text = rawtext.expandtabs(tab_width)
++        else:
++            text = rawtext
++        literal_block = nodes.literal_block(rawtext, source=path,
++                                            classes=self.options.get("class", []))
++        literal_block.line = 1
++        self.add_name(literal_block)
++        if "number-lines" in self.options:
++            try:
++                startline = int(self.options["number-lines"] or 1)
++            except ValueError:
++                raise self.error(":number-lines: with non-integer start value")
++            endline = startline + len(include_lines)
++            if text.endswith("\n"):
++                text = text[:-1]
++            tokens = NumberLines([([], text)], startline, endline)
++            for classes, value in tokens:
++                if classes:
++                    literal_block += nodes.inline(value, value,
++                                                    classes=classes)
++                else:
++                    literal_block += nodes.Text(value, value)
++        else:
++            literal_block += nodes.Text(text, text)
++        return [literal_block]
 +
-+    required_arguments = 1
-+    optional_arguments = 0
-+    final_argument_whitespace = True
-+    option_spec = {
-+        'literal': directives.flag,
-+        'code': directives.unchanged,
-+        'encoding': directives.encoding,
-+        'tab-width': int,
-+        'start-line': int,
-+        'end-line': int,
-+        'start-after': directives.unchanged_required,
-+        'end-before': directives.unchanged_required,
-+        # ignored except for 'literal' or 'code':
-+        'number-lines': directives.unchanged,  # integer or None
-+        'class': directives.class_option,
++    def code(self, path, include_lines):
++        """Output a code block"""
 +
-+        # Arguments that aren't from Sphinx Include directive
-         'generate-cross-refs': directives.flag,
-         'warn-broken': directives.flag,
-         'toc': directives.flag,
-         'exception-file': directives.unchanged,
--    })
-+    }
++        self.options["source"] = path
++        codeblock = CodeBlock(self.name,
++                                [self.options.pop("code")],  # arguments
++                                self.options,
++                                include_lines,
++                                self.lineno,
++                                self.content_offset,
++                                self.block_text,
++                                self.state,
++                                self.state_machine)
++        return codeblock.run()
++
+     def run(self):
+         """Include a file as part of the content of this reST file."""
+         env = self.state.document.settings.env
+@@ -200,6 +246,13 @@ class KernelInclude(Include):
+         startline = self.options.get("start-line", None)
+         endline = self.options.get("end-line", None)
  
-     def read_rawtext(self, path, encoding):
-             """Read and process file content with error handling"""
++        if "literal" in self.options:
++            ouptut_type = "literal"
++        elif "code" in self.options:
++            ouptut_type = "code"
++        else:
++            ouptut_type = "normal"
++
+         # Get optional arguments to related to cross-references generation
+         if 'generate-cross-refs' in self.options:
+             rawtext = self.read_rawtext_with_xrefs(env, path)
+@@ -213,50 +266,15 @@ class KernelInclude(Include):
+ 
+         rawtext = self.apply_range(rawtext)
+ 
++        if ouptut_type == "literal":
++            return self.literal(path, tab_width, rawtext)
++
+         include_lines = statemachine.string2lines(rawtext, tab_width,
+                                                   convert_whitespace=True)
+-        if "literal" in self.options:
+-            # Convert tabs to spaces, if `tab_width` is positive.
+-            if tab_width >= 0:
+-                text = rawtext.expandtabs(tab_width)
+-            else:
+-                text = rawtext
+-            literal_block = nodes.literal_block(rawtext, source=path,
+-                                                classes=self.options.get("class", [])
+-            )
+-            literal_block.line = 1
+-            self.add_name(literal_block)
+-            if "number-lines" in self.options:
+-                try:
+-                    startline = int(self.options["number-lines"] or 1)
+-                except ValueError:
+-                    raise self.error(":number-lines: with non-integer start value")
+-                endline = startline + len(include_lines)
+-                if text.endswith("\n"):
+-                    text = text[:-1]
+-                tokens = NumberLines([([], text)], startline, endline)
+-                for classes, value in tokens:
+-                    if classes:
+-                        literal_block += nodes.inline(value, value,
+-                                                      classes=classes)
+-                    else:
+-                        literal_block += nodes.Text(value, value)
+-            else:
+-                literal_block += nodes.Text(text, text)
+-            return [literal_block]
+ 
+-        if "code" in self.options:
+-            self.options["source"] = path
+-            codeblock = CodeBlock(self.name,
+-                                  [self.options.pop("code")],  # arguments
+-                                  self.options,
+-                                  include_lines,  # content
+-                                  self.lineno,
+-                                  self.content_offset,
+-                                  self.block_text,
+-                                  self.state,
+-                                  self.state_machine)
+-            return codeblock.run()
++        if ouptut_type == "code":
++            return self.code(path, include_lines)
++
+         self.state_machine.insert_input(include_lines, path)
+         return []
+ 
 -- 
 2.50.1
 
