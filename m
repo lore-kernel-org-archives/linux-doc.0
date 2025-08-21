@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DEB2EB5C8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F3E2EB850;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764224; cv=none; b=jY8ss2TDDFLGTuUpHPTknCYKLTX/1o3vHlE6IMDqCX6M3L6lzeVsKphL6AueUpBAF9No04GbVBU5iqtPn3vrj9PfUf9BEzyBTSRYtOIePtRyR+LogEap8UdxMxAj3MZba3l419A5xdYDmIY+y+VuRmpR0px234QUig1n9opAqu4=
+	t=1755764224; cv=none; b=ud5eXs6kFpHszOsZycbDxqP9algNRgtw2p1pe4UsZVjTjZGVelSAykkqM/RlALuUt1hICf2+IOtGkuF63nm9XPdYKy1O8V6Tdd0908QaAFjHpy7RwjJFqeWXf5C9Bcmi+LLhr5Y8Yl9MZ+vzY0t8zeuZG2n1P7+L+aJ2Cn2z+HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755764224; c=relaxed/simple;
-	bh=7SndwlVAORMkK7k0a/gvSMQNE5mjIwPthu9bKP5Mrso=;
+	bh=zMOHwhAKrRV4C5jWXOxsmB8Ttf0MQwEXFsiqcts/lkQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OWrBpTuJLNi6BwcbWP5Ko5JAUfiw2qgqoVamnCW0hpZ5e+4ah7NA7du9Z2jiZ0L/PmxNosZPQQwqU+qAHMMpGfUU4WN/A14wVSSjnVQfplva4ZSoxmK0+7S6JWqbXrqKLw7FprtsKr2eAhr90xzt3CPERQdxHlRhGSY38WVG2pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzqVNAzw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=YCibjF7lFcBG8v/HrKcG5BV3yn4zBSkbasfe0HAMky44XNa0TaF5DI5xZVrJJRvC+YIU3agYf2nNGdMGBmAAdYTP+EgahT5M+UjLBW8nxBI2kg8om/Kj2H9J2XLCFsKJh2K845jmObwU7w2qrQk0NnlWy6SXnryaO3uLBFa1lxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W75ChgpJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzqVNAzw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D82C113CF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W75ChgpJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE92C116B1;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755764224;
-	bh=7SndwlVAORMkK7k0a/gvSMQNE5mjIwPthu9bKP5Mrso=;
+	bh=zMOHwhAKrRV4C5jWXOxsmB8Ttf0MQwEXFsiqcts/lkQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EzqVNAzwy+aRE154ZUX8u8PjCB5ANN18wqn882Mpa6XV1eBH6oGh6BB84VjXpdrT8
-	 6gYGbF+n4voI0e0h9eEyG7SY9k+ARMYjHSyNUc8HkKdfy8/UcKJl6mYU3m/uSVQ0i4
-	 0SX691xRuM0rW4EhzkDQweywtn5SN3gsMqhYrtbMiKTonz/t5zyTrRPhbxBj2ounVm
-	 BVsVLSVVbh6fZdByK4YqN7MWX6Hd3WDDcKuCeyCtqAE7Q1TMDtKLvBNL2cwTaNX8Na
-	 sZIU6h/AN/fI/OK/g9Jmb+8bS2SUpL9L9ur4aooWLxVQGIFWNG2/UZrnlJ+eRqGP1S
-	 NLQz2S1K9EM5A==
+	b=W75ChgpJj0xZM7futsdm6rUJEnYZHpoxcAXMEytGpMxm5iza7FndC182xp7zrfA4W
+	 XP/2UKxPvkKrB3RfRAzyazD9XzOR5XK/72afgRRVG018n+MQnFFWNFUi2/jZO5+nFQ
+	 OXFUpp5T1tmzyT5pj7oJLEpEblVxbLMMl7MoyfRRNW0Nqu6YSyCL3SCtkpuCmasP9a
+	 dOEXMxPZ+hmufSaZd5+WN3mSiYC9TqiPyrFBUcsSRYcaLtWpAYGthICIXVHlAL5snx
+	 RwJZWJzSQ+2E5oLKgw2JuN/HwTMXgLtLjBzMb8Tx0H4EPNQ145LPNGcYTBXtIH57ML
+	 xfWo1c8dbtEbA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up0Tm-0000000BLg5-2Pub;
+	id 1up0Tm-0000000BLgD-2dJF;
 	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/14] docs: Makefile: Fix LaTeX paper size settings
-Date: Thu, 21 Aug 2025 10:16:37 +0200
-Message-ID: <c50db42ead36010fd42ce1e6a2b9da766c11927b.1755763127.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 03/14] docs: conf.py: fix doc name with SPHINXDIRS
+Date: Thu, 21 Aug 2025 10:16:39 +0200
+Message-ID: <183f630643eacf414cfa8d892f03dd1b1055c21e.1755763127.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
 References: <cover.1755763127.git.mchehab+huawei@kernel.org>
@@ -51,33 +51,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-According with:
-	https://www.sphinx-doc.org/en/master/latex.html
+When SPHINXDIRS is used, the current logic produces a wrong
+list of files, as it will not pick the SPHINXDIRS directory,
+picking instead their children.
 
-The variable that handles paper size changed during version 1.5,
-as pointed at:
-	https://www.sphinx-doc.org/en/master/changes/1.5.html
+Add a rule to detect it and create the PDF doc with the right
+name.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/conf.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 820f07e0afe6..2ed334971acd 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -60,8 +60,8 @@ ifeq ($(HAVE_LATEXMK),1)
- endif #HAVE_LATEXMK
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 2c1be59fd54b..c8401ed75402 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -91,6 +91,19 @@ def config_init(app, config):
+     # LaTeX and PDF output require a list of documents with are dependent
+     # of the app.srcdir. Add them here
  
- # Internal variables.
--PAPEROPT_a4     = -D latex_paper_size=a4
--PAPEROPT_letter = -D latex_paper_size=letter
-+PAPEROPT_a4     = -D latex_elements.papersize=a4paper
-+PAPEROPT_letter = -D latex_elements.papersize=letterpaper
- ALLSPHINXOPTS   = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
- ALLSPHINXOPTS   += $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
- ifneq ($(wildcard $(srctree)/.config),)
++    # When SPHINXDIRS is used, we just need to get index.rst, if it exists
++    if not os.path.samefile(doctree, app.srcdir):
++        doc = "index"
++        doc_name = os.path.basename(app.srcdir)
++        if os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
++            latex_documents.append((doc, doc_name + ".tex",
++                                    "Linux %s Documentation" % doc_name.capitalize(),
++                                    "The kernel development community",
++                                    "manual"))
++            return
++
++    # When building all docs, or when a main index.rst doesn't exist, seek
++    # for it on subdirectories
+     for fn in os.listdir(app.srcdir):
+         doc = os.path.join(fn, "index")
+         if not os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
 -- 
 2.50.1
 
