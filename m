@@ -1,48 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C252DF3CF;
-	Thu, 21 Aug 2025 17:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B548830E830;
+	Thu, 21 Aug 2025 17:54:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755798685; cv=none; b=mHPz0KDEWFJQcUzy0IYNJgdD3ixDzJ6dPmYHlDyxHoQMW2sP+sojH1O+S285R6KOqT8pzsqZjZpgc59BQYmCagv6jHq0Z861DGgj8SuhZjYpivdPlsk0XrAqx7j/LH7vHtWiBzaM0cdm/r0s5HBksaPdv9phlzGBnfvs9QqYZLM=
+	t=1755798889; cv=none; b=EGCzssBXJSDZOMQ1P5ahW+PqWpHTJGLY3L8gfJPnjiwAkWNFWoR0c+xioMozypl0YOzEDKahPtWlUM4IimmY2EebuqwLQcp1sywoxUUvzLsPT4mCHFHwh8jZet0uPGVCguAfwZjWKV1DrWnVCjPJV0JvlYiIm799qWV4TsqqVB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755798685; c=relaxed/simple;
-	bh=wCAFsgAQdAjADY6fv4y4Kojg0L7QZpmm1WOfbOukUP4=;
+	s=arc-20240116; t=1755798889; c=relaxed/simple;
+	bh=V5L8h3sX5rEqLSjnCWbcr6Qxa6m6MIuwEc8H917RD3k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=u4gY6iAtJXP5d28sD7jmuQkYKmATmdHmNWR9QQSCc6xZqtM5qfwnY3fm+YMYRF/5uvQ6jxoNihwR5hITRnhd1jPvYVxhFBLOzYOaKkYexBQgg1APerBDoIHX3CTcBlUsHNJarVnGsFAGyobayDvYOKAzFIz9K5KwfGIw9T8spxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gT/RNrnP; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=VzKPYY7v6rMc+FhlioUo39RwCMJZrRK1JCMreFZoeGROhCigmAXyCh8DLamLaUEKgng0Ym2VYG01voTeWRVpT6/PUPXw3UKB58rWRaeONTWThIw5CpyH/hJ9ukhW6ODVggQFuFwHw/eZrnaF/KR7MP32FwQnZ6w/HCiv0RsWDwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eiXt+pRp; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gT/RNrnP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6C4D340AB4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eiXt+pRp"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DD2EA40AB4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1755798683; bh=hBwRWuKw3Z3dZICd18TkYfxbhcfBicekVpzn2o+lql8=;
+	t=1755798887; bh=nbApuhoFJodGrDTSe1CPU4IgkEt8JKZP/RWZWlCog44=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gT/RNrnPVvetSoiiy0kOUBIgUSfIdoY1gUINWdsu8TxG6FpOT8Kz3oTB8lz9NnCl5
-	 fVqxTQmtcGmQbokDePhl+mNxKcG0mED+PSA4xhOSHHdLRB03LrA2nNeMBzxX2QfHJu
-	 R8f6Qn4KxBAgh9161bNlOF9VA6lKcJ7hp4fShqnqpf16JsRzUTecHcAa5BLEoBwtkU
-	 1iUCzXKDvUPgot14Ishg9x8xOepJiButZXUTuSedRNQ6ZM/dEDvaz9pk0lNd5PccEU
-	 MJdSwtZYzhYCk3ad0UCYiwz7QXviKCzun4rv9vSFbz2IR+M7M8qDDmMvtnjpcfPjwZ
-	 CjsV7G0hRwQ/A==
+	b=eiXt+pRp8x+i1QVLG+MFD3RdRU75d8htKOiZzHwhdCH0epyHz33u49+IHHXh/hgAZ
+	 sUFmuG1kf6bzje7PR2cZiiD9PEyD9XcJyMqK1wRH1/Oaw1pKH+ypBfDNcvBMrAh0HI
+	 mMgg9MnPw+dExJ57Gx75OhU1nUAtKsoBYKxqT4oFz41O3niL8gm1rRJL1zBrsFlWpH
+	 SDGTIIxYgiIMvjlq7arpBfTeNolNkdOu8vwo5i7LNh+nuzzXQ37HidjAZORT/wIftk
+	 QbvlW+oo79lB/7gYltoe0XISXqQEVRqD6cZDKM5rsOipPnkDta7/MqhYrT+MbdqAXz
+	 gTz+bdbVHiBcA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6C4D340AB4;
-	Thu, 21 Aug 2025 17:51:23 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id DD2EA40AB4;
+	Thu, 21 Aug 2025 17:54:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux USB <linux-usb@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] Documentation: driver-api: usb: Limit toctree depth
-In-Reply-To: <20250820050416.25219-1-bagasdotme@gmail.com>
-References: <20250820050416.25219-1-bagasdotme@gmail.com>
-Date: Thu, 21 Aug 2025 11:51:22 -0600
-Message-ID: <87jz2w7ecl.fsf@trenco.lwn.net>
+To: Nikil Paul S <snikilpaul@gmail.com>, linux-doc@vger.kernel.org
+Cc: skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, snikilpaul@gmail.com,
+ "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v4] docs: rcu: Replace multiple dead OLS links in RTFP.txt
+In-Reply-To: <20250819180545.3561-2-snikilpaul@gmail.com>
+References: <20250819180545.3561-2-snikilpaul@gmail.com>
+Date: Thu, 21 Aug 2025 11:54:45 -0600
+Message-ID: <87h5y07e6y.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,30 +50,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Nikil Paul S <snikilpaul@gmail.com> writes:
 
-> toctree index in USB driver api docs currently spoils the entire docs
-> headings due to lack of :maxdepth: option. Add the option to limit
-> toctree depth to 1, mirroring usb subsystem docs in
-> Documentation/usb/index.rst.
+> This patch updates several dead OLS links in RTFP.txt, replacing them
+> with working copies hosted on kernel.org.
 >
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Originally posted as part of a 2-patch series, this is now being sent
+> as a standalone v4 patch to avoid confusion.
+>
+> Changes since v3:
+>  - No change in content, only resubmitted as a single patch instead of
+>    "2/2" from the earlier series.
+>
+> Signed-off-by: Nikil Paul S <snikilpaul@gmail.com>
 > ---
->  Documentation/driver-api/usb/index.rst | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/driver-api/usb/index.rst b/Documentation/driver-api/usb/index.rst
-> index cfa8797ea6144b..fcb24d0500d91d 100644
-> --- a/Documentation/driver-api/usb/index.rst
-> +++ b/Documentation/driver-api/usb/index.rst
-> @@ -3,6 +3,7 @@ Linux USB API
->  =============
->  
->  .. toctree::
-> +   :maxdepth: 1
->  
+>  Documentation/RCU/RTFP.txt | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-It's still kind of a mess, but that does make it better.  Applied,
-thanks.
+So this looks good to me, but it should really be run past the RCU folks
+(and Paul in particular) as well; adding him to the CC.
+
+Thanks,
 
 jon
+
+> diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+> index db8f16b392aa..8d4e8de4c460 100644
+> --- a/Documentation/RCU/RTFP.txt
+> +++ b/Documentation/RCU/RTFP.txt
+> @@ -641,7 +641,7 @@ Orran Krieger and Rusty Russell and Dipankar Sarma and Maneesh Soni"
+>  ,Month="July"
+>  ,Year="2001"
+>  ,note="Available:
+> -\url{http://www.linuxsymposium.org/2001/abstracts/readcopy.php}
+> +\url{https://kernel.org/doc/ols/2001/read-copy.pdf}
+>  \url{http://www.rdrop.com/users/paulmck/RCU/rclock_OLS.2001.05.01c.pdf}
+>  [Viewed June 23, 2004]"
+>  ,annotation={
+> @@ -1480,7 +1480,7 @@ Suparna Bhattacharya"
+>  ,Year="2006"
+>  ,pages="v2 123-138"
+>  ,note="Available:
+> -\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
+> +\url{https://kernel.org/doc/ols/2006/ols2006v2-pages-131-146.pdf}
+>  \url{http://www.rdrop.com/users/paulmck/RCU/OLSrtRCU.2006.08.11a.pdf}
+>  [Viewed January 1, 2007]"
+>  ,annotation={
+> @@ -1511,7 +1511,7 @@ Canis Rufus and Zoicon5 and Anome and Hal Eisen"
+>  ,Year="2006"
+>  ,pages="v2 249-254"
+>  ,note="Available:
+> -\url{http://www.linuxsymposium.org/2006/view_abstract.php?content_key=184}
+> +\url{https://kernel.org/doc/ols/2006/ols2006v2-pages-249-262.pdf}
+>  [Viewed January 11, 2009]"
+>  ,annotation={
+>  	Uses RCU-protected radix tree for a lockless page cache.
+> -- 
+> 2.43.0
