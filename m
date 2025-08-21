@@ -1,56 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18FF2EB86D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F152EB87B;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764225; cv=none; b=Mr7uTKEYOrvzCS5OHhXT+cyDeZo8aOzq2HxoqYGb1Cb8k1bi5k3nUfSU+QkrQEmVWyQRVj/ea7q60WfmsLiHQlek7SICrO3VIrZdC0wCcY0iJG9+fc4i/E6NqMbDqR0NYDG6VfpM8cKgxknx8QiF6eCKrpKli9By1Wrze7oLxug=
+	t=1755764225; cv=none; b=q9RvwT7iswV4tSfl5spugFDmEjIoc2ge+qbI5TOGb11oHdDxt7MIOdWh/htAjyUxRIFZDxgcXqmlL6ggaNpqw3dx53L4uWjI7KoiproiPJxOkI3iWsxX5fran5hSWJE/g5Ize1TUraFdxi6CAycU44A7c0h5AHCSNrwMTesyOvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755764225; c=relaxed/simple;
-	bh=+/6Ro+Dnlq3YRqR0pERxWJ2pVEtF9E0U8Tw5zszBXiA=;
+	bh=iovWlxU8FZeQLZGB4r7Pf0D7peHGXlMDwJzqoqefxR0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rmiNaVb4t8aJpwqE0kAVNl4kwB8L3suZId5iK2x0sXAHLaadMdUVg+6LoWt4ySH3ztYilwRb7JF+vinUehMkvwYZ97wj52kPRqFJzGEdgZb38kMhThGHUqfTPg2qC+2g8nif4S+Aihg6FessTOBqzzocUteQcjM7AIm188XbcOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bES3ep9F; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=S9HNm6goXyUud35jxkUiA75DYeaHsw2tz5J+u76lexx4iQ1J6hQ4FjTNm/UUCv8X3EIZc2qC7LO35jDVtQJRjfRsuKd1Uyib2O6P2aXxdTW9RKs5p/2byWhY7jszy/BSZvNWqacmLm2zrhyNyH8uHNLRw8RXO7mPVzRGYy2igRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nmF0foju; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bES3ep9F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9624EC2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nmF0foju"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CE3C19422;
 	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755764224;
-	bh=+/6Ro+Dnlq3YRqR0pERxWJ2pVEtF9E0U8Tw5zszBXiA=;
+	bh=iovWlxU8FZeQLZGB4r7Pf0D7peHGXlMDwJzqoqefxR0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bES3ep9FYW91fF8p09vin8yjcaW8j7l/TMDDOwbBWw1s0mHeLJJtfVcP5Aequutfz
-	 bIgtVKPPBJlofG6piPB3dlN6F/ozQ0k7g/n+Bk+fXHPyV6MQrx0yGnWJu55kIk1Zsw
-	 CAFrlzdWeFWjXD4yVace8qT7Eit4ua0ZDmEl9rNTfzMIyudIpy/1GAQ8GxmfgcvohS
-	 kcMQMUQ40eAcOrTB5/box3+oyiJAlDswgpp5c70hG0Qa9r3dx8/hdoNrSRieYy9Jpj
-	 fwST0vnJyD6YEUG1iaVezTUOZoMHC8cqhHDa1JjzmZXciBicmzY7WgnuUNC3PG/v2T
-	 XucUL8or9N7Mw==
+	b=nmF0fojuaGjjcf8TfUhJqOY+OSnS+UT88p05wMFvWLNbH/y0EuaGgDI+CmMC3Q8oT
+	 QQ1Ro14ylWGilYM6zVarTkxdV63q0VYZnc6u7aCwjHMQzZrahVb+HRQu1kxnhjTTv5
+	 kxl1nx5Ix4uWAe+R6ZDXcQ4SR9Q6fjYzhsxZRxq0U4M2leqvng6qVaslcozl9wIDDb
+	 muD1X/2ihdFviCK+WbGNUNKRIiMFJBfW2gPvFCAilJzLN5q6NEvmWnolWyQgdeyw35
+	 ZcxIi3O0067sE59h2loMnno2ZYs+SggTLaL4xpgE9B34AKDtLqh0A/aCZGIMqbh2Jj
+	 DeTKzpsyFBcMQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up0Tm-0000000BLgn-3eQQ;
+	id 1up0Tm-0000000BLgP-2xb9;
 	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 12/14] scripts: sphinx-pre-install: fix pdf dependencies for Mageia 9
-Date: Thu, 21 Aug 2025 10:16:48 +0200
-Message-ID: <bd6e03c79b890ad0168493cdb4cdaf610bbc8c45.1755763127.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 06/14] docs: conf.py: fix some troubles for LaTeX output
+Date: Thu, 21 Aug 2025 10:16:42 +0200
+Message-ID: <8104ce56a5ea3509fbb56a8163b779d38a6aaa9c.1755763127.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
 References: <cover.1755763127.git.mchehab+huawei@kernel.org>
@@ -63,110 +51,83 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Mageia 9, two packages are missing. Add them.
+While PDF docs work fine on RPM-based distros, it causes conflicts
+on Debian & friends.
 
-With that, all PDF packages now build:
+There are multiple root causes here:
 
-Mageia 9:
----------
-    PASSED: OS detection: Mageia 9
-    PASSED: System packages: Packages installed
-    PASSED: Sphinx on venv: Sphinx Sphinx 8.1.3
-    PASSED: Sphinx package: Sphinx Sphinx 6.1.3
-    PASSED: Clean documentation: Build time: 0:00, return code: 0
-    PASSED: Build HTML documentation: Build time: 5:17, return code: 0
-    PASSED: Build PDF documentation: Build time: 14:28, return code: 0
+- the latex_elements still resambles the one from Sphinx 1.x
+  times, where font configurations were stored under
+  "preamble". It doesn't follow the current recommended way from
+  Sphinx documentation:
 
-  PDF docs:
-  ---------
-      PASSED: dev-tools: pdf/dev-tools.pdf
-      PASSED: tools: pdf/tools.pdf
-      PASSED: filesystems: pdf/filesystems.pdf
-      PASSED: w1: pdf/w1.pdf
-      PASSED: maintainer: pdf/maintainer.pdf
-      PASSED: process: pdf/process.pdf
-      PASSED: isdn: pdf/isdn.pdf
-      PASSED: fault-injection: pdf/fault-injection.pdf
-      PASSED: iio: pdf/iio.pdf
-      PASSED: scheduler: pdf/scheduler.pdf
-      PASSED: staging: pdf/staging.pdf
-      PASSED: fpga: pdf/fpga.pdf
-      PASSED: power: pdf/power.pdf
-      PASSED: leds: pdf/leds.pdf
-      PASSED: edac: pdf/edac.pdf
-      PASSED: PCI: pdf/PCI.pdf
-      PASSED: firmware-guide: pdf/firmware-guide.pdf
-      PASSED: cpu-freq: pdf/cpu-freq.pdf
-      PASSED: mhi: pdf/mhi.pdf
-      PASSED: wmi: pdf/wmi.pdf
-      PASSED: timers: pdf/timers.pdf
-      PASSED: accel: pdf/accel.pdf
-      PASSED: hid: pdf/hid.pdf
-      PASSED: userspace-api: pdf/userspace-api.pdf
-      PASSED: spi: pdf/spi.pdf
-      PASSED: networking: pdf/networking.pdf
-      PASSED: virt: pdf/virt.pdf
-      PASSED: nvme: pdf/nvme.pdf
-      PASSED: translations: pdf/translations.pdf
-      PASSED: input: pdf/input.pdf
-      PASSED: tee: pdf/tee.pdf
-      PASSED: doc-guide: pdf/doc-guide.pdf
-      PASSED: cdrom: pdf/cdrom.pdf
-      PASSED: gpu: pdf/gpu.pdf
-      PASSED: i2c: pdf/i2c.pdf
-      PASSED: RCU: pdf/RCU.pdf
-      PASSED: watchdog: pdf/watchdog.pdf
-      PASSED: usb: pdf/usb.pdf
-      PASSED: rust: pdf/rust.pdf
-      PASSED: crypto: pdf/crypto.pdf
-      PASSED: kbuild: pdf/kbuild.pdf
-      PASSED: livepatch: pdf/livepatch.pdf
-      PASSED: mm: pdf/mm.pdf
-      PASSED: locking: pdf/locking.pdf
-      PASSED: infiniband: pdf/infiniband.pdf
-      PASSED: driver-api: pdf/driver-api.pdf
-      PASSED: bpf: pdf/bpf.pdf
-      PASSED: devicetree: pdf/devicetree.pdf
-      PASSED: block: pdf/block.pdf
-      PASSED: target: pdf/target.pdf
-      PASSED: arch: pdf/arch.pdf
-      PASSED: pcmcia: pdf/pcmcia.pdf
-      PASSED: scsi: pdf/scsi.pdf
-      PASSED: netlabel: pdf/netlabel.pdf
-      PASSED: sound: pdf/sound.pdf
-      PASSED: security: pdf/security.pdf
-      PASSED: accounting: pdf/accounting.pdf
-      PASSED: admin-guide: pdf/admin-guide.pdf
-      PASSED: core-api: pdf/core-api.pdf
-      PASSED: fb: pdf/fb.pdf
-      PASSED: peci: pdf/peci.pdf
-      PASSED: trace: pdf/trace.pdf
-      PASSED: misc-devices: pdf/misc-devices.pdf
-      PASSED: kernel-hacking: pdf/kernel-hacking.pdf
-      PASSED: hwmon: pdf/hwmon.pdf
+	https://www.sphinx-doc.org/en/master/latex.html
 
-Summary
-=======
-  PASSED - Mageia 9 (7 tests)
+- instead of setting the main font, from where other fonts are
+  derivated, it sets romanfont;
+
+- "fontenc" is not set. This allows the *.tex output file to
+  contain an UTF-8 incompatible fontset:
+
+	\usepackage[T1]{fontenc}
+
+Address such issues to help preventing incompatible usage of
+both T1 font and UTF-8 ones that comes from DejaVu font
+family.
+
+On some distros, this even generate a LaTeX font warning about
+corrupted NFSS tables like this (I got it when running it in
+interactive mode):
+
+	Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+	LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+	6.
+	LaTeX Font Info:    No file T1lmr.fd. on input line 116.
+
+	LaTeX Font Warning: Font shape `T1/lmr/m/n' undefined
+	(Font)              using `T1/lmr/m/n' instead on input line 116.
+
+	! Corrupted NFSS tables.
+	wrong@fontshape ...message {Corrupted NFSS tables}
+                                                  error@fontshape else let f...
+	l.116 ...\familydefault\seriesdefault\shapedefault
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/sphinx-pre-install | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/conf.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 224db3af17db..758a84ae6347 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -979,6 +979,8 @@ class SphinxDependencyChecker(MissingCheckers):
- 
-         tex_pkgs = [
-             "texlive-fontsextra",
-+            "texlive-fonts-asian",
-+            "fonts-ttf-dejavu",
-         ]
- 
-         if re.search(r"OpenMandriva", self.system_release):
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 628af81e6879..5888e2988b4f 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -461,6 +461,7 @@ latex_elements = {
+     # Latex figure (float) alignment
+     # 'figure_align': 'htbp',
+     # Don't mangle with UTF-8 chars
++    "fontenc": "",
+     "inputenc": "",
+     "utf8extra": "",
+     # Set document margins
+@@ -476,13 +477,14 @@ latex_elements = {
+     "maxlistdepth": "10",
+     # For CJK One-half spacing, need to be in front of hyperref
+     "extrapackages": r"\usepackage{setspace}",
+-    # Additional stuff for the LaTeX preamble.
+-    "preamble": dedent(r"""
+-        % Use some font with UTF-8 support with XeLaTeX
++    "fontpkg": dedent(r"""
+         \usepackage{fontspec}
++        \setmainfont{DejaVu Serif}
+         \setsansfont{DejaVu Sans}
+-        \setromanfont{DejaVu Serif}
+         \setmonofont{DejaVu Sans Mono}
++        \newfontfamily\headingfont{DejaVu Serif}
++    """),
++    "preamble": dedent(r"""
+         % Load kerneldoc specific LaTeX settings
+         \input{kerneldoc-preamble.sty}
+     """)
 -- 
 2.50.1
 
