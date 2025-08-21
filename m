@@ -1,246 +1,155 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDD928315A;
-	Thu, 21 Aug 2025 07:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9819F2EA755;
+	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755763002; cv=none; b=eFI5/PQDhjbM2U77mnUvd0qAHv3uJIaywFkl2r6djWTfQd+kTLuCBetx8CK/Do9inosUFXEfWXAPKBGET8zccksR9UeMgsMhDfb2CjQeZVzWZkvoDUA1dzIg0GDCYA9mzEsPuGZrmNysCQ8DS0D2zllpP0HEtTe15LldYGmVvCU=
+	t=1755764224; cv=none; b=BdCXz2QMt6r+ze8SQOxWse2ywATIcJCS9FDxSWGBfPOekqUGYJTB3iKfBi55sNNwzC8S2hFYWo1iB+yrTeLYVJzuUxNypIE2wImTsM/zacpkAFxBK4t5VrAbw8cyeemxjtKTt36gbj3g9pbaiwVJ1gpZiYheOt0ZeS+k7pc8Ico=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755763002; c=relaxed/simple;
-	bh=al2HgMvixL4DhM3Vv6wS8bxJ0NVBLNWxsvmiKZ2jAj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lMZi/zRHqaLgwMTneODsZrkWWbY0ZMZnoNmX94OIdzgpsp5vOLc60n6SD6jRqSA6iBdpYOZWPx6fDGFeZFBKe8GJhpNx6eF5b30jgLMaYhWG9MInS7PZJmysJ69O3CfGYgugrHKrN0fbnmzqXayszHuP3oXt4mQyKgvtuWOf8fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qxk9Yt7J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755764224; c=relaxed/simple;
+	bh=x7MW3bRve0BOOp4971V2uJ3c3u7EbdqpTM9d9SjBZLs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IckyZqkBLeulE0vU8yO6ohcHTKqMs+etBqHmRFoXDUOOYWXUb9Cj9u3zjothDwX8sb3MKxR56+K2ZbWukw0cDGeTm/ynilaQPpoF+qJrnFqvMNE7ez1SV3mHn7wqNXJAfDhnWl8Bj3kbTYZVijoHhPgGB1jFPThQ4JWJ6HBr0Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq29AYcK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qxk9Yt7J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CA5C4CEED;
-	Thu, 21 Aug 2025 07:56:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq29AYcK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA2DC4AF09;
+	Thu, 21 Aug 2025 08:17:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755763001;
-	bh=al2HgMvixL4DhM3Vv6wS8bxJ0NVBLNWxsvmiKZ2jAj0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Qxk9Yt7JNe9dCaXigKMrkvOAbGMEwINyljQdIKVUdSK8X3RsQOcOs7HGQtWHbzAMI
-	 QcsqnQrF6bo1KCE0ahBASGzak7bvmQe5Ptk157isWhx7sWIf58pkwfk8ONuo/+sFWW
-	 PUNNuj/4Zl0N6U5MR5p5vJQ0N91F9O/ZaoyXxy1WsruN2yGzakvqgIjFdyslwz5vYr
-	 QYLMTr/bmiPzRPQ2xjX3fBtUbgYVjJnZ3jBLss+JK2h16Ph4JmsgFAe1YeAuYXLK8w
-	 dSbuzN1tt2ehlOKFtFRfASRgAs5WrA+TO5yUloYkuwO4WLHUOThglaTlOiOb90G3sf
-	 BJK6KNuYMhP5Q==
-Date: Thu, 21 Aug 2025 09:56:37 +0200
+	s=k20201202; t=1755764224;
+	bh=x7MW3bRve0BOOp4971V2uJ3c3u7EbdqpTM9d9SjBZLs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Aq29AYcK3/fmmD1mm67PX9D3SOq1g6qwRFR1B2cM4yrDtQy4M+eYCLzs5zn8Cwmww
+	 ZTzWFccbaHQ4gK/nzOcA1RY0DmF/mO8affn7NFkL7sOQ1M/E48UjJXg5K2CBriXrwR
+	 TazNrQCvI1Y0mhzVoGym9p5ecMAC+7oo0Hz8SK1FWBq4adyh7SwFnLpKkBJqP3SWWB
+	 lNwPZGxvhGCjgDrrP74CiVKwlLJVZGQ0SPPryUmJnIzatkaaAYUNriu55WUrFPWwEO
+	 GJeH8amUIBrFgZM9aQ7OwS9mCxdv1EDPaHSH1ho4ueyX0Vmz26g2EU/arzE5llBxEU
+	 2OewrTHgmeczg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1up0Tm-0000000BLg9-2WXv;
+	Thu, 21 Aug 2025 10:17:02 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Fix PDF doc builds on major distros
-Message-ID: <20250821095637.5dbe9533@foz.lan>
-In-Reply-To: <20250821095221.5e6510f5@foz.lan>
-References: <20250817154544.78d61029@foz.lan>
-	<b6d18aa7-de85-4fd2-8456-c2f6342f1b06@gmail.com>
-	<87y0rg7e35.fsf@trenco.lwn.net>
-	<16b48826-6634-4ec9-86a0-7ddb59ce3bed@gmail.com>
-	<20250819030239.41a2e97f@foz.lan>
-	<142b209d-613a-4659-a0f7-27efa8c6be85@gmail.com>
-	<20250819153200.3c2b2ff6@foz.lan>
-	<08c3a7eb-0425-4709-a3ea-6d1d726fd3c8@gmail.com>
-	<20250820091530.068c4b62@foz.lan>
-	<3990f1c5-2108-44fe-913f-97ae3bb1ff42@gmail.com>
-	<xik6a2kb3mge5xh2mbdtc4p3ikbr4mnjlkk4ujc4sfztb3iqnr@tc76jva4smpm>
-	<526d1aee-d401-4f04-8ddc-122f1fef7905@gmail.com>
-	<5fb6ce64-747b-46e4-b135-0d987334a12c@gmail.com>
-	<20250821095221.5e6510f5@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/14] docs: conf.py: better handle latex documents
+Date: Thu, 21 Aug 2025 10:16:38 +0200
+Message-ID: <de23b35a770210950c609deaa32b98cb3673a53a.1755763127.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755763127.git.mchehab+huawei@kernel.org>
+References: <cover.1755763127.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Em Thu, 21 Aug 2025 09:52:21 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+The original logic assumed that app.srcdir is identical to the
+current working dir. This is the case for a normal build, but,
+when SPHINXDIRS="some dir" is used, this is not the case anymore.
 
-> Em Thu, 21 Aug 2025 09:09:41 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
-> > Hi,
-> > 
-> > Let me do a quick follow up.
-> > I messed up the table.
-> > 
-> > On Thu, 21 Aug 2025 08:53:04 +0900, Akira Yokosawa wrote:
-> > > Hi,
-> > > 
-> > > Commenting on your observation quoted below.
-> > > 
-> > > On Wed, 20 Aug 2025 18:48:10 +0200, Mauro Carvalho Chehab wrote:
-> > > [...]
-> > >   
-> > >> If you want a more comprehensive answer:
-> > >>
-> > >> LaTeX is highly dependent lots of packages, including fonts. The
-> > >> reason why you can't reproduce the font issues with Docker
-> > >> (I wasn't able to reproduce with Docker here as well) is
-> > >> probably due to either packaging differences between the
-> > >> two containers, due to different environment technologies
-> > >> or even due to the way Docker and LXC handles OS virtualization.
-> > >>  
-> > > 
-> > > I'm not saying there is no difference between Docker and LXC.
-> > > 
-> > > Can you fill in ???? cells in the table below ?  
-> > I mean                                          with this series applied
-> > 
-> > > Docker column is my observation of "FROM ubuntu:plucky" podman runs.
-> > > 
-> > >  "make SPHINXDIRS=gpu pdfdocs" under Ubuntu Plucky
-> > >   
-> > 
-> > I meant:
-> > 
-> >      --------------- --------- ----------
-> >      SVG --> PDF     Docker    LXC
-> >      --------------- --------- ----------
-> >      imagemagick     FAIL      ????
-> >      inkscape        SUCCESS   ????
-> >      imagemagick [*] FAIL      ????
-> >      --------------- --------- ----------
-> 
-> This is after my series, with doesn't deal with imagemagick/inkscape,
-> it only fixes broken texlive dependencies and fix font handling:
-> 
-> # (dpkg -l |grep -i magick; dpkg -l |grep inkscape)|grep ii
-> ii  imagemagick                   8:7.1.1.43+dfsg1-1                    amd64        image manipulation programs -- binaries
-> ii  imagemagick-7-common          8:7.1.1.43+dfsg1-1                    all          image manipulation programs -- infrastructure
-> ii  imagemagick-7.q16             8:7.1.1.43+dfsg1-1                    amd64        image manipulation programs -- quantum depth Q16
-> ii  libmagickcore-7.q16-10:amd64  8:7.1.1.43+dfsg1-1                    amd64        low-level image manipulation library -- quantum depth Q16
-> ii  libmagickwand-7.q16-10:amd64  8:7.1.1.43+dfsg1-1                    amd64        image manipulation library -- quantum depth Q16
-> 
-> # make SPHINXDIRS=gpu pdfdocs
-> 
-> Summary
-> =======
-> gpu: gpu/pdf/gpu.pdf
-> 
-> All PDF files were built.
-> 
-> # rm -rf Documentation/output/gpu/*
-> # (dpkg -l |grep -i magick; dpkg -l |grep inkscape)|grep ii
-> ii  imagemagick                     8:7.1.1.43+dfsg1-1                    amd64        image manipulation programs -- binaries
-> ii  imagemagick-7-common            8:7.1.1.43+dfsg1-1                    all          image manipulation programs -- infrastructure
-> ii  imagemagick-7.q16               8:7.1.1.43+dfsg1-1                    amd64        image manipulation programs -- quantum depth Q16
-> ii  libimage-magick-perl            8:7.1.1.43+dfsg1-1                    all          Perl interface to the ImageMagick graphics routines
-> ii  libimage-magick-q16-perl        8:7.1.1.43+dfsg1-1                    amd64        Perl interface to the ImageMagick graphics routines -- Q16 version
-> ii  libmagickcore-7.q16-10:amd64    8:7.1.1.43+dfsg1-1                    amd64        low-level image manipulation library -- quantum depth Q16
-> ii  libmagickwand-7.q16-10:amd64    8:7.1.1.43+dfsg1-1                    amd64        image manipulation library -- quantum depth Q16
-> ii  inkscape                   
-> 
-> # rm -rf Documentation/output/gpu/*
-> # (dpkg -l |grep -i magick; dpkg -l |grep inkscape)|grep ii
-> ii  inkscape                        1.2.2-8build1                         amd64        vector-based drawing program
-> 
-> # make SPHINXDIRS=gpu pdfdocs
-> 
-> Summary
-> =======
-> gpu: gpu/pdf/gpu.pdf
-> 
-> > >     --------------- --------- ----------
-> > >     SVG --> PDF     Docker    LXC
-> > >     --------------- --------- ----------
-> > >     imagemagick     FAIL      FAIL
-> > >     inkscape        SUCCESS   ????
-> > >     imagemagick [*] FAIL      ????
-> > >     --------------- --------- ----------
-> > > 
-> > > [*] after installing both inkscape and imagemagick, remove inkscape
-> > >     with all its dependencies kept.
-> > > 
-> > > Do you see any difference between Docker and LXC columns in the table?
-> > > I'm all ears.
-> 
-> Yes. After having texlive dependencies fixed, and addressing the broken
-> conf.py file that is not aligned with modern Sphinx practices, it passed
-> on all three scenarios.
-> 
-> Please notice that addressing image was not the intent of this series.
-> 
-> The goal was *just* to fix texlive dependencies and fix text font
-> mapping that were causing troubles on Ubuntu and on other distros.
-> 
-> 
-> Thanks,
-> Mauro
+Adjust the logic to fill the LaTeX documents considering
+app.srcdir, in a way that it will work properly on all cases.
 
-Thanks,
-Mauro
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/conf.py | 54 +++++++++++++++++++++----------------------
+ 1 file changed, 26 insertions(+), 28 deletions(-)
 
-Hmm.. I ended doing the above tests with this patch on my pile.
-It could be affecting the results, as it prevents kfigure.py to
-crash when writing PDF output.
-
-
-commit df1602df0da3a6254d58a782654e7f2e60512dc8
-Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date:   Wed Aug 20 09:17:50 2025 +0200
-
-    docs: kfigure.py: don't crash during read/write
-    
-    By default, Python does a very bad job when reading/writing
-    from files, as it tries to enforce that the character is < 128.
-    Nothing prevents a SVG file to contain, for instance, a comment
-    with an utf-8 accented copyright notice - or even an utf-8
-    invalid char.
-    
-    While testing PDF and html builds, I recently faced one build
-    that got an error at kfigure.py saying that a char was > 128,
-    crashing PDF output.
-    
-    To avoid such issues, let's use PEP 383 subrogate escape encoding
-    to prevent read/write errors on such cases.
-    
-    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-index ad495c0da270..8ba07344a1c8 100644
---- a/Documentation/sphinx/kfigure.py
-+++ b/Documentation/sphinx/kfigure.py
-@@ -88,7 +88,7 @@ def mkdir(folder, mode=0o775):
-         os.makedirs(folder, mode)
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index f9828f3862f9..2c1be59fd54b 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -51,11 +51,13 @@ else:
+     dyn_exclude_patterns.append("devicetree/bindings/**.yaml")
+     dyn_exclude_patterns.append("core-api/kho/bindings/**.yaml")
  
- def file2literal(fname):
--    with open(fname, "r") as src:
-+    with open(fname, "r", encoding='utf8', errors='surrogateescape') as src:
-         data = src.read()
-         node = nodes.literal_block(data, data)
-     return node
-@@ -355,7 +355,7 @@ def dot2format(app, dot_fname, out_fname):
-     cmd = [dot_cmd, '-T%s' % out_format, dot_fname]
-     exit_code = 42
+-# Properly handle include/exclude patterns
+-# ----------------------------------------
++# Properly handle directory patterns and LaTeX docs
++# -------------------------------------------------
  
--    with open(out_fname, "w") as out:
-+    with open(out_fname, "w", encoding='utf8', errors='surrogateescape') as out:
-         exit_code = subprocess.call(cmd, stdout = out)
-         if exit_code != 0:
-             logger.warning(
-@@ -533,7 +533,7 @@ def visit_kernel_render(self, node):
-     literal_block = node[0]
+-def update_patterns(app, config):
++def config_init(app, config):
+     """
++    Initialize path-dependent variabled
++
+     On Sphinx, all directories are relative to what it is passed as
+     SOURCEDIR parameter for sphinx-build. Due to that, all patterns
+     that have directory names on it need to be dynamically set, after
+@@ -86,6 +88,25 @@ def update_patterns(app, config):
  
-     code      = literal_block.astext()
--    hashobj   = code.encode('utf-8') #  str(node.attributes)
-+    hashobj   = code.encode('utf-8', errors='surrogateescape')) #  str(node.attributes)
-     fname     = path.join('%s-%s' % (srclang, sha1(hashobj).hexdigest()))
+         config.exclude_patterns.append(rel_path)
  
-     tmp_fname = path.join(
-@@ -541,7 +541,7 @@ def visit_kernel_render(self, node):
++    # LaTeX and PDF output require a list of documents with are dependent
++    # of the app.srcdir. Add them here
++
++    for fn in os.listdir(app.srcdir):
++        doc = os.path.join(fn, "index")
++        if not os.path.exists(os.path.join(app.srcdir, doc + ".rst")):
++            continue
++
++        has = False
++        for l in latex_documents:
++            if l[0] == doc:
++                has = True
++                break
++
++        if not has:
++            latex_documents.append((doc, fn + ".tex",
++                                    "Linux %s Documentation" % fn.capitalize(),
++                                    "The kernel development community",
++                                    "manual"))
  
-     if not path.isfile(tmp_fname):
-         mkdir(path.dirname(tmp_fname))
--        with open(tmp_fname, "w") as out:
-+        with open(tmp_fname, "w", encoding='utf8', errors='surrogateescape') as out:
-             out.write(code)
+ # helper
+ # ------
+@@ -456,32 +477,9 @@ latex_elements["preamble"] += """
+         \\input{kerneldoc-preamble.sty}
+ """
  
-     img_node = nodes.image(node.rawsource, **node.attributes)
-
+-# Grouping the document tree into LaTeX files. List of tuples
+-# (source start file, target name, title,
+-#  author, documentclass [howto, manual, or own class]).
+-# Sorted in alphabetical order
++# This will be filled up by config-inited event
+ latex_documents = []
+ 
+-# Add all other index files from Documentation/ subdirectories
+-for fn in os.listdir("."):
+-    doc = os.path.join(fn, "index")
+-    if os.path.exists(doc + ".rst"):
+-        has = False
+-        for l in latex_documents:
+-            if l[0] == doc:
+-                has = True
+-                break
+-        if not has:
+-            latex_documents.append(
+-                (
+-                    doc,
+-                    fn + ".tex",
+-                    "Linux %s Documentation" % fn.capitalize(),
+-                    "The kernel development community",
+-                    "manual",
+-                )
+-            )
+-
+ # The name of an image file (relative to this directory) to place at the top of
+ # the title page.
+ # latex_logo = None
+@@ -577,4 +575,4 @@ loadConfig(globals())
+ def setup(app):
+     """Patterns need to be updated at init time on older Sphinx versions"""
+ 
+-    app.connect('config-inited', update_patterns)
++    app.connect('config-inited', config_init)
+-- 
+2.50.1
 
