@@ -1,47 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602B0308F16;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60314308F17;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755872388; cv=none; b=aTG0Mu8XNRb1RYKls8GIb2S/gu1p34zK1JOOAqemmPCqHkoAwYN1DbkkQZCj/IEEpf9AjOO6CHioskYllLnTz3nWyavfocSSH86HcW1U+XNKmIQeJY8HMJq1Y3xGDdOypTmPbJAhRPt4TALtrFXyaDsupRCLNXpFyuYIN8JgCw0=
+	t=1755872388; cv=none; b=Vvay/nQoI6xtySJtTSLKtD5s6mBELcvkDFs+bBGMFkC/oGD0CMOLcMiyhw7LNJx3/wIaclVbqP93lfE++GuVJjOVgbbnw6GubGGu1qpho25E4GqRtc9VdhAuQqZlwj4k2btnqummzqnrwYgQkfryLedOeWFu9B8LjAhdH1M3F3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755872388; c=relaxed/simple;
-	bh=/wRz/bm5opGP5gUAlYf6YzB0TWc+kftZ82g5lfHklv8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xg/owHZs2cG89HPf8+2cvJdp2QdgoHZL/a0A+EaB4h409T49zrktdxwkV1Sk+n2ue7hr1vlCG79gSn5RdBhfULgKPEpBbKJw7u/nBfCzE4KM7ngh1qE/cYpkpSXkBnw6zGjzlWO5uVPUFcq86mSRWo1v3MmE7wWZyyjLzrtPidM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkCJONWv; arc=none smtp.client-ip=10.30.226.201
+	bh=pSYdMcus0LPCr9HogH6HkcL5YxbX5KWhzFdqlhGcbmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q6IWiJ4Sw+qScBI/nhnplEpxLh8zrEWUxEyYcKoUChoJd8RJJOdA+TLpAhaiqVSdMao9DzA4w+dkdeV83gp9Qt/nvYjyTKA7f8AfD5nXxu8VlBE17t5s/wJCvKl4OegThpFPrxUk26Na99Vidme0vg3EwiZ+RYjdnPQwLGui/zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uC7AEXE3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkCJONWv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139C1C116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uC7AEXE3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8DEC116B1;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755872388;
-	bh=/wRz/bm5opGP5gUAlYf6YzB0TWc+kftZ82g5lfHklv8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YkCJONWvnEedaT3kPPHzebvGJ3os/UfQ9WIWR9eJfOpKVgLKFAm5472X0mUGk/Wnj
-	 ZVmVnuAqBzcunlqKGkjrzsO+sZKjWJSRIy38oBqS0c5T/XUUxlVVy7t9oiEnt/gyI7
-	 o5RvrqFvdu7EG1y/DscD/BOVutxM/hmx+nOYn7A8+lQJI+7ZP+VODgauwY3R5R94/j
-	 3QyPYJqgBG4qRRekMmLJDQuKzqggPt9iXTjphEtfjjJbqCjZlkrrx+nkA1sqdsRiFI
-	 rFNHGc0AH0q1YRXuGOU+18sQCHGo7FMid1dAqYn+Zl+JG0uvSIpGVbd/Tep50p83Tq
-	 DzrHHr9RuH+nA==
+	bh=pSYdMcus0LPCr9HogH6HkcL5YxbX5KWhzFdqlhGcbmI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=uC7AEXE3+SwOLKHHd/wbeW8x2JVxV6NK2Ub6v++0euDxAh4oNSN31LmoC1NlKAlQW
+	 ywYsuakEjDbrZEo6GG03meJsLEq3ENrZ8+bwgUqIR0F0VQfG1z4c3osvR1qQyCpXNM
+	 1aJpSQGXDKJij64PdbwTsAmME36to5mqr7kFVKzwJCFZByY8QK6Bnn2CQ8oMtFxIcB
+	 d9bEdmyPnwYZMTpVgknuhCLuBsFlq1rrNke+h0v0gJl9MHRLA/CR1F3Que/4GCVXBh
+	 b14SVQT3G2zwOX7yLdMyuOXR5yMORnRVaeBM6hMK/M/RGgCEjBdtQGhc/x19A9v3aH
+	 Ej5O0H6GgHDMQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1upScM-0000000CCr3-0mR0;
+	id 1upScM-0000000CCqq-0RR1;
 	Fri, 22 Aug 2025 16:19:46 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 03/24] docs: parse-headers.py: improve --help logic
-Date: Fri, 22 Aug 2025 16:19:15 +0200
-Message-ID: <2c1e61d1fb1b2a2838b443beee89c1528831997f.1755872208.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <mchehab+huawei@kernel.org>,
+	Benno Lossin <mchehab+huawei@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Danilo Krummrich <mchehab+huawei@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Sean Young <sean@mess.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	linux-media@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v2 00/24] better handle media headers
+Date: Fri, 22 Aug 2025 16:19:12 +0200
+Message-ID: <cover.1755872208.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1755872208.git.mchehab+huawei@kernel.org>
-References: <cover.1755872208.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,133 +61,123 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-When printing --help, we'd like the name of the files
-from __doc__ to match the displayed positional arguments at
-both usage and argument description lines.
+Hi Jon,
 
-Use a custom formatter class to convert ``foo`` into ANSI SGR
-code to bold the argument, if is TTY, and adjust the help
-text to match the argument names.
+Sorry for resending this big series. The content is almost identical
+to the first version, but this one can be applied directly on the top
+of docs/next, without requiring the sphinx-build-wrapper series.
 
-Here on Plasma, that makes it display it colored, wich is
-really cool. Yet, I opted for SGR, as the best is to follow
-the terminal color schema for bold.
+I'm opting for this approach, in order to avoid adding 42 lines to
+sphinx-build-wrapper just to be removed at the v1 of this series.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/sphinx/parse-headers.py | 67 +++++++++++++++++++++++----
- 1 file changed, 58 insertions(+), 9 deletions(-)
+-
 
-diff --git a/Documentation/sphinx/parse-headers.py b/Documentation/sphinx/parse-headers.py
-index b39284d21090..650f9c9a68d1 100755
---- a/Documentation/sphinx/parse-headers.py
-+++ b/Documentation/sphinx/parse-headers.py
-@@ -4,20 +4,20 @@
- # pylint: disable=C0103,R0902,R0912,R0914,R0915
- 
- """
--Convert a C header or source file (C_FILE), into a ReStructured Text
-+Convert a C header or source file ``FILE_IN``, into a ReStructured Text
- included via ..parsed-literal block with cross-references for the
- documentation files that describe the API. It accepts an optional
--EXCEPTIONS_FILE with describes what elements will be either ignored or
--be pointed to a non-default reference.
-+``FILE_RULES`` file to describes what elements will be either ignored or
-+be pointed to a non-default reference type/name.
- 
--The output is written at the (OUT_FILE).
-+The output is written at ``FILE_OUT``.
- 
- It is capable of identifying defines, functions, structs, typedefs,
- enums and enum symbols and create cross-references for all of them.
- It is also capable of distinguish #define used for specifying a Linux
- ioctl.
- 
--The EXCEPTIONS_FILE contains a set of rules like:
-+The optional ``FILE_RULES`` contains a set of rules like:
- 
-     ignore ioctl VIDIOC_ENUM_FMT
-     replace ioctl VIDIOC_DQBUF vidioc_qbuf
-@@ -400,17 +400,66 @@ class ParseHeader:
-             f.write("\n\n.. parsed-literal::\n\n")
-             f.write(text)
- 
-+class EnrichFormatter(argparse.HelpFormatter):
-+    """
-+    Better format the output, making easier to identify the positional args
-+    and how they're used at the __doc__ description.
-+    """
-+    def __init__(self, *args, **kwargs):
-+        """Initialize class and check if is TTY"""
-+        super().__init__(*args, **kwargs)
-+        self._tty = sys.stdout.isatty()
-+
-+    def enrich_text(self, text):
-+        """Handle ReST markups (currently, only ``foo``)"""
-+        if self._tty and text:
-+            # Replace ``text`` with ANSI bold
-+            return re.sub(r'\`\`(.+?)\`\`',
-+                          lambda m: f'\033[1m{m.group(1)}\033[0m', text)
-+        return text
-+
-+    def _fill_text(self, text, width, indent):
-+        """Enrich descriptions with markups on it"""
-+        enriched = self.enrich_text(text)
-+        return "\n".join(indent + line for line in enriched.splitlines())
-+
-+    def _format_usage(self, usage, actions, groups, prefix):
-+        """Enrich positional arguments at usage: line"""
-+
-+        prog = self._prog
-+        parts = []
-+
-+        for action in actions:
-+            if action.option_strings:
-+                opt = action.option_strings[0]
-+                if action.nargs != 0:
-+                    opt += f" {action.dest.upper()}"
-+                parts.append(f"[{opt}]")
-+            else:
-+                # Positional argument
-+                parts.append(self.enrich_text(f"``{action.dest.upper()}``"))
-+
-+        usage_text = f"{prefix or 'usage: '} {prog} {' '.join(parts)}\n"
-+        return usage_text
-+
-+    def _format_action_invocation(self, action):
-+        """Enrich argument names"""
-+        if not action.option_strings:
-+            return self.enrich_text(f"``{action.dest.upper()}``")
-+        else:
-+            return ", ".join(action.option_strings)
-+
- 
- def main():
-     """Main function"""
-     parser = argparse.ArgumentParser(description=__doc__,
--                                     formatter_class=argparse.RawDescriptionHelpFormatter)
-+                                     formatter_class=EnrichFormatter)
- 
-     parser.add_argument("-d", "--debug", action="count", default=0,
-                         help="Increase debug level. Can be used multiple times")
-     parser.add_argument("file_in", help="Input C file")
-     parser.add_argument("file_out", help="Output RST file")
--    parser.add_argument("file_exceptions", nargs="?",
-+    parser.add_argument("file_rules", nargs="?",
-                         help="Exceptions file (optional)")
- 
-     args = parser.parse_args()
-@@ -418,8 +467,8 @@ def main():
-     parser = ParseHeader(debug=args.debug)
-     parser.parse_file(args.file_in)
- 
--    if args.file_exceptions:
--        parser.process_exceptions(args.file_exceptions)
-+    if args.file_rules:
-+        parser.process_exceptions(args.file_rules)
- 
-     parser.debug_print()
-     parser.write_output(args.file_in, args.file_out)
+The goal of this series is to drop one of the most ancient and ugliest
+hack from the documentation build system. Before migrating to Sphinx,
+the media subsystem already had a very comprehensive uAPI book, together
+with a build time system to detect and point for any documentation gaps.
+
+When migrating to Sphinx, we ported the logic to a Perl script
+(parse-headers.pl) and Markus came up with a Sphinx extension
+(kernel_include.py). We also added some files to control how parse-headers
+produce results, and a Makefile.
+
+At the initial Sphinx versions (1.4.1 if I recall correctly), when
+a new symbol is added to videodev2.h, a new warning were
+produced at documentatiion time, it the patchset didn't have
+the corresponding documentation path.
+
+While kernel-include is generic, the only user at the moment is the media
+subsystem.
+
+This series gets rid of the Python script, replacing it by a command
+line script and a class. The parse header class can optionally be used by
+kernel-include to produce an enriched code that will contain cross-references.
+
+As the other conversions, it starts with a bug-compatible version of
+parse-headers, but the subsequent patches add more functionalities and
+fix bugs.
+
+It should be noticed that modern of Sphinx disabled the cross-reference
+warnings. So, at the next series, I'll be re-adding it in a controlled way
+(e.g. just for the references from kernel-include that has an special
+argument).
+
+The script also supports now generating a "toc" output, which will be used
+at the next series.
+
+-
+
+v2:
+   - makes it indepentent of sphinx-build-wrapper patch series.
+
+Mauro Carvalho Chehab (24):
+  docs: parse-headers.pl: improve its debug output format
+  docs: parse-headers.py: convert parse-headers.pl
+  docs: parse-headers.py: improve --help logic
+  docs: parse-headers.py: better handle @var arguments
+  docs: parse-headers.py: simplify the rules for hashes
+  tools: docs: parse-headers.py: move it from sphinx dir
+  tools: docs: parse_data_structs.py: add methods to return output
+  MAINTAINERS: add files from tools/docs to documentation entry
+  docs: uapi: media: Makefile: use parse-headers.py
+  docs: kernel_include.py: Update its coding style
+  docs: kernel_include.py: allow cross-reference generation
+  docs: kernel_include.py: generate warnings for broken refs
+  docs: kernel_include.py: move rawtext logic to separate functions
+  docs: kernel_include.py: move range logic to a separate function
+  docs: kernel_include.py: remove range restriction for gen docs
+  docs: kernel_include.py: move code and literal functions
+  docs: kernel_include.py: add support to generate a TOC table
+  docs: kernel_include.py: append line numbers to better report errors
+  docs: kernel_include.py: move apply_range() and add a docstring
+  docs: kernel_include.py: remove line numbers from parsed-literal
+  docs: kernel_include.py: remove Include class inheritance
+  docs: kernel_include.py: document all supported parameters
+  scripts: sphinx-build-wrapper: get rid of uapi/media Makefile
+  docs: sphinx: drop parse-headers.pl
+
+ .pylintrc                                     |   2 +-
+ Documentation/Makefile                        |   3 +-
+ Documentation/sphinx/kernel_include.py        | 519 +++++++++----
+ Documentation/sphinx/parse-headers.pl         | 404 ----------
+ Documentation/userspace-api/media/Makefile    |  64 --
+ .../userspace-api/media/cec/cec-header.rst    |   5 +-
+ .../media/{ => cec}/cec.h.rst.exceptions      |   0
+ .../media/{ => dvb}/ca.h.rst.exceptions       |   0
+ .../media/{ => dvb}/dmx.h.rst.exceptions      |   0
+ .../media/{ => dvb}/frontend.h.rst.exceptions |   0
+ .../userspace-api/media/dvb/headers.rst       |  17 +-
+ .../media/{ => dvb}/net.h.rst.exceptions      |   0
+ .../media/mediactl/media-header.rst           |   5 +-
+ .../{ => mediactl}/media.h.rst.exceptions     |   0
+ .../userspace-api/media/rc/lirc-header.rst    |   4 +-
+ .../media/{ => rc}/lirc.h.rst.exceptions      |   0
+ .../userspace-api/media/v4l/videodev.rst      |   4 +-
+ .../{ => v4l}/videodev2.h.rst.exceptions      |   0
+ MAINTAINERS                                   |   1 +
+ scripts/sphinx-build-wrapper                  | 719 ++++++++++++++++++
+ tools/docs/lib/__init__.py                    |   0
+ tools/docs/lib/enrich_formatter.py            |  70 ++
+ tools/docs/lib/parse_data_structs.py          | 452 +++++++++++
+ tools/docs/parse-headers.py                   |  60 ++
+ 24 files changed, 1704 insertions(+), 625 deletions(-)
+ delete mode 100755 Documentation/sphinx/parse-headers.pl
+ delete mode 100644 Documentation/userspace-api/media/Makefile
+ rename Documentation/userspace-api/media/{ => cec}/cec.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/ca.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/dmx.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/frontend.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/net.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => mediactl}/media.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => rc}/lirc.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => v4l}/videodev2.h.rst.exceptions (100%)
+ create mode 100755 scripts/sphinx-build-wrapper
+ create mode 100644 tools/docs/lib/__init__.py
+ create mode 100644 tools/docs/lib/enrich_formatter.py
+ create mode 100755 tools/docs/lib/parse_data_structs.py
+ create mode 100755 tools/docs/parse-headers.py
+
 -- 
 2.50.1
 
