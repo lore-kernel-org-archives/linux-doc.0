@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987C5311977;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7351311C12;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755872388; cv=none; b=sBk3eapjgedg6EyLXr2NJIenzh+PhC/87gY6WbaNlO8XL4p9JGwGJjMXWFuyYaf+ivGCsCGs5jF2ZVwGI/HKEj2nHMNoLB+xXv5YjmjfcPGqSCjcbEFKCeOByaTz2ldggzXNRRNH+iqh2WgONvAN4PQxW0ctGTvjLAMYl5c/zWI=
+	t=1755872388; cv=none; b=c1KjvMo6O9WroKMXEpT1Ks/kqXLKjQq0vqzl6ggU1BTRtUlwJas8x3luDiXuNVEQsN6gYvxpZpovmc7oGPKPkWNGgXxtSsjX/Nvo2EVRn3BdjoioVP3UZhosEPTj6YwhiSt+7dID23xrRagjjYdMLlFAmENlfcjmd5Vk1ls8Iv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755872388; c=relaxed/simple;
-	bh=wQmzELiyLlP6dYnGbR5xm0Wl2cXgsAK4Vx4o5Slpgnw=;
+	bh=RsM+00sJ/1A8GHlMF3o/XgMw54KHkYT1Q+rNZSrXntI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b1BLz7ZyTVp4J8wvZojFyePONFcD9yZ9T5FzMjXtQxDihaTvozYPVMj0S+8yOIUEbbdk11zhPqR+Z/NIXWOCEgSva7+p+HsiMs420iOliFFOX+5wygFHtCUWyF5t/eXWcLXd0vdeH3Ha8rRg8j6Kqi298fyDGUyGX5l9l/afDJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zgmhr3DZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=SK/MCVPFpRJHNzYLHUTfUl8Jm4L1IHH00Tg9wJeXP75bTMGAaOUEIwK02ok6jELETk2VN/yITOjdlvjjNZrJNAcg2jjfueoBG5umIW21yJJz1dQVJWdPgShQybu54MF8PbYDYFNVDawgzpoCcwNgrtcO5FWcBuDeRls8TXf5Ogw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AzcnIl2n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zgmhr3DZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4037BC2BCB7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzcnIl2n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20353C19424;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755872388;
-	bh=wQmzELiyLlP6dYnGbR5xm0Wl2cXgsAK4Vx4o5Slpgnw=;
+	bh=RsM+00sJ/1A8GHlMF3o/XgMw54KHkYT1Q+rNZSrXntI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zgmhr3DZt+Ed1uvBvlGY6a0RI3Qw7O7QBPDF2XQDJvwwuhtFW4YIVZnU2WiUdtnXy
-	 RZ6Gc1RJRbRACwbkhdZJ8UdE6Vv/0XMyicEl3jkF+wt80SQ1cf2nKRVj+p4kcg34G/
-	 Wo2fKhy1W3zqrj9n9g18rwI9uj+3uYLg+7ms3Vr/2/hvhixcL4MIZdKlRMuGt15dzk
-	 SfFZw4BPyIVCyRhOdHxY6ZCPD3OrCKHvmntddpns1C4ViDTOgwRmMQ0JCvOBoJHvGe
-	 BQPk9Igq2xL9iHvh9Uhm1W2WpfNejvvj4Y2Iz72516mizzANBsm7K1f3ETrphzCKih
-	 nOjuuX2gRKaRA==
+	b=AzcnIl2n8lSxnrpuxK5ZsmOjQFgBoyGiGSSc/CHbeXizoJKZbva+5Xo/63tYgL2xv
+	 3uYkcgKWjmFKVaB7vOEU/mNsdqIUxZ5WT/z0bdvZ9DFl+MMUJdw9S5STLUeSIb6CVN
+	 fITzBmJVKBHYemHCftxjGxWOtswLkVAvaJs8e1izCJNXerIPLF6Xsnb3Vnh4uwiBSL
+	 Xf6H76jbXvp5soQqPPoduv9BL9Net6skrxhTWtMHuraszTLdDqo3dMJGmruE3r3zMl
+	 Lmf1jMf8zfQeg6gbenmxSxBXoUXUvx9MkXd7igliRa+Y90NvXYPUK+FCSjkPhi49Lz
+	 D26bZF03UPk5A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1upScM-0000000CCrp-26gB;
+	id 1upScM-0000000CCrN-1LLz;
 	Fri, 22 Aug 2025 16:19:46 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 15/24] docs: kernel_include.py: remove range restriction for gen docs
-Date: Fri, 22 Aug 2025 16:19:27 +0200
-Message-ID: <5dff693860a6a3faade15c24abdc380f09db468d.1755872208.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 08/24] MAINTAINERS: add files from tools/docs to documentation entry
+Date: Fri, 22 Aug 2025 16:19:20 +0200
+Message-ID: <87bbb94e442fe747e24f801d7685856b392b2568.1755872208.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755872208.git.mchehab+huawei@kernel.org>
 References: <cover.1755872208.git.mchehab+huawei@kernel.org>
@@ -52,42 +51,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Originally, parse-readers were generating an output where
-the first two lines were setting a literal block.
-
-The script now gets only the actual parsed data without that,
-so it is now safe to allow start-line and end-line parameters
-to be handled.
+As we now have a tools directory for docs, add it to its
+corresponding entry.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 6 ------
- 1 file changed, 6 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index c5f4f34e22cb..4cdd1c77982e 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -122,9 +122,6 @@ class KernelInclude(Include):
-             exceptions_file = os.path.join(source_dir, self.options['exception-file'])
-             parser.process_exceptions(exceptions_file)
- 
--        if self.options.get("start-line") or self.options.get("end-line"):
--            raise self.severe('generate-cross-refs can\'t be used with "start-line" or "end-line"')
--
-         # Store references on a symbol dict to be used at check time
-         if 'warn-broken' in self.options:
-             env._xref_files.add(path)
-@@ -209,9 +206,6 @@ class KernelInclude(Include):
- 
-             title = os.path.basename(path)
- 
--            if startline or endline:
--                raise self.severe('generate-cross-refs can\'t be used together with "start-line" or "end-line"')
--
-             if "code" not in self.options:
-                 rawtext = ".. parsed-literal::\n\n" + rawtext
-         else:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dafc11712544..ef87548b8f88 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7308,6 +7308,7 @@ F:	scripts/get_abi.py
+ F:	scripts/kernel-doc*
+ F:	scripts/lib/abi/*
+ F:	scripts/lib/kdoc/*
++F:	tools/docs/*
+ F:	tools/net/ynl/pyynl/lib/doc_generator.py
+ F:	scripts/sphinx-pre-install
+ X:	Documentation/ABI/
 -- 
 2.50.1
 
