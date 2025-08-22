@@ -1,183 +1,141 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CADC15E90;
-	Fri, 22 Aug 2025 06:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AEE15E90;
+	Fri, 22 Aug 2025 06:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755845473; cv=none; b=LsoRSjLzEZLXrJRQZIaqCM0BIPwF1HyHIX98x2Tmk/hGeG0iJ/vpwBPkmi4ujAKiE5qyCi74sai0KgGgLz2uo6CVKKazaav3ZeoB/BSZxcH6NuAA3L31otDorGP0QQadlJQUDlp2cvhxFNLjjoS2+IeGaGWITAqWGun2vci2vGc=
+	t=1755845508; cv=none; b=XIgYZwLnU6nYE1RzpxgvHUbTOq3jePoSk1mlDxPYlnKIRDPNprKDPyyeRiJatpYj6gWyw2Pt4moM/sxyl/hgl42yYlgQ2GNkdufB+yqEofVEkKqMq9+nqm0JBcEOM3WGM3LoOtrkQL7YFVSNKDAcc1YqQh0dp5nJieM0EgxBlIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755845473; c=relaxed/simple;
-	bh=JCJe22NBnh/Ohku/c/jURhYMPWhOcCrL/i6Ia6jiF3I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GpN0xA4zEg4CpMkbGI/HOvMaiHfHeE8ImFiAcNUPv+nYboozqpABuID7686LcvtkVc8ZQkhSPuTlrFiGcFryVZiyDBAEeU5alXKN9xLrzneAJ9HwhJvc6xFdYSLrPyz9FLUcaiWf0MVaDtkuzErUUGuvbwNoKSqK3Nr/Zx6grNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j17RBcsD; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j17RBcsD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=IrjTn5lxjgH6PT63JNA+B4QI+udrzjtftEznNof8LA0=; b=j17RBcsD4qSuOv6w/CU/WxHpFF
-	IUY594dwVhdfBDbQGOv/tKSfMsm0NAXG1Md63nkJNodbRDDk8nW85G6B2OB7xQTA4CYrfAHA3MtQJ
-	6fR1Ko1vfc8+DXbMEJWnMc+JPvB3m9SyDhWLFY94FS9FNO+CVHBVhJfjMdLlt2k5wPS3ZmXInAlMo
-	Yd/DMzJdv4+lN7VYpp0Kveb9yEnELMp1djT3fv3kLMnXUFlH6Ba9vdZOXO0xIvUuhyD3CJDAY0+1R
-	bC6jGsswDCYcR+XRRagP4v+i5j6hl4KC1BjvFwfFUO80GQLv5SLQ6ntdvHQ7Lrjwoa8/ZmJMX1pTo
-	lADwTdoA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upLc4-00000001kK4-2FVr;
-	Fri, 22 Aug 2025 06:51:00 +0000
-Message-ID: <f87145e5-5a86-4ccf-96ac-61e16e894b81@infradead.org>
-Date: Thu, 21 Aug 2025 23:50:58 -0700
+	s=arc-20240116; t=1755845508; c=relaxed/simple;
+	bh=vplvL1nmG6kTSq3roTyiGVMH4b1Ixr3GFIczpAYrtsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jbiNbeXQCBpfSvKM6iIT8VW85664sjATCLsVZqVCKGHb4ObRVQdVIsrs7o5z/YvrYUic7R5NKQLKmvd4J+FYSrYhdnw3LQPqLw1FwKfbOfd0CbLpgGstTtbIuW3e0AJOD4PMg663m3wvKC8T8r4OamYQUeK6SMOzTgevprlYWmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz16t1755845493t933f16a6
+X-QQ-Originating-IP: KhLwTna69ThfucotKL1WpEwMlyB+8j0yekyAFUzHemw=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 22 Aug 2025 14:51:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 17939985140440540817
+Date: Fri, 22 Aug 2025 14:51:32 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Parthiban.Veerasooran@microchip.com
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	lukas.bulwahn@redhat.com, alexanderduyck@fb.com,
+	richardcochran@gmail.com, kees@kernel.org, gustavoars@kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <A1F3F9E0764A4308+20250822065132.GA1942990@nic-Precision-5820-Tower>
+References: <20250822023453.1910972-1-dong100@mucse.com>
+ <20250822023453.1910972-5-dong100@mucse.com>
+ <9fc58eb7-e3d8-4593-9d62-82ec40d4c7d2@microchip.com>
+ <7D780BA46B65623F+20250822053740.GC1931582@nic-Precision-5820-Tower>
+ <8fc334ac-cef8-447b-8a5b-9aa899e0d457@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 11/29] KVM: arm64: Document the KVM ABI for SME
-To: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>
-Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
- Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20250822-kvm-arm64-sme-v7-0-7a65d82b8b10@kernel.org>
- <20250822-kvm-arm64-sme-v7-11-7a65d82b8b10@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250822-kvm-arm64-sme-v7-11-7a65d82b8b10@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8fc334ac-cef8-447b-8a5b-9aa899e0d457@microchip.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NgzJQeCZ3xJjR57YjAfbqcP2p2D5Lh7gDWDDYzURkD0hQ7X06LHYd5ZM
+	tRJR5+TQR1jpYoA1tvqxdR0E8gAmAtx0yq3CccoOHrMWZl3FcnpnWePWRzxjO0QYUlRvMpn
+	x10T+FFv+wRSMjtCjHcMRBYNDPBfq8fblfT+QrTj2PE1RT5l3veukK3SikUR5Wld1LsnI+a
+	BRCTs+hwjh63EnJixZ0gT/Gsro7G/MhUMky/C/TWWat5nMvBYLzF4mAa6hmvB3nBpmqYmV+
+	1G8AaZl1mqDXfCqCbhq/FlrOSsJAcB74KGbNyd9ALobeWP+KrhcrYB0LSu4a/lxgUTbt/tr
+	jOIiBC6zQaIpy2bA+ANt2W6syjnma7J7e306cEEPauU4xiV5brTwDBu7CsoAVby8pT0lF0P
+	ON0O1Mp+NCiE30y+3i47igsr5tq1rxnxv9t432CGkk4HP+rpG5D8mWXxwXFbms3UmyefDj4
+	N6l1nhGUYXDlSiYdDW4Pki/QmtciM/0oSOGsiUi+XMJ8fay/bKnJtugihFnKBZbqqAxzCvx
+	BmOMuF6EDNsGComt7lCOqCFCN0EP6V/WOW9fVvlbjIanVpX9Ic9DBd457SBc0oll+jDStS/
+	Pa+EvnZosTOwWmt/Y2pEGkEqA2/J2iPtntp9CxUndCNxw1OhL4C+DTO8VFT0YHAnOSPV0j8
+	TtgfjeFKFyqM8L/dwVbWZxJ4B1W9EDa1ixPKspY25GzilSCRROtkpCwVmx3OxpeAt1NihkQ
+	L1ncyUn5//CUZ3VzhN7SQqZfrAnQxCyDHe3ceSfrHJzfY59tz95Gok/lWNUrv4mBUdtxvDG
+	9C1OLLiAeExluNJ1MGOFPzXNjS2iq4K/reLn+15h81YC6WGHfcIs4C1EnYsK45uBLiaVFMf
+	UG2zPNs17RqpcGLsV6MgwHCpZRaMlmW514Oyx5xny6CDBSDYJI2JGbucCvRjivzhmWsKFFD
+	xAMVTXXiuGPtdkjuaefL7wbH0XunPfb/jF4httMbTKlXNnwwBlb0B9v/sUhUFOjqLg//jA/
+	NXBTVHES7kChCKqj0zY4kuQVO8hKDqDd8m0IJQbg==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 8/21/25 6:53 PM, Mark Brown wrote:
-> SME, the Scalable Matrix Extension, is an arm64 extension which adds
-> support for matrix operations, with core concepts patterned after SVE.
+On Fri, Aug 22, 2025 at 06:07:51AM +0000, Parthiban.Veerasooran@microchip.com wrote:
+> On 22/08/25 11:07 am, Yibo Dong wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > 
+> > On Fri, Aug 22, 2025 at 04:49:44AM +0000, Parthiban.Veerasooran@microchip.com wrote:
+> >> On 22/08/25 8:04 am, Dong Yibo wrote:
+> >>> +/**
+> >>> + * mucse_mbx_get_capability - Get hw abilities from fw
+> >>> + * @hw: pointer to the HW structure
+> >>> + *
+> >>> + * mucse_mbx_get_capability tries to get capabities from
+> >>> + * hw. Many retrys will do if it is failed.
+> >>> + *
+> >>> + * @return: 0 on success, negative on failure
+> >>> + **/
+> >>> +int mucse_mbx_get_capability(struct mucse_hw *hw)
+> >>> +{
+> >>> +       struct hw_abilities ability = {};
+> >>> +       int try_cnt = 3;
+> >>> +       int err = -EIO;
+> >> Here too you no need to assign -EIO as it is updated in the while.
+> >>
+> >> Best regards,
+> >> Parthiban V
+> >>> +
+> >>> +       while (try_cnt--) {
+> >>> +               err = mucse_fw_get_capability(hw, &ability);
+> >>> +               if (err)
+> >>> +                       continue;
+> >>> +               hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
+> >>> +               return 0;
+> >>> +       }
+> >>> +       return err;
+> >>> +}
+> >>> +
+> > 
+> > err is updated because 'try_cnt = 3'. But to the code logic itself, it should
+> > not leave err uninitialized since no guarantee that codes 'whthin while'
+> > run at least once. Right?
+> Yes, but 'try_cnt' is hard coded as 3, so the 'while loop' will always 
+> execute and err will definitely be updated.
 > 
-> SVE introduced some complication in the ABI since it adds new vector
-> floating point registers with runtime configurable size, the size being
-> controlled by a prameter called the vector length (VL). To provide control
-
-                  parameter
-
-> of this to VMMs we offer two phase configuration of SVE, SVE must first be
-> enabled for the vCPU with KVM_ARM_VCPU_INIT(KVM_ARM_VCPU_SVE), after which
-> vector length may then be configured but the configurably sized floating
-> point registers are inaccessible until finalized with a call to
-> KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_SVE) after which the configurably sized
-> registers can be accessed.
+> So in this case, the check isn’t needed unless try_cnt is being modified 
+> externally with unknown values, which doesn’t seem to be happening here.
 > 
-...
+> Best regards,
+> Parthiban V
+> > 
+> > Thanks for your feedback.
+> > 
+> > 
 > 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/virt/kvm/api.rst | 117 +++++++++++++++++++++++++++++------------
->  1 file changed, 82 insertions(+), 35 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 6aa40ee05a4a..71f46b342641 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
 
-> @@ -2600,12 +2600,12 @@ Specifically:
->    0x6020 0000 0010 00d5 FPCR        32  fp_regs.fpcr
->  ======================= ========= ===== =======================================
->  
-> -.. [1] These encodings are not accepted for SVE-enabled vcpus.  See
-> -       :ref:`KVM_ARM_VCPU_INIT`.
-> +.. [1] These encodings are not accepted for SVE enabled vcpus.  See
+Is it fine if I add some comment like this?
+.....
+/* Initialized as a defensive measure to handle edge cases
+ * where try_cnt might be modified
+ */
+ int err = -EIO;
+.....
 
-                                               SVE-enabled
-was good.
+Additionally, keeping this initialization ensures we’ll no need to consider
+its impact every time 'try_cnt' is modified (Although this situation is
+almost impossible). 
 
-> +       :ref:`KVM_ARM_VCPU_INIT`.  They are also not accepted when SME is
-> +       enabled without SVE and the vcpu is in streaming mode.
->  
-
-> @@ -2665,19 +2675,25 @@ follows::
->  	/* Vector length vq * 16 bytes not supported */
->  
->  .. [2] The maximum value vq for which the above condition is true is
-> -       max_vq.  This is the maximum vector length available to the guest on
-> -       this vcpu, and determines which register slices are visible through
-> -       this ioctl interface.
-> +       max_vq.  This is the maximum vector length currently available to
-> +       the guest on this vcpu, and determines which register slices are
-> +       visible through this ioctl interface.
-> +
-> +       If SME is supported then the max_vq used for the Z and P registers
-> +       then while SVCR.SM is 1 this vector length will be the maximum SME
-
-I'm having trouble parsing the 2 lines above.
-
-> +       vector length available for the guest, otherwise it will be the
-> +       maximum SVE vector length available.
->  
->  (See Documentation/arch/arm64/sve.rst for an explanation of the "vq"
->  nomenclature.)
->  
-
-> @@ -3520,7 +3537,7 @@ Possible features:
->  	        initial value of this pseudo-register indicates the best set of
->  	        vector lengths possible for a vcpu on this host.
->  
-> -	   * Before KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_SVE):
-> +	   * Before KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_VEC}):
-
-		Why the inserted '}', please?
-
->  
->  	      - KVM_RUN and KVM_GET_REG_LIST are not available;
->  
-> @@ -3533,11 +3550,40 @@ Possible features:
->  	        KVM_SET_ONE_REG, to modify the set of vector lengths available
->  	        for the vcpu.
->  
-> -	   * After KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_SVE):
-> +	   * After KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_VEC):
->  
->  	      - the KVM_REG_ARM64_SVE_VLS pseudo-register is immutable, and can
->  	        no longer be written using KVM_SET_ONE_REG.
->  
-> +	- KVM_ARM_VCPU_SME: Enables SME for the CPU (arm64 only).
-> +	  Depends on KVM_CAP_ARM_SME.
-> +	  Requires KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_VEC):
-> +
-> +	   * After KVM_ARM_VCPU_INIT:
-> +
-> +	      - KVM_REG_ARM64_SME_VLS may be read using KVM_GET_ONE_REG: the
-> +	        initial value of this pseudo-register indicates the best set of
-> +	        vector lengths possible for a vcpu on this host.
-> +
-> +	   * Before KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_VEC}):
-
-	ditto: inserted '}'
-
-> +
-> +	      - KVM_RUN and KVM_GET_REG_LIST are not available;
-> +
-> +	      - KVM_GET_ONE_REG and KVM_SET_ONE_REG cannot be used to access
-> +	        the scalable architectural SVE registers
-> +	        KVM_REG_ARM64_SVE_ZREG(), KVM_REG_ARM64_SVE_PREG() or
-> +	        KVM_REG_ARM64_SVE_FFR, the matrix register
-> +		KVM_REG_ARM64_SME_ZA() or the LUT register KVM_REG_ARM64_ZT();
-> +
-> +	      - KVM_REG_ARM64_SME_VLS may optionally be written using
-> +	        KVM_SET_ONE_REG, to modify the set of vector lengths available
-> +	        for the vcpu.
-> +
-> +	   * After KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_VEC):
-
--- 
-~Randy
+Thanks for your feedback.
 
