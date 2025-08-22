@@ -1,279 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9E2307AEF;
-	Fri, 22 Aug 2025 13:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB2E2FFDE1;
+	Fri, 22 Aug 2025 13:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870919; cv=none; b=ZnksKxdmC9ujUsGJHGWH9VRTRZeVjvHp0ARzzuYnLEYvwrhYywu08zq876m8E8/d9szSX/SbGWv3u4Np20rP4NZ6JEyxXl0lYpgQQDKV2pOSq6JGl4j7BtU2qiKsyyJCOcypxHpyYWbTGRhhg4ZeapMxkNwStMn53Nw0fKwgJkU=
+	t=1755871200; cv=none; b=L8LQpr0JcJHB85wO4iPum2wh7SOI2B09JDu3krb1CdcoQHepdpdZKIWDPsyrBHE96p12RAjnE+7QTJ9h3O4/YnoPmXz/BRIEEkrH9PL+LBGBz2JGuovO7ja65lneVAT8ILM9E5+SiOfhyxfeGWNXNfkkD7y41qZwD0sc0M18HfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755870919; c=relaxed/simple;
-	bh=hbDP41EtQ/FUPUSL8pbgPa2jVAAbBlM0004U5mA0n7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jXvoDy7GCmCMcMfCFeYxKeRrTJHmmjLKhqJ8hhxSYgToKu7JYMWcfsCw3S0RXqdb/HiDt6l2e9BKtTWEsZiYPh4QICn5oo138stBIXpVqbrGPUiZ9LQP8ftSh1UUJxJj7vExXlhKn6kOtE70o6grJ+dtmi9xo/1OXAiAm803x9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHQ8ESyY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755871200; c=relaxed/simple;
+	bh=ooBVDyCPVijQzqFh2YdlTtUqe8TbMbgu6QzXF734j6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T4QaSEDMg4j0f4rBIgOXXsP61gz9we+lsBGsAgIT7T3DNnCXp2XZBuFM1XjSEpbl6ZM7Dv2eYKCVajdvOKfvOEPwwUexvCcGTCj/+dsrAMss92d7pBC1vf3sF6OgmyqWY8XJ77dlOfOMH3VYo9xR5uKKWoZBTgt9/bmpzMwjRFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CY01tBhL; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHQ8ESyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83D04C4CEED;
-	Fri, 22 Aug 2025 13:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755870918;
-	bh=hbDP41EtQ/FUPUSL8pbgPa2jVAAbBlM0004U5mA0n7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YHQ8ESyYL6LoahS5ivoKDB7vgSysNu5b4+OWH1ry+juiqSZUfXAPuCmE4Jr1TX/Xe
-	 r3j/9TGds9LdGpA0DQ7+D83GRDMblI6fA5bixuSX9ZBL3NFesbWKqztag2eNXuLZCy
-	 ZohfZNa9BiooCo5MLIIm5da0bZcI/0uFrx9P5ialMl9li4xDeAsdUr+KY3vTPGooud
-	 Gy/Mp4d1aTwvBgwUMaVAyqc+7qYt1STx5BC85T/yKp82GxcZOSJHrgWs5Q94m6Mp1h
-	 VjhX/KVXKsWiQlSDUrd6tn3iCIxLXZvlukdLEciXgoVEO0S1l6gRcYAVh40t3+ZGMr
-	 Z1X30fnYDMCoA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1upSEe-0000000CBJt-2vWe;
-	Fri, 22 Aug 2025 15:55:16 +0200
-Date: Fri, 22 Aug 2025 15:55:16 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, Trevor Gross <tmgross@umich.edu>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 04/11] scripts: sphinx-build-wrapper: add a wrapper for
- sphinx-build
-Message-ID: <hjooonedrtoykg6qgg7kvat2ovtv6dtr3ulih6nowkds4teyuc@khetujrxwugv>
-References: <cover.1755258303.git.mchehab+huawei@kernel.org>
- <88a95c7f6996cafb247d6706060173b17a46d570.1755258303.git.mchehab+huawei@kernel.org>
- <87plco5tb9.fsf@trenco.lwn.net>
- <20250822040645.75d5faf4@foz.lan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CY01tBhL"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb78d5e74so356961166b.1;
+        Fri, 22 Aug 2025 06:59:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755871197; x=1756475997; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V014dFiaSCDPs2i3+HfkIg6rp9m74x/8h2rQVVO+dUk=;
+        b=CY01tBhLtmiJRYe2yuSbNFEB4OM7tvUO+EbpHgHTsEp+ZrWzCu94d40cE6UfiuArmh
+         JsoOtShJIukVqvFMZTeQ3RFHSqrwQG5BDLouHbLfzesiAqt3rjr9FhLyL3EKDSW1Y8nQ
+         s/dJote3zySfWAcMA9Nx1poquTqgz4sU8LB1gfKMzAM+wJAQmnncKv8bvEjmRN04x112
+         xOzyk4vdsfdowUYF/rSUxldH0eMtodcjTqql3b1G3IrIXgJ76Xr0TSv51GhFIZ6Mi/u0
+         Q+Q0FjG9XYt6lCf9asuR7CLRpAEC8GHC/l+0jcbFSyPR8oYIfGbULWCe2uRS6dfOtAAl
+         h8eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755871197; x=1756475997;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V014dFiaSCDPs2i3+HfkIg6rp9m74x/8h2rQVVO+dUk=;
+        b=Kv60hQPRgs1lFVKOfbi8zIX14mX9L95jvG807o1OkvvLP7dJc24WXQCREiwvSgH6fh
+         02pE5ohPLXlIJU6dc6DBdvDpZqzoRvwdFPgtJP+R7SVOSB8xHq3ihvPsZbyH3cQxvJ1O
+         0YwqERhaQUEEyPaR/B7pMpcNwZQOTh4CWqfm50aaRcadoY3ugU/6SsJ/A+HKyzBSbnLM
+         iSRNSAqOWsoWmB1JX/BF0/TDI7KtyY2N6HnEhv9/7A7amQDtdcvXUKDu742lsNYUsziZ
+         Su0SCIW/UOoawHmiXUr51+0qS0MKW0c+aaoVFZlZEgQL+OOel8slzcL7lF83LYxMDqyT
+         yBIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUD+czqgMrsxCmj4Wusb+S1b11vY5F4U4gr/GiVGtCwBp0QB2wvwOI5mC80rCpfRGCkWfe+4CTbxTNVLHxhxcQuSg==@vger.kernel.org, AJvYcCUOLDP7dM468thK8gWpFAC3xv1lcM6rVLi0Y6VfPC7FVdht1H++tN9scG9heTxI1ym/Wq0PV6fN5qRl@vger.kernel.org, AJvYcCUXt74T4U1Asdf21wqCJaBOmLZZprrn3uaFpr3U3DjfHbUxbhSGzYPy6RIePel7JmZrSoaXsxhAEO2G@vger.kernel.org, AJvYcCWDx1zYNzUyJYhrm5VhsroKh7GAsi2ubwGrW2dXK3BzPOd7NjkZ4/c3+Np0JC5Ty9NL7W3tL2oFOi2skAA2@vger.kernel.org, AJvYcCX7OH2G91unIT0xpWBlK8TmJFP+Bv2kM0EFgfZna0BLm5mTIhxpYJS17vDKeuk3+CUwyec/s0k3bkNL@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK7gB9GLN+21tFYw6eODWeHMi75EMMQo0X9+NOaVoGyX78FXAd
+	NcSMLegBjQVFYR5HV3B5QlJoNzLaXpJTTa8fozGUqPS29nJmpSClw6br
+X-Gm-Gg: ASbGncvKzXuKjiw4d5psX+u1qKOgplRtuk401qBs1MwL6IB7WXVajg0nllJNPzOZxi9
+	ioMWmgNm++Xg9HZudppRz06k3ocOK/WCLQeB5oeTg6sqo8OnObVoXUizsX07ZusqAwCgE4GoImy
+	21v4jOwtSNxIaj/1mim7+ktrZ33xvPd3tYVR55ALILxLZ6Hft5d9h9cwpCMoZixtzMrwr9CcBLi
+	16BlKwlZONqGxFRngI6H8VfKpZbJIEHg0mm37FHNSiw7WjWOnBh1OKdk3OngzCLvObFTAptqMtY
+	iP78AwitIfDw5Rxy+NyLhsO2iGdIWdMXVLnIif8UhCZqMlb+vgdiDQwzXGBWCAw/cRiGg2r4kJ8
+	yqMvIsZiQLG4sryr/qbzV6dnfM8D5vpeB4joOy1xGQtW1F78fi7vCOg4oI5mPtxFTV2JG3bsVsP
+	VCFQnqIKc30zv/7XCRSJ6kkIFxUqpIFZvqBipHXim84UfrIHYYB0vTyEx/6ZVZ2UyvkpLywYWGw
+	qvU
+X-Google-Smtp-Source: AGHT+IEf+0iTczeJWYRvKTzbPjuHcrR0Q/vZbiX0S4rQLygBrUblykK/q9qnm/yelo9JpR8nUFhBWw==
+X-Received: by 2002:a17:907:60d3:b0:af9:e3d3:a450 with SMTP id a640c23a62f3a-afe28f77734mr245587666b.6.1755871197072;
+        Fri, 22 Aug 2025 06:59:57 -0700 (PDT)
+Received: from ?IPV6:2a02:8440:714a:ca26:61e9:f2d7:67f6:fe9d? (2a02-8440-714a-ca26-61e9-f2d7-67f6-fe9d.rev.sfr.net. [2a02:8440:714a:ca26:61e9:f2d7:67f6:fe9d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded4796f3sm607923666b.61.2025.08.22.06.59.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Aug 2025 06:59:56 -0700 (PDT)
+Message-ID: <6a10616b-3234-4336-aff6-4e60047ebcb6@gmail.com>
+Date: Fri, 22 Aug 2025 15:59:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250822040645.75d5faf4@foz.lan>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/20] dt-bindings: memory: introduce DDR4
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Gatien Chevallier <gatien.chevallier@foss.st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+ Julius Werner <jwerner@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com>
+ <20250728-ddrperfm-upstream-v5-6-03f1be8ad396@foss.st.com>
+ <20250730211151.GA1749004-robh@kernel.org>
+ <da8578ae-3f79-4082-b0fb-760553004c93@gmail.com>
+ <fb5083ff-4bee-4a0f-8774-54b492cd9a6d@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
+In-Reply-To: <fb5083ff-4bee-4a0f-8774-54b492cd9a6d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 22, 2025 at 04:06:45AM +0200, Mauro Carvalho Chehab wrote:
-> Em Thu, 21 Aug 2025 14:11:06 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> 
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > 
-> > > There are too much magic inside docs Makefile to properly run
-> > > sphinx-build. Create an ancillary script that contains all
-> > > kernel-related sphinx-build call logic currently at Makefile.
-> > >
-> > > Such script is designed to work both as an standalone command
-> > > and as part of a Makefile. As such, it properly handles POSIX
-> > > jobserver used by GNU make.
-> > >
-> > > It should be noticed that, when running the script alone,
-> > > it will only take care of sphinx-build and cleandocs target.
-> > > As such:
-> > >
-> > > - it won't run "make rustdoc";
-> > > - no extra checks.
-> > >
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > >  .pylintrc                    |   2 +-
-> > >  scripts/sphinx-build-wrapper | 627 +++++++++++++++++++++++++++++++++++
-> > >  2 files changed, 628 insertions(+), 1 deletion(-)
-> > >  create mode 100755 scripts/sphinx-build-wrapper  
-> > 
-> > As a whole I like the idea of this - I would rather be reading code in
-> > Python than in makefilese.  But I have some overall notes...
-> > 
-> > I am a bit dismayed by the size of it; this is many times the amount of
-> > code it allows us to remove from the makefile.  Perhaps there's nothing
-> > to be done for that, but ...
-> 
-> True:
-> 
->  7 files changed, 922 insertions(+), 200 deletions(-)
-> 
-> Yet, a lot of them are blank lines, comments, docstrings and 
-> argparse. Also, there are some improvements on it, like the PDF
-> build error handling logic (more below).
-> 
-> One of the things I wanted to do is precisely better describe
-> what it does. The Makefile has lots of magic and complex macros
-> that, even the ones that wrote it have headaches trying to understand
-> after some time not looking on it.
-> 
-> Also, part of it will be dropped at the next patch series when
-> we will get rid of userspace-api/media/Makefile:
-> 
-> 	$ git diff 182fa089db0b..parse_headers scripts/sphinx-build-wrapper|diffstat -p1 
-> 	 scripts/sphinx-build-wrapper |   48 ---------------------
-> 	 1 file changed, 48 deletions(-)
+Hi Krzysztof,
 
-After sleeping on it, IMO the best would be if we change the order:
-Let's place the series related to parse-headers.pl/kernel-images.py
-first. 
+On 17/08/2025 09:19, Krzysztof Kozlowski wrote:
+> On 14/08/2025 16:42, Clément Le Goffic wrote:
+>> Hi Rob,
+>>
+>> On 30/07/2025 23:11, Rob Herring wrote:
+>>> On Mon, Jul 28, 2025 at 05:29:37PM +0200, Clément Le Goffic wrote:
+>>>> Introduce JEDEC compliant DDR bindings, that use new memory-props binding.
+>>>>
+>>>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+>>>> ---
+>>>>    .../memory-controllers/ddr/jedec,ddr4.yaml         | 34 ++++++++++++++++++++++
+>>>>    1 file changed, 34 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..f457066a2f8b
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml
+>>>> @@ -0,0 +1,34 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/memory-controllers/ddr/jedec,ddr4.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: DDR3 SDRAM compliant to JEDEC JESD79-4D
+>>>> +
+>>>> +maintainers:
+>>>> +  - Krzysztof Kozlowski <krzk@kernel.org>
+>>>> +
+>>>> +allOf:
+>>>> +  - $ref: jedec,sdram-props.yaml#
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    items:
+>>>> +      - pattern: "^ddr4-[0-9a-f]{2},[0-9a-f]{1}$"
+>>>
+>>> Shouldn't this be 'jedec,ddr4-...'
+>>
+>> That's not the case for lpddr bindings, I wanted both lpddr and ddr
+>> bindings to be similar but this can change.
+> 
+> For LPDDR Julius introduced in commit 686fe63b2280 ("dt-bindings:
+> memory: Add numeric LPDDR compatible string variant") ddr4-VENDORID
+> pattern to distinguish individual manufacturers.
+> 
+> Jedec is not really the vendor here.
+> 
+> Is it the same case in DDR? You have a defined list of vendor IDs (also
+> 1 byte)?
 
-Then, on this series, I can suppress the code that has support for
-the media build Makefile (reducing those 48 lines), making the
-patches cleaner.
+There is no defined list of vendor IDs.
+The way the compatible string is created is explained in
+jedec,sdram-props.yaml file which is created in patch 5 of this series.
 
-I'll also change this series to place the new wrapper under
-tools/docs, splitting part of it on a library. The final code
-will be bigger due to the library, but it will become more
-modular and with a cleaner implementation.
-
-> 
-> I guess there are some space to clean it up a little bit, for instance
-> getting rid of most of the env vars and passing them as command
-> line only. Yet, I opted to be a bit conservative at the cleanups at the
-> env vars to reduce the risk of breaking something.
-> 
-> > Is there value in the SphinxBuilder class?  Just because you can create
-> > classes in Python doesn't mean that you have to; I'm not sure why you
-> > would create one here rather than just doing it all at the module level.
-> 
-> On Python, I prefer using classes, as:
-> 
-> 1. I don't like passing lots of arguments to functions;
-> 2. Python doesn't have struct. The closest concept of struct in Python
->    is a data class;
-> 3. Classes help to avoid global vars. In this specific case, the size of 
->    its data "struct" (e.g. class variables) is not small, as it has to
->    parse lots of environment vars, and several of those are used on
->    multiple places.
-> 
-> > Is the "search for a newer Python" code really going to be useful for
-> > anybody? 
-> 
-> Well, I could have written it in shell script or Perl ;-)
-> 
-> Seriously, the rationale was not to search for a newer Python code, but
-> instead, to have a place were it is easier to understand what's
-> going on and adjust to our actual needs.
-> 
-> I actually started it because of the pdfdocs check: doing make
-> pdfdocs currently will return an error code when building docs
-> no matter what. Fixing it inside the Makefile would be doable, but
-> complex and would likely require an script anyway (or a script-like
-> code embedded on it).
-> 
-> Now, instead of adding yet another hack there, why not do it
-> right?
-> 
-> > It seems like a lot of work (and code) to try to quietly patch
-> > things up for somebody who has some sort of a strange setup.
-> 
-> My idea was not to support some strange setup, but to I had a few
-> goals. Mainly:
-> 
-> 1. to have the simplest possible Makefile without loosing anything;
-> 2. to be able to call the script directly, as it helps debugging;
-> 3. to remove that ugly for sphinx-build call macro logic inside
->    Makefile, with is hard to understand and even harder to touch;
-> 4. to fix a known bug with the current approach with regards
->    to PDF build: no matter if PDF build succeeded or not, it
->    always return an error code;
-> 5. to have a summary of the PDF build. Even with latexmk, the
->    PDF build is a way too noisy, being hard to check what broke
->    and what succeeded.
-> 6. to make easier to build PDFs in interactive mode (I added this
->    later at the development cycle).
-> 
-> -
-> 
-> For the future, if time permits, there are two possible improvements
-> 
-> a) I'd like to change the way SPHINXDIRS work. Right now, it is a very
->    dirty hack, that makes sphinx-build becalled several times (one for
->    each dir), and breaks cross-references.
-> 
->    I'd like to be able to allow building multiple dirs at the
->   same time, with a proper index between them.
-> 
-> b) By having this in python, we can do other cleanups like:
-> 
->    - instance convert sphinx-pre-install into a class, calling
->      it directly there;
->    - pick the logic inside conf.py that handles SPHINXDIRS and
->      latex documents.
-> 
-> In summary, the advantage is that it is a lot easier to fine tune
-> the script in the proper way than to add more hacks to docs Makefile.
-> 
-> > Please, no "except Exception:"  (or the equivalent bare "except:").
-> 
-> Ok.
-> 
-> > That bit of locale tweaking shows up in enough places that it should
-> > maybe go into a little helper module rather than being repeatedly
-> > open-coded?
-> 
-> Do you mean this?
-> 
->         # The sphinx-build tool has a bug: internally, it tries to set
->         # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
->         # crash if language is not set. Detect and fix it.
->         try:
->             locale.setlocale(locale.LC_ALL, '')
->         except Exception:		# I'll replace it with locale.Error
->             self.env["LC_ALL"] = "C"
->             self.env["LANG"] = "C"
-> 
-> This was also added later, to fix a current Sphinx (or Python?) bug.
-> 
-> Try to run sphinx-build on a Debian-based or Gentoo distro without 
-> setting any locale (which is the default after installing them):
-> 
-> 	# sphinx-build --help
-> 	Traceback (most recent call last):
-> 	  File "/usr/bin/sphinx-build", line 8, in <module>
-> 	    sys.exit(main())
-> 	             ~~~~^^
-> 	  File "/usr/lib/python3/dist-packages/sphinx/cmd/build.py", line 546, in main
-> 	    locale.setlocale(locale.LC_ALL, '')
-> 	    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
-> 	  File "/usr/lib/python3.13/locale.py", line 615, in setlocale
-> 	    return _setlocale(category, locale)
-> 	locale.Error: unsupported locale setting
-> 
-> 	# LC_ALL=C sphinx-build --help
-> 	usage: sphinx-build [OPTIONS] SOURCEDIR OUTPUTDIR [FILENAMES...]
-> 	...
-> 
-> 
-> Well, sphinx-build will crash even if called with "--help". Btw, 
-> spinx-build is following Python recommendation of using '':
-> 	https://docs.python.org/3/library/locale.html#locale.setlocale
-> 
-> Ok, we could drop that, but on the other hand it is just 5 LOC.
-> (actually it can be 4 LOC, as self.env["LANG"] = "C" is not really needed 
-> to avoid the crash).
-> 
-> One thing I'm in doubt is with regards to --venv command line argument.
-> It could be dropped, or it could be auto-detected. The code is also
-> small, and IMHO it could help for the ones using venv:
-> 
->         # If venv parameter is specified, run Sphinx from venv
->         if venv:
->             bin_dir = os.path.join(venv, "bin")
->             if os.path.isfile(os.path.join(bin_dir, "activate")):
->                 # "activate" virtual env
->                 self.env["PATH"] = bin_dir + ":" + self.env["PATH"]
->                 self.env["VIRTUAL_ENV"] = venv
->                 if "PYTHONHOME" in self.env:
->                     del self.env["PYTHONHOME"]
->                 print(f"Setting venv to {venv}")
->             else:
->                 sys.exit(f"Venv {venv} not found.")
-> 
-> Btw, this is the kind of code that makes sense to be inside some
-> library.
-> 
-> Thanks,
-> Mauro
-
--- 
-Thanks,
-Mauro
+Best regards,
+Clément
