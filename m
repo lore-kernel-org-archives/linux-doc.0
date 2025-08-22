@@ -1,206 +1,307 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C459D23505F;
-	Fri, 22 Aug 2025 06:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755842876; cv=fail; b=ehnODh/R2d1lRPGryJ1/zkA7QT7jsYsMLokODNdfGCr5Cohf8Nk0a8NVjnc5zemhwPgvK+8k5U2BhkU3np1GZ/YsfpxIZKX4JmD3AP/UcHY+2yYLinXoMskbShA94imqwFLv8QFf13f64B3IMvclK/5PnwcpTx8JCv923zEharY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755842876; c=relaxed/simple;
-	bh=4xKl0g8NuGbC0xz8DiSBqjcjW55nYwdEOeItv+5+1B4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qFuLiA/fftQBv2OgCQ+u18etJRQfzde6d7RqiR2BlhkyMWgfAr5RTU3sieeI6Q9a2uG9tsEIB5BjEWQ+a7fA3Nlj8LyIuQqoy3YoY23nHUBSkq31xg/ueMNOs7/Z3kXUfC4nkkRwxbMwavuf36xLUAK1Os5iliCaqmRq8qZQX0U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Wz/C3T/z; arc=fail smtp.client-ip=40.107.244.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Wz/C3T/z"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ye9M5eiIVVpw04uXJsM7r854g5Kxy3+hhtzdeg+637JgkkBB72r1D5YhfpEjVfZBv1tbWxd2pW6uv4L0fRBmtF++P0OGHgy/nzyAJuZMbWXEKdpf8J9DZ2hR0sbMQ+wNxy5gqdmdnMX/ulL41XZ7rtviGjvAVxgHXS0qeEkPFALmrlC4fQ0u5t6IhGJPaWh8RmmrP+5f+sQ/5YghzV8ZWRRZM79R83tBQJX90RluCBvFSKAtEiIg4WHhHZ0rA7UDd3b5HNog0FFeczOOWwzzHKD7SdwlUitNP3HxYAIJBhC6qFaTSFfXd6I7k5S7Nt90IVytmOSqIv7tOoZLV98bfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4xKl0g8NuGbC0xz8DiSBqjcjW55nYwdEOeItv+5+1B4=;
- b=J2LotG+v5/bQiy3sL2/r601NDEwtjguqK1vhQ0GULu+vyYCSRLir3oHIiI1xCU4bpMcixpnffWgZxBQlyrGMgUZL1FT8cxnbxb/dERxQ29fIDljiq5idJXJS6fp2pJo0MTHn7Hc+iMYwv40aMQZeCUnOC7VxkaE/kKCuLQBM7g1nAJBUrMUumsfcn4z2OmuWYR0Za2Tfxk819Df7Er/6u/L+goVW+68hIQ7LPzNGalOiFS6wnMByadOyOnpjFcLlIxoBDF4/rpDUOIDEVn16wAO/HzjDBasNVj+CY5vFo65Vf+JelXn40iIai8ZQF1KgMqQlD1Z3Nodg1REJmjkmDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4xKl0g8NuGbC0xz8DiSBqjcjW55nYwdEOeItv+5+1B4=;
- b=Wz/C3T/zESE3nM/Gfgo3MacxDo4g1RTHRHtuyBNqC/hRTh5it9JdaRXoKhcdTL7Sb8jNetwe8nlVWEpPgcLdV8mY52xuQLpCEx3jGCoSZJ2+gIx04euWJd+va/w2ebBrBKpbPja98zMC5vrIkGOwlfE4sdSenrufVzeJsyFFP0p3xBpnqt0ijX2VnjEbiJVhvdFCYCJIAsnSxNVTBYeaHignT0065sggojNrdSfeVUbLms49MfRc9j6SqrOwQa9piqJdTBqXWZK9UVhvyhHFa8Zx1S7817ESejxs5tzlvW1vRcKy9ZgAU0YO3lO2mGz6xCJjd/q/Ior6nOZkOqQanw==
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
- by SA3PR11MB9464.namprd11.prod.outlook.com (2603:10b6:806:464::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Fri, 22 Aug
- 2025 06:07:52 +0000
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9]) by SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9%7]) with mapi id 15.20.8989.011; Fri, 22 Aug 2025
- 06:07:52 +0000
-From: <Parthiban.Veerasooran@microchip.com>
-To: <dong100@mucse.com>
-CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
-	<gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
-	<danishanwar@ti.com>, <lee@trager.us>, <gongfan1@huawei.com>,
-	<lorenzo@kernel.org>, <geert+renesas@glider.be>, <lukas.bulwahn@redhat.com>,
-	<alexanderduyck@fb.com>, <richardcochran@gmail.com>, <kees@kernel.org>,
-	<gustavoars@kernel.org>, <netdev@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Thread-Topic: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Thread-Index: AQHcEw1/LwXdpHe+ukGdpS5U/+GtHLRuGj+AgAANZQCAAAhvgA==
-Date: Fri, 22 Aug 2025 06:07:51 +0000
-Message-ID: <8fc334ac-cef8-447b-8a5b-9aa899e0d457@microchip.com>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <9fc58eb7-e3d8-4593-9d62-82ec40d4c7d2@microchip.com>
- <7D780BA46B65623F+20250822053740.GC1931582@nic-Precision-5820-Tower>
-In-Reply-To:
- <7D780BA46B65623F+20250822053740.GC1931582@nic-Precision-5820-Tower>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|SA3PR11MB9464:EE_
-x-ms-office365-filtering-correlation-id: cf8ff557-a8b3-4f9c-b4f6-08dde1423a5a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?NHRUeHQzalhRMVNnYW5NS2F0azN5cTExSDRSRmk5QmxwRWFhamorL29zcjNC?=
- =?utf-8?B?bkVleHV5MVFiN2JHWGl2SytuMG9ndTQ2bW1aTFU4YlowL3lJRnpwOGo0bmtC?=
- =?utf-8?B?RHhsU3owYWNMMTRxTzVydHRhb3Z3bGVXd1dEcjk1aEYzWTQrbnN4QVZLVmRD?=
- =?utf-8?B?MXZUTEViYjVLUGxMbHNQbXNyZzQwc0ZESVRYMXkrT3A3TlFNYVZCbGR3bTh4?=
- =?utf-8?B?WVM0RE8vdnVMVkN4NGNJZThLaGdOdTJrY0hzeG0rdDJKM2VrMGp4dWxYNWwx?=
- =?utf-8?B?UXlKU2pSc0FCQVNaQ1pZcU1sZFFWMTRtMUVubzdpdFQzbEludlU2VUw1am9I?=
- =?utf-8?B?YjZvR0FVbFFiOEJpeXRZNzVlZWhSUVh3aGlKMWU2a1RuWGo1ZXFiYmFrUmVS?=
- =?utf-8?B?akJPb21kbnNwQzFZQ3RVaXl0U0hsV1hRaTV1VWlSUTB3QzlBM2RBdk1zSHpV?=
- =?utf-8?B?ZVMweFlIQ2llY0FjWHh2UHpmWjdVQ2RrWkFuempxT2kwVzlPT01lVVQzNEww?=
- =?utf-8?B?WWlFdUhSOTQ1bk1TQXpUdjhiUnJPRzkweXFjTnlkTFdSMHoyQXRxVXlxWEZw?=
- =?utf-8?B?clUyUnBDbEUzQXFWYkJ6WWhoeE5EeHZDbUFuYmlZU1h2cXJWNUx1dXB5ZDdV?=
- =?utf-8?B?WEhPMEQvMFpMMUp6em81Mk80V0xWaldTT2hzWjg5bTZPMjlvRStZblB0M2VU?=
- =?utf-8?B?enhKcDFnOTRkYWp2dU5LV3lVamc0TWZmb29UbVhEaS9HZlRtc1VvVjJ0d0Rz?=
- =?utf-8?B?aFgzeUdnckV1U3dCTHE0Nm1JUiszd2NkWGVxOUIvaTRxcWpTV2QvdWJJNXZq?=
- =?utf-8?B?VWo5NEpJT2J6cmQ5cHl6UUdBdDRoN25Oamw2ODBvakhiRnAveVJ2NWZDdW5a?=
- =?utf-8?B?SVc2YzhmWGw0L0VaeTZKT3RhZ0wzRTc3Ui9hOU4yeEgybU5OeWJlYzMyTzRs?=
- =?utf-8?B?eHFDV2VpVXZBN3I3U252WWxKTjg2Y0FJTWc2L0RBU0dLaHBpM3l4bUt6dWpU?=
- =?utf-8?B?anNkc1pWRWlTd0R6WlpKTUFubFE4aVc1S0ZJYjluU3lSK3QwazlkUDY4WVJv?=
- =?utf-8?B?REovdFBlNWc5Rm05cTl6TmpWRm5seWQ3ZjJ3eTk0RmkwSldSdkZNeHJxQzZw?=
- =?utf-8?B?anVZOGs3U3BmblBmTXN0UGovT3gxZDdiQ2pFUXN5V1RhbldNMkJWaWt6emd5?=
- =?utf-8?B?YytHNEdzSjVVMXNNbC9BZnhiZ0phaWl4RnVxY2JXdnpwV1Z0ZTBSSU1sNEF1?=
- =?utf-8?B?N1U5aTJha1Z0a01SV0tGdVRURWo0OVptdlhqS0M2UnlRT0d6bXlSSytQQ01j?=
- =?utf-8?B?MG05NEczZVBTb0RSWENsL0VLcjI3MnZ0eGU0YWpWdzlLY2pYT2ZzdFA3Yy8v?=
- =?utf-8?B?Q3FVcVRYbGxHSFVJcHc5Z3ZTeGhvcmV4YnVMZCs1MmE2bElrWlBGQUlUU25t?=
- =?utf-8?B?R05jcUVHR0pQa3FwbXNmOTdFOTVnS0pBVmp1YnhiR0IrRUxYbXdOTHhYQldB?=
- =?utf-8?B?VnZUa1FuV0U5NFV0RmZzQlZ0YitYREZNeEVkMmIvV2xlakpvWjJIdW4weDRN?=
- =?utf-8?B?TUpZM05qKzlaU0grL0tXUU1jaW1mSXpXaFcwTFN2WHR3SWJvSmhPcnlMK0Va?=
- =?utf-8?B?ZEQ4Sk0xZUVkOTg4TUw5ZDhVTnJkeFFwRGIxU3VXSkZndVRhSGUvbWJMTWlT?=
- =?utf-8?B?cGVFLzJvV2Vmd0xSaHBRUkFBRm9ac1dmYXZzSmxSV3lLSHMvWWlPM3VhQjNX?=
- =?utf-8?B?UHRpUERCcExXNUtqVkFoRDQvYnBNY0F5dEdjT285TTd1MWxvYkE1Y3lISWhU?=
- =?utf-8?B?eXk1VjNNNEJRRXhpR3VhSU5uVjRIYWN1Uk80Wk5SYVN1UDRIVy9wN3I3RnVN?=
- =?utf-8?B?UWFYVWI5WjlQKytnOTV2ZU1neXZ2cS9ZQ2hqTS9nV3RBMWN6U0xOUGdPVklq?=
- =?utf-8?B?L016RWVkdFpFZGFoVENHVk1PMkE0OFJ0cEdzYUtTS0lRY1lIUCswUHUzVzhG?=
- =?utf-8?B?NFdKVkMwaWhRPT0=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TC9BYkM5NS9qYmdoVWhWMkxIMHRxTGkxMWoyQjF0Wm41ZDJxMVJvV0NQRTZG?=
- =?utf-8?B?UFVicXByYTZhN3BVSFFRQVBSNmNkWG1vQUtNUHpyc0ZhNjVlV2VFRG4xMm9q?=
- =?utf-8?B?ZEo2aS9odzB6Y2I0MTBKeWR0OEF3VHlGanVJWCtic1JZRFNZNWxmQmRLRTdU?=
- =?utf-8?B?YndEN1hIRm5pdXptWjQ0LzBaVmVabENKTU9WNC9DOWlXOUJ4elkvdmZRbHFt?=
- =?utf-8?B?bVlwS2xQcFN5NkxrQmZvdG43U0Jkc0w4ZzRNNys1c2dpUXNQMm9HT2pWVnkz?=
- =?utf-8?B?Y2N5TjdlSVdmMXpMa0VPaitxVjJuUGtpWXRoQkZTUWZBeUhKVjVReXlpenMr?=
- =?utf-8?B?cXdCeXZoZVFWUk1MWjVDLzUwdy9aZzc4T1YyZzE3dysyWjZjTUhpRGZlTVcw?=
- =?utf-8?B?aXBHYXRNd0FRWmpBS1kwTGVzSk9lV09NWjZzdytGVFZoRzNuWVpUc0s3d3Mr?=
- =?utf-8?B?aDViaFBEbE1Oc1I2MDZvcjN2NVhZeE5nZ2RvMFhlZGpoMXdOdTB4S0FvbnEr?=
- =?utf-8?B?ZFNZSDRoeDdEOFJpRjc0d3YwQTdaRW11WU1uMTdYUGFhWFhjUzVyMHZlTlRH?=
- =?utf-8?B?MVY4UUVYanM3UEpVVmhvWll3UjU0cVc1TEVJcGpJOXBrOVgxQkVaU29wTGk5?=
- =?utf-8?B?R3RQR3J3clNVaVExSW4xZEVjV0Q4WFVxd3pDSHo4eWorRlRmemNIK2cxTDJ1?=
- =?utf-8?B?Wk1Pb1lUOEh0RkhUZ1RrNkhISzRsb2ZKci81dkJCZmhFVTNUT3QwNVZnc3R5?=
- =?utf-8?B?VjRGb2NEbzREeG9aZHp1VFJqYlJKUzlxRllEVDFkc29SY0NmemJqL2R5Yy9Q?=
- =?utf-8?B?U3kza3MxT1ZGZHp4WDlWWUFZUlRadTdCNGhWMUNTOVN1cU0wN0FVK0tBL3JW?=
- =?utf-8?B?eFF6OVBrMTBqSTVaSUdVbEpTNkVFYm51SkxINmhZM1BuZWNBK2tMaThnVEpr?=
- =?utf-8?B?ZkZNa2U3ZFFBNjdPYlRNV3NDWXdnZkJuNEJxZjV4ZlVkSmZnNlB3YkZrVFcv?=
- =?utf-8?B?UXN1cFpmVHVEK1M5dk5XR3p5UWNSOWJDRVVKQ1ExQUJJRU1KWUVMaHUrdlVy?=
- =?utf-8?B?UWxFRkdlclpDWVRkZjBhZlliT1JSb0Y4OUhpVlBPUkJITXIxVmtKelFxYjl2?=
- =?utf-8?B?RUJBdkpja1FWSDVSb1Y0TU5QL3dLSmNFTlE3UWgyMUx2T1ArQWtxdHZxcUx6?=
- =?utf-8?B?M1Rwc1EydUw0aExsVG80Rk4wSlVJNmdhUElCb0J3aEJVY0I5SXRlTUI2WmtY?=
- =?utf-8?B?a0pZTTlldDNGM2hIczBkelZlRWJvMVovTlpBM09raG92NEFZWVp6TmNBL0VC?=
- =?utf-8?B?WFBTK3ovSUZncXNTVXNPOVJOV09iRlF0WURReG5GK1ZLbjZycm9VYXRSbTEr?=
- =?utf-8?B?WnFRWTFRMWdjbUMvTklJR1ZWeTYwTUVzZUpVNGNEMll0Um0xd3g0S0FGa1B3?=
- =?utf-8?B?QUFFNGxuZ0dYbGN4ajJDck9FTGh2bkVrU3gwZzZ5Mi9rTjZFNnUvakpja2ZM?=
- =?utf-8?B?ZEQ3OVd1TUhUTWVaOHZxd004Y0E3VG9vTHM1R3NIV2lzOWNsaW9RYXRnSTRD?=
- =?utf-8?B?bHhKTDBBVzlaaTJ4MUpNaExmMkhXOU1Yb0pjbTJGRmhIV0dyYXhYYnhJUUky?=
- =?utf-8?B?ZlpLQnhrYktGZlNCMTJuRjZ1ZDVQRUUyUzJORWJpcWYxV2I0SmlNbnduZ0kx?=
- =?utf-8?B?L1g1QnlvMVM4U3d5NXRHYlFmMDRVTU9NSmtCN1dvQnhyUmlqRVBKS0l2Q01q?=
- =?utf-8?B?R09XQjJObjB6ZjdTVlh3N2dxWmQrRkhBeUJrME90QVNyT2UyaUoyYjVvZ0dK?=
- =?utf-8?B?QVdEVTRZb1BobWxweGcrZHl3THIwYTRqV3hlWGRrRlRjcTB5d0kxTjE0Wk90?=
- =?utf-8?B?OHdIMW5LMmN5SVdNMVJPM3dGakRWOHBIeEo1ZlZHKzJaalE5L0RENzFxak4y?=
- =?utf-8?B?LzFHblZzaUF5aUtkbThRN2RNdWwzZlIyU0kvRjQvUEk4cUoyNjd5M09hclNa?=
- =?utf-8?B?K0lHQ2NReXVCM3pQencydklXQ3kvUFlmM2hQNG85QkpNTXh5V0hveDNEcE5U?=
- =?utf-8?B?OHlYTitxbWljbk85c3hubEMweGNaV3B3TnFBRmpHUTN2dDloYVBBbGh2V1J0?=
- =?utf-8?B?aHdzckU1VGJYL3YyempLY3g3THRGOTl2K2xJOG1HNWYzQWpERXZPWUcrTzdn?=
- =?utf-8?B?eEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <52B44236EF56AB408C4BE7DFB30F632D@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481C42E2DDC;
+	Fri, 22 Aug 2025 06:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755843275; cv=none; b=W+3atl1qTE5IiTn12pu/6QRyIhfGZgNXeygmdnbB4T9qfj5QcGMoam7pJrGbeP8sZ8CmzDl9AaicKExO1TGIuW/Z6MndpyDHwWyjDA5wjdsSIHErM6GepY3DOx1Etjv4UWLou8Go+EVOfrIrdaEkij4/vUr26ph23uzcUPzLJhc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755843275; c=relaxed/simple;
+	bh=qyQp3sN+0AaapsjkGZrdF0UuXYklXfELoX5jeIZ9sx4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vBZjcO3gql7gf15cO9Sd388E6vVA1dZ4RNWI0SnQbr8yvsY5q15SBbxXH3ExP2cSS4cRhQqK5MXCU4XH85zgdkiNjYbLCNUZMVccquqmn6ATFxr6EwnG8UIsUi+5Vz2XuA/khu1rQnvgj8LYHShmkK5pyUcUHBVTKpNAIX/Uq5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c7VJk5D52zYQvRZ;
+	Fri, 22 Aug 2025 14:14:30 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id 48C5D1A19AE;
+	Fri, 22 Aug 2025 14:14:29 +0800 (CST)
+Received: from [10.67.109.79] (unknown [10.67.109.79])
+	by APP1 (Coremail) with SMTP id cCh0CgDno6_DCqho9M68EQ--.38688S2;
+	Fri, 22 Aug 2025 14:14:29 +0800 (CST)
+Message-ID: <552a7f82-2735-47a5-9abd-a9ae845f4961@huaweicloud.com>
+Date: Fri, 22 Aug 2025 14:14:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf8ff557-a8b3-4f9c-b4f6-08dde1423a5a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2025 06:07:51.9389
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Twwgxq6EyhtJYWFaX31d3FMtbIpiIESApJR+wzZdu+uuxM5cfQTLAz/cHRfCiKbmIke5C2bjlc+2KklcMElMNoyJsbA7Z3Fk4/ln5GZYiCrm2jlD4l1zAHZiygY92rFy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB9464
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] cgroup: cgroup.stat.local time accounting
+To: Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org
+Cc: John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20250822013749.3268080-6-ynaffit@google.com>
+ <20250822013749.3268080-7-ynaffit@google.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20250822013749.3268080-7-ynaffit@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgDno6_DCqho9M68EQ--.38688S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw47JrWDXF45Aw15XrW5Wrg_yoW3CrWrpa
+	1DAw13tw4FyF12grsay34qvF1Sgr48Jw4UGr9rJ348AFnxX3Wvqr1xCr15GF1UArZ7Ka4U
+	J3WY9rWfCrnFvFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-T24gMjIvMDgvMjUgMTE6MDcgYW0sIFlpYm8gRG9uZyB3cm90ZToNCj4gRVhURVJOQUwgRU1BSUw6
-IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0
-aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiBPbiBGcmksIEF1ZyAyMiwgMjAyNSBhdCAwNDo0OTo0
-NEFNICswMDAwLCBQYXJ0aGliYW4uVmVlcmFzb29yYW5AbWljcm9jaGlwLmNvbSB3cm90ZToNCj4+
-IE9uIDIyLzA4LzI1IDg6MDQgYW0sIERvbmcgWWlibyB3cm90ZToNCj4+PiArLyoqDQo+Pj4gKyAq
-IG11Y3NlX21ieF9nZXRfY2FwYWJpbGl0eSAtIEdldCBodyBhYmlsaXRpZXMgZnJvbSBmdw0KPj4+
-ICsgKiBAaHc6IHBvaW50ZXIgdG8gdGhlIEhXIHN0cnVjdHVyZQ0KPj4+ICsgKg0KPj4+ICsgKiBt
-dWNzZV9tYnhfZ2V0X2NhcGFiaWxpdHkgdHJpZXMgdG8gZ2V0IGNhcGFiaXRpZXMgZnJvbQ0KPj4+
-ICsgKiBody4gTWFueSByZXRyeXMgd2lsbCBkbyBpZiBpdCBpcyBmYWlsZWQuDQo+Pj4gKyAqDQo+
-Pj4gKyAqIEByZXR1cm46IDAgb24gc3VjY2VzcywgbmVnYXRpdmUgb24gZmFpbHVyZQ0KPj4+ICsg
-KiovDQo+Pj4gK2ludCBtdWNzZV9tYnhfZ2V0X2NhcGFiaWxpdHkoc3RydWN0IG11Y3NlX2h3ICpo
-dykNCj4+PiArew0KPj4+ICsgICAgICAgc3RydWN0IGh3X2FiaWxpdGllcyBhYmlsaXR5ID0ge307
-DQo+Pj4gKyAgICAgICBpbnQgdHJ5X2NudCA9IDM7DQo+Pj4gKyAgICAgICBpbnQgZXJyID0gLUVJ
-TzsNCj4+IEhlcmUgdG9vIHlvdSBubyBuZWVkIHRvIGFzc2lnbiAtRUlPIGFzIGl0IGlzIHVwZGF0
-ZWQgaW4gdGhlIHdoaWxlLg0KPj4NCj4+IEJlc3QgcmVnYXJkcywNCj4+IFBhcnRoaWJhbiBWDQo+
-Pj4gKw0KPj4+ICsgICAgICAgd2hpbGUgKHRyeV9jbnQtLSkgew0KPj4+ICsgICAgICAgICAgICAg
-ICBlcnIgPSBtdWNzZV9md19nZXRfY2FwYWJpbGl0eShodywgJmFiaWxpdHkpOw0KPj4+ICsgICAg
-ICAgICAgICAgICBpZiAoZXJyKQ0KPj4+ICsgICAgICAgICAgICAgICAgICAgICAgIGNvbnRpbnVl
-Ow0KPj4+ICsgICAgICAgICAgICAgICBody0+cGZ2Zm51bSA9IGxlMTZfdG9fY3B1KGFiaWxpdHku
-cGZudW0pICYgR0VOTUFTS19VMTYoNywgMCk7DQo+Pj4gKyAgICAgICAgICAgICAgIHJldHVybiAw
-Ow0KPj4+ICsgICAgICAgfQ0KPj4+ICsgICAgICAgcmV0dXJuIGVycjsNCj4+PiArfQ0KPj4+ICsN
-Cj4gDQo+IGVyciBpcyB1cGRhdGVkIGJlY2F1c2UgJ3RyeV9jbnQgPSAzJy4gQnV0IHRvIHRoZSBj
-b2RlIGxvZ2ljIGl0c2VsZiwgaXQgc2hvdWxkDQo+IG5vdCBsZWF2ZSBlcnIgdW5pbml0aWFsaXpl
-ZCBzaW5jZSBubyBndWFyYW50ZWUgdGhhdCBjb2RlcyAnd2h0aGluIHdoaWxlJw0KPiBydW4gYXQg
-bGVhc3Qgb25jZS4gUmlnaHQ/DQpZZXMsIGJ1dCAndHJ5X2NudCcgaXMgaGFyZCBjb2RlZCBhcyAz
-LCBzbyB0aGUgJ3doaWxlIGxvb3AnIHdpbGwgYWx3YXlzIA0KZXhlY3V0ZSBhbmQgZXJyIHdpbGwg
-ZGVmaW5pdGVseSBiZSB1cGRhdGVkLg0KDQpTbyBpbiB0aGlzIGNhc2UsIHRoZSBjaGVjayBpc27i
-gJl0IG5lZWRlZCB1bmxlc3MgdHJ5X2NudCBpcyBiZWluZyBtb2RpZmllZCANCmV4dGVybmFsbHkg
-d2l0aCB1bmtub3duIHZhbHVlcywgd2hpY2ggZG9lc27igJl0IHNlZW0gdG8gYmUgaGFwcGVuaW5n
-IGhlcmUuDQoNCkJlc3QgcmVnYXJkcywNClBhcnRoaWJhbiBWDQo+IA0KPiBUaGFua3MgZm9yIHlv
-dXIgZmVlZGJhY2suDQo+IA0KPiANCg0K
+
+
+On 2025/8/22 9:37, Tiffany Yang wrote:
+> There isn't yet a clear way to identify a set of "lost" time that
+> everyone (or at least a wider group of users) cares about. However,
+> users can perform some delay accounting by iterating over components of
+> interest. This patch allows cgroup v2 freezing time to be one of those
+> components.
+> 
+> Track the cumulative time that each v2 cgroup spends freezing and expose
+> it to userland via a new local stat file in cgroupfs. Thank you to
+> Michal, who provided the ASCII art in the updated documentation.
+> 
+> To access this value:
+>   $ mkdir /sys/fs/cgroup/test
+>   $ cat /sys/fs/cgroup/test/cgroup.stat.local
+>   freeze_time_total 0
+> 
+> Ensure consistent freeze time reads with freeze_seq, a per-cgroup
+> sequence counter. Writes are serialized using the css_set_lock.
+> 
+> Signed-off-by: Tiffany Yang <ynaffit@google.com>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Michal Koutný <mkoutny@suse.com>
+> ---
+> v3 -> v4:
+> * Replace "freeze_time_total" with "frozen" and expose stats via
+>   cgroup.stat.local, as recommended by Tejun.
+> * Use the same timestamp when freezing/unfreezing a cgroup as its
+>   descendants, as suggested by Michal.
+> 
+> v2 -> v3:
+> * Use seqcount along with css_set_lock to guard freeze time accesses, as
+>   suggested by Michal.
+> 
+> v1 -> v2:
+> * Track per-cgroup freezing time instead of per-task frozen time, as
+>   suggested by Tejun.
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 18 ++++++++++++++++
+>  include/linux/cgroup-defs.h             | 17 +++++++++++++++
+>  kernel/cgroup/cgroup.c                  | 28 +++++++++++++++++++++++++
+>  kernel/cgroup/freezer.c                 | 16 ++++++++++----
+>  4 files changed, 75 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 51c0bc4c2dc5..a1e3d431974c 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1001,6 +1001,24 @@ All cgroup core files are prefixed with "cgroup."
+>  		Total number of dying cgroup subsystems (e.g. memory
+>  		cgroup) at and beneath the current cgroup.
+>  
+> +  cgroup.stat.local
+> +	A read-only flat-keyed file which exists in non-root cgroups.
+> +	The following entry is defined:
+> +
+> +	  frozen_usec
+> +		Cumulative time that this cgroup has spent between freezing and
+> +		thawing, regardless of whether by self or ancestor groups.
+> +		NB: (not) reaching "frozen" state is not accounted here.
+> +
+> +		Using the following ASCII representation of a cgroup's freezer
+> +		state, ::
+> +
+> +			       1    _____
+> +			frozen 0 __/     \__
+> +			          ab    cd
+> +
+> +		the duration being measured is the span between a and c.
+> +
+>    cgroup.freeze
+>  	A read-write single value file which exists on non-root cgroups.
+>  	Allowed values are "0" and "1". The default is "0".
+> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+> index 6b93a64115fe..539c64eeef38 100644
+> --- a/include/linux/cgroup-defs.h
+> +++ b/include/linux/cgroup-defs.h
+> @@ -433,6 +433,23 @@ struct cgroup_freezer_state {
+>  	 * frozen, SIGSTOPped, and PTRACEd.
+>  	 */
+>  	int nr_frozen_tasks;
+> +
+> +	/* Freeze time data consistency protection */
+> +	seqcount_t freeze_seq;
+> +
+> +	/*
+> +	 * Most recent time the cgroup was requested to freeze.
+> +	 * Accesses guarded by freeze_seq counter. Writes serialized
+> +	 * by css_set_lock.
+> +	 */
+> +	u64 freeze_start_nsec;
+> +
+> +	/*
+> +	 * Total duration the cgroup has spent freezing.
+> +	 * Accesses guarded by freeze_seq counter. Writes serialized
+> +	 * by css_set_lock.
+> +	 */
+> +	u64 frozen_nsec;
+>  };
+>  
+>  struct cgroup {
+> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+> index 312c6a8b55bb..ab096b884bbc 100644
+> --- a/kernel/cgroup/cgroup.c
+> +++ b/kernel/cgroup/cgroup.c
+> @@ -3763,6 +3763,27 @@ static int cgroup_stat_show(struct seq_file *seq, void *v)
+>  	return 0;
+>  }
+>  
+> +static int cgroup_core_local_stat_show(struct seq_file *seq, void *v)
+> +{
+> +	struct cgroup *cgrp = seq_css(seq)->cgroup;
+> +	unsigned int sequence;
+> +	u64 freeze_time;
+> +
+> +	do {
+> +		sequence = read_seqcount_begin(&cgrp->freezer.freeze_seq);
+> +		freeze_time = cgrp->freezer.frozen_nsec;
+> +		/* Add in current freezer interval if the cgroup is freezing. */
+> +		if (test_bit(CGRP_FREEZE, &cgrp->flags))
+> +			freeze_time += (ktime_get_ns() -
+> +					cgrp->freezer.freeze_start_nsec);
+> +	} while (read_seqcount_retry(&cgrp->freezer.freeze_seq, sequence));
+> +
+> +	seq_printf(seq, "frozen_usec %llu\n",
+> +		   (unsigned long long) freeze_time / NSEC_PER_USEC);
+> +
+> +	return 0;
+> +}
+> +
+>  #ifdef CONFIG_CGROUP_SCHED
+>  /**
+>   * cgroup_tryget_css - try to get a cgroup's css for the specified subsystem
+> @@ -5354,6 +5375,11 @@ static struct cftype cgroup_base_files[] = {
+>  		.name = "cgroup.stat",
+>  		.seq_show = cgroup_stat_show,
+>  	},
+> +	{
+> +		.name = "cgroup.stat.local",
+> +		.flags = CFTYPE_NOT_ON_ROOT,
+> +		.seq_show = cgroup_core_local_stat_show,
+> +	},
+>  	{
+>  		.name = "cgroup.freeze",
+>  		.flags = CFTYPE_NOT_ON_ROOT,
+> @@ -5763,6 +5789,7 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+>  	 * if the parent has to be frozen, the child has too.
+>  	 */
+>  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
+> +	seqcount_init(&cgrp->freezer.freeze_seq);
+>  	if (cgrp->freezer.e_freeze) {
+>  		/*
+>  		 * Set the CGRP_FREEZE flag, so when a process will be
+> @@ -5771,6 +5798,7 @@ static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+>  		 * consider it frozen immediately.
+>  		 */
+>  		set_bit(CGRP_FREEZE, &cgrp->flags);
+> +		cgrp->freezer.freeze_start_nsec = ktime_get_ns();
+>  		set_bit(CGRP_FROZEN, &cgrp->flags);
+>  	}
+>  
+> diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
+> index bf1690a167dd..6c18854bff34 100644
+> --- a/kernel/cgroup/freezer.c
+> +++ b/kernel/cgroup/freezer.c
+> @@ -171,7 +171,7 @@ static void cgroup_freeze_task(struct task_struct *task, bool freeze)
+>  /*
+>   * Freeze or unfreeze all tasks in the given cgroup.
+>   */
+> -static void cgroup_do_freeze(struct cgroup *cgrp, bool freeze)
+> +static void cgroup_do_freeze(struct cgroup *cgrp, bool freeze, u64 ts_nsec)
+>  {
+>  	struct css_task_iter it;
+>  	struct task_struct *task;
+> @@ -179,10 +179,16 @@ static void cgroup_do_freeze(struct cgroup *cgrp, bool freeze)
+>  	lockdep_assert_held(&cgroup_mutex);
+>  
+>  	spin_lock_irq(&css_set_lock);
+> -	if (freeze)
+> +	write_seqcount_begin(&cgrp->freezer.freeze_seq);
+> +	if (freeze) {
+>  		set_bit(CGRP_FREEZE, &cgrp->flags);
+> -	else
+> +		cgrp->freezer.freeze_start_nsec = ts_nsec;
+> +	} else {
+>  		clear_bit(CGRP_FREEZE, &cgrp->flags);
+> +		cgrp->freezer.frozen_nsec += (ts_nsec -
+> +			cgrp->freezer.freeze_start_nsec);
+> +	}
+> +	write_seqcount_end(&cgrp->freezer.freeze_seq);
+>  	spin_unlock_irq(&css_set_lock);
+> 
+
+Hello Tiffany,
+
+I wanted to check if there are any specific considerations regarding how we should input the ts_nsec
+value.
+
+Would it be possible to define this directly within the cgroup_do_freeze function rather than
+passing it as a parameter? This approach might simplify the implementation and potentially improve
+timing accuracy when it have lots of descendants.
+
+-- 
+Best regards,
+Ridong
+
+>  	if (freeze)
+> @@ -260,6 +266,7 @@ void cgroup_freeze(struct cgroup *cgrp, bool freeze)
+>  	struct cgroup *parent;
+>  	struct cgroup *dsct;
+>  	bool applied = false;
+> +	u64 ts_nsec;
+>  	bool old_e;
+>  
+>  	lockdep_assert_held(&cgroup_mutex);
+> @@ -271,6 +278,7 @@ void cgroup_freeze(struct cgroup *cgrp, bool freeze)
+>  		return;
+>  
+>  	cgrp->freezer.freeze = freeze;
+> +	ts_nsec = ktime_get_ns();
+>  
+>  	/*
+>  	 * Propagate changes downwards the cgroup tree.
+> @@ -298,7 +306,7 @@ void cgroup_freeze(struct cgroup *cgrp, bool freeze)
+>  		/*
+>  		 * Do change actual state: freeze or unfreeze.
+>  		 */
+> -		cgroup_do_freeze(dsct, freeze);
+> +		cgroup_do_freeze(dsct, freeze, ts_nsec);
+>  		applied = true;
+>  	}
+>  
+
