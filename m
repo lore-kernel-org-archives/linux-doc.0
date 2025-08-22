@@ -1,67 +1,73 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB2E2FFDE1;
-	Fri, 22 Aug 2025 13:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D800302CA5
+	for <linux-doc@vger.kernel.org>; Fri, 22 Aug 2025 14:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755871200; cv=none; b=L8LQpr0JcJHB85wO4iPum2wh7SOI2B09JDu3krb1CdcoQHepdpdZKIWDPsyrBHE96p12RAjnE+7QTJ9h3O4/YnoPmXz/BRIEEkrH9PL+LBGBz2JGuovO7ja65lneVAT8ILM9E5+SiOfhyxfeGWNXNfkkD7y41qZwD0sc0M18HfU=
+	t=1755871844; cv=none; b=cmaF+F2hUE7OEyByDVnOftkSDjaQszG/Fftjok82FDnGDoYyDyQgIdcYunCmCTQaTpXZ6uvQAryQUEwC4FjPzRoQZysbpr4jurhRk/r/Kxcm8Z2zHDWvd5h147wn/gwUec4SgjxPgvFL1Ed1fzfpJaYJOtBo/8Dws1683m8K7CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755871200; c=relaxed/simple;
-	bh=ooBVDyCPVijQzqFh2YdlTtUqe8TbMbgu6QzXF734j6w=;
+	s=arc-20240116; t=1755871844; c=relaxed/simple;
+	bh=G2WxCv6oiSFA+ItejNsR+Qf2E8pYgoeEr8WbwSgPY3Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T4QaSEDMg4j0f4rBIgOXXsP61gz9we+lsBGsAgIT7T3DNnCXp2XZBuFM1XjSEpbl6ZM7Dv2eYKCVajdvOKfvOEPwwUexvCcGTCj/+dsrAMss92d7pBC1vf3sF6OgmyqWY8XJ77dlOfOMH3VYo9xR5uKKWoZBTgt9/bmpzMwjRFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CY01tBhL; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=qH6M+7CrIlUUfoZgtd0uek+TCfgX93M1vC8ZIrgQvrDa6DsoeX5PFCIrzSDi/B18VKd5hMnOcHa320FJrMnC7nyswZkTq7PXhSjLLqOCZjE5W0bRGcFt1yk4e0QjZW+fU9lFGqd0kmpt+Vj2IaIAdVLKX8iqkvVlAGltK6SzqDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fbm5CIi9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CY01tBhL"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb78d5e74so356961166b.1;
-        Fri, 22 Aug 2025 06:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755871197; x=1756475997; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V014dFiaSCDPs2i3+HfkIg6rp9m74x/8h2rQVVO+dUk=;
-        b=CY01tBhLtmiJRYe2yuSbNFEB4OM7tvUO+EbpHgHTsEp+ZrWzCu94d40cE6UfiuArmh
-         JsoOtShJIukVqvFMZTeQ3RFHSqrwQG5BDLouHbLfzesiAqt3rjr9FhLyL3EKDSW1Y8nQ
-         s/dJote3zySfWAcMA9Nx1poquTqgz4sU8LB1gfKMzAM+wJAQmnncKv8bvEjmRN04x112
-         xOzyk4vdsfdowUYF/rSUxldH0eMtodcjTqql3b1G3IrIXgJ76Xr0TSv51GhFIZ6Mi/u0
-         Q+Q0FjG9XYt6lCf9asuR7CLRpAEC8GHC/l+0jcbFSyPR8oYIfGbULWCe2uRS6dfOtAAl
-         h8eA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fbm5CIi9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755871841;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=y4Sy5j6GyLKa/6POtPURBhOkK7kt59z0IbjXNHFAuis=;
+	b=fbm5CIi9zsoRj81BP2g1ko3VyRw3Ho/hocsBxLTXUkPatNTJhVB1Un7m6hNmBfSPoowO4i
+	jv8/O8h3lYobaSRRnZtxIVKEUcauTevHP8iqSCBV37C8/W4MLFqtnW8pdlI6Sd+7jT4Qyg
+	H1G3DXbUVGhBW0REaDK0DhnJ6+/K6+M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-241-xQDVdElPPZuQtGBnrozrnA-1; Fri, 22 Aug 2025 10:10:40 -0400
+X-MC-Unique: xQDVdElPPZuQtGBnrozrnA-1
+X-Mimecast-MFC-AGG-ID: xQDVdElPPZuQtGBnrozrnA_1755871839
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3b9d41b779aso1294437f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 22 Aug 2025 07:10:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755871197; x=1756475997;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V014dFiaSCDPs2i3+HfkIg6rp9m74x/8h2rQVVO+dUk=;
-        b=Kv60hQPRgs1lFVKOfbi8zIX14mX9L95jvG807o1OkvvLP7dJc24WXQCREiwvSgH6fh
-         02pE5ohPLXlIJU6dc6DBdvDpZqzoRvwdFPgtJP+R7SVOSB8xHq3ihvPsZbyH3cQxvJ1O
-         0YwqERhaQUEEyPaR/B7pMpcNwZQOTh4CWqfm50aaRcadoY3ugU/6SsJ/A+HKyzBSbnLM
-         iSRNSAqOWsoWmB1JX/BF0/TDI7KtyY2N6HnEhv9/7A7amQDtdcvXUKDu742lsNYUsziZ
-         Su0SCIW/UOoawHmiXUr51+0qS0MKW0c+aaoVFZlZEgQL+OOel8slzcL7lF83LYxMDqyT
-         yBIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUD+czqgMrsxCmj4Wusb+S1b11vY5F4U4gr/GiVGtCwBp0QB2wvwOI5mC80rCpfRGCkWfe+4CTbxTNVLHxhxcQuSg==@vger.kernel.org, AJvYcCUOLDP7dM468thK8gWpFAC3xv1lcM6rVLi0Y6VfPC7FVdht1H++tN9scG9heTxI1ym/Wq0PV6fN5qRl@vger.kernel.org, AJvYcCUXt74T4U1Asdf21wqCJaBOmLZZprrn3uaFpr3U3DjfHbUxbhSGzYPy6RIePel7JmZrSoaXsxhAEO2G@vger.kernel.org, AJvYcCWDx1zYNzUyJYhrm5VhsroKh7GAsi2ubwGrW2dXK3BzPOd7NjkZ4/c3+Np0JC5Ty9NL7W3tL2oFOi2skAA2@vger.kernel.org, AJvYcCX7OH2G91unIT0xpWBlK8TmJFP+Bv2kM0EFgfZna0BLm5mTIhxpYJS17vDKeuk3+CUwyec/s0k3bkNL@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK7gB9GLN+21tFYw6eODWeHMi75EMMQo0X9+NOaVoGyX78FXAd
-	NcSMLegBjQVFYR5HV3B5QlJoNzLaXpJTTa8fozGUqPS29nJmpSClw6br
-X-Gm-Gg: ASbGncvKzXuKjiw4d5psX+u1qKOgplRtuk401qBs1MwL6IB7WXVajg0nllJNPzOZxi9
-	ioMWmgNm++Xg9HZudppRz06k3ocOK/WCLQeB5oeTg6sqo8OnObVoXUizsX07ZusqAwCgE4GoImy
-	21v4jOwtSNxIaj/1mim7+ktrZ33xvPd3tYVR55ALILxLZ6Hft5d9h9cwpCMoZixtzMrwr9CcBLi
-	16BlKwlZONqGxFRngI6H8VfKpZbJIEHg0mm37FHNSiw7WjWOnBh1OKdk3OngzCLvObFTAptqMtY
-	iP78AwitIfDw5Rxy+NyLhsO2iGdIWdMXVLnIif8UhCZqMlb+vgdiDQwzXGBWCAw/cRiGg2r4kJ8
-	yqMvIsZiQLG4sryr/qbzV6dnfM8D5vpeB4joOy1xGQtW1F78fi7vCOg4oI5mPtxFTV2JG3bsVsP
-	VCFQnqIKc30zv/7XCRSJ6kkIFxUqpIFZvqBipHXim84UfrIHYYB0vTyEx/6ZVZ2UyvkpLywYWGw
-	qvU
-X-Google-Smtp-Source: AGHT+IEf+0iTczeJWYRvKTzbPjuHcrR0Q/vZbiX0S4rQLygBrUblykK/q9qnm/yelo9JpR8nUFhBWw==
-X-Received: by 2002:a17:907:60d3:b0:af9:e3d3:a450 with SMTP id a640c23a62f3a-afe28f77734mr245587666b.6.1755871197072;
-        Fri, 22 Aug 2025 06:59:57 -0700 (PDT)
-Received: from ?IPV6:2a02:8440:714a:ca26:61e9:f2d7:67f6:fe9d? (2a02-8440-714a-ca26-61e9-f2d7-67f6-fe9d.rev.sfr.net. [2a02:8440:714a:ca26:61e9:f2d7:67f6:fe9d])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded4796f3sm607923666b.61.2025.08.22.06.59.54
+        d=1e100.net; s=20230601; t=1755871839; x=1756476639;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y4Sy5j6GyLKa/6POtPURBhOkK7kt59z0IbjXNHFAuis=;
+        b=dV34Ma7MORzeRCKT6GMlUmDFisazxq/2ZFa+8ItjWIrfga9ofXaLxkHqTq4QXeK4C8
+         XuJaVM0XgPyWWk4VzttDliP7KthnNJRfF0KaConwx+MHQhL2gqxbzQgDMJ3EDJMlYDMD
+         VtIGL3WvS8B27X5ZOXWCpPdIG4Tlt7LFaw1APQORWdUDAzHP1eAiC8E61cb0xIv86z/L
+         6bCogAVHjgDlvSKKWkA77CLB5W6g335p12HSaqqJrDjUyh1g+ssoVuBHffoHnYln6IH0
+         nI6CqzJXu3DrN2GJkJ+x8C6V7p7nvjm9XPjglHJxvANbbjJIdKe3xdJyMh1rqmU++1PO
+         eHvw==
+X-Forwarded-Encrypted: i=1; AJvYcCXg0p0GfPYt9tb9m5FcTCgat4rZtUWhreAEoP8LOTTUDCWq/NtqsAPhQtyLhjJb7WlnJEOTyOjxFiE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMI052DaHtG/aamRsEq6M9lzVy5pkAjN68fiBcDB5FZTm01Fme
+	yrXvYXOLrdG4mq6CJK9C8TLloakKSgXxbz0WIYcuYW1QnyelpTePfujN51lvmF5wT6QslHtEySe
+	PdQl+jbR8YTcZV9MLJgqbElonU2adivoJc9768iuyuyibRfMcb36CgMkvWyqnPQ==
+X-Gm-Gg: ASbGncshge9tlDetTckMoOzqYkxFrxPcVFXcwPp6nlnKacvD5vkRFVtXpuDGfxG42Zd
+	PqcxiFOceW3pZ5kKSGjP3NaC4DVvOpNmYzyMPUmb94YRrYmGX/+/b+3MEAP38heHLwRhl0SBpkS
+	HdFhg/aMPEe4MOrPVH/P2J3/z4JIP5GPdIrEJhorY1Rx1xKv9SEyDeYZ1TH6AAcuGFvLwf52W9h
+	Y1Lt8QV/YHDmFve9+xq/Sr+qilW7nBHHPxb+mLQ92d+jnESDfmtskGmvMAzsqY841YBIX4nvWou
+	2TNMwTVVQQdRfFBxSc7ljrwNqTdLFX6Hc/D4rW4oVFGff5BB5sm6vo3TpWwESadDbCZkggx5otu
+	eVWRjjCdSrYDbNB17uGHl/G+xUDmaLd0kL6Rc/wWK/NPZyAYQAlm7niKXau/gTGNGuXo=
+X-Received: by 2002:a05:6000:40dd:b0:3c3:973a:fe40 with SMTP id ffacd0b85a97d-3c5de349863mr2850215f8f.58.1755871838817;
+        Fri, 22 Aug 2025 07:10:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGG3zymBLgr0oFAq5QBoFCFU2lzOHhnQpA7QCSr+J+SBt8FHvbVBMdDQMGrrRZe6+dP4YZONw==
+X-Received: by 2002:a05:6000:40dd:b0:3c3:973a:fe40 with SMTP id ffacd0b85a97d-3c5de349863mr2850174f8f.58.1755871838314;
+        Fri, 22 Aug 2025 07:10:38 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f2e:6100:d9da:ae87:764c:a77e? (p200300d82f2e6100d9daae87764ca77e.dip0.t-ipconnect.de. [2003:d8:2f2e:6100:d9da:ae87:764c:a77e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077c576b7sm15322771f8f.63.2025.08.22.07.10.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Aug 2025 06:59:56 -0700 (PDT)
-Message-ID: <6a10616b-3234-4336-aff6-4e60047ebcb6@gmail.com>
-Date: Fri, 22 Aug 2025 15:59:53 +0200
+        Fri, 22 Aug 2025 07:10:37 -0700 (PDT)
+Message-ID: <e34e1ffe-c377-4c9a-b28b-ca873f3620ac@redhat.com>
+Date: Fri, 22 Aug 2025 16:10:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,89 +75,141 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/20] dt-bindings: memory: introduce DDR4
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Gatien Chevallier <gatien.chevallier@foss.st.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
- Julius Werner <jwerner@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20250728-ddrperfm-upstream-v5-0-03f1be8ad396@foss.st.com>
- <20250728-ddrperfm-upstream-v5-6-03f1be8ad396@foss.st.com>
- <20250730211151.GA1749004-robh@kernel.org>
- <da8578ae-3f79-4082-b0fb-760553004c93@gmail.com>
- <fb5083ff-4bee-4a0f-8774-54b492cd9a6d@kernel.org>
+Subject: Re: [PATCH v10 00/13] khugepaged: mTHP support
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Nico Pache <npache@redhat.com>, Dev Jain <dev.jain@arm.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com
+References: <20250819134205.622806-1-npache@redhat.com>
+ <e971c7e0-70f0-4ce0-b288-4b581e8c15d3@lucifer.local>
+ <38b37195-28c8-4471-bd06-951083118efd@arm.com>
+ <0d9c6088-536b-4d7a-8f75-9be5f0faa86f@lucifer.local>
+ <CAA1CXcCqhFoGBvFK-ox2sJw7QHaFt+-Lw09BDYsAGKg4qc8nSw@mail.gmail.com>
+ <CAA1CXcAXTL811VJxqyL18CUw8FNek6ibPr6pKJ_7rfGn-ZU-1A@mail.gmail.com>
+ <5bea5efa-2efc-4c01-8aa1-a8711482153c@lucifer.local>
+ <CAA1CXcBDq9PucQdfQRh1iqJLPB6Jn6mNy28v_AuHWb9kz1gpqQ@mail.gmail.com>
+ <d110a84a-a827-48b4-91c5-67cec3e92874@lucifer.local>
+ <95012dfc-d82d-4ae2-b4cd-1e8dcf15e44b@redhat.com>
+ <bdbb5168-7657-4f11-a42d-b75cce7e0bca@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
-In-Reply-To: <fb5083ff-4bee-4a0f-8774-54b492cd9a6d@kernel.org>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <bdbb5168-7657-4f11-a42d-b75cce7e0bca@lucifer.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
+>> Once could also easily support the value 255 (HPAGE_PMD_NR / 2- 1), but not sure
+>> if we have to add that for now.
+> 
+> Yeah not so sure about this, this is a 'just have to know' too, and yes you
+> might add it to the docs, but people are going to be mightily confused, esp if
+> it's a calculated value.
+> 
+> I don't see any other way around having a separate tunable if we don't just have
+> something VERY simple like on/off.
 
-On 17/08/2025 09:19, Krzysztof Kozlowski wrote:
-> On 14/08/2025 16:42, Clément Le Goffic wrote:
->> Hi Rob,
+Yeah, not advocating that we add support for other values than 0/511, 
+really.
+
+> 
+> Also the mentioned issue sounds like something that needs to be fixed elsewhere
+> honestly in the algorithm used to figure out mTHP ranges (I may be wrong - and
+> happy to stand corrected if this is somehow inherent, but reallly feels that
+> way).
+
+I think the creep is unavoidable for certain values.
+
+If you have the first two pages of a PMD area populated, and you allow 
+for at least half of the #PTEs to be non/zero, you'd collapse first a
+order-2 folio, then and order-3 ... until you reached PMD order.
+
+So for now we really should just support 0 / 511 to say "don't collapse 
+if there are holes" vs. "always collapse if there is at least one pte used".
+
+> 
 >>
->> On 30/07/2025 23:11, Rob Herring wrote:
->>> On Mon, Jul 28, 2025 at 05:29:37PM +0200, Clément Le Goffic wrote:
->>>> Introduce JEDEC compliant DDR bindings, that use new memory-props binding.
->>>>
->>>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->>>> ---
->>>>    .../memory-controllers/ddr/jedec,ddr4.yaml         | 34 ++++++++++++++++++++++
->>>>    1 file changed, 34 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml
->>>> new file mode 100644
->>>> index 000000000000..f457066a2f8b
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,ddr4.yaml
->>>> @@ -0,0 +1,34 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/memory-controllers/ddr/jedec,ddr4.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: DDR3 SDRAM compliant to JEDEC JESD79-4D
->>>> +
->>>> +maintainers:
->>>> +  - Krzysztof Kozlowski <krzk@kernel.org>
->>>> +
->>>> +allOf:
->>>> +  - $ref: jedec,sdram-props.yaml#
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    items:
->>>> +      - pattern: "^ddr4-[0-9a-f]{2},[0-9a-f]{1}$"
->>>
->>> Shouldn't this be 'jedec,ddr4-...'
+>> Because, as raised in the past, I'm afraid nobody on this earth has a clue how
+>> to set this parameter to values different to 0 (don't waste memory with khugepaged)
+>> and 511 (page fault behavior).
+> 
+> Yup
+> 
 >>
->> That's not the case for lpddr bindings, I wanted both lpddr and ddr
->> bindings to be similar but this can change.
+>>
+>> If any other value is set, essentially
+>> 	pr_warn("Unsupported 'max_ptes_none' value for mTHP collapse");
+>>
+>> for now and just disable it.
 > 
-> For LPDDR Julius introduced in commit 686fe63b2280 ("dt-bindings:
-> memory: Add numeric LPDDR compatible string variant") ddr4-VENDORID
-> pattern to distinguish individual manufacturers.
-> 
-> Jedec is not really the vendor here.
-> 
-> Is it the same case in DDR? You have a defined list of vendor IDs (also
-> 1 byte)?
+> Hmm but under what circumstances? I would just say unsupported value not mention
+> mTHP or people who don't use mTHP might find that confusing.
 
-There is no defined list of vendor IDs.
-The way the compatible string is created is explained in
-jedec,sdram-props.yaml file which is created in patch 5 of this series.
+Well, we can check whether any mTHP size is enabled while the value is 
+set to something unexpected. We can then even print the problematic 
+sizes if we have to.
 
-Best regards,
-Clément
+We could also just just say that if the value is set to something else 
+than 511 (which is the default), it will be treated as being "0" when 
+collapsing mthp, instead of doing any scaling.
+
+-- 
+Cheers
+
+David / dhildenb
+
