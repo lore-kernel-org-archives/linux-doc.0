@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDC53126B6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEAE3126B7;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755872388; cv=none; b=qLf2i4Dh4QFJCLqnTlQZ0IKI0VM7+PL8MOumJTlyAaymiGVrCK9oSS3sEPzZiipRjgLgAWr3UWQi4QoAiFRjFbSd3Qeq+6qtXKPaKjo5qXcYFUSGZZWNu6S6nR/rDsg7KWh/FlW/oRcV4bNCBnyRM6PPSBR7qf/RkEeWjyYoasA=
+	t=1755872388; cv=none; b=cy566oj0EOVUNA+hq+Pp6bQjXm4OvVR/0scoKTrCFYVjlfD06EolNpLP98hdjYLZSzJyTPaM+iMz1pWgEWXt8JMYfXM3c4OHntzdaIrbouEsVOoJfkUly3y9b731ASuY68mZ4Vt6H1lQEjxFphxJ4A+EYyL7QxIJCQsELzvnhVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755872388; c=relaxed/simple;
-	bh=Ws1QXmr61TBgn6INp6mbk145NP3+6J63X8KSGxb87Js=;
+	bh=LQfriqJ7w45m1TsmRVR1XR73bImTQyUEqk93YtSCuzA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h35OQ33KyF7+nPnjMP1jJT1Z5OiTHzF1iyBH7JkxYZXbRig9WQ/qDehPuPTur9yfcpetpShcVdtk1HJS7YMdXu+1AM8eKVBbqb/egxoyEogCYZbbp7sjEv+l3sousKYQITnT1z9H7k8NycBYD9fkkvz20Kv1EuvSH3Ro1RCiMko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/UmZz7y; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=AahTBolZ4UI8WHap5/MO3ulpbY7vwMhHQYfAGbFJBG/8YpnLpVD6GA9sfZKfID4PkKCk1GmvZRQXkGJwEmflKUxxHoK1gbltev9smLjkAzBEMG6GT09T306XnGljw7B0Gex2fy4y/OsG+gaDqctbyYH1HqGqga2NBdwGmmjknWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=us9Gpwf9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/UmZz7y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF21C2BCFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="us9Gpwf9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6833FC2BCFD;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755872388;
-	bh=Ws1QXmr61TBgn6INp6mbk145NP3+6J63X8KSGxb87Js=;
+	bh=LQfriqJ7w45m1TsmRVR1XR73bImTQyUEqk93YtSCuzA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E/UmZz7yAOustPWvl4KdxNa10k9SKWpsVEgVCBHWWf2qeF9aIrTQJl7w7HcQAXpx2
-	 lhK5ujvC58DtAbc3i3mwHico7q3QrXurJ00wVtE7oCYB6MWdzf8s40abNQdyogKjTo
-	 nyCJYRTZzy3O+8AIyOT2vX4RXmtnlm+BVE8cvKftd0TVeYfU0DnDDBjurqXhdqUeDf
-	 oFMKr1E8bq/SvcUYNN3fCvRpLafkkhIbCBpgCNQuraAoNAz20XcYPSd7+8wAB+0bwC
-	 n47qFXAld4ObKSRDYjBRDmdpX5pp8uIsbrTVMJ6rz9XZTIOdOnV6WgRUOykCWHk2Sy
-	 8asOz4S2JOfwg==
+	b=us9Gpwf99h+qvYS/a+8T+1/mfs4B3xHFRUUQWYt2QgV1GiRQInibaRyMEGkKnlE/h
+	 FU338kCo1P6ySBNunbIfM7vpS/w50qpMq8ljjjRcfhogHMSVBf8r/3irGEnT0b3o8Z
+	 w1khWMvS7D4upMsD7P4Ls2JWNc14cgItnvE0AmeqpkAbQltjFzf8WxNV0G94XfCwCA
+	 6wgNNybY1/yaD3qQuLpIBcwWWVJ7W3Y34L7hQ9vun9VS5OHA5nhQGCmMZ1yX2xOVQJ
+	 dVYe+xPExniLau5uJDFAEqKIsmv/kJDlD9foII7bZa4k8IwrHfZvBkERAxwkLDDpAS
+	 sG3ncmpLAHKmw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1upScM-0000000CCs7-2Xu1;
+	id 1upScM-0000000CCsF-2lMI;
 	Fri, 22 Aug 2025 16:19:46 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 19/24] docs: kernel_include.py: move apply_range() and add a docstring
-Date: Fri, 22 Aug 2025 16:19:31 +0200
-Message-ID: <a6ce0fd7c03a01338753fd81ed0c4631f78311d6.1755872208.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 21/24] docs: kernel_include.py: remove Include class inheritance
+Date: Fri, 22 Aug 2025 16:19:33 +0200
+Message-ID: <a9f2eebf11c6b0c3a2e3bf42e71392cdfd2835d1.1755872208.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755872208.git.mchehab+huawei@kernel.org>
 References: <cover.1755872208.git.mchehab+huawei@kernel.org>
@@ -52,103 +52,97 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While not required, better to have caller functions at the end.
-As apply_range() is now called by xref_text(), move it to be
-before the latter.
+While the original code came from the Sphinx Include class,
+such class is monolithic: it has only one function that does
+everything, and 3 variables that are used:
 
-No functional changes.
+	- required_arguments
+	- optional_arguments
+	- option_spec
+
+So, basically those are the only members that remain from
+the original class, but hey! Those are the same vars that every
+other Sphinx directive extension has to define!
+
+In summary, keeping inheritance here doesn't make much sense.
+
+Worse than that, kernel-include doesn't support the current set
+of options that the original Include class has, but it also
+has its own set of options.
+
+So, let's fill in the argument vars with what it does
+support, dropping the rest.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 68 ++++++++++++++------------
- 1 file changed, 36 insertions(+), 32 deletions(-)
+ Documentation/sphinx/kernel_include.py | 40 ++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 8 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index 90ed8428f776..fd4887f80577 100755
+index 3a1753486319..e6f734476ab3 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -113,6 +113,42 @@ class KernelInclude(Include):
-             except UnicodeError as error:
-                 raise self.severe('Problem with directive:\n%s' % ErrorString(error))
+@@ -62,9 +62,8 @@ import sys
+ from docutils import io, nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.utils.error_reporting import SafeString, ErrorString
+-from docutils.parsers.rst import directives
++from docutils.parsers.rst import Directive, directives
+ from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
+-from docutils.parsers.rst.directives.misc import Include
  
-+    def apply_range(self, rawtext):
-+        """
-+        Handles start-line, end-line, start-after and end-before parameters
-+        """
+ from sphinx.util import logging
+ 
+@@ -81,18 +80,43 @@ RE_SIMPLE_REF = re.compile(r'`([^`]+)`')
+ 
+ 
+ # ==============================================================================
+-class KernelInclude(Include):
+-    """KernelInclude (``kernel-include``) directive"""
++class KernelInclude(Directive):
++    """
++    KernelInclude (``kernel-include``) directive
+ 
+-    # Add extra options
+-    option_spec = Include.option_spec.copy()
++    Most of the stuff here came from Include directive defined at:
++        docutils/parsers/rst/directives/misc.py
+ 
+-    option_spec.update({
++    Yet, overriding the class don't has any benefits: the original class
++    only have run() and argument list. Not all of them are implemented,
++    when checked against latest Sphinx version, as with time more arguments
++    were added.
 +
-+        # Get to-be-included content
-+        startline = self.options.get('start-line', None)
-+        endline = self.options.get('end-line', None)
-+        try:
-+            if startline or (endline is not None):
-+                lines = rawtext.splitlines()
-+                rawtext = '\n'.join(lines[startline:endline])
-+        except UnicodeError as error:
-+            raise self.severe(f'Problem with "{self.name}" directive:\n'
-+                              + io.error_string(error))
-+        # start-after/end-before: no restrictions on newlines in match-text,
-+        # and no restrictions on matching inside lines vs. line boundaries
-+        after_text = self.options.get("start-after", None)
-+        if after_text:
-+            # skip content in rawtext before *and incl.* a matching text
-+            after_index = rawtext.find(after_text)
-+            if after_index < 0:
-+                raise self.severe('Problem with "start-after" option of "%s" '
-+                                  "directive:\nText not found." % self.name)
-+            rawtext = rawtext[after_index + len(after_text) :]
-+        before_text = self.options.get("end-before", None)
-+        if before_text:
-+            # skip content in rawtext after *and incl.* a matching text
-+            before_index = rawtext.find(before_text)
-+            if before_index < 0:
-+                raise self.severe('Problem with "end-before" option of "%s" '
-+                                  "directive:\nText not found." % self.name)
-+            rawtext = rawtext[:before_index]
++    So, keep its own list of supported arguments
++    """
 +
-+        return rawtext
++    required_arguments = 1
++    optional_arguments = 0
++    final_argument_whitespace = True
++    option_spec = {
++        'literal': directives.flag,
++        'code': directives.unchanged,
++        'encoding': directives.encoding,
++        'tab-width': int,
++        'start-line': int,
++        'end-line': int,
++        'start-after': directives.unchanged_required,
++        'end-before': directives.unchanged_required,
++        # ignored except for 'literal' or 'code':
++        'number-lines': directives.unchanged,  # integer or None
++        'class': directives.class_option,
 +
-     def xref_text(self, env, path, tab_width):
-         """
-         Read and add contents from a C file parsed to have cross references.
-@@ -163,38 +199,6 @@ class KernelInclude(Include):
++        # Arguments that aren't from Sphinx Include directive
+         'generate-cross-refs': directives.flag,
+         'warn-broken': directives.flag,
+         'toc': directives.flag,
+         'exception-file': directives.unchanged,
+-    })
++    }
  
-         return []
- 
--    def apply_range(self, rawtext):
--        # Get to-be-included content
--        startline = self.options.get('start-line', None)
--        endline = self.options.get('end-line', None)
--        try:
--            if startline or (endline is not None):
--                lines = rawtext.splitlines()
--                rawtext = '\n'.join(lines[startline:endline])
--        except UnicodeError as error:
--            raise self.severe(f'Problem with "{self.name}" directive:\n'
--                              + io.error_string(error))
--        # start-after/end-before: no restrictions on newlines in match-text,
--        # and no restrictions on matching inside lines vs. line boundaries
--        after_text = self.options.get("start-after", None)
--        if after_text:
--            # skip content in rawtext before *and incl.* a matching text
--            after_index = rawtext.find(after_text)
--            if after_index < 0:
--                raise self.severe('Problem with "start-after" option of "%s" '
--                                  "directive:\nText not found." % self.name)
--            rawtext = rawtext[after_index + len(after_text) :]
--        before_text = self.options.get("end-before", None)
--        if before_text:
--            # skip content in rawtext after *and incl.* a matching text
--            before_index = rawtext.find(before_text)
--            if before_index < 0:
--                raise self.severe('Problem with "end-before" option of "%s" '
--                                  "directive:\nText not found." % self.name)
--            rawtext = rawtext[:before_index]
--
--        return rawtext
--
-     def literal(self, path, tab_width, rawtext):
-         """Output a literal block"""
- 
+     def read_rawtext(self, path, encoding):
+             """Read and process file content with error handling"""
 -- 
 2.50.1
 
