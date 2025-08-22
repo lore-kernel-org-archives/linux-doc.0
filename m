@@ -1,123 +1,171 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A612F1FC4
-	for <linux-doc@vger.kernel.org>; Fri, 22 Aug 2025 09:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61502F1FFA;
+	Fri, 22 Aug 2025 09:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755854906; cv=none; b=bkguMQmrSjZ/l2rotXWwSdW/4kHI1YOQMPB5bBKuV7pnQWbfNzn8bMpBdaAPo6e9QpDZZhegAzosbtV13f2T116FFpSLjOx6iAfL1pn4AVXzLjL7lSyE8F8+gnZqxdYFOlmcoiaNc5Lpia6GkLD7Zc1qjPXd7/DPtdvWpTY8B/E=
+	t=1755854911; cv=none; b=owe5SpFYgwPlDxr7YGwUq5LO8QybrYHIixacJnB94ZlNgGgEXsPYZCZyHSAXa/2S2cNyeDTQA/hwsy2IFNeM/IUE7G1CDpHb9fADVrGfk96bdQWtB6CNKqH7UhoVyoxpjnKyWsy6YXK/DnNDgittO9DtjKJYsoDqSjqNouwaG1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755854906; c=relaxed/simple;
-	bh=h44br5LDQv0BseE3KnCb4hJjXarEdaBBlWW/KK35hVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s37hoLs5jjE0iB4hAl9mn+mNqDZswHEMIGBwgxukR19/CNWgtgqQeDUmHFcdaQ7kVECBzbhx3gB5BIgX85Sd7yxUm6xiQRvic28icvIJI6T7S11Fq5Ji9nWV5Uki/bZ6NYnxZj7D9An+2RdkvmFx1t3EzfPK5vRCPurVfZ+33WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnouSGbl; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnouSGbl"
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-8920c579f98so562158241.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 Aug 2025 02:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755854904; x=1756459704; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zTifXRrK08jCyKqVxJKl2F+7vzPyJ0kiGwiVQHMIHWQ=;
-        b=OnouSGblUVZTS3NRreuY3RPnt0gjBcS7yrwMQ2BmyhD8Ry+6aXfdFe1pVwrWUyKhPc
-         aR2A2SK3A4x2/QHL0cm++ByWVZkHs84xr+MaGpaldvvsCdnL5WHTPYM6KnuC9arw6AyV
-         KZJyY4GlbQCP3zezqTK5UM4rg1TrrOkuaLwXCaCcmr1gPee6N3bMyS4Vl3+QswpN4++t
-         yrqrraolU8FPekA2ykNp00DDPgDkVLLlDLPm2LCATwcpzj0gO9G4QpUQlMr/QaERCkOr
-         UhsNJoQMdBHVDOkVAWhD7wA3LyMcRSnJpsZjsYFoTVvl2BvHsuebTA4/x8mK650Q5arw
-         yWhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755854904; x=1756459704;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zTifXRrK08jCyKqVxJKl2F+7vzPyJ0kiGwiVQHMIHWQ=;
-        b=fVFEPa4/OF71AMeNVUZOgVh1GNOJAkav2GXWi5/DA5MEy/Roa02NQ4p4Ou95fyl4uX
-         FaUttXmkdtO8wTC6z+1ntI4sxc2ZOuK5MCmChz9r1+RAsfp9bJ1xeoIasV4phdjtshSJ
-         HY3+atvC4Tot6cRNpmH1LMTrfp56ibvKAukaJ+kzxyPXA1Q5iIAOPiZ4NEhGPTbVfcqE
-         c8RYzxkGs8tTh0xMJlHMfvjjiREzjmlGjpbVPgY792V+rUQZCyey9FO9uqHYG9x6PBOx
-         fVzcGa2DI1CrVLnSxXqJhtofF3THjCX/ueKtUSOHdEFlvtsYLtAcZ1+JI6aSfJB/j7eE
-         2ZPg==
-X-Forwarded-Encrypted: i=1; AJvYcCXaYoBGQm/snVtLR/O8OuFrN69riO8OseTqnXLGWxNUmfLtyqyN98WrfG+asklOd0UrhjyU9HYdw8I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRynEaQfPfmk9dbZsBObNFt6hlSgyjL90wi9LBoiS2m/j23qch
-	myK3hEGAuQrpud9VaJsxRbRpnIpphEVzVlK6255+Ihzk0umGewxuG9UtiurvpPJtu+DtjAaWxNX
-	TuJFJALaOpfoT0598Z3Qs3ztSoG9b5lE=
-X-Gm-Gg: ASbGncun+ZYBAIR7FfOC7DWt2nTfmkCtGnEtOSIIGsFt3pIOiIxKnI4fF5i5Tr/hj8+
-	P7sirBlnQewZq5I+/AkS3aVBA+kfPwSmHLqz7B44F3p04F/QUcuQniI4jvEu+Fbz4Lb40m1SNsM
-	n81WL3lSnSJmLC//mbmTt09hnnyFB1VciLV1uOYvzJ3KqagqDxTneygEDZ3KkK7vqswLulSlBgC
-	cHLg60FjY7PHiWwcPKkOPi0EI5/CVTP/rpeNWoQlOEOZ4U0vxK6Tgwq9pTOVQ==
-X-Google-Smtp-Source: AGHT+IEeX0lE8kU6E9QdSAUzfVyV9wkWZKLrBlN769Y5Bh2TkuIKhVEec3g4tWpOuEtkPUO3AWcQY8ZUNGyC5qrXzrY=
-X-Received: by 2002:a05:6102:c04:b0:4fb:dde8:76cf with SMTP id
- ada2fe7eead31-51d0d74d178mr515300137.13.1755854903887; Fri, 22 Aug 2025
- 02:28:23 -0700 (PDT)
+	s=arc-20240116; t=1755854911; c=relaxed/simple;
+	bh=6NfNKH2/5Ex9MkMi1xX3pcCJaCNEsgGjtKN2pSlHG/M=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=mkTRWKQS6cbdowIrslfg/uNBdaXeL1pF+v/vVeyyGMDSmh8HsVQdR13RI/Ac/NUsa8AEM8yNtLkX/4q56h8IsR0dBnJKKBb9zZ7nSyObE5AUpoEfoyD8gIlj2dwhx4Q1tT0JFe2EtUib3w+/pShqsIXOF5/3BRzzZ2HzuNbH9GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4c7ZcW4xPfz5PM38;
+	Fri, 22 Aug 2025 17:28:27 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 57M9SBtG061104;
+	Fri, 22 Aug 2025 17:28:12 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Fri, 22 Aug 2025 17:28:14 +0800 (CST)
+Date: Fri, 22 Aug 2025 17:28:14 +0800 (CST)
+X-Zmail-TransId: 2afc68a8382effffffff97c-e4028
+X-Mailer: Zmail v1.0
+Message-ID: <20250822172814216UpCi2uCZm_cXohi5cSYB-@zte.com.cn>
+In-Reply-To: <20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn>
+References: 20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250819113551.34356-1-kubik.bartlomiej@gmail.com> <87ect47e0t.fsf@trenco.lwn.net>
-In-Reply-To: <87ect47e0t.fsf@trenco.lwn.net>
-From: =?UTF-8?Q?Bart=C5=82omiej_Kubik?= <kubik.bartlomiej@gmail.com>
-Date: Fri, 22 Aug 2025 11:28:12 +0200
-X-Gm-Features: Ac12FXxbEtb4LitNVasiGaFy0KDO2bDJJWDqQBSDd4eHWLeZZID6sTIa8X6RUK0
-Message-ID: <CAPqLRf08i3FgXWNoP=gg1qy92hVhkZq3N3MeKpSuOs4U3KqeSQ@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: replace a duplicated word and add missing
- SPDX-License tag
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <shao.mingyin@zte.com.cn>
+Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
+        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
+        <wang.longjie1@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYzIDYvN10gRG9jcy96aF9DTjogVHJhbnNsYXRlIGRub3RpZnkucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 57M9SBtG061104
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.133 unknown Fri, 22 Aug 2025 17:28:27 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68A8383B.001/4c7ZcW4xPfz5PM38
 
-Hi,
+From: Wang Longjie <wang.longjie1@zte.com.cn>
 
-Many thanks for your feedback and review.
-I will keep them in mind when working on upcoming patches.
+translate the "dnotify.rst" into Simplified Chinese.
 
+Update to commit b31763cff488("docs: filesystems: convert dnotify.txt to
+ReST")
 
-On Thu, 21 Aug 2025 at 19:58, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Bartlomiej Kubik <kubik.bartlomiej@gmail.com> writes:
->
-> > Fix documentation issues by removing a duplicated word and adding the
-> > missing SPDX-License identifier.
-> >
-> > Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> > ---
-> >
-> > Changelog:
-> >
-> > Changes since v2:
-> > - Replace =E2=80=9Cthat=E2=80=9D with =E2=80=9Cthe.=E2=80=9D
-> >
-> > Changes since v1:
-> > - Add missing SPDX-License tag
-> > - Remove duplicated word "that"
-> >
-> >  Documentation/admin-guide/kernel-parameters.rst | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> A couple of minor notes:
->
-> - It is good to indicate *which* file you are modifying; I've rewritten
->   the subject line to that end.
->
-> - Adding SPDX headers is a bit fraught unless you are truly sure of the
->   license under which the file was contributed.  Given the nature of
->   this file and all of the people who have touched it, though, GPLv2 is
->   the only option that makes any sense.
->
-> Applied, thanks.
->
-> jon
+Signed-off-by: Wang Longjie <wang.longjie1@zte.com.cn>
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+---
+ .../zh_CN/filesystems/dnotify.rst             | 67 +++++++++++++++++++
+ .../translations/zh_CN/filesystems/index.rst  | 10 +++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/dnotify.rst
 
+diff --git a/Documentation/translations/zh_CN/filesystems/dnotify.rst b/Documentation/translations/zh_CN/filesystems/dnotify.rst
+new file mode 100644
+index 000000000000..5ab109b9424c
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/dnotify.rst
+@@ -0,0 +1,67 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/filesystems/dnotify.rst
++
++:翻译:
++
++   王龙杰 Wang Longjie <wang.longjie1@zte.com.cn>
++
++==============
++Linux 目录通知
++==============
++
++	   Stephen Rothwell <sfr@canb.auug.org.au>
++
++目录通知的目的是使用户应用程序能够在目录或目录中的任何文件发生变更时收到通知。基本机制包括应用程序
++通过 fcntl(2) 调用在目录上注册通知，通知本身则通过信号传递。
++
++应用程序可以决定希望收到哪些 “事件” 的通知。当前已定义的事件如下：
++
++	=========	=====================================
++	DN_ACCESS	目录中的文件被访问（read）
++	DN_MODIFY	目录中的文件被修改（write,truncate）
++	DN_CREATE	目录中创建了文件
++	DN_DELETE	目录中的文件被取消链接
++	DN_RENAME	目录中的文件被重命名
++	DN_ATTRIB	目录中的文件属性被更改（chmod,chown）
++	=========	=====================================
++
++通常，应用程序必须在每次通知后重新注册，但如果将 DN_MULTISHOT 与事件掩码进行或运算，则注册
++将一直保持有效，直到被显式移除（通过注册为不接收任何事件）。
++
++默认情况下，SIGIO 信号将被传递给进程，且不附带其他有用的信息。但是，如果使用 F_SETSIG fcntl(2)
++调用让内核知道要传递哪个信号，一个 siginfo 结构体将被传递给信号处理程序，该结构体的 si_fd 成员将
++包含与发生事件的目录相关联的文件描述符。
++
++应用程序最好选择一个实时信号（SIGRTMIN + <n>），以便通知可以被排队。如果指定了 DN_MULTISHOT，
++这一点尤为重要。注意，SIGRTMIN 通常是被阻塞的，因此最好使用（至少）SIGRTMIN + 1。
++
++实现预期（特性与缺陷 :-)）
++--------------------------
++
++对于文件的任何本地访问，通知都应能正常工作，即使实际文件系统位于远程服务器上。这意味着，对本地用户
++模式服务器提供的文件的远程访问应能触发通知。同样的，对本地内核 NFS 服务器提供的文件的远程访问
++也应能触发通知。
++
++为了尽可能减小对文件系统代码的影响，文件硬链接的问题已被忽略。因此，如果一个文件（x）存在于两个
++目录（a 和 b）中，通过名称”a/x”对该文件进行的更改应通知给期望接收目录“a”通知的程序，但不会
++通知给期望接收目录“b”通知的程序。
++
++此外，取消链接的文件仍会在它们链接到的最后一个目录中触发通知。
++
++配置
++----
++
++Dnotify 由 CONFIG_DNOTIFY 配置选项控制。禁用该选项时，fcntl(fd, F_NOTIFY, ...) 将返
++回 -EINVAL。
++
++示例
++----
++具体示例可参见 tools/testing/selftests/filesystems/dnotify_test.c。
++
++注意
++----
++从 Linux 2.6.13 开始，dnotify 已被 inotify 取代。有关 inotify 的更多信息，请参见
++Documentation/filesystems/inotify.rst。
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index 9f2a8b003778..342b588ada34 100644
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -15,6 +15,16 @@ Linux Kernel中的文件系统
+ 文件系统（VFS）层以及基于其上的各种文件系统如何工作呈现给大家。当前\
+ 可以看到下面的内容。
 
++核心 VFS 文档
++=============
++
++有关 VFS 层本身以及其算法工作方式的文档，请参阅这些手册。
++
++.. toctree::
++   :maxdepth: 1
++
++   dnotify
++
+ 文件系统
+ ========
 
---=20
-Best regards
-Bart=C5=82omiej Kubik
+-- 
+2.27.0
