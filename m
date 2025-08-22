@@ -1,172 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CDA2580CF;
-	Fri, 22 Aug 2025 16:34:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D148A19F422;
+	Fri, 22 Aug 2025 17:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755880446; cv=none; b=UMTv60gGY9hIDATRBoGZ6jxYTtFKVhhzy21p2YRC/8L+cNCnY/j+FBFavkqoOOke9nPKsAIBhFzQTRPWeSVKXGpuqv293kILVSiwevaFcfqR/5XlHrQUbPHTq5DtEODg1HTmnt2KQjR7vdBun9yNMbLTIs1Aih9x6YLW3xilL7E=
+	t=1755885087; cv=none; b=EUFGqyqEsdEncMqu8nGJLfUrT/zIeDae3wmgU9jIuVHIfPauA1NKHBU8j2XQhLUkaHLfRGBEujI6DOaKThKucZlVCIg4KggJOqtuLVUVe1y9qXRLsyEEMiT1ykpqyAtu75SyxQc5u2wA1wMVburEfKMSlKkhwitLUCbwptG/Wqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755880446; c=relaxed/simple;
-	bh=iKMaqY2T2MvMaFi0XbUWD0o8saOVzIOavh0WskJFFJk=;
+	s=arc-20240116; t=1755885087; c=relaxed/simple;
+	bh=aD8+ds7nYN/JrrUWGfgklx///DHtTRGvjBkMg7m1/78=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BDU6PYt9cMo11b1YWtY461Mz+SDDgDAKVutpd0ofHvk9yp9bl8AC9dVhcB+Ki9yohGAgOXmDZupP/7oiTRHp/ciH5w4bTpavpxgrv4+RtPRfl893ucRkydK5/gW1F8PaAFBse+X4Fla6zullujLm5CEldxahV4g9l0mlIQd+pSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSgMwNBy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pUHWdC2ucX7dHi4RV9rnm12rM4AOEIIIF3JItI/G1zbDpP3E2h7Y+UbxFxEYsHRNnt10ODMM/ev/b/WjE3+9OWRj6KIQD9khrybrmJ9uw7Ikn7sBj3GyAnQ1dn99AURxGwZLrFMkrIAoxw94teneD00dCcTJZ+L7igxrs1uS9BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVoud6mL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSgMwNBy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D87CEC4CEED;
-	Fri, 22 Aug 2025 16:33:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVoud6mL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332A5C4CEED;
+	Fri, 22 Aug 2025 17:51:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755880445;
-	bh=iKMaqY2T2MvMaFi0XbUWD0o8saOVzIOavh0WskJFFJk=;
+	s=k20201202; t=1755885086;
+	bh=aD8+ds7nYN/JrrUWGfgklx///DHtTRGvjBkMg7m1/78=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gSgMwNByRYG87aU+xs9MlnWyfggyMpBShAVpHsDhv7+s2Rl50S6MV03gYuI5AIodC
-	 gHcJY5vJ8pODlXqfgGFRJt9EsHTYJ9w2zZFxRJzHV80px0qH3IDHBBl2EIDCGFHNVc
-	 NdTJacp29PXHOA/QWlJPY6xryO5kHtiYrIf2AmdKyPGVZOmtYOiIeRzrL/a25q30Mp
-	 zcBN6hWt8nLuR0iQficgQqnP2PL2DpHAas3KYnbbJjCNjhbrFEoluJgwSHM9RLb14W
-	 /tnD6l4HBcfilMhKlkILzTEKi08X16/ucccvai6fqwMVP7CYKttBi9Kng1v051vWcI
-	 yXe6kg4RWOPiA==
-Date: Fri, 22 Aug 2025 17:33:57 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, anup@brainfault.org, pbonzini@redhat.com,
-	shuah@kernel.org, cyan.yang@sifive.com, cleger@rivosinc.com,
-	charlie@rivosinc.com, cuiyunhui@bytedance.com,
-	samuel.holland@sifive.com, namcao@linutronix.de, jesse@rivosinc.com,
-	inochiama@gmail.com, yongxuan.wang@sifive.com,
-	ajones@ventanamicro.com, parri.andrea@gmail.com,
-	mikisabate@gmail.com, yikming2222@gmail.com,
-	thomas.weissschuh@linutronix.de, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 RESEND 1/5] dt-bidings: riscv: add Zilsd and Zclsd
- extension descriptions
-Message-ID: <20250822-purge-doubling-f38988284db1@spud>
-References: <20250821140131.225756-1-pincheng.plct@isrc.iscas.ac.cn>
- <20250821140131.225756-2-pincheng.plct@isrc.iscas.ac.cn>
+	b=JVoud6mLg4D/K38Guig7VA3SOByS6iBZJyeyCIDZNZpG2wHqQU0Uaxh3ITW9UvCHv
+	 +DpH+5g2nlcZW4ho1/MgzraC2gUFGFx3Yn+qKxJ18rQUzSTxXlm0a9q2QZpqjQogiy
+	 fKWm6EbTdHvHpUTNPj+4TAkUqKrhP7LQGwLmGlwtigl2o/SMSEjrG7U10oYaHalgB8
+	 XcM4i2GWwVe7ORmc2o28qLjEe1FRAPV9F2vzuQRKEINaAQfN5TsRGb6lhxQgIlAvDC
+	 araclU0fy5MQzvKr2igdhqozqMRH0Wce2yeP88SQ1FwK+t0HgGhGC0XeWX51FT3Y+P
+	 sdgmYL7kwQKSw==
+Date: Fri, 22 Aug 2025 07:51:25 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Tiffany Yang <ynaffit@google.com>
+Cc: linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] cgroup: Track time in cgroup v2 freezer
+Message-ID: <aKiuHbu5NPSPcpYp@slm.duckdns.org>
+References: <20250822013749.3268080-6-ynaffit@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iXs4qi8wL7fiAACn"
-Content-Disposition: inline
-In-Reply-To: <20250821140131.225756-2-pincheng.plct@isrc.iscas.ac.cn>
-
-
---iXs4qi8wL7fiAACn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250822013749.3268080-6-ynaffit@google.com>
 
-On Thu, Aug 21, 2025 at 10:01:27PM +0800, Pincheng Wang wrote:
-> Add descriptions for the Zilsd (Load/Store pair instructions) and
-> Zclsd (Compressed Load/Store pair instructions) ISA extensions
-> which were ratified in commit f88abf1 ("Integrating load/store
-> pair for RV32 with the main manual") of the riscv-isa-manual.
->=20
-> Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-> ---
->  .../devicetree/bindings/riscv/extensions.yaml | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index ede6a58ccf53..d72ffe8f6fa7 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -366,6 +366,20 @@ properties:
->              guarantee on LR/SC sequences, as ratified in commit b1d80660=
-5f87
->              ("Updated to ratified state.") of the riscv profiles specifi=
-cation.
-> =20
-> +        - const: zilsd
-> +          description:
-> +            The standard Zilsd extension which provides support for alig=
-ned
-> +            register-pair load and store operations in 32-bit instruction
-> +            encodings, as ratified in commit f88abf1 ("Integrating
-> +            load/store pair for RV32 with the main manual") of riscv-isa=
--manual.
-> +
-> +        - const: zclsd
-> +          description:
-> +            The Zclsd extension implements the compressed (16-bit) versi=
-on of the
-> +            Load/Store Pair for RV32. As with Zilsd, this extension was =
-ratified
-> +            in commit f88abf1 ("Integrating load/store pair for RV32 wit=
-h the
-> +            main manual") of riscv-isa-manual.
-> +
->          - const: zk
->            description:
->              The standard Zk Standard Scalar cryptography extension as ra=
-tified
-> @@ -847,6 +861,16 @@ properties:
->              anyOf:
->                - const: v
->                - const: zve32x
-> +      # Zclsd depends on Zilsd and Zca
-> +      - if:
-> +          contains:
-> +            anyOf:
-> +              - const: zclsd
-> +        then:
-> +          contains:
-> +            anyOf:
-> +              - const: zilsd
-> +              - const: zca
-> =20
->  allOf:
->    # Zcf extension does not exist on rv64
-> @@ -864,6 +888,21 @@ allOf:
->            not:
->              contains:
->                const: zcf
-> +  # Zilsd extension does not exist on rv64
-> +  - if:
-> +      properties:
+On Thu, Aug 21, 2025 at 06:37:51PM -0700, Tiffany Yang wrote:
+> Hello,
+> 
+> The cgroup v2 freezer controller is useful for freezing background
+> applications so they don't contend with foreground tasks. However, this
+> may disrupt any internal monitoring that the application is performing,
+> as it may not be aware that it was frozen.
+> 
+> To illustrate, an application might implement a watchdog thread to
+> monitor a high-priority task by periodically checking its state to
+> ensure progress. The challenge is that the task only advances when the
+> application is running, but watchdog timers are set relative to system
+> time, not app time. If the app is frozen and misses the expected
+> deadline, the watchdog, unaware of this pause, may kill a healthy
+> process.
+> 
+> This series tracks the time that each cgroup spends "freezing" and
+> exposes it via cgroup.stat.local. Include several basic selftests to
+> demonstrate the expected behavior of this interface, including that:
+>   1. Freeze time will increase while a cgroup is freezing, regardless of
+>      whether it is frozen or not.
+>   2. Each cgroup's freeze time is independent from the other cgroups in
+>      its hierarchy.
+> 
+> Thanks,
+> Tiffany
+> 
+> Signed-off-by: Tiffany Yang <ynaffit@google.com>
 
-> +        riscv,isa-extensions:
-> +          contains:
-> +            const: zilsd
+Applied to cgroup/for-6.18. Let's address further issues incrementally.
 
-This syntax is odd, it shouldn't be required to have zilsd in here and
-in the then. Did you copy this from Zcf or come up with it yourself
-because it didn't work otherwise?
+Thanks.
 
-> +        riscv,isa-base:
-> +          contains:
-> +            const: rv64i
-> +    then:
-> +      properties:
-> +        riscv,isa-extensions:
-> +          not:
-> +            contains:
-> +              const: zilsd
-> =20
->  additionalProperties: true
->  ...
-> --=20
-> 2.39.5
->=20
-
---iXs4qi8wL7fiAACn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKib9QAKCRB4tDGHoIJi
-0irLAQCV5/SvoxN05dR+xOZRbx3ngdqvZgXtTOXV1Bvb1u1sbgEAqB+ZSQTXtrTn
-OOlkomc7ojGER25FiOTQpdYiyfasmAg=
-=zFKH
------END PGP SIGNATURE-----
-
---iXs4qi8wL7fiAACn--
+-- 
+tejun
