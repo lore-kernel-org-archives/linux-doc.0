@@ -1,127 +1,118 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B297A2D97BB;
-	Fri, 22 Aug 2025 13:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E3C1624C0;
+	Fri, 22 Aug 2025 13:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755869138; cv=none; b=trsnDJjNd+ZQednYSaHa+9pn59ZN/cgwqY/+rDPe4LgGd9uASrLUhxMzhu5Rv6KkKkrgey7DIVni0WspKIT13XM/P8nYt+/06Uq7TAvh8UhkdqF8GeovfHUCBMYdL0Om3m6rfLqVlzO73LoM72bDDRjE+UBspyZRWARVUMy4vjA=
+	t=1755869251; cv=none; b=SSB8trnDAf269OLel5xC1ELGlYFf5XVk4dILAwueadSCUNqPgn6xgYwYfK2Z9Eu/KCTTOa9DPU7sA7Aai6i961afRIciPiwOnzI9a99Xi5vcwmZtaaB1+OgwdcSgYk41GMOuhnkaviT6bUr6g5DJbkLfvW1VSA8JseQQnwa+v6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755869138; c=relaxed/simple;
-	bh=4PITLW052mM/0cTmEK1pA04kvx4snzr0G0rUt4eAAeA=;
+	s=arc-20240116; t=1755869251; c=relaxed/simple;
+	bh=W5W7qyk9rAPLhmzuGclgp+ntydMraJW/Y5JVIxQeMTU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MoY+j5O43HoDbFre+4ruVI+pXNOV6qAM6wKHvJX81/YQ4O3GiOwiPv224aKcLxynQdhrpTAynHTvP93n59yIZXuTwO/AuXbqtKX2dxTFPAt4HjRWEiad88gLqQdknYatDNSfadJsJnM80ROEkvTjfSAeqXwznP704EmZPS3St7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=I3zETg6d; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=OZ+zYnTbBfbwlvKiPq3B8FGobT0Mam1ea4/A5p7+ezwaLg5LOwEfpfRzuy4r/Zu4IjbucxgHHI+cwM4T8DNsmg3lrvhM7d1eeM2I/Orqcabf4FZHN0sNmA2n7g7imBqlGOMl17n52EYX+SO6Zg8eSAfPYgweI8yY0+baOvSFe1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AF9uiuc5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="I3zETg6d"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4c7gsy4jskz9tWT;
-	Fri, 22 Aug 2025 15:25:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1755869126;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4PITLW052mM/0cTmEK1pA04kvx4snzr0G0rUt4eAAeA=;
-	b=I3zETg6dE36v3QvGTZ3phKvzINWZlRKxEzPAs7CFP1An8HwSYV2kTCd8itbvhNqikX7vEk
-	3KtKU9dg7Uf9E4qUJN14JMgWtxAdZfccmQzvbnO3DTXFKaFAlCkAG9qg1u9kdLmIXjkJ28
-	tSz/v97+0NM5GNQldHJwrCVCj70wqkbXzDcHxfAq767C9uPAznFr0uiSjU2dGAZPAtfZBC
-	bKyjtANVWfFvJzM/Nc+5IwK8gpHBlYC4H0/XxLePVeIF+JOvaOZ+FlIYF8i18KE8xDVziT
-	OEyAs7UzBoXMSajx60azDdDu2qU83QWM/iAaxLIVVgLrKdjWsFsUu3ChEJEBeA==
-Date: Fri, 22 Aug 2025 23:25:11 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Rob Landley <rob@landley.net>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Lichen Liu <lichliu@redhat.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	safinaskar@zohomail.com, kexec@lists.infradead.org, weilongchen@huawei.com, 
-	linux-api@vger.kernel.org, zohar@linux.ibm.com, stefanb@linux.ibm.com, 
-	initramfs@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz
-Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
-Message-ID: <2025-08-22-witty-worthy-wink-sitcom-T5L8wA@cyphar.com>
-References: <20250815121459.3391223-1-lichliu@redhat.com>
- <20250821-zirkel-leitkultur-2653cba2cd5b@brauner>
- <da1b1926-ba18-4a81-93e0-56cb2f85e4dd@landley.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AF9uiuc5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D3CC4CEED;
+	Fri, 22 Aug 2025 13:27:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755869250;
+	bh=W5W7qyk9rAPLhmzuGclgp+ntydMraJW/Y5JVIxQeMTU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AF9uiuc5e9Qa/lNrnQ85GHhbwjlsVNG//QY6D533GTgb5nvfrgvn+oGP/fUOy6LgO
+	 IZBYRE0GW+u7LKx8mc9sMZ/HZJYpdApqkt8PjAjNWehe/ucmjVg43Nw6XcEr94kytQ
+	 wf/IrhoN2liaGd7azQ4HBkuEUlC1FUakDwvrJgrXcWJ/rP2y2AmGcsYmG4J95VV1gP
+	 B+hnhbayt4nMvHA84622mcqvieBm98OP9rONAenx46FWih/LLwupj7U3yJbsfGsxMQ
+	 PaasAI1mZkuktQ0imqAF7BZoV6CJk+xvDhk9ykTMCfs/WKSlod/EBOcBpdoeBCKgpn
+	 PH5rl6Vwp04MQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1upRnk-0000000C9Vj-1Mzt;
+	Fri, 22 Aug 2025 15:27:28 +0200
+Date: Fri, 22 Aug 2025 15:27:28 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: mchehab+huawei@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 07/14] docs: conf.py: extra cleanups and fixes
+Message-ID: <fa7rreuvodpe673lwcwlj6kddkpnmkoxlz4y5mythgntkmveey@m5fqvtsuel6l>
+References: <08d16c2ad817910eb5606842f776d3f77d83282f.1755763127.git.mchehab+huawei@kernel.org>
+ <f5d4804c-9a51-443a-a73e-d9c043673cbc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6rvitifl7wogvg7j"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <da1b1926-ba18-4a81-93e0-56cb2f85e4dd@landley.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f5d4804c-9a51-443a-a73e-d9c043673cbc@gmail.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+On Fri, Aug 22, 2025 at 09:01:03PM +0900, Akira Yokosawa wrote:
+> Hi Mauro,
+> 
+> I see this has already been merged, but let me comment after the fact.
+> 
+> On Thu, 21 Aug 2025 10:16:43 +0200, Mauro Carvalho Chehab wrote:
+> > Makes it more adehent with modern Sphinx LaTeX build setup as
+> > defined at:
+> > 
+> > 	https://www.sphinx-doc.org/en/master/latex.html
+> > 
+> > There, it suggests:
+> > 
+> > 1) to add: 'printindex'
+> > 
+> >     “printindex” call, the last thing in the file. Override if you want to generate
+> >     the index differently, append some content after the index, or change the font.
+> >     As LaTeX uses two-column mode for the index it is often advisable to set this
+> >     key to r'\footnotesize\raggedright\printindex'.
+> > 
+> > This indeed solved a corner case on a distro where the index was not properly
+> > generated.
+> 
+> This looks good.
+> 
+> > 
+> > 2) to add at the main example:
+> >          \PassOptionsToPackage{svgnames}{xcolor}
+> 
+> OK.  So I guess Sphinx's latex builder is going to start using SVG color
+> naming in the near future.
+> 
+> > 
+> > 3) I got a corner case on one of the distros was using xindy to produce
+> >    indexes. This ended causing the build logic to incorretly try to use
+> >    T1 fontenc, which is not UTF-8 compatible.
+> > 
+> >    This patch adds:
+> > 
+> >         \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
+> > 
+> >    to cover such case. It should be noticed that, as the config doesn't
+> >    have \usepackage{xindy}, this will be used only if latexmk ends
+> >    using xindy.
+> 
+> But I can't see how this macro (executed by XeTeX engine) would have any
+> effect on xindy (command) invoked from latexmk.
+> 
+> Can you elaborate on your theory of how it works?
+> And which distro runs xindy?
 
---6rvitifl7wogvg7j
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] fs: Add 'rootfsflags' to set rootfs mount options
-MIME-Version: 1.0
+I can't remember on what distro I saw the issue, but I got it during
+my builds, where, instead of running makeindex, it tried to run xindy,
+with failed because of utf-8 fonts.
 
-On 2025-08-21, Rob Landley <rob@landley.net> wrote:
-> P.S. It's a pity lkml.iu.edu and spinics.net are both down right now, but
-> after vger.kernel.org deleted all reference to them I can't say I'm
-> surprised. Neither lkml.org nor lore.kernel.org have an obvious threaded
-> interface allowing you to find stuff without a keyword search, and
+My theory is that, on one of the ditros, there is a /etc/latexmk
+or similar containing instructions to use xindy instead of makeindex.
 
-I'm not sure what issue you're gesturing to exactly, but if you have the
-Message-ID you can link to it directly with
-<https://lore.kernel.org/lkml/$MESSAGE_ID>. For instance, this email
-will be available at
-<https://lore.kernel.org/lkml/2025-08-22-witty-worthy-wink-sitcom-T5L8wA@cy=
-phar.com>.
+In any case, this rule is harmless on setups that use makeindex:
+it only affect setups where there is a latexmk or .latexmk file
+setting xindy as the default index builder: if this is used, 
+xindy will use utf-8 fonts instead of Type 1.
 
-To be honest, I much prefer that to lkml.org's completely opaque
-mappings based on arrival order and date (and in my experience it seems
-to miss messages). The same goes for lkml.iu.edu, spinics and gmane.
-
-One of the biggest losses when gmane disappeared was that all of the
-URLs that referenced it were rendered unusable because the mapping from
-their numbering to Message-IDs was not maintained. If lkml.org goes down
-10 years from now, every reference to it will also be unusable, but
-lore.kernel.org addresses will still be usable even if it goes down (you
-can even search your local archives for the mails).
-
-(It would be nice if more people spent a bit of time configuring their
-Message-ID generation to be more friendly for this usecase -- mutt
-changed their default Message-ID generation to be completely random
-characters a few years ago, which made Message-IDs less recognisable
-until folks adjusted their configs. Gmail is even worse, obviously.)
-
-Also, lore.kernel.org has threading on the main page and on individual
-thread pages? Maybe I don't understand what you're referring to?
-
-> lore.kernel.org somehow manages not to list "linux-kernel" in its top lev=
-el
-> list of "inboxes" at all. The wagons are circled pretty tightly...
-
-No it's definitely there, it's just labeled as "lkml" (they're sorted by
-latest message timestamp so LKML will usually be near the top).
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-https://www.cyphar.com/
-
---6rvitifl7wogvg7j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCaKhvtxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQKJf60rfpRG+QSwD7BO+PtnsXEDae0r97BHM6
-PkIHOEXbXJqq1URgT+54x98A+wSeZX6FvxMSF0Ghiw07nuOnRO3d0pW2Lpww9iVW
-T0UE
-=YHVJ
------END PGP SIGNATURE-----
-
---6rvitifl7wogvg7j--
+Thanks,
+Mauro
