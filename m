@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7876311C21;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80B83126A9;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755872388; cv=none; b=oiJKpzPlrIb0pMWNKCY/FiRKqnajV4GYNfPID0A4VF69YCW6sKbgjgj1NjzNPHO3efQvOdB3xHowM/RT9Gre/J2v1w21Op0TsyIDGnOPy3VQ17iiArIPJ6qTW1/KDXW3dp7WZ3BrZdtp1tLrgPBiYN7QoauBLgK4yTabf0WHtCg=
+	t=1755872388; cv=none; b=Dl3jvL4OCbMIGR7+ZpHzO5R6ZRto7u2HQ4LokFbToTzS94o6AoabG1lgn90gvuDibLccK/kT2Wn5JzzsUFxTphMbPJPlVOSZk7LU33SXFsGys/Mq29wdT5N66rgGoe+czMSicGYw+oSY5M3pohIhpicZXXiyw2Ce4jsA2peRR/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755872388; c=relaxed/simple;
-	bh=UW2xelo4TnzX16OxyxtwPo8LfwSKWCjViRI3KVdm6R4=;
+	bh=XLpGjVmiz7KWSgkDl0zwCX9wJOnCvElrKCUuUORJrj4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DnAT5ufSU6x8p1hWBm/O60KHY2As637uzYyefY4moSoGK5xjILQusSZT4GgdHkoYt6vHaERC3xlPDkmR0ayuZPimdUuIRK5id4uPj0VsXzZpJKX1J1U7L6XTJkIihRnP1LQ6ODAsEiG/aQMrPfA2L/k/4lE2drZxviOS9jweWz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lu/d3ZW4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=RSdzuA+0ow5XOBeB+KUGPCEqkX3aH0OQP/FE+HCxcK9li3h5xUA6jhS/VAj1g2E+dauAKIyUiGE3HBatoZxr4+T9dAc/MpUACvsxQwYiMMOv+KiWxFWz4rgHRP//ANePbgyUfhhchVdkwpHCX0WrnYc2aMI1xdYnfJpKecW+wO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1sGOReh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lu/d3ZW4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F26C2BCB3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1sGOReh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44211C2BCB8;
 	Fri, 22 Aug 2025 14:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755872388;
-	bh=UW2xelo4TnzX16OxyxtwPo8LfwSKWCjViRI3KVdm6R4=;
+	bh=XLpGjVmiz7KWSgkDl0zwCX9wJOnCvElrKCUuUORJrj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Lu/d3ZW4YxqP5K5h0db1aASen4oTPyXhAKssWGNSB9hYF0X2zKftJAbYuzdLI/QL7
-	 qCrE7p9Ccl+MKlWAgZ0ZmknLKlGe7uEkzgdmyJrEjUvLreh3b+w7I7jEH7dV0L5XpO
-	 YgAReR7HZlGPgBidfp00g03da5IGsEEWe5TBmnCsKafU5T3+ybpmOnTBGJRfFhtmba
-	 lTUnMfwLhq882ezmYeqocAW8rGIsUb0eWSpeIo2e3m062DCEySs0vVm/O3oleoa5yM
-	 +GVxGk8YOWSJ3wTsHIGrMuau5kAtceiIHcii9W07rWhEdJUJf5tvrtW6gWTDAvLULK
-	 wQiNly3ci8XkA==
+	b=F1sGORehtpcfx0NvTk0TWxy4b1/C9716/JIBnVQYA2XcZl6dwmLl/aAPKjbRF4Onl
+	 GOz6J9sz/mTkMTSYlkhyE4iASqOcerz/nKWw6v8J/0Pb0ZsLzmz5r8DFe16Rwd/+2B
+	 youByWaCw7uodBK2E3wY5ksN7z3hScnKBVZFeBueFA2XEapIewoMcRk5WINRUq+QJ+
+	 nDyz5i96sNLUcLQk73kp+JTe/SKmjqYv3u/hqq/qmfpzDXZh93wYYFeh4ZRt4oJy1x
+	 OqOTkRxoO19j5nlVc86hekohRSO0GWW5BXj1W/wMAUJTGHuiVUYzqz5feWZLgj7C6d
+	 zvParDAEiN+LQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1upScM-0000000CCrd-1m7g;
+	id 1upScM-0000000CCru-2DaE;
 	Fri, 22 Aug 2025 16:19:46 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	Kees Cook <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/24] docs: kernel_include.py: generate warnings for broken refs
-Date: Fri, 22 Aug 2025 16:19:24 +0200
-Message-ID: <73be9a198746421687e2eee916ccf8bf67980b7d.1755872208.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 16/24] docs: kernel_include.py: move code and literal functions
+Date: Fri, 22 Aug 2025 16:19:28 +0200
+Message-ID: <78d08dfa3f08adabc30bf93b8a1cde4e19b7bd41.1755872208.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755872208.git.mchehab+huawei@kernel.org>
 References: <cover.1755872208.git.mchehab+huawei@kernel.org>
@@ -49,200 +49,147 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-In the past, Sphinx used to warn about broken references. That's
-basically the rationale for adding media uAPI files: to get
-warnings about missed symbols.
+Simplify run() even more by moving the code which handles
+with code and literal blocks to their own functions.
 
-This is not true anymore. So, we need to explicitly check them
-after doctree-resolved event.
-
-While here, move setup() to the end, to make it closer to
-what we do on other extensions.
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 108 ++++++++++++++++++++-----
- 1 file changed, 89 insertions(+), 19 deletions(-)
+ Documentation/sphinx/kernel_include.py | 100 +++++++++++++++----------
+ 1 file changed, 59 insertions(+), 41 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index fc37e6fa9d96..0a3e5377dd1e 100755
+index 4cdd1c77982e..0909eb3a07ea 100755
 --- a/Documentation/sphinx/kernel_include.py
 +++ b/Documentation/sphinx/kernel_include.py
-@@ -26,7 +26,7 @@
-     environment variable name. Malformed variable names and references to
-     non-existing variables are left unchanged.
+@@ -160,6 +160,52 @@ class KernelInclude(Include):
  
--    This extension overrides Sphinx include directory, adding two extra
-+    This extension overrides Sphinx include directory, adding some extra
-     arguments:
+         return rawtext
  
-     1. :generate-cross-refs:
-@@ -35,14 +35,20 @@
-         class, which converts C data structures into cross-references to
-         be linked to ReST files containing a more comprehensive documentation;
- 
--        Don't use it together with :start-line: and/or :end-line:, as
--        filtering input file line range is currently not supported.
--
-     2. :exception-file:
- 
--        Used together with :generate-cross-refs:. Points to a file containing
--        rules to ignore C data structs or to use a different reference name,
--        optionally using a different reference type.
-+        Used together with :generate-cross-refs
++    def literal(self, path, tab_width, rawtext):
++        """Output a literal block"""
 +
-+        Points to a file containing rules to ignore C data structs or to
-+        use a different reference name, optionally using a different
-+        reference type.
++        # Convert tabs to spaces, if `tab_width` is positive.
++        if tab_width >= 0:
++            text = rawtext.expandtabs(tab_width)
++        else:
++            text = rawtext
++        literal_block = nodes.literal_block(rawtext, source=path,
++                                            classes=self.options.get("class", []))
++        literal_block.line = 1
++        self.add_name(literal_block)
++        if "number-lines" in self.options:
++            try:
++                startline = int(self.options["number-lines"] or 1)
++            except ValueError:
++                raise self.error(":number-lines: with non-integer start value")
++            endline = startline + len(include_lines)
++            if text.endswith("\n"):
++                text = text[:-1]
++            tokens = NumberLines([([], text)], startline, endline)
++            for classes, value in tokens:
++                if classes:
++                    literal_block += nodes.inline(value, value,
++                                                    classes=classes)
++                else:
++                    literal_block += nodes.Text(value, value)
++        else:
++            literal_block += nodes.Text(text, text)
++        return [literal_block]
 +
-+    3. :warn-broken:
++    def code(self, path, include_lines):
++        """Output a code block"""
 +
-+        Used together with :generate-cross-refs:
++        self.options["source"] = path
++        codeblock = CodeBlock(self.name,
++                                [self.options.pop("code")],  # arguments
++                                self.options,
++                                include_lines,
++                                self.lineno,
++                                self.content_offset,
++                                self.block_text,
++                                self.state,
++                                self.state_machine)
++        return codeblock.run()
 +
-+        Detect if the auto-generated cross references doesn't exist.
-+
- """
- 
- # ==============================================================================
-@@ -50,6 +56,7 @@
- # ==============================================================================
- 
- import os.path
-+import re
- import sys
- 
- from docutils import io, nodes, statemachine
-@@ -58,23 +65,18 @@ from docutils.parsers.rst import directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
- from docutils.parsers.rst.directives.misc import Include
- 
-+from sphinx.util import logging
-+
- srctree = os.path.abspath(os.environ["srctree"])
- sys.path.insert(0, os.path.join(srctree, "tools/docs/lib"))
- 
- from parse_data_structs import ParseDataStructs
- 
- __version__ = "1.0"
-+logger = logging.getLogger(__name__)
- 
--
--# ==============================================================================
--def setup(app):
--    """Setup Sphinx exension"""
--    app.add_directive("kernel-include", KernelInclude)
--    return {
--        "version": __version__,
--        "parallel_read_safe": True,
--        "parallel_write_safe": True,
--    }
-+RE_DOMAIN_REF = re.compile(r'\\ :(ref|c:type|c:func):`([^<`]+)(?:<([^>]+)>)?`\\')
-+RE_SIMPLE_REF = re.compile(r'`([^`]+)`')
- 
- 
- # ==============================================================================
-@@ -86,6 +88,7 @@ class KernelInclude(Include):
- 
-     option_spec.update({
-         'generate-cross-refs': directives.flag,
-+        'warn-broken': directives.flag,
-         'exception-file': directives.unchanged,
-     })
- 
-@@ -103,9 +106,9 @@ class KernelInclude(Include):
-         env.note_dependency(os.path.abspath(path))
- 
-         # return super(KernelInclude, self).run() # won't work, see HINTs in _run()
--        return self._run()
-+        return self._run(env)
- 
--    def _run(self):
-+    def _run(self, env):
+     def run(self):
          """Include a file as part of the content of this reST file."""
+         env = self.state.document.settings.env
+@@ -200,6 +246,13 @@ class KernelInclude(Include):
+         startline = self.options.get("start-line", None)
+         endline = self.options.get("end-line", None)
  
-         # HINT: I had to copy&paste the whole Include.run method. I'am not happy
-@@ -151,6 +154,10 @@ class KernelInclude(Include):
- 
-             if "code" not in self.options:
-                 rawtext = ".. parsed-literal::\n\n" + rawtext
++        if "literal" in self.options:
++            ouptut_type = "literal"
++        elif "code" in self.options:
++            ouptut_type = "code"
++        else:
++            ouptut_type = "normal"
 +
-+            # Store references on a symbol dict to be used at check time
-+            if 'warn-broken' in self.options:
-+                env._xref_files.add(path)
-         else:
-             try:
-                 self.state.document.settings.record_dependencies.add(path)
-@@ -239,3 +246,66 @@ class KernelInclude(Include):
-             return codeblock.run()
+         # Get optional arguments to related to cross-references generation
+         if 'generate-cross-refs' in self.options:
+             rawtext = self.read_rawtext_with_xrefs(env, path)
+@@ -213,50 +266,15 @@ class KernelInclude(Include):
+ 
+         rawtext = self.apply_range(rawtext)
+ 
++        if ouptut_type == "literal":
++            return self.literal(path, tab_width, rawtext)
++
+         include_lines = statemachine.string2lines(rawtext, tab_width,
+                                                   convert_whitespace=True)
+-        if "literal" in self.options:
+-            # Convert tabs to spaces, if `tab_width` is positive.
+-            if tab_width >= 0:
+-                text = rawtext.expandtabs(tab_width)
+-            else:
+-                text = rawtext
+-            literal_block = nodes.literal_block(rawtext, source=path,
+-                                                classes=self.options.get("class", [])
+-            )
+-            literal_block.line = 1
+-            self.add_name(literal_block)
+-            if "number-lines" in self.options:
+-                try:
+-                    startline = int(self.options["number-lines"] or 1)
+-                except ValueError:
+-                    raise self.error(":number-lines: with non-integer start value")
+-                endline = startline + len(include_lines)
+-                if text.endswith("\n"):
+-                    text = text[:-1]
+-                tokens = NumberLines([([], text)], startline, endline)
+-                for classes, value in tokens:
+-                    if classes:
+-                        literal_block += nodes.inline(value, value,
+-                                                      classes=classes)
+-                    else:
+-                        literal_block += nodes.Text(value, value)
+-            else:
+-                literal_block += nodes.Text(text, text)
+-            return [literal_block]
+ 
+-        if "code" in self.options:
+-            self.options["source"] = path
+-            codeblock = CodeBlock(self.name,
+-                                  [self.options.pop("code")],  # arguments
+-                                  self.options,
+-                                  include_lines,  # content
+-                                  self.lineno,
+-                                  self.content_offset,
+-                                  self.block_text,
+-                                  self.state,
+-                                  self.state_machine)
+-            return codeblock.run()
++        if ouptut_type == "code":
++            return self.code(path, include_lines)
++
          self.state_machine.insert_input(include_lines, path)
          return []
-+
-+# ==============================================================================
-+
-+reported = set()
-+
-+def check_missing_refs(app, env, node, contnode):
-+    """Check broken refs for the files it creates xrefs"""
-+    if not node.source:
-+        return None
-+
-+    try:
-+        xref_files = env._xref_files
-+    except AttributeError:
-+        logger.critical("FATAL: _xref_files not initialized!")
-+        raise
-+
-+    # Only show missing references for kernel-include reference-parsed files
-+    if node.source not in xref_files:
-+        return None
-+
-+    target = node.get('reftarget', '')
-+    domain = node.get('refdomain', 'std')
-+    reftype = node.get('reftype', '')
-+
-+    msg = f"can't link to: {domain}:{reftype}:: {target}"
-+
-+    # Don't duplicate warnings
-+    data = (node.source, msg)
-+    if data in reported:
-+        return None
-+    reported.add(data)
-+
-+    logger.warning(msg, location=node, type='ref', subtype='missing')
-+
-+    return None
-+
-+def merge_xref_info(app, env, docnames, other):
-+    """
-+    As each process modify env._xref_files, we need to merge them back.
-+    """
-+    if not hasattr(other, "_xref_files"):
-+        return
-+    env._xref_files.update(getattr(other, "_xref_files", set()))
-+
-+def init_xref_docs(app, env, docnames):
-+    """Initialize a list of files that we're generating cross references¨"""
-+    app.env._xref_files = set()
-+
-+# ==============================================================================
-+
-+def setup(app):
-+    """Setup Sphinx exension"""
-+
-+    app.connect("env-before-read-docs", init_xref_docs)
-+    app.connect("env-merge-info", merge_xref_info)
-+    app.add_directive("kernel-include", KernelInclude)
-+    app.connect("missing-reference", check_missing_refs)
-+
-+    return {
-+        "version": __version__,
-+        "parallel_read_safe": True,
-+        "parallel_write_safe": True,
-+    }
+ 
 -- 
 2.50.1
 
