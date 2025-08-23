@@ -1,97 +1,100 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FD32C190;
-	Sat, 23 Aug 2025 02:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBD429B0;
+	Sat, 23 Aug 2025 09:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755914602; cv=none; b=lghXfRUJ0LPfrrxTjPwrc/XdGrn3HQJo78GfPShKkohP1DE6ns7f8Si0nCT/Dk6guWvfdtPcsSezSttHOI5u0+DpK5q98dCqB2vhD60F8boWhRf7aYiBloYxDixyKKAxxse/O9qj4wiRrasj/VvXZQ7cSPvVhm1N3w1yXZs6/J4=
+	t=1755940726; cv=none; b=soJ20GPAFndDaSgX9SdqRG++Is7W6mvVv7VD/FGk6pX1BgC2mSBHGlI0OwmUcfOSQlIdyBt0WH/qyWhVVyVl1IaXdKGoTLn4BM7fBhzCe1OpXQhvMcxlS2wWwiJEeb4hLkw7TZchIAmW/Hps9myk61GktX0qa2LAmwO0zmT2744=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755914602; c=relaxed/simple;
-	bh=bBbzWA/lXi8mRYNfOXPInP3IDahU4cbSMWnmG/NhFP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kUE53bHuk/UWI1TKedbGwGjlki09UBz/zjVQvdJTHFn2bSCfVS1GeDo8Egx0zNWd2z6NgMhiEI0AfCLfFMKa6Ras+CB5tqoJFGnpguZpSVNxxqMmgJDC11DJoU4AeS7znfQH3lAXRpRXMVORYove6Io0FFNTcjNXMmMaPMsRRps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz6t1755914584taf0414ac
-X-QQ-Originating-IP: XQMkFPTld5aopUszAMtCZgJqYkOo5w3DSNONEnbYVFI=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 23 Aug 2025 10:03:02 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 18037205199112697214
-Date: Sat, 23 Aug 2025 10:03:02 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Parthiban.Veerasooran@microchip.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	lukas.bulwahn@redhat.com, alexanderduyck@fb.com,
-	richardcochran@gmail.com, kees@kernel.org, gustavoars@kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <1F30CBDD95FCBE06+20250823020302.GC1995939@nic-Precision-5820-Tower>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <9fc58eb7-e3d8-4593-9d62-82ec40d4c7d2@microchip.com>
- <7D780BA46B65623F+20250822053740.GC1931582@nic-Precision-5820-Tower>
- <8fc334ac-cef8-447b-8a5b-9aa899e0d457@microchip.com>
- <A1F3F9E0764A4308+20250822065132.GA1942990@nic-Precision-5820-Tower>
- <b488b893-389f-4c20-b2c3-23071279272c@lunn.ch>
+	s=arc-20240116; t=1755940726; c=relaxed/simple;
+	bh=qQKAUKGD8YCJSmr7dhdjzTfWFLwOspnZF7Vw50KWiWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JJQaYG3I2Wu2eOH+FD9BKfHpzR5cDDX8Gbf4bLlPE6srCEOvjkQUtrM6qyBYChT1eDEQz96sZ+ec8+3x8giYPinN9m2k8hnIf4CTV/g6jaoyzVw7OsnbdSRa0JzSIrgT3MmAUuS3p5Ib8PWutccw6YUjHKFwLk7cAc+Vcc4jlQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWb5QTpj; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWb5QTpj"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b471756592cso1806106a12.3;
+        Sat, 23 Aug 2025 02:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755940725; x=1756545525; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AfNfBu1qWolJ9wIMXkd3bnXOtHy3GISGcVi04weSYTY=;
+        b=MWb5QTpjSzLt9jYLqLlyr3n5APZrHAgqSo3BzEnOM9bfh5ifaCdut76BpzKiBjFzYP
+         OD48ZSLw7GFBgyEN1yQBjs+i8u1llqylCF86BDT27Ba+xyLf2Hc9+PzT/9YnHtWDRtGc
+         PfAeLMx+8PkemfQVCol82diLSeomBz7PWpnIw1GkZoxO8zw+kE7IRumUSWr0RtAwlmxB
+         N7QemwsHeXTtINxP05WU7w+vyv0a3g1CnORxBwr9iddUizhVBo86dm0Q7dO1OdQtY75g
+         K3hGC6C33+tY6CpFvcyemzZ1NLX9LIRHe8kfIoqv5bW3FtMJfGRep6cSf18HUwYiJzK+
+         T5AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755940725; x=1756545525;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AfNfBu1qWolJ9wIMXkd3bnXOtHy3GISGcVi04weSYTY=;
+        b=T+YXKfsegklEsbp3NEuU25OEWstNfppV4qyMlIj5f26rygX1cxevCdILbf+pxR2k3V
+         39HN4o3tsSB1yqLAFmGmqF5upYIYU9gENq4/UHHu4kmpz9dTNMeJ9W0P4+dmhQYbGZGF
+         xj0WSw+dtpB4CkTeqNAjYQ+kf/MOtTLQu/ZuOnjsLXbnZQE8hrQhIAtoNYWgcwWeKjW3
+         oe0UpWVSzgdUm+bDIDMovzLQmr5Og4BPcsEqs/TrxSff7xKSWdr2Ru+vGVdY1e/hLRPQ
+         Hpf0WeKxV4FW7MNVXkH+4l9PTjA2xdbY+CxtDELJxCl1uSId+8w+gMiaKE0urZR/nRbQ
+         ONsA==
+X-Forwarded-Encrypted: i=1; AJvYcCV6pxjyNwCrw20cUJWmfNfX9Gwb17EtUoeH5SFxhpDcTpTTsgAiQIbAPkDFHGMUX5AIVHEkBDYJi9pt@vger.kernel.org, AJvYcCX2Bw8eE4XmuwRVPuUlNxOMCQxZB2Thiuosw1JZ4yLfLEkO8dL/eG3kIMkWOGshUPD/3CO7tleXEQZ2YUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRJ4jEBqRnBUQnHbukld3srnZvPYJDhyMZrm/WYKKeJV2AY4/u
+	lAjJEuXHVgJTbS5huupv/7kO942txY1DnyZTEcuAEt4cppxhZQwraX6m
+X-Gm-Gg: ASbGncut/EQ5emrwC1JQqSGHDsNstSxxEImRWcVfWBXBHENbPk03xn4wgnsiP4b4ZpY
+	4+KoUSbhB7Q2B/Z7TZHySSOChdWCx0Mn7KrdioJSjTruelTlYem25+WcqMNLnzIYZeh6SAmgoXN
+	4TZwYwGQeincVVw8/QlKX/+czYK8z50Ni0GrMOqXlp8619GEGHdcJ6hhNu5gQzmndjDLU9MA/vv
+	R3G0AbUHewXbNqfGQ0hNx1BELh1r0zv+NT92TbemC7CW/zcgYkCThE2KwjVaAkEztM+bYEtix/t
+	M+ScfpvFcCakCnrAOCNBE2g0pv/hDtCFcg/OmTEK7FP/ichLhxxQgVWqzfyUysYsZA55r/D6vC1
+	zJCgzkvEGERjIPQ1tPmH03shxDHc8qaXNjci42aFT8aX7CuuNX/Zyb7Pn2A==
+X-Google-Smtp-Source: AGHT+IFDYWklpG7n/RCWVYe9fEt6cFZZCJhCfu1jBDgekkP0Uetb+/s+2CwZHMHpt7emWt1eZkWvMQ==
+X-Received: by 2002:a17:902:d489:b0:244:9888:3a1c with SMTP id d9443c01a7336-2462ef1f1e4mr83311725ad.29.1755940724611;
+        Sat, 23 Aug 2025 02:18:44 -0700 (PDT)
+Received: from lkmp.. ([27.61.56.127])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2467a6f5489sm12509535ad.144.2025.08.23.02.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Aug 2025 02:18:44 -0700 (PDT)
+From: Rakuram Eswaran <rakuram.e96@gmail.com>
+To: ebiggers@kernel.org
+Cc: ardb@kernel.org,
+	corbet@lwn.net,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	rakuram.e96@gmail.com,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] Documentation/staging: Fix typo and incorrect citation in crc32.rst 
+Date: Sat, 23 Aug 2025 14:48:32 +0530
+Message-ID: <20250823091837.5037-1-rakuram.e96@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250821035913.GG185832@quark>
+References: <20250821035913.GG185832@quark>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b488b893-389f-4c20-b2c3-23071279272c@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M4B45z97fsbxfp6War9HhAiOAlD1ajijGbjCp4iYKrkcelqILvtBpOsv
-	F7+KA3a0ajs4JULHGlQSRrwbkOed5Txpe2KhwbiVeJF9YZvqtF21tf+KEc/ePfn7PVhciLY
-	qAaTaSB22ffC3i+B8DUm+OCKTGLMaMonnv6uXOHvGgtYjTvCpYRx/tUFonmqj1IQSU1lLfC
-	zZaF2BP7Ibu6zpOhXj67PZY++0LvHAHeRmDDq9FyFhSJphROhYpPw2PvVSSRWr4nYbEvLPX
-	Teok7gB/WzozPHHNJsH2xNviLG+xXn64INL5XPNfSkvyMBLGcKDqQ/5w4wkCq97AimDM3Yk
-	xpWC0tbx9cK02zdLVDbKnFWNpqCDtXbYHa2QWIwmCc+paITq011YOL64+PA9mphwPufr2dI
-	2g+Q68uXwI5CtnKoZBjDRW/sk+4pih8/+uhIHkjZszBaxqGFtp7i62FdmdN9Mznzp1QqrMS
-	6dw0Ofj3AuJwjQY314T3RBein8koroF7EcDkc7s/n92BylgE+YipMziqwrzoJCPMLZhPzjw
-	RspHcDWdm6dBBtJnz3PgbRTHl6mndUbBP5FGL2BiAubSWfsnsVw5gXZK/KPZ48eKTisOp/z
-	D1oMthpXhRCZ60SPdtoiP5LIQT3L+jDs6bfe0qPjoowZkH/MbG+pcAR+IQIjcGugcUjeGFn
-	GcX9aXTLY3h7950fW1EjyRJj89afHmNmvv/frEGCvh/EpdUJet8h2viQfKQGK4E9fdkLJsZ
-	Z8laryYTC761e6dCDuIDT8EwXOzUvDJw3TAcW8RSZZU5A09eojkCvcidmKzK/7t64oDDOf6
-	KJX2ysjgVKp7pJwfc4OPGJER+6VZ3EfgK6FeiY0PgmR1sucw3U/DaBYBroeinKqv2UmBHks
-	0tMccszajTVqQp4Eay7DJcBvj6xAnV6a+TdmnGnVaatb8CjLrJvwzOvhdLZKuj9LnRkmpV9
-	DyQfNBAqOY/ixQGJVP4uh0LBjyD1VjLbyyWybB8OP9OIlDn3uXcJeWyvypvXZDLdvWyBhJj
-	3z5lNhxTXQaZt6F7g6mOKqMTRrSuyNGGSkARR4gtWZQv8I/rcstMi6Z+/D0+P7EBofSktfQ
-	Sy8BS23LJdsBRBN9z7fRKo=
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 22, 2025 at 04:33:54PM +0200, Andrew Lunn wrote:
-> > /* Initialized as a defensive measure to handle edge cases
-> >  * where try_cnt might be modified
-> >  */
-> >  int err = -EIO;
-> 
-> We don't use defensive code in the kernel. Defensive code suggests you
-> don't actually know what your driver is doing and you are guessing
-> this might happen. You should convince yourself it is
-> possible/impossible and write the code as needed.
-> 
-> 	Andrew
-> 
+Thanks for applying my patch!
 
-Ok, I will change 'while' to 'do...while" and remove '= -EIO'.
-That can guarantee 'mucse_fw_get_capability' run at least once to init
-err.
+I noticed your comment about the file being dated. 
+I’d be interested in helping to update it to cover the more modern 
+CRC implementations — things like carryless multiplication and 
+hardware CRC instructions on x86, ARM, etc.
 
-Thanks for your feedback.
+Since I’m not very familiar yet with these optimized approaches. 
+Could you suggest a good starting point for exploring this in the kernel 
+(or any references you recommend)? 
 
+I was planning to look at lib/crc32.c and the arch-specific 
+implementations, but would appreciate your guidance.
+
+Best Regards,
+Rakuram 
