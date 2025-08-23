@@ -1,91 +1,134 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E733987D;
-	Sat, 23 Aug 2025 01:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850F7191F7E;
+	Sat, 23 Aug 2025 01:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755913628; cv=none; b=TZ8A7UKBcIQYvvqO60KX7mEq/bWGqyZfHK+6beevn79yHAPuudJfj9o9/j7rb9QylSqXabkQ95dyGpg13hdd1COMUOJwsnXhn/WRhaZ5bfUHWfGcAa3U0bXXjgiQJSA9qfHTa6bY5/324q0A9nKE+it0lsYJByhDlb4bj4SNvWU=
+	t=1755914327; cv=none; b=efibYTva+dOduuyJ/k2Ixe7uKC8pB32NU8ItTH3iQj7yk5sdH3Lqw5SK3UrufcwzpJ6hty9Ju20u0isBDrNxBLYe0JTLmtP+aYRUfwz4dLPmHsxQH1UWNLmN2CYZtMe/r+w/orZ5Ek+oGyiVy6ApBcL8GBFUZ8IGKfu1nxThfKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755913628; c=relaxed/simple;
-	bh=j+i8Xbizla3YxcV+EPa2HULHUGXLyHMqJNjzWhnx5ms=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f6hJkq6cN2qZIp5CauKMu/sGaEotvwKhXjIk+fK1SiPrU69QX6Huj7S2/MAE5RRv6rTrShhRhzHmUs0ekDU4ipBV2f6whxFbqTAu32nYN4XDzZ57qhxOhZ54wyXqtVhCnFeZi2Pg13lCx5yU/Qqn2dT/P5FcylrZv2tiQJRiCSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c80Kj2VMpzYQvCx;
-	Sat, 23 Aug 2025 09:47:05 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.75])
-	by mail.maildlp.com (Postfix) with ESMTP id DEBAF1A12D3;
-	Sat, 23 Aug 2025 09:47:03 +0800 (CST)
-Received: from [10.67.109.79] (unknown [10.67.109.79])
-	by APP2 (Coremail) with SMTP id Syh0CgDn87WXHalo_A8tEg--.58363S2;
-	Sat, 23 Aug 2025 09:47:03 +0800 (CST)
-Message-ID: <48d7be9c-6645-4426-9415-10ea5bc780f0@huaweicloud.com>
-Date: Sat, 23 Aug 2025 09:47:03 +0800
+	s=arc-20240116; t=1755914327; c=relaxed/simple;
+	bh=DL7lJvSlF2uYNjqhrn7rHxrrv9ZYt7wI4V1rmKzypqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KikkzyCgjpIFaWEdy2fUQAN7oGp6TFVJOJtahMhCQxsZ2LXcaZyVDMWv0BLSRojG/RvxlMqZnX/Hb7DRAX9NJCDHU/EnqXEBth26nWL9dLJ5Nfzw/oKQEkxWyZIrkLzFjoTcRBevP2v7l9PBcgSWAV/bFizEbaXXw0tGVLxElJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.34.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz20t1755914306t18ac98e2
+X-QQ-Originating-IP: 9m1i3pwX/AtOIuG45fGnU9FcBbfvOkYiHnLZOR3b2Mo=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 23 Aug 2025 09:58:24 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 8408012566057604248
+Date: Sat, 23 Aug 2025 09:58:24 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <C2BF8A6A8A79FB29+20250823015824.GB1995939@nic-Precision-5820-Tower>
+References: <20250822023453.1910972-1-dong100@mucse.com>
+ <20250822023453.1910972-5-dong100@mucse.com>
+ <a066746c-2f12-4e70-b63a-7996392a9132@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] cgroup: selftests: Add tests for freezer time
-To: Tiffany Yang <ynaffit@google.com>
-Cc: linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>,
- Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20250822013749.3268080-6-ynaffit@google.com>
- <20250822013749.3268080-8-ynaffit@google.com>
- <bad4609b-4427-48ff-80e9-70cb3066253e@huaweicloud.com>
- <dbx8sehj8a25.fsf@ynaffit-andsys.c.googlers.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <dbx8sehj8a25.fsf@ynaffit-andsys.c.googlers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:Syh0CgDn87WXHalo_A8tEg--.58363S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYV7kC6x804xWl14x267AKxVW5JVWrJwAF
-	c2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII
-	0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xv
-	wVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4
-	x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG
-	64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r
-	1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kI
-	c2xKxwCF04k20xvY0x0EwIxGrwCF54CYxVCY1x0262kKe7AKxVW8ZVWrXwCFx2IqxVCFs4
-	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
-	MI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJV
-	WUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
-	6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
-	BIdaVFxhVjvjDU0xZFpf9x07UdxhLUUUUU=
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a066746c-2f12-4e70-b63a-7996392a9132@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: N4bqf7uc8PW19XP0trQQ+Rsb3QZc/woXInVpXcYjV9mq0x7aKC3grbok
+	nJu2P5DHHsQE4wPSEwK7S4Hq3iXRkE8CTW7EwRir3Skhp8aNYYv0TYF0N2LWiWNUFJF+a/7
+	LQ2gZkDYlUXSTtpezb4RS/+KamnaURkPHZf8hWsuNIuY5hNlTamZRDDt8fU+EMovNtxJrb1
+	OfsBnDNUcY/Eqt+5XT/f3ojtlUmzAgOk5XpK/OgmGYiPwMQ5/Fzju0UfpP0pUw/5KtnJKm9
+	NV03yknEXLUeHMyVKypZHCFm/+ChUYhl7uBgqCmUrKYVlxoaSoe6n5v0La864E4GMVtGWii
+	z5Ykg1pyHwYYMaTBZDFFQF+lbf2gOEEfMHGoPty4/ExbLEGSdfBMIR+RWB5C4tPifa1IBUI
+	sQMGL149hzPmfSN12ytVKsRfc1QGMnb3OLgLFm/C9oLXW5197HQ0TzS3hNEMi0tf2Y0X03n
+	z6rn5UrPCqIA+kB5eSGdEK16XBC8vHjaAZVDRMfiMf+uyUeqJ1R0NqDh4yeg2U3B1kf1ZZW
+	KmAe6AOn5bCbBa4LuYNl1f8ycWY0Y7aD1gSECDOA6tcOWECsdH/q6zKuyRLNHOtC13b+4fz
+	gEDURwbGRfpaAMzBJ/DQ++fCZdzUkoYrtM/pNZeE7wfsgcazLwOfmLWQwVNDW/hrct3n9VT
+	V++1W2YMzrn/lx0xE9/t12AaFIird+BnFFO49FsWZH4CtwSE9uAuXIjkcrU5iz1X4AagKHm
+	t9nzDeSFa3ECFun491qYTn90irbTUowuhyS0QluvLqEq49VqYc/h4FK+xQWxqkUH7tSBl/a
+	KXMqj8MrTtQjSv0aX/tsMoxmMhR3EI+uRPdL9CrQXY1qG5vbeFEPCePpZd1/XluE26T4Tup
+	nHsQaXYULFT80wvGVcOoGftBohNEos7hWbcJLNGXrhV0qlC5VEqDvFwoKId4+xQ9hMDmFHj
+	WodB1kV7ZV7zL+DaRalZQUet6E6nGWkTbsI0n0+vST5aQRK/cDoXy3Eip8lGV/XBU+7E=
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
 
-
-
-On 2025/8/23 2:50, Tiffany Yang wrote:
->> Perhaps we can simply use if (curr != 0) for the condition?
+On Fri, Aug 22, 2025 at 04:43:16PM +0200, Andrew Lunn wrote:
+> > +/**
+> > + * mucse_mbx_get_capability - Get hw abilities from fw
+> > + * @hw: pointer to the HW structure
+> > + *
+> > + * mucse_mbx_get_capability tries to get capabities from
+> > + * hw. Many retrys will do if it is failed.
+> > + *
+> > + * @return: 0 on success, negative on failure
+> > + **/
+> > +int mucse_mbx_get_capability(struct mucse_hw *hw)
+> > +{
+> > +	struct hw_abilities ability = {};
+> > +	int try_cnt = 3;
+> > +	int err = -EIO;
+> > +
+> > +	while (try_cnt--) {
+> > +		err = mucse_fw_get_capability(hw, &ability);
+> > +		if (err)
+> > +			continue;
+> > +		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
+> > +		return 0;
+> > +	}
+> > +	return err;
+> > +}
 > 
+> Please could you add an explanation why it would fail? Is this to do
+> with getting the driver and firmware in sync? Maybe you should make
+> this explicit, add a function mucse_mbx_sync() with a comment that
+> this is used once during probe to synchronise communication with the
+> firmware. You can then remove this loop here.
+
+It is just get some fw capability(or info such as fw version).
+It is failed maybe:
+1. -EIO: return by mucse_obtain_mbx_lock_pf. The function tries to get
+pf-fw lock(in chip register, not driver), failed when fw hold the lock.
+2. -ETIMEDOUT: return by mucse_poll_for_xx. Failed when timeout.
+3. -ETIMEDOUT: return by mucse_fw_send_cmd_wait. Failed when wait
+response timeout.
+4. -EIO: return by mucse_fw_send_cmd_wait. Failed when error_code in
+response.
+5. err return by mutex_lock_interruptible.
+
 > 
-> Here we have 2 separate conditions because in the case where curr < 0,
-> it means that the interface is not available and we should skip this
-> test instead of failing it. In the case where curr > 0, the feature is
-> not working correctly, and the test should fail as a result.
+> I would also differentiate between different error codes. It is
+> pointless to try again with ENOMEM, EINVAL, etc. These are real errors
+> which should be reported. However TIMEDOUT might makes sense to
+> retry.
+> 
+> 	Andrew
+> 
 
-Thank you for your explanation.
-See now.
+Yes, I didn't differentiate between different error codes. But it cost
+~0 to ask firmware again. And error will be reported after 'try_cnt' times
+retry to the function caller.
+Maybe can simply handle error codes link this?
 
--- 
-Best regards,
-Ridong
+Thanks for your feedback.
+
+
+
+
 
