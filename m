@@ -1,51 +1,40 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E112AD4B;
-	Sat, 23 Aug 2025 15:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41944481DD;
+	Sat, 23 Aug 2025 16:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755962309; cv=none; b=LOjquCGXP2raFClOEkKWu+Bf2eyPrUUIDkJC8Q0yQTVuXr+wqn9p1cGpz5b6Bi3lnF0JqyobZI8ojLiFbShLyQ/9sSP9x9WjNRsonut88khLrgGc2NWinEN4OusdISaSQgtqBDFqn5OcR27STp/wKF+8sr/l4CnaOQneFYcUmLo=
+	t=1755965301; cv=none; b=oEGKC7IWuve3+mXNmd29i7hwKbrGXF1lSsvBAdBZwLnYgqssJjVsQxIT8JE10UT4mRamsCGM1z6MjKs5tf8k57kL1vHmfY5O1GpLccfizuofa1rX9V7A7oDRv/NyGgFge1J5uk38urDcB44jEc+pMKeNGWa2oHBGwAQfKbEg4zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755962309; c=relaxed/simple;
-	bh=7JQkkt9dbMiHhXVQ6vItdJAZtW4rgJX33IpJrH+8jdY=;
+	s=arc-20240116; t=1755965301; c=relaxed/simple;
+	bh=71ZM71aMCaP3obzFQaXtGyIe0i13c/qjaCLtECLyycg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+yb7NTa+2I/nNMx2jKW2gda9/SuzhC/clVR7ClgXSYvYOR8Gcz+o5GK+pHBRyBt6ON9HDHzq3j/RIopy4pCJLydJIb8SmiKenn4Vane0/3C/+99s4Wvo8L9/1CqdnPAINZhtEQarZh85YFwAkXsH31hU6vVfK7USOvfOfIheZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=YVZFquyw; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=UaAM6vaDSJ+kf/alCHYsvQ9f9xYzFV4J+2cHbXEw/b+FDLzsl19CiDEuhLe5vFZlun8NuquTgufAXHSjpUq62g6fn+ZB7ngy/Y7SW6X7tTLd2Kjf/jMLlpcA3M2iPV+YcZF0Igb4H9bE8Ol7qrFCZsRuEUy6H0hlmNHz2diPPSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KMXPpxTQ; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="YVZFquyw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=6zbniq+Y33seUhQtkKnh8NN5RiVXcMAU2k6LfyetQpU=; b=YVZFquyw09UpAMBzf0gvl484W6
-	eqhTLx3nF5S40Cv+Y/y1oqp8Q7OAzxJjfrjMcd6Hp3GI26GZlV9oXKxHXrPZErTGG7RBdTxFfB1i9
-	Vo63trBrsfFyJRyKO/xegtH6K+CxG+FN3n9GRgzPX74ydnujS9Z4BtWwoZtzxKoUy/hY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1upq01-005lV0-92; Sat, 23 Aug 2025 17:17:45 +0200
-Date: Sat, 23 Aug 2025 17:17:45 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <f375e4bf-9b0b-49ca-b83d-addeb49384b8@lunn.ch>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <a066746c-2f12-4e70-b63a-7996392a9132@lunn.ch>
- <C2BF8A6A8A79FB29+20250823015824.GB1995939@nic-Precision-5820-Tower>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KMXPpxTQ"
+Date: Sat, 23 Aug 2025 12:08:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1755965285;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5EP4VlWoyAxZL5RZGxy1hvzJtGDefYV66QZqu9u66iE=;
+	b=KMXPpxTQII9TbKU0mFprM6ZaF5s9BmRvzoYJBtBZbPhnOmFbeiSbIA+iiCXiVWAwKZcaHs
+	4RZJUWKXrUX/NSmWlaPmpHy+CrJ4PF5wPZgvcFyQv+2Adjd9Ny2mV1sytoLtZj6FaUVI8c
+	VU668Pte4WC+GQgVVDweGBAUmymmDkc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Sahil <chandna.linuxkernel@gmail.com>
+Cc: corbet@lwn.net, rdunlap@infradead.org, linux-bcachefs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: bcachefs: fix typo in idle_work documentation
+Message-ID: <t4k2mqzg5mxhx2ccci7x4w3jjuwwivuv4canl3yr6g5dcayaxt@5lfesxl6uqpi>
+References: <20250822223416.23345-1-chandna.linuxkernel@gmail.com>
+ <c9cbd06a-9564-452b-bf05-8bfa83b81aa2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,65 +43,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <C2BF8A6A8A79FB29+20250823015824.GB1995939@nic-Precision-5820-Tower>
+In-Reply-To: <c9cbd06a-9564-452b-bf05-8bfa83b81aa2@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Aug 23, 2025 at 09:58:24AM +0800, Yibo Dong wrote:
-> On Fri, Aug 22, 2025 at 04:43:16PM +0200, Andrew Lunn wrote:
-> > > +/**
-> > > + * mucse_mbx_get_capability - Get hw abilities from fw
-> > > + * @hw: pointer to the HW structure
-> > > + *
-> > > + * mucse_mbx_get_capability tries to get capabities from
-> > > + * hw. Many retrys will do if it is failed.
-> > > + *
-> > > + * @return: 0 on success, negative on failure
-> > > + **/
-> > > +int mucse_mbx_get_capability(struct mucse_hw *hw)
-> > > +{
-> > > +	struct hw_abilities ability = {};
-> > > +	int try_cnt = 3;
-> > > +	int err = -EIO;
-> > > +
-> > > +	while (try_cnt--) {
-> > > +		err = mucse_fw_get_capability(hw, &ability);
-> > > +		if (err)
-> > > +			continue;
-> > > +		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
-> > > +		return 0;
-> > > +	}
-> > > +	return err;
-> > > +}
-> > 
-> > Please could you add an explanation why it would fail? Is this to do
-> > with getting the driver and firmware in sync? Maybe you should make
-> > this explicit, add a function mucse_mbx_sync() with a comment that
-> > this is used once during probe to synchronise communication with the
-> > firmware. You can then remove this loop here.
+On Sat, Aug 23, 2025 at 05:05:33PM +0530, Sahil wrote:
+> Fix minor spelling mistake in idle_work:
 > 
-> It is just get some fw capability(or info such as fw version).
-> It is failed maybe:
-> 1. -EIO: return by mucse_obtain_mbx_lock_pf. The function tries to get
-> pf-fw lock(in chip register, not driver), failed when fw hold the lock.
+> - heirarchy -> hierarchy
+> 
+> Changes in v2:
+> - Dropped cgroup, idle changes (already being fixed)
+> - Dropped xfs changes (already fixed)
+> - Only keep bcachefs doc fix
+> 
+> Link: https://lore.kernel.org/linux-doc/23de3jgp44vih5g6hjgc2ji6momi5t3w7rfkm5mgtajicbbg7a@7r5hgt5e7eir/
+> Based on v6.17-rc2.
 
-If it cannot get the lock, isn't that fatal? You cannot do anything
-without the lock.
+please rebase here:
+https://evilpiepirate.org/git/bcachefs.git
 
-> 2. -ETIMEDOUT: return by mucse_poll_for_xx. Failed when timeout.
-> 3. -ETIMEDOUT: return by mucse_fw_send_cmd_wait. Failed when wait
-> response timeout.
-
-If its dead, its dead. Why would it suddenly start responding?
-
-> 4. -EIO: return by mucse_fw_send_cmd_wait. Failed when error_code in
-> response.
-
-Which should be fatal. No retries necessary.
-
-> 5. err return by mutex_lock_interruptible.
-
-So you want the user to have to ^C three times?
-
-And is mucse_mbx_get_capability() special, or will all interactions
-with the firmware have three retries?
-
-	Andrew
+> 
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Sahil Chandna <chandna.linuxkernel@gmail.com>
+> ---
+> Documentation/filesystems/bcachefs/future/idle_work.rst | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst
+> b/Documentation/filesystems/bcachefs/future/idle_work.rst
+> index 59a332509dcd..f1202113dde0 100644
+> --- a/Documentation/filesystems/bcachefs/future/idle_work.rst
+> +++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
+> @@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be
+> dribbling out
+> background work while the system should be idle.
+> The complicating factor is that there are a number of background tasks,
+> which
+> -form a heirarchy (or a digraph, depending on how you divide it up) - one
+> +form a hierarchy (or a digraph, depending on how you divide it up) - one
+> background task may generate work for another.
+> -Thus proper idle detection needs to model this heirarchy.
+> +Thus proper idle detection needs to model this hierarchy.
+> - Foreground writes
+> - Page cache writeback
+> @@ -51,7 +51,7 @@ IDLE REGIME
+> When the system becomes idle, we should start flushing our pending work
+> quicker so the system can go to sleep.
+> -Note that the definition of "idle" depends on where in the heirarchy a task
+> +Note that the definition of "idle" depends on where in the hierarchy a task
+> is - a task should start flushing work more quickly when the task above it
+> has
+> stopped generating new work.
+> 
+> -- 
+> 2.34.1
+> 
