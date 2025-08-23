@@ -1,141 +1,189 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85224199FBA;
-	Sat, 23 Aug 2025 01:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E168E18DB02;
+	Sat, 23 Aug 2025 01:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755911630; cv=none; b=g0a1p8603mi5/eYXUoXEyr3MpNuMajrlI5QWN7fciNqJAtfW2L1wYTz2kPojzPUo7l8H2XRdhl/BGk9wYB7rD/szFR97Oqj+exEeVhsaqY7AOVhzyrLn2BEPpVX7LVmPBi69xh8zuz19HHYqvdtiK3e1HN/7/ix3Cy41OtuO3po=
+	t=1755913535; cv=none; b=IBebMxIJSnuf/wb0N2g8WZe5dQvZamLOOa+nqwK198nzGH/cshPUB4mRNYN86iAJaeTJGdy/Z6fKIcfrbuyJAYdyHrKLgpuXy0U80EYrzmT+QWbSzfB1sTUEc/7WnFAPO7ks7dXmHBjyslPEqAmktchfCX2CjXJgl7x1epwZb4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755911630; c=relaxed/simple;
-	bh=yA6j+LdZIh8VSNBUAvoV0zZeJUNVdCboDwO3ttQ8Akc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AqCDD2TMDolfwUM/JcmxfBEtzQrKhWMr67Ym0xl+K2PFjzMEd46AlE0q9Ln2CJzBjTMdL0tLhlwSqOUQmB/EQqiE1yzQq+9NCR+5ByYA+FD1I5C3bcSjfqBmqAlHHMOZPjtRQoExgjR2G9/rYLkGvS4zIbS3nfXfKvV/uCPK5gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz7t1755911541t30cf4573
-X-QQ-Originating-IP: CYYpVmL7PQRqYgMsqlkdc43DVUyX20KFhx33Uzp3ols=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 23 Aug 2025 09:12:18 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 15638722221360569384
-Date: Sat, 23 Aug 2025 09:12:18 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <EA6C27BA99B43454+20250823011218.GA1995939@nic-Precision-5820-Tower>
-References: <20250818112856.1446278-1-dong100@mucse.com>
- <20250818112856.1446278-5-dong100@mucse.com>
- <39262c11-b14f-462f-b9c0-4e7bd1f32f0d@lunn.ch>
- <458C8E59A94CE79B+20250821024916.GF1742451@nic-Precision-5820-Tower>
- <47aa140e-552b-4650-9031-8931475f0719@lunn.ch>
- <7FCBCC1F18AFE0F3+20250821033253.GA1754449@nic-Precision-5820-Tower>
- <d7a38afc-58c1-468a-be47-442cec6db728@lunn.ch>
+	s=arc-20240116; t=1755913535; c=relaxed/simple;
+	bh=/kz7kzrF2bxsIH48726DRXFxWy6o0FBrqLUdO+M67lM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ooZ5bbIiE4Y0iiVzNVJj54tzcexLu1b+8/GjkkCWNlzm5OkCHo8zIaIM3LL8Wek+VLfogZM6BcitZlH7R0lsJJwDrQYtAPOOCZlYVZlVuesXOp2YNBRCGDwwZ5wAwpE9z2vlNq13YuOjgZmYIQpCHB1yv5OYi23ZW74gf8PWCMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c80Hs1tL2zYQvGx;
+	Sat, 23 Aug 2025 09:45:29 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id C6EBE1A0C5E;
+	Sat, 23 Aug 2025 09:45:27 +0800 (CST)
+Received: from [10.67.109.79] (unknown [10.67.109.79])
+	by APP4 (Coremail) with SMTP id gCh0CgBHDg82HalogetwEg--.14802S2;
+	Sat, 23 Aug 2025 09:45:27 +0800 (CST)
+Message-ID: <1b6498f3-ca07-41d5-9637-f20a58184e60@huaweicloud.com>
+Date: Sat, 23 Aug 2025 09:45:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] cgroup: cgroup.stat.local time accounting
+To: Tiffany Yang <ynaffit@google.com>
+Cc: linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Chen Ridong <chenridong@huawei.com>, kernel-team@android.com,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20250822013749.3268080-6-ynaffit@google.com>
+ <20250822013749.3268080-7-ynaffit@google.com>
+ <552a7f82-2735-47a5-9abd-a9ae845f4961@huaweicloud.com>
+ <a309c2b5-5425-428c-a034-d5ebc68cb304@huaweicloud.com>
+ <dbx8ms7r885f.fsf@ynaffit-andsys.c.googlers.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <dbx8ms7r885f.fsf@ynaffit-andsys.c.googlers.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d7a38afc-58c1-468a-be47-442cec6db728@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: N2puXaFwQSOsJPVNGyvI0mrg9Yf6OM/n5ObKSm9ci71sdlEjeC7FJ/YT
-	vL1b5iHBB/VQKpmRG0gxtZJYt0gyNlneYPynM++QJdfR4DyiHNy0D2bmakjGgK34FGk33LK
-	nkpxWwv/pjhKFsdiGdEgzRVzL7aBgrPNwlbp5WaRQOmpw6HWga5aNczPjrNstk5n1p6lAjS
-	522qqniIoWoBeWeFeCqv2aWYriTW4EDXJ4Rhg5bKAdAxNcq6fLW1So5WrWkz5PXRZFGY9QI
-	TOOCeky+Td7ffOYkBrez3XdmvmcsTCz+eO/JrYVFVsNDF4C/reYaFZu7L6w8VBFKzFr0ai0
-	Eocd3QpuCbemjXxGRo2/LxbKa3owh8njV1v9ewmphDwG2qhmrH9+M88cDz4+bLX5Y5WQM4j
-	ByQZYKHxdUxj4zWNunyg8WVaN90g9O4wPyw6SRxPPXcQ56AazruZDsZkhIx8PMHqveQViFA
-	zJpGcgsGIlDc7YHeI538jdpwnfTC/GvWBUh7jMufb7v0K3P6BRdZg4DWS0ZnXNlnQyYxKMn
-	szxIJf3s9mt2g6MPPiKxbk6dbWWVAypWGTfxTgJsytkJBoibJL5tVTXPSFPDF6/isWexlNq
-	gh9g4YJaCEg2yEMZc53mNDlotAOGK+8wl5atxRK18uBi+MHdal15jLIoaZB9n+FN6U8WOPL
-	JOJJW10x2WaTF3d5acuhtDVs584zSrF/gVMytW6o00/Kpi6QncegNHKzqoyv7gIBTfnNWSI
-	mbb6nsV9GkZDBip/HoQyVxPzT4aHPoyE739TcbNTPjwhxY9BMLaqJKXrk4beubBMGKtPmrN
-	iZE5FakGQBVSR+XfXgN2KT+i5Mr0j8amhlBf/YVIr7gsbAreGicCcpAbm+gXbI5EGHZFk9x
-	su4uMxnAf6NTlhsy6PuMZp8lzQ7TU9NqrKRxTxkmwQtuGY4biaD9u1VBCzhJmOU6w/N3aQ3
-	APy90NoGNfBn0M+jLMMnaJoIX/9Rvy2+vSlGYc0DocV6StpP/QS7WohIlpR3lAuxEmmu1JI
-	1yJXiC1w==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
+X-CM-TRANSID:gCh0CgBHDg82HalogetwEg--.14802S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw45CFy7XF45ArW5Gw17Wrg_yoWrCr45pa
+	9YyF4Yy395twnayrsFv3sFgFy0vrZ5J3Z8Gr95JFy8Ar43X3WSgr47urZ0gr1UZr4xJ34U
+	JF1Yvwn7uFnFqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-On Fri, Aug 22, 2025 at 09:52:25PM +0200, Andrew Lunn wrote:
-> > 'Update firmware operation' will take long time, maybe more than
-> > 10s. If user use 'ethtool -f' to update firmware, and ^C before done?
-> > If ^C before mucse_write_mbx, return as soon as possible. If after mucse_write_mbx,
-> > wait until fw true response.
-> 
-> And what happens if the firmware writing is interrupted? Could you end
-> up with a brick? This is actually one of the operations i would not
-> expect to be able to ^C.
-> 
-> You might also want consider devlink flash.
-> 
-> https://www.kernel.org/doc/html/latest/networking/devlink/devlink-flash.html
-> 
->  It replaces the older ethtool-flash mechanism, and doesn’t require
->  taking any networking locks in the kernel to perform the flash
->  update.
-> 
-> I assume this is meaning ethtool take RTNL, and while that is held, no
-> other network configuration can be performed on any interface. devlink
-> has its own lock so avoids this.
-> 
->        Andrew
-> 
 
-ethtool or devlink both call mbx(mucse_mbx_fw_post_req)
-to do the true update to firmware. FW not end up with a brick, it has
-fault tolerance itself.
-But that's not the point. The original question is
-about 'wait_event_timeout', I add some comment link this in v6:
-Wait fw response without interruptible.
 
-static int mucse_mbx_fw_post_req(struct mucse_hw *hw,
-                                struct mbx_fw_cmd_req *req,
-                                struct mbx_req_cookie *cookie)
-{
-       int len = le16_to_cpu(req->datalen);
-       int err;
+On 2025/8/23 3:32, Tiffany Yang wrote:
+> Hi Chen,
+> 
+> Thanks again for taking a look!
+> 
+> Chen Ridong <chenridong@huaweicloud.com> writes:
+> 
+>> On 2025/8/22 14:14, Chen Ridong wrote:
+> 
+> 
+>>> On 2025/8/22 9:37, Tiffany Yang wrote:
+>>>> There isn't yet a clear way to identify a set of "lost" time that
+>>>> everyone (or at least a wider group of users) cares about. However,
+>>>> users can perform some delay accounting by iterating over components of
+>>>> interest. This patch allows cgroup v2 freezing time to be one of those
+>>>> components.
+> 
+>>>> Track the cumulative time that each v2 cgroup spends freezing and expose
+>>>> it to userland via a new local stat file in cgroupfs. Thank you to
+>>>> Michal, who provided the ASCII art in the updated documentation.
+> 
+>>>> To access this value:
+>>>>    $ mkdir /sys/fs/cgroup/test
+>>>>    $ cat /sys/fs/cgroup/test/cgroup.stat.local
+>>>>    freeze_time_total 0
+> 
+>>>> Ensure consistent freeze time reads with freeze_seq, a per-cgroup
+>>>> sequence counter. Writes are serialized using the css_set_lock.
+> 
+> ...
+> 
+>>>>       spin_lock_irq(&css_set_lock);
+>>>> -    if (freeze)
+>>>> +    write_seqcount_begin(&cgrp->freezer.freeze_seq);
+>>>> +    if (freeze) {
+>>>>           set_bit(CGRP_FREEZE, &cgrp->flags);
+>>>> -    else
+>>>> +        cgrp->freezer.freeze_start_nsec = ts_nsec;
+>>>> +    } else {
+>>>>           clear_bit(CGRP_FREEZE, &cgrp->flags);
+>>>> +        cgrp->freezer.frozen_nsec += (ts_nsec -
+>>>> +            cgrp->freezer.freeze_start_nsec);
+>>>> +    }
+>>>> +    write_seqcount_end(&cgrp->freezer.freeze_seq);
+>>>>       spin_unlock_irq(&css_set_lock);
+> 
+> 
+>>> Hello Tiffany,
+> 
+>>> I wanted to check if there are any specific considerations regarding how we should input the ts_nsec
+>>> value.
+> 
+>>> Would it be possible to define this directly within the cgroup_do_freeze function rather than
+>>> passing it as a parameter? This approach might simplify the implementation and potentially improve
+>>> timing accuracy when it have lots of descendants.
+> 
+> 
+>> I revisited v3, and this was Michal's point.
+>>     p
+>>       /  |  \
+>>      1  ...  n
+>> When we freeze the parent group p, is it expected that all descendant cgroups (1 to n) should share
+>> the same frozen timestamp?
+> 
+> 
+> Yes, this is the expectation from the current change. I understand your
+> concern about the accuracy of this measurement (especially when there
+> are many descendants), but I agree with Michal's point that the time to
+> traverse the descendant cgroups is basically noise relative to the
+> quantity we're trying to measure here.
+> 
+>> If the cgroup tree structure is stable, the exact frozen time may not be really matter. However, if
+>> the tree is not stable, obtaining the same frozen time is acceptable?
+> 
+> I'm a little unclear as to what you mean about when the cgroup tree is
+> unstable. In the case where a new descendant of p is being created, I
+> believe the cgroup_mutex prevents that from happening at the same time
+> as we are freezing p's other descendants. If it won the race, was
+> created unfrozen under p, and then became frozen during cgroup_freeze,
+> it would have the same timestamp as the other descendants. If it lost
+> the race and was created as a frozen cgroup under p, it would get its
+> own timestamp in cgroup_create, so its freezing duration would be
+> slightly less than that of the others in the hierarchy. Both values
+> would be acceptable for our purposes, but if there was a different case
+> you had in mind, please let me know!
+> 
+> Thanks,
 
-       cookie->errcode = 0;
-       cookie->done = 0;
-       init_waitqueue_head(&cookie->wait);
-       err = mutex_lock_interruptible(&hw->mbx.lock);
-       if (err)
-               return err;
-       err = mucse_write_mbx_pf(hw, (u32 *)req, len);
-       if (err)
-               goto out;
-       /* if write succeeds, we must wait for firmware response or
-        * timeout to avoid using the already freed cookie->wait
-        */
-       err = wait_event_timeout(cookie->wait,
-                                cookie->done == 1,
-                                cookie->timeout_jiffies);
+What I mean by "stable" is that while cgroup 1 through n might be deleted or have more descendants
+created. For example:
 
-       if (!err)
-               err = -ETIMEDOUT;
-       else
-               err = 0;
-       if (!err && cookie->errcode)
-               err = cookie->errcode;
-out:
-       mutex_unlock(&hw->mbx.lock);
-       return err;
-}
+         n  n-1  n-2  ... 1
+frozen   a  a+1  a+2     a+n
+unfozen  b  b+1  b+2  ... b+n
+nsec     b-a ...
+
+In this case, all frozen_nsec values are b - a, which I believe is correct.
+However, consider a scenario where some cgroups are deleted:
+
+         n  n-1  n-2  ... 1
+frozen   a  a+1  a+2     a+n
+// 2 ... n-1 are deleted.
+unfozen  b               b+1
+
+Here, the frozen_nsec for cgroup n would be b - a, but for cgroup 1 it would be (b + 1) - (a + n).
+This could introduce some discrepancy / timing inaccuracies.
+
+-- 
+Best regards,
+Ridong
+
