@@ -1,182 +1,128 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054EE246779;
-	Sun, 24 Aug 2025 07:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15E12D8767;
+	Sun, 24 Aug 2025 12:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756022140; cv=none; b=dgRJvaT3K3C0P1YuC4T3/EoyJLaTS0RQoKLH7njHccGABGAJeREkBTjaggm51oVpsQk4ZI6zdewi/Xgpj/LyH7vPqs+qI/6vcTWPp5qFiLuw2ElaXwuOhBfEjxj8W9s5aaiD+Jmqt0uh+8IbRAKubgQs3aSN9k1XehowBQB9Sak=
+	t=1756039341; cv=none; b=riuuDgp8rzbLevAyPPdAgHbmUgTFgAfHZXr7QYw/A4us+wBSthUdu9PTF9gf6cWuOioF8HleKkEeESvAkfs08Zt31waAEn4zhhuZ9GuffsIYW2LC3LB61qzRTZ4bYxqS3ZHow8CI6rhF1hV426URD+/woYU2NozRzhH2zjAzq6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756022140; c=relaxed/simple;
-	bh=HkOwPrnpT35Y+SygLffQ1fNvcHF3cTPZvHTC0IEJSgY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bq2+cAu4j1PQgqtbyFyIjpCnHHcMPOqbWwrvf1XJ9G/XbDXG2JMaC0X0TbT2vq4d4M/fbRKAiZ9Fmqzu7NlJJydsQSfPviapMS7m9+DKGlmWd2HsJpB6HQlw3lewvYCsJq3+LavbVXtQdOonwICg1NUYQY4d1wdDQksMcl3kjm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Wzr7G/H8; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1756039341; c=relaxed/simple;
+	bh=fgE9N+AYCjPOSPrePisRrj1q6mfYGGRAmhs42H4A6SA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OpSeRN0kOeu8Sh/DeiTvodo0/9X+o5S8vt76iVuPtkgmR5XOpD6YaBKS3mnOvLuSQ5IEHv0EEej2RR6lGpI791Vk4Q6nvKuRFpyNlh0yQcHSZDpbONm2BpWoJh55Oa90pMGYq6wXGs9nb2fhJ1ezXJQAkz4BindB+BruGStJius=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EyqoXjGA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Wzr7G/H8"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57O7SOGQ031274;
-	Sun, 24 Aug 2025 07:55:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=uYFiLZpnFBJ3JfM/i2bkB8bD0x2ex
-	s7tUASSBQUSHtg=; b=Wzr7G/H8ru62O7TJAniWTJAshR4YTqnSPx8OoPsouANOO
-	dCp0E6K9C4XgJfLxvpls2tmZZgBuICnDKAZFLalozWuw/cWaPFdCGKgGen6nDUIH
-	3sf2+0nbSbCVkn4ZTFYEc1aHTdNY1AEZw3XCyjS3uj7ntlw7UqrlkUZ5mmF4v92K
-	tlPFwAZCEK/xQWH60WOWBGsq0X43cLq072E1VkIc0nsHFcRtwXNOhufAZbQR8oI0
-	BSv760l1oOXLhPGfwMeEBrwR2a5SvrOaQ+wKMjZgOJGx4ckjBqCXRwgaLqhit9H2
-	45h5RXYBYDQ+QU8GDGCNo02hbv3Vm82lq4/hL98hQ==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48qjv2ravr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 24 Aug 2025 07:55:32 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57O5AGS7014743;
-	Sun, 24 Aug 2025 07:55:31 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48q4373rrh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 24 Aug 2025 07:55:30 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57O7tUE5012602;
-	Sun, 24 Aug 2025 07:55:30 GMT
-Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 48q4373rpb-1;
-	Sun, 24 Aug 2025 07:55:30 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, rdunlap@infradead.org
-Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: KVM: fix reference for kvm_ppc_resize_hpt and various typos
-Date: Sun, 24 Aug 2025 00:54:48 -0700
-Message-ID: <20250824075455.602185-1-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EyqoXjGA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DDDDC4CEEB;
+	Sun, 24 Aug 2025 12:42:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756039340;
+	bh=fgE9N+AYCjPOSPrePisRrj1q6mfYGGRAmhs42H4A6SA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EyqoXjGAqD7Ft2DTzF13ZUNQUS7p7ngkaULch92MqALZNzaXl2HYTjld3QG7MCa5Y
+	 6Fokf1LN8QYy7rN93opIebIPDryYAtXagq7tMSonj6QETbaLmoXvnCMP/9RgWxkfNe
+	 J+Ervf1uo8rhuATE7eudeoUatNmEQE9L6FD4/nV63eaDEtN4rYgo5PWfSMxCD5mPvu
+	 WBpSpfz1lb6Xv0PDqfggAwK4DXHBJAjOt0Rj4Vp3ayPCKWa5NZFrb+UB+Sr7xgv9Pn
+	 9atqld7wGCCme9dEfzhRSQBl1c46HiZjVoyB6WeYGaEGIMqgi1Fl+2RNycYdKqAng2
+	 Hwt5j8L5H8Lew==
+Date: Sun, 24 Aug 2025 15:41:56 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Shiju Jose <shiju.jose@huawei.com>,
+	"rafael@kernel.org" <rafael@kernel.org>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"lenb@kernel.org" <lenb@kernel.org>,
+	"leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	Linuxarm <linuxarm@huawei.com>,
+	"rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>,
+	Somasundaram A <somasundaram.a@hpe.com>,
+	"Aktas, Erdem" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>,
+	"gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>,
+	"Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
+	wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
+ range of memory from the node ID
+Message-ID: <aKsIlFTkBsAF5sqD@kernel.org>
+References: <20250812142616.2330-1-shiju.jose@huawei.com>
+ <20250812142616.2330-2-shiju.jose@huawei.com>
+ <20250819175420.00007ce6@huawei.com>
+ <aKV6dVkPiBPw595T@kernel.org>
+ <20250820095413.00003bd7@huawei.com>
+ <964fc2721fb7499daa5f49eddfed54ff@huawei.com>
+ <aKX_rk0DasbDgJrS@kernel.org>
+ <20250821100655.00003942@huawei.com>
+ <DS7PR11MB6077843C9E2FFA811971BAA7FC32A@DS7PR11MB6077.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-24_02,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
- mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2508110000 definitions=main-2508240075
-X-Authority-Analysis: v=2.4 cv=Rp/FLDmK c=1 sm=1 tr=0 ts=68aac574 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=oA-75tQ_D-ToXw_PklIA:9 cc=ntf
- awl=host:13600
-X-Proofpoint-ORIG-GUID: Q8packPhZK1We2etAZb4frkiMpQ2a53F
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDE4MiBTYWx0ZWRfXzBjy5tcMqmbw
- BaDdrW1gY7OXk67Xf1cmXyFklJvaR+1kgONfHrJf5w39bNHBS0mdi7oXkxRT1nvc0XmsGK37TzX
- gL9ds4ltfpjLPntVA7/L2mLElgtrbOx1qznlb6dsy2K62Gr9bX1S7Px7oZcFdsDHvuS891j3HSl
- FmJ30wFq/eDhQ9Z+g7zPgauNuq55bI6uk3N0Ywjs6uxoyw1IrsqYyGeFvI+J4BGixmEU0bOH7Ov
- tFHRamsof3cISVPP8Terc4SxCq3V520t01rLVJszUf6XiKu1n3xxwmAaSoO1931MNc1VPJrcYTO
- GZ6IxoYUT26yhD+ZBSV239VQm0G1MH6Y0ZwZpWlvNCtsumVzElE6vqRNkeD7PZ5B6J3NijQXdmx
- 6Q0/npNQMT7g5J0pIp/EfoCYrKfIBg==
-X-Proofpoint-GUID: Q8packPhZK1We2etAZb4frkiMpQ2a53F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DS7PR11MB6077843C9E2FFA811971BAA7FC32A@DS7PR11MB6077.namprd11.prod.outlook.com>
 
-Fix the incorrect reference to struct kvm_reinject_control and replace
-it with the correct struct kvm_ppc_resize_hpt in the documentation of
-the HPT resize ioctl.
+On Thu, Aug 21, 2025 at 04:16:02PM +0000, Luck, Tony wrote:
+> > > I believe that's because on x86 the node 0 is really scrambled because of
+> > > e820/efi reservations that never make it to memblock.
+> >
+> > Fun question of whether we should take any notice of those.
+> > Would depend on whether anyone's scrub firmware gets confused if we scrub
+> > them and they aren't backed by memory.  If they are we can rely on system
+> > constraints refusing to scrub that stuff at an 'unsafe' level and if we
+> > set it higher than it otherwise would be only possibility is we see earlier
+> > error detections in those and have to deal with them.
+> 
+> Yes. On x86 the physical memory map below 4GB is a bunch of address
+> ranges with varying properties:
+> 
+> 1) There's the "low" MMIO region (often 2G to very nearly 4G) where 32-bit
+>    PCI devices have device BAR ranges mapped. Some of this isn't memory
+>    at all. It's device registers that may have side effects when read. I don't think
+>    the x86 patrol scrubbers can access this at all.
+> 2) There's EFI allocated memory that is accessible to the OS (e.g. ACPI tables)
+> 3) There's BIOS protected memory for use by SMI that the OS can't access at all
+> 4) There are ranges listed in E820 or efi_memory_map that are usable by OS.
 
-Additional cleanups:
-- Fix "change" -> "changes", "VPCU" -> "VCPU", "Serror" -> "SError"
-- Fix punctuation issues (missing brackets in CPUID leaf reference).
-- Remove duplicated words ("this is ioctl").
-- Correct structure names in error descriptions (kvm_reinject_control ->
-kvm_ppc_resize_hpt).
-- Fix grammar ("than" -> "then", "is there" -> "if there").
+There is a slight problem here with getting the first contiguous range from
+a node to seed the scrubber.
+If we use PXM, the range for node 0 will usually cover the entire node
+including types 1 and 3. And if we take it from memblock, it does not include
+type 2, or anything reserved in e820/efi.
+ 
+> What is the use case for OS control of the patrol scrubbers?
+> 
+> While you might want to specifically scrub some range to make sure there
+> are no lurking problems before allocating to some important process/guest,
+> I'd expect that you'd want to make sure that types 2 & 3 listed above still
+> get a periodic scan to clean up single bit errors.
+> 
+> -Tony
 
-These changes improve clarity and accuracy of the KVM API documentation.
-
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
----
- Documentation/virt/kvm/api.rst | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 6aa40ee05a4ae..22542ceaf5718 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -88,7 +88,7 @@ the VM is shut down.
- =============
- 
- As of Linux 2.6.22, the KVM ABI has been stabilized: no backward
--incompatible change are allowed.  However, there is an extension
-+incompatible changes are allowed.  However, there is an extension
- facility that allows backward-compatible extensions to the API to be
- queried and used.
- 
-@@ -1198,7 +1198,7 @@ pending until the guest takes the exception by unmasking PSTATE.A.
- 
- Running the VCPU may cause it to take a pending SError, or make an access that
- causes an SError to become pending. The event's description is only valid while
--the VPCU is not running.
-+the VCPU is not running.
- 
- This API provides a way to read and write the pending 'event' state that is not
- visible to the guest. To save, restore or migrate a VCPU the struct representing
-@@ -1293,7 +1293,7 @@ ARM64:
- User space may need to inject several types of events to the guest.
- 
- Set the pending SError exception state for this VCPU. It is not possible to
--'cancel' an Serror that has been made pending.
-+'cancel' an SError that has been made pending.
- 
- If the guest performed an access to I/O memory which could not be handled by
- userspace, for example because of missing instruction syndrome decode
-@@ -1832,7 +1832,7 @@ emulate them efficiently. The fields in each entry are defined as follows:
-          the values returned by the cpuid instruction for
-          this function/index combination
- 
--x2APIC (CPUID leaf 1, ecx[21) and TSC deadline timer (CPUID leaf 1, ecx[24])
-+x2APIC (CPUID leaf 1, ecx[21]) and TSC deadline timer (CPUID leaf 1, ecx[24])
- may be returned as true, but they depend on KVM_CREATE_IRQCHIP for in-kernel
- emulation of the local APIC.  TSC deadline timer support is also reported via::
- 
-@@ -3222,8 +3222,8 @@ default-sized hash table (16 MB).
- 
- If this ioctl is called when a hash table has already been allocated,
- with a different order from the existing hash table, the existing hash
--table will be freed and a new one allocated.  If this is ioctl is
--called when a hash table has already been allocated of the same order
-+table will be freed and a new one allocated.  If this ioctl is called
-+when a hash table has already been allocated of the same order
- as specified, the kernel will clear out the existing hash table (zero
- all HPTEs).  In either case, if the guest is using the virtualized
- real-mode area (VRMA) facility, the kernel will re-create the VMRA
-@@ -4434,7 +4434,7 @@ base 2 of the page size in the bottom 6 bits.
- :Returns: 0 on successful completion,
- 	 >0 if a new HPT is being prepared, the value is an estimated
-          number of milliseconds until preparation is complete,
--         -EFAULT if struct kvm_reinject_control cannot be read,
-+         -EFAULT if struct kvm_ppc_resize_hpt cannot be read,
- 	 -EINVAL if the supplied shift or flags are invalid,
- 	 -ENOMEM if unable to allocate the new HPT,
- 
-@@ -4488,7 +4488,7 @@ ones will monitor preparation until it completes or fails.
- :Returns: 0 on successful completion,
-          -EFAULT if struct kvm_reinject_control cannot be read,
- 	 -EINVAL if the supplied shift or flags are invalid,
--	 -ENXIO is there is no pending HPT, or the pending HPT doesn't
-+	 -ENXIO if there is no pending HPT, or the pending HPT doesn't
-          have the requested size,
- 	 -EBUSY if the pending HPT is not fully prepared,
- 	 -ENOSPC if there was a hash collision when moving existing
-@@ -8925,7 +8925,7 @@ This capability indicates that KVM supports steal time accounting.
- When steal time accounting is supported it may be enabled with
- architecture-specific interfaces.  This capability and the architecture-
- specific interfaces must be consistent, i.e. if one says the feature
--is supported, than the other should as well and vice versa.  For arm64
-+is supported, then the other should as well and vice versa.  For arm64
- see Documentation/virt/kvm/devices/vcpu.rst "KVM_ARM_VCPU_PVTIME_CTRL".
- For x86 see Documentation/virt/kvm/x86/msr.rst "MSR_KVM_STEAL_TIME".
- 
 -- 
-2.50.1
-
+Sincerely yours,
+Mike.
