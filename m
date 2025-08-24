@@ -1,137 +1,194 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374A319A;
-	Sun, 24 Aug 2025 00:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2A01FB3;
+	Sun, 24 Aug 2025 01:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755994092; cv=none; b=On5gLs5t45pO8ABmIyYMTjqCHUmhKorIeSAQsXSBDtZsIppO9+AocU/XhjNj2hvWO/0BrktIIyw8C+7l4ukTYv0rF9y/p12VbAIhbqJISgwxfNuaEgsZbb1mYIH5u60Od+2yyVOG8xL3HAHdBr1d9Oh75zFcIcTo2xzda4bXi8c=
+	t=1755999472; cv=none; b=MIjOKI+axLNr/vrOIdK/kueQVIUvpB/Q613wOr5rePWVipZvsaRUQ7bF5pbzrf6OJ9qJjqyQfPFHA/8HtK2WQEw4DZAApJ3fwOh/eJ0mERVe1C3GoIHU8dMUBcYzBNyZ+SyhY3zX70lh2RemKBKYutfn8WnZmrosFGJW8IHIih0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755994092; c=relaxed/simple;
-	bh=L9aGCyqYIqfiE/709OdRQZek+aVPISbBSeqD8LeS+PY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S3TdV2ZP5iwM/4vW7A6CTxcrntEEIaebXQmx9Yx7Iziqr8c9Cz1I8PTS/5oryRWuhyrbhtXTG78Egf0CEn4aofE+sMslChI5ivSUjrL5I2VezYOvZhSgRf+5BnDsCENl6+Bs5zyfsdyMIi/DjtY4cyWx5GsqLNa/1ieygS5f0Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=13TqfuMa; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1755999472; c=relaxed/simple;
+	bh=+nC/GVo0QfwdaQuyT0nNE/Npbuly6IsAQTazyH5tsZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mYF35lORFVrqtv/6+BKCb2e311/+n7pxt89TjxJ+XmRr+w8e1XSSOWtRnTHNeWP4BkJpjeDrGer7ZBEQZ/AKgXZR09sSrDEkPd5a4pmh0oVmbzpQnqjsDg5daY9HjDf+xW8VsgAHE2xtU5GFUOi676p0TP5E/0q/PR6PqcXqGKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Re0Opgd9; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="13TqfuMa"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=MyBjjN2I/3jlsDrVJT+yGV+wBVpUEwoIMa9ewpZMCMg=; b=13TqfuMa5/zhkRt1zTNt8DhjeH
-	d7iQITJGOl0IJWojBPtm6GzoTnyNr5cmPKHVCauU0ACUxyJbiv36OckcHHWc/10jTi61ty7ZZZ9PC
-	pvP6X9nmj/dtb7/tZa4OdA/gsr3beaKLMxsy9xtG+XBTU5hRv23DYpvCL0dxpAUc4wtzEgOM2icI4
-	6RrgjZfEH9POix9PWwuL+QPjurX3mP0jng2c+Bzs0v2N9Z7t2EWvMzemOJS2X8miZYcY8P5NV6m2W
-	pBbIhMmbQplHRrd4Ndt+2hgmAV+71wRxWZ15Ninr6FcrkiiAwe0y3fGmACK5TT5D538ALyoiuSuFG
-	jSAPqudQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upyHD-00000005U69-0Xmu;
-	Sun, 24 Aug 2025 00:08:03 +0000
-Message-ID: <769e0ce4-1f96-4de5-a8a9-48166d6e3a91@infradead.org>
-Date: Sat, 23 Aug 2025 17:08:01 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Re0Opgd9"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-61c20e28380so3010435a12.1;
+        Sat, 23 Aug 2025 18:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755999469; x=1756604269; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6UBZPF5YbhnRufm437C0PF5qAjXN/Uh/I6Zgp8tz2Ts=;
+        b=Re0Opgd9jYlnwFpT6h+aVDFIjfXeYEmHQzqRsWqYSexyLkE1Whe9Va2mcV6aawmtp3
+         VteU1OPu0TVHsxcKajkixt7WqdUQGJguM8kSpKyw/J2G0TACUKbA9NqkKOjNC9+5NLaf
+         lzIHssA4/EGrlExK9Hv2PHwYySRY+SMmMkfo5sPzFrAuplk04WgVI8J02JIqZ9rDx/5V
+         OYm8haE0mb7B7Wi1Ly69ZMGMxe6XXljeg8oXRjLzLeySkOzO8sw8Pd5meWeicifmxZl/
+         FE8HyWlrKHEOPbmgkSGrEUSGfX8MZh+/NK8xeS/2gMEApu9qzMzxCpCs8728hRUmWkdf
+         ItcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755999469; x=1756604269;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6UBZPF5YbhnRufm437C0PF5qAjXN/Uh/I6Zgp8tz2Ts=;
+        b=iYRL0CyEZvD5Ji1VDT+ILBrZMS9g7laFM2mI3WA1UVFxJxQcufs2MDsOwWAiETB6Gp
+         GGt1WOOHebQx3Zwuawv9WkGNZjLEKNKSXu3bR469XpcCh9y7Vq1ChLqT27DzWHSOvqg8
+         4+WJP73MzlfevA02U2tvqUUqL9ldcGM/sN4gMEWvyHWDIgXcqba4rJMe6CCOtEivSe1p
+         kKb4RFvsKH5r9v2LLNJa7oehVOnhmCSC/impfJUYFMYCHvovylmldTG3DGtyqP8Mm/+2
+         1SfKNGkFz1tAlENWqtuynRyBOX+AvaV/Fk3SkzXfiMM/uGuiLSCDUDTxcsQ0nwAdc4IW
+         WBXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUH1YD1exwXwYjp3A5DnXI2CfHP21tQRooBKPIJkwM0kqk3qTxG6vPsRXhOz5GRkdT42J9J525sQYbwz3P1@vger.kernel.org, AJvYcCVGJjaE0Mx7lridWrkIjSFb3vU/N8KuA9RVi/mOobcw5r8gJd3B4TPKDGG549zRoO0+a6w61VQS6jc=@vger.kernel.org, AJvYcCWPPgI/lDdblIydXojlUkFh4U/ryZhgbh1uZ+u0xkEsxnQrsX7lp/xN0O4MPE05AMJ1aDdOnJE2rpWaLGuMlOxtqZRV@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaaK61PZ1ayCouga1c1iySzYlj1HDyJ+C52wEt/FeJt2aNJeKZ
+	1JVoOQGxBLX1vpceIYMZmG9we8SGiGSMqvABTRUQiIbq+G+w8E1Hw13N
+X-Gm-Gg: ASbGncuRKnAPefp+65bCSeScioek1bbonfZ8QVyudVORliHbuaQernQjA5ggWk8frU4
+	i5nhYQquNuTak3oer60jecgaTYNEFD0Vm1I90/ga2ogYkOVPG3DUi7kIlM4AThEgxGsWAgRQE9W
+	olU+NFGloe6oSjWXnwG58C/eNwWnlqski26xNeqIXee0OPNKWzGmhHLPSzYBnMwirJETs7AiZmm
+	1SoKYZnzGpr7H4EBXYMmSydUJIntnYwHHYPo2YB2KVgvswrlCTIZYLv13F3JJ1sekLQvp2t32Oj
+	sMV1DlbawKs1qKYBBxuTBOlkvkxg4Sn9i0ULXaq+q8OMrHZLvEFQDthWPpiOocpltanX0/NlfYu
+	AqtbX7GEJb6ZEiq4quaJc2sKFPw==
+X-Google-Smtp-Source: AGHT+IHxdAZXliDg4Pz7o7ZUiSoOONIAXZLqOCQdY0hkLH1p+jqAseH5s/K0XVWooeUz0LaIMhIjAQ==
+X-Received: by 2002:a05:6402:5057:b0:61a:8c7c:a1f4 with SMTP id 4fb4d7f45d1cf-61c1b48f5e9mr5913145a12.11.1755999468866;
+        Sat, 23 Aug 2025 18:37:48 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c3174f4d4sm2476072a12.54.2025.08.23.18.37.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 23 Aug 2025 18:37:47 -0700 (PDT)
+Date: Sun, 24 Aug 2025 01:37:46 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+	baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+	sunnanyong@huawei.com, vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com,
+	raquini@redhat.com, anshuman.khandual@arm.com,
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+	jglisse@google.com, surenb@google.com, zokeefe@google.com,
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+	rdunlap@infradead.org, hughd@google.com
+Subject: Re: [PATCH v10 03/13] khugepaged: generalize hugepage_vma_revalidate
+ for mTHP support
+Message-ID: <20250824013746.bvsz3vajjj2kphrl@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250819134205.622806-1-npache@redhat.com>
+ <20250819134205.622806-4-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] cpufreq: CPPC: Add sysfs for min/max_perf and
- perf_limited
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
- corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
- ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com,
- perry.yuan@amd.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- bbasu@nvidia.com
-References: <20250823200121.1320197-1-sumitg@nvidia.com>
- <20250823200121.1320197-7-sumitg@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250823200121.1320197-7-sumitg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819134205.622806-4-npache@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
+Hi, Nico
 
+Some nit below.
 
-On 8/23/25 1:01 PM, Sumit Gupta wrote:
-> Add sysfs interfaces for Minimum Performance, Maximum Performance
-> and Performance Limited Register in the cppc_cpufreq driver.
+On Tue, Aug 19, 2025 at 07:41:55AM -0600, Nico Pache wrote:
+>For khugepaged to support different mTHP orders, we must generalize this
+>to check if the PMD is not shared by another VMA and the order is enabled.
+>
+>To ensure madvise_collapse can support working on mTHP orders without the
+>PMD order enabled, we need to convert hugepage_vma_revalidate to take a
+>bitmap of orders.
+>
+>No functional change in this patch.
+>
+>Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>Acked-by: David Hildenbrand <david@redhat.com>
+>Co-developed-by: Dev Jain <dev.jain@arm.com>
+>Signed-off-by: Dev Jain <dev.jain@arm.com>
+>Signed-off-by: Nico Pache <npache@redhat.com>
+>---
+> mm/khugepaged.c | 13 ++++++++-----
+> 1 file changed, 8 insertions(+), 5 deletions(-)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index b7b98aebb670..2d192ec961d2 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+
+There is a comment above this function, which says "revalidate vma before
+taking mmap_lock".
+
+I am afraid it is "after taking mmap_lock"? or "after taking mmap_lock again"?
+
+>@@ -917,7 +917,7 @@ static int collapse_find_target_node(struct collapse_control *cc)
+> static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+> 				   bool expect_anon,
+> 				   struct vm_area_struct **vmap,
+>-				   struct collapse_control *cc)
+>+				   struct collapse_control *cc, unsigned long orders)
+> {
+> 	struct vm_area_struct *vma;
+> 	enum tva_type type = cc->is_khugepaged ? TVA_KHUGEPAGED :
+>@@ -930,9 +930,10 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+> 	if (!vma)
+> 		return SCAN_VMA_NULL;
 > 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  .../ABI/testing/sysfs-devices-system-cpu      | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
+>+	/* Always check the PMD order to insure its not shared by another VMA */
+> 	if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+> 		return SCAN_ADDRESS_RANGE;
+>-	if (!thp_vma_allowable_order(vma, vma->vm_flags, type, PMD_ORDER))
+>+	if (!thp_vma_allowable_orders(vma, vma->vm_flags, type, orders))
+> 		return SCAN_VMA_CHECK;
+> 	/*
+> 	 * Anon VMA expected, the address may be unmapped then
+
+Below is a comment, "thp_vma_allowable_order may return".
+
+Since you use thp_vma_allowable_orders, maybe we need to change the comment
+too.
+
+>@@ -1134,7 +1135,8 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+> 		goto out_nolock;
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> index ab8cd337f43a..4bce0dbc48c9 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> @@ -327,6 +327,49 @@ Description:	Energy performance preference
->  
->  		This file is only present if the cppc-cpufreq driver is in use.
->  
-> +What:           /sys/devices/system/cpu/cpuX/cpufreq/min_perf
-> +Date:           Aug 2025
-> +Contact:        linux-pm@vger.kernel.org
-> +Description:    Minimum Performance
-
-Preferably these 4 lines above use tab(s) after the ':' for indentation
-instead of spaces. (in 3 places, i.e., each sysfs file entry).
-
-> +
-> +		Read/write a 32 bits value from/to this file. This file
-> +		conveys the minimum performance level at which the platform
-> +		may run. Minimum performance may be set to any performance
-> +		value in the range [Lowest Performance, Highest Performance],
-> +		inclusive but must be set to a value that is less than or
-> +		equal to that specified by the Maximum Performance Register.
-> +
-> +		Writing to this file only has meaning when Autonomous Selection
-> +		is enabled.
-> +
-> +		This file is only present if the cppc-cpufreq driver is in use.
-> +
-> +What:           /sys/devices/system/cpu/cpuX/cpufreq/max_perf
-> +Date:           Aug 2025
-> +Contact:        linux-pm@vger.kernel.org
-> +Description:    Minimum Performance
-> +
-> +		Read/write a 32 bits value from/to this file. This file conveys
-> +		the maximum performance level at which the platform may run.
-> +		Maximum performance may be set to any performance value in the
-> +		range [Lowest Performance, Highest Performance], inclusive.
-> +
-> +		Writing to this file only has meaning when Autonomous Selection is
-> +		enabled.
-> +
-> +		This file is only present if the cppc-cpufreq driver is in use.
-> +
-> +What:           /sys/devices/system/cpu/cpuX/cpufreq/perf_limited
-> +Date:           Aug 2025
-> +Contact:        linux-pm@vger.kernel.org
-> +Description:    Minimum Performance
-> +
-> +		Read/write a 32 bits value from/to this file. This file indicates
-> +		to OSPM that an unpredictable event has limited processor
-> +		performance, and the delivered performance may be less than
-> +		desired/minimum performance.
-> +
-> +		This file is only present if the cppc-cpufreq driver is in use.
->  
->  What:		/sys/devices/system/cpu/cpu*/cache/index3/cache_disable_{0,1}
->  Date:		August 2008
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+> 	mmap_read_lock(mm);
+>-	result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
+>+	result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+>+					 BIT(HPAGE_PMD_ORDER));
+> 	if (result != SCAN_SUCCEED) {
+> 		mmap_read_unlock(mm);
+> 		goto out_nolock;
+>@@ -1168,7 +1170,8 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+> 	 * mmap_lock.
+> 	 */
+> 	mmap_write_lock(mm);
+>-	result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
+>+	result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+>+					 BIT(HPAGE_PMD_ORDER));
+> 	if (result != SCAN_SUCCEED)
+> 		goto out_up_write;
+> 	/* check if the pmd is still valid */
+>@@ -2807,7 +2810,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+> 			mmap_read_lock(mm);
+> 			mmap_locked = true;
+> 			result = hugepage_vma_revalidate(mm, addr, false, &vma,
+>-							 cc);
+>+							 cc, BIT(HPAGE_PMD_ORDER));
+> 			if (result  != SCAN_SUCCEED) {
+> 				last_fail = result;
+> 				goto out_nolock;
+>-- 
+>2.50.1
+>
 
 -- 
-~Randy
+Wei Yang
+Help you, Help me
