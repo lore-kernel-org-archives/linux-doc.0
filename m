@@ -1,141 +1,114 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F2E111A8;
-	Sun, 24 Aug 2025 15:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BA11ADC7E;
+	Sun, 24 Aug 2025 18:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756048579; cv=none; b=WYWEnZpWna/KuxyFnr55w6BJBtrxYcCM7QAYRsnmUtsFTXPNk64XK0aU0nogFAj+MEhePcsYy8WJwAoBTQUDPGjcjmilXUbkUeQDm0zPJlDKtkTR54YO6zBFv5yjXYRDfin8rdHqjuFsyZOZtyGj7TOo/pDqoM5V4jMl87fuLx0=
+	t=1756061430; cv=none; b=UzlAAzPKDsV6qA/7GcRtEhTF8edeb3bbNMfISKTs0RvIHqsdGZakNx38PKiEte75peQDGZ8ofN1s1m/D+/Cx1GvvonWqnmHk9KXbEt3An5JVxJwBzG+x3ALEmA4iqq3kNrM58OpMNeRQOIHrak0a23VNW/A3NMsBsnLe+lvnL/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756048579; c=relaxed/simple;
-	bh=G2WnBlkD29xfFF7rlSWpoufymyzsHPV2Eism0iwubIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OxCOjlvysKBrFKK5hWzIgetLWQlxTHY6LDxKCSVbSpk9kUl+tagI7Nz4tmrps1oVwyf2Tz/QNR2K5JnU0XdKiH3iXhvuDpOWebG7F6TD/l0VvUJuLK92Wf5HkTjuNtr6BZFm1yeeEfY3zxLOs5o2Cy2aUI7oIjCiS0pL+FmKttQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZTYC2LLd; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1756061430; c=relaxed/simple;
+	bh=oYpP+l0GELDk8EqZlQHXsfhR+LdmE+vBQmoVZbqoVkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6FQDP7MIrnGw56vnxjNqvSnLtJpStMUjyoch3hlDkq1ZKeHSIe+qSCkcMnuQrkYasWYYxKmqANo959g09eVf3y67gIdUDrmsD1M0OH1TYVA8odz/GWlSzYIqN4bL834F6WWon+OFCEHd6uLj4rj3l2Vm2Qzmk+gfK94pTuCZ70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NoNr1NB/; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZTYC2LLd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Ebce3qTJJl9aY/XMrQEQpthtDw+h3aS8chg9ab8xgGs=; b=ZTYC2LLdWSUpmFSgefTT8AG14t
-	UhTANmgfLT+tHaWF84bTwdpsnGCnPJAVQjqUbMW6070hukqrovKqJXzCi3cFyGYtQF3LLpc7bt6It
-	hCJcuCFyG38AoVM1vxrkenvYxFOVqYLRaYySKpFi9JA8QWjLeBZP0EIf1n4itwswWNsM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uqCRJ-005q8B-Kg; Sun, 24 Aug 2025 17:15:25 +0200
-Date: Sun, 24 Aug 2025 17:15:25 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <809527f7-c838-4582-89cb-6cb9d24963dd@lunn.ch>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <a066746c-2f12-4e70-b63a-7996392a9132@lunn.ch>
- <C2BF8A6A8A79FB29+20250823015824.GB1995939@nic-Precision-5820-Tower>
- <f375e4bf-9b0b-49ca-b83d-addeb49384b8@lunn.ch>
- <424D721323023327+20250824041052.GB2000422@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NoNr1NB/"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2445805aa2eso31604285ad.1;
+        Sun, 24 Aug 2025 11:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756061427; x=1756666227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e/I637rsQSBPccqVsWEHcQxSAsaIwGXkuxeMNEVZ+Gw=;
+        b=NoNr1NB/FWg3cxMgVMENyBG+lqq97A7HbaL7eTUN6szox/IB/vx+29iUZusUzpik7h
+         jhT+TIYjCVvqtQgAWpnFDYm9PTDTRdRRINksUN7ggRH2I9aZO/gdMLjpPMwjEQclfdWQ
+         m2YPXW7DlRZNiq9i3F0n+CDlVaj7HiO4BMNtiF8HyE99MK3Jgy/yRmSSI5/1rLdgrJYz
+         cqqMqfCuf3k2WHlC1DENORFguyKswt8eoW1l6iuZ9EO2gMPov/+wt3owqq9J+SEwS9hv
+         qiW3FYQq+do4ZzYq3BOz3YZ5EZ7IU+izQATCqz4Ldqr1BpTpYAkZCMMIxHKr/7a6ZKbX
+         OdHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756061427; x=1756666227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e/I637rsQSBPccqVsWEHcQxSAsaIwGXkuxeMNEVZ+Gw=;
+        b=YzRxFnOM46jLyisdmGJx0MYQERvceTffSGMKf8R9DyeKk+S5UjHXrBFxkHdjWMKmwT
+         PgTx2mF9rTYU96fZZPIjNTnJh6HGtueT6jtgBXmGG+ikc+hx6TXuyCVO5u5ABVbPatDT
+         eV+659URER7y6att2Q0FU7z5BJsg2qUVLEjXuMeVBOzS0lEUpON6XCoWv6s9Au7nPfZH
+         Uu3kKZ8SMdHjb8nASr9RPU+c4knvcTDOa8x+CP2tZZOO4CpY8zOZN0AKe2+tTkYVOZnP
+         U6vmn1pcSyDHDImBUqhIpZUUazI0UOEwwo8DIZSlBoZBN4VQBSRrceCk46HDS9X63kkV
+         pxkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXO8bSLucx7yUacH41krcHX71uy5WoOG8gYJGJU4C7mpSMhVjOWdav41j7lL5GY394+ZhzD+L4nlJc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+/Pm87+bhHUkg5oNi7tL8UQ1QZOI5dBzNb6NrStQuPSEUDK81
+	vesqrOhE1on+MPaLwe2Ntcv+m3sMlQFaQ6HAjafs/Q0u6zBYMAEGiTxG
+X-Gm-Gg: ASbGncshwNiRb85u9Kw/uTnYK9mvQnCh/B0Y0ONY3rtTR50fB3W7NNJXT8OzPfkm3Pe
+	BWKoa5mBqU8+QYuiXP2GrVXer51ldy9/TyyPOR7tCPL5BTcsrLFTNpzfg18UkW/4KgX+TMU3PT2
+	DCrmSvskdx4Thym0dkDKARoGAQET70yMcNBoqERzYQg9M5lNl6UpB3RT1cGQU1HooSaG0tfju//
+	4i4wNOvVC8tIOWbwjvzZdb0foTHeq3L8UPHyXunuiKKVrTvZRt5woAS/6vuIZ53k4lasaBq3Ze5
+	OpX7+qmdsr033OAgHDcfBr3o+1QBZtEoKcWHsq/nrhnWJUjsEyJBDk6pRSr/BaN57Qtf/rLcVYE
+	JTjA2pZoLvwPJAXgdrQbj+LKF
+X-Google-Smtp-Source: AGHT+IGygt7laEFN/zkAEpiLSDJ12LGPr49Rm+OrPOVFA30XtGNiFMrm/fruchKcsOcw2xI/4rdRGw==
+X-Received: by 2002:a17:903:1249:b0:240:7247:f738 with SMTP id d9443c01a7336-2462edee76fmr127598065ad.1.1756061426906;
+        Sun, 24 Aug 2025 11:50:26 -0700 (PDT)
+Received: from linux ([223.181.107.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466889f202sm48097855ad.151.2025.08.24.11.50.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Aug 2025 11:50:26 -0700 (PDT)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH] Documentation: process: Fix grammar errors in management-style.rst
+Date: Mon, 25 Aug 2025 00:20:15 +0530
+Message-ID: <20250824185015.6312-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <424D721323023327+20250824041052.GB2000422@nic-Precision-5820-Tower>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 24, 2025 at 12:10:52PM +0800, Yibo Dong wrote:
-> On Sat, Aug 23, 2025 at 05:17:45PM +0200, Andrew Lunn wrote:
-> > On Sat, Aug 23, 2025 at 09:58:24AM +0800, Yibo Dong wrote:
-> > > On Fri, Aug 22, 2025 at 04:43:16PM +0200, Andrew Lunn wrote:
-> > > > > +/**
-> > > > > + * mucse_mbx_get_capability - Get hw abilities from fw
-> > > > > + * @hw: pointer to the HW structure
-> > > > > + *
-> > > > > + * mucse_mbx_get_capability tries to get capabities from
-> > > > > + * hw. Many retrys will do if it is failed.
-> > > > > + *
-> > > > > + * @return: 0 on success, negative on failure
-> > > > > + **/
-> > > > > +int mucse_mbx_get_capability(struct mucse_hw *hw)
-> > > > > +{
-> > > > > +	struct hw_abilities ability = {};
-> > > > > +	int try_cnt = 3;
-> > > > > +	int err = -EIO;
-> > > > > +
-> > > > > +	while (try_cnt--) {
-> > > > > +		err = mucse_fw_get_capability(hw, &ability);
-> > > > > +		if (err)
-> > > > > +			continue;
-> > > > > +		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
-> > > > > +		return 0;
-> > > > > +	}
-> > > > > +	return err;
-> > > > > +}
-> > > > 
-> > > > Please could you add an explanation why it would fail? Is this to do
-> > > > with getting the driver and firmware in sync? Maybe you should make
-> > > > this explicit, add a function mucse_mbx_sync() with a comment that
-> > > > this is used once during probe to synchronise communication with the
-> > > > firmware. You can then remove this loop here.
-> > > 
-> > > It is just get some fw capability(or info such as fw version).
-> > > It is failed maybe:
-> > > 1. -EIO: return by mucse_obtain_mbx_lock_pf. The function tries to get
-> > > pf-fw lock(in chip register, not driver), failed when fw hold the lock.
-> > 
-> > If it cannot get the lock, isn't that fatal? You cannot do anything
-> > without the lock.
-> > 
-> > > 2. -ETIMEDOUT: return by mucse_poll_for_xx. Failed when timeout.
-> > > 3. -ETIMEDOUT: return by mucse_fw_send_cmd_wait. Failed when wait
-> > > response timeout.
-> > 
-> > If its dead, its dead. Why would it suddenly start responding?
-> > 
-> > > 4. -EIO: return by mucse_fw_send_cmd_wait. Failed when error_code in
-> > > response.
-> > 
-> > Which should be fatal. No retries necessary.
-> > 
-> > > 5. err return by mutex_lock_interruptible.
-> > 
-> > So you want the user to have to ^C three times?
-> > 
-> > And is mucse_mbx_get_capability() special, or will all interactions
-> > with the firmware have three retries?
-> 
+Fix various grammatical errors in management-style.rst
 
-> It is the first 'cmd with response' from fw when probe. If it failed,
-> return err and nothing else todo (no registe netdev ...). So, we design
-> to give retry for it.
-> fatal with no retry, maybe like this? 
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+---
+ Documentation/process/management-style.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+index dfbc69bf49d4..4ae05a89950a 100644
+--- a/Documentation/process/management-style.rst
++++ b/Documentation/process/management-style.rst
+@@ -15,8 +15,8 @@ to do with reality.  It started as a lark, but that doesn't mean that it
+ might not actually be true. You'll have to decide for yourself.
  
-Quoting myself:
+ Btw, when talking about "kernel manager", it's all about the technical
+-lead persons, not the people who do traditional management inside
+-companies.  If you sign purchase orders or you have any clue about the
++leads, not those who do traditional management inside
++companies.  If you sign purchase orders or have any clue about the
+ budget of your group, you're almost certainly not a kernel manager.
+ These suggestions may or may not apply to you.
+ 
+@@ -42,9 +42,9 @@ actually true.
+ The name of the game is to **avoid** having to make a decision.  In
+ particular, if somebody tells you "choose (a) or (b), we really need you
+ to decide on this", you're in trouble as a manager.  The people you
+-manage had better know the details better than you, so if they come to
++manage better know the details better than you; if they come to
+ you for a technical decision, you're screwed.  You're clearly not
+-competent to make that decision for them.
++competent enough to make that decision for them.
+ 
+ (Corollary:if the people you manage don't know the details better than
+ you, you're also screwed, although for a totally different reason.
+-- 
+2.50.1
 
-> > > > Is this to do
-> > > > with getting the driver and firmware in sync? Maybe you should make
-> > > > this explicit, add a function mucse_mbx_sync() with a comment that
-> > > > this is used once during probe to synchronise communication with the
-> > > > firmware. You can then remove this loop here.
-
-Does the firmware offer a NOP command? Or one to get the firmware
-version?  If you are trying to get the driver and firmware in sync, it
-make sense to use an operation which is low value and won't be used
-anywhere else.
-
-	Andrew
