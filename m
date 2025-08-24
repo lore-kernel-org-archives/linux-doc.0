@@ -1,128 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15E12D8767;
-	Sun, 24 Aug 2025 12:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6748C23A9BE;
+	Sun, 24 Aug 2025 13:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756039341; cv=none; b=riuuDgp8rzbLevAyPPdAgHbmUgTFgAfHZXr7QYw/A4us+wBSthUdu9PTF9gf6cWuOioF8HleKkEeESvAkfs08Zt31waAEn4zhhuZ9GuffsIYW2LC3LB61qzRTZ4bYxqS3ZHow8CI6rhF1hV426URD+/woYU2NozRzhH2zjAzq6g=
+	t=1756042707; cv=none; b=eRdbckxBSYzRTrudnTkeUc6yBl9yX5MrogLPsn162BBws4X8K+WmpI8JiFUt+sRNbQqezdEv4cQk05X6sA9LyAUA2Fqf8XNgdASnBab24OSa10RHXxDU6XOCuGj3Y/op2GQKpxpMgBBq8IZdZ3Y5Avjh80L51bom84oTrSjCboc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756039341; c=relaxed/simple;
-	bh=fgE9N+AYCjPOSPrePisRrj1q6mfYGGRAmhs42H4A6SA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OpSeRN0kOeu8Sh/DeiTvodo0/9X+o5S8vt76iVuPtkgmR5XOpD6YaBKS3mnOvLuSQ5IEHv0EEej2RR6lGpI791Vk4Q6nvKuRFpyNlh0yQcHSZDpbONm2BpWoJh55Oa90pMGYq6wXGs9nb2fhJ1ezXJQAkz4BindB+BruGStJius=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EyqoXjGA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756042707; c=relaxed/simple;
+	bh=s7X0pnbm3msXE4wLTcR0lElsT2tyRtlOMQhPbrtjDYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IhQU0bVIfBH97LguOImZT99yXdtyiVV6H1+mt38Ey/Ryyrm/f7E6eFuMtvXNajjxn6k55Zfn/MRpy+wViFWYKmVvpT1MTKlmVaWGXD1k8NpZwOrfz52jH62+8WMD3UI6hKu/qXu0O49WyL1jqMucdf8f83P+FmprL6Ml5V0Vm5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIKCOTSU; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EyqoXjGA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DDDDC4CEEB;
-	Sun, 24 Aug 2025 12:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756039340;
-	bh=fgE9N+AYCjPOSPrePisRrj1q6mfYGGRAmhs42H4A6SA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EyqoXjGAqD7Ft2DTzF13ZUNQUS7p7ngkaULch92MqALZNzaXl2HYTjld3QG7MCa5Y
-	 6Fokf1LN8QYy7rN93opIebIPDryYAtXagq7tMSonj6QETbaLmoXvnCMP/9RgWxkfNe
-	 J+Ervf1uo8rhuATE7eudeoUatNmEQE9L6FD4/nV63eaDEtN4rYgo5PWfSMxCD5mPvu
-	 WBpSpfz1lb6Xv0PDqfggAwK4DXHBJAjOt0Rj4Vp3ayPCKWa5NZFrb+UB+Sr7xgv9Pn
-	 9atqld7wGCCme9dEfzhRSQBl1c46HiZjVoyB6WeYGaEGIMqgi1Fl+2RNycYdKqAng2
-	 Hwt5j8L5H8Lew==
-Date: Sun, 24 Aug 2025 15:41:56 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Shiju Jose <shiju.jose@huawei.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	"leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	Somasundaram A <somasundaram.a@hpe.com>,
-	"Aktas, Erdem" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>,
-	"gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>,
-	"Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
-	wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v11 1/3] mm: Add support to retrieve physical address
- range of memory from the node ID
-Message-ID: <aKsIlFTkBsAF5sqD@kernel.org>
-References: <20250812142616.2330-1-shiju.jose@huawei.com>
- <20250812142616.2330-2-shiju.jose@huawei.com>
- <20250819175420.00007ce6@huawei.com>
- <aKV6dVkPiBPw595T@kernel.org>
- <20250820095413.00003bd7@huawei.com>
- <964fc2721fb7499daa5f49eddfed54ff@huawei.com>
- <aKX_rk0DasbDgJrS@kernel.org>
- <20250821100655.00003942@huawei.com>
- <DS7PR11MB6077843C9E2FFA811971BAA7FC32A@DS7PR11MB6077.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIKCOTSU"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-246648f833aso8877325ad.3;
+        Sun, 24 Aug 2025 06:38:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756042705; x=1756647505; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=90MLzQuonsDG64dbtL+/stK1T9HCDY9n2Npjr4Lf2lI=;
+        b=EIKCOTSUD586M7ApGG4X1qM1/oHf0aePwhPjUB1+b/tTHSC4YBqe2Po4ItnAb3NkpW
+         FRZhZlmAyRrYmee7WMaGLtgE14C0jVDv7tIL9PriON/tfdM2AD6sTDlOwWRyJYH6ZLG9
+         U7+e+4BUBGbJkIPIwnKQFsYI0hxxOwgcCqR00qvQXUqh5NKQsrnle8SFIvDOs7M+7WhS
+         Qi311VXwmUyYiZn7Azvy9KI/Uhr+oODETEHLP69YsDwi59ywgH48k2X7njnLnNdmY+hm
+         LM+Sr+gMFWUttW4Ktb5WV6DNmXnG9yDbRbFPQnO0pjhKcjhty28aBzs+9f8Vba0mhbbk
+         qnFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756042705; x=1756647505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=90MLzQuonsDG64dbtL+/stK1T9HCDY9n2Npjr4Lf2lI=;
+        b=o/fr1WosF5hg+nm9x/OyWk/AfB+MnKoX8LeRq7rP/DnSQVuX/01/Zkndu3egD/Xfji
+         7/a1SSRC2SDR1osqk4KDsoX43UGe1c4jI5tnfF4hDM6LOtlSVmk4eOipjNVvUIdLfedx
+         +jU+bhsKi1p/OJkonZgrit7y8Wl16HDrZhrykDSG52SXxAcTNr16vMUd48zT+G+BU5LJ
+         2yytjLVZr/qRj181GZKYAmM7vzCFUFjrqOIbRijR1b468tV1uMrfv2i3IQ7KdXX7yqLH
+         bWn5Yk+uzO69k4ElfYS9xL/PjGRISWBY5gzrKULx718dN/PmFraWDqUFiiBteomWuGGS
+         4RZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBoL79Q3qqQVclHXJm3mwDaKnkbri/I/YZHf28pmn6UvPn9vpx2OiLoqzZwx2dYdnNEcSJwphUcGU=@vger.kernel.org, AJvYcCVQ/sSkwWdZyevrHJ6ZsVelwAUhvsj+0NGt1f8Um9i0PTKJ/6AMksxxu4CrMJHfbL5vtVf1OuFlJ+D1XXuJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7OGFvNFcGPw0e/6ngBwYIzXkASKJevA1CmJj/mwEf8xfp5e+W
+	DZcwhaCl/71rzmy68iPd8oIJyPp178oQnDjxHL0zUatE6Tteq6NrAq6F
+X-Gm-Gg: ASbGnctPq7lU+LFWhYPXc/6dAHQG1oTXtWBtND5PhTRDC6fpKMOZkrqrMRauBTXqJC8
+	OazawOtUpgRpQiFg5YRRPGUrtZ1svQHXu7CxJo203fu2QU9WsizWJ3DILVYNY0ulUipgF6Wb9hw
+	ePb3R5YWoynE0SdJ8YzNR/6E14boF5KeeOK42Fg7pCQFbB6Q7zkitoESET95qtwkSHO044vutPR
+	7Xkocen6ev4R08aFQafRCcXRBxkrNTK73HDQN3P2jx1145M4k3v0uCN+LuLl411mKTYcKkEeV53
+	qtXtjz9NMhOFdDmyCsDdSBeHcR27aLUxmA2ydkBaQqwwKuh7M+sDcZ/qz02oaLFIk5GDeh8KhYk
+	FStYhdYJ8H2eLonBZyiJM5OBk1t4=
+X-Google-Smtp-Source: AGHT+IF8IovTN96omGp3/ppnb3zr7HkMglLNXw7Fd633EEr6qn/prmg6jI8MICtzZ0GIepxE4BJk0A==
+X-Received: by 2002:a17:903:46ce:b0:246:a120:8da5 with SMTP id d9443c01a7336-246a120913bmr46300935ad.54.1756042705534;
+        Sun, 24 Aug 2025 06:38:25 -0700 (PDT)
+Received: from pc.. ([202.126.91.214])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-246687b0f9bsm43634545ad.37.2025.08.24.06.38.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Aug 2025 06:38:25 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: scheduler: completion: Document
+ complete_on_current_cpu()
+Date: Sun, 24 Aug 2025 21:38:10 +0800
+Message-ID: <20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DS7PR11MB6077843C9E2FFA811971BAA7FC32A@DS7PR11MB6077.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
+X-Mailer: b4 0.15-dev-e44bb
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756039790; l=1650;
+ i=javier.carrasco.cruz@gmail.com; s=20250209; h=from:subject:message-id;
+ bh=syDoUTo2dJyexWznUEBNddmCWTILFt31Fdy9Xjp84rQ=;
+ b=bYi6PGEqVyK7U7QnKH8BM8SoUVTyguxad06l8UwFsHcL/YfAm6rNP+egn+aW+urJsqnzCN4L3
+ 6ULTI7EeZyfCRNSsCPEp0o84MTBajRoCulNmJPy8v+iv+Pfdz4oBLNr
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=/1fPZTF8kAIBZPO3D8IhqidB0sgYzPDkljBZXsXJZM8=
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 21, 2025 at 04:16:02PM +0000, Luck, Tony wrote:
-> > > I believe that's because on x86 the node 0 is really scrambled because of
-> > > e820/efi reservations that never make it to memblock.
-> >
-> > Fun question of whether we should take any notice of those.
-> > Would depend on whether anyone's scrub firmware gets confused if we scrub
-> > them and they aren't backed by memory.  If they are we can rely on system
-> > constraints refusing to scrub that stuff at an 'unsafe' level and if we
-> > set it higher than it otherwise would be only possibility is we see earlier
-> > error detections in those and have to deal with them.
-> 
-> Yes. On x86 the physical memory map below 4GB is a bunch of address
-> ranges with varying properties:
-> 
-> 1) There's the "low" MMIO region (often 2G to very nearly 4G) where 32-bit
->    PCI devices have device BAR ranges mapped. Some of this isn't memory
->    at all. It's device registers that may have side effects when read. I don't think
->    the x86 patrol scrubbers can access this at all.
-> 2) There's EFI allocated memory that is accessible to the OS (e.g. ACPI tables)
-> 3) There's BIOS protected memory for use by SMI that the OS can't access at all
-> 4) There are ranges listed in E820 or efi_memory_map that are usable by OS.
-
-There is a slight problem here with getting the first contiguous range from
-a node to seed the scrubber.
-If we use PXM, the range for node 0 will usually cover the entire node
-including types 1 and 3. And if we take it from memblock, it does not include
-type 2, or anything reserved in e820/efi.
- 
-> What is the use case for OS control of the patrol scrubbers?
-> 
-> While you might want to specifically scrub some range to make sure there
-> are no lurking problems before allocating to some important process/guest,
-> I'd expect that you'd want to make sure that types 2 & 3 listed above still
-> get a periodic scan to clean up single bit errors.
-> 
-> -Tony
-
--- 
-Sincerely yours,
-Mike.
+Commit 6f63904c8f3e ("sched: add a few helpers to wake up tasks on the=0D
+current cpu") introduced this new function to the completion API that=0D
+has not been documented yet.=0D
+=0D
+Document complete_on_current_cpu() explaining what it does and when its=0D
+usage is justified.=0D
+=0D
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>=0D
+=0D
+---=0D
+Changes in v2:=0D
+- Rebase onto v6.17-rc1=0D
+- Fix patch formatting (drop --- before the Signed-off-by tag).=0D
+- Link to v1: https://lore.kernel.org/r/20250703-complete_on_current_cpu_do=
+c-v1-1-262dc859b38a@gmail.com=0D
+---=0D
+ Documentation/scheduler/completion.rst | 4 ++++=0D
+ 1 file changed, 4 insertions(+)=0D
+=0D
+diff --git a/Documentation/scheduler/completion.rst b/Documentation/schedul=
+er/completion.rst=0D
+index adf0c0a56d02..db9c131f0b62 100644=0D
+--- a/Documentation/scheduler/completion.rst=0D
++++ b/Documentation/scheduler/completion.rst=0D
+@@ -272,6 +272,10 @@ Signaling completion from IRQ context is fine as it wi=
+ll appropriately=0D
+ lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never=0D
+ sleep.=0D
+ =0D
++Use complete_on_current_cpu() to wake up the task on the current CPU.=0D
++It makes use of the WF_CURRENT_CPU flag to move the task to be woken up=0D
++to the current CPU, achieving faster context switches. To use this variant=
+,=0D
++the context switch speed must be relevant and the optimization justified.=
+=0D
+ =0D
+ try_wait_for_completion()/completion_done():=0D
+ --------------------------------------------=0D
+=0D
+---=0D
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585=0D
+change-id: 20250702-complete_on_current_cpu_doc-94dfc72a39f8=0D
+=0D
+Best regards,=0D
+--  =0D
+Javier Carrasco <javier.carrasco.cruz@gmail.com>=0D
+=0D
