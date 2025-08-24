@@ -1,114 +1,175 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BA11ADC7E;
-	Sun, 24 Aug 2025 18:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7FF1EE7DC
+	for <linux-doc@vger.kernel.org>; Sun, 24 Aug 2025 19:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756061430; cv=none; b=UzlAAzPKDsV6qA/7GcRtEhTF8edeb3bbNMfISKTs0RvIHqsdGZakNx38PKiEte75peQDGZ8ofN1s1m/D+/Cx1GvvonWqnmHk9KXbEt3An5JVxJwBzG+x3ALEmA4iqq3kNrM58OpMNeRQOIHrak0a23VNW/A3NMsBsnLe+lvnL/w=
+	t=1756062293; cv=none; b=aTgL+yUaQlMqt+lO9majhZYIKsxfdfpoBj1F0YSxxqLNu4CADJjRRw0iuHd4aCFLMHNz/xaaQBVAMAuxKHYhLcu28aXbwdvjqoBD6LBpIWpnGQ6qqDMNg6mvhq8OrrBZDJLDd6XM4lsy+FklL4LnCVkVnxiJi/5mOwBUAaDIf4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756061430; c=relaxed/simple;
-	bh=oYpP+l0GELDk8EqZlQHXsfhR+LdmE+vBQmoVZbqoVkY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6FQDP7MIrnGw56vnxjNqvSnLtJpStMUjyoch3hlDkq1ZKeHSIe+qSCkcMnuQrkYasWYYxKmqANo959g09eVf3y67gIdUDrmsD1M0OH1TYVA8odz/GWlSzYIqN4bL834F6WWon+OFCEHd6uLj4rj3l2Vm2Qzmk+gfK94pTuCZ70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NoNr1NB/; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756062293; c=relaxed/simple;
+	bh=UP+AYol+DY8UTEmT5RaSgfZsggShtTb7514fxVj9jCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cy12Y/rar2A76nOJhrTYJamJlqfXrX10kPXPVILNvNwG4FmLpqnA02eRNyA+IVQgRgtkgB43HnuYjbWE87Ycb2onswvPcBwsBOWWFOQ3KnnwlfDRo+88GGwPzgQX222iOMeApbsycpwqD4b97IOhBiUud8M9XdoPPQkPVPWhPxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xt+BweIj; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NoNr1NB/"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2445805aa2eso31604285ad.1;
-        Sun, 24 Aug 2025 11:50:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xt+BweIj"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55f3bb787a1so80163e87.1
+        for <linux-doc@vger.kernel.org>; Sun, 24 Aug 2025 12:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756061427; x=1756666227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e/I637rsQSBPccqVsWEHcQxSAsaIwGXkuxeMNEVZ+Gw=;
-        b=NoNr1NB/FWg3cxMgVMENyBG+lqq97A7HbaL7eTUN6szox/IB/vx+29iUZusUzpik7h
-         jhT+TIYjCVvqtQgAWpnFDYm9PTDTRdRRINksUN7ggRH2I9aZO/gdMLjpPMwjEQclfdWQ
-         m2YPXW7DlRZNiq9i3F0n+CDlVaj7HiO4BMNtiF8HyE99MK3Jgy/yRmSSI5/1rLdgrJYz
-         cqqMqfCuf3k2WHlC1DENORFguyKswt8eoW1l6iuZ9EO2gMPov/+wt3owqq9J+SEwS9hv
-         qiW3FYQq+do4ZzYq3BOz3YZ5EZ7IU+izQATCqz4Ldqr1BpTpYAkZCMMIxHKr/7a6ZKbX
-         OdHQ==
+        d=linaro.org; s=google; t=1756062288; x=1756667088; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=xt+BweIjZ9gyWWKUxS3RYMaB9pwRpO0pNpbeP7xasGsGNN3QfOMFeqP+AWSUB7CXi4
+         K97dymZmnzLNS1iLlmg2YltHWBEmCqaIgLBcKAgsh0Tnj3B5vmBdu0id3heOFTxKnvUu
+         PB6FHw5Z5s/TkvosfV4u/Ycpdtmyv6KQMOcV1tY13CT8jAY0yNG4Cp/3UTL3nuQ/+fha
+         CM2VayOWDYdmBasVIGxZNqKn+fvgHGMM5g/J1Xi/0GUVuRl8jtYo1bWQkUfBEFExf52I
+         u5CWucaLQcCI8kIZxu4dbrGLuhmzF+SFQ51k2VfN2GP0XFPZQ+PC7gE0CsvN4k1twteR
+         90Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756061427; x=1756666227;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e/I637rsQSBPccqVsWEHcQxSAsaIwGXkuxeMNEVZ+Gw=;
-        b=YzRxFnOM46jLyisdmGJx0MYQERvceTffSGMKf8R9DyeKk+S5UjHXrBFxkHdjWMKmwT
-         PgTx2mF9rTYU96fZZPIjNTnJh6HGtueT6jtgBXmGG+ikc+hx6TXuyCVO5u5ABVbPatDT
-         eV+659URER7y6att2Q0FU7z5BJsg2qUVLEjXuMeVBOzS0lEUpON6XCoWv6s9Au7nPfZH
-         Uu3kKZ8SMdHjb8nASr9RPU+c4knvcTDOa8x+CP2tZZOO4CpY8zOZN0AKe2+tTkYVOZnP
-         U6vmn1pcSyDHDImBUqhIpZUUazI0UOEwwo8DIZSlBoZBN4VQBSRrceCk46HDS9X63kkV
-         pxkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXO8bSLucx7yUacH41krcHX71uy5WoOG8gYJGJU4C7mpSMhVjOWdav41j7lL5GY394+ZhzD+L4nlJc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+/Pm87+bhHUkg5oNi7tL8UQ1QZOI5dBzNb6NrStQuPSEUDK81
-	vesqrOhE1on+MPaLwe2Ntcv+m3sMlQFaQ6HAjafs/Q0u6zBYMAEGiTxG
-X-Gm-Gg: ASbGncshwNiRb85u9Kw/uTnYK9mvQnCh/B0Y0ONY3rtTR50fB3W7NNJXT8OzPfkm3Pe
-	BWKoa5mBqU8+QYuiXP2GrVXer51ldy9/TyyPOR7tCPL5BTcsrLFTNpzfg18UkW/4KgX+TMU3PT2
-	DCrmSvskdx4Thym0dkDKARoGAQET70yMcNBoqERzYQg9M5lNl6UpB3RT1cGQU1HooSaG0tfju//
-	4i4wNOvVC8tIOWbwjvzZdb0foTHeq3L8UPHyXunuiKKVrTvZRt5woAS/6vuIZ53k4lasaBq3Ze5
-	OpX7+qmdsr033OAgHDcfBr3o+1QBZtEoKcWHsq/nrhnWJUjsEyJBDk6pRSr/BaN57Qtf/rLcVYE
-	JTjA2pZoLvwPJAXgdrQbj+LKF
-X-Google-Smtp-Source: AGHT+IGygt7laEFN/zkAEpiLSDJ12LGPr49Rm+OrPOVFA30XtGNiFMrm/fruchKcsOcw2xI/4rdRGw==
-X-Received: by 2002:a17:903:1249:b0:240:7247:f738 with SMTP id d9443c01a7336-2462edee76fmr127598065ad.1.1756061426906;
-        Sun, 24 Aug 2025 11:50:26 -0700 (PDT)
-Received: from linux ([223.181.107.55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466889f202sm48097855ad.151.2025.08.24.11.50.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 11:50:26 -0700 (PDT)
-From: I Viswanath <viswanathiyyappan@gmail.com>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	I Viswanath <viswanathiyyappan@gmail.com>
-Subject: [PATCH] Documentation: process: Fix grammar errors in management-style.rst
-Date: Mon, 25 Aug 2025 00:20:15 +0530
-Message-ID: <20250824185015.6312-1-viswanathiyyappan@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20230601; t=1756062289; x=1756667089;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=uC2FspPqEVROmaOHENeJ8cwXwC8wrrMZVgeMi71LXox50VSjv/rZBdgoJ+uC0rzgId
+         MrDAzFuxhDDyxOGDGWP3yPFDNSmWqAusP4m57u6ZecjBBN/oCtSX6+VPzCC2SCz9u4l9
+         msOOm16J8ol2eRzTfk5u80eruhCr3O594QSF3ds6aYKUx3ElA4cYNv0Dn68/xps/7ybo
+         0CSBYW+KNl9ustlGzkQEh6ZeALfrRcPxmhD1XZTKD/OgndpJwV9wStW1U0SfFiMcxhQ0
+         Pi/pg4xBXHZmTtlO7YrdWsjE5ZRclepUqXreT+QzHP0cJ7Q+WibVQVG2yz6Mk1w0lQNs
+         +rZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQgvUPfOxmug1Gn8UZcAR95SoSUk49vl0L7PQbdalHer1MZ3o5LfwwbsRttK2Sxz9f4xlECTewHyU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7BTQiTr2H8ahIzFbVrGIJUdNXTXJj3SnQ4rz9kENyDtAICDCi
+	2wLgRNTWzghIwxHy/CB7pUKSGD1UZkHZji2K54bNMwZNIQhAy1ztpglYZx9ier7oq/g=
+X-Gm-Gg: ASbGncuZELl8hQQioj+hLgCFsBBwS4Q0nd78Se90K31HW1m2svTCUU5ZtpCXVlaVSZ9
+	KPJmXzDZpjycEdi+1i5A7isQGoQpA7M+oa8uJu91x1VUZPoREmNBCsQvYTXW4zAAGb+EX3U7dDy
+	FuvKxuMac2e/+4IhKdTnqoaALnsJpybRsgoOPlzJ7LX5q5VGkR3PRl7R/9QSZ0cVwY/AZnRWhCD
+	2ic+/Favoj67owgKgI1dhPDnljzWzEcyXr1maPvB79aT3SCR/NjVVPo1Obh+WFq58Zjf9IC9t9u
+	EuVnSBeQ5ecPAQCZaeUA0SdeOxJ8/7Q780YyleWYseJ0AXJ2qLzWF5s/XTLsfk6woSW78MFN+Ky
+	C7D5xaaF00zHXREMcDha0aeOR0uXHSk+VfMpkxWVJ2MX+t4Mgj4vTc5t6+t4lThEKbt5NkD6RaY
+	wj
+X-Google-Smtp-Source: AGHT+IFyrm2w79r4qu/FnmHu4qBJdoxQ8tpCUb7HA7mtPlKxjeyzi9xJQ9J7AuBmZ4uek0zzq2ON9Q==
+X-Received: by 2002:a05:6512:a85:b0:553:24b4:6492 with SMTP id 2adb3069b0e04-55f0cd6ef0bmr1246189e87.5.1756062288277;
+        Sun, 24 Aug 2025 12:04:48 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c8bb4esm1204996e87.75.2025.08.24.12.04.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Aug 2025 12:04:47 -0700 (PDT)
+Message-ID: <fb733991-857c-4a5b-ba20-d8bd557a4339@linaro.org>
+Date: Sun, 24 Aug 2025 22:04:45 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 19/65] media: camss: Replace .open() file operation with
+ v4l2_fh_open()
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
+ <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Christian Gromm <christian.gromm@microchip.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andy Walls <awalls@md.metrocast.net>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+ Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
+ <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Corentin Labbe <clabbe@baylibre.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix various grammatical errors in management-style.rst
+Hi Jacopo, Laurent,
 
-Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
----
- Documentation/process/management-style.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+thank you for the nice clean-up.
 
-diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-index dfbc69bf49d4..4ae05a89950a 100644
---- a/Documentation/process/management-style.rst
-+++ b/Documentation/process/management-style.rst
-@@ -15,8 +15,8 @@ to do with reality.  It started as a lark, but that doesn't mean that it
- might not actually be true. You'll have to decide for yourself.
- 
- Btw, when talking about "kernel manager", it's all about the technical
--lead persons, not the people who do traditional management inside
--companies.  If you sign purchase orders or you have any clue about the
-+leads, not those who do traditional management inside
-+companies.  If you sign purchase orders or have any clue about the
- budget of your group, you're almost certainly not a kernel manager.
- These suggestions may or may not apply to you.
- 
-@@ -42,9 +42,9 @@ actually true.
- The name of the game is to **avoid** having to make a decision.  In
- particular, if somebody tells you "choose (a) or (b), we really need you
- to decide on this", you're in trouble as a manager.  The people you
--manage had better know the details better than you, so if they come to
-+manage better know the details better than you; if they come to
- you for a technical decision, you're screwed.  You're clearly not
--competent to make that decision for them.
-+competent enough to make that decision for them.
- 
- (Corollary:if the people you manage don't know the details better than
- you, you're also screwed, although for a totally different reason.
+On 8/2/25 12:22, Jacopo Mondi wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> The custom video_open() function in the camss driver open-codes the
+> v4l2_fh_open() helper, with an additional mutex that protects the whole
+> function. Given that the function does not modify any data guarded by
+> the lock, there's no need for using the mutex and the function can be
+> replaced by v4l2_fh_open().
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+
 -- 
-2.50.1
-
+Best wishes,
+Vladimir
