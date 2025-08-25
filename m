@@ -1,624 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6120301029;
-	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ACE10E0;
+	Mon, 25 Aug 2025 16:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=te1K3e4cIvxu6zRzcnrM2VWqqwAhSsaZFgOVf7DGTbuAMjo8EKhurMgN/h8joiP54aw6Qd2nJvOWL4W8I+5xqQBSdgN5OzDh+eJswkc6EZCrFMFwchU7FO1iV203kUa963brYM1AouKM9CH9NaBPUDukFoLCmShFgvyRkApSYU4=
+	t=1756139875; cv=none; b=tNX6Gr11j15Z6UDGfxDVbNduRQ1w47vd/8vqVGKx8Y8Len8QWQ/Ot/FztQvNrpm5F3dszxhwEUQT7RAragb2BanGkijNpSDqBq8kkpIgljWQKKQyq6QzQ4OaNhNVD8UAb8NN35tLa6TNnJXskJL7FkiR81M3sD3EaBuUqpHvwP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=zgcBwTYzYpYoguSl9SjIJy1h20wgmzRq08xK3oGy2bM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LQr7KcVtgYUM1d0kFMC2LKnfIM1yy+7jrR4F+vDQGgrYl1ZZkwlZ3oFvU9dMFcbOaC8NmQhSex9gPQNsNA90Cf90CHV6TY8uB5GU8oRYuQ9WCJAdPmJl0djEy/msIbi2OYovpb/vYzd8izZxQSdYWEGuD+inXxdbo0rGnLAzTTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdCp4AHS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756139875; c=relaxed/simple;
+	bh=49R1XUoVprLMJDRl704H1HRBpYFddqWu0RvHcoPBUlY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ImoMFq0DUxNhx+sOLvj6ApBzFYbm3tw2pdaedt9VvGO5o/DYZ8JhRLn2l9q4KhOEa7qKiH0cObPyHu5AdTHTlmQ0nsFMctlbyhRw2ps/jN8D9AtQ/nesIcvJYYF78k8urMRu+/H/XyP7bebfeBnAIuR/JVcN1eFnIMz11bqnEuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AXjDp+G6; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdCp4AHS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 234D9C16AAE;
-	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756139449;
-	bh=zgcBwTYzYpYoguSl9SjIJy1h20wgmzRq08xK3oGy2bM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SdCp4AHSS3pmRSWfMDVI2xkReQZlCxaxXCN1dQckwO00Kw9MNCgm5QspCDmeDjoei
-	 47kwtgcM0v/ofYprSzhMt1ueBhAWoJ0D/2P6tX+ZYkaE1N935IIM9aspYB83O2+m/3
-	 AnLsXdlhe4olFveXNdxF+T1kzCTLJH7ShRdEB4pntSRT84f9WHDtsil5RJ9LdlZsEa
-	 MHGOlxAQ8rwEeACJq3K1R5Mvu6B14rM+HOxkhj4RcFMsugwUt2ULqOMiryCSQ52W/j
-	 abHqJwwWhqZ1xGhR+4rHYlWjdMWfe6+FTx9/RHYzzAzOXtoZyIF0oLVZ/DyYv32KFq
-	 K+Rzvdvgy3B5w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HALg-1NAh;
-	Mon, 25 Aug 2025 18:30:47 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 07/13] tools/docs: sphinx-build-wrapper: add comments and blank lines
-Date: Mon, 25 Aug 2025 18:30:34 +0200
-Message-ID: <42688d491785370d83b670edc9d32a7a6a9304ff.1756138805.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
-References: <cover.1756138805.git.mchehab+huawei@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AXjDp+G6"
+Message-ID: <316f57e3-5953-4db6-84aa-df9278461d30@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756139870;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=irO/0C7BR+axJtgXqBSOvuib9XTOGqEywKCWh0ZA8Ow=;
+	b=AXjDp+G6ZFTa4wnUJLVDBSLiLa/JC3S7lCg+Dc/OUA1Xw/gXWpRaT+ZsqO86MNvaeyIRf3
+	c3/7p59iH1LNGAPc8xfbTR7EyMzLYLYmrqkzG13zC6+QXd16PlYuMAABRIuIeELfBSResh
+	Csb5N9uB9tfqnQniqPTBBYcvtTT7jSE=
+Date: Mon, 25 Aug 2025 17:37:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
+To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+ gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+ Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+ alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+ gustavoars@kernel.org
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250822023453.1910972-1-dong100@mucse.com>
+ <20250822023453.1910972-5-dong100@mucse.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20250822023453.1910972-5-dong100@mucse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-To help seing the actual size of the script when it was added,
-I opted to strip out all comments from the original script.
+On 22/08/2025 03:34, Dong Yibo wrote:
 
-Add them here:
+[...]
+> +/**
+> + * mucse_mbx_fw_post_req - Posts a mbx req to firmware and wait reply
+> + * @hw: pointer to the HW structure
+> + * @req: pointer to the cmd req structure
+> + * @cookie: pointer to the req cookie
+> + *
+> + * mucse_mbx_fw_post_req posts a mbx req to firmware and wait for the
+> + * reply. cookie->wait will be set in irq handler.
+> + *
+> + * @return: 0 on success, negative on failure
+> + **/
+> +static int mucse_mbx_fw_post_req(struct mucse_hw *hw,
+> +				 struct mbx_fw_cmd_req *req,
+> +				 struct mbx_req_cookie *cookie)
+> +{
+> +	int len = le16_to_cpu(req->datalen);
+> +	int err;
+> +
+> +	cookie->errcode = 0;
+> +	cookie->done = 0;
+> +	init_waitqueue_head(&cookie->wait);
+> +	err = mutex_lock_interruptible(&hw->mbx.lock);
+> +	if (err)
+> +		return err;
+> +	err = mucse_write_mbx_pf(hw, (u32 *)req, len);
+> +	if (err)
+> +		goto out;
+> +	/* if write succeeds, we must wait for firmware response or
+> +	 * timeout to avoid using the already freed cookie->wait
+> +	 */
+> +	err = wait_event_timeout(cookie->wait,
+> +				 cookie->done == 1,
+> +				 cookie->timeout_jiffies);
 
- tools/docs/sphinx-build-wrapper | 261 +++++++++++++++++++++++++++++++-
- 1 file changed, 257 insertions(+), 4 deletion(-)
+it's unclear to me, what part of the code is managing values of cookie
+structure? I didn't get the reason why are you putting the address of
+cookie structure into request which is then directly passed to the FW.
+Is the FW supposed to change values in cookie?
 
-As the code from the script has 288 lines of code, it means that
-about half of the script are comments.
+> +
+> +	if (!err)
+> +		err = -ETIMEDOUT;
+> +	else
+> +		err = 0;
+> +	if (!err && cookie->errcode)
+> +		err = cookie->errcode;
+> +out:
+> +	mutex_unlock(&hw->mbx.lock);
+> +	return err;
+> +}
 
-Also ensure pylint won't report any warnings.
+[...]
 
-No functional changes.
+> +struct mbx_fw_cmd_req {
+> +	__le16 flags;
+> +	__le16 opcode;
+> +	__le16 datalen;
+> +	__le16 ret_value;
+> +	union {
+> +		struct {
+> +			__le32 cookie_lo;
+> +			__le32 cookie_hi;
+> +		};
+> +
+> +		void *cookie;
+> +	};
+> +	__le32 reply_lo;
+> +	__le32 reply_hi;
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/docs/sphinx-build-wrapper | 261 +++++++++++++++++++++++++++++++-
- 1 file changed, 257 insertions(+), 4 deletions(-)
+what do these 2 fields mean? are you going to provide reply's buffer
+address directly to FW?
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index df469af8a4ef..e9c522794fbe 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -1,21 +1,71 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2025 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+#
-+# pylint: disable=R0902, R0912, R0913, R0914, R0915, R0917, C0103
-+#
-+# Converted from docs Makefile and parallel-wrapper.sh, both under
-+# GPLv2, copyrighted since 2008 by the following authors:
-+#
-+#    Akira Yokosawa <akiyks@gmail.com>
-+#    Arnd Bergmann <arnd@arndb.de>
-+#    Breno Leitao <leitao@debian.org>
-+#    Carlos Bilbao <carlos.bilbao@amd.com>
-+#    Dave Young <dyoung@redhat.com>
-+#    Donald Hunter <donald.hunter@gmail.com>
-+#    Geert Uytterhoeven <geert+renesas@glider.be>
-+#    Jani Nikula <jani.nikula@intel.com>
-+#    Jan Stancek <jstancek@redhat.com>
-+#    Jonathan Corbet <corbet@lwn.net>
-+#    Joshua Clayton <stillcompiling@gmail.com>
-+#    Kees Cook <keescook@chromium.org>
-+#    Linus Torvalds <torvalds@linux-foundation.org>
-+#    Magnus Damm <damm+renesas@opensource.se>
-+#    Masahiro Yamada <masahiroy@kernel.org>
-+#    Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+#    Maxim Cournoyer <maxim.cournoyer@gmail.com>
-+#    Peter Foley <pefoley2@pefoley.com>
-+#    Randy Dunlap <rdunlap@infradead.org>
-+#    Rob Herring <robh@kernel.org>
-+#    Shuah Khan <shuahkh@osg.samsung.com>
-+#    Thorsten Blum <thorsten.blum@toblux.com>
-+#    Tomas Winkler <tomas.winkler@intel.com>
-+
-+
-+"""
-+Sphinx build wrapper that handles Kernel-specific business rules:
-+
-+- it gets the Kernel build environment vars;
-+- it determines what's the best parallelism;
-+- it handles SPHINXDIRS
-+
-+This tool ensures that MIN_PYTHON_VERSION is satisfied. If version is
-+below that, it seeks for a new Python version. If found, it re-runs using
-+the newer version.
-+"""
-+
- import argparse
- import os
- import shlex
- import shutil
- import subprocess
- import sys
-+
- from lib.python_version import PythonVersion
- 
- LIB_DIR = "../../scripts/lib"
- SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-+
- sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
- 
--from jobserver import JobserverExec
-+from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
- 
-+#
-+#  Some constants
-+#
- MIN_PYTHON_VERSION = PythonVersion("3.7").version
- PAPER = ["", "a4", "letter"]
-+
- TARGETS = {
-     "cleandocs":     { "builder": "clean" },
-     "linkcheckdocs": { "builder": "linkcheck" },
-@@ -28,8 +78,19 @@ TARGETS = {
-     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
- }
- 
-+
-+#
-+# SphinxBuilder class
-+#
-+
- class SphinxBuilder:
-+    """
-+    Handles a sphinx-build target, adding needed arguments to build
-+    with the Kernel.
-+    """
-+
-     def is_rust_enabled(self):
-+        """Check if rust is enabled at .config"""
-         config_path = os.path.join(self.srctree, ".config")
-         if os.path.isfile(config_path):
-             with open(config_path, "r", encoding="utf-8") as f:
-@@ -37,37 +98,83 @@ class SphinxBuilder:
-         return False
- 
-     def get_path(self, path, abs_path=False):
-+        """
-+        Ancillary routine to handle patches the right way, as shell does.
-+
-+        It first expands "~" and "~user". Then, if patch is not absolute,
-+        join self.srctree. Finally, if requested, convert to abspath.
-+        """
-+
-         path = os.path.expanduser(path)
-         if not path.startswith("/"):
-             path = os.path.join(self.srctree, path)
-+
-         if abs_path:
-             return os.path.abspath(path)
-+
-         return path
- 
-     def __init__(self, verbose=False, n_jobs=None):
-+        """Initialize internal variables"""
-         self.verbose = None
-+
-+        #
-+        # Normal variables passed from Kernel's makefile
-+        #
-         self.kernelversion = os.environ.get("KERNELVERSION", "unknown")
-         self.kernelrelease = os.environ.get("KERNELRELEASE", "unknown")
-         self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
-         self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
-+
-         if not verbose:
-             verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
-+
-         if verbose is not None:
-             self.verbose = verbose
-+
-+        #
-+        # As we handle number of jobs and quiet in separate, we need to pick
-+        # both the same way as sphinx-build would pick, optionally accepts
-+        # whitespaces or not. So let's use argparse to handle argument expansion
-+        #
-         parser = argparse.ArgumentParser()
-         parser.add_argument('-j', '--jobs', type=int)
-         parser.add_argument('-q', '--quiet', type=int)
-+
-+        #
-+        # Other sphinx-build arguments go as-is, so place them
-+        # at self.sphinxopts, using shell parser
-+        #
-         sphinxopts = shlex.split(os.environ.get("SPHINXOPTS", ""))
-+
-+        #
-+        # Build a list of sphinx args
-+        #
-         sphinx_args, self.sphinxopts = parser.parse_known_args(sphinxopts)
-         if sphinx_args.quiet is True:
-             self.verbose = False
-+
-         if sphinx_args.jobs:
-             self.n_jobs = sphinx_args.jobs
-+
-+        #
-+        # If the command line argument "-j" is used override SPHINXOPTS
-+        #
-+
-         self.n_jobs = n_jobs
-+
-+        #
-+        # Source tree directory. This needs to be at os.environ, as
-+        # Sphinx extensions use it
-+        #
-         self.srctree = os.environ.get("srctree")
-         if not self.srctree:
-             self.srctree = "."
-             os.environ["srctree"] = self.srctree
-+
-+        #
-+        # Now that we can expand srctree, get other directories as well
-+        #
-         self.sphinxbuild = os.environ.get("SPHINXBUILD", "sphinx-build")
-         self.kerneldoc = self.get_path(os.environ.get("KERNELDOC",
-                                                       "scripts/kernel-doc.py"))
-@@ -77,20 +184,36 @@ class SphinxBuilder:
- 
-         self.config_rust = self.is_rust_enabled()
- 
-+        #
-+        # Get directory locations for LaTeX build toolchain
-+        #
-         self.pdflatex_cmd = shutil.which(self.pdflatex)
-         self.latexmk_cmd = shutil.which("latexmk")
- 
-         self.env = os.environ.copy()
- 
-     def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
-+        """
-+        Executes sphinx-build using current python3 command and setting
-+        -j parameter if possible to run the build in parallel.
-+        """
-+
-         with JobserverExec() as jobserver:
-             if jobserver.claim:
-                 n_jobs = str(jobserver.claim)
-             else:
-                 n_jobs = "auto" # Supported since Sphinx 1.7
-+
-             cmd = []
-+
-             cmd.append(sys.executable)
-+
-             cmd.append(sphinx_build)
-+
-+            #
-+            # Override auto setting, if explicitly passed from command line
-+            # or via SPHINXOPTS
-+            #
-             if self.n_jobs:
-                 n_jobs = str(self.n_jobs)
- 
-@@ -99,59 +222,100 @@ class SphinxBuilder:
- 
-             if not self.verbose:
-                 cmd.append("-q")
-+
-             cmd += self.sphinxopts
-             cmd += build_args
-+
-             if self.verbose:
-                 print(" ".join(cmd))
-             return subprocess.call(cmd, *args, **pwargs)
- 
-     def handle_html(self, css, output_dir):
-+        """
-+        Extra steps for HTML and epub output.
-+
-+        For such targets, we need to ensure that CSS will be properly
-+        copied to the output _static directory
-+        """
-+
-         if not css:
-             return
-+
-         css = os.path.expanduser(css)
-         if not css.startswith("/"):
-             css = os.path.join(self.srctree, css)
-+
-         static_dir = os.path.join(output_dir, "_static")
-         os.makedirs(static_dir, exist_ok=True)
-+
-         try:
-             shutil.copy2(css, static_dir)
-         except (OSError, IOError) as e:
-             print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
- 
-     def handle_pdf(self, output_dirs):
-+        """
-+        Extra steps for PDF output.
-+
-+        As PDF is handled via a LaTeX output, after building the .tex file,
-+        a new build is needed to create the PDF output from the latex
-+        directory.
-+        """
-         builds = {}
-         max_len = 0
-+
-         for from_dir in output_dirs:
-             pdf_dir = os.path.join(from_dir, "../pdf")
-             os.makedirs(pdf_dir, exist_ok=True)
-+
-             if self.latexmk_cmd:
-                 latex_cmd = [self.latexmk_cmd, f"-{self.pdflatex}"]
-             else:
-                 latex_cmd = [self.pdflatex]
-+
-             latex_cmd.extend(shlex.split(self.latexopts))
-+
-             tex_suffix = ".tex"
-+
-+            #
-+            # Process each .tex file
-+            #
-+
-             has_tex = False
-             build_failed = False
-             with os.scandir(from_dir) as it:
-                 for entry in it:
-                     if not entry.name.endswith(tex_suffix):
-                         continue
-+
-                     name = entry.name[:-len(tex_suffix)]
-                     has_tex = True
-+
-+                    #
-+                    # LaTeX PDF error code is almost useless for us:
-+                    # any warning makes it non-zero. For kernel doc builds it
-+                    # always return non-zero even when build succeeds.
-+                    # So, let's do the best next thing: check if all PDF
-+                    # files were built. If they're, print a summary and
-+                    # return 0 at the end of this function
-+                    #
-                     try:
-                         subprocess.run(latex_cmd + [entry.path],
-                                        cwd=from_dir, check=True)
-                     except subprocess.CalledProcessError:
-                         pass
-+
-                     pdf_name = name + ".pdf"
-                     pdf_from = os.path.join(from_dir, pdf_name)
-                     pdf_to = os.path.join(pdf_dir, pdf_name)
-+
-                     if os.path.exists(pdf_from):
-                         os.rename(pdf_from, pdf_to)
-                         builds[name] = os.path.relpath(pdf_to, self.builddir)
-                     else:
-                         builds[name] = "FAILED"
-                         build_failed = True
-+
-                     name = entry.name.removesuffix(".tex")
-                     max_len = max(max_len, len(name))
- 
-@@ -160,58 +324,100 @@ class SphinxBuilder:
-                 max_len = max(max_len, len(name))
-                 builds[name] = "FAILED (no .tex)"
-                 build_failed = True
-+
-         msg = "Summary"
-         msg += "\n" + "=" * len(msg)
-         print()
-         print(msg)
-+
-         for pdf_name, pdf_file in builds.items():
-             print(f"{pdf_name:<{max_len}}: {pdf_file}")
-+
-         print()
-+
-         if build_failed:
-             sys.exit("PDF build failed: not all PDF files were created.")
-         else:
-             print("All PDF files were built.")
- 
-     def handle_info(self, output_dirs):
-+        """
-+        Extra steps for Info output.
-+
-+        For texinfo generation, an additional make is needed from the
-+        texinfo directory.
-+        """
-+
-         for output_dir in output_dirs:
-             try:
-                 subprocess.run(["make", "info"], cwd=output_dir, check=True)
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
- 
--    def cleandocs(self, builder):
-+    def cleandocs(self, builder):           # pylint: disable=W0613
-+        """Remove documentation output directory"""
-         shutil.rmtree(self.builddir, ignore_errors=True)
- 
-     def build(self, target, sphinxdirs=None, conf="conf.py",
-               theme=None, css=None, paper=None):
-+        """
-+        Build documentation using Sphinx. This is the core function of this
-+        module. It prepares all arguments required by sphinx-build.
-+        """
-+
-         builder = TARGETS[target]["builder"]
-         out_dir = TARGETS[target].get("out_dir", "")
-+
-+        #
-+        # Cleandocs doesn't require sphinx-build
-+        #
-         if target == "cleandocs":
-             self.cleandocs(builder)
-             return
-+
-         if theme:
--                os.environ["DOCS_THEME"] = theme
-+            os.environ["DOCS_THEME"] = theme
-+
-+        #
-+        # Other targets require sphinx-build, so check if it exists
-+        #
-         sphinxbuild = shutil.which(self.sphinxbuild, path=self.env["PATH"])
-         if not sphinxbuild:
-             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
-+
-         if builder == "latex":
-             if not self.pdflatex_cmd and not self.latexmk_cmd:
-                 sys.exit("Error: pdflatex or latexmk required for PDF generation")
-+
-         docs_dir = os.path.abspath(os.path.join(self.srctree, "Documentation"))
-+
-+        #
-+        # Fill in base arguments for Sphinx build
-+        #
-         kerneldoc = self.kerneldoc
-         if kerneldoc.startswith(self.srctree):
-             kerneldoc = os.path.relpath(kerneldoc, self.srctree)
-+
-         args = [ "-b", builder, "-c", docs_dir ]
-+
-         if builder == "latex":
-             if not paper:
-                 paper = PAPER[1]
-+
-             args.extend(["-D", f"latex_elements.papersize={paper}paper"])
-+
-         if self.config_rust:
-             args.extend(["-t", "rustdoc"])
-+
-         if conf:
-             self.env["SPHINX_CONF"] = self.get_path(conf, abs_path=True)
-+
-         if not sphinxdirs:
-             sphinxdirs = os.environ.get("SPHINXDIRS", ".")
-+
-+        #
-+        # sphinxdirs can be a list or a whitespace-separated string
-+        #
-         sphinxdirs_list = []
-         for sphinxdir in sphinxdirs:
-             if isinstance(sphinxdir, list):
-@@ -219,17 +425,32 @@ class SphinxBuilder:
-             else:
-                 for name in sphinxdir.split(" "):
-                     sphinxdirs_list.append(name)
-+
-+        #
-+        # Step 1:  Build each directory in separate.
-+        #
-+        # This is not the best way of handling it, as cross-references between
-+        # them will be broken, but this is what we've been doing since
-+        # the beginning.
-+        #
-         output_dirs = []
-         for sphinxdir in sphinxdirs_list:
-             src_dir = os.path.join(docs_dir, sphinxdir)
-             doctree_dir = os.path.join(self.builddir, ".doctrees")
-             output_dir = os.path.join(self.builddir, sphinxdir, out_dir)
-+
-+            #
-+            # Make directory names canonical
-+            #
-             src_dir = os.path.normpath(src_dir)
-             doctree_dir = os.path.normpath(doctree_dir)
-             output_dir = os.path.normpath(output_dir)
-+
-             os.makedirs(doctree_dir, exist_ok=True)
-             os.makedirs(output_dir, exist_ok=True)
-+
-             output_dirs.append(output_dir)
-+
-             build_args = args + [
-                 "-d", doctree_dir,
-                 "-D", f"kerneldoc_bin={kerneldoc}",
-@@ -239,48 +460,80 @@ class SphinxBuilder:
-                 src_dir,
-                 output_dir,
-             ]
-+
-             try:
-                 self.run_sphinx(sphinxbuild, build_args, env=self.env)
-             except (OSError, ValueError, subprocess.SubprocessError) as e:
-                 sys.exit(f"Build failed: {repr(e)}")
-+
-+            #
-+            # Ensure that each html/epub output will have needed static files
-+            #
-             if target in ["htmldocs", "epubdocs"]:
-                 self.handle_html(css, output_dir)
-+
-+        #
-+        # Step 2: Some targets (PDF and info) require an extra step once
-+        #         sphinx-build finishes
-+        #
-         if target == "pdfdocs":
-             self.handle_pdf(output_dirs)
-         elif target == "infodocs":
-             self.handle_info(output_dirs)
- 
- def jobs_type(value):
-+    """
-+    Handle valid values for -j. Accepts Sphinx "-jauto", plus a number
-+    equal or bigger than one.
-+    """
-     if value is None:
-         return None
-+
-     if value.lower() == 'auto':
-         return value.lower()
-+
-     try:
-         if int(value) >= 1:
-             return value
-+
-         raise argparse.ArgumentTypeError(f"Minimum jobs is 1, got {value}")
-     except ValueError:
--        raise argparse.ArgumentTypeError(f"Must be 'auto' or positive integer, got {value}")
-+        raise argparse.ArgumentTypeError(f"Must be 'auto' or positive integer, got {value}")  # pylint: disable=W0707
- 
- def main():
-+    """
-+    Main function. The only mandatory argument is the target. If not
-+    specified, the other arguments will use default values if not
-+    specified at os.environ.
-+    """
-     parser = argparse.ArgumentParser(description="Kernel documentation builder")
-+
-     parser.add_argument("target", choices=list(TARGETS.keys()),
-                         help="Documentation target to build")
-     parser.add_argument("--sphinxdirs", nargs="+",
-                         help="Specific directories to build")
-     parser.add_argument("--conf", default="conf.py",
-                         help="Sphinx configuration file")
-+
-     parser.add_argument("--theme", help="Sphinx theme to use")
-+
-     parser.add_argument("--css", help="Custom CSS file for HTML/EPUB")
-+
-     parser.add_argument("--paper", choices=PAPER, default=PAPER[0],
-                         help="Paper size for LaTeX/PDF output")
-+
-     parser.add_argument("-v", "--verbose", action='store_true',
-                         help="place build in verbose mode")
-+
-     parser.add_argument('-j', '--jobs', type=jobs_type,
-                         help="Sets number of jobs to use with sphinx-build")
-+
-     args = parser.parse_args()
-+
-     PythonVersion.check_python(MIN_PYTHON_VERSION)
-+
-     builder = SphinxBuilder(verbose=args.verbose, n_jobs=args.jobs)
-+
-     builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,
-                   theme=args.theme, css=args.css, paper=args.paper)
- 
--- 
-2.51.0
+> +	union {
+> +		u8 data[32];
+> +		struct {
+> +			__le32 version;
+> +			__le32 status;
+> +		} ifinsmod;
+> +		struct {
+> +			__le32 port_mask;
+> +			__le32 pfvf_num;
+> +		} get_mac_addr;
+> +	};
+> +} __packed;
+> +
+> +struct mbx_fw_cmd_reply {
+> +	__le16 flags;
+> +	__le16 opcode;
+> +	__le16 error_code;
+> +	__le16 datalen;
+> +	union {
+> +		struct {
+> +			__le32 cookie_lo;
+> +			__le32 cookie_hi;
+> +		};
+> +		void *cookie;
+> +	};
 
+This part looks like the request, apart from datalen and error_code are
+swapped in the header. And it actually means that the FW will put back
+the address of provided cookie into reply, right? If yes, then it
+doesn't look correct at all...
+
+> +	union {
+> +		u8 data[40];
+> +		struct mac_addr {
+> +			__le32 ports;
+> +			struct _addr {
+> +				/* for macaddr:01:02:03:04:05:06
+> +				 * mac-hi=0x01020304 mac-lo=0x05060000
+> +				 */
+> +				u8 mac[8];
+> +			} addrs[4];
+> +		} mac_addr;
+> +		struct hw_abilities hw_abilities;
+> +	};
+> +} __packed;
