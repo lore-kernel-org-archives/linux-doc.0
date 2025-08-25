@@ -1,190 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F23111713;
-	Mon, 25 Aug 2025 16:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0CC1FECAD;
+	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139023; cv=none; b=fZeN5KU9FQHQdGtKQd4z+41HPsrzinnRfDZTP3aCJnoeIpcdAyXaAyijMfXtQwOwcMIJrxXcQgwU/0f6av5w/9AtlmBjmStRukJfkL+kWblRt0a2CkidDugW/FaxWQERujq1MjxJpSNQfXYS4n0N267ZbL8HW6n3p1cw8eA6nV8=
+	t=1756139449; cv=none; b=NCYWL76RcxYhe/QsrWq+0l5Cd/XhmMi+xHz7jiy9ODF1YfUxIr0iQ+J/wxhlF22VJBQyamKAPGhHpxwpKBAXcpNmc3NDH2IaeV0eIZG9X71LZ6hIlT6CRp80/O85PdeygX2Efn7OVBy85pYQ5nscUNjIHg2pxVwu3ANTNXzb3dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756139023; c=relaxed/simple;
-	bh=KgpIyi6RAg5MAXdti7zU0f2hj8RJXYvhBuIqG1e+0CE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S7qDhJcZIBfVPzXSu/dG60hK0wJ7SLrorqbmvcFiunQkGyNdyCB3EUCvsYvHiXydfj+hjbnhF02Wre3rZrWrWG6GIfZNmvmOwAHN17y1fehoZnYSmarbbKURxkHGm5xB9C4A+Kkflvr6d6eVzQ6/8nvO+THLwoefrQ/SBCVspNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuZQedcg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756139449; c=relaxed/simple;
+	bh=jlol1TuhVNcZDXlNqsLBvYWROc27W0iXgTQpgdIUTbU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iQeSFK8A8w1pEpxJWGmI6nn6V29bcUrWlB8FQRmAkqGVud5qNPHz7b5g1gHrMdY7Z5fBbFVZQNqZoApn1h/j0z7/6ymmW2qnRAK6nmhsMRsHRCLJQRSqcy0GypOw6iKXZOS8cHE1dFh68sDKQmZLTvKy7/L4bmlle/Wpf37BpwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TA904OiL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuZQedcg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09423C4CEED;
-	Mon, 25 Aug 2025 16:23:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TA904OiL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1045DC4CEED;
+	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756139022;
-	bh=KgpIyi6RAg5MAXdti7zU0f2hj8RJXYvhBuIqG1e+0CE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cuZQedcg1Zp25ehlMzicSD+8IdnsfbE4M/4qDW+GBk9ac9z4eDU7QA6R5eTSxBxbe
-	 IFjDzU/5VAjaY7v9KqbVmjsEbZWtdaSccRasiAxWh7JdLtkj+ykHU+0OaB9UTDfEgW
-	 8v3PFGD7ukTKEdGiWSqbat61DdJsQ9rU/FEmZLPNkKxQDhf/heHdagLNykxupDCCSm
-	 3lu7uf5m1eR2ji0UUJezLjeh0pDx9h8qfk1AU2OFNwyw+HTJPTewAnEGi434B1V6Br
-	 p9w1zuysufJvFxZwXfaIKGYzFCI2xiznEsqSR8PVd5faWmyVnMEqXjwtewDrGZOMx5
-	 kCya4XmM0eXwQ==
-Date: Mon, 25 Aug 2025 17:23:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, anup@brainfault.org, pbonzini@redhat.com,
-	shuah@kernel.org, cyan.yang@sifive.com, cleger@rivosinc.com,
-	charlie@rivosinc.com, cuiyunhui@bytedance.com,
-	samuel.holland@sifive.com, namcao@linutronix.de, jesse@rivosinc.com,
-	inochiama@gmail.com, yongxuan.wang@sifive.com,
-	ajones@ventanamicro.com, parri.andrea@gmail.com,
-	mikisabate@gmail.com, yikming2222@gmail.com,
-	thomas.weissschuh@linutronix.de, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 RESEND 1/5] dt-bidings: riscv: add Zilsd and Zclsd
- extension descriptions
-Message-ID: <20250825-clang-husband-bcb5defdb5f3@spud>
-References: <20250821140131.225756-1-pincheng.plct@isrc.iscas.ac.cn>
- <20250821140131.225756-2-pincheng.plct@isrc.iscas.ac.cn>
- <20250822-purge-doubling-f38988284db1@spud>
- <a2cc4cbe-82ca-4a89-b623-73721a1f3baf@isrc.iscas.ac.cn>
+	s=k20201202; t=1756139449;
+	bh=jlol1TuhVNcZDXlNqsLBvYWROc27W0iXgTQpgdIUTbU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TA904OiL46jx1hTUpDx5EECjUx5Tcs3DkAxF1f44JJIrA/U8PpyqHG9GGQNj4iZuO
+	 kAKQ0EuWvSaCpBbkqAt1bTKRJjE7n6lsZ+MtFlmLeAsb9eXO8R59nRglhPGhVss3eY
+	 4eE9CU17sYEOGTzwwG5UcMbu5nBnNZTa9iJmu+q8zcnxzdmcphc7XVTWLFplO/vzva
+	 wxt+ekNTp5ZxX1ZDdf9njGK8Q7H0qOrc/5GuPMZyMztqWN6rULe2Q/AETVwQtvWa4W
+	 KBqLzZJaIe7hwmVjxmU+aq8LylUY/W2TBWi8UVbVoB+VUK7YUoZJcT9gHyt0kVRXSs
+	 eT+yVIcf5fdHw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uqa5n-0000000HALQ-0us9;
+	Mon, 25 Aug 2025 18:30:47 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 03/13] scripts/jobserver-exec: add a help message
+Date: Mon, 25 Aug 2025 18:30:30 +0200
+Message-ID: <78712c238669ad9b3ac83ea3cc42fb600c2ace00.1756138805.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
+References: <cover.1756138805.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="przAQh4lUz2Eomq/"
-Content-Disposition: inline
-In-Reply-To: <a2cc4cbe-82ca-4a89-b623-73721a1f3baf@isrc.iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+Currently, calling it without an argument shows an ugly error
+message. Instead, print a message using pythondoc as description.
 
---przAQh4lUz2Eomq/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/jobserver-exec | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-On Mon, Aug 25, 2025 at 11:26:13PM +0800, Pincheng Wang wrote:
-> On 2025/8/23 0:33, Conor Dooley wrote:
-> > On Thu, Aug 21, 2025 at 10:01:27PM +0800, Pincheng Wang wrote:
-> > > Add descriptions for the Zilsd (Load/Store pair instructions) and
-> > > Zclsd (Compressed Load/Store pair instructions) ISA extensions
-> > > which were ratified in commit f88abf1 ("Integrating load/store
-> > > pair for RV32 with the main manual") of the riscv-isa-manual.
-> > >=20
-> > > Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-> > > ---
-> > >   .../devicetree/bindings/riscv/extensions.yaml | 39 ++++++++++++++++=
-+++
-> > >   1 file changed, 39 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml =
-b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > > index ede6a58ccf53..d72ffe8f6fa7 100644
-> > > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > > @@ -366,6 +366,20 @@ properties:
-> > >               guarantee on LR/SC sequences, as ratified in commit b1d=
-806605f87
-> > >               ("Updated to ratified state.") of the riscv profiles sp=
-ecification.
-> > > +        - const: zilsd
-> > > +          description:
-> > > +            The standard Zilsd extension which provides support for =
-aligned
-> > > +            register-pair load and store operations in 32-bit instru=
-ction
-> > > +            encodings, as ratified in commit f88abf1 ("Integrating
-> > > +            load/store pair for RV32 with the main manual") of riscv=
--isa-manual.
-> > > +
-> > > +        - const: zclsd
-> > > +          description:
-> > > +            The Zclsd extension implements the compressed (16-bit) v=
-ersion of the
-> > > +            Load/Store Pair for RV32. As with Zilsd, this extension =
-was ratified
-> > > +            in commit f88abf1 ("Integrating load/store pair for RV32=
- with the
-> > > +            main manual") of riscv-isa-manual.
-> > > +
-> > >           - const: zk
-> > >             description:
-> > >               The standard Zk Standard Scalar cryptography extension =
-as ratified
-> > > @@ -847,6 +861,16 @@ properties:
-> > >               anyOf:
-> > >                 - const: v
-> > >                 - const: zve32x
-> > > +      # Zclsd depends on Zilsd and Zca
-> > > +      - if:
-> > > +          contains:
-> > > +            anyOf:
-> > > +              - const: zclsd
-> > > +        then:
-> > > +          contains:
-> > > +            anyOf:
-> > > +              - const: zilsd
-> > > +              - const: zca
-> > >   allOf:
-> > >     # Zcf extension does not exist on rv64
-> > > @@ -864,6 +888,21 @@ allOf:
-> > >             not:
-> > >               contains:
-> > >                 const: zcf
-> > > +  # Zilsd extension does not exist on rv64
-> > > +  - if:
-> > > +      properties:
-> >=20
-> > > +        riscv,isa-extensions:
-> > > +          contains:
-> > > +            const: zilsd
-> >=20
-> > This syntax is odd, it shouldn't be required to have zilsd in here and
-> > in the then. Did you copy this from Zcf or come up with it yourself
-> > because it didn't work otherwise?
-> >=20
->=20
-> Yes, I did model this after the existing Zcf constraint in the same file.
-> The structure is nearly identical: cheking for presence of the extension =
-and
-> rv64i, then forbidding it in the "then" branch.
->=20
-> I've tested confirmed that removing the "contains: const: zilsd" from the
-> "if" condition still correctly enforces that zilsd must not appear when
-> rv64i is present. The "then" clause with "not: contains" is sufficient.
->=20
-> Given that the validation behavior is equivalent, but the logic is cleaner
-> and less redundant without the extra "contains", would you recommend
-> updating it to the simpler form:
->=20
->     - if:
->         properties:
->           riscv,isa-base:
->             contains:
->               const: rv64i
->       then:
->         properties:
->           riscv,isa-extensions:
->             not:
->               contains:
->                 const: zilsd
->=20
-> If so, I'll update it in the next revision.
+diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+index 40a0f0058733..ae23afd344ec 100755
+--- a/scripts/jobserver-exec
++++ b/scripts/jobserver-exec
+@@ -1,6 +1,15 @@
+ #!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0+
+ 
++"""
++Determines how many parallel tasks "make" is expecting, as it is
++not exposed via any special variables, reserves them all, runs a subprocess
++with PARALLELISM environment variable set, and releases the jobs back again.
++
++See:
++    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
++"""
++
+ import os
+ import sys
+ 
+@@ -12,17 +21,12 @@ sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+ from jobserver import JobserverExec                  # pylint: disable=C0415
+ 
+ 
+-"""
+-Determines how many parallel tasks "make" is expecting, as it is
+-not exposed via an special variables, reserves them all, runs a subprocess
+-with PARALLELISM environment variable set, and releases the jobs back again.
+-
+-See:
+-    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
+-"""
+-
+ def main():
+     """Main program"""
++    if len(sys.argv) < 2:
++        name = os.path.basename(__file__)
++        sys.exit("usage: " + name +" command [args ...]\n" + __doc__)
++
+     with JobserverExec() as jobserver:
+         jobserver.run(sys.argv[1:])
+ 
+-- 
+2.51.0
 
-Yeah, please reduce it to this form.
-
---przAQh4lUz2Eomq/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKyOBgAKCRB4tDGHoIJi
-0tBmAPwITOW6B962WAfPzymCU4z9xZ51B5BtYVuDFIxypRRcogD/bJcgHnZ/rI15
-6Mdyko1A6Tb+pZvgrrtqkICniCrQogc=
-=3Dwx
------END PGP SIGNATURE-----
-
---przAQh4lUz2Eomq/--
