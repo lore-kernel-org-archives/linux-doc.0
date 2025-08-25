@@ -1,110 +1,90 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53991C84DE;
-	Mon, 25 Aug 2025 17:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370FA10E0;
+	Mon, 25 Aug 2025 17:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756141242; cv=none; b=KCSNq8BP71Uoc81psFthXAPGXHfLBYa2u7QKM5qEksuHEUhKNG0xngMVfkdlpF+RYAvDus+z6lqrrSU+3pH22buESE0fJ/fmfnDTyBvJBh2wfnsS4AC0J6sqr5zaNef9BLpBWd1gGrmo7QyMzSH6d9bh8WPa9u4E66ORxH5lbfc=
+	t=1756141881; cv=none; b=l/brquQkftt6xsXfs9Wa8JEiOar3ZCjswnLV0UPqiPn999fBe/RnL8E2GhikW3xebOn5/Skub1FqFrMBdZ/DZTlnQdd+rzgRzl6tT4qRjSbapeXcVINaiZRtU63/W/OF1FN+JuBaHcSUPJesBLqxZkdmBCi69tHmaQzFztEMI+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756141242; c=relaxed/simple;
-	bh=rzQMACObvWiM9uVvHkabX7dVPQNESJ2VQB0+KavI+nA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l9YPRiaobAYhWfmMhVkSgKTcMjIOkdtUyOBAH22UfQL9sJmblnSz9jhe+RE8YYhUIWo1+U7YTC87ENlo5H76IzjgUpa8VhzkaWsfMLD37uJ6V2cP0+aCYo9hJR14hr0kxt6LiC7XkH6Qa142A6VYu7srchO/1r+9kJvAkQE6eQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rgv0WLyi; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756141881; c=relaxed/simple;
+	bh=hdIIENtH9zqyZlc++8vJ+/B9EbVP4xLHuAD418TQ2dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U3joC5NPzZfZ8iaFEWMZ5dJI6dXer7pTeM0oPukks8zZmgMeIS6yXcrTiwoJrm+eYzgpcI+qUAtfsHG2XrEuamjwJBhntD7DUM2VtJCtcXWs4z18yirc9Hj23i4VwWE4Rn7EQ/0fSsXHbcCp3lzzpt/FntJqQ6Uq2ltGiIZ+7fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCiS2xVR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rgv0WLyi"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-24602f6d8b6so8435915ad.1;
-        Mon, 25 Aug 2025 10:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756141240; x=1756746040; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f0oEN90SLYgvRgTxYwIkfotkQK1LJND5IDEHVs53sDg=;
-        b=Rgv0WLyiaRIrRMsdST9g0LOHUTiba9Jj/D+j8Hme7dqfxS6oE4NWCOrsDQT6+vHUib
-         bw4gRYkw2l9QPfS1XVTXMa7E7kBBiZOLkSYkhWm83Z75zgybBbHW1No2jScyYouWBFzr
-         7eTmK3bSLPdH6juWVPUXHJ0Ban0amB4hP3q4wTZMWFhALTiI/nXkvd/r0/rKih849Vw9
-         wPtTqVMnLzGMOluNsp74GBItRp5EafrCtXcKIBTP6a1TYm8zE1SBK6/pG8uG1p7RqktH
-         BtWcunSa34r4uB0ik4+HGviosTAx8TJQB+gmM3Bm6NjOHI48A+J9YlokOA5YZ/5K5ZoZ
-         8Xeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756141240; x=1756746040;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f0oEN90SLYgvRgTxYwIkfotkQK1LJND5IDEHVs53sDg=;
-        b=OGf0metRSwecahlmdtjtFBOxAy9fzphPvVoBiWgWeYCeRIvM736ouMmjK+ZadvCZoa
-         wnsHHrAe6S+VeSCqZHrPTYbcxxCJ4+NizkDGQG4bnyiWMnw0fs4Q6Frj/xICejwEdECW
-         ex2vHFM+ua6IOui7tRNMPUDlrkpPyGJx8FnzvOHUaQerkBDzOzNR2pVvwD1nctwTZoIi
-         Q0D0+T/+AAhwMpzOQTp1wYO82D6j+3vtOBzouVNks0e1LVP8uSCozidNqTdoe5muEncO
-         IthB1z0aoMeTLrJgVgwIdr3RQkgM5NiFJoMVmWM5uBteXGbSVsCfvFDa3K++yhAY4nYR
-         4h8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVN1BoMoUX4HiQtLZK1ETvUHWZdD759Ci4hfWpIFsq3budIQ3L+qyEzDR2jbkA9ys827iQOHjjlQ5HEWjbApMrY@vger.kernel.org, AJvYcCXL+3OgLzYLNqo+nmHbNhG2OzS+sWeF4mXtE0C14bgoz+zkX9SZdcsZZFkYbizOPAG43fqmV0F7PWEVqN7Z@vger.kernel.org, AJvYcCXU2fLue14t+n7Z62eQXgrNuEl2j/lt/Z59Ewcj04cjJf2+PmhA2qeXFiCphf4ugprc88XJAxNP1o0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwywNn9vzncob4jgw/XsHlJL+bq+GrUiARtBk96zjPixQq3fWa6
-	yS2arKbUgxibkNHy16K0cpK4+EUb5hI3yx1tFFKHTCarZK1p1TVlovePrilQ/9TzcQoq/GPR2dU
-	aB2w5gjDIkLLT227gOsTzmtQBUjwuSBc=
-X-Gm-Gg: ASbGnctx3JuLP0Mc/xMjmcV+nqtt5QO1H8n36aDHx8sKyCjBo8AQe4p0nx/tK2IWWHt
-	NMachSIgPwAF6PgfT9epYrteaV00SbzsC0uVlYBLmqWP2NJ6+/v/Q/9Z56ERw615CXJNpvI4TZV
-	vybdfYD+LCfmt8T8HFwkWiVBvLIlz+k7auDIpZ1XjJDT6wXzYkEjWSqgb4B9TjFtJMNIryWtFYu
-	zGdTfjj/nu4dJwqWsxbacPknpIAjI3WJSOHnsaVOq3wID2DhoS9f7JEU+Z8B46IEpoTf6zD5YJ9
-	wXxbb9AKPhveOoJpyQ5S5BMxjw==
-X-Google-Smtp-Source: AGHT+IHKT4JJBJ9rgR6CsJmxUiw1K8DlbFWihB3KfiTBy1l9WKV/JStW65ETOGMdOn/RgdA5Ko6AVAJXlO2Hf7k2FPY=
-X-Received: by 2002:a17:902:cf09:b0:240:729c:a022 with SMTP id
- d9443c01a7336-24630427edbmr91627825ad.11.1756141239755; Mon, 25 Aug 2025
- 10:00:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCiS2xVR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76B5C4CEED;
+	Mon, 25 Aug 2025 17:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756141878;
+	bh=hdIIENtH9zqyZlc++8vJ+/B9EbVP4xLHuAD418TQ2dw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DCiS2xVRUGv441ZdLRsWvgP4DOb6rhxXAG4ji/M+nUwAPG61cSaxkbEjjfRHpJS6E
+	 T8nzFmoomysuUaOIIBkDR5hra1jmtNNLh65YtRsSxWmx+xppGDlBqXLfBaHUeLQzIB
+	 um9EoHn9XcJKq0LnS6xdlj7A62y9OyUkG5aEbvRXmkpY/dtrTX8O8K633LUAgmoUf9
+	 FYdZW8mCdiHGpX71dAKO4iEWw1rTTsuSENlqKX86yVMhAEI6sFjDexNt88ioGWk1j+
+	 HYlO9hBn3anZdhRr2onBNDixlVVYT1UC+ZNdHtDxYEPryLPGq4kW+BPAPYVcuxNaZJ
+	 zO78MOZYGzrbA==
+Date: Mon, 25 Aug 2025 19:11:14 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 07/14] docs: conf.py: extra cleanups and fixes
+Message-ID: <20250825191114.705deebf@foz.lan>
+In-Reply-To: <87ldn7d2bu.fsf@trenco.lwn.net>
+References: <08d16c2ad817910eb5606842f776d3f77d83282f.1755763127.git.mchehab+huawei@kernel.org>
+	<f5d4804c-9a51-443a-a73e-d9c043673cbc@gmail.com>
+	<fa7rreuvodpe673lwcwlj6kddkpnmkoxlz4y5mythgntkmveey@m5fqvtsuel6l>
+	<87sehjdlz5.fsf@trenco.lwn.net>
+	<20250825140719.18ba8459@foz.lan>
+	<87ldn7d2bu.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
- <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com> <202508250834.E2456B9@keescook>
-In-Reply-To: <202508250834.E2456B9@keescook>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 25 Aug 2025 19:00:22 +0200
-X-Gm-Features: Ac12FXyYN3VEhnMM3td2GuBBEWm8dOLy6K6qZL3tvq3QOv-O5HJfG5pSFZcSTv8
-Message-ID: <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
-Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-To: Kees Cook <kees@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>, 
-	Sami Tolvanen <samitolvanen@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 25, 2025 at 5:35=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
->
-> Yeah, that's a good idea. What the right way to do that?
->
-> config CFI_CLANG
->         bool "Use Clang's Control Flow Integrity (CFI)"
->         depends on ARCH_SUPPORTS_CFI
->         select CFI
->
-> ?
+Em Mon, 25 Aug 2025 06:15:49 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-I don't recall what is the idiomatic solution for renames, but I
-remember Linus talking about this topic and about avoiding losing old
-values if possible (perhaps getting a new question in `oldconfig` is
-OK as long as the `olddefconfig` respects the old value).
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > Em Fri, 22 Aug 2025 16:34:38 -0600
+> > Jonathan Corbet <corbet@lwn.net> escreveu:  
+> >> Can we try to get a handle on that and, if it's truly needed, document
+> >> why?  I will confess that I'm confused by it:
+> >>   
+> >> > \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}    
+> >> 
+> >> As I understand it, the arguments are {options}{package}, right?  so I'm
+> >> not sure how this would work...?  
+> >
+> > Heh, you're right: the argument is reversed. Also, I repeated the
+> > tests here, and were unable to reproduce the issue I had with xindy.  
+> 
+> Just to get the credit where it is due, it's Akira who first pointed
+> this out.
 
-I think your suggestion above will still make it appear twice in
-`menuconfig` -- there may be a way to play with visibility to make it
-better.
+Yes, I know: by you, I mean you both ;-)
 
-A simple possibility I can think of (assuming it works) is having the
-CFI symbol for the time being introduced just as a `def_bool
-CFI_CLANG` for a few releases so that people get the new one in their
-configs.
+Feel free to add a reported-by at the actual patch... I ended 
+forgetting about that.
 
-Cheers,
-Miguel
+> 
+> > So, let's just drop it. If we needed, we can re-add, reverting the
+> > parameter order there. Patch is at:
+> >
+> > 	https://lore.kernel.org/linux-doc/83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org/T/#u  
+> 
+> OK I'll get there.
+
+Thanks!
+
+Thanks,
+Mauro
