@@ -1,177 +1,110 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ACE10E0;
-	Mon, 25 Aug 2025 16:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53991C84DE;
+	Mon, 25 Aug 2025 17:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139875; cv=none; b=tNX6Gr11j15Z6UDGfxDVbNduRQ1w47vd/8vqVGKx8Y8Len8QWQ/Ot/FztQvNrpm5F3dszxhwEUQT7RAragb2BanGkijNpSDqBq8kkpIgljWQKKQyq6QzQ4OaNhNVD8UAb8NN35tLa6TNnJXskJL7FkiR81M3sD3EaBuUqpHvwP0=
+	t=1756141242; cv=none; b=KCSNq8BP71Uoc81psFthXAPGXHfLBYa2u7QKM5qEksuHEUhKNG0xngMVfkdlpF+RYAvDus+z6lqrrSU+3pH22buESE0fJ/fmfnDTyBvJBh2wfnsS4AC0J6sqr5zaNef9BLpBWd1gGrmo7QyMzSH6d9bh8WPa9u4E66ORxH5lbfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756139875; c=relaxed/simple;
-	bh=49R1XUoVprLMJDRl704H1HRBpYFddqWu0RvHcoPBUlY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ImoMFq0DUxNhx+sOLvj6ApBzFYbm3tw2pdaedt9VvGO5o/DYZ8JhRLn2l9q4KhOEa7qKiH0cObPyHu5AdTHTlmQ0nsFMctlbyhRw2ps/jN8D9AtQ/nesIcvJYYF78k8urMRu+/H/XyP7bebfeBnAIuR/JVcN1eFnIMz11bqnEuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AXjDp+G6; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1756141242; c=relaxed/simple;
+	bh=rzQMACObvWiM9uVvHkabX7dVPQNESJ2VQB0+KavI+nA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l9YPRiaobAYhWfmMhVkSgKTcMjIOkdtUyOBAH22UfQL9sJmblnSz9jhe+RE8YYhUIWo1+U7YTC87ENlo5H76IzjgUpa8VhzkaWsfMLD37uJ6V2cP0+aCYo9hJR14hr0kxt6LiC7XkH6Qa142A6VYu7srchO/1r+9kJvAkQE6eQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rgv0WLyi; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AXjDp+G6"
-Message-ID: <316f57e3-5953-4db6-84aa-df9278461d30@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1756139870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irO/0C7BR+axJtgXqBSOvuib9XTOGqEywKCWh0ZA8Ow=;
-	b=AXjDp+G6ZFTa4wnUJLVDBSLiLa/JC3S7lCg+Dc/OUA1Xw/gXWpRaT+ZsqO86MNvaeyIRf3
-	c3/7p59iH1LNGAPc8xfbTR7EyMzLYLYmrqkzG13zC6+QXd16PlYuMAABRIuIeELfBSResh
-	Csb5N9uB9tfqnQniqPTBBYcvtTT7jSE=
-Date: Mon, 25 Aug 2025 17:37:27 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rgv0WLyi"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-24602f6d8b6so8435915ad.1;
+        Mon, 25 Aug 2025 10:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756141240; x=1756746040; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f0oEN90SLYgvRgTxYwIkfotkQK1LJND5IDEHVs53sDg=;
+        b=Rgv0WLyiaRIrRMsdST9g0LOHUTiba9Jj/D+j8Hme7dqfxS6oE4NWCOrsDQT6+vHUib
+         bw4gRYkw2l9QPfS1XVTXMa7E7kBBiZOLkSYkhWm83Z75zgybBbHW1No2jScyYouWBFzr
+         7eTmK3bSLPdH6juWVPUXHJ0Ban0amB4hP3q4wTZMWFhALTiI/nXkvd/r0/rKih849Vw9
+         wPtTqVMnLzGMOluNsp74GBItRp5EafrCtXcKIBTP6a1TYm8zE1SBK6/pG8uG1p7RqktH
+         BtWcunSa34r4uB0ik4+HGviosTAx8TJQB+gmM3Bm6NjOHI48A+J9YlokOA5YZ/5K5ZoZ
+         8Xeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756141240; x=1756746040;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f0oEN90SLYgvRgTxYwIkfotkQK1LJND5IDEHVs53sDg=;
+        b=OGf0metRSwecahlmdtjtFBOxAy9fzphPvVoBiWgWeYCeRIvM736ouMmjK+ZadvCZoa
+         wnsHHrAe6S+VeSCqZHrPTYbcxxCJ4+NizkDGQG4bnyiWMnw0fs4Q6Frj/xICejwEdECW
+         ex2vHFM+ua6IOui7tRNMPUDlrkpPyGJx8FnzvOHUaQerkBDzOzNR2pVvwD1nctwTZoIi
+         Q0D0+T/+AAhwMpzOQTp1wYO82D6j+3vtOBzouVNks0e1LVP8uSCozidNqTdoe5muEncO
+         IthB1z0aoMeTLrJgVgwIdr3RQkgM5NiFJoMVmWM5uBteXGbSVsCfvFDa3K++yhAY4nYR
+         4h8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVN1BoMoUX4HiQtLZK1ETvUHWZdD759Ci4hfWpIFsq3budIQ3L+qyEzDR2jbkA9ys827iQOHjjlQ5HEWjbApMrY@vger.kernel.org, AJvYcCXL+3OgLzYLNqo+nmHbNhG2OzS+sWeF4mXtE0C14bgoz+zkX9SZdcsZZFkYbizOPAG43fqmV0F7PWEVqN7Z@vger.kernel.org, AJvYcCXU2fLue14t+n7Z62eQXgrNuEl2j/lt/Z59Ewcj04cjJf2+PmhA2qeXFiCphf4ugprc88XJAxNP1o0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwywNn9vzncob4jgw/XsHlJL+bq+GrUiARtBk96zjPixQq3fWa6
+	yS2arKbUgxibkNHy16K0cpK4+EUb5hI3yx1tFFKHTCarZK1p1TVlovePrilQ/9TzcQoq/GPR2dU
+	aB2w5gjDIkLLT227gOsTzmtQBUjwuSBc=
+X-Gm-Gg: ASbGnctx3JuLP0Mc/xMjmcV+nqtt5QO1H8n36aDHx8sKyCjBo8AQe4p0nx/tK2IWWHt
+	NMachSIgPwAF6PgfT9epYrteaV00SbzsC0uVlYBLmqWP2NJ6+/v/Q/9Z56ERw615CXJNpvI4TZV
+	vybdfYD+LCfmt8T8HFwkWiVBvLIlz+k7auDIpZ1XjJDT6wXzYkEjWSqgb4B9TjFtJMNIryWtFYu
+	zGdTfjj/nu4dJwqWsxbacPknpIAjI3WJSOHnsaVOq3wID2DhoS9f7JEU+Z8B46IEpoTf6zD5YJ9
+	wXxbb9AKPhveOoJpyQ5S5BMxjw==
+X-Google-Smtp-Source: AGHT+IHKT4JJBJ9rgR6CsJmxUiw1K8DlbFWihB3KfiTBy1l9WKV/JStW65ETOGMdOn/RgdA5Ko6AVAJXlO2Hf7k2FPY=
+X-Received: by 2002:a17:902:cf09:b0:240:729c:a022 with SMTP id
+ d9443c01a7336-24630427edbmr91627825ad.11.1756141239755; Mon, 25 Aug 2025
+ 10:00:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
- maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
- gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
- Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
- alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
- gustavoars@kernel.org
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250822023453.1910972-5-dong100@mucse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
+ <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com> <202508250834.E2456B9@keescook>
+In-Reply-To: <202508250834.E2456B9@keescook>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 25 Aug 2025 19:00:22 +0200
+X-Gm-Features: Ac12FXyYN3VEhnMM3td2GuBBEWm8dOLy6K6qZL3tvq3QOv-O5HJfG5pSFZcSTv8
+Message-ID: <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+To: Kees Cook <kees@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>, 
+	Sami Tolvanen <samitolvanen@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, x86@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 22/08/2025 03:34, Dong Yibo wrote:
+On Mon, Aug 25, 2025 at 5:35=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> Yeah, that's a good idea. What the right way to do that?
+>
+> config CFI_CLANG
+>         bool "Use Clang's Control Flow Integrity (CFI)"
+>         depends on ARCH_SUPPORTS_CFI
+>         select CFI
+>
+> ?
 
-[...]
-> +/**
-> + * mucse_mbx_fw_post_req - Posts a mbx req to firmware and wait reply
-> + * @hw: pointer to the HW structure
-> + * @req: pointer to the cmd req structure
-> + * @cookie: pointer to the req cookie
-> + *
-> + * mucse_mbx_fw_post_req posts a mbx req to firmware and wait for the
-> + * reply. cookie->wait will be set in irq handler.
-> + *
-> + * @return: 0 on success, negative on failure
-> + **/
-> +static int mucse_mbx_fw_post_req(struct mucse_hw *hw,
-> +				 struct mbx_fw_cmd_req *req,
-> +				 struct mbx_req_cookie *cookie)
-> +{
-> +	int len = le16_to_cpu(req->datalen);
-> +	int err;
-> +
-> +	cookie->errcode = 0;
-> +	cookie->done = 0;
-> +	init_waitqueue_head(&cookie->wait);
-> +	err = mutex_lock_interruptible(&hw->mbx.lock);
-> +	if (err)
-> +		return err;
-> +	err = mucse_write_mbx_pf(hw, (u32 *)req, len);
-> +	if (err)
-> +		goto out;
-> +	/* if write succeeds, we must wait for firmware response or
-> +	 * timeout to avoid using the already freed cookie->wait
-> +	 */
-> +	err = wait_event_timeout(cookie->wait,
-> +				 cookie->done == 1,
-> +				 cookie->timeout_jiffies);
+I don't recall what is the idiomatic solution for renames, but I
+remember Linus talking about this topic and about avoiding losing old
+values if possible (perhaps getting a new question in `oldconfig` is
+OK as long as the `olddefconfig` respects the old value).
 
-it's unclear to me, what part of the code is managing values of cookie
-structure? I didn't get the reason why are you putting the address of
-cookie structure into request which is then directly passed to the FW.
-Is the FW supposed to change values in cookie?
+I think your suggestion above will still make it appear twice in
+`menuconfig` -- there may be a way to play with visibility to make it
+better.
 
-> +
-> +	if (!err)
-> +		err = -ETIMEDOUT;
-> +	else
-> +		err = 0;
-> +	if (!err && cookie->errcode)
-> +		err = cookie->errcode;
-> +out:
-> +	mutex_unlock(&hw->mbx.lock);
-> +	return err;
-> +}
+A simple possibility I can think of (assuming it works) is having the
+CFI symbol for the time being introduced just as a `def_bool
+CFI_CLANG` for a few releases so that people get the new one in their
+configs.
 
-[...]
-
-> +struct mbx_fw_cmd_req {
-> +	__le16 flags;
-> +	__le16 opcode;
-> +	__le16 datalen;
-> +	__le16 ret_value;
-> +	union {
-> +		struct {
-> +			__le32 cookie_lo;
-> +			__le32 cookie_hi;
-> +		};
-> +
-> +		void *cookie;
-> +	};
-> +	__le32 reply_lo;
-> +	__le32 reply_hi;
-
-what do these 2 fields mean? are you going to provide reply's buffer
-address directly to FW?
-
-> +	union {
-> +		u8 data[32];
-> +		struct {
-> +			__le32 version;
-> +			__le32 status;
-> +		} ifinsmod;
-> +		struct {
-> +			__le32 port_mask;
-> +			__le32 pfvf_num;
-> +		} get_mac_addr;
-> +	};
-> +} __packed;
-> +
-> +struct mbx_fw_cmd_reply {
-> +	__le16 flags;
-> +	__le16 opcode;
-> +	__le16 error_code;
-> +	__le16 datalen;
-> +	union {
-> +		struct {
-> +			__le32 cookie_lo;
-> +			__le32 cookie_hi;
-> +		};
-> +		void *cookie;
-> +	};
-
-This part looks like the request, apart from datalen and error_code are
-swapped in the header. And it actually means that the FW will put back
-the address of provided cookie into reply, right? If yes, then it
-doesn't look correct at all...
-
-> +	union {
-> +		u8 data[40];
-> +		struct mac_addr {
-> +			__le32 ports;
-> +			struct _addr {
-> +				/* for macaddr:01:02:03:04:05:06
-> +				 * mac-hi=0x01020304 mac-lo=0x05060000
-> +				 */
-> +				u8 mac[8];
-> +			} addrs[4];
-> +		} mac_addr;
-> +		struct hw_abilities hw_abilities;
-> +	};
-> +} __packed;
+Cheers,
+Miguel
