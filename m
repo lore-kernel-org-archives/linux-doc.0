@@ -1,39 +1,25 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D5A38DD8;
-	Mon, 25 Aug 2025 02:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.205.26])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95839225401;
+	Mon, 25 Aug 2025 03:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.205.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756090353; cv=none; b=f7bKO1iToPOG665XFubOgjOqvVATZztDwoGrrtPqvl+htTQEJgFrpKnxuqR+VCscnuV2goCvrB1I8NSAqns2Q2Nd8xyG5fMkfXn4EFZfE2T1FP4H3JazY7h92KVanbeheQYyg2kraPND3sPxBDVMEbEC7dm7M2kHlDPCgAYvcPU=
+	t=1756094230; cv=none; b=Te7Zgyv2eNfyykwLxYvg1sAXBX1Hx7TQ2RjpqIK5PGoZGoUrZfAyF7rEPxLwzOi5h2Msb+GzptRa4c3uS2qpmMruYqcOXOHdFWY+484EDBo/cxq7RMlcRMIy6z7L/ix5mQy3E9cFlr6XodFKNyCL+g1b643sVp0JAro7Eo0dIU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756090353; c=relaxed/simple;
-	bh=aQ3klEdpmWWkq5V7/ZmW5O2BmjonN+3JsZEFIImTQM4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZM838gkBgAX0CpZzzZV4yVQD3GZKaOITCjngXuaZMKZuTPpOeXuo7fUSBoah4m51K/sGQEdylvmCp9mn5AuqPHt2Z7shx7F8H6AVJG0meKjeltb6+YWkKpepSn0c/7JuLKzhLfeVq4edQlu4MSU5QIlvNWAIhtGCzLG+5x9j5kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bOJShy/v; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bOJShy/v"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57P2pr1U255232
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 24 Aug 2025 19:51:54 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57P2pr1U255232
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025082201; t=1756090317;
-	bh=lq00javG2UiQIbEp3w2ZdKaPm7rq/LpukSV6LTAhyLE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bOJShy/vbvo57MT6KNFG9ImSdy5kd/fM2Ee6qzLo/m7GXK1473Rt7f1eXehONvy1b
-	 y4BXqcMcW7CSMa6K11jLfS5bGCAreFjQD+iS87wz6Qo7ktuK8iV3xVBpLycO/Rg1K8
-	 EahjGNR0UfqeQ4m6bQGJmaGDAvdv+9Ll8V+5ukF8AIQeQm7p4HirUkTE0/rRGCYQS6
-	 ODYUKUH/OX2V/GIawNcAq7KDy0hnbw5c1MFOAw/nmGvarqI/UjNpQt+0qX0+56kHmI
-	 o0U97z7Kn9uzfD1unT4Zx7nG261i9ePDX2aehtv6wno5o/uBhRLD2cVq0GFdrtdj/C
-	 IoIVDTgkj2g8g==
-Message-ID: <2dd8c323-7654-4a28-86f1-d743b70d10b1@zytor.com>
-Date: Sun, 24 Aug 2025 19:51:52 -0700
+	s=arc-20240116; t=1756094230; c=relaxed/simple;
+	bh=zzQP0uV9yVfafKNcbFiHnkSWYZMyU1d1/7l69CIjAG8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Filz56DxrO6Na2g3LJMSIb9V0g9jFjQmAnMArHhYSru0cX5cIflEYRe/PzfKp8UhV3E/Pf5/Oefj+T1Y0fmyWCEgHHXKla7l3MFAF+lrh73oyKphttREY6dg+84OldOK9NagTZNe/eD2r5RmXRQoyF02hMI0w9SzDCvTa+YvQHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.205.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrAA3uMjV3qtoUma5AQ--.23865S2;
+	Mon, 25 Aug 2025 11:56:05 +0800 (CST)
+Received: from [10.12.168.139] (unknown [10.12.168.139])
+	by gateway (Coremail) with SMTP id _____wA3MGvQ3qtoDWoKAA--.6070S2;
+	Mon, 25 Aug 2025 11:56:02 +0800 (CST)
+Message-ID: <1be55956-a4f0-4f6f-a930-fab565dbd257@hust.edu.cn>
+Date: Mon, 25 Aug 2025 11:56:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,113 +27,120 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/20] KVM: VMX: Set FRED MSR intercepts
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com, chao.gao@intel.com, hch@infradead.org
-References: <20250821223630.984383-1-xin@zytor.com>
- <20250821223630.984383-7-xin@zytor.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <20250821223630.984383-7-xin@zytor.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+Subject: Re: [PATCH v3 0/7] Docs/zh_CN: Translate filesystems docs to
+ Simplified Chinese
+To: shao.mingyin@zte.com.cn, alexs@kernel.org
+Cc: si.yanteng@linux.dev, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn,
+ yang.tao172@zte.com.cn
+References: <20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn>
+In-Reply-To: <20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 8/21/2025 3:36 PM, Xin Li (Intel) wrote:
-> +	/*
-> +	 * MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP (aka MSR_IA32_FRED_SSP0) are
-> +	 * designated for event delivery while executing in userspace.  Since
-> +	 * KVM operates exclusively in kernel mode (the CPL is always 0 after
-> +	 * any VM exit), KVM can safely retain and operate with the guest-defined
-> +	 * values for MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP.
-> +	 *
-> +	 * Therefore, interception of MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP
-> +	 * is not required.
-> +	 *
-> +	 * Note, save and restore of MSR_IA32_PL0_SSP belong to CET supervisor
-> +	 * context management.  However the FRED SSP MSRs, including
-> +	 * MSR_IA32_PL0_SSP, are supported by any processor that enumerates FRED.
-> +	 * If such a processor does not support CET, FRED transitions will not
-> +	 * use the MSRs, but the MSRs would still be accessible using MSR-access
-> +	 * instructions (e.g., RDMSR, WRMSR).
-> +	 */
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, intercept);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_PL0_SSP, MSR_TYPE_RW, intercept);
-
-Hi Sean,
-
-I'd like to bring up an issue concerning MSR_IA32_PL0_SSP.
-
-The FRED spec claims:
-
-The FRED SSP MSRs are supported by any processor that enumerates
-CPUID.(EAX=7,ECX=1):EAX.FRED[bit 17] as 1. If such a processor does not
-support CET, FRED transitions will not use the MSRs (because shadow stacks
-are not enabled), but the MSRs would still be accessible using MSR-access
-instructions (e.g., RDMSR, WRMSR).
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAA3uMjV3qtoUma5AQ--.23865S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr17tFyDJFWDArWfXF4UCFg_yoWrXw1xpa
+	yYqr93WF1jy3WfGwnakrW2q34UC3WrK3s8Cryxtwn8Gr4qvF4rKry7tryqgrZ8tF45u3Wa
+	qrWfKryku34UArJanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVj
+	vjDU0xZFpf9x07jfpndUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-It means KVM needs to handle MSR_IA32_PL0_SSP even when FRED is supported
-but CET is not.  And this can be broken down into two subtasks:
-
-1) Allow such a guest to access MSR_IA32_PL0_SSP w/o triggering #GP.  And
-this behavior is already implemented in patch 8 of this series.
-
-2) Save and restore MSR_IA32_PL0_SSP in both KVM and Qemu for such a guest.
-
-
-I have the patches for 2) but they are not included in this series, because
-
-1) how much do we care the value in MSR_IA32_PL0_SSP in such a guest?
-
-Yes, Chao told me that you are the one saying that MSRs can be used as
-clobber registers and KVM should preserve the value.  Does MSR_IA32_PL0_SSP
-in such a guest count?
-
-
-2) Saving/restoring MSR_IA32_PL0_SSP adds complexity, though it's seldom
-used.  Is it worth it?
+On 8/22/25 5:12 PM, shao.mingyin@zte.com.cn wrote:
+> From: Shao Mingyin<shao.mingyin@zte.com.cn>
+>
+> translate the filesystems docs into Simplified Chinese.
+> v2->v3
+> add two patches to the patch set.
+>
+> Shao Mingyin (5):
+> Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+> Docs/zh_CN: Translate ubifs-authentication.rst to Simplified Chinese
+> Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+> Docs/zh_CN: Translate gfs2-uevents.rst to Simplified Chinese
+> Docs/zh_CN: Translate gfs2-glocks.rst to Simplified Chinese
+>
+> Wang Longjie (2):
+> Docs/zh_CN: Translate dnotify.rst to Simplified Chinese
+> Docs/zh_CN: Translate inotify.rst to Simplified Chinese
 
 
-BTW I'm still working on a KVM unit test for it, using a L1 VMM that
-enumerates FRED but not CET.
+$ b4 am 20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn
+Grabbing thread from 
+lore.kernel.org/all/20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn/t.mbox.gz
+Analyzing 8 messages in the thread
+Looking for additional code-review trailers on lore.kernel.org
+Checking attestation on all messages, may take a moment...
+---
+   [PATCH v3 1/7] Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+   [PATCH v3 2/7] Docs/zh_CN: Translate ubifs-authentication.rst to 
+Simplified Chinese
+   [PATCH v3 3/7] Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+   [PATCH v3 4/7] Docs/zh_CN: Translate gfs2-uevents.rst to Simplified 
+Chinese
+   [PATCH v3 5/7] Docs/zh_CN: Translate gfs2-glocks.rst to Simplified 
+Chinese
+   [PATCH v3 6/7] Docs/zh_CN: Translate dnotify.rst to Simplified Chinese
+   [PATCH v3 7/7] Docs/zh_CN: Translate inotify.rst to Simplified Chinese
+---
+Total patches: 7
+---
+Cover: 
+./v3_20250822_shao_mingyin_docs_zh_cn_translate_filesystems_docs_to_simplified_chinese.cover
+  Link: 
+https://lore.kernel.org/r/20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn
+  Base: applies clean to current tree
+        git checkout -b v3_20250822_shao_mingyin_zte_com_cn HEAD
+        git am 
+./v3_20250822_shao_mingyin_docs_zh_cn_translate_filesystems_docs_to_simplified_chinese.mbx
 
-Thanks!
-     Xin
+$ git checkout -b v3_20250822_shao_mingyin_zte_com_cn HEAD
+Switched to a new branch 'v3_20250822_shao_mingyin_zte_com_cn'
+
+$ git am 
+./v3_20250822_shao_mingyin_docs_zh_cn_translate_filesystems_docs_to_simplified_chinese.mbx
+Applying: Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+Applying: Docs/zh_CN: Translate ubifs-authentication.rst to Simplified 
+Chinese
+Applying: Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+error: corrupt patch at line 80
+Patch failed at 0003 Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+
+Hi Mingyin,
+
+I cannot apply this patchset to the docs-next branch of lwn or alex 
+kernel tree. Please double check your patchset.
+
+Dongliang Mu
+
+>   .../zh_CN/filesystems/dnotify.rst             |  67 ++++
+>   .../zh_CN/filesystems/gfs2-glocks.rst         | 199 ++++++++++
+>   .../zh_CN/filesystems/gfs2-uevents.rst        |  97 +++++
+>   .../translations/zh_CN/filesystems/gfs2.rst   |  57 +++
+>   .../translations/zh_CN/filesystems/index.rst  |  16 +
+>   .../zh_CN/filesystems/inotify.rst             |  81 ++++
+>   .../filesystems/ubifs-authentication.rst      | 354 ++++++++++++++++++
+>   .../translations/zh_CN/filesystems/ubifs.rst  | 114 ++++++
+>   8 files changed, 985 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/dnotify.rst
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2.rst
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/inotify.rst
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
+
