@@ -1,174 +1,170 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620EB230BDF
-	for <linux-doc@vger.kernel.org>; Sun, 24 Aug 2025 19:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68B1CA6F;
+	Mon, 25 Aug 2025 01:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756062443; cv=none; b=B5Kg/VywvnHgQhPgJB9KYktgoJlKrgEyBK5ATzNZMdA9nz5ppX+r/AHrcuwh3kUYkgFYvlCgbsnWVwZEpno33pjACNnaovElP0GZfsVy2LpwEsFqfodsN+gDc8o20lym2GqmwYOC/boUJTpCjZ9kPhqmLEXRy6BHumlDk4lDHis=
+	t=1756085480; cv=none; b=rxbOaSq5fojt4LbityX7pmO2W6KNUw8brXcl7J8wcmFB40XkE6ruqRyTpsPHuuM/OOmwHs8vf/AvuimVXldoUMFX/oKgFxHpCkJP5kjrOPeoRT+vzZfJfdXT2q0h+gv37kfsTK9++c4iCqtSALewqLRPl0aqbAqBQRV7FrWsIEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756062443; c=relaxed/simple;
-	bh=Or9relOdtZKZQi+PZvyFmONuNwHiY1OaMP7l/cQpXAE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m1DVllueAwkyOpcj4FoG8md6wiOzkBX1DoiBZfXdzVgYZQfLbpNSfxrMsokoeYJJZwCRFnKcJaZxL18jYretF6xydlXw49E4faK1T6woj6UABtJAeaBVu6vFtveVWCvdr/a6HmkyW/OvWRzUiWQzRfV4PZHuemzRgu4y1fBlgpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TP9v4FKl; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TP9v4FKl"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55f34d792c4so371906e87.3
-        for <linux-doc@vger.kernel.org>; Sun, 24 Aug 2025 12:07:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756062439; x=1756667239; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kRFerQraihZIanmomm0IKhmbjfbkS3W8YtjfgYvp2fw=;
-        b=TP9v4FKluJ7PjmXmnDBpJalFojQEpojrdUcweMmE5jAjk3kpFGiwY3I/etMGHHC10n
-         0sUd+ic2YEfRyaE09CZoiBgS7Lmf9FsZ9sViLLUvmPVEGJcuqtLxtPopH84vhHnxem9m
-         5TGZD6cueZvMsB0i17kaGjhOly3+ymGiA+X3wADOK8YVdTCpE+QVrmBnRelYHAntuXlM
-         9G7OI8rElJLTtkUDd7s6Mnff5D+RBx3gNtcRGdbJIStzUVu9eWjjgWfUycZUF6TSrWD2
-         xF6z0PbnH254SfN6+SGFaqxGcMblbw8FvF+eBcNAE8SUYWiGSE4fZR4WfIUHnM9BPQTi
-         Z3yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756062439; x=1756667239;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRFerQraihZIanmomm0IKhmbjfbkS3W8YtjfgYvp2fw=;
-        b=w354wo5jvQqufj1V4JBXgNHmI2+45aKEcd55bk37FuTzURkIJQci6uTP7k0Pym+2iK
-         kVqctr3lOyCHlXW6mpceUe33fIodATD3TK6wRctU5Gzxv9lak/zcZTaoqWgSUetLbFta
-         GmeQAzyhcFRCCcD5XSHVhvB0WjI8jw4NcVnBYCAlX6ZjKIQ7xMLXx4hTOLNmIBj21VQ2
-         gM934mCGWtMncwgncHwDQeF5dQy+kVM0NuBQ9pRs0ACIIGnw7MjbRJverI0mRCKcVAxF
-         3lb/9hEN9Za8VjCAAe4uD7SXoUgKMqcgj1KZOmW4Eoz8lAhx3o25Q7sWkm8nhNe0WYU8
-         GRNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUsPhPZNISAhkzfUAEj9ynjWvZ7nc+TMNCIs9BfYONHmepqPLhPFwUDOjayGM/IAzbGwaN+Kuv9xzc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpCvvGX5Yj9NppjhB5LPQHtI415CMWz+NYk/gLqor0ZQ/UM7FO
-	9l92/kCXjprhoEpMDBx9PQnocwh5ZTarUTqljxtfRNttnWwiSnLSg67f6JLGOFfsjdA=
-X-Gm-Gg: ASbGncsZcTJXY3BxC1bVSjEulOXbZjkm0K87WtdCtSLNMsiC2+8T1NmiHeZZow6iTEd
-	bmnI1thtGG9vRVAX4641etSqiAFZQswSoEYYdSaGXhinE4qaE8JZwxAKbp3NdqlgpTERNHeg86Q
-	Nk+DlQosY/wY+dRQOC/Fm/sp0wBSViKqq75wRh3VXRmhAa7KT7J2EaxW1mEqxH8r0nUtvC3BR9f
-	dprw0RI3dC1T+VWCc5Ql96nzNX3WE/11pnQvFZFTo6OHYlXvJ+Y8pZUentCCCYSu70/C9faoYeg
-	8K9lZRzEMr5JqlupYu1CzH2ODNZyDMHmyU+BbC5auscgIkIx1RH+Xke7Bj+gNeZpQFlpClZW9Jm
-	kQn3gcvaFxGpIeeeaX9KJxccT5HvrOA+y71Az+mU/1f/0Dy4oS4RegQGXgwaUAQxRhUkiFgwS0Z
-	Je9uKxJiBon+c=
-X-Google-Smtp-Source: AGHT+IH13MoxmrDQetMznYo3yow5OENe/3UHzqm8TZjVRtSQjRA+4ERWWZasIRoFRuhqFpxTrCVdqA==
-X-Received: by 2002:a05:6512:2391:b0:55f:44eb:ea92 with SMTP id 2adb3069b0e04-55f44ebec0cmr134730e87.7.1756062439301;
-        Sun, 24 Aug 2025 12:07:19 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35ca6713sm1206429e87.136.2025.08.24.12.07.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Aug 2025 12:07:18 -0700 (PDT)
-Message-ID: <b4221eca-7977-47b3-a563-f392d7dafb8b@linaro.org>
-Date: Sun, 24 Aug 2025 22:07:16 +0300
+	s=arc-20240116; t=1756085480; c=relaxed/simple;
+	bh=ip4FvYYw88ouWT6itUmL/S531RHQ7rP5ltgGr1KS+qk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQB2Z0IjnjURDHzPRCYnN92Xu4mowIUNAXRMXfe1Ga3hjFu6CTwV2myyKZ6sqvnfn/9nlJ9SD3SLfb7mShZ0XNmlK/c4uBxPmuUkYbIObDPR/huz7+0lpEtXd+LYBerDCcWaJ8GV8nPmtfnz/R7eLrtz2FikOckojId6mFj5mWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpsz10t1756085455t51d7e1a8
+X-QQ-Originating-IP: nHucB3JtzMCn34hcRKZD02jofGkp3qyqMaeH0wrqwoo=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 25 Aug 2025 09:30:53 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11934234295190835703
+Date: Mon, 25 Aug 2025 09:30:53 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <8989E7A85A9468B0+20250825013053.GA2006401@nic-Precision-5820-Tower>
+References: <20250822023453.1910972-1-dong100@mucse.com>
+ <20250822023453.1910972-5-dong100@mucse.com>
+ <a066746c-2f12-4e70-b63a-7996392a9132@lunn.ch>
+ <C2BF8A6A8A79FB29+20250823015824.GB1995939@nic-Precision-5820-Tower>
+ <f375e4bf-9b0b-49ca-b83d-addeb49384b8@lunn.ch>
+ <424D721323023327+20250824041052.GB2000422@nic-Precision-5820-Tower>
+ <809527f7-c838-4582-89cb-6cb9d24963dd@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 20/65] media: camss: Remove custom .release fop()
-Content-Language: ru-RU
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
- <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andy Walls <awalls@md.metrocast.net>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund@ragnatech.se>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Corentin Labbe <clabbe@baylibre.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <809527f7-c838-4582-89cb-6cb9d24963dd@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OBUGnm9pFasAiZ6W90wYeKsby/+S0wZ8wiyoTqCKQr2mZNPk/xuvOhnt
+	vPAIHQk5tb87rpyR8tBfYmrgCdVLT1kKCtCB/hsps9/XhR/yK1wlC5kFfqXStXS8d5hUHq3
+	UgjO1xgNlYbfNTrE/0Irj6zsTut6gGvcxeGp5aNYK5Ml2zdsOhcjYY0uhO4ATMPM5i3mDPP
+	RRCc/OcH2vtkfWRsx/T0iOJKTRlfhA+RH5N1JlWDVRRvbkYS+glx7cuFXJM1QOtKFyM+9v/
+	NW9axunD9HSRfmndx5E5zmtCyzvxHI7xZCjCOnDENvn//Oku01vlL7Fi62GhHMdtbjTQlUE
+	K3YtJLJ47FjbgoEx8fhvAyfyNeIylB7kQcCIuV7WYpy5gCHmAPZVH2QV9Hl5c0jJKA5S5oe
+	OzRCHoOpc+f4e+hP3oQ+lE4hOARCrKg4fjxxmQtmouAHfkd1Cb1bmoiTEGKvsyMXuiBMiHq
+	do8nkr/O90mZZ7CyKosJlQdmqoKFPpdI++Sqq2X5dLs15tyEXImnO+dnqch0ZP3yn6h+uWT
+	enHZ78B0ofJSDCz+D+iz0VJ5GoILj1eilNbEH20kIDamSP2ilJknDst9MkC6eESn19uNweV
+	mKaHwYg6OBrtj9uboNgX0S9mr6BLyHM+ZHabZsLBuBmBOsMssCLFAf2owXg7RVO0InrZImK
+	8Cu6zKQiKbdf2hVBHjnL0rXWLSpVj8nRryIbVNDgcYh//OGWYAgFkWfRCv6boljH1KMCki5
+	tji2SaOwLj/6dX2F0XzgPwUayCVKyHz/+uc+LAbe/qMg87N5Vjlu0auRyajVYY1Dmqd9PNt
+	vTu8WyXSZUh/+5ziPT2ACSzMgWhlgDR2tXpf5X6Q4NWzwKV+WyzckmjjUAYBqipM8S9AGI/
+	avvy1EZ8fZEXArLXQnz7EPGe4gOd8EuXPxcl30gWDa5wQ5YvMT2Sl7l/ptzwPZscs4Omdjg
+	7I25sBT/Ol0dkmkbhppZ5QUgD4O6yvtl3Ys1yROMg+KQQWSnsmJHvL1s7
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
 
-Hi Jacopo,
-
-thank you for the change!
-
-On 8/2/25 12:22, Jacopo Mondi wrote:
-> The 'file->private_data' pointer is reset in the vb2_fop_release()
-> call path. For this reason a custom handler for the .release
-> file operation is not needed and the driver can use
-> vb2_fop_release() directly.
+On Sun, Aug 24, 2025 at 05:15:25PM +0200, Andrew Lunn wrote:
+> On Sun, Aug 24, 2025 at 12:10:52PM +0800, Yibo Dong wrote:
+> > On Sat, Aug 23, 2025 at 05:17:45PM +0200, Andrew Lunn wrote:
+> > > On Sat, Aug 23, 2025 at 09:58:24AM +0800, Yibo Dong wrote:
+> > > > On Fri, Aug 22, 2025 at 04:43:16PM +0200, Andrew Lunn wrote:
+> > > > > > +/**
+> > > > > > + * mucse_mbx_get_capability - Get hw abilities from fw
+> > > > > > + * @hw: pointer to the HW structure
+> > > > > > + *
+> > > > > > + * mucse_mbx_get_capability tries to get capabities from
+> > > > > > + * hw. Many retrys will do if it is failed.
+> > > > > > + *
+> > > > > > + * @return: 0 on success, negative on failure
+> > > > > > + **/
+> > > > > > +int mucse_mbx_get_capability(struct mucse_hw *hw)
+> > > > > > +{
+> > > > > > +	struct hw_abilities ability = {};
+> > > > > > +	int try_cnt = 3;
+> > > > > > +	int err = -EIO;
+> > > > > > +
+> > > > > > +	while (try_cnt--) {
+> > > > > > +		err = mucse_fw_get_capability(hw, &ability);
+> > > > > > +		if (err)
+> > > > > > +			continue;
+> > > > > > +		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
+> > > > > > +		return 0;
+> > > > > > +	}
+> > > > > > +	return err;
+> > > > > > +}
+> > > > > 
+> > > > > Please could you add an explanation why it would fail? Is this to do
+> > > > > with getting the driver and firmware in sync? Maybe you should make
+> > > > > this explicit, add a function mucse_mbx_sync() with a comment that
+> > > > > this is used once during probe to synchronise communication with the
+> > > > > firmware. You can then remove this loop here.
+> > > > 
+> > > > It is just get some fw capability(or info such as fw version).
+> > > > It is failed maybe:
+> > > > 1. -EIO: return by mucse_obtain_mbx_lock_pf. The function tries to get
+> > > > pf-fw lock(in chip register, not driver), failed when fw hold the lock.
+> > > 
+> > > If it cannot get the lock, isn't that fatal? You cannot do anything
+> > > without the lock.
+> > > 
+> > > > 2. -ETIMEDOUT: return by mucse_poll_for_xx. Failed when timeout.
+> > > > 3. -ETIMEDOUT: return by mucse_fw_send_cmd_wait. Failed when wait
+> > > > response timeout.
+> > > 
+> > > If its dead, its dead. Why would it suddenly start responding?
+> > > 
+> > > > 4. -EIO: return by mucse_fw_send_cmd_wait. Failed when error_code in
+> > > > response.
+> > > 
+> > > Which should be fatal. No retries necessary.
+> > > 
+> > > > 5. err return by mutex_lock_interruptible.
+> > > 
+> > > So you want the user to have to ^C three times?
+> > > 
+> > > And is mucse_mbx_get_capability() special, or will all interactions
+> > > with the firmware have three retries?
+> > 
 > 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > It is the first 'cmd with response' from fw when probe. If it failed,
+> > return err and nothing else todo (no registe netdev ...). So, we design
+> > to give retry for it.
+> > fatal with no retry, maybe like this? 
+>  
+> Quoting myself:
+> 
+> > > > > Is this to do
+> > > > > with getting the driver and firmware in sync? Maybe you should make
+> > > > > this explicit, add a function mucse_mbx_sync() with a comment that
+> > > > > this is used once during probe to synchronise communication with the
+> > > > > firmware. You can then remove this loop here.
 
-Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+'mucse_mbx_get_capability' is used once during probe in fact, and won't be
+used anywhere.
 
--- 
-Best wishes,
-Vladimir
+> 
+> Does the firmware offer a NOP command? Or one to get the firmware
+> version?  If you are trying to get the driver and firmware in sync, it
+> make sense to use an operation which is low value and won't be used
+> anywhere else.
+> 
+> 	Andrew
+> 
+
+No NOP command.. 'mucse_mbx_get_capability' can get the firmware version
+and in fact only used in probe, maybe I should rename it to 'mucse_mbx_sync',
+and add comment 'only be used once during probe'?
+Or keep the name with that comment?
+
+Thanks for your feedback.
+
