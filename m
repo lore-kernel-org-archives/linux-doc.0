@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0CC1FECAD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C362561AE;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=NCYWL76RcxYhe/QsrWq+0l5Cd/XhmMi+xHz7jiy9ODF1YfUxIr0iQ+J/wxhlF22VJBQyamKAPGhHpxwpKBAXcpNmc3NDH2IaeV0eIZG9X71LZ6hIlT6CRp80/O85PdeygX2Efn7OVBy85pYQ5nscUNjIHg2pxVwu3ANTNXzb3dQ=
+	t=1756139449; cv=none; b=fjO2uUIpWFHmwZaBttrPUR/y07v4dMZzPju4IhUOT5fOSk+ktHW56pPtel/hV38wI4buBmbhy6kIwyuWj0W7zEO06fuh/0gbyH4gYTonm0KVE+ISOr/IDpZHLU+IuxmWb9mFN3b7SgLYzwImbEI+dRZS5d79NbIM1iSqe+5cSp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=jlol1TuhVNcZDXlNqsLBvYWROc27W0iXgTQpgdIUTbU=;
+	bh=nyxVw48XE87zy6IhgQPKNGycuGi899OK6HHKPI4XVM8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iQeSFK8A8w1pEpxJWGmI6nn6V29bcUrWlB8FQRmAkqGVud5qNPHz7b5g1gHrMdY7Z5fBbFVZQNqZoApn1h/j0z7/6ymmW2qnRAK6nmhsMRsHRCLJQRSqcy0GypOw6iKXZOS8cHE1dFh68sDKQmZLTvKy7/L4bmlle/Wpf37BpwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TA904OiL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=i2CFoE0LZJ0zSzccP/GCdTkhRdUHZC82EX3M+v0E8wjyd282TSoijUJYX1jWkr6fIygASKx8mSAX5MGLyGx75OTsImYBtdHOP0paXIkpy09Sel/18H0V6QRo/jRQks1JdY0Fa4nAkdusoyktVGFwH4PodnHJ+yRKpmSRUjmioSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqGv7swu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TA904OiL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1045DC4CEED;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqGv7swu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34A1CC19425;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756139449;
-	bh=jlol1TuhVNcZDXlNqsLBvYWROc27W0iXgTQpgdIUTbU=;
+	bh=nyxVw48XE87zy6IhgQPKNGycuGi899OK6HHKPI4XVM8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TA904OiL46jx1hTUpDx5EECjUx5Tcs3DkAxF1f44JJIrA/U8PpyqHG9GGQNj4iZuO
-	 kAKQ0EuWvSaCpBbkqAt1bTKRJjE7n6lsZ+MtFlmLeAsb9eXO8R59nRglhPGhVss3eY
-	 4eE9CU17sYEOGTzwwG5UcMbu5nBnNZTa9iJmu+q8zcnxzdmcphc7XVTWLFplO/vzva
-	 wxt+ekNTp5ZxX1ZDdf9njGK8Q7H0qOrc/5GuPMZyMztqWN6rULe2Q/AETVwQtvWa4W
-	 KBqLzZJaIe7hwmVjxmU+aq8LylUY/W2TBWi8UVbVoB+VUK7YUoZJcT9gHyt0kVRXSs
-	 eT+yVIcf5fdHw==
+	b=mqGv7swu45/lj5Wj6MPygUJZ5944aWDKzQbrnCnhNUJGOWb4s0GitCnUa5ZqwNMK+
+	 L57ZsBOSWrRtq/w8LDpVI+ZJ2ufSKXcfHDzjwCyxDpLfyFnHbKir4A4/f5fJhZ9bSG
+	 xT/7+dlC4nCQ1kDANbwwOYjhsndgxC6Dr7EwA3onPjFa8g0fN1nL/1sHaQMkHS9/LQ
+	 WB0BgAsB75OY46eNl5vH+yS+6ohOvUcEt6vXsQCXrboyzI4L5lMVUpvKPvrx7INcrL
+	 ZxmgQQ3rs4UPra5UMt/BQ/Ly9U1vVxYOHMmJh9YwRPkhHy2xBAuk8798M3CO+gd8Sq
+	 KgwoqaGiarn2w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HALQ-0us9;
+	id 1uqa5n-0000000HAM0-1uT3;
 	Mon, 25 Aug 2025 18:30:47 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 03/13] scripts/jobserver-exec: add a help message
-Date: Mon, 25 Aug 2025 18:30:30 +0200
-Message-ID: <78712c238669ad9b3ac83ea3cc42fb600c2ace00.1756138805.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 12/13] tools/docs,scripts: sphinx-*: prevent sphinx-build crashes
+Date: Mon, 25 Aug 2025 18:30:39 +0200
+Message-ID: <1779b6a3ec1d320e872883381fe1b725c2140ffc.1756138805.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
 References: <cover.1756138805.git.mchehab+huawei@kernel.org>
@@ -51,56 +51,88 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Currently, calling it without an argument shows an ugly error
-message. Instead, print a message using pythondoc as description.
+On a properly set system, LANG and LC_ALL is always defined.
+However, some distros like Debian, Gentoo and their variants
+start with those undefioned.
+
+When Sphinx tries to set a locale with:
+
+	locale.setlocale(locale.LC_ALL, '')
+
+It raises an exception, making Sphinx fail. This is more likely
+to happen with test containers.
+
+Add a logic to detect and workaround such issue by setting
+locale to C.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/jobserver-exec | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ tools/docs/sphinx-build-wrapper | 11 +++++++++++
+ tools/docs/sphinx-pre-install   | 14 +++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index 40a0f0058733..ae23afd344ec 100755
---- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -1,6 +1,15 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0+
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 4e87584a92cd..580582a76c93 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -45,6 +45,7 @@ the newer version.
+ """
  
-+"""
-+Determines how many parallel tasks "make" is expecting, as it is
-+not exposed via any special variables, reserves them all, runs a subprocess
-+with PARALLELISM environment variable set, and releases the jobs back again.
-+
-+See:
-+    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
-+"""
-+
+ import argparse
++import locale
  import os
- import sys
+ import shlex
+ import shutil
+@@ -439,6 +440,16 @@ class SphinxBuilder:
+         if not sphinxdirs:
+             sphinxdirs = os.environ.get("SPHINXDIRS", ".")
  
-@@ -12,17 +21,12 @@ sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
- from jobserver import JobserverExec                  # pylint: disable=C0415
- 
- 
--"""
--Determines how many parallel tasks "make" is expecting, as it is
--not exposed via an special variables, reserves them all, runs a subprocess
--with PARALLELISM environment variable set, and releases the jobs back again.
--
--See:
--    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
--"""
--
- def main():
-     """Main program"""
-+    if len(sys.argv) < 2:
-+        name = os.path.basename(__file__)
-+        sys.exit("usage: " + name +" command [args ...]\n" + __doc__)
++        #
++        # The sphinx-build tool has a bug: internally, it tries to set
++        # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
++        # crash if language is not set. Detect and fix it.
++        #
++        try:
++            locale.setlocale(locale.LC_ALL, '')
++        except locale.Error:
++            self.env["LC_ALL"] = "C"
 +
-     with JobserverExec() as jobserver:
-         jobserver.run(sys.argv[1:])
+         #
+         # sphinxdirs can be a list or a whitespace-separated string
+         #
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index d6d673b7945c..663d4e2a3f57 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -26,6 +26,7 @@ system pacage install is recommended.
+ """
  
+ import argparse
++import locale
+ import os
+ import re
+ import subprocess
+@@ -422,8 +423,19 @@ class MissingCheckers(AncillaryMethods):
+         """
+         Gets sphinx-build version.
+         """
++        env = os.environ.copy()
++
++        # The sphinx-build tool has a bug: internally, it tries to set
++        # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
++        # crash if language is not set. Detect and fix it.
+         try:
+-            result = self.run([cmd, "--version"],
++            locale.setlocale(locale.LC_ALL, '')
++        except Exception:
++            env["LC_ALL"] = "C"
++            env["LANG"] = "C"
++
++        try:
++            result = self.run([cmd, "--version"], env=env,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT,
+                               text=True, check=True)
 -- 
 2.51.0
 
