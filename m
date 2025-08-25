@@ -1,44 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4596301028;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3115301027;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=mcmOxwe7ysUcrghps9XLoFlm5z1scgHBhLx9mVLEyCIIubrl7ljNQ+Zl8wqRx5YeAV8dbEJIZ1rRqzWxNLfQIuerFrwbgkGgeFOzvSHpZiyvK6Rq3AT0qtkJxSxAC52o18ty0HRQKm8GZ461jvwrnFvHIsGS7oQjeiGF5KTd8nM=
+	t=1756139449; cv=none; b=J9BT7OSlfMkw+b4A3aYrmkqXH3mcEl1obij7Ev/mkUlU6dQXoh6bcNv5vqgbRuq5D1t+F2eC9SJBJbmPHhycsQOjaD3a5b3X9FU7oTMTm8Db4uL3VbmXMqpI/7AN1QT2o1KzopZnlx+ghTTBulYvOUiLQL7CBhfQrVFq5E/NCmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=AiE/HI6OagdGD9ZL2nK8qpA5ue5A1dovU9+3kLCIiqY=;
+	bh=lUKOh/++1d6UgJrnOisFTbfDPc1mGpsnI1gPehdySmo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xg4bce4QLuCgFxDqTzxoKAx+aubuwyEQibFsxJLVzOnswvxZVpJdUgjpbJSlms/llhl2aFRvS6aDHqu+SOtofbMblXiS40UrKb1Kgd9ZnmV31/hUNuIX9H7hSt9RdrwXgeBWsAtVqm4ca9GWt+R3xs59nvJyJB3Km9RqEWzHXZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RBKirJOv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=i8FX98PXFBKJuAT5t3jYz7vvLpugQSSeNPMnDRDuZ1pCLJDmx6oPpUTt9nGWTKkXVRKU00ZmYe+BVzDkMz0kl05hs7uf70Vak9MFWXcyQw9KIaue5vtNf2k6Hc1PHCAXSw6LYPE0DlVQ/WIAXR8lhtThhmN7VDyAngHV+0E5Dzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJmyC2SC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RBKirJOv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198CCC116D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJmyC2SC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1710EC116C6;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756139449;
-	bh=AiE/HI6OagdGD9ZL2nK8qpA5ue5A1dovU9+3kLCIiqY=;
+	bh=lUKOh/++1d6UgJrnOisFTbfDPc1mGpsnI1gPehdySmo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RBKirJOvuIOKMA4LG+uVTfoxUxw0lOHz5quD3LULvoL0kaZu1eksKvWJj/J+UNueY
-	 7kqijbvMTv4i3Z1HA5wC6FOWk9qHD+ee9tGx3r9IxkVhM5qQ/3FfVJOTX0+BnUceR6
-	 584NDnd/HFr5t+gP+9GTzlZsAQSM8yPxDJsqAJwCfVmYKmvd2g9MifP+VGTWEUXoPy
-	 S2awwvWzETUxbJVHzGcj/DJHjcg0Qie6kA/8VXNoFn9udATKon2uJG9T2hBKZ9+JEa
-	 BZpmuVoAej0b31K0Mtiau4stVaYEVbv1duXF6UQ/Kz73cwjsTU8JK200JWXs9buDRY
-	 eWmGfEEPtXD9A==
+	b=oJmyC2SCYBsnWCvyOSIG4VtLRKL+jcEf+WnuNsjY+6oiGsFUwZS1FVSinCVbjfPOz
+	 6hjoxr4JpSWJOYxt2Jo7rPTdl5C3II2F3t/arTJ9K2TIbd1c5NLQsTyhaCTc3ewLdP
+	 Ve31VXG7lw0CGCBfcAQKQmwS69Gv+W4XLW3NZk5sm6sGv8NUqZin4VzYpadcq7EZFO
+	 N73+lVccFsUXvw65xwROmXYYcfCVYZPnPiFEVk1hQ+XpAIp8c9xiyyKprT4b2Nxjpq
+	 F9Z8idxvMoSqzM2A1O2jMe5+4ks9yPImplHhlZpxi9PvlOvWj+PKh8BWgF+14vk+Im
+	 uEFXSjA0eGqOg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HALI-0hdR;
+	id 1uqa5n-0000000HALc-1FqO;
 	Mon, 25 Aug 2025 18:30:47 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/13] scripts/jobserver-exec: move the code to a class
-Date: Mon, 25 Aug 2025 18:30:28 +0200
-Message-ID: <9228a9bb11dce3085988d3eac081071945aede94.1756138805.git.mchehab+huawei@kernel.org>
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <mchehab+huawei@kernel.org>,
+	Benno Lossin <mchehab+huawei@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Danilo Krummrich <mchehab+huawei@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v2 06/13] tools/docs: sphinx-build-wrapper: add a wrapper for sphinx-build
+Date: Mon, 25 Aug 2025 18:30:33 +0200
+Message-ID: <3e8ffb127bec01bd30d150b3325579e0a9c45cbf.1756138805.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
 References: <cover.1756138805.git.mchehab+huawei@kernel.org>
@@ -51,262 +62,506 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Convert the code inside jobserver-exec to a class and
-properly document it.
+There are too much magic inside docs Makefile to properly run
+sphinx-build. Create an ancillary script that contains all
+kernel-related sphinx-build call logic currently at Makefile.
 
-Using a class allows reusing the jobserver logic on other
-scripts.
+Such script is designed to work both as an standalone command
+and as part of a Makefile. As such, it properly handles POSIX
+jobserver used by GNU make.
 
-While the main code remains unchanged, being compatible with
-Python 2.6 and 3.0+, its coding style now follows a more
-modern standard, having tabs replaced by a 4-spaces
-indent, passing autopep8, black and pylint.
+On a side note, there was a line number increase due to the
+conversion:
 
-The code now allows allows using a pythonic way to
-enter/exit a python code, e.g. it now supports:
+$ git show|diffstat -p1
+ Documentation/Makefile          |  129 +++-------------
+ tools/docs/sphinx-build-wrapper |  288 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 316 insertions(+), 101 deletions(-)
 
-	with JobserverExec() as jobserver:
-	    jobserver.run(sys.argv[1:])
+This is because some things are more verbosed on Python and because
+it requires reading env vars from Makefile. Besides it, this script
+has some extra features that don't exist at the Makefile:
 
-With the new code, the __exit__() function should ensure
-that the jobserver slot will be closed at the end, even if
-something bad happens somewhere.
+- It can be called directly from command line;
+- It properly return PDF build errors.
+
+When running the script alone, it will only take handle sphinx-build
+targets. On other words, it won't runn make rustdoc after building
+htmlfiles, nor it will run the extra check scripts.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/jobserver-exec | 218 ++++++++++++++++++++++++++++-------------
- 1 file changed, 151 insertions(+), 67 deletions(-)
+ Documentation/Makefile          | 129 ++++----------
+ tools/docs/sphinx-build-wrapper | 288 ++++++++++++++++++++++++++++++++
+ 2 files changed, 316 insertions(+), 101 deletions(-)
+ create mode 100755 tools/docs/sphinx-build-wrapper
 
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index 7eca035472d3..b386b1a845de 100755
---- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -1,77 +1,161 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0+
- #
-+# pylint: disable=C0103,C0209
-+#
- # This determines how many parallel tasks "make" is expecting, as it is
- # not exposed via an special variables, reserves them all, runs a subprocess
- # with PARALLELISM environment variable set, and releases the jobs back again.
- #
- # https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
--from __future__ import print_function
--import os, sys, errno
-+
-+"""
-+Interacts with the POSIX jobserver during the Kernel build time.
-+
-+A "normal" jobserver task, like the one initiated by a make subrocess would do:
-+
-+    - open read/write file descriptors to communicate with the job server;
-+    - ask for one slot by calling:
-+        claim = os.read(reader, 1)
-+    - when the job finshes, call:
-+        os.write(writer, b"+")  # os.write(writer, claim)
-+
-+Here, the goal is different: This script aims to get the remaining number
-+of slots available, using all of them to run a command which handle tasks in
-+parallel. To to that, it has a loop that ends only after there are no
-+slots left. It then increments the number by one, in order to allow a
-+call equivalent to make -j$((claim+1)), e.g. having a parent make creating
-+$claim child to do the actual work.
-+
-+The end goal here is to keep the total number of build tasks under the
-+limit established by the initial make -j$n_proc call.
-+"""
-+
-+import errno
-+import os
- import subprocess
-+import sys
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index deb2029228ed..2b0ed8cd5ea8 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -23,21 +23,22 @@ SPHINXOPTS    =
+ SPHINXDIRS    = .
+ DOCS_THEME    =
+ DOCS_CSS      =
+-_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
+ SPHINX_CONF   = conf.py
+ PAPER         =
+ BUILDDIR      = $(obj)/output
+ PDFLATEX      = xelatex
+ LATEXOPTS     = -interaction=batchmode -no-shell-escape
  
--# Extract and prepare jobserver file descriptors from environment.
--claim = 0
--jobs = b""
--try:
--	# Fetch the make environment options.
--	flags = os.environ['MAKEFLAGS']
--
--	# Look for "--jobserver=R,W"
--	# Note that GNU Make has used --jobserver-fds and --jobserver-auth
--	# so this handles all of them.
--	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
--
--	# Parse out R,W file descriptor numbers and set them nonblocking.
--	# If the MAKEFLAGS variable contains multiple instances of the
--	# --jobserver-auth= option, the last one is relevant.
--	fds = opts[-1].split("=", 1)[1]
--
--	# Starting with GNU Make 4.4, named pipes are used for reader and writer.
--	# Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
--	_, _, path = fds.partition('fifo:')
--
--	if path:
--		reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
--		writer = os.open(path, os.O_WRONLY)
--	else:
--		reader, writer = [int(x) for x in fds.split(",", 1)]
--		# Open a private copy of reader to avoid setting nonblocking
--		# on an unexpecting process with the same reader fd.
--		reader = os.open("/proc/self/fd/%d" % (reader),
--				 os.O_RDONLY | os.O_NONBLOCK)
--
--	# Read out as many jobserver slots as possible.
--	while True:
--		try:
--			slot = os.read(reader, 8)
--			jobs += slot
--		except (OSError, IOError) as e:
--			if e.errno == errno.EWOULDBLOCK:
--				# Stop at the end of the jobserver queue.
--				break
--			# If something went wrong, give back the jobs.
--			if len(jobs):
--				os.write(writer, jobs)
--			raise e
--	# Add a bump for our caller's reserveration, since we're just going
--	# to sit here blocked on our child.
--	claim = len(jobs) + 1
--except (KeyError, IndexError, ValueError, OSError, IOError) as e:
--	# Any missing environment strings or bad fds should result in just
--	# not being parallel.
--	pass
--
--# We can only claim parallelism if there was a jobserver (i.e. a top-level
--# "-jN" argument) and there were no other failures. Otherwise leave out the
--# environment variable and let the child figure out what is best.
--if claim > 0:
--	os.environ['PARALLELISM'] = '%d' % (claim)
--
--rc = subprocess.call(sys.argv[1:])
--
--# Return all the reserved slots.
--if len(jobs):
--	os.write(writer, jobs)
--
--sys.exit(rc)
++PYTHONPYCACHEPREFIX ?= $(abspath $(BUILDDIR)/__pycache__)
 +
-+class JobserverExec:
-+    """
-+    Claim all slots from make using POSIX Jobserver.
++# Wrapper for sphinx-build
 +
-+    The main methods here are:
-+    - open(): reserves all slots;
-+    - close(): method returns all used slots back to make;
-+    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
-+    """
++BUILD_WRAPPER = $(srctree)/tools/docs/sphinx-build-wrapper
 +
-+    def __init__(self):
-+        """Initialize internal vars"""
-+        self.claim = 0
-+        self.jobs = b""
-+        self.reader = None
-+        self.writer = None
-+        self.is_open = False
+ # For denylisting "variable font" files
+ # Can be overridden by setting as an env variable
+ FONTS_CONF_DENY_VF ?= $(HOME)/deny-vf
+ 
+-ifeq ($(findstring 1, $(KBUILD_VERBOSE)),)
+-SPHINXOPTS    += "-q"
+-endif
+-
+ # User-friendly check for sphinx-build
+ HAVE_SPHINX := $(shell if which $(SPHINXBUILD) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+ 
+@@ -51,63 +52,29 @@ ifeq ($(HAVE_SPHINX),0)
+ 
+ else # HAVE_SPHINX
+ 
+-# User-friendly check for pdflatex and latexmk
+-HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
+-HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
++# Common documentation targets
++infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
++	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
++	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
++		--sphinxdirs="$(SPHINXDIRS)" --conf=$(SPHINX_CONF) \
++		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
+ 
+-ifeq ($(HAVE_LATEXMK),1)
+-	PDFLATEX := latexmk -$(PDFLATEX)
+-endif #HAVE_LATEXMK
+-
+-# Internal variables.
+-PAPEROPT_a4     = -D latex_elements.papersize=a4paper
+-PAPEROPT_letter = -D latex_elements.papersize=letterpaper
+-ALLSPHINXOPTS   = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
+-ALLSPHINXOPTS   += $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
+-ifneq ($(wildcard $(srctree)/.config),)
+-ifeq ($(CONFIG_RUST),y)
+-	# Let Sphinx know we will include rustdoc
+-	ALLSPHINXOPTS   +=  -t rustdoc
+-endif
++# Special handling for pdfdocs
++ifeq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
++pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
++else
++pdfdocs:
++	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
++	@echo "  SKIP    Sphinx $@ target."
+ endif
+-# the i18n builder cannot share the environment and doctrees with the others
+-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+-
+-# commands; the 'cmd' from scripts/Kbuild.include is not *loopable*
+-loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
+-
+-# $2 sphinx builder e.g. "html"
+-# $3 name of the build subfolder / e.g. "userspace-api/media", used as:
+-#    * dest folder relative to $(BUILDDIR) and
+-#    * cache folder relative to $(BUILDDIR)/.doctrees
+-# $4 dest subfolder e.g. "man" for man pages at userspace-api/media/man
+-# $5 reST source folder relative to $(src),
+-#    e.g. "userspace-api/media" for the linux-tv book-set at ./Documentation/userspace-api/media
+-
+-PYTHONPYCACHEPREFIX ?= $(abspath $(BUILDDIR)/__pycache__)
+-
+-quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+-      cmd_sphinx = \
+-	PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+-	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
+-	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+-	$(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+-	$(SPHINXBUILD) \
+-	-b $2 \
+-	-c $(abspath $(src)) \
+-	-d $(abspath $(BUILDDIR)/.doctrees/$3) \
+-	-D version=$(KERNELVERSION) -D release=$(KERNELRELEASE) \
+-	$(ALLSPHINXOPTS) \
+-	$(abspath $(src)/$5) \
+-	$(abspath $(BUILDDIR)/$3/$4) && \
+-	if [ "x$(DOCS_CSS)" != "x" ]; then \
+-		cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_static/; \
+-	fi
+ 
++# HTML main logic is identical to other targets. However, if rust is enabled,
++# an extra step at the end is required to generate rustdoc.
+ htmldocs:
+-	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+-
++	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
++	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
++		--sphinxdirs="$(SPHINXDIRS)" --conf=$(SPHINX_CONF) \
++		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
+ # If Rust support is available and .config exists, add rustdoc generated contents.
+ # If there are any, the errors from this make rustdoc will be displayed but
+ # won't stop the execution of htmldocs
+@@ -118,49 +85,6 @@ ifeq ($(CONFIG_RUST),y)
+ endif
+ endif
+ 
+-texinfodocs:
+-	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
+-
+-# Note: the 'info' Make target is generated by sphinx itself when
+-# running the texinfodocs target define above.
+-infodocs: texinfodocs
+-	$(MAKE) -C $(BUILDDIR)/texinfo info
+-
+-linkcheckdocs:
+-	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+-
+-latexdocs:
+-	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+-
+-ifeq ($(HAVE_PDFLATEX),0)
+-
+-pdfdocs:
+-	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+-	@echo "  SKIP    Sphinx $@ target."
+-
+-else # HAVE_PDFLATEX
+-
+-pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+-pdfdocs: latexdocs
+-	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+-	$(foreach var,$(SPHINXDIRS), \
+-	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
+-	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+-	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+-	)
+-
+-endif # HAVE_PDFLATEX
+-
+-epubdocs:
+-	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+-
+-xmldocs:
+-	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+-	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
+-
+ endif # HAVE_SPHINX
+ 
+ # The following targets are independent of HAVE_SPHINX, and the rules should
+@@ -172,6 +96,9 @@ refcheckdocs:
+ cleandocs:
+ 	$(Q)rm -rf $(BUILDDIR)
+ 
++# Used only on help
++_SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
 +
-+    def open(self):
-+        """Reserve all available slots to be claimed later on"""
+ dochelp:
+ 	@echo  ' Linux kernel internal documentation in different formats from ReST:'
+ 	@echo  '  htmldocs        - HTML'
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+new file mode 100755
+index 000000000000..df469af8a4ef
+--- /dev/null
++++ b/tools/docs/sphinx-build-wrapper
+@@ -0,0 +1,288 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++import argparse
++import os
++import shlex
++import shutil
++import subprocess
++import sys
++from lib.python_version import PythonVersion
 +
-+        if self.is_open:
-+            return
++LIB_DIR = "../../scripts/lib"
++SRC_DIR = os.path.dirname(os.path.realpath(__file__))
++sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
 +
-+        try:
-+            # Fetch the make environment options.
-+            flags = os.environ["MAKEFLAGS"]
-+            # Look for "--jobserver=R,W"
-+            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-+            # so this handles all of them.
-+            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
++from jobserver import JobserverExec
 +
-+            # Parse out R,W file descriptor numbers and set them nonblocking.
-+            # If the MAKEFLAGS variable contains multiple instances of the
-+            # --jobserver-auth= option, the last one is relevant.
-+            fds = opts[-1].split("=", 1)[1]
++MIN_PYTHON_VERSION = PythonVersion("3.7").version
++PAPER = ["", "a4", "letter"]
++TARGETS = {
++    "cleandocs":     { "builder": "clean" },
++    "linkcheckdocs": { "builder": "linkcheck" },
++    "htmldocs":      { "builder": "html" },
++    "epubdocs":      { "builder": "epub",    "out_dir": "epub" },
++    "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },
++    "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },
++    "latexdocs":     { "builder": "latex",   "out_dir": "latex" },
++    "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },
++    "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
++}
 +
-+            # Starting with GNU Make 4.4, named pipes are used for reader
-+            # and writer.
-+            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
-+            _, _, path = fds.partition("fifo:")
++class SphinxBuilder:
++    def is_rust_enabled(self):
++        config_path = os.path.join(self.srctree, ".config")
++        if os.path.isfile(config_path):
++            with open(config_path, "r", encoding="utf-8") as f:
++                return "CONFIG_RUST=y" in f.read()
++        return False
 +
-+            if path:
-+                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-+                self.writer = os.open(path, os.O_WRONLY)
++    def get_path(self, path, abs_path=False):
++        path = os.path.expanduser(path)
++        if not path.startswith("/"):
++            path = os.path.join(self.srctree, path)
++        if abs_path:
++            return os.path.abspath(path)
++        return path
++
++    def __init__(self, verbose=False, n_jobs=None):
++        self.verbose = None
++        self.kernelversion = os.environ.get("KERNELVERSION", "unknown")
++        self.kernelrelease = os.environ.get("KERNELRELEASE", "unknown")
++        self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
++        self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
++        if not verbose:
++            verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
++        if verbose is not None:
++            self.verbose = verbose
++        parser = argparse.ArgumentParser()
++        parser.add_argument('-j', '--jobs', type=int)
++        parser.add_argument('-q', '--quiet', type=int)
++        sphinxopts = shlex.split(os.environ.get("SPHINXOPTS", ""))
++        sphinx_args, self.sphinxopts = parser.parse_known_args(sphinxopts)
++        if sphinx_args.quiet is True:
++            self.verbose = False
++        if sphinx_args.jobs:
++            self.n_jobs = sphinx_args.jobs
++        self.n_jobs = n_jobs
++        self.srctree = os.environ.get("srctree")
++        if not self.srctree:
++            self.srctree = "."
++            os.environ["srctree"] = self.srctree
++        self.sphinxbuild = os.environ.get("SPHINXBUILD", "sphinx-build")
++        self.kerneldoc = self.get_path(os.environ.get("KERNELDOC",
++                                                      "scripts/kernel-doc.py"))
++        self.obj = os.environ.get("obj", "Documentation")
++        self.builddir = self.get_path(os.path.join(self.obj, "output"),
++                                      abs_path=True)
++
++        self.config_rust = self.is_rust_enabled()
++
++        self.pdflatex_cmd = shutil.which(self.pdflatex)
++        self.latexmk_cmd = shutil.which("latexmk")
++
++        self.env = os.environ.copy()
++
++    def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
++        with JobserverExec() as jobserver:
++            if jobserver.claim:
++                n_jobs = str(jobserver.claim)
 +            else:
-+                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-+                # Open a private copy of reader to avoid setting nonblocking
-+                # on an unexpecting process with the same reader fd.
-+                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-+                                      os.O_RDONLY | os.O_NONBLOCK)
++                n_jobs = "auto" # Supported since Sphinx 1.7
++            cmd = []
++            cmd.append(sys.executable)
++            cmd.append(sphinx_build)
++            if self.n_jobs:
++                n_jobs = str(self.n_jobs)
 +
-+            # Read out as many jobserver slots as possible
-+            while True:
-+                try:
-+                    slot = os.read(self.reader, 8)
-+                    self.jobs += slot
-+                except (OSError, IOError) as e:
-+                    if e.errno == errno.EWOULDBLOCK:
-+                        # Stop at the end of the jobserver queue.
-+                        break
-+                    # If something went wrong, give back the jobs.
-+                    if self.jobs:
-+                        os.write(self.writer, self.jobs)
-+                    raise e
++            if n_jobs:
++                cmd += [f"-j{n_jobs}"]
 +
-+            # Add a bump for our caller's reserveration, since we're just going
-+            # to sit here blocked on our child.
-+            self.claim = len(self.jobs) + 1
++            if not self.verbose:
++                cmd.append("-q")
++            cmd += self.sphinxopts
++            cmd += build_args
++            if self.verbose:
++                print(" ".join(cmd))
++            return subprocess.call(cmd, *args, **pwargs)
 +
-+        except (KeyError, IndexError, ValueError, OSError, IOError):
-+            # Any missing environment strings or bad fds should result in just
-+            # not being parallel.
-+            self.claim = None
-+
-+        self.is_open = True
-+
-+    def close(self):
-+        """Return all reserved slots to Jobserver"""
-+
-+        if not self.is_open:
++    def handle_html(self, css, output_dir):
++        if not css:
 +            return
++        css = os.path.expanduser(css)
++        if not css.startswith("/"):
++            css = os.path.join(self.srctree, css)
++        static_dir = os.path.join(output_dir, "_static")
++        os.makedirs(static_dir, exist_ok=True)
++        try:
++            shutil.copy2(css, static_dir)
++        except (OSError, IOError) as e:
++            print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
 +
-+        # Return all the reserved slots.
-+        if len(self.jobs):
-+            os.write(self.writer, self.jobs)
++    def handle_pdf(self, output_dirs):
++        builds = {}
++        max_len = 0
++        for from_dir in output_dirs:
++            pdf_dir = os.path.join(from_dir, "../pdf")
++            os.makedirs(pdf_dir, exist_ok=True)
++            if self.latexmk_cmd:
++                latex_cmd = [self.latexmk_cmd, f"-{self.pdflatex}"]
++            else:
++                latex_cmd = [self.pdflatex]
++            latex_cmd.extend(shlex.split(self.latexopts))
++            tex_suffix = ".tex"
++            has_tex = False
++            build_failed = False
++            with os.scandir(from_dir) as it:
++                for entry in it:
++                    if not entry.name.endswith(tex_suffix):
++                        continue
++                    name = entry.name[:-len(tex_suffix)]
++                    has_tex = True
++                    try:
++                        subprocess.run(latex_cmd + [entry.path],
++                                       cwd=from_dir, check=True)
++                    except subprocess.CalledProcessError:
++                        pass
++                    pdf_name = name + ".pdf"
++                    pdf_from = os.path.join(from_dir, pdf_name)
++                    pdf_to = os.path.join(pdf_dir, pdf_name)
++                    if os.path.exists(pdf_from):
++                        os.rename(pdf_from, pdf_to)
++                        builds[name] = os.path.relpath(pdf_to, self.builddir)
++                    else:
++                        builds[name] = "FAILED"
++                        build_failed = True
++                    name = entry.name.removesuffix(".tex")
++                    max_len = max(max_len, len(name))
 +
-+        self.is_open = False
++            if not has_tex:
++                name = os.path.basename(from_dir)
++                max_len = max(max_len, len(name))
++                builds[name] = "FAILED (no .tex)"
++                build_failed = True
++        msg = "Summary"
++        msg += "\n" + "=" * len(msg)
++        print()
++        print(msg)
++        for pdf_name, pdf_file in builds.items():
++            print(f"{pdf_name:<{max_len}}: {pdf_file}")
++        print()
++        if build_failed:
++            sys.exit("PDF build failed: not all PDF files were created.")
++        else:
++            print("All PDF files were built.")
 +
-+    def __enter__(self):
-+        self.open()
-+        return self
++    def handle_info(self, output_dirs):
++        for output_dir in output_dirs:
++            try:
++                subprocess.run(["make", "info"], cwd=output_dir, check=True)
++            except subprocess.CalledProcessError as e:
++                sys.exit(f"Error generating info docs: {e}")
 +
-+    def __exit__(self, exc_type, exc_value, exc_traceback):
-+        self.close()
++    def cleandocs(self, builder):
++        shutil.rmtree(self.builddir, ignore_errors=True)
 +
-+    def run(self, cmd):
-+        """
-+        Run a command setting PARALLELISM env variable to the number of
-+        available job slots (claim) + 1, e.g. it will reserve claim slots
-+        to do the actual build work, plus one to monitor its childs.
-+        """
-+        self.open()             # Ensure that self.claim is set
++    def build(self, target, sphinxdirs=None, conf="conf.py",
++              theme=None, css=None, paper=None):
++        builder = TARGETS[target]["builder"]
++        out_dir = TARGETS[target].get("out_dir", "")
++        if target == "cleandocs":
++            self.cleandocs(builder)
++            return
++        if theme:
++                os.environ["DOCS_THEME"] = theme
++        sphinxbuild = shutil.which(self.sphinxbuild, path=self.env["PATH"])
++        if not sphinxbuild:
++            sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
++        if builder == "latex":
++            if not self.pdflatex_cmd and not self.latexmk_cmd:
++                sys.exit("Error: pdflatex or latexmk required for PDF generation")
++        docs_dir = os.path.abspath(os.path.join(self.srctree, "Documentation"))
++        kerneldoc = self.kerneldoc
++        if kerneldoc.startswith(self.srctree):
++            kerneldoc = os.path.relpath(kerneldoc, self.srctree)
++        args = [ "-b", builder, "-c", docs_dir ]
++        if builder == "latex":
++            if not paper:
++                paper = PAPER[1]
++            args.extend(["-D", f"latex_elements.papersize={paper}paper"])
++        if self.config_rust:
++            args.extend(["-t", "rustdoc"])
++        if conf:
++            self.env["SPHINX_CONF"] = self.get_path(conf, abs_path=True)
++        if not sphinxdirs:
++            sphinxdirs = os.environ.get("SPHINXDIRS", ".")
++        sphinxdirs_list = []
++        for sphinxdir in sphinxdirs:
++            if isinstance(sphinxdir, list):
++                sphinxdirs_list += sphinxdir
++            else:
++                for name in sphinxdir.split(" "):
++                    sphinxdirs_list.append(name)
++        output_dirs = []
++        for sphinxdir in sphinxdirs_list:
++            src_dir = os.path.join(docs_dir, sphinxdir)
++            doctree_dir = os.path.join(self.builddir, ".doctrees")
++            output_dir = os.path.join(self.builddir, sphinxdir, out_dir)
++            src_dir = os.path.normpath(src_dir)
++            doctree_dir = os.path.normpath(doctree_dir)
++            output_dir = os.path.normpath(output_dir)
++            os.makedirs(doctree_dir, exist_ok=True)
++            os.makedirs(output_dir, exist_ok=True)
++            output_dirs.append(output_dir)
++            build_args = args + [
++                "-d", doctree_dir,
++                "-D", f"kerneldoc_bin={kerneldoc}",
++                "-D", f"version={self.kernelversion}",
++                "-D", f"release={self.kernelrelease}",
++                "-D", f"kerneldoc_srctree={self.srctree}",
++                src_dir,
++                output_dir,
++            ]
++            try:
++                self.run_sphinx(sphinxbuild, build_args, env=self.env)
++            except (OSError, ValueError, subprocess.SubprocessError) as e:
++                sys.exit(f"Build failed: {repr(e)}")
++            if target in ["htmldocs", "epubdocs"]:
++                self.handle_html(css, output_dir)
++        if target == "pdfdocs":
++            self.handle_pdf(output_dirs)
++        elif target == "infodocs":
++            self.handle_info(output_dirs)
 +
-+        # We can only claim parallelism if there was a jobserver (i.e. a
-+        # top-level "-jN" argument) and there were no other failures. Otherwise
-+        # leave out the environment variable and let the child figure out what
-+        # is best.
-+        if self.claim:
-+            os.environ["PARALLELISM"] = str(self.claim)
-+
-+        return subprocess.call(cmd)
-+
++def jobs_type(value):
++    if value is None:
++        return None
++    if value.lower() == 'auto':
++        return value.lower()
++    try:
++        if int(value) >= 1:
++            return value
++        raise argparse.ArgumentTypeError(f"Minimum jobs is 1, got {value}")
++    except ValueError:
++        raise argparse.ArgumentTypeError(f"Must be 'auto' or positive integer, got {value}")
 +
 +def main():
-+    """Main program"""
-+    with JobserverExec() as jobserver:
-+        jobserver.run(sys.argv[1:])
-+
++    parser = argparse.ArgumentParser(description="Kernel documentation builder")
++    parser.add_argument("target", choices=list(TARGETS.keys()),
++                        help="Documentation target to build")
++    parser.add_argument("--sphinxdirs", nargs="+",
++                        help="Specific directories to build")
++    parser.add_argument("--conf", default="conf.py",
++                        help="Sphinx configuration file")
++    parser.add_argument("--theme", help="Sphinx theme to use")
++    parser.add_argument("--css", help="Custom CSS file for HTML/EPUB")
++    parser.add_argument("--paper", choices=PAPER, default=PAPER[0],
++                        help="Paper size for LaTeX/PDF output")
++    parser.add_argument("-v", "--verbose", action='store_true',
++                        help="place build in verbose mode")
++    parser.add_argument('-j', '--jobs', type=jobs_type,
++                        help="Sets number of jobs to use with sphinx-build")
++    args = parser.parse_args()
++    PythonVersion.check_python(MIN_PYTHON_VERSION)
++    builder = SphinxBuilder(verbose=args.verbose, n_jobs=args.jobs)
++    builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,
++                  theme=args.theme, css=args.css, paper=args.paper)
 +
 +if __name__ == "__main__":
 +    main()
