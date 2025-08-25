@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7E13002AC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A328E301003;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=i4cIz1+7Rg1hjPfGT3O7CefcBYNhyim2vUHXrAz2ZxmusjVngw/fU2f0NC2tuOIf4YKz4SFHRd3KoKF00JaCJNHHOYmSp0X4gpvOm8diXPzA8sv37yybPfgw9i2DfOQLEDwy9b+geKYuc+lrSv2CbZ996nJPiE68+zlYYore00c=
+	t=1756139449; cv=none; b=pKzIyX6WBB7HUlcWbT0k/n3FtOBRYoZac10+M3GdBIbB9W+lV8oiAH3eXqi5LnY89FrKIHAO5qyEMFJkVOyUeoOniZfHxdzN4GFZjNuyaQwOv0q32AU+l8b21CjBvtBYGo+UftOeJYWF4sQyQna/T32E8Lfx8rEDGnlPi7piskI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=7GnO3HikSmm/j8N04JDdRzA73zbHZ6baYyVkORZ4ge8=;
+	bh=DUnDSGE1B+eDLTJGGuJp1airL8xfT3+GXJbkMbRzrzw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lqWtWalRnoHHpViRJo5gb5TLh1ZVBbvkckIloksA3tpYIR/VGC6z9oh0XB2VgAU9t/H1CO/OBimbGyfjr0qXu3/thfKzYOCetY3xrC/XjHvrfgjsJr9ioJgRwfU3YNJWFVmARpW5qawrXgTXVevUih7bUQFJmK8Ddur3xDNb4k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaigDscE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=LGJYrjstrlAnLOKgmyaodJjJx3h1HgafMvA99g6ah8hMYqJIJAVt3Z90XRHq/dfS9fS0x9eT6uCU7mCrun8rnoszDYBWs11BYv5nJ1XyaNYO3KVCwOGDk3nmS/J3bKHZtdq5+gftHP9cIfOPspnnczRMRXvry6XwjHgk4+6CF54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mL7Tge5U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaigDscE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2800BC4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mL7Tge5U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 385E5C2BCAF;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756139449;
-	bh=7GnO3HikSmm/j8N04JDdRzA73zbHZ6baYyVkORZ4ge8=;
+	bh=DUnDSGE1B+eDLTJGGuJp1airL8xfT3+GXJbkMbRzrzw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TaigDscE2hufRauQSbUki4a3vg7S8LeZWmD7Ershpweg7tEjOS7CE3FBQRGmGu5aJ
-	 EuZxXJGnkYP1oMMQBRBYhv5HLXoO5SguPfF9JAu1HeNPkCXaUGYK4bNv097jMHa7w3
-	 hJpGsaWTB9NTyr/dfaBUY0N34FJ6DQmnuBnvtrzRhNt6SGDk+V55+jgaya8Tpw1qSg
-	 EbNM272yuLjE15dlL8Ev3C7QnjytpsnYJywjI5G382scD7EhTrL9BCJcvqPh3TNwEy
-	 cM+FtiF6dgT3a2k8KmWNSyiuUrEF5s5GvBGh2C8lcA9Ngml6a8xazHFV52B8XYqXHx
-	 gGSzH6B1a5d5w==
+	b=mL7Tge5UDOXr94ffaXCo6zSd4Xz0TTlVTFbF7QVaiGgF2fFm4xew84fVEx2aYv6OS
+	 2CdqOG3EcF2R1GNvbJCYOVAdCDh+w+X1Zjvltb+Jm9h/Z5kHE2Y2TjQuwldQMLLt8L
+	 sZBTOCf5lnvpkqxZOMpSztmaQ9KdwJhfc5/nQOGY8/7h/8ur84tyQUN7V+Jc+/G0q+
+	 sF8glHFt/ITeKdlyvsIVSpLwnfw2luEk/iB4CccB65pHyBlgazyRK0AH9IA3FaoC3k
+	 HF3g4nZ8YvuIppFBgsd3BIL8M0t3QiljLeLa6IAoIC0t1B9G9mq/nSCtb24zh/U5gH
+	 ecBkyuEwe9dLQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HALU-11iz;
+	id 1uqa5n-0000000HALw-1nla;
 	Mon, 25 Aug 2025 18:30:47 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 04/13] scripts: sphinx-pre-install: move it to tools/docs
-Date: Mon, 25 Aug 2025 18:30:31 +0200
-Message-ID: <df90499c5e5a873a843bbad39f8cb659b41908d1.1756138805.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 11/13] tools/docs: sphinx-build-wrapper: add an argument for LaTeX interactive mode
+Date: Mon, 25 Aug 2025 18:30:38 +0200
+Message-ID: <fdfc3a625a4313ab1946772dd129e8e9754e0b91.1756138805.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
 References: <cover.1756138805.git.mchehab+huawei@kernel.org>
@@ -51,85 +51,76 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As we're reorganizing the place where doc scripts are located,
-move this one to tools/docs.
+By default, we use LaTeX batch mode to build docs. This way, when
+an error happens, the build fails. This is good for normal builds,
+but when debugging problems with pdf generation, the best is to
+use interactive mode.
 
-No functional changes.
+We already support it via LATEXOPTS, but having a command line
+argument makes it easier:
+
+Interactive mode:
+	./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs peci -v -i
+	...
+	Running 'xelatex --no-pdf  -no-pdf -recorder  ".../Documentation/output/peci/latex/peci.tex"'
+	...
+
+Default batch mode:
+        ./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs peci -v
+	...
+	Running 'xelatex --no-pdf  -no-pdf -interaction=batchmode -no-shell-escape -recorder  ".../Documentation/output/peci/latex/peci.tex"'
+	...
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile                     | 14 +++++++-------
- {scripts => tools/docs}/sphinx-pre-install |  0
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename {scripts => tools/docs}/sphinx-pre-install (100%)
+ tools/docs/sphinx-build-wrapper | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 5c20c68be89a..deb2029228ed 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -46,7 +46,7 @@ ifeq ($(HAVE_SPHINX),0)
- .DEFAULT:
- 	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
- 	@echo
--	@$(srctree)/scripts/sphinx-pre-install
-+	@$(srctree)/tools/docs/sphinx-pre-install
- 	@echo "  SKIP    Sphinx $@ target."
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 9c5df50fb99d..4e87584a92cd 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -115,7 +115,7 @@ class SphinxBuilder:
  
- else # HAVE_SPHINX
-@@ -105,7 +105,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	fi
+         return path
  
- htmldocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+-    def __init__(self, venv=None, verbose=False, n_jobs=None):
++    def __init__(self, venv=None, verbose=False, n_jobs=None, interactive=None):
+         """Initialize internal variables"""
+         self.venv = venv
+         self.verbose = None
+@@ -126,7 +126,11 @@ class SphinxBuilder:
+         self.kernelversion = os.environ.get("KERNELVERSION", "unknown")
+         self.kernelrelease = os.environ.get("KERNELRELEASE", "unknown")
+         self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
+-        self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
++
++        if not interactive:
++            self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
++        else:
++            self.latexopts = os.environ.get("LATEXOPTS", "")
  
- # If Rust support is available and .config exists, add rustdoc generated contents.
-@@ -119,7 +119,7 @@ endif
- endif
+         if not verbose:
+             verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
+@@ -548,6 +552,9 @@ def main():
+     parser.add_argument('-j', '--jobs', type=jobs_type,
+                         help="Sets number of jobs to use with sphinx-build")
  
- texinfodocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
++    parser.add_argument('-i', '--interactive', action='store_true',
++                        help="Change latex default to run in interactive mode")
++
+     parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
+                         default=None,
+                         help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
+@@ -557,7 +564,7 @@ def main():
+     PythonVersion.check_python(MIN_PYTHON_VERSION)
  
- # Note: the 'info' Make target is generated by sphinx itself when
-@@ -131,7 +131,7 @@ linkcheckdocs:
- 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+     builder = SphinxBuilder(venv=args.venv, verbose=args.verbose,
+-                            n_jobs=args.jobs)
++                            n_jobs=args.jobs, interactive=args.interactive)
  
- latexdocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
- 
- ifeq ($(HAVE_PDFLATEX),0)
-@@ -144,7 +144,7 @@ else # HAVE_PDFLATEX
- 
- pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
- pdfdocs: latexdocs
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	$(foreach var,$(SPHINXDIRS), \
- 	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
- 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
-@@ -154,11 +154,11 @@ pdfdocs: latexdocs
- endif # HAVE_PDFLATEX
- 
- epubdocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
- 
- xmldocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
- 
- endif # HAVE_SPHINX
-diff --git a/scripts/sphinx-pre-install b/tools/docs/sphinx-pre-install
-similarity index 100%
-rename from scripts/sphinx-pre-install
-rename to tools/docs/sphinx-pre-install
+     builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,
+                   theme=args.theme, css=args.css, paper=args.paper)
 -- 
 2.51.0
 
