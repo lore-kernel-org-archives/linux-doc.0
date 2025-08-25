@@ -1,110 +1,85 @@
-Received: from mx0a-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176852F0C44;
-	Mon, 25 Aug 2025 13:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA03E38FB9;
+	Mon, 25 Aug 2025 14:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756129721; cv=none; b=i90n4m9x0mUF9mnO7mLel0/sQus+HLJSGoYksXtkYlbZonF2cB+UXKc69u7DUhErxoBteOXRMhzzQf5xVg4JEKp2jNBdbHM82U1jjoKZtIyomt5Dy4tCn9cCmDr1ZQObGegYhLdWxaX+v0Ors0UeO5wzzm20m1Hb/xltW4RHFmc=
+	t=1756131964; cv=none; b=oswmYukC9XnZmjoo24LM1uZG9kOM2jVqyifPlz86iDPs5KeeOix31fiq+4+PLCCYDnRaSPAa67yU/KaWRr1/sc9GQnnNUBWjTKYQf2EchU89aMxq4/MqHzBuWmxcdxyNkDEvUsptPqzFU0wJQ/K/M/39m/WyxPuV45m7dVb4/No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756129721; c=relaxed/simple;
-	bh=debTZXkkIpj9zmW8PgTAccY0m2emTzb1QtwH00Px3r0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R3bbZfEfENJvq0/B60pkZtQqpAwhkwGBNDv18neREjFQW0Z21xlSSGwi87A92J76coKHJeuxxRx585JajvExH/gcFAcfacQ7P1w6+RKM/6//eIZ/onosrDiFCVUUkp5UsFd7YpcJY7mSDvyO1Edh/NGXhilMvICfCYcmC7xLvtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=kxVGwWCy; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	s=arc-20240116; t=1756131964; c=relaxed/simple;
+	bh=qKnJwvVOQdbIM7AwmZDu1aieujqnr4MVL8xJV+3xcWU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TEjIRi1LXKuBLD5jUTAohhszLUME9ODlaUxswkhzMvaE1nUsCmECAhCX/G/L2Lhxv9xRQ11w2hl4so/ZwxuUj0ixsS4d1otDpLwZ/5ocE7K6/rk/9y8teH+GtNB4u99nPSvEjBO3tp2ruN+GHO6rQm1kf0X7OvKkuQjrlBJLs/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPWPBLMJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="kxVGwWCy"
-Received: from pps.filterd (m0431384.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PDm3nL021849;
-	Mon, 25 Aug 2025 06:48:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pfpt0220; bh=btcG3PoWQXAVDS5VoFlRoJV
-	NVK/NQl6OsYRo9KlZmBY=; b=kxVGwWCy07G/8+B9yOJyDWNLEZXaufzXLwTPtVw
-	f6yzli7frxbOcJtpm6NTluNv+nfRHcF3lcPbvNvzo3WJuZmpIOndUaSMF7VweDdq
-	2lGC4m0EsHJ9Wy0EtHWpmW09h/IBu1aWmtjkIoFbJpevSvBHEOGQFqj1SZBU+z79
-	DUGqF+UiTym2xrkUBM31Ls5+BgjlxET+388+GyX8vbxK64T5jVIg7+ucbnWHNDka
-	o7S2AQJfjw0UqkrxvVmC0glSFMcVqYXxrA7cf9dLAeJk/oF5IGyYsiVCCO2wH2df
-	W67bnGiY1qRWh+UdGC0gQUsVrnt82X0m0Nxy7Mn8ZbeSevA==
-Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 48rs1kr00g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Aug 2025 06:48:11 -0700 (PDT)
-Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
- DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Mon, 25 Aug 2025 06:48:09 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
- (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.25 via Frontend
- Transport; Mon, 25 Aug 2025 06:48:09 -0700
-Received: from naveenm-PowerEdge-T630.marvell.com (unknown [10.29.37.44])
-	by maili.marvell.com (Postfix) with ESMTP id 5985B3F7055;
-	Mon, 25 Aug 2025 06:48:06 -0700 (PDT)
-From: Naveen Mamindlapalli <naveenm@marvell.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
-        <andrew@lunn.ch>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Naveen Mamindlapalli <naveenm@marvell.com>
-Subject: [PATCH net-next] docs: networking: clarify expectation of persistent stats
-Date: Mon, 25 Aug 2025 19:17:55 +0530
-Message-ID: <20250825134755.3468861-1-naveenm@marvell.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPWPBLMJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81222C116C6;
+	Mon, 25 Aug 2025 14:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756131963;
+	bh=qKnJwvVOQdbIM7AwmZDu1aieujqnr4MVL8xJV+3xcWU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bPWPBLMJbqPu4Ihz/jn1p85BL57qjQm0GeXE5FNWeLlN++/7RKlMCJ8dHmh3NN98j
+	 a2MJOEJMImQWuqo4ojpxl7wQxUW+kMSttdKngdXjPS2kCUyc+BZ+1e8oOgQ0Ti2/6m
+	 reEgKi6EjffV33DLzQyIgr8V9g2nlmSVYUG7EaM/MyY7M2lKY2Zv/dN2S7hOdASMCl
+	 /HccRg3BXD9cdYB8R3XGPA4vYe8uLuojG1CaSJ1AIvlscFmLwGNseHrwr/ONQGONLO
+	 cnGyoQE6fc06n1ued9gtzzjBPgY/6MjOfjPP43UQ+V4sPfnprtr50fs3xdqa5Qy6Yd
+	 aMsiVDBIbNsJA==
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 2/5] x86/traps: Clarify KCFI instruction layout
+Date: Mon, 25 Aug 2025 07:25:49 -0700
+Message-Id: <20250825142603.1907143-2-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250825141316.work.967-kees@kernel.org>
+References: <20250825141316.work.967-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI1MDEyNCBTYWx0ZWRfXzSKSk+jAVbOp nzoUNhZewD5twwTNOYrkKZk1Wr8H7cCJIIJAu4MjKol0IWohr1X7UVINbQu8pE4wvG1VhVpLe18 eMElFqwnOcmhlz4gVrCVz9+jD997KJQeC4aXangzxCcsIBCvHO30wsj5LLHbfOydk8CeuCcKkkA
- Y19pJti0VBYEKJjVDMMR0sGjYgTiDSUUmLG0/WIFLgdZF2zWaiazy81xBv1MEjs5QamweG8+3pI 3wsAjIR9KWrxPArGdVdI+SMl1/DhoBzTiVk/C4lSNtJNJIsVjzNmw1D9wyObbQhQpRqq5oFniQn e5tj2GW6JbMgIOIiDXdTJvpnaJMCo82veHXB2GwDzeVdlgC899EHakWOpRQG+nCitfQHVjH7vms
- VNZftndrpADf6WSHyiTQGMicZohcpuCuz2FkJBQlL/sIbcTRoFaIQoTD9r3GDrIcrjF5XGxo
-X-Authority-Analysis: v=2.4 cv=Lf886ifi c=1 sm=1 tr=0 ts=68ac699b cx=c_pps a=gIfcoYsirJbf48DBMSPrZA==:117 a=gIfcoYsirJbf48DBMSPrZA==:17 a=2OwXVqhp2XgA:10 a=M5GUcnROAAAA:8 a=ztq4QwoSifUOyHU0YMQA:9 a=OBjm3rFKGHvpk9ecZwUJ:22
-X-Proofpoint-ORIG-GUID: PlkojfvPRGIC7xtThaC7Lhm3IHyfDX2W
-X-Proofpoint-GUID: PlkojfvPRGIC7xtThaC7Lhm3IHyfDX2W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-25_06,2025-08-20_03,2025-03-28_01
 
-This update clarifies the requirement for preserving statistics across
-interface up/down cycles, noting that some drivers may not support this
-due to inherent limitations. It also outlines the potential effects on
-monitoring and observability tools.
+Just a nit-picky change to the KCFI indirect call check instruction
+documentation. The addl offset isn't always -4 (it depends on patchable
+function entry configuration).
 
-Signed-off-by: Naveen Mamindlapalli <naveenm@marvell.com>
+Signed-off-by: Kees Cook <kees@kernel.org>
 ---
- Documentation/networking/statistics.rst | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ arch/x86/kernel/cfi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/statistics.rst b/Documentation/networking/statistics.rst
-index 518284e287b0..857b08d633f7 100644
---- a/Documentation/networking/statistics.rst
-+++ b/Documentation/networking/statistics.rst
-@@ -222,8 +222,18 @@ Retrieving ethtool statistics is a multi-syscall process, drivers are advised
- to keep the number of statistics constant to avoid race conditions with
- user space trying to read them.
- 
--Statistics must persist across routine operations like bringing the interface
--down and up.
-+Statistics are expected to persist across routine operations like bringing the
-+interface down and up. This includes both standard interface statistics and
-+driver-defined statistics reported via `ethtool -S`.
-+
-+However, this behavior is not always strictly followed, and some drivers do
-+reset these counters to zero when the device is closed and reopened. This can
-+lead to misinterpretation of network behavior by monitoring tools, such as
-+SNMP, that expect monotonically increasing counters.
-+
-+Driver authors are expected to preserve statistics across interface down/up
-+cycles to ensure consistent reporting and better integration with monitoring
-+tools that consume these statistics.
- 
- Kernel-internal data structures
- -------------------------------
+diff --git a/arch/x86/kernel/cfi.c b/arch/x86/kernel/cfi.c
+index 77086cf565ec..638eb5c933e0 100644
+--- a/arch/x86/kernel/cfi.c
++++ b/arch/x86/kernel/cfi.c
+@@ -27,7 +27,7 @@ static bool decode_cfi_insn(struct pt_regs *regs, unsigned long *target,
+ 	 * for indirect call checks:
+ 	 *
+ 	 *   movl    -<id>, %r10d       ; 6 bytes
+-	 *   addl    -4(%reg), %r10d    ; 4 bytes
++	 *   addl    -<pos>(%reg), %r10d; 4 bytes
+ 	 *   je      .Ltmp1             ; 2 bytes
+ 	 *   ud2                        ; <- regs->ip
+ 	 *   .Ltmp1:
 -- 
 2.34.1
 
