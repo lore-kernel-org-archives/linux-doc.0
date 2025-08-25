@@ -1,150 +1,138 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BA026E175;
-	Mon, 25 Aug 2025 17:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6042019D081;
+	Mon, 25 Aug 2025 18:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756142247; cv=none; b=nIFWi8kebPC6Ffxh4OQwKTVByEGoUQsUFhxfrjEFy31MWuAkE++lQvnFELaIlsZev0eftsmHwkbg7V1LayzfeDFkTTsA1pOYu3Zn7TS7wmZNfnuabOZtWRHUyRVivmOKg4JXAKrFYfLGvE/iJG+6itTtkqs1Zc9aoR4yABTL00c=
+	t=1756145677; cv=none; b=LZuypasHGOH+vLOaRTBc5zb7HFVQT8HpgJZbx6hsZboy64D495RwHNEaPy8Xv8wwDYH4/rK3dGOb9J4dY2MfnJ0maRLX1d/ye0EOli7yvdBhom2BXHdooCtUt7P/O6x1HaEf0KbMkiHhoQhyyB6b0QvLRCOmb7iXr3UiYIC+AzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756142247; c=relaxed/simple;
-	bh=lz/vtaNLA1irUmT+ADzkgy3QqEusslG0LLplIKRTOZs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nKbP3aOxizsYsv6Q+nYx9fByRKZOVzAYOy2NTpmibeE1TYym7UGmWTJnYazqJy9MJhAuVWYmjX32PFAZ+4I73xx3zcjmzHRiik82vpblOlUonKZymnvGSKuF7BWqFjRtmJKo5/XTOpIvPTKOWZFX1qalvNO9qvMExJWmB0PmH+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmha486e; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756145677; c=relaxed/simple;
+	bh=cA9zP7oe/Wj0xeQ31ilu5os5kJlEQUWjsHh3iubtKMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KsO/8fJiZ/FerXULj3EQgM0C04sIDv9E8PK+v4d1jRraXh9CTXgXNaTv/KnFzXip41Ktzl6iuGmu03mRSh1ZIRh3WsZvnUAMQeLLsOe2rCiEl5DpHTr+rH1cxxLbXe+2WqD3mpjKnygB7QlQBcNJrb9+FaBVjqDIBk/5qvxHfUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPpEGVvZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmha486e"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-61c3360bbaeso2686119a12.1;
-        Mon, 25 Aug 2025 10:17:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756142244; x=1756747044; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HOt2WdWgfmIt264RtiHKtTdiUuhGCVPrX6tVa175yUA=;
-        b=Dmha486eJ4LIKB5eyDAnjZfi23UzZdRZWnrSDq+P/i3mcSPGiQ4Ior/QvDwpyyY8K9
-         /0W5tLThRSVmAJUcQaGAl9lFz8R4C096+4sYXiqa0X/l5WfhpB7/hhuUVbNNWkXiB3z+
-         8WFGZhT0iKh57/k+8pUUe+35J/Xt5meRpsh5Ls9xWSzQ1TM++yPTnZGZMh+Hs0SUYVdG
-         T9TeYlZIQHp+fXi22x51a+T9X9KwGPpgx7jfskmI26huloCeserapv11HrA9zb4vPyxH
-         w0fsZs+jp2eSEYyGyUIHNXjLlqp9TSDQZqRD5GkD/IVVt63ChxNyLmf0WUhz37LvdCA8
-         n2oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756142244; x=1756747044;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HOt2WdWgfmIt264RtiHKtTdiUuhGCVPrX6tVa175yUA=;
-        b=mciYrIzC1N+VNuiNDlQ7OWF5IsLA4juqmijIqCH3a0AYNv/mqxY+DNVPCHlpDnPqrR
-         KNx+v3JbM/ig8XZs3pAgj5q953fI770X0oCu+qbCU8qCITe9HdJhzZpV+XXWMHF6cQ13
-         E5qnKpEiBI6tJ5ytZJI9ttSy/UEkM9sTG/fdudLK5GRN4sY03FKspEzxDQQ9zLYBrAWN
-         J7anvGJPGCT4kMkJOKnISYB2Fvd+yHIkRhZxs86SYX8td8GCxpx6z6lfGOkTjS5UouhF
-         uVna6kCD6g4Co6B2Jybn2Aa/xruBkJDwAoBLUD1y7jgjuHWYN8DmWRgtJVdLldQPZBgO
-         +O0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWtcs00vCodQIQLK7C04B7isSfzz7d4tufX2l6wjf/4wLwrFqnZaLFzssbFmC6NOJUOd59P1ouNe84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEvDUJC+Wyeg2dd9td3aNlXjHIu18Gkctj2X6g4mpqrVdXu3bR
-	pfoWVbDQXTy6BSGxeRcxQ2aPNl3O3vGV7qmIYuUevGoa3haY22TvduNVHwwkWArYgE6w/8GmIeJ
-	E8iQ2gsBdmEqL0QrlBx6LmtMjFit4cq0=
-X-Gm-Gg: ASbGncsMAW+7SLpjx6PC+bZZP+fEPZts1RIjfQAfIYPPhX7p8F0l8tHXjfu/V/9LYWc
-	L94yjBLnv+ivIGiXD7BRGBONVLyVBAw7HY3S2iqt/Gkvfcj0/nb7bfYiTJVBdMa8ZbBUcAhZHX5
-	SL71F6Tq/lKwxLnq62LoWWkDtLyPU/XLzQ0Vidvw5KNNHM1kQz5K9Bql50oOdi/gpa2EuvwPoIS
-	veuSPQx4jb6iApQIjxCjPiE2FjQsMW9QlK5U//zPqgyafz28TBRBaQ=
-X-Google-Smtp-Source: AGHT+IEJdPBls5tzlHdIjJxUH56ZQVIsjehvg86rgOhctTXiV+0bVZgINoCJv4h9ZMKPQoL4jzVYau0eht2j6asIalU=
-X-Received: by 2002:a05:6402:274b:b0:61c:5b44:b277 with SMTP id
- 4fb4d7f45d1cf-61c5b44ba38mr4666947a12.13.1756142243835; Mon, 25 Aug 2025
- 10:17:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPpEGVvZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A889CC4CEED;
+	Mon, 25 Aug 2025 18:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756145677;
+	bh=cA9zP7oe/Wj0xeQ31ilu5os5kJlEQUWjsHh3iubtKMs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rPpEGVvZt1JNFBFvgm1+uWS4vfP7NGsTZj9KJQ3AjDNz0PMjpJZVHhVZMDM/04qGt
+	 hNAFiThY7skcP5ClItOF1pK2zO37CWxqWnRLSd896JL7sl9si8d5UMv0CTMF0qP6JA
+	 x1bpRgPHZe4seiIAk2UkxNYOIxrC5HGaEd614AI8Dt19eMZdt/BwY06vjlBNog2ZiA
+	 kATVVs/DjmRTo+JBfhGKR5W5HZtcFzou15ZvpbuRMhcIaXq5nXa+ew7PySWBjTeifT
+	 rt+/zHqtnW5/yD6CK9Nm9I9e/qdVWQvbjcwv/T5BIUe4KHrgiDAnAwzEixCICrijTP
+	 krsuOvHAt9W1w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tools@kernel.org
+Cc: Sasha Levin <sashal@kernel.org>
+Subject: [RFC PATCH v4 0/7] Kernel API Specification Framework
+Date: Mon, 25 Aug 2025 14:14:27 -0400
+Message-ID: <20250825181434.3340805-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250824185015.6312-1-viswanathiyyappan@gmail.com> <87y0r8c7ga.fsf@trenco.lwn.net>
-In-Reply-To: <87y0r8c7ga.fsf@trenco.lwn.net>
-From: viswanath <viswanathiyyappan@gmail.com>
-Date: Mon, 25 Aug 2025 22:47:11 +0530
-X-Gm-Features: Ac12FXy4_W5223zNV2R4E_hB2Hpaw8zWvt8sB2dA_0Y6h7xR7tOjMTxHnc2vJcQ
-Message-ID: <CAPrAcgP85f1unaHsLSeghPtjeNfAEtjfSXZMFrms1kyNnsMaMA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: process: Fix grammar errors in management-style.rst
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 25 Aug 2025 at 10:40, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> I Viswanath <viswanathiyyappan@gmail.com> writes:
->
-> > Fix various grammatical errors in management-style.rst
-> >
-> > Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
->
-> Thank you for working to improve our documentation...I don't think I can
-> apply this patch, though.
->
-> Your signoff should include your full name, please.
->
-Just to clarify --- "I Viswanath" is my legal name as it appears on my
-official documents.
+This patch series introduces a framework for formally specifying kernel APIs,
+addressing the long-standing challenge of maintaining stable interfaces between
+the kernel and user-space programs. As outlined in previous discussions about
+kernel ABI stability, the lack of machine-readable API specifications has led
+to inadvertent breakages and inconsistent validation across system calls and
+IOCTLs.
 
-> But more importantly...
->
-> > ---
-> >  Documentation/process/management-style.rst | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-> > index dfbc69bf49d4..4ae05a89950a 100644
-> > --- a/Documentation/process/management-style.rst
-> > +++ b/Documentation/process/management-style.rst
-> > @@ -15,8 +15,8 @@ to do with reality.  It started as a lark, but that doesn't mean that it
-> >  might not actually be true. You'll have to decide for yourself.
-> >
-> >  Btw, when talking about "kernel manager", it's all about the technical
-> > -lead persons, not the people who do traditional management inside
-> > -companies.  If you sign purchase orders or you have any clue about the
-> > +leads, not those who do traditional management inside
-> > +companies.  If you sign purchase orders or have any clue about the
->
-> This change is OK, but what was there was OK too
-Noted
+Changes since RFC v3:
 
->
-> >  budget of your group, you're almost certainly not a kernel manager.
-> >  These suggestions may or may not apply to you.
-> >
-> > @@ -42,9 +42,9 @@ actually true.
-> >  The name of the game is to **avoid** having to make a decision.  In
-> >  particular, if somebody tells you "choose (a) or (b), we really need you
-> >  to decide on this", you're in trouble as a manager.  The people you
-> > -manage had better know the details better than you, so if they come to
-> > +manage better know the details better than you; if they come to
->
-> This one changes the meaning of the sentence
-Sorry for that.
+1. Improved kerneldoc format for better readability.
 
->
-> >  you for a technical decision, you're screwed.  You're clearly not
-> > -competent to make that decision for them.
-> > +competent enough to make that decision for them.
->
-> ...and this one was fine as it was.
->
-Noted
+2. Added kerneldoc parsing support in the kapi tool.
 
-> >  (Corollary:if the people you manage don't know the details better than
-> >  you, you're also screwed, although for a totally different reason.
-> > --
->
-> In general, this kind of playing with the wording for text that is not
-> actually wrong is not hugely helpful; I would encourage you to look
-> elsewhere for places to contribute to the documentation.
+3. Use magic markers in the binary output to simplify extraction.
 
-I see. Thanks for taking your time to reply to this.
->
-> Thanks,
->
-> jon
+Sasha Levin (7):
+  kernel/api: introduce kernel API specification framework
+  kernel/api: enable kerneldoc-based API specifications
+  kernel/api: add debugfs interface for kernel API specifications
+  kernel/sched: add specs for sys_sched_setattr()
+  mm/mlock: add API specification for mlock
+  fs/exec: add API specification for execveat
+  tools/kapi: Add kernel API specification extraction tool
 
-Thanks,
-I Viswanath
+ .gitignore                                    |    1 +
+ Documentation/admin-guide/kernel-api-spec.rst |  699 ++++++++
+ MAINTAINERS                                   |    9 +
+ arch/um/kernel/dyn.lds.S                      |    3 +
+ arch/um/kernel/uml.lds.S                      |    3 +
+ arch/x86/kernel/vmlinux.lds.S                 |    3 +
+ fs/exec.c                                     |  594 +++++++
+ include/asm-generic/vmlinux.lds.h             |   20 +
+ include/linux/kernel_api_spec.h               | 1559 +++++++++++++++++
+ include/linux/syscall_api_spec.h              |  125 ++
+ include/linux/syscalls.h                      |   38 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    1 +
+ kernel/api/Kconfig                            |   55 +
+ kernel/api/Makefile                           |   30 +
+ kernel/api/kapi_debugfs.c                     |  334 ++++
+ kernel/api/kernel_api_spec.c                  | 1155 ++++++++++++
+ kernel/sched/syscalls.c                       |  315 +++-
+ mm/mlock.c                                    |  134 ++
+ scripts/Makefile.build                        |   28 +
+ scripts/generate_api_specs.sh                 |   68 +
+ scripts/kernel-doc.py                         |    5 +
+ scripts/lib/kdoc/kdoc_apispec.py              |  714 ++++++++
+ scripts/lib/kdoc/kdoc_output.py               |    9 +-
+ scripts/lib/kdoc/kdoc_parser.py               |   50 +-
+ tools/kapi/.gitignore                         |    4 +
+ tools/kapi/Cargo.toml                         |   19 +
+ tools/kapi/src/extractor/debugfs.rs           |  442 +++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs  |  694 ++++++++
+ tools/kapi/src/extractor/mod.rs               |  461 +++++
+ tools/kapi/src/extractor/source_parser.rs     |  213 +++
+ .../src/extractor/vmlinux/binary_utils.rs     |  180 ++
+ .../src/extractor/vmlinux/magic_finder.rs     |  102 ++
+ tools/kapi/src/extractor/vmlinux/mod.rs       |  869 +++++++++
+ tools/kapi/src/formatter/json.rs              |  468 +++++
+ tools/kapi/src/formatter/mod.rs               |  145 ++
+ tools/kapi/src/formatter/plain.rs             |  558 ++++++
+ tools/kapi/src/formatter/rst.rs               |  621 +++++++
+ tools/kapi/src/formatter/shall.rs             |  891 ++++++++++
+ tools/kapi/src/main.rs                        |  116 ++
+ 40 files changed, 11732 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/admin-guide/kernel-api-spec.rst
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/linux/syscall_api_spec.h
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100755 scripts/generate_api_specs.sh
+ create mode 100644 scripts/lib/kdoc/kdoc_apispec.py
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/magic_finder.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/formatter/shall.rs
+ create mode 100644 tools/kapi/src/main.rs
+
+-- 
+2.50.1
+
