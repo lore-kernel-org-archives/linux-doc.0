@@ -1,158 +1,79 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475212D3EDF
-	for <linux-doc@vger.kernel.org>; Mon, 25 Aug 2025 09:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F9126D4EE;
+	Mon, 25 Aug 2025 12:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756113377; cv=none; b=RFfWaNPnAnFg5XvJF9MMH+XoIDe/b8X8/d/jts9fTlmfFT8ygaxuhlMXlTLvJ12zJw8OZv6i9XPT31et7bqry9hS6KjABCU9+JqR/jOcsNcN77LGXCmcWbgxJ4r68r4y3siTrXhgf5rnifHsqjUVb+7Zn9yS19qXVC+Esw5G8PU=
+	t=1756123511; cv=none; b=HfXSjHdNzRiimG418fHJctGw4klMuNHWCSquB3QowaNmGUcy0C/MQSsI5CTMUVtvcQ131FfWowj1ETUIBLur8tPlpUD+t7ZD/IHmjdu7KzZmr/uVfNCMSPPr1u6cx5wyyK5OrHXTmOqW5RtkU4N+G5/54kbroliblBGOs6eckp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756113377; c=relaxed/simple;
-	bh=V1hIGlU5bxY/2R7fZ0tRe4Rb+V3B8V54hiGAA7g/ook=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=re/AX3voJ7GJWIrgvbOB/GRket7tIuljylq+grkil8W23ix5+jltbKZoziAjjY8TJzvon2MLNzr1TYilH37wnO9q/L81nh1RWNbyVvglhwgzKF9R16CgAFc9aFDTr7QFXRAIxIIWHCsOnVfdomxIXkSCbQGYzVz95oLxkycqNOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uqTIb-0007lb-JP; Mon, 25 Aug 2025 11:15:33 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uqTIZ-0022kp-0v;
-	Mon, 25 Aug 2025 11:15:31 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uqTIZ-000Hu4-0a;
-	Mon, 25 Aug 2025 11:15:31 +0200
-Message-ID: <e67d5a27fb00040ba87a0b108322747ecca8d05b.camel@pengutronix.de>
-Subject: Re: [PATCH v13 04/11] PCI: stm32: Add PCIe host support for
- STM32MP25
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Christian Bruel <christian.bruel@foss.st.com>, lpieralisi@kernel.org, 
- kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org,
- bhelgaas@google.com,  krzk+dt@kernel.org, conor+dt@kernel.org,
- mcoquelin.stm32@gmail.com,  alexandre.torgue@foss.st.com,
- linus.walleij@linaro.org, corbet@lwn.net,  shradha.t@samsung.com,
- mayank.rana@oss.qualcomm.com, namcao@linutronix.de, 
- qiang.yu@oss.qualcomm.com, thippeswamy.havalige@amd.com,
- inochiama@gmail.com,  quic_schintav@quicinc.com
-Cc: johan+linaro@kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Mon, 25 Aug 2025 11:15:31 +0200
-In-Reply-To: <20250820075411.1178729-5-christian.bruel@foss.st.com>
-References: <20250820075411.1178729-1-christian.bruel@foss.st.com>
-	 <20250820075411.1178729-5-christian.bruel@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1756123511; c=relaxed/simple;
+	bh=uvqbNT8E36EAqzzQ38xNPy0pyZIoO6YvsdgwWxIpF1M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BU7aG7+4gDReetRfNASm4ZREiHAkkn/sWfWU62zCNDL+7zVSHknn22VFLzOXaaZMyhZxIjR3EMCKruKGxN2FN+g6lhu0bgO1uNPLBZJTnAXjn3CHL4u4pD34jgaBpoSvP3CLDLa6tYvxsANCuU0Ruhc6Dc0eu/nGh/KVDcOIOIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=usN12V7H; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="usN12V7H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2204C4CEED;
+	Mon, 25 Aug 2025 12:05:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756123510;
+	bh=uvqbNT8E36EAqzzQ38xNPy0pyZIoO6YvsdgwWxIpF1M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=usN12V7HeYkBsI3ZAvbIU0wTNZYBusbBrX3brMUF9VIWpcXkZAJqBSocCgvYyEyOu
+	 qS9iwST1HdiedsE3tCiWIcWU1oXsO34YkX/XECg4Q1n/iU1GoFY3dR6g2vRmozpwW+
+	 AaCpbA9mnGFZVnp62csYzocT1ds/rYf2zkuh1Yei0y0mJgl2Dn3dRYIecxU1hON1Yj
+	 59EtYMBWU0ibvo9TWwchNzryQqJ5UgGB5YOn5rMkq4Jox51hRQUOnY6/T5Pl9nBQqP
+	 Et1qljnoJAq+i7WFtgBWLI1v5gJgcAC0qD8jzb4qqH6B1jq3d7gTs//L4vT5WY2eXb
+	 ZiX2QKak7dEjA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uqVwi-0000000GF0H-42YA;
+	Mon, 25 Aug 2025 14:05:08 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: conf.py: drop xindy rule
+Date: Mon, 25 Aug 2025 14:04:55 +0200
+Message-ID: <83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Mi, 2025-08-20 at 09:54 +0200, Christian Bruel wrote:
-> Add driver for the STM32MP25 SoC PCIe Gen1 2.5 GT/s and Gen2 5GT/s
-> controller based on the DesignWare PCIe core.
->=20
-> Supports MSI via GICv2m, Single Virtual Channel, Single Function
->=20
-> Supports WAKE# GPIO.
->=20
-> Signed-off-by: Christian Bruel <christian.bruel@foss.st.com>
-> ---
->  drivers/pci/controller/dwc/Kconfig      |  12 +
->  drivers/pci/controller/dwc/Makefile     |   1 +
->  drivers/pci/controller/dwc/pcie-stm32.c | 360 ++++++++++++++++++++++++
->  drivers/pci/controller/dwc/pcie-stm32.h |  15 +
->  4 files changed, 388 insertions(+)
->  create mode 100644 drivers/pci/controller/dwc/pcie-stm32.c
->  create mode 100644 drivers/pci/controller/dwc/pcie-stm32.h
->=20
-> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/=
-dwc/Kconfig
-> index deafc512b079..a8174817fd5b 100644
-> --- a/drivers/pci/controller/dwc/Kconfig
-> +++ b/drivers/pci/controller/dwc/Kconfig
-> @@ -423,6 +423,18 @@ config PCIE_SPEAR13XX
->  	help
->  	  Say Y here if you want PCIe support on SPEAr13XX SoCs.
-> =20
-> +config PCIE_STM32_HOST
-> +	tristate "STMicroelectronics STM32MP25 PCIe Controller (host mode)"
-> +	depends on ARCH_STM32 || COMPILE_TEST
-> +	depends on PCI_MSI
-> +	select PCIE_DW_HOST
-> +	help
-> +	  Enables Root Complex (RC) support for the DesignWare core based PCIe
-> +	  controller found in STM32MP25 SoC.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called pcie-stm32.
-> +
->  config PCI_DRA7XX
->  	tristate
-> =20
-> diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller=
-/dwc/Makefile
-> index 6919d27798d1..1307a87b1cf0 100644
-> --- a/drivers/pci/controller/dwc/Makefile
-> +++ b/drivers/pci/controller/dwc/Makefile
-> @@ -31,6 +31,7 @@ obj-$(CONFIG_PCIE_UNIPHIER) +=3D pcie-uniphier.o
->  obj-$(CONFIG_PCIE_UNIPHIER_EP) +=3D pcie-uniphier-ep.o
->  obj-$(CONFIG_PCIE_VISCONTI_HOST) +=3D pcie-visconti.o
->  obj-$(CONFIG_PCIE_RCAR_GEN4) +=3D pcie-rcar-gen4.o
-> +obj-$(CONFIG_PCIE_STM32_HOST) +=3D pcie-stm32.o
-> =20
->  # The following drivers are for devices that use the generic ACPI
->  # pci_root.c driver but don't support standard ECAM config access.
-> diff --git a/drivers/pci/controller/dwc/pcie-stm32.c b/drivers/pci/contro=
-ller/dwc/pcie-stm32.c
-> new file mode 100644
-> index 000000000000..964fa6f674c8
-> --- /dev/null
-> +++ b/drivers/pci/controller/dwc/pcie-stm32.c
-> @@ -0,0 +1,360 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * STMicroelectronics STM32MP25 PCIe root complex driver.
-> + *
-> + * Copyright (C) 2025 STMicroelectronics
-> + * Author: Christian Bruel <christian.bruel@foss.st.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/pinctrl/consumer.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/pm_wakeirq.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include "pcie-designware.h"
-> +#include "pcie-stm32.h"
-> +#include "../../pci.h"
-> +
-> +struct stm32_pcie {
-> +	struct dw_pcie pci;
-> +	struct regmap *regmap;
-> +	struct reset_control *rst;
+The rule as-is is wrong, as it was inverted. Besides that, after
+retest building all repos with suggested LaTeX packages given
+by sphinx-pre-install, I was unable to reproduce the issues
+I saw with xindy in the past.
 
-This could be a local variable in stm32_pcie_probe().
+So, let's just drop. If anyone reports issues with xindy, we
+may need to readd, but at the right way, e.g. {options}{pkgname}.
 
-regards
-Philipp
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/conf.py | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 8fcecdb927b1..574896cca198 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -458,8 +458,6 @@ latex_elements = {
+     "papersize": "a4paper",
+     "passoptionstopackages": dedent(r"""
+         \PassOptionsToPackage{svgnames}{xcolor}
+-        % Avoid encoding troubles when creating indexes
+-        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
+     """),
+     # The font size ('10pt', '11pt' or '12pt').
+     "pointsize": "11pt",
+-- 
+2.51.0
+
