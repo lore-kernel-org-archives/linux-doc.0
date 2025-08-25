@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814F32FE58F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1043002AD;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=q++jePTTc5KBbX/U+e+YhZqs/p/hyz25Sk5Ez/RRsOsKTPbbuKEPeo4gAKSD9FS/oAazd81fWj2ZqJ+9PrS08oqsG3XAYKH1qZkQH3JArWFpxE3Kfmw+A9cePD0CQ1NilRV60rW4/PDGlUGZdiyZfShNNhVmcfYlx6M7msHbnWY=
+	t=1756139449; cv=none; b=sp4QXu5oWsQ0jpLk97YtMjbKiEAy2jZYaW+tXP5cKk5x7NXkhlB3ghm5lJDZ+XSp9dc5xAKnVsp35jHnURV+F/VrckrReZaVYttvYdRRAjDQaKaOxhOOs4xU+TjGRrPkiRg7n+xSujdtuIZf+I9bDG7v8xJz03NAUqalgE7tNEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=07ltFNs1ZVDrRsHyXMC8vS/Q/NnwAG3htK5IbjLMyV0=;
+	bh=q5NJvNQyCP9iSlId/hbG6e0du+t6sh6fZ2TXKRoeDBU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=An+JmY91DvZqA4SEs9r7LDDcSnuWf+xXvKWw3ScQ2RXJO3oYeViwFY2xSbsaAtvxjFw+5PwE8C8k5r5GS4ffblyNgYW61MFinhp5Hq/KRXyySZWhYM/l6b1GCyBgCZTgzZ7mRP6CAbCNr6RC2MNV/mPuUJ26qYYNTnJp3dqpqGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZ8bjumF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ikCEbGUvHUX74mzlKAQkxaGeZ/2AcLNLA94a488MjdVEkkJzwovg8OWnqudAx3v7MXLCb2O4y41bNmecEgzfB08a2ClXC5eawzJnsbxEodEiAF8WZFUHpCuG9KTId8hFx1DjJ4uViYSBj90RDpV7RbDD4WwOU72heGvSxBpdIhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fzele6Xx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZ8bjumF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E84EC19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fzele6Xx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3103AC19424;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756139449;
-	bh=07ltFNs1ZVDrRsHyXMC8vS/Q/NnwAG3htK5IbjLMyV0=;
+	bh=q5NJvNQyCP9iSlId/hbG6e0du+t6sh6fZ2TXKRoeDBU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lZ8bjumF8lLHC46ZcGpjlepVHJJsc9/irk/sVw3HIaBH8sAqnCHuxjFwR/L/dYOQ7
-	 fBp4Hk171PBrzVlDLdM1tNgxVkbsDmarXWGmLu1Z0mD0hyAA3DrZqhMeYFdojH1sDG
-	 oa+iDgnmZlhMPmbCprAaEVxuJ98Z0EM58/fLoXQC2MDlqItw9buphyPmVY22qiiC74
-	 7hxgDeOcBt9defB96anKaPUrIcd2w+JrodgwOhKNGwXQc3WOtmRCjT7D28tKePlg3h
-	 H/zWcO9wCd2m7Pl2rKNijv0DSWjLn9xU19CS5CxoIO92pw1t3I2A8G91FtkZiJvzUK
-	 jcZw25JsC+2GA==
+	b=Fzele6XxKhjb0c37JX4A0urG5aPmRpkxgKm1o51xLME/jBz6iujImtF1LPvGO89sR
+	 aMpfJ3LB+Ce9VMjP8upQBSPC9u6EsXQJHF54owlRLE1K2E5Rh8d3XM+NSmjTxJ40Uo
+	 tAx+dLWuHR/n0DqdHIdZwcH11wdU1Jfc/k/L99UOnHKwEgQGQkxQjG+SYDQLQWyWVy
+	 8oKH+txSLFRuxGS0j6gy4cSw6fRdB9H6N0rxsMByJBssWC4j0gV3icpRa7JIGQyQE4
+	 itLA1Emf31X/mj0/m/QGKnoLrL32qlR4O7aA+jp5fOR5ZaHf8B9xRHDCauVprZDUAE
+	 6uHBt9XkiLYLw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HALk-1TrC;
+	id 1uqa5n-0000000HALs-1h7I;
 	Mon, 25 Aug 2025 18:30:47 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 08/13] tools/docs: sphinx-build-wrapper: add support to run inside venv
-Date: Mon, 25 Aug 2025 18:30:35 +0200
-Message-ID: <d8b3d9a7167c3c992a95118d654f125f73ddbf22.1756138805.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 10/13] docs: Makefile: document latex/PDF PAPER= parameter
+Date: Mon, 25 Aug 2025 18:30:37 +0200
+Message-ID: <565ceecafde7345153f5b7aeb1483e6cb22fec73.1756138805.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
 References: <cover.1756138805.git.mchehab+huawei@kernel.org>
@@ -51,90 +51,25 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Sometimes, it is desired to run Sphinx from a virtual environment.
-Add a command line parameter to automatically build Sphinx from
-such environment.
+While the build system supports this for a long time, this was
+never documented. Add a documentation for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ Documentation/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index e9c522794fbe..9c5df50fb99d 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -63,6 +63,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
- #
- #  Some constants
- #
-+VENV_DEFAULT = "sphinx_latest"
- MIN_PYTHON_VERSION = PythonVersion("3.7").version
- PAPER = ["", "a4", "letter"]
- 
-@@ -114,8 +115,9 @@ class SphinxBuilder:
- 
-         return path
- 
--    def __init__(self, verbose=False, n_jobs=None):
-+    def __init__(self, venv=None, verbose=False, n_jobs=None):
-         """Initialize internal variables"""
-+        self.venv = venv
-         self.verbose = None
- 
-         #
-@@ -192,6 +194,21 @@ class SphinxBuilder:
- 
-         self.env = os.environ.copy()
- 
-+        #
-+        # If venv command line argument is specified, run Sphinx from venv
-+        #
-+        if venv:
-+            bin_dir = os.path.join(venv, "bin")
-+            if not os.path.isfile(os.path.join(bin_dir, "activate")):
-+                sys.exit(f"Venv {venv} not found.")
-+
-+            # "activate" virtual env
-+            self.env["PATH"] = bin_dir + ":" + self.env["PATH"]
-+            self.env["VIRTUAL_ENV"] = venv
-+            if "PYTHONHOME" in self.env:
-+                del self.env["PYTHONHOME"]
-+            print(f"Setting venv to {venv}")
-+
-     def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
-         """
-         Executes sphinx-build using current python3 command and setting
-@@ -206,7 +223,10 @@ class SphinxBuilder:
- 
-             cmd = []
- 
--            cmd.append(sys.executable)
-+            if self.venv:
-+                cmd.append("python")
-+            else:
-+                cmd.append(sys.executable)
- 
-             cmd.append(sphinx_build)
- 
-@@ -528,11 +548,16 @@ def main():
-     parser.add_argument('-j', '--jobs', type=jobs_type,
-                         help="Sets number of jobs to use with sphinx-build")
- 
-+    parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
-+                        default=None,
-+                        help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
-+
-     args = parser.parse_args()
- 
-     PythonVersion.check_python(MIN_PYTHON_VERSION)
- 
--    builder = SphinxBuilder(verbose=args.verbose, n_jobs=args.jobs)
-+    builder = SphinxBuilder(venv=args.venv, verbose=args.verbose,
-+                            n_jobs=args.jobs)
- 
-     builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,
-                   theme=args.theme, css=args.css, paper=args.paper)
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2b0ed8cd5ea8..3e1cb44a5fbb 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -124,4 +124,6 @@ dochelp:
+ 	@echo
+ 	@echo  '  make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.'
+ 	@echo
++	@echo  '  make PAPER={a4|letter} Specifies the paper size used for LaTeX/PDF output.'
++	@echo
+ 	@echo  '  Default location for the generated documents is Documentation/output'
 -- 
 2.51.0
 
