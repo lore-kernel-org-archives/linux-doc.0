@@ -1,92 +1,110 @@
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from mx0a-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D4A22C355;
-	Mon, 25 Aug 2025 13:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756129182; cv=pass; b=lKTZjlgCidOI6Ho7vWKsftpKZSdCtdC7i0IeIUFLUIPNkfv9sFVs08a1QVh/b1yu1D4OLGZlqZGluVdxYS+77ps89z5XpdJX513v95NfWBkFo3cfdiBuJ3gKvfOl8io4ZaJiBdC62l4JsIyP0C2JW26h6VWV1PuS6ml3B8Ac4Eg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756129182; c=relaxed/simple;
-	bh=1th5xaXq+vxnxq7TV8vFCIuqpQijEUYAvV+e5m4TpJ8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=n+KGsepAP+ttykZECWJeEqWgSGPJwGmB0qbi99KymCDtkw+xUh/t5sxMK/Ui/YM4N3CIPNY9n1ivDSNb9W717TijcrCsbTaeJWonaypxUDhEL3rYe1hArMSacqcR6royOW3Z2GC8vh+HI8hVIobb5wF+4uAg6YNJb8RawGeiCoI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=Mp1DPvtF; arc=pass smtp.client-ip=136.143.188.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176852F0C44;
+	Mon, 25 Aug 2025 13:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756129721; cv=none; b=i90n4m9x0mUF9mnO7mLel0/sQus+HLJSGoYksXtkYlbZonF2cB+UXKc69u7DUhErxoBteOXRMhzzQf5xVg4JEKp2jNBdbHM82U1jjoKZtIyomt5Dy4tCn9cCmDr1ZQObGegYhLdWxaX+v0Ors0UeO5wzzm20m1Hb/xltW4RHFmc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756129721; c=relaxed/simple;
+	bh=debTZXkkIpj9zmW8PgTAccY0m2emTzb1QtwH00Px3r0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R3bbZfEfENJvq0/B60pkZtQqpAwhkwGBNDv18neREjFQW0Z21xlSSGwi87A92J76coKHJeuxxRx585JajvExH/gcFAcfacQ7P1w6+RKM/6//eIZ/onosrDiFCVUUkp5UsFd7YpcJY7mSDvyO1Edh/NGXhilMvICfCYcmC7xLvtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=kxVGwWCy; arc=none smtp.client-ip=67.231.148.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="Mp1DPvtF"
-ARC-Seal: i=1; a=rsa-sha256; t=1756129146; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=II1IkQEYmuGQ6H7C+JNARmw9QnafOmirdeVPPxUK6sON3Bnjtk0Nc91QZKJo3EORS/WL5sHXxhYJY1/HMF3cIO1QKFfE/b5cxb9CPVOKic7hEJ2ls81KVG9WUUVNiqzpj7wVPJOPzPQURfHiDDq5PYH+2XfBrLquxT6WWfbkQ5U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1756129146; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=FKk8F91MjrhdBrsJmWWDVqLiiajDBMNfHH23S0mJDh8=; 
-	b=ash4lYSlIqWfCIqRN9ohKb/OQShYlRu6pvbZtAyucbQoC+FHM5dQlYdD60bilLOeYS22tR90Fvz6ROhEpz3kbd1VMGbzb5A9SbzRYgLzk3obCZ3WovZr9apZA1ZD7pfPiNC+q782Z2j+xhgTC1XtrSOZxvM2wYruRfeJf/afduU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
-	dmarc=pass header.from=<safinaskar@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756129146;
-	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=FKk8F91MjrhdBrsJmWWDVqLiiajDBMNfHH23S0mJDh8=;
-	b=Mp1DPvtF2z2av+wpSICYC3LAhaq2Z19UlVAoQapHyCcx2zqHqvVEbkM2UnsXo87C
-	3QgBKcVXVXQOzxYYfucypFh6r163OEkjh2rWgc56B6pZi8IESSLvJ5zhkGkuYjcd19T
-	tw3HFE5IHoyNMFuntQy7XGlp1Jz5I+n/o6Ng8lLc=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1756129144652968.7641905688138; Mon, 25 Aug 2025 06:39:04 -0700 (PDT)
-Received: from  [212.73.77.104] by mail.zoho.com
-	with HTTP;Mon, 25 Aug 2025 06:39:04 -0700 (PDT)
-Date: Mon, 25 Aug 2025 17:39:04 +0400
-From: Askar Safin <safinaskar@zohomail.com>
-To: "Bagas Sanjaya" <bagasdotme@gmail.com>
-Cc: "git" <git@vger.kernel.org>, "gitster" <gitster@pobox.com>,
-	"helpdesk" <helpdesk@kernel.org>,
-	"kernelnewbies" <kernelnewbies@kernelnewbies.org>,
-	"kernel-janitors" <kernel-janitors@vger.kernel.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>
-Message-ID: <198e1742f3e.aebc766525693.2818180197972770618@zohomail.com>
-In-Reply-To: <aKXXkvAOhStlS2_m@archie.me>
-References: <198c29e9058.119e3a5c065010.5888624019176274871@zohomail.com> <aKXXkvAOhStlS2_m@archie.me>
-Subject: Re: git: list of my complaints about future graft removal
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="kxVGwWCy"
+Received: from pps.filterd (m0431384.ppops.net [127.0.0.1])
+	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PDm3nL021849;
+	Mon, 25 Aug 2025 06:48:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pfpt0220; bh=btcG3PoWQXAVDS5VoFlRoJV
+	NVK/NQl6OsYRo9KlZmBY=; b=kxVGwWCy07G/8+B9yOJyDWNLEZXaufzXLwTPtVw
+	f6yzli7frxbOcJtpm6NTluNv+nfRHcF3lcPbvNvzo3WJuZmpIOndUaSMF7VweDdq
+	2lGC4m0EsHJ9Wy0EtHWpmW09h/IBu1aWmtjkIoFbJpevSvBHEOGQFqj1SZBU+z79
+	DUGqF+UiTym2xrkUBM31Ls5+BgjlxET+388+GyX8vbxK64T5jVIg7+ucbnWHNDka
+	o7S2AQJfjw0UqkrxvVmC0glSFMcVqYXxrA7cf9dLAeJk/oF5IGyYsiVCCO2wH2df
+	W67bnGiY1qRWh+UdGC0gQUsVrnt82X0m0Nxy7Mn8ZbeSevA==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 48rs1kr00g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Aug 2025 06:48:11 -0700 (PDT)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 25 Aug 2025 06:48:09 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.25 via Frontend
+ Transport; Mon, 25 Aug 2025 06:48:09 -0700
+Received: from naveenm-PowerEdge-T630.marvell.com (unknown [10.29.37.44])
+	by maili.marvell.com (Postfix) with ESMTP id 5985B3F7055;
+	Mon, 25 Aug 2025 06:48:06 -0700 (PDT)
+From: Naveen Mamindlapalli <naveenm@marvell.com>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <andrew@lunn.ch>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Naveen Mamindlapalli <naveenm@marvell.com>
+Subject: [PATCH net-next] docs: networking: clarify expectation of persistent stats
+Date: Mon, 25 Aug 2025 19:17:55 +0530
+Message-ID: <20250825134755.3468861-1-naveenm@marvell.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr080112272b2ecadc91e7eb1f0213f51d000075eb1957450486ecf383d1297a28c160ebd501c828707584c0:zu08011227ccefabf497ec7dbb2a0ff8ca0000ca41c970bf781c00f3da03182ce302cb27329ea33b4e7f2e7f:rf0801122bee689ede9ccfa43a3d8725da0000593d27f1e1f1162442177f917251759c21633ed1c5aa6ef2baac6497b9:ZohoMail
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI1MDEyNCBTYWx0ZWRfXzSKSk+jAVbOp nzoUNhZewD5twwTNOYrkKZk1Wr8H7cCJIIJAu4MjKol0IWohr1X7UVINbQu8pE4wvG1VhVpLe18 eMElFqwnOcmhlz4gVrCVz9+jD997KJQeC4aXangzxCcsIBCvHO30wsj5LLHbfOydk8CeuCcKkkA
+ Y19pJti0VBYEKJjVDMMR0sGjYgTiDSUUmLG0/WIFLgdZF2zWaiazy81xBv1MEjs5QamweG8+3pI 3wsAjIR9KWrxPArGdVdI+SMl1/DhoBzTiVk/C4lSNtJNJIsVjzNmw1D9wyObbQhQpRqq5oFniQn e5tj2GW6JbMgIOIiDXdTJvpnaJMCo82veHXB2GwDzeVdlgC899EHakWOpRQG+nCitfQHVjH7vms
+ VNZftndrpADf6WSHyiTQGMicZohcpuCuz2FkJBQlL/sIbcTRoFaIQoTD9r3GDrIcrjF5XGxo
+X-Authority-Analysis: v=2.4 cv=Lf886ifi c=1 sm=1 tr=0 ts=68ac699b cx=c_pps a=gIfcoYsirJbf48DBMSPrZA==:117 a=gIfcoYsirJbf48DBMSPrZA==:17 a=2OwXVqhp2XgA:10 a=M5GUcnROAAAA:8 a=ztq4QwoSifUOyHU0YMQA:9 a=OBjm3rFKGHvpk9ecZwUJ:22
+X-Proofpoint-ORIG-GUID: PlkojfvPRGIC7xtThaC7Lhm3IHyfDX2W
+X-Proofpoint-GUID: PlkojfvPRGIC7xtThaC7Lhm3IHyfDX2W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-25_06,2025-08-20_03,2025-03-28_01
 
- ---- On Wed, 20 Aug 2025 18:11:30 +0400  Bagas Sanjaya <bagasdotme@gmail.com> wrote --- 
- > So shallow clones should use git-replace(1) under the hood (both on initial
- > clone, deepening with --shallow-since and --unshallow), right?
+This update clarifies the requirement for preserving statistics across
+interface up/down cycles, noting that some drivers may not support this
+due to inherent limitations. It also outlines the potential effects on
+monitoring and observability tools.
 
-You are asking me? I'm not git developer.
+Signed-off-by: Naveen Mamindlapalli <naveenm@marvell.com>
+---
+ Documentation/networking/statistics.rst | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-What you mean? How git works currently or how it should work in 3.0?
-
-I don't know how it works currently.
-
-And I don't know how it will work in the future.
-
-I just want "git clone --depth=1" to continue to work.
-I. e. git developers should somehow take measures to
-make sure "git clone --depth=1" will continue
-to work even if grafts will be removed.
-
-Currently "git clone --depth=1" seems to
-be implemented using grafts, i. e. I see word "grafted"
-in "git log" output if I use "git clone --depth=1"
-(I just tested this on git 2.47.2)
-
-
---
-Askar Safin
-https://types.pl/@safinaskar
+diff --git a/Documentation/networking/statistics.rst b/Documentation/networking/statistics.rst
+index 518284e287b0..857b08d633f7 100644
+--- a/Documentation/networking/statistics.rst
++++ b/Documentation/networking/statistics.rst
+@@ -222,8 +222,18 @@ Retrieving ethtool statistics is a multi-syscall process, drivers are advised
+ to keep the number of statistics constant to avoid race conditions with
+ user space trying to read them.
+ 
+-Statistics must persist across routine operations like bringing the interface
+-down and up.
++Statistics are expected to persist across routine operations like bringing the
++interface down and up. This includes both standard interface statistics and
++driver-defined statistics reported via `ethtool -S`.
++
++However, this behavior is not always strictly followed, and some drivers do
++reset these counters to zero when the device is closed and reopened. This can
++lead to misinterpretation of network behavior by monitoring tools, such as
++SNMP, that expect monotonically increasing counters.
++
++Driver authors are expected to preserve statistics across interface down/up
++cycles to ensure consistent reporting and better integration with monitoring
++tools that consume these statistics.
+ 
+ Kernel-internal data structures
+ -------------------------------
+-- 
+2.34.1
 
