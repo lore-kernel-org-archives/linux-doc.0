@@ -1,167 +1,123 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3DA29A9FE
-	for <linux-doc@vger.kernel.org>; Mon, 25 Aug 2025 20:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA8928C85B
+	for <linux-doc@vger.kernel.org>; Mon, 25 Aug 2025 21:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756155597; cv=none; b=mF9omODknBvhhcJmxGJHKH+hs9wEK2hhceRQDTJ6mNZsPncQOH2nVF67/iUJexdTOJnQjLaK7nSEFMKBG8cE4mO0pffPAPlaAyZvsdEdsbiF9vFpT+mu4UrIbMmOlhNBT6P4hxFwJaVg3SuvV7PZxiazn2qwppUPvDrb9XybSig=
+	t=1756155630; cv=none; b=sXEdLfy3HKHfoWPBWS0uLT5zF8GozSI93sEVrbiNNu41y8+LRKbl6xo0oWh3dm74wCjA8Jkfk8zgPfzZ3Go4mY1fx6X93VXidtjI7tDdHPhL++cBrlq4vo8NX51P8wBBMjdQ0k5OPp3Rrf+KvsVMFVqgYlale0qU31FduNGHs0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756155597; c=relaxed/simple;
-	bh=YBVOrpCcsqXAW5sCYr3wMwOJTycBQN3ZspPZEFbfxg8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cD6xKH8j9wfP7rFG8O33w8lC1ZuyxFBqgMChk5/iNLKiLkOXTmlRilmEPXkvQyGwX4ZI1QiY1pqY6HNxGWhbpmJwXNjyrKmKkVb54Ker+Bo4E39LdXEYMOqUFvwCiEOGvKvduu4N/6aLZ5W8trcVRTT0B8YuugXw1C9hhBVeOQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=bJGokT29; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1756155630; c=relaxed/simple;
+	bh=8/L1nD6fwcNCBonjJ/5ertVaeOR+ahaDa34IyMFnlZE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=QHf8U/+1NIrL4S+4QorV4c/4w7pX7huR5LwyPFmX29g9vigkO/vyhyilVz0qD7O69TntjARzvlo9mb0S0EhO/T+BRiT7QIkMQLsHALJnXPTL5nxIAzt9RGzSpT5qSFmMG1X+qORo67qko5UuFHj9jd57m/6I2uvdn7k823ki8Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ynaffit.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hQzUAXTy; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ynaffit.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="bJGokT29"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3ecbe06f849so8327325ab.2
-        for <linux-doc@vger.kernel.org>; Mon, 25 Aug 2025 13:59:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hQzUAXTy"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-325a6573e81so1337396a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 25 Aug 2025 14:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1756155594; x=1756760394; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcPPbu+aYl9Xu1jLxey4/WhZ40S4z542awI5r/G6Sno=;
-        b=bJGokT29qpsdlwr4E1Wfj7G8lf2T2DysfjWNN9Ywqm8/zxLfDQB3FUpANVmwO4q01J
-         j7MuZKvZxCzeVzfLFFxI8pibOchKxVwMTq2Mp+tcbZrCbRbE3yxKepqrIKlXNlr4BfnP
-         fPzCEjAOCy0k54k5KFDRPtzxo/C7PzdK8QOKnvqN3YMcqS5Ckxc6qhSpwl5IOr4QTK5U
-         YxDW0Dap1liX+0TnkwS6THbTvt0dk1OxgujHn4mn4NvS7tDX/8ye3/S+NSQMXbIr5Qnn
-         ZP6LVdaPLcP/mOIiOeqi/ZV5wDqOfQnyLqmS8gB2GaLo5VPLD6KNg0eqziLbDPlJTHQc
-         cMQg==
+        d=google.com; s=20230601; t=1756155629; x=1756760429; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:user-agent:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EajGDWl4bYdFnIYaGpVNH0fQHV+uFPvw1C8aIH8SGwE=;
+        b=hQzUAXTyiuZ3Jb9Vj5S4MFw0rxCwcdFbgjYYBjzXqaO487SZuT1WvtenXG0v4goZXf
+         Ny+Y216jjgC5wocoV5RCXti2KjSsy22orRGCuqgoIa5X2U+KO61FwGqILfkHaqo3+NgY
+         KbAZ9GJiB+2N6fe4DdxE6887+OhBupOTHmufghu5iuzMWQWtM7Fb8OA33FQe7bX5wJcj
+         zUdRabwZWKMXwZijyfxua+OciHYNspGrF1kVPSLmJWevCQJd4D8HX4yBJ7UJSOBmxjRe
+         f8jFnm1WpCXr0Y6z2sehyFwltX4k0mmf9KfF8NlFgD7gwEoS4Ung8q+7YPab9dhkQtBd
+         aj8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756155594; x=1756760394;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcPPbu+aYl9Xu1jLxey4/WhZ40S4z542awI5r/G6Sno=;
-        b=JxJhGsycPWuzgw13WE61KHDVO1kZel4wx437HTV2rSozfuFO29hEGqpsuKnEBqZ9Gi
-         KySg/QJDGlVTzt9It7Vt9wsgtj0h5CgRvVjNCOezffyHkPnuSFaH5jJlzi+gRUptCuHO
-         uPd8AYuyaSTKvoPMRNnxPaRYI2uQjr3RiU9/2ii8MtYLUejJHZvsF9U9uMYJbL3zagl/
-         Dw17KEvOxJdgSHCdGevgBNSOrzDuiv3T2Cn6VYWIyZ/mojggDUpVadE6u1w1vYKm0A9B
-         5iCrI8Q/0mF84x6Hi23K/x5kYvZ5v7/LvXG6kzsn/mBP8Gf1iFULiRvWwso8vEt5RDK2
-         NywA==
-X-Forwarded-Encrypted: i=1; AJvYcCX0i4YNHzH4NHfmYGoE70jgcxjK2qaD0omZ4V1fZWgc9pQjlGRqzxOBNlYhMbe7+iYYlj/4aBI4atc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa1MDJIKazCwsf8yUzf2HlQLvNQSeox8phfWZmZBRCEqeCkKgi
-	TniysNO4GpkNkiU2GhFcBDsR4xMoD/nYCviC4f5LNlby3v7pzu8AXZ4JT/4ii/cKE34=
-X-Gm-Gg: ASbGncu83cetrtCNSFdlUjN7YgK6THFp86uGGm3VD4Qjng/xDsi5N8WYUudMTbZtMCA
-	MlRMdkK/nYHByduEr5SpD481efWz1fP1XAhaO0fk2HNOCMELDMOfaBMVZFEXkUWiFFtrHT4noIB
-	lRGo+d8UFRfsyW9+ccgcBcM5gIvHPjdn1Iz7B/GgbE4aAckKtm++hgwJxfpi9iuOqN093mzGdNO
-	tikxLAgEgmfAA1W32ewwddOUes9oMKqXCX3x+XJ403VdvmdSYqqv/+RYTetNX8gVC4jrTrl/1TO
-	Q9Cf2Egs/V/LvrzsIiCkbEwoQI9rYbwGDz3CHMovbV9zoDiY8tnAeRJnUj4E1fa+/it635nggWp
-	0vE3BhuFDXL6fhMqQ7WmSG1CazRWubIx6wM6Qe1mjVfA=
-X-Google-Smtp-Source: AGHT+IGl5YyJO5cNchW3hMpUrsJFnsYaH0jFB/UnFZkvzedPO9loSjPBh1OzNXyW8MzaaJOPsbW11Q==
-X-Received: by 2002:a92:cdad:0:b0:3e9:eec4:9b5a with SMTP id e9e14a558f8ab-3e9eec49d85mr152368845ab.25.1756155593789;
-        Mon, 25 Aug 2025 13:59:53 -0700 (PDT)
-Received: from [100.64.0.1] ([136.226.102.202])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ea4ec1fa3dsm54724275ab.45.2025.08.25.13.59.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 13:59:53 -0700 (PDT)
-Message-ID: <9ae927d3-0a66-4354-910f-155ff9ba3e0f@sifive.com>
-Date: Mon, 25 Aug 2025 15:59:46 -0500
+        d=1e100.net; s=20230601; t=1756155629; x=1756760429;
+        h=cc:to:from:subject:message-id:user-agent:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EajGDWl4bYdFnIYaGpVNH0fQHV+uFPvw1C8aIH8SGwE=;
+        b=CyCGKADCHlHaeH8aNh27aIBYvGMEXB0AuvrO/iryoDMfzNar4jvAw7HnZJtuw3qDeO
+         bHrhgftSIGqs4eP7rJmctlbfnmCPGFMf+Mj0pvBQPBRXwLe9kg1gaT13bGf05kQKNx+1
+         wowvzkRv55rImZu2eTBcRhnYyE9zxbRgK8f7Wvw4Xw6YwejTWixNRyh9IPPscnDTkwXY
+         K/+EcSjBNZAOH4RS+KMR1TTcE2evtIonQD6yrRP+SFf0bbx07VTRVwadIlG4KmSvrhuZ
+         2wgDY5AeAysyoP1gnyoEJDCmH7HxK9e6gYruhoIaHXImUMyo+pqp0HnxzfOedBZRkrUp
+         aAUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSb1ioUjZIGjebb31eaYcZxNa+9Em8MctACcT3s0GNFeiICCbuwkpOJSZV3csF57FBjfgUVpEbvVM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzl7pYAffhIX8SmrWvjroTXJM9i8ufRkfMq1Eb7sSaFbr2eG7u0
+	OmgFMCQOSs37RE/5hJbB+ZiJWcDDlQbg4JV+kxKz+DRssFWDHLmFh6KQchB5RhwvKz41DoYmpPd
+	Zyq+47k8teA==
+X-Google-Smtp-Source: AGHT+IHfcHvufdfIXSHW6kSBSPN+UPpDISXjx0iJ8nMd5Gl1QjNxnfRrBYGYRdeOvhlCxZIcU1Bknm3SxCBw
+X-Received: from pjl11.prod.google.com ([2002:a17:90b:2f8b:b0:325:1d7a:69ff])
+ (user=ynaffit job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:53c8:b0:323:7e82:fcd
+ with SMTP id 98e67ed59e1d1-32517b2bba5mr18185189a91.37.1756155628647; Mon, 25
+ Aug 2025 14:00:28 -0700 (PDT)
+Date: Mon, 25 Aug 2025 14:00:27 -0700
+In-Reply-To: <1b6498f3-ca07-41d5-9637-f20a58184e60@huaweicloud.com> (Chen
+ Ridong's message of "Sat, 23 Aug 2025 09:45:26 +0800")
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/19] x86: LAM compatible non-canonical definition
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sohil.mehta@intel.com,
- baohua@kernel.org, david@redhat.com, kbingham@kernel.org,
- weixugc@google.com, Liam.Howlett@oracle.com, alexandre.chartre@oracle.com,
- kas@kernel.org, mark.rutland@arm.com, trintaeoitogc@gmail.com,
- axelrasmussen@google.com, yuanchu@google.com, joey.gouly@arm.com,
- samitolvanen@google.com, joel.granados@kernel.org, graf@amazon.com,
- vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
- thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
- kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
- nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com,
- justinstitt@google.com, catalin.marinas@arm.com,
- alexander.shishkin@linux.intel.com, dave.hansen@linux.intel.com,
- corbet@lwn.net, xin@zytor.com, dvyukov@google.com, tglx@linutronix.de,
- scott@os.amperecomputing.com, jason.andryuk@amd.com, morbo@google.com,
- nathan@kernel.org, lorenzo.stoakes@oracle.com, mingo@redhat.com,
- brgerst@gmail.com, kristina.martsenko@arm.com, bigeasy@linutronix.de,
- luto@kernel.org, jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
- mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org,
- peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com,
- ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com,
- ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org,
- akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org,
- pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev,
- will@kernel.org, andreyknvl@gmail.com, jhubbard@nvidia.com, bp@alien8.de
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
-From: Samuel Holland <samuel.holland@sifive.com>
-Content-Language: en-US
-In-Reply-To: <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20250822013749.3268080-6-ynaffit@google.com> <20250822013749.3268080-7-ynaffit@google.com>
+ <552a7f82-2735-47a5-9abd-a9ae845f4961@huaweicloud.com> <a309c2b5-5425-428c-a034-d5ebc68cb304@huaweicloud.com>
+ <dbx8ms7r885f.fsf@ynaffit-andsys.c.googlers.com> <1b6498f3-ca07-41d5-9637-f20a58184e60@huaweicloud.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Message-ID: <dbx8ldn7nml0.fsf@ynaffit-andsys.c.googlers.com>
+Subject: Re: [PATCH v4 1/2] cgroup: cgroup.stat.local time accounting
+From: Tiffany Yang <ynaffit@google.com>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: linux-kernel@vger.kernel.org, John Stultz <jstultz@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	"Michal =?utf-8?Q?Koutn=C3=BD?=" <mkoutny@suse.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Chen Ridong <chenridong@huawei.com>, 
+	kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-Hi Maciej,
+Chen Ridong <chenridong@huaweicloud.com> writes:
 
-On 2025-08-25 3:24 PM, Maciej Wieczor-Retman wrote:
-> For an address to be canonical it has to have its top bits equal to each
-> other. The number of bits depends on the paging level and whether
-> they're supposed to be ones or zeroes depends on whether the address
-> points to kernel or user space.
-> 
-> With Linear Address Masking (LAM) enabled, the definition of linear
-> address canonicality is modified. Not all of the previously required
-> bits need to be equal, only the first and last from the previously equal
-> bitmask. So for example a 5-level paging kernel address needs to have
-> bits [63] and [56] set.
-> 
-> Add separate __canonical_address() implementation for
-> CONFIG_KASAN_SW_TAGS since it's the only thing right now that enables
-> LAM for kernel addresses (LAM_SUP bit in CR4).
-> 
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v4:
-> - Add patch to the series.
-> 
->  arch/x86/include/asm/page.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
-> index bcf5cad3da36..a83f23a71f35 100644
-> --- a/arch/x86/include/asm/page.h
-> +++ b/arch/x86/include/asm/page.h
-> @@ -82,10 +82,20 @@ static __always_inline void *pfn_to_kaddr(unsigned long pfn)
->  	return __va(pfn << PAGE_SHIFT);
->  }
->  
-> +/*
-> + * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks.
-> + */
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
-> +{
-> +	return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
-> +}
-> +#else
->  static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->  {
->  	return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
->  }
-> +#endif
+...
 
-These two implementations have different semantics. The new function works only
-on kernel addresses, whereas the existing one works on user addresses as well.
-It looks like at least KVM's use of __is_canonical_address() expects the
-function to work with user addresses.
 
-Regards,
-Samuel
+>> Thanks,
 
->  
->  static __always_inline u64 __is_canonical_address(u64 vaddr, u8 vaddr_bits)
->  {
+> What I mean by "stable" is that while cgroup 1 through n might be deleted  
+> or have more descendants
+> created. For example:
 
+>           n  n-1  n-2  ... 1
+> frozen   a  a+1  a+2     a+n
+> unfozen  b  b+1  b+2  ... b+n
+> nsec     b-a ...
+
+> In this case, all frozen_nsec values are b - a, which I believe is  
+> correct.
+> However, consider a scenario where some cgroups are deleted:
+
+>           n  n-1  n-2  ... 1
+> frozen   a  a+1  a+2     a+n
+> // 2 ... n-1 are deleted.
+> unfozen  b               b+1
+
+> Here, the frozen_nsec for cgroup n would be b - a, but for cgroup 1 it  
+> would be (b + 1) - (a + n).
+> This could introduce some discrepancy / timing inaccuracies.
+
+Ah, I think I see what you're saying. I had a similar concern when I had
+been looking to track this value per-task rather than per-cgroup (i.e.,
+when there are many tasks, the frozen duration recorded for the cgroup
+drifts from the duration that the task is actually frozen). Ultimately,
+although those inaccuracies exist, for the time scales in our use case,
+they would not grow large enough to make an appreciable
+difference. To use your example, the ~(n - 1) difference between the
+"true" frozen duration and the reported one is still effectively the
+same (to us). For others, their systems may see a much larger "n" than
+we might realistically see on ours, or they may need finer-grained
+reporting, so this solution may not be adequate.
+
+-- 
+Tiffany Y. Yang
