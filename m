@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C362561AE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E83C2F9C39;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=fjO2uUIpWFHmwZaBttrPUR/y07v4dMZzPju4IhUOT5fOSk+ktHW56pPtel/hV38wI4buBmbhy6kIwyuWj0W7zEO06fuh/0gbyH4gYTonm0KVE+ISOr/IDpZHLU+IuxmWb9mFN3b7SgLYzwImbEI+dRZS5d79NbIM1iSqe+5cSp8=
+	t=1756139449; cv=none; b=NE4vrMjMxR/jKNKJw+0ipr5h5Q7nBDC8znFz8buxPq0LxC2T9VUI3JWKh4to1KGshudzNwmjT/0UCArh4LzN7BqztyyUXDkeQ26xviEKbqA6oy8qJXWxjQWd/UhourZNpWZKzA+03GhEE6IJcAc59oIHejvibsrw0SNzvwJFFz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=nyxVw48XE87zy6IhgQPKNGycuGi899OK6HHKPI4XVM8=;
+	bh=ZLbhSMLrYrG412X2oMrDythT1CiWtmLDdQQNSbEgmmI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i2CFoE0LZJ0zSzccP/GCdTkhRdUHZC82EX3M+v0E8wjyd282TSoijUJYX1jWkr6fIygASKx8mSAX5MGLyGx75OTsImYBtdHOP0paXIkpy09Sel/18H0V6QRo/jRQks1JdY0Fa4nAkdusoyktVGFwH4PodnHJ+yRKpmSRUjmioSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqGv7swu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=DGJPTimXZrTPGQfHumsKZfzofkHI7oirNEgcNHOxsF4zMWP7tryJvikpDK6yMWjP730HX6XsTEEaf9Jyf5ciSUYwYKesQ/vEFfmKBXLsX2EvkSJn7kVqnpJJ7Lboy4CxO8cWgO8tDpKm+SupQlt7jwTla2N6/5ZiBijB6pZqnDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8+g6R4q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqGv7swu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34A1CC19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8+g6R4q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BE7CC113D0;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756139449;
-	bh=nyxVw48XE87zy6IhgQPKNGycuGi899OK6HHKPI4XVM8=;
+	bh=ZLbhSMLrYrG412X2oMrDythT1CiWtmLDdQQNSbEgmmI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mqGv7swu45/lj5Wj6MPygUJZ5944aWDKzQbrnCnhNUJGOWb4s0GitCnUa5ZqwNMK+
-	 L57ZsBOSWrRtq/w8LDpVI+ZJ2ufSKXcfHDzjwCyxDpLfyFnHbKir4A4/f5fJhZ9bSG
-	 xT/7+dlC4nCQ1kDANbwwOYjhsndgxC6Dr7EwA3onPjFa8g0fN1nL/1sHaQMkHS9/LQ
-	 WB0BgAsB75OY46eNl5vH+yS+6ohOvUcEt6vXsQCXrboyzI4L5lMVUpvKPvrx7INcrL
-	 ZxmgQQ3rs4UPra5UMt/BQ/Ly9U1vVxYOHMmJh9YwRPkhHy2xBAuk8798M3CO+gd8Sq
-	 KgwoqaGiarn2w==
+	b=j8+g6R4qWqiOPi1kXfYRrWQzD/YoUuizd9FmCqnkh+bO0ulgH9xvxOAFjrkYseXkK
+	 QAwKBi3QKR3LRPmF/eLLObR0uF5MiH4YUUrkQQFWvugrPI+s0hKL7uqiG/GWR/ntuV
+	 Be9rz0noLNgCN6k8S/EIpbG+V+XZ+q4wdDdShLz9GZSZ8dqO2B3TKoJy5SV+D89fH7
+	 F7F/x1pFCqsJD4TvbmokJyCfCC9jVOGU/6OGmPp4xWqkaM70xSSFBsva7gM4CRu9u/
+	 1QhyTFHRxSs2I8kmDYFsff3EiAMUdrx+S/5uK+WnK6WkBaCQxkPvuAdrxFtkv/YKnH
+	 +KUMxdNhj4gnw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HAM0-1uT3;
+	id 1uqa5n-0000000HALo-1aWZ;
 	Mon, 25 Aug 2025 18:30:47 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/13] tools/docs,scripts: sphinx-*: prevent sphinx-build crashes
-Date: Mon, 25 Aug 2025 18:30:39 +0200
-Message-ID: <1779b6a3ec1d320e872883381fe1b725c2140ffc.1756138805.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 09/13] docs: parallel-wrapper.sh: remove script
+Date: Mon, 25 Aug 2025 18:30:36 +0200
+Message-ID: <7a2d57ae8fddcfdf0498d5dcdab09741df26d222.1756138805.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
 References: <cover.1756138805.git.mchehab+huawei@kernel.org>
@@ -51,88 +51,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On a properly set system, LANG and LC_ALL is always defined.
-However, some distros like Debian, Gentoo and their variants
-start with those undefioned.
-
-When Sphinx tries to set a locale with:
-
-	locale.setlocale(locale.LC_ALL, '')
-
-It raises an exception, making Sphinx fail. This is more likely
-to happen with test containers.
-
-Add a logic to detect and workaround such issue by setting
-locale to C.
+The only usage of this script was docs Makefile. Now that
+it is using the new sphinx-build-wrapper, which has inside
+the code from parallel-wrapper.sh, we can drop this script.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper | 11 +++++++++++
- tools/docs/sphinx-pre-install   | 14 +++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
+ Documentation/sphinx/parallel-wrapper.sh | 33 ------------------------
+ 1 file changed, 33 deletions(-)
+ delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 4e87584a92cd..580582a76c93 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -45,6 +45,7 @@ the newer version.
- """
- 
- import argparse
-+import locale
- import os
- import shlex
- import shutil
-@@ -439,6 +440,16 @@ class SphinxBuilder:
-         if not sphinxdirs:
-             sphinxdirs = os.environ.get("SPHINXDIRS", ".")
- 
-+        #
-+        # The sphinx-build tool has a bug: internally, it tries to set
-+        # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
-+        # crash if language is not set. Detect and fix it.
-+        #
-+        try:
-+            locale.setlocale(locale.LC_ALL, '')
-+        except locale.Error:
-+            self.env["LC_ALL"] = "C"
-+
-         #
-         # sphinxdirs can be a list or a whitespace-separated string
-         #
-diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
-index d6d673b7945c..663d4e2a3f57 100755
---- a/tools/docs/sphinx-pre-install
-+++ b/tools/docs/sphinx-pre-install
-@@ -26,6 +26,7 @@ system pacage install is recommended.
- """
- 
- import argparse
-+import locale
- import os
- import re
- import subprocess
-@@ -422,8 +423,19 @@ class MissingCheckers(AncillaryMethods):
-         """
-         Gets sphinx-build version.
-         """
-+        env = os.environ.copy()
-+
-+        # The sphinx-build tool has a bug: internally, it tries to set
-+        # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
-+        # crash if language is not set. Detect and fix it.
-         try:
--            result = self.run([cmd, "--version"],
-+            locale.setlocale(locale.LC_ALL, '')
-+        except Exception:
-+            env["LC_ALL"] = "C"
-+            env["LANG"] = "C"
-+
-+        try:
-+            result = self.run([cmd, "--version"], env=env,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT,
-                               text=True, check=True)
+diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphinx/parallel-wrapper.sh
+deleted file mode 100644
+index e54c44ce117d..000000000000
+--- a/Documentation/sphinx/parallel-wrapper.sh
++++ /dev/null
+@@ -1,33 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0+
+-#
+-# Figure out if we should follow a specific parallelism from the make
+-# environment (as exported by scripts/jobserver-exec), or fall back to
+-# the "auto" parallelism when "-jN" is not specified at the top-level
+-# "make" invocation.
+-
+-sphinx="$1"
+-shift || true
+-
+-parallel="$PARALLELISM"
+-if [ -z "$parallel" ] ; then
+-	# If no parallelism is specified at the top-level make, then
+-	# fall back to the expected "-jauto" mode that the "htmldocs"
+-	# target has had.
+-	auto=$(perl -e 'open IN,"'"$sphinx"' --version 2>&1 |";
+-			while (<IN>) {
+-				if (m/([\d\.]+)/) {
+-					print "auto" if ($1 >= "1.7")
+-				}
+-			}
+-			close IN')
+-	if [ -n "$auto" ] ; then
+-		parallel="$auto"
+-	fi
+-fi
+-# Only if some parallelism has been determined do we add the -jN option.
+-if [ -n "$parallel" ] ; then
+-	parallel="-j$parallel"
+-fi
+-
+-exec "$sphinx" $parallel "$@"
 -- 
 2.51.0
 
