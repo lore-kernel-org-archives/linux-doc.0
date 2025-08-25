@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7D7301017;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E31301025;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756139449; cv=none; b=MIHCN7BsAdNFpNEhUfJwiP6lrkC3B4GJ8wF1E1g3W51oWkehcx0D0Oqw/54sILdzInhPUVpk/oergc3aD6XJ/Ofa6TZ9klBJ9kkNOl18OeQY3jPZdlwEcljmrHTbnODw12Ok2YO8qgA5iby9i4Y1vU9Xtx6in+L+jv50Qjc0sek=
+	t=1756139449; cv=none; b=UtZQ96900XT9FoEbdGDCik2BGEAzgTb/Nv2/WmllINE9lWatsT3KGGbkpCEgNskeuvMPyxCuyTcUIfDvj3X0qVkYkY7NTVo8CXIJs+akOhd5rXxzA0ZCkOJMDvxEmV54B9dkxvEdd+tNyzLDk29ufBdi4KvpFrM3LGj+xKUV1SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756139449; c=relaxed/simple;
-	bh=yZuejI+7kMNbMkVJynlYhnA8shfEcPMt1jbLRCzsGuw=;
+	bh=MWdCYti9mYZYzPB0kxq4N3AXTer18uFYM3OxtDmMddc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q0fvhBUT4EAc3WVq6TvONzli5k8q7QF1ZiGxBMxbOecUchd78kFUOYuPlS5XPDJTfABgKWpnVOK29oVQVODs3GF59sFREAxRSpc90YtxQnlAzEodoVd341A5GKSz73e068tffWDUaMEOQrTBMg5WN2hTy1QmptcxhxM3hAv33fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdiQDSOm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=eeQUulv3HzIL2Isj6PJ2za1FT0JnonwoziWdt/r878YgTw9wj6ewxC37tJ9Wy2vP0y4PhH760AQlBpAT++k+JGS3CKd72f+je/Fe7kiJ9Fig8LtQ6LI2COOLQMelXPU0555AOR7J7D4PC/2arh9V+MS9BJRhykppNwDaH4pf17o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJcGruHI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdiQDSOm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B42C2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJcGruHI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D50C4CEF4;
 	Mon, 25 Aug 2025 16:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756139449;
-	bh=yZuejI+7kMNbMkVJynlYhnA8shfEcPMt1jbLRCzsGuw=;
+	bh=MWdCYti9mYZYzPB0kxq4N3AXTer18uFYM3OxtDmMddc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TdiQDSOmSg1XQkkMPpJR2N4uS5LSKYTpxgCprQJy/sagPQlzMzboEtwG4rvtkF4PP
-	 3JTxRyvhIO15DIzeMCMrYSmo7iPbvuPGDye8au+ZoAc5j6OrtDuIInDVB59Wc0/fMX
-	 K/A9TAw+6uVGrZ9QjakXcvAfcAtPiX1qc6Jy/SfuOAMQcB9N2lLzjsQOJg0P6Ps62h
-	 VnTR6UHe36CZcpnD/ubmNR1f3dkemkG+oMOn2eIrtpOWs0KS/2sLgtIbGC2EiiHZMW
-	 mmZQB+qGYQtWwtfz/YnwdGkSnkYbDpmLI4yjWej9MOeQUYSDrklzuC3+hvW1jaT7po
-	 KmTkLBQsP3TDQ==
+	b=EJcGruHITfsJe5BPb6tsPiQn3SjVAXAro0LfxA42yOTVxdLr4TmIJe3/ipfJSLdoB
+	 mv9EognsiEvXcAU5WLuAHMjvqNOEJcKEU8mOQhdvO84xihA5cPBaPYSYJ8SqaA++UN
+	 fV0tNVp7Me8f9oePjxt9QkKLf8nC+DHGc/X/lhe2ITuqNFEs9MmU1niZEZtIcA2t+U
+	 cueDsp2sWdwE/erdWUPUq4NHzTqqCtmWfItKpg7OeXB6eFHMGoVNCKtaIclVLNtsuO
+	 qmommRt5jqAsLWRiO2TwjXoWcj0s/pdwnAly3IPCBJYWtHwyAm+VRh/XZf/TiWC68b
+	 2UPIQB8MFXwcw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqa5n-0000000HAM4-21Ev;
+	id 1uqa5n-0000000HALY-18Vl;
 	Mon, 25 Aug 2025 18:30:47 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/13] tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
-Date: Mon, 25 Aug 2025 18:30:40 +0200
-Message-ID: <1b5a3721b7aad0efbf9cc6fde30328c244160783.1756138805.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 05/13] tools/docs: sphinx-pre-install: move Python version handling to lib
+Date: Mon, 25 Aug 2025 18:30:32 +0200
+Message-ID: <b0142a92e98463c3f7e8a2211727374370253707.1756138805.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756138805.git.mchehab+huawei@kernel.org>
 References: <cover.1756138805.git.mchehab+huawei@kernel.org>
@@ -48,244 +48,359 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Use POSIX jobserver when available or -j<number> to run PDF
-builds in parallel, restoring pdf build performance. Yet,
-running it when debugging troubles is a bad idea, so, when
-calling directly via command line, except if "-j" is splicitly
-requested, it will serialize the build.
+The sphinx-pre-install code has some logic to deal with Python
+version, which ensures that a minimal version will be enforced
+for documentation build logic.
 
-With such change, a PDF doc builds now takes around 5 minutes
-on a Ryzen 9 machine with 32 cpu threads:
+Move it to a separate library to allow re-using its code.
 
-	# Explicitly paralelize both Sphinx and LaTeX pdf builds
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs -j 33
-
-	real	5m17.901s
-	user	15m1.499s
-	sys	2m31.482s
-
-	# Use POSIX jobserver to paralelize both sphinx-build and LaTeX
-	$ make cleandocs; time make pdfdocs
-
-	real	5m22.369s
-	user	15m9.076s
-	sys	2m31.419s
-
-	# Serializes PDF build, while keeping Sphinx parallelized.
-	# it is equivalent of passing -jauto via command line
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs
-
-	real	11m20.901s
-	user	13m2.910s
-	sys	1m44.553s
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper | 158 +++++++++++++++++++++++---------
- 1 file changed, 117 insertions(+), 41 deletions(-)
+ tools/docs/lib/python_version.py | 133 +++++++++++++++++++++++++++++++
+ tools/docs/sphinx-pre-install    | 120 +++-------------------------
+ 2 files changed, 146 insertions(+), 107 deletions(-)
+ create mode 100644 tools/docs/lib/python_version.py
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 580582a76c93..c884022ad733 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -52,6 +52,8 @@ import shutil
- import subprocess
- import sys
- 
-+from concurrent import futures
+diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
+new file mode 100644
+index 000000000000..0519d524e547
+--- /dev/null
++++ b/tools/docs/lib/python_version.py
+@@ -0,0 +1,133 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# Copyright (c) 2017-2025 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 +
- from lib.python_version import PythonVersion
- 
- LIB_DIR = "../../scripts/lib"
-@@ -278,6 +280,82 @@ class SphinxBuilder:
-         except (OSError, IOError) as e:
-             print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
- 
-+    def build_pdf_file(self, latex_cmd, from_dir, path):
-+        """Builds a single pdf file using latex_cmd"""
++"""
++Handle Python version check logic.
++
++Not all Python versions are supported by scripts. Yet, on some cases,
++like during documentation build, a newer version of python could be
++available.
++
++This class allows checking if the minimal requirements are followed.
++
++Better than that, PythonVersion.check_python() not only checks the minimal
++requirements, but it automatically switches to a the newest available
++Python version if present.
++
++"""
++
++import os
++import re
++import subprocess
++import sys
++
++from glob import glob
++
++class PythonVersion:
++    """
++    Ancillary methods that checks for missing dependencies for different
++    types of types, like binaries, python modules, rpm deps, etc.
++    """
++
++    def __init__(self, version):
++        """Ïnitialize self.version tuple from a version string"""
++        self.version = self.parse_version(version)
++
++    @staticmethod
++    def parse_version(version):
++        """Convert a major.minor.patch version into a tuple"""
++        return tuple(int(x) for x in version.split("."))
++
++    @staticmethod
++    def ver_str(version):
++        """Returns a version tuple as major.minor.patch"""
++        return ".".join([str(x) for x in version])
++
++    def __str__(self):
++        """Returns a version tuple as major.minor.patch from self.version"""
++        return self.ver_str(self.version)
++
++    @staticmethod
++    def get_python_version(cmd):
++        """
++        Get python version from a Python binary. As we need to detect if
++        are out there newer python binaries, we can't rely on sys.release here.
++        """
++
++        kwargs = {}
++        if sys.version_info < (3, 7):
++            kwargs['universal_newlines'] = True
++        else:
++            kwargs['text'] = True
++
++        result = subprocess.run([cmd, "--version"],
++                                stdout = subprocess.PIPE,
++                                stderr = subprocess.PIPE,
++                                **kwargs, check=False)
++
++        version = result.stdout.strip()
++
++        match = re.search(r"(\d+\.\d+\.\d+)", version)
++        if match:
++            return PythonVersion.parse_version(match.group(1))
++
++        print(f"Can't parse version {version}")
++        return (0, 0, 0)
++
++    @staticmethod
++    def find_python(min_version):
++        """
++        Detect if are out there any python 3.xy version newer than the
++        current one.
++
++        Note: this routine is limited to up to 2 digits for python3. We
++        may need to update it one day, hopefully on a distant future.
++        """
++        patterns = [
++            "python3.[0-9]",
++            "python3.[0-9][0-9]",
++        ]
++
++        # Seek for a python binary newer than min_version
++        for path in os.getenv("PATH", "").split(":"):
++            for pattern in patterns:
++                for cmd in glob(os.path.join(path, pattern)):
++                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
++                        version = PythonVersion.get_python_version(cmd)
++                        if version >= min_version:
++                            return cmd
++
++        return None
++
++    @staticmethod
++    def check_python(min_version):
++        """
++        Check if the current python binary satisfies our minimal requirement
++        for Sphinx build. If not, re-run with a newer version if found.
++        """
++        cur_ver = sys.version_info[:3]
++        if cur_ver >= min_version:
++            ver = PythonVersion.ver_str(cur_ver)
++            print(f"Python version: {ver}")
++
++            return
++
++        python_ver = PythonVersion.ver_str(cur_ver)
++
++        new_python_cmd = PythonVersion.find_python(min_version)
++        if not new_python_cmd:
++            print(f"ERROR: Python version {python_ver} is not spported anymore\n")
++            print("       Can't find a new version. This script may fail")
++            return
++
++        # Restart script using the newer version
++        script_path = os.path.abspath(sys.argv[0])
++        args = [new_python_cmd, script_path] + sys.argv[1:]
++
++        print(f"Python {python_ver} not supported. Changing to {new_python_cmd}")
++
 +        try:
-+            subprocess.run(latex_cmd + [path],
-+                            cwd=from_dir, check=True)
-+
-+            return True
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+    def pdf_parallel_build(self, tex_suffix, latex_cmd, tex_files, n_jobs):
-+        """Build PDF files in parallel if possible"""
-+        builds = {}
-+        build_failed = False
-+        max_len = 0
-+        has_tex = False
-+
-+        #
-+        # LaTeX PDF error code is almost useless for us:
-+        # any warning makes it non-zero. For kernel doc builds it always return
-+        # non-zero even when build succeeds. So, let's do the best next thing:
-+        # Ignore build errors. At the end, check if all PDF files were built,
-+        # printing a summary with the built ones and returning 0 if all of
-+        # them were actually built.
-+        #
-+        with futures.ThreadPoolExecutor(max_workers=n_jobs) as executor:
-+            jobs = {}
-+
-+            for from_dir, pdf_dir, entry in tex_files:
-+                name = entry.name
-+
-+                if not name.endswith(tex_suffix):
-+                    continue
-+
-+                name = name[:-len(tex_suffix)]
-+
-+                max_len = max(max_len, len(name))
-+
-+                has_tex = True
-+
-+                future = executor.submit(self.build_pdf_file, latex_cmd,
-+                                         from_dir, entry.path)
-+                jobs[future] = (from_dir, pdf_dir, name)
-+
-+            for future in futures.as_completed(jobs):
-+                from_dir, pdf_dir, name = jobs[future]
-+
-+                pdf_name = name + ".pdf"
-+                pdf_from = os.path.join(from_dir, pdf_name)
-+
-+                try:
-+                    success = future.result()
-+
-+                    if success and os.path.exists(pdf_from):
-+                        pdf_to = os.path.join(pdf_dir, pdf_name)
-+
-+                        os.rename(pdf_from, pdf_to)
-+                        builds[name] = os.path.relpath(pdf_to, self.builddir)
-+                    else:
-+                        builds[name] = "FAILED"
-+                        build_failed = True
-+                except futures.Error as e:
-+                    builds[name] = f"FAILED ({repr(e)})"
-+                    build_failed = True
-+
-+        #
-+        # Handle case where no .tex files were found
-+        #
-+        if not has_tex:
-+            name = "Sphinx LaTeX builder"
-+            max_len = max(max_len, len(name))
-+            builds[name] = "FAILED (no .tex file was generated)"
-+            build_failed = True
-+
-+        return builds, build_failed, max_len
-+
-     def handle_pdf(self, output_dirs):
-         """
-         Extra steps for PDF output.
-@@ -288,7 +366,9 @@ class SphinxBuilder:
-         """
-         builds = {}
-         max_len = 0
-+        tex_suffix = ".tex"
++            os.execv(new_python_cmd, args)
++        except OSError as e:
++            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index 954ed3dc0645..d6d673b7945c 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -32,20 +32,10 @@ import subprocess
+ import sys
+ from glob import glob
  
-+        tex_files = []
-         for from_dir in output_dirs:
-             pdf_dir = os.path.join(from_dir, "../pdf")
-             os.makedirs(pdf_dir, exist_ok=True)
-@@ -300,55 +380,51 @@ class SphinxBuilder:
++from lib.python_version import PythonVersion
  
-             latex_cmd.extend(shlex.split(self.latexopts))
- 
--            tex_suffix = ".tex"
+-def parse_version(version):
+-    """Convert a major.minor.patch version into a tuple"""
+-    return tuple(int(x) for x in version.split("."))
 -
--            #
--            # Process each .tex file
--            #
 -
--            has_tex = False
--            build_failed = False
-+            # Get a list of tex files to process
-             with os.scandir(from_dir) as it:
-                 for entry in it:
--                    if not entry.name.endswith(tex_suffix):
--                        continue
-+                    if entry.name.endswith(tex_suffix):
-+                        tex_files.append((from_dir, pdf_dir, entry))
+-def ver_str(version):
+-    """Returns a version tuple as major.minor.patch"""
+-
+-    return ".".join([str(x) for x in version])
+-
+-
+-RECOMMENDED_VERSION = parse_version("3.4.3")
+-MIN_PYTHON_VERSION = parse_version("3.7")
++RECOMMENDED_VERSION = PythonVersion("3.4.3").version
++MIN_PYTHON_VERSION = PythonVersion("3.7").version
  
--                    name = entry.name[:-len(tex_suffix)]
--                    has_tex = True
-+        #
-+        # When using make, this won't be used, as the number of jobs comes
-+        # from POSIX jobserver. So, this covers the case where build comes
-+        # from command line. On such case, serialize by default, except if
-+        # the user explicitly sets the number of jobs.
-+        #
-+        n_jobs = 1
  
--                    #
--                    # LaTeX PDF error code is almost useless for us:
--                    # any warning makes it non-zero. For kernel doc builds it
--                    # always return non-zero even when build succeeds.
--                    # So, let's do the best next thing: check if all PDF
--                    # files were built. If they're, print a summary and
--                    # return 0 at the end of this function
--                    #
--                    try:
--                        subprocess.run(latex_cmd + [entry.path],
--                                       cwd=from_dir, check=True)
--                    except subprocess.CalledProcessError:
--                        pass
-+        # n_jobs is either an integer or "auto". Only use it if it is a number
-+        if self.n_jobs:
-+            try:
-+                n_jobs = int(self.n_jobs)
-+            except ValueError:
-+                pass
+ class DepManager:
+@@ -235,95 +225,11 @@ class AncillaryMethods:
  
--                    pdf_name = name + ".pdf"
--                    pdf_from = os.path.join(from_dir, pdf_name)
--                    pdf_to = os.path.join(pdf_dir, pdf_name)
-+        #
-+        # When using make, jobserver.claim is the number of jobs that were
-+        # used with "-j" and that aren't used by other make targets
-+        #
-+        with JobserverExec() as jobserver:
-+            n_jobs = 1
+         return None
  
--                    if os.path.exists(pdf_from):
--                        os.rename(pdf_from, pdf_to)
--                        builds[name] = os.path.relpath(pdf_to, self.builddir)
--                    else:
--                        builds[name] = "FAILED"
--                        build_failed = True
-+            #
-+            # Handle the case when a parameter is passed via command line,
-+            # using it as default, if jobserver doesn't claim anything
-+            #
-+            if self.n_jobs:
-+                try:
-+                    n_jobs = int(self.n_jobs)
-+                except ValueError:
-+                    pass
+-    @staticmethod
+-    def get_python_version(cmd):
+-        """
+-        Get python version from a Python binary. As we need to detect if
+-        are out there newer python binaries, we can't rely on sys.release here.
+-        """
+-
+-        result = SphinxDependencyChecker.run([cmd, "--version"],
+-                                            capture_output=True, text=True)
+-        version = result.stdout.strip()
+-
+-        match = re.search(r"(\d+\.\d+\.\d+)", version)
+-        if match:
+-            return parse_version(match.group(1))
+-
+-        print(f"Can't parse version {version}")
+-        return (0, 0, 0)
+-
+-    @staticmethod
+-    def find_python():
+-        """
+-        Detect if are out there any python 3.xy version newer than the
+-        current one.
+-
+-        Note: this routine is limited to up to 2 digits for python3. We
+-        may need to update it one day, hopefully on a distant future.
+-        """
+-        patterns = [
+-            "python3.[0-9]",
+-            "python3.[0-9][0-9]",
+-        ]
+-
+-        # Seek for a python binary newer than MIN_PYTHON_VERSION
+-        for path in os.getenv("PATH", "").split(":"):
+-            for pattern in patterns:
+-                for cmd in glob(os.path.join(path, pattern)):
+-                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
+-                        version = SphinxDependencyChecker.get_python_version(cmd)
+-                        if version >= MIN_PYTHON_VERSION:
+-                            return cmd
+-
+-    @staticmethod
+-    def check_python():
+-        """
+-        Check if the current python binary satisfies our minimal requirement
+-        for Sphinx build. If not, re-run with a newer version if found.
+-        """
+-        cur_ver = sys.version_info[:3]
+-        if cur_ver >= MIN_PYTHON_VERSION:
+-            ver = ver_str(cur_ver)
+-            print(f"Python version: {ver}")
+-
+-            # This could be useful for debugging purposes
+-            if SphinxDependencyChecker.which("docutils"):
+-                result = SphinxDependencyChecker.run(["docutils", "--version"],
+-                                                    capture_output=True, text=True)
+-                ver = result.stdout.strip()
+-                match = re.search(r"(\d+\.\d+\.\d+)", ver)
+-                if match:
+-                    ver = match.group(1)
+-
+-                print(f"Docutils version: {ver}")
+-
+-            return
+-
+-        python_ver = ver_str(cur_ver)
+-
+-        new_python_cmd = SphinxDependencyChecker.find_python()
+-        if not new_python_cmd:
+-            print(f"ERROR: Python version {python_ver} is not spported anymore\n")
+-            print("       Can't find a new version. This script may fail")
+-            return
+-
+-        # Restart script using the newer version
+-        script_path = os.path.abspath(sys.argv[0])
+-        args = [new_python_cmd, script_path] + sys.argv[1:]
+-
+-        print(f"Python {python_ver} not supported. Changing to {new_python_cmd}")
+-
+-        try:
+-            os.execv(new_python_cmd, args)
+-        except OSError as e:
+-            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
+-
+     @staticmethod
+     def run(*args, **kwargs):
+         """
+         Excecute a command, hiding its output by default.
+-        Preserve comatibility with older Python versions.
++        Preserve compatibility with older Python versions.
+         """
  
--                    name = entry.name.removesuffix(".tex")
--                    max_len = max(max_len, len(name))
-+            if jobserver.claim:
-+                n_jobs = jobserver.claim
+         capture_output = kwargs.pop('capture_output', False)
+@@ -527,11 +433,11 @@ class MissingCheckers(AncillaryMethods):
+         for line in result.stdout.split("\n"):
+             match = re.match(r"^sphinx-build\s+([\d\.]+)(?:\+(?:/[\da-f]+)|b\d+)?\s*$", line)
+             if match:
+-                return parse_version(match.group(1))
++                return PythonVersion.parse_version(match.group(1))
  
--            if not has_tex:
--                name = os.path.basename(from_dir)
--                max_len = max(max_len, len(name))
--                builds[name] = "FAILED (no .tex)"
--                build_failed = True
-+            builds, build_failed, max_len = self.pdf_parallel_build(tex_suffix,
-+                                                                    latex_cmd,
-+                                                                    tex_files,
-+                                                                    n_jobs)
+             match = re.match(r"^Sphinx.*\s+([\d\.]+)\s*$", line)
+             if match:
+-                return parse_version(match.group(1))
++                return PythonVersion.parse_version(match.group(1))
  
-         msg = "Summary"
-         msg += "\n" + "=" * len(msg)
+     def check_sphinx(self, conf):
+         """
+@@ -542,7 +448,7 @@ class MissingCheckers(AncillaryMethods):
+                 for line in f:
+                     match = re.match(r"^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]", line)
+                     if match:
+-                        self.min_version = parse_version(match.group(1))
++                        self.min_version = PythonVersion.parse_version(match.group(1))
+                         break
+         except IOError:
+             sys.exit(f"Can't open {conf}")
+@@ -562,8 +468,8 @@ class MissingCheckers(AncillaryMethods):
+             sys.exit(f"{sphinx} didn't return its version")
+ 
+         if self.cur_version < self.min_version:
+-            curver = ver_str(self.cur_version)
+-            minver = ver_str(self.min_version)
++            curver = PythonVersion.ver_str(self.cur_version)
++            minver = PythonVersion.ver_str(self.min_version)
+ 
+             print(f"ERROR: Sphinx version is {curver}. It should be >= {minver}")
+             self.need_sphinx = 1
+@@ -1304,7 +1210,7 @@ class SphinxDependencyChecker(MissingCheckers):
+             else:
+                 if self.need_sphinx and ver >= self.min_version:
+                     return (f, ver)
+-                elif parse_version(ver) > self.cur_version:
++                elif PythonVersion.parse_version(ver) > self.cur_version:
+                     return (f, ver)
+ 
+         return ("", ver)
+@@ -1411,7 +1317,7 @@ class SphinxDependencyChecker(MissingCheckers):
+             return
+ 
+         if self.latest_avail_ver:
+-            latest_avail_ver = ver_str(self.latest_avail_ver)
++            latest_avail_ver = PythonVersion.ver_str(self.latest_avail_ver)
+ 
+         if not self.need_sphinx:
+             # sphinx-build is present and its version is >= $min_version
+@@ -1507,7 +1413,7 @@ class SphinxDependencyChecker(MissingCheckers):
+         else:
+             print("Unknown OS")
+         if self.cur_version != (0, 0, 0):
+-            ver = ver_str(self.cur_version)
++            ver = PythonVersion.ver_str(self.cur_version)
+             print(f"Sphinx version: {ver}\n")
+ 
+         # Check the type of virtual env, depending on Python version
+@@ -1613,7 +1519,7 @@ def main():
+ 
+     checker = SphinxDependencyChecker(args)
+ 
+-    checker.check_python()
++    PythonVersion.check_python(MIN_PYTHON_VERSION)
+     checker.check_needs()
+ 
+ # Call main if not used as module
 -- 
 2.51.0
 
