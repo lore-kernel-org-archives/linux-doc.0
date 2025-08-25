@@ -1,100 +1,186 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78E323AB94;
-	Mon, 25 Aug 2025 15:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150482F3627;
+	Mon, 25 Aug 2025 15:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756134090; cv=none; b=YTvOPrELTfjF9EEJr8g0gVNrhH5Cll2eWErurfohFy/qcApLUN1qCxcZ7JH2E2kjOqxBDBZlxcRlWTsqFk8AxUuAtIMV3xjp7sBVppphgfGHoA7OhDmL16+3vIIiUT2juzFNmGxGAnR6mry5cFOcJEBEdtytQdHuD8Azw814Weg=
+	t=1756135601; cv=none; b=gABUvWdQlQYBOO2L1R66fCLNKwKrIPrOKg7rMSYmvTru/SVT1tWbRy7Pl3YQc7ocRQ8gUfkevlTsbNg+AzsQAmvJxANp4i1oko2fjhz43ZlrRvQUAI5N4ESc1KidQeq1kLroIUtD4mjWBGVXZaxoQwJW+rQ1JCeMV1fdxaFjj/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756134090; c=relaxed/simple;
-	bh=L+GLP8NhyycYgeHZwc0fgaV7zH7hZ5ntFI5ZSTxIQKo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FIqxOOiHnSzcGAOOecNloB8Y166yAxNoeGYf1VnZY6/nxN3aGZzAfT3l70uPdLDFoLAcIiWMB9dXbQBS58KcgpIN4hUHEQ+9AL+x5cDTZxIMz4W9dKgI6JELSKTc0WOtOWHO+xNiWJShzpke8UrvzUTuKJISpNWnb9mcTxsVt8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PfCYvIFn; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PfCYvIFn"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b47173bdb03so796296a12.1;
-        Mon, 25 Aug 2025 08:01:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756134088; x=1756738888; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=60iKAkP3LNe0WedWNS1417UnpVB5oYJPCUr+7fQ2LGY=;
-        b=PfCYvIFnWbEJVwTKfKkklgLH0WLwiMdytam8YjnkWpw/f46F1esAPayFuKuZ2VJ0WO
-         7XarCsMBgmnZIAqT5z9QXCGk3+PhB5oczEzfHpvVmoxosgu4yOx7cqncbT2QOWffqj8m
-         YjBUzPzxL8d2u5rcKTWWkCEItwMMxkgHvjUeGI1YgJPVAt33pc5zqDe4wmPsDaZytnaU
-         41FL1yiQ/3SSXZ+wLPzOXPRg5h8iYG9wbkjdtn4tWju5vvNFeN5/GXUeZfee7FLsKn2R
-         H54a/K/PEFYocGI6FsUYosWpiQfFIN5m7Xtj7AFwuFwkWKGKVr2zlbkqD3VEdsjwsvua
-         Ioew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756134088; x=1756738888;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=60iKAkP3LNe0WedWNS1417UnpVB5oYJPCUr+7fQ2LGY=;
-        b=W4pnnaW+nAfbc+m9gF9gpvcGa4oajeCiqJ8xow5+V7vXfDlpR8RdnVUqAQDwUpnxG4
-         3XJ0THRcHXCKSY2TWl1MzY0Aw80d9pl9UUMTkOzD5aiBZCTTx67f24wJYwbEVFH+oSoa
-         0kWxTNVDG135sAb4bDRX3ChNbZinz5ssGaQpFP77m/kTQWYQ0vUlyrdRqFJ7Na0HVpXQ
-         ef2ANtmbket9YJCClJoRYxwM8GNV2J8zlIgwwS/0tNNp82EuvYFtijWVc8ofnYLVxJmP
-         u7Rxugxv1rIndQM+di5TO5WKFVuI3ujm0qQofIVm1RFdlZX8CS9UrjL5cObcvOrui4um
-         ukjw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAjiVb+SaqhpstnBXuuSKJRAQjmPv0SyJuOR2x7AogL2PIKaG1lebb5IrsaT+4uHbCv+LPCSPA9Y0=@vger.kernel.org, AJvYcCWm1gjue0VVFwBdmuBO5JbF0Y255nQ39QkAZXfNZTNWRr3cPguybZMCMh6umontZ16d+RiM5xViIJbF0C+D6NBn@vger.kernel.org, AJvYcCXLOdJBcvM5GPjPasCk4gN1if1CM87YmvxuGXI2QPELqBqZLwuczkALTmqJM8B0HEzjVcZTrwPjxPFXg58d@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6R20gEtdwS/CGRPjhrMDQRbV2fLoXMZng49+PAvFkDM7NzDCX
-	fpgodOYHyJnA+L7q1eYN4WunvnZzFdkNxGveDtXFZ4mKLSfFvUpW5gHlMA1jvWO51Qc8KZEmIUi
-	csKEUxvbnEU1pcBqVQOJbSBqq3f3d9J4=
-X-Gm-Gg: ASbGncvvDG5szqllWfnX1RPLuOoe7+vFSH2KnYY7amaDi3ZvOFFQr4cLh/NSRmOD8gA
-	I4lAqx/bqNXMdNhxJINUlhTBnrvgQiG7an3zUkRPiyNy+eW9HC56EeMPL95SBJbi7ATK02WSb50
-	H6kClOeovTD6Ni9IUKNzkXzAWvo2dyKxEXDlUVuWvv2tgRqOk65wJcGnoDh2uXlwbKHbmVHXgxJ
-	7gC6p//gvvOrtWErynKJWrtGRGqrriTSeU5dv2YZ0jjK3p2Qd3S2wIyOQ2rF55NFgR67xRtBG6g
-	rL5i0jZqM0d0MHrkvXE3hUfY5A==
-X-Google-Smtp-Source: AGHT+IH6iiTQnmspwpwZFl3fWU7ZoF4htCbSAXCmYOC5YgyGhCHecWhDJChnNEZn0Tbpwb/nBEcItL6vKFF5JoBFO9I=
-X-Received: by 2002:a17:902:e5d1:b0:246:9df4:d10 with SMTP id
- d9443c01a7336-2469df4127fmr48184305ad.8.1756134087549; Mon, 25 Aug 2025
- 08:01:27 -0700 (PDT)
+	s=arc-20240116; t=1756135601; c=relaxed/simple;
+	bh=KhMo0SpotGb/z4U7wZvB4jdhQVQqAkWRO5ZRQrh/7+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AE63sXjL+pTNLsEl9snY2VQeqOQWIcZJ8Ld0d0Gg73ah1XE7CW3oqWJV7wR9m96FZByrxKQP2mKUH+RKy1LRJv/QW6hvuexTeQkN4uQwugfyI+Z0HcCdqhws/h+6rDRA6sEf0mD3/PwegmgLesQeyj4mG81UtglbxSe0WlTqBkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from [192.168.110.25] (unknown [118.251.178.216])
+	by APP-05 (Coremail) with SMTP id zQCowACXLF2WgKxok2QfDw--.14476S2;
+	Mon, 25 Aug 2025 23:26:15 +0800 (CST)
+Message-ID: <a2cc4cbe-82ca-4a89-b623-73721a1f3baf@isrc.iscas.ac.cn>
+Date: Mon, 25 Aug 2025 23:26:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
-In-Reply-To: <20250825142603.1907143-5-kees@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 25 Aug 2025 17:01:13 +0200
-X-Gm-Features: Ac12FXzL7PU_Is1-tccv7Hdj8Uae-cmowXNNIswc_ypx-UP0ygKjVjE1oakxuiw
-Message-ID: <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-To: Kees Cook <kees@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>, 
-	Sami Tolvanen <samitolvanen@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 RESEND 1/5] dt-bidings: riscv: add Zilsd and Zclsd
+ extension descriptions
+To: Conor Dooley <conor@kernel.org>
+Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ alex@ghiti.fr, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ anup@brainfault.org, pbonzini@redhat.com, shuah@kernel.org,
+ cyan.yang@sifive.com, cleger@rivosinc.com, charlie@rivosinc.com,
+ cuiyunhui@bytedance.com, samuel.holland@sifive.com, namcao@linutronix.de,
+ jesse@rivosinc.com, inochiama@gmail.com, yongxuan.wang@sifive.com,
+ ajones@ventanamicro.com, parri.andrea@gmail.com, mikisabate@gmail.com,
+ yikming2222@gmail.com, thomas.weissschuh@linutronix.de,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20250821140131.225756-1-pincheng.plct@isrc.iscas.ac.cn>
+ <20250821140131.225756-2-pincheng.plct@isrc.iscas.ac.cn>
+ <20250822-purge-doubling-f38988284db1@spud>
+From: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
+In-Reply-To: <20250822-purge-doubling-f38988284db1@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:zQCowACXLF2WgKxok2QfDw--.14476S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCr47Ww18Kw47Xr4xKrW3Jrb_yoW5Kr43pF
+	Z3GF4kKa90qw13u3s2y3W0vw45AF4kKw13AFnrt34fKa98Zr10gF4ak3Z0qF1rCF48CF4j
+	vw4Ygr15ZrsrAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvmb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
+	c7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+	UI43ZEXa7IUYsyCtUUUUU==
+X-CM-SenderInfo: pslquxhhqjh1xofwqxxvufhxpvfd2hldfou0/
 
-On Mon, Aug 25, 2025 at 4:28=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
->
-> -config CFI_CLANG
-> -       bool "Use Clang's Control Flow Integrity (CFI)"
-> -       depends on ARCH_SUPPORTS_CFI_CLANG
-> +config CFI
-> +       bool "Use Kernel Control Flow Integrity (kCFI)"
-> +       depends on ARCH_SUPPORTS_CFI
->         depends on $(cc-option,-fsanitize=3Dkcfi)
->         help
+On 2025/8/23 0:33, Conor Dooley wrote:
+> On Thu, Aug 21, 2025 at 10:01:27PM +0800, Pincheng Wang wrote:
+>> Add descriptions for the Zilsd (Load/Store pair instructions) and
+>> Zclsd (Compressed Load/Store pair instructions) ISA extensions
+>> which were ratified in commit f88abf1 ("Integrating load/store
+>> pair for RV32 with the main manual") of the riscv-isa-manual.
+>>
+>> Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
+>> ---
+>>   .../devicetree/bindings/riscv/extensions.yaml | 39 +++++++++++++++++++
+>>   1 file changed, 39 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>> index ede6a58ccf53..d72ffe8f6fa7 100644
+>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>> @@ -366,6 +366,20 @@ properties:
+>>               guarantee on LR/SC sequences, as ratified in commit b1d806605f87
+>>               ("Updated to ratified state.") of the riscv profiles specification.
+>>   
+>> +        - const: zilsd
+>> +          description:
+>> +            The standard Zilsd extension which provides support for aligned
+>> +            register-pair load and store operations in 32-bit instruction
+>> +            encodings, as ratified in commit f88abf1 ("Integrating
+>> +            load/store pair for RV32 with the main manual") of riscv-isa-manual.
+>> +
+>> +        - const: zclsd
+>> +          description:
+>> +            The Zclsd extension implements the compressed (16-bit) version of the
+>> +            Load/Store Pair for RV32. As with Zilsd, this extension was ratified
+>> +            in commit f88abf1 ("Integrating load/store pair for RV32 with the
+>> +            main manual") of riscv-isa-manual.
+>> +
+>>           - const: zk
+>>             description:
+>>               The standard Zk Standard Scalar cryptography extension as ratified
+>> @@ -847,6 +861,16 @@ properties:
+>>               anyOf:
+>>                 - const: v
+>>                 - const: zve32x
+>> +      # Zclsd depends on Zilsd and Zca
+>> +      - if:
+>> +          contains:
+>> +            anyOf:
+>> +              - const: zclsd
+>> +        then:
+>> +          contains:
+>> +            anyOf:
+>> +              - const: zilsd
+>> +              - const: zca
+>>   
+>>   allOf:
+>>     # Zcf extension does not exist on rv64
+>> @@ -864,6 +888,21 @@ allOf:
+>>             not:
+>>               contains:
+>>                 const: zcf
+>> +  # Zilsd extension does not exist on rv64
+>> +  - if:
+>> +      properties:
+> 
+>> +        riscv,isa-extensions:
+>> +          contains:
+>> +            const: zilsd
+> 
+> This syntax is odd, it shouldn't be required to have zilsd in here and
+> in the then. Did you copy this from Zcf or come up with it yourself
+> because it didn't work otherwise?
+> 
 
-Do we need to do something to make the transition smoother, i.e.
-keeping the old one for a while to avoid a new question etc.?
+Yes, I did model this after the existing Zcf constraint in the same 
+file. The structure is nearly identical: cheking for presence of the 
+extension and rv64i, then forbidding it in the "then" branch.
 
-Thanks!
+I've tested confirmed that removing the "contains: const: zilsd" from 
+the "if" condition still correctly enforces that zilsd must not appear 
+when rv64i is present. The "then" clause with "not: contains" is sufficient.
 
-Cheers,
-Miguel
+Given that the validation behavior is equivalent, but the logic is 
+cleaner and less redundant without the extra "contains", would you 
+recommend updating it to the simpler form:
+
+     - if:
+         properties:
+           riscv,isa-base:
+             contains:
+               const: rv64i
+       then:
+         properties:
+           riscv,isa-extensions:
+             not:
+               contains:
+                 const: zilsd
+
+If so, I'll update it in the next revision.
+
+Thanks for the review!
+
+Best regards,
+Pincheng Wang
+
+>> +        riscv,isa-base:
+>> +          contains:
+>> +            const: rv64i
+>> +    then:
+>> +      properties:
+>> +        riscv,isa-extensions:
+>> +          not:
+>> +            contains:
+>> +              const: zilsd
+>>   
+>>   additionalProperties: true
+>>   ...
+>> -- 
+>> 2.39.5
+>>
+
