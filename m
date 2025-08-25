@@ -1,107 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F982EF66E;
-	Mon, 25 Aug 2025 12:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF931EA80;
+	Mon, 25 Aug 2025 12:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756123645; cv=none; b=DJL7zGTZSsnhM6QyZcAFMj4MH+ouNBBRHVvxt4uAyM6jjmGFJsPcAfaTlwuQAzm7KsqGle1rO6rIm+L4yp05LFoLM54tYa/UT+kdOf2wA8LYiF3K7hUqJpAjO0szkvQi55WHoo0xDZ/eT9jR6ntqBIr1VPbyIhcNuTRL5XIuMd4=
+	t=1756124154; cv=none; b=pbsdaEhABxFGNYizSrKXgkmU6+Rt4xbsdZQ3XE9wgjE60YvxHhxF/X1AFYxjm+aeCpdannwisqzvdo45hLZnGjZmuDEMsXTf4JQrQDibMvWvxwm7doCenwI5yFgPnwdVMkQ4HM3RceSn01JEwKvlTF5tFdGdkplQBElO5nvhoVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756123645; c=relaxed/simple;
-	bh=F/5K4bMoblHsxI330SNs3Rq5PcPR+MST4mCPPpaDFwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n+AWtJuWWIM6WWbFpB1BJ6kCkJgLZbBB81E4ht3rajZtvuFxkhFoXAf0W9DC9xxehcp2pE0mqj2ZyYQdPDSJicaVmfT/mVbXUO4uazW3Qks7hAtCgrrm6iBAD3kLqca1RdFplRLK895t8YYyREoM6bCorkjSLk8W0Jyo4iBYAEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ed5AOFjk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756124154; c=relaxed/simple;
+	bh=r1U17WJMlurUl4uRvTX5DZlKiRuoBMu2MYV3lfiL9Zg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CyYr2dC5LYP212CWGBFvHBmqD0sMcdR/EW7fvcKR7Ef5MDdFhrDN43YY40PSEUg8qG8pFC3J64zvaNSPtu5vnJw7uPp6GvVcPf/BoCeS6h6jQAHOD5D2owTuPJ3Eg14EDM1A2HzwWR2ljd/IhBQ51HSdLLN4zCmICFv17GxH4u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SiTK9h48; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ed5AOFjk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8F9C19421;
-	Mon, 25 Aug 2025 12:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756123644;
-	bh=F/5K4bMoblHsxI330SNs3Rq5PcPR+MST4mCPPpaDFwE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ed5AOFjkRXXho4jcdJZSkmSXZQk50JS7AcOFODLlsY97LEHVAIe2ZjbMzBQiOCyKw
-	 y5WgH2TeOxOILBIgzS2aknkD4HmLnRvGVfsIPRASynvBtwjudT1f9XC6E+BQCQXW2B
-	 FFesU/aTkSRBP27qifk+COqGry8Nuy3R6AijAWn6wL+hGkaGP+vnR2KdY3hyKyaBjy
-	 RxbeWbxco65UF5SligN5fgggydDn0XAt+Y1eo0I2j3jeP9NifNHl6+Kmgzo1xOj39e
-	 9fN5s9N8tEkkbEOcLdSh7RVo5P2ofE/nU1L85iODhvZCCAPWc5WWtxzJik/ZC+CBxj
-	 3E8DdO0Y3yeSA==
-Date: Mon, 25 Aug 2025 14:07:19 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SiTK9h48"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 341CD40ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756124151; bh=C4FVjoqZYCy4iJrUlUKji+FuD2rkKct8Ps3MSXBCIpo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=SiTK9h48WbW9/M2FF/gb0kJhn7No5Xvh4ixoUv0WMXsYcyRCqIWosDzztH7SOkh0V
+	 AV4evwKfNhn7L6dMQQ776NqzhgC/n//z+hKUpaWXWJOSo8mk7vEgOXBnPah9IfHmJR
+	 Z5Ecb1o/KExXMshEF4YtswyGpw85O2ekgjI89u+juGfN2GHDNzPbPTGhHd/qglLDMY
+	 zYrk/tzmI5d053tCdk7QnHNabi5tt2vuuqDPs2ZOmpv2PFNtxmQ+SY/HZtcHyiyWQa
+	 8iucdjUiv0dtkJCSr7rJCaPG67NHQDLGMo0lwEQ8wJ4tPJ5tpzieWeo/X6wX9N4W4r
+	 0y8gtFs0Wp0xQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 341CD40ADA;
+	Mon, 25 Aug 2025 12:15:51 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 07/14] docs: conf.py: extra cleanups and fixes
-Message-ID: <20250825140719.18ba8459@foz.lan>
-In-Reply-To: <87sehjdlz5.fsf@trenco.lwn.net>
+In-Reply-To: <20250825140719.18ba8459@foz.lan>
 References: <08d16c2ad817910eb5606842f776d3f77d83282f.1755763127.git.mchehab+huawei@kernel.org>
-	<f5d4804c-9a51-443a-a73e-d9c043673cbc@gmail.com>
-	<fa7rreuvodpe673lwcwlj6kddkpnmkoxlz4y5mythgntkmveey@m5fqvtsuel6l>
-	<87sehjdlz5.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ <f5d4804c-9a51-443a-a73e-d9c043673cbc@gmail.com>
+ <fa7rreuvodpe673lwcwlj6kddkpnmkoxlz4y5mythgntkmveey@m5fqvtsuel6l>
+ <87sehjdlz5.fsf@trenco.lwn.net> <20250825140719.18ba8459@foz.lan>
+Date: Mon, 25 Aug 2025 06:15:49 -0600
+Message-ID: <87ldn7d2bu.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Fri, 22 Aug 2025 16:34:38 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > On Fri, Aug 22, 2025 at 09:01:03PM +0900, Akira Yokosawa wrote:  
-> 
-> >> > 3) I got a corner case on one of the distros was using xindy to produce
-> >> >    indexes. This ended causing the build logic to incorretly try to use
-> >> >    T1 fontenc, which is not UTF-8 compatible.
-> >> > 
-> >> >    This patch adds:
-> >> > 
-> >> >         \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
-> >> > 
-> >> >    to cover such case. It should be noticed that, as the config doesn't
-> >> >    have \usepackage{xindy}, this will be used only if latexmk ends
-> >> >    using xindy.  
-> >> 
-> >> But I can't see how this macro (executed by XeTeX engine) would have any
-> >> effect on xindy (command) invoked from latexmk.
-> >> 
-> >> Can you elaborate on your theory of how it works?
-> >> And which distro runs xindy?  
-> >
-> > I can't remember on what distro I saw the issue, but I got it during
-> > my builds, where, instead of running makeindex, it tried to run xindy,
-> > with failed because of utf-8 fonts.
-> >
-> > My theory is that, on one of the ditros, there is a /etc/latexmk
-> > or similar containing instructions to use xindy instead of makeindex.
-> >
-> > In any case, this rule is harmless on setups that use makeindex:
-> > it only affect setups where there is a latexmk or .latexmk file
-> > setting xindy as the default index builder: if this is used, 
-> > xindy will use utf-8 fonts instead of Type 1.  
-> 
-> Can we try to get a handle on that and, if it's truly needed, document
-> why?  I will confess that I'm confused by it:
-> 
-> > \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}  
-> 
-> As I understand it, the arguments are {options}{package}, right?  so I'm
-> not sure how this would work...?
+> Em Fri, 22 Aug 2025 16:34:38 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>> Can we try to get a handle on that and, if it's truly needed, document
+>> why?  I will confess that I'm confused by it:
+>> 
+>> > \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}  
+>> 
+>> As I understand it, the arguments are {options}{package}, right?  so I'm
+>> not sure how this would work...?
+>
+> Heh, you're right: the argument is reversed. Also, I repeated the
+> tests here, and were unable to reproduce the issue I had with xindy.
 
-Heh, you're right: the argument is reversed. Also, I repeated the
-tests here, and were unable to reproduce the issue I had with xindy.
+Just to get the credit where it is due, it's Akira who first pointed
+this out.
 
-So, let's just drop it. If we needed, we can re-add, reverting the
-parameter order there. Patch is at:
+> So, let's just drop it. If we needed, we can re-add, reverting the
+> parameter order there. Patch is at:
+>
+> 	https://lore.kernel.org/linux-doc/83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org/T/#u
 
-	https://lore.kernel.org/linux-doc/83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org/T/#u
-
-> 
-> jon  (who will be traveling and slow to respond for a bit)
+OK I'll get there.
 
 Thanks,
-Mauro
+
+jon
