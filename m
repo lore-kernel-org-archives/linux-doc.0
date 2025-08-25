@@ -1,140 +1,153 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA0618FC91;
-	Mon, 25 Aug 2025 02:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D5A38DD8;
+	Mon, 25 Aug 2025 02:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756090141; cv=none; b=dDmH/XSeZJlAZzitMWmsdlHBtmHqtQjhIj1FlmMDccv2kVJMiFL73R71ohCu4eTEwHmzPvN9RT7PdaacQJuKdP1VPr83Ld5uAuDU5XwXfrWuHHmCGsi2gMZo47MU+GVHbgG/FPkWl6Aie5JThvdrnHoMtr8jZOhexdedASUeAAI=
+	t=1756090353; cv=none; b=f7bKO1iToPOG665XFubOgjOqvVATZztDwoGrrtPqvl+htTQEJgFrpKnxuqR+VCscnuV2goCvrB1I8NSAqns2Q2Nd8xyG5fMkfXn4EFZfE2T1FP4H3JazY7h92KVanbeheQYyg2kraPND3sPxBDVMEbEC7dm7M2kHlDPCgAYvcPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756090141; c=relaxed/simple;
-	bh=UNMbrd7hgvAtuRFWyNNxOWTM4EmKwRV0uuqjzMO9iSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tmBju0udSmtPyuHONEEh1vrKCFgswRKtZNYmwlVeBxYkYuZ9fubfcz8vbPdUAJyRkW0rZA9WS51iufJmPj+xI2xxlbDDr1wQVPV2VgMIXR0g7w4FY1sIETdCysusAA+ZmZm6jusfoAGrnwJDYymDp2aeIw976vbDbkS1w+cOaUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H6V0EK2K; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756090353; c=relaxed/simple;
+	bh=aQ3klEdpmWWkq5V7/ZmW5O2BmjonN+3JsZEFIImTQM4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZM838gkBgAX0CpZzzZV4yVQD3GZKaOITCjngXuaZMKZuTPpOeXuo7fUSBoah4m51K/sGQEdylvmCp9mn5AuqPHt2Z7shx7F8H6AVJG0meKjeltb6+YWkKpepSn0c/7JuLKzhLfeVq4edQlu4MSU5QIlvNWAIhtGCzLG+5x9j5kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bOJShy/v; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H6V0EK2K"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76e6cbb991aso3305923b3a.1;
-        Sun, 24 Aug 2025 19:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756090139; x=1756694939; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GCLwb/EDAA4ippM35qYgVy/WRmFSEboUwsaV433ebuA=;
-        b=H6V0EK2K0EVnUPFpVP08jcJC32qTfaQm6SWjbZGmWdpIt3DPnKBgB3G9iqddqyS1xz
-         fqrCLuwzqnRcQ6kcBl7vkNPaLNq91nQnOIBNQLL74Ha9+XsKtcX9QFwxWH01n5YmZ8Ig
-         nJ9GKKm5FylIDCyUGkvu80Pc3Zi8wb+jGQd7zAMXkxIv5aqg17O870T89cxYNEgyOA8R
-         qdV10DfLDqI1SVsNqALmKBhfep9p9RIXplC/Y15lAv7VyYitcvNmalfrc1kn5esj/9ld
-         Zs8jou758yJRjyeyRbMogUK+knbp0gjO66UUPCnFDA/Vrl97Po7h2BwVZz+ks9moh4g+
-         yGQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756090139; x=1756694939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GCLwb/EDAA4ippM35qYgVy/WRmFSEboUwsaV433ebuA=;
-        b=MQXGKX5ncZ8gDpdyZhiA1skIo/wC610LE3o7m1ajQIvsaCvbcJ3P42StSOKxdXfHBR
-         S4yFY9etxRxwu3BlgW717L+YDEDUaI+et+fL9IiwFUoLHwxJQS1E0LajQGOpOW1+nj3o
-         FA+oYphWwifsZT0N5Fo4uVtME0aODQjt/KH2mzvOKS+/uBA9jgSxL3+9QwgGtaiuXHms
-         D+Ye99MYEnUbO8V/DGOspMcRRv5q8CKqclGvMocMVo4oxv6kpVMkfe2RwUTxYtxJzy6P
-         G+uEcwynkJR9pRlb3Paqh3TZlxlnqXBMvQ5GoUIZ05ChjqiOoVTo7xrj+g7p7xrRj773
-         BFCw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvh6F56k9Xpjkas6Wuf1WstJHckah922LD5z8z4JIPe6JKacpdGNJ3WnhOc+ii8tqvuvqRuRVy/OA=@vger.kernel.org, AJvYcCXxUxYZMAJCkPK3NbQERte4dFg8xVukLSjC4nZGnc+U5gque7JentdoVsPkeIC7GKDU+pwacaE1RFcSZSJpQQui@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9ZJXVBIH1ISxcCUsrQ6KG8qviu5ioKhAQeA+hOIrz2GjU+4pa
-	sJ0ImtYPnTvl2+aLip24P6fn4CvImx5wmdiL/A9Unzaz32PIC0lu/wWU
-X-Gm-Gg: ASbGncvRVPMEMOJW8jRGDij3BJ6nC3sylCqjyZS13tBhlLcrb8sSmsWo8yypiU9A3M7
-	0wB1JGi3KrwAFf70t3gufgOGvo1SaMDMSh0s28nCjcadesOM2HJNwkJfGD5vFgHDIEPj02liQOs
-	XHY3961SsYjK/k6hUlCVk8xxa7XNWQhgXNCKi5bt8ovTE3uPlRztj1ly7dYNIv3v0j7TWJh0Mjv
-	iwfw1kVTQJdDUJODiNRRptIChIIpNGqV0s7j2Tc9VPKf4VE6wE1LkJPP6HKzKEnAqXF7uB49Zb6
-	dJt2YvQGm7OnJ4xQIhfHdu0Ia8bH51RIzyzMxLYedwAIhVrjvKcaMdrinfC3BAWuIgVG/x1AOFl
-	rz/lfeOz7sjopYw2D9cA5lF3Dgjk=
-X-Google-Smtp-Source: AGHT+IHcXBzFHVDS6JF3cjZ2GEDtTnnPVuRO91B/XKp81mhgYJt6SoHA5RpDPSM3y7rxhcIuU8ZTZw==
-X-Received: by 2002:a05:6a00:3927:b0:740:a023:5d60 with SMTP id d2e1a72fcca58-7702fadba93mr12801609b3a.19.1756090139483;
-        Sun, 24 Aug 2025 19:48:59 -0700 (PDT)
-Received: from fedora ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7704001eb82sm5865845b3a.47.2025.08.24.19.48.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 19:48:58 -0700 (PDT)
-Date: Mon, 25 Aug 2025 02:48:49 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Jay Vosburgh <jv@jvosburgh.net>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
-	Amit Cohen <amcohen@nvidia.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	David Ahern <dsahern@gmail.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCHv3 net-next 1/3] bonding: add support for per-port LACP
- actor priority
-Message-ID: <aKvPERQJS3pz_DTW@fedora>
-References: <20250818092311.383181-1-liuhangbin@gmail.com>
- <20250818092311.383181-2-liuhangbin@gmail.com>
- <1547622.1755909223@famine>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bOJShy/v"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57P2pr1U255232
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sun, 24 Aug 2025 19:51:54 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57P2pr1U255232
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025082201; t=1756090317;
+	bh=lq00javG2UiQIbEp3w2ZdKaPm7rq/LpukSV6LTAhyLE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bOJShy/vbvo57MT6KNFG9ImSdy5kd/fM2Ee6qzLo/m7GXK1473Rt7f1eXehONvy1b
+	 y4BXqcMcW7CSMa6K11jLfS5bGCAreFjQD+iS87wz6Qo7ktuK8iV3xVBpLycO/Rg1K8
+	 EahjGNR0UfqeQ4m6bQGJmaGDAvdv+9Ll8V+5ukF8AIQeQm7p4HirUkTE0/rRGCYQS6
+	 ODYUKUH/OX2V/GIawNcAq7KDy0hnbw5c1MFOAw/nmGvarqI/UjNpQt+0qX0+56kHmI
+	 o0U97z7Kn9uzfD1unT4Zx7nG261i9ePDX2aehtv6wno5o/uBhRLD2cVq0GFdrtdj/C
+	 IoIVDTgkj2g8g==
+Message-ID: <2dd8c323-7654-4a28-86f1-d743b70d10b1@zytor.com>
+Date: Sun, 24 Aug 2025 19:51:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1547622.1755909223@famine>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/20] KVM: VMX: Set FRED MSR intercepts
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
+        andrew.cooper3@citrix.com, chao.gao@intel.com, hch@infradead.org
+References: <20250821223630.984383-1-xin@zytor.com>
+ <20250821223630.984383-7-xin@zytor.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ xsDNBGUPz1cBDACS/9yOJGojBFPxFt0OfTWuMl0uSgpwk37uRrFPTTLw4BaxhlFL0bjs6q+0
+ 2OfG34R+a0ZCuj5c9vggUMoOLdDyA7yPVAJU0OX6lqpg6z/kyQg3t4jvajG6aCgwSDx5Kzg5
+ Rj3AXl8k2wb0jdqRB4RvaOPFiHNGgXCs5Pkux/qr0laeFIpzMKMootGa4kfURgPhRzUaM1vy
+ bsMsL8vpJtGUmitrSqe5dVNBH00whLtPFM7IbzKURPUOkRRiusFAsw0a1ztCgoFczq6VfAVu
+ raTye0L/VXwZd+aGi401V2tLsAHxxckRi9p3mc0jExPc60joK+aZPy6amwSCy5kAJ/AboYtY
+ VmKIGKx1yx8POy6m+1lZ8C0q9b8eJ8kWPAR78PgT37FQWKYS1uAroG2wLdK7FiIEpPhCD+zH
+ wlslo2ETbdKjrLIPNehQCOWrT32k8vFNEMLP5G/mmjfNj5sEf3IOKgMTMVl9AFjsINLHcxEQ
+ 6T8nGbX/n3msP6A36FDfdSEAEQEAAc0WWGluIExpIDx4aW5Aenl0b3IuY29tPsLBDQQTAQgA
+ NxYhBIUq/WFSDTiOvUIqv2u9DlcdrjdRBQJlD89XBQkFo5qAAhsDBAsJCAcFFQgJCgsFFgID
+ AQAACgkQa70OVx2uN1HUpgv/cM2fsFCQodLArMTX5nt9yqAWgA5t1srri6EgS8W3F+3Kitge
+ tYTBKu6j5BXuXaX3vyfCm+zajDJN77JHuYnpcKKr13VcZi1Swv6Jx1u0II8DOmoDYLb1Q2ZW
+ v83W55fOWJ2g72x/UjVJBQ0sVjAngazU3ckc0TeNQlkcpSVGa/qBIHLfZraWtdrNAQT4A1fa
+ sWGuJrChBFhtKbYXbUCu9AoYmmbQnsx2EWoJy3h7OjtfFapJbPZql+no5AJ3Mk9eE5oWyLH+
+ QWqtOeJM7kKvn/dBudokFSNhDUw06e7EoVPSJyUIMbYtUO7g2+Atu44G/EPP0yV0J4lRO6EA
+ wYRXff7+I1jIWEHpj5EFVYO6SmBg7zF2illHEW31JAPtdDLDHYcZDfS41caEKOQIPsdzQkaQ
+ oW2hchcjcMPAfyhhRzUpVHLPxLCetP8vrVhTvnaZUo0xaVYb3+wjP+D5j/3+hwblu2agPsaE
+ vgVbZ8Fx3TUxUPCAdr/p73DGg57oHjgezsDNBGUPz1gBDAD4Mg7hMFRQqlzotcNSxatlAQNL
+ MadLfUTFz8wUUa21LPLrHBkUwm8RujehJrzcVbPYwPXIO0uyL/F///CogMNx7Iwo6by43KOy
+ g89wVFhyy237EY76j1lVfLzcMYmjBoTH95fJC/lVb5Whxil6KjSN/R/y3jfG1dPXfwAuZ/4N
+ cMoOslWkfZKJeEut5aZTRepKKF54T5r49H9F7OFLyxrC/uI9UDttWqMxcWyCkHh0v1Di8176
+ jjYRNTrGEfYfGxSp+3jYL3PoNceIMkqM9haXjjGl0W1B4BidK1LVYBNov0rTEzyr0a1riUrp
+ Qk+6z/LHxCM9lFFXnqH7KWeToTOPQebD2B/Ah5CZlft41i8L6LOF/LCuDBuYlu/fI2nuCc8d
+ m4wwtkou1Y/kIwbEsE/6RQwRXUZhzO6llfoN96Fczr/RwvPIK5SVMixqWq4QGFAyK0m/1ap4
+ bhIRrdCLVQcgU4glo17vqfEaRcTW5SgX+pGs4KIPPBE5J/ABD6pBnUUAEQEAAcLA/AQYAQgA
+ JhYhBIUq/WFSDTiOvUIqv2u9DlcdrjdRBQJlD89ZBQkFo5qAAhsMAAoJEGu9DlcdrjdR4C0L
+ /RcjolEjoZW8VsyxWtXazQPnaRvzZ4vhmGOsCPr2BPtMlSwDzTlri8BBG1/3t/DNK4JLuwEj
+ OAIE3fkkm+UG4Kjud6aNeraDI52DRVCSx6xff3bjmJsJJMb12mWglN6LjdF6K+PE+OTJUh2F
+ dOhslN5C2kgl0dvUuevwMgQF3IljLmi/6APKYJHjkJpu1E6luZec/lRbetHuNFtbh3xgFIJx
+ 2RpgVDP4xB3f8r0I+y6ua+p7fgOjDLyoFjubRGed0Be45JJQEn7A3CSb6Xu7NYobnxfkwAGZ
+ Q81a2XtvNS7Aj6NWVoOQB5KbM4yosO5+Me1V1SkX2jlnn26JPEvbV3KRFcwV5RnDxm4OQTSk
+ PYbAkjBbm+tuJ/Sm+5Yp5T/BnKz21FoCS8uvTiziHj2H7Cuekn6F8EYhegONm+RVg3vikOpn
+ gao85i4HwQTK9/D1wgJIQkdwWXVMZ6q/OALaBp82vQ2U9sjTyFXgDjglgh00VRAHP7u1Rcu4
+ l75w1xInsg==
+In-Reply-To: <20250821223630.984383-7-xin@zytor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 22, 2025 at 05:33:43PM -0700, Jay Vosburgh wrote:
-> Hangbin Liu <liuhangbin@gmail.com> wrote:
-> 
-> >Introduce a new netlink attribute 'ad_actor_port_prio' to allow setting
-> 
-> 	Nit here "actor_port_prio"?
-> 
-> 	One more comment below ...
-> 
-> >the LACP actor port priority on a per-slave basis. This extends the
-> >existing bonding infrastructure to support more granular control over
-> >LACP negotiations.
-> >
-> >The priority value is embedded in LACPDU packets and will be used by
-> >subsequent patches to influence aggregator selection policies.
-> >
-> >Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
-> >---
-> > Documentation/networking/bonding.rst |  9 +++++++
-> > drivers/net/bonding/bond_3ad.c       |  4 ++++
-> > drivers/net/bonding/bond_netlink.c   | 16 +++++++++++++
-> > drivers/net/bonding/bond_options.c   | 36 ++++++++++++++++++++++++++++
-> > include/net/bond_3ad.h               |  1 +
-> > include/net/bond_options.h           |  1 +
-> > include/uapi/linux/if_link.h         |  1 +
-> > 7 files changed, 68 insertions(+)
-> >
+On 8/21/2025 3:36 PM, Xin Li (Intel) wrote:
+> +	/*
+> +	 * MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP (aka MSR_IA32_FRED_SSP0) are
+> +	 * designated for event delivery while executing in userspace.  Since
+> +	 * KVM operates exclusively in kernel mode (the CPL is always 0 after
+> +	 * any VM exit), KVM can safely retain and operate with the guest-defined
+> +	 * values for MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP.
+> +	 *
+> +	 * Therefore, interception of MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP
+> +	 * is not required.
+> +	 *
+> +	 * Note, save and restore of MSR_IA32_PL0_SSP belong to CET supervisor
+> +	 * context management.  However the FRED SSP MSRs, including
+> +	 * MSR_IA32_PL0_SSP, are supported by any processor that enumerates FRED.
+> +	 * If such a processor does not support CET, FRED transitions will not
+> +	 * use the MSRs, but the MSRs would still be accessible using MSR-access
+> +	 * instructions (e.g., RDMSR, WRMSR).
+> +	 */
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, intercept);
+> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_PL0_SSP, MSR_TYPE_RW, intercept);
 
-...
+Hi Sean,
 
-> >diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
-> >index 2fca8e84ab10..eb0fb7374391 100644
-> >+static const struct bond_opt_value bond_actor_port_prio_tbl[] = {
-> >+	{ "minval",  1,     BOND_VALFLAG_MIN},
-> >+	{ "maxval",  65535, BOND_VALFLAG_MAX},
-> >+	{ "default", 255,   BOND_VALFLAG_DEFAULT},
-> >+	{ NULL,      -1,    0},
-> 
-> 	Does the standard forbid actor_port_prio being set to zero?  The
-> description I'm finding says only that it's an unsigned integer and two
-> octets in size (802.1AX-2014 6.4.2.3 LACPDU structure).
-> 
-> 	-J
+I'd like to bring up an issue concerning MSR_IA32_PL0_SSP.
 
-Yes, I also can't find a clear doc about the minimal value of port priority.
-I will set it to 0.
+The FRED spec claims:
 
-Thanks
-Hangbin
+The FRED SSP MSRs are supported by any processor that enumerates
+CPUID.(EAX=7,ECX=1):EAX.FRED[bit 17] as 1. If such a processor does not
+support CET, FRED transitions will not use the MSRs (because shadow stacks
+are not enabled), but the MSRs would still be accessible using MSR-access
+instructions (e.g., RDMSR, WRMSR).
+
+
+It means KVM needs to handle MSR_IA32_PL0_SSP even when FRED is supported
+but CET is not.  And this can be broken down into two subtasks:
+
+1) Allow such a guest to access MSR_IA32_PL0_SSP w/o triggering #GP.  And
+this behavior is already implemented in patch 8 of this series.
+
+2) Save and restore MSR_IA32_PL0_SSP in both KVM and Qemu for such a guest.
+
+
+I have the patches for 2) but they are not included in this series, because
+
+1) how much do we care the value in MSR_IA32_PL0_SSP in such a guest?
+
+Yes, Chao told me that you are the one saying that MSRs can be used as
+clobber registers and KVM should preserve the value.  Does MSR_IA32_PL0_SSP
+in such a guest count?
+
+
+2) Saving/restoring MSR_IA32_PL0_SSP adds complexity, though it's seldom
+used.  Is it worth it?
+
+
+BTW I'm still working on a KVM unit test for it, using a L1 VMM that
+enumerates FRED but not CET.
+
+Thanks!
+     Xin
