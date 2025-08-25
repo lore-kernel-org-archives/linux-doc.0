@@ -1,187 +1,100 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E342FC008;
-	Mon, 25 Aug 2025 14:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78E323AB94;
+	Mon, 25 Aug 2025 15:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756133973; cv=none; b=Owq5M70uK831PGEs99iJhxBjgoT2Bq7tWYUGHqUkebghvtLfECbpK5JeeObItZ94RPOdJK/MuTAlXr4T2/wZJIKxIqm4Z5L58EbQLqPNagpOGBH0Ww3M2stnvjkBi4GWTBJZEdJojPQiIlOkQWWxW/nCgS246ljJdh7C8/J+IaE=
+	t=1756134090; cv=none; b=YTvOPrELTfjF9EEJr8g0gVNrhH5Cll2eWErurfohFy/qcApLUN1qCxcZ7JH2E2kjOqxBDBZlxcRlWTsqFk8AxUuAtIMV3xjp7sBVppphgfGHoA7OhDmL16+3vIIiUT2juzFNmGxGAnR6mry5cFOcJEBEdtytQdHuD8Azw814Weg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756133973; c=relaxed/simple;
-	bh=Ph3JfDSVa7q/qwjjJkCRoufp4rbUldY1HsHR/5oOvEw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AiuuKGxfyTNJkmgq6w8W5Nt+TQ01n4bnxomfh6Lv5UlVSDsy1t3knI8fEnigAnOgzyOH16bA0+uUTWhjORZjCyWsdHeFXt7M+PRhn/KZ+KfasDmXqedlAJIUlmclzFSpG7u0VmPwyRQaQkKTBpxyPE50GW0cCyqUNOfY0yW6oLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from ROG (unknown [118.251.178.216])
-	by APP-05 (Coremail) with SMTP id zQCowABX6lopeqxooi0eDw--.61332S2;
-	Mon, 25 Aug 2025 22:58:51 +0800 (CST)
-From: <pincheng.plct@isrc.iscas.ac.cn>
-To: <inochiama@gmail.com>
-Cc: <ajones@ventanamicro.com>,
-	<alex@ghiti.fr>,
-	<anup@brainfault.org>,
-	<aou@eecs.berkeley.edu>,
-	<charlie@rivosinc.com>,
-	<cleger@rivosinc.com>,
-	<conor+dt@kernel.org>,
-	<cuiyunhui@bytedance.com>,
-	<cyan.yang@sifive.com>,
-	<devicetree@vger.kernel.org>,
-	<jesse@rivosinc.com>,
-	<krzk+dt@kernel.org>,
-	<kvm-riscv@lists.infradead.org>,
-	<kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>,
-	<mikisabate@gmail.com>,
-	<namcao@linutronix.de>,
-	<palmer@dabbelt.com>,
-	<parri.andrea@gmail.com>,
-	<paul.walmsley@sifive.com>,
-	<pbonzini@redhat.com>,
-	<pincheng.plct@isrc.iscas.ac.cn>,
-	<robh@kernel.org>,
-	<samuel.holland@sifive.com>,
-	<shuah@kernel.org>,
-	<thomas.weissschuh@linutronix.de>,
-	<yikming2222@gmail.com>,
-	<yongxuan.wang@sifive.com>
-Subject: Re: [PATCH v1 RESEND 1/5] dt-bidings: riscv: add Zilsd and Zclsd extension descriptions
-Date: Mon, 25 Aug 2025 22:58:49 +0800
-Message-ID: <001e01dc15d0$c4842e10$4d8c8a30$@isrc.iscas.ac.cn>
+	s=arc-20240116; t=1756134090; c=relaxed/simple;
+	bh=L+GLP8NhyycYgeHZwc0fgaV7zH7hZ5ntFI5ZSTxIQKo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FIqxOOiHnSzcGAOOecNloB8Y166yAxNoeGYf1VnZY6/nxN3aGZzAfT3l70uPdLDFoLAcIiWMB9dXbQBS58KcgpIN4hUHEQ+9AL+x5cDTZxIMz4W9dKgI6JELSKTc0WOtOWHO+xNiWJShzpke8UrvzUTuKJISpNWnb9mcTxsVt8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PfCYvIFn; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PfCYvIFn"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b47173bdb03so796296a12.1;
+        Mon, 25 Aug 2025 08:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756134088; x=1756738888; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=60iKAkP3LNe0WedWNS1417UnpVB5oYJPCUr+7fQ2LGY=;
+        b=PfCYvIFnWbEJVwTKfKkklgLH0WLwiMdytam8YjnkWpw/f46F1esAPayFuKuZ2VJ0WO
+         7XarCsMBgmnZIAqT5z9QXCGk3+PhB5oczEzfHpvVmoxosgu4yOx7cqncbT2QOWffqj8m
+         YjBUzPzxL8d2u5rcKTWWkCEItwMMxkgHvjUeGI1YgJPVAt33pc5zqDe4wmPsDaZytnaU
+         41FL1yiQ/3SSXZ+wLPzOXPRg5h8iYG9wbkjdtn4tWju5vvNFeN5/GXUeZfee7FLsKn2R
+         H54a/K/PEFYocGI6FsUYosWpiQfFIN5m7Xtj7AFwuFwkWKGKVr2zlbkqD3VEdsjwsvua
+         Ioew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756134088; x=1756738888;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=60iKAkP3LNe0WedWNS1417UnpVB5oYJPCUr+7fQ2LGY=;
+        b=W4pnnaW+nAfbc+m9gF9gpvcGa4oajeCiqJ8xow5+V7vXfDlpR8RdnVUqAQDwUpnxG4
+         3XJ0THRcHXCKSY2TWl1MzY0Aw80d9pl9UUMTkOzD5aiBZCTTx67f24wJYwbEVFH+oSoa
+         0kWxTNVDG135sAb4bDRX3ChNbZinz5ssGaQpFP77m/kTQWYQ0vUlyrdRqFJ7Na0HVpXQ
+         ef2ANtmbket9YJCClJoRYxwM8GNV2J8zlIgwwS/0tNNp82EuvYFtijWVc8ofnYLVxJmP
+         u7Rxugxv1rIndQM+di5TO5WKFVuI3ujm0qQofIVm1RFdlZX8CS9UrjL5cObcvOrui4um
+         ukjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUAjiVb+SaqhpstnBXuuSKJRAQjmPv0SyJuOR2x7AogL2PIKaG1lebb5IrsaT+4uHbCv+LPCSPA9Y0=@vger.kernel.org, AJvYcCWm1gjue0VVFwBdmuBO5JbF0Y255nQ39QkAZXfNZTNWRr3cPguybZMCMh6umontZ16d+RiM5xViIJbF0C+D6NBn@vger.kernel.org, AJvYcCXLOdJBcvM5GPjPasCk4gN1if1CM87YmvxuGXI2QPELqBqZLwuczkALTmqJM8B0HEzjVcZTrwPjxPFXg58d@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6R20gEtdwS/CGRPjhrMDQRbV2fLoXMZng49+PAvFkDM7NzDCX
+	fpgodOYHyJnA+L7q1eYN4WunvnZzFdkNxGveDtXFZ4mKLSfFvUpW5gHlMA1jvWO51Qc8KZEmIUi
+	csKEUxvbnEU1pcBqVQOJbSBqq3f3d9J4=
+X-Gm-Gg: ASbGncvvDG5szqllWfnX1RPLuOoe7+vFSH2KnYY7amaDi3ZvOFFQr4cLh/NSRmOD8gA
+	I4lAqx/bqNXMdNhxJINUlhTBnrvgQiG7an3zUkRPiyNy+eW9HC56EeMPL95SBJbi7ATK02WSb50
+	H6kClOeovTD6Ni9IUKNzkXzAWvo2dyKxEXDlUVuWvv2tgRqOk65wJcGnoDh2uXlwbKHbmVHXgxJ
+	7gC6p//gvvOrtWErynKJWrtGRGqrriTSeU5dv2YZ0jjK3p2Qd3S2wIyOQ2rF55NFgR67xRtBG6g
+	rL5i0jZqM0d0MHrkvXE3hUfY5A==
+X-Google-Smtp-Source: AGHT+IH6iiTQnmspwpwZFl3fWU7ZoF4htCbSAXCmYOC5YgyGhCHecWhDJChnNEZn0Tbpwb/nBEcItL6vKFF5JoBFO9I=
+X-Received: by 2002:a17:902:e5d1:b0:246:9df4:d10 with SMTP id
+ d9443c01a7336-2469df4127fmr48184305ad.8.1756134087549; Mon, 25 Aug 2025
+ 08:01:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
+References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
+In-Reply-To: <20250825142603.1907143-5-kees@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 25 Aug 2025 17:01:13 +0200
+X-Gm-Features: Ac12FXzL7PU_Is1-tccv7Hdj8Uae-cmowXNNIswc_ypx-UP0ygKjVjE1oakxuiw
+Message-ID: <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+To: Kees Cook <kees@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>, 
+	Sami Tolvanen <samitolvanen@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, x86@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdwV0HURyytbkCJFT0CWNFw9272t/g==
-Content-Language: zh-cn
-X-CM-TRANSID:zQCowABX6lopeqxooi0eDw--.61332S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr4Uur48KryUtFWxWFW8Crg_yoW5Kry8pa
-	97GF4UGF98XryfW3s7Kw48uay5Ga1kGr1fCFsrt34xKFW5Ar10qFW2y3WYqw18Jr4IkF4j
-	vr42gr1vq3sxArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9E14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
-	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwAKzVCY07xG64k0F24lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr4
-	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
-	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
-	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sREb4S5UUUUU==
-X-CM-SenderInfo: pslquxhhqjh1xofwqxxvufhxpvfd2hldfou0/
 
-> -----Original Message-----
-> From: Inochi Amaoto <inochiama@gmail.com>
-> Sent: Saturday, August 23, 2025 6:35 AM
-> To: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>;
-> paul.walmsley@sifive.com; palmer@dabbelt.com; aou@eecs.berkeley.edu;
-> alex@ghiti.fr; robh@kernel.org; krzk+dt@kernel.org; =
-conor+dt@kernel.org;
-> anup@brainfault.org; pbonzini@redhat.com; shuah@kernel.org;
-> cyan.yang@sifive.com; cleger@rivosinc.com; charlie@rivosinc.com;
-> cuiyunhui@bytedance.com; samuel.holland@sifive.com;
-> namcao@linutronix.de; jesse@rivosinc.com; inochiama@gmail.com;
-> yongxuan.wang@sifive.com; ajones@ventanamicro.com;
-> parri.andrea@gmail.com; mikisabate@gmail.com; yikming2222@gmail.com;
-> thomas.weissschuh@linutronix.de
-> Cc: linux-riscv@lists.infradead.org; linux-kernel@vger.kernel.org;
-> linux-doc@vger.kernel.org; devicetree@vger.kernel.org; =
-kvm@vger.kernel.org;
-> kvm-riscv@lists.infradead.org; linux-kselftest@vger.kernel.org
-> Subject: Re: [PATCH v1 RESEND 1/5] dt-bidings: riscv: add Zilsd and =
-Zclsd
-> extension descriptions
->=20
-> On Thu, Aug 21, 2025 at 10:01:27PM +0800, Pincheng Wang wrote:
-> > Add descriptions for the Zilsd (Load/Store pair instructions) and
-> > Zclsd (Compressed Load/Store pair instructions) ISA extensions which
-> > were ratified in commit f88abf1 ("Integrating load/store pair for =
-RV32
-> > with the main manual") of the riscv-isa-manual.
-> >
-> > Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-> > ---
-> >  .../devicetree/bindings/riscv/extensions.yaml | 39
-> > +++++++++++++++++++
-> >  1 file changed, 39 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > index ede6a58ccf53..d72ffe8f6fa7 100644
-> > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > @@ -366,6 +366,20 @@ properties:
-> >              guarantee on LR/SC sequences, as ratified in commit
-> b1d806605f87
-> >              ("Updated to ratified state.") of the riscv profiles
-> specification.
-> >
-> > +        - const: zilsd
-> > +          description:
-> > +            The standard Zilsd extension which provides support for
-> aligned
-> > +            register-pair load and store operations in 32-bit =
-instruction
-> > +            encodings, as ratified in commit f88abf1 ("Integrating
-> > +            load/store pair for RV32 with the main manual") of
-> riscv-isa-manual.
-> > +
-> > +        - const: zclsd
-> > +          description:
-> > +            The Zclsd extension implements the compressed (16-bit)
-> version of the
-> > +            Load/Store Pair for RV32. As with Zilsd, this extension =
-was
-> ratified
-> > +            in commit f88abf1 ("Integrating load/store pair for =
-RV32 with
-> the
-> > +            main manual") of riscv-isa-manual.
-> > +
-> >          - const: zk
-> >            description:
-> >              The standard Zk Standard Scalar cryptography extension =
-as
-> > ratified @@ -847,6 +861,16 @@ properties:
-> >              anyOf:
-> >                - const: v
-> >                - const: zve32x
->=20
-> > +      # Zclsd depends on Zilsd and Zca
-> > +      - if:
-> > +          contains:
-> > +            anyOf:
-> > +              - const: zclsd
-> > +        then:
-> > +          contains:
-> > +            anyOf:
-> > +              - const: zilsd
-> > +              - const: zca
-> >
->=20
-> Should be allOf? I see the comment says "Zclsd" requires both "Zilsd"
-> and "Zca".
->=20
-> Regards,
-> Inochi
+On Mon, Aug 25, 2025 at 4:28=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> -config CFI_CLANG
+> -       bool "Use Clang's Control Flow Integrity (CFI)"
+> -       depends on ARCH_SUPPORTS_CFI_CLANG
+> +config CFI
+> +       bool "Use Kernel Control Flow Integrity (kCFI)"
+> +       depends on ARCH_SUPPORTS_CFI
+>         depends on $(cc-option,-fsanitize=3Dkcfi)
+>         help
 
-You're absolutely right, thank you for catching this. Since Zclsd =
-depends on both Zilsd and Zca, the condition should use allOf to =
-correctly enforce the conjunction. I'll fix this in next revision.
+Do we need to do something to make the transition smoother, i.e.
+keeping the old one for a while to avoid a new question etc.?
 
-Best regards,
-Pincheng Wang
+Thanks!
 
+Cheers,
+Miguel
