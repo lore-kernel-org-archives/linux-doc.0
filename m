@@ -1,83 +1,75 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEC621FF25;
-	Tue, 26 Aug 2025 02:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8902765D6;
+	Tue, 26 Aug 2025 02:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756175970; cv=none; b=M8/elO0KDbis4SF81Vf9OwQOP6ohTaILpFBVyBtS806IEKEQ06sxQUaTSpTIDFJ3WmCRLOQ66T5FNcGbiTzigrs/ncblK5qqCTPIm+Dw9f8nPfr2KznrpEQH1KoiZGrDgugbregIxcHD4SX3C6VnbajY0w7ZnXpGrD8iKkHk4pY=
+	t=1756176483; cv=none; b=mfkcZP4iu/LXlvqtGYvkoZPq9MPygzbsmbCurAhlCrjst2h26Mxp6nEUjGdfsZDoWqjrHjWzvBVaSSkmqhiYu3L58x0rZAiPULxGt65AOANAonGcB3Rf5iSBaoYGdoOh7rI4TYgxxmUC8uYItZQHqeEs8XPhIJkR8SLmn2CQFfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756175970; c=relaxed/simple;
-	bh=xHs+l2pfnza2uc+5614jN3sm82wrUYBarOeH9qm4DmQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d/+BHHhd5KmnxMiM1RCW4CyfuLbvJr9eZVGekVrUY4/2hvc2iMzsGNrFaQmJRiI4ZWGboDtJdGFFpnVvoduu+aLuHBxpS01HrJkyDFq4E7iqwXhNny9GMgpmw4wdYGuwgYCiO5XKLbgZ656+0WS+5b8GwksvyeKmRKLEa8IV7go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lOvCBkoK; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1756176483; c=relaxed/simple;
+	bh=5O0xZfxdFwvw+gaf0aLZa6bI261Y3F9Srs9/2suiejg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UuBIT72c8e/m704b6gHnXBtiE3Iiavt4d02HoqwDYbtSVrgZfgcOHJUbwWxN7T0GxNE+beJ2tUJzBLd4VyxaRYs307MQbskvkFLe11GgeyRN4YcJQMuCtLkChGYwBYZQB3Bh45MxT/0ZJ7FJ1eQTrgSTftR3nDZtLclJYoXl+4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z1p1qoY4; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lOvCBkoK"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-246fc803b90so10926475ad.3;
-        Mon, 25 Aug 2025 19:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z1p1qoY4"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-246aef91e57so27151685ad.1;
+        Mon, 25 Aug 2025 19:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756175968; x=1756780768; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756176481; x=1756781281; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GQynW9QiNkC8m7UhwgLmWwZBf8g2MjsE/2KafsbAG70=;
-        b=lOvCBkoK3eQzbCvZO0S2MVgyqaMcfAj9MuBXg22O60NXHQTmUtEASXRzeRcDapOVuU
-         1Ep8deAxBGBWnfcFT8v3/fuH5xKAHhPk98m4S1d0061mhctxdnOytaD1AUjb4x5lYY0y
-         LJTHbpFgpfc7Nowccnp/BZz+5QnqnMw/nmXmn/Ot7HiaXlOraoP+sK+Fu3XUDb88NXS7
-         xDpf17DRpYy5mWNAVr5S4K9yOjQ7lpj0DUWqObCmLw/zvHlXCSgC+NqsI5J5fXlWJOs+
-         oU8fyNO4WGltEFcLt0OKxk+5gWm1rAtg5w2XqvMn8S6nWsTIThMEciKou88gzle3jfPo
-         Zf7A==
+        bh=th8vCaaeH9XGMni4YOrjZYqsp+amesPtImMzW7HsMDA=;
+        b=Z1p1qoY4Plx4xjh02IPqKTxuOxxpy/U3yOHWR9xspfXPYJ2lBMMhT9BuexzGJ7ytP/
+         lXtrOr3KZsMDMhTm4Bff+iljQ4WmrONX7AXf8vriWMNHippRUcUcQUaEldMSCvZikQ3l
+         STshdMX25NO3aw25ofuB4onVkkF9S188/sRCg3Qq2LViE9D536PgzJKUchUWe1o7umMZ
+         AgIxg14qC64ysFeHP1RGVML+gTGlTtDM67Kg3hKG4GlCW8XZxaGfZJpyW9vDAPaWcFiR
+         Vf4MINvEW+wPFCuY1+PG8LUyZ+WN0nYF2+eAsnsXGxbCXDmUz++Q0ghCNwP79li76Cl9
+         zDGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756175968; x=1756780768;
+        d=1e100.net; s=20230601; t=1756176481; x=1756781281;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GQynW9QiNkC8m7UhwgLmWwZBf8g2MjsE/2KafsbAG70=;
-        b=ihN4LVwCUIkbpVW2LkQePTwiemICnHfQTGMJdF3gm9Lg+7cBRje2rUT/Gi5YeEhfcF
-         sWUfFrjnxl6Xd9Wv+qR1Dov1+9PvG5FEd5PcM/dIH3PAtV2X8wfqyiavjxHJgtRpC/7/
-         Qar+a4fgbh/WgtlAHufA9K/RrpFHZSI+RrXvjbBVkG0nNId3vMhP44bgDlq0HZC2YiaL
-         LhpHZHnmhBP9kPXRrMvlQLKM6CAJyAWxUGwuXGw1h1nL6nXsOFoI4VteZBpuVGpWEEYP
-         /dTbckt+aJv8gf6P6pStSiyG1lXvgu04UMVTmUJEI8qoPNJf7P5B4Gs16fuHbxCVYG8m
-         ZN4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXIyY28I79F6L+qoa3rZQosa40WlfPxfR2JsAlyx+qqWZY+oDsVfBbFAWt4iJV8KN05ybTOxKuiCfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlevH08Jhn2zrlsY7FQH58dhOvyaBpvzzwuWWxw98uLBenAzOt
-	2pXNte0i/YRS3ylQ0prVTvoYm5AJ5VMtbRr0ZNgsrGap2yHqQxFKbGLF
-X-Gm-Gg: ASbGncv5ENm06i5ODSYaEuFM0bNV36ygBTQFkJJ+I9flYIGxQyKIW4sNtqWphlnb45Q
-	532m0Q0EKzv32d1u7ASBwPu+4M/wO7rffM5xdSN4kBi4e6x5bvme5/SM1KnEccfvOHkDoMQvrep
-	bLdF/W1BhmpV1EPI3vMupHNB1EZmfpkLHrLjb/abjH5rcHmfhIHJNjiVXWRZh/+Bg2L3i+JHKz3
-	GVFnqNHBt5eqrMmPcXndTlXPrHKs/bmvHs1Fx8Qad81FIU6yifwtnEpBmmmBfHJwqdWpshPqoV3
-	ir4g9YC1m+5vMbLX+CEEzg/cqfPC9w5hI2Ric3sw5VoKHv/MhzXHL7r4J3az9RPQJSusROCalt6
-	LTV5z0kEoWJ4OPhXCHiuWEBfZfVPEkYj1
-X-Google-Smtp-Source: AGHT+IHmEMMHHRcOtgYg4LZPSqkm+z1dB2t0mOOt5Ny373ENmShez272ct4ZPtzZLFkpespJvpgnXw==
-X-Received: by 2002:a17:903:40c5:b0:246:cc19:17eb with SMTP id d9443c01a7336-246cc19229dmr84410505ad.19.1756175967819;
-        Mon, 25 Aug 2025 19:39:27 -0700 (PDT)
+        bh=th8vCaaeH9XGMni4YOrjZYqsp+amesPtImMzW7HsMDA=;
+        b=MUDZdCTdeT1JHkXN3yMj8yGr39MFKe0uF/6Lkxpui6Jopa+o1lMJz2PCT56hmS4xh2
+         v6j8cF78EVGZ0rkRZGDjZtoqQHU9WOCMBmlHN5R0KxLmxZnXzxgUkKFaTvaFChDSdHU8
+         iApdox5ieR7BvZsqdIavv7cLRa6sK05Cdimx6IoEfdoZjnCn+Z9nqz8Zx6a8qMbxkTCD
+         e5MnfMzdGPY7deIH/mCu/8/iaBtaIlmiLG3XruGHVPxIIsp9aIrPugV82IvhZUrKNFWX
+         pzf1J/X1QBeeAF5nuu1P3X8d+3YEDINXohBRuiZdaOVtd7uCxytIcXxY0HBL6NDorA2y
+         +pqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvEho/EztJZlX3CgXKZJLHLdvLNlAtRXnHSxF+jS9NuagF2t45/7Lui7VgrwioXRYoFFqojd7VizY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/ldyuqNICBalPXWYY/f0og7OoF9hktIWVMCADhIxQquT7SDKX
+	lXNGoJm7WQDJ+by4T0Qu6lgxQfJx0t5hhI7l2d1ekauaIuGam7eIKUVz
+X-Gm-Gg: ASbGncvGhwTgTU9W1NA0vBz3FywU63hlei+PKlhzs30wUqgb+fAcGdjMeTSEqKeg9t8
+	O5B16XsXy2UehroyFE/t8Di0v0jB8jeqGyE6kgvZbR/p514NwBNXd4bfS/1uqZJGfZ+TRFGxwr4
+	PrqYh36wrROkwvYcJLx2jqMjD+2kbLSZ1fyJyOgS9+gyZfeEboK1yeDZV+gbrUAoan1KwDxLrA+
+	9qdUYP/amW3MtjZSaplPmLL7wEoJMlwefHWl4h37mm1acs0kjQj40hKCGWHIUacXE21yo36sZZW
+	dJN1FLDS33mhBQiS7UX22U6kq7ttW+mEGYBD1QegUaq5e2kbP+QSjOx0l0nTykaOGCZa+vSwkR1
+	d001zfAwHMvrTbJ7frbyv09PQ4+32BCbu
+X-Google-Smtp-Source: AGHT+IEx6KgtBSE8/foDuVT3dHGN20n3pJZnNDWiKKGoWzzcY3jyypCclHOCVCFqH6uNDW+YFz2fNw==
+X-Received: by 2002:a17:902:f68d:b0:246:c077:980f with SMTP id d9443c01a7336-246c077a4cbmr85993235ad.39.1756176480906;
+        Mon, 25 Aug 2025 19:48:00 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-246688645e1sm81074495ad.79.2025.08.25.19.39.26
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3254a1e5888sm8574343a91.12.2025.08.25.19.47.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 19:39:27 -0700 (PDT)
+        Mon, 25 Aug 2025 19:48:00 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id F1D89424E25B; Tue, 26 Aug 2025 09:39:24 +0700 (WIB)
+	id 75619424E25B; Tue, 26 Aug 2025 09:47:58 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux GFS2 <gfs2@lists.linux.dev>
+	Linux ocfs2 <ocfs2-devel@lists.linux.dev>
 Cc: Jonathan Corbet <corbet@lwn.net>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>
-Subject: [PATCH] Documentation: gfs2: Consolidate GFS2 docs into its own subdirectory
-Date: Tue, 26 Aug 2025 09:39:13 +0700
-Message-ID: <20250826023913.14888-1-bagasdotme@gmail.com>
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: ocfs2: Properly reindent filecheck operations list
+Date: Tue, 26 Aug 2025 09:47:56 +0700
+Message-ID: <20250826024756.16073-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -85,101 +77,69 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3546; i=bagasdotme@gmail.com; h=from:subject; bh=xHs+l2pfnza2uc+5614jN3sm82wrUYBarOeH9qm4DmQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlrpc+b6eVttHk4QULvlVNuZ8DC2+fO26vuzpz3WOHPu 3nM6mZ6HaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIE26G/8GMYY3fpk2Ikrjl 8Fm9ni3414OjBUtvaHLs1Dq/+setVXcZGV6pcTkd2HVnS7nYYlbDKZdWaVaHvn8UuU/wP/PptsZ b01kB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2543; i=bagasdotme@gmail.com; h=from:subject; bh=5O0xZfxdFwvw+gaf0aLZa6bI261Y3F9Srs9/2suiejg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlrpS9/9Ik4/HXKJY3yKf5+Et+X8N8QOSYrs+yHmMKUy iVvfV4t7ChlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEHJsZGQ50nH2yjHliy/nE OMYVz+ZvPnfjqd0hyfblvU/f6X/b/52V4b/nmy3T3yvvKbBTfRbQ3RfkfydYJWDOFME/8UF5DG6 nWVkB
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Documentation for GFS2 is scattered in three docs that are in
-Documentation/filesystems/ directory. As these docs are standing out as
-a group, move them into separate gfs2/ subdirectory.
+Some of texts in filecheck operations list are indented out of the list.
+In particular, the third operation is shown not as the third list
+item but rather as a separate paragraph.
+
+Reindent the list so that gets properly rendered as such.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/filesystems/{ => gfs2}/gfs2-glocks.rst |  0
- .../filesystems/{ => gfs2}/gfs2-uevents.rst          |  0
- Documentation/filesystems/{ => gfs2}/gfs2.rst        |  6 +++---
- Documentation/filesystems/gfs2/index.rst             | 12 ++++++++++++
- Documentation/filesystems/index.rst                  |  4 +---
- MAINTAINERS                                          |  2 +-
- 6 files changed, 17 insertions(+), 7 deletions(-)
- rename Documentation/filesystems/{ => gfs2}/gfs2-glocks.rst (100%)
- rename Documentation/filesystems/{ => gfs2}/gfs2-uevents.rst (100%)
- rename Documentation/filesystems/{ => gfs2}/gfs2.rst (96%)
- create mode 100644 Documentation/filesystems/gfs2/index.rst
+ .../filesystems/ocfs2-online-filecheck.rst    | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/filesystems/gfs2-glocks.rst b/Documentation/filesystems/gfs2/gfs2-glocks.rst
-similarity index 100%
-rename from Documentation/filesystems/gfs2-glocks.rst
-rename to Documentation/filesystems/gfs2/gfs2-glocks.rst
-diff --git a/Documentation/filesystems/gfs2-uevents.rst b/Documentation/filesystems/gfs2/gfs2-uevents.rst
-similarity index 100%
-rename from Documentation/filesystems/gfs2-uevents.rst
-rename to Documentation/filesystems/gfs2/gfs2-uevents.rst
-diff --git a/Documentation/filesystems/gfs2.rst b/Documentation/filesystems/gfs2/gfs2.rst
-similarity index 96%
-rename from Documentation/filesystems/gfs2.rst
-rename to Documentation/filesystems/gfs2/gfs2.rst
-index 1bc48a13430c1c..f971353d23611c 100644
---- a/Documentation/filesystems/gfs2.rst
-+++ b/Documentation/filesystems/gfs2/gfs2.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/filesystems/ocfs2-online-filecheck.rst b/Documentation/filesystems/ocfs2-online-filecheck.rst
+index 2257bb53edc1b1..9e8449416e0bee 100644
+--- a/Documentation/filesystems/ocfs2-online-filecheck.rst
++++ b/Documentation/filesystems/ocfs2-online-filecheck.rst
+@@ -58,33 +58,33 @@ inode, fixing inode and setting the size of result record history.
+     # echo "<inode>" > /sys/fs/ocfs2/<devname>/filecheck/check
+     # cat /sys/fs/ocfs2/<devname>/filecheck/check
  
--====================
--Global File System 2
--====================
-+=============
-+GFS2 Overview
-+=============
+-The output is like this::
++   The output is like this::
  
- GFS2 is a cluster file system. It allows a cluster of computers to
- simultaneously use a block device that is shared between them (with FC,
-diff --git a/Documentation/filesystems/gfs2/index.rst b/Documentation/filesystems/gfs2/index.rst
-new file mode 100644
-index 00000000000000..3875b9e1bb5cd7
---- /dev/null
-+++ b/Documentation/filesystems/gfs2/index.rst
-@@ -0,0 +1,12 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+Global File System 2
-+====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   gfs2
-+   gfs2-glocks
-+   gfs2-uevents
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 11a599387266a4..897eabaa30d65d 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -90,9 +90,7 @@ Documentation for filesystem implementations.
-    ext3
-    ext4/index
-    f2fs
--   gfs2
--   gfs2-uevents
--   gfs2-glocks
-+   gfs2/index
-    hfs
-    hfsplus
-    hpfs
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dafc1171254406..c685140f78c4e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10335,7 +10335,7 @@ L:	gfs2@lists.linux.dev
- S:	Supported
- B:	https://bugzilla.kernel.org/enter_bug.cgi?product=File%20System&component=gfs2
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
--F:	Documentation/filesystems/gfs2*
-+F:	Documentation/filesystems/gfs2/*
- F:	fs/gfs2/
- F:	include/uapi/linux/gfs2_ondisk.h
+     INO		DONE	ERROR
+     39502		1	GENERATION
  
+-    <INO> lists the inode numbers.
+-    <DONE> indicates whether the operation has been finished.
+-    <ERROR> says what kind of errors was found. For the detailed error numbers,
+-    please refer to the file linux/fs/ocfs2/filecheck.h.
++   <INO> lists the inode numbers.
++   <DONE> indicates whether the operation has been finished.
++   <ERROR> says what kind of errors was found. For the detailed error numbers,
++   please refer to the file linux/fs/ocfs2/filecheck.h.
+ 
+ 2. If you determine to fix this inode, do::
+ 
+     # echo "<inode>" > /sys/fs/ocfs2/<devname>/filecheck/fix
+     # cat /sys/fs/ocfs2/<devname>/filecheck/fix
+ 
+-The output is like this:::
++   The output is like this::
+ 
+     INO		DONE	ERROR
+     39502		1	SUCCESS
+ 
+-This time, the <ERROR> column indicates whether this fix is successful or not.
++   This time, the <ERROR> column indicates whether this fix is successful or not.
+ 
+ 3. The record cache is used to store the history of check/fix results. It's
+-default size is 10, and can be adjust between the range of 10 ~ 100. You can
+-adjust the size like this::
++   default size is 10, and can be adjust between the range of 10 ~ 100. You can
++   adjust the size like this::
+ 
+-  # echo "<size>" > /sys/fs/ocfs2/<devname>/filecheck/set
++    # echo "<size>" > /sys/fs/ocfs2/<devname>/filecheck/set
+ 
+ Fixing stuff
+ ============
 
 base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
 -- 
