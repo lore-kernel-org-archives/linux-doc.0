@@ -1,147 +1,184 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CAB34F484
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 13:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403362C0F60;
+	Tue, 26 Aug 2025 14:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756216512; cv=none; b=s2Lph7OPZn3mkwNNzz2UzXOZGrsUSx8FKqxC57uF7AFwjHgkKcSr0cCp0gFQghBxGLOJh57yNXKp1j3HJEOeo6W0P7LctNYjMNgIY8wTW4kQZeKqqAT6yP08UFRD5BPSrbk02SNQixva0+n6dL/TaxinJnN5L5s9qKILbmJd3vI=
+	t=1756217888; cv=none; b=aId51qJsCsIkklRJRRKPFCIgkgQsStU3hldeWxYumycDDPOdH0JFlo8CzfuKtVH48fOk6/KI4EonjNrTrZ7QtGTjinveuvsvNIKWDVg8M6/0P7jnvKRldYMYBcLP/GBGyZJJj6/0SpV5lGUIcFlfTcRZCjGjAtcJ/1jFEbCj9ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756216512; c=relaxed/simple;
-	bh=UY4PAtYCPhfTFvflgw9McFBL8GDEV1IGg0cYHqj+SP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fTjUbfBEJ7sBfrJhRENi2y88l+ljYACQCMm6GX+KCgj7lcOy4PWBrI9OxwCDkSOGAtu6cpoLM4E7vktdfHMQXJ4agUFFtsbfHVtm/u/H/Zxz9Xqcpr+O0Y7Txkoe+4cy1XlR5y25wprIjMQXFlmUqzwXTOKRdvVifgze4t4tyaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=OMAzL0Rk; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1756217888; c=relaxed/simple;
+	bh=vAFqRkUVU9nLETZfB79IylLrMizQW+Ict1VoMM7PA8Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Sw37wYgLnefhhoPeULPZk3+Z5GRywGAqDXQ7yeayNYFeXxN6UyymAigxJ0JPiUZSk7knsyp8kRWkGY0uCbAp1HHdCjO9MVn7Sb6nNWhqWx55EJkXIqg37B2u+TeftAhJ4SpAyOHp7OuGs0k3v+rVtOLPOqTcGUDmYBLqIVY5L7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VmEZTJ7K; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="OMAzL0Rk"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4b1099192b0so100758881cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 06:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1756216508; x=1756821308; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WXrsBqa903YM8Bb/iVPoGxewN+EOL3SzPn1F/Ek/XpU=;
-        b=OMAzL0RklIwJFcqgzEc6yGluGUmxfi/KxSKTicurIEIH9poMz8tj1w8ld9oh24Q29b
-         ZgILejwmV3r7VTOC5uhGPVa6popGpqQIFb66SOpdZ3tENHivn8HMV7mXO2PVYOWEbnSP
-         1fn9TN281vwcIO8qFVAIsIMrvjMd5PIeLt1s3nc9suDmvKeVvco2KFH0jwewM+kb3ZrI
-         3ntiOPJ6DQt7Np+Bj5xBShG3e6RYJpWgf87BNsJNc7317EtQ60LjF6dRGyMG54SaRH0D
-         DLCZ4uHNm9WyjVB27zZuaiWwc139BRIbI7DgW8PgEr+q5iCe2g1XQZuteFydZoc+CUvY
-         LD+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756216508; x=1756821308;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WXrsBqa903YM8Bb/iVPoGxewN+EOL3SzPn1F/Ek/XpU=;
-        b=QyWC2BG2Cp68Fgwr9/3120OA+Y8f2v3R0HEdgvHaGA/jme1mffP1esvVvkg01w3aN7
-         Vynzz7EpMLprGkXG3EYkP0OY0PycGAfWXf7dH6Y7poNE4WGMzCVht1ShDH6IEflcLZM+
-         Iw2y3xicd/tDit7iNFxB9gHoBEWFWah8bkCN8yPc+NK8VvYtNm5AocAE8cwgdyXW+wFl
-         O2qiCLg4F0F27UvxPMDbed5kvI2lwGGDR84Jv/cxN/2fc4DUxJDxWpnAHiSENDMZ+ZA/
-         HLdV3YQA+09EcgBE8G/aIdVBctyzifyMXsausBuuiNrW35zz6A/9fln+d8WrLYAgJdDP
-         tXXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXkEX/YlYFxwWvbgAh2cpbQe6VWey0+xJKNDX+UtLUNPNFLQXne6rbssHQg4LNeD3hwRqgvCtDbRCI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUWLC9wJVGjlfotUxQbl2GZWH6V4sSEW78q2Q8dmYSw5hnG9ve
-	IoVNPZGQYCUrkj3yHgWtkgXLIRAcuIo7YKLUNAq9aNRq3F1cdYPoO2/2cVNT9qRID7uvrN69lE6
-	hKUzxVVLFykJqE9J6X/O5KORHxJX8srFCylTqfECntQ==
-X-Gm-Gg: ASbGncv83q9ta+BAjLrYFJYeGoqZd3+klTU+DRwTMWD5IjkGaUPxJoUm/CNQWLW5M3D
-	KyQNR7JGuKsiQ7EjPRHzYK27RynZ752DXQx91lgKRMXAAEIHi3DWXu5mUgwk7f2zcO+OGkHQVDP
-	gxcWnk4260ZnyqHvUUlyrKBdB4t6Q0ZSGr/twiYKZf7dNDP4pmyQ73WgXJAV60eHDXtBfJMo7U9
-	TqM
-X-Google-Smtp-Source: AGHT+IGcGuep7n1ZMQbOLWojaFaiFK2h2fVsewAul/Hz9Pfb7IpF4bpoR5o0QPDcbUbeNlPIwhAjeljdyRG6U6RmHSA=
-X-Received: by 2002:a05:622a:4083:b0:4b0:851c:538a with SMTP id
- d75a77b69052e-4b2aaa81e96mr162452241cf.8.1756216507983; Tue, 26 Aug 2025
- 06:55:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VmEZTJ7K"
+Message-ID: <66f3bae8-a386-4205-97b2-7c75bc2ac378@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756217872;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cfxa6V11+XKXn5kTcarhix2gi4YAWPXrw99RS4I7v7E=;
+	b=VmEZTJ7KSXpFbz7WQgz0lsknA09EhZ1lQco7D88dCcQkDOqPgSmbxn+t9meYZf84jXZ/00
+	m0oA21tzCPQZYk+EMz4QgaLTsXyLmtRrgYyAhsqOaj89s8AYhraz2jRSw/FrIKE1qohl2k
+	8eLtRiRNVGyvPY1fPb1MOAJNpm892Yc=
+Date: Tue, 26 Aug 2025 15:17:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com> <mafs0ms7mxly1.fsf@kernel.org>
-In-Reply-To: <mafs0ms7mxly1.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 26 Aug 2025 13:54:31 +0000
-X-Gm-Features: Ac12FXyb-9ofKcB5jLMNzC24BIRSCWuL4lKgd8Qnfh0hAm4ydgvkrr7-UIknHkA
-Message-ID: <CA+CK2bBoLi9tYWHSFyDEHWd_cwvS_hR4q2HMmg-C+SJpQDNs=g@mail.gmail.com>
-Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH net-next v01 04/12] hinic3: HW capability initialization
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+ Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
+ Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+ Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Joe Damato <jdamato@fastly.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <cover.1756195078.git.zhuyikai1@h-partners.com>
+ <b0c4ffc4ed52ca0921dc029e6f2fc8459a5df933.1756195078.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <b0c4ffc4ed52ca0921dc029e6f2fc8459a5df933.1756195078.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-> > https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v3
-> >
-> > Changelog from v2:
-> > - Addressed comments from Mike Rapoport and Jason Gunthorpe
-> > - Only one user agent (LiveupdateD) can open /dev/liveupdate
-> > - With the above changes, sessions are not needed, and should be
-> >   maintained by the user-agent itself, so removed support for
-> >   sessions.
->
-> If all the FDs are restored in the agent's context, this assigns all the
-> resources to the agent. For example, if the agent restores a memfd, all
-> the memory gets charged to the agent's cgroup, and the client gets none
-> of it. This makes it impossible to do any kind of resource limits.
->
-> This was one of the advantages of being able to pass around sessions
-> instead of FDs. The agent can pass on the right session to the right
-> client, and then the client does the restore, getting all the resources
-> charged to it.
->
-> If we don't allow this, I think we will make LUO/LiveupdateD unsuitable
-> for many kinds of workloads. Do you have any ideas on how to do proper
-> resource attribution with the current patches? If not, then perhaps we
-> should reconsider this change?
+On 26/08/2025 10:05, Fan Gong wrote:
+> Use mailbox to get device capability for initializing driver capability.
+> 
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> ---
+>   .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    | 66 +++++++++++++++++++
+>   .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |  1 +
+>   .../ethernet/huawei/hinic3/hinic3_hw_intf.h   | 42 ++++++++++++
+>   .../net/ethernet/huawei/hinic3/hinic3_hwdev.c |  6 ++
+>   4 files changed, 115 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
+> index e7ef450c4971..24b929690f64 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
+> @@ -8,6 +8,67 @@
+>   #include "hinic3_hwif.h"
+>   #include "hinic3_mbox.h"
+>   
+> +#define HINIC3_CFG_MAX_QP  256
+> +
+> +static void parse_pub_res_cap(struct hinic3_hwdev *hwdev,
+> +			      struct hinic3_dev_cap *cap,
+> +			      const struct cfg_cmd_dev_cap *dev_cap,
+> +			      enum hinic3_func_type type)
+> +{
+> +	cap->port_id = dev_cap->port_id;
+> +	cap->supp_svcs_bitmap = dev_cap->svc_cap_en;
+> +}
+> +
+> +static void parse_l2nic_res_cap(struct hinic3_hwdev *hwdev,
+> +				struct hinic3_dev_cap *cap,
+> +				const struct cfg_cmd_dev_cap *dev_cap,
+> +				enum hinic3_func_type type)
+> +{
+> +	struct hinic3_nic_service_cap *nic_svc_cap = &cap->nic_svc_cap;
+> +
+> +	nic_svc_cap->max_sqs = min(dev_cap->nic_max_sq_id + 1,
+> +				   HINIC3_CFG_MAX_QP);
+> +}
+> +
+> +static void parse_dev_cap(struct hinic3_hwdev *hwdev,
+> +			  const struct cfg_cmd_dev_cap *dev_cap,
+> +			  enum hinic3_func_type type)
+> +{
+> +	struct hinic3_dev_cap *cap = &hwdev->cfg_mgmt->cap;
+> +
+> +	/* Public resource */
+> +	parse_pub_res_cap(hwdev, cap, dev_cap, type);
+> +
+> +	/* L2 NIC resource */
+> +	if (hinic3_support_nic(hwdev))
+> +		parse_l2nic_res_cap(hwdev, cap, dev_cap, type);
+> +}
 
-Hi Pratyush,
+Could you please prepend local functions with the scope (hinic3) to be
+consistent with naming? Some of functions have pretty common name and
+may potentially overlap with some core functions.
 
-That's an excellent point, and you're right that we must have a
-solution for correct resource charging.
+> +
+> +static int get_cap_from_fw(struct hinic3_hwdev *hwdev,
+> +			   enum hinic3_func_type type)
+> +{
+> +	struct mgmt_msg_params msg_params = {};
+> +	struct cfg_cmd_dev_cap dev_cap = {};
+> +	int err;
+> +
+> +	dev_cap.func_id = hinic3_global_func_id(hwdev);
+> +
+> +	mgmt_msg_params_init_default(&msg_params, &dev_cap, sizeof(dev_cap));
+> +
+> +	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_CFGM,
+> +				       CFG_CMD_GET_DEV_CAP, &msg_params);
+> +	if (err || dev_cap.head.status) {
+> +		dev_err(hwdev->dev,
+> +			"Failed to get capability from FW, err: %d, status: 0x%x\n",
+> +			err, dev_cap.head.status);
+> +		return -EIO;
+> +	}
+> +
+> +	parse_dev_cap(hwdev, &dev_cap, type);
+> +
+> +	return 0;
+> +}
+> +
+>   static int hinic3_init_irq_info(struct hinic3_hwdev *hwdev)
+>   {
+>   	struct hinic3_cfg_mgmt_info *cfg_mgmt = hwdev->cfg_mgmt;
+> @@ -180,6 +241,11 @@ void hinic3_free_irq(struct hinic3_hwdev *hwdev, u32 irq_id)
+>   	mutex_unlock(&irq_info->irq_mutex);
+>   }
+>   
+> +int init_capability(struct hinic3_hwdev *hwdev)
+> +{
+> +	return get_cap_from_fw(hwdev, HINIC3_FUNC_TYPE_VF);
+> +}
+> +
+>   bool hinic3_support_nic(struct hinic3_hwdev *hwdev)
+>   {
+>   	return hwdev->cfg_mgmt->cap.supp_svcs_bitmap &
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
+> index 5978cbd56fb2..8900b40e3c42 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
+> @@ -49,6 +49,7 @@ int hinic3_alloc_irqs(struct hinic3_hwdev *hwdev, u16 num,
+>   		      struct msix_entry *alloc_arr, u16 *act_num);
+>   void hinic3_free_irq(struct hinic3_hwdev *hwdev, u32 irq_id);
+>   
+> +int init_capability(struct hinic3_hwdev *hwdev);
 
-I'd prefer to keep the session logic in the userspace agent (luod
-https://tinyurl.com/luoddesign).
+and especially non-static functions has to be prefixed with the
+scope, please
 
-For the charging problem, I believe there's a clear path forward with
-the current ioctl-based API. The design of the ioctl commands (with a
-size field in each struct) is intentionally extensible. In a follow-up
-patch, we can extend the liveupdate_ioctl_fd_restore struct to include
-a target pid field. The luod agent, would then be able to restore an
-FD on behalf of a client and instruct the kernel to charge the
-associated resources to that client's PID.
+>   bool hinic3_support_nic(struct hinic3_hwdev *hwdev);
+>   u16 hinic3_func_max_qnum(struct hinic3_hwdev *hwdev);
+>   u8 hinic3_physical_port_id(struct hinic3_hwdev *hwdev);
 
-This keeps the responsibilities clean: luod manages sessions and
-authorization, while the kernel provides the specific mechanism for
-resource attribution. I agree this is a must-have feature, but I think
-it can be cleanly added on top of the current foundation.
-
-Pasha
-
->
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
+[...]
