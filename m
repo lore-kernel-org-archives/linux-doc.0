@@ -1,289 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D596637058A;
-	Tue, 26 Aug 2025 15:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33038352063
+	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 15:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756223358; cv=none; b=FUH1KKstlSjywCQNaztwKKM5l8AqEAWGjGaZpIZD0doOnEFDaBTlOjLZGOmkg94cZPTINy3Pm3v5gH789DAsvT+f0dyWXhlVAg/NwUbELadqLf/4Ou6CPblUgeX7dsHzfVDlkXmOfSelJ6TwZPqp353cZ7lUqZ6GlzHTKocbBRw=
+	t=1756223419; cv=none; b=fMih6jSp5kyX++AkyyI+CO0Q1B5k1mrZzVYCY0wGSDNSRa0Nw0ZTA/FJklAzUH4L9z5INt8UMkOdJnws9eCI/dmkAtY6AEJM5UtN9qF537KArM44ar47GtccfbYUOe33d7aWZ1pfp4J0mFopp8A6eRgzbF9tI2tzJw9hI8jtgKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756223358; c=relaxed/simple;
-	bh=X9s6npeijzx2e8RuWVsfHp0sMZM4hSTDc6YhzlO/O2A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sDWNLnplvifOpuT6U2DTPKnbLvKVfFhUDpwcjq2X4M2K0mvhlwERk0vQvcrDGSkUBMFFXFyhcBDLh+nWQeue/ZqAKsdlxnDcJSvyGpmF7l/ZIMDo3PjqeWPgz/FRV8/C5xRAN2GGRaKZl9DFjxnfiR+PshiPMg+fdAUxZgoIjk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUlV2HVd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756223419; c=relaxed/simple;
+	bh=FO3fWrT9CkYZh2JZaTvzuW+cGA21QVRcsAsxDcz2pvQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G5YLyeB98Ye+xDwHfEjPLt2JOMX/x4vUFdBgUmB6hGR0eOp59+PoQ1Q8NylgBaxa+0LhDw908RRvZGfiOT21Ad2ExNTl97rNNzZMdpD/P9NbtxgRzLJ3cYcut53X9PO5VDlNgmIhHj4y1IOMWdPFIfsvkNYRNszXaLKfZhCit7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jOHZuSr1; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUlV2HVd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4636DC116D0;
-	Tue, 26 Aug 2025 15:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756223357;
-	bh=X9s6npeijzx2e8RuWVsfHp0sMZM4hSTDc6YhzlO/O2A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QUlV2HVdZw+1q0B9EtylJgKw2UjPiPGTXcN7kuOu7itm8agTwhI84cm+4iR21z7Hp
-	 AODalPPUBxdadG6JogzF+q5lcSXNyamPJozei1eexofm3z450GyykGjfP/8wh4f9Ug
-	 CBVzEy5Ra9PYfBsE+ISlO3R6xhygdOguCL2XKQf+n4sM7+8LnJpZpDrCO7v2Z/UU3l
-	 kkAQUK0TsgJtq6fW6X59/9GGcSFoZx3jja+ydrNzs21BUTc2VeYfwJicm4cKLU/r06
-	 778C6zE5Ub6KX095KkLuLfLNhMOo6qW5Su16L///IhVyXgevQfOYkViu+YRn8aUs+l
-	 AkxrJTwpjwAAw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uqvv9-00000000JRz-0chJ;
-	Tue, 26 Aug 2025 17:49:15 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Masahiro Yamada <mchehab+huawei@kernel.org>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Nathan Chancellor <mchehab+huawei@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] docs: add support to build manpages from kerneldoc output
-Date: Tue, 26 Aug 2025 17:49:02 +0200
-Message-ID: <f97691336abb744b0c84c4369e4cb63ad993a1d8.1756222182.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756222182.git.mchehab+huawei@kernel.org>
-References: <cover.1756222182.git.mchehab+huawei@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jOHZuSr1"
+Message-ID: <8351e9e6-644e-4ff5-8ba1-fc643640c033@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756223405;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cwWNoRwD+zC/ISIWXResjG03lEV7XS1UMfZXQpIbYK4=;
+	b=jOHZuSr1tLTt3GUOnOwR7bkroTLPv2hKJWiunV8OztvOE1F/ZFGzaBnD7WdVp+8/3P3gxv
+	WeH4e+fmQZgdPKQqHw631m4NzqrwMleRFZI24muB5x438+6cdPb6tVvYMEHzyB03ngg+zB
+	RNh0zO4GVCOt/6tdpxjbQKixQej1bFs=
+Date: Tue, 26 Aug 2025 16:49:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH net-next v01 06/12] hinic3: Nic_io initialization
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+ Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
+ Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+ Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <cover.1756195078.git.zhuyikai1@h-partners.com>
+ <80632b268b7aa257852f68e4fe67081c59290a76.1756195078.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <80632b268b7aa257852f68e4fe67081c59290a76.1756195078.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Generating man files currently requires running a separate
-script. The target also doesn't appear at the docs Makefile.
+On 26/08/2025 10:05, Fan Gong wrote:
+> Add nic_io initialization to enable NIC service, initialize function table
+> and negotiate activation of NIC features.
+> 
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> ---
+>   .../net/ethernet/huawei/hinic3/hinic3_hwdev.c | 15 +++++
+>   .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 24 ++++++++
+>   .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  2 +
+>   .../ethernet/huawei/hinic3/hinic3_nic_io.c    | 61 ++++++++++++++++++-
+>   4 files changed, 99 insertions(+), 3 deletions(-)
 
-Add support for mandocs at the Makefile, adding the build
-logic inside sphinx-build-wrapper, updating documentation
-and dropping the ancillary script.
+[...]
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/Makefile                 |  3 +-
- Documentation/doc-guide/kernel-doc.rst | 19 ++-----
- Makefile                               |  2 +-
- scripts/split-man.pl                   | 28 ---------
- tools/docs/sphinx-build-wrapper        | 78 ++++++++++++++++++++++++--
- 5 files changed, 81 insertions(+), 49 deletions(-)
- delete mode 100755 scripts/split-man.pl
+> +int hinic3_init_function_table(struct hinic3_nic_dev *nic_dev)
+> +{
+> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
+> +	struct l2nic_func_tbl_cfg func_tbl_cfg;
+> +	u32 cfg_bitmap;
+> +
+> +	func_tbl_cfg.mtu = 0x3FFF; /* default, max mtu */
+> +	func_tbl_cfg.rx_wqe_buf_size = nic_io->rx_buf_len;
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 3e1cb44a5fbb..22e39e5ed07d 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
- else # HAVE_SPHINX
- 
- # Common documentation targets
--infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-+mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
- 	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
- 		--sphinxdirs="$(SPHINXDIRS)" --conf=$(SPHINX_CONF) \
-@@ -104,6 +104,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  texinfodocs     - Texinfo'
- 	@echo  '  infodocs        - Info'
-+	@echo  '  mandocs         - Man pages'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
- 	@echo  '  epubdocs        - EPUB'
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index af9697e60165..d85dcb08c87d 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -579,20 +579,9 @@ source.
- How to use kernel-doc to generate man pages
- -------------------------------------------
- 
--If you just want to use kernel-doc to generate man pages you can do this
--from the kernel git tree::
-+Generating man pages is a makefile target. Just run::
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
--    | scripts/split-man.pl /tmp/man
-+  $ make mandocs
- 
--Some older versions of git do not support some of the variants of syntax for
--path exclusion.  One of the following commands may work for those versions::
--
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
--    | scripts/split-man.pl /tmp/man
--
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
--    | scripts/split-man.pl /tmp/man
-+The output will be at ``/man`` directory inside the output directory
-+(by default: ``Documentation/output``).
-diff --git a/Makefile b/Makefile
-index 6bfe776bf3c5..9bd44afeda26 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
- # Documentation targets
- # ---------------------------------------------------------------------------
- DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
--	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
-+	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
- 	$(Q)$(MAKE) $(build)=Documentation $@
-diff --git a/scripts/split-man.pl b/scripts/split-man.pl
-deleted file mode 100755
-index 96bd99dc977a..000000000000
---- a/scripts/split-man.pl
-+++ /dev/null
-@@ -1,28 +0,0 @@
--#!/usr/bin/env perl
--# SPDX-License-Identifier: GPL-2.0
--#
--# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
--#
--# Produce manpages from kernel-doc.
--# See Documentation/doc-guide/kernel-doc.rst for instructions
--
--if ($#ARGV < 0) {
--   die "where do I put the results?\n";
--}
--
--mkdir $ARGV[0],0777;
--$state = 0;
--while (<STDIN>) {
--    if (/^\.TH \"[^\"]*\" 9 \"([^\"]*)\"/) {
--	if ($state == 1) { close OUT }
--	$state = 1;
--	$fn = "$ARGV[0]/$1.9";
--	print STDERR "Creating $fn\n";
--	open OUT, ">$fn" or die "can't open $fn: $!\n";
--	print OUT $_;
--    } elsif ($state != 0) {
--	print OUT $_;
--    }
--}
--
--close OUT;
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index c884022ad733..6dd6a73194bf 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -47,6 +47,7 @@ the newer version.
- import argparse
- import locale
- import os
-+import re
- import shlex
- import shutil
- import subprocess
-@@ -77,6 +78,7 @@ TARGETS = {
-     "epubdocs":      { "builder": "epub",    "out_dir": "epub" },
-     "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },
-     "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },
-+    "mandocs":       { "builder": "man",     "out_dir": "man" },
-     "latexdocs":     { "builder": "latex",   "out_dir": "latex" },
-     "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },
-     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
-@@ -455,6 +457,71 @@ class SphinxBuilder:
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
- 
-+    def handle_man(self, kerneldoc, docs_dir, src_dir, output_dir):
-+        """
-+        Create man pages from kernel-doc output
-+        """
-+
-+        re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
-+        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
-+
-+        if docs_dir == src_dir:
-+            #
-+            # Pick the entire set of kernel-doc markups from the entire tree
-+            #
-+            kdoc_files = set([self.srctree])
-+        else:
-+            kdoc_files = set()
-+
-+            for fname in glob(os.path.join(src_dir, "**"), recursive=True):
-+                if os.path.isfile(fname) and fname.endswith(".rst"):
-+                    with open(fname, "r", encoding="utf-8") as in_fp:
-+                        data = in_fp.read()
-+
-+                    for line in data.split("\n"):
-+                        match = re_kernel_doc.match(line)
-+                        if match:
-+                            if os.path.isfile(match.group(1)):
-+                                kdoc_files.add(match.group(1))
-+
-+        if not kdoc_files:
-+                sys.exit(f"Directory {src_dir} doesn't contain kernel-doc tags")
-+
-+        cmd = [ kerneldoc, "-m" ] + sorted(kdoc_files)
-+        try:
-+            if self.verbose:
-+                print(" ".join(cmd))
-+
-+            result = subprocess.run(cmd, stdout=subprocess.PIPE, text= True)
-+
-+            if result.returncode:
-+                print(f"Warning: kernel-doc returned {result.returncode} warnings")
-+
-+        except (OSError, ValueError, subprocess.SubprocessError) as e:
-+            sys.exit(f"Failed to create man pages for {src_dir}: {repr(e)}")
-+
-+        fp = None
-+        try:
-+            for line in result.stdout.split("\n"):
-+                match = re_man.match(line)
-+                if not match:
-+                    if fp:
-+                        fp.write(line + '\n')
-+                    continue
-+
-+                if fp:
-+                    fp.close()
-+
-+                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
-+
-+                if self.verbose:
-+                    print(f"Creating {fname}")
-+                fp = open(fname, "w", encoding="utf-8")
-+                fp.write(line + '\n')
-+        finally:
-+            if fp:
-+                fp.close()
-+
-     def cleandocs(self, builder):           # pylint: disable=W0613
-         """Remove documentation output directory"""
-         shutil.rmtree(self.builddir, ignore_errors=True)
-@@ -572,10 +639,13 @@ class SphinxBuilder:
-                 output_dir,
-             ]
- 
--            try:
--                self.run_sphinx(sphinxbuild, build_args, env=self.env)
--            except (OSError, ValueError, subprocess.SubprocessError) as e:
--                sys.exit(f"Build failed: {repr(e)}")
-+            if target == "mandocs":
-+                self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)
-+            else:
-+                try:
-+                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
-+                except (OSError, ValueError, subprocess.SubprocessError) as e:
-+                    sys.exit(f"Build failed: {repr(e)}")
- 
-             #
-             # Ensure that each html/epub output will have needed static files
--- 
-2.51.0
+func_tbl_cfg can still have garbage in rsvd field, which then will be
+passed down to FW. Better to init it to 0 to avoid exposing data.
 
+> +
+> +	cfg_bitmap = BIT(L2NIC_FUNC_TBL_CFG_INIT) |
+> +		     BIT(L2NIC_FUNC_TBL_CFG_MTU) |
+> +		     BIT(L2NIC_FUNC_TBL_CFG_RX_BUF_SIZE);
+> +
+> +	return hinic3_set_function_table(nic_dev->hwdev, cfg_bitmap,
+> +					 &func_tbl_cfg);
+> +}
+> +
+
+[...]
+
+> +static int init_nic_io(struct hinic3_nic_io **nic_io)
+> +{
+> +	*nic_io = kzalloc(sizeof(**nic_io), GFP_KERNEL);
+> +	if (!(*nic_io))
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+>   int hinic3_init_nic_io(struct hinic3_nic_dev *nic_dev)
+>   {
+> -	/* Completed by later submission due to LoC limit. */
+> -	return -EFAULT;
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +	struct hinic3_nic_io *nic_io;
+> +	int err;
+> +
+> +	err = init_nic_io(&nic_io);
+> +	if (err)
+> +		return err;
+
+there is no need for init_nic_io(). you can call kzalloc() directly
+in hinic3_init_nic_io() and return -ENOMEM in case of NULL return
+
+> +
+> +	nic_dev->nic_io = nic_io;
+> +
