@@ -1,225 +1,184 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819CA2D73A2
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 17:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756228020; cv=none; b=kwnexEsRk3KgDALgEoPaIlz2pgnbiDXhb9aQStFRI3LWMWPdCbKuQ+rgu/8FB94sb/gjn5li1j8vHLwOf+yxZvuf+KOvHub/sS3mKTjDfyPM0UKo8nTMQuBa1rQ8gagckUIgjRILNcxBJKbLOSpnBRCZQErWFpS2LTGofrpgOR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756228020; c=relaxed/simple;
-	bh=GvSTxOPtUE53lmjPHKq/RKUZcYoiENdRBWDD5/B3goo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qc9IuLmOg7LI//ChbfM7FQmrtPDWSsATUlh63sCfVZb16t9lL5e8MiSur2NAHLLp+ipLabKH/BmTT/tM+U8KXqrVUUt+M6ZXYWOFjLzo39lz8lHM/1iipJutsyiGW9UuU5oZ233xeVWZxb/H8OjUo6zoCYb5YC4jSkvEqKC1kv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VhKLsoxy; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD99231A541;
+	Tue, 26 Aug 2025 17:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756228129; cv=fail; b=NMNzed1sjM86cj751DsEPEUXECUXu89fZDqxMcVxyDgAy677kI/9x4LHYhPPz3oWyVaL0U6G63wR+9GiEw52bMxrwq2Y3RxSta9RRzfUeVhLqKpMjDQ3cGiqB8MNxv+IU9p+9phxnVeUR6ponStMD2OOVB7iRrTq8bWfRbsoRA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756228129; c=relaxed/simple;
+	bh=NH2IWF9H0ASDVqAeYaJ8uSYGxAxnr3OC25u4GoHQhts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=bo8gL48vA3hJKKxtkvH+ZJ6UesCQDV347NrN2yECOVw6HMrmx2gYWslHN46+KrP+oBhnNTkkaL5/TjGLdYwuQSThi9Q/xMZGTzAGV7FOjVXmkoc55kGBBK/Kzk/qKUPViK4FtSgDZpBnFJCBq/LaYT/KkLoJh1OYIPRY5c87lDU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ouF1RLq1; arc=fail smtp.client-ip=40.107.243.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VhKLsoxy"
-Message-ID: <53206f29-7da8-4145-aef0-7bdacef3bb55@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1756228006;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lUSGVh5t0eKmU5xZTYGVizH4JYXHlSf3+YcRJVZFWyI=;
-	b=VhKLsoxyO8361/XLlLzAej6W3Csm1Jsf54qsyRxP8Ju0DojLEXeTAMTX/H20GOI2/EEpQV
-	lFSY3Q/DG2Ja+WT2121VswyveUsnt561XxnfRBl4aJ0iKwijXqVYw2gcvawgr5Aitlwb+U
-	HQ4mYATwAL22bGt/+Il5Hd0X6+HtNAc=
-Date: Tue, 26 Aug 2025 18:06:42 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ouF1RLq1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V6q5gCy8mZ9cOQ7h//qExVXWEuYs7cqPGp6KkBU52lnFdXYhA2S3sj/Q8AAbkGpl8FHQ803FsIXLCKI2ois7yeb1t42ULp7tjOcKkqS9QtM6cLkyrDEQ/0iKmbO54S+hMik+0SKJTwEMRE3z9nmYzsIDcC7QS9SALEytKzm8tz+NoLUC2MvmPZ4QIZ1Gye/Dqk9iG2wc6IP6QHh2th3vlVX4uFrb7NmsEbqqnfeBlZ5BEvAHd62pBCJnSTQ2+aIpknJ2FyL4NJzQjD/eZw5FTVsUzskPtBaI2Hmm+M8ONkENazF7dlZ6qDpHAtfwk81DGRKGEsJVk8y4OUzMkbxmLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NH2IWF9H0ASDVqAeYaJ8uSYGxAxnr3OC25u4GoHQhts=;
+ b=sGb3i3yt1C05Ry37tpWPIUz4pVbZ/HLFDjPruAyYGQjJJ5Vg/wrvcPZJpVlvaNyUAB1qXK/cITNKwyKn86ZbYkwERj3Nm+TsLCh4ze+ctCWt+rUjgzPohjWLwJnFkkUcoPvXKb5Zc69vLZC0HIXHU075uW/qZH4HbfQ9vr2ubdTLgwwj+m+n1S50j4qoQkhqYwAzVE/XaQzucXPixgMgkIXuKrSN2jJiC80dRZm928w1Y9GVQ0n5jRcxPtcEv1nxiL9dBEtCS4Fv2P5fZEFpPRcVJS/ZKE0k6lW5x228o0TJrb/io4lXkzD+rHT9MzVxeVhsieWL2hp6VQRbedlEcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NH2IWF9H0ASDVqAeYaJ8uSYGxAxnr3OC25u4GoHQhts=;
+ b=ouF1RLq1/jxOOdZJtbi46t8WXi5Iir6RrGXtn9dlFpnGsgc1+mFnYbdcmQEyy4F9ITdRRI6G0nlzneNmhdtHInwGUJWosKw9nqLDA34GGysrjYIWLPtg/5hrOomeLyYlQEHXJFOgfKxtdWypTIFKk/2HirU20h+28xyOtXKsaNTbsC73WH5FDwE/1DkrUH8s4J7uNi1iYITN8JGJ0jI/D5/02kAeSRHicpW66J4HyeU3MxW934hlIBqyCK2BSImFP1bY1ykI6L/hpEvZJtjkQXSWSae7IY4MsyPCRAShx5HFLYS/PAeGAjPokbosgnXnGpfDXb6WBBqJx8yDqnHgvQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA1PR12MB8641.namprd12.prod.outlook.com (2603:10b6:806:388::18)
+ by CY8PR12MB7195.namprd12.prod.outlook.com (2603:10b6:930:59::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Tue, 26 Aug
+ 2025 17:08:41 +0000
+Received: from SA1PR12MB8641.namprd12.prod.outlook.com
+ ([fe80::9a57:92fa:9455:5bc0]) by SA1PR12MB8641.namprd12.prod.outlook.com
+ ([fe80::9a57:92fa:9455:5bc0%4]) with mapi id 15.20.9052.019; Tue, 26 Aug 2025
+ 17:08:41 +0000
+Date: Tue, 26 Aug 2025 14:08:39 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
+	witu@nvidia.com
+Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+Message-ID: <20250826170839.GF2130239@nvidia.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <mafs0ms7mxly1.fsf@kernel.org>
+ <CA+CK2bBoLi9tYWHSFyDEHWd_cwvS_hR4q2HMmg-C+SJpQDNs=g@mail.gmail.com>
+ <20250826142406.GE1970008@nvidia.com>
+ <CA+CK2bBrCd8t_BUeE-sVPGjsJwmtk3mCSVhTMGbseTi_Wk+4yQ@mail.gmail.com>
+ <20250826151327.GA2130239@nvidia.com>
+ <CA+CK2bAbqMb0ZYvsC9tsf6w5myfUyqo3N4fUP3CwVA_kUDQteg@mail.gmail.com>
+ <20250826162203.GE2130239@nvidia.com>
+ <CA+CK2bB9r_pMzd0VbLsAGTwh8kvV_o3rFM_W--drutewomr1ZQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bB9r_pMzd0VbLsAGTwh8kvV_o3rFM_W--drutewomr1ZQ@mail.gmail.com>
+X-ClientProxiedBy: BYAPR08CA0028.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::41) To SA1PR12MB8641.namprd12.prod.outlook.com
+ (2603:10b6:806:388::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v01 10/12] hinic3: Add Rss function
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
- Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
- Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
- Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-References: <cover.1756195078.git.zhuyikai1@h-partners.com>
- <13ffd1d836eb7aa6563ad93bf5fa5196afdf0053.1756195078.git.zhuyikai1@h-partners.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <13ffd1d836eb7aa6563ad93bf5fa5196afdf0053.1756195078.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR12MB8641:EE_|CY8PR12MB7195:EE_
+X-MS-Office365-Filtering-Correlation-Id: d266cdac-556f-4aac-515f-08dde4c3349e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?H+36CWtAAt1w+RUBXCp36JOnA2yTgdbNw3xaCU3BoksqXBqvz2TSmxiuIcFJ?=
+ =?us-ascii?Q?CxNPwGvQnbmUeogDj0v20YRwfCWJ2hXdjb+x9TrHu9lV0wz5T32Zc0Nos0Mj?=
+ =?us-ascii?Q?VinSeI/0/qD/iMep4HXSR9wvZIFc1ZOYq8LAFz22w+Wznd7JdZ9mNPoZZTTg?=
+ =?us-ascii?Q?p4aTzW/RqCPnC/1mB0tfV+kONvEVLcR2LdXkf/XcWDqn8axVwsjFwGKc4gSd?=
+ =?us-ascii?Q?R+SgqvAUsuLEVpdvTIMtBN42Q3vbdm3XqlSdhfL2mbV/vozfl1zvskZ0SPMw?=
+ =?us-ascii?Q?EfHokAHHuc+Vm33lqZnm27ZhXn7Yb5T8M9kSkEgyYEKYE4kQWlkqpB8T59c7?=
+ =?us-ascii?Q?TbZY/Z3Ub9HhO/pwqYIUW1EU1xmyfn8hyYFj0qj+91glYbxjIfNxsxyD+iMN?=
+ =?us-ascii?Q?slhBgVQfwT22apKIzt0l3+HMh/tcU8sA/SSos5uBpW5EGCBUvPy5Akeito7Y?=
+ =?us-ascii?Q?z5/fsA2hna73J2IvuzTQZzUACULXA+NiwexyfSYGxIo2CD3WOqwpyykTEMGz?=
+ =?us-ascii?Q?z2qpV7VgGFPFpeXXTelaq3m6gkQHXiHgpuIiVAE9RJNLUPuS6Gs0yMt48mAZ?=
+ =?us-ascii?Q?sk8EO8qoK328q0A9JmkKsHooMRPXgIYhI1orEqSTqzMcInfgZiV1BcIr6f/p?=
+ =?us-ascii?Q?pkOZUO/KzBNIH3l6nyhOL7kEiRSdzvAcuWSxQmTZ84gnsY3B7duv2RPBbNRd?=
+ =?us-ascii?Q?j2DzvtdumdB8nmSMqYIjnTwW75OwjqKhND5zomMvUhEIn4zUDfeBvJ0QVinX?=
+ =?us-ascii?Q?w2YuZQrZ+F1TtPk5Rx/T1s6wt/TjVEax00AhiXp/c20RSPnyC2X/Xj9/qarE?=
+ =?us-ascii?Q?pMeH08gEIRSvvSKW6cNFyaxJxV5ArJ+pIgGNyjTqZdfZQ9LVVzrTA/r9sH9Z?=
+ =?us-ascii?Q?HmEDr0sLrYaIwdFpSny5a+hjHV9yHVAlIsRMyh762012tk7qXAts5dcOE3Ys?=
+ =?us-ascii?Q?KXVOnToOt9lpxlYeBqPERHOvmBuEnndTs7Ocq93B1+J5VtbVmonAd02ire35?=
+ =?us-ascii?Q?So0Mi80BbhRNHY1JYtfZeajAi0gBLTCgnAVoHMwtnm+92iAOzAqIvFRarMYH?=
+ =?us-ascii?Q?geWeVxBDlqdn7rpr/piEJwQwJLKI+HEvhmWWmZo/yidojT9A6ZjdDjTwMwfi?=
+ =?us-ascii?Q?SrjTkU8a7ERUeWl9/pmvJegozgleSDYJIzUTGBsRue1TL5RqTTr7NnZkMxMA?=
+ =?us-ascii?Q?NdIMR1bb3GfLRjxvmlY/kilM15MNPBalmBO4dimbikmgwCQ9iWTOpo9ZleuL?=
+ =?us-ascii?Q?broA2uh2mCrskZEJ4a6gbXUeb7Bs5ObgQ+H5rofHKlfg9NMJKFq9qAM/x668?=
+ =?us-ascii?Q?U1IZFGs6cZR220bmOGcnfISEBpkwMr+Z/D0AU5wW2IADSk9EaN7bVPmGlPeC?=
+ =?us-ascii?Q?0oATZqwbh0A92ipeZaM5eQ8zwjaDWwAvdwyNLLZSibw6Xin7hw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB8641.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4JjRLjhdJu8Ta6FhTNO/9VCJvIAB0gTDZSbg9ITKh2biE3fTrDcLSeTRViwu?=
+ =?us-ascii?Q?dytPQBEDEzsHmXGEwE4Xga7sxRGGeHv446+fgygYpUlZU7mfXWE4T5qDx7lU?=
+ =?us-ascii?Q?H7JPjW+PQl745id2fEq57+UOGNwn1tIF8MjTz+gz2Fvt3igVVF6rTtMWMUm/?=
+ =?us-ascii?Q?ofdoU96/Afyytb7FeB42ZRZ2100C9j9xJoffq2r0KKGN4TKcXzFPawrUGxAN?=
+ =?us-ascii?Q?mW96kNyB5w/iCmJOwyQ+b4ldhvoYy9iaJxAJvXjgmMwiiKlrhjrDToLColOj?=
+ =?us-ascii?Q?d93dDiboQwXBJFsRHOK5cE1q5acf82/hiLSzeFY73OElZxEzgRdDWj2+jnb3?=
+ =?us-ascii?Q?LYfmcTs7YUlOG8EE2z4s/6zcxVKmo9plDtQNQHxF/hPTXtqTz9lBBLOg80HR?=
+ =?us-ascii?Q?yef/8Fd5gJX/0YbQxS6G4nEw96QBbO6OFaEU/MH92VcAW7y7yA8FrTi7T6HF?=
+ =?us-ascii?Q?TauzynGOphAbLOvjs1+BdLR8JQ/F+RbRd+NuNUJ/kK1Pctu9SkwWQIEToBDc?=
+ =?us-ascii?Q?mfeYb+OG2cr2RHHSFnNdDYqmd6gLKm5NR1L+LESsb7KjN89usdjBI1dRPbzH?=
+ =?us-ascii?Q?70dREKYIHyrwdTDV6+XDrmoBgOxAQo+XOKPbPf0bijUBDEqvmEAXSNUIdu0r?=
+ =?us-ascii?Q?rKb8r8va4a9XyqvdWpw744fdegEYOdoRYkQWiRzUPpXAE7fj7CIZKtYEtWsY?=
+ =?us-ascii?Q?jUNh7Jp0KuvScoBq6cjY8Y7VjdihvbSbK9/G7okc4HmftW8XBL4JRxDVKNkQ?=
+ =?us-ascii?Q?nvpkSP8fblyX6FN7Rg/VijdNZOv76MH6cgTFNOrm0ayjzer45q1FBQDhdQnt?=
+ =?us-ascii?Q?7BqfdA3tXvgllPbuJ6+PlJ4KJiq5lJS2i0ePXva3+sdQghJMAqP2X9ZsN+sz?=
+ =?us-ascii?Q?3RVDYEilWEn4IG7YQK2r4yyaMFX6u4lnWZgJOmaB6LAodLubCej3c9eUeswr?=
+ =?us-ascii?Q?MLUgzP2m//W3udnolMpOZUhItaV66B+MVQzC86wkKmVhotBBmO5PFFP+bk6f?=
+ =?us-ascii?Q?05WKVSEN9mIQg8keVdlbJioNuNrgJxDL0/6S3mmxzpkc0QeimRxFYbzVCs+Y?=
+ =?us-ascii?Q?fFgPN/megyNsnoKNuULDwdL8foat22zp6YbFoLyl5wReJ0PreF4ynrcEQxKT?=
+ =?us-ascii?Q?EanNRyA5JcvcAjOU5CXc2OJnYhRptzgGbnRvhtIiS5G/ki1IrT4VOHe5Xw/D?=
+ =?us-ascii?Q?uwoQs2ftyjenKsScmKHdqL5I5ECQOWkY1Pis9m2MpSgpC/kA1zNgaiyu/DvF?=
+ =?us-ascii?Q?uWti8zBFT0EDbO2/elQ1emTplcs0g4Bi8YhMeaoBsB1Au+G4MAfE/GiP6OXK?=
+ =?us-ascii?Q?SdkmJMQPrSHOGQGvY9KoKgLbB+EVBgoQzdIhmMmEeZpxW26Q2WIOnE1lL60O?=
+ =?us-ascii?Q?/HGr8P2dcK/JQcTkwinm/PgmPI538llqlr9+PY9mtmU8AlvDWS899fdtII6T?=
+ =?us-ascii?Q?Uucn92tYw6atXdEk3HYpW7CIY9QwY4mhZVvROnu/Z4YTBx2iK10NRArm9nnh?=
+ =?us-ascii?Q?Byz2Ry4ZBgnrrxOgJE8HibO0eKX/JV4DeRFXjViSKNhaf7alshVsgh6H6SIh?=
+ =?us-ascii?Q?3pKq9oeiEYumIK9Bk00o9YFeVCxIX78F7qyaiH76?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d266cdac-556f-4aac-515f-08dde4c3349e
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB8641.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 17:08:41.1431
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nnHM3t2Xk0hrbI/1WXgwM38tWJuEjvSRDJIbTgJtdnJK7DCMLzj98qzF/iLyC/I5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7195
 
-On 26/08/2025 10:05, Fan Gong wrote:
-> Initialize rss functions. Configure rss hash data and HW resources.
-> 
-> Co-developed-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: Xin Guo <guoxin09@huawei.com>
-> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-> ---
->   drivers/net/ethernet/huawei/hinic3/Makefile   |   1 +
->   .../net/ethernet/huawei/hinic3/hinic3_main.c  |   9 +-
->   .../huawei/hinic3/hinic3_mgmt_interface.h     |  55 +++
->   .../huawei/hinic3/hinic3_netdev_ops.c         |  18 +
->   .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   5 +
->   .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 359 ++++++++++++++++++
->   .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  14 +
->   7 files changed, 460 insertions(+), 1 deletion(-)
-[...]
+On Tue, Aug 26, 2025 at 05:03:59PM +0000, Pasha Tatashin wrote:
 
-> +static int alloc_rss_resource(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	static const u8 default_rss_key[L2NIC_RSS_KEY_SIZE] = {
-> +		0x6d, 0x5a, 0x56, 0xda, 0x25, 0x5b, 0x0e, 0xc2,
-> +		0x41, 0x67, 0x25, 0x3d, 0x43, 0xa3, 0x8f, 0xb0,
-> +		0xd0, 0xca, 0x2b, 0xcb, 0xae, 0x7b, 0x30, 0xb4,
-> +		0x77, 0xcb, 0x2d, 0xa3, 0x80, 0x30, 0xf2, 0x0c,
-> +		0x6a, 0x42, 0xb7, 0x3b, 0xbe, 0xac, 0x01, 0xfa};
-> +
-> +	nic_dev->rss_hkey = kzalloc(L2NIC_RSS_KEY_SIZE, GFP_KERNEL);
+> Perhaps, we should add session extensions to the kernel as follow-up
+> after this series lands, we would also need to rewrite luod design
+> accordingly to move some of the sessions logic into the kernel.
 
-no need to request zero'ed allocation if you are going to overwrite it
-completely on the very next line.
+This is what I imagined at least..
 
-> +	if (!nic_dev->rss_hkey)
-> +		return -ENOMEM;
-> +
-> +	memcpy(nic_dev->rss_hkey, default_rss_key, L2NIC_RSS_KEY_SIZE);
+I wouldn't even try to do anything with pid if it can't solve the
+whole problem.
 
-I would better move this line after both allocations when the code flow
-has no way to fail.
-
-> +	nic_dev->rss_indir = kcalloc(L2NIC_RSS_INDIR_SIZE, sizeof(u32),
-> +				     GFP_KERNEL);
-
-why do you allocate L2NIC_RSS_INDIR_SIZE of u32 when the HW table has
-le16 type for the entry?
-
-> +	if (!nic_dev->rss_indir) {
-> +		kfree(nic_dev->rss_hkey);
-> +		nic_dev->rss_hkey = NULL;
-> +		return -ENOMEM;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int hinic3_rss_set_indir_tbl(struct hinic3_hwdev *hwdev,
-> +				    const u32 *indir_table)
-> +{
-> +	struct l2nic_cmd_rss_set_indir_tbl *indir_tbl;
-> +	struct hinic3_cmd_buf *cmd_buf;
-> +	__le64 out_param;
-> +	int err;
-> +	u32 i;
-> +
-> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
-> +	if (!cmd_buf) {
-> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	cmd_buf->size = cpu_to_le16(sizeof(struct l2nic_cmd_rss_set_indir_tbl));
-> +	indir_tbl = cmd_buf->buf;
-> +	memset(indir_tbl, 0, sizeof(*indir_tbl));
-> +
-> +	for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-> +		indir_tbl->entry[i] = cpu_to_le16((u16)indir_table[i]);
-> +
-> +	hinic3_cmdq_buf_swab32(indir_tbl, sizeof(*indir_tbl));
-> +
-> +	err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
-> +				      L2NIC_UCODE_CMD_SET_RSS_INDIR_TBL,
-> +				      cmd_buf, &out_param);
-> +	if (err || out_param != 0) {
-
-no need for "!= 0"
-
-> +		dev_err(hwdev->dev, "Failed to set rss indir table\n");
-> +		err = -EFAULT;
-> +	}
-> +
-> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
-> +
-> +	return err;
-> +}
-
-[...]
-
-> +static int hinic3_rss_cfg_hash_key(struct hinic3_hwdev *hwdev, u8 opcode,
-> +				   u8 *key)
-> +{
-> +	struct l2nic_cmd_cfg_rss_hash_key hash_key = {};
-> +	struct mgmt_msg_params msg_params = {};
-> +	int err;
-> +
-> +	hash_key.func_id = hinic3_global_func_id(hwdev);
-> +	hash_key.opcode = opcode;
-> +
-> +	if (opcode == MGMT_MSG_CMD_OP_SET)
-> +		memcpy(hash_key.key, key, L2NIC_RSS_KEY_SIZE);
-
-here you copy hash key to a stack allocated structure ...
-
-> +
-> +	mgmt_msg_params_init_default(&msg_params, &hash_key, sizeof(hash_key));
-
-
-... which is copied to another stack allocated structure ...
-
-> +
-> +	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
-> +				       L2NIC_CMD_CFG_RSS_HASH_KEY, &msg_params);
-> +	if (err || hash_key.msg_head.status) {
-> +		dev_err(hwdev->dev, "Failed to %s hash key, err: %d, status: 0x%x\n",
-> +			opcode == MGMT_MSG_CMD_OP_SET ? "set" : "get",
-> +			err, hash_key.msg_head.status);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (opcode == MGMT_MSG_CMD_OP_GET)
-> +		memcpy(key, hash_key.key, L2NIC_RSS_KEY_SIZE);
-> +
-> +	return 0;
-> +}
-> +
-> +static int hinic3_rss_set_hash_key(struct hinic3_hwdev *hwdev, const u8 *key)
-> +{
-> +	u8 hash_key[L2NIC_RSS_KEY_SIZE];
-> +
-> +	memcpy(hash_key, key, L2NIC_RSS_KEY_SIZE);
-
-... but it was already copied to stack allocated buffer ...
-
-> +
-> +	return hinic3_rss_cfg_hash_key(hwdev, MGMT_MSG_CMD_OP_SET, hash_key);
-> +}
-> +
-> +static int hinic3_set_hw_rss_parameters(struct net_device *netdev, u8 rss_en)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	int err;
-> +
-> +	err = hinic3_rss_set_hash_key(nic_dev->hwdev, nic_dev->rss_hkey);
-
-... which is previously copied from static array.
-
-It's 4 copies in total to configure one simple thing. Looks like too
-much of copying with no good reason
-
-
-> +	if (err)
-> +		return err;
-> +
+Jason
