@@ -1,121 +1,76 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5213728A6
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 18:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04DE2F0C7A;
+	Tue, 26 Aug 2025 19:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756234726; cv=none; b=CTdETuarr9Q+a11aHJBKXN2rA9P8sBcQBfV2mT6dLYT8MIEGKjpbpiK4oB0F97w8uGVWVPG2bUDBz1Ex33Fdfu4hWgf325cg/GHNVsgnfksHvkmpM8zVbdJYr1Raj/JwdX4rYI6LslQ5v4FP2rUHlvXoOGMiM6gWhx69EZnZPmg=
+	t=1756236910; cv=none; b=Jo5wR5lRqZ5BNzmszpkd2BDL6LXU5j8aYo6Vwe/GOvtCWDDvxUCLFdPLtkXtLvjS9fjepjQ1kn5+0KRvtt3A0cy4kuw1wWw5lkF69FdawPGoQNd2EQxdbeEmqPjToNJwjdf0AevdXhbhmKw08V9zpzD/qUpxGkgYQdnZt9Uz1lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756234726; c=relaxed/simple;
-	bh=pJME+1KmU2SzOA/lb1+BnOW4h/J3iSbhKPhNpdWiID4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m6eaoLW1a92Lom5rPT1E1tygxWTaZsBqi3wQWq/aHKtXkal+5DwzUY/TA2GSiNQRFJjUvb9lzi2f927H8tY7nEZR+aKqjnYnvpJOebgqIsnWoFE67Auj8Kfftleqs8+FmIKtKWVU3+bO9vIk+qRS6aYhWaHm7DCkCp+X8OBH5UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=KTzuNv4i; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="KTzuNv4i"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b133b24e69so25186651cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 11:58:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1756234724; x=1756839524; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pJME+1KmU2SzOA/lb1+BnOW4h/J3iSbhKPhNpdWiID4=;
-        b=KTzuNv4iIOvR2/Okp9GCEoXbHGLVDtZof0ZdrJ/5BDGDLHFFf/wu3vhNswj272YLKo
-         ZgDjFd9x77OjznESGRGkCaF1E5T0gbU7AYJDQts96nUx4EpEunvTfX4CTmqTwsZ5FG2R
-         PAcVuVKYiC63dcYpgSHHCsk9xuP+tZLHYvjYzbdYSv3jSWBo3FFvJv3Fw+J884zm0kex
-         dj9F6Rv2StZHhTxdjS44N4/vu5mfGHNCtrw8cwNLS0EP0EsgiQu12aFL61m3l3aVBf8T
-         0yLnFV3TcO+5RqMsi+WyW/NWG34gq5nUZpjmeV1sp7uBdv0AoeQ7T4WAQz1GlFJZ+Hdx
-         yzTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756234724; x=1756839524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pJME+1KmU2SzOA/lb1+BnOW4h/J3iSbhKPhNpdWiID4=;
-        b=E5EBI9sO3NTDbp7h/yqbeeFfuG7xjzFKj8/lmRIblXLAeZ+1RoRm5g+C9v+65Mm38S
-         aIVPZiUVpV6XZAArls7jV9OtXVRJP0TkilLfc3mQ9saXQvLHgMDDwx4zX0GqqxvMU0ni
-         JWgWGpDlDCnDtHwznrjRjgN0+GphhQNrDIXny1YdPRfCj4LPwRj4TyzycgWwqNEnvQKR
-         ydIKSViE4F6Rq9frqr5PY0La9jceUIxYG9gMDQJfTtnDFNeWeHMVIeB96tW7OTEJwR90
-         /b34umA2PjutX5mkZBICBW3s5l+nZu+bC3EnmNT4WsxsmFiC1+AeQSJo75LkN2tVZvYM
-         64rg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLeZS3X1igP+V/WnWonsOT7merrQqinxBlgdFzzBAtn7fcogW6aVfSzhkPxrRVNyG95EwEYSGbCDU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyXi64kJE9MZkpwCpER2p7vMY5tdT5MyiewjZoUn4kGlKwunTS
-	Nl5VuUK3POXjR8IaK4ZzdZd3sSHHvb/IwV/IB1X0jJ6208ajTAPa/RJYWVIyFvqhNHKnQRYHoT/
-	uIQSsJmrwCdbootXuh7PW2zvKXvNUi4CdYKc+oFm6kg==
-X-Gm-Gg: ASbGnctDhvOmCaEjd7/kTs45QdbLPIlqGS8pDjqMbjn+rTbKcEHGv/8iFwyyClWzSMb
-	Gxr4vadtkDNoRQ/amumnWXEev05XSZi9TBA+NXV0Ut9C+zr6Qjk7gCpVb9dg0HbCDOpM5KZNt9j
-	Op6j8ia/QsquStKMOApJAmvQ/HdJODc60EU8qiXI0JWMf9McyC0dBVuB4W2SIeyaTc+Zyk/MqGJ
-	jUZ
-X-Google-Smtp-Source: AGHT+IH7x6PzB/jpkOPVprK93HcHA2jlE9LSPDmfVuRTuFZ8graOQso5EGuliHqnNQqcqLY5o7Pky9G7peBJC7yYL1M=
-X-Received: by 2002:a05:622a:286:b0:4b2:d5bf:20a1 with SMTP id
- d75a77b69052e-4b2d5bf2602mr93874511cf.23.1756234723572; Tue, 26 Aug 2025
- 11:58:43 -0700 (PDT)
+	s=arc-20240116; t=1756236910; c=relaxed/simple;
+	bh=6/7n+g1zNexOTdHB4lKVMKI6ZVYvq/hB0xWd+VSmFKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfFpOnm86gn3smO0L8dQGhJmVHvMi0JH5SuoYrfwKndwRrzC2WcxEAC9fHTRO8pjmIe28Q/+IBId27LX8jnmIjtz8V1NmNspdIgV5fidQz2eCAcO+AsccE2ptMMzhRRN8oIJnmhftDktRCa4HyNKSvc9wgYf34RgXXoYrODXm+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D065C4CEF1;
+	Tue, 26 Aug 2025 19:34:57 +0000 (UTC)
+Date: Tue, 26 Aug 2025 20:35:00 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
+	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
+	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
+	trintaeoitogc@gmail.com, axelrasmussen@google.com,
+	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
+	joel.granados@kernel.org, graf@amazon.com,
+	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
+	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
+	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
+	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
+	kaleshsingh@google.com, justinstitt@google.com,
+	alexander.shishkin@linux.intel.com, samuel.holland@sifive.com,
+	dave.hansen@linux.intel.com, corbet@lwn.net, xin@zytor.com,
+	dvyukov@google.com, tglx@linutronix.de,
+	scott@os.amperecomputing.com, jason.andryuk@amd.com,
+	morbo@google.com, nathan@kernel.org, lorenzo.stoakes@oracle.com,
+	mingo@redhat.com, brgerst@gmail.com, kristina.martsenko@arm.com,
+	bigeasy@linutronix.de, luto@kernel.org, jgross@suse.com,
+	jpoimboe@kernel.org, urezki@gmail.com, mhocko@suse.com,
+	ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org,
+	peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com,
+	ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com,
+	ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org,
+	akpm@linux-foundation.org, guoweikang.kernel@gmail.com,
+	rppt@kernel.org, pcc@google.com, jan.kiszka@siemens.com,
+	nicolas.schier@linux.dev, will@kernel.org, andreyknvl@gmail.com,
+	jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 14/19] arm64: Unify software tag-based KASAN inline
+ recovery path
+Message-ID: <aK4MZGzTvJ8bBQvn@arm.com>
+References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
+ <eb073b008b547cf87722390cc94fe6e9d21c514e.1756151769.git.maciej.wieczor-retman@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-20-pasha.tatashin@soleen.com> <20250826160307.GC2130239@nvidia.com>
-In-Reply-To: <20250826160307.GC2130239@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 26 Aug 2025 18:58:05 +0000
-X-Gm-Features: Ac12FXzbC4_094zxu3z9fUDRO3yQVd4QdY6g8DyMrUl3RDt_kmv57pEA7HFGGV8
-Message-ID: <CA+CK2bCR84H90dZP40yFw086JP+YwH4=V0ncFfNoR8Mo5+azkA@mail.gmail.com>
-Subject: Re: [PATCH v3 19/30] liveupdate: luo_sysfs: add sysfs state monitoring
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb073b008b547cf87722390cc94fe6e9d21c514e.1756151769.git.maciej.wieczor-retman@intel.com>
 
-On Tue, Aug 26, 2025 at 4:03=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Thu, Aug 07, 2025 at 01:44:25AM +0000, Pasha Tatashin wrote:
-> > Introduce a sysfs interface for the Live Update Orchestrator
-> > under /sys/kernel/liveupdate/. This interface provides a way for
-> > userspace tools and scripts to monitor the current state of the LUO
-> > state machine.
->
-> Now that you have a cdev these files may be more logically placed
-> under the cdev's sysfs and not under kernel? This can be done easially
-> using the attribute mechanisms in the struct device.
->
-> Again sort of back to my earlier point that everything should be
-> logically linked to the cdev as though there could be many cdevs, even
-> though there are not. It just keeps the code design more properly
-> layered and understanble rather than doing something unique..
+On Mon, Aug 25, 2025 at 10:24:39PM +0200, Maciej Wieczor-Retman wrote:
+> To avoid having a copy of a long comment explaining the intricacies of
+> the inline KASAN recovery system and issues for every architecture that
+> uses the software tag-based mode, a unified kasan_inline_recover()
+> function was added.
+> 
+> Use kasan_inline_recover() in the kasan brk handler to cleanup the long
+> comment, that's kept in the non-arch KASAN code.
+> 
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 
-I am going to drop this patch entirely, and only rely on "luoctl
-state" (see https://tinyurl.com/luoddesign) to query the state from
-"/dev/liveupdate"
-
-Pasha
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
