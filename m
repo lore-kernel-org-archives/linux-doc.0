@@ -1,263 +1,209 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC053227599;
-	Tue, 26 Aug 2025 11:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B902BDC00;
+	Tue, 26 Aug 2025 11:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756206365; cv=none; b=O9lShujttBI2gKPQQaACZmr1lw/C6wq652ROiL8d1BSv0c+t1/ZUMoqweimwILr9KIw51oJTZULTyBZM9+iWvtBPNr8IBR6fYtFwW2sXf7M8kd/IuDbwuNtSSyEx+LiCCtViVuvSIiDFZty85vkmi6QT+qmPVVzuCUE7zNoXHrs=
+	t=1756206620; cv=none; b=MYfAYqCzaliHDpr7Nl35DgbymSvw8atc7OoZ/UfXmY10GyXg57mKNvrfKjEboko2Mv2ip4sNWP3b5HJjrrAItxQgZbwVbSxYVnNsC78BGMrFoe/2tY6rbxsWS8xNxMbmpV5qDM4LVv7IVv2zDPSNkQ6O8Ww2GDTe6XVGhyM5/Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756206365; c=relaxed/simple;
-	bh=puUDhC4W4Gr0+K/N7lGMbyHwNybWPdiZJ8MsvVpgv/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dh9KuxWzQiIXMMQsU/uLoqaRV9i6Z4JrrUiLcPJF8SJ53sCDTDkLnXjkJlnjxpVjSosZV4HHxbCRcrc+lte8AKAxbKTiGwHZCgtaX5ZsxbsYVXWe0sjjZ0eV2ZUCR2PrLl1y6HQN7lmKSVFPGX7z7s8py+2ZZT6ez+kSd7NJR4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpgz13t1756206342t345aa432
-X-QQ-Originating-IP: N2q7GcQAvwDoHq1fe0d0NqiL+NXhfi6yxI3W5XwgU2g=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 26 Aug 2025 19:05:39 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3791947949160299687
-Date: Tue, 26 Aug 2025 19:05:39 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <8C1007761115185D+20250826110539.GA461663@nic-Precision-5820-Tower>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <316f57e3-5953-4db6-84aa-df9278461d30@linux.dev>
- <82E3BE49DB4195F0+20250826013113.GA6582@nic-Precision-5820-Tower>
- <bbdabd48-61c0-46f9-bf33-c49d6d27ffb0@linux.dev>
+	s=arc-20240116; t=1756206620; c=relaxed/simple;
+	bh=U+0uqqUEJV7H5mxNEYPLhJsYDgtD2s9k7F81pw7sLX4=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=FbYpObwvsGxjK/fG5oV+IiJiOs3CoGr/WCmFCbCZ9tRQTlwZE8qZcHFR6nIuj9L8Sv75TgakWt7L0ifbtuc9HEOlEOyAhvOolvZo0b2LBE5Olf7I5fskjHJatsYbPEbMvLCn1yjI78Zrz3GB3wZCtF5yqAj1GGbLNh/V44y+R/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cB4h025Hwz6G4Qq;
+	Tue, 26 Aug 2025 19:10:08 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 57QB0xev011758;
+	Tue, 26 Aug 2025 19:00:59 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 26 Aug 2025 19:01:02 +0800 (CST)
+Date: Tue, 26 Aug 2025 19:01:02 +0800 (CST)
+X-Zmail-TransId: 2afc68ad93eec6c-a9cd1
+X-Mailer: Zmail v1.0
+Message-ID: <20250826190102126qyDear85W7BATchttuUUL@zte.com.cn>
+In-Reply-To: <20250826185643235jApHbqi4zaPaZWVy6_Pot@zte.com.cn>
+References: 20250826185643235jApHbqi4zaPaZWVy6_Pot@zte.com.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bbdabd48-61c0-46f9-bf33-c49d6d27ffb0@linux.dev>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Mf+wQkWJ2TuYoRAc945Q+9sC8ifU9Hx1TRauavHXeevaF+iEinTCc6pI
-	T+avn7OfwJyA74dE7RJakJ5Kk6T0BC8IfB+FPUY8w8mILtnB6V6zQgLFFQq2170myFTgJZy
-	qVIfKT4Miu22IGKqh233zAwsR2LAT1vHsSsLjVTgFYbJK/TziJZodeEFQeN0RAvJup/yYT9
-	bhe8okRPkPR/jA4Z9bv0jNXf2oTTXYyzGVRgOQwdZv94CqtH9zMTE0U77XGirQStWQvaJ4+
-	yOGjaO+VJFTu9pvH7TTiiUzZKNd4PB36WW/yPemcPN/BzQY2WiXrJYq910+U8Oby6AqIf7E
-	BSFaSZuf9yKGPL89o7jO9XE4cWsyESNIsDMUqfDzB4tHJdr5g+tHME87XbUrqors7Uk5cbQ
-	jXZfOBkrMuij0v+1JaCRMcPW/U9H/JShDmf+jMTP3gEtfe1wBUqAwjf/7C9zF6lqD1JJxlV
-	basLrJ3+3kKuBsY7IpnrRs2xRQ/YaYbqEWRSzjN7In1XrOeXPv516QTXOFaZV+2oGJEDRce
-	87C6Ned7XDMgegzfTbAUj/eMoJ6GrEo4d8ZzIqdnhwugimO7tns9irSgvi13DTU6dPwxDy6
-	kkXnjJWzAcuEAQRvHsIXCTrRiUbftKufneSq3AbqOdtiLGQIiBCcdQkzOcrwjXSwZTy0/yW
-	of+eXnx852asUoIKky0nCHN6voVrc85vo72CoUbBnmraA5ksRN46P6sPnzi4kDEjdfZnj80
-	GvmbYOtiAC1rtsNoRq9GzPmlhDMD0cICCRWvSUI890ejARs32xbGgwxsc0n7Bph2IVFXNXq
-	8bHMXZ+IdBV7JeoCMIoNsuyptttzHCWXX4xVs90b1x0CsOIPHQbifpYYzBZ7jwjtz2qh1Su
-	5+MHm3Q2HQBfzob5/Lwpxubz7BtDVw/9L5Gz+cQjAO1C2ORGN6FlGzr9JGwqYuPVNvun+Qc
-	SPJ09W7WgIcMwlxtL3Lhoi5/DBI2NnaZaIWsIbbH4oO6BMQNcrJtn2zPxGSIFuvVVLYSSVp
-	vRfsCMqz54hV1CQQQr
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <shao.mingyin@zte.com.cn>
+Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
+        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
+        <wang.longjie1@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHY0IDEvN10gRG9jcy96aF9DTjogVHJhbnNsYXRlIHViaWZzLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 57QB0xev011758
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 26 Aug 2025 19:10:08 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68AD9610.000/4cB4h025Hwz6G4Qq
 
-On Tue, Aug 26, 2025 at 11:14:19AM +0100, Vadim Fedorenko wrote:
-> On 26/08/2025 02:31, Yibo Dong wrote:
-> > On Mon, Aug 25, 2025 at 05:37:27PM +0100, Vadim Fedorenko wrote:
-> > > On 22/08/2025 03:34, Dong Yibo wrote:
-> > > 
-> > > [...]
-> > > > +/**
-> > > > + * mucse_mbx_fw_post_req - Posts a mbx req to firmware and wait reply
-> > > > + * @hw: pointer to the HW structure
-> > > > + * @req: pointer to the cmd req structure
-> > > > + * @cookie: pointer to the req cookie
-> > > > + *
-> > > > + * mucse_mbx_fw_post_req posts a mbx req to firmware and wait for the
-> > > > + * reply. cookie->wait will be set in irq handler.
-> > > > + *
-> > > > + * @return: 0 on success, negative on failure
-> > > > + **/
-> > > > +static int mucse_mbx_fw_post_req(struct mucse_hw *hw,
-> > > > +				 struct mbx_fw_cmd_req *req,
-> > > > +				 struct mbx_req_cookie *cookie)
-> > > > +{
-> > > > +	int len = le16_to_cpu(req->datalen);
-> > > > +	int err;
-> > > > +
-> > > > +	cookie->errcode = 0;
-> > > > +	cookie->done = 0;
-> > > > +	init_waitqueue_head(&cookie->wait);
-> > > > +	err = mutex_lock_interruptible(&hw->mbx.lock);
-> > > > +	if (err)
-> > > > +		return err;
-> > > > +	err = mucse_write_mbx_pf(hw, (u32 *)req, len);
-> > > > +	if (err)
-> > > > +		goto out;
-> > > > +	/* if write succeeds, we must wait for firmware response or
-> > > > +	 * timeout to avoid using the already freed cookie->wait
-> > > > +	 */
-> > > > +	err = wait_event_timeout(cookie->wait,
-> > > > +				 cookie->done == 1,
-> > > > +				 cookie->timeout_jiffies);
-> > > 
-> > > it's unclear to me, what part of the code is managing values of cookie
-> > > structure? I didn't get the reason why are you putting the address of
-> > > cookie structure into request which is then directly passed to the FW.
-> > > Is the FW supposed to change values in cookie?
-> > > 
-> > 
-> > cookie will be used in an irq-handler. like this:
-> > static int rnpgbe_mbx_fw_reply_handler(struct mucse *mucse,
-> >                                         struct mbx_fw_cmd_reply *reply)
-> > {
-> >          struct mbx_req_cookie *cookie;
-> > 
-> >          cookie = reply->cookie;
-> > 
-> >          if (cookie->priv_len > 0)
-> >                  memcpy(cookie->priv, reply->data, cookie->priv_len);
-> >          cookie->done = 1;
-> >          if (le16_to_cpu(reply->flags) & FLAGS_ERR)
-> >                  cookie->errcode = -EIO;
-> >          else
-> >                  cookie->errcode = 0;
-> >          wake_up(&cookie->wait);
-> >          return 0;
-> > }
-> > That is why we must wait for firmware response.
-> > But irq is not added in this patch series. Maybe I should move all
-> > cookie relative codes to the patch will add irq?
-> 
-> well, yes, in general it's better to introduce the code as a solid
-> solution. this way it's much easier to review
-> 
+From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-Ok, I will remove it in this series and add later.
+translate the "ubifs.rst" into Simplified Chinese.
 
-> > 
-> > > > +
-> > > > +	if (!err)
-> > > > +		err = -ETIMEDOUT;
-> > > > +	else
-> > > > +		err = 0;
-> > > > +	if (!err && cookie->errcode)
-> > > > +		err = cookie->errcode;
-> > > > +out:
-> > > > +	mutex_unlock(&hw->mbx.lock);
-> > > > +	return err;
-> > > > +}
-> > > 
-> > > [...]
-> > > 
-> > > > +struct mbx_fw_cmd_req {
-> > > > +	__le16 flags;
-> > > > +	__le16 opcode;
-> > > > +	__le16 datalen;
-> > > > +	__le16 ret_value;
-> > > > +	union {
-> > > > +		struct {
-> > > > +			__le32 cookie_lo;
-> > > > +			__le32 cookie_hi;
-> > > > +		};
-> > > > +
-> > > > +		void *cookie;
-> > > > +	};
-> > > > +	__le32 reply_lo;
-> > > > +	__le32 reply_hi;
-> > > 
-> > > what do these 2 fields mean? are you going to provide reply's buffer
-> > > address directly to FW?
-> > > 
-> > 
-> > No, this is defined by fw. Some fw can access physical address.
-> > But I don't use it in this driver.
-> 
-> FW can access physical address without previously configuring IOMMU?
-> How can that be?
-> 
+Update to commit 5f5cae9b0e81("Documentation: ubifs: Fix
+compression idiom")
 
-memory is allocated by dma_alloc_coherent, and get physical address.
-Then fw use it.
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+Signed-off-by: yang tao <yang.tao172@zte.com.cn>
+---
+v3->v4
+resolve patch damage issues.
+ .../translations/zh_CN/filesystems/index.rst  |   2 +-
+ .../translations/zh_CN/filesystems/ubifs.rst  | 114 ++++++++++++++++++
+ 2 files changed, 115 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
 
-> > 
-> > > > +	union {
-> > > > +		u8 data[32];
-> > > > +		struct {
-> > > > +			__le32 version;
-> > > > +			__le32 status;
-> > > > +		} ifinsmod;
-> > > > +		struct {
-> > > > +			__le32 port_mask;
-> > > > +			__le32 pfvf_num;
-> > > > +		} get_mac_addr;
-> > > > +	};
-> > > > +} __packed;
-> > > > +
-> > > > +struct mbx_fw_cmd_reply {
-> > > > +	__le16 flags;
-> > > > +	__le16 opcode;
-> > > > +	__le16 error_code;
-> > > > +	__le16 datalen;
-> > > > +	union {
-> > > > +		struct {
-> > > > +			__le32 cookie_lo;
-> > > > +			__le32 cookie_hi;
-> > > > +		};
-> > > > +		void *cookie;
-> > > > +	};
-> > > 
-> > > This part looks like the request, apart from datalen and error_code are
-> > > swapped in the header. And it actually means that the FW will put back
-> > > the address of provided cookie into reply, right? If yes, then it
-> > > doesn't look correct at all...
-> > > 
-> > 
-> > It is yes. cookie is used in irq handler as show above.
-> > Sorry, I didn't understand 'the not correct' point?
-> 
-> The example above showed that the irq handler uses some value received
-> from the device as a pointer to kernel memory. That's not safe, you
-> cannot be sure that provided value is valid pointer, and that it points
-> to previously allocated cookie structure. It is a clear way to corrupt
-> memory.
-> 
-
-Yes. It is not safe, so I 'must wait_event_timeout before free cookie'....
-But is there a safe way to do it?
-Maybe:
-->allocate cookie
-  -> map it to an unique id
-    ->set the id to req->cookie
-      ->receive response and check id valid? Then access cookie?
-Please give me some advice... 
-
-> > 
-> > > > +	union {
-> > > > +		u8 data[40];
-> > > > +		struct mac_addr {
-> > > > +			__le32 ports;
-> > > > +			struct _addr {
-> > > > +				/* for macaddr:01:02:03:04:05:06
-> > > > +				 * mac-hi=0x01020304 mac-lo=0x05060000
-> > > > +				 */
-> > > > +				u8 mac[8];
-> > > > +			} addrs[4];
-> > > > +		} mac_addr;
-> > > > +		struct hw_abilities hw_abilities;
-> > > > +	};
-> > > > +} __packed;
-> > > 
-> 
-> 
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index 9f2a8b003778..6049b599dec8 100644
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -26,4 +26,4 @@ Linux Kernel中的文件系统
+    virtiofs
+    debugfs
+    tmpfs
+-
++   ubifs
+diff --git a/Documentation/translations/zh_CN/filesystems/ubifs.rst b/Documentation/translations/zh_CN/filesystems/ubifs.rst
+new file mode 100644
+index 000000000000..16c28bfd6fc3
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/ubifs.rst
+@@ -0,0 +1,114 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/filesystems/ubifs.rst
++
++:翻译:
++
++   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
++
++:校译:
++
++   - 杨涛 yang tao <yang.tao172@zte.com.cn>
++
++============
++UBI 文件系统
++============
++
++简介
++============
++
++UBIFS 文件系统全称为 UBI 文件系统（UBI File System）。UBI 代表无序块镜
++像（Unsorted Block Images）。UBIFS 是一种闪存文件系统，这意味着它专为闪
++存设备设计。需要理解的是，UBIFS与 Linux 中任何传统文件系统（如 Ext2、
++XFS、JFS 等）完全不同。UBIFS 代表一类特殊的文件系统，它们工作在 MTD 设备
++而非块设备上。该类别的另一个 Linux 文件系统是 JFFS2。
++
++为更清晰说明，以下是 MTD 设备与块设备的简要比较：
++
++1. MTD 设备代表闪存设备，由较大尺寸的擦除块组成，通常约 128KiB。块设备由
++   小块组成，通常 512 字节。
++2. MTD 设备支持 3 种主要操作：在擦除块内偏移位置读取、在擦除块内偏移位置写
++   入、以及擦除整个擦除块。块设备支持 2 种主要操作：读取整个块和写入整个块。
++3. 整个擦除块必须先擦除才能重写内容。块可直接重写。
++4. 擦除块在经历一定次数的擦写周期后会磨损，通常 SLC NAND 和 NOR 闪存为
++   100K-1G 次，MLC NAND 闪存为 1K-10K 次。块设备不具备磨损特性。
++5. 擦除块可能损坏（仅限 NAND 闪存），软件需处理此问题。硬盘上的块通常不会损
++   坏，因为硬件有坏块替换机制（至少现代 LBA 硬盘如此）。
++
++这充分说明了 UBIFS 与传统文件系统的本质差异。
++
++UBIFS 工作在 UBI 层之上。UBI 是一个独立的软件层（位于 drivers/mtd/ubi），
++本质上是卷管理和磨损均衡层。它提供称为 UBI 卷的高级抽象，比 MTD 设备更上层。
++UBI 设备的编程模型与 MTD 设备非常相似，仍由大容量擦除块组成，支持读/写/擦
++除操作，但 UBI 设备消除了磨损和坏块限制（上述列表的第 4 和第 5 项）。
++
++某种意义上，UBIFS 是 JFFS2 文件系统的下一代产品，但它与 JFFS2 差异巨大且
++不兼容。主要区别如下：
++
++* JFFS2 工作在 MTD 设备之上，UBIFS 依赖于 UBI 并工作在 UBI 卷之上。
++* JFFS2 没有介质索引，需在挂载时构建索引，这要求全介质扫描。UBIFS 在闪存
++  介质上维护文件系统索引信息，无需全介质扫描，因此挂载速度远快于 JFFS2。
++* JFFS2 是直写（write-through）文件系统，而 UBIFS 支持回写
++  （write-back），这使得 UBIFS 写入速度快得多。
++
++与 JFFS2 类似，UBIFS 支持实时压缩，可将大量数据存入闪存。
++
++与 JFFS2 类似，UBIFS 能容忍异常重启和断电。它不需要类似 fsck.ext2 的工
++具。UBIFS 会自动重放日志并从崩溃中恢复，确保闪存数据结构的一致性。
++
++UBIFS 具有对数级扩展性（其使用的数据结构多为树形），因此挂载时间和内存消耗不
++像 JFFS2 那样线性依赖于闪存容量。这是因为 UBIFS 在闪存介质上维护文件系统
++索引。但 UBIFS 依赖于线性扩展的 UBI 层，因此整体 UBI/UBIFS 栈仍是线性扩
++展。尽管如此，UBIFS/UBI 的扩展性仍显著优于 JFFS2。
++
++UBIFS 开发者认为，未来可开发同样具备对数级扩展性的 UBI2。UBI2 将支持与
++UBI 相同的 API，但二进制不兼容。因此 UBIFS 无需修改即可使用 UBI2。
++
++挂载选项
++========
++
++(*) 表示默认选项。
++
++====================    =======================================================
++bulk_read               批量读取以利用闪存介质的顺序读取加速特性
++no_bulk_read (*)        禁用批量读取
++no_chk_data_crc (*)     跳过数据节点的 CRC 校验以提高读取性能。 仅在闪存
++                        介质高度可靠时使用此选项。 此选项可能导致文件内容损坏无法被
++                        察觉。
++chk_data_crc            强制校验数据节点的 CRC
++compr=none              覆盖默认压缩器，设置为"none"
++compr=lzo               覆盖默认压缩器，设置为"LZO"
++compr=zlib              覆盖默认压缩器，设置为"zlib"
++auth_key=               指定用于文件系统身份验证的密钥。
++                        使用此选项将强制启用身份验证。
++                        传入的密钥必须存在于内核密钥环中， 且类型必须是'logon'
++auth_hash_name=         用于身份验证的哈希算法。同时用于哈希计算和 HMAC
++                        生成。典型值包括"sha256"或"sha512"
++====================    =======================================================
++
++快速使用指南
++============
++
++挂载的 UBI 卷通过 "ubiX_Y" 或 "ubiX:NAME" 语法指定，其中 "X" 是 UBI
++设备编号，"Y" 是 UBI 卷编号，"NAME" 是 UBI 卷名称。
++
++将 UBI 设备 0 的卷 0 挂载到 /mnt/ubifs::
++
++    $ mount -t ubifs ubi0_0 /mnt/ubifs
++
++将 UBI 设备 0 的 "rootfs" 卷挂载到 /mnt/ubifs（"rootfs" 是卷名）::
++
++    $ mount -t ubifs ubi0:rootfs /mnt/ubifs
++
++以下是内核启动参数的示例，用于将 mtd0 附加到 UBI 并挂载 "rootfs" 卷：
++ubi.mtd=0 root=ubi0:rootfs rootfstype=ubifs
++
++参考资料
++========
++
++UBIFS 文档及常见问题解答/操作指南请访问 MTD 官网：
++
++- http://www.linux-mtd.infradead.org/doc/ubifs.html
++- http://www.linux-mtd.infradead.org/faq/ubifs.html
+-- 
+2.27.0
