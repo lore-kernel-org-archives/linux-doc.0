@@ -1,130 +1,242 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F4B3164CA;
-	Tue, 26 Aug 2025 16:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730E62C2343;
+	Tue, 26 Aug 2025 16:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756225847; cv=none; b=Or4IqRDJsx66vnsytlzSWcui/GY1xwdAAv0vy6UX2l/MaqKaUvwW9neepj2SVYgRPsnD2tRZmtZaF8ATRDP+SBnzj/B7QXvtJmjzNihECknudjmXwrKsXxV2f935xKFi2560S6W7nsbLC6GP3uO0QR3zY80DGn5cMBSPwki2CX4=
+	t=1756226585; cv=none; b=L1R0TCKOysUolnt9zRe0vGNEQ0j0nY0ZfG1dvHw/ybn4Prjm5F/+tjyqhRdRj7M9dqUU2qo+XKT/PPOiF4hTf97GstAYL2Y7QJcvOD6SBxXPhyjguYJD6Al7valhGMTrI0M7VSqIj/b1hgigaLtarYbKORzW4UJHcRezCiDkYgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756225847; c=relaxed/simple;
-	bh=jsdL7AJNNXRh3kNJfVcr9C/2adFC1awoc6/bhR7hmMM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SkuBQVr4lgHIfwCfFFcA/CycsNhIzEVrkffZ9fa1OE1kk67gTCgcHU+aANWqxrgdQK7PkbCp9deR3MuwQSkro0zwQWyYTZE39CKdpZhDQB6NV8gIb3ZuvLMPwjSEB1TZIpAimCvLqupjxUwdYvcSUtcNRimCKw1xvkNxP/594UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from ROG.lan (unknown [118.251.176.199])
-	by APP-03 (Coremail) with SMTP id rQCowAD3jX8L4a1oBKJmDw--.6398S6;
-	Wed, 27 Aug 2025 00:30:25 +0800 (CST)
-From: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-To: paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	anup@brainfault.org,
-	pbonzini@redhat.com,
-	shuah@kernel.org,
-	cyan.yang@sifive.com,
-	cleger@rivosinc.com,
-	charlie@rivosinc.com,
-	cuiyunhui@bytedance.com,
-	samuel.holland@sifive.com,
-	namcao@linutronix.de,
-	jesse@rivosinc.com,
-	inochiama@gmail.com,
-	yongxuan.wang@sifive.com,
-	ajones@ventanamicro.com,
-	parri.andrea@gmail.com,
-	mikisabate@gmail.com,
-	yikming2222@gmail.com,
-	thomas.weissschuh@linutronix.de
-Cc: linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org,
-	pincheng.plct@isrc.iscas.ac.cn
-Subject: [PATCH v2 4/5] riscv: KVM: allow Zilsd and Zclsd extensions for Guest/VM
-Date: Wed, 27 Aug 2025 00:29:38 +0800
-Message-Id: <20250826162939.1494021-5-pincheng.plct@isrc.iscas.ac.cn>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250826162939.1494021-1-pincheng.plct@isrc.iscas.ac.cn>
-References: <20250826162939.1494021-1-pincheng.plct@isrc.iscas.ac.cn>
+	s=arc-20240116; t=1756226585; c=relaxed/simple;
+	bh=X8bX4wqEcG5t8zkKm77FY2KpCA9tiNOlzUzYFahmvEE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PLPdC7Nz6OwFFpFI5EsfrcMPKXDC6MLNxq0T3KC+rfYXylDmWbzteS3hzRC7zS3+bL7q1cCM0nBsmOqLm+jC1xJ2/yxZMHIeYP55vfXraH5cShUFtZaHkMmVRH2F7pQeKqiG9J+SaX/NWZJ+/N7d4JRbvOlfC5a1Q8dLeMIP+xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xRXx8x08; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xRXx8x08"
+Message-ID: <cf5d9158-4833-4355-8e4d-0894411d0d46@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756226570;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oNfkM1W8WaLCBU2U7GOyvpqxcWGzOkoKctUH1gJKV1o=;
+	b=xRXx8x08no8uaEDO9RKzLskCzkj+jB3RwdecNrEvYto75HJcNfWnsedNL/nnHumQIqCqXA
+	U/TkaeHKHd8wsbcOafRfH6C++R2dpVYapKVLlI+X5qvL//Lcva8aF/hSE6Gt+sDZWT2OWP
+	+rphjf0B8i5JTbzQ0xE9drRCQj4SUjg=
+Date: Tue, 26 Aug 2025 17:42:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAD3jX8L4a1oBKJmDw--.6398S6
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw4ruw45tFyDtrWUCrWUCFg_yoW8Wr17pr
-	s8CF9I9rW5C34fuas7twn8ur18Ww4UWws0ka1xur4xJFyUCry8JF1DA3W3Zr1DJay09rn5
-	WF1fGr18Zw45Ar7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmm14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_
-	Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x
-	IIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_
-	Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8c
-	xan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
-	c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
-	CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
-	CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr
-	0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
-	YxBIdaVFxhVjvjDU0xZFpf9x0pRQJ5wUUUUU=
-X-CM-SenderInfo: pslquxhhqjh1xofwqxxvufhxpvfd2hldfou0/
+Subject: Re: [PATCH net-next v01 08/12] hinic3: Queue pair context
+ initialization
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+ Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
+ Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+ Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <cover.1756195078.git.zhuyikai1@h-partners.com>
+ <fc3dd2c0d29c54332169bc5a2e5be4e4eac77b07.1756195078.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <fc3dd2c0d29c54332169bc5a2e5be4e4eac77b07.1756195078.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Extend the KVM ISA extension ONE_REG interface to allow KVM user space
-to detect and enable Zilsd and Zclsd extensions for Guest/VM.
+On 26/08/2025 10:05, Fan Gong wrote:
+> Initialize queue pair context of hardware interaction.
+> 
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> ---
 
-Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
----
- arch/riscv/include/uapi/asm/kvm.h | 2 ++
- arch/riscv/kvm/vcpu_onereg.c      | 2 ++
- 2 files changed, 4 insertions(+)
+a bit of styling nits, but as you still have to do another version it
+would be great to fix.
 
-diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/asm/kvm.h
-index 5f59fd226cc5..beb7ce06dce8 100644
---- a/arch/riscv/include/uapi/asm/kvm.h
-+++ b/arch/riscv/include/uapi/asm/kvm.h
-@@ -174,6 +174,8 @@ enum KVM_RISCV_ISA_EXT_ID {
- 	KVM_RISCV_ISA_EXT_ZCD,
- 	KVM_RISCV_ISA_EXT_ZCF,
- 	KVM_RISCV_ISA_EXT_ZCMOP,
-+	KVM_RISCV_ISA_EXT_ZCLSD,
-+	KVM_RISCV_ISA_EXT_ZILSD,
- 	KVM_RISCV_ISA_EXT_ZAWRS,
- 	KVM_RISCV_ISA_EXT_SMNPM,
- 	KVM_RISCV_ISA_EXT_SSNPM,
-diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_onereg.c
-index 2e1b646f0d61..8219769fc4a1 100644
---- a/arch/riscv/kvm/vcpu_onereg.c
-+++ b/arch/riscv/kvm/vcpu_onereg.c
-@@ -64,6 +64,7 @@ static const unsigned long kvm_isa_ext_arr[] = {
- 	KVM_ISA_EXT_ARR(ZCD),
- 	KVM_ISA_EXT_ARR(ZCF),
- 	KVM_ISA_EXT_ARR(ZCMOP),
-+	KVM_ISA_EXT_ARR(ZCLSD),
- 	KVM_ISA_EXT_ARR(ZFA),
- 	KVM_ISA_EXT_ARR(ZFH),
- 	KVM_ISA_EXT_ARR(ZFHMIN),
-@@ -78,6 +79,7 @@ static const unsigned long kvm_isa_ext_arr[] = {
- 	KVM_ISA_EXT_ARR(ZIHINTPAUSE),
- 	KVM_ISA_EXT_ARR(ZIHPM),
- 	KVM_ISA_EXT_ARR(ZIMOP),
-+	KVM_ISA_EXT_ARR(ZILSD),
- 	KVM_ISA_EXT_ARR(ZKND),
- 	KVM_ISA_EXT_ARR(ZKNE),
- 	KVM_ISA_EXT_ARR(ZKNH),
--- 
-2.39.5
+[...]
+
+> +static int init_sq_ctxts(struct hinic3_nic_dev *nic_dev)
+> +{
+> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +	struct hinic3_sq_ctxt_block *sq_ctxt_block;
+> +	u16 q_id, curr_id, max_ctxts, i;
+> +	struct hinic3_sq_ctxt *sq_ctxt;
+> +	struct hinic3_cmd_buf *cmd_buf;
+> +	struct hinic3_io_queue *sq;
+> +	__le64 out_param;
+> +	int err = 0;
+> +
+> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
+> +	if (!cmd_buf) {
+> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	q_id = 0;
+> +	while (q_id < nic_io->num_qps) {
+> +		sq_ctxt_block = cmd_buf->buf;
+> +		sq_ctxt = sq_ctxt_block->sq_ctxt;
+> +
+> +		max_ctxts = (nic_io->num_qps - q_id) > HINIC3_Q_CTXT_MAX ?
+> +			     HINIC3_Q_CTXT_MAX : (nic_io->num_qps - q_id);
+> +
+> +		hinic3_qp_prepare_cmdq_header(&sq_ctxt_block->cmdq_hdr,
+> +					      HINIC3_QP_CTXT_TYPE_SQ, max_ctxts,
+> +					      q_id);
+> +
+> +		for (i = 0; i < max_ctxts; i++) {
+> +			curr_id = q_id + i;
+> +			sq = &nic_io->sq[curr_id];
+> +			hinic3_sq_prepare_ctxt(sq, curr_id, &sq_ctxt[i]);
+> +		}
+> +
+> +		hinic3_cmdq_buf_swab32(sq_ctxt_block, sizeof(*sq_ctxt_block));
+> +
+> +		cmd_buf->size = cpu_to_le16(SQ_CTXT_SIZE(max_ctxts));
+> +		err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
+> +					      L2NIC_UCODE_CMD_MODIFY_QUEUE_CTX,
+> +					      cmd_buf, &out_param);
+> +		if (err || out_param != 0) {
+
+no need for "!= 0" ...
+
+> +			dev_err(hwdev->dev, "Failed to set SQ ctxts, err: %d, out_param: 0x%llx\n",
+> +				err, out_param);
+> +			err = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		q_id += max_ctxts;
+> +	}
+> +
+> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
+> +
+> +	return err;
+> +}
+> +
+> +static int init_rq_ctxts(struct hinic3_nic_dev *nic_dev)
+> +{
+> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +	struct hinic3_rq_ctxt_block *rq_ctxt_block;
+> +	u16 q_id, curr_id, max_ctxts, i;
+> +	struct hinic3_rq_ctxt *rq_ctxt;
+> +	struct hinic3_cmd_buf *cmd_buf;
+> +	struct hinic3_io_queue *rq;
+> +	__le64 out_param;
+> +	int err = 0;
+> +
+> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
+> +	if (!cmd_buf) {
+> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	q_id = 0;
+> +	while (q_id < nic_io->num_qps) {
+> +		rq_ctxt_block = cmd_buf->buf;
+> +		rq_ctxt = rq_ctxt_block->rq_ctxt;
+> +
+> +		max_ctxts = (nic_io->num_qps - q_id) > HINIC3_Q_CTXT_MAX ?
+> +				HINIC3_Q_CTXT_MAX : (nic_io->num_qps - q_id);
+> +
+> +		hinic3_qp_prepare_cmdq_header(&rq_ctxt_block->cmdq_hdr,
+> +					      HINIC3_QP_CTXT_TYPE_RQ, max_ctxts,
+> +					      q_id);
+> +
+> +		for (i = 0; i < max_ctxts; i++) {
+> +			curr_id = q_id + i;
+> +			rq = &nic_io->rq[curr_id];
+> +			hinic3_rq_prepare_ctxt(rq, &rq_ctxt[i]);
+> +		}
+> +
+> +		hinic3_cmdq_buf_swab32(rq_ctxt_block, sizeof(*rq_ctxt_block));
+> +
+> +		cmd_buf->size = cpu_to_le16(RQ_CTXT_SIZE(max_ctxts));
+> +
+> +		err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
+> +					      L2NIC_UCODE_CMD_MODIFY_QUEUE_CTX,
+> +					      cmd_buf, &out_param);
+> +		if (err || out_param != 0) {
+
+... here as well
+
+> +			dev_err(hwdev->dev, "Failed to set RQ ctxts, err: %d, out_param: 0x%llx\n",
+> +				err, out_param);
+> +			err = -EFAULT;
+> +			break;
+> +		}
+> +
+> +		q_id += max_ctxts;
+> +	}
+> +
+> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
+> +
+> +	return err;
+> +}
+
+[...]
+
+> +static int clean_queue_offload_ctxt(struct hinic3_nic_dev *nic_dev,
+> +				    enum hinic3_qp_ctxt_type ctxt_type)
+> +{
+> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +	struct hinic3_clean_queue_ctxt *ctxt_block;
+> +	struct hinic3_cmd_buf *cmd_buf;
+> +	__le64 out_param;
+> +	int err;
+> +
+> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
+> +	if (!cmd_buf) {
+> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ctxt_block = cmd_buf->buf;
+> +	ctxt_block->cmdq_hdr.num_queues = cpu_to_le16(nic_io->max_qps);
+> +	ctxt_block->cmdq_hdr.queue_type = cpu_to_le16(ctxt_type);
+> +	ctxt_block->cmdq_hdr.start_qid = 0;
+> +	ctxt_block->cmdq_hdr.rsvd = 0;
+> +	ctxt_block->rsvd = 0;
+> +
+> +	hinic3_cmdq_buf_swab32(ctxt_block, sizeof(*ctxt_block));
+> +
+> +	cmd_buf->size = cpu_to_le16(sizeof(*ctxt_block));
+> +
+> +	err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
+> +				      L2NIC_UCODE_CMD_CLEAN_QUEUE_CTX,
+> +				      cmd_buf, &out_param);
+> +	if ((err) || (out_param)) {
+
+no need for extra parenthesis
+
+> +		dev_err(hwdev->dev, "Failed to clean queue offload ctxts, err: %d,out_param: 0x%llx\n",
+> +			err, out_param);
+> +
+> +		err = -EFAULT;
+> +	}
+> +
+> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
 
