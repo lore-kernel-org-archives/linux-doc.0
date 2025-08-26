@@ -1,78 +1,113 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40F4307484;
-	Tue, 26 Aug 2025 12:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6431DAC95;
+	Tue, 26 Aug 2025 13:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756211992; cv=none; b=vFpNTNHTSrf4SVzJb9P6v81x1kyjIKXEyOYeTwrcBkMAPKGKMr9CYiXIQl95mf6vmkOtu3FxDsN8PQ7ORGzSa7TwJFipOF6WZg5OuqitBj3jAqQEGEAuutnOK5EKXhRLm3Du+kDuh2rMBwp/qAzRfnKtweRh1kSv+PxojXbxApA=
+	t=1756214192; cv=none; b=P1b7BM4M/lazrcefvn/gzHTfYI33nQPHY9ni1B7it4jtsz/ih8djycOSw90+N1Ss6odDMj39CKjISAS8DRS+kFdX9ibbepdL61iG5QGFCFQX3MzxyR6Zqq3SjdSGYRaB/fs5MNEKKQa50wABvXzgADhZMesI5fFHZ9/xeSb+Yqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756211992; c=relaxed/simple;
-	bh=dGnNrQX6SngfoB1qpiDdPYhk6mxxMtMJBb9fvgJBWyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIiN9+OXwYXUVJCN+6v0GHPvqQE0jyCYvbRI1F/t1t/DXXSgWftlGsNRLfYcxul4A9dNPg2J9173/NsFNkmSF8Q5KE3PQRj8P61k8KgqPwc2XbLqKXf3V5y1CzSK2ftSSs4Y/F2u08CHBif/uaJMJTYb/QOZAUt7T12AoiQH3OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=XkUpTeyD; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1756214192; c=relaxed/simple;
+	bh=tFb+Ondpv3Ccm4cT7YJIvIxpPOa3gBZBu7W+KGbSHs4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=h4D2HWv6H/3XrFAAkvZ5Wji2EgLk8bVwlZqHqXA7w2yzpJVd/t7KuhXROwvPvdrxF8A7J+sHHHSKkG3M/pzc6Xznx9+HnvDYCcZyM2hA+NWRcE0wWC/62dH+gkCmrR9cdYkY/ZssU4HFUY7tXt8ZjIkPyQoqK6nvPhFI3rC1hKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpp3MwAe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="XkUpTeyD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=QkbnYSmWkM3Cx83RhzgKWrax3iNbj9sbt9f1CZxZlq0=; b=XkUpTeyDhuNXtl3P+qO3sjmTHV
-	AfgkITj/OVg/BiD7malHlPDfwTI1ZRY1CFJA8Ic1Ekk//PlTLVyBWgBxUPJ13/0zQ0+cX0eYo39L5
-	/8gNSuA1IsCwfpjesX8tu0OK8oPsuzwIYtksuY4mpvnyohEYwzWFDk3WjjeR2whwT1EY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uqsx9-0065cW-2s; Tue, 26 Aug 2025 14:39:07 +0200
-Date: Tue, 26 Aug 2025 14:39:07 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <bd1d77b2-c218-4dce-bbf6-1cbdecabb30b@lunn.ch>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <316f57e3-5953-4db6-84aa-df9278461d30@linux.dev>
- <82E3BE49DB4195F0+20250826013113.GA6582@nic-Precision-5820-Tower>
- <bbdabd48-61c0-46f9-bf33-c49d6d27ffb0@linux.dev>
- <8C1007761115185D+20250826110539.GA461663@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpp3MwAe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E44C4CEF1;
+	Tue, 26 Aug 2025 13:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756214192;
+	bh=tFb+Ondpv3Ccm4cT7YJIvIxpPOa3gBZBu7W+KGbSHs4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=jpp3MwAeRCmcs1UuVWPLSMUBFxGBC6oylqYB3I9Uzi2zxr21OZ6UbVQud/RwJFL5A
+	 JtdjMnl+UTMcT4Vgdm/+7BIHD4iduxJtj78yK3VPvpmhMG8nsPX30DSSTgLWTl+7Ku
+	 BOieUo7gY9Iyv9Bh/2rSCb931n/kxnD0i7kIOvV62Lt7fUpCQnmQtb1TmMedYESuYs
+	 Db2KWn2LhMbIvO2UWMg9WFZqHSbo4onE/E0K417i3qgQHY8Y8da+WdKX2Cy0Mz7GAQ
+	 2eL4A+0PFwJa7uFynssXDVxGSTDsF74paRhslvfyRZw2VMr9oJmDa7gkTB0CBX5fry
+	 ZXrM1hz5JJqzQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+In-Reply-To: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+Date: Tue, 26 Aug 2025 15:16:22 +0200
+Message-ID: <mafs0ms7mxly1.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8C1007761115185D+20250826110539.GA461663@nic-Precision-5820-Tower>
+Content-Type: text/plain
 
-> Yes. It is not safe, so I 'must wait_event_timeout before free cookie'....
-> But is there a safe way to do it?
-> Maybe:
-> ->allocate cookie
->   -> map it to an unique id
->     ->set the id to req->cookie
->       ->receive response and check id valid? Then access cookie?
+Hi Pasha,
 
-This is part of why adding cookies in a separate patch with a good
-commit message is important.
+On Thu, Aug 07 2025, Pasha Tatashin wrote:
 
-Please take a step back. What is the big picture? Why do you need a
-cookie? What is it used for? If you describe what your requirements
-are, we might be able to suggest a better solution, or point you at a
-driver you can copy code from.
+> This series introduces the LUO, a kernel subsystem designed to
+> facilitate live kernel updates with minimal downtime,
+> particularly in cloud delplyoments aiming to update without fully
+> disrupting running virtual machines.
+>
+> This series builds upon KHO framework by adding programmatic
+> control over KHO's lifecycle and leveraging KHO for persisting LUO's
+> own metadata across the kexec boundary. The git branch for this series
+> can be found at:
+>
+> https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v3
+>
+> Changelog from v2:
+> - Addressed comments from Mike Rapoport and Jason Gunthorpe
+> - Only one user agent (LiveupdateD) can open /dev/liveupdate
+> - With the above changes, sessions are not needed, and should be
+>   maintained by the user-agent itself, so removed support for
+>   sessions.
 
-	Andrew
+If all the FDs are restored in the agent's context, this assigns all the
+resources to the agent. For example, if the agent restores a memfd, all
+the memory gets charged to the agent's cgroup, and the client gets none
+of it. This makes it impossible to do any kind of resource limits.
+
+This was one of the advantages of being able to pass around sessions
+instead of FDs. The agent can pass on the right session to the right
+client, and then the client does the restore, getting all the resources
+charged to it.
+
+If we don't allow this, I think we will make LUO/LiveupdateD unsuitable
+for many kinds of workloads. Do you have any ideas on how to do proper
+resource attribution with the current patches? If not, then perhaps we
+should reconsider this change?
+
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
