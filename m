@@ -1,146 +1,327 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412A728751C
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 22:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756246832; cv=none; b=r7xTFn1uLaNLGNbiwmRu+r6JkxrBumRGegMkAIpks2gf8kRU4EoXKcJNvzrphOZwW1groKqInotSbkc7f71V0j4C8HS4VXrGXn0zBKPc6A2Qy06+kK4I7WMhF0TrAWE56d6L6WWpjmTF/c+nqEqtyPtL+fvQjG3tvuRwdXZvt08=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756246832; c=relaxed/simple;
-	bh=e73dqOyKAr7aCy1rumBgO8qBoCQd+jQ2sWMxR1cIDXA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l0BT2QBvtHUwa0bqS4bIyleJw8l+vKyi/kTmb2qIiIlcHvSAQ4huo1NFjeP5xmN/l+xISqJaBn7lwvAfzozprC/N1Ho3TaOPh6CokrMcQt4OEG1M5vZn2iQpDEQcXGQTjfgtN4mlubfasfcoaPxJHBdZZC9QWSrAftIcSTzCwg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=FiRWB8Qo; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7344530CDB4;
+	Tue, 26 Aug 2025 22:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756248692; cv=fail; b=B/VPT6BEpSQ4wpVpLsXmzcWtMAJVA7upObqy+YQ93lTQUnJRt/PCgBN1YwUvt4hcltked/ebLYOwn/WM593xCjy3hyD87emHOdEBDhH/Qj/VT+0Pe/wy8/hF1WCvVGB2caEdSlyBi4MY70AfNNV8nniFVZsSkLOIovje2OUGo/w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756248692; c=relaxed/simple;
+	bh=0fT49ihmos785KdArov+KCKjrAKipbI2z00GKnM0lug=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hV1O9Xh2uYAfMVruJqx6aR9uN1+bkY5OHY49OlU/FWEDjFREFrdYfgKXTb/cQs/3gyOUWVirGHnHPT6vFetVAiq3aaueIe+H1GCa1eknp2OVHl0ZCCkCH+Y3TND/prlHpQBJnUQO5+JGCgqpZOHyx2wvUksBABKlzAMcVlTQkCE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2hBdVjgF; arc=fail smtp.client-ip=40.107.92.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="FiRWB8Qo"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45a1b004a31so47071685e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 15:20:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1756246828; x=1756851628; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=e73dqOyKAr7aCy1rumBgO8qBoCQd+jQ2sWMxR1cIDXA=;
-        b=FiRWB8Qo8JQ03J9/ph7Y2FTWmiV7v0ikQeKc+F8vPTbQB3lWSaQf++5a81K0blNgAt
-         QQgCTGUC7eWaIy2ZgaTZhSIXokL1nC3lZDUBa9EjY3XHd7qPcat13NiIy+nCaCDQk0HX
-         C0JghQaJ3Zzs1jU3F9O/nAlN0V8gjuEDGTPQA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756246828; x=1756851628;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e73dqOyKAr7aCy1rumBgO8qBoCQd+jQ2sWMxR1cIDXA=;
-        b=ndHk4GK8yC5j13D9DGCFj4y4LwuhPwFikF4MYN3C76RnyxVh5/lBDw+9Qp2ZN6twPm
-         AtOgsq1R4jDletmZNCCIvbF5mWgPOP4JMFEcDYDojf7kJYbO45wgTwFpz+mRls8kl4xZ
-         eHzpbaadqSfHkyZ8MjUW8sX2hGAz9jqRAJJGnDXmfE9tyYozsA3wVQWXAZvvbhzlCA4R
-         8AlnKcePrOi9U5KMuCkEypqSnPMNT4v04sqCIMA1sNv9FFrQsfyM6GV+xL6vftC5LCN6
-         D8ZqS4JSbkw9I+uQEGnlafWXLagOQZHgqIeOREcIasAcR3bguWpuKJM5jdMW5m7BwQTm
-         QLZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeNVa7Qyw2+UDymUT+WrAGz1QkPZEfM9ePsEnKJE3FdZ/aWtn4EZroRvgp0iaQPTE//p41Xh3PGmk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyYaUWv6OPveyApr2URm9AOOG+D8HHIQswFKctPfmflVd1tbjF
-	RCezznH36uBHfoEE3+EoGKUlz1jIJCirH4K8g+PRZs4DVgRTkgQJQKw/CZAjZMbYbsU=
-X-Gm-Gg: ASbGnctH0VyINTQuAFLv0LTlNLemnN6IqIuoeHUIgPnfXMKD94Ca/HZENg/w74MQ2nV
-	1MMgt4vzshAgClu0yS174Ppf2M8cy0VIDuRzjvxQscmhc3qehoMe2fVpFMD6wmFJ/f9W2SRY8EO
-	GdrfytVMg8r8+M8a5uDgC6Mp4oJbwaYb40FnJ3mioS24ZMY/djv+m8OO4EZTfaXuni+hiJ0QcNz
-	mJvNRU93JyglTSKED/ApAEKimATJLSFTT6R2Nu1XPsOvZulsODoFqK9+T3LmQJ2duys3HlbtDTV
-	ymBllElA7ptQ9OiQB/i4t6LFeoiHFpwrTBZU2dGqeZViGjTt4NSToxl96Wz4F4LG51SXmUfg1Oo
-	pIvw9sdWGN6FtpTEpf1ApY9+7vo8GNxapaPySGZTlna4Z6H6dL3oEeXscf9Cg18DXwZQ8
-X-Google-Smtp-Source: AGHT+IGsBgRTDUWy5x4ztvDXqWNYDNjM1gHz4vj487vO6yPrxRRM1lAUWhWpoD2HOw2KfNXdTLCuvQ==
-X-Received: by 2002:a05:600c:154f:b0:456:1560:7c63 with SMTP id 5b1f17b1804b1-45b5179cf31mr146042435e9.3.1756246828491;
-        Tue, 26 Aug 2025 15:20:28 -0700 (PDT)
-Received: from [192.168.1.183] (host-195-149-20-212.as13285.net. [195.149.20.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b6f334c95sm3498925e9.25.2025.08.26.15.20.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 15:20:28 -0700 (PDT)
-Message-ID: <2f84aed4-8da2-4ac0-8714-3fb1aca51515@citrix.com>
-Date: Tue, 26 Aug 2025 23:20:27 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2hBdVjgF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bZV1UUGZj+QtR1QeijUJqpfn8GOOJ3zksHLISiFWbMDbZ5VUIW3QVj7hsBt3aS6OM2oDrY4O4n9xpy4oQ8YTMzKi909EApbp+3A6YJGU5Jo9eFMrBjXIGhfFmADDhrn5Q9Kn/hAOK6cYU1gnY91JcvUKXk7vwNt0evegUBoca3nU/2QOodhd1cZ/rPN2vHBDLo7WWdV+IPAS94sHzPvCg10yZK4surRsTZQFi8rlaM0peyMnWQ3Z9lr43v4GSCngzD/pPlgcgGXay4pw/p9D0kX4NJFKC0+rKVhEL0JyF5ipVcCZTDSFoqSp4OpAZhW7FaPe7Y9wXuS5x/Wo7vX3Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wOdK3BGtCsBIUErD576kHf94P5PO9wMzhT44glUiVE4=;
+ b=r1zgu6wHWL6iBWoR4G0Di/7iK/Gjbfomvm9rI/YZOPfUgf1k6d4+q0GXEUZQuuCsjUla6/E9SgWMPCKbT03v7+csMqjlIiQqQlshV7Gt4wBKJyuWSDPXmANRhO+WuXapZR/e4kNHtoMnjWyakAVHQMdAWk0y9HiYfrlTwbmxE4rJQYJ/pSTnZbCgqNJiMgrfG3NdlUvEgYpKZb9M8L0j5yf6fZrkgLxvXesraM6sToMDSQBxip96XCMvVpyIEYmWNW8N/3ZOSMRupbR9355/m4QeSclBznc0wMI6frxDiJE4ngzR+e679/ptT2GYZxmDVwHYE4SrHQ2+RKWn+MEY3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wOdK3BGtCsBIUErD576kHf94P5PO9wMzhT44glUiVE4=;
+ b=2hBdVjgFOF3mZJSHj2pb1JXqYZjx+C244qbr8hw7AM+YWcUk2oIy6n4IlVy7C7oVqgNTgdiiOf9Z/n8DgS9dhI3EWiOwEjMDYXsTIkib72RI9r4fn8p+YHdHhvmym9nmFzt67x/7bdQb9kpDz0uguAdHBPmHhJ3fC53AyT86Bek=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::65c) by BY5PR12MB4116.namprd12.prod.outlook.com
+ (2603:10b6:a03:210::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Tue, 26 Aug
+ 2025 22:51:26 +0000
+Received: from DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ ([fe80::1370:cd3b:4c30:5a57]) by DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ ([fe80::1370:cd3b:4c30:5a57%7]) with mapi id 15.20.9031.023; Tue, 26 Aug 2025
+ 22:51:25 +0000
+Message-ID: <4145a0fc-138a-4a96-879d-34b07fd169a9@amd.com>
+Date: Tue, 26 Aug 2025 17:51:21 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 10/10] fs/resctrl: Update bit_usage to reflect io_alloc
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, manali.shukla@amd.com, gautham.shenoy@amd.com
+References: <cover.1754436586.git.babu.moger@amd.com>
+ <6d34357ee32bb519c607a0e2f0195194c1096d7c.1754436586.git.babu.moger@amd.com>
+ <79e7f426-e592-436d-aaee-f448282c66a2@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <79e7f426-e592-436d-aaee-f448282c66a2@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0019.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::24) To DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::65c)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/20] KVM: VMX: Set FRED MSR intercepts
-To: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- peterz@infradead.org, chao.gao@intel.com, hch@infradead.org
-References: <20250821223630.984383-1-xin@zytor.com>
- <20250821223630.984383-7-xin@zytor.com>
- <2dd8c323-7654-4a28-86f1-d743b70d10b1@zytor.com>
- <36e0a671-6463-4bab-b5f1-63499838358d@citrix.com>
- <c44d5ea1-444c-4405-9182-8cd3f6faede4@zytor.com>
-Content-Language: en-GB
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <c44d5ea1-444c-4405-9182-8cd3f6faede4@zytor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS5PPFA3734E4BA:EE_|BY5PR12MB4116:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4eba10b-7b5d-48b1-d0eb-08dde4f31600
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WElqMFlQdkM5T285SGRVakx0L0IrbGlRQnJsTndpOWw5WE85QTRqV1prc21m?=
+ =?utf-8?B?RnNNM1ZpenBnY0R1OFpWY1R5OENDbmtjQmh0cCtVMmc1RUVmM2NIQlpaRkd3?=
+ =?utf-8?B?eXluNVpNYlFEeGk1aFBTczRYSnlyOWsyK3dKTXFOVThCMHAwT0l0WFNhNW5C?=
+ =?utf-8?B?ZEV0UlBMV0hPQmt0eFM5dkJuanM1M3FLRnc5cEFWa05mRmdZSllTaVdXK1RC?=
+ =?utf-8?B?WVdzODRaYXFCdnBRcDBkSHg0ZzZlR2FFSkVUM0huTDYzNzcyTFFyU2wvL25k?=
+ =?utf-8?B?VXVOTzhtYkI3cldPSzZ5SE9NZ0dsTEFXb2MyMTg4clduRmxDY2F6MUUySWYr?=
+ =?utf-8?B?RFp5YnRiODBmRHRsM1ZRRUNFTko2dWYvbUhiYlV4ZmNRUG1YZGhuQWVQNDk4?=
+ =?utf-8?B?QndMK1dwY29LU0RPZHk2SVRtejNwSHlGZFVOZjNvQWNqa1M1c2F2OE1FTk5t?=
+ =?utf-8?B?MHUrSlNxVE5wSllBSERNSWUvKzBPUlluWTlwYkRpVHJxWGNOcVJMTE9QZEFT?=
+ =?utf-8?B?d2RSSG82cWtXaE9QRktWdlQxNlZYK2tmdE9ESmtYTUQrbFowY3psK21mSnMy?=
+ =?utf-8?B?aTE0ak9tNHNHNjZDM0pvN0tnNGtKajZzUjluYmJub1RNUnArVG0wSmJ2endN?=
+ =?utf-8?B?cXk0WjlCTktpMmViQlpHZ2podkxCaDNyUytoT2xPVGdreFVsMzlIVk1rdDJw?=
+ =?utf-8?B?aDd5SzVZcHBxQ2J1L1U4eVNCam93UjVFWnJNeU9lNkprK2tmTUVTV1RCMmxI?=
+ =?utf-8?B?QmJYdkJsbERjSmJ0U3ZiMFZXMDBsYjZrREhoR0k0U1IrelB5NHdmM1JZN285?=
+ =?utf-8?B?M3NEaEtBSTdsZjAvLzk3c2VPdzR2Tk9mUFVEVVRMVTdXZnJ3aWdvVmVpSWxa?=
+ =?utf-8?B?dFpyRHZyQlNNNUVmdUw5SHcxbHUzL3dnVG1WMDNMS09WRXEwdXRLZkpOOGNh?=
+ =?utf-8?B?cDJlMXUrRTZySWpaenlhajhJMHRmUyt4SnhNMWJrS0d5R1BqS0daa3RsMEU3?=
+ =?utf-8?B?eTlGK3RFVnRZM1d3bHJReEEvK3lYSjJyc1ZLVVpuV2hNdENZMkJpSy9Ua2Qr?=
+ =?utf-8?B?UmRCSyt3SUU5dS9EU3pIZ3gwMHZGK1NDM3BqdUdNeS9OOGJvOEZqNzRWMVQ2?=
+ =?utf-8?B?SXljOHNEUlA0UmtwMmV4WkxJTXhlRWhRWmJMaE1KS29rSlhoTWV2dUN6cGhZ?=
+ =?utf-8?B?aHhtY3V2UkoxcHZtTWNZbWxRbEdBdkZkVC9ZS20rb2tRMURIR1JpaGxEWC9M?=
+ =?utf-8?B?bE9iWmhXd1h0UTY4Nkh6ZTJiS2ZURjB3WWhIanVzYXpUQ2NBRlVKNkRyb1Jv?=
+ =?utf-8?B?Y0ZpWC9obnVrQzQ2S1p5VVZ4emxOb2cvRHJRNjI5MGhROTZOdlpLcVRlMzFl?=
+ =?utf-8?B?a0c2VUJTdlBaajdHUHlpdUZRNncwbmZmYk40YUFEUGpaeEdlUS8zU2djaWJy?=
+ =?utf-8?B?VXVCK0RWZHIwVS9qVmhja08yNmZXWUVTLzVqVnNwTHVQZzA5ZnBpSHlPVlNG?=
+ =?utf-8?B?K0J3VkphMW5XTitEdHhKZGVKRlpya3d2dWxMdm5EOG1BT2M3ZitVaHdmZzYx?=
+ =?utf-8?B?dHBmLzVoK3ZjdVBreUw2eERyOWg0S3oxNVNlSnhEVWdwemdPaUJlZWdzZ2R4?=
+ =?utf-8?B?Rm9ueFdEVi9PQTZHMllJZXdTeGdweHhoZHEvUGl2eGJxVk9XY052ZDNhaEd5?=
+ =?utf-8?B?MXdxWWx5WC91SGI5Rk85VDRzZnFPMGlFNmsrcWVrNHlCaWxUOGx5RGNUUmtM?=
+ =?utf-8?B?eDBOeFdkWmxUakpwWWtrRlRvdE9BeUpmZnJ6TzZyNjdLWXJVWXh6VExHbWVI?=
+ =?utf-8?B?bGxJcmIwU3R5OVFnbXVzdmZTdHg0c3FsRHBRUVk3QWFybkd1MnJVazJndDlK?=
+ =?utf-8?B?NnhwZUlEYy80ZUZQL2lLNFNyTHNLYlhwMHlHaXdOTzBDUUxWeTRvMWc0bWlk?=
+ =?utf-8?Q?eDkm+WLBDL8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPFA3734E4BA.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dFc1azc5Y0tqRGRFWVd1WXVrKy9XVUErNkltQUtheWE3T2hET0JxbTJmZFJn?=
+ =?utf-8?B?TGtLMnhXMXhhQmw2Y2VpZkpXcmFJRUI3cVBWV2ora2g5bE5pMzRPb2xyMzJi?=
+ =?utf-8?B?S29YQmpwKy82aDdUcU5LVDBvK0U0N3Y3Skg2cTRNOHkram9kdjFyTC8wYmhX?=
+ =?utf-8?B?bmFDZEV2SFdhcjd1RDVVbnBQZXBxOE5lUTJlR3duMjY1L1ZMdE5lbEV4Mkdu?=
+ =?utf-8?B?NEoycXNQbXVxQVBIRWxQVUNaNmtueC9pc1ZSaEcyOGNCemY2d3grei9xRExU?=
+ =?utf-8?B?MVczZDhQWjBOOExNdVc4TGdDalI0N0dTd2hWdkhpaTNsdkN3b0dMOFVCTHpH?=
+ =?utf-8?B?eXY5YXNwTCtkWFE2QTMrME92akIvQi9BTVpHYUx3cnpqMHROTVQ0b0ZyQmMz?=
+ =?utf-8?B?YzMvWmYzaHVwbkw5cFFLOUdqbkNSRHdoYk55MS9Sejc0c2NldjdtMndsczlX?=
+ =?utf-8?B?Q0NrL0c2d2pKSW5sVWN5NWhTUURxTGhCRUp0Vy8wMm90QTlWR2Z6MHVLbUx4?=
+ =?utf-8?B?WVRtOVd1aWYrM0pjbjJYdU9XT3BWbTVxbVBFTE5CeVRGTGoreHM3c0FwQzdL?=
+ =?utf-8?B?RmdOL3JLZDUyQlJFMG5tczFOWWxyNG9nM3ZsT0dHdTNDU1B3UU44bEg5ZHlM?=
+ =?utf-8?B?Z3gwWFVSdnVFZFVpemdBalhSN3dpdVB4WXgyTjRoV1h1VFpCNmp4UFp5Zk9j?=
+ =?utf-8?B?Vkh4VXMwRHFwZDNpVjY3Vzd3MlVKYkJKRWI4N0RkWUVRdTBXQUxwVTlJeDJT?=
+ =?utf-8?B?bmFHYm5MeERZeDFFWlNPeGZPWGJ3YTB0THNhYWk5YTcxSUg3WDRCcFh3VnFR?=
+ =?utf-8?B?c3JzVThMWkk1V3ltVTl5czFGb01lalZuZ2JjbG94SXk2RncrTThFOWlPd0d2?=
+ =?utf-8?B?QlJOMDQ0TGpZME90bVhSdURjcmNmNGdzU3BEMlFGRk9OTTM1ZTdKQng5RGw1?=
+ =?utf-8?B?MDJTUVBqM3BnT3VsM0FZWmZIenBZNUExNVhaTXJsSkUrc2p2c1p6b1pLZlJL?=
+ =?utf-8?B?MGEyaThvT0Y1cVFHd1o4WnpuckRwTUpSWFE0S2VhWkNPbHI3QkFjdWtPTGZt?=
+ =?utf-8?B?anZodHBkVjI3cTRIUG42OXVHS0RaRXJDNTZ0MXptdGliVWZVTFdRSkNDOXls?=
+ =?utf-8?B?MFRuSllsNHRrbitFM21CV0RHZ1BYb2tYVVp0VW4wSmpSZHlPKzVmazdKT3N0?=
+ =?utf-8?B?RnBsR0MyUHM5WnFRQ2pzOUN6MFVHcWRzNllqNWNzK3NVeXFNbWFHMy91WG1m?=
+ =?utf-8?B?UmhYMUZqelllUmJLWFlGbnVDWWZRZmQ4RmdJZVhSdzhBcW1hNGlpWEdRL05S?=
+ =?utf-8?B?VFN6L3JQYnljOHUyZEZLMnV5VjJlWU1UOHlsSjAzL01OaExtQWZtV2J0SEoy?=
+ =?utf-8?B?MXl1eU1QWTRIbWU2aFFKdCthcUE3eHduZzAzd1lYSG1xS0x2ZFB4MUtRMXlY?=
+ =?utf-8?B?dVVrNFBNZ2NKaWhKbitpZzVmUXBIQXIrb1RSV1EwZXdPMk9iM3VqRUtyMUla?=
+ =?utf-8?B?cVpQQjVFWGdwNkRGMC9aZk1LUU9taitjVFJ3ai9BRVlQYnZSRE1DTHlxdVZU?=
+ =?utf-8?B?Y2NJWWtIRmNSRE5HZUg1UTE5cFd5Tnk5STBQaGw5RWhMblVxOE95WTB5a3lz?=
+ =?utf-8?B?RU9HcGxYWTlGZGJmYVA0TC9EbnV2R1J1UXlxQ0VNS25tRjFjdHhqMldKVnYy?=
+ =?utf-8?B?RVBtUk93RlJrT3RzRUVaNFB0ZnZFcXdqSEZVK1g2TVo5NWtnWm1ZSHZVTm9v?=
+ =?utf-8?B?RlBHcS92ZFo0K1dFbkt6Rk53dzBENUpEdzR6MENzbVkxajgvaFAvUjVaSk1z?=
+ =?utf-8?B?MzRMSTZVRjA2YUZRazU2Q3hrU25iQ1dSWVZWZzhwcmQ5elpqOWEzNzErRGFm?=
+ =?utf-8?B?dUdOMDVqQWk4OUhkSXlDQ3NYR2VKNHg3ditSVk1ka3hJSythbGxwdnFQL0xa?=
+ =?utf-8?B?VHpsNkpHZ2JnTzNJOStaSmNlVHdVQVY4QUx0YnkrQTJ1bVc0Q3BRTElQaUZv?=
+ =?utf-8?B?M1o1NGc4b2pIbWpSVXdaVDJCbXRmb01YZGFlbjlzeC9WdnU2aHlYVDlXajV6?=
+ =?utf-8?B?c3REQVMvMXpYSTQvZkVDRndhSzk3NW5RNUVOODdaZVFJL3VaREN4TDIxdTgy?=
+ =?utf-8?Q?p7Xg=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4eba10b-7b5d-48b1-d0eb-08dde4f31600
+X-MS-Exchange-CrossTenant-AuthSource: DS5PPFA3734E4BA.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 22:51:25.6327
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X1xxZmic56LX4aInKhbdyWOelF+r9bmZWl4jtIK9LFW9OsyP3qgqI/zpHIKk99Ya
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4116
 
-On 26/08/2025 11:03 pm, Xin Li wrote:
-> On 8/26/2025 11:50 AM, Andrew Cooper wrote:
->> This distinction only matters for guests, and adding the CET-SS
->> precondition makes things simpler overall for both VMMs and guests.  So
->> can't this just be fixed up before being integrated into the SDM?
+Hi Reinette,
+
+On 8/7/2025 8:54 PM, Reinette Chatre wrote:
+> Hi Babu
 >
-> +1 :)
+> On 8/5/25 4:30 PM, Babu Moger wrote:
+>> When the io_alloc feature is enabled, a portion of the cache can be
+>> configured for shared use between hardware and software.
+>>
+>> Update the bit_usage representation to reflect the io_alloc configuration.
+> ... but no update to the bit_usage docs :(
 
-I've just realised why these MSRs are tied together in this way.
 
-As written, the VMX Entry/Exit Load/Save FRED controls do not allow for
-a logical configuration of FRED && !CET-SS.  Both sets of stack pointers
-are treated the same.
+Yes. Missed that.  Will update the text.
 
-This is horrible.  I'm less certain if this can simply be fixed by
-changing the SDM.
 
-~Andrew
+>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> ..
+>
+>> ---
+>>   Documentation/filesystems/resctrl.rst | 19 +++++++++++++------
+>>   fs/resctrl/ctrlmondata.c              |  2 +-
+>>   fs/resctrl/internal.h                 |  2 ++
+>>   fs/resctrl/rdtgroup.c                 | 18 ++++++++++++++++--
+>>   4 files changed, 32 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index d955e8525af0..1e46231b929c 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -90,12 +90,19 @@ related to allocation:
+>>   		must be set when writing a mask.
+>>   
+>>   "shareable_bits":
+>> -		Bitmask of shareable resource with other executing
+>> -		entities (e.g. I/O). User can use this when
+>> -		setting up exclusive cache partitions. Note that
+>> -		some platforms support devices that have their
+>> -		own settings for cache use which can over-ride
+>> -		these bits.
+>> +		Bitmask of shareable resource with other executing entities
+>> +		(e.g. I/O). Applies to all instances of this resource. User
+>> +		can use this when setting up exclusive cache partitions.
+>> +		Note that some platforms support devices that have their
+>> +		own settings for cache use which can over-ride these bits.
+>> +
+>> +		When "io_alloc" is enabled, a portion of each cache instance can
+>> +		be configured for shared use between hardware and software.
+>> +		"bit_usage" should be used to see which portions of each cache
+>> +		instance is configured for hardware use via "io_alloc" feature
+>> +		because every cache instance can have its "io_alloc" bitmask
+>> +		configured independently via io_alloc_cbm.
+>> +
+>>   "bit_usage":
+> More ignored feedback. I was expecting changes to the "bit_usage" section.
+> https://lore.kernel.org/lkml/94d075e0-6703-449f-9c0c-8e5973349dff@intel.com/
+
+Yea.  Added following text now.
+
+
+diff --git a/Documentation/filesystems/resctrl.rst 
+b/Documentation/filesystems/resctrl.rst
+index 273c9c9389a4..0a56829407c9 100644
+--- a/Documentation/filesystems/resctrl.rst
++++ b/Documentation/filesystems/resctrl.rst
+@@ -124,8 +124,11 @@ related to allocation:
+                         "X":
+                               Corresponding region is available for 
+sharing and
+                               used by hardware and software. These are the
+-                             bits that appear in "shareable_bits" as
+-                             well as a resource group's allocation.
++                             bits that appear in "shareable_bits" as 
+well as a
++                             resource group's allocation. When io_alloc 
+is enabled,
++                             the capacity bitmasks configured via 
+io_alloc_cbm will
++                             also appear here, indicating the cache 
+regions shared
++                             with I/O devices.
+                         "S":
+                               Corresponding region is used by software
+                               and available for sharing.
+
+
+>
+>>   		Annotated capacity bitmasks showing how all
+>>   		instances of the resource are used. The legend is:
+>> diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
+>> index 1f69117f96f8..cfa766319189 100644
+>> --- a/fs/resctrl/ctrlmondata.c
+>> +++ b/fs/resctrl/ctrlmondata.c
+>> @@ -754,7 +754,7 @@ static int resctrl_io_alloc_init_cbm(struct resctrl_schema *s, u32 closid)
+>>    * resource. Note that if Code Data Prioritization (CDP) is enabled, the number
+>>    * of available CLOSIDs is reduced by half.
+>>    */
+>> -static u32 resctrl_io_alloc_closid(struct rdt_resource *r)
+>> +u32 resctrl_io_alloc_closid(struct rdt_resource *r)
+>>   {
+>>   	if (resctrl_arch_get_cdp_enabled(r->rid))
+>>   		return resctrl_arch_get_num_closid(r) / 2  - 1;
+>> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
+>> index 5467c3ad1b6d..98b87725508b 100644
+>> --- a/fs/resctrl/internal.h
+>> +++ b/fs/resctrl/internal.h
+>> @@ -395,6 +395,8 @@ int resctrl_io_alloc_cbm_show(struct kernfs_open_file *of, struct seq_file *seq,
+>>   ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of, char *buf,
+>>   				   size_t nbytes, loff_t off);
+>>   
+>> +u32 resctrl_io_alloc_closid(struct rdt_resource *r);
+>> +
+>>   const char *rdtgroup_name_by_closid(int closid);
+>>   
+>>   #ifdef CONFIG_RESCTRL_FS_PSEUDO_LOCK
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index a3ab2851c6da..b85c2622c94b 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -1068,15 +1068,17 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
+>>   
+>>   	cpus_read_lock();
+>>   	mutex_lock(&rdtgroup_mutex);
+>> -	hw_shareable = r->cache.shareable_bits;
+>>   	list_for_each_entry(dom, &r->ctrl_domains, hdr.list) {
+>>   		if (sep)
+>>   			seq_putc(seq, ';');
+>> +		hw_shareable = r->cache.shareable_bits;
+>>   		sw_shareable = 0;
+>>   		exclusive = 0;
+>>   		seq_printf(seq, "%d=", dom->hdr.id);
+>>   		for (i = 0; i < closids_supported(); i++) {
+>> -			if (!closid_allocated(i))
+>> +			if (!closid_allocated(i) ||
+>> +			    (resctrl_arch_get_io_alloc_enabled(r) &&
+>> +			     i == resctrl_io_alloc_closid(r)))
+>>   				continue;
+>>   			ctrl_val = resctrl_arch_get_config(r, dom, i,
+>>   							   s->conf_type);
+>> @@ -1104,6 +1106,18 @@ static int rdt_bit_usage_show(struct kernfs_open_file *of,
+>>   				break;
+>>   			}
+>>   		}
+>> +
+>> +		/*
+>> +		 * When the "io_alloc" feature is enabled, a portion of the
+>> +		 * cache is configured for shared use between hardware and software.
+> Please add snippet to comment that highlights that CBM of CDP peers are kept in sync and the
+> CBM used for I/O can thus be obtained from either.
+
+
+Sure. Thanks
+
+Babu
+
