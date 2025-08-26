@@ -1,125 +1,169 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A18526A09F;
-	Tue, 26 Aug 2025 09:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680FF1F5825;
+	Tue, 26 Aug 2025 09:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756199205; cv=none; b=P6C8ldanm9tVPqe8boU8uXW3NnUI1jztRfYTQ1rlFplKej5nuiqoi55cUPHYEwKppszINUKcZRnlCwod2sRn7qByQaz7jCSzxe9UYgKjwoJPtvGmrCHIIDdLAAcjnlGFqEqDf8Zz7DJxsYEvITEwZVQPKtU6DdCvOjBo9ju2jsw=
+	t=1756200835; cv=none; b=mkNwyA6lWKdYAATpFetRwnZV4ulaAyyCUHJrPnpQcA/F9pULJih7KWWQrIflyyML+A/hDEicLzPhVsxwP/wsGb0msNXJxtfubQYI9voVnvokSoOJisbOAQwd3I78uEZVTD0VdGlsSDls0JZDTu2G/bttfv7c0bQu+01hojI30xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756199205; c=relaxed/simple;
-	bh=KUp3bc/tsNbImpNd7IPGfxSAfDEKwtB2truPWEYMsoU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t1IEiUIHJqeZeEObbos3QenP8msN19WPRNDEwa4fAcy9A1jiENtMzzYPiOmyz2U+OcXIS3XhLqNpYBH3ex31tifuAD/GLvPVsaIOzumPOdMi4Dp1hu+hRt1BWfdZ3vpaI5mpHWqmbmI2wAeqOBqA3+NQpeV6jAgzQ5qOJ3bjyC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4cB1sW6bdRz24j3q;
-	Tue, 26 Aug 2025 17:03:11 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 28EBE1A016C;
-	Tue, 26 Aug 2025 17:06:08 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 26 Aug 2025 17:06:06 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
-	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
-	<gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
-	<mpe@ellerman.id.au>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman
- Ghosh <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>
-Subject: [PATCH net-next v01 00/12] net: hinic3: Add a driver for Huawei 3rd gen NIC - sw and hw initialization
-Date: Tue, 26 Aug 2025 17:05:42 +0800
-Message-ID: <cover.1756195078.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
+	s=arc-20240116; t=1756200835; c=relaxed/simple;
+	bh=y8Tb2M244zZTYaYWizBJcZzccsoEzWxpfuLnGS7gZY4=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=Dtk2vj07dVsc+7G8Kb1JsjYMLCv88ZfwM49eRsEaiOrb6yZK3AwsyYBfrXYDHBt8Cj+z6uNVY6EQ9/UALn2DJNNFYgu5EMviDJqAnS6X/ybJ0jWP+nRgY01D6D1oY4elB9LyaX7ixunlif1SkyMbDOBNzaf5IyI+Th1pvrnrEx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cB2Xd5xFpz8Xs6y;
+	Tue, 26 Aug 2025 17:33:37 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl1.zte.com.cn with SMTP id 57Q9XPaJ075252;
+	Tue, 26 Aug 2025 17:33:25 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 26 Aug 2025 17:33:27 +0800 (CST)
+Date: Tue, 26 Aug 2025 17:33:27 +0800 (CST)
+X-Zmail-TransId: 2afa68ad7f67964-43a2f
+X-Mailer: Zmail v1.0
+Message-ID: <20250826173327601oSOj6wF-lo1Ne_UTeIKau@zte.com.cn>
+In-Reply-To: <1be55956-a4f0-4f6f-a930-fab565dbd257@hust.edu.cn>
+References: 20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn,1be55956-a4f0-4f6f-a930-fab565dbd257@hust.edu.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <dzm91@hust.edu.cn>
+Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <yang.tao172@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2MyAwLzddIERvY3MvemhfQ046IFRyYW5zbGF0ZSBmaWxlc3lzdGVtcyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 57Q9XPaJ075252
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 26 Aug 2025 17:33:38 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68AD7F71.002/4cB2Xd5xFpz8Xs6y
 
-This is [3/3] part of hinic3 Ethernet driver initial submission.
-With this patch hinic3 becomes a functional Ethernet driver.
+>> From: Shao Mingyin<shao.mingyin@zte.com.cn>
+>>
+>> translate the filesystems docs into Simplified Chinese.
+>> v2->v3
+>> add two patches to the patch set.
+>>
+>> Shao Mingyin (5):
+>> Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+>> Docs/zh_CN: Translate ubifs-authentication.rst to Simplified Chinese
+>> Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+>> Docs/zh_CN: Translate gfs2-uevents.rst to Simplified Chinese
+>> Docs/zh_CN: Translate gfs2-glocks.rst to Simplified Chinese
+>>
+>> Wang Longjie (2):
+>> Docs/zh_CN: Translate dnotify.rst to Simplified Chinese
+>> Docs/zh_CN: Translate inotify.rst to Simplified Chinese
+>
+>
+>$ b4 am 20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn
+>Grabbing thread from 
+>lore.kernel.org/all/20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn/t.mbox.gz
+>Analyzing 8 messages in the thread
+>Looking for additional code-review trailers on lore.kernel.org
+>Checking attestation on all messages, may take a moment...
+>---
+>   [PATCH v3 1/7] Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+>   [PATCH v3 2/7] Docs/zh_CN: Translate ubifs-authentication.rst to 
+>Simplified Chinese
+>   [PATCH v3 3/7] Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+>   [PATCH v3 4/7] Docs/zh_CN: Translate gfs2-uevents.rst to Simplified 
+>Chinese
+>   [PATCH v3 5/7] Docs/zh_CN: Translate gfs2-glocks.rst to Simplified 
+>Chinese
+>   [PATCH v3 6/7] Docs/zh_CN: Translate dnotify.rst to Simplified Chinese
+>   [PATCH v3 7/7] Docs/zh_CN: Translate inotify.rst to Simplified Chinese
+>---
+>Total patches: 7
+>---
+>Cover: 
+>../v3_20250822_shao_mingyin_docs_zh_cn_translate_filesystems_docs_to_simplified_chinese.cover
+>  Link: 
+>https://lore.kernel.org/r/20250822171232584GYKo3tPbZNfE3VsK7dvM0@zte.com.cn
+>  Base: applies clean to current tree
+>        git checkout -b v3_20250822_shao_mingyin_zte_com_cn HEAD
+>        git am 
+>../v3_20250822_shao_mingyin_docs_zh_cn_translate_filesystems_docs_to_simplified_chinese.mbx
+>
+>$ git checkout -b v3_20250822_shao_mingyin_zte_com_cn HEAD
+>Switched to a new branch 'v3_20250822_shao_mingyin_zte_com_cn'
+>
+>$ git am 
+>../v3_20250822_shao_mingyin_docs_zh_cn_translate_filesystems_docs_to_simplified_chinese.mbx
+>Applying: Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
+>Applying: Docs/zh_CN: Translate ubifs-authentication.rst to Simplified 
+>Chinese
+>Applying: Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+>error: corrupt patch at line 80
+>Patch failed at 0003 Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
+>
+>Hi Mingyin,
+>
+>I cannot apply this patchset to the docs-next branch of lwn or alex 
+>kernel tree. Please double check your patchset.
+>
+>Dongliang Mu
+>
 
-The driver parts contained in this patch:
-Memory allocation and initialization of the driver structures.
-Management interfaces initialization.
-HW capabilities probing, initialization and setup using management
-interfaces.
-Net device open/stop implementation and data queues initialization.
-Register VID:DID in PCI id_table.
-Fix netif_queue_set_napi usage.
+Hi Dongliang,
 
-Changes:
+The second fragment of 'PATCH v3 3/7' had a blank line at the end,
+which disappeared from the patch obtained through the 'b4' command,
+causing 'git am' to detect patch damage. This blank line exists in the
+source file as part of the original text in the patch fragment.
 
-PATCH 03 V01:
+This looks like a bug in some process because the patch in the email
+I sent had this blank line.
 
-Fan Gong (12):
-  hinic3: HW initialization
-  hinic3: HW management interfaces
-  hinic3: HW common function initialization
-  hinic3: HW capability initialization
-  hinic3: Command Queue flush interfaces
-  hinic3: Nic_io initialization
-  hinic3: Queue pair resource initialization
-  hinic3: Queue pair context initialization
-  hinic3: Tx & Rx configuration
-  hinic3: Add Rss function
-  hinic3: Add port management
-  hinic3: Fix missing napi->dev in netif_queue_set_napi
+I will send v4 version to avoid this issue
 
- drivers/net/ethernet/huawei/hinic3/Makefile   |   2 +
- .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    | 195 ++++
- .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |   4 +
- .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 364 ++++++++
- .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  21 +
- .../ethernet/huawei/hinic3/hinic3_hw_intf.h   | 121 +++
- .../net/ethernet/huawei/hinic3/hinic3_hwdev.c | 561 ++++++++++-
- .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 266 ++++++
- .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
- .../net/ethernet/huawei/hinic3/hinic3_irq.c   |   2 +-
- .../net/ethernet/huawei/hinic3/hinic3_lld.c   |   9 +-
- .../net/ethernet/huawei/hinic3/hinic3_main.c  |   9 +-
- .../net/ethernet/huawei/hinic3/hinic3_mgmt.c  |  21 +
- .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |   2 +
- .../huawei/hinic3/hinic3_mgmt_interface.h     | 119 +++
- .../huawei/hinic3/hinic3_netdev_ops.c         | 432 ++++++++-
- .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 152 +++
- .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  20 +
- .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   5 +
- .../ethernet/huawei/hinic3/hinic3_nic_io.c    | 883 +++++++++++++++++-
- .../ethernet/huawei/hinic3/hinic3_nic_io.h    |  39 +-
- .../huawei/hinic3/hinic3_pci_id_tbl.h         |  10 +
- .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 359 +++++++
- .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  14 +
- .../net/ethernet/huawei/hinic3/hinic3_rx.c    | 234 ++++-
- .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  40 +-
- .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 184 +++-
- .../net/ethernet/huawei/hinic3/hinic3_tx.h    |  30 +-
- 28 files changed, 4026 insertions(+), 88 deletions(-)
- create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c
- create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_pci_id_tbl.h
- create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
- create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
+=========patch fragment===========
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index 3c25b39739db..37968fb91f1a 100644
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -28,4 +28,5 @@ Linux Kernel中的文件系统
+tmpfs
+ubifs
+ubifs-authentication
++ gfs2
 
+--
+=========patch fragment===========
 
-base-commit: b1c92cdf5af3198e8fbc1345a80e2a1dff386c02
--- 
-2.43.0
-
+Shao Mingyin
+>>   .../zh_CN/filesystems/dnotify.rst             |  67 ++++
+>>   .../zh_CN/filesystems/gfs2-glocks.rst         | 199 ++++++++++
+>>   .../zh_CN/filesystems/gfs2-uevents.rst        |  97 +++++
+>>   .../translations/zh_CN/filesystems/gfs2.rst   |  57 +++
+>>   .../translations/zh_CN/filesystems/index.rst  |  16 +
+>>   .../zh_CN/filesystems/inotify.rst             |  81 ++++
+>>   .../filesystems/ubifs-authentication.rst      | 354 ++++++++++++++++++
+>>   .../translations/zh_CN/filesystems/ubifs.rst  | 114 ++++++
+>>   8 files changed, 985 insertions(+)
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/dnotify.rst
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2.rst
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/inotify.rst
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
+>>   create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs..rst
