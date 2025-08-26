@@ -1,179 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593B01D5178
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 07:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B488726C3A4
+	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 08:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756194158; cv=none; b=c/zcdepOG/HiMXphMKSHPapDMbKB4L2jOpdP5ZZaS4cacd32ivFcdzx+u7ma4Kiid3627jMP0/388qqMouteofIVaDpFQYmzMj7SoNv8D+oBU1/ofR2rJSw8tDkTpBzhnycPj6P+8ydFVmCHOVAslrdcTlWRN0Fl6puHhZS9W/Y=
+	t=1756195246; cv=none; b=BR18wP58oSRsihzqIsMsx56Q8HGhAa5TA948oEudn6lM3j0YT9YVTdLntkimHR/GPlUBNR9CFUoP8QNJSwlnzvWWHSBtFDSgbjGi58dKLVBsjX+ABWLod/BKaGqx/yziju3MKE0Ls1jwcNrwtVsVkPiyIk2XeCtoyz62CetxvzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756194158; c=relaxed/simple;
-	bh=fOpNnm9TPDvkBhb5WU5Fcf0z+ahPPe3KFXcJMRobyW0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oq2RbTPrxybVjsx7ErdBHNo/5BpwDw0XEFm3jaJn+O81Zc9Y38zH5pW6btQcXDTB3GA4jZn9M4+myUydZsfOarCgMYi149L688TFKLWVrrYw1AtbZ0O48H1Kzdk8ReMpNl2St52+FGRouda054YmWQfW5XKqD3GBHYN1+iokhUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iM/ajq/g; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756195246; c=relaxed/simple;
+	bh=xBmYDn4mwsQkvGNxsWLtR5GuvTQpf29AlfueyFz5JUg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fDOxnLo+ZYQceeSXZjHVAQD2aBmf1fpWkQeEko0xjgcQgN0mfmJohcAl2Wk+ZgFqIpJ5DZTMAMrpVt5xShAPyaJeec4ciF4YJUt8VaWvFYBkCfptxoNo32zdMxv3AcdzbzNeakMpJqWuPlUkAMCkGWQhyG7ZiPnq1NrQV0dvBm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kaxo/Lh3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t/ahbiHn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kaxo/Lh3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t/ahbiHn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iM/ajq/g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756194156;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Z7i9YDbg96XPkSuor69lux2weqUhbZRVG7R4LIN4byE=;
-	b=iM/ajq/geB/t4xXQEewZwBE22hBRkeIBFyUcfbwzjUSEco+EEN+fjbeaJICBKHz43TEVpm
-	Q1yoatk1R46PVdWbPAl5Lu7zKm+3BOCP+rCO8FNb+ADBO8vFExgc9vUqm6fg/PfWOc9FWN
-	9KBqde0m3n2w2SK35qrZW9iVUDPo3uw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-475-cXQMQFpgOjKzB3xChRuj8w-1; Tue, 26 Aug 2025 03:42:34 -0400
-X-MC-Unique: cXQMQFpgOjKzB3xChRuj8w-1
-X-Mimecast-MFC-AGG-ID: cXQMQFpgOjKzB3xChRuj8w_1756194153
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-afe771c3ad5so188606166b.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 00:42:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756194153; x=1756798953;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z7i9YDbg96XPkSuor69lux2weqUhbZRVG7R4LIN4byE=;
-        b=m21Nz5xHVBGmuDfY+Mw0Jn5aux4iJeVPh1SetPNTNh87In4THt75XFpDZcQNRWMzJJ
-         vMJ27GEZgOFEK0AxTPUptMGvc6vaa5KMS43nNA462UZ/LkVYQIo4vXDriyEoeu9+SkRF
-         BlJ0yRXF141mUIbNBGrPBH2lgxYK748g91yhlO25r/khKAopRFjFZUhzFw1SAVIaVQnn
-         RecLbvMY8EMbxf/lIhpuIOQkibPtb1P+Aidhl6emXwQy1TS1AL6dzSF0ULYj8wyWrkIv
-         AsjZj/CVZ71gQRKEE55owV5i37woY7afgX89GS5atbtyWAZqHCn7BRoBlRM3VtElmYfd
-         if/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWJlrLOL8m7RspxRRs0iH9Q4RTodcuUdx/r68MVqc8iSvF2Egzm3EsQFvPe+ujbiJK4lq+T4QHJU+0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJhIVXAdGLNzhLo9SU45jrIosyvOpyaYJ4vhI4aTHofiIzK081
-	LCdGq1+A6rlgQgs1STzY4e3JrwAsoaq05z0sXmNPPxKcLRnD2bLaRk/qDMiL7jgKgHCRyUOVlKr
-	5L31q4wYzeMDnHfEjmtHu6NPttICUIjNu3QN1Yu2xpFqAX8bK4gZ1sdesmUSwEQ==
-X-Gm-Gg: ASbGncvYEnTYfJ+p9+F2Ga+ZnyIFwJ4e3MbMLpRRdCLqbVPAfh9dmY+XrAa2hYfP8Zk
-	E0rThaKyJIzKaNWbhE71TRS5trdwcAmBQAE8X497usTpE3YKJx8B+m0fdjq96YFuD4fUyMRrvOQ
-	vC5LxHwUe13YVxeEQdnrpMxGt0Uxh0cEeQ6QXUbg2O3Wop+vYFvd8xoqkCBSu3AZ25Dwlin1qf5
-	vwZodJIhCgmr1vIyYQg8SgRg//27e87xNstak999ha511cRwLMy4gcMzqHrBQWSfKyMJzv1mFBS
-	sLOpZULmB4PvY5sTaZoAOWW8ueh0bNALV0GezP8QmO1RkfVcUc1pCYhG7f7AxIMMVSdXzH1AUQ=
-	=
-X-Received: by 2002:a17:907:3f08:b0:ae6:f163:5d75 with SMTP id a640c23a62f3a-afe28ffbfcemr1407480566b.11.1756194152772;
-        Tue, 26 Aug 2025 00:42:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFlXdN5Emxb0ONjeXO0an5VSsBo5+DtdMvl/wre4Bq+MCj3yWiGfw8uKRt2GgJjy2gdrHrI8A==
-X-Received: by 2002:a17:907:3f08:b0:ae6:f163:5d75 with SMTP id a640c23a62f3a-afe28ffbfcemr1407477966b.11.1756194152305;
-        Tue, 26 Aug 2025 00:42:32 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe75109c4bsm458246966b.70.2025.08.26.00.42.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 00:42:31 -0700 (PDT)
-Message-ID: <d8f723c4-4cb0-431d-9df2-ba4ec74c7b43@redhat.com>
-Date: Tue, 26 Aug 2025 09:42:30 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kaxo/Lh3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t/ahbiHn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kaxo/Lh3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t/ahbiHn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E74021989;
+	Tue, 26 Aug 2025 08:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756195237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QOxlQW2BFq9UzD3uwYettd8IKssbDWwKj5tP/NeqaHw=;
+	b=kaxo/Lh3cZc8LrW+T1Pxo10djMNGzndOXjGa2HduIjsuiSKJbrFr4Stw15PrQQT3xnn0Nu
+	ToieAmPsQNotAVQEcwF/ur7CMrQaY+9m1HELolDdqLoHMo4zyWN5fRAl/JrFkazeF4T613
+	NvWFSVaonyLxFxeMvFQ3breIetLpQ+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756195237;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QOxlQW2BFq9UzD3uwYettd8IKssbDWwKj5tP/NeqaHw=;
+	b=t/ahbiHnGkGSREgXQ5rMFI09DPF+Z2i/ywoCJ1Sm+ACwTfRIsAPzLQ76Ynj4jYi8VqEC9D
+	Wel6SZnWTyp2nBAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="kaxo/Lh3";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="t/ahbiHn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756195237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QOxlQW2BFq9UzD3uwYettd8IKssbDWwKj5tP/NeqaHw=;
+	b=kaxo/Lh3cZc8LrW+T1Pxo10djMNGzndOXjGa2HduIjsuiSKJbrFr4Stw15PrQQT3xnn0Nu
+	ToieAmPsQNotAVQEcwF/ur7CMrQaY+9m1HELolDdqLoHMo4zyWN5fRAl/JrFkazeF4T613
+	NvWFSVaonyLxFxeMvFQ3breIetLpQ+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756195237;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QOxlQW2BFq9UzD3uwYettd8IKssbDWwKj5tP/NeqaHw=;
+	b=t/ahbiHnGkGSREgXQ5rMFI09DPF+Z2i/ywoCJ1Sm+ACwTfRIsAPzLQ76Ynj4jYi8VqEC9D
+	Wel6SZnWTyp2nBAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D23013479;
+	Tue, 26 Aug 2025 08:00:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lcRBFaNprWh1RQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Tue, 26 Aug 2025 08:00:35 +0000
+From: David Disseldorp <ddiss@suse.de>
+To: linux-doc@vger.kernel.org
+Cc: dan.j.williams@intel.com,
+	David Disseldorp <ddiss@suse.de>
+Subject: [PATCH] Documentation/filesystem/dax: remove brd as a DAX reference
+Date: Tue, 26 Aug 2025 18:00:06 +1000
+Message-ID: <20250826080006.22610-1-ddiss@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 mm-new 00/10] mm, bpf: BPF based THP order selection
-To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
- ziy@nvidia.com, baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
- dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com,
- gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com,
- rientjes@google.com, corbet@lwn.net
-Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20250826071948.2618-1-laoar.shao@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250826071948.2618-1-laoar.shao@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 1E74021989
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
-On 26.08.25 09:19, Yafang Shao wrote:
-> Background
-> ==========
-> 
-> Our production servers consistently configure THP to "never" due to
-> historical incidents caused by its behavior. Key issues include:
-> - Increased Memory Consumption
->    THP significantly raises overall memory usage, reducing available memory
->    for workloads.
-> 
-> - Latency Spikes
->    Random latency spikes occur due to frequent memory compaction triggered
->    by THP.
-> 
-> - Lack of Fine-Grained Control
->    THP tuning is globally configured, making it unsuitable for containerized
->    environments. When multiple workloads share a host, enabling THP without
->    per-workload control leads to unpredictable behavior.
-> 
-> Due to these issues, administrators avoid switching to madvise or always
-> modes—unless per-workload THP control is implemented.
-> 
-> To address this, we propose BPF-based THP policy for flexible adjustment.
-> Additionally, as David mentioned [0], this mechanism can also serve as a
-> policy prototyping tool (test policies via BPF before upstreaming them).
+This reference is outdated; DAX support was removed from brd via commit
+7a862fbbdec66 ("brd: remove dax support").
 
-There is a lot going on and most reviewers (including me) are fairly 
-busy right now, so getting more detailed review could take a while.
+Signed-off-by: David Disseldorp <ddiss@suse.de>
+---
+ Documentation/filesystems/dax.rst | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-This topic sounds like a good candidate for the bi-weekly MM alignment 
-session.
-
-Would you be interested in presenting the current bpf interface, how to 
-use it,  drawbacks, todos, ... in that forum?
-
-David Rientjes, who organizes this meeting, is already on Cc.
-
+diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
+index 08dd5e254cc53..1e50d4af84385 100644
+--- a/Documentation/filesystems/dax.rst
++++ b/Documentation/filesystems/dax.rst
+@@ -205,9 +205,7 @@ implement direct_access.  Equally, if your device can occasionally
+ stall the CPU for an extended period, you should also not attempt to
+ implement direct_access.
+ 
+-These block devices may be used for inspiration:
+-- brd: RAM backed block device driver
+-- pmem: NVDIMM persistent memory driver
++The NVDIMM persistent memory (pmem) driver may be used for inspiration.
+ 
+ 
+ Implementation Tips for Filesystem Writers
 -- 
-Cheers
-
-David / dhildenb
+2.43.0
 
