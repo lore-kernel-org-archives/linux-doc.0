@@ -1,36 +1,36 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42687334379;
-	Tue, 26 Aug 2025 11:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F37B2BDC00;
+	Tue, 26 Aug 2025 11:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756206800; cv=none; b=ggxVailcv+YWV7g3SNkdKwawS4zqZnXwxjeL41WIDBT5LdbTwf2zUlZovdER6gMY93SFIZ17S6m2q1UTH9CHTYqowKJav9oNWNQO5R45Ycak6/vvHFvVtrvvUaCBXAYb3pO1woAi/5ABi6ze7vji9xjP5M/+S8eGcoXAxeSZnu4=
+	t=1756206887; cv=none; b=IwWSfLYEKTheTtR5GsgZUL888DtiFPoIcLibPEjGYjFvSfBQJu+C+UbudbGg0BJx4GBCcHRZTJ+bpZRSp1C0z5MTB8RIDGF9PNnOx0qpo8hm/eg7LjAJj+SQ1Q97kUKAsGCBz7vGcLOm4TXzA1yUlF59jzlzZvKrKllNkH+mBAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756206800; c=relaxed/simple;
-	bh=7Ztw6De799Xo/rUSYd3etyzn7rYeSc7Yi1T7NOWbAaQ=;
+	s=arc-20240116; t=1756206887; c=relaxed/simple;
+	bh=YYCt7Gc6NnHuA4McS5w0wYglETGvdtbAtN4HWBSDoDg=;
 	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=ZvD+tS0X2pBg9bt4dJOApvmeisQt8hC+UwPr7ZrWi9aqeBgvosxA8pG0jb6PRFL1cZDCOAoRWRtUYi9K86WH/VUEN3wrGGBRs4lTKApk5sxaSHHjv7XTt7i7RyKnPFNH5Fk+JaoXoZOAaylA6cOFbbOF3QmHZk4zDW2m+2mhvPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+	 Subject:Content-Type; b=lTfMBR9immIPEaH59dmpLWJerEIUv3m8n+I0o/5U6PJiMcAbpdjUmzenFVm96JZzmnyV7TVZt4EEFjRiZulM0EFolyTCwELYdTlScLveAZWawitYyaBpOjDpcfnoi2DTTrLjq6hIdu8nVIEtfo1zvEwDwC/kXKmRcucHUxUhju4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
 Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cB4lY2Q2Cz5B1DQ;
-	Tue, 26 Aug 2025 19:13:13 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 57QB3IKR017157;
-	Tue, 26 Aug 2025 19:03:18 +0800 (+08)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cB4nH0n2nz6G4ST;
+	Tue, 26 Aug 2025 19:14:43 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl2.zte.com.cn with SMTP id 57QBBAdp061289;
+	Tue, 26 Aug 2025 19:11:10 +0800 (+08)
 	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
+Received: from mapi (xaxapp02[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Tue, 26 Aug 2025 19:03:21 +0800 (CST)
-Date: Tue, 26 Aug 2025 19:03:21 +0800 (CST)
-X-Zmail-TransId: 2afc68ad9479a3e-acaa0
+	Tue, 26 Aug 2025 19:11:12 +0800 (CST)
+Date: Tue, 26 Aug 2025 19:11:12 +0800 (CST)
+X-Zmail-TransId: 2afa68ad96508e2-bd933
 X-Mailer: Zmail v1.0
-Message-ID: <20250826190321196Kd3Rbn_uF0sg3oPd0Z_v3@zte.com.cn>
+Message-ID: <20250826191112799PiN1_b9G7aw_qXYKVOwF8@zte.com.cn>
 In-Reply-To: <20250826185643235jApHbqi4zaPaZWVy6_Pot@zte.com.cn>
 References: 20250826185643235jApHbqi4zaPaZWVy6_Pot@zte.com.cn
 Precedence: bulk
@@ -46,402 +46,129 @@ Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
         <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
         <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
         <wang.longjie1@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHY0IDIvN10gRG9jcy96aF9DTjogVHJhbnNsYXRlIHViaWZzLWF1dGhlbnRpY2F0aW9uLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Subject: =?UTF-8?B?W1BBVENIIHY0IDcvN10gRG9jcy96aF9DTjogVHJhbnNsYXRlIGlub3RpZnkucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 57QB3IKR017157
+X-MAIL:mse-fl2.zte.com.cn 57QBBAdp061289
 X-TLS: YES
 X-SPF-DOMAIN: zte.com.cn
 X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
 X-SPF: None
-X-SOURCE-IP: 10.5.228.133 unknown Tue, 26 Aug 2025 19:13:13 +0800
+X-SOURCE-IP: 10.5.228.133 unknown Tue, 26 Aug 2025 19:14:43 +0800
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68AD96C9.001/4cB4lY2Q2Cz5B1DQ
+X-Fangmail-MID-QID: 68AD9723.000/4cB4nH0n2nz6G4ST
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+From: Wang Longjie <wang.longjie1@zte.com.cn>
 
-translate the "ubifs-authentication.rst" into Simplified Chinese.
+translate the "inotify.rst" into Simplified Chinese.
 
-Update to commit d56b699d76d1("Documentation: Fix typos")
+Update to commit de389cf08d47("docs: filesystems: convert inotify.txt to
+ReST")
 
+Signed-off-by: Wang Longjie <wang.longjie1@zte.com.cn>
 Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-Signed-off-by: yang tao <yang.tao172@zte.com.cn>
 ---
 v3->v4
 resolve patch damage issues.
- .../translations/zh_CN/filesystems/index.rst  |   1 +
- .../filesystems/ubifs-authentication.rst      | 354 ++++++++++++++++++
- 2 files changed, 355 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
+ .../translations/zh_CN/filesystems/index.rst  |  1 +
+ .../zh_CN/filesystems/inotify.rst             | 80 +++++++++++++++++++
+ 2 files changed, 81 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/inotify.rst
 
 diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
-index faaa0f097223..3c25b39739db 100644
+index 4e9b1ca46231..fcc79ff9fdad 100644
 --- a/Documentation/translations/zh_CN/filesystems/index.rst
 +++ b/Documentation/translations/zh_CN/filesystems/index.rst
-@@ -27,3 +27,4 @@ Linux Kernel中的文件系统
-    debugfs
-    tmpfs
-    ubifs
-+   ubifs-authentication
-diff --git a/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst b/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
+@@ -41,3 +41,4 @@ Linux Kernel中的文件系统
+    gfs2
+    gfs2-uevents
+    gfs2-glocks
++   inotify
+diff --git a/Documentation/translations/zh_CN/filesystems/inotify.rst b/Documentation/translations/zh_CN/filesystems/inotify.rst
 new file mode 100644
-index 000000000000..aebd6a8e4b7c
+index 000000000000..b4d740aca946
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
-@@ -0,0 +1,354 @@
++++ b/Documentation/translations/zh_CN/filesystems/inotify.rst
+@@ -0,0 +1,80 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/filesystems/ubifs-authentication.rst
++:Original: Documentation/filesystems/inotify.rst
 +
 +:翻译:
 +
-+   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
-+
-+:校译:
++   王龙杰 Wang Longjie <wang.longjie1@zte.com.cn>
 +
-+   - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+
-+=============
-+UBIFS认证支持
-+=============
-+
-+引言
-+====
-+UBIFS 利用 fscrypt 框架为文件内容及文件名提供保密性。这能防止攻击者在单一
-+时间点读取文件系统内容的攻击行为。典型案例是智能手机丢失时，攻击者若没有文件
-+系统解密密钥则无法读取设备上的个人数据。
-+
-+在现阶段，UBIFS 加密尚不能防止攻击者篡改文件系统内容后用户继续使用设备的攻
-+击场景。这种情况下，攻击者可任意修改文件系统内容而不被用户察觉。例如修改二
-+进制文件使其执行时触发恶意行为 [DMC-CBC-ATTACK]。由于 UBIFS 大部分文件
-+系统元数据以明文存储，使得文件替换和内容篡改变得相当容易。
-+
-+其他全盘加密系统（如 dm-crypt）可以覆盖所有文件系统元数据，这类系统虽然能
-+增加这种攻击的难度，但特别是当攻击者能多次访问设备时，也有可能实现攻击。对于
-+基于 Linux 块 IO 层的 dm-crypt 等文件系统，可通过 dm-integrity 或
-+dm-verity 子系统[DM-INTEGRITY, DM-VERITY]在块层实现完整数据认证，这些
-+功能也可与 dm-crypt 结合使用[CRYPTSETUP2]。
-+
-+本文描述一种为 UBIFS 实现文件内容认证和完整元数据认证的方法。由于 UBIFS
-+使用 fscrypt 进行文件内容和文件名加密，认证系统可与 fscrypt 集成以利用密
-+钥派生等现有功能。但系统同时也应支持在不启用加密的情况下使用 UBIFS 认证。
-+
-+
-+MTD, UBI & UBIFS
-+----------------
-+在 Linux 中，MTD（内存技术设备）子系统提供访问裸闪存设备的统一接口。运行于
-+MTD 之上的重要子系统是 UBI（无序块映像），它为闪存设备提供卷管理功能，类似
-+于块设备的 LVM。此外，UBI 还处理闪存特有的磨损均衡和透明 I/O 错误处理。
-+UBI 向上层提供逻辑擦除块(LEB)，并透明地映射到闪存的物理擦除块(PEB)。
-+
-+UBIFS 是运行于 UBI 之上的裸闪存文件系统。因此 UBI 处理磨损均衡和部分闪存
-+特性，而 UBIFS专注于可扩展性、性能和可恢复性。
-+
-+::
-+
-+	+------------+ +*******+ +-----------+ +-----+
-+	|            | * UBIFS * | UBI-BLOCK | | ... |
-+	| JFFS/JFFS2 | +*******+ +-----------+ +-----+
-+	|            | +-----------------------------+ +-----------+ +-----+
-+	|            | |              UBI            | | MTD-BLOCK | | ... |
-+	+------------+ +-----------------------------+ +-----------+ +-----+
-+	+------------------------------------------------------------------+
-+	|                  MEMORY TECHNOLOGY DEVICES (MTD)                 |
-+	+------------------------------------------------------------------+
-+	+-----------------------------+ +--------------------------+ +-----+
-+	|         NAND DRIVERS        | |        NOR DRIVERS       | | ... |
-+	+-----------------------------+ +--------------------------+ +-----+
++==========================================
++Inotify - 一个强大且简单的文件变更通知系统
++==========================================
 +
-+            图1：处理裸闪存的 Linux 内核子系统
 +
 +
++文档由 Robert Love <rml@novell.com> 于 2005 年 3 月 15 日开始撰写
 +
-+UBIFS 内部维护多个持久化在闪存上的数据结构：
++文档由 Zhang Zhen <zhenzhang.zhang@huawei.com> 于 2015 年 1 月 4 日更新
 +
-+- *索引*：存储在闪存上的 B+ 树，叶节点包含文件系统数据
-+- *日志*：在更新闪存索引前收集文件系统变更的辅助数据结构，可减少闪存磨损
-+- *树节点缓存(TNC)*：反映当前文件系统状态的内存 B+ 树，避免频繁读取闪存。
-+  本质上是索引的内存表示，但包含额外属性
-+- *LEB属性树(LPT)*：用于统计每个 UBI LEB 空闲空间的闪存B+树
++	- 删除了已废弃的接口，关于用户接口请参考手册页。
 +
-+本节后续将详细讨论UBIFS的闪存数据结构。因为 TNC 不直接持久化到闪存，其在此
-+处的重要性较低。更多 UBIFS 细节详见[UBIFS-WP]。
++(i) 基本原理
 +
++问：
++   不将监控项与被监控对象打开的文件描述符（fd）绑定，这背后的设计决策是什么？
 +
-+UBIFS 索引与树节点缓存
-+~~~~~~~~~~~~~~~~~~~~~~
++答：
++   监控项会与打开的 inotify 设备相关联，而非与打开的文件相关联。这解决了 dnotify 的主要问题：
++   保持文件打开会锁定文件，更糟的是，还会锁定挂载点。因此，dnotify 在带有可移动介质的桌面系统
++   上难以使用，因为介质将无法被卸载。监控文件不应要求文件处于打开状态。
 +
-+UBIFS 在闪存上的基础实体称为 *节点* ，包含多种类型。如存储文件内容块的数据
-+节点
-+( ``struct ubifs_data_node`` )，或表示 VFS 索引节点的 inode 节点
-+( ``struct ubifs_ino_node`` )。几乎所有节点共享包含节点类型、长度、序列
-+号等基础信息的通用头
-+( ``ubifs_ch`` )（见内核源码 ``fs/ubifs/ubifs-media.h`` ）。LPT条目
-+和填充节点（用于填充 LEB
-+尾部不可用空间）等次要节点类型除外。
++问：
++   与每个监控项一个文件描述符的方式相比，采用每个实例一个文件描述符的设计决策是出于什么
++   考虑？
 +
-+为避免每次变更重写整个 B+ 树，UBIFS 采用 *wandering tree* 实现：仅重写
-+变更节点，旧版本被标记废弃而非立即擦除。因此索引不固定存储于闪存某处，而是在
-+闪存上 *wanders* ，在 LEB 被 UBIFS 重用前，闪存上会存在废弃部分。为定位
-+最新索引，UBIFS 在 UBI LEB 1 存储称为 *主节点* 的特殊节点，始终指向最新
-+UBIFS 索引根节点。为增强可恢复性，主节点还备份到 LEB 2。因此挂载 UBIFS 只
-+需读取 LEB 1 和 2 获取当前主节点，进而定位最新闪存索引。
++答：
++   每个监控项一个文件描述符会很快的消耗掉超出允许数量的文件描述符，其数量会超出实际可管理的范
++   围，也会超出 select() 能高效处理的范围。诚然，root 用户可以提高每个进程的文件描述符限制，
++   用户也可以使用 epoll，但同时要求这两者是不合理且多余的。一个监控项所消耗的内存比一个打开的文
++   件要少，因此将这两个数量空间分开是合理的。当前的设计正是用户空间开发者所期望的：用户只需初始
++   化一次 inotify，然后添加 n 个监控项，而这只需要一个文件描述符，无需调整文件描述符限制。初
++   始化 inotify 实例初始化两千次是很荒谬的。如果我们能够简洁地实现用户空间的偏好——而且我们
++   确实可以，idr 层让这类事情变得轻而易举——那么我们就应该这么做。
 +
-+TNC 是闪存索引的内存表示，包含未持久化的运行时属性（如脏标记）。TNC 作为回
-+写式缓存，所有闪存索引修改都通过 TNC 完成。与其他缓存类似，TNC 无需将完整
-+索引全部加载到内存中，需要时从闪存读取部分内容。 *提交* 是更新闪存文件系统
-+结构（如索引）的 UBIFS 操作。每次提交时，标记为脏的 TNC 节点被写入闪存以更
-+新持久化索引。
++   还有其他合理的理由。如果只有一个文件描述符，那就只需要在该描述符上阻塞，它对应着一个事件队列。
++   这个单一文件描述符会返回所有的监控事件以及任何可能的带外数据。而如果每个文件描述符都是一个独
++   立的监控项，
 +
++   - 将无法知晓事件的顺序。文件 foo 和文件 bar 上的事件会触发两个文件描述符上的 poll()，
++     但无法判断哪个事件先发生。而用单个队列就可以很容易的提供事件的顺序。这种顺序对现有的应用程
++     序（如 Beagle）至关重要。想象一下，如果“mv a b ; mv b a”这样的事件没有顺序会是什么
++     情况。
 +
-+日志
-+~~~~
++   - 我们将不得不维护 n 个文件描述符和 n 个带有状态的内部队列，而不是仅仅一个。这在 kernel 中
++     会混乱得多。单个线性队列是合理的数据结构。
 +
-+为避免闪存磨损，索引仅在满足特定条件（如 ``fsync(2)`` ）时才持久化（提交）。
-+日志用于记录索引提交之间的所有变更（以 inode 节点、数据节点等形式）。挂载时
-+从闪存读取日志并重放到 TNC（此时 TNC 按需从闪存索引创建）。
++   - 用户空间开发者更青睐当前的 API。例如，Beagle 的开发者们就很喜欢它。相信我，我问过他们。
++     这并不奇怪：谁会想通过 select 来管理以及阻塞在 1000 个文件描述符上呢？
 +
-+UBIFS 保留一组专用于日志的 LEB（称为 *日志区* ）。日志区 LEB 数量在文件系
-+统创建时配置（使用 ``mkfs.ubifs`` ）并存储于超级块节点。日志区仅含两类节
-+点： *引用节点* 和 *提交起始节点* 。执行索引提交时写入提交起始节点，每次日
-+志更新时写入引用节点。每个引用节点指向构成日志条目的其他节点（ inode 节点、
-+数据节点等）在闪存上的位置，这些节点称为 *bud* ，描述包含数据的实际文件系
-+统变更。
++   - 无法获取带外数据。
 +
-+日志区以环形缓冲区维护。当日志将满时触发提交操作，同时写入提交起始节点。因此
-+挂载时 UBIFS 查找最新提交起始节点，仅重放其后的引用节点。提交起始节点前的引
-+用节点将被忽略（因其已属于闪存索引）。
++   - 1024 这个数量仍然太少。  ;-)
 +
-+写入日志条目时，UBIFS 首先确保有足够空间写入引用节点和该条目的 bud。然后先
-+写引用节点，再写描述文件变更的 bud。在日志重放阶段，UBIFS 会记录每个参考节
-+点，并检查其引用的 LEB位置以定位 buds。若这些数据损坏或丢失，UBIFS 会尝试
-+通过重新读取 LEB 来恢复，但仅针对日志中最后引用的 LEB，因为只有它可能因断
-+电而损坏。若恢复失败，UBIFS 将拒绝挂载。对于其他 LEB 的错误，UBIFS 会直接
-+终止挂载操作。
++   当要设计一个可扩展到数千个目录的文件变更通知系统时，处理数千个文件描述符似乎并不是合适的接口。
++   这太繁琐了。
 +
-+::
++   此外，创建多个实例、处理多个队列以及相应的多个文件描述符是可行的。不必是每个进程对应一个文件描
++   述符；而是每个队列对应一个文件描述符，一个进程完全可能需要多个队列。
 +
-+       | ----    LOG AREA     ---- | ----------    MAIN AREA    ------------ |
++问：
++   为什么采用系统调用的方式？
 +
-+        -----+------+-----+--------+----   ------+-----+-----+---------------
-+        \    |      |     |        |   /  /      |     |     |               \
-+        / CS |  REF | REF |        |   \  \ DENT | INO | INO |               /
-+        \    |      |     |        |   /  /      |     |     |               \
-+         ----+------+-----+--------+---   -------+-----+-----+----------------
-+                 |     |                  ^            ^
-+                 |     |                  |            |
-+                 +------------------------+            |
-+                       |                               |
-+                       +-------------------------------+
-+
-+
-+                图2：包含提交起始节点(CS)和引用节点(REF)的日志区闪存布局，引用节点指向含
-+                    bud 的主区
-+
-+
-+LEB属性树/表
-+~~~~~~~~~~~~
-+
-+LEB 属性树用于存储每个 LEB 的信息，包括 LEB 类型、LEB 上的空闲空间和
-+*脏空间* （旧空间，废弃内容） [1]_ 的数量。因为 UBIFS 从不在单个 LEB 混
-+合存储索引节点和数据节点，所以 LEB 的类型至关重要，每个 LEB 都有特定用途，
-+这对空闲空间计算非常有帮助。详见[UBIFS-WP]。
-+
-+LEB 属性树也是 B+ 树，但远小于索引。因为其体积小，所以每次提交时都整块写入，
-+保存 LPT 是原子操作。
-+
-+
-+.. [1] 由于LEB只能追加写入不能覆盖，空闲空间（即 LEB 剩余可写空间）与废弃
-+   内容（先前写入但未擦除前不能覆盖）存在区别。
-+
-+
-+UBIFS认证
-+=========
-+
-+本章介绍UBIFS认证，使UBIFS能验证闪存上元数据和文件内容的真实性与完整性。
-+
-+
-+威胁模型
-+--------
-+
-+UBIFS 认证可检测离线数据篡改。虽然不能防止篡改，但是能让（可信）代码检查闪
-+存文件内容和文件系统元数据的完整性与真实性，也能检查文件内容被替换的攻击。
-+
-+UBIFS 认证不防护全闪存内容回滚（攻击者可转储闪存内容并在后期还原）。也不防护
-+单个索引提交的部分回滚（攻击者能部分撤销变更）。这是因为 UBIFS 不立即覆盖索
-+引树或日志的旧版本，而是标记为废弃，稍后由垃圾回收擦除。攻击者可擦除当前树部
-+分内容并还原闪存上尚未擦除的旧版本。因每次提交总会写入索引根节点和主节点的新
-+版本而不覆盖旧版本，UBI 的磨损均衡操作（将内容从物理擦除块复制到另一擦除块
-+且非原子擦除原块）进一步助长此问题。
-+
-+UBIFS 认证不覆盖认证密钥提供后攻击者在设备执行代码的攻击，需结合安全启动和
-+可信启动等措施确保设备仅执行可信代码。
-+
-+
-+认证
-+----
-+
-+为完全信任从闪存读取的数据，所有存储在闪存的 UBIFS 数据结构均需认证：
-+- 包含文件内容、扩展属性、文件长度等元数据的索引
-+- 通过记录文件系统变更来包含文件内容和元数据的日志
-+- 存储 UBIFS 用于空闲空间统计的 UBI LEB 元数据的 LPT
-+
-+
-+索引认证
-+~~~~~~~~
-+
-+借助 *wandering tree* 概念，UBIFS 仅更新和持久化从叶节点到根节点的变更
-+部分。这允许用子节点哈希增强索引树节点。最终索引基本成为 Merkle 树：因索引
-+叶节点含实际文件系统数据，其父索引节点的哈希覆盖所有文件内容和元数据。文件
-+变更时，UBIFS 索引从叶节点到根节点（含主节点）相应更新，此过程可挂钩以同步
-+重新计算各变更节点的哈希。读取文件时，UBIFS 可从叶节点到根节点逐级验证哈希
-+确保节点完整性。
-+
-+为确保整个索引真实性，UBIFS 主节点存储基于密钥的哈希(HMAC)，覆盖自身内容及
-+索引树根节点哈希。如前所述，主节点在索引持久化时（即索引提交时）总会写入闪存。
-+
-+此方法仅修改 UBIFS 索引节点和主节点以包含哈希，其他类型节点保持不变，减少了
-+对 UBIFS 用户（如嵌入式设备）宝贵的存储开销。
-+
-+::
-+
-+                             +---------------+
-+                             |  Master Node  |
-+                             |    (hash)     |
-+                             +---------------+
-+                                     |
-+                                     v
-+                            +-------------------+
-+                            |  Index Node #1    |
-+                            |                   |
-+                            | branch0   branchn |
-+                            | (hash)    (hash)  |
-+                            +-------------------+
-+                               |    ...   |  (fanout: 8)
-+                               |          |
-+                       +-------+          +------+
-+                       |                         |
-+                       v                         v
-+            +-------------------+       +-------------------+
-+            |  Index Node #2    |       |  Index Node #3    |
-+            |                   |       |                   |
-+            | branch0   branchn |       | branch0   branchn |
-+            | (hash)    (hash)  |       | (hash)    (hash)  |
-+            +-------------------+       +-------------------+
-+                 |   ...                     |   ...   |
-+                 v                           v         v
-+               +-----------+         +----------+  +-----------+
-+               | Data Node |         | INO Node |  | DENT Node |
-+               +-----------+         +----------+  +-----------+
-+
-+
-+           图3：索引节点哈希与主节点 HMAC 的覆盖范围
-+
-+
-+
-+健壮性性和断电安全性的关键在于以原子操作持久化哈希值与文件内容。UBIFS 现有
-+的变更节点持久化机制专为此设计，能够确保断电时安全恢复。为索引节点添加哈希值
-+不会改变该机制，因为每个哈希值都与其对应节点以原子操作同步持久化。
-+
-+
-+日志认证
-+~~~~~~~~
-+
-+日志也需要认证。因为日志持续写入，必须频繁地添加认证信息以确保断电时未认证数
-+据量可控。方法是从提交起始节点开始，对先前引用节点、当前引用节点和 bud 节点
-+创建连续哈希链。适时地在bud节点间插入认证节点，这种新节点类型包含哈希链当前
-+状态的 HMAC。因此日志可认证至最后一个认证节点。日志尾部无认证节点的部分无法
-+认证，在日志重放时跳过。
-+
-+日志认证示意图如下::
-+
-+    ,,,,,,,,
-+    ,......,...........................................
-+    ,. CS  ,               hash1.----.           hash2.----.
-+    ,.  |  ,                    .    |hmac            .    |hmac
-+    ,.  v  ,                    .    v                .    v
-+    ,.REF#0,-> bud -> bud -> bud.-> auth -> bud -> bud.-> auth ...
-+    ,..|...,...........................................
-+    ,  |   ,
-+    ,  |   ,,,,,,,,,,,,,,,
-+    .  |            hash3,----.
-+    ,  |                 ,    |hmac
-+    ,  v                 ,    v
-+    , REF#1 -> bud -> bud,-> auth ...
-+    ,,,|,,,,,,,,,,,,,,,,,,
-+       v
-+      REF#2 -> ...
-+       |
-+       V
-+      ...
-+
-+因为哈希值包含引用节点，攻击者无法重排或跳过日志头重放，仅能移除日志尾部的
-+bud 节点或引用节点，最大限度将文件系统回退至上次提交。
-+
-+日志区位置存储于主节点。因为主节点通过 HMAC 认证，所以未经检测无法篡改。日
-+志区大小在文件系统创建时由 `mkfs.ubifs` 指定并存储于超级块节点。为避免篡
-+改此值及其他参数，超级块结构添加 HMAC。超级块节点存储在 LEB 0，仅在功能标
-+志等变更时修改，文件变更时不修改。
-+
-+
-+LPT认证
-+~~~~~~~
-+
-+LPT 根节点在闪存上的位置存储于 UBIFS 主节点。因为 LPT 每次提交时都以原子
-+操作写入和读取，无需单独认证树节点。通过主节点存储的简单哈希保护完整 LPT
-+即可。因为主节点自身已认证，通过验证主节点真实性并比对存储的 LTP 哈希与读
-+取的闪存 LPT 计算哈希值，即可验证 LPT 真实性。
-+
-+
-+密钥管理
-+--------
-+
-+为了简化实现，UBIFS 认证使用单一密钥计算超级块、主节点、提交起始节点和引用
-+节点的 HMAC。创建文件系统(`mkfs.ubifs`) 时需提供此密钥以认证超级块节点。
-+挂载文件系统时也需此密钥验证认证节点并为变更生成新 HMAC。
-+
-+UBIFS 认证旨在与 UBIFS 加密(fscrypt)协同工作以提供保密性和真实性。因为
-+UBIFS 加密采用基于目录的差异化加密策略，可能存在多个 fscrypt 主密钥甚至未
-+加密目录。而 UBIFS 认证采用全有或全无方式，要么认证整个文件系统要么完全不
-+认证。基于此特性，且为确保认证机制可独立于加密功能使用，UBIFS 认证不与
-+fscrypt 共享主密钥，而是维护独立的认证专用密钥。
-+
-+提供认证密钥的API尚未定义，但可通过类似 fscrypt 的用户空间密钥环提供。需注
-+意当前 fscrypt 方案存在缺陷，用户空间 API 终将变更[FSCRYPT-POLICY2]。
-+
-+用户仍可通过用户空间提供单一口令或密钥覆盖 UBIFS 认证与加密。相应用户空间工
-+具可解决此问题：除派生的 fscrypt 加密主密钥外，额外派生认证密钥。
-+
-+为检查挂载时密钥可用性，UBIFS 超级块节点将额外存储认证密钥的哈希。此方法类
-+似 fscrypt 加密策略 v2 提出的方法[FSCRYPT-POLICY2]。
-+
-+
-+未来扩展
-+========
-+
-+特定场景下，若供应商需要向客户提供认证文件系统镜像，应该能在不共享 UBIFS 认
-+证密钥的前提下实现。方法是在每个 HMAC 外额外存储数字签名，供应商随文件系统
-+镜像分发公钥。若该文件系统后续需要修改，若后续需修改该文件系统，UBIFS 可在
-+首次挂载时将全部数字签名替换为 HMAC，其处理逻辑与 IMA/EVM 子系统应对此类情
-+况的方式类似。此时，HMAC 密钥需按常规方式预先提供。
-+
-+
-+参考
-+====
-+
-+[CRYPTSETUP2]        https://www.saout.de/pipermail/dm-crypt/2017-November/005745.html
-+
-+[DMC-CBC-ATTACK]     https://www.jakoblell.com/blog/2013/12/22/practical-malleability-attack-against-cbc-en
-+crypted-luks-partitions/
-+
-+[DM-INTEGRITY]       https://www.kernel.org/doc/Documentation/device-mapper/dm-integrity.rst
-+
-+[DM-VERITY]          https://www.kernel.org/doc/Documentation/device-mapper/verity.rst
-+
-+[FSCRYPT-POLICY2]    https://www.spinics.net/lists/linux-ext4/msg58710.html
-+
-+[UBIFS-WP]           http://www.linux-mtd.infradead.org/doc/ubifs_whitepaper.pdf
++答：
++   糟糕的用户空间接口是 dnotify 的第二大问题。信号对于文件通知来说是一种非常糟糕的接口。其实对
++   于其他任何事情，信号也都不是好的接口。从各个角度来看，理想的解决方案是基于文件描述符的，它允许
++   基本的文件 I/O 操作以及 poll/select 操作。获取文件描述符和管理监控项既可以通过设备文件来
++   实现，也可以通过一系列新的系统调用来实现。我们决定采用一系列系统调用，因为这是提供新的内核接口
++   的首选方法。两者之间唯一真正的区别在于，我们是想使用 open(2) 和 ioctl(2)，还是想使用几
++   个新的系统调用。系统调用比 ioctl 更有优势。
 -- 
-2.25.1
+2.27.0
