@@ -1,192 +1,391 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2042.outbound.protection.outlook.com [40.107.212.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98832E7F21
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 18:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756234246; cv=none; b=vDcM9NoEoxcbYc2POS79hLbgq5Zq9V/SLSL3z24JX7LXQTTlWX7QryitGivbPmMU4d4Oc8FjkVwLkVeh3ECIa/mSQF97Yv+kaMxzVExGhMN7/eMayLxPsWjP0wsNcYj+GLLpKVEWysSflUvdw4rVTIZNqSjfssmh6Zh6PUuHfJg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756234246; c=relaxed/simple;
-	bh=8jhr+zgrktlFUJPHflNxaNZs/QqFUKfGNDK/vx/Mf9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UXG2a1Z1KcR6w3mnNMNsFjeGkkmtyvF3HvgPWIvQFrtEL0IyR2hyPadUWrHJB6IT2+GnHhdut+9DKJT4QRdm+93UAaLgte0fjzOYO9kgIuTKBYg3EO3hf7fc/dGejYEb0op8O7YktOIFay1hsX1Tz4TD/W56nvS5VdOgAZaO5BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=eK737trT; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2232F36CC9C;
+	Tue, 26 Aug 2025 18:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756234398; cv=fail; b=dZDfhbryFG+NWPhJBLjN16ZguPwaid0jeK1juyxmfOBFphUtuvkf35Fe/1CFh+q5BB3k6jkSMvz5EI0BIhsEgnO/ZAvFIRlYET4JeFFTgS7Nk79dtd7lPK7smW5Wjs8c+PzkVTS0RTAckzD9gFSanYIX8ENOtbb4E3GzyLu+Tlk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756234398; c=relaxed/simple;
+	bh=MxfwS5RDfuym9/2PJEt9QjvgH+0yw8hQwn+tgYfq15U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TGCldHVyHowv0b99xghJ15gC3Nah1kGq60wiF0p7YEZ4TFqLMJgbqSmyHYHV/I30FfaarqOrZ5E7Up/OsAGgVZjMKZuH4d/JQE9hCUBUyBi8FKYU0Q611Y35ZVz9udSw1JTW1hw7SQgmLblMZ0vfXW6WnlVwCx2JWY/04BzK9ys=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3SMCLnSx; arc=fail smtp.client-ip=40.107.212.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="eK737trT"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45a1b0cbbbaso52704935e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 11:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1756234243; x=1756839043; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=8jhr+zgrktlFUJPHflNxaNZs/QqFUKfGNDK/vx/Mf9o=;
-        b=eK737trTg7q4zm2fpQnGCjZCOcUp+lGVxDISNGg6fxyyTFDi6eIAWiqvS12wFsg/Ea
-         GhV1TM+oKCgnIFT3xXejhbbtVe9O2DMPjHYIftDUhAgV2m/5LJHeP86cA/PpGl6IF0sx
-         BK0sRF2D/t3zFzE+SJxnXhv8Kl9kqAeNG+I2Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756234243; x=1756839043;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8jhr+zgrktlFUJPHflNxaNZs/QqFUKfGNDK/vx/Mf9o=;
-        b=FhIAZZRA4msTfr563rBkGQDy4wL7tR63AUQWEk5xTIUBwdxA5fyLCsfK76bpKKQKjg
-         DYN5RxrjR+cTtr9BZG1VmRxH++nCe6Rn+bfUbL3IvmVCYT4444RKhzFkazem0rsJrTbR
-         CXi/AH4FsG+XZlrriUI5VfUhcBNYbm5jOGpEJI376rC0AeSee2BwmeE88MBxUBe9hdY7
-         51ibLVpgP0klMMR8c51AjWzoHkQHZdoGTlGyhtx+ABNYV11mmT4YMfhYeJ24dytrIBhG
-         +ZH0M4jatlHA6GjFN2uz0RwaJNo62HIQ0KX2yTqa/PQYFZB7kJo0Nw7ssptWK8rSvrXT
-         JSRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXhA2yrTG3G8kpWHe93LrXPLKwBKqYmjsAji24HzjC9V9TkOxN+la1mTR2hhQ51Gwdt6pg3TiCYzc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxsZpeLVaqulTT6BKVkx3X3YZHmZir3TjEiJa+kZDH/FK00vb6
-	prOMYQSm+4Zh2UIdKRGByIRy2jf65DC4C+EQQ+oyDw5FpzS/P6lxJ2E8mbpimFcIr5I=
-X-Gm-Gg: ASbGncuoVJwuGFnfDcE53Khe/+lZhZGcMl5t15VLlUm3Sy4Yr9QA4adKd+C3OYah92O
-	8K4JpeWnC37bHzNZYlg5Osg/44gaLpjOts+MFA4QRiQPexIgLkQSmYxFg2fGsghtj5h6N6kscVY
-	U1v4g5akDQJOzDVBXFm4fQyAVn8A0kKPjOHGxgoBRrSHDQRw5UfrxlkVbH5WYd1+g5dR8ARgRVZ
-	4SP/XcgepnVhdbBqmgHrOlQUEaTd1l3Ib7sht6nn6CcIm6DJMWbELzGdabp9oJLFzcLxdoUQtwv
-	tx4VzbMiZxiTZR6iU1w2v9dA43n48soeahBPzh1ILaGxbII4uinLcG9Uk87ql3EDXFBUosjW+3F
-	CuTKqWT4qh+JrWI2VrBm5Txf93vGS/YKKuS3s3toP58EpMcOaoVvYf+cUEuyqUTmxvEg7
-X-Google-Smtp-Source: AGHT+IF8MzILpJEqNk90bdY6bp45yJeU21cH6r3SZLrCLRLDqDFhpaJ0n9kOGIMSvynRVb14WNZXpg==
-X-Received: by 2002:a05:600c:a0b:b0:456:1442:86e with SMTP id 5b1f17b1804b1-45b64b750b4mr41337505e9.21.1756234242976;
-        Tue, 26 Aug 2025 11:50:42 -0700 (PDT)
-Received: from [192.168.1.183] (host-195-149-20-212.as13285.net. [195.149.20.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b6c5cfd14sm3164585e9.14.2025.08.26.11.50.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 11:50:42 -0700 (PDT)
-Message-ID: <36e0a671-6463-4bab-b5f1-63499838358d@citrix.com>
-Date: Tue, 26 Aug 2025 19:50:41 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3SMCLnSx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Grz1I/zPrFhIogGxSeRNgmYdJMicXx3vHt90K6wYfoHYQzbvAo6xl/NXz0X4sixpQrv7ebx9vKL9olPgvkmEAtHtkM0+RYc6HSlhJdOg3y4OeYV/kWFqWLBoJrQpYSgVyVpOU1hOMzeGKalEJUrnEUL6+Je8ttmRmqiHNwJQuQjVPK2mWAMD2nIODXD/bkphALv/FNgHmXg6ajHY+JRAnejyP4h4IulUShwAFJTeYf1UkZ0KM0ZNxPTA3iJp70N3W4eK7TwIii96QpXfbAB8AK0CMGpUoDKV7p012XlXBY1OcqUGMzrlt3qTa461kgHqQRfhIjeM2BZv8rBXbvm1Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UyoimNZdv4biRJcrY9VtF+isp/qAMWe/XoHJ9nedleE=;
+ b=EQVsj7JtaagMEvS+i5sfX/qFnhrFFQ94nbhF1NPEQm++qk4AurTPJPmMYTcT/vsxH0D3tkLwjlTajTp5ZonyndwiD0N14Mg5c7er8J6NwDUZHjjlEoB1MQhsuB6W0heMEdDIgSiB+wC34Vf/+XRk+LuhC3nriMcdPSUHOPxCKGL4YYCq43Sr07rO1mReTmtvHRURuP6gJZtuMUvMhUQ3pzDo1IB8/lBa+siSLqwLVQn/3N75Qu1BEj4fr4s0yrxhzAhpdysmdToQZe+LF5UkodUQCmKm4gTbGh/Vk45k5J0Fs/1j2nFtKMzAaendI9a7CcPHynFqyVJqSPXY60WwGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UyoimNZdv4biRJcrY9VtF+isp/qAMWe/XoHJ9nedleE=;
+ b=3SMCLnSxkafcso1bLwyTJTmbwvLmbyJOUO3Xn/AKFdNnbdhamLYS+3mwDO3CtnBwt9ZTyeoi+qK7NsJl7wDbmz3qz0v48GQiELoY3R8Lf3rSM2E9/vQtqJBBBR8iD/F0+yi/lgBDDm6LgnhayZB3iwjCSSguvhjLrxsV20ZYU5A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::65c) by IA0PR12MB7751.namprd12.prod.outlook.com
+ (2603:10b6:208:430::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Tue, 26 Aug
+ 2025 18:53:13 +0000
+Received: from DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ ([fe80::1370:cd3b:4c30:5a57]) by DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ ([fe80::1370:cd3b:4c30:5a57%7]) with mapi id 15.20.9031.023; Tue, 26 Aug 2025
+ 18:53:13 +0000
+Message-ID: <f7c6b5ed-a812-4f46-b40c-74d55e47f24c@amd.com>
+Date: Tue, 26 Aug 2025 13:53:09 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v8 09/10] fs/resctrl: Introduce interface to modify
+ io_alloc Capacity Bit Masks
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, manali.shukla@amd.com, gautham.shenoy@amd.com
+References: <cover.1754436586.git.babu.moger@amd.com>
+ <4652b5d8fac8ecad90b3eb734851916036246140.1754436586.git.babu.moger@amd.com>
+ <5003e6ca-6683-44f7-9a44-7fce8537a7e4@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <5003e6ca-6683-44f7-9a44-7fce8537a7e4@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9P223CA0006.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:806:26::11) To DS5PPFA3734E4BA.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::65c)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/20] KVM: VMX: Set FRED MSR intercepts
-To: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- peterz@infradead.org, chao.gao@intel.com, hch@infradead.org
-References: <20250821223630.984383-1-xin@zytor.com>
- <20250821223630.984383-7-xin@zytor.com>
- <2dd8c323-7654-4a28-86f1-d743b70d10b1@zytor.com>
-Content-Language: en-GB
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <2dd8c323-7654-4a28-86f1-d743b70d10b1@zytor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS5PPFA3734E4BA:EE_|IA0PR12MB7751:EE_
+X-MS-Office365-Filtering-Correlation-Id: b817aaf2-b97b-4773-c173-08dde4d1cefe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cU4rK0F5dzVKV25ST0x0WUh4VEJ1dE5IdlBLOTFOZWpvelBTL2pIeGpSSXQz?=
+ =?utf-8?B?S0pkdldWblZqVHRZcHhtbmdPTHVjZWd0QWhLSjYzNFMwVkl5WlVNenQvNk1S?=
+ =?utf-8?B?bmpoVjhxaGxVczhBdWQwQ0FhbllpYmlVVlN1S1dRYm0ya2FsaW1Edzg5U1B0?=
+ =?utf-8?B?YzZMb2dOOGVRb3JyTUt5VjhFWWtsMjB5Zmw2QWpBRXk4N1dvamZlTGF5dk1w?=
+ =?utf-8?B?eW9YcGxKQ0dIWW01cjNJN2lYb2h2SFoyZmpIbGswUERZdk5rOXBzS29OTVgz?=
+ =?utf-8?B?bmZYeXBYUklnOGFYTjdTVERvVDRUNDFjT1VTSGgxL2kyeG0zVlVnNXJwc2c0?=
+ =?utf-8?B?bm9pUENmUy9tVG1ObGtNeFltU2xjcWVoU2JqSnVrZEhiaGFVRnd6azlYdWhx?=
+ =?utf-8?B?TzlVQUdpUlV3Uldzby9zWEQ4ZGZSaHRUT2VoRWUxWGhKSnQrRkN0cFRGN2pD?=
+ =?utf-8?B?RFlaK1lTK2tUZzNPTWNoaXBpWXZONGJTQjFBc1dlb1dpcUlmVk9jRmR1ZUpz?=
+ =?utf-8?B?QkxNQkU5bzlFU2x0d1dlTDBKNXlIMFEzSW00ZFA0NGpxdnFQL2JVVmZ1bmRM?=
+ =?utf-8?B?TndtaGdtN0tZZlFuOXI3N08rV3lrK2UwaDdpZzFnSVBtZWlrZ05jVW1wSzAr?=
+ =?utf-8?B?azlqS2YwbmowUkluc1JlVG1UVlhlekRneFRCZm1qNmZndk5vU3FPQjFOZ21x?=
+ =?utf-8?B?by9Pd0JrZ0M5enhnd3dHakZ3bzJtNmp2RmFiTUNUZEVOTWhQdHRWeVBGczZz?=
+ =?utf-8?B?Q01oMEVMVldWMlRMK0p3Uzdqd2xYem1LNTJ2NUhFUjQ4MWlaRXdxZVJDU3h3?=
+ =?utf-8?B?L0tuaGF5QU1zV00xOUsxejdDRXpVWnBvWGVzUnZLdEhRbUlSSlhTL3lFWGJi?=
+ =?utf-8?B?aWx1UzBFYzI2YWV6RVBkWWZLcVJRbmFYWktUc2c2U3lvanUxNlRhZmdYSjlN?=
+ =?utf-8?B?TFhnYnRnUXE3OGhEUTNTc01ZTWZxK29LbmhpemJ3VXduVDhTMk02VHg1UEZh?=
+ =?utf-8?B?MUY3bU5aOWY4ZmFMUkRieHZRMVhrYjBsSW5vZWtqSEo2N00vOFJndlUwY1E4?=
+ =?utf-8?B?b01IdERvSTA0MGFtb1RnZXlZZ09URmVzSzZTVGczbHBjRU1acG9OUSttU2dr?=
+ =?utf-8?B?YUxhSzRBTGovVFJmcGF4dTZieERlN2w2NjFmRUdBMTBoUTVLOGgrcUlDTnU2?=
+ =?utf-8?B?Snoza3dmOHZsanBvS1lYVWcvNjhhTWpMa0Vsd20wVTVMWXVGK0ZrT3I3MlVm?=
+ =?utf-8?B?VkN1WmNhUjBJVWhiMDltU2hrcHhTOHNraGVURHFHOTJFOHU5SHFuUDl6MVk1?=
+ =?utf-8?B?czc5YytUWXlTMmg2YVlvSlRGY0tLTGF5bGhuckVZNk9EQXJOTGhPRjZzR1BW?=
+ =?utf-8?B?aWp0MEk4NTVQdWdzVFVoYXFFSXQ3cm9mQUljTElrYVZhcENRUVI2YWpnSEht?=
+ =?utf-8?B?WlVmSnVmZjFNdS9TQk9jVlUvakV0cEdSbXBzR3IrLzBMREs2d2xZNW1Gdkla?=
+ =?utf-8?B?R1gyUEZrSk1iMjJnUmpMZS9oaDJNcEZFZElsNFA5YjhlNEdiUnJFYzZlZldm?=
+ =?utf-8?B?ZlNueU41K2E2MW9IV1VqSHBJSWVFTzlqSFZWR1RkaUlJUDRudTExV2VUa1Qz?=
+ =?utf-8?B?SXVydzh4Nkw4dm1zK29HT1Z6bFpEaGRVTDArcHNuSkw2RU1aYmNDM2w3bi8r?=
+ =?utf-8?B?RGMzUU9UeXFuWmRVZVhsV3EzK3krb2RNNU9Pc2RGMnFSZjJ2WXNDdXZod1BS?=
+ =?utf-8?B?RTlqbm9lTTNyUmFieVRDNkl2RmExbUJKcGtsT3duT0k3anozdkcvTHh2b3Nz?=
+ =?utf-8?B?a0RxSlIxLzhCMjU1d0VEVmhBNkZpbEZTdGRUSVovV0hFdFY1SzhYZ3FWU1I3?=
+ =?utf-8?B?eVE2QkxuQ1RreWovbjY0R21xZS9vVGRyRE4zMHV1YXdqcnNPUFlONFU1WTRN?=
+ =?utf-8?Q?lRsxmaJ2puY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPFA3734E4BA.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eXFzMncrR0kxVy9zSlBPU21ScFl1ZW00bmRKSWZJamwwQUhuV1JyV1VFM1ds?=
+ =?utf-8?B?WkZteXY4TUZGVW91dExheVhHUS9QNFZpNFdhMWxVLyt5TnBhaWNpVXp5Tlc3?=
+ =?utf-8?B?WlNHVVd3NE9VNDM1UnNmM1VVYk5Cc3Nnd3ZMcGkwTlllU3ZSYzEvaFc5a0FX?=
+ =?utf-8?B?ZW9lN016MlVzb1Rna0htRzFkQ1doSlV1TmVldy9nTDg4elRZc01kZU15dzNY?=
+ =?utf-8?B?L2NLNE1INXVTL01rTXg4QjNYUUpyZU41bEtMZVFzcStsamJ5aysyVk4wZmJS?=
+ =?utf-8?B?a3dUQk94emh0Qjd3RXl5VzRoQS9WQ3d4Vi9SQUN5WTFISFZQemVCSWxIL202?=
+ =?utf-8?B?bzcxcm1sdkFkTzYvQWJoalFVVXI3eWIra1NTQytsNW1TMzlQZk45WnF4QXlS?=
+ =?utf-8?B?REtKMnV2dTg1QlFOZzd1SEdaZ0V4VkxZOW5TVlZzOVpaYk9XSm04NEdhazJl?=
+ =?utf-8?B?eFVkUkJOL1VQOGVYSWtiNjlHQk1LT1FveWNoRWFqRGNicEFWMjVCZlBsUlc1?=
+ =?utf-8?B?eXRFSzB5ak9ZcjN6NE0rbUZwQWVHNVNZbHYveTJmZXhaSnRydmNsbDJzL0Uw?=
+ =?utf-8?B?UHZGbHZPREppZ2pIb3NpcStIYXRyM2VJOCtkVTY3clJCUm1CbHc3amtkSTQ3?=
+ =?utf-8?B?ZnJEa2t4aVFzUVlmSXhVSFhnQ2NmNjlNUTFkc0UwVWFlYlIrM2VsNTRzSWRo?=
+ =?utf-8?B?ZGRDYlNBNXBZaGY2R2ZOQzNuUVBpVDNFc2xJZFNUemtGTE9tMDJGWUpZTVlz?=
+ =?utf-8?B?VTlFelVhV3Mwand3bEg2dEc1M1FUcXpaN0xDaElscitSLzA2UlN0QVVxWWFm?=
+ =?utf-8?B?cW95SFVqYzN2bmNnSmNEYmNETUpHTzZJbzZKVUorWWJpVDVxY0YraWtHRVo1?=
+ =?utf-8?B?alc0ZlBYdUp6bHRTOUcvNm04blZCU2JNWnl4dDAzdXBUcFE2RG9WbnFiYkZv?=
+ =?utf-8?B?c2RBQUR1ckdJbndJemtFcy85TUpHd1lKNG1wZ2lLNG1CU1Z3WFhCb1c3bmh0?=
+ =?utf-8?B?RFo5NnFUdGROWXlMMGx1OEtvQ3B4TFFHYmdrTXU1cnZRMTdyUFRkY2lYRlVy?=
+ =?utf-8?B?VU01NkhJSzVtTHNIM2g1RGo0VjNMTFJWbkgyUHVrYUlkeW9aQzRDUER1L1pR?=
+ =?utf-8?B?VHdCTFZzQ2pkNEZBendXKzFIUlNsbVdVYzF0Mzl0cFJ6U1RrSGZQcUo3Ylhp?=
+ =?utf-8?B?UitWdXZ1SGdiRlN1Q0JqQ2tTNmREejhBQmx1dVFhVzI5eHlDLzNvMDVPMS8w?=
+ =?utf-8?B?R2EwK2VraXJrMjYzald4bUt3SzlOcWp0OUszbXdIYTV1SVdrNHQ2NUhaaW5l?=
+ =?utf-8?B?YzBXRldMajBTOEcvYUVWWTFvaGRkTy9Vazg1RUlIWThpZGNoNkQ2ZTNHdTFj?=
+ =?utf-8?B?OUZVYXRueXoyUzN2MXNCSDNzdHhkRDc3YUJYVWcySkFnMnNNWGxVTElsdytx?=
+ =?utf-8?B?ODE2MUI2K0cxVlZOWXhvL2Zkckl0dWtLV3E0UWpVcElCN21rRG9FSnRibjZp?=
+ =?utf-8?B?MGVsTzBxREZvbWRCNDhOVU95ODhmSmE2T1h4ZktJZVdGczNGSkhFYXdiaVpv?=
+ =?utf-8?B?cFVKU2MvdkZKMTBjdlhkSGFBOERiS01zVFZwMDRpWFdkOVU0bWlRb2VtOHpN?=
+ =?utf-8?B?Z3VDZ1BPL0o1U0RQczNodFBrclpHUFZKejQrbys0ejEwdk9qRkJjM0c5eWxa?=
+ =?utf-8?B?bmpCd0hJNWszVGFXa2I3UUwweHYwMTJSeHoxYURJalhQcHZqUGVaaVFtWmVa?=
+ =?utf-8?B?V0M4c3hXUFpTOTNSU3VvdTRJczhqdkVTU3MwSUMxcnZUZkhYTFFnUHdyeS9k?=
+ =?utf-8?B?MEdsY1I4T01FMXFIQ2JWSVhBcm4yMzFmbXQzV2xIK2xmL0duR2l2WVRZalBL?=
+ =?utf-8?B?ZGM5Q3M4UGxhYjZTNkVIRlgzZnFtanVDeTNtbFpZRUpQQmxzY0xLRHBZbVli?=
+ =?utf-8?B?WnVNaFFxNVJUSHlYRzhGKzA5V0xJalFzcUR3ZlpRQ2k1bmhSVWJDcWVkTXF4?=
+ =?utf-8?B?bU1WMDUrREhBcGZvNGl4bUU1NHlmY090bHkwSGVGWlpLdkhTV1J3M29kT0ZY?=
+ =?utf-8?B?SHp3b0k0cVJlVUZvN1FaTHFzWGtLR3hUMUxIRWVxa1Jsa3I0dUVrdm1ITkVG?=
+ =?utf-8?Q?HMAc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b817aaf2-b97b-4773-c173-08dde4d1cefe
+X-MS-Exchange-CrossTenant-AuthSource: DS5PPFA3734E4BA.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 18:53:13.0965
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zbttbXr4OFARqhlMED5pr/nsWewkz8rJvBMB6DTS3ah2hKmPEpExuTmMwgll4mRE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7751
 
-On 25/08/2025 3:51 am, Xin Li wrote:
-> On 8/21/2025 3:36 PM, Xin Li (Intel) wrote:
->> +    /*
->> +     * MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP (aka
->> MSR_IA32_FRED_SSP0) are
->> +     * designated for event delivery while executing in userspace. 
->> Since
->> +     * KVM operates exclusively in kernel mode (the CPL is always 0
->> after
->> +     * any VM exit), KVM can safely retain and operate with the
->> guest-defined
->> +     * values for MSR_IA32_FRED_RSP0 and MSR_IA32_PL0_SSP.
->> +     *
->> +     * Therefore, interception of MSR_IA32_FRED_RSP0 and
->> MSR_IA32_PL0_SSP
->> +     * is not required.
->> +     *
->> +     * Note, save and restore of MSR_IA32_PL0_SSP belong to CET
->> supervisor
->> +     * context management.  However the FRED SSP MSRs, including
->> +     * MSR_IA32_PL0_SSP, are supported by any processor that
->> enumerates FRED.
->> +     * If such a processor does not support CET, FRED transitions
->> will not
->> +     * use the MSRs, but the MSRs would still be accessible using
->> MSR-access
->> +     * instructions (e.g., RDMSR, WRMSR).
->> +     */
->> +    vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW,
->> intercept);
->> +    vmx_set_intercept_for_msr(vcpu, MSR_IA32_PL0_SSP, MSR_TYPE_RW,
->> intercept);
->
-> Hi Sean,
->
-> I'd like to bring up an issue concerning MSR_IA32_PL0_SSP.
->
-> The FRED spec claims:
->
-> The FRED SSP MSRs are supported by any processor that enumerates
-> CPUID.(EAX=7,ECX=1):EAX.FRED[bit 17] as 1. If such a processor does not
-> support CET, FRED transitions will not use the MSRs (because shadow
-> stacks
-> are not enabled), but the MSRs would still be accessible using MSR-access
-> instructions (e.g., RDMSR, WRMSR).
+Hi Reinette,
 
-This is silly.  AIUI, all CPUs that have FRED also have CET-SS, so in
-practice they all have these MSRs.
+On 8/7/25 20:53, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 8/5/25 4:30 PM, Babu Moger wrote:
+>> "io_alloc" feature enables direct insertion of data from I/O devices into
+>> the cache. By directly caching data from I/O devices rather than first
+>> storing the I/O data in DRAM, it reduces the demands on DRAM bandwidth and
+>> reduces latency to the processor consuming the I/O data.
+>>
+>> When CDP is enabled, io_alloc routes traffic using the highest CLOSID
+>> associated with the L3CODE resource. To ensure consistent cache allocation
+>> behavior, the L3CODE and L3DATA resources must remain synchronized.
+>> rdtgroup_init_cat() function takes both L3CODE and L3DATA into account when
+>> initializing CBMs for new groups.  The io_alloc feature must maintain the
+>> same behavior, ensuring that the Cache Bit Masks (CBMs) for both L3CODE and
+>> L3DATA are updated together.
+> 
+> Please rework this copy&pasted text also and make specific to what this
+> patch actually does.
 
-But from an architectural point of view, if CET-SS isn't available,
-these MSRs shouldn't be either.  A guest which can't use CET-SS has no
-reason to touch these MSRs at all.
+Sure.
 
-MSR_PL0_SSP (== MSR_FRED_SSP_SL0) is gated on CET-SS alone (it already
-exists in CPUs), while MSR_FRED_SSP_SL{1..3} should be gated on CET-SS
-&& FRED, and should be reserved[1] otherwise.
+> 
+>> Enable users to modify io_alloc CBMs (Capacity Bit Masks) via the
+>> io_alloc_cbm resctrl file when io_alloc is enabled.
+> 
+> Here the changelog can provide overview of what is done by this patch
+> when a user provides a new CBM. This can include that a CBM provided
+> to CDP enabled resource will copy the CBM to the CDP peer.
 
-This distinction only matters for guests, and adding the CET-SS
-precondition makes things simpler overall for both VMMs and guests.  So
-can't this just be fixed up before being integrated into the SDM?
+Sure.
 
-~Andrew
+> 
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> 
+> 
+>> ---
+>>  Documentation/filesystems/resctrl.rst |  8 +++
+>>  fs/resctrl/ctrlmondata.c              | 97 +++++++++++++++++++++++++++
+>>  fs/resctrl/internal.h                 |  3 +
+>>  fs/resctrl/rdtgroup.c                 |  3 +-
+>>  4 files changed, 110 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index 3002f7fdb2fe..d955e8525af0 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -187,6 +187,14 @@ related to allocation:
+>>  			# cat /sys/fs/resctrl/info/L3/io_alloc_cbm
+>>  			0=ffff;1=ffff
+>>  
+>> +		CBMs can be configured by writing to the interface.
+>> +
+>> +		Example::
+>> +
+>> +			# echo 1=FF > /sys/fs/resctrl/info/L3/io_alloc_cbm
+> 
+> It may be useful to demonstrate syntax when more than one CBM is modified.
 
-[1] I have a sneaking suspicion there's a SKU reason why the spec is
-written that way, and "Reserved" is still the right behaviour to have
-for !CET-SS || !FRED.
+Sure.
+
+> 
+>> +			# cat /sys/fs/resctrl/info/L3/io_alloc_cbm
+>> +			0=ffff;1=00ff
+>> +
+>>  		When CDP is enabled "io_alloc_cbm" associated with the DATA and CODE
+>>  		resources may reflect the same values. For example, values read from and
+>>  		written to /sys/fs/resctrl/info/L3DATA/io_alloc_cbm may be reflected by
+>> diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
+>> index 641094aac322..1f69117f96f8 100644
+>> --- a/fs/resctrl/ctrlmondata.c
+>> +++ b/fs/resctrl/ctrlmondata.c
+>> @@ -858,3 +858,100 @@ int resctrl_io_alloc_cbm_show(struct kernfs_open_file *of, struct seq_file *seq,
+>>  	cpus_read_unlock();
+>>  	return ret;
+>>  }
+>> +
+>> +static int resctrl_io_alloc_parse_line(char *line,  struct rdt_resource *r,
+>> +				       struct resctrl_schema *s, u32 closid)
+>> +{
+>> +	enum resctrl_conf_type peer_type;
+>> +	struct resctrl_schema *peer_s;
+>> +	struct rdt_parse_data data;
+>> +	struct rdt_ctrl_domain *d;
+>> +	char *dom = NULL, *id;
+>> +	unsigned long dom_id;
+>> +
+>> +next:
+>> +	if (!line || line[0] == '\0')
+>> +		return 0;
+>> +
+>> +	dom = strsep(&line, ";");
+>> +	id = strsep(&dom, "=");
+>> +	if (!dom || kstrtoul(id, 10, &dom_id)) {
+>> +		rdt_last_cmd_puts("Missing '=' or non-numeric domain\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dom = strim(dom);
+>> +	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
+>> +		if (d->hdr.id == dom_id) {
+>> +			data.buf = dom;
+>> +			data.mode = RDT_MODE_SHAREABLE;
+>> +			data.closid = closid;
+>> +			if (parse_cbm(&data, s, d))
+>> +				return -EINVAL;
+>> +			/*
+>> +			 * When CDP is enabled, update the schema for both CDP_DATA
+>> +			 * and CDP_CODE.
+>> +			 */
+>> +			if (resctrl_arch_get_cdp_enabled(r->rid)) {
+>> +				peer_type = resctrl_peer_type(s->conf_type);
+>> +				peer_s = resctrl_get_schema(peer_type);
+>> +				if (parse_cbm(&data, peer_s, d))
+>> +					return -EINVAL;
+> 
+> CBM is still parsed twice. As I mentioned in v7 the parsing only need to be done
+> once and then the resulting CBM can be copied to CDP peer.
+> https://lore.kernel.org/lkml/82045638-2b26-4682-9374-1c3e400a580a@intel.com/
+
+My bad.  Simplified now to copy the staged_config from source to its peer.
+
+peer_type = resctrl_peer_type(s->conf_type);
+memcpy(&d->staged_config[peer_type],
+&d->staged_config[s->conf_type],
+sizeof(*d->staged_config));
+
+
+
+> 
+>> +			}
+>> +			goto next;
+>> +		}
+>> +	}
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of, char *buf,
+>> +				   size_t nbytes, loff_t off)
+>> +{
+>> +	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
+>> +	struct rdt_resource *r = s->res;
+>> +	u32 io_alloc_closid;
+>> +	int ret = 0;
+>> +
+>> +	/* Valid input requires a trailing newline */
+>> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
+>> +		return -EINVAL;
+>> +
+>> +	buf[nbytes - 1] = '\0';
+>> +
+>> +	cpus_read_lock();
+>> +	mutex_lock(&rdtgroup_mutex);
+>> +
+>> +	rdt_last_cmd_clear();
+>> +
+>> +	if (!r->cache.io_alloc_capable) {
+>> +		rdt_last_cmd_printf("io_alloc is not supported on %s\n", s->name);
+>> +		ret = -ENODEV;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	rdt_last_cmd_clear();
+> 
+> Unnecessary rdt_last_cmd_clear().
+
+Removed it.
+
+> 
+>> +	rdt_staged_configs_clear();
+> 
+> Placement of this can be improved by putting it closer to the code that
+> populates the staged configs. That is, just before resctrl_io_alloc_parse_line().
+> The flow is not symmetrical in that the out_unlock exit code always
+> clears the buffer whether it was used or not. I think it will be easier to
+> understand if the out_unlock *only* unlocks the locks and there is a new
+> goto label, for example, "out_clear_configs" that calls rdt_staged_configs_clear()
+> and is used after resctrl_io_alloc_parse_line().
+
+Yes. Sound good.
+
+> 
+>> +
+>> +	if (!resctrl_arch_get_io_alloc_enabled(r)) {
+>> +		rdt_last_cmd_printf("io_alloc is not enabled on %s\n", s->name);
+>> +		ret = -ENODEV;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	io_alloc_closid = resctrl_io_alloc_closid(r);
+>> +
+>> +	ret = resctrl_io_alloc_parse_line(buf, r, s, io_alloc_closid);
+>> +
+>> +	if (ret)
+>> +		goto out_unlock;
+>> +
+>> +	ret = resctrl_arch_update_domains(r, io_alloc_closid);
+>> +
+>> +out_unlock:
+>> +	rdt_staged_configs_clear();
+>> +	mutex_unlock(&rdtgroup_mutex);
+>> +	cpus_read_unlock();
+>> +
+>> +	return ret ?: nbytes;
+>> +}
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
+
