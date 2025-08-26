@@ -1,86 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D88B8635D;
-	Tue, 26 Aug 2025 14:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A426F23875D
+	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 15:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756219615; cv=none; b=L4IGK01Ad2NXx/R6X2ioncrYAs0A4qY1JCsc41lL+K3YeLjNppnycNmHSKQGUqLEXN9Lz9s+JViwRMwpGhL4gTDjaEqmxLg/h/yBeLkmLAuDt6wZYtNtGxkr9dmvmaBVI3jGYEQUX/UYTVul6rf3ZYyt32TUKDGxPqN2JML+lkE=
+	t=1756220577; cv=none; b=bEorTbv6ezWcTxaWYSmytzmBq1Fubvuhnh8GejJanmvW6+JoaZEGpKug+bdSs7nLgKkFy54fxhKWfMJ8WDWWwZhzdYTdq+khgchajlypzFlkS8rb1h7Z1HhnEcjTwuDQGPjfgmyQD4xQPmEq06X2iNrKR/5rKmDT8IJwDm8u/Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756219615; c=relaxed/simple;
-	bh=Lxo2DeBPbjwel3AvvdT8bRYWUnkhTXi+8e7kr/g5VCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fD2ZUc21L2Lnp4lwuKtwNHTkPIm897XklHpOrdqD796aEQ5q2OH3QgcvRBr6TmF1ex/sfp+c/0Wr5cbFG6OCb4S57R8BO2mg/UXovggnmgTatslS0EXtM5BPuhb8IOp8QV41ughfN6c/fKCyICYpPJZh4Ysfx+wLKIz8BmIPm4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Te3raU5H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756220577; c=relaxed/simple;
+	bh=vipNTbGB9wFWdA45CBFqlA3kiRpHyWKU7fupy2TzZxE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oeUwzf8V+w3IOV5PIzOT/E/TIBxmUX7zAb/q8APRN9lzZeRkIsic+UUM7wxmyA17xi7mgJwXP8+udwDQvdtOmTZvkWxZTdlgIKacuCJwYFNmv4YllinTEvQnmm1jwFn5Q41xPjlJ8jJsYxqO8uieuNy69iPSZry48H3l3Z2Yfrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=K9ZF+v7p; arc=none smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Te3raU5H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBAD5C4CEF1;
-	Tue, 26 Aug 2025 14:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1756219615;
-	bh=Lxo2DeBPbjwel3AvvdT8bRYWUnkhTXi+8e7kr/g5VCY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Te3raU5HZlMDXYoh6KNEfqk3cjNLfUMn6vv+4z4bj9nm0v1PJjGzk2TXKPuCPQjsF
-	 2e8PXce6LEH4ewDis3GsTW/II9B9QbP3/ZtHl+xr10i1nNGXaoZC9tmfF0ugsoOrjZ
-	 bdbyZnLp9Uw8Waaj0PUtKNZ2vBj8XpkNIj42dkFY=
-Date: Tue, 26 Aug 2025 10:46:50 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux Kernel Workflows <workflows@vger.kernel.org>, Fox Foster <fox@tardis.ed.ac.uk>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
- participle
-Message-ID: <20250826-fearless-glossy-dinosaur-46ebbf@lemur>
-References: <20250826003437.7695-2-bagasdotme@gmail.com>
- <87349ed6zj.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="K9ZF+v7p"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-61bf1542ecbso2616704eaf.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 08:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1756220574; x=1756825374; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a+0PR2fJcjZ6JOVTFgH14262z5rkDGxSbAwbjWWLyng=;
+        b=K9ZF+v7p+72pfwTw6pYAp8gUNmgFmG/Qsy2vzJdBuWGFlAz9o5c5jzGsqIBxwCo7Wn
+         mHUPyb1QYyDY2ZDtXxEP6tmMmrpJ1GnctCQuDH9XT9X+i5ly+tT1auWXULWxX2Yqvj5w
+         lI6ejW8xXCEyEwJPNqUhAuZmkRetbVL3XyE9LWUkYTCuS3xErB6UZsgrcqkPI74taDyC
+         s+XFSpbw1R8fxFp6s1JdudHpplysh2dRmoQdSr8JRTTX3QULw1QA+RXFs2dhBWOwN0m+
+         UfbBaPVFPJq9KbbCKeHG4TiHSH6hnmTlpp0pe6bIn5t+QrgUXram6XosO8qB4bqUThiX
+         u2aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756220574; x=1756825374;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a+0PR2fJcjZ6JOVTFgH14262z5rkDGxSbAwbjWWLyng=;
+        b=I3gf77v3QThTZVMNI11gCdyXTB4njD9iwx18n5sOpwsJSPhqrGoxSxdSxGbqq6rpkn
+         7pG/wyz2/cowhY03dlTRittRIHVtEtL94sB6naRbpoka0VvF26x8KtzCxfDAb25S6vKZ
+         7JwJ6cEh10HZ5PgWctq+9S7D2p1mllXLHXkRjTZmYeK36colixWdhYyqh5tUhN0CjZEy
+         knOHyzKX+yX3sLUXcE1QgsgWuU8r1ehDA7svd3tVyoWMwvEwzgDIKhUQkebPXu/ZQ9/h
+         reHFc5p/kR9ZoLdJ6GHEBIvvWGKWg9ThBg6lI5tosgT2iEy5oEp/VPxkgcmElkBLxdvs
+         XaXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXgelLCDQV9TNm99cI9Oq9Lowde3LLmTFB3gD0XOyqWkwC0eu6tSbkEcUgnWqOTJzRH1d6wyYFjJ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1JFLvL+/GHhUnkxlpwQLQ6UTS9BrOb3PlybqWW52sGO8D3KMW
+	/X4SPe2390WMwPYlNl9fJcakcu8vm551iLazoQmkiK47Xn2P4Woh0qF0lKfog30LsscUtbDhQi2
+	PMLUZS9jG2wSpyJTaxJwL4B2Kd41p+y536Pxv4udBNg==
+X-Gm-Gg: ASbGncs4fNE9ZL6mAa8k5OXEdEioLNQ69x93u/T4qUupOyHjURsIQJeo7Vvthtt8jFQ
+	z88Uqf6D26Yexoduk++8nmJHAzFwC2Mwhq/1b4fi2BjQof8aqPxy2LcNMfsuKNCQe0fQ6N0XXYi
+	nooVjje41MAiIDesXYKGq5iGNoqk9szUDIjpW2/y6fzOrWEmxPCXdI4GAqEpTz4+J9G0FKiYk3s
+	LqR
+X-Google-Smtp-Source: AGHT+IGZRoryUW5ksQYVJjIedWGTznIaiVqZiY1Pg/H6rjAtNQNm/14jN2CvpI319rkbtN5Pjbxs+aqTIMSdEzY6AGA=
+X-Received: by 2002:a05:6808:3442:b0:434:b43:d4a3 with SMTP id
+ 5614622812f47-437c543fdd9mr854638b6e.12.1756220572416; Tue, 26 Aug 2025
+ 08:02:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87349ed6zj.fsf@trenco.lwn.net>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <mafs0ms7mxly1.fsf@kernel.org> <CA+CK2bBoLi9tYWHSFyDEHWd_cwvS_hR4q2HMmg-C+SJpQDNs=g@mail.gmail.com>
+ <20250826142406.GE1970008@nvidia.com>
+In-Reply-To: <20250826142406.GE1970008@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 26 Aug 2025 15:02:13 +0000
+X-Gm-Features: Ac12FXyHXPcCjTtFR9AWQQdvDhbej8DQJ5aeFKL6iCSLSRPcL1vtdZDLkhVgq68
+Message-ID: <CA+CK2bBrCd8t_BUeE-sVPGjsJwmtk3mCSVhTMGbseTi_Wk+4yQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 25, 2025 at 10:47:28PM -0600, Jonathan Corbet wrote:
-> > Management style docs writes on people under a manager, where they know
-> > the details better than the manager himself, in past perfect tense. Yet,
-> > "know" is in infinitive form instead.
+On Tue, Aug 26, 2025 at 2:24=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
+>
+> On Tue, Aug 26, 2025 at 01:54:31PM +0000, Pasha Tatashin wrote:
+> > > > https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v3
+> > > >
+> > > > Changelog from v2:
+> > > > - Addressed comments from Mike Rapoport and Jason Gunthorpe
+> > > > - Only one user agent (LiveupdateD) can open /dev/liveupdate
+> > > > - With the above changes, sessions are not needed, and should be
+> > > >   maintained by the user-agent itself, so removed support for
+> > > >   sessions.
+> > >
+> > > If all the FDs are restored in the agent's context, this assigns all =
+the
+> > > resources to the agent. For example, if the agent restores a memfd, a=
+ll
+> > > the memory gets charged to the agent's cgroup, and the client gets no=
+ne
+> > > of it. This makes it impossible to do any kind of resource limits.
+> > >
+> > > This was one of the advantages of being able to pass around sessions
+> > > instead of FDs. The agent can pass on the right session to the right
+> > > client, and then the client does the restore, getting all the resourc=
+es
+> > > charged to it.
+> > >
+> > > If we don't allow this, I think we will make LUO/LiveupdateD unsuitab=
+le
+> > > for many kinds of workloads. Do you have any ideas on how to do prope=
+r
+> > > resource attribution with the current patches? If not, then perhaps w=
+e
+> > > should reconsider this change?
 > >
-> > Correct the verb form.
+> > Hi Pratyush,
 > >
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >  Documentation/process/management-style.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > That's an excellent point, and you're right that we must have a
+> > solution for correct resource charging.
 > >
-> > diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-> > index dfbc69bf49d435..1381b253b19ef4 100644
-> > --- a/Documentation/process/management-style.rst
-> > +++ b/Documentation/process/management-style.rst
-> > @@ -42,7 +42,7 @@ actually true.
-> >  The name of the game is to **avoid** having to make a decision.  In
-> >  particular, if somebody tells you "choose (a) or (b), we really need you
-> >  to decide on this", you're in trouble as a manager.  The people you
-> > -manage had better know the details better than you, so if they come to
-> > +manage had better known the details than you, so if they come to
-> >  you for a technical decision, you're screwed.  You're clearly not
-> 
-> This seems actively wrong ... ?
+> > I'd prefer to keep the session logic in the userspace agent (luod
+> > https://tinyurl.com/luoddesign).
+> >
+> > For the charging problem, I believe there's a clear path forward with
+> > the current ioctl-based API. The design of the ioctl commands (with a
+> > size field in each struct) is intentionally extensible. In a follow-up
+> > patch, we can extend the liveupdate_ioctl_fd_restore struct to include
+> > a target pid field. The luod agent, would then be able to restore an
+> > FD on behalf of a client and instruct the kernel to charge the
+> > associated resources to that client's PID.
+>
+> This wasn't quite the idea though..
+>
+> The sessions sub FD were intended to be passed directly to other
+> processes though unix sockets and fd passing so they could run their
+> own ioctls in their own context for both save and restore. The ioctls
+> available on the sessions should be specifically narrowed to be safe
+> for this.
+>
+> I can understand not implementing session FDs in the first version,
+> but when sessions FD are available they should work like this and
+> solve the namespace/cgroup/etc issues.
+>
+> Passing some PID in an ioctl is not a great idea...
 
-I do believe this is a clear indicator that the whole sentence needs to be
-reworded:
+Hi Jason,
 
-    ... if somebody tells you to "choose (a) or (b), we really need you to
-    decide on this," you're in trouble as a manager. The people you manage
-    most likely know the details better than you, so if they come to you for
-    a technical decision, ...
+I'm trying to understand the drawbacks of the PID-based approach.
+Could you elaborate on why passing a PID in the RESTORE_FD ioctl is
+not a good idea?
 
-This change would detract from the... unique... style of this document, but
-would hopefully be less confusing to non-native speakers.
+From my perspective, luod would have a live, open socket to the client
+process requesting the restore. It can use SO_PEERCRED to securely
+identify the client's PID at that moment. The flow would be:
 
--K
+1. Client connects and resumes its session with luod.
+2. Client requests to restore TOKEN_X.
+3. luod verifies the client owns TOKEN_X for its session.
+4. luod calls the RESTORE_FD ioctl, telling the kernel: "Please
+restore TOKEN_X and charge the resources to PID Y (which I just
+verified is on the other end of this socket)."
+5. The kernel performs the action.
+6. luod receives the new FD from the kernel and passes it back to the
+client over the socket.
+
+In this flow, the client isn't providing an arbitrary PID; the trusted
+luod agent is providing the PID of a process it has an active
+connection with.
+
+The idea was to let luod handle the session/security story, and the
+kernel handle the core preservation mechanism. Adding sessions to the
+kernel, delegates the management and part of the security model into
+the kernel. I am not sure if it is necessary, what can be cleanly
+managed in userspace should stay in userspace.
+
+Thanks,
+Pasha
+
+
+>
+> Jason
