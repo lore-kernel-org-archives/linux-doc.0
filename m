@@ -1,128 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79AB17A2E1;
-	Tue, 26 Aug 2025 07:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5214B26A1D9;
+	Tue, 26 Aug 2025 07:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756193764; cv=none; b=iuiaZ2qDFJxYzwFgloL7V8JlC0TA5NZLKCHJBuKSGT3jdm9zl2NUPZeFzN2xG3VOgX72d9fVDrw4laUcD6OEzzZ0CNgUHI+3CjbZZgBDXAE0D4+UoSZDGwnC4fGMWzS8VP1pzPM4q+/YDfl0FnrGBYCAujFCSYZb2mCxI14QglQ=
+	t=1756194018; cv=none; b=PufzZeHoyN33SWdcqfrxUT3j0E5gWnd8pyNhlxX+uV/m6SViT2mOuU4Wv7MHMeVcJbrzOK4qSSMPyhzw5wbMrhsexfVec/tNy32AQELX7lDOPanU0VBYrOWkoWBsg0IEGTS8lihxuvjQjxabyyz64ITQ/41caHEZ44DiJFN05Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756193764; c=relaxed/simple;
-	bh=o2KO6qM5slp43TEhCjAXRmlGzXDBAfE+BYRggH70ykM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UzFaMxn1J+4i6jpBsAnNwhDarU6OB1ox8YmkBoYUwTY3SyJaUIhWTqZaFBdPYV9gZ7yywjUswPtAnMo4VV2Dn1XjYaXFVdkt7HAiSBJte81iYULEbESnAvAaMQvKiXWrZlCapdGrzr8RxHZT4aXMlZdHMTfvWS/6WLROshTyw5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwLyHx4x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756194018; c=relaxed/simple;
+	bh=aap3YfstIpmOugt7N1EyGswpZy2EVkO50+yKxH3lXd0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SZKbuzgoRLcKZr0Mf0hwGHPeSOhjl/CvW076yloEagRjTq4awyTfsR9JyaldoeUyg9k+2TW47AHGX8aoWu2tk+bWCugzdHF6jOSxQCbZEsW9QnI5VA9leQ2HWrAXQuog4ikKQQwl3rlltdGgoqnypYczB6P6K8bKC3nMM5yyZdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e4n3WJuX; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwLyHx4x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF085C4CEF1;
-	Tue, 26 Aug 2025 07:36:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756193763;
-	bh=o2KO6qM5slp43TEhCjAXRmlGzXDBAfE+BYRggH70ykM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IwLyHx4xIpVgFZzymAoXflbPhyJvUzihZIjgw/T6WCeTmaoxD61qGu6MZvLapOeI9
-	 bl8s0QDAvD6TOEY9kGm30dih8kiDOyd5gTEDmGeMTZgDAjj4+d9HfG9P7nA6O9Ly3A
-	 nSJUI9utAtsqNoHlTOFv7ZrpZvCD/FBy+4dhGWEzncCtuL/NcZ7aAN07suchL6LNnr
-	 Q5EVJ0PU9ATpWNbTYf9MAl9SBa/gNibE7VlH28ajRHdC7uChifOFDLI1VlwIBTQQO6
-	 taFuOqZSd/71gnkOQT1uN0qxFfErhmUlRgtFCqkfwq3B1W6w6nUYEcPbQQzEMTBEEi
-	 rsluRS21+VSyg==
-Date: Tue, 26 Aug 2025 09:36:00 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
-	Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-Message-ID: <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e4n3WJuX"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-770522b34d1so1931674b3a.1;
+        Tue, 26 Aug 2025 00:40:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756194015; x=1756798815; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GlbFv4vmVbgsFd2sczt+i99ediLghxVAk7SqSIFFbE4=;
+        b=e4n3WJuX/Q6YgTLn7k4IohWLdhknEao1W3LGwfRFYTMJmC8pu6AQp3jeKOPnWxqsZN
+         RFoscx5bo/QWzVNpO6XUSWVHx5ZNb6RnTsVGrGWyjZirNNfhbLyYrsPP76y0WXWwouNC
+         TD45scSfDxuHMOZAf/0Yx7J0fTi452spzfQzTirra4P1YlgixJq60+lZpMqCdOFlAP88
+         yt5rFJVWl/ANLb7o+tgpL6pczlw7SWCqPEZtcB8XSMegW74Tod5mwDO8VNChtp64XiVQ
+         hI+g5B9nWizqFEtg0zFQYBBo5jYYAPniFRMmY2eFkCtGcdaiKwGMZ0uUcyFMkk6P6Yr1
+         Ovtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756194015; x=1756798815;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GlbFv4vmVbgsFd2sczt+i99ediLghxVAk7SqSIFFbE4=;
+        b=l59oQeSLxsz5tRJy0Sys/OK9OBa0SXDmvt/l1GNtU06LwOR/2hokvWl0mkILDSGz1d
+         BkKoH0A1PLMQKkQjECdDqGU18dhuVVyPynDe6qSOWTAk9u+Euv+ezgwNDUAXMbmDP+KU
+         1CY37iRPPBJDgSOG30V5Sy5CvZes8sf2RYtvY3K8D+Th6tUiZgcu1FTjj6xaMqkKjA/R
+         fCGTuU7byyjW5wxH6B+0DumWwop/npAhTuzZbJ/amjaBmRIpcBrh9eTL7kzeOAndH3xZ
+         JJU67dnLooza/2sEQbitvvTF0Cbsh+4+OfQ4AuqPZ5/eR6vqB9KqVumZHBlMEPJdfy8W
+         L+dw==
+X-Forwarded-Encrypted: i=1; AJvYcCVwncOZEy4O+GSWnxourHUtRoao8xHtU0ahYuK9SMkb381l+yzvbKE6FCeZL5Iy0/qWe+lWkfDaM2hb@vger.kernel.org, AJvYcCWHd0DsAzk2ortyVmmICnZztK7OVVuVWl2NQ9Vu4wd81bqxAmFa82OUDyNTx8j8iu0GawX7zgrrhHM=@vger.kernel.org, AJvYcCXD4qTugTfvad5Z08QR40VvFcj8oL6fPE1Jzut6+/ES8dfo/Hcooj681y1JoNcUGW8QPNQiDlx983QcxL0X@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpvqAb9tfmcUFCvOZK5BMZsA5Go1NkKJ7QRITirKfflYDwXiGy
+	so8SPi4NCblf6gmePkK5lmK7fQMj2m6Cv7iwk7zXdkbGHrYHyWWru7E735lYbXoO
+X-Gm-Gg: ASbGncvxj3+cuo3HilGj/HQnbE2L5+qYQb+iih4MdjqfiKuG9VcKilBvsNXUAuu6qWW
+	BMrHFqoEOvc9FPMBYBaiaRfo/BDWmX7k6Q6ehV80eKhnMYlTHUEOvUqdf9ATzehSGG/7N7JJO2C
+	Uf2lLgccgYi+/3gxEU5YM+hER3NNVz9tI+bONSNPc3AQ+J4wdIohC9rnzrTAQbTPMkBFWL1sk+C
+	CXyGXWKAsBmEqPOkDG34a0wInoaFh9k0B5OcJlz6zBBXDj/kSEMgeMwWKxdoWTNgxOT1+F5OXlu
+	EHeybTKK0EjYpRcPxNrWlP1WcPON8UUq7OghNWUVhoQ0TOecT7aXz5Ja6CULre2FUPagqkOsnVK
+	wezY0CpnudPOERa4lvE6d29WIqei2PmJ2Ov5qwqaq
+X-Google-Smtp-Source: AGHT+IEo7DE5YonKiPjmaH7yUDozIn0df3VhZkF0e6/hdlJHZzdd2jbr7Cod1Icio34q/kEknSwLeQ==
+X-Received: by 2002:a05:6a20:7350:b0:243:4aca:f6d5 with SMTP id adf61e73a8af0-2438fad27f1mr690158637.31.1756194015355;
+        Tue, 26 Aug 2025 00:40:15 -0700 (PDT)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771ead8f278sm3681715b3a.14.2025.08.26.00.40.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Aug 2025 00:40:14 -0700 (PDT)
+Message-ID: <2a66319f-63f1-408b-8815-89254d68b90b@gmail.com>
+Date: Tue, 26 Aug 2025 14:40:08 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="62kahmzwo3bq6vd4"
-Content-Disposition: inline
-In-Reply-To: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: management-style: Correct "know" past
+ participle
+To: Jonathan Corbet <corbet@lwn.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?=
+ <j.neuschaefer@gmx.net>, Randy Dunlap <rdunlap@infradead.org>
+References: <20250826003437.7695-2-bagasdotme@gmail.com>
+ <87349ed6zj.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87349ed6zj.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 8/26/25 11:47, Jonathan Corbet wrote:
+>> diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+>> index dfbc69bf49d435..1381b253b19ef4 100644
+>> --- a/Documentation/process/management-style.rst
+>> +++ b/Documentation/process/management-style.rst
+>> @@ -42,7 +42,7 @@ actually true.
+>>   The name of the game is to **avoid** having to make a decision.  In
+>>   particular, if somebody tells you "choose (a) or (b), we really need you
+>>   to decide on this", you're in trouble as a manager.  The people you
+>> -manage had better know the details better than you, so if they come to
+>> +manage had better known the details than you, so if they come to
+>>   you for a technical decision, you're screwed.  You're clearly not
+> 
+> This seems actively wrong ... ?
+> 
 
---62kahmzwo3bq6vd4
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-MIME-Version: 1.0
+What I thought on the original wording was that the people (i.e. 
+developers) know the (technical) details better than their manager.
+And yeah, "better" was duplicated.
 
-Hi,
+Thanks.
 
-On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> Here's another attempt at supporting user-space allocations from a
-> specific carved-out reserved memory region.
->=20
-> The initial problem we were discussing was that I'm currently working on
-> a platform which has a memory layout with ECC enabled. However, enabling
-> the ECC has a number of drawbacks on that platform: lower performance,
-> increased memory usage, etc. So for things like framebuffers, the
-> trade-off isn't great and thus there's a memory region with ECC disabled
-> to allocate from for such use cases.
->=20
-> After a suggestion from John, I chose to first start using heap
-> allocations flags to allow for userspace to ask for a particular ECC
-> setup. This is then backed by a new heap type that runs from reserved
-> memory chunks flagged as such, and the existing DT properties to specify
-> the ECC properties.
->=20
-> After further discussion, it was considered that flags were not the
-> right solution, and relying on the names of the heaps would be enough to
-> let userspace know the kind of buffer it deals with.
->=20
-> Thus, even though the uAPI part of it had been dropped in this second
-> version, we still needed a driver to create heaps out of carved-out memory
-> regions. In addition to the original usecase, a similar driver can be
-> found in BSPs from most vendors, so I believe it would be a useful
-> addition to the kernel.
->=20
-> Some extra discussion with Rob Herring [1] came to the conclusion that
-> some specific compatible for this is not great either, and as such an
-> new driver probably isn't called for either.
->=20
-> Some other discussions we had with John [2] also dropped some hints that
-> multiple CMA heaps might be a good idea, and some vendors seem to do
-> that too.
->=20
-> So here's another attempt that doesn't affect the device tree at all and
-> will just create a heap for every CMA reserved memory region.
->=20
-> It also falls nicely into the current plan we have to support cgroups in
-> DRM/KMS and v4l2, which is an additional benefit.
->=20
-> Let me know what you think,
-> Maxime
-
-Any chance we can get this merged?
-
-Maxime
-
---62kahmzwo3bq6vd4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaK1j3AAKCRAnX84Zoj2+
-dr8DAYC4w3b6+vJlwvEBOn1/7a0Jj2WkYdqmZ4/CPbeW+2IoICJxW7R3Tce/Y5Uy
-cZTj2C4Bf1SQZXT5Lb+3MVCxCe/EWi1p8JCpJTUjOmK7iEV5xtxrSPhEA3MoFvQz
-icz9OSLPbA==
-=Xhl4
------END PGP SIGNATURE-----
-
---62kahmzwo3bq6vd4--
+-- 
+An old man doll... just what I always wanted! - Clara
