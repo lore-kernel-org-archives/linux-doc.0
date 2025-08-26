@@ -1,140 +1,93 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C124284678;
-	Tue, 26 Aug 2025 07:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922DF2F7478;
+	Tue, 26 Aug 2025 07:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756192923; cv=none; b=G8nHSwXf3kQXbkf1pFH9lwAIoREAZsjr/GKtZg2lgjLXqwicM3IE5PtyDNnupq3YHrJIR7tGjZx28nUbaEXyorFR0m8Ich3LB284eHTckasMR8aN0JhNXbYta/wpBEuElm8JUbglQn7gHxoCjVDm8DgPYx6LGcOlHebObo8bAPQ=
+	t=1756192934; cv=none; b=G9OG2Xk2Jxa2QCkf9+KWb+UaNaXbU6ycvfOMtcL6xa1IwC5IqmoBDEsOeMi9pwJovqul20jCwHHwjoH+fAbjQKRVWAwsSYtDcJPjlFsWvyqU+DgV0v891RiwnSUyMoUnR6nspUAaxnK/+mHtqTBcwZCHn1nfJfZOmDad/b3K83k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756192923; c=relaxed/simple;
-	bh=mU2bzFJoqM7Sr6cE941TbbsOfyo+P5lzg61rKDAVbtk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sFVYYErcI98HjeFt3IYeCzP4T6MRoCdA/tE6TZedM0qk/bntmhu34SuQ6vgZrdE+tEG8707RlQJgbAa2cq3nij0WbjVhSVL7JG96K9CADyAtORRsedi43qzqFSNd46TCvmpk/2js0PkaFcNUuOWRuqsZYVhLM7pswL5Ol/oi7d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TInW23W0; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756192934; c=relaxed/simple;
+	bh=035sg1JtopQw1nmCxgJoz8BJyIihNeTPDW18p66Maew=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=B9I2hhRjvX0mEjm0Gh0jNoeadgcLDv2ZN/opeQD5oFrberEfUnc8TxD9OGLzcYt9+gQ1Tm8tlMi8zGsR5vyKevX5hKOtZxW9Zv8vCo8eikxk58GmhFpiTOi0L2hx2D/aGYew4Orwn2PJyuDkFbL1Zp5TcK9Vfii6/MdY4svDUs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JjmObyhP; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TInW23W0"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-771f3f89952so659156b3a.0;
-        Tue, 26 Aug 2025 00:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756192921; x=1756797721; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wbac2bbB4Agf6ejMhEQ8dWLbxrMb1NMiLXWF/bBnvXI=;
-        b=TInW23W0XwWB9wuHqLK7puBRDmHhiDjcWHUSb6e/vBWJTj/SMOGt2aEeZ7K/5GFdjv
-         L5sBKcmoC/pVG6owKZlyxwgJu/aEemNj7/O9uAznoMIrDOZrIm7mBafZgzzTx2StSf43
-         FrU0rOIZZRp3sE15RtSuh0uchRoudnvX0kRA8f504M/YYE4P2u3QX5PcOetSPgn3XNOa
-         uuAQs/u46uMkrfNa9amcLIfvjPzXDrE2STxgFuoHBnnWkui+mafFHnqVm8TT2tTiWdFR
-         gNmSvAQ6S0pVuh+0lLwXTJMS9k28zEVxFbWYkNfe+fW6HXYJx3JVXH/V4zdGS5rTO1I8
-         gFXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756192921; x=1756797721;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wbac2bbB4Agf6ejMhEQ8dWLbxrMb1NMiLXWF/bBnvXI=;
-        b=kLOs4S2IKq2etjSSANtGUfUR8yhSrzf5/yy9aImO3rs6ggVb17Bq+bVgtonMxKSxQP
-         89qSKngJi3mnUFbaum/GKF3MfWjS/N3p7TiG7VH56NWfKzQ03j4rt2P9e5DCttrV7idw
-         9jDiB2/d7qAZTDji7fADpsQnltZ3JbU2hLubqJL+xkPplXY0R7ZWQ1c5n/08+YC2kbTm
-         R7nkWSqc9mJEQCgLuM+FqAF97tYUlhJTnG3Fmy43akWdWhusGsS918YBRMND4u2gF+eA
-         ZsQ4Ms3pPZ2rXZxAOOZ9p0KA2taf1DBgyYuX3EfdmOE3axOhFOpFyyqeNqUPpwVIasjt
-         QqNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWATJeGnAF9OrRL3ODqFszVGoHZffyP8JEyOu+BSZJu41epiSYIrE/oZP8iBXj+Nbsx3aG05ROhguE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/OFSmwn+2OJM/FSLc/k29sQiXEeTLTqvi13K+RvNKGykasNIQ
-	kX1uOKMTOx641w+FYX5M41GKbSVGuavyjqSJlPb3fuc0fMzz8kO6ziBT
-X-Gm-Gg: ASbGncsfQ1L+qIRLChAQQ1BKdJxNZCoZV8T3Mz5fdJ1GBGN+LRxBJAElYd+DKLtpNw8
-	iiKi87IIEsKIdItdBje0ab5gmB0xTVWlHz5oJloME7Wsl+aEyszCpnbnMubJGtJr3XXMWVO26ce
-	PGu3Wl0rGM2JzP2CbG9mDDIaSakwvdrAhmJWBxb/l+VYx6PxKtZMtAm2xX7ju4QhxtQZvB0Xnhz
-	ZAyz7H6oMs0aaUYs8+6JPHjID/SCo7JQWwthHbaVwq+pO1xCsmZ6s1zfj5YsPm2JaWeolMy1FZ2
-	RH4EATYCcNommaN3KCYoSmXO0NFF8xqfUA7/MfrCEluLN6JBzUV1E/RZVgvclNpjHnf+bxmw3Xu
-	Liny9DXAHOfZMIZ9MXi+dyo+mKw8dTMOs7+BnlyPL3mlQzjAqPidMV9A92T1i5Ua23GHvgqOvM2
-	jcFqnOEg7h30XRCA==
-X-Google-Smtp-Source: AGHT+IHDKkxVACQPZ2nUxU4qBHmNtw5UPdoF1DrAv6TDPleHClAcC9RQjauPOEwrVtJF+n2mv+hsyg==
-X-Received: by 2002:a05:6a00:3d47:b0:76e:99fc:db91 with SMTP id d2e1a72fcca58-771fc292f2dmr715991b3a.3.1756192920839;
-        Tue, 26 Aug 2025 00:22:00 -0700 (PDT)
-Received: from localhost.localdomain ([101.82.213.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-770401ecc51sm9686052b3a.75.2025.08.26.00.21.51
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 26 Aug 2025 00:22:00 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: akpm@linux-foundation.org,
-	david@redhat.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	hannes@cmpxchg.org,
-	usamaarif642@gmail.com,
-	gutierrez.asier@huawei-partners.com,
-	willy@infradead.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	ameryhung@gmail.com,
-	rientjes@google.com,
-	corbet@lwn.net
-Cc: bpf@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH v6 mm-new 10/10] MAINTAINERS: add entry for BPF-based THP adjustment
-Date: Tue, 26 Aug 2025 15:19:48 +0800
-Message-Id: <20250826071948.2618-11-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20250826071948.2618-1-laoar.shao@gmail.com>
-References: <20250826071948.2618-1-laoar.shao@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JjmObyhP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0709740AE7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756192926; bh=veJtPEJ9bn56lBUtIQcGh3y1q+MNYjksl24KT7dK3Es=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JjmObyhP4Lb0+RL6pxoFBnUSA535OOZOcSswlP+P2+Rlxcur4RwDbbgMTKcp/LObl
+	 h/T6FbF0rz0iMWlpqxFycxdJzlP2FCUU+Z82Skqjco6nM2mZCHX2E3yC/+V0nL4K+n
+	 UDEV/oN1wql6lL5kXt3afkJ0+gQfl1Qp4/e4jvJ5e+1hPIj1jb7wjoLczbO+HwRzgg
+	 iOeS6VkMOnbjT+/c6EtSuOBdtwaY4OYMdp5SNrkML1YMyrkgWBLeJgTvEOw3wvm18B
+	 kldGgFK9IyTFep3dQES83dx0+nWDIVf/xDzl4niA34sgF6tTxkf8WRbYcv5l3ca0OV
+	 6bA3r989KEGow==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0709740AE7;
+	Tue, 26 Aug 2025 07:22:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Harry Yoo <harry.yoo@oracle.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, "Liam
+ R . Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, Kees
+ Cook <kees@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn
+ <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Rik van Riel
+ <riel@surriel.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Harry Yoo <harry.yoo@oracle.com>
+Subject: Re: [PATCH V1 1/2] docs/mm: explain when and why rmap locks need to
+ be taken during mremap()
+In-Reply-To: <20250826065848.346066-1-harry.yoo@oracle.com>
+References: <20250826065848.346066-1-harry.yoo@oracle.com>
+Date: Tue, 26 Aug 2025 01:22:03 -0600
+Message-ID: <87v7mabl9g.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Add maintainership entry for the experimental BPF-driven THP adjustment
-feature. This experimental component may be removed in future releases.
-I will help with maintenance tasks for this feature during its development
-lifecycle.
+Harry Yoo <harry.yoo@oracle.com> writes:
 
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> While move_ptes() has a comment explaining why rmap locks are needed,
+> Documentation/mm/process_addrs.rst does not. Without being aware of that
+> comment, I spent hours figuring out how things could go wrong and why,
+> in some cases, rmap locks can be safely skipped.
+>
+> Add a more comprehensive explanation to the documentation to save time
+> for others.
+>
+> Signed-off-by: Harry Yoo <harry.yoo@oracle.com>
+> ---
+>  Documentation/mm/process_addrs.rst | 32 ++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>
+> diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+> index be49e2a269e4..ee7c0dba339e 100644
+> --- a/Documentation/mm/process_addrs.rst
+> +++ b/Documentation/mm/process_addrs.rst
+> @@ -744,6 +744,38 @@ You can observe this in the :c:func:`!mremap` implementation in the functions
+>  :c:func:`!take_rmap_locks` and :c:func:`!drop_rmap_locks` which perform the rmap
+>  side of lock acquisition, invoked ultimately by :c:func:`!move_page_tables`.
+>  
+> +.. note:: If :c:func:`!mremap()` -> :c:func:`!move_ptes()` does not take rmap
+> +          locks, :c:func:`!rmap_walk()` may miss a pte for the folio.
+> +
+> +          The problematic sequence is as follows:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 390829ae9803..71d0f7c58ce8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16239,6 +16239,7 @@ F:	Documentation/admin-guide/mm/transhuge.rst
- F:	include/linux/huge_mm.h
- F:	include/linux/khugepaged.h
- F:	include/trace/events/huge_memory.h
-+F:	mm/bpf_thp.c
- F:	mm/huge_memory.c
- F:	mm/khugepaged.c
- F:	mm/mm_slot.h
-@@ -16246,6 +16247,15 @@ F:	tools/testing/selftests/mm/khugepaged.c
- F:	tools/testing/selftests/mm/split_huge_page_test.c
- F:	tools/testing/selftests/mm/transhuge-stress.c
- 
-+MEMORY MANAGEMENT - THP WITH BPF SUPPORT
-+M:	Yafang Shao <laoar.shao@gmail.com>
-+L:	bpf@vger.kernel.org
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	mm/bpf_thp.c
-+F:	tools/testing/selftests/bpf/prog_tests/thp_adjust.c
-+F:	tools/testing/selftests/bpf/progs/test_thp_adjust*
-+
- MEMORY MANAGEMENT - USERFAULTFD
- M:	Andrew Morton <akpm@linux-foundation.org>
- R:	Peter Xu <peterx@redhat.com>
--- 
-2.47.3
+Please don't use :c:func: - just write function() and all the right
+things will happen.  (For extra credit, fix the existing usages :)
 
+Thanks,
+
+jon
