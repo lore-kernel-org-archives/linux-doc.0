@@ -1,105 +1,514 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC91196C7C
-	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 13:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F34A24DD11
+	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 13:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756214854; cv=none; b=urFd63LvujdvfJP3InzoKma9NhbRhsE/d0JOF36HscR/5yho3sr0y/cru3Asg1w1ckkNaFoeMfyaNMpEA9MVSBRr8qaEdguovKNEGkt2dSNitK3Zynbkc7s/0vdAfZdKOgp/JyzJGVVK49X4XhEsqJZu6H7/0nKeWlMoJ0WeiU4=
+	t=1756215066; cv=none; b=je47Y41n8yMcPHbevUbdDuXSonjMA3JmknJPKVGt83E9VGfhx6xranCBoi9uTzvJONyYKDgOclwvId0Fj3awDnpwzQx3zXBeGX1+inc4lJMUXvOi/rn54Vyem9v4/eXU7Eg2jkOnHnWlprtVAW/Yhi9XdnyWTDDBmtAKFJUDNhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756214854; c=relaxed/simple;
-	bh=m6EtPj0+uVtOuoBi+kY7iqJCwfqPxHH3Tv3BeRWW1Q8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E4+1i1Msbq2fUkfkjCvICNaZCxAmLEcFEOEAqgxw/7u6R+pVchVOT7L+8LMv5SbVdN5DdXy59+IuzfxFdO1U457EHlZlJ8GkZdzKirFdR/S9yxzklZJcqBGR27v1LySyYtWW2Wwb2kPWLfX9WjkRWE+ribUh1MRMNyBD2c3EPqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=xg3UcQFe; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1756215066; c=relaxed/simple;
+	bh=Wz81753XfR8VU3zTn+IaPzh3mKWD4ka6j/OUnf+0vNw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U6l2GiiVU9uL/6EVw8FHDBrPhgwQzYL0K+tzC4+ozV/TPHEYC4B/id8FUSH3X7ccDsSxpkgC1apYUt+XtrewvikvCFbSA3702lKMC5LexT9vdP3f1JPZPKtpIdWK4DnZGVQvwU+ItC73DzBVPXq31CinhWIHDMd9BbhYwcrLm3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FoXcWM7c; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="xg3UcQFe"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b9edf4cf6cso4645616f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 06:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1756214850; x=1756819650; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r6mCp+F+gxJpSoi77Mk8DTDXwuJqpWFSqV1XbI8Gr38=;
-        b=xg3UcQFeXrYGkLEw3nvaLClVq0TphRDVK5N96G8vGDcome2N8Hq8wkZ6vwHv0iFLVs
-         cGWc6MKgRyVnImgE2tCb4aED30bwnPJH9rIsqrBMkN4Rt44QCWCOytZFYVXMkdewT2pH
-         fD3E2cO8vG7MZVN59fDFEZoD9RYqe+ePoi2u4lg5meANts16N+7M+QN5357RC2n5Op43
-         bBYF8R4Rm7n0WQyaC8++vSu95+Y7br1Z/DFab5dEiMz/TPUTJq+hu7D8D9wBz3G5OEIp
-         cph3G0pcfjTtUa+UfZtigFnxbQ33EiOBNXAqtg7GuKDd8aGkNRQxd4fL7lilZh0dGkEZ
-         CIAw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FoXcWM7c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756215062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ThzqNbFT5eEjjDVJ/O46CUDGi3VRQ7VcMo2GH+SRmsI=;
+	b=FoXcWM7cERQqovtgciztMTUzc+ZmiRx8EF98UUnTnhq+0dxCI/iF2CiydSK+h6gbHo3zGI
+	3DbLSkmvgZvb2D6IqLmSxhLS0T2DKnzd7aw77cizZiWjQFkr614rx/gUB4/6G6Wq5cqBl2
+	x7zY6OFit+BlANj85nVfcfMi8ythGgg=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-y9jfk_r8PU-bwuiABcivKQ-1; Tue, 26 Aug 2025 09:31:01 -0400
+X-MC-Unique: y9jfk_r8PU-bwuiABcivKQ-1
+X-Mimecast-MFC-AGG-ID: y9jfk_r8PU-bwuiABcivKQ_1756215061
+Received: by mail-yb1-f200.google.com with SMTP id 3f1490d57ef6-e95391965d7so3126203276.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 06:31:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756214850; x=1756819650;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1756215061; x=1756819861;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r6mCp+F+gxJpSoi77Mk8DTDXwuJqpWFSqV1XbI8Gr38=;
-        b=LBtRD1zGt87CjMGmtKGID2zWUmUfzYzJXRtR21tgwMN10jA2a0XWofc/FossV382Qh
-         KPj8XkCcl1DWI0sXdybE8NdDWs2up2WBnjbNaMhFyRspT7Q2G95R7kMGTWRNLRTjC2jC
-         YBz/n3wMictiB4U0MqmUqgoA0QwXqdLHyYk2BiXjY/oAjS5D/VGJT6gTFr0S8tVBPRp7
-         uN0ydNgqnEa5J5BVCtb65MeR87l/RnolpRvc1+vgUIqV8KGKEMF2ZBFPlXhQC5Y09zWX
-         FXU8C+nY7ZcfU1uEiq7iJp50ZArfiNmHu4/Z2qgFeE2H+4xUsi14rkqVRXJjZFeAXrws
-         su+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVxRy7JPAdd1R7nR2qO2vHSnoXlwLyk4FjRauKqOofagxCMNQ0m5B0kYHy2ZwfONiXCwTd9NbCq/Ow=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/C7ImSXSAj19pOHpbEYdVeXjYrhEAp+t+qzirCMMlZ4HMCUY2
-	rIK5oSb/1DU387lQvtfiI1gV5bpvc5YdbTijTmiF6WWAfq5ui+ZGnySwh2vM8CmFmGY=
-X-Gm-Gg: ASbGncsEGW7L/yNrC++/GfrHKArso/jtrKjz3u62Um1P/XERBjk5yx2BHsSS/TEZoab
-	vtsaAkq6QzamJJ1qKFgzP+wTXEvfOdSYEXRxeDM6rYzCCCe7ox6k/gTrMjYeRenOW2mK0t24lTg
-	puqiRFsaLYkjke07FWbXVBos8ltz3I1MnXFlphwFHTeCSXpvxDgGCQVvNPIlDTgN7zqbc4jkqRm
-	qjxEKH6UuXwIzBYBvTeOfeNSJ+cc3s5MWn+QIo/Yq+ye71ywC3SYPpDMUlPG7QJTCfo8fCsRgtk
-	Mk/upiKv3TuKNcu6lJxZWQpzMXj/a3Bz/Mj27nX0XaoyS7jfs7uMoT55GeRAdodp4bJLNgctOmY
-	VOrL70qOFlojcTA0GKw127wlc
-X-Google-Smtp-Source: AGHT+IEtIkJUDKq6YfUH3OIVgwuCFgy5UnEG3BCV3U9Lc+PLLOQkSw1irNa69/oxZWuy1ZkYx0BZwg==
-X-Received: by 2002:a05:6000:288d:b0:3c7:36f3:c352 with SMTP id ffacd0b85a97d-3c736f3c4c0mr10077934f8f.59.1756214849721;
-        Tue, 26 Aug 2025 06:27:29 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:fed4:79fc:9440:6629])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c712178161sm16133692f8f.67.2025.08.26.06.27.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 06:27:29 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: gpio: add documentation about using software nodes
-Date: Tue, 26 Aug 2025 15:27:28 +0200
-Message-ID: <175621484579.32185.5463919382812315938.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <tnaaz2qlk5jpbonfle7uy7pb54qx6ixwuczfbkwtxxwpj7hwas@y7a2rwko3k6c>
-References: <tnaaz2qlk5jpbonfle7uy7pb54qx6ixwuczfbkwtxxwpj7hwas@y7a2rwko3k6c>
+        bh=ThzqNbFT5eEjjDVJ/O46CUDGi3VRQ7VcMo2GH+SRmsI=;
+        b=t6GSHe4pPwi4Jg73dUeKG7YqPjK9/VRszBTr+s0Ce/WWZw338NZc959B2NbPXio7YA
+         BHeETXUKY//QfmwK2EKcZxZQALwlyfylSxGs+7ZggB37JGy72FrMgP/EQwOSMwxLNmwp
+         piRnh8CW/eJeFJ1NRhH2t5DSkoBS/MtH99GWGIoiy9ZMlo3vJMnrJnHQLyLlXDAcglm3
+         eeCPKiEKDaEz1FkR9e07IEwarJxBav6jfJqDfx/ru1t3+/3pJCvUBu3jSrKgwcbcPf9f
+         iERNdFibwvxY3WIdtKTQeEpM8AdGEgS5hxDYKsUn33mWR6KGK17LrCYuOpmFfasnPLCp
+         fxKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXl/K111o74jqBIlMDbk6UFTUXh38ZfLVmmuiMW5r0Z96ux5zVT7AutPvBkyKddUP77/oBAKjZkbTU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC6O6t2GtppWckrFe+x4JSjy086QAZNZ2sFHKL8WdTpFmG8vRt
+	fX0YZKMVEm6igi8qnj/ZTKdWXOvoudxomAvI8FatqRiMFkWMwBmxK2vytCJUkWmRd3B2fWaikTd
+	lzRoxO3LSoYGTnKlIEgk/a7vSwZvqKCzwk3Hzc6mLrWw5DNL9dNbtTl+WNsudCFf6OyTntNA2fv
+	HLrFjjHiqDg3FzwPQnOUp3hRxkW+1SrwV4gSYX
+X-Gm-Gg: ASbGncv7Q/Fe5AG6drM8onVV4ooXWSRVzQ0US0mYnXvEug0PRh90qgvt4lzBnpSM3Qx
+	QTB+Ye2C6Ek5uIyvVTVTV9LlL0ODU43+dDEpf+Jxsx2wC85sOJGSEpNiaPvzDbN+EC4VmqMoZmS
+	vWTPUjAKbrI6/GK6PDiZPybOU=
+X-Received: by 2002:a05:6902:1508:b0:e93:494e:9ec1 with SMTP id 3f1490d57ef6-e951c226d3cmr16403716276.19.1756215060168;
+        Tue, 26 Aug 2025 06:31:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFwnjAIyAKhv/avnddORq32kP91AHRB6ucC6WdjDpDx7JPGPfCyoy8rJf6lzWUDJb45Nn1NI45iA1j8g8ls5/U=
+X-Received: by 2002:a05:6902:1508:b0:e93:494e:9ec1 with SMTP id
+ 3f1490d57ef6-e951c226d3cmr16403642276.19.1756215059326; Tue, 26 Aug 2025
+ 06:30:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20250819134205.622806-1-npache@redhat.com> <20250819134205.622806-3-npache@redhat.com>
+ <248d57e5-8cd5-408b-a6c8-970df6876b6c@lucifer.local> <CAA1CXcC-7MudjF06JaJQUvKkNh4vPHTTeoMDBE-devotyFXjkA@mail.gmail.com>
+ <d8932d68-1c43-479e-8167-6ab7b1b92cb6@lucifer.local>
+In-Reply-To: <d8932d68-1c43-479e-8167-6ab7b1b92cb6@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 26 Aug 2025 07:30:32 -0600
+X-Gm-Features: Ac12FXwynFJ3OHCwYVCi6LKJzKmqCLxiByf5LM0fU2vuu8ONvv7U6rorcw7ASiQ
+Message-ID: <CAA1CXcDRnCtKRyXKLmxDwRBncw7GzqchwL1XRhHpDWbzttrw+g@mail.gmail.com>
+Subject: Re: [PATCH v10 02/13] introduce collapse_single_pmd to unify
+ khugepaged and madvise_collapse
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Fri, Aug 22, 2025 at 4:23=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Wed, Aug 20, 2025 at 10:35:57AM -0600, Nico Pache wrote:
+> > On Wed, Aug 20, 2025 at 5:22=E2=80=AFAM Lorenzo Stoakes
+> > <lorenzo.stoakes@oracle.com> wrote:
+> > >
+> > > On Tue, Aug 19, 2025 at 07:41:54AM -0600, Nico Pache wrote:
+> > > > The khugepaged daemon and madvise_collapse have two different
+> > > > implementations that do almost the same thing.
+> > > >
+> > > > Create collapse_single_pmd to increase code reuse and create an ent=
+ry
+> > > > point to these two users.
+> > > >
+> > > > Refactor madvise_collapse and collapse_scan_mm_slot to use the new
+> > > > collapse_single_pmd function. This introduces a minor behavioral ch=
+ange
+> > > > that is most likely an undiscovered bug. The current implementation=
+ of
+> > > > khugepaged tests collapse_test_exit_or_disable before calling
+> > > > collapse_pte_mapped_thp, but we weren't doing it in the madvise_col=
+lapse
+> > > > case. By unifying these two callers madvise_collapse now also perfo=
+rms
+> > > > this check.
+> > > >
+> > > > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > > > Acked-by: David Hildenbrand <david@redhat.com>
+> > > > Signed-off-by: Nico Pache <npache@redhat.com>
+> > > > ---
+> > > >  mm/khugepaged.c | 94 ++++++++++++++++++++++++++-------------------=
+----
+> > > >  1 file changed, 49 insertions(+), 45 deletions(-)
+> > > >
+> > > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > > > index 0e7bbadf03ee..b7b98aebb670 100644
+> > > > --- a/mm/khugepaged.c
+> > > > +++ b/mm/khugepaged.c
+> > > > @@ -2382,6 +2382,50 @@ static int collapse_scan_file(struct mm_stru=
+ct *mm, unsigned long addr,
+> > > >       return result;
+> > > >  }
+> > > >
+> > > > +/*
+> > > > + * Try to collapse a single PMD starting at a PMD aligned addr, an=
+d return
+> > > > + * the results.
+> > > > + */
+> > > > +static int collapse_single_pmd(unsigned long addr,
+> > > > +                             struct vm_area_struct *vma, bool *mma=
+p_locked,
+> > > > +                             struct collapse_control *cc)
+> > > > +{
+> > > > +     int result =3D SCAN_FAIL;
+> > >
+> > > You assign result in all branches, so this can be uninitialised.
+> > ack, thanks.
+> > >
+> > > > +     struct mm_struct *mm =3D vma->vm_mm;
+> > > > +
+> > > > +     if (!vma_is_anonymous(vma)) {
+> > > > +             struct file *file =3D get_file(vma->vm_file);
+> > > > +             pgoff_t pgoff =3D linear_page_index(vma, addr);
+> > > > +
+> > > > +             mmap_read_unlock(mm);
+> > > > +             *mmap_locked =3D false;
+> > > > +             result =3D collapse_scan_file(mm, addr, file, pgoff, =
+cc);
+> > > > +             fput(file);
+> > > > +             if (result =3D=3D SCAN_PTE_MAPPED_HUGEPAGE) {
+> > > > +                     mmap_read_lock(mm);
+> > > > +                     *mmap_locked =3D true;
+> > > > +                     if (collapse_test_exit_or_disable(mm)) {
+> > > > +                             mmap_read_unlock(mm);
+> > > > +                             *mmap_locked =3D false;
+> > > > +                             result =3D SCAN_ANY_PROCESS;
+> > > > +                             goto end;
+> > >
+> > > Don't love that in e.g. collapse_scan_mm_slot() we are using the mmap=
+ lock being
+> > > disabled as in effect an error code.
+> > >
+> > > Is SCAN_ANY_PROCESS correct here? Because in collapse_scan_mm_slot() =
+you'd
+> > > previously:
+> > https://lore.kernel.org/lkml/a881ed65-351a-469f-b625-a3066d0f1d5c@linux=
+.alibaba.com/
+> > Baolin brought up a good point a while back that if
+> > collapse_test_exit_or_disable returns true we will be breaking out of
+> > the loop and should change the return value to indicate this. So to
+> > combine the madvise breakout and the scan_slot breakout we drop the
+> > lock and return SCAN_ANY_PROCESS.
+>
+> Let's document in commit msg, as Liam's pointed out it's really important=
+ to
+> track things, and part of that as well is detailing in the commit message=
+ what
+> you're doing + why.
+ack! thanks
+>
+> With the THP code being as 'organically grown' as it is shall we say :) i=
+t's
+> even more mportant to be specific.
+>
+> > >
+> > >         if (*result =3D=3D SCAN_PTE_MAPPED_HUGEPAGE) {
+> > >                 mmap_read_lock(mm);
+> > >                 if (collapse_test_exit_or_disable(mm))
+> > >                         goto breakouterloop;
+> > >                 ...
+> > >         }
+> > >
+> > > But now you're setting result =3D SCAN_ANY_PROCESS rather than
+> > > SCAN_PTE_MAPPED_HUGEPAGE in this instance?
+> > >
+> > > You don't mention that you're changing this, or at least explicitly e=
+nough,
+> > > the commit message should state that you're changing this and explain=
+ why
+> > > it's ok.
+> > I do state it but perhaps I need to be more verbose! I will update the
+> > message to state we are also changing the result value too.
+>
+> Thanks!
+>
+> > >
+> > > This whole file is horrid, and it's kinda an aside, but I really wish=
+ we
+> > > had some comment going through each of the scan_result cases and expl=
+aining
+> > > what each one meant.
+> > Yeah its been a huge pain to have to investigate what everything is
+> > supposed to mean, and I often have to go searching to confirm things.
+> > include/trace/events/huge_memory.h has a "good" summary of them
+> > >
+> > > Also I think:
+> > >
+> > >         return SCAN_ANY_PROCESS;
+> > >
+> > > Is better than:
+> > >
+> > >         result =3D SCAN_ANY_PROCESS;
+> > >         goto end;
+> > I agree! I will change that :)
+> > >         ...
+> > > end:
+> > >         return result;
+> > >
+> > > > +                     }
+> > > > +                     result =3D collapse_pte_mapped_thp(mm, addr,
+> > > > +                                                      !cc->is_khug=
+epaged);
+> > >
+> > > Hm another change here, in the original code in collapse_scan_mm_slot=
+()
+> > > this is:
+> > >
+> > >         *result =3D collapse_pte_mapped_thp(mm,
+> > >                 khugepaged_scan.address, false);
+> > >
+> > > Presumably collapse_scan_mm_slot() is only ever invoked with
+> > > cc->is_khugepaged?
+> > Correct, but the madvise_collapse calls this with true, hence why it
+> > now depends on the is_khugepaged variable. No functional change here.
+> > >
+> > > Maybe worth adding a VM_WARN_ON_ONCE(!cc->is_khugepaged) at the top o=
+f
+> > > collapse_scan_mm_slot() to assert this (and other places where your c=
+hange
+> > > assumes this to be the case).
+> > Ok I will investigate doing that but it would take a huge mistake to
+> > hit that assertion.
+> > >
+> > >
+> > > > +                     if (result =3D=3D SCAN_PMD_MAPPED)
+> > > > +                             result =3D SCAN_SUCCEED;
+> > > > +                     mmap_read_unlock(mm);
+> > > > +                     *mmap_locked =3D false;
+> > > > +             }
+> > > > +     } else {
+> > > > +             result =3D collapse_scan_pmd(mm, vma, addr, mmap_lock=
+ed, cc);
+> > > > +     }
+> > > > +     if (cc->is_khugepaged && result =3D=3D SCAN_SUCCEED)
+> > > > +             ++khugepaged_pages_collapsed;
+> > >
+> > > Similarly, presumably because collapse_scan_mm_slot() only ever invok=
+ed
+> > > khugepaged case this didn't have the cc->is_khugepaged check?
+> > Correct, we only increment this when its khugepaged, so we need to
+> > guard it so madvise collapse wont increment this.
+>
+> You know what I'm going to say :) commit message please!
+ack, although this isnt anything new. I just needed to add it because
+madvise collapse doesnt increment this. Still I'll add a blurb.
+>
+> > >
+> > > > +end:
+> > > > +     return result;
+> > > > +}
+> > >
+> > > There's a LOT of nesting going on here, I think we can simplify this =
+a
+> > > lot. If we make the change I noted above re: returning SCAN_ANY_PROCE=
+SS< we
+> > > can move the end label up a bit and avoid a ton of nesting, e.g.:
+> > Ah I like this much more, I will try to implement/test it.
+> > >
+> > > static int collapse_single_pmd(unsigned long addr,
+> > >                                 struct vm_area_struct *vma, bool *mma=
+p_locked,
+> > >                                 struct collapse_control *cc)
+> > > {
+> > >         struct mm_struct *mm =3D vma->vm_mm;
+> > >         struct file *file;
+> > >         pgoff_t pgoff;
+> > >         int result;
+> > >
+> > >         if (vma_is_anonymous(vma)) {
+> > >                 result =3D collapse_scan_pmd(mm, vma, addr, mmap_lock=
+ed, cc);
+> > >                 goto end:
+> > >         }
+> > >
+> > >         file =3D get_file(vma->vm_file);
+> > >         pgoff =3D linear_page_index(vma, addr);
+> > >
+> > >         mmap_read_unlock(mm);
+> > >         *mmap_locked =3D false;
+> > >         result =3D collapse_scan_file(mm, addr, file, pgoff, cc);
+> > >         fput(file);
+> > >         if (result !=3D SCAN_PTE_MAPPED_HUGEPAGE)
+> > >                 goto end;
+> > >
+> > >         mmap_read_lock(mm);
+> > >         *mmap_locked =3D true;
+> > >         if (collapse_test_exit_or_disable(mm)) {
+> > >                 mmap_read_unlock(mm);
+> > >                 *mmap_locked =3D false;
+> > >                 return SCAN_ANY_PROCESS;
+> > >         }
+> > >         result =3D collapse_pte_mapped_thp(mm, addr, !cc->is_khugepag=
+ed);
+> > >         if (result =3D=3D SCAN_PMD_MAPPED)
+> > >                 result =3D SCAN_SUCCEED;
+> > >         mmap_read_unlock(mm);
+> > >         *mmap_locked =3D false;
+> > >
+> > > end:
+> > >         if (cc->is_khugepaged && result =3D=3D SCAN_SUCCEED)
+> > >                 ++khugepaged_pages_collapsed;
+> > >
+> > >         return result;
+> > > }
+> > >
+> > > (untested, thrown together so do double check!)
+>
+> This suggested refactoring work for you?
+Looks correct, I'm going to implement all the changes then test to
+make sure it works as intended.
+>
+> > >
+> > > > +
+> > > >  static unsigned int collapse_scan_mm_slot(unsigned int pages, int =
+*result,
+> > > >                                           struct collapse_control *=
+cc)
+> > > >       __releases(&khugepaged_mm_lock)
+> > > > @@ -2455,34 +2499,9 @@ static unsigned int collapse_scan_mm_slot(un=
+signed int pages, int *result,
+> > > >                       VM_BUG_ON(khugepaged_scan.address < hstart ||
+> > > >                                 khugepaged_scan.address + HPAGE_PMD=
+_SIZE >
+> > > >                                 hend);
+> > > > -                     if (!vma_is_anonymous(vma)) {
+> > > > -                             struct file *file =3D get_file(vma->v=
+m_file);
+> > > > -                             pgoff_t pgoff =3D linear_page_index(v=
+ma,
+> > > > -                                             khugepaged_scan.addre=
+ss);
+> > > > -
+> > > > -                             mmap_read_unlock(mm);
+> > > > -                             mmap_locked =3D false;
+> > > > -                             *result =3D collapse_scan_file(mm,
+> > > > -                                     khugepaged_scan.address, file=
+, pgoff, cc);
+> > > > -                             fput(file);
+> > > > -                             if (*result =3D=3D SCAN_PTE_MAPPED_HU=
+GEPAGE) {
+> > > > -                                     mmap_read_lock(mm);
+> > > > -                                     if (collapse_test_exit_or_dis=
+able(mm))
+> > > > -                                             goto breakouterloop;
+> > > > -                                     *result =3D collapse_pte_mapp=
+ed_thp(mm,
+> > > > -                                             khugepaged_scan.addre=
+ss, false);
+> > > > -                                     if (*result =3D=3D SCAN_PMD_M=
+APPED)
+> > > > -                                             *result =3D SCAN_SUCC=
+EED;
+> > > > -                                     mmap_read_unlock(mm);
+> > > > -                             }
+> > > > -                     } else {
+> > > > -                             *result =3D collapse_scan_pmd(mm, vma=
+,
+> > > > -                                     khugepaged_scan.address, &mma=
+p_locked, cc);
+> > > > -                     }
+> > > > -
+> > > > -                     if (*result =3D=3D SCAN_SUCCEED)
+> > > > -                             ++khugepaged_pages_collapsed;
+> > > >
+> > > > +                     *result =3D collapse_single_pmd(khugepaged_sc=
+an.address,
+> > > > +                                                     vma, &mmap_lo=
+cked, cc);
+> > > >                       /* move to next address */
+> > > >                       khugepaged_scan.address +=3D HPAGE_PMD_SIZE;
+> > > >                       progress +=3D HPAGE_PMD_NR;
+> > > > @@ -2799,34 +2818,19 @@ int madvise_collapse(struct vm_area_struct =
+*vma, unsigned long start,
+> > > >               mmap_assert_locked(mm);
+> > > >               memset(cc->node_load, 0, sizeof(cc->node_load));
+> > > >               nodes_clear(cc->alloc_nmask);
+> > > > -             if (!vma_is_anonymous(vma)) {
+> > > > -                     struct file *file =3D get_file(vma->vm_file);
+> > > > -                     pgoff_t pgoff =3D linear_page_index(vma, addr=
+);
+> > > >
+> > > > -                     mmap_read_unlock(mm);
+> > > > -                     mmap_locked =3D false;
+> > > > -                     result =3D collapse_scan_file(mm, addr, file,=
+ pgoff, cc);
+> > > > -                     fput(file);
+> > > > -             } else {
+> > > > -                     result =3D collapse_scan_pmd(mm, vma, addr,
+> > > > -                                                &mmap_locked, cc);
+> > > > -             }
+> > > > +             result =3D collapse_single_pmd(addr, vma, &mmap_locke=
+d, cc);
+> > > > +
+> > >
+> > > Ack the fact you noted the behaviour change re:
+> > > collapse_test_exit_or_disable() that seems fine.
+> > >
+> > > >               if (!mmap_locked)
+> > > >                       *lock_dropped =3D true;
+> > > >
+> > > > -handle_result:
+> > > >               switch (result) {
+> > > >               case SCAN_SUCCEED:
+> > > >               case SCAN_PMD_MAPPED:
+> > > >                       ++thps;
+> > > >                       break;
+> > > > -             case SCAN_PTE_MAPPED_HUGEPAGE:
+> > > > -                     BUG_ON(mmap_locked);
+> > > > -                     mmap_read_lock(mm);
+> > > > -                     result =3D collapse_pte_mapped_thp(mm, addr, =
+true);
+> > > > -                     mmap_read_unlock(mm);
+> > > > -                     goto handle_result;
+> > >
+> > > One thing that differs with new code her is we filter SCAN_PMD_MAPPED=
+ to
+> > > SCAN_SUCCEED.
+> > >
+> > > I was about to say 'but ++thps - is this correct' but now I realise t=
+his
+> > > was looping back on itself with a goto to do just that... ugh ye gads=
+.
+> > >
+> > > Anwyay that's fine because it doesn't change anything.
+> > >
+> > > Re: switch statement in general, again would be good to always have e=
+ach
+> > > scan possibility in switch statements, but perhaps given so many not
+> > > practical :)
+> >
+> > Yeah it may be worth investigating for future changes I have for
+> > khugepaged (including the new switch statement I implement later and
+> > you commented on)
+>
+> Ack yeah this can be one for the future!
+>
+> > >
+> > > (that way the compiler warns on missing a newly added enum val)
+> > >
+> > > >               /* Whitelisted set of results where continuing OK */
+> > > > +             case SCAN_PTE_MAPPED_HUGEPAGE:
+> > > >               case SCAN_PMD_NULL:
+> > > >               case SCAN_PTE_NON_PRESENT:
+> > > >               case SCAN_PTE_UFFD_WP:
+> > > > --
+> >
+> > Thanks for the review :)
+>
+> No probs, to underline as well - the critique is to make sure we get this=
+ right,
+> my aim here is to get your series landed in as good a form as possible :)
+All critiquing is welcome and appreciated :) The refactoring looks
+much better now too!
 
+Cheers,
+-- Nico
+>
+> >
+> > -- Nico
+> > > > 2.50.1
+> > > >
+> > >
+> >
+>
+> Cheers, Lorenzo
+>
 
-On Sun, 17 Aug 2025 14:30:20 -0700, Dmitry Torokhov wrote:
-> Introduce documentation regarding use of software nodes to describe
-> GPIOs on legacy boards that have not been converted to device tree.
-> 
-> 
-
-Applied, thanks!
-
-[1/1] Documentation: gpio: add documentation about using software nodes
-      https://git.kernel.org/brgl/linux/c/8003235b10e54c1be57374c6224751b39750f16c
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
