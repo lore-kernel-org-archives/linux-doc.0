@@ -1,242 +1,133 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730E62C2343;
-	Tue, 26 Aug 2025 16:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11142DBF51
+	for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 17:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756226585; cv=none; b=L1R0TCKOysUolnt9zRe0vGNEQ0j0nY0ZfG1dvHw/ybn4Prjm5F/+tjyqhRdRj7M9dqUU2qo+XKT/PPOiF4hTf97GstAYL2Y7QJcvOD6SBxXPhyjguYJD6Al7valhGMTrI0M7VSqIj/b1hgigaLtarYbKORzW4UJHcRezCiDkYgA=
+	t=1756227880; cv=none; b=aDHvXHAB+PlC6B8u5G8w4xjE/eCB7fi6M6dECIbjXZyNGxmdVIxYVUm6ckc2W+YGN38+C/8X15hkwrBKS4WwWpUsWD9UBA1MLhxVCMO+LFDoT2XCKy7DqRfjqCWHP19rTCKLlOipincKWGTIsJNzU2lJPt39f/wHFBYh5L0Yo5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756226585; c=relaxed/simple;
-	bh=X8bX4wqEcG5t8zkKm77FY2KpCA9tiNOlzUzYFahmvEE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PLPdC7Nz6OwFFpFI5EsfrcMPKXDC6MLNxq0T3KC+rfYXylDmWbzteS3hzRC7zS3+bL7q1cCM0nBsmOqLm+jC1xJ2/yxZMHIeYP55vfXraH5cShUFtZaHkMmVRH2F7pQeKqiG9J+SaX/NWZJ+/N7d4JRbvOlfC5a1Q8dLeMIP+xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xRXx8x08; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1756227880; c=relaxed/simple;
+	bh=4hli9x6NgPwP094pbyA0wxiR+cPcCetA3Wp28EfePcw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UI893p03WJvv71i8uIX58Fm+elI5OysI+R5lhH17MKQPe5Bbho+pvZ0/FPGfDS3/JPONYSqdn+E4zndb1jvmJH38azcjatEOqr2hpCRESFwPMyMQwl0J8hGR2lZvUCrbh8489AQhqk/Sv/KW5Uuqc6kpZvfRp7E33k+DUjiyklQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=i6WEPL0p; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xRXx8x08"
-Message-ID: <cf5d9158-4833-4355-8e4d-0894411d0d46@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1756226570;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oNfkM1W8WaLCBU2U7GOyvpqxcWGzOkoKctUH1gJKV1o=;
-	b=xRXx8x08no8uaEDO9RKzLskCzkj+jB3RwdecNrEvYto75HJcNfWnsedNL/nnHumQIqCqXA
-	U/TkaeHKHd8wsbcOafRfH6C++R2dpVYapKVLlI+X5qvL//Lcva8aF/hSE6Gt+sDZWT2OWP
-	+rphjf0B8i5JTbzQ0xE9drRCQj4SUjg=
-Date: Tue, 26 Aug 2025 17:42:46 +0100
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="i6WEPL0p"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b109bcceb9so68147981cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 10:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1756227877; x=1756832677; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VjIfaOrofazhAWITCaBIQC/PYR7khvFmaUUyG7Ja/eo=;
+        b=i6WEPL0pn88fDPnRYN45hj7gOcVCBERuZ1htsz9l/CTeeHj2yJkQyh/kwjR7I/du2F
+         OOmppdVKnOz9UtjGaeC/ek8tlU+qZdGkzvtOXJyrhdNduwzOxIaS0Ag2/4hve/uJ27lh
+         6MViq0s1o6dKjb+y/6TEb7+3NZSSELpdY29DxuWprqUoL6MWOaSu2OJql7+Fd/CiYkAK
+         0DQfpzi6kdLrwqWyBkowG5vCTf/oYiOX/6bMmo7DR4xISJkGoUn7rSXHEhqbvjSiggq3
+         M7ss2/L1eit4r9HSSLDmgtCzbYagzLjZboL0DpoeQe2see7mDltPbZ69hIwMafT2bwbH
+         WHLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756227877; x=1756832677;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VjIfaOrofazhAWITCaBIQC/PYR7khvFmaUUyG7Ja/eo=;
+        b=a2IBza1G0XRGUinmZdsb51KY/fb8acDZ4rzxTt1yo3QRQKVmFoUG5sm4rCviX3uvzc
+         nPDC5l377knJi3ekj4gga3CGNFIFPCpjdZZlqtUA1e9W6/FROfIgzshOfrh7z5K0DJKD
+         wnpwz3B9YI2HeUAAdmT+HQpScKSlUebjbMhoS33iwilMtXjG2RMD5aMWxFXLmpbEz9ju
+         XWX+AJXsBGXgzK5MeqjR+Oo+izIldfdhF2sW6Q2+4CVTg+3qjCkRTzTfhzWKTnwjLAiG
+         5DalUhel7rDMBK2xzcqYErEXJz34lJReI0QgSWS3v4gP7QiknQkv3b8LQ5l1TE8BoBea
+         9E5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXA9g7eH2nngFLpK+L4jlShY1nNL/KU/mredmOpzarcbhZ/u9UG7GIhTDoIoKGUS+T6Cqbyt9vzgkw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgnxNMURiJ8A4wGVuFDjO2lqkPJN0wKm624d1oSTlCGnIRpslJ
+	Srb9BU9T9gAfJIPuxD2gaRjU9HS9/rek6PV1LIlQqOYJUe0g46D02Q9Q502LfDXhx13kYVI23Iu
+	74nynB8pj2YL7DmQzCiURHSlmk+Ri2WFNFXKFJB97MQ==
+X-Gm-Gg: ASbGncvuP3Ei5KBZPMZLUVC2WVdnKHYocE5ftZqXgowiZ/0S16qf/mglau0gewwNzfk
+	YR3UKvj+8hxmioLYUUIyvkmoM0ErYhKrE7A+u3l5rGNXyM/A4cbSZlS4Z0nb3z7xH+RA+ZypHhd
+	I2EbUYcKwHx27UYMX98ORtGpKoab7rdhiT9McwXmqbI4SQbMyGAkyF27PDRShNQ3LB4LaHOmi7q
+	YqADrkYCLulCrA=
+X-Google-Smtp-Source: AGHT+IGhz39NCK5Fxfc9IjxwgHAO3YphwmnNvrOuu/ULmHzST7LVx0PTJH1sOUstAe48pYCpPqjEksP24bvYcCphrNY=
+X-Received: by 2002:a05:622a:1213:b0:4b2:edd6:f1a2 with SMTP id
+ d75a77b69052e-4b2edd6f516mr4884241cf.63.1756227876536; Tue, 26 Aug 2025
+ 10:04:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v01 08/12] hinic3: Queue pair context
- initialization
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
- Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
- Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
- Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-References: <cover.1756195078.git.zhuyikai1@h-partners.com>
- <fc3dd2c0d29c54332169bc5a2e5be4e4eac77b07.1756195078.git.zhuyikai1@h-partners.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <fc3dd2c0d29c54332169bc5a2e5be4e4eac77b07.1756195078.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <mafs0ms7mxly1.fsf@kernel.org> <CA+CK2bBoLi9tYWHSFyDEHWd_cwvS_hR4q2HMmg-C+SJpQDNs=g@mail.gmail.com>
+ <20250826142406.GE1970008@nvidia.com> <CA+CK2bBrCd8t_BUeE-sVPGjsJwmtk3mCSVhTMGbseTi_Wk+4yQ@mail.gmail.com>
+ <20250826151327.GA2130239@nvidia.com> <CA+CK2bAbqMb0ZYvsC9tsf6w5myfUyqo3N4fUP3CwVA_kUDQteg@mail.gmail.com>
+ <20250826162203.GE2130239@nvidia.com>
+In-Reply-To: <20250826162203.GE2130239@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 26 Aug 2025 17:03:59 +0000
+X-Gm-Features: Ac12FXz3lP2hDCkW5MtqBiPoAwifNenh5414D4bEhipE2lcPWQY4sTh__rhBUIU
+Message-ID: <CA+CK2bB9r_pMzd0VbLsAGTwh8kvV_o3rFM_W--drutewomr1ZQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, graf@amazon.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/08/2025 10:05, Fan Gong wrote:
-> Initialize queue pair context of hardware interaction.
-> 
-> Co-developed-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: Xin Guo <guoxin09@huawei.com>
-> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-> ---
+> > The existing interface, with the addition of passing a pidfd, provides
+> > the necessary flexibility without being invasive. The change would be
+> > localized to the new code that performs the FD retrieval and wouldn't
+> > involve spoofing current or making widespread changes.
+> > For example, to handle cgroup charging for a memfd, the flow inside
+> > memfd_luo_retrieve() would look something like this:
+> >
+> > task = get_pid_task(target_pid, PIDTYPE_PID);
+> > mm = get_task_mm(task);
+> >     // ...
+> >     folio = kho_restore_folio(phys);
+> >     // Charge to the target mm, not 'current->mm'
+> >     mem_cgroup_charge(folio, mm, ...);
+> > mmput(mm);
+> > put_task_struct(task);
+>
+> Execpt it doesn't work like that in all places, iommufd for example
+> uses GFP_KERNEL_ACCOUNT which relies on current.
 
-a bit of styling nits, but as you still have to do another version it
-would be great to fix.
+That's a good point. For kernel allocations, I don't see a clean way
+to account for a different process.
 
-[...]
+We should not be doing major allocations during the retrieval process
+itself. Ideally, the kernel would restore an FD using only the
+preserved folio data (that we can cleanly charge), and then let the
+user process perform any subsequent actions that might cause new
+kernel memory allocations. However, I can see how that might not be
+practical for all handlers.
 
-> +static int init_sq_ctxts(struct hinic3_nic_dev *nic_dev)
-> +{
-> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +	struct hinic3_sq_ctxt_block *sq_ctxt_block;
-> +	u16 q_id, curr_id, max_ctxts, i;
-> +	struct hinic3_sq_ctxt *sq_ctxt;
-> +	struct hinic3_cmd_buf *cmd_buf;
-> +	struct hinic3_io_queue *sq;
-> +	__le64 out_param;
-> +	int err = 0;
-> +
-> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
-> +	if (!cmd_buf) {
-> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	q_id = 0;
-> +	while (q_id < nic_io->num_qps) {
-> +		sq_ctxt_block = cmd_buf->buf;
-> +		sq_ctxt = sq_ctxt_block->sq_ctxt;
-> +
-> +		max_ctxts = (nic_io->num_qps - q_id) > HINIC3_Q_CTXT_MAX ?
-> +			     HINIC3_Q_CTXT_MAX : (nic_io->num_qps - q_id);
-> +
-> +		hinic3_qp_prepare_cmdq_header(&sq_ctxt_block->cmdq_hdr,
-> +					      HINIC3_QP_CTXT_TYPE_SQ, max_ctxts,
-> +					      q_id);
-> +
-> +		for (i = 0; i < max_ctxts; i++) {
-> +			curr_id = q_id + i;
-> +			sq = &nic_io->sq[curr_id];
-> +			hinic3_sq_prepare_ctxt(sq, curr_id, &sq_ctxt[i]);
-> +		}
-> +
-> +		hinic3_cmdq_buf_swab32(sq_ctxt_block, sizeof(*sq_ctxt_block));
-> +
-> +		cmd_buf->size = cpu_to_le16(SQ_CTXT_SIZE(max_ctxts));
-> +		err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
-> +					      L2NIC_UCODE_CMD_MODIFY_QUEUE_CTX,
-> +					      cmd_buf, &out_param);
-> +		if (err || out_param != 0) {
+Perhaps, we should add session extensions to the kernel as follow-up
+after this series lands, we would also need to rewrite luod design
+accordingly to move some of the sessions logic into the kernel.
 
-no need for "!= 0" ...
-
-> +			dev_err(hwdev->dev, "Failed to set SQ ctxts, err: %d, out_param: 0x%llx\n",
-> +				err, out_param);
-> +			err = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		q_id += max_ctxts;
-> +	}
-> +
-> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
-> +
-> +	return err;
-> +}
-> +
-> +static int init_rq_ctxts(struct hinic3_nic_dev *nic_dev)
-> +{
-> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +	struct hinic3_rq_ctxt_block *rq_ctxt_block;
-> +	u16 q_id, curr_id, max_ctxts, i;
-> +	struct hinic3_rq_ctxt *rq_ctxt;
-> +	struct hinic3_cmd_buf *cmd_buf;
-> +	struct hinic3_io_queue *rq;
-> +	__le64 out_param;
-> +	int err = 0;
-> +
-> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
-> +	if (!cmd_buf) {
-> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	q_id = 0;
-> +	while (q_id < nic_io->num_qps) {
-> +		rq_ctxt_block = cmd_buf->buf;
-> +		rq_ctxt = rq_ctxt_block->rq_ctxt;
-> +
-> +		max_ctxts = (nic_io->num_qps - q_id) > HINIC3_Q_CTXT_MAX ?
-> +				HINIC3_Q_CTXT_MAX : (nic_io->num_qps - q_id);
-> +
-> +		hinic3_qp_prepare_cmdq_header(&rq_ctxt_block->cmdq_hdr,
-> +					      HINIC3_QP_CTXT_TYPE_RQ, max_ctxts,
-> +					      q_id);
-> +
-> +		for (i = 0; i < max_ctxts; i++) {
-> +			curr_id = q_id + i;
-> +			rq = &nic_io->rq[curr_id];
-> +			hinic3_rq_prepare_ctxt(rq, &rq_ctxt[i]);
-> +		}
-> +
-> +		hinic3_cmdq_buf_swab32(rq_ctxt_block, sizeof(*rq_ctxt_block));
-> +
-> +		cmd_buf->size = cpu_to_le16(RQ_CTXT_SIZE(max_ctxts));
-> +
-> +		err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
-> +					      L2NIC_UCODE_CMD_MODIFY_QUEUE_CTX,
-> +					      cmd_buf, &out_param);
-> +		if (err || out_param != 0) {
-
-... here as well
-
-> +			dev_err(hwdev->dev, "Failed to set RQ ctxts, err: %d, out_param: 0x%llx\n",
-> +				err, out_param);
-> +			err = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		q_id += max_ctxts;
-> +	}
-> +
-> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
-> +
-> +	return err;
-> +}
-
-[...]
-
-> +static int clean_queue_offload_ctxt(struct hinic3_nic_dev *nic_dev,
-> +				    enum hinic3_qp_ctxt_type ctxt_type)
-> +{
-> +	struct hinic3_nic_io *nic_io = nic_dev->nic_io;
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +	struct hinic3_clean_queue_ctxt *ctxt_block;
-> +	struct hinic3_cmd_buf *cmd_buf;
-> +	__le64 out_param;
-> +	int err;
-> +
-> +	cmd_buf = hinic3_alloc_cmd_buf(hwdev);
-> +	if (!cmd_buf) {
-> +		dev_err(hwdev->dev, "Failed to allocate cmd buf\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	ctxt_block = cmd_buf->buf;
-> +	ctxt_block->cmdq_hdr.num_queues = cpu_to_le16(nic_io->max_qps);
-> +	ctxt_block->cmdq_hdr.queue_type = cpu_to_le16(ctxt_type);
-> +	ctxt_block->cmdq_hdr.start_qid = 0;
-> +	ctxt_block->cmdq_hdr.rsvd = 0;
-> +	ctxt_block->rsvd = 0;
-> +
-> +	hinic3_cmdq_buf_swab32(ctxt_block, sizeof(*ctxt_block));
-> +
-> +	cmd_buf->size = cpu_to_le16(sizeof(*ctxt_block));
-> +
-> +	err = hinic3_cmdq_direct_resp(hwdev, MGMT_MOD_L2NIC,
-> +				      L2NIC_UCODE_CMD_CLEAN_QUEUE_CTX,
-> +				      cmd_buf, &out_param);
-> +	if ((err) || (out_param)) {
-
-no need for extra parenthesis
-
-> +		dev_err(hwdev->dev, "Failed to clean queue offload ctxts, err: %d,out_param: 0x%llx\n",
-> +			err, out_param);
-> +
-> +		err = -EFAULT;
-> +	}
-> +
-> +	hinic3_free_cmd_buf(hwdev, cmd_buf);
-
+Thank you,
+Pasha
