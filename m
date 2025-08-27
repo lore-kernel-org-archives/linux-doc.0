@@ -1,112 +1,180 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E58D274670;
-	Wed, 27 Aug 2025 03:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9600A1D9346;
+	Wed, 27 Aug 2025 03:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756264510; cv=none; b=g3RRliEK7bQK94cAA/DyOYQDM8g8CTL9XPUh6BQwH3n1ynHkZyWaxIi739X/OMztTmSqjNmBu3LNez+YM5L+G/Y9wn40E5tKj5z4soBS9DWYcNH5u+CKoo7CL70s3mtU1t8uPXuHDg5WqBuChPzeqE0teEbVqqv/LjSFPQ9XY58=
+	t=1756264742; cv=none; b=kTw3LOg7uMkbDn1r1S2bvWz+qsGYdDXmOpUTD9J0yIFwQw05KUwDaUdnEQVWNslhgiGYW4nfIDJ2VXpkfAl0WklVzqcwccJdQq5CSCas8OgmI0/VkyCzZ9cEzn4q5qFkAEmiQV9pJd4CJiiH+jfcKakvjMwUG4H8stziSW01e60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756264510; c=relaxed/simple;
-	bh=AMscygHaTq9Yh0da+ginJppGuM08l6XSihXFLuahwBY=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=HhB3s7zuhve17EZna78VspEImf8BLAQdrdHeSrIE4+cXlXmTY4vBFgVYO6wTquXtvlnxZh6fdnx4g4wHKi+e7cx77/G8e3hxnQUraLWMtSB1rQ5zf1H86Bh3Ct0mGIQourHx6TnfkGfpOAZxLEwA0Meso1FKIpqKYWCnKSUCrQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cBV5L2MKpz7VGTQ;
-	Wed, 27 Aug 2025 11:15:02 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 57R3EhcV048710;
-	Wed, 27 Aug 2025 11:14:43 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 27 Aug 2025 11:14:44 +0800 (CST)
-Date: Wed, 27 Aug 2025 11:14:44 +0800 (CST)
-X-Zmail-TransId: 2afc68ae7824b1e-667ca
-X-Mailer: Zmail v1.0
-Message-ID: <20250827111444659yr8tENNnk9xU2ZFnz94FO@zte.com.cn>
-In-Reply-To: <20250820081908.GA1249@didi-ThinkCentre-M930t-N000>
-References: 20250820081908.GA1249@didi-ThinkCentre-M930t-N000
+	s=arc-20240116; t=1756264742; c=relaxed/simple;
+	bh=WUWwy5nccQxrS8HQfczhlbKuioAv23XjXIVasA3CJQ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l1+71Qt8ncQoeJIoNiCYdy63ydFpjE7ZvF3YeKwdKmUlmkp6/XzUtZiSBN64LljzjDNLSOkIODjsrx0pJmaott0kGIAkGaTG4nDqYKBOb9jzkBNuWibvETMRBm7NXHIb5t1dWoLHlkTZz3zDG+qRdb5Ag2Jsg/IOtEGvfHczenU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CAyCF73v; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CAyCF73v"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=A+VnN3ce19ePBWAKL69GvyEbLz34iHfiJ7S4nl+bquc=; b=CAyCF73vjin/UU8OsCA3Ysf206
+	48hv7838JxCqoFmQuyqmmkSHuIxoQj2ehVeg/TDFlUZKyLXouyYX9zCcL+kfYJGGHfE/GQpPXQzMW
+	gqjw2wz4OexYYa8engqNDwwpqabINISV2wvYXpcN7mLcjTOxBWpFiykL4k+gt4nEt0j77WbGnKCz3
+	s9ZktHD8g1481fGBhWLkQ2uvo6iMRV9m6OwPZMmjyW4OQ+Fk9Q2ScLgn/cJNJDbfR9qw7QMoNAsID
+	+xnBktlOpl/zQMgv4/Hi0O5Yq8AzC62sbUwxJ4N6AMXKmJke+GkfiUgubsBsSin//5QspdpBJBKuM
+	OIVfJQuQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ur6gc-0000000DowB-0HmH;
+	Wed, 27 Aug 2025 03:18:58 +0000
+Message-ID: <8696a6c8-c555-4523-b8dc-b41ab14b4380@infradead.org>
+Date: Tue, 26 Aug 2025 20:18:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <tiozhang@didiglobal.com>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>, <corbet@lwn.net>,
-        <bsingharora@gmail.com>, <yang.yang29@zte.com.cn>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
-        <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
-        <rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
-        <vschneid@redhat.com>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <tiozhang@didiglobal.com>, <zyhtheonly@gmail.com>,
-        <zyhtheonly@yeah.net>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2Ml0gZGVsYXlhY2N5L3NjaGVkOiBhZGQgU09GVElSUSBkZWxheQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 57R3EhcV048710
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 27 Aug 2025 11:15:02 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68AE7836.001/4cBV5L2MKpz7VGTQ
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: gfs2: Consolidate GFS2 docs into its
+ own subdirectory
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux GFS2 <gfs2@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andreas Gruenbacher <agruenba@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, "Darrick J. Wong" <djwong@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, Miklos Szeredi <mszeredi@redhat.com>,
+ Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
+ Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
+ Bernd Schubert <bschubert@ddn.com>, Matthew Wilcox <willy@infradead.org>
+References: <20250827022122.12132-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250827022122.12132-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Taking the difference of two successive readings of a given
-> counter (say cpu_delay_total) for a task will give the delay
->@@ -123,6 +124,8 @@ Get sum and peak of delays, since system boot, for all pids with tgid 242::
->                   156       11215873          0.072ms     0.207403ms     0.033913ms
->     IRQ         count    delay total  delay average      delay max      delay min
->                     0              0          0.000ms     0.000000ms     0.000000ms
->+    SOFTIRQ     count    delay total  delay average      delay max      delay min
->+                    0              0          0.000ms     0.000000ms     0.000000ms
->
-> Get IO accounting for pid 1, it works only with -p::
 
-If possible, you can construct some abnormal scenarios to assign values to IRQ and SOFTIRQ,
-highlighting the differences between them. Additionally, this should cover the testing of
-new features. If the delay info is entirely zero, it may fail to demonstrate such differences.
 
->+    /*
->+     * We only account softirq time when we are called by
->+     * account_softirq_enter{,exit}
->+     * and we do not account ksoftirqd here.
->+     */
->+    if (curr != this_cpu_ksoftirqd() &&
->+        ((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET))) {
->+        delta_soft = cpu_clock - irqtime->soft_start_time;
->+        irqtime->soft_start_time += delta_soft;
->+    }
->+
->     /*
->      * We do not account for softirq time from ksoftirqd here.
->      * We want to continue accounting softirq time to ksoftirqd thread
->@@ -75,9 +88,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
->      * that do not consume any time, but still wants to run.
->      */
->     if (pc & HARDIRQ_MASK)
->-        irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
->+        irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_IRQ);
->     else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
->-        irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
->+        irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
-> }
->
-> static u64 irqtime_tick_accounted(u64 maxtime)
+On 8/26/25 7:21 PM, Bagas Sanjaya wrote:
+> Documentation for GFS2 is scattered in three docs that are in
+> Documentation/filesystems/ directory. As these docs are standing out as
+> a group, move them into separate gfs2/ subdirectory.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Changes since v1 [1]:
+> 
+>    * Strip gfs2- prefix (Matthew)
+> 
+>  [1]: https://lore.kernel.org/linux-doc/20250826023913.14888-1-bagasdotme@gmail.com/
+> 
+>  .../filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} |  0
+>  Documentation/filesystems/gfs2/index.rst             | 12 ++++++++++++
+>  .../filesystems/{gfs2.rst => gfs2/overview.rst}      |  6 +++---
+>  .../{gfs2-uevents.rst => gfs2/uevents.rst}           |  0
+>  Documentation/filesystems/index.rst                  |  4 +---
+>  MAINTAINERS                                          |  2 +-
+>  6 files changed, 17 insertions(+), 7 deletions(-)
+>  rename Documentation/filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} (100%)
+>  create mode 100644 Documentation/filesystems/gfs2/index.rst
+>  rename Documentation/filesystems/{gfs2.rst => gfs2/overview.rst} (96%)
+>  rename Documentation/filesystems/{gfs2-uevents.rst => gfs2/uevents.rst} (100%)
+> 
+> diff --git a/Documentation/filesystems/gfs2-glocks.rst b/Documentation/filesystems/gfs2/glocks.rst
+> similarity index 100%
+> rename from Documentation/filesystems/gfs2-glocks.rst
+> rename to Documentation/filesystems/gfs2/glocks.rst
+> diff --git a/Documentation/filesystems/gfs2/index.rst b/Documentation/filesystems/gfs2/index.rst
+> new file mode 100644
+> index 00000000000000..9d9ca84d45a7ae
+> --- /dev/null
+> +++ b/Documentation/filesystems/gfs2/index.rst
+> @@ -0,0 +1,12 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================
+> +Global File System 2
+> +====================
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   overview
+> +   glocks
+> +   uevents
+> diff --git a/Documentation/filesystems/gfs2.rst b/Documentation/filesystems/gfs2/overview.rst
+> similarity index 96%
+> rename from Documentation/filesystems/gfs2.rst
+> rename to Documentation/filesystems/gfs2/overview.rst
+> index 1bc48a13430c1c..f971353d23611c 100644
+> --- a/Documentation/filesystems/gfs2.rst
+> +++ b/Documentation/filesystems/gfs2/overview.rst
+> @@ -1,8 +1,8 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> -====================
+> -Global File System 2
+> -====================
+> +=============
+> +GFS2 Overview
+> +=============
+>  
+>  GFS2 is a cluster file system. It allows a cluster of computers to
+>  simultaneously use a block device that is shared between them (with FC,
+> diff --git a/Documentation/filesystems/gfs2-uevents.rst b/Documentation/filesystems/gfs2/uevents.rst
+> similarity index 100%
+> rename from Documentation/filesystems/gfs2-uevents.rst
+> rename to Documentation/filesystems/gfs2/uevents.rst
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 11a599387266a4..897eabaa30d65d 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -90,9 +90,7 @@ Documentation for filesystem implementations.
+>     ext3
+>     ext4/index
+>     f2fs
+> -   gfs2
+> -   gfs2-uevents
+> -   gfs2-glocks
+> +   gfs2/index
+>     hfs
+>     hfsplus
+>     hpfs
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dafc1171254406..c685140f78c4e9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10335,7 +10335,7 @@ L:	gfs2@lists.linux.dev
+>  S:	Supported
+>  B:	https://bugzilla.kernel.org/enter_bug.cgi?product=File%20System&component=gfs2
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
+> -F:	Documentation/filesystems/gfs2*
+> +F:	Documentation/filesystems/gfs2/*
 
-As you mentioned, delta_soft represents SOFTIRQ, but it appears to have been accumulated once
-under the condition of (pc & HARDIRQ_MASK). Is there a potential double-counting issue?
-replacing delta_soft with 0 when in HARDIRQ might make it more intuitive.
+I think this should be:
 
-Thanks,
-Yaxin
+F:	Documentation/filesystems/gfs2/
+
+without the trailing '*'.
+
+See the explanation for F: near the top of the MAINTAINERS file.
+
+>  F:	fs/gfs2/
+>  F:	include/uapi/linux/gfs2_ondisk.h
+>  
+> 
+> base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
+
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+thanks.
+
+-- 
+~Randy
