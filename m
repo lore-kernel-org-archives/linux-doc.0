@@ -1,49 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53679273810;
-	Wed, 27 Aug 2025 19:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980662EFD9C
+	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 20:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756324679; cv=none; b=tfpMRq3521wAjzyFqL73PiOw1+5i02woo5TZBE0lX3/MUwOfijTierMmTA9ew+g+NRLtZAIe4IKoyGOr6ZvbBbDlKXKg/JXXDUaanSwSGqqCT/aa4ucTZ2PyIvheQ1XRwVkz2CnuXsKJ/ZIC1Bd2azenNFAvmlE2Re6BrQ6lRBI=
+	t=1756326236; cv=none; b=ofURI6ITZamTDizNoATSVqsDc4qDDDuYJx1YyGxPgGDMGIsQ6BVRTToAWmvPwc8QgycylPZNxEtNg0z1gphc5f0yKnSIPuIRFaIpwR3gUSwgzoSRt04OfK0JVRIboV4hF3csFaDhZ6xc0GwUAhZkAk29jvfCtS4PQ6x6wXSyAGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756324679; c=relaxed/simple;
-	bh=vy4jaU+tF4nJ+2/n+HhT0G0kW3maniYcW78uwrPgAQc=;
+	s=arc-20240116; t=1756326236; c=relaxed/simple;
+	bh=ympLIfd6q2uz8sPjeGy9ikp10Y5W46lxVKN2uHOkeSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LNOtfC2xcUmS/ZajugmH/cxBDHuHgaaE2ViE7GTi0bhy+GEOyjKQBEgB5FCAnUY0S4qUtGIxa+PQQTVYHkfbkc7Nny900dgSIvAs1SIciiHuMjodx7iqIjYMAN8bZUSVDFIpGIANKA5wP1nM3FhMxwvs5pNi/DTsW3NKz305SKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ii6ET0wv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=a8c4j1ILOA4TK+63Q1gcfliPSW+6h4P8BA7b91uHc0dX+2stIDWMD35zNXdPA8NsACgslU4YK6zvMAfe8Hjo3DBmJyq6u/EkEtC63JKERJ28niF4hH0101viYT+UXc1+s57sqghkumls/cXQpl9S46TqmStaHXoMIE7K4CYJ6kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XAp1zwaB; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ii6ET0wv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B1EC4CEEB;
-	Wed, 27 Aug 2025 19:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756324678;
-	bh=vy4jaU+tF4nJ+2/n+HhT0G0kW3maniYcW78uwrPgAQc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ii6ET0wvArOsxX/ssBzb/+H7x9KbZftfTVjf/SXXq4vInYHTqx+iHWGk9SusLNXM8
-	 9M8JLRgUhM+h+7PWPxGKRNDg81FH5AjGacpl9nbf63lJHmieGEU/EV9dVFOHiztk9r
-	 yLffNs4q5n8uhwnSc+/so3sr3s/b3LlpZIKq5YPwx1tjjMKnzMKIUSkqRrpqR9g0oP
-	 E82PXUm9owcegxXN+Hjw40BjDxX21cZaTVKYwY2gJl7jAcWQ08NWeBl2ctSqA9p56T
-	 znFZ/U+3N5oO88nF2YnkSs1sk45Sx+XbR6QU1ECiSSJMalVUM5n/7+89hWJng7Jta4
-	 ydYMGwfNEvSrA==
-Date: Wed, 27 Aug 2025 12:57:53 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Puranjay Mohan <puranjay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 3/5] x86/cfi: Add option for cfi=debug bootparam
-Message-ID: <20250827195753.GB3572128@ax162>
-References: <20250825141316.work.967-kees@kernel.org>
- <20250825142603.1907143-3-kees@kernel.org>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XAp1zwaB"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b109c59dc9so2989921cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 13:23:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1756326233; x=1756931033; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tpOEDUkT9ltpYSIW5r16zrEEmzgxmIvdt7bvKP65LEk=;
+        b=XAp1zwaBcG2G0oj7lT6srVEAgs3mPfzaYo1PhkUSfqCKtRI/izoWSZ51J5/QV+zDVe
+         hmLqa2faEl2QRN6ij/lQu8KYm++FMzqsIA5f04CxTx3OtTVZk1PD1zPf8Ai4p6TzlcvX
+         qzwAhLbl3MK29EZiCqX1XTCDA8PIfu0SNOlQEWx7oz8LEDDiEGERkJkcToQ7bwhpk60Z
+         bkdqjoylDE4XFGRM/9MNTMFuA3knWE97s5rqrcDjvSmVh1lVBcfTJPxB6bCqAsF0932h
+         fXXFWrjUg46gNcf9gYetZk30dQlJUTO+dotbsem0uT00RJMilnWrQt1t2icRiaIZRFxP
+         KC8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756326233; x=1756931033;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tpOEDUkT9ltpYSIW5r16zrEEmzgxmIvdt7bvKP65LEk=;
+        b=UBMxkcYb5apf7efKgy5Zo+hXfbOy2C6G17tpvF6DtIXWdcQ10RgUGJjQnAnm6joAzV
+         n3VkYw38EF/ZTkrlhil2i4KcdAN7P86I6tnqlplgDFM7Q8U0jCYk/OHyYZlDQThWNo39
+         C9B5XNO/5v24UxKclAzTnlveSnq841+jZovHQiJCUPN8/34vslBtH5ZnkdKWy355pylp
+         JlGQO4h2qEQtHHIxaF5mh6kWLlmklHw+EDyChfDXArDbGLBmdR1iyLL9UsnJxfRr+zHt
+         tp7qPD6vqIzILj32abkVcRUYIlNIUf4fssUak9en/6P97CtoTlO+BsgWxjD+fBfT7EW5
+         yK2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVeBxlh2i33Os37CSNdhPl3ROvYJyZNEruvJ6blmj4ObzL4W2BeWsym15yA5q8AtAaWvtYDVlMx0JI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdLPe4tJ5Cda3RJuL/r+nazlavk2Lpv+ecSOApxGNPz9Pbf1pf
+	12B9IDAfrIhMsFZv+Awa5xYZRt1Z0ecmIfWicdbWjFx/gdZS3jwBwk3FoF3lV4cPgLA=
+X-Gm-Gg: ASbGnctSHuZHapb5CTmO1DTOrrE8WkuVvzFxWJcZ+GORN2VkDNpNFDAhtDIkIB6p2aO
+	5NDSIAzwh+q/xeH+3Gs/TNrcBhQg/XSD3hK3MqwZjjF9kKKflG/hRomU8cO0JR8oTQYbz5p16gF
+	bWM/LmCQwySuFAxfI4qTHMFyNqQruvJji5tka3uXHJB7exLZXeD9L8O6ddukuRnRTK80FD8+SyP
+	949gn6MJm6eFvSIgn2HJpGbN3YfENfzMMXDZj6EsoBCo+KUWpCnPN8h6fZ8IzP0XwF38WGdU6KB
+	BGffBGMtjFmzmz3kKvtvzSr0XFZOa7IKxCkRhBE3SWD8Zsoea+e3kDGYomiSkVUWanr8M8DwCn1
+	ls1bTaA5sofI8KkV/3qT+rUT9ptKXu/f9SLasglu59nXmQ+mjQ34zGJk2iHKyAG7+qkoD+4pXDX
+	kazg==
+X-Google-Smtp-Source: AGHT+IH2jvq0biwVj6G9Lb1igaYWxMehi3WpzeTMyFhLVTHvBbvwK5R7zTgvdDX6KlbQ3p+4Xa/pJA==
+X-Received: by 2002:a05:6214:5098:b0:707:a430:e01b with SMTP id 6a1803df08f44-70d971f7608mr246666016d6.3.1756326229319;
+        Wed, 27 Aug 2025 13:23:49 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70da72ce510sm89559896d6.64.2025.08.27.13.23.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 13:23:48 -0700 (PDT)
+Date: Wed, 27 Aug 2025 16:23:46 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ALOK TIWARI <alok.a.tiwari@oracle.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v4] cxl: docs/driver-api/conventions resolve conflicts
+ between CFMWS, LMH, Decoders
+Message-ID: <aK9pUhETnNgs-7UG@gourry-fedora-PF4VCD3F>
+References: <20250820150655.1170975-1-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,205 +84,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825142603.1907143-3-kees@kernel.org>
+In-Reply-To: <20250820150655.1170975-1-fabio.m.de.francesco@linux.intel.com>
 
-On Mon, Aug 25, 2025 at 07:25:50AM -0700, Kees Cook wrote:
-> From: Kees Cook <kees@outflux.net>
-> 
-> Add "debug" option for "cfi=" bootparam to get details on early CFI
-> initialization steps. Standardize CFI pr_info() lines to use "CFI:"
-> prefix. Standardize "CFI: Using ..." to always report which CFI mode is
-> being used, regardless of CONFIG_FINEIBT. Document all the "cfi=" options.
-> 
-> Signed-off-by: Kees Cook <kees@outflux.net>
-
-I am not sure if the x86 maintainers are "patch count adverse" but it
-feels like this would be a little easier to review as four separate
-patches. Every sentence in the commit message is basically its own
-change.
-
-1. The initial documentation for cfi= and its current values.
-2. Standardization of pr_info() calls to use "CFI:"
-3. Adding "CFI: Using" to __apply_fineibt()
-4. Adding cfi=debug
-
-Patch four would become much simpler to understand, especially with
-Peter's suggested change.
-
-> ---
->  .../admin-guide/kernel-parameters.txt         | 18 +++++++++
->  arch/x86/kernel/alternative.c                 | 39 +++++++++++++++----
->  2 files changed, 50 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 747a55abf494..7b4bddb5a030 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -608,6 +608,24 @@
->  	ccw_timeout_log	[S390]
->  			See Documentation/arch/s390/common_io.rst for details.
->  
-> +	cfi=		[X86-64] Set Control Flow Integrity checking features
-> +			when CONFIG_FINEIBT is enabled.
-> +			Format: feature[,feature...]
-> +			Default: auto
+On Wed, Aug 20, 2025 at 05:06:39PM +0200, Fabio M. De Francesco wrote:
 > +
-> +			auto:	  Use FineIBT if IBT available, otherwise kCFI.
-> +				  Under FineIBT, enable "paranoid" mode when
-> +				  FRED is not available.
-> +			off:	  Turn off CFI checking.
-> +			kcfi:	  Use kCFI (disable FineIBT).
-> +			fineibt:  Use FineIBT (even if IBT not available).
-> +			norand:   Do not re-randomize CFI hashes.
-> +			paranoid: Add caller hash checking under FineIBT.
-> +			bhi:	  Enable register poisoning to stop speculation
-> +				  across FineIBT. (Disabled by default.)
-> +			warn:	  Do not enforce CFI checking: warn only.
-> +			debug:	  Report CFI initialization details.
+> +E.g, a real x86 platform with two CFMWS, 384 GB total memory, and LMH
+> +starting at 2 GB:
 > +
->  	cgroup_disable=	[KNL] Disable a particular controller or optional feature
->  			Format: {name of the controller(s) or feature(s) to disable}
->  			The effects of cgroup_disable=foo are:
-> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-> index 7bde68247b5f..5d80ae77c042 100644
-> --- a/arch/x86/kernel/alternative.c
-> +++ b/arch/x86/kernel/alternative.c
-> @@ -1225,6 +1225,7 @@ int cfi_get_func_arity(void *func)
->  
->  static bool cfi_rand __ro_after_init = true;
->  static u32  cfi_seed __ro_after_init;
-> +static bool cfi_debug __ro_after_init;
->  
->  /*
->   * Re-hash the CFI hash with a boot-time seed while making sure the result is
-> @@ -1259,6 +1260,8 @@ static __init int cfi_parse_cmdline(char *str)
->  		} else if (!strcmp(str, "off")) {
->  			cfi_mode = CFI_OFF;
->  			cfi_rand = false;
-> +		} else if (!strcmp(str, "debug")) {
-> +			cfi_debug = true;
->  		} else if (!strcmp(str, "kcfi")) {
->  			cfi_mode = CFI_KCFI;
->  		} else if (!strcmp(str, "fineibt")) {
-> @@ -1266,26 +1269,26 @@ static __init int cfi_parse_cmdline(char *str)
->  		} else if (!strcmp(str, "norand")) {
->  			cfi_rand = false;
->  		} else if (!strcmp(str, "warn")) {
-> -			pr_alert("CFI mismatch non-fatal!\n");
-> +			pr_alert("CFI: mismatch non-fatal!\n");
->  			cfi_warn = true;
->  		} else if (!strcmp(str, "paranoid")) {
->  			if (cfi_mode == CFI_FINEIBT) {
->  				cfi_paranoid = true;
->  			} else {
-> -				pr_err("Ignoring paranoid; depends on fineibt.\n");
-> +				pr_err("CFI: ignoring paranoid; depends on fineibt.\n");
->  			}
->  		} else if (!strcmp(str, "bhi")) {
->  #ifdef CONFIG_FINEIBT_BHI
->  			if (cfi_mode == CFI_FINEIBT) {
->  				cfi_bhi = true;
->  			} else {
-> -				pr_err("Ignoring bhi; depends on fineibt.\n");
-> +				pr_err("CFI: ignoring bhi; depends on fineibt.\n");
->  			}
->  #else
-> -			pr_err("Ignoring bhi; depends on FINEIBT_BHI=y.\n");
-> +			pr_err("CFI: ignoring bhi; depends on FINEIBT_BHI=y.\n");
->  #endif
->  		} else {
-> -			pr_err("Ignoring unknown cfi option (%s).", str);
-> +			pr_err("CFI: Ignoring unknown option (%s).", str);
+> +Window | CFMWS Base | CFMWS Size | HDM Decoder Base | HDM Decoder Size | Ways | Granularity
+> +  0    |   0 GB     |     2 GB   |      0 GB        |       3 GB       |  12  |    256
+> +  1    |   4 GB     |   380 GB   |      0 GB        |     380 GB       |  12  |    256
+> +
 
-You lowercase "Ignoring" earlier but not here, intentional? There are a
-couple of other messages that have a capital first letter but not
-others.
+This may be a dumb question, but... how is validation supposed to work?
 
->  		}
->  
->  		str = next;
-> @@ -1734,6 +1737,8 @@ static void __apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
->  	 * rewrite them. This disables all CFI. If this succeeds but any of the
->  	 * later stages fails, we're without CFI.
->  	 */
-> +	if (builtin && cfi_debug)
-> +		pr_info("CFI: disabling all indirect call checking\n");
->  	ret = cfi_disable_callers(start_retpoline, end_retpoline);
->  	if (ret)
->  		goto err;
-> @@ -1744,43 +1749,61 @@ static void __apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
->  			cfi_bpf_hash = cfi_rehash(cfi_bpf_hash);
->  			cfi_bpf_subprog_hash = cfi_rehash(cfi_bpf_subprog_hash);
->  		}
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: cfi_seed: 0x%08x\n", cfi_seed);
->  
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: rehashing all preambles\n");
->  		ret = cfi_rand_preamble(start_cfi, end_cfi);
->  		if (ret)
->  			goto err;
->  
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: rehashing all indirect calls\n");
->  		ret = cfi_rand_callers(start_retpoline, end_retpoline);
->  		if (ret)
->  			goto err;
-> +	} else {
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: rehashing disabled\n");
->  	}
->  
->  	switch (cfi_mode) {
->  	case CFI_OFF:
->  		if (builtin)
-> -			pr_info("Disabling CFI\n");
-> +			pr_info("CFI: disabled\n");
->  		return;
->  
->  	case CFI_KCFI:
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: enabling all indirect call checking\n");
->  		ret = cfi_enable_callers(start_retpoline, end_retpoline);
->  		if (ret)
->  			goto err;
->  
->  		if (builtin)
-> -			pr_info("Using kCFI\n");
-> +			pr_info("CFI: Using %s kCFI\n",
-> +				cfi_rand ? "rehashed" : "retpoline");
->  		return;
->  
->  	case CFI_FINEIBT:
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: adding FineIBT to all preambles\n");
->  		/* place the FineIBT preamble at func()-16 */
->  		ret = cfi_rewrite_preamble(start_cfi, end_cfi);
->  		if (ret)
->  			goto err;
->  
->  		/* rewrite the callers to target func()-16 */
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: rewriting indirect call sites to use FineIBT\n");
->  		ret = cfi_rewrite_callers(start_retpoline, end_retpoline);
->  		if (ret)
->  			goto err;
->  
->  		/* now that nobody targets func()+0, remove ENDBR there */
-> +		if (builtin && cfi_debug)
-> +			pr_info("CFI: removing old endbr insns\n");
->  		cfi_rewrite_endbr(start_cfi, end_cfi);
->  
->  		if (builtin) {
-> @@ -2005,6 +2028,8 @@ bool decode_fineibt_insn(struct pt_regs *regs, unsigned long *target, u32 *type)
->  static void __apply_fineibt(s32 *start_retpoline, s32 *end_retpoline,
->  			    s32 *start_cfi, s32 *end_cfi, bool builtin)
->  {
-> +	if (builtin)
-> +		pr_info("CFI: Using standard kCFI\n");
->  }
->  
->  #ifdef CONFIG_X86_KERNEL_IBT
-> -- 
-> 2.34.1
-> 
+Like in theory according to the above something like the following would
+also be valid:
+
+Window | CFMWS Base | CFMWS Size | HDM Decoder Base | HDM Decoder Size
+  0    |   4 GB     |   380 GB   |      2 GB        |     382 GB      
+
+(ignoring ways/granularity, i didn't adjust those).
+
+The entirety of the CFMWS would be contained within the HDM decoder, but
+with carve-outs on either end.  This would be "allowed" according to the
+logic here.
+
+This would effectively allow all HDM decoder base/size values to be valid
+as long as one CFMWS is contained entirely within it.
+
+As a result, wouldn't it then also be valid to have an HDM Decoder cover
+more than one CFMWS range (two full CFMWS described by a single HDM
+decoder).
+
+That seems like it could cause issues.
+
+~Gregory
