@@ -1,65 +1,37 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913221A238F
-	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 00:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3603595C;
+	Wed, 27 Aug 2025 01:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756255583; cv=none; b=EjN8CLpJjQ/6F47kRADck0HD/6HXnFu25GLy6iuQJhCeSGjh1uKz2iTZRYgVIg5eUoPrYlGblVGfeeKXBVyaIT4nxwIVi8UDENm2Bo80k4cGQ0SYLE/SvG0JMbuELKTHZi9jLAcRABSMBNl7bNtLyWpAGX5J6bc7wc7BdpCzd9A=
+	t=1756256840; cv=none; b=Fw/jVQAhaweKmceHgF8qr+PNROa27xIoCM4Jb3ERI2ZBG1V4VRmfq8oeRSLuWRLbx97ndIXEMqRwzL9aMfPepo5Br0HdvjrCw0tAqwvYQAj+wAuEZm1a+nhXBJ/OP125kZrL2dBEEnJRkmA1z34p0FNMeaKmvc0NIMiljRWEJvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756255583; c=relaxed/simple;
-	bh=H+kkfzVW4fOfE6BunEcIw/4uno8zsE2Jauu4d0HhpAo=;
+	s=arc-20240116; t=1756256840; c=relaxed/simple;
+	bh=ptg3hadmfo2fwJ+oQGUqKSF+CCbCyayELJdhHf7zfgk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L1t4obXXkNBvXJMMIfUVPxuwHO8/aptLqtaBUGZtHF0zQ1x+nWo4egjkt8RsW60ZytX43x5FupBMP0s7LMA4RCdnU6gushY1GFR1TdkKwXFvcJpW7xjIqkkUkfPeiSsr8pP5vmOYficluRL4VtzXQOWf65+7QOlZ0Df53b2wZe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=c+ONQrpC; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	 In-Reply-To:Content-Type; b=GP4R6FtuRtD8pYCn3K2COS27JF3+SYqhQ0rTxAF30XuptsRG4rz0yrL81vUY9C+6Zebxoh2lrcMDo02YgQo0uFLrOlNS+8SueXhovh2KfAwGnIm+gN0Hd1BSvqYRPQ51+u1tXQDZVk0v3hEg1ug5MvMBVEy8PNy86JqNIsVxQ0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AXv+iyu6; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="c+ONQrpC"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3ec4802d43eso14540025ab.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 17:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1756255581; x=1756860381; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zclw1iBD4zpqjkUTKL/tBf6jKpfLRB4Ld2/pw8/YSMc=;
-        b=c+ONQrpC/gFcMpFrWP6VtrlBKlcf6RfnQxWmrEr8ckXSDyYBJK+GrnN3wCCgIHhGAB
-         SzTW4SKnr1jq/6J5fjdlj+48sJYThTL3F1sVT2LGjwyZMlBI36kdtMgciYoz/6iOXXAF
-         ucunwLN1tUTq/IwcBu63HPH5v+97JeehyqaME29rMsIk0iZ6hTSA23POTVOyvfpAmXwZ
-         B97FaBEzwDfwW2Th7uhD0XJcKlk/Pvd1NHRNEtbpCzJPYLq/nekY+gOFw/Qf6iG2d57A
-         qd+vsnj8NZqXhqgu1ZPaQybpuyPHoUmG1kJ+gFb/RgG7XEUytrQ8hREZw2PYf75KFT/v
-         tozg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756255581; x=1756860381;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zclw1iBD4zpqjkUTKL/tBf6jKpfLRB4Ld2/pw8/YSMc=;
-        b=Qy4P8om7Ib/fffYSmj1x5lXeZ+5NxlrOQ8NfFQLVWWKL2SwAgbt4VcE+OqeCXA4nS7
-         lbecmoAN5kVXbMJvz+wIi0f0+8Mn8YiQwVgpcPIdyqU+tH1kcsDSubqZb9Pia/qqKaot
-         9VEixKrRzsF5iU3m8cAwtg2Z/UoCWYi9uKt84jF+kvCUZ2yWnf43ehL3ehOvyWVnbZG3
-         vF+SDcZI1aIpZnmwLeoym1UsHdiJVrU7vii1dJ9fG7lewgpa2MxxwObroeT+OUDNj1iH
-         tdx44xIJoZTOjhLO9JKzxBskF6Ix78b5QI0muxfLPDGDxKHI7X5tRbrHw1cLept/22S8
-         YYAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXwe5yVjtKyonHuwU7LheiCD117/lc2IIipjEnj7+FJHPNibp0Z8IPNid9pf0ls6UHys9ZtFZ4u32c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDqYb/Pzcn0SOUllyRTlCreAAw8T4v9cDMrgJasqxeWElmaERW
-	SXqP14qMl3u/Py+5LWM4sy0d7MBRewGTPAWx7tMsZdhYwxkoVPPSxKyq5bqK8sDlBCE=
-X-Gm-Gg: ASbGncuDhhTd4NZkjiCGEGcYQHcTeMQ7ytDZCSUtzNBoDEbaIoKoUS/l6iIB/ocwePL
-	zaAw+TR8Fd2wbcrNLiwEbBjEAXKJ+M7W2IsXnZZDaE0mY3WwA2EUi1YeeBwwdzv5iq7o5D+rEtf
-	AYVkENUndw9BcikYbwmLRumz6YeX9D/PVQw0SWhdUz+bnmap6Me+hY8XNEm15p9HNUunlFrLcGV
-	Y+y8iQ3AukxufUPAPUIambHqirzD1vSjT+w1Ai6zFUhoM3SkhgMrBlrgrN4q6kwVF1iwst4egX8
-	Va0Yl+hSSQOhON/OM13PGVd/YBTQU0AzO3VPml3blee9XNv4fMPGenEE81PCBCpMpxpa7P3BijK
-	M+KGiilDG0+1Qgj/FqGtM4qSqbGX9yRgKMciSIA==
-X-Google-Smtp-Source: AGHT+IGfh2W97xdVpFCgiQyq3Pb9/ifBsTlwqyh1OAHr3R34PnfYQnj+aQ8bMShNsAl8EpMrNrhaMQ==
-X-Received: by 2002:a05:6e02:1b0c:b0:3ef:1b56:c8ea with SMTP id e9e14a558f8ab-3ef1b56c9f9mr43866025ab.11.1756255580619;
-        Tue, 26 Aug 2025 17:46:20 -0700 (PDT)
-Received: from [100.64.0.1] ([170.85.11.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ef2ff2dd60sm14606295ab.9.2025.08.26.17.46.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 17:46:20 -0700 (PDT)
-Message-ID: <2e9ee035-9a1d-4a7b-b380-6ea1985eb7be@sifive.com>
-Date: Tue, 26 Aug 2025 19:46:19 -0500
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AXv+iyu6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=VO1laDguuSxP27SypRdymEziv/15eUANmc0X6Tkn9F4=; b=AXv+iyu6tzbuHM9ea1KZ6XKL5r
+	aJ45hCoGWurLgHLegyj3pNzyBcFYRcD+m+PnzQtng0ky3TYyIJ/S/M+K5COyk/+sBzpMxJRN/vEaD
+	X9kXBSFcM0P1DQrBMVtqKh0YLLTDIFDsuCUGp8Awb32Wu/QPTjpxcsXO2Osrr1+dalzStftvw4Y6n
+	3Z4SMHvBEcQq8BZHI1lThW2Zq9bFXDnxaQB6nRP4RxBaGeh1mqadoKN57oQIuyf+xWk/q2dWH0tBk
+	mivcdcSOPezwUuivthLT5pknKEV8HAViFguj1T59vzXzDewBT6QK9ERx67tE/Ix3HoNwBsjlAvFh2
+	jcSEq9wA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ur4dA-0000000DUey-3IVq;
+	Wed, 27 Aug 2025 01:07:16 +0000
+Message-ID: <48f34379-f0aa-40fd-8578-3cf562880731@infradead.org>
+Date: Tue, 26 Aug 2025 18:07:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,90 +39,232 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/19] x86: LAM compatible non-canonical definition
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- Dave Hansen <dave.hansen@intel.com>
-Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
- <c68330de-c076-45be-beac-147286f2b628@intel.com>
- <4rkxgsa5zfrvjqtii7cxocdk6g2qel3hif4hcpeboos2exndoe@hp7bok5o2inx>
-From: Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH v4 02/15] genpt: Add Documentation/ files
+To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ Justin Stitt <justinstitt@google.com>, Kevin Tian <kevin.tian@intel.com>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ llvm@lists.linux.dev, Bill Wendling <morbo@google.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>
+Cc: Alexey Kardashevskiy <aik@amd.com>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
+References: <2-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
 Content-Language: en-US
-In-Reply-To: <4rkxgsa5zfrvjqtii7cxocdk6g2qel3hif4hcpeboos2exndoe@hp7bok5o2inx>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Maciej,
+Hi,
 
-On 2025-08-26 3:08 AM, Maciej Wieczor-Retman wrote:
-> On 2025-08-25 at 14:36:35 -0700, Dave Hansen wrote:
->> On 8/25/25 13:24, Maciej Wieczor-Retman wrote:
->>> +/*
->>> + * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks.
->>> + */
->>> +#ifdef CONFIG_KASAN_SW_TAGS
->>> +static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->>> +{
->>> +	return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
->>> +}
->>> +#else
->>>  static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->>>  {
->>>  	return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
->>>  }
->>> +#endif
->>
->> This is the kind of thing that's bound to break. Could we distill it
->> down to something simpler, perhaps?
->>
->> In the end, the canonical enforcement mask is the thing that's changing.
->> So perhaps it should be all common code except for the mask definition:
->>
->> #ifdef CONFIG_KASAN_SW_TAGS
->> #define CANONICAL_MASK(vaddr_bits) (BIT_ULL(63) | BIT_ULL(vaddr_bits-1))
->> #else
->> #define CANONICAL_MASK(vaddr_bits) GENMASK_UL(63, vaddr_bits)
->> #endif
->>
->> (modulo off-by-one bugs ;)
->>
->> Then the canonical check itself becomes something like:
->>
->> 	unsigned long cmask = CANONICAL_MASK(vaddr_bits);
->> 	return (vaddr & mask) == mask;
->>
->> That, to me, is the most straightforward way to do it.
+On 8/26/25 10:18 AM, Jason Gunthorpe wrote:
+> Add some general description and pull in the kdoc comments from the source
+> file to index most of the useful functions.
 > 
-> Thanks, I'll try something like this. I will also have to investigate what
-> Samuel brought up that KVM possibly wants to pass user addresses to this
-> function as well.
+> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  Documentation/driver-api/generic_pt.rst | 140 ++++++++++++++++++++++++
+>  Documentation/driver-api/index.rst      |   1 +
+>  2 files changed, 141 insertions(+)
+>  create mode 100644 Documentation/driver-api/generic_pt.rst
 > 
->>
->> I don't see it addressed in the cover letter, but what happens when a
->> CONFIG_KASAN_SW_TAGS=y kernel is booted on non-LAM hardware?
-> 
-> That's a good point, I need to add it to the cover letter. On non-LAM hardware
-> the kernel just doesn't boot. Disabling KASAN in runtime on unsupported hardware
-> isn't that difficult in outline mode, but I'm not sure it can work in inline
-> mode (where checks into shadow memory are just pasted into code by the
-> compiler).
+> diff --git a/Documentation/driver-api/generic_pt.rst b/Documentation/driver-api/generic_pt.rst
+> new file mode 100644
+> index 00000000000000..45b05dafece814
+> --- /dev/null
+> +++ b/Documentation/driver-api/generic_pt.rst
+> @@ -0,0 +1,140 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========================
+> +Generic Radix Page Table
+> +========================
+> +
+> +.. kernel-doc:: include/linux/generic_pt/common.h
+> +	:doc: Generic Radix Page Table
+> +
+> +.. kernel-doc:: drivers/iommu/generic_pt/pt_defs.h
+> +	:doc: Generic Page Table Language
+> +
+> +-----
+> +Usage
+> +-----
+> +
+> +Generic PT is structured as a multi-compilation system. Since each format
+> +provides an API using a common set of names there can be only one format active
+> +within a compilation unit. This design avoids function pointers around the low
+> +level API.
+> +
+> +Instead the function pointers can end up at the higher level API (ie map/unmap,
 
-On RISC-V at least, I was able to run inline mode with missing hardware support.
-The shadow memory is still allocated, so the inline tag checks do not fault. And
-with a patch to make kasan_enabled() return false[1], all pointers remain
-canonical (they match the MatchAllTag), so the inline tag checks all succeed.
+                                                                    (i.e.,
 
-[1]:
-https://lore.kernel.org/linux-riscv/20241022015913.3524425-3-samuel.holland@sifive.com/
+> +etc) and the per-format code can be directly inlined into the per-format
 
-Regards,
-Samuel
+   etc.)
 
-> Since for now there is no compiler support for the inline mode anyway, I'll try to
-> disable KASAN on non-LAM hardware in runtime.
-> 
+> +compilation unit. For something like iommu each format will be compiled into a
+> +per-format iommu operations kernel module.
+> +
+
+I would s/iommu/IOMMU/g when it's used in a sentence as an acronym (i.e., not
+functions names, struct names, struct fields, file names, etc.).
+
+> +For this to work the .c file for each compilation unit will include both the
+> +format headers and the generic code for the implementation. For instance in an
+> +implementation compilation unit the headers would normally be included as
+> +follows::
+> +
+> +	#include <linux/generic_pt/common.h>
+> +	#include "fmt/defs_amdv1.h"
+> +	#include "pt_defs.h"
+> +	#include "fmt/amdv1.h"
+> +	#include "pt_common.h"
+> +	#include "pt_iter.h"
+> +	#include "iommut_pt.h"  /* The iommu implementation */
+> +
+> +iommu_pt.h includes definitions that will generate the operations functions for
+> +map/unmap/etc using the definitions provided by AMDv1. The resulting module
+             etc.
+
+> +will have exported symbols named like pt_iommu_amdv1_init().
+> +
+> +Refer to drivers/iommu/generic-pt/fmt/iommu_template.h for an example of how the
+> +iommu implementation uses multi-compilation to generate per-format ops structs
+> +pointers.
+> +
+> +The format code is written so that the common names arise from #defines to
+> +distinct format specific names. This is intended to aid debuggability by
+> +avoiding symbol clashes across all the different formats.
+> +
+> +Exported symbols and other global names are mangled using a per-format string
+> +via the NS() helper macro.
+> +
+> +The format uses struct pt_common as the top level struct for the table,
+
+                                           top-level
+
+> +and each format will have its own struct pt_xxx which embeds it to store
+> +format-specific information.
+> +
+> +The implementation will further wrapper this in its own top level struct, such
+
+                                           this???         top-level
+oh, maybe                          wrap this               top-level
+
+
+
+> +as struct pt_iommu_amdv1.
+> +
+> +----------------------------------------------
+> +Format functions at the struct pt_common level
+> +----------------------------------------------
+> +
+> +.. kernel-doc:: include/linux/generic_pt/common.h
+> +	:identifiers:
+> +.. kernel-doc:: drivers/iommu/generic_pt/pt_common.h
+> +
+> +-----------------
+> +Iteration Helpers
+> +-----------------
+> +
+> +.. kernel-doc:: drivers/iommu/generic_pt/pt_iter.h
+> +
+> +----------------
+> +Writing a Format
+> +----------------
+> +
+> +It is best to start from a simple format that is similar to the target. x86_64
+> +is usually a good reference for something simple, and AMDv1 is something fairly
+> +complete.
+> +
+> +The required inline functions need to be implemented in the format header.
+> +These should all follow the standard pattern of::
+> +
+> + static inline pt_oaddr_t amdv1pt_entry_oa(const struct pt_state *pts)
+> + {
+> +	[..]
+> + }
+> + #define pt_entry_oa amdv1pt_entry_oa
+> +
+> +Where a uniquely named per-format inline function provides the implementation
+
+   where
+
+> +and a define maps it to the generic name. This is intended to make debug symbols
+> +work better. inline functions should always be used as the prototypes in
+> +pt_common.h will cause the compiler to validate the function signature to
+> +prevent errors.
+> +
+> +Review pt_fmt_defaults.h to understand some of the optional inlines.
+> +
+> +Once the format compiles then it should be run through the generic page table
+> +kunit test in kunit_generic_pt.h using kunit. For example::
+> +
+> +   $ tools/testing/kunit/kunit.py run --build_dir build_kunit_x86_64 --arch x86_64 --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig amdv1_fmt_test.*
+> +   [...]
+> +   [11:15:08] Testing complete. Ran 9 tests: passed: 9
+> +   [11:15:09] Elapsed time: 3.137s total, 0.001s configuring, 2.368s building, 0.311s running
+> +
+> +The generic tests are intended to prove out the format functions and give
+> +clearer failures to speed up finding the problems. Once those pass then the
+> +entire kunit suite should be run.
+> +
+> +---------------------------
+> +IOMMU Invalidation Features
+> +---------------------------
+> +
+> +Invalidation is how the page table algorithms synchronize with a HW cache of the
+> +pagetable memory, typically called the TLB (or IOTLB for IOMMU cases).
+
+   page table
+to match the rest of this document.
+
+> +
+> +The TLB can store present PTEs, non-present PTEs and table pointers, depending
+> +on its design. Every HW has its own approach on how to describe what has changed
+> +to get changed items removed from the TLB.
+
+   to have changed items removed
+
+> +
+> +PT_FEAT_FLUSH_RANGE
+> +-------------------
+> +
+> +PT_FEAT_FLUSH_RANGE is the easiest scheme to understand. It tries to generate a
+> +single range invalidation for each operation, over invalidating if there are
+
+                                                 over-invalidating
+
+> +gaps of VA that don't need invalidation. This trades off impacted VA for number
+> +of invalidation operations. It does not keep track of what is being invalidated,
+
+                                                                       invalidated;
+
+> +however if pages have to be freed then page table pointers have to be cleaned
+
+   however,
+
+> +from the walk cache. The range can start/end at any page boundary.
+> +
+> +PT_FEAT_FLUSH_RANGE_NO_GAPS
+> +---------------------------
+> +
+> +PT_FEAT_FLUSH_RANGE_NO_GAPS is similar to PT_FEAT_FLUSH_RANGE however it tries
+
+                                             PT_FEAT_FLUSH_RANGE; however, it tries
+
+> +to minimize the amount of impacted VA by issuing extra flush operations. This is
+> +useful if the cost of processing VA is very high, for instance because a
+> +hypervisor is processing the page table with a shadowing algorithm.
+-- 
+~Randy
 
