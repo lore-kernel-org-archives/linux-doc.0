@@ -1,178 +1,105 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589EE1F4634;
-	Wed, 27 Aug 2025 05:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544022B9A8;
+	Wed, 27 Aug 2025 05:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756272412; cv=none; b=mrJt6JXKRNhDRD2Uy28WPBtnhlkJFoOuf2uhr+apqYn2JMnW8KDZsKOXW0JcA45PdB8G4S+cVl3Ejje+tllUsAVfb2TWQ8gAOgeCkLt+/KOYVhFZi71WiWB6sNU+fhQgp0AQ2atasgSll2uFUSa8elMYi3CJMvM+BTreFenmxGI=
+	t=1756273314; cv=none; b=VGI21fu0p7S7oOAPwfPuP7Dfhxqjj8rveUry6s9+Y02IGzeAwH1XOCJ9E8bNm4gfly07MCB3LGMzgYd6fweY8vdBVFtNpn4O6HPxVo6oTI9HvMA8Vol/jjRkBLklIkcYKEs3azRf3CB/ntqJEaeEMkzFapFknqCpDaL1adV//SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756272412; c=relaxed/simple;
-	bh=TJUP34WJXgMc/PFfTnwvvpNGYvGS1zSefzP7qdcI5EE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TjzI8VSSywAgcbvaZKPXU67mc6FSVlBFSJ2CTv3l0J23qt+DmGiIiVv8eZI2eM9zVOnLRvA+KDPoLWnkzMuC24uUEvVSXscS/KViNpl+q1LnlL2BwUB93r+bvtoHbKf2+aKgb+zQlZyMWqLGCiFTnvycwj+15wHebXcaLet3IQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CrGX+oA6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756273314; c=relaxed/simple;
+	bh=b6q9cCDu3HC3NYVsFNsvw0/99qTo9vtqisSmqkijYtI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Y1rEXYZv3JTsDpA/ZzH9wq4ifMIzU/yjbf+Q8b/H0nIjrNudx3/DR9mr3ag03eeprL1/03tRFaswLqGS3oq9gawU9WZa9QFFIEhq2MNpTLgWc1R/0sygKleVmyMJCroNw0f0aMDhdrHvZ639ljiSZETgnd+z/YTeqRbAkfcHqKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=psL96GdM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CrGX+oA6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7B0I4tQu/4Ondp5JiMcitv5+BItz2nYZPupXPqkEpEU=; b=CrGX+oA6gsyrvUMxRv+4W2Nf8L
-	BvzwVEqfQdLmdAw6dGIOTV+Z1sbfs6xmzOj5sRab31kBKGRr+AnLy/0Q17DT+ZGuLEEJXWz5UfQjD
-	CVwTMd3f6WBnAwIf7nWNzUip0bSfYQVEm4bNKCdzz6qh0alHTzjQH1cZiTYUU1BygQVg1ZuRgSRyG
-	EGvH98NDv46RdLw5uccDnf5R4G1IOC9DKsOi27tOeHHjzcsJ1CgRPfIJLnlZw3nHirfvBzrgY/In8
-	KFI2hIJTtlZgIAeNfVEitX6wZ36zhYegBM6GbLERQtmMQwrve99exrSG6KaXG8Hhv/yGHVgkKDaDM
-	P17haqVg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur8gB-0000000E7O8-29CU;
-	Wed, 27 Aug 2025 05:26:39 +0000
-Message-ID: <4b6eb676-10f5-4438-9457-6aeda0ee7fb0@infradead.org>
-Date: Tue, 26 Aug 2025 22:26:38 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="psL96GdM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C619140ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756273309; bh=Y6z+kBjl0XBbufpDiwRSMUVdA8goEEeheytHFy4pCxY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=psL96GdMwjIqfsiBoi+W6scJ7PL83t9o9e3c59ICPz2Qjo9gp5hhFZugDlrF5mcZp
+	 6oUJifyexCOI6xek4gh7hZvhoTS6bO7ID90SyJAjBxcHWq/pgpY++j0r2uuuq9+G7l
+	 OhOv6TRqq+KR5bEnz+QrOomwEG15AJrGFOB7Hg2VluQ+GLxSUJgCUKws2rjDQsObzC
+	 +p9W/q40nr1O25uYupZKgcjU9A8T/e05ZaiwjdjmP2lg+uIqtD36MfKDg1CU9iu2od
+	 bjJMz7b8rkpkG09Q9oS8QMkMQc+ki2peYyPc4srhqeVCdn5zMiLN8JBeDi4TuE1D1f
+	 1r1D5vTYOqMmw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C619140ADA;
+	Wed, 27 Aug 2025 05:41:48 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan =?utf-8?Q?Neusch=C3=A4f?=
+ =?utf-8?Q?er?=
+ <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, Stephen
+ Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
+ known the details" phrase
+In-Reply-To: <20250827044848.17374-1-bagasdotme@gmail.com>
+References: <20250827044848.17374-1-bagasdotme@gmail.com>
+Date: Tue, 26 Aug 2025 23:41:46 -0600
+Message-ID: <87wm6p9v8l.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v8 4/5] net: rnpgbe: Add basic mbx_fw support
-To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
- maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
- gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
- Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
- alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
- gustavoars@kernel.org
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250827034509.501980-1-dong100@mucse.com>
- <20250827034509.501980-5-dong100@mucse.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250827034509.501980-5-dong100@mucse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-
-On 8/26/25 8:45 PM, Dong Yibo wrote:
-> Initialize basic mbx_fw ops, such as get_capability, reset phy
-> and so on.
-> 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> Management style docs writes on people under a manager, where they know
+> the details better than the manager himself. Reword it so that it would be
+> less confusing to non-native English speakers.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
->  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |   1 +
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c | 253 ++++++++++++++++++
->  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h | 126 +++++++++
->  4 files changed, 382 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
->  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.h
-> 
+>  Changes since v1 [1]:
+>
+>    - Reword the confusing phrase (Konstantin)
+>
+>  [1]: https://lore.kernel.org/linux-doc/20250826003437.7695-2-bagasdotme@gmail.com/
+>
+>  Documentation/process/management-style.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+> index dfbc69bf49d435..bb7a69e34ef180 100644
+> --- a/Documentation/process/management-style.rst
+> +++ b/Documentation/process/management-style.rst
+> @@ -42,7 +42,7 @@ actually true.
+>  The name of the game is to **avoid** having to make a decision.  In
+>  particular, if somebody tells you "choose (a) or (b), we really need you
+>  to decide on this", you're in trouble as a manager.  The people you
+> -manage had better know the details better than you, so if they come to
+> +manage most likely know the details better than you, so if they come to
+>  you for a technical decision, you're screwed.  You're clearly not
 
+I really do not understand what it is that you are trying to fix here.
+The original may not be the best English ever, but it is entirely
+correct; do we really have to churn the document for this>
 
-> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
-> new file mode 100644
-> index 000000000000..d3b323760708
-> --- /dev/null
-> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx_fw.c
-> @@ -0,0 +1,253 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-> +
-> +#include <linux/pci.h>
-> +#include <linux/if_ether.h>
-> +
-> +#include "rnpgbe.h"
-> +#include "rnpgbe_hw.h"
-> +#include "rnpgbe_mbx.h"
-> +#include "rnpgbe_mbx_fw.h"
-> +
-> +/**
-> + * mucse_fw_send_cmd_wait - Send cmd req and wait for response
-> + * @hw: pointer to the HW structure
-> + * @req: pointer to the cmd req structure
-> + * @reply: pointer to the fw reply structure
-> + *
-> + * mucse_fw_send_cmd_wait sends req to pf-fw mailbox and wait
-> + * reply from fw.
-> + *
-> + * @return: 0 on success, negative on failure
+>  competent to make that decision for them.
+>  
+> @@ -115,7 +115,7 @@ sure as hell shouldn't encourage them by promising them that what they
+>  work on will be included.  Make them at least think twice before they
+>  embark on a big endeavor.
+>  
+> -Remember: they'd better know more about the details than you do, and
+> +Remember: they know the details better than you do, and
+>  they usually already think they have the answer to everything.  The best
 
-Use of @return: is not a documented feature although kernel-doc does accept it.
-I prefer that people don't use it, but I can't insist since it does work.
+Here too.
 
-
-> + **/
-> +static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
-> +				  struct mbx_fw_cmd_req *req,
-> +				  struct mbx_fw_cmd_reply *reply)
-> +{
-> +	int len = le16_to_cpu(req->datalen);
-> +	int retry_cnt = 3;
-> +	int err;
-> +
-> +	err = mutex_lock_interruptible(&hw->mbx.lock);
-> +	if (err)
-> +		return err;
-> +	err = mucse_write_posted_mbx(hw, (u32 *)req, len);
-> +	if (err)
-> +		goto out;
-> +	do {
-> +		err = mucse_read_posted_mbx(hw, (u32 *)reply,
-> +					    sizeof(*reply));
-> +		if (err)
-> +			goto out;
-> +		/* mucse_write_posted_mbx return 0 means fw has
-> +		 * received request, wait for the expect opcode
-> +		 * reply with 'retry_cnt' times.
-> +		 */
-> +	} while (--retry_cnt >= 0 && reply->opcode != req->opcode);
-> +out:
-> +	mutex_unlock(&hw->mbx.lock);
-> +	if (!err && retry_cnt < 0)
-> +		return -ETIMEDOUT;
-> +	if (!err && reply->error_code)
-> +		return -EIO;
-> +	return err;
-> +}
-
-
-[snip]
-
-> +
-> +/**
-> + * mucse_fw_get_capability - Get hw abilities from fw
-> + * @hw: pointer to the HW structure
-> + * @abil: pointer to the hw_abilities structure
-> + *
-> + * mucse_fw_get_capability tries to get hw abilities from
-> + * hw.
-> + *
-> + * @return: 0 on success, negative on failure
-
-negative errno or just some negative number?
-
-> + **/
-> +static int mucse_fw_get_capability(struct mucse_hw *hw,
-> +				   struct hw_abilities *abil)
-> +{
-> +	struct mbx_fw_cmd_reply reply = {};
-> +	struct mbx_fw_cmd_req req = {};
-> +	int err;
-> +
-> +	build_phy_abilities_req(&req);
-> +	err = mucse_fw_send_cmd_wait(hw, &req, &reply);
-> +	if (!err)
-> +		memcpy(abil, &reply.hw_abilities, sizeof(*abil));
-> +	return err;
-> +}
-
--- 
-~Randy
-
+jon
