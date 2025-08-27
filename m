@@ -1,105 +1,102 @@
-Received: from mail.tkos.co.il (golan.tkos.co.il [84.110.109.230])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0555304BA6;
-	Wed, 27 Aug 2025 11:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.110.109.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA22301010;
+	Wed, 27 Aug 2025 12:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756295072; cv=none; b=bTkdC6GqNBMD0JXDdx4QWitK3th76/kdFMHgHsY365al5jKhu/UpnOc/mUqv7IBbsXlIRdYlNdGXn55ijpNP9EY2cXyoUXHpiXRpQwy4KIlyXKTjkInyUEP/awCj9WM0KQIt3W3YGWYvprNw1VWBFxyp4O1Tf3iAacI8nvZpLYI=
+	t=1756298896; cv=none; b=n44aAm4SlVTWcoeRTXjGTcSW34G9kPe+QkGf03vwsHLsSlKwUd+HkbAZdeidWRVKzxXugKzA5xva1lsAV5WmbhqmbHVIUnT6K6b/uscNKSbRNUWfc4iVuFwnrZnRPY9yRg++NCTRXY4AdzSbPjiNemKpJ5F8ibw9zBpIry2O0A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756295072; c=relaxed/simple;
-	bh=HrMzN83Z+OqzS/BaEKv4QwuDuv3LoZ3f5yvP91A9C9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MOgqhq4IMIxvpSKo/QunZTf+qewgc/wocbRTY4zV1yb8gHG6fk/W7QW5/qS1rrdNznamS/JlQyUnNfKmlQThpAouunaabNPTKKZGAvK39hsEiWmfUbD0QZpox1qwmbYIeutUZ5ctBSu7u1/kbfc7iTZBKBsR0HoO2FGKGuExuBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il; spf=pass smtp.mailfrom=tkos.co.il; dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b=hnlMpctT; arc=none smtp.client-ip=84.110.109.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tkos.co.il
+	s=arc-20240116; t=1756298896; c=relaxed/simple;
+	bh=446GKTdq+eU8SJQb/MXBWHFElhnkbinBcXvD2n46AgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=emZImyjenX2jcmif5errLMGXp4xhx+2c5KKb4drFyQBfsziofI6sfcgjA16EbJPS1HT4973vENty1roaqojGNVuOBD2IhK43A5eCni/vX0s4id5wT1iR+HBZUhB3y59GhlBLWf3gznL6IDuJKpjS2KTlnP7OrbT20TOnCuotCyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T9pvEGnZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b="hnlMpctT"
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.tkos.co.il (Postfix) with ESMTPS id ABBF5440B0C;
-	Wed, 27 Aug 2025 14:37:41 +0300 (IDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1756294661;
-	bh=HrMzN83Z+OqzS/BaEKv4QwuDuv3LoZ3f5yvP91A9C9Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hnlMpctTeA8ywnMBVZg826JEeTSyCFtcqmOeYUoWGDQZOeLfdr4Qe37Q7RUy5hqib
-	 KekD1mwEn8ifE1TNXBkRS/QUinu+W53ckbR46zyMcXlgN1lUIwzrBHAyO6Kb6XEKM5
-	 jFECOK9errfBSa35WrVj68igZ0l2xW8LbEcpdm9WcsKBm85npWQdpGFbSXRUfRMFg9
-	 URKeRkZLk9oTuH1il/vShXgFT0So0P5Ch7QEIKzbB2xjxZbMrGbGJqBD2eVJTCYUMx
-	 5KrcaQRGjQyzv0aIDPtVQlBPfFCx8OB1BifGrmKwJ9IjzzTG16BII7EjRzycj6d5vF
-	 lU3f2uyVJHv7A==
-From: Baruch Siach <baruch@tkos.co.il>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T9pvEGnZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45E3C4CEEB;
+	Wed, 27 Aug 2025 12:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756298896;
+	bh=446GKTdq+eU8SJQb/MXBWHFElhnkbinBcXvD2n46AgI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=T9pvEGnZaV0N2O+kDhv8eOxMG//LUL0MBscniqDhxYB2HeHz0UZ2nA59xykj6oNxt
+	 oY3ops7GHLNecKcwnHfwPcEoLogLQhu3Itv585rf+Te6HwBxpeOODC8oZ9EyY2rN7n
+	 K8RY7WcqioT3zOtbfACpaJUUYH2qmif4eeCa8h+CJt26Jgg/v6HpoLob8OxPgA//RC
+	 SuQYa4ygss8n3JyCJ6KXYPZQKvnZZ0A8iCS6BYKWDfGOpT6v4wwT6fUaJPj8j6/duz
+	 CqmYeQ8jwevZ4odvuZmM50KrM4UxB6JIc2vKMMKzJBQNR1QpxcQpElIM/CgfuMeyd0
+	 PbjQGS//T5nZQ==
+Date: Wed, 27 Aug 2025 14:48:10 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Baruch Siach <baruch@tkos.co.il>
-Subject: [PATCH] doc: filesystems: proc: remove stale information from intro
-Date: Wed, 27 Aug 2025 14:37:27 +0300
-Message-ID: <cb4987a16ed96ee86841aec921d914bd44249d0b.1756294647.git.baruch@tkos.co.il>
-X-Mailer: git-send-email 2.50.1
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?=
+ <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, Stephen
+ Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
+ known the details" phrase
+Message-ID: <20250827144757.26599d50@foz.lan>
+In-Reply-To: <877byp9f63.fsf@trenco.lwn.net>
+References: <20250827044848.17374-1-bagasdotme@gmail.com>
+	<87wm6p9v8l.fsf@trenco.lwn.net>
+	<20250827113312.62162725@foz.lan>
+	<877byp9f63.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Most of the information in the first paragraph of the
-Introduction/Credits section is outdated.
+Em Wed, 27 Aug 2025 05:28:52 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Documentation update suggestions should go to documentation maintainers
-listed in MAINTAINERS. Remove misleading contact information.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > As a non-native English speaker, "had better know" looks really
+> > weird on my eyes, as, at least for me, "know" is a verb.
+> >
+> > Heh, I just discovered today by looking on a dictionary:
+> >
+> > 	https://dictionary.cambridge.org/dictionary/english/know
+> >
+> > That know can informally be used as a noun (a shortcut for
+> > knowledge?).  
+> 
+> "know" is a verb as used in the sentence in question too.
 
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
----
- Documentation/filesystems/proc.rst | 21 ---------------------
- 1 file changed, 21 deletions(-)
+That's new to me. I would expect that a verb locution like
+that to have the final verb ending with -ing, written in the
+past participle, or have "to" before it. After looking for this 
+particular grammatical construction, it seems that "had better"
+is an exception:
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2971551b7235..ede654478dff 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -61,19 +61,6 @@ Preface
- 0.1 Introduction/Credits
- ------------------------
- 
--This documentation is  part of a soon (or  so we hope) to be  released book on
--the SuSE  Linux distribution. As  there is  no complete documentation  for the
--/proc file system and we've used  many freely available sources to write these
--chapters, it  seems only fair  to give the work  back to the  Linux community.
--This work is  based on the 2.2.*  kernel version and the  upcoming 2.4.*. I'm
--afraid it's still far from complete, but we  hope it will be useful. As far as
--we know, it is the first 'all-in-one' document about the /proc file system. It
--is focused  on the Intel  x86 hardware,  so if you  are looking for  PPC, ARM,
--SPARC, AXP, etc., features, you probably  won't find what you are looking for.
--It also only covers IPv4 networking, not IPv6 nor other protocols - sorry. But
--additions and patches  are welcome and will  be added to this  document if you
--mail them to Bodo.
--
- We'd like  to  thank Alan Cox, Rik van Riel, and Alexey Kuznetsov and a lot of
- other people for help compiling this documentation. We'd also like to extend a
- special thank  you to Andi Kleen for documentation, which we relied on heavily
-@@ -81,17 +68,9 @@ to create  this  document,  as well as the additional information he provided.
- Thanks to  everybody  else  who contributed source or docs to the Linux kernel
- and helped create a great piece of software... :)
- 
--If you  have  any comments, corrections or additions, please don't hesitate to
--contact Bodo  Bauer  at  bb@ricochet.net.  We'll  be happy to add them to this
--document.
--
- The   latest   version    of   this   document   is    available   online   at
- https://www.kernel.org/doc/html/latest/filesystems/proc.html
- 
--If  the above  direction does  not works  for you,  you could  try the  kernel
--mailing  list  at  linux-kernel@vger.kernel.org  and/or try  to  reach  me  at
--comandante@zaralinux.com.
--
- 0.2 Legal Stuff
- ---------------
- 
--- 
-2.50.1
+	https://teachtranslatetravelrepeat.com/semi-modal-verbs-had-better/
 
+where the main verb remains in infinitive without "to" prefix.
+
+> > For me as a non-native English speaker, when one writes:
+> >
+> > 	They "most likely know"		(know here is a verb)
+> >
+> > or:
+> > 	They "had better knowledge"	(knowledge is a name)
+> >
+> > Things become clearer.  
+> 
+> But neither of those say the same thing.  Read "had better know" as
+> "really should know" and you get a lot closer.  I guess I didn't realize
+> that it was such a strange construction.
+
+I bet very few non-native English speaker developers would understand it
+like that.
+
+Thanks,
+Mauro
