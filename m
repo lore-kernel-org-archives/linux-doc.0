@@ -1,83 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8EB35A2B5;
-	Wed, 27 Aug 2025 14:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C04218E97
+	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 14:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756303856; cv=none; b=axFUgSgeUAxrvlr/ZBc/QT58OoqrEY4tGFediFpEsL6L1km2+QbgAuHhx/+gmvP7Eujwts3fYvySojLuTFpcoNudFU+1V8w4BZnXf2DngccgOVjEZE/M8cB903SPyTBopzbPQttHjGcnf68Vek8z0e567PF+ePCy2/Pmn30lLow=
+	t=1756306105; cv=none; b=iBrz1eN8CCgncL0/6+al9bDDuWzcGrnqT/Q9sTIM16iGPrKidQQQX4FOvtUA6KfMslephnOTGo63d7EhwX1qW7EjX5BkJ5PLvTdimXLi2Gq3YLIgypsHjxJfNKkLxuTXNm/0FqpqpuQz0kqH3fm5WDkDbQIUCu1RFVe7+EeOtaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756303856; c=relaxed/simple;
-	bh=oz41WPwpJoJ+70OHjuwxvat5SN3gLfK76dk6ijB59a4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RkBLT9csJZyI7FEyklmDay/NFywZao8CLCt/9nfWPKizQXAFBaA2EACSxRdLz3+/O1KjYJPtip7EIBWrwY8/m4UuIYEBq6jy71hNIYl9+TYfrcoPsOR1E90DbaVRiu1/mW5ckBgcBaloe+KeDaOT5yciQL0rar0ihhSmXfKQxO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBTlEXbU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756306105; c=relaxed/simple;
+	bh=8ZilA80MCJAMf5BXQVQk6vZvGkIeIsf/cUxvkz6kllU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CunlXqIySPd/n1Blv5sjO2xhMvuY4DzdU4Oe3jxkgovpLFeBbn8KVPZJdy+dR84lsBD1auB3OyzSpvwuCODFJsgmRPs666JyEUX6pbyp8EVCW3yPzQ9dYbFOvymcWZHaa6fBiUHqvRQF948D/D4ugYCVBtZ61hH4mOrPZk7yxCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dyWjE8Ui; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBTlEXbU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A560C4AF09;
-	Wed, 27 Aug 2025 14:10:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756303855;
-	bh=oz41WPwpJoJ+70OHjuwxvat5SN3gLfK76dk6ijB59a4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eBTlEXbUBXGEPWR7h2GnUM9TkYBn6HZSfIsZZqKmFRGNhJ+0Yg1sfRfn/ELZKdbvp
-	 J6qacbpVIy8uEmYg1gFDiifgGOW9ggJM+wygFUnVycpz9n1sS0th3AbpbJMQHZeqtw
-	 Ggh8D4M87H/QY4QZfDr5SFZlfuRNAtuP+bUQtSuWqltAKKuSK2/Gpf9Np7KbYI9QJD
-	 BMCcjK+8gIlwiLivO011MF3pld7NLCWzl8Qu7uEzP4mtDLQXn7jfrqSIN6ZQoSzkQu
-	 hHqtPIpQFWXzadScRIRXk1McNzFl80VkpTKvEPSPIVcM1yzbq7TgpedaOTcbzEU52H
-	 gcJypYRikQd7g==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1urGrV-000000015gH-2MAE;
-	Wed, 27 Aug 2025 16:10:53 +0200
-Date: Wed, 27 Aug 2025 16:10:53 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Workflows <workflows@vger.kernel.org>, 
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
- known the details" phrase
-Message-ID: <iv5v3ahnukjpndei6sufrkwuquddwh3fi2lcd2wl44vtnm32xk@2m7ay3k4phrn>
-References: <20250827044848.17374-1-bagasdotme@gmail.com>
- <87wm6p9v8l.fsf@trenco.lwn.net>
- <20250827113312.62162725@foz.lan>
- <877byp9f63.fsf@trenco.lwn.net>
- <20250827144757.26599d50@foz.lan>
- <87tt1s9ap4.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dyWjE8Ui"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756306100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WUat8dTvmu9vrcx/Az++te/7zJHiZ/fdv8U7AAxKddc=;
+	b=dyWjE8Uip7kDbnMC5Rxu1r29myw0b4jQBM2/jEl/he5sVCMBzRej8X614ALgjLBKHtvgxn
+	nqK74ZnVroa3IENlc2QPyb+G2GXmQvgpwbbvB7E3afEA9eJBy9nAMp2o0eMv6W7kyluO5O
+	/zzFloDTlGD+fj15jh17WBa3jwqUHEM=
+From: Zenghui Yu <zenghui.yu@linux.dev>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: corbet@lwn.net,
+	Zenghui Yu <zenghui.yu@linux.dev>
+Subject: [PATCH] docs: admin-guide: Fix typo in nfsroot.rst
+Date: Wed, 27 Aug 2025 22:47:38 +0800
+Message-Id: <20250827144738.43361-1-zenghui.yu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tt1s9ap4.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Aug 27, 2025 at 07:05:27AM -0600, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+There is an obvious mistake in nfsroot.rst where pxelinux was wrongly
+written as pxeliunx. Fix it.
 
-> We can tweak it, but I'd rather not change the meaning, and, more to the
-> point, that document needs significant work rather than low-level
-> tweaking.
+Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+---
+ Documentation/admin-guide/nfs/nfsroot.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On a better look on the entire document, I woudn't change a single
-word... IMO, this is a masterpiece where any changes would damage
-it... Every time I read this, it makes me laugh so hard that tears
-roll down my face :-D
-
-While it brings some real tips, it was written to be annedotical.
-
-So, from my side, I would just keep it as-is, even if someone
-write another document better describing Kernel management
-style.
-
+diff --git a/Documentation/admin-guide/nfs/nfsroot.rst b/Documentation/admin-guide/nfs/nfsroot.rst
+index 135218f33394..06990309c6ff 100644
+--- a/Documentation/admin-guide/nfs/nfsroot.rst
++++ b/Documentation/admin-guide/nfs/nfsroot.rst
+@@ -342,7 +342,7 @@ They depend on various facilities being available:
+ 	When using pxelinux, the kernel image is specified using
+ 	"kernel <relative-path-below /tftpboot>". The nfsroot parameters
+ 	are passed to the kernel by adding them to the "append" line.
+-	It is common to use serial console in conjunction with pxeliunx,
++	It is common to use serial console in conjunction with pxelinux,
+ 	see Documentation/admin-guide/serial-console.rst for more information.
+ 
+ 	For more information on isolinux, including how to create bootdisks
 -- 
-Thanks,
-Mauro
+2.34.1
+
