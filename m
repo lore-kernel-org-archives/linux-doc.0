@@ -1,129 +1,194 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E94199E89;
-	Wed, 27 Aug 2025 01:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B3E1C700D;
+	Wed, 27 Aug 2025 02:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756259930; cv=none; b=Cs65+I37KS9/bfDHt+UUypUdTTYH6ZLq1wEFazOxttBSfQ3XyReX2bCujwDXFR5u9vpkdqurpEBkIOE91UP2MRNM1azj4KgoEyQkn983AKDorwueB8Rb0hkMa2cxDzPA6Wk6AZ8YjmEHLRsDbvsckllWLLtgzSTIzgELcNSTs8U=
+	t=1756261290; cv=none; b=LQbzTBlIi1RHvhV6FENv8ltorl+tHUrmkLNW6VQDI1eA7duxBzRC8UxcgoXRJYau76McsvEgYR6h4lTIch8NIwG341GxUJo1p6SyDIIxI69LhPw8gxz1TsK2YJ8Wtm2/gnYVAyakm0yWHb7Zq/V+A2oQYl9Fv7i3s82EjLrS47Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756259930; c=relaxed/simple;
-	bh=/PHIjzfELyEcjuWJ6n7CUV26b4SYqlNVwYA00Smv+GY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTvnSk7Z3R48y0DsYlDB0ACPwrXV/4KnX2nw9eSMyUtVvm1QYQRI4Zg9/ct055Iz6+yv24RPgg4pvDwnp4cpGQZtebbEyiE5K5LYKTgE4aUvYs4mWtV/mv6OTUnPtsOuD+xcTNlIlHwTKGS+2KwuLq8EAy/CvzKQ921xEcO8dAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHPF7qYf; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1756261290; c=relaxed/simple;
+	bh=+ZVR9Ppk28E2J4qnPmkr6EkpyP7ccUanbegMHUGq/KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QX4rAeOeHYyn431eJU3Cld1X4VEfFqTZn6aAIXrBvBHxFCwgscsNWSoStfn5YmJPo+QTTTspFB2yjkn+ZebkpDC0ysFm325FLBqg185IP9U5i/hmKChoXZlXxwIzc2qHXX0uBnzkgdshwQ4M5wyKCnq8B0gFRLivLDLmdffZl5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9YR6ApT; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHPF7qYf"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2466443b37fso40617075ad.1;
-        Tue, 26 Aug 2025 18:58:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9YR6ApT"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-771ed4a8124so2470175b3a.2;
+        Tue, 26 Aug 2025 19:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756259928; x=1756864728; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dwAVKmX/I1s2gxmBmbB2NeF4sEUvQzRSn/zd7XkVykY=;
-        b=XHPF7qYfvMOrWzp4+9Oqpej1yH96bgLlQ9U01NHDABaQuL8UzcWn11ub4N0qOzAza4
-         YvR+amRnXWM0r1QhRpU6CtNkw73oHcOZQ04CAaQS3X69XmHZB9n3mrEM160c0aTv3KXh
-         aWOV5SnXtqI1G3oraxDdFVyPw6yjs3f3duUSzsQ+e3kzakwUPXTVcPW56Iwyd6skT9Wi
-         LB0w4g/y1gm0MburFZfGAz+ZLFB1SsqAj+SCanVTaWLDSfS6W/k+ytv8HtRn0f5JHEds
-         xiI4uRT9lDer9lNHilE4YON+3FSPKlbTc5u3rurnciILQ5vnQuDtuBqlxy5Hc13xBeF/
-         gRSQ==
+        d=gmail.com; s=20230601; t=1756261288; x=1756866088; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qibv7r9QH5jVvZNBeRJTT/rC//28RtGqi+oX6/1f72I=;
+        b=V9YR6ApTJ/O1sL29GsoLqJ16hxfFQuddujIEdBCwIaxnSBK8qJGO52ItUYMzk1xpAR
+         cM83A+t9yPauBblKBNffzOrTeClkQfFupvqJBFIHvNdsxU0asyJT2xTNaLeEhiUR+Tzn
+         WqZ1rx3ljfVXhsSl6swUBOOtgjhosySuCKFnWF+cbzckeLeY7DWB1zO42h33hRUptgtQ
+         0KFPxtbj9pgroOIE2cvxKWorYbRoHwIhLP+gIlCdt2ABs41WPjkfJ0rABi5DP2WiApOT
+         5rOiCh/uavgtUA7AvwYiEnLYY+/dgOqQEagVI3WINUkFyviKnWPFHxKAoak7jZnakaJ9
+         j05w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756259928; x=1756864728;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dwAVKmX/I1s2gxmBmbB2NeF4sEUvQzRSn/zd7XkVykY=;
-        b=FwY3JNZ8z/lsbmQddlPD+9ofJ0XBE+avMMKSu5RDV5xgHYYpGqUlNihxugQL2zQxnF
-         YiSQGRB9RTjnFgKJEs3DpcVnim7ECWTDXUicin+MUYO5ZDlaQccfwWpSl1/sEdAMwQK8
-         hfxoKtMlHuhM0oqOMqw7vKvUJSspAiQxv5dJMPsNEw07oPhHQlUj/M4c22HKNg8+FtHR
-         VExZdH3Lv9S81ct7R5bOMRHvJE9B4QJ9osnikcQJ8D3aRtykt7Q+XQPi76oSz4MHHZpw
-         aLgCIxum7Ddotgp6ixhgJemHaubfM7WjrG/8oKgDanYLVvyEU08uScmL5eXCyAro/uSp
-         ujBw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Qorqr28Ei9x5hs+5sZnc+p56ysVBL4thvFEUXUBLdtli8VGpG2aSoLRGQHGRpKkL+a5BncRYi0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRzIzm+S4U8bdVCxLgt0zo8ip1pHut71vhWsZF23nxY4TeRXlV
-	iTl6c1+XVH+bI5KfgI10lr6V9bfk2qHvlOT9X/9/f7X7VI++oiAplSur
-X-Gm-Gg: ASbGncvBAP+zVTe7L8BW4+WageMxtprKFhSAFfT58NIpsvQQu5vnK6wiTHQUz/VHhC8
-	PuCTcGLKCJKDUmZ1sm8BY/EYKODihx66ELT4ns9pxuFT2MH+VNsZkZoBQTU1qsZ7/TQXEloqN5y
-	lOVApmfuLwxjbdvpeGMzzyA6WIfY6IBQZRjjGNKijG+FOMYEb/3MbtCxtip4z9Rq1IDbmk8kuuQ
-	3EkP+lpIhYSmhCdDgcCjersFs6+EK4M7d4xj0mnlblxCkj362tOy+NNJkcfbwk+SjT1aVAPxT9H
-	iCaasN1bd1WJ6DO3aGZg4O1LxuMXgRSZ9+8FJn7qzBjPjdC7xEuPE5gkgI/GMGGi7KX6gheEWat
-	3eC+veRsGS15xWWe2tYYtmw==
-X-Google-Smtp-Source: AGHT+IEqu4RZC/Mv07+32USt1O0T4CAeeWBTAgLYfe5hG6hvOS8qLArGzHVKAadPNj7IRfcUIr4W9w==
-X-Received: by 2002:a17:903:1b6d:b0:246:b1fd:298c with SMTP id d9443c01a7336-246b1fd2fc8mr146952355ad.1.1756259928099;
-        Tue, 26 Aug 2025 18:58:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756261288; x=1756866088;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qibv7r9QH5jVvZNBeRJTT/rC//28RtGqi+oX6/1f72I=;
+        b=jxpRXdxS1XngpB5YJp6HISeT/pCUAw5K6eCc6tmuJaBVFgBiShpF9nIWC29aJdh4jn
+         nhEBwJgUVTrUDN8ZyRLPc6piKv90hitMRP/1UNzms22dza7U/IVr7fXYWqcycwQz6IC+
+         XN4Eug3O6XoiudxVZsLLXNAETO8ytno1vPh6CfT3qyE1t+DJ2i1/8tcYVzL5rPSdnHv8
+         lC3CKMxq3bfWd7doX5rzi2Ex8Nlrk7rujjwKB85cQYXUAKjiREGSWKZ/mNgzJjeSXsWt
+         u5gnHWvH1Yo/kFKYu2jRkA1+vrbGPluLfn104FlxXzRvOefT5KoJBJHFjCE4dTnxDCEI
+         smDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSeCHcwDwBvKhEimvJ5InlIvtTawLYU32N+1nf7BkoRLlerjvtxc3NiLv7kMivhJhAXRdJVS8o7/Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsR5H2egrCMJ43VjJQCRiVm5wHVYi9mpfHyuUMA0uksibM/iBg
+	f757UE4TRClWOrdhp4VRs8R3LtHHjLa1r4v/Zt5scraL+2SGo44bhyxttZcTJtME
+X-Gm-Gg: ASbGncsqpfRpRWY4hBA6RyZ8DHZDwvs6RkenxMOHYbTXl3712WsCL6VJWhinZhuvukk
+	WR08ID68Hw2zM8jM3AZlf3GmpDk3uyPdHO0NFo7TePivEI0RPJJRZT5osyiAvYPWjXURctcPB1K
+	fWqaUmx/RpC+okaaLxNZ5jfC/AN2BIA7J/kPSBNuIC6LyM4e8pv6xS6zJ7hk/dcXLbVkoQaH6+a
+	gIC8b4xLYyNe1GvkQMQaXw1qlP3uzJa2sdhqfhgD0dRtnzhh/zh4L6g7zgahPqycXssGyt1bFOv
+	EYDMwszGjcbDOTZoXJhoUks0PSn5iV9VbWa1kYm0RIBtcmzTySHlnj3lyhwDRcSVFU64QdD1C7Z
+	NbUicMD606iNrjepBNnrITA==
+X-Google-Smtp-Source: AGHT+IFjTD8x2VGb975Gtlblzp8JBLZaUMkNK+9zmVIvPYqOW88mYas5zqSDQMegGiWkV9iU9pcz5w==
+X-Received: by 2002:a05:6a00:1793:b0:771:f852:4529 with SMTP id d2e1a72fcca58-771f8524884mr7535006b3a.13.1756261287905;
+        Tue, 26 Aug 2025 19:21:27 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7703ffbb605sm11724412b3a.7.2025.08.26.18.58.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77040215c40sm11656556b3a.96.2025.08.26.19.21.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 18:58:47 -0700 (PDT)
+        Tue, 26 Aug 2025 19:21:27 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id C0A69424BFD0; Wed, 27 Aug 2025 08:58:44 +0700 (WIB)
-Date: Wed, 27 Aug 2025 08:58:44 +0700
+	id 2CF59424BFD0; Wed, 27 Aug 2025 09:21:25 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux GFS2 <gfs2@lists.linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Linux GFS2 <gfs2@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Andreas Gruenbacher <agruenba@redhat.com>,
 	Bjorn Helgaas <bhelgaas@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
+	"Darrick J. Wong" <djwong@kernel.org>,
 	Jeff Layton <jlayton@kernel.org>,
 	Miklos Szeredi <mszeredi@redhat.com>,
-	Bernd Schubert <bschubert@ddn.com>,
+	Jan Kara <jack@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
 	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH] Documentation: gfs2: Consolidate GFS2 docs into its own
- subdirectory
-Message-ID: <aK5mVOTFZhv53M8s@archie.me>
-References: <20250826023913.14888-1-bagasdotme@gmail.com>
- <aK2iTlkp9iA3zESf@casper.infradead.org>
+	James Morse <james.morse@arm.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v2] Documentation: gfs2: Consolidate GFS2 docs into its own subdirectory
+Date: Wed, 27 Aug 2025 09:21:22 +0700
+Message-ID: <20250827022122.12132-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8VyT8roYB2Ttt/DO"
-Content-Disposition: inline
-In-Reply-To: <aK2iTlkp9iA3zESf@casper.infradead.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3716; i=bagasdotme@gmail.com; h=from:subject; bh=+ZVR9Ppk28E2J4qnPmkr6EkpyP7ccUanbegMHUGq/KI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnrsgWX3s1xPTdBZvu9zRvNBYXmvaxWfp1et+qIY1fdp L0RD39bdpSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiLbsZ/tc8WXouaFFW3dSG rXVmrwXPN/ntCPiy8dUag6kBd9+8XF7EyHBzAmdobrHGqSvNodLXHm7+PnPrxyfrtxyZrfF/58P pH5dyAQA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Documentation for GFS2 is scattered in three docs that are in
+Documentation/filesystems/ directory. As these docs are standing out as
+a group, move them into separate gfs2/ subdirectory.
 
---8VyT8roYB2Ttt/DO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v1 [1]:
 
-On Tue, Aug 26, 2025 at 01:02:22PM +0100, Matthew Wilcox wrote:
-> On Tue, Aug 26, 2025 at 09:39:13AM +0700, Bagas Sanjaya wrote:
-> > Documentation for GFS2 is scattered in three docs that are in
-> > Documentation/filesystems/ directory. As these docs are standing out as
-> > a group, move them into separate gfs2/ subdirectory.
->=20
-> If this is to be done (and I'm not sure that it should be), why preserve
-> the 'gfs2-' prefix on the file names?  We know the files pertain to
-> gfs2, they're now in the gfs2 directory.
->=20
+   * Strip gfs2- prefix (Matthew)
 
-I'm just moving files, though.
+ [1]: https://lore.kernel.org/linux-doc/20250826023913.14888-1-bagasdotme@gmail.com/
 
-Anyway, thanks for the suggestion. I'll apply it in v2.
+ .../filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} |  0
+ Documentation/filesystems/gfs2/index.rst             | 12 ++++++++++++
+ .../filesystems/{gfs2.rst => gfs2/overview.rst}      |  6 +++---
+ .../{gfs2-uevents.rst => gfs2/uevents.rst}           |  0
+ Documentation/filesystems/index.rst                  |  4 +---
+ MAINTAINERS                                          |  2 +-
+ 6 files changed, 17 insertions(+), 7 deletions(-)
+ rename Documentation/filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} (100%)
+ create mode 100644 Documentation/filesystems/gfs2/index.rst
+ rename Documentation/filesystems/{gfs2.rst => gfs2/overview.rst} (96%)
+ rename Documentation/filesystems/{gfs2-uevents.rst => gfs2/uevents.rst} (100%)
 
---=20
+diff --git a/Documentation/filesystems/gfs2-glocks.rst b/Documentation/filesystems/gfs2/glocks.rst
+similarity index 100%
+rename from Documentation/filesystems/gfs2-glocks.rst
+rename to Documentation/filesystems/gfs2/glocks.rst
+diff --git a/Documentation/filesystems/gfs2/index.rst b/Documentation/filesystems/gfs2/index.rst
+new file mode 100644
+index 00000000000000..9d9ca84d45a7ae
+--- /dev/null
++++ b/Documentation/filesystems/gfs2/index.rst
+@@ -0,0 +1,12 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++Global File System 2
++====================
++
++.. toctree::
++   :maxdepth: 1
++
++   overview
++   glocks
++   uevents
+diff --git a/Documentation/filesystems/gfs2.rst b/Documentation/filesystems/gfs2/overview.rst
+similarity index 96%
+rename from Documentation/filesystems/gfs2.rst
+rename to Documentation/filesystems/gfs2/overview.rst
+index 1bc48a13430c1c..f971353d23611c 100644
+--- a/Documentation/filesystems/gfs2.rst
++++ b/Documentation/filesystems/gfs2/overview.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-====================
+-Global File System 2
+-====================
++=============
++GFS2 Overview
++=============
+ 
+ GFS2 is a cluster file system. It allows a cluster of computers to
+ simultaneously use a block device that is shared between them (with FC,
+diff --git a/Documentation/filesystems/gfs2-uevents.rst b/Documentation/filesystems/gfs2/uevents.rst
+similarity index 100%
+rename from Documentation/filesystems/gfs2-uevents.rst
+rename to Documentation/filesystems/gfs2/uevents.rst
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 11a599387266a4..897eabaa30d65d 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -90,9 +90,7 @@ Documentation for filesystem implementations.
+    ext3
+    ext4/index
+    f2fs
+-   gfs2
+-   gfs2-uevents
+-   gfs2-glocks
++   gfs2/index
+    hfs
+    hfsplus
+    hpfs
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dafc1171254406..c685140f78c4e9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10335,7 +10335,7 @@ L:	gfs2@lists.linux.dev
+ S:	Supported
+ B:	https://bugzilla.kernel.org/enter_bug.cgi?product=File%20System&component=gfs2
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
+-F:	Documentation/filesystems/gfs2*
++F:	Documentation/filesystems/gfs2/*
+ F:	fs/gfs2/
+ F:	include/uapi/linux/gfs2_ondisk.h
+ 
+
+base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
+-- 
 An old man doll... just what I always wanted! - Clara
 
---8VyT8roYB2Ttt/DO
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaK5mUAAKCRD2uYlJVVFO
-o/uCAP9GnbqUmuPnJizdP3UtvdrYHXV3y0wVhJEKGAO4a+a8dAD/bXtMoOL/d/Gd
-22Rv85+RYilLre0239ddCTI+8COycgg=
-=7WaC
------END PGP SIGNATURE-----
-
---8VyT8roYB2Ttt/DO--
