@@ -1,154 +1,129 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1600530CD95;
-	Wed, 27 Aug 2025 01:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E94199E89;
+	Wed, 27 Aug 2025 01:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756258962; cv=none; b=ibktkUvPc6kEtpLJTo8FWLSLp4bkbE+5uCUkSQU4Pgy+ZD1aq82GGWb/o65V23D7x+ZlFyBwtH5NAIsUa3zlRNCr/44+dgs5KVNJjzMtkqEW6D8mdtScmmYuaIb4T5Rx/Zfjl+YMDNui5HiMjQpobxgXFma96lgOV5VJfSUvGzI=
+	t=1756259930; cv=none; b=Cs65+I37KS9/bfDHt+UUypUdTTYH6ZLq1wEFazOxttBSfQ3XyReX2bCujwDXFR5u9vpkdqurpEBkIOE91UP2MRNM1azj4KgoEyQkn983AKDorwueB8Rb0hkMa2cxDzPA6Wk6AZ8YjmEHLRsDbvsckllWLLtgzSTIzgELcNSTs8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756258962; c=relaxed/simple;
-	bh=uH2VFSJMyCnSLjpcnGx56opsnpfl5naJHZ3WXF5SFAM=;
+	s=arc-20240116; t=1756259930; c=relaxed/simple;
+	bh=/PHIjzfELyEcjuWJ6n7CUV26b4SYqlNVwYA00Smv+GY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWEEeKqu/8RgS81NY3rFwGip0t4pkXeSesXxllCRwCjp1rr9WLER5gJO/56qzNgi0SyJwNzPjiFrds+SwiiRxtvEocEcAmgl77vds/Iigpg/vLOph3g3CwZHkhn0pr/U0q/pCfGzTHHoDbnJfU2ms+38Uu8E9M2zNDLsfxj55Is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz20t1756258933t53080512
-X-QQ-Originating-IP: 1lOMaAuA9nfuwe2FeABSvz6MykdgCUNe1qBMkBQJ4Vg=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 27 Aug 2025 09:42:11 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10885226712742933272
-Date: Wed, 27 Aug 2025 09:42:11 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v7 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <05B2D818DB1348E6+20250827014211.GA469112@nic-Precision-5820-Tower>
-References: <20250822023453.1910972-1-dong100@mucse.com>
- <20250822023453.1910972-5-dong100@mucse.com>
- <316f57e3-5953-4db6-84aa-df9278461d30@linux.dev>
- <82E3BE49DB4195F0+20250826013113.GA6582@nic-Precision-5820-Tower>
- <bbdabd48-61c0-46f9-bf33-c49d6d27ffb0@linux.dev>
- <8C1007761115185D+20250826110539.GA461663@nic-Precision-5820-Tower>
- <bd1d77b2-c218-4dce-bbf6-1cbdecabb30b@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=eTvnSk7Z3R48y0DsYlDB0ACPwrXV/4KnX2nw9eSMyUtVvm1QYQRI4Zg9/ct055Iz6+yv24RPgg4pvDwnp4cpGQZtebbEyiE5K5LYKTgE4aUvYs4mWtV/mv6OTUnPtsOuD+xcTNlIlHwTKGS+2KwuLq8EAy/CvzKQ921xEcO8dAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHPF7qYf; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHPF7qYf"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2466443b37fso40617075ad.1;
+        Tue, 26 Aug 2025 18:58:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756259928; x=1756864728; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dwAVKmX/I1s2gxmBmbB2NeF4sEUvQzRSn/zd7XkVykY=;
+        b=XHPF7qYfvMOrWzp4+9Oqpej1yH96bgLlQ9U01NHDABaQuL8UzcWn11ub4N0qOzAza4
+         YvR+amRnXWM0r1QhRpU6CtNkw73oHcOZQ04CAaQS3X69XmHZB9n3mrEM160c0aTv3KXh
+         aWOV5SnXtqI1G3oraxDdFVyPw6yjs3f3duUSzsQ+e3kzakwUPXTVcPW56Iwyd6skT9Wi
+         LB0w4g/y1gm0MburFZfGAz+ZLFB1SsqAj+SCanVTaWLDSfS6W/k+ytv8HtRn0f5JHEds
+         xiI4uRT9lDer9lNHilE4YON+3FSPKlbTc5u3rurnciILQ5vnQuDtuBqlxy5Hc13xBeF/
+         gRSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756259928; x=1756864728;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dwAVKmX/I1s2gxmBmbB2NeF4sEUvQzRSn/zd7XkVykY=;
+        b=FwY3JNZ8z/lsbmQddlPD+9ofJ0XBE+avMMKSu5RDV5xgHYYpGqUlNihxugQL2zQxnF
+         YiSQGRB9RTjnFgKJEs3DpcVnim7ECWTDXUicin+MUYO5ZDlaQccfwWpSl1/sEdAMwQK8
+         hfxoKtMlHuhM0oqOMqw7vKvUJSspAiQxv5dJMPsNEw07oPhHQlUj/M4c22HKNg8+FtHR
+         VExZdH3Lv9S81ct7R5bOMRHvJE9B4QJ9osnikcQJ8D3aRtykt7Q+XQPi76oSz4MHHZpw
+         aLgCIxum7Ddotgp6ixhgJemHaubfM7WjrG/8oKgDanYLVvyEU08uScmL5eXCyAro/uSp
+         ujBw==
+X-Forwarded-Encrypted: i=1; AJvYcCU6Qorqr28Ei9x5hs+5sZnc+p56ysVBL4thvFEUXUBLdtli8VGpG2aSoLRGQHGRpKkL+a5BncRYi0g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRzIzm+S4U8bdVCxLgt0zo8ip1pHut71vhWsZF23nxY4TeRXlV
+	iTl6c1+XVH+bI5KfgI10lr6V9bfk2qHvlOT9X/9/f7X7VI++oiAplSur
+X-Gm-Gg: ASbGncvBAP+zVTe7L8BW4+WageMxtprKFhSAFfT58NIpsvQQu5vnK6wiTHQUz/VHhC8
+	PuCTcGLKCJKDUmZ1sm8BY/EYKODihx66ELT4ns9pxuFT2MH+VNsZkZoBQTU1qsZ7/TQXEloqN5y
+	lOVApmfuLwxjbdvpeGMzzyA6WIfY6IBQZRjjGNKijG+FOMYEb/3MbtCxtip4z9Rq1IDbmk8kuuQ
+	3EkP+lpIhYSmhCdDgcCjersFs6+EK4M7d4xj0mnlblxCkj362tOy+NNJkcfbwk+SjT1aVAPxT9H
+	iCaasN1bd1WJ6DO3aGZg4O1LxuMXgRSZ9+8FJn7qzBjPjdC7xEuPE5gkgI/GMGGi7KX6gheEWat
+	3eC+veRsGS15xWWe2tYYtmw==
+X-Google-Smtp-Source: AGHT+IEqu4RZC/Mv07+32USt1O0T4CAeeWBTAgLYfe5hG6hvOS8qLArGzHVKAadPNj7IRfcUIr4W9w==
+X-Received: by 2002:a17:903:1b6d:b0:246:b1fd:298c with SMTP id d9443c01a7336-246b1fd2fc8mr146952355ad.1.1756259928099;
+        Tue, 26 Aug 2025 18:58:48 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7703ffbb605sm11724412b3a.7.2025.08.26.18.58.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Aug 2025 18:58:47 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id C0A69424BFD0; Wed, 27 Aug 2025 08:58:44 +0700 (WIB)
+Date: Wed, 27 Aug 2025 08:58:44 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux GFS2 <gfs2@lists.linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>
+Subject: Re: [PATCH] Documentation: gfs2: Consolidate GFS2 docs into its own
+ subdirectory
+Message-ID: <aK5mVOTFZhv53M8s@archie.me>
+References: <20250826023913.14888-1-bagasdotme@gmail.com>
+ <aK2iTlkp9iA3zESf@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8VyT8roYB2Ttt/DO"
 Content-Disposition: inline
-In-Reply-To: <bd1d77b2-c218-4dce-bbf6-1cbdecabb30b@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MNsLylogNlqc6nEp4WVIUhq56of8guHz52MSHB8r89kVkvD5Sqrq9HQD
-	7V1CMGDOCVUhFU4MNcBTcz4D+A+5nJmGIiU/HOh+0o3A1KzX6gRwhbARZJ9Jh7jPegIH80M
-	xqRrxn840BbUOJBXhtaDbLpb3OtHqi/3rqpP+7vM7h9DPb+BGHAaEcij6/VQzDjBjLahzWr
-	SukMm0WfpCrbPOlSq/8BWYA45jhx/rqSTxYB6MPh38iqKSc8g3uHkxQJyuZcRO7oyEp7glv
-	MtU07FrRXgTgUXDIjOYWkjTFw0bpCM8NibLSehKerqXOAj1oBsz3p37B0NjJuJ7a8LKDkKZ
-	YROF59AsqPduzBBYpgjakUOt3l5nSV+1Z8yg+7PxaIaDVBhiL4HN+lvsvNU+WEteW1/P1ng
-	x/WfoUqt1CzhPjzyTZLmuXij5WIj5aQu+yGW4dLzjHJ3IGF4fdsrsh+w0cy1Xul9mfyxq+u
-	YmmnMFZysLpccjPKVt8/qU6omzGArZXpnHmF7eBsh2JDUmJGXW7YBGZQUzIL7B1kVVWrGfz
-	7fFQPPseO8huV2WchoUM2MMWRVFEH9GvZP4dWnCztZRAcQumInWnFn7pFAPNQYrHupKkvs/
-	Tzh3D2jVcfI9DwobeFgv5+8SqmGcDeBqnvRhxhe07dvA+PzxCp8IDvb8E9xNUV8aVd3LoHm
-	sjsSQYbI84wGqSL0eLHEjEdvzS6iNCYDYM47uJHTIhLUVR/zU/3TOwB4Om9RVYOODYEnz6D
-	pad7SxviHVzTwDKSQWqjaDX8/oH31wcjdPsp7Fd0ItmwBL9JVuxgp//Vu9BfGGzAG8rvX45
-	8sTj05502IWdtL1fxgFFMgRVlL8a5dUmrHmu5wT3BtKdCB+ustkp3vj+Eg347yh8igVV0G8
-	gPPCziKvbdWVZRgFygVMji6gqm0Hf/RkSE/dDtXuRjODqzKgwoyCgbVfcbyc7xedNiH37Pp
-	Ffqyzbeto8fzam3t714l2BYyLBIHDq7zDkvpwWa/XeWEUNlJFL7OcjvE/
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <aK2iTlkp9iA3zESf@casper.infradead.org>
 
-On Tue, Aug 26, 2025 at 02:39:07PM +0200, Andrew Lunn wrote:
-> > Yes. It is not safe, so I 'must wait_event_timeout before free cookie'....
-> > But is there a safe way to do it?
-> > Maybe:
-> > ->allocate cookie
-> >   -> map it to an unique id
-> >     ->set the id to req->cookie
-> >       ->receive response and check id valid? Then access cookie?
-> 
-> This is part of why adding cookies in a separate patch with a good
-> commit message is important.
-> 
-> Please take a step back. What is the big picture? Why do you need a
-> cookie? What is it used for? If you describe what your requirements
-> are, we might be able to suggest a better solution, or point you at a
-> driver you can copy code from.
-> 
-> 	Andrew
-> 
 
-I try to explain the it:
+--8VyT8roYB2Ttt/DO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-driver-->fw, we has two types request:
-1. without response, such as mucse_mbx_ifinsmod
-2. with response, such as mucse_fw_get_macaddr
+On Tue, Aug 26, 2025 at 01:02:22PM +0100, Matthew Wilcox wrote:
+> On Tue, Aug 26, 2025 at 09:39:13AM +0700, Bagas Sanjaya wrote:
+> > Documentation for GFS2 is scattered in three docs that are in
+> > Documentation/filesystems/ directory. As these docs are standing out as
+> > a group, move them into separate gfs2/ subdirectory.
+>=20
+> If this is to be done (and I'm not sure that it should be), why preserve
+> the 'gfs2-' prefix on the file names?  We know the files pertain to
+> gfs2, they're now in the gfs2 directory.
+>=20
 
-fw --> driver, we has one types request:
-1. link status (link speed, duplex, pause status...)
+I'm just moving files, though.
 
-fw tiggers irq when it sends response or request.
-In order to handle link status timely, we do an irqhandle like this:
+Anyway, thanks for the suggestion. I'll apply it in v2.
 
-static int rnpgbe_rcv_msg_from_fw(struct mucse *mucse)
-{
-        u32 msgbuf[MUCSE_FW_MAILBOX_WORDS];
-        struct mucse_hw *hw = &mucse->hw;
-        struct mbx_fw_cmd_reply *reply;
-        int retval;
-	/* read mbx data out */
-        retval = mucse_read_mbx(hw, msgbuf, MUCSE_FW_MAILBOX_WORDS);
-        if (retval)
-                return retval;
+--=20
+An old man doll... just what I always wanted! - Clara
 
-        reply = (struct mbx_fw_cmd_reply *)msgbuf;
-	/* judge request or response */
-        if (le16_to_cpu(reply->flags) & FLAGS_DD) {
-		/* if it is a response, call wake_up(cookie) */
-                return rnpgbe_mbx_fw_reply_handler(mucse,
-                                (struct mbx_fw_cmd_reply *)msgbuf);
-        } else {
-		/* if it is a request, handle link status */
-                return rnpgbe_mbx_fw_req_handler(mucse,
-                                (struct mbx_fw_cmd_req *)msgbuf);
-        }
-}
+--8VyT8roYB2Ttt/DO
+Content-Type: application/pgp-signature; name=signature.asc
 
-And driver requests with response is bellow 'without' irqhandle:
+-----BEGIN PGP SIGNATURE-----
 
-static int mucse_fw_send_cmd_wait(struct mucse_hw *hw,
-				  struct mbx_fw_cmd_req *req,
-				  struct mbx_fw_cmd_reply *reply)
-{
-...
-	mucse_write_posted_mbx(hw, (u32 *)req, len);
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaK5mUAAKCRD2uYlJVVFO
+o/uCAP9GnbqUmuPnJizdP3UtvdrYHXV3y0wVhJEKGAO4a+a8dAD/bXtMoOL/d/Gd
+22Rv85+RYilLre0239ddCTI+8COycgg=
+=7WaC
+-----END PGP SIGNATURE-----
 
-	...
-	/* but as irqhandle be added, mbx data is read out in the
-	 * handler, mucse_read_posted_mbx cannot read anything */
-	mucse_read_posted_mbx(hw, (u32 *)reply, sizeof(*reply));
-
-}
-
-To solve mucse_read_posted_mbx cannot read data with irq, we add 'cookie'.
-After mucse_write_posted_mbx, call wait_event_timeout. wake_up is called
-in irqhandle.
-
-Thanks for your feedback.
-
+--8VyT8roYB2Ttt/DO--
