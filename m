@@ -1,270 +1,165 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3603595C;
-	Wed, 27 Aug 2025 01:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2B14A33;
+	Wed, 27 Aug 2025 01:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756256840; cv=none; b=Fw/jVQAhaweKmceHgF8qr+PNROa27xIoCM4Jb3ERI2ZBG1V4VRmfq8oeRSLuWRLbx97ndIXEMqRwzL9aMfPepo5Br0HdvjrCw0tAqwvYQAj+wAuEZm1a+nhXBJ/OP125kZrL2dBEEnJRkmA1z34p0FNMeaKmvc0NIMiljRWEJvY=
+	t=1756258490; cv=none; b=EECLdGyNgIk3udQHT6PaWy7sCtc+9wEQs6w6/YR1Iz51JgFWRrjOtC94/BnAewfydoiLlnEv9Ri7rBwmsuklCS1Hr6qwLtDWAUnI5zGgW7HeNRTUTqgwthsz6AdtQ6drfFfulCSk06LdgxZpIcPG75GP5/qaxs94ODz3t5yWwCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756256840; c=relaxed/simple;
-	bh=ptg3hadmfo2fwJ+oQGUqKSF+CCbCyayELJdhHf7zfgk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GP4R6FtuRtD8pYCn3K2COS27JF3+SYqhQ0rTxAF30XuptsRG4rz0yrL81vUY9C+6Zebxoh2lrcMDo02YgQo0uFLrOlNS+8SueXhovh2KfAwGnIm+gN0Hd1BSvqYRPQ51+u1tXQDZVk0v3hEg1ug5MvMBVEy8PNy86JqNIsVxQ0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AXv+iyu6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756258490; c=relaxed/simple;
+	bh=4eiZvo+hL550WY6CZyKaK4fRP2VeqMte3/ZsoSFK2Bs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEfbsOs1FS8yj/xlGm4jnruqTWDGKnep6QKoqOJKz1MQqRYCI8pPRbewK+YA/z/G7CYjEBq5C/nzu9RWPI3X565+qd3UGebZ/Uua8HL/5aj32uWU7k+IabHYYabyjLe3ytmDf7PwBWea7RjbFhLwqyifzC6T3bSy3/HHDZiLLOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iNIp4MzC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AXv+iyu6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=VO1laDguuSxP27SypRdymEziv/15eUANmc0X6Tkn9F4=; b=AXv+iyu6tzbuHM9ea1KZ6XKL5r
-	aJ45hCoGWurLgHLegyj3pNzyBcFYRcD+m+PnzQtng0ky3TYyIJ/S/M+K5COyk/+sBzpMxJRN/vEaD
-	X9kXBSFcM0P1DQrBMVtqKh0YLLTDIFDsuCUGp8Awb32Wu/QPTjpxcsXO2Osrr1+dalzStftvw4Y6n
-	3Z4SMHvBEcQq8BZHI1lThW2Zq9bFXDnxaQB6nRP4RxBaGeh1mqadoKN57oQIuyf+xWk/q2dWH0tBk
-	mivcdcSOPezwUuivthLT5pknKEV8HAViFguj1T59vzXzDewBT6QK9ERx67tE/Ix3HoNwBsjlAvFh2
-	jcSEq9wA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur4dA-0000000DUey-3IVq;
-	Wed, 27 Aug 2025 01:07:16 +0000
-Message-ID: <48f34379-f0aa-40fd-8578-3cf562880731@infradead.org>
-Date: Tue, 26 Aug 2025 18:07:15 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iNIp4MzC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78EAC4CEF1;
+	Wed, 27 Aug 2025 01:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756258489;
+	bh=4eiZvo+hL550WY6CZyKaK4fRP2VeqMte3/ZsoSFK2Bs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iNIp4MzCAz/2Su6Q9ie6SJSrrgadQvUrBTeD8Iqgom97Azq/yiTX5YT/3bytvQl+R
+	 c77dFs4j5ymA0p96r2A9q2eclhACDC0BeMXTZP3LnGFleYKgQ9mzTP+GLP+5gY/9Ld
+	 t7KLAwBt93khS7Q2I4taw+eQH0o+6z/5mLHT/GtxiSd8i5gwIHOrQUTdUKOkadkKml
+	 BoJhCES05WcIZSHiAvdbLB6rQmXqn6pV9HA0YzCMKsq74yPYyioPU2x3Lxud9h9HZh
+	 77zbyyS0CGOO7salab+iMazbkewswWMxdSjGCMEwRVQAwc5Bm5GbuGBYLRhm1vqbze
+	 /uP+OMYTMYmNg==
+Date: Tue, 26 Aug 2025 18:34:44 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <kees@outflux.net>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+Message-ID: <20250827013444.GA2859318@ax162>
+References: <20250825141316.work.967-kees@kernel.org>
+ <20250825142603.1907143-5-kees@kernel.org>
+ <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
+ <202508250834.E2456B9@keescook>
+ <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+ <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/15] genpt: Add Documentation/ files
-To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- Justin Stitt <justinstitt@google.com>, Kevin Tian <kevin.tian@intel.com>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- llvm@lists.linux.dev, Bill Wendling <morbo@google.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Will Deacon <will@kernel.org>
-Cc: Alexey Kardashevskiy <aik@amd.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
- James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-References: <2-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
 
-Hi,
-
-On 8/26/25 10:18 AM, Jason Gunthorpe wrote:
-> Add some general description and pull in the kdoc comments from the source
-> file to index most of the useful functions.
+On Mon, Aug 25, 2025 at 03:31:34PM -0400, Kees Cook wrote:
+> On August 25, 2025 1:00:22 PM EDT, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> >On Mon, Aug 25, 2025 at 5:35 PM Kees Cook <kees@kernel.org> wrote:
+> >>
+> >> Yeah, that's a good idea. What the right way to do that?
+> >>
+> >> config CFI_CLANG
+> >>         bool "Use Clang's Control Flow Integrity (CFI)"
+> >>         depends on ARCH_SUPPORTS_CFI
+> >>         select CFI
+> >>
+> >> ?
+> >
+> >I don't recall what is the idiomatic solution for renames, but I
+> >remember Linus talking about this topic and about avoiding losing old
+> >values if possible (perhaps getting a new question in `oldconfig` is
+> >OK as long as the `olddefconfig` respects the old value).
+> >
+> >I think your suggestion above will still make it appear twice in
+> >`menuconfig` -- there may be a way to play with visibility to make it
+> >better.
+> >
+> >A simple possibility I can think of (assuming it works) is having the
+> >CFI symbol for the time being introduced just as a `def_bool
+> >CFI_CLANG` for a few releases so that people get the new one in their
+> >configs.
 > 
-> Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/driver-api/generic_pt.rst | 140 ++++++++++++++++++++++++
->  Documentation/driver-api/index.rst      |   1 +
->  2 files changed, 141 insertions(+)
->  create mode 100644 Documentation/driver-api/generic_pt.rst
+> Ah, I think this works:
 > 
-> diff --git a/Documentation/driver-api/generic_pt.rst b/Documentation/driver-api/generic_pt.rst
-> new file mode 100644
-> index 00000000000000..45b05dafece814
-> --- /dev/null
-> +++ b/Documentation/driver-api/generic_pt.rst
-> @@ -0,0 +1,140 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +========================
-> +Generic Radix Page Table
-> +========================
-> +
-> +.. kernel-doc:: include/linux/generic_pt/common.h
-> +	:doc: Generic Radix Page Table
-> +
-> +.. kernel-doc:: drivers/iommu/generic_pt/pt_defs.h
-> +	:doc: Generic Page Table Language
-> +
-> +-----
-> +Usage
-> +-----
-> +
-> +Generic PT is structured as a multi-compilation system. Since each format
-> +provides an API using a common set of names there can be only one format active
-> +within a compilation unit. This design avoids function pointers around the low
-> +level API.
-> +
-> +Instead the function pointers can end up at the higher level API (ie map/unmap,
+> config CFI_CLANG
+>     bool
+> 
+> config CFI
+>     bool "...."
+>     default CFI_CLANG
+> 
+> I will add that for v2.
 
-                                                                    (i.e.,
+That does not appear to work for me. I applied
 
-> +etc) and the per-format code can be directly inlined into the per-format
+diff --git a/arch/Kconfig b/arch/Kconfig
+index c25a45d9aa96..0d3ed03c76c2 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -876,8 +876,12 @@ config ARCH_SUPPORTS_CFI
+ config ARCH_USES_CFI_TRAPS
+        bool
 
-   etc.)
++config CFI_CLANG
++       bool
++
+ config CFI
+        bool "Use Kernel Control Flow Integrity (kCFI)"
++       default CFI_CLANG
+        depends on ARCH_SUPPORTS_CFI
+        depends on $(cc-option,-fsanitize=kcfi)
+        help
 
-> +compilation unit. For something like iommu each format will be compiled into a
-> +per-format iommu operations kernel module.
-> +
+on top of this series and
 
-I would s/iommu/IOMMU/g when it's used in a sentence as an acronym (i.e., not
-functions names, struct names, struct fields, file names, etc.).
+  CONFIG_CFI_CLANG=y
+  # CONFIG_CFI_ICALL_NORMALIZE_INTEGERS is not set
+  # CONFIG_CFI_PERMISSIVE is not set
 
-> +For this to work the .c file for each compilation unit will include both the
-> +format headers and the generic code for the implementation. For instance in an
-> +implementation compilation unit the headers would normally be included as
-> +follows::
-> +
-> +	#include <linux/generic_pt/common.h>
-> +	#include "fmt/defs_amdv1.h"
-> +	#include "pt_defs.h"
-> +	#include "fmt/amdv1.h"
-> +	#include "pt_common.h"
-> +	#include "pt_iter.h"
-> +	#include "iommut_pt.h"  /* The iommu implementation */
-> +
-> +iommu_pt.h includes definitions that will generate the operations functions for
-> +map/unmap/etc using the definitions provided by AMDv1. The resulting module
-             etc.
+gets turned into
 
-> +will have exported symbols named like pt_iommu_amdv1_init().
-> +
-> +Refer to drivers/iommu/generic-pt/fmt/iommu_template.h for an example of how the
-> +iommu implementation uses multi-compilation to generate per-format ops structs
-> +pointers.
-> +
-> +The format code is written so that the common names arise from #defines to
-> +distinct format specific names. This is intended to aid debuggability by
-> +avoiding symbol clashes across all the different formats.
-> +
-> +Exported symbols and other global names are mangled using a per-format string
-> +via the NS() helper macro.
-> +
-> +The format uses struct pt_common as the top level struct for the table,
+  # CONFIG_CFI is not set
 
-                                           top-level
+after olddefconfig. CONFIG_CFI_CLANG has to be user selectable with a
+prompt but the only solution I can think of at the moment results in a
+duplicate prompt for Clang.
 
-> +and each format will have its own struct pt_xxx which embeds it to store
-> +format-specific information.
-> +
-> +The implementation will further wrapper this in its own top level struct, such
+diff --git a/arch/Kconfig b/arch/Kconfig
+index c25a45d9aa96..93bf9b41a9de 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -876,8 +876,17 @@ config ARCH_SUPPORTS_CFI
+ config ARCH_USES_CFI_TRAPS
+        bool
 
-                                           this???         top-level
-oh, maybe                          wrap this               top-level
++config CFI_CLANG
++       bool "Use Kernel Control Flow Integrity (kCFI) - Transitional" if CC_IS_CLANG
++       select CFI
++       depends on ARCH_SUPPORTS_CFI
++       depends on $(cc-option,-fsanitize=kcfi)
++       help
++         This is a transitional symbol to CONFIG_CFI, see its help text
++         for more information.
++
+ config CFI
+-       bool "Use Kernel Control Flow Integrity (kCFI)"
++       bool "Use Kernel Control Flow Integrity (kCFI)" if CC_IS_GCC
+        depends on ARCH_SUPPORTS_CFI
+        depends on $(cc-option,-fsanitize=kcfi)
+        help
 
+Maybe that does not matter for the sake of keeping things working?
+Otherwise, we could just keep things as they are with the patch set and
+expect people to actually use oldconfig or diff the results of
+olddefconfig (which I think is good practice anyways).
 
-
-> +as struct pt_iommu_amdv1.
-> +
-> +----------------------------------------------
-> +Format functions at the struct pt_common level
-> +----------------------------------------------
-> +
-> +.. kernel-doc:: include/linux/generic_pt/common.h
-> +	:identifiers:
-> +.. kernel-doc:: drivers/iommu/generic_pt/pt_common.h
-> +
-> +-----------------
-> +Iteration Helpers
-> +-----------------
-> +
-> +.. kernel-doc:: drivers/iommu/generic_pt/pt_iter.h
-> +
-> +----------------
-> +Writing a Format
-> +----------------
-> +
-> +It is best to start from a simple format that is similar to the target. x86_64
-> +is usually a good reference for something simple, and AMDv1 is something fairly
-> +complete.
-> +
-> +The required inline functions need to be implemented in the format header.
-> +These should all follow the standard pattern of::
-> +
-> + static inline pt_oaddr_t amdv1pt_entry_oa(const struct pt_state *pts)
-> + {
-> +	[..]
-> + }
-> + #define pt_entry_oa amdv1pt_entry_oa
-> +
-> +Where a uniquely named per-format inline function provides the implementation
-
-   where
-
-> +and a define maps it to the generic name. This is intended to make debug symbols
-> +work better. inline functions should always be used as the prototypes in
-> +pt_common.h will cause the compiler to validate the function signature to
-> +prevent errors.
-> +
-> +Review pt_fmt_defaults.h to understand some of the optional inlines.
-> +
-> +Once the format compiles then it should be run through the generic page table
-> +kunit test in kunit_generic_pt.h using kunit. For example::
-> +
-> +   $ tools/testing/kunit/kunit.py run --build_dir build_kunit_x86_64 --arch x86_64 --kunitconfig ./drivers/iommu/generic_pt/.kunitconfig amdv1_fmt_test.*
-> +   [...]
-> +   [11:15:08] Testing complete. Ran 9 tests: passed: 9
-> +   [11:15:09] Elapsed time: 3.137s total, 0.001s configuring, 2.368s building, 0.311s running
-> +
-> +The generic tests are intended to prove out the format functions and give
-> +clearer failures to speed up finding the problems. Once those pass then the
-> +entire kunit suite should be run.
-> +
-> +---------------------------
-> +IOMMU Invalidation Features
-> +---------------------------
-> +
-> +Invalidation is how the page table algorithms synchronize with a HW cache of the
-> +pagetable memory, typically called the TLB (or IOTLB for IOMMU cases).
-
-   page table
-to match the rest of this document.
-
-> +
-> +The TLB can store present PTEs, non-present PTEs and table pointers, depending
-> +on its design. Every HW has its own approach on how to describe what has changed
-> +to get changed items removed from the TLB.
-
-   to have changed items removed
-
-> +
-> +PT_FEAT_FLUSH_RANGE
-> +-------------------
-> +
-> +PT_FEAT_FLUSH_RANGE is the easiest scheme to understand. It tries to generate a
-> +single range invalidation for each operation, over invalidating if there are
-
-                                                 over-invalidating
-
-> +gaps of VA that don't need invalidation. This trades off impacted VA for number
-> +of invalidation operations. It does not keep track of what is being invalidated,
-
-                                                                       invalidated;
-
-> +however if pages have to be freed then page table pointers have to be cleaned
-
-   however,
-
-> +from the walk cache. The range can start/end at any page boundary.
-> +
-> +PT_FEAT_FLUSH_RANGE_NO_GAPS
-> +---------------------------
-> +
-> +PT_FEAT_FLUSH_RANGE_NO_GAPS is similar to PT_FEAT_FLUSH_RANGE however it tries
-
-                                             PT_FEAT_FLUSH_RANGE; however, it tries
-
-> +to minimize the amount of impacted VA by issuing extra flush operations. This is
-> +useful if the cost of processing VA is very high, for instance because a
-> +hypervisor is processing the page table with a shadowing algorithm.
--- 
-~Randy
-
+Cheers,
+Nathan
