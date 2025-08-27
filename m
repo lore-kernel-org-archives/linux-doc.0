@@ -1,97 +1,81 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054F84C6C;
-	Wed, 27 Aug 2025 00:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E201E199935;
+	Wed, 27 Aug 2025 00:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756253023; cv=none; b=nKacrsRRQJTuh1lxHI2BnI59ve6wxiPk3S74liFHo1FR21SsOZAiK85tKQ8PYxK7mN74wQQYpGLPPt4aDm992t0JUf/8/zupg8XzmZYOGLLSdKNm67l8hGTYCCX4rRmi74Nbo2OnxzCAsAssPafokAUSoD2EFkVhGsgvhE9gc0E=
+	t=1756255499; cv=none; b=Y9LZsrOpWaqRpAee4Z8mdoDqzCxSqUDniFBVjgfgQpc0K6OpYjmk5vWIk6dQa2uloPUtZz8sW4ON7McnDPcvcQhavBY1XJjTkBH1ITMu5LgpEBxNenUhbLex29FZoGws21XHqsG5enIKis1UBNendCamgJOn81ELRTU/ZInb8d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756253023; c=relaxed/simple;
-	bh=I8oPMo3mvwS3Bjjxb0BZcps4wLguxYSEV5nbVXUhU/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rCQCu5+D45sg2bpAMBexYLsDtmvx08xHB7vCkquL0dfVTyxOmr6VzsVoUU54imNjtn6pAmukwvfHQDYKUg9dIdrLHmvDbwTPvMJdrbUGFl08txqWIQUfqwTtVlt2hjH1sf+exa6pyzpPDNCwa2RDwV7oTxchBiGqS9vta7Z2jHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zU3fHBFx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756255499; c=relaxed/simple;
+	bh=1a1QyaQ+7+wzkpm0y3qzf5fO9WxfJkJUH6TZ9QXdduE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=txzgiiXpyvhtP1A9WgOaG6qMO3ed+kWyKQDOIjHy1KepTd+SQsm5AxmffykKRtBGe4hIvd+Y9Fmmdk2rl36q0zdwXAF/jOV1KIL246pZCgd4peSUJMQSXL0zN9I7n0iKgXIcv4DhgbZFtUyUwrpdvFMae/zebvd7EvwwTDEc8NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1rU7h6U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zU3fHBFx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Uk4pOKm9w1DFf3d0P5bL4B0MQh3SUsa1t5AwYgg9Fyw=; b=zU3fHBFx6AEsYZv+UoxMnHxjLP
-	hXnNntqpg8T2xkglr2er4K6A2mC3xfuHqDZE14q4wyRICdMYjK2lFezTyJ5PdpddodxgA1csOBd5J
-	i3OdSG2JTwgB7BARHbe9+CkvesWVYrZ5JxJG+a8DKL70CB/zEdI4QQwRxauq5ffiCh9GMEQJOh9V9
-	2QxlQS2AXBBSrdL8fzMPop1IyKgUIy9RH12JPkGsHTcJ2gMrL4eCT0pelksjD4TPOFoaGCngUqIvC
-	yL7y9dPIpMSLle+mqDh9sccw3RvCdLXBfjzkQfBzjbYFpPBChibTWm5Vs1EvWjw6n/dJNURcQF9lh
-	XdfeMZpA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur3dc-0000000DOXO-1EJx;
-	Wed, 27 Aug 2025 00:03:40 +0000
-Message-ID: <cfeead98-4344-47e6-ac62-08eaa5f5b318@infradead.org>
-Date: Tue, 26 Aug 2025 17:03:39 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1rU7h6U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C039C4CEF1;
+	Wed, 27 Aug 2025 00:44:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756255498;
+	bh=1a1QyaQ+7+wzkpm0y3qzf5fO9WxfJkJUH6TZ9QXdduE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=G1rU7h6Utv85yzx9gTx4Xnkjq5U1KntwRpjEjms6EOiQULHohBOKRJs1pdj+RLRjf
+	 38ntPWejC4le7t29vbOMqi3EVv5v2JV5+6oNFNrY61YG6Ye/475ro0FGHi1e/sXTrU
+	 law9IhNOCx8lVfrQVCx1kqN32pPQJFc8GyO4ucHjmLOBalCIIEJXYmryIwshFN13VY
+	 9rAWrk70Sjvg9BM7UVdLKGD8euNxR5rSfryE7NVU1ttVoJyIqSWthakTHoMJtae5Kd
+	 zLy22z2pp3KvdnVCq9/O1PAqx+5wwS1XEHHnYBrBTeI/HmVgSG09c2XKsiqf/GWfKr
+	 BXWBoHK2XwNwg==
+Date: Tue, 26 Aug 2025 17:44:57 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Naveen Mamindlapalli <naveenm@marvell.com>
+Cc: <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+ <horms@kernel.org>, <corbet@lwn.net>, <andrew@lunn.ch>,
+ <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next] docs: networking: clarify expectation of
+ persistent stats
+Message-ID: <20250826174457.56705b46@kernel.org>
+In-Reply-To: <20250825134755.3468861-1-naveenm@marvell.com>
+References: <20250825134755.3468861-1-naveenm@marvell.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/15] iommupt: Add the AMD IOMMU v1 page table format
-To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- Justin Stitt <justinstitt@google.com>, Kevin Tian <kevin.tian@intel.com>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- llvm@lists.linux.dev, Bill Wendling <morbo@google.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Will Deacon <will@kernel.org>
-Cc: Alexey Kardashevskiy <aik@amd.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
- James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-References: <4-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <4-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Mon, 25 Aug 2025 19:17:55 +0530 Naveen Mamindlapalli wrote:
+> -Statistics must persist across routine operations like bringing the interface
+> -down and up.
+> +Statistics are expected to persist across routine operations like bringing the
 
+Please don't weaken the requirement. The requirements is what it is.
 
-On 8/26/25 10:18 AM, Jason Gunthorpe wrote:
-> diff --git a/drivers/iommu/generic_pt/Kconfig b/drivers/iommu/generic_pt/Kconfig
-> index c35ddc7c827e92..1867e8d74b4be9 100644
-> --- a/drivers/iommu/generic_pt/Kconfig
-> +++ b/drivers/iommu/generic_pt/Kconfig
-> @@ -29,4 +29,16 @@ config IOMMU_PT
->  	  IOMMU_PT provides an implementation of the page table operations
->  	  related struct iommu_domain using GENERIC_PT to abstract the page
->  	  table format.
+> +interface down and up. This includes both standard interface statistics and
+> +driver-defined statistics reported via `ethtool -S`.
+
+Rest of the paragraph looks good, but I think the preferred form of
+quotations is double back ticks? Most of this doc doesn't comply but
+let's stick to double when adding new stuff.
+
+> +However, this behavior is not always strictly followed, and some drivers do
+> +reset these counters to zero when the device is closed and reopened. This can
+> +lead to misinterpretation of network behavior by monitoring tools, such as
+> +SNMP, that expect monotonically increasing counters.
 > +
-> +if IOMMU_PT
-> +config IOMMU_PT_AMDV1
-> +	tristate "IOMMU page table for 64 bit AMD IOMMU v1"
+> +Driver authors are expected to preserve statistics across interface down/up
+> +cycles to ensure consistent reporting and better integration with monitoring
+> +tools that consume these statistics.
 
-	                               64-bit
+This feels like too many words. How about:
 
-> +	depends on !GENERIC_ATOMIC64 # for cmpxchg64
-> +	help
-> +	  iommu_domain implementation for the AMD v1 page table. AMDv1 is the
-> +	  "host" page table. It supports granular page sizes of almost every
-> +	  power of 2 and decodes an full 64 bit IOVA space.
-
-	                                 64-bit
-
-> +
-> +	  Selected automatically by an IOMMU driver that uses this format.
-> +endif
-
+Note that the following legacy drivers do not comply with this requirement
+and cannot be fixed without breaking existing users:
+ - driver1
+ - driver2
+ ...
 -- 
-~Randy
-
+pw-bot: cr
