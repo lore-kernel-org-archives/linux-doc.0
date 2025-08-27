@@ -1,210 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1784276046;
-	Wed, 27 Aug 2025 02:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E58D274670;
+	Wed, 27 Aug 2025 03:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756263524; cv=none; b=OfVEDVmvwYkOwZNI/Wx3PpBSi2hFtOUdfSX6i3cbVZQdc2E9Z7gN/jE5XFasQEvWzvnoMnJ3I81oHQIW+hCRXNWKGGpk0ENBI1px5O6AaZt4IH1tOq97WblFgzoHZXnkTbGCt/odRh3Bk/eXz+3VAmC+PT23FdePe7m4fWVvStw=
+	t=1756264510; cv=none; b=g3RRliEK7bQK94cAA/DyOYQDM8g8CTL9XPUh6BQwH3n1ynHkZyWaxIi739X/OMztTmSqjNmBu3LNez+YM5L+G/Y9wn40E5tKj5z4soBS9DWYcNH5u+CKoo7CL70s3mtU1t8uPXuHDg5WqBuChPzeqE0teEbVqqv/LjSFPQ9XY58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756263524; c=relaxed/simple;
-	bh=FaAYjYeaqo6BXH3QV/GlJJdaIRRLN9q/K9TzS6NDhLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rs1rvJJBfKx7m8DgUbeAmJOeLFQpNzXjvMKsCRXSaj+ZBdGD02ZwJjWGenbPDzH2IGl3WI40TGM9XMxcgm3tFs9BYr7SVDrSB++4LkWz7aO2B10qJiQi2KEj4858MF4XC4Yitw9WZZNI59xgBStXKzlnE0tZoOJ84QydG3O2+Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzOtl8eQ; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzOtl8eQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756263523; x=1787799523;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FaAYjYeaqo6BXH3QV/GlJJdaIRRLN9q/K9TzS6NDhLo=;
-  b=JzOtl8eQZYJvSpW41W3KmNbwHuP0GNIpf53VWpKjCmTlxJe8orK0w7kK
-   1ttZib4jegj69g6GHX1SLDwr2XZBm4dByiBJTdy9pzK2RFTkpAqkHMoVU
-   4gMDHFznMBSVN7ryd8RxHyPZeYiBLXymBTPXlO3AQgKAWl9H9SWVE+TK4
-   Hoe4RZWZFEqRR9kPCoWa8Yw0WtpKnTRyC83JIUemCzG2wvjLfYJyUStBV
-   b/7n7hpvj0uqmmKk/cFVKM2maccLndIrD9k+mOtS+AqMBDtVXPNoqPcE7
-   jB4waF8LT8u5TTkqRRkRmTa6gnHZgxiccLKRUeahpy+PWeJuSluOj/PKd
-   Q==;
-X-CSE-ConnectionGUID: uN5icr2gTI2woPvnOBzNZA==
-X-CSE-MsgGUID: SRube0x/SBGSZ0onC8wAxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58569363"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58569363"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 19:58:42 -0700
-X-CSE-ConnectionGUID: WQLEuyUDQBiSRfhdVtzXyA==
-X-CSE-MsgGUID: uWywIkghRhiOifWM3Oe+9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="193380595"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Aug 2025 19:58:36 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ur6Mr-000Sbz-3B;
-	Wed, 27 Aug 2025 02:58:33 +0000
-Date: Wed, 27 Aug 2025 10:57:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
-	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	hannes@cmpxchg.org, usamaarif642@gmail.com,
-	gutierrez.asier@huawei-partners.com, willy@infradead.org,
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
- order selection
-Message-ID: <202508271009.5neOZ0OG-lkp@intel.com>
-References: <20250826071948.2618-2-laoar.shao@gmail.com>
+	s=arc-20240116; t=1756264510; c=relaxed/simple;
+	bh=AMscygHaTq9Yh0da+ginJppGuM08l6XSihXFLuahwBY=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=HhB3s7zuhve17EZna78VspEImf8BLAQdrdHeSrIE4+cXlXmTY4vBFgVYO6wTquXtvlnxZh6fdnx4g4wHKi+e7cx77/G8e3hxnQUraLWMtSB1rQ5zf1H86Bh3Ct0mGIQourHx6TnfkGfpOAZxLEwA0Meso1FKIpqKYWCnKSUCrQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cBV5L2MKpz7VGTQ;
+	Wed, 27 Aug 2025 11:15:02 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 57R3EhcV048710;
+	Wed, 27 Aug 2025 11:14:43 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 27 Aug 2025 11:14:44 +0800 (CST)
+Date: Wed, 27 Aug 2025 11:14:44 +0800 (CST)
+X-Zmail-TransId: 2afc68ae7824b1e-667ca
+X-Mailer: Zmail v1.0
+Message-ID: <20250827111444659yr8tENNnk9xU2ZFnz94FO@zte.com.cn>
+In-Reply-To: <20250820081908.GA1249@didi-ThinkCentre-M930t-N000>
+References: 20250820081908.GA1249@didi-ThinkCentre-M930t-N000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250826071948.2618-2-laoar.shao@gmail.com>
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <tiozhang@didiglobal.com>
+Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>, <corbet@lwn.net>,
+        <bsingharora@gmail.com>, <yang.yang29@zte.com.cn>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
+        <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+        <rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+        <vschneid@redhat.com>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <tiozhang@didiglobal.com>, <zyhtheonly@gmail.com>,
+        <zyhtheonly@yeah.net>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2Ml0gZGVsYXlhY2N5L3NjaGVkOiBhZGQgU09GVElSUSBkZWxheQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 57R3EhcV048710
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Wed, 27 Aug 2025 11:15:02 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68AE7836.001/4cBV5L2MKpz7VGTQ
 
-Hi Yafang,
+> Taking the difference of two successive readings of a given
+> counter (say cpu_delay_total) for a task will give the delay
+>@@ -123,6 +124,8 @@ Get sum and peak of delays, since system boot, for all pids with tgid 242::
+>                   156       11215873          0.072ms     0.207403ms     0.033913ms
+>     IRQ         count    delay total  delay average      delay max      delay min
+>                     0              0          0.000ms     0.000000ms     0.000000ms
+>+    SOFTIRQ     count    delay total  delay average      delay max      delay min
+>+                    0              0          0.000ms     0.000000ms     0.000000ms
+>
+> Get IO accounting for pid 1, it works only with -p::
 
-kernel test robot noticed the following build warnings:
+If possible, you can construct some abnormal scenarios to assign values to IRQ and SOFTIRQ,
+highlighting the differences between them. Additionally, this should cover the testing of
+new features. If the delay info is entirely zero, it may fail to demonstrate such differences.
 
-[auto build test WARNING on akpm-mm/mm-everything]
+>+    /*
+>+     * We only account softirq time when we are called by
+>+     * account_softirq_enter{,exit}
+>+     * and we do not account ksoftirqd here.
+>+     */
+>+    if (curr != this_cpu_ksoftirqd() &&
+>+        ((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET))) {
+>+        delta_soft = cpu_clock - irqtime->soft_start_time;
+>+        irqtime->soft_start_time += delta_soft;
+>+    }
+>+
+>     /*
+>      * We do not account for softirq time from ksoftirqd here.
+>      * We want to continue accounting softirq time to ksoftirqd thread
+>@@ -75,9 +88,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
+>      * that do not consume any time, but still wants to run.
+>      */
+>     if (pc & HARDIRQ_MASK)
+>-        irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
+>+        irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_IRQ);
+>     else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
+>-        irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
+>+        irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
+> }
+>
+> static u64 irqtime_tick_accounted(u64 maxtime)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp-add-support-for-BPF-based-THP-order-selection/20250826-152415
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250826071948.2618-2-laoar.shao%40gmail.com
-patch subject: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP order selection
-config: loongarch-randconfig-r113-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271009.5neOZ0OG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250827/202508271009.5neOZ0OG-lkp@intel.com/reproduce)
+As you mentioned, delta_soft represents SOFTIRQ, but it appears to have been accumulated once
+under the condition of (pc & HARDIRQ_MASK). Is there a potential double-counting issue?
+replacing delta_soft with 0 when in HARDIRQ might make it more intuitive.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508271009.5neOZ0OG-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> mm/bpf_thp.c:47:31: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:47:31: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:47:31: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:101:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:101:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:101:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:102:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:102:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:102:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:111:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:111:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:111:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:112:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:112:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:112:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:112:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:112:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:112:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:133:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:133:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:133:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:134:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:134:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:134:9: sparse:    int ( * )( ... )
-   mm/bpf_thp.c:134:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/bpf_thp.c:134:9: sparse:    int ( [noderef] __rcu * )( ... )
-   mm/bpf_thp.c:134:9: sparse:    int ( * )( ... )
->> mm/bpf_thp.c:102:9: sparse: sparse: dereference of noderef expression
->> mm/bpf_thp.c:102:9: sparse: sparse: dereference of noderef expression
-   mm/bpf_thp.c:112:9: sparse: sparse: dereference of noderef expression
-   mm/bpf_thp.c:134:9: sparse: sparse: dereference of noderef expression
-   mm/bpf_thp.c:134:9: sparse: sparse: dereference of noderef expression
-   mm/bpf_thp.c:134:9: sparse: sparse: dereference of noderef expression
-   mm/bpf_thp.c:148:14: sparse: sparse: dereference of noderef expression
-
-vim +47 mm/bpf_thp.c
-
-    33	
-    34	int get_suggested_order(struct mm_struct *mm, struct vm_area_struct *vma__nullable,
-    35				u64 vma_flags, enum tva_type tva_flags, int orders)
-    36	{
-    37		int (*bpf_suggested_order)(struct mm_struct *mm, struct vm_area_struct *vma__nullable,
-    38					   u64 vma_flags, enum tva_type tva_flags, int orders);
-    39		int suggested_orders = orders;
-    40	
-    41		/* No BPF program is attached */
-    42		if (!test_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
-    43			      &transparent_hugepage_flags))
-    44			return suggested_orders;
-    45	
-    46		rcu_read_lock();
-  > 47		bpf_suggested_order = rcu_dereference(bpf_thp.get_suggested_order);
-    48		if (!bpf_suggested_order)
-    49			goto out;
-    50	
-    51		suggested_orders = bpf_suggested_order(mm, vma__nullable, vma_flags, tva_flags, orders);
-    52		if (highest_order(suggested_orders) > highest_order(orders))
-    53			suggested_orders = orders;
-    54	
-    55	out:
-    56		rcu_read_unlock();
-    57		return suggested_orders;
-    58	}
-    59	
-    60	static bool bpf_thp_ops_is_valid_access(int off, int size,
-    61						enum bpf_access_type type,
-    62						const struct bpf_prog *prog,
-    63						struct bpf_insn_access_aux *info)
-    64	{
-    65		return bpf_tracing_btf_ctx_access(off, size, type, prog, info);
-    66	}
-    67	
-    68	static const struct bpf_func_proto *
-    69	bpf_thp_get_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
-    70	{
-    71		return bpf_base_func_proto(func_id, prog);
-    72	}
-    73	
-    74	static const struct bpf_verifier_ops thp_bpf_verifier_ops = {
-    75		.get_func_proto = bpf_thp_get_func_proto,
-    76		.is_valid_access = bpf_thp_ops_is_valid_access,
-    77	};
-    78	
-    79	static int bpf_thp_init(struct btf *btf)
-    80	{
-    81		return 0;
-    82	}
-    83	
-    84	static int bpf_thp_init_member(const struct btf_type *t,
-    85				       const struct btf_member *member,
-    86				       void *kdata, const void *udata)
-    87	{
-    88		return 0;
-    89	}
-    90	
-    91	static int bpf_thp_reg(void *kdata, struct bpf_link *link)
-    92	{
-    93		struct bpf_thp_ops *ops = kdata;
-    94	
-    95		spin_lock(&thp_ops_lock);
-    96		if (test_and_set_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
-    97				     &transparent_hugepage_flags)) {
-    98			spin_unlock(&thp_ops_lock);
-    99			return -EBUSY;
-   100		}
-   101		WARN_ON_ONCE(rcu_access_pointer(bpf_thp.get_suggested_order));
- > 102		rcu_assign_pointer(bpf_thp.get_suggested_order, ops->get_suggested_order);
-   103		spin_unlock(&thp_ops_lock);
-   104		return 0;
-   105	}
-   106	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yaxin
