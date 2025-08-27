@@ -1,94 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892EA156C6A;
-	Wed, 27 Aug 2025 13:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF51E35A293;
+	Wed, 27 Aug 2025 14:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756302592; cv=none; b=Tjkh9P8+w/VmatRDETNkK0vsCS7Q2MfNYldzqlstt66R0bemnxYlfga91eHqyabUlRKSu/gcv0Ci/dldHUUhFc6fcaw7RAJ4utegwuCjaGwGUvUtafeJ7aziNKzX3CMhJers4I9xwubotqxnEAZJqjhBFzzDhq4N2KQhNEAFpcg=
+	t=1756303320; cv=none; b=uoPQMlSbKxxCryVBKWAA9nff0toCxmN+gcUGRMjYdaBqyNTBqV+vSfO4WOXo5b8aWgdvcRvsaNafVIRKWkQnWfiAtTkJGtSN6jjDZiK7EiW2YGwSJpYh+ky9GceiSaFnd0vh99aT4czsO6bODdHr3TZXbbhWBHnAYMplPiwH2H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756302592; c=relaxed/simple;
-	bh=GcaZ3E0lOVaI/dz7qSd5StsudC08+m3pWU8LRWDOSW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bG5/eTWILKc1KeX9mDmXM1yG5p2jbS8d83uT/jeogG+Xf9L4eoijJFReXiR9MBCcos4fc/U39PIrHGsJhpLemNugINnExwkqvg0xXExY40EewmBDW0OqLz4Ei578k6FMODHZM4fcAGU1lUBLvqyBJIuDKpGOArZ5APBrtsnxSPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tp9hFHsf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756303320; c=relaxed/simple;
+	bh=rrLE6VNYaV1/todpYtogxf/XlET+/1DTpL2efIVhb2s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DEs6pjWKKhCrd1rxPH6azve/hSRSGZuCVi9fEwTadGstYzIqicRaIeKfWCtFGthUalyQjFaFN/gDi0fFqTg7ditfqyS9NfTm/DW+gj7ctxmhWeJS4avmR2/Ulz33cjiuFM4VKOl+0DtDUh19Y5cf6LQQ4vQGvf6CuIcT/Zhr3Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VoKwCtSZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tp9hFHsf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11854C4CEF0;
-	Wed, 27 Aug 2025 13:49:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VoKwCtSZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02845C4CEEB;
+	Wed, 27 Aug 2025 14:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756302592;
-	bh=GcaZ3E0lOVaI/dz7qSd5StsudC08+m3pWU8LRWDOSW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tp9hFHsf5wZRA5Ngee9Y6zBDrUVaRX8mOvlXsftUuc4AeWx2fWi7D9yy34Xe1oj8l
-	 nlgTjVITFfPScm1ESRXnHa5kGCs9AJNJUD3L3tntkqnzGwMP5rMloVvyjUJdFrzS5T
-	 C6xzr94yEiEEwKo8Y/2XlPLLeZbbLwxEgLxzPOyHhXjDSYmicCEJ0/lIwfQz2z7LHI
-	 BJF0ZqqaGX6HKcnw9mge3LD84jst23rQD+Kp1KXB8Z3UtrXeQnmc6ZYarFizkCH5ps
-	 pDH5+QXyurHDcG14vfa86pkzNNr34dnixsyYvSdMTrXoJz3IheycLLCoz6kY8xVmOn
-	 yhmsKKqhvaUnA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1urGX7-0000000150B-2qzx;
-	Wed, 27 Aug 2025 15:49:49 +0200
-Date: Wed, 27 Aug 2025 15:49:49 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Workflows <workflows@vger.kernel.org>, 
-	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Fox Foster <fox@tardis.ed.ac.uk>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
- known the details" phrase
-Message-ID: <sqnd7m34bpr6goauqis6vbgxokpdupfnp22aco4oh5gutb7sd7@4hjbzotyhwhj>
-References: <20250827044848.17374-1-bagasdotme@gmail.com>
- <87wm6p9v8l.fsf@trenco.lwn.net>
- <20250827113312.62162725@foz.lan>
- <877byp9f63.fsf@trenco.lwn.net>
- <20250827144757.26599d50@foz.lan>
- <87tt1s9ap4.fsf@trenco.lwn.net>
+	s=k20201202; t=1756303319;
+	bh=rrLE6VNYaV1/todpYtogxf/XlET+/1DTpL2efIVhb2s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VoKwCtSZRI6dLK2wXJrBsq6FBKn+MgCUTrGFhttvBg+W0g+hVhbO7RY19OdOFnU0F
+	 wHT05QXXsO9xXkWaU0ITpHRpolLXz6UTO6AoX9p5znLcFhOqQotcxjqdpqVsX5FOwm
+	 SF1kuJWCWGhc0yH2ORFzT9k5txerhwMYorKV4b+OoVLcSPgIb3+j5pb0P0lAD9+oua
+	 S+qpKa/ThKfCDu8LTnuQrPTO/QTMFwherQZbng0FTmr5Ib73VnIIf9za9302Ya0ZC4
+	 WW+AhyHMTwTOregtvQlZeMDhr2B4nFoR+IgCJ6+GX6WMezBSIG34xzzP3rNcqvcJlA
+	 ouf7ZD2nrKcXA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,  Pratyush Yadav <pratyush@kernel.org>,
+  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 00/30] Live Update Orchestrator
+In-Reply-To: <CA+CK2bB9r_pMzd0VbLsAGTwh8kvV_o3rFM_W--drutewomr1ZQ@mail.gmail.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<mafs0ms7mxly1.fsf@kernel.org>
+	<CA+CK2bBoLi9tYWHSFyDEHWd_cwvS_hR4q2HMmg-C+SJpQDNs=g@mail.gmail.com>
+	<20250826142406.GE1970008@nvidia.com>
+	<CA+CK2bBrCd8t_BUeE-sVPGjsJwmtk3mCSVhTMGbseTi_Wk+4yQ@mail.gmail.com>
+	<20250826151327.GA2130239@nvidia.com>
+	<CA+CK2bAbqMb0ZYvsC9tsf6w5myfUyqo3N4fUP3CwVA_kUDQteg@mail.gmail.com>
+	<20250826162203.GE2130239@nvidia.com>
+	<CA+CK2bB9r_pMzd0VbLsAGTwh8kvV_o3rFM_W--drutewomr1ZQ@mail.gmail.com>
+Date: Wed, 27 Aug 2025 16:01:47 +0200
+Message-ID: <mafs0frdcyib8.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tt1s9ap4.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain
 
-On Wed, Aug 27, 2025 at 07:05:27AM -0600, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> >> But neither of those say the same thing.  Read "had better know" as
-> >> "really should know" and you get a lot closer.  I guess I didn't realize
-> >> that it was such a strange construction.
-> >
-> > I bet very few non-native English speaker developers would understand it
-> > like that.
-> 
-> Even though a non-native developer wrote it :)
+On Tue, Aug 26 2025, Pasha Tatashin wrote:
 
-:-) 
+>> > The existing interface, with the addition of passing a pidfd, provides
+>> > the necessary flexibility without being invasive. The change would be
+>> > localized to the new code that performs the FD retrieval and wouldn't
+>> > involve spoofing current or making widespread changes.
+>> > For example, to handle cgroup charging for a memfd, the flow inside
+>> > memfd_luo_retrieve() would look something like this:
+>> >
+>> > task = get_pid_task(target_pid, PIDTYPE_PID);
+>> > mm = get_task_mm(task);
+>> >     // ...
+>> >     folio = kho_restore_folio(phys);
+>> >     // Charge to the target mm, not 'current->mm'
+>> >     mem_cgroup_charge(folio, mm, ...);
+>> > mmput(mm);
+>> > put_task_struct(task);
+>> >
+>> > This approach seems quite contained, and does not modify the existing
+>> > interfaces. It avoids the need for the kernel to manage the entire
+>> > session state and its associated security model.
 
-Well, I suppose that non-natives raising kids in US would use this a lot,
-as, from the examples I saw about such usage, it sounds to me exactly
-the kind of language that parents would say a lot to their sibilings ;-)
+Even with sessions, I don't think the kernel has to deal with the
+security model. /dev/liveupdate can still be single-open only, with only
+luod getting access to it. The the kernel just hands over sessions to
+luod (maybe with a new ioctl LIVEUPDATE_IOCTL_CREATE_SESSION), and luod
+takes care of the security model and lifecycle. If luod crashes and
+loses its handle to /dev/liveupdate, all the sessions associated with it
+go away too.
 
-> We can tweak it, but I'd rather not change the meaning,
+Essentially, the sessions from kernel perspective would just be a
+container to group different resources together. I think this adds a
+small bit of complexity on the session management and serialization
+side, but I think will save complexity on participating subsystems.
 
-Sure. 
+>>
+>> Execpt it doesn't work like that in all places, iommufd for example
+>> uses GFP_KERNEL_ACCOUNT which relies on current.
+>
+> That's a good point. For kernel allocations, I don't see a clean way
+> to account for a different process.
+>
+> We should not be doing major allocations during the retrieval process
+> itself. Ideally, the kernel would restore an FD using only the
+> preserved folio data (that we can cleanly charge), and then let the
+> user process perform any subsequent actions that might cause new
+> kernel memory allocations. However, I can see how that might not be
+> practical for all handlers.
+>
+> Perhaps, we should add session extensions to the kernel as follow-up
+> after this series lands, we would also need to rewrite luod design
+> accordingly to move some of the sessions logic into the kernel.
 
-> and, more to the
-> point, that document needs significant work rather than low-level
-> tweaking.
+I know the KHO is supposed to not be backwards compatible yet. What is
+the goal for the LUO APIs? Are they also not backwards compatible? If
+not, I think we should also consider how sessions will play into
+backwards compatibility. For example, once we add sessions, what happens
+to the older versions of luod that directly call preserve or unpreserve?
 
-Fully agreed. Seeking it at historic tree, the original text was
-written on 2004. Surely management style changed a little bit over
-all those years ;-)
-
-Thanks,
-Mauro
+-- 
+Regards,
+Pratyush Yadav
