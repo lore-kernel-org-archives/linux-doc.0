@@ -1,108 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7430E2E92B0
-	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 18:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A0C23C4F1;
+	Wed, 27 Aug 2025 18:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756320911; cv=none; b=SBClq1DYZuuPMcodV+d2kdbipxo+1PgYL8m8dDnElAjaayAGEcKbEfJM6DxcEg+ASITjytKXIKYONWyuzi2UuFu7XUqp8aXEVHSlW6Guaf6/Sg/P8Cs3oJQsX9n3/DnHHl23I8ZAAkofpTLUl2CGj9Nqep9FqrrOu8K3uohKAMc=
+	t=1756321107; cv=none; b=AExw2Bnq7+ceWs8nMS5sAyYuwAZV3KuNdLv2kR2c2ZNdHFC+/WUl3M+jwjL9nfyzbYK4RMWpK+/Z0xo7jBz3PRt+hztNJwxqqt4YMSeaE1OvZ7zSP8mn6NBABNjispAfnT//Xhqk9W4UaU2CrrcUUKlLOqvJ3yQl3A+1OsMNioI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756320911; c=relaxed/simple;
-	bh=ne728g33Ic89OdMPAENBxFjSizIUR3CqOaqTHDpBguk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L3HsRdQIF+c8wLi+ur8VQVRHwPD2lKylsjL1colW3poSpbHeHbzgovcKMMsZsgAb5fzuqhfMVdnjgJ2ZU7glXsxUMF2rjscXEGkVBCcXxexGgSNOVcc/mQuZ9GbA7CvwcAde1EMj9tkniHy98Wr15K3l8hbSdcyzqJZvKQ0UdcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QA1tcgME; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756321107; c=relaxed/simple;
+	bh=k/tPNcfJ/qdnWRcsE6nXClRCEZmBAkB4S98CVmbWffE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=JtGnJck9IV9bpJSrfzKsLhLYq6Xcgqhi7XgSBCF4SHBYdlJ3PuI7oWUmyhIwcxXVkuBo9KZ5SFprjPPJolLqvb8zfJhs+wz0QTsN9bIdCzxJ6+K4LY+nahUcTyh6YXkKQrQ3WK5OpgITag/5/RESRuJ17/VqeujeidZQYbo889A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/A4hCuX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QA1tcgME"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756320908;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eF3DTjEsZLVirufoG8QRMws1dk+QuLId/jBJE6DkJbg=;
-	b=QA1tcgMEFdrN7OVZpe8oZF5HFSsAsP+42v21EVcGN5LVpa3Er62T2Zo27ExI+LctcmfiyH
-	+u/LRYmEekg/njkAm4LYrxA1oZHtfR/T1nh+0BIILWXiR7Ria0oLTwxUY/8gk7XGPtcW/4
-	UGp8sINL9aJzt6nZjaFMxsLKoWYChwY=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-zJZRTimLN5a1lsV5bxM1QA-1; Wed, 27 Aug 2025 14:55:03 -0400
-X-MC-Unique: zJZRTimLN5a1lsV5bxM1QA-1
-X-Mimecast-MFC-AGG-ID: zJZRTimLN5a1lsV5bxM1QA_1756320902
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3e8dffcf41eso155185ab.0
-        for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 11:55:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756320902; x=1756925702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eF3DTjEsZLVirufoG8QRMws1dk+QuLId/jBJE6DkJbg=;
-        b=ilK+uMBlDUj63hn+110nv8yzOVTySkF02AsjXa1e3RQjKcjvr52Bk3YKnbu/FwG/sN
-         0oCVIBuIi9/RpU5pS7drOvGtDZGr28tA5JxIU/tzmr4yrQgdVccA1J+e5ixRfdOqt5KP
-         SM+NiZeCjsa65fJ3NwRK7omBpTqjLCAS0pCGNDZsErfTJnyOe90sm+EbAP0aFpzB0WV4
-         NmYUU3ZCwNySY6m/6sZJ/NobqFUtsnRVEP3/Q11lYXefX5yFUHiBjPdLlxpvNsqk1KqW
-         YowCe0RjM244suL8bOVFu5E4g3S7vCrdMB+TMc9adTuAZdI3atTn4QATUKg0Di8+o5rm
-         VP8A==
-X-Forwarded-Encrypted: i=1; AJvYcCV0NFTjG+jqqepdQ5Vrq5QYnU9Lgj2vEiWZx5gPQ4QefGQTBmQe7CxrzElV8NuDdkyU2Yj28F8W8uo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySgFV+iuEOBL0RG+uREWPWEUzPSEpT7Yz8DsFqUYCguzSCRjyt
-	LKBoeTsC5SCf3+rK4LBb3kSRQID448r3Ku30BrIzckgge/5/9ZgBbh0WfQ7CcEji0iNrexSXULl
-	ikGJTU57OVfMY2bzgJpdOraKqYDFzigmba/8R2JdRF5O3XvK/HkF74z2CX0mbpA==
-X-Gm-Gg: ASbGncvgoEvxcx9EuL1RAiQfMWI3WuSca4gh9P1duKIPTY/ZhDJCoYSdhtK+DsnYNgj
-	L//uxDDTApLA4/bfDU+0G7naEEGeS+hmvWRWbS0GnLbEE5tlTRI6ICe0ffGv+pOYPr2IbBNoFNY
-	hgS9IKHVuMJSVap4r63/3bJiM8t/X1Vi8g4qsZFELAnyF06hdy/5m/gouda3/sTAA5j/YIJ7dHW
-	txWU7X/a+g2eIYwoSr9L2qGRxmiyvEh05aU/adcueaRAKXvfooFUF76XUP/0WfS069CmnzANWGO
-	gFJ5yoTfLfJ/b+SogUc3WKWD7hDL0FjRCbtHKTfivwA=
-X-Received: by 2002:a05:6602:140f:b0:87c:469c:bcdf with SMTP id ca18e2360f4ac-886bd26223amr1074676039f.5.1756320902468;
-        Wed, 27 Aug 2025 11:55:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGcn4XXONhUn8JvBftE3ZsZrBNhr3WQ7ZVNO9SR8mW/jmt3C0qMFBX2Cm9qP6Uy+O7yYpbTWA==
-X-Received: by 2002:a05:6602:140f:b0:87c:469c:bcdf with SMTP id ca18e2360f4ac-886bd26223amr1074674039f.5.1756320902025;
-        Wed, 27 Aug 2025 11:55:02 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-886cf7a8c45sm722969439f.15.2025.08.27.11.54.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 11:55:00 -0700 (PDT)
-Date: Wed, 27 Aug 2025 12:54:58 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Alex Mastro <amastro@fb.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, Keith
- Busch <kbusch@kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <kvm@vger.kernel.org>
-Subject: Re: [PATCH v4] vfio/pci: print vfio-device syspath to fdinfo
-Message-ID: <20250827125458.6bc70a1d.alex.williamson@redhat.com>
-In-Reply-To: <20250804-show-fdinfo-v4-1-96b14c5691b3@fb.com>
-References: <20250804-show-fdinfo-v4-1-96b14c5691b3@fb.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/A4hCuX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8403C4CEEB;
+	Wed, 27 Aug 2025 18:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756321106;
+	bh=k/tPNcfJ/qdnWRcsE6nXClRCEZmBAkB4S98CVmbWffE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=p/A4hCuXnw78K2/C7/7U2ep3c3mB0WH5FKsFfvMkA9XgZ3H7LOX8UCUSWJNoafOwu
+	 VJwzEpoV0FLpzBZU2Gw77yR4FhTSim9ud/WuydhPXNXtF/rGRXGfd+YK3F5on9j3m1
+	 BS5UCJTAZLWfEiDJLhUiXABrbbSP1hTFOC4xOKq0sIZR+fCLsoqZpQlzLmgFotwXwP
+	 JttlA+091dVHUkpQgd8HOqDX2sV3jjLpIwqXnPEyTY1NeHt8YuYy8Rg6HWDtPSKuuJ
+	 jW3ADEJW9Z1TzPtmOWkaj5LY0S4P5ZnFSbOb2JCD/SeOL3yUWwPQSTKjtiQSTch1dj
+	 WebNWWgPMD0CA==
+Date: Wed, 27 Aug 2025 13:58:25 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Christian Bruel <christian.bruel@foss.st.com>
+Cc: lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+	robh@kernel.org, bhelgaas@google.com, krzk+dt@kernel.org,
+	conor+dt@kernel.org, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, linus.walleij@linaro.org,
+	corbet@lwn.net, p.zabel@pengutronix.de, shradha.t@samsung.com,
+	mayank.rana@oss.qualcomm.com, namcao@linutronix.de,
+	qiang.yu@oss.qualcomm.com, thippeswamy.havalige@amd.com,
+	inochiama@gmail.com, quic_schintav@quicinc.com,
+	johan+linaro@kernel.org, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 06/11] PCI: stm32: Add PCIe Endpoint support for
+ STM32MP25
+Message-ID: <20250827185825.GA894342@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820075411.1178729-7-christian.bruel@foss.st.com>
 
-On Mon, 4 Aug 2025 12:44:31 -0700
-Alex Mastro <amastro@fb.com> wrote:
+On Wed, Aug 20, 2025 at 09:54:06AM +0200, Christian Bruel wrote:
+> Add driver to configure the STM32MP25 SoC PCIe Gen1 2.5GT/s or Gen2 5GT/s
+> controller based on the DesignWare PCIe core in endpoint mode.
 
-> Print the PCI device syspath to a vfio device's fdinfo. This enables tools
-> to query which device is associated with a given vfio device fd.
-> 
-> This results in output like below:
-> 
-> $ cat /proc/"$SOME_PID"/fdinfo/"$VFIO_FD" | grep vfio
-> vfio-device-syspath: /sys/devices/pci0000:e0/0000:e0:01.1/0000:e1:00.0/0000:e2:05.0/0000:e8:00.0
-> 
-> Signed-off-by: Alex Mastro <amastro@fb.com>
-> ---
-> Changes in v4:
-> - Remove changes to vfio.h
-> - Link to v3: https://lore.kernel.org/r/20250801-show-fdinfo-v3-1-165dfcab89b9@fb.com
+> +static void stm32_pcie_perst_deassert(struct dw_pcie *pci)
+> +{
+> +	struct stm32_pcie *stm32_pcie = to_stm32_pcie(pci);
+> +	struct device *dev = pci->dev;
+> +	struct dw_pcie_ep *ep = &pci->ep;
+> +	int ret;
+> +
+> +	dev_dbg(dev, "PERST de-asserted by host\n");
+> +
+> +	ret = pm_runtime_resume_and_get(dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to resume runtime PM: %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	ret = stm32_pcie_enable_resources(stm32_pcie);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to enable resources: %d\n", ret);
+> +		goto err_pm_put_sync;
+> +	}
+> +
+> +	/*
+> +	 * Need to reprogram the configuration space registers here because the
+> +	 * DBI registers were incorrectly reset by the PHY RCC during phy_init().
 
-Applied to vfio next branch for v6.18.  Thanks,
+Is this incorrect reset of DBI registers a software issue or some kind
+of hardware erratum that might be fixed someday?  Or maybe it's just a
+characteristic of the hardware and thus not really "incorrect"?
 
-Alex
+I do see that qcom_pcie_perst_deassert() in pcie-qcom-ep.c also calls
+dw_pcie_ep_init_registers() in the qcom_pcie_ep_perst_irq_thread()
+path.
 
+So does pex_ep_event_pex_rst_deassert() (pcie-tegra194.c) in the
+tegra_pcie_ep_pex_rst_irq() path.
+
+But as far as I can tell, none of the other dwc drivers need this, so
+maybe it's something to do with the glue around the DWC core?
+
+> +	 */
+> +	ret = dw_pcie_ep_init_registers(ep);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to complete initialization: %d\n", ret);
+> +		goto err_disable_resources;
+> +	}
