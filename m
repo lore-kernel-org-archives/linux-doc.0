@@ -1,120 +1,227 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C6C2B9A8;
-	Wed, 27 Aug 2025 05:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848A928725F
+	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 06:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756273449; cv=none; b=eg01WGO+j6FaF689F75RLZLQQcet3yzXIZyHNsE5M5QofukxhsaneP4OXFZ2CyZ6YEfzzr5UVUiI1kU57SNf0zVgLa+wIT2qwuL1MfOBRbuXDfaGewyrbJwtzrZpPqOpe9+V9dL7yS8IqzD+tlujVyxhNpd/6wHrcYdCGAh/vhM=
+	t=1756274789; cv=none; b=hA4NuJgTLnJ8NIJTR2S/oZoy4cRuejmHRyJoa8RHLcbvHn+sfcZINqAo9CpolzwISIzZ38vSU9ocborXk0IQButz4dpIi+sFPPEGO5UFkU4f5CfLeDoGrE0yqAIl21M16layYn9ZTG+nLNFMpuXmp4anyprxAgYRY5cOyYrEtbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756273449; c=relaxed/simple;
-	bh=qU9yX8+H58MZdiUi9Zflq3Mtb6lMEBvIB6QGMxIgO/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kmVV/VXJMPBQT4GUYotM2/FKJgBzVxDEqtJ5lzLtBRj0Oiol4o1a7sHtrdXrSae8ixyyWnDoLd+FWp9Fkzxao6SWc7vR/yEXBIt8qMM+M5PfKqf7t8wGkBanSMxvWFghSH28bkP6dq0qc2pIOJBHcH2diG3HKow5tC2P+j1qb78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dd/H+G7c; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756274789; c=relaxed/simple;
+	bh=wMGz6LtFcqKacfGBJToPMAl+pHQslhvTR58QLzr0q7I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g+/1LHTLxfx5QvRn7Dt3cZgMt7yndlkvxzuBO56iIDBJB2OaNsnZRAPHiqQ6FZWqSFBSuGioIgE77Ad8YAoWv0ZwyQBoKdJd8C61UY9KJWIpWBxAkuTIvT667uY+auZzs6/qVDw5Me2DXDctUqcU5N+FjY1/kHbeaTUHkUChwVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n06+6yXW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dd/H+G7c"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-24687a76debso7175845ad.0;
-        Tue, 26 Aug 2025 22:44:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756273447; x=1756878247; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jQp7KNKN1iuXkYFWalQAnGSYaGLmdz1P84h0k9rLggc=;
-        b=dd/H+G7cVRj3ABzESP2qzMSsvyMDfrknCyt1xolS03rwWWbaJvd9tfmTUrcMlJGo7b
-         5sw0UPMSFu2wW1bH+85dzuC+3OSwtgvEciTc0i9A5Ek0mJF1TbesCkLq8Czd4Ks2m6N9
-         VhriQ2JrAs6zYKW5f2nI77S0SV4hR+5FnDORELZRWCyQJ61uB4IyZrTq9g9yIKyURJS/
-         ylvZO+TtjEZoQzmCJ9/u4WvBZ6Rw3OtdKpX1/sJ1RghqWgei2TSRPo/PDzkg1KZOrVb8
-         axsa8aVVFNo+5TS6Lg1vscC2zvdiG7eO+V7JMSC0269Hc/wKwP8rKynr95E5R5kXfbCg
-         AAUQ==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n06+6yXW"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R5Z5eR020924
+	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 06:06:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IvtoMULgukZ1V1cgtQetdWBAfSoYzONqp4myym0U6ZU=; b=n06+6yXW0wU0IpKz
+	/+cogiaPfyl+lmuJ7TkprUJ72V/3CKRv7h/oJxp36crzCJpUNmcMeyRp09RunAMn
+	C21412ZnXj3muBeVY7sPWwXYZ+vkj9n3ZZEehipGEvQAXd7J0BY3VBxwbvuOX4qi
+	6KmthjfMvu8hO4TkUwZQzP1C8fyypOa/EylDhNmDMHedafqFBS7SQj706WS/YC39
+	SLkxUBa39PGF7SHrIoO/Bg9etaQjwvWUl0LcaiJM4b/BduiSIBozd/bJ3EmK61+Y
+	h4FQlyPWG4avYytuEIDHAXJq33C7x91FRUn6hYgjQLMUC2475PDhbS/nq3ou/dWt
+	SE9oQw==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48se16tmd0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 27 Aug 2025 06:06:26 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-77053dd5eecso6590708b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 26 Aug 2025 23:06:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756273447; x=1756878247;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jQp7KNKN1iuXkYFWalQAnGSYaGLmdz1P84h0k9rLggc=;
-        b=pOAVQYCB0XzgP7rz151s1K+/aGaBYUQCgamgd0v7KcgdyucFZMfSrwG4wIh5mQvvho
-         Ai47RMUr2cvlq4JJBmbQvnhZ3aDX/ow3vo8yCDsJuYBLZL0Bfj89NkcU7G7tZ9PrgP2c
-         pIP2wTGCxnCQ7Tq6+4LZjZ8Rb92KrfRKiiZyGyTIik/fOQOs4FgdFb5XuStVhbEuwX20
-         TLrVb9hGinH6OfTovh8KWODGK+g4baXILHFGUs1ftE9TyvIfKVh30tD4LjL1EIReQeMi
-         f5APbRhMxLKbczenvDAgtAt6zuw4oo62g7mwXrd2qmrT3TDdn+idUZxigIb8+YlS+csS
-         ezVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3Uahgam1hkmv14uVk/rpG6IKHt8Z6ooLq6BhcsMqtkT+iNc0yNXiLWHwORPCPyfJ8gXtSGSDC3lpGRg==@vger.kernel.org, AJvYcCW1lbdO4+KTGdibwnjVyHsvp/P/82ZO35vrZqoHwz1iptC3pj5pYJH7O28qepXrirjcTvhO8xN4QiZxcnwV@vger.kernel.org, AJvYcCXhTa5Qse8Sw3M8i+6i3Va/nsRVMjqABWtTxgdHr90thbVe6deMxNIwJiOZ1133/HLfxrNJqlEjLgA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3gYUK9zyBOOyQBXTrwILI3BMYfyDcVOEfnRYewVPbxfh/URxE
-	mfIz1Y7fy1mKIDhdfNKmO0VIaXxl0gtNf/t5tcCBWtR3XwLSm6JwmoGv7eb11dC9F8A=
-X-Gm-Gg: ASbGncsggJ0fkbdHD/SrLGHxV6VtwtWNPFC2pXOoRs46gP184LBaI4X31UymWGtmjOR
-	bPFAA0DyXGiJQF5sDPNDC+wBgYuCrrEsSPFMwbMSgfJ/GGfDl+1qlUEclVNj/xX+bf/7RQY7Srt
-	XaA7OT3KKGd2gVXgymZFCht5RY0XWJDdiBF6eiqmTLgULsKb4QMERoDWyZxm9EqI3adVfVFvqi8
-	8cCuxO/akrNKpJCUEMUkBoxzs2jkh/GRQ3TJejgNdQiCaQ4zaTM3VivlIJnCmNQ0iFfcdCzQ9Us
-	G5lKqYXl40lQqJRKQkBUr5D0NzGxL6qesF5Oat5HfXxuBEb1A8JFP3SZf9S+GUPP6qABpN3hBsQ
-	nsMUE7frFCSGWOkUT2DHUWO/3+BqacTXxgaguDMvUv5ghw3G5yCkKMeDPLB6W8+A=
-X-Google-Smtp-Source: AGHT+IGoKqncQcz+xpadUsWaigtheWVoyRaDvpL63DrsAiQ3IjXWG2PVNzBw3ZHT0sTIj30mp4B1GA==
-X-Received: by 2002:a17:902:ce88:b0:242:c66f:9f62 with SMTP id d9443c01a7336-248753a2725mr52777755ad.26.1756273447389;
-        Tue, 26 Aug 2025 22:44:07 -0700 (PDT)
-Received: from fedora ([172.59.162.44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2489aaaf051sm7785025ad.62.2025.08.26.22.44.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 22:44:06 -0700 (PDT)
-From: Alex Tran <alex.t.tran@gmail.com>
-To: linus.walleij@linaro.org
-Cc: corbet@lwn.net,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alex Tran <alex.t.tran@gmail.com>
-Subject: [PATCH] docs: driver-api pinctrl cleanup
-Date: Tue, 26 Aug 2025 22:43:52 -0700
-Message-ID: <20250827054352.669598-1-alex.t.tran@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1756274786; x=1756879586;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IvtoMULgukZ1V1cgtQetdWBAfSoYzONqp4myym0U6ZU=;
+        b=JsVVEQ1bWvMYzasQTSmvR+Xs+P/A7jg13XmEEIacv23XaGvE28BYypM8aPUMODWpg1
+         LxibZTgKr3H+etf81lP2Im1Gg0XshEgP7Yk5TDYyz1oK9b/saVpdX0dhpDXMKmaB9lQ9
+         rC3IaytEdIadGK5dOtQoE3ZgoHKTC9KYkuH2nm2KObU1nop0sVMcEUlPE5Kop1JusdEv
+         XEvgOm8ECuSd9MOpw24/UKo1VfHDJ6Jf1iHCjscEltMFpH5p3yQr2FXWUIF4trNuoTqb
+         UT1iOc2umcbWeNrwvVX1kkMriqfB/Nv5KpPAbI67D2UzsmlOzlo1sA8LBkwuE7CzqQuf
+         kR/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUwamvsgdMTcj7cddrd7pmtAj6somFQbdBa6m1n1hmSX1Em3beIOt8gbQGXatHev5akzH2GMOvZosU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz72o6EDecq+1NQZTGGwqRqrpNDBBaIZSt/U+46pzNWpdv359TR
+	y9Gn/wZIvRKY+9h4UiwRDUsZauenYzvXEJrNd+wZsR1TlCJDmvxrZTf245/cyJYnyY0wAFb4Gw2
+	th9QHOoId64XDtEn5uWkF5mbfDtRnVNqxQ13xmjMUYeCao/Wp6HGkBjIdXRXt5Q==
+X-Gm-Gg: ASbGncvDlOd3KhMh0LIhfA1kxdfh+4owcHrm0VLD9wB2kSpowectwxnu+yEfbaC2FtR
+	7cy9v9vV9jI09c6OF57UZMGdo3u1IFm4p2qCF3bud0dwcoeG4pLCbuY1eWohMR/cyp6psmHyg+d
+	0VDATshQ7xNCFfIKFLT7N22bG9yhOfM+llwFR7gUMQSMlhYFQ1oFJkqpfa6qhN25gJsgDaWzTuY
+	t7nJJB66H8nWI0D8QFNygt/7k3I4nQ0LyF/psAf9YQbjM4HIYfF+dlh+t4se0sIWmRN9w9NC+n6
+	0I06zsVFo5Hyq5Q68b7vvnab9/gwQJG4OkuvY4oSYDfGfov4oTR20tzhkCRH3UPaciDqJEQlfJL
+	98lkjyEG0hGj3IQKJYuy5WJ8RypOrJQZA6fEtnw==
+X-Received: by 2002:a05:6a00:340e:b0:771:ea51:690e with SMTP id d2e1a72fcca58-771ea5170d6mr9587243b3a.20.1756274785581;
+        Tue, 26 Aug 2025 23:06:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEjXY9tZYbdaHdBkaKUQPtpmPxg/EWHTA5baJ83nFS3+u9isarHBBJ/FYnGHhPcbEv04uBR8Q==
+X-Received: by 2002:a05:6a00:340e:b0:771:ea51:690e with SMTP id d2e1a72fcca58-771ea5170d6mr9587212b3a.20.1756274785081;
+        Tue, 26 Aug 2025 23:06:25 -0700 (PDT)
+Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771ecc4454esm6208226b3a.0.2025.08.26.23.06.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Aug 2025 23:06:24 -0700 (PDT)
+Message-ID: <265e23fb-8865-4dee-99ed-f08450975ba8@oss.qualcomm.com>
+Date: Wed, 27 Aug 2025 16:06:16 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 06/11] firmware: qcom: scm: add support for object
+ invocation
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg <sumit.garg@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Apurupa Pattapu <quic_apurupa@quicinc.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-0-7066680f138a@oss.qualcomm.com>
+ <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-6-7066680f138a@oss.qualcomm.com>
+ <itpdolgmxp4ofdv3vf2ghulo7slj5wjby2tvawehihwvenbep2@ub5sdgf6gxeh>
+Content-Language: en-US
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+In-Reply-To: <itpdolgmxp4ofdv3vf2ghulo7slj5wjby2tvawehihwvenbep2@ub5sdgf6gxeh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: edQNewBK5u97c25BjWhTiTYNFo_xu53P
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI2MDEyMCBTYWx0ZWRfX73c0iSGYsra1
+ +KwazRWzMNMYm6hMdtXCwHmflp1/cTsRFNiQ3G2J+/lpAI4Lgezp6k6yiTa+4FJWIEnEIwup78m
+ sU6Ye7916HFu9UlWVcq8dIg25u3iyTkXMsD5r7t6vNRG8zcCm2arLcxhWYAtsGrtMZzgiopdj9X
+ MYwoT+Re5eHkoVX9/09/31m3WWz84gFJGoIlxmyDGy6PO3zQ23iQihy8prk+QzkEndMQ/HFFCaz
+ WmCc+UnzC+IJM6jGXNadUVa7CPFuIi9KZExoup4DsvKEmZicYmQo2c+pAuWizjtQpkwkXtFY96V
+ EMmS1P+m6xRiDXiVoFV1lNqKP+ZZHy2tgRj/lPAFCjM+yvXlQ/uivz2j02OBBZdeq8TIFLMfVTg
+ OsjH1eVo
+X-Proofpoint-ORIG-GUID: edQNewBK5u97c25BjWhTiTYNFo_xu53P
+X-Authority-Analysis: v=2.4 cv=CNYqXQrD c=1 sm=1 tr=0 ts=68aea062 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=3sczFqAQEyrjP0LPqEUA:9
+ a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508260120
 
-Resource cleanup when using pinctrl.
+Hi Bjorn,
 
-Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
----
- Documentation/driver-api/pin-control.rst | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+On 8/27/2025 1:52 AM, Bjorn Andersson wrote:
+> On Wed, Aug 20, 2025 at 04:38:53PM -0700, Amirreza Zarrabi wrote:
+>> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> [..]
+>> +static void qcom_scm_qtee_free(void *data)
+>> +{
+>> +	struct platform_device *qtee_dev = data;
+>> +
+>> +	platform_device_unregister(qtee_dev);
+>> +}
+>> +
+>> +static int qcom_scm_qtee_init(struct qcom_scm *scm)
+>> +{
+>> +	struct platform_device *qtee_dev;
+>> +	u64 result, response_type;
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * Check if QTEE supports smcinvoke:
+>> +	 * This will fail due to invalid buffers, but first, it checks whether
+>> +	 * the call is supported in QTEE syscall handler.
+>> +	 * If not supported, -EIO is returned.
+>> +	 */
+>> +	ret = qcom_scm_qtee_invoke_smc(0, 0, 0, 0, &result, &response_type);
+>> +	if (ret == -EIO)
+>> +		return -EIO;
+>> +
+>> +	/* Setup QTEE interface device. */
+>> +	qtee_dev = platform_device_alloc("qcomtee", -1);
+>> +	if (!qtee_dev)
+>> +		return -ENOMEM;
+>> +
+>> +	qtee_dev->dev.parent = scm->dev;
+>> +
+>> +	ret = platform_device_add(qtee_dev);
+>> +	if (ret) {
+>> +		platform_device_put(qtee_dev);
+>> +		return ret;
+>> +	}
+> 
+> Wouldn't this work instead of the alloc + parent + add?
+> 
+> 	qtee_dev = platform_device_alloc_data(scm->dev, "qcomtee", -1, NULL, 0);
+> 	if (IS_ERR(qtee_dev))
+> 		return PTR_ERR(qtee_dev);
+>
 
-diff --git a/Documentation/driver-api/pin-control.rst b/Documentation/driver-api/pin-control.rst
-index 27ea12363..281533c33 100644
---- a/Documentation/driver-api/pin-control.rst
-+++ b/Documentation/driver-api/pin-control.rst
-@@ -1202,22 +1202,24 @@ default state like this:
- 	{
- 		/* Allocate a state holder named "foo" etc */
- 		struct foo_state *foo = ...;
-+		int ret;
- 
- 		foo->p = devm_pinctrl_get(&device);
- 		if (IS_ERR(foo->p)) {
--			/* FIXME: clean up "foo" here */
--			return PTR_ERR(foo->p);
-+			ret = PTR_ERR(foo->p);
-+			foo->p = NULL;
-+			return ret;
- 		}
- 
- 		foo->s = pinctrl_lookup_state(foo->p, PINCTRL_STATE_DEFAULT);
- 		if (IS_ERR(foo->s)) {
--			/* FIXME: clean up "foo" here */
-+			devm_pinctrl_put(foo->p);
- 			return PTR_ERR(foo->s);
- 		}
- 
- 		ret = pinctrl_select_state(foo->p, foo->s);
- 		if (ret < 0) {
--			/* FIXME: clean up "foo" here */
-+			devm_pinctrl_put(foo->p);
- 			return ret;
- 		}
- 	}
--- 
-2.51.0
+You are right, I'll replace it with platform_device_register_data().
+
+>> +
+>> +	return devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
+>> +}
+>> +
+>>  /**
+>>   * qcom_scm_is_available() - Checks if SCM is available
+>>   */
+>> @@ -2326,6 +2450,16 @@ static int qcom_scm_probe(struct platform_device *pdev)
+>>  	ret = qcom_scm_qseecom_init(scm);
+>>  	WARN(ret < 0, "failed to initialize qseecom: %d\n", ret);
+>>  
+>> +	/*
+>> +	 * Initialize the QTEE object interface.
+>> +	 *
+>> +	 * This only represents the availability for QTEE object invocation
+>> +	 * and callback support. On failure, ignore the result. Any subsystem
+>> +	 * depending on it may fail if it tries to access this interface.
+>> +	 */
+>> +	ret = qcom_scm_qtee_init(scm);
+>> +	dev_warn_probe(scm->dev, ret, "Failed to initialize qcomtee\n");
+> 
+> A successful boot of db410c (APQ8016) now has the following in the log:
+> 
+> [    0.161437] qcom_scm firmware:scm: error -EIO: Failed to initialize qcomtee
+> 
+> If the target doesn't implement qtee, I'd expect that you tell me that -
+> or preferably stay silent.
+> 
+> Looking at the other error conditions, we find -ENOMEM, for which you
+> should also avoid printing. In fact, I believe all other error paths of
+> qcom_scm_qtee_init() will have printed an error already (if not, please
+> move the error print to the place(s) where it's needed).
+> 
+> As you're ignoring the return value, please then also change the return
+> type of the function to void.
+> 
+> Regards,
+> Bjorn
+> 
+
+Sure, a successful QTEE boot already logs its version from TEE SS,
+along with any internal error messages. Based on those logs,
+it's quite clear whether this function failed or succeeded at the
+beginning. I'll remove the print statements.
+
+Regards,
+Amir
+
+>> +
+>>  	return 0;
+>>  }
 
