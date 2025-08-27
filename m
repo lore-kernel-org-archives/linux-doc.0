@@ -1,394 +1,129 @@
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7791C5D4B;
-	Wed, 27 Aug 2025 03:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED532D0C7B;
+	Wed, 27 Aug 2025 04:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756266357; cv=none; b=Az3ENeVJ1SzeSFc+n2QFnU+yn0pXuiWBlWahZS8AbU1kupBVd2CMXXfcLo9+/tNHMlozsNbO6p9kA9N775GLr5g1Oi2QybqOkiXD3zwoC9l45DuM5leHoLGGGv90YIZ8axNohSjxN7Mupb+w1xL4IAORlVm9nLDPT7RPwYQrkGk=
+	t=1756270144; cv=none; b=l+xctTUT1LIsLWRFXBrwmUjeEjccKJe2shtdlj3oxMYoTMkJUrgGQ7qjNODePQo77a5MkXj12Vdfy1NwkaeJMaAByrzjBKLtLkV990O6OilNk5eRasC9Np8DfHS7lyb3Zv4EREEsoP1/9im22vi9PZwRtPCyANE9+TFKt/yEZMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756266357; c=relaxed/simple;
-	bh=8fhzb4bIwKK2zU9G7I2MfQuhrIhOffMr+A41T+liPz0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kpB4rlyQur4wv/zP5zB/93mL7KCyOTASU0Rit3Rdm8N4SHV57EtPV7J4/m8n+NzpaEf89CR2CERosEs8eZrvveWKwY6lLJDiSJ/bHwxUeN3l29e2JS/RD8Gn4+pa/rpjmGmh3Gd8y6h0gU3HUwK3pwhgyTcb+o9mPLzxONTDWtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.132.163.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz7t1756266340tff468fac
-X-QQ-Originating-IP: QhwbKt2J6tkytR1ITvku5qIGf6s87fl/PQkkvsYSJf0=
-Received: from localhost.localdomain ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 27 Aug 2025 11:45:37 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 8056536568935068755
-EX-QQ-RecipientCnt: 26
-From: Dong Yibo <dong100@mucse.com>
-To: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	gur.stavi@huawei.com,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	danishanwar@ti.com,
-	lee@trager.us,
-	gongfan1@huawei.com,
-	lorenzo@kernel.org,
-	geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com,
-	lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com,
-	richardcochran@gmail.com,
-	kees@kernel.org,
-	gustavoars@kernel.org
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	dong100@mucse.com
-Subject: [PATCH net-next v8 5/5] net: rnpgbe: Add register_netdev
-Date: Wed, 27 Aug 2025 11:45:09 +0800
-Message-Id: <20250827034509.501980-6-dong100@mucse.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250827034509.501980-1-dong100@mucse.com>
-References: <20250827034509.501980-1-dong100@mucse.com>
+	s=arc-20240116; t=1756270144; c=relaxed/simple;
+	bh=MA+7/YYr//CRtGoGjQzO2aBuAhezXjQ7Xlwisx6ri4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E+QnVQ0cydKEVkIgwlIBPZ5w4qQlksrXyXBMJ6HHGD3qMpYKm/AwCYa4v6697QXDmuIuNnjK8Ab0bjEyXVwp+Zr892jY6Xy2mdstSt3enoo7TE7cTB60B6Ri5T0XTPgeI+5AARfWfDB3cFD1fUWTEERiIcaBxG5lfY6zSSmb6Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PwVPFanO; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PwVPFanO"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-771e15ce64eso2298328b3a.0;
+        Tue, 26 Aug 2025 21:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756270143; x=1756874943; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+3TvCWTr1cdoHdAhmJSDST3DDtYrWvbQgh47NfJBbQk=;
+        b=PwVPFanOU4pKQetfyV12+IneAT4cG/o8AKgwrVF2rqepXDRlMjsN5OCZiMjaMwufKO
+         zJI1dcb5wQVvDXK96op2VxCVLyqnJehZxysLKMsh/dcq7i1FtRJW5pjT7x7tgB3IuhKl
+         IXwdcJWaDlp5ejE/h59wDDRPA+rUGBtHjA6ytOIwo0asLgk4mxqBKkaojMb1D8Ee1abE
+         6eID3DfjWIwPuLbiBFiMgd6Msk+ExVjRk0i9AY1rdFnlVaaDc7T2IADTUnW2rDzNefP+
+         eJmOHlm8NhT0xXRAD+yEqyjFVUFfZkJ9mec4cjD8t53cNBjNceRZqUPukCJkxuqtwugz
+         pJbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756270143; x=1756874943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+3TvCWTr1cdoHdAhmJSDST3DDtYrWvbQgh47NfJBbQk=;
+        b=qnuRzDe0LXJu4XOfaUbK92Fdqr/2ggrBEAYW4LU3qnvnx/bJAZkUkhzfeiYbBw0Vya
+         sETsagSdTstcq3CxVlwtE7HtVDdZakX1ZfvIxBLvpF3zXU7u+voLyUNMct5eqGgAK+wB
+         W9OILcy45t/XxdBSNnPfE53mZmHIGIyZSm6pHh2ONsbd1XNzz2gVXqFLlVwfc6Nkole2
+         OahFdRpBr+hK8juPTfuF932clN50167P+O/E+bOeI88/1gJueq7QkFoEwH7E+16g1B8l
+         Ddco9yJdJatDjXqQY2gQpg1yvaKjsv/GMRbcJJ9gNqprhFeRK36Zsi5bZq9oYqpogQUV
+         NEXw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6ozgmGozps4ydMyJFFHH2cVi3OwL+4ZgCAgty/eq1sVmzuEKQqiP/8ih4k+LZ/efKPGqmLbUkHiLB@vger.kernel.org, AJvYcCV7Lv4ICr77rsVI3BUKDhrhqX0wVcaIQhv889+kRLZmi/X79cchufEt/inGGdX0oLwpUsGJFoZ8nDc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDaR5DKvPOcFBcJwrFiGxI6IX4ac86RFc50QYo3OkcdstCnsC+
+	TiOm4D7ojbK4Spm1C8lWlOd2wyAebjUcYREIiWGOg6EtBQ6nGf6Umnpn
+X-Gm-Gg: ASbGncs8O2jiIXPQRHdXbSqaqZzrALLSR4BLtU6Yjqbkku4Ngz59PsQ0OpoDEPOlCKT
+	fwEdFjenUefw5dWSeyWz06qxK4DFRczftTj8j9v9D72kvQ1+UMd3pEZ1e8WPGpa/DyPv3aiwQe2
+	+2HYQOv493gZQKll+QRq5lWE3jB5ITTCf5jGPiS5Zv7drdFyrY/6Zaa9tAAwpl2tWbGnljMF4gZ
+	iilBL4HSTwDfk1WXpV3sJmSiRQsR5NdAiLOIPUV7xjl+qJ5b33MN8T/xU+1wwgsmQ5PkhgQSB3a
+	eg462XA8a63m8quwJKzCc5hqN4efBlv0RTMeh5oZw9+oPq/9RRQnp5vS+bUr57Yx1+WNhDWGAMT
+	2GDtsz3j2NSSWH2w87yYEgw==
+X-Google-Smtp-Source: AGHT+IGi5SECDxZjdkyLW4KqLVO9a6/4HsdHMUeyEI58+0pqQIkQaZ3Re74ROegYk+1eriyJDfXMQw==
+X-Received: by 2002:a05:6a20:158b:b0:23f:fc18:779c with SMTP id adf61e73a8af0-24340d2c276mr26869663637.31.1756270142590;
+        Tue, 26 Aug 2025 21:49:02 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771f2f2ac7dsm4709508b3a.43.2025.08.26.21.49.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Aug 2025 21:49:01 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7F7C44207D19; Wed, 27 Aug 2025 11:48:58 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Fox Foster <fox@tardis.ed.ac.uk>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v2] Documentation: management-style: Reword "had better known the details" phrase
+Date: Wed, 27 Aug 2025 11:48:48 +0700
+Message-ID: <20250827044848.17374-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1927; i=bagasdotme@gmail.com; h=from:subject; bh=MA+7/YYr//CRtGoGjQzO2aBuAhezXjQ7Xlwisx6ri4M=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnrernUXO96nu+f8OH00W8FF07lyTlMEpFyPvmcUS/r/ fHKF/eed5SyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAira8ZGSa7bTwxtTw7n19m pcLnpHVxS5ltHKUkj+9Kt0iSdN1o1cjIsKWmhWXzyvsTFmy8b/RIt2vadqssZu5dEVxbrUzSFPZ XswAA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MoO5eirna1idcPkeHkF/FxDbl4U8rMeB9+lSYFZnDJyBilWYx6i0RL0U
-	Pc6+aSv8SRxMsWFRu9vjdAjNg4tp4404pPiTsCiFIh9rrs3x7YdnM3Wb39CtN/Wn5Sdrkie
-	4HGKwUc8V0isWxwBhc9EB0GvKiO5Bin5p4uUQS9ytGlk4B5dyPfKc6klQIlvWzHTb1c/mG6
-	P/P1wyE1J+q7Nl1w+tu4AK0f5MfNNPbvwXVuhUgbvGcfhbYo6CHqn4f0e28H1wKx6kSN3K/
-	OiKXtszC37NOK8RRYw1Ye6AcEmRLbIArIickhdyyLVJPtnqztx+/Ug2XFpdlYI7egLs3F26
-	4z+D3c30/6txyvfXd9jswkIa9VeLaIibKyx9aY43bheHPJRGv5strdiKwx+xsF/dj8S66Pl
-	GPrNO6nTGcrtHlKdX/8ZgP4wBHzuC0ASW6RXQjugyTz2sPNBhB7sXV5uy54OTrY/Zdd/VKB
-	I0FE38qpOOiei2gz+PqUit0RuP/iJvhir4Iy4Dt4iO2QFMD57bFShFWSRQYv5D4l374xRCO
-	AWnn2GhUGkCOv9DSVcjzHZbfhwxikEht+pMJWpryINhcABUBqkm5AuFwjk7T6BNkFJtcslT
-	PPduJ9eRVvEoxmfp7BBW2gu3nWusm2C65/myLCfQjYJ8xrgvymPaNF17iId8E3bSP6dPtqa
-	I/jzNXMkOWrbjx6d/2b78/I6YymIfbCDH09+CdjovrFL63G6wsyQX0lrRGFHRT2A3oNb0GZ
-	XHDI8oLmODwmUoSUzVcyCuGB6Ol7Kw8rRpAYsQVJ11ypDAfzoQg3jQwSvNIgTyDaYCCirpq
-	zy7UhNaO5TMjRssr7v54ceXaLLwH4MCOCkQlSp9SjAnem3N4aWW44paRZoutTcraOqP4W4d
-	rI9Xbp28CzrKBZWXSrdGIOfS/ibRBQgWBJ419VKm1DHHuTqFlcL1IYevAfo8e6h7MyyGros
-	QqdkzZnmCyARl9Txdsn17U7HGvHMb/FSBoLQK0YTxP9uDVL5qdovF0ovp7xWHGIpSHo6PPr
-	sWrDFHNR6hoaOVY+bPRoBFnEm3AlZvDiAJQLtEUorZkUc2GIONHxKkUujLVAzgSQYoIdZUD
-	RW/bbL5uHuJefy09KjKDwmW66hYOUDO1w==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
 
-Initialize get mac from hw, register the netdev.
+Management style docs writes on people under a manager, where they know
+the details better than the manager himself. Reword it so that it would be
+less confusing to non-native English speakers.
 
-Signed-off-by: Dong Yibo <dong100@mucse.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 23 ++++++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 82 +++++++++++++++++++
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |  2 +
- .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 75 +++++++++++++++++
- 4 files changed, 182 insertions(+)
+ Changes since v1 [1]:
 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-index 4d2cca59fb23..33ee6f05e9b8 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-@@ -6,6 +6,7 @@
+   - Reword the confusing phrase (Konstantin)
+
+ [1]: https://lore.kernel.org/linux-doc/20250826003437.7695-2-bagasdotme@gmail.com/
+
+ Documentation/process/management-style.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
+index dfbc69bf49d435..bb7a69e34ef180 100644
+--- a/Documentation/process/management-style.rst
++++ b/Documentation/process/management-style.rst
+@@ -42,7 +42,7 @@ actually true.
+ The name of the game is to **avoid** having to make a decision.  In
+ particular, if somebody tells you "choose (a) or (b), we really need you
+ to decide on this", you're in trouble as a manager.  The people you
+-manage had better know the details better than you, so if they come to
++manage most likely know the details better than you, so if they come to
+ you for a technical decision, you're screwed.  You're clearly not
+ competent to make that decision for them.
  
- #include <linux/types.h>
- #include <linux/mutex.h>
-+#include <linux/netdevice.h>
+@@ -115,7 +115,7 @@ sure as hell shouldn't encourage them by promising them that what they
+ work on will be included.  Make them at least think twice before they
+ embark on a big endeavor.
  
- extern const struct rnpgbe_info rnpgbe_n500_info;
- extern const struct rnpgbe_info rnpgbe_n210_info;
-@@ -24,6 +25,10 @@ enum rnpgbe_hw_type {
- 	rnpgbe_hw_unknown
- };
- 
-+struct mucse_dma_info {
-+	void __iomem *dma_base_addr;
-+};
-+
- struct mucse_mbx_stats {
- 	u32 msgs_tx;
- 	u32 msgs_rx;
-@@ -47,12 +52,27 @@ struct mucse_mbx_info {
- 	u32 fw2pf_mbox_vec;
- };
- 
-+struct mucse_hw;
-+
-+struct mucse_hw_operations {
-+	int (*reset_hw)(struct mucse_hw *hw);
-+	void (*driver_status)(struct mucse_hw *hw, bool enable, int mode);
-+};
-+
-+enum {
-+	mucse_driver_insmod,
-+};
-+
- struct mucse_hw {
- 	void __iomem *hw_addr;
- 	struct pci_dev *pdev;
- 	enum rnpgbe_hw_type hw_type;
- 	u8 pfvfnum;
-+	const struct mucse_hw_operations *ops;
-+	struct mucse_dma_info dma;
- 	struct mucse_mbx_info mbx;
-+	int port;
-+	u8 perm_addr[ETH_ALEN];
- };
- 
- struct mucse {
-@@ -72,4 +92,7 @@ struct rnpgbe_info {
- #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
- #define PCI_DEVICE_ID_N210 0x8208
- #define PCI_DEVICE_ID_N210L 0x820a
-+
-+#define rnpgbe_dma_wr32(dma, reg, val) \
-+	writel((val), (dma)->dma_base_addr + (reg))
- #endif /* _RNPGBE_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-index f38daef752a3..40c29411fe09 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-@@ -1,11 +1,87 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright(c) 2020 - 2025 Mucse Corporation. */
- 
-+#include <linux/pci.h>
- #include <linux/string.h>
-+#include <linux/etherdevice.h>
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
- #include "rnpgbe_mbx.h"
-+#include "rnpgbe_mbx_fw.h"
-+
-+/**
-+ * rnpgbe_get_permanent_mac - Get permanent mac
-+ * @hw: hw information structure
-+ * @mac_addr: pointer to store mac
-+ *
-+ * rnpgbe_get_permanent_mac tries to get mac from hw.
-+ * It use eth_random_addr if failed.
-+ *
-+ * @return: 0 on success, negative on failure
-+ **/
-+static int rnpgbe_get_permanent_mac(struct mucse_hw *hw,
-+				    u8 *mac_addr)
-+{
-+	struct device *dev = &hw->pdev->dev;
-+	int err;
-+
-+	err = mucse_fw_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->port);
-+	if (err) {
-+		dev_err(dev, "Failed to get MAC from FW %d\n", err);
-+		return err;
-+	}
-+
-+	if (!is_valid_ether_addr(mac_addr)) {
-+		dev_err(dev, "Failed to get valid MAC from FW\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_reset_hw_ops - Do a hardware reset
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_reset_hw_ops calls fw to do a hardware
-+ * reset, and cleans some regs to default.
-+ *
-+ * @return: 0 on success, negative on failure
-+ **/
-+static int rnpgbe_reset_hw_ops(struct mucse_hw *hw)
-+{
-+	struct mucse_dma_info *dma = &hw->dma;
-+	int err;
-+
-+	rnpgbe_dma_wr32(dma, RNPGBE_DMA_AXI_EN, 0);
-+	err = mucse_mbx_fw_reset_phy(hw);
-+	if (err)
-+		return err;
-+	return rnpgbe_get_permanent_mac(hw, hw->perm_addr);
-+}
-+
-+/**
-+ * rnpgbe_driver_status_hw_ops - Echo driver status to hw
-+ * @hw: hw information structure
-+ * @enable: true or false status
-+ * @mode: status mode
-+ **/
-+static void rnpgbe_driver_status_hw_ops(struct mucse_hw *hw,
-+					bool enable,
-+					int mode)
-+{
-+	switch (mode) {
-+	case mucse_driver_insmod:
-+		mucse_mbx_ifinsmod(hw, enable);
-+		break;
-+	}
-+}
-+
-+static const struct mucse_hw_operations rnpgbe_hw_ops = {
-+	.reset_hw = &rnpgbe_reset_hw_ops,
-+	.driver_status = &rnpgbe_driver_status_hw_ops,
-+};
- 
- /**
-  * rnpgbe_init_common - Setup common attribute
-@@ -13,10 +89,16 @@
-  **/
- static void rnpgbe_init_common(struct mucse_hw *hw)
- {
-+	struct mucse_dma_info *dma = &hw->dma;
- 	struct mucse_mbx_info *mbx = &hw->mbx;
- 
-+	dma->dma_base_addr = hw->hw_addr;
-+
- 	mbx->pf2fw_mbox_ctrl = GBE_PF2FW_MBX_MASK_OFFSET;
- 	mbx->fw_pf_mbox_mask = GBE_FWPF_MBX_MASK;
-+
-+	hw->ops = &rnpgbe_hw_ops;
-+	hw->port = 0;
- }
- 
- /**
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-index 746dca78f1df..0ab2c328c9e9 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-@@ -11,6 +11,8 @@
- #define GBE_FWPF_MBX_MASK 0x5700
- #define N210_FW2PF_MBX_VEC_OFFSET 0x29400
- #define N210_FWPF_SHM_BASE_OFFSET 0x2d900
-+/**************** DMA Registers ****************************/
-+#define RNPGBE_DMA_AXI_EN 0x0010
- /**************** CHIP Resource ****************************/
- #define RNPGBE_MAX_QUEUES 8
- #endif /* _RNPGBE_HW_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-index dacb097424c9..e94b0562f3d7 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-@@ -9,6 +9,8 @@
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
-+#include "rnpgbe_mbx.h"
-+#include "rnpgbe_mbx_fw.h"
- 
- static const char rnpgbe_driver_name[] = "rnpgbe";
- static const struct rnpgbe_info *rnpgbe_info_tbl[] = {
-@@ -35,6 +37,55 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
- 	{0, },
- };
- 
-+/**
-+ * rnpgbe_open - Called when a network interface is made active
-+ * @netdev: network interface device structure
-+ *
-+ * The open entry point is called when a network interface is made
-+ * active by the system (IFF_UP).
-+ *
-+ * @return: 0 on success, negative value on failure
-+ **/
-+static int rnpgbe_open(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_close - Disables a network interface
-+ * @netdev: network interface device structure
-+ *
-+ * The close entry point is called when an interface is de-activated
-+ * by the OS.
-+ *
-+ * @return: 0, this is not allowed to fail
-+ **/
-+static int rnpgbe_close(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_xmit_frame - Send a skb to driver
-+ * @skb: skb structure to be sent
-+ * @netdev: network interface device structure
-+ *
-+ * @return: NETDEV_TX_OK or NETDEV_TX_BUSY
-+ **/
-+static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-+				     struct net_device *netdev)
-+{
-+	dev_kfree_skb_any(skb);
-+	netdev->stats.tx_dropped++;
-+	return NETDEV_TX_OK;
-+}
-+
-+static const struct net_device_ops rnpgbe_netdev_ops = {
-+	.ndo_open = rnpgbe_open,
-+	.ndo_stop = rnpgbe_close,
-+	.ndo_start_xmit = rnpgbe_xmit_frame,
-+};
-+
- /**
-  * rnpgbe_add_adapter - Add netdev for this pci_dev
-  * @pdev: PCI device information structure
-@@ -78,6 +129,27 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
- 
- 	hw->hw_addr = hw_addr;
- 	info->init(hw);
-+	mucse_init_mbx_params_pf(hw);
-+	/* echo fw driver insmod to control hw */
-+	hw->ops->driver_status(hw, true, mucse_driver_insmod);
-+	err = mucse_mbx_get_capability(hw);
-+	if (err) {
-+		dev_err(&pdev->dev,
-+			"mucse_mbx_get_capability failed! %d\n",
-+			err);
-+		goto err_free_net;
-+	}
-+	netdev->netdev_ops = &rnpgbe_netdev_ops;
-+	netdev->watchdog_timeo = 5 * HZ;
-+	err = hw->ops->reset_hw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Hw reset failed %d\n", err);
-+		goto err_free_net;
-+	}
-+	eth_hw_addr_set(netdev, hw->perm_addr);
-+	err = register_netdev(netdev);
-+	if (err)
-+		goto err_free_net;
- 	return 0;
- 
- err_free_net:
-@@ -145,12 +217,15 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void rnpgbe_rm_adapter(struct pci_dev *pdev)
- {
- 	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct mucse_hw *hw = &mucse->hw;
- 	struct net_device *netdev;
- 
- 	if (!mucse)
- 		return;
- 	netdev = mucse->netdev;
-+	unregister_netdev(netdev);
- 	mucse->netdev = NULL;
-+	hw->ops->driver_status(hw, false, mucse_driver_insmod);
- 	free_netdev(netdev);
- }
- 
+-Remember: they'd better know more about the details than you do, and
++Remember: they know the details better than you do, and
+ they usually already think they have the answer to everything.  The best
+ thing you can do as a manager is not to instill confidence, but rather a
+ healthy dose of critical thinking on what they do.
+
+base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
