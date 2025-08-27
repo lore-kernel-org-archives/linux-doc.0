@@ -1,180 +1,105 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9600A1D9346;
-	Wed, 27 Aug 2025 03:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0507F2F745D;
+	Wed, 27 Aug 2025 03:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756264742; cv=none; b=kTw3LOg7uMkbDn1r1S2bvWz+qsGYdDXmOpUTD9J0yIFwQw05KUwDaUdnEQVWNslhgiGYW4nfIDJ2VXpkfAl0WklVzqcwccJdQq5CSCas8OgmI0/VkyCzZ9cEzn4q5qFkAEmiQV9pJd4CJiiH+jfcKakvjMwUG4H8stziSW01e60=
+	t=1756266305; cv=none; b=tyHtrg6bzJ1bBrpxETUSUEBmgexYCpXOhDi6fUWxe2rlAkyT+szPUReXdL/8NwT9PcNeqt21/jKBk4CLUVvdWrPeFSGsywUL+pJ0GpIpAUYutboI5pL1C/oJk+Hid5ce5rbyj+b6ex+70s36bMWMrkkj90uGqEWFcXvMSu72ri4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756264742; c=relaxed/simple;
-	bh=WUWwy5nccQxrS8HQfczhlbKuioAv23XjXIVasA3CJQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l1+71Qt8ncQoeJIoNiCYdy63ydFpjE7ZvF3YeKwdKmUlmkp6/XzUtZiSBN64LljzjDNLSOkIODjsrx0pJmaott0kGIAkGaTG4nDqYKBOb9jzkBNuWibvETMRBm7NXHIb5t1dWoLHlkTZz3zDG+qRdb5Ag2Jsg/IOtEGvfHczenU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CAyCF73v; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CAyCF73v"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=A+VnN3ce19ePBWAKL69GvyEbLz34iHfiJ7S4nl+bquc=; b=CAyCF73vjin/UU8OsCA3Ysf206
-	48hv7838JxCqoFmQuyqmmkSHuIxoQj2ehVeg/TDFlUZKyLXouyYX9zCcL+kfYJGGHfE/GQpPXQzMW
-	gqjw2wz4OexYYa8engqNDwwpqabINISV2wvYXpcN7mLcjTOxBWpFiykL4k+gt4nEt0j77WbGnKCz3
-	s9ZktHD8g1481fGBhWLkQ2uvo6iMRV9m6OwPZMmjyW4OQ+Fk9Q2ScLgn/cJNJDbfR9qw7QMoNAsID
-	+xnBktlOpl/zQMgv4/Hi0O5Yq8AzC62sbUwxJ4N6AMXKmJke+GkfiUgubsBsSin//5QspdpBJBKuM
-	OIVfJQuQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ur6gc-0000000DowB-0HmH;
-	Wed, 27 Aug 2025 03:18:58 +0000
-Message-ID: <8696a6c8-c555-4523-b8dc-b41ab14b4380@infradead.org>
-Date: Tue, 26 Aug 2025 20:18:57 -0700
+	s=arc-20240116; t=1756266305; c=relaxed/simple;
+	bh=IzA+zlZANtCcfm/OoIkm3c87o5aHOFLp0+8E3+hzmzg=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=EeYt5djDb5+Zv/NHIfmGeHtK1JvlJS+pBNgY7H1GyR5jYKXIjzxRJw1/+MLXc7s0yiNsR2B1njbbXJ/Gy04LlXfgqFA7/8UYSEsny9U9wLqhWnuKQjYk2HtOIasmh0Depbx/bS/gi2QHMqTgm/u63S1kTfSHEc6kPZ7DzSmBAnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cBVlx0qbqzKHMk3;
+	Wed, 27 Aug 2025 11:45:01 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id BAF681A10DA;
+	Wed, 27 Aug 2025 11:45:00 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgDnMY46f65oLHq6AQ--.48889S3;
+	Wed, 27 Aug 2025 11:45:00 +0800 (CST)
+Subject: Re: [PATCH v6 md-6.18 11/11] md/md-llbitmap: introduce new lockless
+ bitmap
+To: Paul Menzel <pmenzel@molgen.mpg.de>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: hch@infradead.org, corbet@lwn.net, agk@redhat.com, snitzer@kernel.org,
+ mpatocka@redhat.com, song@kernel.org, xni@redhat.com, hare@suse.de,
+ linan122@huawei.com, colyli@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250826085205.1061353-1-yukuai1@huaweicloud.com>
+ <20250826085205.1061353-12-yukuai1@huaweicloud.com>
+ <4d21e669-f989-4bbc-8c38-ac1b311e8d01@molgen.mpg.de>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <65a2856a-7e2f-111a-c92e-7941206ad006@huaweicloud.com>
+Date: Wed, 27 Aug 2025 11:44:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: gfs2: Consolidate GFS2 docs into its
- own subdirectory
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux GFS2 <gfs2@lists.linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Andreas Gruenbacher <agruenba@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, "Darrick J. Wong" <djwong@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, Miklos Szeredi <mszeredi@redhat.com>,
- Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
- Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
- Bernd Schubert <bschubert@ddn.com>, Matthew Wilcox <willy@infradead.org>
-References: <20250827022122.12132-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250827022122.12132-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <4d21e669-f989-4bbc-8c38-ac1b311e8d01@molgen.mpg.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDnMY46f65oLHq6AQ--.48889S3
+X-Coremail-Antispam: 1UD129KBjvdXoWruryDXFyrZFWrJr4rtFWxXrb_yoWDCrX_ZF
+	s8Z34qqayUCws8tr4vyFW0vry0ka4DuF48X34a9ryrAFykXFZxWFs3C3sa9r1rCayUX3Wf
+	Aw1DJrWak3WxWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbfAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7V
+	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRidbbtUUUUU==
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
+Hi,
 
+在 2025/08/26 17:52, Paul Menzel 写道:
+> It’d be great if you could motivate, why a lockless bitmap is needed  > compared to the current implemention.
 
-On 8/26/25 7:21 PM, Bagas Sanjaya wrote:
-> Documentation for GFS2 is scattered in three docs that are in
-> Documentation/filesystems/ directory. As these docs are standing out as
-> a group, move them into separate gfs2/ subdirectory.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Changes since v1 [1]:
-> 
->    * Strip gfs2- prefix (Matthew)
-> 
->  [1]: https://lore.kernel.org/linux-doc/20250826023913.14888-1-bagasdotme@gmail.com/
-> 
->  .../filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} |  0
->  Documentation/filesystems/gfs2/index.rst             | 12 ++++++++++++
->  .../filesystems/{gfs2.rst => gfs2/overview.rst}      |  6 +++---
->  .../{gfs2-uevents.rst => gfs2/uevents.rst}           |  0
->  Documentation/filesystems/index.rst                  |  4 +---
->  MAINTAINERS                                          |  2 +-
->  6 files changed, 17 insertions(+), 7 deletions(-)
->  rename Documentation/filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} (100%)
->  create mode 100644 Documentation/filesystems/gfs2/index.rst
->  rename Documentation/filesystems/{gfs2.rst => gfs2/overview.rst} (96%)
->  rename Documentation/filesystems/{gfs2-uevents.rst => gfs2/uevents.rst} (100%)
-> 
-> diff --git a/Documentation/filesystems/gfs2-glocks.rst b/Documentation/filesystems/gfs2/glocks.rst
-> similarity index 100%
-> rename from Documentation/filesystems/gfs2-glocks.rst
-> rename to Documentation/filesystems/gfs2/glocks.rst
-> diff --git a/Documentation/filesystems/gfs2/index.rst b/Documentation/filesystems/gfs2/index.rst
-> new file mode 100644
-> index 00000000000000..9d9ca84d45a7ae
-> --- /dev/null
-> +++ b/Documentation/filesystems/gfs2/index.rst
-> @@ -0,0 +1,12 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================
-> +Global File System 2
-> +====================
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   overview
-> +   glocks
-> +   uevents
-> diff --git a/Documentation/filesystems/gfs2.rst b/Documentation/filesystems/gfs2/overview.rst
-> similarity index 96%
-> rename from Documentation/filesystems/gfs2.rst
-> rename to Documentation/filesystems/gfs2/overview.rst
-> index 1bc48a13430c1c..f971353d23611c 100644
-> --- a/Documentation/filesystems/gfs2.rst
-> +++ b/Documentation/filesystems/gfs2/overview.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -====================
-> -Global File System 2
-> -====================
-> +=============
-> +GFS2 Overview
-> +=============
->  
->  GFS2 is a cluster file system. It allows a cluster of computers to
->  simultaneously use a block device that is shared between them (with FC,
-> diff --git a/Documentation/filesystems/gfs2-uevents.rst b/Documentation/filesystems/gfs2/uevents.rst
-> similarity index 100%
-> rename from Documentation/filesystems/gfs2-uevents.rst
-> rename to Documentation/filesystems/gfs2/uevents.rst
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 11a599387266a4..897eabaa30d65d 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -90,9 +90,7 @@ Documentation for filesystem implementations.
->     ext3
->     ext4/index
->     f2fs
-> -   gfs2
-> -   gfs2-uevents
-> -   gfs2-glocks
-> +   gfs2/index
->     hfs
->     hfsplus
->     hpfs
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dafc1171254406..c685140f78c4e9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10335,7 +10335,7 @@ L:	gfs2@lists.linux.dev
->  S:	Supported
->  B:	https://bugzilla.kernel.org/enter_bug.cgi?product=File%20System&component=gfs2
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
-> -F:	Documentation/filesystems/gfs2*
-> +F:	Documentation/filesystems/gfs2/*
+Se the performance test, old bitmap have global spinlock and is bad with
+fast disk.
 
-I think this should be:
+[snip the typo part]
 
-F:	Documentation/filesystems/gfs2/
+> How can/should this patch be tested/benchmarked?
 
-without the trailing '*'.
+There is pending mdadm patch, rfc verion can be used. Will work on
+formal version after this set is applied.
 
-See the explanation for F: near the top of the MAINTAINERS file.
+> --- a/drivers/md/md-bitmap.h
+> +++ b/drivers/md/md-bitmap.h
+> @@ -9,10 +9,26 @@
+>    #define BITMAP_MAGIC 0x6d746962
+> +/*
+> + * version 3 is host-endian order, this is deprecated and not used for new
+> + * array
+> + */
+> +#define BITMAP_MAJOR_LO        3
+> +#define BITMAP_MAJOR_HOSTENDIAN    3
+> +/* version 4 is little-endian order, the default value */
+> +#define BITMAP_MAJOR_HI        4
+> +/* version 5 is only used for cluster */
+> +#define BITMAP_MAJOR_CLUSTERED    5  > Move this to the header in a separate patch?
 
->  F:	fs/gfs2/
->  F:	include/uapi/linux/gfs2_ondisk.h
->  
-> 
-> base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
+I prefer not, old bitmap use this as well.
 
+Thanks,
+Kuai
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
-
--- 
-~Randy
