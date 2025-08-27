@@ -1,204 +1,257 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E700630F935;
-	Wed, 27 Aug 2025 21:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCC427935C;
+	Wed, 27 Aug 2025 22:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756331452; cv=none; b=U6L39miMYT0MGUXGMRlr2SKdzGMzjPmDH9N1rmRaUymK0GF4UHfJazBMXJV0eVM3cfAIXhT0IgNW5T/gKi/StrbufAoE3uPdl5Xb1Dm+Uf4B4RwgZO+reFI0/kCMywEoAaumYCK0G8i0o8XkhQf5ti1JdOCJWZEe4IleXoVWK7c=
+	t=1756333201; cv=none; b=tP3ylBzC1Z6LAQ39pJl+bf0cWhfDRM5IdXjPQ28Lj+ippdjkt0o5v3LzBgBeNCMtuTf9pUprtvslQRaqp9LuZpupt23GX42SQEGSiMynLCeLxgDoynItKWASVTIDVlN/Xp+05EAt/mjLUFfoaHXM/I8GyDSLLofd1x5/oLehS0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756331452; c=relaxed/simple;
-	bh=c4t5RbUOOEco+/DSiBeBScfm2OAgTR3KhKwXEO4c+JY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fEyXDP/Ep4BfW6U0JA86Rk5zEBW44+GYdVghk+M0A0nYFZUDQqgndjz6oisfI/ZY9bAG9Wrl5Ydc7InKjdiaM3pXACzpaS86kJ5aGxQ5Oqh+pCPzE6eb3JG85+CL2Bh7iDK34LmNVNh80SWG2E3WFA80axJtciM4o+lXfZuTjNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6DgA+4N; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756333201; c=relaxed/simple;
+	bh=r/pGZK7kffhvJQpxrfEZVXYRwUpDhgaWXvg34gCGFB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HuFfCoR1v1nCvdhcOSwj92KmWjsVJdw7/BpVHAxo36feGW/dSLy5yWjhZGu8LPenOtHmZ4cdhLpHjXiWjj4milWDsOysgHF5yFZUxml/A2tukzLLcQhQ3DbKnTG1Nh/AuuV+NYpPdAgL4fYH4xZ6gjj+4HkuZE4tnqm07ciz3yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=mEoOQB3z; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6DgA+4N"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-32326e2f0b3so273171a91.2;
-        Wed, 27 Aug 2025 14:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756331450; x=1756936250; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KeDfts8gt4wnyCuEYOnb6uV1ppW7WiK7TkBvoIpFoX0=;
-        b=K6DgA+4N2ARysKZqkm76mPf5s8/FlTgyrPTLLTRKfEs98DEMLZl9wH3JpT/Gg84ZMs
-         m42OZ5o5rIO8AT4flJK1UeP+iPuad6wsTJyZUdo4YJ/1w3w7CHujPBSo/KWrKF8IH9vG
-         Y/1VB10ivbea6H5GotKQATrtY/jpQrxTeUv6GI6cOmP74sH7EvJQbdHjp9AHfoCW0Jk2
-         M5uqPfP8ok8ky4C1Qb7/ykMZJhcRtXRv8TAoIuyoUdX0rcEdpeaY7K67RelEmK9y2T9D
-         RUEkzftiFLnaVqClZfxbeomAv45wr5WNqGUTekcyUponvUm3mcqMzUtSPbs4IRW593Ge
-         Of4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756331450; x=1756936250;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KeDfts8gt4wnyCuEYOnb6uV1ppW7WiK7TkBvoIpFoX0=;
-        b=E4PEBtUnIqgYtzcC3WcgrlcMEjT1mK265dSRw63ZGfKfmkHD399RHJNs5T4+vzepu3
-         vIXK8rSCTnjY5HSQvyFl9TH41AlBUwYkgLFfH69gJZgId9yJ46sTCQgk35vfEuEkNUXf
-         vovQ21VTJ9O8eZlZ7NbXoK3uZ3FFzvUwl6kkIkUttwtdukpd8e972PNxefLlGOvIzj6L
-         tgdW4mrsTYb5sG/NQ5hwLSpdadyvNxXL7/cn/ia6tQYVwYEbUaxOgBYC+IRsL53wBSI4
-         aiKyseM//e4mwHnqh6ri3c2455ltItofYVb86g/emop3ngbojsugR0JGn5AtS+2cBRbL
-         9y+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUkL0cy4OKY+F6j6j4/FYTsZ1U4bGHt7+6xZoU3uiTOXFzUZSGibOYISy8kb+pmK/h6vhinT4cbZgsz@vger.kernel.org, AJvYcCXus64QTQ3VJDYw1bku/MOR8pdLQFrdfgIBThQC3vgEOzsVEW+o2jqVZSG7t9167Szh47Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4D+/i0uSyEtyxYQx3ejLpDL0a4xZs/NazbrYsHTiTME/ahm6H
-	BQ+0o4eD0X/5rbspcr77fluadnMvDHG4FdChq129ffdQqgSObODSnM9dK+hBZiA3kVH3UfwQx8o
-	U/acWdhSBceC1a5XWc1vfDgyr5mqs44w=
-X-Gm-Gg: ASbGncugaAE0ibry4evr6+xEyEnQhx/nlLDmfgf6Zb4koO3u7ksdRC/Yx7IZ2BGKA1u
-	BCkOzsPwjGtyP1AMaWC5M00ULOGAvrV8RUl0+AJxTMCFtnecTR5awcCPRjqqgePy6ZcmjTKWN1f
-	sysk/4iM2QIH14lpzI/ZICZGOiN5d4EZHyHn2B9/qfZvnivVTi0J2CzQXoGHY3ve9Smu/q19feo
-	4IGVspq7Hsv0zooUCaOwLXFIPvEfnwreWxbI0DNIFdV
-X-Google-Smtp-Source: AGHT+IGCNb6BmtHpaPHoBHQ6Ipo4VK78lwnolII4TMwisljYP5RNaG/tzMn0ir2zw//Dsg5YMx96cEQPYpz8ClVCC38=
-X-Received: by 2002:a17:90b:4d89:b0:325:3937:ef93 with SMTP id
- 98e67ed59e1d1-3253937f1bfmr25183524a91.20.1756331450213; Wed, 27 Aug 2025
- 14:50:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="mEoOQB3z"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57RMIq9C1905948
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 27 Aug 2025 15:18:52 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57RMIq9C1905948
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025082201; t=1756333135;
+	bh=2cYP731y2qYaZDQ8pdiBsKtWhtEf1GRHZ29xPrOv/bQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mEoOQB3z2Cjz5W5eDNyuS4wLtk1nqxV63zfySIBg/3Z7FOM3f8nG5b/+dU/GwFS4s
+	 zyWKFPv9eZ8g9zrxAuZLj3NH0+JaLwwTsOpMS4+jYzFkILsPqcnkP8121zWpeUIWxt
+	 tgh5a8JXOAV7vJd7PpUdf2twy806pL621/RYnQj0Q/IKqyJacDtr7LPRNd6bSCyzfh
+	 C0htM9pIjIVuMRNeffl4IO9FjTVMt4jStmvuMya1PznQHhf7kp0rgoOZLnDNvfX51V
+	 6Re9UIchwfxmiLxY/XpiXFiMzDpFAcufTnwoKvigmrphZ6FvyRcmSk1F099QJ0Bh7K
+	 5zmxh6HcA1YaA==
+Message-ID: <2cdc163a-12fc-49e1-ab87-bba6df0ae345@zytor.com>
+Date: Wed, 27 Aug 2025 15:18:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-4-laoar.shao@gmail.com>
- <5fb8bd8d-cdd9-42e0-b62d-eb5a517a35c2@lucifer.local>
-In-Reply-To: <5fb8bd8d-cdd9-42e0-b62d-eb5a517a35c2@lucifer.local>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Wed, 27 Aug 2025 14:50:36 -0700
-X-Gm-Features: Ac12FXx81PD0lPnzpRyp5ouxJbY2sXvnz6hd1oTpKhVDJte3eFVatPHa4qbmTxo
-Message-ID: <CAEf4BzaOA-3NtwTmrPgveqbW16m3KZAAA1E_xn_qjtiJBGsE4g@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 03/10] mm: thp: add a new kfunc bpf_mm_get_task()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org, david@redhat.com, 
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
-	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/20] x86/cea: Export an API to get per CPU exception
+ stacks for KVM to use
+To: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
+        andrew.cooper3@citrix.com, chao.gao@intel.com, hch@infradead.org
+References: <20250821223630.984383-1-xin@zytor.com>
+ <20250821223630.984383-5-xin@zytor.com>
+ <720bc7ac-7e81-4ad9-8cc5-29ac540be283@intel.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <720bc7ac-7e81-4ad9-8cc5-29ac540be283@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 27, 2025 at 8:48=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Tue, Aug 26, 2025 at 03:19:41PM +0800, Yafang Shao wrote:
-> > We will utilize this new kfunc bpf_mm_get_task() to retrieve the
-> > associated task_struct from the given @mm. The obtained task_struct mus=
-t
-> > be released by calling bpf_task_release() as a paired operation.
->
-> You're basically describing the patch you're not saying why - yeah you're
-> getting a task struct from an mm (only if CONFIG_MEMCG which you don't
-> mention here), but not for what purpose you intend to use this?
->
-> >
-> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> > ---
-> >  mm/bpf_thp.c | 34 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> >
-> > diff --git a/mm/bpf_thp.c b/mm/bpf_thp.c
-> > index b757e8f425fd..46b3bc96359e 100644
-> > --- a/mm/bpf_thp.c
-> > +++ b/mm/bpf_thp.c
-> > @@ -205,11 +205,45 @@ __bpf_kfunc void bpf_put_mem_cgroup(struct mem_cg=
-roup *memcg)
-> >  #endif
-> >  }
-> >
-> > +/**
-> > + * bpf_mm_get_task - Get the task struct associated with a mm_struct.
-> > + * @mm: The mm_struct to query
-> > + *
-> > + * The obtained task_struct must be released by calling bpf_task_relea=
-se().
->
-> Hmmm so now bpf programs can cause kernel bugs by keeping a reference aro=
-und?
+>> Suggested-by: Christoph Hellwig <hch@infradead.org>
+>> Suggested-by: Dave Hansen <dave.hansen@intel.com>
+> 
+> Nit: I wouldn't use Suggested-by unless the person basically asked for
+> the *entire* patch. Christoph and I were asking for specific bits of
+> this, but neither of us asked for this patch as a whole.
 
-BPF verifier will reject any program that cannot guarantee that
-bpf_task_release() will always be called. So there shouldn't be any
-problem here.
+I did it because the patch is almost rewritten to export accessors instead
+of raw data, IOW, the way of doing it is completely changed.
 
->
-> This feels extremely dodgy, I don't like this at all.
->
-> I thought the whole point of BPF was that this kind of thing couldn't pos=
-sibly
-> happen?
->
-> Or would this be a kernel bug?
->
-> If a bpf program can lead to a refcount not being put, this is not
-> upstreamable surely?
->
-> > + *
-> > + * Return: The associated task_struct on success, or NULL on failure. =
-Note that
-> > + * this function depends on CONFIG_MEMCG being enabled - it will alway=
-s return
-> > + * NULL if CONFIG_MEMCG is not configured.
-> > + */
-> > +__bpf_kfunc struct task_struct *bpf_mm_get_task(struct mm_struct *mm)
-> > +{
-> > +#ifdef CONFIG_MEMCG
-> > +     struct task_struct *task;
-> > +
-> > +     if (!mm)
-> > +             return NULL;
-> > +     rcu_read_lock();
-> > +     task =3D rcu_dereference(mm->owner);
+But I will remove Suggested-by.
 
-Question to Yafang, though. Instead of adding new kfunc just for this,
-have you tried marking mm->owner as BTF_TYPE_SAFE_TRUSTED_OR_NULL,
-which, if I understand correctly, would allow BPF program to just work
-with `mm->owner` (after checking for NULL) directly. And then you can
-just use existing bpf_task_acquire()
+> 
+>> diff --git a/arch/x86/coco/sev/sev-nmi.c b/arch/x86/coco/sev/sev-nmi.c
+>> index d8dfaddfb367..73e34ad7a1a9 100644
+>> --- a/arch/x86/coco/sev/sev-nmi.c
+>> +++ b/arch/x86/coco/sev/sev-nmi.c
+>> @@ -30,7 +30,7 @@ static __always_inline bool on_vc_stack(struct pt_regs *regs)
+>>   	if (ip_within_syscall_gap(regs))
+>>   		return false;
+>>   
+>> -	return ((sp >= __this_cpu_ist_bottom_va(VC)) && (sp < __this_cpu_ist_top_va(VC)));
+>> +	return ((sp >= __this_cpu_ist_bottom_va(ESTACK_VC)) && (sp < __this_cpu_ist_top_va(ESTACK_VC)));
+>>   }
+> 
+> This rename is one of those things that had me scratching my head for a
+> minute. It wasn't obvious at _all_ why the VC=>ESTACK_VC "rename" is
+> necessary.
+> 
+> This needs to have been mentioned in the changelog.
+> 
+> Better yet would have been to do this in a separate patch because a big
+> chunk of this patch is just rename noise.
 
->
-> > +     if (!task)
-> > +             goto out;
-> > +     if (!refcount_inc_not_zero(&task->rcu_users))
-> > +             goto out;
+Sure, will do.
 
-nit: just call bpf_task_acquire(), which will more obviously pair with
-suggested bpf_task_release()?
+>> diff --git a/arch/x86/include/asm/cpu_entry_area.h b/arch/x86/include/asm/cpu_entry_area.h
+>> index 462fc34f1317..8e17f0ca74e6 100644
+>> --- a/arch/x86/include/asm/cpu_entry_area.h
+>> +++ b/arch/x86/include/asm/cpu_entry_area.h
+>> @@ -46,7 +46,7 @@ struct cea_exception_stacks {
+>>    * The exception stack ordering in [cea_]exception_stacks
+>>    */
+>>   enum exception_stack_ordering {
+>> -	ESTACK_DF,
+>> +	ESTACK_DF = 0,
+>>   	ESTACK_NMI,
+>>   	ESTACK_DB,
+>>   	ESTACK_MCE,
+> 
+> Is this really required? I thought the first enum was always 0? Is this
+> just trying to ensure that ESTACKS_MEMBERS() defines a matching number
+> of N_EXCEPTION_STACKS stacks?
+> 
+> If that's the case, shouldn't this be represented with a BUILD_BUG_ON()?
 
-> > +
-> > +     rcu_read_unlock();
-> > +     return task;
-> > +
-> > +out:
-> > +     rcu_read_unlock();
-> > +#endif
->
-> This #ifdeffery is horrid, can we please just have separate functions ins=
-tead of
-> inside the one? Thanks.
->
-> > +     return NULL;
->
-> So we can't tell the difference between this failling due to CONFIG_MEMCG
-> not being set (in which case it will _always_ fail) or we couldn't get a
-> task or we couldn't get a refcount on the task.
->
-> Maybe this doesn't matter since perhaps we are only using this if
-> CONFIG_MEMCG but in that case why even expose this if !CONFIG_MEMCG?
->
-> > +}
-> > +
-> >  __bpf_kfunc_end_defs();
-> >
-> >  BTF_KFUNCS_START(bpf_thp_ids)
-> >  BTF_ID_FLAGS(func, bpf_mm_get_mem_cgroup, KF_TRUSTED_ARGS | KF_ACQUIRE=
- | KF_RET_NULL)
-> >  BTF_ID_FLAGS(func, bpf_put_mem_cgroup, KF_RELEASE)
-> > +BTF_ID_FLAGS(func, bpf_mm_get_task, KF_TRUSTED_ARGS | KF_ACQUIRE | KF_=
-RET_NULL)
-> >  BTF_KFUNCS_END(bpf_thp_ids)
-> >
-> >  static const struct btf_kfunc_id_set bpf_thp_set =3D {
-> > --
-> > 2.47.3
-> >
+Will do BUILD_BUG_ON().
+
+> 
+>> @@ -58,18 +58,15 @@ enum exception_stack_ordering {
+>>   #define CEA_ESTACK_SIZE(st)					\
+>>   	sizeof(((struct cea_exception_stacks *)0)->st## _stack)
+>>   
+>> -#define CEA_ESTACK_BOT(ceastp, st)				\
+>> -	((unsigned long)&(ceastp)->st## _stack)
+>> -
+>> -#define CEA_ESTACK_TOP(ceastp, st)				\
+>> -	(CEA_ESTACK_BOT(ceastp, st) + CEA_ESTACK_SIZE(st))
+>> -
+>>   #define CEA_ESTACK_OFFS(st)					\
+>>   	offsetof(struct cea_exception_stacks, st## _stack)
+>>   
+>>   #define CEA_ESTACK_PAGES					\
+>>   	(sizeof(struct cea_exception_stacks) / PAGE_SIZE)
+>>   
+>> +extern unsigned long __this_cpu_ist_top_va(enum exception_stack_ordering stack);
+>> +extern unsigned long __this_cpu_ist_bottom_va(enum exception_stack_ordering stack);
+>> +
+>>   #endif
+>>   
+>>   #ifdef CONFIG_X86_32
+>> @@ -144,10 +141,4 @@ static __always_inline struct entry_stack *cpu_entry_stack(int cpu)
+>>   	return &get_cpu_entry_area(cpu)->entry_stack_page.stack;
+>>   }
+>>   
+>> -#define __this_cpu_ist_top_va(name)					\
+>> -	CEA_ESTACK_TOP(__this_cpu_read(cea_exception_stacks), name)
+>> -
+>> -#define __this_cpu_ist_bottom_va(name)					\
+>> -	CEA_ESTACK_BOT(__this_cpu_read(cea_exception_stacks), name)
+>> -
+>>   #endif
+>> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+>> index 34a054181c4d..cb14919f92da 100644
+>> --- a/arch/x86/kernel/cpu/common.c
+>> +++ b/arch/x86/kernel/cpu/common.c
+>> @@ -2307,12 +2307,12 @@ static inline void setup_getcpu(int cpu)
+>>   static inline void tss_setup_ist(struct tss_struct *tss)
+>>   {
+>>   	/* Set up the per-CPU TSS IST stacks */
+>> -	tss->x86_tss.ist[IST_INDEX_DF] = __this_cpu_ist_top_va(DF);
+>> -	tss->x86_tss.ist[IST_INDEX_NMI] = __this_cpu_ist_top_va(NMI);
+>> -	tss->x86_tss.ist[IST_INDEX_DB] = __this_cpu_ist_top_va(DB);
+>> -	tss->x86_tss.ist[IST_INDEX_MCE] = __this_cpu_ist_top_va(MCE);
+>> +	tss->x86_tss.ist[IST_INDEX_DF] = __this_cpu_ist_top_va(ESTACK_DF);
+>> +	tss->x86_tss.ist[IST_INDEX_NMI] = __this_cpu_ist_top_va(ESTACK_NMI);
+>> +	tss->x86_tss.ist[IST_INDEX_DB] = __this_cpu_ist_top_va(ESTACK_DB);
+>> +	tss->x86_tss.ist[IST_INDEX_MCE] = __this_cpu_ist_top_va(ESTACK_MCE);
+> 
+> If you respin this, please vertically align these.
+
+NP.
+
+> 
+>> +/*
+>> + * FRED introduced new fields in the host-state area of the VMCS for
+>> + * stack levels 1->3 (HOST_IA32_FRED_RSP[123]), each respectively
+>> + * corresponding to per CPU stacks for #DB, NMI and #DF.  KVM must
+>> + * populate these each time a vCPU is loaded onto a CPU.
+>> + *
+>> + * Called from entry code, so must be noinstr.
+>> + */
+>> +noinstr unsigned long __this_cpu_ist_top_va(enum exception_stack_ordering stack)
+>> +{
+>> +	unsigned long base = (unsigned long)&(__this_cpu_read(cea_exception_stacks)->DF_stack);
+>> +	return base + EXCEPTION_STKSZ + stack * (EXCEPTION_STKSZ + PAGE_SIZE);
+>> +}
+>> +EXPORT_SYMBOL(__this_cpu_ist_top_va);
+>> +
+>> +noinstr unsigned long __this_cpu_ist_bottom_va(enum exception_stack_ordering stack)
+>> +{
+>> +	unsigned long base = (unsigned long)&(__this_cpu_read(cea_exception_stacks)->DF_stack);
+>> +	return base + stack * (EXCEPTION_STKSZ + PAGE_SIZE);
+>> +}
+> 
+> These are basically treating 'struct exception_stacks' like an array.
+> There's no type safety or anything here. It's just an open-coded array
+> access.
+> 
+> Also, starting with ->DF_stack is a bit goofy looking. It's not obvious
+> (or enforced) that it is stack #0 or at the beginning of the structure.
+> 
+> Shouldn't we be _trying_ to make this look like:
+> 
+> 	struct cea_exception_stacks *s;
+> 	s = __this_cpu_read(cea_exception_stacks);
+> 
+> 	return &s[stack_nr].stack;
+> 
+> ?
+> 
+> Where 'cea_exception_stacks' is an actual array:
+> 
+> 	struct cea_exception_stacks[N_EXCEPTION_STACKS];
+> 
+> which might need to be embedded in a larger structure to get the
+> 'IST_top_guard' without wasting allocating space for an extra full stack.
+> 
+
+Good suggestion!
+
+Thanks!
+     Xin
