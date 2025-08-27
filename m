@@ -1,318 +1,199 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF7F341ABD;
-	Wed, 27 Aug 2025 08:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B912773C3;
+	Wed, 27 Aug 2025 09:17:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756283222; cv=none; b=hY2Y4l8OVnGECElvil2Fit2x0ZtjnqtZzxt5NsmxYeZu8G2iOmFruuY54MCBcyGhINVvLx/DAbIeOpW7oYm2/7X/b81CDAUPe2mTL2ULBDPj0QhMixsLyTTGk+yJDDi+QLIspcd7ySkpV4nKwHe4hSjvggCCS9jPpaEbv6zJvCI=
+	t=1756286245; cv=none; b=aFOLnfHqdSCh2bxitUpnUFZN1zoYrs7+1toiPAkZd7RV7G5BMD/dwyn6z1YyjoVgKjIA66VD/U0d4veHRIxfui/FJ++wAzn7iWeHiBQu08PRRm1oC7R4CFTe/oQAiyn3EusF/9ciFgNZiLYOwzuBt28IgNDbM9FHvTITRDp7vog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756283222; c=relaxed/simple;
-	bh=AHXuZr1Diu8xs46wYXTW6iLO5uiucbQ49KiMiUyxeh8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a87HiW8tNTnBuBpm/sTUAmrqdJfjA20LolBuBjmtSCjHzTmUd8R0BkmsbnRGJj6TUtaelaIH3AIYAoBWDxAmtweJemYVzIHtoMcLRAK5WGD5EPZOc0H2oNW1UOdqSu8sxv/ATT1N4XC3IpK1rI5HdemLIhhHyCGFDjJ3lfuNvZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdIIFNWJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756286245; c=relaxed/simple;
+	bh=TYyx1Z0CNHtXF1OQjZhKtuBTijXSsUPz57zuUcrMcvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENgBGOkmcO0o0kjC0UZsmZOQqEimMJsAhnOvg9mt2Fd8cQstDz5BlzwzBrr6Ozfr3MbO/0Fxd3yGESus0vlmhkeP8SkYklGalYYvSRNtvSTxl/P6nm2KDhi2C32rN/DQNUkujkXM0EMfoPs70Ns8PhO98CR0vEzUi74ficW6/1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Asr76mip; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdIIFNWJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9CCC4CEEB;
-	Wed, 27 Aug 2025 08:27:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Asr76mip"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF9CC113CF;
+	Wed, 27 Aug 2025 09:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756283222;
-	bh=AHXuZr1Diu8xs46wYXTW6iLO5uiucbQ49KiMiUyxeh8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TdIIFNWJSsWUH/3E4Tz4CaZ7bWBtkVRtAOxfMn0lf813rlJnc+lzZUtVD7TJqDRMN
-	 bP2UNYx5aQH1Bl2BGUVpaA/M6p/pcn2yj4CxxhICWV+rX7XyriTwXmCA101WhXuWAz
-	 y+s4WXBJ0HEQUPrfGvi4wpZk6FunXNFq1inBv34qnfA+twfUBM5w3cA/Vib4FQxsES
-	 PPRQA4jW8CdaqxjAww6ZJJRXluGRb6mijqV69AbibQUI92n/dPJSexYI5C1llYVAap
-	 wCYH9bhlW9t2R5ebj2hIywkVu7pbmHq8j7fcehQf8VXFARQ9TTHYqKvCS6oCTGgQ0Z
-	 jrqqH+Ls5y06Q==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1urBUi-00000000uUS-0vKP;
-	Wed, 27 Aug 2025 10:27:00 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Masahiro Yamada <mchehab+huawei@kernel.org>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Nathan Chancellor <mchehab+huawei@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] docs: add support to build manpages from kerneldoc output
-Date: Wed, 27 Aug 2025 10:26:37 +0200
-Message-ID: <d880eb9c915a08c25102b7c1b17a01a8ab7e32c3.1756282370.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756282370.git.mchehab+huawei@kernel.org>
-References: <cover.1756282370.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1756286245;
+	bh=TYyx1Z0CNHtXF1OQjZhKtuBTijXSsUPz57zuUcrMcvA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Asr76mipEwGUVqlmQiWISvswLcwClR12ZwT7goxVWatoDn6RaUI2EvuUir5jc4ZOi
+	 pVDBodH6b4RdBDcKYhF67601faqJKFIAxT67Cxr3XoilZRyOGuzwSiJCliOImN6FsS
+	 rzgVonSjgUP8MpttBxXseKia9cgXo1F9rahoREOdV+aOuz5ErDQ6UrSbm2vu+DW/ec
+	 HQILjuNSczallNk3E/hbN4yRaikm3kKbSfg9TdZ0x3bd+sgT74seFE3ZlhaO2+1a7m
+	 IzWg9Fq72BffVaWAWAojuDMDfWxejd/55/E1KCU3yz6FoR7zjEielbez8xD/voiFAv
+	 hWN5o7P5m8lQQ==
+Date: Wed, 27 Aug 2025 11:17:22 +0200
+From: Amit Shah <amit@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, jpoimboe@kernel.org,
+	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com, kai.huang@intel.com,
+	sandipan.das@amd.com, boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com, david.kaplan@amd.com, dwmw@amazon.co.uk,
+	andrew.cooper3@citrix.com
+Subject: Re: [PATCH v5 1/1] x86: kvm: svm: set up ERAPS support for guests
+Message-ID: <aK7NIk1ArgQaDPHp@mun-amitshah-l>
+References: <20250515152621.50648-1-amit@kernel.org>
+ <20250515152621.50648-2-amit@kernel.org>
+ <aKYBeIokyVC8AKHe@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKYBeIokyVC8AKHe@google.com>
 
-Generating man files currently requires running a separate
-script. The target also doesn't appear at the docs Makefile.
+On (Wed) 20 Aug 2025 [10:10:16], Sean Christopherson wrote:
+> On Thu, May 15, 2025, Amit Shah wrote:
 
-Add support for mandocs at the Makefile, adding the build
-logic inside sphinx-build-wrapper, updating documentation
-and dropping the ancillary script.
+[...]
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/Makefile                 |  3 +-
- Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
- Makefile                               |  2 +-
- scripts/split-man.pl                   | 28 ---------
- tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
- 5 files changed, 95 insertions(+), 48 deletions(-)
- delete mode 100755 scripts/split-man.pl
+> > For guests to observe and use this feature, 
+> 
+> Guests don't necessarily "use" this feature.  It's something that's enabled by
+> KVM and affects harware behavior regardless of whether or not the guest is even
+> aware ERAPS is a thing.
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 3e1cb44a5fbb..22e39e5ed07d 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
- else # HAVE_SPHINX
- 
- # Common documentation targets
--infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-+mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
- 	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
- 		--sphinxdirs="$(SPHINXDIRS)" --conf=$(SPHINX_CONF) \
-@@ -104,6 +104,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  texinfodocs     - Texinfo'
- 	@echo  '  infodocs        - Info'
-+	@echo  '  mandocs         - Man pages'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
- 	@echo  '  epubdocs        - EPUB'
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index af9697e60165..4370cc8fbcf5 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -579,20 +579,23 @@ source.
- How to use kernel-doc to generate man pages
- -------------------------------------------
- 
--If you just want to use kernel-doc to generate man pages you can do this
--from the kernel git tree::
-+To generate man pages for all files that contain kernel-doc markups, run::
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
--    | scripts/split-man.pl /tmp/man
-+  $ make mandocs
- 
--Some older versions of git do not support some of the variants of syntax for
--path exclusion.  One of the following commands may work for those versions::
-+Or calling ``script-build-wrapper`` directly::
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
--    | scripts/split-man.pl /tmp/man
-+  $ ./tools/docs/sphinx-build-wrapper mandocs
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
--    | scripts/split-man.pl /tmp/man
-+The output will be at ``/man`` directory inside the output directory
-+(by default: ``Documentation/output``).
-+
-+Optionally, it is possible to generate a partial set of man pages by
-+using SPHINXDIRS:
-+
-+  $ make SPHINXDIRS=driver-api/media mandocs
-+
-+.. note::
-+
-+   When SPHINXDIRS={subdir} is used, it will only generate man pages for
-+   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
-diff --git a/Makefile b/Makefile
-index 6bfe776bf3c5..9bd44afeda26 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
- # Documentation targets
- # ---------------------------------------------------------------------------
- DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
--	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
-+	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
- 	$(Q)$(MAKE) $(build)=Documentation $@
-diff --git a/scripts/split-man.pl b/scripts/split-man.pl
-deleted file mode 100755
-index 96bd99dc977a..000000000000
---- a/scripts/split-man.pl
-+++ /dev/null
-@@ -1,28 +0,0 @@
--#!/usr/bin/env perl
--# SPDX-License-Identifier: GPL-2.0
--#
--# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
--#
--# Produce manpages from kernel-doc.
--# See Documentation/doc-guide/kernel-doc.rst for instructions
--
--if ($#ARGV < 0) {
--   die "where do I put the results?\n";
--}
--
--mkdir $ARGV[0],0777;
--$state = 0;
--while (<STDIN>) {
--    if (/^\.TH \"[^\"]*\" 9 \"([^\"]*)\"/) {
--	if ($state == 1) { close OUT }
--	$state = 1;
--	$fn = "$ARGV[0]/$1.9";
--	print STDERR "Creating $fn\n";
--	open OUT, ">$fn" or die "can't open $fn: $!\n";
--	print OUT $_;
--    } elsif ($state != 0) {
--	print OUT $_;
--    }
--}
--
--close OUT;
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index c884022ad733..932b1b675274 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -47,6 +47,7 @@ the newer version.
- import argparse
- import locale
- import os
-+import re
- import shlex
- import shutil
- import subprocess
-@@ -55,6 +56,7 @@ import sys
- from concurrent import futures
- 
- from lib.python_version import PythonVersion
-+from glob import glob
- 
- LIB_DIR = "../../scripts/lib"
- SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-@@ -77,6 +79,7 @@ TARGETS = {
-     "epubdocs":      { "builder": "epub",    "out_dir": "epub" },
-     "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },
-     "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },
-+    "mandocs":       { "builder": "man",     "out_dir": "man" },
-     "latexdocs":     { "builder": "latex",   "out_dir": "latex" },
-     "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },
-     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
-@@ -455,6 +458,71 @@ class SphinxBuilder:
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
- 
-+    def handle_man(self, kerneldoc, docs_dir, src_dir, output_dir):
-+        """
-+        Create man pages from kernel-doc output
-+        """
-+
-+        re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
-+        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
-+
-+        if docs_dir == src_dir:
-+            #
-+            # Pick the entire set of kernel-doc markups from the entire tree
-+            #
-+            kdoc_files = set([self.srctree])
-+        else:
-+            kdoc_files = set()
-+
-+            for fname in glob(os.path.join(src_dir, "**"), recursive=True):
-+                if os.path.isfile(fname) and fname.endswith(".rst"):
-+                    with open(fname, "r", encoding="utf-8") as in_fp:
-+                        data = in_fp.read()
-+
-+                    for line in data.split("\n"):
-+                        match = re_kernel_doc.match(line)
-+                        if match:
-+                            if os.path.isfile(match.group(1)):
-+                                kdoc_files.add(match.group(1))
-+
-+        if not kdoc_files:
-+                sys.exit(f"Directory {src_dir} doesn't contain kernel-doc tags")
-+
-+        cmd = [ kerneldoc, "-m" ] + sorted(kdoc_files)
-+        try:
-+            if self.verbose:
-+                print(" ".join(cmd))
-+
-+            result = subprocess.run(cmd, stdout=subprocess.PIPE, text= True)
-+
-+            if result.returncode:
-+                print(f"Warning: kernel-doc returned {result.returncode} warnings")
-+
-+        except (OSError, ValueError, subprocess.SubprocessError) as e:
-+            sys.exit(f"Failed to create man pages for {src_dir}: {repr(e)}")
-+
-+        fp = None
-+        try:
-+            for line in result.stdout.split("\n"):
-+                match = re_man.match(line)
-+                if not match:
-+                    if fp:
-+                        fp.write(line + '\n')
-+                    continue
-+
-+                if fp:
-+                    fp.close()
-+
-+                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
-+
-+                if self.verbose:
-+                    print(f"Creating {fname}")
-+                fp = open(fname, "w", encoding="utf-8")
-+                fp.write(line + '\n')
-+        finally:
-+            if fp:
-+                fp.close()
-+
-     def cleandocs(self, builder):           # pylint: disable=W0613
-         """Remove documentation output directory"""
-         shutil.rmtree(self.builddir, ignore_errors=True)
-@@ -483,7 +551,7 @@ class SphinxBuilder:
-         # Other targets require sphinx-build, so check if it exists
-         #
-         sphinxbuild = shutil.which(self.sphinxbuild, path=self.env["PATH"])
--        if not sphinxbuild:
-+        if not sphinxbuild and target != "mandocs":
-             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
- 
-         if builder == "latex":
-@@ -572,10 +640,13 @@ class SphinxBuilder:
-                 output_dir,
-             ]
- 
--            try:
--                self.run_sphinx(sphinxbuild, build_args, env=self.env)
--            except (OSError, ValueError, subprocess.SubprocessError) as e:
--                sys.exit(f"Build failed: {repr(e)}")
-+            if target == "mandocs":
-+                self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)
-+            else:
-+                try:
-+                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
-+                except (OSError, ValueError, subprocess.SubprocessError) as e:
-+                    sys.exit(f"Build failed: {repr(e)}")
- 
-             #
-             # Ensure that each html/epub output will have needed static files
--- 
-2.51.0
+OK wording it is tricky.  "use" in the sense of for the entire RSB to be
+utilized within guest context.  Not "use" as in guest needs enablement or
+needs to do anything special.
+
+"For the extended size to also be utilized when the CPU is in guest context,
+the hypervisor needs to..." ?
+
+> > the hypervisor needs to expose the CPUID bit, and also set a VMCB bit.
+> > Without one or both of those, 
+> 
+> No?  If there's no enabling for bare metal usage, I don't see how emulation of
+> CPUID can possibly impact usage of RAP size.  The only thing that matters is the
+> VMCB bit.  And nothing in this patch queries guest CPUID.
+
+True.
+
+> Observing ERAPS _might_ cause the guest to forego certain mitigations, but KVM
+> has zero visibility into whether or not such mitigations exist, if the guest will
+> care about ERAPS, etc.
+
+Sure, there's nothing guest-specific about this; any OS, when it detects
+ERAPS, may or may not want to adapt to its existence.  (As it turns out, for
+Linux, no adaptation is necessary.)
+
+> > guests continue to use the older default RSB size and behaviour for backwards
+> > compatibility.  This means the hardware RSB size is limited to 32 entries for
+> > guests that do not have this feature exposed to them.
+
+[...]
+
+> > 2. Hosts that disable NPT: the ERAPS feature also flushes the RSB
+> >    entries when the CR3 is updated.  When using shadow paging, CR3
+> >    updates within the guest do not update the CPU's CR3 register.
+> 
+> Yes they do, just indirectly.  KVM changes the effective CR3 in reaction to the
+> guest's new CR3.  If hardware doesn't flush in that situation, then it's trivially
+> easy to set ERAP_CONTROL_FLUSH_RAP on writes to CR3.
+
+Yea, that's right - since it doesn't happen in-guest (i.e. there's an exit
+instead), it needs KVM to set that bit.
+
+[...]
+
+> > @@ -3482,6 +3485,7 @@ static void dump_vmcb(struct kvm_vcpu *vcpu)
+> >  	pr_err("%-20s%016llx\n", "tsc_offset:", control->tsc_offset);
+> >  	pr_err("%-20s%d\n", "asid:", control->asid);
+> >  	pr_err("%-20s%d\n", "tlb_ctl:", control->tlb_ctl);
+> > +	pr_err("%-20s%d\n", "erap_ctl:", control->erap_ctl);
+> >  	pr_err("%-20s%08x\n", "int_ctl:", control->int_ctl);
+> >  	pr_err("%-20s%08x\n", "int_vector:", control->int_vector);
+> >  	pr_err("%-20s%08x\n", "int_state:", control->int_state);
+> > @@ -3663,6 +3667,11 @@ static int svm_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
+> >  
+> >  		trace_kvm_nested_vmexit(vcpu, KVM_ISA_SVM);
+> >  
+> > +		if (vmcb_is_extended_rap(svm->vmcb01.ptr)) {
+> > +			vmcb_set_flush_guest_rap(svm->vmcb01.ptr);
+> > +			vmcb_clr_flush_guest_rap(svm->nested.vmcb02.ptr);
+> > +		}
+> > +
+> >  		vmexit = nested_svm_exit_special(svm);
+> >  
+> >  		if (vmexit == NESTED_EXIT_CONTINUE)
+> > @@ -3670,6 +3679,11 @@ static int svm_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
+> >  
+> >  		if (vmexit == NESTED_EXIT_DONE)
+> >  			return 1;
+> > +	} else {
+> > +		if (vmcb_is_extended_rap(svm->vmcb01.ptr) && svm->nested.initialized) {
+> > +			vmcb_set_flush_guest_rap(svm->nested.vmcb02.ptr);
+> > +			vmcb_clr_flush_guest_rap(svm->vmcb01.ptr);
+> > +		}
+> 
+> Handling this in the common exit path is confusing, inefficient, and lacking.
+
+Heh, I agree.  I toyed with doing this just before VMRUN.  But I can't recall
+why I disliked that more.
+
+> Assuming hardware doesn't automatically clear ERAP_CONTROL_FLUSH_RAP, then KVM
+
+That's right - it doesn't.
+
+> should clear the flag after _any_ exit, not just exits that reach this point,
+> e.g. if KVM stays in the fast path.
+
+(or just before VMRUN).  Right.
+
+> And IIUC, ERAP_CONTROL_FLUSH_RAP needs to be done on _every_ nested transition,
+> not just those that occur in direct response to a hardware #VMEXIT. So, hook
+> nested_vmcb02_prepare_control() for nested VMRUN and nested_svm_vmexit() for
+> nested #VMEXIT.
+
+Does sound better.  I think the case I wanted to preserve in this complex
+logic was if we have a L2->exit->L2 transition, I didn't want to set the FLUSH
+bit.
+
+> Side topic, the changelog should call out that KVM deliberately ignores guest
+> CPUID, and instead unconditionally enables the full size RAP when ERAPS is
+> supported.  I.e. KVM _could_ check guest_cpu_cap_has() instead of kvm_cpu_cap_has()
+> in all locations, to avoid having to flush the RAP on nested transitions when
+> ERAPS isn't enumerated to the guest, but presumably using the full size RAP is
+> better for overall performance.
+
+Yea.
+
+> The changelog should also call out that if the full size RAP is enabled, then
+> it's KVM's responsibility to flush the RAP on nested transitions irrespective
+> of whether or not ERAPS is advertised to the guest.  Because if ERAPS isn't
+> advertised, the the guest's mitigations will likely be insufficient.
+
+You mean the L2 guest?  ACK on the update.
+
+> With the caveat that I'm taking a wild guess on the !npt behavior, something
+> like this?
+
+[...]
+
+> +#define ERAP_CONTROL_FULL_SIZE_RAP BIT(0)
+> +#define ERAP_CONTROL_FLUSH_RAP BIT(1)
+
+Oh I def prefer to keep the APM-specified names.
+
+[...]
+
+Patch looks good!
+
+I'll test it a bit and repost.
+
+Thanks,
+
+		Amit
 
