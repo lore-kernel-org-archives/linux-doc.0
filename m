@@ -1,217 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59586208994;
-	Thu, 28 Aug 2025 11:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0204D30F80C
+	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 12:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756382254; cv=none; b=ONTOpL3VUSJwVzxa5dFb5UjVQv+x7ueo8id0tNOgahhRfzjy8U7OG1pHlsqIXKXgnbIPaZEQ6sH27ia2DNBSKOLnIe2UIsZupbxPrVaq2/18hX0MuvVeJuP1jl24pYHpSuGno4VlRK6YgWeMqQF15LjCp9AjSiZmrJ84gtXnGfA=
+	t=1756382937; cv=none; b=SMX4ejjtfzy5RJ/T48PiAAEESb6SHIdGuMRjJpQhF7PAcqeXmUQr43rH5N4Ue0CLvbOjjJHWUsFWeWU8yMzMkD7R7GR/63wWwRp44xXsD9ReYfwcha0w8mIe+z1rf6NJg2UsaFEhWFBBcIAARJqRTbrwcGqibaivat3CAiPNPyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756382254; c=relaxed/simple;
-	bh=n8QXY5YRm9nQQBYQQGaxgrl8XdTmVTKFna/oqVl/xhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AJ9GfL1/bM4FM1Ded2cEKFeo/9V36xjtNbK+8bJwgiuCB56NnHwkS2w706Hv3yIULS8AJoCtHFeYaC+5zKp7fB2eAxl2vU2HmFcCHnFSlKMGDbBzMlU4vjpp1xtaLpZzlyinWEp6mYLSAvN+agGDUqbG4mwrc0bBwPxi4uJREfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqLtXq0g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756382937; c=relaxed/simple;
+	bh=6sywg8iRUIcC+LFpPdVUH7AYVGdElA+Lmuu0M26yEpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P218KRu6YfkHNlbz7KMUDZbIsERlAy7vJaZa0Qush/Dhfjsndbo7N/rGhrvRO1sUdjek2Zn4M6xWpN2kMX2NQQ/dxPsFiMV7O2A1tM90raLpaNOd6vapgfM1Ze20NKa80hxWTQZBlPc0isPs5ITXLkAZz/SwqhAejr30RU+U6I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oNgl824L; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqLtXq0g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94ADC4CEEB;
-	Thu, 28 Aug 2025 11:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756382253;
-	bh=n8QXY5YRm9nQQBYQQGaxgrl8XdTmVTKFna/oqVl/xhQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OqLtXq0gi9UBzAMP2wcXlT2cBb1dLghW49oEfniFZWmFDZ8XrTzjet3Se+cK+4Enz
-	 bUcas58K9zqJYJO8K1xC/lojuRYXP35XvwWJ9XYIMcJRmRtfzd1ENQlyeWdM0r06Gk
-	 0iGSQIedtJXaN5EXHSKxCaObLHf9f2/iEhzMO/91YHWTXC+kQV5HZRzX+s7pvZgTMs
-	 /wX7b7wyAX9BAZbCT37OSLoaEdenWMo5h/NWko9aq0V1TzuE+BMc75vbwrCyO1DV2e
-	 WdS++dKThCK37gVl5uHk3NBx12J9+O+GbVUmIbjagbvOKAeDIwhduPUosVAdqLdX7n
-	 wfEu8DIXf5M5g==
-Date: Thu, 28 Aug 2025 14:57:29 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
- API
-Message-ID: <20250828115729.GA10073@unreal>
-References: <cover.1755624249.git.leon@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oNgl824L"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-55f4410f7c9so1032732e87.2
+        for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 05:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756382933; x=1756987733; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6sywg8iRUIcC+LFpPdVUH7AYVGdElA+Lmuu0M26yEpI=;
+        b=oNgl824L+fC2moaJSL5/4UkdvCTWCcmZGxmMXiFhw15Nk4MO1i+znJi5GoZmPkjPdH
+         vV+qsgN4MHSjVwuL05hPonCM+KCuc3ltbN+pE0w3GTgSyAbUEipqSGvqelFmc4lmI5WK
+         gqxPx1T+vhr1w4hYkPiMIJ441sO3Fryo/L8pmtvDSBUbqIEcNRO72GZqtLzbuWMeKjMY
+         yOabpuU2TqX7Bi31pvfjDby/oCTRGhVnKhITNdAylRHg7IGLa1oknJAvglS5yZbMz8e4
+         i/z1vNqo6asC05PbHeW4Hi2209ndvK4hBH+S8lI3JA1vTbXV44oJe4r9G6T0tw73dQDh
+         qfpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756382933; x=1756987733;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6sywg8iRUIcC+LFpPdVUH7AYVGdElA+Lmuu0M26yEpI=;
+        b=EuTOrMzPyccqYBjoJE/18HS/hfSub7uCa492Qlcg3MWfh9y/4EENrOqsrGulW7mHNx
+         fsv9Goe5oEwv6Ipb16wEh8dZgbd7Wnw8Tk6YOq1KljtYGIc9cn/pTIdaK0DJccONu2m3
+         4n+yd+qUy7yzRudJf6s0YXER9WrS992oO8z9Z0VoPhEEqxHNzk4yqX9KBp2R/Xv6Rce8
+         6k4ERqKz1mbvtW3qM+fbzNykyRYT6Fif/2lWmIgVNTr0UaPCTQezzkXzt2gTJSEerKdW
+         v3tBqkl8c9f0h8FADnOekhcORdcr2DVJ4VHeW4syGtwjvpweqTcB52jOmyOaPweEf+8B
+         nqLA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtWBcxGWsn0PmjdX2o8PbPlIBTKhAhmf4Kv0Gqr+UWp0QuTv97dICvEMHwjIfY9IzrZseialfJqIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzeekLITwc//APqDMGRoU1ayk1AkES+SWAqWKToSWKjs693/CH
+	4xz/HuvZ8a6NH3z3FBs4ebjJAHBqYB3vKzHRC8/19PNTv8+TGmPYrqlyNkHh8tL5+gb8itYPR5d
+	nk091UtqH+jBYMZulr18Q8ZN/D4/r/k8g5is6XhLNgw==
+X-Gm-Gg: ASbGncttq5BYKOYM4HHJE4hOj14EIBtCYMq6H0tTpaddCrMfs3rgpbZarBZ31CZcNKR
+	qNICOfb2tatxYE0ktTFvZaY3+zQSzXBk1taoMEbyTnNZx/KZSz0WXIIHLklasvjr9f9H6/f7fap
+	4uya2QTtN/INjYjqqf7Bmv1Wl5qW4e7JF3gfeW/bjK6Dc4AlqBeMDyX5kgGb9z8tef/VnCD8uiI
+	OMqkNQQuW2kgb+rxw==
+X-Google-Smtp-Source: AGHT+IFg3M1giQrPALPiOG52C1JhN5PlRo7Xbw3xLek1Xu/lN9fGos88k4kc0ylKwurf0xKqLRcKUK5Mrc5xQ4s7/mM=
+X-Received: by 2002:a05:6512:6509:b0:55f:53bd:b137 with SMTP id
+ 2adb3069b0e04-55f53bdb50bmr2129835e87.31.1756382933088; Thu, 28 Aug 2025
+ 05:08:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1755624249.git.leon@kernel.org>
+References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
+In-Reply-To: <20250825142603.1907143-5-kees@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 28 Aug 2025 14:08:42 +0200
+X-Gm-Features: Ac12FXys7kn8v1WW0NYPHPp9t-_9fYAtRAX-1QlGxBAnqlbjxr2PgRu8yVVv_Ow
+Message-ID: <CACRpkdYnM98n3JLBwVnVD3BRf4qrg4g9aBDqL_2Qb_cao6f5yA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+To: Kees Cook <kees@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>, 
+	Sami Tolvanen <samitolvanen@google.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Puranjay Mohan <puranjay@kernel.org>, David Woodhouse <dwmw2@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, x86@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 19, 2025 at 08:36:44PM +0300, Leon Romanovsky wrote:
-> Changelog:
-> v4:
->  * Fixed kbuild error with mismatch in kmsan function declaration due to
->    rebase error.
-> v3: https://lore.kernel.org/all/cover.1755193625.git.leon@kernel.org
->  * Fixed typo in "cacheable" word
->  * Simplified kmsan patch a lot to be simple argument refactoring
-> v2: https://lore.kernel.org/all/cover.1755153054.git.leon@kernel.org
->  * Used commit messages and cover letter from Jason
->  * Moved setting IOMMU_MMIO flag to dma_info_to_prot function
->  * Micro-optimized the code
->  * Rebased code on v6.17-rc1
-> v1: https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org
->  * Added new DMA_ATTR_MMIO attribute to indicate
->    PCI_P2PDMA_MAP_THRU_HOST_BRIDGE path.
->  * Rewrote dma_map_* functions to use thus new attribute
-> v0: https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
-> ------------------------------------------------------------------------
-> 
-> This series refactors the DMA mapping to use physical addresses
-> as the primary interface instead of page+offset parameters. This
-> change aligns the DMA API with the underlying hardware reality where
-> DMA operations work with physical addresses, not page structures.
-> 
-> The series maintains export symbol backward compatibility by keeping
-> the old page-based API as wrapper functions around the new physical
-> address-based implementations.
-> 
-> This series refactors the DMA mapping API to provide a phys_addr_t
-> based, and struct-page free, external API that can handle all the
-> mapping cases we want in modern systems:
-> 
->  - struct page based cachable DRAM
->  - struct page MEMORY_DEVICE_PCI_P2PDMA PCI peer to peer non-cachable
->    MMIO
->  - struct page-less PCI peer to peer non-cachable MMIO
->  - struct page-less "resource" MMIO
-> 
-> Overall this gets much closer to Matthew's long term wish for
-> struct-pageless IO to cachable DRAM. The remaining primary work would
-> be in the mm side to allow kmap_local_pfn()/phys_to_virt() to work on
-> phys_addr_t without a struct page.
-> 
-> The general design is to remove struct page usage entirely from the
-> DMA API inner layers. For flows that need to have a KVA for the
-> physical address they can use kmap_local_pfn() or phys_to_virt(). This
-> isolates the struct page requirements to MM code only. Long term all
-> removals of struct page usage are supporting Matthew's memdesc
-> project which seeks to substantially transform how struct page works.
-> 
-> Instead make the DMA API internals work on phys_addr_t. Internally
-> there are still dedicated 'page' and 'resource' flows, except they are
-> now distinguished by a new DMA_ATTR_MMIO instead of by callchain. Both
-> flows use the same phys_addr_t.
-> 
-> When DMA_ATTR_MMIO is specified things work similar to the existing
-> 'resource' flow. kmap_local_pfn(), phys_to_virt(), phys_to_page(),
-> pfn_valid(), etc are never called on the phys_addr_t. This requires
-> rejecting any configuration that would need swiotlb. CPU cache
-> flushing is not required, and avoided, as ATTR_MMIO also indicates the
-> address have no cachable mappings. This effectively removes any
-> DMA API side requirement to have struct page when DMA_ATTR_MMIO is
-> used.
-> 
-> In the !DMA_ATTR_MMIO mode things work similarly to the 'page' flow,
-> except on the common path of no cache flush, no swiotlb it never
-> touches a struct page. When cache flushing or swiotlb copying
-> kmap_local_pfn()/phys_to_virt() are used to get a KVA for CPU
-> usage. This was already the case on the unmap side, now the map side
-> is symmetric.
-> 
-> Callers are adjusted to set DMA_ATTR_MMIO. Existing 'resource' users
-> must set it. The existing struct page based MEMORY_DEVICE_PCI_P2PDMA
-> path must also set it. This corrects some existing bugs where iommu
-> mappings for P2P MMIO were improperly marked IOMMU_CACHE.
-> 
-> Since ATTR_MMIO is made to work with all the existing DMA map entry
-> points, particularly dma_iova_link(), this finally allows a way to use
-> the new DMA API to map PCI P2P MMIO without creating struct page. The
-> VFIO DMABUF series demonstrates how this works. This is intended to
-> replace the incorrect driver use of dma_map_resource() on PCI BAR
-> addresses.
-> 
-> This series does the core code and modern flows. A followup series
-> will give the same treatment to the legacy dma_ops implementation.
-> 
-> Thanks
-> 
-> Leon Romanovsky (16):
->   dma-mapping: introduce new DMA attribute to indicate MMIO memory
->   iommu/dma: implement DMA_ATTR_MMIO for dma_iova_link().
->   dma-debug: refactor to use physical addresses for page mapping
->   dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
->   iommu/dma: rename iommu_dma_*map_page to iommu_dma_*map_phys
->   iommu/dma: extend iommu_dma_*map_phys API to handle MMIO memory
->   dma-mapping: convert dma_direct_*map_page to be phys_addr_t based
->   kmsan: convert kmsan_handle_dma to use physical addresses
->   dma-mapping: handle MMIO flow in dma_map|unmap_page
->   xen: swiotlb: Open code map_resource callback
->   dma-mapping: export new dma_*map_phys() interface
->   mm/hmm: migrate to physical address-based DMA mapping API
->   mm/hmm: properly take MMIO path
->   block-dma: migrate to dma_map_phys instead of map_page
->   block-dma: properly take MMIO path
->   nvme-pci: unmap MMIO pages with appropriate interface
-> 
->  Documentation/core-api/dma-api.rst        |   4 +-
->  Documentation/core-api/dma-attributes.rst |  18 ++++
->  arch/powerpc/kernel/dma-iommu.c           |   4 +-
->  block/blk-mq-dma.c                        |  15 ++-
->  drivers/iommu/dma-iommu.c                 |  61 +++++------
->  drivers/nvme/host/pci.c                   |  18 +++-
->  drivers/virtio/virtio_ring.c              |   4 +-
->  drivers/xen/swiotlb-xen.c                 |  21 +++-
->  include/linux/blk-mq-dma.h                |   6 +-
->  include/linux/blk_types.h                 |   2 +
->  include/linux/dma-direct.h                |   2 -
->  include/linux/dma-map-ops.h               |   8 +-
->  include/linux/dma-mapping.h               |  33 ++++++
->  include/linux/iommu-dma.h                 |  11 +-
->  include/linux/kmsan.h                     |   9 +-
->  include/trace/events/dma.h                |   9 +-
->  kernel/dma/debug.c                        |  71 ++++---------
->  kernel/dma/debug.h                        |  37 ++-----
->  kernel/dma/direct.c                       |  22 +---
->  kernel/dma/direct.h                       |  52 ++++++----
->  kernel/dma/mapping.c                      | 117 +++++++++++++---------
->  kernel/dma/ops_helpers.c                  |   6 +-
->  mm/hmm.c                                  |  19 ++--
->  mm/kmsan/hooks.c                          |   5 +-
->  rust/kernel/dma.rs                        |   3 +
->  tools/virtio/linux/kmsan.h                |   2 +-
->  26 files changed, 305 insertions(+), 254 deletions(-)
+On Mon, Aug 25, 2025 at 4:26=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
 
-Marek,
+> From: Kees Cook <kees@outflux.net>
+>
+> The kernel's CFI implementation uses the KCFI ABI specifically, and is
+> not strictly tied to a particular compiler. In preparation for GCC
+> supporting KCFI[1], rename CONFIG_CFI_CLANG to CONFIG_CFI (along with
+> associated options).
+>
+> Link: https://lore.kernel.org/linux-hardening/20250821064202.work.893-kee=
+s@kernel.org [1]
+> Signed-off-by: Kees Cook <kees@outflux.net>
+> ---
+> Cc: Sami Tolvanen <samitolvanen@google.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Puranjay Mohan <puranjay@kernel.org>
 
-So what are the next steps here? This series is pre-requirement for the
-VFIO MMIO patches.
+Yeah that was not a good neutral name to begin with.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Thanks
+I don't know about all that fuzz with providing the old symbol.
+Seems complex. Folks anyway have to go over their config
+symbols with every new kernel. But if people insist. I'm fine
+either way.
 
-> 
-> -- 
-> 2.50.1
-> 
-> 
+Yours,
+Linus Walleij
