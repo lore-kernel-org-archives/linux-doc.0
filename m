@@ -1,151 +1,118 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F708314B6D;
-	Thu, 28 Aug 2025 12:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC9730F952;
+	Thu, 28 Aug 2025 12:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756383066; cv=none; b=n11RKXLcGHRHLuPIQNhLli2I/fPHnrOtNtFeXMoXbs4nfAWRCkwex5Afo/Npm1oACjseMtGIhXw6InQkwbzCUYOUzVaJxSH4xhIbDzZnW6/wrNEbZ+kjJKbZKQ1dWfHIYdOg11gDTiP+uLzQPtvfWTUaCCIRLLejNJlH/woyaPA=
+	t=1756383127; cv=none; b=ZnApgiyt50LjgdoYnTYintwYaeC8lMJ1RZBaZeY6M000aOjGYsEzFKbZQRxWJHgUEiMZ8KsmGidvbRWYLURwaYRCnNdAM3eamFaWrp9OoR7dx+QadLqYAkIU2eSXLCvJ+U9aqjusy8oUCPuJganOr59zGZJLK8Xa9Lb4+SM7dy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756383066; c=relaxed/simple;
-	bh=9gPhIC0jDpWXohbffyiAu2Q16GprIW3MokPQ1OBOe00=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=msj7urzcoGCsZXjDP6r0Tdr01E/oJuiX+javMz3AaHYFJSliEtIrkeXOJK5lbIjsel5GH/jd2b2IovfbxFwWldPNuC+huUjpgv08eU/sfjJt9avDuL5oErKDi6lIiqxp8Txo7JZ5kTWi4CFLWesd2xJT1i2rpDh2v5EfT3IR+wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4cCKrC2r6CzdcHL;
-	Thu, 28 Aug 2025 20:06:35 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 04CA6140123;
-	Thu, 28 Aug 2025 20:11:02 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 28 Aug 2025 20:11:00 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
-	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
-	<gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
-	<mpe@ellerman.id.au>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman
- Ghosh <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>
-Subject: [PATCH net-next v02 14/14] hinic3: Fix code style (Missing a blank line before return)
-Date: Thu, 28 Aug 2025 20:10:20 +0800
-Message-ID: <7ede06e5314dd62037c078f0bd50a4c49e3cf9ab.1756378721.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1756378721.git.zhuyikai1@h-partners.com>
-References: <cover.1756378721.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1756383127; c=relaxed/simple;
+	bh=gBzvIT3GFkBSLfKgD0eHJCY11TPcf6eJ4FO6sX8esZI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tEea8Xq66T2X67Hl9A5W0Ep2Hej6jc5Y4iriqvRYyh8VxA83yHvnDuVISikRgaaieRSqHXA65SKdGI8AWHoPieGAiLwZCZ//1YPTouL+HEA+N8loh1VnPV/FFJTXgeW6eYoWRHeCC10DrkXdE7k/afGqWbMURo7uanON4tJVL04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HqIRqEq4; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqIRqEq4"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-324e2c12f43so158501a91.3;
+        Thu, 28 Aug 2025 05:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756383125; x=1756987925; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gBzvIT3GFkBSLfKgD0eHJCY11TPcf6eJ4FO6sX8esZI=;
+        b=HqIRqEq4oNnYiIxuF7z6VjkLYA8EErsxEKulBi4s6sRrXtnTAk0Vj1Rc+5YTTrPg23
+         US3P7yYSZgz5Lz8f9s4LeC+rtXBYtq/xr9ojsjhPoElyr88e+7vhylyZJPf/qE+J+M+C
+         /lr41WaZcx2yXNv56Nq1JEJn85AgaIIPh9CaSkYDOd1XhtKbstWxen1IUWR4Z2E24VET
+         PGJtB3FOtJQYkUfCxB4kCJmN22M5TOTq8uYTtSVGPu/rRHvTelJxjWuXghJ/4IgYUNkT
+         NaGJt+tSIbWeqkr0O3VA1hWTFSywTDmqXkFMYr77U3hKw2Bpl+imu/MaLyJgl2wb8vd2
+         HwxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756383125; x=1756987925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gBzvIT3GFkBSLfKgD0eHJCY11TPcf6eJ4FO6sX8esZI=;
+        b=dZHQ1VpIdW22d4kKptbwQmn1N8ZMc3iiEH+D6xhBeJYS8RQ5T9BYWGsipAPZN8rp/2
+         56Dv2zH2b448fGlPSkDdvfkR9GKEtS6dh5oIuLtdMBfWUraLgO8NG4W8B0TXpmTIR4Uu
+         EeljutpUpOAX8jH/vxA2HO62rWD6H0VgAv078V6fQxtzRWwnrCHfRKeb8CEGYUEms1A0
+         7TNPo7GPC5hbMjjqYiCDZLVTR5TEcQyYdjfKpTo8UxVyaQeedKou9UVOS8mNayzx3yEY
+         Db7mv7XSqKwvtRPmwee5mIFyXHZLAt3rc7CbUYCm/udM0uLZlv6IvgzkU8PoNMEsFmS9
+         IQJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHfUkYm7rVH6hAF8PnzQajcyX8h9fSErVOcFPX9izQQHWhOTjLSKtTsyGRcT2DUvi7TpsqBSRNK2xJibY/@vger.kernel.org, AJvYcCVu3H1BG7ZbVi22zL7ZqgSNH5utTXpXVmnt652Ka+Bq8N7QSVhjarbzPzTu6J88vybVrZRdyr4H21I=@vger.kernel.org, AJvYcCWsE+0WGgTJK2bxcU1rR7fqFuQGVsLvlwjHVK6rD7bYjE1txwQ0tdupu8reZ5fnUAjpCp1ZPMKJxNFHaGEKUUpL@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiZ/01oBwzAYRFFW9GiVIy54YCtNArWeSfYmiVUfRdLo8i/4MW
+	XDG98EXvVe6rr5Qde0mQCVNusCnNQe2xN5BzCv3pX1Y/lhaThHziHCWJCrQSgp7ItFZ688dW3ko
+	+M2DzYgsJ+8SM1a96uLibLPipHSps8AQ=
+X-Gm-Gg: ASbGnctdvVIUps0jOKo7IHY+Boa/KwAxgczcgJY+7HRujLALpD4iTk2N9sAKgAH/VZR
+	56dUYsPLVHlZlxD1W/Vuby9eleVF/mZ+mKlRvRaY++tGq0YE8wEyFIpHz8OGaG0rlalygaO9HuX
+	bH9yLJKVBT9lD8bpe1COTSh29iyFsOVkcAuWtQTIVSKROGRjwlv3gfDehkKJHZAyuErSQ1GI0/+
+	+hqbyoRAs5Hi/KtmhRl+TX9F66Fn1Ssx9DrJsXlKzMqiDVNiB6MRYD3F8FDTqSD2Fu2XDMzTKyI
+	UvXIlb4t31OiB4g74AeOg26UxWf4w4nfWSvAALYg+9J36mE=
+X-Google-Smtp-Source: AGHT+IEHY3yqO9UJS3OJVe1SDsi7P25l1Vl9fz/i5xssn5nzwTw3KmrO7fDBd0I6tpqkx5s1cY/itDMI0psIb4lzmPQ=
+X-Received: by 2002:a17:90b:1d03:b0:327:c9bb:be51 with SMTP id
+ 98e67ed59e1d1-327c9bbbf98mr469357a91.1.1756383125171; Thu, 28 Aug 2025
+ 05:12:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
+ <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
+ <202508250834.E2456B9@keescook> <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+ <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net> <20250827013444.GA2859318@ax162>
+ <56c2b1ce-00a4-403c-9927-79bfd9a23574@infradead.org> <20250827193815.GA2293657@ax162>
+In-Reply-To: <20250827193815.GA2293657@ax162>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 28 Aug 2025 14:11:51 +0200
+X-Gm-Features: Ac12FXyJC97cqOYkicibM9SLfUWzcvxlb3Xn6gpRe98j59S9iV5Oq9n8aEdlnuk
+Message-ID: <CANiq72nX7d3XQtQKDdeUh2RFy5HqSg360m4pzesJyBP+y9K7FA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@outflux.net>, Kees Cook <kees@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Puranjay Mohan <puranjay@kernel.org>, David Woodhouse <dwmw2@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix code style of missing a blank line before return.
+On Wed, Aug 27, 2025 at 9:38=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> I am not sure I understand what you mean here. With the series as it is
+> or Kees's suggested fix, oldconfig still prompts the user to enable
+> CONFIG_CFI with CONFIG_CFI_CLANG=3Dy in the old configuration. Both Migue=
+l
+> and I allude to that being fine but it would be really nice if users
+> with CONFIG_CFI_CLANG=3Dy were automatically transitioned to CONFIG_CFI=
+=3Dy
+> without any action on their part. That seems to be in line with how
+> Linus feels even as recently as this past merge window:
+>
+> https://lore.kernel.org/CAHk-=3DwgO0Rx2LcYT4f75Xs46orbJ4JxO2jbAFQnVKDYAjV=
+5HeQ@mail.gmail.com/
 
-Co-developed-by: Xin Guo <guoxin09@huawei.com>
-Signed-off-by: Xin Guo <guoxin09@huawei.com>
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_lld.c     | 5 +++++
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c | 1 +
- drivers/net/ethernet/huawei/hinic3/hinic3_tx.c      | 2 ++
- 3 files changed, 8 insertions(+)
+Yeah, I think for pure renames one we should try to avoid churn if possible=
+.
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-index 10477fb9cc34..3db8241a3b0c 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-@@ -122,6 +122,7 @@ static int hinic3_attach_aux_devices(struct hinic3_hwdev *hwdev)
- 			goto err_del_adevs;
- 	}
- 	mutex_unlock(&pci_adapter->pdev_mutex);
-+
- 	return 0;
- 
- err_del_adevs:
-@@ -133,6 +134,7 @@ static int hinic3_attach_aux_devices(struct hinic3_hwdev *hwdev)
- 		}
- 	}
- 	mutex_unlock(&pci_adapter->pdev_mutex);
-+
- 	return -ENOMEM;
- }
- 
-@@ -154,6 +156,7 @@ struct hinic3_hwdev *hinic3_adev_get_hwdev(struct auxiliary_device *adev)
- 	struct hinic3_adev *hadev;
- 
- 	hadev = container_of(adev, struct hinic3_adev, adev);
-+
- 	return hadev->hwdev;
- }
- 
-@@ -335,6 +338,7 @@ static int hinic3_probe_func(struct hinic3_pcidev *pci_adapter)
- 
- err_out:
- 	dev_err(&pdev->dev, "PCIe device probe function failed\n");
-+
- 	return err;
- }
- 
-@@ -367,6 +371,7 @@ static int hinic3_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- err_out:
- 	dev_err(&pdev->dev, "PCIe device probe failed\n");
-+
- 	return err;
- }
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index 9349b8a314ae..979f47ca77f9 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -112,6 +112,7 @@ int hinic3_set_port_mtu(struct net_device *netdev, u16 new_mtu)
- 	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
- 
- 	func_tbl_cfg.mtu = new_mtu;
-+
- 	return hinic3_set_function_table(hwdev, BIT(L2NIC_FUNC_TBL_CFG_MTU),
- 					 &func_tbl_cfg);
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index dea882260b11..92c43c05e3f2 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -116,6 +116,7 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 	}
- 	dma_unmap_single(&pdev->dev, dma_info[0].dma, dma_info[0].len,
- 			 DMA_TO_DEVICE);
-+
- 	return err;
- }
- 
-@@ -601,6 +602,7 @@ netdev_tx_t hinic3_xmit_frame(struct sk_buff *skb, struct net_device *netdev)
- 
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
-+
- 	return NETDEV_TX_OK;
- }
- 
--- 
-2.43.0
+> Another idea I had to avoid this is introducing CONFIG_CFI_GCC as a user
+> selectable symbol and making CONFIG_CFI the hidden symbol that both
+> compiler symbols select. After a couple of releases (or maybe the next
+> LTS), both CONFIG_CFI_CLANG and CONFIG_CFI_GCC could be eliminated with
+> CONFIG_CFI becoming user selectable, which would keep things working
+> since CONFIG_CFI=3Dy will be present in the previous configuration.
 
+If we are OK with something like this (i.e. waiting a few releases),
+then isn't it simpler the `def_bool` approach I mentioned? i.e. it
+means one less symbol and one less rename later, right?
+
+Cheers,
+Miguel
