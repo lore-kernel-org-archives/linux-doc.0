@@ -1,116 +1,149 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B37248896;
-	Thu, 28 Aug 2025 03:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212681C8606;
+	Thu, 28 Aug 2025 04:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756352633; cv=none; b=aKotHN4hWUALWqK9z112G+vklJwHc3Dalx/dsVyELV0548QivDh0kVYSN244c6b7Hv20RHzDvIrrlLHazv/SrSQZYqIzUTWFaFLDe51MibS6M4MtgPRfDzU1sJ17yapLHIWPiiX56oC+eeEx4Q8fKcZ+IwEZsiaF8tZMzfilINo=
+	t=1756354347; cv=none; b=WyUNIqzR6Qpta/b0IbknM4/AlSBXB0/1gJU9lxNj1FJrzadbwz7kUD+z44GnevRezUrQrwV9gytwX1PdcZMqwnneBMGIzkv9zovAKvZm0dbtWi4kVF7TYw+OCsqYhNEMpUn/2DLwm8nGHxVcoqjAEwqkzfnief0jnhoHVm5G0Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756352633; c=relaxed/simple;
-	bh=mT7QVFkd1HFJKhkkVtqDzPDsef9uoIZ8HLh801tlqDs=;
+	s=arc-20240116; t=1756354347; c=relaxed/simple;
+	bh=WN89Uo3RwVaX0q4mCLZ6TaHBINalBhQLUUPa5dXyflY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EbKG0I2YCyw+F9mzSPS1S4VM8+7mMWi0rqdSPfCdDlL3CjxliHQHB/tRz5KpC0AGN8W8TURU9U1FjidAb4li8ZjyIjjfg/reZXrEgE38UpNek8qQg3S7EQXcwq1sXqwW0w26a6K9VtcHtZRLpFf74wOCN/RJWhgHag3wA49ZfSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UrTwlv4H; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tuzi1fYSnFDh5XAGJ/EOUzr7k7hxMD4ecPBg8zdyeBHe25yfGvXfaUKjb31xmOP1JdQI/pklA5Ba/4uOKQpFz5Ysp0HuJLsTvNQxcHxDBz05fRT3ayRMvGUW3XFz9n3E86W+d9GXJs9I5E3DhJWWb8y7YmWNBj4fFPBOm/gMxkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXamJRPv; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UrTwlv4H"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7720c7cbcabso388254b3a.3;
-        Wed, 27 Aug 2025 20:43:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXamJRPv"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-24646202152so6365105ad.0;
+        Wed, 27 Aug 2025 21:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756352631; x=1756957431; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756354344; x=1756959144; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5S4WDlGefKt5xy9C/zsJV6CmCe3c7ouyAGnX3rHICtc=;
-        b=UrTwlv4HLBwheDdi1R0qdqarD7CIFOzMPXRR4Wd+ux9t1SG2WsjLo3LCH7+7h/E32j
-         I1uzvaM5vvCb0frhguVXpBnANCSwVwFklWdEPyBioUA7nYTgoYK9N+Du5EgAjFX7Ya7e
-         PydgIZwOxcxat5Cv+yhNpf1fhGfDRC8E+r1QMeEdz8puIfYnxyfOgl0f+hZOLkcePn4L
-         WsTrzh+Yx1zS+zG2XGvqDS5QJatFcDTl4MC9z68Yvxv8MK6ytT97FfEzG8yQ2ggaet6l
-         nRZfZVedYmi8CUdvTS9zS/cWFzAziHy3j0UG30gQvQaew9E8QxpEny5ecGzsRRjNIe4g
-         9EZw==
+        bh=xM3vptnVaXVwDy7ybty4eLADeK4TA37sWiFwhTzXlgE=;
+        b=CXamJRPvvnrNNcLB+R5Jc0b/bCpPRMizwpMqm94MdjcCR2Q0wW9AXhjhTQosSHkZMh
+         xVdL3jZyrVTjymUX8iZ/f9iSbfZYg0X4wGDVFQKDtFMvYKEoPykS1gtdwy+L3zNcg6MU
+         y+1rSWklhxUW7D9haVf4oGidle21HZGrFyhzs4XE14sBroCFQqhyxcY69PHzsNvjo/yZ
+         VEEnw0o2Y64BE7sO1jF5mXy8sEJ1bqt3rVsaBtEhxJ56+0WbX7982kqeC28Hl0ClAM/m
+         7LImdHh4c7rfV6c9LLD/Z6BL9BXe8Vej3RcknOJqY69SwHCt5tc9jPeUbpOWGejHo7VZ
+         qZzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756352631; x=1756957431;
+        d=1e100.net; s=20230601; t=1756354344; x=1756959144;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5S4WDlGefKt5xy9C/zsJV6CmCe3c7ouyAGnX3rHICtc=;
-        b=hItY/yyPr0DXTvKSReOqsVylk9JRb9Cd1OhrTiyOOg/bWKGPsu43iAzQLY3yxQ23q/
-         WMhdSO4E7Px9wiiqJgacy/XlqJAddIZxVCftii7eoUN1I/eER2QaTpJRY3HMS1H4DhR9
-         zcbnJJjABFL3i1cD2fgL/Ar1S6wrKNftg3iRmgqOWP9S9HJf4/5+LrSvQ7PJOK7CXDsH
-         UTLnyoxUPhxnNqnYsieUOmWNJszPQtaSvOysbrBL3hHE0jh9YkF7g3t4lbM1Z5ExRhp/
-         yK0tj2jhhATV4JwqZK++cCLs0YdrXw5fbFb0/0lqgtR6ook7Wgx5oi/GCnqMQFV2o+2H
-         YzsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVSnc7ajqEVMEWxU8VYuXXs/G8SF2mD8CNsOqqGwqbAlGreW/vIm9AGafXCOWUmQ7d2Bo0TMBE52E=@vger.kernel.org, AJvYcCXkkx2pYbo4y5BVAqiPfl0L/HeRTZ5KitF50Yc3spDSsJti5CbRaJVijPMjsBcQhXouutGLfYFQKASB+hMfuM5y@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVnhewHAqHsXBdKWMWVVuR3BDLBxBUWNjxmPM9bi0fagv8eS2B
-	a0FGdcIl0WHSfzHEcWqTl2EaDiTL8/CmzmRKpIcayKro4kzP56MpD5jQ
-X-Gm-Gg: ASbGnctKDU3355MrUa8BeWIOLmVRrtfNrdpr5WBW+DPGfvaeHuwbB96o0yCzoOgTZqH
-	vZBfXDUmC+ZjM+SP5OafXs5AiKd0DJAboUhJeDBghChX4JmrMunuchkGHGEwErsRS82sIO6lDUq
-	MMd72myjEuWm1gA7NSDDu+unl8dD7lb9QVnDH6ALhWv0R/QkIBfW03p3a1J2sAlYpNM7626VHMY
-	ttOtyCe6aw1vZ2vf6mktUR0lKwKjZ/WxeyBY1QcDRLL33WKSKufm9LVyzdpjQvL10VfMiKqQS+j
-	Pdv7nJ/57d+5wBc3ws/ShS7Iz42cqeZYmnmSXE5GXFn10oEulbiPV+AcYOSSWDUx3Hq2yRPLkrR
-	76RmUldANLoQZ8mdVISTdtUx4T+o=
-X-Google-Smtp-Source: AGHT+IHprgs3ybOVkkOnTnqjqDicdUyfcGG/SK6nnJ2ne3AqT3PeUCPY0vINW1Nv9fHOyc6CqQzBWQ==
-X-Received: by 2002:a05:6a20:431f:b0:240:f4c:ce10 with SMTP id adf61e73a8af0-24340dafba3mr29795245637.30.1756352630940;
-        Wed, 27 Aug 2025 20:43:50 -0700 (PDT)
-Received: from fedora ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771fa8864fesm5889618b3a.68.2025.08.27.20.43.44
+        bh=xM3vptnVaXVwDy7ybty4eLADeK4TA37sWiFwhTzXlgE=;
+        b=ColTRm+nFvpiHnlGo/YVYaRrjzYA9vw1AWt0A41pgUfMhO2F+1E7lR4+DuRQljrZJa
+         8yBTzTEjWwqpRJ+sIw83T8pNwtBZjybpaGySXk/A/HcjhMRH6j5IJKhCT/rp6DWdyA27
+         Fn3sICJWxWJ0NgF+BejsoYPAnEErbfcx8B9uS7ZY1h1N84i59YdRqNF/P20Go2pkL/Hs
+         BNpN3ZfYreDYlLE5egB/IbBo7AhyatnoMlgwH6E+MJVd4ale+ASzak6+fOZrxHIlBiEl
+         fPv7yiBedH0RWkKrPLNO7i+e8MlDoE48TUi+fqoxlV1hXmvXw2tBQjVuCkE7Hs46PhFJ
+         5Wrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFkEXtS/aFam70kKIBgbq3xlO9nti+bPa63KLo2x7Je1mCiylQQruWhCpeTYHqxbU7ZkZiS3BqXd8=@vger.kernel.org, AJvYcCVfR7QaqRsHFXIJ0MjRQctDNzppScByhyXSar7q5zOZFO5XCG4ZolTl/RCe50RHE2Q3D1CDxDXIYWzq@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/JE3BHHfG+y/i6pX6ckToTOv+Yr9bHpHp/km9HHc1qjUhsz0+
+	QSkS5/QL/pPTlQQ/fSyqAH7+ncNungmyfk4bhkSTBBXEUaBD2/TvXqqW
+X-Gm-Gg: ASbGncu1MOWAJcBaLav8+CqYeY3rpOM3wkmUFmJxbURnvn27EnSgAObDuJWoEuakrif
+	mi9ZUgtGIwy1QKt9rtf0qbzAf4hOureFVCjtcW3otiwE2KRXx6ay9ND55y/Xv72mwj5SpoD/L0J
+	k7AfZT4jpkt2aoTOqpO49ULZnkoO9XgGkCQNbQPTmrBMhSfzQxYgeu/Sxvb7KdG9ZnOO1WnQCTf
+	1u40fmmGs8sq5VRTVPOMzpPUUsilbPpPIeVn3YZ4FsxI0ki8WRKGH8HJVq1QKCEzIZb88NPZ0k7
+	/Rc5+AVMuY5qPj6htHzS5bERaCsT/iO9yRzzv+NXvhIPVhCdVHjTjyn95cOvJN5zBgSZMutIna8
+	NP6wGsEIQ/a8Y1X36vkOVqHh9dw==
+X-Google-Smtp-Source: AGHT+IHZ21AbUNmQHZ4t298crnlzLeXMfJjiOdcDaX0sZfTOfM2/+k1g3zkljInt0QdEyTrliIkz8A==
+X-Received: by 2002:a17:902:f64f:b0:246:8bdd:17d7 with SMTP id d9443c01a7336-2468bdd1bfcmr188200135ad.13.1756354344110;
+        Wed, 27 Aug 2025 21:12:24 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-248d4e362d4sm8938915ad.148.2025.08.27.21.12.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 20:43:50 -0700 (PDT)
-Date: Thu, 28 Aug 2025 03:43:41 +0000
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Jay Vosburgh <jv@jvosburgh.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
-	Amit Cohen <amcohen@nvidia.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	David Ahern <dsahern@gmail.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCHv4 net-next 3/3] selftests: bonding: add test for LACP
- actor port priority
-Message-ID: <aK_Qbfo_AUHrxSPT@fedora>
-References: <20250825064516.421275-1-liuhangbin@gmail.com>
- <20250825064516.421275-4-liuhangbin@gmail.com>
- <20250827064638.6fc32630@kernel.org>
+        Wed, 27 Aug 2025 21:12:21 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 595784027828; Thu, 28 Aug 2025 11:12:18 +0700 (WIB)
+Date: Thu, 28 Aug 2025 11:12:18 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Fox Foster <fox@tardis.ed.ac.uk>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
+ known the details" phrase
+Message-ID: <aK_XIoncppxWp7sB@archie.me>
+References: <20250827044848.17374-1-bagasdotme@gmail.com>
+ <87wm6p9v8l.fsf@trenco.lwn.net>
+ <20250827113312.62162725@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3kp2UqL1B3tlnqWW"
 Content-Disposition: inline
-In-Reply-To: <20250827064638.6fc32630@kernel.org>
-
-On Wed, Aug 27, 2025 at 06:46:38AM -0700, Jakub Kicinski wrote:
-> On Mon, 25 Aug 2025 06:45:16 +0000 Hangbin Liu wrote:
-> > Here is the result output
-> >   # ./bond_lacp_prio.sh
-> >   TEST: bond 802.3ad (ad_actor_port_prio setting)                  [ OK ]
-> >   TEST: bond 802.3ad (ad_actor_port_prio select)                   [ OK ]
-> >   TEST: bond 802.3ad (ad_actor_port_prio switch)                   [ OK ]
-> 
-> The last case failed twice since posted:
-> 
-> https://netdev-3.bots.linux.dev/vmksft-bonding/results/271601/8-bond-lacp-prio-sh/stdout
-> https://netdev-3.bots.linux.dev/vmksft-bonding/results/271601/8-bond-lacp-prio-sh-retry/stdout
-
-Hmm, not sure why it failed. Maybe sleep a few time to make sure the link is
-up and reselect finished..
-
-+       # Trigger link state change to reselect the aggregator
-+       ip -n "${c_ns}" link set eth1 down
-+       sleep 0.5
-+       ip -n "${c_ns}" link set eth1 up
-+       sleep 0.5
+In-Reply-To: <20250827113312.62162725@foz.lan>
 
 
-Thanks
-Hangbin
+--3kp2UqL1B3tlnqWW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 27, 2025 at 11:33:12AM +0200, Mauro Carvalho Chehab wrote:
+> As a non-native English speaker, "had better know" looks really
+> weird on my eyes, as, at least for me, "know" is a verb.
+>=20
+> Heh, I just discovered today by looking on a dictionary:
+>=20
+> 	https://dictionary.cambridge.org/dictionary/english/know
+>=20
+> That know can informally be used as a noun (a shortcut for
+> knowledge?).
+>=20
+> For me as a non-native English speaker, when one writes:
+>=20
+> 	They "most likely know"		(know here is a verb)
+>=20
+> or:
+> 	They "had better knowledge"	(knowledge is a name)
+>=20
+> Things become clearer.
+>=20
+> Heh:
+>=20
+> 	They "had better know the details better than you"
+>=20
+> the "better" word is used twice, and yeah, this is requires more
+> fluency in English for a non-native speaker to get what it says.
+>=20
+> Considering that "know" (noun) seems to be a shortcut
+> for "knowledge", what about:
+>=20
+> 	They "had better knowledge about the details than you"
+
+That can be alternative.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--3kp2UqL1B3tlnqWW
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaK/XHQAKCRD2uYlJVVFO
+o49WAPsEAvJcJNYwU4d66ZTyPkrKkSJhDiFl0sLolEoQljcXvgD/YN+6gGbmw7bA
+QRtPBYIm0VgoI8+XNqa98l9ImkRrBw4=
+=evxw
+-----END PGP SIGNATURE-----
+
+--3kp2UqL1B3tlnqWW--
