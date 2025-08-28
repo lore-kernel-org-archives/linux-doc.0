@@ -1,181 +1,189 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4E8277C84;
-	Thu, 28 Aug 2025 06:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736762773F2;
+	Thu, 28 Aug 2025 06:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756361686; cv=none; b=lfhNrGCfzlSej4Joo+yS5gnCXD16p8uhcAlHVm9+HxUoh68MxOjmOpHfyTkvyg437k1XjSIGiqm/0QJnkZ4xiQhgTMl/oz3OZy5rIxTOqdHliZZCjCnSlSBZrxBYXBMe4V5Ts7bphDtkhNGt4mGcWQ/s7rqdcmhxA5ZEhr4nu2c=
+	t=1756363693; cv=none; b=r/SXwgqQhYlbh8pHzyppnFTylt8qMOyAB2Vybf2FXgMbOWmY/pNp+/0+PijMHceqdDHwymA67vlSwHh012mqTUlqUlB3szEjWWmouZN/oN6bY1+Gh1P3NH/Oa7lzegsTr5qn6tTA73WmAtEoKa4uGHRM5NfQrVj6GKHz/z6ukDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756361686; c=relaxed/simple;
-	bh=24RtXmBs8sDbV+FKZY3m2RQfjwKVsmeGc/ycJ8DwMBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ks0sc6XGzELAOPcuOZzwHqUfbIte4X2nyiLJDr1FuH9EAEzNKACheMD6j8LVHUL8V71BQG+rLcN43YDAMMtcWezgHk6t15lY2s3nRxyfQjAjE9GpveYAVmKB8ZkbHVRKQ0OZxj9fzk3nZNtm6gkwcJgukmvlt1XXqaptdLOCV3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bkxGi3Q6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756363693; c=relaxed/simple;
+	bh=LvqlVI11D2qEfcPdRN8xDDbC7/lXxeo1pqv4TlHEhhQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q80HYw8jIcTRC67S76RJepQx51WflwmYqznfAghww6dTiI7Vcw9yO3ybeqc0iLXiX9UFlt32RVdKEmNTpFdsBjjP53zMaGTUyw34pj1TCOhNhzUF5jNlWCPWZzl7tSPIGOasFwiSM7uFEUrO80qt7TkfAh5C7uhE0QVC1ZBymR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPvtwd+0; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bkxGi3Q6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=mLP5bwfx5JUrcHsz6CyZc7tgsZnbyjt3ON1W+9DUhmE=; b=bkxGi3Q6m6lm+Igj/KqLC35diy
-	D+8C+V1d7b7P294LP3kloHaUZQsS5V2wNmdrRa9BnpUsrNdGc9sjnIFq5AVDEdvpfr2CRtTaXXt6/
-	ZTCf7PVZigQcjx7zulNTvhErrYr+n50RnGuPZBTN+x/vD9kAZFGU983GYe6EkyK8JE7zP0NreezE8
-	dsJezbWOu2t9JxU8z/Gtny6N+IrqdZm3jVq7jSIaiNtr2M0vMWF8rbRYtFLyJX4HQQOhJ98tIZQc2
-	jwoD23j7ZEdtvosv6JKqa4SoOnqZ9GR/bHA5PxbpW0DcZWbKDISZecRVQVLixsAWZGKU8JYJAXrfm
-	WpmdxvJQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urVuA-00000000Phx-1KCr;
-	Thu, 28 Aug 2025 06:14:38 +0000
-Message-ID: <61cd6dac-14e1-474e-9aa3-4fe782e81ba9@infradead.org>
-Date: Wed, 27 Aug 2025 23:14:36 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPvtwd+0"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-70ddd2e61d9so7842686d6.1;
+        Wed, 27 Aug 2025 23:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756363690; x=1756968490; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VhKDCD8/DGV5fH6nxnOqiP7dbAwWbENHECBTrAvc42o=;
+        b=FPvtwd+07hkF3IpV36uHUwttYiNhtDZhR+AU94AtD4YMxsIJiJyKzrHVY9LuEiXOFw
+         vm9fUPuIji7G8wKS6vD8Yb+9yP0XQJ7rXty9hHW+qmCAJaKxR8LPYkpPaFqjFF38+hsy
+         my+mBJnNKi5CT0aZ+yjWSQHYc3V2XCcEnsjT9WDMx/u3UFarLwj5bK5w3V1i2/nKHSaY
+         VH5Rs74qC2igeUBF1hfRSp3BjlqZ71W5uCZtENgTWODUnV0jPtKY/RQmFDZ5yW1YXPtg
+         iogIjzf3KrDWeseR30gVRp5HX7SiSoAg7l5lJuAX+T3MM3FXbD1lkb4GkiKSW4Cu6Lc+
+         iFIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756363690; x=1756968490;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VhKDCD8/DGV5fH6nxnOqiP7dbAwWbENHECBTrAvc42o=;
+        b=BEIzXFqsZwDC/He7s6HJ/m6AFOu/DfJ58rY4KQ8nks1ibJm3xweLj1Cveh0ymEqBaG
+         F+pmx4uNthvB8aog0vOQDN1jB+41gMbS/zTX+eks6vLpB4+2absUZTkcdh8CIp7tauro
+         ZoCKe3RWA7xG9BZSSxFt/BqrVjOFSYZSPu5zr0r01wYD5Ti78VJs9QCdifc8sbuDyJS+
+         VAvo+Uy3fDMagKJLZIkHIJbO15q8b/sgycZuZQbZw9fUR6/CBZZUbF1bTsa4ipaOJ21v
+         Y4M86VOe7+CiD7QHv0hsHWofvYi0IpozPgCZoIzFzRI/8qSho+GbC7tCKuiFxXeLMkEy
+         LFjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxWUktqujXTcNcbfiXgdzFo6zJfvy/ROEu/a6O8YunSqIrh6rvgPQarBj0bEmwkNOKUGC7KsAVBiqe@vger.kernel.org, AJvYcCWYZmADtEGfK6bQRJau7aA48IquxEKrGpp/8kYqD3qZJr+zhCOdo4vbAUpG/0Hx4bxen0o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoYa/ijS/lUyTyZFU07HMQctXyQN/rVUkJDE1XbbTxovbnuWCH
+	0qfHu7yAVBhPhdsqO0HZtqeD84kW3tQX/41Xiw2MzRiB+Uf87ROM0YNhk5mvfY0bex/r3AJirbZ
+	GBP+1uLBFLHTg+/QiO/Yt41J+03kmcFI=
+X-Gm-Gg: ASbGncswLroRXLXQDYm7roEpDRdhRUvMIqZ2fSLGcXWjIipxMxdZPaI556oyWEUPDcD
+	Dz6fPJJmYocrExElWMuqQqguqmKAZy29pbAo078FEUXzf/VRoHgg3VGeffZ3RwHsECwd56t8JUh
+	woJzdj2KABUItS6JxsFM28upTyMGJrePOhYMBiTKbokU655NnyMKud7JGQPgPy+zPL7vQ9z4hoo
+	tACAx5QsJ5Hxt8ZFlpgNYzwEw6bXMYxWWgEj5Q=
+X-Google-Smtp-Source: AGHT+IEHoD0Uiusmd/UOKL+6+ngiZoVhE1NGASgu/DqDEWY+8Tk5z5aKAhPh99n6YIUVa7EigBjgFPT+dBliZZToc6M=
+X-Received: by 2002:a05:6214:19e7:b0:70d:b1ea:25ed with SMTP id
+ 6a1803df08f44-70db1ea286fmr214292226d6.23.1756363690237; Wed, 27 Aug 2025
+ 23:48:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Kees Cook <kees@outflux.net>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- Linus Walleij <linus.walleij@linaro.org>, Mark Rutland
- <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- x86@kernel.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20250825141316.work.967-kees@kernel.org>
- <20250825142603.1907143-5-kees@kernel.org>
- <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
- <202508250834.E2456B9@keescook>
- <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
- <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
- <20250827013444.GA2859318@ax162>
- <56c2b1ce-00a4-403c-9927-79bfd9a23574@infradead.org>
- <20250827193815.GA2293657@ax162>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250827193815.GA2293657@ax162>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-4-laoar.shao@gmail.com>
+ <5fb8bd8d-cdd9-42e0-b62d-eb5a517a35c2@lucifer.local>
+In-Reply-To: <5fb8bd8d-cdd9-42e0-b62d-eb5a517a35c2@lucifer.local>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Thu, 28 Aug 2025 14:47:34 +0800
+X-Gm-Features: Ac12FXxFTwzSzvJhj5UIbCdO1z68biL2fU9bhU24okrE4ErExRxkOpwYSA6y-j0
+Message-ID: <CALOAHbBHLLo+Xcd=zJeQp9gvLBnyYWAdeBiqKYKgj424m1Sn6A@mail.gmail.com>
+Subject: Re: [PATCH v6 mm-new 03/10] mm: thp: add a new kfunc bpf_mm_get_task()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
+	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 27, 2025 at 11:42=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Tue, Aug 26, 2025 at 03:19:41PM +0800, Yafang Shao wrote:
+> > We will utilize this new kfunc bpf_mm_get_task() to retrieve the
+> > associated task_struct from the given @mm. The obtained task_struct mus=
+t
+> > be released by calling bpf_task_release() as a paired operation.
+>
+> You're basically describing the patch you're not saying why - yeah you're
+> getting a task struct from an mm (only if CONFIG_MEMCG which you don't
+> mention here), but not for what purpose you intend to use this?
 
+For example, we could retrieve task->comm or other attributes and make
+decisions based on that information. I=E2=80=99ll provide a clearer
+description in the next revision.
 
-On 8/27/25 12:38 PM, Nathan Chancellor wrote:
-> On Wed, Aug 27, 2025 at 12:35:12AM -0700, Randy Dunlap wrote:
->> On 8/26/25 6:34 PM, Nathan Chancellor wrote:
->>> On Mon, Aug 25, 2025 at 03:31:34PM -0400, Kees Cook wrote:
->>>> On August 25, 2025 1:00:22 PM EDT, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
->>>>> On Mon, Aug 25, 2025 at 5:35 PM Kees Cook <kees@kernel.org> wrote:
->>>>>>
->>>>>> Yeah, that's a good idea. What the right way to do that?
->>>>>>
->>>>>> config CFI_CLANG
->>>>>>         bool "Use Clang's Control Flow Integrity (CFI)"
->>>>>>         depends on ARCH_SUPPORTS_CFI
->>>>>>         select CFI
->>>>>>
->>>>>> ?
->>>>>
->>>>> I don't recall what is the idiomatic solution for renames, but I
->>>>> remember Linus talking about this topic and about avoiding losing old
->>>>> values if possible (perhaps getting a new question in `oldconfig` is
->>>>> OK as long as the `olddefconfig` respects the old value).
->>>>>
->>>>> I think your suggestion above will still make it appear twice in
->>>>> `menuconfig` -- there may be a way to play with visibility to make it
->>>>> better.
->>>>>
->>>>> A simple possibility I can think of (assuming it works) is having the
->>>>> CFI symbol for the time being introduced just as a `def_bool
->>>>> CFI_CLANG` for a few releases so that people get the new one in their
->>>>> configs.
->>>>
->>>> Ah, I think this works:
->>>>
->>>> config CFI_CLANG
->>>>     bool
->>>>
->>>> config CFI
->>>>     bool "...."
->>>>     default CFI_CLANG
->>>>
->>>> I will add that for v2.
->>>
->>> That does not appear to work for me. I applied
->>>
->>> diff --git a/arch/Kconfig b/arch/Kconfig
->>> index c25a45d9aa96..0d3ed03c76c2 100644
->>> --- a/arch/Kconfig
->>> +++ b/arch/Kconfig
->>> @@ -876,8 +876,12 @@ config ARCH_SUPPORTS_CFI
->>>  config ARCH_USES_CFI_TRAPS
->>>         bool
->>>
->>> +config CFI_CLANG
->>> +       bool
->>> +
->>>  config CFI
->>>         bool "Use Kernel Control Flow Integrity (kCFI)"
->>> +       default CFI_CLANG
->>>         depends on ARCH_SUPPORTS_CFI
->>>         depends on $(cc-option,-fsanitize=kcfi)
->>>         help
->>>
->>> on top of this series and
->>>
->>>   CONFIG_CFI_CLANG=y
->>>   # CONFIG_CFI_ICALL_NORMALIZE_INTEGERS is not set
->>>   # CONFIG_CFI_PERMISSIVE is not set
->>>
->>> gets turned into
->>>
->>>   # CONFIG_CFI is not set
->>>
->>> after olddefconfig. CONFIG_CFI_CLANG has to be user selectable with a
->>
->> Could/did you test with 'oldconfig' instead?
->>
->> olddefconfig is going to use the default value from the Kconfig file,
->> which if CFI_CLANG which is undefined/No/Not set.
->>
->> oldconfig will use the old value from the .config file.
-> 
-> I am not sure I understand what you mean here. With the series as it is
-> or Kees's suggested fix, oldconfig still prompts the user to enable
+>
+> >
+> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> > ---
+> >  mm/bpf_thp.c | 34 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 34 insertions(+)
+> >
+> > diff --git a/mm/bpf_thp.c b/mm/bpf_thp.c
+> > index b757e8f425fd..46b3bc96359e 100644
+> > --- a/mm/bpf_thp.c
+> > +++ b/mm/bpf_thp.c
+> > @@ -205,11 +205,45 @@ __bpf_kfunc void bpf_put_mem_cgroup(struct mem_cg=
+roup *memcg)
+> >  #endif
+> >  }
+> >
+> > +/**
+> > + * bpf_mm_get_task - Get the task struct associated with a mm_struct.
+> > + * @mm: The mm_struct to query
+> > + *
+> > + * The obtained task_struct must be released by calling bpf_task_relea=
+se().
+>
+> Hmmm so now bpf programs can cause kernel bugs by keeping a reference aro=
+und?
+>
+> This feels extremely dodgy, I don't like this at all.
+>
+> I thought the whole point of BPF was that this kind of thing couldn't pos=
+sibly
+> happen?
+>
+> Or would this be a kernel bug?
+>
+> If a bpf program can lead to a refcount not being put, this is not
+> upstreamable surely?
 
-OK, I don't know the state of the CFI_CLANG / CLANG patch(es).
+As explained by Andrii, the BPF verifier can protect it.
 
-I just mean the difference in 'make oldconfig' and 'make olddefconfig'
-(at least AIUI).
+>
+> > + *
+> > + * Return: The associated task_struct on success, or NULL on failure. =
+Note that
+> > + * this function depends on CONFIG_MEMCG being enabled - it will alway=
+s return
+> > + * NULL if CONFIG_MEMCG is not configured.
+> > + */
+> > +__bpf_kfunc struct task_struct *bpf_mm_get_task(struct mm_struct *mm)
+> > +{
+> > +#ifdef CONFIG_MEMCG
+> > +     struct task_struct *task;
+> > +
+> > +     if (!mm)
+> > +             return NULL;
+> > +     rcu_read_lock();
+> > +     task =3D rcu_dereference(mm->owner);
+>
+> > +     if (!task)
+> > +             goto out;
+> > +     if (!refcount_inc_not_zero(&task->rcu_users))
+> > +             goto out;
+> > +
+> > +     rcu_read_unlock();
+> > +     return task;
+> > +
+> > +out:
+> > +     rcu_read_unlock();
+> > +#endif
+>
+> This #ifdeffery is horrid, can we please just have separate functions ins=
+tead of
+> inside the one? Thanks.
+>
+> > +     return NULL;
+>
+> So we can't tell the difference between this failling due to CONFIG_MEMCG
+> not being set (in which case it will _always_ fail) or we couldn't get a
+> task or we couldn't get a refcount on the task.
+>
+> Maybe this doesn't matter since perhaps we are only using this if
+> CONFIG_MEMCG but in that case why even expose this if !CONFIG_MEMCG?
+>
 
+As suggested by Andrii, I will remove this kfunc and mark mm->owner as
+BTF_TYPE_SAFE_TRUSTED_OR_NULL.
 
-> CONFIG_CFI with CONFIG_CFI_CLANG=y in the old configuration. Both Miguel
-> and I allude to that being fine but it would be really nice if users
-> with CONFIG_CFI_CLANG=y were automatically transitioned to CONFIG_CFI=y
-> without any action on their part. That seems to be in line with how
+Thanks for your comments.
 
-Yes, I agree.
-
-> Linus feels even as recently as this past merge window:
-> 
-> https://lore.kernel.org/CAHk-=wgO0Rx2LcYT4f75Xs46orbJ4JxO2jbAFQnVKDYAjV5HeQ@mail.gmail.com/
-> 
-> Another idea I had to avoid this is introducing CONFIG_CFI_GCC as a user
-> selectable symbol and making CONFIG_CFI the hidden symbol that both
-> compiler symbols select. After a couple of releases (or maybe the next
-> LTS), both CONFIG_CFI_CLANG and CONFIG_CFI_GCC could be eliminated with
-> CONFIG_CFI becoming user selectable, which would keep things working
-> since CONFIG_CFI=y will be present in the previous configuration.
-
-
--- 
-~Randy
-
+--=20
+Regards
+Yafang
