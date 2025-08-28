@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8443375BE;
-	Thu, 28 Aug 2025 17:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1E0341ABF;
+	Thu, 28 Aug 2025 17:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756401169; cv=none; b=ium4PCQ1AoOCjmen9gHp710XttZ9dMYrHsnl4tsHCvNfARBZeCiygVKiENpMChsJihoaBDyqgE8c06Y6gix5HdrVl1GnDyYSM7v2+BmBvnaUssJeShziIMjcr3OJ10E+bU1r4gJ078yej6MQTw2My3WInw6kHhMuB0HwnxaJCQs=
+	t=1756401176; cv=none; b=GwTkT3hMOFkfn1N3Q7vF2eQtWl6qyKVwhsQlf9APcBKfM9f9JhRWL0yapEDY/IFRsovYRmc3WSEQ7Vn2k/dpZFLllGF3a5B9l43uZIxM8dJk5nzZC52Hice93ZXR4MNeNQdz2N6Kn2Me1vBoMDvTJ5oSQE8HqFr18/TDSD2L4KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756401169; c=relaxed/simple;
-	bh=XMisQHBbtJ+sybKmhuOJ1thay4xxeICp3JVlocPQ0yY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LD9uaD9uDaQxo4yEjzV5NmuEX2ciMIYqwv/z4YE+3iC9WRWCKc9Lyct9eT/mJMkoeaPMtJbS3q39VUH4F2JKv+wWrMBgbTR8iYU3F4nR7QmABBbPsUkpT3onzleRZduodqxqxesR6gECiJ8HScbAeJWGC2zO49m9KSQSMY0uuo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjBJ+byh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756401176; c=relaxed/simple;
+	bh=XEEup2P+YfS2nWpANDMTFLVSwSxLXRRHKWWJnlZZn9s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QwmSGzOsSIBUw/GkFBuPmouAEj0aSIKyN+4kPxc9EgUF5YfzXJuWDOdSeF3AC3HdbvnyLqypzEzwPsgtbn2DbunFcYlM7dCFKoPthq6blSbOpXjvvnZ/V71XUsLsItOfK6SR6B+bKZ8fAAlPSVQPfFvVE8opCTm5yZhfp0W5a58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0sDW0mt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjBJ+byh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6573FC4CEEB;
-	Thu, 28 Aug 2025 17:12:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0sDW0mt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3EACC4CEEB;
+	Thu, 28 Aug 2025 17:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756401167;
-	bh=XMisQHBbtJ+sybKmhuOJ1thay4xxeICp3JVlocPQ0yY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YjBJ+byhXwpLP4Nhb/QINTUZnWulaCZqKoSScXOQYIiSWNc7HmO7cgWUK9DCbhhER
-	 9ZlhUogSBYJC80pUmFoEBloHTU+emuuYJmcxdwdYcqfRm72ypvzteOE4VqPUn1y3q3
-	 YDUZkC/IB904rebcUDG/PVHxhT67w5yky0HneQLa/utuX+TLFEApV2vf3ZRUrndLaD
-	 OUy26STkYDEnMQxAE6lku0/ArwqiTnmECyMMuCTqphOWeiJvLdh9uO0i5gROgT05Rv
-	 P2gdISyoD9FiwQwtnP8wrMa8k00SgYlUgxbqp5g7iGz+L+DaS3VCyUnlnBvBmtMLEF
-	 uNCS3R8Zm2Dqg==
+	s=k20201202; t=1756401175;
+	bh=XEEup2P+YfS2nWpANDMTFLVSwSxLXRRHKWWJnlZZn9s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=S0sDW0mtUEfC7+wyIitulsjr21PnQg6oUa4z9o7wFesIFqL9G9II6sjiS4dNfLInx
+	 9RPqGCPrVFzGnAwGliAwcCi3WCC+uNvvSSvtHZoF3fd19n1FFO3pDXeBSrLLKRrsEK
+	 ZGjQJQp9LqPIgrXjGUKQh2CnMuzOwr3vxz2Xu0Xtm8e2VcAaozGeoaMvsf+or86ZL+
+	 WKs2PKSPPJl9hYSm/YvATa9LiTKDekB9dA5yuYhVOSRKTb3q9LkB8troiKxwNvdczN
+	 eqJxV+0gMcPsXoKkrJIRqBpqPEzbFU0ZjRKJLREFfCBEjNeijfmZB2w4FpGmDQwmrV
+	 9pqxHdEQ/bxeA==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -43,10 +44,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-mm@kvack.org,
 	wangkefeng.wang@huawei.com,
 	zuoze1@huawei.com
-Subject: [PATCH v3 00/11] mm/damon: support ARM32 with LPAE
-Date: Thu, 28 Aug 2025 10:12:31 -0700
-Message-Id: <20250828171242.59810-1-sj@kernel.org>
+Subject: [PATCH v3 08/11] Docs/mm/damon/design: document 'address unit' parameter
+Date: Thu, 28 Aug 2025 10:12:39 -0700
+Message-Id: <20250828171242.59810-9-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250828171242.59810-1-sj@kernel.org>
+References: <20250828171242.59810-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,78 +58,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Previously, DAMON's physical address space monitoring only supported
-memory ranges below 4GB on LPAE-enabled systems. This was due to
-the use of 'unsigned long' in 'struct damon_addr_range', which is
-32-bit on ARM32 even with LPAE enabled[1].
+Add 'addr_unit' parameter description on DAMON design document.
 
-To add DAMON support for ARM32 with LPAE enabled, a new core layer
-parameter called 'addr_unit' was introduced[2]. Operations set layer
-can translate a core layer address to the real address by multiplying
-the parameter value to the core layer address. Support of the parameter
-is up to each operations layer implementation, though. For example,
-operations set implementations for virtual address space can simply
-ignore the parameter. Add the support on paddr, which is the DAMON
-operations set implementation for the physical address space, as we have
-a clear use case for that.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+Signed-off-by: Quanmin Yan <yanquanmin1@huawei.com>
+Reviewed-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-[1]https://lore.kernel.org/all/20250408075553.959388-1-zuoze1@huawei.com/
-[2]https://lore.kernel.org/all/20250416042551.158131-1-sj@kernel.org/
-
-Changes from v2
-(https://lore.kernel.org/20250822093420.2103803-1-yanquanmin1@huawei.com)
-- Fix 64bit division linking errors on certain 32bit arch configs.
-- Re-posted by SJ.
-
-Changes from v1
-(https://lore.kernel.org/all/20250821105159.2503894-1-yanquanmin1@huawei.com/)
-- Set dst->min_sz_region as src->min_sz_region in damon_commit_ctx().
-- Fixed the incorrect 'min_region' in the commit message.
-
-Changes from RFC v2
-(https://lore.kernel.org/all/20250820080623.3799131-1-yanquanmin1@huawei.com/)
-- Rename 'min_region' to 'min_sz_region'.
-- Separate the overflow prevention in damos_set_effective_quota() from
-  this series.
-- Drop RFC tag.
-
-Changes from RFC v1
-(https://lore.kernel.org/all/20250813050706.1564229-1-yanquanmin1@huawei.com/)
-- Set DAMOS_PAGEOUT, DAMOS_LRU_[DE]PRIO, DAMOS_MIGRATE_{HOT,COLD} and
-  DAMOS_STAT stat in core address unit.
-- Pass ctx->min_region value to replace the original synchronization.
-- Drop the DAMOS stats type changes, keep them as 'unsigned long' type.
-- Separate add addr_unit support for DAMON_RECLAIM and LRU_SORT from
-  this patch series.
-
-Quanmin Yan (1):
-  mm/damon: add damon_ctx->min_sz_region
-
-SeongJae Park (10):
-  mm/damon/core: add damon_ctx->addr_unit
-  mm/damon/paddr: support addr_unit for access monitoring
-  mm/damon/paddr: support addr_unit for DAMOS_PAGEOUT
-  mm/damon/paddr: support addr_unit for DAMOS_LRU_[DE]PRIO
-  mm/damon/paddr: support addr_unit for MIGRATE_{HOT,COLD}
-  mm/damon/paddr: support addr_unit for DAMOS_STAT
-  mm/damon/sysfs: implement addr_unit file under context dir
-  Docs/mm/damon/design: document 'address unit' parameter
-  Docs/admin-guide/mm/damon/usage: document addr_unit file
-  Docs/ABI/damon: document addr_unit file
-
- .../ABI/testing/sysfs-kernel-mm-damon         |   7 ++
- Documentation/admin-guide/mm/damon/usage.rst  |  11 +-
- Documentation/mm/damon/design.rst             |  16 ++-
- include/linux/damon.h                         |   7 +-
- mm/damon/core.c                               |  70 ++++++-----
- mm/damon/paddr.c                              | 119 +++++++++++-------
- mm/damon/sysfs.c                              |  41 +++++-
- mm/damon/tests/core-kunit.h                   |  21 ++--
- mm/damon/tests/vaddr-kunit.h                  |   2 +-
- mm/damon/vaddr.c                              |   2 +-
- 10 files changed, 204 insertions(+), 92 deletions(-)
-
-
-base-commit: 398a6e2cbd43b92d9a5fa6b4020be72c2441babd
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 2f6ba5c7f4c7..d9d5baa1ec87 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -67,7 +67,7 @@ processes, NUMA nodes, files, and backing memory devices would be supportable.
+ Also, if some architectures or devices support special optimized access check
+ features, those will be easily configurable.
+ 
+-DAMON currently provides below three operation sets.  Below two subsections
++DAMON currently provides below three operation sets.  Below three subsections
+ describe how those work.
+ 
+  - vaddr: Monitor virtual address spaces of specific processes
+@@ -135,6 +135,18 @@ the interference is the responsibility of sysadmins.  However, it solves the
+ conflict with the reclaim logic using ``PG_idle`` and ``PG_young`` page flags,
+ as Idle page tracking does.
+ 
++Address Unit
++------------
++
++DAMON core layer uses ``unsinged long`` type for monitoring target address
++ranges.  In some cases, the address space for a given operations set could be
++too large to be handled with the type.  ARM (32-bit) with large physical
++address extension is an example.  For such cases, a per-operations set
++parameter called ``address unit`` is provided.  It represents the scale factor
++that need to be multiplied to the core layer's address for calculating real
++address on the given address space.  Support of ``address unit`` parameter is
++up to each operations set implementation.  ``paddr`` is the only operations set
++implementation that supports the parameter.
+ 
+ .. _damon_core_logic:
+ 
 -- 
 2.39.5
