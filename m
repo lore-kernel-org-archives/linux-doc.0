@@ -1,105 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE01239591;
-	Thu, 28 Aug 2025 16:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFECD3314B3;
+	Thu, 28 Aug 2025 16:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756400074; cv=none; b=OKy3t5IInbTn4MzacZ50x4alKaB9QW3aidx2/kM8lGpm6YqCkSeW6ON0tzYdgb6TnhXNgdNBoxbfZslP4YZZzOOgBJT5kPHUPXuGft/Xb+fffDyuh2EaSWnYGPLyxiy8DrOMAWX/iAUdEghJhEgjSVt1BRExO2gzr/Bunkg1cvA=
+	t=1756400366; cv=none; b=NxWpTEw5SK1Z8xZNORNvCtLRIbR6rP7naa1gfs3Jje/X3LU4YAF2IVqBWkHIkKfaeokAzOOu8w7OyqgKij/smfxZYl9mlhodhPJ2LaVKbbG9VlTWrzEUv1fJQgbqjqw6NMwDiefqxYZSe/TrGKAdYkAlhFF7+rt0CoAvEcOGhG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756400074; c=relaxed/simple;
-	bh=3QSqWFwhLXFpgIQB1AhDzeFYEFSsyOykW/t8YMcdvDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RtLva3nkQcBVWZrKbjaVkcaNP2AXxkRrdw24eElLjoB8BLpR/OhRAd5RUIz3utUW+Gtl1XsgcygMs64/IlEBHSIOomAMF0/0IAVL0Qc6+MX+yrFdc04F01pNrBZrmiXSMd6o5kOIzprIOkiYCYWfxRPpyOFWskguSH6lzLMEm68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Utug3C4q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756400366; c=relaxed/simple;
+	bh=kYfylJecqyv+6vnymFsdtqLi9AgdgemVenjyBUyVBK8=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=dH1aBWKPZ4vV1EKqcZgV6CO4AXG0hqeq3uXU5qknJyxMmjE8mcX57vJJI3gSc6yWijaJyeIH11g77Y7tv1pfeUkyGNh3UrcnVX4+x7JO4oSpsbHx/WEpXRoXGodYBscmZGcyG35IRMiGcR+egx/VbQN4v7P0iGWtmx2vo9WQAF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net; spf=pass smtp.mailfrom=jvosburgh.net; dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b=BNTapcJX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MTtRoiGN; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jvosburgh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Utug3C4q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C34C4CEED;
-	Thu, 28 Aug 2025 16:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756400072;
-	bh=3QSqWFwhLXFpgIQB1AhDzeFYEFSsyOykW/t8YMcdvDs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Utug3C4qHAngGkUPRUqPcVpMv2skHSOiyTR1dzioCxiyV/N0D3D3xwLMN4kKVhjRg
-	 R1e3GaQ66/QDlvAbclIdn1b0xrBO+DODu7rLesJ54dZQOJ+qr4UwXmhZorK6X6L1pe
-	 /mKnN3THYo/PX+SSQI5FBBXcz4a8pvxXQG8iBycA9jlkdj9zJMMNMWOCxqVVHcRMG0
-	 jrJGkyKqRduB/ujzl45UowCIqtVEnLBTqm/vLH4mWU4+vwRxIYccg9OHedq9aiILZs
-	 hmuixBFk7xqznER0ERf4UjMVjXknV66U4Y9wYKKHbgLQRBDuheIDJSUa9AzDEN/7Pr
-	 p4K8MwEWQi7/w==
-Date: Thu, 28 Aug 2025 19:54:27 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
-Message-ID: <20250828165427.GB10073@unreal>
-References: <cover.1755624249.git.leon@kernel.org>
- <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
- <aLBzeMNT3WOrjprC@kbusch-mbp>
+	dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b="BNTapcJX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MTtRoiGN"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 8466D7A0198;
+	Thu, 28 Aug 2025 12:59:22 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Thu, 28 Aug 2025 12:59:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jvosburgh.net;
+	 h=cc:cc:content-id:content-type:content-type:date:date:from
+	:from:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1756400362; x=
+	1756486762; bh=WjgDdX5WvSEXp8OZHfzER7hnYaOdtStf4MrinPrBgwo=; b=B
+	NTapcJXizy+DV9xdGrxlv9f3W2suBvFOB2We0AkP4v3szAvJR9qTOaP/8EfNX/xt
+	MA6frokrgs6sxFU7nMC7D0b+RlEAleub6ys1+eREvj9IZ8XYT6o/dxZRW6WuRFiA
+	Ka2vLXlxDvmp6SfdCNol0znPoGFX2QwcCums2scwWfGeOfOWi1ESdbJIY22bs3Ua
+	i6jUPUm9NHsGepNetpcLMqC3LWRaYxPaj+6PsaZFOASBbjW9OU1cX+cXi8BOtnx3
+	F4MHWRsZr22svYV3KwmVepRkj6FR8J2S5+o0Te8w76s3Yu0fhMH8+26BJvop8UTh
+	RpwO1WEZkDuoaSY8dJbZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-id:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1756400362; x=1756486762; bh=W
+	jgDdX5WvSEXp8OZHfzER7hnYaOdtStf4MrinPrBgwo=; b=MTtRoiGNL+tDZmTXQ
+	5AylfAVZuT/G9agZbPgmErTgmcSJ8l2dh9QPtTGBj+IK0BLH4u/kMA97SiTKipW8
+	mNRUkeAyJ0eR8Vu1sNnWZiSTFzqKJTiJ1cjnTpKzo2a/O6ZzPoftJReO73vk3fYM
+	u2h8MexOZ8/oVzAcrGgO/fd1RVj06kRRQycbr8OmuvHALhTugu4xDkQViCmDVQt6
+	GYYSWdjo+Xj53x92XCEfkcl5GQODUKrPkH20KBkf41BQ9eSe0b6JRCwGHMHhXgbF
+	hDsew9KWLcttHFLJjV882gPFytdBU5Ss1cHaalp/mn/lPQFIBAyHZeDvZGMu1d7C
+	8cDTA==
+X-ME-Sender: <xms:6YqwaCle6lfhsLU9TMofEypoFj-4KHxYl_UrdtlsFLHzynsVd0GF9Q>
+    <xme:6YqwaAb31HDF24PluNtHeG_lqcPpkCOQWTVZa9bdAe6uQggW_gd4y6fcTg4YNDAdL
+    aCHojs58wcPSVSQ2I0>
+X-ME-Received: <xmr:6YqwaCXvB2MT2mrQ1nTkfhfc0kxM8ZnRVb3LEF7aijegbVe2-GGmHYpXOU3w53WuSUFh_A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduheegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefujghfofggtgffkfesthdtredtredtvdenucfhrhhomheplfgrhicuggho
+    shgsuhhrghhhuceojhhvsehjvhhoshgsuhhrghhhrdhnvghtqeenucggtffrrghtthgvrh
+    hnpeejvdfghfetvedvudefvdejgeelteevkeevgedthfdukeevieejueehkeegffejuden
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjvhesjh
+    hvohhssghurhhghhdrnhgvthdpnhgspghrtghpthhtohepudelpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopehrrgiiohhrsegslhgrtghkfigrlhhlrdhorhhgpdhrtghpth
+    htohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegushgrhhgv
+    rhhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhonhgrshdrghhorhhskhhisehgmh
+    grihhlrdgtohhmpdhrtghpthhtoheplhhiuhhhrghnghgsihhnsehgmhgrihhlrdgtohhm
+    pdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhope
+    hhohhrmhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtohepshhhuhgrhheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:6YqwaABjR4kPKLbPBJfXpJ4-Rk0PHUlf9GaekkJNYNXwwSTrx9WDsQ>
+    <xmx:6YqwaBxfDf8Z-9VEXWCAkEbFBjviDxUVcnm5F9XM-fARyPBliArJUA>
+    <xmx:6YqwaGabU6xHrrm4_dUUpDJ9ZGxSltR4B4VLW3-kZpjeJUMxqXiIIQ>
+    <xmx:6YqwaOSlELAxs0a_097SCu3nTe6pvgs0GA4_CtYSXRHMEXfYNhvP2w>
+    <xmx:6oqwaPzPEKhgCr0S-MhzZZBBnQErT0FPz4OyhLv048ErE5RNxuMGn-Zo>
+Feedback-ID: i53714940:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 Aug 2025 12:59:21 -0400 (EDT)
+Received: by famine.localdomain (Postfix, from userid 1000)
+	id 33CB39FCA0; Thu, 28 Aug 2025 09:59:20 -0700 (PDT)
+Received: from famine (localhost [127.0.0.1])
+	by famine.localdomain (Postfix) with ESMTP id 306E29FB65;
+	Thu, 28 Aug 2025 09:59:20 -0700 (PDT)
+From: Jay Vosburgh <jv@jvosburgh.net>
+To: Hangbin Liu <liuhangbin@gmail.com>
+cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+    "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>,
+    Nikolay Aleksandrov <razor@blackwall.org>,
+    Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
+    Jonathan Corbet <corbet@lwn.net>, Petr Machata <petrm@nvidia.com>,
+    Amit Cohen <amcohen@nvidia.com>,
+    Vladimir Oltean <vladimir.oltean@nxp.com>,
+    Stephen Hemminger <stephen@networkplumber.org>,
+    David Ahern <dsahern@gmail.com>,
+    Jonas Gorski <jonas.gorski@gmail.com>, linux-doc@vger.kernel.org,
+    linux-kselftest@vger.kernel.org
+Subject: Re: [PATCHv4 iproute2-next] iplink: bond_slave: add support for
+ actor_port_prio
+In-reply-to: <aK_MB7ikY0hUhGqn@fedora>
+References: <20250825070528.421434-1-liuhangbin@gmail.com>
+ <1859262.1756320199@famine> <aK_MB7ikY0hUhGqn@fedora>
+Comments: In-reply-to Hangbin Liu <liuhangbin@gmail.com>
+   message dated "Thu, 28 Aug 2025 03:24:55 -0000."
+X-Mailer: MH-E 8.6+git; nmh 1.8+dev; Emacs 29.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aLBzeMNT3WOrjprC@kbusch-mbp>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1918693.1756400360.1@famine>
+Date: Thu, 28 Aug 2025 09:59:20 -0700
+Message-ID: <1918694.1756400360@famine>
 
-On Thu, Aug 28, 2025 at 09:19:20AM -0600, Keith Busch wrote:
-> On Tue, Aug 19, 2025 at 08:36:59PM +0300, Leon Romanovsky wrote:
-> > diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> > index 09b99d52fd36..283058bcb5b1 100644
-> > --- a/include/linux/blk_types.h
-> > +++ b/include/linux/blk_types.h
-> > @@ -387,6 +387,7 @@ enum req_flag_bits {
-> >  	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
-> >  	__REQ_ATOMIC,		/* for atomic write operations */
-> >  	__REQ_P2PDMA,		/* contains P2P DMA pages */
-> > +	__REQ_MMIO,		/* contains MMIO memory */
-> >  	/*
-> >  	 * Command specific flags, keep last:
-> >  	 */
-> > @@ -420,6 +421,7 @@ enum req_flag_bits {
-> >  #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
-> >  #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-> >  #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
-> > +#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
-> 
-> Now that my integrity metadata DMA series is staged, I don't think we
-> can use REQ flags like this because data and metadata may have different
-> mapping types. I think we should add a flags field to the dma_iova_state
-> instead.
+Hangbin Liu <liuhangbin@gmail.com> wrote:
 
-Before integrity metadata code was merged, the assumption was that request is
-only one type or p2p or host. Is it still holding now?
+>On Wed, Aug 27, 2025 at 11:43:19AM -0700, Jay Vosburgh wrote:
+>> Hangbin Liu <liuhangbin@gmail.com> wrote:
+>> 
+>> >Add support for the actor_port_prio option for bond slaves.
+>> >This per-port priority can be used by the bonding driver in ad_select to
+>> >choose the higher-priority aggregator during failover.
+>> >
+>> >Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
+>> >---
+>> >v4: no update
+>> >v3: rename ad_actor_port_prio to actor_port_prio
+>> >v2: no update
+>> >---
+>> > ip/iplink_bond.c       |  1 +
+>> > ip/iplink_bond_slave.c | 18 ++++++++++++++++--
+>> > man/man8/ip-link.8.in  |  6 ++++++
+>> > 3 files changed, 23 insertions(+), 2 deletions(-)
+>> >
+>> >diff --git a/ip/iplink_bond.c b/ip/iplink_bond.c
+>> >index d6960f6d9b03..1a2c1b3042a0 100644
+>> >--- a/ip/iplink_bond.c
+>> >+++ b/ip/iplink_bond.c
+>> >@@ -91,6 +91,7 @@ static const char *ad_select_tbl[] = {
+>> > 	"stable",
+>> > 	"bandwidth",
+>> > 	"count",
+>> >+	"prio",
+>> 
+>> 	Should this be actor_port_prio?
+>
+>hmm, actor_port_prio correspond to the ip link option name, which is also
+>acceptable.
 
-And we can't store in dma_iova_state() as HMM/RDMA code works in page-based
-granularity and one dma_iova_state() can mix different types.
+	Isn't this the text of the ip link option name right here (in
+the sense of what goes on the "ip link" command line)?
 
-Thanks
+>While in kernel, we defined the select policy as
+>
+>        { "stable",    BOND_AD_STABLE,    BOND_VALFLAG_DEFAULT},
+>        { "bandwidth", BOND_AD_BANDWIDTH, 0},
+>        { "count",     BOND_AD_COUNT,     0},
+>+       { "prio",      BOND_AD_PRIO,      0},
 
-> 
+	Maybe my memory is starting to go, but I thought in a prior
+discussion we'd agreed to change this as well for consistency.
+
+>So I think the prio here should also be OK.
+>
+>You can decide which one to use.
+
+	I would prefer that the two options have discrete names, or,
+really, that we not repeat "prio" as it's already used elsewhere.  Plus,
+who knows, maybe in the future we'll have another priority option.
+
+	-J
+
+---
+	-Jay Vosburgh, jv@jvosburgh.net
