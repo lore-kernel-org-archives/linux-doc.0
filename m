@@ -1,124 +1,132 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D4322DDF
-	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 17:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8443375BE;
+	Thu, 28 Aug 2025 17:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756400586; cv=none; b=SaWtQBWM1pYGCm6QdyHZq1RH25RVV1ugpwnPpXBu2tv3gjyZ2X3mNk68USaZG9Ax4kq8UsoCNlqzoNhH+h8P12x5BzAF0kI3qWbLmwMRLaWaHP6sx9QiNXlIJzKajjiUTZySnk7tnac4W7YKpjTbxbGMVwxfhdT+qGl0gnTpR5E=
+	t=1756401169; cv=none; b=ium4PCQ1AoOCjmen9gHp710XttZ9dMYrHsnl4tsHCvNfARBZeCiygVKiENpMChsJihoaBDyqgE8c06Y6gix5HdrVl1GnDyYSM7v2+BmBvnaUssJeShziIMjcr3OJ10E+bU1r4gJ078yej6MQTw2My3WInw6kHhMuB0HwnxaJCQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756400586; c=relaxed/simple;
-	bh=lc4yQLlGQ1ALDQQJS7QLyBBBdQD7Q9TQBdMpceMI9hk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nvcb8cBt/zj0ZulNVq+30sqo6Y63/UkaoVz9n1j9WlDNF2SG9eUY49cNMmfC3On0JfTbJNaHkinmYa0mMlBaFhVySm2wEnqeD5kCk5TPXqirWAyw3g+jd7oUvI64vaCI+6oiCOEd7GWpFYDxklxNTGdVzToi2WKX2IXxiC9HBBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K88uUqBi; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1756401169; c=relaxed/simple;
+	bh=XMisQHBbtJ+sybKmhuOJ1thay4xxeICp3JVlocPQ0yY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LD9uaD9uDaQxo4yEjzV5NmuEX2ciMIYqwv/z4YE+3iC9WRWCKc9Lyct9eT/mJMkoeaPMtJbS3q39VUH4F2JKv+wWrMBgbTR8iYU3F4nR7QmABBbPsUkpT3onzleRZduodqxqxesR6gECiJ8HScbAeJWGC2zO49m9KSQSMY0uuo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjBJ+byh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K88uUqBi"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id DF9BD4E40BBC;
-	Thu, 28 Aug 2025 17:03:01 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AA3DF60303;
-	Thu, 28 Aug 2025 17:03:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 21CAF1C22DD92;
-	Thu, 28 Aug 2025 19:02:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1756400580; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=4Vex+Mkvb0GemWYHmwN2TZzE127JKaTead6sfS0g/BY=;
-	b=K88uUqBiCBmZYOXjE7eaX15VQS5Y/Ibuox7+bHeNP1PTVBAlgYC+/JcBeCy6VcGGzpV4pj
-	5No3PKiewSUFyztDWjZSg+SYBIXI2j0TZhjP3cxfVJ88Mx+1bo5P2g9YaAF61MGTFZZkxo
-	D2ihndxTq0UfY28cIyiTH2qPn9Dq1nbuknrDK7XN/4dT/MWkC/sxPuZtqKHDnhflmMF3pn
-	yTMwbfDlvSzkX1GmcMlpSQ1ooW/TrcLB+VoyYLFDB6P4uBwurHDppwCnHU9e7cVR/409Wg
-	JE73AvIf6jwNIVWuXKZmfeRuk+M/VLeO/ev5PyXFvCOiExR3xWCLmP/Cwl9+kQ==
-Date: Thu, 28 Aug 2025 19:02:43 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: "Message-ID :" <cover.1752076293.git.mchehab+huawei@kernel.org>, Linux
- Doc Mailing List <linux-doc@vger.kernel.org>, "Akira Yokosawa"
- <akiyks@gmail.com>, "Breno Leitao" <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, "Donald Hunter" <donald.hunter@gmail.com>, "Eric
- Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
- <ignacio@iencinas.com>, "Jakub Kicinski" <kuba@kernel.org>, "Jan Stancek"
- <jstancek@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>, "Marco Elver"
- <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Ruben Wauters" <rubenru09@aol.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Simon Horman" <horms@kernel.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v10 06/14] docs: use parser_yaml extension to handle
- Netlink specs
-Message-ID: <20250828190243.0d3f74f6@kmaincent-XPS-13-7390>
-In-Reply-To: <20250828185037.07873d04@kmaincent-XPS-13-7390>
-References: <cover.1753718185.git.mchehab+huawei@kernel.org>
-	<4c97889f0674b69f584dedc543a879d227ef5de0.1753718185.git.mchehab+huawei@kernel.org>
-	<20250828185037.07873d04@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjBJ+byh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6573FC4CEEB;
+	Thu, 28 Aug 2025 17:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756401167;
+	bh=XMisQHBbtJ+sybKmhuOJ1thay4xxeICp3JVlocPQ0yY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YjBJ+byhXwpLP4Nhb/QINTUZnWulaCZqKoSScXOQYIiSWNc7HmO7cgWUK9DCbhhER
+	 9ZlhUogSBYJC80pUmFoEBloHTU+emuuYJmcxdwdYcqfRm72ypvzteOE4VqPUn1y3q3
+	 YDUZkC/IB904rebcUDG/PVHxhT67w5yky0HneQLa/utuX+TLFEApV2vf3ZRUrndLaD
+	 OUy26STkYDEnMQxAE6lku0/ArwqiTnmECyMMuCTqphOWeiJvLdh9uO0i5gROgT05Rv
+	 P2gdISyoD9FiwQwtnP8wrMa8k00SgYlUgxbqp5g7iGz+L+DaS3VCyUnlnBvBmtMLEF
+	 uNCS3R8Zm2Dqg==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Quanmin Yan <yanquanmin1@huawei.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	wangkefeng.wang@huawei.com,
+	zuoze1@huawei.com
+Subject: [PATCH v3 00/11] mm/damon: support ARM32 with LPAE
+Date: Thu, 28 Aug 2025 10:12:31 -0700
+Message-Id: <20250828171242.59810-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-Le Thu, 28 Aug 2025 18:50:37 +0200,
-Kory Maincent <kory.maincent@bootlin.com> a =C3=A9crit :
+Previously, DAMON's physical address space monitoring only supported
+memory ranges below 4GB on LPAE-enabled systems. This was due to
+the use of 'unsigned long' in 'struct damon_addr_range', which is
+32-bit on ARM32 even with LPAE enabled[1].
 
-> Le Mon, 28 Jul 2025 18:01:59 +0200,
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> a =C3=A9crit :
->=20
-> > Instead of manually calling ynl_gen_rst.py, use a Sphinx extension.
-> > This way, no .rst files would be written to the Kernel source
-> > directories.
-> >=20
-> > We are using here a toctree with :glob: property. This way, there
-> > is no need to touch the netlink/specs/index.rst file every time
-> > a new Netlink spec is added/renamed/removed. =20
->=20
-> ...
->=20
-> > diff --git a/Documentation/networking/index.rst
-> > b/Documentation/networking/index.rst index ac90b82f3ce9..b7a4969e9bc9 1=
-00644
-> > --- a/Documentation/networking/index.rst
-> > +++ b/Documentation/networking/index.rst
-> > @@ -57,7 +57,7 @@ Contents:
-> >     filter
-> >     generic-hdlc
-> >     generic_netlink
-> > -   netlink_spec/index
-> > +   ../netlink/specs/index =20
->=20
-> Faced a doc build warning that say netlink_spec/index.rst is not used.
->=20
-> $ git grep netlink_spec
-> Documentation/networking/mptcp.rst:netlink_spec/mptcp_pm.rst.
-> Documentation/translations/zh_CN/networking/index.rst:*   netlink_spec/in=
-dex
->=20
-> I think we can remove the whole directory and change these, right?
+To add DAMON support for ARM32 with LPAE enabled, a new core layer
+parameter called 'addr_unit' was introduced[2]. Operations set layer
+can translate a core layer address to the real address by multiplying
+the parameter value to the core layer address. Support of the parameter
+is up to each operations layer implementation, though. For example,
+operations set implementations for virtual address space can simply
+ignore the parameter. Add the support on paddr, which is the DAMON
+operations set implementation for the physical address space, as we have
+a clear use case for that.
 
-Oops just saw that is was some local leftover. This first warning get remov=
-ed
-with a clean tree.
-=20
-> Also got a doc build warning that says netlink/specs/index is not existing
-> even if it exists. Maybe a sphinx parsing issue ?!
+[1]https://lore.kernel.org/all/20250408075553.959388-1-zuoze1@huawei.com/
+[2]https://lore.kernel.org/all/20250416042551.158131-1-sj@kernel.org/
+
+Changes from v2
+(https://lore.kernel.org/20250822093420.2103803-1-yanquanmin1@huawei.com)
+- Fix 64bit division linking errors on certain 32bit arch configs.
+- Re-posted by SJ.
+
+Changes from v1
+(https://lore.kernel.org/all/20250821105159.2503894-1-yanquanmin1@huawei.com/)
+- Set dst->min_sz_region as src->min_sz_region in damon_commit_ctx().
+- Fixed the incorrect 'min_region' in the commit message.
+
+Changes from RFC v2
+(https://lore.kernel.org/all/20250820080623.3799131-1-yanquanmin1@huawei.com/)
+- Rename 'min_region' to 'min_sz_region'.
+- Separate the overflow prevention in damos_set_effective_quota() from
+  this series.
+- Drop RFC tag.
+
+Changes from RFC v1
+(https://lore.kernel.org/all/20250813050706.1564229-1-yanquanmin1@huawei.com/)
+- Set DAMOS_PAGEOUT, DAMOS_LRU_[DE]PRIO, DAMOS_MIGRATE_{HOT,COLD} and
+  DAMOS_STAT stat in core address unit.
+- Pass ctx->min_region value to replace the original synchronization.
+- Drop the DAMOS stats type changes, keep them as 'unsigned long' type.
+- Separate add addr_unit support for DAMON_RECLAIM and LRU_SORT from
+  this patch series.
+
+Quanmin Yan (1):
+  mm/damon: add damon_ctx->min_sz_region
+
+SeongJae Park (10):
+  mm/damon/core: add damon_ctx->addr_unit
+  mm/damon/paddr: support addr_unit for access monitoring
+  mm/damon/paddr: support addr_unit for DAMOS_PAGEOUT
+  mm/damon/paddr: support addr_unit for DAMOS_LRU_[DE]PRIO
+  mm/damon/paddr: support addr_unit for MIGRATE_{HOT,COLD}
+  mm/damon/paddr: support addr_unit for DAMOS_STAT
+  mm/damon/sysfs: implement addr_unit file under context dir
+  Docs/mm/damon/design: document 'address unit' parameter
+  Docs/admin-guide/mm/damon/usage: document addr_unit file
+  Docs/ABI/damon: document addr_unit file
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |   7 ++
+ Documentation/admin-guide/mm/damon/usage.rst  |  11 +-
+ Documentation/mm/damon/design.rst             |  16 ++-
+ include/linux/damon.h                         |   7 +-
+ mm/damon/core.c                               |  70 ++++++-----
+ mm/damon/paddr.c                              | 119 +++++++++++-------
+ mm/damon/sysfs.c                              |  41 +++++-
+ mm/damon/tests/core-kunit.h                   |  21 ++--
+ mm/damon/tests/vaddr-kunit.h                  |   2 +-
+ mm/damon/vaddr.c                              |   2 +-
+ 10 files changed, 204 insertions(+), 92 deletions(-)
 
 
->=20
-> Regards,
-
-
-
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+base-commit: 398a6e2cbd43b92d9a5fa6b4020be72c2441babd
+-- 
+2.39.5
