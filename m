@@ -1,111 +1,105 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED94825FA05
-	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 16:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE01239591;
+	Thu, 28 Aug 2025 16:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756399887; cv=none; b=q9ctrrzmQS4gu8ACm0xkQbESkd5r0C/oRaoA+KgqZ9JHn0/nQWv+dg08LeAAO51YVgzBm7lyfbgBiYgCYjjKFKNLpRI38Gq0D8qmWEBLMvxCP4z3mwhhvKCaqrFXPFyAC6u4Bt7QrxEWTVnYsL3nSr7qq8FK/JGMNrlYe5wNW9M=
+	t=1756400074; cv=none; b=OKy3t5IInbTn4MzacZ50x4alKaB9QW3aidx2/kM8lGpm6YqCkSeW6ON0tzYdgb6TnhXNgdNBoxbfZslP4YZZzOOgBJT5kPHUPXuGft/Xb+fffDyuh2EaSWnYGPLyxiy8DrOMAWX/iAUdEghJhEgjSVt1BRExO2gzr/Bunkg1cvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756399887; c=relaxed/simple;
-	bh=PVupvUbljqqv0l5EpslMuDT5j7QU3Ufuil+d3qdB5eA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q7TFQ62+B4EnAtUbo9UmqAR4MkXC2nPdxa5wRfBf5B8hMiMg6xrt8fRmdAlFk0vN6u/nTtXcx/cacl4CPzDGxifpdW1/qtvIVlKvj59TjC7+m6yLSMRFHZAa0d7P9+u4zTIohnM6vDW7ytKJG8JTTis39jYM3s1s1YcBya/4qxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LF+gGwKi; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1756400074; c=relaxed/simple;
+	bh=3QSqWFwhLXFpgIQB1AhDzeFYEFSsyOykW/t8YMcdvDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RtLva3nkQcBVWZrKbjaVkcaNP2AXxkRrdw24eElLjoB8BLpR/OhRAd5RUIz3utUW+Gtl1XsgcygMs64/IlEBHSIOomAMF0/0IAVL0Qc6+MX+yrFdc04F01pNrBZrmiXSMd6o5kOIzprIOkiYCYWfxRPpyOFWskguSH6lzLMEm68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Utug3C4q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LF+gGwKi"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 8601EC8F450;
-	Thu, 28 Aug 2025 16:51:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BCAB960303;
-	Thu, 28 Aug 2025 16:51:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6EEC81C22DDE9;
-	Thu, 28 Aug 2025 18:50:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1756399881; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=01CLvL+opovfhfkSRyspjEXFZkfbj0TTItWEljkWyHE=;
-	b=LF+gGwKiR4u1aF8x9V/r/FYoaEYM5yIMM4utgdSxggzuD4ceJXDH52EapVHz1dRavntVmb
-	Z/4leyNDKQ3csKFk80uvyyd/e5syNpIg1IV1Xyf2kelhcKowKrG3NfsAdB9M+WJVPpnYd+
-	d85Egg6pS5815TGmco9Nynhhhkjzgm1QF9rqUeHeBm59SlAjT1Fupc4Mnn5VODa3tirg8U
-	n8wDXL4666720TL3hBZMVmYjB9PvgYgev95Id+9yn+IXQE2JDHZq4nbJ8lDujkGkQ/M/oF
-	+wZyBzXCBG/NU6Lt30oQqy+shG9EVxYj5ClTuzgIhroq74/O8htu/GlXU16KSA==
-Date: Thu, 28 Aug 2025 18:50:37 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: "Message-ID :" <cover.1752076293.git.mchehab+huawei@kernel.org>, Linux
- Doc Mailing List <linux-doc@vger.kernel.org>, "Akira Yokosawa"
- <akiyks@gmail.com>, "Breno Leitao" <leitao@debian.org>, "David S. Miller"
- <davem@davemloft.net>, "Donald Hunter" <donald.hunter@gmail.com>, "Eric
- Dumazet" <edumazet@google.com>, "Ignacio Encinas Rubio"
- <ignacio@iencinas.com>, "Jakub Kicinski" <kuba@kernel.org>, "Jan Stancek"
- <jstancek@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>, "Marco Elver"
- <elver@google.com>, "Paolo Abeni" <pabeni@redhat.com>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Ruben Wauters" <rubenru09@aol.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Simon Horman" <horms@kernel.org>,
- joel@joelfernandes.org, linux-kernel-mentees@lists.linux.dev,
- linux-kernel@vger.kernel.org, lkmm@lists.linux.dev, netdev@vger.kernel.org,
- peterz@infradead.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v10 06/14] docs: use parser_yaml extension to handle
- Netlink specs
-Message-ID: <20250828185037.07873d04@kmaincent-XPS-13-7390>
-In-Reply-To: <4c97889f0674b69f584dedc543a879d227ef5de0.1753718185.git.mchehab+huawei@kernel.org>
-References: <cover.1753718185.git.mchehab+huawei@kernel.org>
-	<4c97889f0674b69f584dedc543a879d227ef5de0.1753718185.git.mchehab+huawei@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Utug3C4q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C34C4CEED;
+	Thu, 28 Aug 2025 16:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756400072;
+	bh=3QSqWFwhLXFpgIQB1AhDzeFYEFSsyOykW/t8YMcdvDs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Utug3C4qHAngGkUPRUqPcVpMv2skHSOiyTR1dzioCxiyV/N0D3D3xwLMN4kKVhjRg
+	 R1e3GaQ66/QDlvAbclIdn1b0xrBO+DODu7rLesJ54dZQOJ+qr4UwXmhZorK6X6L1pe
+	 /mKnN3THYo/PX+SSQI5FBBXcz4a8pvxXQG8iBycA9jlkdj9zJMMNMWOCxqVVHcRMG0
+	 jrJGkyKqRduB/ujzl45UowCIqtVEnLBTqm/vLH4mWU4+vwRxIYccg9OHedq9aiILZs
+	 hmuixBFk7xqznER0ERf4UjMVjXknV66U4Y9wYKKHbgLQRBDuheIDJSUa9AzDEN/7Pr
+	 p4K8MwEWQi7/w==
+Date: Thu, 28 Aug 2025 19:54:27 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
+Message-ID: <20250828165427.GB10073@unreal>
+References: <cover.1755624249.git.leon@kernel.org>
+ <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
+ <aLBzeMNT3WOrjprC@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aLBzeMNT3WOrjprC@kbusch-mbp>
 
-Le Mon, 28 Jul 2025 18:01:59 +0200,
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> a =C3=A9crit :
+On Thu, Aug 28, 2025 at 09:19:20AM -0600, Keith Busch wrote:
+> On Tue, Aug 19, 2025 at 08:36:59PM +0300, Leon Romanovsky wrote:
+> > diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> > index 09b99d52fd36..283058bcb5b1 100644
+> > --- a/include/linux/blk_types.h
+> > +++ b/include/linux/blk_types.h
+> > @@ -387,6 +387,7 @@ enum req_flag_bits {
+> >  	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
+> >  	__REQ_ATOMIC,		/* for atomic write operations */
+> >  	__REQ_P2PDMA,		/* contains P2P DMA pages */
+> > +	__REQ_MMIO,		/* contains MMIO memory */
+> >  	/*
+> >  	 * Command specific flags, keep last:
+> >  	 */
+> > @@ -420,6 +421,7 @@ enum req_flag_bits {
+> >  #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
+> >  #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
+> >  #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
+> > +#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
+> 
+> Now that my integrity metadata DMA series is staged, I don't think we
+> can use REQ flags like this because data and metadata may have different
+> mapping types. I think we should add a flags field to the dma_iova_state
+> instead.
 
-> Instead of manually calling ynl_gen_rst.py, use a Sphinx extension.
-> This way, no .rst files would be written to the Kernel source
-> directories.
->=20
-> We are using here a toctree with :glob: property. This way, there
-> is no need to touch the netlink/specs/index.rst file every time
-> a new Netlink spec is added/renamed/removed.
+Before integrity metadata code was merged, the assumption was that request is
+only one type or p2p or host. Is it still holding now?
 
-...
+And we can't store in dma_iova_state() as HMM/RDMA code works in page-based
+granularity and one dma_iova_state() can mix different types.
 
-> diff --git a/Documentation/networking/index.rst
-> b/Documentation/networking/index.rst index ac90b82f3ce9..b7a4969e9bc9 100=
-644
-> --- a/Documentation/networking/index.rst
-> +++ b/Documentation/networking/index.rst
-> @@ -57,7 +57,7 @@ Contents:
->     filter
->     generic-hdlc
->     generic_netlink
-> -   netlink_spec/index
-> +   ../netlink/specs/index
+Thanks
 
-Faced a doc build warning that say netlink_spec/index.rst is not used.
-
-$ git grep netlink_spec
-Documentation/networking/mptcp.rst:netlink_spec/mptcp_pm.rst.
-Documentation/translations/zh_CN/networking/index.rst:*   netlink_spec/index
-
-I think we can remove the whole directory and change these, right?
-
-Also got a doc build warning that says netlink/specs/index is not existing =
-even
-if it exists. Maybe a sphinx parsing issue ?!
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> 
