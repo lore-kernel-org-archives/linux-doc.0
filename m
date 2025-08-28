@@ -1,167 +1,149 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95E32ED141;
-	Thu, 28 Aug 2025 07:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815A729D28B;
+	Thu, 28 Aug 2025 07:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756364984; cv=none; b=r4l/HkptwptWXeBBsOfnRX/e4P5f3+66YjoNbUx5qYfZpsaOkZO9Vam+piNqohhjT5pWN34a0FQR3S5yklhHnvaoouF/QZZDwuBr8wt9uwqStYtw1vrNxGRchWC44WV28uHv+4eGmxPHTAKqM8U+Yj/0uHkSKnmHf+1zzL0O300=
+	t=1756365059; cv=none; b=IkUMFNPlryto+rYmyfLWTzx8X5k1IaX3PcHVYqm2DjNyOFO/mmur8GQweNYvNPZPvLtvRQC6iZXfjxbVXX+wsi4a9iRrbK7nCTq8mGprrTA1CQrfGU6349yM997xwnFxuOzcOYk9faYeCpr7++zQxFKykuT4QGM08Kz4na3VXnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756364984; c=relaxed/simple;
-	bh=SPpp1RH7FHS64BgwJSfDV6et5//09GHoAwf6X9+I1DE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Abz8pDUG0x7mzoN1Y83+ugiZPmTn5PcOAT0Yw0kH1TfyufHNNJxzOTC/NccwNdM2nyCup6MZnrzwmZz8/K9nzx5x7n7eezadUSVvgzsNhxUj4a2wZKeNo4LGLJYdPtXpBh5oAD6x79SfinmKrUpPP9cNriL7CPbW0E7QJVKhOUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=vrC87pxx; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="vrC87pxx"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57S78ocR1469076;
-	Thu, 28 Aug 2025 02:08:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1756364930;
-	bh=ihg1BqVIXwVeX9/5XhJYutDohKn1RcCO31Zmkb28TWc=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=vrC87pxxwnmX9RRUWlyB+u8ioWabgUci7PEOqwdSoGj0irRa8c/0JtiI+yVNgUh0/
-	 YGX8K+ShW9zZVi0OUwNGG9g9F97Ihp5HHxTjRXl020k7MwXfY3/7F8uxDmb7IjyIf6
-	 aXsl/3I7QOJ973cI8RD2HXZXzxo/Z+X6/B9++OAI=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57S78od32715100
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 28 Aug 2025 02:08:50 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 28
- Aug 2025 02:08:50 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 28 Aug 2025 02:08:50 -0500
-Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57S78hLu209555;
-	Thu, 28 Aug 2025 02:08:44 -0500
-Message-ID: <da2a0a37-8334-477a-8468-c4baebadf6df@ti.com>
-Date: Thu, 28 Aug 2025 12:38:43 +0530
+	s=arc-20240116; t=1756365059; c=relaxed/simple;
+	bh=cuLrA6c/v3D9fwcoximnAql+jlHCEAydo8gYwte2HAA=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=UoaBeU9dNagakqSsWmuhzrJZHKjHbYAdqkn/G1EbwwuqlmpYjkmCbsX3F7j8bVk74PA4apkgqMBQ9Zw8v3Q8lbxYE/lFubkyRY+GTiygWGZMv1FTgDHfXLLVaL9gXqxlF5ppnRjoynBC76qgzWXeSEiguZL480C4C1PDNX/6csA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4cCCH51DF3zYQtwG;
+	Thu, 28 Aug 2025 15:10:57 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id ADA0A1A152F;
+	Thu, 28 Aug 2025 15:10:55 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgAXYIz8ALBowOE9Ag--.63876S3;
+	Thu, 28 Aug 2025 15:10:55 +0800 (CST)
+Subject: Re: [PATCH v6 md-6.18 11/11] md/md-llbitmap: introduce new lockless
+ bitmap
+To: Paul Menzel <pmenzel@molgen.mpg.de>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: hch@infradead.org, corbet@lwn.net, agk@redhat.com, snitzer@kernel.org,
+ mpatocka@redhat.com, song@kernel.org, xni@redhat.com, hare@suse.de,
+ linan122@huawei.com, colyli@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250826085205.1061353-1-yukuai1@huaweicloud.com>
+ <20250826085205.1061353-12-yukuai1@huaweicloud.com>
+ <4d21e669-f989-4bbc-8c38-ac1b311e8d01@molgen.mpg.de>
+ <65a2856a-7e2f-111a-c92e-7941206ad006@huaweicloud.com>
+ <8eb5acff-4c21-4be8-8d3c-b98bd258ef99@molgen.mpg.de>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <791992fe-3b98-1d00-6276-56fa1b45b2c8@huaweicloud.com>
+Date: Thu, 28 Aug 2025 15:10:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/5] net: rpmsg-eth: Add Documentation for
- RPMSG-ETH Driver
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
-        Mengyuan Lou
-	<mengyuanlou@net-swift.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Madhavan
- Srinivasan <maddy@linux.ibm.com>,
-        Fan Gong <gongfan1@huawei.com>, Lee Trager
-	<lee@trager.us>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Geert Uytterhoeven
-	<geert+renesas@glider.be>,
-        Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-        Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250723080322.3047826-1-danishanwar@ti.com>
- <20250723080322.3047826-2-danishanwar@ti.com>
- <81273487-a450-4b28-abcc-c97273ca7b32@lunn.ch>
- <b61181e5-0872-402c-b91b-3626302deaeb@ti.com>
- <0a002a5b-9f1a-4972-8e1c-fa9244cec180@lunn.ch>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <0a002a5b-9f1a-4972-8e1c-fa9244cec180@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <8eb5acff-4c21-4be8-8d3c-b98bd258ef99@molgen.mpg.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgAXYIz8ALBowOE9Ag--.63876S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF18uw47AFWDtw45Gw1rJFb_yoW8ZF47pa
+	4rKFyrKas8Jr4vvw1Iq3Z3JFyFyr97tFWUGr1rXa4rWr15JrySgFWIgF1Y934DGr1rXry2
+	vw4UtryrWanIy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBa14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY
+	6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aV
+	CY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRHUDLUUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
+Hi,
 
-
-On 24/07/25 10:07 pm, Andrew Lunn wrote:
->> Linux first send a rpmsg request with msg type = RPMSG_ETH_REQ_SHM_INFO
->> i.e. requesting for the shared memory info.
+在 2025/08/27 14:07, Paul Menzel 写道:
+> Dear Kuai,
+> 
+> 
+> Thank you for your reply.
+> 
+> Am 27.08.25 um 05:44 schrieb Yu Kuai:
+> 
+>> 在 2025/08/26 17:52, Paul Menzel 写道:
+>>> It’d be great if you could motivate, why a lockless bitmap is needed 
+>>> > compared to the current implemention.
 >>
->> Once firmware recieves this request it sends response with below fields,
->>
->> 	num_pkt_bufs, buff_slot_size, base_addr, tx_offset, rx_offset
->>
->> In the device tree, while reserving the shared memory for rpmsg_eth
->> driver, the base address and the size of the shared memory block is
->> mentioned. I have mentioned that in the documentation as well
+>> Se the performance test, old bitmap have global spinlock and is bad with
+>> fast disk.
 > 
-> If it is in device tree, why should Linux ask for the base address and
-> length? That just seems like a source of errors, and added complexity.
-> 
-> In general, we just trust DT. It is a source of truth. So i would
-> delete all this backwards and forwards and just use the values from
-> DT. Just check the magic numbers are in place.
-> 
+> Yes, but it’s at the end, and not explicitly stated. Should you resend, 
+> it’d be great if you could add that.
 
-Sure. I will make this change in v2.
+If there is no suggestions about functionality, I can add following in
+the beginning when I apply this:
 
->> The same `base_addr` is used by firmware for the shared memory. During
->> the rpmsg callback, firmware shares this `base_addr` and during
->> rpmsg_eth_validate_handshake() driver checks if the base_addr shared by
->> firmware is same as the one described in DT or not. Driver only proceeds
->> if it's same.
+Due to known performance issues with md-bitmap and the unreasonable
+implementations:
+
+  - self-managed IO submitting like filemap_write_page();
+  - global spin_lock
+
+I have decided not to continue optimizing based on the current bitmap
+implementation.
+
+And the same as fixing those typos.
+
+Thanks,
+Kuai
+
 > 
-> So there is a big assumption here. That both are sharing the same MMU,
-> or maybe IOMMU. Or both CPUs have configured their MMU/IOMMU so that
-> the pages appear at the same physical address. I think this is a
-> problem, and the design should avoid anything which makes this
-> assumptions. The data structures within the share memory should only
-> refer to offsets from the base of the shared memory, not absolute
-> values. Or an index into the table of buffers, 0..N.
-> 
->>>> +2. **HEAD Pointer**:
->>>> +
->>>> +   - Tracks the start of the buffer for packet transmission or reception.
->>>> +   - Updated by the producer (host or remote processor) after writing a packet.
->>>
->>> Is this a pointer, or an offset from the base address? Pointers get
->>> messy when you have multiple address spaces involved. An offset is
->>> simpler to work with. Given that the buffers are fixed size, it could
->>> even be an index.
->>>
+>> [snip the typo part]
 >>
->> Below are the structure definitions.
+>>> How can/should this patch be tested/benchmarked?
 >>
->> struct rpmsg_eth_shared_mem {
->> 	struct rpmsg_eth_shm_index *head;
->> 	struct rpmsg_eth_shm_buf *buf;
->> 	struct rpmsg_eth_shm_index *tail;
->> } __packed;
+>> There is pending mdadm patch, rfc verion can be used. Will work on
+>> formal version after this set is applied.
+> 
+> Understood. Maybe add an URL to the mdadm patch. (Sorry, should I have 
+> missed it.)
+> 
+>>> --- a/drivers/md/md-bitmap.h
+>>> +++ b/drivers/md/md-bitmap.h
+>>> @@ -9,10 +9,26 @@
+>>>    #define BITMAP_MAGIC 0x6d746962
+>>> +/*
+>>> + * version 3 is host-endian order, this is deprecated and not used 
+>>> for new
+>>> + * array
+>>> + */
+>>> +#define BITMAP_MAJOR_LO        3
+>>> +#define BITMAP_MAJOR_HOSTENDIAN    3
+>>> +/* version 4 is little-endian order, the default value */
+>>> +#define BITMAP_MAJOR_HI        4
+>>> +/* version 5 is only used for cluster */
+>>> +#define BITMAP_MAJOR_CLUSTERED    5
+> 
+>>> Move this to the header in a separate patch?
 >>
->> struct rpmsg_eth_shm_index {
->> 	u32 magic_num;
->> 	u32 index;
->> }  __packed;
+>> I prefer not, old bitmap use this as well.
+> Hmm, I do not understand the answer, as it’s moved in this patch, why 
+> can’t it be moved in another? But it’s not that important.
 > 
-> So index is the index into the array of fixed size buffers. That is
-> fine, it is not a pointer, so you don't need to worry about address
-> spaces. However, head and tail are pointers, so for those you do need
-> to worry about address spaces. But why do you even need them? Just put
-> the indexes directly into rpmsg_eth_shared_mem. The four index values
-> can be in the first few words of the shared memory, fixed offset from
-> the beginning, KISS.
 > 
-
-I will drop all these pointers and use a offset based approach in v2.
-
-Thanks for the feedback.
-
--- 
-Thanks and Regards,
-Danish
+> Kind regards,
+> 
+> Paul
+> .
+> 
 
