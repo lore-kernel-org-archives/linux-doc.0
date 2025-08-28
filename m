@@ -1,188 +1,95 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E076256C83;
-	Thu, 28 Aug 2025 15:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756393259; cv=fail; b=W9lVmBMDH1zm+vnNUBhEPBoi1sck8PRKfDjvXaMYrjPRww1MVBVJxsZFs8O5BobFDLG1CR3x3hP8I0qiPGecxtrP+ARjGzbfwaclkUSxkV+xllAMI7Di78kbjXSCjAqP2j/PYq8WtjYDLsFDB2ZC8QQBZkWYMOhigOyjyecwLqI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756393259; c=relaxed/simple;
-	bh=PG4j9JkucMQRQcbyP9HcSg8rsNhxINftQQMqtQLlvIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Q7saX5989X+phsE92dm6I1Sq33qaIlQZUbcXjzB0EmokcszMMsRd0urlz1jPsZHwCRWI+NqaZaYfQkuGzXRfWEkKWa4DrGIla5VIPg8IE/pcMlfE/Q9AqAof0H7M2BqDLg9J9rvzEKZ+WMrvbGqDMRbfvMEMN8urDgPQ3kOOJtE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qkezqVMz; arc=fail smtp.client-ip=40.107.236.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F56256C6C
+	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 15:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756393743; cv=none; b=A1zX1CHpq+rhQDKNaposn2DD/tmlSE+s8+VothyhghyujExCjDmm2C66o0mApKrRZmPgqoQSjdygm4MOL2o8qnBT0HcmfL0Md60/NnTfkgk+Xf3RBoNqwNpoHCueLlRKf6mhjmjuUYF37SJDqVrf9cB/Cgf3449wg4NqbtquvjA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756393743; c=relaxed/simple;
+	bh=icOFXtpyTr+v62nWJkhrG9QgJ0lD5a5gT8SO+Skige0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JM8W6ziFMAob/48EjTRJI0S6w0SukoaiGmyenXUc9EvolZlVu6fcHF0UMV8dai1iKt0Cy9lcjE9cvJ5rXazg3Taa/ghGV36Xwdn88T5ggdWjfOUm2TfN3lwX0+R7ywSCpcHd/ARyaoGg/uenmA9zqROqlQ+xrXAJPBMsuIRLlcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jAJh2ab9; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qkezqVMz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NS6QF9PmkhPSetggaII5CehTlNqOJP7vlZ3U1FhtbEJxV7OqYGAMEImFhkSEkVt8p4tMk12Kq+qkyt9hkXaA3hNTw0Q/M8JsOk89YCE34YUJMbwpcSbThpcPNb8wLgyaPwW6ZGVpAgcGi41Oc/cey8aZQgz7mbUCOQ7tc/sczz3afaA2QRRBbuXquufQAmJf9sL/A6SD/TF4rdhqnMo48S2K6UzD9pSyjxqV2sqNVzD6z6Ip+oi/OabsECcItshuq8tNhBlbjP1tEj2lLzx0DCeMCiupm+JXR4h6uE9VaT/OtZ88vfpoUxv15tHzMBQ9qGXmW0QvuV+wNoRl6Z0AFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YhYgIuXMPDyneIixgb3ayDngq33diPvUwzKhingnZUs=;
- b=L6kKIA+cyA334TB+HD6KAb0poZQRgfS+mi0YyYxUih9dP8c8uDGCwry1fq5E3IAs3r0+l134PJ+M+RHZ/x8HD7Yt+f0tP6ddNZ2aQLxcz/QkPJ+dRs7igP+u5glEEt8uY2/L+weMU5UCN+OPkEvsRWXhb/OIZ9rh4KubDEOvFUoAIj1k+4YBSjFfvNJLXgwILa1QnbgC65cHcHmZFKcKirSMgnxZcz9ybBWbtd1/tFdgT4E9kgmr5rYCWQyGWRJD+FZmq1hKglllDlaj100v7wtivgG8yRUcVXZh49dztnslaMANyvHcOUx+C7KrcwIl/VaOfumTn7GnMsKKVVxsHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YhYgIuXMPDyneIixgb3ayDngq33diPvUwzKhingnZUs=;
- b=qkezqVMzVT99jJQz5M/PGYi6BFwhFdorcFX4nk8XC3yr/uRWXxB6KzsAKoOE4GJgOzKfcnz3wm7ks69mL1QnYz6lWl6fGk2FqtTEsADsI9tDC0gBUny76ogXICGsiXeF4Tdm1k8iNvLwaRl2aSeMULoKHlkXhnk6VBhaR97BpE7FQljWxhk64RLUekpCMpzP6ZjvgbpSpgalw0RFZI6wBTTTCx+PjZqmqSes0JXPnN1R2rSbS3YoHbeswtL/3eG9cxNd9xQuVrhnMh5RRJFdZ2GqU0Yv5DWHI9tL0Sthc9UIMXJDdQlqYhdwIx2MHfr5sv+sg5Unmy4c+jKesWCk7g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CH2PR12MB4312.namprd12.prod.outlook.com (2603:10b6:610:af::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.16; Thu, 28 Aug
- 2025 15:00:51 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9073.010; Thu, 28 Aug 2025
- 15:00:51 +0000
-Date: Thu, 28 Aug 2025 12:00:49 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 08/16] kmsan: convert kmsan_handle_dma to use physical
- addresses
-Message-ID: <20250828150049.GG9469@nvidia.com>
-References: <cover.1755624249.git.leon@kernel.org>
- <f52ab055c9ffa4da854afe47232c7d06d109d8ce.1755624249.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f52ab055c9ffa4da854afe47232c7d06d109d8ce.1755624249.git.leon@kernel.org>
-X-ClientProxiedBy: YT3PR01CA0138.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:83::25) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jAJh2ab9"
+Message-ID: <0c5a5a2d-59f6-4a31-9c09-7df8f9117a31@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1756393727;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M+I3SDsSbN1coFtYj99WmS0+2o5TVYr/BtAhlhZ/HgE=;
+	b=jAJh2ab95ttb0ewNQ7bbtJPVHIl6fvKKfYzEJgfu1RIsYfdVjNlT0LAkZJK9EN/Jd5rhIC
+	Hu+gSU3G7bjeXP9t/36VyBy8e/64MYv0nePmOuWp+JQ19NzBgaxaAMOzvovZguALS50MBG
+	xqa5Zy88eVhwu009ucC3Ey3wEhWgC9U=
+Date: Thu, 28 Aug 2025 16:08:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH2PR12MB4312:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd324a99-7b50-48f0-b0b3-08dde643ad87
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?F3t8pjxGuYiqQXVRHHoABfhe3+nJCLYfL6dfMX6OVHmrSntXdCx5WtVVMFHz?=
- =?us-ascii?Q?yIevAB0p9919JudsrpMU6LZXPwxOeB9F3UoThU3jOmE7GG9uxOE5qnMerxlg?=
- =?us-ascii?Q?AN/UIs/2Eg+OivcbbHEpPHCi39auQu/YZ8nvFxeTPjZk3Ada64JLqqgnkSht?=
- =?us-ascii?Q?543bGq64xQ4iKEYNxa2ok61AsVkpvnT+Uw7NMsRGYJRPYMAsP5PBjypPdUBf?=
- =?us-ascii?Q?81RH4ul4DOiq5i+njO8K39Sfezmnlh6jHSbM73vKdx78Kp2e/lXKQOCqkfKk?=
- =?us-ascii?Q?GqW+8ek12Sua17KiSbBLTYD6OHXBdB/KEbLwIUYy46n4iVYEXrek8Peoq5/7?=
- =?us-ascii?Q?K+OpIeuHCsarMY09f/7Ske6UqL3X2966rZkUOyW8bBJeXZF/5QntDeEXO5H4?=
- =?us-ascii?Q?XSu/AU+Smc0Gu9vuwbA7xN8mb7/fUJw4zfSDUaI1WXJhnh4aqcraj1hcO4O+?=
- =?us-ascii?Q?EDIwkRaibNorWjRo2KD1Xm308/+ExCCE+H5o+9DL6CvUSuvGuEjPZWHGWh1L?=
- =?us-ascii?Q?Qk88DLWsKxzmwnorlRypDjuSrRJbB5gLNQthol57IcMc3Cup1IIXsKyPmYSk?=
- =?us-ascii?Q?IWH2yF8gaH0SdOuca7KzzBqW+S4YE/EC12HojfMnvk09W6nqqb4fF7aaQ/Zu?=
- =?us-ascii?Q?Orj1BFeugwUPXkm2LQeGmgm0hEB3oh/qLZnJS4cA1KO9cp3oYLx+FJayhERl?=
- =?us-ascii?Q?sjLXgnd1db4hPQgzuFmeXwoGL7Iy+wcTnr2oP90fVeq+t38aAtCMB/BRHQjs?=
- =?us-ascii?Q?x9O83XsAWqorEs0kwmGsD/wWNCY3rfNgCxM3Jg6wm7FkAkUfXd8ZQV52+779?=
- =?us-ascii?Q?a5jofWus3cV8yAr4swvRu8HqzElhF00CvUSewWnDVPEETGebx85qNIZFxgS2?=
- =?us-ascii?Q?KYtd1Vqd+kAd8m/rG/y21hHXjwA8HyOBgkLV1oW/H3l+Q5F9Zj358PhlumsN?=
- =?us-ascii?Q?ZBkEOrfZg0VQFTj0dry4OGp4HYTN4KEMh+yianvgfkREmfLiYJNy0xLGrvfP?=
- =?us-ascii?Q?zRNYmHb1BhypYX+XMP4ZqHYhe5wqD9omzX6FhepSaws2mnbL6V/h0843bI7f?=
- =?us-ascii?Q?9J/g7OWg2AkezlH5prpTFen+dMQMWjPHAXqZuMW/hT5Bz4/etFPDwTgv/L7X?=
- =?us-ascii?Q?1NCwRIzvfKHFkhIYGOBODZrs8NLb5i8KHZ0YEMreb3KDZuZNRvRHMXnP2Il0?=
- =?us-ascii?Q?pGtu9m8/4F1vowQ4SUYg8H+QpznU8ztibiwxlnVAl9Y6dbfkoYvwnTb2kVxl?=
- =?us-ascii?Q?CGBs07j5ssRf0PygNTBsuIRc+MoGCDkoaxHNF41xLXDg1HMby8oaNi/d+Z+F?=
- =?us-ascii?Q?/jiqKkjDyWZSULX/+ZIfD5k5Z3aNv7sQTvoozJTNKQf+hutgN9PNPqMM3aps?=
- =?us-ascii?Q?QY+hwbAR76MfSkDtNGbY8H+YtiEZvOwrF73u/2Lko0T85eWLr9f3kbMsUy8S?=
- =?us-ascii?Q?1FKnLopyHwI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uvpwli8oU8wOvJLyl3NwVP+TQsbxubD0QEkBmRvQ2Jh4ZZJP5qipOjZamH69?=
- =?us-ascii?Q?B+PbjhWcvbtpGKlhIxRiDqqYfHFPEPCBZqhYcM3T3ZJCwQw82zG9G2Rke9q4?=
- =?us-ascii?Q?CHgav7pRRa8j+o2jKanzZWaj+WSOMGZy5DY+0AHtPYJI0nJ5hOZvUn3SDpkt?=
- =?us-ascii?Q?0Lj6tDEn2MUr7dn/mRi5s+tS4G54SGWL1gmMMjbn3782+tcgUScunIc00GN0?=
- =?us-ascii?Q?3pRE8QnZ3QHE9tNZwhIa7y+X0nMffa4WSZUKiKe5KdNA8VOOl+TOtsOWaCd1?=
- =?us-ascii?Q?jcHChVqL0T/rslHr4WXAO0p+c3Z1RyNIMo03ObYJYsT182PvejTMDMYVcPW2?=
- =?us-ascii?Q?TxkEmh8HQJHQ4C1zp5n+5QiKUrbxiqY9ujbKvp0SZsFyrXRl0y9aGhqFKY7c?=
- =?us-ascii?Q?s4JSDoQbvQ6HGj3v7qDJDWH0FLS7fYF1+N6yLGUyrTyqzOSuJuDY+7aUoI2N?=
- =?us-ascii?Q?rOZahLnSaGGsH9jYN/jH2gyt3RIa/wpjbTeaGNfIaNMmv4ypGsc7LxZ4a5i4?=
- =?us-ascii?Q?qPt6RFV0Ln+5onDrvs+VTLORC18S6Tu2yzJcwprZV/lJEtiCP5kZ0uWmoXqs?=
- =?us-ascii?Q?Zu+lwyG4f1mD8rOfNV+DnPl4KlKRekyau5weSSnPlOVlVYPg/gRl8KLZCEJ4?=
- =?us-ascii?Q?qIbh1Rs8xBJ8wOG1jy8byWrqFGCUVvzZZROHHnuwjFw0P5z3CDGu9b1s1NRa?=
- =?us-ascii?Q?l0Hj1TmoiopLBTq6x8wbyh2ilDgffTBbrmu+042g58KDcRxv7nui3UD/+nJI?=
- =?us-ascii?Q?yOM9GnMdDPLDOgrfrL7iMO5SEjt83MxpwQoxdnZ0851+375n+sQrnKKouUza?=
- =?us-ascii?Q?5tdZqUIRyEgSx00YK7nwXErvHKgJfWsAsz0+vEnKoOPzwQuo/j+3VMvxzvLE?=
- =?us-ascii?Q?COndN5Wm1bXxccaF9kAf/g40DSjFJPH67o4ODthM9e12YFPj/IxsCaJUDVZg?=
- =?us-ascii?Q?GQhSbzT1xXF2YdalACMmlmSTrucAzSSmwfbiNfM6aElZNJ6NWZgO6ORB0u37?=
- =?us-ascii?Q?G9RgeLWXQ1bv9FUe0PmKyv4Q9COG32CMNhjHgqSML+tgId1eianjVIc3N0HU?=
- =?us-ascii?Q?dcf5rlhw0KvJ/WcSFLUrcXS4Hq10eLpBr9YnU3iGxkE/Z6mqccKBwxjAHxku?=
- =?us-ascii?Q?GTufKt69kT3PxhVdyKrwpZOER+7hmU7Tb6AOxxFAmRiGqOM9Y5JoMuQtA+gQ?=
- =?us-ascii?Q?TQs8oD7Ni9Msd5adVQqHsRdc0ni8RZkTR+IrDWPZiBkkABiDKLMRbpQR9dA5?=
- =?us-ascii?Q?7BSW1ESHp3r7W789bDbU8cdpRR5rKVroZ3TE3SsFAHi/jckiLl3IbxxKZt/d?=
- =?us-ascii?Q?IaISd75BGpc4lxeH8Achj5wt8e/8Q8Qxttl9cgpN9M0ijzLoSIx07nLAJkTy?=
- =?us-ascii?Q?FNG58ONb0+qKUHcGPeSkaO9cE8SCYUNrtCPXl6/aDaEFD2ZIhouLTLWqXE+3?=
- =?us-ascii?Q?cYw6VCnPhOlZhYR/jfb4PjNOvSOX6aokxBVUQa86yqNxMH4vzfOMMQZLHTUc?=
- =?us-ascii?Q?sV4Yc109BXOL/IFth93oiQUr8pcDxVyh5M3fp7VE3fHzDVMUx2C49eAGfDzY?=
- =?us-ascii?Q?u6BMG3n/8GgM7hjb++E=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd324a99-7b50-48f0-b0b3-08dde643ad87
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 15:00:50.9010
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z15O0VvpBrGAOGITkb5/Y05ckWmkWXcBfnra5oKm94y8bsDpfspUxCq/SnlW4BPn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4312
+Subject: Re: [PATCH net-next v02 13/14] hinic3: Fix missing napi->dev in
+ netif_queue_set_napi
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+ Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
+ Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
+ Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh <sumang@marvell.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <cover.1756378721.git.zhuyikai1@h-partners.com>
+ <71685e8f14c4523add7580dbfd078b1b2763f7c3.1756378721.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <71685e8f14c4523add7580dbfd078b1b2763f7c3.1756378721.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Aug 19, 2025 at 08:36:52PM +0300, Leon Romanovsky wrote:
->  /* Helper function to handle DMA data transfers. */
-> -void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
-> +void kmsan_handle_dma(phys_addr_t phys, size_t size,
->  		      enum dma_data_direction dir)
->  {
-> +	struct page *page = phys_to_page(phys);
->  	u64 page_offset, to_go, addr;
->  
->  	if (PageHighMem(page))
->  		return;
-> -	addr = (u64)page_address(page) + offset;
-> +	addr = (u64)page_address(page) + offset_in_page(phys);
+On 28/08/2025 13:10, Fan Gong wrote:
+> As netif_queue_set_napi checks napi->dev, if it doesn't have it and
+> it will warn_on and return. So we should use netif_napi_add before
+> netif_queue_set_napi because netif_napi_add has "napi->dev = dev".
+> 
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> ---
+>   drivers/net/ethernet/huawei/hinic3/hinic3_irq.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+> index 33eb9080739d..a69b361225e9 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+> @@ -42,11 +42,11 @@ static void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
+>   {
+>   	struct hinic3_nic_dev *nic_dev = netdev_priv(irq_cfg->netdev);
+>   
+> +	netif_napi_add(nic_dev->netdev, &irq_cfg->napi, hinic3_poll);
+>   	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
+>   			     NETDEV_QUEUE_TYPE_RX, &irq_cfg->napi);
+>   	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
+>   			     NETDEV_QUEUE_TYPE_TX, &irq_cfg->napi);
+> -	netif_napi_add(nic_dev->netdev, &irq_cfg->napi, hinic3_poll);
+>   	napi_enable(&irq_cfg->napi);
+>   }
+>   
 
-addr = phys_to_virt(phys);
-
-And make addr a void *
-
-Otherwise looks fine
-
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-
-Jason
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
