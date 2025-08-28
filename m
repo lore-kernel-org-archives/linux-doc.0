@@ -1,150 +1,111 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A8C30F958;
-	Thu, 28 Aug 2025 12:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BA33597A
+	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 12:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756383416; cv=none; b=vCUUO3SPnnZkwwsvGK9lu2k+PN7rVTUd8OqOGMhaOe3+J4qWbFTG/g9P1NGptbr6lMkGczqprInYObL/8aVd8v0c8q5UfiBe0dD0S4wk3Wnr24LlbwGdomBtjgDUFK8XBrccZR7pAOEOJuFC/BNS6G2sS83PbS32bc0NGnRutYs=
+	t=1756383454; cv=none; b=ZuDjRlX6B3SzRbLdU0WVADcX24F3ZlFXO2jKnNwpzYGTu8/7qI9OCuieWDDoPosBpGGpL6oXchibGbyTmIYO4bqrAquOCO0WMhQC7yMK3ckiWfHmUYHpxEsDxX4mhskitDtQJiHWsDUdUHvzIJiXoQy/zE4ppG3ofPPhp45QnFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756383416; c=relaxed/simple;
-	bh=aaV4x6280/CXvf8fKdJfOOVcKa+/PlLXRGgpk5EAZg0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=WmdKYjC3aMAubJ+0fIYe2i9K9RuZSMMiGOqyAu74nw89ofTBFRcFgKcjCB+h+Y6nt689b9XLw41Dq2tIklzHaGvlFUVL0ipoCqvDmUfINoVPxHXZC0XXuMYDXW+FVDeX0ksqNn98De8CMJwblDU0Ivp28leB6DFmp1CWy9/nJlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=gyABa5UR; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1756383454; c=relaxed/simple;
+	bh=c8L6HSo/zN3rXMUH3ZqsTsqpBeaIloN4bIJIfK/qhXQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nYSeLvGM26h3LZNfdZ0TRf40HaSPsGiah0lEugWujb2GV6Xvfb8pSMpZmyfMisNodalETTlwcHLdule6ftN9Z4+ZcxC23W79gNwu0g2arVqbrzNA3K1HYL5kgbkaPJxeLS1PWbSF8iDUiyjtcQEkITqtY0dhg4azKXI6oxgSXes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UeQWjLpT; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="gyABa5UR"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SAJbT7003220;
-	Thu, 28 Aug 2025 14:15:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	H2VjxPIys7d1tJoSW05HXWGO8B1PQC1RoUMeQHH1la8=; b=gyABa5URoIdL0qys
-	8nCirTWeTflyOsuJyYXpsDDVA3hHboNWQpco+hkmcJZ4hpecA3kRy3o+RGR41538
-	YlgI7saSguc+YAAM6UsqKjzRb6l582ilE/u6LaPff8muKBs9qp2hDkdvdObtHIb6
-	Em6ELCC29h/Noubjyln1OLyPnAdp+HSOnO0de509FCkMiDJOkxL07lFkQ7nznvMy
-	ydQWuw7sEn3myU8qdzK2+gQ/Lyq41sz8ocCROVnTgiZv4TyRCADCeSh2/9bMTu6B
-	Wfv6BdSRNqc2ek/eZ9iJrCR1z9VRjVYabdE3vl9g3DLzWIDMGQV13qQd1y00iFFL
-	sZ5Jbw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48q5tt5139-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 Aug 2025 14:15:55 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id EA37D40048;
-	Thu, 28 Aug 2025 14:14:08 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2A75372766C;
-	Thu, 28 Aug 2025 14:13:02 +0200 (CEST)
-Received: from [10.130.77.120] (10.130.77.120) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 28 Aug
- 2025 14:13:00 +0200
-Message-ID: <9133348a-f6a4-4425-98e2-a784a7620b3a@foss.st.com>
-Date: Thu, 28 Aug 2025 14:12:57 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UeQWjLpT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756383451;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XWaOgO4jpoluN2Qx6CVMt0VGgcSixW+/nMYe+GAjQss=;
+	b=UeQWjLpTgikxzlFbzNLg5XZggVco/HiNudLWGm5fJuxPV48UE8ZJ+66FehteNNs/eu/5D3
+	GDb8k/Qk8TxOTrqZX2OO8Spf2qmihjhnpTCECqeyZTnnRajYGmDaHCguU2WgZ4Mr6uwWLE
+	jUkkhS4HI7J0fDropwGQju0s8O/W4bg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-298-ClPy1duuMyeoP5pRsk2Dgg-1; Thu, 28 Aug 2025 08:17:30 -0400
+X-MC-Unique: ClPy1duuMyeoP5pRsk2Dgg-1
+X-Mimecast-MFC-AGG-ID: ClPy1duuMyeoP5pRsk2Dgg_1756383449
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-afe81959cb4so62213766b.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 05:17:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756383449; x=1756988249;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XWaOgO4jpoluN2Qx6CVMt0VGgcSixW+/nMYe+GAjQss=;
+        b=Pyg4/yc8W/0sN1PllMf7Ez32kvHaqqDIUUNltmbPhcKjtcXy1kkhGUGxtAzNWmyUCa
+         GgNH/q3S4HxqPhBAhScr5L7lkU2J6hnkNJcySwDOdzevSz6R2DEHhuxybBbikLO6w/bm
+         1zMC7vK3KlVPEVAcg+3IGOg05b60WEjpH/71jpd38T0Drd9KV2A/OmdBxR+oBG1groNf
+         lrsHxN1qxIj1YVSlromWUpe9vNtKS7562ju2gNSbSNiFwfjSQS83EwbKOCGg5sZbywdu
+         6byrVy1YBUhlVfx1JPQyiGCF3Zck91w/3+1GFehrJUjrBs+0FRbFVWOYINie5v1X9MKh
+         hvwg==
+X-Forwarded-Encrypted: i=1; AJvYcCXgG/AX0/HnfGl34yeUxZ7Zx3trJedDqMZB6seagpwxDiCsje2cSHB25/O01doX5LUXZr/aOsuSfcs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgsPxDtEc+wUESi9VEmvgQAuBx2o8ZWzPZVauqndyQK+GlRnJf
+	3Neh5xJn6b1ihA+qxB8gpvyaPX5gYhWORvQf/sm7Fw14yescBOzqceMo+Db+itTba0LqxId0zU/
+	wiu1L9m8MM/fbFhf4kGyK1D7rixMigrLbfh31dC7qgjMQDPi9/YIpIVt2p5UkgBocL/jagayBTt
+	34/WmhHJdOW1FRP8UYfNrI02jZzv5ynNt2bD++
+X-Gm-Gg: ASbGnctVCQ+BROeU2ijGZRGsrVqUZNhGYV5r30qA0kJk9hhSPpfoKnFFusXUQvqHvVd
+	P21ddmGOAqRaKwZDjiholpP4T2mfnR0QjKp9vIUu4Mfied8fcZ3LUdCdhbtoBekIfXfHTqN0/mw
+	n3vOpzNzdzZeYVBkLuXzM=
+X-Received: by 2002:a17:906:5a8d:b0:afe:9e58:754d with SMTP id a640c23a62f3a-afe9e587a44mr706156766b.64.1756383449199;
+        Thu, 28 Aug 2025 05:17:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEC1NApuk3PreLppjRFJa8Sx4eXldlrKGys952/ULp5a27DqEMQZaYlRXXz/vQZczNt3zV7J2vH1LrA1VhXB2Y=
+X-Received: by 2002:a17:906:5a8d:b0:afe:9e58:754d with SMTP id
+ a640c23a62f3a-afe9e587a44mr706154866b.64.1756383448779; Thu, 28 Aug 2025
+ 05:17:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Christian Bruel <christian.bruel@foss.st.com>
-Subject: Re: [PATCH v13 06/11] PCI: stm32: Add PCIe Endpoint support for
- STM32MP25
-To: Bjorn Helgaas <helgaas@kernel.org>
-CC: <lpieralisi@kernel.org>, <kwilczynski@kernel.org>, <mani@kernel.org>,
-        <robh@kernel.org>, <bhelgaas@google.com>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <mcoquelin.stm32@gmail.com>,
-        <alexandre.torgue@foss.st.com>, <linus.walleij@linaro.org>,
-        <corbet@lwn.net>, <p.zabel@pengutronix.de>, <shradha.t@samsung.com>,
-        <mayank.rana@oss.qualcomm.com>, <namcao@linutronix.de>,
-        <qiang.yu@oss.qualcomm.com>, <thippeswamy.havalige@amd.com>,
-        <inochiama@gmail.com>, <quic_schintav@quicinc.com>,
-        <johan+linaro@kernel.org>, <linux-pci@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250827185825.GA894342@bhelgaas>
-Content-Language: en-US
-In-Reply-To: <20250827185825.GA894342@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-28_03,2025-08-28_01,2025-03-28_01
+References: <cover.1755018581.git.ipravdin.official@gmail.com> <358400afe299a82806e9969570cd3009621bcd8c.1755018581.git.ipravdin.official@gmail.com>
+In-Reply-To: <358400afe299a82806e9969570cd3009621bcd8c.1755018581.git.ipravdin.official@gmail.com>
+From: Tomas Glozar <tglozar@redhat.com>
+Date: Thu, 28 Aug 2025 14:17:17 +0200
+X-Gm-Features: Ac12FXzIu27PrjYZAW398ij3mtMrwSHWcJpQFNT-nJzeNWxfQFJ1-m0bEKi5keE
+Message-ID: <CAP4=nvTfYc5YmzYAoNEw7z4sjFEf3ANa7eFMXfmvp6kGxtS63Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] rtla: fix buffer overflow in actions_parse
+To: Ivan Pravdin <ipravdin.official@gmail.com>
+Cc: rostedt@goodmis.org, corbet@lwn.net, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+=C3=BAt 12. 8. 2025 v 19:21 odes=C3=ADlatel Ivan Pravdin
+<ipravdin.official@gmail.com> napsal:
+>
+> Currently, tests 3 and 13-22 in tests/timerlat.t fail with error:
+>
+>     *** buffer overflow detected ***: terminated
+>     timeout: the monitored command dumped core
+>
+> The result of running `sudo make check` is
+>
+>     tests/timerlat.t (Wstat: 0 Tests: 22 Failed: 11)
+>       Failed tests:  3, 13-22
+>     Files=3D3, Tests=3D34, 140 wallclock secs ( 0.07 usr  0.01 sys + 27.6=
+3 cusr
+>     27.96 csys =3D 55.67 CPU)
+>     Result: FAIL
+>
 
+Interestingly, I don't get this failure on my machine. Maybe due to
+some compiler difference, the buffer overflow is not caught. Thank you
+for the fix. Since the "signal" field is next to the buffer, and is
+written after the strcpy, this might corrupt the PID number reading
+for a command like:
 
-On 8/27/25 20:58, Bjorn Helgaas wrote:
-> On Wed, Aug 20, 2025 at 09:54:06AM +0200, Christian Bruel wrote:
->> Add driver to configure the STM32MP25 SoC PCIe Gen1 2.5GT/s or Gen2 5GT/s
->> controller based on the DesignWare PCIe core in endpoint mode.
-> 
->> +static void stm32_pcie_perst_deassert(struct dw_pcie *pci)
->> +{
->> +	struct stm32_pcie *stm32_pcie = to_stm32_pcie(pci);
->> +	struct device *dev = pci->dev;
->> +	struct dw_pcie_ep *ep = &pci->ep;
->> +	int ret;
->> +
->> +	dev_dbg(dev, "PERST de-asserted by host\n");
->> +
->> +	ret = pm_runtime_resume_and_get(dev);
->> +	if (ret < 0) {
->> +		dev_err(dev, "Failed to resume runtime PM: %d\n", ret);
->> +		return;
->> +	}
->> +
->> +	ret = stm32_pcie_enable_resources(stm32_pcie);
->> +	if (ret) {
->> +		dev_err(dev, "Failed to enable resources: %d\n", ret);
->> +		goto err_pm_put_sync;
->> +	}
->> +
->> +	/*
->> +	 * Need to reprogram the configuration space registers here because the
->> +	 * DBI registers were incorrectly reset by the PHY RCC during phy_init().
-> 
-> Is this incorrect reset of DBI registers a software issue or some kind
-> of hardware erratum that might be fixed someday?  Or maybe it's just a
-> characteristic of the hardware and thus not really "incorrect"?
-> 
-> I do see that qcom_pcie_perst_deassert() in pcie-qcom-ep.c also calls
-> dw_pcie_ep_init_registers() in the qcom_pcie_ep_perst_irq_thread()
-> path.
-> 
-> So does pex_ep_event_pex_rst_deassert() (pcie-tegra194.c) in the
-> tegra_pcie_ep_pex_rst_irq() path.
-> 
-> But as far as I can tell, none of the other dwc drivers need this, so
-> maybe it's something to do with the glue around the DWC core?
+$ rtla timerlat hist -D --on-threshold signal,num=3D2,pid=3D42
 
-The RCC PHY reset is connected to the Synopsys cold reset logic, which 
-explains why the registers need to be restored. This point has been 
-addressed in the reference manual.
+Reviewed-by: Tomas Glozar <tglozar@redhat.com>
 
-I am not sure if the tegra194 and qcom drivers restore the registers for 
-the same reason. But refactoring this into the DWC core would require a 
-runtime condition to test for persistent registers or support for warm 
-reset.
-
-Best Regards
-
-Christian
-
-
-> 
->> +	 */
->> +	ret = dw_pcie_ep_init_registers(ep);
->> +	if (ret) {
->> +		dev_err(dev, "Failed to complete initialization: %d\n", ret);
->> +		goto err_disable_resources;
->> +	}
+Tomas
 
