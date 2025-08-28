@@ -1,340 +1,116 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A19424BBF0;
-	Thu, 28 Aug 2025 01:06:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F265D6FC5;
+	Thu, 28 Aug 2025 01:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756343187; cv=none; b=F0fxwq5GFv14bi4XPq/YUQmAayibHBXXZLTreaN+hYZFw2VQDLNTNyhnJl7AnYTqhy3OoXzK3fHYL0Be7GrcttAXa0+jljKIRWii0b4R+9VaAGVoNOYXlWO7tOq2XRDM64wLPr6T/tVPa9Pa2ueRuh1qnUokFN2vIzv2/17+pro=
+	t=1756343467; cv=none; b=k05r8Rwzb7qLyMNpX2eLOAolEBqOZxN28AfINu8kfMWwjGCDwx+1Sal7nKHOROkAZ3Zd6baUKLFWs3+O8/BnV7ArWgMDO6YiRBpaibqVqUB+aY1FsHYYzo2gQhq3IaMDipN6o9u8Foih/DcqD/kRGWsH588cdoUnrKNoi4I7BJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756343187; c=relaxed/simple;
-	bh=32YrWvWyLeYRWG8d8naP7LAMzKHsmu0xOULh8pYDGpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RJxMHLNFLsjo/UgUMcOxyQphhhgTdAzNbokRg+g3cdTTN7BRztzAZX826G3hsXgbQBOVNolAgjS2haLvuvA5dpsx2Zg2sRaFGwB7zRU4rhcyynxL2N4yne6yQqZRy4eOeM5g9hKFbOdV6gy/iX5SCfvPXuH6X44kgNXObw5d1qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ha5iZhEC; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1756343467; c=relaxed/simple;
+	bh=T54sChdFCQYgAIe63tS9H5O7JGsgrowHeQQI8195BAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tduaHlQJOKgyktnS/3Oog3/q7NNDkvNSYK/nElDdYFH9f2E0HAvkbf5/8+AteLCg8GPUXkfUNCGC0I8+uT3MUiHx0DFbm+MQT0YGqQy2FOkbImkFqmSnqjsKj6nuFc2uZWesY1Am7/KrRkLJxBR1qomYmrWw+SPSow7DOx2uyg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=RsyobB3G; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ha5iZhEC"
-Received: from romank-3650.corp.microsoft.com (unknown [131.107.174.60])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 53A7F2110807;
-	Wed, 27 Aug 2025 18:06:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 53A7F2110807
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1756343185;
-	bh=qSjSegGY9QX2z06QsGMSUcJPV3Wn+5tB52XD9UQkq7o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ha5iZhECvt6LMVfM7/Z3ECWoYut+ldH4j9IF872A38gphc1MFpLy+O2oluLlSVWnb
-	 7Fb8EmEmWoi45XfDC4l56qxP8i3/SLSrhI2Sii91k0fW3BXQ9i3sAiLTrWd434NZqD
-	 IlbYBk2l3LUMA3HexQQ+TEuyaP3IY3z7OQxSkeLU=
-From: Roman Kisel <romank@linux.microsoft.com>
-To: arnd@arndb.de,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	decui@microsoft.com,
-	haiyangz@microsoft.com,
-	hpa@zytor.com,
-	kys@microsoft.com,
-	mikelley@microsoft.com,
-	mingo@redhat.com,
-	tglx@linutronix.de,
-	Tianyu.Lan@microsoft.com,
-	wei.liu@kernel.org,
-	x86@kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Cc: benhill@microsoft.com,
-	bperkins@microsoft.com,
-	sunilmut@microsoft.com,
-	romank@linux.microsoft.com
-Subject: [PATCH hyperv-next v5 16/16] Drivers: hv: Support establishing the confidential VMBus connection
-Date: Wed, 27 Aug 2025 18:05:57 -0700
-Message-ID: <20250828010557.123869-17-romank@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250828010557.123869-1-romank@linux.microsoft.com>
-References: <20250828010557.123869-1-romank@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="RsyobB3G"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1756343459; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=8f3eyUP4EDg8Z+h3Vm1+LYpznbLQKSbkGehfEGu1b9k=;
+	b=RsyobB3GTSyyyTEnpNOAI0XTNF0ZxyW7MVHxgmOxW9iqknQQ7duzFYEElRGFoiL6hk5Isp4SumFT7ENNBZNrRM9BelfySGABYSPo4T/3dXKc/QoiyZ/tXQzEJ9Wxz/m+1jt+VFgRyfH4xhm+cnOYt6BQgMHuvnUupYeDPpkzW+Y=
+Received: from 30.221.144.151(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0WmkrGUA_1756343458 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 28 Aug 2025 09:10:59 +0800
+Message-ID: <e0af0cee-9477-4179-ade5-7df879e22f02@linux.alibaba.com>
+Date: Thu, 28 Aug 2025 09:10:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: ocfs2: Properly reindent filecheck
+ operations list
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux ocfs2 <ocfs2-devel@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Mark Fasheh <mark@fasheh.com>,
+ Joel Becker <jlbec@evilplan.org>
+References: <20250826024756.16073-1-bagasdotme@gmail.com>
+From: Joseph Qi <joseph.qi@linux.alibaba.com>
+In-Reply-To: <20250826024756.16073-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-To establish the confidential VMBus connection the CoCo VM, the guest
-first checks on the confidential VMBus availability, and then proceeds
-to initializing the communication stack.
 
-Implement that in the VMBus driver initialization.
 
-Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/hv/vmbus_drv.c | 168 ++++++++++++++++++++++++++---------------
- 1 file changed, 106 insertions(+), 62 deletions(-)
+On 2025/8/26 10:47, Bagas Sanjaya wrote:
+> Some of texts in filecheck operations list are indented out of the list.
+> In particular, the third operation is shown not as the third list
+> item but rather as a separate paragraph.
+> 
+> Reindent the list so that gets properly rendered as such.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index aa0cde8b8a71..c2b083f6f7b2 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1058,12 +1058,9 @@ static void vmbus_onmessage_work(struct work_struct *work)
- 	kfree(ctx);
- }
- 
--void vmbus_on_msg_dpc(unsigned long data)
-+static void __vmbus_on_msg_dpc(void *message_page_addr)
- {
--	struct hv_per_cpu_context *hv_cpu = (void *)data;
--	void *page_addr = hv_cpu->hyp_synic_message_page;
--	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
--				  VMBUS_MESSAGE_SINT;
-+	struct hv_message msg_copy, *msg;
- 	struct vmbus_channel_message_header *hdr;
- 	enum vmbus_channel_message_type msgtype;
- 	const struct vmbus_channel_message_table_entry *entry;
-@@ -1071,6 +1068,10 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	__u8 payload_size;
- 	u32 message_type;
- 
-+	if (!message_page_addr)
-+		return;
-+	msg = (struct hv_message *)message_page_addr + VMBUS_MESSAGE_SINT;
-+
- 	/*
- 	 * 'enum vmbus_channel_message_type' is supposed to always be 'u32' as
- 	 * it is being used in 'struct vmbus_channel_message_header' definition
-@@ -1196,6 +1197,14 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	vmbus_signal_eom(msg, message_type);
- }
- 
-+void vmbus_on_msg_dpc(unsigned long data)
-+{
-+	struct hv_per_cpu_context *hv_cpu = (void *)data;
-+
-+	__vmbus_on_msg_dpc(hv_cpu->hyp_synic_message_page);
-+	__vmbus_on_msg_dpc(hv_cpu->para_synic_message_page);
-+}
-+
- #ifdef CONFIG_PM_SLEEP
- /*
-  * Fake RESCIND_CHANNEL messages to clean up hv_sock channels by force for
-@@ -1234,21 +1243,19 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
- #endif /* CONFIG_PM_SLEEP */
- 
- /*
-- * Schedule all channels with events pending
-+ * Schedule all channels with events pending.
-+ * The event page can be directly checked to get the id of
-+ * the channel that has the interrupt pending.
-  */
--static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
-+static void vmbus_chan_sched(void *event_page_addr)
- {
- 	unsigned long *recv_int_page;
- 	u32 maxbits, relid;
-+	union hv_synic_event_flags *event;
- 
--	/*
--	 * The event page can be directly checked to get the id of
--	 * the channel that has the interrupt pending.
--	 */
--	void *page_addr = hv_cpu->hyp_synic_event_page;
--	union hv_synic_event_flags *event
--		= (union hv_synic_event_flags *)page_addr +
--					 VMBUS_MESSAGE_SINT;
-+	if (!event_page_addr)
-+		return;
-+	event = (union hv_synic_event_flags *)event_page_addr + VMBUS_MESSAGE_SINT;
- 
- 	maxbits = HV_EVENT_FLAGS_COUNT;
- 	recv_int_page = event->flags;
-@@ -1256,6 +1263,11 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	if (unlikely(!recv_int_page))
- 		return;
- 
-+	/*
-+	 * Suggested-by: Michael Kelley <mhklinux@outlook.com>
-+	 * One possible optimization would be to keep track of the largest relID that's in use,
-+	 * and only scan up to that relID.
-+	 */
- 	for_each_set_bit(relid, recv_int_page, maxbits) {
- 		void (*callback_fn)(void *context);
- 		struct vmbus_channel *channel;
-@@ -1319,26 +1331,35 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	}
- }
- 
--void vmbus_isr(void)
-+static void vmbus_message_sched(struct hv_per_cpu_context *hv_cpu, void *message_page_addr)
- {
--	struct hv_per_cpu_context *hv_cpu
--		= this_cpu_ptr(hv_context.cpu_context);
--	void *page_addr;
- 	struct hv_message *msg;
- 
--	vmbus_chan_sched(hv_cpu);
--
--	page_addr = hv_cpu->hyp_synic_message_page;
--	msg = (struct hv_message *)page_addr + VMBUS_MESSAGE_SINT;
-+	if (!message_page_addr)
-+		return;
-+	msg = (struct hv_message *)message_page_addr + VMBUS_MESSAGE_SINT;
- 
- 	/* Check if there are actual msgs to be processed */
- 	if (msg->header.message_type != HVMSG_NONE) {
- 		if (msg->header.message_type == HVMSG_TIMER_EXPIRED) {
- 			hv_stimer0_isr();
- 			vmbus_signal_eom(msg, HVMSG_TIMER_EXPIRED);
--		} else
-+		} else {
- 			tasklet_schedule(&hv_cpu->msg_dpc);
-+		}
- 	}
-+}
-+
-+void vmbus_isr(void)
-+{
-+	struct hv_per_cpu_context *hv_cpu
-+		= this_cpu_ptr(hv_context.cpu_context);
-+
-+	vmbus_chan_sched(hv_cpu->hyp_synic_event_page);
-+	vmbus_chan_sched(hv_cpu->para_synic_event_page);
-+
-+	vmbus_message_sched(hv_cpu, hv_cpu->hyp_synic_message_page);
-+	vmbus_message_sched(hv_cpu, hv_cpu->para_synic_message_page);
- 
- 	add_interrupt_randomness(vmbus_interrupt);
- }
-@@ -1357,6 +1378,59 @@ static void vmbus_percpu_work(struct work_struct *work)
- 	hv_synic_init(cpu);
- }
- 
-+static int vmbus_alloc_synic_and_connect(void)
-+{
-+	int ret, cpu;
-+	struct work_struct __percpu *works;
-+	int hyperv_cpuhp_online;
-+
-+	ret = hv_synic_alloc();
-+	if (ret < 0)
-+		goto err_alloc;
-+
-+	works = alloc_percpu(struct work_struct);
-+	if (!works) {
-+		ret = -ENOMEM;
-+		goto err_alloc;
-+	}
-+
-+	/*
-+	 * Initialize the per-cpu interrupt state and stimer state.
-+	 * Then connect to the host.
-+	 */
-+	cpus_read_lock();
-+	for_each_online_cpu(cpu) {
-+		struct work_struct *work = per_cpu_ptr(works, cpu);
-+
-+		INIT_WORK(work, vmbus_percpu_work);
-+		schedule_work_on(cpu, work);
-+	}
-+
-+	for_each_online_cpu(cpu)
-+		flush_work(per_cpu_ptr(works, cpu));
-+
-+	/* Register the callbacks for possible CPU online/offline'ing */
-+	ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN, "hyperv/vmbus:online",
-+						   hv_synic_init, hv_synic_cleanup);
-+	cpus_read_unlock();
-+	free_percpu(works);
-+	if (ret < 0)
-+		goto err_alloc;
-+	hyperv_cpuhp_online = ret;
-+
-+	ret = vmbus_connect();
-+	if (ret)
-+		goto err_connect;
-+	return 0;
-+
-+err_connect:
-+	cpuhp_remove_state(hyperv_cpuhp_online);
-+	return -ENODEV;
-+err_alloc:
-+	hv_synic_free();
-+	return -ENOMEM;
-+}
-+
- /*
-  * vmbus_bus_init -Main vmbus driver initialization routine.
-  *
-@@ -1367,8 +1441,7 @@ static void vmbus_percpu_work(struct work_struct *work)
-  */
- static int vmbus_bus_init(void)
- {
--	int ret, cpu;
--	struct work_struct __percpu *works;
-+	int ret;
- 
- 	ret = hv_init();
- 	if (ret != 0) {
-@@ -1403,41 +1476,15 @@ static int vmbus_bus_init(void)
- 		}
- 	}
- 
--	ret = hv_synic_alloc();
--	if (ret)
--		goto err_alloc;
--
--	works = alloc_percpu(struct work_struct);
--	if (!works) {
--		ret = -ENOMEM;
--		goto err_alloc;
--	}
--
- 	/*
--	 * Initialize the per-cpu interrupt state and stimer state.
--	 * Then connect to the host.
-+	 * Cache the value as getting it involves a VM exit on x86(_64), and
-+	 * doing that on each VP while initializing SynIC's wastes time.
- 	 */
--	cpus_read_lock();
--	for_each_online_cpu(cpu) {
--		struct work_struct *work = per_cpu_ptr(works, cpu);
--
--		INIT_WORK(work, vmbus_percpu_work);
--		schedule_work_on(cpu, work);
--	}
--
--	for_each_online_cpu(cpu)
--		flush_work(per_cpu_ptr(works, cpu));
--
--	/* Register the callbacks for possible CPU online/offline'ing */
--	ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN, "hyperv/vmbus:online",
--						   hv_synic_init, hv_synic_cleanup);
--	cpus_read_unlock();
--	free_percpu(works);
--	if (ret < 0)
--		goto err_alloc;
--	hyperv_cpuhp_online = ret;
--
--	ret = vmbus_connect();
-+	is_confidential = hv_confidential_vmbus_available();
-+	if (is_confidential)
-+		pr_info("Establishing connection to the confidential VMBus\n");
-+	hv_para_set_sint_proxy(!is_confidential);
-+	ret = vmbus_alloc_synic_and_connect();
- 	if (ret)
- 		goto err_connect;
- 
-@@ -1453,9 +1500,6 @@ static int vmbus_bus_init(void)
- 	return 0;
- 
- err_connect:
--	cpuhp_remove_state(hyperv_cpuhp_online);
--err_alloc:
--	hv_synic_free();
- 	if (vmbus_irq == -1) {
- 		hv_remove_vmbus_handler();
- 	} else {
--- 
-2.43.0
+Acked-by: Joseph Qi <joseph.qi@linux.alibaba.com>
+> ---
+>  .../filesystems/ocfs2-online-filecheck.rst    | 20 +++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/ocfs2-online-filecheck.rst b/Documentation/filesystems/ocfs2-online-filecheck.rst
+> index 2257bb53edc1b1..9e8449416e0bee 100644
+> --- a/Documentation/filesystems/ocfs2-online-filecheck.rst
+> +++ b/Documentation/filesystems/ocfs2-online-filecheck.rst
+> @@ -58,33 +58,33 @@ inode, fixing inode and setting the size of result record history.
+>      # echo "<inode>" > /sys/fs/ocfs2/<devname>/filecheck/check
+>      # cat /sys/fs/ocfs2/<devname>/filecheck/check
+>  
+> -The output is like this::
+> +   The output is like this::
+>  
+>      INO		DONE	ERROR
+>      39502		1	GENERATION
+>  
+> -    <INO> lists the inode numbers.
+> -    <DONE> indicates whether the operation has been finished.
+> -    <ERROR> says what kind of errors was found. For the detailed error numbers,
+> -    please refer to the file linux/fs/ocfs2/filecheck.h.
+> +   <INO> lists the inode numbers.
+> +   <DONE> indicates whether the operation has been finished.
+> +   <ERROR> says what kind of errors was found. For the detailed error numbers,
+> +   please refer to the file linux/fs/ocfs2/filecheck.h.
+>  
+>  2. If you determine to fix this inode, do::
+>  
+>      # echo "<inode>" > /sys/fs/ocfs2/<devname>/filecheck/fix
+>      # cat /sys/fs/ocfs2/<devname>/filecheck/fix
+>  
+> -The output is like this:::
+> +   The output is like this::
+>  
+>      INO		DONE	ERROR
+>      39502		1	SUCCESS
+>  
+> -This time, the <ERROR> column indicates whether this fix is successful or not.
+> +   This time, the <ERROR> column indicates whether this fix is successful or not.
+>  
+>  3. The record cache is used to store the history of check/fix results. It's
+> -default size is 10, and can be adjust between the range of 10 ~ 100. You can
+> -adjust the size like this::
+> +   default size is 10, and can be adjust between the range of 10 ~ 100. You can
+> +   adjust the size like this::
+>  
+> -  # echo "<size>" > /sys/fs/ocfs2/<devname>/filecheck/set
+> +    # echo "<size>" > /sys/fs/ocfs2/<devname>/filecheck/set
+>  
+>  Fixing stuff
+>  ============
+> 
+> base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
 
