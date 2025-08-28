@@ -1,489 +1,225 @@
-Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 3D8032DEA7B;
-	Thu, 28 Aug 2025 09:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756373250; cv=none; b=OsysHC59eqqqBkZr/AxL8fOIPi4bgR+WlV+tp8IB/lDwjg1VyOFt3L4qhK01uxZiryf5lbBGogFum6/Kdwq29dtlGAvYdkRKA63lUfZAHB7VDVlq224PwgW2c0Rf7+AqN8BsdrB4cbLNA9nvKaQp7fccQO2G50kArfezpl9Xv30=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756373250; c=relaxed/simple;
-	bh=I2N9z8OU7kNqVS089bLCWNov/HRSDjyKX28iqL6puTQ=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=OYSiIHb28YQsvBCG6YLgI6LY1I0TUNu+bOuhqaoo0ilJbZRgwgGbDZgmOEWxoWiI6ZEJUMR5xHC7DSyHjzIYfMcNrUxHKLudupGrk1ycDOOwZRDRufmUmCKU23rtjYXxvQHPpvndaJGIJTcMQqUtCrHT124N+0nbQZu5ulFIIS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b=L+YkYxCH; arc=none smtp.client-ip=111.202.70.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7A523C507;
+	Thu, 28 Aug 2025 09:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756373806; cv=fail; b=N5L8Zqr/9DXd/MhXD6U1BfbeIVtcxPJh6ISyaRA4o2RDhcK/bZcn+t1MEhYGX+kcWInkXkFFDNvhs2tEtJ91v0tuhVTkWkYGtaTgzPvNeNAk/q5Y0YFfbVS9TzNw+ulIfNNebHfO/ylGbT3lAXYIvq2pUst85LySGk2F2Vwqdwk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756373806; c=relaxed/simple;
+	bh=hhxDeGbK11BWu2CAUqyGTl0OR9ubNwVy4HB8JfMtfDM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=gikfr070ZZvCFcSJ3zNopyJ9GyDbTnss2Lo7dySSt+QJcq1ElOKXwXbxbllqsHXd8XSEsjYIalXeulCaqao3BE2lP/6gapWomxEL6rZaYEuGW/OQrpVY0+7ZLoAAwgJxkbvGdoa2QIIfVMWGRUVy2CXfGAkPa4/M8FuAnvKbGZ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2pNggRfY; arc=fail smtp.client-ip=40.107.223.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b="L+YkYxCH"
-Received: from mail.didiglobal.com (unknown [10.79.65.19])
-	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 914EB1888B0767;
-	Thu, 28 Aug 2025 17:26:08 +0800 (CST)
-Received: from didi-ThinkCentre-M930t-N000 (10.79.71.102) by
- BJ02-ACTMBX-01.didichuxing.com (10.79.65.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.10; Thu, 28 Aug 2025 17:27:01 +0800
-Date: Thu, 28 Aug 2025 17:26:55 +0800
-X-MD-Sfrom: tiozhang@didiglobal.com
-X-MD-SrcIP: 10.79.65.19
-From: Tio Zhang <tiozhang@didiglobal.com>
-To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>,
-	<fan.yu9@zte.com.cn>, <corbet@lwn.net>, <bsingharora@gmail.com>,
-	<yang.yang29@zte.com.cn>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
-	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
-	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
-	<vschneid@redhat.com>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>,
-	<tiozhang@didiglobal.com>, <zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>
-Subject: [PATCH v3] delayaccy/sched: add SOFTIRQ delay
-Message-ID: <20250828092655.GA30360@didi-ThinkCentre-M930t-N000>
-Mail-Followup-To: akpm@linux-foundation.org, wang.yaxin@zte.com.cn,
-	fan.yu9@zte.com.cn, corbet@lwn.net, bsingharora@gmail.com,
-	yang.yang29@zte.com.cn, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, jiang.kun2@zte.com.cn,
-	xu.xin16@zte.com.cn, zyhtheonly@gmail.com, zyhtheonly@yeah.net
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2pNggRfY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xcqACIGwpBnwQNf0a8DSZQdUCE1l5ozGwzhAu9Nqh+iNhZ5yyeMhb7o1CyCvRQpDHoXKZVZQqaWYt4mBC6GgYRCXDVmkvGC08hQJkVHhqnTjMSZZrbQqnRYriM5aeCD0dWOEW9y4rGerb8486frrW/bwLHqiE0eDLOIGVLUHsIL8tNGygDzn85Og3mle57gfMFuOOlYsax393nJMA4nY/6QW6c8b5fMnJgYs/m2rTjhlQhXnMIHQew1hsr01iFnlP3e2OW5aBl15uaQ+RVF0B8CuvLFVh1LFgxqizbXvUwDjtC/Dxx9CoiLOulPjGWXQkYi0SD3wUP6d7jw092MGIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dZvGCqQm1HLNlc+WQCpHF+7K3by8k2oq007R6pkaRYE=;
+ b=icIbCXnLGqhoeb/nxVh1sriUEgQK2ecWB2GawEdf/TH5vIz8PNRwOzyTkLUpEiAUHi/Altln5A7sG6V5qR+ShYl/rdX9lbMKUMeZW9Zt7CmnUUa4jDi+wne74MIpefxls63Y9ArmNRAT2uFFxYUjRVOsxG8beDB+GMEh+MfFCIklegPYTmxBcT6pcSHkykZ/ukwICzbtcAsqHC5rQ7kyFv6AWYRKJBoGKpO0/ns76+Rvjq0LeCZ32WNeaxGZ2H+d3j0+SIzxb5f4WxyU0kBzzw+fsUsgMiQrJlGYXfKLG/0y2voqgpG70V9Km/3zHYtoOYmnLtP/w3ojY9co9dDBZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dZvGCqQm1HLNlc+WQCpHF+7K3by8k2oq007R6pkaRYE=;
+ b=2pNggRfY9VlYumfnkxX117r0fmcCXcxrJTwo7RFRJedjuE8CQvF8r5GYtmBFju6bSAoj9ngwDwC7MEozTe0taUBE8Y820+e/mHjjo4fWvmNJe6IL5GX0vn7x7Sulke0Q2YJ22JhzWIipbrCLxoZObKPz0rU5oxXeq4lh3/cIt8Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1SPRMB0007.namprd12.prod.outlook.com (2603:10b6:208:389::13)
+ by CH3PR12MB9080.namprd12.prod.outlook.com (2603:10b6:610:1a7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Thu, 28 Aug
+ 2025 09:36:39 +0000
+Received: from IA1SPRMB0007.namprd12.prod.outlook.com
+ ([fe80::3c7a:6436:c566:6354]) by IA1SPRMB0007.namprd12.prod.outlook.com
+ ([fe80::3c7a:6436:c566:6354%3]) with mapi id 15.20.9052.012; Thu, 28 Aug 2025
+ 09:36:38 +0000
+Message-ID: <fc57af3d-f2e0-2479-435b-b70f68cd5f67@amd.com>
+Date: Thu, 28 Aug 2025 15:06:28 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v5 11/14] RDMA/ionic: Register device ops for datapath
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, leon@kernel.org,
+ andrew+netdev@lunn.ch, sln@onemain.com, allen.hubbe@amd.com,
+ nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Boyer <andrew.boyer@amd.com>
+References: <20250814053900.1452408-1-abhijit.gangurde@amd.com>
+ <20250814053900.1452408-12-abhijit.gangurde@amd.com>
+ <20250826155124.GA2134666@nvidia.com>
+From: Abhijit Gangurde <abhijit.gangurde@amd.com>
+In-Reply-To: <20250826155124.GA2134666@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0012.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:272::15) To IA1SPRMB0007.namprd12.prod.outlook.com
+ (2603:10b6:208:389::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250827111444659yr8tENNnk9xU2ZFnz94FO@zte.com.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: BJ03-PUBMBX-01.didichuxing.com (10.79.71.11) To
- BJ02-ACTMBX-01.didichuxing.com (10.79.65.19)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
-	s=2025; t=1756373183;
-	bh=BaZqHBqO/n/NLjFznRMHs6vR7v6DfDVQ39RHrVn/7Pw=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type;
-	b=L+YkYxCHdCXKhGH3eyvqYIWHaOfhKY8zq88JMhykSPJQTZdFP37oy5w7znV2+EnRy
-	 TGry9sRdcTDBqPbxKWuOHM7OswouLXsV2ikrpA2lqUCLTyPMALI1h/zPB9AhuhgIf3
-	 I7U3NEE7gX610blmpIsOsEamFKVce2P8tm5+z40o=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1SPRMB0007:EE_|CH3PR12MB9080:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b67b8ec-a6df-41e7-671d-08dde616632f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZXh1REVHcGxSM2o4Vk4wMDVnZC85K0FhMFNLYzdRRGoyTzZDREdlV2tLUVV4?=
+ =?utf-8?B?b3RHZFV0M3ZOZ1AvWkJjZFl6TmxtZkZPeUtIVlBwaTMrZVpUN1JMVloxUFM5?=
+ =?utf-8?B?MTg0WFBOSk5iVDZZcGxkdGNiQ0piMWlDZ1dVOFQzUXRMelc5VGpwamt2TExq?=
+ =?utf-8?B?UWdRdG00UmJ5eURzYmgrSitOenI2VG15Y09WYnZDZ1NGRitqSy9xd1RBVzAr?=
+ =?utf-8?B?SnRUTjZCVnFVMno1NjVJZXBhRG12K2FjTno3N3hxTG5icDArY1NTVnFqWlFl?=
+ =?utf-8?B?WkhIWFZkRHNoNHhPQ1VDSlBNaitLTU9XaVU3MnVVV1B5R09vM1JxZmZNVUhU?=
+ =?utf-8?B?QjMzbm5pRkQ3MDB0QzB3T2JOby91cmJIYjFVZDJjSEFUYXpkejd6Z0NpSzZk?=
+ =?utf-8?B?VndZL0l6OXRvbmJwdC9oVlc3K2JjSlBDRHg0SzczWEdHdGtSaXl3L2pQanRz?=
+ =?utf-8?B?bEZrK2lWT2hPZTdXNnNzSTlDY1R4WGJPcUF6Vk9tMUtiMTNaV0FyYk0zb0VI?=
+ =?utf-8?B?UDhyWDJCU3o2WC8rRTFJaGRGWUxycnF4RWRibUdSRFMvVGtRY1c3ZFFLdU9p?=
+ =?utf-8?B?M3NkTWc3VW5laDJZN1A4UkNUTExZb0JmN0NrYWg3bWZURWw4a29tTG9pNi9i?=
+ =?utf-8?B?RmtnT0V2TloxRHcrWUtBelp6c2dBdHF6Mko5Tk5veGJueEpLeWdFMTRNdWFY?=
+ =?utf-8?B?QitTSmx5RDBWcHFMODI5dE8zTkgxNDA3bnR2eUs1VmpsZ0pXdVB6VVhvRW00?=
+ =?utf-8?B?bStkYm1raXdTSFdOcEZrNGRnOUdvUzEycVl0Q3h6LzhCUS9sUHBOTzViNXBI?=
+ =?utf-8?B?WEsybzFmYXd0RXloQzhTelhYTVRBbERvZUNBOVVrZDQ1Q1dEdXY4VCtUb2o2?=
+ =?utf-8?B?MGRwcmRRMXp2djNRVW5xU2pQQThqVjluOThQQXNod2ExUEgrTlA5cmZIdjNw?=
+ =?utf-8?B?d3dCTDBzSWN4N2g3d243Tkh4YUxLTDlIOHFnSE9rZHpGaVpBNlpoR3JxbUxj?=
+ =?utf-8?B?Nit2dElsNlhFcHJKcVBXMlVTbEJXaEl0c3psbnpJSWl6bTcrN2MxWWMrcU1R?=
+ =?utf-8?B?YmFVV2lIT3pvUHRmTFVibjQ4V2N4Y2pXZGcyV0ZRN2gzZWJlT28vUmRxZndN?=
+ =?utf-8?B?WXVRQitkVG5ySGxTYUlUNVZoeDcyQ1pSYnlpSHZjdFFmNERMQVd1RnU0NEEy?=
+ =?utf-8?B?ZWcvUHFadU14aVJVQlNMUlQzZ05KeldMV0VNNFNoU1FXOG9lNEF1azdlWnYv?=
+ =?utf-8?B?VUkzUVpZc3NPbmRGcFdrYjJMTllnNmZMUUFIOGtvcHV1T04xSVNKUjkySVBh?=
+ =?utf-8?B?aHlaRjJUTER3WXpTdFMzYm5remRGcnVlTkMyWlNma2JWMTJPWXR6Ulk4TFd5?=
+ =?utf-8?B?OUU1cTllQWRUUXFNN2F5Q3RUTnpGNTh4VDZGbGNJYVZ5c3V6aENpdlVCOWRu?=
+ =?utf-8?B?NVArOW9zSkpxYW8yenk1YVUxSVJOQnAxZFk2RENZYUVWcWpNYVFuZm5SVGZP?=
+ =?utf-8?B?YUd1TFovVlUxWk9KTEY0VUhhNitSRmdhdXBUMEs0U1ZudkRrc1dHRTV3SnJU?=
+ =?utf-8?B?RGtpenpwM0xna0lPUXYyVXdMWVFkOTJ6Tk1yL3ljMzM0OUJuTlpia1p2cXh5?=
+ =?utf-8?B?Zm5tbm9qYUorbEY0bmk0VUZnNTAyNHVzVlJldllDT3U3RDE3b1d6bXNvNk9a?=
+ =?utf-8?B?dGdNdmZZM3BxRFprNW1zckU2cmg4UnhjU2F0NHk2SytaTnFWcisxVjdOR1Vp?=
+ =?utf-8?B?bWM5MktVUmZaVTVDWHp4Ny9FMUpUTVMvS1NzTStwaGtsVVdmZWpaZEtKcU5s?=
+ =?utf-8?B?RUt6VFFSYkJHdXhrZWtQTU1QT21NN2NmR21INjhOSUxUWlVCSnhzQld2L3E1?=
+ =?utf-8?B?cW8xTHdtVGNlMStENjE3MGs1d2xUMjMvME5QczYyUm9DM0dMa0M3VFVzeDhQ?=
+ =?utf-8?Q?lj2RN55j7/Q=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1SPRMB0007.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YWQxSzBXY2RlWnhtR1p6MkFRVEtZOTV4V3ZKQng3S09LYkRjQVYrL3BpUXVR?=
+ =?utf-8?B?OElBcmhPajJDUzZLbkhvSjVVaUtSZWZiMWVHdW9USW9Da2pXU0wyc2dESkRj?=
+ =?utf-8?B?SmNISWQzS2pQN2puT01qTkxZRUhBeVJXVmo1TUs5Y21MU3BhRGhlT3FEVkJT?=
+ =?utf-8?B?MklFbEZoY2VjZWRDRjk1cGVVWU9NYUplMzBkT2NwRFRQblpSWjAwTVpZSTFa?=
+ =?utf-8?B?UHBKWnlXai9FLzNzWkRNdW9PeU9YRnM0aFNDSnFpcm0yVTZiclFLTTRIc1BC?=
+ =?utf-8?B?TzE1YTlSSHRYd3BGYTNOY2NFQm84MHlxUzRGN1NBRjVEQk9RcVBSdGhFb2N0?=
+ =?utf-8?B?Y0Y5a3gvZjRVbTNicmF3dEF3cmloclU5bGVFRVorbXJPdXI4YmNBRHBVZlg3?=
+ =?utf-8?B?Q2sySlZ4djBIWCsxcVAxRUJLR05xVmRBdXBQMjNoRFhTUVl5ZHJuYnlhL3Ew?=
+ =?utf-8?B?My96aWpzNVB6UGJxZkhKSzFXRGgxTWc1ZHBHTCtpNmlOY0E3QUZrVGxmR0xF?=
+ =?utf-8?B?ckE0Y1RQMFhCcEFpbFRzQXRFdnpWOUx3Z0E4NUxRblJxSkZPQmdaODRXTWtP?=
+ =?utf-8?B?N1U0Nzh6SnpBMVRXK3d5eXJQUU5WVURlUUVkamFqcyt6aW9aaWd4RTAycXRT?=
+ =?utf-8?B?dU84ckhyYk1CV0EyS09jVFpYMVhFYUNxb3NpcmhCNHBXTHpKV3g4alptVlI4?=
+ =?utf-8?B?bjNSVlJmUGJYVkpxREJXSGFjeDlZcURHNGkrZUluV21RWnFBSy9jWldlQzJu?=
+ =?utf-8?B?ZlZ4WGJMY3VpMjFhTFBPbWwxYnBJdEhSSEdObkVUV3RNc2RrTWxVWThqZS93?=
+ =?utf-8?B?K1BLYlVNejBlUjFLOG8yS2tsUW1aeDlkTjRyMGtwNFIwN294T1crS2IwemRz?=
+ =?utf-8?B?dkpCSGp1dG40VXg5TVQ4MWJrUkZBT21yWnJ3ZmZvN1A2VW9BRzMxS1UrNGNz?=
+ =?utf-8?B?WkJ1RHZTbVdyQWRlOExSTHRid2ZYUlp4Y1dZemNZTG1iZHZTQU1TR1gyZity?=
+ =?utf-8?B?azNBS01BN0w1UzlocDdGNWI1UG1hem1FSXNXWXJ3dVVPbkNpdjhwdG9xQ3BH?=
+ =?utf-8?B?MTYwOG10alJGMVoxTkxpZ1pRWDRNU3ljT3FDdi9mWTlabU4vdmJ4TFdEN21j?=
+ =?utf-8?B?KzhveUNzWmVDeGFqQUhlTUlHYzBUTjFObEVVWEdUUG90V2huMVdaUVZwK3JZ?=
+ =?utf-8?B?bi9MOHFmUTMyWHMyTXN4M0c5OXNLQlN4MTZEc2dWN1Bxam1IaUprdXBlQnkz?=
+ =?utf-8?B?b2ZYbHdJb2hkbDFLWHFWdTJQNlVyV0FwRUcvaXlFWWhsN3kweVpXUXlnbi9u?=
+ =?utf-8?B?Sk1mNU1JdU5DWnVPNCswMXQxb29hb2tLeGRHZjFnTmRkVkZ5STUzVFo5YVp0?=
+ =?utf-8?B?eU45Z2NoTENqWGRyUDFXeG9rWE1NR2s3Sk9DNVdUQXU2dkNqbWhoc0F6ZXJK?=
+ =?utf-8?B?NFh4OFNYa2FrM3NMb0UrdGVWMzdOWDU2cXYrT1ZxSUo0NkMxeDlRNkUvZWd6?=
+ =?utf-8?B?Mnl3Zyt1Vk9tVklKQ2doZE1SMXBPVFRSNGZQVm9ZKzhKZW9nVXlFS2pEUkMy?=
+ =?utf-8?B?VXVvNVJVeTdlZmRpaFA4R1VrR045dEVsdjFUN0YxZG1hTFhFQnJNdWtYUlVo?=
+ =?utf-8?B?eXNmeEJZN0Z2UW42WDQraGhwa0YvOG8zK0YxaS9LdWhpQ0FwNEIzNmkxMmFh?=
+ =?utf-8?B?NmpIWnI0dHpESG0xMHBTZE4rQ1NJRHEwdVA1TFJnTFFsSStSK1VQV3p2dko4?=
+ =?utf-8?B?aWtrdW01YnRRQ29jcytGaVlSVERaTXhpbHdaVEtPYTlrcjEyYmcwNHlEY1pu?=
+ =?utf-8?B?ZFdPcURrNjFwTnZIaldiVHozaXczN2hMK00zdTVBRjdiUWY4aTRmWjV6akpW?=
+ =?utf-8?B?ZjR6TWdicXJmcE9WTElCQ3Z6TTVXZkdWMzZjVk5CUFVmU1ZRQjhrL1gya2RU?=
+ =?utf-8?B?dmx5aC81NW8xYUdjYXJoVG5kWFg4ZFFsU2J3ZkltUjBoUWZxU3l3aHhET3JC?=
+ =?utf-8?B?REg4S1VDamJpaVcxamV2MW81L3orVmRYalRDNkZGNS94V2JYQUx5eTgxYWwv?=
+ =?utf-8?B?b3JuMVJlVm1Ia2lzQUZGbDVxaVVKMlpMalBmcmVDeGFhanFZU09BbkZNWWo3?=
+ =?utf-8?Q?zY+MQZJsB6fs+8wbdBVj5C81b?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b67b8ec-a6df-41e7-671d-08dde616632f
+X-MS-Exchange-CrossTenant-AuthSource: IA1SPRMB0007.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 09:36:38.8100
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uyWkQlA8Ct3FeHzualhTwd8K3j75tLmXMNmtiDgXzgzZNmR5Ir6f6CC8spZoC2VWucw5dIsK9AD0DeRADdKaIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9080
 
-Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
-and hardirq as {IRQ - SOFTIRQ} delay.
 
-A typical scenario is when tasks delayed by network,
-if they delayed by rx net packets, i.e, net_rx_action(),
-SOFTIRQ delay is almost same as IRQ delay;
-if they delayed by, e.g, bad driver or broken hardware,
-SOFTIRQ delay is almost 0 while IRQ delay remains big.
+On 8/26/25 21:21, Jason Gunthorpe wrote:
+> On Thu, Aug 14, 2025 at 11:08:57AM +0530, Abhijit Gangurde wrote:
+>> +static int ionic_poll_vcq_cq(struct ionic_ibdev *dev,
+>> +			     struct ionic_cq *cq,
+>> +			     int nwc, struct ib_wc *wc)
+>> +{
+>> +	struct ionic_qp *qp, *qp_next;
+>> +	struct ionic_v1_cqe *cqe;
+>> +	int rc = 0, npolled = 0;
+>> +	unsigned long irqflags;
+>> +	u32 qtf, qid;
+>> +	bool peek;
+>> +	u8 type;
+>> +
+>> +	if (nwc < 1)
+>> +		return 0;
+>> +
+>> +	spin_lock_irqsave(&cq->lock, irqflags);
+>> +
+>> +	/* poll already indicated work completions for send queue */
+>> +	list_for_each_entry_safe(qp, qp_next, &cq->poll_sq, cq_poll_sq) {
+>> +		if (npolled == nwc)
+>> +			goto out;
+>> +
+>> +		spin_lock(&qp->sq_lock);
+>> +		rc = ionic_poll_send_many(dev, cq, qp, wc + npolled,
+>> +					  nwc - npolled);
+>> +		spin_unlock(&qp->sq_lock);
+>> +
+>> +		if (rc > 0)
+>> +			npolled += rc;
+>> +
+>> +		if (npolled < nwc)
+>> +			list_del_init(&qp->cq_poll_sq);
+>> +	}
+>> +
+>> +	/* poll for more work completions */
+>> +	while (likely(ionic_next_cqe(dev, cq, &cqe))) {
+>> +		if (npolled == nwc)
+>> +			goto out;
+>> +
+>> +		qtf = ionic_v1_cqe_qtf(cqe);
+>> +		qid = ionic_v1_cqe_qtf_qid(qtf);
+>> +		type = ionic_v1_cqe_qtf_type(qtf);
+>> +
+>> +		qp = xa_load(&dev->qp_tbl, qid);
+> Why is this safe? Should have a comment explaining it or add the
+> missing locking.
+>
+> Jason
 
-Examples tool usage could be found in
-Documentation/accounting/delay-accounting.rst
+This is safe because both the polling and ionic_destroy_qp() paths 
+synchronize on the same cq->lock. The destroy path ensures the CQ is 
+cleaned before its associated resources are freed. I will add a comment 
+to clarify this.
 
-Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
----
- Documentation/accounting/delay-accounting.rst | 60 ++++++++++++++++++-
- include/linux/delayacct.h                     | 18 ++++--
- include/uapi/linux/taskstats.h                |  9 ++-
- kernel/delayacct.c                            |  9 ++-
- kernel/sched/core.c                           | 14 +++--
- kernel/sched/cputime.c                        | 23 +++++--
- kernel/sched/psi.c                            |  3 +-
- kernel/sched/sched.h                          |  6 +-
- tools/accounting/getdelays.c                  |  7 +++
- 9 files changed, 129 insertions(+), 20 deletions(-)
+Thanks,
+Abhijit
 
-diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
-index 8ccc5af5ea1e..be53d22f8c1b 100644
---- a/Documentation/accounting/delay-accounting.rst
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -17,6 +17,7 @@ e) thrashing
- f) direct compact
- g) write-protect copy
- h) IRQ/SOFTIRQ
-+i) SOFTIRQ
- 
- and makes these statistics available to userspace through
- the taskstats interface.
-@@ -50,7 +51,7 @@ this structure. See
- for a description of the fields pertaining to delay accounting.
- It will generally be in the form of counters returning the cumulative
- delay seen for cpu, sync block I/O, swapin, memory reclaim, thrash page
--cache, direct compact, write-protect copy, IRQ/SOFTIRQ etc.
-+cache, direct compact, write-protect copy, IRQ/SOFTIRQ, SOFTIRQ etc.
- 
- Taking the difference of two successive readings of a given
- counter (say cpu_delay_total) for a task will give the delay
-@@ -123,6 +124,63 @@ Get sum and peak of delays, since system boot, for all pids with tgid 242::
- 	              156       11215873          0.072ms     0.207403ms     0.033913ms
- 	IRQ         count    delay total  delay average      delay max      delay min
- 	                0              0          0.000ms     0.000000ms     0.000000ms
-+	SOFTIRQ     count    delay total  delay average      delay max      delay min
-+	                0              0          0.000ms     0.000000ms     0.000000ms
-+
-+Get IRQ and SOFTIRQ delays::
-+
-+To enable, compile the kernel with::
-+
-+	CONFIG_IRQ_TIME_ACCOUNTING=y
-+
-+IRQ counts ALL IRQ context while SOFTIRQ counts context between
-+account_softirq_{enter,exit} excluding ksoftirqd.
-+
-+SOFTIRQ is mainly used to separate delays between hardirq and softirq,
-+its "count" should equal to IRQ and its "total" should entirely be included by IRQ.
-+
-+So,
-+all IRQ context delay is IRQ
-+softirq context delay is SOFTIRQ
-+hardirq context delay is (IRQ - SOFTIRQ)
-+
-+An example::
-+
-+	# echo 0 > /proc/irq/${my_hardirq}/smp_affinity_list
-+	(bound some hardirq to CPU 0)
-+
-+	# taskset -pc 0 ${my_pid}
-+	(bound ${my_pid} to CPU 0, so ${my_pid} should be delay by hardirq)
-+
-+	# ./getdelays -d -t ${my_pid}
-+	print delayacct stats ON
-+	TGID    ${my_pid}
-+
-+	......
-+	IRQ         count    delay total  delay average      delay max      delay min
-+	              127          59074          0.000ms     0.009655ms     0.000943ms
-+	SOFTIRQ     count    delay total  delay average      delay max      delay min
-+	              127           7255          0.000ms     0.005080ms     0.002175ms
-+
-+	(In most count timings, IRQ/SOFTIRQ delay should be 0, so average is too small to show)
-+	(IRQ is significantly bigger than SOFTIRQ here, so we learn hardirq delays ${my_pid} more)
-+
-+	# iperf -s -p ${my_port} -D         // on the machine running ${my_pid}
-+	# iperf -c ${my_ip} -p ${my_port}   // on another machine as client
-+	(start having some softirq, also on CPU 0)
-+
-+	# ./getdelays -d -t ${my_pid}
-+	print delayacct stats ON
-+	TGID    ${my_pid}
-+
-+	......
-+	IRQ         count    delay total  delay average      delay max      delay min
-+	              386         473515          0.001ms     0.032010ms     0.001954ms
-+	SOFTIRQ     count    delay total  delay average      delay max      delay min
-+	              386         419761          0.001ms     0.029616ms     0.002155ms
-+
-+	(SOFTIRQ is getting very close to IRQ here, so we learn softirq delays ${my_pid} more)
-+
- 
- Get IO accounting for pid 1, it works only with -p::
- 
-diff --git a/include/linux/delayacct.h b/include/linux/delayacct.h
-index 800dcc360db2..b73d777d7a96 100644
---- a/include/linux/delayacct.h
-+++ b/include/linux/delayacct.h
-@@ -62,13 +62,18 @@ struct task_delay_info {
- 
- 	u64 irq_delay_max;
- 	u64 irq_delay_min;
--	u64 irq_delay;	/* wait for IRQ/SOFTIRQ */
-+	u64 irq_delay;		/* wait for IRQ/SOFTIRQ */
-+
-+	u64 soft_delay_max;
-+	u64 soft_delay_min;
-+	u64 soft_delay;		/* wait for SOFTIRQ */
- 
- 	u32 freepages_count;	/* total count of memory reclaim */
- 	u32 thrashing_count;	/* total count of thrash waits */
- 	u32 compact_count;	/* total count of memory compact */
- 	u32 wpcopy_count;	/* total count of write-protect copy */
--	u32 irq_count;	/* total count of IRQ/SOFTIRQ */
-+	u32 irq_count;		/* total count of IRQ/SOFTIRQ */
-+	u32 soft_count;		/* total count of SOFTIRQ */
- };
- #endif
- 
-@@ -98,7 +103,7 @@ extern void __delayacct_compact_start(void);
- extern void __delayacct_compact_end(void);
- extern void __delayacct_wpcopy_start(void);
- extern void __delayacct_wpcopy_end(void);
--extern void __delayacct_irq(struct task_struct *task, u32 delta);
-+extern void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft);
- 
- static inline void delayacct_tsk_init(struct task_struct *tsk)
- {
-@@ -233,13 +238,14 @@ static inline void delayacct_wpcopy_end(void)
- 		__delayacct_wpcopy_end();
- }
- 
--static inline void delayacct_irq(struct task_struct *task, u32 delta)
-+static inline void delayacct_irq(struct task_struct *task, u32 delta,
-+					u32 delta_soft)
- {
- 	if (!static_branch_unlikely(&delayacct_key))
- 		return;
- 
- 	if (task->delays)
--		__delayacct_irq(task, delta);
-+		__delayacct_irq(task, delta, delta_soft);
- }
- 
- #else
-@@ -280,7 +286,7 @@ static inline void delayacct_wpcopy_start(void)
- {}
- static inline void delayacct_wpcopy_end(void)
- {}
--static inline void delayacct_irq(struct task_struct *task, u32 delta)
-+static inline void delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
- {}
- 
- #endif /* CONFIG_TASK_DELAY_ACCT */
-diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
-index 5929030d4e8b..23307f88e255 100644
---- a/include/uapi/linux/taskstats.h
-+++ b/include/uapi/linux/taskstats.h
-@@ -34,7 +34,7 @@
-  */
- 
- 
--#define TASKSTATS_VERSION	16
-+#define TASKSTATS_VERSION	17
- #define TS_COMM_LEN		32	/* should be >= TASK_COMM_LEN
- 					 * in linux/sched.h */
- 
-@@ -230,6 +230,13 @@ struct taskstats {
- 
- 	__u64	irq_delay_max;
- 	__u64	irq_delay_min;
-+
-+	/* v17: Delay waiting for SOFTIRQ */
-+	__u64	soft_count;
-+	__u64	soft_delay_total;
-+
-+	__u64	soft_delay_max;
-+	__u64	soft_delay_min;
- };
- 
- 
-diff --git a/kernel/delayacct.c b/kernel/delayacct.c
-index 30e7912ebb0d..15f88ca0c0e6 100644
---- a/kernel/delayacct.c
-+++ b/kernel/delayacct.c
-@@ -189,6 +189,7 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
- 	UPDATE_DELAY(compact);
- 	UPDATE_DELAY(wpcopy);
- 	UPDATE_DELAY(irq);
-+	UPDATE_DELAY(soft);
- 	raw_spin_unlock_irqrestore(&tsk->delays->lock, flags);
- 
- 	return 0;
-@@ -289,7 +290,7 @@ void __delayacct_wpcopy_end(void)
- 		      &current->delays->wpcopy_delay_min);
- }
- 
--void __delayacct_irq(struct task_struct *task, u32 delta)
-+void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
- {
- 	unsigned long flags;
- 
-@@ -300,6 +301,12 @@ void __delayacct_irq(struct task_struct *task, u32 delta)
- 		task->delays->irq_delay_max = delta;
- 	if (delta && (!task->delays->irq_delay_min || delta < task->delays->irq_delay_min))
- 		task->delays->irq_delay_min = delta;
-+	task->delays->soft_delay += delta_soft;
-+	task->delays->soft_count++;
-+	if (delta_soft > task->delays->soft_delay_max)
-+		task->delays->soft_delay_max = delta_soft;
-+	if (delta_soft && (!task->delays->soft_delay_min || delta_soft < task->delays->soft_delay_min))
-+		task->delays->soft_delay_min = delta_soft;
- 	raw_spin_unlock_irqrestore(&task->delays->lock, flags);
- }
- 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index be00629f0ba4..30ba2e312356 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -773,11 +773,12 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
-  * In theory, the compile should just see 0 here, and optimize out the call
-  * to sched_rt_avg_update. But I don't trust it...
-  */
--	s64 __maybe_unused steal = 0, irq_delta = 0;
-+	s64 __maybe_unused steal = 0, irq_delta = 0, soft_delta = 0;
- 
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- 	if (irqtime_enabled()) {
--		irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
-+		irq_delta = irq_time_read(cpu_of(rq), &soft_delta) - rq->prev_irq_time;
-+		soft_delta -= rq->prev_soft_time;
- 
- 		/*
- 		 * Since irq_time is only updated on {soft,}irq_exit, we might run into
-@@ -794,12 +795,17 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
- 		 * the current rq->clock timestamp, except that would require using
- 		 * atomic ops.
- 		 */
--		if (irq_delta > delta)
-+		if (soft_delta > delta) {  /* IRQ includes SOFTIRQ */
-+			soft_delta = delta;
- 			irq_delta = delta;
-+		} else if (irq_delta > delta) {
-+			irq_delta = delta;
-+		}
- 
- 		rq->prev_irq_time += irq_delta;
-+		rq->prev_soft_time += soft_delta;
- 		delta -= irq_delta;
--		delayacct_irq(rq->curr, irq_delta);
-+		delayacct_irq(rq->curr, irq_delta, soft_delta);
- 	}
- #endif
- #ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
-diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index 7097de2c8cda..5ce28036b149 100644
---- a/kernel/sched/cputime.c
-+++ b/kernel/sched/cputime.c
-@@ -38,13 +38,14 @@ void disable_sched_clock_irqtime(void)
- }
- 
- static void irqtime_account_delta(struct irqtime *irqtime, u64 delta,
--				  enum cpu_usage_stat idx)
-+				  u64 delta_soft, enum cpu_usage_stat idx)
- {
- 	u64 *cpustat = kcpustat_this_cpu->cpustat;
- 
- 	u64_stats_update_begin(&irqtime->sync);
- 	cpustat[idx] += delta;
- 	irqtime->total += delta;
-+	irqtime->total_soft += delta_soft;
- 	irqtime->tick_delta += delta;
- 	u64_stats_update_end(&irqtime->sync);
- }
-@@ -57,17 +58,29 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- {
- 	struct irqtime *irqtime = this_cpu_ptr(&cpu_irqtime);
- 	unsigned int pc;
--	s64 delta;
-+	s64 delta, delta_soft, cpu_clock;
- 	int cpu;
- 
- 	if (!irqtime_enabled())
- 		return;
- 
- 	cpu = smp_processor_id();
--	delta = sched_clock_cpu(cpu) - irqtime->irq_start_time;
-+	cpu_clock = sched_clock_cpu(cpu);
-+	delta = cpu_clock - irqtime->irq_start_time;
- 	irqtime->irq_start_time += delta;
- 	pc = irq_count() - offset;
- 
-+	/*
-+	 * We only account softirq time when we are called by
-+	 * account_softirq_enter{,exit}
-+	 * and we do not account ksoftirqd here.
-+	 */
-+	if (curr != this_cpu_ksoftirqd() &&
-+		((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET))) {
-+		delta_soft = cpu_clock - irqtime->soft_start_time;
-+		irqtime->soft_start_time += delta_soft;
-+	}
-+
- 	/*
- 	 * We do not account for softirq time from ksoftirqd here.
- 	 * We want to continue accounting softirq time to ksoftirqd thread
-@@ -75,9 +88,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- 	 * that do not consume any time, but still wants to run.
- 	 */
- 	if (pc & HARDIRQ_MASK)
--		irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
-+		irqtime_account_delta(irqtime, delta, 0, CPUTIME_IRQ);
- 	else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
--		irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
-+		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
- }
- 
- static u64 irqtime_tick_accounted(u64 maxtime)
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index 59fdb7ebbf22..07f0caf5042d 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -1009,6 +1009,7 @@ void psi_account_irqtime(struct rq *rq, struct task_struct *curr, struct task_st
- 	struct psi_group_cpu *groupc;
- 	s64 delta;
- 	u64 irq;
-+	u64 __maybe_unused soft_irq;
- 	u64 now;
- 
- 	if (static_branch_likely(&psi_disabled) || !irqtime_enabled())
-@@ -1021,7 +1022,7 @@ void psi_account_irqtime(struct rq *rq, struct task_struct *curr, struct task_st
- 	if (prev && task_psi_group(prev) == task_psi_group(curr))
- 		return;
- 
--	irq = irq_time_read(cpu);
-+	irq = irq_time_read(cpu, &soft_irq);
- 	delta = (s64)(irq - rq->psi_irq_time);
- 	if (delta < 0)
- 		return;
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index be9745d104f7..b263cb046cfa 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1219,6 +1219,7 @@ struct rq {
- 
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- 	u64			prev_irq_time;
-+	u64			prev_soft_time;
- 	u64			psi_irq_time;
- #endif
- #ifdef CONFIG_PARAVIRT
-@@ -3135,8 +3136,10 @@ static inline void sched_core_tick(struct rq *rq) { }
- 
- struct irqtime {
- 	u64			total;
-+	u64			total_soft;
- 	u64			tick_delta;
- 	u64			irq_start_time;
-+	u64			soft_start_time;
- 	struct u64_stats_sync	sync;
- };
- 
-@@ -3153,7 +3156,7 @@ static inline int irqtime_enabled(void)
-  * Otherwise ksoftirqd's sum_exec_runtime is subtracted its own runtime
-  * and never move forward.
-  */
--static inline u64 irq_time_read(int cpu)
-+static inline u64 irq_time_read(int cpu, u64 *total_soft)
- {
- 	struct irqtime *irqtime = &per_cpu(cpu_irqtime, cpu);
- 	unsigned int seq;
-@@ -3162,6 +3165,7 @@ static inline u64 irq_time_read(int cpu)
- 	do {
- 		seq = __u64_stats_fetch_begin(&irqtime->sync);
- 		total = irqtime->total;
-+		*total_soft = irqtime->total_soft;
- 	} while (__u64_stats_fetch_retry(&irqtime->sync, seq));
- 
- 	return total;
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index 21cb3c3d1331..7299cb60aa33 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -205,6 +205,7 @@ static int get_family_id(int sd)
-  * version >= 13  - supports WPCOPY statistics
-  * version >= 14  - supports IRQ statistics
-  * version >= 16  - supports *_max and *_min delay statistics
-+ * version >= 17  - supports SOFTIRQ statistics
-  *
-  * Always verify version before accessing version-dependent fields
-  * to maintain backward compatibility.
-@@ -296,6 +297,12 @@ static void print_delayacct(struct taskstats *t)
- 			irq_count, irq_delay_total,
- 			irq_delay_max, irq_delay_min);
- 	}
-+
-+	if (t->version >= 17) {
-+		PRINT_FILED_DELAY("SOFTIRQ", t->version, t,
-+			soft_count, soft_delay_total,
-+			soft_delay_max, soft_delay_min);
-+	}
- }
- 
- static void task_context_switch_counts(struct taskstats *t)
--- 
-2.39.3 (Apple Git-145)
 
