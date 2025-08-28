@@ -1,146 +1,165 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B1923D7D3;
-	Thu, 28 Aug 2025 06:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66882D0612;
+	Thu, 28 Aug 2025 07:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756364346; cv=none; b=qoHPpSY1dAMK2dQl+WruoWRlowNu6dcAEbsKWbMBRugCcan7j1pm0YtpMl4d3sEbnt7J5YTmfJCPyIxKqO1DwVPO66BikAohRif0UleOIGxVwx/J4xX7zDAHDsFkgtsfivoOHBKY/P+audtUTSF0/l1J1lAlD0vShBB+OopWLdE=
+	t=1756364884; cv=none; b=ZVzPNkHx2ifxR/X8QaopFJ4oF/Z057cHXUVZauDE1Cxt5xzY6kScGuMxARRGhrkun3wwOmzO7kJyR2gSE487vLopZzLE9TaozXMVSva0Xdyxl+Jmdv28jIRUBLJO+HNAJacIP9xOZGAxmLAshcM2zWjAmBweI9eywn4Oiwba3ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756364346; c=relaxed/simple;
-	bh=h+5QlIME0GXytQ7qpF5OiiV8EqngJ8LXAaGd30LRJtU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xe6wv9KOT1OGioIfOkJQ+Li8/ecZZ/yO4xvpBW6aYBRRFBp6jG1Ui2ZAGim9N2FOlQza1bATTn41q953R3Ro5+bkkHc6ndJ/NiSvj6NVLMfu1NppJraJ3vstwcaESVbUHh0QjfZ2x8Mg7Te6r4c2NpQ/K+XfTcAi/Qkatz5+EzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eXbkjrfL; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756364884; c=relaxed/simple;
+	bh=JrMEMAIN72PQSLuM09hZkye0UtP7yWfTIz0Vd16Rgc0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IrUvcanBCtazAQN28oMg5328ucbmMZaaZqVOp2Yds2BtiJjrW5paJHrf3N4LNExMGU6+F//mL8Qc8ICZJVmL8F2aSYR/+Cx0lm2ha5qoKiDymsEaxekGmUTwKjpT1l8UNmflsokTY4I58vRlIioetiUd1pTO9wVwOFH773FT/NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WRrEeBUO; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eXbkjrfL"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b10993301fso8763551cf.0;
-        Wed, 27 Aug 2025 23:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756364344; x=1756969144; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=imRtYecfg+etFNKaWp3et/EHqOd3Dvqo3ESB36BTlR4=;
-        b=eXbkjrfLDaAjErnLFj6r8aPy2f61coZK40M0Tq1ob71tMJEne6vz3KQVSeO+aHWZRU
-         QruOK31xYNLiehP/mNiH0Cor8QuQB9mDIkCedJioFVkhLL7XjIA46HB4CL3BM5m+Zxqb
-         0Naafhky0+7DtuwxNcjMtmlGHnbPuPfvZ8rx/RUrhKkHIq9dwWumoa1s/YoRtpLRDZgC
-         7YxIYaNh3T6nFAX62jCWLk0W7UwW8uiiWefP3RILTdzgFUEjdxUF5TFmYHaZoY7/2704
-         ztzIzw1Wwq0/l5PmM9WyZFCx/cilQeZQpWwuufl0OvQk49ZfFSuOV142V8hRyKu41nQx
-         Fxqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756364344; x=1756969144;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=imRtYecfg+etFNKaWp3et/EHqOd3Dvqo3ESB36BTlR4=;
-        b=Ae3WEJDnOJ1UrVnw5sCHAJd6wyTknE1ZExZdtUy1lJH7JRvJOLFvC13vvVx3bbrytt
-         Qwo9cdCHRG9FQP4VW4aQzpWvEVFzyPQ0XmH2Bi+DLVprz9AKdYlo7Ke/UKIZQ9bMZ9Nd
-         ABKmVqmXOKIilz4HiUP/prw6BPe+HSy/gcE5o2W1SrX/4vmghCiEv3GsY5pdnkUPv+CA
-         A9bkm4++3WteAtc/eZ9SjAjRA9Oh2KsJJwfjNIje4SwmaNCfUKHH5KDcC6fxKJn+GQXH
-         ieax7o/zTX1SX8n3/lHolyPH1prBDOhE+3U5krYA5SGooKG/NlmcXvr7Itqv77OAhhHH
-         Jaew==
-X-Forwarded-Encrypted: i=1; AJvYcCVaOthyI9VDPNckAaxDrEUwoHC5J1Bdd0ds3m9NiA+rp4vfMcJt9vcdrQQ6JBPOIOQ6aX3d+WJIbTgF@vger.kernel.org, AJvYcCW2Wo7HSMKGUfYrG+hPv4FHPCT1bDLCfBeeHkUAKx6zPy6T3/yuY08K1gvaKJy71IFHQaM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgcnT1RonTMxgImKRt2T9st3vQo6zyzQp25SmMQ/zgPSRgzJFb
-	TtIRp2ahGv2wlKDEfZBO9hc5ht/V2YWViS7Gr6rL8IMfRs9S+soSPTD0o9dyxqPczMg1qVxodJ+
-	NBtD5BKjSz2xK1aWL+NMOTl4ZlObDx70=
-X-Gm-Gg: ASbGnctSBEBha3Xk72UxzMu1ofIxB+CBG0m38H+CMxI9J5FkwOLCLSYIkNOb4+LrIgk
-	hZFuvgPWwE45H6cBEC4vgWRYGPVAmRTMRoW3XvglXgfDTTy83BEK3KW8eUknCmzDRtRVSw3JMru
-	ywdjRxJG4dvL27DwXI/GFtufkQeKsDtye/sxmKJaUB5HBxS53P/dlEPIbTqzbJeUOqSeIxHw0Eq
-	7E4GRFlCQQgx3DTzszhQ9VcjEJyd9iUGraQnliVpgUWDRoP3Q==
-X-Google-Smtp-Source: AGHT+IGMHvpvoVZa9mXmBBeocL1rpGhAuvRVNAEm2pjo8nSBLdwTn61/uotyQhl6uDY9bSKpy9uNA61YHeQ2elpq2ks=
-X-Received: by 2002:ac8:5d48:0:b0:4af:322:346a with SMTP id
- d75a77b69052e-4b2aaa7df5cmr235111751cf.37.1756364344187; Wed, 27 Aug 2025
- 23:59:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WRrEeBUO"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57S77LrX1926333;
+	Thu, 28 Aug 2025 02:07:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1756364841;
+	bh=4jNlY0U4kVd90go0mP1NgI2AJgnZ0N8e4hHUy/MOZEg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=WRrEeBUOqqYzIYufYa2h80gdOjGilk4M/qXtYLRADYiK4KW8MhwJhICLJGRwnaC7R
+	 lSQ4EcdKbABGa2vMs8xWNKa2HN+4JUhgZKJuGtBIxIAzAcgyoT9TXrY7SGemH2i8nh
+	 CWkIRE1uIDUX4TaNR8dwUUqH/u7qKScWpZ9LQd0s=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57S77Ldh3049105
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 28 Aug 2025 02:07:21 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 28
+ Aug 2025 02:07:20 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 28 Aug 2025 02:07:20 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57S77Etn4120830;
+	Thu, 28 Aug 2025 02:07:15 -0500
+Message-ID: <dab8033d-e7d7-4522-b832-eaf58efaad68@ti.com>
+Date: Thu, 28 Aug 2025 12:37:14 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-3-laoar.shao@gmail.com>
- <fxjgxvoq3z4utlwb7asmt6wfjfl5t2nvfnghhmwplhqerv22yg@3i4gdavsyirq>
-In-Reply-To: <fxjgxvoq3z4utlwb7asmt6wfjfl5t2nvfnghhmwplhqerv22yg@3i4gdavsyirq>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Thu, 28 Aug 2025 14:58:28 +0800
-X-Gm-Features: Ac12FXxzOOTe1natEd0mMCAsPZpFJWP7A30MXtoADcSt0CwP8hYi3Z3hSqrAKo0
-Message-ID: <CALOAHbDmtyH54sxyxhRBAd+f1m-Yw6WrBvdk+Qom2SMLYqCAYA@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 02/10] mm: thp: add a new kfunc bpf_mm_get_mem_cgroup()
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
-	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
-	rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 2/5] net: rpmsg-eth: Add basic rpmsg skeleton
+To: "Anwar, Md Danish" <a0501179@ti.com>,
+        Krzysztof Kozlowski
+	<krzk@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+        Mengyuan Lou
+	<mengyuanlou@net-swift.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Madhavan
+ Srinivasan <maddy@linux.ibm.com>,
+        Fan Gong <gongfan1@huawei.com>, Lee Trager
+	<lee@trager.us>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Geert Uytterhoeven
+	<geert+renesas@glider.be>,
+        Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+        Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250723080322.3047826-1-danishanwar@ti.com>
+ <20250723080322.3047826-3-danishanwar@ti.com>
+ <296d6846-6a28-4e53-9e62-3439ac57d9c1@kernel.org>
+ <5f4e1f99-ff71-443f-ba34-39396946e5b4@ti.com>
+ <cabacd59-7cbf-403a-938f-371026980cc7@kernel.org>
+ <66377d5d-b967-451f-99d9-8aea5f8875d3@ti.com>
+ <bc30805a-d785-432f-be0f-97cea35abd51@kernel.org>
+ <4bb1339a-ead6-4a33-b2bf-c55874bab352@ti.com>
+ <0e85bda4-9ac2-4587-b8bb-550bea1728dc@kernel.org>
+ <fab2a856-e3b0-4d25-9ce4-72f1f57e3115@ti.com>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <fab2a856-e3b0-4d25-9ce4-72f1f57e3115@ti.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, Aug 28, 2025 at 4:46=E2=80=AFAM Shakeel Butt <shakeel.butt@linux.de=
-v> wrote:
->
-> On Tue, Aug 26, 2025 at 03:19:40PM +0800, Yafang Shao wrote:
-> > We will utilize this new kfunc bpf_mm_get_mem_cgroup() to retrieve the
-> > associated mem_cgroup from the given @mm. The obtained mem_cgroup must
-> > be released by calling bpf_put_mem_cgroup() as a paired operation.
-> >
-> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> > ---
-> >  mm/bpf_thp.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 50 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/mm/bpf_thp.c b/mm/bpf_thp.c
-> > index fbff3b1bb988..b757e8f425fd 100644
-> > --- a/mm/bpf_thp.c
-> > +++ b/mm/bpf_thp.c
-> > @@ -175,10 +175,59 @@ static struct bpf_struct_ops bpf_bpf_thp_ops =3D =
-{
-> >       .name =3D "bpf_thp_ops",
-> >  };
-> >
-> > +__bpf_kfunc_start_defs();
-> > +
-> > +/**
-> > + * bpf_mm_get_mem_cgroup - Get the memory cgroup associated with a mm_=
-struct.
-> > + * @mm: The mm_struct to query
-> > + *
-> > + * The obtained mem_cgroup must be released by calling bpf_put_mem_cgr=
-oup().
-> > + *
-> > + * Return: The associated mem_cgroup on success, or NULL on failure. N=
-ote that
-> > + * this function depends on CONFIG_MEMCG being enabled - it will alway=
-s return
-> > + * NULL if CONFIG_MEMCG is not configured.
-> > + */
-> > +__bpf_kfunc struct mem_cgroup *bpf_mm_get_mem_cgroup(struct mm_struct =
-*mm)
-> > +{
-> > +     return get_mem_cgroup_from_mm(mm);
-> > +}
-> > +
-> > +/**
-> > + * bpf_put_mem_cgroup - Release a memory cgroup obtained from bpf_mm_g=
-et_mem_cgroup()
-> > + * @memcg: The memory cgroup to release
-> > + */
-> > +__bpf_kfunc void bpf_put_mem_cgroup(struct mem_cgroup *memcg)
-> > +{
-> > +#ifdef CONFIG_MEMCG
-> > +     if (!memcg)
-> > +             return;
-> > +     css_put(&memcg->css);
-> > +#endif
->
-> Just use mem_cgroup_put() here.
+Hi Krzysztof, Andrew,
 
-i will change it and thanks for the clarification.
+On 30/07/25 8:41 pm, Anwar, Md Danish wrote:
+> 
+> 
+> On 7/30/2025 11:43 AM, Krzysztof Kozlowski wrote:
+>> On 30/07/2025 08:01, MD Danish Anwar wrote:
+>>>>
+>>>>> `reserved-memory`. I am not creating a completely new undocumented node.
+>>>>> Instead I am creating a new node under reserved-memory as the shared
+>>>>> memory used by rpmsg-eth driver needs to be reserved first. This memory
+>>>>> is reserved by the ti_k3_r5_remoteproc driver by k3_reserved_mem_init().
+>>>>>
+>>>>> It's just that I am naming this node as "virtual-eth-shm@a0400000" and
+>>>>> then using the same name in driver to get the base_address and size
+>>>>> mentioned in this node.
+>>>>
+>>>> And how your driver will work with:
+>>>>
+>>>> s/virtual-eth-shm@a0400000/whatever@a0400000/
+>>>>
+>>>
+>>>
+>>> It won't. The driver imposes a restriction with the node name. The node
+>>> name should always be "virtual-eth-shm"
+>>
+>> Drivers cannot impose the restriction. I don't think you understand the
+>> problem. What stops me from renaming the node? Nothing.
+>>
+>> You keep explaining this broken code, but sorry, this is a no-go. Shall
+>> I NAK it to make it obvious?
+>>
+> 
+> Krzysztof, I understand this can't be accepted. This wasn't my first
+> approach. The first approach was that the firmware running on the
+> remotecore will share the base-address using rpmsg. But that was
+> discouraged by Andrew.
+> 
+> So I came up with this DT approach to read the base-address from linux only.
+> 
+> Andrew, Since rpmsg-eth is a virtual device and we can't have DT node
+> for it. Using the reserved memory node and then search the same using
+> node name in the driver is also not acceptable as per Krzysztof. What do
+> you suggest should be done here?
+> 
+> Can we revisit the first approach (firmware sharing the address)? Can we
+> use module params to pass the base-address? or Do you have any other
+> ideas on how to handle this?
+> 
+> Please let me know.
+> 
 
---=20
-Regards
-Yafang
+This is what I came up with after few discussions offline with Andrew. I
+will post v2 soon with the below changes
+
+1. Similar to qcom,glink-edge.yaml and google,cros-ec.yaml - I will
+create a new binding named ti,rpmsg-eth.yaml this binding will describe
+the rpmsg eth node. This node will have a memory region.
+2. The rpmsg-eth node will be a child node of the rproc device. In this
+case `r5f@78000000`. I will modify the rproc binding
+`ti,k3-r5f-rproc.yaml` to describe the same.
+3. Other vendors who wish to use RPMSG_ETH, can create a rpmsg-eth node
+as a child of their rproc device.
+
+This approach is very similar to what's done by qcom,glink-edge.yaml
+/google,cros-ec.yaml and their users.
+
+-- 
+Thanks and Regards,
+Danish
+
