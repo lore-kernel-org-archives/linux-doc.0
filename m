@@ -1,93 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD0D286D49
-	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 20:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07495223DDD;
+	Thu, 28 Aug 2025 20:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756413414; cv=none; b=BHkvEXiOYWiaE+UlP+FpaNXcuqolbuM3kOA2dBUXTwtnWHNKPFsknnrX5CNzdLO7T5p90KbW5AdWU0PmHTiEwV4LjmCaWEW8VZj0RLZFUaZYlBdIntgg+EEkK6rvw5rHOXq5CRH9RwiVE3w4VLXfp4vzPRJgZD2XXN80aRyC4lA=
+	t=1756414482; cv=none; b=o27mp3fSJ7+lhArDJEfixvWqnu9kJ5R28lVrlDvH5JnANODNuOHJ/M8XqMstnx3+u7pZ09TapZXqOdJpdkOR5T+LhptjT0sYmKFj2SghSndic4OvAu3iQRpmXCXvWU9Acc9htSde+FBaZ8KHpptfWaSIYLELYRkPj2lqQwZy7ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756413414; c=relaxed/simple;
-	bh=rUfxaTF48nEGUV10uSSzXEUdMJvhSqNtA2pbhDCY+h4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eLjdreRioplVm24YOLDFirkvjEkPQzFWLU/OYvPRO1bVrOUo5ZVniaGntktL45bh0KIsMVJOWMX8NBrXiZqGZrm1G5iB0bnVCkwr1GGsq2LdE00Z/4SFwv6T9HqciP/kxYM2kNx826o4uFynMaVSTXquUoRJ+8eY0mvMWJ0iVeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QVPEKu+n; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756414482; c=relaxed/simple;
+	bh=G+6sPUUIFuKNkRdpDGh7oyzJRLExx6mM3Rr0TsrNav4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UJW2k16/lx3tF73mcM3NJo3nTqKqXeeoz6Un3pBSVZoeHksTZ5pOD27trkunvUBkmh6qw6Q/bF+ky/y2+I71iVzUPmp3NAov6uJ9KwqqYGjzoInKW/Afx/l0OsyPCJ77N1t+HjnMXmCm9JqIwj7KxhqAFsS7UA3p8s55i2f0I70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sCjN9TPm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QVPEKu+n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756413410;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iMSYCMOvfWZn97rU63Rxs44+GYsNMV+1UH9H7cieIcw=;
-	b=QVPEKu+ni3Be/+fD1CRQmnsnEfusYrdVGq9A6rYemVWKQNHiYHRKuFUrGcQwZYld+A/4c8
-	yZNqK2QdccFb86N1tVr2S+V6J/t8jEZs2iydVXkVkVy6y8fN/9Rs+q5A47lwB2DX5QRzZa
-	3J+c2FSI3K73VNBzg5ej3ec+f7aqbqE=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-530-yAxcOyiTNdaCtDJoEL_0TA-1; Thu,
- 28 Aug 2025 16:36:47 -0400
-X-MC-Unique: yAxcOyiTNdaCtDJoEL_0TA-1
-X-Mimecast-MFC-AGG-ID: yAxcOyiTNdaCtDJoEL_0TA_1756413406
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3EEB918003FD;
-	Thu, 28 Aug 2025 20:36:45 +0000 (UTC)
-Received: from omen.home.shazbot.org (unknown [10.22.64.127])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D58691800447;
-	Thu, 28 Aug 2025 20:36:42 +0000 (UTC)
-From: Alex Williamson <alex.williamson@redhat.com>
-To: alex.williamson@redhat.com
-Cc: kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Alex Mastro <amastro@fb.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] docs: proc.rst: Fix VFIO Device title formatting
-Date: Thu, 28 Aug 2025 14:36:24 -0600
-Message-ID: <20250828203629.283418-1-alex.williamson@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sCjN9TPm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF632C4CEEB;
+	Thu, 28 Aug 2025 20:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756414481;
+	bh=G+6sPUUIFuKNkRdpDGh7oyzJRLExx6mM3Rr0TsrNav4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sCjN9TPmsmkv2CErZmw7eY4jhfo/PPQcCij3sdHoAaturic23UjSbV5/eD841QBrO
+	 q5lqa5UXldETsQDMVxoOfW90mr401cd2aNU4qwzO6IO/5MHaurrX5r01OojjZShQEf
+	 15Kqtld44h3aDOleBeJLOpcwjkQTTYAEhyrx8SC3goTrfnxyjVjHpigzIsE/EQK5r7
+	 FqO3qkArHFFA2cKutZwYB5+zz+dbLtckQEfa3MaBKs+Sg/PNA0jXRALMJBXOlqNLWJ
+	 BYklmKx3JSZ1NevsWbUBFS2Jp771ITiW6KubcU3EOHWT7p/JyrZiu2Mj04cW80QHY7
+	 3fGPgcRndIPdQ==
+Date: Thu, 28 Aug 2025 14:54:35 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
+Message-ID: <aLDCC4rXcIKF8sRg@kbusch-mbp>
+References: <cover.1755624249.git.leon@kernel.org>
+ <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
+ <aLBzeMNT3WOrjprC@kbusch-mbp>
+ <20250828165427.GB10073@unreal>
+ <aLCOqIaoaKUEOdeh@kbusch-mbp>
+ <20250828184115.GE7333@nvidia.com>
+ <aLCpqI-VQ7KeB6DL@kbusch-mbp>
+ <20250828191820.GH7333@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828191820.GH7333@nvidia.com>
 
-Title underline is one character too short.
+On Thu, Aug 28, 2025 at 04:18:20PM -0300, Jason Gunthorpe wrote:
+> On Thu, Aug 28, 2025 at 01:10:32PM -0600, Keith Busch wrote:
+> > 
+> > Data and metadata are mapped as separate operations. They're just
+> > different parts of one blk-mq request.
+> 
+> In that case the new bit leon proposes should only be used for the
+> unmap of the data pages and the metadata unmap should always be
+> unmapped as CPU?
 
-Cc: Alex Mastro <amastro@fb.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20250828123035.2f0c74e7@canb.auug.org.au
-Fixes: 1e736f148956 ("vfio/pci: print vfio-device syspath to fdinfo")
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+The common path uses host allocated memory to attach integrity metadata,
+but that isn't the only path. A user can attach their own metadata with
+nvme passthrough or the recent io_uring application metadata, and that
+could have been allocated from anywhere.
+
+In truth though, I hadn't tried p2p metadata before today, and it looks
+like bio_integrity_map_user() is missing the P2P extraction flags to
+make that work. Just added this patch below, now I can set p2p or host
+memory independently for data and integrity payloads:
+
 ---
-
-To be applied through vfio next branch.
-
- Documentation/filesystems/proc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index ed8d23b677ca..ff09f668cdeb 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -2167,7 +2167,7 @@ where 'size' is the size of the DMA buffer in bytes. 'count' is the file count o
- the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 6b077ca937f6b..cf45603e378d5 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -265,6 +265,7 @@ int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
+ 	unsigned int align = blk_lim_dma_alignment_and_pad(&q->limits);
+ 	struct page *stack_pages[UIO_FASTIOV], **pages = stack_pages;
+ 	struct bio_vec stack_vec[UIO_FASTIOV], *bvec = stack_vec;
++	iov_iter_extraction_t extraction_flags = 0;
+ 	size_t offset, bytes = iter->count;
+ 	unsigned int nr_bvecs;
+ 	int ret, nr_vecs;
+@@ -286,7 +287,12 @@ int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
+ 	}
  
- VFIO Device files
--~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~
+ 	copy = !iov_iter_is_aligned(iter, align, align);
+-	ret = iov_iter_extract_pages(iter, &pages, bytes, nr_vecs, 0, &offset);
++
++	if (blk_queue_pci_p2pdma(q))
++		extraction_flags |= ITER_ALLOW_P2PDMA;
++
++	ret = iov_iter_extract_pages(iter, &pages, bytes, nr_vecs,
++					extraction_flags, &offset);
+ 	if (unlikely(ret < 0))
+ 		goto free_bvec;
  
- ::
- 
--- 
-2.51.0
-
+--
