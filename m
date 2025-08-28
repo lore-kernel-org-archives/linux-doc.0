@@ -1,107 +1,181 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C37222575;
-	Thu, 28 Aug 2025 06:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4E8277C84;
+	Thu, 28 Aug 2025 06:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756361571; cv=none; b=UonP2NdWv2P9A9TPYjRCojpKXigbqA+1RLCGygqBfCTHwy2T2rrO3MIwTLME3zFcZ8tmdjmXTV07anmj8Ey09nAqPWsq5EiswDI+E3MJthxozFPckbZn8BwxYup8JSQxPu+pIBuJCTkTdR/U0kN2Rwqe5FwZ2r2C2omBbnk0PL0=
+	t=1756361686; cv=none; b=lfhNrGCfzlSej4Joo+yS5gnCXD16p8uhcAlHVm9+HxUoh68MxOjmOpHfyTkvyg437k1XjSIGiqm/0QJnkZ4xiQhgTMl/oz3OZy5rIxTOqdHliZZCjCnSlSBZrxBYXBMe4V5Ts7bphDtkhNGt4mGcWQ/s7rqdcmhxA5ZEhr4nu2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756361571; c=relaxed/simple;
-	bh=cnbLMdPiCwmvYLji+zAdnqkI0zKaKd1dlWQ6sfyOcHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DK6eEEyZlr8EXpsEJiomxOyPHb0h+oEJmmWQwASa2a4PwtDNU/7eK007kmz2NFSL5v6h9Y0OrBFN2wd36G4fOAWIidVynQBh5GoO7gXkVZ+m6infmU4f99oZHm1oiYPTe//No0Y02CrL4q7koGhLUFJcS9YsDvLmMLGt508BHGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQC+8WQD; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756361686; c=relaxed/simple;
+	bh=24RtXmBs8sDbV+FKZY3m2RQfjwKVsmeGc/ycJ8DwMBw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ks0sc6XGzELAOPcuOZzwHqUfbIte4X2nyiLJDr1FuH9EAEzNKACheMD6j8LVHUL8V71BQG+rLcN43YDAMMtcWezgHk6t15lY2s3nRxyfQjAjE9GpveYAVmKB8ZkbHVRKQ0OZxj9fzk3nZNtm6gkwcJgukmvlt1XXqaptdLOCV3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bkxGi3Q6; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQC+8WQD"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-70de9ffcfffso6104956d6.2;
-        Wed, 27 Aug 2025 23:12:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756361569; x=1756966369; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cnbLMdPiCwmvYLji+zAdnqkI0zKaKd1dlWQ6sfyOcHc=;
-        b=VQC+8WQD1YmzxM1IfDIAsvfgpw19V4FMhtMogLmsIK6cm0b71hI7DgEKTuODiLapi/
-         8rr8+Fao4OdiTLsRZWW1Rjs1dFAcu7Y5x3ISn73hdczoRA+9IvOA8bKy4Gu844gXJE3M
-         5PB3QnKKiNg54Mye2degQWs7TSBq/tZuGLqc99eAmiRgUlaAzizzQp5+wjHWzLbXycDp
-         zaKgtHJOwPEuWcvvSRW/nSzWYbunzZyjOMLmFAqA87md8dKVGVeB5yyOo+Gx3WRwy6GF
-         Ctrp2Vt9Xxxwj/sOLL6dpYzs2e4Zr/DX0Wbryt2n71nThf9Q2T3s4axGMkKo4xLqTK9F
-         Oinw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756361569; x=1756966369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cnbLMdPiCwmvYLji+zAdnqkI0zKaKd1dlWQ6sfyOcHc=;
-        b=L12m+Sa7+uU3+br5y88i47lVXE60cbCGlvQ+oGuWHdKtA2yUBscuUm77ojmYk8n2JD
-         DVya2cV5sZkczrLoPwJ8BlWiRoVULu+rlUe6WYAPOu7Vj9sV/5vFWT97JC80mJCq6xTd
-         m4uAXYq70CcN8uTfEUN9MwC44EVA8/CuUhJcDjiMWtjhqwvok0IV2VGrDUgcQ9IoC23j
-         o+KiFknVouKCxDaOW11C/AVm97PxSRr7uYPi66nmXWlFpK1UAulzwv3pqO/DsjSuj7HA
-         ygY6xLpM5f9MqWu19XRmRWwAzSRaS89OHNhm2YybVFzezrcLcrdkEhvI/BJyURSzqjdL
-         hfxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUyMYHlaNqKvMUoqm1j0ReHPWrvpc7iEcOZIzNHfEp4pY8iyzFiGzkFqAZXOkW6BfAB54=@vger.kernel.org, AJvYcCXCcOFdSTyHKHjI8O1ykv9Xe2DBLewgr0b8dz9eol7Rw/MUguBitep2m5tkcw4fKs4th6F7ayDKYKjv@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC11EyboDTLlZNxkyhvdyvOQznVFuwsJSLSfQgBVI1bETagDJm
-	tFCIyoQJuw+bExNG2/nUfLo7rTDDJgzVxGCV72Y9vG/NER3D6ttHlCKxisbtBPVD6GO9AUbbHh1
-	CdwTIBROHI7s19zjzueQAO6dAIZmuywE=
-X-Gm-Gg: ASbGnctqraYxpxw06Sa5RqV60KVjmhZOKEfoQfIaqoS7qLfI37zanYgpE4JBs+Tx0Ng
-	Wb3DSo4EaZa3gjV0TPiNd1BkyFe4d4FkKvRLkir4FfuLk4fmAeBTyfne7GgHWEOn3VzKlxFuwXK
-	4mGxL+SDJW+789mqXeY84w1LTUcaDIc+tAkyvB1X+01O0ifAqraywsuZInQMw7RneShcx9JdHwI
-	p47yWHtuMuc8yIXpwiwdAj3Ks8NZMF1uPjN8Ig=
-X-Google-Smtp-Source: AGHT+IHWEqZvffeKo8kRXTyycXIE2aUiikzOvRaEpoYzy2gliBcy83nY3larYygf49dGuEclkaz2O/Wg5aGu2qNho5M=
-X-Received: by 2002:a05:6214:3293:b0:70d:9f91:642a with SMTP id
- 6a1803df08f44-70d9f916d1bmr193078726d6.56.1756361569344; Wed, 27 Aug 2025
- 23:12:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bkxGi3Q6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=mLP5bwfx5JUrcHsz6CyZc7tgsZnbyjt3ON1W+9DUhmE=; b=bkxGi3Q6m6lm+Igj/KqLC35diy
+	D+8C+V1d7b7P294LP3kloHaUZQsS5V2wNmdrRa9BnpUsrNdGc9sjnIFq5AVDEdvpfr2CRtTaXXt6/
+	ZTCf7PVZigQcjx7zulNTvhErrYr+n50RnGuPZBTN+x/vD9kAZFGU983GYe6EkyK8JE7zP0NreezE8
+	dsJezbWOu2t9JxU8z/Gtny6N+IrqdZm3jVq7jSIaiNtr2M0vMWF8rbRYtFLyJX4HQQOhJ98tIZQc2
+	jwoD23j7ZEdtvosv6JKqa4SoOnqZ9GR/bHA5PxbpW0DcZWbKDISZecRVQVLixsAWZGKU8JYJAXrfm
+	WpmdxvJQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1urVuA-00000000Phx-1KCr;
+	Thu, 28 Aug 2025 06:14:38 +0000
+Message-ID: <61cd6dac-14e1-474e-9aa3-4fe782e81ba9@infradead.org>
+Date: Wed, 27 Aug 2025 23:14:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-5-laoar.shao@gmail.com>
- <bca7698c-7617-4584-afaa-4c3d2c971a79@lucifer.local>
-In-Reply-To: <bca7698c-7617-4584-afaa-4c3d2c971a79@lucifer.local>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Thu, 28 Aug 2025 14:12:12 +0800
-X-Gm-Features: Ac12FXwA8AE2T9DT0lZOOileufyZaAaDfXMTycJckIK5rbkI3PvbmFzzlT8sNXM
-Message-ID: <CALOAHbDxxN8CsGwAWQU4XRkG8NvU-chbiDv=oKW0mADSf1vaiQ@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 04/10] bpf: mark vma->vm_mm as trusted
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
-	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Kees Cook <kees@outflux.net>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Kees Cook <kees@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Rutland
+ <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ x86@kernel.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+References: <20250825141316.work.967-kees@kernel.org>
+ <20250825142603.1907143-5-kees@kernel.org>
+ <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
+ <202508250834.E2456B9@keescook>
+ <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+ <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
+ <20250827013444.GA2859318@ax162>
+ <56c2b1ce-00a4-403c-9927-79bfd9a23574@infradead.org>
+ <20250827193815.GA2293657@ax162>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250827193815.GA2293657@ax162>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 27, 2025 at 11:46=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Tue, Aug 26, 2025 at 03:19:42PM +0800, Yafang Shao wrote:
-> > Every VMA must have an associated mm_struct, and it is safe to access
->
-> Err this isn't true? Pretty sure special VMAs don't have that set.
 
-I=E2=80=99m not aware of any VMA that doesn=E2=80=99t belong to an mm_struc=
-t. If there
-is such a case, it would be helpful if you could point it out. In any
-case, I=E2=80=99ll remove the VMA-related code in the next version since it=
-=E2=80=99s
-unnecessary.
 
->
-> > outside of RCU. Thus, we can mark it as trusted. With this change, BPF
-> > helpers can safely access vma->vm_mm to retrieve the associated task
-> > from the VMA.
->
-> On the basis of above don't think this is valid.
->
+On 8/27/25 12:38 PM, Nathan Chancellor wrote:
+> On Wed, Aug 27, 2025 at 12:35:12AM -0700, Randy Dunlap wrote:
+>> On 8/26/25 6:34 PM, Nathan Chancellor wrote:
+>>> On Mon, Aug 25, 2025 at 03:31:34PM -0400, Kees Cook wrote:
+>>>> On August 25, 2025 1:00:22 PM EDT, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+>>>>> On Mon, Aug 25, 2025 at 5:35 PM Kees Cook <kees@kernel.org> wrote:
+>>>>>>
+>>>>>> Yeah, that's a good idea. What the right way to do that?
+>>>>>>
+>>>>>> config CFI_CLANG
+>>>>>>         bool "Use Clang's Control Flow Integrity (CFI)"
+>>>>>>         depends on ARCH_SUPPORTS_CFI
+>>>>>>         select CFI
+>>>>>>
+>>>>>> ?
+>>>>>
+>>>>> I don't recall what is the idiomatic solution for renames, but I
+>>>>> remember Linus talking about this topic and about avoiding losing old
+>>>>> values if possible (perhaps getting a new question in `oldconfig` is
+>>>>> OK as long as the `olddefconfig` respects the old value).
+>>>>>
+>>>>> I think your suggestion above will still make it appear twice in
+>>>>> `menuconfig` -- there may be a way to play with visibility to make it
+>>>>> better.
+>>>>>
+>>>>> A simple possibility I can think of (assuming it works) is having the
+>>>>> CFI symbol for the time being introduced just as a `def_bool
+>>>>> CFI_CLANG` for a few releases so that people get the new one in their
+>>>>> configs.
+>>>>
+>>>> Ah, I think this works:
+>>>>
+>>>> config CFI_CLANG
+>>>>     bool
+>>>>
+>>>> config CFI
+>>>>     bool "...."
+>>>>     default CFI_CLANG
+>>>>
+>>>> I will add that for v2.
+>>>
+>>> That does not appear to work for me. I applied
+>>>
+>>> diff --git a/arch/Kconfig b/arch/Kconfig
+>>> index c25a45d9aa96..0d3ed03c76c2 100644
+>>> --- a/arch/Kconfig
+>>> +++ b/arch/Kconfig
+>>> @@ -876,8 +876,12 @@ config ARCH_SUPPORTS_CFI
+>>>  config ARCH_USES_CFI_TRAPS
+>>>         bool
+>>>
+>>> +config CFI_CLANG
+>>> +       bool
+>>> +
+>>>  config CFI
+>>>         bool "Use Kernel Control Flow Integrity (kCFI)"
+>>> +       default CFI_CLANG
+>>>         depends on ARCH_SUPPORTS_CFI
+>>>         depends on $(cc-option,-fsanitize=kcfi)
+>>>         help
+>>>
+>>> on top of this series and
+>>>
+>>>   CONFIG_CFI_CLANG=y
+>>>   # CONFIG_CFI_ICALL_NORMALIZE_INTEGERS is not set
+>>>   # CONFIG_CFI_PERMISSIVE is not set
+>>>
+>>> gets turned into
+>>>
+>>>   # CONFIG_CFI is not set
+>>>
+>>> after olddefconfig. CONFIG_CFI_CLANG has to be user selectable with a
+>>
+>> Could/did you test with 'oldconfig' instead?
+>>
+>> olddefconfig is going to use the default value from the Kconfig file,
+>> which if CFI_CLANG which is undefined/No/Not set.
+>>
+>> oldconfig will use the old value from the .config file.
+> 
+> I am not sure I understand what you mean here. With the series as it is
+> or Kees's suggested fix, oldconfig still prompts the user to enable
 
---=20
-Regards
-Yafang
+OK, I don't know the state of the CFI_CLANG / CLANG patch(es).
+
+I just mean the difference in 'make oldconfig' and 'make olddefconfig'
+(at least AIUI).
+
+
+> CONFIG_CFI with CONFIG_CFI_CLANG=y in the old configuration. Both Miguel
+> and I allude to that being fine but it would be really nice if users
+> with CONFIG_CFI_CLANG=y were automatically transitioned to CONFIG_CFI=y
+> without any action on their part. That seems to be in line with how
+
+Yes, I agree.
+
+> Linus feels even as recently as this past merge window:
+> 
+> https://lore.kernel.org/CAHk-=wgO0Rx2LcYT4f75Xs46orbJ4JxO2jbAFQnVKDYAjV5HeQ@mail.gmail.com/
+> 
+> Another idea I had to avoid this is introducing CONFIG_CFI_GCC as a user
+> selectable symbol and making CONFIG_CFI the hidden symbol that both
+> compiler symbols select. After a couple of releases (or maybe the next
+> LTS), both CONFIG_CFI_CLANG and CONFIG_CFI_GCC could be eliminated with
+> CONFIG_CFI becoming user selectable, which would keep things working
+> since CONFIG_CFI=y will be present in the previous configuration.
+
+
+-- 
+~Randy
+
