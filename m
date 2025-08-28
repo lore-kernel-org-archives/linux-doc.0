@@ -1,37 +1,48 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC16330CD97;
-	Thu, 28 Aug 2025 04:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C51D347C3;
+	Thu, 28 Aug 2025 05:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756354743; cv=none; b=hoiV64t6xtd9ay+z5Vc9DmVzkFp60PRBjhUGJh5tLE2Sdx8f5hvCNNF2RJ8kOa4/zWNYzC2yvA2JM/kRYJpAzBjwyBm3dYwTJENdIF9fgMCUIUshD/YQ7eai8pf/5HZX4Qtn65x17TKyU7jmVqKk1MoVIMfqGvVq1SPiq7iNP/0=
+	t=1756358615; cv=none; b=j7aXC6uQ4o6WCytq+YKP1Ycw1vzaGbZS/p02IkcTIz2SDL8zmaZtotwDSlY14A7crka4cM4iq9CCU/XWEncRieZ2ul8KQsQIX/JoxBbfs6w9RvCu7CUW5+QZfemuNjZ7LJagdS2c2CcK+2bm/2askfgLN2FsJLJ2/1k3Y2JpMc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756354743; c=relaxed/simple;
-	bh=xjPLySpG4Cqaeo6i2PBc0ZZuCTZhuQ8xsn5W87rGIfI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BZTApYfjYM7ty9Bps9DaR+5WV00BnMsCraLCgkgB6aoaQwRnjiNM3kDoHjy8muzQl7jANCeilQyQvhjaQS4tPHlu0pPYywPSkZ3ZP40OjgoYTpvxJLZvm85CjN49R06H4sU+4oDEtviOVleL4ZOL7Poeq0dfLR/vPi9UCXq0Uzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Jxrqicmr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756358615; c=relaxed/simple;
+	bh=MPv9upYSfnuMVEjCiBx+rrWvB2IX5FK6oSbWZnwJQG8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ocRslrXBJ6FxX2oysKvfiPjigYaGg84t6uu9uwqOoh/1JyjTcjks8lVqKQ+ce5U2jP0IjuvNFGtG97e/zMo1uJH4dd4q7eI209GKsliYg3XtSDkLjN4o5aFwZ2EQu1+bDQFuv9UMt9KLj+wLSBAwb/JQ3jlNwNhqtZ23ZhAKHKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UtCBv87A; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jxrqicmr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=oNuKGPPg3hK4HshhqAcAMhnyXLVAApIs8OiHECNh8HI=; b=Jxrqicmr34AlSRZm6wMJCkBKeM
-	jb5arR1aO4fzHXN+p+DugR/B14WdMERJjWS421KwWRNphNYZChZemDsy/qt9iJrxqzlcY/6oK9jy9
-	5ayTR31bi/ca+WCeGlW2se+eijA7w/XPHxHFugWBCmgu6bnUtDONXZ7hUPP+S3No9mYPd4ZujRI3b
-	u35wIsfMD2hVid31dSLIVJL/8I0//XFm0AFL6qqfyupnKLFZTBk2VEwoTESYncMRfAFXt5d+QA4qR
-	qxULy7IF7SfLZXJNcl90loJGBvz8h56udLj5VQKmQCmu8C6C2IaXrECV/vh4cml5rrRwy20O9fFQ1
-	YQaR/LQw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urU6D-00000000Dyq-2i21;
-	Thu, 28 Aug 2025 04:18:57 +0000
-Message-ID: <d0070beb-f6fd-477c-a315-a2c6db99c227@infradead.org>
-Date: Wed, 27 Aug 2025 21:18:57 -0700
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UtCBv87A"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57S5MV2N1933390;
+	Thu, 28 Aug 2025 00:22:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1756358551;
+	bh=dSYTJRLUiaKEblrv6ghM/tLJvlJ4dpZF50LtDEoi190=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=UtCBv87A9YotW4e0Kpza0rumkfMUe9aQQ2p9MoF0eYg5POwikHGkZbX+Bgu53YtPl
+	 p8n7XbPCMDlm58CbFqlzv2bgVsdB+NixoVNm0fZShswC4fxgoQzAiNyJrEwswLNAUY
+	 megeYWaaIVmdw5gPZcFB9aQ8bE4jkUQdD9mhYxx4=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57S5MUZR2661524
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 28 Aug 2025 00:22:30 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 28
+ Aug 2025 00:22:29 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 28 Aug 2025 00:22:29 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57S5ML1t072116;
+	Thu, 28 Aug 2025 00:22:22 -0500
+Message-ID: <0651d5a9-dd02-4936-94b8-834bd777003c@ti.com>
+Date: Thu, 28 Aug 2025 10:52:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,68 +50,60 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
- known the details" phrase
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Fox Foster <fox@tardis.ed.ac.uk>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Matthew Wilcox <willy@infradead.org>
-References: <20250827044848.17374-1-bagasdotme@gmail.com>
- <87wm6p9v8l.fsf@trenco.lwn.net> <20250827113312.62162725@foz.lan>
- <aK_XIoncppxWp7sB@archie.me>
+Subject: Re: [PATCH net-next v9 0/5] Add driver for 1Gbe network chips from
+ MUCSE
+To: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <gur.stavi@huawei.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+        <lee@trager.us>, <gongfan1@huawei.com>, <lorenzo@kernel.org>,
+        <geert+renesas@glider.be>, <Parthiban.Veerasooran@microchip.com>,
+        <lukas.bulwahn@redhat.com>, <alexanderduyck@fb.com>,
+        <richardcochran@gmail.com>, <kees@kernel.org>, <gustavoars@kernel.org>,
+        <rdunlap@infradead.org>, <vadim.fedorenko@linux.dev>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>
+References: <20250828025547.568563-1-dong100@mucse.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aK_XIoncppxWp7sB@archie.me>
-Content-Type: text/plain; charset=UTF-8
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <20250828025547.568563-1-dong100@mucse.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
+Hi Dong Yibo,
 
-
-On 8/27/25 9:12 PM, Bagas Sanjaya wrote:
-> On Wed, Aug 27, 2025 at 11:33:12AM +0200, Mauro Carvalho Chehab wrote:
->> As a non-native English speaker, "had better know" looks really
->> weird on my eyes, as, at least for me, "know" is a verb.
->>
->> Heh, I just discovered today by looking on a dictionary:
->>
->> 	https://dictionary.cambridge.org/dictionary/english/know
->>
->> That know can informally be used as a noun (a shortcut for
->> knowledge?).
->>
->> For me as a non-native English speaker, when one writes:
->>
->> 	They "most likely know"		(know here is a verb)
->>
->> or:
->> 	They "had better knowledge"	(knowledge is a name)
->>
->> Things become clearer.
->>
->> Heh:
->>
->> 	They "had better know the details better than you"
->>
->> the "better" word is used twice, and yeah, this is requires more
->> fluency in English for a non-native speaker to get what it says.
->>
->> Considering that "know" (noun) seems to be a shortcut
->> for "knowledge", what about:
->>
->> 	They "had better knowledge about the details than you"
+On 28/08/25 8:25 am, Dong Yibo wrote:
+> Hi maintainers,
 > 
-> That can be alternative.
+> This patch series is v9 to introduce support for MUCSE N500/N210 1Gbps
+> Ethernet controllers. I divide codes into multiple series, this is the
+> first one which only register netdev without true tx/rx functions.
+> 
+> Changelog:
+> v8 -> v9:
+> 1. update function description format '@return' to 'Return' 
+> 2. update 'negative on failure' to 'negative errno on failure'
+> 
+> links:
+> v8: https://lore.kernel.org/netdev/20250827034509.501980-1-dong100@mucse.com/
+> v7: https://lore.kernel.org/netdev/20250822023453.1910972-1-dong100@mucse.com
+> v6: https://lore.kernel.org/netdev/20250820092154.1643120-1-dong100@mucse.com/
+> v5: https://lore.kernel.org/netdev/20250818112856.1446278-1-dong100@mucse.com/
+> v4: https://lore.kernel.org/netdev/20250814073855.1060601-1-dong100@mucse.com/
+> v3: https://lore.kernel.org/netdev/20250812093937.882045-1-dong100@mucse.com/
+> v2: https://lore.kernel.org/netdev/20250721113238.18615-1-dong100@mucse.com/
+> v1: https://lore.kernel.org/netdev/20250703014859.210110-1-dong100@mucse.com/
 
-Nope, afraid not. Just leave it as is or (I think) 2 people have suggested
-something like "They should know better about the details than you".
+Please wait for at least 24 hours before posting a new version. You
+posted v8 yesterday and most folks won't have noticed v8 by now or they
+maybe looking to give comments on v8. But before they could do that you
+posted v9.
+
+Keep good amount of gaps between the series so that more folks can look
+at it. 24 hours is the minimum.
 
 -- 
-~Randy
+Thanks and Regards,
+Danish
 
