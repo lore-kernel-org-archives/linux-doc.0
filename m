@@ -1,122 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9AD342C96;
-	Thu, 28 Aug 2025 17:12:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56272340D90;
+	Thu, 28 Aug 2025 17:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756401177; cv=none; b=PFvNs3bSQJazEr7fplHBHsbfzeQeDSSt2zP5at+/gXwnRfs9nXFPXQ+DYHG1g23kYJDpYVkchTe/85LEpddTmnJ98tfkYqgB7IKzMrJ+i+CTDOjjhnwtvhz5xE/E+DMYZXh4TVhFyZ+YBVGeBHF1nhKUC3qW/8GaRrVNyMv6Ix4=
+	t=1756401325; cv=none; b=HjTueI1GQffMoqMsbKBaacZXY+wB6ruHntr5Jy31qu1wWQN8Z/SN9HY0XipUxo86Y40rqOM3+1C88EyfZ4MeOJvTHbO4R8fbst95nG2jmyrDjPYM8/ayFPdPfIsi1e++IaQdMPiw0cpTVm8Kes5RBcl7/UKNohC/LxTDr5XYRKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756401177; c=relaxed/simple;
-	bh=0Tkh1C5fVDsNJAaGdZ/ykVNygO2LzvBdvdS278GzHlk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jls7ILaRmyQje+DQH07LE2fJgbTNj5gVRPOhyjK+nnSVH2qmNnIy+eRlaj0KF+vJ63+1VE5fAkm49h9ZZxUZ9ju95/sDoN7ZdvhwgZuGd9+OAQ6cbgZd5Z7MZ0JHMdW7vpjVOATpsH3IrLYGxlHXLUIhEBC29uYq7uasbRlpuY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5tsV3mk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756401325; c=relaxed/simple;
+	bh=ou3iD8shgadPVxQRtF41FaHPfXiCub7fMhAggBLVXMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIK1BTXrRUzIbeO8wFyOuRuBiD4ndwXhbtS+o9mCWHAKjuJkjWoM9BLrVjoqHm6iODw67pBqn6VPkXymOXOivAFl8E7dbE5J7W0Qy5C2oJxYWzHyMOAJh87t6trgYWvLxC1BHhID6z3PXChBEh9iTC14EKEiOJP1zYGmTP2Sif0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fnmNyIm6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5tsV3mk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2137C4CEEB;
-	Thu, 28 Aug 2025 17:12:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fnmNyIm6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A72BC4CEF4;
+	Thu, 28 Aug 2025 17:15:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756401176;
-	bh=0Tkh1C5fVDsNJAaGdZ/ykVNygO2LzvBdvdS278GzHlk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N5tsV3mkCxzm9wNYzTMsleBT4pfBcY1lGcxcHxyZDTph4Fji+D8KxPLH2THg6LWGp
-	 oc71BnlefpsViutlRPsLpDqVe4hcQNzRMcN4HYGUIW3zP/D1GjWngcP98T+323RCSJ
-	 eOIY27TnIRZOzdxA8TJbYyDNf6DgQhxYqdxPCZ35Uu2jNZzAUzf3Vk6xv5LRg4kMoO
-	 DIk/hFw0ni3WSvpoOrOHcg8EdWFoj4rD0rjNP3kJa6wYeP7ovxhSizXt+yMAkhontp
-	 rP19fjSnVm+7/t5/b81sQKhqQuOI5AfLUMHpxyvmlLlzifgFzTzOSLmtTkFk1qoLwq
-	 2m5ecHpMuEgTw==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Quanmin Yan <yanquanmin1@huawei.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	wangkefeng.wang@huawei.com,
-	zuoze1@huawei.com
-Subject: [PATCH v3 09/11] Docs/admin-guide/mm/damon/usage: document addr_unit file
-Date: Thu, 28 Aug 2025 10:12:40 -0700
-Message-Id: <20250828171242.59810-10-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250828171242.59810-1-sj@kernel.org>
-References: <20250828171242.59810-1-sj@kernel.org>
+	s=k20201202; t=1756401324;
+	bh=ou3iD8shgadPVxQRtF41FaHPfXiCub7fMhAggBLVXMc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fnmNyIm6kveacQ6zFjHwSr/ld+cbNXoqmfCrawHp1gvsXVCDDljqqxTV+b1zApRgH
+	 5lcwKbYEv5XvzJ74pZRRlHz4xMMdbU2hypSAtpXWfDMqRVbb/qc2SqQSSCNqbZ1peQ
+	 BdR01HGV590kQ600i1NoQpXCyGOYKnHeIsk3mGhcH3PGq+tQybbYkfchgS5mr5H49F
+	 IvJGdW2sSi79scStsbkC/ihQucpNHR67O3EvTjBCfBwOnwU2YHvQc3Mh/Yo09lKjUz
+	 oioVDuGo8iH8GapTPxpdVPh2h5wOe61XtWreqwSjOT2z6hU8npwTgtY7JSO24epBr/
+	 2W6Y4P8WQ/UJw==
+Date: Thu, 28 Aug 2025 11:15:20 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
+Message-ID: <aLCOqIaoaKUEOdeh@kbusch-mbp>
+References: <cover.1755624249.git.leon@kernel.org>
+ <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
+ <aLBzeMNT3WOrjprC@kbusch-mbp>
+ <20250828165427.GB10073@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828165427.GB10073@unreal>
 
-Document addr_unit DAMON sysfs file on DAMON usage document.
+On Thu, Aug 28, 2025 at 07:54:27PM +0300, Leon Romanovsky wrote:
+> On Thu, Aug 28, 2025 at 09:19:20AM -0600, Keith Busch wrote:
+> > On Tue, Aug 19, 2025 at 08:36:59PM +0300, Leon Romanovsky wrote:
+> > > diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> > > index 09b99d52fd36..283058bcb5b1 100644
+> > > --- a/include/linux/blk_types.h
+> > > +++ b/include/linux/blk_types.h
+> > > @@ -387,6 +387,7 @@ enum req_flag_bits {
+> > >  	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
+> > >  	__REQ_ATOMIC,		/* for atomic write operations */
+> > >  	__REQ_P2PDMA,		/* contains P2P DMA pages */
+> > > +	__REQ_MMIO,		/* contains MMIO memory */
+> > >  	/*
+> > >  	 * Command specific flags, keep last:
+> > >  	 */
+> > > @@ -420,6 +421,7 @@ enum req_flag_bits {
+> > >  #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
+> > >  #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
+> > >  #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
+> > > +#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
+> > 
+> > Now that my integrity metadata DMA series is staged, I don't think we
+> > can use REQ flags like this because data and metadata may have different
+> > mapping types. I think we should add a flags field to the dma_iova_state
+> > instead.
+> 
+> Before integrity metadata code was merged, the assumption was that request is
+> only one type or p2p or host. Is it still holding now?
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
-Signed-off-by: Quanmin Yan <yanquanmin1@huawei.com>
-Reviewed-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 11 +++++++----
- Documentation/mm/damon/design.rst            |  2 ++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+I don't think that was ever the case. Metadata is allocated
+independently of the data payload, usually by the kernel in
+bio_integrity_prep() just before dispatching the request. The bio may
+have a p2p data payload, but the integrity metadata is just a kmalloc
+buf in that path.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index ff3a2dda1f02..2cae60b6f3ca 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -61,7 +61,7 @@ comma (",").
-     │ :ref:`kdamonds <sysfs_kdamonds>`/nr_kdamonds
-     │ │ :ref:`0 <sysfs_kdamond>`/state,pid,refresh_ms
-     │ │ │ :ref:`contexts <sysfs_contexts>`/nr_contexts
--    │ │ │ │ :ref:`0 <sysfs_context>`/avail_operations,operations
-+    │ │ │ │ :ref:`0 <sysfs_context>`/avail_operations,operations,addr_unit
-     │ │ │ │ │ :ref:`monitoring_attrs <sysfs_monitoring_attrs>`/
-     │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
-     │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
-@@ -188,9 +188,9 @@ details).  At the moment, only one context per kdamond is supported, so only
- contexts/<N>/
- -------------
- 
--In each context directory, two files (``avail_operations`` and ``operations``)
--and three directories (``monitoring_attrs``, ``targets``, and ``schemes``)
--exist.
-+In each context directory, three files (``avail_operations``, ``operations``
-+and ``addr_unit``) and three directories (``monitoring_attrs``, ``targets``,
-+and ``schemes``) exist.
- 
- DAMON supports multiple types of :ref:`monitoring operations
- <damon_design_configurable_operations_set>`, including those for virtual address
-@@ -205,6 +205,9 @@ You can set and get what type of monitoring operations DAMON will use for the
- context by writing one of the keywords listed in ``avail_operations`` file and
- reading from the ``operations`` file.
- 
-+``addr_unit`` file is for setting and getting the :ref:`address unit
-+<damon_design_addr_unit>` parameter of the operations set.
-+
- .. _sysfs_monitoring_attrs:
- 
- contexts/<N>/monitoring_attrs/
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index d9d5baa1ec87..80354f4f42ba 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -135,6 +135,8 @@ the interference is the responsibility of sysadmins.  However, it solves the
- conflict with the reclaim logic using ``PG_idle`` and ``PG_young`` page flags,
- as Idle page tracking does.
- 
-+.. _damon_design_addr_unit:
-+
- Address Unit
- ------------
- 
--- 
-2.39.5
+> And we can't store in dma_iova_state() as HMM/RDMA code works in page-based
+> granularity and one dma_iova_state() can mix different types.
+
+I see.
