@@ -1,99 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C44C30CD84;
-	Thu, 28 Aug 2025 20:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD0D286D49
+	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 20:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756413140; cv=none; b=tVFnA1h8dDIod4U+fao+Zc/P7QJxiWObOGmQuD3axbg8DEhnztKhoUDPbKnhOPojKwAC5T3XVOdoia46N203PNA4WOhuSWGTkhAUvQ3twW7HNTyfF+2pxi1buA/DGvg14Ywm0TQv1kfyT7OPPMhcLlBIh7VURIq1SgN2w7/nl8A=
+	t=1756413414; cv=none; b=BHkvEXiOYWiaE+UlP+FpaNXcuqolbuM3kOA2dBUXTwtnWHNKPFsknnrX5CNzdLO7T5p90KbW5AdWU0PmHTiEwV4LjmCaWEW8VZj0RLZFUaZYlBdIntgg+EEkK6rvw5rHOXq5CRH9RwiVE3w4VLXfp4vzPRJgZD2XXN80aRyC4lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756413140; c=relaxed/simple;
-	bh=LJ/nYBW1tIRXTpCBSiKp71T/i9+fSZdNs8DZzPqY1Ow=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=IgNuTNxSY71obnSjqJKpuZyao3/tDq3Y0TXF4kI81srhujg+7uPT0w1QSg8GJ2Tr3EmmE6dLiYzuVP9RFxpCKl+jPQylyCHIQ2syO0vDF9C2NMfFAD8vdNsV31oMyoawy6slrkh2S5hLMsdlbjOO0L8WCvpbZTcjZdQuB18LTCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DGl5m61t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756413414; c=relaxed/simple;
+	bh=rUfxaTF48nEGUV10uSSzXEUdMJvhSqNtA2pbhDCY+h4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eLjdreRioplVm24YOLDFirkvjEkPQzFWLU/OYvPRO1bVrOUo5ZVniaGntktL45bh0KIsMVJOWMX8NBrXiZqGZrm1G5iB0bnVCkwr1GGsq2LdE00Z/4SFwv6T9HqciP/kxYM2kNx826o4uFynMaVSTXquUoRJ+8eY0mvMWJ0iVeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QVPEKu+n; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DGl5m61t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34509C4CEEB;
-	Thu, 28 Aug 2025 20:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756413139;
-	bh=LJ/nYBW1tIRXTpCBSiKp71T/i9+fSZdNs8DZzPqY1Ow=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=DGl5m61tjFO/RGbdmcv8xyDmu/ykBezYs0GHdT4DZw9Xhk3fSMKGKVpOWVqw5/86+
-	 jK5yY+L4Bo1ZIZ8v3R6pXEW+Fjm53GisvnYMX/XpdM+rD/Z6hIBavWTcDeIfuLkZV1
-	 OujLD+Q0WWVGa/LUPqHTaRku9THwma5s8N+6X6Ert3RAhSE6UW+cGdCYjC4CScygIJ
-	 Cj1DHZR7LIX821VJ2VhiEWxiG59HzBd0B8RaijpHpGW7OMJ8muA6HNFHK13GjY0yLf
-	 N1Mj4ArOxrslcU9fjauS/Fhpnt/uL/EXomlp9/E5Eieg9kjphzcZPHUoOzR0suUrJK
-	 kAVWObwlnDGbw==
-Date: Thu, 28 Aug 2025 16:32:16 -0400
-From: Kees Cook <kees@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@outflux.net>,
- Peter Zijlstra <peterz@infradead.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mark Rutland <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- x86@kernel.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250828201915.GA219815@ax162>
-References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org> <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com> <202508250834.E2456B9@keescook> <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com> <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net> <20250827013444.GA2859318@ax162> <56c2b1ce-00a4-403c-9927-79bfd9a23574@infradead.org> <20250827193815.GA2293657@ax162> <CANiq72nX7d3XQtQKDdeUh2RFy5HqSg360m4pzesJyBP+y9K7FA@mail.gmail.com> <20250828201915.GA219815@ax162>
-Message-ID: <25B398C8-4D9A-46C6-AED9-9DA2805DF9D7@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QVPEKu+n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756413410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iMSYCMOvfWZn97rU63Rxs44+GYsNMV+1UH9H7cieIcw=;
+	b=QVPEKu+ni3Be/+fD1CRQmnsnEfusYrdVGq9A6rYemVWKQNHiYHRKuFUrGcQwZYld+A/4c8
+	yZNqK2QdccFb86N1tVr2S+V6J/t8jEZs2iydVXkVkVy6y8fN/9Rs+q5A47lwB2DX5QRzZa
+	3J+c2FSI3K73VNBzg5ej3ec+f7aqbqE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-530-yAxcOyiTNdaCtDJoEL_0TA-1; Thu,
+ 28 Aug 2025 16:36:47 -0400
+X-MC-Unique: yAxcOyiTNdaCtDJoEL_0TA-1
+X-Mimecast-MFC-AGG-ID: yAxcOyiTNdaCtDJoEL_0TA_1756413406
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3EEB918003FD;
+	Thu, 28 Aug 2025 20:36:45 +0000 (UTC)
+Received: from omen.home.shazbot.org (unknown [10.22.64.127])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D58691800447;
+	Thu, 28 Aug 2025 20:36:42 +0000 (UTC)
+From: Alex Williamson <alex.williamson@redhat.com>
+To: alex.williamson@redhat.com
+Cc: kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Alex Mastro <amastro@fb.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] docs: proc.rst: Fix VFIO Device title formatting
+Date: Thu, 28 Aug 2025 14:36:24 -0600
+Message-ID: <20250828203629.283418-1-alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
+Title underline is one character too short.
 
+Cc: Alex Mastro <amastro@fb.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20250828123035.2f0c74e7@canb.auug.org.au
+Fixes: 1e736f148956 ("vfio/pci: print vfio-device syspath to fdinfo")
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
 
-On August 28, 2025 4:19:15 PM EDT, Nathan Chancellor <nathan@kernel=2Eorg>=
- wrote:
->On Thu, Aug 28, 2025 at 02:11:51PM +0200, Miguel Ojeda wrote:
->> On Wed, Aug 27, 2025 at 9:38=E2=80=AFPM Nathan Chancellor <nathan@kerne=
-l=2Eorg> wrote:
->> > Another idea I had to avoid this is introducing CONFIG_CFI_GCC as a u=
-ser
->> > selectable symbol and making CONFIG_CFI the hidden symbol that both
->> > compiler symbols select=2E After a couple of releases (or maybe the n=
-ext
->> > LTS), both CONFIG_CFI_CLANG and CONFIG_CFI_GCC could be eliminated wi=
-th
->> > CONFIG_CFI becoming user selectable, which would keep things working
->> > since CONFIG_CFI=3Dy will be present in the previous configuration=2E
->>=20
->> If we are OK with something like this (i=2Ee=2E waiting a few releases)=
-,
->> then isn't it simpler the `def_bool` approach I mentioned? i=2Ee=2E it
->> means one less symbol and one less rename later, right?
->
->Ah yes, I reread your suggestion and that would probably be the best
->course of action, as it does avoid the extra symbol (although I am not
->sure what you mean by one less rename?)=2E As I understand it:
->
->  config CFI_CLANG
->      bool "Use Kernel Control Flow Integrity (kCFI)"
->      depends on ARCH_SUPPORTS_CFI
->      depends on $(cc-option,-fsanitize=3Dkcfi)
->      help
->        <generic help text>
->
->  config CFI
->      def_bool CFI_CLANG
+To be applied through vfio next branch.
 
-Oh! Keep CFI_CLANG the visible option? Will the later rename work right? I=
-'ll give it a try=2E
+ Documentation/filesystems/proc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--Kees
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index ed8d23b677ca..ff09f668cdeb 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -2167,7 +2167,7 @@ where 'size' is the size of the DMA buffer in bytes. 'count' is the file count o
+ the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
+ 
+ VFIO Device files
+-~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~
+ 
+ ::
+ 
+-- 
+2.51.0
 
---=20
-Kees Cook
