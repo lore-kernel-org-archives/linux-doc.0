@@ -1,121 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0642626F2A2
-	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 23:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5412F49F3;
+	Thu, 28 Aug 2025 23:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756422032; cv=none; b=tjzVB/oRgMLFXE+J3B8ZqFWPhjxZDCLHVaYfZzJUyDciigUkkc6Kjm5jBIiX0veR3TUrEmueqf/Bx+aNU+/i3WZRQPe7z8vgTKTcSbW1V4Z9V25Pk86iba3ycl8+ldRzJlckPWY+gIMHL2wS5dQgwaWIKvC0edGUn88bqyAoEws=
+	t=1756422505; cv=none; b=tU/ybHhRXyc//sNNsrsY8RCij4F0Xa3mvFBB4BwqQ2bHwOLprNeZHKrVQBSitiA5mE3wazw4xk5HpK5qku9qTlHwEECWVmPBq6jC9XqawAgE3qF35Y+QZk39g4U688ezaQB/mKE70/K2zwVlubc2/TUHD3GFu69lqPNZ+C/Hutk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756422032; c=relaxed/simple;
-	bh=30fk9NHjTb+YHallX3yV7R6e7ygOcFwvrpZnNLQLRbU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ICOzKLrgnnnOFGM/umK50g4Z+GQCdGEHGyXQLJnrpR2OOAO6aKRl+oaZ5boSrwa1N9MJJKv0gNUhk4Zfc416DdGb6r8QgoRHcx9e96/JHnt2Y/T6HRSMbtIXR09il/xTywb34iVOWsxlQWjbImmPJf8QX+GhAwfK4WXFtu55xT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3ssYPyI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756422505; c=relaxed/simple;
+	bh=eX6r2NsuRf/tdGP9bCsO7EoERmjYNRwFJWXHHnY1GZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jzbw/EO3V1QKfxL22eUaaUrE4Q7DqHyx2Vat2O90UZBp8tTkxaXW0c+2ynocXQjbAYR+zeQMbdzRVjAmUeISvixPuvydhkDlG+JAlO0JNbzEqJW3Jif4ayWAke/HAw4mU6fe8fO9GywiviXQCgMAlnUDs0F3y9VyCrUrj2d+p38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lLot++9U; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3ssYPyI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F432C4CEF8
-	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 23:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756422031;
-	bh=30fk9NHjTb+YHallX3yV7R6e7ygOcFwvrpZnNLQLRbU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=U3ssYPyIZf4bYjFozVRTageNbBGWYnc0BLQHgtQCltO6D/wkhm6Ma8Pow5iTRUxn1
-	 Ooi3zc5WYwmOGr5knJMQgsVpkf9TqEm8MilGpoORDWF1EDpalWL/2t3chxjK+JGmx0
-	 Hwt9jdTB75A2Kxcc2WQ3H6YwutEKx6pEhLq4iU/tHRD3XzlAfIjPcbCMy3TSCFzFaK
-	 9uu/dluZEdUB27iqtAyb+n6OwAocbz1SbqbQiLL1TRxyTDXUGW+JyWaK5+4ooS5oCp
-	 NN2KfHo55A/69tSBlFlcka6JRfMKJI46BYY6ILyQ3eMXfisYnEkNEggK2P4onyoLtR
-	 d/B7R6bcnFhhw==
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45b7ed944d2so16755e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 16:00:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWMEoM9ux5sjBm6y6IMgQNAeo4eCjMfInFw2hLoCGqrwaJRbk01jIkpEY1a1+xbRuV6NswaK390fm8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyItkpdpgNoEzkRON+C9PHsabxu/fgIDyfiyiJw2z3U65n/xCqj
-	Fw6FLUoKwKdSaAiwR1qc5HhVfS0b0o3/p2u7ptN1S05OU2D9hM2jXLL7NCDEf4dwvf0NTPqWhXA
-	KsefsM1nntrWWqYwZC0LmS63II9+cwYKBtungdBlf
-X-Google-Smtp-Source: AGHT+IF37cR06H6qWz1gtR2Q33GyRHew0V5B6RhMXUxYEwLPyE0Qes9gQWNNur2aLf3Td0YQjtjqefGyXYAmbB98VJw=
-X-Received: by 2002:a05:600c:a408:b0:453:672b:5b64 with SMTP id
- 5b1f17b1804b1-45b66a2b6b4mr5476195e9.2.1756422029193; Thu, 28 Aug 2025
- 16:00:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lLot++9U"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-771e1e64fbbso1600356b3a.3;
+        Thu, 28 Aug 2025 16:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756422503; x=1757027303; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LkHIMSlRSqraPsnjE9eX8+909YoaHHE75gUul4j+7Vw=;
+        b=lLot++9ULJR895f2EZlFEBYOSuFQLKOksdZUyOvUqQFK2zJxt3kMneb+RGrwaF2Vb4
+         MnkwqG67u3nabQe0d1iaXUvasrGi0JOSjDpeRgDe82v+3zHO1QuSTY10ihl7UE02c3d/
+         Qz0oCfB/koEYs6+YqUTS3Xqf19Y1rcr43VZ5sh4GSAc38G9+DCuyb7CHINX1fDvWv3CH
+         aIYciGga4sbtcn5wYVgKnp09sh/6fuT9rj7kQXoJAcFb7AUhukaQeUmOPn8gWHuC2SA1
+         I4FgNEVyZaTwYYrCU6UpvBdaRKSdnQb2pR3MEMQUg7ED7NEYMF8arurDr4ttVrCPS8js
+         HM/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756422503; x=1757027303;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LkHIMSlRSqraPsnjE9eX8+909YoaHHE75gUul4j+7Vw=;
+        b=QiRyGtBEYjipCVU2dvak+XIH83lJbAhWvr/arTNi09ZpvwqXZWtb4Z0JMyJ1lh3vWF
+         CkiKJfYY1Tj2bWlWLQDG+sq5s8itSTGugkv64S4FTKiRvGlU3u9dIxjEg2iNV2yVNJ9O
+         tR7iE271VqP6ZftmWPUw4YLBPGcsiqqp8+hFKDN6Wv8V6AYqku+DbUB3K0hqYrFcZzDT
+         7ykeBEB+g+uzGutEaN0dK77MFECtJu6n3yxlNPc6+34++Qsxv6jdLwiqp6Eb40TTK0dM
+         FV7R89wSk+uLrjeWtmf/rp+rv4bzQkXCpxS8FqY5qDNmKjgFbpR9yD8+01u1LvIrSbJN
+         QZYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFXJcwpaQUGiS3fzZSIumHNiUIDs24+Q4ZBsgHz+1KHG4OBUCQvgJdUfcPJY9vltyiu0lgWw7O/8c=@vger.kernel.org, AJvYcCXQ6zfHaLOgOR00Qkpy1qhQfzxbusw67eIi+UxUac1yfHLGmO1Gfbh3KGjU9CtpNRzo3fn99QD6j73Y@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLa8ar/rBDz+FnhDDbQv6lYaFUUohnA9ZoRy+jWLoToEYq3TD6
+	aM3RGRnUuLEAAi97rgy1+Xcf3I2XoJ9sy8ML5sBqBXndaP6yWb1NxE5X
+X-Gm-Gg: ASbGncvebFWVRwbpgV9NXZLYzXG3CJu2mSyW08EDrHbZJXQmC2MVfwBCfflymxuyeoM
+	l49q8fTYyRfS82/DT2cbrK0XluKm/Y+hjOrGaM5lbCu4r65DL2tS2eFT3nQlyADn0drYgnoFJxY
+	GSScSUoUhKndO6OMcOxHQa+2BeQkYKJa0zshb+49M76e34Jpf2L1oZwAFTt5fvk6FWm4d/hygnG
+	QPxxGN0aeMHlYtiBzSnM0a8suw6k6mXsdwpR6wJqnigD3IlCPz7ApscRAo4KDWxw8Vwsf1Dm528
+	8YGylzejGapmvH1s6BjRFfZRI1wxlts4rzxKdfViKjMA3tiXqYSB4qH3w89kIrwOXxR3Ez2cKdK
+	z8wk2Xslj/xMSdksrt1OmzrEKGAGBoMGD/ZP0
+X-Google-Smtp-Source: AGHT+IHm0rSXUFbT8NcpQHtRt5Q5aFipA7quxiO4gi3X8kUjka9pjKXRHjgnyM5iWtloGFbopZTfPQ==
+X-Received: by 2002:a05:6a20:6a0f:b0:243:c36b:becb with SMTP id adf61e73a8af0-243c36bc0c8mr146477637.8.1756422502810;
+        Thu, 28 Aug 2025 16:08:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4cd2f99ae5sm464233a12.41.2025.08.28.16.08.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Aug 2025 16:08:21 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5C599420A933; Fri, 29 Aug 2025 06:08:19 +0700 (WIB)
+Date: Fri, 29 Aug 2025 06:08:19 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Fox Foster <fox@tardis.ed.ac.uk>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] Documentation: management-style: Reword "had better
+ known the details" phrase
+Message-ID: <aLDhY00iaiMYV4Lg@archie.me>
+References: <20250827044848.17374-1-bagasdotme@gmail.com>
+ <87wm6p9v8l.fsf@trenco.lwn.net>
+ <20250827113312.62162725@foz.lan>
+ <aK_XIoncppxWp7sB@archie.me>
+ <d0070beb-f6fd-477c-a315-a2c6db99c227@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
- <mafs0bjo0yffo.fsf@kernel.org> <20250828124320.GB7333@nvidia.com>
-In-Reply-To: <20250828124320.GB7333@nvidia.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Thu, 28 Aug 2025 16:00:18 -0700
-X-Gmail-Original-Message-ID: <CAF8kJuMcD4HA_CjK7iZ_47jgnu63pF-0WRrhdREvUmMVOgWBEg@mail.gmail.com>
-X-Gm-Features: Ac12FXwgAj48kKV8-NSqN51LxVJutv6tGbA-WA_eygERRbP7T7KY6y3bnmWLRPM
-Message-ID: <CAF8kJuMcD4HA_CjK7iZ_47jgnu63pF-0WRrhdREvUmMVOgWBEg@mail.gmail.com>
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c6Y9TGKcPWDNoxXS"
+Content-Disposition: inline
+In-Reply-To: <d0070beb-f6fd-477c-a315-a2c6db99c227@infradead.org>
+
+
+--c6Y9TGKcPWDNoxXS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 28, 2025 at 5:43=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Wed, Aug 27, 2025 at 05:03:55PM +0200, Pratyush Yadav wrote:
->
-> > I think we need something a luo_xarray data structure that users like
-> > memfd (and later hugetlb and guest_memfd and maybe others) can build to
-> > make serialization easier. It will cover both contiguous arrays and
-> > arrays with some holes in them.
->
-> I'm not sure xarray is the right way to go, it is very complex data
-> structure and building a kho variation of it seems like it is a huge
-> amount of work.
->
-> I'd stick with simple kvalloc type approaches until we really run into
-> trouble.
->
-> You can always map a sparse xarray into a kvalloc linear list by
-> including the xarray index in each entry.
+On Wed, Aug 27, 2025 at 09:18:57PM -0700, Randy Dunlap wrote:
+> On 8/27/25 9:12 PM, Bagas Sanjaya wrote:
+> > On Wed, Aug 27, 2025 at 11:33:12AM +0200, Mauro Carvalho Chehab wrote:
+> >> Considering that "know" (noun) seems to be a shortcut
+> >> for "knowledge", what about:
+> >>
+> >> 	They "had better knowledge about the details than you"
+> >=20
+> > That can be alternative.
+>=20
+> Nope, afraid not. Just leave it as is or (I think) 2 people have suggested
+> something like "They should know better about the details than you".
 
-Each entry will be 16 byte, 8 for index and 8 for XAvalue, right?
+Should I send v3 then using "should" wording as you mentioned?
 
-> Especially for memfd where we don't actually expect any sparsity in
-> real uses cases there is no reason to invest a huge effort to optimize
-> for it..
+Thanks.
 
-Ack.
+--=20
+An old man doll... just what I always wanted! - Clara
 
->
-> > As I explained above, the versioning is already there. Beyond that, why
-> > do you think a raw C struct is better than FDT? It is just another way
-> > of expressing the same information. FDT is a bit more cumbersome to
-> > write and read, but comes at the benefit of more introspect-ability.
->
-> Doesn't have the size limitations, is easier to work list, runs
-> faster.
+--c6Y9TGKcPWDNoxXS
+Content-Type: application/pgp-signature; name=signature.asc
 
-Yes, especially when you have a large array.
+-----BEGIN PGP SIGNATURE-----
 
-Chris
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaLDhXwAKCRD2uYlJVVFO
+o5azAQCuC5hbn6MsjQ+JvOU3To/10K+PuKYddM6jzKo2OlYRnAD+JpcUu1b33S24
+2CuYM5xFXBmED5T+tUfzLnFZ5ga8lA8=
+=MRKC
+-----END PGP SIGNATURE-----
+
+--c6Y9TGKcPWDNoxXS--
