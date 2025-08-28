@@ -1,134 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2776818E377;
-	Thu, 28 Aug 2025 18:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD9721579F
+	for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 18:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756405761; cv=none; b=YS/Lp2YBLDMcAeBeA0GLfwJ2ds7rvCNSp+cON3SQCMcVykwi3vFosdjEm/KHnJD3xOnBgCBNRh+OW5hzlhuQTM6yUYx7Ohp3ezdM55i46PQzRZzSZw0u7YFp+ykgJTut2uwPkqrUTyzZ2LClg5AQCp7zcHW7ebmwPPCBD1g+CzE=
+	t=1756405848; cv=none; b=fPJ86kglzyV9cSD8t5FIxQ9w5lhpJU1Z0q+wrWVv8G9xR+bd5uq7a9z7XUfydfHxcSdgEmqfWTL/UfWdTlZ/Qd+CoAlEVhiYdaIVfAu23NUxaHsI76N6s1yazcFmKH8PVspmE97EVaHjkdvKHSkGwvKCVfP2xL70ZW9PWOQ/EPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756405761; c=relaxed/simple;
-	bh=lWIn7MeegvcPezZrCADC1Y2EJqB+kL6yCJU0iU5fPM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LqzQ9fTmaXxdXX0Wb0wHKa1OrqlddzirPFTVgo75h8YftODENrUBQQb4n3PsJe1h9+n1qLcj1zfbX+zJlyWOjspe+of5I+Ds75em3p12PntuD9dEcusbVMjB7P+9nCnNf8+5ozSsrBj3ocLi3IFilOuHI5Pxkyeo+bpafO2CvHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyZu9Q8e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756405848; c=relaxed/simple;
+	bh=+cJ/42k0VYV0M2aXW9zlZKPdMXAl4MnJ7P2jUvIq4L4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SCHZBwMTiNd4auCdR9I6nBwo2B1fG4om1btPCDAA2BhZW3YjOyBIgPBaoR/8uTBm2iuBToIGWqqmnAlvVAYUdY7rrJ87a3yv3FeLHbNjrGiKm582a1nPC8kFuKO7tjcwhafHLyc9vK0Pnbkoh6Y/S3hlF6PZIpa+HoVlpKC6fcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BNeBrZ+E; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyZu9Q8e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4822AC4CEEB;
-	Thu, 28 Aug 2025 18:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756405760;
-	bh=lWIn7MeegvcPezZrCADC1Y2EJqB+kL6yCJU0iU5fPM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DyZu9Q8eE6Mau49LSxcffyy5WRlQQzBfQ4Fb9x6jiCHFvQ21PEhfLvh+wqeD4y5vS
-	 5eZGcU7Yva2GrTP1rqGWuG69UvDFd7IwsQqjBS9ieeJEsxxkDJi9vJxVN9q96Jh7xv
-	 BX+L47/WGzvYYiSN1S7qKpfklaA3fYDgFwv3XnTdVbBiSeyHe9S/YAbEJvESdDdY7M
-	 gQXLnGRW9wQ6HBGFT/fk7rjRp7ZMe2srom8Qj8W2Dd9cn/aFluFUumQfZR2r8WpYhr
-	 OWC9pCoxrGNX1HWyt92nwNMIfRxZolWTaNTYpcR7lXU4PHTKHY5bnXyvmkbzgI097D
-	 MO077FS3lrGpQ==
-Date: Thu, 28 Aug 2025 00:04:08 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] docs: add support to build manpages from
- kerneldoc output
-Message-ID: <aK-A2DmxhGDQGVEf@levanger>
-References: <cover.1756282370.git.mchehab+huawei@kernel.org>
- <d880eb9c915a08c25102b7c1b17a01a8ab7e32c3.1756282370.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BNeBrZ+E"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55f3dcb2b9fso2263074e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 11:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756405845; x=1757010645; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XuEqj8/T+xiUJS7ax+9xjCXIR39EG8IKnjSfY7eLrqE=;
+        b=BNeBrZ+E38BjyjvupSb2gQHpE1SplDzA9594rrZVAFinmH6jndpyrOES7ZCYjEawX7
+         Zu0Q+VE+9IdXeHMVLPrzvkbDzItx9IfMnAyP2IPlsOLU7HMiawzKS36nYt6dXjtbRZNo
+         7xjwH7XnljcnSyxmb+MSrj4wJegCell3tik0YXHc+v2KiffxqsVvM1lSEye06j4wS6vy
+         bDOdXZEF5uKfzfsC2q1hTZ46afGd+A25JzBmdbv+dl8D6dR+/5+k5c3e3lNdBrn5WOBb
+         RLCjpTxvYXpM23xRSqmyhs0S8A2MVZyr1ZrA2S2bDx/aWlch9M3VRKTjNMchJcnIpS5T
+         avQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756405845; x=1757010645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XuEqj8/T+xiUJS7ax+9xjCXIR39EG8IKnjSfY7eLrqE=;
+        b=VU7V5r7ac3dRwISlSxHVpbtbr+WhXv4a7Ema8S5tQNeybn5U723Z06JVl0jA7ughxw
+         /jFoEDbLmmN3aL9TSJLG5eMUea4rPuCvwHvjUQ6c6avQI+kkprxKeWPbCOqEtG8B5uNI
+         whz9CLdkul5nm4HiupOutmXWE16SekVqkjidDOZC1jdlEHrYTmQzK1104D0P8X0cvmi2
+         h68/fh1THzpK6jfuGZHSw+n5NKHw8YqoBZkQl9MOl/BJSjD+fkNLdUBP0+U/rqOGzauz
+         c9sDC3p08lGw56o0RDUeuyZBfg9pCKpiA1mp1B7/x2dJJk8qB8dNszGZeiZ6CpCivhRa
+         wgeg==
+X-Forwarded-Encrypted: i=1; AJvYcCUVZI7cYDm2sxQesxbAbvBu89N0rBF7xeb3mnhWpqRnZASVgO0oUSTmRzWRYHafqxraZvMeqeL/+eE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyO6entlKGSNlmoswNB4XRBUv/vSJntYG7JcdVFIgE6nzBdwUR
+	AC1TDAL0bs+Dj5nEdWmvv1xW4SZYhcPDjuT1sxuILMvhstNoIk+MsyQec6toHtfHQNpobzXvwjc
+	Zs3dh6T8RKLRW0BSLVRKeztMJjmcFgBWg6fqkcdDLCw==
+X-Gm-Gg: ASbGncsTegALPVxtViyMjCbSqlDq2bT0l16cNgJ3QquO2TFwxdmJOrJuFLlkTcFpSF2
+	mox1baCfYQKXY4PNIKLdbieq7RWt4q5cmxNgo46kdr1tjVK8SDZUCbfCVAEGGOvsvtOwMwTIgoQ
+	YkbsK2JNz4DtVhz9yXp/zQRYK3RT0A3yvvAIRukltMeC35tYVfv0xC73J04JMT12aUzeAwnSh2j
+	4C+dyCGntnUAbQyXQ==
+X-Google-Smtp-Source: AGHT+IH/8kZJERm22+qgVkI/2abRlg7jFqSaoz19NfilAs8gqvm1/HMq3/qWcpNYFOG6zrPS0q3FvE7sFdLPB8sog2w=
+X-Received: by 2002:a05:6512:2c0f:b0:55f:3f0c:e267 with SMTP id
+ 2adb3069b0e04-55f4f4c66f2mr2837563e87.17.1756405844595; Thu, 28 Aug 2025
+ 11:30:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d880eb9c915a08c25102b7c1b17a01a8ab7e32c3.1756282370.git.mchehab+huawei@kernel.org>
+References: <20250827074525.685863-1-alex.t.tran@gmail.com>
+In-Reply-To: <20250827074525.685863-1-alex.t.tran@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 28 Aug 2025 20:30:33 +0200
+X-Gm-Features: Ac12FXzu3BqzQAEjjUx4V_NHl1QbSsY2Iqe-wW7HgjaVEzgtXC011QXplgETcSQ
+Message-ID: <CACRpkdbct3o-=-hy97OMg1O+E_Tw8cNzRTa_kh0WB2LxJrHwJw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: driver-api pinctrl cleanup
+To: Alex Tran <alex.t.tran@gmail.com>
+Cc: corbet@lwn.net, linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please check your mail tooling: something strange happened to all
-@kernel.org adresses:
+On Wed, Aug 27, 2025 at 9:45=E2=80=AFAM Alex Tran <alex.t.tran@gmail.com> w=
+rote:
 
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
->         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
->         Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>,
->         Alice Ryhl <aliceryhl@google.com>,
->         Masahiro Yamada <mchehab+huawei@kernel.org>,
->         Miguel Ojeda <mchehab+huawei@kernel.org>,
->         Nathan Chancellor <mchehab+huawei@kernel.org>,
->         Nicolas Schier <nicolas.schier@linux.dev>,
->         Randy Dunlap <rdunlap@infradead.org>,
->         Tamir Duberstein <tamird@gmail.com>,
->         linux-kbuild@vger.kernel.org,
->         linux-kernel@vger.kernel.org
+> changelog:
+> v2
 
-On Wed, Aug 27, 2025 at 10:26:37AM +0200, Mauro Carvalho Chehab wrote:
-> Generating man files currently requires running a separate
-> script. The target also doesn't appear at the docs Makefile.
-> 
-> Add support for mandocs at the Makefile, adding the build
-> logic inside sphinx-build-wrapper, updating documentation
-> and dropping the ancillary script.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/Makefile                 |  3 +-
->  Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
->  Makefile                               |  2 +-
->  scripts/split-man.pl                   | 28 ---------
->  tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
->  5 files changed, 95 insertions(+), 48 deletions(-)
->  delete mode 100755 scripts/split-man.pl
-> 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 3e1cb44a5fbb..22e39e5ed07d 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
->  else # HAVE_SPHINX
->  
->  # Common documentation targets
-> -infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> +mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
->  	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
->  	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
->  		--sphinxdirs="$(SPHINXDIRS)" --conf=$(SPHINX_CONF) \
-> @@ -104,6 +104,7 @@ dochelp:
->  	@echo  '  htmldocs        - HTML'
->  	@echo  '  texinfodocs     - Texinfo'
->  	@echo  '  infodocs        - Info'
-> +	@echo  '  mandocs         - Man pages'
->  	@echo  '  latexdocs       - LaTeX'
->  	@echo  '  pdfdocs         - PDF'
->  	@echo  '  epubdocs        - EPUB'
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index af9697e60165..4370cc8fbcf5 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -579,20 +579,23 @@ source.
->  How to use kernel-doc to generate man pages
->  -------------------------------------------
->  
-> -If you just want to use kernel-doc to generate man pages you can do this
-> -from the kernel git tree::
-> +To generate man pages for all files that contain kernel-doc markups, run::
->  
-> -  $ scripts/kernel-doc -man \
-> -    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-> -    | scripts/split-man.pl /tmp/man
-> +  $ make mandocs
->  
-> -Some older versions of git do not support some of the variants of syntax for
-> -path exclusion.  One of the following commands may work for those versions::
-> +Or calling ``script-build-wrapper`` directly::
+I think Jonathan will trim these two lines when applying...
 
-                ^^^^^^ sphinx-build-wrapper ?
+> Replace FIXME comments in the pinctrl documentation example with
+> proper cleanup code:
+> - Add devm_pinctrl_put() calls in error paths
+>   (pinctrl_lookup_state, pinctrl_select_state)
+>   after successful devm_pinctrl_get()
+> - Set foo->p to NULL when devm_pinctrl_get() fails
+> - Add ret variable for cleaner error handling
+> - provides proper example of pinctrl resource management on failure
+>
+> Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
 
-Kind regards
-Nicolas
+... but it looks good otherwise!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
