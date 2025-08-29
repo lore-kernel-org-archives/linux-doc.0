@@ -1,148 +1,155 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB491F8BA6;
-	Fri, 29 Aug 2025 04:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA2ECA52;
+	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756443405; cv=none; b=IOwQZC1qA3WkPXaUxT9l36KiS9L/ntGyzKmbiGb1GtAc/G2OwixQTG9XKVS8q90msnO773TMtvem2lYEY0Sjjfy9v3ueYzURbsFMeAEReLBJvuF+Az+5CaYrb08EfzzCHZ0Sp5eDyD/yR+ALUElYIQ/qgF3HYyJmlm0n8Kixxgs=
+	t=1756444264; cv=none; b=IeO6ChSy03RO/itOn9cYdybWwfoB9NM/9d5q4GAwpquRdwGKPcQsPkE+ratFYvcG61uwqw/FZUaJt/fuWYGHA2Sr8RpAw00l8wjcAz0c0gnBasvrxb4IWtHZiue69hhDfq28sN1MHJzwSuLr1CqxBgvhb90E9Eh6kLVfjM1aVVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756443405; c=relaxed/simple;
-	bh=rlMwh0ZusaeNnDDZUrztnPVbqGAayQPFWOV5sNNVUYs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BCTG9n6j6QtYQsbuAqqPqv3rroMStBnBdwD5PXOatSmZyn7KxKdpsQxphAiHRTCtAoZkuJaaDYo9W9FcV3HyLgBu38e3r9gny9ICVMPOMpMGASpm7DJ6vfZO8okxu6LojZNYxfBOd/ZQClnGt2dzKS3z6kk9Iuw/hQn5MoxN4oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zz/Jatyo; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756444264; c=relaxed/simple;
+	bh=6vLrdCJFaNsRzlk7G9yfns7UswYZoLn7qkCqbcJ/dfA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kXh3zOQIwLGriXbqUpvha5CqSo/KBVqBD6fTK+q/xdT0mymOsDMs3k51lsKx4tloJ/sD2qpVruey5tkgpRHIicHNo0gjcBaMw3OUDv24ShsHvpl66yJkPtSFlkS4w8PIJdd6DruAsSURxSG+0afoXdk8heDRHz5bWWacLiK5z7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JWKBH1wS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zz/Jatyo"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7f901afc2fbso155325085a.0;
-        Thu, 28 Aug 2025 21:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756443403; x=1757048203; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KNryYBJJVfQELDTrjz1KnvzL2xecRXp3PVwLzaUrbpo=;
-        b=Zz/Jatyo2bx9EPtABaq3AD/yz4dbaOHFf2aqiA5MGgo6XUZPRdwnP9TGa5wJ1904/k
-         TU4t/xKyISmrj5l4yNcgLvTz1FfE7L95r/weKY4RAbIGc/dbbOM7ZpqJGAzhHfQyPKYi
-         GogCu+9insPvJ4xkPkZ7TLK274bH34x5vlBVS0nhesRQEmNcf07O4zm2arfxkDEy5QRr
-         YNmNcUeB0zmPavve3rjUVFGibEfy8jbzeQGG0eCuED0Rp4XZaa0KzQQDGoZ3b8J0aUJL
-         30nyjnZVHE5HL2nSf7IUz7htM4iBV2CWgoh+xMpjv26eHJMQeuDFZFnlbjhdnhINgTAy
-         P9Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756443403; x=1757048203;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KNryYBJJVfQELDTrjz1KnvzL2xecRXp3PVwLzaUrbpo=;
-        b=qGxJIBwuiiRCHJFW3GEXrpmtoEHjvEEh2hBVoTf34nlw1KVqgp9kVz2pCE3oenZ8fZ
-         lDHZdQOP3M9SA7JzJeLYidw065zWqYKM84ANb83D6sa50i+54lsg0wyxOQFto92Cw0NR
-         5vcsuqMFxrtvi54xGchMs/50Q6c0Hbs0y0kGTuk62rUAaFOiHAMUCFygG0+ZQg6xdkdI
-         QtvXE+slGiCUkfY64UzU2yqba65o/mo0P/F/5H2KEwGVlPujwDJAp56bVszVi0SjF6yB
-         Qdci5x+By8Yo6dZb5aZKi3NGEbU/w/UnSZJoqmAkofvjESHPvEnUcTGgoY6lhWK2Wz76
-         pD4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUQIpqDRV9S06Oj6gtbanPbUx9mIqaQ2vADpZr60vwR80yBB9X7QV6PrQCQ3mhAYO67Ayldz4VT6EkV@vger.kernel.org, AJvYcCWIGetRqlmNsfpjUh0NJxCed3CCPefViI0Di8ch4StRzpj3M0j5WBPohxWjiWt5+YpHqeI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXgMm7b1dDwR646mjzpzS8ymEOO5ZWllMapLeyEFEZO5jhwISw
-	0xLURfFbSzzg2S6uEKzL1+QVkGhP6LEaPSle11uyeigwejyVCWUXOyO9sQRzpe3T6RoRpOW/vPI
-	pNwv/83D9J+fqOMcXJumZwcn3AC0rfd4=
-X-Gm-Gg: ASbGncsg2V2WEtQ08wWM/qLm2kNmyg/wQcRat0YKTZwd3vo+kKnphK4RZsxij+tdTc+
-	WV6SWJIlCub3lRlow24DY0Y17mGmYLmk6vBrBThNyPEGmNKhTisqNM33Ohl50JPl7pObcy8Cta/
-	WldvdKFCUDI+Krf3e10YVmR6CKKQ4AqaD2qTFDpDOs/OfqdQezyCjj81HWfpLrDdO50JSFx/moY
-	5Q+//X/Mda8QHy60w==
-X-Google-Smtp-Source: AGHT+IER+nM+4LqnTVVsRA0C/YRbwEY2iIeChjcQqyAqsqSfTBP1dTQx0YTtFem6RkzVwlWqhUcSmkomW7o4OpJu2UM=
-X-Received: by 2002:a05:620a:2983:b0:7fc:8834:a8a6 with SMTP id
- af79cd13be357-7fc8834ab4bmr147951085a.16.1756443402922; Thu, 28 Aug 2025
- 21:56:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JWKBH1wS"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1004CC4CEF1;
+	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756444264;
+	bh=6vLrdCJFaNsRzlk7G9yfns7UswYZoLn7qkCqbcJ/dfA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=JWKBH1wS9DfSdRXjIOBN4zY286LuwjYSgASN+ixMacmrTzXlfYdiuJhlsC6Ttl4Yr
+	 V+acYpXSRtGll2NkLtu2Zg1qPtNL8MVZ0cF4ST3n1yrj80u9IYP+siSfQoCj3a51do
+	 Gh7xyrOLPyz+XjB197LTPwihFLkCdnnuvsWgIQyixC3K8J/6iVxXyhfYgtRAqIF2Xf
+	 CfPniNV5+j3eIsV/OalOnYknud7DArZP4Rjd+ebAVCPKkKciFktCH8WmPc2LIJtI7v
+	 05RkAiswSh6E3oJTeXKjmIXbqsgZs7d32uOumiW2Gfi/7G22E3UBMmqm8v1nEZBG45
+	 Q97fSL4L9Fc3A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F29CA0FF6;
+	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Date: Fri, 29 Aug 2025 13:11:00 +0800
+Subject: [PATCH 2/2] ALSA: docs: Add documents for recently changes in
+ snd-usb-audio
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-2-laoar.shao@gmail.com>
-In-Reply-To: <20250826071948.2618-2-laoar.shao@gmail.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 29 Aug 2025 12:56:31 +0800
-X-Gm-Features: Ac12FXygzLGLDRPOyTzO4Xch95XvlKZwEGk1nOgFbtgG9eYsTL90i6vr2LXC7WA
-Message-ID: <CAGsJ_4wa0gC7FQmUP9HQxbacheKFRCqMbnfXwugeyOzhOS4McA@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
- order selection
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
-	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
-	rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250829-sound-param-v1-2-3c2f67cd7c97@uniontech.com>
+References: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
+In-Reply-To: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
+ Wang Yuli <wangyuli@deepin.org>, Guan Wentao <guanwentao@uniontech.com>, 
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
+ Celeste Liu <CoelacanthusHex@gmail.com>, Guoli An <anguoli@uniontech.com>, 
+ linux-doc@vger.kernel.org, Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756444262; l=3978;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=PnwZqS87di8Y9z9VFeETvAhxUw8n9nVXa6bBVHC+NIs=;
+ b=1FLVNwx95G+yVtp4/fasPA4XQBJc3r+8xRhBSwg8yIwZ3YmsKuE2573PUMH5xjyv7HEyMaf3u
+ ZsKLWGrnag8COq1So7judM/7g1YnsUZqMnLtplXSvddjnIYep9lFRwz
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-On Tue, Aug 26, 2025 at 3:43=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com> =
-wrote:
-[...]
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-> @@ -4510,13 +4510,18 @@ static struct folio *alloc_swap_folio(struct vm_f=
-ault *vmf)
->         if (!zswap_never_enabled())
->                 goto fallback;
->
-> +       suggested_orders =3D get_suggested_order(vma->vm_mm, vma, vma->vm=
-_flags,
-> +                                              TVA_PAGEFAULT,
-> +                                              BIT(PMD_ORDER) - 1);
+Changed:
+  - ignore_ctl_error
+  - lowlatency
+  - skip_validation
+  - mixer_min_mute
+  - quirk_flags[19:24]
 
-Can we separate this case from the normal anonymous page faults below?
-We=E2=80=99ve observed that swapping in large folios can lead to more
-swap thrashing for some workloads- e.g. kernel build. Consequently,
-some workloads
-might prefer swapping in smaller folios than those allocated by
-alloc_anon_folio().
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+---
+ Documentation/sound/alsa-configuration.rst | 35 ++++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
 
-> +       if (!suggested_orders)
-> +               goto fallback;
->         entry =3D pte_to_swp_entry(vmf->orig_pte);
->         /*
->          * Get a list of all the (large) orders below PMD_ORDER that are =
-enabled
->          * and suitable for swapping THP.
->          */
->         orders =3D thp_vma_allowable_orders(vma, vma->vm_flags, TVA_PAGEF=
-AULT,
-> -                                         BIT(PMD_ORDER) - 1);
-> +                                         suggested_orders);
->         orders =3D thp_vma_suitable_orders(vma, vmf->address, orders);
->         orders =3D thp_swap_suitable_orders(swp_offset(entry),
->                                           vmf->address, orders);
-> @@ -5044,12 +5049,12 @@ static struct folio *alloc_anon_folio(struct vm_f=
-ault *vmf)
->  {
->         struct vm_area_struct *vma =3D vmf->vma;
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +       int order, suggested_orders;
->         unsigned long orders;
->         struct folio *folio;
->         unsigned long addr;
->         pte_t *pte;
->         gfp_t gfp;
-> -       int order;
->
->         /*
->          * If uffd is active for the vma we need per-page fault fidelity =
-to
-> @@ -5058,13 +5063,18 @@ static struct folio *alloc_anon_folio(struct vm_f=
-ault *vmf)
->         if (unlikely(userfaultfd_armed(vma)))
->                 goto fallback;
->
-> +       suggested_orders =3D get_suggested_order(vma->vm_mm, vma, vma->vm=
-_flags,
-> +                                              TVA_PAGEFAULT,
-> +                                              BIT(PMD_ORDER) - 1);
-> +       if (!suggested_orders)
-> +               goto fallback;
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index a45174d165ebdeadd89de5f556483465c5f6e808..35b288a22e2e6d869f79ba12914b4ee6b538a6c6 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2253,8 +2253,15 @@ device_setup
+     Default: 0x0000 
+ ignore_ctl_error
+     Ignore any USB-controller regarding mixer interface (default: no)
++    ``ignore_ctl_error=1`` may help when you get an error at accessing
++    the mixer element such as URB error -22.  This happens on some
++    buggy USB device or the controller.  This workaround corresponds to
++    the ``quirk_flags`` bit 14, too.
+ autoclock
+     Enable auto-clock selection for UAC2 devices (default: yes)
++lowlatency
++    Enable low latency playback mode (default: yes).
++    Could disable it to switch back to the old mode if face a regression.
+ quirk_alias
+     Quirk alias list, pass strings like ``0123abcd:5678beef``, which
+     applies the existing quirk for the device 5678:beef to a new
+@@ -2284,6 +2291,17 @@ delayed_register
+     The driver prints a message like "Found post-registration device
+     assignment: 1234abcd:04" for such a device, so that user can
+     notice the need.
++skip_validation
++    Skip unit descriptor validation (default: no).
++    The option is used to ignores the validation errors with the hexdump
++    of the unit descriptor instead of a driver probe error, so that we
++    can check its details.
++mixer_min_mute
++    Treat the minimum volume control value as mute (default: no).
++    ``mixer_min_mute=1`` may help when you find the audio mutes when
++    the volume is below a certain threshold.  This happens commonly with
++    USB audio devices.  This workaround corresponds to the ``quirk_flags``
++    bit 24, too.
+ quirk_flags
+     Contains the bit flags for various device specific workarounds.
+     Applied to the corresponding card index.
+@@ -2307,6 +2325,16 @@ quirk_flags
+         * bit 16: Set up the interface at first like UAC1
+         * bit 17: Apply the generic implicit feedback sync mode
+         * bit 18: Don't apply implicit feedback sync mode
++        * bit 19: Don't closed interface during setting sample rate
++        * bit 20: Force an interface reset whenever stopping & restarting
++          a stream
++        * bit 21: Do not set PCM rate (frequency) when only one rate is
++          available for the given endpoint.
++        * bit 22: Set the fixed resolution 16 for Mic Capture Volume
++        * bit 23: Set the fixed resolution 384 for Mic Capture Volume
++        * bit 24: Set minimum volume control value as mute for devices
++          where the lowest playback value represents muted state instead
++          of minimum audible volume
+ 
+ This module supports multiple devices, autoprobe and hotplugging.
+ 
+@@ -2314,10 +2342,9 @@ NB: ``nrpacks`` parameter can be modified dynamically via sysfs.
+ Don't put the value over 20.  Changing via sysfs has no sanity
+ check.
+ 
+-NB: ``ignore_ctl_error=1`` may help when you get an error at accessing
+-the mixer element such as URB error -22.  This happens on some
+-buggy USB device or the controller.  This workaround corresponds to
+-the ``quirk_flags`` bit 14, too.
++NB: ``ignore_ctl_error=1`` and ``mixer_min_mute=1`` just provides A
++quick way to work around the issues.  If you have a buggy device that
++requires these quirks, please report it to the upstream.
+ 
+ NB: ``quirk_alias`` option is provided only for testing / development.
+ If you want to have a proper support, contact to upstream for
 
-Thanks
-Barry
+-- 
+2.51.0
+
+
