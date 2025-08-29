@@ -1,37 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6D733F9;
-	Fri, 29 Aug 2025 22:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F067275AEB;
+	Fri, 29 Aug 2025 22:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756505138; cv=none; b=uwtj21+G+3bQtyPVoYfSqGMEvK6zpI+4PlrQ72zIQwNPUbIk8f++9ZEQBjh3OFWH5wTwROOQeeBuDvy0aU4FIBSqp2Ao6G02VJNfpEq1lyoueuIvGbMew902hHGGp2gq7P3yvNy3n4NRQHPnbD6HNwSltGIbmu5oUA3l6pEroFY=
+	t=1756505450; cv=none; b=mRwb4/Qf22+CUAHDpNyNJoJYNlba1KLwniPlzPrh5b3p2988/bge+q0TjMM33rdMonmbiaZrIsZA8vng2vVAkTDzG+PgtAcuku4M22PZhByJCT7741f3iqJedRfXWO4tJVSrldJoqq/QivCriWwzdjwCXOG17qDQtZe3B4EHCiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756505138; c=relaxed/simple;
-	bh=JvutaXq+PKl//UG4IHQEgbu/fkcYYQmusgbtPr95/Bk=;
+	s=arc-20240116; t=1756505450; c=relaxed/simple;
+	bh=DbxUCZn90ValR/0kTDQU69mGFA7CMvBrB55ZYs28ZGc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uBn81C70eYoJDiVptBxoAWpNT01I7+uHRGsHzcqeT4RTZW2S8umz3H7xHQvMTcAvGHXv0EBs3PZA1ZJ2caMNXSJTSYeGuIT5hG96IIpQ+0ZaA+/kx8jUyGxCupf7ukzUbf4qUiSucuyYpTDPoTB2tzHCQf6oHCwBy4YsU6Xb+fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EB8Y92mw; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ll71XkCpEjO8gVrRpZgBdW/yEGwqxTIjZgOj1UhcsObuMNCqka+A53F91hxZnS+g1E47yb5YqyW373DhY04IjiHB3Hjh03EPQeWjZ+LSzrgB7FJ6cwUNNKdo1goyP8OsJUotU19IFxyDIjhYLslxPu6mly5Kl0yzxS1A28EDISM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=q6Kt/6PN; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EB8Y92mw"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 30E2740AE2
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="q6Kt/6PN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B63DE40AE2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756505136; bh=VdeBwtdAlWOMOczg93todwnbqhhZcuyB7FOugEXYEvI=;
+	t=1756505447; bh=vgfvAKuMTp/6LaiiLVgXU8anY4ehJFvnmnglGF4x2T4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EB8Y92mw327RV4Jpk9JoruZ5ZuAIvg2Sdt/FKoIwAlYsKuXMtWrkEH/wFJ7FUgEV1
-	 Q4Z1mz5EwetjFSpkPpMARv+ZvS7YNvAZ08dSojr4IWN07HDO+ReNVCBU1JmTiz2Vi1
-	 kXCMzyWFodhlSASpRqYmFD7HZj5m8S73Qtg9zjHDCluuy/DtKvIHYBGlwrOkMDfK6n
-	 28SPU4PnWhP4wwdcARFHUsJRWkONxjNhGcTGtMhai3ynVC65bdXcYWHlld0Kr3IFPG
-	 0UZvre+JcllSPvWPcw25L1N/6MFU9gnPpsJOHK72/ay6fevkmeYKb4YulLTwVdUZiQ
-	 K+MrpwpEeJbCw==
+	b=q6Kt/6PNChObYVwTfwKkL1FHrFhJzLeMGLJgX4O0sfub7GBY+Q4npCFRTDABgdsGY
+	 h0V4EXUJHrZ3eTHfJz9rJh6EzFbCIBqhSwyI3URAyuQt/BRUUdnfKGKp38ml23z3dt
+	 qfFMojgrYZk/IdeHv8GclapSf2AqHKG9ZTFhMuNDQU3pmuxVMscuYrNvyf4eFFdJtg
+	 HTp91tcmpVYeqfFBatgaMiAg+ITEGB/LIw1SejP6P25aJH+DKskR26U0bR6W9dpSYF
+	 aqfHLc1I6fCNdLS0O+dtzLsQMxzaR7b9qkI7HD3k+aQx4ng9gxirdhL4cvakRst32F
+	 pKYfgS0MsquwQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 30E2740AE2;
-	Fri, 29 Aug 2025 22:05:36 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B63DE40AE2;
+	Fri, 29 Aug 2025 22:10:47 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Yunseong Kim <ysk@kzalloc.com>
 Cc: Tejun Heo <tj@kernel.org>, Minchan Kim <minchan@kernel.org>, Namhyung
@@ -46,45 +46,66 @@ Cc: Tejun Heo <tj@kernel.org>, Minchan Kim <minchan@kernel.org>, Namhyung
  austindh.kim@gmail.com, pmnxis@gmail.com, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
 Subject: Re: [PATCH v7] Documentation: cve Korean translation
-In-Reply-To: <20250823193516.19485-2-ysk@kzalloc.com>
+In-Reply-To: <878qj14wcw.fsf@trenco.lwn.net>
 References: <20250823193516.19485-2-ysk@kzalloc.com>
-Date: Fri, 29 Aug 2025 16:05:35 -0600
-Message-ID: <878qj14wcw.fsf@trenco.lwn.net>
+ <878qj14wcw.fsf@trenco.lwn.net>
+Date: Fri, 29 Aug 2025 16:10:46 -0600
+Message-ID: <871pot4w49.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Yunseong Kim <ysk@kzalloc.com> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
-> Understanding the Linux kernel's CVE handling process is becoming
-> increasingly critical. This is especially important for Korean companies
-> exporting products to regions like Europe, as they must comply with
-> regulations such as the Cyber Resilience Act (CRA).
+> Yunseong Kim <ysk@kzalloc.com> writes:
 >
-> This translation aims to raise awareness among Korean kernel developers and
-> companies, helping them better understand and adhere to the kernel
-> community's security practices.
+>> Understanding the Linux kernel's CVE handling process is becoming
+>> increasingly critical. This is especially important for Korean companies
+>> exporting products to regions like Europe, as they must comply with
+>> regulations such as the Cyber Resilience Act (CRA).
+>>
+>> This translation aims to raise awareness among Korean kernel developers =
+and
+>> companies, helping them better understand and adhere to the kernel
+>> community's security practices.
+>>
+>> The translation is based on the contributor's direct experience with the
+>> Linux kernel security bug process and obtaining CVEs. Furthermore,
+>> completion of the security training program provided by the Linux
+>> Foundation ensures the necessary accuracy for this documentation.
+>>
+>> I have refined the context that was present in v6. The review comments f=
+rom
+>> Seongjae have been incorporated.
+>>
+>> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
+>> Reviewed-by: SeongJae Park <sj@kernel.org>
+>> ---
+>>  Documentation/translations/ko_KR/index.rst    |   1 +
+>>  .../translations/ko_KR/process/cve.rst        | 125 ++++++++++++++++++
+>>  2 files changed, 126 insertions(+)
+>>  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
 >
-> The translation is based on the contributor's direct experience with the
-> Linux kernel security bug process and obtaining CVEs. Furthermore,
-> completion of the security training program provided by the Linux
-> Foundation ensures the necessary accuracy for this documentation.
->
-> I have refined the context that was present in v6. The review comments from
-> Seongjae have been incorporated.
->
-> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
-> Reviewed-by: SeongJae Park <sj@kernel.org>
-> ---
->  Documentation/translations/ko_KR/index.rst    |   1 +
->  .../translations/ko_KR/process/cve.rst        | 125 ++++++++++++++++++
->  2 files changed, 126 insertions(+)
->  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+> Applied, thanks.
 
-Applied, thanks.
+Actually, I have undone that; did you not actually build the docs with
+this new file?
+
+> Sphinx parallel build error:
+> docutils.utils.SystemMessage: Documentation/translations/ko_KR/process/cv=
+e.rst:15: (SEVERE/4) Missing matching underline for section title overline.
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =EC=9D=B4 =EB=AC=B8=EC=84=9C=EB=8A=94
+> Documentation/process/cve.rst
+
+Please make sure that your translation builds properly, then resend.
 
 jon
