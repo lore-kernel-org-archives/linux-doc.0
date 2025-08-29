@@ -1,82 +1,77 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B903E194A73;
-	Fri, 29 Aug 2025 19:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893431A314F;
+	Fri, 29 Aug 2025 21:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756497155; cv=none; b=lPrnZUKdwYtkrWo20vD8gurnqz+BuNJs0f7tW5G6PolXwuji0x3DjGjt9dvEKKZOzN6dHUYMkg66AikZR+eJUwnlJBx+SCIHNi2Ynggd8tG07Bif5YIjC9+dFRg/92NKvxyKAVGwe1kg0F5AMNRJs3GLt6ig9PuL7yucpeVkfp8=
+	t=1756504229; cv=none; b=ECgDr/I6imwIsBC80jmkmZNZbxrr5i2k8cIMMYUQMG2RB+qMoxjBX60+uYW5fd9IkW4d+S7mozsfp3BGbs76DzxljOgXk2jJ3SJxptLBZw3DOGABHuVx/95Rzgen0StTGDBO3PwHuc1Za0SWO9uQ48ZbCWwBjp9nTVgdLsaod00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756497155; c=relaxed/simple;
-	bh=ChvIJWKEC6s+3LK+FLtopre8G36jlo5cLmYZ/FGqvnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YvQtGKt4G3af5FvWystI8/w4cucnXIgRWt0RMMuIw4QNiFJhbPAzqOvLA0g/+R02uDbyFcHlRFlylzG41EUpIExMa4291E5aA0Nu0VFgLzMUoyAemGLW2qmYrPg2rZwjqsOrFTltTJhtP4fuXfNEjRGZqJrg1wCknTPTQjfbJSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=zwZhqTHR; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1756504229; c=relaxed/simple;
+	bh=QFcV05pxlisVUWvQ8RM8qkjfzRvIZ2bLrLGIRANs+Zc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cfdnM7+4IWEyO3zAFTbmjtl20cartijW5jcXHEwmxxihcwD0nG2vmWe4eD45xJUnMg3r6GDshXZq0eTAnxiA1p9SLI7A59emVSE7d5BLzUwbV4RVbi2VjYS0ivWU2cPSFGITzIaHHCR7RKY+ZWabsByQ8Tin1Bo8d7XSc3SQ+vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LPxPzA7K; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="zwZhqTHR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=y4KVxJHmhDFWTR5pXvw/TwXvMqcEZJZ+w1kiLOpENJA=; b=zwZhqTHRqhRyEwB03s3U0aPZQK
-	6AgKhCpSMnzB0f70EYuDnshBkt1bCHvxsPKq/ao7Ej/0132XXGYwOkqKTZjX59f5Zytspns4nq8lt
-	pESVQPmmTdErX/IWHu4NcoXjyK8lLE2ZSsCZpKogYBCz+Ov47zDnBWmnhTFncs6NsukE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1us58f-006WHG-Im; Fri, 29 Aug 2025 21:51:57 +0200
-Date: Fri, 29 Aug 2025 21:51:57 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v9 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <6768f943-e226-4d57-b3a8-692aff4cc430@lunn.ch>
-References: <20250828025547.568563-1-dong100@mucse.com>
- <20250828025547.568563-6-dong100@mucse.com>
- <e0f71a7d-1288-4971-804d-123e3e8a153f@lunn.ch>
- <A5B215AE5EB4FE9D+20250829023648.GB904254@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LPxPzA7K"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A8DEF40AE2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756504220; bh=fSBqc3e78aFfjbu0f9KoHXppGsKhkHo5tW/1FzhC+VI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=LPxPzA7KBaIDwBpSb0PBd6MjS8vrPpdq41vnFipLMfW0kKuAvXBgsuQtJdmgakPNO
+	 ujRu1o5CjdMGzriG1xnih2SdE5iaxwKOQy3ukBv8w1PWj0rc04uwBWSyvUNuEb7yZc
+	 MT7AMpY83PkcbEvaJ9MyqawFYDFgZAsYYQZYx70mggCu+st89kmgPemxHRLb7SVygn
+	 LUa5X5fhjJUTz5pFiw7K4MtGLsQUejhauDp9xcoPBq2Vjp+Yu+K6l2a2pRK7XRb9tD
+	 hQ7I4ywoxVTNqInQnZLeSjVnsCBzTM7fpgSG7cX/qu1DLCLSgcsPPb6mNxnhfWd7D8
+	 D85JjUovny7eQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A8DEF40AE2;
+	Fri, 29 Aug 2025 21:50:20 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Alex Tran <alex.t.tran@gmail.com>, linus.walleij@linaro.org
+Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alex Tran <alex.t.tran@gmail.com>
+Subject: Re: [PATCH v2] docs: driver-api pinctrl cleanup
+In-Reply-To: <20250827074525.685863-1-alex.t.tran@gmail.com>
+References: <20250827074525.685863-1-alex.t.tran@gmail.com>
+Date: Fri, 29 Aug 2025 15:50:19 -0600
+Message-ID: <87ldn14x2c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <A5B215AE5EB4FE9D+20250829023648.GB904254@nic-Precision-5820-Tower>
+Content-Type: text/plain
 
-> > Back to the ^C handling. This could be interrupted before the firmware
-> > is told the driver is loaded. That EINTR is thrown away here, so the
-> > driver thinks everything is O.K, but the firmware still thinks there
-> > is no MAC driver. What happens then?
-> > 
-> 
-> The performance will be very poor since low working frequency,
-> that is not we want.
-> 
-> > And this is the same problem i pointed out before, you ignore EINTR in
-> > a void function. Rather than fix one instance, you should of reviewed
-> > the whole driver and fixed them all. You cannot expect the Reviewers
-> > to do this for you.
-> 
-> I see, I will change 'void' to 'int' in order to handle err, and try to check
-> other functions.
+Alex Tran <alex.t.tran@gmail.com> writes:
 
-Also, consider, do you really want ^C handling? How many other drivers
-do this? How much time and effort is it going to take you to fix up
-all the calls which might return -EINTR and your code is currently
-broken?
+> changelog:
+> v2
 
-	Andrew
+It's best to keep this kind of stuff out of changelogs so the maintainer
+doesn't have to edit it out when applying the patch.  I've taken care of
+it this time.
+
+> Replace FIXME comments in the pinctrl documentation example with
+> proper cleanup code:
+> - Add devm_pinctrl_put() calls in error paths 
+>   (pinctrl_lookup_state, pinctrl_select_state) 
+>   after successful devm_pinctrl_get()
+> - Set foo->p to NULL when devm_pinctrl_get() fails
+> - Add ret variable for cleaner error handling
+> - provides proper example of pinctrl resource management on failure
+>
+> Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+> ---
+>  Documentation/driver-api/pin-control.rst | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+
+Applied, thanks.
+
+jon
