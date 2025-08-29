@@ -1,144 +1,160 @@
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAAE6FC5;
-	Fri, 29 Aug 2025 02:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5BC20299B
+	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 02:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756435044; cv=none; b=jkqudftboiNcqWvJeBrfShtIwfIaMk35Nwyw+6gFEhMKgN/816CS7fM9RX0/Bath+325/GFosKjCr+QuSd+RjMpK0QL3Z5Vy/MOvo/XLHCEV42TbvAKUBv9KBzZ7ZeKlIOd+CVNMFJXPclJ0iQ7G+T3rsrK8CZs0V7bRvaVzRgo=
+	t=1756435250; cv=none; b=h1/h3NV2uGAFZBX3kH8ybmnU3UzoFm3ch7zzzJikaJEUPN6FX0WOg8saLNPuiehDQJC5f6pzZz6l0PXimU8ArOjUkJft9TezvhuK7vRS3esWZn5jw3ofxwwQdzz2NmxWOpuiIdcASBMoZK0TssZpa/f+c6Oku0dM0TNRs28t9ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756435044; c=relaxed/simple;
-	bh=PJ+tY7pi3xt3j+eLneIBuSVZx0ciuyKBM2ylX7x8b6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KhMHYIdtrbJ0TbQnqM/agWrnI5keK08qMMnew5GWf/CqVBVJ2vgqCnLq6Pf2Gw09IXCxbXtkRa1zvOEjDVRUFI8xfG6TZEnyJbsJCxu12YGasbrXCGFx1+ujhcr2JJ0PtFqyHeI4Zw/oRUY2EE2hsGqTD6Sk11JOWEM8ppYCvzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.92.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz10t1756435010tf4b84854
-X-QQ-Originating-IP: g/Fgw+DgN7+02PgKaJ5YVFbo4h7+NoaFcU2OyWk3tBk=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 29 Aug 2025 10:36:48 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7550459696108476182
-Date: Fri, 29 Aug 2025 10:36:48 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v9 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <A5B215AE5EB4FE9D+20250829023648.GB904254@nic-Precision-5820-Tower>
-References: <20250828025547.568563-1-dong100@mucse.com>
- <20250828025547.568563-6-dong100@mucse.com>
- <e0f71a7d-1288-4971-804d-123e3e8a153f@lunn.ch>
+	s=arc-20240116; t=1756435250; c=relaxed/simple;
+	bh=1rc25cTIqjjOz8QUgkVtPyp6ikf2DOOaXB7T4eWd4qo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bzSzdDKVx8U3crbVfoHs46YYCUWVVf5Jy045e5t3/stWxgrpsa+e+VCWu2Nj+aMxjXNc72r9Ev22wWdTSKgWIljrkyqj33E5TLL6loA+PPrFgXXlEJs85GuxDJMXmjbxogy5EsLGueRdtYqgw/R2AmxLd963IX/xATDpUZYtzNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=AhQqxK7D; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="AhQqxK7D"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b28184a8b3so18821451cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 28 Aug 2025 19:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1756435248; x=1757040048; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Zy6qlRujNRvsanVAYiBzYvZ4C5MT/ROGnbV1WkURNs=;
+        b=AhQqxK7Djehs0IxZA9g5x9qdRwPs8gD5+88GeMJ9K41QotLivA+FYALXHlZBt492pA
+         vZUFRPqCGIUEA6BoS2ZreCNXI/QMoHUiYbRIfyX705mJfuPu2xBcEMzZL5AY6IgIRFRU
+         n1K/I6bWb/sBq6KADaK5UaHuejtiYYZlkQZHSPqgbxYyiuaFZo8lz/+F5CqIZYyR6kOU
+         7R/ySZGWxOXhnuUltRaIKJJ38f1d/ItzJ5/dewq54chdZvoHD5BHJ/GhDWOZp1QtwiMF
+         2owZ8n0baVZhixwrZfCTvwQ6kf4M/Gi1GNgn2jLizQueM8YOYlfvGKRKURm2Z9T0GupF
+         gVag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756435248; x=1757040048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1Zy6qlRujNRvsanVAYiBzYvZ4C5MT/ROGnbV1WkURNs=;
+        b=j/2e1qdxi0wfBbx8lBlCh7p0qRez7GxCwU+fzkcku+YRtf829yu7QciSqa4kH4BEi5
+         f+i5tg3UcFbLx35hOg2NAQodxsyQc8j42uExaXKyan5XCfMmt3dRfSGK8kxvMhqpv2HK
+         K5+DsdTcDj6bZC6bP0ny62PJYXXjjS9U6XLwvyP7EcgwpdeYYwNWY19zNI8WJLWhJSZx
+         S9A9tzvILvO8PKOVo+bbyayUCAfgfDKWhBlbS6dxUF7ouysDwpfPaL0Nt4pgnyDXADdb
+         ggn4luGC/ZmYs2Vn7S0wBzzrjMXY/nuAvFYx2WGBXNHJmmf3b1S01lMg+vUUtUZpuigb
+         j9/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVdALq/42pISPOfnY/ZsihW66ebQWESGtEyRttxmNSYPiiixgVEF2CDQQbUcudUdR2uZaF6ZXShBx0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7/vEMIKtpefrWcx7xD9GPIs+GT6bqpIr47iKIEIAptu+++H0r
+	UFNFqdEzNg0xRhiY351+NH3CdLzT74bXghHZ12lFxa50B5NcSNujW0UgIxsDpoGestEopOcb2YS
+	FA4AFlGPB0PMrq7QB6+dBwJA4g98IVo8xkGcyJArJig==
+X-Gm-Gg: ASbGncva4PiLTclibAXfFFJiEuZC8XTxzxyiOOo8iRF55yvcZ+V/po5JpfU0qtX022u
+	z+I3MWcPtjhGMCY1fdFxbG7bLWwoPdUZdElokaniDOta7BDA6pd083sjLfWdlOUSRrq8MKatKc9
+	OLADaPUwIIegmGTIjMX47nCGSMpH91BQYzw3Oy3hUjWNChfSDbndMkg3W/71kpu9aDlsUveKR/C
+	MNA
+X-Google-Smtp-Source: AGHT+IHwXj+LBZuJEcqAH63FcF7Bf6gg8caP9O+PnQGOchIvb5/XFjh6XaIc3WnVFKQjw020TTzcQhZZqWvU0FReMKg=
+X-Received: by 2002:ac8:5e49:0:b0:4b2:9ac2:686e with SMTP id
+ d75a77b69052e-4b2aab4a159mr308961841cf.77.1756435247854; Thu, 28 Aug 2025
+ 19:40:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e0f71a7d-1288-4971-804d-123e3e8a153f@lunn.ch>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NyPaQtJYQgeoV1Z1Je0uGcuGrVaPxCqf2JhJcaHqlchXvjLgiXUdw83j
-	ZEExgqTFv8aVrCilH53F4PWh37w38aRDYbirdsU/KKbgpENJvjXjooKIk/TBMK7OTt/kG7l
-	IL91vXm8m/3MsWkkz7IoaZuCND+FMcQ0oP2Yi92U5k4dnm2Va4ymo635tkAJugA9gH9GgUq
-	dzv5R0qWi1UGDBCjSWuwhXjAgqjsmd1zfmPRr4u1cKABB/QKk3UKDWZul1FK+JfuQanhArT
-	0E1b4H9x3osyo4w3cSLkXO87oT+Y/WSV50HDxysH5FxXLDDPOJ7dptjWqNw9z/FXlg9HN0u
-	fQfJfMCFPNxNdYbivrQYiubyhT/QU+8BNIZ87j2fD32cK7N/ykYxYbFL9r03wH5ApyY3ng9
-	8RtlkBtTu4efsQs2Ag3bA4Zfi/OVngQaOCJ3cnUhBJA3zNsAmb775hZyem5/PmihoI4741p
-	3lINldyvi0FJjYCmMa+y5lSbQHvWVoRfeupRcEqBw97wvHO0tbK57MxP8DwFHUIFzfqDzjN
-	TNbbkE6IKZKdvACeL0SXoVqQIy3baqEzg0pradGhodSgOYMQUo31e1x0AVaNdNRdKe1EgaJ
-	kxsb3TeuGwTFaNRaMj3hvURyNWU222YagozcXMRw0eP3l3ANyd2jRtOpmfvb8iUfzdutaQ1
-	PVrGop+WtJ8ryzFtw7vgMHTJ3N5C3WeDP9kmYx2k2DYKfR+RIIW5KLCEANffoFHlwGyOC5K
-	SHuRz9ipMvuPpU7ANBYMF88E+Kj2GjNHURz5M7s3e83HWQPATFPFbE/dB24JKa99up1hj/Z
-	TL5y/NCvZvLFGOEOrmuHtPLhqzM9iQArA5muZYwZGf/pgY/AF8MvEoqeU1TQsl/LDj5bUwH
-	DPn2S5RI7GfRBzCMjVaQPsgXuWi+3BHFigP+Xfv+NHdlTTKOnP558L3xHbhY6O++R3bZx2H
-	Sta6eWKIaH5KEgbdCEknDLDD0mER2gN6zEtbkiBGAEEFX1N7UxA/BS4UxKAom0G+R2pQ=
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+References: <20250612114210.2786075-1-mclapinski@google.com>
+ <685c67525ba79_2c35442945@iweiny-mobl.notmuch> <CAAi7L5cq9OqRGdyZ07rHhsA8GRh2xVXYGh7n20UoTCRfQK03WA@mail.gmail.com>
+ <CAAi7L5djEJCVzWWjDMO7WKbXgx6Geba6bku=Gjj2DnBtysQC4A@mail.gmail.com> <68b0f92761d25_293b329449@iweiny-mobl.notmuch>
+In-Reply-To: <68b0f92761d25_293b329449@iweiny-mobl.notmuch>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 28 Aug 2025 22:40:11 -0400
+X-Gm-Features: Ac12FXwmgsLWCvC9t_zrDymTIu_H7ymCFDa4DGCwoCVIx5lOzsb8sPf1krkiuUE
+Message-ID: <CA+CK2bAPJR00j3eFZtF7WgvgXuqmmOtqjc8xO70bGyQUSKTKGg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] libnvdimm/e820: Add a new parameter to configure
+ many regions per e820 entry
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: =?UTF-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Thomas Huth <thuth@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Ard Biesheuvel <ardb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 28, 2025 at 03:20:04PM +0200, Andrew Lunn wrote:
-> > +/**
-> > + * rnpgbe_reset_hw_ops - Do a hardware reset
-> > + * @hw: hw information structure
-> > + *
-> > + * rnpgbe_reset_hw_ops calls fw to do a hardware
-> > + * reset, and cleans some regs to default.
-> > + *
-> > + * Return: 0 on success, negative errno on failure
-> > + **/
-> > +static int rnpgbe_reset_hw_ops(struct mucse_hw *hw)
-> > +{
-> > +	struct mucse_dma_info *dma = &hw->dma;
-> > +	int err;
-> > +
-> > +	rnpgbe_dma_wr32(dma, RNPGBE_DMA_AXI_EN, 0);
-> > +	err = mucse_mbx_fw_reset_phy(hw);
-> > +	if (err)
-> > +		return err;
-> > +	return rnpgbe_get_permanent_mac(hw, hw->perm_addr);
-> 
-> Why is a function named rnpgbe_reset_hw_ops() getting the permanent
-> MAC address? Reset should not have anything to do with MAC address.
-> 
-> If the MAC address is not valid, you normally use a random MAC
-> address. But you cannot easily differentiate between the reset failed,
-> the reset got ^C, and the MAC address was not valid.
-> 
+On Thu, Aug 28, 2025 at 8:48=E2=80=AFPM Ira Weiny <ira.weiny@intel.com> wro=
+te:
+>
+> Micha=C5=82 C=C5=82api=C5=84ski wrote:
+> > On Tue, Jul 1, 2025 at 2:05=E2=80=AFPM Micha=C5=82 C=C5=82api=C5=84ski =
+<mclapinski@google.com> wrote:
+> > >
+> > > On Wed, Jun 25, 2025 at 11:16=E2=80=AFPM Ira Weiny <ira.weiny@intel.c=
+om> wrote:
+> > > >
+> > > > Michal Clapinski wrote:
+> > > > > This includes:
+> > > > > 1. Splitting one e820 entry into many regions.
+> > > > > 2. Conversion to devdax during boot.
+> > > > >
+> > > > > This change is needed for the hypervisor live update. VMs' memory=
+ will
+> > > > > be backed by those emulated pmem devices. To support various VM s=
+hapes
+> > > > > I want to create devdax devices at 1GB granularity similar to hug=
+etlb.
+> > > > > Also detecting those devices as devdax during boot speeds up the =
+whole
+> > > > > process. Conversion in userspace would be much slower which is
+> > > > > unacceptable while trying to minimize
+> > > >
+> > > > Did you explore the NFIT injection strategy which Dan suggested?[1]
+> > > >
+> > > > [1] https://lore.kernel.org/all/6807f0bfbe589_71fe2944d@dwillia2-xf=
+h.jf.intel.com.notmuch/
+> > > >
+> > > > If so why did it not work?
+> > >
+> > > I'm new to all this so I might be off on some/all of the things.
+> > >
+> > > My issues with NFIT:
+> > > 1. I can either go with custom bios or acpi nfit injection. Custom
+> > > bios sounds rather aggressive to me and I'd prefer to avoid this. The
+> > > NFIT injection is done via initramfs, right? If a system doesn't use
+> > > initramfs at the moment, that would introduce another step in the boo=
+t
+> > > process. One of the requirements of the hypervisor live update projec=
+t
+> > > is that the boot process has to be blazing fast and I'm worried
+> > > introducing initramfs would go against this requirement.
+> > > 2. If I were to create an NFIT, it would have to contain thousands of
+> > > entries. That would have to be parsed on every boot. Again, I'm
+> > > worried about the performance.
+> > >
+> > > Do you think an NFIT solution could be as fast as the simple command
+> > > line solution?
+> >
+> > Hello,
+> > just a follow up email. I'd like to receive some feedback on this.
+>
+> Apologies.  I'm not keen on adding kernel parameters so I'm curious what
+> you think about Mike's new driver?[1]
 
-Ok, I will remove call 'rnpgbe_get_permanent_mac' in function
-'rnpgbe_reset_hw_ops'. And call it in probe.
+Hi Ira,
 
-> > +/**
-> > + * rnpgbe_driver_status_hw_ops - Echo driver status to hw
-> > + * @hw: hw information structure
-> > + * @enable: true or false status
-> > + * @mode: status mode
-> > + **/
-> > +static void rnpgbe_driver_status_hw_ops(struct mucse_hw *hw,
-> > +					bool enable,
-> > +					int mode)
-> > +{
-> > +	switch (mode) {
-> > +	case mucse_driver_insmod:
-> > +		mucse_mbx_ifinsmod(hw, enable);
-> 
-> Back to the ^C handling. This could be interrupted before the firmware
-> is told the driver is loaded. That EINTR is thrown away here, so the
-> driver thinks everything is O.K, but the firmware still thinks there
-> is no MAC driver. What happens then?
-> 
+Mike's proposal and our use case are different.
 
-The performance will be very poor since low working frequency,
-that is not we want.
+What we're proposing is a way to automatically convert emulated PMEM
+into DAX/FSDAX during boot and subdivide it into page-aligned chunks
+(e.g., 1G/2M). We have a userspace agent that then manages these
+devdax devices, similar to how HugeTLB pages are handled, allowing the
+chunks to be used in a cloud environment to support guest memory for
+live updates.
 
-> And this is the same problem i pointed out before, you ignore EINTR in
-> a void function. Rather than fix one instance, you should of reviewed
-> the whole driver and fixed them all. You cannot expect the Reviewers
-> to do this for you.
+To be clear, we are not trying to make the carved-out PMEM region
+scalable. The hypervisor's memory allocation stays the same, and these
+PMEM/DAX devices are used exclusively for running VMs. This approach
+isn't intended for the general-purpose, scalable persistent memory use
+case that Mike's driver addresses.
 
-I see, I will change 'void' to 'int' in order to handle err, and try to check
-other functions.
-
-> 
->     Andrew
-> 
-> ---
-> pw-bot: cr
-> 
-
-Thanks for your feedback.
-
+Pasha
