@@ -1,50 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A832D6630;
-	Fri, 29 Aug 2025 22:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7372BEC20;
+	Fri, 29 Aug 2025 22:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756507312; cv=none; b=t8/arEGoIbpKedW01CtB0dsF++3Y0unqqLmSR9XnNMPBRXYFb3ErKSz1i3KrR4Xky1kGS2fmu3ii39aP6Z7B+AdYPAuSDBdG6ogwW4ScbIkXNzuVyHHaBKAP9eFfGWH5jKNjDID1gM900sQBhwrc2ifKwLpa53Lrx7isWTj+p0E=
+	t=1756507472; cv=none; b=iNG25Th0dBi6Og7iNIgv4dTrkhebkogXRVz1R810tHaubK0+eKYB7LXnoFihvNQstpD9b/S/q4ve3XKlsB/KFQjyqOJ7cbyYzHSd4MMDb1kvUuHaX+Pj2ZZ1zhuOipsD82GjRW8F7+SX45Eq0x591Zv5e6IEQzfp45xq4x+62RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756507312; c=relaxed/simple;
-	bh=LrGW602noRH4ycUbq4ifn1lFbE7sC7VkXZRcjJjJqWM=;
+	s=arc-20240116; t=1756507472; c=relaxed/simple;
+	bh=3l9IyZ6E1ykYaE6ZiTn4FwDADVA8vWfN2yBfNykC3nA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VDRKxsyqAXd4j6X1O+DVVe769q9KUB7HxVd9Syi1hw5jS0IsSJaBffr2VRMlq821RDoGadD5m8KFaraYtIo+aQJmtFRyc9FjI9Qn96qUUX3Ui0XfKh5J7q9U3nypPsgBTQLojfGlEAFSYRpemX97ORPnAKs927rMKzgpC9udKZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ldt5wdMm; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=hGWODK8e+rtP5RVS7r1oTfpoVV273mWRC2CbI17x2ZrJLFCLz5VbqUo1UfqN/SE/v4t4Bwae6jjKWAAHFpf5nOg172Y4i6x/DuHSZP+vDkeFyUTgCpciMYoXphbuQqjuAibwForXMo1ndwMCmZLQ03xpvem8go6uKLy33oS50wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oPuRIdLi; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ldt5wdMm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B25C40AF5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oPuRIdLi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 612F540AF5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756507310; bh=LrGW602noRH4ycUbq4ifn1lFbE7sC7VkXZRcjJjJqWM=;
+	t=1756507469; bh=XuBKPwHuhKr0qdeRskPKNe3G/Yu1uyjI8KfA52i8W8c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Ldt5wdMm3bFjCpjp91IqNimd990wa1F3Kvv1o5CdgwQDwHtsKcMU4UpQ2IgoHzAF7
-	 iGErhb4LVIzpP7QUb3qzWNPr4Op7QfTs6LwCXGnLavAvEE9Whwpw6t03EEFMwxYvHU
-	 xb7xfGWvBJ51jlsM6ezD2TsLTXa/SOAEWyue+3QOBBq7HMYsUjv9ttOk1frZ8zPLDz
-	 vvUUIxpDxF2TiFFdGWG9Q0XUFUMXl2nYw3/6b48Gw7lghOOAf9awqpSYMsJ4Jab96t
-	 GXco8XKiht8asLstbc7V8yTC6KqPhlzbyPg+bJU7jVk19UrDUpvGlbO2GbzFREFiuX
-	 Vc+SNs/m3vsvA==
+	b=oPuRIdLiKHqAKRst3f8bstolu2fx6ZgL3itFUnndZVtPGkMR0TVXeQEGXceOgvAvA
+	 RWl5dx/a/uTqboX8u2Zb/L3MrSh/wmfzVotE1GipHMUU0IRE7wUdFDOlAWlSqGDBlR
+	 qHGksQs/QHZ4grepHQxOJVaL7YevdC/MR40Th3KNNCli7lgikngkQ/IaEy/8Xj8JL3
+	 m71uOmqMI+eAnne33TQ4POGSZtS4ea54tSoJtsigKQmkPlGAUzdm5AGw+IZY/IuF2S
+	 nylrgZ6TjXQyv+xKFTYnq5sofmG3eo2SEbWGuUvNMavrd4e1Yy8+B26dvu0T4E8piK
+	 iatG5dCQTJh8A==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7B25C40AF5;
-	Fri, 29 Aug 2025 22:41:50 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 612F540AF5;
+	Fri, 29 Aug 2025 22:44:29 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Filesystems Development
- <linux-fsdevel@vger.kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Christian Brauner
- <brauner@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/5] Documentation: sharedsubtree: reST massaging
-In-Reply-To: <20250819061254.31220-1-bagasdotme@gmail.com>
-References: <20250819061254.31220-1-bagasdotme@gmail.com>
-Date: Fri, 29 Aug 2025 16:41:49 -0600
-Message-ID: <87ecst3g42.fsf@trenco.lwn.net>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Andrei Vagin
+ <avagin@google.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Subject: Re: [PATCH v2] docs: scheduler: completion: Document
+ complete_on_current_cpu()
+In-Reply-To: <20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com>
+References: <20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com>
+Date: Fri, 29 Aug 2025 16:44:28 -0600
+Message-ID: <87a53h3fzn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,16 +51,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Javier Carrasco <javier.carrasco.cruz@gmail.com> writes:
 
-> Hi,
->
-> Shared subtree docs is converted with minimal markup changes to reST in commit
-> cf06612c65e5dc ("docs: filesystems: convert sharedsubtree.txt to ReST"). The
-> formatting, however, is still a rather rough and can be improved.
->
-> Let's polish it.
+> Commit 6f63904c8f3e ("sched: add a few helpers to wake up tasks on the
+> current cpu") introduced this new function to the completion API that
+> has not been documented yet.
 
-I have applied the set, thanks.
+For a change like this, it is a really good idea to copy the author of
+the original patch and others who were involved in it; I have added them
+now.
 
 jon
+
+> Document complete_on_current_cpu() explaining what it does and when its
+> usage is justified.
+>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>
+> ---
+> Changes in v2:
+> - Rebase onto v6.17-rc1
+> - Fix patch formatting (drop --- before the Signed-off-by tag).
+> - Link to v1: https://lore.kernel.org/r/20250703-complete_on_current_cpu_doc-v1-1-262dc859b38a@gmail.com
+> ---
+>  Documentation/scheduler/completion.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/scheduler/completion.rst b/Documentation/scheduler/completion.rst
+> index adf0c0a56d02..db9c131f0b62 100644
+> --- a/Documentation/scheduler/completion.rst
+> +++ b/Documentation/scheduler/completion.rst
+> @@ -272,6 +272,10 @@ Signaling completion from IRQ context is fine as it will appropriately
+>  lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
+>  sleep.
+>  
+> +Use complete_on_current_cpu() to wake up the task on the current CPU.
+> +It makes use of the WF_CURRENT_CPU flag to move the task to be woken up
+> +to the current CPU, achieving faster context switches. To use this variant,
+> +the context switch speed must be relevant and the optimization justified.
+>  
+>  try_wait_for_completion()/completion_done():
+>  --------------------------------------------
+>
+> ---
+> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+> change-id: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
+>
+> Best regards,
+> --  
+> Javier Carrasco <javier.carrasco.cruz@gmail.com>
