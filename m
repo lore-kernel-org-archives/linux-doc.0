@@ -1,139 +1,286 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C013D23BF9B
-	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 19:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0D61C84C7
+	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 19:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756494760; cv=none; b=fRBx/9U48/We3v7CzkEydJq4FNwTmhOggmooE2uY+PLVpm2R7m80n79wFmIWm+CRB71pIxrJADTB1KJY0yKgl0DLKRrlbv4hq4HENukI/M/qAIXSDzPZcJbs8PdTc9wLJhlaQfgJKtVXnroz6PpuYidS4udcmd6LyPLIHdv3H/Q=
+	t=1756495138; cv=none; b=Ol7G3qdlMDWKOPMfbat0ItRJOZuzZlWULykIU/SHLJwLfO1yGc3VeA25TTjOw9DRRctsf6fb06TTxuHxpQAe3WUnvREi0shgZzRWLKAvwdJxJTTo8PLC96p1bCVXgGAinPvl6ETEbdMtbuNuTjslG7z1iuc5NqZEn4m5ariGChA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756494760; c=relaxed/simple;
-	bh=V/m3x91BNGxXQk/xVbw01DnJgrBeVY3UssBVksdPu1s=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=McZERQjFac/hYZN8Rp/FrYD4juLK25CUHvAPV2BiTdxvm3V2jFaPkJDacDoW6AXbbrEngPHzUjFGaEy3PsguEWriZwi2D6wdxu+rwJw6618qrF8tvDQ+Xa6AgwaGUjx/pOyCCwDIyLj0viBg4r7mqDOITdFumFqTNe2dlmWesuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YiuigYgI; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756495138; c=relaxed/simple;
+	bh=SfwuYXV0KU6eJVhKE0IPfVFe3B6ROS9QbY1dk+JP8m4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sExpqXLpBOMSK08XWl8E+BYKxxt+G0xZF6LJM65e5EDKU3/+y7FlZSj04Zx2KwCzdmkostk0RQso+Frh9CH5ykZrvLTaziPfEUJQTBer7xrGjiGJ2zmUWGcRQUc9FnJU1Sz85FN2FhtfdjUtAxg4pzHNa3W8LsYSin1Q0+DEhdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qa4Kyefw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YiuigYgI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756494757;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BZm2cWpIstR902xrNzB24xS3rX1N5ZEznfpie+G8xH8=;
-	b=YiuigYgIuzLkKbdsq8sIpIj9neapVbNPp/b0hWSdne32KcrevJ8KEyHqeoCBr2HrBky+8n
-	faZDxGfgtj1Cabfl4nEO8YLtUiaWS0AqMfTEAM27544YwWV8RGKn5CvIGedzeeRElS0aPL
-	stbekEqS7r7KGq1wZNkXF6fWYGZ0iZo=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-320-QEFVdTewPHyK8X7n_-bi_g-1; Fri, 29 Aug 2025 15:12:30 -0400
-X-MC-Unique: QEFVdTewPHyK8X7n_-bi_g-1
-X-Mimecast-MFC-AGG-ID: QEFVdTewPHyK8X7n_-bi_g_1756494750
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3eb14eebe86so49876485ab.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 12:12:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756494750; x=1757099550;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BZm2cWpIstR902xrNzB24xS3rX1N5ZEznfpie+G8xH8=;
-        b=kf4bQCuI12hzFrweKaPspIHJudcFEfOi/pKPWQUJ07trymDohOd7B3dUQtrjt9YPVd
-         UnMNWgzDXwdvZoNfwAVxuVA0NERBaqgHtwrqNwaJMMV8y3jS4JiLD/vu2n184OGpz9gd
-         zk76oSK7vlZrXUTyHBplEkyYeDrUzKEi9BcnExxfGzMzVPI85BrgF+ibayLzNeTT25bJ
-         jcLq2t+TPKrP91A6NVcytI/4LVpRZTakDsKk7cdgNPqs7bE5NvjGU/bGbZiVqCbh3Fjo
-         EA+7nrQKu0dIQv5ZMcPC+/EVxcR2sOmePDHGnvysaPNhdhgs/eM8ulWXFjUfM15+sWYA
-         NKfw==
-X-Forwarded-Encrypted: i=1; AJvYcCUv/CqCm01exOREC0r6p8UUdmELHpiC4mG9hSRIl3sRMEts237XQQtcFJwDqhxrZFTTr0fP49sCwlo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ9XmhorBplyY1FwG5wV6OdWz8Cj6NkTxTzDtLR1Y/SP0BwzCE
-	fFTrh3GfoBFuQEHqYssXWNPTdNvSidFl0KqQwRGdXwwzmrlJ6wT6tdET3nYCT6QZyRFb3Q/tviM
-	NNcuoQYvOhh9aCSlQTy+/5Q4H+laICrL4m0rl1BIdd+4/TZnin1OlLrlUjb1GBQ==
-X-Gm-Gg: ASbGncu3cmPnjByivFoEGXsOcef9HmyHMqVUTZ6QdBQEqebSY69+/nF5syob6Hkhs8p
-	XnJvFYwE68+jKM8Sx8gqdRRl54j1f0cNWOl/qjRrFSz4uBVPuTZkCc8TCuTuIYo7D/qLiqD0Hl2
-	pzQFNqk5L+w5vF/LYW/cDqusRpOqbfRqUvVFoD2FLCF+71TBaarRqef3DgCdrPKo7MkHNjNIkDe
-	narMGzQ/uznKtjz2j8T+jyngKMgbsQXiSVVKel4rn8Ut3YMU0bsROGOxte1KIvcd4s/A9P15iaQ
-	5B4jUscmB5g3ij4JtkuldDvZxKuUK/HTgHIuvNhngeFxgX5hHL73vzIOc2kk3YEQVptj
-X-Received: by 2002:a05:6e02:1845:b0:3f2:102b:bb3f with SMTP id e9e14a558f8ab-3f2102bbe6emr94593505ab.16.1756494749730;
-        Fri, 29 Aug 2025 12:12:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEp17PYTjscfY9oa2sbWXEFfqHk/8rOHgt2sJktj1EO4noupiV57kW7xO47q2rgyKkjnPt3LA==
-X-Received: by 2002:a05:6e02:1845:b0:3f2:102b:bb3f with SMTP id e9e14a558f8ab-3f2102bbe6emr94592895ab.16.1756494749273;
-        Fri, 29 Aug 2025 12:12:29 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([50.145.183.242])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50d8f3e6c3asm38211173.84.2025.08.29.12.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 12:12:28 -0700 (PDT)
-Message-ID: <3b9bf6e435b2eb85b44557d474a003ec6d2c0c1c.camel@redhat.com>
-Subject: Re: [PATCH v2 2/3] rtla: fix -C/--cgroup interface
-From: Crystal Wood <crwood@redhat.com>
-To: Ivan Pravdin <ipravdin.official@gmail.com>, rostedt@goodmis.org, 
-	corbet@lwn.net, tglozar@redhat.com, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 29 Aug 2025 14:12:28 -0500
-In-Reply-To: <9394c039d5c957bd8417669148391e20fa1276ee.1755018581.git.ipravdin.official@gmail.com>
-References: <cover.1755018581.git.ipravdin.official@gmail.com>
-	 <9394c039d5c957bd8417669148391e20fa1276ee.1755018581.git.ipravdin.official@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qa4Kyefw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8778EC19421
+	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 19:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756495137;
+	bh=SfwuYXV0KU6eJVhKE0IPfVFe3B6ROS9QbY1dk+JP8m4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qa4KyefwEM+eignqWU370eptpCu7x6iSqxGWzbU+gdoLfpIG5dR8luhNBvK11Qvpe
+	 WupEHPuUELuYVVjLhgDuu2qKuXFb5hlCUMLB9SIPV6Ktjg3pg9eUUoKuUBZ4E2NNk6
+	 6KsSu2aIQcm5sFMEUGaDlEupO/t6Wf2Fs5Bhjq8a4FuRO/gmbh/IF1xshxmXPScdZc
+	 p6hV/6jBHai1mC7xep/QL08bKqM6nqC767rO5llT1/S9DtkC0P/THYx+86WkPMY7DP
+	 cdEwNQsMtrN8kWrXDdrMrvYZAC/4JBNdd7f906drihUiUx9FPO1ooqChThHroFv+M1
+	 9s8+nydfAAHtg==
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-459fbc92e69so16985e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 12:18:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4btGwW2du8G49SmyzCwEIWJMTtNJ0BjHpFsmZ2NxiDL1b1dLw2lr6hJVvy3LX304R6ewfqAHC6FQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpArhd54CqqXuwmCyfoVNv4BUqwWcK/VMOoxg/WHeQxLWLpYpb
+	5P79rtUN5gGG6pUX7ecK8v2W2qKoNLfqvASIFImFmUy4YQYXgtAFPsVtvD2ZIB5zsHJOC7AuATU
+	Sd/Wf86QJXDPZTTUAvBVO34jyE4iZP44XGQFOpFvA
+X-Google-Smtp-Source: AGHT+IGwYizH5N431wsmMZe4RCeN+XM22BnJRX3a9bmzFsCySK9GHB8zxV4r/939VLJDfuuUh2SvN3//dXotftQ5t5k=
+X-Received: by 2002:a05:600c:a101:b0:45b:74f7:9d30 with SMTP id
+ 5b1f17b1804b1-45b84ae2495mr141155e9.1.1756495135682; Fri, 29 Aug 2025
+ 12:18:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
+In-Reply-To: <20250826162019.GD2130239@nvidia.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Fri, 29 Aug 2025 12:18:43 -0700
+X-Gmail-Original-Message-ID: <CAF8kJuPaSQN04M-pvpFTjjpzk3pfHNhpx+mCkvWpZOs=0TF3gg@mail.gmail.com>
+X-Gm-Features: Ac12FXwg_LGboIxDPBDuUZE0PAjtgg9g5mIDqFcbL5uMlL902h2DZN1Mi-6Fu0Y
+Message-ID: <CAF8kJuPaSQN04M-pvpFTjjpzk3pfHNhpx+mCkvWpZOs=0TF3gg@mail.gmail.com>
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2025-08-12 at 13:21 -0400, Ivan Pravdin wrote:
-> Currently, user can only specify cgroup to the tracer's thread the
-> following ways:
->=20
->     `-C[cgroup]`
->     `-C[=3Dcgroup]`
->     `--cgroup[=3Dcgroup]`
->=20
-> If user tries to specify cgroup as `-C [cgroup]` or `--cgroup [cgroup]`,
-> the parser silently fails and rtla's cgroup is used for the tracer
-> threads.
->=20
-> To make interface more user-friendly, allow user to specify cgroup in
-> the aforementioned way, i.e. `-C [cgroup]` and `--cgroup [cgroup]`
->=20
-> Change documentation to reflect this user interface change.
+On Tue, Aug 26, 2025 at 9:20=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
+>
+> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
+>
+> > +     /*
+> > +      * Most of the space should be taken by preserved folios. So take=
+ its
+> > +      * size, plus a page for other properties.
+> > +      */
+> > +     fdt =3D memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SI=
+ZE);
+> > +     if (!fdt) {
+> > +             err =3D -ENOMEM;
+> > +             goto err_unpin;
+> > +     }
+>
+> This doesn't seem to have any versioning scheme, it really should..
+>
+> > +     err =3D fdt_property_placeholder(fdt, "folios", preserved_size,
+> > +                                    (void **)&preserved_folios);
+> > +     if (err) {
+> > +             pr_err("Failed to reserve folios property in FDT: %s\n",
+> > +                    fdt_strerror(err));
+> > +             err =3D -ENOMEM;
+> > +             goto err_free_fdt;
+> > +     }
+>
+> Yuk.
+>
+> This really wants some luo helper
+>
+> 'luo alloc array'
+> 'luo restore array'
+> 'luo free array'
 
-I know these are the semantics that --trace implements, but they're
-rather atypical... especially -C=3Dgroup.
+Yes, that will be one step forward.
 
+Another idea is that having a middle layer manages the life cycle of
+the reserved memory for you. Kind of like a slab allocator for the
+preserved memory. It allows bulk free if there is an error on the live
+update prepare(), you need to free all previously allocated memory
+anyway. If there is some preserved memory that needs to stay after a
+long term after the live update kernel boot up, use some special flags
+to indicate so don't mix the free_all pool.
+>
+> Which would get a linearized list of pages in the vmap to hold the
+> array and then allocate some structure to record the page list and
+> return back the u64 of the phys_addr of the top of the structure to
+> store in whatever.
+>
+> Getting fdt to allocate the array inside the fds is just not going to
+> work for anything of size.
+>
+> > +     for (; i < nr_pfolios; i++) {
+> > +             const struct memfd_luo_preserved_folio *pfolio =3D &pfoli=
+os[i];
+> > +             phys_addr_t phys;
+> > +             u64 index;
+> > +             int flags;
+> > +
+> > +             if (!pfolio->foliodesc)
+> > +                     continue;
+> > +
+> > +             phys =3D PFN_PHYS(PRESERVED_FOLIO_PFN(pfolio->foliodesc))=
+;
+> > +             folio =3D kho_restore_folio(phys);
+> > +             if (!folio) {
+> > +                     pr_err("Unable to restore folio at physical addre=
+ss: %llx\n",
+> > +                            phys);
+> > +                     goto put_file;
+> > +             }
+> > +             index =3D pfolio->index;
+> > +             flags =3D PRESERVED_FOLIO_FLAGS(pfolio->foliodesc);
+> > +
+> > +             /* Set up the folio for insertion. */
+> > +             /*
+> > +              * TODO: Should find a way to unify this and
+> > +              * shmem_alloc_and_add_folio().
+> > +              */
+> > +             __folio_set_locked(folio);
+> > +             __folio_set_swapbacked(folio);
+> >
+> > +             ret =3D mem_cgroup_charge(folio, NULL, mapping_gfp_mask(m=
+apping));
+> > +             if (ret) {
+> > +                     pr_err("shmem: failed to charge folio index %d: %=
+d\n",
+> > +                            i, ret);
+> > +                     goto unlock_folio;
+> > +             }
+>
+> [..]
+>
+> > +             folio_add_lru(folio);
+> > +             folio_unlock(folio);
+> > +             folio_put(folio);
+> > +     }
+>
+> Probably some consolidation will be needed to make this less
+> duplicated..
+>
+> But overall I think just using the memfd_luo_preserved_folio as the
+> serialization is entirely file, I don't think this needs anything more
+> complicated.
+>
+> What it does need is an alternative to the FDT with versioning.
+>
+> Which seems to me to be entirely fine as:
+>
+>  struct memfd_luo_v0 {
+>     __aligned_u64 size;
+>     __aligned_u64 pos;
+>     __aligned_u64 folios;
+>  };
+>
+>  struct memfd_luo_v0 memfd_luo_v0 =3D {.size =3D size, pos =3D file->f_po=
+s, folios =3D folios};
+>  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for=
+ this fd..>, /*version=3D*/0);
+>
+> Which also shows the actual data needing to be serialized comes from
+> more than one struct and has to be marshaled in code, somehow, to a
+> single struct.
+>
+> Then I imagine a fairly simple forwards/backwards story. If something
+> new is needed that is non-optional, lets say you compress the folios
+> list to optimize holes:
+>
+>  struct memfd_luo_v1 {
+>     __aligned_u64 size;
+>     __aligned_u64 pos;
+>     __aligned_u64 folios_list_with_holes;
+>  };
+>
+> Obviously a v0 kernel cannot parse this, but in this case a v1 aware
+> kernel could optionally duplicate and write out the v0 format as well:
+>
+>  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for=
+ this fd..>, /*version=3D*/0);
+>  luo_store_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifier for=
+ this fd..>, /*version=3D*/1);
 
-> @@ -559,12 +559,17 @@ static struct osnoise_params
->  			break;
->  		case 'C':
->  			params->cgroup =3D 1;
-> -			if (!optarg) {
-> -				/* will inherit this cgroup */
-> +			if (optarg) {
-> +				if (optarg[0] =3D=3D '=3D') {
-> +					/* skip the =3D */
-> +					params->cgroup_name =3D &optarg[1];
-> +				} else {
-> +					params->cgroup_name =3D optarg;
-> +				}
-> +			} else if (optind < argc && argv[optind][0] !=3D '-') {
-> +				params->cgroup_name =3D argv[optind];
-> +			} else {
->  				params->cgroup_name =3D NULL;
-> -			} else if (*optarg =3D=3D '=3D') {
-> -				/* skip the =3D */
-> -				params->cgroup_name =3D ++optarg;
+Question: Do we have a matching FDT node to match the memfd C
+structure hierarchy? Otherwise all the C struct will lump into one FDT
+node. Maybe one FDT node for all C struct is fine. Then there is a
+risk of overflowing the 4K buffer limit on the FDT node.
 
-If we're going to be consistently using these semantics, we should move
-this logic into a utility function rather than open-coding it
-everywhere.
+I would like to get independent of FDT for the versioning.
 
-Also, theoretically, shouldn't we be advancing optind for the case where
-that's consumed?  Not that it matters much if we don't have positional
-arguments once the options begin, and if we did, then allowing
-"--arg optional-thing" would be ambiguous...
+FDT on the top level sounds OK. Not ideal but workable. We are getting
+deeper and deeper into complex internal data structures. Do we still
+want every data structure referenced by a FDT identifier?
 
--Crystal
+> Then the rule is fairly simple, when the sucessor kernel goes to
+> deserialize it asks luo for the versions it supports:
+>
+>  if (luo_restore_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifi=
+er for this fd..>, /*version=3D*/1))
+>     restore_v1(&memfd_luo_v1)
+>  else if (luo_restore_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. ide=
+ntifier for this fd..>, /*version=3D*/0))
+>     restore_v0(&memfd_luo_v0)
+>  else
+>     luo_failure("Do not understand this");
+>
+> luo core just manages this list of versioned data per serialized
+> object. There is only one version per object.
 
+Obviously, this can be done.
+
+Is that approach you want to expand to every other C struct as well?
+See the above FDT node complexity.
+
+I am getting the feeling that we are hand crafting screws to build an
+airplane. Can it be done? Of course. Does it scale well? I am not
+sure. There are many developers who are currently hand-crafting this
+kind of screws to be used on the different components of the airplane.
+
+We need a machine that can stamp out screws with our specifications,
+faster. I want such a machine. Other developers might want one as
+well.
+
+The initial discussion of the idea of such a machine is pretty
+discouraged. There are huge communication barriers because of the
+fixation on hand crafted screws. I understand exploring such machine
+ideas alone might distract the engineer from hand crafting more
+screws, one of them might realize that, oh, I want such a machine as
+well.
+
+At this stage, do you see that exploring such a machine idea can be
+beneficial or harmful to the project? If such an idea is considered
+harmful, we should stop discussing such an idea at all. Go back to
+building more batches of hand crafted screws, which are waiting by the
+next critical component.
+
+Also if such a machine can produce screws up to your specification,
+but it has a different look and feel than the hand crafted screws. We
+can stamp out the screw faster.  Would you consider putting such a
+machined screw on your most critical component of the engine?
+
+Best Regards,
+
+Chris
