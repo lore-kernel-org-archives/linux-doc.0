@@ -1,51 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6271D61BB;
-	Fri, 29 Aug 2025 22:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A832D6630;
+	Fri, 29 Aug 2025 22:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756506907; cv=none; b=Ns67yRwBhSAw6zhL++mwdg8moA6DE5Ixmxq2qWDW21a5sp4pH/NBBJ5Uvbw1tX+hlej4C/N2gMTtzcOujeHDADyObvuH4FaRTRmaN7n6l7BeWPXQCMHLZq4Qcvi8cv2QZm7vXwI1zWfy46t4pOUXVypDk+Dj877DfngOCIpoHSE=
+	t=1756507312; cv=none; b=t8/arEGoIbpKedW01CtB0dsF++3Y0unqqLmSR9XnNMPBRXYFb3ErKSz1i3KrR4Xky1kGS2fmu3ii39aP6Z7B+AdYPAuSDBdG6ogwW4ScbIkXNzuVyHHaBKAP9eFfGWH5jKNjDID1gM900sQBhwrc2ifKwLpa53Lrx7isWTj+p0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756506907; c=relaxed/simple;
-	bh=psyHVBHH52umKGRyqGiz9/R/Wx8nDG3Lb6AieVV9h70=;
+	s=arc-20240116; t=1756507312; c=relaxed/simple;
+	bh=LrGW602noRH4ycUbq4ifn1lFbE7sC7VkXZRcjJjJqWM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PSrbC0G73onUoRVY+He4zmZZQcTG7lHhyY9nIGbNRBATnREpklnJhlAOKxtbXqShRzH2vjCB1Fnjv0m5O1tkT/IagopE4tFFgb2Mb0Xok4Gau0MsxIJbFYGB7uV2fNBJNd6YjMhoQ1ws02qitnjeJAiJPpFytpIqjosXdJuIWq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Yrlg3tWg; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=VDRKxsyqAXd4j6X1O+DVVe769q9KUB7HxVd9Syi1hw5jS0IsSJaBffr2VRMlq821RDoGadD5m8KFaraYtIo+aQJmtFRyc9FjI9Qn96qUUX3Ui0XfKh5J7q9U3nypPsgBTQLojfGlEAFSYRpemX97ORPnAKs927rMKzgpC9udKZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ldt5wdMm; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Yrlg3tWg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D761140AF5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ldt5wdMm"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B25C40AF5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756506905; bh=j9pdz4fvOvXD/nnfTD03LeIxAJWY+Bl75kULpm1YGrw=;
+	t=1756507310; bh=LrGW602noRH4ycUbq4ifn1lFbE7sC7VkXZRcjJjJqWM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Yrlg3tWgGl+KR0gvLKPpwxh/ccK70xseariZ3utKekozcfBwJyhS3rBOMTxJP23ir
-	 EMxROTR6jAetE6gtkCsaYhqyrB/fzoj5GgUxE8XtdLRMjz/Flaw5kO1GwyGR80pmkL
-	 p6yVSUxyBTwDqV9qFOPZPEoAotmDso1RsFWlLiTx5js7McFuKWHfW+kds4t+5bQR2b
-	 p0og0yI6Zy73JQ0sbsgW5+XVacq3x6R+tpmfpo5o7uR+Mt33qSImbGkV7VM+M0grkd
-	 BH561WzYV19gFCpjoidA/Elib3ZaveH0HOyUV2hJ3CVoTe8Y4Zx6bLMfqbDl+FZBLv
-	 dU5mFv0bZeLZA==
+	b=Ldt5wdMm3bFjCpjp91IqNimd990wa1F3Kvv1o5CdgwQDwHtsKcMU4UpQ2IgoHzAF7
+	 iGErhb4LVIzpP7QUb3qzWNPr4Op7QfTs6LwCXGnLavAvEE9Whwpw6t03EEFMwxYvHU
+	 xb7xfGWvBJ51jlsM6ezD2TsLTXa/SOAEWyue+3QOBBq7HMYsUjv9ttOk1frZ8zPLDz
+	 vvUUIxpDxF2TiFFdGWG9Q0XUFUMXl2nYw3/6b48Gw7lghOOAf9awqpSYMsJ4Jab96t
+	 GXco8XKiht8asLstbc7V8yTC6KqPhlzbyPg+bJU7jVk19UrDUpvGlbO2GbzFREFiuX
+	 Vc+SNs/m3vsvA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D761140AF5;
-	Fri, 29 Aug 2025 22:35:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7B25C40AF5;
+	Fri, 29 Aug 2025 22:41:50 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Moktar SELLAMI <smokthar925@gmail.com>, linux-kernel@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Gregory Price
- <gourry@gourry.net>, Moktar SELLAMI <smokthar925@gmail.com>, Alok Tiwari
- <alok.a.tiwari@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
-In-Reply-To: <20250819084116.13108-1-smokthar925@gmail.com>
-References: <20250819084116.13108-1-smokthar925@gmail.com>
-Date: Fri, 29 Aug 2025 16:35:04 -0600
-Message-ID: <87iki53gfb.fsf@trenco.lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Filesystems Development
+ <linux-fsdevel@vger.kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Christian Brauner
+ <brauner@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/5] Documentation: sharedsubtree: reST massaging
+In-Reply-To: <20250819061254.31220-1-bagasdotme@gmail.com>
+References: <20250819061254.31220-1-bagasdotme@gmail.com>
+Date: Fri, 29 Aug 2025 16:41:49 -0600
+Message-ID: <87ecst3g42.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,34 +53,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Moktar SELLAMI <smokthar925@gmail.com> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Fixed Typo in the driver-api/cxl/devices/devices.rst
+> Hi,
 >
-> functionalty -> functionality
+> Shared subtree docs is converted with minimal markup changes to reST in commit
+> cf06612c65e5dc ("docs: filesystems: convert sharedsubtree.txt to ReST"). The
+> formatting, however, is still a rather rough and can be improved.
 >
-> Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
-> ---
->  Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-> index 923f5d89bc04..7f69dfa4509b 100644
-> --- a/Documentation/driver-api/cxl/devices/device-types.rst
-> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
-> @@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
->  Typically used for initialization, configuration, and I/O access for anything
->  other than memory (CXL.mem) or cache (CXL.cache) operations.
->  
-> -The Linux CXL driver exposes access to .io functionalty via the various sysfs
-> +The Linux CXL driver exposes access to .io functionality via the various sysfs
->  interfaces and /dev/cxl/ devices (which exposes direct access to device
->  mailboxes).
+> Let's polish it.
 
-This one was fixed a while back, so this patch is not needed.  It is
-always a good idea to check linux-next when considering changes of this
-type.
-
-Thanks,
+I have applied the set, thanks.
 
 jon
