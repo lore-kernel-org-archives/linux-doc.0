@@ -1,225 +1,151 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B010F28032D;
-	Fri, 29 Aug 2025 08:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA0B1E0E1F;
+	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756456707; cv=none; b=Ff6kTrk66667WKp6w/sOPi9WpCrKnKQLsYee8XaCGpLNErr0eRu+oxLzl70BZXRgYKhCbglLuXWXvYnRGm2xeHcBO4+bYb0HCh8QvHQDtlTDikqvpGfihGXMU9VPlw3sssyxOpy0XL5vBtL0GLI2SoutmPZTxm0Zzb4ZAAgHZYY=
+	t=1756457189; cv=none; b=Bm7Pe8eixP/wzL4vyNii3dRwp76NSb5bgtW6Rmrtg+1yZceBIcjuxUQWwwNHpPT9w0Xx5O0gbUzUGN6gX+Y6ylTzys9xmG+A5XDnJElxIFQCgKxEgU6/4ZISuSHLBE/PLun0nno8v2c783FmT6QydticnzPiIXLrDUXwriOvFME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756456707; c=relaxed/simple;
-	bh=vSPQljqBSlOhKzXg1pzbFoTfNszXX/08hrYDtSR/yGs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DeZbHRF9GCACslPFa78wxb7kOQycVVeY7Z6EeLuPYlZ2spsPvfzQY1JH64VSY9FGDFQ9nu9PHQLkrZB8QYJxGvwZDpU6Ku27tYVzm4BiK3BQjTZzgb4Coh6iGEzNj7HfJX+xu2rJX+QEGN3xyBReA/pAdaeWi0/LaAV+26Okur4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=hTeiaxqY; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1756457189; c=relaxed/simple;
+	bh=DialTkaZ2UwEoPpeuNzfbQp3IDqYgtAn+UUymBTw6Io=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QLrifNB62Z6PX6av6qt5mYGeq11a5ncxRaw91noa4JiH/M2Nbl3VXX0KNUwo3WQQ0sFbmSaG2QXC0BM80013R2pLJziTHIPF2Rcz9bcNWviPt2YqWRHnVBAXf0KKbNJ1qoARNNax6dhebGcaGFStV7IsShdnDB22WegbgMYDxwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Urlg8agv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="hTeiaxqY"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57T62KHi015673;
-	Fri, 29 Aug 2025 08:38:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=7MW75N
-	PB7Va5Ne0w2b0VAXU/DHhLIN+FRvAytfm78eU=; b=hTeiaxqYHWGRL1AFSylByD
-	LffRgW/Jiw/c34BeWZFadQ8VsAjAm8U4ZcB8DJcvOdErxuhJc+N80XpckAHvpjou
-	CalzZY9PPEBD+wMAf7SzAFQbLeK8wsW2JC7oHd/kAjbPtq9KjKifdKa6v/e8JFOA
-	92PvT5Ql5NCwoc+ovV1rsTdEXAgwO/CB/xQZk9XfydlQ0sOj5eyF0N8sTbvOD/os
-	nrNNGVkgAPxkWtby0DcCexNvojHGeEJvTpeP18hwo05x/WT4TThfmz4s3Lsm7lc+
-	cKeE4ZG35q32Z3v3tSobyU3W6bJ19tu/g2oB0sXPRfFW4Tx7O15PrgXLZFwoDhpw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48q5hqe9ug-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Aug 2025 08:38:13 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 57T8TAod020022;
-	Fri, 29 Aug 2025 08:38:12 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48q5hqe9ue-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Aug 2025 08:38:12 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57T6GAId020838;
-	Fri, 29 Aug 2025 08:38:12 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48qrc11290-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Aug 2025 08:38:12 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57T8cBtf33358118
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 Aug 2025 08:38:11 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8013958056;
-	Fri, 29 Aug 2025 08:38:11 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 65B1158052;
-	Fri, 29 Aug 2025 08:38:09 +0000 (GMT)
-Received: from [9.111.24.125] (unknown [9.111.24.125])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 29 Aug 2025 08:38:09 +0000 (GMT)
-Message-ID: <f1668882dbbba83b771f02c5b054dfaddccfe7a5.camel@linux.ibm.com>
-Subject: Re: [PATCH 3/4] PCI/ERR: Amend documentation with DPC and AER
- specifics
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>,
-        Jonathan Corbet
-	 <corbet@lwn.net>
-Cc: Terry Bowman <terry.bowman@amd.com>,
-        Ilpo Jarvinen	
- <ilpo.jarvinen@linux.intel.com>,
-        Sathyanarayanan Kuppuswamy	
- <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Linas Vepstas	
- <linasvepstas@gmail.com>,
-        Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-        Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        Brian Norris
- <briannorris@chromium.org>
-Date: Fri, 29 Aug 2025 10:38:08 +0200
-In-Reply-To: <42726e2fd197959d6228d25552504353ffb53545.1756451884.git.lukas@wunner.de>
-References: <cover.1756451884.git.lukas@wunner.de>
-	 <42726e2fd197959d6228d25552504353ffb53545.1756451884.git.lukas@wunner.de>
-Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Urlg8agv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A02D1C4CEF0;
+	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756457188;
+	bh=DialTkaZ2UwEoPpeuNzfbQp3IDqYgtAn+UUymBTw6Io=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Urlg8agveP3FzvS8aPPcBa0pIrmxh5TS9xYk/WTKKR/MJvNSJbvsqrhp7ciuMsfBx
+	 /lyhPxVNe9nj41BlFbwGYy3JbB3rE9S2AuHMDDHk6vM6KHVDZ326ExkUhHahxxZkWu
+	 kZUV7bEMEgH6HQjqRECYFEK1BPoxWabLLJiPx7fq7HO0e0mJ4zba7vct4Bk8XaSnC6
+	 7ARztJKyhCglBs5euuaoSps8SLs0x0i7PzE9RkkI0VNAW/jG+wtbeoxMd1SDXDTqYA
+	 j/v9qHDzngfiySRJN3okkEWQMY+vtSy6L0fflQkUmOeJVAetmI/UoQ+iFpqlPqo0C9
+	 6d3e+xdAoCUPQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CB4CA0FF0;
+	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Date: Fri, 29 Aug 2025 16:46:06 +0800
+Subject: [PATCH] ALSA: docs: Add documents for recently changes in
+ snd-usb-audio
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAyMSBTYWx0ZWRfX2mfC+/5JgXSm
- tvXfxo0aw0TeGMtdRcZgeaFj7bbtYMM8AnlgJKcNdvfG7m4eds11aZWQrAv+du2NMr4KdTZd/gL
- SMGC+2fer/EUZ7vuwkIHU/x3EPuat9hbZzIkr7WeZ9wg2SENkqLS0kDdKLFCWyCtePLCJpNGEpy
- K2oxw9JkZ36uoCnlnRwnt8rJUTBWlYgqNd81vmr7rnzNjoaw72APK0FDcmT/ArqD+G4Adt5yubq
- jMD9OjkVSHEqYEjGJds3iSbPNNFWmpTRBcvxwbpUtPdY+6Vx3gC3G7U6WN9SPn8YZXI/IkLzu7u
- VCkmG2Qi6m3Pgblk54FGJkbm8toBEZcYzf9D+N1DogCuG3fsvh8dGTkJxzMzzVtAOn1VVvsggQ4
- FFknujpQ
-X-Proofpoint-ORIG-GUID: BBnMbQ55CD2lrHR8MPX4YkQVGPcy3I2g
-X-Proofpoint-GUID: WBzPLu_GpKVU_nK-p2KzqhCxmIi19MC8
-X-Authority-Analysis: v=2.4 cv=Ndbm13D4 c=1 sm=1 tr=0 ts=68b166f5 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KkUFHGsvljIy0fMCjwwA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-29_02,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 clxscore=1011 phishscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508230021
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250829-sound-doc-v1-1-e0110452b03d@uniontech.com>
+X-B4-Tracking: v=1; b=H4sIAM1osWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDCyNL3eL80rwU3ZT8ZF1z42SzVFMTEwvLFEMloPqCotS0zAqwWdGxtbU
+ AYedTW1sAAAA=
+X-Change-ID: 20250829-sound-doc-73c6e54489d1
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, niecheng1@uniontech.com, 
+ zhanjun@uniontech.com, Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756457187; l=3763;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=HE89odsIwYI1Vul0J0CIerepfkejArZ/qTv9Q4oEXbY=;
+ b=K4pQlW5283gHmgF0tuapReYbIHgrysYjpS0ltdEVRBVl5YcdIkLPZNJiNbKub9gScdwYiODmH
+ koJvJicRJ6jAAjgm5wFOaskFcTntv3F86uVw9M/5r+XCm+6sbPDOBHQ
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-On Fri, 2025-08-29 at 09:25 +0200, Lukas Wunner wrote:
-> Amend the documentation on PCI error recovery with specifics about
-> Downstream Port Containment and Advanced Error Reporting:
->=20
-> * Explain that with DPC, devices are inaccessible upon an error (similar
->   to EEH on powerpc) and do not become accessible until the link is
->   re-enabled.
->=20
-> * Explain that with AER, although devices may already be accessible in th=
-e
->   ->error_detected() callback, accesses should be deferred to the
->   ->mmio_enabled() callback for compatibility with EEH on powerpc.
->=20
-> Signed-off-by: Lukas Wunner <lukas@wunner.de>
-> ---
->  Documentation/PCI/pci-error-recovery.rst | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->=20
-> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI=
-/pci-error-recovery.rst
-> index d5c661baa87f..c88c304b2103 100644
-> --- a/Documentation/PCI/pci-error-recovery.rst
-> +++ b/Documentation/PCI/pci-error-recovery.rst
-> @@ -122,6 +122,10 @@ A PCI bus error is detected by the PCI hardware.  On=
- powerpc, the slot
->  is isolated, in that all I/O is blocked: all reads return 0xffffffff,
->  all writes are ignored.
-> =20
-> +Similarly, on platforms supporting Downstream Port Containment
-> +(PCIe r7.0 sec 6.2.11), the link to the sub-hierarchy with the
-> +faulting device is disabled. Any device in the sub-hierarchy
-> +becomes inaccessible.
-> =20
->  STEP 1: Notification
->  --------------------
-> @@ -204,6 +208,23 @@ link reset was performed by the HW. If the platform =
-can't just re-enable IOs
->  without a slot reset or a link reset, it will not call this callback, an=
-d
->  instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot R=
-eset)
-> =20
-> +.. note::
-> +
-> +   On platforms supporting Advanced Error Reporting (PCIe r7.0 sec 6.2),
-> +   the faulting device may already be accessible in STEP 1 (Notification=
-).
-> +   Drivers should nevertheless defer accesses to STEP 2 (MMIO Enabled)
-> +   to be compatible with EEH on powerpc.
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-I'm biased of course but I'd prefer either "with error recovery support
-on powerpc and s390" or simply "with systems where devices are
-inaccessible until MMIO is re-enabled explicitly or a reset occurs.".
+Changed:
+  - ignore_ctl_error
+  - lowlatency
+  - skip_validation
+  - quirk_flags[19:24]
+
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+---
+ Documentation/sound/alsa-configuration.rst | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index a45174d165ebdeadd89de5f556483465c5f6e808..77fd70ac12975a271600ebd542672a3afb443d39 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2253,8 +2253,15 @@ device_setup
+     Default: 0x0000 
+ ignore_ctl_error
+     Ignore any USB-controller regarding mixer interface (default: no)
++    ``ignore_ctl_error=1`` may help when you get an error at accessing
++    the mixer element such as URB error -22.  This happens on some
++    buggy USB device or the controller.  This workaround corresponds to
++    the ``quirk_flags`` bit 14, too.
+ autoclock
+     Enable auto-clock selection for UAC2 devices (default: yes)
++lowlatency
++    Enable low latency playback mode (default: yes).
++    Could disable it to switch back to the old mode if face a regression.
+ quirk_alias
+     Quirk alias list, pass strings like ``0123abcd:5678beef``, which
+     applies the existing quirk for the device 5678:beef to a new
+@@ -2284,6 +2291,11 @@ delayed_register
+     The driver prints a message like "Found post-registration device
+     assignment: 1234abcd:04" for such a device, so that user can
+     notice the need.
++skip_validation
++    Skip unit descriptor validation (default: no).
++    The option is used to ignores the validation errors with the hexdump
++    of the unit descriptor instead of a driver probe error, so that we
++    can check its details.
+ quirk_flags
+     Contains the bit flags for various device specific workarounds.
+     Applied to the corresponding card index.
+@@ -2307,6 +2319,16 @@ quirk_flags
+         * bit 16: Set up the interface at first like UAC1
+         * bit 17: Apply the generic implicit feedback sync mode
+         * bit 18: Don't apply implicit feedback sync mode
++        * bit 19: Don't closed interface during setting sample rate
++        * bit 20: Force an interface reset whenever stopping & restarting
++          a stream
++        * bit 21: Do not set PCM rate (frequency) when only one rate is
++          available for the given endpoint.
++        * bit 22: Set the fixed resolution 16 for Mic Capture Volume
++        * bit 23: Set the fixed resolution 384 for Mic Capture Volume
++        * bit 24: Set minimum volume control value as mute for devices
++          where the lowest playback value represents muted state instead
++          of minimum audible volume
+ 
+ This module supports multiple devices, autoprobe and hotplugging.
+ 
+@@ -2314,10 +2336,9 @@ NB: ``nrpacks`` parameter can be modified dynamically via sysfs.
+ Don't put the value over 20.  Changing via sysfs has no sanity
+ check.
+ 
+-NB: ``ignore_ctl_error=1`` may help when you get an error at accessing
+-the mixer element such as URB error -22.  This happens on some
+-buggy USB device or the controller.  This workaround corresponds to
+-the ``quirk_flags`` bit 14, too.
++NB: ``ignore_ctl_error=1`` just provides A quick way to work around the
++issues.  If you have a buggy device that requires these quirks, please
++report it to the upstream.
+ 
+ NB: ``quirk_alias`` option is provided only for testing / development.
+ If you want to have a proper support, contact to upstream for
+
+---
+base-commit: 15be520ab00cfc9c59fa1623de6757f61ab42d8a
+change-id: 20250829-sound-doc-73c6e54489d1
+
+Best regards,
+-- 
+Cryolitia PukNgae <cryolitia@uniontech.com>
+
+
