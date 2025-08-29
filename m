@@ -1,260 +1,196 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE9829992E;
-	Fri, 29 Aug 2025 08:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37390262FC7;
+	Fri, 29 Aug 2025 08:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756454582; cv=none; b=HwA1YhrDQeTHO4lSm7aWeIYOkZQlrEEgg+V54wsFKgFtCBBilcQRtd2TrHcmw9Z+fuCUsN/kO/oCbsL3s/LCGWkxUHYz9MSzoUnccP07fOgw7D89vpzAcy8sdKquXFmao4Jz0gCMbTFufkA2+Ej/IP47bS8aUpmavIh5EcR/hBE=
+	t=1756455200; cv=none; b=SitBrMnjrBguXyyGhHG1SFcaIw+25p4PJ0uP8lultE5QsQkctfM5ZGDGnW4rrbBmfyNy8r/hLMdI5fDjRbgemsqjRwwSwRbEE9jTh3bozSvg0jXTwf+xS2WEPeYWAYWZUK4IZGGRoLwsDCs+rZ+rBXvMK7n8L03WRBUwhSH4tBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756454582; c=relaxed/simple;
-	bh=eMX/Qh24hdl/D8upWlphNzasCNRD/YCgXxsSIbz5MxY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hfWJ3QmlNabph2hpImO2wabaFvpuC1epNPykoJGKSStza1eU4u/ULyKfqko5JapK/W9Bd5C9l+jFDmr5xBKyv+kgWCbkl+J3iQoz1cqquf7aOtArOhQHmsYgFKmXWK+tFKPwya2t7kPX0z/DoNQvw/SarrC3krPjhkMem/v1nLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LBB32ZE3; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LBB32ZE3"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-248df8d82e2so11752065ad.3;
-        Fri, 29 Aug 2025 01:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756454579; x=1757059379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0AfZlK+2PpvnkbeUUWLESRnsPEd9fz1tduXIyE8HjWg=;
-        b=LBB32ZE3h6wVAtBgQkBBDLcZdfoFS6/AbAuz3H+B89It1paqDs8stvayV9p8vCPHJe
-         DnMdKmThMwX/dhaJISNWXMqCZAC7BJeMMdAk7tUgRrzhpWs44bCJA4qQNbZ2qeOp5G7L
-         /dzQiVvAB0bQQLDsRNvmFHahF4Pu0/XaZTakWb+B9L6dC2goVyU2cr2OmGRvImgwhvPQ
-         fxEhM3WU88vilITw4wzjveQjgIbbllGzyc2q6/zsMiNrT7Gv+PhLUu5bvLLpnpAdPMXd
-         8X5cGJagF0WQuk7Qw/I9mR9U86+xedE7ZMB8NrtljCgz9eU+3Z7IilIyldcFAT8z9ba9
-         Io2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756454579; x=1757059379;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0AfZlK+2PpvnkbeUUWLESRnsPEd9fz1tduXIyE8HjWg=;
-        b=vLl+slBl1kWpngjzXE0QeiGJqIRIf2E/oTCcrrwMhpLYGInyF/smv3Ft9OgCQoz4y0
-         HoUJ2fTtDJvc4nGaLm5whUGnv4TjTd+6BBp6JjORpdaajMQdMPTdsYTmc/kiCUIcPgfP
-         DDN93fIzkdCfRYNlesN35zu4fdMmQH1fh6IGkfcYQUGir/kPdpIAO/0g60H8l6WDLkdX
-         GiPw9fDS0LspOfdYsiGcLLN5QQzcw09FP5r7jAg7iTMqT9ZvL8DAmxX30MK6wrrPRN25
-         K4b7OSW4kXGn/tCfWnSa6wLOXm5oOPz9P8GhDwHjgI4TnyvfNCef65fBL4Ygi+2dirFm
-         j4jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaMWqDrpxeb/7v2nRwbambWuC09rs1oIwGtve7hIiS2FuMYCPVP7cy0cKMTm7cyG6xux9IZ9KWmkzr5U1F@vger.kernel.org, AJvYcCUbj90W7DDKTzaL2Mgi5VpC+tpVjS/hNkBrjla1cWnmEzWRY5ddQMC82N29/lPqyexyYQsHDrm3i7UZWKs=@vger.kernel.org, AJvYcCV//DjOhQFYcFQ2pjvgscXwzja1kq2dx6/4ryq+O/gvGGOPUNiBM8B+nj0pKMnwsDoTuKqPHsRvqwhG@vger.kernel.org, AJvYcCV7KvlWV81T8xE9UsYX6bnrS38K1KteBR0Qgy3wkpGXGqRCDK510C1FuBElzH3jdd3qthmUlH3Au9Vk@vger.kernel.org, AJvYcCWCgVQHkVgn8Vwj+E4KbZPRAizUpfK5jgQwWXu1T1azxVtA7R1zwThIa/2uw2h2M5pn32Q=@vger.kernel.org, AJvYcCWKUEnvejFhX57qXLEPb3sOLdxKNvCzSJW5KJCOM6a7udakfpV0Jam2kVh3BpAN1D7DEeN8r5IpWsYKMw==@vger.kernel.org, AJvYcCWvbYrR35IyuA5eO+xIDRddVRN1NjSigNg6YTGE3PeRv5KagcNDi9SK2GYZ6VoZf9xS7m38yf+O@vger.kernel.org, AJvYcCX4S/qPMxZubDSOGEKUBxjQ7TZon4s26GVAs+tEXq/6TdGNy1dP6ufXqz3X6LGf0VqlDv6HQSUu3mM=@vger.kernel.org, AJvYcCXtlPlwCnn4+pMeu29VUwD8sszlmm+FW7UfPM2h3Bx9iA18UtMz6NUVpTCstLN6hIgIjf4ydzgusiVk8KY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdO/bnej+Roq27QikLSEVWw9yN1ZITxJO6fJkutxH8AaSnYGAM
-	o7InZzkFkBQbmfi+7zEGNtM5Y/cnEdT4RRPXn21KhKikzY/jr+F36uTM
-X-Gm-Gg: ASbGncvSD99emGxggympLMXTnmEy9isfsRo9BNklwaWyZXQZ2oBjQkj2DtBksoevyq4
-	oJ+Tjj1h1vrop7C6CcjoNklUGOCr5rxHBi8alH3sMMVY6eg5qkr/HUhisxCu7Dwmin+e7pSGtTJ
-	KmHN6L78JS/m3i5zv1hULh7WpUWaCuF9B0Ijd+IxXQeWrao8o/+41EGfAUMyz8gHs9TR35jCmB+
-	WFsFPsZF0TLDz/j78V+ER4W3NhAUX5oexKiuc6pTj3J+ebLcJfT6BMpgT7wIRLzj39JPQf2l0sZ
-	MqFgHk2CEyOHm5L9/9MReRyuhLJQa+wqwlx2uxdXkjvre6CEm5hbBqiwlDe7rBpskSsgBnoYkMB
-	SRsnnsc+3+9Lte70vn03+Sad71bvN1oX+yiMrrxC/tp2AdKU=
-X-Google-Smtp-Source: AGHT+IEwoXGIzV8akza9wuHnzpdMDJjRSJFuE8pmXkEOlv9nwKY6YvijMOuiPPSYq1k0su7e61Abrw==
-X-Received: by 2002:a17:903:acd:b0:248:cd0b:344d with SMTP id d9443c01a7336-248cd0b381emr78909285ad.9.1756454579374;
-        Fri, 29 Aug 2025 01:02:59 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24903702999sm17213525ad.3.2025.08.29.01.02.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 01:02:59 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 08D794489F50; Fri, 29 Aug 2025 14:55:28 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DAMON <damon@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Power Management <linux-pm@vger.kernel.org>,
-	Linux Block Devices <linux-block@vger.kernel.org>,
-	Linux BPF <bpf@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux KASAN <kasan-dev@googlegroups.com>,
-	Linux Devicetree <devicetree@vger.kernel.org>,
-	Linux fsverity <fsverity@lists.linux.dev>,
-	Linux MTD <linux-mtd@lists.infradead.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux Sound <linux-sound@vger.kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Huang Rui <ray.huang@amd.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	tytso@mit.edu,
-	Richard Weinberger <richard@nod.at>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Waiman Long <longman@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shay Agroskin <shayagr@amazon.com>,
-	Arthur Kiyanovski <akiyano@amazon.com>,
-	David Arinzon <darinzon@amazon.com>,
-	Saeed Bishara <saeedb@amazon.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexandru Ciobotaru <alcioa@amazon.com>,
-	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Steve French <stfrench@microsoft.com>,
-	Meetakshi Setiya <msetiya@microsoft.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 11/14] Documentation: net: Convert external kernel networking docs
-Date: Fri, 29 Aug 2025 14:55:21 +0700
-Message-ID: <20250829075524.45635-12-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
-References: <20250829075524.45635-1-bagasdotme@gmail.com>
+	s=arc-20240116; t=1756455200; c=relaxed/simple;
+	bh=A0V8NrU+/d9oOJrAnfiuCrLAa4Kzy73YPCwn4yCQios=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AV3jYosYvwEbcye65V9RWm33sVKALen6tXfqA8MUKlC0fjXTeC1Cty9dDLO4Py+qSlBUi9PqxFFVZbkshgozBCE9x+k1eL5ALQDsFLptCzy3GE1OUGzzMV0AsJfbitzx46L/paErJCaNUirv2EEwmWCAfUFGkV78slnS+PCA1Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4cCrcR6VTDzYQvd8;
+	Fri, 29 Aug 2025 16:13:11 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 6D28D1A1A26;
+	Fri, 29 Aug 2025 16:13:10 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP4 (Coremail) with SMTP id gCh0CgB3wY0RYbFohAO2Ag--.45648S4;
+	Fri, 29 Aug 2025 16:13:08 +0800 (CST)
+From: Yu Kuai <yukuai1@huaweicloud.com>
+To: hch@infradead.org,
+	xni@redhat.com,
+	colyli@kernel.org,
+	linan122@huawei.com,
+	corbet@lwn.net,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	mpatocka@redhat.com,
+	song@kernel.org,
+	yukuai3@huawei.com,
+	hare@suse.de
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	yukuai1@huaweicloud.com,
+	yi.zhang@huawei.com,
+	yangerkun@huawei.com,
+	johnny.chenyi@huawei.com,
+	hailan@yukuai.org.cn
+Subject: [PATCH v7 md-6.18 00/11] md/llbitmap: md/md-llbitmap: introduce a new lockless bitmap
+Date: Fri, 29 Aug 2025 16:04:15 +0800
+Message-Id: <20250829080426.1441678-1-yukuai1@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4099; i=bagasdotme@gmail.com; h=from:subject; bh=eMX/Qh24hdl/D8upWlphNzasCNRD/YCgXxsSIbz5MxY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY16d1mKOz99m1qX25ldgn5beybqta3f6vFwaVK3P9 qU9Ts6io5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5Y8vIsLj5nquL3YaGH+H5 K1M/GSvVfagoWJf+Wf//FmmeVbsWnGJk2HnZqfzd057r3t1TvvSsKTBp/5q8NJD5d+PrUJ8N/JZ PmQE=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgB3wY0RYbFohAO2Ag--.45648S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxKr1rGF45Cr4rXF4fXF1kXwb_yoW7Xr4Upa
+	9aqr43CwsxJr4fWa17J342vFyrKan5XrZrKr1fG3yF93yqyrn8Ga1SgF4ru34DGryfWF9F
+	qr45ArnrKryj9FJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjTRNJ5oDUUUU
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 
-Convert cross-references to kernel networking docs that use external
-links into internal ones.
+From: Yu Kuai <yukuai3@huawei.com>
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- .../device_drivers/can/ctu/ctucanfd-driver.rst       |  3 +--
- .../device_drivers/ethernet/amazon/ena.rst           |  4 ++--
- Documentation/networking/ethtool-netlink.rst         |  3 +--
- Documentation/networking/snmp_counter.rst            | 12 +++++-------
- 4 files changed, 9 insertions(+), 13 deletions(-)
+Changes from v6:
+ - fix special case in degraded mode in patch 11, also add description
+ about this case;
+ - fix some typos in patch 11;
+Changes from v5:
+ - fix wrong place to check is blocks are synced in patch 8; (Xiao)
+ - raid5 is using recover to build initial xor data, fix that unexpected
+ resync is triggered, patch 9 and patch 11; (Myself by test)
+ - flush bitmap after it's initialized the first time, patch 11; (Xiao)
+ - some coding style, patch 11; (Xiao)
+Changes from v4:
+ - fix dm-raid regerssion in patch 6, skip creating bitmap attributes
+ under mddev gendisk which is NULL;
+ - some minor cleanups and error handling fixes in patch 11;
+ - add review tag:
+  - patch 1-10 from Li Nan
+  - patch 4,5,6,8 from Xiao
+  - patch 6 from Hannes
+Changes from v3:
+ - fix redundant setting mddev->bitmap_id in patch 6;
+ - add explanation of bitmap attributes in Documentation;
+ - add llbitmap/barrier_idle in patch 11;
+ - add some comments in patch 11;
+Changes from v2:
+ - add comments about KOBJECT_CHANGE uevent in patch 6;
+ - convert llbitmap_suspend() to llbitmap_suspend_timeout() in patch 11;
+ - add some comments in patch 11;
+ - add review tag:
+  - patch 3,4,5,9 from Hannes
+Changes from v1:
+ - explain md_bitmap_fn in commit message, patch 3;
+ - handle the case CONFIG_MD_BITMAP is disabled, patch 4;
+ - split patch 7 from v1 into patch 5 + 6;
+ - rewrite bitmap_type_store, patch 5;
+ - fix dm-raid regerssion that md-bitmap sysfs entries should not be
+ created under mddev kobject, patch 6
+ - merge llbitmap patches into one patch, with lots of cleanups;
+ - add review tag:
+  - patch 1,2,7,8,9,10 from Christoph
+  - patch 1,2,7,8,10 from Hannes
+  - patch 1,2,3,7 from Xiao
 
-diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-index 1661d13174d5b8..4f9f36414333fd 100644
---- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-+++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-@@ -40,8 +40,7 @@ About SocketCAN
- SocketCAN is a standard common interface for CAN devices in the Linux
- kernel. As the name suggests, the bus is accessed via sockets, similarly
- to common network devices. The reasoning behind this is in depth
--described in `Linux SocketCAN <https://www.kernel.org/doc/html/latest/networking/can.html>`_.
--In short, it offers a
-+described in Documentation/networking/can.rst. In short, it offers a
- natural way to implement and work with higher layer protocols over CAN,
- in the same way as, e.g., UDP/IP over Ethernet.
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/amazon/ena.rst b/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-index 14784a0a6a8a10..b7b314de857b01 100644
---- a/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-+++ b/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-@@ -366,9 +366,9 @@ RSS
- 
- DEVLINK SUPPORT
- ===============
--.. _`devlink`: https://www.kernel.org/doc/html/latest/networking/devlink/index.html
- 
--`devlink`_ supports reloading the driver and initiating re-negotiation with the ENA device
-+:doc:`devlink </networking/devlink/index>` supports reloading the driver and
-+initiating re-negotiation with the ENA device
- 
- .. code-block:: shell
- 
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index ab20c644af2485..3445b575cb5d39 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1100,8 +1100,7 @@ This feature is mainly of interest for specific USB devices which does not cope
- well with frequent small-sized URBs transmissions.
- 
- ``ETHTOOL_A_COALESCE_RX_PROFILE`` and ``ETHTOOL_A_COALESCE_TX_PROFILE`` refer
--to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
--<https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
-+to DIM parameters, see Documentation/networking/net_dim.rst.
- 
- COALESCE_SET
- ============
-diff --git a/Documentation/networking/snmp_counter.rst b/Documentation/networking/snmp_counter.rst
-index ff1e6a8ffe2164..c51d6ca9eff2c7 100644
---- a/Documentation/networking/snmp_counter.rst
-+++ b/Documentation/networking/snmp_counter.rst
-@@ -782,13 +782,11 @@ TCP ACK skip
- ============
- In some scenarios, kernel would avoid sending duplicate ACKs too
- frequently. Please find more details in the tcp_invalid_ratelimit
--section of the `sysctl document`_. When kernel decides to skip an ACK
--due to tcp_invalid_ratelimit, kernel would update one of below
--counters to indicate the ACK is skipped in which scenario. The ACK
--would only be skipped if the received packet is either a SYN packet or
--it has no data.
--
--.. _sysctl document: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.rst
-+section of the Documentation/networking/ip-sysctl.rst. When kernel
-+decides to skip an ACK due to tcp_invalid_ratelimit, kernel would
-+update one of below counters to indicate the ACK is skipped in
-+which scenario. The ACK would only be skipped if the received
-+packet is either a SYN packet or it has no data.
- 
- * TcpExtTCPACKSkippedSynRecv
- 
+v4: https://lore.kernel.org/all/20250721171557.34587-1-yukuai@kernel.org/
+v3: https://lore.kernel.org/linux-raid/20250718092336.3346644-1-yukuai1@huaweicloud.com/
+v2: https://lore.kernel.org/all/20250707165202.11073-12-yukuai@kernel.org/
+v1: https://lore.kernel.org/all/20250524061320.370630-1-yukuai1@huaweicloud.com/
+RFC: https://lore.kernel.org/all/20250512011927.2809400-1-yukuai1@huaweicloud.com/
+
+Redundant data is used to enhance data fault tolerance, and the storage
+method for redundant data vary depending on the RAID levels. And it's
+important to maintain the consistency of redundant data.
+
+Bitmap is used to record which data blocks have been synchronized and which
+ones need to be resynchronized or recovered. Each bit in the bitmap
+represents a segment of data in the array. When a bit is set, it indicates
+that the multiple redundant copies of that data segment may not be
+consistent. Data synchronization can be performed based on the bitmap after
+power failure or readding a disk. If there is no bitmap, a full disk
+synchronization is required.
+
+Due to known performance issues with md-bitmap and the unreasonable
+implementations:
+
+ - self-managed IO submitting like filemap_write_page();
+ - global spin_lock
+
+I have decided not to continue optimizing based on the current bitmap
+implementation, this new bitmap is invented without locking from IO fast
+path and can be used with fast disks.
+
+For designs and details, see patch 11;
+
+Performance Test:
+Simple fio randwrite test to build array with 20GB ramdisk in my VM:
+
+|                      | none      | bitmap    | llbitmap  |
+| -------------------- | --------- | --------- | --------- |
+| raid1                | 13.7MiB/s | 9696KiB/s | 19.5MiB/s |
+| raid1(assume clean)  | 19.5MiB/s | 11.9MiB/s | 19.5MiB/s |
+| raid10               | 21.9MiB/s | 11.6MiB/s | 27.8MiB/s |
+| raid10(assume clean) | 27.8MiB/s | 15.4MiB/s | 27.8MiB/s |
+| raid5                | 14.0MiB/s | 11.6MiB/s | 12.9MiB/s |
+| raid5(assume clean)  | 17.8MiB/s | 13.4MiB/s | 13.9MiB/s |
+
+For raid1/raid10 llbitmap can be better than none bitmap with background
+initial resync, and it's the same as none bitmap without it.
+
+Noted that llbitmap performance improvement for raid5 is not obvious,
+this is due to raid5 has many other performance bottleneck, perf
+results still shows that bitmap overhead will be much less.
+
+Yu Kuai (11):
+  md: add a new parameter 'offset' to md_super_write()
+  md: factor out a helper raid_is_456()
+  md/md-bitmap: support discard for bitmap ops
+  md: add a new mddev field 'bitmap_id'
+  md/md-bitmap: add a new sysfs api bitmap_type
+  md/md-bitmap: delay registration of bitmap_ops until creating bitmap
+  md/md-bitmap: add a new method skip_sync_blocks() in bitmap_operations
+  md/md-bitmap: add a new method blocks_synced() in bitmap_operations
+  md: add a new recovery_flag MD_RECOVERY_LAZY_RECOVER
+  md/md-bitmap: make method bitmap_ops->daemon_work optional
+  md/md-llbitmap: introduce new lockless bitmap
+
+ Documentation/admin-guide/md.rst |   86 +-
+ drivers/md/Kconfig               |   11 +
+ drivers/md/Makefile              |    1 +
+ drivers/md/md-bitmap.c           |   15 +-
+ drivers/md/md-bitmap.h           |   45 +-
+ drivers/md/md-llbitmap.c         | 1625 ++++++++++++++++++++++++++++++
+ drivers/md/md.c                  |  332 ++++--
+ drivers/md/md.h                  |   20 +-
+ drivers/md/raid5.c               |   34 +-
+ 9 files changed, 2046 insertions(+), 123 deletions(-)
+ create mode 100644 drivers/md/md-llbitmap.c
+
 -- 
-An old man doll... just what I always wanted! - Clara
+2.39.2
 
