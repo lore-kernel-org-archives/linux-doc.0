@@ -1,87 +1,148 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AF6199931;
-	Fri, 29 Aug 2025 03:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB491F8BA6;
+	Fri, 29 Aug 2025 04:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756438313; cv=none; b=AC0Ja+ATC/MGdE+1ByC9Kb0VB+J9vFEZvNsZTccaxHOQzIZy7jaokrBdDDQJXeJTDYy4Q2g4Uj33OqKXjF0kzskgI92dutnxYOC9Np6DXrX1HRJT4OV/gAyIXfQpaZyktFLg8halBCXfwIWOwKxpwdFEUV/tebxIJyLJ2SvRC6c=
+	t=1756443405; cv=none; b=IOwQZC1qA3WkPXaUxT9l36KiS9L/ntGyzKmbiGb1GtAc/G2OwixQTG9XKVS8q90msnO773TMtvem2lYEY0Sjjfy9v3ueYzURbsFMeAEReLBJvuF+Az+5CaYrb08EfzzCHZ0Sp5eDyD/yR+ALUElYIQ/qgF3HYyJmlm0n8Kixxgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756438313; c=relaxed/simple;
-	bh=UhUig1WQs5r9O91kNC6dcY6jU7tD4ywv9NrFPfCV2SQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hKnuFbVMfYe1vyYweH9SgtaYpFnFU+9Yw52RGdr/qdKm12vos5eaj3XPKxh6s6Q7Ke17ub5Y9n1LGJnJQagXz1gItBIuemwlvGLJIqos7nu+Rbnc1nGnAJu0u/wx1a/XRtu7Qx0D2J5WvkMrkXLFESaT8FS35gS3z4j42vQ38T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4cCkJG6kVZz24j3V;
-	Fri, 29 Aug 2025 11:28:46 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id B11AF1A016C;
-	Fri, 29 Aug 2025 11:31:46 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 29 Aug 2025 11:31:45 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <vadim.fedorenko@linux.dev>
-CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
-	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
-	<gongfan1@huawei.com>, <guoxin09@huawei.com>, <gur.stavi@huawei.com>,
-	<helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
-	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <przemyslaw.kitszel@intel.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next v02 01/14] hinic3: HW initialization
-Date: Fri, 29 Aug 2025 11:31:41 +0800
-Message-ID: <20250829033141.1707-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <02dcf1f8-3ba4-4f79-897c-bf5a5007cc70@linux.dev>
-References: <02dcf1f8-3ba4-4f79-897c-bf5a5007cc70@linux.dev>
+	s=arc-20240116; t=1756443405; c=relaxed/simple;
+	bh=rlMwh0ZusaeNnDDZUrztnPVbqGAayQPFWOV5sNNVUYs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BCTG9n6j6QtYQsbuAqqPqv3rroMStBnBdwD5PXOatSmZyn7KxKdpsQxphAiHRTCtAoZkuJaaDYo9W9FcV3HyLgBu38e3r9gny9ICVMPOMpMGASpm7DJ6vfZO8okxu6LojZNYxfBOd/ZQClnGt2dzKS3z6kk9Iuw/hQn5MoxN4oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zz/Jatyo; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zz/Jatyo"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7f901afc2fbso155325085a.0;
+        Thu, 28 Aug 2025 21:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756443403; x=1757048203; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KNryYBJJVfQELDTrjz1KnvzL2xecRXp3PVwLzaUrbpo=;
+        b=Zz/Jatyo2bx9EPtABaq3AD/yz4dbaOHFf2aqiA5MGgo6XUZPRdwnP9TGa5wJ1904/k
+         TU4t/xKyISmrj5l4yNcgLvTz1FfE7L95r/weKY4RAbIGc/dbbOM7ZpqJGAzhHfQyPKYi
+         GogCu+9insPvJ4xkPkZ7TLK274bH34x5vlBVS0nhesRQEmNcf07O4zm2arfxkDEy5QRr
+         YNmNcUeB0zmPavve3rjUVFGibEfy8jbzeQGG0eCuED0Rp4XZaa0KzQQDGoZ3b8J0aUJL
+         30nyjnZVHE5HL2nSf7IUz7htM4iBV2CWgoh+xMpjv26eHJMQeuDFZFnlbjhdnhINgTAy
+         P9Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756443403; x=1757048203;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KNryYBJJVfQELDTrjz1KnvzL2xecRXp3PVwLzaUrbpo=;
+        b=qGxJIBwuiiRCHJFW3GEXrpmtoEHjvEEh2hBVoTf34nlw1KVqgp9kVz2pCE3oenZ8fZ
+         lDHZdQOP3M9SA7JzJeLYidw065zWqYKM84ANb83D6sa50i+54lsg0wyxOQFto92Cw0NR
+         5vcsuqMFxrtvi54xGchMs/50Q6c0Hbs0y0kGTuk62rUAaFOiHAMUCFygG0+ZQg6xdkdI
+         QtvXE+slGiCUkfY64UzU2yqba65o/mo0P/F/5H2KEwGVlPujwDJAp56bVszVi0SjF6yB
+         Qdci5x+By8Yo6dZb5aZKi3NGEbU/w/UnSZJoqmAkofvjESHPvEnUcTGgoY6lhWK2Wz76
+         pD4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUQIpqDRV9S06Oj6gtbanPbUx9mIqaQ2vADpZr60vwR80yBB9X7QV6PrQCQ3mhAYO67Ayldz4VT6EkV@vger.kernel.org, AJvYcCWIGetRqlmNsfpjUh0NJxCed3CCPefViI0Di8ch4StRzpj3M0j5WBPohxWjiWt5+YpHqeI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXgMm7b1dDwR646mjzpzS8ymEOO5ZWllMapLeyEFEZO5jhwISw
+	0xLURfFbSzzg2S6uEKzL1+QVkGhP6LEaPSle11uyeigwejyVCWUXOyO9sQRzpe3T6RoRpOW/vPI
+	pNwv/83D9J+fqOMcXJumZwcn3AC0rfd4=
+X-Gm-Gg: ASbGncsg2V2WEtQ08wWM/qLm2kNmyg/wQcRat0YKTZwd3vo+kKnphK4RZsxij+tdTc+
+	WV6SWJIlCub3lRlow24DY0Y17mGmYLmk6vBrBThNyPEGmNKhTisqNM33Ohl50JPl7pObcy8Cta/
+	WldvdKFCUDI+Krf3e10YVmR6CKKQ4AqaD2qTFDpDOs/OfqdQezyCjj81HWfpLrDdO50JSFx/moY
+	5Q+//X/Mda8QHy60w==
+X-Google-Smtp-Source: AGHT+IER+nM+4LqnTVVsRA0C/YRbwEY2iIeChjcQqyAqsqSfTBP1dTQx0YTtFem6RkzVwlWqhUcSmkomW7o4OpJu2UM=
+X-Received: by 2002:a05:620a:2983:b0:7fc:8834:a8a6 with SMTP id
+ af79cd13be357-7fc8834ab4bmr147951085a.16.1756443402922; Thu, 28 Aug 2025
+ 21:56:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-2-laoar.shao@gmail.com>
+In-Reply-To: <20250826071948.2618-2-laoar.shao@gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Fri, 29 Aug 2025 12:56:31 +0800
+X-Gm-Features: Ac12FXygzLGLDRPOyTzO4Xch95XvlKZwEGk1nOgFbtgG9eYsTL90i6vr2LXC7WA
+Message-ID: <CAGsJ_4wa0gC7FQmUP9HQxbacheKFRCqMbnfXwugeyOzhOS4McA@mail.gmail.com>
+Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
+ order selection
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
+	rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > +/* Get device attributes from HW. */
-> > +static int get_hwif_attr(struct hinic3_hwdev *hwdev)
-> > +{
-> > +	u32 attr0, attr1, attr2, attr3, attr6;
-> > +	struct hinic3_hwif *hwif;
-> > +
-> > +	hwif = hwdev->hwif;
-> > +	attr0  = hinic3_hwif_read_reg(hwif, HINIC3_CSR_FUNC_ATTR0_ADDR);
-> > +	attr1  = hinic3_hwif_read_reg(hwif, HINIC3_CSR_FUNC_ATTR1_ADDR);
-> > +	attr2  = hinic3_hwif_read_reg(hwif, HINIC3_CSR_FUNC_ATTR2_ADDR);
-> > +	attr3  = hinic3_hwif_read_reg(hwif, HINIC3_CSR_FUNC_ATTR3_ADDR);
-> > +	attr6  = hinic3_hwif_read_reg(hwif, HINIC3_CSR_FUNC_ATTR6_ADDR);
-> > +	init_hwif_attr(&hwif->attr, attr0, attr1, attr2, attr3, attr6);
+On Tue, Aug 26, 2025 at 3:43=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com> =
+wrote:
+[...]
+
+> @@ -4510,13 +4510,18 @@ static struct folio *alloc_swap_folio(struct vm_f=
+ault *vmf)
+>         if (!zswap_never_enabled())
+>                 goto fallback;
 >
-> well, get_hwif_attr() name is misleading here, as the function doesn't
-> only read values, it also sets some of them. if there is no other users
-> of init function, it might be better to merge them.
+> +       suggested_orders =3D get_suggested_order(vma->vm_mm, vma, vma->vm=
+_flags,
+> +                                              TVA_PAGEFAULT,
+> +                                              BIT(PMD_ORDER) - 1);
 
-Thanks for your comments.
-"get_hwif_attr" is actually misleading. In next version We consider
-changing this to "init_hwif_attr" and the old "init_hwif_attr" will
-be replaced with "set_hwif_attr" for better readability.
+Can we separate this case from the normal anonymous page faults below?
+We=E2=80=99ve observed that swapping in large folios can lead to more
+swap thrashing for some workloads- e.g. kernel build. Consequently,
+some workloads
+might prefer swapping in smaller folios than those allocated by
+alloc_anon_folio().
 
-> > +
-> > +    return 0;
+> +       if (!suggested_orders)
+> +               goto fallback;
+>         entry =3D pte_to_swp_entry(vmf->orig_pte);
+>         /*
+>          * Get a list of all the (large) orders below PMD_ORDER that are =
+enabled
+>          * and suitable for swapping THP.
+>          */
+>         orders =3D thp_vma_allowable_orders(vma, vma->vm_flags, TVA_PAGEF=
+AULT,
+> -                                         BIT(PMD_ORDER) - 1);
+> +                                         suggested_orders);
+>         orders =3D thp_vma_suitable_orders(vma, vmf->address, orders);
+>         orders =3D thp_swap_suitable_orders(swp_offset(entry),
+>                                           vmf->address, orders);
+> @@ -5044,12 +5049,12 @@ static struct folio *alloc_anon_folio(struct vm_f=
+ault *vmf)
+>  {
+>         struct vm_area_struct *vma =3D vmf->vma;
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +       int order, suggested_orders;
+>         unsigned long orders;
+>         struct folio *folio;
+>         unsigned long addr;
+>         pte_t *pte;
+>         gfp_t gfp;
+> -       int order;
 >
-> there is no way the function can return error - what's the reason to
-> have return value?
+>         /*
+>          * If uffd is active for the vma we need per-page fault fidelity =
+to
+> @@ -5058,13 +5063,18 @@ static struct folio *alloc_anon_folio(struct vm_f=
+ault *vmf)
+>         if (unlikely(userfaultfd_armed(vma)))
+>                 goto fallback;
+>
+> +       suggested_orders =3D get_suggested_order(vma->vm_mm, vma, vma->vm=
+_flags,
+> +                                              TVA_PAGEFAULT,
+> +                                              BIT(PMD_ORDER) - 1);
+> +       if (!suggested_orders)
+> +               goto fallback;
 
-This is our oversight on error handling and patch splitting. We missed
-the error case for "hinic3_hwif_read_reg" that returns errors when
-PCIE_LINK_DOWN.
+Thanks
+Barry
