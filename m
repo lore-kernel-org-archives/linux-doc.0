@@ -1,48 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7372BEC20;
-	Fri, 29 Aug 2025 22:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBC51C5F39;
+	Fri, 29 Aug 2025 22:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756507472; cv=none; b=iNG25Th0dBi6Og7iNIgv4dTrkhebkogXRVz1R810tHaubK0+eKYB7LXnoFihvNQstpD9b/S/q4ve3XKlsB/KFQjyqOJ7cbyYzHSd4MMDb1kvUuHaX+Pj2ZZ1zhuOipsD82GjRW8F7+SX45Eq0x591Zv5e6IEQzfp45xq4x+62RQ=
+	t=1756507779; cv=none; b=MBBfrOaMOZcUWRBLUDfhG+81ZfavhsrVVeyeP2rPOwnzWwA5TtstWdryqZfrJf8b0h1A/T4NaFIB+SuEjlz8tPEAJOSrIPSPYR+3Noyo+3U5iNGDcvgji3+mZaUsaTe4fDQXUTF++ybIKm7IzQeQeT2lsHgVal6xyp/CSLClWSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756507472; c=relaxed/simple;
-	bh=3l9IyZ6E1ykYaE6ZiTn4FwDADVA8vWfN2yBfNykC3nA=;
+	s=arc-20240116; t=1756507779; c=relaxed/simple;
+	bh=GX9xsTtGU/uXie2m0TNplBPxk/b3kPC56uYI52oCyHE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hGWODK8e+rtP5RVS7r1oTfpoVV273mWRC2CbI17x2ZrJLFCLz5VbqUo1UfqN/SE/v4t4Bwae6jjKWAAHFpf5nOg172Y4i6x/DuHSZP+vDkeFyUTgCpciMYoXphbuQqjuAibwForXMo1ndwMCmZLQ03xpvem8go6uKLy33oS50wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oPuRIdLi; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Vfd9Oa/tV0KcqkMmJU8Jn0eC9k35/RfZVOEesyfuZGCAAH/Owf2NxNpw+peA6Q4H+MZ3ul3u1w+w6JTGvFOGAz7EX6BSfxpG/1r8zMJ5+E7G7kP7VE/ZjsHu1iPI33C6H2eXNEYp6ZCuFRHFQp8peMqYapfHAxO66vcangz5y8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TPI85Qq6; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oPuRIdLi"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 612F540AF5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TPI85Qq6"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4BA4B40AF9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756507469; bh=XuBKPwHuhKr0qdeRskPKNe3G/Yu1uyjI8KfA52i8W8c=;
+	t=1756507777; bh=Vf9FHeSvOjXjhp6WX9uhmsNSpUGjfQaGUBsXH5N63hI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=oPuRIdLiKHqAKRst3f8bstolu2fx6ZgL3itFUnndZVtPGkMR0TVXeQEGXceOgvAvA
-	 RWl5dx/a/uTqboX8u2Zb/L3MrSh/wmfzVotE1GipHMUU0IRE7wUdFDOlAWlSqGDBlR
-	 qHGksQs/QHZ4grepHQxOJVaL7YevdC/MR40Th3KNNCli7lgikngkQ/IaEy/8Xj8JL3
-	 m71uOmqMI+eAnne33TQ4POGSZtS4ea54tSoJtsigKQmkPlGAUzdm5AGw+IZY/IuF2S
-	 nylrgZ6TjXQyv+xKFTYnq5sofmG3eo2SEbWGuUvNMavrd4e1Yy8+B26dvu0T4E8piK
-	 iatG5dCQTJh8A==
+	b=TPI85Qq6d113kHUaMBvDTOicjYL8yLbG3WUfv+SULh7/u5SORJU8XGITTjkA/5z2P
+	 GLjT+VY2L1XLPBrFeRPagP/iDKYJw8DmAeAcCL3uk/DZAUJR4+Sh/lyvGqgJpUSqUB
+	 XCFlESmxPSrBQPEibJahysCFDOBy2Wn+ynDVAdkmK67JvhXL3D9CnGXOQjKl5x4A3E
+	 IIHI6Mhrk/PzFTvfR2PQWS69wsop3vpWxtFkWBd/imKn4BH/gPLebRpodSofpCJm+6
+	 gETy84aLbVhlm6D/VyKU/nYPlwtYn8YDnwmgXZQgcuQ1Vkq9vnx0VaG2GUls8QvyPf
+	 YlH0caGXps91A==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 612F540AF5;
-	Fri, 29 Aug 2025 22:44:29 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4BA4B40AF9;
+	Fri, 29 Aug 2025 22:49:37 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Andrei Vagin
- <avagin@google.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: Re: [PATCH v2] docs: scheduler: completion: Document
- complete_on_current_cpu()
-In-Reply-To: <20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com>
-References: <20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com>
-Date: Fri, 29 Aug 2025 16:44:28 -0600
-Message-ID: <87a53h3fzn.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: conf.py: drop xindy rule
+In-Reply-To: <83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org>
+References: <83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org>
+Date: Fri, 29 Aug 2025 16:49:36 -0600
+Message-ID: <875xe53fr3.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,52 +50,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Javier Carrasco <javier.carrasco.cruz@gmail.com> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Commit 6f63904c8f3e ("sched: add a few helpers to wake up tasks on the
-> current cpu") introduced this new function to the completion API that
-> has not been documented yet.
+> The rule as-is is wrong, as it was inverted. Besides that, after
+> retest building all repos with suggested LaTeX packages given
+> by sphinx-pre-install, I was unable to reproduce the issues
+> I saw with xindy in the past.
+>
+> So, let's just drop. If anyone reports issues with xindy, we
+> may need to readd, but at the right way, e.g. {options}{pkgname}.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/conf.py | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 8fcecdb927b1..574896cca198 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -458,8 +458,6 @@ latex_elements = {
+>      "papersize": "a4paper",
+>      "passoptionstopackages": dedent(r"""
+>          \PassOptionsToPackage{svgnames}{xcolor}
+> -        % Avoid encoding troubles when creating indexes
+> -        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
+>      """),
+>      # The font size ('10pt', '11pt' or '12pt').
+>      "pointsize": "11pt",
 
-For a change like this, it is a really good idea to copy the author of
-the original patch and others who were involved in it; I have added them
-now.
+Applied, thanks.
 
 jon
-
-> Document complete_on_current_cpu() explaining what it does and when its
-> usage is justified.
->
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
->
-> ---
-> Changes in v2:
-> - Rebase onto v6.17-rc1
-> - Fix patch formatting (drop --- before the Signed-off-by tag).
-> - Link to v1: https://lore.kernel.org/r/20250703-complete_on_current_cpu_doc-v1-1-262dc859b38a@gmail.com
-> ---
->  Documentation/scheduler/completion.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/scheduler/completion.rst b/Documentation/scheduler/completion.rst
-> index adf0c0a56d02..db9c131f0b62 100644
-> --- a/Documentation/scheduler/completion.rst
-> +++ b/Documentation/scheduler/completion.rst
-> @@ -272,6 +272,10 @@ Signaling completion from IRQ context is fine as it will appropriately
->  lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
->  sleep.
->  
-> +Use complete_on_current_cpu() to wake up the task on the current CPU.
-> +It makes use of the WF_CURRENT_CPU flag to move the task to be woken up
-> +to the current CPU, achieving faster context switches. To use this variant,
-> +the context switch speed must be relevant and the optimization justified.
->  
->  try_wait_for_completion()/completion_done():
->  --------------------------------------------
->
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20250702-complete_on_current_cpu_doc-94dfc72a39f8
->
-> Best regards,
-> --  
-> Javier Carrasco <javier.carrasco.cruz@gmail.com>
