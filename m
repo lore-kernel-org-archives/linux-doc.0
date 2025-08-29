@@ -1,119 +1,150 @@
 Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590B933CEB6
-	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 15:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E46101DE;
+	Fri, 29 Aug 2025 15:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756481882; cv=none; b=DnSQvL37DoLg5t/qL0100zx1JW4UTjnt4YH+huMixKPJbnHuqm/Q4aoWhBWUc8Asr2ngPLP9RzcbkcwT0qBYdbh0UeIAK4etThTvgbaGz+/OBhrk1vTnNA7vLM+i/dPJznficSTUmCJ0eGPYqad45GO9cgZFawiT3BUDXoI0tMI=
+	t=1756482977; cv=none; b=mOvjfGqKzc0+ePm5+2IkWgMyD4i2Ke9wMCEenxL9/g4YmeUOUH/MaZhuJvlm4YXLYykkkkNz54+nr8k5be9uxrDQTgwLRLEKmm/boRGqcA6Xree6P+dlPKGCBwDowShlfx8KCGPbRPlma/3A7kiFbHmp6GUR39/4o9KgRXzIsFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756481882; c=relaxed/simple;
-	bh=dTqTTGZlJ4chGLvICslwE1y0ojIOPXnMp1K+HNp1epI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I80AKNPW5IcmO3yHTgqFEXcACH3s1M/phTJw9mH/TBzZPYHaHWcDiCM2hKI4wfLhCGZeuKuDbZwrEYEztCIWOcQFSVM9cXmbtzZFXKTAVWZ62CaQzz0NdCOy9jsbeI4zHp3RP7ef1NaV/CPN9/BcKERdwAZmKp8dMHiuPFFSh/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Xv4STqYZ; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1756482977; c=relaxed/simple;
+	bh=UeD7ReQb0W9N/g6IuxErMIqx1tqjVA2jllJBy229d24=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nA2s97Y3X3SAUxICwN4K1QjiZS4NyGxxVn9x5Izy4jWjJqkcpvzPLJNRInHZZjIZqLzaMhAaO9/yXhu9P+tv2s7iKJkTO0p3swYgtsYhMA/102JPOfbA0BbuDB8k3R6jsUS2Mjaydd2YpBXLECH+DNM8J97tA1zdgh/IWzgSWzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I25D4wTa; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Xv4STqYZ"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-248e07d2a0eso191095ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 08:38:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I25D4wTa"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-248ff4403b9so13167315ad.0;
+        Fri, 29 Aug 2025 08:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756481881; x=1757086681; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RBf7SqSAMiJDLG40aDWJGII9dJmHgmKSvxJ5vBdynMw=;
-        b=Xv4STqYZhdgB2G8RbmGohMgF7TwqhITRuYaWBEUnTsPI1hoVf+EBtwrXOaOehaQ5en
-         7JmNJq8tzCgL/2UfS0Fe9d4Lyq/1kURVMygcdRjF4Liyi8EOIZtTaKiODhX9WdhEhatj
-         j5MYZqQUQ/40kTx9YZBH440BFBiB2MaaCjqCBIDYLgIeuwg/MlimUAYs8H9XhADG9XBO
-         fPaWInbFERSbjQ9gKhrb2wneh1aFbEKdJRR/8NQfkSnf5eCgWe1UnnNyGOZnYQSey1Ev
-         FMnruH+I7i2TjIZD5tyk0k0xzMKHO+wrl8dkdau1LcS/+U5Iz12StZ2g175iwN66Baqt
-         h7/w==
+        d=gmail.com; s=20230601; t=1756482974; x=1757087774; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=XVVxgA5rIGXNBp8g4IW3gS/YXo5OdUFnlgiejplS6xc=;
+        b=I25D4wTatjZxISxUgOOMnZYvxhv2FwKzRsRTxoU3e+kfSs/1DrcX7QRqnrEv6+q96I
+         lpBpp11/+2Lnzt7+qS5fzpJWJoFof23Q7bm5D5orlSNVilBt2Ajar0qgDsELRH+7SpTq
+         xtSHp7JQhWcCdYjxVMa4Piw3R1GtS9Ds4KLOUt+DmFo46OK0IwmozF0ABJmtuBUihkEm
+         4VYLtDemH+SIe7t2l+LeCEXWQjAYnSlnQyFoCoL57VnMYxBWK59bPjV7wOUW00ze+66T
+         QxWQjQF0jp7mB4ihGPwPtIxjOy0EBuAHoQxHp90q3P9bk+mHNpLv7hof4PzaP5nPICgo
+         f+NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756481881; x=1757086681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RBf7SqSAMiJDLG40aDWJGII9dJmHgmKSvxJ5vBdynMw=;
-        b=ATrzOjsOJ3wmfPkGsM7OCfXiGeRV2tbOr+gLOU6UC4aIWGNVveh2FlrkiWRnkrKE5Y
-         9hivn1B8DyZg0+Y5vasjXDvVWOSuaUvamegFWDmHgTc5q8MowjC/4x9C82x686md89As
-         516TvFunO95iTiy3jlLbVQ8mPUdrjnk4nbIhmo0NvWV3hxQfu4/J1JpOdBd9wx/v+dfD
-         JQKhfhKLnSprPMt73DY11pLF2kvIp2VSKv+bWRX8b1mNIZWwNaBGPl4oPMXY1MHHGccQ
-         6K2wPK25Ef664L7ZbmjPhOWQmUF/HXK7JKLN/YS3S+RUAFuaDLq/eH/0XkrZ/OLPlQ0N
-         BN8A==
-X-Forwarded-Encrypted: i=1; AJvYcCU5MO++3q7m/nd1UpLcBtX4JKcRoYLshdZuA7Lvk6CcAnrtYgyZrnZsQhWZ11M9OGAntbcK90XMBc8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmXk1Czbww1zphkRp7GKXCosj91zUpdmQ2vqxJiu9QXuEIUb1k
-	y+BgFphQz23XSqdsUQX9++LPQ7XM8ybPzgVNFDZ67ws6tCbYsuyszmn8litqezv2ttXdP4/gplp
-	wCy2VSoqkVfHoBlvWJiFEnZJ3zwEGtUvoz4EO4qS1
-X-Gm-Gg: ASbGncuYq3F5rNUH784kXnCM/dXFMXtXCIYe2ZxOnOcbbliRCA3WQp4zU2NgNfuy0eM
-	ZHpRV8dTopKS3MBZAAoYfI9g/Bjq1oESX6XM7VI7jSDOiT08NGVOfnTvy8TxsMYUSnabN9Y2QTG
-	kMMXMHAt4b7IJjRCJ5LvFoVQU6gwwBoSasUg6eT/FUoE4j/KvALTorFxxLu1+zMcNh3GkDqCyi3
-	Gvca6S7hZfTmvF3tDCUQBbw8KPtr3332GUVDuinkhX0xhY=
-X-Google-Smtp-Source: AGHT+IGHvmLAKAqp+h6+xnNpvp5enqs0Nws580nvnSfEmJmHq7YmiK6/BK/XP+hcXSHZelrbBA+KbrK4+ArPIvGDx3k=
-X-Received: by 2002:a17:902:e84b:b0:231:d0ef:e8ff with SMTP id
- d9443c01a7336-2485ba39492mr21568965ad.8.1756481880357; Fri, 29 Aug 2025
- 08:38:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756482974; x=1757087774;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XVVxgA5rIGXNBp8g4IW3gS/YXo5OdUFnlgiejplS6xc=;
+        b=v509mK0PSpU/d/6A5gQoFt2f87OYFrlfvSX9tmkDMBQwQ3QwqFYxiGnEnyZRQzkNtu
+         foj4HQuzfV6JMthLOqUSAty9m4shhleUOWa3x59wfXUx/LmCDjjMramAzPKuKziQozSB
+         3GF0LryUpXXsHFzLHogr4r0YyO/tyqt2x1G6DCoa/Y7B1zXQzTLO753eycfjgZGMZebj
+         oE6Pf4yy7HGM8Z9vO28p8O+iShnS/ikPtp0nJBgYA1ElCtEAm2Yebo6D6XyYGsBYcOwW
+         IBlN7O6Ws+a0suRRxgkh5yFuhK6+tUJA9M2S22D9oEY0XJPf12ikr+duSP+7n/HJDeIn
+         FmCg==
+X-Forwarded-Encrypted: i=1; AJvYcCUEMZXBCN8BmDWVRzTIjE51nEVw0HVJzNPS33LFW8Y853ZowPrlvVMus4eqmKkL3GRHGP7K/NPzHVjl3z1R@vger.kernel.org, AJvYcCUUe5cglxlrUHeH149LIMzGYnHvrPBS/i/Z70y6Hwo53GzPva0/Dmaq4jZPw025GPRbPBFhTOObh4ct@vger.kernel.org, AJvYcCW1e0adBoW8K+OdySGj9fMkj6NwHRrH+dqZivLNfUYHRr72RU44iE58OmzilSC/hEfXF1C16yIiEKjs@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjsQcnxv2OJCDcHCIHogxDx6mDyFuRhbvuZMEy4EU3fX4zgH0r
+	bVNXPHdUP8pD7xGvBU8lwCbqmcrPRuqMV8ceCLpFQP7/TxwLe7BR20i9
+X-Gm-Gg: ASbGncuoMJeHHbbwb/QrbhFydHbgWFvgC/LNwPoZ8GOTcMwgcqDOMKvdwX4NOMwt8yA
+	Ef1kF+QMDB7BGr8qD5c98+76QIRdcyJavHgBynw0iBLgEaYh8JPGBGrFhCUqGnRZBcD02q1AqIl
+	e81wMYvRsQ91rUcyVdUq1KTnjOFZGOgAF7LYWhxCP/v51b+fE/VyP9t33lRohxj4n9c1n6sk2WA
+	3N1V/aq0w4v/MIBAEWE5lgPVz5By7fxbKh53ALdOv5XM/7S1XdEevdz8PHjx3OG/QB+0X1rl+Re
+	3tjMTXiiK7V8lx80eYx1O95M1ywPsF74zCcB0KGSahB3MefVsygmQgCm+u4OOV92C1pj3LTuSFr
+	6Gzwb6NsG0TrNuBKVrMMVioKr1sSu5TBM7ZdirHrrtZkapzqDInYPRy2/47UKydjTdVYW8rPdFr
+	0lBiJrzQ==
+X-Google-Smtp-Source: AGHT+IGhlQ3tT1HYni9MBhmSKd1VE0DAcYBwoVo6VBVt2USCm0uittvO/LraA97A3+qSUW4u+gsOkg==
+X-Received: by 2002:a17:902:ce0b:b0:248:9c98:2cf4 with SMTP id d9443c01a7336-2489c982ed7mr154814485ad.46.1756482974084;
+        Fri, 29 Aug 2025 08:56:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-249063915c7sm28835905ad.102.2025.08.29.08.56.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Aug 2025 08:56:13 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <a3131832-414a-47c8-8dd3-93af7283c516@roeck-us.net>
+Date: Fri, 29 Aug 2025 08:56:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250829064857.51503-1-enjuk@amazon.com>
-In-Reply-To: <20250829064857.51503-1-enjuk@amazon.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Fri, 29 Aug 2025 08:37:48 -0700
-X-Gm-Features: Ac12FXz5DCE7rZjZ7YALpNhkeMz6vVHFgx151bfCTOA8incUou3mzWHzQxbS_ZE
-Message-ID: <CAAywjhSDz3F1uieMEuaFAtE2AKYXcv+5FjcDv3d4+T5ddWhy6Q@mail.gmail.com>
-Subject: Re: [PATCH v1 net-next] docs: remove obsolete description about
- threaded NAPI
-To: Kohei Enju <enjuk@amazon.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] hwmon: (ina238) Add ina238_config fields
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ wenliang202407@163.com, jre@pengutronix.de
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250829030512.1179998-1-chris.packham@alliedtelesis.co.nz>
+ <20250829030512.1179998-4-chris.packham@alliedtelesis.co.nz>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20250829030512.1179998-4-chris.packham@alliedtelesis.co.nz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 28, 2025 at 11:49=E2=80=AFPM Kohei Enju <enjuk@amazon.com> wrot=
-e:
->
-> Commit 2677010e7793 ("Add support to set NAPI threaded for individual
-> NAPI") introduced threaded NAPI configuration per individual NAPI
-> instance, however obsolete description that threaded NAPI is per device
-> has remained.
->
-> Remove the old description and clarify that only NAPI instances running
-> in threaded mode spawn kernel threads by changing "Each NAPI instance"
-> to "Each threaded NAPI instance".
->
-> Cc: Samiullah Khawaja <skhawaja@google.com>
-> Signed-off-by: Kohei Enju <enjuk@amazon.com>
+On 8/28/25 20:05, Chris Packham wrote:
+> In preparation for adding INA780 support add some required fields to
+> ina238_config and set the appropriate values for the existing chips.
+> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
 > ---
->  Documentation/networking/napi.rst | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/networking/napi.rst b/Documentation/networking=
-/napi.rst
-> index a15754adb041..7dd60366f4ff 100644
-> --- a/Documentation/networking/napi.rst
-> +++ b/Documentation/networking/napi.rst
-> @@ -433,9 +433,8 @@ Threaded NAPI
->
->  Threaded NAPI is an operating mode that uses dedicated kernel
->  threads rather than software IRQ context for NAPI processing.
-> -The configuration is per netdevice and will affect all
-> -NAPI instances of that device. Each NAPI instance will spawn a separate
-> -thread (called ``napi/${ifc-name}-${napi-id}``).
-> +Each threaded NAPI instance will spawn a separate thread
-> +(called ``napi/${ifc-name}-${napi-id}``).
->
->  It is recommended to pin each kernel thread to a single CPU, the same
->  CPU as the CPU which services the interrupt. Note that the mapping
-> --
-> 2.48.1
->
->
+> 
+> Notes:
+>      Changes in v3:
+>      - New. Split config struct changes from main patch
+> 
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+We should have fields for curent_lsb, power_lsb, and energy_lsb in both
+struct ina238_config and struct ina238_data, and pre-calculate the values
+for chips where it is dynamic. I started writing that code, but while
+writing unit test code I found that the driver has more problems similar
+to the one you fixed with an earlier patch of this series. We'll have to
+address that first. I hope I can find and fix those issues over the weekend.
+
+Guenter
+
