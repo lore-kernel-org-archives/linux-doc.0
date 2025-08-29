@@ -1,122 +1,202 @@
-Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [83.223.78.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56EF10F2;
-	Fri, 29 Aug 2025 07:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD31310F2
+	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 07:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756453863; cv=none; b=bF5TIxBF8ZYUFEtjfchkNPRtLC6sjhGkXdf6wySlAWcrrjlZOLC/EQxYWkwJiDT99eJp7G7Awurplih6X0wR79R5/XU5m7yFCK8/K3BPho6gPLn5W+s+YnGBEgbAkWoCjTwGyHWi5SsMekGVxw1c0bkfMoIT6bARUvcOf5QYKPw=
+	t=1756454115; cv=none; b=oYkpvCr88HMi+3tGfNa+KMz39nLrYbbWJhA4c+DhoHlGmdWBFBzsddOQZHcwuLeFPSu3psqO21BPOEvufgykNxpyA8RmngdiQFXbapTu1eQAyF0E4T1ogWH4tv07x5eHLgW9W9NA2HpVxHa8uLEYxxxkCJ6v6HMT7crI6J07w6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756453863; c=relaxed/simple;
-	bh=MadAWZ3EmTpt4X17hWUBy43zI9NrdvHbyfp/Xrizb/o=;
-	h=Message-ID:In-Reply-To:References:From:Date:Subject:To:Cc; b=Mmhlx9GCvzgxV2U+WlnwWL9XiD3PziPmaLIh7c9MKcMZPk49Cy5FE5v0jlVerHc8mfjdcHiekmHsUXnAM0BRrTmU68yp93AD2hSoYPJu5IwcMtnZQk/70AwV3xepamVhJqFyjqZ42LBq6Y0DaT5cIT8xmq7rYAVudSGGQOLKFbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.78.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	s=arc-20240116; t=1756454115; c=relaxed/simple;
+	bh=k3v2fJVcyeVJCZQlqSt9kNdDpgpKXuGZOPu1XpDLYag=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lRSgVCFZJSh7FAecunbRGryLoZ8JqBr5CkMBAH9l7Hx5g979V8XlQ7+/7/DpSx0VvxhfHBo1tasfgNBD5vyAACU9JQRUry2wgZRGboVz59JbzI0H+/U0XhHXEY/q7Zd2hAPfqcP1tOnQxwWbNZoE1vl8SMBE9qrBX/iToYXy/og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N3tOgz2r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RReXZyzb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VuwX+BFU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=czpKl5gk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N3tOgz2r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RReXZyzb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VuwX+BFU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="czpKl5gk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by mailout2.hostsharing.net (Postfix) with UTF8SMTPS id E76592C1E673;
-	Fri, 29 Aug 2025 09:50:59 +0200 (CEST)
-Received: from localhost (unknown [89.246.108.87])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by h08.hostsharing.net (Postfix) with UTF8SMTPSA id BB388600AD9B;
-	Fri, 29 Aug 2025 09:50:59 +0200 (CEST)
-X-Mailbox-Line: From 3d6f5aa8634bd4d13f28b7ec6b1b8d8d474e3c69 Mon Sep 17 00:00:00 2001
-Message-ID: <3d6f5aa8634bd4d13f28b7ec6b1b8d8d474e3c69.1756451884.git.lukas@wunner.de>
-In-Reply-To: <cover.1756451884.git.lukas@wunner.de>
-References: <cover.1756451884.git.lukas@wunner.de>
-From: Lukas Wunner <lukas@wunner.de>
-Date: Fri, 29 Aug 2025 09:25:04 +0200
-Subject: [PATCH 4/4] PCI/ERR: Tidy documentation's PCIe nomenclature
-To: Bjorn Helgaas <helgaas@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Terry Bowman <terry.bowman@amd.com>, Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>, Niklas Schnelle <schnelle@linux.ibm.com>, Linas Vepstas <linasvepstas@gmail.com>, "Mahesh J Salgaonkar" <mahesh@linux.ibm.com>, "Oliver OHalloran" <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, Brian Norris <briannorris@chromium.org>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E58A021D65;
+	Fri, 29 Aug 2025 07:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756454111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5xCdNAt/TMvWbdElAdCeAl9J1q/hpSEni3jvDwsZ588=;
+	b=N3tOgz2rVq2XklwAHsU6KhLr5MGvZzmEWctxmmdpcMNcKEP68y7YJ5Jds6NAk31IXYE8LB
+	b77LWq66ooK/nuEq6dseFu37T9YDRplc4RNDw2OLNTScNd12wfMhlKVOkhteYZRYC+1t+m
+	lrR33lmqd67Kd6DiXbpyH6CfqeibmiM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756454111;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5xCdNAt/TMvWbdElAdCeAl9J1q/hpSEni3jvDwsZ588=;
+	b=RReXZyzbLlZFooLL0ir1dEiiaPZViukX2XQ69kCVra7Xqu+b38JFDwaMtPzQItSaK0/3TM
+	eIoHD0rJ1e8e+uCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756454110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5xCdNAt/TMvWbdElAdCeAl9J1q/hpSEni3jvDwsZ588=;
+	b=VuwX+BFUmJLEzCi3+6T4AK8BrL+nIviEVEalOGSBGv3Q4apU9zfrtBT4b4FASq13Iyx4v1
+	LwzcCTqIqQsi4xdgCiv+eVH2h8fDk3+ivYYufpOzyVkNmPRK4N9U5RydaWytmRlLsg5Ysx
+	AACG/nKC4iPC+c0DB0CQKQ068pcQuUs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756454110;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5xCdNAt/TMvWbdElAdCeAl9J1q/hpSEni3jvDwsZ588=;
+	b=czpKl5gkcztpG6SQL+RYjF1uzIcAg41lGfhrEnCoF4u9hKYLtToGd6wi2FLUODFjoRcpg7
+	F5BsV9SEhSQgL2BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88CB713A3E;
+	Fri, 29 Aug 2025 07:55:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NjMoIN5csWiPEwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 07:55:10 +0000
+Date: Fri, 29 Aug 2025 09:55:10 +0200
+Message-ID: <87bjnyimu9.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Wang Yuli <wangyuli@deepin.org>,
+	Guan Wentao <guanwentao@uniontech.com>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Celeste Liu <CoelacanthusHex@gmail.com>,
+	Guoli An <anguoli@uniontech.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: usb-audio: Add module param mixer_min_mute
+In-Reply-To: <20250829-sound-param-v1-1-3c2f67cd7c97@uniontech.com>
+References: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
+	<20250829-sound-param-v1-1-3c2f67cd7c97@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,vger.kernel.org,aosc.io,deepin.org,uniontech.com,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-Commit 11502feab423 ("Documentation: PCI: Tidy AER documentation")
-replaced the terms "PCI-E", "PCI-Express" and "PCI Express" with "PCIe"
-in the AER documentation.
+On Fri, 29 Aug 2025 07:10:59 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
+> 
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
+> 
+> As already discussed[1], a module parameter called mixer_min_mute is
+> added to make it easier for end users to debug the widespread problem
+> without recompiling the kernel, where USB audio devices are muted when
+> the volume is set to the minimum value.
+> 
+> 1.
+> https://lore.kernel.org/all/20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com/
+> 
+> Tested-by: Guoli An <anguoli@uniontech.com>
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Do the same in the documentation on PCI error recovery.  While at it,
-add a missing period and a missing blank.
+Err, maybe I misunderstood your suggestion in the previous patch.
+I didn't mean to add a new option, but only about adding the quirk
+bit.
 
-Signed-off-by: Lukas Wunner <lukas@wunner.de>
----
- Documentation/PCI/pci-error-recovery.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Honestly speaking, I don't want to add yet new option for a specific
+quirk behavior.  Once when we add, it's sticking almost forever and we
+can't delete it any longer.  Also, this option will apply to all USB
+connected USB-audio devices, which may have ill effect, too.
 
-diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
-index c88c304b2103..500d4e9b2143 100644
---- a/Documentation/PCI/pci-error-recovery.rst
-+++ b/Documentation/PCI/pci-error-recovery.rst
-@@ -13,7 +13,7 @@ PCI Error Recovery
- Many PCI bus controllers are able to detect a variety of hardware
- PCI errors on the bus, such as parity errors on the data and address
- buses, as well as SERR and PERR errors.  Some of the more advanced
--chipsets are able to deal with these errors; these include PCI-E chipsets,
-+chipsets are able to deal with these errors; these include PCIe chipsets,
- and the PCI-host bridges found on IBM Power4, Power5 and Power6-based
- pSeries boxes. A typical action taken is to disconnect the affected device,
- halting all I/O to it.  The goal of a disconnection is to avoid system
-@@ -206,7 +206,7 @@ reset or some such, but not restart operations. This callback is made if
- all drivers on a segment agree that they can try to recover and if no automatic
- link reset was performed by the HW. If the platform can't just re-enable IOs
- without a slot reset or a link reset, it will not call this callback, and
--instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset)
-+instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset).
- 
- .. note::
- 
-@@ -258,14 +258,14 @@ The driver should return one of the following result codes:
- 
- The next step taken depends on the results returned by the drivers.
- If all drivers returned PCI_ERS_RESULT_RECOVERED, then the platform
--proceeds to either STEP3 (Link Reset) or to STEP 5 (Resume Operations).
-+proceeds to either STEP 3 (Link Reset) or to STEP 5 (Resume Operations).
- 
- If any driver returned PCI_ERS_RESULT_NEED_RESET, then the platform
- proceeds to STEP 4 (Slot Reset)
- 
- STEP 3: Link Reset
- ------------------
--The platform resets the link.  This is a PCI-Express specific step
-+The platform resets the link.  This is a PCIe specific step
- and is done whenever a fatal error has been detected that can be
- "solved" by resetting the link.
- 
-@@ -287,13 +287,13 @@ that is equivalent to what it would be after a fresh system
- power-on followed by power-on BIOS/system firmware initialization.
- Soft reset is also known as hot-reset.
- 
--Powerpc fundamental reset is supported by PCI Express cards only
-+Powerpc fundamental reset is supported by PCIe cards only
- and results in device's state machines, hardware logic, port states and
- configuration registers to initialize to their default conditions.
- 
- For most PCI devices, a soft reset will be sufficient for recovery.
- Optional fundamental reset is provided to support a limited number
--of PCI Express devices for which a soft reset is not sufficient
-+of PCIe devices for which a soft reset is not sufficient
- for recovery.
- 
- If the platform supports PCI hotplug, then the reset might be
-@@ -337,7 +337,7 @@ Result codes:
- 	- PCI_ERS_RESULT_DISCONNECT
- 	  Same as above.
- 
--Drivers for PCI Express cards that require a fundamental reset must
-+Drivers for PCIe cards that require a fundamental reset must
- set the needs_freset bit in the pci_dev structure in their probe function.
- For example, the QLogic qla2xxx driver sets the needs_freset bit for certain
- PCI card types::
--- 
-2.47.2
+What I had in mind instead is to extend the syntax of quirk option.
+e.g. it can accept a string like "mixer_min_mute" not only the integer
+value.  Or it may have a form like "$vendor:$value" so that it can be
+applied no matter which slot it's assigned.
 
+
+thanks,
+
+Takashi
+
+> ---
+>  sound/usb/card.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/sound/usb/card.c b/sound/usb/card.c
+> index 0265206a8e8cf31133e8463c98fe0497d8ace89e..bf65727ad213f2897d735c1f3c55bfc3f85971cf 100644
+> --- a/sound/usb/card.c
+> +++ b/sound/usb/card.c
+> @@ -74,6 +74,7 @@ static char *quirk_alias[SNDRV_CARDS];
+>  static char *delayed_register[SNDRV_CARDS];
+>  static bool implicit_fb[SNDRV_CARDS];
+>  static unsigned int quirk_flags[SNDRV_CARDS];
+> +static bool mixer_min_mute;
+>  
+>  bool snd_usb_use_vmalloc = true;
+>  bool snd_usb_skip_validation;
+> @@ -109,6 +110,9 @@ module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
+>  MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
+>  module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
+>  MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
+> +module_param(mixer_min_mute, bool, 0444);
+> +MODULE_PARM_DESC(mixer_min_mute,
+> +		 "Set minimum volume control value as mute (default: no).");
+>  
+>  /*
+>   * we keep the snd_usb_audio_t instances by ourselves for merging
+> @@ -959,6 +963,9 @@ static int usb_audio_probe(struct usb_interface *intf,
+>  	if (ignore_ctl_error)
+>  		chip->quirk_flags |= QUIRK_FLAG_IGNORE_CTL_ERROR;
+>  
+> +	if (mixer_min_mute)
+> +		chip->quirk_flags |= QUIRK_FLAG_MIXER_MIN_MUTE;
+> +
+>  	if (chip->quirk_flags & QUIRK_FLAG_DISABLE_AUTOSUSPEND)
+>  		usb_disable_autosuspend(interface_to_usbdev(intf));
+>  
+> 
+> -- 
+> 2.51.0
+> 
+> 
