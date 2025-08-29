@@ -1,68 +1,49 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B3928369A;
-	Fri, 29 Aug 2025 09:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E14F3093D3
+	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 10:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756461310; cv=none; b=Uy1MWcPHahqiytSn2KkHwF/o5FlGoLlg2rMoOni46JjHeqr1HG2GAS7egDUlyXF4Wr67tPt4KC6bBUMd8PBvHn8JX31c2XBPNDP12+SkjzVe+Ja9k/FonLNv1P42VfVjDgJ0kp5Ajt1zf4W2yjX5Z5sJSN7zhQPlj8/Luz+2fQQ=
+	t=1756463499; cv=none; b=RJ0BumsyRHZq3VrBOrDKD7gbV1t9lsrbmWxmlWrnmz+ZVlM96+ZP2XajLCS5I2JVxKKH0JRbgMoNI/OvSUSkK7ZbyODj/9tQtu23P+CyimpqBJZtGurgjTG3loKvQXeC90gFlV97X1GUuzjH1mpAnLj/JoVMcuMZKOiIa7QveYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756461310; c=relaxed/simple;
-	bh=lvnwu7JnIP2q7gxbn1yrIfxas5RvzC07Sryq3Oin270=;
+	s=arc-20240116; t=1756463499; c=relaxed/simple;
+	bh=rqjKaGnzMwGex2cVb1RmKu1TRj31agUAhMc+ewACMxs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XHByJEFyKRa1M8KeAR7ikveo2TSLqPIHT0tZpbhcLgRtOfZtez0e4Gttj9eV9PTLoj1qZM1E2c1F0D+FQkO9BPrLda8v3GT4OAoS0Qf9nUlMs3gHxBbXtq43QK1atQI53pAbOmUoZp6StK8fq+8ELLChnfhIjGrETm/+epMi94s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LNc+BVsl; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=uqN8BeIyC7Q5JnxSHCJFTJJlGOLYvLpIZLK15y+U3xbOMNH/iCwIq0ZVZiVfxty+g7rBh8v7qlARJrcIXe46ELcMT+pyzk6AxP5mV0uF+lWLwaYuLIYYMz9XwBUQQaPH2mkMkngVDtvEOhoIdVnYe78eE1S2k3eLFR+7gFRQuJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eVI39CEJ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LNc+BVsl"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-327d8df861dso521495a91.2;
-        Fri, 29 Aug 2025 02:55:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756461307; x=1757066107; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=pW9vz7eoAXqSFc+veThXo+AD+HH5rynr8/WpL9+HEgo=;
-        b=LNc+BVsl3lS491mu8YIfqNHGMIps8d0hEvapppVoWzd3j7xcgpFzwlRKwg8iIjUot1
-         mJ8tZqcDTNNU4RNzEA9EbG6qdJJe8dIZoCtw9s0ZnccwOAyOfeifWWT53RB7bFTIbulx
-         uRprktsrDCBl9fyIR/Ym3TjMaonkjCxeaVhiq81z9Fk7E83M5JBlMtcZCGGMy7iz+6rM
-         QejCL0tG5f0+MYBi3/8+r32QzZ2AIE1bO6bRkK1Z7e3bcWEUkPF6XNgN0HPQs/tHQgYK
-         /6GU4rsmHoy5YZKtGrWSOXtK/vu6uamlg73qIQhmUjs72LGbQrDs/Umn4pstGFh7IMJl
-         wpHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756461307; x=1757066107;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pW9vz7eoAXqSFc+veThXo+AD+HH5rynr8/WpL9+HEgo=;
-        b=IBh2sHwMW4sZxnRQB3NpQEGyTN+2Rduugl20iOmNRy1qnm1RR8YnVKJQGbRL0FbIKk
-         F1HvN+M8Ya168gLFg2rC+Wzi3i6QM7a00fpG8nrxHKB+C0V34QRdy6V+/OH8+L6xz1r9
-         OfUzKkUNc8Bd2PjiPK2CB5ykjEjzwj+tyYjbAMGCjDjwcR9rP5E6+JcNfLBt/spGxx4a
-         DIxnKBjwHd0K+IYi122jsaxRVe6H+MNQPjwv/62ylfS58w3YdGEfUKT+/M/AOpbwH+qv
-         ek7lH4tJzOHVZTtHRjBWmlmMGEq+CQ1VQRmCB+Aerat0WXpf6DmInAe1WyKv0yD61zyU
-         B88g==
-X-Forwarded-Encrypted: i=1; AJvYcCUrtuOZvdSJ3ycd0+f2zlewzMNk1eKiS/RJzWmJEpSUvBvZCdkxxo9UeGhCictFRLAeT5hhD9N0ZXB0@vger.kernel.org, AJvYcCV3u8fWyoVkfrJnUAYGNKvTDN3BtU1M9ZDQoUXW7OAyuir8m5f0VmZe2GWUmoJlOmVQrsMOzSOQRvAr@vger.kernel.org, AJvYcCXjAvu0Hi2l7YAtfsZlFxE8r0wLri6+krx8meIVJNN+xiDIWFjJ+uFdvPHLgpwUdX1yVbVdIeCJHBfrAx3V@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0DKFfb0WlmkMZ5sHyILWEwsxzSvLfdZpc6p068Dy+c0BD2tO+
-	kGy7a1VJ3u2Tcvv9fRA4vThrrGKftt6ayUe0fqFNQiePFdg+hj6yX/+KFU+aDA==
-X-Gm-Gg: ASbGncv4FOHNUXeiK29fesDEI9KB/U7qEi9YD+h9CV8UuTuru7tmt/QB3nmg/B9E2dB
-	WXf5+g/+XRb5fXeCwOv8wdYVrNXAWdrIjVMSt1opfGimDDuKJT5qbtn7MqJkzG3A7Asm0v4W5YE
-	E6c3NL4hj3XLczg9xLdmGkNjUFG+GL9Tzkzm+iH0sCm7HRcOSHZQVkDpjlQ3yqqdvhMOzx1CQix
-	+RnJh7Vy1w5b77rWVLB0Eao5r56XXNkF6gab+qUnm2/x1/nEwwRwxBLzBUgkafFB2YkAZYErwa1
-	XcAWcXcBTQiLYPYsgTwK3j0tHTybwo6NzqHoxhq3Bu0HCX0ireH8ZMlE1rk2m80oDRlLLNGJ98O
-	FxBGEjRDqSmy0VxDBu+m9KmxHaDBQwfL9L/HzLfmi3LCgIO6Rq4OM58isOMFdv0Jzzojjy8oCXf
-	uI9oP8yw==
-X-Google-Smtp-Source: AGHT+IEi+rYMZdXOlNbObuRThfaUFvvBCVnU5aSV8xEMb1JfxCqZFJVFUTrJj3TC2y54JTzPfOuDjA==
-X-Received: by 2002:a17:90b:4ac7:b0:327:c417:fec with SMTP id 98e67ed59e1d1-327c4171187mr7346658a91.15.1756461307249;
-        Fri, 29 Aug 2025 02:55:07 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fde4cecsm7677506a91.29.2025.08.29.02.55.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Aug 2025 02:55:06 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ba2f563e-4eb3-42be-af05-c01bcef1d5e3@roeck-us.net>
-Date: Fri, 29 Aug 2025 02:55:04 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eVI39CEJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756463496;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kOn3KXAKXg6FOxpANWl4YcPVu6tqit8Beeg42jZjH/4=;
+	b=eVI39CEJnljbNm2ZDpd2G4Cw8HdQmv4+PXGfK4dUyxBT7NybPnuQa3+dF6drG5oZPXEi/R
+	umz3OjFJbiVpUdS5aTi3FYXyfHz7B1iMfw+qzz7D2hnMfo0VDFcDCk0MhZzyTdy/2SLhEH
+	8UnrFSdI/PvPsvae/gPKrWW4u692Q2o=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-sjlrL8IPMr-Xv3qOA09STA-1; Fri,
+ 29 Aug 2025 06:31:32 -0400
+X-MC-Unique: sjlrL8IPMr-Xv3qOA09STA-1
+X-Mimecast-MFC-AGG-ID: sjlrL8IPMr-Xv3qOA09STA_1756463491
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BFA7180035B;
+	Fri, 29 Aug 2025 10:31:21 +0000 (UTC)
+Received: from [10.45.224.190] (unknown [10.45.224.190])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D2A021800952;
+	Fri, 29 Aug 2025 10:31:13 +0000 (UTC)
+Message-ID: <9294ad59-ac08-4666-9936-23b4e1d40c82@redhat.com>
+Date: Fri, 29 Aug 2025 12:31:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,100 +51,148 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] hwmon: (ina238) Correctly clamp temperature
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- wenliang202407@163.com, jre@pengutronix.de
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250829030512.1179998-1-chris.packham@alliedtelesis.co.nz>
- <20250829030512.1179998-3-chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
+References: <202508200929.zEY4ejFt-lkp@intel.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20250829030512.1179998-3-chris.packham@alliedtelesis.co.nz>
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <202508200929.zEY4ejFt-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On 8/28/25 20:05, Chris Packham wrote:
-> ina238_write_temp() was attempting to clamp the user input but was
-> throwing away the result. Ensure that we clamp the value to the
-> appropriate range before it is converted into a register value.
-> 
-> Fixes: 0d9f596b1fe3 ("hwmon: (ina238) Modify the calculation formula to adapt to different chips")
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> ---
-> 
-> Notes:
->      Changes in v3:
->      - New. Split off bugfix from main patch
-> 
->   drivers/hwmon/ina238.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/ina238.c b/drivers/hwmon/ina238.c
-> index 5a394eeff676..4d3dc018ead9 100644
-> --- a/drivers/hwmon/ina238.c
-> +++ b/drivers/hwmon/ina238.c
-> @@ -572,7 +572,7 @@ static int ina238_write_temp(struct device *dev, u32 attr, long val)
->   		return -EOPNOTSUPP;
->   
->   	/* Signed */
-> -	regval = clamp_val(val, -40000, 125000);
-> +	val = clamp_val(val, -40000, 125000);
 
-That needs another correction: As it turns out, the default register value
-is 0x7ff0, or 255875. That means we need to accept that range. The same is
-probably true for negative temperatures, but I'll need to see the real chip
-to be sure.
 
-Yes, the chips only support a limited temperature range, but that is the
-limit register, not the supported range. Other chips have a similar problem.
-It is ok to limit the input range if the chip has a reasonable default set,
-but if the actual chip default is 0x7ff0 or 255.875 degrees C we need to
-support writing that value.
+On 20. 08. 25 8:40 dop., Dan Carpenter wrote:
+> Hi Ivan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
+> patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
+> config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 9.5.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
+> 
+> vim +239 drivers/dpll/zl3073x/fw.c
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
+> 
+> This is an integer overflow.  Imagine count is 0x80000001.  That means
+> size is 4.
 
-Guenter
+Will fix this in the next version.
+
+Thanks,
+Ivan
+
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
+> 
+> size is valid.
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
+> 
+> The allocation succeeds.
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
+> 
+> But count is invalid so so we will loop 134 million times.
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
+> 
 
