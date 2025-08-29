@@ -1,82 +1,116 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEAD1E1DF2;
-	Fri, 29 Aug 2025 19:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC05C2566;
+	Fri, 29 Aug 2025 19:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756495645; cv=none; b=fEAjjIHeoL8e8OvMkto6pgcTuTGcs6TmSYXPH9ccE536+R2FoCGOVVM3bGj+E8ohj6TQBORxNpt0KOXHjNvEU7AKtSRoKE3PiH9oqsL9sePjCC4tDJG2TGuxh/4ocS0S3oyw1YBuDlYfMJ2er27ExQZBFdLXJ6+DBf4fJGxpiGY=
+	t=1756496952; cv=none; b=mmr3og+nkT61H7gt1oUBxAhzVYoFxS827BT4ojYEzV0aLJF/uPfmS/vTuBBN7z8i8KLssgvkx4Gdy8y7zFBUegmeYspbqcnyfKLX5fioj0YyxmLTj4ri6NXxm7xDS/U/Nz0TSETrh78faCtrhTdvz1G1GJC6m+jLO2yEC64cfGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756495645; c=relaxed/simple;
-	bh=6+scZTwDdTy9yhhOUqqnHbH2AzCvEbvYzIRW1vMbLts=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ly6TrwjTqOek8LAvdBZzyEo9kdJ/DlPxHxAVIE5bSCwhAKg8J5QUGcKMJmuM+xOL+iiONMrq+bIFlLcZJMA7Tmc9T5PD70igB9T9TY9x6d1vZfDGRZVzCLrVDjQf1lbyzWrMBx6frmtE9ODSkUoxXPJF0elgM6MPWD0IAFb+fLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QX5/upAJ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756496952; c=relaxed/simple;
+	bh=LLVcrIi/cyWo0LjJCEYkZmzJpxi7u/TFm+fW6emCsds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dgpi13wT21EcuKAQOIKzgNYXvCmunHGkYhNL80XU+uuob5Knq96hE0v1EtCZ9m5LgDrjH77x2d84dAUnvx6CfqadwDIXxns65wQ8viqRV1gtSWaL35Tt8adLQ0ICnmn9sSd4yWBjU99on2TAaUvVbgyMY0TUeLLRJFdoGRTlTso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=uIWoXMqy; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QX5/upAJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7wOxqJMXtmV0NLjiAR5YZOzR5c7Xx4v0Kz9dydp8JLo=; b=QX5/upAJZCm7FStLqNRhAi7Jv2
-	q8cza5vd6JAgZLipApkPS8gt9ScAA493cu3dkm75/sddfqPkxnvmxGV8CtntbAx5EaJttUA5p3RlX
-	928V5WFhjQEHOqWFctqi9XAmFpHF8639sX8PkItmqcAyPlQ5T+izo0dnzd550xJvn7aV3m/zQdDXK
-	S7uhiL2va2GFiwcZpOZs4Wa8GmYn6r3CpiykLRTx5c8+ZqkH0PEpNtrRX5sGTvl0Q0OXCX6pqBSUQ
-	zJWxZ1YfuprhDMwbMstI0e9il3pkxlXd+Arigw8nanL0pWEqlc7bKm9mK9mstq9T1wwUG4SFPrdzF
-	vp+ziOHQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1us4kr-00000006k8m-1zXX;
-	Fri, 29 Aug 2025 19:27:21 +0000
-Message-ID: <9ab8ba29-84ae-43bb-89d0-bb07195e76d0@infradead.org>
-Date: Fri, 29 Aug 2025 12:27:20 -0700
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="uIWoXMqy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Ro188kEhUKQPnNng/X944mHUrpfeDnYN6haIPs2ALlU=; b=uIWoXMqyXks7k78f4aKMtdvSfw
+	GTKLj6b+kWAY8I5Jv1Wl280VovqT8EMA+ErXadFbpF1j2BG4khowgYRu4/i+5xklVMtzkNEE+I1Rz
+	Raqs37mmA21IdmMRxWlW3FlC2i+RwsH96oUgzz0/X1SwIHjETTUdYKT0g/KcNWtP9Vsc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1us552-006WFX-Ve; Fri, 29 Aug 2025 21:48:12 +0200
+Date: Fri, 29 Aug 2025 21:48:12 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Yibo Dong <dong100@mucse.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v9 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <8a76222e-8da7-4499-981f-64660e377e1c@lunn.ch>
+References: <20250828025547.568563-1-dong100@mucse.com>
+ <20250828025547.568563-5-dong100@mucse.com>
+ <d61dd41c-5700-483f-847a-a92000b8a925@lunn.ch>
+ <DB12A33105BC0233+20250829021254.GA904254@nic-Precision-5820-Tower>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/15] iommupt: Add map_pages op
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
- Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
- Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
- Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
- James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-References: <7-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
- <c17f0cf1-9a80-4f1a-94a1-8869b8ed0a53@infradead.org>
- <20250829192324.GI79520@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250829192324.GI79520@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB12A33105BC0233+20250829021254.GA904254@nic-Precision-5820-Tower>
 
-
-
-On 8/29/25 12:23 PM, Jason Gunthorpe wrote:
-> On Tue, Aug 26, 2025 at 04:20:54PM -0700, Randy Dunlap wrote:
-
-
->> We don't really have a way to document parameters of a callback function
->> inside a struct, but for now kernel-doc.py won't complain about it.
->> (Somehow kernel-doc.pl did once upon a time and then that became dead code.)
+> Maybe I should rename it like this?
 > 
-> Seems like we should :)
+> /**
+>  * mucse_mbx_sync_fw_by_get_capability - Try to sync driver and fw
+>  * @hw: pointer to the HW structure
+>  *
+>  * mucse_mbx_sync_fw_by_get_capability tries to sync driver and fw
+>  * by get capabitiy mbx cmd. Many retrys will do if it is failed.
+>  *
+>  * Return: 0 on success, negative errno on failure
+>  **/
+> int mucse_mbx_sync_fw_by_get_capability(struct mucse_hw *hw)
+> {
+> 	struct hw_abilities ability = {};
+> 	int try_cnt = 3;
+> 	int err;
+> 	/* It is called once in probe, if failed nothing
+> 	 * (register network) todo. Try more times to get driver
+> 	 * and firmware in sync.
+> 	 */
+> 	do {
+> 		err = mucse_fw_get_capability(hw, &ability);
+> 		if (err)
+> 			continue;
+> 		break;
+> 	} while (try_cnt--);
+> 
+> 	if (!err)
+> 		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
+> 	return err;
+> }
 
-Yeah, no argument there.
+Why so much resistance to a NOP or firmware version, something which
+is not that important? Why do you want to combine getting sync and
+getting the capabilities?
 
--- 
-~Randy
+> fw reduce working frequency to save power if no driver is probed to this
+> chip. And fw change frequency to normal after recieve insmod mbx cmd.
 
+So why is this called ifinsmod? Why not power save? If you had called
+this power save, i would not of questioned what this does, it is
+pretty obvious, and other drivers probably have something
+similar. Some drivers probably have something like open/close, which
+do similar things. Again, i would not of asked. By not following what
+other drivers are doing, you just cause problems for everybody.
+
+So please give this a new name. Not just the function, but also the
+name of the firmware op and everything else to do with this. The
+firmware does not care what the driver calls it, all it sees is a
+binary message format, no names.
+
+Please also go through your driver and look at all the other names. Do
+they match what other drivers use. If not, you might want to rename
+them, in order to get your code merged with a lot less back and forth
+with reviewers.
+
+	Andrew
