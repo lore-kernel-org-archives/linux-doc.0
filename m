@@ -1,84 +1,116 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBC51C5F39;
-	Fri, 29 Aug 2025 22:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD9823507E;
+	Fri, 29 Aug 2025 22:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756507779; cv=none; b=MBBfrOaMOZcUWRBLUDfhG+81ZfavhsrVVeyeP2rPOwnzWwA5TtstWdryqZfrJf8b0h1A/T4NaFIB+SuEjlz8tPEAJOSrIPSPYR+3Noyo+3U5iNGDcvgji3+mZaUsaTe4fDQXUTF++ybIKm7IzQeQeT2lsHgVal6xyp/CSLClWSI=
+	t=1756507850; cv=none; b=OxBZmZHUUXkGuqdU5jzhZeBjstZ14ExAcehFnz5XM3MnAdORZFpdRYdiNXWEYewjqmqi6Q99oVW09EfGxBaED1cVkxTUBAh9AaBdwv7TbJUjrMEBU9LvPiUxZ3eRwQn6izwDdzmeAMydmZvx3WRzr2U5a3WxsCDax2Rp6gcmbvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756507779; c=relaxed/simple;
-	bh=GX9xsTtGU/uXie2m0TNplBPxk/b3kPC56uYI52oCyHE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Vfd9Oa/tV0KcqkMmJU8Jn0eC9k35/RfZVOEesyfuZGCAAH/Owf2NxNpw+peA6Q4H+MZ3ul3u1w+w6JTGvFOGAz7EX6BSfxpG/1r8zMJ5+E7G7kP7VE/ZjsHu1iPI33C6H2eXNEYp6ZCuFRHFQp8peMqYapfHAxO66vcangz5y8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TPI85Qq6; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756507850; c=relaxed/simple;
+	bh=yQrl3gCtzdyKztNdAWjGjfEx4RFSnzGpjf6FUTnKgcQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SogMMMGrJ5Io2j8ViZodebUFWKwu5oGMop/hxgxLGEoJGt9bKXVkWqVVzYOhkEoewPHTX+xJvn9H/8AsBXE+vOp0NdRnpP5DyW/0L44mhlsAkX/Jx2hd4f4fsAM7D5gVi/hQzLGzYiJI0o5K0oCgiM3P3zYPJaU2vOjUPi4U8lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pITCHuWU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TPI85Qq6"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4BA4B40AF9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756507777; bh=Vf9FHeSvOjXjhp6WX9uhmsNSpUGjfQaGUBsXH5N63hI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TPI85Qq6d113kHUaMBvDTOicjYL8yLbG3WUfv+SULh7/u5SORJU8XGITTjkA/5z2P
-	 GLjT+VY2L1XLPBrFeRPagP/iDKYJw8DmAeAcCL3uk/DZAUJR4+Sh/lyvGqgJpUSqUB
-	 XCFlESmxPSrBQPEibJahysCFDOBy2Wn+ynDVAdkmK67JvhXL3D9CnGXOQjKl5x4A3E
-	 IIHI6Mhrk/PzFTvfR2PQWS69wsop3vpWxtFkWBd/imKn4BH/gPLebRpodSofpCJm+6
-	 gETy84aLbVhlm6D/VyKU/nYPlwtYn8YDnwmgXZQgcuQ1Vkq9vnx0VaG2GUls8QvyPf
-	 YlH0caGXps91A==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4BA4B40AF9;
-	Fri, 29 Aug 2025 22:49:37 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: conf.py: drop xindy rule
-In-Reply-To: <83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org>
-References: <83068bc31839e7095f1f408e49658362d467797e.1756123459.git.mchehab+huawei@kernel.org>
-Date: Fri, 29 Aug 2025 16:49:36 -0600
-Message-ID: <875xe53fr3.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pITCHuWU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=vBqocCSrw/I/eTnjICc/R9VLegWS9kJ8fWJ+dhUrmbM=; b=pITCHuWUJuiDHiaEscGXVXczcK
+	I0/Wd74s+NDD/sEhJ3i0C7fgA9qpUSo8PJP1moXRGQnykNvxDXnxrqB2EIlySGG8dICRLkd4z6RHb
+	8KmkRHhoO+I/My0S3KX39ab8d3rYDeE0cLqWyIEYKNp5So3JeyY3f4amPxDo5zRskH7MdCU2cT4Kg
+	lkyk0k5hFEHpftWgCDxLX8H16kaIyfhbK35YVpzi0iECQVlLfDs/SxqnbrdaJz7dKqPuxbamvVnQ7
+	pLhICedjX9Wm5Ox+ZzOhDlVKF8oktW8T2cu4SuiApJT5Yps43hWywifM8Dr6AoBWERW4ru+BpvfZ0
+	QYZbU3VQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1us7vg-00000006zQp-3RYK;
+	Fri, 29 Aug 2025 22:50:44 +0000
+Message-ID: <e11b42b9-8294-4cc3-b27c-2344ae898ce0@infradead.org>
+Date: Fri, 29 Aug 2025 15:50:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/15] genpt: Generic Page Table base API
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
+ Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+ Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
+References: <1-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
+ <bdbd466f-01d3-40ac-abca-81527dbfb901@infradead.org>
+ <20250829185124.GE79520@nvidia.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250829185124.GE79520@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> The rule as-is is wrong, as it was inverted. Besides that, after
-> retest building all repos with suggested LaTeX packages given
-> by sphinx-pre-install, I was unable to reproduce the issues
-> I saw with xindy in the past.
->
-> So, let's just drop. If anyone reports issues with xindy, we
-> may need to readd, but at the right way, e.g. {options}{pkgname}.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/conf.py | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 8fcecdb927b1..574896cca198 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -458,8 +458,6 @@ latex_elements = {
->      "papersize": "a4paper",
->      "passoptionstopackages": dedent(r"""
->          \PassOptionsToPackage{svgnames}{xcolor}
-> -        % Avoid encoding troubles when creating indexes
-> -        \PassOptionsToPackage{xindy}{language=english,codepage=utf8,noautomatic}
->      """),
->      # The font size ('10pt', '11pt' or '12pt').
->      "pointsize": "11pt",
 
-Applied, thanks.
+On 8/29/25 11:51 AM, Jason Gunthorpe wrote:
+> On Wed, Aug 27, 2025 at 12:11:40AM -0700, Randy Dunlap wrote:
+>>> +/**
+>>> + * pt_entry_num_contig_lg2() - Number of contiguous items for this leaf entry
+>>> + * @pts: Entry to query
+>>> + *
+>>> + * Returns the number of contiguous items this leaf entry spans. If the entry is
+>>
+>>  * Returns:
+> 
+> I think I prefer to leave many of these as is, putting the entire body
+> in a Returns: block seems too weird. I did the ones that seemed to fit
+> that pattern.
 
-jon
+Sure, no problem.
+
+> Most of these descriptions are entirely talking about the return value
+> since that is the only thing the function does.
+> 
+>>> + * If true the caller use at level 0 pt_install_leaf_entry(PAGE_SHIFT). This is
+>>
+>>                          uses
+>> ?
+>> although it might just be missing a word or two? I can't tell.
+> 
+>  * If true the caller can use, at level 0, pt_install_leaf_entry(PAGE_SHIFT).
+>  * This is useful to create optimized paths for common cases of PAGE_SIZE
+>  * mappings.
+
+Ack.
+
+>>> + * Otherwise the bit in position pt_table_item_lg2sz() should be set indicating
+>>> + * that a non-contigous singe item leaf entry is supported. The following
+>>
+>>              non-contiguous
+>> Also, is that               single
+>> ?
+>> or is "singe" a real word here? (IDK.)
+> 
+>  * Otherwise the bit in position pt_table_item_lg2sz() should be set indicating
+>  * that a non-contiguous single item leaf entry is supported. The following
+
+Ack.
+
+thanks.
+
+-- 
+~Randy
+
