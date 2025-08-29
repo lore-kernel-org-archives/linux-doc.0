@@ -1,47 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0EB2A1AA;
-	Fri, 29 Aug 2025 22:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6271D61BB;
+	Fri, 29 Aug 2025 22:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756506776; cv=none; b=pfwAXYn6xEX7QN0EvwHaAiJbeKeweKVB1p/IryVi3i/aQhfAdNE7eNfKbwnm8EJ9CfHjk5CD6aF7+NDK1VQ+jwIkEiOqS96nBJTPbGwOZhlxkKvOszK+M2e2gLO7bnU98zEAbsm+eiKrxKKJDns4FuEY++VD3sf1wFP+GsgE/Nk=
+	t=1756506907; cv=none; b=Ns67yRwBhSAw6zhL++mwdg8moA6DE5Ixmxq2qWDW21a5sp4pH/NBBJ5Uvbw1tX+hlej4C/N2gMTtzcOujeHDADyObvuH4FaRTRmaN7n6l7BeWPXQCMHLZq4Qcvi8cv2QZm7vXwI1zWfy46t4pOUXVypDk+Dj877DfngOCIpoHSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756506776; c=relaxed/simple;
-	bh=rDcBuyWo+0HvxPLgD4oV6lnJ1hkzbJFrUIu+0BVXX58=;
+	s=arc-20240116; t=1756506907; c=relaxed/simple;
+	bh=psyHVBHH52umKGRyqGiz9/R/Wx8nDG3Lb6AieVV9h70=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ok2bXXikOKBCrUG2S8aSdIx1m+YPSTPJZTHphEr3jdDYE++CEd8LHZCeVQrn9CLvDGYQSGZVWm83oNVNHqIwVjneRtD7bYCwtGTp4qg3VT8+8Hg0M+B0KU49fbClta+3AnJFVtUITY9RB2sX3usZXaDhJNCFY24Jx6kpLdZQ3Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EbBclWXT; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PSrbC0G73onUoRVY+He4zmZZQcTG7lHhyY9nIGbNRBATnREpklnJhlAOKxtbXqShRzH2vjCB1Fnjv0m5O1tkT/IagopE4tFFgb2Mb0Xok4Gau0MsxIJbFYGB7uV2fNBJNd6YjMhoQ1ws02qitnjeJAiJPpFytpIqjosXdJuIWq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Yrlg3tWg; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EbBclWXT"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 75BB640AF5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Yrlg3tWg"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D761140AF5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756506774; bh=Zn8/n6yhdXvEFJF944/ITKb9o1+OdebDXKbCUBHBqHM=;
+	t=1756506905; bh=j9pdz4fvOvXD/nnfTD03LeIxAJWY+Bl75kULpm1YGrw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EbBclWXT4nWKSGmA0fHU7JjCcoekRWuBeD6KlvQUI5DzBJd+SCdZFvoGJ0fuLgLhm
-	 Td9ff/NiImgExWQyg5zyq+Cb5NK7+rY0PmfB6MNad2ozWL/QJ+4eR5LCElT/v8G0VU
-	 rpVGKC8GGd75AZN6PVM+4llJ7p5puuO4Q8VkVeyatiSwMuKbxhunJ8UTnh456X/yzX
-	 qRFgQvgtzvxovF36XiUlZP/M3uoITbraDmCCC7mtczyqc2PD9fayV/SIUy1hSI4KGK
-	 jZUQUC5i9D9sBSM3ZIrhQzvG4FclnnV35J7WWwzZMx6iRgHOIdeVCN7g5woUU2g0oc
-	 hvLxRvJHjQAug==
+	b=Yrlg3tWgGl+KR0gvLKPpwxh/ccK70xseariZ3utKekozcfBwJyhS3rBOMTxJP23ir
+	 EMxROTR6jAetE6gtkCsaYhqyrB/fzoj5GgUxE8XtdLRMjz/Flaw5kO1GwyGR80pmkL
+	 p6yVSUxyBTwDqV9qFOPZPEoAotmDso1RsFWlLiTx5js7McFuKWHfW+kds4t+5bQR2b
+	 p0og0yI6Zy73JQ0sbsgW5+XVacq3x6R+tpmfpo5o7uR+Mt33qSImbGkV7VM+M0grkd
+	 BH561WzYV19gFCpjoidA/Elib3ZaveH0HOyUV2hJ3CVoTe8Y4Zx6bLMfqbDl+FZBLv
+	 dU5mFv0bZeLZA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 75BB640AF5;
-	Fri, 29 Aug 2025 22:32:54 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D761140AF5;
+	Fri, 29 Aug 2025 22:35:04 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mallikarjun Thammanavar <mallikarjunst09@gmail.com>, tytso@mit.edu
-Cc: adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mallikarjun
- Thammanavar <mallikarjunst09@gmail.com>
-Subject: Re: [PATCH] docs: fix spelling and grammar in atomic_writes
-In-Reply-To: <20250819124604.8995-1-mallikarjunst09@gmail.com>
-References: <20250819124604.8995-1-mallikarjunst09@gmail.com>
-Date: Fri, 29 Aug 2025 16:32:53 -0600
-Message-ID: <87ms7h3giy.fsf@trenco.lwn.net>
+To: Moktar SELLAMI <smokthar925@gmail.com>, linux-kernel@vger.kernel.org
+Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, Dave Jiang
+ <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Gregory Price
+ <gourry@gourry.net>, Moktar SELLAMI <smokthar925@gmail.com>, Alok Tiwari
+ <alok.a.tiwari@oracle.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
+In-Reply-To: <20250819084116.13108-1-smokthar925@gmail.com>
+References: <20250819084116.13108-1-smokthar925@gmail.com>
+Date: Fri, 29 Aug 2025 16:35:04 -0600
+Message-ID: <87iki53gfb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,16 +54,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mallikarjun Thammanavar <mallikarjunst09@gmail.com> writes:
+Moktar SELLAMI <smokthar925@gmail.com> writes:
 
-> Fix minor spelling and grammatical issues in the ext4 atomic_writes
-> documentation.
+> Fixed Typo in the driver-api/cxl/devices/devices.rst
 >
-> Signed-off-by: Mallikarjun Thammanavar <mallikarjunst09@gmail.com>
+> functionalty -> functionality
+>
+> Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
 > ---
->  Documentation/filesystems/ext4/atomic_writes.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
+> index 923f5d89bc04..7f69dfa4509b 100644
+> --- a/Documentation/driver-api/cxl/devices/device-types.rst
+> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
+> @@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
+>  Typically used for initialization, configuration, and I/O access for anything
+>  other than memory (CXL.mem) or cache (CXL.cache) operations.
+>  
+> -The Linux CXL driver exposes access to .io functionalty via the various sysfs
+> +The Linux CXL driver exposes access to .io functionality via the various sysfs
+>  interfaces and /dev/cxl/ devices (which exposes direct access to device
+>  mailboxes).
 
-Applied, thanks.
+This one was fixed a while back, so this patch is not needed.  It is
+always a good idea to check linux-next when considering changes of this
+type.
+
+Thanks,
 
 jon
