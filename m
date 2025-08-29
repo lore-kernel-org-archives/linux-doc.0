@@ -1,665 +1,124 @@
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AF52222B4
-	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 03:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4370C22256F;
+	Fri, 29 Aug 2025 03:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756436727; cv=none; b=K2GQZdcH29TtRsN4lKCXf1G4L38V3DYSQCBhaOsh2EDGKpYYp/pQVeeUcuSh6BiCY8H/DCleXwvu6jjP6+f90FYrNdD8drwHU2OuGYETHiZxnUaSEeVOd7F98/SKAOlIniTFMoA4y//WUdWNyQlehWMHUIldkpXFaA61wNHOOIU=
+	t=1756436740; cv=none; b=D9N7UMETUpLQzXIXXrgF4eXnX9WEwkZOC08LCHWFTguDZxZNNeKSoe6T3uZOTVcme3jHNOXhOvgFrIVBQTXX11FYuBCw98FrAbDbhCr5Dg7IXzJCZAIixOZOAXc4YPrgdXJDUbC/0qa9JObmpbzHTAZQzp9e53ceGvIdMnKFK2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756436727; c=relaxed/simple;
-	bh=Vxp/I2t0X0TG4YFR+dZv94yaKGrH3+784kYFFbzvaiQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XkiSaKE9f0umvhyAj75QouDrYzZTHj6pdLcZQwEPBVab+w78WSFtlI9mYmvhAYaCZ48w43JMcBvOQX3xdTlb+sgffSSI6tCdM4k/UlBKyqpDJyLopONl23sF2xPSMhrn1+lZRsqM846MjmVg0vZpVsGU8EatwkCrYmPguCEXqpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=b8ZZP6nD; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+	s=arc-20240116; t=1756436740; c=relaxed/simple;
+	bh=AIBuNQqIkGuV4P+bJp7hqxoHQqtC9eBLltRVRaguEk0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sltFA1/HV2M7rQ2LAo7UgHqcxgdC/nSrX7pbwrbr4xhR72KrgTI2dYlDj+JR4KgvmrF8261Xdb+aAXM1T+0Ecmk8WacX/3t5botjiAwmd8ZJOM9X+Z5scM8+YUg7AXP35Oc0rx4iCCTyj1NapEuzJAWHQDHgwq9qjgaXYmz4Y28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P7NB0q0r; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="b8ZZP6nD"
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 9D11E2C0C93;
-	Fri, 29 Aug 2025 15:05:15 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1756436715;
-	bh=sIul1Pv8AmVTe5j79w51uQtHstkUErcyxb2SFm11Mes=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b8ZZP6nD5Ddc1Z2aMHvZkalNEdjFaC1Tb2PXwCkoXMNupKFos8tlL6YgPWjLlk3hl
-	 yO2TQwGf9cJ9OwR43yN27poQLnhJZHwO5k32uDKAHRrZD2hl+3TGGj/zO7BFaKzDwF
-	 xiF5VY3gFrXdA+ZAV9T82BxNL/s/Wnvp80gnArDUso5aOCeqtF5ZbMXa/LgVEHa+rZ
-	 7AG8J87p6bZCTlu6WkuO6Xch4EuNkvdMtSX6n8mZe28yIAbJtWHS0T5wzSckJKNARn
-	 4yx15AvREbNUn8H2K7RkF0tfCWP8A1qPjNbSKSS/chNdKPYnLsji7T3cuc7tt0F1ka
-	 cqUZg33a1Wz8Q==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B68b118eb0004>; Fri, 29 Aug 2025 15:05:15 +1200
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id 2326513EE9B;
-	Fri, 29 Aug 2025 15:05:15 +1200 (NZST)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id 22083280725; Fri, 29 Aug 2025 15:05:15 +1200 (NZST)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	wenliang202407@163.com,
-	jre@pengutronix.de
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v3 4/4] hwmon: (ina238) Add support for INA780
-Date: Fri, 29 Aug 2025 15:05:12 +1200
-Message-ID: <20250829030512.1179998-5-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250829030512.1179998-1-chris.packham@alliedtelesis.co.nz>
-References: <20250829030512.1179998-1-chris.packham@alliedtelesis.co.nz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P7NB0q0r"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-70ba7aa13dcso14665786d6.3;
+        Thu, 28 Aug 2025 20:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756436738; x=1757041538; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rm9UORu61ILt8i4V4EUJUDwciURTt9U7GCvX8oYPwcg=;
+        b=P7NB0q0rcpOAk21iczbOO/vI/XaXKs9ujIyKl/BDMEn/htfpXv+O8LQosLEjHrGGnP
+         YOLC/QK46NNHvKmaeYMU0E6E/thm6bhXIqtje/qE5Eh0H965ufxQvkUHENmNLHXA1rCj
+         vzQ29wEmkP7+Ejzv1CBTP9Cyl8T7wOVICxXCSSkl+55TaSfbYhT4rSKOydBieVtnoy1E
+         0IMEbjrquGksvCufVAGcCki7bTSPS3k8Qn+ArCaVVzGaQMIvP9CL/egV/Tvzu9GQH59D
+         HOF8uy5LR+efgzXEwuegeht76eojbhhqKewDPjRUXT7DDoNhZ+HGgE0LKAGHLWTyde6n
+         uvGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756436738; x=1757041538;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rm9UORu61ILt8i4V4EUJUDwciURTt9U7GCvX8oYPwcg=;
+        b=ufs81PRrtjEjfoFdDeQgI2EfYaFwNPgyj+9wpiAObvZe8jvwaL671VnBRvsiBDrOMe
+         lpQ3yPo+/9V+P3/NikoBh9Mte+FsLS+OfzRenOcO9I99pDGwKgFelE8yQyeCDPd3/X9X
+         8F/ZcuM3Rf7KqQxu6olIogIA+3rBWivne1jXA8TMA7M6AOg9RRQEdHYJPacL3tO+vJw4
+         lv4aBDV/rlPL5dfpxazMhg7tqN3HpWGtAUPoAaMNn88C8ygLmyaktkBN1MUrszSKAx1q
+         hVEzgu0tlbbg5ox3+Rms9Uk44BXnaJlHA67nwl4KK38lnrpZSAiycLWUHwo63Pge6Tje
+         XVfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdbQD6gLShkP6BVw3T1iSfl2qsCCP1okQBCwJobxqm1O0yvJzrvgfwX9e/WsejcPHREIY=@vger.kernel.org, AJvYcCX+5lkg/QEfFtNfRSLjLBfYq6dz/Mxe/zhQ6518Qo6HjPYiZ66haiujIKDtJsO9UloOSG6yqXDPKe1M@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxvk4Poz0iky6GthV8VU+kEGktpSbHewWxQ47u/M8/MdAX0bOY/
+	fSlQDqTh2BMAbkLuYYT+LUjAdAasGwpy+OolKMuUwTb0OdmdlfE+EErksJyF3szsnbjE5Gu/1rN
+	2CAP7E+gTXduZBsy0ywOtPLswiP090Js=
+X-Gm-Gg: ASbGncsLnzatC7Px10p2XMkmx0j3numGe98E5fHZYbH1SnLvR4dUcwY3pYI7hspOYu3
+	Yrkh6JCBuOdoNYG9FVx11XJ4FLQZYiBaCLlwDgLpzwQxKfP/t3MVug2/2OKjJv5gOkG3vNN6nF5
+	LI36Fz3FNYbIa+zSMl7y2Kytw0PTDVCY4U+t79tNAaWjPg4/9FaWYIqVe9uydxrxt32zSyo3MCq
+	ZAhfo+X27nplcj0kXS+ZOWUfxHy7+11Mrxzd9Q=
+X-Google-Smtp-Source: AGHT+IFXdA7LJArbjhB50zi9oIGtUBIHMcF+ph6Q/htUjjp/1ateQP201klw17fLGsGNyNz6MLeHTAPUSbdTC5BQtKg=
+X-Received: by 2002:a05:6214:248c:b0:70d:cd1a:4a43 with SMTP id
+ 6a1803df08f44-70dcd1a4ad2mr152609386d6.46.1756436737975; Thu, 28 Aug 2025
+ 20:05:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-5-laoar.shao@gmail.com>
+ <bca7698c-7617-4584-afaa-4c3d2c971a79@lucifer.local> <CALOAHbDxxN8CsGwAWQU4XRkG8NvU-chbiDv=oKW0mADSf1vaiQ@mail.gmail.com>
+ <b335afe9-be7a-46bb-bf92-37abf806d164@lucifer.local>
+In-Reply-To: <b335afe9-be7a-46bb-bf92-37abf806d164@lucifer.local>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 29 Aug 2025 11:05:01 +0800
+X-Gm-Features: Ac12FXyRkVAu3IBFWqROm107KDRmxs-OaNCft6vWe5MQxiSekVcD1hUUDL-ITVU
+Message-ID: <CALOAHbApv0Sj25La7EQZg7UBxfvkfMXpGPtNrYKABSYpNV6ORA@mail.gmail.com>
+Subject: Re: [PATCH v6 mm-new 04/10] bpf: mark vma->vm_mm as trusted
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
+	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=Yo+sRJYX c=1 sm=1 tr=0 ts=68b118eb a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=2OwXVqhp2XgA:10 a=sozttTNsAAAA:8 a=awjjO-qNAAAA:8 a=lEhctYpc5QW5hO-N62wA:9 a=3ZKOabzyN94A:10 a=QBFNEbH8yFitwsIKuSP9:22
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
 
-Add support for the TI INA780 Digital Power Monitor. The INA780 uses
-EZShunt(tm) technology, which means there are fixed LSB conversions for
-a number of fields rather than needing to be calibrated.
+On Thu, Aug 28, 2025 at 7:11=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Thu, Aug 28, 2025 at 02:12:12PM +0800, Yafang Shao wrote:
+> > On Wed, Aug 27, 2025 at 11:46=E2=80=AFPM Lorenzo Stoakes
+> > <lorenzo.stoakes@oracle.com> wrote:
+> > >
+> > > On Tue, Aug 26, 2025 at 03:19:42PM +0800, Yafang Shao wrote:
+> > > > Every VMA must have an associated mm_struct, and it is safe to acce=
+ss
+> > >
+> > > Err this isn't true? Pretty sure special VMAs don't have that set.
+> >
+> > I=E2=80=99m not aware of any VMA that doesn=E2=80=99t belong to an mm_s=
+truct. If there
+> > is such a case, it would be helpful if you could point it out. In any
+> > case, I=E2=80=99ll remove the VMA-related code in the next version sinc=
+e it=E2=80=99s
+> > unnecessary.
+>
+> If you lok at get_vma_name() in fs/proc/task_mmu.c you'll see:
+>
+>         if (!vma->vm_mm) {
+>                 *name =3D "[vdso]";
+>                 return;
+>         }
+>
+> So a VDSO will have this condition.
+>
+> I did a quick drgn()/printk() test and didn't see any, but maybe my syste=
+m - but
+> in any case this appears to be a valid situation that can arise, presumab=
+ly
+> because it's a VMA somehow shared with multiple mm's or something truly g=
+od
+> awful like that :)
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
+Thanks for clarifying that.
 
-Notes:
-    Changes in v3:
-    - Rebase on top of master and resolve conflicts with commit fd470f4ed=
-80c
-      ("hwmon: (ina238) Add support for INA228")
-    - Use INA238_SHUNT_OVER/UNDER_VOLTAGE register definitions with comme=
-nt
-      about COL/CUL.
-    - Move some code to prepartory patches
-
- Documentation/hwmon/ina238.rst |  20 +++
- drivers/hwmon/ina238.c         | 251 +++++++++++++++++++++++++--------
- 2 files changed, 216 insertions(+), 55 deletions(-)
-
-diff --git a/Documentation/hwmon/ina238.rst b/Documentation/hwmon/ina238.=
-rst
-index 9a24da4786a4..220d36d5c947 100644
---- a/Documentation/hwmon/ina238.rst
-+++ b/Documentation/hwmon/ina238.rst
-@@ -14,6 +14,11 @@ Supported chips:
-     Datasheet:
- 	https://www.ti.com/lit/gpn/ina238
-=20
-+  * Texas Instruments INA780
-+
-+    Datasheet:
-+	https://www.ti.com/product/ina780a
-+
-   * Silergy SQ52206
-=20
-     Prefix: 'SQ52206'
-@@ -69,3 +74,18 @@ energy1_input		Energy measurement (uJ)
-=20
- power1_input_highest	Peak Power (uW)
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-+
-+Sysfs differences for ina780
-+----------------------------
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-+in0_input		Bus voltage (mV)
-+in0_min			Minimum bus voltage threshold (mV)
-+in0_min_alarm		Minimum shunt voltage alarm
-+in0_max			Maximum bus voltage threshold (mV)
-+in0_max_alarm		Maximum shunt voltage alarm
-+curr1_max		Maximum current threshold
-+curr1_max_alarm		Maximum current alarm
-+curr1_min		Minimum current threshold
-+curr1_min_alarm		Minimum current alarm
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-diff --git a/drivers/hwmon/ina238.c b/drivers/hwmon/ina238.c
-index 930e12e64079..ad1b36762ca3 100644
---- a/drivers/hwmon/ina238.c
-+++ b/drivers/hwmon/ina238.c
-@@ -2,6 +2,7 @@
- /*
-  * Driver for Texas Instruments INA238 power monitor chip
-  * Datasheet: https://www.ti.com/product/ina238
-+ *            https://www.ti.com/product/ina780a
-  *
-  * Copyright (C) 2021 Nathan Rossi <nathan.rossi@digi.com>
-  */
-@@ -31,8 +32,8 @@
- #define SQ52206_ENERGY			0x9
- #define SQ52206_CHARGE			0xa
- #define INA238_DIAG_ALERT		0xb
--#define INA238_SHUNT_OVER_VOLTAGE	0xc
--#define INA238_SHUNT_UNDER_VOLTAGE	0xd
-+#define INA238_SHUNT_OVER_VOLTAGE	0xc /* COL on INA780 */
-+#define INA238_SHUNT_UNDER_VOLTAGE	0xd /* CUL on INA780 */
- #define INA238_BUS_OVER_VOLTAGE		0xe
- #define INA238_BUS_UNDER_VOLTAGE	0xf
- #define INA238_TEMP_LIMIT		0x10
-@@ -45,8 +46,8 @@
- #define SQ52206_CONFIG_ADCRANGE_LOW	BIT(3)
-=20
- #define INA238_DIAG_ALERT_TMPOL		BIT(7)
--#define INA238_DIAG_ALERT_SHNTOL	BIT(6)
--#define INA238_DIAG_ALERT_SHNTUL	BIT(5)
-+#define INA238_DIAG_ALERT_SHNTOL	BIT(6) /* CURRENTOL on INA780 */
-+#define INA238_DIAG_ALERT_SHNTUL	BIT(5) /* CURRENTUL on INA780 */
- #define INA238_DIAG_ALERT_BUSOL		BIT(4)
- #define INA238_DIAG_ALERT_BUSUL		BIT(3)
- #define INA238_DIAG_ALERT_POL		BIT(2)
-@@ -110,13 +111,16 @@
- #define SQ52206_DIE_TEMP_LSB		78125 /* 7.8125 mC/lsb */
- #define INA228_DIE_TEMP_LSB		78125 /* 7.8125 mC/lsb */
-=20
-+#define INA780_CURRENT_LSB		2400	/* 2.4 mA/lsb  */
-+#define INA780_ENERGY_LSB		7680	/* 7.68 mJ/lsb */
-+
- static const struct regmap_config ina238_regmap_config =3D {
- 	.max_register =3D INA238_REGISTERS,
- 	.reg_bits =3D 8,
- 	.val_bits =3D 16,
- };
-=20
--enum ina238_ids { ina238, ina237, sq52206, ina228 };
-+enum ina238_ids { ina238, ina237, sq52206, ina228, ina780 };
-=20
- struct ina238_config {
- 	bool has_20bit_voltage_current; /* vshunt, vbus and current are 20-bit =
-fields */
-@@ -199,6 +203,19 @@ static const struct ina238_config ina238_config[] =3D=
- {
- 		.temp_max =3D 125000,
- 		.fixed_power_lsb =3D 0,
- 	},
-+	[ina780] =3D {
-+		.has_20bit_voltage_current =3D false,
-+		.has_shunt =3D false,
-+		.has_energy =3D true,
-+		.has_power_highest =3D false,
-+		.temp_shift =3D 4,
-+		.config_default =3D INA238_CONFIG_DEFAULT,
-+		.bus_voltage_lsb =3D INA238_BUS_VOLTAGE_LSB,
-+		.temp_lsb =3D INA238_DIE_TEMP_LSB,
-+		.temp_max =3D 150000,
-+		.fixed_power_lsb =3D 480,
-+		.has_curr_min_max =3D true,
-+	}
- };
-=20
- static int ina238_read_reg24(const struct i2c_client *client, u8 reg, u3=
-2 *val)
-@@ -298,12 +315,12 @@ static int ina238_read_in(struct device *dev, u32 a=
-ttr, int channel,
- 			  long *val)
- {
- 	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	bool has_shunt =3D data->config->has_shunt;
- 	int reg, mask;
- 	int regval;
- 	int err;
-=20
--	switch (channel) {
--	case 0:
-+	if (has_shunt && channel =3D=3D 0) {
- 		switch (attr) {
- 		case hwmon_in_input:
- 			if (data->config->has_20bit_voltage_current)
-@@ -327,8 +344,7 @@ static int ina238_read_in(struct device *dev, u32 att=
-r, int channel,
- 		default:
- 			return -EOPNOTSUPP;
- 		}
--		break;
--	case 1:
-+	} else {
- 		switch (attr) {
- 		case hwmon_in_input:
- 			if (data->config->has_20bit_voltage_current)
-@@ -352,9 +368,6 @@ static int ina238_read_in(struct device *dev, u32 att=
-r, int channel,
- 		default:
- 			return -EOPNOTSUPP;
- 		}
--		break;
--	default:
--		return -EOPNOTSUPP;
- 	}
-=20
- 	err =3D regmap_read(data->regmap, reg, &regval);
-@@ -367,7 +380,7 @@ static int ina238_read_in(struct device *dev, u32 att=
-r, int channel,
- 	case hwmon_in_min:
- 		/* signed register, value in mV */
- 		regval =3D (s16)regval;
--		if (channel =3D=3D 0)
-+		if (has_shunt && channel =3D=3D 0)
- 			/* gain of 1 -> LSB / 4 */
- 			*val =3D (regval * INA238_SHUNT_VOLTAGE_LSB) *
- 				data->gain / (1000 * 4);
-@@ -387,14 +400,14 @@ static int ina238_write_in(struct device *dev, u32 =
-attr, int channel,
- 			   long val)
- {
- 	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	bool has_shunt =3D data->config->has_shunt;
- 	int regval;
-=20
- 	if (attr !=3D hwmon_in_max && attr !=3D hwmon_in_min)
- 		return -EOPNOTSUPP;
-=20
- 	/* convert decimal to register value */
--	switch (channel) {
--	case 0:
-+	if (has_shunt && channel =3D=3D 0) {
- 		/* signed value, clamp to max range +/-163 mV */
- 		regval =3D clamp_val(val, -163, 163);
- 		regval =3D (regval * 1000 * 4) /
-@@ -411,7 +424,7 @@ static int ina238_write_in(struct device *dev, u32 at=
-tr, int channel,
- 		default:
- 			return -EOPNOTSUPP;
- 		}
--	case 1:
-+	} else {
- 		/* signed value, positive values only. Clamp to max 102.396 V */
- 		regval =3D clamp_val(val, 0, 102396);
- 		regval =3D (regval * 1000) / data->config->bus_voltage_lsb;
-@@ -427,8 +440,6 @@ static int ina238_write_in(struct device *dev, u32 at=
-tr, int channel,
- 		default:
- 			return -EOPNOTSUPP;
- 		}
--	default:
--		return -EOPNOTSUPP;
- 	}
- }
-=20
-@@ -467,9 +478,86 @@ static int ina238_read_current(struct device *dev, u=
-32 attr, long *val)
- 	return 0;
- }
-=20
-+static int ina780_read_current(struct device *dev, u32 attr, long *val)
-+{
-+	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	unsigned int regval;
-+	int reg, mask;
-+	int err;
-+
-+	switch (attr) {
-+	case hwmon_curr_input:
-+		reg =3D INA238_CURRENT;
-+		break;
-+	case hwmon_curr_max:
-+		reg =3D INA238_SHUNT_OVER_VOLTAGE;
-+		break;
-+	case hwmon_curr_min:
-+		reg =3D INA238_SHUNT_UNDER_VOLTAGE;
-+		break;
-+	case hwmon_curr_max_alarm:
-+		reg =3D INA238_DIAG_ALERT;
-+		mask =3D INA238_DIAG_ALERT_SHNTOL;
-+		break;
-+	case hwmon_curr_min_alarm:
-+		reg =3D INA238_DIAG_ALERT;
-+		mask =3D INA238_DIAG_ALERT_SHNTUL;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	switch (attr) {
-+	case hwmon_curr_input:
-+	case hwmon_curr_max:
-+	case hwmon_curr_min:
-+		err =3D regmap_read(data->regmap, reg, &regval);
-+		if (err)
-+			return err;
-+		*val =3D div_s64((s16)regval * INA780_CURRENT_LSB, 1000);
-+		break;
-+	case hwmon_curr_max_alarm:
-+	case hwmon_curr_min_alarm:
-+		err =3D regmap_read(data->regmap, reg, &regval);
-+		if (err)
-+			return err;
-+		*val =3D !!(regval & mask);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ina780_write_current(struct device *dev, u32 attr, long val)
-+{
-+	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	bool has_curr_min_max =3D data->config->has_curr_min_max;
-+	unsigned int regval;
-+	int reg;
-+
-+	if (!has_curr_min_max)
-+		return -EOPNOTSUPP;
-+
-+	switch (attr) {
-+	case hwmon_curr_max:
-+		reg =3D INA238_SHUNT_OVER_VOLTAGE;
-+		break;
-+	case hwmon_curr_min:
-+		reg =3D INA238_SHUNT_UNDER_VOLTAGE;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+	clamp_val(val, -78643, 78640);
-+	regval =3D div_s64(val * 1000ULL, INA780_CURRENT_LSB);
-+
-+	return regmap_write(data->regmap, reg, regval);
-+}
-+
- static int ina238_read_power(struct device *dev, u32 attr, long *val)
- {
- 	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	long long fixed_power_lsb =3D data->config->fixed_power_lsb;
- 	long long power;
- 	int regval;
- 	int err;
-@@ -480,9 +568,14 @@ static int ina238_read_power(struct device *dev, u32=
- attr, long *val)
- 		if (err)
- 			return err;
-=20
--		/* Fixed 1mA lsb, scaled by 1000000 to have result in uW */
--		power =3D div_u64(regval * 1000ULL * INA238_FIXED_SHUNT * data->gain *
--				data->config->power_calculate_factor, 4 * 100 * data->rshunt);
-+		if (fixed_power_lsb)
-+			power =3D div_u64(regval * fixed_power_lsb, 1000);
-+		else
-+			/* Fixed 1mA lsb, scaled by 1000000 to have result in uW */
-+			power =3D div_u64(regval * 1000ULL * INA238_FIXED_SHUNT * data->gain =
-*
-+					data->config->power_calculate_factor,
-+					4 * 100 * data->rshunt);
-+
- 		/* Clamp value to maximum value of long */
- 		*val =3D clamp_val(power, 0, LONG_MAX);
- 		break;
-@@ -506,8 +599,12 @@ static int ina238_read_power(struct device *dev, u32=
- attr, long *val)
- 		 * Truncated 24-bit compare register, lower 8-bits are
- 		 * truncated. Same conversion to/from uW as POWER register.
- 		 */
--		power =3D div_u64((regval << 8) * 1000ULL * INA238_FIXED_SHUNT * data-=
->gain *
--				data->config->power_calculate_factor, 4 * 100 * data->rshunt);
-+		if (fixed_power_lsb)
-+			power =3D div_u64((regval << 8) * fixed_power_lsb * 256, 1000);
-+		else
-+			power =3D div_u64((regval << 8) * 1000ULL * INA238_FIXED_SHUNT * data=
-->gain *
-+					data->config->power_calculate_factor,
-+					4 * 100 * data->rshunt);
- 		/* Clamp value to maximum value of long */
- 		*val =3D clamp_val(power, 0, LONG_MAX);
- 		break;
-@@ -528,6 +625,7 @@ static int ina238_read_power(struct device *dev, u32 =
-attr, long *val)
- static int ina238_write_power(struct device *dev, u32 attr, long val)
- {
- 	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	int fixed_power_lsb =3D data->config->fixed_power_lsb;
- 	long regval;
-=20
- 	if (attr !=3D hwmon_power_max)
-@@ -539,8 +637,12 @@ static int ina238_write_power(struct device *dev, u3=
-2 attr, long val)
- 	 * register.
- 	 */
- 	regval =3D clamp_val(val, 0, LONG_MAX);
--	regval =3D div_u64(val * 4 * 100 * data->rshunt, data->config->power_ca=
-lculate_factor *
--			1000ULL * INA238_FIXED_SHUNT * data->gain);
-+	if (fixed_power_lsb)
-+		regval =3D div_u64(val * 1000ULL, fixed_power_lsb);
-+	else
-+		regval =3D div_u64(val * 4 * 100 * data->rshunt,
-+				 data->config->power_calculate_factor *
-+				 1000ULL * INA238_FIXED_SHUNT * data->gain);
- 	regval =3D clamp_val(regval >> 8, 0, U16_MAX);
-=20
- 	return regmap_write(data->regmap, INA238_POWER_LIMIT, regval);
-@@ -603,6 +705,7 @@ static ssize_t energy1_input_show(struct device *dev,
- 				  struct device_attribute *da, char *buf)
- {
- 	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	bool has_shunt =3D data->config->has_shunt;
- 	int ret;
- 	u64 regval;
- 	u64 energy;
-@@ -612,8 +715,11 @@ static ssize_t energy1_input_show(struct device *dev=
-,
- 		return ret;
-=20
- 	/* result in uJ */
--	energy =3D div_u64(regval * INA238_FIXED_SHUNT * data->gain * 16 * 10 *
--			 data->config->power_calculate_factor, 4 * data->rshunt);
-+	if (has_shunt)
-+		energy =3D div_u64(regval * INA238_FIXED_SHUNT *	data->gain * 16 * 10 =
-*
-+					data->config->power_calculate_factor, 4 * data->rshunt);
-+	else
-+		energy =3D div_u64(regval * INA780_ENERGY_LSB, 1000);
-=20
- 	return sysfs_emit(buf, "%llu\n", energy);
- }
-@@ -621,11 +727,17 @@ static ssize_t energy1_input_show(struct device *de=
-v,
- static int ina238_read(struct device *dev, enum hwmon_sensor_types type,
- 		       u32 attr, int channel, long *val)
- {
-+	struct ina238_data *data =3D dev_get_drvdata(dev);
-+	bool has_curr_min_max =3D data->config->has_curr_min_max;
-+
- 	switch (type) {
- 	case hwmon_in:
- 		return ina238_read_in(dev, attr, channel, val);
- 	case hwmon_curr:
--		return ina238_read_current(dev, attr, val);
-+		if (has_curr_min_max)
-+			return ina780_read_current(dev, attr, val);
-+		else
-+			return ina238_read_current(dev, attr, val);
- 	case hwmon_power:
- 		return ina238_read_power(dev, attr, val);
- 	case hwmon_temp:
-@@ -648,6 +760,9 @@ static int ina238_write(struct device *dev, enum hwmo=
-n_sensor_types type,
- 	case hwmon_in:
- 		err =3D ina238_write_in(dev, attr, channel, val);
- 		break;
-+	case hwmon_curr:
-+		err =3D ina780_write_current(dev, attr, val);
-+		break;
- 	case hwmon_power:
- 		err =3D ina238_write_power(dev, attr, val);
- 		break;
-@@ -669,6 +784,8 @@ static umode_t ina238_is_visible(const void *drvdata,
- {
- 	const struct ina238_data *data =3D drvdata;
- 	bool has_power_highest =3D data->config->has_power_highest;
-+	bool has_curr_min_max =3D data->config->has_curr_min_max;
-+	bool has_shunt =3D data->config->has_shunt;
-=20
- 	switch (type) {
- 	case hwmon_in:
-@@ -676,10 +793,14 @@ static umode_t ina238_is_visible(const void *drvdat=
-a,
- 		case hwmon_in_input:
- 		case hwmon_in_max_alarm:
- 		case hwmon_in_min_alarm:
--			return 0444;
-+			if (channel =3D=3D 0 || has_shunt)
-+				return 0444;
-+			return 0;
- 		case hwmon_in_max:
- 		case hwmon_in_min:
--			return 0644;
-+			if (channel =3D=3D 0 || has_shunt)
-+				return 0644;
-+			return 0;
- 		default:
- 			return 0;
- 		}
-@@ -687,6 +808,13 @@ static umode_t ina238_is_visible(const void *drvdata=
-,
- 		switch (attr) {
- 		case hwmon_curr_input:
- 			return 0444;
-+		case hwmon_curr_max:
-+		case hwmon_curr_min:
-+		case hwmon_curr_max_alarm:
-+		case hwmon_curr_min_alarm:
-+			if (has_curr_min_max)
-+				return 0644;
-+			return 0;
- 		default:
- 			return 0;
- 		}
-@@ -725,13 +853,16 @@ static umode_t ina238_is_visible(const void *drvdat=
-a,
-=20
- static const struct hwmon_channel_info * const ina238_info[] =3D {
- 	HWMON_CHANNEL_INFO(in,
--			   /* 0: shunt voltage */
-+			   /* 0: shunt voltage (bus voltage for ina780)*/
- 			   INA238_HWMON_IN_CONFIG,
--			   /* 1: bus voltage */
-+			   /* 1: bus voltage (not present on ina780) */
- 			   INA238_HWMON_IN_CONFIG),
- 	HWMON_CHANNEL_INFO(curr,
- 			   /* 0: current through shunt */
--			   HWMON_C_INPUT),
-+			   HWMON_C_INPUT |
-+			   /* current limits avialble on ina780*/
-+			   HWMON_C_MAX | HWMON_C_MAX_ALARM |
-+			   HWMON_C_MIN | HWMON_C_MIN_ALARM),
- 	HWMON_CHANNEL_INFO(power,
- 			   /* 0: power */
- 			   HWMON_P_INPUT | HWMON_P_MAX |
-@@ -790,21 +921,23 @@ static int ina238_probe(struct i2c_client *client)
- 		return PTR_ERR(data->regmap);
- 	}
-=20
--	/* load shunt value */
--	data->rshunt =3D INA238_RSHUNT_DEFAULT;
--	if (device_property_read_u32(dev, "shunt-resistor", &data->rshunt) < 0 =
-&& pdata)
--		data->rshunt =3D pdata->shunt_uohms;
--	if (data->rshunt =3D=3D 0) {
--		dev_err(dev, "invalid shunt resister value %u\n", data->rshunt);
--		return -EINVAL;
--	}
-+	if (data->config->has_shunt) {
-+		/* load shunt value */
-+		data->rshunt =3D INA238_RSHUNT_DEFAULT;
-+		if (device_property_read_u32(dev, "shunt-resistor", &data->rshunt) < 0=
- && pdata)
-+			data->rshunt =3D pdata->shunt_uohms;
-+		if (data->rshunt =3D=3D 0) {
-+			dev_err(dev, "invalid shunt resister value %u\n", data->rshunt);
-+			return -EINVAL;
-+		}
-=20
--	/* load shunt gain value */
--	if (device_property_read_u32(dev, "ti,shunt-gain", &data->gain) < 0)
--		data->gain =3D 4; /* Default of ADCRANGE =3D 0 */
--	if (data->gain !=3D 1 && data->gain !=3D 2 && data->gain !=3D 4) {
--		dev_err(dev, "invalid shunt gain value %u\n", data->gain);
--		return -EINVAL;
-+		/* load shunt gain value */
-+		if (device_property_read_u32(dev, "ti,shunt-gain", &data->gain) < 0)
-+			data->gain =3D 4; /* Default of ADCRANGE =3D 0 */
-+		if (data->gain !=3D 1 && data->gain !=3D 2 && data->gain !=3D 4) {
-+			dev_err(dev, "invalid shunt gain value %u\n", data->gain);
-+			return -EINVAL;
-+		}
- 	}
-=20
- 	/* Setup CONFIG register */
-@@ -831,12 +964,14 @@ static int ina238_probe(struct i2c_client *client)
- 		return -ENODEV;
- 	}
-=20
--	/* Setup SHUNT_CALIBRATION register with fixed value */
--	ret =3D regmap_write(data->regmap, INA238_SHUNT_CALIBRATION,
--			   INA238_CALIBRATION_VALUE);
--	if (ret < 0) {
--		dev_err(dev, "error configuring the device: %d\n", ret);
--		return -ENODEV;
-+	if (data->config->has_shunt) {
-+		/* Setup SHUNT_CALIBRATION register with fixed value */
-+		ret =3D regmap_write(data->regmap, INA238_SHUNT_CALIBRATION,
-+				   INA238_CALIBRATION_VALUE);
-+		if (ret < 0) {
-+			dev_err(dev, "error configuring the device: %d\n", ret);
-+			return -ENODEV;
-+		}
- 	}
-=20
- 	/* Setup alert/alarm configuration */
-@@ -854,8 +989,9 @@ static int ina238_probe(struct i2c_client *client)
- 	if (IS_ERR(hwmon_dev))
- 		return PTR_ERR(hwmon_dev);
-=20
--	dev_info(dev, "power monitor %s (Rshunt =3D %u uOhm, gain =3D %u)\n",
--		 client->name, data->rshunt, data->gain);
-+	if (data->config->has_shunt)
-+		dev_info(dev, "power monitor %s (Rshunt =3D %u uOhm, gain =3D %u)\n",
-+			 client->name, data->rshunt, data->gain);
-=20
- 	return 0;
- }
-@@ -865,6 +1001,7 @@ static const struct i2c_device_id ina238_id[] =3D {
- 	{ "ina237", ina237 },
- 	{ "ina238", ina238 },
- 	{ "sq52206", sq52206 },
-+	{ "ina780", ina780 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ina238_id);
-@@ -886,6 +1023,10 @@ static const struct of_device_id __maybe_unused ina=
-238_of_match[] =3D {
- 		.compatible =3D "silergy,sq52206",
- 		.data =3D (void *)sq52206
- 	},
-+	{
-+		.compatible =3D "ti,ina780",
-+		.data =3D (void *)ina780
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ina238_of_match);
 --=20
-2.51.0
-
+Regards
+Yafang
