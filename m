@@ -1,286 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2080.outbound.protection.outlook.com [40.107.236.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0D61C84C7
-	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 19:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756495138; cv=none; b=Ol7G3qdlMDWKOPMfbat0ItRJOZuzZlWULykIU/SHLJwLfO1yGc3VeA25TTjOw9DRRctsf6fb06TTxuHxpQAe3WUnvREi0shgZzRWLKAvwdJxJTTo8PLC96p1bCVXgGAinPvl6ETEbdMtbuNuTjslG7z1iuc5NqZEn4m5ariGChA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756495138; c=relaxed/simple;
-	bh=SfwuYXV0KU6eJVhKE0IPfVFe3B6ROS9QbY1dk+JP8m4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sExpqXLpBOMSK08XWl8E+BYKxxt+G0xZF6LJM65e5EDKU3/+y7FlZSj04Zx2KwCzdmkostk0RQso+Frh9CH5ykZrvLTaziPfEUJQTBer7xrGjiGJ2zmUWGcRQUc9FnJU1Sz85FN2FhtfdjUtAxg4pzHNa3W8LsYSin1Q0+DEhdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qa4Kyefw; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A244242D8C;
+	Fri, 29 Aug 2025 19:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756495415; cv=fail; b=Ma8KCjNYf66YZA095cJPnE3qHD4yPwEbZRgA3sh5Z+JHdl3HbBcb8Hc3jPeGIJ8ie6TM4Gep3bjbYdmaLi21iN8TSOn/iRkGsLhEEOxQPL7TpvtGN5WW4Abs2A+IpzLxscpjV3B7oSBi7f/eq4Xw6p/0UUndzyKFeMSZrdoutbo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756495415; c=relaxed/simple;
+	bh=dUQXQrrFAnncnes5wThJNRc+ddbSjbtss2D+u4/wVwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ZVACfUC/6m3Ae1gZpX2mkMDmuBq7aTXWn2l5zL1+f9ZoWPcfE6hGFR9R4jFYeex24s//+v4GYyCOv85CJKLVV7kt3ibPUi0VOpemQnSN6VsjkkGfQPW/eHe8vVPS2E/bxpGaVyXQjCfaoWl/Mw4YHP/zQLf9BMc89n+qoFu64gE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DLX2bQrB; arc=fail smtp.client-ip=40.107.236.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qa4Kyefw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8778EC19421
-	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 19:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756495137;
-	bh=SfwuYXV0KU6eJVhKE0IPfVFe3B6ROS9QbY1dk+JP8m4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qa4KyefwEM+eignqWU370eptpCu7x6iSqxGWzbU+gdoLfpIG5dR8luhNBvK11Qvpe
-	 WupEHPuUELuYVVjLhgDuu2qKuXFb5hlCUMLB9SIPV6Ktjg3pg9eUUoKuUBZ4E2NNk6
-	 6KsSu2aIQcm5sFMEUGaDlEupO/t6Wf2Fs5Bhjq8a4FuRO/gmbh/IF1xshxmXPScdZc
-	 p6hV/6jBHai1mC7xep/QL08bKqM6nqC767rO5llT1/S9DtkC0P/THYx+86WkPMY7DP
-	 cdEwNQsMtrN8kWrXDdrMrvYZAC/4JBNdd7f906drihUiUx9FPO1ooqChThHroFv+M1
-	 9s8+nydfAAHtg==
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-459fbc92e69so16985e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 12:18:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4btGwW2du8G49SmyzCwEIWJMTtNJ0BjHpFsmZ2NxiDL1b1dLw2lr6hJVvy3LX304R6ewfqAHC6FQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpArhd54CqqXuwmCyfoVNv4BUqwWcK/VMOoxg/WHeQxLWLpYpb
-	5P79rtUN5gGG6pUX7ecK8v2W2qKoNLfqvASIFImFmUy4YQYXgtAFPsVtvD2ZIB5zsHJOC7AuATU
-	Sd/Wf86QJXDPZTTUAvBVO34jyE4iZP44XGQFOpFvA
-X-Google-Smtp-Source: AGHT+IGwYizH5N431wsmMZe4RCeN+XM22BnJRX3a9bmzFsCySK9GHB8zxV4r/939VLJDfuuUh2SvN3//dXotftQ5t5k=
-X-Received: by 2002:a05:600c:a101:b0:45b:74f7:9d30 with SMTP id
- 5b1f17b1804b1-45b84ae2495mr141155e9.1.1756495135682; Fri, 29 Aug 2025
- 12:18:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DLX2bQrB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dXXXJfBz3/Ii6nZ8+kl+/aE9GccLjBAMAfojFW3ptPG/N53RkFoBMDB5nbmWDb7hZgxmmJiM4+gIPSoWr8QMUV7WAvKYcvDZJXbrOcbT3z3AGpfDaePpGhZ0WUFWM5ZSs3AEBtXB6P9a0S2rBnhVrdWI2w+bVTPnuZDBVTKAnWS/WTZOggBoOTv4kw24h60LeSzARFrkwtC0FEmMc/vpP1ODcsjR+kV63S/r11YrcegcjwHHrjn0pbpnviVLx/5TTnXSklZpd4zeaSao5YMj/a3ai7UUw15OCW0skeD4zWh4na6NcdRDD/S/8VyUl4JApAnO0AD0AS+17t61FVGlJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0BGHm7bxjH9Ks0SjdsOPqC7P3q4DQuMdmL754Q53jzs=;
+ b=L1eT7dnsfBptNejlqCidLWGWoujC8WWz1IgzzOiF8rAkWH68DqkM0/HvPcEu8oG3nxJv8YtKBeJIpPHukpAq5VQmgNo3OQE139v0zx2w4KgbJxDMdvvPgUO2WtftiHanIchWeUfUSSbV5XGrVsLzLfRhyGZwGQKfQGzDY1tjR9nk5CTjgzeEzcHMbSCQX85PO+IbdXrvQ5ztVklyMHvC/dcmQ6h+LAe9X8KEck+bxcbRaPTk1KZwAiBTMytr3z13nBrJv7WeJvPccLynEKlEkZbDiCeO1MBwSXFWKfSY44bDg96ZSb83viXiL5cHsiGTtOt7bNxrcILSsXtc8pqo0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0BGHm7bxjH9Ks0SjdsOPqC7P3q4DQuMdmL754Q53jzs=;
+ b=DLX2bQrB6Flyazn6n4K8i9gOAbhxJbw6u1Tm19YKR0rQ71robkyyAKLR/UXjl9GI9/69NnHI9c4KZGHzLKZBvon4vwByW2U5naKs5LWnyITaCP60eYszs4Df8eYCGIDFQrqHw3viY/Zsymvc2+tsxCfpBtfuM1BwbYzZhgrDbQI53RB5+am5fb660LeyazE92EKHDA/TjE1t53cp5a4/xxcKAtpM3ocJSXlQw2fzbCGv2tEgUv7faf26sR8QLxR37tZwcZP4cm1bfnXzOCmTq4JFXtCcav3ZXj5tCx390s7ti7kC3AVOttahLBDOrTp5eywL4L6w1V4W+CZQbkYMWw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MW6PR12MB8957.namprd12.prod.outlook.com (2603:10b6:303:23a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Fri, 29 Aug
+ 2025 19:23:26 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9073.021; Fri, 29 Aug 2025
+ 19:23:26 +0000
+Date: Fri, 29 Aug 2025 16:23:24 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	Joerg Roedel <joro@8bytes.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+	Bill Wendling <morbo@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	James Gowans <jgowans@amazon.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
+Subject: Re: [PATCH v4 07/15] iommupt: Add map_pages op
+Message-ID: <20250829192324.GI79520@nvidia.com>
+References: <7-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
+ <c17f0cf1-9a80-4f1a-94a1-8869b8ed0a53@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c17f0cf1-9a80-4f1a-94a1-8869b8ed0a53@infradead.org>
+X-ClientProxiedBy: SA1P222CA0019.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::20) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
-In-Reply-To: <20250826162019.GD2130239@nvidia.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 29 Aug 2025 12:18:43 -0700
-X-Gmail-Original-Message-ID: <CAF8kJuPaSQN04M-pvpFTjjpzk3pfHNhpx+mCkvWpZOs=0TF3gg@mail.gmail.com>
-X-Gm-Features: Ac12FXwg_LGboIxDPBDuUZE0PAjtgg9g5mIDqFcbL5uMlL902h2DZN1Mi-6Fu0Y
-Message-ID: <CAF8kJuPaSQN04M-pvpFTjjpzk3pfHNhpx+mCkvWpZOs=0TF3gg@mail.gmail.com>
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW6PR12MB8957:EE_
+X-MS-Office365-Filtering-Correlation-Id: 771a37d8-222d-4358-8dac-08dde7318742
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?rSkUwgRT3/nItNGjRIoJB+E19WaXv7/aS5ADaeEgRSSFEbmEwXJefvmzVKNg?=
+ =?us-ascii?Q?YT4CZsnpp/2EbIG68I7W4MuYkmSyDGB5jKgRTEPTdvHrFLztMWWKwds0DzH0?=
+ =?us-ascii?Q?EtXZfXtFv4tGgKX116Wl+lNDwYxMPO+n7SMSroVqGd9zzCGWLkOqKnqNCteP?=
+ =?us-ascii?Q?h9p+eaGPILpGCQcpoLpwUXCLACUtSi2kXOMtQtJBhdLhJbPfzyeEg3DGoERG?=
+ =?us-ascii?Q?NSscpWWIByn+G3K9NrBTqtk7XZcGbyO/datrZeg4tV/PlJv/iRx6/z0LdBzh?=
+ =?us-ascii?Q?WyZ1vlOWZGJq2Aki24ju4YtbiuPIqyM6AjC4IOaRpKkW0BONIAj9u98M5bUe?=
+ =?us-ascii?Q?27JKELNC8XbwzUojs2zRQxegXJj2o7+ZT7Q1KrJ891gW7w5QQZDPScyy2E1X?=
+ =?us-ascii?Q?lmxYWo+bWxSE8hzym96jopK3+6aIFutqHxf2v1py6JQ9hRYhux51Uz/7lKk/?=
+ =?us-ascii?Q?6X5DeO2QANJmN0PdyYm3hFQt+8yQoSKgNW7/C8rBwHhY8LBuDQOewScVxkMV?=
+ =?us-ascii?Q?5FijmsFmWR54lhRrCEMYErzd7G4bgM4smX+X6xMOogOc4SrPu+RDjNKXtkOZ?=
+ =?us-ascii?Q?gtda5XX4c/ZFb9lPE9Zbwq9PEb09kDC2ot3L8RGnRafMKgkMppEIjmmJQxhq?=
+ =?us-ascii?Q?Vecv95Ke2JXEm1kz52tDHRZYzkDHn04Y1fyKch84vNxe95aAJPujh3/ZQpf4?=
+ =?us-ascii?Q?X/XfMFY1diDiDg6PMkk2qB6j3GZfc6aNj1MEzDNDJngVk34zj2kqXsg7iMWW?=
+ =?us-ascii?Q?zWJ8t3RN2LrVa+OkZ9EIMbhF/LqE9ywzNzDW6yMQlaltgqoFYa91olLHlnyi?=
+ =?us-ascii?Q?3LsK+yeaxcEhoNgFPGtU9RTC9/x7BSleimwOgjHnrZts0LS9p9bmHnGD5atN?=
+ =?us-ascii?Q?EW0ZcI2tn3JWQsrFLnwjAdeJRTKltv64lzzZr2CRJYqat0jTbZzhmEjItUt4?=
+ =?us-ascii?Q?6ackLOL0o72TyGLm0D/WMcebYZYNf87DSeD+lkXHfXNT9tII/IV3Ai5aWg5L?=
+ =?us-ascii?Q?MNj5thv9x1sP2TG5z70XLw1iVmsWBf8oYoNJ8UxUHr7bFMTO7Gf5BkUMp+yV?=
+ =?us-ascii?Q?swM1pyD1hfaZLMrchXHWxTmHeY5TfGmHIiouefD+Uc1SnOQZEQJnzW2CTTY+?=
+ =?us-ascii?Q?UWTJ+7NCOQyASOw/qETJ9YZLzv5T3wWxq+JdaTChQc6P45y4P1VQRlbNKbKs?=
+ =?us-ascii?Q?B3/qQBd4+FJpVJedzudHH7C3phySUu5nRVf6InRdIekzHUgUOo0DEDxAvYm3?=
+ =?us-ascii?Q?6OD1IxrKwE73Wap4KetqzEAvyiFImUAAFALcpq1wmY9zmiaYjavpa3EmcmMo?=
+ =?us-ascii?Q?/3XNDh9Wz5qWIqRUL8SIEbKQjW6h8N7AJwuCVhoXUsK/wmj4uDGEwe5oZcxa?=
+ =?us-ascii?Q?7caXSgL5jLnd2WDaxA6/Movm+NVCLd8BDLnWytEKMllP5tukC2DIFm8NIFtd?=
+ =?us-ascii?Q?B8vrTr5lzLM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?eTaIIVvA6yMrRvCRJPCIALC7/F9EmNCFO/W20o3CPy/OIbv42tOLXsDykH8X?=
+ =?us-ascii?Q?SYKCyzz6MHzO/SdUGEhGvXcaAwXuI0krmzFn5lKyRlMkd+AE9Lb072825W8A?=
+ =?us-ascii?Q?AgpMLwFky4iLlU1LiwyWFtIeVbW+tNdkS7lvRet2ffVZc87JhLmvXHsbX6v0?=
+ =?us-ascii?Q?HsuQ0pJBnwqc3svV7lG9nuruOEnmcwPCnOwSsjviaFWKM7gKlqgaIk5CX4cJ?=
+ =?us-ascii?Q?gHNpk4KP6aYOiynTovfKPMmYyGK/Zi28/x3WetPoWuLCjjBZvHEULUlmBYv1?=
+ =?us-ascii?Q?MMY1q3JOlJB6CmaeyM2NIyLYF6Q5p8zep5QGJOQ5qQIBgICN0hcan3PQ2B/m?=
+ =?us-ascii?Q?n0Z8yq4SDd6P4ja1VhSbi6ryx+flHC+S4dF7cgZQ6iaW+P73AM4az+7Mkr4r?=
+ =?us-ascii?Q?XDKAhQtRLtpy/54HfuM8+8fh7OBDIIfe1s8dTPRSYZw4EZ8QwrTL2izG81vg?=
+ =?us-ascii?Q?bc4baBJKlYjzuxcrZWX8NWH2StFmN8f6rqAfvfOilwTIb167iLcBwO2r1wcf?=
+ =?us-ascii?Q?8Pu77w0yCKX8gP/pi8UOTlCI6zawIKNovOQzh56CzNbkLP11ITvgTpMLPraM?=
+ =?us-ascii?Q?1oMjoZKJNM7rf84ztvgMopeyklzNhiP2o2QfMd9o2dvTDXza64DIAJEEIzFW?=
+ =?us-ascii?Q?P7TgL67I2Jta1a1bKSbxY+FVzzzUjRdzuepaupG1G370eDnL3FWXGNNWrE65?=
+ =?us-ascii?Q?OEpbn7wXCPIqS3qT0fIhwE/okjOXQwBC4LkwIOJfnmiUy4viFpNq9fyc0dYq?=
+ =?us-ascii?Q?TVAjy9jHZgQsuw1tNL2T2Cnn3DfeddPBoeHwNbePMq9CTLrwNlMQR5X6qore?=
+ =?us-ascii?Q?Ew1H5LPlixuxEp3iUhHSs6ltFnqdch5V/cAYn9FLHdfaCysivDO7OQTxx9yv?=
+ =?us-ascii?Q?OkhG54imNgz1pi8Y4HhasY3poPs/abWnI6Vc9L5qnrEJctoryr+4+Igygd36?=
+ =?us-ascii?Q?ASAXCrxCPlPsUqctq9EWW+wkDDYAgNOylKJ+aMZVHniRxbPs/6c+y/0wQNun?=
+ =?us-ascii?Q?2dCFHPTZObSEKOkaIHGmd4MRG7ZnPNzjlcdiK+DMY1WoPkbw7rLOcXNA0DZd?=
+ =?us-ascii?Q?4mgecCQXploNyKiUwKVoewC8S75Fx1eFGHUpCAHMyVrX2/6otLg1Ye7nJleI?=
+ =?us-ascii?Q?fsPfgWLklntzWqZndoX+igPlRG68+MXgpZKLWf7NQubowtYS3wYN0GMu2F6u?=
+ =?us-ascii?Q?yyD7YJBxMS/I8jUfZiolZhzwjLEwELzdJo5H+eWxs51gC3jyO7OQ+DmYMPy5?=
+ =?us-ascii?Q?przazw/FmafPht7wGhR3AvKFI0Q8pimPvjXFVVV771QQdUFek/SCgc9e+00I?=
+ =?us-ascii?Q?683YH7uP6Nt+KedJk85VPBJpjkhtttIwkiRWuAOaQsMiYsyAkKqyTtFJ3FRS?=
+ =?us-ascii?Q?6nc2e2wDOUtJiZXBscVnoRbDNDvlXNxdKFGDLOrO6o5s7xMHKGPhxl0As8EL?=
+ =?us-ascii?Q?oIx4Lgh3RjUU+TsflDGeQoR0mjpvSK30OvZ11FJnXI+O/VO038J3uqdoFu2F?=
+ =?us-ascii?Q?/Rp0LKUOFUBJ7JC6aEaOCdvZew66XSTSNzVOFXfFNMw8FcAAQ7ADrQ9slGV3?=
+ =?us-ascii?Q?Jd2ccZYv05Z7BS4Wm2PSxxn0jeWK/oMmRCh3SWDb?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 771a37d8-222d-4358-8dac-08dde7318742
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 19:23:26.7776
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pDqGPdNstrVZcWGDyzPZeHo0Lxy4nb0hmmsblz4ofvzTUNVBPVKwqNOmbmW1l10U
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8957
 
-On Tue, Aug 26, 2025 at 9:20=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
->
-> > +     /*
-> > +      * Most of the space should be taken by preserved folios. So take=
- its
-> > +      * size, plus a page for other properties.
-> > +      */
-> > +     fdt =3D memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SI=
-ZE);
-> > +     if (!fdt) {
-> > +             err =3D -ENOMEM;
-> > +             goto err_unpin;
-> > +     }
->
-> This doesn't seem to have any versioning scheme, it really should..
->
-> > +     err =3D fdt_property_placeholder(fdt, "folios", preserved_size,
-> > +                                    (void **)&preserved_folios);
-> > +     if (err) {
-> > +             pr_err("Failed to reserve folios property in FDT: %s\n",
-> > +                    fdt_strerror(err));
-> > +             err =3D -ENOMEM;
-> > +             goto err_free_fdt;
-> > +     }
->
-> Yuk.
->
-> This really wants some luo helper
->
-> 'luo alloc array'
-> 'luo restore array'
-> 'luo free array'
-
-Yes, that will be one step forward.
-
-Another idea is that having a middle layer manages the life cycle of
-the reserved memory for you. Kind of like a slab allocator for the
-preserved memory. It allows bulk free if there is an error on the live
-update prepare(), you need to free all previously allocated memory
-anyway. If there is some preserved memory that needs to stay after a
-long term after the live update kernel boot up, use some special flags
-to indicate so don't mix the free_all pool.
->
-> Which would get a linearized list of pages in the vmap to hold the
-> array and then allocate some structure to record the page list and
-> return back the u64 of the phys_addr of the top of the structure to
-> store in whatever.
->
-> Getting fdt to allocate the array inside the fds is just not going to
-> work for anything of size.
->
-> > +     for (; i < nr_pfolios; i++) {
-> > +             const struct memfd_luo_preserved_folio *pfolio =3D &pfoli=
-os[i];
-> > +             phys_addr_t phys;
-> > +             u64 index;
-> > +             int flags;
+On Tue, Aug 26, 2025 at 04:20:54PM -0700, Randy Dunlap wrote:
 > > +
-> > +             if (!pfolio->foliodesc)
-> > +                     continue;
-> > +
-> > +             phys =3D PFN_PHYS(PRESERVED_FOLIO_PFN(pfolio->foliodesc))=
-;
-> > +             folio =3D kho_restore_folio(phys);
-> > +             if (!folio) {
-> > +                     pr_err("Unable to restore folio at physical addre=
-ss: %llx\n",
-> > +                            phys);
-> > +                     goto put_file;
-> > +             }
-> > +             index =3D pfolio->index;
-> > +             flags =3D PRESERVED_FOLIO_FLAGS(pfolio->foliodesc);
-> > +
-> > +             /* Set up the folio for insertion. */
-> > +             /*
-> > +              * TODO: Should find a way to unify this and
-> > +              * shmem_alloc_and_add_folio().
-> > +              */
-> > +             __folio_set_locked(folio);
-> > +             __folio_set_swapbacked(folio);
-> >
-> > +             ret =3D mem_cgroup_charge(folio, NULL, mapping_gfp_mask(m=
-apping));
-> > +             if (ret) {
-> > +                     pr_err("shmem: failed to charge folio index %d: %=
-d\n",
-> > +                            i, ret);
-> > +                     goto unlock_folio;
-> > +             }
->
-> [..]
->
-> > +             folio_add_lru(folio);
-> > +             folio_unlock(folio);
-> > +             folio_put(folio);
-> > +     }
->
-> Probably some consolidation will be needed to make this less
-> duplicated..
->
-> But overall I think just using the memfd_luo_preserved_folio as the
-> serialization is entirely file, I don't think this needs anything more
-> complicated.
->
-> What it does need is an alternative to the FDT with versioning.
->
-> Which seems to me to be entirely fine as:
->
->  struct memfd_luo_v0 {
->     __aligned_u64 size;
->     __aligned_u64 pos;
->     __aligned_u64 folios;
->  };
->
->  struct memfd_luo_v0 memfd_luo_v0 =3D {.size =3D size, pos =3D file->f_po=
-s, folios =3D folios};
->  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for=
- this fd..>, /*version=3D*/0);
->
-> Which also shows the actual data needing to be serialized comes from
-> more than one struct and has to be marshaled in code, somehow, to a
-> single struct.
->
-> Then I imagine a fairly simple forwards/backwards story. If something
-> new is needed that is non-optional, lets say you compress the folios
-> list to optimize holes:
->
->  struct memfd_luo_v1 {
->     __aligned_u64 size;
->     __aligned_u64 pos;
->     __aligned_u64 folios_list_with_holes;
->  };
->
-> Obviously a v0 kernel cannot parse this, but in this case a v1 aware
-> kernel could optionally duplicate and write out the v0 format as well:
->
->  luo_store_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. identifier for=
- this fd..>, /*version=3D*/0);
->  luo_store_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifier for=
- this fd..>, /*version=3D*/1);
+> > +/**
+> > + * map_range() - Install translation for an IOVA range
+> 
+> Maybe I don't understand the macros (haven't looked lately).
+> 
+> Function name appears to be map_pages(), not map_range().
 
-Question: Do we have a matching FDT node to match the memfd C
-structure hierarchy? Otherwise all the C struct will lump into one FDT
-node. Maybe one FDT node for all C struct is fine. Then there is a
-risk of overflowing the 4K buffer limit on the FDT node.
+There is a later series that changes this around and it didn't get
+split up right
 
-I would like to get independent of FDT for the versioning.
+> > +	 * @iommu_table: Table to operate on
+> > +	 * @top_paddr: New CPU physical address of the top pointer
+> > +	 * @top_level: IOMMU PT level of the new top
+> 
+> We don't really have a way to document parameters of a callback function
+> inside a struct, but for now kernel-doc.py won't complain about it.
+> (Somehow kernel-doc.pl did once upon a time and then that became dead code.)
 
-FDT on the top level sounds OK. Not ideal but workable. We are getting
-deeper and deeper into complex internal data structures. Do we still
-want every data structure referenced by a FDT identifier?
+Seems like we should :)
 
-> Then the rule is fairly simple, when the sucessor kernel goes to
-> deserialize it asks luo for the versions it supports:
->
->  if (luo_restore_object(&memfd_luo_v1, sizeof(memfd_luo_v1), <.. identifi=
-er for this fd..>, /*version=3D*/1))
->     restore_v1(&memfd_luo_v1)
->  else if (luo_restore_object(&memfd_luo_v0, sizeof(memfd_luo_v0), <.. ide=
-ntifier for this fd..>, /*version=3D*/0))
->     restore_v0(&memfd_luo_v0)
->  else
->     luo_failure("Do not understand this");
->
-> luo core just manages this list of versioned data per serialized
-> object. There is only one version per object.
+Fixed the rest, thanks
 
-Obviously, this can be done.
-
-Is that approach you want to expand to every other C struct as well?
-See the above FDT node complexity.
-
-I am getting the feeling that we are hand crafting screws to build an
-airplane. Can it be done? Of course. Does it scale well? I am not
-sure. There are many developers who are currently hand-crafting this
-kind of screws to be used on the different components of the airplane.
-
-We need a machine that can stamp out screws with our specifications,
-faster. I want such a machine. Other developers might want one as
-well.
-
-The initial discussion of the idea of such a machine is pretty
-discouraged. There are huge communication barriers because of the
-fixation on hand crafted screws. I understand exploring such machine
-ideas alone might distract the engineer from hand crafting more
-screws, one of them might realize that, oh, I want such a machine as
-well.
-
-At this stage, do you see that exploring such a machine idea can be
-beneficial or harmful to the project? If such an idea is considered
-harmful, we should stop discussing such an idea at all. Go back to
-building more batches of hand crafted screws, which are waiting by the
-next critical component.
-
-Also if such a machine can produce screws up to your specification,
-but it has a different look and feel than the hand crafted screws. We
-can stamp out the screw faster.  Would you consider putting such a
-machined screw on your most critical component of the engine?
-
-Best Regards,
-
-Chris
+Jason
