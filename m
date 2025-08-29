@@ -1,46 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015D629E10B;
-	Fri, 29 Aug 2025 22:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E5F194A73;
+	Fri, 29 Aug 2025 22:31:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756506596; cv=none; b=C6Fq4heyBORCB8S07AjNfxG9KmOHSjXsYGAk+st0vH/rt1upsyJFHxJqPtDy2eMGpVr8Cj9QiotxkhQtrpltSzI66zy3YZ2+ePONTPmAtMoKHkTm9nHRTln85L0n4S7iHBXg0o3BaW/5H1CqzFULrZtCCd5wTX4hL45zxTkkLxk=
+	t=1756506679; cv=none; b=L+dj/M5HF2m9CYHg70XL7H/9xUc9ikZuBtsGV/AnY+vxEPtmNIiFGUc+Ss5OIASOjsFxL0J486OLNlchWTjoIeEc2NBFeTU1cs+xe+xwS/8HlayDXFFNJbwQvwsAq4fikCLlBzRPWHeq8s/D9RtL/h+1pUfTdDcEtb4w9P70FBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756506596; c=relaxed/simple;
-	bh=LnrThKrEpQ24kePsrpvbmzEfdRYOsirO/t/abPlh8QI=;
+	s=arc-20240116; t=1756506679; c=relaxed/simple;
+	bh=2xd7CV1ps8F4Ia+GtpmLH2P5MzMy8ycFYNjMETz1IZ4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D4BAcj9EKZ32IYKS66zZ6SfEupJHgiWtUweoP/AAFAIZ2KugENLUCjEqaEKjD4h9ZgqzdOrgy2uXCnRZDOjYUdbdEcVFjtxnGCr3WYTbQBcfo6sdTzNuLnIF3FR47idsKmtIZ9dI66Dtq0yQfelWMoI98qoSNJcxOicTwFU8elY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IDT+sdmg; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PIs47bKSk1WX9aqSXzP/Ik49SYeeo0CQom3BwrMQlJ5XoSqt0MRGk8nMrKpXsLdjYZH0MvJ0ESLSjbx4VvrVOoxL61UOJ4/6YwMuu3iHboGGMG2lDnnDk35kWi5fAGsg8Tl2wSXZo1Si3shoOhBp9+WxeMd7WfrETTGHpTKZr9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CHxokGkA; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IDT+sdmg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2889540AE2
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CHxokGkA"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4B13540AE2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756506594; bh=7HAaOu7AXHORrFxnxCD3awBn+iaSr3q0I8AS3Zg5wlI=;
+	t=1756506676; bh=0lefTQnohYQB/+OCIX/Ack65rHqDEmkusNMfujbY6lA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=IDT+sdmgtOdckzlqJ/MUOzQqFm9iZ2oVjFSffgA+a4J3ZWpG6JDolO6SVKSwN1MBF
-	 fl/CJfFw83ewEx1V70ZL3we+qb532tQQUu/hsn7aKBUotJhygmQMO1HYgib3UTk8Q9
-	 UYxMy8aKkNU0BXsKKNNNS+HpG1gxaGY8P9OE+Vd7jmmG3bMOfJg3mMLh4JnBVU+IbX
-	 QjBUexuUsC/wPJPzI5/locFsYCwhnSZfzAVW8LdnSxClbpISqbhaxowBToUxlvyuYn
-	 vKgsjotFe/AZ0jxUCA2Fan1vZhjB0CnwQzXH1H6ELBzQQkpb5S3zRcZmJmpXDQ5J3z
-	 TYvEwi732/n8A==
+	b=CHxokGkAPVRXN+AXoS/eyrFGvlTkSfyi5AdUkx64MiLSdaoio1eocKkHn3/++W2EU
+	 eU125JjKLuKHmLCbfuCFsrXgSCgMj9NmKYn4KbGj6y2j5iOuFLyA8lt5Q+d1jA/WRL
+	 14v2e5TZcG4KaAXVF5uM/spj/MAV1CB0wroIr+wT5AD2USNldv9yybVHwS04LGUB8A
+	 uSAPwG7iY9Spntt81C4Qa9kqbrRI1pABggx8EPHUDDrx4HjWBAKDkckJlWFlHK6GlI
+	 XTkqC0aA5nNfDeemBMpoc4ttQckDG86PnfkTDXc6QPquLscSIGdoc/av5hkrgJdZqU
+	 Keasv2qGlmWig==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2889540AE2;
-	Fri, 29 Aug 2025 22:29:54 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4B13540AE2;
+	Fri, 29 Aug 2025 22:31:16 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Vivek Alurkar <primalkenja@gmail.com>
-Cc: Vivek Alurkar <primalkenja@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] Fix typo in RAID arrays documentation
-In-Reply-To: <20250821051622.8341-2-primalkenja@gmail.com>
-References: <20250821051622.8341-2-primalkenja@gmail.com>
-Date: Fri, 29 Aug 2025 16:29:53 -0600
-Message-ID: <87v7m53gny.fsf@trenco.lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux F2FS
+ <linux-f2fs-devel@lists.sourceforge.net>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Bagas
+ Sanjaya <bagasdotme@gmail.com>, Daeho Jeong <daehojeong@google.com>,
+ Yuanye Ma <yuanye.ma20@gmail.com>, Yangtao Li <frank.li@vivo.com>
+Subject: Re: [PATCH 0/6] f2fs: documentation formatting cleanup and
+ improvements
+In-Reply-To: <20250820043432.22509-1-bagasdotme@gmail.com>
+References: <20250820043432.22509-1-bagasdotme@gmail.com>
+Date: Fri, 29 Aug 2025 16:31:15 -0600
+Message-ID: <87qzwt3glo.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,31 +54,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Vivek Alurkar <primalkenja@gmail.com> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> Changed "write-throuth" to "write-through".
+> Hi,
 >
-> Signed-off-by: Vivek Alurkar <primalkenja@gmail.com>
-> ---
-> Changes since v1:
-> 	-Changed '"write-through" and "write-back"' to
-> 	'"write-through" or "write-back"' as suggested by Randy Dunlap.
+> Here are documentation formatting cleanup for f2fs. This also includes
+> docs retitle at the end of series ([6/6]) as a bonus.
 >
->  Documentation/admin-guide/md.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This series is based on docs-next tree.
 >
-> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
-> index 4ff2cc291d18..04668272c0ee 100644
-> --- a/Documentation/admin-guide/md.rst
-> +++ b/Documentation/admin-guide/md.rst
-> @@ -758,7 +758,7 @@ These currently include:
->  
->    journal_mode (currently raid5 only)
->        The cache mode for raid5. raid5 could include an extra disk for
-> -      caching. The mode can be "write-throuth" and "write-back". The
-> +      caching. The mode can be "write-through" or "write-back". The
->        default is "write-through".
+> Enjoy!
+>
+> Bagas Sanjaya (6):
+>   Documentation: f2fs: Separate errors mode subtable
+>   Documentation: f2fs: Format compression level subtable
+>   Documentation: f2fs: Span write hint table section rows
+>   Documentation: f2fs: Wrap snippets in literal code blocks
+>   Documentation: f2fs: Indent compression_mode option list
+>   Documentation: f2fs: Reword title
+>
+>  Documentation/filesystems/f2fs.rst | 88 +++++++++++++++++-------------
+>  1 file changed, 50 insertions(+), 38 deletions(-)
 
-Applied, thanks.
+Jaegeuk, are you going to pick this up, or would you like me to?
+
+Thanks,
 
 jon
