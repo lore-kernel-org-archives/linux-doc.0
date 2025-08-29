@@ -1,119 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B9B1E1DF2;
-	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFEC1401B;
+	Fri, 29 Aug 2025 05:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756444264; cv=none; b=PDuwzx/P2VXxCBZ0I0mUzKmffRzVZmtQugyqz6qCKzWkl1TdyP7z6sDUwIajBhSQFHNA+sOFoIuUO1/LDUQpxwXzoM8EECd3Ngieb0jBqXyXQe3Z3mu2pfFgCYRfPo1u4ezgW7LsF4FoLgu+xOKs8psN5TtIPKs1/bsHc4z+HmQ=
+	t=1756445804; cv=none; b=dXIKNj2FpHzVrhDoOxDI7DzXvYkzYHPfy6RSW2UI6tqgcVT3xhyYAn9b3fIu1Rm6oSklyFD8XexWnlSyPiyQiNElmCA1qhDMnr2td2g9I+p0DinYdYy+PGmBFe6TmB1SvgxM+PAYi8YpPfSKNm7YTQhfxE5ziiuW/2QWc7Zj9Sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756444264; c=relaxed/simple;
-	bh=GRwLPBbaFTV6GFMn0tsScJTJKih42wsfR6S52yPN3Qs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QUANy1iUIiOiU7NfzMWWDRNR0HFZKMu7CKpF8Dfmff2wB/iXESjzR2sir9wGkMDGPmjY49WzdFbJ6ua0GWGy8VU1XIlqYJr98M9e1k4RonnFWxyzmG1xCnVLyTJxiuSVb1u9gHXwRdKzz9EsSRio5KvQjTccbcPP38seMAWDQ3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbpRMY84; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756445804; c=relaxed/simple;
+	bh=MK16zQXWmy+SczHIIAdHA2lqBpZuzlXe0LLX9PF+ePM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RHLYpTJSQoIcut0G8xSgt15BkcYxOq92EbRfNY7jRhBXkX73qj6nD5sOJltPLX5U9tVEuldp1L/okpoEJFgCtdn0BSqVcv1Y11BKJp2bn2IJVYdbWgZ/P4CE7RZWXSozgZDiXgbiqt1V0KEsHnMys4QNLoJcRkaVHIg3GKFD4I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKGMxngP; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbpRMY84"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 096EEC4CEF4;
-	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756444264;
-	bh=GRwLPBbaFTV6GFMn0tsScJTJKih42wsfR6S52yPN3Qs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=fbpRMY84mjfg1bEi+7/5sgzEkiE/ZFyJlGiAwvlnEuVKdUGMbbcc4ivsjJhUd4QCl
-	 a5wuRWAIV1gg3mrsTgiV2n7wRUOc6nEIl9lB8aZyXCYj4zF3AyoswozwzPbjL5YUHl
-	 MBpCBaKPewSOGakhIvwFUsmv5CxJ4kgaWB2gCaT+3SYLUygQwpFdCQRigsn8JI6SOq
-	 +nicyLa3w7HI90dPsvrewaco1Sp/cgg40hyBikBvQmZenwcX8S4rn2HM84LMM7Z/DT
-	 xHD1x1A9ByoiutcUOwXFOKaT2nXN4g0rwv+rcTtSmaMD0B0OfJ6ThFGongbmVLL5YJ
-	 uBd/hZ3B7PfZQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB738C8303F;
-	Fri, 29 Aug 2025 05:11:03 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Fri, 29 Aug 2025 13:10:59 +0800
-Subject: [PATCH 1/2] ALSA: usb-audio: Add module param mixer_min_mute
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKGMxngP"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-70dfcc589a6so12862846d6.2;
+        Thu, 28 Aug 2025 22:36:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756445801; x=1757050601; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/7ABgTxwsaGc4hfk3OGe0GkOSvaX5N8CZX+Bz0AJlVE=;
+        b=bKGMxngPNnmo2/FQIR49a3Uq8N1SD+9LOtv8LCkztDgC4TTxZBmXbWt4sbWlmWWOUy
+         vd+iVS56hmOcmZv5tSQYy5xj3VOTXfzVIMqgglWzn9YDfkX+Meizgx16nljDSmkhjq0h
+         hsmw8qoVV3ZH4ObQQhuO9/XMIGuGLake3M8TCxitDU1//leGBZVKAZbx9S0C0rhHxpHo
+         1WNw+6pPyVdQhprr4iV0vjPUYWP4nH5uZBYSw8by9kFzJU0y3/87sVk9FQ0oAdWI/JaQ
+         EQRnCYmTZXAsi6ZWeTklVkskP+hfYb1CjxB8+GqKlLlXs9RXpoBoVt7c1WFysKgWzpoE
+         hiIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756445801; x=1757050601;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/7ABgTxwsaGc4hfk3OGe0GkOSvaX5N8CZX+Bz0AJlVE=;
+        b=Y42ulEhdbke3Cvv7iSiLzPVkArQPfYmRye07Nlw1r6SryQc8Hhv5UdI48U/yKm0lT+
+         YkXLjClMnBsGQPbTOgb968TgUOtQt7qqp9Qwc7KVo23LtJmmM1mk4WE44kbt1hEayF8T
+         8Pwd4d0MTTLPTI+wCbAx2QT46TDbI43TjUqmFYi3Z8v53cHzGzGhkyuSbnke29Zusb19
+         uLazOkmgM8JQSDKTlCJUKD0pai+eVKGqssD3sJ9iMn6/RxGPRrNUCy0V71Qniao9ZX0Z
+         dJq1YYTL8ZfLvhsTnzAPZHTLF6miMxn7fx3QiMMGdwvQPLz1mJEOz3GDCqeAIh09bocK
+         s2Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCWJIlWKITuTyYq6n6mC6vLrEbzeJeoLmqxhlAmTkMKYxGDbTGOMCPTqWcN9Oqq+kK4VXtE=@vger.kernel.org, AJvYcCWQGh0Byqv1HbEAMg/9GX+WbyFonGfvRtKNETW+JFuZp1p0DE5ql9seu1XhaXYlyjG5mNdX6kSueamu@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsmiCltRJr7e6e+PlI1dmovkldDptB9Xqg7zuzSW+4B2gWVXUM
+	zJqpwyhVo6BTvzEYGrUPseiUDUlaUCdkC8bPr/HgYcWYac9XiVyG0oprmOv4/wVEiEFtm5Spss8
+	NdxGwsLHcOUaPVfDVEAms0twCsWnV9Fg=
+X-Gm-Gg: ASbGncuLdjFcsa/xh5jt2QBpDCeafjq3gueHODb0NXyOxhe+j54l8JyYo1aj2IjHCy3
+	kp295Mp1CaxoE5TlP+Org1uSxmm5jvAT3pFPjS9QArwzgldk+Wq1UwO0wwPS2rKhNQXdTxsEkUq
+	+FSwGVkh13XFpzwLty8L1nsKK+ZkmAF8x5uBov9/AU6tIH3NHZxeZKR1nJ1Y/umbpOvudcr0wbg
+	ypz1HtZHwH+psC9y98fxfCagAzQmRvKqHPtOQmU
+X-Google-Smtp-Source: AGHT+IGq8OntLZha2E+RHRzjfT2kevRfQDBROpREspWyrgfBnKhulrj6jbFwS3r1qYQLbJVZUxHzKt/hQ0CwFQvkx/g=
+X-Received: by 2002:a05:6214:18f4:b0:70d:eec2:cff2 with SMTP id
+ 6a1803df08f44-70deec2d983mr46345376d6.49.1756445801302; Thu, 28 Aug 2025
+ 22:36:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250829-sound-param-v1-1-3c2f67cd7c97@uniontech.com>
-References: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
-In-Reply-To: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Wang Yuli <wangyuli@deepin.org>, Guan Wentao <guanwentao@uniontech.com>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Celeste Liu <CoelacanthusHex@gmail.com>, Guoli An <anguoli@uniontech.com>, 
- linux-doc@vger.kernel.org, Cryolitia PukNgae <cryolitia@uniontech.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756444262; l=1950;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=+99QuTAVSYELP6NAKN8XeWv9qym77uQKo+/WgpeA+2g=;
- b=HnggGRou4PiMYDTU3AYipRu+GaNa/iVDrSJQhpBq+CYS0vzcYQIq78ibXM36rZyhm2bdKKlfz
- aRqIp2XWoxMCdotnsi9id0iyJ48QPRojXpF5ltHe0/IK5IIoJ4vdx3j
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-2-laoar.shao@gmail.com>
+ <CAGsJ_4wa0gC7FQmUP9HQxbacheKFRCqMbnfXwugeyOzhOS4McA@mail.gmail.com>
+In-Reply-To: <CAGsJ_4wa0gC7FQmUP9HQxbacheKFRCqMbnfXwugeyOzhOS4McA@mail.gmail.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 29 Aug 2025 13:36:05 +0800
+X-Gm-Features: Ac12FXzur8PyRFGmxf0SsAofO8ehtJn06i2WVKKAJDTji0n-pHUGNLV1GMbF8dk
+Message-ID: <CALOAHbApA9oUR2f27=HnsJASekTR+4tiBaXu1opy=CgLmogNWQ@mail.gmail.com>
+Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
+ order selection
+To: Barry Song <21cnbao@gmail.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
+	rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On Fri, Aug 29, 2025 at 12:56=E2=80=AFPM Barry Song <21cnbao@gmail.com> wro=
+te:
+>
+> On Tue, Aug 26, 2025 at 3:43=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com=
+> wrote:
+> [...]
+>
+> > @@ -4510,13 +4510,18 @@ static struct folio *alloc_swap_folio(struct vm=
+_fault *vmf)
+> >         if (!zswap_never_enabled())
+> >                 goto fallback;
+> >
+> > +       suggested_orders =3D get_suggested_order(vma->vm_mm, vma, vma->=
+vm_flags,
+> > +                                              TVA_PAGEFAULT,
+> > +                                              BIT(PMD_ORDER) - 1);
+>
+> Can we separate this case from the normal anonymous page faults below?
+> We=E2=80=99ve observed that swapping in large folios can lead to more
+> swap thrashing for some workloads- e.g. kernel build. Consequently,
+> some workloads
+> might prefer swapping in smaller folios than those allocated by
+> alloc_anon_folio().
 
-As already discussed[1], a module parameter called mixer_min_mute is
-added to make it easier for end users to debug the widespread problem
-without recompiling the kernel, where USB audio devices are muted when
-the volume is set to the minimum value.
+make sense to me.
+Perhaps we can add a new tva_type such as TVA_SWAP for this case.
 
-1.
-https://lore.kernel.org/all/20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com/
-
-Tested-by: Guoli An <anguoli@uniontech.com>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- sound/usb/card.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 0265206a8e8cf31133e8463c98fe0497d8ace89e..bf65727ad213f2897d735c1f3c55bfc3f85971cf 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -74,6 +74,7 @@ static char *quirk_alias[SNDRV_CARDS];
- static char *delayed_register[SNDRV_CARDS];
- static bool implicit_fb[SNDRV_CARDS];
- static unsigned int quirk_flags[SNDRV_CARDS];
-+static bool mixer_min_mute;
- 
- bool snd_usb_use_vmalloc = true;
- bool snd_usb_skip_validation;
-@@ -109,6 +110,9 @@ module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
- MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
-+module_param(mixer_min_mute, bool, 0444);
-+MODULE_PARM_DESC(mixer_min_mute,
-+		 "Set minimum volume control value as mute (default: no).");
- 
- /*
-  * we keep the snd_usb_audio_t instances by ourselves for merging
-@@ -959,6 +963,9 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	if (ignore_ctl_error)
- 		chip->quirk_flags |= QUIRK_FLAG_IGNORE_CTL_ERROR;
- 
-+	if (mixer_min_mute)
-+		chip->quirk_flags |= QUIRK_FLAG_MIXER_MIN_MUTE;
-+
- 	if (chip->quirk_flags & QUIRK_FLAG_DISABLE_AUTOSUSPEND)
- 		usb_disable_autosuspend(interface_to_usbdev(intf));
- 
-
--- 
-2.51.0
-
-
+--=20
+Regards
+Yafang
