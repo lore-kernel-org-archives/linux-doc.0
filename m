@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD9823507E;
-	Fri, 29 Aug 2025 22:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9155E35A2B3
+	for <linux-doc@vger.kernel.org>; Fri, 29 Aug 2025 23:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756507850; cv=none; b=OxBZmZHUUXkGuqdU5jzhZeBjstZ14ExAcehFnz5XM3MnAdORZFpdRYdiNXWEYewjqmqi6Q99oVW09EfGxBaED1cVkxTUBAh9AaBdwv7TbJUjrMEBU9LvPiUxZ3eRwQn6izwDdzmeAMydmZvx3WRzr2U5a3WxsCDax2Rp6gcmbvk=
+	t=1756508876; cv=none; b=QgXnVPx4lIVEzVP4wOwIqxfBv5kZIoWcwHqk50dnOBpvRF3ufBjMuycsT3Ix27GUECA6l7G6SJMDM/SuzF4kBv/dUbTdN1n3jjzsdkJPvjzdzZ6kd/YRJ/5umKs69jgnBneYOK5M88T3zKoDZYGXOcNmIaSYwt6KI0bOwW29CaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756507850; c=relaxed/simple;
-	bh=yQrl3gCtzdyKztNdAWjGjfEx4RFSnzGpjf6FUTnKgcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SogMMMGrJ5Io2j8ViZodebUFWKwu5oGMop/hxgxLGEoJGt9bKXVkWqVVzYOhkEoewPHTX+xJvn9H/8AsBXE+vOp0NdRnpP5DyW/0L44mhlsAkX/Jx2hd4f4fsAM7D5gVi/hQzLGzYiJI0o5K0oCgiM3P3zYPJaU2vOjUPi4U8lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pITCHuWU; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1756508876; c=relaxed/simple;
+	bh=vSBtuCoJW8W0VrGQmAYx1wSpF+FXZgi7Pve6sfhyckk=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=VslFY4ECI+udgErH8ay3x6o5aBXFGrUu8CAIVzfJ4FxWXwU/SKIVNokB72e5lDLi5pF+4kOPXJKdMWwC9j9DZGRBQmjK4Z+IOBh4EQZwC38P3LuCzU6RhR8j/srPBkvi38XjCINfN6qe+/nE9yL6VoZhLwxZYzvLBSCU7AssCn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h7qTQYIC; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pITCHuWU"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h7qTQYIC"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=vBqocCSrw/I/eTnjICc/R9VLegWS9kJ8fWJ+dhUrmbM=; b=pITCHuWUJuiDHiaEscGXVXczcK
-	I0/Wd74s+NDD/sEhJ3i0C7fgA9qpUSo8PJP1moXRGQnykNvxDXnxrqB2EIlySGG8dICRLkd4z6RHb
-	8KmkRHhoO+I/My0S3KX39ab8d3rYDeE0cLqWyIEYKNp5So3JeyY3f4amPxDo5zRskH7MdCU2cT4Kg
-	lkyk0k5hFEHpftWgCDxLX8H16kaIyfhbK35YVpzi0iECQVlLfDs/SxqnbrdaJz7dKqPuxbamvVnQ7
-	pLhICedjX9Wm5Ox+ZzOhDlVKF8oktW8T2cu4SuiApJT5Yps43hWywifM8Dr6AoBWERW4ru+BpvfZ0
-	QYZbU3VQ==;
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=BZENjRPvOt7Ok/fzHMDZwD6vrPT9D+2Kb9xtw4Yc+b8=; b=h7qTQYIC0gGN2FVirJq8Os6LN7
+	4jmKwOZY4PNiIgmUryD7gSB03qatovMrfB/IIB0G99l7p8Wh2RGO2mXITPO8kVj+br9fKg+Cosg2s
+	Ytj2MWCVP5O5o2XqzHsNX9/FC3LihuDRXq2ghtir9t6Ewt3Ouv1cz81MykXS6EaqsfaxsQynhVqms
+	bmY6BVbAnnZ7Zzxw5xJPXjYBuy756yBKXi7hyutX29xL6FuoM+PFJ7/6y3QIi8XQ7ayRpgKCw4KXy
+	pCGlWwN/IDzvH+mA2IDMMWvBWfr7EirLONPbvelmDsJ/EhuHWTwGgyC8tsim1JR6euImO1mOq2tuQ
+	zhx4+hhg==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1us7vg-00000006zQp-3RYK;
-	Fri, 29 Aug 2025 22:50:44 +0000
-Message-ID: <e11b42b9-8294-4cc3-b27c-2344ae898ce0@infradead.org>
-Date: Fri, 29 Aug 2025 15:50:43 -0700
+	id 1us8CJ-000000070NJ-0uY5
+	for linux-doc@vger.kernel.org;
+	Fri, 29 Aug 2025 23:07:55 +0000
+Message-ID: <6151bb43-8587-411c-8ec0-3b187bafdc43@infradead.org>
+Date: Fri, 29 Aug 2025 16:07:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,78 +39,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/15] genpt: Generic Page Table base API
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
- Joerg Roedel <joro@8bytes.org>, Justin Stitt <justinstitt@google.com>,
- Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
- Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
- James Gowans <jgowans@amazon.com>, Michael Roth <michael.roth@amd.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-References: <1-v4-0d6a6726a372+18959-iommu_pt_jgg@nvidia.com>
- <bdbd466f-01d3-40ac-abca-81527dbfb901@infradead.org>
- <20250829185124.GE79520@nvidia.com>
 Content-Language: en-US
+To: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250829185124.GE79520@nvidia.com>
+Subject: [howto?] linux/kernel.h: enum system_states
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi,
 
+Looking for advice/suggestions (for kernel-doc).
 
-On 8/29/25 11:51 AM, Jason Gunthorpe wrote:
-> On Wed, Aug 27, 2025 at 12:11:40AM -0700, Randy Dunlap wrote:
->>> +/**
->>> + * pt_entry_num_contig_lg2() - Number of contiguous items for this leaf entry
->>> + * @pts: Entry to query
->>> + *
->>> + * Returns the number of contiguous items this leaf entry spans. If the entry is
->>
->>  * Returns:
-> 
-> I think I prefer to leave many of these as is, putting the entire body
-> in a Returns: block seems too weird. I did the ones that seemed to fit
-> that pattern.
+I sent a patch for adding kernel-doc notation for enum system_states
+in <linux/kernel.h>.
+See  https://lore.kernel.org/all/20250818042123.1786468-1-rdunlap@infradead.org/
 
-Sure, no problem.
+Then I recently tried to add that to the kernel docbooks. Oops.
+There is one little word that is making this difficult: extern.
 
-> Most of these descriptions are entirely talking about the return value
-> since that is the only thing the function does.
-> 
->>> + * If true the caller use at level 0 pt_install_leaf_entry(PAGE_SHIFT). This is
->>
->>                          uses
->> ?
->> although it might just be missing a word or two? I can't tell.
-> 
->  * If true the caller can use, at level 0, pt_install_leaf_entry(PAGE_SHIFT).
->  * This is useful to create optimized paths for common cases of PAGE_SIZE
->  * mappings.
+kernel-doc does not support documenting (/**) something that is
+"extern". I can't remove the "extern" and with it present, kernel-doc
+just ignores this comment.
 
-Ack.
+It seems that I am left with using DOC: to document this enum, which I have
+working -- it just feels suboptimal.
+(Or I could move the kernel-doc block to init/main.c, where the variable 'system_state'
+is defined. But that's not the right place for the kernel-doc block IMO).
 
->>> + * Otherwise the bit in position pt_table_item_lg2sz() should be set indicating
->>> + * that a non-contigous singe item leaf entry is supported. The following
->>
->>              non-contiguous
->> Also, is that               single
->> ?
->> or is "singe" a real word here? (IDK.)
-> 
->  * Otherwise the bit in position pt_table_item_lg2sz() should be set indicating
->  * that a non-contiguous single item leaf entry is supported. The following
+Any other bright ideas/suggestions for me?
 
-Ack.
-
-thanks.
-
+Thanks.
 -- 
 ~Randy
 
