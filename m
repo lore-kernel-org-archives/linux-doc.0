@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000ED322766;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07353322A1A;
 	Fri, 29 Aug 2025 15:33:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756481592; cv=none; b=ZpHutz+xdPHnGwdxK5UQHlvVmXC+8O+FbZIvtf7Hj76nvczx3qFduhJuS1TKuTXtZBdErP1JoCZ95f1Oh3Q9o2pD+LSCFIatYuHIDxTojHOluRr2hyRAhMCrPOnV6uBp5MMlK+QojwM5l00v3s2VrQrC/Yf7KO0XkPlBTywKU2Y=
+	t=1756481592; cv=none; b=GlOLnP+ZXOmY5LdP02LRYboqexMhPBGBNuiRdJOeu8Upcl7T+RT9qZx07OauT2TcHq2lbGz/6YiXozZrRZHPiLXAq/HHZXeE4I/GsY6da6n9IyCASQhd1Ei13UE+/VmIA1vhfZ1FuePlCls5DvbawRwJZN6yH7vAeuERm6D6Wdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756481592; c=relaxed/simple;
-	bh=TLgbBxiKolxuXOrjRLi0rkoZU9vP1gi3n6LpK9m1o/g=;
+	bh=R3OvcTNx4qCw+JYMBbFTvH1jA3lYOMCUyQc7AWbcFCk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sc009gu37Jitok5UGdjsWowQRImqY237kegqF/uRTbfWOjSbMNl1AsBoLbtUxAyPDzw0TIuoGTRVRfivExidl0sevqiFpyG9Vc3KESPH6YzoOTAM/1ykqrU9lw0ZddUWFozwIa03f96wV6EeXJr/vnsSIKujhzprwodnPTn8aE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=JynVGdVW; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=B/KtcwtQOc9hxXvXLMwnUVz/grDUnsB7zh8WchliscBtZ646Uv6uBpkaspzMsSbjugJnJ8YekHCrxvtbYbrG8svuup6YYVPz+pZpYV9fAUWb62/xgeg6HqePI5oX1Hpf9g9EreqWuYszlmfjB1uNolLhYTGAZXcl8yz695tIckA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ViHH+5Z3; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="JynVGdVW"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ViHH+5Z3"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57TFVo4H2871953
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 57TFVo4P2871953
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 29 Aug 2025 08:32:22 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57TFVo4H2871953
+	Fri, 29 Aug 2025 08:32:29 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 57TFVo4P2871953
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025082201; t=1756481542;
-	bh=BBKTXTsrn2Zw8Dcn2Z3/WpVvozoH+mmJCd/M7GhuKco=;
+	s=2025082201; t=1756481550;
+	bh=NStq2uoPAwFsE+xhru2r7YtBDBQA5s2aqie6Z7C691U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JynVGdVWwpU+LxqO1Q6rtxg8YUh1ZNf1mJUMEYAZLP31wfjEe93yKXR5PGfVMyUim
-	 rXYqdJLMYinVyhHh8xDiDb9bLFppZgsnRCjw1HE4+q8PkCtYIGGvtpa+3NjULgOuUJ
-	 MdRfsulqOELpM8gHe9cMksAWiFijHFRo21GATyI4m3u0kbTUm4wio70TvOU+VA/YEa
-	 la5RU89IijuloZQPA4zoKBAjX9Hh1p1elNRSiqeV+jS8lJySJOPS9w4P9XiHaO0qhe
-	 mzpg8Hvyo9nz3Vly0vXzf+nrJPQ9GILmbE5UbraQyWDmQ/hzdng26eCOg6pvnmrj75
-	 v9h4oNBUeZnfw==
+	b=ViHH+5Z36e4nMuf+Jbucx4BwSBZUUDT7ij4okp3Cf1/52Iw2kb0bMBZn3Dh0pP/bU
+	 FxFKzFsoVMxVP6/wFdhEm+iOAcs1AffrvEotpUDI+w1PYhD7hx21T25PCTrD4ohf5s
+	 wuNlZrpQ9CeMTv+crOcy1Ws/7v1vIDjGGiGJt9zVPye3oiSzDllVaQQeNeCAsnSq3g
+	 GVNbQ2LagGjCylgMA9e+R/aMHDqM921Um6recrdeh42K9x7e5t7z8HOIfCAk36sHd7
+	 gPITs8q8gDJVzkYJEzZBTGZKpd9f8Z1g+Dy6j9b+KcEe8+zNHQNhB1pznHddiX5aai
+	 D3uWzUi0jSgoA==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
@@ -40,9 +40,9 @@ Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
         x86@kernel.org, hpa@zytor.com, xin@zytor.com, luto@kernel.org,
         peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
         hch@infradead.org
-Subject: [PATCH v7 11/21] KVM: VMX: Virtualize FRED event_data
-Date: Fri, 29 Aug 2025 08:31:39 -0700
-Message-ID: <20250829153149.2871901-12-xin@zytor.com>
+Subject: [PATCH v7 19/21] KVM: nVMX: Add FRED-related VMCS field checks
+Date: Fri, 29 Aug 2025 08:31:47 -0700
+Message-ID: <20250829153149.2871901-20-xin@zytor.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250829153149.2871901-1-xin@zytor.com>
 References: <20250829153149.2871901-1-xin@zytor.com>
@@ -56,29 +56,11 @@ Content-Transfer-Encoding: 8bit
 
 From: Xin Li <xin3.li@intel.com>
 
-Set injected-event data when injecting a #PF, #DB, or #NM caused
-by extended feature disable using FRED event delivery, and save
-original-event data for being used as injected-event data.
-
-Unlike IDT using some extra CPU register as part of an event
-context, e.g., %cr2 for #PF, FRED saves a complete event context
-in its stack frame, e.g., FRED saves the faulting linear address
-of a #PF into the event data field defined in its stack frame.
-
-Thus a new VMX control field called injected-event data is added
-to provide the event data that will be pushed into a FRED stack
-frame for VM entries that inject an event using FRED event delivery.
-In addition, a new VM exit information field called original-event
-data is added to store the event data that would have saved into a
-FRED stack frame for VM exits that occur during FRED event delivery.
-After such a VM exit is handled to allow the original-event to be
-delivered, the data in the original-event data VMCS field needs to
-be set into the injected-event data VMCS field for the injection of
-the original event.
+As with real hardware, nested VMX validates various VMCS fields, including
+control and guest/host state fields.  This patch adds checks for FRED-related
+VMCS fields to support nested FRED functionality.
 
 Signed-off-by: Xin Li <xin3.li@intel.com>
-[ Sean: reworked event data injection for nested ]
-Signed-off-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Tested-by: Xuelian Guo <xuelian.guo@intel.com>
@@ -86,192 +68,181 @@ Tested-by: Xuelian Guo <xuelian.guo@intel.com>
 
 Change in v5:
 * Add TB from Xuelian Guo.
-
-Change in v3:
-* Rework event data injection for nested (Chao Gao & Sean Christopherson).
-
-Changes in v2:
-* Document event data should be equal to CR2/DR6/IA32_XFD_ERR instead
-  of using WARN_ON() (Chao Gao).
-* Zero event data if a #NM was not caused by extended feature disable
-  (Chao Gao).
 ---
- arch/x86/include/asm/kvm_host.h |  3 ++-
- arch/x86/include/asm/vmx.h      |  4 ++++
- arch/x86/kvm/svm/svm.c          |  2 +-
- arch/x86/kvm/vmx/vmx.c          | 22 ++++++++++++++++++----
- arch/x86/kvm/x86.c              | 16 +++++++++++++++-
- 5 files changed, 40 insertions(+), 7 deletions(-)
+ arch/x86/kvm/vmx/nested.c | 117 +++++++++++++++++++++++++++++++++-----
+ 1 file changed, 104 insertions(+), 13 deletions(-)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index bec644eec92f..5c48acc98939 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -759,6 +759,7 @@ struct kvm_queued_exception {
- 	u32 error_code;
- 	unsigned long payload;
- 	bool has_payload;
-+	u64 event_data;
- };
- 
- /*
-@@ -2227,7 +2228,7 @@ void kvm_queue_exception(struct kvm_vcpu *vcpu, unsigned nr);
- void kvm_queue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 error_code);
- void kvm_queue_exception_p(struct kvm_vcpu *vcpu, unsigned nr, unsigned long payload);
- void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
--			   bool has_error_code, u32 error_code);
-+			   bool has_error_code, u32 error_code, u64 event_data);
- void kvm_inject_page_fault(struct kvm_vcpu *vcpu, struct x86_exception *fault);
- void kvm_inject_emulated_page_fault(struct kvm_vcpu *vcpu,
- 				    struct x86_exception *fault);
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 6f8b8947c60c..539af190ad3e 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -269,8 +269,12 @@ enum vmcs_field {
- 	PID_POINTER_TABLE_HIGH		= 0x00002043,
- 	SECONDARY_VM_EXIT_CONTROLS	= 0x00002044,
- 	SECONDARY_VM_EXIT_CONTROLS_HIGH	= 0x00002045,
-+	INJECTED_EVENT_DATA		= 0x00002052,
-+	INJECTED_EVENT_DATA_HIGH	= 0x00002053,
- 	GUEST_PHYSICAL_ADDRESS          = 0x00002400,
- 	GUEST_PHYSICAL_ADDRESS_HIGH     = 0x00002401,
-+	ORIGINAL_EVENT_DATA		= 0x00002404,
-+	ORIGINAL_EVENT_DATA_HIGH	= 0x00002405,
- 	VMCS_LINK_POINTER               = 0x00002800,
- 	VMCS_LINK_POINTER_HIGH          = 0x00002801,
- 	GUEST_IA32_DEBUGCTL             = 0x00002802,
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index e4af4907c7d8..9feca6b90380 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -4127,7 +4127,7 @@ static void svm_complete_interrupts(struct kvm_vcpu *vcpu)
- 
- 		kvm_requeue_exception(vcpu, vector,
- 				      exitintinfo & SVM_EXITINTINFO_VALID_ERR,
--				      error_code);
-+				      error_code, 0);
- 		break;
- 	}
- 	case SVM_EXITINTINFO_TYPE_INTR:
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 358410220cc2..1abfba2139a5 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1861,6 +1861,9 @@ void vmx_inject_exception(struct kvm_vcpu *vcpu)
- 
- 	vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
- 
-+	if (is_fred_enabled(vcpu))
-+		vmcs_write64(INJECTED_EVENT_DATA, ex->event_data);
-+
- 	vmx_clear_hlt(vcpu);
- }
- 
-@@ -7269,7 +7272,8 @@ static void vmx_recover_nmi_blocking(struct vcpu_vmx *vmx)
- static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu,
- 				      u32 idt_vectoring_info,
- 				      int instr_len_field,
--				      int error_code_field)
-+				      int error_code_field,
-+				      int event_data_field)
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index 0cb9a2e43ad2..b56bbac36749 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -3031,6 +3031,8 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
+ 					  struct vmcs12 *vmcs12)
  {
- 	u8 vector;
- 	int type;
-@@ -7304,13 +7308,17 @@ static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu,
- 		fallthrough;
- 	case INTR_TYPE_HARD_EXCEPTION: {
- 		u32 error_code = 0;
-+		u64 event_data = 0;
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
++	bool fred_enabled = (vmcs12->vm_entry_controls & VM_ENTRY_IA32E_MODE) &&
++			    (vmcs12->guest_cr4 & X86_CR4_FRED);
  
- 		if (idt_vectoring_info & VECTORING_INFO_DELIVER_CODE_MASK)
- 			error_code = vmcs_read32(error_code_field);
-+		if (is_fred_enabled(vcpu))
-+			event_data = vmcs_read64(event_data_field);
+ 	if (CC(!vmx_control_verify(vmcs12->vm_entry_controls,
+ 				    vmx->nested.msrs.entry_ctls_low,
+@@ -3048,22 +3050,11 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
+ 		u8 vector = intr_info & INTR_INFO_VECTOR_MASK;
+ 		u32 intr_type = intr_info & INTR_INFO_INTR_TYPE_MASK;
+ 		bool has_error_code = intr_info & INTR_INFO_DELIVER_CODE_MASK;
++		bool has_nested_exception = vmx->nested.msrs.basic & VMX_BASIC_NESTED_EXCEPTION;
+ 		bool urg = nested_cpu_has2(vmcs12,
+ 					   SECONDARY_EXEC_UNRESTRICTED_GUEST);
+ 		bool prot_mode = !urg || vmcs12->guest_cr0 & X86_CR0_PE;
  
- 		kvm_requeue_exception(vcpu, vector,
- 				      idt_vectoring_info & VECTORING_INFO_DELIVER_CODE_MASK,
--				      error_code);
-+				      error_code,
-+				      event_data);
- 		break;
- 	}
- 	case INTR_TYPE_SOFT_INTR:
-@@ -7328,7 +7336,8 @@ static void vmx_complete_interrupts(struct vcpu_vmx *vmx)
- {
- 	__vmx_complete_interrupts(&vmx->vcpu, vmx->idt_vectoring_info,
- 				  VM_EXIT_INSTRUCTION_LEN,
--				  IDT_VECTORING_ERROR_CODE);
-+				  IDT_VECTORING_ERROR_CODE,
-+				  ORIGINAL_EVENT_DATA);
- }
+-		/* VM-entry interruption-info field: interruption type */
+-		if (CC(intr_type == INTR_TYPE_RESERVED) ||
+-		    CC(intr_type == INTR_TYPE_OTHER_EVENT &&
+-		       !nested_cpu_supports_monitor_trap_flag(vcpu)))
+-			return -EINVAL;
+-
+-		/* VM-entry interruption-info field: vector */
+-		if (CC(intr_type == INTR_TYPE_NMI_INTR && vector != NMI_VECTOR) ||
+-		    CC(intr_type == INTR_TYPE_HARD_EXCEPTION && vector > 31) ||
+-		    CC(intr_type == INTR_TYPE_OTHER_EVENT && vector != 0))
+-			return -EINVAL;
+-
+ 		/*
+ 		 * Cannot deliver error code in real mode or if the interrupt
+ 		 * type is not hardware exception. For other cases, do the
+@@ -3088,8 +3079,28 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
+ 		if (CC(intr_info & INTR_INFO_RESVD_BITS_MASK))
+ 			return -EINVAL;
  
- void vmx_cancel_injection(struct kvm_vcpu *vcpu)
-@@ -7336,7 +7345,8 @@ void vmx_cancel_injection(struct kvm_vcpu *vcpu)
- 	__vmx_complete_interrupts(vcpu,
- 				  vmcs_read32(VM_ENTRY_INTR_INFO_FIELD),
- 				  VM_ENTRY_INSTRUCTION_LEN,
--				  VM_ENTRY_EXCEPTION_ERROR_CODE);
-+				  VM_ENTRY_EXCEPTION_ERROR_CODE,
-+				  INJECTED_EVENT_DATA);
- 
- 	vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, 0);
- }
-@@ -7490,6 +7500,10 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 
- 	vmx_disable_fb_clear(vmx);
- 
-+	/*
-+	 * Note, even though FRED delivers the faulting linear address via the
-+	 * event data field on the stack, CR2 is still updated.
-+	 */
- 	if (vcpu->arch.cr2 != native_read_cr2())
- 		native_write_cr2(vcpu->arch.cr2);
- 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index c53fc235b8bd..dbcf00c55012 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -807,9 +807,22 @@ void kvm_deliver_exception_payload(struct kvm_vcpu *vcpu,
- 		 * breakpoint), it is reserved and must be zero in DR6.
- 		 */
- 		vcpu->arch.dr6 &= ~BIT(12);
-+
+-		/* VM-entry instruction length */
 +		/*
-+		 * FRED #DB event data matches DR6, but follows the polarity of
-+		 * VMX's pending debug exceptions, not DR6.
++		 * When the CPU enumerates VMX nested-exception support, bit 13
++		 * (set to indicate a nested exception) of the intr info field
++		 * may have value 1.  Otherwise bit 13 is reserved.
 +		 */
-+		ex->event_data = ex->payload & ~BIT(12);
-+		break;
-+	case NM_VECTOR:
-+		ex->event_data = ex->payload;
- 		break;
- 	case PF_VECTOR:
- 		vcpu->arch.cr2 = ex->payload;
-+		ex->event_data = ex->payload;
-+		break;
-+	default:
-+		ex->event_data = 0;
- 		break;
++		if (CC(!(has_nested_exception && intr_type == INTR_TYPE_HARD_EXCEPTION) &&
++		       intr_info & INTR_INFO_NESTED_EXCEPTION_MASK))
++			return -EINVAL;
++
+ 		switch (intr_type) {
++		case INTR_TYPE_EXT_INTR:
++			break;
++		case INTR_TYPE_RESERVED:
++			return -EINVAL;
++		case INTR_TYPE_NMI_INTR:
++			if (CC(vector != NMI_VECTOR))
++				return -EINVAL;
++			break;
++		case INTR_TYPE_HARD_EXCEPTION:
++			if (CC(vector > 31))
++				return -EINVAL;
++			break;
+ 		case INTR_TYPE_SOFT_EXCEPTION:
+ 		case INTR_TYPE_SOFT_INTR:
+ 		case INTR_TYPE_PRIV_SW_EXCEPTION:
+@@ -3097,6 +3108,24 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
+ 			    CC(vmcs12->vm_entry_instruction_len == 0 &&
+ 			    CC(!nested_cpu_has_zero_length_injection(vcpu))))
+ 				return -EINVAL;
++			break;
++		case INTR_TYPE_OTHER_EVENT:
++			switch (vector) {
++			case 0:
++				if (CC(!nested_cpu_supports_monitor_trap_flag(vcpu)))
++					return -EINVAL;
++				break;
++			case 1:
++			case 2:
++				if (CC(!fred_enabled))
++					return -EINVAL;
++				if (CC(vmcs12->vm_entry_instruction_len > X86_MAX_INSTRUCTION_LENGTH))
++					return -EINVAL;
++				break;
++			default:
++				return -EINVAL;
++			}
++			break;
+ 		}
  	}
  
-@@ -917,7 +930,7 @@ static void kvm_queue_exception_e_p(struct kvm_vcpu *vcpu, unsigned nr,
- }
+@@ -3184,9 +3213,29 @@ static int nested_vmx_check_host_state(struct kvm_vcpu *vcpu,
+ 	if (ia32e) {
+ 		if (CC(!(vmcs12->host_cr4 & X86_CR4_PAE)))
+ 			return -EINVAL;
++		if (vmcs12->vm_exit_controls & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS &&
++		    vmcs12->secondary_vm_exit_controls & SECONDARY_VM_EXIT_LOAD_IA32_FRED) {
++			if (CC(vmcs12->host_ia32_fred_config &
++			       (BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2))) ||
++			    CC(vmcs12->host_ia32_fred_rsp1 & GENMASK_ULL(5, 0)) ||
++			    CC(vmcs12->host_ia32_fred_rsp2 & GENMASK_ULL(5, 0)) ||
++			    CC(vmcs12->host_ia32_fred_rsp3 & GENMASK_ULL(5, 0)) ||
++			    CC(vmcs12->host_ia32_fred_ssp1 & GENMASK_ULL(2, 0)) ||
++			    CC(vmcs12->host_ia32_fred_ssp2 & GENMASK_ULL(2, 0)) ||
++			    CC(vmcs12->host_ia32_fred_ssp3 & GENMASK_ULL(2, 0)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_config & PAGE_MASK, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_rsp1, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_rsp2, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_rsp3, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_ssp1, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_ssp2, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_ssp3, vcpu)))
++				return -EINVAL;
++		}
+ 	} else {
+ 		if (CC(vmcs12->vm_entry_controls & VM_ENTRY_IA32E_MODE) ||
+ 		    CC(vmcs12->host_cr4 & X86_CR4_PCIDE) ||
++		    CC(vmcs12->host_cr4 & X86_CR4_FRED) ||
+ 		    CC((vmcs12->host_rip) >> 32))
+ 			return -EINVAL;
+ 	}
+@@ -3354,6 +3403,48 @@ static int nested_vmx_check_guest_state(struct kvm_vcpu *vcpu,
+ 	     CC((vmcs12->guest_bndcfgs & MSR_IA32_BNDCFGS_RSVD))))
+ 		return -EINVAL;
  
- void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
--			   bool has_error_code, u32 error_code)
-+			   bool has_error_code, u32 error_code, u64 event_data)
- {
- 
- 	/*
-@@ -942,6 +955,7 @@ void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
- 	vcpu->arch.exception.error_code = error_code;
- 	vcpu->arch.exception.has_payload = false;
- 	vcpu->arch.exception.payload = 0;
-+	vcpu->arch.exception.event_data = event_data;
- }
- EXPORT_SYMBOL_GPL(kvm_requeue_exception);
- 
++	if (ia32e) {
++		if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_FRED) {
++			if (CC(vmcs12->guest_ia32_fred_config &
++			       (BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2))) ||
++			    CC(vmcs12->guest_ia32_fred_rsp1 & GENMASK_ULL(5, 0)) ||
++			    CC(vmcs12->guest_ia32_fred_rsp2 & GENMASK_ULL(5, 0)) ||
++			    CC(vmcs12->guest_ia32_fred_rsp3 & GENMASK_ULL(5, 0)) ||
++			    CC(vmcs12->guest_ia32_fred_ssp1 & GENMASK_ULL(2, 0)) ||
++			    CC(vmcs12->guest_ia32_fred_ssp2 & GENMASK_ULL(2, 0)) ||
++			    CC(vmcs12->guest_ia32_fred_ssp3 & GENMASK_ULL(2, 0)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_config & PAGE_MASK, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_rsp1, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_rsp2, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_rsp3, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_ssp1, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_ssp2, vcpu)) ||
++			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_ssp3, vcpu)))
++				return -EINVAL;
++		}
++		if (vmcs12->guest_cr4 & X86_CR4_FRED) {
++			unsigned int ss_dpl = VMX_AR_DPL(vmcs12->guest_ss_ar_bytes);
++			switch (ss_dpl) {
++			case 0:
++				if (CC(!(vmcs12->guest_cs_ar_bytes & VMX_AR_L_MASK)))
++					return -EINVAL;
++				break;
++			case 1:
++			case 2:
++				return -EINVAL;
++			case 3:
++				if (CC(vmcs12->guest_rflags & X86_EFLAGS_IOPL))
++					return -EINVAL;
++				if (CC(vmcs12->guest_interruptibility_info & GUEST_INTR_STATE_STI))
++					return -EINVAL;
++				break;
++			}
++		}
++	} else {
++		if (CC(vmcs12->guest_cr4 & X86_CR4_FRED))
++			return -EINVAL;
++	}
++
+ 	if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_CET_STATE) {
+ 		if (CC(!is_valid_cet_state(vcpu, vmcs12->guest_s_cet, vmcs12->guest_ssp,
+ 					   vmcs12->guest_ssp_tbl)))
 -- 
 2.51.0
 
