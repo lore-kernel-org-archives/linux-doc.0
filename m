@@ -1,67 +1,66 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1F414B06C
-	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 17:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8C8221F24
+	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 18:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756575189; cv=none; b=eQBV0bMA0oIcu/UokUVUqHORCtf4N1a77b1GoO1nuHEFaJrcWlFc5GErdn7ePKMoa0wV2wED/9BWbjfFqIm1rpeiG3iqCt9bVAZF76VKi2CwzZ2pgchTE/dg6ZM90p+k4jLc5sDv1VNiYoIS1EM1D/iKCDXv8zhVLQUzuVmp000=
+	t=1756576954; cv=none; b=LH9kzZrg97q0J/jMKM2FhuUcKqy4PaNCJdpy/HUZLxljicTVtPRjA4gvuC7v5Kfa2+Z4P7kG+m/Ta+NIdiTNXDyP7JYRHgh2/8DY08R6P9s/te9gyTzVpLncoewQVM5KGGLX+I+TCPWixK6BuKs2OrExUikjfAzvVk5zQxnIXnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756575189; c=relaxed/simple;
-	bh=Vya6+lJmTJWfY/M8wUra0srurpA1liqHsz60MVER1eg=;
+	s=arc-20240116; t=1756576954; c=relaxed/simple;
+	bh=LL1hd9q8LJpTq1VIPJ6jPwhtJlsQGlDix5UjkykB4Z0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d/1903Vio7yFs6iBgnTRnImM/ekKFJnxxZI4ES3nFJFzpIoV6TkWj5Aqo+VLeYFBHObkff/6c1ooYxsYH+dMjbJCe06+GeNYenLXPfcZLD9xYXwDk8V5x6UTCxI7jglVQINwi1zdNrQMcwKywXTtlz2786ie8bSzfuf7fV2xjRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1cbToZpi; arc=none smtp.client-ip=209.85.210.48
+	 In-Reply-To:Content-Type; b=JobFmYng1xgmzh2NWFL6U8b7Zx4i8UFFlaOYoYlFGWYR9cY5FDsF3uvP0oKbxNtbC1qXz7QHQawSlI5mDYs6vIiTgzZThsZEh1I6sSCj0+cirUtvMt9uTBAn8EkdcjsbPkWIbR5rwII8hOkYgx0FX99zwyrFesyKUVZhGFqdnH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=d4kFHbRn; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1cbToZpi"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7454fee9da0so1084621a34.3
-        for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 10:33:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="d4kFHbRn"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-30cce8c3afaso2708071fac.1
+        for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 11:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1756575186; x=1757179986; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1756576950; x=1757181750; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UwGfxy65ZWGgnex0UcGnWFkAe5/xQalwPutBYQHrYU0=;
-        b=1cbToZpi2/q9zCSHq8cYBfTH1RjbdXdQRgzYH+U8VF4TRyJwx/Pjfuwt3XWvXfEZ3O
-         hyda4xkvT3rp9kNq5NESq9/eUbiWrs2jxXoKZiyrr9rQ6qWewVXbTyyTX9WG7/QBS7mA
-         i9TCg3scXUoZqEK7Tt1dkPacrBXfAWxqh7Zn0EUMCkwmnlpISmQ51T6vyp8/Pstdk7pB
-         YLwjfM78DSZV0MyETDNhRN0RCzKeyDpl69INMjyhA7aL7Q8y7J/pWiBAe5iijdez7zM6
-         CnS/k195tOfluSr8ItPZRt0c9XgsmhG79cQIbVzrHnVXoD0upuPisT5JM6FXW/+SRQde
-         BJAA==
+        bh=PD2EKFpAobF4U0TIuLMjpEcO1H/Nnyn+f8Dfu+DnkNI=;
+        b=d4kFHbRnKQoKXBWL1zWyAwAs9XrZhybRacslpYsfOE/8svlNjSAa8Db/NCLXxiJRfA
+         J2QD4/foHnDmHwjuCSsOjuJdbemw7PsoCS5Uu6HXPTYCRCgcgnVvheVSKQyQpip6/XBP
+         MXz5Fm4B1McmU3Wff8PnTJzziO8LqKydzV6W7lgjTSLztkWWi8KoF8jJh5zTod8q8sIa
+         wdfUEv0LJL8woK7iGwOs86dgFktN/7oUDsaxpR4w8skkPSaKoxIEI7ZTIEdD0ImcJ/2B
+         NNHGtdWgXgCxV140u8AZQooK2BGzWxAuHzVH5fzMh7d38ELATTJP4PjnOCL/xLmLDsBH
+         4Piw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756575186; x=1757179986;
+        d=1e100.net; s=20230601; t=1756576950; x=1757181750;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UwGfxy65ZWGgnex0UcGnWFkAe5/xQalwPutBYQHrYU0=;
-        b=X2vceoRHv3Y8S++nwzU+LTlbY992EGAzJ8Zmr0gVEgF9u6vTRuucpiPyRQoXTjWbAL
-         pXZCDH+rLj+QUy8Crq+A7BwDQSDYD6e0xRwrBc7CTWlw5rdr14ny12lOJsIB4m4YwljJ
-         Y4pwuY/Kq9jCozALYHQryxQTc1PXaLHL4mDsAl1MLE0E6e2hcyIyGfPD5in/8KMKo24X
-         WLzbQUamxxhOoY2VFD1hJ7OYheuMucF7FK6Sp9Zgyl1NdllMuCxM6aB+qIv+ftb8Jk2d
-         ecNCUDYxO0Isoq+VTrKqNX361O8jTaV6B6fi8ox7KykKs0tgTlCUPpY+AXN2jir4yatv
-         2HMA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5MPIrFyQu3OF8mJfesKnOeloSOUazA1nczlGfKvx41S4cG/IXoCUs+TR04iXu91M2TQpExWrY8IQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzGv6vios7R+jrHxvXhuwAxyZeiBKrBx4QUkLpmLVrUN2p9Sca
-	L/gYo+40PduC1XSKIhDhNVncHzXEwXgGQi55I2mqBzpNGIWBaTZSnrDS9OZlZ0UkTUg5gExlyqJ
-	F838u
-X-Gm-Gg: ASbGncuR1gML0/RXpC6OuaEj8cLXOoarLDdLYZ6EXoOdlg+eUqTCnVGn3O56hXzlYqL
-	M/TEs94Cnk2cGgJFpBnLB7AVq5oCALd3jYxvh0fS8dMORT5Z1WE5/Wd/duAIAFL6IEafCA+d0S9
-	jmeG/Ht0lxC13F1eJ6gC+ET+5/A64entALcK1AqniXBXY2z17d8nXx61kCY1fC8F/pcJkBMhWhM
-	1js2qBrzMQkOWVRnn5tNgh/MFWrY6VN2QOw0JJYLRUWwNB0cxIHIoUNXSFnSPT0YTiFNjglm9HU
-	OeTRH1jikrUK20byvCFSDnGZ0ZItuh0MR19rmraNt17mU1cuWes7k8B0syBt6GBT8n+pgXqKXAr
-	62MhBXHI3aY6wG+uhwBt2vmskoHGBM6IFT4Xb0c3Y47ojiTjsP5pw2lyw/WeFIODwu2w8ZoDmPl
-	Me6gaiuCpfxw==
-X-Google-Smtp-Source: AGHT+IFcICIgTAwdd2cegX4yfW7wbywNdgh/DYrUWm0XZ+08pLIWWYSQjsp1DI9hm/xDxEm0jp5Vpg==
-X-Received: by 2002:a05:6871:b0d:b0:315:351d:bcf2 with SMTP id 586e51a60fabf-3196307edcfmr1120526fac.2.1756575186272;
-        Sat, 30 Aug 2025 10:33:06 -0700 (PDT)
+        bh=PD2EKFpAobF4U0TIuLMjpEcO1H/Nnyn+f8Dfu+DnkNI=;
+        b=DsMCT9Kbf/0VKNExu7RaL8f4/Hg+VfdCq4eJNe3ORygS9DHyOVZFbn4TTApcRVC6nM
+         KZJ0FyEpomsba81+VxZ8SpaFgxLcqwY5R0cx/1XaaD13Eoizw1ZooaS0CvCyW7ag3c/Z
+         92k0+55/zrCjjeXNw/zgNsRGg53T5efNbFi62nt4TUlkReTuyPutK1abNh4GDlCriQ2n
+         aaO35XKN/KMsq7927ALNad5C06k9rN4LS/8V4FQu7tkzJgNKYQ3B5Z2CQmsnBOup9Xv2
+         nKem0pHSI8O++CPrAco5/i9N0izy98FlvUxkOIu6d47xhPnCnLvteHYIpfZJih2gJGRv
+         9aRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPLxROL3dKFVBzqD6r6L/QBoxvot9NSzlxSTxtLVsr51z684RN6MhF4tKn57W9j96GoFTwpoDgl6w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy033ZRE0CLvydPLD9cfgf4u8OsixAe0IlMvfA/YInGmzYH2zet
+	XvUO1clt009OO/uDuZe4M4Ks/5vldojxJ71Pph7ijOyNr2k4mHNKv0omN7/KmppvpY4=
+X-Gm-Gg: ASbGnctd0qyGTAKcrwJaU2/d/ovseQQkx6sdL0pCo2WSw6g8w5h+VsLIzRlAGCxyu0W
+	3Nh4jv7rEwN/4dHou57Bm21+guePHgVSo/GWcxAPb6RK3pqSffmqUAMO1i3kZHKHgzlrZa/3rVd
+	Bl5gQKNnTIBdjpVanDFHCHjtpvq2n8YrfNt+8EeuKPCJhIoJC+jOpJuUYDRAaHNn/kavYE5L8gy
+	hA6z6JVugLzKqYnWmWQVeARz5bI17gVWjCoYbM2uDW6fRBxgwrUeZBIQ519cHvOzmNrSZZ7n68I
+	TPEETy7doiT26tnw/h1B7aGofgQU4N882tyLG4ivXagX4QbLa/gxosfKaYNeL2fCxIhQc9sRhvZ
+	X2vZbit+fR/eqyTsrD4waJ9EFGXqDGjtcTp4zSQ4A7FWIaH1yP45NzWQ3EZHLlAVQzExgWTG5q7
+	T6VGEaqA1E8A==
+X-Google-Smtp-Source: AGHT+IGSJvFvC9dcmKaGf9glwESPFKs7sboRW3GSWHC52Tz6jlzKsP6xrkD7Hc7UHEkT8qvw/3aY5Q==
+X-Received: by 2002:a05:6870:c0d:b0:315:b768:bd23 with SMTP id 586e51a60fabf-319633c79a1mr1298016fac.34.1756576949951;
+        Sat, 30 Aug 2025 11:02:29 -0700 (PDT)
 Received: from ?IPV6:2600:8803:e7e4:1d00:f7b4:dfbd:5110:c59d? ([2600:8803:e7e4:1d00:f7b4:dfbd:5110:c59d])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3196d4c1132sm369525fac.28.2025.08.30.10.33.04
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3196d2a7f3csm392769fac.8.2025.08.30.11.02.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Aug 2025 10:33:04 -0700 (PDT)
-Message-ID: <bb8f120b-db75-4dbf-8473-3ef6f340c38a@baylibre.com>
-Date: Sat, 30 Aug 2025 12:33:04 -0500
+        Sat, 30 Aug 2025 11:02:29 -0700 (PDT)
+Message-ID: <033e8639-67db-4397-b8c1-d1b7774eb9fe@baylibre.com>
+Date: Sat, 30 Aug 2025 13:02:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/15] iio: adc: ad4030: Enable dual data rate
+Subject: Re: [PATCH 10/15] dt-bindings: iio: adc: adi,ad4030: Add
+ adi,clock-mode
 To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  devicetree@vger.kernel.org, linux-spi@vger.kernel.org
@@ -79,77 +79,66 @@ Cc: jic23@kernel.org, Michael.Hennerich@analog.com, nuno.sa@analog.com,
  Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
  ahaslam@baylibre.com, sergiu.cuciurean@analog.com, marcelo.schmitt1@gmail.com
 References: <cover.1756511030.git.marcelo.schmitt@analog.com>
- <47b2cf01555c31126bc2133526317c7829cb59ab.1756511030.git.marcelo.schmitt@analog.com>
+ <1acb071f7140c9d44ed616a9eaea00b0ee423164.1756511030.git.marcelo.schmitt@analog.com>
 Content-Language: en-US
 From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <47b2cf01555c31126bc2133526317c7829cb59ab.1756511030.git.marcelo.schmitt@analog.com>
+In-Reply-To: <1acb071f7140c9d44ed616a9eaea00b0ee423164.1756511030.git.marcelo.schmitt@analog.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/29/25 7:45 PM, Marcelo Schmitt wrote:
-> Set AD4030 series device to do two data bit transitions per clock cycle per
-> active lane when specified by firmware. The dual data rate (DDR) feature is
-> available only for host clock mode and echo clock mode.
+On 8/29/25 7:43 PM, Marcelo Schmitt wrote:
+> AD4030 and similar designs support three different options for the clock
+> that frames ADC output data. Each option implies a different hardware
+> configuration for reading ADC data. Document AD4030 clock mode options.
 > 
 > Co-developed-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
 > Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
 > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
 > ---
->  drivers/iio/adc/ad4030.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  .../devicetree/bindings/iio/adc/adi,ad4030.yaml      | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-> index a5931056936a..37ba00097efe 100644
-> --- a/drivers/iio/adc/ad4030.c
-> +++ b/drivers/iio/adc/ad4030.c
-> @@ -74,6 +74,7 @@
->  	(AD4030_REG_GAIN_X0_MSB + (AD4030_REG_GAIN_BYTES_NB * (ch)))
->  #define AD4030_REG_MODES			0x20
->  #define     AD4030_REG_MODES_MASK_OUT_DATA_MODE	GENMASK(2, 0)
-> +#define     AD4030_REG_MODES_MASK_DDR_MODE	BIT(3)
->  #define     AD4030_REG_MODES_MASK_CLOCK_MODE	GENMASK(5, 4)
->  #define     AD4030_REG_MODES_MASK_LANE_MODE	GENMASK(7, 6)
->  #define AD4030_REG_OSCILATOR			0x21
-> @@ -175,6 +176,7 @@ struct ad4030_state {
->  	enum ad4030_out_mode mode;
->  	enum ad4030_lane_mode lane_mode;
->  	enum ad4030_clock_mode clock_mode;
-> +	bool ddr;
->  	/* offload sampling spi message */
->  	struct spi_transfer offload_xfer;
->  	struct spi_message offload_msg;
-> @@ -1218,6 +1220,9 @@ static void ad4030_prepare_offload_msg(struct ad4030_state *st)
->  	else
->  		offload_bpw  = data_width / (1 << st->lane_mode);
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> index bee85087a7b2..1e4e025b835f 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> @@ -78,6 +78,18 @@ properties:
+>    interrupt-names:
+>      const: busy
 >  
-> +	if (st->ddr)
-> +		offload_bpw  /= 2;
+> +  adi,clock-mode:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [ spi, echo, host ]
+> +    default: spi
+> +    description:
+> +      Describes how the clock that frames ADC data output is setup.
+> +      spi  - Spi-compatible. Normal SPI operation clocking.
+> +      echo - Echo-clock. Synchronous clock echoing to ease timing requirements
+> +             when using isolation on the digital interface.
+> +      host - Host. The Host clock mode uses an internal oscillator to clock out
+> +             the data bits. In this mode, the spi controller is not driving SCLK.
 > +
+>  required:
+>    - compatible
+>    - reg
 
-There is already an existing dtr_mode flag in struct spi_transfer. We should
-be using that instead of providing an inaccurate bits per word value.
+I think this would make sense as a common property in spi-peripheral-props.yaml
+as this is something that is not specific to just this ADC and also requires
+a supporting SPI controller with the matching wiring.
 
->  	st->offload_xfer.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED;
->  	st->offload_xfer.bits_per_word = offload_bpw;
->  	st->offload_xfer.len = roundup_pow_of_two(BITS_TO_BYTES(offload_bpw));
-> @@ -1271,6 +1276,12 @@ static int ad4030_config(struct ad4030_state *st)
->  	reg_modes |= FIELD_PREP(AD4030_REG_MODES_MASK_CLOCK_MODE,
->  				ret >= 0 ? ret : AD4030_SPI_CLOCK_MODE);
->  
-> +	/* DDR is only valid for echo clock and host clock modes */
-> +	if (ret == AD4030_ECHO_CLOCK_MODE || ret == AD4030_CLOCK_HOST_MODE) {
-> +		st->ddr = device_property_read_bool(dev, "adi,dual-data-rate");
+I would also tweak the names and descriptions a bit to describe how it is wired
+rather than how it is used.
 
-As mentioned in the dt-bindings patch review, we can already get this info
-from the spi controller via dtr_caps. 
+  spi-sclk-source:
+    enum: [ controller, echo, peripheral ]
+    default: controller
+    description: |
+      Indicates how the SCLK is wired.
+      controller: The SCLK line is driven by the controller (typical SPI bus).
+      echo: The SCLK line is driven by the controller and the peripheral echos
+        the clock back to an input on the controller on a second line.
+      peripheral: The SCLK line from the controller is not connected to the
+        peripheral and an independent clock output driven by the peripheral is
+        connected to an input on the controller.
 
-> +		reg_modes |= FIELD_PREP(AD4030_REG_MODES_MASK_DDR_MODE, st->ddr);
-> +	}
-> +
->  	ret = regmap_write(st->regmap, AD4030_REG_MODES, reg_modes);
->  	if (ret)
->  		return ret;
 
-We will need a separate patch to add support for dtr_caps and dtr_mode to the
-axi-spi-engine driver. And likely some HDL work for that as well. So I would
-suggest splitting this out into a separate series.
