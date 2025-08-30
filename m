@@ -1,155 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52DA22E3E9;
-	Sat, 30 Aug 2025 20:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14B838FA3
+	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 21:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756586805; cv=none; b=u2aU5xddVY7qKtNoDRnDl9XtGKNb2k0UrUrEp6N461eNqxH1DrJVuEA16IdEBDwHyIKmrbG70+N1j9QjC5yq4yv/JRKE9s4dOReplvjW6/YDb2/Ac3Yb9E/aq4w3/wOwchsMdCcOnVS8l0wVB56z5HjGdAzzRpYkZjcAAoySAAg=
+	t=1756587710; cv=none; b=OUoCeq/ASCSXVDe0R18ZvYoHX0Fc8finy7MFhE9VLVKq22hSi8LCKUJIhg3mel2SKTZeqMufIh9OuTYG3NvYEqIy10qppEHyTM1NJgDbo0ep/481mFLPtEvTCXcFglZU0XtI8W3FFuq81MJVDXnkivF6HWYhE6T5bS3Ji1D9ovs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756586805; c=relaxed/simple;
-	bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UFZJUH58/MwRGd5MuLNP1W83tWgg4a5s6LEjzihIZPVXco+98n3ImjxiBmopBZk8LHQ6bCJrTWMgG2jP6sprmNg0lnQrROK5GHuitwEaTBFOzO+B/ps+kO0Aqs7we1+DndvTPCqPwC+GpofZn/GYdd0eB89Q6jI5NusIKdlu7yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7heKHiF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756587710; c=relaxed/simple;
+	bh=qPtI9AGnlz134KFypDhhBxkfFQaZ1R4ZJ4kR2HSYdA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j/wum34wRrPx/IPQQRKwkpE7pvTcedaOqReWXOyHTaCgvIkZgsB1YRwpS/Sw9WgvBFUtPOT0e9A1f/AanOxFxEDWNXu2cjl7UK9i3/aKY0yMSIkUkIxxPJsSVIg3f48eW4U3039DqAKYz7zlyIWGvXjmqSkZ2qLCn023r6zmwbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UAdvRqpj; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7heKHiF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEEB;
-	Sat, 30 Aug 2025 20:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756586804;
-	bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i7heKHiF1WEcWegbUMD1XKbmetMnNnCnljRU/sfGxpB5c3sZchsdHRdnTVLky717F
-	 dDeCNXpev8o9LRk1S9eXnS8o8kWvMacaFziEO6OdWtswKvTxZQ5pU4eCd2WUx5BQCO
-	 14bLFP5QVji02AMa5CJyqW/en6PTbHSnZ78vGj75ZZT/RVMFCiYHRoYXRol8qlqKgn
-	 3lrkJ1IYbZBkwoMZse44FP62uqEzr0WjQEZOzoSJLrIrlje9NRgPYVERWMHuVkMn2k
-	 2QurVWFt7IIr5AR3ahUSN1uV7FUBrHkmiXJe15aj9LzSrsbpHevBdir8lYlUv2SDdP
-	 83zxdoGwMwcyQ==
-Date: Sat, 30 Aug 2025 22:46:22 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
- Documentation <linux-doc@vger.kernel.org>, Linux DAMON
- <damon@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>,
- Linux Power Management <linux-pm@vger.kernel.org>, Linux Block Devices
- <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux
- Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN
- <kasan-dev@googlegroups.com>, Linux Devicetree
- <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>,
- Linux MTD <linux-mtd@lists.infradead.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>, Linux Kernel Build System
- <linux-lbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
- Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner
- <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra
- <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Huang Rui
- <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
- Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
- Jens Axboe <axboe@kernel.dk>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
- Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
- <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches <joe@perches.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
- Frascino <vincenzo.frascino@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
- Richard Weinberger <richard@nod.at>, Zhihao Cheng
- <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, Will
- Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
- <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Shay Agroskin
- <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
- <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Andrew Lunn
- <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>, The AWS Nitro
- Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Steve French <stfrench@microsoft.com>, Meetakshi Setiya
- <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche
- <bvanassche@acm.org>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA
- Driver docs
-Message-ID: <20250830224614.6a124f82@foz.lan>
-In-Reply-To: <20250829075524.45635-13-bagasdotme@gmail.com>
-References: <20250829075524.45635-1-bagasdotme@gmail.com>
-	<20250829075524.45635-13-bagasdotme@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UAdvRqpj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=n3OlZiNTwTV4k/c9h53NMlmuTuiWkgo8EVVjFK8sN0M=; b=UAdvRqpjd6CzYV10W27A8MTzz4
+	KBeSLChwrSAwfB9fc9UHU0jD923Wlamlxy0zSzZLceIyQmi9uQe+Jha/B9l4XYUMtkahK/IHzebVW
+	n2MWmsJmTzS4I1oNfeM6DWTIjarIzuCrb3731CO64m6cZYGtf9fmwoULUkgMimGPyVlw6sIQuYC6Y
+	LSMJFFc1eXju6w6zwB88pYIzbI7Pewwvpvg43gKEc5fFtTvMsSO8Qn78UX9iL6vKoXCzyRveaEpZV
+	LgaTwQA8KQPIZfXBFFE+nqLmeC1yBYnykRg2oTmybSqr8UnC7wE1J7vayjJvREe4K06gxF7hMagQV
+	2ozUT9Ug==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1usShm-00000008R2q-2rxR;
+	Sat, 30 Aug 2025 21:01:46 +0000
+Message-ID: <67de5275-65e7-45c4-b0d9-ea560a972c25@infradead.org>
+Date: Sat, 30 Aug 2025 14:01:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Fix typos in filesystems
+To: Methari Hari Krishna <harikrishnamethari@gmail.com>,
+ linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Christian Brauner <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>
+References: <20250830191249.25459-1-harikrishnamethari@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250830191249.25459-1-harikrishnamethari@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 29 Aug 2025 14:55:22 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
+Hi,
 
-> ASoC codec and platform driver docs contain reference to writing ALSA
-> driver docs, as an external link. Use :doc: directive for the job
-> instead.
+On 8/30/25 12:12 PM, Methari Hari Krishna wrote:
+> Fixed minor spelling and grammar mistakes in:
+> - bcachefs/future/idle_work.rst
+> - hpfs.rst
+> - smb/cifsroot.rst
+> - vfat.rst
 > 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Methari Hari Krishna <harikrishnamethari@gmail.com>
 > ---
->  Documentation/sound/soc/codec.rst    | 4 ++--
->  Documentation/sound/soc/platform.rst | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
+>  Documentation/filesystems/bcachefs/future/idle_work.rst | 6 +++---
+>  Documentation/filesystems/hpfs.rst                      | 2 +-
+>  Documentation/filesystems/smb/cifsroot.rst              | 2 +-
+>  Documentation/filesystems/vfat.rst                      | 2 +-
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
-> index af973c4cac9309..b9d87a4f929b5d 100644
-> --- a/Documentation/sound/soc/codec.rst
-> +++ b/Documentation/sound/soc/codec.rst
-> @@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
->  	int (*prepare)(struct snd_pcm_substream *);
->    };
+> diff --git a/Documentation/filesystems/bcachefs/future/idle_work.rst b/Documentation/filesystems/bcachefs/future/idle_work.rst
+> index 59a332509dcd..f1202113dde0 100644
+> --- a/Documentation/filesystems/bcachefs/future/idle_work.rst
+> +++ b/Documentation/filesystems/bcachefs/future/idle_work.rst
+> @@ -11,10 +11,10 @@ idle" so the system can go to sleep. We don't want to be dribbling out
+>  background work while the system should be idle.
 >  
-> -Please refer to the ALSA driver PCM documentation for details.
-> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-> +Please refer to the :doc:`ALSA driver PCM documentation
-> +<../kernel-api/writing-an-alsa-driver>` for details.
+>  The complicating factor is that there are a number of background tasks, which
+> -form a heirarchy (or a digraph, depending on how you divide it up) - one
+> +form a hierarchy (or a digraph, depending on how you divide it up) - one
+>  background task may generate work for another.
 >  
->  
->  DAPM description
-> diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
-> index 7036630eaf016c..bd21d0a4dd9b0b 100644
-> --- a/Documentation/sound/soc/platform.rst
-> +++ b/Documentation/sound/soc/platform.rst
-> @@ -45,8 +45,8 @@ snd_soc_component_driver:-
->  	...
->    };
->  
-> -Please refer to the ALSA driver documentation for details of audio DMA.
-> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-> +Please refer to the :doc:`ALSA driver documentation
-> +<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
+> -Thus proper idle detection needs to model this heirarchy.
+> +Thus proper idle detection needs to model this hierarchy.
 
-Don't use relative paths for :doc:. They don't work well, specially
-when one uses SPHINXDIRS.
+There is already a patch for this but I can't tell that it has been merged yet.
 
-The best is o use Documentation/kernel-api/writing-an-alsa-driver.rst
-and let automarkup figure it out. As we have a checker, broken
-references generate warnings at build time.
+https://lore.kernel.org/all/aFB1tGW3Iwf0isZ3@itsmeut/
 
-Regards,
-Mauro
+
+>  
+>  - Foreground writes
+>  - Page cache writeback
+> @@ -51,7 +51,7 @@ IDLE REGIME
+>  When the system becomes idle, we should start flushing our pending work
+>  quicker so the system can go to sleep.
+>  
+> -Note that the definition of "idle" depends on where in the heirarchy a task
+> +Note that the definition of "idle" depends on where in the hierarchy a task
+>  is - a task should start flushing work more quickly when the task above it has
+>  stopped generating new work.
+>  
+> diff --git a/Documentation/filesystems/hpfs.rst b/Documentation/filesystems/hpfs.rst
+> index 7e0dd2f4373e..e2a0872a577d 100644
+> --- a/Documentation/filesystems/hpfs.rst
+> +++ b/Documentation/filesystems/hpfs.rst
+> @@ -65,7 +65,7 @@ are case sensitive, so for example when you create a file FOO, you can use
+>  'cat FOO', 'cat Foo', 'cat foo' or 'cat F*' but not 'cat f*'. Note, that you
+>  also won't be able to compile linux kernel (and maybe other things) on HPFS
+>  because kernel creates different files with names like bootsect.S and
+> -bootsect.s. When searching for file thats name has characters >= 128, codepages
+> +bootsect.s. When searching for file that's name has characters >= 128, codepages
+
+That's not a good change. A different patch has already been accepted for this.
+See  https://lore.kernel.org/all/20250813200526.290420-6-helgaas@kernel.org/
+and Jon (the docs maintainer) replied that he had merged the patch.
+
+
+>  are used - see below.
+>  OS/2 ignores dots and spaces at the end of file name, so this driver does as
+>  well. If you create 'a. ...', the file 'a' will be created, but you can still
+> diff --git a/Documentation/filesystems/smb/cifsroot.rst b/Documentation/filesystems/smb/cifsroot.rst
+> index bf2d9db3acb9..8e8c3fb8739a 100644
+> --- a/Documentation/filesystems/smb/cifsroot.rst
+> +++ b/Documentation/filesystems/smb/cifsroot.rst
+> @@ -82,7 +82,7 @@ Export root file system as a Samba share in smb.conf file::
+>  	    guest ok = yes
+>  	    force user = root
+>  	    force group = root
+> -	    browseable = yes
+> +	    browsable = yes
+
+$iinternet says either spelling is acceptable.
+
+>  	    writeable = yes
+>  	    admin users = root
+>  	    public = yes
+> diff --git a/Documentation/filesystems/vfat.rst b/Documentation/filesystems/vfat.rst
+> index b289c4449cd0..f408699ce50f 100644
+> --- a/Documentation/filesystems/vfat.rst
+> +++ b/Documentation/filesystems/vfat.rst
+> @@ -361,7 +361,7 @@ the following:
+>  
+>                  <proceeding files...>
+>                  <slot #3, id = 0x43, characters = "h is long">
+> -                <slot #2, id = 0x02, characters = "xtension whic">
+> +                <slot #2, id = 0x02, characters = "xtension which">
+>                  <slot #1, id = 0x01, characters = "My Big File.E">
+>                  <directory entry, name = "MYBIGFIL.EXT">
+>  
+
+Nak. The filename is split up into 12-char fields.
+
+What kernel version is this patch made against?
+Always check/use the latest current linux-next tree (that would catch
+many changes) or for Documentation, the latest docs-next tree.
+
+thanks.
+-- 
+~Randy
+
