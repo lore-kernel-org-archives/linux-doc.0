@@ -1,73 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9F81DFE12;
-	Sat, 30 Aug 2025 01:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33802AE89;
+	Sat, 30 Aug 2025 01:54:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756518593; cv=none; b=UAV7wVAg8EeFHlm1MWOx1+DWQVNl7377nPLQdUA8aUPHOrxPEnEf6iVUWssL+BW7RmO3/znQq+urziSaciNNPCG33kBNLKp8vGqtL2n1s3M8a8SUSBTPFsSC+zLPMp9uDapAzvInsw6/EBJLKqV62S4/JCXYjW41BB+PjTLofcs=
+	t=1756518868; cv=none; b=m2aJPxNhYUFOmKgyWcXvnCE+d9cBQmMl1yv5LiI2dtNSf/rqPtD224j1EuINCvzkyVHSHBh+oBWO0Xx9F6DaCVadSEtoeknXXjmV7WSP3QT9IR+UnbhnBGkn5pEn6DKbXxW6OYvxYvtcMN6BFemDvrFz+SkMNjzqqUCcU1dJ+2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756518593; c=relaxed/simple;
-	bh=YyMsQwc4XjkKqAxJXhMj+Bs1kFDoyhPa07eWi4Gz2cE=;
+	s=arc-20240116; t=1756518868; c=relaxed/simple;
+	bh=4bT8b30BNHVy7B1e3+UjgAydd+tzAM6C7InIzM7W1TM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z2r1bVKEVUqFmfJ5ll1YM1at9rnfWKwPi3fBjihXPLjhx2UyCb+vtrWVmA+yIfBtZTCDcPC9tl3DH1XQ2Bbgd58MjnxwCOS9O2UAPVrTZpZJJV3XbtdpK4xzT0+ADiIezrt1aCaw8w6rP1TZOCZ39gIGpOb94Nkp9OwQVXG4Tig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cz55jrla; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FS+q5NsnjMRS2Defoc3V/l4/ZKhKL3PlCdFLT2yUJItCDaKwvoDYHUJHWnhTDRBHnEkSmLJ3gbcdZaEyiyOvaWzxAvrOPxDZafUs/Tldc1FwreumQEboul+kKJQ91Sw49Z0t8joWhTuvAs4yhznUxXAVGIFVx3iUQj6OA3tkyaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uriF07YL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cz55jrla"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F87C4CEF0;
-	Sat, 30 Aug 2025 01:49:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uriF07YL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00CD6C4CEF7;
+	Sat, 30 Aug 2025 01:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756518593;
-	bh=YyMsQwc4XjkKqAxJXhMj+Bs1kFDoyhPa07eWi4Gz2cE=;
+	s=k20201202; t=1756518868;
+	bh=4bT8b30BNHVy7B1e3+UjgAydd+tzAM6C7InIzM7W1TM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cz55jrlatT3n3kFw8vg5rA9cZ5cP2uChUYag58yPB6xRzZKrlcgwT7W55M60lV4Ee
-	 3l0IbcIYytBpsNyRWyyyNNZFuaAYAUzy/BFIOCtHYZR2ezu9cvo7T6xLee1QmFRVUB
-	 FyAijRsWbmvOEtfjtceQCpY2rlwnqK/umcEaaLL/zEC8fiGAvmHmNjRNn2MagLMQMR
-	 8wPQID8rW6TrjUTxwY3AzyYKCgaZC4LX560H4cN/yPm+BgghtxjUC8qIMlzsHWVs72
-	 KV3ZCeqk5o6OHCF1YsvwA8YuxPjJvhOgMmJ3baje1tseYA7XPTTrCylopF9/vJ7P6W
-	 eYmtvt89i3NcA==
-Date: Fri, 29 Aug 2025 18:49:53 -0700
-From: Kees Cook <kees@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kconfig: Add transitional symbol attribute for migration
- support
-Message-ID: <202508291848.AE848AFB4F@keescook>
-References: <20250830014438.work.682-kees@kernel.org>
+	b=uriF07YLsKoEGiQsmdne7MizqXD3nzanrdYQDjIoEoQDewVrld4TCm+aMhX2BvWmp
+	 rQS7WY+Eo5vWo1me3zhH+mlkgX6wifofEsuWMMQrOi/dDkLVckfssmT+BGFTRPf2Al
+	 /QoLW6nYBj7REoLQHOQydDjGCDtCnMb6RalCozrCL25ypGkX2vOaWaNLz1Km1UFxA5
+	 YZsQSJlFuvfnxlIri84xs5F4h0oEfJGT7CObJVLhgGBCMbvrlx0xhf1ZCCVAEEPDJ1
+	 GR21JJhxLHrRBjm5utNOwwJKMc570+ynN2Tu5w/KoADBQQ1n+lPEpYg1K0gJWcrvJS
+	 Jp6TTGrEqlpyg==
+Date: Sat, 30 Aug 2025 09:54:07 +0800
+From: Gao Xiang <xiang@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
+	djwong@kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel-team@meta.com, linux-xfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 13/16] iomap: add a private arg for read and readahead
+Message-ID: <aLJZv5L6q0FH5F8a@debian>
+Mail-Followup-To: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
+	miklos@szeredi.hu, hch@infradead.org, djwong@kernel.org,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250829235627.4053234-1-joannelkoong@gmail.com>
+ <20250829235627.4053234-14-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250830014438.work.682-kees@kernel.org>
+In-Reply-To: <20250829235627.4053234-14-joannelkoong@gmail.com>
 
-On Fri, Aug 29, 2025 at 06:44:43PM -0700, Kees Cook wrote:
-> +static int transitional_check_sanity(const struct menu *menu)
-> +{
-> +	struct property *prop;
-> +
-> +	if (!menu->sym || !menu->sym->transitional)
-> +		return 0;
-> +
-> +	/* Check for depends and visible conditions. */
-> +	if (menu->dep && !expr_is_yes(menu->dep)) {
-> +		goto error;
+Hi Joanne,
 
-This is what I get for not rebuilding after "obvious changes".
+On Fri, Aug 29, 2025 at 04:56:24PM -0700, Joanne Koong wrote:
+> Add a void *private arg for read and readahead which filesystems that
+> pass in custom read callbacks can use. Stash this in the existing
+> private field in the iomap_iter.
+> 
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  block/fops.c           | 4 ++--
+>  fs/erofs/data.c        | 4 ++--
+>  fs/gfs2/aops.c         | 4 ++--
+>  fs/iomap/buffered-io.c | 8 ++++++--
+>  fs/xfs/xfs_aops.c      | 4 ++--
+>  fs/zonefs/file.c       | 4 ++--
+>  include/linux/iomap.h  | 4 ++--
+>  7 files changed, 18 insertions(+), 14 deletions(-)
+> 
 
-I've got missing "}"s... *sigh* v2 coming...
+...
 
--- 
-Kees Cook
+>  int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
+> -		const struct iomap_read_ops *read_ops)
+> +		const struct iomap_read_ops *read_ops, void *private)
+>  {
+>  	struct iomap_iter iter = {
+>  		.inode		= folio->mapping->host,
+>  		.pos		= folio_pos(folio),
+>  		.len		= folio_size(folio),
+> +		.private	= private,
+>  	};
+
+Will this whole work be landed for v6.18?
+
+If not, may I ask if this patch can be shifted advance in this
+patchset for applying separately (I tried but no luck).
+
+Because I also need some similar approach for EROFS iomap page
+cache sharing feature since EROFS uncompressed I/Os go through
+iomap and extra information needs a proper way to pass down to 
+iomap_{begin,end} with extra pointer `.private` too.
+
+Thanks,
+Gao Xiang
