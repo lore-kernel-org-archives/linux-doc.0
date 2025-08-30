@@ -1,705 +1,155 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A2A2E092B
-	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 20:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52DA22E3E9;
+	Sat, 30 Aug 2025 20:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756584878; cv=none; b=Lf9Us37hSn0dzXrRaYVLOGlzFeNjQG298KPgqjNMl759aa54sX/kRlN6wNC29JM5Roh0pH6aCoOOS/KLVodBCyOuVDGpV7TnmrXEb3i/mk0zmgHqMsmTUdir4m1j+pHwBJiWDll4qGi73haDcebQLZyECogeDs27UmyDJ/uyOGE=
+	t=1756586805; cv=none; b=u2aU5xddVY7qKtNoDRnDl9XtGKNb2k0UrUrEp6N461eNqxH1DrJVuEA16IdEBDwHyIKmrbG70+N1j9QjC5yq4yv/JRKE9s4dOReplvjW6/YDb2/Ac3Yb9E/aq4w3/wOwchsMdCcOnVS8l0wVB56z5HjGdAzzRpYkZjcAAoySAAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756584878; c=relaxed/simple;
-	bh=J7KELir1yZZsD5gL9nXbuR7LDEcaaK3JfHSH7jKNTyY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gdOeunPzHGzTTiYQ2U0KeIYBbS7ydWWutH/KkPBdKY3LKK4gMUO2qwNHhjkGRkiSwMsq6pLCjDpfcL+SGre3mp9r+UVs5TB6Lv7E5n2OhZ8PcECsX3eTfxSZoGVJkr2Q6ZQahgFazZoyDdaYgyY9HN35nkejy3DEoLHvYVsFeNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Rk8Zy+s8; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1756586805; c=relaxed/simple;
+	bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UFZJUH58/MwRGd5MuLNP1W83tWgg4a5s6LEjzihIZPVXco+98n3ImjxiBmopBZk8LHQ6bCJrTWMgG2jP6sprmNg0lnQrROK5GHuitwEaTBFOzO+B/ps+kO0Aqs7we1+DndvTPCqPwC+GpofZn/GYdd0eB89Q6jI5NusIKdlu7yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7heKHiF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Rk8Zy+s8"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-74543fea20dso3163651a34.0
-        for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 13:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1756584875; x=1757189675; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nufrg1DUK9qiyJefkSfS4lUJPzfDc+a/Y59sgpg2UA8=;
-        b=Rk8Zy+s87TKptlLY5cfe9c5g6cw3L/K6m9YBW3uglbzAndvII1BlQrXUnugtrFwaO/
-         uhyylmyAkvnBZQbSu6g0c3EuqgGrLyjUsdS/MPwakdOgoRSq6ymYB3q7AmguincCZ9t7
-         WHs7NEUtgSs8skdhLPwWQpJYAjHBbVb2c2hcb+9I8DCz4P/O/2RVuUUd+YMYyXEeLxrV
-         H78A8ntjJwye0WKlM+9tCqgcP/JawAKKZdjO4SJfrMY4ZhUnHXimezAiq79ydf/GkVRG
-         qsaHwtFQvQiLv29FLKh23feWWvUq2mSZbMcGzbsScPon3qAoJiqnEqQs0Xk0Fhso/yXn
-         kVvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756584875; x=1757189675;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nufrg1DUK9qiyJefkSfS4lUJPzfDc+a/Y59sgpg2UA8=;
-        b=asxNMKSkNwZl6gG7Nt9Xr+awdFOGRA4k0xqx+JEtGUGddnAHLpGVx9E4C2l5/8nRnT
-         DqMTUtVxTQi2fVChtkLBw5hbt9iPwLJSCKgDMTSZntKLgJg7oPC4IXX5/qY/pJaYgaGV
-         g9lTTekNO4qgLZsIQEVInyhvjWk4po5a4Aq8dTasFFz7aZe0Al2/rNQNGTIjuAPII4SP
-         0bEt+wQUUzf/oYW44PZGuQ/cgh93yEndOBbxgCqkgJ4wa3gHqT/3xNLNavb+9kXIXjzP
-         AUUf8bxffkDwwbeyKOAS/6WRYoi37R/FPJWdTZD0Ldb5m5CGkCUZM+Vvhf1XtNmLPRRx
-         WWMw==
-X-Forwarded-Encrypted: i=1; AJvYcCU0ScibGmgxR5kWCtNk8z52Jnkvohol/xQV3HxutogonyuVYh7UsjrxtcY/Z4HdON7s7haCmGVOUa8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywniw51F3nr41uIiN5+L1z/D7mHS9qV12yPBVaMb5zJixYzyAkX
-	0bnWADyi39j2mkrR3B2/MDHy7I1sT/Keeewn1Qksgmj5nMd4k5DsKo4mpEJeLTKEASY=
-X-Gm-Gg: ASbGncsjNrMUUTlfifbJikxeeP7uoPkjJ14O0VdSQHmlNXo6aFb9VrTgcYAsd8rRCcN
-	vM5I8DT18ggN+EMcbffpxuyljWxlFmCUU502i8Tagi8BnxHFQMzO8A5arYDXyPMbkbr2In18oIJ
-	PWcUkpoxywRuPtCigoB7QZP5WJNlYjjiylxy/i17I64eGARgvtwPWsOKWnLg3XukClhxo5L63Tf
-	ZZL/f2kqtGE+kk7wFndehn0/O7tzzKhsN6Sl19TCTuSaYlqrIFoFG86J6B64xcHA9h9YUSCADun
-	43B9ID1y4OKqQJ6yKdRSrwq+URzOVtO2y+71xtmwR9OfgXC65NC3hjxHVHVaeRcmPlwLYvKsYnd
-	7j0/ByD9e8gv3QK3h5Do+W2Fcb176yxhkbdTHyDRrUg3DHPC7jA8nyShvwZQgtItE2ybCbDzB37
-	I=
-X-Google-Smtp-Source: AGHT+IFXcKQTKtyYvAqc5v4L6TDXhF+IrPaumiByk5aQdzQvtT62kDXjKiwYg9KMnRYoAASLijiqZA==
-X-Received: by 2002:a05:6808:1993:b0:435:de7e:8cc3 with SMTP id 5614622812f47-437f7d20d10mr1263091b6e.6.1756584874825;
-        Sat, 30 Aug 2025 13:14:34 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:f7b4:dfbd:5110:c59d? ([2600:8803:e7e4:1d00:f7b4:dfbd:5110:c59d])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4380001d11asm53315b6e.16.2025.08.30.13.14.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Aug 2025 13:14:33 -0700 (PDT)
-Message-ID: <b024bd46-f1bd-4d9f-9d91-15ba18b9864f@baylibre.com>
-Date: Sat, 30 Aug 2025 15:14:31 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7heKHiF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEEB;
+	Sat, 30 Aug 2025 20:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756586804;
+	bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=i7heKHiF1WEcWegbUMD1XKbmetMnNnCnljRU/sfGxpB5c3sZchsdHRdnTVLky717F
+	 dDeCNXpev8o9LRk1S9eXnS8o8kWvMacaFziEO6OdWtswKvTxZQ5pU4eCd2WUx5BQCO
+	 14bLFP5QVji02AMa5CJyqW/en6PTbHSnZ78vGj75ZZT/RVMFCiYHRoYXRol8qlqKgn
+	 3lrkJ1IYbZBkwoMZse44FP62uqEzr0WjQEZOzoSJLrIrlje9NRgPYVERWMHuVkMn2k
+	 2QurVWFt7IIr5AR3ahUSN1uV7FUBrHkmiXJe15aj9LzSrsbpHevBdir8lYlUv2SDdP
+	 83zxdoGwMwcyQ==
+Date: Sat, 30 Aug 2025 22:46:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Linux DAMON
+ <damon@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>, Linux Block Devices
+ <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux
+ Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN
+ <kasan-dev@googlegroups.com>, Linux Devicetree
+ <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Build System
+ <linux-lbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra
+ <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Huang Rui
+ <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
+ Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
+ Jens Axboe <axboe@kernel.dk>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
+ Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
+ <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
+ Frascino <vincenzo.frascino@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
+ Richard Weinberger <richard@nod.at>, Zhihao Cheng
+ <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
+ <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Shay Agroskin
+ <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
+ <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Andrew Lunn
+ <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>, The AWS Nitro
+ Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Steve French <stfrench@microsoft.com>, Meetakshi Setiya
+ <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche
+ <bvanassche@acm.org>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA
+ Driver docs
+Message-ID: <20250830224614.6a124f82@foz.lan>
+In-Reply-To: <20250829075524.45635-13-bagasdotme@gmail.com>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+	<20250829075524.45635-13-bagasdotme@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/15] iio: adc: ad4030: Add SPI offload support
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-spi@vger.kernel.org
-Cc: jic23@kernel.org, Michael.Hennerich@analog.com, nuno.sa@analog.com,
- eblanc@baylibre.com, andy@kernel.org, corbet@lwn.net, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, broonie@kernel.org,
- Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
- ahaslam@baylibre.com, sergiu.cuciurean@analog.com, tgamblin@baylibre.com,
- marcelo.schmitt1@gmail.com
-References: <cover.1756511030.git.marcelo.schmitt@analog.com>
- <0d9f377295635d977e0767de9db96d0a6ad06de0.1756511030.git.marcelo.schmitt@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <0d9f377295635d977e0767de9db96d0a6ad06de0.1756511030.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 8/29/25 7:42 PM, Marcelo Schmitt wrote:
-> AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> samples per second (MSPS). Not all SPI controllers are able to achieve
-> such high throughputs and even when the controller is fast enough to run
-> transfers at the required speed, it may be costly to the CPU to handle
-> transfer data at such high sample rates.  Add SPI offload support for
-> AD4030 and similar ADCs so to enable ADC data capture at maximum sample
-> rates.
+Em Fri, 29 Aug 2025 14:55:22 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
+
+> ASoC codec and platform driver docs contain reference to writing ALSA
+> driver docs, as an external link. Use :doc: directive for the job
+> instead.
 > 
-> Cc: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Cc: Nuno Sa <nuno.sa@analog.com>
-> Cc: Trevor Gamblin <tgamblin@baylibre.com>
-> Cc: Axel Haslam <ahaslam@baylibre.com>
-> Cc: David Lechner <dlechner@baylibre.com>
-> Co-developed-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Co-developed-by: Nuno Sa <nuno.sa@analog.com>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
-> Most of the code in this patch is based on work from Sergiu Cuciurean, Nuno Sa,
-> Axel Haslam, and Trevor Gamblin, hence the many co-developed-by tags. I also
-> draw inspiration from other drivers supporting SPI offload, many of them written
-> by David Lechner.
+>  Documentation/sound/soc/codec.rst    | 4 ++--
+>  Documentation/sound/soc/platform.rst | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 > 
->  drivers/iio/adc/Kconfig  |   2 +
->  drivers/iio/adc/ad4030.c | 400 ++++++++++++++++++++++++++++++++++++---
->  2 files changed, 378 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index 6de2abad0197..7cfbc07e7f77 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -49,6 +49,8 @@ config AD4030
->  	depends on GPIOLIB
->  	select REGMAP
->  	select IIO_BUFFER
-> +	select IIO_BUFFER_DMA
-> +	select IIO_BUFFER_DMAENGINE
->  	select IIO_TRIGGERED_BUFFER
->  	help
->  	  Say yes here to build support for Analog Devices AD4030 and AD4630 high speed
-> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-> index 82784593f976..68f76432dbfd 100644
-> --- a/drivers/iio/adc/ad4030.c
-> +++ b/drivers/iio/adc/ad4030.c
-> @@ -15,11 +15,15 @@
+> diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
+> index af973c4cac9309..b9d87a4f929b5d 100644
+> --- a/Documentation/sound/soc/codec.rst
+> +++ b/Documentation/sound/soc/codec.rst
+> @@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
+>  	int (*prepare)(struct snd_pcm_substream *);
+>    };
 >  
->  #include <linux/bitfield.h>
->  #include <linux/clk.h>
-> +#include <linux/dmaengine.h>
-> +#include <linux/iio/buffer-dmaengine.h>
->  #include <linux/iio/iio.h>
->  #include <linux/iio/trigger_consumer.h>
->  #include <linux/iio/triggered_buffer.h>
-> +#include <linux/pwm.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/spi/offload/consumer.h>
->  #include <linux/spi/spi.h>
->  #include <linux/unaligned.h>
->  #include <linux/units.h>
-> @@ -111,6 +115,8 @@
->  #define AD4632_TCYC_NS			2000
->  #define AD4632_TCYC_ADJUSTED_NS		(AD4632_TCYC_NS - AD4030_TCNVL_NS)
->  #define AD4030_TRESET_COM_DELAY_MS	750
-> +/* Datasheet says 9.8ns, so use the closest integer value */
-> +#define AD4030_TQUIET_CNV_DELAY_NS	10
+> -Please refer to the ALSA driver PCM documentation for details.
+> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+> +Please refer to the :doc:`ALSA driver PCM documentation
+> +<../kernel-api/writing-an-alsa-driver>` for details.
 >  
->  enum ad4030_out_mode {
->  	AD4030_OUT_DATA_MD_DIFF,
-> @@ -120,7 +126,7 @@ enum ad4030_out_mode {
->  	AD4030_OUT_DATA_MD_32_PATTERN,
->  };
 >  
-> -enum {
-> +enum ad4030_lane_mode {
->  	AD4030_LANE_MD_1_PER_CH,
->  	AD4030_LANE_MD_2_PER_CH,
->  	AD4030_LANE_MD_4_PER_CH,
-> @@ -130,17 +136,21 @@ enum {
->  enum {
->  	AD4030_SCAN_TYPE_NORMAL,
->  	AD4030_SCAN_TYPE_AVG,
-> +	AD4030_OFFLOAD_SCAN_TYPE_NORMAL,
-> +	AD4030_OFFLOAD_SCAN_TYPE_AVG,
->  };
+>  DAPM description
+> diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
+> index 7036630eaf016c..bd21d0a4dd9b0b 100644
+> --- a/Documentation/sound/soc/platform.rst
+> +++ b/Documentation/sound/soc/platform.rst
+> @@ -45,8 +45,8 @@ snd_soc_component_driver:-
+>  	...
+>    };
 >  
->  struct ad4030_chip_info {
->  	const char *name;
->  	const unsigned long *available_masks;
->  	const struct iio_chan_spec channels[AD4030_MAX_IIO_CHANNEL_NB];
-> +	const struct iio_chan_spec offload_channels[AD4030_MAX_IIO_CHANNEL_NB];
->  	u8 grade;
->  	u8 precision_bits;
->  	/* Number of hardware channels */
->  	int num_voltage_inputs;
->  	unsigned int tcyc_ns;
-> +	unsigned int max_sample_rate_hz;
->  };
->  
->  struct ad4030_state {
-> @@ -148,11 +158,20 @@ struct ad4030_state {
->  	struct regmap *regmap;
->  	const struct ad4030_chip_info *chip;
->  	struct gpio_desc *cnv_gpio;
-> +	struct pwm_device *conv_trigger;
-> +	struct pwm_waveform conv_wf;
->  	int vref_uv;
->  	int vio_uv;
->  	int offset_avail[3];
->  	unsigned int avg_log2;
->  	enum ad4030_out_mode mode;
-> +	enum ad4030_lane_mode lane_mode;
-> +	/* offload sampling spi message */
-> +	struct spi_transfer offload_xfer;
-> +	struct spi_message offload_msg;
-> +	struct spi_offload *offload;
-> +	struct spi_offload_trigger *offload_trigger;
-> +	struct spi_offload_trigger_config offload_trigger_config;
->  
->  	/*
->  	 * DMA (thus cache coherency maintenance) requires the transfer buffers
-> @@ -209,12 +228,13 @@ struct ad4030_state {
->   * - voltage0-voltage1
->   * - voltage2-voltage3
->   */
-> -#define AD4030_CHAN_DIFF(_idx, _scan_type) {				\
-> +#define __AD4030_CHAN_DIFF(_idx, _scan_type, _offload) {		\
->  	.info_mask_shared_by_all =					\
->  		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),			\
->  	.info_mask_shared_by_all_available =				\
->  		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),			\
->  	.info_mask_separate = BIT(IIO_CHAN_INFO_SCALE) |		\
-> +		(_offload ? BIT(IIO_CHAN_INFO_SAMP_FREQ) : 0) |		\
+> -Please refer to the ALSA driver documentation for details of audio DMA.
+> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+> +Please refer to the :doc:`ALSA driver documentation
+> +<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
 
-Sampling freqency should be shared_by_all, not separate. There is only
-one conversion trigger and this is simultaneous sampling.
+Don't use relative paths for :doc:. They don't work well, specially
+when one uses SPHINXDIRS.
 
->  		BIT(IIO_CHAN_INFO_CALIBSCALE) |				\
->  		BIT(IIO_CHAN_INFO_CALIBBIAS) |				\
->  		BIT(IIO_CHAN_INFO_RAW),					\
-> @@ -232,12 +252,23 @@ struct ad4030_state {
->  	.num_ext_scan_type = ARRAY_SIZE(_scan_type),			\
->  }
->  
-> +#define AD4030_CHAN_DIFF(_idx, _scan_type)				\
-> +	__AD4030_CHAN_DIFF(_idx, _scan_type, 0)
-> +
-> +#define AD4030_OFFLOAD_CHAN_DIFF(_idx, _scan_type)			\
-> +	__AD4030_CHAN_DIFF(_idx, _scan_type, 1)
-> +
->  static const int ad4030_average_modes[] = {
->  	1, 2, 4, 8, 16, 32, 64, 128,
->  	256, 512, 1024, 2048, 4096, 8192, 16384, 32768,
->  	65536,
->  };
->  
-> +static const struct spi_offload_config ad4030_offload_config = {
-> +	.capability_flags = SPI_OFFLOAD_CAP_TRIGGER |
-> +			    SPI_OFFLOAD_CAP_RX_STREAM_DMA,
-> +};
-> +
->  static int ad4030_enter_config_mode(struct ad4030_state *st)
->  {
->  	st->tx_data[0] = AD4030_REG_ACCESS;
-> @@ -385,7 +416,7 @@ static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
->  	struct ad4030_state *st = iio_priv(indio_dev);
->  	const struct iio_scan_type *scan_type;
->  
-> -	scan_type = iio_get_current_scan_type(indio_dev, st->chip->channels);
-> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+The best is o use Documentation/kernel-api/writing-an-alsa-driver.rst
+and let automarkup figure it out. As we have a checker, broken
+references generate warnings at build time.
 
-Is this actually a bug fix? Won't this change the scale of
-the common mode voltage channels?
-
->  	if (IS_ERR(scan_type))
->  		return PTR_ERR(scan_type);
->  
-> @@ -458,6 +489,96 @@ static int ad4030_get_chan_calibbias(struct iio_dev *indio_dev,
->  	}
->  }
->  
-> +static void ad4030_get_sampling_freq(const struct ad4030_state *st, int *freq)
-> +{
-> +	*freq = DIV_ROUND_CLOSEST_ULL(NANO, st->conv_wf.period_length_ns);
-> +}
-> +
-> +static int __ad4030_set_sampling_freq(struct ad4030_state *st, unsigned int freq)
-> +{
-> +	struct spi_offload_trigger_config *config = &st->offload_trigger_config;
-> +	struct pwm_waveform conv_wf = { };
-> +	u64 offload_period_ns;
-> +	u64 offload_offset_ns;
-> +	u32 mode;
-> +	int ret;
-> +	u64 target = AD4030_TCNVH_NS;
-> +
-> +	conv_wf.period_length_ns = DIV_ROUND_CLOSEST(NSEC_PER_SEC, freq);
-> +	/*
-> +	 * The datasheet lists a minimum time of 9.8 ns, but no maximum. If the
-> +	 * rounded PWM's value is less than 10, increase the target value by 10
-> +	 * and attempt to round the waveform again, until the value is at least
-> +	 * 10 ns. Use a separate variable to represent the target in case the
-> +	 * rounding is severe enough to keep putting the first few results under
-> +	 * the minimum 10ns condition checked by the while loop.
-> +	 */
-> +	do {
-> +		conv_wf.duty_length_ns = target;
-> +		ret = pwm_round_waveform_might_sleep(st->conv_trigger, &conv_wf);
-> +		if (ret)
-> +			return ret;
-> +		target += 10;
-> +	} while (conv_wf.duty_length_ns < 10);
-> +
-> +	offload_period_ns = conv_wf.period_length_ns;
-> +
-> +	ret = regmap_read(st->regmap, AD4030_REG_MODES, &mode);
-> +	if (ret)
-> +		return ret;
-> +	if (FIELD_GET(AD4030_REG_MODES_MASK_OUT_DATA_MODE, mode) == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF) {
-
-Since this depends on the oversampling ration, we need to defer this
-until we start a buffered read. Otherwise if someone sets sampling
-frequency first and the changes the oversampling ratio later, then
-the PWM period will not be correct.
-
-Alternatly, we could update this both when sampling freqency and
-when oversampling ratio are updated. This would allow returning an
-error if the oversampling ratio is too big for the requested
-sampling frequency.
-
-> +		u32 avg;
-> +
-> +		ret = regmap_read(st->regmap, AD4030_REG_AVG, &avg);
-> +		if (ret)
-> +			return ret;
-> +
-> +		offload_period_ns <<= FIELD_GET(AD4030_REG_AVG_MASK_AVG_VAL, avg);
-> +	}
-> +
-> +	config->periodic.frequency_hz =  DIV_ROUND_UP_ULL(NSEC_PER_SEC,
-> +							  offload_period_ns);
-> +
-> +	/*
-> +	 * The hardware does the capture on zone 2 (when spi trigger PWM
-> +	 * is used). This means that the spi trigger signal should happen at
-> +	 * tsync + tquiet_con_delay being tsync the conversion signal period
-> +	 * and tquiet_con_delay 9.8ns. Hence set the PWM phase accordingly.
-> +	 *
-> +	 * The PWM waveform API only supports nanosecond resolution right now,
-> +	 * so round this setting to the closest available value.
-> +	 */
-> +	offload_offset_ns = AD4030_TQUIET_CNV_DELAY_NS;
-> +	do {
-> +		config->periodic.offset_ns = offload_offset_ns;
-> +		ret = spi_offload_trigger_validate(st->offload_trigger, config);
-> +		if (ret)
-> +			return ret;
-> +		offload_offset_ns += 10;
-> +
-> +	} while (config->periodic.offset_ns < AD4030_TQUIET_CNV_DELAY_NS);
-> +
-> +	st->conv_wf = conv_wf;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ad4030_set_sampling_freq(struct iio_dev *indio_dev, unsigned int freq)
-> +{
-> +	struct ad4030_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	if (PTR_ERR_OR_ZERO(st->offload))
-> +		return -EINVAL;
-> +
-> +	if (!freq || freq > st->chip->max_sample_rate_hz)
-> +		return -EINVAL;
-> +
-> +	ret = __ad4030_set_sampling_freq(st, freq);
-> +	iio_device_release_direct(indio_dev);
-> +
-> +	return ret;
-> +}
->  static int ad4030_set_chan_calibscale(struct iio_dev *indio_dev,
->  				      struct iio_chan_spec const *chan,
->  				      int gain_int,
-> @@ -618,7 +739,7 @@ static int ad4030_conversion(struct iio_dev *indio_dev)
->  	unsigned int i;
->  	int ret;
->  
-> -	scan_type = iio_get_current_scan_type(indio_dev, st->chip->channels);
-> +	scan_type = iio_get_current_scan_type(indio_dev, &indio_dev->channels[0]);
-
-Since a single conversion doesn't use offload, I don't think we want to change this.
-
->  	if (IS_ERR(scan_type))
->  		return PTR_ERR(scan_type);
->  
-> @@ -774,6 +895,13 @@ static int ad4030_read_raw_dispatch(struct iio_dev *indio_dev,
->  		*val = BIT(st->avg_log2);
->  		return IIO_VAL_INT;
->  
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		if (PTR_ERR_OR_ZERO(st->offload))
-> +			return -EINVAL;
-> +
-> +		ad4030_get_sampling_freq(st, val);
-> +		return IIO_VAL_INT;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -814,6 +942,9 @@ static int ad4030_write_raw_dispatch(struct iio_dev *indio_dev,
->  	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
->  		return ad4030_set_avg_frame_len(indio_dev, val);
->  
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-
-This casts val from signed to unsigned, so probably should check for val < 0 first.
-
-> +		return ad4030_set_sampling_freq(indio_dev, val);
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -868,7 +999,11 @@ static int ad4030_get_current_scan_type(const struct iio_dev *indio_dev,
->  {
->  	struct ad4030_state *st = iio_priv(indio_dev);
->  
-> -	return st->avg_log2 ? AD4030_SCAN_TYPE_AVG : AD4030_SCAN_TYPE_NORMAL;
-> +	if (PTR_ERR_OR_ZERO(st->offload))
-> +		return st->avg_log2 ? AD4030_SCAN_TYPE_AVG : AD4030_SCAN_TYPE_NORMAL;
-> +	else
-> +		return st->avg_log2 ? AD4030_OFFLOAD_SCAN_TYPE_AVG :
-> +				      AD4030_OFFLOAD_SCAN_TYPE_NORMAL;
->  }
->  
->  static int ad4030_update_scan_mode(struct iio_dev *indio_dev,
-> @@ -903,6 +1038,67 @@ static const struct iio_buffer_setup_ops ad4030_buffer_setup_ops = {
->  	.validate_scan_mask = ad4030_validate_scan_mask,
->  };
->  
-> +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	ret = regmap_write(st->regmap, AD4030_REG_EXIT_CFG_MODE, BIT(0));
-> +	if (ret)
-> +		return ret;
-> +
-> +	st->offload_msg.offload = st->offload;
-> +	ret = spi_optimize_message(st->spi, &st->offload_msg);
-> +	if (ret < 0)
-> +		goto out_reset_mode;
-> +
-> +	ret = pwm_set_waveform_might_sleep(st->conv_trigger, &st->conv_wf, false);
-> +	if (ret)
-> +		goto out_unoptimize;
-> +
-> +	ret = spi_offload_trigger_enable(st->offload, st->offload_trigger,
-> +					 &st->offload_trigger_config);
-> +	if (ret)
-> +		goto out_pwm_disable;
-> +	return 0;
-> +out_pwm_disable:
-> +	pwm_disable(st->conv_trigger);
-> +out_unoptimize:
-> +	spi_unoptimize_message(&st->offload_msg);
-> +out_reset_mode:
-> +	/* reenter register configuration mode */
-> +	ret = ad4030_enter_config_mode(st);
-> +	if (ret)
-> +		dev_warn(&st->spi->dev,
-
-		dev_err()
-
-would even be appropriate since we can't do anything else, the hardware
-is broken.
-
-> +			 "couldn't reenter register configuration mode\n");
-> +	return ret;
-> +}
-> +
-> +static int ad4030_offload_buffer_predisable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	pwm_disable(st->conv_trigger);
-> +
-> +	spi_offload_trigger_disable(st->offload, st->offload_trigger);
-
-Probably should disable offload first, otherwise, we could possibly get
-bad data after stopping CNV trigger but before stopping offload trigger.
-
-> +
-> +	spi_unoptimize_message(&st->offload_msg);
-> +
-> +	/* reenter register configuration mode */
-> +	ret = ad4030_enter_config_mode(st);
-> +	if (ret)
-> +		dev_warn(&st->spi->dev,
-> +			 "couldn't reenter register configuration mode\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct iio_buffer_setup_ops ad4030_offload_buffer_setup_ops = {
-> +	.postenable = &ad4030_offload_buffer_postenable,
-> +	.predisable = &ad4030_offload_buffer_predisable,
-> +};
-> +
->  static int ad4030_regulators_get(struct ad4030_state *st)
->  {
->  	struct device *dev = &st->spi->dev;
-> @@ -972,6 +1168,44 @@ static int ad4030_detect_chip_info(const struct ad4030_state *st)
->  	return 0;
->  }
->  
-> +static int ad4030_pwm_get(struct ad4030_state *st)
-> +{
-> +	struct device *dev = &st->spi->dev;
-> +
-> +	st->conv_trigger = devm_pwm_get(dev, "cnv");
-
-The DT bindings didn't have pwm-names, so this should be NULL.
-
-> +	if (IS_ERR(st->conv_trigger))
-> +		return dev_err_probe(dev, PTR_ERR(st->conv_trigger),
-> +				     "Failed to get cnv pwm\n");
-> +
-> +	/*
-> +	 * Preemptively disable the PWM, since we only want to enable it with
-> +	 * the buffer
-> +	 */
-> +	pwm_disable(st->conv_trigger);
-> +
-> +	return 0;
-> +}
-> +
-> +static void ad4030_prepare_offload_msg(struct ad4030_state *st)
-> +{
-> +	u8 data_width = st->chip->precision_bits;
-> +	u8 offload_bpw;
-> +
-> +	if (st->lane_mode == AD4030_LANE_MD_INTERLEAVED)
-> +		/*
-> +		 * This means all channels on 1 lane.
-> +		 */
-> +		offload_bpw = data_width * st->chip->num_voltage_inputs;
-
-This looks suspicious. I would suggest to just not support interleaved
-with SPI offload.
-
-If we do want to support it we will need to fix the HDL so that this is
-not necessary. And likely we will need some kind of devicetree binding
-to say that there is a descrambler between the SPI offload and the DMA
-buffer so that we know that the data will actually come out correct.
-
-> +	else
-> +		offload_bpw  = data_width;
-> +
-> +	st->offload_xfer.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED;
-
-Why using slower speed for offload?
-
-> +	st->offload_xfer.bits_per_word = offload_bpw;
-> +	st->offload_xfer.len = roundup_pow_of_two(BITS_TO_BYTES(offload_bpw));
-
-Thanks to Andy, we have spi_bpw_to_bytes() to use here.
-
-> +	st->offload_xfer.offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-> +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer, 1);
-
-This currently only handles the case where one channel is enabled and
-oversampling is disabled. 
-
-> +}
-> +
->  static int ad4030_config(struct ad4030_state *st)
->  {
->  	int ret;
-
-...
-
-> @@ -1050,24 +1309,55 @@ static int ad4030_probe(struct spi_device *spi)
->  		return dev_err_probe(dev, PTR_ERR(st->cnv_gpio),
->  				     "Failed to get cnv gpio\n");
->  
-> -	/*
-> -	 * One hardware channel is split in two software channels when using
-> -	 * common byte mode. Add one more channel for the timestamp.
-> -	 */
-> -	indio_dev->num_channels = 2 * st->chip->num_voltage_inputs + 1;
->  	indio_dev->name = st->chip->name;
->  	indio_dev->modes = INDIO_DIRECT_MODE;
->  	indio_dev->info = &ad4030_iio_info;
-> -	indio_dev->channels = st->chip->channels;
-> -	indio_dev->available_scan_masks = st->chip->available_masks;
->  
-> -	ret = devm_iio_triggered_buffer_setup(dev, indio_dev,
-> -					      iio_pollfunc_store_time,
-> -					      ad4030_trigger_handler,
-> -					      &ad4030_buffer_setup_ops);
-> -	if (ret)
-> -		return dev_err_probe(dev, ret,
-> -				     "Failed to setup triggered buffer\n");
-> +	st->offload = devm_spi_offload_get(dev, spi, &ad4030_offload_config);
-> +	ret = PTR_ERR_OR_ZERO(st->offload);
-> +	if (ret && ret != -ENODEV)
-> +		return dev_err_probe(dev, ret, "failed to get offload\n");
-> +
-> +	/* Fall back to low speed usage when no SPI offload available. */
-> +	if (ret == -ENODEV) {
-> +		/*
-> +		 * One hardware channel is split in two software channels when
-> +		 * using common byte mode. Add one more channel for the timestamp.
-> +		 */
-> +		indio_dev->num_channels = 2 * st->chip->num_voltage_inputs + 1;
-> +		indio_dev->channels = st->chip->channels;
-> +		indio_dev->available_scan_masks = st->chip->available_masks;
-> +
-> +		ret = devm_iio_triggered_buffer_setup(dev, indio_dev,
-> +						      iio_pollfunc_store_time,
-> +						      ad4030_trigger_handler,
-> +						      &ad4030_buffer_setup_ops);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to setup triggered buffer\n");
-> +
-> +	} else {
-> +		/*
-> +		 * One hardware channel is split in two software channels when
-> +		 * using common byte mode. Offloaded SPI transfers can't support
-> +		 * software timestamp so no additional timestamp channel is added.
-> +		 */
-> +		indio_dev->num_channels = 2 * st->chip->num_voltage_inputs;
-> +		indio_dev->channels = st->chip->offload_channels;
-> +		indio_dev->available_scan_masks = st->chip->available_masks;
-
-I don't think scan_masks works here since this uses a DMA buffer and we can't
-demux any extra channels that were enabled. Instead, I think we need to implement
-a .validate_scan callback for the offload case to make sure the enabled channels
-are one of the allowed combinations.
-
-> +		ret = ad4030_spi_offload_setup(indio_dev, st);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to setup SPI offload\n");
-> +
-> +		ret = ad4030_pwm_get(st);
-> +		if (ret)
-> +			return dev_err_probe(&spi->dev, ret,
-> +					     "Failed to get PWM: %d\n", ret);
-> +
-> +		ret = __ad4030_set_sampling_freq(st, st->chip->max_sample_rate_hz);
-> +		ad4030_prepare_offload_msg(st);
-
-The message needs to change depending on the oversampling ratio and if
-the common mode channel is enabled, so we can't do this in probe.
-
-> +	}
->  
->  	return devm_iio_device_register(dev, indio_dev);
->  }
-> @@ -1103,6 +1393,20 @@ static const struct iio_scan_type ad4030_24_scan_types[] = {
->  		.shift = 2,
->  		.endianness = IIO_BE,
->  	},
-> +	[AD4030_OFFLOAD_SCAN_TYPE_NORMAL] = {
-> +		.sign = 's',
-> +		.storagebits = 32,
-> +		.realbits = 24,
-> +		.shift = 0,
-> +		.endianness = IIO_CPU,
-> +	},
-> +	[AD4030_OFFLOAD_SCAN_TYPE_AVG] = {
-> +		.sign = 's',
-> +		.storagebits = 32,
-> +		.realbits = 30,
-> +		.shift = 2,
-> +		.endianness = IIO_CPU,
-> +	},
->  };
->  
->  static const struct iio_scan_type ad4030_16_scan_types[] = {
-> @@ -1119,7 +1423,21 @@ static const struct iio_scan_type ad4030_16_scan_types[] = {
->  		.realbits = 30,
->  		.shift = 2,
->  		.endianness = IIO_BE,
-> -	}
-> +	},
-> +	[AD4030_OFFLOAD_SCAN_TYPE_NORMAL] = {
-> +		.sign = 's',
-> +		.storagebits = 32,
-> +		.realbits = 16,
-> +		.shift = 0,
-> +		.endianness = IIO_CPU,
-> +	},
-> +	[AD4030_OFFLOAD_SCAN_TYPE_AVG] = {
-> +		.sign = 's',
-> +		.storagebits = 32,
-> +		.realbits = 30,
-> +		.shift = 2,
-> +		.endianness = IIO_CPU,
-> +	},
->  };
-
-Instead of extending these arrays, I would just make 2 new arrays.
-
-
+Regards,
+Mauro
