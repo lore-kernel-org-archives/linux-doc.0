@@ -1,133 +1,85 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1AB2367A0;
-	Sat, 30 Aug 2025 05:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58D92869E;
+	Sat, 30 Aug 2025 06:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756530199; cv=none; b=gR+J8rHU+7WsFz25vx2E3QRqU248Z03A5WwxN6/iclBLGQ8fiRssJ4K+0uFMy24HHzAz88ghOCVv2sYptQ8q3c5mpHy0w4QJh73hl8VLSznW2vIEQ718BRf3F11Om+VbrpFYh3/u6hTEw8Q09/tPUGjWdJOlZdglf3dVRBGlGYs=
+	t=1756535139; cv=none; b=lCRSKi+Dnut2EdgNDjs/XimCbnmTXl0BcCIM0N5sjlvBHZG3tlxcltQoWrDBkfEEwAiilTPCtTHJGzmcqzu6ZQ2FuhDkhXDpttYZb5rRS5vIlae+MPhDizgSpI/bTdaGKyclvR6Nbmtej0PzxPbOKHz1VoZcRjo4GNGI0Pxwe4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756530199; c=relaxed/simple;
-	bh=wYUl4DeNulG2nYtPa7cq5JFPrL6inxtZESaOl5w2q0w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aLT5WlK6Sy0f3lsrLqFs7ViVZ3RCmGfNx7Jg3nUXxVNm41rSG8EjHnBPNYxEWOXG6018AwO8c0LVlFg0Xup/feUUW/w7zSIOFVMoRYCbL59cVvqHg8g16eGnREJ2+osw1RSlvbebJu754fTjYo7gAnZCwNXd0MZp+a8e7V9HIl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G7eAq1r9; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7eAq1r9"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-afcb7a7bad8so383261566b.3;
-        Fri, 29 Aug 2025 22:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756530195; x=1757134995; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y83Q+Ok40+eVrTvGcNS2tSYv/8VFYqrlbD0JuKTjJ0M=;
-        b=G7eAq1r9feOztUYFRmZBHehlurwKIDO5lAcGCZdlK2SSbqot+iWWJ2905y+M7mkfwd
-         LXNoiAUGJ5aTiA7qPgOtk/2+DcrfiM2ulNQQMQxF0r/2OXo03sQE7jD+Waa41sF+A082
-         AeUAaN5JUvaCPC5tHj3We1Yo9OA4SU3kVS0StM42pT0wIVM2Op2VFojoa9n8CS+ew+YH
-         8bQXw1igH/0xOGIvnDD7lcwsZr4Q6OmSb0YDD29UV+xnxxWffg3dC5w5CgnHJhc7mIng
-         VCIrKx1Jocpt6rmgO1/3pjIjxWL/1CC0Ngnlg9nZkCbQHx7EZR6gbiWKOB2zo0tPQhbz
-         8v4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756530195; x=1757134995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y83Q+Ok40+eVrTvGcNS2tSYv/8VFYqrlbD0JuKTjJ0M=;
-        b=bHlgR4Cm76uTnypngTWfc0cruuFQR+Q/0bMNGI95uch9Q2rl2mb8NZdcK4Tz/w0TT4
-         ydjz1zuZ+TpzlLZ+4WCr8er4xNMo2hOxkHrp91jETEKEgZxV9ElsyhLav5bZEQgKk/Uh
-         BJTIasfRjetTuX/HkclwMhD6CNEe7seijrjubq9teN4/7B2uXXaw+WSiAMywMXVEhj+I
-         8r50pBnVVy1yWsa9UvA7RV0/2IG2lI+nD3nhJsq1iQCp9YCKAQSnskVM7P2b0DMLByG0
-         6q+GFBydoo9Pw5NtGIF9HD+hi0BphLX3JuFOSb4MAknwy/phdj5BNvOnpgmkNdOkcg7P
-         3p7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVHxwE19RRBlUizqnEdMvG/vNCgOvXUmk1bkqX5Xfz/eqm4zFlNl+SufsNmUzgc970AnAtftbRrcwk4gZay@vger.kernel.org, AJvYcCVbzHMOcpvqH6T+6MItlLORZjWP909IEYJlWe+Se6kCp71NOtDROofvgfbjOr/2I9+UtiZ6h+7De6DC@vger.kernel.org, AJvYcCX5JsEcqKz5WB9mybzuQq2GvoZaK8DMgM4SjHTw9R00whfVAVqhF7JoyZSUCHX8GrPkqqdmMmgRRo6H@vger.kernel.org, AJvYcCXcKeikVc0hT8Z8kgMdClTVelAcG9uQhx9ccZwnXVbRw5RwCT0VNbcwgyaumuhsZEdhcH/qrz41e8ZN@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrBNsFvTQUe4ECYPzKzKwgv4dDlIRYA1V5ebmoCoKevoGmYqpS
-	mza9UctKeYA3K8Ue1y+ZdSNhwd3Ziaz5x9x10IcDr7PuMr92+u/0q03GaS2+a4SuxDfZlWwPLpD
-	EEN159Gk4HFiyKn15TFT31P76Xajv6wA=
-X-Gm-Gg: ASbGncsFEjbiO47/aGD3VMPPvFrgJYDqKE2b14V2ySCsNTlyH7jhumLGFnC5GmdXbXG
-	9LW1NCt/++782y5BccciEZCmKB3q15jmbY6s/gniKEXipJ63h2GQdNw6SRKs1JZnxaFixEthY+E
-	5SMqrPrNKNZCq8OQ6awiJNNmZDAmJOFr9PE6WXWGNi03RNNugZ292AH77PIZvTtzLA5NuouDAEw
-	gghyTS76HSEeQbNJQ==
-X-Google-Smtp-Source: AGHT+IEbkBkrbeSypy4h9/1ADvznSwJLckuiapfmo9r6+CM2U9raJzZxBYhhviTWMbiVVRUnx2QJqF0QdhkSXsG8LIg=
-X-Received: by 2002:a17:907:9815:b0:ae3:f16a:c165 with SMTP id
- a640c23a62f3a-b01d9732e2dmr93973066b.31.1756530195102; Fri, 29 Aug 2025
- 22:03:15 -0700 (PDT)
+	s=arc-20240116; t=1756535139; c=relaxed/simple;
+	bh=0QzAJ7CbvMlIPWm24wLuXvgMoA0rDopHRYVH3zy9GKI=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=T7BzNtaSbZxIJjoRDKpQwxihW9bRmJukRXLOyLmJExBilcc/oTJxch4DbFiUF9yOOyukwHlBBoI5Fa3VWwGmp8eDpV2c2+d4kpWbvHs0APt+8adZQvzXXCbV2EFa9kxnl1XZZuoziiBqMWbMpzH/WuGOYWb+8pXin6s8DqCuqVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cDQ9V5hx3z5B13X;
+	Sat, 30 Aug 2025 14:25:18 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl2.zte.com.cn with SMTP id 57U6PHPJ084792;
+	Sat, 30 Aug 2025 14:25:17 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sat, 30 Aug 2025 14:25:19 +0800 (CST)
+Date: Sat, 30 Aug 2025 14:25:19 +0800 (CST)
+X-Zmail-TransId: 2af968b2994fde7-637a8
+X-Mailer: Zmail v1.0
+Message-ID: <20250830142519085d4aXePTT_pSZ3UTxxNC8X@zte.com.cn>
+In-Reply-To: <20250828092655.GA30360@didi-ThinkCentre-M930t-N000>
+References: 20250828092655.GA30360@didi-ThinkCentre-M930t-N000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <cover.1756511030.git.marcelo.schmitt@analog.com> <2410525339f56466fa566dda367678ec92f9fb98.1756511030.git.marcelo.schmitt@analog.com>
-In-Reply-To: <2410525339f56466fa566dda367678ec92f9fb98.1756511030.git.marcelo.schmitt@analog.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 30 Aug 2025 08:02:38 +0300
-X-Gm-Features: Ac12FXwhf8j_-7iVGqgS_dqVdNdK4mGLZgMp7J2XF982AOSeHo-SK8Lw1m2kmq0
-Message-ID: <CAHp75VcvVqdgCXKuKLvpegx6bN4af=7xYO=Nh8T37_gMjG1Y6Q@mail.gmail.com>
-Subject: Re: [PATCH 06/15] spi: spi-offload-trigger-pwm: Use duty offset
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-spi@vger.kernel.org, Axel Haslam <ahaslam@baylibre.com>, jic23@kernel.org, 
-	Michael.Hennerich@analog.com, nuno.sa@analog.com, eblanc@baylibre.com, 
-	dlechner@baylibre.com, andy@kernel.org, corbet@lwn.net, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, broonie@kernel.org, 
-	Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com, 
-	marcelo.schmitt1@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <tiozhang@didiglobal.com>
+Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>, <corbet@lwn.net>,
+        <bsingharora@gmail.com>, <yang.yang29@zte.com.cn>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
+        <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+        <rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+        <vschneid@redhat.com>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <tiozhang@didiglobal.com>, <zyhtheonly@gmail.com>,
+        <zyhtheonly@yeah.net>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2M10gZGVsYXlhY2N5L3NjaGVkOiBhZGQgU09GVElSUSBkZWxheQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 57U6PHPJ084792
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.133 unknown Sat, 30 Aug 2025 14:25:18 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68B2994E.000/4cDQ9V5hx3z5B13X
 
-On Sat, Aug 30, 2025 at 3:42=E2=80=AFAM Marcelo Schmitt
-<marcelo.schmitt@analog.com> wrote:
+>Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
+>and hardirq as {IRQ - SOFTIRQ} delay.
 >
-> Pass the duty offset to the waveform pwm.
-
-...
-
->         wf.period_length_ns =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->=
-frequency_hz);
->         /* REVISIT: 50% duty-cycle for now - may add config parameter lat=
-er */
->         wf.duty_length_ns =3D wf.period_length_ns / 2;
-> -
-
-Stray - line
-
-> +       wf.duty_offset_ns =3D periodic->offset_ns;
->         ret =3D pwm_round_waveform_might_sleep(st->pwm, &wf);
->         if (ret < 0)
->                 return ret;
+>A typical scenario is when tasks delayed by network,
+>if they delayed by rx net packets, i.e, net_rx_action(),
+>SOFTIRQ delay is almost same as IRQ delay;
+>if they delayed by, e.g, bad driver or broken hardware,
+>SOFTIRQ delay is almost 0 while IRQ delay remains big.
 >
->         periodic->frequency_hz =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, wf.peri=
-od_length_ns);
-> -
-
-Ditto.
-
-> +       periodic->offset_ns =3D wf.duty_offset_ns;
->         return 0;
->  }
+>Examples tool usage could be found in
+>Documentation/accounting/delay-accounting.rst
 >
-> @@ -77,6 +77,7 @@ static int spi_offload_trigger_pwm_enable(struct spi_of=
-fload_trigger *trigger,
->         wf.period_length_ns =3D DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->=
-frequency_hz);
->         /* REVISIT: 50% duty-cycle for now - may add config parameter lat=
-er */
->         wf.duty_length_ns =3D wf.period_length_ns / 2;
-> +       wf.duty_offset_ns =3D periodic->offset_ns;
+>Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
+>---
 
->
+a small suggestion: it would be clearer if you could include a changelog
+when sending a new version of the patch next time. For example:
+https://lore.kernel.org/all/20250828171242.59810-1-sj@kernel.org/
 
-Especially as it seems that the pattern is to have a blank line before
-last return statements.
-
->         return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
->  }
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+Thanks
+Yaxin
