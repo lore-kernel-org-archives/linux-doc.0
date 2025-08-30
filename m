@@ -1,36 +1,36 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58D92869E;
-	Sat, 30 Aug 2025 06:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0CC22F764;
+	Sat, 30 Aug 2025 06:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756535139; cv=none; b=lCRSKi+Dnut2EdgNDjs/XimCbnmTXl0BcCIM0N5sjlvBHZG3tlxcltQoWrDBkfEEwAiilTPCtTHJGzmcqzu6ZQ2FuhDkhXDpttYZb5rRS5vIlae+MPhDizgSpI/bTdaGKyclvR6Nbmtej0PzxPbOKHz1VoZcRjo4GNGI0Pxwe4g=
+	t=1756535402; cv=none; b=RQp9c2mVD/abpG5HE1IJQtBNwaCat5qxu3qI+9EwYQH4024kUelfpDiVbRo2W03dwFs6v/Fz0ABMehXVSxRmLjN8cq5bTVrA2/2hrzPqXNqnaLptV/ZUP06zmDQLXWqPaGFh7Y4T17uHg7fBprTGnOBJThNJml071GUWp8oVy5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756535139; c=relaxed/simple;
-	bh=0QzAJ7CbvMlIPWm24wLuXvgMoA0rDopHRYVH3zy9GKI=;
+	s=arc-20240116; t=1756535402; c=relaxed/simple;
+	bh=YZNhfwZ/t2MyKL3D0dFAq2T1Wp3ECR7VYFeNoeR4fCI=;
 	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=T7BzNtaSbZxIJjoRDKpQwxihW9bRmJukRXLOyLmJExBilcc/oTJxch4DbFiUF9yOOyukwHlBBoI5Fa3VWwGmp8eDpV2c2+d4kpWbvHs0APt+8adZQvzXXCbV2EFa9kxnl1XZZuoziiBqMWbMpzH/WuGOYWb+8pXin6s8DqCuqVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+	 Subject:Content-Type; b=fkW7UBlPr53GYi1ye8RiyU4rha8lz7yRb/ecF+O3FZfhA9J7jChZrLsh3OXV1NXGgn8e9s0Ttqd/6uXC2V4g0ZByEWAJUgBBc8Pr5qrZxYk5rEdGKatzdciEH7d3Ib5VoVVJNxECz0UOXVZAAm9UK781nhHTQ2I2DPrn/QdHRpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
 Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cDQ9V5hx3z5B13X;
-	Sat, 30 Aug 2025 14:25:18 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl2.zte.com.cn with SMTP id 57U6PHPJ084792;
-	Sat, 30 Aug 2025 14:25:17 +0800 (+08)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cDQGh3z6nz8Xs6w;
+	Sat, 30 Aug 2025 14:29:48 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl2.zte.com.cn with SMTP id 57U6Th5Y086473;
+	Sat, 30 Aug 2025 14:29:43 +0800 (+08)
 	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
+Received: from mapi (xaxapp02[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Sat, 30 Aug 2025 14:25:19 +0800 (CST)
-Date: Sat, 30 Aug 2025 14:25:19 +0800 (CST)
-X-Zmail-TransId: 2af968b2994fde7-637a8
+	Sat, 30 Aug 2025 14:29:44 +0800 (CST)
+Date: Sat, 30 Aug 2025 14:29:44 +0800 (CST)
+X-Zmail-TransId: 2afa68b29a5841a-66dd7
 X-Mailer: Zmail v1.0
-Message-ID: <20250830142519085d4aXePTT_pSZ3UTxxNC8X@zte.com.cn>
+Message-ID: <20250830142944929e1M6lffs_PwvPfl7J-R1g@zte.com.cn>
 In-Reply-To: <20250828092655.GA30360@didi-ThinkCentre-M930t-N000>
 References: 20250828092655.GA30360@didi-ThinkCentre-M930t-N000
 Precedence: bulk
@@ -53,14 +53,14 @@ Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>, <corbet@lwn.net>,
 Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2M10gZGVsYXlhY2N5L3NjaGVkOiBhZGQgU09GVElSUSBkZWxheQ==?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 57U6PHPJ084792
+X-MAIL:mse-fl2.zte.com.cn 57U6Th5Y086473
 X-TLS: YES
 X-SPF-DOMAIN: zte.com.cn
 X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
 X-SPF: None
-X-SOURCE-IP: 10.5.228.133 unknown Sat, 30 Aug 2025 14:25:18 +0800
+X-SOURCE-IP: 10.5.228.133 unknown Sat, 30 Aug 2025 14:29:48 +0800
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68B2994E.000/4cDQ9V5hx3z5B13X
+X-Fangmail-MID-QID: 68B29A5C.000/4cDQGh3z6nz8Xs6w
 
 >Intro SOFTIRQ delay, so we can separate softirq as SOFTIRQ delay
 >and hardirq as {IRQ - SOFTIRQ} delay.
@@ -75,11 +75,8 @@ X-Fangmail-MID-QID: 68B2994E.000/4cDQ9V5hx3z5B13X
 >Documentation/accounting/delay-accounting.rst
 >
 >Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
->---
 
-a small suggestion: it would be clearer if you could include a changelog
-when sending a new version of the patch next time. For example:
-https://lore.kernel.org/all/20250828171242.59810-1-sj@kernel.org/
+Reviewed-by: Wang Yaxin <wang.yaxin@zte.com.cn>
 
 Thanks
 Yaxin
