@@ -1,138 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECD2223DF1;
-	Sat, 30 Aug 2025 08:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FC853363;
+	Sat, 30 Aug 2025 08:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756542927; cv=none; b=cDRLF+QjNIwDLYAosoxE8fb0neYHRBXWryaCpDCwtEZOSVr/Yb8BqhAD9Jh8OhhFUMn2ZbqVvtqVHBMX/ABBLa5npLM2drgJidkF0aBb3VaawOvQ69rU6e/ZQG+qDOnDZl97uCB9Yq5Lg6SBTvyvaHcZyBko4xJ+yjyHghDpJAI=
+	t=1756544244; cv=none; b=uw0knDRJ2qDFsCZYF6hp//lrGC1aw3YXN74DN8gDnjsUXbSTd0OR/NIchGuKPtodr8x3ZWsuKHIIri5TVNYnClCRasrU1lnXcuDJh7I9Ypmpoc7GoAND8q2Gg2m1flodRgAORsqvUXRIWyiqyuM5LVP93NZqkW0HTmIDj2nDDpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756542927; c=relaxed/simple;
-	bh=oKvjDljPLSRg2x/aOWCyZgodbMjJIdmSCcxy/Ed/RYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ga5hWbldyPcaJ3NIjcFMff8Xs2SoQLNY/5jVYP6teqaa6IH1u8GW02q90x0Tv5lFnL/CM2ANm4DpzXo/zZVYsSXwPrHkcBr4fDaU/mR0jKi8C2RUTKKoXK7PBzwqKlwNwJeUFUuYLD70XsVxSqnOYm46ioJaSH0DWnhZqz6I+2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJ2Gq9Q4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJ2Gq9Q4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81DCBC4CEEB;
-	Sat, 30 Aug 2025 08:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756542926;
-	bh=oKvjDljPLSRg2x/aOWCyZgodbMjJIdmSCcxy/Ed/RYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJ2Gq9Q41CFdV6Q+M16uVYmCXPBnCX6Mtf7wOUYVVkWOIgfiBBx0jlaPa180Cf10s
-	 WYotg2neDOLYCEklciQmDeMW3qUzX0UkTa6QROBFiA93CP1SFlmZBKYFWkLmubtmF8
-	 6IjAbqmqeDZeZGMSSgPx6Y/SnyNOHjZmt+g7kXUXwVENrl/uCuBffvAtsL/jMM2lEc
-	 0lQ2G1Jorwlhp+I8wSJzRGlMX7OxHmQgPe3ubKgbY3jw3rfN6RBNzm/jw+2U86JKgV
-	 hRdhGKSEIEL5Sdf+8dpRe+3XW9gqx3VoLY6G1z5UzYe5mU1jAx5nzCn+phxkVTEV28
-	 TMP4NOKcmoVjw==
-Date: Sat, 30 Aug 2025 11:35:02 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	changyuanl@google.com, dmatlack@google.com, rientjes@google.com,
-	corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com
-Subject: Re: [PATCH v3 09/30] liveupdate: kho: move to kernel/liveupdate
-Message-ID: <aLK3trXYYYIUaV4Q@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-10-pasha.tatashin@soleen.com>
+	s=arc-20240116; t=1756544244; c=relaxed/simple;
+	bh=+PJ718pZkHecDJD/niuj71raER0oNdGPCe4aU8cOYt8=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=HzQ4CA+lmHJI6nJ5rNznu9UmUrjYfhRZDZzevg0hfDa/P6vMeREB+ootrH3VyRn5fJhZgX2x2oeeihCig4l+3XLhTKMKWVJQaZVO7Vov+An/PpluN2KgaP1/umPjLC2mBkdB7FqtTkhy7JEmHFq3QLkEZ7a/ZmRw7nYLYwOd5JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cDTXq10XKz8Xs72;
+	Sat, 30 Aug 2025 16:57:15 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl2.zte.com.cn with SMTP id 57U8v9SS059986;
+	Sat, 30 Aug 2025 16:57:09 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sat, 30 Aug 2025 16:57:11 +0800 (CST)
+Date: Sat, 30 Aug 2025 16:57:11 +0800 (CST)
+X-Zmail-TransId: 2afc68b2bce7b0a-fb433
+X-Mailer: Zmail v1.0
+Message-ID: <2025083016571123360dlV3pxVqfCY35MOQnma@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807014442.3829950-10-pasha.tatashin@soleen.com>
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>
+Subject: =?UTF-8?B?wqBbUEFUQ0ggMC80IGxpbnV4IG5leHQgdjNdIERvY3MvemhfQ046IFRyYW5zbGF0ZSBuZXR3b3JraW5nIGRvY3MgdG8gU2ltcGxpZmllZCBDaGluZXNl?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 57U8v9SS059986
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.133 unknown Sat, 30 Aug 2025 16:57:15 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68B2BCEB.000/4cDTXq10XKz8Xs72
 
-On Thu, Aug 07, 2025 at 01:44:15AM +0000, Pasha Tatashin wrote:
-> Move KHO to kernel/liveupdate/ in preparation of placing all Live Update
-> core kernel related files to the same place.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
->
-> ---
-> diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-> new file mode 100644
-> index 000000000000..72cf7a8e6739
-> --- /dev/null
-> +++ b/kernel/liveupdate/Makefile
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for the linux kernel.
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-Nit: this line does not provide much, let's drop it
+translate networking docs to Simplified Chinese
 
-> +
-> +obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
-> +obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
-> diff --git a/kernel/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-> similarity index 99%
-> rename from kernel/kexec_handover.c
-> rename to kernel/liveupdate/kexec_handover.c
-> index 07755184f44b..05f5694ea057 100644
-> --- a/kernel/kexec_handover.c
-> +++ b/kernel/liveupdate/kexec_handover.c
-> @@ -23,8 +23,8 @@
->   * KHO is tightly coupled with mm init and needs access to some of mm
->   * internal APIs.
->   */
-> -#include "../mm/internal.h"
-> -#include "kexec_internal.h"
-> +#include "../../mm/internal.h"
-> +#include "../kexec_internal.h"
->  #include "kexec_handover_internal.h"
->  
->  #define KHO_FDT_COMPATIBLE "kho-v1"
-> @@ -824,7 +824,7 @@ static int __kho_finalize(void)
->  	err |= fdt_finish_reservemap(root);
->  	err |= fdt_begin_node(root, "");
->  	err |= fdt_property_string(root, "compatible", KHO_FDT_COMPATIBLE);
-> -	/**
-> +	/*
->  	 * Reserve the preserved-memory-map property in the root FDT, so
->  	 * that all property definitions will precede subnodes created by
->  	 * KHO callers.
-> diff --git a/kernel/kexec_handover_debug.c b/kernel/liveupdate/kexec_handover_debug.c
-> similarity index 100%
-> rename from kernel/kexec_handover_debug.c
-> rename to kernel/liveupdate/kexec_handover_debug.c
-> diff --git a/kernel/kexec_handover_internal.h b/kernel/liveupdate/kexec_handover_internal.h
-> similarity index 100%
-> rename from kernel/kexec_handover_internal.h
-> rename to kernel/liveupdate/kexec_handover_internal.h
-> -- 
-> 2.50.1.565.gc32cd1483b-goog
-> 
+v1->v2:
+https://lore.kernel.org/all/20250728153954564ePWG4rm0QdFoq2QGWUGlt@zte.com.cn/
+https://lore.kernel.org/all/CAD-N9QW7=frNYSJDhaUiggSF9p_v33R8BQ0t8vypWUCXO+pyZQ@mail.gmail.com/
+1. resend by plain text.
+2. remove unneccessary empty line in subject.
+
+v2->v3:
+1. add reviewer tag
+
+Sun yuxi (2):
+  Docs/zh_CN: Translate mptcp-sysctl.rst to Simplified Chinese
+  Docs/zh_CN: Translate generic-hdlc.rst to Simplified Chinese
+
+Wang Yaxin (2):
+  Docs/zh_CN: Translate skbuff.rst to Simplified Chinese
+  Docs/zh_CN: Translate timestamping.rst to Simplified Chinese
+
+ .../zh_CN/networking/generic-hdlc.rst         | 176 +++++
+ .../translations/zh_CN/networking/index.rst   |   8 +-
+ .../zh_CN/networking/mptcp-sysctl.rst         | 139 ++++
+ .../translations/zh_CN/networking/skbuff.rst  |  44 ++
+ .../zh_CN/networking/timestamping.rst         | 674 ++++++++++++++++++
+ 5 files changed, 1037 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/networking/generic-hdlc.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/mptcp-sysctl.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/skbuff.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/timestamping.rst
 
 -- 
-Sincerely yours,
-Mike.
+2.25.1
