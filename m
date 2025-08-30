@@ -1,214 +1,143 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AF31E5710;
-	Sat, 30 Aug 2025 07:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C154D5BAF0;
+	Sat, 30 Aug 2025 08:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756540666; cv=none; b=NJIVWuRl+2wGiVm8uCNlKvnyH/A7pKRFwW9DR6twGFazwmQA3Q91TatnnBqPtpmtvrZMcK1X+KyxQWv+ndtsScP5yj2FEwzv/y9QUt73T3g1/sk4BuytPXWsoVtWpEocHpQCINZ8/z2aSTuAxiv4fdnWm72ed1Y/57rwXUILmI4=
+	t=1756541347; cv=none; b=p2SXVrLySeV0JibfU310fojjB/IZoLg9LHxDDos7P6SBn7rrmFU8sDNVOMnYUs2Fvz7AwfgmZO6yt68JDR7UpNWms6to5NC6Q+FOCOHFO2hWQeXARysQDhNzzltA/BztuY/81nYUOGIBmWWDyDBWd7w8lCAmboVsu6LW5//b14U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756540666; c=relaxed/simple;
-	bh=+2+Gj1nNHKpL+N9u8qZn9hF2ACrmy8ud9G7KUHU3RQw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QiU3jh6L91BDn5VLIbfofygmEJpA3b3XXON6y8BvZUK+TFOwiiXTvf82mhGLQjLkMEGPtWrsLP5PMM0eHRsJ3DL5JluoYmytYt82jrEbxgHhYMWjn1eO4NiFOjYFFxdX6oXuIcntMcorq9shT+jmnUtaxbHyUM7Th/sCQ034I/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0gJBgbE; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0gJBgbE"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aff0775410eso180564466b.0;
-        Sat, 30 Aug 2025 00:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756540663; x=1757145463; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+xzYpIPBYEfD30svdRD/8XJR3PeRfEwoaHDcvFNvN3Q=;
-        b=X0gJBgbEOMwlVvKqNelyu6lL+R2SjWnRhl/doU3FjZzwAKiFEg0uZw4nqUvV4zT2r2
-         L1wdLZdTF9ooD236N3qmPi+Kvv4JwyYUD1fVWjO2zrEyKKrvnyl1iIEVje8qtNTh0CRt
-         NwBKwrXhFY2R9LH8fdigNlqVJSb18S7Y5rOvYWi8M8GCiBVhSPsmjJ9D5YLrhsdu4zZY
-         m0cXw9NGrNMEsxLDLftDG+2u2HVaIJaT3g94NLqGN8qUnwzpOe6U6CFxnnPz6u5oLp5B
-         yRk55CgIEZlTXOgt9CY3rTqLB3Jbamv3O9pS4px5jhgUyfmxoO/qCtMKQut2uSUtmJnQ
-         YCUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756540663; x=1757145463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+xzYpIPBYEfD30svdRD/8XJR3PeRfEwoaHDcvFNvN3Q=;
-        b=GZwC+E7xNIeb2xKLh43SvohY7MwWXFMJyUlVgsFTYWV0tPNwo1y4OIF9sHiK+E7IcJ
-         UvhhADJ3jrcERseogTtKqLo14GDrAQY/77IWZWmTdNMGRrR0iHaM69oseuuhG0gTtMhe
-         kKrKS5cWjZsNYlFW3DnlMiaT1TEuVzR02el/hh6KC9lE0y+kJyctTYt2nOqY84C6gDPB
-         O7fxhP+moCDoISAjXMdvcJAdAbua17ACh8n75M5v0oIDF1zW8UQ9NXOCSZyi7lBBqGX9
-         M8pXyWMkBP+ufXOoYzOvSB5nsL8rZ4ul040q12VjQcHDNQnbYl00UQZS4OoJFv05gRVo
-         ovbg==
-X-Forwarded-Encrypted: i=1; AJvYcCURnHWjaXsaEkHs/hHfTDXfv1pgdfQWNluj5j88rwL0BeFo6k+pDVM93kMXW9n/XJ+l7UPuGLHAruw8XIKP@vger.kernel.org, AJvYcCUfkAzfavoqIjIo3IGzlV9p+KjdAhteYkba5iX5AM++aCwX9Q9elXiWyEGIyrfy8ORiafaP0dMNdEU1@vger.kernel.org, AJvYcCWtBcUbVPJffoPe/WL8fAElWEth2fvqRy+iB2ylp9+rdB/5xnInJsuKS2Pwxh8ri46Jj8I199znAFsP@vger.kernel.org, AJvYcCXZx3J0Nbw3aIulmPADvMmBXsiLcp1FIkHZe6EyQp7jty7wZ5NEPZlkoxbsxjPgzg70IOeJ8tQEi07H@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP2PuxoOIlLh8OD1oltmo2nq8qU2rZvzHSrQu3MSIUfbCAD3x6
-	DZ+3uSZRYoJidMwFmHTadGfHmatcXBxuPnavH4vt0LHor8yjtF9kfu3Z8uFtfk3pDMICXUgVW6r
-	lD8Xv2cofmPU+sLoTjrbcUI82ijw/qzfQutF+g/0=
-X-Gm-Gg: ASbGncu1bCbHwr5Qoo/AZzlVSf5ppn3PuY3Vm+dsB44UfrdHGwasQdtg+DHmetVYjwV
-	AJApRCjRaaQxO8vluSPvx9Uud4Y6JxAkAWuXTEVQVpsb3Y4MhNjWy1Ml8GUka+MIm23t+W53Auo
-	SRKUVV56q/+XhFkJpih8F1dTBrx9werQ0YrErwvcQhCtB5jc8i0XborqG+cov29lFoPIzncq42o
-	UpB/d0=
-X-Google-Smtp-Source: AGHT+IFLFaJZMNtcY4bSeieEVUiOrD9u71emls8SkXMWkt+Cd9A3UVgZvQN5+DgDo/fD1simHs+bT5eet1sbhBXtbNA=
-X-Received: by 2002:a17:907:8694:b0:aff:1586:14c2 with SMTP id
- a640c23a62f3a-b01d8a58373mr129215966b.4.1756540662463; Sat, 30 Aug 2025
- 00:57:42 -0700 (PDT)
+	s=arc-20240116; t=1756541347; c=relaxed/simple;
+	bh=ls65F/Hknrwv3SVQwAnPoHC5dLqTgZUBtyTQdcAyacs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SUb7vrE1LafAEttyc90pdsx4txDXJyU81BVH3f40J5R7wt294mYzfNPB0CLq4UWlAMYnO1R9io4mlIwLAS8WCttswwNHVddQCg2gOcYe8sPBIFlnVaMvG1b2posv4HVyliLVusCuwmo+ygS37sRVEgy4zhepcmm91HOoGbyCs5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4cDSPf2ZjMz24hsn;
+	Sat, 30 Aug 2025 16:05:58 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id A7711140155;
+	Sat, 30 Aug 2025 16:08:59 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 30 Aug 2025 16:08:58 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
+	<gur.stavi@huawei.com>, Lee Trager <lee@trager.us>, Michael Ellerman
+	<mpe@ellerman.id.au>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Suman
+ Ghosh <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v03 00/14] net: hinic3: Add a driver for Huawei 3rd gen NIC - sw and hw initialization
+Date: Sat, 30 Aug 2025 16:08:39 +0800
+Message-ID: <cover.1756524443.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1756511030.git.marcelo.schmitt@analog.com> <006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt@analog.com>
-In-Reply-To: <006ac88a667ce0d2c751946b562af83d0f27a44f.1756511030.git.marcelo.schmitt@analog.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 30 Aug 2025 10:57:06 +0300
-X-Gm-Features: Ac12FXyTcea0WOAjGBKoJRyBZ-wQfLv5c18Ob1a_Rdr7ObF9Kvv_OchzjH_ruYw
-Message-ID: <CAHp75VdeSqwVecJHx+jXn9++zgN+CBH56OGUYX5kBbdc0AFKSA@mail.gmail.com>
-Subject: Re: [PATCH 15/15] iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-spi@vger.kernel.org, jic23@kernel.org, Michael.Hennerich@analog.com, 
-	nuno.sa@analog.com, eblanc@baylibre.com, dlechner@baylibre.com, 
-	andy@kernel.org, corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, broonie@kernel.org, Jonathan.Cameron@huawei.com, 
-	andriy.shevchenko@linux.intel.com, ahaslam@baylibre.com, 
-	marcelo.schmitt1@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Sat, Aug 30, 2025 at 3:46=E2=80=AFAM Marcelo Schmitt
-<marcelo.schmitt@analog.com> wrote:
->
-> ADAQ4216 and ADAQ4224 are similar to AD4030, but feature a PGA circuitry
-> that scales the analog input signal prior to it reaching the ADC. The PGA
-> is controlled through a pair of pins (A0 and A1) whose state define the
-> gain that is applied to the input signal.
->
-> Add support for ADAQ4216 and ADAQ4224. Provide a list of PGA options
-> through the IIO device channel scale available interface and enable contr=
-ol
-> of the PGA through the channel scale interface.
+This is [3/3] part of hinic3 Ethernet driver initial submission.
+With this patch hinic3 becomes a functional Ethernet driver.
 
-...
+The driver parts contained in this patch:
+Memory allocation and initialization of the driver structures.
+Management interfaces initialization.
+HW capabilities probing, initialization and setup using management
+interfaces.
+Net device open/stop implementation and data queues initialization.
+Register VID:DID in PCI id_table.
+Fix netif_queue_set_napi usage.
 
->  /* Datasheet says 9.8ns, so use the closest integer value */
->  #define AD4030_TQUIET_CNV_DELAY_NS     10
+Changes:
 
-You already used that in one of the previous patches, can you move
-there this one and use instead of magic +=3D 10?
+PATCH 03 V01: https://lore.kernel.org/netdev/cover.1756195078.git.zhuyikai1@h-partners.com
+* Remove extra memset 0 after kzalloc (Vadim Fedorenko)
+* Remove another init function in hinic3_init_hwdev/hwif/nic_io (Vadim Fedorenko)
+* Create a new separate patch of fixing code style (Vadim Fedorenko)
+* Use bitmap_free instead of kfree (ALOK TIWARI)
+* Add prefix "hinic3" to non-static functions and parse_* functions (Vadim Fedorenko)
+* Init func_tbl_cfg to {} (Vadim Fedorenko)
+* Move endinass-improvements to a separate patch (Vadim Fedorenko)
+* Use kmalloc_array before overwrite rss_hkey on the very next line (Vadim Fedorenko)
+* Remove extra key copy about hinic3_rss_set_hash_key (Vadim Fedorenko)
+* Use netdev_rss_key_fill instead of static rss hash key for safety (Eric Dumazet)
+
+PATCH 03 V02: https://lore.kernel.org/netdev/cover.1756378721.git.zhuyikai1@h-partners.com
+* Modify get_hwif_attr function for improving readability (Vadim Fedorenko)
+* Add HINIC3_PCIE_LINK_DOWN errorcode to init_hwif_attr error handling (Vadim Fedorenko)
+
+PATCH 03 V03:
+
+Fan Gong (14):
+  hinic3: HW initialization
+  hinic3: HW management interfaces
+  hinic3: HW common function initialization
+  hinic3: HW capability initialization
+  hinic3: Command Queue flush interfaces
+  hinic3: Nic_io initialization
+  hinic3: Queue pair endianness improvements
+  hinic3: Queue pair resource initialization
+  hinic3: Queue pair context initialization
+  hinic3: Tx & Rx configuration
+  hinic3: Add Rss function
+  hinic3: Add port management
+  hinic3: Fix missing napi->dev in netif_queue_set_napi
+  hinic3: Fix code style (Missing a blank line before return)
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   2 +
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    | 195 ++++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |   4 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 364 ++++++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  21 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   | 121 +++
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.c | 547 ++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 269 ++++++
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |   2 +-
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   |   9 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |   9 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.c  |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |   2 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     | 119 +++
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 432 ++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 152 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  20 +
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   5 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.c    | 874 +++++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    |  39 +-
+ .../huawei/hinic3/hinic3_pci_id_tbl.h         |   9 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 352 +++++++
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  14 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    | 232 ++++-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  38 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 184 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |  30 +-
+ 28 files changed, 3996 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_pci_id_tbl.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
 
 
-> +/* HARDWARE_GAIN */
-> +#define ADAQ4616_PGA_PINS              2
-> +#define ADAQ4616_GAIN_MAX_NANO         6666666667
+base-commit: b1c92cdf5af3198e8fbc1345a80e2a1dff386c02
+-- 
+2.43.0
 
-Can we use calculus instead (people can't count properly after 3 :-)?
-Something like this
-
-(NANO * 2 / 3) // whoever in the above it's 20 and this puzzles me how
-something with _NANO can be so big :-)
-
-...
-
-> +/*
-> + * Gains computed as fractions of 1000 so they can be expressed by integ=
-ers.
-> + */
-> +static const int ad4030_hw_gains[] =3D {
-> +       333, 556, 2222, 6667,
-
-Again, instead of comment (or in addition to) this can be written as
-
-1000 / 3, 5000 / 9, 20000 / 9, 20000 / 3,
-
-Let the compiler do its job.
-
-> +};
-> +
-> +static const int ad4030_hw_gains_frac[4][2] =3D {
-
-Drop 4
-
-> +       { 1, 3 },  /* 1/3 gain */
-> +       { 5, 9 },  /* 5/9 gain */
-> +       { 20, 9 }, /* 20/9 gain */
-> +       { 20, 3 }, /* 20/3 gain */
-> +};
-
-...
-
-> +static int ad4030_write_raw_get_fmt(struct iio_dev *indio_dev,
-> +                                   struct iio_chan_spec const *chan, lon=
-g mask)
-> +{
-> +       switch (mask) {
-> +       case IIO_CHAN_INFO_SCALE:
-> +               return IIO_VAL_INT_PLUS_NANO;
-> +       default:
-> +               return IIO_VAL_INT_PLUS_MICRO;
-> +       }
-
-> +       return -EINVAL;
-
-What's the point of this return?
-
-> +}
-
-...
-
-> +static int ad4030_setup_pga(struct device *dev, struct iio_dev *indio_de=
-v,
-> +                           struct ad4030_state *st)
-> +{
-> +       unsigned int i;
-> +       int pga_value;
-> +       int ret;
-> +
-> +       ret =3D device_property_read_u32(dev, "adi,pga-value", &pga_value=
-);
-> +       if (ret && ret !=3D -EINVAL)
-> +               return dev_err_probe(dev, ret, "Failed to get PGA value.\=
-n"
-> +
-> +       if (ret =3D=3D -EINVAL) {
-
-This can be done differently, i.e. check for EINVAL first and in
-'else' branch check for other ret !=3D 0. This will deduplicate the
-EINVAL check.
-
-> +               /* Setup GPIOs for PGA control */
-> +               st->pga_gpios =3D devm_gpiod_get_array(dev, "pga", GPIOD_=
-OUT_LOW);
-> +               if (IS_ERR(st->pga_gpios))
-> +                       return dev_err_probe(dev, PTR_ERR(st->pga_gpios),
-> +                                            "Failed to get PGA gpios.\n"=
-);
-> +
-> +               if (st->pga_gpios->ndescs !=3D 2)
-> +                       return dev_err_probe(dev, -EINVAL,
-> +                                            "Expected 2 GPIOs for PGA co=
-ntrol.\n");
-> +
-> +               st->scale_avail_size =3D ARRAY_SIZE(ad4030_hw_gains);
-> +               st->pga_index =3D 0;
-> +               return ad4030_set_pga_gain(st);
-> +       }
-
-...
-
-> +       .max_sample_rate_hz =3D 2 * MEGA,
-
-HZ_PER_MHZ
-
-...
-
-> +       .max_sample_rate_hz =3D 2 * MEGA,
-
-Ditto.
-
---=20
-With Best Regards,
-Andy Shevchenko
