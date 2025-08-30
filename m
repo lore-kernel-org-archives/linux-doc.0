@@ -1,119 +1,195 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B1C10F2
-	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 17:08:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F982239E6F
+	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 17:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756573704; cv=none; b=bUt6Aj1dnKf7WvrNHejrCdRcT1FwEWRbdAi/1qB4O1+DIoQCb1zn1ZsQEll7+W+vPjjTH51K6vPAQQKjkftDl2w8oOm5DBcqXULSb+2/Wl62WOadRJ8Q4OdSTH81x+f10WLDhQeEWmGZ7vaptNx1ZmTQqo3vakB7ePABcndcqms=
+	t=1756574350; cv=none; b=Dnnt76P9Hea+LAKP7+Ss6rNQBbvk36/n8vda/HuQT7274AlcS/GiReN3euhGQ3zxCzScY/l/HaPyS36MDb4XZsVyaIYLy1omSwKqedjX7yZMH26XqgCrLnvAXY8oC+89DZc0x1ohvl3Pzga/cSpExie8bJHcUUmhooUV1i7tWag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756573704; c=relaxed/simple;
-	bh=SwnNZ8jBcz4m4KsvL/tV5YH6L1PVzvzsq5eFjxp1G4s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=DDcE1pRk3OHJtpQcVp611rHZAmq/mVqhJtR/67DheHsEmhRQjbBfNKtul51gi38iXt+dO2egWtQP9jxwupsqhtHazQ3g0ukConR23wbmfXk235gdsihOPhmjDsu1zsEfMlD3nz+7mxBH7lTyF64Vc4eep8sBZAZj3Xc/eAN9els=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BjP9XSQL; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1756574350; c=relaxed/simple;
+	bh=UBHG+9SPy9usH/CpfwQR9J5CI7EPxyX/aq86W1GSMjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l9gvO5n2O7rei7rSAC6fLSnnqzOE+oh0YDkB0XDvofMPaVGJ21q8sQHD41BV3AZ8Td0VVcRmSwoADd8kXBbuqcsPp87XXDQ/T9krHUlaQIGg4tZQRC4Wk+shOoFkH8PBhpC9DE94zZv1jD0FgsfTGxthXkKC5tinxtSETwPyXJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gYU1S8ny; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BjP9XSQL"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57UCfnh5023937;
-	Sat, 30 Aug 2025 17:08:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=gC/kboGsT0OoW+WO
-	D2RbfXRpSWgnpAu0BFDFHX9kYUo=; b=BjP9XSQLTbJY8Pem7s10Hx32RiwVaXfx
-	Yj4m1d32NCaHo3ZqdBnv+gg5c9TbSC14TxYb2AAEavAnMRkgZ7Eaa4M8HF/mfRlJ
-	3IugvD4saGsVqsODDKQii/xSZ9a5DbPhg1oDIcM05CQuLxvANUQAYYfphgnU7IE5
-	Rj9BqFQjNAsaZUO554bZK8Hi6xUUbVKqHGsnXu4v05W6jGcSN/yrNt0eKdnWxXYU
-	GcVIjc5yLelbQdjMMwSyR8AhLE7gO66SS/G8nGMgz3c2nbCJpdU/EzoGEtm6GbYH
-	zdsqyEpIwo7hv1mHu0zU3/Ys1B2RENp/CXfZnGlBK7I9VUvwF9zYog==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48ussygdcc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 30 Aug 2025 17:08:14 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57UEJbTO032311;
-	Sat, 30 Aug 2025 17:08:13 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrd4h3t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 30 Aug 2025 17:08:13 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57UH8C8l026667;
-	Sat, 30 Aug 2025 17:08:12 GMT
-Received: from localhost.localdomain (dhcp-10-154-121-113.vpn.oracle.com [10.154.121.113])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 48uqrd4h3h-1;
-	Sat, 30 Aug 2025 17:08:12 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH] docs: sphinx: remove SPDX/copyright comments from HTML output
-Date: Sat, 30 Aug 2025 19:08:08 +0200
-Message-Id: <20250830170808.3911151-1-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gYU1S8ny"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-74381efd643so1252167a34.1
+        for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 10:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1756574346; x=1757179146; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YeDVxheW4o9XBGPi8jw/Mc+wVOwdFH2KoFx58cVzgZw=;
+        b=gYU1S8nynrNsJhNYvJ104T0sCr/+c8fC5KyGI5mhkTvAW5zcduZVuU4c5F3U8VIeXv
+         21R6on+pbraPDN+IHAesKD/YG62DoVNTzNC/3fbVFsaXz2xRl19D9DlA7tacYsMCAOv2
+         ieKz+fplGr0VrXwrpVXUMurmey0Pi5dxXrPey7+HI9mbWsTF8NTd8xkl2lx24YEchwnH
+         9uTMnYB/d2jT80O8NoX+7mr5qnK6MNQIZX8GfPQzto8IqBOKJafOyhCURyDsePMBGyuG
+         kzzAEn4XPQ4hS83hiZGWVewxUBvWHC9luXLX/l0SqSsJw1ftTVwPYK8oCnO5FM0kxhKe
+         3yJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756574346; x=1757179146;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YeDVxheW4o9XBGPi8jw/Mc+wVOwdFH2KoFx58cVzgZw=;
+        b=t9bycTvV8YGSz32wLQkW3H8/IwNOHu9jK6kE60iRbt2LbmE0WWnm0GNXhjuNLjhWIQ
+         yK9wvuV9oQOJJUbb4aPsR62v+yf7vQiB7cq28JyQcmX/7egrb2FZQekDkDCE0ZDn+9OI
+         c3VX+LgJawnxms9HcrAImbq7p4yUTk0lOccxWwC23eeuh2TpJZeYFtwYe2WWero+rj2a
+         rLrd4LtP3BRv65rfb3tNbVfNgJcQIw1h3I0K91WbmoGPSNJDg+s3W7HLdn78WAeVwOjz
+         R7XXX7D1RSuLNIzD78czIbgJq6W5gKIiC1wBKXiL4PmCV7gOhgt8xRvPYbdWiIp5CsoU
+         /tcw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTkFJ05v/XpHslPfsrSFT30xalHEGI0N9SDTW1+5SnphAvkkjNZu6RCnYaB+NfLOip0wEUpp0c9zg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC4v3niMubPh3n0sreo+jLBmzdZqXJYnYvWNXNo8Ay7lbzJAhv
+	SRPh3Q+1txmLW+KZ+sUqHCVJiQIdmDvIJ93GQLhukyedGVfkDXAmRVnJB45scmT3gW8=
+X-Gm-Gg: ASbGncugkE+DRsvXX1QPbKwPhxxEGpD72W8id134OZVjtB4IP571XJw5YRdTmG0Z6Ix
+	3tmpieIhgDVPYyk8OTL53KQ3s4FpyKAgx2PBELfS7BmvBdJJYKESr4CgbmbWwEUujacTX9ojIYj
+	XCvrG10DgJJI20kplRK021SIw0MwRCQuk5FfC6N+O5n/JlV4G07p4EIHhwzlutCghATw78crBg/
+	Y799UnrQiuLX6L9VvSAbeiY052E9l4DRg1UM0Zbz3pGMc0ckAo1vxulWs48VxhZxgjEr7S9ku5h
+	oTsPVHZJYg0pK3MmC0+pQ9WxWjbLyM/4dFK4zh6UdLCCCbtxvwWwi17rp7OoN/M0dUoySgzkXRa
+	6pbY3I91h+zjhSHLsFja4r52YhGGZWo68/AJ4dIRncy1erbIXeIFCc1oI2s715L+DeDF8gJDgwF
+	aMPU6PIOQV7w==
+X-Google-Smtp-Source: AGHT+IFi29hPex54pz8o3psrTBeZJRuO4YVWG2tWpBUn2CBUnvUy3efI4Ysjb7trhSOOAHvvPg1ZIg==
+X-Received: by 2002:a05:6808:152c:b0:437:c839:ef67 with SMTP id 5614622812f47-437f7ca904fmr1009151b6e.3.1756574346490;
+        Sat, 30 Aug 2025 10:19:06 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:f7b4:dfbd:5110:c59d? ([2600:8803:e7e4:1d00:f7b4:dfbd:5110:c59d])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-745742a672csm9076a34.13.2025.08.30.10.19.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Aug 2025 10:19:05 -0700 (PDT)
+Message-ID: <a9b64ad7-41ff-4428-b47a-e3b3e50670a3@baylibre.com>
+Date: Sat, 30 Aug 2025 12:19:04 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/15] iio: adc: ad4030: Support multiple data lanes per
+ channel
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-spi@vger.kernel.org
+Cc: jic23@kernel.org, Michael.Hennerich@analog.com, nuno.sa@analog.com,
+ eblanc@baylibre.com, andy@kernel.org, corbet@lwn.net, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, broonie@kernel.org,
+ Jonathan.Cameron@huawei.com, andriy.shevchenko@linux.intel.com,
+ ahaslam@baylibre.com, sergiu.cuciurean@analog.com, marcelo.schmitt1@gmail.com
+References: <cover.1756511030.git.marcelo.schmitt@analog.com>
+ <4e2b2d07a255bb249a1dc40a4470c7e123d4213f.1756511030.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <4e2b2d07a255bb249a1dc40a4470c7e123d4213f.1756511030.git.marcelo.schmitt@analog.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-30_06,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2508110000 definitions=main-2508300180
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfX18sHrHQKbI3+
- kWa79VCcMLdvet9kk9Gzr5LQ2HagcCM6xwiVSagPv6+qmLyLCSC+0OduyCco8CnXayhBbQWlImO
- HetXNzlVxlITG2XnqFSjeXe8Sspw3JFb3edcU+wDeS/36yHXP9poxoYs6UlKcPhbupi/1UCpmrX
- +TFc+C7+Gd9L1kjIbObtWVfpR0HtU2sDMqqXTahEbsRWPB3a2Il5I08OgzjyVT4Jn2MlijnPRWq
- GZ5COhttim48KCMGEPgtUnfaL5t0ILj3HUmz3XlwCPDJEofEY08cTAsuB2C5Iq9C16m+4DbgLgC
- 3w1ciR3+IJV//RtN69KoDRp1Og9ab0W15eDPSd+jhFmBNn9K2uzoT9PQONkOl3qp3IHVBmecxjx
- wnOjBWdGSvySA2cRHrh30nvyZkblrQ==
-X-Authority-Analysis: v=2.4 cv=X/9SKHTe c=1 sm=1 tr=0 ts=68b32ffe b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=Du_SqIBOx8UMNTT-MFEA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf awl=host:12069
-X-Proofpoint-ORIG-GUID: L025Ff8fczYiF-iC40KK5mE19gRS1K3x
-X-Proofpoint-GUID: L025Ff8fczYiF-iC40KK5mE19gRS1K3x
+Content-Transfer-Encoding: 7bit
 
-Use Jinja2 comments instead of HTML comments for the SPDX and copyright
-lines. This prevents them from appearing in the HTML output, which was
-never the intention; the HTML output has its own copyright line at the
-bottom of the document.
+On 8/29/25 7:43 PM, Marcelo Schmitt wrote:
+> AD4030 and similar chips can output ADC sample data through 1, 2, or 4
+> lines per channel. The number of SPI lines the device uses to output data
+> is specified in firmware. Parse SPI read bus width setting from firmware
+> and configure the device to use that amount of lines to output data.
+> 
+> Co-developed-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+> Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
+>  drivers/iio/adc/ad4030.c | 33 ++++++++++++++++++++++++++++++---
+>  1 file changed, 30 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+> index 68f76432dbfd..e6c1c9be1632 100644
+> --- a/drivers/iio/adc/ad4030.c
+> +++ b/drivers/iio/adc/ad4030.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/iio/iio.h>
+>  #include <linux/iio/trigger_consumer.h>
+>  #include <linux/iio/triggered_buffer.h>
+> +#include <linux/log2.h>
+>  #include <linux/pwm.h>
+>  #include <linux/regmap.h>
+>  #include <linux/regulator/consumer.h>
+> @@ -258,6 +259,10 @@ struct ad4030_state {
+>  #define AD4030_OFFLOAD_CHAN_DIFF(_idx, _scan_type)			\
+>  	__AD4030_CHAN_DIFF(_idx, _scan_type, 1)
+>  
+> +static const int ad4030_rx_bus_width[] = {
+> +	1, 2, 4, 8,
+> +};
+> +
+>  static const int ad4030_average_modes[] = {
+>  	1, 2, 4, 8, 16, 32, 64, 128,
+>  	256, 512, 1024, 2048, 4096, 8192, 16384, 32768,
+> @@ -1197,7 +1202,7 @@ static void ad4030_prepare_offload_msg(struct ad4030_state *st)
+>  		 */
+>  		offload_bpw = data_width * st->chip->num_voltage_inputs;
+>  	else
+> -		offload_bpw  = data_width;
+> +		offload_bpw  = data_width / (1 << st->lane_mode);
 
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/sphinx/templates/kernel-toc.html   | 3 ++-
- Documentation/sphinx/templates/translations.html | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+To make proper use of 2 or 4 lines for a single channel, we should be
+using the SPI APIs correctly and set rx_nbits in struct spi_transfer
+instead of providing an inaccurate bits per word.
 
-diff --git a/Documentation/sphinx/templates/kernel-toc.html b/Documentation/sphinx/templates/kernel-toc.html
-index 41f1efbe64bb2..b84969bd31c4f 100644
---- a/Documentation/sphinx/templates/kernel-toc.html
-+++ b/Documentation/sphinx/templates/kernel-toc.html
-@@ -1,4 +1,5 @@
--<!-- SPDX-License-Identifier: GPL-2.0 -->
-+{# SPDX-License-Identifier: GPL-2.0 #}
-+
- {# Create a local TOC the kernel way #}
- <p>
- <h3 class="kernel-toc-contents">Contents</h3>
-diff --git a/Documentation/sphinx/templates/translations.html b/Documentation/sphinx/templates/translations.html
-index 8df5d42d8dcd8..351586f419386 100644
---- a/Documentation/sphinx/templates/translations.html
-+++ b/Documentation/sphinx/templates/translations.html
-@@ -1,5 +1,5 @@
--<!-- SPDX-License-Identifier: GPL-2.0 -->
--<!-- Copyright © 2023, Oracle and/or its affiliates. -->
-+{# SPDX-License-Identifier: GPL-2.0 #}
-+{# Copyright © 2023, Oracle and/or its affiliates. #}
- 
- {# Create a language menu for translations #}
- {% if languages|length > 0: %}
--- 
-2.34.1
+>  
+>  	st->offload_xfer.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED;
+>  	st->offload_xfer.bits_per_word = offload_bpw;
+> @@ -1208,6 +1213,10 @@ static void ad4030_prepare_offload_msg(struct ad4030_state *st)
+>  
+>  static int ad4030_config(struct ad4030_state *st)
+>  {
+> +	struct device *dev = &st->spi->dev;
+> +	const char *propname;
+> +	u32 rx_bus_width;
+> +	unsigned int i;
+>  	int ret;
+>  	u8 reg_modes;
+>  
+> @@ -1215,10 +1224,28 @@ static int ad4030_config(struct ad4030_state *st)
+>  	st->offset_avail[1] = 1;
+>  	st->offset_avail[2] = BIT(st->chip->precision_bits - 1) - 1;
+>  
+> -	if (st->chip->num_voltage_inputs > 1)
+> +	/* Optional property specifying the number of lanes to read ADC data */
+> +	propname = "spi-rx-bus-width";
+
+This property is already handled by the core SPI code and will set
+spi->mode flags SPI_RX_DUAL, SPI_RX_QUAD or SPI_RX_OCTAL. So we don't
+need to read the property again.
+
+> +	rx_bus_width = ad4030_rx_bus_width[0]; /* Default to 1 rx lane. */
+> +	device_property_read_u32(dev, propname, &rx_bus_width);
+> +	/* Check the rx bus width is valid */
+> +	for (i = 0; i < ARRAY_SIZE(ad4030_rx_bus_width); i++)
+> +		if (ad4030_rx_bus_width[i] == rx_bus_width)
+> +			break;
+> +
+> +	if (i >= ARRAY_SIZE(ad4030_rx_bus_width))
+> +		return dev_err_probe(dev, -EINVAL, "Invalid %s: %u\n",
+> +				     propname, rx_bus_width);
+> +
+> +	rx_bus_width = ad4030_rx_bus_width[i];
+> +
+> +	if (rx_bus_width == 8 && st->chip->num_voltage_inputs == 1)
+> +		return dev_err_probe(dev, -EINVAL, "1 channel with 8 lanes?\n");
+
+As mentioned in the dt-bindings patch review, we really should consider
+the 2 channel case separate as 2 SPI buses rather than 8 lines on a
+single bus. 
+
+Only using "spi-rx-bus-width" also has the shortcoming that if we specify
+4, we don't know if is it 4 lines on 1 channel or is it 2 lines each on 2
+channels? There is no way to tell from just that information.
+
+> +
+> +	if (rx_bus_width == 1 && st->chip->num_voltage_inputs > 1)
+>  		st->lane_mode = AD4030_LANE_MD_INTERLEAVED;
+>  	else
+> -		st->lane_mode = AD4030_LANE_MD_1_PER_CH;
+> +		st->lane_mode = ilog2(rx_bus_width / st->chip->num_voltage_inputs);
+>  
+>  	reg_modes = FIELD_PREP(AD4030_REG_MODES_MASK_LANE_MODE, st->lane_mode);
+>  
 
