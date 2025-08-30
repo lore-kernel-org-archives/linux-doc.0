@@ -1,110 +1,243 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCA67082D
-	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 21:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71831863E
+	for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 22:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756590342; cv=none; b=tcg4QdiN3GTlIQAhcI2yJNL4p9ELb7gpTf+0PjpdfTjuwRg7JBiA69s/rpj7yWsGa5dPw08bYIDGOm/XUlxaSncAESP26B8QWCHFwk7AcB1od3pub2mtbBZJ0yrRd+QlHJmTalJJXBHIgBknB6GQAK0WnSV7g7P5zF7uVErPAZY=
+	t=1756592657; cv=none; b=ZU87x0Xkj4F6F6MCkRM3Vac/mr/T606Zk8wNmS5foU3IdSpyN9Vv1zoZ5p2SIaogwu8FbyxYqU0O8RPPHtNTP1WhUo/oU7AAXAYd1kq/SlWLMglBGbjqr/2Ou7SjcH+ZtUe07LCXhpEXOJzgsuRAO4p32qSVhTSnOJ4mi85OvlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756590342; c=relaxed/simple;
-	bh=H+lvPC4uoyN9zvaqytgz+5QXGyjqkhEn/++8T52nelw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KPURzpTh7zfbcEJRxg/20/3esMdyDmqRk2Q9cKP4TshGsm8FYXtlSe2rc0biqdd0UZedmMKT1P1SDb8JhHIh/TffAu0DuP8yNq11WtePQOLFDhj44SbYrn4DB/fZWIt3Kl29mxh8PRFO1sf9C5Rcl9lCLU7XSmn+QSm8WNpOUcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cg8QPMVR; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756592657; c=relaxed/simple;
+	bh=ez0F0saNjhmaO6KlAwr0jJ62u6JJFdeagC2ExPAC+bg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KxJQoIG9sHvqUFK4zvJxMnL8tiH1pShpE29FhYOfHfWabfMZ4Ht6VwO/6Nf8c2vNNJ8dFlJNSLeCXPsJ9fV5wL/rAceEhIDYpMNZlabyYH2jTEE/c4h/BmOtceJgAbEPZTmdAfA9FP6ufasO78lETY9bZMWYpaX9GXU6chDvi/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZoT8uBAj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cg8QPMVR"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6188b6f501cso3577819a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 30 Aug 2025 14:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756590339; x=1757195139; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BbGwbF2zDuURYMaEon5jnKwAx1J80AtKnqc7EidKjAs=;
-        b=cg8QPMVRtiy+lBxCjS2UtFLaegjCyKlGEGDGfeibFRpTW6XToehE7uq+YP6uc2qzmH
-         SCOu4PVZqgXDWmDNnUAqDInyT8SfVMnSnU53jUHYgRmg45TCZorn1mQnzr14tqhxjN//
-         t00iZNgNzHP2Om/AklP0VhxZoB7O+h5xziBt5Swfdgbl2FpPtsQkwZwEHi0PCIsZQKqA
-         ZvIpDljFv5xeIczxroCwHbp9iIOlJGh3/dp53SKJ6+ow6eT47QD1LlfZq/J9TTQ0m+40
-         q/OADdhPc5OWIJn4GMijFZrsfK2vc2E6mnIbKIUEDSw8YOVFRwbtpCk+OC01hnjIWR6a
-         k5/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756590339; x=1757195139;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BbGwbF2zDuURYMaEon5jnKwAx1J80AtKnqc7EidKjAs=;
-        b=UUMjpNj5pJfMiOI8zlPZptGPOyG58wv1yvR8eAlMqt2wdE95kmiZM+i4w2fiEMBPBV
-         DLzaTc3Dc7wZp8FGOsfx32qS2SzCDl7n0/qrqAw86lAsteVd5Pu5lB+hxe+ic0U5lcsY
-         ylupDbA1VQFN8ANjDO9eJplmDLSpT+EDP71FYCJNE7nVEpQjtBP+zlXluq8aknVLMpma
-         gL62s1BVwgEF70F0adwgYdo/sEfsOCZjSGPutU+vW32MqPclrVRGvRuLU55+unPo/nR0
-         JjiSkhQr/vOvpCkOPgJjJuknbdQoyuvlKiBZwsII0iZ7Gvkm0yi7K/eHb8ya3uNGUinF
-         m+sQ==
-X-Gm-Message-State: AOJu0YxqebCHowRGophZQZP6XUzPmj8H4lhic6JajJSx3oNUbiu4vfhE
-	rODORFERSea9HcHZiKVttMXnKJQWPTp+3OY1nhNrY8jTIo0q93BR6C5sqRFM4Pe4oUP6TXHIscd
-	sbI+FXdKQbGaCPeEjhh5J3ZRwTpM6SJA=
-X-Gm-Gg: ASbGncscv1x205OUfQkvd6Hos8cNnqv6B7E6jX1k+rbGegIgd2Jd/PM/Fchyg2Jx4Li
-	4AUwPCeblMOhw+Ck1t+5iO1zql2BgSUFsZdZROBtKjJPksAQZ8fTBx+QzDwUghjqnjJlWOEwoWf
-	bTDYmK5LY6la4le2U+pbTIan5uTr5M69U5+Y5fo9tAlInTCTnyF494MFUmaF7kK647B9RwGDeT/
-	D5IaeTKqqc4tbp0oSZUYrfeWs5U8fo=
-X-Google-Smtp-Source: AGHT+IE6TVbsCnQOvLYDGV5jb/y8cvJ9oevBN08OBnaI6nFg0zBfkIa9BlvLpRfMsnSplNiOEwn6JDxjRHzteydEFw8=
-X-Received: by 2002:a05:6402:50c8:b0:61c:9585:9eae with SMTP id
- 4fb4d7f45d1cf-61d26873560mr2595333a12.6.1756590338787; Sat, 30 Aug 2025
- 14:45:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZoT8uBAj"
+Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C9EB4EFE;
+	Sun, 31 Aug 2025 00:23:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756592586;
+	bh=ez0F0saNjhmaO6KlAwr0jJ62u6JJFdeagC2ExPAC+bg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZoT8uBAjzladoaONq+yMM8SUSg9Pd0Tqil6I2x3SM9un8DB0rpUN77Gj6C5/hxvfh
+	 dXYyrt9UNQUi22zcxgVxIXfwsTIUnKy1Fu1hsN4UA8NayvqlKAK2doTCEl6Vhl5/cm
+	 4L6+3B/DNSc1JtIyjAJBLO0YNFRGO2tZrvPObXdM=
+Date: Sun, 31 Aug 2025 00:23:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, ksummit@lists.linux.dev,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+Message-ID: <20250830222351.GA1705@pendragon.ideasonboard.com>
+References: <87plcndkzs.fsf@trenco.lwn.net>
+ <20250828230104.GB26612@pendragon.ideasonboard.com>
+ <87wm6l0w2y.fsf@trenco.lwn.net>
+ <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250830191249.25459-1-harikrishnamethari@gmail.com> <87seh81o7u.fsf@trenco.lwn.net>
-In-Reply-To: <87seh81o7u.fsf@trenco.lwn.net>
-From: Hari Krishna Methari <harikrishnamethari@gmail.com>
-Date: Sun, 31 Aug 2025 03:15:26 +0530
-X-Gm-Features: Ac12FXxaHFjBMLuEGHGty0xhUZjFUch6pFWIwj_lTp2oyMr-LjUnJQmPFH5l3QQ
-Message-ID: <CAJ3fvfr9pYLTMPxN3HbA++HkujZ-DksC9_W6DMUoxfboLP11DA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Fix typos in filesystems
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
 
-Hi Jon,
+On Sat, Aug 30, 2025 at 06:00:42PM +0200, Vegard Nossum wrote:
+> 
+> (Added linux-doc and some more people to Cc)
+> 
+> On 30/08/2025 15:37, Jonathan Corbet wrote:
+> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
+> >> On Fri, Aug 22, 2025 at 04:55:51PM -0600, Jonathan Corbet wrote:
+> >>> The last year has seen a massive amount of work in our documentation
+> >>> build infrastructure and continuous improvement in the docs themselves.
+> >>> This session will provide a brief update of what has happened recently,
+> >>> followed by discussion on what we want to do next.  How would we like
+> >>> our documentation to evolve in the next year or three?
+> >>
+> >> One area that I think could be improved is making documentation more
+> >> accessible, in particular to newcomers. We have a really impressive (and
+> >> ever increasing) amount of documentation that has mostly grown in an
+> >> organic fashion. As a consequence, many answers can be found when one
+> >> knows what they're searching for, but reading documentation is painful
+> >> for newcomers. It doesn't flow naturally, and lots of concepts are used
+> >> before being introduced much later (or in entirely different locations).
+> > 
+> > Trust me, I get it.  That's why I have pushed so hard to try to organize
+> > the docs with the intended reader in mind.  I think that has worked out
+> > well but, so far, the main effect has been to take a massive unorganized
+> > pile of stuff and arrange it into several pile of stuff, hopefully with
+> > slightly better organization.
 
-Thank you for clarifying. I realize now that my change was incorrect.
-I=E2=80=99ll be more careful and make sure I fully understand the context
-before submitting further patches.
+It's been a clear a noticeable improvement, even if there's still work
+to do. I trust that you understand the issue.
 
-Best regards,
-Methari Hari Krishna
+> +100 for continuing to organize the docs with the intended reader in mind.
+> 
+> If I may refer to my old email from the corresponding 2023 tech topic
+> thread, which also discusses the structure somewhat:
+> 
+> https://lore.kernel.org/all/e79d53e2-4a1a-4f7e-850c-7f412ba43d35@oracle.com/
+> 
+> """
+> On the topic of the overall structure of the documentation: [4]
+> describes the idea that the kernel documentation is set of "books" --
+> user and admin guide, core API, drivers API, userspace API. I think this
+> needs to be emphasized more, as that _is_ the (philosophy of the)
+> current high-level organization of the documentation and it feels a bit
+> hidden where it currently is; maybe it should be placed prominently at
+> the top of that file and called "Organization and philosophy" or
+> something. At least I was very confused when I came across a passage
+> that read something like "This book covers ..." and I had no idea why a
+> kernel document was talking about books.
+> 
+> [4] 
+> https://docs.kernel.org/doc-guide/contributing.html#documentation-coherency
+> """
+> 
+> > Occasionally I make an attempt to attack one of the top-level books and
+> > create a bit more order there.  But my teaspoon is going to take a while
+> > to drain that ocean.
+> 
+> I took a very small stab at organizing stuff in the right places last year:
+> 
+> https://lore.kernel.org/all/20240104160946.3450743-1-vegard.nossum@oracle.com/
+> 
+> I probably should have spun a v2 and pushed harder to get things done
+> but it might be worth taking a step back and try to analyze what
+> happened in this thread. As a submitter, it's hard to know how long to
+> wait for comments from others before sending a v2, it's not clear
+> whether people's comments are meant as improvement suggestions, if they
+> consider them blockers... should the maintainer be chiming in? Etc.
+> 
+> In general, it might be worth merging docs patches more aggressively and
+> requesting incremental fixups for non-critical things (it's not like
+> docs patches will ever result in unbootable kernels or corrupted
+> filesystems). This way we keep the flow going and don't get contributors
+> stuck on waiting, rebasing, resolving any conflicts that might appear in
+> the interim, and resubmitting... for what might be relatively minor issues.
+> 
+> At least I have a tendency to simply drop it and move on if my patches
+> meet resistance (and perhaps especially if the patches are relatively
+> inconsequential). I admit that this is largely my own fault, but I'm
+> guessing I'm not the only one either.
 
-On Sun, Aug 31, 2025 at 3:11=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Methari Hari Krishna <harikrishnamethari@gmail.com> writes:
->
-> > diff --git a/Documentation/filesystems/vfat.rst b/Documentation/filesys=
-tems/vfat.rst
-> > index b289c4449cd0..f408699ce50f 100644
-> > --- a/Documentation/filesystems/vfat.rst
-> > +++ b/Documentation/filesystems/vfat.rst
-> > @@ -361,7 +361,7 @@ the following:
-> >
-> >                  <proceeding files...>
-> >                  <slot #3, id =3D 0x43, characters =3D "h is long">
-> > -                <slot #2, id =3D 0x02, characters =3D "xtension whic">
-> > +                <slot #2, id =3D 0x02, characters =3D "xtension which"=
->
-> >                  <slot #1, id =3D 0x01, characters =3D "My Big File.E">
-> >                  <directory entry, name =3D "MYBIGFIL.EXT">
-> >
->
-> This change is actively wrong.  Please, make an effort to truly
-> understand the text you are modifying before "fixing" things.
->
-> Thanks,
->
-> jon
+I wouldn't use the word "fault" here, I don't think you should take any
+blame for this. Looking at that particulat patch series, I think sending
+a v2 would have helped moving forward.
+
+> Another example that I don't think ever got merged (even with an ack
+> from Randy?), though admittedly that was RFC:
+> 
+> https://lore.kernel.org/all/e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com/#t
+
+For this one, Jon replied with a comment, and the discussion died out.
+Replying to that could have helped.
+
+> Looking at my local branches, I have a bunch of restructuring patches
+> that never even got sent out because the first parts were stuck in
+> limbo. Again, probably mostly my fault, but what do I do differently?
+
+In general I'd say you shouldn't be afraid to ping.
+
+> >> While some documents are clearly meant to be reference material, other
+> >> target developers who are not familiar with the topic being described.
+> >> They would benefit from being written in linear, story-telling way. I
+> >> don't know how to best achieve that though: developers writing any kind
+> >> of documentation in the first place is already an achievement, and
+> >> writing the documentation while putting yourself in the shoes of someone
+> >> not familiar with the topic is not an easy task.
+> > 
+> > It is common to divide technical documentation into four broad
+> > categories: tutorials (for learning), howtos (getting tasks done),
+> > explanation (understanding what's going on), and reference.  Each is
+> > aimed at a different audience.
+> > 
+> > Most of what we have is reference.  There's an occasional howto, and
+> > some explanation in spots.  We don't have much in the way of tutorials.
+> > 
+> > It would be nice to (1) recognize those categories in the organization
+> > of our documentation, and (2) fill them out somewhat.  But, as you note,
+> > getting people to do that is hard.  Doing it properly requires somebody
+> > whose job is to create that sort of material...and, as I've harped on
+> > for years:
+> > 
+> > 	Despite the fact that there are large number of people paid to
+> > 	work on the kernel, there is not a single person whose job is to
+> > 	work on kernel documentation.
+> > 
+> > Last year we tried an experiment with a bit of funding from the LF to
+> > create a bit of paid documentation; for a number of reasons, that
+> > experiment did not work out.  But it seems there should be a way to make
+> > some forward progress on this front.
+
+Is there anything we can learn from that failure and that number of
+reasons to make the next attempt more successful ?
+
+> I don't know if this has been suggested before, we seem to have a number
+> of people who are interested in documentation in its own right and I was
+> wondering if we could do more for community building around it: monthly
+> zoom call (which some other subsystems/interest groups do), IRC/Matrix/
+> Discord channel, a roadmap for docs (KernelNewbies project?).
+> 
+> (Speaking of which, why isn't linux-doc@ Cc'ed on this thread?)
+
+Just an oversight I suppose.
+
+> I would personally be very happy to see a slightly less formal place
+> off-list to throw out some patches for quick feedback before submitting
+> them on the list so that I don't spend hours on something that's going
+> be met with either a wall of silence and zero enthusiasm or what I would
+> call mildly discouraging comments.
+
+When I'm really not sure if something is a good idea, or when I'm
+convinced it's a good idea but I fear other may disagree, I often ask
+relevant maintainers and developers on IRC. I don't know if there's an
+IRC channel for the Linux kernel documentation, if there are enough
+people interested in the topic, it could be useful.
+
+> Perhaps it sounds a bit hypocritical,
+> after all I have barely reviewed or acked any docs patches myself, but I
+> think it actually goes both ways: I was really happy to see the
+> kerneldoc perl-to-Python conversion (and the subsequent cleanups) but I
+> didn't have the time to look at it in detail at the time and chiming in
+> just to say "I like this" felt like I would just be adding noise.
+> 
+> Returning to the topic of getting people to do stuff, I think Jani (or
+> somebody, I forget who/where/when) suggested using the 'todo' Sphinx
+> plugin at some point, it basically lets you add todo:: nodes in .rst
+> (which can be rendered or hidden), which might be a good way to track
+> stuff that still needs to be done in docs land without having to do it
+> all at once -- and maybe draw in some contributions from others who come
+> across them?
+
+I really don't know if we could count on newcomers interested in getting
+into kernel development to start their journey in Documentation/. I can
+imagine in theory that someone who tries to follow our documentation and
+finds it suboptimal could send patches as a side product of whatever
+work they're doing (without wanting to show off, that's how I wrote the
+initial documentation for the KMS in-kernel API: I had to write a KMS
+driver, had no idea how it worked, and there was no doc), but that will
+be a rare occurence and most probably would come from an experienced
+kernel contributor. We seem to scare lots of new contributors in
+general, so I have a hard time imagining they would actively work on
+documentation improvements. There could be exception, but I don't think
+we should count on them.
+
+> Anyway, I don't mean to complain too much. Lots of great progress has
+> been made. Thanks Jon, Mauro, Randy, Bagas, and others -- good work!
+
+-- 
+Regards,
+
+Laurent Pinchart
