@@ -1,46 +1,66 @@
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B212BD012;
-	Sat, 30 Aug 2025 08:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECD2223DF1;
+	Sat, 30 Aug 2025 08:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756541575; cv=none; b=ogvaWWzTtVlLMfWEjj2oAVQdDPVLml7JDdLeFAJnf3uV0q9yJXmMo4afaRrz4bZ3Vy8ApmyRqSN4HTwm14CL//f9jLYYPOfo9FfuaKnHM+yM0JMxEMkPweKLqpvx0fhBikaO08xkJyfHdPW4I8ErHM2davNIeKUSPShyLcnGRoQ=
+	t=1756542927; cv=none; b=cDRLF+QjNIwDLYAosoxE8fb0neYHRBXWryaCpDCwtEZOSVr/Yb8BqhAD9Jh8OhhFUMn2ZbqVvtqVHBMX/ABBLa5npLM2drgJidkF0aBb3VaawOvQ69rU6e/ZQG+qDOnDZl97uCB9Yq5Lg6SBTvyvaHcZyBko4xJ+yjyHghDpJAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756541575; c=relaxed/simple;
-	bh=0Qsv2NDtSw5dFzo+jOgeWEX/UzFBI5BN3ERw/nxoX2g=;
+	s=arc-20240116; t=1756542927; c=relaxed/simple;
+	bh=oKvjDljPLSRg2x/aOWCyZgodbMjJIdmSCcxy/Ed/RYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gcjuleN9QWvGRJIa1w8SH6xRgJW/XrDR/qN6gOxJItAUI1n1u+wN8IlBu15vT2Npzs1BUpFZuRWbgHa29gE7funvMoFDOBg2qSPN9YvUv0qWpWzsTKSN8fzYNt2smEHn/G8TwPOY2p0Sj+fAqqmz9+1QZJ227FPfbZu3E9DzEqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 6CBCE2C051E5;
-	Sat, 30 Aug 2025 10:12:44 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 2F6123AA697; Sat, 30 Aug 2025 10:12:44 +0200 (CEST)
-Date: Sat, 30 Aug 2025 10:12:44 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Linas Vepstas <linasvepstas@gmail.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Terry Bowman <terry.bowman@amd.com>,
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-	Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH 3/4] PCI/ERR: Amend documentation with DPC and AER
- specifics
-Message-ID: <aLKyfNHC2hz__BCS@wunner.de>
-References: <cover.1756451884.git.lukas@wunner.de>
- <42726e2fd197959d6228d25552504353ffb53545.1756451884.git.lukas@wunner.de>
- <CAHrUA364QSpcJOu=96JV-3hR9G5M0FSUPNhb4AspULAcXvQP6w@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ga5hWbldyPcaJ3NIjcFMff8Xs2SoQLNY/5jVYP6teqaa6IH1u8GW02q90x0Tv5lFnL/CM2ANm4DpzXo/zZVYsSXwPrHkcBr4fDaU/mR0jKi8C2RUTKKoXK7PBzwqKlwNwJeUFUuYLD70XsVxSqnOYm46ioJaSH0DWnhZqz6I+2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJ2Gq9Q4; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJ2Gq9Q4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81DCBC4CEEB;
+	Sat, 30 Aug 2025 08:35:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756542926;
+	bh=oKvjDljPLSRg2x/aOWCyZgodbMjJIdmSCcxy/Ed/RYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QJ2Gq9Q41CFdV6Q+M16uVYmCXPBnCX6Mtf7wOUYVVkWOIgfiBBx0jlaPa180Cf10s
+	 WYotg2neDOLYCEklciQmDeMW3qUzX0UkTa6QROBFiA93CP1SFlmZBKYFWkLmubtmF8
+	 6IjAbqmqeDZeZGMSSgPx6Y/SnyNOHjZmt+g7kXUXwVENrl/uCuBffvAtsL/jMM2lEc
+	 0lQ2G1Jorwlhp+I8wSJzRGlMX7OxHmQgPe3ubKgbY3jw3rfN6RBNzm/jw+2U86JKgV
+	 hRdhGKSEIEL5Sdf+8dpRe+3XW9gqx3VoLY6G1z5UzYe5mU1jAx5nzCn+phxkVTEV28
+	 TMP4NOKcmoVjw==
+Date: Sat, 30 Aug 2025 11:35:02 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	changyuanl@google.com, dmatlack@google.com, rientjes@google.com,
+	corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com
+Subject: Re: [PATCH v3 09/30] liveupdate: kho: move to kernel/liveupdate
+Message-ID: <aLK3trXYYYIUaV4Q@kernel.org>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-10-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,44 +69,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHrUA364QSpcJOu=96JV-3hR9G5M0FSUPNhb4AspULAcXvQP6w@mail.gmail.com>
+In-Reply-To: <20250807014442.3829950-10-pasha.tatashin@soleen.com>
 
-On Fri, Aug 29, 2025 at 06:25:08PM -0500, Linas Vepstas wrote:
-> On Fri, Aug 29, 2025 at 2:41AM Lukas Wunner <lukas@wunner.de> wrote:
-> >
-> > +   On platforms supporting Downstream Port Containment, the link to the
-> > +   sub-hierarchy with the faulting device is re-enabled in STEP 3 (Link
-> > +   Reset). Hence devices in the sub-hierarchy are inaccessible until
-> > +   STEP 4 (Slot Reset).
+On Thu, Aug 07, 2025 at 01:44:15AM +0000, Pasha Tatashin wrote:
+> Move KHO to kernel/liveupdate/ in preparation of placing all Live Update
+> core kernel related files to the same place.
 > 
-> I'm confused. In the good old days, w/EEH, a slot reset was literally turning
-> the power off and on again to the device, for that slot. So it's not so much
-> that the device becomes "accessible again", but that it is now fresh, clean
-> but also unconfigured. I have not studied DPC, but the way this is worded
-> here makes me think that something else is happening.
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+>
+> ---
+> diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+> new file mode 100644
+> index 000000000000..72cf7a8e6739
+> --- /dev/null
+> +++ b/kernel/liveupdate/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for the linux kernel.
 
-With DPC, when a Downstream Port (or Root Port) detects an error,
-it immediately disables the downstream link, thereby preventing
-corrupted data from reaching the rest of the system.  So the error
-is "contained" at the Downstream Port.
+Nit: this line does not provide much, let's drop it
 
-It is then necessary for system software (i.e. drivers/pci/pcie/dpc.c)
-to "release" the Downstream Port out of containment by re-enabling the
-link.  This happens in dpc_reset_link() by writing (and thus clearing)
-the PCI_EXP_DPC_STATUS_TRIGGER bit in the PCI_EXP_DPC_STATUS register.
+> +
+> +obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
+> +obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
+> diff --git a/kernel/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
+> similarity index 99%
+> rename from kernel/kexec_handover.c
+> rename to kernel/liveupdate/kexec_handover.c
+> index 07755184f44b..05f5694ea057 100644
+> --- a/kernel/kexec_handover.c
+> +++ b/kernel/liveupdate/kexec_handover.c
+> @@ -23,8 +23,8 @@
+>   * KHO is tightly coupled with mm init and needs access to some of mm
+>   * internal APIs.
+>   */
+> -#include "../mm/internal.h"
+> -#include "kexec_internal.h"
+> +#include "../../mm/internal.h"
+> +#include "../kexec_internal.h"
+>  #include "kexec_handover_internal.h"
+>  
+>  #define KHO_FDT_COMPATIBLE "kho-v1"
+> @@ -824,7 +824,7 @@ static int __kho_finalize(void)
+>  	err |= fdt_finish_reservemap(root);
+>  	err |= fdt_begin_node(root, "");
+>  	err |= fdt_property_string(root, "compatible", KHO_FDT_COMPATIBLE);
+> -	/**
+> +	/*
+>  	 * Reserve the preserved-memory-map property in the root FDT, so
+>  	 * that all property definitions will precede subnodes created by
+>  	 * KHO callers.
+> diff --git a/kernel/kexec_handover_debug.c b/kernel/liveupdate/kexec_handover_debug.c
+> similarity index 100%
+> rename from kernel/kexec_handover_debug.c
+> rename to kernel/liveupdate/kexec_handover_debug.c
+> diff --git a/kernel/kexec_handover_internal.h b/kernel/liveupdate/kexec_handover_internal.h
+> similarity index 100%
+> rename from kernel/kexec_handover_internal.h
+> rename to kernel/liveupdate/kexec_handover_internal.h
+> -- 
+> 2.50.1.565.gc32cd1483b-goog
+> 
 
-In-between, the devices downstream are inaccessible.
-
-Disabling the link results in a Hot Reset being propagated down the
-hierarchy below the Downstream Port.  So there's no power cycle
-involved.  After the link is re-enabled, devices are in power state
-D0_uninitialized and need to be re-initialized by the driver in
-->slot_reset() and/or ->resume().
-
-If you feel the above-quoted paragraph isn't accurate or complete
-or doesn't capture this sequence of events properly, please let me
-know what specifically should be rephrased / amended.
-
-Thanks for taking a look!
-
-Lukas
+-- 
+Sincerely yours,
+Mike.
