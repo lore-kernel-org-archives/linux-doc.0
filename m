@@ -1,78 +1,58 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0977261A;
-	Sun, 31 Aug 2025 14:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6502635;
+	Sun, 31 Aug 2025 15:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756649736; cv=none; b=jC6PFEHdsjtO9qvYJaBf2Yz+BtSd3HvjqchiqVyNE2quMK6FO/3fj2EqJyMz0SnoHzTUINHDFOYfeFw1JNwE4cz6xtGmkBbHpL336jPn9yedAL7pcCUXugvb+hKgqkimnikioUK8CgUjxNQCSm13Yx+8GEI0K62bQveahH3Z5Y4=
+	t=1756652840; cv=none; b=E1+eGkinRQgDufcohIQNyP9iVsJqYNNllFu7T6zzNMdQCiEYmD1ZgVWUvJUIrC1zPxV/qIOk9Kqc5dJajpC/UQBOrPsGoAwQFLDU3UoezkjN5gZcVunh7DeQWUQgRBG45rCTf3vjNRKbh9begkdFr5Fg5iwD53WmVPydzt1jPE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756649736; c=relaxed/simple;
-	bh=Kd/gX5fjRhUyfF8lcZ2fmkUcEqn0Q7e5V2RHg3ZIw9I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y+lDXEsGH/BeUm2ORJdj1Og6xQCsJGBFveP5Ujgg61HhFxXemlUb0b0A82MoHRrdbPMkMIBtEcY55HMj6gDd0dURdB211HmRnoOnPIpem2eJUTP3TB/forkpe3s5QEmC5NcHmkHB+2S67AcvP/yx9d0puNaj4x2d4E5IZjkzePE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UMRx5My1; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756652840; c=relaxed/simple;
+	bh=yTV2wjhkDfm25Fp5iDK5v5aI48ggTYgh2TVcsEvuPWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a/r2k6HQzest+kX3khp1bDifH/AkQ+GBuSFVcgkYzyJzW+ppw9tSh3wb17OP6zz1jUta946SAyaensaLhUCS5VNBg2ZNz/h6DFA5hRwD2SgyyapBo0qe7OYZ/g1yvBCV58kyoKFrollqRU/pHTAfM0GIHoSjlce7Eo8No56MWuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fg1mDL7g; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UMRx5My1"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24456ce0b96so37103025ad.0;
-        Sun, 31 Aug 2025 07:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756649734; x=1757254534; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HT2tnFXLGodr/Ol/iLDsu6bZVkZa/3lt411uDOwsk1A=;
-        b=UMRx5My1eEgAOpAGcf24JK0Z3uOsTeo5j4tRDDYvGpVeW9nC+adT0sZOoQ6HnbaofL
-         qV0+KmQ7vpIQph/Kll3UVIXrxXMJmOo5JlBZGsaS5MNSLGlTiNX5Dfhkr+th9OCsKY/i
-         IR/vFvJibg1nuwPoxPJbS92Jqk40gpD5dt2Lt57cM5X5oOa2pO6O9Kn3urmoulmmw7hL
-         ZDFpfdP17fiRFba3vAisBmytGEJWphseczviO0Pb5HEzvEHvCX3lHeoU+iXELl9rF2sL
-         WIkQmz2FiDwx2XXuuKnABlJcjsRDvsef7oET/Q7ZuVucyYIWihJw+rjYMjsAl3gVCCNY
-         FerQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756649734; x=1757254534;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HT2tnFXLGodr/Ol/iLDsu6bZVkZa/3lt411uDOwsk1A=;
-        b=ivv0wYGd5p4gdTyXbWyk4lvJrsQSPuSz2c8Kk1iiWduV51SlqrpuFjUjxSlsQ03EEi
-         wbeb+PpLWmRPdwxKGdlCf95kXTDn55NZw5erRgUugZ0g8GLmH7q4cywLYgBSPJRlgJsA
-         CA99Xu3f9AU8eWqS5Ce1VXGHdf1AtXOmigf3svHSkQdpFW7klTNw3xA6xOheQKNbvn4q
-         bBkYaREGLkRtq82hCaAzCKGrtLkP3XD5ihNM57sJC8TUr1Xs0S/khyls3DPmXG+nujS3
-         7hxvIFj5emKgoRuih2/xJhXwiSdH0nEhCTZRBGBwUMfgT3itntrIYfEqxjDUP6CrxJun
-         hxIw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4ClKZp7kn9FBvivbxf9dM9bm5mPN+N6CWJX2le8uldNdNCRYEBU49Wh7UF2RjF8BcRPxteWF9uZI=@vger.kernel.org, AJvYcCU4Hrjn6nUdUBZu69oV1SsDVj5ijYLbtj4dRPMd6wR/YwatID022CRtTIV7gGDoTrYhFlAU5mgktBYAS4ue@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP3bXr+R0jJ+ZOIwyQCwGXMrpF2/NhpoldczyQYi3AYi9ywfBU
-	Bdk1WmFylo5Oh9s9wHGvn6P5DUFfvFUrU1xynWbNzRVzHHc4zVEkyeCd
-X-Gm-Gg: ASbGncsG7zbZ8P7vCY++Y9wQcytBZ89mTnqHgkvIaRVawi9HbLHRJzS1KINNuCrCCo+
-	5EqrxMP15+GLH7Y/XMfj74TFoiLIX1cX6M1Es9W/3LuWs86KXX7JBI99J7XDiBKhAw9doYMXB/Z
-	zp8KMDc+C2PcNQcw37BNEpbUOu5HvnqtAI0YOB2vf3K5B6Mursw6hEDiJd4TWpi1nO9Az8sRxne
-	+QkmYdGiOk5CLEkLXkYL/gmFdZrsvd59R9KJ+ZYAnscauiRzS1pFjPSXg3SJMHfBNZ7yuv7RbCw
-	ZTsJvC9lBuj1kKL7bU3ghCIpxXHOA82on5cNlwnQXFpAOHilRZfMVVa3OgedUOyuWQQbASWay4I
-	JlrbDZGlrVgmSH5kBIN1yJrN6IyfdX/OMHoLkIf61j1BiTbo=
-X-Google-Smtp-Source: AGHT+IFw+ZIS2MKM3bdCIDJ7UFL5l11P9sSsVyLYU1HFxQeGPNi2j5pi/ybo/wZjl06HLWYrWCy3Tg==
-X-Received: by 2002:a17:902:f708:b0:24a:acb7:a1a4 with SMTP id d9443c01a7336-24aacb7a5f7mr32595525ad.9.1756649734163;
-        Sun, 31 Aug 2025 07:15:34 -0700 (PDT)
-Received: from mohin.lan ([152.57.1.136])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-249065a3b67sm78031815ad.120.2025.08.31.07.15.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Aug 2025 07:15:33 -0700 (PDT)
-From: mohin24khertz@gmail.com
-To: maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de
-Cc: airlied@gmail.com,
-	simona@ffwll.ch,
-	corbet@lwn.net,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Mohin Nadaf <mohin24khertz@gmail.com>
-Subject: [PATCH] docs: gpu: fix spelling error in drm-uapi.rst
-Date: Sun, 31 Aug 2025 19:45:22 +0530
-Message-Id: <20250831141522.7813-1-mohin24khertz@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fg1mDL7g"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57VCoRX2002058;
+	Sun, 31 Aug 2025 15:07:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=dNkoUnPG4puVUSoJqTTyN/b4BozRp
+	WKA7B3AykXKud8=; b=fg1mDL7gZum2NHBsqW4wsQDCxxAtfi3kxlkFLDwfNFwTZ
+	qYvizWBdGpilCInzTo0O5VevsArLvh2PRZIns8kRqMXYjnHf1N8O2ZBzJSa46pL/
+	iPnMMj9IufWkY93Es2C2g/PzkHUWXEmoK6ttH43MlwjHKOLj/OyIkAap9FzdajQ3
+	VLZ2jXjKZb5AlySfZMYaL1iX+/Do1p4xGR2Ip9wX3I+xWammezrUc3GNuvEVne3x
+	sKHPwadYUBViSsR7II3nuFkawbsmF3U1nBpWEiBWhxeQ+tr/a8Li3nhC7/9OL2NR
+	w9ZziOI2FBZldP9g5FpNYf6pvOmdu8gJ+/ORzeDrA==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48usmn968c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 31 Aug 2025 15:07:14 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57VEt93f004260;
+	Sun, 31 Aug 2025 15:07:14 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48uqr7c7gd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 31 Aug 2025 15:07:14 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57VF7D4A020123;
+	Sun, 31 Aug 2025 15:07:13 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 48uqr7c7g5-1;
+	Sun, 31 Aug 2025 15:07:13 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Subject: [PATCH] Documentation: dev-tools: Fix a typo in autofdo documentation
+Date: Sun, 31 Aug 2025 08:07:10 -0700
+Message-ID: <20250831150710.1274546-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,31 +60,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-31_07,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2508310162
+X-Proofpoint-GUID: UKdF-vCp-6ulIfoRVNoP3OdZHD_8hzto
+X-Proofpoint-ORIG-GUID: UKdF-vCp-6ulIfoRVNoP3OdZHD_8hzto
+X-Authority-Analysis: v=2.4 cv=Of2YDgTY c=1 sm=1 tr=0 ts=68b46522 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=2OwXVqhp2XgA:10 a=yPCof4ZbAAAA:8 a=agUXu52olvX-UjPa_NkA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX+LOuWJIcBZyL
+ 4YXGHl/kkUZn/9C1VtC9SjBl/1UsmRlpXPZcu2ZrV7OgPdHmigLFQ+Saw/f0Jk9JxsPEyqMGaH/
+ R2e8651TDQvLOzqX1AU9/2cJ1o8rDsSVp3ZulvRJWBiPpjIgqp3JOs3UXopdoUVKCrk/jOGwKI3
+ 4hBwtF1Jea6iJkosKuQKpOZtgvK3MT5V4/S02cJDyuB/ckEzUegt8Qzv8uQnKSqZizocY7IaibV
+ BVZfLqlaBWyiHdVb/SdzH2/iUmFlxuPwKts1tpurI4QFRPCKoAfF8+9SCxTO237JH7gIQfsNFIv
+ PTz1O5YXwAupvI88Ei55nYEUxpxUZtLz6T5Ctpe6b9Pr4jjMJtb3B5OicvIOnwvWSQxaJsbAErI
+ KlmcjBVz
 
-From: Mohin Nadaf <mohin24khertz@gmail.com>
+Use cat /proc/cpuinfo as opposed cat proc/cpuinfo.
 
-Fix typo 'unpriviledged' -> 'unprivileged' in DRM UAPI
-documentation describing error codes for operations
-requiring elevated privileges.
-
-Signed-off-by: Mohin Nadaf <mohin24khertz@gmail.com>
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 ---
- Documentation/gpu/drm-uapi.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/dev-tools/autofdo.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 843facf01b2d..7435664a1ffe 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -535,7 +535,7 @@ ENOSPC:
- EPERM/EACCES:
-         Returned for an operation that is valid, but needs more privileges.
-         E.g. root-only or much more common, DRM master-only operations return
--        this when called by unpriviledged clients. There's no clear
-+        this when called by unprivileged clients. There's no clear
-         difference between EACCES and EPERM.
+diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tools/autofdo.rst
+index 1f0a451e9ccd..bcf06e7d6ffa 100644
+--- a/Documentation/dev-tools/autofdo.rst
++++ b/Documentation/dev-tools/autofdo.rst
+@@ -131,11 +131,11 @@ Here is an example workflow for AutoFDO kernel:
  
- ENODEV:
+      For Zen3::
+ 
+-      $ cat proc/cpuinfo | grep " brs"
++      $ cat /proc/cpuinfo | grep " brs"
+ 
+      For Zen4::
+ 
+-      $ cat proc/cpuinfo | grep amd_lbr_v2
++      $ cat /proc/cpuinfo | grep amd_lbr_v2
+ 
+      The following command generated the perf data file::
+ 
 -- 
-2.34.1
+2.50.1
 
