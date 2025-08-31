@@ -1,92 +1,125 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD30C233D7B;
-	Sun, 31 Aug 2025 22:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BED622F14D;
+	Sun, 31 Aug 2025 23:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756679717; cv=none; b=dHvJY6PSDdlVeWOqI+u19lZV1l1C9+jUFXiy9h5/AbUhhYmNH4It/nTC5eE0kqBnngvJenKxaXiNKKDU2NX7x0ZHmCPAY/GPQbxJMQHHM4F/6EOfO10jW+jm9Dw0njK2difRMiBLoahV1Fwxp3GUdqzDiPzG3cOPxMTO5YT+SUo=
+	t=1756681652; cv=none; b=jhtn7XxICT1D1cus1Ng6zvESwyfn63NTkZ6KI+NLvZzpleRx05LrpZKtUHn1mPokxELYXlq1G7XKP/MIeUcehihOQSocZF3NKQqFz8oBJF76eyWOiQYMRNYR4QIskych98o2QdkbZ7bcJ0YzNyFv9EwYmIK1NCDoeoVAmCmyUZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756679717; c=relaxed/simple;
-	bh=iKTTgo5wvHOl2l2r0yLo4Z1R1mzYOho2++dbPYKcOHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lmw3t6vHTiAblv2r0qwrPNp6wxINyVkU79GGaK2a2R7epd33UNRFF4xa8GNJrpJNAKQJXyMC7w7vNNfrtwaHe94x4ZqZYl6fR73w6+uhbsVyQvhG32wnGtH6hsbobeDCyx9VRVRYQoe/zgGNh44aE3P3onx2FwEfLWiRcPz9Tuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQUzDdBF; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1756681652; c=relaxed/simple;
+	bh=/dq1+WkskxLjQfiUna2tnvXAStsMIRt3sNeqPiyojaY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qto1ZMax0O2+xWctoDL9zulYabtfvMVd2XLt+t2jqLUhFeLMoZGjUj5IwPi+wCiefj16sjKefI/ziEfRUZ+DWQvDn1u2zj/aAKMUJbwjtqjGqKpI3eoB3nq2zHDAnwy5NsR0YYN5RbbBGCD2UQxAov36dy8IT+3ums3OzvfvZCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWniY+gM; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQUzDdBF"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-248ff5cabe0so17487895ad.0;
-        Sun, 31 Aug 2025 15:35:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWniY+gM"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45b8b2712d8so7041875e9.3;
+        Sun, 31 Aug 2025 16:07:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756679713; x=1757284513; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u2JycsttBvJQ5yrE5zY4AC1tJ2ZuUT34RLYgvGl9w5M=;
-        b=nQUzDdBFU6YNuUS1Fs1W9gOxCBpFdEmJdsPBU43NFIn+SDCdygoQaZBNcwUDLGE7TZ
-         XCVCk6hkdI6IrOZmEthIaW+kMdPWExiAoQGYrptXX4v0/SIqe59ml2PjW1YRLgZbJzPS
-         hjcOIyOQyAxP4l75oAL47DcKWa6cc1h77SAU+f8h5I5wTf/FL59H7SQUfUZgIkQilwJm
-         VT47K8Ifh9edkR4PTIiwGUP5F9G+7i6CkXCd68ASHyIkrwVG429IBGXW+IKI93wiU3m7
-         d7+ibBMQqtlbIToAIjlvyu+SiXOiIacnx9WPHLwpOjrITyJ/E2CguX+s0OUA04pjcF9w
-         EsJw==
+        d=gmail.com; s=20230601; t=1756681649; x=1757286449; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VzORTaj5j85cq2M8IR2sPPrrk6vTYoFG53BsY3IwtmU=;
+        b=RWniY+gM5NFbvvK6Kw+NYWL+uBRJJIIeR277NLFyk1mj5SBKK5GtZzVwGrD+tUUD2R
+         /2KEQbWGt3xMtek1FpIsRgjjvEo0CaL3K3ojtYcrFhiAv5j8+0/l1cCA87mX0irnScHm
+         AN0yvkVFCuwPtZS3JjkXr3fOQmQUIIxHEL37SKx5I/Lb1kwGdVIw4N/fFfLYEnWgCxoA
+         u0W8VWU94/sm4fnDphjReKQL8YanvFj75sHNSzRzmyqYAKWfhf1ArKcefvcFn9+vXot2
+         s9NB+o5lmI9BGIbtmBFrROXwBXNiszQT3/mw9wrVDrfJ6TyqkNycycJmVIrpuRWye9qe
+         YsZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756679713; x=1757284513;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u2JycsttBvJQ5yrE5zY4AC1tJ2ZuUT34RLYgvGl9w5M=;
-        b=IyuT2SiYcjApD2FBLij0hGzKoVz63TJDkM/AfZuBaujaxZi0rp2jary9Yj0BnizNtK
-         cgnJ1eWVHjj+2rIcZCH0Z3RISA5NuLs3yzG37FxJSpWZzzyhEewcoUCONnx0m4Cp6450
-         1TO3P799OBbaaGKn/InjRbchDCCAhrOljucrsxtWerPsGwEigDewlOLrQd8vCTsjxTbn
-         ZUL0OdEWz+GxFzcpK9iP40bdLTnxk/1WjjxMsr+3zx24x9lmL2i8mQhxz3lPmL4Dqbwu
-         C/VFdMwzbYP7rLrlsDQIIWFgrTOFeUiYweypsBJ7qyJY3hbi4R08soNyPXRmBLWgsqv9
-         VPGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4EZbBBHmTACjhhs13xgQGU7gsedNb0ArbmM0s5/4+zS3L5+RBmIcisHQToRTWVS7eJJOJeB/WYVDB3cHR@vger.kernel.org, AJvYcCUAlPDmEDGy/OMGoi5b6vgMNyrfSeic3bucBPxATqbRJhslqnN4R07yHc1ZTvNkE8/6K03S9hngr5vt5z0=@vger.kernel.org, AJvYcCUWWyAEpuRZBcG3gCpsn7C2boTTZIuwFgOnSs7zUu/31UYwmQhiHwEMRpes10kMp8R58LiFUdJU6wRc@vger.kernel.org, AJvYcCVp2uSeWXBddcQn0e0JROiLv8fnQrx3N2crzit4FR7wi7/FichKY21Q0DXWUb87jsTKS9ZZsC3iCtOk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLvgUawaQEr2LBfpbXwVpqrLm/qTX4OKdPRDpMP6YCOdAw7YMu
-	ac3jmePVR9QCfLVYLqL6kLQhkCVzEhbc8BK+/6bnLWey2dTMHKjQUUop
-X-Gm-Gg: ASbGncsqu9YJRZD/URGySjAq7gIT/I4kAG/pf8p5KNeVC68HefNRe+fjaTNXuYnlyvh
-	Uq4HBqvyYSo1FOtX9/73rf7LqS83Bdq6a7oSHojw2lHKImGaAz3D032iYdvVXj9M6wxJoBNH5x0
-	gudCu/ZwqecCPtXxiExKX5qutcbmIh8pxvyqARG9snHg+ksk4yk7LbxoZLxI8+0L7uHCxOL6Db+
-	YDj3zyE6YBPj65+bnszc6TPC9I1T/Z/jnr9Hq8sSKIK0yO9urm1NDvyEFPy+sLN8eVmmmiN0nMb
-	EUYUvPHCVnDPPHiyOL0EMQ44oOjiXSQqrys15SgK/tsOcGpEIwx5qbquXX4nUniK3ekKuldDY9R
-	I2HtWIZLCqESgGhrdGBBaz+B9oX19uEasU+s=
-X-Google-Smtp-Source: AGHT+IEp+KlFvii0FmV8Lx8IQo/Wbh/Qn73lPRXznztDuhoUDlsm3j54cmdLPjYsvKFP38AODo56tA==
-X-Received: by 2002:a17:902:f652:b0:234:a734:4ab1 with SMTP id d9443c01a7336-2494488a6d2mr91537625ad.3.1756679712840;
-        Sun, 31 Aug 2025 15:35:12 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24905da2f20sm85771985ad.82.2025.08.31.15.35.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Aug 2025 15:35:12 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 31 Aug 2025 15:35:11 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: jdelvare@suse.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, wenliang202407@163.com,
-	jre@pengutronix.de, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: hwmon: ti,ina2xx: Add INA780 device
-Message-ID: <a526023e-a16d-4763-a189-c52740461429@roeck-us.net>
-References: <20250829030512.1179998-1-chris.packham@alliedtelesis.co.nz>
- <20250829030512.1179998-2-chris.packham@alliedtelesis.co.nz>
+        d=1e100.net; s=20230601; t=1756681649; x=1757286449;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VzORTaj5j85cq2M8IR2sPPrrk6vTYoFG53BsY3IwtmU=;
+        b=KhjRU6YjFyVbJWs4+BcJIcqX6sS/uvxsPswejlpP/nf9OmRdb3cCQoviXViMbRV9pX
+         XmDYhP/MbCTMuMe+MSjj8pOdrrWIC5rHeFT3RchwP0y9PqO8/VN7RBlYa7MHyeJpMJkV
+         LZNY2oWMTq4tXuC2PUyk8mwaJYhYcyhXVj53yTTwB2rFRl+i9VSiSETYGXkX6FlBlvnX
+         Qe4c9lIn9ychfLhQu+dka1RQxFCj69iBHQbCbuQac/H4X9QcHsgOAJrsIpgzF4XbLaRq
+         5FDIHDejKPYAUGiej1mp1WB4i9zp15inQu4urs4GHQ2ysv41dHdlDDvCSdqnQ2DM2xpV
+         2SOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAziffEwyxRYgoMIXWzRFbqRa61u1szZ4CBKdN7zvwGwgqLtzzwdqtEPR/nePpKPNfLtoYIyZ9Ug4=@vger.kernel.org, AJvYcCWIVsZLuv/60kCUfW77mODB2ln8l5nVosD+8qamFrNNhG5xzuRPdojqbxlnmDRR5YEy2M05XBuoXtSLDUGC@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfjfQEL2GNVT7npqOJzz/qsVoFVhflFqQ4mO1y5vbm6RO6stJj
+	sxn9awldaTcL/VTjPELU1lvFXpis7HQ9xp6qB63O/EgAutgxKKnJNb90
+X-Gm-Gg: ASbGnctXEFbJx7fiffX38vnZMJwUTSp918TrVLUhNqTu7lCEuOE/WUq1YdCS/ezYO/w
+	W8Tqimdmk9ry9mJr/CnJ9TyRqMCp++YveP/7ISZyRiBuox6ySMRYk1zvUDlKsnLgthb/2s7OL5c
+	MJdD5tY4ohFXMEX+2781SSm+6G5wnM0Zv0rkGg0ynuvnu37HdxDCtktZ1XAaG+Ic79G4udwy5ec
+	ULY03sOQjn3lBvmauAUjNYjBjSGQEUaIo86G20m7lZxhMi69M1j/ru5Mfg2AmADTVHFVUNAAEl6
+	T5bzp1dU/2X8yQuyQQBICTjqw+0YQpBBJhC30+GUQbPgO+wzz0wzDYvdounC4/M4K3ojYaA7czf
+	NF6HL1zkkTSfmTUU1rwHm15RnsjU/56JyKCaN9SZjrw==
+X-Google-Smtp-Source: AGHT+IEvc7GiBSOLL0eVIAnfsFxuuyb9Xs6ZWQt1q85vQuVTGCKCiLZUHxhq+3aytM1K0vb5VJdtTQ==
+X-Received: by 2002:a05:600c:5487:b0:45b:8d2a:ccfe with SMTP id 5b1f17b1804b1-45b8d2acf6dmr7011485e9.13.1756681649334;
+        Sun, 31 Aug 2025 16:07:29 -0700 (PDT)
+Received: from [192.168.100.24] ([102.31.181.245])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e74b72esm133792415e9.0.2025.08.31.16.07.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Aug 2025 16:07:28 -0700 (PDT)
+Message-ID: <c6158f58-7a62-4df3-b025-4fe9f33c4d16@gmail.com>
+Date: Mon, 1 Sep 2025 00:07:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250829030512.1179998-2-chris.packham@alliedtelesis.co.nz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
+To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Gregory Price <gourry@gourry.net>,
+ Alok Tiwari <alok.a.tiwari@oracle.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+References: <20250819084116.13108-1-smokthar925@gmail.com>
+ <87iki53gfb.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Moktar sellami <smokthar925@gmail.com>
+In-Reply-To: <87iki53gfb.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 29, 2025 at 03:05:09PM +1200, Chris Packham wrote:
-> Add a compatible string for the INA780 device.
-> 
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Applied.
+On 8/29/25 23:35, Jonathan Corbet wrote:
+> Moktar SELLAMI <smokthar925@gmail.com> writes:
+>
+>> Fixed Typo in the driver-api/cxl/devices/devices.rst
+>>
+>> functionalty -> functionality
+>>
+>> Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
+>> ---
+>>   Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
+>> index 923f5d89bc04..7f69dfa4509b 100644
+>> --- a/Documentation/driver-api/cxl/devices/device-types.rst
+>> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
+>> @@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
+>>   Typically used for initialization, configuration, and I/O access for anything
+>>   other than memory (CXL.mem) or cache (CXL.cache) operations.
+>>   
+>> -The Linux CXL driver exposes access to .io functionalty via the various sysfs
+>> +The Linux CXL driver exposes access to .io functionality via the various sysfs
+>>   interfaces and /dev/cxl/ devices (which exposes direct access to device
+>>   mailboxes).
+> This one was fixed a while back, so this patch is not needed.  It is
+> always a good idea to check linux-next when considering changes of this
+> type.
+>
+> Thanks,
+>
+> jon
 
-Guenter
+Thank you for the clarification and for pointing me to linux-next. i 
+will try to come up with an other patch thank u.
+
+Moktar
+
+
