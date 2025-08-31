@@ -1,249 +1,280 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EFE26E179;
-	Sun, 31 Aug 2025 15:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756653184; cv=fail; b=rlqmX1n3jpSF+dsExkazkwHTlS8eWn2BxFaGgieszZ5A7hOM8okIvCDYzc5G3X2wwO+4QZ6HjYeWi+gmN5GeWJfFutZzqOuw8Z9j4MnFnHaOrppnIpW2O1NkcEyHqmWjGWVm/fZqm+Rzlx1RW8x92ZBk+ErARG6UN+aqa2WBJCE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756653184; c=relaxed/simple;
-	bh=UHtNE4SN9P0Zjm8SZSCBVLPIyG8lL+C7WHO0+71ZFl4=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZsPT66KzaDHoLWeEKcNSLkpCr2G5zTtofDoRTxYnrsZT79XeSGuLHaJqF2e7KiXwm3gvme7ktFJJHpSWtRV2wBaufdnedlGrgBcOUFsEVL5ZHzU0AT0VICE+tlGmG5wjuhnb6gHZ5PidQ01gpJp4WJmOD6wASk5zrZx6uYTJb70=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qTTDRCKY; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=rXzgknSs; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qTTDRCKY";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="rXzgknSs"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57VBvHkB028983;
-	Sun, 31 Aug 2025 15:12:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=ixP1NAXCPU4zW2izQJEbxajgXMvPI7PkmSUg4tDIZ+A=; b=
-	qTTDRCKYuSSInzqhtWNpr/PsGN/e63kG6h3aVdq3AB5/wQ7AOBho+iNKAY7E9US1
-	Tj39a3YIngddKiULhepAqleMQyX3aiy9r+sUe8ZBjHsKaUB3167ooSk2UZJsZ0+5
-	RFJsEa0/IJATAkg8X+QVfPn2zqa8mMY2ZzeNyZwuZAfyAeNXqOlR40on2D52trX/
-	leHh5od/cHQi/B4qq2zaorJ3+nTJRZiP01L4BjxcQcZHogiNSbXOWFp3onZetx6k
-	+ga8d4vvzBzc1+WR8Hp4HpXbFRxHEJiI7qZleLhpUF8oui/2nP/LymF17yn+Pvkt
-	/leMhjdz3sJL1eHQjesIPw==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48ushgs5c0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 31 Aug 2025 15:12:58 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57VDu2Sd026777;
-	Sun, 31 Aug 2025 15:12:57 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48v01kmjk7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 31 Aug 2025 15:12:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wJ9TOvFkZqRc6mmRLyYOPrzJGr48ozOawLZft/xcUKvTiap/ZPDXKZ0WoGBYDm0NXntBobU+je6r5d3HSS37Gtwck7iEfQC5VENHRdfBTQ313tI0TximhQZ+WD/wcKbAJFw0Uh7MlGatM9mvh87PYdLZTZ+IsEFaIuWyXdSf2j/TXxzQXIpAKWdo4++QfuoGH0liJuCkA5kXERcvbnEmj0wwVbTrZftE7K3IvSVFFRV89gnu5z0PveYXPfKsQ/1gFtcOVieHh/QSg092kI3tOTub0bP5VXbYMnksLilB9ID4KShcVLwHPZe4WL1ZZlWfV6ZGpgmbV5F0+se2vKNl8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ixP1NAXCPU4zW2izQJEbxajgXMvPI7PkmSUg4tDIZ+A=;
- b=p6548xjtPXaEFeYrF8Nw9VvTazwDfZdmDNxYx4sBh89+B5FCROLpwOkxbTzxGbf4xEhnxNvGsVHjeBarPmTNzbkCOzp0aq5i3TWXpzHoSHIZ/guYdB4FBTjEtf9NaTO5114rOiv42CvFEoqTfE1Sl355mUKt/OGBOSSsjjBjbzx6EPF12tjPykduIt0oaxTvD6ZH3PtVhca5TB0KMN6Il7SOzpJ7V5lNd+yt4zCY9j51L4WcfFaf/Tq4TTk8YtW8C8hmNeVZZBOCvQ+IBQ01fRnD+QPED7KahItW2psFzjd79dYIhojXBp0EJpOEz3/nf/FTBSxJugU0JJVOGw7oRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ixP1NAXCPU4zW2izQJEbxajgXMvPI7PkmSUg4tDIZ+A=;
- b=rXzgknSsF/vvs/S0FsDCg6cptBLs8kGQZIJaO/cBL9WOLxyCruxyN0Q24UWWTbV0gAs6ZMYvjexV+OnR860m/CXnvJLnv/aYq3iaXTu+FPeO9/3hFBsdtk280B8b88FaM9sjAONPIrmp7BaXD0tZMKFx9XccXwlVQnmIBoRmNCs=
-Received: from IA4PR10MB8421.namprd10.prod.outlook.com (2603:10b6:208:563::15)
- by SN7PR10MB6978.namprd10.prod.outlook.com (2603:10b6:806:34d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.25; Sun, 31 Aug
- 2025 15:12:55 +0000
-Received: from IA4PR10MB8421.namprd10.prod.outlook.com
- ([fe80::d702:c1e0:6247:ef77]) by IA4PR10MB8421.namprd10.prod.outlook.com
- ([fe80::d702:c1e0:6247:ef77%6]) with mapi id 15.20.9052.019; Sun, 31 Aug 2025
- 15:12:55 +0000
-Message-ID: <1d3b87af-63c5-4d42-a981-87bc397bca60@oracle.com>
-Date: Sun, 31 Aug 2025 20:42:48 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: dev-tools: Fix a typo in autofdo
- documentation
-To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250831150710.1274546-1-harshit.m.mogalapalli@oracle.com>
-Content-Language: en-US
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-In-Reply-To: <20250831150710.1274546-1-harshit.m.mogalapalli@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0008.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::13) To IA4PR10MB8421.namprd10.prod.outlook.com
- (2603:10b6:208:563::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FA82581;
+	Sun, 31 Aug 2025 16:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756657105; cv=none; b=Pt1olS9fOXfCxm189ffqpBkRfwLwseheODjBmEu6Er5AHWo6mTtMc3NzIBFX1k7mtbKAehXYqsm/RG0m7uY53qMJ2htX24dVm2Heh7ptJgc7tEPx04K3y67QZsBkUET3bIUBSBTOkUeeUrGculP5WWUamsHYB41BnFUCwQOHaAU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756657105; c=relaxed/simple;
+	bh=AlZqi77j4tZq9+hCm6jqUyK1j7aIr9HWaAQF/Iat0yc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ItqU/nDRN6tWt8ouST32ItQBKtdCIgx1Ba+4YlKn/8hyygu+pZSk09ttIUb7vz2B3j+OtkMoeRsPeSZrc/TZqdYHF7vppJctZqg0OntC5YTv0ne+bTWhpLIqRlkiB+Vpm6ep2KuVHUWQ6vnRy5/MiEPIWkEFJzxQKeyKf1dFZBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2489b7f3d5fso7754535ad.0;
+        Sun, 31 Aug 2025 09:18:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756657103; x=1757261903;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QPgL1f0se+xmCF5cJxlkGRoiKTVxgJno4fZZaW2VANc=;
+        b=Kb1tfYd3LF+KKWFoQn0FQv9ra4PThErJzbkdFfBvQ/wYaI8dJlgOduDbnz1W4qJD9m
+         KwKwxKk5fkhcm6sBX/QsNQYxU6I1hHBhw9JaZT1d54FrSRTOLi2MIFncSUGVI9HeTcaD
+         IchYTy1QkSxDSesCTJDzVwxpP21vn1SGRegb4xMH+CgIsR4Hk1BKmuUGTm9zGVJAqefM
+         mALAr5RFvuPT71qtEkSxxdiNGyyR58xJyl3W4/WijzpQJwcd4jbk99k/IRFLljm+TDEn
+         39kowGSpvAHWOrQnM0MeSlfib5o3juphg3g0OUQTel2Xw2c6zNMO9qVIfr5Wj30Oso75
+         WE9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW358D4vdpwuIvHQKUQYPoIgux2kPJF4vJCdk5wqxr8bxJbT0NTuuaTea/Kwpy26ap0+OPlx+Q5j77UWDY5@vger.kernel.org, AJvYcCWR7fJPtT9Kl4HhlVPQEZgQDufcg0+cd+TEiT+S4GB6gWEuPg5Af7wUuJllryxSHkLpPmSaPO6U05o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxbg6YRK5vb4RMkaZVocuwGQDJib3nHhjJ84KIoFR3oqCJ0gLjU
+	FryI+wIYxnYUMzotMEgHxJPRtcYGMxIkWuq3RNewmvMLu7rxpPHGYB+H
+X-Gm-Gg: ASbGncuG2vtkAGiuZgtuww7d75aB/OW7yo/6n1BgbEaSat1Ag2NPykpIfu1FxN7+DJN
+	z7eg9ESNPKZmLth3sBeNDyDYiBtZmaEis9JOoJBtJ9lHzRXbWoj7FVrPg6mAKaq82BEFbSE/auP
+	kqbwQtklQzcGSj6l+I3MmVZy7Htp6Hhwm8YtId9KwCzsIwquMIWaNIIco4ITplFlJO+WpBmO0lC
+	PcQy96qm0yqIP+ZqbtKo+UDrOA/LW1BZRHNWmbvwfmJMSrHhMRKUlTBOLzCO893RjBApXUEOlgi
+	enmjaaJv6/R7sG17lx9wWHmUIewq99/4fnwde3mTW+8ElofU2CIedtrDFcAypwzw4p3mTUupg3M
+	eMhBeU6ENdXKyEFhD0JcGX/RwTO/rYumXAGleticvA6lkoVwGB7IaUvSL/jfNFingwqAxdh92Nt
+	XK5r1bjQ96Kw==
+X-Google-Smtp-Source: AGHT+IFTUEpW76fHmr9GSqQUg6NUG8aP3mwlJdthzy9852Xyp6ayZ6AFEOq4NC3awYEjc/vUh9dAvg==
+X-Received: by 2002:a17:902:f790:b0:24a:af25:34dd with SMTP id d9443c01a7336-24aaf2537acmr14382175ad.10.1756657102779;
+        Sun, 31 Aug 2025 09:18:22 -0700 (PDT)
+Received: from localhost ([218.152.98.97])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77244d42b0esm3798774b3a.80.2025.08.31.09.18.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 Aug 2025 09:18:22 -0700 (PDT)
+From: Yunseong Kim <ysk@kzalloc.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Tejun Heo <tj@kernel.org>,
+	Minchan Kim <minchan@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Hyunchul Lee <cheol.lee@lge.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	SeongJae Park <sj@kernel.org>,
+	Minwoo Im <minwoo.im@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kukjin Kim <kgene@kernel.org>,
+	Chanho Min <chanho.min@lge.com>,
+	Taehee Yoo <ap420073@gmail.com>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	gwan-gyeong.mun@intel.com,
+	yeoreum.yun@arm.com,
+	Mingi Cho <mgcho.minic@gmail.com>,
+	Hyunwoo Kim <imv4bel@gmail.com>,
+	austindh.kim@gmail.com,
+	pmnxis@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yunseong Kim <ysk@kzalloc.com>
+Subject: [PATCH v8] Documentation: cve Korean translation
+Date: Sun, 31 Aug 2025 16:16:57 +0000
+Message-ID: <20250831161657.1414453-2-ysk@kzalloc.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA4PR10MB8421:EE_|SN7PR10MB6978:EE_
-X-MS-Office365-Filtering-Correlation-Id: 84f3530c-433a-48bc-93ee-08dde8a0dc73
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TGFuR2xncGtxUXFybGovczcrNUVZZzllUW1LdTJlS1F2NWF3d2ZTYWczeDV4?=
- =?utf-8?B?eXNjQTZlakpJMmV0ZlpZL2tlUXRzYUUvWU9KbG93T1hma0YvY3Q3UHJqWTFy?=
- =?utf-8?B?d3lDZ3ZNazBkYWQ1elVWRUtJeG5YdDJZWWp6S1NFWWdCbk5WeXBoSHpaQnFx?=
- =?utf-8?B?czMxRjByTG5XOExHamFlZ3ZuamdzUWV5QzlzUmpsS2hhSXpBVzcyUnVnN0Qx?=
- =?utf-8?B?cGRpeHBnZFhWL1lrYkorK2ptOGd4bGJpYVFPeW5MWms1ZVVBRzQ5N2tTS3lY?=
- =?utf-8?B?SnJYQWs0cTlEWWNwcW1ER05BOHZoQVlsa2hoK1BNaDY4NjlKY3VEQ2tPVCtC?=
- =?utf-8?B?cGl4UmR5YUVHZVVXNWl1dzdVMG83LzNGN2tlYW53UXM0RGREUDlYajh5T1Zx?=
- =?utf-8?B?NFkyay9veEZmWUVGWmJlYktZL1p1dUduUzVxM202QmE1SGcyQUFCSG41N2VJ?=
- =?utf-8?B?eDlEdmdja3I3U2pxYll2LzBvWDN2OU5UV2FFeHZibkltaHRGdkFvUDMyYlJ0?=
- =?utf-8?B?aXBtS2lxTGcyNk5abkVlY1EyM1ZJZFJqMDk1QWVIN3dsaDVyNDZReDBxbm9n?=
- =?utf-8?B?WGZHOStBYXNra09WZEdLS0hpVFVoMjJaZEQxdmpuMW1oV3hLUktsc0ZNOWRr?=
- =?utf-8?B?NkFTbmtxNDJYNUx4UjNqUUpuSUZVSkszWUNvZStiRUtLMENTSFZNckZXdzdu?=
- =?utf-8?B?QzBDcDZsYkMvU0duNEF4YWE5QzFjbDA2U3ErZzhPVldwYjBheTR1Ly9oL3FZ?=
- =?utf-8?B?ajZOR3haTWxHYVZkYkUrRlVkcHFwaFp0YWJDOXZHSExBWHdLRWsxb0NRZHlo?=
- =?utf-8?B?b2dKRitFN0dVMWVodzRsV3dWVDZlL0RRSTY4NG9aeWxFeVRmV3ZYb3NkRHFN?=
- =?utf-8?B?dDNaUmxNbHUwbSttNHNVZjhFS3JSQy9JRjdyWTFpOUdsRzR4OHVWNURXMzhi?=
- =?utf-8?B?UXhMdTJJYXp1d2lsemVTMiswTVE4Q1hmdXpIYUo5OWx4N2k5OExWb0t4SkZa?=
- =?utf-8?B?ZkxRS3ZGVmVONlhrZXMvWmhPZDI4NjcxQ1hmdmhGSk1QdisrTm1JWmRtcStq?=
- =?utf-8?B?T3JKSUhqL2pmbHlsRHd0VXZ4dEtSQUdMNytMSnN5M2ZCRXlYYytvRXBRSWdT?=
- =?utf-8?B?MWFuckUyV0RaMFNpTG4zOEtCU2pORFpzT3VPWEVlLzFKemIycmF1M0tEeGdv?=
- =?utf-8?B?aU5ncjhTM0E1UHVXZUE1M2paU1hub0xSdk1lREI4MmxNM2lOZEdjUGY2VzBQ?=
- =?utf-8?B?NFI1WDd0T0owcmpNMjNoOVZDUjBTdzlqbzYwVmRGMXhCSkVjK2YwdG4xeG5t?=
- =?utf-8?B?OUFueWRWNjFWTkxaM0k2cE5QRlR3S2hqZytYeWNBMDFHKzVWKysvV2FQd1VO?=
- =?utf-8?B?ZFQrekE3T0NGeUFVTEc4d1ZMbkFFK1pHUml2UG5uSktKNXo3eWRHelB5THRS?=
- =?utf-8?B?MGxkcFpjdmpYK3RaZVdmVW53M0VtRG14c0tIckoxY29NOHc4QVpTdEU3MDZl?=
- =?utf-8?B?djB0RkZzWkhOdDFLOGRrWHd3QWJVeTJvaDFia3k0L29IZ1BjU2JzaGVhRXlU?=
- =?utf-8?B?UTkzOEdRZnd6U08ySUdvcEI4M2ZLNERqMHNjMThDd2lnTloxajlQaGVWSjF4?=
- =?utf-8?B?cmdLb2FyUURoL2dmTWUvcG5veTJHUXZDcjNuSGtEZ2oyRlRsOWFkbWxCbk9D?=
- =?utf-8?B?N21kTklSUzhzM2VPYnAzN0pzazN1bGFYSHJwaEJjb2hOem92OVNOU2FhR2ta?=
- =?utf-8?B?SWgyZWh5QzFERi95QXpyWG4wV01LM3FTMHptaEVXNE1JVWtMbG5KZzVUcnVp?=
- =?utf-8?B?M093VlJKQVNULzJpN2wwYlpZUmVmUnpwMlZBdm93cWxqQUx4SEk4NnpkL3ls?=
- =?utf-8?B?ZG9udDFUWUNRZDJHL3krTm5kcVNTT1YvMzNiL3ZsRVo3bmVTaEd5NDk2Nnhm?=
- =?utf-8?Q?kVQPcjs5LKU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA4PR10MB8421.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a2RoOE9pdGhRZGxZSTZFbmtNZ0VYaCtva3BMS0M3RVVHM2pqNTBrRnh3VG0z?=
- =?utf-8?B?NmhEVnI2SlJ1WTBFMW8yV3laYW53QTZTWkRncXZFbDk2T0ZPeHd0dVM2dzlG?=
- =?utf-8?B?N2FpYU8yS04zVDVNVjFER3BhYmZyemhlYXl5bThFcGdlamY0T1lLZUNYVFJJ?=
- =?utf-8?B?RGlmRUw4ZHkzOWlndzBydHdJV01tM0llUXFod3dza05WWTBqQ3FaRTNZWDcr?=
- =?utf-8?B?a1JGU3REbURvUElzL2FFZGI2Y1p2SzRBRmE3MXYzWE1OTkpxNDdYNXFPQ21k?=
- =?utf-8?B?cjZOOWgrWHZmR2dLbkN2QzhvRmY5cjZTd2MzSFg1aUd4a3Jqb1NYcGd4QmZH?=
- =?utf-8?B?bHhmMWhVUGV5M2k4ZG9SeXZFTkRka0Z1UXZnM0dwbmNHRjJUdU9tTGh1ZGxl?=
- =?utf-8?B?SlZYbFdocGVzRk9qcUlHTTRyZ0o2MUwwanZocWMwMmUzVlpURjhhQ3JVYS85?=
- =?utf-8?B?SVhxZ3ZlR3V2N1lhbEhLejZ2U1c1YjMvNUV4ajRCOWlxbE11TVduQ1ZhUGRT?=
- =?utf-8?B?a3JuaVpoV1AwWFVPWXlLYS9rZ2QvZC9nN3hyZm9aZVduVFlFN3lXNjFqUU1q?=
- =?utf-8?B?dGxYZllQWkJIanVmT0dqTWZlVUVvUVZPcFBqNFcwUUtLcVl3c0JGK0R5ZUYy?=
- =?utf-8?B?cnM3VWNmbXVzZHd2S0d5aE92MzJ3cmZaQWRLd0NXVUoyaUdOUkdxbWdzWC9i?=
- =?utf-8?B?YjVWUmttVnlUL0FvWmdhRUJGT1Yrcmp4d0VNOUs2aU54S0FwdkYzS013SEcy?=
- =?utf-8?B?RFJVY0ZMc3VjaENMcnZTOVNtTDJGZ0tmdFN0NHhPZktYNzVRTTYrZGVIRXgx?=
- =?utf-8?B?VmxuL1U0TTN4VEN2Q0hMcXJuM2czT0lOMFkwRkc2eTVHbGpBRC9DTDlLZEpn?=
- =?utf-8?B?M2Z5K3lsM1BoWTZxTWtOZ25ueVBmazdac0M1cDRWT2JBTlRDdzdDWncycFZK?=
- =?utf-8?B?a203NysxajJQdEVpMGVZYW5TMU4yeSsydlZjTTM4QjI1NlFxSCtUcnhBL2hv?=
- =?utf-8?B?SSttZjZKMjV5VkpKQWJOaDVrMEU3TzBKRGpsNFZPWkVGUDdkbmNSVktBZGdE?=
- =?utf-8?B?Z0hzM0loTTlaUWdLMHpnM1VLdXVlMlpTcWhlNFg5VmsrL0JhMmZXNWxCWHRC?=
- =?utf-8?B?MzRSM2FCVnFOQk5kVTArNXdUTzFOZVNFQlBvblh1SDM5MThsTHJJVGdJMHgx?=
- =?utf-8?B?SFFPZ1FyaVNzMWhFcFFXMmhGaTlMc3d2Nks3dWdLR1B1RkVWeGd0b3hJc1Rj?=
- =?utf-8?B?N3JSUm9xNVlsZVRSbTFNSyttWG45bWlHeDJmd1AzL0MvV3BHZVVhNkNxTEww?=
- =?utf-8?B?SGFCMGdZbHlTYzNKK2hCeVFoZjNNU20vUU5tVDQ4UTcwSUJqS0FUVWFhZG9O?=
- =?utf-8?B?RW0yZmQ1d05iclZYMDczNUpMNWNnUlNnUTdXNGdmK1lNZEZwWDhzTzdRL0NG?=
- =?utf-8?B?YSt5THI5ZGNoZmE4V2tQdHV6cnl3T29HRFZCeGtqSHhQVUk5NHJPeDJrTjRt?=
- =?utf-8?B?d2laUnBVY0t0R0dJVWJ0Q2pRMGsrTy9tSHI3T3MybW5IMDRNSDFhMVMrT0hU?=
- =?utf-8?B?T2RKTHplVXk1N2JWTXZiM2syRHNFaUc1ZEJxbDV3cG1XaUpxTGhMQjVBdlJm?=
- =?utf-8?B?TldSRGE1c21zd0k0aTlXYk5IT1VsRTgvUmtEeWVOc25nOWdWWEVXRzBXL0FT?=
- =?utf-8?B?WDhvR2Z2b2JPUjVoMFZwYmhGbTRLUnM4NGhRcFB1ME4ySVRVNm1GUEVSZEl6?=
- =?utf-8?B?WFlGdUZLYjdhUDc4Uy9oa2JvaU9UOTNOcHg5SHJubnhIcjFqQWNzUnVVRDBo?=
- =?utf-8?B?UUJZYkVYY0tQcnVyTi80ZHZncjQ5b3laN25DMC8vaXNMWXBUZjJ5a25tb1lZ?=
- =?utf-8?B?TDk1SHl1cGNZNU16Z2RvdWNOQzRjMHo5Uit0alhPc2YwUDFIWFBNd0JLeEZC?=
- =?utf-8?B?QlVTU0FuWXZhRDB3amRMMVdndkd3eHNKbTZWUnAyTk1EekRocEcxSmV5Smxu?=
- =?utf-8?B?NlVhRmNlR0dwb0VjekNCKzY0T1NKNlh6OGxGdE5XTUR3N2lVYVZWcHJhRW8w?=
- =?utf-8?B?cThZVVNQMlNmaHVIU1lPL0VJc0tuTzR1ZXJsMU5seXZFM2J0TGc0NnVEMDRt?=
- =?utf-8?B?ZmRwbmptRTVQVGFCUFNKajRzaVlmQTRqVWFVOVdwSXdheEhvTXVrNGRKR1dz?=
- =?utf-8?Q?SL/rkTynaFReYrirnZYOkjw=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	S+HzX3U0BmL3Hk4Z8idkNG+85jithvmSTsUm3HzGcSVdrxaUYL3Kj428kXHLgv+9YW90+6AmOHpXfZxvQ4m976FpJ77rxgB+RQGSyqzrpArhQvObenQnF4XZF1wmFD6dJU4YVeZOsK0Eo/cfzn/FQ7Dj73+g/KSYjne9SgVga5++XWZq3KR6MMvjoF9ADDz7Li/eU6TXh0Sd43lCkBV7Aydq4yxnID7sr3K8NMUtXMtMqIsCytlaXCix+po9/ZkTS7VpVvQFFy+ajfiRWdyCDd/r2382RTDejPJA6ld9PxlQ9Hl7tGlg7aPPcueBDAaSRmE7e97GXGrxYAuqUxVsiHBBYjS3SUz0/K0UJ0663Pk7G/bzmE8JLuUJiT2K8kiwkz/vNDoMG5tASaJj/7xz2jzOx05GItnHhsPA+PVCgfDLCafsdlEydBA+MGAqRTnXkvls/BLBdveg5HSukT7GOJ1AxvT/FOZweBAQkIK7UbyRrXAe5En4pNFufLqtnKIlF2S6I2Fwanv5C2yVGKsukP6REfn9YtpfJUlxArEZXrzxmP9zbF88zt1pdtdjID+CyyVbu7taoCj69miK+FUq/BBm+MSVjjYuN5EFME0B22E=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84f3530c-433a-48bc-93ee-08dde8a0dc73
-X-MS-Exchange-CrossTenant-AuthSource: IA4PR10MB8421.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2025 15:12:54.9810
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yI9a0jXh3uDuj4FuWnk/1XRRJNrd3/UsE3nRstXaKlYIVSL5/wcz6OmoOFOv8bppfcSzjoEYhb8ydYeln3hY647V6z84Z8T7NXstuvF6mqwxdqB0FHsG57golHEPdJhG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6978
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-31_07,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 bulkscore=0
- suspectscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2508310163
-X-Proofpoint-ORIG-GUID: WF8wf5UfNQa47kpJi8TunJ8q5QasavNt
-X-Authority-Analysis: v=2.4 cv=YKifyQGx c=1 sm=1 tr=0 ts=68b4667a cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=_l-NOD16TJ_2dFQU9qoA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX0kwG86GbvjBo
- wvfFodAgbJ6jod07AMJerg9HLrqf//sg4+dRcqfFKjijP4HqKjJdnB2JF4FxreUdAzsVAYziOfb
- ciG4xEPQzbSVm1bgDyXHRvnK51Y4LRD6sugqxYaL1yndCPF4zGKgxO1IAO6apBm8KP6CrFjwxo/
- NgK8//FlF20EQVqymmPdXkw6u5w8i1PhcYBd780teejiSXnH10xegTPitleTwMT0gQp23mSZs/R
- zGe8jJ74i+p6AXkURY4QpusctK+zt+6/lOzKs8lIVZx2BWNSUSN7j9fKbSNQpxwvTQuh49KyQXf
- Ds+x8LxEbaYGcqRuLZBrnUbFw1jkNB+n6JKajLyUmhBedKT5UA/Ud36vzGLgOFEVPaM7HVzHdmT
- BaF0ijEZ
-X-Proofpoint-GUID: WF8wf5UfNQa47kpJi8TunJ8q5QasavNt
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Understanding the Linux kernel's CVE handling process is becoming
+increasingly critical. This is especially important for Korean companies
+exporting products to regions like Europe, as they must comply with
+regulations such as the Cyber Resilience Act (CRA).
 
-On 31/08/25 20:37, Harshit Mogalapalli wrote:
-> Use cat /proc/cpuinfo as opposed cat proc/cpuinfo.
->
-Please ignore this, I had a typo in my commit message for a typo fix :(
+This translation aims to raise awareness among Korean kernel developers and
+companies, helping them better understand and adhere to the kernel
+community's security practices.
 
-Send a V2: 
-https://lore.kernel.org/all/20250831151118.1274826-1-harshit.m.mogalapalli@oracle.com/
+The translation is based on the contributor's direct experience with the
+Linux kernel security bug process and obtaining CVEs. Furthermore,
+completion of the security training program provided by the Linux
+Foundation ensures the necessary accuracy for this documentation.
 
-Thanks,
-Harshit> Signed-off-by: Harshit Mogalapalli 
-<harshit.m.mogalapalli@oracle.com>
-> ---
->   Documentation/dev-tools/autofdo.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tools/autofdo.rst
-> index 1f0a451e9ccd..bcf06e7d6ffa 100644
-> --- a/Documentation/dev-tools/autofdo.rst
-> +++ b/Documentation/dev-tools/autofdo.rst
-> @@ -131,11 +131,11 @@ Here is an example workflow for AutoFDO kernel:
->   
->        For Zen3::
->   
-> -      $ cat proc/cpuinfo | grep " brs"
-> +      $ cat /proc/cpuinfo | grep " brs"
->   
->        For Zen4::
->   
-> -      $ cat proc/cpuinfo | grep amd_lbr_v2
-> +      $ cat /proc/cpuinfo | grep amd_lbr_v2
->   
->        The following command generated the perf data file::
->   
+After the v7 patch, Austin Kim requested to be removed from the
+Translation Review list, so I deleted his name and fixed the parts that
+were causing the document build to fail.
 
+Below is a link where the changes to the translation so far can be
+tracked version:
 
+[1] https://lore.kernel.org/lkml/20240511195942.30857-1-yskelg@gmail.com/
+[2] https://lore.kernel.org/lkml/20240527102313.27966-1-yskelg@gmail.com/
+[3] https://lore.kernel.org/lkml/20240527103003.29318-1-yskelg@gmail.com/
+[4] https://lore.kernel.org/lkml/20240603161530.80789-1-yskelg@gmail.com/
+[5] https://lore.kernel.org/lkml/20240605010811.19445-1-yskelg@gmail.com/
+[6] https://lore.kernel.org/lkml/20250822131829.50331-2-ysk@kzalloc.com/
+[7] https://lore.kernel.org/lkml/20250823193516.19485-2-ysk@kzalloc.com/
 
+Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
+Reviewed-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/translations/ko_KR/index.rst    |   1 +
+ .../translations/ko_KR/process/cve.rst        | 137 ++++++++++++++++++
+ 2 files changed, 138 insertions(+)
+ create mode 100644 Documentation/translations/ko_KR/process/cve.rst
 
+diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
+index a20772f9d61c..0bf8f775a215 100644
+--- a/Documentation/translations/ko_KR/index.rst
++++ b/Documentation/translations/ko_KR/index.rst
+@@ -12,6 +12,7 @@
+    :maxdepth: 1
+ 
+    process/howto
++   process/cve
+    core-api/wrappers/memory-barriers.rst
+ 
+ .. raw:: latex
+diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
+new file mode 100644
+index 000000000000..8619cb23a739
+--- /dev/null
++++ b/Documentation/translations/ko_KR/process/cve.rst
+@@ -0,0 +1,137 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. raw:: latex
++
++	\kerneldocCJKoff
++
++NOTE:
++This is a version of Documentation/process/cve.rst translated into Korean.
++This document is maintained by Yunseong Kim <ysk@kzalloc.com>.
++If you find any difference between this document and the original file or
++a problem with the translation, please contact the maintainer of this file.
++
++Please also note that the purpose of this file is to be easier to
++read for non English (read: Korean) speakers and is not intended as
++a fork.  So if you have any comments or updates for this file please
++update the original English file first.  The English version is
++definitive, and readers should look there if they have any doubt.
++
++----------------------------------
++
++.. raw:: latex
++
++	\kerneldocCJKon
++
++이 문서는
++Documentation/process/cve.rst
++의 한글 번역입니다.
++
++:역자: 김윤성 <ysk@kzalloc.com>
++:감수: 박진우 <pmnxis@gmail.com>
++
++----------------------------------
++
++=================
++CVE 항목들 (CVEs)
++=================
++
++공통 취약점 및 노출(Common Vulnerabilities and Exposure, CVE®) 번호는 공개적으로
++알려진 보안 취약점을 식별, 정의하고 목록화하기 위한 명확한 방법으로
++개발되었습니다. 하지만 시간이 지나면서 커널 프로젝트에서는 그 유용성이
++감소했으며, CVE 번호가 부적절한 방식과 이유로 할당되는 경우가 매우 많았습니다.
++이 때문에 커널 개발 커뮤니티는 CVE 사용을 꺼리는 경향이 있었습니다. 그러나
++CVE 및 기타 보안 식별자 할당에 대한 지속적인 압력과, 커널 커뮤니티 외부의
++개인 및 회사들의 지속적인 남용이 결합되면서, 커널 커뮤니티가 이러한 할당에
++대한 통제권을 가져야 한다는 점이 명확해졌습니다.
++
++리눅스 커널 개발팀은 잠재적인 리눅스 커널 보안 이슈에 대해 CVE를 할당할 수
++있습니다. 이 할당은
++:doc:`일반적인 리눅스 커널 보안 버그 보고 절차</process/security-bugs>`
++와는 독립적으로 이루어집니다.
++
++리눅스 커널에 할당된 모든 CVE 목록은 linux-cve 메일링 리스트 아카이브
++https://lore.kernel.org/linux-cve-announce/ 에서 확인할 수 있습니다.
++할당된 CVE에 대한 알림을 받으려면 해당 메일링 리스트를
++`구독<https://subspace.kernel.org/subscribing.html>`_ 하시기 바랍니다.
++
++할당 절차 (Process)
++===================
++
++일반적인 안정(stable) 릴리스 프로세스의 일부로, 잠재적으로 보안 이슈가 될 수
++있는 커널 변경 사항은 CVE 번호 할당 담당 개발자가 식별하여 자동으로 CVE 번호가
++할당됩니다. 이러한 할당 내역은 linux-cve-announce 메일링 리스트에 공지사항으로
++빈번하게 게시됩니다.
++
++참고로, 리눅스 커널이 시스템에서 차지하는 계층의 특성상 거의 모든 버그가 커널
++보안을 침해하는 데 악용될 수 있지만, 버그가 수정될 당시에는 악용 가능성이
++명확하지 않은 경우가 많습니다. 이 때문에 CVE 할당 팀은 매우 신중하게
++접근하며(overly cautious), 식별한 모든 버그 수정(bugfix)에 CVE 번호를
++할당합니다. 이는 리눅스 커널 팀이 발행하는 CVE의 수가 겉보기에 많아 보이는
++이유를 설명합니다.
++
++만약 CVE 할당 팀이 놓친 특정 수정 사항에 대해 CVE가 할당되어야 한다고 생각되면,
++<cve@kernel.org>로 이메일을 보내주십시오. 담당 팀이 협력할 것입니다.
++이 이메일 주소는 이미 릴리스된 커널 트리에 포함된 수정 사항에 대한 CVE 할당
++전용이며, 잠재적인 보안 이슈를 보내서는 안 된다는 점에 유의하십시오.
++아직 수정되지 않은 보안 이슈를 발견했다고 생각되면
++:doc:`일반적인 리눅스 커널 보안 버그 보고 절차</process/security-bugs>`
++를 따르십시오.
++
++리눅스 커널의 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
++않습니다. 할당은 수정 사항이 제공되고 안정(stable) 커널 트리에 적용된 후에만
++자동으로 이루어지며, 원본 수정 사항의 git 커밋 ID로 추적됩니다. 커밋으로
++이슈가 해결되기 전에 CVE를 할당받고자 하는 경우, 커널 CVE 할당
++팀<cve@kernel.org>에 연락하여 예약된 식별자 목록에서 할당받을 수 있습니다.
++
++현재 안정/장기 지원 버전(Stable/LTS) 담당 커널 팀이 적극적으로 지원하지 않는
++커널 버전에서 발견된 이슈에 대해서는 CVE가 할당되지 않습니다. 현재 지원되는
++커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할 수 있습니다.
++
++할당된 CVE에 대한 이의 제기 (Disputes)
++======================================
++
++특정 커널 변경 사항에 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은 오직
++영향을 받는 관련 서브시스템의 메인테이너에게만 있습니다. 이 원칙은 취약점
++보고의 높은 정확성과 책임성을 보장합니다. 서브시스템에 대한 깊은 전문 지식과
++긴밀한 이해(intimate knowledge)를 가진 개인만이 보고된 취약점의 유효성과
++범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수 있습니다. 이 지정된
++권한 밖에서 CVE를 수정하거나 이의를 제기하려는 시도는 혼란, 부정확한 보고,
++그리고 궁극적으로 시스템 침해로 이어질 수 있습니다.
++
++무효한 CVE (Invalid CVEs)
++=========================
++
++리눅스 배포판이 자체적으로 적용한 변경 사항 때문에 해당 배포판에서만 지원되는
++리눅스 커널에서 보안 이슈가 발견된 경우, 또는 배포판이 더 이상 kernel.org에서
++지원하는 않는 커널 버전을 사용하여 보안 이슈가 발견된 경우, 리눅스 커널 CVE
++팀은 CVE를 할당할 수 없으며 해당 리눅스 배포판에 직접 요청해야 합니다.
++
++현재 공식 지원 중인 커널 버전에 대해, 커널 CVE 할당 팀 외 다른 그룹이 지정한
++CVE는 유효한 CVE로 인정되어선 안 됩니다. 커널 CVE 할당 팀<cve@kernel.org>에
++알려주시면 CNA(CVE Numbering Authority) 시정(remediation) 절차를 통해 해당
++항목을 무효화 조치할 것입니다.
++
++특정 CVE의 적용 가능성 (Applicability)
++======================================
++
++리눅스 커널은 다양한 방식으로 사용될 수 있으며, 외부 사용자가 접근하는 방식도
++다양하거나 아예 접근이 없을 수도 있습니다. 따라서 특정 CVE의 적용 가능성(해당
++여부)은 CVE 할당 팀이 아닌 리눅스 사용자가 결정해야 합니다. 특정 CVE의 적용
++가능성을 판단하기 위해 저희에게 연락하지 마십시오.
++
++또한, 소스 트리는 매우 방대하고 개별 시스템은 소스 트리의 작은 부분 집합만을
++사용하므로, 리눅스 사용자는 할당된 수많은 CVE가 자신의 시스템과 관련이 없다는
++점을 인지해야 합니다.
++
++요컨대, 저희는 귀하의 사용 사례(use case)를 알지 못하며 귀하가 커널의 어느
++부분을 사용하는지 알지 못하므로, 특정 CVE가 귀하의 시스템과 관련이 있는지
++판단할 방법이 없습니다.
++
++언제나 그렇듯이, 개별적으로 선별된 변경 사항이 아니라, 많은 커뮤니티 구성원들에
++의해 통합된 전체로서 함께 테스트된 모든 릴리스된 커널 변경 사항을 적용하는 것이
++가장 좋습니다. 또한 많은 버그의 경우, 전체 문제에 대한 해결책은 단일 변경 사항이
++아니라 서로 중첩된 많은 수정 사항의 합으로 발견된다는 점에 유의하십시오.
++이상적으로는 모든 이슈에 대한 모든 수정 사항에 CVE가 할당되지만, 때때로 저희가
++수정 사항을 인지하지 못할 수 있습니다. 따라서 CVE가 할당되지 않은 일부 변경
++사항도 적용하는 것이 관련 있을 수 있다고 가정하십시오.
++
+-- 
+2.50.0
 
