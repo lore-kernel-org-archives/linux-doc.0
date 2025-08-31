@@ -1,52 +1,54 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8BF1BD035;
-	Sun, 31 Aug 2025 20:12:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D66186E2E
+	for <linux-doc@vger.kernel.org>; Sun, 31 Aug 2025 20:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756671143; cv=none; b=IiJfeHUBMnoDHOJ7IQefAgPvMUBDrIvSoX6/hSl/mVXT3zkGLD7FehRYsDFGpG5qSY+nXcviE/ofOp0qVquXa88BUmT636VNpFLdxGSDcHq8Uar4nzPrytzDdOToDkIvHpENDpsw8Ar35a5KZHHzPot/J/u6nMuHlK/jFcOZc94=
+	t=1756671373; cv=none; b=Vtkdzqfgxso1vQcCxLgtu0gCxTvO1EdLaCEtG2BiTQ5PhGEMKDjFehc2/HLsja/815N+bgP6Imgbxxc/8mLxluu/udHXepFgRm/ERIC46n1A+FElkguJGn2WuodNLZKm/ga9+lYE2lT48+o11cRfej/1BXinEfuva5kiYMIAQPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756671143; c=relaxed/simple;
-	bh=P2avC4DPGz+eM6QafeV2RCQHcJNlw7b/ZrlUdKq+U4E=;
+	s=arc-20240116; t=1756671373; c=relaxed/simple;
+	bh=Bt0MKz5JWipWRvhyH8FMfEZDpnjgo84Zfkg9PbFzdAE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ifd+K3W0fdPIWWsLRzoPa/X0EA33+1b9YsfGJQ0+beqlJzk73F+qIbxveJQIneH5bTc5gpfo/tfPTIYEOCotKz4a3XNToKkNmWZokn5KjSK0VEh/QzqoAknO62rnhvc97jx6cqaYFmiK54rJzA9rvdkc/fqt5zi8J597JKx4y24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hQ0QL777; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=BOivvOo1d/5oaa285Rrn8EG7WLYqsawf+vgvsgLaHV1hhi9lVoQUvZJZgRKBtnczl4dOVFzfBFCySiydDma4MADU3j35s8JMV6BCNAJx7QpBtYHJYZN9RhD5Dc/MJd6GBT0SAhNY3h3kbqv7up5kPGn8J/VtafRa3biNNDv6iUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LcPr6u0L; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hQ0QL777"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5980440B03
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LcPr6u0L"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 849CE40AE2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756671136; bh=jeNn2yqsZkFs7KvKwIK46ykzytj6cKlzLAe6/krfRos=;
+	t=1756671371; bh=TohYY3bEBl06Ls09hBaNNty6yEaIzcNgoyLcDA5LGcI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hQ0QL777blvzeEno3CoTZVUU6Ee7DIHX9tJzvFR1RXz04L8I3nX7aEMSGhF3T3jk9
-	 KG+vJv37GVhjs7wcS+IBFqW54pMjunZNBttfGw+HZRzIB7Exgq52B3P5pDBTc8dqh3
-	 NFJ7965aDNXw71y9rubHd7ELxRMbdNEUovruhx3MBCf897LuxrktR84JbxdmX1ndkd
-	 h/ILhvTfG5oo9+OjsIQTrgVbeRdlFfDuxFNswYwl/KN2FxfgY30GYnAZ5uUGFe9tsb
-	 +4p4Yxb+80IQXQ2Hzx1t5k8X8iDwX418wqfV3xLR+F/4PWd9gdXZaU3S4cNmRtufNt
-	 2WiwyRjJKzAew==
+	b=LcPr6u0LOoVO3m9jy7lU51juvldpNn99QvjX2E9/ebEA8nROc4iXkYgaMWaTAPNys
+	 p+BNsoyveyCeCr+0p3Y8p8DlT2uTeZe8mkd7aEuLJENfAkJStWUGRXE4Ii/uwBdohn
+	 +HeDzMOlm6WCOXyQjEPfolOL1RBVq9DKHKm0jhajK5z2zm2pK1SiaOv9dnZGVdWHQc
+	 c+Y4Y0Xxc+o1EW0vcH4K0fd8O1iM22bITySqpqds4puMuKmXJqiIZdp6DEnWJuUKuy
+	 bK2u2r6I2dnPfxJsKhLIcijyvsosLBHhcMRza/RSKwZhuS/K6hKSzmiBsnBDMUlvGz
+	 ptCycihtxpuYA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5980440B03;
-	Sun, 31 Aug 2025 20:12:16 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 849CE40AE2;
+	Sun, 31 Aug 2025 20:16:11 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux F2FS
- <linux-f2fs-devel@lists.sourceforge.net>, Chao Yu <chao@kernel.org>, Daeho
- Jeong <daehojeong@google.com>, Yuanye Ma <yuanye.ma20@gmail.com>, Yangtao
- Li <frank.li@vivo.com>
-Subject: Re: [PATCH 0/6] f2fs: documentation formatting cleanup and
- improvements
-In-Reply-To: <aLOPq_zLap9PuMrW@google.com>
-References: <20250820043432.22509-1-bagasdotme@gmail.com>
- <87qzwt3glo.fsf@trenco.lwn.net> <aLOPq_zLap9PuMrW@google.com>
-Date: Sun, 31 Aug 2025 14:12:15 -0600
-Message-ID: <874itn1c9s.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
+ <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+In-Reply-To: <20250831160339.2c45506c@foz.lan>
+References: <87plcndkzs.fsf@trenco.lwn.net>
+ <20250828230104.GB26612@pendragon.ideasonboard.com>
+ <87wm6l0w2y.fsf@trenco.lwn.net>
+ <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+ <20250830222351.GA1705@pendragon.ideasonboard.com>
+ <87h5xo1k6y.fsf@trenco.lwn.net> <20250831160339.2c45506c@foz.lan>
+Date: Sun, 31 Aug 2025 14:16:10 -0600
+Message-ID: <87zfbfz1px.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,35 +57,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jaegeuk Kim <jaegeuk@kernel.org> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> On 08/29, Jonathan Corbet wrote:
->> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->> 
->> > Hi,
->> >
->> > Here are documentation formatting cleanup for f2fs. This also includes
->> > docs retitle at the end of series ([6/6]) as a bonus.
->> >
->> > This series is based on docs-next tree.
->> >
->> > Enjoy!
->> >
->> > Bagas Sanjaya (6):
->> >   Documentation: f2fs: Separate errors mode subtable
->> >   Documentation: f2fs: Format compression level subtable
->> >   Documentation: f2fs: Span write hint table section rows
->> >   Documentation: f2fs: Wrap snippets in literal code blocks
->> >   Documentation: f2fs: Indent compression_mode option list
->> >   Documentation: f2fs: Reword title
->> >
->> >  Documentation/filesystems/f2fs.rst | 88 +++++++++++++++++-------------
->> >  1 file changed, 50 insertions(+), 38 deletions(-)
->> 
->> Jaegeuk, are you going to pick this up, or would you like me to?
+> 4) kernel-doc kAPI
 >
-> Hi, I applied them in the f2fs tree, if you don't mind.
+> It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
+> kernel-doc now can parse the entire tree with:
+>
+> 	$ scripts/kernel-doc .
+>
+> Someone can easily use it to discover the current gaps at the docs that
+> have already some kernel-doc markups and identify what of them aren't
+> yet placed under Documentation/ ".. kernel-doc::" markups.
 
-Not at all - thanks for letting me know!
+...or one can use scripts/find-unused-docs.sh, which was written for
+just this purpose :)
+
+This sort of discoverability is part of why I want to move documentation
+tooling into its own directory.
 
 jon
