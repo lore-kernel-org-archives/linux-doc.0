@@ -1,148 +1,110 @@
-Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5937261D;
-	Sun, 31 Aug 2025 04:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E8222154B;
+	Sun, 31 Aug 2025 10:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756616256; cv=none; b=n+d4fINVjze/njidc2uIJfkjzHs54tubOqMbWLeOVJv4+z3EG7LEuX1C77FY1SwIkgk1dkeiBhgIRlhi/JCDry0ThMlhgKGLZ+/twlkfo92Pr3UdtbPkKvCFW9FQoOG+25OkWffZ/pSRN6P7JyMpw8i+1sS1fjmd6L5nNSfLgtc=
+	t=1756634679; cv=none; b=ULEs117CW2wd/QkiOPpNQppnbGnzT+8mK3KLRcSP+4pvUQv+NS3ncBuqk2/4JH8AGk/Dnh45FcofrnEFw0gY+g82YeGR1o5u77evB4i1kCrdwPvIrhurWSpgp+RnEKkuVJgLs6TaRx+XnHAZ4Lag5CPyZwx710MNmQxlruOCHRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756616256; c=relaxed/simple;
-	bh=ZgdvW6GgvJ1Gj0JKAawiJAVU5WNBvXuwI8BkRynFXcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fNls5JOwVvILrUwP7C06CyyEqgRA2QilvC8GWKqqLRsjbYtA1bO3sVOWFTfZL7VP9wEu+2fsp4HokCeWcS5YqNA7yMdErcek+NW3nlXEFM/eIlvZgoQ+6vxe2MBS4XwHWVcWM2jR5X232PyFeguHMsVNp3yO63VLnDgk9GUEK5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com; spf=pass smtp.mailfrom=debanilchowdhury.com; dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b=UjewcU/2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k+Y7ITmh; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debanilchowdhury.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debanilchowdhury.com
+	s=arc-20240116; t=1756634679; c=relaxed/simple;
+	bh=8MSiAJFhyW6DO7wWxoxRzC8Zw4+nLElUnPgM3hXUqDE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=SFNrnGBIU27roeaWvkVjtVY0T29yYjqUvXZztOOXBsXZNXC9tu7YTTIWuWcnuZqroMFTPjNUv3UuEI2cTzM7sAuiuK6T74JGlyCXc6wGuKTnST8Erg/O0tZyQnR8Y4cpHcBQrQ9iI05xcDIk5MCm3x/9dy2g96Gbl5152D+pXh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gljRPolR; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debanilchowdhury.com header.i=@debanilchowdhury.com header.b="UjewcU/2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k+Y7ITmh"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailflow.phl.internal (Postfix) with ESMTP id 5323E138027B;
-	Sun, 31 Aug 2025 00:57:32 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Sun, 31 Aug 2025 00:57:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	debanilchowdhury.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1756616252; x=1756619852; bh=EWxmYn7csugiS8y3bY0p8+D1k3LgZQJI
-	gdJXipDGzfY=; b=UjewcU/28O6nJ39u9OMTxzFMuFZEGZQzY8XzurdIQYNmWjsh
-	JRu0hp3xtF/SOan11vtoDZZR658llIDw/ge+0XK/rquqlat4paZIpZzQcR3WpolL
-	0B4O+HkLNBSBCCgQMe/aMwozsyrshk1z6XTteKempvwgk8O8nujWXcEv5lNL9Iw2
-	g7m9UkH6wS6bg2bPpm/p2MYlrtJjNhrHyFqm/B17817pHBRVVdn7Bzz71zkAbAA5
-	nWDbZeaMe2ECYTPYyajbj8mhuZn/7TDf2ZoTiEA4IeUPIJWpwkCy87Qq2DXPcny9
-	Dn6MicmTtfJxmdNgnzJo9Pp0K5FklDwM2rvBxg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1756616252; x=1756619852; bh=EWxmYn7csugiS8y3bY0p8+D1k3Lg
-	ZQJIgdJXipDGzfY=; b=k+Y7ITmhp6wWsmVi7PSGvsnQB5q9JnbNLqf5SSqm5zRp
-	OJGjn+4HY4VQvTNBrZ54Zk8sih3VuRsn/V1i/ZxkHhMad2JP2TraYKRPrcHjVJCN
-	NCPiG4ojZv9kJb4Q7c3OSTDPathm24is/isEcQ1IQfCdqPocHQQCR5N2W2kqfRiR
-	WIW+aW7WTUCGLfzIuO9QiQvdwzmo4CR0cV2dLLWEyIXfRYp09Dy+HM7THFgDgGqF
-	VagXAVVPt6R17/Um/b1lvKh3Aj/LuFa0L27NbX4Hz8nhdo0KbW54eFuovnFFxIN8
-	gg9AazPcMP2ITzgPTj4i2qL+2qBgTBQga46cKUEe6g==
-X-ME-Sender: <xms:O9azaCy4mdIlWtz4ZTFXOx649xsNKMJzswt3EKZvqWBc-b3s0dv8pQ>
-    <xme:O9azaG42ya4x4-EGlvdvWybMRbuXfQKaLgwWFb9_vVeYs9_uKYcYlVEqqYOZ1N4qP
-    8lLdd-_QJnz1weLRz0>
-X-ME-Received: <xmr:O9azaLzT37qO9rWtI2r0WKT7WJV0n2QkmarMTXuigeWByFI5N8K3QyHgbOwlnULEtnat5QPTOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeekfeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtre
-    dtjeenucfhrhhomhepffgvsggrnhhilhcuvehhohifughhuhhrhicuoehkvghrnhgvlhgu
-    vghvseguvggsrghnihhltghhohifughhuhhrhidrtghomheqnecuggftrfgrthhtvghrnh
-    epuddtfefgffffiefgtddugeefvdeuteefhfeltdeuieejvdeludetveettdetheefnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhgvrhhnvg
-    hluggvvhesuggvsggrnhhilhgthhhofiguhhhurhihrdgtohhmpdhnsggprhgtphhtthho
-    pedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhinhgrugeslhhinhhugi
-    drihgsmhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphht
-    thhopehjuggvlhhvrghrvgesshhushgvrdgtohhmpdhrtghpthhtoheplhhinhhugiesrh
-    hovggtkhdquhhsrdhnvghtpdhrtghpthhtoheplhhinhhugidqhhifmhhonhesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurg
-    htihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggv
-    sheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:O9azaCcqo7LBaUhSiCmPvYtTSKLBEO5KCZZ92LH05pAhZfQVlyQbUQ>
-    <xmx:O9azaIBnfRJc1QZXgv9bgS0VY0PeqP3ne42Kzl-xblr2kxYbZPJLjA>
-    <xmx:O9azaO5Ks7xpMaJhoQ-g8nZY1KCv8iNLBZirMi6KS75Y580IqoHjng>
-    <xmx:O9azaJf4vhezExlJjSNEeyZFt5Nvd9kjd1P2G7jWSqA1ahILQ_5YaA>
-    <xmx:PNazaO3oJCdaKZEDTqHJiA8IszZT1rRyxfqH8U-9wauUXwtGVQTcLeZi>
-Feedback-ID: i77364836:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 31 Aug 2025 00:57:27 -0400 (EDT)
-From: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-To: ninad@linux.ibm.com,
-	corbet@lwn.net
-Cc: jdelvare@suse.com,
-	linux@roeck-us.net,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Debanil Chowdhury <kerneldev@debanilchowdhury.com>
-Subject: [PATCH v4] hwmon: crps: Fix typos in crps.rst documentation
-Date: Sun, 31 Aug 2025 04:45:54 +0000
-Message-ID: <20250831045710.6009-1-kerneldev@debanilchowdhury.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gljRPolR"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-248a61a27acso24754415ad.1;
+        Sun, 31 Aug 2025 03:04:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756634678; x=1757239478; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8MSiAJFhyW6DO7wWxoxRzC8Zw4+nLElUnPgM3hXUqDE=;
+        b=gljRPolRT91AYDzhRYJggh2HCpW1ILGU1JyrvzOlcZJ9zzCTvtv1fCmTq/S4u+qi2b
+         XS2tQh1we8vb4Ux2OA6wA1VyXhs/a4roWPcBbn3ovlx+I4bRdEbF73oTNjMQZok877mm
+         EWnKoJUxQNvVgN6MphHWHDKwJ6tvlhX2smtfABzrqTLHRpG7OvhyVkcYebSs/0xH11Fs
+         h5tf87nbGgnL1PhL9RTUlSRoG0C2YJodMUazcaMKgYKiGjsr7GStHmY9YysaoKcL33ZC
+         aRBucWW4DC3NvcuBpVus/Fu/+POacjWCM+DJAITGuAEJ5KcZQWbENdsKhSsoQCKtE8rt
+         OsGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756634678; x=1757239478;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8MSiAJFhyW6DO7wWxoxRzC8Zw4+nLElUnPgM3hXUqDE=;
+        b=lwUEd3Fyjat2UCjRUZwmZWr+Nr2tCAIP4jKdpls7RLWE+8qbqqN3DJsiuDx9fDy5PZ
+         xOk4ghLsMYiyGFs4J3MqXi/mDgRfBScJ0ovR5VJlGTfn6HGiIAonggETCh5buMyo5q8W
+         h71K6UB5IgUiMdOLZivF6ocXfWQ1FKTwUcHITgaWstX3siwfot6amqyDPm8ku93b56XD
+         nYGYbEEKEjK7TCqedM9sTy816dmVrfm9t+PW/ocg+VFdaIYboMcoynl3oBxklQeg6Ew6
+         EF+K7Dp4M3TXBK8foDw9FZIKHmExqNQsySnDTC2FgvDQZlDe5MN45jGfRP7DFvggV4sz
+         kHYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPZ8zABU9a1wUExXEC43xhFVawiLKnEH9nJazFqbeFcnP47ZcNJk3huTE3mRQ2J7Iy4HJMHIti/ywPYXw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRn7nCIr3et006M0VB02pyetsPtEjK/2oWOIHyq2BSIHX36haE
+	Ad09BxxFcvET3I3OEOhdLcuejOKKjwp53EgdoHtrmCfNDj14Ku0EchYa9umXezMBaBTaXQ==
+X-Gm-Gg: ASbGncsdFFeiik/wGPhCiJLolxmGayxJM/++KZdlezGS3XF7ZrVzN45kwd/PaHOSOVp
+	Dhgeq0ghp2o5KwNpg7fN+i2BJ8XIR76gsFzTe1CkwLSJuoPnMz++Febpei/++NCsD5IjnH6LCRU
+	kZu6/OYB4LKUK9wBwbFwawNF7OgGMGuNoWkHEQt5KpYSCsgdG1P1/9N9hKQS2l0SNwQxd80gIxI
+	vDT+X+/PaadCa+lgOjz5X9y9LTqW5IkR2t9DY3vS7aSVOoVJjBVD0YByhknHouxj1qqsjoqnO/q
+	fn8ErmIty8U7POh4Z9klL3GTx1Msz+AuVLS2gNjl5r+0ctXxgsmMtPXPEi9t93+QIE53zUXfj/t
+	MdqnVQpeeyGiDT7vMmH8K1+eZXf+VVh6GkB/BnY+U0UY=
+X-Google-Smtp-Source: AGHT+IFOoTNyERuZMFffcSv/0n30wrDtZL5qG7wYKN/yq6xQgQOTOKzyMmchWLg6teNeEuvMwjnuCA==
+X-Received: by 2002:a17:902:ea0e:b0:249:274f:84a8 with SMTP id d9443c01a7336-2493efe0734mr61057395ad.25.1756634677399;
+        Sun, 31 Aug 2025 03:04:37 -0700 (PDT)
+Received: from localhost ([221.216.116.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77236d7eb7fsm5439602b3a.54.2025.08.31.03.04.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Aug 2025 03:04:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Sun, 31 Aug 2025 18:04:32 +0800
+Message-Id: <DCGJ0S0C9ZZH.1IFDOEWH6YF2K@gmail.com>
+Subject: Re: [PATCH v2] docs: scheduler: completion: Document
+ complete_on_current_cpu()
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Andrei
+ Vagin" <avagin@google.com>
+To: "Peter Zijlstra" <peterz@infradead.org>, "Jonathan Corbet"
+ <corbet@lwn.net>
+From: "Javier Carrasco" <javier.carrasco.cruz@gmail.com>
+X-Mailer: aerc 0.20.1-4-g02324e9d9cab
+References: <20250824-complete_on_current_cpu_doc-v2-1-fd13debcb020@gmail.com> <87a53h3fzn.fsf@trenco.lwn.net> <20250830190718.GS3289052@noisy.programming.kicks-ass.net>
+In-Reply-To: <20250830190718.GS3289052@noisy.programming.kicks-ass.net>
 
-Changed a misspelling in crps.rst documentation:
-"Critial" → "Critical".
+On Sun Aug 31, 2025 at 3:07 AM CST, Peter Zijlstra wrote:
+> On Fri, Aug 29, 2025 at 04:44:28PM -0600, Jonathan Corbet wrote:
+>> Javier Carrasco <javier.carrasco.cruz@gmail.com> writes:
+>>=20
+>> > Commit 6f63904c8f3e ("sched: add a few helpers to wake up tasks on the
+>> > current cpu") introduced this new function to the completion API that
+>> > has not been documented yet.
+>>=20
+>> For a change like this, it is a really good idea to copy the author of
+>> the original patch and others who were involved in it; I have added them
+>> now.
+>
+> This really is a rather specialized thing -- not sure it makes sense to
+> have in the document.
+>
 
-Found using codespell tool.
+Hello Peter, thank you for your reply.
 
-Signed-off-by: Debanil Chowdhury <kerneldev@debanilchowdhury.com>
----
-Changed in v4:
-- As per guidelines "Reported-by:" should be immediately followed
-  by "Closes:" with a URL to the report. Since this was locally
-  found, there is no URL. Also since this is just a trivial typo
-  fix, I am just dropping the "Reported-by:" tag.
-  
-Changed in v3:
-- Update subject to correctly identify crps driver documentation 
-  (suggested by Guenter Roeck)
+I agree that it is a rather specialized function, but in my opinion that
+should not be a reason to exclude it from the documentation. Where do
+you draw the line then? It is an exposed function from the API that can
+be called like any other function from the API if the user requires that.
 
-Changed in v2:
-- In previous patch "From" header did not have my name in it. Fixed
-  that.
-  
- Documentation/hwmon/crps.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
-index 87380b496..d42ea59d2 100644
---- a/Documentation/hwmon/crps.rst
-+++ b/Documentation/hwmon/crps.rst
-@@ -43,7 +43,7 @@ curr1_label		"iin"
- curr1_input		Measured input current
- curr1_max		Maximum input current
- curr1_max_alarm		Input maximum current high alarm
--curr1_crit		Critial high input current
-+curr1_crit		Critical high input current
- curr1_crit_alarm	Input critical current high alarm
- curr1_rated_max		Maximum rated input current
- 
-@@ -51,7 +51,7 @@ curr2_label		"iout1"
- curr2_input		Measured output current
- curr2_max		Maximum output current
- curr2_max_alarm		Output maximum current high alarm
--curr2_crit		Critial high output current
-+curr2_crit		Critical high output current
- curr2_crit_alarm	Output critical current high alarm
- curr2_rated_max		Maximum rated output current
- 
--- 
-2.47.2
+This one is by the way the only undocumented function from the completion
+API.
 
+Best regards,
+Javier Carrasco
