@@ -1,234 +1,289 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012003.outbound.protection.outlook.com [52.101.66.3])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BFD200C2;
-	Mon,  1 Sep 2025 20:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.3
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756758712; cv=fail; b=Zg+dtUeQuXfnKNsXi3wb5ZZSfUtxVUne5Iu2VkHNKuoNd1RpoxRi0eOlaVfAIs7tGfXsV62w48qx2BtHGeWDZ6roOd+OW2/Xrs5906yXC45eYF5/MBOPLBbAP8efopWSXPWBiwoDEMdB4ak1ylmNWfD3hvLlUUkUIJf6Qmg3FRw=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756758712; c=relaxed/simple;
-	bh=zc2maEh1ayHd+87UmfFEl0OT7aJIPrauHV7IUURME14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ZOBP9AeylyKwJvWxbz0oMpbKa7X6U7jhBnnzi1e+JaYfiyyI8lCR+55FOvt48ybqtmSjiXYJpJ3fUi7mcrrTe7R4sxuUYibiyNTPGiz+4KRu9A/2/jsoGxiiWU2YrsIWwkjrufbwd+RdBlO0gWMXwDcWJ8tHOKXDHvWmGG9qBvs=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WHx8Pr6c; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WHx8Pr6c; arc=fail smtp.client-ip=52.101.66.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577F11EE02F;
+	Mon,  1 Sep 2025 21:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756763289; cv=none; b=tNGlMFIDFbThL65Mn5znPj3nLzP6qqLUr74g4ic4IQ1M8rdCIeOD2GwfiynXs8zAHZ5uDXpuOLXZctw5nCwQLHLh91VzliGByYrS+JO7rcsXgpfQBM1mkQrQ2mU9pVmN4e2QnlIJAo+hkEVAVtenShCxWeMF9DwVhCb7fbrDTSg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756763289; c=relaxed/simple;
+	bh=zOVqnT4CiNvqIL9ntGVIBSSZLn7RBEB0Hk45iI1LVYU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=QNFi1vcHqsO9Iop5C6TSekWmesIK9JxZnPXGwZgCtYWrY5dPP+RF+WCGgQeAH8CYsyC/86/eoGNIWYqOwnWnDxO3OxCmspnz93AsQNz6GeI+90WsVhaVnAEPOJ53v1Fm1/LQCpxSdEK0tsU/kRN7noVbeNqYrWIYxd5y8z9ghek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=FxjRf7+C; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WHx8Pr6c";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WHx8Pr6c"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=wJ9yO6sgVbQSCeuSwi5RZY/fflBjufDVtR0CP0Jkf2o1fvEn6QOhSiL/cGgSdEvzZqZCT3C3oGCLGSMum0NgDZXGZ02a5I8w7sYOJjJiACcZnqAjFJ0RSHYmwnr6/SDnfwepQH6my1mRHTTYY4BWWobvg5kstrnSwNDik4xUPKn7SpimlZW2mrXo++PAbMtjT4AezDvqWx07MVKGBH6pUjv6YGckrYvKeT1RDr+D+hv1sBVWjaHhe5FcpqMgzZsuQNISue9QwVcZFb7FXGuTRMEU8Tc1rB1uSPXN2XWCDPp2tIRugeB7/EpRfiQ44fMBpw9ANgvQPArQc/re6gKxyw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aQ2x+3MS5gDTxu8o3VSwltrsVoMV6pB5dJN3oNHyH3o=;
- b=pZa0TMIfrEHOnDRvOvkuL7LYxwTG2FJORkHuD7xxENQ8YNBLnJnOkTy4cFq/9xLu31yx3l2FvzY6PHkTtYZzSBTzkvR53jvHJ+aqseufq3+6JjbKbYdWHpjjqSfJerGdQSLQMv0x5JSL4tJKJJ3eavgMQzMXYkxW875XByEDfKj86Y3rcvmW/mPjli05Mdu7aO7VW9ZQ+Y5QMxZBv7Qb8mu4Mk27h3rqurdPRlp08GCajzthAVjP0vvpC91L684miv+q1SrZUIjkUF7kUhodw6N8IGok/nQe5Hn8+hpUPFMXUINkGYUDRUpxJZtBM++AN/GUw22l3tRhmsDV370koQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aQ2x+3MS5gDTxu8o3VSwltrsVoMV6pB5dJN3oNHyH3o=;
- b=WHx8Pr6cOU+4DGs6Ctdt8tnVWABHyeKZbmDR5DnOLut34ALCD1zUB8s/MljI3E7KSOI7+XdE0+CuiAFcVcIEuKV5HZ0TmxJ1lwsLwEyyY39xcESKaUzXknV2ddFXQ+paAvTlhMwx9DfAo++m/S4IZDA3+1JNa35qbcIf9j2LWy0=
-Received: from AM8P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::29)
- by AS8PR08MB6264.eurprd08.prod.outlook.com (2603:10a6:20b:29a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Mon, 1 Sep
- 2025 20:31:42 +0000
-Received: from AM2PEPF0001C711.eurprd05.prod.outlook.com
- (2603:10a6:20b:219:cafe::ca) by AM8P190CA0024.outlook.office365.com
- (2603:10a6:20b:219::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.27 via Frontend Transport; Mon,
- 1 Sep 2025 20:31:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM2PEPF0001C711.mail.protection.outlook.com (10.167.16.181) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.14
- via Frontend Transport; Mon, 1 Sep 2025 20:31:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OsbY1qLniVFJfT19teZWxfoIvTi3PCiF1TOjppICSy8Z8FxcbRbNhj99IXf2BkrdKLyvHKX2rTkz7AU98zI8gXd8WNzwUyk4A2smH14cqJcmEld7VzrVIEvJfQq1TqAOIXGaMimKVwVM4uzaBnt/Q9tmE1VuIzIgCEVfSaIJ324OK+dxKUrQPBCnETfwPUAmDlIbU5Vy/aQ69BdvfS8n/PiQ13f3WvejzqWGv1b6zqUGqdrekrCyZW/kXm+2mIoLdd5fa467haMrWaPawGj4Rqs209+urFs9utXNaI81nWbaSI+3AvIcY6u+wU3YN1DAYRV+aSKTMc2f4e32YAE/mQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aQ2x+3MS5gDTxu8o3VSwltrsVoMV6pB5dJN3oNHyH3o=;
- b=gimZ21igAOFvrEM1o0N8zOFTC6NZh1XEehVbPMHjZGYuVGhjYXw/2SamXVKY2q/OAnK6odC6W9X9hUG7O/DYRj8VZmS0BvpstwSzdiVJMolfWco7S6l7IWd9VvdFCbQCoQh1cH/5nkdWamnToAaCXYF854yP11ro37lEtSO/RhcTcF18/0epGf5LbVFmS7GpjxI1IyUNUCIatY6G3v3EZjXPDjgSCaCO/BF83HNh4knZYRep2pPtV66f/OMKqrA23vfsOZJrTTKVLSy5LkFxY7IjCc/MFuc2jghzXcIW0uF3gx009qBNBC1oSga6UdM+oH3k2F7mZpLXlToYdSg+Hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aQ2x+3MS5gDTxu8o3VSwltrsVoMV6pB5dJN3oNHyH3o=;
- b=WHx8Pr6cOU+4DGs6Ctdt8tnVWABHyeKZbmDR5DnOLut34ALCD1zUB8s/MljI3E7KSOI7+XdE0+CuiAFcVcIEuKV5HZ0TmxJ1lwsLwEyyY39xcESKaUzXknV2ddFXQ+paAvTlhMwx9DfAo++m/S4IZDA3+1JNa35qbcIf9j2LWy0=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by PA4PR08MB6032.eurprd08.prod.outlook.com
- (2603:10a6:102:e4::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Mon, 1 Sep
- 2025 20:31:08 +0000
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739%7]) with mapi id 15.20.9073.021; Mon, 1 Sep 2025
- 20:31:07 +0000
-Date: Mon, 1 Sep 2025 21:31:04 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-	dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
-	catalin.marinas@arm.com, will@kernel.org,
-	scott@os.amperecomputing.com, jhubbard@nvidia.com,
-	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
-	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
-	james.morse@arm.com, ardb@kernel.org,
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v6 1/2] kasan/hw-tags: introduce kasan.write_only option
-Message-ID: <aLYCiE6lGlIkIJX+@e129823.arm.com>
-References: <20250901104623.402172-1-yeoreum.yun@arm.com>
- <20250901104623.402172-2-yeoreum.yun@arm.com>
- <20250901122316.6b7d8d7fdcf03bdb2aa4960a@linux-foundation.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901122316.6b7d8d7fdcf03bdb2aa4960a@linux-foundation.org>
-X-ClientProxiedBy: LO4P123CA0372.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18e::17) To GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="FxjRf7+C"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250901214803euoutp02d79d0cf4cda6546a5817575ed420314a~hRuYkNP0O2070420704euoutp02b;
+	Mon,  1 Sep 2025 21:48:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250901214803euoutp02d79d0cf4cda6546a5817575ed420314a~hRuYkNP0O2070420704euoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1756763283;
+	bh=nDcHitW6y2xbmXlK2jIcbndjdtco2y22djXFkarI+Kk=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=FxjRf7+Ccpl7snsYCn9LacCiGJXvASl2Bcyshcc3MWcU7wbky050oQOcx4xKJlMqc
+	 EH1xZePjtKif6niNm/ZZNmDVZoJ/hrllrH2T7muDX2gjk12tpAmaQkZRCflGuSDB6/
+	 tvmSX006Ss83xwBwmshU6YU5Q3rwG2epCzq8Yjqg=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250901214802eucas1p2e3b4b360d054bc640a8654e364047c28~hRuXfQpr52428424284eucas1p2C;
+	Mon,  1 Sep 2025 21:48:02 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250901214759eusmtip26af756ba90f133971e3a66f9c5275b48~hRuUiYUac1463914639eusmtip2j;
+	Mon,  1 Sep 2025 21:47:59 +0000 (GMT)
+Message-ID: <26bd901a-0812-492d-9736-4a7bb2e6d6b4@samsung.com>
+Date: Mon, 1 Sep 2025 23:47:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	GV1PR08MB10521:EE_|PA4PR08MB6032:EE_|AM2PEPF0001C711:EE_|AS8PR08MB6264:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c75e5ae-5eb1-4fd3-a9b7-08dde9968f3d
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
-X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?qVWHHSMqV7xnFfvFuePmwQobxJ0fDBBNs2LTo1iXKox2tGScR5n1f7p47/qX?=
- =?us-ascii?Q?IbElvk8EzBVqOEJklZq2WDnjG5IDnmziNebY0ofvXasQVzDHdJJSqqlVBuYg?=
- =?us-ascii?Q?XyLFsvJSZgKvK7FK869T2fbxQBQ99mvtxyjI5r2Neihs4DT3veNrxc+upz1c?=
- =?us-ascii?Q?C9O0UJzzWBjeXKDXp7kfHWQVnRrjDe1IN89KdI1xtzOvsuUQGUztKnW+WqKE?=
- =?us-ascii?Q?unfKOno3St5q+FngmmCOnLDi6tyjky1cooOxNZPfTvwXjSbo7SwM7xfFt3En?=
- =?us-ascii?Q?DCwOObbUTdSu57dcMXfvNkRr7WzeGe522aqtJ2fAPpzjBso8aQlLTmCruqHp?=
- =?us-ascii?Q?gPshAebmp92zulndtAtOie1Xm2ZJqE9J1f8SnVCXRLGlL4Vh0w5352500fnq?=
- =?us-ascii?Q?wsFzRTfHIY4PSDT/v55Ffbr5T5XvXlRpP0YfzNiejbZPdeuYTgxpznarnAr3?=
- =?us-ascii?Q?eXYIqeCtjyW5FKsyMKpujPXrMOPZQhL7U8kSzN02kDAkupSgYJVPo/O11Nap?=
- =?us-ascii?Q?2n7aBX/yUtuV0h1YZy/oIldryj8bEeUA9CRXwUEp30AUDz7umR1PS8Ln6rwA?=
- =?us-ascii?Q?low2+tJ5O4ArwwPh81y5G1YWPKVzjCUEwIpQpmGZUN8MYEzQLaj4NIpsTxFz?=
- =?us-ascii?Q?KKWDQhk37xlqaJGciJF+2TeVVREgMw9M2QitZ+t8dpWvxMlXmYXVgm1qaJbq?=
- =?us-ascii?Q?48I1HlVsdYb5h2koYww51rx9WvsaOdHOWvW6NdEteSDnOqsYqtsq5Dg+wXcR?=
- =?us-ascii?Q?VFNY0udw44CeMWEOrxL4C2VYpgu06sC0tM5Edmf4z4bcLDCMmb2JMsTProlF?=
- =?us-ascii?Q?d1nHw6vKJEH4b3/DYt/7q7ILDx8XpEeE26EL9CanM2liSJb/UCjOoGbqoZP2?=
- =?us-ascii?Q?fHg9WEIv8gCJZzkfsoKc3frkvisvlGMra/cWF1BKU2NNS84+m9GTiexwix0R?=
- =?us-ascii?Q?0XqePG6AGuw7pAcEy3jaBgpOVFNiNyvdss2b3M1HPM1H88ulLZLpGXH6swjG?=
- =?us-ascii?Q?iNmVQvGmz9avciqsvXAlyqxXTnPFDJb9r/W2WWCmnJE6+UAkY9s/OTa0rl3N?=
- =?us-ascii?Q?OaRyA3OqyZ1VEcuI703V7TSAFKY2aEPi10OlsAfIZoDx9oecVCanfsmtneA+?=
- =?us-ascii?Q?Ncf0PkzCCd4jiniGsoacxkrrF/us0RRVoupBwL27ysltH0+MGq5m5Q7F1lwS?=
- =?us-ascii?Q?JLuczMlAK8CAQm77kvPC2R74Foyv+gIe6zDW6+NTZm5wmuZBgmaJBxPa0aLW?=
- =?us-ascii?Q?gv6CSotYMR+pyDAoFrN3jkPBbXlHE8OvGviL5Y5zVBMN848rDdWqoubjk9uG?=
- =?us-ascii?Q?NM7o6Xhr8oLlfBgGvogK5+gCOMJ9PcPvJ8u23ZyCd8Agm1Rjg2bNRdM4lUbb?=
- =?us-ascii?Q?Od6ddzqfsOJylYf2BGQbeu9ZwLmQeM+EVk0VY13BHgSRiiilzqhEvUmJGpwA?=
- =?us-ascii?Q?QxHMJ3eWQ7w=3D?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6032
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM2PEPF0001C711.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	9acceecf-0116-4269-693c-08dde9967aec
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|14060799003|376014|7416014|35042699022|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?uRoGsnXionhzUX2Bo+Mv/Hcd0Wc8LPIi+GneEN+KvDzQ3UIYUkGMnAcfwCru?=
- =?us-ascii?Q?VU7qVYUYN1zxtSsnxvRELH52YBo3UEWqkFgHvddkx6YUQ0xAz91YoD0DfCKA?=
- =?us-ascii?Q?+57UMd7EgB+vB52r9LYcoK5bjMzEO1+Zffx7duaJuyiZghLG4mcjqNPUPRCU?=
- =?us-ascii?Q?au0KX03VY679cLYKu5Huu5Cys/rWlYrZxnPARTfrQz5s4faIneaX3wta8yEk?=
- =?us-ascii?Q?w0h0PXHRqe2vNS2bAq75rs3wIVCq45kcpDjI2vytnOGzhpt3/MT3zJECcaNb?=
- =?us-ascii?Q?LLFcucJuhIRvbViUlWgn3XoUa5HZUTrDWLoV0ng7j6XC1dYjDu6cqupeCpjY?=
- =?us-ascii?Q?8i8TmwQXmUd3Aejr0cs7YDkMouQFZBLlaUAV2ekDWjcEYNFq7ms11Cpv4gKc?=
- =?us-ascii?Q?WY6/kkI2bqh+n7E3LaBEjDp8Y7kaY9WWHa+gqyt7icu9plS6ZBwvfAhqQHPh?=
- =?us-ascii?Q?2VHLTjh4Zr/tN7VRMcPDnU4n5kybivQnkKaIH9ARfZPNCIJeK3SyQUnDpnL4?=
- =?us-ascii?Q?dEr+kjxLXgjjsMtLITAZh2O2A8RCQs1ySYwYABB1Gn7fqq2EUFAOHixd8mQx?=
- =?us-ascii?Q?MQO8hq0EorvV5ZvydJ/3ozbPvKVvQ9m+wH/3L9oMuopPjmN37x/GLv83J4cO?=
- =?us-ascii?Q?RUIvLbBpzYF+kE+/xc2QnnjEJVXxECJIWUya/2qm6Ln3BIcevJe/Clf9CBcr?=
- =?us-ascii?Q?fx0tq53sdK/YkP3siEm7wJ8h9D/iIJVsz/c/OKZCwJDc7UBtKRmExbE2TtOW?=
- =?us-ascii?Q?+PJbe8qvLiv5EVXDMz/LKJewTz1xuwpoUHgQpPZ8ttU1CcNazjeZ7iyN0TBa?=
- =?us-ascii?Q?vCi5tvan5ct/0cPrz8JMcJ0KUOi6mbH+RQfPTopYDls28VsW3/MWYU5xj3su?=
- =?us-ascii?Q?iAY+UNxpeVQ2LBaDFPu4RAZ8P9VgFGG2hihoBfwrmhS2vNyg+3M+sBSKHNGZ?=
- =?us-ascii?Q?PPwOrBwcN1jIajHU9Mcg8EzSUp5OxiIxBhv+UpY6lcNF+rwSbg2ouaXQS3QP?=
- =?us-ascii?Q?3FwTnpfo3EFwp+5XY5LdHCCCqFkJtJsfp4bt7zOoULM+UxPlT8tLGjI4HTma?=
- =?us-ascii?Q?K5Wg1jY9EkepnB3PnYgYtaDKBoFD0rd7Lo5WPwlaQYrXhObF0oERCbUCjs5T?=
- =?us-ascii?Q?8SBXMe9171PQ6l7fF449F1fWSH7V32q0c+QgIsKAkxbxOCbl/4J68SuvX1zx?=
- =?us-ascii?Q?tseO5ualJq8GirQ6gIP5a5juhC0Zk11LUTq0MhF33jvGCkw29bZkQsreVVK1?=
- =?us-ascii?Q?j7EwVPz4xz6qrQGEs8WF1ysyy/wwn5JzOEhAcnsKpXxwck7SUaQ4kDiWs4W5?=
- =?us-ascii?Q?E7TCPkO/l61okGNvP6Yz8i/ekg1OzhwDEoyFMkI1KY3dfgcTs5Z7s32CdfTd?=
- =?us-ascii?Q?m5Q5f7WGiju79JHxFAKnVjpU3PbogUKSUw2USluqDXeve5itcgT5Qz5Hk2rT?=
- =?us-ascii?Q?NyhGfQvl5+QxS9wbazUrhjvUV5qIXVQqPk5cgNEU9VFr/t9jXrBORqfMuMrx?=
- =?us-ascii?Q?DXwN4M5xXcN22cZINlyRrNiqcSydLZHv27Yt?=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(376014)(7416014)(35042699022)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 20:31:41.3157
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c75e5ae-5eb1-4fd3-a9b7-08dde9968f3d
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM2PEPF0001C711.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6264
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
+ API
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Abdiel Janulgue
+	<abdiel.janulgue@gmail.com>, Alexander Potapenko <glider@google.com>, Alex
+	Gaynor <alex.gaynor@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>, Jens Axboe
+	<axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet
+	<corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
+	<maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>, Michael
+	Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin" <mst@redhat.com>, Miguel
+	Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>, Stefano
+	Stabellini <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250828115729.GA10073@unreal>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250901214802eucas1p2e3b4b360d054bc640a8654e364047c28
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250828115738eucas1p24f3c17326b318c95a5569a2c9651ff92
+X-EPHeader: CA
+X-CMS-RootMailID: 20250828115738eucas1p24f3c17326b318c95a5569a2c9651ff92
+References: <cover.1755624249.git.leon@kernel.org>
+	<CGME20250828115738eucas1p24f3c17326b318c95a5569a2c9651ff92@eucas1p2.samsung.com>
+	<20250828115729.GA10073@unreal>
 
-> On Mon,  1 Sep 2025 11:46:22 +0100 Yeoreum Yun <yeoreum.yun@arm.com> wrote:
+
+On 28.08.2025 13:57, Leon Romanovsky wrote:
+> On Tue, Aug 19, 2025 at 08:36:44PM +0300, Leon Romanovsky wrote:
+>> Changelog:
+>> v4:
+>>   * Fixed kbuild error with mismatch in kmsan function declaration due to
+>>     rebase error.
+>> v3: https://lore.kernel.org/all/cover.1755193625.git.leon@kernel.org
+>>   * Fixed typo in "cacheable" word
+>>   * Simplified kmsan patch a lot to be simple argument refactoring
+>> v2: https://lore.kernel.org/all/cover.1755153054.git.leon@kernel.org
+>>   * Used commit messages and cover letter from Jason
+>>   * Moved setting IOMMU_MMIO flag to dma_info_to_prot function
+>>   * Micro-optimized the code
+>>   * Rebased code on v6.17-rc1
+>> v1: https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org
+>>   * Added new DMA_ATTR_MMIO attribute to indicate
+>>     PCI_P2PDMA_MAP_THRU_HOST_BRIDGE path.
+>>   * Rewrote dma_map_* functions to use thus new attribute
+>> v0: https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
+>> ------------------------------------------------------------------------
+>>
+>> This series refactors the DMA mapping to use physical addresses
+>> as the primary interface instead of page+offset parameters. This
+>> change aligns the DMA API with the underlying hardware reality where
+>> DMA operations work with physical addresses, not page structures.
+>>
+>> The series maintains export symbol backward compatibility by keeping
+>> the old page-based API as wrapper functions around the new physical
+>> address-based implementations.
+>>
+>> This series refactors the DMA mapping API to provide a phys_addr_t
+>> based, and struct-page free, external API that can handle all the
+>> mapping cases we want in modern systems:
+>>
+>>   - struct page based cachable DRAM
+>>   - struct page MEMORY_DEVICE_PCI_P2PDMA PCI peer to peer non-cachable
+>>     MMIO
+>>   - struct page-less PCI peer to peer non-cachable MMIO
+>>   - struct page-less "resource" MMIO
+>>
+>> Overall this gets much closer to Matthew's long term wish for
+>> struct-pageless IO to cachable DRAM. The remaining primary work would
+>> be in the mm side to allow kmap_local_pfn()/phys_to_virt() to work on
+>> phys_addr_t without a struct page.
+>>
+>> The general design is to remove struct page usage entirely from the
+>> DMA API inner layers. For flows that need to have a KVA for the
+>> physical address they can use kmap_local_pfn() or phys_to_virt(). This
+>> isolates the struct page requirements to MM code only. Long term all
+>> removals of struct page usage are supporting Matthew's memdesc
+>> project which seeks to substantially transform how struct page works.
+>>
+>> Instead make the DMA API internals work on phys_addr_t. Internally
+>> there are still dedicated 'page' and 'resource' flows, except they are
+>> now distinguished by a new DMA_ATTR_MMIO instead of by callchain. Both
+>> flows use the same phys_addr_t.
+>>
+>> When DMA_ATTR_MMIO is specified things work similar to the existing
+>> 'resource' flow. kmap_local_pfn(), phys_to_virt(), phys_to_page(),
+>> pfn_valid(), etc are never called on the phys_addr_t. This requires
+>> rejecting any configuration that would need swiotlb. CPU cache
+>> flushing is not required, and avoided, as ATTR_MMIO also indicates the
+>> address have no cachable mappings. This effectively removes any
+>> DMA API side requirement to have struct page when DMA_ATTR_MMIO is
+>> used.
+>>
+>> In the !DMA_ATTR_MMIO mode things work similarly to the 'page' flow,
+>> except on the common path of no cache flush, no swiotlb it never
+>> touches a struct page. When cache flushing or swiotlb copying
+>> kmap_local_pfn()/phys_to_virt() are used to get a KVA for CPU
+>> usage. This was already the case on the unmap side, now the map side
+>> is symmetric.
+>>
+>> Callers are adjusted to set DMA_ATTR_MMIO. Existing 'resource' users
+>> must set it. The existing struct page based MEMORY_DEVICE_PCI_P2PDMA
+>> path must also set it. This corrects some existing bugs where iommu
+>> mappings for P2P MMIO were improperly marked IOMMU_CACHE.
+>>
+>> Since ATTR_MMIO is made to work with all the existing DMA map entry
+>> points, particularly dma_iova_link(), this finally allows a way to use
+>> the new DMA API to map PCI P2P MMIO without creating struct page. The
+>> VFIO DMABUF series demonstrates how this works. This is intended to
+>> replace the incorrect driver use of dma_map_resource() on PCI BAR
+>> addresses.
+>>
+>> This series does the core code and modern flows. A followup series
+>> will give the same treatment to the legacy dma_ops implementation.
+>>
+>> Thanks
+>>
+>> Leon Romanovsky (16):
+>>    dma-mapping: introduce new DMA attribute to indicate MMIO memory
+>>    iommu/dma: implement DMA_ATTR_MMIO for dma_iova_link().
+>>    dma-debug: refactor to use physical addresses for page mapping
+>>    dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
+>>    iommu/dma: rename iommu_dma_*map_page to iommu_dma_*map_phys
+>>    iommu/dma: extend iommu_dma_*map_phys API to handle MMIO memory
+>>    dma-mapping: convert dma_direct_*map_page to be phys_addr_t based
+>>    kmsan: convert kmsan_handle_dma to use physical addresses
+>>    dma-mapping: handle MMIO flow in dma_map|unmap_page
+>>    xen: swiotlb: Open code map_resource callback
+>>    dma-mapping: export new dma_*map_phys() interface
+>>    mm/hmm: migrate to physical address-based DMA mapping API
+>>    mm/hmm: properly take MMIO path
+>>    block-dma: migrate to dma_map_phys instead of map_page
+>>    block-dma: properly take MMIO path
+>>    nvme-pci: unmap MMIO pages with appropriate interface
+>>
+>>   Documentation/core-api/dma-api.rst        |   4 +-
+>>   Documentation/core-api/dma-attributes.rst |  18 ++++
+>>   arch/powerpc/kernel/dma-iommu.c           |   4 +-
+>>   block/blk-mq-dma.c                        |  15 ++-
+>>   drivers/iommu/dma-iommu.c                 |  61 +++++------
+>>   drivers/nvme/host/pci.c                   |  18 +++-
+>>   drivers/virtio/virtio_ring.c              |   4 +-
+>>   drivers/xen/swiotlb-xen.c                 |  21 +++-
+>>   include/linux/blk-mq-dma.h                |   6 +-
+>>   include/linux/blk_types.h                 |   2 +
+>>   include/linux/dma-direct.h                |   2 -
+>>   include/linux/dma-map-ops.h               |   8 +-
+>>   include/linux/dma-mapping.h               |  33 ++++++
+>>   include/linux/iommu-dma.h                 |  11 +-
+>>   include/linux/kmsan.h                     |   9 +-
+>>   include/trace/events/dma.h                |   9 +-
+>>   kernel/dma/debug.c                        |  71 ++++---------
+>>   kernel/dma/debug.h                        |  37 ++-----
+>>   kernel/dma/direct.c                       |  22 +---
+>>   kernel/dma/direct.h                       |  52 ++++++----
+>>   kernel/dma/mapping.c                      | 117 +++++++++++++---------
+>>   kernel/dma/ops_helpers.c                  |   6 +-
+>>   mm/hmm.c                                  |  19 ++--
+>>   mm/kmsan/hooks.c                          |   5 +-
+>>   rust/kernel/dma.rs                        |   3 +
+>>   tools/virtio/linux/kmsan.h                |   2 +-
+>>   26 files changed, 305 insertions(+), 254 deletions(-)
+> Marek,
 >
-> > Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
-> > raise of tag check fault on store operation only.
-> > Introcude KASAN write only mode based on this feature.
-> >
-> > KASAN write only mode restricts KASAN checks operation for write only and
-> > omits the checks for fetch/read operations when accessing memory.
-> > So it might be used not only debugging enviroment but also normal
-> > enviroment to check memory safty.
-> >
-> > This features can be controlled with "kasan.write_only" arguments.
-> > When "kasan.write_only=on", KASAN checks write operation only otherwise
-> > KASAN checks all operations.
-> >
-> > This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
-> > ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
-> > with other function together.
-> >
-> > ...
-> >
-> >
-> > -	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
-> > +	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
-> >  		kasan_mode_info(),
->
-> This lost the closing ")" in the printk control string.  I fixed that
-> up while resolving rejects.
+> So what are the next steps here? This series is pre-requirement for the
+> VFIO MMIO patches.
 
-Oops.. Thanks and Sorry for my mistake :( ...
+I waited a bit with a hope to get a comment from Robin. It looks that 
+there is no other alternative for the phys addr in the struct page 
+removal process.
 
---
-Sincerely,
-Yeoreum Yun
+I would like to give those patches a try in linux-next, but in meantime 
+I tested it on my test farm and found a regression in dma_map_resource() 
+handling. Namely the dma_map_resource() is no longer possible with size 
+not aligned to kmalloc()'ed buffer, as dma_direct_map_phys() calls 
+dma_kmalloc_needs_bounce(), which in turn calls 
+dma_kmalloc_size_aligned(). It looks that the check for !(attrs & 
+DMA_ATTR_MMIO) should be moved one level up in dma_direct_map_phys(). 
+Here is the log:
+
+------------[ cut here ]------------
+dma-pl330 fe550000.dma-controller: DMA addr 0x00000000fe410024+4 
+overflow (mask ffffffff, bus limit 0).
+WARNING: kernel/dma/direct.h:116 at dma_map_phys+0x3a4/0x3ec, CPU#1: 
+speaker-test/405
+Modules linked in: ...
+CPU: 1 UID: 0 PID: 405 Comm: speaker-test Not tainted 
+6.17.0-rc4-next-20250901+ #10958 PREEMPT
+Hardware name: Hardkernel ODROID-M1 (DT)
+pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : dma_map_phys+0x3a4/0x3ec
+lr : dma_map_phys+0x3a4/0x3ec
+...
+Call trace:
+  dma_map_phys+0x3a4/0x3ec (P)
+  dma_map_resource+0x14/0x20
+  pl330_prep_slave_fifo+0x78/0xd0
+  pl330_prep_dma_cyclic+0x70/0x2b0
+  snd_dmaengine_pcm_trigger+0xec/0x8bc [snd_pcm_dmaengine]
+  dmaengine_pcm_trigger+0x18/0x24 [snd_soc_core]
+  snd_soc_pcm_component_trigger+0x164/0x208 [snd_soc_core]
+  soc_pcm_trigger+0xe4/0x1ec [snd_soc_core]
+  snd_pcm_do_start+0x44/0x70 [snd_pcm]
+  snd_pcm_action_single+0x48/0xa4 [snd_pcm]
+  snd_pcm_action+0x7c/0x98 [snd_pcm]
+  snd_pcm_action_lock_irq+0x48/0xb4 [snd_pcm]
+  snd_pcm_common_ioctl+0xf00/0x1f1c [snd_pcm]
+  snd_pcm_ioctl+0x30/0x48 [snd_pcm]
+  __arm64_sys_ioctl+0xac/0x104
+  invoke_syscall+0x48/0x110
+  el0_svc_common.constprop.0+0x40/0xe8
+  do_el0_svc+0x20/0x2c
+  el0_svc+0x4c/0x160
+  el0t_64_sync_handler+0xa0/0xe4
+  el0t_64_sync+0x198/0x19c
+irq event stamp: 6596
+hardirqs last  enabled at (6595): [<ffff800081344624>] 
+_raw_spin_unlock_irqrestore+0x74/0x78
+hardirqs last disabled at (6596): [<ffff8000813439b0>] 
+_raw_spin_lock_irq+0x78/0x7c
+softirqs last  enabled at (6076): [<ffff8000800c2294>] 
+handle_softirqs+0x4c4/0x4dc
+softirqs last disabled at (6071): [<ffff800080010690>] 
+__do_softirq+0x14/0x20
+---[ end trace 0000000000000000 ]---
+rockchip-i2s-tdm fe410000.i2s: ASoC error (-12): at 
+soc_component_trigger() on fe410000.i2s
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
