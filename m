@@ -1,67 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E78231827;
-	Mon,  1 Sep 2025 16:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46E12DF13C;
+	Mon,  1 Sep 2025 16:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756745644; cv=none; b=gfGwhoJmMg7pKq53RKhNpsDyUkNJ9S5RBlUZOIKTRobSktB32LTtnrjKc0Q0qaofvFqtgcv3eNvlIeWAm8uPhfYI+unKxnfe3u2D86A5hM1qWN9xX6coU46EygZYf8lAy9n/wkgygdu+74ql1UP18bNOIUhJpZI7Km/S9PcwW+A=
+	t=1756745669; cv=none; b=Mc7Lva5iJbsT0+PgDhtz2dKvj0pLroU4tvC14Oh7CrLvgqVlHn/HDldLiA5PmnN+efU/L3bdnag2+Y4vkeQDCZ3QzSPRyJ44JKeWoUxvjzgvwGTaOmBVekrKVCSw2swBawdzn4jOyZDGJd0k/N9JcWXWcnSk0oODrDObRs01yVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756745644; c=relaxed/simple;
-	bh=Q3LrO/82qmzLGAa+2UmFr9rs46cyemKu9OZyrzJ77d4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QfO8Tm7oKzEN4Q9pUScHzi75eJcAW0Tin3XbxCYgT8kpQFnhcgU4mxzeELEG+zM0sSTdWRn25RMRlvr6Z0bsgSfo9RhcJVjoL+1op8rC1kQVW+gj8Jofh4xxbAUosNRLZr9/1b4BotNUYqlPs2ycFoHsgeX+3z9EJ/wGKzBZlH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6DB8C4CEF0;
-	Mon,  1 Sep 2025 16:53:57 +0000 (UTC)
-Date: Mon, 1 Sep 2025 17:53:55 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-	dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
-	will@kernel.org, akpm@linux-foundation.org,
-	scott@os.amperecomputing.com, jhubbard@nvidia.com,
-	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
-	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
-	james.morse@arm.com, ardb@kernel.org,
-	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
-	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v6 1/2] kasan/hw-tags: introduce kasan.write_only option
-Message-ID: <aLXPownoCikoHvZP@arm.com>
-References: <20250901104623.402172-1-yeoreum.yun@arm.com>
- <20250901104623.402172-2-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1756745669; c=relaxed/simple;
+	bh=or+QEmvqQthxP5KlB7QuHcOFpktvyMnamOGevaOE/Mc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I28hWJmkFk5iepk6g5/T34RcrIxeSuJ2cIDLkT8fMfwlIyWASu75Qdffl068VB6JCX69SAVtGNFFgJ4e1vsE5g+9tj/y3PrnT6sc+kaXieSQXyVWo48oKyBOVJOuvp7KOAtSLYqNq5CZ35xwqiJb71uXY42O6SSbkKpM+IYMkwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C6foWfSR; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C6foWfSR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ilow6EIc5y22pIG9yaRN/E/TA3c+bEpyyK/DUWu+DLk=; b=C6foWfSRR0vcQWldgezvYK13dt
+	mIkKkVVPIW2K423ZF02lazMoUpTIKUbhAph/0SGAsuwCZHzDtQIKL6Jr3h0y0FMxncabtZmjc0WkK
+	W1c9G1sy8h8rz3blQcodRvvPwDPG1QRvi/UQRHvnE69FFVEMmf8dWFAEgxMxAyWOaqVVcKgfKpX5t
+	bhMuGhSiv+1oaZYp2GkqfCWw0FXwrEXYZsTRo7aiSS4X0aG2aFVmivER0hCWnLbFYKcQIOe5pGs84
+	bKHgTOPd9t4GTgKKs093Dj+PDUoigByA3vEMVQ9hJCwj5P0LL+PvadP1WeQ47no6+wQojkcDPgjEl
+	jXS0z6eA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ut7nW-0000000DMYs-1Hqd;
+	Mon, 01 Sep 2025 16:54:26 +0000
+Message-ID: <4c75e5b0-48fe-4778-8ec5-d8d43009ddd4@infradead.org>
+Date: Mon, 1 Sep 2025 09:54:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901104623.402172-2-yeoreum.yun@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
+ migration support
+To: Kees Cook <kees@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250830020109.it.598-kees@kernel.org>
+ <a123ab8b-a335-48a1-9ac3-e3b348d78cd1@infradead.org>
+ <202509010944.CAAFB2ED22@keescook>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202509010944.CAAFB2ED22@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 01, 2025 at 11:46:22AM +0100, Yeoreum Yun wrote:
-> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
-> raise of tag check fault on store operation only.
-> Introcude KASAN write only mode based on this feature.
-> 
-> KASAN write only mode restricts KASAN checks operation for write only and
-> omits the checks for fetch/read operations when accessing memory.
-> So it might be used not only debugging enviroment but also normal
-> enviroment to check memory safty.
-> 
-> This features can be controlled with "kasan.write_only" arguments.
-> When "kasan.write_only=on", KASAN checks write operation only otherwise
-> KASAN checks all operations.
-> 
-> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
-> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
-> with other function together.
-> 
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+
+On 9/1/25 9:45 AM, Kees Cook wrote:
+> On Mon, Sep 01, 2025 at 09:39:46AM -0700, Randy Dunlap wrote:
+>> Are you (implicitly?) saying that all previous attempts at transitional
+>> kconfig symbols have failed?  If so, I just wasn't aware of that.
+> 
+> I haven't found any way to do a "proper" CONFIG transition. I looked
+> through past transitions and they all left stuff visible. Is there a way
+> to actually do this with existing kconfig?
+> 
+
+I don't know. I haven't looked as hard at it as you have.
+I just didn't realize that there had been significant failures
+that required kconfig code changes.
+
+I'm just trying to understand. Carry on.
+
+-- 
+~Randy
+
