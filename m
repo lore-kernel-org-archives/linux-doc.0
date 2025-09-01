@@ -1,156 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFE32A812;
-	Mon,  1 Sep 2025 18:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0046810FD;
+	Mon,  1 Sep 2025 18:31:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756751204; cv=none; b=aFiO+6Cz/Fec8E8smyRtUVeMPN5oAGx6WOOfUa71UWveHAcWxm58eHDX1MigXp8iDiSkikfdm1vFItOf6MQkntBnUt9ELeR0aoIlv2gAh7GtmfDPHiJEmDCrK4kMCVCJN3eBIiJg0kyonrQOXXYoMFuGlEyDkGJ1gxdZlGYzzAI=
+	t=1756751488; cv=none; b=mEwD4y4fpFc8JnRDqEk+piUevrU/EXYi5X0yNMx18WBx8qDodtm05huiq/bvwzQSvgquz070XUyhyZmveTQoCjyqhz18BXbXpGAW0KoSIsEQI1hboLp0dYiEPxAfrNaLseZrdu0HCVjX7uwNmmA4OutrGcQeBaCy3Iksj7V4ox4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756751204; c=relaxed/simple;
-	bh=9Ptot1U3GDfxEFDfnmS8j/dGCZE5HglyfHPfz83Uomk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kvOAOY5aJNs1LhbWARjjk5q5EJyJp34ZJFcwFeeazp7pfRg6SZxzHBOAOxi/qSj5doVzE6rJe+mOnTIJWF5yKki2NC6vl8WhEx4B1cWfMHCg0RMIrGXvlv/4I/0xF6BxFQ0gKXQoFDGxxphI639D/OqkGzyK1/9Y4nRbQLfp5+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQn4N16D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756751488; c=relaxed/simple;
+	bh=pXtfi1ZkzOUO0EvJfw/NLRrBKdRrBqz8G01t4pFGeWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KT2zSPXatWKBEdBdg4b3l4flklTRzSxuFnozSZLkQ7RL6sx7c+UzLXqppguImycKWXZCcnOe2UXBFbNufGSP5t7N2gauEc+x3HivOWV1xWwy4mJeBFb1iAt0oVLaahEvZNPBPyAZZP0X6A53PRaMqe3JrmmqsXWHG2ilJu9r63U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DlhxISV+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQn4N16D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4226CC4CEF1;
-	Mon,  1 Sep 2025 18:26:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DlhxISV+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4EB4C4CEF0;
+	Mon,  1 Sep 2025 18:31:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756751204;
-	bh=9Ptot1U3GDfxEFDfnmS8j/dGCZE5HglyfHPfz83Uomk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TQn4N16D2vAQ5MlaTStCSwSJM+xYFJFvOb537+su4axquiarGMt6m0wBpLlRPGSYH
-	 rQa47UVUommOZeSTFGnk8fivF62e7gck/oUPkLBMQ2K4VyVhnoQqenAnDN8xL2YOOH
-	 e/kkH3oRoA+pWH6R2IeRs+3FKfQBY2bSqQUFGR+T8OBw8OZS4pANi8tZ68FGSPX3mP
-	 78gox6sl6bbixJ17x+zl/oayYZpHAs1K4kU7WQio2o8uCYK3yJkpnTLowrSnFOWQFM
-	 vISjTbFggQcmwfhzgQwF1QadxiepTTQRGXMkMGMGsKGUzKNPxsNNl9ImGYSARhi1p8
-	 5Uv2DC2D3rTnA==
-Date: Mon, 1 Sep 2025 20:26:35 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
- <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future
- directions
-Message-ID: <20250901202635.426d099a@foz.lan>
-In-Reply-To: <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
-References: <87plcndkzs.fsf@trenco.lwn.net>
-	<20250828230104.GB26612@pendragon.ideasonboard.com>
-	<87wm6l0w2y.fsf@trenco.lwn.net>
-	<930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
-	<20250830222351.GA1705@pendragon.ideasonboard.com>
-	<87h5xo1k6y.fsf@trenco.lwn.net>
-	<20250831160339.2c45506c@foz.lan>
-	<b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1756751487;
+	bh=pXtfi1ZkzOUO0EvJfw/NLRrBKdRrBqz8G01t4pFGeWs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DlhxISV+C2bFL3Ur+Gc1AolquH0MXqaxT0OdmZ0Qk6EiT6R3vfjTAyECGYpQMgdHG
+	 PrnKFo79cAwqBwAbvK7uEuzuOIJuGlvxQtBAAjblxOy2UPcZWm9ZKN/aMwtGNJ4rxI
+	 bzd9q+xf1P+xlVeEJbLWNAz0ojOwb+UpXr6sYxPryWLdLzjlWH4PFyM4GCmxmK+8gD
+	 q8we3bVGX8A9yXkgqGeHWjK4t7YQffHon6UPCx56okONzxj7A2LhJeG5Bap69Hl1ft
+	 3PR9sRLueMNBKY3viTDw+VJih4naUlHe2XZGCwJZidephQiiAut8dAryrdBbm2cZft
+	 RuDUQbl1wQT2w==
+Date: Mon, 1 Sep 2025 11:31:27 -0700
+From: Kees Cook <kees@kernel.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Stephen Brennan <stephen.s.brennan@oracle.com>,
+	Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
+ migration support
+Message-ID: <202509011125.5879901C@keescook>
+References: <20250830020109.it.598-kees@kernel.org>
+ <59c4f103-7f1b-4829-bd82-0d392047fea4@oracle.com>
+ <202509010949.9A61A98@keescook>
+ <d25b2c63-32e2-4a41-b982-da5131cffd2f@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d25b2c63-32e2-4a41-b982-da5131cffd2f@oracle.com>
 
-Em Mon, 01 Sep 2025 13:09:15 +0300
-Jani Nikula <jani.nikula@intel.com> escreveu:
-
-> On Sun, 31 Aug 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
-> > kernel-doc now can parse the entire tree with:
-> >
-> > 	$ scripts/kernel-doc .
-> >
-> > Someone can easily use it to discover the current gaps at the docs that
-> > have already some kernel-doc markups and identify what of them aren't
-> > yet placed under Documentation/ ".. kernel-doc::" markups.
-> >
-> > So, I'd say the first step here would be to ensure that 100% of the
-> > docs are there somewhere. Alternatively, we could place all the rest
-> > of functions with kernel-doc markups outside Documentation inside an
-> > "others/" book - or even "<subsystem>/others/", and then gradually move
-> > them to the right places.  
+On Mon, Sep 01, 2025 at 08:20:18PM +0200, Vegard Nossum wrote:
 > 
-> I don't agree that all the kernel-docs need to be in the html build in
-> the first place.
-
-Not all, but those that are part of the kAPI requires good documentation.
-
-> Some of them would be better off with a simple
-> non-structured comment instead. For example, most static functions. Some
-> of the kernel-docs are useful for the structure the format provides, but
-> still having them in the html build is overkill. For example, many
-> complex but driver specific functions.
-
-Driver-specific functions could remain out of doc build - or be part
-of the documentation. It should be a decision of the driver authors,
-that may or may not be expecting contributions from the community.
-
-> I think the API documentation in the Sphinx build is primarily useful
-> for kernel generic and subsystem APIs, or overviews of
-> functionality. But nobody's looking at the Sphinx build for highly
-> specific and isolated documentation for individual structures or
-> functions.
+> On 01/09/2025 18:56, Kees Cook wrote:
+> > > > @@ -459,13 +462,15 @@ void sym_calc_value(struct symbol *sym)
+> > > >    			sym_calc_choice(choice_menu);
+> > > >    			newval.tri = sym->curr.tri;
+> > > >    		} else {
+> > > > -			if (sym->visible != no) {
+> > > > +			if (sym->usable) {
+> > > >    				/* if the symbol is visible use the user value
+> > > >    				 * if available, otherwise try the default value
+> > > >    				 */
+> > > >    				if (sym_has_value(sym)) {
+> > > > +					tristate value = sym->transitional ?
+> > > > +						sym->def[S_DEF_USER].tri : sym->visible;
+> > > >    					newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
+> > > > -							      sym->visible);
+> > > > +							      value);
+> > > This looks a bit odd to me. Just thinking out loud: your new logic is
+> > > there to be able to use a value even though it's not visible. In the
+> > > case where it's transitional you use the .config value instead of the
+> > > condition that makes it visible.
+> > > 
+> > > Could you simply change sym_calc_visibility() instead to always return
+> > > 'yes' when the symbol is transitional? Wouldn't that simplify everything
+> > > in sym_calc_value()?
+> > It's a tristate, so "m" is also possible besides "y". (sym->visible is
+> > also a tristate. 🙂
 > 
-> I'd say emphasize quality over quantity in the Sphinx build. An
-> overwhelming amount of (in the big picture) insignificant API
-> documentation does not make for good documentation.
+> That would be fine, right?
 > 
-> That said, there *are* a lot of kernel-doc comments that absolutely
-> should be pulled into the Sphinx build. But don't be indiscriminate
-> about it.
-
-Agreed. What I said is that this is a good start point, as it sounds
-to me that we do have kAPI documentation inside headers but not
-exported to the documentation.
-
-> ---
+> We'd pass the if (sym->visible != no) check... we'd do the
 > 
-> I think a more interesting first step would be ensuring all the
-> kernel-docs we do have are free of kernel-doc and rst warnings. 
-
-Agreed. Things look better those days, but just because right now
-there are several warnings disabled by default.
-
-> Because they should be, and this would make them easier to pull into 
-> the Sphinx build as needed.
+> newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri, sym->visible);
 > 
-> Currently we only have the kernel-doc checks in W=1 builds for .c
-> files.
+> EXPR_AND() is basically min() (with n=0, m=1, y=2), so effectively it
+> would end up doing
 > 
-> The i915 and xe drivers have local Makefile hacks to do it for more than
-> just W=1 builds and also headers. The attempts to expand the header
-> checks to the drm subsystem, however, failed infamously.
+> newval.tri = min(sym->def[S_DEF_USER].tri, 2);
+> 
+> which is the same as
+> 
+> newval.tri = sym->def[S_DEF_USER].tri;
+> 
+> That's what your code is currently doing too, but in a much more
+> roundabout way.
 
-On media, our CI builds with W=1, and aim to have no warnings.
+Right, it was this:
 
-> And still none of this checks for rst. But now that kernel-doc is
-> python, it shouldn't be too hard. Probably needs a dependency, but it
-> could only depend on it when passing some --lint-rst option.
+    newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri, sym->visible);
 
-Good idea. If you have some time, feel free to propose some patches.
+But I made it effectively:
 
-> Having this in place would also reduce the churn caused by merging
-> broken kernel-doc. It's fast enough to be done as part of the regular
-> build, while most people don't run the entire Sphinx build as part of
-> the development flow.
+  if (sym->transitional)
+    newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri, sym->def[S_DEF_USER].tri);
+  else
+    newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri, sym->visible);
 
-Checking the entire set of files inside the Kernel with kernel-doc
-is fast. Using the new make mandocs, for instance, with reads the
-entire tree takes about 45 seconds on my machine:
+That first "if" is kind of pointless. I just sent the v3 before I saw
+this email. :P
 
-	$ time make mandocs
-	...
-	real    0m44,211s
-	user    0m35,787s
-	sys     0m3,274s
+I was trying to avoid yet more indentation, but I could change it to:
 
-(and reports thousands of warnings)
+		if (sym->transitional)
+			newval.tri = sym->def[S_DEF_USER].tri;
+		else
+			newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
+					      sym->visible);
 
-Thanks,
-Mauro
+?
+
+-- 
+Kees Cook
