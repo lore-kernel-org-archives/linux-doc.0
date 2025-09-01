@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83D733CE81;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B819E17AE1D;
 	Mon,  1 Sep 2025 14:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756737757; cv=none; b=f9f1CmvWkk746z21f7N8JH9pFItqPMB+JTt/+kKky0U2ESL0gGK9iftPz/ZctAbkHmZZ7m65Eg6uBKzcvlis3bdcJWrb6Lf+udcTYgQPm2trpVhOIWi7YXcJUg9zf9lGrVZoTQ8ZpavxcC6IcDDYgB/AUIP2z7nnN2AKhJdeZdo=
+	t=1756737757; cv=none; b=XFcTfy2qsDNRpv/XJg/bkJ+C7fH2W7En9+BIKPh5lnP/ETykHGJIM2ygtev5+nzQOXYvlgny1Hv/Z0iTcIuQq9rFn/f5so73nhptShMphHu9SZ9Q4+XRtkYf4mzErDEzX6qpxRdZeAh5g0Wm//GkcvEY+w+oU8JVetC/wQHPwqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756737757; c=relaxed/simple;
-	bh=nQ3gIU2kA+cmRASdBGDYsjHIFhH1K/da7nJkfvh0maA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pQySJ/7QyXA1gXFwD68JTMiCgTJAaj36PXFzer1NLnCCzi/nDjeOW9N3P45lu3VKLljctVjz6LLosR1sjYs6FbtN9yqGxJz8XWqjbL7Cm9ZE5MwFWuzdfIcYy9Ovm29D7tQYC6S5LdMPNu0Un7EQGwA/7CnyMzY0IW5w3qks5Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UrutU7Qr; arc=none smtp.client-ip=10.30.226.201
+	bh=Bk0CYZe89uBjJFk60uGMA8W8QHBnNhTf8pNxav8MNh0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bPnRYaU3f3/Rs11FVwR0Ngts78eo+qeDn/g8g0XK2vzFMpf91NkgBSMMfrjs909gokSfLpPXMW+UaKdyQm0Eetj0pVo+GXMNxcGfOifFhD/puFnn/o0otCKTkwYx0ZZGXP1AR/3deCfWIAANT3nkEn1Cy23CsDYQBjgyvAfU00w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUpJVLWT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UrutU7Qr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D819C4CEF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUpJVLWT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70ED8C4CEFF;
 	Mon,  1 Sep 2025 14:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756737757;
-	bh=nQ3gIU2kA+cmRASdBGDYsjHIFhH1K/da7nJkfvh0maA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UrutU7QrCDQF1bffalexFhKdeu/QgcxiqN8VGjYdkCcYYU47ju5eNlUahJRT6Gdiy
-	 tcZqJDKkx28t7Xe9Eczp7qM2aFj7VgNCyxSUTVKZSVHhwJtw1iD0lBre707slEUHcV
-	 y1Uu7FSxkup/MmxZb2JEbAJaVdz7EiiUurd1SnsAjkSXmvCHbGAOVi0AnyyiCs2D9v
-	 uC/8aKF31RQAG3Y6/9E6IdGMf70/BTWbH7+eTIVocdoAgBin2c2Uz87pHFAXka09Oj
-	 aPCU2oJU3/HMaAAJvbYE3QiPHMK96fjl722B9ng/cPiR007oRlXB6yeqJjNBHUKdQw
-	 Z6O/I/CX+Fo1Q==
+	bh=Bk0CYZe89uBjJFk60uGMA8W8QHBnNhTf8pNxav8MNh0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jUpJVLWTlixSOvfqv/gUFuaT0rDXX6vFTaRBD8awg7mHW06RNZlUDjI3Y5uKTlBWG
+	 sydCZ6a+Bu25nq5okcqWwba4+8gZx1LhB1QARnenCapySwK1OgfjTyurUYJV7b3doB
+	 a7QKYuc7f4zdBiucGXbDH32KLue//isG/f/tBgRM3rIlxdyausXb9wD/LcOOO+uRHK
+	 ESa9bDlK6NK+oQ7CD2XhUKs4XYezbfhbAPhjWgm2kxX5WQ2Gsv0/UxM7YKwGnjKv7j
+	 LF+FqmQaJp2k1IV28feRmnQoyex7TuDg4oOt8a4BT7oMsMAdqGmqzEAuNBU/gqFCrG
+	 sofs1VJeGjYeQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ut5jv-00000003G37-1mbI;
+	id 1ut5jv-00000003G3g-2yei;
 	Mon, 01 Sep 2025 16:42:35 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -35,103 +36,72 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 00/15] Split sphinx call logic from docs Makefile
-Date: Mon,  1 Sep 2025 16:42:16 +0200
-Message-ID: <cover.1756737440.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 09/15] docs: parallel-wrapper.sh: remove script
+Date: Mon,  1 Sep 2025 16:42:25 +0200
+Message-ID: <1b52b64a969091d7fadc1580eddeeb2a5b111a43.1756737440.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1756737440.git.mchehab+huawei@kernel.org>
+References: <cover.1756737440.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
-
-This series does a major cleanup at docs Makefile by moving the
-actual doc build logic to a helper script (scripts/sphinx-build-wrapper).
-
-Such script was written in a way that it can be called either
-directly or via a makefile. When running via makefile, it will
-use GNU jobserver to ensure that, when sphinx-build is
-called, the number of jobs will match at most what it is
-specified by the "-j" parameter.
-
-The first 3 patches do a cleanup at scripts/jobserver-exec
-and moves the actual code to a library. Such library is used
-by both the jobserver-exec command line and by sphinx-build-wrappper.
-
-The change also gets rid of parallel-wrapper.sh, whose
-functions are now part of the wrapper code.
-
-I added two patches at the end adding an extra target: "mandocs".
-The patches came from a series I sent in separate with 2 patches.
-
----
-
-v3:
-- rebased on the top of docs-next;
-- added two patches to build man files that were on a separate
-  patch series.
-
-v2:
-
-- there's no generic exception handler anymore;
-- it moves sphinx-pre-install to tools/docs;
-- the logic which ensures a minimal Python version got moved
-  to a library, which is now used by both pre-install and wrapper;
-- The first wrapper (05/13) doesn't contain comments (except for
-  shebang and SPDX). The goal is to help showing the size increase
-  when moving from Makefile to Python. Some file increase is
-  unavoidable, as Makefile is more compact: no includes, multple
-  statements per line, no argparse, etc;
-- The second patch adds docstrings and comments. It has almost
-  the same size of the code itself;
-- I moved the venv logic to a third wrapper patch;
-- I fixed an issue at the paraller build logic;
-- There are no generic except blocks anymore.
-
-Mauro Carvalho Chehab (15):
-  scripts/jobserver-exec: move the code to a class
-  scripts/jobserver-exec: move its class to the lib directory
-  scripts/jobserver-exec: add a help message
-  scripts: sphinx-pre-install: move it to tools/docs
-  tools/docs: sphinx-pre-install: move Python version handling to lib
-  tools/docs: sphinx-build-wrapper: add a wrapper for sphinx-build
-  tools/docs: sphinx-build-wrapper: add comments and blank lines
-  tools/docs: sphinx-build-wrapper: add support to run inside venv
-  docs: parallel-wrapper.sh: remove script
-  docs: Makefile: document latex/PDF PAPER= parameter
-  tools/docs: sphinx-build-wrapper: add an argument for LaTeX
-    interactive mode
-  tools/docs,scripts: sphinx-*: prevent sphinx-build crashes
-  tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
-  docs: add support to build manpages from kerneldoc output
-  tools: kernel-doc: add a see also section at man pages
-
- Documentation/Makefile                     | 134 +---
- Documentation/doc-guide/kernel-doc.rst     |  29 +-
- Documentation/sphinx/parallel-wrapper.sh   |  33 -
- Makefile                                   |   2 +-
- scripts/jobserver-exec                     |  88 +--
- scripts/lib/jobserver.py                   | 149 +++++
- scripts/lib/kdoc/kdoc_files.py             |   5 +-
- scripts/lib/kdoc/kdoc_output.py            |  84 ++-
- scripts/split-man.pl                       |  28 -
- tools/docs/lib/python_version.py           | 133 ++++
- tools/docs/sphinx-build-wrapper            | 731 +++++++++++++++++++++
- {scripts => tools/docs}/sphinx-pre-install | 134 +---
- 12 files changed, 1194 insertions(+), 356 deletions(-)
- delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
- create mode 100755 scripts/lib/jobserver.py
- delete mode 100755 scripts/split-man.pl
- create mode 100644 tools/docs/lib/python_version.py
- create mode 100755 tools/docs/sphinx-build-wrapper
- rename {scripts => tools/docs}/sphinx-pre-install (93%)
-
--- 
-2.51.0
-
+The only usage of this script was docs Makefile. Now that=0D
+it is using the new sphinx-build-wrapper, which has inside=0D
+the code from parallel-wrapper.sh, we can drop this script.=0D
+=0D
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>=0D
+---=0D
+ Documentation/sphinx/parallel-wrapper.sh | 33 ------------------------=0D
+ 1 file changed, 33 deletions(-)=0D
+ delete mode 100644 Documentation/sphinx/parallel-wrapper.sh=0D
+=0D
+diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphin=
+x/parallel-wrapper.sh=0D
+deleted file mode 100644=0D
+index e54c44ce117d..000000000000=0D
+--- a/Documentation/sphinx/parallel-wrapper.sh=0D
++++ /dev/null=0D
+@@ -1,33 +0,0 @@=0D
+-#!/bin/sh=0D
+-# SPDX-License-Identifier: GPL-2.0+=0D
+-#=0D
+-# Figure out if we should follow a specific parallelism from the make=0D
+-# environment (as exported by scripts/jobserver-exec), or fall back to=0D
+-# the "auto" parallelism when "-jN" is not specified at the top-level=0D
+-# "make" invocation.=0D
+-=0D
+-sphinx=3D"$1"=0D
+-shift || true=0D
+-=0D
+-parallel=3D"$PARALLELISM"=0D
+-if [ -z "$parallel" ] ; then=0D
+-	# If no parallelism is specified at the top-level make, then=0D
+-	# fall back to the expected "-jauto" mode that the "htmldocs"=0D
+-	# target has had.=0D
+-	auto=3D$(perl -e 'open IN,"'"$sphinx"' --version 2>&1 |";=0D
+-			while (<IN>) {=0D
+-				if (m/([\d\.]+)/) {=0D
+-					print "auto" if ($1 >=3D "1.7")=0D
+-				}=0D
+-			}=0D
+-			close IN')=0D
+-	if [ -n "$auto" ] ; then=0D
+-		parallel=3D"$auto"=0D
+-	fi=0D
+-fi=0D
+-# Only if some parallelism has been determined do we add the -jN option.=0D
+-if [ -n "$parallel" ] ; then=0D
+-	parallel=3D"-j$parallel"=0D
+-fi=0D
+-=0D
+-exec "$sphinx" $parallel "$@"=0D
+-- =0D
+2.51.0=0D
+=0D
