@@ -1,49 +1,37 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF461E2853
-	for <linux-doc@vger.kernel.org>; Mon,  1 Sep 2025 16:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C531ACEAF;
+	Mon,  1 Sep 2025 16:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756744467; cv=none; b=SZbOteQ1rwUJSJsrvEFk5MLATxxoqFjG860gdpcZXzRZC4Ry55pTDCzLhVl5kEY9+1yvGeEUpZmxLKfujrNB+qU/ZJFxn6Mlzlyb8R6PP2kiVSJC3fAuMSXrDkNzpZjg4prgVxJdLXZlKJ8eYAu7rNfimN9MA3LAR0PBgsF2/2s=
+	t=1756744794; cv=none; b=qmAIWD0qN9WCUVeigIk6T30zX3vLtSsvL+SX1zNLsYuCYQ0r9t3yqhyIuJ/ujR+BhdinSH+XEomasylq1QLUiLNgSJb7ixk3nxHPLBRLNQ9RSXGx3UGnSLqVWXSnXtLYKLQHB7+0E8e5FWucSyVo/7X5kmrLJoacaTmJnNKJAwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756744467; c=relaxed/simple;
-	bh=aWny5m6Wqz1CRg5geT1nOdfOifoEJVrWBp+q4CMHEPo=;
+	s=arc-20240116; t=1756744794; c=relaxed/simple;
+	bh=l4tl2zGuMxK613stp7sFJEo37zoRZcEcj5uJVSv60LI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J7DgsHdvOk8Zzrw/IO4mBptvgOIKtbD36stdJpIFfhAb1VEY5SZjHPeJ7KW31AU659SCUXh4fsNTJStKDWaeH2vrOX9dTpLJXRqD7rbmhlJ6M2AQpGvs7AL8l15MqCSvfIlsh+Kk07wCVEloGkrRfGA5d1TD812wSy91cnZzRBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D97Ezi7f; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=nNWSBUubdKt0S4yiK5bsi9YznOrgUadoRaqafGa7ABqDwYjV+YddhALB2t0BBqaW/Hb0JVxcKVhm36sT2Akt6jS9yf+IBGr9Yr2XjU5YswSF9tqk4Wk6RK/3Wr4VBYbQ7OvmYujfY0VLpmnlX/ji/8wYQX4bz2idbOtAyJrhv/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aHih8uWP; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D97Ezi7f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756744464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oU/qMtZcyC8i4LZR6Q/18FupAVEqnteAX6wqUkmR8s4=;
-	b=D97Ezi7fyWyHYhJrfJVRDkyE5Q9xAnxvKTOSSISDOd5sQW1f01TkEV2i4kCzXta/lSd8Tf
-	/CbAY7YybuIQmulSQFYKdHzjBpAXCJ6xb66Eeiqv+GPh0cwxgTgg6fjGjGxoJg8b7s1evq
-	avs58jfDILTqweGunf6SN9iApHiXvRU=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-646-qWNZv9x-PcakHwb8E4-A1A-1; Mon,
- 01 Sep 2025 12:34:23 -0400
-X-MC-Unique: qWNZv9x-PcakHwb8E4-A1A-1
-X-Mimecast-MFC-AGG-ID: qWNZv9x-PcakHwb8E4-A1A_1756744461
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F220619560B0;
-	Mon,  1 Sep 2025 16:34:20 +0000 (UTC)
-Received: from [10.44.32.239] (unknown [10.44.32.239])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 416BF19560AB;
-	Mon,  1 Sep 2025 16:34:16 +0000 (UTC)
-Message-ID: <e6cd77a7-bc18-4e0c-9536-5fb107ec4db4@redhat.com>
-Date: Mon, 1 Sep 2025 18:34:14 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aHih8uWP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=DRSjUWWTyoOLGxr/Io9XlzhZ4h0IRQjCBc1qkh5X+1A=; b=aHih8uWP/8+EryVTNdecuhTzag
+	Uwlz5iJs0GPDnfvGzKiP6a3ru/ZBmL9NKPO3zoCHOeEIEenavc9ppbgXLRdLzeVXyv4wyB1wkwM1e
+	AeCdB+iADH3AgWtaaP8Lr+pa8Qnxfha1HZ0Dc4I16IY7piQSu+yPweraK2x2axysYNRtOttb1VH0R
+	Ns0NN36loE7+7bsGd0O9UCE0lf24TONfzkqmBMIRoktp6PNXQ2NOhGY8zQMocesVHhXpg7mtUa/yg
+	lrjhSfv0BSftoIeESgc5ID/3n76A4adayr4tY86FFq04r50FokIIFijnRQzkeVkGddQDouLRUu2Ly
+	js0i2jnQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ut7ZL-0000000DJXf-1zYl;
+	Mon, 01 Sep 2025 16:39:47 +0000
+Message-ID: <a123ab8b-a335-48a1-9ac3-e3b348d78cd1@infradead.org>
+Date: Mon, 1 Sep 2025 09:39:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,142 +39,81 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 5/5] dpll: zl3073x: Implement devlink flash
- callback
-To: Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
- Petr Oros <poros@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
-References: <20250813174408.1146717-1-ivecera@redhat.com>
- <20250813174408.1146717-6-ivecera@redhat.com>
- <20250818192943.342ad511@kernel.org>
- <e7a5ee37-993a-4bba-b69e-6c8a7c942af8@redhat.com>
- <20250829165638.3b50ea2a@kernel.org>
+Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
+ migration support
+To: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250830020109.it.598-kees@kernel.org>
 Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20250829165638.3b50ea2a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250830020109.it.598-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi Kuba and Jiri,
+Hi Kees,
 
-On 30. 08. 25 1:56 dop., Jakub Kicinski wrote:
-> On Fri, 29 Aug 2025 16:49:22 +0200 Ivan Vecera wrote:
->>>> +		/* Leave flashing mode */
->>>> +		zl3073x_flash_mode_leave(zldev, extack);
->>>> +	}
->>>> +
->>>> +	/* Restart normal operation */
->>>> +	rc = zl3073x_dev_start(zldev, true);
->>>> +	if (rc)
->>>> +		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
->>>
->>> And also we can't really cleanly handle the failure case.
->>>
->>> This is why I was speculating about implementing the down/up portion
->>> in the devlink core. Add a flag that the driver requires reload_down
->>> to be called before the flashing operation, and reload_up after.
->>> This way not only core handles some of the error handling, but also
->>> it can mark the device as reload_failed if things go sideways, which
->>> is a nicer way to surface this sort of permanent error state.
->>
->> This makes sense... The question is if this should reuse existing
->> .reload_down and .reload_up callbacks let's say with new devlink action
->> DEVLINK_RELOAD_ACTION_FW_UPDATE or rather introduce new callbacks
->> .flash_update_down/_up() to avoid confusions.
+On 8/29/25 7:01 PM, Kees Cook wrote:
+> During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
+> existing .config files need to maintain backward compatibility while
+> preventing deprecated options from appearing in newly generated
+> configurations. This is challenging with existing Kconfig mechanisms
+> because:
 > 
-> Whatever makes sense for your driver, for now. I'm assuming both ops
-> are the same, otherwise you wouldn't be asking? It should be trivial
-> for someone add the extra ops later, and just hook them both up to the
-> same functions in existing drivers.
+> 1. Simply removing old options breaks existing .config files.
+> 2. Manually listing an option as "deprecated" leaves it needlessly
+>    visible and still writes them to new .config files.
+> 3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
+>    etc) prevents the option from being processed at all.
+> 
+> Add a "transitional" attribute that creates symbols which are:
+> - Processed during configuration (can influence other symbols' defaults)
+> - Hidden from user menus (no prompts appear)
+> - Omitted from newly written .config files (gets migrated)
+> - Restricted to only having help sections (no defaults, selects, etc)
+>   making it truly just a "prior value pass-through" option.
+> 
+> The transitional syntax requires a type argument and prevents type
+> redefinition:
+> 
+>     config OLD_OPTION
+>         transitional bool
+>         help
+>           Transitional config for OLD_OPTION migration.
+> 
+>     config NEW_OPTION
+>         bool "New option"
+>         default OLD_OPTION
+> 
+> This allows seamless migration: olddefconfig processes existing
+> CONFIG_OLD_OPTION=y settings to enable CONFIG_NEW_OPTION=y, while
+> CONFIG_OLD_OPTION is omitted from newly generated .config files.
+> 
+> Implementation details:
+> - Parser validates transitional symbols can only have help sections
+> - Symbol visibility logic updated: usable = (visible != no || transitional)
+> - Transitional symbols preserve user values during configuration
+> - Type safety enforced to prevent redefinition after transitional declaration
+> - Used distinct struct members instead of new flags for readability
+> - Documentation added to show the usage
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> With help from Claude Code to show me how to navigate the kconfig parser.
 
-Things are a little bit complicated after further investigation...
+Are you (implicitly?) saying that all previous attempts at transitional
+kconfig symbols have failed?  If so, I just wasn't aware of that.
 
-Some internal flashing backround first:
-The zl3073x HW needs an external program called "flash utility"
-to access an internal flash inside the chip. This utility provides
-flash API over I2C/SPI bus that is different from the FW API provided
-by the normal firmware. So to access the flash memory the driver has
-to stop the device's CPU, to load the utility into chip RAM and resume
-the CPU to execute the utility. At this point normal FW API is not
-accessible so the driver has to stop the normal operation (unregister
-DPLL devices, pins etc.). Then it updates flash using flash API and
-after flash operations it has to reset device's CPU to restart newly
-flashed firmware. Finally when normal FW is available it resumes
-the normal operation (re-register DPLL devices etc.).
+Or is there some new prime directive that requires this?
 
-Current steps in this patch:
-1. Load given FW file and verify that utility is present
-2. Stop normal operations
-3. Stop CPU, download utility to device, resume CPU
-4. Flash components from the FW file
-5. Unconditionally reset device's CPU to load normal FW
-6. Resume normal operations
-
-I found 4 possible options how to handle:
-
-1. Introduce DEVLINK_RELOAD_ACTION_FW_UPDATE devlink action and reuse
-    .reload_down/up() callbacks and call them prior and after
-    .flash_update callback.
-
-At first glance, it looks the most elegant... The zl3073x driver stops
-during .reload_down() normal operation, then in .flash_update will
-switch the device to flash mode, performs flash update and finally
-during .reload_up() will resume normal operation.
-
-Issues:
-- a problematic case, when the given firmware file does not contain
-   utility... During .reload_down() this cannot be checked as the
-   firmware is not available during .reload_down() callback.
-- DEVLINK_RELOAD_ACTION_FW_UPDATE has to be placed in devlink UAPI
-   and but this reload action should be handled as internal one as
-   there should not be possible to initiate it from the userspace
-
-   e.g. devlink dev reload DEV action fw_update
-
-2. Add new .flash_down/up() or .flash_prepare/done() optional callbacks
-    that are called prior and after .flash_update if they are provided by
-    a driver.
-
-This looks also good and very similar to previous option. Could resolve
-the 1st issue as we can pass 'devlink_flash_update_params' to both
-new callbacks, so the driver can parse firmware file during
-.flash_down and check for utility presence.
-
-Issues:
-- the firmware has to be parsed twice - during .flash_down() and
-   .flash_update()
-   This could be resolved by extending devlink_flash_update_params
-   structure by 'void *priv' field that could be used by a driver
-   during flash operation.
-   It could be also useful to add flash_failed flag similar to
-   reload_failed that would record a status reported by .flash_up()
-   callback.
-
-3. Keep my original approach but without restarting normal operation
-    (re-register DPLL devices and pins). User has to use explicitly
-    devlink reload fw_activate to restart normal operation.
-
-This could be reasonable but introduces some kind of asymmetry because
-the driver stops normal operation during .flash_update() and left
-the device in intermediate state (devlink interface is working but
-DPLL devices and pins are not registered). Only upon explicit user
-request (fw_activate) would it restore normal mode (re-registration).
-
-4. Keep my original approach, fix the ignored error code reported by
-    Jakub and pass "re-start normal operation failure" via devlink
-    notification.
-
- From my POV better than previous one as the driver will do its best to
-resume device state prior the flashing. Only corner case where the
-firmware is unresponsive after reset will cause that normal operation
-won't be resumed -> could be handled by health reporting?
-
-Thanks for opinions and advises.
-
-Ivan
+Thanks.
+-- 
+~Randy
 
