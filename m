@@ -1,315 +1,241 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2626C2DF151;
-	Mon,  1 Sep 2025 15:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5285E32F76D
+	for <linux-doc@vger.kernel.org>; Mon,  1 Sep 2025 16:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756740838; cv=none; b=a+NCkZdeLrgTdP+Cviy6aPzTubfrlVVWNTmWnThxBFqaBeZ90D5Pu7O7nW/Dn13CSJ12fexVdzSgD8ElDl38/NoGOMBNnp2kU0lLG1i4i8ojg51AUb7Vqmeorzx1py8bk8kxDSob03OCxVAiDihhohZb1TwDNlUX9j7faxZKnVo=
+	t=1756743349; cv=none; b=LgE5NWdiwecLe8byVD/qcXOe/paYQJfGNaEGoeoz9NOrh6w9Cy2C3yz3egbPITBLYDZPkMj4DKXNUZqAVIVgdVmLN7kWckKml77BVTZPxRzJZs7m4hqsa8kNZAI3PllYf+9bpXKF8yXDezz2HSMzYReQUU1qA4GCXJythNM3Tgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756740838; c=relaxed/simple;
-	bh=xoCXkgDpfSGLUQkbKhJPhF5dmK3td3hHAgXtwYxjVi8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=im+Hhtn+J9ZM+MhjnXS92d5g3+ed0eNf4bcNVyfCuRl+k/dP6S/7N958DwgLlATocOKxlvpAlzh9aFN7X67d2RKAk9U3nz84s+YjharZOtrTEDFv7+CINq8LOjSn36I0Fu3uL+sfTLsnD8e5OtWjhujjhh5pjg3YewqvamowAgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NOPDHF1A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756743349; c=relaxed/simple;
+	bh=Ch3ChIDZ/x4r51eneaXX6gqB8lahQHd+ZSzbTm9Uy1k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M+Dvaz10jsIUk5swQ3h5+rayqbnaakGGHbDgatGzxRiOJzry28IblfVkfXiZwVIJuW+Tkl3XDayZRtMSD6wno55wzoeyJmt/G84ARWXwhmJCyld51sfARt2fcUAFFcQz8skuQ6Ghx0QmGJdjy96zg77brbNScwCXqt3/+Vh03no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gbQInPKP; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NOPDHF1A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970D4C16AAE;
-	Mon,  1 Sep 2025 15:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756740837;
-	bh=xoCXkgDpfSGLUQkbKhJPhF5dmK3td3hHAgXtwYxjVi8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NOPDHF1AhMAJJMdiWKoym+L46gtQzH9rnxTDai88KfBiOwD7AU2epaxxjpoOX1B9Q
-	 ipPcAe3UEeZahZ1U9ZfYSTIP3Horh7Ym/N5QiC3ePLsg/LldG0rXS0Mn74SgilzZZf
-	 uHRonZk8Fwy2jqxzYIGlEEEs6G21npURqULe9qcZ2OcSyRfdfhsPbRGqDKWWLHTTRH
-	 7RH8K0S/1pSbgEj2G5Dlhs/YBkRQwakEf9kvr3iRAQTYlcPS3KWt5WtoFChHDkt9xV
-	 dn6QKNmp+CrzIiMMSRduGWu0QWOIBpBMK815F1fSoExNZuFs51Y3O9CE/qUN60sm1U
-	 8S5mKNS3IrfPw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ut6Xb-00000003HMQ-3g3O;
-	Mon, 01 Sep 2025 17:33:55 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v3 13/15] tools/docs: sphinx-build-wrapper: allow
-  building PDF files in parallel
-Date: Mon,  1 Sep 2025 17:33:48 +0200
-Message-ID: <20eff278c995cd39535d723f538cff9a368ff8e1.1756740314.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756740314.git.mchehab+huawei@kernel.org>
-References: <cover.1756740314.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gbQInPKP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756743346;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WzCHhi4hjG4XUTM3m5FXF23YIR33PFzU4tTzZn5EUNE=;
+	b=gbQInPKPTObrnM3UqluFPFi7uTRntDIn9O8G1Y2yYNLeRCG4MvVZ/pgoW7w2jnpmmXXJ0O
+	CFCaJIOUqx2pwC/TuLGVqmsP66+TRqzpl1ihfllmxAquX0tA7/ij3DJpxBcXD4kfPhkb4c
+	j4CXYxzpUFRXVWc+RjKY2JL3xIpn/VY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-tMF4iCRSOGS6Ja53wJ1erA-1; Mon, 01 Sep 2025 12:15:45 -0400
+X-MC-Unique: tMF4iCRSOGS6Ja53wJ1erA-1
+X-Mimecast-MFC-AGG-ID: tMF4iCRSOGS6Ja53wJ1erA_1756743344
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b89ef1c05so12065705e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Sep 2025 09:15:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756743344; x=1757348144;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WzCHhi4hjG4XUTM3m5FXF23YIR33PFzU4tTzZn5EUNE=;
+        b=HhgJnacex7DvKZ1L8+PGls40g/nHnFl/62Z9IXQZoQKFdQ03qT0aM4rzMlxOshSpy2
+         MsV4g7bHvohGJ5E7KFzqGHsbXUxLUiqq6MVNOBo1vLvLOAogBkz+wRpwgpDPfzQlwhUc
+         wpsRw9m8lyYV2xNM9gqzv/gV4lrA1QVbYlW4naBV3vyzBmbBXB/YhipbaArSenjCAUvU
+         piMDQWqZTa/ULII81L7H0FaiX2+xcmmc2Rx08NhfyFGzlgO/0ZjNW/JLo2wMrw+W4nzv
+         kIpi8lZVQF98cpJSLfRgcScO3ly7osrnt/yASBtvKGJnVYrwh+8JdAPIxgG1OkfRJxa4
+         OOTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZOzX1xDMCHTIxtiHvgd9mEAfbywPYDzWO3lggTI7V5v2ZAJJJeoC9OGN+i63GHHLf8ASUCvaY790=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGGH4EFscwm9LKQW7bKmfJHOvfdijqFzNz1VRpYdH233OIC/IA
+	rQWBJZKSnZOQRKyjO0oU1yiQBWSL+m6XnIXUMzdNYLlAHcDROB3S1td6vo+/QJoK2EDhf+olJbF
+	MPuci07xqHOK1o3fUPGSBc3MbNG+hUTSGch/CSJ1IL6cMa7eXeuK6GZW2gjLdlQ==
+X-Gm-Gg: ASbGnctGGUATwO0eOS7kei/gEm72G1pX6vNcC2MHj9Rkvl2GYrGGCiFXvOiY3C5hFxj
+	+XlJi6ysWYGXl66SgC8oZ+F3QSkmcIdeU61eLGpNi1BMuhwc5tFAL5z60vqXqYx2KSe25aJQ4Od
+	KIg0OHC0laDz8iAbSe0gWgPoC/L32DbhVq38FZl87PhH+UwywSS8r/xYVhTBi3Dno+dbubkJrJC
+	V9QryK/6yIuWE0fkMOGe8GXg0H8cFaDVu5DujEpgx/azNUDUTX+koVIIWnkq/yNCqhHe9LHhe6i
+	SNKJ0hQnKNV1YUeON7yLfFNA31RvDFqoJEGZ2dinopBeKp3Xu5Hn0EykdtcsstZnUrZxA6rJzkI
+	gJAKQSmMNGPeph1gfJg9CzpZe5TYkiON7hXVvt9n236CtjxKg58EEz4yNcRa94UFy7aE=
+X-Received: by 2002:a05:600c:3ba8:b0:45b:6705:4fca with SMTP id 5b1f17b1804b1-45b8558b82amr80213485e9.31.1756743343866;
+        Mon, 01 Sep 2025 09:15:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBz1k7vAtdK4ipj+F4kTUm7DgeCfwB5I9v5S+ZFupzLSKLX3A+8B7qS4i4w56nZH+z+JGhtA==
+X-Received: by 2002:a05:600c:3ba8:b0:45b:6705:4fca with SMTP id 5b1f17b1804b1-45b8558b82amr80213195e9.31.1756743343343;
+        Mon, 01 Sep 2025 09:15:43 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f37:2b00:948c:dd9f:29c8:73f4? (p200300d82f372b00948cdd9f29c873f4.dip0.t-ipconnect.de. [2003:d8:2f37:2b00:948c:dd9f:29c8:73f4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d12c90a01bsm13377439f8f.31.2025.09.01.09.15.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Sep 2025 09:15:42 -0700 (PDT)
+Message-ID: <07007d31-1601-4b95-b646-687295487cfe@redhat.com>
+Date: Mon, 1 Sep 2025 18:15:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 05/13] khugepaged: generalize __collapse_huge_page_*
+ for mTHP support
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com
+References: <20250819134205.622806-1-npache@redhat.com>
+ <20250819134205.622806-6-npache@redhat.com>
+ <2ddd1403-1bda-4875-91fb-7060804a50c6@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <2ddd1403-1bda-4875-91fb-7060804a50c6@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Use POSIX jobserver when available or -j<number> to run PDF=0D
-builds in parallel, restoring pdf build performance. Yet,=0D
-running it when debugging troubles is a bad idea, so, when=0D
-calling directly via command line, except if "-j" is splicitly=0D
-requested, it will serialize the build.=0D
-=0D
-With such change, a PDF doc builds now takes around 5 minutes=0D
-on a Ryzen 9 machine with 32 cpu threads:=0D
-=0D
-	# Explicitly paralelize both Sphinx and LaTeX pdf builds=0D
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs -j 33=0D
-=0D
-	real	5m17.901s=0D
-	user	15m1.499s=0D
-	sys	2m31.482s=0D
-=0D
-	# Use POSIX jobserver to paralelize both sphinx-build and LaTeX=0D
-	$ make cleandocs; time make pdfdocs=0D
-=0D
-	real	5m22.369s=0D
-	user	15m9.076s=0D
-	sys	2m31.419s=0D
-=0D
-	# Serializes PDF build, while keeping Sphinx parallelized.=0D
-	# it is equivalent of passing -jauto via command line=0D
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs=0D
-=0D
-	real	11m20.901s=0D
-	user	13m2.910s=0D
-	sys	1m44.553s=0D
-=0D
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>=0D
----=0D
- tools/docs/sphinx-build-wrapper | 158 +++++++++++++++++++++++---------=0D
- 1 file changed, 117 insertions(+), 41 deletions(-)=0D
-=0D
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrap=
-per=0D
-index 580582a76c93..c884022ad733 100755=0D
---- a/tools/docs/sphinx-build-wrapper=0D
-+++ b/tools/docs/sphinx-build-wrapper=0D
-@@ -52,6 +52,8 @@ import shutil=0D
- import subprocess=0D
- import sys=0D
- =0D
-+from concurrent import futures=0D
-+=0D
- from lib.python_version import PythonVersion=0D
- =0D
- LIB_DIR =3D "../../scripts/lib"=0D
-@@ -278,6 +280,82 @@ class SphinxBuilder:=0D
-         except (OSError, IOError) as e:=0D
-             print(f"Warning: Failed to copy CSS: {e}", file=3Dsys.stderr)=
-=0D
- =0D
-+    def build_pdf_file(self, latex_cmd, from_dir, path):=0D
-+        """Builds a single pdf file using latex_cmd"""=0D
-+        try:=0D
-+            subprocess.run(latex_cmd + [path],=0D
-+                            cwd=3Dfrom_dir, check=3DTrue)=0D
-+=0D
-+            return True=0D
-+        except subprocess.CalledProcessError:=0D
-+            return False=0D
-+=0D
-+    def pdf_parallel_build(self, tex_suffix, latex_cmd, tex_files, n_jobs)=
-:=0D
-+        """Build PDF files in parallel if possible"""=0D
-+        builds =3D {}=0D
-+        build_failed =3D False=0D
-+        max_len =3D 0=0D
-+        has_tex =3D False=0D
-+=0D
-+        #=0D
-+        # LaTeX PDF error code is almost useless for us:=0D
-+        # any warning makes it non-zero. For kernel doc builds it always r=
-eturn=0D
-+        # non-zero even when build succeeds. So, let's do the best next th=
-ing:=0D
-+        # Ignore build errors. At the end, check if all PDF files were bui=
-lt,=0D
-+        # printing a summary with the built ones and returning 0 if all of=
-=0D
-+        # them were actually built.=0D
-+        #=0D
-+        with futures.ThreadPoolExecutor(max_workers=3Dn_jobs) as executor:=
-=0D
-+            jobs =3D {}=0D
-+=0D
-+            for from_dir, pdf_dir, entry in tex_files:=0D
-+                name =3D entry.name=0D
-+=0D
-+                if not name.endswith(tex_suffix):=0D
-+                    continue=0D
-+=0D
-+                name =3D name[:-len(tex_suffix)]=0D
-+=0D
-+                max_len =3D max(max_len, len(name))=0D
-+=0D
-+                has_tex =3D True=0D
-+=0D
-+                future =3D executor.submit(self.build_pdf_file, latex_cmd,=
-=0D
-+                                         from_dir, entry.path)=0D
-+                jobs[future] =3D (from_dir, pdf_dir, name)=0D
-+=0D
-+            for future in futures.as_completed(jobs):=0D
-+                from_dir, pdf_dir, name =3D jobs[future]=0D
-+=0D
-+                pdf_name =3D name + ".pdf"=0D
-+                pdf_from =3D os.path.join(from_dir, pdf_name)=0D
-+=0D
-+                try:=0D
-+                    success =3D future.result()=0D
-+=0D
-+                    if success and os.path.exists(pdf_from):=0D
-+                        pdf_to =3D os.path.join(pdf_dir, pdf_name)=0D
-+=0D
-+                        os.rename(pdf_from, pdf_to)=0D
-+                        builds[name] =3D os.path.relpath(pdf_to, self.buil=
-ddir)=0D
-+                    else:=0D
-+                        builds[name] =3D "FAILED"=0D
-+                        build_failed =3D True=0D
-+                except futures.Error as e:=0D
-+                    builds[name] =3D f"FAILED ({repr(e)})"=0D
-+                    build_failed =3D True=0D
-+=0D
-+        #=0D
-+        # Handle case where no .tex files were found=0D
-+        #=0D
-+        if not has_tex:=0D
-+            name =3D "Sphinx LaTeX builder"=0D
-+            max_len =3D max(max_len, len(name))=0D
-+            builds[name] =3D "FAILED (no .tex file was generated)"=0D
-+            build_failed =3D True=0D
-+=0D
-+        return builds, build_failed, max_len=0D
-+=0D
-     def handle_pdf(self, output_dirs):=0D
-         """=0D
-         Extra steps for PDF output.=0D
-@@ -288,7 +366,9 @@ class SphinxBuilder:=0D
-         """=0D
-         builds =3D {}=0D
-         max_len =3D 0=0D
-+        tex_suffix =3D ".tex"=0D
- =0D
-+        tex_files =3D []=0D
-         for from_dir in output_dirs:=0D
-             pdf_dir =3D os.path.join(from_dir, "../pdf")=0D
-             os.makedirs(pdf_dir, exist_ok=3DTrue)=0D
-@@ -300,55 +380,51 @@ class SphinxBuilder:=0D
- =0D
-             latex_cmd.extend(shlex.split(self.latexopts))=0D
- =0D
--            tex_suffix =3D ".tex"=0D
--=0D
--            #=0D
--            # Process each .tex file=0D
--            #=0D
--=0D
--            has_tex =3D False=0D
--            build_failed =3D False=0D
-+            # Get a list of tex files to process=0D
-             with os.scandir(from_dir) as it:=0D
-                 for entry in it:=0D
--                    if not entry.name.endswith(tex_suffix):=0D
--                        continue=0D
-+                    if entry.name.endswith(tex_suffix):=0D
-+                        tex_files.append((from_dir, pdf_dir, entry))=0D
- =0D
--                    name =3D entry.name[:-len(tex_suffix)]=0D
--                    has_tex =3D True=0D
-+        #=0D
-+        # When using make, this won't be used, as the number of jobs comes=
-=0D
-+        # from POSIX jobserver. So, this covers the case where build comes=
-=0D
-+        # from command line. On such case, serialize by default, except if=
-=0D
-+        # the user explicitly sets the number of jobs.=0D
-+        #=0D
-+        n_jobs =3D 1=0D
- =0D
--                    #=0D
--                    # LaTeX PDF error code is almost useless for us:=0D
--                    # any warning makes it non-zero. For kernel doc builds=
- it=0D
--                    # always return non-zero even when build succeeds.=0D
--                    # So, let's do the best next thing: check if all PDF=0D
--                    # files were built. If they're, print a summary and=0D
--                    # return 0 at the end of this function=0D
--                    #=0D
--                    try:=0D
--                        subprocess.run(latex_cmd + [entry.path],=0D
--                                       cwd=3Dfrom_dir, check=3DTrue)=0D
--                    except subprocess.CalledProcessError:=0D
--                        pass=0D
-+        # n_jobs is either an integer or "auto". Only use it if it is a nu=
-mber=0D
-+        if self.n_jobs:=0D
-+            try:=0D
-+                n_jobs =3D int(self.n_jobs)=0D
-+            except ValueError:=0D
-+                pass=0D
- =0D
--                    pdf_name =3D name + ".pdf"=0D
--                    pdf_from =3D os.path.join(from_dir, pdf_name)=0D
--                    pdf_to =3D os.path.join(pdf_dir, pdf_name)=0D
-+        #=0D
-+        # When using make, jobserver.claim is the number of jobs that were=
-=0D
-+        # used with "-j" and that aren't used by other make targets=0D
-+        #=0D
-+        with JobserverExec() as jobserver:=0D
-+            n_jobs =3D 1=0D
- =0D
--                    if os.path.exists(pdf_from):=0D
--                        os.rename(pdf_from, pdf_to)=0D
--                        builds[name] =3D os.path.relpath(pdf_to, self.buil=
-ddir)=0D
--                    else:=0D
--                        builds[name] =3D "FAILED"=0D
--                        build_failed =3D True=0D
-+            #=0D
-+            # Handle the case when a parameter is passed via command line,=
-=0D
-+            # using it as default, if jobserver doesn't claim anything=0D
-+            #=0D
-+            if self.n_jobs:=0D
-+                try:=0D
-+                    n_jobs =3D int(self.n_jobs)=0D
-+                except ValueError:=0D
-+                    pass=0D
- =0D
--                    name =3D entry.name.removesuffix(".tex")=0D
--                    max_len =3D max(max_len, len(name))=0D
-+            if jobserver.claim:=0D
-+                n_jobs =3D jobserver.claim=0D
- =0D
--            if not has_tex:=0D
--                name =3D os.path.basename(from_dir)=0D
--                max_len =3D max(max_len, len(name))=0D
--                builds[name] =3D "FAILED (no .tex)"=0D
--                build_failed =3D True=0D
-+            builds, build_failed, max_len =3D self.pdf_parallel_build(tex_=
-suffix,=0D
-+                                                                    latex_=
-cmd,=0D
-+                                                                    tex_fi=
-les,=0D
-+                                                                    n_jobs=
-)=0D
- =0D
-         msg =3D "Summary"=0D
-         msg +=3D "\n" + "=3D" * len(msg)=0D
--- =0D
-2.51.0=0D
-=0D
+On 20.08.25 16:22, Lorenzo Stoakes wrote:
+> On Tue, Aug 19, 2025 at 07:41:57AM -0600, Nico Pache wrote:
+>> generalize the order of the __collapse_huge_page_* functions
+>> to support future mTHP collapse.
+>>
+>> mTHP collapse can suffer from incosistant behavior, and memory waste
+>> "creep". disable swapin and shared support for mTHP collapse.
+
+I'd just note that mTHP collapse will initially not honor these two 
+parameters (spell them out), failing if anything is swapped out or shared.
+
+>>
+>> No functional changes in this patch.
+>>
+>> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> Acked-by: David Hildenbrand <david@redhat.com>
+>> Co-developed-by: Dev Jain <dev.jain@arm.com>
+>> Signed-off-by: Dev Jain <dev.jain@arm.com>
+>> Signed-off-by: Nico Pache <npache@redhat.com>
+>> ---
+>>   mm/khugepaged.c | 62 ++++++++++++++++++++++++++++++++++---------------
+>>   1 file changed, 43 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index 77e0d8ee59a0..074101d03c9d 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -551,15 +551,17 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>>   					unsigned long address,
+>>   					pte_t *pte,
+>>   					struct collapse_control *cc,
+>> -					struct list_head *compound_pagelist)
+>> +					struct list_head *compound_pagelist,
+>> +					unsigned int order)
+> 
+> I think it's better if we keep the output var as the last in the order. It's a
+> bit weird to have the order specified here.
+
+Also, while at it, just double-tab indent.
+
+> 
+>>   {
+>>   	struct page *page = NULL;
+>>   	struct folio *folio = NULL;
+>>   	pte_t *_pte;
+>>   	int none_or_zero = 0, shared = 0, result = SCAN_FAIL, referenced = 0;
+>>   	bool writable = false;
+>> +	int scaled_max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
+> 
+> This is a weird formulation, I guess we have to go with it to keep things
+> consistent-ish, but it's like we have a value for this that is reliant on the
+> order always being PMD and then sort of awkwardly adjusting for MTHP.
+> 
+> I guess we're stuck with it though since we have:
+> 
+> /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+> 
+> I guess a more sane version of this would be a ratio or something...
+
+Yeah, ratios would have made much more sense ... but people didn't plan 
+for having something that is not a PMD size.
+
+> 
+> Anyway probably out of scope here.
+> 
+>>
+>> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
+>> +	for (_pte = pte; _pte < pte + (1 << order);
+> 
+> Hmm is this correct? I think shifting an int is probably a bad idea even if we
+> can get away with it for even PUD order atm (though... 64KB ARM hm), wouldn't
+> _BITUL(order) be better?
+
+Just for completeness: we discussed that recently in other context. It 
+would better be BIT() instead of _BITUL().
+
+But I am not a fan of using BIT() when not working with bitmaps etc.
+
+"1ul << order" etc is used throughout the code base.
+
+What makes this easier to read is:
+
+	const unsigned long nr_pages = 1ul << order;
+
+Maybe in the future we want an ORDER_PAGES(), maybe not. Have not made 
+up my mind yet :)
+
+-- 
+Cheers
+
+David / dhildenb
+
