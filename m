@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4C42DF132;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9FB2DF137;
 	Mon,  1 Sep 2025 15:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756740838; cv=none; b=YjTlrbKJZawvQaliAyqEAN4HfKECIABbcbnaL4o48erVIqsfGaLaWqln02GSowDIGHm4bNt2uaob5y7uPAnKA/cBOU1Eue53maeb87iq5+m6QqOmgKkepp0mdAs/3nalYZkcFkIiFgkvc6YSqXTRmlGRn/dbAoWIu7eEPVsEyPg=
+	t=1756740838; cv=none; b=oQdubXfw7IHwUQ06OGQ/BnMB1QTB4X1bNJ4N4KqgYhIFfw7BkzK766FrPgVlOMxiI8yUzANc2VbOKEkJNWJ0UyFC8cYWkLnQ28ktEo2agT59T38oGsQsx4OwrnC+1X14WfoVBU4LB921TkkGitxS1cuW89aN5G4ECTbU64y8gbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756740838; c=relaxed/simple;
-	bh=9q6X7vB/+UD8d5Co4DYpFC4MptFcOsSfJ/mYNLQGx24=;
+	bh=ZEp9+mn+IvGFaAL1/6SmTvhHmWgFvhI6q4G7xcQM/xs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RVPGfwAqtaGJ+WeSfCcL114IjsXk3M9VzW1WQYsSwaapYwdgIUHx9dgPXcqpQOSpCh0fysK3qXlZW2v3Eu80eDpYXKLSB5zN2bOny9TzwsNuGGPMgFBtpu5/G9qr5g8a5JJ+W+xtbTs/M5KlEA0YwBbfcF/Upwepnkh1S4ss1EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzNdxKDb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=IrM3pZgkuYBWiKHcC22Hj+7PS5MN/IzCa0iOrnuRs7hoVgcyHH1rG4ad4KHHB49DNjOcyRy9pVpAPDdw6VuHNXjdPiEQ1GrZDjokpSVz6NKHdboZ8kukY/yrngb5D4SrgEChv8Oac2BPC54yL+7Km1AEG1dO0MCEvR2/gSyxoZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M7A9ZdTB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzNdxKDb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D4E7C116D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M7A9ZdTB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6EDC4AF0B;
 	Mon,  1 Sep 2025 15:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756740837;
-	bh=9q6X7vB/+UD8d5Co4DYpFC4MptFcOsSfJ/mYNLQGx24=;
+	bh=ZEp9+mn+IvGFaAL1/6SmTvhHmWgFvhI6q4G7xcQM/xs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SzNdxKDb786DO3SEitGYD5HaY5Zq3MTtjyXvNKCD8VvLf8sMFQPhs63I4jsvWKkXo
-	 poMAG6U6aPuX7ZgGQEK6VyiISikKr7yOlLCx1ZSMYjgUPc/eL6tuYc4i4r2oQdhhDo
-	 oDXswf5XArFGWYpnCeseLJUCCnP+y1gG9p8mBJxFnnenKruxXFBX/q03cd4nPPLz5B
-	 AK9jConoQ5/wNUJvM0WSOpXiv3swRZWnCURLOMN1mXmxEVKf1ssw/8J43XSGmjBop7
-	 gPdKxsfKq5ESu0B1oUIN09Q5mhX8QschgyfQiZFaGebkpHH+6BWcxHJn/MKyk8raS/
-	 o6uQsCKMsvIUw==
+	b=M7A9ZdTBuUpPE1hb7EWHbqzwbMQXADQUPM8zNwvEhUUonYvmx5p8+100hFcTinieM
+	 Yb9hUDh0tuUbDyByndKPjokl6Bf7LCfBvcsa1YC618410kxKkZ+CF+69f/5RjOtQVo
+	 81wxE0YnaKOHY/XCoOw8Ot/Wx86S82+k7Wnetm54Os3i/mgR4nekWywvkd744FR7aj
+	 mDgSjmqfCfLE1269UCnwz2twsKv5Lv2+ojDp3LWLfBOjaE2Y1WJhNZcRUANsPMjBLh
+	 AijSVZbqE9eM2EpjhrdgGmKThle1xLUSFaNEeQhB2qCGlBIaGkY9m3ZAhgHFgZDJqW
+	 JLqZgSDw+e5mQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ut6Xb-00000003HMI-3PZB;
+	id 1ut6Xb-00000003HM6-30r2;
 	Mon, 01 Sep 2025 17:33:55 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,10 +36,10 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v3 11/15] tools/docs: sphinx-build-wrapper: add an
-  argument for LaTeX interactive mode
-Date: Mon,  1 Sep 2025 17:33:46 +0200
-Message-ID: <c0b14c9c20c44bed49ccc475b3c2d5fc59002892.1756740314.git.mchehab+huawei@kernel.org>
+Subject: [PATCH RESEND v3 08/15] tools/docs: sphinx-build-wrapper: add support
+  to run inside venv
+Date: Mon,  1 Sep 2025 17:33:43 +0200
+Message-ID: <a7597d308c1aece44456285a2ad062b3a42ea6e3.1756740314.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756740314.git.mchehab+huawei@kernel.org>
 References: <cover.1756740314.git.mchehab+huawei@kernel.org>
@@ -53,87 +53,94 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-By default, we use LaTeX batch mode to build docs. This way, when=0D
-an error happens, the build fails. This is good for normal builds,=0D
-but when debugging problems with pdf generation, the best is to=0D
-use interactive mode.=0D
-=0D
-We already support it via LATEXOPTS, but having a command line=0D
-argument makes it easier:=0D
-=0D
-Interactive mode:=0D
-	./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs peci -v -i=0D
-	...=0D
-	Running 'xelatex --no-pdf  -no-pdf -recorder  ".../Documentation/output/pe=
-ci/latex/peci.tex"'=0D
-	...=0D
-=0D
-Default batch mode:=0D
-        ./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs peci -v=0D
-	...=0D
-	Running 'xelatex --no-pdf  -no-pdf -interaction=3Dbatchmode -no-shell-esca=
-pe -recorder  ".../Documentation/output/peci/latex/peci.tex"'=0D
-	...=0D
+Sometimes, it is desired to run Sphinx from a virtual environment.=0D
+Add a command line parameter to automatically build Sphinx from=0D
+such environment.=0D
 =0D
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>=0D
 ---=0D
- tools/docs/sphinx-build-wrapper | 13 ++++++++++---=0D
- 1 file changed, 10 insertions(+), 3 deletions(-)=0D
+ tools/docs/sphinx-build-wrapper | 31 ++++++++++++++++++++++++++++---=0D
+ 1 file changed, 28 insertions(+), 3 deletions(-)=0D
 =0D
 diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrap=
 per=0D
-index 9c5df50fb99d..4e87584a92cd 100755=0D
+index e9c522794fbe..9c5df50fb99d 100755=0D
 --- a/tools/docs/sphinx-build-wrapper=0D
 +++ b/tools/docs/sphinx-build-wrapper=0D
-@@ -115,7 +115,7 @@ class SphinxBuilder:=0D
+@@ -63,6 +63,7 @@ from jobserver import JobserverExec         # pylint: dis=
+able=3DC0413,C0411,E0401=0D
+ #=0D
+ #  Some constants=0D
+ #=0D
++VENV_DEFAULT =3D "sphinx_latest"=0D
+ MIN_PYTHON_VERSION =3D PythonVersion("3.7").version=0D
+ PAPER =3D ["", "a4", "letter"]=0D
+ =0D
+@@ -114,8 +115,9 @@ class SphinxBuilder:=0D
  =0D
          return path=0D
  =0D
--    def __init__(self, venv=3DNone, verbose=3DFalse, n_jobs=3DNone):=0D
-+    def __init__(self, venv=3DNone, verbose=3DFalse, n_jobs=3DNone, intera=
-ctive=3DNone):=0D
+-    def __init__(self, verbose=3DFalse, n_jobs=3DNone):=0D
++    def __init__(self, venv=3DNone, verbose=3DFalse, n_jobs=3DNone):=0D
          """Initialize internal variables"""=0D
-         self.venv =3D venv=0D
++        self.venv =3D venv=0D
          self.verbose =3D None=0D
-@@ -126,7 +126,11 @@ class SphinxBuilder:=0D
-         self.kernelversion =3D os.environ.get("KERNELVERSION", "unknown")=
-=0D
-         self.kernelrelease =3D os.environ.get("KERNELRELEASE", "unknown")=
-=0D
-         self.pdflatex =3D os.environ.get("PDFLATEX", "xelatex")=0D
--        self.latexopts =3D os.environ.get("LATEXOPTS", "-interaction=3Dbat=
-chmode -no-shell-escape")=0D
-+=0D
-+        if not interactive:=0D
-+            self.latexopts =3D os.environ.get("LATEXOPTS", "-interaction=
-=3Dbatchmode -no-shell-escape")=0D
-+        else:=0D
-+            self.latexopts =3D os.environ.get("LATEXOPTS", "")=0D
  =0D
-         if not verbose:=0D
-             verbose =3D bool(os.environ.get("KBUILD_VERBOSE", "") !=3D "")=
+         #=0D
+@@ -192,6 +194,21 @@ class SphinxBuilder:=0D
+ =0D
+         self.env =3D os.environ.copy()=0D
+ =0D
++        #=0D
++        # If venv command line argument is specified, run Sphinx from venv=
 =0D
-@@ -548,6 +552,9 @@ def main():=0D
++        #=0D
++        if venv:=0D
++            bin_dir =3D os.path.join(venv, "bin")=0D
++            if not os.path.isfile(os.path.join(bin_dir, "activate")):=0D
++                sys.exit(f"Venv {venv} not found.")=0D
++=0D
++            # "activate" virtual env=0D
++            self.env["PATH"] =3D bin_dir + ":" + self.env["PATH"]=0D
++            self.env["VIRTUAL_ENV"] =3D venv=0D
++            if "PYTHONHOME" in self.env:=0D
++                del self.env["PYTHONHOME"]=0D
++            print(f"Setting venv to {venv}")=0D
++=0D
+     def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):=0D
+         """=0D
+         Executes sphinx-build using current python3 command and setting=0D
+@@ -206,7 +223,10 @@ class SphinxBuilder:=0D
+ =0D
+             cmd =3D []=0D
+ =0D
+-            cmd.append(sys.executable)=0D
++            if self.venv:=0D
++                cmd.append("python")=0D
++            else:=0D
++                cmd.append(sys.executable)=0D
+ =0D
+             cmd.append(sphinx_build)=0D
+ =0D
+@@ -528,11 +548,16 @@ def main():=0D
      parser.add_argument('-j', '--jobs', type=3Djobs_type,=0D
                          help=3D"Sets number of jobs to use with sphinx-bui=
 ld")=0D
  =0D
-+    parser.add_argument('-i', '--interactive', action=3D'store_true',=0D
-+                        help=3D"Change latex default to run in interactive=
- mode")=0D
-+=0D
-     parser.add_argument("-V", "--venv", nargs=3D'?', const=3Df'{VENV_DEFAU=
++    parser.add_argument("-V", "--venv", nargs=3D'?', const=3Df'{VENV_DEFAU=
 LT}',=0D
-                         default=3DNone,=0D
-                         help=3Df'If used, run Sphinx from a venv dir (defa=
++                        default=3DNone,=0D
++                        help=3Df'If used, run Sphinx from a venv dir (defa=
 ult dir: {VENV_DEFAULT})')=0D
-@@ -557,7 +564,7 @@ def main():=0D
++=0D
+     args =3D parser.parse_args()=0D
+ =0D
      PythonVersion.check_python(MIN_PYTHON_VERSION)=0D
  =0D
-     builder =3D SphinxBuilder(venv=3Dargs.venv, verbose=3Dargs.verbose,=0D
--                            n_jobs=3Dargs.jobs)=0D
-+                            n_jobs=3Dargs.jobs, interactive=3Dargs.interac=
-tive)=0D
+-    builder =3D SphinxBuilder(verbose=3Dargs.verbose, n_jobs=3Dargs.jobs)=
+=0D
++    builder =3D SphinxBuilder(venv=3Dargs.venv, verbose=3Dargs.verbose,=0D
++                            n_jobs=3Dargs.jobs)=0D
  =0D
      builder.build(args.target, sphinxdirs=3Dargs.sphinxdirs, conf=3Dargs.c=
 onf,=0D
