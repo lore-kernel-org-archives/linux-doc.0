@@ -1,116 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91103E555;
-	Mon,  1 Sep 2025 18:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B8F255F5C;
+	Mon,  1 Sep 2025 19:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756752727; cv=none; b=kiM2QUxnYCldJyeNwXHGYjvHljP2CUpx8bsrb0y8j/hNRsEn1PbhXymYwBJ8VLU7Gm1C6nZ70oGh3ko1hy4umnW8CD4Hjw9dcSmtkFZ3fwt55n1viLPNXQ+R/3eioEKAOOaIde1cUFla4qHpP1xSrS+c2c5NqpfO369SvZMiNEo=
+	t=1756753251; cv=none; b=h/BYHUuMdu/1+hUjk2tvs+3pzXpfE8AgVF8YVeZLv8vrSIWGtnUnLvc+UiLpDAyClVrXBiYnGjafy9gtI/Y4ElVJ+qOFWxHwLgopnz0u6D+5JhkE5i+MKVVEvHHhNo8z2CHNBJnb+n46YTkQjMd2Q8fZubtZRku9tJT34ksG2YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756752727; c=relaxed/simple;
-	bh=/TX7qLZE4PDZ6TjeVa5US7jTUDiSEJHgxEnOVOCMJAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DVLZbn59dNJxMLw5wIi+4hUZoCbSUXF6b+n0QRGyZEdlUR8wOK/FU0oulBNGBPxDZXmm2J0dik5W43EIJ0bT0L7mSdBLBnFSu7irJb+n4CFkJ5GdijGjEJhmXVpI6xtj9uuliZuZlYi1Z1y5We7h8DmT/pEDSRkbjgq5RNVvUZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rAHLPQXk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756753251; c=relaxed/simple;
+	bh=ZYcVa6pfew9PsKaI1xeXZkcLuBBn9KyqN+Fvtm6NigE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iFOOTYDnXgOC3966cGc2DkIhkfdJ+8LprM+XgCkbWk5GpumjL43k1smtJ7JehSbwvyhjvs/EKiz+C/5HPqY6G+7EnEDMvbCDYoY9WlWRBg30Qk6SaKmEMYwAkSNs0stfLT35qp1TZLe3L1RTCzhnLJwIXjY4Hzz7SwgKgGJmTAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYASmNv7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rAHLPQXk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A90A9C4CEF0;
-	Mon,  1 Sep 2025 18:52:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYASmNv7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB1EC4CEFD;
+	Mon,  1 Sep 2025 19:00:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756752727;
-	bh=/TX7qLZE4PDZ6TjeVa5US7jTUDiSEJHgxEnOVOCMJAo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rAHLPQXk1asGRzmVoEjpDrt4GiY+0E774DJQlIur0JpwgVUDvNwerzplhPWX953Vm
-	 kVaLjcLM0IEtgqXfKGRsYRtus+k6IOqJI3RLp5ux+yy3G/6UhRXy4os5rzL1B6ivqw
-	 vdXHIhDWKPCLO68eH3i9bEdkTvWGD7JmUxv8m1DYJkdBmmIyUanNPFIIW0eiKrzVBS
-	 xxdy47t6F50nKV78gV30ljy8N9PheUsBM6ppkoroo60sFUGMeceEOzmc7FDh8NZnCi
-	 B8gr4dzQyAvOuzYR7lmb+eeInRfC+sPd0BiX3ywlLMZ7zVFHiCCocdVZAObmW44v6I
-	 B2j/9n7izMiMA==
-Date: Mon, 1 Sep 2025 19:52:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-Message-ID: <1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
-References: <20250828230104.GB26612@pendragon.ideasonboard.com>
- <87wm6l0w2y.fsf@trenco.lwn.net>
- <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
- <20250830222351.GA1705@pendragon.ideasonboard.com>
- <87h5xo1k6y.fsf@trenco.lwn.net>
- <20250831160339.2c45506c@foz.lan>
- <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
- <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
- <2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
- <20250901204635.51b81ffd@foz.lan>
+	s=k20201202; t=1756753250;
+	bh=ZYcVa6pfew9PsKaI1xeXZkcLuBBn9KyqN+Fvtm6NigE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GYASmNv7BXhIajZZoRvb4roQdeLOHe6DZu39BcO1fk3XdoM5eh0VcfQtL0m3quuCc
+	 VfY4RDvrJWzYdoloiXZ/XMOyb4IB/7MMqZ3ghTJuyJZRW1PUgkkBbgY8P8JDOArlJq
+	 cXkUAIQvYhsH8rYA6x3c30QbChvUVyxG/UaEM3AIgw10wa8gAYZQ0yaXhuW019nYPq
+	 QZo68hY25IpTFJm1aTzpcT3Qlgk+Q6Li0ieGq05XQ4rps9rWq76W2uTFb/2Qgrh7rb
+	 g9ntoHeNuOJYgLM88vGuTC8GhWhQK0luo8wjjwGvatzvam+tBPCx3FDu8zAaztdpgb
+	 0yOsZCtsOz68A==
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-74526ca7a46so1594431a34.2;
+        Mon, 01 Sep 2025 12:00:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUJowj0XZxUqRWTJdUfNeM3puIr6LUHU01MMotlg4y9+zSyx5byRhwwYkVo7twG43M1y6GZoz+3qHdPlAw=@vger.kernel.org, AJvYcCVOFva7j06wBRntkPIloSY6XSBaMB0Un11iIEWqUVva9RJl82Yu4Qz4B3jWTr31ijlc+A/XROI522A=@vger.kernel.org, AJvYcCWCUAWptoHsmgVcUI+ZqQ6vs7MW47UfJISdoZIVOmg+Om+roCV7TLJCbKfwUOBhp+j208Uy/0RCllDy@vger.kernel.org, AJvYcCWpKVhUjRh39OfgOoJdVGA3UOhl6vjj7h5kalO2Q8nrDWY7FcDWEq3JcdBVnqe2HQAIgc7ZlX2g7pZM@vger.kernel.org, AJvYcCXZRWh8KyF7fuN6waQwvuLqacb3XfoEYCyrPfvsRxkoXvjhtMT/K8DM9FjQFemkxvkwJlb+A5VKcuhuZNvb@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5yb8uKr3+52nG1hhZH8qxRcrVMsjcQ2N3H6vFazznrilGlOEw
+	gszJQcSWLxdbHZobI/VqJg56yHDkv7iH/kZTj4p1G1YqWGF6FE5PSn1oXbFo4+ARwdN8CkCluUn
+	HcVsYgPkpVErTNqqIZmoCB+42jzVEtcc=
+X-Google-Smtp-Source: AGHT+IF5SaCmHwNGeJ545FabBGFRvWTGFT8zu6kM/v3+zLeQSnjYj3JgLDBA/Na6A5xsnHIoN5OKyg7BUGvdwPDyFD4=
+X-Received: by 2002:a05:6830:6aa3:b0:745:46d6:e73f with SMTP id
+ 46e09a7af769-74569d764bamr4473355a34.1.1756753249708; Mon, 01 Sep 2025
+ 12:00:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kTfD6BBN1IhOe0Ep"
-Content-Disposition: inline
-In-Reply-To: <20250901204635.51b81ffd@foz.lan>
-X-Cookie: Auction:
-
-
---kTfD6BBN1IhOe0Ep
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250823200121.1320197-1-sumitg@nvidia.com> <20250823200121.1320197-2-sumitg@nvidia.com>
+ <CAJZ5v0jXq48petXAcf1prb5iuHbh3i8XREJBscs88xs5RY_j=A@mail.gmail.com> <694a85ad-8b55-42e9-91fe-06d40fe8facd@nvidia.com>
+In-Reply-To: <694a85ad-8b55-42e9-91fe-06d40fe8facd@nvidia.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 1 Sep 2025 21:00:38 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0ipt=zDDORjuHzuerfLryZO5NE1RpPfnADeWEqi6kyv6Q@mail.gmail.com>
+X-Gm-Features: Ac12FXyb-_bL-3aCu5Q9p5j1OqNhu9RwBJNUi80YwR1oSvxk_jkaXysXbT37dzA
+Message-ID: <CAJZ5v0ipt=zDDORjuHzuerfLryZO5NE1RpPfnADeWEqi6kyv6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] ACPI: CPPC: add perf control read API and clarify naming
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, viresh.kumar@linaro.org, lenb@kernel.org, 
+	robert.moore@intel.com, corbet@lwn.net, pierre.gondois@arm.com, 
+	zhenglifeng1@huawei.com, ray.huang@amd.com, gautham.shenoy@amd.com, 
+	mario.limonciello@amd.com, perry.yuan@amd.com, linux-pm@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com, 
+	vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com, 
+	bbasu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 01, 2025 at 08:46:35PM +0200, Mauro Carvalho Chehab wrote:
+On Mon, Sep 1, 2025 at 3:46=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wrot=
+e:
+>
+>
+> On 26/08/25 00:03, Rafael J. Wysocki wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Sat, Aug 23, 2025 at 10:02=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com=
+> wrote:
+> >> Add cppc_get_perf_ctrls() to read performance control register values.
+> >> Rename existing APIs for clarity as:
+> >> - To distinguish between:
+> >>    - Feedback counters (fb_ctrs): Read-only performance monitoring dat=
+a.
+> >>    - Performance controls (perf_ctrls): Read-write config registers.
+> >> - cppc_set_epp_perf() updates both EPP and Autonomous Selection.
+> >>
+> >> API's renamed:
+> >> - cppc_set_perf() to cppc_set_perf_ctrls().
+> >> - cppc_get_perf_ctrs() to cppc_get_perf_fb_ctrs().
+> >> - cppc_get_perf_ctrs_sample() to cppc_get_perf_fb_ctrs_sample().
+> >> - cppc_set_epp_perf() to cppc_set_epp_and_autosel().
+> >> Remove redundant energy_perf field from 'struct cppc_perf_caps' since
+> >> the same information is available in 'struct cppc_perf_ctrls' which is
+> >> actively used.
+> >>
+> >> All existing callers are updated to maintain compatibility.
+> >
+> > First, this is too much in one patch IMV and second, I honestly don't
+> > see a reason for the renames above.
+> >
+> > This generally makes tracking the code changes history harder.
+> >
+> > Thanks!
+>
+> Did the renaming for clarity and better readability.
+> If we don't want to do that then i can drop the renaming and keep other
+> changes.
 
-> It should be noticed that kernel-doc doesn't run in parallel. Python
-> still suffers for a global big lock (called GIL). My attempts to run in
-> parallel actually made kernel-doc slower, but this is changing: the
-> next Python version is planning to get rid of GIL. So, maybe within
-> a year we can re-add the patches to run it in parallel.
+Please do.
 
-It'll take a lot longer for that to filter out to people's machines, for
-example I'm running Debian stable on my desktop and I know a lot of
-people have Ubuntu LTS.
+> Also, split this patch into two as below:
+>          Patch1: Add cppc_get_perf() API.
+>
+>          Patch2:
+>            - Update both EPP and Autonomous Selection in
+> cppc_set_epp_perf().
+>            - Remove redundant energy_perf field from 'struct
+> cppc_perf_caps'.
 
-> > That
-> > compares unfavourably with allmodconfig on this system:
-> >=20
-> >   $ time make -j56 allmodconfig
-> >   ...
-> >   make -j56 allmodconfig  5.31s user 1.93s system 146% cpu 4.931 total
-> >   $ time make -j56
-> >   ...
-> >   make -j56  53468.11s user 4387.30s system 5084% cpu 18:57.77 total
-> >=20
-> > and seems rather more likely to flag something for me.
+Sounds reasonable to me.
 
-> 32 seconds more, on the top of 53468.11s doesn't sound that much.
-
-Yeah, if it was of that sort of order, ran clean with mainline and could
-be checked automatically it'd be a lot more viable.
-
---kTfD6BBN1IhOe0Ep
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi161EACgkQJNaLcl1U
-h9Bwsgf/YbAHWiEofK9RaVBDk7z+ObkZv1LKQxt6I8SJv+HoBhTDvjWx/FPncdpc
-IbyidHQP4GaURRXNQ0bN62ETqD8fCskMBUSTqyboDgI0LBS02dNCycJP1TPJl1rQ
-Bc+VdmAL8PdsctCrkB7RL9dJyzB4dFyUoXdj4FS1CxQ0xdr8kbC7BwvhrKEm2q/C
-FXoz9BojTD+8pBnEL7PWumWy6Lje2n/fMCO5PUxnhT+cCGVPv6dxfAD9g6zLnJxh
-T82sjN5WwBsn/JgY/HDlZ/IWSR0JcGPrhM/wRxTLvtICMLeQZsRRRNA+YLA2oMoU
-3KfqMPiNCtQSa11KnHtjSSOyMpjukA==
-=AEj9
------END PGP SIGNATURE-----
-
---kTfD6BBN1IhOe0Ep--
+Thanks!
