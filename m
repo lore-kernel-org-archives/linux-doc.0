@@ -1,99 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E0019C560;
-	Mon,  1 Sep 2025 19:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3959E1E5213;
+	Mon,  1 Sep 2025 19:23:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756754232; cv=none; b=a9uE9QX2LgcxkTfBL8rOv4YA6Z9ZjeB/S+bALmPNV0m7ULem9dvUWEXCzsMBQan2TNLkvCTHEdoGdw9H0IR8gRv6URRy5MWTLIzZXkQs/puNogQqrv2arGqbfHRtNRTh7ZvFboEygPQCX6g+9qMwHMfLwRVmuYNj5Vjk4LLbMMY=
+	t=1756754598; cv=none; b=AtzxxEnD8cQTbf4D+RdIi+RtjZ0ie/hH4aMt9bWyktVkP+ZUIlVMKSCYjm/MFFyEeKu1e1hORIoBkBzC5nX1vwxCWsszk/tbfoBeeTOEZZ8Xm6Xis4I5/xv7407rN0lzQxTNspT4hM7KrJWMA5qUpX8Q/QE4vhVne0pjvLXoHDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756754232; c=relaxed/simple;
-	bh=n4shjm/b3T4Xo/+5nzOOAjj0D3AfBcbazMEpdhPWtfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0IpCiXM75jwZuCMqbJTCdiPhTLzfrxczE0biZZXBK4tSUfCG6WD+11hFxdPO+mFf6Wgc6Ckt2Tvd2//d5cTsMya042rDY4kE/24syVCwUZajAir+1NSv/RvnX+8ncefKnT5Co4RN0TSriG3ooph3i1Shde17Zxn2CRYMZDYEug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTmO5pkc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756754598; c=relaxed/simple;
+	bh=/4asbQkP1eDqEbveKkGpr0ywUBl4RSN7gR/XJ53xGVw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=tHp2YDp5nvu+qavXlm+d2xBl2jlNMaNZk3GhrkPckXY8vav7tEixUsc5YvtLPpWcbhuEEalkSFaNhLQWn/rMQT3oMO4ultuJ7rXQXkzyOSg3ucLV2Iex2qmqonID1XqkPLnxEuRmN0rNCxdvKne+IWIBhgHkhCv+Z46U1KVkDsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=waO5M7TU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aTmO5pkc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3627C4CEF0;
-	Mon,  1 Sep 2025 19:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756754232;
-	bh=n4shjm/b3T4Xo/+5nzOOAjj0D3AfBcbazMEpdhPWtfc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aTmO5pkcuG6IC+gEtOrsqi2Fu6GZIDcJc4e1q7g0oLSLkiHfeIPxhAU3qWnFApec5
-	 QSF+kylrQ6+70W7PCejPhTPV8kSF74ZKzl+pbcuBa0F5gaRXFDWKIOgV3DSBvMyVI/
-	 vA/K4ho5y9+Wg7whD/3rxxHfnquqcca45sItBXxBp6JzPmsnNniWHRwAKw6VMK+hQP
-	 T5eYfSLhQMriQfLM+aYVNH6fDUzS1co2ZRiA4wPk1CSi9mqSGDL3wYB8vBU+U6c+A/
-	 0z7ADpFVmjV0wPbsQne/9WD2k2qzo+oJYOqryUtelccC1K4L0Zx74jFh3QYpzkkKE3
-	 1QALMPvKenu5g==
-Date: Mon, 1 Sep 2025 20:17:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-Message-ID: <295b275b-5aac-466c-92c2-659b45441060@sirena.org.uk>
-References: <20250828230104.GB26612@pendragon.ideasonboard.com>
- <87wm6l0w2y.fsf@trenco.lwn.net>
- <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
- <20250830222351.GA1705@pendragon.ideasonboard.com>
- <87h5xo1k6y.fsf@trenco.lwn.net>
- <20250831160339.2c45506c@foz.lan>
- <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
- <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
- <20250901203750.33ee6689@foz.lan>
- <4f5b357c-5c99-4d7c-bb16-02556eec074a@lunn.ch>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="waO5M7TU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BD1C4CEF0;
+	Mon,  1 Sep 2025 19:23:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1756754597;
+	bh=/4asbQkP1eDqEbveKkGpr0ywUBl4RSN7gR/XJ53xGVw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=waO5M7TU9BYoRGjtorAnNJETXm72HFsA3Y0tFfhW85iW307Pc3Fq86bh7keOgjgLE
+	 ktpXe34fCWJ/hIBD3X4zZpOX2irMQA3Ga0Vr8rilIjKxKv0uR7kEYqCu1sIk7u49Cu
+	 IOOyVz6paX9t7Kdqkgl01NvAx2e8rkGiaTJ3GKyI=
+Date: Mon, 1 Sep 2025 12:23:16 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+ dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
+ catalin.marinas@arm.com, will@kernel.org, scott@os.amperecomputing.com,
+ jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org,
+ kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org,
+ oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org,
+ hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+ yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mm@kvack.org
+Subject: Re: [PATCH v6 1/2] kasan/hw-tags: introduce kasan.write_only option
+Message-Id: <20250901122316.6b7d8d7fdcf03bdb2aa4960a@linux-foundation.org>
+In-Reply-To: <20250901104623.402172-2-yeoreum.yun@arm.com>
+References: <20250901104623.402172-1-yeoreum.yun@arm.com>
+	<20250901104623.402172-2-yeoreum.yun@arm.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Cs068SmNqBWQWiQ4"
-Content-Disposition: inline
-In-Reply-To: <4f5b357c-5c99-4d7c-bb16-02556eec074a@lunn.ch>
-X-Cookie: Auction:
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon,  1 Sep 2025 11:46:22 +0100 Yeoreum Yun <yeoreum.yun@arm.com> wrote:
 
---Cs068SmNqBWQWiQ4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
+> raise of tag check fault on store operation only.
+> Introcude KASAN write only mode based on this feature.
+> 
+> KASAN write only mode restricts KASAN checks operation for write only and
+> omits the checks for fetch/read operations when accessing memory.
+> So it might be used not only debugging enviroment but also normal
+> enviroment to check memory safty.
+> 
+> This features can be controlled with "kasan.write_only" arguments.
+> When "kasan.write_only=on", KASAN checks write operation only otherwise
+> KASAN checks all operations.
+> 
+> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
+> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
+> with other function together.
+> 
+> ...
+>
+>  
+> -	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
+> +	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
+>  		kasan_mode_info(),
 
-On Mon, Sep 01, 2025 at 09:05:19PM +0200, Andrew Lunn wrote:
+This lost the closing ")" in the printk control string.  I fixed that
+up while resolving rejects.
 
-> Does the kernel docs have any concept of incremental builds? Adding
-> one patch and rebuilding the kernel is generally fast, unless it
-> changes an important header. So the cost is reasonably small for two
-> builds. But if building the kernel documentation twice is going to
-> cost 6 minutes, this does not scale.
-
-FWIW I do the same and would face similar issues, though for docs I
-could probably cope with selectively building only tips of branches
-given how infrequently they're touched.
-
---Cs068SmNqBWQWiQ4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi18TIACgkQJNaLcl1U
-h9AZfwf/SyvMQLIc0jCbjuxIeJlsj7uesemROGywuOp+kmLKpqCNA1yE5gVRagi0
-L1LTIDb5dxBkp6a8p6tCJtd/Fxlyo9CIcI2DGj3RpQ7VWknxr/7wD4uoSxJzS31Y
-Nk9BM9FLAOCkYclGWJd8zrGsAER3NlXKBBP0GdnTyJy3GuUgLmsnOElp3cnHNKCx
-+LLhx/820eSnQZQ1fO7AX2MGMgHddxR3AL4G4WAY40l0erJ5KKWYsfmZQpu8b9ZI
-j+FWWdD8XPSaFOosN4OB/X9eNysZgkdZ0YN5nif3tIvJ4fXV56fF4YVuG0bsScgg
-8KwaC3F0bJ6DXEk4FVQB3yZtZEPs2A==
-=qlnL
------END PGP SIGNATURE-----
-
---Cs068SmNqBWQWiQ4--
