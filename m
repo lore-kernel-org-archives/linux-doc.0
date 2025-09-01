@@ -1,602 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E513032F745;
-	Mon,  1 Sep 2025 18:25:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFE32A812;
+	Mon,  1 Sep 2025 18:26:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756751153; cv=none; b=RN9fuWgw/susZAVFfJ69OWrHv+CZwPjL8vtfFBSwSGTtqw0jK45JfenOI/nsDF1rydA8iZ9Km6pvihkb4xCPWowpAZBgMfbcKBCTmDsfKdwNdI/9Mzcdbfjv4JozkKUA44EjJb6qkkaDEFWxkvnvrx1cfGyOKWAIB6AKdBXhE5M=
+	t=1756751204; cv=none; b=aFiO+6Cz/Fec8E8smyRtUVeMPN5oAGx6WOOfUa71UWveHAcWxm58eHDX1MigXp8iDiSkikfdm1vFItOf6MQkntBnUt9ELeR0aoIlv2gAh7GtmfDPHiJEmDCrK4kMCVCJN3eBIiJg0kyonrQOXXYoMFuGlEyDkGJ1gxdZlGYzzAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756751153; c=relaxed/simple;
-	bh=G1gJomjmuav14FT0x4N3IzltX6v/jXnqlBwegkT4ets=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KEl7kCdlvEcXX0ybme1MklFYHMF17ESbLrB33yKjK6PML99UOQKGnIs9PXB6R30MoQBMtbwb2hk8YHHOGMNxdRyoMd/YuwryI3jASkR8H8Scr1IoOotlnblWImVKzwMaPRVEzgD36zgq97tbDGpP7QuUbmrmfKFoYPaJ0/TJFaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=on7sLK7p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756751204; c=relaxed/simple;
+	bh=9Ptot1U3GDfxEFDfnmS8j/dGCZE5HglyfHPfz83Uomk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kvOAOY5aJNs1LhbWARjjk5q5EJyJp34ZJFcwFeeazp7pfRg6SZxzHBOAOxi/qSj5doVzE6rJe+mOnTIJWF5yKki2NC6vl8WhEx4B1cWfMHCg0RMIrGXvlv/4I/0xF6BxFQ0gKXQoFDGxxphI639D/OqkGzyK1/9Y4nRbQLfp5+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQn4N16D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="on7sLK7p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5708AC4CEF0;
-	Mon,  1 Sep 2025 18:25:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQn4N16D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4226CC4CEF1;
+	Mon,  1 Sep 2025 18:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756751152;
-	bh=G1gJomjmuav14FT0x4N3IzltX6v/jXnqlBwegkT4ets=;
-	h=From:To:Cc:Subject:Date:From;
-	b=on7sLK7pvju6OkdAZlfig2AoOeWZyJONkK0lPcrAKWwl5okAU01iCcWZki5oHXjpy
-	 47o8sKVaEmLx9Zk4JDzmf6C73oBSBf9vFS6+hZxtp4sl4dVGYyxhN/fCyOdIFRqW2d
-	 WJMvCA3q8Ts8eyJG7cWYLrC/8NCAYvb55p+7zkDC1oCkJ1V7M2jcgfX3GjKVM5yaES
-	 KNvh/zs2Xct01xuekkcwcHjSXcd0fwKJ4I9+c4qZt79b3btBPXymsbYTTkXGCxnPJv
-	 Spe0MtjblsV/d2sxEs2fX8HU8UF1K5HRjkWBzvExr/TbKu7Wg5tHvEokA4pCZWNO1U
-	 kcAT7WVrG/TBw==
-From: Kees Cook <kees@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Marco Bonelli <marco@mebeim.net>,
-	Petr Vorel <pvorel@suse.cz>,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v3] kconfig: Add transitional symbol attribute for migration support
-Date: Mon,  1 Sep 2025 11:23:39 -0700
-Message-Id: <20250901182334.make.517-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	s=k20201202; t=1756751204;
+	bh=9Ptot1U3GDfxEFDfnmS8j/dGCZE5HglyfHPfz83Uomk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TQn4N16D2vAQ5MlaTStCSwSJM+xYFJFvOb537+su4axquiarGMt6m0wBpLlRPGSYH
+	 rQa47UVUommOZeSTFGnk8fivF62e7gck/oUPkLBMQ2K4VyVhnoQqenAnDN8xL2YOOH
+	 e/kkH3oRoA+pWH6R2IeRs+3FKfQBY2bSqQUFGR+T8OBw8OZS4pANi8tZ68FGSPX3mP
+	 78gox6sl6bbixJ17x+zl/oayYZpHAs1K4kU7WQio2o8uCYK3yJkpnTLowrSnFOWQFM
+	 vISjTbFggQcmwfhzgQwF1QadxiepTTQRGXMkMGMGsKGUzKNPxsNNl9ImGYSARhi1p8
+	 5Uv2DC2D3rTnA==
+Date: Mon, 1 Sep 2025 20:26:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
+ <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future
+ directions
+Message-ID: <20250901202635.426d099a@foz.lan>
+In-Reply-To: <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
+References: <87plcndkzs.fsf@trenco.lwn.net>
+	<20250828230104.GB26612@pendragon.ideasonboard.com>
+	<87wm6l0w2y.fsf@trenco.lwn.net>
+	<930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+	<20250830222351.GA1705@pendragon.ideasonboard.com>
+	<87h5xo1k6y.fsf@trenco.lwn.net>
+	<20250831160339.2c45506c@foz.lan>
+	<b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=18063; i=kees@kernel.org; h=from:subject:message-id; bh=G1gJomjmuav14FT0x4N3IzltX6v/jXnqlBwegkT4ets=; b=owGbwMvMwCVmps19z/KJym7G02pJDBlbn6ximd0pHZdc5tu2/K/ji8l3mh1mm/EqPD/JocQwt VVL48eUjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIncXsvIMKVgxrQ/TT++O643 nr963+Ilevk5v1WMdyiVMFwpef/wFCMjw9TOsI9empWXjjg7ipUEekefm3QrXDeqMFCurtXrmHE RKwA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
-existing .config files need to maintain backward compatibility while
-preventing deprecated options from appearing in newly generated
-configurations. This is challenging with existing Kconfig mechanisms
-because:
+Em Mon, 01 Sep 2025 13:09:15 +0300
+Jani Nikula <jani.nikula@intel.com> escreveu:
 
-1. Simply removing old options breaks existing .config files.
-2. Manually listing an option as "deprecated" leaves it needlessly
-   visible and still writes them to new .config files.
-3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
-   etc) prevents the option from being processed at all.
+> On Sun, 31 Aug 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
+> > kernel-doc now can parse the entire tree with:
+> >
+> > 	$ scripts/kernel-doc .
+> >
+> > Someone can easily use it to discover the current gaps at the docs that
+> > have already some kernel-doc markups and identify what of them aren't
+> > yet placed under Documentation/ ".. kernel-doc::" markups.
+> >
+> > So, I'd say the first step here would be to ensure that 100% of the
+> > docs are there somewhere. Alternatively, we could place all the rest
+> > of functions with kernel-doc markups outside Documentation inside an
+> > "others/" book - or even "<subsystem>/others/", and then gradually move
+> > them to the right places.  
+> 
+> I don't agree that all the kernel-docs need to be in the html build in
+> the first place.
 
-Add a "transitional" attribute that creates symbols which are:
-- Processed during configuration (can influence other symbols' defaults)
-- Hidden from user menus (no prompts appear)
-- Omitted from newly written .config files (gets migrated)
-- Restricted to only having help sections (no defaults, selects, etc)
-  making it truly just a "prior value pass-through" option.
+Not all, but those that are part of the kAPI requires good documentation.
 
-The transitional syntax requires a type argument and prevents type
-redefinition:
+> Some of them would be better off with a simple
+> non-structured comment instead. For example, most static functions. Some
+> of the kernel-docs are useful for the structure the format provides, but
+> still having them in the html build is overkill. For example, many
+> complex but driver specific functions.
 
-    config NEW_OPTION
-        bool "New option"
-        default OLD_OPTION
+Driver-specific functions could remain out of doc build - or be part
+of the documentation. It should be a decision of the driver authors,
+that may or may not be expecting contributions from the community.
 
-    config OLD_OPTION
-        bool
-        transitional
-        help
-          Transitional config for OLD_OPTION migration.
+> I think the API documentation in the Sphinx build is primarily useful
+> for kernel generic and subsystem APIs, or overviews of
+> functionality. But nobody's looking at the Sphinx build for highly
+> specific and isolated documentation for individual structures or
+> functions.
+> 
+> I'd say emphasize quality over quantity in the Sphinx build. An
+> overwhelming amount of (in the big picture) insignificant API
+> documentation does not make for good documentation.
+> 
+> That said, there *are* a lot of kernel-doc comments that absolutely
+> should be pulled into the Sphinx build. But don't be indiscriminate
+> about it.
 
-This allows seamless migration: olddefconfig processes existing
-CONFIG_OLD_OPTION=y settings to enable CONFIG_NEW_OPTION=y, while
-CONFIG_OLD_OPTION is omitted from newly generated .config files.
+Agreed. What I said is that this is a good start point, as it sounds
+to me that we do have kAPI documentation inside headers but not
+exported to the documentation.
 
-Implementation details:
-- Parser validates transitional symbols can only have help sections
-- Symbol visibility logic updated: usable = (visible != no || transitional)
-- Transitional symbols preserve user values during configuration
-- Documentation added to show the usage
-- Added positive and negative testing via "testconfig" target
+> ---
+> 
+> I think a more interesting first step would be ensuring all the
+> kernel-docs we do have are free of kernel-doc and rst warnings. 
 
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-With help from Claude Code to show me how to navigate the kconfig parser.
+Agreed. Things look better those days, but just because right now
+there are several warnings disabled by default.
 
- v3: use existing type parsing, add tests, fix up booleans (vegard)
+> Because they should be, and this would make them easier to pull into 
+> the Sphinx build as needed.
+> 
+> Currently we only have the kernel-doc checks in W=1 builds for .c
+> files.
+> 
+> The i915 and xe drivers have local Makefile hacks to do it for more than
+> just W=1 builds and also headers. The attempts to expand the header
+> checks to the drm subsystem, however, failed infamously.
 
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: <linux-kbuild@vger.kernel.org>
-Cc: <linux-doc@vger.kernel.org>
----
- .../kconfig/tests/err_transitional/Kconfig    |  52 +++++++++
- scripts/kconfig/tests/transitional/Kconfig    | 100 ++++++++++++++++++
- scripts/kconfig/expr.h                        |   1 +
- scripts/kconfig/lexer.l                       |   1 +
- scripts/kconfig/parser.y                      |  47 ++++++++
- scripts/kconfig/symbol.c                      |  16 ++-
- .../tests/err_transitional/__init__.py        |  14 +++
- .../tests/err_transitional/expected_stderr    |   7 ++
- .../kconfig/tests/transitional/__init__.py    |  18 ++++
- .../tests/transitional/expected_config        |  12 +++
- .../kconfig/tests/transitional/initial_config |  16 +++
- Documentation/kbuild/kconfig-language.rst     |  32 ++++++
- 12 files changed, 313 insertions(+), 3 deletions(-)
- create mode 100644 scripts/kconfig/tests/err_transitional/Kconfig
- create mode 100644 scripts/kconfig/tests/transitional/Kconfig
- create mode 100644 scripts/kconfig/tests/err_transitional/__init__.py
- create mode 100644 scripts/kconfig/tests/err_transitional/expected_stderr
- create mode 100644 scripts/kconfig/tests/transitional/__init__.py
- create mode 100644 scripts/kconfig/tests/transitional/expected_config
- create mode 100644 scripts/kconfig/tests/transitional/initial_config
+On media, our CI builds with W=1, and aim to have no warnings.
 
-diff --git a/scripts/kconfig/tests/err_transitional/Kconfig b/scripts/kconfig/tests/err_transitional/Kconfig
-new file mode 100644
-index 000000000000..a75ed3b2fe5e
---- /dev/null
-+++ b/scripts/kconfig/tests/err_transitional/Kconfig
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Test that transitional symbols cannot have properties other than help
-+
-+config BAD_DEFAULT
-+	bool
-+	transitional
-+	default y
-+	help
-+	  This transitional symbol illegally has a default property.
-+
-+config BAD_PROMPT
-+	bool
-+	transitional
-+	prompt "Bad prompt"
-+	help
-+	  This transitional symbol illegally has a prompt.
-+
-+config BAD_SELECT
-+	bool
-+	transitional
-+	select OTHER_SYMBOL
-+	help
-+	  This transitional symbol illegally has a select.
-+
-+config BAD_IMPLY
-+	bool
-+	transitional
-+	imply OTHER_SYMBOL
-+	help
-+	  This transitional symbol illegally has an imply.
-+
-+config BAD_DEPENDS
-+	bool
-+	transitional
-+	depends on OTHER_SYMBOL
-+	help
-+	  This transitional symbol illegally has a depends.
-+
-+config BAD_RANGE
-+	int
-+	transitional
-+	range 1 10
-+	help
-+	  This transitional symbol illegally has a range.
-+
-+config BAD_NO_TYPE
-+	transitional
-+	help
-+	  This transitional symbol illegally has no type specified.
-+
-+config OTHER_SYMBOL
-+	bool
-diff --git a/scripts/kconfig/tests/transitional/Kconfig b/scripts/kconfig/tests/transitional/Kconfig
-new file mode 100644
-index 000000000000..62c3b24665b9
---- /dev/null
-+++ b/scripts/kconfig/tests/transitional/Kconfig
-@@ -0,0 +1,100 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Test transitional symbols for config migration with all Kconfig types
-+
-+# Enable module support for tristate testing
-+config MODULES
-+	bool "Enable loadable module support"
-+	modules
-+	default y
-+
-+# Basic migration tests for all types
-+config NEW_BOOL
-+	bool "New bool option"
-+	default OLD_BOOL
-+
-+config OLD_BOOL
-+	bool
-+	transitional
-+
-+config NEW_TRISTATE
-+	tristate "New tristate option"
-+	default OLD_TRISTATE
-+
-+config OLD_TRISTATE
-+	tristate
-+	transitional
-+
-+config NEW_STRING
-+	string "New string option"
-+	default OLD_STRING
-+
-+config OLD_STRING
-+	string
-+	transitional
-+
-+config NEW_HEX
-+	hex "New hex option"
-+	default OLD_HEX
-+
-+config OLD_HEX
-+	hex
-+	transitional
-+
-+config NEW_INT
-+	int "New int option"
-+	default OLD_INT
-+
-+config OLD_INT
-+	int
-+	transitional
-+
-+# Precedence tests for all types
-+config NEW_BOOL_PRECEDENCE
-+	bool "New bool option with precedence"
-+	default OLD_BOOL_PRECEDENCE
-+
-+config OLD_BOOL_PRECEDENCE
-+	bool
-+	transitional
-+
-+config NEW_STRING_PRECEDENCE
-+	string "New string option with precedence"
-+	default OLD_STRING_PRECEDENCE
-+
-+config OLD_STRING_PRECEDENCE
-+	string
-+	transitional
-+
-+config NEW_TRISTATE_PRECEDENCE
-+	tristate "New tristate option with precedence"
-+	default OLD_TRISTATE_PRECEDENCE
-+
-+config OLD_TRISTATE_PRECEDENCE
-+	tristate
-+	transitional
-+
-+config NEW_HEX_PRECEDENCE
-+	hex "New hex option with precedence"
-+	default OLD_HEX_PRECEDENCE
-+
-+config OLD_HEX_PRECEDENCE
-+	hex
-+	transitional
-+
-+config NEW_INT_PRECEDENCE
-+	int "New int option with precedence"
-+	default OLD_INT_PRECEDENCE
-+
-+config OLD_INT_PRECEDENCE
-+	int
-+	transitional
-+
-+# Test that help sections are allowed for transitional symbols
-+config OLD_WITH_HELP
-+	bool
-+	transitional
-+	help
-+	  This transitional symbol has a help section to validate that help is allowed.
-+
-+config REGULAR_OPTION
-+	bool "Regular option"
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index fe2231e0e6a4..5e7cdabc029c 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -145,6 +145,7 @@ struct symbol {
- #define SYMBOL_CONST      0x0001  /* symbol is const */
- #define SYMBOL_CHECK      0x0008  /* used during dependency checking */
- #define SYMBOL_VALID      0x0080  /* set when symbol.curr is calculated */
-+#define SYMBOL_HIDDEN     0x0100  /* symbol is hidden (usable but invisible) */
- #define SYMBOL_WRITE      0x0200  /* write symbol to file (KCONFIG_CONFIG) */
- #define SYMBOL_WRITTEN    0x0800  /* track info to avoid double-write to .config */
- #define SYMBOL_CHECKED    0x2000  /* used during dependency checking */
-diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-index 9c2cdfc33c6f..6d2c92c6095d 100644
---- a/scripts/kconfig/lexer.l
-+++ b/scripts/kconfig/lexer.l
-@@ -126,6 +126,7 @@ n	[A-Za-z0-9_-]
- "select"		return T_SELECT;
- "source"		return T_SOURCE;
- "string"		return T_STRING;
-+"transitional"		return T_TRANSITIONAL;
- "tristate"		return T_TRISTATE;
- "visible"		return T_VISIBLE;
- "||"			return T_OR;
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index e9c3c664e925..c95271c22183 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -75,6 +75,7 @@ struct menu *current_menu, *current_entry, *current_choice;
- %token T_SELECT
- %token T_SOURCE
- %token T_STRING
-+%token T_TRANSITIONAL
- %token T_TRISTATE
- %token T_VISIBLE
- %token T_EOL
-@@ -205,6 +206,12 @@ config_option: T_PROMPT T_WORD_QUOTE if_expr T_EOL
- 	printd(DEBUG_PARSE, "%s:%d:prompt\n", cur_filename, cur_lineno);
- };
- 
-+config_option: T_TRANSITIONAL T_EOL
-+{
-+	current_entry->sym->flags |= SYMBOL_HIDDEN;
-+	printd(DEBUG_PARSE, "%s:%d:transitional\n", cur_filename, cur_lineno);
-+};
-+
- config_option: default expr if_expr T_EOL
- {
- 	menu_add_expr(P_DEFAULT, $2, $3);
-@@ -482,6 +489,43 @@ assign_val:
- 
- %%
- 
-+/**
-+ * transitional_check_sanity - check transitional symbols have no other
-+ *			       properties
-+ *
-+ * @menu: menu of the potentially transitional symbol
-+ *
-+ * Return: -1 if an error is found, 0 otherwise.
-+ */
-+static int transitional_check_sanity(const struct menu *menu)
-+{
-+	struct property *prop;
-+
-+	if (!menu->sym || !(menu->sym->flags & SYMBOL_HIDDEN))
-+		return 0;
-+
-+	/* Check for depends and visible conditions. */
-+	if ((menu->dep && !expr_is_yes(menu->dep)) ||
-+	    (menu->visibility && !expr_is_yes(menu->visibility))) {
-+		fprintf(stderr, "%s:%d: error: %s",
-+			menu->filename, menu->lineno,
-+			"transitional symbols can only have help sections\n");
-+		return -1;
-+	}
-+
-+	/* Check for any property other than "help". */
-+	for (prop = menu->sym->prop; prop; prop = prop->next) {
-+		if (prop->type != P_COMMENT) {
-+			fprintf(stderr, "%s:%d: error: %s",
-+				prop->filename, prop->lineno,
-+				"transitional symbols can only have help sections\n");
-+			return -1;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * choice_check_sanity - check sanity of a choice member
-  *
-@@ -558,6 +602,9 @@ void conf_parse(const char *name)
- 		if (menu->sym && sym_check_deps(menu->sym))
- 			yynerrs++;
- 
-+		if (transitional_check_sanity(menu))
-+			yynerrs++;
-+
- 		if (menu->sym && sym_is_choice(menu->sym)) {
- 			menu_for_each_sub_entry(child, menu)
- 				if (child->sym && choice_check_sanity(child))
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 26ab10c0fd76..b2686dba05ec 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -408,6 +408,7 @@ void sym_calc_value(struct symbol *sym)
- 	struct symbol_value newval, oldval;
- 	struct property *prop;
- 	struct menu *choice_menu;
-+	bool usable;
- 
- 	if (!sym)
- 		return;
-@@ -447,6 +448,13 @@ void sym_calc_value(struct symbol *sym)
- 	if (sym->visible != no)
- 		sym->flags |= SYMBOL_WRITE;
- 
-+	/*
-+	 * For a symbol to be processed during configuration it needs to
-+	 * be either visible or a transitional symbol that is hidden from
-+	 * menus and omitted from newly written .config files.
-+	 */
-+	usable = (sym->visible != no || (sym->flags & SYMBOL_HIDDEN));
-+
- 	/* set default if recursively called */
- 	sym->curr = newval;
- 
-@@ -459,13 +467,15 @@ void sym_calc_value(struct symbol *sym)
- 			sym_calc_choice(choice_menu);
- 			newval.tri = sym->curr.tri;
- 		} else {
--			if (sym->visible != no) {
-+			if (usable) {
- 				/* if the symbol is visible use the user value
- 				 * if available, otherwise try the default value
- 				 */
- 				if (sym_has_value(sym)) {
-+					tristate value = (sym->flags & SYMBOL_HIDDEN) ?
-+						sym->def[S_DEF_USER].tri : sym->visible;
- 					newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
--							      sym->visible);
-+							      value);
- 					goto calc_newval;
- 				}
- 			}
-@@ -497,7 +507,7 @@ void sym_calc_value(struct symbol *sym)
- 	case S_STRING:
- 	case S_HEX:
- 	case S_INT:
--		if (sym->visible != no && sym_has_value(sym)) {
-+		if (usable && sym_has_value(sym)) {
- 			newval.val = sym->def[S_DEF_USER].val;
- 			break;
- 		}
-diff --git a/scripts/kconfig/tests/err_transitional/__init__.py b/scripts/kconfig/tests/err_transitional/__init__.py
-new file mode 100644
-index 000000000000..7dffb5b0833f
---- /dev/null
-+++ b/scripts/kconfig/tests/err_transitional/__init__.py
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0
-+"""
-+Test that transitional symbols with invalid properties are rejected.
-+
-+Transitional symbols can only have help sections. Any other properties
-+(default, select, depends, etc.) should cause a parser error.
-+"""
-+
-+def test(conf):
-+    # This should fail with exit code 1 due to invalid transitional symbol
-+    assert conf.olddefconfig() == 1
-+
-+    # Check that the error message is about transitional symbols
-+    assert conf.stderr_contains('expected_stderr')
-diff --git a/scripts/kconfig/tests/err_transitional/expected_stderr b/scripts/kconfig/tests/err_transitional/expected_stderr
-new file mode 100644
-index 000000000000..b52db4f680f4
---- /dev/null
-+++ b/scripts/kconfig/tests/err_transitional/expected_stderr
-@@ -0,0 +1,7 @@
-+Kconfig:46:warning: config symbol defined without type
-+Kconfig:7: error: transitional symbols can only have help sections
-+Kconfig:14: error: transitional symbols can only have help sections
-+Kconfig:21: error: transitional symbols can only have help sections
-+Kconfig:28: error: transitional symbols can only have help sections
-+Kconfig:32: error: transitional symbols can only have help sections
-+Kconfig:42: error: transitional symbols can only have help sections
-diff --git a/scripts/kconfig/tests/transitional/__init__.py b/scripts/kconfig/tests/transitional/__init__.py
-new file mode 100644
-index 000000000000..029382a54d47
---- /dev/null
-+++ b/scripts/kconfig/tests/transitional/__init__.py
-@@ -0,0 +1,18 @@
-+# SPDX-License-Identifier: GPL-2.0
-+"""
-+Test transitional symbol migration functionality for all Kconfig types.
-+
-+This tests that:
-+1. OLD_* options in existing .config cause NEW_* options to be set
-+2. OLD_* options are not written to the new .config file
-+3. NEW_* options appear in the new .config file with correct values
-+4. All Kconfig types work correctly: bool, tristate, string, hex, int
-+5. User-set NEW values take precedence over conflicting OLD transitional values
-+"""
-+
-+def test(conf):
-+    # Run olddefconfig to process the migration with the initial config
-+    assert conf.olddefconfig(dot_config='initial_config') == 0
-+
-+    # Check that the configuration matches expected output
-+    assert conf.config_contains('expected_config')
-diff --git a/scripts/kconfig/tests/transitional/expected_config b/scripts/kconfig/tests/transitional/expected_config
-new file mode 100644
-index 000000000000..846e9ddcab91
---- /dev/null
-+++ b/scripts/kconfig/tests/transitional/expected_config
-@@ -0,0 +1,12 @@
-+CONFIG_MODULES=y
-+CONFIG_NEW_BOOL=y
-+CONFIG_NEW_TRISTATE=m
-+CONFIG_NEW_STRING="test string"
-+CONFIG_NEW_HEX=0x1234
-+CONFIG_NEW_INT=42
-+# CONFIG_NEW_BOOL_PRECEDENCE is not set
-+CONFIG_NEW_STRING_PRECEDENCE="user value"
-+CONFIG_NEW_TRISTATE_PRECEDENCE=y
-+CONFIG_NEW_HEX_PRECEDENCE=0xABCD
-+CONFIG_NEW_INT_PRECEDENCE=100
-+# CONFIG_REGULAR_OPTION is not set
-diff --git a/scripts/kconfig/tests/transitional/initial_config b/scripts/kconfig/tests/transitional/initial_config
-new file mode 100644
-index 000000000000..e648a65e504c
---- /dev/null
-+++ b/scripts/kconfig/tests/transitional/initial_config
-@@ -0,0 +1,16 @@
-+CONFIG_MODULES=y
-+CONFIG_OLD_BOOL=y
-+CONFIG_OLD_TRISTATE=m
-+CONFIG_OLD_STRING="test string"
-+CONFIG_OLD_HEX=0x1234
-+CONFIG_OLD_INT=42
-+# CONFIG_NEW_BOOL_PRECEDENCE is not set
-+CONFIG_OLD_BOOL_PRECEDENCE=y
-+CONFIG_NEW_STRING_PRECEDENCE="user value"
-+CONFIG_OLD_STRING_PRECEDENCE="old value"
-+CONFIG_NEW_TRISTATE_PRECEDENCE=y
-+CONFIG_OLD_TRISTATE_PRECEDENCE=m
-+CONFIG_NEW_HEX_PRECEDENCE=0xABCD
-+CONFIG_OLD_HEX_PRECEDENCE=0x5678
-+CONFIG_NEW_INT_PRECEDENCE=100
-+CONFIG_OLD_INT_PRECEDENCE=200
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index a91abb8f6840..abce88f15d7c 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -232,6 +232,38 @@ applicable everywhere (see syntax).
-   enables the third modular state for all config symbols.
-   At most one symbol may have the "modules" option set.
- 
-+- transitional attribute: "transitional"
-+  This declares the symbol as transitional, meaning it should be processed
-+  during configuration but omitted from newly written .config files.
-+  Transitional symbols are useful for backward compatibility during config
-+  option migrations - they allow olddefconfig to process existing .config
-+  files while ensuring the old option doesn't appear in new configurations.
-+
-+  A transitional symbol:
-+  - Has no prompt (is not visible to users in menus)
-+  - Is processed normally during configuration (values are read and used)
-+  - Can be referenced in default expressions of other symbols
-+  - Is not written to new .config files
-+  - Cannot have any other properties (it is a pass-through option)
-+
-+  Example migration from OLD_NAME to NEW_NAME::
-+
-+    config NEW_NAME
-+	bool "New option name"
-+	default OLD_NAME
-+	help
-+	  This replaces the old CONFIG_OLD_NAME option.
-+
-+    config OLD_NAME
-+	bool
-+	transitional
-+	help
-+	  Transitional config for OLD_NAME to NEW_NAME migration.
-+
-+  With this setup, existing .config files with "CONFIG_OLD_NAME=y" will
-+  result in "CONFIG_NEW_NAME=y" being set, while CONFIG_OLD_NAME will be
-+  omitted from newly written .config files.
-+
- Menu dependencies
- -----------------
- 
--- 
-2.34.1
+> And still none of this checks for rst. But now that kernel-doc is
+> python, it shouldn't be too hard. Probably needs a dependency, but it
+> could only depend on it when passing some --lint-rst option.
 
+Good idea. If you have some time, feel free to propose some patches.
+
+> Having this in place would also reduce the churn caused by merging
+> broken kernel-doc. It's fast enough to be done as part of the regular
+> build, while most people don't run the entire Sphinx build as part of
+> the development flow.
+
+Checking the entire set of files inside the Kernel with kernel-doc
+is fast. Using the new make mandocs, for instance, with reads the
+entire tree takes about 45 seconds on my machine:
+
+	$ time make mandocs
+	...
+	real    0m44,211s
+	user    0m35,787s
+	sys     0m3,274s
+
+(and reports thousands of warnings)
+
+Thanks,
+Mauro
