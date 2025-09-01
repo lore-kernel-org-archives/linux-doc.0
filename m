@@ -1,83 +1,191 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3959E1E5213;
-	Mon,  1 Sep 2025 19:23:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D0F23D7E0;
+	Mon,  1 Sep 2025 19:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756754598; cv=none; b=AtzxxEnD8cQTbf4D+RdIi+RtjZ0ie/hH4aMt9bWyktVkP+ZUIlVMKSCYjm/MFFyEeKu1e1hORIoBkBzC5nX1vwxCWsszk/tbfoBeeTOEZZ8Xm6Xis4I5/xv7407rN0lzQxTNspT4hM7KrJWMA5qUpX8Q/QE4vhVne0pjvLXoHDs=
+	t=1756754879; cv=none; b=jBSQktA5jM9pm2OD5CS2RvRXrnlTxm8FOl7OkIEDilJZ26a+OYDd4tENIp+8//jWLMJ+NmsyA1X8aV4HgzoHakQB5jcA0bg2N1fb25izUSO/0wev53wi+XpBXpA11aOQVyeHj81Lo8MFyD3K57UzEmjW0VppnuX5hgHukGzsa1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756754598; c=relaxed/simple;
-	bh=/4asbQkP1eDqEbveKkGpr0ywUBl4RSN7gR/XJ53xGVw=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=tHp2YDp5nvu+qavXlm+d2xBl2jlNMaNZk3GhrkPckXY8vav7tEixUsc5YvtLPpWcbhuEEalkSFaNhLQWn/rMQT3oMO4ultuJ7rXQXkzyOSg3ucLV2Iex2qmqonID1XqkPLnxEuRmN0rNCxdvKne+IWIBhgHkhCv+Z46U1KVkDsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=waO5M7TU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756754879; c=relaxed/simple;
+	bh=Zgw73WlWmeQnkq+xyhjYzMbvx3ApaiiBSUnrCWBqIZk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c2VqJsKbqa0AVi2aCUU3yJztwQkuTh01K3KNODfDQ9BTzuPe1lLSCF0RSGIvO+q0awIBMXYYHJ7adlsf++cFr9j1ejT8DWO1f4Z9WgaU++1W5bUOWfm/Wp83//R9X1SCndfuiTfeSqo9Lzv1wBGivYrV2C5W2FA3q1eQTMJglCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NJ/JR240; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="waO5M7TU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BD1C4CEF0;
-	Mon,  1 Sep 2025 19:23:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1756754597;
-	bh=/4asbQkP1eDqEbveKkGpr0ywUBl4RSN7gR/XJ53xGVw=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NJ/JR240"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F27A5C4CEF1;
+	Mon,  1 Sep 2025 19:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756754878;
+	bh=Zgw73WlWmeQnkq+xyhjYzMbvx3ApaiiBSUnrCWBqIZk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=waO5M7TU9BYoRGjtorAnNJETXm72HFsA3Y0tFfhW85iW307Pc3Fq86bh7keOgjgLE
-	 ktpXe34fCWJ/hIBD3X4zZpOX2irMQA3Ga0Vr8rilIjKxKv0uR7kEYqCu1sIk7u49Cu
-	 IOOyVz6paX9t7Kdqkgl01NvAx2e8rkGiaTJ3GKyI=
-Date: Mon, 1 Sep 2025 12:23:16 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
- dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
- catalin.marinas@arm.com, will@kernel.org, scott@os.amperecomputing.com,
- jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org,
- kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org,
- oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org,
- hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
- yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org
-Subject: Re: [PATCH v6 1/2] kasan/hw-tags: introduce kasan.write_only option
-Message-Id: <20250901122316.6b7d8d7fdcf03bdb2aa4960a@linux-foundation.org>
-In-Reply-To: <20250901104623.402172-2-yeoreum.yun@arm.com>
-References: <20250901104623.402172-1-yeoreum.yun@arm.com>
-	<20250901104623.402172-2-yeoreum.yun@arm.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=NJ/JR240XLxFjN4WfOUhHWiNNQHziOn+l3bk2lKQU3QPafVVvxvR41e3No+gaYn/c
+	 YGoj//FySD3S1CWO1N/GdaQJ0bgbfoJf/cSCVC6ChK5Z1yoU4V5jNiwONBGG8jmsAi
+	 FDAQ8C80pDKm6o8Dz+Cww+2Z5OsoSQ1OJKa9nIUyMalGxj2CAnNMKguV1y8GtKpPLf
+	 I75p1f80DwTWF/6dlIhwmi7oUm8VXVOtYk1yF7lp4ko0n61dmrDvRdYskIXlh3xefx
+	 S7hfsB8NJoPMSDZ/9SB0+PbcZatdOv3E8P0i5xfRQBkUfZk1xf51NoBezZo9aL3V0o
+	 0MQHEqmOq2I9w==
+Date: Mon, 1 Sep 2025 21:27:51 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
+ <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future
+ directions
+Message-ID: <20250901212751.638cc4a8@foz.lan>
+In-Reply-To: <636fe6e8-dc66-4521-a64a-4fb972e7ef39@infradead.org>
+References: <87plcndkzs.fsf@trenco.lwn.net>
+	<20250828230104.GB26612@pendragon.ideasonboard.com>
+	<87wm6l0w2y.fsf@trenco.lwn.net>
+	<930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+	<20250830222351.GA1705@pendragon.ideasonboard.com>
+	<87h5xo1k6y.fsf@trenco.lwn.net>
+	<20250831160339.2c45506c@foz.lan>
+	<87zfbfz1px.fsf@trenco.lwn.net>
+	<636fe6e8-dc66-4521-a64a-4fb972e7ef39@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon,  1 Sep 2025 11:46:22 +0100 Yeoreum Yun <yeoreum.yun@arm.com> wrote:
+Em Sun, 31 Aug 2025 23:17:22 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
-> raise of tag check fault on store operation only.
-> Introcude KASAN write only mode based on this feature.
+> On 8/31/25 1:16 PM, Jonathan Corbet wrote:
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >   
+> >> 4) kernel-doc kAPI
+> >>
+> >> It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
+> >> kernel-doc now can parse the entire tree with:
+> >>
+> >> 	$ scripts/kernel-doc .
+> >>
+> >> Someone can easily use it to discover the current gaps at the docs that
+> >> have already some kernel-doc markups and identify what of them aren't
+> >> yet placed under Documentation/ ".. kernel-doc::" markups.  
 > 
-> KASAN write only mode restricts KASAN checks operation for write only and
-> omits the checks for fetch/read operations when accessing memory.
-> So it might be used not only debugging enviroment but also normal
-> enviroment to check memory safty.
-> 
-> This features can be controlled with "kasan.write_only" arguments.
-> When "kasan.write_only=on", KASAN checks write operation only otherwise
-> KASAN checks all operations.
-> 
-> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
-> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
-> with other function together.
-> 
-> ...
->
->  
-> -	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s)\n",
-> +	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s\n",
->  		kasan_mode_info(),
+> Mauro, I tried that for one file: kernel/audit.c
+> but didn't see what I expected to see.
+> What options should I be using to find the gaps?
 
-This lost the closing ")" in the printk control string.  I fixed that
-up while resolving rejects.
+If you want to check all warnings kernel-doc detect, use -Wall:
 
+	$ ./scripts/kernel-doc -Wall kernel/audit.c --none
+	Warning: kernel/audit.c:216 No description found for return value of 'auditd_test_task'
+	Warning: kernel/audit.c:254 No description found for return value of 'audit_ctl_owner_current'
+	Warning: kernel/audit.c:265 No description found for return value of 'auditd_pid_vnr'
+	Warning: kernel/audit.c:289 No description found for return value of 'audit_get_sk'
+	Warning: kernel/audit.c:498 No description found for return value of 'auditd_set'
+	Warning: kernel/audit.c:687 No description found for return value of 'auditd_send_unicast_skb'
+	Warning: kernel/audit.c:747 No description found for return value of 'kauditd_send_queue'
+	Warning: kernel/audit.c:841 No description found for return value of 'kauditd_thread'
+	Warning: kernel/audit.c:1828 No description found for return value of 'audit_serial'
+	Warning: kernel/audit.c:1860 No description found for return value of 'audit_log_start'
+	Warning: kernel/audit.c:1937 No description found for return value of 'audit_expand'
+	Warning: kernel/audit.c:2093 No description found for return value of 'audit_string_contains_control'
+	Warning: kernel/audit.c:2359 No description found for return value of 'audit_set_loginuid'
+	Warning: kernel/audit.c:2394 No description found for return value of 'audit_signal_info'
+
+To be bug-compatible with the Perl version, I ported -Wall to it,
+as otherwise there would be tons of extra warnings after migration.
+
+Ok, it doesn't tell that there are exports there, although kernel-doc
+knows, as it has to process exports anyway.
+
+> > ...or one can use scripts/find-unused-docs.sh, which was written for
+> > just this purpose :)  
+
+It should be very easy to add an option to kernel-doc to do the same.
+
+IMO, reducing the number of scripts may help people to better use
+the tools.
+
+> 
+> Yes, and I have used this script. It does what it was meant to do AFAIK.
+> It's reporting is at a gross file level.
+> 
+> I made a small subdirectory called "test" and copied kernel/audit.c to test/.
+> 
+> $ ./scripts/find-unused-docs.sh  test/
+> The following files contain kerneldoc comments for exported functions that are not used in the formatted documentation
+> test/audit.c
+> 
+> Sometime in the last 2-3 years Matthew Wilcox asked me about a tool (script, whatever)that would detect both EXPORTs without kernel-doc and kernel-doc without EXPORTs.
+> Either one of these can be noisy (with false positives) and they often don't lend
+> themselves to easy/beginner fixes.
+
+Heh, not knowing/remembering about find-unused-docs.sh, I actually
+wrote a prototype for something similar sometime ago, in Perl.
+Didn't upstream it though, nor used it much as I got sidetracked
+by other things. My goal on that time were to find gaps on media kAPI.
+
+> Anyway, after some delay, I have such a script. It's written in Perl (I started
+> on it over a year ago!). It might have been desirable to add it to scripts/kernel-doc.pl
+> at the time, but it didn't seem to me like a good fit there, so it's independent.
+> 
+> Running (no options, just produce a summary)
+> $ kerndoc-export-search.pl test/audit.c
+> reports:
+> Missing kernel-doc for: audit_log_task_info
+> Missing kernel-doc for: audit_enabled
+> Missing kernel-doc for: audit_log_task_context
+> 3 missing kernel-docs
+> Missing EXPORT for: audit_serial
+> Missing EXPORT for: audit_log_untrustedstring
+> Missing EXPORT for: audit_log_n_untrustedstring
+> Missing EXPORT for: audit_log_n_hex
+> Missing EXPORT for: audit_log_lost
+> Missing EXPORT for: audit_set_loginuid
+> Missing EXPORT for: auditd_test_task
+> Missing EXPORT for: audit_ctl_lock
+> Missing EXPORT for: audit_string_contains_control
+> Missing EXPORT for: audit_signal_info
+> Missing EXPORT for: audit_log_path_denied
+> Missing EXPORT for: audit_ctl_unlock
+> 12 missing Exports
+> 
+> If that's not verbose enough (!), the -l (list) option lists each function's
+> location and short description. One example:
+> test/audit.c: 2006: audit_log_format:  * audit_log_format - format a message into the audit buffer.
+
+Nice! Yet, I suggest trying to merge with kernel-doc, even if the
+actual implementation would be on a separate class inside a
+separate file.
+
+Still, the way kernel-doc works allow one to just write a different
+output class (or improve the output class used by --none) to use
+the already parsed data on different ways.
+
+> But that generates lots of output.
+> 
+> And of course, for function, I mean function/struct/union/enum/typedef.
+> 
+> There is a "verbose" option but it currently does not print anything.
+> 
+> Here is a help summary:
+> $ kerndoc-export-search.pl -h
+> kerndoc-export-search.pl [--list|-l] [--verbose|-v] file(s)
+>   where --list    prints filename:line:funcname: short_description
+>   where --verbose prints more info.
+>   default: prints a doc/export summary + warnings.
+>   version: 0.9
+> 
+> 
+> Feel free to use in any way or to rewrite & merge it into the
+> kdoc python system.
+
+Good to know! I'll try to take a look on it later on.
+
+Thanks,
+Mauro
