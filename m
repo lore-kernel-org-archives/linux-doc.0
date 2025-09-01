@@ -1,362 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CA030147F;
-	Mon,  1 Sep 2025 09:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939BB2FF16F;
+	Mon,  1 Sep 2025 09:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756717766; cv=none; b=FJCENyqFfct1HN35WzbMEr2NcRGnidQbmvK3NskvlMaNvdOkCa8sgYnQlt3/r+433ljqAHGlKVvR8ktH94JACZJnVcNVg6DCGlgQyI2gU/Y/kTbQeUj8YqcywOo51YzAMNoPFZFluesYdYFEJH/a3SFh8JnQru2g+vjqjU0zkT0=
+	t=1756719601; cv=none; b=eUcIB6Y15knpAlPykjzNdy32+FnGY3sVQZnx65YeMfd/wrAO6hfRe1hRwRYAG17D16gYzlye0BT5J33qmN+OVqXOtxZpqhuYaVIbSjjgFrbWNYffxEAV8gzRJ8kGQqgE5I6LtC8t6zi0hqTmgJ4l8/ri+YCcJTMi0VPHZwIsGyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756717766; c=relaxed/simple;
-	bh=iVM5cHrd70lHqOaznbywwTTMt5WcQ1b11YYlWbwA068=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Sic1/d4YBzS3AIewUxEISpJBj7xExBv9fQ4xmqkUqWcmEMSbIKAnWZBBprb9uyFx75JzUWnEMHV+j+aFaXO6S3Xbey/g9i97pe1K926XVzVMCSyO+RsRTkXajlgnPpX3AZAiBpud/uQi5DN6NSvceL6LgH+cd4IdGs+yvDiYVAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dS/IeTuS; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756719601; c=relaxed/simple;
+	bh=A5Tl+xbMpqKmmcwfLLF9FVQa1SsSWKl0bEyUbormmWU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NVpngQsA7AeCUFM+/TSMwATA4lJordaZgg54H1AtYcWQ1PMdEEwWd/dLl6KdaAa1dw28aTdwov5HmfrrUUBmUF+b4QfVcUIbKqo10dQo85mU6BtLCTV/bkVDJjtw7934RDakcH8pXLhpp1gdtdizHQ5NoFnzlKF75gaKWtVSB7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PA5DV3WK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dS/IeTuS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756717764; x=1788253764;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=iVM5cHrd70lHqOaznbywwTTMt5WcQ1b11YYlWbwA068=;
-  b=dS/IeTuSw6nV4GFN8WwP74YNL1NTpKhovamaQ4b4ap6niUUccrGCWqZH
-   kHvjpbqMUgC4yOpLW9ZEskM4WRsGX42wTuXglRGMglyEbho8Qi2f/C896
-   arfRkovfZns0mbJ818HUXpuinm6Cg0xwlWg/tOgF9eC3emSA9m/EZVA1B
-   SidWXRs+IzlhJtalnjQoIEcWSFQ+kU86B1ybA04SxMcE9l1ev4IwxRmnZ
-   /a2IJ8CHPI5UVKbrqf2esdGJROaRChBZSfhweIo/b0fg4KM1AVxWPkEfM
-   MRlwQrLdzVFhTzCErJJBRNzZkWfTtAcTPV/NyHzcAuiQAG/u3kPOxJBUM
-   A==;
-X-CSE-ConnectionGUID: DPdPBPIxQ765LJMsOABU4A==
-X-CSE-MsgGUID: I82ER2hvTlKZBRo9jfpwaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59035576"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59035576"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 02:09:23 -0700
-X-CSE-ConnectionGUID: 65QQJR4JQpqdhZE2SUIQ+g==
-X-CSE-MsgGUID: MfYHuNQTTXisaZa5CGK67Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="171140272"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.148])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 02:09:18 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, Miguel Ojeda
- <ojeda@kernel.org>, Stephen Brennan <stephen.s.brennan@oracle.com>, Marco
- Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
- migration support
-In-Reply-To: <20250830020109.it.598-kees@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250830020109.it.598-kees@kernel.org>
-Date: Mon, 01 Sep 2025 12:09:14 +0300
-Message-ID: <7bca36d46dab04667aa595623fd0966385ee4658@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PA5DV3WK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54D4C4CEF0;
+	Mon,  1 Sep 2025 09:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756719600;
+	bh=A5Tl+xbMpqKmmcwfLLF9FVQa1SsSWKl0bEyUbormmWU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=PA5DV3WK15MlJ2GaGAu+Fy+5qwrJOXW6XfiU5TuPF/s0hRJhQCAjVDKNj1Xx/vdoD
+	 1waJuLa/O+KsoKJKCTLoZF0stpatnHWN7ccf2J26+Vn0jBbg7OHmO6Wh1rsfgHwP56
+	 Yb6ayWBBaNk8Oe46iTNSTFOk6aCW3YSju2hOnYD1Xn3vr0SxMdvpDU4sS3+CiGskR8
+	 0PTIGry1hNqEyXrwfBJiEyE+9x1oZ4aFQAgnjvKCLwtd61RwlA+30DjuBiNjFM8n3W
+	 h+zR9L7nmMyYW9jp58H1XecLcuHZ7/HQsL085zrFfxxL18lpo64Fd0OD7x/EvWJA66
+	 eaybc+HsPCGsg==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net-next 0/6] mptcp: misc. features for v6.18
+Date: Mon, 01 Sep 2025 11:39:09 +0200
+Message-Id: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL1ptWgC/zWMMQqEMBAAvyJb30KycBr9ilwR4ka3MIYkSED8+
+ wXBYoopZi7InIQzTN0FiU/JcoQm+tOB22xYGWVpDqToqwyNGLg0asE9Fhdxl+zQsy3YozY4EHl
+ rBtsrr6E9YmIv9fnP8Kbwu+8/Su9uoHkAAAA=
+X-Change-ID: 20250829-net-next-mptcp-misc-feat-6-18-722fa87a60f1
+To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, 
+ Eric Biggers <ebiggers@kernel.org>, Christoph Paasch <cpaasch@openai.com>, 
+ Gang Yan <yangang@kylinos.cn>, Geliang Tang <geliang@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1463; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=A5Tl+xbMpqKmmcwfLLF9FVQa1SsSWKl0bEyUbormmWU=;
+ b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDK2Zj75+3Bdm8TZJ981i79oS83s2T9h3nSFvC0++zZJ7
+ 5SzPtxU0lHKwiDGxSArpsgi3RaZP/N5FW+Jl58FzBxWJpAhDFycAjCRQi2G/2Fbwy6dV10iFGx5
+ iGGJ2cyyljOyAqd1Qjf8m6eVcTOCiYXhn2VxweyARbevL81RLlGt+SLmvNng2bWVzwxjzG0Dt6j
+ t4AMA
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-On Fri, 29 Aug 2025, Kees Cook <kees@kernel.org> wrote:
-> During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
-> existing .config files need to maintain backward compatibility while
-> preventing deprecated options from appearing in newly generated
-> configurations. This is challenging with existing Kconfig mechanisms
-> because:
->
-> 1. Simply removing old options breaks existing .config files.
-> 2. Manually listing an option as "deprecated" leaves it needlessly
->    visible and still writes them to new .config files.
-> 3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
->    etc) prevents the option from being processed at all.
->
-> Add a "transitional" attribute that creates symbols which are:
-> - Processed during configuration (can influence other symbols' defaults)
-> - Hidden from user menus (no prompts appear)
-> - Omitted from newly written .config files (gets migrated)
-> - Restricted to only having help sections (no defaults, selects, etc)
->   making it truly just a "prior value pass-through" option.
->
-> The transitional syntax requires a type argument and prevents type
-> redefinition:
->
->     config OLD_OPTION
->         transitional bool
->         help
->           Transitional config for OLD_OPTION migration.
+This series contains 4 independent new features:
 
-How long do you think we'll need to keep the transitional config options
-around? Forever?
+- Patch 1: use HMAC-SHA256 library instead of open-coded HMAC.
 
-BR,
-Jani.
+- Patches 2-3: make ADD_ADDR retransmission timeout adaptive + simplify
+  selftests.
 
->     config NEW_OPTION
->         bool "New option"
->         default OLD_OPTION
->
-> This allows seamless migration: olddefconfig processes existing
-> CONFIG_OLD_OPTION=3Dy settings to enable CONFIG_NEW_OPTION=3Dy, while
-> CONFIG_OLD_OPTION is omitted from newly generated .config files.
->
-> Implementation details:
-> - Parser validates transitional symbols can only have help sections
-> - Symbol visibility logic updated: usable =3D (visible !=3D no || transit=
-ional)
-> - Transitional symbols preserve user values during configuration
-> - Type safety enforced to prevent redefinition after transitional declara=
-tion
-> - Used distinct struct members instead of new flags for readability
-> - Documentation added to show the usage
->
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> With help from Claude Code to show me how to navigate the kconfig parser.
->
->  v2: fixed human-introduced errors
->  v1: https://lore.kernel.org/all/20250830014438.work.682-kees@kernel.org/
->
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas.schier@linux.dev>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: <linux-kbuild@vger.kernel.org>
-> Cc: <linux-doc@vger.kernel.org>
-> ---
->  scripts/kconfig/expr.h                    | 15 +++++++
->  scripts/kconfig/lexer.l                   |  1 +
->  scripts/kconfig/parser.y                  | 51 +++++++++++++++++++++++
->  scripts/kconfig/symbol.c                  | 11 +++--
->  Documentation/kbuild/kconfig-language.rst | 31 ++++++++++++++
->  5 files changed, 106 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-> index fe2231e0e6a4..be51574d6c77 100644
-> --- a/scripts/kconfig/expr.h
-> +++ b/scripts/kconfig/expr.h
-> @@ -127,6 +127,21 @@ struct symbol {
->  	/* SYMBOL_* flags */
->  	int flags;
->=20=20
-> +	/*
-> +	 * Transitional symbol - processed during configuration but hidden from
-> +	 * user in menus and omitted from newly written .config files. Used for
-> +	 * backward compatibility during config option migrations (e.g.,
-> +	 * CFI_CLANG =E2=86=92 CFI). Transitional symbols can still influence d=
-efault
-> +	 * expressions of other symbols.
-> +	 */
-> +	bool transitional:1;
-> +
-> +	/*
-> +	 * Symbol usability - calculated as (visible !=3D no || transitional).
-> +	 * Determines if symbol can be used in expressions.
-> +	 */
-> +	bool usable:1;
-> +
->  	/* List of properties. See prop_type. */
->  	struct property *prop;
->=20=20
-> diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-> index 9c2cdfc33c6f..6d2c92c6095d 100644
-> --- a/scripts/kconfig/lexer.l
-> +++ b/scripts/kconfig/lexer.l
-> @@ -126,6 +126,7 @@ n	[A-Za-z0-9_-]
->  "select"		return T_SELECT;
->  "source"		return T_SOURCE;
->  "string"		return T_STRING;
-> +"transitional"		return T_TRANSITIONAL;
->  "tristate"		return T_TRISTATE;
->  "visible"		return T_VISIBLE;
->  "||"			return T_OR;
-> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-> index e9c3c664e925..01d2d0f720ce 100644
-> --- a/scripts/kconfig/parser.y
-> +++ b/scripts/kconfig/parser.y
-> @@ -75,6 +75,7 @@ struct menu *current_menu, *current_entry, *current_cho=
-ice;
->  %token T_SELECT
->  %token T_SOURCE
->  %token T_STRING
-> +%token T_TRANSITIONAL
->  %token T_TRISTATE
->  %token T_VISIBLE
->  %token T_EOL
-> @@ -205,6 +206,16 @@ config_option: T_PROMPT T_WORD_QUOTE if_expr T_EOL
->  	printd(DEBUG_PARSE, "%s:%d:prompt\n", cur_filename, cur_lineno);
->  };
->=20=20
-> +config_option: T_TRANSITIONAL type T_EOL
-> +{
-> +	if (current_entry->sym->type !=3D S_UNKNOWN)
-> +		yyerror("transitional type cannot be set after symbol type is already =
-defined");
-> +	menu_set_type($2);
-> +	current_entry->sym->transitional =3D true;
-> +	printd(DEBUG_PARSE, "%s:%d:transitional(%u)\n", cur_filename, cur_linen=
-o,
-> +		$2);
-> +};
-> +
->  config_option: default expr if_expr T_EOL
->  {
->  	menu_add_expr(P_DEFAULT, $2, $3);
-> @@ -482,6 +493,43 @@ assign_val:
->=20=20
->  %%
->=20=20
-> +/**
-> + * transitional_check_sanity - check transitional symbols have no other
-> + *			       properties
-> + *
-> + * @menu: menu of the potentially transitional symbol
-> + *
-> + * Return: -1 if an error is found, 0 otherwise.
-> + */
-> +static int transitional_check_sanity(const struct menu *menu)
-> +{
-> +	struct property *prop;
-> +
-> +	if (!menu->sym || !menu->sym->transitional)
-> +		return 0;
-> +
-> +	/* Check for depends and visible conditions. */
-> +	if ((menu->dep && !expr_is_yes(menu->dep)) ||
-> +	    (menu->visibility && !expr_is_yes(menu->visibility))) {
-> +		fprintf(stderr, "%s:%d: error: %s",
-> +			menu->filename, menu->lineno,
-> +			"transitional symbols can only have help sections\n");
-> +		return -1;
-> +	}
-> +
-> +	/* Check for any property other than "help". */
-> +	for (prop =3D menu->sym->prop; prop; prop =3D prop->next) {
-> +		if (prop->type !=3D P_COMMENT) {
-> +			fprintf(stderr, "%s:%d: error: %s",
-> +				prop->filename, prop->lineno,
-> +				"transitional symbols can only have help sections\n");
-> +			return -1;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * choice_check_sanity - check sanity of a choice member
->   *
-> @@ -558,6 +606,9 @@ void conf_parse(const char *name)
->  		if (menu->sym && sym_check_deps(menu->sym))
->  			yynerrs++;
->=20=20
-> +		if (transitional_check_sanity(menu))
-> +			yynerrs++;
-> +
->  		if (menu->sym && sym_is_choice(menu->sym)) {
->  			menu_for_each_sub_entry(child, menu)
->  				if (child->sym && choice_check_sanity(child))
-> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> index 26ab10c0fd76..b822c0c897e5 100644
-> --- a/scripts/kconfig/symbol.c
-> +++ b/scripts/kconfig/symbol.c
-> @@ -447,6 +447,9 @@ void sym_calc_value(struct symbol *sym)
->  	if (sym->visible !=3D no)
->  		sym->flags |=3D SYMBOL_WRITE;
->=20=20
-> +	/* Calculate usable flag */
-> +	sym->usable =3D (sym->visible !=3D no || sym->transitional);
-> +
->  	/* set default if recursively called */
->  	sym->curr =3D newval;
->=20=20
-> @@ -459,13 +462,15 @@ void sym_calc_value(struct symbol *sym)
->  			sym_calc_choice(choice_menu);
->  			newval.tri =3D sym->curr.tri;
->  		} else {
-> -			if (sym->visible !=3D no) {
-> +			if (sym->usable) {
->  				/* if the symbol is visible use the user value
->  				 * if available, otherwise try the default value
->  				 */
->  				if (sym_has_value(sym)) {
-> +					tristate value =3D sym->transitional ?
-> +						sym->def[S_DEF_USER].tri : sym->visible;
->  					newval.tri =3D EXPR_AND(sym->def[S_DEF_USER].tri,
-> -							      sym->visible);
-> +							      value);
->  					goto calc_newval;
->  				}
->  			}
-> @@ -497,7 +502,7 @@ void sym_calc_value(struct symbol *sym)
->  	case S_STRING:
->  	case S_HEX:
->  	case S_INT:
-> -		if (sym->visible !=3D no && sym_has_value(sym)) {
-> +		if (sym->usable && sym_has_value(sym)) {
->  			newval.val =3D sym->def[S_DEF_USER].val;
->  			break;
->  		}
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kb=
-uild/kconfig-language.rst
-> index a91abb8f6840..345c334ce680 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -232,6 +232,37 @@ applicable everywhere (see syntax).
->    enables the third modular state for all config symbols.
->    At most one symbol may have the "modules" option set.
->=20=20
-> +- transitional attribute: "transitional"
-> +  This declares the symbol as transitional, meaning it should be process=
-ed
-> +  during configuration but omitted from newly written .config files.
-> +  Transitional symbols are useful for backward compatibility during conf=
-ig
-> +  option migrations - they allow olddefconfig to process existing .config
-> +  files while ensuring the old option doesn't appear in new configuratio=
-ns.
-> +
-> +  A transitional symbol:
-> +  - Has no prompt (is not visible to users in menus)
-> +  - Is processed normally during configuration (values are read and used)
-> +  - Can be referenced in default expressions of other symbols
-> +  - Is not written to new .config files
-> +  - Cannot have any other properties (it is a pass-through option)
-> +
-> +  Example migration from OLD_NAME to NEW_NAME::
-> +
-> +    config NEW_NAME
-> +	bool "New option name"
-> +	default OLD_NAME
-> +	help
-> +	  This replaces the old CONFIG_OLD_NAME option.
-> +
-> +    config OLD_NAME
-> +	transitional bool
-> +	help
-> +	  Transitional config for OLD_NAME to NEW_NAME migration.
-> +
-> +  With this setup, existing .config files with "CONFIG_OLD_NAME=3Dy" will
-> +  result in "CONFIG_NEW_NAME=3Dy" being set, while CONFIG_OLD_NAME will =
-be
-> +  omitted from newly written .config files.
-> +
->  Menu dependencies
->  -----------------
+- Patch 4: selftests: check for unexpected fallback counter increments.
 
---=20
-Jani Nikula, Intel
+- Patches 5-6: record subflows in RPS table, for aRFS support.
+
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+Christoph Paasch (2):
+      net: Add rfs_needed() helper
+      mptcp: record subflows in RPS table
+
+Eric Biggers (1):
+      mptcp: use HMAC-SHA256 library instead of open-coded HMAC
+
+Gang Yan (1):
+      selftests: mptcp: add checks for fallback counters
+
+Geliang Tang (2):
+      mptcp: make ADD_ADDR retransmission timeout adaptive
+      selftests: mptcp: remove add_addr_timeout settings
+
+ Documentation/networking/mptcp-sysctl.rst       |   8 +-
+ include/net/rps.h                               |  85 ++++++++++------
+ net/mptcp/crypto.c                              |  35 +------
+ net/mptcp/pm.c                                  |  28 +++++-
+ net/mptcp/protocol.c                            |  21 ++++
+ tools/testing/selftests/net/mptcp/mptcp_join.sh | 126 +++++++++++++++++++++++-
+ 6 files changed, 231 insertions(+), 72 deletions(-)
+---
+base-commit: d23ad54de795ec0054f90ecb03b41e8f2c410f3a
+change-id: 20250829-net-next-mptcp-misc-feat-6-18-722fa87a60f1
+
+Best regards,
+-- 
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
