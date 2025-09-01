@@ -1,120 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B8F255F5C;
-	Mon,  1 Sep 2025 19:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B722725783F
+	for <linux-doc@vger.kernel.org>; Mon,  1 Sep 2025 19:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756753251; cv=none; b=h/BYHUuMdu/1+hUjk2tvs+3pzXpfE8AgVF8YVeZLv8vrSIWGtnUnLvc+UiLpDAyClVrXBiYnGjafy9gtI/Y4ElVJ+qOFWxHwLgopnz0u6D+5JhkE5i+MKVVEvHHhNo8z2CHNBJnb+n46YTkQjMd2Q8fZubtZRku9tJT34ksG2YU=
+	t=1756753407; cv=none; b=hr7FDcrLnGmlwOfNtsYdrmOAy4g0QMBau3eBdnI5Qj7Al/gvmWAM/lTp47x/JyryrIEk4LibbkR07mMENEPL+QT7ZcstY2wZh2eT/OLxQLBA9VRusw7lwQmJz8xgu0ylvSlb+fGhWZb9rVAMMOWLHHPDGFLzM5B7JQX47yw3jMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756753251; c=relaxed/simple;
-	bh=ZYcVa6pfew9PsKaI1xeXZkcLuBBn9KyqN+Fvtm6NigE=;
+	s=arc-20240116; t=1756753407; c=relaxed/simple;
+	bh=S3hCdUT2ICLXa1GjNdU28dZZnKCVYtibeydsEJ9rZEA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iFOOTYDnXgOC3966cGc2DkIhkfdJ+8LprM+XgCkbWk5GpumjL43k1smtJ7JehSbwvyhjvs/EKiz+C/5HPqY6G+7EnEDMvbCDYoY9WlWRBg30Qk6SaKmEMYwAkSNs0stfLT35qp1TZLe3L1RTCzhnLJwIXjY4Hzz7SwgKgGJmTAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYASmNv7; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=UBiekc13JlT0rIzYCjUZ8s+bx4DP4cYr2F22tx+JslfiEZc7bDZQTF4WMaW3JiFDSq9qq1x7FpagxlOpmImryvsMwlXSvtfiD1d3XzxgmKi2uMGxryVb0pP47lijfLrVy3PPMOcaOX2WrryKlNrRCrU17wI51KKcbybbYxvuHPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dXEZCX+4; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYASmNv7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB1EC4CEFD;
-	Mon,  1 Sep 2025 19:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756753250;
-	bh=ZYcVa6pfew9PsKaI1xeXZkcLuBBn9KyqN+Fvtm6NigE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GYASmNv7BXhIajZZoRvb4roQdeLOHe6DZu39BcO1fk3XdoM5eh0VcfQtL0m3quuCc
-	 VfY4RDvrJWzYdoloiXZ/XMOyb4IB/7MMqZ3ghTJuyJZRW1PUgkkBbgY8P8JDOArlJq
-	 cXkUAIQvYhsH8rYA6x3c30QbChvUVyxG/UaEM3AIgw10wa8gAYZQ0yaXhuW019nYPq
-	 QZo68hY25IpTFJm1aTzpcT3Qlgk+Q6Li0ieGq05XQ4rps9rWq76W2uTFb/2Qgrh7rb
-	 g9ntoHeNuOJYgLM88vGuTC8GhWhQK0luo8wjjwGvatzvam+tBPCx3FDu8zAaztdpgb
-	 0yOsZCtsOz68A==
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-74526ca7a46so1594431a34.2;
-        Mon, 01 Sep 2025 12:00:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUJowj0XZxUqRWTJdUfNeM3puIr6LUHU01MMotlg4y9+zSyx5byRhwwYkVo7twG43M1y6GZoz+3qHdPlAw=@vger.kernel.org, AJvYcCVOFva7j06wBRntkPIloSY6XSBaMB0Un11iIEWqUVva9RJl82Yu4Qz4B3jWTr31ijlc+A/XROI522A=@vger.kernel.org, AJvYcCWCUAWptoHsmgVcUI+ZqQ6vs7MW47UfJISdoZIVOmg+Om+roCV7TLJCbKfwUOBhp+j208Uy/0RCllDy@vger.kernel.org, AJvYcCWpKVhUjRh39OfgOoJdVGA3UOhl6vjj7h5kalO2Q8nrDWY7FcDWEq3JcdBVnqe2HQAIgc7ZlX2g7pZM@vger.kernel.org, AJvYcCXZRWh8KyF7fuN6waQwvuLqacb3XfoEYCyrPfvsRxkoXvjhtMT/K8DM9FjQFemkxvkwJlb+A5VKcuhuZNvb@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5yb8uKr3+52nG1hhZH8qxRcrVMsjcQ2N3H6vFazznrilGlOEw
-	gszJQcSWLxdbHZobI/VqJg56yHDkv7iH/kZTj4p1G1YqWGF6FE5PSn1oXbFo4+ARwdN8CkCluUn
-	HcVsYgPkpVErTNqqIZmoCB+42jzVEtcc=
-X-Google-Smtp-Source: AGHT+IF5SaCmHwNGeJ545FabBGFRvWTGFT8zu6kM/v3+zLeQSnjYj3JgLDBA/Na6A5xsnHIoN5OKyg7BUGvdwPDyFD4=
-X-Received: by 2002:a05:6830:6aa3:b0:745:46d6:e73f with SMTP id
- 46e09a7af769-74569d764bamr4473355a34.1.1756753249708; Mon, 01 Sep 2025
- 12:00:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dXEZCX+4"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4b30f73ca19so21153651cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Sep 2025 12:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1756753403; x=1757358203; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=S3hCdUT2ICLXa1GjNdU28dZZnKCVYtibeydsEJ9rZEA=;
+        b=dXEZCX+4rQJGhIL63KLKRHxqwjXdP2O6g2tY4k3x5FDsPLedpIApTg2PFgMjSph2sb
+         W7+k6ybjgpB8T2XdOJZv3OdlsVYLiahsYawM8Q/8AwB05NAqBv9sxeToI8M2Rgph25dc
+         wdyEOL16F1ynXsEJfcW7o23ZmJ0uhXGiOzLzsMdk2sqK25PahNNtJphys4q/8Gb/VEPY
+         522sx3i2EhJeH97+0xb/adJ1cvG4HxYlAVzdBidmkMqWCLgZxDntJUw/NS4DKICJ+Jrm
+         pAj12VClPYdAOehZgVfoDxJYk/OuCxxSO2v12TUzjm3O8ADkwkleByFpStlo+5BoK3Dg
+         NDDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756753403; x=1757358203;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S3hCdUT2ICLXa1GjNdU28dZZnKCVYtibeydsEJ9rZEA=;
+        b=mFvMgLaCwtCzQnFcnunaeMiju/uISn9bEVNTQIOIkQkus8Z38cV8wXvaZIVb+jp4zs
+         nuYiec2tvdiuWVniSZq1mV3h1XeCUl3m0khsY0rOv9Jb4V6zBchHQGzP8QMEbDoh/j0K
+         0Q8HK5MKTQOoFvIWAcWLIe8oyfDLl12pCWaFI9uvWJncoGO/1uCWT0/cnwq5Ygg4UN/K
+         w4R90KUzxCEjktGWhhhwvx+eU39kaZROjkDpRr/knDa5K5E6hxi7RCIlqrNMGsTIiT0V
+         2MGZUtr3HEvxPbiegYI9zj/W2NWJx0iB+wsed5uXYCs/iFBEPYoUDWSWJsM71h6qvJwe
+         Bcog==
+X-Forwarded-Encrypted: i=1; AJvYcCV1TCyPoDv0fyWS1Nc2qjmcaY/T8ejYJ/Ch+NnyAhg/jsNFZS9PTz6E0Tkt2f0L3WW7Hni6dNpAXd0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxzb1pvUUKAiWDe/ZamZelxDMonpLCNSAS4jWBIlbbpv5EIp3CN
+	tVykvda7b0tF+ph41DZr0t/nxbwgvOaVNyR7IDDlh4+0kxCXAHu4cezk9uzHBjoyqRXSLQ49r0D
+	+aNgFdB/if2VOslxCRVGldfNTvFl6ireb5dZmBO/xbg==
+X-Gm-Gg: ASbGncuP0iYBeaDTMP4Zb51U38RuecbFXjYPBDC6+Na69Lw04NuFRSMO2fk4kT2Yjjo
+	UmjlelG9PDCPbB9diVltjOR/+K5O64oKhtS0EdzbFijLNdEX335aoMlHj/ExqX5pO5XXbVFcDeQ
+	rcAAGCOQIRzyINjf/S9ptlR27XLpK2uWhLaXk1WWBX2ocwNM6dyDxj2XTp+IcjK43UsJkr0q5ds
+	Viy8pSguWg+vqI=
+X-Google-Smtp-Source: AGHT+IGC4IxxW7gTteEuAiFDY4ARihDdjTh7r8Mht+Ln0Ng2xWrhyAI5gEJNZ2B2JAdSBb2GjROz0/at0WjW2Aw4LfQ=
+X-Received: by 2002:a05:622a:1a0a:b0:4ab:902c:5553 with SMTP id
+ d75a77b69052e-4b31da17d84mr113554401cf.52.1756753403110; Mon, 01 Sep 2025
+ 12:03:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250823200121.1320197-1-sumitg@nvidia.com> <20250823200121.1320197-2-sumitg@nvidia.com>
- <CAJZ5v0jXq48petXAcf1prb5iuHbh3i8XREJBscs88xs5RY_j=A@mail.gmail.com> <694a85ad-8b55-42e9-91fe-06d40fe8facd@nvidia.com>
-In-Reply-To: <694a85ad-8b55-42e9-91fe-06d40fe8facd@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 1 Sep 2025 21:00:38 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0ipt=zDDORjuHzuerfLryZO5NE1RpPfnADeWEqi6kyv6Q@mail.gmail.com>
-X-Gm-Features: Ac12FXyb-_bL-3aCu5Q9p5j1OqNhu9RwBJNUi80YwR1oSvxk_jkaXysXbT37dzA
-Message-ID: <CAJZ5v0ipt=zDDORjuHzuerfLryZO5NE1RpPfnADeWEqi6kyv6Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] ACPI: CPPC: add perf control read API and clarify naming
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, viresh.kumar@linaro.org, lenb@kernel.org, 
-	robert.moore@intel.com, corbet@lwn.net, pierre.gondois@arm.com, 
-	zhenglifeng1@huawei.com, ray.huang@amd.com, gautham.shenoy@amd.com, 
-	mario.limonciello@amd.com, perry.yuan@amd.com, linux-pm@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com, 
-	vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com, 
-	bbasu@nvidia.com
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
+ <aLXIcUwt0HVzRpYW@kernel.org> <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
+ <mafs03496w0kk.fsf@kernel.org>
+In-Reply-To: <mafs03496w0kk.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 1 Sep 2025 19:02:46 +0000
+X-Gm-Features: Ac12FXxIFoyzz5jiOJ4O5RxQRUabkrNBq-ldI0H08I8mR4jOJnwP6yzvNT_MXGI
+Message-ID: <CA+CK2bAb6s=gUTCNjMrOqptZ3a_nj3teuVSZs86AvVymvaURQA@mail.gmail.com>
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 1, 2025 at 3:46=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wrot=
-e:
->
->
-> On 26/08/25 00:03, Rafael J. Wysocki wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Sat, Aug 23, 2025 at 10:02=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com=
-> wrote:
-> >> Add cppc_get_perf_ctrls() to read performance control register values.
-> >> Rename existing APIs for clarity as:
-> >> - To distinguish between:
-> >>    - Feedback counters (fb_ctrs): Read-only performance monitoring dat=
-a.
-> >>    - Performance controls (perf_ctrls): Read-write config registers.
-> >> - cppc_set_epp_perf() updates both EPP and Autonomous Selection.
+> >> > This really wants some luo helper
+> >> >
+> >> > 'luo alloc array'
+> >> > 'luo restore array'
+> >> > 'luo free array'
 > >>
-> >> API's renamed:
-> >> - cppc_set_perf() to cppc_set_perf_ctrls().
-> >> - cppc_get_perf_ctrs() to cppc_get_perf_fb_ctrs().
-> >> - cppc_get_perf_ctrs_sample() to cppc_get_perf_fb_ctrs_sample().
-> >> - cppc_set_epp_perf() to cppc_set_epp_and_autosel().
-> >> Remove redundant energy_perf field from 'struct cppc_perf_caps' since
-> >> the same information is available in 'struct cppc_perf_ctrls' which is
-> >> actively used.
-> >>
-> >> All existing callers are updated to maintain compatibility.
+> >> We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
 > >
-> > First, this is too much in one patch IMV and second, I honestly don't
-> > see a reason for the renames above.
-> >
-> > This generally makes tracking the code changes history harder.
-> >
-> > Thanks!
+> > The patch looks okay to me, but it doesn't support holes in vmap
+> > areas. While that is likely acceptable for vmalloc, it could be a
+> > problem if we want to preserve memfd with holes and using vmap
+> > preservation as a method, which would require a different approach.
+> > Still, this would help with preserving memfd.
 >
-> Did the renaming for clarity and better readability.
-> If we don't want to do that then i can drop the renaming and keep other
-> changes.
+> I agree. I think we should do it the other way round. Build a sparse
+> array first, and then use that to build vmap preservation. Our emails
 
-Please do.
+Yes, sparse array support would help both: vmalloc and memfd preservation.
 
-> Also, split this patch into two as below:
->          Patch1: Add cppc_get_perf() API.
+> seem to have crossed, but see my reply to Mike [0] that describes my
+> idea a bit more, along with WIP code.
 >
->          Patch2:
->            - Update both EPP and Autonomous Selection in
-> cppc_set_epp_perf().
->            - Remove redundant energy_perf field from 'struct
-> cppc_perf_caps'.
+> [0] https://lore.kernel.org/lkml/mafs0ldmyw1hp.fsf@kernel.org/
+>
+> >
+> > However, I wonder if we should add a separate preservation library on
+> > top of the kho and not as part of kho (or at least keep them in a
+> > separate file from core logic). This would allow us to preserve more
+> > advanced data structures such as this and define preservation version
+> > control, similar to Jason's store_object/restore_object proposal.
+>
+> This is how I have done it in my code: created a separate file called
+> kho_array.c. If we have enough such data structures, we can probably
+> move it under kernel/liveupdate/lib/.
 
-Sounds reasonable to me.
+Yes, let's place it under kernel/liveupdate/lib/. We will add more
+preservation types over time.
 
-Thanks!
+> As for the store_object/restore_object proposal: see an alternate idea
+> at [1].
+>
+> [1] https://lore.kernel.org/lkml/mafs0h5xmw12a.fsf@kernel.org/
+
+What you are proposing makes sense. We can update the LUO API to be
+responsible for passing the compatible string outside of the data
+payload. However, I think we first need to settle on the actual API
+for storing and restoring a versioned blob of data and place that code
+into kernel/liveupdate/lib/. Depending on which API we choose, we can
+then modify the LUO to work accordingly.
+
+>
+> --
+> Regards,
+> Pratyush Yadav
