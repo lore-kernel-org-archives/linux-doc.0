@@ -1,259 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837A22DF150;
-	Mon,  1 Sep 2025 16:56:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BBC32F75C;
+	Mon,  1 Sep 2025 17:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756745813; cv=none; b=F1X0Y4o8UqLRjWalqliWB1nmv47P/McHnN5oCUJIn51ITEYaEU1K+mabq9TiS0p8xpf6H53wAzxNDfBQf/AXxW88hsVO7mXyBRv8YNqb3sEux0v3mNPBF7bSp5qK0B9blaTCEdqmfQs6OiTTrV1E7FoMDM0wxiLJ3eDuubX5mig=
+	t=1756746110; cv=none; b=mZ/F/QdVkm9N70qguuWlGvmk/j3B3wsGKnR4CfahUmhwH6f2b8Z8a/hSmYqIIMKawPz61ReS4MU362QsgdouS6CIdOrqyVRtSXZi1R56MElW//2igsFB8PvjKt9KMiTRT80Hw5ynZnTYGevElv8U6a7/pTNzWFpzWxNgEtyRmQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756745813; c=relaxed/simple;
-	bh=20LR7yZxZ7jgK8PFAyG1nr1bSN9YMTK88U5EEu7oj88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q9FR3QGjnA8Vb6D0X+Q6qukJ7C+zMfuAKTTqaVrSJkim6NjIg0JJMZofc41CYqxqPV9HgXILaTz1jwcfvIYVSvcbA5bkaYXe4zGwTx2PUfrSxTyNX5zM2Rb7TQTf+BRslH6+iYt8o8/phhw7hOjMo2rwwpWlVULse19mpwegvE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DcPdTN+W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756746110; c=relaxed/simple;
+	bh=Xid0o6B2H0awNyRJaNWd4FT6j6sbVMwx8IaWar55E1A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sixnMaprzoXQPNh1DF3GRtaf5+50NauTttQEu4W7VPSQOf+6bDQPrZy44fBiP8jTA3xLsIYEVbOeRLhtz9MCaMI17W2scBavAKE5+0X1HANoAxBaN+F3Pt/L0cEZPlEa3JDUlePMD4VCzDwc9hmUPaeqVyugJOyxyLA7D+G8UUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8kA9PWJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DcPdTN+W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5596FC4CEF0;
-	Mon,  1 Sep 2025 16:56:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8kA9PWJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D11C4CEF0;
+	Mon,  1 Sep 2025 17:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756745813;
-	bh=20LR7yZxZ7jgK8PFAyG1nr1bSN9YMTK88U5EEu7oj88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DcPdTN+WWGE96roQtfgI5hduqOYqDQqpH5rYt/4CPVQ4g6HiuFjnVxDWy0CMjznbu
-	 vYAUwZSnim6X233yoi6pSPwDAYZORQvORdLJm2wdbchjEimGwS7DtP+bNGxkRWM3JL
-	 JT2GTySo8NSWG/9i7puLZ2CstVwLtYdLVfBKz/cIrPbLiZ3qNaV8LAFaODdJYu0l5i
-	 N52zDGiLV+svuusOfRhV9E9uJoBfhBP2dL1M3SRJL6thygg8BDnIDwj7PBjiuUEek8
-	 Y3psAJJUqytLwJr5NYMdGkWd8v32nHb3N2gl4uZFE1GAUBx90ajSCp0qYviGyLO1xJ
-	 h8LGAR5uYtMUQ==
-Date: Mon, 1 Sep 2025 09:56:52 -0700
-From: Kees Cook <kees@kernel.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
- migration support
-Message-ID: <202509010949.9A61A98@keescook>
-References: <20250830020109.it.598-kees@kernel.org>
- <59c4f103-7f1b-4829-bd82-0d392047fea4@oracle.com>
+	s=k20201202; t=1756746110;
+	bh=Xid0o6B2H0awNyRJaNWd4FT6j6sbVMwx8IaWar55E1A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=A8kA9PWJsKdpYQ2CpBqzkOfqBwEeEF4/2ZT4gBaEtbBfff2ixrbCh57x0BX3PL1Q/
+	 LRcsPWqd+g4xHYH+APQddZHFzqVWwZtUGJUL2ugp7dNJ1M1NQ0kWAey74Ljdd8rPfU
+	 ZvXvt45+3GFJD7X0CdQALwh2fmjLib0nmKVV44Q/jVNYJ91jBDD1ekyWQYEPwFNhRr
+	 J4nVEA23qJollhtoj3dgmfuLPd4lPGfQRvyFL4gH+tTmPZ1S4lMR6JZk2fC2OZNJqo
+	 DYuErBJZvCnW6V2ChlHm3UiUC2OzRxbT3tqer9lZp7wib/mCTkg6T5qSjex029nZPr
+	 /XWqER5/3Pu+A==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,  Pasha Tatashin
+ <pasha.tatashin@soleen.com>,  pratyush@kernel.org,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+In-Reply-To: <aLXIcUwt0HVzRpYW@kernel.org>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
+	<20250826162019.GD2130239@nvidia.com> <aLXIcUwt0HVzRpYW@kernel.org>
+Date: Mon, 01 Sep 2025 19:01:38 +0200
+Message-ID: <mafs0ldmyw1hp.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <59c4f103-7f1b-4829-bd82-0d392047fea4@oracle.com>
+Content-Type: text/plain
 
-On Mon, Sep 01, 2025 at 10:34:19AM +0200, Vegard Nossum wrote:
-> Drive-by review... consider it more as "here's some stuff that could be
-> worth looking at" rather than blocking in any way.
+Hi Mike,
 
-Thanks for looking at it!
+On Mon, Sep 01 2025, Mike Rapoport wrote:
 
-> 
-> On 30/08/2025 04:01, Kees Cook wrote:
-> > During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
-> > existing .config files need to maintain backward compatibility while
-> > preventing deprecated options from appearing in newly generated
-> > configurations. This is challenging with existing Kconfig mechanisms
-> > because:
-> > 
-> > 1. Simply removing old options breaks existing .config files.
-> > 2. Manually listing an option as "deprecated" leaves it needlessly
-> >     visible and still writes them to new .config files.
-> > 3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
-> >     etc) prevents the option from being processed at all.
-> > 
-> > Add a "transitional" attribute that creates symbols which are:
-> > - Processed during configuration (can influence other symbols' defaults)
-> > - Hidden from user menus (no prompts appear)
-> > - Omitted from newly written .config files (gets migrated)
-> > - Restricted to only having help sections (no defaults, selects, etc)
-> >    making it truly just a "prior value pass-through" option.
-> > 
-> > The transitional syntax requires a type argument and prevents type
-> > redefinition:
-> > 
-> >      config OLD_OPTION
-> >          transitional bool
-> >          help
-> >            Transitional config for OLD_OPTION migration.
-> > 
-> >      config NEW_OPTION
-> >          bool "New option"
-> >          default OLD_OPTION
-> 
-> Can you add this to scripts/kconfig/tests/ + both positive and negative
-> tests? Tests are run with 'make testconfig' but (AFAICT) doesn't
-> actually recompile config/mconf/etc. before running the tests, so small
-> gotcha there.
+> On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
+>> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
+>> 
+>> > +	/*
+>> > +	 * Most of the space should be taken by preserved folios. So take its
+>> > +	 * size, plus a page for other properties.
+>> > +	 */
+>> > +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
+>> > +	if (!fdt) {
+>> > +		err = -ENOMEM;
+>> > +		goto err_unpin;
+>> > +	}
+>> 
+>> This doesn't seem to have any versioning scheme, it really should..
+>> 
+>> > +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
+>> > +				       (void **)&preserved_folios);
+>> > +	if (err) {
+>> > +		pr_err("Failed to reserve folios property in FDT: %s\n",
+>> > +		       fdt_strerror(err));
+>> > +		err = -ENOMEM;
+>> > +		goto err_free_fdt;
+>> > +	}
+>> 
+>> Yuk.
+>> 
+>> This really wants some luo helper
+>> 
+>> 'luo alloc array'
+>> 'luo restore array'
+>> 'luo free array'
+>
+> We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
+>
+> Will wait for kbuild and then send proper patches.
 
-Yes, I will get that added if people are generally happy with this
-feature idea. :)
+I have been working on something similar, but in a more generic way.
 
-> > diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-> > index fe2231e0e6a4..be51574d6c77 100644
-> > --- a/scripts/kconfig/expr.h
-> > +++ b/scripts/kconfig/expr.h
-> > @@ -127,6 +127,21 @@ struct symbol {
-> >   	/* SYMBOL_* flags */
-> >   	int flags;
-> > +	/*
-> > +	 * Transitional symbol - processed during configuration but hidden from
-> > +	 * user in menus and omitted from newly written .config files. Used for
-> > +	 * backward compatibility during config option migrations (e.g.,
-> > +	 * CFI_CLANG → CFI). Transitional symbols can still influence default
-> > +	 * expressions of other symbols.
-> > +	 */
-> > +	bool transitional:1;
-> > +
-> > +	/*
-> > +	 * Symbol usability - calculated as (visible != no || transitional).
-> > +	 * Determines if symbol can be used in expressions.
-> > +	 */
-> > +	bool usable:1;
-> > +
-> 
-> It's a bit of a "red flag" to see bitfield bools just after an "int
-> flags;" member... should these be SYMBOL_ flags?
-> 
-> Speaking of SYMBOL_ flags, there's apparently one that controls whether
-> a given symbol should be written out to .config:
+I have implemented a sparse KHO-preservable array (called kho_array)
+with xarray like properties. It can take in 4-byte aligned pointers and
+supports saving non-pointer values similar to xa_mk_value(). For now it
+doesn't support multi-index entries, but if needed the data format can
+be extended to support it as well.
 
-Yeah, I mentioned this in the commit log, and maybe I just have to make
-this not as easily readable? But you have a point about "usable" below...
+The structure is very similar to what you have implemented. It uses a
+linked list of pages with some metadata at the head of each page.
 
-> scripts/kconfig/expr.h:#define SYMBOL_WRITE      0x0200  /* write symbol to
-> file (KCONFIG_CONFIG) */
-> 
-> This seems like something you'd like to use somehow -- maybe simply
-> clear it in sym_calc_value() if it's transitional? Similar to how it's
-> done for choice values:
-> 
->         if (sym_is_choice(sym))
->                 sym->flags &= ~SYMBOL_WRITE;
+I have used it for memfd preservation, and I think it is quite
+versatile. For example, your kho_preserve_vmalloc() can be very easily
+built on top of this kho_array by simply saving each physical page
+address at consecutive indices in the array.
 
-This is actually handled naturally as part of this logic:
+The code is still WIP and currently a bit hacky, but I will clean it up
+in a couple days and I think it should be ready for posting. You can
+find the current version at [0][1]. Would be good to hear your thoughts,
+and if you agree with the approach, I can also port
+kho_preserve_vmalloc() to work on top of kho_array as well.
 
-> >   	if (sym->visible != no)
-> >   		sym->flags |= SYMBOL_WRITE;
-
-i.e. "usable" doesn't change SYMBOL_WRITE getting set.
-
-> > @@ -205,6 +206,16 @@ config_option: T_PROMPT T_WORD_QUOTE if_expr T_EOL
-> >   	printd(DEBUG_PARSE, "%s:%d:prompt\n", cur_filename, cur_lineno);
-> >   };
-> > +config_option: T_TRANSITIONAL type T_EOL
-> > +{
-> > +	if (current_entry->sym->type != S_UNKNOWN)
-> > +		yyerror("transitional type cannot be set after symbol type is already defined");
-> > +	menu_set_type($2);
-> > +	current_entry->sym->transitional = true;
-> > +	printd(DEBUG_PARSE, "%s:%d:transitional(%u)\n", cur_filename, cur_lineno,
-> > +		$2);
-> > +};
-> 
-> You could also consider making this an attribute similar to the
-> "modules" flags and simplify:
-> 
-> config_option: T_TRANSITIONAL T_EOL
-> {
->        current_entry->sym->transitional = true;
->        printd(DEBUG_PARSE, "%s:%d:transitional\n", cur_filename,
-> cur_lineno);
-> };
-> 
-> ...it would mean the config options look this way:
-> 
-> config OLD_OPTION
->     bool
->     transitional
-> 
-> (If not, menu_set_type() does already contain a check for whether the
-> type has already been set.)
-
-I went back and forth on how I wanted it to look and ultimately decided
-it was awkward to say "use transitional but only with a type that
-doesn't have a prompt". Instead it seemed better to have the type
-explicitly set.
-
-menu_set_type() does check already, but it's a warning only.
-
-> > @@ -558,6 +606,9 @@ void conf_parse(const char *name)
-> >   		if (menu->sym && sym_check_deps(menu->sym))
-> >   			yynerrs++;
-> > +		if (transitional_check_sanity(menu))
-> > +			yynerrs++;
-> > +
-> >   		if (menu->sym && sym_is_choice(menu->sym)) {
-> >   			menu_for_each_sub_entry(child, menu)
-> >   				if (child->sym && choice_check_sanity(child))
-> > diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> > index 26ab10c0fd76..b822c0c897e5 100644
-> > --- a/scripts/kconfig/symbol.c
-> > +++ b/scripts/kconfig/symbol.c
-> > @@ -447,6 +447,9 @@ void sym_calc_value(struct symbol *sym)
-> >   	if (sym->visible != no)
-> >   		sym->flags |= SYMBOL_WRITE;
-> > +	/* Calculate usable flag */
-> > +	sym->usable = (sym->visible != no || sym->transitional);
-> > +
-> 
-> Is this actually ever used outside of this function? (IOW could this
-> just be a local variable instead of a sym-> flag/member?) Or do we need
-> to set it here because sym_calc_value() calls itself recursively? To me
-> it looks like we only ever access sym->usable for the "sym" that was
-> passed as an argument to the function.
-
-Ah! It's not any more, no. I had an earlier version where I was
-examining it elsewhere, but yeah, this is only needed here.
-
-> 
-> >   	/* set default if recursively called */
-> >   	sym->curr = newval;
-> > @@ -459,13 +462,15 @@ void sym_calc_value(struct symbol *sym)
-> >   			sym_calc_choice(choice_menu);
-> >   			newval.tri = sym->curr.tri;
-> >   		} else {
-> > -			if (sym->visible != no) {
-> > +			if (sym->usable) {
-> >   				/* if the symbol is visible use the user value
-> >   				 * if available, otherwise try the default value
-> >   				 */
-> >   				if (sym_has_value(sym)) {
-> > +					tristate value = sym->transitional ?
-> > +						sym->def[S_DEF_USER].tri : sym->visible;
-> >   					newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
-> > -							      sym->visible);
-> > +							      value);
-> 
-> This looks a bit odd to me. Just thinking out loud: your new logic is
-> there to be able to use a value even though it's not visible. In the
-> case where it's transitional you use the .config value instead of the
-> condition that makes it visible.
-> 
-> Could you simply change sym_calc_visibility() instead to always return
-> 'yes' when the symbol is transitional? Wouldn't that simplify everything
-> in sym_calc_value()?
-
-It's a tristate, so "m" is also possible besides "y". (sym->visible is
-also a tristate. :)
-
-I will send a v3 with better bit fields.
-
--Kees
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=5eb0d7316274a9c87acaeedd86941979fc4baf96
 
 -- 
-Kees Cook
+Regards,
+Pratyush Yadav
