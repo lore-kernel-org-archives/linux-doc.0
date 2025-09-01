@@ -1,671 +1,186 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20278140E34;
-	Mon,  1 Sep 2025 06:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756707449; cv=none; b=H9cyQBEuiPFplGUeFhhK3qVHmnAXsejSAaCupon1a4LXQpdZ6lylp03y2Vzl4cdl6i6mgU4Wv1mPfwL9CuJg/WTZ1R6J8trzwPTRSqkvo0ABHOghLHpbMw/om5Ho8kgW+XtBMks9v5nyca2wV/IvkS4LcntvmsbwjW/FaPmzKWE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756707449; c=relaxed/simple;
-	bh=rUiNyoo0LeUbHh3MBayv1rMpjGBYOZOWHdYL7yj3ZLA=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=UeEDAltt+BKC/fKwj8RQR4QRDVpWxAfHhhTukFK4gysEJ0zogLqAku+LQLX78pVSL7XkF85YU4BPfKbCvVOYdKO4Z0/ZPfnedl3Z5H4v7sysTbnpD6PYzaZBN6VttxvEEbwU0Bgs68naC5heLw20ZHqUnAeKtL8sHuSo3oPAtH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=I5nynCRR; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E155D1FA272;
+	Mon,  1 Sep 2025 06:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756708061; cv=fail; b=DkQlbqhemeoquayW/yA2A4zWu++Zn+Rt5OxQwnT2TOP5DYLMk+idHAiNxIpNNZvITRpXsVjwjhQBGxNGQ+HHnmqYD2FsZ8L6qVkJrGQn4uyhe8hlabln6uUpqMg3ccllRq1VjMxe2MhgxpxIT+CBM7n9YMXhf6fQnq/AXwyIAMo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756708061; c=relaxed/simple;
+	bh=wBCXgKh4If/TtqzdUc2L2LBvha3OPXEdAGyNf9ayUDo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Tgmx3Oac7urCRKZijaXXQ6OEsiplZSbL8fRCdvVSeH4vCSVj73Eb2ps4VhMcTow62Do3qEUuf0z0X0XRIlL+AzmVlSuSEkx2UGLuLTFugP8ICfqj0Czi6LkVxNloBDsrSxc9bJr26n6hmXK43EFIfLBHa0WUrrkr/M3RVaMgSaM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tXrh8fE4; arc=fail smtp.client-ip=40.107.94.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="I5nynCRR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Content-Type:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ctukEWWRJULzaVojoze8pUFplWpkj9qsPzEqEpe0PFE=; b=I5nynCRRn/HHncM+cDXMb+kLJf
-	fK1pnfPLuv66qCHTBBbiTGV2GHoOYnTaJflOWRcQ5ftfXPKpiPDQ5Pw6dIekySghD6WzsTpYzb2HK
-	eB330Y8EWKNZkM67mLfJEkKu5QFCOp7tccRL4BkbfR+sgJHEl0xW6/OZfhQFp3u5dju9F/tiY0zpN
-	avW7sWxH6uGOPPu6rVrQ2DYvLryMQyoP1dxCHqoFBeF/A2+TyEa7MQw6hbCENtHcaoInbsyn7QF4a
-	jibQaCHvirRWmTJr+5rEV3UgQH4+/kMsrC+gfcsz+VggGEX/AtJb+ISg76v4czFNo8HCgne+2hlVA
-	3XT2T4Og==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1usxr1-0000000BJ5K-2dKm;
-	Mon, 01 Sep 2025 06:17:23 +0000
-Content-Type: multipart/mixed; boundary="------------WTZTRdUPp0NqvjYNs0rco7TN"
-Message-ID: <636fe6e8-dc66-4521-a64a-4fb972e7ef39@infradead.org>
-Date: Sun, 31 Aug 2025 23:17:22 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tXrh8fE4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vYtkEsEWVlHc7nOxxGsRfrY4IEL8YWXI2FGQb3VQI1opoTCCq1S/R2MF0JI5I8wMOjEnG8KpK6DQN8iUtvw92n3RiQ3B1ABiAzdf9xTLiQ1txdS9xGEDeccRtxx/3GdjJkjklB3waV5lkHEvcQk74sL5kNaDnj8YFiL2xBxQIVCynQtzuyS3rTuRGNbFhQUj0hAOzGq7d77xOkZgXTFyJia7exsTxRDrUao5ffRLt/6Zzhvvip0xitOn/iya1/3nArwjeftQ1CZtcI/WzCfyj6Rz+ZeIVSB9zsx8D6X1dq+f5if0bA0PImra4eexHpzm30PaG/hXpOxSAsusParExg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=woLR5gfLmDYgS6WO+yyL3uMad7VFcpQA6bxS0NIpxVE=;
+ b=ZBIG6z2DWh6iL9fHs6igvQe2wz/2ApQB2gUlQWPIMqcAvduEJGC8rB4FNOJ/BwTTQvtRIMbAJkW2t/kqBsgoVM90JjTJhVb+I1dDQxkIB2ZhQc0nNUpnph4D38YpFLXgU38u6ze+EFty8mvOKugUpswE6hg0/pp93ZkUYD9eTelx4pMP7v7JmZvVR5q40b7jHlkTss7sKHPBeoPHTjB3c9ZJxLzdG/lUNg9DOXR4LJafmHPtWDaaPWlzuOlqbuVIrSHi5+5TKZOpIZFALSqOPyiAgzkaUjxNNjRr1/biqByWB15xxfOTvrz3zxqasE4cEWyuFbDykoRpBm2Z4Zd0/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=woLR5gfLmDYgS6WO+yyL3uMad7VFcpQA6bxS0NIpxVE=;
+ b=tXrh8fE4ACs0kOHfjfEYNJYmF/3C7e4bYeH0u4lCOob+llTcu4zlBDw8emc4PK+ovEsbLntRzOBek88QLaRhpgrtt/3yG8ju5+gXkaHklPvDkMt0p+PMu81X8oCbpRpVPK7DtT89DkF9bVF2bXD9Byxe8r0dsN6aDk9xQbEKQlY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
+ by SA5PPFDC35F96D4.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8e5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.21; Mon, 1 Sep
+ 2025 06:27:37 +0000
+Received: from PH7PR12MB9066.namprd12.prod.outlook.com
+ ([fe80::954d:ca3a:4eac:213f]) by PH7PR12MB9066.namprd12.prod.outlook.com
+ ([fe80::954d:ca3a:4eac:213f%4]) with mapi id 15.20.8989.018; Mon, 1 Sep 2025
+ 06:27:37 +0000
+Message-ID: <d829c4ee-f16c-6cfa-afdc-05f4b981ac02@amd.com>
+Date: Mon, 1 Sep 2025 11:57:21 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v5 00/14] Introduce AMD Pensando RDMA driver
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>, kuba@kernel.org
+Cc: brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, corbet@lwn.net, leon@kernel.org, andrew+netdev@lunn.ch,
+ sln@onemain.com, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250814053900.1452408-1-abhijit.gangurde@amd.com>
+ <20250826155226.GB2134666@nvidia.com>
+From: Abhijit Gangurde <abhijit.gangurde@amd.com>
+In-Reply-To: <20250826155226.GB2134666@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0012.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:272::15) To PH7PR12MB9066.namprd12.prod.outlook.com
+ (2603:10b6:510:1f6::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-To: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Akira Yokosawa
- <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, Matthew Wilcox <willy@infradead.org>
-References: <87plcndkzs.fsf@trenco.lwn.net>
- <20250828230104.GB26612@pendragon.ideasonboard.com>
- <87wm6l0w2y.fsf@trenco.lwn.net>
- <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
- <20250830222351.GA1705@pendragon.ideasonboard.com>
- <87h5xo1k6y.fsf@trenco.lwn.net> <20250831160339.2c45506c@foz.lan>
- <87zfbfz1px.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87zfbfz1px.fsf@trenco.lwn.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB9066:EE_|SA5PPFDC35F96D4:EE_
+X-MS-Office365-Filtering-Correlation-Id: 834fca12-5583-4b57-dd1f-08dde920a49b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?N0xON2w5blNUaUFQRDFGNG1CRVJWZzBaR1pxWURZdG4vWHZYMWoxMFM3L2ZU?=
+ =?utf-8?B?TkxjNXZ0SFFhNnpYdTZkeXdEQTJEMFo3Q1FYZjRwVmJtNTFjWmRKUWNKcUcz?=
+ =?utf-8?B?bW9zaXVOMm85T3kycWRhSGRJcUgrOWJkL1NLQW9wazhSemNFbDdEelFBd2lq?=
+ =?utf-8?B?czc4cFpSMDZnYTJ3TmdvaUtrWnUvbnBzSkRvTVFxSm54QlVsOEt5NDRYclov?=
+ =?utf-8?B?NW0veXdoUHRRVzFHaklaaFJDVTNsb05PQjBGcWpUMUVKRFl0YmtwOHphN3FJ?=
+ =?utf-8?B?UEYrbDZHWWdkei91V1J5MEt0SEl4SnZoYzVZcVAxOGNkRWMwb2Q4cTJGd2Vr?=
+ =?utf-8?B?ZWFUQTJhOUFidkZLeHVEL2lmSG5yOVpNTG52RWZiak05KzNPVWFwS2FSOHpa?=
+ =?utf-8?B?UVpqWGdmNkNXRW5GOUpUTkNmblQ1TUxNVnpXeDV3Uk5BK1V0VjM3bXJjUU00?=
+ =?utf-8?B?R0E3aUtLalBmN1gyZWFVQmV3NzNuajlGY3I4bkpQOVliaUE1YVIyWUErS0ly?=
+ =?utf-8?B?eWlreGIvQURJVHU4aDZXZzhId3Z5TW84MWQ0YUNsbklCZHcyTklFUEZWWlZ4?=
+ =?utf-8?B?QjhZcHU1N2w3UHFjRWhpNkdtemlTUWtkZGJiWDFlOU0zWWQxelIzd1Y2ckZN?=
+ =?utf-8?B?dm94c0RCMkFhdTIrTFFTQWZKbC8xQ3Y1UndtMGtmbmtCbWlHMGhvVDNFT0Zn?=
+ =?utf-8?B?MVA3TDkwRzZsZDd5T0VHK2VialRocEdYdFFpYUdoOWhMdlNkejNRc3NsUVov?=
+ =?utf-8?B?TWIrSkZPdHVrRFJEcFpmdFoxWGNNUmtIbEtDcGZmbUEyd0FDd2hRMW1ObzlJ?=
+ =?utf-8?B?UWZpRGU3ZWgwWEgweW1OQW9LQUE3VWJSMU04cndGcU5ZbG51MExqdXkvR2Nn?=
+ =?utf-8?B?aXUxSnBTMUJMaGF1clFsYXZUUUlHa0JONkNvODFkU1FHWm1XRjlsWFRqaUZh?=
+ =?utf-8?B?QUY0QVZZTTdMY01qU3dkUkJORHo4dFMvazd0ZTIxSSs0Zy8vTnA1bkw1djJQ?=
+ =?utf-8?B?bjF3REhteUc4Z05xWHBtTzQ4N3Ryc2hVdEhYRFF0SVkwRXBqSEtpWmxVWmRq?=
+ =?utf-8?B?ekx5Z3FseDdmR3dyZ0R6YkhXc3BtRCtUb0ZOL3I1dDNreXUwcGxyVlJiRkRh?=
+ =?utf-8?B?eGF5dEoxV1dWaFo1cFZZNkdNS1p4b0RjTVJPWEZlbzB0cW1WWnR3S0hSVGpU?=
+ =?utf-8?B?SVFyK1FhbTJmVDU4c0RWempjQkZlS3ZJNnlHWmkrLzNERGdtQzNtdElVbG80?=
+ =?utf-8?B?OEE4UnhUa0x5cmlxc0ovWS80WFZ6UXkzRHRHOHdzRVpFKzNjYjV6MXFPWktY?=
+ =?utf-8?B?S3g1UWJWdStaMHJZNGI4UWFYVWZURC9JazRBYWZnTVBBZmpsclZwZXVZZ01V?=
+ =?utf-8?B?ek5OcERDRXRHdDR4NDBuWmVxRHZlWklsdUk1TllHQkJCWXRHaVNtbk9SZm41?=
+ =?utf-8?B?NHJMR1dhM0l2ejcyTTlpSmRhUk5La09kZ1V3WHBqeUY4OEpmSGhrSVh0Q0Rp?=
+ =?utf-8?B?TjFSSzROM3BBZDQ3aFZ4ZDFZQ0Nhcnc2eEQwaktHclhKeldSdmlPQ0o1eWJn?=
+ =?utf-8?B?d2xTdjN4UzVra2czQTJ1a0ZmMUUrSjU3TUlJVFRiT09OWDZhZUJjSUdOa29j?=
+ =?utf-8?B?aGU3N0lkQjVObUQ2a0UzUzRzeWdZOThoK1dYVXRNeWVHaUhBQkdvZStqM201?=
+ =?utf-8?B?ZVI1d3VKTWx1QW9YSlMwRkx0S2VPbVZrcDJNWTg5MCtFdDhyQ0RzNGRabG9r?=
+ =?utf-8?B?dzVQRmdvUElSMjdsdk51MEw3MldrcUREVFdrUktId1B6aVgwY2tCUVlUcEhh?=
+ =?utf-8?B?Q1VFa3BnZ3lveDdmeGpGNTlSRUkxc2ljMGFlYWwrL1lzNjExUTBrdWNnQXRV?=
+ =?utf-8?B?bGNkZXBTbWNML2gydi92K3JyN2N6bkt5MVgxRGxCaDBBRytyNmNqWVlhenVG?=
+ =?utf-8?Q?VZ63nO7eAwI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB9066.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?czUrbGdTRmcwY2IwbnVCMllwRlNyb1MyTlhob0o5T1NkVnlkWlV3Wnkybk5q?=
+ =?utf-8?B?b0h3TllOMlpLMnJCL09JbGY2SUkva2pSaEZKbkRmeGFQM045RlltU1NpVCtZ?=
+ =?utf-8?B?d2Nqa2ZZdmJaMWNGcE5ScTVXckc5RDZGWnBjRzU1NXQyOVVqSWFra1E1cExQ?=
+ =?utf-8?B?L0wyem5YVDE4NEE5SlhmWExGVDQzSnpUMWJmeGhoZFlxQThZUlExYjVKRmdy?=
+ =?utf-8?B?empnNmVSUWdoVUwwZWFodC9yUmpGZi92aVkyWWtaanpIQVdFZmpudlZnMkF6?=
+ =?utf-8?B?UTkydXFBVVQ3eFJ2cVI0N2NCM0ZxbUl2Y1p6UkFCazVMVExnWHpXbmFheVlB?=
+ =?utf-8?B?cjlBbVo3TWs1eWJaUFZ0bm9FRG9pOE9uNTExUkpuZWl5TCtZVWdWUmNkdVAy?=
+ =?utf-8?B?OTd5U2ZKT2FGK2lreURhQXd4Um9LQnN5S05qbG5tNlFTYkZVUFVaT1hsZmdr?=
+ =?utf-8?B?VHRycDAxWFdCaDRwb2Rkbkg2K3ZqNzRzNlNvdmh2cmlsYm9hcnJQL2NqTU1j?=
+ =?utf-8?B?SEt0MGZCL3BnalpOVXJHYXc2L1hZaWNSVEh5cVZmVS9ENmlFZlV0YngzajhL?=
+ =?utf-8?B?MkxTcSt0YURVQ2dqd3ZXZHkwUWdxUGE0Wi90aWxMSC8rMnBIUWRRcWVYcGVa?=
+ =?utf-8?B?bHlrdFRkOXZsdlJsemVDNWhyeFhHYUpjZHgxK1VjK2RHYWhBNy82c1l1clkx?=
+ =?utf-8?B?SUsxOCtrMUJZR25JOWNwdDZTSjRFR3Z0L0RHd0hxU05hcm43MHZCRkw1Z0Fk?=
+ =?utf-8?B?MWJWUDhjc09YaDM2Qkg3TnVkcno0b0dTcWk3RkVRMGlCSkRrUThlVElMNVE1?=
+ =?utf-8?B?cGg2VkN1d3U0SW1wK1hqdkhydnRhSGpRUXBZMjNBMU5hQnc0cWVWUWxsdmxO?=
+ =?utf-8?B?Y0VoTWdTWjJiQlhCZUJGZDRhTFpDR1AyZzl1MHE4QmlyRlgwOS90TlJ4WXRt?=
+ =?utf-8?B?SzJqcWx0WTNJMGRQbTNyVUxoNXRmdGtza09MNGZOVmY4Q2p5bDRiendzRXJw?=
+ =?utf-8?B?c0hBb093Y2R5VktGcWdJVHZIT2hmZGs3SFN6ZXBGRUdqdEx3NGxDcDhWZjd1?=
+ =?utf-8?B?bmVVK1hHd2ZQbG1Hdkkzd09qRmI3YnVEMkNaQUhZc3Nna1NDN0M4Wk1rTzYw?=
+ =?utf-8?B?cmlUZmUveEM2VTdxd081alVNNE1tOFR6TkhDRUZpdUNOUTVCUGdndGpmZmZ6?=
+ =?utf-8?B?VDNFaEFYUUo1SkNyK0RKZnFOSzY0OU9NcXR3L3VyQlZieFFTL2lDbGh4TnVV?=
+ =?utf-8?B?SUNkYWxZT3pwS1B2RGlOVklDYlpEK1FCZ3ZWcTRiUVRiczZING9ZVndjSXJ4?=
+ =?utf-8?B?QnJOUE8wZ3JncEpMNDBva1NMcklHRjI3VzhxeCtSS0VCMmhLWWhxZkU5bGF6?=
+ =?utf-8?B?RmF5MG94VHJXcEhsTTkvakx0Mko1V01QcTBYOVVzSzdwQklYdzZxbkx1azZK?=
+ =?utf-8?B?S28vVzliTS9SLzdHMm54OVEva3BIcVl1aUZTL0gxSjdPVnM2aGpVTGYvWlJQ?=
+ =?utf-8?B?Q3VHOWFNdFUzdk5JVDN1UlphT2JyS0tIbEQxdFdnZjRqcXpmVy9oekZSQjVO?=
+ =?utf-8?B?UzlaTjdud2ZNbG5NbTc3QWNQVDFLbnhHSXVZQlhYbXZFK2J0L1NtTVdwV0tB?=
+ =?utf-8?B?YjdPblZFYkxOemVxMy9iR2V6WFNxZmgrTDlGb3ZNeU0yK3NzczYrRG1jVmZo?=
+ =?utf-8?B?cjFySnRzZGF0ekhIN2RPTC9VU25hWjZmcG5DeGFtd2dlckJSa2pybm1rSzJt?=
+ =?utf-8?B?TVU0aVE5akFwVlNJZXRucGpGazVPYW12dWNPNnBoRFJpTHlNV2loRmJTcUlz?=
+ =?utf-8?B?VHErWGx5NStNYzVlM21XeEdhbFhMSDNVa2JGM0d5SWNxOEh0WFF6STJyVHd2?=
+ =?utf-8?B?Snh0c2RoenY1T21aVVFiL3RmQ21mZDB4ejRQQWl5OEI2SVRBVXVTbnlxaHVa?=
+ =?utf-8?B?K1Vxd3FuOGhSZ2Rsa0ZuQS9WUnZ5a1VXRU5tRVR6bUlDTkthbHRzOGpSeWJW?=
+ =?utf-8?B?d1AreEoyaUFwdUpQT3hPNC9DTHRYaTY2dk5BT3VFK1d4NFFBdXBPQ2NlaWpr?=
+ =?utf-8?B?VmtVaHowcXljZ1RTbStmWjRIVzZTYmwrZ1U0a3pUNURpRk9MQk9xTWZtb0JO?=
+ =?utf-8?Q?k4wwvr+PculNMDTrufMo8g6Oz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 834fca12-5583-4b57-dd1f-08dde920a49b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB9066.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 06:27:37.4300
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7SQpn80+A5dbqj79FOqYto6vpqtzAbWqMT7qED19BdQ32bnGKWbBTQi5hsxjLl21WXjuTf2WeI2tVTsC1fj11g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFDC35F96D4
+
+
+On 8/26/25 21:22, Jason Gunthorpe wrote:
+> On Thu, Aug 14, 2025 at 11:08:46AM +0530, Abhijit Gangurde wrote:
+>> This patchset introduces an RDMA driver for the AMD Pensando adapter.
+>> An AMD Pensando Ethernet device with RDMA capabilities extends its
+>> functionality through an auxiliary device.
+> It looks in pretty good enough shape now, what is your plan for
+> merging this?  Will you do a shared branch or do you just want to have
+> it all go through rdma? Is the netdev side ack'd?
+>
+> Jason
 
-This is a multi-part message in MIME format.
---------------WTZTRdUPp0NqvjYNs0rco7TN
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+I'm happy for the patches to go through the RDMA tree.
 
+Jakub, thank you for looking over the Ethernet side 
+earlier(https://lore.kernel.org/linux-rdma/20250625144433.351c7be4@kernel.org/#t). 
+Are you good with them being merged via the RDMA tree? For context, the 
+ethernet patches are getting applied on net-next, and there are no 
+further ethernet patches planned for this release.
 
+Abhijit
 
-On 8/31/25 1:16 PM, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
->> 4) kernel-doc kAPI
->>
->> It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
->> kernel-doc now can parse the entire tree with:
->>
->> 	$ scripts/kernel-doc .
->>
->> Someone can easily use it to discover the current gaps at the docs that
->> have already some kernel-doc markups and identify what of them aren't
->> yet placed under Documentation/ ".. kernel-doc::" markups.
 
-Mauro, I tried that for one file: kernel/audit.c
-but didn't see what I expected to see.
-What options should I be using to find the gaps?
 
-> ...or one can use scripts/find-unused-docs.sh, which was written for
-> just this purpose :)
-
-Yes, and I have used this script. It does what it was meant to do AFAIK.
-It's reporting is at a gross file level.
-
-I made a small subdirectory called "test" and copied kernel/audit.c to test/.
-
-$ ./scripts/find-unused-docs.sh  test/
-The following files contain kerneldoc comments for exported functions that are not used in the formatted documentation
-test/audit.c
-
-Sometime in the last 2-3 years Matthew Wilcox asked me about a tool (script, whatever)that would detect both EXPORTs without kernel-doc and kernel-doc without EXPORTs.
-Either one of these can be noisy (with false positives) and they often don't lend
-themselves to easy/beginner fixes.
-
-Anyway, after some delay, I have such a script. It's written in Perl (I started
-on it over a year ago!). It might have been desirable to add it to scripts/kernel-doc.pl
-at the time, but it didn't seem to me like a good fit there, so it's independent.
-
-Running (no options, just produce a summary)
-$ kerndoc-export-search.pl test/audit.c
-reports:
-Missing kernel-doc for: audit_log_task_info
-Missing kernel-doc for: audit_enabled
-Missing kernel-doc for: audit_log_task_context
-3 missing kernel-docs
-Missing EXPORT for: audit_serial
-Missing EXPORT for: audit_log_untrustedstring
-Missing EXPORT for: audit_log_n_untrustedstring
-Missing EXPORT for: audit_log_n_hex
-Missing EXPORT for: audit_log_lost
-Missing EXPORT for: audit_set_loginuid
-Missing EXPORT for: auditd_test_task
-Missing EXPORT for: audit_ctl_lock
-Missing EXPORT for: audit_string_contains_control
-Missing EXPORT for: audit_signal_info
-Missing EXPORT for: audit_log_path_denied
-Missing EXPORT for: audit_ctl_unlock
-12 missing Exports
-
-If that's not verbose enough (!), the -l (list) option lists each function's
-location and short description. One example:
-test/audit.c: 2006: audit_log_format:  * audit_log_format - format a message into the audit buffer.
-
-But that generates lots of output.
-
-And of course, for function, I mean function/struct/union/enum/typedef.
-
-There is a "verbose" option but it currently does not print anything.
-
-Here is a help summary:
-$ kerndoc-export-search.pl -h
-kerndoc-export-search.pl [--list|-l] [--verbose|-v] file(s)
-  where --list    prints filename:line:funcname: short_description
-  where --verbose prints more info.
-  default: prints a doc/export summary + warnings.
-  version: 0.9
-
-
-Feel free to use in any way or to rewrite & merge it into the
-kdoc python system.
-
-FWIW.
--- 
-~Randy
-
---------------WTZTRdUPp0NqvjYNs0rco7TN
-Content-Type: application/x-perl; name="kerndoc-export-search.pl"
-Content-Disposition: attachment; filename="kerndoc-export-search.pl"
-Content-Transfer-Encoding: 7bit
-
-#! /usr/bin/perl
-# kerndoc-export-search.pl
-#
-# summarize (default) or list kernel-doc short description lines from source file(s);
-# Summary reports kernel-doc warnings, missing kernel-doc for EXPORTs,
-#    and missing EXPORTs where kernel-doc notation was found;
-# Randy Dunlap <rdunlap@infradead.org>
-# 2007-04-11, 2021-06-02, 2024-12-12, 2025-08-31
-# License is GPL-v2.0.
-#
-# TO ADD:
-# 1. maybe add line# to kernel-doc and EXPORT saved locations so that they can
-#    be output in line# order instead of whatever order Perl decides;
-# 2. read_proto() endings are a problem with typedef + type/etc; TBD;
-# 3. check/ignore?: exported typedef/enum/struct/union (definitions, not decls)
-
-
-use File::Basename;
-
-my $VER = "0.9";
-my $warn_count;			# count warnings
-my $opt_list = 0;
-my $opt_verbose = 0;
-my $opt_debug = 0;
-
-my %funcnames = ();
-my %funcflags = ();
-my %exports = ();
-
-my $export_symbol     =    '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
-my $export_symbol_ns1 = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*\S+\)\s*;';
-my $export_symbol_ns2 = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*;';
-my $export_symbol_nsx = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,.*\)\s*;';
-
-# bit flags for %funcflags
-use constant {
-	FF_NONE		=> 0,		# none set; also indicates "function"
-	FF_STATIC	=> 1,		# "static" func
-	FF_INLINE	=> 2,		# "inline" func
-# so a static inline or inline static function has funcflags == 3
-	FF_ENUM		=> 4,
-	FF_TYPEDEF	=> 8,
-	FF_STRUCT	=> 16,
-	FF_UNION	=> 32,
-	FF_NONFUNC	=> 60,		# sum of ENUM/TYPEDEF/STRUCT/UNION
-	FF_DEF_OBJ	=> 64,		# no immediate '('
-	FF_DEF_FUNC	=> 128,		# immediate '('
-	FF_SYSCALL	=> 256,		# system call
-};
-
-sub usage() {
-	my $name = basename($0);
-
-	print STDERR "$name [--list|-l] [--verbose|-v] file(s)\n";
-	print STDERR "  where --list    prints filename:line:funcname: short_description\n";
-	print STDERR "  where --verbose prints more info.\n";
-	print STDERR "  default: prints a doc/export summary + warnings.\n";
-	print STDERR "  version: $VER\n";
-	exit 1;
-}
-
-sub warning($$$) {
-	my $fl = shift;
-	my $ln = shift;
-	my $msg = shift;
-
-	print "warning: $fl: $ln: $msg\n";
-	++$warn_count;
-}
-
-sub read_discard_desc() {
-	my $desc;
-
-DESC:
-	while ($desc = <FILE>) {
-		last if $desc =~ '\*/';
-	}
-}
-
-sub verbose($) {
-	my $str = shift;
-	print "$str" if $opt_verbose;
-}
-
-sub dbgit($) {
-	my $str = shift;
-	print "$str" if $opt_debug;
-}
-
-sub find_type($) {
-	my $dsc = shift;
-
-	dbgit("#find_type# for |$dsc|\n");
-	return "typedef" if $dsc =~ '\*\s+typedef';
-	return "enum"    if $dsc =~ '\*\s+enum';
-	return "struct"  if $dsc =~ '\*\s+struct';
-	return "union"   if $dsc =~ '\*\s+union';
-	return "define"  if $dsc =~ '\*\s+define';
-	return "func";
-}
-
-# read entire protytype for a function or
-# read the entire enum/typedef/struct/union/define declaration
-# (Does not currently support a combination decl/definition.)
-#
-# If the first line of the prototype begins with /#\s*define/
-# then read the entire prototype for the macro, honoring "\\"
-# continuation lines.
-#
-sub read_proto($) {
-	# skip any leading blank lines
-	# then read/save up thru '{' for func or ';' for other desctypes
-	# or for a define, thru a line that does not end with '\'
-
-	my $desctype = shift;
-	my $prot = "";
-	my $ln;
-	my $lncount = 0;
-	my $ending;	# ending char(s) for func/enum/typedef/struct/union
-
-	#$ending = $desctype eq "func" ? "}" : ";";
-	$ending = $desctype eq "func" ? "{" : ";";
-	if ($desctype eq "struct" || $desctype eq "union" ||
-	    $desctype eq "enum") {
-	    	#$ending = "}\s*;"
-	    	$ending = "{";
-	}
-	if ($desctype eq "typedef") { ### TBD
-		#$ending = depends on struct?, union?, func?, enum?;
-	}
-
-	my $macro = $desctype eq "define";
-	dbgit("#read_proto.40# desctype=$desctype, macro=$macro, ending=$ending\n");
-
-PROT:
-	while ($ln = <FILE>) {
-		chomp $ln;
-		next PROT if $ln eq "";
-
-		++$lncount;
-		if ($lncount == 1 && $ln =~ /#\s*define/) {
-			$macro = 1;
-			dbgit("#read_proto.42# switch to macro=$macro\n");
-		}
-
-		if ($macro) {
-			if (substr($ln, -1) eq "\\") {
-				substr($ln, -1, 1) = " ";
-				$prot = $prot . " " . $ln;
-				dbgit("#read_proto.44# macro prot now=$prot\n");
-				next PROT;
-			}
-			else {
-				$prot = $prot . " " . $ln;
-				dbgit("#read_proto.46# macro prot now=$prot\n");
-				last;
-			}
-		}
-		else {
-			$prot = $prot . " " . $ln;
-			dbgit("#read_proto.48# func prot now=$prot\n");
-		}
-		last if $ln =~ $ending;
-	}
-	return $prot;
-}
-
-sub save_funcinfo($$$) {
-	my $fnc = shift;
-	my $prot = shift;
-	my $syscall = shift;
-
-	dbgit("#save_funcinfo# fnc=$fnc, prot=$prot, syscall=$syscall\n");
-	$funcnames{$fnc} = $fnc;
-	$funcflags{$fnc} = FF_NONE;
-	$funcflags{$fnc} |= FF_STATIC if ($prot =~ "\s*static\s*");
-	$funcflags{$fnc} |= FF_INLINE if ($prot =~ "\s*inline\s*");
-	$funcflags{$fnc} |= FF_DEF_FUNC if ($prot =~ "\s*define\s*"); # func-like
-	$funcflags{$fnc} |= FF_SYSCALL if ($syscall);
-}
-
-sub save_nonfuncinfo($$$) {
-	my $type = shift;
-	my $fnc = shift;
-	my $prot = shift;
-
-	dbgit("#save_nonfuncinfo# type=$type, fnc=$fnc, prot=$prot\n");
-	$funcnames{$fnc} = $fnc;
-	$funcflags{$fnc} = FF_NONE;
-	$funcflags{$fnc} |= FF_STATIC if ($prot =~ "\s*static\s*");
-
-	$funcflags{$fnc} |= FF_ENUM   if ($type eq "enum");
-	$funcflags{$fnc} |= FF_TYPEDEF if ($type eq "typedef");
-	$funcflags{$fnc} |= FF_STRUCT if ($type eq "struct");
-	$funcflags{$fnc} |= FF_UNION  if ($type eq "union");
-	$funcflags{$fnc} |= FF_DEF_OBJ if ($prot =~ "\s*define\s*"); # object macro
-}
-
-sub show_flags($) {
-	my $fflags = shift;
-
-	return "static inline" if $fflags == (FF_STATIC | FF_INLINE);
-	return "static" if $fflags == FF_STATIC;
-	return "inline" if $fflags == FF_INLINE;
-	return "enum"   if $fflags == FF_ENUM;
-	return "typedef" if $fflags == FF_TYPEDEF;
-	return "struct" if $fflags == FF_STRUCT;
-	return "union"  if $fflags == FF_UNION;
-	return "define" if $fflags == FF_DEF_FUNC;
-	return "define" if $fflags == FF_DEF_OBJ;
-	#return "" if ($fflags & (FF_STATIC | FF_INLINE) == 0);
-	return "none" if $fflags == 0;
-	return "unknown (" . $fflags . ")";
-}
-
-sub dump_saved_kerndoc() {
-
-	my $cnt = scalar %funcnames;
-
-	#dbgit("funcnames:");
-	#dbgit(%funcnames);
-	#dbgit("\n");
-
-	while ((my $key, my $value) = each %funcnames) {
-		my $flags = show_flags($funcflags{$key});
-		dbgit("kdoc saved for $key, flags: $flags\n");
-	}
-
-	print "$cnt kernel-docs found/saved\n";
-}
-
-sub dump_saved_exports() {
-
-	my $cnt = scalar %exports;
-
-	#verbose("#dump_saved_exports# exports:");
-	#verbose(%exports);
-	#verbose("\n");
-
-	while ((my $key, my $value) = each %exports) {
-		dbgit("EXPORT saved for: $key\n");
-	}
-
-	print "$cnt Exported symbols found/saved\n";
-}
-
-# search saved kernel-docs and report missing EXPORT if found kernel-doc without EXPORT
-sub check_missing_exports() {
-
-	my $cnt = 0;
-
-	while ((my $key, my $value) = each %funcnames) {
-		my $flags = show_flags($funcflags{$key});
-		if (! ($funcflags{$key} & FF_SYSCALL)) { # EXPORT not needed/not expected
-		if ($exports{$key} eq undef) {
-			if (($funcflags{$key} & FF_NONFUNC) == 0) { # is a func
-			    if (($funcflags{$key} & (FF_STATIC | FF_INLINE)) == 0 &&
-				(($funcflags{$key} & (FF_DEF_FUNC | FF_DEF_OBJ)) == 0)) {
-				print "Missing EXPORT for: $key\n";
-				++$cnt;
-			  } # end not static/inline
-			} # end is func
-		} # end undef
-		} # end syscall
-	}
-
-	print "$cnt missing Exports\n";
-}
-
-# search saved Exports and report missing kernel-doc if found EXPORT without kernel-doc
-sub check_missing_kerndoc() {
-
-	my $cnt = 0;
-
-	while ((my $key, my $value)= each %exports) {
-		if ($funcnames{$key} eq undef) {
-			print "Missing kernel-doc for: $key\n";
-			++$cnt;
-		}
-	}
-
-	print "$cnt missing kernel-docs\n";
-}
-
-sub syscall_munge($) {	# from kernel old scripts/kernel-doc.pl;
-	my $prot = shift;
-	my $void = 0;
-
-	dbgit("#syscall_munge.10# prot=$prot\n");
-	$prot =~ s@[\r\n]+@ @gos; # strip newlines/CR's
-##	if ($prot =~ m/SYSCALL_DEFINE0\s*\(\s*(a-zA-Z0-9_)*\s*\)/) {
-	if ($prot =~ m/SYSCALL_DEFINE0/) {
-		$void = 1;
-##		$prot = "long sys_$1(void)";
-    }
-
-	$prot =~ s/SYSCALL_DEFINE.*\(/long sys_/; # fix return type & func name
-	dbgit("#syscall_munge.20# prot=$prot\n");
-	if ($prot =~ m/long (sys_.*?),/) {
-		$prot =~ s/,/\(/;
-	} elsif ($void) {
-		$prot =~ s/\)/\(void\)/;
-	}
-	dbgit("#syscall_munge.30# prot=$prot\n");
-
-	# now delete all of the odd-number commas in $prototype
-	# so that arg types & arg names don't have a comma between them
-	my $count = 0;
-	my $len = length($prot);
-	if ($void) {
-		$len = 0;    # skip the for-loop
-	}
-	for (my $ix = 0; $ix < $len; $ix++) {
-		if (substr($prot, $ix, 1) eq ',') {
-			$count++;
-			if ($count % 2 == 1) {
-				substr($prot, $ix, 1) = ' ';
-			}
-		}
-	}
-	dbgit("#syscall_munge.50# prot=$prot\n");
-
-	return $prot;
-}
-
-
-# begin/start/main:
-
-while ($#ARGV >= 0) {
-	my $what = $ARGV[0];
-	if ($what eq "--help" || $what eq "-h") {
-		usage();
-	}
-	if ($what eq "-l" || $what eq "--list") {
-		shift;
-		$opt_list = 1;
-		next;
-	}
-	if ($what eq "-v" || $what eq "--verbose") {
-		shift;
-		$opt_verbose = 1;
-		next;
-	}
-	if ($what eq "-x") {
-		shift;
-		$opt_debug = 1;
-		next;
-	}
-	last;
-}
-
-foreach my $file (@ARGV) {
-	open (FILE, $file) || die "Cannot open $file: $!\n";
-	print "\nfile: $file\n";
-
-	my $kerndoc_count = 0;
-	$warn_count = 0;
-	my $start_shortdesc = 0;
-	my $shortdesc = "";
-	my $desctype;
-	my $proto = "";
-	my $syscall = 0;
-
-	%funcnames = ();
-	%funcflags = ();
-	%exports = ();
-
-LINE:
-	while ($line = <FILE>) {	# read lines from FILE
-		chomp $line;
-		next LINE if ($line =~ /\*\*\*\*\*/);
-
-		if ($line eq "/\*\*") { # must be alone at start of line
-			$start_shortdesc = 1;
-			next LINE;
-		}
-
-		elsif ($line =~ /\s*\/\*\*$/) {
-			warning($file, $., "kernel-doc sentinel not at start of line");
-			next LINE;
-		}
-
-		elsif ($line =~ '/\*\*') { # but not alone
-			warning($file, $., "kernel-doc sentinel has trailing text");
-			#next LINE;
-			$start_shortdesc = 1;
-			$line =~ s:/\*\*:\*: # assume funcname is on the same line
-			# continue below
-		}
-
-		elsif ($line =~ $export_symbol) {
-			#$funcnames{$2} = 1;
-			dbgit("#LINE# found 'export_symbol' for:$2\n");
-			$exports{$2} = 1;
-			next LINE;
-		}
-		elsif ($line =~ $export_symbol_ns1) {
-			#$funcnames{$2} = 1;
-			dbgit("#LINE# found 'export_symbol_ns1' for:$2\n");
-			$exports{$2} = 1;
-			next LINE;
-		}
-		elsif ($line =~ $export_symbol_ns2) {
-			##$funcnames{$2} = 1;
-			dbgit("#LINE# found 'export_symbol_ns2' for:$2\n");
-			$exports{$2} = 1;
-			next LINE;
-		}
-		elsif ($line =~ $export_symbol_nsx) {
-			##$funcnames{$2} = 1;
-			dbgit("#LINE# found 'export_symbol_nsx' for:$2\n");
-			$exports{$2} = 1;
-			next LINE;
-		}
-
-		if ($start_shortdesc) {
-			dbgit("#LINE.50# want to find shortdesc in |$line|\n");
-			$start_shortdesc = 0;
-			# but this can easily be a false positive, so check $line:
-			next LINE if ($line =~ /^\s*\*\s*$/); # mostly empty
-			next LINE if ($line =~ /^\s*\*\*/); # double-*
-			next LINE if ($line =~ /^\s*\*\s*DOC:/); # skip DOC:
-			next LINE unless ($line =~ /^\s*\*\s*/); # must be *-line
-			next LINE unless ($line =~ /:/) || ($line =~ /-/);
-
-			$shortdesc = $line; # only first line
-			$kerndoc_count++;
-			dbgit("#LINE.60# shortdesc = line =|$line|\n");
-
-			read_discard_desc(); # discard up thru "*/"
-			$desctype = find_type($shortdesc);
-			dbgit("#LINE.70# got desctype =|$desctype|, shortdesc=$shortdesc\n");
-			$proto = read_proto($desctype);
-
-			dbgit("#LINE.80# desctype=$desctype, shortdesc=$shortdesc, proto=$proto\n");
-
-			if ($desctype eq "func") {
-				my $func;
-				if ($shortdesc =~ /\s*\*\s*(.*)\s*[-:]/) {
-					$func = $1;
-					$func =~ s/\s*$//; # drop trailing spaces
-					#$func =~ s/\(\s*\)//; # drop "()"s
-					$func =~ s/\(.*\)//; # drop "(...)"s
-					# $func may contain some of the function
-					# short description :( due to greedy
-					# pattern matching, so eliminate it
-					$func =~ s/-\s*.*$//;
-					$func =~ s/\s*$//; # drop trailing spaces
-				} else {
-					$func = $shortdesc;
-				}
-				dbgit("#func# func=$func, proto=$proto\n");
-				if ($proto =~ /SYSCALL_DEFINE/) {
-					$syscall = 1;	# no EXPORT needed
-					$proto = syscall_munge($proto);
-				}
-				save_funcinfo($func, $proto, $syscall);
-				$syscall = 0;
-				if (index($proto, $func) == -1) {
-					warning($file, $., "kernel-doc function name: '$func' does not match prototype: $proto");
-				}
-
-				if ($opt_list) {
-					# print $filename:linenum:$function: $shortdesc
-					print "$file: $.: $func: $shortdesc\n";
-				}
-			} # desctype eq func
-
-			else { # handle enum, typedef, struct, union, define
-				my $name;
-				dbgit("#nonfunc# shortdesc.10=$shortdesc, proto=$proto\n");
-				$shortdesc =~ s/\*\s*$desctype//;
-				dbgit("#nonfunc# shortdesc.20=$shortdesc, proto=$proto\n");
-
-				if ($shortdesc =~ /\s*\*?\s*(.*)\s*[-:]/) {
-					$name = $1;
-					$name =~ s/\s*$//; # drop trailing spaces
-					$name =~ s/\(\s*\)//; # drop "()"s
-					# $func may contain some of the function
-					# short description :( due to greedy
-					# pattern matching, so eliminate it
-					$name =~ s/-\s*.*$//;
-					$name =~ s/\s*$//; # drop trailing spaces
-					dbgit("#nonfunc# name=$name, shortdesc.30=$shortdesc, proto=$proto\n");
-				} else {
-					$name = $shortdesc;
-				}
-				# remove both leading and trailing spaces
-				#$name =~ s/^\s+|\s+$//g;
-				save_nonfuncinfo($desctype, $name, $proto);
-
-				if ($opt_list) {
-					# print $filename:linenum:$desctype $name: $shortdesc
-					print "$file: $.: $desctype $name: $shortdesc\n";
-				}
-			} # end non-func desctype
-		} # end start_shortdesc
-	} # end while $line
-
-	close FILE;
-	print "----- file $file: $kerndoc_count kernel-doc blocks, $warn_count kernel-doc warnings -----\n";
-
-	dump_saved_kerndoc() if $opt_verbose;
-	dump_saved_exports() if $opt_verbose;
-
-	check_missing_kerndoc();
-	check_missing_exports();
-
-} # end foreach $file
-# end;
-
---------------WTZTRdUPp0NqvjYNs0rco7TN--
