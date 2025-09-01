@@ -1,170 +1,362 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazolkn19013078.outbound.protection.outlook.com [52.103.74.78])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07832FE568;
-	Mon,  1 Sep 2025 08:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.74.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756716421; cv=fail; b=K9ExchmjerIQjXIfVElv/HdZBgDJ3cgNJUTXggqu41Ssuu0QZSdRGMbQ+f6vcjfHyU9kidzR+5U6E/9yMR6+2YEHGTqJF4JinPQ/crT8zL9MfVFe1V1ouhYgxExzsXysmluXyY2jh8e8MAnv3FD+9DRd4YB0tM9xP+DEKF+iivQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756716421; c=relaxed/simple;
-	bh=wBxo9FQAsr4YmK4cPe4WSlFok6WEYDwCiUL+vTgmOpM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Kl36ODjZ6Zv8CTi1/aJHu//PvSr4kRnPbpVl8Gd3698D04wrgFicBw2cSb/5HyALDxtK8/g6gXu4M78yXrixvo+VeAGsocyzTenCJK0CsL6YFNpy+amSKPGUAFwCEsi9k9iad9uoZu3Su05POAqJMaumk28B0ub/Vr4RRpZWUaI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=fob8bwE8; arc=fail smtp.client-ip=52.103.74.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CA030147F;
+	Mon,  1 Sep 2025 09:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756717766; cv=none; b=FJCENyqFfct1HN35WzbMEr2NcRGnidQbmvK3NskvlMaNvdOkCa8sgYnQlt3/r+433ljqAHGlKVvR8ktH94JACZJnVcNVg6DCGlgQyI2gU/Y/kTbQeUj8YqcywOo51YzAMNoPFZFluesYdYFEJH/a3SFh8JnQru2g+vjqjU0zkT0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756717766; c=relaxed/simple;
+	bh=iVM5cHrd70lHqOaznbywwTTMt5WcQ1b11YYlWbwA068=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Sic1/d4YBzS3AIewUxEISpJBj7xExBv9fQ4xmqkUqWcmEMSbIKAnWZBBprb9uyFx75JzUWnEMHV+j+aFaXO6S3Xbey/g9i97pe1K926XVzVMCSyO+RsRTkXajlgnPpX3AZAiBpud/uQi5DN6NSvceL6LgH+cd4IdGs+yvDiYVAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dS/IeTuS; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="fob8bwE8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bl/lHf3oj6nSmXGUsDDU5bILXO5h6+Z9q/g+Lc0vEnfvFhIrml3YEF8DZGbykq7Ix6qIjvEDuWeiCl2ZTYBrZHwBL03KNbenhf5H8vkCg3Uztb4ThyD9HCUngYV4gTd0QuvujttRZbNjqnY8utPYkcwQtrGzbpz1MuCQtZAxnG5n50H08MmM1WE6wtxyO/WnslaVYTiwdCfuHGyVlVm7aaiXk6Z3E/xiOfiMCOzJfhjXdq/3J6Zk6qBXOATfAuUfclHmhwjqszOooZS7/pi7qDJ4iTHhfwVBFKqvUNmZZqM2xzNOtyU+9kPO7kjhgVRpv5au6tGXD7kQrJXz8W4AQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lT/uLmHHtZaIE90Bmf/rsbmam/lrLb72KVCnBDUu1aY=;
- b=MYKLHJbCV58eJiUlyQmQexQfBnp74hiyXeZ/7TFJeAaAvUx/3RhAxB77a0aZrVwKKQHWQjAshpTBHU9O6/KwI9AiiJlpbC0CG4EpkbKTVk149By/bMQdfY1xoFNDrzMIyk5d60q6SWSSnYG0Ro+zLR8QTPBmYQpI4kSgvXnlpi/8puyQ2P0gVbDbXuAlmCF+cyoeDs1dbBXu93Uw1Z6zUjTxpiTxfd7UspcOvyaFoA3S6HlnOKV0iprHdgI8TyDIEMGrBg2qEYdLmJ2TgEw7ToJ0vhA+PBCkD29Q0McZC7ckukAjRESyq6QgiHIc0Pr/Ak282Z7i6jDzoXyb5bzLrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lT/uLmHHtZaIE90Bmf/rsbmam/lrLb72KVCnBDUu1aY=;
- b=fob8bwE89QPHAAypPC3nZtAIVe6yp+/vDIKZUrwI85DovTKlRLGhkv9s/6JWQxAhXqgk45s0+B+oDKMC/U88vkhaeqe73oZ8zXazRwXcLHDcGBFEaBU+Be9543Pj5AbuvVtPzw1OW0hewDL9YNuPBQIRyV3qFVnNxQoB0eLLzOsIJFqAh4WnkU/5pun0Y7M7g1q1wor/T7HU7OvBSO8ikN6s6uwptk0dmJHwBk9M5oF4U95pqQsCK/WP+Dv0m4hbcZl5Aliqo4UqPglj4KvoOvwHM8q+0R7xnZinX58xG4/Wq7xjCykyaDD+i9ee08R5sxFuRPS13SeHjzZiOua7aQ==
-Received: from TY1PPFCDFFFA68A.apcprd02.prod.outlook.com (2603:1096:408::966)
- by KL1PR02MB6682.apcprd02.prod.outlook.com (2603:1096:820:10b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.24; Mon, 1 Sep
- 2025 08:46:49 +0000
-Received: from TY1PPFCDFFFA68A.apcprd02.prod.outlook.com
- ([fe80::209a:b4cd:540:c5da]) by TY1PPFCDFFFA68A.apcprd02.prod.outlook.com
- ([fe80::209a:b4cd:540:c5da%6]) with mapi id 15.20.9052.019; Mon, 1 Sep 2025
- 08:46:49 +0000
-Message-ID:
- <TY1PPFCDFFFA68A8153B498CB93E0D6B3ADF307A@TY1PPFCDFFFA68A.apcprd02.prod.outlook.com>
-Date: Mon, 1 Sep 2025 16:46:39 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: riscv: add Zilsd and Zclsd extension
- descriptions
-To: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, anup@brainfault.org,
- pbonzini@redhat.com, shuah@kernel.org, cyan.yang@sifive.com,
- cleger@rivosinc.com, charlie@rivosinc.com, cuiyunhui@bytedance.com,
- samuel.holland@sifive.com, namcao@linutronix.de, jesse@rivosinc.com,
- inochiama@gmail.com, yongxuan.wang@sifive.com, ajones@ventanamicro.com,
- parri.andrea@gmail.com, mikisabate@gmail.com, yikming2222@gmail.com,
- thomas.weissschuh@linutronix.de
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-References: <20250826162939.1494021-1-pincheng.plct@isrc.iscas.ac.cn>
- <20250826162939.1494021-2-pincheng.plct@isrc.iscas.ac.cn>
-Content-Language: en-US
-From: "Nutty.Liu" <nutty.liu@hotmail.com>
-In-Reply-To: <20250826162939.1494021-2-pincheng.plct@isrc.iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR06CA0015.apcprd06.prod.outlook.com
- (2603:1096:4:186::7) To TY1PPFCDFFFA68A.apcprd02.prod.outlook.com
- (2603:1096:408::966)
-X-Microsoft-Original-Message-ID:
- <e7c0e227-b2d5-4585-b7b9-7b8a77cd8bcf@hotmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dS/IeTuS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756717764; x=1788253764;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=iVM5cHrd70lHqOaznbywwTTMt5WcQ1b11YYlWbwA068=;
+  b=dS/IeTuSw6nV4GFN8WwP74YNL1NTpKhovamaQ4b4ap6niUUccrGCWqZH
+   kHvjpbqMUgC4yOpLW9ZEskM4WRsGX42wTuXglRGMglyEbho8Qi2f/C896
+   arfRkovfZns0mbJ818HUXpuinm6Cg0xwlWg/tOgF9eC3emSA9m/EZVA1B
+   SidWXRs+IzlhJtalnjQoIEcWSFQ+kU86B1ybA04SxMcE9l1ev4IwxRmnZ
+   /a2IJ8CHPI5UVKbrqf2esdGJROaRChBZSfhweIo/b0fg4KM1AVxWPkEfM
+   MRlwQrLdzVFhTzCErJJBRNzZkWfTtAcTPV/NyHzcAuiQAG/u3kPOxJBUM
+   A==;
+X-CSE-ConnectionGUID: DPdPBPIxQ765LJMsOABU4A==
+X-CSE-MsgGUID: I82ER2hvTlKZBRo9jfpwaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59035576"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59035576"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 02:09:23 -0700
+X-CSE-ConnectionGUID: 65QQJR4JQpqdhZE2SUIQ+g==
+X-CSE-MsgGUID: MfYHuNQTTXisaZa5CGK67Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="171140272"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.148])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 02:09:18 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, Miguel Ojeda
+ <ojeda@kernel.org>, Stephen Brennan <stephen.s.brennan@oracle.com>, Marco
+ Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
+ migration support
+In-Reply-To: <20250830020109.it.598-kees@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250830020109.it.598-kees@kernel.org>
+Date: Mon, 01 Sep 2025 12:09:14 +0300
+Message-ID: <7bca36d46dab04667aa595623fd0966385ee4658@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY1PPFCDFFFA68A:EE_|KL1PR02MB6682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39459f96-b5a0-40d8-c08d-08dde9341671
-X-MS-Exchange-SLBlob-MailProps:
-	ZILSnhm0P3lt+CQaDQ/GFiS22dDR1p20ds3kLBrwSYT9PafwGmoPIVvpv9+94H/vPOkaFMFh42zwYBHdpibLIUdxqtyYFCdN6C6YkY2cvP7M92DHi0jCSZvkCzGhtY/2URQeXeMa75RLX9tCPX7zLjvKmX6TvsFGnVbgewH/FDuVwTBdxRMO54gabYkagfKjNnJPz8+MT9R3saS6/oqGV14679ZxjoUn37iCwnuoymVBREo3F/XuckSRg1GZQm57t9BPLOSStU6QVcHe1QmKW4KIUtUXfBLjBer0tH4aXlB0C+gIpgvx7tep0VY+mWpT8OWqswHWTZD/fWfkPo4HV/ufmzn5+sjXDU0G241TAUT++7v+o/g9qm9cPsUVU+7TXMlutYuDdS4GhK3R+vFaC1KGwXNpajZeMftqw6gS7ubrMnFPoYbHzKDdqBKww8VFFucuI+bClO1TEWalCI1QckMhr5OqOCvNKIG4EuVM94IpxHjuh7Jf6wBip9Bua/x01DtygNMI/SHyogsaogWb+3274sS0yOx7igfEq0FPhAJGVJDudoU3AEVzodR11WGkFnoOiX8ud8xGB//KTT2wlDUkMQ3AaKoShB5jBz6DxGthf1B5JyQMXi/xawPC2eFJ9yDLMnJZgB/5Qw+YPQ7X3GWissNoRQFjGa1U2j4vQQwVjQRwsUfWCa85QowgG+yo86Fx+37EnH1/5IokW1s6ZjDgc2gUxP0AtA09xznloHxlH5y2tw+1amqv3Y53N60QpaLdDJqKxYUKCRiyTWRLH5bNRL0Ij+Kd
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|19110799012|6090799003|461199028|5072599009|8060799015|15080799012|36102599003|40105399003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?T3hDYUNKL2hyR3lXSDMzOEdoalBBU2d5d1ZwWnNkL21GT2doY3pmdURyekxT?=
- =?utf-8?B?Zm92SWlwTDVFSDhNYkFIbFpVRXBCYU0zVXp1VlBzSDdxK3A3YmJQTTd0clJv?=
- =?utf-8?B?bEMyMnpRcTRQb1ZCVzlNNTNoUEZmMGpXVkpIdUlWSFl5UW5LaU93S3JxcUJT?=
- =?utf-8?B?QWc0L1pWZE1SQU45b0NpeDdLdHB4UUN0K2tLMFNwdVlHbFFGeENwUnpncXF4?=
- =?utf-8?B?K1JzbkE5MU5tUFEydzJ3VkJzQ0dEbm9SUGc5aHZiSFEwR2NRV0JGWlU5Vk05?=
- =?utf-8?B?L2p2NHM2SkJwY0V1M2VXditrMHJKV282akZPekMzQ0dlNDkwb1ZUTzZMYWo2?=
- =?utf-8?B?aEY5Y0Z2TVNpVjdoOHczSGtwSzhLcVdiZHRJeUw1M1B6V0J3eXVwYVFaN0lx?=
- =?utf-8?B?ejdxTEp1SHF6WElnRktITytjNkpXbjFYYnpOQWhEdkpyaVN0K1ZHQnlvTzJy?=
- =?utf-8?B?UmhwcTVUT05PTmNiU3lHeFZBU1c1WVlkQllJMldLLzdJOFMwR2ovb1NpaEFu?=
- =?utf-8?B?QWpXa09HZlVVT0N3amdWRFRENmQyVDdhZkxmV1djODBnTEFrTVpJWCtnMUpL?=
- =?utf-8?B?WUFhd0ZENVdBRlR0Y0JXR0cvYUZmL3ZNTmc3Mm40cUpNbU44dWtGdWdtMity?=
- =?utf-8?B?dTVnc282cFZlaWRramxKb2x0U2g4bmpWdEs0VGVDNmR4c1ZxN1pqd0VJT3RQ?=
- =?utf-8?B?d0dsWXczT3RMNE4rQU1FMHdZVE91UkRZU1lPRlFycmhNN0xLSi9vNVBwMzB3?=
- =?utf-8?B?cUNIdXlnMjBZc3pBSTdxaERPZFh1b1o1Z01LeCtLNWd0VWc3SUJQeDdCMFNK?=
- =?utf-8?B?aXptY251b245NEVtSFNjTk1RbzdyUks5Mnl6Y24xT0ZraFd1a1JNM3FhbmhR?=
- =?utf-8?B?emkxSUEvVkJUbmNpYUcvdG5jbUo2STdwS2k5bmxWdkVEREtWby9FS0w5RGoz?=
- =?utf-8?B?NDY1R0hJVGFSU0pUK1ZPdkY4NlBMRXhZU1hYM2xNSGRVdjRxcGdCZE0wWlVq?=
- =?utf-8?B?WDhkM29HYkNiMzZYaXhJK3hsbzlqQVBPTXI3OVAxcmJOVVFUZW5aNStYbTZK?=
- =?utf-8?B?Q1dTSTZlYThsSzZHYm1CZndpT2huMll1NWRwdHBramFoMHE5NFVGRVgrL1ds?=
- =?utf-8?B?MGg2d3ZhcUpWUlJwb1JJUSs5WXhzVjU1Ty9aSFI5RFBZVnJ6RzFCbEYxdDZW?=
- =?utf-8?B?QmdaOGltKzFRdExMald1RXBQVy9Qd1crY2FpWnMrREk4cnp5bDBvZkxyR0Ru?=
- =?utf-8?B?anpuUWFUKzdjYnlQTGV5Lzh4U3dMaWdEUEhJbWhNVUdJUkFUN0d6WWQwa1Nh?=
- =?utf-8?B?cmJlSlNtaXJPSXhWaHZidmRJUHMwejVrWkhrSFlpdVVad1hrTkVRRytvTUVW?=
- =?utf-8?B?alQ4aW1taWZiS0loMnBVdFJIM3JWL0ROUXNvOVlBK0dSaVlka0wwdmVHcTRF?=
- =?utf-8?B?RjkxSUhCWmFmTlAyR2Z3a3lGVHJaemNnN3VWdkVOaG0rdTFNb20xQ2d1OEZp?=
- =?utf-8?B?K1ZTenU5UC94ZGpQeFh2bzYvOCtiWnFKMDZmY3lxcFZRRVJxdUdvWUJsMGRi?=
- =?utf-8?B?Vlh3NzZvUlU1Z0tZOEdwWG9CWFhJRk8zamVGSkNoYjZPbTNMWDUwZFdMeFNi?=
- =?utf-8?B?cVRINWxMK0owUmsxUkZNc0dFODhvVVE9PQ==?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dGNCVTR3aEYwZHRIbGtsd2xObXJkMWh5bmQ0QVZ6YWl2UkhEZU9EYWhSRFJv?=
- =?utf-8?B?M0NoNVhjVWhzL3ZhSzB4Y0k1UUNreDNKTC9VdTFDclpmeUlzWFBNM28wc0NV?=
- =?utf-8?B?dTRqOWRFOGxML2lFcTJTY2dqKzFQMS8wdE95R3R5aVJZMnA0V2d6UFF3SlUr?=
- =?utf-8?B?N250ZThNaHpmTGxQZEJDaHFSb0thK2JMNkh4azd4UzVEYTJLcEZPSFA4S3pS?=
- =?utf-8?B?bUIyZ09kcUNtb3N6bnJwd2M2MEg2bGFBQmN6WjJBd2dWdElGOFA1dGdWai9X?=
- =?utf-8?B?TEtCN2lmV3RDWW14UnNyQ0MxTzZ5QjJ5dmRQMzhUMmxVcEhldGJPa0o4emlP?=
- =?utf-8?B?bkQ4enU1SlQ5SUxrZkp5NEtZV1hVU3pLOG1WbGtrY1JSckpXcm1weXJyRzNt?=
- =?utf-8?B?OXhUVWVDWk5OeEN0blpKMGJaMmhPMkd6akpUQ1hKM2x5RmFzWkFKNUE4S1R0?=
- =?utf-8?B?KzV6WGdFRkFTRUlQZllGODhNa0k3WjlHL1V0TlJIOGhyYm4yQS9sNXZWNUdl?=
- =?utf-8?B?QUNTVTcyOWRqd0ttZlFvU2YrNEhOZ3V5bUdtNGpjNDlVMGxrV3lWVENMWDJZ?=
- =?utf-8?B?Vk91azhmRHZheElwUDRSRFBMRlVyRGtkVHM4VzJVZmNXMEowWVFDYUpka1Ra?=
- =?utf-8?B?czU4YkVwTkZXaG5ha2FhNE1RWEsxSE9sZWZ1bFg0NDlPN2RFSjZudHg4Nm9L?=
- =?utf-8?B?ZU5PbmZ2VzBYRkRHaEpZb1JYa1p6bWtyOHk3TkdYZThrVFV4SGt3TDlZR2Jh?=
- =?utf-8?B?Zy9xYXNTSlYwbnoyM280MHVaT2ptMGhlYW9GYkRtZldxcCt4UU9iTXREbVBi?=
- =?utf-8?B?UDJEQXc0MitMQUcxWHlkVmlSTlJ5K1NaRmhtSmVURlNOY1RuKzJNQndPQlN2?=
- =?utf-8?B?SnM5RVh0clVYT3gvNXZ2L2Nxc3BRK01rZWp1cy9RVTVPZjBaNEQ3UUtGUXhL?=
- =?utf-8?B?RTFmQU85L2VNWGNXdmFLZW9rclZHSkFwQlJiQS9VN2I5SGt2Ny9TQWFLOHZ4?=
- =?utf-8?B?QU1OdkJzN0xaKzdNd3JNb2JLTjlYajJIcDEvK1lWb2t2KzFVR1VLdTVaWXRQ?=
- =?utf-8?B?NEg4MUdFaDdmS0w3TEoxUzlxVDRuWlhYMVdZQmM3Qm5EMFlheWFCMzdTS0Fv?=
- =?utf-8?B?WE8vaGhLVWYzZ01sSk5OM0pGL09HY0hDcFpWcG9tZXpnWlozU29TQ1hNZGFw?=
- =?utf-8?B?L2NibHRqOSt5YXY4Z0Z6VVRGbjN5am13WDNzdmZyd2pLNmtkblRzeHV0Q01x?=
- =?utf-8?B?NWNTbEtEaHlkY0pWbEdjTGlBT1dmTGNIcTFVbk5xNGhERDFqMThXMThSU0ls?=
- =?utf-8?B?dFk3cUpDU3MxRG9NWS9vdVpnYVl6QUFlRFhGRTFqM0ljL1Y1a0xEMjNJTmdq?=
- =?utf-8?B?NDV6eWwzQnVQMWFzT1ZQMndaVnFneW91K1d4T1B4QXRIU3pXZzBHVG16WFNM?=
- =?utf-8?B?b0RSQUNwQXVVcTBiUnBIMXpSKzFtMWVYZXVrYytDODJUMVIwYTVqcVhQUkZw?=
- =?utf-8?B?YUtEdk04cjNmSFNqaDEwZzMzN1hrbVl1Wkd0alcvMkJVSTc3V1RWY2dtWDlT?=
- =?utf-8?B?TWoyNm1CZU9mcU1IT2U5UXlYRTEyM25Kd2Vxai9DaDd3REFibDJycStZejN0?=
- =?utf-8?Q?esbUx7C2/yNRcKr/cd4J1zsTx0wPtYLcLK00gpFc73qE=3D?=
-X-OriginatorOrg: sct-15-20-8534-15-msonline-outlook-c9a3c.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39459f96-b5a0-40d8-c08d-08dde9341671
-X-MS-Exchange-CrossTenant-AuthSource: TY1PPFCDFFFA68A.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 08:46:48.5602
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR02MB6682
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-
-On 8/27/2025 12:29 AM, Pincheng Wang wrote:
-> Add descriptions for the Zilsd (Load/Store pair instructions) and
-> Zclsd (Compressed Load/Store pair instructions) ISA extensions
-> which were ratified in commit f88abf1 ("Integrating load/store
-> pair for RV32 with the main manual") of the riscv-isa-manual.
+On Fri, 29 Aug 2025, Kees Cook <kees@kernel.org> wrote:
+> During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
+> existing .config files need to maintain backward compatibility while
+> preventing deprecated options from appearing in newly generated
+> configurations. This is challenging with existing Kconfig mechanisms
+> because:
 >
-> Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-> ---
->   .../devicetree/bindings/riscv/extensions.yaml | 36 +++++++++++++++++++
->   1 file changed, 36 insertions(+)
-Reviewed-by: Nutty Liu <nutty.liu@hotmail.com>
+> 1. Simply removing old options breaks existing .config files.
+> 2. Manually listing an option as "deprecated" leaves it needlessly
+>    visible and still writes them to new .config files.
+> 3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
+>    etc) prevents the option from being processed at all.
+>
+> Add a "transitional" attribute that creates symbols which are:
+> - Processed during configuration (can influence other symbols' defaults)
+> - Hidden from user menus (no prompts appear)
+> - Omitted from newly written .config files (gets migrated)
+> - Restricted to only having help sections (no defaults, selects, etc)
+>   making it truly just a "prior value pass-through" option.
+>
+> The transitional syntax requires a type argument and prevents type
+> redefinition:
+>
+>     config OLD_OPTION
+>         transitional bool
+>         help
+>           Transitional config for OLD_OPTION migration.
 
-Thanks.
+How long do you think we'll need to keep the transitional config options
+around? Forever?
+
+BR,
+Jani.
+
+>     config NEW_OPTION
+>         bool "New option"
+>         default OLD_OPTION
+>
+> This allows seamless migration: olddefconfig processes existing
+> CONFIG_OLD_OPTION=3Dy settings to enable CONFIG_NEW_OPTION=3Dy, while
+> CONFIG_OLD_OPTION is omitted from newly generated .config files.
+>
+> Implementation details:
+> - Parser validates transitional symbols can only have help sections
+> - Symbol visibility logic updated: usable =3D (visible !=3D no || transit=
+ional)
+> - Transitional symbols preserve user values during configuration
+> - Type safety enforced to prevent redefinition after transitional declara=
+tion
+> - Used distinct struct members instead of new flags for readability
+> - Documentation added to show the usage
+>
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> With help from Claude Code to show me how to navigate the kconfig parser.
+>
+>  v2: fixed human-introduced errors
+>  v1: https://lore.kernel.org/all/20250830014438.work.682-kees@kernel.org/
+>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas.schier@linux.dev>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: <linux-kbuild@vger.kernel.org>
+> Cc: <linux-doc@vger.kernel.org>
+> ---
+>  scripts/kconfig/expr.h                    | 15 +++++++
+>  scripts/kconfig/lexer.l                   |  1 +
+>  scripts/kconfig/parser.y                  | 51 +++++++++++++++++++++++
+>  scripts/kconfig/symbol.c                  | 11 +++--
+>  Documentation/kbuild/kconfig-language.rst | 31 ++++++++++++++
+>  5 files changed, 106 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+> index fe2231e0e6a4..be51574d6c77 100644
+> --- a/scripts/kconfig/expr.h
+> +++ b/scripts/kconfig/expr.h
+> @@ -127,6 +127,21 @@ struct symbol {
+>  	/* SYMBOL_* flags */
+>  	int flags;
+>=20=20
+> +	/*
+> +	 * Transitional symbol - processed during configuration but hidden from
+> +	 * user in menus and omitted from newly written .config files. Used for
+> +	 * backward compatibility during config option migrations (e.g.,
+> +	 * CFI_CLANG =E2=86=92 CFI). Transitional symbols can still influence d=
+efault
+> +	 * expressions of other symbols.
+> +	 */
+> +	bool transitional:1;
+> +
+> +	/*
+> +	 * Symbol usability - calculated as (visible !=3D no || transitional).
+> +	 * Determines if symbol can be used in expressions.
+> +	 */
+> +	bool usable:1;
+> +
+>  	/* List of properties. See prop_type. */
+>  	struct property *prop;
+>=20=20
+> diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+> index 9c2cdfc33c6f..6d2c92c6095d 100644
+> --- a/scripts/kconfig/lexer.l
+> +++ b/scripts/kconfig/lexer.l
+> @@ -126,6 +126,7 @@ n	[A-Za-z0-9_-]
+>  "select"		return T_SELECT;
+>  "source"		return T_SOURCE;
+>  "string"		return T_STRING;
+> +"transitional"		return T_TRANSITIONAL;
+>  "tristate"		return T_TRISTATE;
+>  "visible"		return T_VISIBLE;
+>  "||"			return T_OR;
+> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+> index e9c3c664e925..01d2d0f720ce 100644
+> --- a/scripts/kconfig/parser.y
+> +++ b/scripts/kconfig/parser.y
+> @@ -75,6 +75,7 @@ struct menu *current_menu, *current_entry, *current_cho=
+ice;
+>  %token T_SELECT
+>  %token T_SOURCE
+>  %token T_STRING
+> +%token T_TRANSITIONAL
+>  %token T_TRISTATE
+>  %token T_VISIBLE
+>  %token T_EOL
+> @@ -205,6 +206,16 @@ config_option: T_PROMPT T_WORD_QUOTE if_expr T_EOL
+>  	printd(DEBUG_PARSE, "%s:%d:prompt\n", cur_filename, cur_lineno);
+>  };
+>=20=20
+> +config_option: T_TRANSITIONAL type T_EOL
+> +{
+> +	if (current_entry->sym->type !=3D S_UNKNOWN)
+> +		yyerror("transitional type cannot be set after symbol type is already =
+defined");
+> +	menu_set_type($2);
+> +	current_entry->sym->transitional =3D true;
+> +	printd(DEBUG_PARSE, "%s:%d:transitional(%u)\n", cur_filename, cur_linen=
+o,
+> +		$2);
+> +};
+> +
+>  config_option: default expr if_expr T_EOL
+>  {
+>  	menu_add_expr(P_DEFAULT, $2, $3);
+> @@ -482,6 +493,43 @@ assign_val:
+>=20=20
+>  %%
+>=20=20
+> +/**
+> + * transitional_check_sanity - check transitional symbols have no other
+> + *			       properties
+> + *
+> + * @menu: menu of the potentially transitional symbol
+> + *
+> + * Return: -1 if an error is found, 0 otherwise.
+> + */
+> +static int transitional_check_sanity(const struct menu *menu)
+> +{
+> +	struct property *prop;
+> +
+> +	if (!menu->sym || !menu->sym->transitional)
+> +		return 0;
+> +
+> +	/* Check for depends and visible conditions. */
+> +	if ((menu->dep && !expr_is_yes(menu->dep)) ||
+> +	    (menu->visibility && !expr_is_yes(menu->visibility))) {
+> +		fprintf(stderr, "%s:%d: error: %s",
+> +			menu->filename, menu->lineno,
+> +			"transitional symbols can only have help sections\n");
+> +		return -1;
+> +	}
+> +
+> +	/* Check for any property other than "help". */
+> +	for (prop =3D menu->sym->prop; prop; prop =3D prop->next) {
+> +		if (prop->type !=3D P_COMMENT) {
+> +			fprintf(stderr, "%s:%d: error: %s",
+> +				prop->filename, prop->lineno,
+> +				"transitional symbols can only have help sections\n");
+> +			return -1;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * choice_check_sanity - check sanity of a choice member
+>   *
+> @@ -558,6 +606,9 @@ void conf_parse(const char *name)
+>  		if (menu->sym && sym_check_deps(menu->sym))
+>  			yynerrs++;
+>=20=20
+> +		if (transitional_check_sanity(menu))
+> +			yynerrs++;
+> +
+>  		if (menu->sym && sym_is_choice(menu->sym)) {
+>  			menu_for_each_sub_entry(child, menu)
+>  				if (child->sym && choice_check_sanity(child))
+> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+> index 26ab10c0fd76..b822c0c897e5 100644
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -447,6 +447,9 @@ void sym_calc_value(struct symbol *sym)
+>  	if (sym->visible !=3D no)
+>  		sym->flags |=3D SYMBOL_WRITE;
+>=20=20
+> +	/* Calculate usable flag */
+> +	sym->usable =3D (sym->visible !=3D no || sym->transitional);
+> +
+>  	/* set default if recursively called */
+>  	sym->curr =3D newval;
+>=20=20
+> @@ -459,13 +462,15 @@ void sym_calc_value(struct symbol *sym)
+>  			sym_calc_choice(choice_menu);
+>  			newval.tri =3D sym->curr.tri;
+>  		} else {
+> -			if (sym->visible !=3D no) {
+> +			if (sym->usable) {
+>  				/* if the symbol is visible use the user value
+>  				 * if available, otherwise try the default value
+>  				 */
+>  				if (sym_has_value(sym)) {
+> +					tristate value =3D sym->transitional ?
+> +						sym->def[S_DEF_USER].tri : sym->visible;
+>  					newval.tri =3D EXPR_AND(sym->def[S_DEF_USER].tri,
+> -							      sym->visible);
+> +							      value);
+>  					goto calc_newval;
+>  				}
+>  			}
+> @@ -497,7 +502,7 @@ void sym_calc_value(struct symbol *sym)
+>  	case S_STRING:
+>  	case S_HEX:
+>  	case S_INT:
+> -		if (sym->visible !=3D no && sym_has_value(sym)) {
+> +		if (sym->usable && sym_has_value(sym)) {
+>  			newval.val =3D sym->def[S_DEF_USER].val;
+>  			break;
+>  		}
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kb=
+uild/kconfig-language.rst
+> index a91abb8f6840..345c334ce680 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -232,6 +232,37 @@ applicable everywhere (see syntax).
+>    enables the third modular state for all config symbols.
+>    At most one symbol may have the "modules" option set.
+>=20=20
+> +- transitional attribute: "transitional"
+> +  This declares the symbol as transitional, meaning it should be process=
+ed
+> +  during configuration but omitted from newly written .config files.
+> +  Transitional symbols are useful for backward compatibility during conf=
+ig
+> +  option migrations - they allow olddefconfig to process existing .config
+> +  files while ensuring the old option doesn't appear in new configuratio=
+ns.
+> +
+> +  A transitional symbol:
+> +  - Has no prompt (is not visible to users in menus)
+> +  - Is processed normally during configuration (values are read and used)
+> +  - Can be referenced in default expressions of other symbols
+> +  - Is not written to new .config files
+> +  - Cannot have any other properties (it is a pass-through option)
+> +
+> +  Example migration from OLD_NAME to NEW_NAME::
+> +
+> +    config NEW_NAME
+> +	bool "New option name"
+> +	default OLD_NAME
+> +	help
+> +	  This replaces the old CONFIG_OLD_NAME option.
+> +
+> +    config OLD_NAME
+> +	transitional bool
+> +	help
+> +	  Transitional config for OLD_NAME to NEW_NAME migration.
+> +
+> +  With this setup, existing .config files with "CONFIG_OLD_NAME=3Dy" will
+> +  result in "CONFIG_NEW_NAME=3Dy" being set, while CONFIG_OLD_NAME will =
+be
+> +  omitted from newly written .config files.
+> +
+>  Menu dependencies
+>  -----------------
+
+--=20
+Jani Nikula, Intel
