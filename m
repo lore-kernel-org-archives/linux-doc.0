@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A102DF129;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A842DF12A;
 	Mon,  1 Sep 2025 15:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756740837; cv=none; b=MlmTQ6LEQCRb0w7mQH1M4m84FRSJhgTjMIQ7ZCYI4mWKejHqVADCt+D/0hmuZiMKVKHV7qPOWqNL8rnidAHycbKPlvMm1yl3oM7YUXoAg46qAiTWHrE8snquheUBEN2uCVOeKt5xxk6vGF2t+YrRk9NaJYzwGEM2ZiIR2q0wn9E=
+	t=1756740837; cv=none; b=nLer/VATd6X7/Qu3Cyb3LnWRFDTxfmLRAS2a92DGgqzNuv+lvlv3o4IR62GYx7DCFKiu5rbtdQW+KwwkgYRHbugrfyutMHLH+r+8GYzAS0fm+U8/rexeQGu418t+clT4xtJqKh+xCluqtNFrZbmBiHxOcz4gpXd767UKF5nMO/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756740837; c=relaxed/simple;
-	bh=Z7GEG1JVRQcO/sl1ajfiU2+vi0OwHRNT0zjmIhq+tuI=;
+	bh=brnr7+g4wHig23G1b6o7kb1LGInthtVFb7E8U/6ZApU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GFYNQZXJTBohyl6CgP/x6n6pJafRCMW7OEBCiiGLRzj9SprByc+nuXj6EjCLJA/UPWv2CuTevcNs/qYxuZge858LIGZCTwOjVluNC8nRT4rQibHrmQnSYzaE2OgRYGkQARaFwIwYFPR1xLpNUYv7y8JmI9Fbqy0tIFEtAXOLIB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E76O06Hp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=cN/mg1/8E+tjY6S6OzBkpzdmysHCZM5BRUaMLEIbh3Rrco3a6nsn2fL+htZzs9Cwt+T/b1BZm9xzlGJiJ3hS5EHMKl9xST75bQq9vpQ9ufgEB3tl4lOJ2Hd12UJoEmPYc0OtNylRuGywrKJcWw7iXjIJ+WWIbtgnAgt7Vv9GTTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEzXtveK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E76O06Hp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FDE4C4CEF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEzXtveK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50AD8C4CEFB;
 	Mon,  1 Sep 2025 15:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756740837;
-	bh=Z7GEG1JVRQcO/sl1ajfiU2+vi0OwHRNT0zjmIhq+tuI=;
+	bh=brnr7+g4wHig23G1b6o7kb1LGInthtVFb7E8U/6ZApU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E76O06HpnoHfL7aoAji7DjRAzTSCDqGiW+y6G14PQ0OqsyHrF/ySkPzMv6VXe8gBB
-	 XVJIf8MNeGYG5BKTdHYCsDo9271yKl7wIDt9lkx+ABQ5L8Cn/AogQlVth0vUmC/ZVo
-	 ir0pddkDe7Qupml3h2wwrjbkZ7cdkwA65LzbP4/0JFQLUWPgaCorOgTCPrJF4T376p
-	 XJYPJQAW2pSu/SD2aemWGBtJBshpr8qgEUY7i3arLNDwBA23EqVK1eKxqTX2SEh2N9
-	 zicP7pM8ni7zdotPmO5EP60j0RHhgwvBF50Hwy2FaBHayJ79Q1GUGW+Jj7JJqdNL5j
-	 EYkTeyiIF+o/A==
+	b=JEzXtveKrHVYdNRR4fpRX4U+IDZ6psKXNRwiO6YyAa4W44oTIfB3l0LQReOoDhUaF
+	 Iqd4v71M+K7ipQ2b4gBV7UdL+oWqEof7VAZ+ZVrX9iuOrgnKbV411YAjCnxo6ggWpD
+	 tgCjIOYDZN2RYR4hBdwn6PVCWfYHNnIkCtVmBUsZJ4oHo6GV3ftN117LLOjR4YfZqP
+	 uqtd2DZ//pH3bBDzdPf1IdK2N4alnTHAi5acyv9+IEXCzij4zPRmi0qUW8dug9VQKw
+	 49lsV9fR9G6ndgXMjiL9HtNKOP5rLgq77WgetJcb8qhm4pa94di1aLdsDkaOSTGvis
+	 CQ2O3qsOFLFtA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ut6Xb-00000003HLe-26L9;
+	id 1ut6Xb-00000003HLu-2bap;
 	Mon, 01 Sep 2025 17:33:55 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,10 +36,10 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v3 01/15] scripts/jobserver-exec: move the code to a
-  class
-Date: Mon,  1 Sep 2025 17:33:36 +0200
-Message-ID: <dcd5c7ad9767ebb607a7b8707c684b9578d20a73.1756740314.git.mchehab+huawei@kernel.org>
+Subject: [PATCH RESEND v3 05/15] tools/docs: sphinx-pre-install: move Python
+  version handling to lib
+Date: Mon,  1 Sep 2025 17:33:40 +0200
+Message-ID: <fb41f4572b36ced30a17c768d723c0f8421fa373.1756740314.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756740314.git.mchehab+huawei@kernel.org>
 References: <cover.1756740314.git.mchehab+huawei@kernel.org>
@@ -53,291 +53,384 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Convert the code inside jobserver-exec to a class and=0D
-properly document it.=0D
+The sphinx-pre-install code has some logic to deal with Python=0D
+version, which ensures that a minimal version will be enforced=0D
+for documentation build logic.=0D
 =0D
-Using a class allows reusing the jobserver logic on other=0D
-scripts.=0D
+Move it to a separate library to allow re-using its code.=0D
 =0D
-While the main code remains unchanged, being compatible with=0D
-Python 2.6 and 3.0+, its coding style now follows a more=0D
-modern standard, having tabs replaced by a 4-spaces=0D
-indent, passing autopep8, black and pylint.=0D
-=0D
-The code now allows allows using a pythonic way to=0D
-enter/exit a python code, e.g. it now supports:=0D
-=0D
-	with JobserverExec() as jobserver:=0D
-	    jobserver.run(sys.argv[1:])=0D
-=0D
-With the new code, the __exit__() function should ensure=0D
-that the jobserver slot will be closed at the end, even if=0D
-something bad happens somewhere.=0D
+No functional changes.=0D
 =0D
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>=0D
 ---=0D
- scripts/jobserver-exec | 218 ++++++++++++++++++++++++++++-------------=0D
- 1 file changed, 151 insertions(+), 67 deletions(-)=0D
+ tools/docs/lib/python_version.py | 133 +++++++++++++++++++++++++++++++=0D
+ tools/docs/sphinx-pre-install    | 120 +++-------------------------=0D
+ 2 files changed, 146 insertions(+), 107 deletions(-)=0D
+ create mode 100644 tools/docs/lib/python_version.py=0D
 =0D
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec=0D
-index 7eca035472d3..b386b1a845de 100755=0D
---- a/scripts/jobserver-exec=0D
-+++ b/scripts/jobserver-exec=0D
-@@ -1,77 +1,161 @@=0D
- #!/usr/bin/env python3=0D
- # SPDX-License-Identifier: GPL-2.0+=0D
- #=0D
-+# pylint: disable=3DC0103,C0209=0D
-+#=0D
- # This determines how many parallel tasks "make" is expecting, as it is=0D
- # not exposed via an special variables, reserves them all, runs a subproce=
-ss=0D
- # with PARALLELISM environment variable set, and releases the jobs back ag=
-ain.=0D
- #=0D
- # https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#=
-POSIX-Jobserver=0D
--from __future__ import print_function=0D
--import os, sys, errno=0D
+diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_versi=
+on.py=0D
+new file mode 100644=0D
+index 000000000000..0519d524e547=0D
+--- /dev/null=0D
++++ b/tools/docs/lib/python_version.py=0D
+@@ -0,0 +1,133 @@=0D
++#!/usr/bin/env python3=0D
++# SPDX-License-Identifier: GPL-2.0-or-later=0D
++# Copyright (c) 2017-2025 Mauro Carvalho Chehab <mchehab+huawei@kernel.org=
+>=0D
 +=0D
 +"""=0D
-+Interacts with the POSIX jobserver during the Kernel build time.=0D
++Handle Python version check logic.=0D
 +=0D
-+A "normal" jobserver task, like the one initiated by a make subrocess woul=
-d do:=0D
++Not all Python versions are supported by scripts. Yet, on some cases,=0D
++like during documentation build, a newer version of python could be=0D
++available.=0D
 +=0D
-+    - open read/write file descriptors to communicate with the job server;=
++This class allows checking if the minimal requirements are followed.=0D
++=0D
++Better than that, PythonVersion.check_python() not only checks the minimal=
 =0D
-+    - ask for one slot by calling:=0D
-+        claim =3D os.read(reader, 1)=0D
-+    - when the job finshes, call:=0D
-+        os.write(writer, b"+")  # os.write(writer, claim)=0D
++requirements, but it automatically switches to a the newest available=0D
++Python version if present.=0D
 +=0D
-+Here, the goal is different: This script aims to get the remaining number=
-=0D
-+of slots available, using all of them to run a command which handle tasks =
-in=0D
-+parallel. To to that, it has a loop that ends only after there are no=0D
-+slots left. It then increments the number by one, in order to allow a=0D
-+call equivalent to make -j$((claim+1)), e.g. having a parent make creating=
-=0D
-+$claim child to do the actual work.=0D
-+=0D
-+The end goal here is to keep the total number of build tasks under the=0D
-+limit established by the initial make -j$n_proc call.=0D
 +"""=0D
 +=0D
-+import errno=0D
 +import os=0D
- import subprocess=0D
++import re=0D
++import subprocess=0D
 +import sys=0D
- =0D
--# Extract and prepare jobserver file descriptors from environment.=0D
--claim =3D 0=0D
--jobs =3D b""=0D
--try:=0D
--	# Fetch the make environment options.=0D
--	flags =3D os.environ['MAKEFLAGS']=0D
--=0D
--	# Look for "--jobserver=3DR,W"=0D
--	# Note that GNU Make has used --jobserver-fds and --jobserver-auth=0D
--	# so this handles all of them.=0D
--	opts =3D [x for x in flags.split(" ") if x.startswith("--jobserver")]=0D
--=0D
--	# Parse out R,W file descriptor numbers and set them nonblocking.=0D
--	# If the MAKEFLAGS variable contains multiple instances of the=0D
--	# --jobserver-auth=3D option, the last one is relevant.=0D
--	fds =3D opts[-1].split("=3D", 1)[1]=0D
--=0D
--	# Starting with GNU Make 4.4, named pipes are used for reader and writer.=
-=0D
--	# Example argument: --jobserver-auth=3Dfifo:/tmp/GMfifo8134=0D
--	_, _, path =3D fds.partition('fifo:')=0D
--=0D
--	if path:=0D
--		reader =3D os.open(path, os.O_RDONLY | os.O_NONBLOCK)=0D
--		writer =3D os.open(path, os.O_WRONLY)=0D
--	else:=0D
--		reader, writer =3D [int(x) for x in fds.split(",", 1)]=0D
--		# Open a private copy of reader to avoid setting nonblocking=0D
--		# on an unexpecting process with the same reader fd.=0D
--		reader =3D os.open("/proc/self/fd/%d" % (reader),=0D
--				 os.O_RDONLY | os.O_NONBLOCK)=0D
--=0D
--	# Read out as many jobserver slots as possible.=0D
--	while True:=0D
--		try:=0D
--			slot =3D os.read(reader, 8)=0D
--			jobs +=3D slot=0D
--		except (OSError, IOError) as e:=0D
--			if e.errno =3D=3D errno.EWOULDBLOCK:=0D
--				# Stop at the end of the jobserver queue.=0D
--				break=0D
--			# If something went wrong, give back the jobs.=0D
--			if len(jobs):=0D
--				os.write(writer, jobs)=0D
--			raise e=0D
--	# Add a bump for our caller's reserveration, since we're just going=0D
--	# to sit here blocked on our child.=0D
--	claim =3D len(jobs) + 1=0D
--except (KeyError, IndexError, ValueError, OSError, IOError) as e:=0D
--	# Any missing environment strings or bad fds should result in just=0D
--	# not being parallel.=0D
--	pass=0D
--=0D
--# We can only claim parallelism if there was a jobserver (i.e. a top-level=
-=0D
--# "-jN" argument) and there were no other failures. Otherwise leave out th=
-e=0D
--# environment variable and let the child figure out what is best.=0D
--if claim > 0:=0D
--	os.environ['PARALLELISM'] =3D '%d' % (claim)=0D
--=0D
--rc =3D subprocess.call(sys.argv[1:])=0D
--=0D
--# Return all the reserved slots.=0D
--if len(jobs):=0D
--	os.write(writer, jobs)=0D
--=0D
--sys.exit(rc)=0D
 +=0D
-+class JobserverExec:=0D
++from glob import glob=0D
++=0D
++class PythonVersion:=0D
 +    """=0D
-+    Claim all slots from make using POSIX Jobserver.=0D
-+=0D
-+    The main methods here are:=0D
-+    - open(): reserves all slots;=0D
-+    - close(): method returns all used slots back to make;=0D
-+    - run(): executes a command setting PARALLELISM=3D<available slots job=
-s + 1>=0D
++    Ancillary methods that checks for missing dependencies for different=0D
++    types of types, like binaries, python modules, rpm deps, etc.=0D
 +    """=0D
 +=0D
-+    def __init__(self):=0D
-+        """Initialize internal vars"""=0D
-+        self.claim =3D 0=0D
-+        self.jobs =3D b""=0D
-+        self.reader =3D None=0D
-+        self.writer =3D None=0D
-+        self.is_open =3D False=0D
++    def __init__(self, version):=0D
++        """=EF=BF=BD=EF=BF=BDnitialize self.version tuple from a version s=
+tring"""=0D
++        self.version =3D self.parse_version(version)=0D
 +=0D
-+    def open(self):=0D
-+        """Reserve all available slots to be claimed later on"""=0D
++    @staticmethod=0D
++    def parse_version(version):=0D
++        """Convert a major.minor.patch version into a tuple"""=0D
++        return tuple(int(x) for x in version.split("."))=0D
 +=0D
-+        if self.is_open:=0D
++    @staticmethod=0D
++    def ver_str(version):=0D
++        """Returns a version tuple as major.minor.patch"""=0D
++        return ".".join([str(x) for x in version])=0D
++=0D
++    def __str__(self):=0D
++        """Returns a version tuple as major.minor.patch from self.version"=
+""=0D
++        return self.ver_str(self.version)=0D
++=0D
++    @staticmethod=0D
++    def get_python_version(cmd):=0D
++        """=0D
++        Get python version from a Python binary. As we need to detect if=0D
++        are out there newer python binaries, we can't rely on sys.release =
+here.=0D
++        """=0D
++=0D
++        kwargs =3D {}=0D
++        if sys.version_info < (3, 7):=0D
++            kwargs['universal_newlines'] =3D True=0D
++        else:=0D
++            kwargs['text'] =3D True=0D
++=0D
++        result =3D subprocess.run([cmd, "--version"],=0D
++                                stdout =3D subprocess.PIPE,=0D
++                                stderr =3D subprocess.PIPE,=0D
++                                **kwargs, check=3DFalse)=0D
++=0D
++        version =3D result.stdout.strip()=0D
++=0D
++        match =3D re.search(r"(\d+\.\d+\.\d+)", version)=0D
++        if match:=0D
++            return PythonVersion.parse_version(match.group(1))=0D
++=0D
++        print(f"Can't parse version {version}")=0D
++        return (0, 0, 0)=0D
++=0D
++    @staticmethod=0D
++    def find_python(min_version):=0D
++        """=0D
++        Detect if are out there any python 3.xy version newer than the=0D
++        current one.=0D
++=0D
++        Note: this routine is limited to up to 2 digits for python3. We=0D
++        may need to update it one day, hopefully on a distant future.=0D
++        """=0D
++        patterns =3D [=0D
++            "python3.[0-9]",=0D
++            "python3.[0-9][0-9]",=0D
++        ]=0D
++=0D
++        # Seek for a python binary newer than min_version=0D
++        for path in os.getenv("PATH", "").split(":"):=0D
++            for pattern in patterns:=0D
++                for cmd in glob(os.path.join(path, pattern)):=0D
++                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):=0D
++                        version =3D PythonVersion.get_python_version(cmd)=
+=0D
++                        if version >=3D min_version:=0D
++                            return cmd=0D
++=0D
++        return None=0D
++=0D
++    @staticmethod=0D
++    def check_python(min_version):=0D
++        """=0D
++        Check if the current python binary satisfies our minimal requireme=
+nt=0D
++        for Sphinx build. If not, re-run with a newer version if found.=0D
++        """=0D
++        cur_ver =3D sys.version_info[:3]=0D
++        if cur_ver >=3D min_version:=0D
++            ver =3D PythonVersion.ver_str(cur_ver)=0D
++            print(f"Python version: {ver}")=0D
++=0D
 +            return=0D
++=0D
++        python_ver =3D PythonVersion.ver_str(cur_ver)=0D
++=0D
++        new_python_cmd =3D PythonVersion.find_python(min_version)=0D
++        if not new_python_cmd:=0D
++            print(f"ERROR: Python version {python_ver} is not spported any=
+more\n")=0D
++            print("       Can't find a new version. This script may fail")=
+=0D
++            return=0D
++=0D
++        # Restart script using the newer version=0D
++        script_path =3D os.path.abspath(sys.argv[0])=0D
++        args =3D [new_python_cmd, script_path] + sys.argv[1:]=0D
++=0D
++        print(f"Python {python_ver} not supported. Changing to {new_python=
+_cmd}")=0D
 +=0D
 +        try:=0D
-+            # Fetch the make environment options.=0D
-+            flags =3D os.environ["MAKEFLAGS"]=0D
-+            # Look for "--jobserver=3DR,W"=0D
-+            # Note that GNU Make has used --jobserver-fds and --jobserver-=
-auth=0D
-+            # so this handles all of them.=0D
-+            opts =3D [x for x in flags.split(" ") if x.startswith("--jobse=
-rver")]=0D
-+=0D
-+            # Parse out R,W file descriptor numbers and set them nonblocki=
-ng.=0D
-+            # If the MAKEFLAGS variable contains multiple instances of the=
++            os.execv(new_python_cmd, args)=0D
++        except OSError as e:=0D
++            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")=0D
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install=
 =0D
-+            # --jobserver-auth=3D option, the last one is relevant.=0D
-+            fds =3D opts[-1].split("=3D", 1)[1]=0D
-+=0D
-+            # Starting with GNU Make 4.4, named pipes are used for reader=
+index 954ed3dc0645..d6d673b7945c 100755=0D
+--- a/tools/docs/sphinx-pre-install=0D
++++ b/tools/docs/sphinx-pre-install=0D
+@@ -32,20 +32,10 @@ import subprocess=0D
+ import sys=0D
+ from glob import glob=0D
+ =0D
++from lib.python_version import PythonVersion=0D
+ =0D
+-def parse_version(version):=0D
+-    """Convert a major.minor.patch version into a tuple"""=0D
+-    return tuple(int(x) for x in version.split("."))=0D
+-=0D
+-=0D
+-def ver_str(version):=0D
+-    """Returns a version tuple as major.minor.patch"""=0D
+-=0D
+-    return ".".join([str(x) for x in version])=0D
+-=0D
+-=0D
+-RECOMMENDED_VERSION =3D parse_version("3.4.3")=0D
+-MIN_PYTHON_VERSION =3D parse_version("3.7")=0D
++RECOMMENDED_VERSION =3D PythonVersion("3.4.3").version=0D
++MIN_PYTHON_VERSION =3D PythonVersion("3.7").version=0D
+ =0D
+ =0D
+ class DepManager:=0D
+@@ -235,95 +225,11 @@ class AncillaryMethods:=0D
+ =0D
+         return None=0D
+ =0D
+-    @staticmethod=0D
+-    def get_python_version(cmd):=0D
+-        """=0D
+-        Get python version from a Python binary. As we need to detect if=0D
+-        are out there newer python binaries, we can't rely on sys.release =
+here.=0D
+-        """=0D
+-=0D
+-        result =3D SphinxDependencyChecker.run([cmd, "--version"],=0D
+-                                            capture_output=3DTrue, text=3D=
+True)=0D
+-        version =3D result.stdout.strip()=0D
+-=0D
+-        match =3D re.search(r"(\d+\.\d+\.\d+)", version)=0D
+-        if match:=0D
+-            return parse_version(match.group(1))=0D
+-=0D
+-        print(f"Can't parse version {version}")=0D
+-        return (0, 0, 0)=0D
+-=0D
+-    @staticmethod=0D
+-    def find_python():=0D
+-        """=0D
+-        Detect if are out there any python 3.xy version newer than the=0D
+-        current one.=0D
+-=0D
+-        Note: this routine is limited to up to 2 digits for python3. We=0D
+-        may need to update it one day, hopefully on a distant future.=0D
+-        """=0D
+-        patterns =3D [=0D
+-            "python3.[0-9]",=0D
+-            "python3.[0-9][0-9]",=0D
+-        ]=0D
+-=0D
+-        # Seek for a python binary newer than MIN_PYTHON_VERSION=0D
+-        for path in os.getenv("PATH", "").split(":"):=0D
+-            for pattern in patterns:=0D
+-                for cmd in glob(os.path.join(path, pattern)):=0D
+-                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):=0D
+-                        version =3D SphinxDependencyChecker.get_python_ver=
+sion(cmd)=0D
+-                        if version >=3D MIN_PYTHON_VERSION:=0D
+-                            return cmd=0D
+-=0D
+-    @staticmethod=0D
+-    def check_python():=0D
+-        """=0D
+-        Check if the current python binary satisfies our minimal requireme=
+nt=0D
+-        for Sphinx build. If not, re-run with a newer version if found.=0D
+-        """=0D
+-        cur_ver =3D sys.version_info[:3]=0D
+-        if cur_ver >=3D MIN_PYTHON_VERSION:=0D
+-            ver =3D ver_str(cur_ver)=0D
+-            print(f"Python version: {ver}")=0D
+-=0D
+-            # This could be useful for debugging purposes=0D
+-            if SphinxDependencyChecker.which("docutils"):=0D
+-                result =3D SphinxDependencyChecker.run(["docutils", "--ver=
+sion"],=0D
+-                                                    capture_output=3DTrue,=
+ text=3DTrue)=0D
+-                ver =3D result.stdout.strip()=0D
+-                match =3D re.search(r"(\d+\.\d+\.\d+)", ver)=0D
+-                if match:=0D
+-                    ver =3D match.group(1)=0D
+-=0D
+-                print(f"Docutils version: {ver}")=0D
+-=0D
+-            return=0D
+-=0D
+-        python_ver =3D ver_str(cur_ver)=0D
+-=0D
+-        new_python_cmd =3D SphinxDependencyChecker.find_python()=0D
+-        if not new_python_cmd:=0D
+-            print(f"ERROR: Python version {python_ver} is not spported any=
+more\n")=0D
+-            print("       Can't find a new version. This script may fail")=
 =0D
-+            # and writer.=0D
-+            # Example argument: --jobserver-auth=3Dfifo:/tmp/GMfifo8134=0D
-+            _, _, path =3D fds.partition("fifo:")=0D
-+=0D
-+            if path:=0D
-+                self.reader =3D os.open(path, os.O_RDONLY | os.O_NONBLOCK)=
+-            return=0D
+-=0D
+-        # Restart script using the newer version=0D
+-        script_path =3D os.path.abspath(sys.argv[0])=0D
+-        args =3D [new_python_cmd, script_path] + sys.argv[1:]=0D
+-=0D
+-        print(f"Python {python_ver} not supported. Changing to {new_python=
+_cmd}")=0D
+-=0D
+-        try:=0D
+-            os.execv(new_python_cmd, args)=0D
+-        except OSError as e:=0D
+-            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")=0D
+-=0D
+     @staticmethod=0D
+     def run(*args, **kwargs):=0D
+         """=0D
+         Excecute a command, hiding its output by default.=0D
+-        Preserve comatibility with older Python versions.=0D
++        Preserve compatibility with older Python versions.=0D
+         """=0D
+ =0D
+         capture_output =3D kwargs.pop('capture_output', False)=0D
+@@ -527,11 +433,11 @@ class MissingCheckers(AncillaryMethods):=0D
+         for line in result.stdout.split("\n"):=0D
+             match =3D re.match(r"^sphinx-build\s+([\d\.]+)(?:\+(?:/[\da-f]=
++)|b\d+)?\s*$", line)=0D
+             if match:=0D
+-                return parse_version(match.group(1))=0D
++                return PythonVersion.parse_version(match.group(1))=0D
+ =0D
+             match =3D re.match(r"^Sphinx.*\s+([\d\.]+)\s*$", line)=0D
+             if match:=0D
+-                return parse_version(match.group(1))=0D
++                return PythonVersion.parse_version(match.group(1))=0D
+ =0D
+     def check_sphinx(self, conf):=0D
+         """=0D
+@@ -542,7 +448,7 @@ class MissingCheckers(AncillaryMethods):=0D
+                 for line in f:=0D
+                     match =3D re.match(r"^\s*needs_sphinx\s*=3D\s*[\'\"]([=
+\d\.]+)[\'\"]", line)=0D
+                     if match:=0D
+-                        self.min_version =3D parse_version(match.group(1))=
 =0D
-+                self.writer =3D os.open(path, os.O_WRONLY)=0D
-+            else:=0D
-+                self.reader, self.writer =3D [int(x) for x in fds.split(",=
-", 1)]=0D
-+                # Open a private copy of reader to avoid setting nonblocki=
-ng=0D
-+                # on an unexpecting process with the same reader fd.=0D
-+                self.reader =3D os.open("/proc/self/fd/%d" % (self.reader)=
-,=0D
-+                                      os.O_RDONLY | os.O_NONBLOCK)=0D
-+=0D
-+            # Read out as many jobserver slots as possible=0D
-+            while True:=0D
-+                try:=0D
-+                    slot =3D os.read(self.reader, 8)=0D
-+                    self.jobs +=3D slot=0D
-+                except (OSError, IOError) as e:=0D
-+                    if e.errno =3D=3D errno.EWOULDBLOCK:=0D
-+                        # Stop at the end of the jobserver queue.=0D
-+                        break=0D
-+                    # If something went wrong, give back the jobs.=0D
-+                    if self.jobs:=0D
-+                        os.write(self.writer, self.jobs)=0D
-+                    raise e=0D
-+=0D
-+            # Add a bump for our caller's reserveration, since we're just =
-going=0D
-+            # to sit here blocked on our child.=0D
-+            self.claim =3D len(self.jobs) + 1=0D
-+=0D
-+        except (KeyError, IndexError, ValueError, OSError, IOError):=0D
-+            # Any missing environment strings or bad fds should result in =
-just=0D
-+            # not being parallel.=0D
-+            self.claim =3D None=0D
-+=0D
-+        self.is_open =3D True=0D
-+=0D
-+    def close(self):=0D
-+        """Return all reserved slots to Jobserver"""=0D
-+=0D
-+        if not self.is_open:=0D
-+            return=0D
-+=0D
-+        # Return all the reserved slots.=0D
-+        if len(self.jobs):=0D
-+            os.write(self.writer, self.jobs)=0D
-+=0D
-+        self.is_open =3D False=0D
-+=0D
-+    def __enter__(self):=0D
-+        self.open()=0D
-+        return self=0D
-+=0D
-+    def __exit__(self, exc_type, exc_value, exc_traceback):=0D
-+        self.close()=0D
-+=0D
-+    def run(self, cmd):=0D
-+        """=0D
-+        Run a command setting PARALLELISM env variable to the number of=0D
-+        available job slots (claim) + 1, e.g. it will reserve claim slots=
++                        self.min_version =3D PythonVersion.parse_version(m=
+atch.group(1))=0D
+                         break=0D
+         except IOError:=0D
+             sys.exit(f"Can't open {conf}")=0D
+@@ -562,8 +468,8 @@ class MissingCheckers(AncillaryMethods):=0D
+             sys.exit(f"{sphinx} didn't return its version")=0D
+ =0D
+         if self.cur_version < self.min_version:=0D
+-            curver =3D ver_str(self.cur_version)=0D
+-            minver =3D ver_str(self.min_version)=0D
++            curver =3D PythonVersion.ver_str(self.cur_version)=0D
++            minver =3D PythonVersion.ver_str(self.min_version)=0D
+ =0D
+             print(f"ERROR: Sphinx version is {curver}. It should be >=3D {=
+minver}")=0D
+             self.need_sphinx =3D 1=0D
+@@ -1304,7 +1210,7 @@ class SphinxDependencyChecker(MissingCheckers):=0D
+             else:=0D
+                 if self.need_sphinx and ver >=3D self.min_version:=0D
+                     return (f, ver)=0D
+-                elif parse_version(ver) > self.cur_version:=0D
++                elif PythonVersion.parse_version(ver) > self.cur_version:=
 =0D
-+        to do the actual build work, plus one to monitor its childs.=0D
-+        """=0D
-+        self.open()             # Ensure that self.claim is set=0D
-+=0D
-+        # We can only claim parallelism if there was a jobserver (i.e. a=0D
-+        # top-level "-jN" argument) and there were no other failures. Othe=
-rwise=0D
-+        # leave out the environment variable and let the child figure out =
-what=0D
-+        # is best.=0D
-+        if self.claim:=0D
-+            os.environ["PARALLELISM"] =3D str(self.claim)=0D
-+=0D
-+        return subprocess.call(cmd)=0D
-+=0D
-+=0D
-+def main():=0D
-+    """Main program"""=0D
-+    with JobserverExec() as jobserver:=0D
-+        jobserver.run(sys.argv[1:])=0D
-+=0D
-+=0D
-+if __name__ =3D=3D "__main__":=0D
-+    main()=0D
+                     return (f, ver)=0D
+ =0D
+         return ("", ver)=0D
+@@ -1411,7 +1317,7 @@ class SphinxDependencyChecker(MissingCheckers):=0D
+             return=0D
+ =0D
+         if self.latest_avail_ver:=0D
+-            latest_avail_ver =3D ver_str(self.latest_avail_ver)=0D
++            latest_avail_ver =3D PythonVersion.ver_str(self.latest_avail_v=
+er)=0D
+ =0D
+         if not self.need_sphinx:=0D
+             # sphinx-build is present and its version is >=3D $min_version=
+=0D
+@@ -1507,7 +1413,7 @@ class SphinxDependencyChecker(MissingCheckers):=0D
+         else:=0D
+             print("Unknown OS")=0D
+         if self.cur_version !=3D (0, 0, 0):=0D
+-            ver =3D ver_str(self.cur_version)=0D
++            ver =3D PythonVersion.ver_str(self.cur_version)=0D
+             print(f"Sphinx version: {ver}\n")=0D
+ =0D
+         # Check the type of virtual env, depending on Python version=0D
+@@ -1613,7 +1519,7 @@ def main():=0D
+ =0D
+     checker =3D SphinxDependencyChecker(args)=0D
+ =0D
+-    checker.check_python()=0D
++    PythonVersion.check_python(MIN_PYTHON_VERSION)=0D
+     checker.check_needs()=0D
+ =0D
+ # Call main if not used as module=0D
 -- =0D
 2.51.0=0D
 =0D
