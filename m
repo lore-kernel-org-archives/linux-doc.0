@@ -1,166 +1,671 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6846B237707;
-	Mon,  1 Sep 2025 05:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756704409; cv=fail; b=C6XAUJM3GtzSwrV2X/y5lO95U9EAyUfkBT8Yc0CXSRltXU+zjpfjFGdMDLR4RGea7oUOtTkgpWy/OIB0iKU46GHxkSv4gX/BILqjHbmCaVIr66hFZXcuMkUXXfkv3y0dSPc/XsIG0so1HrJJfZ1QlZr+9Pgq3vSlAHMHiNtMRA4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756704409; c=relaxed/simple;
-	bh=SK+nO04lINbWwl9dYy1FbToZ3lySpVm913wk1Koso0A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QEkmwLg4J1iHikRtiNfiwvASOkm3ieZGRImCwZ9bY9L7sBlAY3OA4q1ilUe8q4Rk/eS4d3w//S/Mn+s0jYCaSTj9FXhI/2lFzIVtJrzNnJBum8NQTWdPBW5HJbdmvhTi1SkVidmAmGqqZC10pcwIxJ43b/lz9zE005v8YxOnxT0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OjZQaXVx; arc=fail smtp.client-ip=40.107.243.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20278140E34;
+	Mon,  1 Sep 2025 06:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756707449; cv=none; b=H9cyQBEuiPFplGUeFhhK3qVHmnAXsejSAaCupon1a4LXQpdZ6lylp03y2Vzl4cdl6i6mgU4Wv1mPfwL9CuJg/WTZ1R6J8trzwPTRSqkvo0ABHOghLHpbMw/om5Ho8kgW+XtBMks9v5nyca2wV/IvkS4LcntvmsbwjW/FaPmzKWE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756707449; c=relaxed/simple;
+	bh=rUiNyoo0LeUbHh3MBayv1rMpjGBYOZOWHdYL7yj3ZLA=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=UeEDAltt+BKC/fKwj8RQR4QRDVpWxAfHhhTukFK4gysEJ0zogLqAku+LQLX78pVSL7XkF85YU4BPfKbCvVOYdKO4Z0/ZPfnedl3Z5H4v7sysTbnpD6PYzaZBN6VttxvEEbwU0Bgs68naC5heLw20ZHqUnAeKtL8sHuSo3oPAtH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=I5nynCRR; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OjZQaXVx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EjvjUVz00Wd+dUFpEF/nMv9ouuraDXnTrDz+RaCEbIYGoNrGDDI/XZB4UoA2/CJELJEk6Cnj13TOmZAFDcnC8x/LnAvs9qZ20nIDgMq0Yq+uD9tyzg4SfZh2E0LlaHDjRP6Ryto5RXapYC4oEM7RQvZF0ijt7hk1qnNVxzJKt0JFIfYUbooo1OChiObeDs8iHv/PsP5U/Mi+fscbXnZLp+d5mM04yp+52UeJB2mWqu02oA4NUofbuYVUf1wHfTxDIH8pNx4+3k+zwzCvQagODrqH1c5hz6xMFptKxj6gDc0EC1eFGd3IGkygW4o2hV+cj6fmFiPn4tO7Q8DZmxErLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZWOvjQIrXiIFZR8ntNgh/yarX/qNVa2fItPvblWY+oA=;
- b=wVFXWrYMlTFrxFJvo6BvDsEBv4hxLPXgViEkJKIZjAnpmbHI9YyHuxO7nkknk6Rb7e6K1enjwikNqKHmK1+WZmM0A9DZSrbx8z1Zwaw7hUA2yWVlIN+ZuyzmWbyFqcjdWlyWwiZHo7h6EtA1aMu1RBylxn+sLKkBcqOktRnIEj7xhytm0rLECKJFa2fsBWum/XOqQVDQ3repqMGjJyaIaukChsdw3Qf37W7mTob8rs8hn/8yGbka9Xtez9iFXukxcqrtGoNotNLnTIb/yEaFu8QvPSpdxIxc8SHRLezX9LIUVpMTLWpXxGlzUVwBwFO6GaZbgNX6zZqyY0JIBrwJgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZWOvjQIrXiIFZR8ntNgh/yarX/qNVa2fItPvblWY+oA=;
- b=OjZQaXVxXuNF+hJWj4vHfFV9NZcACatpcqgDbfSUb105YU4+vQOkXxQGItQopSS1EB6C4xI37e7OkMlAsX8EUV4xCf8pPG6aYgX41lwvvabwoZhXmn0iEn9Vq7UAwix/2E7F9FpMQ/Uak4NapDNI19vQR7pG2DWNhKQLkgH2mCo=
-Received: from SJ0PR03CA0040.namprd03.prod.outlook.com (2603:10b6:a03:33e::15)
- by IA1PR12MB7589.namprd12.prod.outlook.com (2603:10b6:208:42b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.24; Mon, 1 Sep
- 2025 05:26:45 +0000
-Received: from CY4PEPF0000E9D4.namprd03.prod.outlook.com
- (2603:10b6:a03:33e:cafe::83) by SJ0PR03CA0040.outlook.office365.com
- (2603:10b6:a03:33e::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.26 via Frontend Transport; Mon,
- 1 Sep 2025 05:26:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CY4PEPF0000E9D4.mail.protection.outlook.com (10.167.241.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9094.14 via Frontend Transport; Mon, 1 Sep 2025 05:26:44 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 1 Sep
- 2025 00:26:44 -0500
-Received: from BLR-L-MASHUKLA.amd.com (10.180.168.240) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Sun, 31 Aug
- 2025 22:26:39 -0700
-From: Manali Shukla <manali.shukla@amd.com>
-To: <kvm@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-CC: <seanjc@google.com>, <pbonzini@redhat.com>, <nikunj@amd.com>,
-	<manali.shukla@amd.com>, <bp@alien8.de>, <peterz@infradead.org>,
-	<mingo@redhat.com>, <mizhang@google.com>, <thomas.lendacky@amd.com>,
-	<ravi.bangoria@amd.com>, <Sandipan.Das@amd.com>
-Subject: [PATCH v2 12/12] perf/x86/amd: Remove exclude_guest check from perf_ibs_init()
-Date: Mon, 1 Sep 2025 10:56:25 +0530
-Message-ID: <20250901052625.209277-1-manali.shukla@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250901051656.209083-1-manali.shukla@amd.com>
-References: <20250901051656.209083-1-manali.shukla@amd.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="I5nynCRR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Content-Type:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ctukEWWRJULzaVojoze8pUFplWpkj9qsPzEqEpe0PFE=; b=I5nynCRRn/HHncM+cDXMb+kLJf
+	fK1pnfPLuv66qCHTBBbiTGV2GHoOYnTaJflOWRcQ5ftfXPKpiPDQ5Pw6dIekySghD6WzsTpYzb2HK
+	eB330Y8EWKNZkM67mLfJEkKu5QFCOp7tccRL4BkbfR+sgJHEl0xW6/OZfhQFp3u5dju9F/tiY0zpN
+	avW7sWxH6uGOPPu6rVrQ2DYvLryMQyoP1dxCHqoFBeF/A2+TyEa7MQw6hbCENtHcaoInbsyn7QF4a
+	jibQaCHvirRWmTJr+5rEV3UgQH4+/kMsrC+gfcsz+VggGEX/AtJb+ISg76v4czFNo8HCgne+2hlVA
+	3XT2T4Og==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1usxr1-0000000BJ5K-2dKm;
+	Mon, 01 Sep 2025 06:17:23 +0000
+Content-Type: multipart/mixed; boundary="------------WTZTRdUPp0NqvjYNs0rco7TN"
+Message-ID: <636fe6e8-dc66-4521-a64a-4fb972e7ef39@infradead.org>
+Date: Sun, 31 Aug 2025 23:17:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To satlexmb09.amd.com
- (10.181.42.218)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D4:EE_|IA1PR12MB7589:EE_
-X-MS-Office365-Filtering-Correlation-Id: a26f3166-339a-4fe0-59f0-08dde91823c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?mWYbdnPEchLWwaZ5iOoWUqHapjIgSjVSE8tGzkHNJJfeuiewxUGIjsQytU1V?=
- =?us-ascii?Q?RweLjFHDwN0z9XTDzZftWh/PWMV6TP5scgjidaEZSHeO0sQqLBrXXLQUGwgf?=
- =?us-ascii?Q?8tflF6jmVAC1eceSdToxhxIVN1kRz4Wf9b/yd3sUCez7ajZyOkbnG8ZEGGze?=
- =?us-ascii?Q?w7bXib2pHDVGj4e8PUI1KtreHwRWuCFQsPEot81Az+0aODnrJCIKIbCuMTcb?=
- =?us-ascii?Q?/1SlK47yBsqEJACrgRBKE9e5MQXPafWRndpR6bVv4GjMwXyj3E5PbQJvr7ei?=
- =?us-ascii?Q?M57UCdoQGMBANnisU6mSDzSWr3sznPAuEaU0ku7M+QbyVYBIrIpmk3fG86HM?=
- =?us-ascii?Q?IMkh64hKFGWtPoiMd6MgmUZgS5V89x2x6eWUwSlRl8UUUq2PQn1qwrH54deI?=
- =?us-ascii?Q?BlAfqIzLuqxtTWeQJPJ3BWxrMM+v+IOKJNvHHLxSkH6kFJblI/nw1AKUnlZR?=
- =?us-ascii?Q?RJVfS1H+Kft2oCBhR48WFxc3vpVF1qlRGAA77XZcr90KvFqvoB+/QVe0VFEj?=
- =?us-ascii?Q?CtRGTv1BkYBuOa0GsWinJIfPEYBR1pDqiQKEqHICi864KEuKDum/qNoF64zn?=
- =?us-ascii?Q?4zGi/aJS47I0/NemU+uStjOitPuhwPIlpiltnkmixC+GhmGslKNyLe49TpAP?=
- =?us-ascii?Q?WG3jzFv7XfTnlzE1+xeQXVO2kK4A/SIF1whaS5d6L7sA61ZSt9uSiefCNudT?=
- =?us-ascii?Q?ON/cY0h+V1fW+bs2/WCkDEiMetMxqEZDLg6Wy3A5HbV9m0wPmaXjqpSHJVgH?=
- =?us-ascii?Q?XnIZaX+k1Ejw0H7F6ES3L7PgRg6wUYUPXhn6aC1Ps5KNV3gjJBUnclu31EDl?=
- =?us-ascii?Q?Jumf1foDTfo/fTdvQLrV6tIeLHBsQZOjMTFFsTpl7pHXK02NAEifZzXjW5uB?=
- =?us-ascii?Q?tgNhP+hHYE7i10ETHZ3xXmL+XzIvPep5fEUEiUheRcOYchvv7/2QJRTAj/Ot?=
- =?us-ascii?Q?B86HosnusqcBfbfAzcdlR41QBUDFy2cjxxM77+4mLNBIabip67HEqd6ba566?=
- =?us-ascii?Q?qnJZIeRiN8xP9FI6Nw5AN9rMORTk3eC7gLP64BWWwRe0b6hdwrsVwZRY72pu?=
- =?us-ascii?Q?tJoxdiDKEbXakKKNmLBkeC64v7rxqxSOa9b6TDQrN+J0uNhwqCEsHewQDGp8?=
- =?us-ascii?Q?C31vwpOe4sbwoy9WXnGC+knhJTYrvoaBsEOzPb/AQpbd0GGpMVQyKNjsRZKC?=
- =?us-ascii?Q?m5SSh/gcHmMtuRFctePeiciOBUPzmgSaQ9YiE1E/I4wgBbsufLUp7PvdFuXe?=
- =?us-ascii?Q?Bfiad5A+u/LltsYJy5oXKKfRySII8VgCAOz2ezPAvaUl5GJ0Y7bttr5n/XA/?=
- =?us-ascii?Q?PiSKw0BN8xxRTGAhn5UuhXTavGLXnwOx4AJwiuPzQZlLM1BxS2z7c97hLG2r?=
- =?us-ascii?Q?d9J7k17073RpbNP9qX3AU2+dWd7Ych7KCLGKIwUJBpd8AZ9Vx6ZttGuEaFuq?=
- =?us-ascii?Q?v++9MSj/Y7w+PdjhjG2wkax5LbfhsYZ47YlUyyoiCQO4nCUI7E+eG9uA7ttv?=
- =?us-ascii?Q?6V7T29VhmTt5IZZgP7/ldP248YCZMBMZRpQ8?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 05:26:44.4226
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a26f3166-339a-4fe0-59f0-08dde91823c5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D4.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7589
+User-Agent: Mozilla Thunderbird
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+To: Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Matthew Wilcox <willy@infradead.org>
+References: <87plcndkzs.fsf@trenco.lwn.net>
+ <20250828230104.GB26612@pendragon.ideasonboard.com>
+ <87wm6l0w2y.fsf@trenco.lwn.net>
+ <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+ <20250830222351.GA1705@pendragon.ideasonboard.com>
+ <87h5xo1k6y.fsf@trenco.lwn.net> <20250831160339.2c45506c@foz.lan>
+ <87zfbfz1px.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87zfbfz1px.fsf@trenco.lwn.net>
 
-Currently IBS driver doesn't allow the creation of IBS event with
-exclue_guest set. As a result, amd_ibs_init() returns -EINVAL if
-IBS event is created with exclude_guest set.
+This is a multi-part message in MIME format.
+--------------WTZTRdUPp0NqvjYNs0rco7TN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-With the introduction of mediated PMU support, software-based handling
-of exclude_guest is permitted for PMUs that have the
-PERF_PMU_CAP_MEDIATED_VPMU capability.
 
-Since ibs_op and ibs_fetch pmus has PERF_PMU_CAP_MEDIATED_VPMU
-capability set, update perf_ibs_init() to remove exclude_guest check.
 
-Signed-off-by: Manali Shukla <manali.shukla@amd.com>
----
- arch/x86/events/amd/ibs.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 8/31/25 1:16 PM, Jonathan Corbet wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+>> 4) kernel-doc kAPI
+>>
+>> It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
+>> kernel-doc now can parse the entire tree with:
+>>
+>> 	$ scripts/kernel-doc .
+>>
+>> Someone can easily use it to discover the current gaps at the docs that
+>> have already some kernel-doc markups and identify what of them aren't
+>> yet placed under Documentation/ ".. kernel-doc::" markups.
 
-diff --git a/arch/x86/events/amd/ibs.c b/arch/x86/events/amd/ibs.c
-index 6dc2d1cb8b09..fad2200ddc72 100644
---- a/arch/x86/events/amd/ibs.c
-+++ b/arch/x86/events/amd/ibs.c
-@@ -300,8 +300,7 @@ static int perf_ibs_init(struct perf_event *event)
- 		return -EOPNOTSUPP;
- 
- 	/* handle exclude_{user,kernel} in the IRQ handler */
--	if (event->attr.exclude_host || event->attr.exclude_guest ||
--	    event->attr.exclude_idle)
-+	if (event->attr.exclude_host || event->attr.exclude_idle)
- 		return -EINVAL;
- 
- 	if (!(event->attr.config2 & IBS_SW_FILTER_MASK) &&
+Mauro, I tried that for one file: kernel/audit.c
+but didn't see what I expected to see.
+What options should I be using to find the gaps?
+
+> ...or one can use scripts/find-unused-docs.sh, which was written for
+> just this purpose :)
+
+Yes, and I have used this script. It does what it was meant to do AFAIK.
+It's reporting is at a gross file level.
+
+I made a small subdirectory called "test" and copied kernel/audit.c to test/.
+
+$ ./scripts/find-unused-docs.sh  test/
+The following files contain kerneldoc comments for exported functions that are not used in the formatted documentation
+test/audit.c
+
+Sometime in the last 2-3 years Matthew Wilcox asked me about a tool (script, whatever)that would detect both EXPORTs without kernel-doc and kernel-doc without EXPORTs.
+Either one of these can be noisy (with false positives) and they often don't lend
+themselves to easy/beginner fixes.
+
+Anyway, after some delay, I have such a script. It's written in Perl (I started
+on it over a year ago!). It might have been desirable to add it to scripts/kernel-doc.pl
+at the time, but it didn't seem to me like a good fit there, so it's independent.
+
+Running (no options, just produce a summary)
+$ kerndoc-export-search.pl test/audit.c
+reports:
+Missing kernel-doc for: audit_log_task_info
+Missing kernel-doc for: audit_enabled
+Missing kernel-doc for: audit_log_task_context
+3 missing kernel-docs
+Missing EXPORT for: audit_serial
+Missing EXPORT for: audit_log_untrustedstring
+Missing EXPORT for: audit_log_n_untrustedstring
+Missing EXPORT for: audit_log_n_hex
+Missing EXPORT for: audit_log_lost
+Missing EXPORT for: audit_set_loginuid
+Missing EXPORT for: auditd_test_task
+Missing EXPORT for: audit_ctl_lock
+Missing EXPORT for: audit_string_contains_control
+Missing EXPORT for: audit_signal_info
+Missing EXPORT for: audit_log_path_denied
+Missing EXPORT for: audit_ctl_unlock
+12 missing Exports
+
+If that's not verbose enough (!), the -l (list) option lists each function's
+location and short description. One example:
+test/audit.c: 2006: audit_log_format:  * audit_log_format - format a message into the audit buffer.
+
+But that generates lots of output.
+
+And of course, for function, I mean function/struct/union/enum/typedef.
+
+There is a "verbose" option but it currently does not print anything.
+
+Here is a help summary:
+$ kerndoc-export-search.pl -h
+kerndoc-export-search.pl [--list|-l] [--verbose|-v] file(s)
+  where --list    prints filename:line:funcname: short_description
+  where --verbose prints more info.
+  default: prints a doc/export summary + warnings.
+  version: 0.9
+
+
+Feel free to use in any way or to rewrite & merge it into the
+kdoc python system.
+
+FWIW.
 -- 
-2.43.0
+~Randy
 
+--------------WTZTRdUPp0NqvjYNs0rco7TN
+Content-Type: application/x-perl; name="kerndoc-export-search.pl"
+Content-Disposition: attachment; filename="kerndoc-export-search.pl"
+Content-Transfer-Encoding: 7bit
+
+#! /usr/bin/perl
+# kerndoc-export-search.pl
+#
+# summarize (default) or list kernel-doc short description lines from source file(s);
+# Summary reports kernel-doc warnings, missing kernel-doc for EXPORTs,
+#    and missing EXPORTs where kernel-doc notation was found;
+# Randy Dunlap <rdunlap@infradead.org>
+# 2007-04-11, 2021-06-02, 2024-12-12, 2025-08-31
+# License is GPL-v2.0.
+#
+# TO ADD:
+# 1. maybe add line# to kernel-doc and EXPORT saved locations so that they can
+#    be output in line# order instead of whatever order Perl decides;
+# 2. read_proto() endings are a problem with typedef + type/etc; TBD;
+# 3. check/ignore?: exported typedef/enum/struct/union (definitions, not decls)
+
+
+use File::Basename;
+
+my $VER = "0.9";
+my $warn_count;			# count warnings
+my $opt_list = 0;
+my $opt_verbose = 0;
+my $opt_debug = 0;
+
+my %funcnames = ();
+my %funcflags = ();
+my %exports = ();
+
+my $export_symbol     =    '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
+my $export_symbol_ns1 = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*\S+\)\s*;';
+my $export_symbol_ns2 = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*;';
+my $export_symbol_nsx = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,.*\)\s*;';
+
+# bit flags for %funcflags
+use constant {
+	FF_NONE		=> 0,		# none set; also indicates "function"
+	FF_STATIC	=> 1,		# "static" func
+	FF_INLINE	=> 2,		# "inline" func
+# so a static inline or inline static function has funcflags == 3
+	FF_ENUM		=> 4,
+	FF_TYPEDEF	=> 8,
+	FF_STRUCT	=> 16,
+	FF_UNION	=> 32,
+	FF_NONFUNC	=> 60,		# sum of ENUM/TYPEDEF/STRUCT/UNION
+	FF_DEF_OBJ	=> 64,		# no immediate '('
+	FF_DEF_FUNC	=> 128,		# immediate '('
+	FF_SYSCALL	=> 256,		# system call
+};
+
+sub usage() {
+	my $name = basename($0);
+
+	print STDERR "$name [--list|-l] [--verbose|-v] file(s)\n";
+	print STDERR "  where --list    prints filename:line:funcname: short_description\n";
+	print STDERR "  where --verbose prints more info.\n";
+	print STDERR "  default: prints a doc/export summary + warnings.\n";
+	print STDERR "  version: $VER\n";
+	exit 1;
+}
+
+sub warning($$$) {
+	my $fl = shift;
+	my $ln = shift;
+	my $msg = shift;
+
+	print "warning: $fl: $ln: $msg\n";
+	++$warn_count;
+}
+
+sub read_discard_desc() {
+	my $desc;
+
+DESC:
+	while ($desc = <FILE>) {
+		last if $desc =~ '\*/';
+	}
+}
+
+sub verbose($) {
+	my $str = shift;
+	print "$str" if $opt_verbose;
+}
+
+sub dbgit($) {
+	my $str = shift;
+	print "$str" if $opt_debug;
+}
+
+sub find_type($) {
+	my $dsc = shift;
+
+	dbgit("#find_type# for |$dsc|\n");
+	return "typedef" if $dsc =~ '\*\s+typedef';
+	return "enum"    if $dsc =~ '\*\s+enum';
+	return "struct"  if $dsc =~ '\*\s+struct';
+	return "union"   if $dsc =~ '\*\s+union';
+	return "define"  if $dsc =~ '\*\s+define';
+	return "func";
+}
+
+# read entire protytype for a function or
+# read the entire enum/typedef/struct/union/define declaration
+# (Does not currently support a combination decl/definition.)
+#
+# If the first line of the prototype begins with /#\s*define/
+# then read the entire prototype for the macro, honoring "\\"
+# continuation lines.
+#
+sub read_proto($) {
+	# skip any leading blank lines
+	# then read/save up thru '{' for func or ';' for other desctypes
+	# or for a define, thru a line that does not end with '\'
+
+	my $desctype = shift;
+	my $prot = "";
+	my $ln;
+	my $lncount = 0;
+	my $ending;	# ending char(s) for func/enum/typedef/struct/union
+
+	#$ending = $desctype eq "func" ? "}" : ";";
+	$ending = $desctype eq "func" ? "{" : ";";
+	if ($desctype eq "struct" || $desctype eq "union" ||
+	    $desctype eq "enum") {
+	    	#$ending = "}\s*;"
+	    	$ending = "{";
+	}
+	if ($desctype eq "typedef") { ### TBD
+		#$ending = depends on struct?, union?, func?, enum?;
+	}
+
+	my $macro = $desctype eq "define";
+	dbgit("#read_proto.40# desctype=$desctype, macro=$macro, ending=$ending\n");
+
+PROT:
+	while ($ln = <FILE>) {
+		chomp $ln;
+		next PROT if $ln eq "";
+
+		++$lncount;
+		if ($lncount == 1 && $ln =~ /#\s*define/) {
+			$macro = 1;
+			dbgit("#read_proto.42# switch to macro=$macro\n");
+		}
+
+		if ($macro) {
+			if (substr($ln, -1) eq "\\") {
+				substr($ln, -1, 1) = " ";
+				$prot = $prot . " " . $ln;
+				dbgit("#read_proto.44# macro prot now=$prot\n");
+				next PROT;
+			}
+			else {
+				$prot = $prot . " " . $ln;
+				dbgit("#read_proto.46# macro prot now=$prot\n");
+				last;
+			}
+		}
+		else {
+			$prot = $prot . " " . $ln;
+			dbgit("#read_proto.48# func prot now=$prot\n");
+		}
+		last if $ln =~ $ending;
+	}
+	return $prot;
+}
+
+sub save_funcinfo($$$) {
+	my $fnc = shift;
+	my $prot = shift;
+	my $syscall = shift;
+
+	dbgit("#save_funcinfo# fnc=$fnc, prot=$prot, syscall=$syscall\n");
+	$funcnames{$fnc} = $fnc;
+	$funcflags{$fnc} = FF_NONE;
+	$funcflags{$fnc} |= FF_STATIC if ($prot =~ "\s*static\s*");
+	$funcflags{$fnc} |= FF_INLINE if ($prot =~ "\s*inline\s*");
+	$funcflags{$fnc} |= FF_DEF_FUNC if ($prot =~ "\s*define\s*"); # func-like
+	$funcflags{$fnc} |= FF_SYSCALL if ($syscall);
+}
+
+sub save_nonfuncinfo($$$) {
+	my $type = shift;
+	my $fnc = shift;
+	my $prot = shift;
+
+	dbgit("#save_nonfuncinfo# type=$type, fnc=$fnc, prot=$prot\n");
+	$funcnames{$fnc} = $fnc;
+	$funcflags{$fnc} = FF_NONE;
+	$funcflags{$fnc} |= FF_STATIC if ($prot =~ "\s*static\s*");
+
+	$funcflags{$fnc} |= FF_ENUM   if ($type eq "enum");
+	$funcflags{$fnc} |= FF_TYPEDEF if ($type eq "typedef");
+	$funcflags{$fnc} |= FF_STRUCT if ($type eq "struct");
+	$funcflags{$fnc} |= FF_UNION  if ($type eq "union");
+	$funcflags{$fnc} |= FF_DEF_OBJ if ($prot =~ "\s*define\s*"); # object macro
+}
+
+sub show_flags($) {
+	my $fflags = shift;
+
+	return "static inline" if $fflags == (FF_STATIC | FF_INLINE);
+	return "static" if $fflags == FF_STATIC;
+	return "inline" if $fflags == FF_INLINE;
+	return "enum"   if $fflags == FF_ENUM;
+	return "typedef" if $fflags == FF_TYPEDEF;
+	return "struct" if $fflags == FF_STRUCT;
+	return "union"  if $fflags == FF_UNION;
+	return "define" if $fflags == FF_DEF_FUNC;
+	return "define" if $fflags == FF_DEF_OBJ;
+	#return "" if ($fflags & (FF_STATIC | FF_INLINE) == 0);
+	return "none" if $fflags == 0;
+	return "unknown (" . $fflags . ")";
+}
+
+sub dump_saved_kerndoc() {
+
+	my $cnt = scalar %funcnames;
+
+	#dbgit("funcnames:");
+	#dbgit(%funcnames);
+	#dbgit("\n");
+
+	while ((my $key, my $value) = each %funcnames) {
+		my $flags = show_flags($funcflags{$key});
+		dbgit("kdoc saved for $key, flags: $flags\n");
+	}
+
+	print "$cnt kernel-docs found/saved\n";
+}
+
+sub dump_saved_exports() {
+
+	my $cnt = scalar %exports;
+
+	#verbose("#dump_saved_exports# exports:");
+	#verbose(%exports);
+	#verbose("\n");
+
+	while ((my $key, my $value) = each %exports) {
+		dbgit("EXPORT saved for: $key\n");
+	}
+
+	print "$cnt Exported symbols found/saved\n";
+}
+
+# search saved kernel-docs and report missing EXPORT if found kernel-doc without EXPORT
+sub check_missing_exports() {
+
+	my $cnt = 0;
+
+	while ((my $key, my $value) = each %funcnames) {
+		my $flags = show_flags($funcflags{$key});
+		if (! ($funcflags{$key} & FF_SYSCALL)) { # EXPORT not needed/not expected
+		if ($exports{$key} eq undef) {
+			if (($funcflags{$key} & FF_NONFUNC) == 0) { # is a func
+			    if (($funcflags{$key} & (FF_STATIC | FF_INLINE)) == 0 &&
+				(($funcflags{$key} & (FF_DEF_FUNC | FF_DEF_OBJ)) == 0)) {
+				print "Missing EXPORT for: $key\n";
+				++$cnt;
+			  } # end not static/inline
+			} # end is func
+		} # end undef
+		} # end syscall
+	}
+
+	print "$cnt missing Exports\n";
+}
+
+# search saved Exports and report missing kernel-doc if found EXPORT without kernel-doc
+sub check_missing_kerndoc() {
+
+	my $cnt = 0;
+
+	while ((my $key, my $value)= each %exports) {
+		if ($funcnames{$key} eq undef) {
+			print "Missing kernel-doc for: $key\n";
+			++$cnt;
+		}
+	}
+
+	print "$cnt missing kernel-docs\n";
+}
+
+sub syscall_munge($) {	# from kernel old scripts/kernel-doc.pl;
+	my $prot = shift;
+	my $void = 0;
+
+	dbgit("#syscall_munge.10# prot=$prot\n");
+	$prot =~ s@[\r\n]+@ @gos; # strip newlines/CR's
+##	if ($prot =~ m/SYSCALL_DEFINE0\s*\(\s*(a-zA-Z0-9_)*\s*\)/) {
+	if ($prot =~ m/SYSCALL_DEFINE0/) {
+		$void = 1;
+##		$prot = "long sys_$1(void)";
+    }
+
+	$prot =~ s/SYSCALL_DEFINE.*\(/long sys_/; # fix return type & func name
+	dbgit("#syscall_munge.20# prot=$prot\n");
+	if ($prot =~ m/long (sys_.*?),/) {
+		$prot =~ s/,/\(/;
+	} elsif ($void) {
+		$prot =~ s/\)/\(void\)/;
+	}
+	dbgit("#syscall_munge.30# prot=$prot\n");
+
+	# now delete all of the odd-number commas in $prototype
+	# so that arg types & arg names don't have a comma between them
+	my $count = 0;
+	my $len = length($prot);
+	if ($void) {
+		$len = 0;    # skip the for-loop
+	}
+	for (my $ix = 0; $ix < $len; $ix++) {
+		if (substr($prot, $ix, 1) eq ',') {
+			$count++;
+			if ($count % 2 == 1) {
+				substr($prot, $ix, 1) = ' ';
+			}
+		}
+	}
+	dbgit("#syscall_munge.50# prot=$prot\n");
+
+	return $prot;
+}
+
+
+# begin/start/main:
+
+while ($#ARGV >= 0) {
+	my $what = $ARGV[0];
+	if ($what eq "--help" || $what eq "-h") {
+		usage();
+	}
+	if ($what eq "-l" || $what eq "--list") {
+		shift;
+		$opt_list = 1;
+		next;
+	}
+	if ($what eq "-v" || $what eq "--verbose") {
+		shift;
+		$opt_verbose = 1;
+		next;
+	}
+	if ($what eq "-x") {
+		shift;
+		$opt_debug = 1;
+		next;
+	}
+	last;
+}
+
+foreach my $file (@ARGV) {
+	open (FILE, $file) || die "Cannot open $file: $!\n";
+	print "\nfile: $file\n";
+
+	my $kerndoc_count = 0;
+	$warn_count = 0;
+	my $start_shortdesc = 0;
+	my $shortdesc = "";
+	my $desctype;
+	my $proto = "";
+	my $syscall = 0;
+
+	%funcnames = ();
+	%funcflags = ();
+	%exports = ();
+
+LINE:
+	while ($line = <FILE>) {	# read lines from FILE
+		chomp $line;
+		next LINE if ($line =~ /\*\*\*\*\*/);
+
+		if ($line eq "/\*\*") { # must be alone at start of line
+			$start_shortdesc = 1;
+			next LINE;
+		}
+
+		elsif ($line =~ /\s*\/\*\*$/) {
+			warning($file, $., "kernel-doc sentinel not at start of line");
+			next LINE;
+		}
+
+		elsif ($line =~ '/\*\*') { # but not alone
+			warning($file, $., "kernel-doc sentinel has trailing text");
+			#next LINE;
+			$start_shortdesc = 1;
+			$line =~ s:/\*\*:\*: # assume funcname is on the same line
+			# continue below
+		}
+
+		elsif ($line =~ $export_symbol) {
+			#$funcnames{$2} = 1;
+			dbgit("#LINE# found 'export_symbol' for:$2\n");
+			$exports{$2} = 1;
+			next LINE;
+		}
+		elsif ($line =~ $export_symbol_ns1) {
+			#$funcnames{$2} = 1;
+			dbgit("#LINE# found 'export_symbol_ns1' for:$2\n");
+			$exports{$2} = 1;
+			next LINE;
+		}
+		elsif ($line =~ $export_symbol_ns2) {
+			##$funcnames{$2} = 1;
+			dbgit("#LINE# found 'export_symbol_ns2' for:$2\n");
+			$exports{$2} = 1;
+			next LINE;
+		}
+		elsif ($line =~ $export_symbol_nsx) {
+			##$funcnames{$2} = 1;
+			dbgit("#LINE# found 'export_symbol_nsx' for:$2\n");
+			$exports{$2} = 1;
+			next LINE;
+		}
+
+		if ($start_shortdesc) {
+			dbgit("#LINE.50# want to find shortdesc in |$line|\n");
+			$start_shortdesc = 0;
+			# but this can easily be a false positive, so check $line:
+			next LINE if ($line =~ /^\s*\*\s*$/); # mostly empty
+			next LINE if ($line =~ /^\s*\*\*/); # double-*
+			next LINE if ($line =~ /^\s*\*\s*DOC:/); # skip DOC:
+			next LINE unless ($line =~ /^\s*\*\s*/); # must be *-line
+			next LINE unless ($line =~ /:/) || ($line =~ /-/);
+
+			$shortdesc = $line; # only first line
+			$kerndoc_count++;
+			dbgit("#LINE.60# shortdesc = line =|$line|\n");
+
+			read_discard_desc(); # discard up thru "*/"
+			$desctype = find_type($shortdesc);
+			dbgit("#LINE.70# got desctype =|$desctype|, shortdesc=$shortdesc\n");
+			$proto = read_proto($desctype);
+
+			dbgit("#LINE.80# desctype=$desctype, shortdesc=$shortdesc, proto=$proto\n");
+
+			if ($desctype eq "func") {
+				my $func;
+				if ($shortdesc =~ /\s*\*\s*(.*)\s*[-:]/) {
+					$func = $1;
+					$func =~ s/\s*$//; # drop trailing spaces
+					#$func =~ s/\(\s*\)//; # drop "()"s
+					$func =~ s/\(.*\)//; # drop "(...)"s
+					# $func may contain some of the function
+					# short description :( due to greedy
+					# pattern matching, so eliminate it
+					$func =~ s/-\s*.*$//;
+					$func =~ s/\s*$//; # drop trailing spaces
+				} else {
+					$func = $shortdesc;
+				}
+				dbgit("#func# func=$func, proto=$proto\n");
+				if ($proto =~ /SYSCALL_DEFINE/) {
+					$syscall = 1;	# no EXPORT needed
+					$proto = syscall_munge($proto);
+				}
+				save_funcinfo($func, $proto, $syscall);
+				$syscall = 0;
+				if (index($proto, $func) == -1) {
+					warning($file, $., "kernel-doc function name: '$func' does not match prototype: $proto");
+				}
+
+				if ($opt_list) {
+					# print $filename:linenum:$function: $shortdesc
+					print "$file: $.: $func: $shortdesc\n";
+				}
+			} # desctype eq func
+
+			else { # handle enum, typedef, struct, union, define
+				my $name;
+				dbgit("#nonfunc# shortdesc.10=$shortdesc, proto=$proto\n");
+				$shortdesc =~ s/\*\s*$desctype//;
+				dbgit("#nonfunc# shortdesc.20=$shortdesc, proto=$proto\n");
+
+				if ($shortdesc =~ /\s*\*?\s*(.*)\s*[-:]/) {
+					$name = $1;
+					$name =~ s/\s*$//; # drop trailing spaces
+					$name =~ s/\(\s*\)//; # drop "()"s
+					# $func may contain some of the function
+					# short description :( due to greedy
+					# pattern matching, so eliminate it
+					$name =~ s/-\s*.*$//;
+					$name =~ s/\s*$//; # drop trailing spaces
+					dbgit("#nonfunc# name=$name, shortdesc.30=$shortdesc, proto=$proto\n");
+				} else {
+					$name = $shortdesc;
+				}
+				# remove both leading and trailing spaces
+				#$name =~ s/^\s+|\s+$//g;
+				save_nonfuncinfo($desctype, $name, $proto);
+
+				if ($opt_list) {
+					# print $filename:linenum:$desctype $name: $shortdesc
+					print "$file: $.: $desctype $name: $shortdesc\n";
+				}
+			} # end non-func desctype
+		} # end start_shortdesc
+	} # end while $line
+
+	close FILE;
+	print "----- file $file: $kerndoc_count kernel-doc blocks, $warn_count kernel-doc warnings -----\n";
+
+	dump_saved_kerndoc() if $opt_verbose;
+	dump_saved_exports() if $opt_verbose;
+
+	check_missing_kerndoc();
+	check_missing_exports();
+
+} # end foreach $file
+# end;
+
+--------------WTZTRdUPp0NqvjYNs0rco7TN--
