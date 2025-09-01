@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D313E277030;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30BE1DD9AD;
 	Mon,  1 Sep 2025 13:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756732887; cv=none; b=mt3lAN/ahldOfBcDwVeGTiMP6CjZAhsUkOxOhTrG18gDlEnUKMrW+w3wkwRYHyQO69Tp8csOPeEQh2T/YnCH7n3101SyV7lWevTAaEFim4EZo4qz13x5N0oJDsWrSm21r0xSuwwPniZ2iiuPTTkgaSEYGkd7OxKgX8jHzMVKo8I=
+	t=1756732887; cv=none; b=n/Lq+ET6MzH2hb10jdwDufdcp3rtg7t5ylepFzYlLxu8LYSUurApVx2YvObO9p0DQnokVFSdi7swbe0uRXUV4YtMd+o+7XOfiIWvZuMaLjWixt0AKHr6UKrFTzxMrV4tXDcm5zqK2kQC9DgZ2dxOOzImiuN6tQqMQC+IkaMfG8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756732887; c=relaxed/simple;
-	bh=ueI4xsycPkgXTSZUs0weV9OPIinCS09w05STlPH/AsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Zy+Mqh5sa9F2Bx77BZoS76tBIq7OfFqu5j/X31gtD0P9zDeime2dhhRhttve8mCd2qv+xR9RxYNyPdUW/H2p4dZ7Fge2Y2gb0KCeDgV8T7CMCONDAm//gsJwA6d6wj/lZxaBooG3Kadankwojxl8bVgHyJDyePkqGUNdD1j3qw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcVJwnz3; arc=none smtp.client-ip=10.30.226.201
+	bh=u2CDTQhsURCCSqa3JpAMaK/gwDrT9364bVhhTnoXS28=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=DxRVGVWfQq9JGGiHmk3fgZWEnS0BQ8ucu4LzNTE+55rFasKJMjCrUTHdCBSXMgwZd7USb9EzNn4C/sV4FN3PvNk7i5klYdBUfwf3Irotkwi2fNTpDRVtHP7//YXcrtXtzkUlm36tBq2PNNbUrsYThGIwSJBDoDx5orahfxbQRMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxwNXuXe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcVJwnz3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AC54C4CEF1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxwNXuXe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CC2CC4AF09;
 	Mon,  1 Sep 2025 13:21:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756732887;
-	bh=ueI4xsycPkgXTSZUs0weV9OPIinCS09w05STlPH/AsY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=lcVJwnz3r/VWcuuEbGg/lKXrAXz4y+v4x+luyP9/icSyHRs6RI/ny8iqSPxbb/0TQ
-	 w2ez8Hkfkeh8YvjUJKWul1/l0f+CM9puroLUoWI3nKVdECltwn7+o2npUq7MqAqgk+
-	 umIwtGlLneJJGtmGTivqo0SGgNWbW22PaKh9NirehSqiw5R6DgeWCXntQcQlgW36QM
-	 j9h+MpXpEwS7sl5m9AV78T2V3+w87uxgH8IojTSJ30otNNy7nW4dAc8mNCefMAGw0M
-	 L4w5K9PE1yh4aqfNzYoCFWRHqsGwifypdcNy6OYOayOVPu/PW9AA3zHselWj2Y1nr9
-	 /CjjpTG1amVrQ==
+	bh=u2CDTQhsURCCSqa3JpAMaK/gwDrT9364bVhhTnoXS28=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OxwNXuXedznJSi2jMRuobh4RjVk3OOQFMSaYcrC0WD+BnuCQBoPJQi/tMn6pLL8Qw
+	 GHgP7OjcXR+zSPJO70P/HBs717bnvnSD6B10AYyMysp+LGLI2l3UvBkoBRElWiR3hI
+	 mETwpZjkKUIyFeFInWIUUV9s06dKUhLbxNOwSgl5mE3gOEvXse1iF2oYolchJVjUSe
+	 YQZf4OSDu8XPCynyrnhHE9rFLYXd32G1Av3gDf02EVOQmCoryYB11eVIF9WrhovoSI
+	 ymxEVzUmNTqWjJ7SNe/oXOmfq876Lo2sVLDQ9yZexg+oDyJZcc42u4HVbPQ7JKYTcE
+	 QTRiXmgiuM3Pw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ut4TN-00000003DcY-26uF;
+	id 1ut4TN-00000003Dcf-2NzC;
 	Mon, 01 Sep 2025 15:21:25 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Kees Cook <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] kernel_include.py: fix a regression on linux-next
-Date: Mon,  1 Sep 2025 15:21:20 +0200
-Message-ID: <cover.1756732363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/2] docs: kernel_include.py: drop some old behavior
+Date: Mon,  1 Sep 2025 15:21:22 +0200
+Message-ID: <00cdf3cbe2481aac875c543ded14b5eacfe071ec.1756732363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1756732363.git.mchehab+huawei@kernel.org>
+References: <cover.1756732363.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,23 +53,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+The old behavior is not using anymore, so let's drop it.
 
-My past series broke when O= is used. This small series fix it.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/kernel_include.py | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-Actually, only the first patch is needed. The second one is
-a cleanup. I opted to split on two just because it contains
-an incompatible behavior change. Not really a problem, as only
-media uses kernel-include, but still I opted to keep it in
-separate, just in case someone might be needing it.
-
-Mauro Carvalho Chehab (2):
-  docs: kernel_include.py: fix an issue when O= is used
-  docs: kernel_include.py: drop some old behavior
-
- Documentation/sphinx/kernel_include.py | 43 ++++++++++++++++++++------
- 1 file changed, 33 insertions(+), 10 deletions(-)
-
+diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
+index 661ed978bed8..2c4bb8215b4c 100755
+--- a/Documentation/sphinx/kernel_include.py
++++ b/Documentation/sphinx/kernel_include.py
+@@ -316,11 +316,9 @@ class KernelInclude(Directive):
+         env = self.state.document.settings.env
+ 
+         #
+-        # The include logic accepts only patches relative to:
+-        #   - Kernel source tree
+-        #   - Documentation output directory
+-        #
+-        # The logic does check it to prevent directory traverse
++        # The include logic accepts only patches relative to the
++        # Kernel source tree.  The logic does check it to prevent
++        # directory traverse issues.
+         #
+ 
+         srctree = os.path.abspath(os.environ["srctree"])
+@@ -331,10 +329,6 @@ class KernelInclude(Directive):
+         if os.path.isfile(src_path):
+             base = srctree
+             path = src_path
+-        elif os.path.exists(arg):
+-            # Allow patches from output dir
+-            base = os.getcwd()
+-            path = os.path.abspath(path)
+         else:
+             raise self.warning(f'File "%s" doesn\'t exist', path)
+ 
+@@ -359,11 +353,6 @@ class KernelInclude(Directive):
+ 
+         env.note_dependency(os.path.abspath(path))
+ 
+-        # HINT: I had to copy&paste the whole Include.run method. I'am not happy
+-        # with this, but due to security reasons, the Include.run method does
+-        # not allow absolute or relative pathnames pointing to locations *above*
+-        # the filesystem tree where the reST document is placed.
+-
+         if not self.state.document.settings.file_insertion_enabled:
+             raise self.warning('"%s" directive disabled.' % self.name)
+         source = self.state_machine.input_lines.source(self.lineno -
 -- 
 2.51.0
 
