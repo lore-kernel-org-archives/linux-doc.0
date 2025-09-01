@@ -1,115 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D710B32F771;
-	Mon,  1 Sep 2025 16:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF461E2853
+	for <linux-doc@vger.kernel.org>; Mon,  1 Sep 2025 16:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756743819; cv=none; b=tZ+tPnzazjRLmbnCjXpUACcJeVNdtNodi8t/PjJ+aKYkf2YJShafboO27tcGXl0JDd/MYwSv/71c8XyDfJmbTlyiqWIlJLaZ1Ljt8AfrfRPJE0nOyD19uYuUEXRVONi4pFVYjtYlnVVhZKBvfYKkbayfWdcyDZFR/a8JGsZ+yJM=
+	t=1756744467; cv=none; b=SZbOteQ1rwUJSJsrvEFk5MLATxxoqFjG860gdpcZXzRZC4Ry55pTDCzLhVl5kEY9+1yvGeEUpZmxLKfujrNB+qU/ZJFxn6Mlzlyb8R6PP2kiVSJC3fAuMSXrDkNzpZjg4prgVxJdLXZlKJ8eYAu7rNfimN9MA3LAR0PBgsF2/2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756743819; c=relaxed/simple;
-	bh=xXNMYxeUtrPT4DN76aplpZeN8UnkslUNoZEbarD5RAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gTQhsLV85Aa3YsV12+hiZqjekQWVCh85WrzR/iCt7QKJ0fyBtNnd+SmDurRl+snz/+nOgPkvRgMVbMctA7l+9W7eTfWXaRRVLYRRfmOSKUp0MhoEow4RdF268ZoiYfc1ScLO15Fou4GvDX61Np3+M/k71cqJ6imvdyHS/L754AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IC0bYdjT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756744467; c=relaxed/simple;
+	bh=aWny5m6Wqz1CRg5geT1nOdfOifoEJVrWBp+q4CMHEPo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J7DgsHdvOk8Zzrw/IO4mBptvgOIKtbD36stdJpIFfhAb1VEY5SZjHPeJ7KW31AU659SCUXh4fsNTJStKDWaeH2vrOX9dTpLJXRqD7rbmhlJ6M2AQpGvs7AL8l15MqCSvfIlsh+Kk07wCVEloGkrRfGA5d1TD812wSy91cnZzRBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D97Ezi7f; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IC0bYdjT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C4E1C4CEF0;
-	Mon,  1 Sep 2025 16:23:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756743818;
-	bh=xXNMYxeUtrPT4DN76aplpZeN8UnkslUNoZEbarD5RAA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IC0bYdjTaLnYXvKhfLlUnPms9FmtHm4xOtQJJVSO6DQpdytk6rYZjHGnqqjYm4HVj
-	 S0XuCekWHj19c74E0buaHpy/u5gTOdn6UTiV83sq+04+OGJLP7bgv/RUseKsFBRMi3
-	 vVIqEHGk6iuEZB8ayAg27GHA387gsmzPtP4xor3EyrLiwtysE9lhJAHYiWWSaSCSGG
-	 owfP7we/gtmDXLd4HPbSkHxEMfF2vJXqLD1ixH/6jvietSz7mE8dVU8pn8PcBgZ2Io
-	 SrqpD2E5Yh/tSDxNqdGRKr3r/PoVWLPQLLUH5bx4dQxbxEvDKrYHOlDen3eoSeGW0W
-	 T6JnpKlHJIwdQ==
-Date: Mon, 1 Sep 2025 19:23:13 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
-	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-Message-ID: <aLXIcUwt0HVzRpYW@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com>
- <20250826162019.GD2130239@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D97Ezi7f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756744464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oU/qMtZcyC8i4LZR6Q/18FupAVEqnteAX6wqUkmR8s4=;
+	b=D97Ezi7fyWyHYhJrfJVRDkyE5Q9xAnxvKTOSSISDOd5sQW1f01TkEV2i4kCzXta/lSd8Tf
+	/CbAY7YybuIQmulSQFYKdHzjBpAXCJ6xb66Eeiqv+GPh0cwxgTgg6fjGjGxoJg8b7s1evq
+	avs58jfDILTqweGunf6SN9iApHiXvRU=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-646-qWNZv9x-PcakHwb8E4-A1A-1; Mon,
+ 01 Sep 2025 12:34:23 -0400
+X-MC-Unique: qWNZv9x-PcakHwb8E4-A1A-1
+X-Mimecast-MFC-AGG-ID: qWNZv9x-PcakHwb8E4-A1A_1756744461
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F220619560B0;
+	Mon,  1 Sep 2025 16:34:20 +0000 (UTC)
+Received: from [10.44.32.239] (unknown [10.44.32.239])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 416BF19560AB;
+	Mon,  1 Sep 2025 16:34:16 +0000 (UTC)
+Message-ID: <e6cd77a7-bc18-4e0c-9536-5fb107ec4db4@redhat.com>
+Date: Mon, 1 Sep 2025 18:34:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250826162019.GD2130239@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 5/5] dpll: zl3073x: Implement devlink flash
+ callback
+To: Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
+References: <20250813174408.1146717-1-ivecera@redhat.com>
+ <20250813174408.1146717-6-ivecera@redhat.com>
+ <20250818192943.342ad511@kernel.org>
+ <e7a5ee37-993a-4bba-b69e-6c8a7c942af8@redhat.com>
+ <20250829165638.3b50ea2a@kernel.org>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <20250829165638.3b50ea2a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
-> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
-> 
-> > +	/*
-> > +	 * Most of the space should be taken by preserved folios. So take its
-> > +	 * size, plus a page for other properties.
-> > +	 */
-> > +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
-> > +	if (!fdt) {
-> > +		err = -ENOMEM;
-> > +		goto err_unpin;
-> > +	}
-> 
-> This doesn't seem to have any versioning scheme, it really should..
-> 
-> > +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
-> > +				       (void **)&preserved_folios);
-> > +	if (err) {
-> > +		pr_err("Failed to reserve folios property in FDT: %s\n",
-> > +		       fdt_strerror(err));
-> > +		err = -ENOMEM;
-> > +		goto err_free_fdt;
-> > +	}
-> 
-> Yuk.
-> 
-> This really wants some luo helper
-> 
-> 'luo alloc array'
-> 'luo restore array'
-> 'luo free array'
+Hi Kuba and Jiri,
 
-We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
-https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
+On 30. 08. 25 1:56 dop., Jakub Kicinski wrote:
+> On Fri, 29 Aug 2025 16:49:22 +0200 Ivan Vecera wrote:
+>>>> +		/* Leave flashing mode */
+>>>> +		zl3073x_flash_mode_leave(zldev, extack);
+>>>> +	}
+>>>> +
+>>>> +	/* Restart normal operation */
+>>>> +	rc = zl3073x_dev_start(zldev, true);
+>>>> +	if (rc)
+>>>> +		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
+>>>
+>>> And also we can't really cleanly handle the failure case.
+>>>
+>>> This is why I was speculating about implementing the down/up portion
+>>> in the devlink core. Add a flag that the driver requires reload_down
+>>> to be called before the flashing operation, and reload_up after.
+>>> This way not only core handles some of the error handling, but also
+>>> it can mark the device as reload_failed if things go sideways, which
+>>> is a nicer way to surface this sort of permanent error state.
+>>
+>> This makes sense... The question is if this should reuse existing
+>> .reload_down and .reload_up callbacks let's say with new devlink action
+>> DEVLINK_RELOAD_ACTION_FW_UPDATE or rather introduce new callbacks
+>> .flash_update_down/_up() to avoid confusions.
+> 
+> Whatever makes sense for your driver, for now. I'm assuming both ops
+> are the same, otherwise you wouldn't be asking? It should be trivial
+> for someone add the extra ops later, and just hook them both up to the
+> same functions in existing drivers.
 
-Will wait for kbuild and then send proper patches.
- 
+Things are a little bit complicated after further investigation...
 
--- 
-Sincerely yours,
-Mike.
+Some internal flashing backround first:
+The zl3073x HW needs an external program called "flash utility"
+to access an internal flash inside the chip. This utility provides
+flash API over I2C/SPI bus that is different from the FW API provided
+by the normal firmware. So to access the flash memory the driver has
+to stop the device's CPU, to load the utility into chip RAM and resume
+the CPU to execute the utility. At this point normal FW API is not
+accessible so the driver has to stop the normal operation (unregister
+DPLL devices, pins etc.). Then it updates flash using flash API and
+after flash operations it has to reset device's CPU to restart newly
+flashed firmware. Finally when normal FW is available it resumes
+the normal operation (re-register DPLL devices etc.).
+
+Current steps in this patch:
+1. Load given FW file and verify that utility is present
+2. Stop normal operations
+3. Stop CPU, download utility to device, resume CPU
+4. Flash components from the FW file
+5. Unconditionally reset device's CPU to load normal FW
+6. Resume normal operations
+
+I found 4 possible options how to handle:
+
+1. Introduce DEVLINK_RELOAD_ACTION_FW_UPDATE devlink action and reuse
+    .reload_down/up() callbacks and call them prior and after
+    .flash_update callback.
+
+At first glance, it looks the most elegant... The zl3073x driver stops
+during .reload_down() normal operation, then in .flash_update will
+switch the device to flash mode, performs flash update and finally
+during .reload_up() will resume normal operation.
+
+Issues:
+- a problematic case, when the given firmware file does not contain
+   utility... During .reload_down() this cannot be checked as the
+   firmware is not available during .reload_down() callback.
+- DEVLINK_RELOAD_ACTION_FW_UPDATE has to be placed in devlink UAPI
+   and but this reload action should be handled as internal one as
+   there should not be possible to initiate it from the userspace
+
+   e.g. devlink dev reload DEV action fw_update
+
+2. Add new .flash_down/up() or .flash_prepare/done() optional callbacks
+    that are called prior and after .flash_update if they are provided by
+    a driver.
+
+This looks also good and very similar to previous option. Could resolve
+the 1st issue as we can pass 'devlink_flash_update_params' to both
+new callbacks, so the driver can parse firmware file during
+.flash_down and check for utility presence.
+
+Issues:
+- the firmware has to be parsed twice - during .flash_down() and
+   .flash_update()
+   This could be resolved by extending devlink_flash_update_params
+   structure by 'void *priv' field that could be used by a driver
+   during flash operation.
+   It could be also useful to add flash_failed flag similar to
+   reload_failed that would record a status reported by .flash_up()
+   callback.
+
+3. Keep my original approach but without restarting normal operation
+    (re-register DPLL devices and pins). User has to use explicitly
+    devlink reload fw_activate to restart normal operation.
+
+This could be reasonable but introduces some kind of asymmetry because
+the driver stops normal operation during .flash_update() and left
+the device in intermediate state (devlink interface is working but
+DPLL devices and pins are not registered). Only upon explicit user
+request (fw_activate) would it restore normal mode (re-registration).
+
+4. Keep my original approach, fix the ignored error code reported by
+    Jakub and pass "re-start normal operation failure" via devlink
+    notification.
+
+ From my POV better than previous one as the driver will do its best to
+resume device state prior the flashing. Only corner case where the
+firmware is unresponsive after reset will cause that normal operation
+won't be resumed -> could be handled by health reporting?
+
+Thanks for opinions and advises.
+
+Ivan
+
