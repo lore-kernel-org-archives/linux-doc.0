@@ -1,80 +1,80 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E32225402
-	for <linux-doc@vger.kernel.org>; Mon,  1 Sep 2025 19:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD2E2749D5;
+	Mon,  1 Sep 2025 20:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756756424; cv=none; b=NX6H0jae+OHjW5beq25VBiX4O+L01+8f4qdVhXr2eN6sj/sbbKdZ/P6YOGKstj1aW7rb/LNkaliWmWTILKsXAQ2t9lqndK/u1UJQ/XyYfg/MG55DrKlFDUtdwqNDFxhEY8eBFRxBmq2huYgFc1WMag7guVFh/VCtPaIuMlb0FzM=
+	t=1756758005; cv=none; b=n69o3WP4nyxRmbBMqZX3uedWv3thiF7d6ZNMNozkSceydJsAiftAsZSSU4kKbH8XFY3PSh1o6h1In+LfZI8wWHE1fPFOtexmbqYGbs7w1t/QNV78PtpH19PzgYxAfayRMbasQWd/u5Ql8x6XM4ef27Xus0/aG5zXBqXpAYwJosE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756756424; c=relaxed/simple;
-	bh=fuVPKtZujc1twALwzZosVHGjjbpzgwGFJ6d1NGcmTQo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bVlvg8Nip7wzw7RW+fDcdwOY/jo6uq3fOvbnu1SCjGGhBoQzxb7SZqkbElKNqbX+YBJcgAzm7o3k9uDPLN4N3ZfuUvzJCCKmET6MlU71DHIhxrirpGZ37vOwGWn+o/ViUTX9qsXEj1+W26eMHqLf0NlencuSCJITONqzpUJ+3aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MsOnnd8u; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756758005; c=relaxed/simple;
+	bh=b39CVSIpvQ82eMLGXDvwCDl7jmyv8De4VrwQSDpPtkA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=q78ZB9oA+6QmLDY2KOP93z2Bc89gA90HZzKogWk9TxJpiWX0RkvN1zrk0Hub3XZDv5HayDISi7Fsain6xqLZeP6Y7vw2WXje23Iecg7bN63Y7/QkJZJMVSESF+WXEJtFEs7MOUIua0i8u7gvqrxZgtdCsWN6GwUF4rpTvlbjRjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=or/+tF4B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MsOnnd8u"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF1D640AE3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756756422; bh=sxcV7YO6F/bJOSld/DB7Mb2D68TL8om4zsJ13UviEa0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MsOnnd8u/w/FHU1zv4oLd03U2CI/UosmrNOnWEXLvS0MKJKfw87nbp+W0dEtFfv1D
-	 P1igp1X64z374Knq/x4F/wmZJoLG79NMAGtXxBujIYKE4BX+1O424/RlEUziWYgmRb
-	 /eMO9eWg5O6ueEWaOiu6GwafEVLP+fjPL+DKYW/9AjBuSvDb1lHmqMYl5omxojhdaE
-	 ABlDr6Tm04StD3Xl9XbbGJEcDat742W2Ff4lovo6Z6xfLlIHcONxoAwnnsamtFwk30
-	 CQC3dZvqgi7vLAZ3Pt7QuHtf0HQjHYXwnGr7MspmQw5pDh5/3ax4EaqtEAzBjhMQ+H
-	 yL1k/Fv8JvEjg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EF1D640AE3;
-	Mon,  1 Sep 2025 19:53:41 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mark Brown
- <broonie@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
- <jani.nikula@intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
- <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-In-Reply-To: <20250901204635.51b81ffd@foz.lan>
-References: <87plcndkzs.fsf@trenco.lwn.net>
- <20250828230104.GB26612@pendragon.ideasonboard.com>
- <87wm6l0w2y.fsf@trenco.lwn.net>
- <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
- <20250830222351.GA1705@pendragon.ideasonboard.com>
- <87h5xo1k6y.fsf@trenco.lwn.net> <20250831160339.2c45506c@foz.lan>
- <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
- <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
- <2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
- <20250901204635.51b81ffd@foz.lan>
-Date: Mon, 01 Sep 2025 13:53:41 -0600
-Message-ID: <87plcax83e.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="or/+tF4B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48122C4CEF5;
+	Mon,  1 Sep 2025 20:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756758005;
+	bh=b39CVSIpvQ82eMLGXDvwCDl7jmyv8De4VrwQSDpPtkA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=or/+tF4BeQA3GU5BfVdH+az5Kk1xrA0fmAu7a4DtKqT46Yi77yq1CecQ0CdxDQ3gO
+	 wBHR876j8Z9aiqqZlvVNYDa+dYaiB0M2TNUeKo+Jd7taPt3yjmHsbIyg6siw2Ggw9S
+	 psnvEvhhGF5+ay1L8z2jviMg8Emnu9KMksiUhF+Fxe6Kbprw2wtEISG6vMjoSNplXS
+	 5Zj5gmF3b/7U6Irgt5Eo9/QM9pqcjcCyQ/8z57YGFcwx9GLAuyUkKC2Mp45iJB4z+a
+	 rVWlxw/qtsZAtjS/nbtn+4yUgBtku3aavX2MzZUmc5WT5XS2NGmOqnSctpRq/WQwvv
+	 Es4G0PnPFQ3HA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D5F383BF4E;
+	Mon,  1 Sep 2025 20:20:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v1 net-next] docs: remove obsolete description about
+ threaded
+ NAPI
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175675801099.3872744.4982119550826737443.git-patchwork-notify@kernel.org>
+Date: Mon, 01 Sep 2025 20:20:10 +0000
+References: <20250829064857.51503-1-enjuk@amazon.com>
+In-Reply-To: <20250829064857.51503-1-enjuk@amazon.com>
+To: Kohei Enju <enjuk@amazon.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, skhawaja@google.com
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hello:
 
-> It should be noticed that kernel-doc doesn't run in parallel. Python
-> still suffers for a global big lock (called GIL). My attempts to run in
-> parallel actually made kernel-doc slower, but this is changing: the
-> next Python version is planning to get rid of GIL. So, maybe within
-> a year we can re-add the patches to run it in parallel.
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I certainly wouldn't want to discourage work in this area, but I do
-wonder if it would be worth the trouble; kernel-doc is nowhere near
-being the bottleneck in this whole process.  Now, if you could
-multi-thread the Sphinx HTML builder...
+On Fri, 29 Aug 2025 15:48:42 +0900 you wrote:
+> Commit 2677010e7793 ("Add support to set NAPI threaded for individual
+> NAPI") introduced threaded NAPI configuration per individual NAPI
+> instance, however obsolete description that threaded NAPI is per device
+> has remained.
+> 
+> Remove the old description and clarify that only NAPI instances running
+> in threaded mode spawn kernel threads by changing "Each NAPI instance"
+> to "Each threaded NAPI instance".
+> 
+> [...]
 
-jon
+Here is the summary with links:
+  - [v1,net-next] docs: remove obsolete description about threaded NAPI
+    https://git.kernel.org/netdev/net/c/b434a3772dca
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
