@@ -1,125 +1,150 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BED622F14D;
-	Sun, 31 Aug 2025 23:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A96F1B0F19;
+	Mon,  1 Sep 2025 02:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756681652; cv=none; b=jhtn7XxICT1D1cus1Ng6zvESwyfn63NTkZ6KI+NLvZzpleRx05LrpZKtUHn1mPokxELYXlq1G7XKP/MIeUcehihOQSocZF3NKQqFz8oBJF76eyWOiQYMRNYR4QIskych98o2QdkbZ7bcJ0YzNyFv9EwYmIK1NCDoeoVAmCmyUZA=
+	t=1756692527; cv=none; b=aUKywGhSwRWNmSHhDWmMLZsw5ZnI672LeDQk+Q6HIf4sXB8tdKyfbKxe+2aUq4fO3LZtLfLXVJ1zmiigvR8STYkutMDqWLrGF21qnt6hGJRrhMhZfj00qOdrGcR3Pn4D8+knqVvLpwKyVUgsRpEe/aOTNfe/E/GHe52o7CZ5Uzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756681652; c=relaxed/simple;
-	bh=/dq1+WkskxLjQfiUna2tnvXAStsMIRt3sNeqPiyojaY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qto1ZMax0O2+xWctoDL9zulYabtfvMVd2XLt+t2jqLUhFeLMoZGjUj5IwPi+wCiefj16sjKefI/ziEfRUZ+DWQvDn1u2zj/aAKMUJbwjtqjGqKpI3eoB3nq2zHDAnwy5NsR0YYN5RbbBGCD2UQxAov36dy8IT+3ums3OzvfvZCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWniY+gM; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWniY+gM"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45b8b2712d8so7041875e9.3;
-        Sun, 31 Aug 2025 16:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756681649; x=1757286449; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VzORTaj5j85cq2M8IR2sPPrrk6vTYoFG53BsY3IwtmU=;
-        b=RWniY+gM5NFbvvK6Kw+NYWL+uBRJJIIeR277NLFyk1mj5SBKK5GtZzVwGrD+tUUD2R
-         /2KEQbWGt3xMtek1FpIsRgjjvEo0CaL3K3ojtYcrFhiAv5j8+0/l1cCA87mX0irnScHm
-         AN0yvkVFCuwPtZS3JjkXr3fOQmQUIIxHEL37SKx5I/Lb1kwGdVIw4N/fFfLYEnWgCxoA
-         u0W8VWU94/sm4fnDphjReKQL8YanvFj75sHNSzRzmyqYAKWfhf1ArKcefvcFn9+vXot2
-         s9NB+o5lmI9BGIbtmBFrROXwBXNiszQT3/mw9wrVDrfJ6TyqkNycycJmVIrpuRWye9qe
-         YsZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756681649; x=1757286449;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzORTaj5j85cq2M8IR2sPPrrk6vTYoFG53BsY3IwtmU=;
-        b=KhjRU6YjFyVbJWs4+BcJIcqX6sS/uvxsPswejlpP/nf9OmRdb3cCQoviXViMbRV9pX
-         XmDYhP/MbCTMuMe+MSjj8pOdrrWIC5rHeFT3RchwP0y9PqO8/VN7RBlYa7MHyeJpMJkV
-         LZNY2oWMTq4tXuC2PUyk8mwaJYhYcyhXVj53yTTwB2rFRl+i9VSiSETYGXkX6FlBlvnX
-         Qe4c9lIn9ychfLhQu+dka1RQxFCj69iBHQbCbuQac/H4X9QcHsgOAJrsIpgzF4XbLaRq
-         5FDIHDejKPYAUGiej1mp1WB4i9zp15inQu4urs4GHQ2ysv41dHdlDDvCSdqnQ2DM2xpV
-         2SOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAziffEwyxRYgoMIXWzRFbqRa61u1szZ4CBKdN7zvwGwgqLtzzwdqtEPR/nePpKPNfLtoYIyZ9Ug4=@vger.kernel.org, AJvYcCWIVsZLuv/60kCUfW77mODB2ln8l5nVosD+8qamFrNNhG5xzuRPdojqbxlnmDRR5YEy2M05XBuoXtSLDUGC@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfjfQEL2GNVT7npqOJzz/qsVoFVhflFqQ4mO1y5vbm6RO6stJj
-	sxn9awldaTcL/VTjPELU1lvFXpis7HQ9xp6qB63O/EgAutgxKKnJNb90
-X-Gm-Gg: ASbGnctXEFbJx7fiffX38vnZMJwUTSp918TrVLUhNqTu7lCEuOE/WUq1YdCS/ezYO/w
-	W8Tqimdmk9ry9mJr/CnJ9TyRqMCp++YveP/7ISZyRiBuox6ySMRYk1zvUDlKsnLgthb/2s7OL5c
-	MJdD5tY4ohFXMEX+2781SSm+6G5wnM0Zv0rkGg0ynuvnu37HdxDCtktZ1XAaG+Ic79G4udwy5ec
-	ULY03sOQjn3lBvmauAUjNYjBjSGQEUaIo86G20m7lZxhMi69M1j/ru5Mfg2AmADTVHFVUNAAEl6
-	T5bzp1dU/2X8yQuyQQBICTjqw+0YQpBBJhC30+GUQbPgO+wzz0wzDYvdounC4/M4K3ojYaA7czf
-	NF6HL1zkkTSfmTUU1rwHm15RnsjU/56JyKCaN9SZjrw==
-X-Google-Smtp-Source: AGHT+IEvc7GiBSOLL0eVIAnfsFxuuyb9Xs6ZWQt1q85vQuVTGCKCiLZUHxhq+3aytM1K0vb5VJdtTQ==
-X-Received: by 2002:a05:600c:5487:b0:45b:8d2a:ccfe with SMTP id 5b1f17b1804b1-45b8d2acf6dmr7011485e9.13.1756681649334;
-        Sun, 31 Aug 2025 16:07:29 -0700 (PDT)
-Received: from [192.168.100.24] ([102.31.181.245])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e74b72esm133792415e9.0.2025.08.31.16.07.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Aug 2025 16:07:28 -0700 (PDT)
-Message-ID: <c6158f58-7a62-4df3-b025-4fe9f33c4d16@gmail.com>
-Date: Mon, 1 Sep 2025 00:07:26 +0100
+	s=arc-20240116; t=1756692527; c=relaxed/simple;
+	bh=Vm/kZN9c7s81CxsjYSlovb7fQlggwebCdtC5M962/Ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rhhUVqpd8AvRTok1mQBrW1Kn0f4LspOaStDR9Akh8mrQJJ26a0uTNNYQkiAD15ApwQuZPlDCrrn6nmOAQFK/ze/vHgWKukXzqQGBZQh+1M5tQ5NyyhjbfqqL3G9Qf43mEyQJ99bU0xZKSRC299paVj4RnmwRc7Qz8zasDsepfWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz9t1756692493t00716bf8
+X-QQ-Originating-IP: 4hWyaNGsfTG/p5ecPAf++Im/XolX69MjIDgC8Pm9QiU=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 01 Sep 2025 10:08:11 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 17451087102426230808
+Date: Mon, 1 Sep 2025 10:08:11 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v9 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <384738E266C55C1A+20250901020811.GA21078@nic-Precision-5820-Tower>
+References: <20250828025547.568563-1-dong100@mucse.com>
+ <20250828025547.568563-5-dong100@mucse.com>
+ <d61dd41c-5700-483f-847a-a92000b8a925@lunn.ch>
+ <DB12A33105BC0233+20250829021254.GA904254@nic-Precision-5820-Tower>
+ <8a76222e-8da7-4499-981f-64660e377e1c@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/driver-api: Fix typo error in cxl
-To: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Gregory Price <gourry@gourry.net>,
- Alok Tiwari <alok.a.tiwari@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250819084116.13108-1-smokthar925@gmail.com>
- <87iki53gfb.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Moktar sellami <smokthar925@gmail.com>
-In-Reply-To: <87iki53gfb.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a76222e-8da7-4499-981f-64660e377e1c@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NkLA2q2LD229wshJrtN9PYJ1yPuxDSKIY4fbApA8Kr64XeR+MrKuCA8i
+	APafXAyKbnp8x/DwZXUgYDSCXsQPlf3kWJfVXWf/6mizZE5ui37ddNb1tqUrXrUVQiQ3yUu
+	98zcZ+Xf+71Aocf/hrUtCX0zMN8aTLRLxaxy1sA6taS4PfHEl1TY0pMISft/c4DAeHQcUBz
+	MQGisJWRrzpXPotfOTeVyr40VIeXQoKT6NsCmhyHxQUShOQQaSm8DtjiogaJnhpWBOAZFWh
+	IaMaeDehiTPVwzRffvrMvBcnwn2WdsuK5KvLZPu9Xxhvpf+bmLpgvPqicl1WhM8mzGt1Crd
+	E8BveBLvAQ+zJmXyUPtKCFgyOXVnhXy697xe4AXM2c/cqpEEzRkIZT3rT/0lprRSJZ3hGMP
+	+GoXFkI+0PMhSIhZzKJ+SWTJ7GEN+H/xxm0RoTrJPh9hQlHXuk3xA3leA/fI3897qVDNuym
+	3JAwFIK2sbo80t6GmOiXavi2ISnbLcQU0OkOuTYGkKnJOewC5XGyXyNiOVk9nQeVTfDejfi
+	+2EDr3WJrj/k1BccH2KKeT/eMp7YOO4WoPhKzPMiVErPFByt8LEbW2i/t+89qAfuOZ7EtnE
+	jcR3sbSDboUhvilQleS/LkNteBCg8sT86aowHzOi2kdPMBQlxszT4ueRiv1hB3f69K3Md62
+	TJwVc78voN0ykCq44L/sAz8XlA7qrhChkgwaar+MVzQ7hOueVJNUgoA0MqWivF/QkEJ2Tor
+	zEUTI6fHr5eGsbq1xXlTnpvmGxpvLIH1E0P7bH+qqjzq77WeohkUsmXTbUzd1XkTwxgxBXA
+	CVQ9xE2+Hvh1v/oparjaItivnAiYiil3zq9/zrwZQdBxwBnRJshUoDvtLccglULCI81G/4A
+	GkK0dM5/r3fqf7Xuz4G6tw58Nxx9/beCSTMyR/9idQx3P/qBNelZMDOVWVFWoRYpz5SbWyL
+	7GOabwhtB3jRyAPvAKPGn6/EcVB7D0BIRPohaHZEGNjfCa3+j2ZwT5VrzBt/b9sO6HHqUH+
+	ZLhUbYWBEZXeEjAQaWU3LybNPQY6o=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
+On Fri, Aug 29, 2025 at 09:48:12PM +0200, Andrew Lunn wrote:
+> > Maybe I should rename it like this?
+> > 
+> > /**
+> >  * mucse_mbx_sync_fw_by_get_capability - Try to sync driver and fw
+> >  * @hw: pointer to the HW structure
+> >  *
+> >  * mucse_mbx_sync_fw_by_get_capability tries to sync driver and fw
+> >  * by get capabitiy mbx cmd. Many retrys will do if it is failed.
+> >  *
+> >  * Return: 0 on success, negative errno on failure
+> >  **/
+> > int mucse_mbx_sync_fw_by_get_capability(struct mucse_hw *hw)
+> > {
+> > 	struct hw_abilities ability = {};
+> > 	int try_cnt = 3;
+> > 	int err;
+> > 	/* It is called once in probe, if failed nothing
+> > 	 * (register network) todo. Try more times to get driver
+> > 	 * and firmware in sync.
+> > 	 */
+> > 	do {
+> > 		err = mucse_fw_get_capability(hw, &ability);
+> > 		if (err)
+> > 			continue;
+> > 		break;
+> > 	} while (try_cnt--);
+> > 
+> > 	if (!err)
+> > 		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
+> > 	return err;
+> > }
+> 
+> Why so much resistance to a NOP or firmware version, something which
+> is not that important? Why do you want to combine getting sync and
+> getting the capabilities?
+> 
 
-On 8/29/25 23:35, Jonathan Corbet wrote:
-> Moktar SELLAMI <smokthar925@gmail.com> writes:
->
->> Fixed Typo in the driver-api/cxl/devices/devices.rst
->>
->> functionalty -> functionality
->>
->> Signed-off-by: Moktar SELLAMI <smokthar925@gmail.com>
->> ---
->>   Documentation/driver-api/cxl/devices/device-types.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
->> index 923f5d89bc04..7f69dfa4509b 100644
->> --- a/Documentation/driver-api/cxl/devices/device-types.rst
->> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
->> @@ -22,7 +22,7 @@ The basic interaction protocol, similar to PCIe configuration mechanisms.
->>   Typically used for initialization, configuration, and I/O access for anything
->>   other than memory (CXL.mem) or cache (CXL.cache) operations.
->>   
->> -The Linux CXL driver exposes access to .io functionalty via the various sysfs
->> +The Linux CXL driver exposes access to .io functionality via the various sysfs
->>   interfaces and /dev/cxl/ devices (which exposes direct access to device
->>   mailboxes).
-> This one was fixed a while back, so this patch is not needed.  It is
-> always a good idea to check linux-next when considering changes of this
-> type.
->
-> Thanks,
->
-> jon
+But firmware not offer a NOP command.
+(https://lore.kernel.org/netdev/8989E7A85A9468B0+20250825013053.GA2006401@nic-Precision-5820-Tower/) 
 
-Thank you for the clarification and for pointing me to linux-next. i 
-will try to come up with an other patch thank u.
+I will rename it like 'mucse_mbx_sync_fw', and rename opcode
+'GET_PHY_ABILITY = 0x0601' to 'SYNC_FW = 0x0601'.
 
-Moktar
+> > fw reduce working frequency to save power if no driver is probed to this
+> > chip. And fw change frequency to normal after recieve insmod mbx cmd.
+> 
+> So why is this called ifinsmod? Why not power save? If you had called
+> this power save, i would not of questioned what this does, it is
+> pretty obvious, and other drivers probably have something
+> similar. Some drivers probably have something like open/close, which
+> do similar things. Again, i would not of asked. By not following what
+> other drivers are doing, you just cause problems for everybody.
 
+Sorry for it.
+
+> 
+> So please give this a new name. Not just the function, but also the
+> name of the firmware op and everything else to do with this. The
+> firmware does not care what the driver calls it, all it sees is a
+> binary message format, no names.
+> 
+> Please also go through your driver and look at all the other names. Do
+> they match what other drivers use. If not, you might want to rename
+> them, in order to get your code merged with a lot less back and forth
+> with reviewers.
+> 
+
+I see, I will check all names.
+
+> 	Andrew
+> 
+
+Thanks for you feedback.
 
