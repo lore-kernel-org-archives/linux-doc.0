@@ -1,87 +1,134 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952FD31197A;
-	Mon,  1 Sep 2025 12:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB5D326D77;
+	Mon,  1 Sep 2025 12:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756729476; cv=none; b=kd350lHke+/VXXB9oeunWvVGOo3RCbVC7yzDULSGnlFve/cqy+rBAMHJzEd8OvAR2VRQnGnNgNAG/vqCOhF/k0zjwkFuS1/4reY2to/4d1DUVEYlMBCIkiNn7dh8knS2TyXvpEfj1QeoL2k1C/ZixkzVWPQDsPGsOZY5b438y1s=
+	t=1756729598; cv=none; b=ES+Y+ct9YBRf1Q9JFrvRTWc5Px8ZTykdpX5aQP3X0GG5DxOfmnAgu97x2hJtU/fG67rwCtIPmJlKm547Z2sYEzNtbV8OoQ/DbVdYezsvCFoMoHlf7qyULe71lXsSCLvcVHs9eozHPJq7YSnDRyNfN3vZxXyIVuMcVWeJ2wiyOEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756729476; c=relaxed/simple;
-	bh=JL/8WhJDqZDZcUhtLpsOa9CfO2TM/nTblKJLHTLB7kk=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=koEKVsRfUXGG+AaGpANhTGwUZZpZw7Hkx39+2eEZuPz5WBjbdhB28CI3LysS9EVKZ31PSSH+/k5VSUxNAfEK2CcopAPyuMk/aNf/7lPZr5soOUjQsV3yFp+NIJP4l3Lv93lM8A70E1d1RUDjqLp/Zx9ScWz8SC+hJjdtZ46BRQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cFp2r6LJ6z5B13Z;
-	Mon, 01 Sep 2025 20:24:20 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 581COCTM095944;
-	Mon, 1 Sep 2025 20:24:12 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 1 Sep 2025 20:24:15 +0800 (CST)
-Date: Mon, 1 Sep 2025 20:24:15 +0800 (CST)
-X-Zmail-TransId: 2af968b5906fa09-a988e
-X-Mailer: Zmail v1.0
-Message-ID: <20250901202415061CsA3s6BAjQfijGxfZU_If@zte.com.cn>
-In-Reply-To: <202509012010265342J9_GMWSos_c0nszWwdsj@zte.com.cn>
-References: 202509012010265342J9_GMWSos_c0nszWwdsj@zte.com.cn
+	s=arc-20240116; t=1756729598; c=relaxed/simple;
+	bh=QYvjdEo8hDeG/svNSeSFatsIp0UAHlu3ckbDaTUk3E8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YR6C4ZK0OpP+gXp0OexW18TiB55km9EreL/ZkZdSemjnQpKzxh9EZTf5f8GHdpMGre/ZYpYFzfDyxZ5hbMvABDidOt0Y5OS6eFq87Zuu1cO7EkruOMPiAk8g6gNFoNcG+P8SfzvmBL5YIUCrhr2WSUzfsXAvpbU5uUC+Hpb93Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jdYkh1nG; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jdYkh1nG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756729597; x=1788265597;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=QYvjdEo8hDeG/svNSeSFatsIp0UAHlu3ckbDaTUk3E8=;
+  b=jdYkh1nGHuuPWoUWCmbP8dPJ8AfvhhtXZvKxg28h6y6oRHM5TdLlpdru
+   +KM9XnSktrk4eOUZzxBQsQDFmY9+3ZubUEfwbzf8XIzBf6N/m8B2yiX/U
+   02G4Gg0VuPYhc9eKMXGN9hAC5i7izZZqc1jR0n1O1AF5RW3e7uHUzxb6U
+   t2svgtDwtbqEI9ZZ0DSTvCG7B6wVh7C2hkZdg+gw/kRy9k4jMNbD4pk9b
+   uysP3jjP/Mj+H9ZWKskKR2nSP3adzDkz1Be/j0bpU4/LJDxqK6eESbjB8
+   /Y+1Z5PaqMyjGMQEkV6RXbSLnKhIBqa7BkMRnUI9dNli5BA72csxTiX4d
+   w==;
+X-CSE-ConnectionGUID: IGUxm2kiTTelov4VSHO7tg==
+X-CSE-MsgGUID: b7HMsgMgRVOxoWb5qY1fMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="69252299"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="69252299"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:26:36 -0700
+X-CSE-ConnectionGUID: Uk/nFCx8TjGNJhhPtXJhOQ==
+X-CSE-MsgGUID: vFf83oKEQ7axVEkYuNt30A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="171177078"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.245.246.162])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:26:32 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-cxl@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ALOK TIWARI <alok.a.tiwari@oracle.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject:
+ Re: [PATCH v4] cxl: docs/driver-api/conventions resolve conflicts between
+ CFMWS, LMH, Decoders
+Date: Mon, 01 Sep 2025 14:26:27 +0200
+Message-ID: <6403027.OV4Wx5bFTl@fdefranc-mobl3>
+In-Reply-To: <aK9pUhETnNgs-7UG@gourry-fedora-PF4VCD3F>
+References:
+ <20250820150655.1170975-1-fabio.m.de.francesco@linux.intel.com>
+ <aK9pUhETnNgs-7UG@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <fan.yu9@zte.com.cn>
-Cc: <akpm@linux-foundation.org>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eC1uZXh0XSB0b29scy9nZXRkZWxheXM6IGZpeCBmb3JtYXR0aW5nIGVycm9y?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 581COCTM095944
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.132 unknown Mon, 01 Sep 2025 20:24:20 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68B59074.003/4cFp2r6LJ6z5B13Z
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
->From: Fan Yu <fan.yu9@zte.com.cn>
->
->Add a missing space in err() function call for consistency.
->The change improves consistency with the codebase style
->and enhances readability.
->
->Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
->---
->tools/accounting/getdelays.c | 2 +-
->1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
->index 21cb3c3d1331..0c721efafab9 100644
->--- a/tools/accounting/getdelays.c
->+++ b/tools/accounting/getdelays.c
->@@ -570,7 +570,7 @@ int main(int argc, char *argv[])
->task_context_switch_counts((struct taskstats *) NLA_DATA(na));
->if (fd) {
->if (write(fd, NLA_DATA(na), na->nla_len) < 0) {
->- err(1,"write error\n");
->+ err(1, "write error\n");
->}
->}
->if (!loop)
+On Wednesday, August 27, 2025 10:23:46=E2=80=AFPM Central European Summer T=
+ime Gregory Price wrote:
+> On Wed, Aug 20, 2025 at 05:06:39PM +0200, Fabio M. De Francesco wrote:
+> > +
+> > +E.g, a real x86 platform with two CFMWS, 384 GB total memory, and LMH
+> > +starting at 2 GB:
+> > +
+> > +Window | CFMWS Base | CFMWS Size | HDM Decoder Base | HDM Decoder Size=
+ | Ways | Granularity
+> > +  0    |   0 GB     |     2 GB   |      0 GB        |       3 GB      =
+ |  12  |    256
+> > +  1    |   4 GB     |   380 GB   |      0 GB        |     380 GB      =
+ |  12  |    256
+> > +
+>=20
+> This may be a dumb question, but... how is validation supposed to work?
+>=20
+> Like in theory according to the above something like the following would
+> also be valid:
+>=20
+> Window | CFMWS Base | CFMWS Size | HDM Decoder Base | HDM Decoder Size
+>   0    |   4 GB     |   380 GB   |      2 GB        |     382 GB     =20
+>=20
+I'm sorry, it seems that a mistake with copy/pasting I made has led you to=
+=20
+hypothesize a case that is out of scope of this document.
 
-Reviewed-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+A case like the one you described will still lead the CXL driver to fail.
 
-Thanks
-Yaxin
+Please refer to my reply to Robert and to an old email from Dan.[1][2]
+
+Thanks,
+
+=46abio
+
+[1] https://lore.kernel.org/linux-cxl/4179950.vuYhMxLoTh@fdefranc-mobl3/
+[2] https://lore.kernel.org/linux-cxl/67ec4d61c3fd6_288d2947b@dwillia2-xfh.=
+jf.intel.com.notmuch/
+>
+> (ignoring ways/granularity, i didn't adjust those).
+>=20
+> The entirety of the CFMWS would be contained within the HDM decoder, but
+> with carve-outs on either end.  This would be "allowed" according to the
+> logic here.
+>=20
+> This would effectively allow all HDM decoder base/size values to be valid
+> as long as one CFMWS is contained entirely within it.
+>=20
+> As a result, wouldn't it then also be valid to have an HDM Decoder cover
+> more than one CFMWS range (two full CFMWS described by a single HDM
+> decoder).
+>=20
+> That seems like it could cause issues.
+>=20
+> ~Gregory
+>=20
+>=20
+
+
+
+
