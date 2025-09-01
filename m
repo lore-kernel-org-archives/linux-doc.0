@@ -1,186 +1,158 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E155D1FA272;
-	Mon,  1 Sep 2025 06:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756708061; cv=fail; b=DkQlbqhemeoquayW/yA2A4zWu++Zn+Rt5OxQwnT2TOP5DYLMk+idHAiNxIpNNZvITRpXsVjwjhQBGxNGQ+HHnmqYD2FsZ8L6qVkJrGQn4uyhe8hlabln6uUpqMg3ccllRq1VjMxe2MhgxpxIT+CBM7n9YMXhf6fQnq/AXwyIAMo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756708061; c=relaxed/simple;
-	bh=wBCXgKh4If/TtqzdUc2L2LBvha3OPXEdAGyNf9ayUDo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Tgmx3Oac7urCRKZijaXXQ6OEsiplZSbL8fRCdvVSeH4vCSVj73Eb2ps4VhMcTow62Do3qEUuf0z0X0XRIlL+AzmVlSuSEkx2UGLuLTFugP8ICfqj0Czi6LkVxNloBDsrSxc9bJr26n6hmXK43EFIfLBHa0WUrrkr/M3RVaMgSaM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tXrh8fE4; arc=fail smtp.client-ip=40.107.94.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tXrh8fE4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vYtkEsEWVlHc7nOxxGsRfrY4IEL8YWXI2FGQb3VQI1opoTCCq1S/R2MF0JI5I8wMOjEnG8KpK6DQN8iUtvw92n3RiQ3B1ABiAzdf9xTLiQ1txdS9xGEDeccRtxx/3GdjJkjklB3waV5lkHEvcQk74sL5kNaDnj8YFiL2xBxQIVCynQtzuyS3rTuRGNbFhQUj0hAOzGq7d77xOkZgXTFyJia7exsTxRDrUao5ffRLt/6Zzhvvip0xitOn/iya1/3nArwjeftQ1CZtcI/WzCfyj6Rz+ZeIVSB9zsx8D6X1dq+f5if0bA0PImra4eexHpzm30PaG/hXpOxSAsusParExg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=woLR5gfLmDYgS6WO+yyL3uMad7VFcpQA6bxS0NIpxVE=;
- b=ZBIG6z2DWh6iL9fHs6igvQe2wz/2ApQB2gUlQWPIMqcAvduEJGC8rB4FNOJ/BwTTQvtRIMbAJkW2t/kqBsgoVM90JjTJhVb+I1dDQxkIB2ZhQc0nNUpnph4D38YpFLXgU38u6ze+EFty8mvOKugUpswE6hg0/pp93ZkUYD9eTelx4pMP7v7JmZvVR5q40b7jHlkTss7sKHPBeoPHTjB3c9ZJxLzdG/lUNg9DOXR4LJafmHPtWDaaPWlzuOlqbuVIrSHi5+5TKZOpIZFALSqOPyiAgzkaUjxNNjRr1/biqByWB15xxfOTvrz3zxqasE4cEWyuFbDykoRpBm2Z4Zd0/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=woLR5gfLmDYgS6WO+yyL3uMad7VFcpQA6bxS0NIpxVE=;
- b=tXrh8fE4ACs0kOHfjfEYNJYmF/3C7e4bYeH0u4lCOob+llTcu4zlBDw8emc4PK+ovEsbLntRzOBek88QLaRhpgrtt/3yG8ju5+gXkaHklPvDkMt0p+PMu81X8oCbpRpVPK7DtT89DkF9bVF2bXD9Byxe8r0dsN6aDk9xQbEKQlY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
- by SA5PPFDC35F96D4.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8e5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.21; Mon, 1 Sep
- 2025 06:27:37 +0000
-Received: from PH7PR12MB9066.namprd12.prod.outlook.com
- ([fe80::954d:ca3a:4eac:213f]) by PH7PR12MB9066.namprd12.prod.outlook.com
- ([fe80::954d:ca3a:4eac:213f%4]) with mapi id 15.20.8989.018; Mon, 1 Sep 2025
- 06:27:37 +0000
-Message-ID: <d829c4ee-f16c-6cfa-afdc-05f4b981ac02@amd.com>
-Date: Mon, 1 Sep 2025 11:57:21 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v5 00/14] Introduce AMD Pensando RDMA driver
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, kuba@kernel.org
-Cc: brett.creeley@amd.com, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, corbet@lwn.net, leon@kernel.org, andrew+netdev@lunn.ch,
- sln@onemain.com, allen.hubbe@amd.com, nikhil.agarwal@amd.com,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250814053900.1452408-1-abhijit.gangurde@amd.com>
- <20250826155226.GB2134666@nvidia.com>
-From: Abhijit Gangurde <abhijit.gangurde@amd.com>
-In-Reply-To: <20250826155226.GB2134666@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4PR01CA0012.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:272::15) To PH7PR12MB9066.namprd12.prod.outlook.com
- (2603:10b6:510:1f6::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E47225EF90;
+	Mon,  1 Sep 2025 07:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756711696; cv=none; b=C8PfwMJ2R7lAweE6fWy7u+pt/OWPUvvZbQTHoRA3jbZ6k7R3aqhE6OYhPk0OLo3iRCtF5/FOXsnJsUfxG5/iU/uqmAEcR9GSRPBhawVAKb+3DaBV3JRW+JFJ1ztyz8gzKkDZoJYDGFiDuxvMFEJY26lQXzhKwsps8DD2AIGuDfI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756711696; c=relaxed/simple;
+	bh=WyutN1HMzH6FqcyA5Uczxnbny4elJi/VmjabBQ7hCrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sxs2twaKZ6aNg82oW8CvA6hkhZk0aMHgKr6plpFNajZysXYK0cc/+33FA+EvMLd7S2/22p1EjDMjH9vBofxG7pARFtTGE+ugrhnWxKMspEyaPNYcaNlg29xxdO0dC/ZQdeW+xNfS2zVyxuMLxKD8zU8lWYGgdUJdCEfHwHE+hfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz3t1756711656t10c6e8e3
+X-QQ-Originating-IP: tVzeneQbHbBEPf+soc/iSUCyWo18TqE9wsu93lYtbdM=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 01 Sep 2025 15:27:34 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 16594855159721192274
+Date: Mon, 1 Sep 2025 15:27:34 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v9 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <1D189F224F826D6C+20250901072734.GA43225@nic-Precision-5820-Tower>
+References: <20250828025547.568563-1-dong100@mucse.com>
+ <20250828025547.568563-5-dong100@mucse.com>
+ <d61dd41c-5700-483f-847a-a92000b8a925@lunn.ch>
+ <DB12A33105BC0233+20250829021254.GA904254@nic-Precision-5820-Tower>
+ <8a76222e-8da7-4499-981f-64660e377e1c@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB9066:EE_|SA5PPFDC35F96D4:EE_
-X-MS-Office365-Filtering-Correlation-Id: 834fca12-5583-4b57-dd1f-08dde920a49b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?N0xON2w5blNUaUFQRDFGNG1CRVJWZzBaR1pxWURZdG4vWHZYMWoxMFM3L2ZU?=
- =?utf-8?B?TkxjNXZ0SFFhNnpYdTZkeXdEQTJEMFo3Q1FYZjRwVmJtNTFjWmRKUWNKcUcz?=
- =?utf-8?B?bW9zaXVOMm85T3kycWRhSGRJcUgrOWJkL1NLQW9wazhSemNFbDdEelFBd2lq?=
- =?utf-8?B?czc4cFpSMDZnYTJ3TmdvaUtrWnUvbnBzSkRvTVFxSm54QlVsOEt5NDRYclov?=
- =?utf-8?B?NW0veXdoUHRRVzFHaklaaFJDVTNsb05PQjBGcWpUMUVKRFl0YmtwOHphN3FJ?=
- =?utf-8?B?UEYrbDZHWWdkei91V1J5MEt0SEl4SnZoYzVZcVAxOGNkRWMwb2Q4cTJGd2Vr?=
- =?utf-8?B?ZWFUQTJhOUFidkZLeHVEL2lmSG5yOVpNTG52RWZiak05KzNPVWFwS2FSOHpa?=
- =?utf-8?B?UVpqWGdmNkNXRW5GOUpUTkNmblQ1TUxNVnpXeDV3Uk5BK1V0VjM3bXJjUU00?=
- =?utf-8?B?R0E3aUtLalBmN1gyZWFVQmV3NzNuajlGY3I4bkpQOVliaUE1YVIyWUErS0ly?=
- =?utf-8?B?eWlreGIvQURJVHU4aDZXZzhId3Z5TW84MWQ0YUNsbklCZHcyTklFUEZWWlZ4?=
- =?utf-8?B?QjhZcHU1N2w3UHFjRWhpNkdtemlTUWtkZGJiWDFlOU0zWWQxelIzd1Y2ckZN?=
- =?utf-8?B?dm94c0RCMkFhdTIrTFFTQWZKbC8xQ3Y1UndtMGtmbmtCbWlHMGhvVDNFT0Zn?=
- =?utf-8?B?MVA3TDkwRzZsZDd5T0VHK2VialRocEdYdFFpYUdoOWhMdlNkejNRc3NsUVov?=
- =?utf-8?B?TWIrSkZPdHVrRFJEcFpmdFoxWGNNUmtIbEtDcGZmbUEyd0FDd2hRMW1ObzlJ?=
- =?utf-8?B?UWZpRGU3ZWgwWEgweW1OQW9LQUE3VWJSMU04cndGcU5ZbG51MExqdXkvR2Nn?=
- =?utf-8?B?aXUxSnBTMUJMaGF1clFsYXZUUUlHa0JONkNvODFkU1FHWm1XRjlsWFRqaUZh?=
- =?utf-8?B?QUY0QVZZTTdMY01qU3dkUkJORHo4dFMvazd0ZTIxSSs0Zy8vTnA1bkw1djJQ?=
- =?utf-8?B?bjF3REhteUc4Z05xWHBtTzQ4N3Ryc2hVdEhYRFF0SVkwRXBqSEtpWmxVWmRq?=
- =?utf-8?B?ekx5Z3FseDdmR3dyZ0R6YkhXc3BtRCtUb0ZOL3I1dDNreXUwcGxyVlJiRkRh?=
- =?utf-8?B?eGF5dEoxV1dWaFo1cFZZNkdNS1p4b0RjTVJPWEZlbzB0cW1WWnR3S0hSVGpU?=
- =?utf-8?B?SVFyK1FhbTJmVDU4c0RWempjQkZlS3ZJNnlHWmkrLzNERGdtQzNtdElVbG80?=
- =?utf-8?B?OEE4UnhUa0x5cmlxc0ovWS80WFZ6UXkzRHRHOHdzRVpFKzNjYjV6MXFPWktY?=
- =?utf-8?B?S3g1UWJWdStaMHJZNGI4UWFYVWZURC9JazRBYWZnTVBBZmpsclZwZXVZZ01V?=
- =?utf-8?B?ek5OcERDRXRHdDR4NDBuWmVxRHZlWklsdUk1TllHQkJCWXRHaVNtbk9SZm41?=
- =?utf-8?B?NHJMR1dhM0l2ejcyTTlpSmRhUk5La09kZ1V3WHBqeUY4OEpmSGhrSVh0Q0Rp?=
- =?utf-8?B?TjFSSzROM3BBZDQ3aFZ4ZDFZQ0Nhcnc2eEQwaktHclhKeldSdmlPQ0o1eWJn?=
- =?utf-8?B?d2xTdjN4UzVra2czQTJ1a0ZmMUUrSjU3TUlJVFRiT09OWDZhZUJjSUdOa29j?=
- =?utf-8?B?aGU3N0lkQjVObUQ2a0UzUzRzeWdZOThoK1dYVXRNeWVHaUhBQkdvZStqM201?=
- =?utf-8?B?ZVI1d3VKTWx1QW9YSlMwRkx0S2VPbVZrcDJNWTg5MCtFdDhyQ0RzNGRabG9r?=
- =?utf-8?B?dzVQRmdvUElSMjdsdk51MEw3MldrcUREVFdrUktId1B6aVgwY2tCUVlUcEhh?=
- =?utf-8?B?Q1VFa3BnZ3lveDdmeGpGNTlSRUkxc2ljMGFlYWwrL1lzNjExUTBrdWNnQXRV?=
- =?utf-8?B?bGNkZXBTbWNML2gydi92K3JyN2N6bkt5MVgxRGxCaDBBRytyNmNqWVlhenVG?=
- =?utf-8?Q?VZ63nO7eAwI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB9066.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?czUrbGdTRmcwY2IwbnVCMllwRlNyb1MyTlhob0o5T1NkVnlkWlV3Wnkybk5q?=
- =?utf-8?B?b0h3TllOMlpLMnJCL09JbGY2SUkva2pSaEZKbkRmeGFQM045RlltU1NpVCtZ?=
- =?utf-8?B?d2Nqa2ZZdmJaMWNGcE5ScTVXckc5RDZGWnBjRzU1NXQyOVVqSWFra1E1cExQ?=
- =?utf-8?B?L0wyem5YVDE4NEE5SlhmWExGVDQzSnpUMWJmeGhoZFlxQThZUlExYjVKRmdy?=
- =?utf-8?B?empnNmVSUWdoVUwwZWFodC9yUmpGZi92aVkyWWtaanpIQVdFZmpudlZnMkF6?=
- =?utf-8?B?UTkydXFBVVQ3eFJ2cVI0N2NCM0ZxbUl2Y1p6UkFCazVMVExnWHpXbmFheVlB?=
- =?utf-8?B?cjlBbVo3TWs1eWJaUFZ0bm9FRG9pOE9uNTExUkpuZWl5TCtZVWdWUmNkdVAy?=
- =?utf-8?B?OTd5U2ZKT2FGK2lreURhQXd4Um9LQnN5S05qbG5tNlFTYkZVUFVaT1hsZmdr?=
- =?utf-8?B?VHRycDAxWFdCaDRwb2Rkbkg2K3ZqNzRzNlNvdmh2cmlsYm9hcnJQL2NqTU1j?=
- =?utf-8?B?SEt0MGZCL3BnalpOVXJHYXc2L1hZaWNSVEh5cVZmVS9ENmlFZlV0YngzajhL?=
- =?utf-8?B?MkxTcSt0YURVQ2dqd3ZXZHkwUWdxUGE0Wi90aWxMSC8rMnBIUWRRcWVYcGVa?=
- =?utf-8?B?bHlrdFRkOXZsdlJsemVDNWhyeFhHYUpjZHgxK1VjK2RHYWhBNy82c1l1clkx?=
- =?utf-8?B?SUsxOCtrMUJZR25JOWNwdDZTSjRFR3Z0L0RHd0hxU05hcm43MHZCRkw1Z0Fk?=
- =?utf-8?B?MWJWUDhjc09YaDM2Qkg3TnVkcno0b0dTcWk3RkVRMGlCSkRrUThlVElMNVE1?=
- =?utf-8?B?cGg2VkN1d3U0SW1wK1hqdkhydnRhSGpRUXBZMjNBMU5hQnc0cWVWUWxsdmxO?=
- =?utf-8?B?Y0VoTWdTWjJiQlhCZUJGZDRhTFpDR1AyZzl1MHE4QmlyRlgwOS90TlJ4WXRt?=
- =?utf-8?B?SzJqcWx0WTNJMGRQbTNyVUxoNXRmdGtza09MNGZOVmY4Q2p5bDRiendzRXJw?=
- =?utf-8?B?c0hBb093Y2R5VktGcWdJVHZIT2hmZGs3SFN6ZXBGRUdqdEx3NGxDcDhWZjd1?=
- =?utf-8?B?bmVVK1hHd2ZQbG1Hdkkzd09qRmI3YnVEMkNaQUhZc3Nna1NDN0M4Wk1rTzYw?=
- =?utf-8?B?cmlUZmUveEM2VTdxd081alVNNE1tOFR6TkhDRUZpdUNOUTVCUGdndGpmZmZ6?=
- =?utf-8?B?VDNFaEFYUUo1SkNyK0RKZnFOSzY0OU9NcXR3L3VyQlZieFFTL2lDbGh4TnVV?=
- =?utf-8?B?SUNkYWxZT3pwS1B2RGlOVklDYlpEK1FCZ3ZWcTRiUVRiczZING9ZVndjSXJ4?=
- =?utf-8?B?QnJOUE8wZ3JncEpMNDBva1NMcklHRjI3VzhxeCtSS0VCMmhLWWhxZkU5bGF6?=
- =?utf-8?B?RmF5MG94VHJXcEhsTTkvakx0Mko1V01QcTBYOVVzSzdwQklYdzZxbkx1azZK?=
- =?utf-8?B?S28vVzliTS9SLzdHMm54OVEva3BIcVl1aUZTL0gxSjdPVnM2aGpVTGYvWlJQ?=
- =?utf-8?B?Q3VHOWFNdFUzdk5JVDN1UlphT2JyS0tIbEQxdFdnZjRqcXpmVy9oekZSQjVO?=
- =?utf-8?B?UzlaTjdud2ZNbG5NbTc3QWNQVDFLbnhHSXVZQlhYbXZFK2J0L1NtTVdwV0tB?=
- =?utf-8?B?YjdPblZFYkxOemVxMy9iR2V6WFNxZmgrTDlGb3ZNeU0yK3NzczYrRG1jVmZo?=
- =?utf-8?B?cjFySnRzZGF0ekhIN2RPTC9VU25hWjZmcG5DeGFtd2dlckJSa2pybm1rSzJt?=
- =?utf-8?B?TVU0aVE5akFwVlNJZXRucGpGazVPYW12dWNPNnBoRFJpTHlNV2loRmJTcUlz?=
- =?utf-8?B?VHErWGx5NStNYzVlM21XeEdhbFhMSDNVa2JGM0d5SWNxOEh0WFF6STJyVHd2?=
- =?utf-8?B?Snh0c2RoenY1T21aVVFiL3RmQ21mZDB4ejRQQWl5OEI2SVRBVXVTbnlxaHVa?=
- =?utf-8?B?K1Vxd3FuOGhSZ2Rsa0ZuQS9WUnZ5a1VXRU5tRVR6bUlDTkthbHRzOGpSeWJW?=
- =?utf-8?B?d1AreEoyaUFwdUpQT3hPNC9DTHRYaTY2dk5BT3VFK1d4NFFBdXBPQ2NlaWpr?=
- =?utf-8?B?VmtVaHowcXljZ1RTbStmWjRIVzZTYmwrZ1U0a3pUNURpRk9MQk9xTWZtb0JO?=
- =?utf-8?Q?k4wwvr+PculNMDTrufMo8g6Oz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 834fca12-5583-4b57-dd1f-08dde920a49b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB9066.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 06:27:37.4300
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7SQpn80+A5dbqj79FOqYto6vpqtzAbWqMT7qED19BdQ32bnGKWbBTQi5hsxjLl21WXjuTf2WeI2tVTsC1fj11g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFDC35F96D4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a76222e-8da7-4499-981f-64660e377e1c@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: ND3CPZxVFFQclkUGnDuw2Kh0ZWw17N34JtysW27CNosRZWpB3WoygoF0
+	XUMnI+h/kqWMZwI9roCBPx/RhTXqrNBZ2bNE7Qot0gDsJIo7NlrLHNk+/lcxsKsViR6rtQ8
+	nRMkWmG+TABfWXnrKtnB6woWfTqqY36jM9cCyz6yMzoalnWAXL6CUq24IU6Nu3+x4thmrDo
+	iJ6xe5QIouQoo7jLSkcVfj2j5YeNrBvc5eiTxKFyZa49n+mdxscG2kiggA0jkyT7Kc14WnO
+	G6rRCSb/LnVpNvjn2QX2U1yisQ1O3bWKMUvlfiD72m4beCZHByOTNt1vaC/Tb2I+72HaRiG
+	wLXzR1DE4y87hIRxAObMkWbbzTmnqZFk/9SzZtKVqZoKnByU5jgT6ViNwSTfKWz6IhHzN4r
+	TnWW4PHUTiUWaJlce8K22yPupzHS+M8+IHjR86mF6TQiA7gmEAmRIRQQdm1J3poWgdOyyBq
+	rASKm2S/YWFS1zSe/ogNkrPHFYbwxUK7GohHHM1GRZW0Clg9yDqc659demNA8f4u3xvVyJU
+	Vw/hquwPi3rMPjdI0lZHsQOBa3LgRFnZ3+ASNNY/Cnia/IMm9DCG2NSeimfrZSO5K9W7+Xf
+	hL4AYa/S7i3LIr+3V0N7JsoPEVwG4fT4W1LpSkVHZBfzK2DhgFjnGmU5XFnPOW3v33jutLP
+	I6Q0S1TB23qCyAuCi9Ep6H784sFOSrZ8irp3gQmTRY7A7SSC8PmH6y/2s3C3q7YlLZY4y4j
+	mZDOvBcrNHdJRq3ONcCunbqHNdCqcd9dUR9yqCiecVm/Yl58DfgG2z7fqR+SBevfIXNwyeF
+	Xg9mCDx8j895484qXxGEUoa0Klxqb6O+I4Ri6Lu5w6HlEwCBuPN8+Y8zhuBktnXm1dJMPJz
+	OSrDVGm51DyHA2kj7rkTP+YOg3rWrELJqA9/dw+3RE4wBFTwR8QuzyzeEW3oGMgz0Kd0i1K
+	S5mYt6K7wYm2ekOvOMfaFfWtIoqnVWLXxhMRNJC+7u7gVaSElVDJ+kZ3suHT8cWaHVH/T+k
+	44ETNtfg==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
+On Fri, Aug 29, 2025 at 09:48:12PM +0200, Andrew Lunn wrote:
+> > Maybe I should rename it like this?
+> > 
+> > /**
+> >  * mucse_mbx_sync_fw_by_get_capability - Try to sync driver and fw
+> >  * @hw: pointer to the HW structure
+> >  *
+> >  * mucse_mbx_sync_fw_by_get_capability tries to sync driver and fw
+> >  * by get capabitiy mbx cmd. Many retrys will do if it is failed.
+> >  *
+> >  * Return: 0 on success, negative errno on failure
+> >  **/
+> > int mucse_mbx_sync_fw_by_get_capability(struct mucse_hw *hw)
+> > {
+> > 	struct hw_abilities ability = {};
+> > 	int try_cnt = 3;
+> > 	int err;
+> > 	/* It is called once in probe, if failed nothing
+> > 	 * (register network) todo. Try more times to get driver
+> > 	 * and firmware in sync.
+> > 	 */
+> > 	do {
+> > 		err = mucse_fw_get_capability(hw, &ability);
+> > 		if (err)
+> > 			continue;
+> > 		break;
+> > 	} while (try_cnt--);
+> > 
+> > 	if (!err)
+> > 		hw->pfvfnum = le16_to_cpu(ability.pfnum) & GENMASK_U16(7, 0);
+> > 	return err;
+> > }
+> 
+> Why so much resistance to a NOP or firmware version, something which
+> is not that important? Why do you want to combine getting sync and
+> getting the capabilities?
+> 
+Maybe like this? 
+mucse_mbx_sync_fw is called in probe with try_cnt. 
+mucse_mbx_get_info is the same as old mucse_mbx_get_capability.
+One function one purpose, not combine two.
 
-On 8/26/25 21:22, Jason Gunthorpe wrote:
-> On Thu, Aug 14, 2025 at 11:08:46AM +0530, Abhijit Gangurde wrote:
->> This patchset introduces an RDMA driver for the AMD Pensando adapter.
->> An AMD Pensando Ethernet device with RDMA capabilities extends its
->> functionality through an auxiliary device.
-> It looks in pretty good enough shape now, what is your plan for
-> merging this?  Will you do a shared branch or do you just want to have
-> it all go through rdma? Is the netdev side ack'd?
->
-> Jason
+static int mucse_mbx_get_info(struct mucse_hw *hw)
+{
+        struct mbx_fw_cmd_reply reply = {};
+        struct mbx_fw_cmd_req req = {};
+        struct hw_info info = {};
+        int err;
 
-I'm happy for the patches to go through the RDMA tree.
+        build_get_fw_info_req(&req);
+        err = mucse_fw_send_cmd_wait(hw, &req, &reply);
+        if (!err) {
+                memcpy(&info, &reply.hw_info, sizeof(struct hw_info));
+                hw->pfvfnum = le16_to_cpu(info.pfnum) & GENMASK_U16(7, 0);
+        }
 
-Jakub, thank you for looking over the Ethernet side 
-earlier(https://lore.kernel.org/linux-rdma/20250625144433.351c7be4@kernel.org/#t). 
-Are you good with them being merged via the RDMA tree? For context, the 
-ethernet patches are getting applied on net-next, and there are no 
-further ethernet patches planned for this release.
+        return err;
+}
 
-Abhijit
+/**
+ * mucse_mbx_sync_fw - Try to sync with fw
+ * @hw: pointer to the HW structure
+ *
+ * mucse_mbx_sync_fw tries get sync to fw hw.
+ * It is only called in probe
+ *
+ * Return: 0 on success, negative errno on failure
+ **/
+int mucse_mbx_sync_fw(struct mucse_hw *hw)
+{
+        int try_cnt = 3;
+        int err;
 
+        do {
+                err = mucse_mbx_get_info(hw);
+                if (err == -ETIMEDOUT)
+                        continue;
+                break;
+        } while (try_cnt--);
 
+        return err;
+}
 
