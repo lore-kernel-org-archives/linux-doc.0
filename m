@@ -1,280 +1,315 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AD630F809;
-	Mon,  1 Sep 2025 10:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756723017; cv=fail; b=p+ZONDBLqcj6QUJXrJS3b5qO3J4sHqExCBqG+SJNLftgtGwwJVV8rqldQEgZDhCrqwg+YiYCLnA5Jd+h/vUmWwsF9qnKDIOjSF2nJBmJZGDtvX5zHqsOnzyU79TihrGAes4LfysJgc/mFBCx051x+EBNQWFrYBc1iXCaERsK+fA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756723017; c=relaxed/simple;
-	bh=L1T0kKvF0utv21EI6/xBtgXM7ZhIS+/9EqSNOFzxQtQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=SzY/3YsqfgF2pTFVex6uhEnrivN17VRhxv6u9sLm2SE1cy0P1G2oryzSIikz4HnKet57gzxOdSIG84fXF/KBDCx2YHKEwvHkKn0DM/UfSjmdk7LIyVWaquUMVjkiyLCqXlHCf2CkzqXgWBX6LOB4uttMI9YTk5tVBQ3DJkrvgYY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=et4Rb/Qv; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=dMftVWuH; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="et4Rb/Qv";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="dMftVWuH"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5815gN8x016488;
-	Mon, 1 Sep 2025 10:36:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=CRR5nrLQfNe35I79TzyWM/yuXW9sCFB+G+vCRX1mcdM=; b=
-	et4Rb/QvTgXXkwlJ6oINcvmG13/310u/JThPtVkOtd30IVPkWj2Pmli2VRlTwmRn
-	04Q3ZrE7BvuiFuoyNvWg20NH/eHuQmUq7RXH0L4Pa3JOl5sOC3m7/5JnyxE748gU
-	ofglTkVbXh4w91YIAlEbQz5UWUdP7hX5aJmoyt6sHRFfEYnTkpbDM6yAnmKt5Nl4
-	wDJ5oT3lTRAlboP9asf6om+3NhcYxBamkQaaDJ8bfFihsW/B+/EVaSdfGpEkxVq4
-	0a6UtA8wb250jTkeWzHYp0bpsnngU9AqnW0lZ+L50CZCHAemNGsWrjYxVo2hPoaI
-	N+LG19NFgQEH1he7OAHqnA==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48ushvt7k5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 01 Sep 2025 10:36:13 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5818TWbb026754;
-	Mon, 1 Sep 2025 10:36:12 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48v01m8p8x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 01 Sep 2025 10:36:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O2FdNMrmeepbqFCAw1FL9p/iNgK1P/pepzskti+9+Zg49kSqMakvVotemk79HTUs8ECs0udMTjeGsRSsJtGpcgGVUHXyLKg8guCzxQL5SH637GCiPATgBmv7N7U8dXka+GELjrd/fRpFAPZuQZBqc2XbxgUSz+t/piGZPuz/pRW+covjjwVpSXYzUS86jHUjjPykx0KB5hGX42qUP16kw8LS+j49pm5v6rSNYy2FrMTPXjPgxOZJ8vWuANrQkKSKIAFyp9JGrVzXkhJdFWV17uBVYx5JRd+RkQkZxWz0mnqgZjOkI8AgkU+NyYG2dbZG0C6JQsF3++UKgz4pwQOG5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CRR5nrLQfNe35I79TzyWM/yuXW9sCFB+G+vCRX1mcdM=;
- b=plN+dXN9v+Xybphv2mKDf1rO7E3ShrTAtOTsOTrLkciBgEVvhADgdMwZJOMsL5TTcgbJIew2Jk4KPfsmCslYasx8ii8lQOtffbUyREQ8oXvPgpp3eqF3PJihk6xCWttodViX2yD29RDgLeLKMET5ZSykShrB9QNfukacceCah1++j6A+9ywhS9JGIy6h5ripV4Ex04LZ73vygvCUGpKsYTHGCCJTCPcasJRTXXkjExWkGyAadwIB2GJ8YhusCCSYfJffFhEe0wNNv5DQKZWymLd9laK/EaWfEEhQ5TM1JAlR8ujrQu+YSTLFssxMtOB+0ZEkZrUy199DbjFYlefTCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CRR5nrLQfNe35I79TzyWM/yuXW9sCFB+G+vCRX1mcdM=;
- b=dMftVWuHxeAo1x5h1cXkEqDoRAKIkYEBAmCnFK0QrDmQRADvm2spVJ7Xaq/DMuordsZ1YNq3QHY9PbjjHn+mo2zC3nhtrzPPXyANEvVcrc7CvDHbeQYdPGMgtZtfl+OLpBmucz5F5/wHr9g3GJIFTQ1FzO+lkDySEmiOFILT5hU=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by DS4PPFEE36F3C1F.namprd10.prod.outlook.com (2603:10b6:f:fc00::d56) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.25; Mon, 1 Sep
- 2025 10:36:09 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Mon, 1 Sep 2025
- 10:36:08 +0000
-Date: Mon, 1 Sep 2025 11:36:05 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com,
-        baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-        npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-        hannes@cmpxchg.org, usamaarif642@gmail.com,
-        gutierrez.asier@huawei-partners.com, willy@infradead.org,
-        ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net,
-        bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 mm-new 04/10] bpf: mark vma->vm_mm as trusted
-Message-ID: <9179bcd4-db43-451e-a4b7-77eb5b32d097@lucifer.local>
-References: <20250826071948.2618-1-laoar.shao@gmail.com>
- <20250826071948.2618-5-laoar.shao@gmail.com>
- <bca7698c-7617-4584-afaa-4c3d2c971a79@lucifer.local>
- <CALOAHbDxxN8CsGwAWQU4XRkG8NvU-chbiDv=oKW0mADSf1vaiQ@mail.gmail.com>
- <b335afe9-be7a-46bb-bf92-37abf806d164@lucifer.local>
- <CALOAHbApv0Sj25La7EQZg7UBxfvkfMXpGPtNrYKABSYpNV6ORA@mail.gmail.com>
- <a4d0857f-1520-49a2-a717-3e74325f2d6f@lucifer.local>
- <CALOAHbBaC2sd578CCT_15R64P75MAtYopm+pDrRqmOJpaOB-Dg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALOAHbBaC2sd578CCT_15R64P75MAtYopm+pDrRqmOJpaOB-Dg@mail.gmail.com>
-X-ClientProxiedBy: MM0P280CA0024.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:a::13) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F02800;
+	Mon,  1 Sep 2025 10:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756723591; cv=none; b=j3YjbzTmxorHN3j+G/983bdK/eDgr0DRBAKbyl+tu0YFmITTkrmlRngd33PQfKW3I2Rl3RCtgPNbfFsh4WktmH9mAq1DhmzJAf83blQyBPktBelZEBBC2KiVo8shZ3ptNvt2BNcMxV6YwRiJgYkIKq883H+1skUo5m5vUqhAgoI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756723591; c=relaxed/simple;
+	bh=/8zi6syNNz/tnDn9Pc873se3kPU3UevmJp8dYso4vjQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s2I3GUdAV6wZyc++jwkx3MasbtbtsS4oqIV4W1PJeI4QwdnS3/GAjKuxM4S5WYBvh9WSJWJEGjhw94jx/bWmlk7SEuHVcqbHvdgoHi3KM7g4O3JZ+BOZ9y4WTsmBi4+9ZNkPpwBUBt7t3XX9AcHYn+o81R20eHQ720Bb4ksed9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C99E16A3;
+	Mon,  1 Sep 2025 03:46:20 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E77023F6A8;
+	Mon,  1 Sep 2025 03:46:24 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	akpm@linux-foundation.org,
+	scott@os.amperecomputing.com,
+	jhubbard@nvidia.com,
+	pankaj.gupta@amd.com,
+	leitao@debian.org,
+	kaleshsingh@google.com,
+	maz@kernel.org,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	james.morse@arm.com,
+	ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io,
+	david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v6 0/2] introduce kasan.write_only option in hw-tags
+Date: Mon,  1 Sep 2025 11:46:21 +0100
+Message-Id: <20250901104623.402172-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DS4PPFEE36F3C1F:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5107cc67-6846-4178-5dc9-08dde9435ceb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Zy8zSmJ1T2QrQ216dEVFYlFUZGRSMTBOOWtqeVhod2YzeXFLN09pYkQycWph?=
- =?utf-8?B?Q3lKYTMrN2NBUnlpaDFUVWhnM3lqUTBZTmhJUEMwNitrQmtTZTJqOFNwYnhX?=
- =?utf-8?B?dnE0QkhyMUJGQ1VHOEhiRmJPRkV2Nys0eXFydG0zSVMxbC9mNmgvT0hmai93?=
- =?utf-8?B?S3ErQS90SC9xb1BMK2xtaFcyWlpTUHVoR3QvZWJnM25xcXJhc0hJVU5tMTA5?=
- =?utf-8?B?UlVXV0Q4T2NWcTZoU0VSWTFLcFZ1cjR3SVBOVXBQczA2Q0xZYzVqMFNncXVX?=
- =?utf-8?B?b3Q3MkNyNFJITnFaQ01iRlBKZk15NDhQenRlMXM2akFZb01HTDBIWEZuUTl0?=
- =?utf-8?B?bTBoN2JUR0RRN2RRUlZ6Y3N2NHpLQ0FPY3hLczBOZmNIL0grcVFrbXRyajNZ?=
- =?utf-8?B?RG5UZFQ3TStzdlhoRjg4a0FHRmtVbUlscjZJRmlPcFpXZWZlK3pFNldDNnFz?=
- =?utf-8?B?ZUtKU0x0Wk94bmx3Q3RpdW45d1poTk92YXE4eGZ3SEp5Z3FYeEs5V1BEK0hP?=
- =?utf-8?B?RUhnMjVDMGZmNHZHbkovL1B0YnVIWGZjT3FCb3ZGRFdvNU5wU1d2WjBCY21N?=
- =?utf-8?B?eUZmOStJSXBPOXpZZE9xbStxZmlsNHBlSDgvbS9CUVhxQkU0b21DYXo2dVRK?=
- =?utf-8?B?WUtrbkl3eERIOE9Bam8zN0JQMnlRNHVZUzNaY0FPaXZqaEdFV3VSYit2MlZa?=
- =?utf-8?B?MU9jRmM2VGU4aXh5N244dmRuMHowZytxMnV2NURlRDU3Tzh1QUlMVUl4NU91?=
- =?utf-8?B?UUJPNzRFcllSeEltZHNwT3RtVWtXTFlUTzZrU3F2OXBFWG9HUlFDRTJqTDVV?=
- =?utf-8?B?MjVKdmo2eFdhK0lzVkE2Ri9uL2N2VlN0RmxQWXhweXNyejZxayt1MGUrc0VD?=
- =?utf-8?B?WE0yUHpUQXBwV0MrVDhZeHR1bXUwbjVwdlAxcml4bnFxUkFqSEVxb2JIcGp0?=
- =?utf-8?B?RVNJSWRuRDliSFdKdFI4OUJTU1N6eTN3SHhWTUdnUTVldWFKMElkV3hYV0dy?=
- =?utf-8?B?a1l0ZThrSHJqMGxGbWdDSUdSczhXRHVYbGJwMkx0L0hBcVBLTlByanF3UDkr?=
- =?utf-8?B?cEo0SlRNVkZWcnhCZytoWHlmT2Z4aU51ZVd0NlNINy93REFUcnNXSUtaTUFi?=
- =?utf-8?B?ajJZMlVIOVZveXU4QkEvbmo2eHdpS3BmOUs1L3dJbnNUa1J2ODhTMG9MaSsx?=
- =?utf-8?B?UFhiQkFiRG53TmNReG9BbHdhalc1a0dtRFh4T0VkYUc5UDBudGhVYmw2R2t3?=
- =?utf-8?B?aUx3ZDkrL3oxZ1pOdm42NzN6OU5qcVJ2WHpzSDhWNUMydzZOVUJELzN4RjZq?=
- =?utf-8?B?bHBCYWthN3Vob3B3Uk5pczl1T0xqaGZPTU5lTmIrZ3hUQXpoTjNoUkUrT2xn?=
- =?utf-8?B?WXdha290b09GQ3hLUjliV2tEL1ordWNoWllPd212RWNkOFh3QVVWMXA5S0JM?=
- =?utf-8?B?S0lEbmVERjhLRUpCSERMSjdPTjJDSERpS2t4cU1JdXpWWmhyODB3M0F3Z3Jh?=
- =?utf-8?B?YXZ5SzJPQnU2Mm5wekNYRk83YVhHSGRwTThiREllY3dKOVdQMEZYa2xoblNZ?=
- =?utf-8?B?WkEwczhuYkVsRDI3UHpuODUrSGliT0lzU3E3UCs5aVFWbE9rTzQxUTlIUEhm?=
- =?utf-8?B?NjczVStZL05ZeGkvSkp6OE1BT2RFdG9hMSt5ME9hQy9yZU9tTmpzdEZSZEZz?=
- =?utf-8?B?OEhzQ2Q1WS9RV2tzc2dkYmtYa0E3OGdCUXUwaDU0R3FnRmt4UUU2SXhiaVYw?=
- =?utf-8?B?Q3FucE1aNGo5SWZPNG5Kb2xYOUl6bXhRU3o1ZjVYVktTQ2k3eFdFMGZzMFdP?=
- =?utf-8?B?SEtORDZZTmZKemNPcnE1N0g5V2xsZ2lyUUcvT0lMMG5LbFBqb3ZYTDNDaVpR?=
- =?utf-8?B?bU1WNmJVT3ZxVlBmalF0VCt5WEZVR2Vnd1NMQTcyTzRwOXVJRVdlSEZ3Y2Fp?=
- =?utf-8?Q?+BfwrVQ4MHg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V2VyVWZXODZwczZ6OStkd0xEbDQ5U0oyVFphdDhFelZHQi9YYU01Qy9OQUlC?=
- =?utf-8?B?aEJlbERxR1ZNODBtSTg1ZExwRlJtbjhVQng0UndRZnV3dkRPeEZ1a2hHSWc2?=
- =?utf-8?B?dHZwZENLak1yV3o0OHBUL3FLU0ZSQjZNWmE3a0R5TVF0bTY2ODhsR0hKQVNn?=
- =?utf-8?B?N1cwUWNUVHhjMVJ2eWl2aUQvb2N5bmNwR2pTd09tZHAwMkUvdnBhaW02bmhZ?=
- =?utf-8?B?UW9WU1c1QXo1R3lMV3YzMkVldzlPUWowRmpIYXh0SEJLSlFGcS9lZmlFU1Fq?=
- =?utf-8?B?OWVIRDNNUjJaYytrckQvdkJrSVVxTWN2Z1gzNE9qdU5QeTMzWVhNb0x6bjlL?=
- =?utf-8?B?enZxMWczM0g4UkxqWVFqdms1WHMxVFdFVWRtK2RuMGI3Y0hKZFNINjVPV2pK?=
- =?utf-8?B?VEZ0Vm5LZDNta014bU5vcnZEemdRckMzbjUxS3FqOURzdFZjQkxsWk5YVExR?=
- =?utf-8?B?SldsMlVMTjk1UnZkWjE5dE9CRStraFVub1NUa25vM2NoaUpoYnBZZVFWdDJU?=
- =?utf-8?B?N0FUWlVMaGM4YkdudEkvL2hiM2ZmdVAvQi91cFRkTC9BOE5NUGpUZ29lZjdE?=
- =?utf-8?B?SStxSVZrcmhaS0ZOaERGZERBQ2ZEQTJKTTQ2SEdVNHhmLzlKZUQ4OCtGMFpx?=
- =?utf-8?B?SkpMOW52SGpMektpNXF6dWZOM3ZjbFdHaWExMGFZUDRKR1FiVkRKWWZKRkVo?=
- =?utf-8?B?TWFwRnUyR3RrU0FYSUFjZVFBMVUwTEdSWjFWN1RVUklhYklvVVZGK21KeWlM?=
- =?utf-8?B?RFJ2eisxZ0FHRGZEdG9xbjZEL1dTZFE4UW1YK0h2Z3MxSWlGMWNDZWJrdjZW?=
- =?utf-8?B?WjVmcDg3RitFWjh1OGZxZWYwdnZrdkF0d0tFZkd6bzNVcDRBdzg3aERSNjJp?=
- =?utf-8?B?eFltcUZLQTl1Qjl3WEZ5M3RHRTYrMEIyYWd3SC9iSG1YM2lHV2N0bmtwSUYw?=
- =?utf-8?B?bkZqdTF5ODE4VllrYlkwMC9IMkJ6UkdHd0NZTC9DTHF4NkVycHFLY2ZQK3Q3?=
- =?utf-8?B?Q1FtNi9rdjJyTUlEamxRQVd0d1pkTFVJOStIM29JejNGVy9xNERCODRMYWpI?=
- =?utf-8?B?SnI5ajNpeHJNVVhuUTFjVGNSMEFlQnNINWRBWlJZYmlCbFpqMGVEcWpLaWc0?=
- =?utf-8?B?eWViNncxVjVtcnFIbWRIazVIVlNWTGRoS1MveVA2WFk3K0hROTQ3Z3Yxc2gw?=
- =?utf-8?B?K2VrbFl1T1pGNWZ3WlQwdS9hM1JIUlVUcjVJRDlqSGttSC9ocEVHTE5mQWVW?=
- =?utf-8?B?Q0RGZXYyWjNjQXR4OU5weUdtQkd6Qk1iTVdXY2JIOCtBcXFrOGRySHcvRk9D?=
- =?utf-8?B?VnpmOUc4VmMwU3laMmtleVA2cGV0R09RSDVGeFBzYmw2OTdhNWgyZy9SQk93?=
- =?utf-8?B?WkduVWZhaTVKalRsZFBtQUM4NVZMWXB2a3h1eXlxZU92ckc2ZmFMWFEzTDN3?=
- =?utf-8?B?a1NSZDZSRFlUZGlxZ2lYbVZLdFVOaVpDVzdnWkRKQmFscmNlY2YrQnI4NFZj?=
- =?utf-8?B?elBab3F6VXpkYTNyOHlwc01WdEh2c2paNWYxaG1sVTMvMzdkNzRrQndzTHBF?=
- =?utf-8?B?bkhla3BFbEpESVlrSDBhcVc2czEwUndaZkovczBGSWVKbHB0UUNVbVlMbklN?=
- =?utf-8?B?RFJWSzc3UVBMOUM3M3FQMjg2OFZISlhveVo3T1NCUFBudDZ2bHNhQXJxWE92?=
- =?utf-8?B?TisvVkpRR1hHZjVHZ1Z0aXA1Y01hRW5YOWtDMDB6LzM4VXg1MmxBMzU5Sk8z?=
- =?utf-8?B?aFhLV1dyajlhMmR5Q2x3MjA1alBMUG5GVE5WTmNlbzFhTXNOLzdBeXRrQ0hq?=
- =?utf-8?B?SS9zN3c3a2w4NHZNa01lNVl4aFYvYUpqaGJGSTRxVG5ZU2ljMkZRQVVmK1Iw?=
- =?utf-8?B?VFBwKzBZNjNiejJkNVR2eHBGSWthRTdkTmNrLzRBa1p2TnNVUkV4Wld4V281?=
- =?utf-8?B?Q29JT2x2Q0QveC9rV09qUnRld1FRZHBuWHgyMmFVaXJoWnU1NHo4aFZabWJa?=
- =?utf-8?B?YnVleENFNlpydkcyZ1FUNVNxL000QkdrVmNkZWVONHR6c1FPbllKK1JUcnBt?=
- =?utf-8?B?UnhpK2Uzb3MxZldxS1RSdFJERmRTVVFucXFjekltWjhmWHBQNHM4Q05ncXha?=
- =?utf-8?B?RmZBK0RNck9rNGFVaHVLQi9tUHU5YzZBYmQ0aFJmb1B5MjREdkNQSUdZVHZ0?=
- =?utf-8?B?S0E9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	Piu6i7HSYRLkBYp9xmrM7Wt7Og/SSeEoxHIx4XtrawnqQVKHQ9zBjcGuEI7xhIg4rUqt2/yPfuIpkujNWH4WGdwG4AQdjk/y8TGMva2qTVmbAJE623JzBSSAEXnL8yfjqDhW1dBARXXbgpGN103HoM0nPs7v3aHQfqrYsX1MiNKkksJRlngoMSjm4jKHzkhJXZY5OI44NET/qj5n8bhk4ndtBbMck+J6QaZVzx9XqUAypKzIO7XdVxTCcjjBRuz1LnmLz1FGMaLm0l2l0BPKDxoJmeeQ5fNnzw6eGYPAoeydze3oyHEWyS52OfH+FzBgcXa7J20QpuWfAASwxaVS0RHlpSsv0zn0w6mQTBbweE/BmBxWzXQoQM1+zu6A+NO5wodfeFcE+Oa8haiKQrW1wQo/Rj75fSqYEckX97HYcMcPYxqSyBxfk3vevT4hVEH7eTqguqoM/isxoBLhCDUZ2DC8J7q7bDbVypQf3WjLMURisRQNxaU4kPjWLGwp7Yab4Xza0TnGZzmOi2KxXNB7nLudiqJ8wcJ50C4qFxhqCnzHhdA30QSwxVhs7dFS3VZSOwERA9DV1gxS9rjDSdBf7jsB0Xd64oFSzytHZHV0U3E=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5107cc67-6846-4178-5dc9-08dde9435ceb
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 10:36:08.9249
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r+B6ioR06CLt/eumSnYDTCPqUdYw3vhu93p4QN0tj+NiVGTWzwWBWwvlXHEyE4kkico1Mlx+At676/MphUZmZQNQy6Fxjlz73XK9qPDVp9w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFEE36F3C1F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-01_05,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 bulkscore=0
- suspectscore=0 adultscore=0 mlxlogscore=796 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509010112
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX4PGuL8wZyhb5
- SqHoID9j5LB/mGISf0kFUOrJGTSTHg2KsjYMB0Lb0YOEpD19+fAzb01sOsdlS+7dU+fJdYubnKt
- WAWjq4+04VJBRM588anLoywnBT4Osq2UPiQRaMGVe+bC+xPb8UjWrMalx1Zqxt5X3oR7FnfpHKn
- LyIeeAJZ7zRSnURMLZ8tGkagehmYVswF8Sw0qxfdMIG4SHatK57hXZNIXcSsJMBEhpGl0Y+gMC1
- PWwtOcKDy35268hUYwxZQccRzwXg3Vl+HcG1j4ehOncl6ddY4sk/iFiLsqqh0/YyU8ExKXtGxEw
- nnvMmSDmQG0anRSKqQRqRVRUgAmVoSdG4obQVxc+OPazYsWKuhPuUVNWWEt6RxoT74PQc4UjgPX
- E5LANJMY
-X-Authority-Analysis: v=2.4 cv=fZaty1QF c=1 sm=1 tr=0 ts=68b5771d cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=r7DYRul_BLxhT-Vn5vwA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: vXiJbTGJktn_uKzgIUEL01hFrj0z1FcG
-X-Proofpoint-GUID: vXiJbTGJktn_uKzgIUEL01hFrj0z1FcG
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 31, 2025 at 11:16:27AM +0800, Yafang Shao wrote:
-> On Fri, Aug 29, 2025 at 6:49 PM Lorenzo Stoakes
-> <lorenzo.stoakes@oracle.com> wrote:
-> >
-> > On Fri, Aug 29, 2025 at 11:05:01AM +0800, Yafang Shao wrote:
-> > > On Thu, Aug 28, 2025 at 7:11 PM Lorenzo Stoakes
-> > > <lorenzo.stoakes@oracle.com> wrote:
-> > > >
-> > > > On Thu, Aug 28, 2025 at 02:12:12PM +0800, Yafang Shao wrote:
-> > > > > On Wed, Aug 27, 2025 at 11:46 PM Lorenzo Stoakes
-> > > > > <lorenzo.stoakes@oracle.com> wrote:
-> > > > > >
-> > > > > > On Tue, Aug 26, 2025 at 03:19:42PM +0800, Yafang Shao wrote:
-> > > > > > > Every VMA must have an associated mm_struct, and it is safe to access
-> > > > > >
-> > > > > > Err this isn't true? Pretty sure special VMAs don't have that set.
-> > > > >
-> > > > > I’m not aware of any VMA that doesn’t belong to an mm_struct. If there
-> > > > > is such a case, it would be helpful if you could point it out. In any
-> > > > > case, I’ll remove the VMA-related code in the next version since it’s
-> > > > > unnecessary.
-> > > >
-> > > > If you lok at get_vma_name() in fs/proc/task_mmu.c you'll see:
-> > > >
-> > > >         if (!vma->vm_mm) {
-> > > >                 *name = "[vdso]";
-> > > >                 return;
-> > > >         }
-> > > >
-> > > > So a VDSO will have this condition.
-> > > >
-> > > > I did a quick drgn()/printk() test and didn't see any, but maybe my system - but
-> > > > in any case this appears to be a valid situation that can arise, presumably
-> > > > because it's a VMA somehow shared with multiple mm's or something truly god
-> > > > awful like that :)
-> > >
-> > > Thanks for clarifying that.
-> >
-> > No problem! These weird edge cases are... weird and hugely confusing. I should
-> > document some of this somewhere, as it's at the moment more 'oh yeah I
-> > remember...' then having to dig through to figure it out.
-> >
-> > The "/dev/zero file-backed but actually anon if MAP_PRIVATE'd" is another fun
-> > unique case.
->
-> It would be immensely helpful if you could document these cases. We
-> truly appreciate your contribution and the time you've invested in
-> this.
+Hardware tag based KASAN is implemented using the Memory Tagging Extension
+(MTE) feature.
 
-Sure I will add to my TODOs :) I agree it's not great that we have these odd
-edge cases and do not document them clearly enough.
+MTE is built on top of the ARMv8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows software to access a 4-bit
+allocation tag for each 16-byte granule in the physical address space.
+A logical tag is derived from bits 59-56 of the virtual
+address used for the memory access. A CPU with MTE enabled will compare
+the logical tag against the allocation tag and potentially raise an
+tag check fault on mismatch, subject to system registers configuration.
 
-Will get to it :)
+Since ARMv8.9, FEAT_MTE_STORE_ONLY can be used to restrict raise of tag
+check fault on store operation only.
 
->
-> --
-> Regards
-> Yafang
+Using this feature (FEAT_MTE_STORE_ONLY), introduce KASAN write-only mode
+which restricts KASAN check write (store) operation only.
+This mode omits KASAN check for read (fetch/load) operation.
+Therefore, it might be used not only debugging purpose but also in
+normal environment.
 
-Thanks, Lorenzo
+This patch is based on v6.17-rc1.
+
+Patch History
+=============
+from v5 to v6:
+  - change macro name for KASAN kunit test.
+  - remove and restore useless line adding/removal.
+  - modify some comments on KASAN kunit test.
+  - https://lore.kernel.org/all/20250820071243.1567338-1-yeoreum.yun@arm.com/
+
+from v4 to v5:
+  - fix wrong allocation
+  - add small comments
+  - https://lore.kernel.org/all/20250818075051.996764-1-yeoreum.yun@arm.com/
+
+from v3 to v4:
+  - fix wrong condition
+  - https://lore.kernel.org/all/20250816110018.4055617-1-yeoreum.yun@arm.com/
+
+from v2 to v3:
+  - change MET_STORE_ONLY feature as BOOT_CPU_FEATURE
+  - change store_only to write_only
+  - move write_only setup into the place other option's setup place
+  - change static key of kasan_flag_write_only to static boolean.
+  - change macro KUNIT_EXPECT_KASAN_SUCCESS to KUNIT_EXPECT_KASAN_FAIL_READ.
+  - https://lore.kernel.org/all/20250813175335.3980268-1-yeoreum.yun@arm.com/
+
+from v1 to v2:
+  - change cryptic name -- stonly to store_only
+  - remove some TCF check with store which can make memory courruption.
+  - https://lore.kernel.org/all/20250811173626.1878783-1-yeoreum.yun@arm.com/
+
+
+Yeoreum Yun (2):
+  kasan/hw-tags: introduce kasan.write_only option
+  kasan: apply write-only mode in kasan kunit testcases
+
+ Documentation/dev-tools/kasan.rst  |   3 +
+ arch/arm64/include/asm/memory.h    |   1 +
+ arch/arm64/include/asm/mte-kasan.h |   6 +
+ arch/arm64/kernel/cpufeature.c     |   2 +-
+ arch/arm64/kernel/mte.c            |  18 +++
+ mm/kasan/hw_tags.c                 |  70 +++++++++-
+ mm/kasan/kasan.h                   |   7 +
+ mm/kasan/kasan_test_c.c            | 204 +++++++++++++++++++----------
+ 8 files changed, 239 insertions(+), 72 deletions(-)
+
+
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+prerequisite-patch-id: 136c6b02685560c44ec3344be9b716bdfbc5ffa2
+prerequisite-patch-id: 45bbbbf89a641d5daca648988d8e4d45de45db80
+prerequisite-patch-id: ea19c0e099daab02577ee2e86671417fc57d0b0d
+prerequisite-patch-id: 5adddd8cd6865b4d6a0b7d9e9085220e22723faa
+prerequisite-patch-id: d8471a1aaee960efa4fc41ca42068aef6730a8d9
+prerequisite-patch-id: 969950ee5ccabeb3df369142dfa97a4474788859
+prerequisite-patch-id: 21b91081876a36ecaa5547e1f251b2101ba97950
+prerequisite-patch-id: c04ce4ffe72ad15b8ab13e157d8b25d635f170a3
+prerequisite-patch-id: e8b79e0c052d28833e4f4c627d5365ef5299e617
+prerequisite-patch-id: 07b1a7e43f2c7f61c397ef4f6c5e12b0df3590e4
+prerequisite-patch-id: 2f420864ab40988d03c96c27ca5ba431efe2717f
+prerequisite-patch-id: eeac7cfc0249e5ac71f12e340277633cf4d7aabe
+prerequisite-patch-id: 6d190150e7f678ce654800a41800278dc2dd0bb3
+prerequisite-patch-id: cce369222a7cdd5f91d10c12cb3905107f6a7874
+prerequisite-patch-id: 290b18733f6fcbf5b0bcfc1a378d2cbf3d952669
+prerequisite-patch-id: c81d671f37e6465fe8ae0e5ce2e32aac8e3e5e10
+prerequisite-patch-id: 7f38f1b76708ea2b33e0bd7ebd334ae6d6f95b78
+prerequisite-patch-id: a730599474985e4e8f4e17a6f3521f7de687825e
+prerequisite-patch-id: 0af8e9b6d2985a1da4a220de34e1a37179fa1a2c
+prerequisite-patch-id: b4a83f3d74686eee187f25ca12ef75a0475fa2cf
+prerequisite-patch-id: d0e7e6d3485eed1b85fca8e12c6ef4118ccd8c2d
+prerequisite-patch-id: 8f1932d6d4892d06de0e6da0606fe94644d10b02
+prerequisite-patch-id: 8149f1ed55eda3d2f7ac70c71480c4694ce8c293
+prerequisite-patch-id: b244e6c6438bb637a9c2123d7875072a336dbf40
+prerequisite-patch-id: f3bb5cef44a4dbd16d314ac72674e87da9576031
+prerequisite-patch-id: e284957cded74a97be39563cc68771753f8ff560
+prerequisite-patch-id: 42fb46241a4969b46377fe372b107ecf84fdac65
+prerequisite-patch-id: 03ca449e3ef1e354bfca8dcfad1c1754992770f6
+prerequisite-patch-id: c784c79c432175b2b8f980b570604cb3839a1d0f
+prerequisite-patch-id: 6cf468fcd78d9f5566c848caa29c2e63279914c6
+prerequisite-patch-id: 9e4ccee8587702f2e0fe537c7072b9888a0c1aba
+prerequisite-patch-id: 1e44823aba4d29d8cf9c2d5c7659382cd4e9f578
+prerequisite-patch-id: 107f6ba7dd4b22e870d641670ed020cc3d783df2
+prerequisite-patch-id: 0bc6e19edcc18632ade69696a057a71f9169e90d
+prerequisite-patch-id: e776b9cf46afdc0c90293081a786144d21e4ec46
+prerequisite-patch-id: 18ff9ea0304a49a5e1bd200a723d8eb45c7c92f7
+prerequisite-patch-id: bd747f03cfe61caa1bda1caf594ef9f195d70a73
+prerequisite-patch-id: e5f37bb65433f4d290cde0a65c3cb46a5bd8f6b8
+prerequisite-patch-id: 230be9c059f823ea5c78d1b1da55fb18892a0f72
+prerequisite-patch-id: 150d0a767ab84dc9eb3c39bd7d63338e961b0233
+prerequisite-patch-id: 383116f4edc62f1ba03ffd10385aed7140b9971c
+prerequisite-patch-id: df971da9ff346719a80df1dbb0728ee35fa71ae4
+prerequisite-patch-id: e725511837cca1e7e5d04670885a52582aecdc39
+prerequisite-patch-id: 594e3fe39c37f00f20f48127ef02b4363ece1dcf
+prerequisite-patch-id: cba6439f7314aa62c188077a120ae56201660b16
+prerequisite-patch-id: 29df9f163c4dc8518a0b408b5972a8883b841dd1
+prerequisite-patch-id: 78667378d037d37076499b68e80393b0861512b3
+prerequisite-patch-id: c8af68f162f02af7d2090e3a20dfa95a68067fd7
+prerequisite-patch-id: ee1e3cef0df94dd93584110c9fa590baec1e951f
+prerequisite-patch-id: b75496be2f73ac73bd7e1f5de1ec25f395db9d1b
+prerequisite-patch-id: c1c008ad523d34fc5bcd3455a6b7b46a48a0372d
+prerequisite-patch-id: 13ac4ac649d2721cb1fa1a96c8680050b865de87
+prerequisite-patch-id: eb6c631b6f18d1d9666723b92e11e005009a5d92
+prerequisite-patch-id: 540bb74abf0680f0857eccb6d9507875923644a1
+prerequisite-patch-id: 27d953412b9416a0523eef0d45557db08edebad8
+prerequisite-patch-id: 28adf1a29676d8184b138f60a02e033435c44960
+prerequisite-patch-id: 7f67f3bf300491ea7852fbca10d7dcb0638c1771
+prerequisite-patch-id: 358ba438674c82a7998d68cca853f2828276a609
+prerequisite-patch-id: cadf6f28cef328a919572d8e0ab2ebc9ed2019e6
+prerequisite-patch-id: b1f40307c72f0a314c4184c2d45e0a8b4048f685
+prerequisite-patch-id: cf02be23717b54437918c80cfb663ddecb2d1483
+prerequisite-patch-id: c2153976ef7c54556abfc04cedf18eed300e4fd5
+prerequisite-patch-id: 7413f73a43098ff888f715c13747abb62f498770
+prerequisite-patch-id: 4285dc47a26a5152eaf515c2934cc0d1b7cc9d1d
+prerequisite-patch-id: 94032debade30f10dfb6a4021c1a41b49d4ea069
+prerequisite-patch-id: 1b0d245e4b8c568f4865a00e011d79d39adc1649
+prerequisite-patch-id: 33c3958dc29779f84a2858902043840169cc7de3
+prerequisite-patch-id: fbd86d03e31d738865d27b860bca951b283fdab5
+prerequisite-patch-id: c20b348d2820cdfe31d800efc950c22255bc22ad
+prerequisite-patch-id: 0a15397743a75a3a56017975501301d56963d771
+prerequisite-patch-id: 64dca2daa72ff52744f7e86623309e757e0f1c40
+prerequisite-patch-id: 34ae142eff624e64106ee0f594394e1600973e5d
+prerequisite-patch-id: 9b3c97d6537a7d6ebfee8e7a51057ae0bd6be479
+prerequisite-patch-id: 7ecc644ea8560552cf4cc12925de81b56fece04e
+prerequisite-patch-id: 800813b629a6e3d09d47076d898150cd73119c07
+prerequisite-patch-id: 745083490be7d6e249f24ff7574c2b8df9f37a1b
+prerequisite-patch-id: 878c0fbdc362b4fd5c943400b72f4f4ffe141a55
+prerequisite-patch-id: a8627b9e4e87a5fe2cb0d17125559d7be15910aa
+prerequisite-patch-id: caf32baaa38ad7ed80e4109fd853097b8bcc41c8
+prerequisite-patch-id: 48dbc4fefb04926762e09342b63eae52df44048f
+prerequisite-patch-id: e1fb352d09da8fa6ee3306d85af029a9a4be7ec8
+prerequisite-patch-id: e7a5b69d0283bfcb4e2901f64d8834ff5361f126
+prerequisite-patch-id: 04712cd6067166048944e741e8f93e018904ac56
+prerequisite-patch-id: f15d057c5ca21a05f7a205a6519d58ea1f592d7d
+prerequisite-patch-id: 7476f8cd099b5fab7a0f6c76a378e2d50066be0b
+prerequisite-patch-id: 38f0c6aa4dd53f308b4c211d7b6326de6622f045
+prerequisite-patch-id: b45a6f20519aea585527078495a2c9c63feb3778
+prerequisite-patch-id: 9344feb49232a49d171c5c2fee55a28873ef5710
+prerequisite-patch-id: 3ae3b35697646f814c74a62027a9555bb1c28ac8
+prerequisite-patch-id: cbe8aa31360444f9768764b0659e1d04cd77a5b2
+prerequisite-patch-id: 133cfbe76d691ed57dbeecdc355833b0ddd20208
+prerequisite-patch-id: b54ad7c10fc1a6cc0f93e603397510906ef22a68
+prerequisite-patch-id: 6d62f0ec7000fd26db84a7008e2cd92738e6bddb
+prerequisite-patch-id: 642b15a05d3613f503651ff795947df69c8c856a
+prerequisite-patch-id: 7fce745555f774f4ddc39044c41e013fd42a5b7f
+prerequisite-patch-id: 81aa7af170f321450fb7d29e788b9de90ef60261
+prerequisite-patch-id: 3307943829aea5595b3ec49f22204c55adfc9c37
+prerequisite-patch-id: c865672ddb7be662d9fade867201679bf5d62408
+prerequisite-patch-id: 2fa765c8477947130a6be91cccae9fb2de84e193
+prerequisite-patch-id: 08a9efdd6e4bc6de5baa2789f1d608ab98a327e0
+prerequisite-patch-id: 0d0b0b71375800974dbe7237927dded7261180bd
+prerequisite-patch-id: da00f3be5a9c30a68c3ad40eebc9e857664ba39b
+prerequisite-patch-id: 7ce6f4d8ed2cca29fab9d06b53d94eaf2d4a71ca
+prerequisite-patch-id: b353a98ba3563e9f19c3d869753c2a000bb0dd5c
+prerequisite-patch-id: 14fc49629b991d714c75068d1bd31cd4df00369f
+prerequisite-patch-id: abc5404e1ca9ebba2d256e5f19aafdc3da8433e9
+prerequisite-patch-id: 3fd33bd1054f7cfe8c3d08b7c53a77df6e89dc5a
+prerequisite-patch-id: 90eb019a38dbd0099a9aee921bde795dc77281c6
+prerequisite-patch-id: 69933246ea66c02b0291a946a510e63b28aa4a07
+prerequisite-patch-id: d4b2f02a1df02786239131b2af8626f19d7febfd
+prerequisite-patch-id: 54470e5d2206ef4dd8ba2168b29cc57579fac520
+prerequisite-patch-id: e0b3b83c0828ad746354d536270942259ad7d5a5
+prerequisite-patch-id: f7d545aa7a1c82938ce0437c251acd1a041a32b2
+prerequisite-patch-id: dfd0e53d9bf57c760fd284ce27c41ba91bf9ae5b
+prerequisite-patch-id: 76313f2c8af79cfd97a5f79da5fd5b3fc4a48bfe
+prerequisite-patch-id: 0779fa85eb9cac194a01a6351288508d6e80e90b
+prerequisite-patch-id: 41f7a748ce6619611991b479468334d1edd23022
+prerequisite-patch-id: dd030d0200d8ce2340bf7d9b71c6e9aa719eed8e
+prerequisite-patch-id: 5c32ccd9b5010c5b70633a54a2e0e9273ae4cd89
+prerequisite-patch-id: f9eb03ca1f597bb99366adb81a201cfdc5f46538
+prerequisite-patch-id: f08d8da3f1d4b72b27a1eb0f21e05839c0dfb2ef
+prerequisite-patch-id: b6d1fe4754a2f54a6eb1f881bceacecc9b8aef6e
+prerequisite-patch-id: e1164905fe6444b47d301aa73434e24395ee3692
+prerequisite-patch-id: b98524d164fb5270fc83200b0005dfab8ab085d0
+prerequisite-patch-id: 7de80453bca3ab7af13f2d5dd0af53b49ab775be
+prerequisite-patch-id: cab73f2d83bb9caba9a9140e871ed804ad93012d
+prerequisite-patch-id: 4ccc38815bc167042fd9480658ca977c5a018865
+prerequisite-patch-id: d7549e7c36b461ef9816b2580d31a3b322189f6b
+prerequisite-patch-id: f62a5eb77118b9f534e1829f9277f78159e0426a
+prerequisite-patch-id: ef6cf9280b7ad0d6df39e3c30ac70594683b3237
+prerequisite-patch-id: 097d27325d53feb894b26bb0c7e152fca314e7b9
+prerequisite-patch-id: ca3a3605a04c9d3dcd7f577bf11b827735ae9fb2
+prerequisite-patch-id: 1896423fac08929b2cbe94ab22f355e1a1674d91
+prerequisite-patch-id: 0ed94130a16282e44a3b586ea7b5a2fbcbfd8e38
+prerequisite-patch-id: 2246611dab54080318ec3b1359f07f5a6c37363c
+prerequisite-patch-id: 18b914f2dd8e71ec7d128bcdb4ec7f78ec7760ee
+prerequisite-patch-id: 1871f47d222aa5d1a85830e25be310e38288545c
+prerequisite-patch-id: 57a66df1e4e0d2ac3bc0c4eab5f622fe557f7955
+prerequisite-patch-id: 26647ddce2ad9cd5ea2b6e05b9b36b64e51d2b4e
+prerequisite-patch-id: 2b1aef1d3e43f6a7a9dab2e1d3eb30e9df131684
+prerequisite-patch-id: 7ef55b4a331871c3153e9043aadd0aa16d4aba5c
+prerequisite-patch-id: d18e41b2d1d5dbc4362ece6b4c5816a86b933638
+prerequisite-patch-id: b7a386f31313694e8d75fd7edeb10c62d9bf7650
+prerequisite-patch-id: 261051e73501abfbfa106f44e0e0e4c74603f131
+prerequisite-patch-id: 8498a2e4f746081e719d9a021b57bc80a5ac3817
+prerequisite-patch-id: 3b6a398d6d2d5f84011eb48401bb453d9e9bb1a2
+prerequisite-patch-id: 7e910758654df94dfbeeaee0429e0acdf5035edb
+prerequisite-patch-id: 23115277def65ee8db1c7a0b0f697211253eeef2
+prerequisite-patch-id: 6514c6f702538db3fe776443b03205e0e331d59b
+prerequisite-patch-id: 4eeb4b19bb876c449f377c2fce9e8d5d2e3384bb
+prerequisite-patch-id: f187aa49a1b20ca85d7556fee15f526c26650688
+prerequisite-patch-id: 997a8549300388c11027e465c6781acd2fa799b9
+prerequisite-patch-id: 9094fb34dcdb72d2d4d9cf7b9a71dbfbe85f47db
+prerequisite-patch-id: 32231f11fcc72302bf4e2bddbd362b2f27928b65
+prerequisite-patch-id: 2497ea23d9ebf51b71472136e1a74bfbd2594a3c
+prerequisite-patch-id: 0cf170373dfeaab97e724610375091972b91b3b3
+prerequisite-patch-id: 2a20ef3c132bd0259826e6d5b020df71ace360ec
+prerequisite-patch-id: 6d3d248f710c8afaa68ac2648ea0133d90bca19a
+prerequisite-patch-id: 8d13795b1a92c79ed5f1c3871e3a7b0ba17e34a1
+prerequisite-patch-id: 80dc4103e79eff0a7ebe12169c7b36d098382552
+prerequisite-patch-id: 17b2a915420e30817ee4b8b76fe69245c351adab
+prerequisite-patch-id: e3b1a35f82d7a87f54fb049bc08649663d93e889
+prerequisite-patch-id: 3192e8f3349ba989abfa1603d9df1ff8ddc72801
+prerequisite-patch-id: 1d258467dc0bb5418885e6cba6eefa012ad3da09
+prerequisite-patch-id: bc3a68e959b57b6dc814550f81d70369b3fdc5ab
+prerequisite-patch-id: 1b477cffeb8eb881f8ef21cab7d9d0fcf41bc65c
+prerequisite-patch-id: 21c5fd0bc10d681bb01c4e6b9c809efb46af0473
+prerequisite-patch-id: d8cfb68a6653d82fc55d9577ba45face4abdffeb
+prerequisite-patch-id: f95b2692beefcdb4c01e26a27ad61fc79e15130e
+prerequisite-patch-id: b4486a6d6d3a870d8604a5b95ff217a7a25b787e
+prerequisite-patch-id: 1fab4dfefa1608a5668c166bc0f83a5eb03f1f6d
+prerequisite-patch-id: 7c768335c56ef9f5adfd59827475bd66fceaa608
+prerequisite-patch-id: 226bf92946bc11d17c3fc46a5d63614e92a9ef9e
+prerequisite-patch-id: 1ee2b49c3c8ad17e9b50c5e005e9c7ed9f37a0de
+prerequisite-patch-id: 29cb1d6dd1a1815e72efe384b6779a0aecd30904
+prerequisite-patch-id: f75afa353717cc8eda63b392c1f195bde1daff5e
+prerequisite-patch-id: 0834d786bee7772b207590046df0c594bc39c9e3
+prerequisite-patch-id: eec4e0f5694ea87625ae8cb483601d7dcd1518b3
+prerequisite-patch-id: 6e467aa948af15cb7d5d848c6923c311fba01a19
+prerequisite-patch-id: fb2e1540330d24599ad4dd426cb78f4db631af1c
+prerequisite-patch-id: 76b11bb00d485a802efbef14aafd93387609470f
+prerequisite-patch-id: a565b77909e10221b99afe597443ff71de11e1ba
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+
