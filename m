@@ -1,123 +1,139 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27A6C30DEB4;
-	Mon,  1 Sep 2025 10:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD8C30E0F1
+	for <linux-doc@vger.kernel.org>; Mon,  1 Sep 2025 10:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756721162; cv=none; b=USFhG5kqzrC1s6XLFGE0k2kPkNDJLpJNP//U4RAMR53xDPh+gi7HeuFEudTo4hI7HdQxPwia+aIVcXcETtn12jxfvvOj25Y9XIOtgwsMJIj8tliSi+D4LfK7BPWTjizJ7tsm1RhGdegbRznGTseTxQ9F2p6dxSY+jMUzx85rJ8A=
+	t=1756721364; cv=none; b=iA39lQNP+/m0rnhSw7QhWAZO4JZnn9oX5otVASXMLGxYS2P8BHZeRuvpSMHim4oh+uA371qD58Y0kQQXpvGr2ayDjHAsBo+/CpZJSpDpBdIF+A3QfD/QhpXoM5L3SsVyhVa1NviuFduhDt5I2tQPBJa/2q8e69LgBNDWH94uT6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756721162; c=relaxed/simple;
-	bh=qqxlfHhKAhMZStIBcjXn0E21C1VTEww9NkrL79A/zCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fXfEochgms5vXf1jjor3l3l0BoQczYMuL87t/LEtUa7DT2sozCC1ahoaGeq/PlVCEVBRJ59YVBgVKaTWYc7L3R/xRpWYrdYYzvGvtcJqXeB47mDQBOYSxdz742YAVXTEK377d0sSXiy1Rt30V2ENusqDFRQRnzP/covA2M7JVmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41EA62680;
-	Mon,  1 Sep 2025 03:05:52 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 30E3F3F6A8;
-	Mon,  1 Sep 2025 03:06:00 -0700 (PDT)
-Date: Mon, 1 Sep 2025 11:05:58 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v7 05/12] arm64/boot: Factor out a macro to check SPE
- version
-Message-ID: <20250901100558.GJ745921@e132581.arm.com>
-References: <20250814-james-perf-feat_spe_eft-v7-0-6a743f7fa259@linaro.org>
- <20250814-james-perf-feat_spe_eft-v7-5-6a743f7fa259@linaro.org>
+	s=arc-20240116; t=1756721364; c=relaxed/simple;
+	bh=92zBbFhzhWUrtCVRPnoSdLs5lAKLPR0yPgSVDmeYpeU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AMsSpbOlw2637eYhUDiHt17OmmBoM30aWieReIBQ2rLHB/AZqbUIGL7cG20vARNxyKWW/g9eS06SMYCFv7UlJ3Mcjl47hiexxHwnc+MB3YK5/gDE0kBEeMOeQw6Yoyrxp78HO1+iRW59vetbfBWo9Y9OpU0R0X5QMVGhzkj0m7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJkmmcKC; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJkmmcKC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756721363; x=1788257363;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=92zBbFhzhWUrtCVRPnoSdLs5lAKLPR0yPgSVDmeYpeU=;
+  b=QJkmmcKCczeOaA50RIaBFkeHTVgCayaOHSydsrUHseZGZYS0xqbduHf4
+   RW3TXP2SObT/7t40iXfcCFrg7u2YDFDn8Hh3qRVfHfarQxkCx+uIPwjIu
+   UeP5z3hSuD6kv2Qpn3Arwtcq8qbTM4RZvXfTCSiWYjv46vfJ4VxNXjx53
+   qv5wQzC8EumxoL5wPFglV8k8EIuA76GamU5yj82SfPtb9TdZl7M21aA7q
+   Spzbk2WamXveSKKlxFfPoJoMHETWEzUMFasg6TdnLJWGDq60ePX5ObtWI
+   2zz1fIiuAi0eYTGmRPvtO+30mGTrULqXpfxpiDmwOdf3aEYib+rFLvj01
+   g==;
+X-CSE-ConnectionGUID: BApmR9cMSWWl7t1KPb3ZKw==
+X-CSE-MsgGUID: j5ak8RglQ+KowPrfJol2Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62807433"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62807433"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 03:09:22 -0700
+X-CSE-ConnectionGUID: OIUa9XdFTN+k4h7EWO7Pxg==
+X-CSE-MsgGUID: J2MFsppwRLObgUK7cnYy5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="171152748"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.148])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 03:09:19 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
+ <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+In-Reply-To: <20250831160339.2c45506c@foz.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87plcndkzs.fsf@trenco.lwn.net>
+ <20250828230104.GB26612@pendragon.ideasonboard.com>
+ <87wm6l0w2y.fsf@trenco.lwn.net>
+ <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+ <20250830222351.GA1705@pendragon.ideasonboard.com>
+ <87h5xo1k6y.fsf@trenco.lwn.net> <20250831160339.2c45506c@foz.lan>
+Date: Mon, 01 Sep 2025 13:09:15 +0300
+Message-ID: <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814-james-perf-feat_spe_eft-v7-5-6a743f7fa259@linaro.org>
+Content-Type: text/plain
 
-On Thu, Aug 14, 2025 at 10:25:27AM +0100, James Clark wrote:
-> We check the version of SPE twice, and we'll add one more check in the
-> next commit so factor out a macro to do this. Change the #3 magic number
-> to the actual SPE version define (V1p2) to make it more readable.
-> 
-> No functional changes intended.
-> 
-> Tested-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
->  arch/arm64/include/asm/el2_setup.h | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> index 46033027510c..3a4ca7f9acfb 100644
-> --- a/arch/arm64/include/asm/el2_setup.h
-> +++ b/arch/arm64/include/asm/el2_setup.h
-> @@ -103,8 +103,7 @@
->  	csel	x2, xzr, x0, eq			// all PMU counters from EL1
->  
->  	/* Statistical profiling */
-> -	ubfx	x0, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
-> -	cbz	x0, .Lskip_spe_\@		// Skip if SPE not present
-> +	__spe_vers_imp .Lskip_spe_\@, ID_AA64DFR0_EL1_PMSVer_IMP, x0 // Skip if SPE not present
->  
->  	mrs_s	x0, SYS_PMBIDR_EL1              // If SPE available at EL2,
->  	and	x0, x0, #(1 << PMBIDR_EL1_P_SHIFT)
-> @@ -255,6 +254,14 @@
->  .Lskip_brbe_\@:
->  .endm
->  
-> +/* Branch to skip_label if SPE version is less than given version */
-> +.macro __spe_vers_imp skip_label, version, tmp
-> +    mrs    \tmp, id_aa64dfr0_el1
-> +    ubfx   \tmp, \tmp, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
-> +    cmp    \tmp, \version
-> +    b.lt   \skip_label
-> +.endm
-> +
+On Sun, 31 Aug 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> It shouldn't be that hard to do the same for kernel-doc kAPI documentation:
+> kernel-doc now can parse the entire tree with:
+>
+> 	$ scripts/kernel-doc .
+>
+> Someone can easily use it to discover the current gaps at the docs that
+> have already some kernel-doc markups and identify what of them aren't
+> yet placed under Documentation/ ".. kernel-doc::" markups.
+>
+> So, I'd say the first step here would be to ensure that 100% of the
+> docs are there somewhere. Alternatively, we could place all the rest
+> of functions with kernel-doc markups outside Documentation inside an
+> "others/" book - or even "<subsystem>/others/", and then gradually move
+> them to the right places.
 
-Just wondering if we need to move the macro to the beginning of the
-file, so that we can define it first and call it afterwards.
+I don't agree that all the kernel-docs need to be in the html build in
+the first place. Some of them would be better off with a simple
+non-structured comment instead. For example, most static functions. Some
+of the kernel-docs are useful for the structure the format provides, but
+still having them in the html build is overkill. For example, many
+complex but driver specific functions.
 
-Otherwise, LGTM:
+I think the API documentation in the Sphinx build is primarily useful
+for kernel generic and subsystem APIs, or overviews of
+functionality. But nobody's looking at the Sphinx build for highly
+specific and isolated documentation for individual structures or
+functions.
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+I'd say emphasize quality over quantity in the Sphinx build. An
+overwhelming amount of (in the big picture) insignificant API
+documentation does not make for good documentation.
 
->  /* Disable any fine grained traps */
->  .macro __init_el2_fgt
->  	mrs	x1, id_aa64mmfr0_el1
-> @@ -263,10 +270,8 @@
->  
->  	mov	x0, xzr
->  	mov	x2, xzr
-> -	mrs	x1, id_aa64dfr0_el1
-> -	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
-> -	cmp	x1, #3
-> -	b.lt	.Lskip_spe_fgt_\@
-> +	/* If SPEv1p2 is implemented, */
-> +	__spe_vers_imp .Lskip_spe_fgt_\@, #ID_AA64DFR0_EL1_PMSVer_V1P2, x1
->  	/* Disable PMSNEVFR_EL1 read and write traps */
->  	orr	x0, x0, #HDFGRTR_EL2_nPMSNEVFR_EL1_MASK
->  	orr	x2, x2, #HDFGWTR_EL2_nPMSNEVFR_EL1_MASK
-> 
-> -- 
-> 2.34.1
-> 
+That said, there *are* a lot of kernel-doc comments that absolutely
+should be pulled into the Sphinx build. But don't be indiscriminate
+about it.
+
+---
+
+I think a more interesting first step would be ensuring all the
+kernel-docs we do have are free of kernel-doc and rst warnings. Because
+they should be, and this would make them easier to pull into the Sphinx
+build as needed.
+
+Currently we only have the kernel-doc checks in W=1 builds for .c
+files.
+
+The i915 and xe drivers have local Makefile hacks to do it for more than
+just W=1 builds and also headers. The attempts to expand the header
+checks to the drm subsystem, however, failed infamously.
+
+And still none of this checks for rst. But now that kernel-doc is
+python, it shouldn't be too hard. Probably needs a dependency, but it
+could only depend on it when passing some --lint-rst option.
+
+Having this in place would also reduce the churn caused by merging
+broken kernel-doc. It's fast enough to be done as part of the regular
+build, while most people don't run the entire Sphinx build as part of
+the development flow.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
