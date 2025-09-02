@@ -1,311 +1,186 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF4132F77F;
-	Tue,  2 Sep 2025 02:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F3207A0C;
+	Tue,  2 Sep 2025 03:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756781366; cv=none; b=H8vUL/ZABzr7Bl3i5FsI1LqOI8tJC229/ULJP1SHpd8ea2u7IA1SmtOMZXJbDyvlbksfjIbosG/cxgriXQPdT+ILrPSnA6+CZK9czUkpEoJmryqyxYZkz3hJhwXvgNffbwlJf1pv4/L9GGu/UvbVFOQiMM70d4314MlOCW/Iap0=
+	t=1756784315; cv=none; b=EePaSoyYu2GZFwWhwov2foTItXCCWKheNWfF2CCaus19brcsWD7NU9a3Lbg9asOE6+AjvIcGoOlZQcj3MdZ/LH9ISRXhkPcJvmA9GwBX0afyx5IKUoXHghpI5k2PK9BghtfJtzKZxRcS37VMRQq1/2DukD2nXjBGg9NB2GaSISg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756781366; c=relaxed/simple;
-	bh=j6apl4co+InwCmd10tcTaeFVunTr8bQX5H1s4UCVAbk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Yiym4OZ1md6K0phkv4EbxebVf/ZxPdAD8qn5hm+Lzx1RhykXC7tze0lnjULKk8bwP66oyrSY38bQUNiPR/g4YEkipXCUcJApNybN08HGlOuw5bq6B8zWeyWaEWmGFqkrkKgQIdR0IGdEbMZ27Q+U9N6LGU04kv6QCTvPDhmfz2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fXfUzm8w; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fXfUzm8w"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-70de9ffcfffso47431236d6.2;
-        Mon, 01 Sep 2025 19:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756781363; x=1757386163; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sUP9w0YULyiRRnnBIwdjKC8OU+iYqQQqOvvU+cUZsX4=;
-        b=fXfUzm8w3NuqJuOjAmZdAqY+x68fpT9yFblDoYMCMWCQk13ld4verznRytcLFGR5yu
-         wLLaIN5gAlHHMAXw7V32YzbHtou2+WByPCk5ev9ZF8z4B/qq7/bKfoU+Cb4NjtQV8igD
-         looRfxZQXDMPebIZtUid4JSVEf6AB3KrahYubz0hJt9ebKk9yV+QskpapFeL1p2D7/jZ
-         BlvuKhvAw7tj1QXMLMhMvDbyyjdh4fG6g7KPnKFViIWDx7OC4P6WmKmFbNkdMFQh2b5G
-         o72/P9mwe1cUnF3W9meDMbhobP12Yo8vKN9BWrNuyTXgl/CqhP8FylWnP6lkSzTRSIGX
-         CVZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756781363; x=1757386163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sUP9w0YULyiRRnnBIwdjKC8OU+iYqQQqOvvU+cUZsX4=;
-        b=q8bh8C3bSQ7c5/NjqMBL9VxUIAyOMgxWEJBm2D/6CoFbtysf4vP3NzlQhkW4Wbi87o
-         P9ZZ1Y8jO2QWn8bCGTNfQKrQSi7frNT29sgfhB8ypebuzZ92mY7ruQ0RqA5cPgiBqZtz
-         wcHcbrQvIRf0+uyJ+UsiPRXTZ7nKOiF01Ka31aRU/TNu+bWwRwri50zZF0XtZjDJdlLY
-         8FJbWElnhgBflw8wOzNXpj1AM1CF3xJNzSbD29GuRQIeNMMTIysnrCo/mbou2RTzdIVU
-         ZDy+DGaDWsnLxoXjKokuOEXC4ibGEL+k5iNZUJm2GzIdcDFw0WjQ5ZAUorK4mgi2pRJF
-         D1Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiN2jrbXwndioGwZjYHiupVkfNO92MKM8ynFZU0l9kzjr/PRF8ulrfitw64x9fx9iV6+o=@vger.kernel.org, AJvYcCUqep7eA2W6xj9pMaYSXZOQY09NVGS0TTNj23N4m8veo4z3Rl5P+2tkZgzcS3C1arhcbof3owIwaNqP@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGTMlrkx/UYQfGtph3pgwo1Vn0CrvwTc/aJ67ujEQbtxxMqX4Q
-	7TBkYFKIW/XgAH1sTroDUEOU4JMVf+4JP7ITweBdQi72e05SAjMMr+B6OxAs9SInAJFD1UQrDTN
-	5vOFiWNnHz05cpeBAZio6bwCPjVQ1sUk=
-X-Gm-Gg: ASbGncvlTLYrscYLdtxMrZUNqRx91t6H/P68G5JSjJDO9TCOMxLD6wXdlPGYGmugBW+
-	rFBMBjHwrhEZT4CelbO+S/s39Qa55zjVxx7TjYGC3MzDOZ0DnesDILrHCDJNiGm+F7bs0cEsw3g
-	wQ0g2uSaOgngZZv2PY3BijmuCmTncYUDTwwCeRTo78v8+BQehsGdJiIPFvCmWEPkM4Zh9gWHHqE
-	GZjvwYQhYqDb524w0bYrzpeVT1HvU5X8k92v/wN
-X-Google-Smtp-Source: AGHT+IE1C35e1sDvqxEfIXD2mJ0lddO/GMjI0L1bn740LuJspS045VKCkbSg193JvmqK0lXcqQvbcT8ZB1N8QQ0AdBI=
-X-Received: by 2002:a05:6214:404:b0:70d:dade:c359 with SMTP id
- 6a1803df08f44-70fac8943a8mr115702276d6.35.1756781363373; Mon, 01 Sep 2025
- 19:49:23 -0700 (PDT)
+	s=arc-20240116; t=1756784315; c=relaxed/simple;
+	bh=xjFXwLgN9+Tb+kcrEl/8o0thagVQvKnOfuOi+lF72ho=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=Ro1bHVRt7XAv48hM2/AcTl7ZofFg6/Idd33mQ1n28zBysUpIBM9EwHIFbM1IxJWE/DgxnYSz87bbsIOT63YpvixzUIrTYjsP7DOCxcu/abPwQRZfZbsu0hD99dandTv31TUrZ9Bha7bUH5LCJmB8NK/Hg4mq9dS8ziVRbg8q204=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cGBKZ4ZPrz5B8mt;
+	Tue, 02 Sep 2025 11:38:26 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl1.zte.com.cn with SMTP id 5823c8KZ088347;
+	Tue, 2 Sep 2025 11:38:08 +0800 (+08)
+	(envelope-from xu.xin16@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 2 Sep 2025 11:38:09 +0800 (CST)
+Date: Tue, 2 Sep 2025 11:38:09 +0800 (CST)
+X-Zmail-TransId: 2afb68b666a1f39-0ca5f
+X-Mailer: Zmail v1.0
+Message-ID: <202509021138097501cXkw4xiXiYSWRs8thevi@zte.com.cn>
+In-Reply-To: <20250902100030967nPEcUoRRSnruExakQxAIm@zte.com.cn>
+References: 202509020957458514CMgUiaqPjTURNET_d-w0@zte.com.cn,20250902100030967nPEcUoRRSnruExakQxAIm@zte.com.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-2-laoar.shao@gmail.com>
- <f1bc20e0-9d39-4294-8f70-f51315a534d8@lucifer.local> <CALOAHbCd4vuZoot-Bt4y=4EMLB0UvX=5u8PjsW2Nz883sevT1g@mail.gmail.com>
- <80db932c-6d0d-43ef-9c80-386300cbeb64@lucifer.local> <CALOAHbCQucvD968pgmMzv0dcg1j5cJ+Nxz4FKaiGXajXXBcs0Q@mail.gmail.com>
- <95a32a87-5fa8-4919-8166-e9958d6d4e38@lucifer.local> <CALOAHbBRQf=QLqYgA9E8m6AKGmZxY6rFZsoXwTYCaiSqpTb=JQ@mail.gmail.com>
- <73ca819c-9a2b-4f12-853d-557a4e7399e9@lucifer.local>
-In-Reply-To: <73ca819c-9a2b-4f12-853d-557a4e7399e9@lucifer.local>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Tue, 2 Sep 2025 10:48:47 +0800
-X-Gm-Features: Ac12FXyO4izGS6-5B7-USCiG73zEbiKHhxahma8eif44AkhXjkm-wICmc-N4i_E
-Message-ID: <CALOAHbDXBaumw0W=Ak=AQG+64jQb9Usy8_9m00vNaZ7SPKFayg@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
- order selection
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
-	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <xu.xin16@zte.com.cn>
+To: <fan.yu9@zte.com.cn>, <akpm@linux-foundation.org>
+Cc: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <yang.yang29@zte.com.cn>, <fan.yu9@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eC1uZXh0IDEvM10gdG9vbHMvZGVsYXl0b3A6IGFkZCBtZW1vcnkgdmVyYm9zZSBtb2RlIHN1cHBvcnQ=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 5823c8KZ088347
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: xu.xin16@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 02 Sep 2025 11:38:26 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68B666B2.000/4cGBKZ4ZPrz5B8mt
 
-On Mon, Sep 1, 2025 at 7:39=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Sun, Aug 31, 2025 at 11:11:34AM +0800, Yafang Shao wrote:
-> > On Fri, Aug 29, 2025 at 6:42=E2=80=AFPM Lorenzo Stoakes
-> > <lorenzo.stoakes@oracle.com> wrote:
-> > >
-> > > On Fri, Aug 29, 2025 at 11:01:59AM +0800, Yafang Shao wrote:
-> > > > On Thu, Aug 28, 2025 at 6:50=E2=80=AFPM Lorenzo Stoakes
-> > > > <lorenzo.stoakes@oracle.com> wrote:
-> > > > >
-> > > > > On Thu, Aug 28, 2025 at 01:54:39PM +0800, Yafang Shao wrote:
-> > > > > > > Also will mm ever !=3D vma->vm_mm?
-> > > > > >
-> > > > > > No it can't. It can be guaranteed by the caller.
-> > > > >
-> > > > > In this case we don't need to pass mm separately then right?
-> > > >
-> > > > Right, we need to pass either @mm or @vma. However, there are cases
-> > > > where vma information is not available at certain call sites, such =
-as
-> > > > in khugepaged. In those cases, we need to pass @mm instead.
-> > >
-> > > Yeah... this is weird to me though, are you checking in _general_ wha=
-t
-> > > khugepaged should use, or otherwise surely it's per-VMA?
-> > >
-> > > Otherwise this bpf hook seems ill-suited for that, and we should have=
- a
-> > > separate one for khugepaged surely?
-> > >
-> > > I also hate that we're passing mm _just because of this one edge case=
-_,
-> > > otherwise always passing vma->vm_mm, it's a confusing interface.
-> >
-> > make sense.
-> > I'll give some thought to how we can better handle this edge case.
->
-> Thanks!
->
-> > > >
-> > > > >
-> > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > Also if we're returning a bitmask of orders which you seem to=
- be (not sure I
-> > > > > > > like that tbh - I feel like we shoudl simply provide one orde=
-r but open for
-> > > > > > > disucssion) - shouldn't it return an unsigned long?
-> > > > > >
-> > > > > > We are indifferent to whether a single order or a bitmask is re=
-turned,
-> > > > > > as we only use order-0 and order-9. We have no use cases for
-> > > > > > middle-order pages, though this feature might be useful for oth=
-er
-> > > > > > architectures or for some special use cases.
-> > > > >
-> > > > > Well surely we want to potentially specify a mTHP under certain c=
-ircumstances
-> > > > > no?
-> > > >
-> > > > Perhaps there are use cases, but I haven=E2=80=99t found any use ca=
-ses for
-> > > > this in our production environment. On the other hand, I can clearl=
-y
-> > > > see a risk that it could lead to more costly high-order allocations=
-.
-> > >
-> > > So why are we returning a bitmap then? Seems like we should just retu=
-rn a
-> > > single order in this case... I think you say below that you are open =
-to
-> > > this?
-> >
-> > will return a single order in the next version.
->
-> Thanks
->
-> >
-> > >
-> > > >
-> > > > >
-> > > > > In any case I feel it's worth making any bitfield a system word s=
-ize.
-> > >
-> > > Also :>)
-> > >
-> > > If we do move to returning a single order, should be unsigned int.
-> >
-> > sure
->
-> Thanks!
->
-> > > >
-> > > > >
-> > > > > And generally at this point I think we should just drop this bit =
-of code
-> > > > > honestly.
-> > > >
-> > > > MMF_VM_HUGEPAGE is set when the THP mode is "always" or "madvise". =
-If
-> > > > it=E2=80=99s set, any forked child processes will inherit this flag=
-. It is
-> > > > only cleared when the mm_struct is destroyed (please correct me if =
-I=E2=80=99m
-> > > > wrong).
-> > >
-> > > __mmput()
-> > > -> khugepaged_exit()
-> > > -> (if MMF_VM_HUGEPAGE set) __khugepaged_exit()
-> > > -> Clear flag once mm fully done with (afaict), dropping associated m=
-m refcount.
-> > >
-> > > ^--- this does seem to be accurate indeed.
-> >
-> > Thanks for the explanation.
->
-> No problem, this was more 'Lorenzo's thought process' :P
->
-> >
-> > >
-> > > >
-> > > > However, when you switch the THP mode to "never", tasks that still
-> > > > have MMF_VM_HUGEPAGE remain on the khugepaged scan list. This isn=
-=E2=80=99t an
-> > > > issue under the current global mode because khugepaged doesn=E2=80=
-=99t run
-> > > > when THP is set to "never".
-> > > >
-> > > > The problem arises when we move from a global mode to a per-task mo=
-de.
-> > > > In that case, khugepaged may end up doing unnecessary work. For
-> > > > example, if the THP mode is "always", but some tasks are not allowe=
-d
-> > > > to allocate THP while still having MMF_VM_HUGEPAGE set, khugepaged
-> > > > will continue scanning them unnecessarily.
-> > >
-> > > But this can change right?
-> > >
-> > > I really don't like the idea _at all_ of overriding this hook to do t=
-hings
-> > > other than what it says it does.
-> > >
-> > > It's 'set which order to use' except when it's this case then it's 'w=
-ill we
-> > > do any work'.
-> > >
-> > > This should be a separate callback or we should drop this and live wi=
-th the
-> > > possible additional work.
-> >
-> > Perhaps we could reuse the MMF_DISABLE_THP flag by introducing a new
-> > BPF helper to set it when we want to disable THP for a specific task.
->
-> Interesting, yeah perhaps that could work, as long as we're in a sensible
-> context to be able to toggle this bit.
+> From: Fan Yu <fan.yu9@zte.com.cn>
+> 
+> The original delaytop tool always displayed detailed memory
+> subsystem breakdown, which could be overwhelming for users
+> who only need high-level overview.
+> 
+> Add flexible display control allowing users to choose their
+> preferred information granularity.
+> 
+> The new flexibility provides:
+> 1) For quick monitoring: use normal mode to reduce visual clutter
+> 2) For deep analysis: use verbose mode to see all memory subsystem details
+> 
+> Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
 
-Right, we can't set the mm->flags arbitrarily.
-Perhaps we should add a generic BPF hook in dup_mmap().
+This feature is very useful to analyze specific delay sources due to memory operations.
 
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 7a057e0e8da9..1b60bdb08de1 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1843,6 +1843,8 @@ __latent_entropy int dup_mmap(struct mm_struct
-*mm, struct mm_struct *oldmm)
- loop_out:
-        vma_iter_free(&vmi);
-        if (!retval) {
-+               /* Allow a BPF program to modify the new mm_struct in fork.=
- */
-+               bpf_hook_mm_fork(mm, oldmm);
-                mt_set_in_rcu(vmi.mas.tree);
-                ksm_fork(mm, oldmm);
-                khugepaged_fork(mm, oldmm);
+But these shown datas are basically average values rather than min/max, it's not enough
 
-This provides a mechanism for BPF programs to configure the new
-mm_struct on demand, acting as a modern, flexible replacement for
-prctl() ;-)
+for debugging delay jitters. Will you add showing min/max values to delaytop in future? 
 
->
-> >
-> > Separately from this patchset, I realized we can optimize khugepaged
-> > handling for the MMF_DISABLE_THP case with the following changes:
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 15203ea7d007..e9964edcee29 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -402,6 +402,11 @@ void __init khugepaged_destroy(void)
-> >         kmem_cache_destroy(mm_slot_cache);
-> >  }
-> >
-> > +static inline int hpage_collapse_test_disable(struct mm_struct *mm)
-> > +{
-> > +       return test_bit(MMF_DISABLE_THP, &mm->flags);
-> > +}
-> > +
-> >  static inline int hpage_collapse_test_exit(struct mm_struct *mm)
-> >  {
-> >         return atomic_read(&mm->mm_users) =3D=3D 0;
-> > @@ -1448,6 +1453,11 @@ static void collect_mm_slot(struct
-> > khugepaged_mm_slot *mm_slot)
-> >                 /* khugepaged_mm_lock actually not necessary for the be=
-low */
-> >                 mm_slot_free(mm_slot_cache, mm_slot);
-> >                 mmdrop(mm);
-> > +       } else if (hpage_collapse_test_disable(mm)) {
-> > +               hash_del(&slot->hash);
-> > +               list_del(&slot->mm_node);
-> > +               mm_flags_clear(MMF_VM_HUGEPAGE, mm);
-> > +               mm_slot_free(mm_slot_cache, mm_slot);
-> >         }
-> >  }
-> >
-> > Specifically, if MMF_DISABLE_THP is set, we should remove it from
-> > mm_slot to prevent unnecessary khugepaged processing.
->
-> Ohhh interesting, perhaps send as separate patch?
+> ---
+>  tools/accounting/delaytop.c | 111 ++++++++++++++++++++++++++++--------
+>  1 file changed, 87 insertions(+), 24 deletions(-)
+> 
+>  /* PSI statistics structure */
+> @@ -163,13 +166,14 @@ static void usage(void)
+>  {
+>  	printf("Usage: delaytop [Options]\n"
+>  	"Options:\n"
+> -	"  -h, --help				Show this help message and exit\n"
+> -	"  -d, --delay=SECONDS	  Set refresh interval (default: 2 seconds, min: 1)\n"
+> -	"  -n, --iterations=COUNT	Set number of updates (default: 0 = infinite)\n"
+> -	"  -P, --processes=NUMBER	Set maximum number of processes to show (default: 20, max: 1000)\n"
+> -	"  -o, --once				Display once and exit\n"
+> -	"  -p, --pid=PID			Monitor only the specified PID\n"
+> -	"  -C, --container=PATH	 Monitor the container at specified cgroup path\n");
+> +	"  -h, --help               Show this help message and exit\n"
+> +	"  -d, --delay=SECONDS      Set refresh interval (default: 2 seconds, min: 1)\n"
+> +	"  -n, --iterations=COUNT   Set number of updates (default: 0 = infinite)\n"
+> +	"  -P, --processes=NUMBER   Set maximum number of processes to show (default: 20, max: 1000)\n"
+> +	"  -o, --once               Display once and exit\n"
+> +	"  -p, --pid=PID            Monitor only the specified PID\n"
+> +	"  -C, --container=PATH     Monitor the container at specified cgroup path\n"
+> +	"  -M, --memverbose         Display memory detailed information\n");
+>  	exit(0);
+>  }
+> 
 
-sure, I will send it separately.
+..
 
---=20
-Regards
-Yafang
+> 
+> +	suc &= BOOL_FPRINT(out, "%8s  %8s  %-17s", "PID", "TGID", "COMMAND");
+> +
+> +	if (!cfg.mem_verbose_mode) {
+> +		suc &= BOOL_FPRINT(out, "%8s %8s %8s %8s\n",
+> +			"CPU(ms)", "IO(ms)", "IRQ(ms)", "MEM(ms)");
+> +		suc &= BOOL_FPRINT(out, "-----------------------");
+> +		suc &= BOOL_FPRINT(out, "-----------------------");
+> +		suc &= BOOL_FPRINT(out, "--------------------------\n");
+> +	} else {
+> +		suc &= BOOL_FPRINT(out, "%8s %8s %8s %8s %8s %8s %8s %8s %8s\n",
+> +			"CPU(ms)", "IO(ms)", "IRQ(ms)", "MEM(ms)",
+> +			"SWAP(ms)", "RCL(ms)", "THR(ms)", "CMP(ms)", "WP(ms)");
+> +		suc &= BOOL_FPRINT(out, "-----------------------");
+> +		suc &= BOOL_FPRINT(out, "-----------------------");
+> +		suc &= BOOL_FPRINT(out, "-----------------------");
+> +		suc &= BOOL_FPRINT(out, "-----------------------");
+> +		suc &= BOOL_FPRINT(out, "-------------------------\n");
+> +	}
+> +
+> 
+> -	suc &= BOOL_FPRINT(out, "-----------------------------------------------");
+> -	suc &= BOOL_FPRINT(out, "----------------------------------------------\n");
+>  	count = task_count < cfg.max_processes ? task_count : cfg.max_processes;
+> 
+>  	for (i = 0; i < count; i++) {
+> -		suc &= BOOL_FPRINT(out, "%5d  %5d  %-15s",
+> +		suc &= BOOL_FPRINT(out, "%8d  %8d  %-15s",
+>  			tasks[i].pid, tasks[i].tgid, tasks[i].command);
+> -		suc &= BOOL_FPRINT(out, "%7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f\n",
+> -			average_ms(tasks[i].cpu_delay_total, tasks[i].cpu_count),
+> -			average_ms(tasks[i].blkio_delay_total, tasks[i].blkio_count),
+> -			average_ms(tasks[i].swapin_delay_total, tasks[i].swapin_count),
+> -			average_ms(tasks[i].thrashing_delay_total, tasks[i].thrashing_count),
+> -			average_ms(tasks[i].compact_delay_total, tasks[i].compact_count),
+> -			average_ms(tasks[i].wpcopy_delay_total, tasks[i].wpcopy_count),
+> -			average_ms(tasks[i].irq_delay_total, tasks[i].irq_count));
+> +		if (!cfg.mem_verbose_mode) {
+> +			suc &= BOOL_FPRINT(out, FMT_NORMAL,
+> +				average_ms(tasks[i].cpu_delay_total,
+> +						   tasks[i].cpu_count),
+> +				average_ms(tasks[i].blkio_delay_total,
+> +						   tasks[i].blkio_count),
+> +				average_ms(tasks[i].irq_delay_total,
+> +						   tasks[i].irq_count),
+> +				average_ms(task_total_mem_delay(&tasks[i]),
+> +						   task_total_mem_count(&tasks[i])));
+> +		} else {
+> +			suc &= BOOL_FPRINT(out, FMT_MEMVERBOSE,
+> +				average_ms(tasks[i].cpu_delay_total,
+> +						   tasks[i].cpu_count),
+> +				average_ms(tasks[i].blkio_delay_total,
+> +						   tasks[i].blkio_count),
+> +				average_ms(tasks[i].irq_delay_total,
+> +						   tasks[i].irq_count),
+> +				average_ms(task_total_mem_delay(&tasks[i]),
+> +						   task_total_mem_count(&tasks[i])),
+> +				average_ms(tasks[i].swapin_delay_total,
+> +						   tasks[i].swapin_count),
+> +				average_ms(tasks[i].freepages_delay_total,
+> +						   tasks[i].freepages_count),
+> +				average_ms(tasks[i].thrashing_delay_total,
+> +						   tasks[i].thrashing_count),
+> +				average_ms(tasks[i].compact_delay_total,
+> +						   tasks[i].compact_count),
+> +				average_ms(tasks[i].wpcopy_delay_total,
+> +						   tasks[i].wpcopy_count));
+> +		}
+>  	}
+
+I think if users press 'M', delaytop doesn't need to shown CPU/IRQ/IO delays, just show the detailed memory delays.
+
+
+> 
+>  	suc &= BOOL_FPRINT(out, "\n");
+> -- 
+> 2.25.1
