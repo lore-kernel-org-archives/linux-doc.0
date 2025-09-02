@@ -1,77 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD962E7F0E;
-	Tue,  2 Sep 2025 20:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B689272E45;
+	Tue,  2 Sep 2025 21:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756846413; cv=none; b=m4i4t93Uhji0ND4CpJidmg7lTbxZMAegBgMGILhSZUacHAqG1IGVbsIhazSReISE7eH/LhTpWNn4ffHDaQGoGHX44XOGLfYQUBXP83/TzkYceyxegYVLdXOKw3kkt/EfffzmDuLQf3vWOAD+XoIq6ovnAMXF2wezaPqCMgR6+lE=
+	t=1756847936; cv=none; b=XTiN5nJtcIjGUTLSqwcjHhfCUuiGKXxLKQDWG4wroTTbwULwXPdTYWJ8ZaJhzpxsMj9Mbdf4/4WPpdxjlkxr+JZELYxq6LU+jfch2xoJXAH34sVphOXgJVBd9Xe3UUAjN2UTfPfPZzJMwaHa5R9jqKgRiqaCVlB5mvQ5N5Qodn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756846413; c=relaxed/simple;
-	bh=IrPhSE9h61rfAhoaa4jcXqgfXSLJUuueyFXosJ5+D94=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KD87sQA3ARMJHDd4WqZwHj7SBmJhX0iZ9+m98lbI8zzIUWf8gihXxRLgs9p/MWSz+HstLB9Pj6gAXZYSk10J4h6D0XO9Pfe++tz/SFi0iF20DP8oVFbEf01oYH2abrIlnt/Znv0RNzeZIE3zsaso+gCcAewd4lRYyMnpf5e7PZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfKm6oEW; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfKm6oEW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627A8C4CEED;
-	Tue,  2 Sep 2025 20:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756846413;
-	bh=IrPhSE9h61rfAhoaa4jcXqgfXSLJUuueyFXosJ5+D94=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZfKm6oEWOhoN1/6UMcvCf+L85870XH0oJODqeZDCtIXFINTBc+ULveIa/rbMqXfEy
-	 1c0SYXiM9dzQWS1YKNgeLKnm12S00ctoNgikhFLmksvD70MWIzDvnsbqC33w9czQQa
-	 lije3/wQ7eZZMJQxMXUTIAtDQEa5653r6Mvc7+nmLQIpp3QqZi/lXJrtsvCU8P/Lvu
-	 aUw83nuR5ylMor7sXVaEifeU9bLPgS0nxc/C08/wVB2nONA/n0Yxi3W/x846h4F9Ng
-	 ZnKH/3z8K/Ep/DJfdBw/wiu3XdoMHSRcy554ZGoW9msVLVEcCJWdn/zS04PGVID9LH
-	 6H77i8f1y09XQ==
-Date: Tue, 2 Sep 2025 13:53:31 -0700
-From: Jakub Kicinski <kuba@kernel.org>
+	s=arc-20240116; t=1756847936; c=relaxed/simple;
+	bh=OVt2KaAIyWn3sQiXT0WUla8IPKhrl9uNUH6oq+DG3ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LxLX6Dw6hO2ffN94rreaJB+Kvf8mdTHNEgeSsWB8786/txCvhauLC1VaA3ED8rEhAZ5b37UvYd4f8N2Xp+PduAnj2xmoOV5tyh9QRSXYB0NO8C+/NnFAczNEzTLEQ1wrqcM//gb1e3OQl6dezYhNmiIpCbYCjKnFJtak5im9mVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E90FFC4CEED;
+	Tue,  2 Sep 2025 21:18:52 +0000 (UTC)
+Date: Tue, 2 Sep 2025 22:18:50 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
 To: Matthieu Baerts <matttbe@kernel.org>
-Cc: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, Geliang
- Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <shuah@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Eric Biggers
- <ebiggers@kernel.org>, Christoph Paasch <cpaasch@openai.com>, Gang Yan
- <yangang@kylinos.cn>
+Cc: Jakub Kicinski <kuba@kernel.org>, mptcp@lists.linux.dev,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+	Christoph Paasch <cpaasch@openai.com>,
+	Gang Yan <yangang@kylinos.cn>
 Subject: Re: [PATCH net-next 0/6] mptcp: misc. features for v6.18
-Message-ID: <20250902135331.5ae29d1b@kernel.org>
-In-Reply-To: <83d76f61-e8ad-4c8d-b38b-d197cefe4088@kernel.org>
+Message-ID: <aLdfOrQ4O4rnD5M9@arm.com>
 References: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org>
-	<d5397026-92eb-4a43-9534-954b43ab9305@kernel.org>
-	<20250902120933.5dbd61cf@kernel.org>
-	<83d76f61-e8ad-4c8d-b38b-d197cefe4088@kernel.org>
+ <20250902072600.2a9be439@kernel.org>
+ <834238b4-3549-4062-a29b-bf9c5aefa30f@kernel.org>
+ <20250902082759.1e7813b8@kernel.org>
+ <aLc2hyFAH9kxlNEg@arm.com>
+ <d4205818-e283-4862-946d-4e51bf180158@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4205818-e283-4862-946d-4e51bf180158@kernel.org>
 
-On Tue, 2 Sep 2025 21:25:33 +0200 (GMT+02:00) Matthieu Baerts wrote:
-> >> I just noticed that NIPA reported some issues due to these 2 patches. In
-> >> short, some packets (MPTCP ADD_ADDR notifications) can now be
-> >> retransmitted quicker, but some tests check MIB counters and don't
-> >> expect retransmissions. If the environment is a bit slow, it is possible
-> >> to have more retransmissions. We should adapt the tests to avoid false
-> >> positives.
+On Tue, Sep 02, 2025 at 08:50:19PM +0200, Matthieu Baerts wrote:
+> Hi Catalin,
+> 
+> 2 Sept 2025 20:25:19 Catalin Marinas <catalin.marinas@arm.com>:
+> 
+> > On Tue, Sep 02, 2025 at 08:27:59AM -0700, Jakub Kicinski wrote:
+> >> On Tue, 2 Sep 2025 16:51:47 +0200 Matthieu Baerts wrote:
+> >>> It is unclear why a second scan is needed and only the second one caught
+> >>> something. Was it the same with the strange issues you mentioned in
+> >>> driver tests? Do you think I should re-add the second scan + cat?
 > >>
-> >> Is it possible to drop just these two patches? Or do you prefer to mark
-> >> the whole series as "Changes requested"?  
+> >> Not sure, cc: Catalin, from experience it seems like second scan often
+> >> surfaces issues the first scan missed.
 > >
-> > Your call, we can also apply as is. mptcp-join is ignored, anyway.  
+> > It's some of the kmemleak heuristics to reduce false positives. It does
+> > a checksum of the object during scanning and only reports a leak if the
+> > checksum is the same in two consecutive scans.
 > 
-> I realised patch 3/6 is going to cause issues when running on older
-> kernels, so we would need to revert it if we want to apply all patches.
+> Thank you for the explanation!
 > 
-> But if you prefer a v2 for the whole series instead of applying 1,4-6,
-> I can also do that :)
+> Does that mean a scan should be triggered at the end of the tests,
+> then wait 5 second for the grace period, then trigger another scan
+> and check the results?
+> 
+> Or wait 5 seconds, then trigger two consecutive scans?
 
-Alright, please send a v2, then. Sorry for the flip-flop.
+The 5 seconds is the minimum age of an object before it gets reported as
+a leak. It's not related to the scanning process. So you could do two
+scans in succession and wait 5 seconds before checking for leaks.
+
+However, I'd go with the first option - do a scan, wait 5 seconds and do
+another. That's mostly because at the end of the scan kmemleak prints if
+it found new unreferenced objects. It might not print the message if a
+leaked object is younger than 5 seconds. In practice, though, the scan
+may take longer, depending on how loaded your system is.
+
+The second option works as well but waiting between them has a better
+chance of removing false positives if, say, some objects are moved
+between lists and two consecutive scans do not detect the list_head
+change (and update the object's checksum).
+
 -- 
-pw-bot: cr
+Catalin
