@@ -1,145 +1,107 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9284D15539A
-	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 01:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171BE27FD56;
+	Tue,  2 Sep 2025 01:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756777658; cv=none; b=YtLJnDkZqhmFVOpfXqMZa6w+z0V0kp5SsB7xpPLbg5KV22v2odzSpdoLOLGCuktlozClOWVf8LOIhQtQVw9n6srf08HsWNdEIO56zsErSMG5djafw4uRLDpAGk7PZJdUyysgQ5oGerrXK4/vsTheVd4wKMMllW9rBMcKzfJO6J0=
+	t=1756778293; cv=none; b=ZEd9SQOYEr+8HP2Kx3DUEo/rO9hkWjIpGKESQ7ciMZH267wynEPa8YQXTZ/fBgNuD4S2pP6Z0aPWNF8X2iyRr/3z3Bb+IYfYC9UzNNjCS/HPblFIwqsTWmMkiOB7qcUm9/TexuhWEsMsEccRFrYdfndKsC5BtJiDw/h2tiZ6XsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756777658; c=relaxed/simple;
-	bh=P6Fv35xVBpL5CQfnyr/ccGMQCnhxSXoGqrwQNKZ1CIc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=BoQKJ9VUu/06BiLsts2aQ/5R/TnlVFBfz4OD+SMkiMNYL+UWgEIAqBhMRMF1zG80+Wdv4sDqmHup6TKscsVwXjnawk+sh+ygkV1BhIcap8ShPBrxcbYyaZWvAsKuKUwTEpicrmy0+lpB0AjolfovZgVE6Dgvbs2/wXyxht0+SlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NBd2zPPz; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NBd2zPPz"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-61cd6089262so7681792a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 01 Sep 2025 18:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756777655; x=1757382455; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WaIxEEeWDvMvB8eA4hCP2Ou1o881OgtcWzxOk4HGVMU=;
-        b=NBd2zPPzXLj7b1WbB/U7ReiddpLYiSF0h+79zEXhzEhTzCxR7VT1Ea8uKD6uoxSB9K
-         BmHAccifFO+vLtJNu1wbdtZikP3KngcKv9oKplmtj8NPV6SELDpOh3UeOKy+ye6WkC/5
-         es2zDvCs6MyZKmUbbiOrO33CJrrN2SIXLoTncV+Eds/AjlLQ+A0DiYeYe3IYkvpu4qmP
-         CZ1vMcQTq55c77rgF02WljeAx8z/eTkg9rcWlKnE67inYxHaa4mc0YF05GNTDjx6YVBX
-         OkHhGTWgPe+BIsog3vGcvZlp26KthC+KMNVh+7/5LQbZk1a/4fsotv2FoLmuWUuufdwy
-         j9QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756777655; x=1757382455;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WaIxEEeWDvMvB8eA4hCP2Ou1o881OgtcWzxOk4HGVMU=;
-        b=jOH2iCrSZPKWk0yDuzAJPjq7KsgwDh/VKaq4EIs5TR98yAgIOFooxDxG3uzcgoSnY/
-         zk//eN4DDP2r9OADZLs7CAq0Uw+x/RPqMg0lsu9E7WDnt1nkiecRd/cjIjwEAhtf5Rty
-         VDECv1tRelnV76MoeE5fx81OBEK1R6ytZb3XOpiFGowjpfRW0PyAyUXlX0I/SdSGCNr/
-         hPtM1ZAD0s9sMNvyztT43BlgJmt/N6Nc+bTytK3p1+KZJom2YSWU8rPxCDni/bt1UiOG
-         n9P0ec2eHHErQvFMMhRRGraS3pAlpIabfDyL3IXknu8NmNQPWb4hAjL6iaUVpzqkw05y
-         adAA==
-X-Gm-Message-State: AOJu0YyA3b8rhMCmrONgqjtHEoq4RiqMKe9mqlKZonAbbVYxOlAlkumG
-	mHrkNRi338eptkMr3igf8h1XsL81duGhT4EKg94iqPp3k+sUOIurWIOnbRSzcvUU5QO3Lh7qP+P
-	D96mBgckBRNGGuXTyuJvA5EP00q/Wenr74kBT1QE=
-X-Gm-Gg: ASbGnctqy6pb2bQARr71iQVHyJ16T/GeSpZ/SHND8QBi52YP6rJE8F4r/iqb7hSTRpa
-	lCa2MKO9t5YnYaf+/CjINISp8ep1K/0m4yjlFy5J+djtcEyVdptb/vFKnCUFFUGv6ILHkwZ1l8u
-	7DRQNT73t5ZW5xE6NHl0Ane/wT4PHuZ/hOttn+KzjI2VGZ1wv5m7c3c40blbNcBDzPEeiCyBn6l
-	pW/zIsZGwIwrlzpy8U=
-X-Google-Smtp-Source: AGHT+IHTbPw46C3PM5pe7tynC7BzrRUNfPKPfjeqIP7I8qeBK4EysjwaqFrW1L2vQdyoBzy309Ns+wxFkWg6UuEeGbo=
-X-Received: by 2002:a05:6402:34c1:b0:61c:d457:e559 with SMTP id
- 4fb4d7f45d1cf-61d26c3fb81mr9527028a12.23.1756777654733; Mon, 01 Sep 2025
- 18:47:34 -0700 (PDT)
+	s=arc-20240116; t=1756778293; c=relaxed/simple;
+	bh=N/VCLgeEzxl6yIVTPQlWV5+dpMkgTqaXpWk5kqEijTM=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=mO8E74WeHQHgi8lUNSXQxH2d/DWDiX/PzNG+hqxn7SuW8UdWxnc6P/H41xWc3MuuJEyZX7k0fGMwAqgDUWHu9/6A2FLZeJwgPgojSbqMmELb4dxsG22sYgHZ9snnkJ7ziHVF/zeMLV1wjeNgP+akhRG3v9+uhfbuMtCb6du0mno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cG85g5Bzxz8Xs7B;
+	Tue, 02 Sep 2025 09:57:59 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 5821vivR041930;
+	Tue, 2 Sep 2025 09:57:44 +0800 (+08)
+	(envelope-from fan.yu9@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 2 Sep 2025 09:57:45 +0800 (CST)
+Date: Tue, 2 Sep 2025 09:57:45 +0800 (CST)
+X-Zmail-TransId: 2afc68b64f19396-60f66
+X-Mailer: Zmail v1.0
+Message-ID: <202509020957458514CMgUiaqPjTURNET_d-w0@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Zhixu Liu <zhixu.liu@gmail.com>
-Date: Tue, 2 Sep 2025 09:46:57 +0800
-X-Gm-Features: Ac12FXzH5jHhc9raQ2p4GMk2zdaDkORY97A1YpxfmZPR6R1U7h4dnejYderCZXU
-Message-ID: <CALMA0xaveoq1PdvucwLGr=Oi0D7u+ouCpq7JNKc6qeMJbLUd5Q@mail.gmail.com>
-Subject: [PATCH] docs: sphinx: handle removeal of utils.error_reporting in
- docutils 0.22
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <fan.yu9@zte.com.cn>
+To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>, <corbet@lwn.net>
+Cc: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <fan.yu9@zte.com.cn>, <wang.yaxin@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgMC8zXSB0b29scy9kZWxheXRvcDogaW1wbGVtZW50IHJlYWwtdGltZSBrZXlib2FyZCBpbnRlcmFjdGlvbiBzdXBwb3J0?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 5821vivR041930
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: fan.yu9@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 02 Sep 2025 09:57:59 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68B64F27.002/4cG85g5Bzxz8Xs7B
 
-docutils.utils.error_reporting wass removed in docutils v0.22, causing sphi=
-nx
-extension (kernel_include) to fail with:
+From: Fan Yu <fan.yu9@zte.com.cn>
 
->   File "/usr/lib/python3.12/site-packages/sphinx/registry.py", line 544, =
-in load_extension
->     raise ExtensionError(
-> sphinx.errors.ExtensionError: Could not import extension kernel_include (=
-exception: No module named 'docutils.utils.error_reporting')
+Current Limitations
+===================
+The current delaytop implementation has two main limitations:
+1) Static sorting only by CPU delay
+Forcing users to restart with different parameters to analyze
+other resource bottlenecks.
+2) Memory delay information is always expanded
+Causing information overload when only high-level memory pressure
+monitoring is needed.
 
-add compatibility handling with try/except:
-- SafeString =E2=86=92 str
-- ErrorString =E2=86=92 docutils.io.error_string()
+Improvements
+============
+1) Implemented dynamic sorting capability
+- Interactive key 'o' triggers sort mode.
+- Supports sorting by CPU/IO/Memory/IRQ delays.
+- Memory subcategories available in verbose mode.
+ * c - CPU delay (default)
+ * i - IO delay
+ * m - Total memory delay
+ * q - IRQ delay
+ * s/r/t/p/w - Memory subcategories (in verbose mode)
+2) Added memory display modes
+- Compact view (default): shows aggregated memory delays.
+- Verbose view ('M' key): breaks down into memory sub-delays.
+ * SWAP - swapin delays
+ * RCL - freepages reclaim delays
+ * THR - thrashing delays
+ * CMP - compaction delays
+ * WP - write-protect copy delays
 
-Signed-off-by: Z. Liu <zhixu.liu@gmail.com>
----
- Documentation/sphinx/kernel_feat.py         | 5 ++++-
- Documentation/sphinx/kernel_include.py      | 6 +++++-
- Documentation/sphinx/maintainers_include.py | 5 ++++-
- 3 files changed, 13 insertions(+), 3 deletions(-)
+Practical benefits
+==================
+1) Dynamic Sorting for Real-Time Bottleneck Detection
+System administrators can now dynamically change sorting to identify
+different types of resource bottlenecks without restarting.
 
-diff --git a/Documentation/sphinx/kernel_feat.py
-b/Documentation/sphinx/kernel_feat.py
-index e3a51867f27bd..95f852c0722e1 100644
---- a/Documentation/sphinx/kernel_feat.py
-+++ b/Documentation/sphinx/kernel_feat.py
-@@ -40,7 +40,10 @@ import sys
- from docutils import nodes, statemachine
- from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
--from docutils.utils.error_reporting import ErrorString
-+try:
-+    from docutils.utils.error_reporting import ErrorString
-+except:
-+    from docutils.io import error_string as ErrorString
- from sphinx.util.docutils import switch_source_input
+2) Enhanced Usability with On-Screen Keybindings
+More intuitive interactive usage with on-screen keybindings help.
+Reduced screen clutter when only memory overview is needed.
 
- __version__  =3D '1.0'
-diff --git a/Documentation/sphinx/kernel_include.py
-b/Documentation/sphinx/kernel_include.py
-index 1e566e87ebcdd..46a6389f22e47 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -35,7 +35,11 @@
- import os.path
+Fan Yu (3):
+  tools/delaytop: add memory verbose mode support
+  tools/delaytop: add flexible sorting by delay field
+  tools/delaytop: add interactive mode with keyboard controls
 
- from docutils import io, nodes, statemachine
--from docutils.utils.error_reporting import SafeString, ErrorString
-+try:
-+    from docutils.utils.error_reporting import SafeString, ErrorString
-+except:
-+    SafeString =3D str
-+    from docutils.io import error_string as ErrorString
- from docutils.parsers.rst import directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
- from docutils.parsers.rst.directives.misc import Include
-diff --git a/Documentation/sphinx/maintainers_include.py
-b/Documentation/sphinx/maintainers_include.py
-index d31cff8674367..fdf6c2d7c3e30 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -22,7 +22,10 @@ import re
- import os.path
+ tools/accounting/delaytop.c | 347 +++++++++++++++++++++++++++++-------
+ 1 file changed, 287 insertions(+), 60 deletions(-)
 
- from docutils import statemachine
--from docutils.utils.error_reporting import ErrorString
-+try:
-+    from docutils.utils.error_reporting import ErrorString
-+except:
-+    from docutils.io import error_string as ErrorString
- from docutils.parsers.rst import Directive
- from docutils.parsers.rst.directives.misc import Include
-
---
-2.49.1
+-- 
+2.25.1
