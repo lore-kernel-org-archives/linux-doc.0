@@ -1,164 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5B135A2AB;
-	Tue,  2 Sep 2025 21:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB5935A2BB;
+	Tue,  2 Sep 2025 21:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756848934; cv=none; b=IoDTgvU6UKeYZxxi2h5BEF4/1b6s/M6ZzIoWkl2U4m8LH7+FDBL/I6LRNLdumVoRl/EVQkA+GKe9NiL/H7vg9s8Mo8w+s6cxGjoWgmA6E1iwuzfkMt6eW6j734VVfh1yLQjJKf0iMKq0BqLeYm3kcxsAPuntMV2w6AQ/yEAEtMA=
+	t=1756849119; cv=none; b=EzA0NPcj3a++ABhj2xYC2ipA9HKybshEWWsaacYiHacGWg7ae120hglypnOsMkDd/+XYkn5xdr9W5u5hqnNER3zOKdefcYzlUb432NHZeoA7fN8coMsiNCuEBsYx5XZC0ERP+a832aDwk3O1aKt8ghPkSjJycl4xfF3Z0LjEgHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756848934; c=relaxed/simple;
-	bh=feSylG8v5RU948ye3Aa4+gNuJQDlGa8ABq1tWoE+Wc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PJeYnxyQEmGti5wsPtk840C80Qr0CYUioSshI26dQB1s+b1GQhllXoBLb3htX/raQfaJXKdnS3yTpzdI7VG0++AzT82q1wV/rH3Cec8+LHNgqoInZ2kbRV8TwrgO/Uj5Wf5VCMi8fYQC82p0PaJspC4D22EWtciu8sox+d4uF7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myVExmJC; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756849119; c=relaxed/simple;
+	bh=RWzLvD4JVoHR9ApAGc3gcO8HvFNJdZzT8+yB+n3MPH8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=Izh4zclrWQF28AN8tFf1RK9zv/cZw8xvEjR3qTrWa78I2btmLNxW9NEqc97OPCDehWg55Xd4+dNwG8MULLEJ050oiTEoT7sa22X+5vt3hAJuvfhU83KUE2paK9JAL0Bnfwj2HJibZfQguA2BhyE4nIACEoHJJkCTdaXNWqrS3C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t8IPsHmX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myVExmJC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756848932; x=1788384932;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=feSylG8v5RU948ye3Aa4+gNuJQDlGa8ABq1tWoE+Wc4=;
-  b=myVExmJCtRlQa9BLigploF8dXYoWhF0hquDnaKgMyxiR3gs6ZdqC5Qdn
-   hdeNusuwggDCFmNBQh186vId1U6+C86a8rsiOEpykbkgQAAMQxfPMnJ9n
-   MQarhV5LjiF/9y4Md+9OzJNzeLPIyhG3nFNAyXzh0CgWhREnz+F2HJKgW
-   sshVt+EmdQPEfpFYAZqHrSldz85DRXjhu2HjsyCTp/TfpFNP9IAEhItiR
-   wBblUG3ovWHW0dv0GuTkZxpl5EEpQmwk2r9+EF6AttyteTXw4B5nrpq4l
-   CNAiwi6/iO5uw1+4w8WGb+XWoA3K5svydvMSpwLi4RzR82bA9tGAbZ4o/
-   Q==;
-X-CSE-ConnectionGUID: YODi9FJ7TWCqPMRRspZmVg==
-X-CSE-MsgGUID: EzIEfTMiQw69/1mcWmrN5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="59001789"
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="59001789"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 14:35:32 -0700
-X-CSE-ConnectionGUID: DLHUacnhR3mqLdlPaKYduA==
-X-CSE-MsgGUID: /Bh1eTHdThyfOCxrG7T+XA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="171553507"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Sep 2025 14:35:15 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1utYeh-00033D-0S;
-	Tue, 02 Sep 2025 21:35:07 +0000
-Date: Wed, 3 Sep 2025 05:35:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 06/11] firmware: qcom: scm: add support for object
- invocation
-Message-ID: <202509030554.WR3MNpCE-lkp@intel.com>
-References: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t8IPsHmX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA998C4CEED;
+	Tue,  2 Sep 2025 21:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756849119;
+	bh=RWzLvD4JVoHR9ApAGc3gcO8HvFNJdZzT8+yB+n3MPH8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=t8IPsHmXG6//1qi8MrzggmcAeS6O4MPBqpIvOHmnsr+uAYCDE0lQy5XlqB/BGoCmU
+	 SnpOMsD+c21drqXTZBRxlXjDEWqNAyYSpIYsUo5yF00gYSL0r3pd1YsguBY1RnMw6U
+	 5WYk0J6xQMstx5sqLmFDKuGO61AR4Rex2twtp6VlKjIkgTXikqzWwOjCjhjzRhZ8l6
+	 zDXW6RsalKZBeBt11H5JofT4eAU57EFume07q8xA9RA719Y2ejOobSHKHRx+Q5OJO2
+	 nNN7b4J2opd4VofivTbkMqGlrX+HGVO50+RgrQ2v+r0/jGY4oS1Jr6heEMt9P1cVA6
+	 6/6u6Chm9Y9FA==
+Date: Tue, 2 Sep 2025 23:38:31 +0200 (GMT+02:00)
+From: Matthieu Baerts <matttbe@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, mptcp@lists.linux.dev,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+	Christoph Paasch <cpaasch@openai.com>, Gang Yan <yangang@kylinos.cn>
+Message-ID: <739c86b1-5cf5-4525-919f-1ca13683b77f@kernel.org>
+In-Reply-To: <aLdfOrQ4O4rnD5M9@arm.com>
+References: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org> <20250902072600.2a9be439@kernel.org> <834238b4-3549-4062-a29b-bf9c5aefa30f@kernel.org> <20250902082759.1e7813b8@kernel.org> <aLc2hyFAH9kxlNEg@arm.com> <d4205818-e283-4862-946d-4e51bf180158@kernel.org> <aLdfOrQ4O4rnD5M9@arm.com>
+Subject: Re: [PATCH net-next 0/6] mptcp: misc. features for v6.18
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Correlation-ID: <739c86b1-5cf5-4525-919f-1ca13683b77f@kernel.org>
 
-Hi Amirreza,
+2 Sept 2025 23:18:56 Catalin Marinas <catalin.marinas@arm.com>:
 
-kernel test robot noticed the following build warnings:
+> On Tue, Sep 02, 2025 at 08:50:19PM +0200, Matthieu Baerts wrote:
+>> Hi Catalin,
+>>
+>> 2 Sept 2025 20:25:19 Catalin Marinas <catalin.marinas@arm.com>:
+>>
+>>> On Tue, Sep 02, 2025 at 08:27:59AM -0700, Jakub Kicinski wrote:
+>>>> On Tue, 2 Sep 2025 16:51:47 +0200 Matthieu Baerts wrote:
+>>>>> It is unclear why a second scan is needed and only the second one caught
+>>>>> something. Was it the same with the strange issues you mentioned in
+>>>>> driver tests? Do you think I should re-add the second scan + cat?
+>>>>
+>>>> Not sure, cc: Catalin, from experience it seems like second scan often
+>>>> surfaces issues the first scan missed.
+>>>
+>>> It's some of the kmemleak heuristics to reduce false positives. It does
+>>> a checksum of the object during scanning and only reports a leak if the
+>>> checksum is the same in two consecutive scans.
+>>
+>> Thank you for the explanation!
+>>
+>> Does that mean a scan should be triggered at the end of the tests,
+>> then wait 5 second for the grace period, then trigger another scan
+>> and check the results?
+>>
+>> Or wait 5 seconds, then trigger two consecutive scans?
+>
+> The 5 seconds is the minimum age of an object before it gets reported as
+> a leak. It's not related to the scanning process. So you could do two
+> scans in succession and wait 5 seconds before checking for leaks.
+>
+> However, I'd go with the first option - do a scan, wait 5 seconds and do
+> another. That's mostly because at the end of the scan kmemleak prints if
+> it found new unreferenced objects. It might not print the message if a
+> leaked object is younger than 5 seconds. In practice, though, the scan
+> may take longer, depending on how loaded your system is.
+>
+> The second option works as well but waiting between them has a better
+> chance of removing false positives if, say, some objects are moved
+> between lists and two consecutive scans do not detect the list_head
+> change (and update the object's checksum).
 
-[auto build test WARNING on 33bcf93b9a6b028758105680f8b538a31bc563cf]
+Thank you for this very nice reply, that's very clear!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250902-125821
-base:   33bcf93b9a6b028758105680f8b538a31bc563cf
-patch link:    https://lore.kernel.org/r/20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5%40oss.qualcomm.com
-patch subject: [PATCH v9 06/11] firmware: qcom: scm: add support for object invocation
-config: i386-buildonly-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509030554.WR3MNpCE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030554.WR3MNpCE-lkp@intel.com/reproduce)
+I will then adapt our CI having CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF
+to do a manual scan at the very end, wait 5 seconds and do another.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509030554.WR3MNpCE-lkp@intel.com/
+Cheers,
+Matt
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:5,
-                    from drivers/firmware/qcom/qcom_scm.c:13:
-   drivers/firmware/qcom/qcom_scm.c: In function 'qcom_scm_qtee_init':
->> drivers/firmware/qcom/qcom_scm.c:2208:35: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/qcom/qcom_scm.c:2208:17: note: in expansion of macro 'dev_err'
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                 ^~~~~~~
-   drivers/firmware/qcom/qcom_scm.c:2208:63: note: format string is defined here
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                                                              ~^
-         |                                                               |
-         |                                                               int
-         |                                                              %ld
-
-
-vim +2208 drivers/firmware/qcom/qcom_scm.c
-
-  2188	
-  2189	static void qcom_scm_qtee_init(struct qcom_scm *scm)
-  2190	{
-  2191		struct platform_device *qtee_dev;
-  2192		u64 result, response_type;
-  2193		int ret;
-  2194	
-  2195		/*
-  2196		 * Probe for smcinvoke support. This will fail due to invalid buffers,
-  2197		 * but first, it checks whether the call is supported in QTEE syscall
-  2198		 * handler. If it is not supported, -EIO is returned.
-  2199		 */
-  2200		ret = qcom_scm_qtee_invoke_smc(0, 0, 0, 0, &result, &response_type);
-  2201		if (ret == -EIO)
-  2202			return;
-  2203	
-  2204		/* Setup QTEE interface device. */
-  2205		qtee_dev = platform_device_register_data(scm->dev, "qcomtee",
-  2206							 PLATFORM_DEVID_NONE, NULL, 0);
-  2207		if (IS_ERR(qtee_dev)) {
-> 2208			dev_err(scm->dev, "qcomtee: register failed: %d\n",
-  2209				PTR_ERR(qtee_dev));
-  2210			return;
-  2211		}
-  2212	
-  2213		ret = devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
-  2214		if (ret)
-  2215			dev_err(scm->dev, "qcomtee: add action failed: %d\n", ret);
-  2216	}
-  2217	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
