@@ -1,344 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52DF32ED25;
-	Tue,  2 Sep 2025 15:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323B42D5C8B
+	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 15:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756828438; cv=none; b=Scs/0uS0jFLahm7kxwyEWOx/l9c6YQMtx0Y3gk89FyZKd1oAzRQddPsCDJw66YaXIu0m4Njjo/lHWNpPE4i/ne+eznGubFSf3N6t5h9PUrhPwPzZerWomqFZUgBnhLEvd9YZ6Lh2IE2quCk8dvDQlD5l89d8efMYs3HO2qzU5VU=
+	t=1756828604; cv=none; b=D+iHYEe9qmFp37YCgYpxMNA+0vw1qGCcyO2W5fw3epXlI//euMrcqpk3jixpdvcYxr9gN0bIW0Tnhwn4W5Fsh1GLsI3vVjNCPftQBoKWPOvvr9FDBO7o2UpucPAIv3MdE419RdKA0koKQw4slPUMjBfk4Bpi8mxRiy2rAN/erkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756828438; c=relaxed/simple;
-	bh=Yp082BtJyNkl+UbZt1DIV8VDjpmSNVA8FEzIUsrdAl0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q0nrexgbvNGKHoVQc9H+szZWJk/0TUgiEiOf5f7c19HdhSC7Dw4l9I1PpUkLcnk/cVDdeIFdubwxBn/+Gpcg8IJhU10qLy2VKgAowXFpsluZA9v/2XkRPlzpcryJgMQ3L342XOkvzBxbx+l7wzlxmZ1wc1OrMLgY6OofY+yGKgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZS1x9qyY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756828604; c=relaxed/simple;
+	bh=UHlUNcL2RVDK2q+nSIlFfmEZaxPuNmoZ640IPjeYkhI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H6tkB3G3nCh2IrdJkt3nCCzKWxxmT4X6VjfNB/aGw0hslpB5Q23/Zu+/fkoxQjXhsZ0qkyGjYGb0nIYXNEAOxalwkKpSYaYN9nIfGMTqo05dpNfz4hKTpQaxj84Erl8ef0iiuepSqZGXhiDxzQv+DBblh3Rsi3DylZiOy61RhRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AOeWyW4y; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZS1x9qyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881D1C4CEED;
-	Tue,  2 Sep 2025 15:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756828438;
-	bh=Yp082BtJyNkl+UbZt1DIV8VDjpmSNVA8FEzIUsrdAl0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZS1x9qyY9xFiqaUNQkQIiX7FPmOoSBYH6/d3baPgMBBEgcIxitkA697Tbl0bowrkO
-	 aB8OUFTZ3nrcxmNobBInj7m6e2GjTsKa5V9oC0zpExq3quBQAK4ysRnHI4zeoP/GBF
-	 M8E6Pw7ODdtKYDiY1wj0Rf1wi1K7q0Enj9Dhs9Ba++5fONi3zFBbJzzZn/gJkfbbTR
-	 iMJ+OkavngafYoCplMwJsTx8gcT4k8sk6UvU9pXHMlbQm0fgcv29OGF2gAUkxWIidq
-	 BBm/AxfnWc12vRuHH5C6AAC9Y1ykexo5/zJmq2ZJQDNB+MqVIH8Rv1o+hmvFBJdDG7
-	 YBKc+xvBwnSEg==
-Date: Tue, 2 Sep 2025 16:53:52 +0100
-From: Lee Jones <lee@kernel.org>
-To: nuno.sa@analog.com
-Cc: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH 2/6] mfd: ltc4283: Add support for the LTC4283 Swap
- Controller
-Message-ID: <20250902155352.GW2163762@google.com>
-References: <20250814-ltc4283-support-v1-0-88b2cef773f2@analog.com>
- <20250814-ltc4283-support-v1-2-88b2cef773f2@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AOeWyW4y"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-61ebe5204c2so1242357a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 02 Sep 2025 08:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756828601; x=1757433401; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=K8dFUaGywEGKT+JX9CeQ1sbqRE7FdFpfcuiuyVf5rs4=;
+        b=AOeWyW4yPFIJctSr9oka6f7rUZMITBbQv/54Pv9xln4TtRRGtI5L6LANnPLv8NK1Vs
+         q1T7TMVkpDFp0chIi9+EZpODL785o0j8UL2WwdgF7prskAkklk6bAS2r4gtf2kW/52nH
+         jz3gZZ+0wiOoSY5Ccyv8SJaMCf3zmXwMyPlC4ORLx1bsLftiqRO6tmqJ6CHsJHM79Q0V
+         RHRFw5PjeHXNTBpWTExhDGbJ5HN+Wg7lco8HR7+LMtGE4CaFSQS5ebGqJPMsDJhW+gHR
+         RSjjDCepip/dRPuLFhUDHhFfhgIhqKHX68b7dErRFhfYs48+8rFL0ZFM+rAmIzdNsOvo
+         6acQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756828601; x=1757433401;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K8dFUaGywEGKT+JX9CeQ1sbqRE7FdFpfcuiuyVf5rs4=;
+        b=mTKLbLoQqMk1MLTwONMjOj5pZ5PMZjw4e5u2l/DNo5DxhMR+PmT2lgRL3fmE2nt44I
+         joStLFHHodXCqfbGZEg5TU89co1tWfH+a5OM+YTNH81JDH7RZkOvO1pLjfqBiA1XtRQS
+         udhXI7LGfTdlT76GzKoIDTtZ+JEgSTD0JtrHB/kjM6EQpzyEtcsK8mwYpRroj6brm6Y6
+         0x0SV8Q2ERUKq5tjRsf/sfEFcK28+yQl7wQM5CTAGSr6U2MUemMK39355BxV1YJHgddA
+         KExb4auCOqNEqpiACsQMY22bVmSIZcvAQbh/4/J4Fp3e++aFu4xBfWiQ15VzmD8X8auw
+         KaXQ==
+X-Gm-Message-State: AOJu0Yz8vkPJGQiW2hWuqDmV40OwpDaewMYtm9RTyyDPdJGBJD00mdDi
+	KJ+uLeQOQowm9WPJTyuHY4+j19rE5Uf7H28OGQDu2MBF8Sqm2jjyCP3zaOhIEeMo1oQBvKR7+8Z
+	bvaQERRWcW15AmXvTPZzgABLgzCq1iflImTDtS/M=
+X-Gm-Gg: ASbGncs2krH0czOJKgJHFzuAT+Ut5gUwlfSu3fFQCbgFJRkmUgF/hqGy40BMVQzHCWj
+	9SIFTdkvoMn6pjxLBN4SkidGV9ac0dogAfvDm8/J5V5Oago3C6xynkIBTOO/a4Kef6ZRljtqFpB
+	inWAQAg0lIvevCl22lrp7QYBv9sjWajnYXzJWL17Ez1aUyw6/oyQi47W2JUBcYq9NAbzkLdjQIj
+	JVTVTQhAp9MldinO+w=
+X-Google-Smtp-Source: AGHT+IFhe0fpc8meFYSc7ZllZNyX8wSGkEvj065UuftcjcPRZfmtHaI3v8ScUHp6dBaZokuGnY4nb0/tM4yTla49L/4=
+X-Received: by 2002:a05:6402:2693:b0:61c:9cd7:e5b3 with SMTP id
+ 4fb4d7f45d1cf-61d26d8059bmr10052305a12.28.1756828601358; Tue, 02 Sep 2025
+ 08:56:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250814-ltc4283-support-v1-2-88b2cef773f2@analog.com>
+References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
+ <87a53cx4r0.fsf@trenco.lwn.net>
+In-Reply-To: <87a53cx4r0.fsf@trenco.lwn.net>
+From: Zhixu Liu <zhixu.liu@gmail.com>
+Date: Tue, 2 Sep 2025 23:56:03 +0800
+X-Gm-Features: Ac12FXzKwyAhDQFK6M7gMw-yHSe5Gf4LAmQEWHuzXWO0GmNF0T-Uk8ybD9F-Td4
+Message-ID: <CALMA0xaFxH_AT8PYyxLYqjP9RGKpWK4PsYbh-jVD8ddY9bCyFw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: sphinx: handle removal of utils.error_reporting
+ in docutils 0.22
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 14 Aug 2025, Nuno Sá via B4 Relay wrote:
+> This is a step in the right direction ... but the exception you report
+> in the changelog is sphinx.errors.ExtensionError; why a different
+> exception here?
 
-> From: Nuno Sá <nuno.sa@analog.com>
-> 
-> The LTC4283 is a negative voltage hot swap controller that drives an
-> external N-channel MOSFET to allow a board to be safely inserted and
-> removed from a live backplane.
-> 
-> Main usage is as an Hardware Monitoring device. However, it has up to 8
-> pins that can be configured and used as GPIOs and hence, the device can
-> also be a GPIO controller (and so being added as MFD device).
-> 
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> ---
->  MAINTAINERS                 |   2 +
->  drivers/mfd/Kconfig         |  11 ++++
->  drivers/mfd/Makefile        |   1 +
->  drivers/mfd/ltc4283.c       | 140 ++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/mfd/ltc4283.h |  33 +++++++++++
->  5 files changed, 187 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 413bb77d5eebe2b51aa9c3af86e7cfd5ab142044..b5f4f1c41c64b738d57c1fb5552a60b4c6b9985c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14506,6 +14506,8 @@ L:	linux-hwmon@vger.kernel.org
->  L:	linux-gpio@vger.kernel.org
->  S:	Supported
->  F:	Documentation/devicetree/bindings/mfd/adi,ltc4283.yaml
-> +F:	drivers/mfd/ltc4283.c
-> +F:	include/linux/mfd/ltc4283.h
->  
->  LTC4286 HARDWARE MONITOR DRIVER
->  M:	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index 425c5fba6cb1e7848dcea05bd77c729a71d48e2c..ec3e02d40fd17a0bba29e3157723055feedebd11 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -900,6 +900,17 @@ config MFD_MAX14577
->  	  additional drivers must be enabled in order to use the functionality
->  	  of the device.
->  
-> +config MFD_LTC4283
-> +	tristate "LTC4283 Hot Swap Controller"
-> +	depends on I2C
-> +	select MFD_CORE
-> +	select REGMAP_I2C
-> +	help
-> +	  This enables support for the LTC4283 Negative Voltage Hot Swap
-> +	  Controller. This driver provides common support for accessing the
-> +	  device; additional drivers must be enabled in order to use the
-> +	  functionality of the device.
-> +
->  config MFD_MAX77541
->  	tristate "Analog Devices MAX77541/77540 PMIC Support"
->  	depends on I2C=y
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index f7bdedd5a66d16bf8ccee0da1236a441e6f085b0..4a3bcd30ab7e12aed4bc5e48294500c77cb61aa7 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -23,6 +23,7 @@ obj-$(CONFIG_MFD_EXYNOS_LPASS)	+= exynos-lpass.o
->  obj-$(CONFIG_MFD_GATEWORKS_GSC)	+= gateworks-gsc.o
->  obj-$(CONFIG_MFD_MACSMC)	+= macsmc.o
->  
-> +obj-$(CONFIG_MFD_LTC4283)	+= ltc4283.o
->  obj-$(CONFIG_MFD_TI_LP873X)	+= lp873x.o
->  obj-$(CONFIG_MFD_TI_LP87565)	+= lp87565.o
->  obj-$(CONFIG_MFD_TI_AM335X_TSCADC)	+= ti_am335x_tscadc.o
-> diff --git a/drivers/mfd/ltc4283.c b/drivers/mfd/ltc4283.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a45c01278f884630984790c922c057c4f2db9c82
-> --- /dev/null
-> +++ b/drivers/mfd/ltc4283.c
-> @@ -0,0 +1,140 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Analog Devices LTC4283 I2C Negative Voltage Hot Swap Controller
-> + *
-> + * Copyright 2025 Analog Devices Inc.
-> + */
-> +#include <linux/bitmap.h>
-> +#include <linux/bitops.h>
-> +#include <linux/device.h>
-> +#include <linux/i2c.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/regmap.h>
-> +#include <linux/property.h>
+sphinx.errors.ExtensionError is reported by sphinx, following is the
+full traceback
+(ModuleNotFoundError is a Built-in subclass of ImportError, which is
+introduced since python 3.6):
 
-Alphabetical.
+    Traceback (most recent call last):
+      File "/usr/lib/python3.12/site-packages/sphinx/registry.py",
+line 541, in load_extension
+        mod = import_module(extname)
+              ^^^^^^^^^^^^^^^^^^^^^^
+      File "/usr/lib/python3.12/importlib/__init__.py", line 90, in
+import_module
+        return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+      File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+      File "<frozen importlib._bootstrap>", line 1331, in
+_find_and_load_unlocked
+      File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+      File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+      File "<frozen importlib._bootstrap>", line 488, in
+_call_with_frames_removed
+      File "/var/tmp/portage/sys-kernel/linux-docs-6.16.4/work/linux-6.16.4/Documentation/sphinx/kernel_include.py",
+line 37, in <module>
+        from docutils.utils.error_reporting import SafeString, ErrorString
+    ModuleNotFoundError: No module named 'docutils.utils.error_reporting'
 
-> +
-> +#include <linux/mfd/ltc4283.h>
-> +
-> +static const struct mfd_cell ltc4283_cells[] = {
-> +	MFD_CELL_OF("ltc4283-hwmon", NULL, NULL, 0, 0, "adi,ltc4283-hwmon"),
-> +	MFD_CELL_OF("ltc4283-gpio", NULL, NULL, 0, 0, "adi,ltc4283-gpio"),
-> +};
-> +
-> +static bool ltc4283_writable_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case 0x00 ... 0x03:
+    The above exception was the direct cause of the following exception:
 
-Define these magic numbers.
+    Traceback (most recent call last):
+      File "/usr/lib/python3.12/site-packages/sphinx/cmd/build.py",
+line 414, in build_main
+        app = Sphinx(
+              ^^^^^^^
+      File "/usr/lib/python3.12/site-packages/sphinx/application.py",
+line 291, in __init__
+        self.setup_extension(extension)
+      File "/usr/lib/python3.12/site-packages/sphinx/application.py",
+line 489, in setup_extension
+        self.registry.load_extension(self, extname)
+      File "/usr/lib/python3.12/site-packages/sphinx/registry.py",
+line 544, in load_extension
+        raise ExtensionError(
+    sphinx.errors.ExtensionError: Could not import extension
+kernel_include (exception: No module named
+'docutils.utils.error_reporting')
 
-> +		return false;
-> +	case 0x3c:
-> +		return false;
-> +	case 0x86 ... 0x8f:
-> +		return false;
-> +	case 0x91 ... 0xa1:
-> +		return false;
-> +	case 0xa3:
-> +		return false;
-> +	case 0xac:
-> +		return false;
-> +	case 0xf1 ... 0xff:
-> +		return false;
-> +	default:
-> +		return true;
-> +	}
-> +}
-> +
-> +static const struct regmap_config ltc4283_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0xff,
-> +	.writeable_reg = ltc4283_writable_reg,
-> +};
-> +
-> +static int ltc4283_get_gpio_pins(struct i2c_client *client, u32 *n_cells)
+> I would still rather just look at the docutils version in any case,
+> rather than trying to interpret exceptions.
+>
+> Thanks,
+>
+> jon
 
-Why not do this in the GPIO driver?
 
-> +{
-> +	struct device *dev = &client->dev;
-> +	u32 pins[LTC4283_GPIO_MAX], pin;
-> +	unsigned long *gpio_mask;
-> +	int n_pins, ret;
-> +
-> +	/*
-> +	 * The device has up to 8 pins that can be configured either as GPIOS or
-> +	 * for monitoring purposes. Both gpio and hwmon devices need to have
-> +	 * this information in order to do proper validations and
-> +	 * configurations. Hence, this property needs to be in the top level
-> +	 * device.
-> +	 */
-> +	n_pins = device_property_count_u32(dev, "adi,gpio-pins");
-> +	if (n_pins < 0)
-> +		return 0;
-> +	if (n_pins >= LTC4283_GPIO_MAX)
-> +		return dev_err_probe(dev, -EINVAL, "Too many GPIO pins specified (%d), max is %d\n",
-> +				     n_pins, LTC4283_GPIO_MAX);
-> +
-> +	ret = device_property_read_u32_array(dev, "adi,gpio-pins", pins, n_pins);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to read GPIO pins\n");
-> +
-> +	gpio_mask = devm_bitmap_zalloc(dev, LTC4283_GPIO_MAX, GFP_KERNEL);
-> +	if (!gpio_mask)
-> +		return -ENOMEM;
-> +
-> +	for (pin = 0; pin < n_pins; pin++) {
-> +		if (pins[pin] >= LTC4283_GPIO_MAX)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Invalid GPIO pin specified (%u), max is %d\n",
-> +					     pins[pin], LTC4283_GPIO_MAX);
-> +
-> +		__set_bit(pins[pin], gpio_mask);
-> +	}
-> +
-> +	/* Add the GPIO cell */
-> +	*n_cells += 1;
-
-Just register it anyway and have the GPIO driver error out if it doesn't
-have the right cells / properties.
-
-> +	i2c_set_clientdata(client, gpio_mask);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ltc4283_probe(struct i2c_client *client)
-> +{
-> +	u32 n_cells = ARRAY_SIZE(ltc4283_cells) - 1;
-> +	struct regmap *regmap;
-> +	int ret;
-> +
-> +	regmap = devm_regmap_init_i2c(client, &ltc4283_regmap_config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	ret = ltc4283_get_gpio_pins(client, &n_cells);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_mfd_add_devices(&client->dev, PLATFORM_DEVID_AUTO,
-> +				    ltc4283_cells, n_cells, NULL, 0, NULL);
-> +}
-> +
-> +static const struct of_device_id ltc4283_of_match[] = {
-> +	{ .compatible = "adi,ltc4283" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ltc4283_of_match);
-> +
-> +static const struct i2c_device_id ltc4283_i2c_id[] = {
-> +	{ "ltc4283" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, ltc4283_i2c_id);
-> +
-> +static struct i2c_driver ltc4283_driver = {
-> +	.driver = {
-> +		.name = "ltc4283",
-> +		.of_match_table = ltc4283_of_match,
-> +	},
-> +	.probe = ltc4283_probe,
-> +	.id_table = ltc4283_i2c_id,
-> +};
-> +module_i2c_driver(ltc4283_driver);
-> +
-> +MODULE_AUTHOR("Nuno Sá <nuno.sa@analog.com>");
-> +MODULE_DESCRIPTION("LTC4283 MFD I2C driver");
-
-It's not an MFD anything!
-
-And the communication method is meaningless.
-
-You can use "Core driver" instead.
-
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/linux/mfd/ltc4283.h b/include/linux/mfd/ltc4283.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..153594009c07b296ce5743e5e817e96464d81cb3
-> --- /dev/null
-> +++ b/include/linux/mfd/ltc4283.h
-> @@ -0,0 +1,33 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Analog Devices LTC4283 I2C Negative Voltage Hot Swap Controller
-> + *
-> + * Copyright 2025 Analog Devices Inc.
-> + */
-> +
-> +#ifndef __MFD_LTC4283_H_
-> +#define __MFD_LTC4283_H_
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/bits.h>
-> +
-> +/*
-> + * We can have up to 8 gpios. 4 PGIOs and 4 ADIOs. PGIOs start at index 4 in the
-> + * gpios mask.
-> + */
-> +#define LTC4283_PGIOX_START_NR	4
-> +
-> +#define LTC4283_PGIO_CONFIG		0x10
-> +#define   LTC4283_PGIO_CFG_MASK(pin) \
-> +	GENMASK(((pin) - LTC4283_PGIOX_START_NR) * 2 + 1, (((pin) - LTC4283_PGIOX_START_NR) * 2))
-
-What do all of these numbers mean?  Can you define them?
-
-> +#define LTC4283_PGIO_CONFIG_2		0x11
-> +#define   LTC4283_ADC_MASK		GENMASK(2, 0)
-> +#define   LTC4283_PGIO_OUT_MASK(pin)	BIT(4 + (pin))
-> +
-> +#define LTC4283_GPIO_MAX	8
-> +
-> +/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
-
-Why?
-
-> +#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> +#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) & (_mask))
-> +
-> +#endif
-> 
-> -- 
-> 2.50.1
-> 
-> 
 
 -- 
-Lee Jones [李琼斯]
+Z. Liu
