@@ -1,315 +1,412 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2987028505D
-	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 11:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B532F6594;
+	Tue,  2 Sep 2025 11:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756810995; cv=none; b=Jytr1gQIXXT3ZMQkYiFZcRxpNTRSFFhntjixnGYT0m12s6uBivap2kkUQp2Fvw257LZifvpwIGE6mGN/D1WnowljIEJR69k1jAtnI3Wk0FLkHqvYQW5bo6Tkoe6GegA3OgAetVvWq0ESBP92SEf3vuvN1K0iyTP5bvoRSktT3uw=
+	t=1756811553; cv=none; b=JO8q/3IBomfGF9yfeXwSRYCOg92L6TAOW4QizTcyCKqNddq/kSt7dqi4cpw8w8TvLWTFP/vpWVL+mN9atuKrCRxeu5a1bnY8q8hKflRynQ1gSIY8VE7WRy/BhcI9Fg2qZLrh8+sBytdWT+FDhvypXc5m2hQlev9F1meXlyhrUJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756810995; c=relaxed/simple;
-	bh=hdFVdysVDo9AGqRbZC0yTvhCgFCx5I9308+Xu909wsg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FQ1SobraKXQ0w0aSupIySeupjclrwh2w+fOr2SK/8MsyZaF/p0Hs5iDoSmGiq95bBldGdPKucytY6DNPf7GrqX7aUOu1ZuWmnMFt2+zO48T7oMJ5gbw7MyEDRlZJCPj58Cnwll8WcKiTUMgQhJutmkiuzqpwYGyQPREIvq0JV20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T5WDwfE4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756811553; c=relaxed/simple;
+	bh=957bTBHXYSSNFWOxfDE0dIMqFGmytxcROeciI4THAZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qcHFBqasVCViaYrfStBVPYyk3GiXzD4F9BIkwFaDN6NCJMnM1RY/NvyVEZ0oSJMjfBPweS0l/heQTogCZtMiVJzmiaLavkWpANEWdMFSpwcpn34gpanWADxwgvpdenvyO568t45q6Pi9A3Fj4wAlerV4A5fQ6HAlePewFdTvF04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8ghxtLk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T5WDwfE4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756810993;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gCSqN7NYIuXHdLAecMsccrDweJPtJmgwNiDlc7rsnHQ=;
-	b=T5WDwfE4Vxx9jw1fPi14rZ3yV+0V31jQI8UR3aJkNErzyAwNRQxncd9FhESASx0juU3Jqk
-	vvpghFcl3ul3k692HT7b4PgI5k5f2me4q7pmU+YsDCBfhlcBIWHbrk5EVVARx9/wTLAc2o
-	GnTzKlGt8UJnjAu9bSk3MLko5h/tuMc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-489-2y-AkRJYPw6wbMorDr9YeQ-1; Tue, 02 Sep 2025 07:03:12 -0400
-X-MC-Unique: 2y-AkRJYPw6wbMorDr9YeQ-1
-X-Mimecast-MFC-AGG-ID: 2y-AkRJYPw6wbMorDr9YeQ_1756810991
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45b869d3572so9621675e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Sep 2025 04:03:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756810991; x=1757415791;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gCSqN7NYIuXHdLAecMsccrDweJPtJmgwNiDlc7rsnHQ=;
-        b=aQ5JsiMXsFbY1lpi3EiWQWaQstu6izxjWwIc6csOn30OotUwCEcU45uPou+QJ9J5W2
-         iaI3UeSyk17Uxg6GThyuH/Qs5QSqRRIS6PJYFN3/8YDVsSEQqQ+yYlHcLwqrQf2UMqY0
-         DFCETwEc8CBW+qYpQT82S01v2J1rASYE3wKiixw6vhv9JnGkZ6qeGBG/HK0XpKlRb365
-         bPEHMwDmuvhpv9E1yFrC9GAWP6Jm7O1OUuBmlqX+xD0lAJNTAXkKqFJlLu55v/ojdUqf
-         v0zUPDHzMkMQgB/B/2yUR7gym1hG20MMbwsCzEpSWsQExYtm26UIAontKxzqSAdcMpZ6
-         XowQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFRBS89oVtbfZv9ZTlS501DRHRpV98+Su15alNiq/gORoFxY7QsFFnp6e7uDK/DCPsKvCBPOnu5N4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdYiU0QJmAmc2ANPBxxm4SGxbqn/7VYVXK8Y0sTcpVrVpmcBY5
-	rqKEunPpBk/k6x2ZNvlIkaiMRgnu3mkb7q3TdVPveoCnboedtNditmeeYqewXAYWOETtaJr/jVp
-	2+nRQ33XuS8WbI5bqT4IwecnpxdX9hgeJ5Yun0yaDw3PfuvwQFgaE0aQPSX1lNQ==
-X-Gm-Gg: ASbGnctsrr3haocSo18GYPNCnhmagpKS2v2IgLQQe4H63bcemtlKMV/Kztd6ubKLt9a
-	UIjzE3JaVV9dzdWmhsiCW3WzQMO0e5/wBEnNs+iRrTbtljA2D46AsOLz0Dfe6rP3xKZsI4ELDyr
-	s688Wy/D1+wwr8RDSkF4lLax90Kp3ZvmCQSlKVwFwC3b/VpCz64Dc4ol1B5J9/jyXMEZ6GAtwvb
-	wJ+6amJytw8H5nzZ9k0q2mQg+gHgxiBTLkFV3Le7uV+Beuuwh4slE7kBNCAYk7wJWkMX8otdp4F
-	8tki07FbuI/pSSO6WOXbqtznjaVpoLLiaheop82VzLy6btkpelgkAqvsp9lVZkOCTZruQkzjLx0
-	d9GDYM7t7zjZq0G6t61ZAb6ykrA9UgL9UAoCjujoruLua/duzubvXChEzCk3WMLu/MVs=
-X-Received: by 2002:a05:600c:3ba5:b0:45b:8ce1:6d4e with SMTP id 5b1f17b1804b1-45b8f97cb7amr37617485e9.33.1756810990744;
-        Tue, 02 Sep 2025 04:03:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmcwCNsyllSmlm7X3OEc+SbR5UW+tkEOHD7ix+S0rkPYayVjoEJV6qhJeYYoVmAdcV3TK2Aw==
-X-Received: by 2002:a05:600c:3ba5:b0:45b:8ce1:6d4e with SMTP id 5b1f17b1804b1-45b8f97cb7amr37616885e9.33.1756810990127;
-        Tue, 02 Sep 2025 04:03:10 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f1f:3f00:731a:f5e5:774e:d40c? (p200300d82f1f3f00731af5e5774ed40c.dip0.t-ipconnect.de. [2003:d8:2f1f:3f00:731a:f5e5:774e:d40c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b66b6985bsm182588615e9.2.2025.09.02.04.03.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 04:03:09 -0700 (PDT)
-Message-ID: <287f3b64-bc34-48d9-9778-c519260c3dba@redhat.com>
-Date: Tue, 2 Sep 2025 13:03:06 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8ghxtLk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D33C4CEF5;
+	Tue,  2 Sep 2025 11:12:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756811553;
+	bh=957bTBHXYSSNFWOxfDE0dIMqFGmytxcROeciI4THAZI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P8ghxtLkKeeGyi0OJcj7pijqNMCfHT1WwRg/vgSDYlbEPib6kFelaj/RcDuBxbiDr
+	 qHh9X8YTigWC53O/SaR0oaHTczfF3zWbcNHmcO9GJkFRSwQzsvFe+As0/GGgod1cyd
+	 EDZxGzAHmINGYSqYctHltwFOIRzBmTenZdmIiSIjQ7DgETrzqbsbSYL0bHoPUVAysd
+	 ibO5YpSO20daHq8vkf2e/Am3Qa1t0Z0M+TLFOd1aByqmwWHsQ19H0Dxw32Ih1ubljd
+	 k5SQ1txQNBbFQUHH2dzuJE9XwwduIGCeI8vQDuzOuviJAOnh0dyXl+D81//ZPJDQFc
+	 P0YNUTMJQ8SKw==
+From: Philipp Stanner <phasta@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Philipp Stanner <pstanner@redhat.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v2] drm/sched: Extend and update documentation
+Date: Tue,  2 Sep 2025 13:12:10 +0200
+Message-ID: <20250902111209.64082-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/13] khugepaged: mTHP support
-To: Usama Arif <usamaarif642@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Dev Jain <dev.jain@arm.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, ziy@nvidia.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
- peterx@redhat.com, wangkefeng.wang@huawei.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com
-References: <20250819134205.622806-1-npache@redhat.com>
- <38b37195-28c8-4471-bd06-951083118efd@arm.com>
- <0d9c6088-536b-4d7a-8f75-9be5f0faa86f@lucifer.local>
- <CAA1CXcCqhFoGBvFK-ox2sJw7QHaFt+-Lw09BDYsAGKg4qc8nSw@mail.gmail.com>
- <CAA1CXcAXTL811VJxqyL18CUw8FNek6ibPr6pKJ_7rfGn-ZU-1A@mail.gmail.com>
- <5bea5efa-2efc-4c01-8aa1-a8711482153c@lucifer.local>
- <CAA1CXcBDq9PucQdfQRh1iqJLPB6Jn6mNy28v_AuHWb9kz1gpqQ@mail.gmail.com>
- <d110a84a-a827-48b4-91c5-67cec3e92874@lucifer.local>
- <95012dfc-d82d-4ae2-b4cd-1e8dcf15e44b@redhat.com>
- <bdbb5168-7657-4f11-a42d-b75cce7e0bca@lucifer.local>
- <e34e1ffe-c377-4c9a-b28b-ca873f3620ac@redhat.com>
- <db2320ee-6bd4-49c1-8fce-0468f48e1842@linux.alibaba.com>
- <c8c5e818-536a-4d72-b8dc-36aeb1b61800@arm.com>
- <2a141eef-46e2-46e1-9b0f-066ec537600d@linux.alibaba.com>
- <f34b5fcb-6a97-4d97-86a8-906083b53be6@redhat.com>
- <eb02c281-6d41-44af-8eaf-8ffc29153a3a@linux.alibaba.com>
- <286e2cb3-6beb-4d21-b28a-2f99bb2f759b@redhat.com>
- <17075d6a-a209-4636-ae42-2f8944aea745@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <17075d6a-a209-4636-ae42-2f8944aea745@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 02.09.25 12:34, Usama Arif wrote:
-> 
-> 
-> On 02/09/2025 10:03, David Hildenbrand wrote:
->> On 02.09.25 04:28, Baolin Wang wrote:
->>>
->>>
->>> On 2025/9/2 00:46, David Hildenbrand wrote:
->>>> On 29.08.25 03:55, Baolin Wang wrote:
->>>>>
->>>>>
->>>>> On 2025/8/28 18:48, Dev Jain wrote:
->>>>>>
->>>>>> On 28/08/25 3:16 pm, Baolin Wang wrote:
->>>>>>> (Sorry for chiming in late)
->>>>>>>
->>>>>>> On 2025/8/22 22:10, David Hildenbrand wrote:
->>>>>>>>>> Once could also easily support the value 255 (HPAGE_PMD_NR / 2- 1),
->>>>>>>>>> but not sure
->>>>>>>>>> if we have to add that for now.
->>>>>>>>>
->>>>>>>>> Yeah not so sure about this, this is a 'just have to know' too, and
->>>>>>>>> yes you
->>>>>>>>> might add it to the docs, but people are going to be mightily
->>>>>>>>> confused, esp if
->>>>>>>>> it's a calculated value.
->>>>>>>>>
->>>>>>>>> I don't see any other way around having a separate tunable if we
->>>>>>>>> don't just have
->>>>>>>>> something VERY simple like on/off.
->>>>>>>>
->>>>>>>> Yeah, not advocating that we add support for other values than 0/511,
->>>>>>>> really.
->>>>>>>>
->>>>>>>>>
->>>>>>>>> Also the mentioned issue sounds like something that needs to be
->>>>>>>>> fixed elsewhere
->>>>>>>>> honestly in the algorithm used to figure out mTHP ranges (I may be
->>>>>>>>> wrong - and
->>>>>>>>> happy to stand corrected if this is somehow inherent, but reallly
->>>>>>>>> feels that
->>>>>>>>> way).
->>>>>>>>
->>>>>>>> I think the creep is unavoidable for certain values.
->>>>>>>>
->>>>>>>> If you have the first two pages of a PMD area populated, and you
->>>>>>>> allow for at least half of the #PTEs to be non/zero, you'd collapse
->>>>>>>> first a
->>>>>>>> order-2 folio, then and order-3 ... until you reached PMD order.
->>>>>>>>
->>>>>>>> So for now we really should just support 0 / 511 to say "don't
->>>>>>>> collapse if there are holes" vs. "always collapse if there is at
->>>>>>>> least one pte used".
->>>>>>>
->>>>>>> If we only allow setting 0 or 511, as Nico mentioned before, "At 511,
->>>>>>> no mTHP collapses would ever occur anyway, unless you have 2MB
->>>>>>> disabled and other mTHP sizes enabled. Technically, at 511, only the
->>>>>>> highest enabled order would ever be collapsed."
->>>>>> I didn't understand this statement. At 511, mTHP collapses will occur if
->>>>>> khugepaged cannot get a PMD folio. Our goal is to collapse to the
->>>>>> highest order folio.
->>>>>
->>>>> Yes, I’m not saying that it’s incorrect behavior when set to 511. What I
->>>>> mean is, as in the example I gave below, users may only want to allow a
->>>>> large order collapse when the number of present PTEs reaches half of the
->>>>> large folio, in order to avoid RSS bloat.
->>>>
->>>> How do these users control allocation at fault time where this parameter
->>>> is completely ignored?
->>>
->>> Sorry, I did not get your point. Why does the 'max_pte_none' need to
->>> control allocation at fault time? Could you be more specific? Thanks.
->>
->> The comment over khugepaged_max_ptes_none gives a hint:
->>
->> /*
->>   * default collapse hugepages if there is at least one pte mapped like
->>   * it would have happened if the vma was large enough during page
->>   * fault.
->>   *
->>   * Note that these are only respected if collapse was initiated by khugepaged.
->>   */
->>
->> In the common case (for anything that really cares about RSS bloat) you will just a
->> get a THP during page fault and consequently RSS bloat.
->>
->> As raised in my other reply, the only documented reason to set max_ptes_none=0 seems
->> to be when an application later (after once possibly getting a THP already during
->> page faults) did some MADV_DONTNEED and wants to control the usage of THPs itself using
->> MADV_COLLAPSE.
->>
->> It's a questionable use case, that already got more problematic with mTHP and page
->> table reclaim.
->>
->> Let me explain:
->>
->> Before mTHP, if someone would MADV_DONTNEED (resulting in
->> a page table with at least one pte_none entry), there would have been no way we would
->> get memory over-allocated afterwards with max_ptes_none=0.
->>
->> (1) Page faults would spot "there is a page table" and just fallback to order-0 pages.
->> (2) khugepaged was told to not collapse through max_ptes_none=0.
->>
->> But now:
->>
->> (A) With mTHP during page-faults, we can just end up over-allocating memory in such
->>      an area again: page faults will simply spot a bunch of pte_nones around the fault area
->>      and install an mTHP.
->>
->> (B) With page table reclaim (when zapping all PTEs in a table at once), we will reclaim the
->>      page table. The next page fault will just try installing a PMD THP again, because there is
->>      no PTE table anymore.
->>
->> So I question the utility of max_ptes_none. If you can't tame page faults, then there is only
->> limited sense in taming khugepaged. I think there is vale in setting max_ptes_none=0 for some
->> corner cases, but I am yet to learn why max_ptes_none=123 would make any sense.
->>
->>
-> 
-> For PMD mapped THPs with THP shrinker, this has changed. You can basically tame pagefaults, as when you encounter
-> memory pressure, the shrinker kicks in if the value is less than HPAGE_PMD_NR -1 (i.e. 511 for x86), and
-> will break down those hugepages and free up zero-filled memory.
+From: Philipp Stanner <pstanner@redhat.com>
 
-You are not really taming page faults, though, you are undoing what page 
-faults might have messed up :)
+The various objects and their memory lifetime used by the GPU scheduler
+are currently not fully documented.
 
-I have seen in our prod workloads where
-> the memory usage and THP usage can spike (usually when the workload starts), but with memory pressure,
-> the memory usage is lower compared to with max_ptes_none = 511, while still still keeping the benefits
-> of THPs like lower TLB misses.
+Add documentation describing the scheduler's objects. Improve the
+general documentation at a few other places.
 
-Thanks for raising that: I think the current behavior is in place such 
-that you don't bounce back-and-forth between khugepaged collapse and 
-shrinker-split.
+Co-developed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+Changes in v2:
+  - Rephrase drm_sched_fence docu to make it clearer why drivers would
+    care about it.
+---
+ Documentation/gpu/drm-mm.rst           |  36 ++++
+ drivers/gpu/drm/scheduler/sched_main.c | 229 ++++++++++++++++++++++---
+ include/drm/gpu_scheduler.h            |   5 +-
+ 3 files changed, 239 insertions(+), 31 deletions(-)
 
-There are likely other ways to achieve that, when we have in mind that 
-the thp shrinker will install zero pages and max_ptes_none includes
-zero pages.
-
-> 
-> I do agree that the value of max_ptes_none is magical and different workloads can react very differently
-> to it. The relationship is definitely not linear. i.e. if I use max_ptes_none = 256, it does not mean
-> that the memory regression of using THP=always vs THP=madvise is halved.
-
-To which value would you set it? Just 510? 0?
-
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index d55751cad67c..95ee95fd987a 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -556,12 +556,48 @@ Overview
+ .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+    :doc: Overview
+ 
++Job Object
++----------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Job Object
++
++Entity Object
++-------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Entity Object
++
++Hardware Fence Object
++---------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Hardware Fence Object
++
++Scheduler Fence Object
++----------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Scheduler Fence Object
++
++Scheduler and Run Queue Objects
++-------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Scheduler and Run Queue Objects
++
+ Flow Control
+ ------------
+ 
+ .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+    :doc: Flow Control
+ 
++Error and Timeout handling
++--------------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Error and Timeout handling
++
+ Scheduler Function References
+ -----------------------------
+ 
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 46119aacb809..ec8165fa9ac3 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -24,48 +24,221 @@
+ /**
+  * DOC: Overview
+  *
+- * The GPU scheduler provides entities which allow userspace to push jobs
+- * into software queues which are then scheduled on a hardware run queue.
+- * The software queues have a priority among them. The scheduler selects the entities
+- * from the run queue using a FIFO. The scheduler provides dependency handling
+- * features among jobs. The driver is supposed to provide callback functions for
+- * backend operations to the scheduler like submitting a job to hardware run queue,
+- * returning the dependencies of a job etc.
++ * The GPU scheduler is shared infrastructure intended to help drivers managing
++ * command submission to their hardware.
+  *
+- * The organisation of the scheduler is the following:
++ * To do so, it offers a set of scheduling facilities that interact with the
++ * driver through callbacks which the latter can register.
+  *
+- * 1. Each hw run queue has one scheduler
+- * 2. Each scheduler has multiple run queues with different priorities
+- *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
+- * 3. Each scheduler run queue has a queue of entities to schedule
+- * 4. Entities themselves maintain a queue of jobs that will be scheduled on
+- *    the hardware.
++ * In particular, the scheduler takes care of:
++ *   - Ordering command submissions
++ *   - Signalling dma_fences, e.g., for finished commands
++ *   - Taking dependencies between command submissions into account
++ *   - Handling timeouts for command submissions
+  *
+- * The jobs in an entity are always scheduled in the order in which they were pushed.
++ * All callbacks the driver needs to implement are restricted by dma_fence
++ * signaling rules to guarantee deadlock free forward progress. This especially
++ * means that for normal operation no memory can be allocated in a callback.
++ * All memory which is needed for pushing the job to the hardware must be
++ * allocated before arming a job. It also means that no locks can be taken
++ * under which memory might be allocated.
+  *
+- * Note that once a job was taken from the entities queue and pushed to the
+- * hardware, i.e. the pending queue, the entity must not be referenced anymore
+- * through the jobs entity pointer.
++ * Optional memory, for example for device core dumping or debugging, *must* be
++ * allocated with GFP_NOWAIT and appropriate error handling if that allocation
++ * fails. GFP_ATOMIC should only be used if absolutely necessary since dipping
++ * into the special atomic reserves is usually not justified for a GPU driver.
++ *
++ * Note especially the following about the scheduler's historic background that
++ * lead to sort of a double role it plays today:
++ *
++ * In classic setups N ("hardware scheduling") entities share one scheduler,
++ * and the scheduler decides which job to pick from which entity and move it to
++ * the hardware ring next (that is: "scheduling").
++ *
++ * Many (especially newer) GPUs, however, can have an almost arbitrary number
++ * of hardware rings and it's a firmware scheduler which actually decides which
++ * job will run next. In such setups, the GPU scheduler is still used (e.g., in
++ * Nouveau) but does not "schedule" jobs in the classical sense anymore. It
++ * merely serves to queue and dequeue jobs and resolve dependencies. In such a
++ * scenario, it is recommended to have one scheduler per entity.
++ */
++
++/**
++ * DOC: Job Object
++ *
++ * The base job object (&struct drm_sched_job) contains submission dependencies
++ * in the form of &struct dma_fence objects. Drivers can also implement an
++ * optional prepare_job callback which returns additional dependencies as
++ * dma_fence objects. It's important to note that this callback can't allocate
++ * memory or grab locks under which memory is allocated.
++ *
++ * Drivers should use this as base class for an object which contains the
++ * necessary state to push the command submission to the hardware.
++ *
++ * The lifetime of the job object needs to last at least from submitting it to
++ * the scheduler (through drm_sched_job_arm()) until the scheduler has invoked
++ * &struct drm_sched_backend_ops.free_job and, thereby, has indicated that it
++ * does not need the job anymore. Drivers can of course keep their job object
++ * alive for longer than that, but that's outside of the scope of the scheduler
++ * component.
++ *
++ * Job initialization is split into two stages:
++ *   1. drm_sched_job_init() which serves for basic preparation of a job.
++ *      Drivers don't have to be mindful of this function's consequences and
++ *      its effects can be reverted through drm_sched_job_cleanup().
++ *   2. drm_sched_job_arm() which irrevokably arms a job for execution. This
++ *      initializes the job's fences and the job has to be submitted with
++ *      drm_sched_entity_push_job(). Once drm_sched_job_arm() has been called,
++ *      the job structure has to be valid until the scheduler invoked
++ *      drm_sched_backend_ops.free_job().
++ *
++ * It's important to note that after arming a job drivers must follow the
++ * dma_fence rules and can't easily allocate memory or takes locks under which
++ * memory is allocated.
++ */
++
++/**
++ * DOC: Entity Object
++ *
++ * The entity object (&struct drm_sched_entity) is a container for jobs which
++ * should execute sequentially. Drivers should create an entity for each
++ * individual context they maintain for command submissions which can run in
++ * parallel.
++ *
++ * The lifetime of the entity *should not* exceed the lifetime of the
++ * userspace process it was created for and drivers should call the
++ * drm_sched_entity_flush() function from their file_operations.flush()
++ * callback. It is possible that an entity object is not alive anymore
++ * while jobs previously fetched from it are still running on the hardware.
++ *
++ * This is done because all results of a command submission should become
++ * visible externally even after a process exits. This is normal POSIX
++ * behavior for I/O operations.
++ *
++ * The problem with this approach is that GPU submissions contain executable
++ * shaders enabling processes to evade their termination by offloading work to
++ * the GPU. So when a process is terminated with a SIGKILL the entity object
++ * makes sure that jobs are freed without running them while still maintaining
++ * correct sequential order for signaling fences.
++ *
++ * All entities associated with a scheduler have to be torn down before that
++ * scheduler.
++ */
++
++/**
++ * DOC: Hardware Fence Object
++ *
++ * The hardware fence object is a dma_fence provided by the driver through
++ * &struct drm_sched_backend_ops.run_job. The driver signals this fence once the
++ * hardware has completed the associated job.
++ *
++ * Drivers need to make sure that the normal dma_fence semantics are followed
++ * for this object. It's important to note that the memory for this object can
++ * *not* be allocated in &struct drm_sched_backend_ops.run_job since that would
++ * violate the requirements for the dma_fence implementation. The scheduler
++ * maintains a timeout handler which triggers if this fence doesn't signal
++ * within a configurable amount of time.
++ *
++ * The lifetime of this object follows dma_fence refcounting rules. The
++ * scheduler takes ownership of the reference returned by the driver and
++ * drops it when it's not needed any more.
++ *
++ * See &struct drm_sched_backend_ops.run_job for precise refcounting rules.
++ */
++
++/**
++ * DOC: Scheduler Fence Object
++ *
++ * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
++ * time from pushing the job into the scheduler until the hardware has finished
++ * processing it. It is managed by the scheduler. The implementation provides
++ * dma_fence interfaces for signaling both scheduling of a command submission
++ * as well as finishing of processing. &struct drm_sched_fence.finished is the
++ * fence typically used to synchronize userspace, e.g., in a &struct drm_syncobj.
++ *
++ * The lifetime of this object also follows normal dma_fence refcounting rules.
++ */
++
++/**
++ * DOC: Scheduler and Run Queue Objects
++ *
++ * The scheduler object itself (&struct drm_gpu_scheduler) does the actual
++ * scheduling: it picks the next entity to run a job from and pushes that job
++ * onto the hardware. Both FIFO and RR selection algorithms are supported, with
++ * FIFO being the default and the recommended one.
++ *
++ * The lifetime of the scheduler is managed by the driver using it. Before
++ * destroying the scheduler the driver must ensure that all hardware processing
++ * involving this scheduler object has finished by calling for example
++ * disable_irq(). It is *not* sufficient to wait for the hardware fence here
++ * since this doesn't guarantee that all callback processing has finished.
++ *
++ * The run queue object (&struct drm_sched_rq) is a container for entities of a
++ * certain priority level. This object is internally managed by the scheduler
++ * and drivers must not touch it directly. The lifetime of a run queue is bound
++ * to the scheduler's lifetime.
++ *
++ * All entities associated with a scheduler must be torn down before it. Drivers
++ * should implement &struct drm_sched_backend_ops.cancel_job to avoid pending
++ * jobs (those that were pulled from an entity into the scheduler, but have not
++ * been completed by the hardware yet) from leaking.
+  */
+ 
+ /**
+  * DOC: Flow Control
+  *
+  * The DRM GPU scheduler provides a flow control mechanism to regulate the rate
+- * in which the jobs fetched from scheduler entities are executed.
++ * at which jobs fetched from scheduler entities are executed.
+  *
+- * In this context the &drm_gpu_scheduler keeps track of a driver specified
+- * credit limit representing the capacity of this scheduler and a credit count;
+- * every &drm_sched_job carries a driver specified number of credits.
++ * In this context the &struct drm_gpu_scheduler keeps track of a driver
++ * specified credit limit representing the capacity of this scheduler and a
++ * credit count; every &struct drm_sched_job carries a driver-specified number
++ * of credits.
+  *
+- * Once a job is executed (but not yet finished), the job's credits contribute
+- * to the scheduler's credit count until the job is finished. If by executing
+- * one more job the scheduler's credit count would exceed the scheduler's
+- * credit limit, the job won't be executed. Instead, the scheduler will wait
+- * until the credit count has decreased enough to not overflow its credit limit.
+- * This implies waiting for previously executed jobs.
++ * Once a job is being executed, the job's credits contribute to the
++ * scheduler's credit count until the job is finished. If by executing one more
++ * job the scheduler's credit count would exceed the scheduler's credit limit,
++ * the job won't be executed. Instead, the scheduler will wait until the credit
++ * count has decreased enough to not overflow its credit limit. This implies
++ * waiting for previously executed jobs.
+  */
+ 
++/**
++ * DOC: Error and Timeout handling
++ *
++ * Errors are signaled by using dma_fence_set_error() on the hardware fence
++ * object before signaling it with dma_fence_signal(). Errors are then bubbled
++ * up from the hardware fence to the scheduler fence.
++ *
++ * The entity allows querying errors on the last run submission using the
++ * drm_sched_entity_error() function which can be used to cancel queued
++ * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
++ * pushing further ones into the entity in the driver's submission function.
++ *
++ * When the hardware fence doesn't signal within a configurable amount of time
++ * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
++ * then follow the procedure described in that callback's documentation.
++ *
++ * (TODO: The timeout handler should probably switch to using the hardware
++ * fence as parameter instead of the job. Otherwise the handling will always
++ * race between timing out and signaling the fence).
++ *
++ * The scheduler also used to provided functionality for re-submitting jobs
++ * and, thereby, replaced the hardware fence during reset handling. This
++ * functionality is now deprecated. This has proven to be fundamentally racy
++ * and not compatible with dma_fence rules and shouldn't be used in new code.
++ *
++ * Additionally, there is the function drm_sched_increase_karma() which tries
++ * to find the entity which submitted a job and increases its 'karma' atomic
++ * variable to prevent resubmitting jobs from this entity. This has quite some
++ * overhead and resubmitting jobs is now marked as deprecated. Thus, using this
++ * function is discouraged.
++ *
++ * Drivers can still recreate the GPU state in case it should be lost during
++ * timeout handling *if* they can guarantee that forward progress will be made
++ * and this doesn't cause another timeout. But this is strongly hardware
++ * specific and out of the scope of the general GPU scheduler.
++ */
+ #include <linux/export.h>
+ #include <linux/wait.h>
+ #include <linux/sched.h>
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 323a505e6e6a..0f0687b7ae9c 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
+ 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+ 
+ 	/**
+-	 * @timedout_job: Called when a job has taken too long to execute,
+-	 * to trigger GPU recovery.
++	 * @timedout_job: Called when a hardware fence didn't signal within a
++	 * configurable amount of time. Triggers GPU recovery.
+ 	 *
+ 	 * @sched_job: The job that has timed out
+ 	 *
+@@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
+ 	 * that timeout handlers are executed sequentially.
+ 	 *
+ 	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
+-	 *
+ 	 */
+ 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
+ 
 -- 
-Cheers
-
-David / dhildenb
+2.49.0
 
