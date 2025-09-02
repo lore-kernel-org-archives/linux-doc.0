@@ -1,208 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1F02D9ECA;
-	Tue,  2 Sep 2025 12:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD552D2493;
+	Tue,  2 Sep 2025 13:00:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756817442; cv=none; b=NfX5XGlmjw8ImPEGjhg1GI82p2nPb7tzWXZ9l79eQNkuB5rK5y7akItrnPV1TfQ9ifgEXOooVymi3xWPW4hnVrMK+GZ54QH4SwvI9DaqHIxt/rZWsbDrYWWw2q41bpvr1pNbs+UQdbromd7vTZLeDVORPpbV7jo2G2kpVCUaGjQ=
+	t=1756818048; cv=none; b=CO2RS0AIPtn0vJZT2R9fyWORuZgSQSn1flS8VJUo/zBHPhB6F59KUn+iZPiY4kDN8DdnAKCbuS4/Xo/1pRXcQNWqf0FGDu0kHLxwJt+2Uu1G5b15aux5rAhMsATUjPhHy9mElbYFfcc4p1rhAB+h9TKhjY+8+hMfO9ELJAgIn0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756817442; c=relaxed/simple;
-	bh=WhaMkkgkoFeMb9qsdVyBs9ZfWhMHeeDVSv/bjPnmM9E=;
+	s=arc-20240116; t=1756818048; c=relaxed/simple;
+	bh=w6VMeXlaDo13MyeED1CAidZ2X/FlNVlckExPfa9nfRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=De9MHzLwpUjwANY7fiwLmmdzwC+rzeAbPJon9zrSuC8xOTzUpYPM83TefPzm5xPGUrskZ/ZdVBqFdX7/AJGLHxPEwkywILNePXsT7HKrWgvzhb6ez3bN117wBmQdEsTPnxA9dsUedo1f5LbxOofMnl2W6lglXVQ5wqCXMTkisbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLpTS3WF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lQoFpTSu7dg6V83ouuwC8y7Gk5u5qNOQTq5EfdTb/LBRpH2frZxvFufOi5/pP+KYcKjOS8l5tqAJPSEbFXRkjC2oeCIROG/DOUzBqaZ4AMTaVzwyLVNVRGy/ada6otlF7SuB1wbQXIqy938SVeMr1KBc8roigTqN7TuGmAcc1gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xq1TRV9X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LLpTS3WF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736E9C4CEF5;
-	Tue,  2 Sep 2025 12:50:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xq1TRV9X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755E3C4CEED;
+	Tue,  2 Sep 2025 13:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756817441;
-	bh=WhaMkkgkoFeMb9qsdVyBs9ZfWhMHeeDVSv/bjPnmM9E=;
+	s=k20201202; t=1756818048;
+	bh=w6VMeXlaDo13MyeED1CAidZ2X/FlNVlckExPfa9nfRc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LLpTS3WFolxyUE1dGsWYAtX+62arrpBv52s63lSEEgPz0NKMQuq/zadLtaz61ew4m
-	 WkmFaxpROXnTG+qexVn7JHZSvi1dxX7lYhph4iQn0UbICxGYKsWF7d3VZK9j5JeSEU
-	 lrjgxbVPAeaGrsFk2eua1+YHcv9rPamcf5QHag01DPyZ1Fx0WuNkf7fB4xcGU/bLfW
-	 5AfK6bSmiyf8fpO4lwZq76g8KAR8KwLQxAZmvk2SSntwktwFg7ahLu9cWH3WJW6c90
-	 UPSIr/nwoab2GWgGPO9WPLXusmR7nSUSeZj+n1ii2MDnSxrGMRYH4I7zfEg4vR4Qow
-	 OX/rLjpxlR2nw==
-Date: Tue, 2 Sep 2025 14:50:39 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Waiman Long <longman@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: Add CPU Isolation documentation
-Message-ID: <aLboH4AKMVLBNKaf@localhost.localdomain>
-References: <20250809094247.8384-1-frederic@kernel.org>
- <aJcrzjAz6VafUsqz@archie.me>
+	b=Xq1TRV9XCcuwdtYBnDj4VOwKLIuZ7TrucwmHrmI6EacVPy9NS6NIv1vzCXSXbGP60
+	 bvyhiruAV7un22nM9qKyqd35FzouV0iN/Io3ZJVdJz3+8ILrvx0nM2W63kBU9QUnKa
+	 2TGzCfWbMyXQ6va1M90b9J2UjIpfpu/UV+Vgw7ciUL5Obna2Ny3G7HwKW5rfs4iO9H
+	 bm7EbIiE+zknzE9hgH1r7gcOZqxUjYp8clDIAfHepYUGgYUZtFMxE0He77fUsyPYPF
+	 K5EyJFZtsIdKuv1BArqbtXlLqv1ptqXh+LbDGqt9EpDqjrWs14j7IiMINHQKMjZ7UW
+	 DvS94eTrsXapA==
+Date: Tue, 2 Sep 2025 14:00:43 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+Message-ID: <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
+References: <20250831160339.2c45506c@foz.lan>
+ <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
+ <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
+ <2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
+ <20250901204635.51b81ffd@foz.lan>
+ <1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
+ <j3iblg4xx4nu64dgaxhl62mtherszeh3jyrskkf7l2jigld7wf@lr7mtq33gbi7>
+ <865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
+ <20250902135938.35048fbc@foz.lan>
+ <20250902141434.3e5b14e4@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="B6lytLiN+OrKYyvD"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aJcrzjAz6VafUsqz@archie.me>
-
-Le Sat, Aug 09, 2025 at 06:06:54PM +0700, Bagas Sanjaya a écrit :
-> On Sat, Aug 09, 2025 at 11:42:47AM +0200, Frederic Weisbecker wrote:
-> > +- :ref:`Documentation/admin-guide/cgroup-v2.rst <Cpuset v2 "isolated"
-> > +  partitions>`
-> > +  are recommended because they are tunable at runtime.
-> 
-> Anchor link target and name are mistakenly swapped so I have to correct them
-> back to their appropriate places:
-> 
-> ---- >8 ----
-> diff --git a/Documentation/admin-guide/cpu-isolation.rst b/Documentation/admin-guide/cpu-isolation.rst
-> index 250027acf7b26f..aef0b53b0ad5e6 100644
-> --- a/Documentation/admin-guide/cpu-isolation.rst
-> +++ b/Documentation/admin-guide/cpu-isolation.rst
-> @@ -107,9 +107,8 @@ are extracted from the global load balancing.
->  Interface
->  ~~~~~~~~~
->  
-> -- :ref:`Documentation/admin-guide/cgroup-v2.rst <Cpuset v2 "isolated"
-> -  partitions>`
-> -  are recommended because they are tunable at runtime.
-> +- :doc:`cgroup cpuset isolated partitions <cgroup-v2>` are recommended because
-> +  they are tunable at runtime.
->  
->  - The 'isolcpus=' kernel boot parameter with the 'domain' flag is a
->    less flexible alternative that doesn't allow for runtime
-> @@ -124,7 +123,8 @@ target CPUs.
->  Interface
->  ~~~~~~~~~
->  
-> -- /proc/irq/*/smp_affinity as explained :ref:`Documentation/core-api/irq/irq-affinity.rst <here>` in detail.
-> +- /proc/irq/\*/smp_affinity as explained in
-> +  Documentation/core-api/irq/irq-affinity.rst.
->  
->  - The "irqaffinity=" kernel boot parameter for a default setting.
->  
-> @@ -330,9 +330,8 @@ retained when that happens.
->  
->  Some tools may also be useful for higher level analysis:
->  
-> -- :ref:`Documentation/tools/rtla/rtla-osnoise.rst <rtla-osnoise>` runs a kernel
-> -  tracer that analyzes and output a
-> -  summary of the noises.
-> +- :doc:`rtla-osnoise </tools/rtla/rtla-osnoise>` runs a kernel tracer that
-> +  analyzes and output a summary of the noises.
->  
->  - dynticks-testing does something similar but in userspace. It is available
->    at git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
-> 
-> > +The full command line is then:
-> > +
-> > +  nohz_full=7 irqaffinity=0-6 isolcpus=managed_irq,7 nosmt
-> > +
-> > +CPUSET configuration (cgroup v2)
-> > +--------------------------------
-> > +
-> > +Assuming cgroup v2 is mounted to /sys/fs/cgroup, the following script
-> > +isolates CPU 7 from scheduler domains.
-> > +
-> > +  cd /sys/fs/cgroup
-> > +  # Activate the cpuset subsystem
-> > +  echo +cpuset > cgroup.subtree_control
-> > +  # Create partition to be isolated
-> > +  mkdir test
-> > +  cd test
-> > +  echo +cpuset > cgroup.subtree_control
-> > +  # Isolate CPU 7
-> > +  echo 7 > cpuset.cpus
-> > +  echo "isolated" > cpuset.cpus.partition
-> > +
-> > +The userspace workload
-> > +----------------------
-> > +
-> > +Fake a pure userspace workload, the below program runs a dummy
-> > +userspace loop on the isolated CPU 7.
-> > +
-> > +  #include <stdio.h>
-> > +  #include <fcntl.h>
-> > +  #include <unistd.h>
-> > +  #include <errno.h>
-> > +  int main(void)
-> > +  {
-> > +  	// Move the current task to the isolated cpuset (bind to CPU 7)
-> > +  	int fd = open("/sys/fs/cgroup/test/cgroup.procs", O_WRONLY);
-> > +  	if (fd < 0) {
-> > +  		perror("Can't open cpuset file...\n");
-> > +  		return 0;
-> > +  	}
-> > +
-> > +  	write(fd, "0\n", 2);
-> > +  	close(fd);
-> > +
-> > +  	// Run an endless dummy loop until the launcher kills us
-> > +  	while (1)
-> > +  	;
-> > +
-> > +  	return 0;
-> > +  }
-> > +
-> > +Build it and save for later step:
-> > +
-> > +  # gcc user_loop.c -o user_loop
-> > +
-> > +The launcher
-> > +------------
-> > +
-> > +The below launcher runs the above program for 10 seconds and traces
-> > +the noise resulting from preempting tasks and IRQs.
-> > +
-> > +  TRACING=/sys/kernel/tracing/
-> > +  # Make sure tracing is off for now
-> > +  echo 0 > $TRACING/tracing_on
-> > +  # Flush previous traces
-> > +  echo > $TRACING/trace
-> > +  # Record disturbance from other tasks
-> > +  echo 1 > $TRACING/events/sched/sched_switch/enable
-> > +  # Record disturbance from interrupts
-> > +  echo 1 > $TRACING/events/irq_vectors/enable
-> > +  # Now we can start tracing
-> > +  echo 1 > $TRACING/tracing_on
-> > +  # Run the dummy user_loop for 10 seconds on CPU 7
-> > +  ./user_loop &
-> > +  USER_LOOP_PID=$!
-> > +  sleep 10
-> > +  kill $USER_LOOP_PID
-> > +  # Disable tracing and save traces from CPU 7 in a file
-> > +  echo 0 > $TRACING/tracing_on
-> > +  cat $TRACING/per_cpu/cpu7/trace > trace.7
-> > +
-> > +If no specific problem arose, the output of trace.7 should look like
-> > +the following:
-> > +
-> > +  <idle>-0 [007] d..2. 1980.976624: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=user_loop next_pid=1553 next_prio=120
-> > +  user_loop-1553 [007] d.h.. 1990.946593: reschedule_entry: vector=253
-> > +  user_loop-1553 [007] d.h.. 1990.946593: reschedule_exit: vector=253
-> 
-> Wrap these snippets above in literal code blocks.
-> 
-> Thanks.
+In-Reply-To: <20250902141434.3e5b14e4@foz.lan>
+X-Cookie: Vote anarchist.
 
 
-Thanks, I'll do these modifications. I had a hard time building the
-documentation (still haven't managed so far) so I missed the actual
-rendering. Hopefully I'll figure it out at some point.
+--B6lytLiN+OrKYyvD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Frederic Weisbecker
-SUSE Labs
+On Tue, Sep 02, 2025 at 02:14:34PM +0200, Mauro Carvalho Chehab wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+
+> > > That takes about 90s for me. =20
+
+> > I wander why here is 3 times faster... disk cache? python version?
+> > faster ssd?
+
+> > What python version are you using?
+
+> Heh, after running twice or three times to avoid cache issues, I tested
+> running it on my machine with two different python versions:
+
+> $ time python3.13 scripts/kernel-doc.py . --none
+
+> real    0m31,660s
+> user    0m30,911s
+> sys     0m0,588s
+
+For me it's fairly consistent with python 3.11.2, I get some variation
+depending on what else is going on with the system but nothing hugely
+surprising.  It should mostly be running from cache, the underlying disk
+is a reasonable SSD.  The single core performance on this machine isn't
+amazing, it's more getting it's speed from having a bunch of cores.
+
+--B6lytLiN+OrKYyvD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi26nsACgkQJNaLcl1U
+h9DGMQf/YGjZcuA/mHVA9wRqPTFhiLOubBrXY0F/tn/88GFVQL7DWc06dGkbdSmY
+5tSAe7Ju8eQxPqlKKKQ+r1z1EE0lRBzZ73nZ7C18C1aT3jddehcTEJ6/fC2a4vrN
+AZLiaDkV4AylJs8PFWDw7ef1hA/RCXffUk47CKLLqeeSe/CvfsxLTuRn3OnZcNJK
+XY1tiQRuW5oRA/smRVWoPZNqxJAAweyDfMUaY6CxlFuJWU9+J5oMhffn/V7VkOhX
+trfFpxnqOHxtyEqlBA7supCh2dM6IWjWhdW2Pkdk964hG1sa3E0MBqVJi32Koi3e
+dvuKubRKCONWPLB1OauqpV7+51n31Q==
+=r8AE
+-----END PGP SIGNATURE-----
+
+--B6lytLiN+OrKYyvD--
