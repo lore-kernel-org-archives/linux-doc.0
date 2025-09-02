@@ -1,172 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9ACF2EA752;
-	Tue,  2 Sep 2025 09:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746EE2EB86F;
+	Tue,  2 Sep 2025 09:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756805368; cv=none; b=Q6WMOEeD6y+arGDVORm7WMLYL4ENPKCgrYPOzabU+hWv+b9NCHGJYKCJw3QOFYdW1oQg18GWKQ3dkPLUzOiInyuCQGKaRqK/yK99ksG4FJc6COd7tNCMl2DJt2iWd8mB4fvVXp5u4wdUxYDFwdg7bMdnAAXnwTZYmGfgfzlcQFE=
+	t=1756806848; cv=none; b=AlEOhPuJhojJ2CMrp8nBIFC6uFv4I7bfaaE4vPyhQj5HiqrsksHCpyD9AaiW3LFvjUA8rxowhVfJH0i33b43sAv61dgK8p0GvicpiSUxr1Odo9H6UGk2D2q/qu6k/EXzw8wSIUcC8rsTRFi5xZ8qayOQ1cKvqJqXco30vS7ASJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756805368; c=relaxed/simple;
-	bh=DnDVES5Jg8WrIGoMPMfvxV9Wox20mcRcpnotwmcTmTg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cl/RiZ9ijahTcajwKGCIZfExpXV6TvnYLlwdzy4BJpce8I/yT5OxmTF3NeOPt06VK0lZO6PuJtKnMPKHPiYlWvgD5sAXfQjmPFApplRXhssy5UVP6mmdlSGzltoP8qN8crLO00QrukyGw9gbcXLX5Z12qVJWk9fwb+Ll9Ffurnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+YP0LKc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756806848; c=relaxed/simple;
+	bh=F6MUX5AbAPBqp62Jqft20sY4a8sU1JZ5pPowDyOrZM4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JQ3NeXCO3KisMLY1b5ccsje653XEXA3+uh9lyLPBbPhh8Fq/0lKLtdBttadijqyJd0gArjeFIUhJXnLpllWIcPdmU2RFnHoFchNzibqhBHogaAdWqM/OLnO8AW3p5nb9svelWP+dbcvf9wHgF9tk3s3LKo44NB7rghWDdqkVSbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Or0avDdB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+YP0LKc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 793FEC4CEED;
-	Tue,  2 Sep 2025 09:29:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Or0avDdB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8558C4CEED;
+	Tue,  2 Sep 2025 09:54:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756805367;
-	bh=DnDVES5Jg8WrIGoMPMfvxV9Wox20mcRcpnotwmcTmTg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u+YP0LKc7Ca9KSEGyhHI9LWKXOpYxDkmlx+xi/d94i28PXwnbkADYdG/kMj0eiK5B
-	 zd/GooYAccyXKqdo2LtN0swNMmhiizGQIgjHrkSZ2IAXK/1jBPSRk3StbcZycbdrVP
-	 g5quZtmGQMVEWVOV9clnOLPmMIcFNqak1dVeFhnzWaY1VIAyIlM9TCnw1bUSOb10fT
-	 eYPBFQEGyOkOZzS7K5YPtS3dmkawe2LLvJU33SWPAwVjDdMQDDLsS8LD6Qfe4rZdHI
-	 wki/IP/V+av0oWZTHcazqMPHDSPlXAIhw9qhWxKa10uhggFEbKZZEF+GYaHO+zcGYb
-	 634HFrNZvr1dg==
-Date: Tue, 2 Sep 2025 12:29:20 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
- API
-Message-ID: <20250902092920.GE10073@unreal>
-References: <cover.1755624249.git.leon@kernel.org>
- <CGME20250828115738eucas1p24f3c17326b318c95a5569a2c9651ff92@eucas1p2.samsung.com>
- <20250828115729.GA10073@unreal>
- <26bd901a-0812-492d-9736-4a7bb2e6d6b4@samsung.com>
- <20250901222302.GA186519@nvidia.com>
+	s=k20201202; t=1756806848;
+	bh=F6MUX5AbAPBqp62Jqft20sY4a8sU1JZ5pPowDyOrZM4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Or0avDdBFtpCAgQhlKBPNsV6zqu1OaaFxYAxkmLOdxoD7l67L3nRm7+BYIidWNFGo
+	 fxLJooaKj09FVO4GAgueCG0oMU7XGD+FMHjqPtfNjIYMDgsTeZIT8juYEXcRLZ8bki
+	 I6X6t2Kk+riw8RyV/nBCqnCncaWwgvhZOQ1vaN9MjQApDYXdSk/+T1aM0f5wFgqBqG
+	 e+Z4vjZvcuPljlQXBUO2rhbfT4ZRaWwJNlTpxcqnL/JwX2qRAgbyOMvDs+Feo5e4lA
+	 PjlJWAUnwyZHVYHYCneemXM7JpSspCbtu1ZMe8cryvPeSi/yDL3z6I5m2XJD0avPDU
+	 usIdwscKB2zLQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Subject: Re: (subset) [PATCH v4 0/4] procfs: make reference pidns more user-visible
+Date: Tue,  2 Sep 2025 11:54:01 +0200
+Message-ID: <20250902-amtsmissbrauch-korpulent-b2ea928b89bc@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
+References: <20250805-procfs-pidns-api-v4-0-705f984940e7@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1374; i=brauner@kernel.org; h=from:subject:message-id; bh=F6MUX5AbAPBqp62Jqft20sY4a8sU1JZ5pPowDyOrZM4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRs27dr3VTZPM/2B6uOP9oXsfFuiEGQccxaNt2Y50WbG dZUt4tP6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiI5h9GhqdvfITPGa0RuPfR 3C9rwrc5sxIsFeTerZL25uPxi5sodpOR4f4ptukJd6PZf1V1vdofuUXnZHzaUQHjK3JnZ3/f8LJ jLy8A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250901222302.GA186519@nvidia.com>
 
-On Mon, Sep 01, 2025 at 07:23:02PM -0300, Jason Gunthorpe wrote:
-> On Mon, Sep 01, 2025 at 11:47:59PM +0200, Marek Szyprowski wrote:
-> > I would like to give those patches a try in linux-next, but in meantime 
-> > I tested it on my test farm and found a regression in dma_map_resource() 
-> > handling. Namely the dma_map_resource() is no longer possible with size 
-> > not aligned to kmalloc()'ed buffer, as dma_direct_map_phys() calls 
-> > dma_kmalloc_needs_bounce(),
+On Tue, 05 Aug 2025 15:45:07 +1000, Aleksa Sarai wrote:
+> Ever since the introduction of pid namespaces, procfs has had very
+> implicit behaviour surrounding them (the pidns used by a procfs mount is
+> auto-selected based on the mounting process's active pidns, and the
+> pidns itself is basically hidden once the mount has been constructed).
 > 
-> Hmm, it's this bit:
+> /* pidns mount option for procfs */
 > 
-> 	capable = dma_capable(dev, dma_addr, size, !(attrs & DMA_ATTR_MMIO));
-> 	if (unlikely(!capable) || dma_kmalloc_needs_bounce(dev, size, dir)) {
-> 		if (is_swiotlb_active(dev) && !(attrs & DMA_ATTR_MMIO))
-> 			return swiotlb_map(dev, phys, size, dir, attrs);
-> 
-> 		goto err_overflow;
-> 	}
-> 
-> We shouldn't be checking dma_kmalloc_needs_bounce() on mmio as there
-> is no cache flushing so the "dma safe alignment" for non-coherent DMA
-> does not apply.
-> 
-> Like you say looks good to me, and more of the surrouding code can be
-> pulled in too, no sense in repeating the boolean logic:
-> 
-> 	if (attrs & DMA_ATTR_MMIO) {
-> 		dma_addr = phys;
-> 		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
-> 			goto err_overflow;
-> 	} else {
-> 		dma_addr = phys_to_dma(dev, phys);
-> 		if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
+> [...]
 
-I tried to reuse same code as much as possible :(
+Applied to the vfs-6.18.procfs branch of the vfs/vfs.git tree.
+Patches in the vfs-6.18.procfs branch should appear in linux-next soon.
 
-> 		    dma_kmalloc_needs_bounce(dev, size, dir)) {
-> 			if (is_swiotlb_active(dev))
-> 				return swiotlb_map(dev, phys, size, dir, attrs);
-> 
-> 			goto err_overflow;
-> 		}
-> 		if (!dev_is_dma_coherent(dev) &&
-> 		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-> 			arch_sync_dma_for_device(phys, size, dir);
-> 	}
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Like Jason wrote, but in diff format:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-index 92dbadcd3b2f..3f4792910604 100644
---- a/kernel/dma/direct.h
-+++ b/kernel/dma/direct.h
-@@ -85,7 +85,6 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
-                unsigned long attrs)
- {
-        dma_addr_t dma_addr;
--       bool capable;
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-        if (is_swiotlb_force_bounce(dev)) {
-                if (attrs & DMA_ATTR_MMIO)
-@@ -94,17 +93,19 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
-                return swiotlb_map(dev, phys, size, dir, attrs);
-        }
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.18.procfs
 
--       if (attrs & DMA_ATTR_MMIO)
-+       if (attrs & DMA_ATTR_MMIO) {
-                dma_addr = phys;
--       else
-+               if (unlikely(dma_capable(dev, dma_addr, size, false)))
-+                       goto err_overflow;
-+       } else {
-                dma_addr = phys_to_dma(dev, phys);
-+               if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
-+                   dma_kmalloc_needs_bounce(dev, size, dir)) {
-+                       if (is_swiotlb_active(dev))
-+                               return swiotlb_map(dev, phys, size, dir, attrs);
-
--       capable = dma_capable(dev, dma_addr, size, !(attrs & DMA_ATTR_MMIO));
--       if (unlikely(!capable) || dma_kmalloc_needs_bounce(dev, size, dir)) {
--               if (is_swiotlb_active(dev) && !(attrs & DMA_ATTR_MMIO))
--                       return swiotlb_map(dev, phys, size, dir, attrs);
--
--               goto err_overflow;
-+                       goto err_overflow;
-+               }
-        }
-
-        if (!dev_is_dma_coherent(dev) &&
-
-
-I created new tag with fixed code.
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/tag/?h=dma-phys-Sep-2
-
-Thanks
-
-> 
-> Jason
+[1/4] pidns: move is-ancestor logic to helper
+      https://git.kernel.org/vfs/vfs/c/60d22c6ef41b
+[2/4] procfs: add "pidns" mount option
+      https://git.kernel.org/vfs/vfs/c/77e211dd1392
+[4/4] selftests/proc: add tests for new pidns APIs
+      https://git.kernel.org/vfs/vfs/c/568d4239002c
