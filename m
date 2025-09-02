@@ -1,994 +1,454 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E265322DAA;
-	Tue,  2 Sep 2025 15:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B35032ED25;
+	Tue,  2 Sep 2025 15:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756827524; cv=none; b=hODk3iSTvpfPhlKZtM4dVj6ux/LxjE0a46GqlriIbcJiixA8vbHjM57qw12I5w8KsuVeLwd+bJENawv1KrbC1KIoT6F9gLZTzeLlU9P/GcMtTH0CwbBT/Wmdb9rzDm+aASNZjUsy6EI8q+q6pkMOiA1b3oW3X174iOjr9XwHq7s=
+	t=1756827869; cv=none; b=nqr3klc4i/BPPDM3XuREG0U753ybZaMX01c+jUniKZ5bUIFo3A6u4MuRcfB6CEIYF3Kmb+6DFtLIPwukkrEO1BBMVa8OQA5oG4/zfOdumEfizlGRQtnxAbF1PzjOVkg8fKcemGRowURHlaYZyLhz1Vo2vNvb2UZzwmB9XwVtr6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756827524; c=relaxed/simple;
-	bh=gcvlFlcFp2OcFzt8bZH1LCaG7OmJMKt6/nNkkorqMTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWw5Ire3N4pLfuAp696VydpwzKqxyEZq8Xe7xNLLHxyr2NUvpY+P2N0ztQYuAMfkoQAlM1+iuxWf3MhA+7pzt7s4ZJWr3eTrYkdYmk5QpF1zOtwd/w7suqdQx3Y29nROn3NEasNGzyWTj4vdlsTfGsHa2W8F8Paxq+T6e0Mz3to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fdh+CJGv; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756827869; c=relaxed/simple;
+	bh=Rom7YdnDC+ei+ZjVb5OSPCLqbUce5PefOBT5Bkxh3rw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=KxciEvLgLSEk7grcERIrVzK+H3FdT85BaZf8zv4/gx7XB9UgIhXXLJPppLWRIZaSTil2UkppXmGuovooxAAtRdW3qTdOBrURVi1Bch0qiPQnVfGzFxtnrLCW9I4Aj2GSCNu0HSwXUzizq/cyfmZK/+EE9338dPwQwa5V8CaU7Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yzXa+H9l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fdh+CJGv"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-32b4c6a2a98so388346a91.1;
-        Tue, 02 Sep 2025 08:38:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756827521; x=1757432321; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QFy3o9qSaoszpYhGi4E/xMtDIYIlpqe+e0gfTCe3224=;
-        b=Fdh+CJGvwNAGA9POn75VutxjgiKiRpTqkLgqm9hZDal30hla54U38r6TcOd6Oku0b1
-         8i2ZwSseUR0iLMp6xvoBoDB/zTIFAjpFnIMZ79L8fQtwqPIBpd2fiAT0p435Syq0/jOD
-         3qzqz7XS/H8+WE9w7FQOcPZIrrRYifHtBHfukhM9qEAk3lk866ZZNogUwZcnpy0ZAFXV
-         ZEP+KpmN9UWZ86PkN0+mUCXZBegko3i2ui//B9huxQtiShukq5xpdQiQVy69XJcyOL4x
-         ZQ4RRVSGhPMZ+NTPp3InHHOGUtev09o2BtNaqAw8WOicdmeLTf10RR6IOY5EVKAnGK85
-         ivow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756827521; x=1757432321;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QFy3o9qSaoszpYhGi4E/xMtDIYIlpqe+e0gfTCe3224=;
-        b=PfXbvpLv47BYqlp6uRzzqHhRqpZ2epk4LFbTsvhJ/A/F/iMs+Ag4k7sF3xyoGEQ5cM
-         KJKQ2lD2msZsvaEhlmTgmJfHKXftvPxCZDV0oo77WW5clin78X1/+Mv/irRFSHAfQ0mK
-         iiuabwyyWtzHgwnjp7c8k55haJjEP2ZU9i0zrfY6ekf+nItRxAIRDi33XO4jii1vyoAL
-         w+/CumX1WUg93IWEd1SChEXA7RU3eGekciwQquSiG/37NwxP+bzmSXiWWSCxBlLoSP6d
-         6JFvge1KqTtHsKrdOmA1TXR3atrqJar+n/9YPpJQfhSOQeNRnFW9ZfFp9r4pj3VQtNqJ
-         vu6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUIP+ycZbczlpy18d2Z/U7OAQA8x3ZI+NPT+O0Qy6h2SorZ2N3U0dACUhE2gQRaGr22Wq+NP1OzeRc=@vger.kernel.org, AJvYcCWs1YkyxwfGGieX4QsOXtOEtEK4BCH8+FQCkG7dRv71XFBawru81wbwWpA0vdC2xTGMRRlDVgcqnXkS4Lsg@vger.kernel.org, AJvYcCXJlFux0y3zbK3CQBGSycd7nB9X3pjAF0haUml4DcKAUIOluslKI/x46JaFoyZH9Xr3uTnbpUocfNQ72Lk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydtpYGi4LZG/dyE9m3AMXbj1FoTtk2Ke+YkXBXaeiuSBJY2tsx
-	XO3Lbqap29asTycbuTwLL9HRS5SZFUgyAGcI5XFgolhXijjRxOakpoKo
-X-Gm-Gg: ASbGncsh+PbjCRiC2IGnHlguV2GXGtVHPLY+UYx3ck+EfqthUUmipQrCk5PFBPXDlC8
-	REtnqUN743WnVceFq0TLhSgrah0p2XzoB5+lxgdUUss7cn8OcHPvDS6AIEq8j3VYF4TGVapYIPG
-	K//ZVREucaeDZgpZqmpHE9L7/G42WLtHFvLnzzRMdDbELhalWPQevVyCBlM5WrSp/hCOWN5DJhH
-	G49wG1m9gq3nuHRDzrLtUcy7D1dxoWFo8xHbE8YfmDgeKA1vnUu16wi7E0SvZErl+2dfCOlYWl6
-	+svuN3ieWp6lsDIlOcseITXccE17BBnZk3vg8LIV9rNeGNQYb1U21s5BexrzPv4NEQB343kn9om
-	c7D/93uWyzytckM69fi93h6P1Wz1kT2PLt+fkGC5FOIwWNA==
-X-Google-Smtp-Source: AGHT+IHkfND6sPLcrmHw1jMF/48Faa3BI6FrRdVgDYEb4M7LBdBW+n7s1/l1+f7wd44WvkMArmdXZQ==
-X-Received: by 2002:a17:90a:e70f:b0:327:e0f4:e33e with SMTP id 98e67ed59e1d1-32815706d69mr15034220a91.34.1756827520397;
-        Tue, 02 Sep 2025 08:38:40 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-329d8ca7aa0sm3185707a91.19.2025.09.02.08.38.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 08:38:39 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 2 Sep 2025 08:38:37 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cryolitia PukNgae <cryolitia@uniontech.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
-	Yao Zi <ziyao@disroot.org>,
-	Derek John Clark <derekjohn.clark@gmail.com>,
-	WangYuli <wangyuli@uniontech.com>, Jun Zhan <zhanjun@uniontech.com>,
-	niecheng1@uniontech.com, guanwentao@uniontech.com,
-	Marcin =?utf-8?Q?Str=C4=85gowski?= <marcin@stragowski.com>,
-	someone5678 <someone5678.dev@gmail.com>,
-	Justin Weiss <justin@justinweiss.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>, command_block <mtf@ik.me>,
-	derjohn <himself@derjohn.de>,
-	Crashdummyy <crashdummy1337@proton.me>
-Subject: Re: [PATCH RESEND v7 1/2] hwmon: add GPD devices sensor driver
-Message-ID: <c6063674-94a0-4f0b-8b40-c9438e28c0fd@roeck-us.net>
-References: <20250820-gpd_fan-v7-0-10c8058f4dba@uniontech.com>
- <20250820-gpd_fan-v7-1-10c8058f4dba@uniontech.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yzXa+H9l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D152C4CEF6;
+	Tue,  2 Sep 2025 15:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1756827868;
+	bh=Rom7YdnDC+ei+ZjVb5OSPCLqbUce5PefOBT5Bkxh3rw=;
+	h=From:Date:Subject:To:Cc:From;
+	b=yzXa+H9lkZ8AWV1opiBTpjYlEiMDa0E/rX1m73BonlvUAodt65Vu5VDUI3ABo0vxf
+	 +KAT9XNQRNRG85ZGAFI+XJn5R3IhNFIMBUureLtqgpty2RQ+j1tAQdS0IkxogliPLK
+	 EKEG2KxIrArGkeGN+z5uRhh4WV0wJ984FTiTqSX4=
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Date: Tue, 02 Sep 2025 11:44:19 -0400
+Subject: [PATCH] Documentation: update maintainer-pgp-guide for latest best
+ practices
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-gpd_fan-v7-1-10c8058f4dba@uniontech.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250902-pgp-guide-updates-v1-1-62ac7312d3f9@linuxfoundation.org>
+X-B4-Tracking: v=1; b=H4sIANIQt2gC/x3MQQqAIBBA0avErBtQKaiuEi1ER5tNiZMRhHdPW
+ r7F/y8IZSaBpXsh083C59Gg+w7cbo9IyL4ZjDKjmpXBFBPGwp6wJG8vEpymoAbtgtajg9alTIG
+ f/7lutX4KajRsYwAAAA==
+X-Change-ID: 20250902-pgp-guide-updates-88f041cf115c
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+X-Mailer: b4 0.15-dev-dfb17
+X-Developer-Signature: v=1; a=openpgp-sha256; l=19033;
+ i=konstantin@linuxfoundation.org; h=from:subject:message-id;
+ bh=Rom7YdnDC+ei+ZjVb5OSPCLqbUce5PefOBT5Bkxh3rw=;
+ b=owGbwMvMwCW27YjM47CUmTmMp9WSGDK2C9zuXnr4ULKrzpMzLXeLZ1v7nrL65zb3jG5il5g14
+ xPbaXdYOkpZGMS4GGTFFFnK9sVuCip86CGX3mMKM4eVCWQIAxenAExExpfhv0tKysLow1sf6Psb
+ uh5PMp7SfW6X6/Er854f6rjl73719CVGho0HNIqd3jYmzeZ/6enOxsH/4LfyafFSW1mxxpqoEta
+ HjAA=
+X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
+ fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
 
-On Wed, Aug 20, 2025 at 05:50:38PM +0800, Cryolitia PukNgae wrote:
-> From: Cryolitia PukNgae <cryolitia@uniontech.com>
-> 
-> Sensors driver for GPD Handhelds that expose fan reading and control via
-> hwmon sysfs.
-> 
-> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
-> devices. This driver implements these functions through x86 port-mapped
-> IO.
-> 
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-> ---
->  MAINTAINERS             |   6 +
->  drivers/hwmon/Kconfig   |  10 +
->  drivers/hwmon/Makefile  |   1 +
->  drivers/hwmon/gpd-fan.c | 753 ++++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 770 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index daf520a13bdf6a991c0160a96620f40308c29ee0..1deb9b817a37998828b6773d3dc8237c982d4bf9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10410,6 +10410,12 @@ F:	drivers/phy/samsung/phy-gs101-ufs.c
->  F:	include/dt-bindings/clock/google,gs101.h
->  K:	[gG]oogle.?[tT]ensor
->  
-> +GPD FAN DRIVER
-> +M:	Cryolitia PukNgae <cryolitia@uniontech.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/hwmon/gpd-fan.c
-> +
->  GPD POCKET FAN DRIVER
->  M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 9d28fcf7cd2a6f9e2f54694a717bd85ff4047b46..a552a5ced64d0fee2c80a5399ce9d1f0dbd7d763 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -769,6 +769,16 @@ config SENSORS_GL520SM
->  	  This driver can also be built as a module. If so, the module
->  	  will be called gl520sm.
->  
-> +config SENSORS_GPD
-> +	tristate "GPD handhelds"
-> +	depends on X86
-> +	help
-> +	  If you say yes here you get support for fan readings and
-> +	  control over GPD handheld devices.
-> +
-> +	  Can also be built as a module. In that case it will be
-> +	  called gpd-fan.
-> +
->  config SENSORS_G760A
->  	tristate "GMT G760A"
->  	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index cd8bc4752b4dbf015c6eb46157626f4e8f87dfae..051981eb8a5089608e9eb351a1d5857805c728c8 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -88,6 +88,7 @@ obj-$(CONFIG_SENSORS_GIGABYTE_WATERFORCE) += gigabyte_waterforce.o
->  obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
->  obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
->  obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
-> +obj-$(CONFIG_SENSORS_GPD)	+= gpd-fan.o
->  obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
->  obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
->  obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
-> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..11409723cb2989569a33c4c0f1beceac073cb6e4
-> --- /dev/null
-> +++ b/drivers/hwmon/gpd-fan.c
-> @@ -0,0 +1,753 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +/* Platform driver for GPD devices that expose fan control via hwmon sysfs.
-> + *
-> + * Fan control is provided via pwm interface in the range [0-255].
-> + * Each model has a different range in the EC, the written value is scaled to
-> + * accommodate for that.
-> + *
-> + * Based on this repo:
-> + * https://github.com/Cryolitia/gpd-fan-driver
-> + *
-> + * Copyright (c) 2024 Cryolitia PukNgae
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/dmi.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/ioport.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +
-> +#define DRIVER_NAME "gpdfan"
-> +#define GPD_PWM_CTR_OFFSET 0x1841
-> +
-> +static char *gpd_fan_board = "";
-> +module_param(gpd_fan_board, charp, 0444);
-> +
-> +// EC read/write locker
-> +// Should never access EC at the same time, otherwise system down.
-> +static DEFINE_MUTEX(gpd_fan_lock);
-> +
-> +enum gpd_board {
-> +	win_mini,
-> +	win4_6800u,
-> +	win_max_2,
-> +	duo,
-> +};
-> +
-> +enum FAN_PWM_ENABLE {
-> +	DISABLE		= 0,
-> +	MANUAL		= 1,
-> +	AUTOMATIC	= 2,
-> +};
-> +
-> +static struct {
-> +	enum FAN_PWM_ENABLE pwm_enable;
-> +	u8 pwm_value;
-> +
-> +	const struct gpd_fan_drvdata *drvdata;
-> +} gpd_driver_priv;
-> +
-> +struct gpd_fan_drvdata {
-> +	const char *board_name; /* Board name for module param comparison */
-> +	const enum gpd_board board;
-> +
-> +	const u8 addr_port;
-> +	const u8 data_port;
-> +	const u16 manual_control_enable;
-> +	const u16 rpm_read;
-> +	const u16 pwm_write;
-> +	const u16 pwm_max;
-> +};
-> +
-> +static struct gpd_fan_drvdata gpd_win_mini_drvdata = {
-> +	.board_name		= "win_mini",
-> +	.board			= win_mini,
-> +
-> +	.addr_port		= 0x4E,
-> +	.data_port		= 0x4F,
-> +	.manual_control_enable	= 0x047A,
-> +	.rpm_read		= 0x0478,
-> +	.pwm_write		= 0x047A,
-> +	.pwm_max		= 244,
-> +};
-> +
-> +static struct gpd_fan_drvdata gpd_duo_drvdata = {
-> +	.board_name		= "duo",
-> +	.board			= duo,
-> +
-> +	.addr_port		= 0x4E,
-> +	.data_port		= 0x4F,
-> +	.manual_control_enable	= 0x047A,
-> +	.rpm_read		= 0x0478,
-> +	.pwm_write		= 0x047A,
-> +	.pwm_max		= 244,
-> +};
-> +
-> +static struct gpd_fan_drvdata gpd_win4_drvdata = {
-> +	.board_name		= "win4",
-> +	.board			= win4_6800u,
-> +
-> +	.addr_port		= 0x2E,
-> +	.data_port		= 0x2F,
-> +	.manual_control_enable	= 0xC311,
-> +	.rpm_read		= 0xC880,
-> +	.pwm_write		= 0xC311,
-> +	.pwm_max		= 127,
-> +};
-> +
-> +static struct gpd_fan_drvdata gpd_wm2_drvdata = {
-> +	.board_name		= "wm2",
-> +	.board			= win_max_2,
-> +
-> +	.addr_port		= 0x4E,
-> +	.data_port		= 0x4F,
-> +	.manual_control_enable	= 0x0275,
-> +	.rpm_read		= 0x0218,
-> +	.pwm_write		= 0x1809,
-> +	.pwm_max		= 184,
-> +};
-> +
-> +static const struct dmi_system_id dmi_table[] = {
-> +	{
-> +		// GPD Win Mini
-> +		// GPD Win Mini with AMD Ryzen 8840U
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1617-01")
-> +		},
-> +		.driver_data = &gpd_win_mini_drvdata,
-> +	},
-> +	{
-> +		// GPD Win Mini
-> +		// GPD Win Mini with AMD Ryzen HX370
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1617-02")
-> +		},
-> +		.driver_data = &gpd_win_mini_drvdata,
-> +	},
-> +	{
-> +		// GPD Win Mini
-> +		// GPD Win Mini with AMD Ryzen HX370
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1617-02-L")
-> +		},
-> +		.driver_data = &gpd_win_mini_drvdata,
-> +	},
-> +	{
-> +		// GPD Win 4 with AMD Ryzen 6800U
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
-> +			DMI_MATCH(DMI_BOARD_VERSION, "Default string"),
-> +		},
-> +		.driver_data = &gpd_win4_drvdata,
-> +	},
-> +	{
-> +		// GPD Win 4 with Ryzen 7840U
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
-> +			DMI_MATCH(DMI_BOARD_VERSION, "Ver. 1.0"),
-> +		},
-> +		// Since 7840U, win4 uses the same drvdata as wm2
-> +		.driver_data = &gpd_wm2_drvdata,
-> +	},
-> +	{
-> +		// GPD Win 4 with Ryzen 7840U (another)
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
-> +			DMI_MATCH(DMI_BOARD_VERSION, "Ver.1.0"),
-> +		},
-> +		.driver_data = &gpd_wm2_drvdata,
-> +	},
-> +	{
-> +		// GPD Win Max 2 with Ryzen 6800U
-> +		// GPD Win Max 2 2023 with Ryzen 7840U
-> +		// GPD Win Max 2 2024 with Ryzen 8840U
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1619-04"),
-> +		},
-> +		.driver_data = &gpd_wm2_drvdata,
-> +	},
-> +	{
-> +		// GPD Win Max 2 with AMD Ryzen HX370
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1619-05"),
-> +		},
-> +		.driver_data = &gpd_wm2_drvdata,
-> +	},
-> +	{
-> +		// GPD Duo
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1622-01"),
-> +		},
-> +		.driver_data = &gpd_duo_drvdata,
-> +	},
-> +	{
-> +		// GPD Duo (another)
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1622-01-L"),
-> +		},
-> +		.driver_data = &gpd_duo_drvdata,
-> +	},
-> +	{
-> +		// GPD Pocket 4
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1628-04"),
-> +		},
-> +		.driver_data = &gpd_win_mini_drvdata,
-> +	},
-> +	{
-> +		// GPD Pocket 4 (another)
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "G1628-04-L"),
-> +		},
-> +		.driver_data = &gpd_win_mini_drvdata,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct gpd_fan_drvdata *gpd_module_drvdata[] = {
-> +	&gpd_win_mini_drvdata, &gpd_win4_drvdata, &gpd_wm2_drvdata, NULL
-> +};
-> +
-> +/* Helper functions to handle EC read/write */
+Freshen up the maintainer PGP guide:
 
-Either all C++ comments, or all C comments, but not a mix of it.
+- Bump minimum GnuPG version requirement from 2.2 to 2.4, since 2.2 is
+  no longer maintained
+- All major hardware tokens now support Curve25519, so remove outdated
+  ECC support callouts
+- Update hardware device recommendations (Nitrokey Pro 2 -> Nitrokey 3)
+- Broaden backup media terminology (USB thumb drive -> external media)
+- Update wording to follow vale's linter recommendations
+- Various minor wording improvements for clarity
 
-> +static int gpd_ecram_read(const struct gpd_fan_drvdata *drvdata, u16 offset,
-> +			  u8 *val)
-> +{
-> +	int ret;
-> +	u16 addr_port = drvdata->addr_port;
-> +	u16 data_port = drvdata->data_port;
-> +
-> +	ret = mutex_lock_interruptible(&gpd_fan_lock);
-> +
+Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+ Documentation/process/maintainer-pgp-guide.rst | 158 ++++++++++++-------------
+ 1 file changed, 75 insertions(+), 83 deletions(-)
 
-Drop empty lines after assigning ret and before checking it.
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index f5277993b195..b6919bf606c3 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -49,7 +49,7 @@ hosting infrastructure, regardless of how good the security practices
+ for the latter may be.
+ 
+ The above guiding principle is the reason why this guide is needed. We
+-want to make sure that by placing trust into developers we do not simply
++want to make sure that by placing trust into developers we do not merely
+ shift the blame for potential future security incidents to someone else.
+ The goal is to provide a set of guidelines developers can use to create
+ a secure working environment and safeguard the PGP keys used to
+@@ -60,7 +60,7 @@ establish the integrity of the Linux kernel itself.
+ PGP tools
+ =========
+ 
+-Use GnuPG 2.2 or later
++Use GnuPG 2.4 or later
+ ----------------------
+ 
+ Your distro should already have GnuPG installed by default, you just
+@@ -69,9 +69,9 @@ To check, run::
+ 
+     $ gpg --version | head -n1
+ 
+-If you have version 2.2 or above, then you are good to go. If you have a
+-version that is prior than 2.2, then some commands from this guide may
+-not work.
++If you have version 2.4 or above, then you are good to go. If you have
++an earlier version, then you are using a release of GnuPG that is no
++longer maintained and some commands from this guide may not work.
+ 
+ Configure gpg-agent options
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -199,13 +199,6 @@ separate signing subkey::
+ 
+     $ gpg --quick-addkey [fpr] ed25519 sign
+ 
+-.. note:: ECC support in GnuPG
+-
+-    Note, that if you intend to use a hardware token that does not
+-    support ED25519 ECC keys, you should choose "nistp256" instead or
+-    "ed25519." See the section below on recommended hardware devices.
+-
+-
+ Back up your Certify key for disaster recovery
+ ----------------------------------------------
+ 
+@@ -213,7 +206,7 @@ The more signatures you have on your PGP key from other developers, the
+ more reasons you have to create a backup version that lives on something
+ other than digital media, for disaster recovery reasons.
+ 
+-The best way to create a printable hardcopy of your private key is by
++A good way to create a printable hardcopy of your private key is by
+ using the ``paperkey`` software written for this very purpose. See ``man
+ paperkey`` for more details on the output format and its benefits over
+ other solutions. Paperkey should already be packaged for most
+@@ -224,11 +217,11 @@ key::
+ 
+     $ gpg --export-secret-key [fpr] | paperkey -o /tmp/key-backup.txt
+ 
+-Print out that file (or pipe the output straight to lpr), then take a
+-pen and write your passphrase on the margin of the paper. **This is
+-strongly recommended** because the key printout is still encrypted with
+-that passphrase, and if you ever change it you will not remember what it
+-used to be when you had created the backup -- *guaranteed*.
++Print out that file, then take a pen and write your passphrase on the
++margin of the paper. **This is strongly recommended** because the key
++printout is still encrypted with that passphrase, and if you ever change
++it you will not remember what it used to be when you had created the
++backup -- *guaranteed*.
+ 
+ Put the resulting printout and the hand-written passphrase into an envelope
+ and store in a secure and well-protected place, preferably away from your
+@@ -236,10 +229,9 @@ home, such as your bank vault.
+ 
+ .. note::
+ 
+-    Your printer is probably no longer a simple dumb device connected to
+-    your parallel port, but since the output is still encrypted with
+-    your passphrase, printing out even to "cloud-integrated" modern
+-    printers should remain a relatively safe operation.
++    The key is still encrypted with your passphrase, so printing out
++    even to "cloud-integrated" modern printers should remain a
++    relatively safe operation.
+ 
+ Back up your whole GnuPG directory
+ ----------------------------------
+@@ -255,16 +247,17 @@ on these external copies whenever you need to use your Certify key --
+ such as when making changes to your own key or signing other people's
+ keys after conferences and summits.
+ 
+-Start by getting a small USB "thumb" drive (preferably two!) that you
+-will use for backup purposes. You will need to encrypt them using LUKS
+--- refer to your distro's documentation on how to accomplish this.
++Start by getting an external media card (preferably two!) that you will
++use for backup purposes. You will need to create an encrypted partition
++on this device using LUKS -- refer to your distro's documentation on how
++to accomplish this.
+ 
+ For the encryption passphrase, you can use the same one as on your
+ PGP key.
+ 
+-Once the encryption process is over, re-insert the USB drive and make
+-sure it gets properly mounted. Copy your entire ``.gnupg`` directory
+-over to the encrypted storage::
++Once the encryption process is over, re-insert your device and make sure
++it gets properly mounted. Copy your entire ``.gnupg`` directory over to
++the encrypted storage::
+ 
+     $ cp -a ~/.gnupg /media/disk/foo/gnupg-backup
+ 
+@@ -273,11 +266,10 @@ You should now test to make sure everything still works::
+     $ gpg --homedir=/media/disk/foo/gnupg-backup --list-key [fpr]
+ 
+ If you don't get any errors, then you should be good to go. Unmount the
+-USB drive, distinctly label it so you don't blow it away next time you
+-need to use a random USB drive, and put in a safe place -- but not too
+-far away, because you'll need to use it every now and again for things
+-like editing identities, adding or revoking subkeys, or signing other
+-people's keys.
++device, distinctly label it so you don't overwrite it by accident, and
++put in a safe place -- but not too far away, because you'll need to use
++it every now and again for things like editing identities, adding or
++revoking subkeys, or signing other people's keys.
+ 
+ Remove the Certify key from your homedir
+ ----------------------------------------
+@@ -303,7 +295,7 @@ and store it on offline storage.
+     your GnuPG directory in its entirety. What we are about to do will
+     render your key useless if you do not have a usable backup!
+ 
+-First, identify the keygrip of your Certify key::
++First, identify the "keygrip" of your Certify key::
+ 
+     $ gpg --with-keygrip --list-key [fpr]
+ 
+@@ -328,8 +320,8 @@ Certify key fingerprint). This will correspond directly to a file in your
+     2222000000000000000000000000000000000000.key
+     3333000000000000000000000000000000000000.key
+ 
+-All you have to do is simply remove the .key file that corresponds to
+-the Certify key keygrip::
++It is sufficient to remove the .key file that corresponds to the Certify
++key keygrip::
+ 
+     $ cd ~/.gnupg/private-keys-v1.d
+     $ rm 1111000000000000000000000000000000000000.key
+@@ -372,7 +364,7 @@ GnuPG operation is performed, the keys are loaded into system memory and
+ can be stolen from there by sufficiently advanced malware (think
+ Meltdown and Spectre).
+ 
+-The best way to completely protect your keys is to move them to a
++A good way to completely protect your keys is to move them to a
+ specialized hardware device that is capable of smartcard operations.
+ 
+ The benefits of smartcards
+@@ -383,11 +375,11 @@ private keys and performing crypto operations directly on the card
+ itself. Because the key contents never leave the smartcard, the
+ operating system of the computer into which you plug in the hardware
+ device is not able to retrieve the private keys themselves. This is very
+-different from the encrypted USB storage device we used earlier for
+-backup purposes -- while that USB device is plugged in and mounted, the
++different from the encrypted media storage device we used earlier for
++backup purposes -- while that device is plugged in and mounted, the
+ operating system is able to access the private key contents.
+ 
+-Using external encrypted USB media is not a substitute to having a
++Using external encrypted media is not a substitute to having a
+ smartcard-capable device.
+ 
+ Available smartcard devices
+@@ -398,17 +390,15 @@ easiest is to get a specialized USB device that implements smartcard
+ functionality. There are several options available:
+ 
+ - `Nitrokey Start`_: Open hardware and Free Software, based on FSI
+-  Japan's `Gnuk`_. One of the few available commercial devices that
+-  support ED25519 ECC keys, but offer fewest security features (such as
+-  resistance to tampering or some side-channel attacks).
+-- `Nitrokey Pro 2`_: Similar to the Nitrokey Start, but more
+-  tamper-resistant and offers more security features. Pro 2 supports ECC
+-  cryptography (NISTP).
++  Japan's `Gnuk`_. One of the cheapest options, but offers fewest
++  security features (such as resistance to tampering or some
++  side-channel attacks).
++- `Nitrokey 3`_: Similar to the Nitrokey Start, but more
++  tamper-resistant and offers more security features and USB
++  form-factors. Supports ECC cryptography (ED25519 and NISTP).
+ - `Yubikey 5`_: proprietary hardware and software, but cheaper than
+-  Nitrokey Pro and comes available in the USB-C form that is more useful
+-  with newer laptops. Offers additional security features such as FIDO
+-  U2F, among others, and now finally supports NISTP and ED25519 ECC
+-  keys.
++  Nitrokey with a similar set of features. Supports ECC cryptography
++  (ED25519 and NISTP).
+ 
+ Your choice will depend on cost, shipping availability in your
+ geographical region, and open/proprietary hardware considerations.
+@@ -419,8 +409,8 @@ geographical region, and open/proprietary hardware considerations.
+     you `qualify for a free Nitrokey Start`_ courtesy of The Linux
+     Foundation.
+ 
+-.. _`Nitrokey Start`: https://shop.nitrokey.com/shop/product/nitrokey-start-6
+-.. _`Nitrokey Pro 2`: https://shop.nitrokey.com/shop/product/nkpr2-nitrokey-pro-2-3
++.. _`Nitrokey Start`: https://www.nitrokey.com/products/nitrokeys
++.. _`Nitrokey 3`: https://www.nitrokey.com/products/nitrokeys
+ .. _`Yubikey 5`: https://www.yubico.com/products/yubikey-5-overview/
+ .. _Gnuk: https://www.fsij.org/doc-gnuk/
+ .. _`qualify for a free Nitrokey Start`: https://www.kernel.org/nitrokey-digital-tokens-for-kernel-developers.html
+@@ -455,7 +445,7 @@ the smartcard). You so rarely need to use the Admin PIN, that you will
+ inevitably forget what it is if you do not record it.
+ 
+ Getting back to the main card menu, you can also set other values (such
+-as name, sex, login data, etc), but it's not necessary and will
++as name, gender, login data, etc), but it's not necessary and will
+ additionally leak information about your smartcard should you lose it.
+ 
+ .. note::
+@@ -615,7 +605,7 @@ run::
+ You can also use a specific date if that is easier to remember (e.g.
+ your birthday, January 1st, or Canada Day)::
+ 
+-    $ gpg --quick-set-expire [fpr] 2025-07-01
++    $ gpg --quick-set-expire [fpr] 2038-07-01
+ 
+ Remember to send the updated key back to keyservers::
+ 
+@@ -656,9 +646,9 @@ hundreds of cloned repositories floating around, how does anyone verify
+ that their copy of linux.git has not been tampered with by a malicious
+ third party?
+ 
+-Or what happens if a backdoor is discovered in the code and the "Author"
+-line in the commit says it was done by you, while you're pretty sure you
+-had `nothing to do with it`_?
++Or what happens if malicious code is discovered in the kernel and the
++"Author" line in the commit says it was done by you, while you're pretty
++sure you had `nothing to do with it`_?
+ 
+ To address both of these issues, Git introduced PGP integration. Signed
+ tags prove the repository integrity by assuring that its contents are
+@@ -681,8 +671,7 @@ should be used (``[fpr]`` is the fingerprint of your key)::
+ How to work with signed tags
+ ----------------------------
+ 
+-To create a signed tag, simply pass the ``-s`` switch to the tag
+-command::
++To create a signed tag, pass the ``-s`` switch to the tag command::
+ 
+     $ git tag -s [tagname]
+ 
+@@ -693,7 +682,7 @@ not been maliciously altered.
+ How to verify signed tags
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-To verify a signed tag, simply use the ``verify-tag`` command::
++To verify a signed tag, use the ``verify-tag`` command::
+ 
+     $ git verify-tag [tagname]
+ 
+@@ -712,9 +701,9 @@ The merge message will contain something like this::
+     # gpg: Signature made [...]
+     # gpg: Good signature from [...]
+ 
+-If you are verifying someone else's git tag, then you will need to
+-import their PGP key. Please refer to the
+-":ref:`verify_identities`" section below.
++If you are verifying someone else's git tag, you will first need to
++import their PGP key. Please refer to the ":ref:`verify_identities`"
++section below.
+ 
+ Configure git to always sign annotated tags
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -728,16 +717,16 @@ configuration option::
+ How to work with signed commits
+ -------------------------------
+ 
+-It is easy to create signed commits, but it is much more difficult to
+-use them in Linux kernel development, since it relies on patches sent to
+-the mailing list, and this workflow does not preserve PGP commit
+-signatures. Furthermore, when rebasing your repository to match
+-upstream, even your own PGP commit signatures will end up discarded. For
+-this reason, most kernel developers don't bother signing their commits
+-and will ignore signed commits in any external repositories that they
+-rely upon in their work.
++It is also possible to create signed commits, but they have limited
++usefulness in Linux kernel development. The kernel contribution workflow
++relies on sending in patches, and converting commits to patches does not
++preserve git commit signatures. Furthermore, when rebasing your own
++repository on a newer upstream, PGP commit signatures will end up
++discarded. For this reason, most kernel developers don't bother signing
++their commits and will ignore signed commits in any external
++repositories that they rely upon in their work.
+ 
+-However, if you have your working git tree publicly available at some
++That said, if you have your working git tree publicly available at some
+ git hosting service (kernel.org, infradead.org, ozlabs.org, or others),
+ then the recommendation is that you sign all your git commits even if
+ upstream developers do not directly benefit from this practice.
+@@ -748,7 +737,7 @@ We recommend this for the following reasons:
+    provenance, even externally maintained trees carrying PGP commit
+    signatures will be valuable for such purposes.
+ 2. If you ever need to re-clone your local repository (for example,
+-   after a disk failure), this lets you easily verify the repository
++   after reinstalling your system), this lets you verify the repository
+    integrity before resuming your work.
+ 3. If someone needs to cherry-pick your commits, this allows them to
+    quickly verify their integrity before applying them.
+@@ -756,9 +745,8 @@ We recommend this for the following reasons:
+ Creating signed commits
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-To create a signed commit, you just need to pass the ``-S`` flag to the
+-``git commit`` command (it's capital ``-S`` due to collision with
+-another flag)::
++To create a signed commit, pass the ``-S`` flag to the ``git commit``
++command (it's capital ``-S`` due to collision with another flag)::
+ 
+     $ git commit -S
+ 
+@@ -775,7 +763,6 @@ You can tell git to always sign commits::
+ 
+ .. _verify_identities:
+ 
+-
+ How to work with signed patches
+ -------------------------------
+ 
+@@ -793,6 +780,11 @@ headers (a-la DKIM):
+ Installing and configuring patatt
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
++.. note::
++
++    If you use B4 to send in your patches, patatt is already installed
++    and integrated into your workflow.
++
+ Patatt is packaged for many distributions already, so please check there
+ first. You can also install it from pypi using "``pip install patatt``".
+ 
+@@ -835,9 +827,9 @@ encounters, for example::
+ How to verify kernel developer identities
+ =========================================
+ 
+-Signing tags and commits is easy, but how does one go about verifying
+-that the key used to sign something belongs to the actual kernel
+-developer and not to a malicious imposter?
++Signing tags and commits is straightforward, but how does one go about
++verifying that the key used to sign something belongs to the actual
++kernel developer and not to a malicious imposter?
+ 
+ Configure auto-key-retrieval using WKD and DANE
+ -----------------------------------------------
+@@ -884,7 +876,7 @@ various software makers dictating who should be your trusted certifying
+ entity, PGP leaves this responsibility to each user.
+ 
+ Unfortunately, very few people understand how the Web of Trust works.
+-While it remains an important aspect of the OpenPGP specification,
++While it is still an important part of the OpenPGP specification,
+ recent versions of GnuPG (2.2 and above) have implemented an alternative
+ mechanism called "Trust on First Use" (TOFU). You can think of TOFU as
+ "the SSH-like approach to trust." With SSH, the first time you connect
+@@ -894,8 +886,8 @@ to connect, forcing you to make a decision on whether you choose to
+ trust the changed key or not. Similarly, the first time you import
+ someone's PGP key, it is assumed to be valid. If at any point in the
+ future GnuPG comes across another key with the same identity, both the
+-previously imported key and the new key will be marked as invalid and
+-you will need to manually figure out which one to keep.
++previously imported key and the new key will be marked for verification
++and you will need to manually figure out which one to keep.
+ 
+ We recommend that you use the combined TOFU+PGP trust model (which is
+ the new default in GnuPG v2). To set it, add (or modify) the
 
-Regarding the mutex, I am not sure if it provides the expected
-protection. There are several read/read and read/write sequences
-which may be called from multiple threads at the same time.
-Those are not protected against each other.
+---
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+change-id: 20250902-pgp-guide-updates-88f041cf115c
 
-> +	if (ret)
-> +		return ret;
-> +
-> +	outb(0x2E, addr_port);
-> +	outb(0x11, data_port);
-> +	outb(0x2F, addr_port);
-> +	outb((u8)((offset >> 8) & 0xFF), data_port);
-> +
-> +	outb(0x2E, addr_port);
-> +	outb(0x10, data_port);
-> +	outb(0x2F, addr_port);
-> +	outb((u8)(offset & 0xFF), data_port);
-> +
-> +	outb(0x2E, addr_port);
-> +	outb(0x12, data_port);
-> +	outb(0x2F, addr_port);
-> +	*val = inb(data_port);
-> +
-> +	mutex_unlock(&gpd_fan_lock);
-> +	return 0;
-> +}
-> +
-> +static int gpd_ecram_write(const struct gpd_fan_drvdata *drvdata, u16 offset,
-> +			   u8 value)
+Best regards,
+--  
+Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-drvdata is fixed. Why pass it to this function as argument but not to
-other functions ?
-
-> +{
-> +	int ret;
-> +	u16 addr_port = drvdata->addr_port;
-> +	u16 data_port = drvdata->data_port;
-> +
-> +	ret = mutex_lock_interruptible(&gpd_fan_lock);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	outb(0x2E, addr_port);
-> +	outb(0x11, data_port);
-> +	outb(0x2F, addr_port);
-> +	outb((u8)((offset >> 8) & 0xFF), data_port);
-> +
-> +	outb(0x2E, addr_port);
-> +	outb(0x10, data_port);
-> +	outb(0x2F, addr_port);
-> +	outb((u8)(offset & 0xFF), data_port);
-> +
-> +	outb(0x2E, addr_port);
-> +	outb(0x12, data_port);
-> +	outb(0x2F, addr_port);
-> +	outb(value, data_port);
-> +
-> +	mutex_unlock(&gpd_fan_lock);
-> +	return 0;
-> +}
-> +
-> +static int gpd_generic_read_rpm(void)
-> +{
-> +	u8 high, low;
-> +	int ret;
-> +	const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
-
-In general, ordering of variables in reverse christmas tree order is
-preferred.
-
-> +
-> +	ret = gpd_ecram_read(drvdata, drvdata->rpm_read, &high);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = gpd_ecram_read(drvdata, drvdata->rpm_read + 1, &low);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return (u16)high << 8 | low;
-> +}
-> +
-> +static int gpd_win4_read_rpm(void)
-> +{
-> +	const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
-> +	u8 pwm_ctr_reg;
-> +	int ret;
-> +
-> +	gpd_ecram_read(drvdata, GPD_PWM_CTR_OFFSET, &pwm_ctr_reg);
-
-The return value is checked in some places but not in others.
-What if the function returned an error ? The content of pwm_ctr_reg
-would then be undefined.
-
-> +
-> +	if (pwm_ctr_reg != 0x7F)
-> +		gpd_ecram_write(drvdata, GPD_PWM_CTR_OFFSET, 0x7F);
-> +
-> +	ret = gpd_generic_read_rpm();
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (ret == 0) {
-> +		// re-init EC
-> +		u8 chip_id;
-> +
-> +		gpd_ecram_read(drvdata, 0x2000, &chip_id);
-> +		if (chip_id == 0x55) {
-> +			u8 chip_ver;
-> +
-> +			if (gpd_ecram_read(drvdata, 0x1060, &chip_ver))
-> +				gpd_ecram_write(drvdata, 0x1060,
-> +						chip_ver | 0x80);
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int gpd_wm2_read_rpm(void)
-> +{
-> +	const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
-> +
-> +	for (u16 pwm_ctr_offset = GPD_PWM_CTR_OFFSET;
-> +	     pwm_ctr_offset <= GPD_PWM_CTR_OFFSET + 2; pwm_ctr_offset++) {
-> +		u8 PWMCTR;
-> +
-> +		gpd_ecram_read(drvdata, pwm_ctr_offset, &PWMCTR);
-> +
-> +		if (PWMCTR != 0xB8)
-> +			gpd_ecram_write(drvdata, pwm_ctr_offset, 0xB8);
-> +	}
-> +
-> +	return gpd_generic_read_rpm();
-> +}
-> +
-> +// Read value for fan1_input
-> +static int gpd_read_rpm(void)
-> +{
-> +	switch (gpd_driver_priv.drvdata->board) {
-> +	case win_mini:
-> +	case duo:
-> +		return gpd_generic_read_rpm();
-> +	case win4_6800u:
-> +		return gpd_win4_read_rpm();
-> +	case win_max_2:
-> +		return gpd_wm2_read_rpm();
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int gpd_wm2_read_pwm(void)
-> +{
-> +	const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
-> +	u8 var;
-> +	int ret = gpd_ecram_read(drvdata, drvdata->pwm_write, &var);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return var * 255 / drvdata->pwm_max;
-
-You might want to consider using DIV_ROUND_CLOSEST() here
-to improve accuracy.
-
-> +}
-> +
-> +// Read value for pwm1
-> +static int gpd_read_pwm(void)
-> +{
-> +	switch (gpd_driver_priv.drvdata->board) {
-> +	case win_mini:
-> +	case duo:
-> +	case win4_6800u:
-> +		return gpd_driver_priv.pwm_value;
-
-That will just return 255 for those boards, or a previously written
-value. It does not return the current value as suggested in the
-documentation (and most definitely not if the fan is in automatic
-mode). That should be documented.
-
-> +	case win_max_2:
-> +		return gpd_wm2_read_pwm();
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int gpd_generic_write_pwm(u8 val)
-> +{
-> +	const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
-> +	u8 pwm_reg;
-> +
-> +	// PWM value's range in EC is 1 - pwm_max, cast 0 - 255 to it.
-> +	pwm_reg = val * (drvdata->pwm_max - 1) / 255 + 1;
-
-DIV_ROUND_CLOSEST ?
-
-> +	return gpd_ecram_write(drvdata, drvdata->pwm_write, pwm_reg);
-> +}
-> +
-> +static int gpd_win_mini_write_pwm(u8 val)
-> +{
-> +	if (gpd_driver_priv.pwm_enable == MANUAL)
-> +		return gpd_generic_write_pwm(val);
-> +	else
-> +		return -EPERM;
-
-else after return is unnecessary, and the error check should come first.
-
-> +}
-> +
-> +static int gpd_duo_write_pwm_twice(u8 val)
-> +{
-> +	int ret;
-> +
-> +	ret = gpd_generic_write_pwm(val);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	return gpd_generic_write_pwm(val+1);
-
-CHECK: spaces preferred around that '+' (ctx:VxV)
-#581: FILE: drivers/hwmon/gpd-fan.c:425:
-+	return gpd_generic_write_pwm(val+1);
- 	                                ^
-
-> +}
-> +
-> +static int gpd_duo_write_pwm(u8 val)
-> +{
-> +	if (gpd_driver_priv.pwm_enable == MANUAL)
-> +		return gpd_duo_write_pwm_twice(val);
-> +	else
-> +		return -EPERM;
-
-else after return is unnecessary, and the error check should come first.
-
-	if (gpd_driver_priv.pwm_enable != MANUAL)
-		return -EPERM;
-
-	return gpd_duo_write_pwm_twice(val);
-
-> +}
-> +
-> +static int gpd_wm2_write_pwm(u8 val)
-> +{
-> +	if (gpd_driver_priv.pwm_enable != DISABLE)
-> +		return gpd_generic_write_pwm(val);
-> +	else
-> +		return -EPERM;
-
-Same as above.
-
-> +}
-> +
-> +// Write value for pwm1
-> +static int gpd_write_pwm(u8 val)
-> +{
-> +	switch (gpd_driver_priv.drvdata->board) {
-> +	case win_mini:
-> +		return gpd_win_mini_write_pwm(val);
-> +	case duo:
-> +		return gpd_duo_write_pwm(val);
-> +	case win4_6800u:
-> +		return gpd_generic_write_pwm(val);
-> +	case win_max_2:
-> +		return gpd_wm2_write_pwm(val);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int gpd_win_mini_set_pwm_enable(enum FAN_PWM_ENABLE pwm_enable)
-> +{
-> +	const struct gpd_fan_drvdata *drvdata;
-> +
-> +	switch (pwm_enable) {
-> +	case DISABLE:
-> +		return gpd_generic_write_pwm(255);
-> +	case MANUAL:
-> +		return gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
-
-This means setting the enable status to MANUAL will set the pwm
-speed to the maximum unless a different speed is written first.
-That includes win_max_2 even if the value was read before.
-Is this really what is intended ?
-
-> +	case AUTOMATIC:
-> +		drvdata = gpd_driver_priv.drvdata;
-> +		return gpd_ecram_write(drvdata, drvdata->pwm_write, 0);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int gpd_duo_set_pwm_enable(enum FAN_PWM_ENABLE pwm_enable)
-> +{
-> +	const struct gpd_fan_drvdata *drvdata;
-> +
-> +	switch (pwm_enable) {
-> +	case DISABLE:
-> +		return gpd_duo_write_pwm_twice(255);
-> +	case MANUAL:
-> +		return gpd_duo_write_pwm_twice(gpd_driver_priv.pwm_value);
-> +	case AUTOMATIC:
-> +		drvdata = gpd_driver_priv.drvdata;
-> +		return gpd_ecram_write(drvdata, drvdata->pwm_write, 0);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int gpd_wm2_set_pwm_enable(enum FAN_PWM_ENABLE enable)
-> +{
-> +	const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
-> +	int ret;
-> +
-> +	switch (enable) {
-> +	case DISABLE: {
-> +		ret = gpd_generic_write_pwm(255);
-> +
-> +		if (ret)
-> +			return ret;
-> +
-> +		return gpd_ecram_write(drvdata, drvdata->manual_control_enable,
-> +				       1);
-> +	}
-> +	case MANUAL: {
-> +		ret = gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
-> +
-> +		if (ret)
-> +			return ret;
-> +
-> +		return gpd_ecram_write(drvdata, drvdata->manual_control_enable,
-> +				       1);
-> +	}
-> +	case AUTOMATIC: {
-> +		ret = gpd_ecram_write(drvdata, drvdata->manual_control_enable,
-> +				      0);
-> +
-> +		return ret;
-> +	}
-
-Unnessary set of { }. Same for each case statement above.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +// Write value for pwm1_enable
-> +static int gpd_set_pwm_enable(enum FAN_PWM_ENABLE enable)
-> +{
-> +	switch (gpd_driver_priv.drvdata->board) {
-> +	case win_mini:
-> +	case win4_6800u:
-> +		return gpd_win_mini_set_pwm_enable(enable);
-> +	case duo:
-> +		return gpd_duo_set_pwm_enable(enable);
-> +	case win_max_2:
-> +		return gpd_wm2_set_pwm_enable(enable);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
-> +					enum hwmon_sensor_types type, u32 attr,
-> +					__always_unused int channel)
-> +{
-> +	if (type == hwmon_fan && attr == hwmon_fan_input) {
-> +		return 0444;
-> +	} else if (type == hwmon_pwm) {
-> +		switch (attr) {
-> +		case hwmon_pwm_enable:
-> +		case hwmon_pwm_input:
-> +			return 0644;
-> +		default:
-> +			return 0;
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int gpd_fan_hwmon_read(__always_unused struct device *dev,
-> +			      enum hwmon_sensor_types type, u32 attr,
-> +			      __always_unused int channel, long *val)
-> +{
-> +	if (type == hwmon_fan) {
-> +		if (attr == hwmon_fan_input) {
-> +			int ret = gpd_read_rpm();
-> +
-> +			if (ret < 0)
-> +				return ret;
-> +
-> +			*val = ret;
-> +			return 0;
-> +		}
-> +		return -EOPNOTSUPP;
-> +	} else if (type == hwmon_pwm) {
-> +		int ret;
-
-ret is used in each branch. Declare it once at the beginning of the function.
-
-> +
-> +		switch (attr) {
-> +		case hwmon_pwm_enable:
-> +			*val = gpd_driver_priv.pwm_enable;
-> +			return 0;
-> +		case hwmon_pwm_input:
-> +			ret = gpd_read_pwm();
-> +
-> +			if (ret < 0)
-> +				return ret;
-> +
-> +			*val = ret;
-> +			return 0;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int gpd_fan_hwmon_write(__always_unused struct device *dev,
-> +			       enum hwmon_sensor_types type, u32 attr,
-> +			       __always_unused int channel, long val)
-> +{
-> +	u8 var;
-> +
-> +	if (type == hwmon_pwm) {
-> +		switch (attr) {
-> +		case hwmon_pwm_enable:
-> +			if (!in_range(val, 0, 3))
-> +				return -EINVAL;
-> +
-> +			gpd_driver_priv.pwm_enable = val;
-> +
-> +			return gpd_set_pwm_enable(gpd_driver_priv.pwm_enable);
-> +		case hwmon_pwm_input:
-> +			var = clamp_val(val, 0, 255);
-
-pwm values need to be range checked, not clamped.
-
-> +
-> +			gpd_driver_priv.pwm_value = var;
-> +
-> +			return gpd_write_pwm(var);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static const struct hwmon_ops gpd_fan_ops = {
-> +	.is_visible = gpd_fan_hwmon_is_visible,
-> +	.read = gpd_fan_hwmon_read,
-> +	.write = gpd_fan_hwmon_write,
-> +};
-> +
-> +static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
-> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-> +	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
-> +	NULL
-> +};
-> +
-> +static struct hwmon_chip_info gpd_fan_chip_info = {
-> +	.ops = &gpd_fan_ops,
-> +	.info = gpd_fan_hwmon_channel_info
-> +};
-> +
-> +static int gpd_fan_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	const struct resource *res;
-> +	const struct device *hwdev;
-> +	const struct resource *region;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_IO, 0);
-> +	if (IS_ERR(res))
-> +		return dev_err_probe(dev, PTR_ERR(res),
-> +				     "Failed to get platform resource\n");
-> +
-> +	region = devm_request_region(dev, res->start,
-> +				     resource_size(res), DRIVER_NAME);
-> +	if (IS_ERR(region))
-> +		return dev_err_probe(dev, PTR_ERR(region),
-> +				     "Failed to request region\n");
-> +
-> +	hwdev = devm_hwmon_device_register_with_info(dev,
-> +						     DRIVER_NAME,
-> +						     NULL,
-> +						     &gpd_fan_chip_info,
-> +						     NULL);
-> +	if (IS_ERR(hwdev))
-> +		return dev_err_probe(dev, PTR_ERR(region),
-> +				     "Failed to register hwmon device\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static void gpd_fan_remove(__always_unused struct platform_device *pdev)
-> +{
-> +	gpd_driver_priv.pwm_enable = AUTOMATIC;
-> +	gpd_set_pwm_enable(AUTOMATIC);
-> +}
-> +
-> +static struct platform_driver gpd_fan_driver = {
-> +	.probe = gpd_fan_probe,
-> +	.remove = gpd_fan_remove,
-> +	.driver = {
-> +		.name = KBUILD_MODNAME,
-> +	},
-> +};
-> +
-> +static struct platform_device *gpd_fan_platform_device;
-> +
-> +static int __init gpd_fan_init(void)
-> +{
-> +	const struct gpd_fan_drvdata *match = NULL;
-> +
-> +	for (const struct gpd_fan_drvdata **p = gpd_module_drvdata; *p; p++) {
-> +		if (strcmp(gpd_fan_board, (*p)->board_name) == 0) {
-> +			match = *p;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!match) {
-> +		const struct dmi_system_id *dmi_match =
-> +			dmi_first_match(dmi_table);
-> +		if (dmi_match)
-> +			match = dmi_match->driver_data;
-> +	}
-> +
-> +	if (!match)
-> +		return -ENODEV;
-> +
-> +	gpd_driver_priv.pwm_enable = AUTOMATIC;
-> +	gpd_driver_priv.pwm_value = 255;
-
-This means the value reported to the user will (for most boards)
-be 255 until written, and not match reality.
-
-> +	gpd_driver_priv.drvdata = match;
-> +
-> +	struct resource gpd_fan_resources[] = {
-> +		{
-> +			.start = match->addr_port,
-> +			.end = match->data_port,
-> +			.flags = IORESOURCE_IO,
-> +		},
-> +	};
-> +
-> +	gpd_fan_platform_device = platform_create_bundle(&gpd_fan_driver,
-> +							 gpd_fan_probe,
-> +							 gpd_fan_resources,
-> +							 1, NULL, 0);
-> +
-> +	if (IS_ERR(gpd_fan_platform_device)) {
-> +		pr_warn("Failed to create platform device\n");
-> +		return PTR_ERR(gpd_fan_platform_device);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void __exit gpd_fan_exit(void)
-> +{
-> +	platform_device_unregister(gpd_fan_platform_device);
-> +	platform_driver_unregister(&gpd_fan_driver);
-> +}
-> +
-> +MODULE_DEVICE_TABLE(dmi, dmi_table);
-> +
-> +module_init(gpd_fan_init);
-> +module_exit(gpd_fan_exit);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Cryolitia PukNgae <cryolitia@uniontech.com>");
-> +MODULE_DESCRIPTION("GPD Devices fan control driver");
