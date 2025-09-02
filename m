@@ -1,167 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539C22FCC02;
-	Tue,  2 Sep 2025 11:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F8F2F9C3E;
+	Tue,  2 Sep 2025 11:44:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756813485; cv=none; b=siQ1+w15vnO61SXjeanw40XM/fXQOaGUWG8qGDEGM4IpVru3/ChcSFLaKuzOWipIntr70GjcMmca1913iDb0ZL+uFVBCS9O8M2O1CufIHVHLVkX/QNppOq02CWdlQnjErv7K4Ou5PEKVNtegtSmUsGChwFKwAxl9igEGFsFfRxE=
+	t=1756813487; cv=none; b=X0fG2u1ixaZUt0GWiehjP6stPGySX8h7DD07KdTdmWD59sKq0k+CVRCtSjhqmT52a3qH6VwMJoWfFOtvtHUxj1rfLc/alwJsjvXaiMkzrrKgtegu34YPPKUdb1DQxPq9mpSbRmH3StUavAPE/SOPIIeJ/178C+CchGi3dzh5P0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756813485; c=relaxed/simple;
-	bh=PsdWXEKScSpvyy0S+Dxl056IK+zdYsrlrpfYJKzyZ9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i1+vN3sdgJv2BHMUtZRJVcfsWITJRTBauSL0vquUTbNsktS2a7yr916es6959Zs+aK0R/PGqOmMItAd5veKHdJsAAqpDdY4dISzUNmmR9xKr5g7gaSV8uEwa3g7AvDJm4ZcxBILsmmRvs1N6pqMUwNPvNuLOl7XooI6wc3334ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GcGkOYvo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756813487; c=relaxed/simple;
+	bh=dbI2jtQQauIA3bdjDRznGzLHLedqf9IfSzISWZL55Y8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=l1xjDCuDw65zkXtR0ubhg4LKjye2OiO8bhBo1IYlhoVlAB3GnfstzPynHj6CGHXZ7jxiY0u1OLVea1Y0tWp3AEaK6pStqB3aECsb4MYhMg4cQys526PURxK+l+D0BECx38dU7iWAtW54pNIUqMwJdhm0XU+NbkeHryW9n9iSA0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEPxVLc+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcGkOYvo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0680C4CEED;
-	Tue,  2 Sep 2025 11:44:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEPxVLc+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE559C4CEF5;
+	Tue,  2 Sep 2025 11:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756813484;
-	bh=PsdWXEKScSpvyy0S+Dxl056IK+zdYsrlrpfYJKzyZ9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GcGkOYvoGCguKJ/jUPJf7VxrZdwrL4lVESQFTriaR2Al6lroyZ1GB6QAt5k5qWJf6
-	 q3qN+YuCyjEj06tqOyAvFa6LmxWY+fkNRRvM2Fm/FaWZ47BrhQ57c5IkbTs+Kmjbxo
-	 jYn3m/b2Qt+qEWFTfr7Motq5MlPMe1vWqQ2sCSESTGio/7/xhmbPYdOH4Q1OcuVHUj
-	 0Qf6LRJj60aZatHetbId9ILp7QfUSrYcYBf+2DcIKerzqQP4jv1B+F4QtNdlONUyTb
-	 oqSiFYIiLItMyOvFUFDVomGAq1PbDiyqYtk62VAgEE+tHDutp1f6++/ufGbmNlFvY7
-	 geX873CKX7JcA==
-Date: Tue, 2 Sep 2025 14:44:19 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
-	graf@amazon.com, changyuanl@google.com, dmatlack@google.com,
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-Message-ID: <aLbYk30V2EEJJtAf@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com>
- <20250826162019.GD2130239@nvidia.com>
- <aLXIcUwt0HVzRpYW@kernel.org>
- <mafs0ldmyw1hp.fsf@kernel.org>
+	s=k20201202; t=1756813486;
+	bh=dbI2jtQQauIA3bdjDRznGzLHLedqf9IfSzISWZL55Y8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=CEPxVLc+Vl9vWaY9RmfDlC16U3O2k3JgV3xBmu/NBNY4Trq8wwbWqnP6VXWoGwnq9
+	 7XbMpWTO7gerYOzQfPP3GyWMky0jjh85jCeQaQ23/L1gsOW6QxkCmpAV4v5OT393uD
+	 VmCtB8O2XRyzj+iI+mstJsPXND+7mZJt0Om3pMrVDwmeuREY1faGgOgmDP6po7shNi
+	 xJZgRQA4bmTP1qIUswl2tfGDsxPlISjMhfqNpjY2wssPcXTZozsZVal5scArDIczMH
+	 2CVDOIby76jlUHyDMQCT3BNjnfR6z4QE34RquVZ+jJ67rMJ6Pw0EX7mZkyzRMXrvV0
+	 UuYBSk9z4Rf+g==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 02 Sep 2025 12:36:09 +0100
+Subject: [PATCH v8 06/29] KVM: arm64: Introduce non-UNDEF FGT control
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mafs0ldmyw1hp.fsf@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250902-kvm-arm64-sme-v8-6-2cb2199c656c@kernel.org>
+References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
+In-Reply-To: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
+To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+ Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
+ Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Eric Auger <eric.auger@redhat.com>, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-cff91
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2799; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dbI2jtQQauIA3bdjDRznGzLHLedqf9IfSzISWZL55Y8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBotth+tJnXowwXsMWuGwEIdyHOnkrvT98GfQg5e
+ ttpOQ1xj9mJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaLbYfgAKCRAk1otyXVSH
+ 0AWGB/9S5rlx1MKoPilf5QfFv4ZvmsRoqSmfY10BOm1SGXi15EKmsQ9vQCv5C1FqT5aoYR5z/Nf
+ BwnpHqKJFi+kBYvd3SbKuTE93ebqUXn0dwWukCotNvaslzhqgyjtyFBGA/QDMGVD2GXAyotnCqX
+ 0U94z1W4rg9I00hdDn51Gv4wE5j9N9uSvboX7riZiizIfZt3Dmb9XXBhDaR8gSfqT28+B/KMvRq
+ YV++ye1df9d3iS6BTbwliYf0jonei8HBl/ZUgpF3a6dqozfbT9DlX0sUTTsk5MPEdIZq9kCiq4j
+ gGIyqHim1hyI95bnxbDDKQvwQePEaJT0IEbHgZ+HCke02qsS
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Pratyush,
+We have support for determining a set of fine grained traps to enable for
+the guest which is tied to the support for injecting UNDEFs for undefined
+features. This means that we can't use the mechanism for system registers
+which should be present but need emulation, such as SMPRI_EL1 which should
+be accessible when SME is present but if SME priority support is absent
+SMPRI_EL1.Priority should be RAZ.
 
-On Mon, Sep 01, 2025 at 07:01:38PM +0200, Pratyush Yadav wrote:
-> Hi Mike,
-> 
-> On Mon, Sep 01 2025, Mike Rapoport wrote:
-> 
-> > On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
-> >> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
-> >> 
-> >> > +	/*
-> >> > +	 * Most of the space should be taken by preserved folios. So take its
-> >> > +	 * size, plus a page for other properties.
-> >> > +	 */
-> >> > +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
-> >> > +	if (!fdt) {
-> >> > +		err = -ENOMEM;
-> >> > +		goto err_unpin;
-> >> > +	}
-> >> 
-> >> This doesn't seem to have any versioning scheme, it really should..
-> >> 
-> >> > +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
-> >> > +				       (void **)&preserved_folios);
-> >> > +	if (err) {
-> >> > +		pr_err("Failed to reserve folios property in FDT: %s\n",
-> >> > +		       fdt_strerror(err));
-> >> > +		err = -ENOMEM;
-> >> > +		goto err_free_fdt;
-> >> > +	}
-> >> 
-> >> Yuk.
-> >> 
-> >> This really wants some luo helper
-> >> 
-> >> 'luo alloc array'
-> >> 'luo restore array'
-> >> 'luo free array'
-> >
-> > We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
-> >
-> > Will wait for kbuild and then send proper patches.
-> 
-> I have been working on something similar, but in a more generic way.
-> 
-> I have implemented a sparse KHO-preservable array (called kho_array)
-> with xarray like properties. It can take in 4-byte aligned pointers and
-> supports saving non-pointer values similar to xa_mk_value(). For now it
-> doesn't support multi-index entries, but if needed the data format can
-> be extended to support it as well.
-> 
-> The structure is very similar to what you have implemented. It uses a
-> linked list of pages with some metadata at the head of each page.
-> 
-> I have used it for memfd preservation, and I think it is quite
-> versatile. For example, your kho_preserve_vmalloc() can be very easily
-> built on top of this kho_array by simply saving each physical page
-> address at consecutive indices in the array.
+Add an additional set of fine grained traps fgt, mirroring the existing fgu
+array. We use the same format where we always set the bit for the trap in
+the array as for FGU. This makes it clear what is being explicitly managed
+and keeps the code consistent.
 
-I've started to work on something similar to your kho_array for memfd case
-and then I thought that since we know the size of the array we can simply
-vmalloc it and preserve vmalloc, and that lead me to implementing
-preservation of vmalloc :)
+We do not convert the handling of ARM_WORKAROUND_AMPERE_ACO3_CPU_38 to this
+mechanism since this only enables a write trap and when implementing the
+existing UNDEF that we would share the read and write trap enablement (this
+being the overwhelmingly common case).
 
-I like the idea to have kho_array for cases when we don't know the amount
-of data to preserve in advance, but for memfd as it's currently
-implemented I think that allocating and preserving vmalloc is simpler.
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ arch/arm64/include/asm/kvm_host.h       | 6 ++++++
+ arch/arm64/kvm/hyp/include/hyp/switch.h | 7 ++++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-As for porting kho_preserve_vmalloc() to kho_array, I also feel that it
-would just make kho_preserve_vmalloc() more complex and I'd rather simplify
-it even more, e.g. with preallocating all the pages that preserve indices
-in advance.
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 2f2394cce24e..b501c2880ba2 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -302,6 +302,12 @@ struct kvm_arch {
+ 	 */
+ 	u64 fgu[__NR_FGT_GROUP_IDS__];
  
-> The code is still WIP and currently a bit hacky, but I will clean it up
-> in a couple days and I think it should be ready for posting. You can
-> find the current version at [0][1]. Would be good to hear your thoughts,
-> and if you agree with the approach, I can also port
-> kho_preserve_vmalloc() to work on top of kho_array as well.
-> 
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=5eb0d7316274a9c87acaeedd86941979fc4baf96
-> 
-> -- 
-> Regards,
-> Pratyush Yadav
++	/*
++	 * Additional FGTs to enable for the guests, eg. for emulated
++	 * registers,
++	 */
++	u64 fgt[__NR_FGT_GROUP_IDS__];
++
+ 	/*
+ 	 * Stage 2 paging state for VMs with nested S2 using a virtual
+ 	 * VMID.
+diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
+index 84ec4e100fbb..d5620e02787f 100644
+--- a/arch/arm64/kvm/hyp/include/hyp/switch.h
++++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
+@@ -283,9 +283,9 @@ static inline void __deactivate_cptr_traps(struct kvm_vcpu *vcpu)
+ 		id;							\
+ 	})
+ 
+-#define compute_undef_clr_set(vcpu, kvm, reg, clr, set)			\
++#define compute_trap_clr_set(vcpu, kvm, trap, reg, clr, set)		\
+ 	do {								\
+-		u64 hfg = kvm->arch.fgu[reg_to_fgt_group_id(reg)];	\
++		u64 hfg = kvm->arch.trap[reg_to_fgt_group_id(reg)];	\
+ 		struct fgt_masks *m = reg_to_fgt_masks(reg);		\
+ 		set |= hfg & m->mask;					\
+ 		clr |= hfg & m->nmask;					\
+@@ -301,7 +301,8 @@ static inline void __deactivate_cptr_traps(struct kvm_vcpu *vcpu)
+ 		if (is_nested_ctxt(vcpu))				\
+ 			compute_clr_set(vcpu, reg, c, s);		\
+ 									\
+-		compute_undef_clr_set(vcpu, kvm, reg, c, s);		\
++		compute_trap_clr_set(vcpu, kvm, fgu, reg, c, s);	\
++		compute_trap_clr_set(vcpu, kvm, fgt, reg, c, s);	\
+ 									\
+ 		val = m->nmask;						\
+ 		val |= s;						\
 
 -- 
-Sincerely yours,
-Mike.
+2.39.5
+
