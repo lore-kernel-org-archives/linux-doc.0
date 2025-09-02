@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26D22F361A
-	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 10:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F652F548B
+	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 10:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756809775; cv=none; b=kVV8RfQqcGJgVMLCIpsuwi4AI/+8VTWfkxyjXJZK18ZBnq7SV0/uQ3pUoDC4QwYojYBEYCcli567pdupDVIDdGfBhQxbEf1IyqbpHctfXPP5mwCZyP148ZQE/h4XPCCkMjbZ88S8F/LKq3Dx0H+7s9lLgH2av3TKNc2xiAplPtU=
+	t=1756810556; cv=none; b=ABABIZEL9Zszsxht6lD5QQ0+pbxaa1Io3kJCYF/Tq9xrX/peV85leJeDYKXlWgkrYl5J2kO6n792cJt65KrsnHFTAbW3nuSKUe7ZI2UyHA+/IpytC41MSBn2xbaVmY4vCAWmot6ceLwo+TlKsZDs/YR6nmNFYXuJpAALT8AOObQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756809775; c=relaxed/simple;
-	bh=Bro/N25vNzwxLTh6uSwQUXtbEkcjD9GXg6flaTJPDgA=;
+	s=arc-20240116; t=1756810556; c=relaxed/simple;
+	bh=Lpj+JaOxsWSycZTIDZPRENuoqLKzloi2JGP5Ii1fNhI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kuaGbzAruV5IFTriVw1u6S6rqoyJHkPjFzT75KsagzVO7wDYxi96SQYay6giO7UspSUfLxZ0axmNuoltE336thG3UPJ0v6UtRZ3su43Ie06djnGdWFAJtr3Wjr7I8Zl5F4hIEl5WpIyJALTbUFlCt8e+38GY+3iHn6qtSOpGW5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7U2wTDB; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version:Content-Type; b=AjAw1DY19D6MY+kAloPiLdWavXU8Q/zNS7ueqKTItiGRU6aib1X8diJUgMACH/g6GEohAQNT8GfZnP7onoNBODfo3ThpGRP2Bab/SOJOM4YRjFMH43/d3lxQUp03IBSeJky8LPakYDgF55paMS40QSZoNs2O2HTp1iEPc/snzNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AWuYdf2F; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7U2wTDB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AWuYdf2F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756809774; x=1788345774;
+  t=1756810555; x=1788346555;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=Bro/N25vNzwxLTh6uSwQUXtbEkcjD9GXg6flaTJPDgA=;
-  b=H7U2wTDB01aQhL871W1MeIezAA2LGhd+OWBA7PogtbdGwNdUtuftoZPp
-   Zr15OpvWh4G7OLI12JnBixbzteVKAw4COa6xK0SPbjl6eFuyivCZMyBtB
-   0ONio7rIVZ27S6A/tmrrIChB1xZ39gq6lED9gkS4Nf3gx/gdnk8OA/I98
-   0/+OSkM7e6lYFEnEtDINY1rp1ZNepGh1ic9tgSLhKftrxjDGKHIYsVG6G
-   DyaJBXNKETb1q5/ykTRDN3Fv8OJVAZ7aMxrkhaCVZKavC4cmeHeqJp0aM
-   DytC/hddL8K88UJEQeKLV70ta0gSXmM/rBBaGe6Az939R1h1ORvL+DFUY
-   A==;
-X-CSE-ConnectionGUID: 4YtDniBlR3mtnLBz5t1iQQ==
-X-CSE-MsgGUID: wSFevNhHSHqOQL2ppEMRxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59027319"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59027319"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:42:54 -0700
-X-CSE-ConnectionGUID: Ie8rfVt6TuiJ/fjIRgSL7A==
-X-CSE-MsgGUID: 11yPS4qzQBG1EnMAec4Sag==
+  bh=Lpj+JaOxsWSycZTIDZPRENuoqLKzloi2JGP5Ii1fNhI=;
+  b=AWuYdf2F34kPvxOXePT00KBe7DVQJiPCslWCSfv4tY5H5cJ8q9Oj96sD
+   Gh7mPmZF1m57bm461Ibia5TZLetDgek6Z6piaPwxAeJgWx7Zu8Nv+dwmk
+   Jwnuy33OaUp3exwwxv9rFgiWgYGcNSaK0K6udhSVJjve1nl7AzOrQpoLK
+   rvnRFx/7mR8peMdKvc5J3/Xse3ajNWqB3YWrYbasHD4DEx/Vy/94hS0za
+   AE1DrWQc2n+JlYuOmQAdNmOSeGo9RPpRqY+cXfSC1NodfJehMI1PaCJaa
+   AsQX7rkBW4yKxOsWcDHUJwtxZZPxukcJxSB+B7cfuSSCB8Lv9DTZHvkVU
+   w==;
+X-CSE-ConnectionGUID: xNJbKSrxTPqCxw8wfKX50g==
+X-CSE-MsgGUID: 8nvKiqdKTJ+zPCFJtFmxBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59188436"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="59188436"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:55:55 -0700
+X-CSE-ConnectionGUID: vudavzSNTkStGV2J715wSA==
+X-CSE-MsgGUID: BFZ1gKy2SGu7eHM20n4I6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170523939"
+   d="scan'208";a="171408022"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.246.193])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:42:49 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:55:51 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Vegard Nossum
  <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
  <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Matthew Wilcox <willy@infradead.org>
+ Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-In-Reply-To: <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
+In-Reply-To: <20250901202635.426d099a@foz.lan>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <87plcndkzs.fsf@trenco.lwn.net>
  <20250828230104.GB26612@pendragon.ideasonboard.com>
@@ -61,9 +61,9 @@ References: <87plcndkzs.fsf@trenco.lwn.net>
  <20250830222351.GA1705@pendragon.ideasonboard.com>
  <87h5xo1k6y.fsf@trenco.lwn.net> <20250831160339.2c45506c@foz.lan>
  <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
- <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
-Date: Tue, 02 Sep 2025 13:42:45 +0300
-Message-ID: <bff2c47623a632609d07f8f2d237d0b40722c2c1@intel.com>
+ <20250901202635.426d099a@foz.lan>
+Date: Tue, 02 Sep 2025 13:55:48 +0300
+Message-ID: <6041c6f82863fa3c8e63b37a43ce984bdb1fc6e1@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,25 +72,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Mon, 01 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
-> ISTM that there are lots of non-docs developers who either just don't care
-> about that or never run 'make W=1 htmldocs' to see the problems in their
-> drivers or subsystems. OK, maybe it's just a very low priority for them.
->
-> Willy had a suggestion that we just make checking kernel-doc during
-> all .c builds a permanent feature instead of a W=1 option.
-> This helps, but still doesn't force 'make htmldocs' to be run.
->
-> And it causes around 450 build warnings in my testing of an x86_64 allmodconfig
-> build.
+On Mon, 01 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> On media, our CI builds with W=1, and aim to have no warnings.
 
-I think in general the build system lacks proper support for subsystems
-or drivers being ahead of the curve in keeping them W=1 or kernel-doc
--Wall clean.
+How do you filter out non-media W=1 failures?
 
-We hack around this in parts of drm Makefiles, and it really has helped
-to keep the kernel-doc and W=1 breakage/fix churn down. But it's not
-pretty.
+I'd love to be able to tell contributors to use a certain kernel config
+or command-line for build, and tell them to fix *all* warnings, instead
+of teaching them to ignore most of them.
 
 
 BR,
