@@ -1,72 +1,39 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6202147E6;
-	Tue,  2 Sep 2025 18:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34869EEC0;
+	Tue,  2 Sep 2025 18:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756836578; cv=none; b=igJWtvolAkwgRtZ8TZyn4oEH7dvn/YsZrHSnZKDUoLGMUXPtnbDaWy/IOSPRu/DqvdDMSPUH59S3I3T4mfquh/KNy4rUME8AiknIOVLptd+5CNcKVm3VZyHIen5s8cdq1miMl8irKO1aqcsnx5jWF3Qrxaqqh1EQaoa+u6bgaZs=
+	t=1756837518; cv=none; b=dINYxLrSq3QQcwWu3w/k8symXfSQ3RafbQbCbuMd4hcsR38rltmY0pPdFe50Qx97ntFVafCTZEFmzCUEhHyGp4d4H/LPy8RsQcfxDvzJ2d7q9YhLf+yuMmnt+Ud6Tot2cS7ytXO3HctdhTTNpSTvJCBE+oB5GDOVXU7jpHXE5ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756836578; c=relaxed/simple;
-	bh=0L92IAUziNvNfAmcUTkrdk+mI92e4YaDMRgPtCfWEuQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UXBLPvzzQSluXBaBrexJ2bYjvwwbOlo/nSTVuSpmGCRXkx+WMAa0XrPds4lDtb5cS936xk9+lWhAaHLbvAyLUqE7xkQQx1SRJu4LrPieoGGRoyyd+Oj0lb2r/U3r66232aV0EZ6UMVh68TceZ4DaFvmiBRx+qwoF34JCkZzAJbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TxYrAxGI; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TxYrAxGI"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-71a2d730d03so18177226d6.3;
-        Tue, 02 Sep 2025 11:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756836575; x=1757441375; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6p2iaxf1xKy8cucNERCImCIG2yh14K1c4hbzVAT+H/w=;
-        b=TxYrAxGIXChcqdPoyt10T3TEVhtIFD+O3uTrUmHo8In++Rs1OSAlAKR9rGesHglj55
-         eARuVBD+AtIY8pdTHB20I3mq2+1LFD6Uh13Wd8gDavy0coL3pH5vYmo6Ld110Td4wc49
-         /Q/itbyu7Qtrz5llrd01pxWgP4tTfi4FRUiYXBZ35YMbd+i0RPF/uQPk9eZbbX1QJ5b1
-         jjOEb1vBfCPQWzyY0QKy/LIcSLalUip1W5+aWYy+q3HBMW+Ubhm8hPUgfW7kISOfB9A/
-         Fed98vC2BM+NNe5LBxmLvn+lkPhxSem6dQF+Tmf+vEorbhRguEGsZwKgtX2v3MEjSm0o
-         s8HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756836575; x=1757441375;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6p2iaxf1xKy8cucNERCImCIG2yh14K1c4hbzVAT+H/w=;
-        b=S86oApvIkyUlzgOMxUQWWUcyGj2b46QzAxS1ZOHc3hpmJc0xDccaF32WYYRJLgeaRm
-         UZWBJDkdwt7P+fofqICpio3FYV1T2fUBlcshHiGUZhscKNbLFuu8nv59xXgHIPbUfvSl
-         dqYqVNkJ+aqp1lSzBEdF/M0LsnYsjv7XQxB7AG18Mvy33sBokPE7T7Kp0MsI5A9t14R9
-         iygAMWlJwkEl6WB59SwhMxH5wTr2hmySbZ4ef642FRvmIA+kB+ts9avKBKXy3ICvhPwE
-         baRyOukRtJQTUdET+P94vmE9NqecVCDZKzN1F543mUKUW/lVrduKf0X+Wq/1ehUwbLNw
-         RQTw==
-X-Forwarded-Encrypted: i=1; AJvYcCUf1yrNC7vRVEKcyrNvrpNJTb/l+gtHT0DrBQTlBFplyol3cfLr9nHl5gk0CVhpZSfsyRb1JFCevsgAW/i6VC+edxdi@vger.kernel.org, AJvYcCV8Wt3tO1QRm421rz/tE1bmEXQwV6QolVA80goGR/Ol5FsXNiCvjirq8H5n7wRgVi184vomCQQY72hsE8xl@vger.kernel.org, AJvYcCXRihf1Fg02gDG6sOg+/aQAc58chfboGV8tBng/NvgUXtTEWvTCXiMMGjFmKFEw7mse8cbKFRd37nw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOKIN0PgjPaO6MbkU6l61G1iOvG8QCYvXTZwcmy7rZsvb4Oygt
-	HtDoU37DYw8RwVbWBakTJVdTnHIC5F7IEdyOkTBYI3tPM7CsTXwoWuhZ
-X-Gm-Gg: ASbGnctAgAj09UnZJlMCR7HxrFbX2nxvYqO0W6DMyI/F4myJ01QkKB8SJJfLAgo3Rv7
-	mZc0WEyX9YKX0DiQqt1T1ptckPv2NzEzXAEgMlxTapVg5feeY+KuXV3qyEtUtPF5dxFfaS8UvOk
-	eHO0fVBIw2w8CctZljfVj7M1EfI3Db/xxHQU9ge4BLLHWvMnVVls9qkbtPrJZHlVMMpRBBOiZ+q
-	tOT5hlcLP5IAwcUeBt7MxHWoyQoqYRhaHH5Rtgk/i/NlAg9wuAJIxLW9ANScWZLuk3UtkvrUBg6
-	5pY+o/Nceru1virh1sJCD8KHfuYrRrLTSpQmG3DYFd5P7rjjEeoGjppo65t5P/Hxf4JHSSjZ0xZ
-	BkAXqt3vIeFdeRfeXx155I2h9xZp2Y6qzcDY=
-X-Google-Smtp-Source: AGHT+IF8z6iDNNlWO8O3jO1uwuPXCaRCgFAqH5i81eo36J0SYm4UWdKSZslZI3tIZpmXBYQgJAIklg==
-X-Received: by 2002:a05:6214:1256:b0:70d:ca4f:5121 with SMTP id 6a1803df08f44-70fac78fa83mr182734256d6.25.1756836575247;
-        Tue, 02 Sep 2025 11:09:35 -0700 (PDT)
-Received: from ideapad ([130.64.64.33])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720b475d63asm15668396d6.48.2025.09.02.11.09.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 11:09:34 -0700 (PDT)
-Date: Tue, 2 Sep 2025 14:09:33 -0400
-From: Ivan Pravdin <ipravdin.official@gmail.com>
-To: Crystal Wood <crwood@redhat.com>, rostedt@goodmis.org, corbet@lwn.net, 
-	tglozar@redhat.com, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] rtla: fix -C/--cgroup interface
-Message-ID: <jbf4si2tfwlquzna4sxbemr53ecwo3xwuroi5als5vlk4vla72@trp4p7jxw2ue>
-References: <cover.1755018581.git.ipravdin.official@gmail.com>
- <9394c039d5c957bd8417669148391e20fa1276ee.1755018581.git.ipravdin.official@gmail.com>
- <3b9bf6e435b2eb85b44557d474a003ec6d2c0c1c.camel@redhat.com>
+	s=arc-20240116; t=1756837518; c=relaxed/simple;
+	bh=uf3Jan+REW+5REqhi+Xk9FuJgqRz2rm4fjx87sB6+Xs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PLfyLLGl01MB3aSymElbmiGlmhPjVfBLrFU95Dqep4PTdoZPT4ahpT+LYcMHDW4sb8FcYWXXy7Omul5IasdnHBQKkYYEL2PzIH1+DE7+wnfBquL1bVal3KCV7VGaVaITCxm7ic88EU43R6C9toXAsAhCyuGnERa5FSTYxcCvIVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43FE5C4CEF6;
+	Tue,  2 Sep 2025 18:25:14 +0000 (UTC)
+Date: Tue, 2 Sep 2025 19:25:11 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Matthieu Baerts <matttbe@kernel.org>, mptcp@lists.linux.dev,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+	Christoph Paasch <cpaasch@openai.com>,
+	Gang Yan <yangang@kylinos.cn>
+Subject: Re: [PATCH net-next 0/6] mptcp: misc. features for v6.18
+Message-ID: <aLc2hyFAH9kxlNEg@arm.com>
+References: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org>
+ <20250902072600.2a9be439@kernel.org>
+ <834238b4-3549-4062-a29b-bf9c5aefa30f@kernel.org>
+ <20250902082759.1e7813b8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,69 +42,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3b9bf6e435b2eb85b44557d474a003ec6d2c0c1c.camel@redhat.com>
+In-Reply-To: <20250902082759.1e7813b8@kernel.org>
 
-On Fri, Aug 29, 2025 at 02:12:28PM -0500, Crystal Wood wrote:
-> On Tue, 2025-08-12 at 13:21 -0400, Ivan Pravdin wrote:
-> > Currently, user can only specify cgroup to the tracer's thread the
-> > following ways:
-> > 
-> >     `-C[cgroup]`
-> >     `-C[=cgroup]`
-> >     `--cgroup[=cgroup]`
-> > 
-> > If user tries to specify cgroup as `-C [cgroup]` or `--cgroup [cgroup]`,
-> > the parser silently fails and rtla's cgroup is used for the tracer
-> > threads.
-> > 
-> > To make interface more user-friendly, allow user to specify cgroup in
-> > the aforementioned way, i.e. `-C [cgroup]` and `--cgroup [cgroup]`
-> > 
-> > Change documentation to reflect this user interface change.
+On Tue, Sep 02, 2025 at 08:27:59AM -0700, Jakub Kicinski wrote:
+> On Tue, 2 Sep 2025 16:51:47 +0200 Matthieu Baerts wrote:
+> > It is unclear why a second scan is needed and only the second one caught
+> > something. Was it the same with the strange issues you mentioned in
+> > driver tests? Do you think I should re-add the second scan + cat?
 > 
-> I know these are the semantics that --trace implements, but they're
-> rather atypical... especially -C=group.
+> Not sure, cc: Catalin, from experience it seems like second scan often
+> surfaces issues the first scan missed.
 
-The new semantics allow for -C [group] which is the same as -t
-[filename] that has been fixed for -t/--trace.
+It's some of the kmemleak heuristics to reduce false positives. It does
+a checksum of the object during scanning and only reports a leak if the
+checksum is the same in two consecutive scans.
 
-> 
-> > @@ -559,12 +559,17 @@ static struct osnoise_params
-> >  			break;
-> >  		case 'C':
-> >  			params->cgroup = 1;
-> > -			if (!optarg) {
-> > -				/* will inherit this cgroup */
-> > +			if (optarg) {
-> > +				if (optarg[0] == '=') {
-> > +					/* skip the = */
-> > +					params->cgroup_name = &optarg[1];
-> > +				} else {
-> > +					params->cgroup_name = optarg;
-> > +				}
-> > +			} else if (optind < argc && argv[optind][0] != '-') {
-> > +				params->cgroup_name = argv[optind];
-> > +			} else {
-> >  				params->cgroup_name = NULL;
-> > -			} else if (*optarg == '=') {
-> > -				/* skip the = */
-> > -				params->cgroup_name = ++optarg;
-> 
-> If we're going to be consistently using these semantics, we should move
-> this logic into a utility function rather than open-coding it
-> everywhere.
-
-Sure, I will move it into a utility function in the next version.
- 
-> Also, theoretically, shouldn't we be advancing optind for the case where
-> that's consumed?  Not that it matters much if we don't have positional
-> arguments once the options begin, and if we did, then allowing
-> "--arg optional-thing" would be ambiguous...
-
-It does seem that we should advance optind when optional argument is
-provided. Good catch. I will fix it in the next version.
-
-> -Crystal
-> 
-
-	Ivan Pravdin
+-- 
+Catalin
