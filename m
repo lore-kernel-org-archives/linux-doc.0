@@ -1,79 +1,57 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212B531AF1B;
-	Tue,  2 Sep 2025 14:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAA52DF15B;
+	Tue,  2 Sep 2025 15:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756824737; cv=none; b=q/Rz19pNZ/SrF+bTFoXAVo6k6iTHDYj6jwKSkuE4qZqdhFaLHdUYTwprL7+FldC3tdG0/spx2taOLMOWLLVwPSmzntmydVywkaczx+p5EWXGK4YBFC1PVXooO/MTYk44pjn6KF7LEqlwaRssqD4SSGuqZcMT68pHALwFYKxB5v0=
+	t=1756825656; cv=none; b=ElOYivNbWQOP19bDS9hFoHn+8qa3lZTdbBa7Mup9HWLiVRck9nt0U3O8gdcQMXl2oUDP/oB3jMSTi/b8Kzo7nunSXH22lE+BdjBMb5mEA+Lf+Sg9nQ8T3wAavDWuvDtcdi0a9eBn1eAmq4R1/NKx85tEaMMkdgMb4j7nJ/3wJWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756824737; c=relaxed/simple;
-	bh=1gKz/CeqPyjga8H6PURJ9psp+tC0vHzZKYP9TtgcoQc=;
+	s=arc-20240116; t=1756825656; c=relaxed/simple;
+	bh=VVXx8+WgldiOQbHxpm/JG+dX7BU8tajscSPkE2wACgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iIL2s2HzVBWY8EO2Qn+wlMRzXWI/xECetp26PljJLln30F5ruxU3tHy6XFD3KP1vn93GGxp3+YenBwd2DCOtCD5nKyd/yxr10a+7YMn7cx28UJcgMf3mEP3TfH8t7qn0KYFTU9rpMGzWZoSwve975pPkAz9W3v4O4jv+zlvqcQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZKncvsJ; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4RA9tdqq6eajh/yr1bZf9JF5AuDnaeSvhbqfSHWiMLiaFAKeHhP3R3YRIe4nwP5pjDeKshh0cCyPU0AcyAfrJZ+3osnx2D463jw1B++fxto0x88pkdHR7yKRlY38jREilkx3X1LuuJIsaPoHNJ+nh6BJcddQ/DFcAX2SCTkBk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwYw0IuC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZKncvsJ"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76e1fc69f86so4861666b3a.0;
-        Tue, 02 Sep 2025 07:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756824735; x=1757429535; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=krojoMmx1kmmnqCI+gJOfxK13xA7Q4Ni7Uv9DM8FYMw=;
-        b=nZKncvsJE4ycHUC7SC34Vt0aM0ppjOM4FlUkyxxr8U1U9Bwz/SoVoYHD9Lk+bPKZxO
-         pxBxtdSMAmiq698nhS5X+/h2iEFijZsptG/OlGXuQskhgAwWvLd7OMSqx/zeJvkvawJK
-         y9Q+UlE07FGILcXb6Cy7fGBV+eEV65xzIzqqXbPFWEwmnQ0nTvoqn0d0cEEkHi2S2cx9
-         oMBgBl8odmOW+gD7PNokgE1nZ73WNAkh5gEjjnPbmQLqwvp6GB16usdDMTZDhkFg78T5
-         t1wtqiDfuQOCr1xOH0mvBnnE2C5xcD/BbDYv0BhpZ63YEuFkvMWDE1lf6JmRsnYG2Uh1
-         Alyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756824735; x=1757429535;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=krojoMmx1kmmnqCI+gJOfxK13xA7Q4Ni7Uv9DM8FYMw=;
-        b=CsU5VoEh4ArugM6sRhukdV1CNitrgVqiN1BIH3xwsDGzOtKfqLdkbodh7BckrWuQzB
-         E84BzKm3XuVP9kevp/2eXh2Kz4/EJnQzylDxJldFP8F1R84e454qDTM3EoXDL2M5R1t2
-         UXuX2o8Ah6z4wTAwOCGt2nMg5FLJk8SQ7C5ylLWVIWOrpC2tpRb4VFVPFYb3cPRrkQRE
-         KoqL+FOYgDQgWnHG5Xurnm3GMDhm4V5Pm/jKH4B/tMZHpyYIA4+e218YRqDynzg0L8HR
-         5cKJ6Td1p9oksXHuUy2D/tex/EG7o69n21pZvhe2nLH7gXx8hsNNacEy84dD4TEnUm1J
-         kvnA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/wxDuwvXCL5kAQtF9i4e9gSAsXL9iOyzy759PYlE7peuspPvJuTt8uT/2wlf/C9HTOJvQKRPYQrG3@vger.kernel.org, AJvYcCV2ifyOa0RjjUZoSlfIkhAlt0uEBMDKkLdnOLBzinhZbHPpvV8CVQAOprv3Qwh9XxSJjeCOZaVO/j6B@vger.kernel.org, AJvYcCV8NX8NSGtDtOEY4DKYem0C7yivW/1k37pnxWr9FznJutuoECJ2r5ejTvlYvvJR7XLxpeP7R0znRG0gAZ9Y@vger.kernel.org, AJvYcCVAbGmO0K+yREMZ+Z3Nn4nOqqFSxR1vzAdRw1Ihw8KY1BjGeMEdWuyAsy5MNSdrjSMETF77BR8zZlOm@vger.kernel.org, AJvYcCVhG5EYpdUVdsuEitn/rANpl6rKtQqBBTh39e1iMR/gYZvUcPb9hZ58vgMMYMjrAT/rAICW/29TMgQt@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAKG2IJtwOiTM1SO5JD/5qi3RUTQvyKVBYnSey4pBQdOOHwHJi
-	ln4Hyk47efLBCdfXvVCDXfTYAjohtU/BZgw6+AioyW1h5m59jXNqYzYp
-X-Gm-Gg: ASbGnctnwEYfCePKhyf/1pJ20GKwIU+dO7nAvkCnZdvRJuCDqGq2t1bZvqXjY25OISO
-	xb3hdT71v5ixGyIT4hcPUabBoecIO/LfWE37prnWSSwMnnngv64f9HWzGafaeY6tSkPEDulskAw
-	5yiXJ/JeK1+3SDHF4dlALz5iuFh2udvIRt7nDGtOlmbOXcAvvkRFeXdNKiJ1oJDvM8ZhuOd+A72
-	deG++5ATWkz4Pw9UdpqS30XS86yhMrkJQRful3bfCCadrNLK09sWOz1AGJqpQZGz1N7QUfTjoW/
-	SusaSpOQCpsiIGTGz1wo+nuHIqRzaNouSJ6jBFCRucU3QIr55fIGFDzrqmLdvUZ2AzNLl/mTlrt
-	dnsLEbTYglQ3iNajQjvZT5Xci0jj7k2S2CghlPPtX6FEZg/2L0WVd
-X-Google-Smtp-Source: AGHT+IFdyjggY3wIGK1mZ+QKQxD0gAMm0SbeMxk7gQcQQm4er/Jmj3WDdrLOtCKXXQrKMByB7c5t7w==
-X-Received: by 2002:a05:6a20:938c:b0:246:5be:ca90 with SMTP id adf61e73a8af0-24605becdb2mr239744637.10.1756824735234;
-        Tue, 02 Sep 2025 07:52:15 -0700 (PDT)
-Received: from localhost ([2804:30c:1f77:e900:8ef5:b053:b8a:9345])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b4cd3670e5csm12088974a12.53.2025.09.02.07.52.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 07:52:13 -0700 (PDT)
-Date: Tue, 2 Sep 2025 11:52:46 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-	jic23@kernel.org, Michael.Hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, andy@kernel.org, corbet@lwn.net,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	broonie@kernel.org, Jonathan.Cameron@huawei.com,
-	andriy.shevchenko@linux.intel.com, ahaslam@baylibre.com,
-	sergiu.cuciurean@analog.com, tgamblin@baylibre.com
-Subject: Re: [PATCH 07/15] iio: adc: ad4030: Add SPI offload support
-Message-ID: <aLcEvmwbysTaEprV@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1756511030.git.marcelo.schmitt@analog.com>
- <0d9f377295635d977e0767de9db96d0a6ad06de0.1756511030.git.marcelo.schmitt@analog.com>
- <b024bd46-f1bd-4d9f-9d91-15ba18b9864f@baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwYw0IuC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36DE4C4CEED;
+	Tue,  2 Sep 2025 15:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756825656;
+	bh=VVXx8+WgldiOQbHxpm/JG+dX7BU8tajscSPkE2wACgg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kwYw0IuCK7sFYLhL/dVkOZAtlRXgc2uLb8p81zSEqok6N/psKsqqMGCe5vjGQiAh0
+	 9xsXW1fxUVfzsM0AyT4uWAnWlD4VE4/x7VK5rfHLx0bB5ksKHCuXutkA1YSomWiWfX
+	 c9Np9KP0l9D0zoMaQHr9Z8n5GiOdj+zJHU4NUwlWrbGSyXjwu/DrGopa2BCqSaw7fl
+	 GZJeG4GBhLKN4Q4/zHbQjbiCgF9lqJBAy+DfSUZLV9IzNIDYCFxRUUZRflU0oclkQf
+	 mxbz3Fh1bAVugx43+ASM9XvUXaCyhsxuzW5EuatEKnQgDXaiMzaGRgHSp4OtHez4ms
+	 SFvQ8P7znE8bQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1utSbe-00000003gOA-0KcG;
+	Tue, 02 Sep 2025 17:07:34 +0200
+Date: Tue, 2 Sep 2025 17:07:34 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	ksummit@lists.linux.dev, Linux Documentation <linux-doc@vger.kernel.org>, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Akira Yokosawa <akiyks@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+Message-ID: <n4qixsp23dccgz6mtrmd2xumcngtphkbywjnxkrqpnuf2dbu2p@2sj44sbyga4j>
+References: <87wm6l0w2y.fsf@trenco.lwn.net>
+ <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+ <20250830222351.GA1705@pendragon.ideasonboard.com>
+ <87h5xo1k6y.fsf@trenco.lwn.net>
+ <20250831160339.2c45506c@foz.lan>
+ <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
+ <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
+ <bff2c47623a632609d07f8f2d237d0b40722c2c1@intel.com>
+ <20250902135521.51482530@foz.lan>
+ <d9e917d57be113a3de06dfb099c55bf428be6e33@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,65 +60,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b024bd46-f1bd-4d9f-9d91-15ba18b9864f@baylibre.com>
+In-Reply-To: <d9e917d57be113a3de06dfb099c55bf428be6e33@intel.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi David,
-
-On 08/30, David Lechner wrote:
-> On 8/29/25 7:42 PM, Marcelo Schmitt wrote:
-> > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> > samples per second (MSPS). Not all SPI controllers are able to achieve
-> > such high throughputs and even when the controller is fast enough to run
-> > transfers at the required speed, it may be costly to the CPU to handle
-> > transfer data at such high sample rates.  Add SPI offload support for
-> > AD4030 and similar ADCs so to enable ADC data capture at maximum sample
-> > rates.
-> > 
-...
-> > +
-> > +static int __ad4030_set_sampling_freq(struct ad4030_state *st, unsigned int freq)
-> > +{
-...
-> > +	do {
-> > +		conv_wf.duty_length_ns = target;
-> > +		ret = pwm_round_waveform_might_sleep(st->conv_trigger, &conv_wf);
-> > +		if (ret)
-> > +			return ret;
-> > +		target += 10;
-> > +	} while (conv_wf.duty_length_ns < 10);
-> > +
-> > +	offload_period_ns = conv_wf.period_length_ns;
-> > +
-> > +	ret = regmap_read(st->regmap, AD4030_REG_MODES, &mode);
-> > +	if (ret)
-> > +		return ret;
-> > +	if (FIELD_GET(AD4030_REG_MODES_MASK_OUT_DATA_MODE, mode) == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF) {
+On Tue, Sep 02, 2025 at 03:07:53PM +0300, Jani Nikula wrote:
+> On Tue, 02 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > Em Tue, 02 Sep 2025 13:42:45 +0300
+> > Jani Nikula <jani.nikula@intel.com> escreveu:
+> >
+> >> On Mon, 01 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
+> >> > ISTM that there are lots of non-docs developers who either just don't care
+> >> > about that or never run 'make W=1 htmldocs' to see the problems in their
+> >> > drivers or subsystems. OK, maybe it's just a very low priority for them.
+> >> >
+> >> > Willy had a suggestion that we just make checking kernel-doc during
+> >> > all .c builds a permanent feature instead of a W=1 option.
+> >> > This helps, but still doesn't force 'make htmldocs' to be run.
+> >> >
+> >> > And it causes around 450 build warnings in my testing of an x86_64 allmodconfig
+> >> > build.  
+> >> 
+> >> I think in general the build system lacks proper support for subsystems
+> >> or drivers being ahead of the curve in keeping them W=1 or kernel-doc
+> >> -Wall clean.
+> >
+> > It is trivial to add a spinx/kerneldoc parameter to allow setting
+> > -Wall per each .. kernel-doc markup. Yet, one would need to add it
+> > for every markup within the subsystem.
 > 
-> Since this depends on the oversampling ration, we need to defer this
-> until we start a buffered read. Otherwise if someone sets sampling
-> frequency first and the changes the oversampling ratio later, then
-> the PWM period will not be correct.
-> 
+> I'm not sure how that is relevant to what I'm saying.
 
-Yes, that's one of the problems I noticed when testing yesterday and probably
-the reason why I initially thought the scale was buggy for averaging/oversampling.
+You said that the building system lacks support of W=1/-Wall per
+subsystem. What I said is that, provided that we add a:
 
-> Alternatly, we could update this both when sampling freqency and
-> when oversampling ratio are updated. This would allow returning an
-> error if the oversampling ratio is too big for the requested
-> sampling frequency.
-> 
+	.. kernel-doc:: drivers/drm/...
+	:wall: 
 
-Sure, this sounds to be the best way of keeping track of the sampling frequency
-and oversampling ratio combination. Otherwise, unadvised users (like me) could
-set the oversampling ratio then run transfers without the driver being able to
-update the CNV trigger waveform according to the number of samples to average.
-The result of that is the device doesn't do oversampling (despite the
-oversampling attribute value).
+you can set it per file inside a subsystem. Granted: this is doesn't
+cover the entire subsystem.
 
-I also see your comments to this and other patches and I think I agree with them
-all. Will re-spin to apply the requested changes and provide support for SPI
-related stuff in a separate series.
+Heh, there is another option. For instance lets assume you want
+-Wall for drm subsystem. you could have this on your CI:
 
+	$ ./scripts/kernel-doc -Wall --none drivers/gpu/
+
+On a similar way, the build system can also W=1 inside a subsystem:
+
+	$ make W=1 drivers/gpu/
+
+(This is what we do on media)
+
+In the specific case of the drm subsystem, you could try to modify
+dim to run both as a condition to accept a git push - or modify
+CI to only actually do the merge after passing both.
+
+-- 
 Thanks,
-Marcelo
+Mauro
+
