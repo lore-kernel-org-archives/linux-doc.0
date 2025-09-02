@@ -1,83 +1,149 @@
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E1D33A03A
-	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 17:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C076345724
+	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 17:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756834321; cv=none; b=A8Qa/AJ+D6hZ+eSZ751TYIlhVKospg+DuoDe3R1Q87BtWEGmB/47UTEtp/1D6QW25zoGMTVjAWNpkmtnrK7W4ce39wQhSGBlALpfNyKJ+asFq/Srl+npE16RH4n7rESaXoCXGuKw5+vkGE1aDrQZR5sk2HDQnFtG5xLDXmUicPA=
+	t=1756835080; cv=none; b=PBh7aw81ij5N0dFqiYFpNw0YQ62Xr0OAdokWVx//tosWlpoyOIShgmWRG9xmWJZ/Jt/hPGrJr6WmWziM4mfOZhT5PFwAlikx16LjbaCiwqj++W1JzOGiyVHov3r9kvpFOabJdT5bzLQKggzZVCNfCNxBrHegcQiM3ACl0OsJ9cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756834321; c=relaxed/simple;
-	bh=fyhvFcpbjARgFVrpZiyVBsf0zhuVsLRUp086qBgwZ1o=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BpxcqZnVikxHyjaVBhs+Ct0+bpsnFF292AurWZl3MiVP2I+8i8LBbtdMB7BcRKDwRkgl16lijIsLIdWC2Zch+EWO4sv89Tz5Xv/DuJaXkb18XzCE5xAIO4ggxqeL/uPl8nZQyn+/155wZeA7xb7KNBhHdJERWZ3jRKw46yp/BLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=tspr7NYt; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1756835080; c=relaxed/simple;
+	bh=BdSiKF9n+eeUAE53HFjfWgvtvo0CoweAVbKX7PsygsA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d1eJLzVhzT3Eagvn3hzmnhRmJoc+mndiMezV4UMjLUP4AvyYYt6zJguuthRSSk0Eyg3SKptqhjT5L+SsYIC8XcR+/vah9Ux4CYBZrmg5yTFKsckpD5uz7MAiNObpIHGtK419DkZChRUKXqdsOyABwstkUmkZiH8KmIvEBZJZJus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UWNm72vQ; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="tspr7NYt"
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 582Ehwfj3376448
-	for <linux-doc@vger.kernel.org>; Tue, 2 Sep 2025 10:31:58 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=s2048-2025-q2; bh=fyhvFcpbjARgFVrpZiyV
-	Bsf0zhuVsLRUp086qBgwZ1o=; b=tspr7NYtRRiQvcHbnxghNDXIIPdapc3PUnIk
-	cIDQaHktD/MKuD8HnUT7Ttvh72+h4PlmLypco/r5D6WHXidKm43ZnZTrl4H9CtLZ
-	707CWn7ShgeIRGwdG4ZreMs+6OF60bmACL0nfNrVmryMKTClBaJ1sXEE+qfpu+Ru
-	uiyd6h5RMlnQtGFUjFzrXc7Hui4QPJHCio6ungeJMKYg9pLg16BOFglbHnRp5GAg
-	ruRKfLPsUoEjC46MDc17JP5WIDxUakG7cwav/W2TbdiSvBpDmghspLR2XCI3O+7a
-	ZKNlj+iQlVZAC/RJmDNKkCK5JdA7AuBzED3vS3EDTJXdC6r9XQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 48x2km1j4n-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 02 Sep 2025 10:31:58 -0700 (PDT)
-Received: from twshared28243.32.prn2.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Tue, 2 Sep 2025 17:31:56 +0000
-Received: by devgpu015.cco6.facebook.com (Postfix, from userid 199522)
-	id 29DFD7609C4; Tue,  2 Sep 2025 10:31:45 -0700 (PDT)
-Date: Tue, 2 Sep 2025 10:31:45 -0700
-From: Alex Mastro <amastro@fb.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-CC: <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Stephen
- Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] docs: proc.rst: Fix VFIO Device title formatting
-Message-ID: <aLcqAXrrYz8McAfs@devgpu015.cco6.facebook.com>
-References: <20250828203629.283418-1-alex.williamson@redhat.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UWNm72vQ"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b109c59dc9so68478691cf.3
+        for <linux-doc@vger.kernel.org>; Tue, 02 Sep 2025 10:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756835077; x=1757439877; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2mw2O9IyBVINEqUK0JHnLd+CikD2F9nmgloYlgwO8Xk=;
+        b=UWNm72vQNYs7X+YPDrLDqnvGcU0E+U8dnZnthV+HQx+p8O8Kp3KNc9Qjd9y52bZX8G
+         vadsu57e2rrGLdzuSiulkvvSyFzy28b1UpNv/Z60GgDdqCrY4rMcnsuyX19Dslt6y/3K
+         +vPdRmalidlzNSYYv2zAWdisft+b2K3jXz+/YeiYclKGtaLHuCyrGQ/9r5W9WfLgnL9I
+         2q4hOK8KPEuRJId8dYDTNG1CW5Oza3Qx9SCHY+1RSY0Tdy+NTxAV4Ek1wC6QGiaMvtTd
+         1jPNauY7Off+IS5Du2qf9xI8m7SXO3p4H+58mHFo3YxSctEbhlhPb734z2hyURklC8My
+         5AdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756835077; x=1757439877;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2mw2O9IyBVINEqUK0JHnLd+CikD2F9nmgloYlgwO8Xk=;
+        b=A1Ier14yOltbsmDkcflhqry+U0IYJWuE00to2L+5586EBzuzmYsS/HSyxbKfgGN8jz
+         SinxOHSQ0uo4FFaTD7VPLBdfbXqpchBKE1JX8sdTsacrUmXqa/EVDZiVjLZZ6kReZ/tk
+         gUK917FlsHsBeKt4xkfFwo9An9MwGke4n6hQ54x54mJ6+3qdnWvlasjpRc+wxvgAaVFi
+         BanbM2yHwC3Bp2l28vmW95osf0a+CupRllNrN3n5fkp0gOinqyEo2e4VjbW7gn/VO9rG
+         b/i6AcZQJNR03+H3QMW7OTM39BtPyKruMWDMTww7aHaSp1vI/hzOjMgmEWqfvV9J55og
+         NN9w==
+X-Gm-Message-State: AOJu0YzHjjBThRrmxOA+rLHUG/WHNyjR3Xgn3p2xIhi2fh1VSvpdTC7r
+	0IahgM1AeIaRRjWKxl7FaWjBTPxBJgMAg9QTPscgdRq4dqB2+b7J5mfd+eNZLmNTjXQ1DhP1xh3
+	gamRA
+X-Gm-Gg: ASbGnctCXWredfsKNBYYMn13wi4CF7WoLAFwC0kP8HOAMFKwNtAJQJEckIDCBTQirQj
+	U+puHjN7DxIhco4WuCYwu+99e2JKLO62rJK0aRDPbmxv1N9c9hovu0sbxB8MGnZq5Hn0LXBf8FG
+	uZNRfFJkFUcU4wGcRom1Osc+tOjka0tFZPbqyc20oawxeoARzdkiKgpteQ4BOvcs99MdgZhCcea
+	PsBcE2oOAPfGJQD6mL6B+V3EZnW8qzez6mrQ1RLdQaahjby8AL3k6e/ju0T9g/16m2xmk8B1C+g
+	RLSh7cHiattFfjZIFN/yKmtgQSae/N/mtBvWEHZzmGpbkr4GcG7n3AE7VceW0EPF5gBC1Z/iFra
+	xGzJpVs103beZka3Wf+3Hm8aUk/W7t+8s1ASZi8yf9eUn6m6QQyfLfjLvVpOWbckQe7+9F9NExk
+	4koVMlMpYwGc0CTgqkJq+S
+X-Google-Smtp-Source: AGHT+IFyf4Ivig73sOQhD71vsZ3IHMgCorpcKXWlE+x2Lg1DUGxucTOJYhdeLvnLQSIj/vNApEFeaA==
+X-Received: by 2002:a05:622a:4ccc:b0:4b3:4cf6:f666 with SMTP id d75a77b69052e-4b34cf6f7c9mr32859441cf.11.1756835077394;
+        Tue, 02 Sep 2025 10:44:37 -0700 (PDT)
+Received: from ubuntu.localdomain (174-138-218-227.cpe.distributel.net. [174.138.218.227])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b3462c9621sm15095631cf.24.2025.09.02.10.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 10:44:35 -0700 (PDT)
+From: Raymond Mao <raymond.mao@linaro.org>
+To: linux-doc@vger.kernel.org,
+	devicetree-spec@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: ilias.apalodimas@linaro.org,
+	Raymond Mao <raymond.mao@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: devicetree: overlay-notes: recommend top-level compatible in DTSO
+Date: Tue,  2 Sep 2025 10:43:50 -0700
+Message-Id: <20250902174351.2457022-1-raymond.mao@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250828203629.283418-1-alex.williamson@redhat.com>
-X-FB-Internal: Safe
-X-Proofpoint-GUID: lMdtVG2epthr66d6unMWaydGlmCUJr1q
-X-Proofpoint-ORIG-GUID: lMdtVG2epthr66d6unMWaydGlmCUJr1q
-X-Authority-Analysis: v=2.4 cv=Z4fsHGRA c=1 sm=1 tr=0 ts=68b72a0e cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=FOH2dFAWAAAA:8 a=AqKOC74haZqJEwbFGksA:9
- a=CjuIK1q_8ugA:10 a=Qzt0FRFQUfIA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAyMDE3MyBTYWx0ZWRfXyyPWx52Dw2Fu
- L7kw9D1fOHFK4OLpngZAsm+1ZFCiwF6cB46g/32ObmScMbKA9/TXTOC+ztSpwE1Hdb5ZwMA+f8x
- 4ope4GOhUfqq8Gr+73mnd1hyEMYtSSERa4WlYgSbKFHwgt8ZgcZpuRhVoErHb6MPdhMNLZkYDwI
- khR7ZgKJzx/U89NuToeorBft11otlfDjhUzvu46Y/kdOhnO6UE+4IdC9VaqjphDgt5LqUkkco4Z
- I+yWmbaw5X5mvmueI3mDxp7dJw/9QnaaUEZb2hE9c6PNzeyXQH+mc/Im+zA8GDlt4VfMfJbk51N
- aPgtAh06MXVsP2v+06a69KHWMlk9f/QTN3QVE6CEeFHECZyUk55pUd377531Fs=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_06,2025-08-28_01,2025-03-28_01
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 28, 2025 at 02:36:24PM -0600, Alex Williamson wrote:
-> Title underline is one character too short.
+When managing multiple base device trees and overlays in a structured
+way (e.g. bundled in firmware or tools), it is helpful to identify the
+intended target base DT for each overlay, which can be done via a
+top-level compatible string in the overlay.
 
-Shoot. Apologies for missing this, and thanks for the fix. I should have run a
-`make *docs` flavor as part of validating this.
+This provides a way to identify which overlays should be applied once the
+DT is selected for the case when a device have a common firmware binary
+which only differs on the DT and overlays.
 
-Reviewed-by: Alex Mastro <amastro@fb.com>
+This patch updates the document with a note and example for this
+practice.
+For more information on this firmware requirement, please see [1].
+
+[1] https://github.com/FirmwareHandoff/firmware_handoff/pull/74
+
+Suggested-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Raymond Mao <raymond.mao@linaro.org>
+---
+Changes in v2:
+- Updated commit message.
+
+ Documentation/devicetree/overlay-notes.rst | 28 ++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+index 35e79242af9a..30b142d1b2ee 100644
+--- a/Documentation/devicetree/overlay-notes.rst
++++ b/Documentation/devicetree/overlay-notes.rst
+@@ -103,6 +103,34 @@ The above bar.dtso example modified to use target path syntax is::
+     ---- bar.dtso --------------------------------------------------------------
+ 
+ 
++Overlay identification
++----------------------
++
++When managing overlays dynamically or bundling multiple base device trees
++and overlays in a single system (e.g., in firmware, initramfs, or user-space
++tools), it becomes important to associate each overlay with its intended
++target base DT.
++
++To support this, overlays should include the top-level compatible string
++from its base DT.
++This enables higher-level software or firmware to identify which base DT
++an overlay is compatible with and apply it accordingly.
++
++Example usage::
++
++    ---- bar.dtso - overlay with top-level compatible string -------------------
++	/dts-v1/;
++	/plugin/;
++	compatible = "corp,foo";
++
++	...
++    ---- bar.dtso --------------------------------------------------------------
++
++This top-level compatible string is not required by the kernel overlay
++mechanism itself, but it is strongly recommended for managing overlays in
++scalable systems.
++
++
+ Overlay in-kernel API
+ --------------------------------
+ 
+-- 
+2.25.1
+
