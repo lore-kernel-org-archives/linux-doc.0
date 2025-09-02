@@ -1,239 +1,141 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279616FC3;
-	Tue,  2 Sep 2025 02:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD01B18C933;
+	Tue,  2 Sep 2025 02:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756778741; cv=none; b=rtJqMXsAELpjd10tg2XW2+0EozarzuChBvPgc1J9AU2YqL6Dt3yT41Uduw7gQofS446RMse0Um90Auh8UbxgO2tCXII+Zgc50poJ9tOctQm+gZ49/HpocsAIQ8DqLzJXyCZ3w33Dh0U0ABWqX5+vbkCA4hGlqZdW7a0WtyYQpiU=
+	t=1756780111; cv=none; b=Thbkk6zO/eYt44wq24LMPjhlR6fY9dhK448wdvOa3HfsUidrZYfdbFUgspUrYNGPHvF33hVbukeahDT7h28ZBjlLOeZ0udYHKycjYQQY714/0n5H+NEWu1Cq7EBlSWnm2q3CSLGhMoHYlBtnVMsqG98RwuOmLq+1qWKaRlEb6Js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756778741; c=relaxed/simple;
-	bh=/wa/E2zW11MLhVaS2g/6my3y8dJxlfissL2isUxk2Uk=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=blQjKtdcQA7dTniNhVgNK1exaYCCXET0ieKj5k/IWgxgCtLEQA+mVjz4F8wqD5dSqstk77dOTq9IYWtZ50jn71kY9sfZYmZb244DRKOOOMi1vxlKYDRQXayQdqyBVPgArMBAjK5xu3MqsA2QASMpg9syZ2LexwEKO/T70NwdibM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cG8GR2dypz8Xs70;
-	Tue, 02 Sep 2025 10:05:35 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 582259Pk052719;
-	Tue, 2 Sep 2025 10:05:09 +0800 (+08)
-	(envelope-from fan.yu9@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Tue, 2 Sep 2025 10:05:10 +0800 (CST)
-Date: Tue, 2 Sep 2025 10:05:10 +0800 (CST)
-X-Zmail-TransId: 2afb68b650d6b72-70733
-X-Mailer: Zmail v1.0
-Message-ID: <20250902100510629gbt-dwxQ09_35jcv_YO3U@zte.com.cn>
-In-Reply-To: <202509020957458514CMgUiaqPjTURNET_d-w0@zte.com.cn>
-References: 202509020957458514CMgUiaqPjTURNET_d-w0@zte.com.cn
+	s=arc-20240116; t=1756780111; c=relaxed/simple;
+	bh=2g9YOUmV6qRtVY8H9r9NTwL2f/S147r7pTuKS6omoZ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vGwEqRk0VSB4VCf9tDX80IKvoMfT7SbffM8XvmfTOcZC7Qf0M7rcTGflKNK3BGhpsNP/qDf04PwADC8giVqxPOhgYig5Dp53hxM48gRiPqa+yv+5223bzERLvq9QIhXDBQLz/BJfnpFr3V0Hmf327OV3MK3Zs3PHIOMJJoz2Mos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Kbq59YfF; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Kbq59YfF"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1756780099; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=6NbI4kzFCdnbgFqsQU3j3woE9OiOn/2nBz2NzNgD994=;
+	b=Kbq59YfFR+jJHrcPBSBT+lcut0VxAY9rNdNuIN2bnHEGGULfm/P6t3xUo3tcb4umVXMY8GrSZzjiw9/BAbcExgsZwtAokRgGPgZeuBg3jeB5cXlqD6BINLF4/iBdur6Cnly9LO2VOFsIlT1FDdSBu1NJ4J7gGn/NH1mhOdcYbWI=
+Received: from 30.74.144.117(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Wn5svZT_1756780095 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 02 Sep 2025 10:28:16 +0800
+Message-ID: <eb02c281-6d41-44af-8eaf-8ffc29153a3a@linux.alibaba.com>
+Date: Tue, 2 Sep 2025 10:28:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <fan.yu9@zte.com.cn>
-To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>
-Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <fan.yu9@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgMy8zXSB0b29scy9kZWxheXRvcDogYWRkIGludGVyYWN0aXZlIG1vZGUgd2l0aCBrZXlib2FyZCBjb250cm9scw==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 582259Pk052719
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: fan.yu9@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.132 unknown Tue, 02 Sep 2025 10:05:35 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68B650EF.002/4cG8GR2dypz8Xs70
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/13] khugepaged: mTHP support
+To: David Hildenbrand <david@redhat.com>, Dev Jain <dev.jain@arm.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, ziy@nvidia.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com
+References: <20250819134205.622806-1-npache@redhat.com>
+ <e971c7e0-70f0-4ce0-b288-4b581e8c15d3@lucifer.local>
+ <38b37195-28c8-4471-bd06-951083118efd@arm.com>
+ <0d9c6088-536b-4d7a-8f75-9be5f0faa86f@lucifer.local>
+ <CAA1CXcCqhFoGBvFK-ox2sJw7QHaFt+-Lw09BDYsAGKg4qc8nSw@mail.gmail.com>
+ <CAA1CXcAXTL811VJxqyL18CUw8FNek6ibPr6pKJ_7rfGn-ZU-1A@mail.gmail.com>
+ <5bea5efa-2efc-4c01-8aa1-a8711482153c@lucifer.local>
+ <CAA1CXcBDq9PucQdfQRh1iqJLPB6Jn6mNy28v_AuHWb9kz1gpqQ@mail.gmail.com>
+ <d110a84a-a827-48b4-91c5-67cec3e92874@lucifer.local>
+ <95012dfc-d82d-4ae2-b4cd-1e8dcf15e44b@redhat.com>
+ <bdbb5168-7657-4f11-a42d-b75cce7e0bca@lucifer.local>
+ <e34e1ffe-c377-4c9a-b28b-ca873f3620ac@redhat.com>
+ <db2320ee-6bd4-49c1-8fce-0468f48e1842@linux.alibaba.com>
+ <c8c5e818-536a-4d72-b8dc-36aeb1b61800@arm.com>
+ <2a141eef-46e2-46e1-9b0f-066ec537600d@linux.alibaba.com>
+ <f34b5fcb-6a97-4d97-86a8-906083b53be6@redhat.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <f34b5fcb-6a97-4d97-86a8-906083b53be6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Fan Yu <fan.yu9@zte.com.cn>
 
-The original delaytop only supported static output with limited
-interaction. Users had to restart the tool with different command-line
-options to change sorting or display modes, which disrupted continuous
-monitoring and reduced productivity during performance investigations.
 
-Adds real-time interactive controls through keyboard input:
-1) Add interactive menu system with visual prompts
-2) Support dynamic sorting changes without restarting
-3) Enable toggle of memory verbose mode with 'M' key
+On 2025/9/2 00:46, David Hildenbrand wrote:
+> On 29.08.25 03:55, Baolin Wang wrote:
+>>
+>>
+>> On 2025/8/28 18:48, Dev Jain wrote:
+>>>
+>>> On 28/08/25 3:16 pm, Baolin Wang wrote:
+>>>> (Sorry for chiming in late)
+>>>>
+>>>> On 2025/8/22 22:10, David Hildenbrand wrote:
+>>>>>>> Once could also easily support the value 255 (HPAGE_PMD_NR / 2- 1),
+>>>>>>> but not sure
+>>>>>>> if we have to add that for now.
+>>>>>>
+>>>>>> Yeah not so sure about this, this is a 'just have to know' too, and
+>>>>>> yes you
+>>>>>> might add it to the docs, but people are going to be mightily
+>>>>>> confused, esp if
+>>>>>> it's a calculated value.
+>>>>>>
+>>>>>> I don't see any other way around having a separate tunable if we
+>>>>>> don't just have
+>>>>>> something VERY simple like on/off.
+>>>>>
+>>>>> Yeah, not advocating that we add support for other values than 0/511,
+>>>>> really.
+>>>>>
+>>>>>>
+>>>>>> Also the mentioned issue sounds like something that needs to be
+>>>>>> fixed elsewhere
+>>>>>> honestly in the algorithm used to figure out mTHP ranges (I may be
+>>>>>> wrong - and
+>>>>>> happy to stand corrected if this is somehow inherent, but reallly
+>>>>>> feels that
+>>>>>> way).
+>>>>>
+>>>>> I think the creep is unavoidable for certain values.
+>>>>>
+>>>>> If you have the first two pages of a PMD area populated, and you
+>>>>> allow for at least half of the #PTEs to be non/zero, you'd collapse
+>>>>> first a
+>>>>> order-2 folio, then and order-3 ... until you reached PMD order.
+>>>>>
+>>>>> So for now we really should just support 0 / 511 to say "don't
+>>>>> collapse if there are holes" vs. "always collapse if there is at
+>>>>> least one pte used".
+>>>>
+>>>> If we only allow setting 0 or 511, as Nico mentioned before, "At 511,
+>>>> no mTHP collapses would ever occur anyway, unless you have 2MB
+>>>> disabled and other mTHP sizes enabled. Technically, at 511, only the
+>>>> highest enabled order would ever be collapsed."
+>>> I didn't understand this statement. At 511, mTHP collapses will occur if
+>>> khugepaged cannot get a PMD folio. Our goal is to collapse to the
+>>> highest order folio.
+>>
+>> Yes, I’m not saying that it’s incorrect behavior when set to 511. What I
+>> mean is, as in the example I gave below, users may only want to allow a
+>> large order collapse when the number of present PTEs reaches half of the
+>> large folio, in order to avoid RSS bloat.
+> 
+> How do these users control allocation at fault time where this parameter 
+> is completely ignored?
 
-The interactive mode transforms delaytop from a static monitoring tool
-into a dynamic investigation platform, allowing users to adapt the
-view in real-time based on observed performance patterns.
-
-Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
----
- tools/accounting/delaytop.c | 112 ++++++++++++++++++++++++++----------
- 1 file changed, 82 insertions(+), 30 deletions(-)
-
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 39852cd70bdf..21fb215d2928 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -140,6 +140,7 @@ static struct task_info tasks[MAX_TASKS];
- static int task_count;
- static int running = 1;
- static struct container_stats container_stats;
-+static int sort_selected;
-
- /* Netlink socket variables */
- static int nl_sd = -1;
-@@ -878,6 +879,17 @@ static void display_results(void)
- 			container_stats.nr_io_wait);
- 	}
-
-+	/* Interacive command */
-+	suc &= BOOL_FPRINT(out, "[o]sort [M]memverbose [q]quit\n");
-+	if (sort_selected) {
-+		if (cfg.mem_verbose_mode)
-+			suc &= BOOL_FPRINT(out,
-+			"sort selection: [c]CPU [i]IO [s]SWAP [r]RCL [t]THR [p]CMP [w]WP [q]IRQ\n");
-+		else
-+			suc &= BOOL_FPRINT(out,
-+			"sort selection: [c]CPU [i]IO [m]MEM [q]IRQ\n");
-+	}
-+
- 	/* Task delay output */
- 	suc &= BOOL_FPRINT(out, "Top %d processes (sorted by %s delay):\n",
- 			cfg.max_processes, get_sort_field(cfg.sort_field));
-@@ -944,11 +956,73 @@ static void display_results(void)
- 		perror("Error writing to output");
- }
-
-+/* Check for keyboard input with timeout based on cfg.delay */
-+static char check_for_keypress(void)
-+{
-+	struct timeval tv = {cfg.delay, 0};
-+	fd_set readfds;
-+	char ch = 0;
-+
-+	FD_ZERO(&readfds);
-+	FD_SET(STDIN_FILENO, &readfds);
-+	int r = select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv);
-+
-+	if (r > 0 && FD_ISSET(STDIN_FILENO, &readfds)) {
-+		read(STDIN_FILENO, &ch, 1);
-+		return ch;
-+	}
-+
-+	return 0;
-+}
-+
-+/* Handle keyboard input: sorting selection, mode toggle, or quit */
-+static void handle_keypress(char ch, int *running)
-+{
-+	if (sort_selected) {
-+		switch (ch) {
-+		case 'c':
-+		case 'i':
-+		case 'q':
-+		case 'm':
-+			cfg.sort_field = ch;
-+			break;
-+		/* Only for memory verbose mode */
-+		case 's':
-+		case 'r':
-+		case 't':
-+		case 'p':
-+		case 'w':
-+			if (cfg.mem_verbose_mode)
-+				cfg.sort_field = ch;
-+			break;
-+		default:
-+			break;
-+		}
-+		sort_selected = 0;
-+	} else {
-+		switch (ch) {
-+		case 'o':
-+			sort_selected = 1;
-+			break;
-+		case 'M':
-+			cfg.mem_verbose_mode = !cfg.mem_verbose_mode;
-+			cfg.sort_field = 'c'; /* Change to default sort mode */
-+			break;
-+		case 'q':
-+		case 'Q':
-+			*running = 0;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+}
-+
- /* Main function */
- int main(int argc, char **argv)
- {
- 	int iterations = 0;
--	int use_q_quit = 0;
-+	char keypress;
-
- 	/* Parse command line arguments */
- 	parse_args(argc, argv);
-@@ -968,12 +1042,8 @@ int main(int argc, char **argv)
- 		exit(1);
- 	}
-
--	if (!cfg.output_one_time) {
--		use_q_quit = 1;
--		enable_raw_mode();
--		printf("Press 'q' to quit.\n");
--		fflush(stdout);
--	}
-+	/* Set terminal to non-canonical mode for interaction */
-+	enable_raw_mode();
-
- 	/* Main loop */
- 	while (running) {
-@@ -1001,32 +1071,14 @@ int main(int argc, char **argv)
- 		if (cfg.output_one_time)
- 			break;
-
--		/* Check for 'q' key to quit */
--		if (use_q_quit) {
--			struct timeval tv = {cfg.delay, 0};
--			fd_set readfds;
--
--			FD_ZERO(&readfds);
--			FD_SET(STDIN_FILENO, &readfds);
--			int r = select(STDIN_FILENO+1, &readfds, NULL, NULL, &tv);
--
--			if (r > 0 && FD_ISSET(STDIN_FILENO, &readfds)) {
--				char ch = 0;
--
--				read(STDIN_FILENO, &ch, 1);
--				if (ch == 'q' || ch == 'Q') {
--					running = 0;
--					break;
--				}
--			}
--		} else {
--			sleep(cfg.delay);
--		}
-+		/* Keypress for interactive usage */
-+		keypress = check_for_keypress();
-+		if (keypress)
-+			handle_keypress(keypress, &running);
- 	}
-
- 	/* Restore terminal mode */
--	if (use_q_quit)
--		disable_raw_mode();
-+	disable_raw_mode();
-
- 	/* Cleanup */
- 	close(nl_sd);
--- 
-2.25.1
+Sorry, I did not get your point. Why does the 'max_pte_none' need to 
+control allocation at fault time? Could you be more specific? Thanks.
