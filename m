@@ -1,100 +1,145 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF131A288;
-	Tue,  2 Sep 2025 01:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9284D15539A
+	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 01:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756776705; cv=none; b=qIdyaZBLJnnEJ+0Fi627Kmpf1RULwpNRJXOqahsBqxtZZjnTjgp+3C2406ePZSg+7ld1rms4ZNRaLigKiZlSDRbzX3ckkdSNwZ8Tynh0ccnYCJWzzTPXHc4+1o6yf5IfLM2F8CpoGKFQFHD+3tXAdXL3+f6mR0EB9jFY0uoagus=
+	t=1756777658; cv=none; b=YtLJnDkZqhmFVOpfXqMZa6w+z0V0kp5SsB7xpPLbg5KV22v2odzSpdoLOLGCuktlozClOWVf8LOIhQtQVw9n6srf08HsWNdEIO56zsErSMG5djafw4uRLDpAGk7PZJdUyysgQ5oGerrXK4/vsTheVd4wKMMllW9rBMcKzfJO6J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756776705; c=relaxed/simple;
-	bh=VlGK73+2UsvCH2/UxRjr3vexyOny+hPU0H/RMxobD7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TyUfY0FWLKtTue4EXLeH/gjp3qcCmpDyngeZDKxmvJQHvxJfT0/aX6qJkiI1QcJx387dW2DBHplg5x1uxu0qABfezGJFrzJEwaRbAB00o1KZ60zMS1uWbJuyGFycGWaBzCXgpld8HN3j8Bec0Kc6s6sl6HjneRPU+g1ki/ChEUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz3t1756776674t0376ccc7
-X-QQ-Originating-IP: HnD05YW2Fm5i8g207GQNWjjPXwhJAhpiF2uBPQwqDl0=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 02 Sep 2025 09:31:12 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16686580263834056200
-Date: Tue, 2 Sep 2025 09:31:12 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Andrew Lunn <andrew@lunn.ch>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v9 1/5] net: rnpgbe: Add build support for rnpgbe
-Message-ID: <DD499CD3F59F91F1+20250902013112.GA101881@nic-Precision-5820-Tower>
-References: <20250828025547.568563-1-dong100@mucse.com>
- <20250828025547.568563-2-dong100@mucse.com>
- <dcfb395d-1582-4531-98e4-8e80add5dea9@lunn.ch>
- <8AD0BD429DAFBD3B+20250901082052.GA49095@nic-Precision-5820-Tower>
- <a3c51a9e-f0cb-4d25-a841-117da0ff943c@linux.dev>
+	s=arc-20240116; t=1756777658; c=relaxed/simple;
+	bh=P6Fv35xVBpL5CQfnyr/ccGMQCnhxSXoGqrwQNKZ1CIc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=BoQKJ9VUu/06BiLsts2aQ/5R/TnlVFBfz4OD+SMkiMNYL+UWgEIAqBhMRMF1zG80+Wdv4sDqmHup6TKscsVwXjnawk+sh+ygkV1BhIcap8ShPBrxcbYyaZWvAsKuKUwTEpicrmy0+lpB0AjolfovZgVE6Dgvbs2/wXyxht0+SlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NBd2zPPz; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NBd2zPPz"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-61cd6089262so7681792a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 01 Sep 2025 18:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756777655; x=1757382455; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WaIxEEeWDvMvB8eA4hCP2Ou1o881OgtcWzxOk4HGVMU=;
+        b=NBd2zPPzXLj7b1WbB/U7ReiddpLYiSF0h+79zEXhzEhTzCxR7VT1Ea8uKD6uoxSB9K
+         BmHAccifFO+vLtJNu1wbdtZikP3KngcKv9oKplmtj8NPV6SELDpOh3UeOKy+ye6WkC/5
+         es2zDvCs6MyZKmUbbiOrO33CJrrN2SIXLoTncV+Eds/AjlLQ+A0DiYeYe3IYkvpu4qmP
+         CZ1vMcQTq55c77rgF02WljeAx8z/eTkg9rcWlKnE67inYxHaa4mc0YF05GNTDjx6YVBX
+         OkHhGTWgPe+BIsog3vGcvZlp26KthC+KMNVh+7/5LQbZk1a/4fsotv2FoLmuWUuufdwy
+         j9QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756777655; x=1757382455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WaIxEEeWDvMvB8eA4hCP2Ou1o881OgtcWzxOk4HGVMU=;
+        b=jOH2iCrSZPKWk0yDuzAJPjq7KsgwDh/VKaq4EIs5TR98yAgIOFooxDxG3uzcgoSnY/
+         zk//eN4DDP2r9OADZLs7CAq0Uw+x/RPqMg0lsu9E7WDnt1nkiecRd/cjIjwEAhtf5Rty
+         VDECv1tRelnV76MoeE5fx81OBEK1R6ytZb3XOpiFGowjpfRW0PyAyUXlX0I/SdSGCNr/
+         hPtM1ZAD0s9sMNvyztT43BlgJmt/N6Nc+bTytK3p1+KZJom2YSWU8rPxCDni/bt1UiOG
+         n9P0ec2eHHErQvFMMhRRGraS3pAlpIabfDyL3IXknu8NmNQPWb4hAjL6iaUVpzqkw05y
+         adAA==
+X-Gm-Message-State: AOJu0YyA3b8rhMCmrONgqjtHEoq4RiqMKe9mqlKZonAbbVYxOlAlkumG
+	mHrkNRi338eptkMr3igf8h1XsL81duGhT4EKg94iqPp3k+sUOIurWIOnbRSzcvUU5QO3Lh7qP+P
+	D96mBgckBRNGGuXTyuJvA5EP00q/Wenr74kBT1QE=
+X-Gm-Gg: ASbGnctqy6pb2bQARr71iQVHyJ16T/GeSpZ/SHND8QBi52YP6rJE8F4r/iqb7hSTRpa
+	lCa2MKO9t5YnYaf+/CjINISp8ep1K/0m4yjlFy5J+djtcEyVdptb/vFKnCUFFUGv6ILHkwZ1l8u
+	7DRQNT73t5ZW5xE6NHl0Ane/wT4PHuZ/hOttn+KzjI2VGZ1wv5m7c3c40blbNcBDzPEeiCyBn6l
+	pW/zIsZGwIwrlzpy8U=
+X-Google-Smtp-Source: AGHT+IHTbPw46C3PM5pe7tynC7BzrRUNfPKPfjeqIP7I8qeBK4EysjwaqFrW1L2vQdyoBzy309Ns+wxFkWg6UuEeGbo=
+X-Received: by 2002:a05:6402:34c1:b0:61c:d457:e559 with SMTP id
+ 4fb4d7f45d1cf-61d26c3fb81mr9527028a12.23.1756777654733; Mon, 01 Sep 2025
+ 18:47:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3c51a9e-f0cb-4d25-a841-117da0ff943c@linux.dev>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M4ZQYI3ba7Qf7PwhqL03NSnSHc0z9QYWtJs/Rh5VtFs9N7cliX3zbt1s
-	vsKmyIcJW33c9x3wiPLwtAD3ayT//yEV+Bn//df7DNGF+CwQbpcmatXZM14rSwNkGrd/wop
-	5DyVUWpSC7Zd5easECjag+SR1Fdwomz3HADXziqP5FDCnKeOp9/XTyhSTK+n5p7lb/qTLqF
-	lSHBnLkObQ9c8ScNiPcAPV8OQwLuA9vkwxtmhQbYVAJb8F5uIhJFUUgeFh13ecTimFyCfhi
-	ZmA/IqWNNRaTh+xHW4p2toNPxrYOf36brvf/kkpjObu5KLZaYfUpuCX4gXrg6uQnldth91p
-	cVJXrBhBv/nP5Z8ORW/MigRROSqqHrv0E4qfPaaa1CV8pGtvYyIzFqy+yEWOzuYa+dB6OHQ
-	hjGXJNvMQ3cu+KXokIwBExblGCcQmMHrmodXNWXhjTMiCreVEGsYVr4m03ur+3Rk1vs2+bq
-	WGdkGQNRqfxUtCJlB/h/m2uH8z1/DfAy5pDf0790O3WP2AQKSxzfwol2TMvSwJpO1tGrGkQ
-	oLC1kC5COtgONsO+tV1qqwNeJ2K+mqsYylhY6yuSGEhfIy6sV9KmIviSgcyWmrmaWvdwcVc
-	e/dB1sEtRoWKXCIj1iJ1yUYR1VuvPaeU3xDzajZvtBLN1KLqum9HbEGEFTINwi8bjxGwKqf
-	WO/MFXR/ngBEZrB/5aUmGP1iRW1Tx8Awl97hzUisePqU7DhA8kzR8S5OPz4ZreHA0WVL+Zr
-	tAPgc/mRtirSIY1S5e+0eUg60fFH5NouYig32HdffFGwlXjdXnjEZD8dMNWzHVLO0wfcGW2
-	0DgpK+rc77qqIcUVw1d23BMeS2R6UCI/v+weUBV+4lyxGquC2ryey765gn5szcHYwgQ6B0w
-	lH5OI1BXGP9kl7tRD4D7scIHbQcUyrl0sXpNWLSX2/ZwXTRT5RL8roxELonzllJUiZdP04E
-	+7tpvP4Kr4ntTMKPYpS+ZP3DmTWyjNNrXOjOS1DqRLLWCGAFQwccCQaBf
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+From: Zhixu Liu <zhixu.liu@gmail.com>
+Date: Tue, 2 Sep 2025 09:46:57 +0800
+X-Gm-Features: Ac12FXzH5jHhc9raQ2p4GMk2zdaDkORY97A1YpxfmZPR6R1U7h4dnejYderCZXU
+Message-ID: <CALMA0xaveoq1PdvucwLGr=Oi0D7u+ouCpq7JNKc6qeMJbLUd5Q@mail.gmail.com>
+Subject: [PATCH] docs: sphinx: handle removeal of utils.error_reporting in
+ docutils 0.22
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 01, 2025 at 10:58:48AM +0100, Vadim Fedorenko wrote:
-> On 01/09/2025 09:20, Yibo Dong wrote:
-> > On Thu, Aug 28, 2025 at 02:51:07PM +0200, Andrew Lunn wrote:
-> > > On Thu, Aug 28, 2025 at 10:55:43AM +0800, Dong Yibo wrote:
-> > 
-> > Hi, Andrew:
-> > 
-> > > > Add build options and doc for mucse.
-> > > > Initialize pci device access for MUCSE devices.
-> > > > 
-> > > > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> > > 
-> > > Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> > > 
-> > >      Andrew
-> > > 
-> > 
-> > Should I add 'Reviewed-by: Andrew Lunn <andrew@lunn.ch>' to commit for
-> > [PATCH 1/5] in the next version?
-> 
-> The general rule is to carry over all the tags if there is no (big)
-> changes to the code in the patch.
-> 
+docutils.utils.error_reporting wass removed in docutils v0.22, causing sphi=
+nx
+extension (kernel_include) to fail with:
 
-Got it, thanks.
+>   File "/usr/lib/python3.12/site-packages/sphinx/registry.py", line 544, =
+in load_extension
+>     raise ExtensionError(
+> sphinx.errors.ExtensionError: Could not import extension kernel_include (=
+exception: No module named 'docutils.utils.error_reporting')
 
+add compatibility handling with try/except:
+- SafeString =E2=86=92 str
+- ErrorString =E2=86=92 docutils.io.error_string()
+
+Signed-off-by: Z. Liu <zhixu.liu@gmail.com>
+---
+ Documentation/sphinx/kernel_feat.py         | 5 ++++-
+ Documentation/sphinx/kernel_include.py      | 6 +++++-
+ Documentation/sphinx/maintainers_include.py | 5 ++++-
+ 3 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/sphinx/kernel_feat.py
+b/Documentation/sphinx/kernel_feat.py
+index e3a51867f27bd..95f852c0722e1 100644
+--- a/Documentation/sphinx/kernel_feat.py
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -40,7 +40,10 @@ import sys
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+-from docutils.utils.error_reporting import ErrorString
++try:
++    from docutils.utils.error_reporting import ErrorString
++except:
++    from docutils.io import error_string as ErrorString
+ from sphinx.util.docutils import switch_source_input
+
+ __version__  =3D '1.0'
+diff --git a/Documentation/sphinx/kernel_include.py
+b/Documentation/sphinx/kernel_include.py
+index 1e566e87ebcdd..46a6389f22e47 100755
+--- a/Documentation/sphinx/kernel_include.py
++++ b/Documentation/sphinx/kernel_include.py
+@@ -35,7 +35,11 @@
+ import os.path
+
+ from docutils import io, nodes, statemachine
+-from docutils.utils.error_reporting import SafeString, ErrorString
++try:
++    from docutils.utils.error_reporting import SafeString, ErrorString
++except:
++    SafeString =3D str
++    from docutils.io import error_string as ErrorString
+ from docutils.parsers.rst import directives
+ from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
+ from docutils.parsers.rst.directives.misc import Include
+diff --git a/Documentation/sphinx/maintainers_include.py
+b/Documentation/sphinx/maintainers_include.py
+index d31cff8674367..fdf6c2d7c3e30 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -22,7 +22,10 @@ import re
+ import os.path
+
+ from docutils import statemachine
+-from docutils.utils.error_reporting import ErrorString
++try:
++    from docutils.utils.error_reporting import ErrorString
++except:
++    from docutils.io import error_string as ErrorString
+ from docutils.parsers.rst import Directive
+ from docutils.parsers.rst.directives.misc import Include
+
+--
+2.49.1
