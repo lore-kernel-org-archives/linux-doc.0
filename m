@@ -1,144 +1,165 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D539321F51
-	for <linux-doc@vger.kernel.org>; Tue,  2 Sep 2025 14:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25E42DFA26;
+	Tue,  2 Sep 2025 14:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756824710; cv=none; b=k754FG6W5h3HcLExt2RGapoRT8d8onSBuNgUAkJ7KMrVkCu7X0UHpzOkc+dwoAN8NFBMEDszNNsJPy7p+xymr/Z9GbV0t1cNb+X0ZWZr0OIfmA3cv6s6WJHEGSm1gsR42BJcuGb/QwGDDOrlcfhkTJkU2Ta82mn6gaKCebdJ+eo=
+	t=1756824715; cv=none; b=CYduf4cQduJL/R8Cc+zM699jtNGAqkQXzRpGeGyE73jdbwJvD3ZkczsZdJh497bp1aOmbG8C9fD9mKis/JaIeiyernIfUBw7W2A6dR+Hfk6nWJGaZUFiMVx+GyXvgyZaWwXY+xXvK2LHE+vM2jWDVL6wFUaoMB9ejs4xMhhCqbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756824710; c=relaxed/simple;
-	bh=ZUa3Dvq40CFgxs3mEO+9zGe6eA+vkcIwweuUq2ZnnBk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=D4JCCFLqv/H3hSBK+xDjqdv16P+TRhEc6yFu62/O58H48YZNn4kueKvZRLuSec8Au2orrWrXE4xK+G8htrZ5lmUE3IDHmYbYV2v7RH8HhzJKswDVDR7V4Wid2A2zGcwionWAUyIhQKQhCAmwDce5tTGwJSJ05VIEpoINLk8slWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbs9hUM5; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756824715; c=relaxed/simple;
+	bh=U+dxRjSf6jIW2bglfWLHV6i6zgwzXBdE8U7BUJ6+/nY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HNKx7OJC5fC6NmFFq2mUvPX5uFTNAAhpk5kpKPks/7/KBeMc/6ORWgx4OGz8CI0i5MhKwIX4TcnTuLBaPIGkTL7seMb5fBABlyJC99kyKLXeuRag68a8/1I4hBN/zPe9pJc20ECyJI7yO6uFwGCQpt6GGkAGhKGSwl+VBqzd7AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqNTHpn2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbs9hUM5"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-61cd3748c6dso11348521a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Sep 2025 07:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756824707; x=1757429507; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=A9TJ2ulC20w1+YJTZX+a2bMgVN6mnrHpWKqDumLFSJ8=;
-        b=lbs9hUM5g4W8iQY2XTHgqLdAEabRTFjJLUDct2HHMcKAzXFUtXOd3gr4hmjoJxNJLU
-         53mKMijgLyMQiPRNXRGL4gPiXGpN7ctUG6fWurfQIJJQXVG4X0vA358IhOD4H+UVry1C
-         wc7DMnJqG03VfnxOaSZqh/Wc2TfwD3ta2yuH3qRrz2MDXvSk2Sr6D67sXjN3szBoipQB
-         xO8uMqh+X3zov2Km2V9rRJe1dl8R56bfkB2jGyzw6kxg9w6RR8TnIiXvsvhFx3orfiS7
-         PO10BLTd4gvXCTO6Pq+CdSgCSvuLawm4T8fbpiM4ruxeC4Rgz4bgFRCr9LYUYoVdOvD8
-         1BMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756824707; x=1757429507;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A9TJ2ulC20w1+YJTZX+a2bMgVN6mnrHpWKqDumLFSJ8=;
-        b=fd0x66DvjpbJJwfhjL9GV2neLJFkhCQnDtlnQFZLCBF0V98z0X64V6mpeAyZDXNTaU
-         /buDR+M32u9PW3l6tcKExydOJPRmtvRQt+A/Zo6/skAG88Pe/1jMA+gunTkWSNY7cmvQ
-         g5vDqf4CezdvmJuaMx9zY+fAkIIpffEsPxgvKUbtESOmDtn7H8zHpoevPwqhNCsobEok
-         aGA1yS1C3B2droD/vgz8OacW2MO6pTu1gEOSpJfkS9xbTo0rXrRMJNKXXz2apDwP+jlv
-         ojiutFKvzjsi3qSa37KKSJ0uXS3shbLRAi5b18JZfQLLeQCiv2/Vs7hqWmdKyv4hzNDt
-         19lQ==
-X-Gm-Message-State: AOJu0YwH2T1Qbcn6NHdHjP1jA1e/le/POatb+dnQBsDIDrbOEM45AiDG
-	72Fk799KX5xLiaX3l4tUpZmDfSCkv40FkkCba1Hi9xi5eFbRn6szH/Oxb+UVuxqrK+3aBhA7xBx
-	+rEkh+HEfb8rXkSoPqJnSXenb1sN6cz+ZkvEA
-X-Gm-Gg: ASbGncsnFHdhhmd2C1J3spTv8w0sGhUSTvoTZRaFbtyxSJa+sqRidp6gJ8vfa+W+vZA
-	UdkEw53Vo5FQa2w46SJlN8j3h2MgTvTPxBk37QpsZJkrj9p+CCNJIUoXEIzWMC9RMa01+R1bAFb
-	2UcUZPadkwXnVTy4wAW3iw2P98HIr6sdOHk5VFpih4JjppiUuKAmtDSc59WFdj4pTmOVHoZAjtc
-	fXT5/9W2g+570+78c7eAHAue+/EjA==
-X-Google-Smtp-Source: AGHT+IEtTOgGUoIhgd7u+3yL078MmXDwwAmeprlZeMIhhoZQwfMYIkYjxU8WGf6kKGUTu+yvIIHoPEIwygWm4xK+QVY=
-X-Received: by 2002:a05:6402:5211:b0:61d:1d16:19b1 with SMTP id
- 4fb4d7f45d1cf-61d2699c0bamr10520553a12.14.1756824706532; Tue, 02 Sep 2025
- 07:51:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqNTHpn2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ADD5C4CEF5;
+	Tue,  2 Sep 2025 14:51:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756824714;
+	bh=U+dxRjSf6jIW2bglfWLHV6i6zgwzXBdE8U7BUJ6+/nY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aqNTHpn2ALOkuwXUyFyXWzRj7T5Z772S3TGgmk88SHljW6MWxiMTRxpj9+K9+ZB4F
+	 7MGSxFm3pb/hzUFcFjxJ7YI7sERVFODsz7TGm7fUaiWQtcgSsXuSxdHwhNQkQXFaDU
+	 cUTJKKiMOZ4/P+i19WcWhpqneZ7c3eIp15vPYm9rk9TMQtTh7JPynHVUIncqwJEGCq
+	 bqcpCFWQ7qS1zRfyxV86Uy2NpcCu6ABpLcsq5v8o0UxTUwH/eMauDRjgFf1Az+j+MD
+	 JW0QmIHSHfsr+s20IL7D6N9CNw8L8iACANdknVTpPpkckpxe3huqi2FCagdc2yfGAZ
+	 A4sIrBPN/MoBA==
+Message-ID: <834238b4-3549-4062-a29b-bf9c5aefa30f@kernel.org>
+Date: Tue, 2 Sep 2025 16:51:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Zhixu Liu <zhixu.liu@gmail.com>
-Date: Tue, 2 Sep 2025 22:51:10 +0800
-X-Gm-Features: Ac12FXzpjyhUGVmD4vMM4Z81raBn9ob2QcSg0s3JP5nvscB7sDiA3GQZf-hUNrU
-Message-ID: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
-Subject: [PATCH v2] docs: sphinx: handle removal of utils.error_reporting in
- docutils 0.22
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH net-next 0/6] mptcp: misc. features for v6.18
+Content-Language: en-GB, fr-BE
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>,
+ Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+ Christoph Paasch <cpaasch@openai.com>, Gang Yan <yangang@kylinos.cn>
+References: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org>
+ <20250902072600.2a9be439@kernel.org>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <20250902072600.2a9be439@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-docutils.utils.error_reporting was removed in docutils v0.22, causing sphinx
-extensions (e.g. kernel_include) to fail with:
+Hi Jakub,
 
->   File "/usr/lib/python3.12/site-packages/sphinx/registry.py", line 544, in load_extension
->     raise ExtensionError(
-> sphinx.errors.ExtensionError: Could not import extension kernel_include (exception: No module named 'docutils.utils.error_reporting')
+On 02/09/2025 16:26, Jakub Kicinski wrote:
+> On Mon, 01 Sep 2025 11:39:09 +0200 Matthieu Baerts (NGI0) wrote:
+>> This series contains 4 independent new features:
+>>
+>> - Patch 1: use HMAC-SHA256 library instead of open-coded HMAC.
+>>
+>> - Patches 2-3: make ADD_ADDR retransmission timeout adaptive + simplify
+>>   selftests.
+>>
+>> - Patch 4: selftests: check for unexpected fallback counter increments.
+>>
+>> - Patches 5-6: record subflows in RPS table, for aRFS support.
+> 
+> I don't see why, but kmemleak started to hit this with the join test
+> 2 branches ago :\ Have you seen any kmemleak issues on your side?
+> We also see occasional leaked skb in driver tests which makes no sense.
+> 
+> unreferenced object 0xffff8880029d3340 (size 3016):
+>   comm "softirq", pid 0, jiffies 4297316940
+>   hex dump (first 32 bytes):
+>     0a 00 01 02 0a 00 01 01 00 00 00 00 9e b8 7d 27  ..............}'
+>     0a 00 07 41 00 00 00 00 00 00 00 00 00 00 00 00  ...A............
+>   backtrace (crc 3653d88c):
+>     kmem_cache_alloc_noprof+0x284/0x330
+>     sk_prot_alloc.constprop.0+0x4e/0x1b0
+>     sk_clone_lock+0x4b/0x10d0
+>     mptcp_sk_clone_init+0x2e/0x10d0
+>     subflow_syn_recv_sock+0x9d1/0x1680
+>     tcp_check_req+0x3a4/0x1910
+>     tcp_v4_rcv+0x1004/0x30a0
+>     ip_protocol_deliver_rcu+0x82/0x350
+>     ip_local_deliver_finish+0x35d/0x620
+>     ip_local_deliver+0x19c/0x470
+>     ip_rcv+0xc2/0x370
+>     __netif_receive_skb_one_core+0x108/0x180
+>     process_backlog+0x3c1/0x13e0
+>     __napi_poll.constprop.0+0x9f/0x460
+>     net_rx_action+0x54f/0xda0
+>     handle_softirqs+0x215/0x610
 
-Add compatibility handling with try/except (more robust than checking
-version numbers):
-- SafeString  -> str
-- ErrorString -> docutils.io.error_string()
+Thank you for this notification!
 
-Signed-off-by: Z. Liu <zhixu.liu@gmail.com>
----
- Documentation/sphinx/kernel_feat.py         | 6 +++++-
- Documentation/sphinx/kernel_include.py      | 7 ++++++-
- Documentation/sphinx/maintainers_include.py | 6 +++++-
- 3 files changed, 16 insertions(+), 3 deletions(-)
+No, I didn't notice that on our side. For KMemLeak, now I'm waiting 5
+seconds, then I force the scan, and check for issues once. On NIPA, I
+see that there are still 2 scans + cat, and apparently, the issue was
+always visible during the 2nd scan:
 
-diff --git a/Documentation/sphinx/kernel_feat.py
-b/Documentation/sphinx/kernel_feat.py
-index e3a51867f27bd..d077645254cd4 100644
---- a/Documentation/sphinx/kernel_feat.py
-+++ b/Documentation/sphinx/kernel_feat.py
-@@ -40,7 +40,11 @@ import sys
- from docutils import nodes, statemachine
- from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
--from docutils.utils.error_reporting import ErrorString
-+try:
-+    from docutils.utils.error_reporting import ErrorString
-+except ImportError:
-+    # docutils >= 0.22
-+    from docutils.io import error_string as ErrorString
- from sphinx.util.docutils import switch_source_input
 
- __version__  = '1.0'
-diff --git a/Documentation/sphinx/kernel_include.py
-b/Documentation/sphinx/kernel_include.py
-index 1e566e87ebcdd..6c3cfcb904884 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -35,7 +35,12 @@
- import os.path
+https://netdev-3.bots.linux.dev/vmksft-mptcp-dbg/results/279881/1-mptcp-join-sh/stdout
 
- from docutils import io, nodes, statemachine
--from docutils.utils.error_reporting import SafeString, ErrorString
-+try:
-+    from docutils.utils.error_reporting import SafeString, ErrorString
-+except ImportError:
-+    # docutils >= 0.22
-+    SafeString = str
-+    from docutils.io import error_string as ErrorString
- from docutils.parsers.rst import directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
- from docutils.parsers.rst.directives.misc import Include
-diff --git a/Documentation/sphinx/maintainers_include.py
-b/Documentation/sphinx/maintainers_include.py
-index d31cff8674367..efd866ff066b7 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -22,7 +22,11 @@ import re
- import os.path
+https://netdev-3.bots.linux.dev/vmksft-mptcp-dbg/results/280062/1-mptcp-join-sh/stdout
 
- from docutils import statemachine
--from docutils.utils.error_reporting import ErrorString
-+try:
-+    from docutils.utils.error_reporting import ErrorString
-+except ImportError:
-+    # docutils >= 0.22
-+    from docutils.io import error_string as ErrorString
- from docutils.parsers.rst import Directive
- from docutils.parsers.rst.directives.misc import Include
+It is unclear why a second scan is needed and only the second one caught
+something. Was it the same with the strange issues you mentioned in
+driver tests? Do you think I should re-add the second scan + cat?
 
---
-2.49.1
+When looking at the modifications of this series, it is unclear what
+could cause that.
+
+Cheers,
+Matt
+-- 
+Sponsored by the NGI0 Core fund.
+
