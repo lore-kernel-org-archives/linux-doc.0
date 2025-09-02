@@ -1,481 +1,255 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21989334380;
-	Tue,  2 Sep 2025 16:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756829497; cv=none; b=PJV4ocUhHASz0SPyDZBxcEWQuANvy4JmUm01OoUUncSXZwCHFQaBWSqvEl695aYyFsUh4zqLmb4O7PGa7sMB/96S1iRLdXG3BgyZxfwgtcr2X3uLiy3btEZUIm8afwz7+KlfmsDaGFGO5qMyS3QSjlgEohafaFxUT56+oe1IXp8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756829497; c=relaxed/simple;
-	bh=ak3LNue9tMcBmIvAzwqED/0NKb52cwKEnk0CQ8otgHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7dyZTyhfmWBZgYfSzV64c1N8uLvrV3ErdTTwKmPwu5l7VRr/nY1iiBwaw3tIHRnViZUZzrOXaIjIkhseP3DweJlFtIpuuSairCUS4VShCR8zTPb6nT/0fRiVEWIHHgomoOIDyBCTmGWfCwGURUW+IjbkOMUjKVzZjhMPOmPqH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZH/FJPAA; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734D22E03E6;
+	Tue,  2 Sep 2025 16:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756830023; cv=fail; b=ACRZ7eE3w9i0BQVaXqyKMUJy8k4dD4unbLm4GCLMoU1F5ivwgQFFtJ2GvpGXd3GtYaMnDmxzQTYEE0q0wyONDq619MYMjpL5kgvprLwaoHT83TerBzKDiDnWarbDj14cn0dtjRHLWczMS9Fe/SpCnC6SglJguxuIIlASlRZEAj0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756830023; c=relaxed/simple;
+	bh=7roTtnh3kbOkcq46kEA144/9dY5XvCY7ix8i4HzKXQ8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TZLoDXfSItcjq8tbWBnvTXV2lam5OWKJFkvUIuljaBGf8cZxImL9jhZ+B2H8dyQw3pC3vaCvu/X7FeLJm22sSwj4NR64rcgkmfikJZhKwAVwVoNiba8drw6NOT/8Pvo021RyUFyaoDhVoIBIjwJ31+uUzvpvCQQ8fgffa5zLv2c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PutKW8G6; arc=fail smtp.client-ip=40.107.220.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZH/FJPAA"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2445805aa2eso55513825ad.1;
-        Tue, 02 Sep 2025 09:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756829494; x=1757434294; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zjj7NQri4xiTaltHlt9vuASYXmxIXD0ZU2GnDK4nyhU=;
-        b=ZH/FJPAAYHo2NPXFBVaFIECIdBi/+LMvnBD3X8XaZ4cKWTSNzsrTBje/haR5suvGEO
-         6MDsvAFLhTtycU6cDj08Kl3KVjDdixi7zit77g/ai/tU1o3HbsnNvQ71eGvHwnIFGC5b
-         0096F+7E622PKaXE/VZlWd6/QBe2feA1e088P61J6gO9AAzhKbzejKiRZi7xC9yzAjSw
-         1v0oFemboye48r9afHve21qVX2y5VOVhdl46u4TCoV61fauk5IUzzyQIhVEhvJRwb5J1
-         NbBOcU8GQpV8RAuP4vycBxQ5eplVnP8prcMv3fh2oOXYod9Qw5QBYMCpcc+Oay5QiBJy
-         5RyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756829494; x=1757434294;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zjj7NQri4xiTaltHlt9vuASYXmxIXD0ZU2GnDK4nyhU=;
-        b=ZqwIFpQfJbTnrrlaOcxIOW3dzz0jWJawjvmJdFih/dyWr37WgdhutDZdLV5mIUDcCk
-         wYH/1Y4+flsuFq9QE/yuZlfyC5qrkPTxH+PpijBl3HKKfHxarE4CBUGmFXqqZpXDiqAj
-         s7P8DSBRfCdkXC9+ptgDAx4oPmANroWXAkBAh/7aLZ0GkWn9ipC1B/kj03sG+sEma3wV
-         shrSb1xkCb7vZmBiWrA+CfzB5ZNqyArGopAFzv1IzMCxEhlZxDr2eK+T8ekiUp3MBlS6
-         vNPYECQifg86pST/mIRlPQ+c2TBxiFOR76PfQoI3QYs5HNTzfwJ9JYtLXJRJV9H9cGNR
-         /Jow==
-X-Forwarded-Encrypted: i=1; AJvYcCVgRtMQrnYn0Zn20raItRLmf8EO08FEde6t8cg5WR7nLoiW93vojqM4ZL69EhSUwAgdp4gZTOVLWSI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/bW18wuuZNBRXqS0kRUTtPwK2KbUhAGRKRsXbwPKxkru/g5yj
-	mzpzVhwh1HxDcuXa6z0FlGv+IMwcrbA05t9DyEP/aw6FI9nIiD5DQ7ffOQ8I
-X-Gm-Gg: ASbGnctjGOuuqOiXWxBD8xSPOH81B9BLV+4ZtHs5lumWzLNlpH6Yw6DdcbJ5UXhfJUd
-	KeJvVu2exja7p3IPiu/R/SUbZJIl2QNHLRmOS5pvEi+LRrZz8wVxuSikNI2LEeFRjGV+NpAQ4sa
-	JaJMlbze56LXaKxSKCN0lJ1Y9Hv1WpkPaFZF3Ny/4QA7o977nxBDdnfbBcamcCj0XyzLj5vjXtb
-	9jXeG6egJowyTQ0ShShsdfpzNHO6cEE0Dssu1Wf0LSiQy75WQq8D1I5zOT3gAdK8ax++a1lg1Z8
-	4ms/YVh0o0yQS2A0/hYkty7dd5s05clCm7SU7de16eYl8E6c9mKgzQelqI2uQaFAJlosTWBHD8l
-	rDGZ+t9XzEZLzxgvXaS9wOrxVG8l+QQ80wJO8IWP23FyIJwO59OzYkuRRLKM4ek0uzEnp1meB1D
-	N6Nm9LMhBXpcH2oaBwmlW4Ii8jsM5uhxQ1OMtlNF4SWdffprDRJ4oDxm/2EI+2uUtXYRH8rQcE1
-	3eJ
-X-Google-Smtp-Source: AGHT+IEYlc+aqh9Jqr63cjBiyM+xKHXXoEZaFIuWA4W3bOgIfJoMllkG8yxvsVD+V+OK9wmWBH6B5A==
-X-Received: by 2002:a17:902:d50f:b0:240:7247:f738 with SMTP id d9443c01a7336-2494488a6c7mr181276845ad.1.1756829493739;
-        Tue, 02 Sep 2025 09:11:33 -0700 (PDT)
-Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-24c7bb4eb4asm6002655ad.140.2025.09.02.09.11.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 09:11:32 -0700 (PDT)
-Date: Tue, 2 Sep 2025 09:11:32 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Jay Vosburgh <jv@jvosburgh.net>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier
-Message-ID: <aLcXNO6ginmuiBOw@mini-arch>
-References: <2029487.1756512517@famine>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PutKW8G6"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kbX9K7kSP2arNaCEm+sonSTb/7Xhfyr5pfEL+19QJWX/ENmEtiDhhrkzXt0cz8To8tNx3PCei9FztaTLsPuVTaKLOrHMmyv0bi2l1j8nXKk90cMnqySrFw+eP8YPapByDVkryjfvouromBdkh/h9P8a/ImYHt96n+WM08mlwg+lLV2a2HRASC5hNgCsXAuwufNj0JWvZXgepLmQIocg8X4jkU0kSTFAGCirmAC9SZHS7E0XJppfANooZAP2JRZ5gpx/ftaG0VD4oPoId8w42Ffyux8JuRQYqwcoH51fozXTvCYVRrDq8Vb+N0BGr5eC+gjKTCw0HY6JeLneicvTWYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LsIiAz9A/Posddnmus76zXyBmy9j1YzIEmw3lWXZ824=;
+ b=yRlXGYSDtHisxhpsY9jiFH1rLUD8k/rBQCCjvpc/LB4qZJvMdu2fJGBqgCOFl/LKzH8dGOr4JdajMG4A2yAzu7hWBPgeSyq2tm0om/tw3ppcwvm47IVyV43Xn/BYwL7SR2mN/etxVTpbBlhZfwonKu6eszofgBKZgfX42BtxY7yGPF/eEPRGS9oVCyeCLTLEwW9Em18tIDQdiXklRyk2PTbd3tEM7zWfVlTwkI8dR76cniT70fVJOL+jfS9YE65BaBIu9+JPYWZfVCMj+o7CmUZhYIXCCLrdZwckcSUTmewIies9AmvyNOajZU/7MehRicwSQK6XTa2kxtjMaWfziw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LsIiAz9A/Posddnmus76zXyBmy9j1YzIEmw3lWXZ824=;
+ b=PutKW8G6xzYkdrvaLs8WQK1sEqqpNBPXxi9PS3y1Zj3MNeU6DXUk4FNuABYo8obr7E2F4EXYXOAENZjHdBI6DrTu81Ct68g8QyNVI182c4xYy4s25rr5Nl9uy/u4yQVc/9SB7VV5jT81uJqUaqfJ7X4Pd342GmzA5WmmB1wM8/o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by BY5PR12MB4114.namprd12.prod.outlook.com
+ (2603:10b6:a03:20c::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Tue, 2 Sep
+ 2025 16:20:17 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.9094.016; Tue, 2 Sep 2025
+ 16:20:17 +0000
+Message-ID: <f0aa283f-2769-4701-a639-9917348d0cc0@amd.com>
+Date: Tue, 2 Sep 2025 11:20:11 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 06/10] fs/resctrl: Add user interface to enable/disable
+ io_alloc feature
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ david@redhat.com, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
+ thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
+ yosry.ahmed@linux.dev, sohil.mehta@intel.com, xin@zytor.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
+ me@mixaill.net, mario.limonciello@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, ak@linux.intel.com, chang.seok.bae@intel.com,
+ andrew.cooper3@citrix.com, perry.yuan@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, manali.shukla@amd.com, gautham.shenoy@amd.com
+References: <cover.1754436586.git.babu.moger@amd.com>
+ <f53db5c6dd7d0580c0cb1f252d947357d097842b.1754436586.git.babu.moger@amd.com>
+ <0dbdff85-1d32-4540-984c-e8eb4b940cc6@intel.com>
+ <d5438a53-c803-4704-84db-1da019f50a3d@amd.com>
+ <d11e20c1-1162-422f-8915-97efa69644c7@amd.com>
+ <cfe2a26f-59a7-4563-b6a8-aaa674f60636@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <cfe2a26f-59a7-4563-b6a8-aaa674f60636@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN1PR12CA0059.namprd12.prod.outlook.com
+ (2603:10b6:802:20::30) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2029487.1756512517@famine>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|BY5PR12MB4114:EE_
+X-MS-Office365-Filtering-Correlation-Id: f80ad747-e658-495a-beb0-08ddea3c9a9f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aFJMYm9DdjFLQndwK0dmSjg3UlNWUWtkRnRuUlZxMEdLY0tETnJSREVFMXFZ?=
+ =?utf-8?B?R2FhWkE3WWlWM0Z4dm1zd0RNUDF3bDlkTk5Rd0UwVHY0T2Q0ZmRrNFcraHNI?=
+ =?utf-8?B?NnJOWitITzJoMmRZQVJxSi8wZVJ0Z0xuUHZLU2h3Y3o0aVk5dUFEY2R1Tks5?=
+ =?utf-8?B?SXRCc0VOdHVtUnRyeWp4b2JUMWtCNTdVRzVRcVoxaHFLbEIyS01qdlNzN3Na?=
+ =?utf-8?B?K2hHRlhYdVRwSUt3ZUNtMC9uS2xydDMyTlFIV21PeWJIaHZ5aHpJRDZFaEpG?=
+ =?utf-8?B?WkVPM1Y5VmdlRWRzRGs1ODM4RUZQZFVxU0l3dFpxWXdQZVg1VG1OOUVOYk92?=
+ =?utf-8?B?ZzJOYkRSTDRFQ3BJdTNwZWx2VHBuTDZvbWwxcThPaU9IdnRsUWtTcFAyWnF3?=
+ =?utf-8?B?Yi9BTTZ2dFBMOHh3Skw2Z1BZRmJCQ2ptZHZ1aXN2UE1lZGdYYS9aUlR5VHNs?=
+ =?utf-8?B?a0lPL2EyUTBQd1lPMVRiVU91emNDN1g1aWRUeDlpb3F2VEc1NXFJWFRzTDQ2?=
+ =?utf-8?B?Qk9zM05jUGM5TnJsckZSV0MzTjd2aWZlOVl2Wk5GTFE4OEROSHk4ZTdocStl?=
+ =?utf-8?B?SWgwR1BoUlFLWW8wRC82NDBTSzU4WDlCRFFrSGJBcGJEYkRMRE9mdld2cEhI?=
+ =?utf-8?B?Vk5tcGpGdi9wRFQ4aks1SG9RU1MzVHp0YUF1d1FONEduc2hrY3VYcUN1bHM5?=
+ =?utf-8?B?VERMV1FQMzA5QVQrNDVzWURZczRtYkFoNkRWRHVZOTcwd3p3MCtLUVNBaFJy?=
+ =?utf-8?B?QUdsajg5dnFuNTJUemNsVWg1eXl2ajN5OXZNdWdZY0JGbVVaVXN1aS8zaFJq?=
+ =?utf-8?B?NkhOTkNZS2EzRHBHMTRTc2RYUzRjZTlpd0Jwa0U1R2J5YjVTKzFjWXlYRGFB?=
+ =?utf-8?B?Ym1peEpRREEzUzJFSzYrbE9MZVdaTFF4Q0pSc0E3MWV2R3FlRDBsRjBWWmFL?=
+ =?utf-8?B?RGtLZmFIVTlrUnZ4UE5TYnFRT1NsMzc3bUxlYXVhcks5amJaVTl6SGRrREhS?=
+ =?utf-8?B?eTlLYzgzc2Q2ZmZkOFo2a3R1ZTlleTJkY1dmYi9XNzFwQUl1cEx3Z3hIUlZh?=
+ =?utf-8?B?Yko3cVNOQkpiZFFQNVB2TGxNZXU4M3RWOExJckRQMUk4L0hlRzVmM1RWUzJM?=
+ =?utf-8?B?QndpbDlmU08walllY2U4SWhBQVIzRENlbkI1T0Z6djFQVDF0UXY5ckRqRXJZ?=
+ =?utf-8?B?RkxuYjhyemV6bEpPZXZrRlZGcGh3ejJHUXM0K3Qzd3lvL24rNVlrZ3FTMzJu?=
+ =?utf-8?B?RGNKeUhCSmpNZmJxRFAwNzdFSitTM0lMMC9ub3Bxbm1NMU5Dd2pIWTBCZW5j?=
+ =?utf-8?B?M3E1MnMyNjVKaHZhVnZ4c2FQd0NPb3FiajJvSE1QODNUaVlzdmgzSG1iN2Zh?=
+ =?utf-8?B?YjUvckc0QVhEczFrcnp0T0xQN0JFai8xdVBjTDltUnZ0b2hvSTNyWkFLMnNK?=
+ =?utf-8?B?cWhFMDZnRDBicVFudFJjZTZsaGxiRkhXYjBmWXBZeTRSZVUzSmVkd0JNamhC?=
+ =?utf-8?B?NGg1UlY3bTlwU2ZSNlNOcHVpQ0p6RmRuM01EUkhmakVTTCt4NjZxNng0RnVZ?=
+ =?utf-8?B?Mmt4cUdxTW9IVy91S0JjdkltY2ExVHJEa3BRZm9Md0xIaDlLTUhhMUxYdktH?=
+ =?utf-8?B?TzlRaDhpYUg5K3FxTGtsZEliNGhMbDczajZ1L2V5N21YS0gweXM4NmtEZUNq?=
+ =?utf-8?B?ckJJOUkyTTBTTDZCUHBFa2FhS3JwTGZkd3hvR0IzbklNQnk3d3RpdmF0Z2V0?=
+ =?utf-8?B?SkxRV1d0Z09pN2tVVHJ1S09jay9lalB1SkQ1NmQ4OElKMkpEVGRPL29pQVUr?=
+ =?utf-8?Q?OCyrEGDk0dvCtALQf1qkNlnQeG/uvWb/QE338=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RHpxajluZVdoUmdTVmhCNlJrYTVmRWNTSzJtaWthUmNVZjhaZ0lGWTF0a1BQ?=
+ =?utf-8?B?dHJNRWNtUmc0RkhZWTF6bGdIejBpY2RGV0htN1JSZmg0UkNJS3dId1BIRFlE?=
+ =?utf-8?B?WlMwU3lVdWJ1OXh5ZTdDWHNieSt4cWNEdG5VdlNDM0oxbFRsNndwR1F1SVk0?=
+ =?utf-8?B?WkdBRGI3ZlFpOXhSeTVKZFd6Q25WN1NqbzJscm54aWcvWktVMXlCZTArYXda?=
+ =?utf-8?B?cE1tU3dnOTVWMm1EZG0rWCtVb2pxMTdFNzNlNmorMUFwOU10OWJ5Yi9Ic1BX?=
+ =?utf-8?B?azhGZGg3Q2NvWHpzRitzVVlEQUpjMlpIZzJmNzlqc0JUTWFVSG1qNFNHS2I4?=
+ =?utf-8?B?b0pBRmpBdElzcVJRdWprTVZaaGdlWUthNGlVb2VTTzFtMFA5NjM1cU02V0Rx?=
+ =?utf-8?B?SEhlMkFabFlkUzVoOVdIbCtKYnljWEdhcUJZcjJCZjdoV2t0c3ZQbVI0aVJU?=
+ =?utf-8?B?UGQ2SHRTQWd5MThlWk5WLzBSWnkxLzJtMkVMUk83ZHR1UzVMcXJYOXhrT2Ny?=
+ =?utf-8?B?QjRORzQyK1dKWUZVZHBCaUc4TGQxdUZFcEdIN3Z4NEZaa1NTUE92UG12S04w?=
+ =?utf-8?B?YnBSamMxN0V0UTRSMTh0UWx4elhobzE5YVFZUGJQMUxYUDd6Umx4VVQxb2l1?=
+ =?utf-8?B?MzdmVDB3cy9Nd1R4U3hpc0dITFJjbW53bzVSSC9pZjhvd1RlYXBkNTFlWG5H?=
+ =?utf-8?B?UkE3N0NiUDJETTJmS3J4NlFDdDk4UisxNUFDVXNZc2hsZDNNc0V3UWJaYW8y?=
+ =?utf-8?B?TUdYdHVLS3VrdW1pYU1oR2MxYmdySDRlZ1ZzZ0g4U1hpK0ZXNVhMZjN2bHFD?=
+ =?utf-8?B?U2dRQnhQTk5JcWhoZ1dJWkFKTXhEUEFRazFRZUtRc1RoTG5Ra3J3L3RPWU5P?=
+ =?utf-8?B?ZnJpeFNDTENxWUhkM1FuejMwTXc2QmZ1cGFRb2JzWHZEaE5pVGNoNDNXVDFp?=
+ =?utf-8?B?RWhFVDFvSEJSMzFBT0tDeXhKNldzQ0hTZC9HT2IwYWNOKzhHTG96UnRLVHpy?=
+ =?utf-8?B?MGM1dG42VDU0di9WZjVOV0U5Z0M0ZTlPOG43RjhHdkNheWZUcXRvbng2SUxY?=
+ =?utf-8?B?blB3VCs1SDcxbHdsV1JOMHoyTXhXWjFTTmNSWGQrS05ZZXpMYUhBeC95OHl1?=
+ =?utf-8?B?c2Q2U0RoeXhMQnRQVVViNWExYlNUYlA1MVhzcXhPVmZpNmlKdXBSM2FTTGsr?=
+ =?utf-8?B?U2Y2a0pzNm5GZTYvRTl0TW9BQ05pZm13UXV5QnpuZlRHdTU0cG9qQ3BtMDhL?=
+ =?utf-8?B?bzJGY24xbGEwc1lHb0duNXNlUXFDS0tlbW5CQ0pGWlhsZGNUanlBVVk5S1RY?=
+ =?utf-8?B?Q2NJR1J6WjRjWkVIVnlieWRDdXp1WWU2WDFJTzViMHg5S0VLTHRPSWM1QTA4?=
+ =?utf-8?B?Mm1oWlVPa01CVC9xZ3Z1REQ4YkplUmgwNjQycVMyNlFFU2tFZVl6WXl2VC9q?=
+ =?utf-8?B?T0M3cjJLMmVuay9pYW52c1grUGxSeGlJM1NtSjRYSnJuZHJhMUNCQnpQcjNN?=
+ =?utf-8?B?bWVYdFRPbGphWGp1Y0tYWVZETXZ2czVUR0NuOUJUSlc4ZmNoVEZ2Tlg0b28y?=
+ =?utf-8?B?bXFUQjJNYmRXVTgwMWc5T3IxRFFOcHhBc3RpMVdCaStHdmh2ZWNWRlk1L2Fn?=
+ =?utf-8?B?clV3cHVVYVRaMnJaK25YQUhIZUwzUTc1YXAxZmdzdGVuMThmZjIwWWJ4dFkx?=
+ =?utf-8?B?WnYyWWg2azg2UFQ5N1BQOVM2ZS9yZ2ttdHlvSUhVYmZ3WnJkcFN0dGVaalIx?=
+ =?utf-8?B?SEVuZGJQajh2SHlXYVZ2RzdIZ3RXN2ZGT3VXelpnbnNNaXBSTXB4NDBLK2V4?=
+ =?utf-8?B?QTB4NXczYXJPOS82RUdDVWRHQWsxNnY1d1VpQ1A3dUcrZ2NsNnQxUE1jNCtJ?=
+ =?utf-8?B?VUlJUkZqblZLaTBTVFFwcVY2bUIzRHRYekVObTk4WG96U2FYQnJEQmo2dGUz?=
+ =?utf-8?B?alZNcmRDTjdLbE9yanVYSFdrRkVaeE5QSHFpZ3k5T3NyK1JpWndWNjFIM3BM?=
+ =?utf-8?B?QmxjaFVXWkdoa245bG5BMFFtZ1hMcUlMUksxSHZIR1JuTVhSWnU4L0ZsSGY1?=
+ =?utf-8?B?Q05ZV1ZCc1VOeU1rOHEyazBjdVBVMG1PeUZiVCt0dmRFM0xKTFJIZkQ1MWgw?=
+ =?utf-8?Q?cDgc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f80ad747-e658-495a-beb0-08ddea3c9a9f
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2025 16:20:17.2395
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D8UqBUbLQc9+CNPIVLwt8si1K73QfAJkaelQg3bDOhr6VuFvh+zE/BvGy46nJRit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4114
 
-On 08/29, Jay Vosburgh wrote:
-> 	 Remove the implementation of use_carrier, the link monitoring
-> method that utilizes ethtool or ioctl to determine the link state of an
-> interface in a bond.  Bonding will always behaves as if use_carrier=1,
-> which relies on netif_carrier_ok() to determine the link state of
-> interfaces.
-> 
-> 	To avoid acquiring RTNL many times per second, bonding inspects
-> link state under RCU, but not under RTNL.  However, ethtool
-> implementations in drivers may sleep, and therefore this strategy is
-> unsuitable for use with calls into driver ethtool functions.
-> 
-> 	The use_carrier option was introduced in 2003, to provide
-> backwards compatibility for network device drivers that did not support
-> the then-new netif_carrier_ok/on/off system.  Device drivers are now
-> expected to support netif_carrier_*, and the use_carrier backwards
-> compatibility logic is no longer necessary.
-> 
-> 	The option itself remains, but when queried always returns 1,
-> and may only be set to 1.
-> 
-> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.com/
-> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9c9ded97163aef4e4de10985cd8f7de60d28@changeid/
-> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
-> 
-> ---
-> 
-> Note: Deliberately omitting a Fixes tag to avoid removing functionality
-> in older kernels that may be in use.
+Hi Reinette,
 
-What about syzbot metadata?
+On 8/28/2025 9:47 PM, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 8/27/25 1:39 PM, Moger, Babu wrote:
+>> On 8/22/25 17:53, Moger, Babu wrote:
+>>> On 8/7/2025 8:49 PM, Reinette Chatre wrote:
+>>>> On 8/5/25 4:30 PM, Babu Moger wrote:
+>>>>> +    enum resctrl_conf_type peer_type;
+>>>>> +    struct resctrl_schema *peer_s;
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    rdt_staged_configs_clear();
+>>>>> +
+>>>>> +    ret = rdtgroup_init_cat(s, closid);
+>>>>> +    if (ret < 0)
+>>>>> +        goto out;
+>>>>> +
+>>>>> +    /* Initialize schema for both CDP_DATA and CDP_CODE when CDP is
+>>>>> enabled */
+>>>>> +    if (resctrl_arch_get_cdp_enabled(r->rid)) {
+>>>>> +        peer_type = resctrl_peer_type(s->conf_type);
+>>>>> +        peer_s = resctrl_get_schema(peer_type);
+>>>>> +        if (peer_s) {
+>>>>> +            ret = rdtgroup_init_cat(peer_s, closid);
+>>>> This is unexpected. In v7 I suggested that when parsing the CBM of one
+>>>> of the CDP
+>>>> resources it is not necessary to do so again for the peer. The CBM can be
+>>>> parsed *once* and the configuration just copied over. See:
+>>>> https://lore.kernel.org/
+>>>> lkml/82045638-2b26-4682-9374-1c3e400a580a@intel.com/
+>>> Let met try to understand.
+>>>
+>>> So, rdtgroup_init_cat() sets up the staged _config for the specific CDP
+>>> type for all the domains.
+>>>
+>>> We need to apply those staged_configs to its peer type on all the domains.
+> To put it more directly, this implementation keeps the CBM of CDP_CODE and
+> CDP_DATA in sync. Skipping the unnecessary and duplicate parsing and instead
+> copying the CBM from one to the other makes that obvious.
 
-Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b8c48ea38ca27d150063
 
-?
+Got it.
 
->  Documentation/networking/bonding.rst |  79 +++----------------
->  drivers/net/bonding/bond_main.c      | 113 ++-------------------------
->  drivers/net/bonding/bond_netlink.c   |  14 ++--
->  drivers/net/bonding/bond_options.c   |   7 +-
->  drivers/net/bonding/bond_sysfs.c     |   6 +-
->  include/net/bonding.h                |   1 -
->  6 files changed, 28 insertions(+), 192 deletions(-)
-> 
-> diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
-> index f8f5766703d4..a2b42ae719d2 100644
-> --- a/Documentation/networking/bonding.rst
-> +++ b/Documentation/networking/bonding.rst
-> @@ -582,10 +582,8 @@ miimon
->  	This determines how often the link state of each slave is
->  	inspected for link failures.  A value of zero disables MII
->  	link monitoring.  A value of 100 is a good starting point.
-> -	The use_carrier option, below, affects how the link state is
-> -	determined.  See the High Availability section for additional
-> -	information.  The default value is 100 if arp_interval is not
-> -	set.
-> +
-> +	The default value is 100 if arp_interval is not set.
->  
->  min_links
->  
-> @@ -896,25 +894,14 @@ updelay
->  
->  use_carrier
->  
-> -	Specifies whether or not miimon should use MII or ETHTOOL
-> -	ioctls vs. netif_carrier_ok() to determine the link
-> -	status. The MII or ETHTOOL ioctls are less efficient and
-> -	utilize a deprecated calling sequence within the kernel.  The
-> -	netif_carrier_ok() relies on the device driver to maintain its
-> -	state with netif_carrier_on/off; at this writing, most, but
-> -	not all, device drivers support this facility.
-> -
-> -	If bonding insists that the link is up when it should not be,
-> -	it may be that your network device driver does not support
-> -	netif_carrier_on/off.  The default state for netif_carrier is
-> -	"carrier on," so if a driver does not support netif_carrier,
-> -	it will appear as if the link is always up.  In this case,
-> -	setting use_carrier to 0 will cause bonding to revert to the
-> -	MII / ETHTOOL ioctl method to determine the link state.
-> -
-> -	A value of 1 enables the use of netif_carrier_ok(), a value of
-> -	0 will use the deprecated MII / ETHTOOL ioctls.  The default
-> -	value is 1.
-> +	Obsolete option that previously selected between MII /
-> +	ETHTOOL ioctls and netif_carrier_ok() to determine link
-> +	state.
-> +
-> +	All link state checks are now done with netif_carrier_ok().
-> +
-> +	For backwards compatibility, this option's value may be inspected
-> +	or set.  The only valid setting is 1.
->  
->  xmit_hash_policy
->  
-> @@ -2036,22 +2023,8 @@ depending upon the device driver to maintain its carrier state, by
->  querying the device's MII registers, or by making an ethtool query to
->  the device.
->  
-> -If the use_carrier module parameter is 1 (the default value),
-> -then the MII monitor will rely on the driver for carrier state
-> -information (via the netif_carrier subsystem).  As explained in the
-> -use_carrier parameter information, above, if the MII monitor fails to
-> -detect carrier loss on the device (e.g., when the cable is physically
-> -disconnected), it may be that the driver does not support
-> -netif_carrier.
-> -
-> -If use_carrier is 0, then the MII monitor will first query the
-> -device's (via ioctl) MII registers and check the link state.  If that
-> -request fails (not just that it returns carrier down), then the MII
-> -monitor will make an ethtool ETHTOOL_GLINK request to attempt to obtain
-> -the same information.  If both methods fail (i.e., the driver either
-> -does not support or had some error in processing both the MII register
-> -and ethtool requests), then the MII monitor will assume the link is
-> -up.
-> +The MII monitor relies on the driver for carrier state information (via
-> +the netif_carrier subsystem).
->  
->  8. Potential Sources of Trouble
->  ===============================
-> @@ -2135,34 +2108,6 @@ This will load tg3 and e1000 modules before loading the bonding one.
->  Full documentation on this can be found in the modprobe.d and modprobe
->  manual pages.
->  
-> -8.3. Painfully Slow Or No Failed Link Detection By Miimon
-> ----------------------------------------------------------
-> -
-> -By default, bonding enables the use_carrier option, which
-> -instructs bonding to trust the driver to maintain carrier state.
-> -
-> -As discussed in the options section, above, some drivers do
-> -not support the netif_carrier_on/_off link state tracking system.
-> -With use_carrier enabled, bonding will always see these links as up,
-> -regardless of their actual state.
-> -
-> -Additionally, other drivers do support netif_carrier, but do
-> -not maintain it in real time, e.g., only polling the link state at
-> -some fixed interval.  In this case, miimon will detect failures, but
-> -only after some long period of time has expired.  If it appears that
-> -miimon is very slow in detecting link failures, try specifying
-> -use_carrier=0 to see if that improves the failure detection time.  If
-> -it does, then it may be that the driver checks the carrier state at a
-> -fixed interval, but does not cache the MII register values (so the
-> -use_carrier=0 method of querying the registers directly works).  If
-> -use_carrier=0 does not improve the failover, then the driver may cache
-> -the registers, or the problem may be elsewhere.
-> -
-> -Also, remember that miimon only checks for the device's
-> -carrier state.  It has no way to determine the state of devices on or
-> -beyond other ports of a switch, or if a switch is refusing to pass
-> -traffic while still maintaining carrier on.
-> -
->  9. SNMP agents
->  ===============
->  
-> diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
-> index 257333c88710..f25c2d2c9181 100644
-> --- a/drivers/net/bonding/bond_main.c
-> +++ b/drivers/net/bonding/bond_main.c
-> @@ -142,8 +142,7 @@ module_param(downdelay, int, 0);
->  MODULE_PARM_DESC(downdelay, "Delay before considering link down, "
->  			    "in milliseconds");
->  module_param(use_carrier, int, 0);
-> -MODULE_PARM_DESC(use_carrier, "Use netif_carrier_ok (vs MII ioctls) in miimon; "
-> -			      "0 for off, 1 for on (default)");
-> +MODULE_PARM_DESC(use_carrier, "option obsolete, use_carrier cannot be disabled");
->  module_param(mode, charp, 0);
->  MODULE_PARM_DESC(mode, "Mode of operation; 0 for balance-rr, "
->  		       "1 for active-backup, 2 for balance-xor, "
-> @@ -830,77 +829,6 @@ const char *bond_slave_link_status(s8 link)
->  	}
->  }
->  
-> -/* if <dev> supports MII link status reporting, check its link status.
-> - *
-> - * We either do MII/ETHTOOL ioctls, or check netif_carrier_ok(),
-> - * depending upon the setting of the use_carrier parameter.
-> - *
-> - * Return either BMSR_LSTATUS, meaning that the link is up (or we
-> - * can't tell and just pretend it is), or 0, meaning that the link is
-> - * down.
-> - *
-> - * If reporting is non-zero, instead of faking link up, return -1 if
-> - * both ETHTOOL and MII ioctls fail (meaning the device does not
-> - * support them).  If use_carrier is set, return whatever it says.
-> - * It'd be nice if there was a good way to tell if a driver supports
-> - * netif_carrier, but there really isn't.
-> - */
-> -static int bond_check_dev_link(struct bonding *bond,
-> -			       struct net_device *slave_dev, int reporting)
-> -{
-> -	const struct net_device_ops *slave_ops = slave_dev->netdev_ops;
-> -	struct mii_ioctl_data *mii;
-> -	struct ifreq ifr;
-> -	int ret;
-> -
-> -	if (!reporting && !netif_running(slave_dev))
-> -		return 0;
-> -
-> -	if (bond->params.use_carrier)
-> -		return netif_carrier_ok(slave_dev) ? BMSR_LSTATUS : 0;
-> -
-> -	/* Try to get link status using Ethtool first. */
-> -	if (slave_dev->ethtool_ops->get_link) {
-> -		netdev_lock_ops(slave_dev);
-> -		ret = slave_dev->ethtool_ops->get_link(slave_dev);
-> -		netdev_unlock_ops(slave_dev);
-> -
-> -		return ret ? BMSR_LSTATUS : 0;
-> -	}
-> -
-> -	/* Ethtool can't be used, fallback to MII ioctls. */
-> -	if (slave_ops->ndo_eth_ioctl) {
-> -		/* TODO: set pointer to correct ioctl on a per team member
-> -		 *       bases to make this more efficient. that is, once
-> -		 *       we determine the correct ioctl, we will always
-> -		 *       call it and not the others for that team
-> -		 *       member.
-> -		 */
-> -
-> -		/* We cannot assume that SIOCGMIIPHY will also read a
-> -		 * register; not all network drivers (e.g., e100)
-> -		 * support that.
-> -		 */
-> -
-> -		/* Yes, the mii is overlaid on the ifreq.ifr_ifru */
-> -		strscpy_pad(ifr.ifr_name, slave_dev->name, IFNAMSIZ);
-> -		mii = if_mii(&ifr);
-> -
-> -		if (dev_eth_ioctl(slave_dev, &ifr, SIOCGMIIPHY) == 0) {
-> -			mii->reg_num = MII_BMSR;
-> -			if (dev_eth_ioctl(slave_dev, &ifr, SIOCGMIIREG) == 0)
-> -				return mii->val_out & BMSR_LSTATUS;
-> -		}
-> -	}
-> -
-> -	/* If reporting, report that either there's no ndo_eth_ioctl,
-> -	 * or both SIOCGMIIREG and get_link failed (meaning that we
-> -	 * cannot report link status).  If not reporting, pretend
-> -	 * we're ok.
-> -	 */
-> -	return reporting ? -1 : BMSR_LSTATUS;
-> -}
-> -
->  /*----------------------------- Multicast list ------------------------------*/
->  
->  /* Push the promiscuity flag down to appropriate slaves */
-> @@ -1966,7 +1894,6 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
->  	const struct net_device_ops *slave_ops = slave_dev->netdev_ops;
->  	struct slave *new_slave = NULL, *prev_slave;
->  	struct sockaddr_storage ss;
-> -	int link_reporting;
->  	int res = 0, i;
->  
->  	if (slave_dev->flags & IFF_MASTER &&
-> @@ -1976,12 +1903,6 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
->  		return -EPERM;
->  	}
->  
-> -	if (!bond->params.use_carrier &&
-> -	    slave_dev->ethtool_ops->get_link == NULL &&
-> -	    slave_ops->ndo_eth_ioctl == NULL) {
-> -		slave_warn(bond_dev, slave_dev, "no link monitoring support\n");
-> -	}
-> -
->  	/* already in-use? */
->  	if (netdev_is_rx_handler_busy(slave_dev)) {
->  		SLAVE_NL_ERR(bond_dev, slave_dev, extack,
-> @@ -2195,29 +2116,10 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
->  
->  	new_slave->last_tx = new_slave->last_rx;
->  
-> -	if (bond->params.miimon && !bond->params.use_carrier) {
-> -		link_reporting = bond_check_dev_link(bond, slave_dev, 1);
-> -
-> -		if ((link_reporting == -1) && !bond->params.arp_interval) {
-> -			/* miimon is set but a bonded network driver
-> -			 * does not support ETHTOOL/MII and
-> -			 * arp_interval is not set.  Note: if
-> -			 * use_carrier is enabled, we will never go
-> -			 * here (because netif_carrier is always
-> -			 * supported); thus, we don't need to change
-> -			 * the messages for netif_carrier.
-> -			 */
-> -			slave_warn(bond_dev, slave_dev, "MII and ETHTOOL support not available for slave, and arp_interval/arp_ip_target module parameters not specified, thus bonding will not detect link failures! see bonding.txt for details\n");
-> -		} else if (link_reporting == -1) {
-> -			/* unable get link status using mii/ethtool */
-> -			slave_warn(bond_dev, slave_dev, "can't get link status from slave; the network driver associated with this interface does not support MII or ETHTOOL link status reporting, thus miimon has no effect on this interface\n");
-> -		}
-> -	}
-> -
->  	/* check for initial state */
->  	new_slave->link = BOND_LINK_NOCHANGE;
->  	if (bond->params.miimon) {
-> -		if (bond_check_dev_link(bond, slave_dev, 0) == BMSR_LSTATUS) {
-> +		if (netif_carrier_ok(slave_dev)) {
->  			if (bond->params.updelay) {
->  				bond_set_slave_link_state(new_slave,
->  							  BOND_LINK_BACK,
-> @@ -2759,7 +2661,7 @@ static int bond_miimon_inspect(struct bonding *bond)
->  	bond_for_each_slave_rcu(bond, slave, iter) {
->  		bond_propose_link_state(slave, BOND_LINK_NOCHANGE);
->  
-> -		link_state = bond_check_dev_link(bond, slave->dev, 0);
-> +		link_state = netif_carrier_ok(slave->dev);
->  
->  		switch (slave->link) {
->  		case BOND_LINK_UP:
-> @@ -6257,10 +6159,10 @@ static int __init bond_check_params(struct bond_params *params)
->  		downdelay = 0;
->  	}
->  
-> -	if ((use_carrier != 0) && (use_carrier != 1)) {
-> -		pr_warn("Warning: use_carrier module parameter (%d), not of valid value (0/1), so it was set to 1\n",
-> -			use_carrier);
-> -		use_carrier = 1;
-> +	if (use_carrier != 1) {
-> +		pr_err("Error: invalid use_carrier parameter (%d)\n",
-> +		       use_carrier);
-> +		return -EINVAL;
->  	}
->  
->  	if (num_peer_notif < 0 || num_peer_notif > 255) {
-> @@ -6507,7 +6409,6 @@ static int __init bond_check_params(struct bond_params *params)
->  	params->updelay = updelay;
->  	params->downdelay = downdelay;
->  	params->peer_notif_delay = 0;
-> -	params->use_carrier = use_carrier;
->  	params->lacp_active = 1;
->  	params->lacp_fast = lacp_fast;
->  	params->primary[0] = 0;
-> diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/bond_netlink.c
-> index 57fff2421f1b..e573b34a1bbc 100644
-> --- a/drivers/net/bonding/bond_netlink.c
-> +++ b/drivers/net/bonding/bond_netlink.c
-> @@ -259,13 +259,11 @@ static int bond_changelink(struct net_device *bond_dev, struct nlattr *tb[],
->  			return err;
->  	}
->  	if (data[IFLA_BOND_USE_CARRIER]) {
-> -		int use_carrier = nla_get_u8(data[IFLA_BOND_USE_CARRIER]);
-> -
-> -		bond_opt_initval(&newval, use_carrier);
-> -		err = __bond_opt_set(bond, BOND_OPT_USE_CARRIER, &newval,
-> -				     data[IFLA_BOND_USE_CARRIER], extack);
-> -		if (err)
-> -			return err;
-> +		if (nla_get_u8(data[IFLA_BOND_USE_CARRIER]) != 1) {
-> +			NL_SET_ERR_MSG_ATTR(extack, data[IFLA_BOND_USE_CARRIER],
-> +					    "option obsolete, use_carrier cannot be disabled");
-> +			return -EINVAL;
-> +		}
->  	}
->  	if (data[IFLA_BOND_ARP_INTERVAL]) {
->  		int arp_interval = nla_get_u32(data[IFLA_BOND_ARP_INTERVAL]);
-> @@ -688,7 +686,7 @@ static int bond_fill_info(struct sk_buff *skb,
->  			bond->params.peer_notif_delay * bond->params.miimon))
->  		goto nla_put_failure;
->  
-> -	if (nla_put_u8(skb, IFLA_BOND_USE_CARRIER, bond->params.use_carrier))
-> +	if (nla_put_u8(skb, IFLA_BOND_USE_CARRIER, 1))
->  		goto nla_put_failure;
->  
->  	if (nla_put_u32(skb, IFLA_BOND_ARP_INTERVAL, bond->params.arp_interval))
-> diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bond_options.c
-> index 3b6f815c55ff..c0a5eb8766b5 100644
-> --- a/drivers/net/bonding/bond_options.c
-> +++ b/drivers/net/bonding/bond_options.c
-> @@ -187,7 +187,6 @@ static const struct bond_opt_value bond_primary_reselect_tbl[] = {
->  };
->  
->  static const struct bond_opt_value bond_use_carrier_tbl[] = {
-> -	{ "off", 0,  0},
->  	{ "on",  1,  BOND_VALFLAG_DEFAULT},
->  	{ NULL,  -1, 0}
->  };
-> @@ -419,7 +418,7 @@ static const struct bond_option bond_opts[BOND_OPT_LAST] = {
->  	[BOND_OPT_USE_CARRIER] = {
->  		.id = BOND_OPT_USE_CARRIER,
->  		.name = "use_carrier",
-> -		.desc = "Use netif_carrier_ok (vs MII ioctls) in miimon",
-> +		.desc = "option obsolete, use_carrier cannot be disabled",
->  		.values = bond_use_carrier_tbl,
->  		.set = bond_option_use_carrier_set
->  	},
-> @@ -1091,10 +1090,6 @@ static int bond_option_peer_notif_delay_set(struct bonding *bond,
->  static int bond_option_use_carrier_set(struct bonding *bond,
->  				       const struct bond_opt_value *newval)
->  {
-> -	netdev_dbg(bond->dev, "Setting use_carrier to %llu\n",
-> -		   newval->value);
-> -	bond->params.use_carrier = newval->value;
-> -
->  	return 0;
+>
+>>> Something like this?
+>>>
+>>> /* Initialize staged_config of the peer type when CDP is enabled */
+>>>          if (resctrl_arch_get_cdp_enabled(r->rid)) {
+>>>                  list_for_each_entry(d, &s->res->ctrl_domains, hdr.list) {
+>>>                          cfg = &d->staged_config[s->conf_type];
+>>>                          cfg_peer = &d->staged_config[peer_type];
+>>>                          cfg_peer->new_ctrl = cfg->new_ctrl;
+>>>                          cfg_peer->have_new_ctrl = cfg->have_new_ctrl;
+>>>                  }
+>>>          }
+>>>
+>> Replaced with following snippet.
+>>
+>> /* Initialize schema for both CDP_DATA and CDP_CODE when CDP is enabled */
+> Could this be more specific? For example,
+> "Keep CDP_CODE and CDP_DATA of io_alloc CLOSID's CBM in sync."
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
 
-nit: any reason not to return -EINVAL here when the new value is not "1"?
-You do it for the module param, but not for the sysfs file here.
+Sure.
+
+
+>
+>> +	if (resctrl_arch_get_cdp_enabled(r->rid)) {
+>> +		peer_type = resctrl_peer_type(s->conf_type);
+>> +		list_for_each_entry(d, &s->res->ctrl_domains, hdr.list)
+>> +			memcpy(&d->staged_config[peer_type],
+>> +			       &d->staged_config[s->conf_type],
+>> +			       sizeof(*d->staged_config));
+> This looks good to me. To make it obvious what types are dealt with this
+> can instead use sizeof(d->staged_config[0]).
+
+
+Sure. Thanks
+
+Babu
+
