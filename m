@@ -1,127 +1,179 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B392E3101AE;
-	Tue,  2 Sep 2025 14:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33810286409;
+	Tue,  2 Sep 2025 14:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756823380; cv=none; b=XzkMvX/lp6zTf7WUK9e2iKCr2LB5MWBUAw+j0zzxbe28BHK7+lSDE3NHHHvmx9K0h+JTc4CRyNSRB2FJ/XsHyAz2CkD01YM2Z5XVEcDFlrJNaLAnDZNqpZpXoLKBHm3Vh/WC0O64HcYX3B6xxHkvNAjxh+zfJGUAlD8MO0f8aDc=
+	t=1756824125; cv=none; b=WLvfIx2EyR2lKmTh+TUQkZGIPCqqCXAIlXwuzzGGu+BW7W624+JR/ILjeN+vMu4n0VMFNJdaMbOHPqbsXZgLZr1HdEubsU1vJ5qWrizeZDPknj2ktHwF77jtaz293OZWVvRim7GzcmJEEkrTUoKwsRYSPh5rFN4dIgPGe3n7eBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756823380; c=relaxed/simple;
-	bh=CeNeAFNxN2mMliNQb8RiT13ibZNowp7E27gDrRRKuyI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sm/QUv+D63Wsue8AK3oy7y3VxLZAknELw1FwRQyPznXSIwzcA9uuwTz96uRyOzIJFDfblYlHMPQEIL85TQg1EI9ORfmbM+6dbJF9kRJ7W8XY1WyibTKDowKmdpTRgNw5HuiXvr2gjqBBLWH47JqmUGm1NttGfSzU65Mg1uB1414=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcwWOJi8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756824125; c=relaxed/simple;
+	bh=mOeqG1YaCtcd7kdk9yqX9Q9052dCGn+pbbANVALzqN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYQVycUZD1tSXIixIGro9Uj9i5QQ3DKDtwf0+Bxlcy/5Pjo8BorOyJrFt6/05+bvSXlvqGkHPvbnA+Kmpa7yzY2cRL7bwypOD9NTSENGxeFAuTYJLqGW4JoRBchCvh0HJmh3tpN/kDT9UlRFPWPI7XTV0r29Um0+pZaxIveZ8Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHuBeVU8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcwWOJi8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0350C4CEF6;
-	Tue,  2 Sep 2025 14:29:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHuBeVU8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F0DC4CEF7;
+	Tue,  2 Sep 2025 14:42:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756823380;
-	bh=CeNeAFNxN2mMliNQb8RiT13ibZNowp7E27gDrRRKuyI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kcwWOJi8UE2gXA6oi5bkEXso8mgm2WSB/FQPWk+ojRPbCXPGfBxh3hlFqHRA4EavV
-	 SuAHhsn7tB8RsdHpsx/mEKBJM2TsNaJJc+0NgHOjdkVTHI8vHkeSG/ittHCvHf3Ues
-	 3hQxPECaHq8rQ5es5n5EDbGHZPonE3UpOKjTrEOS1au/BItm5lZyFktDe3O3W76SgH
-	 d44ip5A1J7zeAv+V07PKd6IrQYvmF6PATmsYUefhhOKSz+nu03EMlln+7Wblp9pQHr
-	 PzKESX/FUJgCy9+2k1g02PkZ1i0Oh2AYhkYYS50Iyk9+VDfbT+qWVc91PfFGrc4kAF
-	 qOaxzejLcGJLg==
-Message-ID: <d5397026-92eb-4a43-9534-954b43ab9305@kernel.org>
-Date: Tue, 2 Sep 2025 16:29:33 +0200
+	s=k20201202; t=1756824125;
+	bh=mOeqG1YaCtcd7kdk9yqX9Q9052dCGn+pbbANVALzqN8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EHuBeVU8dWqhLGlqkgCmMDOaWkI+rMLSVOMkTb/nhIEJvphbIOJzT/bTJMB0MPeM0
+	 BDzoeAMYpUqEZ/Vp2o97ikaqOiKM4F+LMQ4PLsAma/4kxIPeo+QMsoPo5AXj0OUZlE
+	 o691kIDYsLIN/1FXKATSxZqlROLpnaqnFGSufMQBwoSrMR8/iO+T0WviMlKcnjzq6+
+	 2/YDkme0PMr4Wfp2k9iXxaKvzmnASMRd43rLxhKzKADfaxNMBAPNwInbx9t7u78bO6
+	 4iGEYZddyeBkIcC5x6021mV2ryi2XaadCikyyVQSMCl97DX9/yu8B3wldnoFBMM8rm
+	 IGeR6zkBBsB4A==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1utSCv-00000003dK0-4A9Z;
+	Tue, 02 Sep 2025 16:42:01 +0200
+Date: Tue, 2 Sep 2025 16:42:01 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Mark Brown <mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+Message-ID: <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
+References: <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
+ <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
+ <2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
+ <20250901204635.51b81ffd@foz.lan>
+ <1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
+ <j3iblg4xx4nu64dgaxhl62mtherszeh3jyrskkf7l2jigld7wf@lr7mtq33gbi7>
+ <865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
+ <20250902135938.35048fbc@foz.lan>
+ <20250902141434.3e5b14e4@foz.lan>
+ <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net-next 0/6] mptcp: misc. features for v6.18
-Content-Language: en-GB, fr-BE
-To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>,
- Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Eric Biggers <ebiggers@kernel.org>, Christoph Paasch <cpaasch@openai.com>,
- Gang Yan <yangang@kylinos.cn>
-References: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20250901-net-next-mptcp-misc-feat-6-18-v1-0-80ae80d2b903@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hello,
-
-On 01/09/2025 11:39, Matthieu Baerts (NGI0) wrote:
-> This series contains 4 independent new features:
+On Tue, Sep 02, 2025 at 02:00:43PM +0100, Mark Brown wrote:
+> On Tue, Sep 02, 2025 at 02:14:34PM +0200, Mauro Carvalho Chehab wrote:
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 > 
-> - Patch 1: use HMAC-SHA256 library instead of open-coded HMAC.
+> > > > That takes about 90s for me.  
 > 
-> - Patches 2-3: make ADD_ADDR retransmission timeout adaptive + simplify
->   selftests.
-
-I just noticed that NIPA reported some issues due to these 2 patches. In
-short, some packets (MPTCP ADD_ADDR notifications) can now be
-retransmitted quicker, but some tests check MIB counters and don't
-expect retransmissions. If the environment is a bit slow, it is possible
-to have more retransmissions. We should adapt the tests to avoid false
-positives.
-
-Is it possible to drop just these two patches? Or do you prefer to mark
-the whole series as "Changes requested"?
-
-> - Patch 4: selftests: check for unexpected fallback counter increments.
+> > > I wander why here is 3 times faster... disk cache? python version?
+> > > faster ssd?
 > 
-> - Patches 5-6: record subflows in RPS table, for aRFS support.
+> > > What python version are you using?
+> 
+> > Heh, after running twice or three times to avoid cache issues, I tested
+> > running it on my machine with two different python versions:
+> 
+> > $ time python3.13 scripts/kernel-doc.py . --none
+> 
+> > real    0m31,660s
+> > user    0m30,911s
+> > sys     0m0,588s
+> 
+> For me it's fairly consistent with python 3.11.2, I get some variation
+> depending on what else is going on with the system but nothing hugely
+> surprising.  It should mostly be running from cache, the underlying disk
+> is a reasonable SSD. 
 
-Cheers,
-Matt
+Yeah, it sounds that the huge performance increment was indeed on 3.11:
+
+$ time python3.6 ./scripts/kernel-doc --none .
+real	1m17,854s
+user	1m16,651s
+sys	0m0,707s
+
+$ time python3.9 ./scripts/kernel-doc --none .
+real	1m0,193s
+user	0m58,942s
+sys	0m0,614s
+
+$ time python3.10 ./scripts/kernel-doc --none .
+real	0m55,376s
+user	0m54,168s
+sys	0m0,636s
+
+$ time python3.11 ./scripts/kernel-doc --none .
+real	0m34,878s
+user	0m33,665s
+sys	0m0,661s
+
+$ time python3.12 ./scripts/kernel-doc --none .
+real	0m34,590s
+user	0m33,844s
+sys	0m0,613s
+
+$ time python3.13 ./scripts/kernel-doc --none .
+real	0m31,751s
+user	0m30,951s
+sys	0m0,640s
+
+==============  =============   =============   ================================
+Python Version	Real Time (s)	User Time (s)	Performance Increase (Real Time)
+==============  =============   =============   ================================
+3.6		77.854 s	76.651 s	(baseline)
+3.9		60.193 s	58.942 s	22.7% faster
+3.10		55.376 s	54.168 s	28.9% faster
+3.11		34.878 s	33.665 s	55.2% faster
+3.12		34.590 s	33.844 s	55.6% faster
+3.13		31.751 s	30.951 s	59.2% faster
+==============  =============   =============   ================================
+
+> The single core performance on this machine isn't
+> amazing, it's more getting it's speed from having a bunch of cores.
+
+As kernel-doc is currently single threaded, performance for a single
+core is what matters most. I suspect that most of kernel-doc time is
+spent handling regular expressions, specially when I/O is fast. 
+
+-
+
+To sum-up those discussions, I can propose a patchset for the next
+merge window that would:
+
+1. change kernel-doc exec to re-run using the latest available python
+   version if version < 3.11, on a similar same way to what
+   scripts-pre-install and scripts-build-wrapper does(*);
+
+2. add a command line parameter for kernel-doc to make it pick only
+   files that have a .. kernel-doc markup;
+
+3. add a build logic to run it with make all, perhaps inside a Kconfig
+   symbol like "config DOC_WARNINGS", disabled by default, but enabled
+   with allyesconfig/allmodconfig.
+
+4. with time, add more validations there, like checking for
+   EXPORT_SYMBOL without documentation and other neat features.
+
+This needs to be coordinated with some efforts to cleanup warnings,
+to avoid having hundreds of new warnings at build time.
+
+This way, even on LTS, we'll have fast kernel-doc check, and will likely
+take lot less than 32 seconds, as it will only validate a small set of
+files that are pointed by a kernel-doc markup notation inside
+Documentation, specially if Python >= 3.11 is installed.
+
+It should be noticed that can generate out of blue lots of new
+warnings that are currently there by currently hidden, specially
+if we add "-Wall" to the build target.
+
+Comments?
+
+(*) The logic there checks if python version is below a minimal
+    version. If it is, it seeks for python 3.x exec files, picking
+    the latest one if found, and re-running it with such version.
+
 -- 
-Sponsored by the NGI0 Core fund.
-
+Thanks,
+Mauro
