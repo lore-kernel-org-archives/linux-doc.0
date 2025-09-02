@@ -1,149 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2E1288C36;
-	Tue,  2 Sep 2025 11:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1AF31E0FB;
+	Tue,  2 Sep 2025 11:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756814351; cv=none; b=meNUXO2Ay5WSBnuLUx4vejvK6y03N+ll18IiWkAGDkwrYYvqEEhJLq68rlcgbGKyGJKtrs6dMJ47KYBPYp3yM7jOyb6WO6uyXrvfBwE7zxxpsM9DT2JeoZeD/epwcc4RdZ8OjNXQk3AdT7aEjY3n88ZohwfEAetUPh6iCvSa+3I=
+	t=1756814385; cv=none; b=cPuFv4R+KgZzfUn2LKq764rXxdZYOqZedGzfaQorFEAlln3cVLk3GddqDsFkexQyyfCono+7Fszih1qAAvmwJG52VQDB64KTjJfAxm6S2rcAaiOOCld/Ml40n8zEHiN3SGuA4QPJfK5wYGiPINpV3F9vrUL2nZ8mlxy9Hd0rVEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756814351; c=relaxed/simple;
-	bh=L1nH0nXQSTmGQMPXIz8uvF0lJhnD30PA+J/QkPBeCK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/twVAR2oOZfUfX8a0TG4AkciSZr2Itrzq0uot5Rzd3mbgA82mE+6mT7YOzFscy9wVuzIVqT7lsxKTqp49EE2IbzW/TIbqTL0sqNNkrPzVxf7xYCo+2r88Os8c9mRKa3MUGGBnL6ak0Gd0isQRyK3fLNNSBkvCUBLH4kYcGnO4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlfauluX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756814385; c=relaxed/simple;
+	bh=Lz9IHriNHvMDumsWCGaYFFI0bxBOE06oQuGCHKxmsT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JqTQ4Kf+Hqz5oWTwFQX1bfc0mDzDU/vABJkVzQMSL6LmuJyysMx1EVLb/IyD4C610xnDOl+ex529ON29I5QMGOcSJmHKN2mzESyHagAyVHWT98l2LWasCD7iBR6xVAy4Oi/IhiL5ocEsyBcfuB3JA9Ou1VCdTeZIEWUK9unrvow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ssjeh39z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlfauluX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C02EC4CEED;
-	Tue,  2 Sep 2025 11:58:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ssjeh39z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D18C116D0;
+	Tue,  2 Sep 2025 11:59:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756814351;
-	bh=L1nH0nXQSTmGQMPXIz8uvF0lJhnD30PA+J/QkPBeCK4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qlfauluXXRsFwdzO38odnlUZfYgoe1CFxonN5cpywYXv/xECjHvycDgDUatmFw6ia
-	 mUBDe5ELuiqS8LGCHYzjqgY9atl9gzcJssdfaXwr1lZtfNIX+aFH9UpdxKVWr2hY6o
-	 VDLCD80ua4Jz6DivTFtnW+4o83n4pkdiuavOJlynXYAeyflZipfyz6W8Oc25vrDK06
-	 V29Vfpbmwl5PHuDi2Rr+x1QhtvO48PuKGszUIh2E5zTCPTSEE1+2o43q4S0XKjtdNU
-	 JBHIBh4AmLL5ANN4WvPQ4ZSZLskhnZK0dslMn8n6iV2b6JEvBe14AOjuZFUh5A59jT
-	 OoRg1GK9oxOYA==
-Date: Tue, 2 Sep 2025 14:58:46 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, pratyush@kernel.org,
-	jasonmiu@google.com, graf@amazon.com, changyuanl@google.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
-	witu@nvidia.com
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-Message-ID: <aLbb9nOUnBo_ORT0@kernel.org>
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-30-pasha.tatashin@soleen.com>
- <20250826162019.GD2130239@nvidia.com>
- <aLXIcUwt0HVzRpYW@kernel.org>
- <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
+	s=k20201202; t=1756814384;
+	bh=Lz9IHriNHvMDumsWCGaYFFI0bxBOE06oQuGCHKxmsT4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ssjeh39zlvBK6nfg7f2KrHvTsyAwp2xuZQKX9BMgrtST7YIsXqYNaovIqaZRyhpjX
+	 YKPkW8+CKGG06O0zXXBXtr49BZ93JFW3bTtL++TIa7eThaGAnLka//1R0z1GlsGb3+
+	 fx47OrP3DnRWa8xywBk6Mj1OQaUz3EEjUUG1Ja83snEmTX5uknOqZmughiuNMb7X0X
+	 AKCtvpNIVO6AJ+rsJ/WhaozgiDSng5oQByykPc4GgbuL6WXy8jtNwV3TxZR1+moQ32
+	 zNe6ocMXDewZYOPIN63KsO3qT6X6ox5XsEi3gZIh4kB1/0bU1/4VR4803lxa8JhNVE
+	 7XdptY3Yw0Neg==
+Date: Tue, 2 Sep 2025 13:59:38 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
+ <jani.nikula@intel.com>, Jonathan Corbet <corbet@lwn.net>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
+ <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Bagas
+ Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future
+ directions
+Message-ID: <20250902135938.35048fbc@foz.lan>
+In-Reply-To: <865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
+References: <930d1b37-a588-43db-9867-4e1a58072601@oracle.com>
+	<20250830222351.GA1705@pendragon.ideasonboard.com>
+	<87h5xo1k6y.fsf@trenco.lwn.net>
+	<20250831160339.2c45506c@foz.lan>
+	<b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
+	<b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
+	<2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
+	<20250901204635.51b81ffd@foz.lan>
+	<1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
+	<j3iblg4xx4nu64dgaxhl62mtherszeh3jyrskkf7l2jigld7wf@lr7mtq33gbi7>
+	<865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 01, 2025 at 04:54:15PM +0000, Pasha Tatashin wrote:
-> On Mon, Sep 1, 2025 at 4:23 PM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
-> > > On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
-> > >
-> > > > +   /*
-> > > > +    * Most of the space should be taken by preserved folios. So take its
-> > > > +    * size, plus a page for other properties.
-> > > > +    */
-> > > > +   fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
-> > > > +   if (!fdt) {
-> > > > +           err = -ENOMEM;
-> > > > +           goto err_unpin;
-> > > > +   }
-> > >
-> > > This doesn't seem to have any versioning scheme, it really should..
-> > >
-> > > > +   err = fdt_property_placeholder(fdt, "folios", preserved_size,
-> > > > +                                  (void **)&preserved_folios);
-> > > > +   if (err) {
-> > > > +           pr_err("Failed to reserve folios property in FDT: %s\n",
-> > > > +                  fdt_strerror(err));
-> > > > +           err = -ENOMEM;
-> > > > +           goto err_free_fdt;
-> > > > +   }
-> > >
-> > > Yuk.
-> > >
-> > > This really wants some luo helper
-> > >
-> > > 'luo alloc array'
-> > > 'luo restore array'
-> > > 'luo free array'
-> >
-> > We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
+Em Tue, 2 Sep 2025 12:15:51 +0100
+Mark Brown <broonie@kernel.org> escreveu:
+
+> On Tue, Sep 02, 2025 at 12:56:57AM +0200, Mauro Carvalho Chehab wrote:
 > 
-> The patch looks okay to me, but it doesn't support holes in vmap
-> areas. While that is likely acceptable for vmalloc, it could be a
-> problem if we want to preserve memfd with holes and using vmap
-> preservation as a method, which would require a different approach.
-> Still, this would help with preserving memfd.
-
-I can't say I understand what you mean by "holes in vmap areas". We anyway
-get an array of folios in memfd_pin_folios() and at that point we know
-exactly how many folios there is. So we can do something like
-
-	preserved_folios = vmalloc_array(nr_folios, sizeof(*preserved_folios));
-	memfd_luo_preserve_folios(preserved_folios, folios, nr_folios);
-	kho_preserve_vmalloc(preserved_folios, &folios_info);
-
-> However, I wonder if we should add a separate preservation library on
-> top of the kho and not as part of kho (or at least keep them in a
-> separate file from core logic). This would allow us to preserve more
-> advanced data structures such as this and define preservation version
-> control, similar to Jason's store_object/restore_object proposal.
-
-kho_preserve_vmalloc() seems quite basic and I don't think it should be
-separated from kho core. kho_array is already planned in a separate file :)
- 
-> > Will wait for kbuild and then send proper patches.
-> >
-> >
-> > --
-> > Sincerely yours,
-> > Mike.
+> > If you run:  
 > 
+> > 	 kernel-doc . --none -Wall  
+> 
+> > You won't have troubles with Sphinx slowness. It would be worth timing
+> > it on you machine and see how much time it takes to run. Probably
+> > the run time depends a little bit on the Python version. Not sure how
+> > much optimization it got(*).  
+> 
+> That takes about 90s for me.
 
--- 
-Sincerely yours,
-Mike.
+
+I wander why here is 3 times faster... disk cache? python version?
+faster ssd?
+
+What python version are you using?
+
+
+Thanks,
+Mauro
