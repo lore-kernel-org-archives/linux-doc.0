@@ -1,129 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754892F8BF1;
-	Tue,  2 Sep 2025 11:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539C22FCC02;
+	Tue,  2 Sep 2025 11:44:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756813482; cv=none; b=LmqxFEx4PPx/3txv6KA/gfq/ZriQT6PjV0BIWO7jmDT4zKtXnqCb6IJWGgkqsA2o2SgnNXIP4LTqqZaW912z/lAOHkrInlorCjhyzsqFitWapNNkdkLOJqwj7jE5Cu7czgb+NfNrJIrHQmTh2qn5NtbiNcAsZBLQB0FfqlHxgw8=
+	t=1756813485; cv=none; b=siQ1+w15vnO61SXjeanw40XM/fXQOaGUWG8qGDEGM4IpVru3/ChcSFLaKuzOWipIntr70GjcMmca1913iDb0ZL+uFVBCS9O8M2O1CufIHVHLVkX/QNppOq02CWdlQnjErv7K4Ou5PEKVNtegtSmUsGChwFKwAxl9igEGFsFfRxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756813482; c=relaxed/simple;
-	bh=d5H7XLcR4Rtj+Rj6OZQAl1e1bSehEWOuVd1drKJeL5c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Y5F8AZxIkYjFBeh6g+bl6Z5D0UPFmFdFVEyLI5MRh0B8DDuXITaCeo9dNrlgQ6sAmX8JKF3KA+dH7qozHLQZBHZdUThtXIl4SoAIX9HjFIVAwUB6FYHPCbe8mE1vxJ+uDnIcBbAdkIQvtRitRHq8U91TEppur+ZKJF1qUoXSZIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qh6xYzRT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756813485; c=relaxed/simple;
+	bh=PsdWXEKScSpvyy0S+Dxl056IK+zdYsrlrpfYJKzyZ9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1+vN3sdgJv2BHMUtZRJVcfsWITJRTBauSL0vquUTbNsktS2a7yr916es6959Zs+aK0R/PGqOmMItAd5veKHdJsAAqpDdY4dISzUNmmR9xKr5g7gaSV8uEwa3g7AvDJm4ZcxBILsmmRvs1N6pqMUwNPvNuLOl7XooI6wc3334ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GcGkOYvo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qh6xYzRT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942F3C4CEF5;
-	Tue,  2 Sep 2025 11:44:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcGkOYvo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0680C4CEED;
+	Tue,  2 Sep 2025 11:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756813482;
-	bh=d5H7XLcR4Rtj+Rj6OZQAl1e1bSehEWOuVd1drKJeL5c=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qh6xYzRTWnyrgR8C6AJNbxZKm0nchFbf+33TeM9zOXW4aS1eWLkDwDmHGqiniFSOx
-	 jhIXOeyHaNm47WlrlDM543R6MO3rdI43xAk9F8pHLi+K0d72HxjEGhzWcx3Oxq9UFd
-	 8jWT3r+2el6uhBkbK6ZoOVJ/PiCVWDFfBI++KivbSTeHig9gl+lTwQ+vzR7+e/Zh5D
-	 6n9UOvAv1hoxCbP+tAMG269yy1qMGRLTzN5voxlC3f56bVfPIiN8zLwD4Qk9Ldm00o
-	 nx8lrYGR9xIWYUxwQt8mb26c8sfUPf3tdkqdU6m+nZpw/uJk9DcT0K9aR6BRDKoQMq
-	 9QCRr3gUd1mvw==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 02 Sep 2025 12:36:08 +0100
-Subject: [PATCH v8 05/29] arm64/fpsimd: Determine maximum virtualisable SME
- vector length
+	s=k20201202; t=1756813484;
+	bh=PsdWXEKScSpvyy0S+Dxl056IK+zdYsrlrpfYJKzyZ9Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GcGkOYvoGCguKJ/jUPJf7VxrZdwrL4lVESQFTriaR2Al6lroyZ1GB6QAt5k5qWJf6
+	 q3qN+YuCyjEj06tqOyAvFa6LmxWY+fkNRRvM2Fm/FaWZ47BrhQ57c5IkbTs+Kmjbxo
+	 jYn3m/b2Qt+qEWFTfr7Motq5MlPMe1vWqQ2sCSESTGio/7/xhmbPYdOH4Q1OcuVHUj
+	 0Qf6LRJj60aZatHetbId9ILp7QfUSrYcYBf+2DcIKerzqQP4jv1B+F4QtNdlONUyTb
+	 oqSiFYIiLItMyOvFUFDVomGAq1PbDiyqYtk62VAgEE+tHDutp1f6++/ufGbmNlFvY7
+	 geX873CKX7JcA==
+Date: Tue, 2 Sep 2025 14:44:19 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, jasonmiu@google.com,
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com,
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
+	witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+Message-ID: <aLbYk30V2EEJJtAf@kernel.org>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com>
+ <20250826162019.GD2130239@nvidia.com>
+ <aLXIcUwt0HVzRpYW@kernel.org>
+ <mafs0ldmyw1hp.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-kvm-arm64-sme-v8-5-2cb2199c656c@kernel.org>
-References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
-In-Reply-To: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>
-Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
- Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Eric Auger <eric.auger@redhat.com>, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-cff91
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2177; i=broonie@kernel.org;
- h=from:subject:message-id; bh=d5H7XLcR4Rtj+Rj6OZQAl1e1bSehEWOuVd1drKJeL5c=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBotth9g2ETHDRccMXUN7ZClfqhFnpIGrt3f0eib
- Yyte/XvC+SJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaLbYfQAKCRAk1otyXVSH
- 0P5bB/94F+nLQ4trESn0bLg/Okw1dl+INFEsHerSNtcHuaiKUM+hz719h/I6wq3epOs+YJMR+Vv
- PwGUERXckqH+BNJ6gEYRyc9/449vijyzsnuBly/10GbNh6vVcBE6JJHX+IJ/OlgGRxLRYGQ4wg5
- S8XsirfTjhQ+q4o5UMUjrqgvjOHNXqvBIVmdRE9g6hNzgqg8E+xhMnfTVCmIlY+eIy/IcmnYaZI
- h16N8bNAUMdSEGhjFMIyDyAc59cx2Z1kCMylcQtbOo2yczHXhxM6KNzS4YLikss5iVKP7MalFcI
- Z+OnpXnpsLKqXQaaNuaOC7C3ap7aWYITRpVEjX3pk+L9V9N0
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mafs0ldmyw1hp.fsf@kernel.org>
 
-As with SVE we can only virtualise SME vector lengths that are supported by
-all CPUs in the system, implement similar checks to those for SVE. Since
-unlike SVE there are no specific vector lengths that are architecturally
-required the handling is subtly different, we report a system where this
-happens with a maximum vector length of -1.
+Hi Pratyush,
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- arch/arm64/kernel/fpsimd.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+On Mon, Sep 01, 2025 at 07:01:38PM +0200, Pratyush Yadav wrote:
+> Hi Mike,
+> 
+> On Mon, Sep 01 2025, Mike Rapoport wrote:
+> 
+> > On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
+> >> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
+> >> 
+> >> > +	/*
+> >> > +	 * Most of the space should be taken by preserved folios. So take its
+> >> > +	 * size, plus a page for other properties.
+> >> > +	 */
+> >> > +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
+> >> > +	if (!fdt) {
+> >> > +		err = -ENOMEM;
+> >> > +		goto err_unpin;
+> >> > +	}
+> >> 
+> >> This doesn't seem to have any versioning scheme, it really should..
+> >> 
+> >> > +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
+> >> > +				       (void **)&preserved_folios);
+> >> > +	if (err) {
+> >> > +		pr_err("Failed to reserve folios property in FDT: %s\n",
+> >> > +		       fdt_strerror(err));
+> >> > +		err = -ENOMEM;
+> >> > +		goto err_free_fdt;
+> >> > +	}
+> >> 
+> >> Yuk.
+> >> 
+> >> This really wants some luo helper
+> >> 
+> >> 'luo alloc array'
+> >> 'luo restore array'
+> >> 'luo free array'
+> >
+> > We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
+> >
+> > Will wait for kbuild and then send proper patches.
+> 
+> I have been working on something similar, but in a more generic way.
+> 
+> I have implemented a sparse KHO-preservable array (called kho_array)
+> with xarray like properties. It can take in 4-byte aligned pointers and
+> supports saving non-pointer values similar to xa_mk_value(). For now it
+> doesn't support multi-index entries, but if needed the data format can
+> be extended to support it as well.
+> 
+> The structure is very similar to what you have implemented. It uses a
+> linked list of pages with some metadata at the head of each page.
+> 
+> I have used it for memfd preservation, and I think it is quite
+> versatile. For example, your kho_preserve_vmalloc() can be very easily
+> built on top of this kho_array by simply saving each physical page
+> address at consecutive indices in the array.
 
-diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
-index de2897d6208c..fbc586813f6a 100644
---- a/arch/arm64/kernel/fpsimd.c
-+++ b/arch/arm64/kernel/fpsimd.c
-@@ -1244,7 +1244,8 @@ void cpu_enable_sme(const struct arm64_cpu_capabilities *__always_unused p)
- void __init sme_setup(void)
- {
- 	struct vl_info *info = &vl_info[ARM64_VEC_SME];
--	int min_bit, max_bit;
-+	DECLARE_BITMAP(tmp_map, SVE_VQ_MAX);
-+	int min_bit, max_bit, b;
+I've started to work on something similar to your kho_array for memfd case
+and then I thought that since we know the size of the array we can simply
+vmalloc it and preserve vmalloc, and that lead me to implementing
+preservation of vmalloc :)
+
+I like the idea to have kho_array for cases when we don't know the amount
+of data to preserve in advance, but for memfd as it's currently
+implemented I think that allocating and preserving vmalloc is simpler.
+
+As for porting kho_preserve_vmalloc() to kho_array, I also feel that it
+would just make kho_preserve_vmalloc() more complex and I'd rather simplify
+it even more, e.g. with preallocating all the pages that preserve indices
+in advance.
  
- 	if (!system_supports_sme())
- 		return;
-@@ -1274,12 +1275,32 @@ void __init sme_setup(void)
- 	 */
- 	set_sme_default_vl(find_supported_vector_length(ARM64_VEC_SME, 32));
- 
-+	bitmap_andnot(tmp_map, info->vq_partial_map, info->vq_map,
-+		      SVE_VQ_MAX);
-+
-+	b = find_last_bit(tmp_map, SVE_VQ_MAX);
-+	if (b >= SVE_VQ_MAX)
-+		/* All VLs virtualisable */
-+		info->max_virtualisable_vl = SVE_VQ_MAX;
-+	else if (b == SVE_VQ_MAX - 1)
-+		/* No virtualisable VLs */
-+		info->max_virtualisable_vl = -1;
-+	else
-+		info->max_virtualisable_vl = sve_vl_from_vq(__bit_to_vq(b +  1));
-+
-+	if (info->max_virtualisable_vl > info->max_vl)
-+		info->max_virtualisable_vl = info->max_vl;
-+
- 	pr_info("SME: minimum available vector length %u bytes per vector\n",
- 		info->min_vl);
- 	pr_info("SME: maximum available vector length %u bytes per vector\n",
- 		info->max_vl);
- 	pr_info("SME: default vector length %u bytes per vector\n",
- 		get_sme_default_vl());
-+
-+	/* KVM decides whether to support mismatched systems. Just warn here: */
-+	if (info->max_virtualisable_vl < info->max_vl)
-+		pr_warn("SME: unvirtualisable vector lengths present\n");
- }
- 
- void sme_suspend_exit(void)
+> The code is still WIP and currently a bit hacky, but I will clean it up
+> in a couple days and I think it should be ready for posting. You can
+> find the current version at [0][1]. Would be good to hear your thoughts,
+> and if you agree with the approach, I can also port
+> kho_preserve_vmalloc() to work on top of kho_array as well.
+> 
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=5eb0d7316274a9c87acaeedd86941979fc4baf96
+> 
+> -- 
+> Regards,
+> Pratyush Yadav
 
 -- 
-2.39.5
-
+Sincerely yours,
+Mike.
