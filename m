@@ -1,127 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28712D46DB;
-	Wed,  3 Sep 2025 05:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6A20EB;
+	Wed,  3 Sep 2025 05:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756876187; cv=none; b=ZkC/pjWEJ4vvYrd7dTxo4aUSkLfGUWLA+y533khecS1OKNCcYp26KzuurQT99SLxPsVqzMzR9454JnuojajNh9yOhrXU6ecnNL7wCn8ticHYhgreBndK+QheeERXhBPWe+afArC/huG42JBOTdrk+PqzrYdbB/7nIN16SKIex54=
+	t=1756878398; cv=none; b=HlXFAwAJq1eEPr1PwJul5FtDhTkbnwGeq1PIDahuHi6eoMA5vViTiH+XI71IWWM9PB9FumH7te2TApFDYVb6xiTz9sbOfnMkfx/nlvRlNxYb++i6nqZRWHO0a+uB6I8sBuCaT6Dlx+mBjHNlVwE3wSAGTM1nXSrWfSij6lFoAaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756876187; c=relaxed/simple;
-	bh=7YzpS7WGvT5+wxyBAHrWRvHIPIj/UBNdEDTvQ4yz1Hg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cei7QJc8pSmYEk7uSXamMvDOmUp7rVzE0CFOACwNhHkvRB72ACU2W+yc1uNzm/MqdhaLijIhq0qxHEti2yjSLPQz2ZJPeCseNuX3MzT9ucVwKfxuoNg6A0yjFkFR1vIQq4GWNMx248NcCOleWcunWDDEHGyj1k5YfwI+fMIt2kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sYfThl1S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756878398; c=relaxed/simple;
+	bh=lba/onyM72LkmC40tYiUqo276H57gB2CvydBi6T6zoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n9jfzYPoawK8XZ7DRe0cJZ48BGpezrBfYonkV5QJNM2JZJGvYRGuqpkby2Qth583VDBIUbrKflXCIcXOm/NBqiP9l1xBLSg4LiO4vQPoE/XSYvz89YNbNP3LeBNMaSpzPL5i4oU1uTGdRb0NKoVmy234s/sPfndZpNzj9Dro8cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJkN5Ubk; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sYfThl1S"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 47121C4CEF8;
-	Wed,  3 Sep 2025 05:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756876187;
-	bh=7YzpS7WGvT5+wxyBAHrWRvHIPIj/UBNdEDTvQ4yz1Hg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=sYfThl1SUtkj9kfu23NUYmj0lC5NtEmTPkG9BvMaGX4DVq4OtxSYNUfHU+N8EjK7s
-	 mLKNblCZzxB7WXdm07Yk2ZXlmc9ZM32iaMVdsA7pVLVapQA/1JRqJ4XtrQimMDcoEe
-	 xhiebPsVr0qNopq1YHTcPyP/cOhsdQ5Y/Vzm9HWaYW1huLrGIAvrYEVw5NQCrN/PzZ
-	 vL2Pz85t2Nb8l4M9iWDWiTi385jXTVE9r//Iifwfqf4CFBvgj9+TNk6X78yIsDpLPt
-	 NsnC3Po9GupP2UH2moN4bcTUPqpS+742+O+jUriftHXz+yrM5VTn0qqiHx1KuBpSem
-	 Ej76i5uAXMlGA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AAFFCA1011;
-	Wed,  3 Sep 2025 05:09:47 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Wed, 03 Sep 2025 13:09:47 +0800
-Subject: [PATCH 3/4] ALSA: usb-audio: apply "mixer_min_mute" quirks on some
- devices
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LJkN5Ubk"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7723bf02181so2794064b3a.1;
+        Tue, 02 Sep 2025 22:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756878395; x=1757483195; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N56o4i6wpcq7MoneUhLU2w8v3e0MP3V6I9jOXvxsGzI=;
+        b=LJkN5UbkpIgKi9hWzW1+ZvtofG/CEDOFrSEFpvhWgJ+ev7GZRKEb0kMjVQtMAJ3mAG
+         Tp32nEJpT9Jnl+jCpCqL1S4RdDLajm1Coj5JPj5NXBtj0VE7dXZVR6UPUWNTB9/rJ7Am
+         53ZAaNc0khBgKAKE5X7idgU7O0Wv9xcMUKHPkJghw9EhIla1Bpi6KGDUGSSdcRTHT+Ga
+         ciX1ZzsLM3Hkqvm8GyeR9k6BJ+IIBK4NAKtfXfoUaqyJipVGr3uSiBPCM6/GacJjTLUJ
+         Awxv86vzyy1lS/c/FAtcQnaTIRHLOR7MLzzRNM5z6sABu4ENIVzLKSHH1/qfRmlfSOrZ
+         Qfmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756878395; x=1757483195;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N56o4i6wpcq7MoneUhLU2w8v3e0MP3V6I9jOXvxsGzI=;
+        b=K2aobvkYBJqksVBfHjoFRl+WjdS62PjKuPKPTWK1aqk+rcLW41cm/Rn1rHvBPetir6
+         5/+f//K4QpruK6qJEVadb9DY9YBFN399eEBorAnut8q2AWdLluQU58shcsHwBIPRA4Eo
+         gDw203omn4nOnXm0I1VK8kf3BuIfCuRE1+kmrb/jc8DXK6vgpxWPtVTl5qqYAVod/nb7
+         eHmj+a67rtfGXXV0tmevK1GONkyFAuWfg7aufY7GGgYTD35DDSIxgv8MT2ZUdUG3rftg
+         o5WkaIJXpX4fb237lQ9kpRk91XISRWGH3UPuGZmG5I9BKcpfkQJQP01RGX5AiDwVwJnf
+         5lqg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6YunO1MBlyY0jl6IbeHjjDpg0PxfmKMeieNh5zF7gogmYERNnzZVllsJLqFgrcrLt+Xb2sAiO6WA=@vger.kernel.org, AJvYcCWG8HdCkgdVynKUG0xsnnRljJNlaDDfL70RWz9Hw0SxGGM8qtOomz+VUKnnpeFROiN/9Gzjk0RBReO2wbkJ@vger.kernel.org, AJvYcCXb3oBiptDVB7b2pda9G4hgYng5mN+3VHuTfOcUAV/KTroCa2zEWq6UtdUqqutJ07TH9kz+JEtS7vDptGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoKnpRxomMlZpheSCvyaGsVm8LE8/ygOx3SOAA60KxV3h+rjxh
+	DNMM1zEGeViiTpTzJlsYHbvsdkMk+1XqPkeTF4cot/jCLU4I7eqry4V5
+X-Gm-Gg: ASbGncu3JoeS3ipIe9fiGwV+kWiqf4tWI61ObgGNsnrRrO+f0GJVf2RtOEBoCPQeBSd
+	i+qD7D7xBxPn4ByCThT8JTb6cdo6Hv1C+Fq/BSSMxMnd6mLkkSD3+RC/58RVQe7pGbvqn2wZPR0
+	xWMv2w8iex9jbJeO1ry/r6KTqZma4gYH+vCRSoC5JGKPHZQz0kMXZjURTH88KP66DsrusHQEVA3
+	Vsb0rj87fBpvN4izkMJKUFGyQYSYSNU1ZnqZ07tfySP0y5NUCWXSSoxmYWm4CpA0OazHq41MlzU
+	xYyMkwlZ65tZ3Bw+bQd8tWhNqi6b4oveUjQBNC39HPibDz5ssbSpy9plygVlIsVVPsS9YNjjR1D
+	JYnRq9RSP2/0XjSzUOuyg5H0HTJR4tOlAGdSBqyj4FRSJOA==
+X-Google-Smtp-Source: AGHT+IEV4Vd2Y2C/hEN7OzTOzJalF3mXaqeIzl0gxBoE8BM9yE4GNNUoGTh8tHsozmaUEx+RVqUCyA==
+X-Received: by 2002:a05:6a20:1595:b0:243:af83:6c75 with SMTP id adf61e73a8af0-243d6f0293fmr19716646637.28.1756878395509;
+        Tue, 02 Sep 2025 22:46:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4f317ee7cfsm8828644a12.3.2025.09.02.22.46.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 22:46:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 2 Sep 2025 22:46:33 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Tom Ingleby <tom@ewsting.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Eugene Shalygin <eugene.shalygin@gmail.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: (asus-ec-sensors) add ROG STRIX Z690-E GAMING
+ WIFI
+Message-ID: <cb9a8cf7-4e20-49a0-b590-8190d329178c@roeck-us.net>
+References: <20250903031800.4173-1-tom@ewsting.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250903-sound-v1-3-d4ca777b8512@uniontech.com>
-References: <20250903-sound-v1-0-d4ca777b8512@uniontech.com>
-In-Reply-To: <20250903-sound-v1-0-d4ca777b8512@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Feng Yuan <fengyuan@uniontech.com>, Celeste Liu <uwu@coelacanthus.name>, 
- qaqland <anguoli@uniontech.com>, linux-doc@vger.kernel.org, 
- Cryolitia PukNgae <cryolitia@uniontech.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756876185; l=2765;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=H41Y5MiAPmIzKR0KIqAt9d3/JLqaw8uC28jKyIpFimE=;
- b=1CHb8rMmE4hnWZhp4HI2TlFa19Re77zQ4+7SQPrj9hFdtAFeN5wJq1McJEn+fTT/cUvN2JkAq
- CpDd6HxXiCUDlNhRxrjT5lXUDr9DpBFDcmWEieqOHjWRXn/k/eg+cBR
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903031800.4173-1-tom@ewsting.com>
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On Tue, Sep 02, 2025 at 08:17:56PM -0700, Tom Ingleby wrote:
+> Add support for the ASUS ROG STRIX Z690-E GAMING WIFI
+> 
+> Signed-off-by: Tom Ingleby <tom@ewsting.com>
 
-- QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE
-- QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE
+Applied.
 
-Suggested-by: Guoli An <anguoli@uniontech.com>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- sound/usb/quirks.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 0fe31af3158f08a39849f8df99dbbfb10c5fdcc1..d736a4750356597bfb0f9d5ab01cdaeaac0f907c 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2243,16 +2243,20 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x0951, 0x16ad, /* Kingston HyperX */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x0b05, 0x18a6, /* ASUSTek Computer, Inc. */
-+		   QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
- 	DEVICE_FLG(0x0b0e, 0x0349, /* Jabra 550a */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
- 	DEVICE_FLG(0x0bda, 0x498a, /* Realtek Semiconductor Corp. */
--		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
- 	DEVICE_FLG(0x0c45, 0x6340, /* Sonix HD USB Camera */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x0d8c, 0x000c, /* C-Media */
- 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+	DEVICE_FLG(0x0d8c, 0x0012, /* C-Media */
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x0d8c, 0x0014, /* C-Media */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x0ecb, 0x205c, /* JBL Quantum610 Wireless */
-@@ -2264,7 +2268,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x1101, 0x0003, /* Audioengine D1 */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x12d1, 0x3a07, /* Huawei Technologies Co., Ltd. */
--		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
- 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
-@@ -2356,7 +2360,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x2a70, 0x1881, /* OnePlus Technology (Shenzhen) Co., Ltd. BE02T */
--		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
- 	DEVICE_FLG(0x2b53, 0x0023, /* Fiero SC-01 (firmware v1.0.0 @ 48 kHz) */
- 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x2b53, 0x0024, /* Fiero SC-01 (firmware v1.0.0 @ 96 kHz) */
-
--- 
-2.51.0
-
-
+Guenter
