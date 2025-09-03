@@ -1,91 +1,133 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C22E2D4800;
-	Wed,  3 Sep 2025 06:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4772A2DAFA7
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 07:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756880982; cv=none; b=UrphMLVeTX2PAUmK8U6vm2H47HTdlf9w1CyCsu3uaQbFPuuSfvqpKDAHpz0wXkkgQD2OuKlGlNlfufpw+uc4BqlUR5ZrVDfFkDWYVjMO0d9H/X9Ufenc2isz5v/0tdh2tP/aEJ17RE4DwZsJeLehXdL5jiDOT4/MAj9/nG1HsZw=
+	t=1756883454; cv=none; b=PhYU/FkA8+9KVyGZWiw9f4wLoRjggSW4P/2h1maykvrG0RH9UerZ4vUv5FN/GxhYxQa/KyNdbrHrOaXRs2qAVl6boEULZNlpTx5QP7tbU0980VBGyARAA+up/uvBMPDG83TFPzLk6+MgPud7Q7dCC4UMGdfRE/YP8AFWXB3hqNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756880982; c=relaxed/simple;
-	bh=XGSe0vTzxavK4Qvvj/0nw6uiKAgfXoDEBIu9yq71WkQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=l5JBR8fi+m0zgzy5DxIV+naaSL3UaNODQBbSnRKq3CLvh3jEiJcx5c+p3f6ko7BmOTY6gIpmMlWVWK25jp/I3KkSLIKfP4fOnmfRXhjDk2bsV/cdwwv41DgensoDKWO16qeVKaiFScYgf3rVhjMvhVEeH1zixAVJfi1ES8+98kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=dBqk2tGg; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="dBqk2tGg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=ptE1MLGqH6kr3/uIecksxF55+XxR2kaHAJ5z60khxJQ=;
-	t=1756880981; x=1758090581; b=dBqk2tGgfibsbxV3sOUNjM8XBOT/drJyMxk3ssgsE+qLsFb
-	fYwBWE9UdrBuppxCuGYo0ADu/tDl6TqU6tmnPh6RXjCt/z7fa8V0X6NkmynLNPHH9H5gTe0bUG4VB
-	daKSTLAFpLhj886lwt8xfsuJcM97EJjvEaILA58cVbfBp4Y/z8B/wbn0r1DXPXrFKVHnLwk234pQH
-	74D8meWClB88gk6An7vnkAmyHF/ReEGaZxS9CuIKkqiRisvu6DB4Ng58hOJHSKLH6StiCUrZJHa9f
-	d/5czusFFCCO+jdOitpOvJ45DR469VujFVF3Gk+PwSMBOK8Z8l16IxkI7RbhDyeQ==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.2)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1utgzu-0000000BOEs-4B8Q;
-	Wed, 03 Sep 2025 08:29:35 +0200
-Message-ID: <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab
-	 <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
- <jani.nikula@intel.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, 	ksummit@lists.linux.dev, Linux Documentation
- <linux-doc@vger.kernel.org>,  Akira Yokosawa <akiyks@gmail.com>, Bagas
- Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Date: Wed, 03 Sep 2025 08:29:34 +0200
-In-Reply-To: <87frd4vfys.fsf@trenco.lwn.net>
-References: <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
-	 <b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
-	 <2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
-	 <20250901204635.51b81ffd@foz.lan>
-	 <1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
-	 <j3iblg4xx4nu64dgaxhl62mtherszeh3jyrskkf7l2jigld7wf@lr7mtq33gbi7>
-	 <865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
-	 <20250902135938.35048fbc@foz.lan> <20250902141434.3e5b14e4@foz.lan>
-	 <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
-	 <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
-	 <87ecsox4uy.fsf@trenco.lwn.net> <20250902191929.504977bf@foz.lan>
-	 <87frd4vfys.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1756883454; c=relaxed/simple;
+	bh=z3o0bilwhDAquPyA40rDwkmCId8o1zHnXpkGPgt30ww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qk6YnZLSrk+DV6v1N/GcfIk/neO4F3x8AUHNMGe/M3KkNztv1DnvySlwd26jWseGsRvQNj7WefDzcHpxgCFW3/7bTU/4WDHzTdSRLmfLJ/8CXKA3X8xXTOB05z9E6oDLVUn7kevy0UvEX9NygZL+uk+Y1ITDWH+yGGzqQhCT6eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uthdY-0008T2-FV; Wed, 03 Sep 2025 09:10:32 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uthdU-003WP4-2U;
+	Wed, 03 Sep 2025 09:10:28 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uthdU-00HVsN-1z;
+	Wed, 03 Sep 2025 09:10:28 +0200
+Date: Wed, 3 Sep 2025 09:10:28 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+	Dent Project <dentproject@linuxfoundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 4/4] net: pse-pd: pd692x0: Add devlink
+ interface for configuration save/reset
+Message-ID: <aLfp5H5CTa24wA7H@pengutronix.de>
+References: <20250829-feature_poe_permanent_conf-v2-0-8bb6f073ec23@bootlin.com>
+ <20250829-feature_poe_permanent_conf-v2-4-8bb6f073ec23@bootlin.com>
+ <20250901133100.3108c817@kernel.org>
+ <20250902164314.12ce43b4@kmaincent-XPS-13-7390>
+ <20250902134212.4ceb5bc3@kernel.org>
+ <20250902134844.7e3593b9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250902134844.7e3593b9@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, 2025-09-02 at 12:58 -0600, Jonathan Corbet wrote:
-> >=20
-> > The idea is not to override the search path: instead, to use it to
-> > check if the user installed other /usr/bin/python3.* files (or on
-> > some other part of PATH). Most distributions nowadays come with=20
-> > multiple python versions. I can't see a downside (*) of not using=20
-> > a newer version that the user had installed on his system and
-> > has it on PATH.
->=20
-> But overriding the path is exactly what this would be doing.  It doesn't
-> seem right to say "we know better than you do" and circumvent the
-> configured path; the user may well have reasons for setting things up
-> the way they did.
+On Tue, Sep 02, 2025 at 01:48:44PM -0700, Jakub Kicinski wrote:
+> On Tue, 2 Sep 2025 13:42:12 -0700 Jakub Kicinski wrote:
+> > On Tue, 2 Sep 2025 16:43:14 +0200 Kory Maincent wrote:
+> > > > Sorry for not offering a clear alternative, but I'm not aware of any
+> > > > precedent for treating devlink params as action triggers. devlink params
+> > > > should be values that can be set and read, which is clearly not
+> > > > the case here:    
+> > > 
+> > > Ok.
+> > > We could save the configuration for every config change and add a reset-conf
+> > > action to devlink reload uAPI? The drawback it that it will bring a bit of
+> > > latency (about 110ms) for every config change.
+> > > 
+> > > Or adding a new devlink uAPI like a devlink conf but maybe we don't have enough
+> > > cases to add such generic new uAPI.
+> > > Or get back to the first proposition to use sysfs. 
+> > > 
+> > > What do you think?  
+> > 
+> > If you are asking for my real preference, abstracting away whether it's
+> > doable and justifiable amount of effort for you -- I'd explore using
+> > flags in the ethtool header to control whether setting is written to
+> > the flash.
+> 
+> PS. failing that the less uAPI the better. Tho, given that the whole
+> point here is giving user the ability to write the flash -- asking for
+> uAPI-light approach feels contradictory.
+> 
+> Taking a step back -- the "save to flash" is something that OEM FW
+> often supports. But for Linux-based control the "save to flash" should
+> really be equivalent to updating some user space config. When user
+> configures interfaces in OpenWRT we're not flashing them into the
+> device tree... Could you perhaps explain what makes updating the
+> in-flash config a high-priority requirement for PoE?
+> 
 
-Absolutely! Please don't ever do this.
+I think the main use case question is: what happens if the application
+CPU reboots?
+Do we go back to “safe defaults”? But what are safe defaults - that can
+vary a lot between systems.
 
-For example, use case we have: using nix-shell to lock down the software
-used to build, for reproducible builds and similar reasons. Without --
-pure, PATH may still contain (last!) software from the system itself,
-but it should basically never be used.
+In many setups, if the CPU reboots it also means the bridge is down, so
+there is no packet forwarding. In that case, does it even make sense to
+keep providing PoE power if the networking part is non-functional?
 
-johannes
+Another angle: does it make sense to overwrite the hardware power-on
+defaults each time the system starts? Or should we rather be able to
+read back the stored defaults from the hardware into the driver and work
+with them?
+
+Does anyone here have field experience with similar devices? How are
+these topics usually handled outside of my bubble?
+
+Best Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
