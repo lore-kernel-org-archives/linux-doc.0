@@ -1,541 +1,490 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011057.outbound.protection.outlook.com [40.107.130.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1C9156CA;
-	Wed,  3 Sep 2025 09:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756891108; cv=fail; b=RZC2I9gZP4uAV01Xf/RfOwTm5V1P3PBCjuqJ3AOIjnr/TQNP6Moby1XrstXDCiqUR+yZStqqAYU+mNgKi9547nkLVvmWfWuyrTIIW6MP4sAVNcmekrxlpXggzsH9JEzxsC1PpIswMmm5G8zPlkUvI4x3e3xzYI98FXmL6ORBbX0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756891108; c=relaxed/simple;
-	bh=eUGm97hFuKHYftLsmHzi8zPVqOkSPDydnQ7B2HBnWI8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HkhbX5p7gPaR8r+xbvxTxqN4csEgutFJl3xpGKzkHoHWUQ7jQ0B6MRBzMB2O++m+zLpIPUnhnNdkrAhXD7duWNrUCNJdek6T2lw5JDJOxY8N+6brTWd1DAn7aWd2+jmYm+0VOXe6FabqwDAvjOnlCvYFdCFbvDUuSY5hHSe+hcU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=TBJMEEMX; arc=fail smtp.client-ip=40.107.130.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4672E8B90
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 09:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756893040; cv=none; b=jvnO718A0kOqIIM92VnwGj1sTDTCZTRT9wiTF7xCaZthA+8LsRPs/Ghfg/iO6c4vWiB0H5YbTsf6rQlPrYkJcUWNq6A7zbauGGlpkyn4XCMHeLZPpGYbipSrsGvTkAytZwxbc6jhDeGQE+1iCEw5O11tbkATscjp5sQne6cR6qw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756893040; c=relaxed/simple;
+	bh=y4SmvqFyzVL/4kEo5tFGJ5dtK0pYlccbQR7ytEDScbs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R8a2p7jnBgeDv5k15XobXpIfzZW+Gui/E2u2yJg915P8kjvMO5Oc+iJ7GdaKIDPbETB7bbPBkauDFummrkFIYfyjt6rgDbYlPTZsgX+Uz8QX2enSXCSHvUfWXSllJeel4eGbKFPHJZnu/qA1RZL/GXGXkZp7oFHYzXuPLt9FVSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b=FA8zyiB3; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="TBJMEEMX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P4AcqZFcPF061uMwVskiodSdWlDZWKuXK4lsd5bC77shDgeIzSgxtOoGD3e8/nO2O1xzUWxJMpePQQb97bLhEUZThpzE6Kjbj+EVuzZq4N6DeVvObia3N7EnocCrG+/hdZNyvyLBGV0Sh4UHXUeOYxGMsY3GiXBGYHCU/4+LqrxKjJ/h96eJWqQF7808AQzxdyXgAQlm0QE4E1t+pcksr6McVTFsU/jChaqlhndjosD+EgzRXb+C6YtNQv1Cq9MT4jwoPsiGrT+6do1zFTzol3dAz/VVsfxCkugiJqSPuIhhllfYRrOWMqnf02t/l9abqjrOoHkSLbt8IYSmhSur5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=smOenIN1pWOP3rDx2r9J1cEk3NSRN/Q8EgvFC4x+WF8=;
- b=jgXw+TfkwH23GtEbH3Ztd/vmGb8k359OQJpxPSWK7vKFaTm4F+SYpwY+hKruL/Xgw+xVGq5pen9Exk+XlFzKoHJgBYqJ/CfJNtZN/QfMNctV0S9+yBNchIxa1QYNFux/ucH9OkA9yTom2JIZGM3vMl/v+vklLdCMTEG8LU04RxoEi2N4jkK+Zxs8ORQdYrFy40BKddisfNImfLJCWDocp9YnZLsQNynBe7FgYLai4c2t+5C8bYYbRtlv6b5Ux2/eyxa8r9RLoYrg6N6aiB+OMzEat9yrfigWNZXY0lZrPYg5IpFfuGPlSs7Hv4IYW/pvTZNIrBlFNDmuhMpJm7hQ8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=smOenIN1pWOP3rDx2r9J1cEk3NSRN/Q8EgvFC4x+WF8=;
- b=TBJMEEMXkaE3+bO+3de+a0glgyT+ayeqzcG86N/8jCdItAFd/FIZZCK5SgOwNkMoTf2bTdEQal9vjeg2XwRsSvAiQO+HGXjjruBcprly9Wx5uHQb2cnQoUERJ6exuZlMZSK55ivbQo+h1dNtjOAIbFszMmzp52DdHnJWXEbvH51V0URSIm/ikAiRjWbc13lI6Q7r8vqGrOqNQQG2X4JpNNWyC6b0DmpL3y0OwV3sBWvBR/SxUHlKVc9IpJuJR5vGv82ko5pA/wjMoQHQw7387jSIkp+3DNCOil2m/3OzofOij+ziS1bYrLsTiRfyxen5YOnTeR96N8hHMd0mciNAUQ==
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
- by AS8PR04MB7525.eurprd04.prod.outlook.com (2603:10a6:20b:29b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.16; Wed, 3 Sep
- 2025 09:18:22 +0000
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827%4]) with mapi id 15.20.9094.015; Wed, 3 Sep 2025
- 09:18:21 +0000
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
-To: Varun Sethi <V.Sethi@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>
-CC: Frieder Schrempf <frieder.schrempf@kontron.de>, Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, Frank Li <frank.li@nxp.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, Sahil Malhotra
-	<sahil.malhotra@nxp.com>
-Subject: RE: [EXT] Re: [PATCH v18 3/7] firmware: imx: add driver for NXP
- EdgeLock Enclave
-Thread-Topic: [EXT] Re: [PATCH v18 3/7] firmware: imx: add driver for NXP
- EdgeLock Enclave
-Thread-Index:
- AQHb4RFy2NjRRk9es0SVz8O1dms9rLQTvUUAgALjSvCAAB1dgIAE1IEAgAAdTACAAXh9AIAJZc0QgAr2xgCAI+auAIAAffuAgBY8mkCAAVTSgIAHWPTwgAUCyHCAB81v4A==
-Date: Wed, 3 Sep 2025 09:18:21 +0000
-Message-ID:
- <AM9PR04MB8604F5A7DD8B1E41FDAD09039501A@AM9PR04MB8604.eurprd04.prod.outlook.com>
-References:
- <AM9PR04MB8604611B8D91B5526C9704E69545A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20250627084653.6vgwnm3llf3zknlp@pengutronix.de>
- <b02055bb-0995-4fd8-99f3-4ca5146eedd4@kontron.de>
- <20250630121722.wviidlggt7hguyt7@pengutronix.de>
- <087b8689-7443-4720-a94c-160edd31a5da@kontron.de>
- <AM9PR04MB8604C05882605EDB4913DA089549A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20250714094124.e6fnkrocnqagbm22@pengutronix.de>
- <AM9PR04MB8604EFCC5400DEBB7DF0CF49952DA@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20250806132701.fouikyuqtzdsxqwh@pengutronix.de>
- <AM9PR04MB8604A636762E81DF9EA9A9B89532A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20250821132129.hwnnqdagalvxw2uk@pengutronix.de>
- <DU2PR04MB859982BC71F6CB8182EA1F5F9539A@DU2PR04MB8599.eurprd04.prod.outlook.com>
- <AM0PR0402MB33631F1A9448AE91B58AA406E83AA@AM0PR0402MB3363.eurprd04.prod.outlook.com>
-In-Reply-To:
- <AM0PR0402MB33631F1A9448AE91B58AA406E83AA@AM0PR0402MB3363.eurprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|AS8PR04MB7525:EE_
-x-ms-office365-filtering-correlation-id: 3c22509a-4b92-41e4-e57b-08ddeacad3ed
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|19092799006|1800799024|366016|38070700018|4053099003;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?EK/dKVMkzi5O1MeHhYTlsI4hJkjYR0koT3aq/z4p60iycP8EEIit3mH5xG5Z?=
- =?us-ascii?Q?ejrPuVowACZvGfBZz+aYYuJgUb6lpVgQS5EPLQwxZhb/TikCaTBNLfMCFj8V?=
- =?us-ascii?Q?XEy3jMWNQBcFmz2Rvbq8XumHStnhCM1foYxmAfC+bg+o2u1kBqvWyOA57aT8?=
- =?us-ascii?Q?g11TEXJ2nwR4qC3W1d+JqC8E+V2ySVa3pOgNsp26t+r08HZo2Yd6bElVaUVZ?=
- =?us-ascii?Q?zfMT5iXsrn89UduTrlhW1GmU2wvvPkHjFpFoft5s77fNllP9V2vKrqJPPky/?=
- =?us-ascii?Q?Xjriswln4juxuc+TYLrjEvJjEs8I8un6E/UXyJyB1ZW7h9MjCunYS4QjLjZ/?=
- =?us-ascii?Q?l2UQU5hMYtwgaAZXdE+5+t7zDbKo0eASj1jwJZ/1t4DCIXV5jJr4fx02n+So?=
- =?us-ascii?Q?jUZvBW3b1w2mTlJO/ASohVGpSzieKn4mcm03ntSuvDRyKmRgNQVzMs0mTVN1?=
- =?us-ascii?Q?e2s5hFtM8SxDs5nGdFN75ouVgoXpOsC5yU2rmmWrwDl2fbNFEtlzi5ruZxcS?=
- =?us-ascii?Q?PtPkMJOhIFalwb78kh1DnxVzmXOLXqbzgznS5u2BISltys2gg1YMK4y38d12?=
- =?us-ascii?Q?ylW6u/MutOnTfTl0E5AXCCbTBXOKqDURMX3P/1zlq3c0WOpZlJyknRJTHqqx?=
- =?us-ascii?Q?mEzFXJuCVWwe0surEYKKudXLqoN4r7RmObyjL7n169BOuyaDbFmpJ1MwMB6f?=
- =?us-ascii?Q?Juh06+hWz7cOruyM30TDnQgTO71ViGJ64p7qyAgIz5SCCYNJL6cPZWxavTAu?=
- =?us-ascii?Q?OdGMqwhhtjf5A0S9XQ5tY9yBHeTzT8/0jAeC0mIzKwDkhm47r50e3meFtigO?=
- =?us-ascii?Q?y3cNPUACu6CtHeoj54JZdXthcrXXby2YciMFQBAEQWqgbPnHbhQjqryqyLRd?=
- =?us-ascii?Q?EILr/7wWgJGpIQKaGuZLXzk+/+uDVBHJ5bcca2pGZmHo6EV6pAW03U9wCyPW?=
- =?us-ascii?Q?WU8/kUur+y9YiaNsXlBIurmHhlDGpQ115q9XuPcSU1OhW6yq3SZ0djnVmHB5?=
- =?us-ascii?Q?JOLtzEiCoP6Wxc7peG48ldVpQI2W8RHiIhXTbPj5Z0yISd49hoyLRLPfQ92M?=
- =?us-ascii?Q?2VlAoXv3sVuwePVROTZ4KCEBw25jsojm7usAi1PwUKEhK26XVzRC8gf2LMNo?=
- =?us-ascii?Q?jGbgk5EgW5/jSnJvoBBTifSb736BBvgg7wuedSZ4vZlJdS2Jxe6XAtxZP3We?=
- =?us-ascii?Q?2nuFlHiTrTy9sRu8QzMirJjbiDkrdHigWuglCcfMJRJiXFebGNOc14b1lqKy?=
- =?us-ascii?Q?jh9YEqBIjpP5Zg8zruo5zks2tgGbHGNpQ21As8ZsU5Iwv0yJ0nIQdZDGG2Sw?=
- =?us-ascii?Q?qm7itoXdSviBaFd2LWcsQb8lJNf8109YQBXhZvaho79GwUrEt2InBXpNVelN?=
- =?us-ascii?Q?9qMl40n+6X89/iAq96uX/Zi6yFljaOJfmvRLbaiaGz0LaEzaOnByEom5dRdh?=
- =?us-ascii?Q?yDapABuWGO3CenNFqCOPDay7mqJJ6WsKydLVjSX5XSH/iIqoV5NOw/vXqnuw?=
- =?us-ascii?Q?vAfZR6KODNL1gH8=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(1800799024)(366016)(38070700018)(4053099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?tFHZfJ7I2x9NvAaEmgnZUc1jCkFCu1dIeo85yn/lK2Onifr1jZ+0hhgtPnYl?=
- =?us-ascii?Q?TgtXdIQ+q5yhENvDJ6ySNLM0hjlfR+S3Bkzk7WlkxF+KgNESzh5lcvuKXrSU?=
- =?us-ascii?Q?TPdMDir/XI7m5tUW+vd6XYZcrZZjcRt0BkNXlnGS9CplyibR9A0sT2V3L4MA?=
- =?us-ascii?Q?cXEl95XDtRkuBQTOecMPAUtZj3zroVTSn3SjlVafrB/AUftPdmoATZ4NcqeJ?=
- =?us-ascii?Q?fr8/K7VOyAA3lE2fvhhOnqfZ451fwP0pK3Yb9mNxSQhZcyuCDC5WaNs/Qkef?=
- =?us-ascii?Q?HIMNT7h0qB6xmUHHDNjg7YS/9kEva2cBjW0MnL/gfSmzc4mreUVOpJPQ7Chu?=
- =?us-ascii?Q?/LaAl0RAAya/etIMcK4RFTJRZojbGBvMEGtalCGIsCGa0R/C1PigYLEEAh27?=
- =?us-ascii?Q?KJclXWDyXm5L6GaY60XNIBl70W6zMPYdMXcbSEUO/oeNCZQ/0tzJJK1rassc?=
- =?us-ascii?Q?8t0jEKpoJs1im/eOzeqELcKC5MauL5j8ELS3e+coo1+YlEo4S0mMVkcEHmhy?=
- =?us-ascii?Q?7aaR489O/gt0rquPcvAq5CJaBSepqc2ekIeIVYsAdA0x2ZM0pkm47D4xKJhy?=
- =?us-ascii?Q?ZzhnB4dnRtE+evSmD9wViATEdm7JzUUscPvjru4FrtwBylcDqOLgQYqv0BpM?=
- =?us-ascii?Q?ni9EtCfbajFOgTmWSHoQKGqIHmxS0fjCmu2rtCxlSED07JuXgeC6zSt9RdTI?=
- =?us-ascii?Q?ZslH8yw1OZiBCyu6l1bic7mx2w9r2hjlbQrMptXrjlLAzdLPZpRqKsWyduAv?=
- =?us-ascii?Q?IzWtLGIkrLcjSij1bRuR0jaFizD8dfFmACpfu73ZzSJPLNVcx2lhizlCxIBh?=
- =?us-ascii?Q?FT4cZ60E31VgdQ8dSwWRKwkhf3pH9xi2u7Cul8L3E9n3vE3myq7hQ3+sgGsG?=
- =?us-ascii?Q?irgAfPw6pKxvR/Dl1gjy7iQ1CB+c5cgDRp8/44c5mFf5LCRWc1nJ6htKRvy6?=
- =?us-ascii?Q?xmNSxXijdQxq97XZi1mw8x1BAOM7u/s6TNi0YxMxVaEfR6wXP5zwLKXT65BC?=
- =?us-ascii?Q?+j6lgahgkFa8VEdNS9OTG3OBdVwZ5bEN9y3ZoazsIOnsDdDSp9xMr+2d+zs5?=
- =?us-ascii?Q?WL7FDXvj+Gjn2AIfQXW3GWaiecp2ubmtYQKXaQSy/K7cqoNkjCKmtZF2DGOx?=
- =?us-ascii?Q?hiAIF9jbyHGxC6kDbNH8IDz2ObaQfB04PLFBaGP63Pi2DaqysJXF8lg8LROH?=
- =?us-ascii?Q?OQq4nUqysjtFB1E9Kzgx9CXP4+OdNRyxuE2JwpDo1tLxZXGgRvHbP8kaGEbU?=
- =?us-ascii?Q?POqp3sNqTRtEGYcSL2VzizsSOr0CBk6RWQp5O22RRMbCbE7LWRYwt74RGrqb?=
- =?us-ascii?Q?cfb8kar1kFjLeZNozh5HGAql5DuauSMopK9ONglcaT7nyvMQZLC0drKJ0cqs?=
- =?us-ascii?Q?Hta4Bo9pdgy492WgQDMj+cG2IoN4Nz4ccCadRTr95gbJxvsRiTlNm1k/0Ftq?=
- =?us-ascii?Q?teek641fz+xNGNLBiH743ip1MNBTwRj/sr5pvjxreulKF3k6OuOJziR1Ybxv?=
- =?us-ascii?Q?kx5UBa50KNtyXDHqHf3Z4ZeqXU1OYpkVz8QkBWTR5Shlk5ODWgXW83KV8Npw?=
- =?us-ascii?Q?LCGyrgppXD0sGznkGRt+T/Xw2s2cC8NtcZGyc9M0?=
-Content-Type: multipart/signed;
-	protocol="application/x-pkcs7-signature";
-	micalg=SHA1;
-	boundary="----=_NextPart_000_001E_01DC1CE1.C898F900"
+	dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b="FA8zyiB3"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-336d3e4df3eso28719251fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Sep 2025 02:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall.org; s=google; t=1756893035; x=1757497835; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oss/upyPNwJtn/fltx3esN6MAKGxMbEK7lkKnUGVPx4=;
+        b=FA8zyiB3AfaG8/kdKp9xZnv9UvS4l2lcCOI0FWL2tXRwKh8QPCsKKWgmVAQsRFfbKz
+         i3EvucbaXgILLkvO5ewv0t/9siE34HUSrUO98Qt0TFhi45CmN0ROp0m1JeJqQ++VDaJ5
+         upzdLIU2uS7aiB0z3TVH9PWHJc+Um6U7nzCDkUe345huFAiNbhG6jYT1puB1BAHSCrBS
+         6O1NoNqKl4VbsDoRq5iP8c0z3yjqn5qeTH58FGzifdPZ26+MkH/DkcOUvsbPKwLIY7of
+         xQzi4rDXdUHGBWIQPSAgbf9FuZdQ7hr7caW1m3Jrb/oeHUeD92+mQLyeRTorVOAD7PKH
+         DEzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756893035; x=1757497835;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oss/upyPNwJtn/fltx3esN6MAKGxMbEK7lkKnUGVPx4=;
+        b=uw5kCNdBjooVJTG/vag60jsSTz+pnvy9kdkkxDEw7gguvBNjQ0OY7kBdVWMJ52icBs
+         nC/XU8B8sYrOMdAdjM3O4U1pQuUIxl5nOiJLTQ5C38HDeBzPKFWg3qw9Y+P9jSosw2Ia
+         mAt+R5JPtMihsKJs9QxLLE49bGvvvmlClWT/0cgHE9+z/NwVzxZSRwzKYMu9vHmZ22xa
+         FH9SOg0JfWD/L4ByxdFYEPdeUuU9C/xkUtHUN4Y3Uro+7g4BXzNQ4+h2GpSS0gsfRPLe
+         AZWM2w9B0l0Qxw0tvnWVS5nV7lxqxMlYGANbLx2OBQva2OGiVOg6t9OocIAELLTZSgkm
+         HhLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXfDm6kL+N003GFoUKcuDU7z5s74H8kGoQtuVAqtZ5Sk5lDdRhUBnui/n95yBVj29pL4l0qX/71f1Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK9eEMtWtQNW0RIH3GtFKe6AOYRmKu17lUiphm4yZwSSMbeQmR
+	O4vo5obfvrqy6sEmD2Mu4ysS/GWdn9xD+T36p49MVpFLqBnMMLs5WjdTGO0HBlPebgk=
+X-Gm-Gg: ASbGncsCzWQsxpMiSTuYdxfuNizQ2gqJufQoYg+7xWOdy65t5ajXkeuPjwlScNlIysD
+	IotHjBiHUm3d+C3+G4ARSMSySbfBMNdhLDo2ctmSp8du1aAsZdXx0COCHBx9NULXxI6Vi/BP9ni
+	6jme+YqzPtsna+A46Cxh+J1IvsyUsLuHLKiHTB3D7b/3g/KaZiromL0yhSDimGPxVdxAO+394j3
+	t6uZC8oQb4+P74fLPW3NGX41FVMHlRTmRLztJg9KYGlEOKid8t//ceKBHqQhV+iRQg3B/7OSyXe
+	oSzAOqQ0nED28IxRXs7qYdvzdYKMiK9fRilw68PN20KMFo+txLi3aWnEsPl0NhHthLg5TJwPXl/
+	aVLn+v4Ce3z+YXyYtdZMQVT0lZJXeyQxjEGgXLkv+gv1cTKLnv+g2YJKJYx54TgS9QinIeu7A4G
+	jfEQ==
+X-Google-Smtp-Source: AGHT+IFOB02LLjF4/yAcx/WQMkEzEgitOnaygv9HUGO8U3NQlscMdgj/0vgyMWwEY6T6pKZh03dqbg==
+X-Received: by 2002:a05:651c:2113:b0:337:ec9a:a516 with SMTP id 38308e7fff4ca-337ec9aab87mr20953191fa.13.1756893032939;
+        Wed, 03 Sep 2025 02:50:32 -0700 (PDT)
+Received: from [100.115.92.205] (176.111.185.210.kyiv.nat.volia.net. [176.111.185.210])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-337f4c50f88sm8994531fa.13.2025.09.03.02.50.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 02:50:32 -0700 (PDT)
+Message-ID: <810b9e10-9bc5-4fe3-a4a4-f45c6c13b8b4@blackwall.org>
+Date: Wed, 3 Sep 2025 12:50:30 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c22509a-4b92-41e4-e57b-08ddeacad3ed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2025 09:18:21.6131
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4Hh/TL0YMeIkqwK69dp4aAIGPONQpqE/vY9Tb2aPrK59eI/8MwXmvHi2d5GoSh72VSx0FfQe5fZh7ijqzV0uUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7525
-
-------=_NextPart_000_001E_01DC1CE1.C898F900
-Content-Type: text/plain;
-	charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] bonding: Remove support for use_carrier
+To: Stanislav Fomichev <stfomichev@gmail.com>, Jay Vosburgh <jv@jvosburgh.net>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ linux-doc@vger.kernel.org
+References: <2029487.1756512517@famine> <aLcXNO6ginmuiBOw@mini-arch>
+Content-Language: en-US
+From: Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <aLcXNO6ginmuiBOw@mini-arch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Varun, 
+On 9/2/25 19:11, Stanislav Fomichev wrote:
+> On 08/29, Jay Vosburgh wrote:
+>> 	 Remove the implementation of use_carrier, the link monitoring
+>> method that utilizes ethtool or ioctl to determine the link state of an
+>> interface in a bond.  Bonding will always behaves as if use_carrier=1,
+>> which relies on netif_carrier_ok() to determine the link state of
+>> interfaces.
+>>
+>> 	To avoid acquiring RTNL many times per second, bonding inspects
+>> link state under RCU, but not under RTNL.  However, ethtool
+>> implementations in drivers may sleep, and therefore this strategy is
+>> unsuitable for use with calls into driver ethtool functions.
+>>
+>> 	The use_carrier option was introduced in 2003, to provide
+>> backwards compatibility for network device drivers that did not support
+>> the then-new netif_carrier_ok/on/off system.  Device drivers are now
+>> expected to support netif_carrier_*, and the use_carrier backwards
+>> compatibility logic is no longer necessary.
+>>
+>> 	The option itself remains, but when queried always returns 1,
+>> and may only be set to 1.
+>>
+>> Link: https://lore.kernel.org/lkml/000000000000eb54bf061cfd666a@google.com/
+>> Link: https://lore.kernel.org/netdev/20240718122017.d2e33aaac43a.I10ab9c9ded97163aef4e4de10985cd8f7de60d28@changeid/
+>> Signed-off-by: Jay Vosburgh <jv@jvosburgh.net>
+>>
+>> ---
+>>
+>> Note: Deliberately omitting a Fixes tag to avoid removing functionality
+>> in older kernels that may be in use.
+> 
+> What about syzbot metadata?
+> 
+> Reported-by: syzbot+b8c48ea38ca27d150063@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=b8c48ea38ca27d150063
+> 
+> ?
+> 
+>>   Documentation/networking/bonding.rst |  79 +++----------------
+>>   drivers/net/bonding/bond_main.c      | 113 ++-------------------------
+>>   drivers/net/bonding/bond_netlink.c   |  14 ++--
+>>   drivers/net/bonding/bond_options.c   |   7 +-
+>>   drivers/net/bonding/bond_sysfs.c     |   6 +-
+>>   include/net/bonding.h                |   1 -
+>>   6 files changed, 28 insertions(+), 192 deletions(-)
+>>
+>> diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
+>> index f8f5766703d4..a2b42ae719d2 100644
+>> --- a/Documentation/networking/bonding.rst
+>> +++ b/Documentation/networking/bonding.rst
+>> @@ -582,10 +582,8 @@ miimon
+>>   	This determines how often the link state of each slave is
+>>   	inspected for link failures.  A value of zero disables MII
+>>   	link monitoring.  A value of 100 is a good starting point.
+>> -	The use_carrier option, below, affects how the link state is
+>> -	determined.  See the High Availability section for additional
+>> -	information.  The default value is 100 if arp_interval is not
+>> -	set.
+>> +
+>> +	The default value is 100 if arp_interval is not set.
+>>   
+>>   min_links
+>>   
+>> @@ -896,25 +894,14 @@ updelay
+>>   
+>>   use_carrier
+>>   
+>> -	Specifies whether or not miimon should use MII or ETHTOOL
+>> -	ioctls vs. netif_carrier_ok() to determine the link
+>> -	status. The MII or ETHTOOL ioctls are less efficient and
+>> -	utilize a deprecated calling sequence within the kernel.  The
+>> -	netif_carrier_ok() relies on the device driver to maintain its
+>> -	state with netif_carrier_on/off; at this writing, most, but
+>> -	not all, device drivers support this facility.
+>> -
+>> -	If bonding insists that the link is up when it should not be,
+>> -	it may be that your network device driver does not support
+>> -	netif_carrier_on/off.  The default state for netif_carrier is
+>> -	"carrier on," so if a driver does not support netif_carrier,
+>> -	it will appear as if the link is always up.  In this case,
+>> -	setting use_carrier to 0 will cause bonding to revert to the
+>> -	MII / ETHTOOL ioctl method to determine the link state.
+>> -
+>> -	A value of 1 enables the use of netif_carrier_ok(), a value of
+>> -	0 will use the deprecated MII / ETHTOOL ioctls.  The default
+>> -	value is 1.
+>> +	Obsolete option that previously selected between MII /
+>> +	ETHTOOL ioctls and netif_carrier_ok() to determine link
+>> +	state.
+>> +
+>> +	All link state checks are now done with netif_carrier_ok().
+>> +
+>> +	For backwards compatibility, this option's value may be inspected
+>> +	or set.  The only valid setting is 1.
+>>   
+>>   xmit_hash_policy
+>>   
+>> @@ -2036,22 +2023,8 @@ depending upon the device driver to maintain its carrier state, by
+>>   querying the device's MII registers, or by making an ethtool query to
+>>   the device.
+>>   
+>> -If the use_carrier module parameter is 1 (the default value),
+>> -then the MII monitor will rely on the driver for carrier state
+>> -information (via the netif_carrier subsystem).  As explained in the
+>> -use_carrier parameter information, above, if the MII monitor fails to
+>> -detect carrier loss on the device (e.g., when the cable is physically
+>> -disconnected), it may be that the driver does not support
+>> -netif_carrier.
+>> -
+>> -If use_carrier is 0, then the MII monitor will first query the
+>> -device's (via ioctl) MII registers and check the link state.  If that
+>> -request fails (not just that it returns carrier down), then the MII
+>> -monitor will make an ethtool ETHTOOL_GLINK request to attempt to obtain
+>> -the same information.  If both methods fail (i.e., the driver either
+>> -does not support or had some error in processing both the MII register
+>> -and ethtool requests), then the MII monitor will assume the link is
+>> -up.
+>> +The MII monitor relies on the driver for carrier state information (via
+>> +the netif_carrier subsystem).
+>>   
+>>   8. Potential Sources of Trouble
+>>   ===============================
+>> @@ -2135,34 +2108,6 @@ This will load tg3 and e1000 modules before loading the bonding one.
+>>   Full documentation on this can be found in the modprobe.d and modprobe
+>>   manual pages.
+>>   
+>> -8.3. Painfully Slow Or No Failed Link Detection By Miimon
+>> ----------------------------------------------------------
+>> -
+>> -By default, bonding enables the use_carrier option, which
+>> -instructs bonding to trust the driver to maintain carrier state.
+>> -
+>> -As discussed in the options section, above, some drivers do
+>> -not support the netif_carrier_on/_off link state tracking system.
+>> -With use_carrier enabled, bonding will always see these links as up,
+>> -regardless of their actual state.
+>> -
+>> -Additionally, other drivers do support netif_carrier, but do
+>> -not maintain it in real time, e.g., only polling the link state at
+>> -some fixed interval.  In this case, miimon will detect failures, but
+>> -only after some long period of time has expired.  If it appears that
+>> -miimon is very slow in detecting link failures, try specifying
+>> -use_carrier=0 to see if that improves the failure detection time.  If
+>> -it does, then it may be that the driver checks the carrier state at a
+>> -fixed interval, but does not cache the MII register values (so the
+>> -use_carrier=0 method of querying the registers directly works).  If
+>> -use_carrier=0 does not improve the failover, then the driver may cache
+>> -the registers, or the problem may be elsewhere.
+>> -
+>> -Also, remember that miimon only checks for the device's
+>> -carrier state.  It has no way to determine the state of devices on or
+>> -beyond other ports of a switch, or if a switch is refusing to pass
+>> -traffic while still maintaining carrier on.
+>> -
+>>   9. SNMP agents
+>>   ===============
+>>   
+>> diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+>> index 257333c88710..f25c2d2c9181 100644
+>> --- a/drivers/net/bonding/bond_main.c
+>> +++ b/drivers/net/bonding/bond_main.c
+>> @@ -142,8 +142,7 @@ module_param(downdelay, int, 0);
+>>   MODULE_PARM_DESC(downdelay, "Delay before considering link down, "
+>>   			    "in milliseconds");
+>>   module_param(use_carrier, int, 0);
+>> -MODULE_PARM_DESC(use_carrier, "Use netif_carrier_ok (vs MII ioctls) in miimon; "
+>> -			      "0 for off, 1 for on (default)");
+>> +MODULE_PARM_DESC(use_carrier, "option obsolete, use_carrier cannot be disabled");
+>>   module_param(mode, charp, 0);
+>>   MODULE_PARM_DESC(mode, "Mode of operation; 0 for balance-rr, "
+>>   		       "1 for active-backup, 2 for balance-xor, "
+>> @@ -830,77 +829,6 @@ const char *bond_slave_link_status(s8 link)
+>>   	}
+>>   }
+>>   
+>> -/* if <dev> supports MII link status reporting, check its link status.
+>> - *
+>> - * We either do MII/ETHTOOL ioctls, or check netif_carrier_ok(),
+>> - * depending upon the setting of the use_carrier parameter.
+>> - *
+>> - * Return either BMSR_LSTATUS, meaning that the link is up (or we
+>> - * can't tell and just pretend it is), or 0, meaning that the link is
+>> - * down.
+>> - *
+>> - * If reporting is non-zero, instead of faking link up, return -1 if
+>> - * both ETHTOOL and MII ioctls fail (meaning the device does not
+>> - * support them).  If use_carrier is set, return whatever it says.
+>> - * It'd be nice if there was a good way to tell if a driver supports
+>> - * netif_carrier, but there really isn't.
+>> - */
+>> -static int bond_check_dev_link(struct bonding *bond,
+>> -			       struct net_device *slave_dev, int reporting)
+>> -{
+>> -	const struct net_device_ops *slave_ops = slave_dev->netdev_ops;
+>> -	struct mii_ioctl_data *mii;
+>> -	struct ifreq ifr;
+>> -	int ret;
+>> -
+>> -	if (!reporting && !netif_running(slave_dev))
+>> -		return 0;
+>> -
+>> -	if (bond->params.use_carrier)
+>> -		return netif_carrier_ok(slave_dev) ? BMSR_LSTATUS : 0;
+>> -
+>> -	/* Try to get link status using Ethtool first. */
+>> -	if (slave_dev->ethtool_ops->get_link) {
+>> -		netdev_lock_ops(slave_dev);
+>> -		ret = slave_dev->ethtool_ops->get_link(slave_dev);
+>> -		netdev_unlock_ops(slave_dev);
+>> -
+>> -		return ret ? BMSR_LSTATUS : 0;
+>> -	}
+>> -
+>> -	/* Ethtool can't be used, fallback to MII ioctls. */
+>> -	if (slave_ops->ndo_eth_ioctl) {
+>> -		/* TODO: set pointer to correct ioctl on a per team member
+>> -		 *       bases to make this more efficient. that is, once
+>> -		 *       we determine the correct ioctl, we will always
+>> -		 *       call it and not the others for that team
+>> -		 *       member.
+>> -		 */
+>> -
+>> -		/* We cannot assume that SIOCGMIIPHY will also read a
+>> -		 * register; not all network drivers (e.g., e100)
+>> -		 * support that.
+>> -		 */
+>> -
+>> -		/* Yes, the mii is overlaid on the ifreq.ifr_ifru */
+>> -		strscpy_pad(ifr.ifr_name, slave_dev->name, IFNAMSIZ);
+>> -		mii = if_mii(&ifr);
+>> -
+>> -		if (dev_eth_ioctl(slave_dev, &ifr, SIOCGMIIPHY) == 0) {
+>> -			mii->reg_num = MII_BMSR;
+>> -			if (dev_eth_ioctl(slave_dev, &ifr, SIOCGMIIREG) == 0)
+>> -				return mii->val_out & BMSR_LSTATUS;
+>> -		}
+>> -	}
+>> -
+>> -	/* If reporting, report that either there's no ndo_eth_ioctl,
+>> -	 * or both SIOCGMIIREG and get_link failed (meaning that we
+>> -	 * cannot report link status).  If not reporting, pretend
+>> -	 * we're ok.
+>> -	 */
+>> -	return reporting ? -1 : BMSR_LSTATUS;
+>> -}
+>> -
+>>   /*----------------------------- Multicast list ------------------------------*/
+>>   
+>>   /* Push the promiscuity flag down to appropriate slaves */
+>> @@ -1966,7 +1894,6 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
+>>   	const struct net_device_ops *slave_ops = slave_dev->netdev_ops;
+>>   	struct slave *new_slave = NULL, *prev_slave;
+>>   	struct sockaddr_storage ss;
+>> -	int link_reporting;
+>>   	int res = 0, i;
+>>   
+>>   	if (slave_dev->flags & IFF_MASTER &&
+>> @@ -1976,12 +1903,6 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
+>>   		return -EPERM;
+>>   	}
+>>   
+>> -	if (!bond->params.use_carrier &&
+>> -	    slave_dev->ethtool_ops->get_link == NULL &&
+>> -	    slave_ops->ndo_eth_ioctl == NULL) {
+>> -		slave_warn(bond_dev, slave_dev, "no link monitoring support\n");
+>> -	}
+>> -
+>>   	/* already in-use? */
+>>   	if (netdev_is_rx_handler_busy(slave_dev)) {
+>>   		SLAVE_NL_ERR(bond_dev, slave_dev, extack,
+>> @@ -2195,29 +2116,10 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
+>>   
+>>   	new_slave->last_tx = new_slave->last_rx;
+>>   
+>> -	if (bond->params.miimon && !bond->params.use_carrier) {
+>> -		link_reporting = bond_check_dev_link(bond, slave_dev, 1);
+>> -
+>> -		if ((link_reporting == -1) && !bond->params.arp_interval) {
+>> -			/* miimon is set but a bonded network driver
+>> -			 * does not support ETHTOOL/MII and
+>> -			 * arp_interval is not set.  Note: if
+>> -			 * use_carrier is enabled, we will never go
+>> -			 * here (because netif_carrier is always
+>> -			 * supported); thus, we don't need to change
+>> -			 * the messages for netif_carrier.
+>> -			 */
+>> -			slave_warn(bond_dev, slave_dev, "MII and ETHTOOL support not available for slave, and arp_interval/arp_ip_target module parameters not specified, thus bonding will not detect link failures! see bonding.txt for details\n");
+>> -		} else if (link_reporting == -1) {
+>> -			/* unable get link status using mii/ethtool */
+>> -			slave_warn(bond_dev, slave_dev, "can't get link status from slave; the network driver associated with this interface does not support MII or ETHTOOL link status reporting, thus miimon has no effect on this interface\n");
+>> -		}
+>> -	}
+>> -
+>>   	/* check for initial state */
+>>   	new_slave->link = BOND_LINK_NOCHANGE;
+>>   	if (bond->params.miimon) {
+>> -		if (bond_check_dev_link(bond, slave_dev, 0) == BMSR_LSTATUS) {
+>> +		if (netif_carrier_ok(slave_dev)) {
+>>   			if (bond->params.updelay) {
+>>   				bond_set_slave_link_state(new_slave,
+>>   							  BOND_LINK_BACK,
+>> @@ -2759,7 +2661,7 @@ static int bond_miimon_inspect(struct bonding *bond)
+>>   	bond_for_each_slave_rcu(bond, slave, iter) {
+>>   		bond_propose_link_state(slave, BOND_LINK_NOCHANGE);
+>>   
+>> -		link_state = bond_check_dev_link(bond, slave->dev, 0);
+>> +		link_state = netif_carrier_ok(slave->dev);
+>>   
+>>   		switch (slave->link) {
+>>   		case BOND_LINK_UP:
+>> @@ -6257,10 +6159,10 @@ static int __init bond_check_params(struct bond_params *params)
+>>   		downdelay = 0;
+>>   	}
+>>   
+>> -	if ((use_carrier != 0) && (use_carrier != 1)) {
+>> -		pr_warn("Warning: use_carrier module parameter (%d), not of valid value (0/1), so it was set to 1\n",
+>> -			use_carrier);
+>> -		use_carrier = 1;
+>> +	if (use_carrier != 1) {
+>> +		pr_err("Error: invalid use_carrier parameter (%d)\n",
+>> +		       use_carrier);
+>> +		return -EINVAL;
+>>   	}
+>>   
+>>   	if (num_peer_notif < 0 || num_peer_notif > 255) {
+>> @@ -6507,7 +6409,6 @@ static int __init bond_check_params(struct bond_params *params)
+>>   	params->updelay = updelay;
+>>   	params->downdelay = downdelay;
+>>   	params->peer_notif_delay = 0;
+>> -	params->use_carrier = use_carrier;
+>>   	params->lacp_active = 1;
+>>   	params->lacp_fast = lacp_fast;
+>>   	params->primary[0] = 0;
+>> diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/bond_netlink.c
+>> index 57fff2421f1b..e573b34a1bbc 100644
+>> --- a/drivers/net/bonding/bond_netlink.c
+>> +++ b/drivers/net/bonding/bond_netlink.c
+>> @@ -259,13 +259,11 @@ static int bond_changelink(struct net_device *bond_dev, struct nlattr *tb[],
+>>   			return err;
+>>   	}
+>>   	if (data[IFLA_BOND_USE_CARRIER]) {
+>> -		int use_carrier = nla_get_u8(data[IFLA_BOND_USE_CARRIER]);
+>> -
+>> -		bond_opt_initval(&newval, use_carrier);
+>> -		err = __bond_opt_set(bond, BOND_OPT_USE_CARRIER, &newval,
+>> -				     data[IFLA_BOND_USE_CARRIER], extack);
+>> -		if (err)
+>> -			return err;
+>> +		if (nla_get_u8(data[IFLA_BOND_USE_CARRIER]) != 1) {
+>> +			NL_SET_ERR_MSG_ATTR(extack, data[IFLA_BOND_USE_CARRIER],
+>> +					    "option obsolete, use_carrier cannot be disabled");
+>> +			return -EINVAL;
+>> +		}
+>>   	}
+>>   	if (data[IFLA_BOND_ARP_INTERVAL]) {
+>>   		int arp_interval = nla_get_u32(data[IFLA_BOND_ARP_INTERVAL]);
+>> @@ -688,7 +686,7 @@ static int bond_fill_info(struct sk_buff *skb,
+>>   			bond->params.peer_notif_delay * bond->params.miimon))
+>>   		goto nla_put_failure;
+>>   
+>> -	if (nla_put_u8(skb, IFLA_BOND_USE_CARRIER, bond->params.use_carrier))
+>> +	if (nla_put_u8(skb, IFLA_BOND_USE_CARRIER, 1))
+>>   		goto nla_put_failure;
+>>   
+>>   	if (nla_put_u32(skb, IFLA_BOND_ARP_INTERVAL, bond->params.arp_interval))
+>> diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bond_options.c
+>> index 3b6f815c55ff..c0a5eb8766b5 100644
+>> --- a/drivers/net/bonding/bond_options.c
+>> +++ b/drivers/net/bonding/bond_options.c
+>> @@ -187,7 +187,6 @@ static const struct bond_opt_value bond_primary_reselect_tbl[] = {
+>>   };
+>>   
+>>   static const struct bond_opt_value bond_use_carrier_tbl[] = {
+>> -	{ "off", 0,  0},
+>>   	{ "on",  1,  BOND_VALFLAG_DEFAULT},
+>>   	{ NULL,  -1, 0}
+>>   };
+>> @@ -419,7 +418,7 @@ static const struct bond_option bond_opts[BOND_OPT_LAST] = {
+>>   	[BOND_OPT_USE_CARRIER] = {
+>>   		.id = BOND_OPT_USE_CARRIER,
+>>   		.name = "use_carrier",
+>> -		.desc = "Use netif_carrier_ok (vs MII ioctls) in miimon",
+>> +		.desc = "option obsolete, use_carrier cannot be disabled",
+>>   		.values = bond_use_carrier_tbl,
+>>   		.set = bond_option_use_carrier_set
+>>   	},
+>> @@ -1091,10 +1090,6 @@ static int bond_option_peer_notif_delay_set(struct bonding *bond,
+>>   static int bond_option_use_carrier_set(struct bonding *bond,
+>>   				       const struct bond_opt_value *newval)
+>>   {
+>> -	netdev_dbg(bond->dev, "Setting use_carrier to %llu\n",
+>> -		   newval->value);
+>> -	bond->params.use_carrier = newval->value;
+>> -
+>>   	return 0;
+> 
+> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> 
+> nit: any reason not to return -EINVAL here when the new value is not "1"?
+> You do it for the module param, but not for the sysfs file here.
+> 
 
-> 
-> Hi Marco,
-> Please find response inline.
-> 
-> Regards
-> Varun
-> 
-> >
-> > > > ...
-> > > >
-> > > > > > Lockdown: For a verified boot setup you need to burn an eFuse at
-> > > > > > some
-> > > > > point,
-> > > > > > to tell the bootROM to boot only correct verified firmware
-images.
-> > > > > >
-> > > > > > After this lockdown it's no longer possible to burn eFuses from
-> > > > > > the REE
-> > > > > albeit
-> > > > > > the production line setup still requires the support.
-> > > > > >
-> > > > > Understood. ELE access from both secure and non-secure world is
-> > > > > fixed in Q3 release.
-> > > > > User can be able to modify eFuses via OPTEE.
-> > > >
-> > > > Splitting the read and write between two drivers is even worse.
-> > >
-> > > This could be use-case dependent. Depends on how customer will deploy
-> > > its solution.
-> >
-> > I don't get this. You introduce even more segmentation if the read-path
-> uses
-> > another driver than the write-path and if this is optional.
-> >
-> [Varun Sethi] The secure enclave firmware can restrict accesses to fuses
-> based on the MU (from where the request is received) and core security
-> state. So, we are not talking about segmentation but rather partitioning.
+bond options code already returns EINVAL for values not described in the option's value
+table, after Jay removed "0" from there it should automatically cause -EINVAL to be returned
 
-Agree.
 
-> 
-> > > > Can you please point out why you can't just move the driver parts
-> > > > into the tee? I do see many advantages if only op-tee is used:
-> > >
-> > > The ELE's KEY derivation function takes account of world from where,
-> > > the operations are requested.
-> > > - The key derived from secure world and from non-secure world will be
-> > > different.
-> >
-> > Which is correct and no reason for not having an OP-TEE only solution.
-> [Varun Sethi]Yes, driver instances would be available in both OP-TEE and
-in
-> Linux. Secure enclave services exposed by these instances would vary.
-
-Agree.
-
-> 
-> >
-> > > There are different use-case for ELE accesses from both the worlds.
-> > >
-> > > Using OPTEE ELE driver for Linux specific ELE-HSM requests, it will
-> > > add significant overhead.
-> > >
-> > > Usecases like Transparent TLS offload while securing the secrets in
-> > > HSM, would incur additional overhead.
-> >
-> > Of course, the ELE communication itself will be faster if Linux
-> communicates
-> > directly with the ELE instead of going through OP-TEE.
-> >
-> > But to be honest I don't think that the ELE usage itself is much faster
-> than
-> > using OP-TEE and the ARMv8 Crypto-Extensions.
-> [Varun Sethi] That's true, the main point for using secure enclave is
-about
-> key protection at rest and runtime.
-Agree.
-
-> 
-> >
-> > For the ELE you need to:
-> >  - setup the context (incl. the message and all mailbox mechanism)
-> >  - wait for the ELE to be accessible (only one ELE, only one
-> >    normal-world MU).
-> >  - transfered the messages to/from the ELE
-> >  - the ELE processing should be equal to the CPU processing time
-> [Varun Sethi] Well, this is similar to any look aside accelerator.
-> 
-> >
-> > (Side note: What is the ELE behavior if the secure-world stresses the
-ELE?
-> > Is there a MU priority so the normal-world MU may get blocked (never
-> > addressed) or are both MUs scheduled in round-robin?)
-> [Varun Sethi] Priority based message handling is a possibility but
-currently
-> it's round robin.
-> 
-> >
-> > For OP-TEE you need to:
-> >  - setup the context
-> >  - switch the CPU mode
-> >  - make use of ARMv8 Crypte-Extensions
-> [Varun Sethi] You will also have an option to use the secure enclave via
-> OPTEE.
-Agree
-
-> 
-> >
-> > On i.MX8M, which uses the CAAM (the ELE predecessor), we can verify that
-> the
-> > ARMv8 crypto extensions are much faster than the crypto-engine itself.
-> > Therefore the CAAM is mostly unused.
-> [Varun Sethi] CAAM does offer capability for runtime and at rest key
-> protection. That capability is used by multiple customers.
-> 
-> >
-> > Are there measurements/application-notes that show that the usage of the
-> ELE
-> > is more performant than using the crypto-extensions?
-> >
-> [Varun Sethi]It's not more performant but offers protection for secrets.
-> 
-> > > IOT-cases where real-time encrypted feed from sensors, will take
-> > > latency hit.
-> >
-> > Does the ELE support inline en-/decryption? If not, I don't think so.
-> [Varun Sethi] Again, it's about key protection. It's possible to combine
-> secure enclave key protection with other high performance crypto
-> accelerators.
-> 
-> >
-> > The data needs to be read from the CPU first, afterwards it needs to be
-> > prepared for the ELE and transfered to/from the ELE. Also there is just
-a
-> > single ELE with a single normal-world MU, so you need to handle
-> concurrent
-> > access if there are multiple ELE-users (sensor+tls-offloading).
-> >
-> > If CPU is used, the data still needs to be read from the communication
-> > interface but afterwards doesn't need to be passed to another IP. Also
-> there
-> > are multiple CPUs.
-> [Varun Sethi]You are right, but please note that secure enclave offers key
-> protection and offers support for asymmetric crypto operations. So, for
-> cases where we need to establish secure TLS/IPSec connection and ensure
-> protection for long term secrets (asymmetric keys) secure enclave is
-> suitable. For bulk crypto operations you can use high performance crypto
-> accelerators along with secure enclave.
-> 
-> Secure enclave use cases can vary for OP-TEE and Linux. We are enabling
-> drivers for both environments.
-> 
-Agree.
-> >
-> > Regards,
-> >   Marco
-
-------=_NextPart_000_001E_01DC1CE1.C898F900
-Content-Type: application/pkcs7-signature;
-	name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="smime.p7s"
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIImZTCCBaIw
-ggOKoAMCAQICCE4Rpu+H69FRMA0GCSqGSIb3DQEBCwUAMGUxIjAgBgNVBAMMGU5YUCBJbnRlcm5h
-bCBQb2xpY3kgQ0EgRzIxCzAJBgNVBAsMAklUMREwDwYDVQQKDAhOWFAgQi5WLjESMBAGA1UEBwwJ
-RWluZGhvdmVuMQswCQYDVQQGEwJOTDAeFw0yMzA0MjEwNjQzNDVaFw0yODA0MTkwNjQzNDVaMIG2
-MRwwGgYDVQQDDBNOWFAgRW50ZXJwcmlzZSBDQSA1MQswCQYDVQQLDAJJVDERMA8GA1UECgwITlhQ
-IEIuVi4xEjAQBgNVBAcMCUVpbmRob3ZlbjEWMBQGA1UECAwNTm9vcmQtQnJhYmFudDETMBEGCgmS
-JomT8ixkARkWA3diaTETMBEGCgmSJomT8ixkARkWA254cDETMBEGCgmSJomT8ixkARkWA2NvbTEL
-MAkGA1UEBhMCTkwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDAWrnSkYP60A8wj4AO
-kATDjnbdgLv6waFfyXE/hvatdWz2YYtb1YSRi5/wXW+Pz8rsTmSj7iusI+FcLP8WEaMVLn4sEIQY
-NI8KJUCz21tsIArYs0hMKEUFeCq3mxTJfPqzdj9CExJBlZ5vWS4er8eJI8U8kZrt4CoY7De0FdJh
-35Pi5QGzUFmFuaLgXfV1N5yukTzEhqz36kODoSRw+eDHH9YqbzefzEHK9d93TNiLaVlln42O0qaI
-MmxK1aNcZx+nQkFsF/VrV9M9iLGA+Qb/MFmR20MJAU5kRGkJ2/QzgVQM3Nlmp/bF/3HWOJ2j2mpg
-axvzxHNN+5rSNvkG2vSpAgMBAAGjggECMIH/MFIGCCsGAQUFBwEBBEYwRDBCBggrBgEFBQcwAoY2
-aHR0cDovL253dy5wa2kubnhwLmNvbS9jZXJ0cy9OWFBJbnRlcm5hbFBvbGljeUNBRzIuY2VyMB0G
-A1UdDgQWBBRYlWDuTnTvZSKqve0ZqSt6jhedBzASBgNVHRMBAf8ECDAGAQH/AgEAMEUGA1UdHwQ+
-MDwwOqA4oDaGNGh0dHA6Ly9ud3cucGtpLm54cC5jb20vY3JsL05YUEludGVybmFsUG9saWN5Q0FH
-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
-ggEKAoIBAQCsljsxzffby7IAt42e7cJH7K+49RL+7i56h3ORt8dS8WNVSdDlejp6uS6mLk/UX0wn
-sSxDK1S5KquGJQzaT/3gxE8tdgvfFNBVdrgr48DeCVwWDr1o/UF3RmGcMdxqRz1M/oLDJ03C8n6h
-L/0JXiwsNx0KZJoqDrN/48yX5TkoeKJmHFftZ5Op57xV0WkZJ/yLxSC1Om75jOG/UPdqsDzl+wi7
-YVj5egV24hoaXgHBxtCeJzUgsHcJlo9nFtGe11j6H1vqFzkPzN9ydjRmhQATV/WLqpG8uot79u0m
-6n7Mjwsd/HmJf+8xpovMcHPO2a0axppssKso/3APP6mR1FuVAgMBAAGjggORMIIDjTAOBgNVHQ8B
-Af8EBAMCB4AwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMAwGA1UdEwEB/wQCMAAwHQYD
-VR0OBBYEFLNr0DCWM1fCXv4ubOt/elkvcoiaMEUGA1UdEQQ+MDygJAYKKwYBBAGCNxQCA6AWDBRw
-YW5rYWouZ3VwdGFAbnhwLmNvbYEUcGFua2FqLmd1cHRhQG54cC5jb20wHwYDVR0jBBgwFoAU5TJ6
-9GbBR5Ykf/wngDlY3ysX4rswggFKBgNVHR8EggFBMIIBPTCCATmgggE1oIIBMYaByGxkYXA6Ly8v
-Q049TlhQJTIwRW50ZXJwcmlzZSUyMENBJTIwNCxDTj1ubGFtc3BraTAwMDQsQ049Q0RQLENOPVB1
-YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNlcnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9d2Jp
-LERDPW54cCxEQz1jb20/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENsYXNz
-PWNSTERpc3RyaWJ1dGlvblBvaW50hjFodHRwOi8vbnd3LnBraS5ueHAuY29tL2NybC9OWFAtRW50
-ZXJwcmlzZS1DQTQuY3JshjFodHRwOi8vd3d3LnBraS5ueHAuY29tL2NybC9OWFAtRW50ZXJwcmlz
-ZS1DQTQuY3JsMIIBEAYIKwYBBQUHAQEEggECMIH/MIG7BggrBgEFBQcwAoaBrmxkYXA6Ly8vQ049
-TlhQJTIwRW50ZXJwcmlzZSUyMENBJTIwNCxDTj1BSUEsQ049UHVibGljJTIwS2V5JTIwU2Vydmlj
-ZXMsQ049U2VydmljZXMsQ049Q29uZmlndXJhdGlvbixEQz13YmksREM9bnhwLERDPWNvbT9jQUNl
-cnRpZmljYXRlP2Jhc2U/b2JqZWN0Q2xhc3M9Y2VydGlmaWNhdGlvbkF1dGhvcml0eTA/BggrBgEF
-BQcwAoYzaHR0cDovL253dy5wa2kubnhwLmNvbS9jZXJ0cy9OWFAtRW50ZXJwcmlzZS1DQTQuY2Vy
-MDwGCSsGAQQBgjcVBwQvMC0GJSsGAQQBgjcVCIWCwH6BjvRVhu2FOILrmUuaklY/hMbNXILljX4C
-AWQCAT8wJwYJKwYBBAGCNxUKBBowGDAKBggrBgEFBQcDAjAKBggrBgEFBQcDBDANBgkqhkiG9w0B
-AQsFAAOCAQEAWS4IrHXWhCGNWk5vn20xV7mlLkM7JPwltVJzB6MRzwUB438upbyUMwNHcEgAmHcs
-xL9hafErN+n9rLL00wEqZsCV732s7YOxSRRjZTE3CmZQ2+TYjXR7A6AzQKo0fv/x43bpSes8ttQ6
-Qtt8nzIbGBkDAcI7wfXsUPF5o0NwLOxre+Z+JCPNH0eaOj2J7EKD2ERLCClmvohrYdlmu85iXfyi
-nJo42eq9g08FtnxTXVQSIZCtiETiGtXA7+t2Aa8429XXunsijRznaYw2SwI/s4sVmvaK3XHaif0D
-QaUYxQp4s2ctzgz3eU6hK68OnNzbhBtF/lx6PHbifqHDzrtUbzCCB+8wggbXoAMCAQICEy0ACwRu
-JYOozH+yQuYAAQALBG4wDQYJKoZIhvcNAQELBQAwgbYxHDAaBgNVBAMME05YUCBFbnRlcnByaXNl
-IENBIDUxCzAJBgNVBAsMAklUMREwDwYDVQQKDAhOWFAgQi5WLjESMBAGA1UEBwwJRWluZGhvdmVu
-MRYwFAYDVQQIDA1Ob29yZC1CcmFiYW50MRMwEQYKCZImiZPyLGQBGRYDd2JpMRMwEQYKCZImiZPy
-LGQBGRYDbnhwMRMwEQYKCZImiZPyLGQBGRYDY29tMQswCQYDVQQGEwJOTDAeFw0yMzEyMjAwOTIw
-NDdaFw0yNTEyMTkwOTIwNDdaMIGaMRMwEQYKCZImiZPyLGQBGRYDY29tMRMwEQYKCZImiZPyLGQB
-GRYDbnhwMRMwEQYKCZImiZPyLGQBGRYDd2JpMQwwCgYDVQQLEwNOWFAxCzAJBgNVBAsTAklOMRYw
-FAYDVQQLEw1NYW5hZ2VkIFVzZXJzMRMwEQYDVQQLEwpEZXZlbG9wZXJzMREwDwYDVQQDEwhueGEx
-ODcxNzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL2JT+kRihW1mBdeZFOoCLGIl4DZ
-VL7FWt3V1iFFJJe/bZDw/SUf5z1HeA8xv9+S8rqMyybjlSRHFLgiMm7qrGpVEDniKe8eiqP8Un4Y
-3fHgK5FKZIVVn0KlaMuD5G30AMk9HyUdc2MkVRL8YSQCewkQDEVjB8gnx/e6xfbWEVHf5+dOWJoR
-aket5+0JKV0l/dPV7cT4hL3BFtiBhq8976Li6rn8gxIi63u0G3qvm9Scqk+EHzemDhw/W+eMmGR4
-nwKVLKzumxko8l6EOnnvqqF4vj2hKTpB+2lsEXH1giireMEsvB2RY40lnRUXVQ0FDklOIQV4Qdgi
-EJfUdq/ZhCUCAwEAAaOCBA4wggQKMDwGCSsGAQQBgjcVBwQvMC0GJSsGAQQBgjcVCIWCwH6BjvRV
-hu2FOILrmUuaklY/gbeCPIPthzICAWQCAT4wEwYDVR0lBAwwCgYIKwYBBQUHAwQwDgYDVR0PAQH/
-BAQDAgUgMAwGA1UdEwEB/wQCMAAwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDCBlAYJKoZI
-hvcNAQkPBIGGMIGDMAsGCWCGSAFlAwQBKjALBglghkgBZQMEAS0wCwYJYIZIAWUDBAEWMAsGCWCG
-SAFlAwQBGTALBglghkgBZQMEAQIwCwYJYIZIAWUDBAEFMAoGCCqGSIb3DQMHMAcGBSsOAwIHMA4G
-CCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAgAwHQYDVR0OBBYEFMJ81PK4p3H8Q7gn7u/5OwWx
-uAwGMEUGA1UdEQQ+MDygJAYKKwYBBAGCNxQCA6AWDBRwYW5rYWouZ3VwdGFAbnhwLmNvbYEUcGFu
-a2FqLmd1cHRhQG54cC5jb20wHwYDVR0jBBgwFoAUWJVg7k5072Uiqr3tGakreo4XnQcwggFGBgNV
-HR8EggE9MIIBOTCCATWgggExoIIBLYaByGxkYXA6Ly8vQ049TlhQJTIwRW50ZXJwcmlzZSUyMENB
-JTIwNSxDTj1ubGFtc3BraTAwMDUsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENO
-PVNlcnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9d2JpLERDPW54cCxEQz1jb20/Y2VydGlmaWNh
-dGVSZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENsYXNzPWNSTERpc3RyaWJ1dGlvblBvaW50hi9o
-dHRwOi8vbnd3LnBraS5ueHAuY29tL2NybC9OWFBFbnRlcnByaXNlQ0E1LmNybIYvaHR0cDovL3d3
-dy5wa2kubnhwLmNvbS9jcmwvTlhQRW50ZXJwcmlzZUNBNS5jcmwwggEQBggrBgEFBQcBAQSCAQIw
-gf8wgbsGCCsGAQUFBzAChoGubGRhcDovLy9DTj1OWFAlMjBFbnRlcnByaXNlJTIwQ0ElMjA1LENO
-PUFJQSxDTj1QdWJsaWMlMjBLZXklMjBTZXJ2aWNlcyxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0
-aW9uLERDPXdiaSxEQz1ueHAsREM9Y29tP2NBQ2VydGlmaWNhdGU/YmFzZT9vYmplY3RDbGFzcz1j
-ZXJ0aWZpY2F0aW9uQXV0aG9yaXR5MD8GCCsGAQUFBzAChjNodHRwOi8vbnd3LnBraS5ueHAuY29t
-L2NlcnRzL05YUC1FbnRlcnByaXNlLUNBNS5jZXIwDQYJKoZIhvcNAQELBQADggEBALwIIuww1PaF
-EbpQoy5vgJ/4N3xS+niIpFTKyYNAD0Ar38FcUlSnj0FIHKRj8rUmZP9WTky3U8m5B3LOyhJ14FPh
-iy1EwkhZmds9fJiZyEEFiwQWYDG/uknu6zIKOTlLmtlYPfbzfi58keGcjD3T5H8D8DpCGWI1lAwe
-clR9fJCbcYnQSQnuicSCfrHjjXiDZ2O8h7WbE1CC6Cj/qwo5nmS0lMv7yoG94rTNBvYe8iqOkcav
-7KiZA6SdhXms3ppvFmBukI6pTheMvT39SM0S6E0dgeqZSGSxHrM7dcxUdAL4fnYMv3Sa+GAgyXB6
-rihWC11+goz2eawt5TRU2w45TmcxggSzMIIErwIBATCBzjCBtjEcMBoGA1UEAwwTTlhQIEVudGVy
-cHJpc2UgQ0EgNDELMAkGA1UECwwCSVQxETAPBgNVBAoMCE5YUCBCLlYuMRIwEAYDVQQHDAlFaW5k
-aG92ZW4xFjAUBgNVBAgMDU5vb3JkLUJyYWJhbnQxEzARBgoJkiaJk/IsZAEZFgN3YmkxEzARBgoJ
-kiaJk/IsZAEZFgNueHAxEzARBgoJkiaJk/IsZAEZFgNjb20xCzAJBgNVBAYTAk5MAhM/AAV1goSs
-wyqoLYNbAAUABXWCMAkGBSsOAwIaBQCgggK5MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJ
-KoZIhvcNAQkFMQ8XDTI1MDkwMzA5MTgxN1owIwYJKoZIhvcNAQkEMRYEFDQ7ifnZh1QZhlcetQCF
-ppCiUruOMIGTBgkqhkiG9w0BCQ8xgYUwgYIwCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBFjAKBggq
-hkiG9w0DBzALBglghkgBZQMEAQIwDgYIKoZIhvcNAwICAgCAMA0GCCqGSIb3DQMCAgFAMAcGBSsO
-AwIaMAsGCWCGSAFlAwQCAzALBglghkgBZQMEAgIwCwYJYIZIAWUDBAIBMIHfBgkrBgEEAYI3EAQx
-gdEwgc4wgbYxHDAaBgNVBAMME05YUCBFbnRlcnByaXNlIENBIDUxCzAJBgNVBAsMAklUMREwDwYD
-VQQKDAhOWFAgQi5WLjESMBAGA1UEBwwJRWluZGhvdmVuMRYwFAYDVQQIDA1Ob29yZC1CcmFiYW50
-MRMwEQYKCZImiZPyLGQBGRYDd2JpMRMwEQYKCZImiZPyLGQBGRYDbnhwMRMwEQYKCZImiZPyLGQB
-GRYDY29tMQswCQYDVQQGEwJOTAITLQALBG4lg6jMf7JC5gABAAsEbjCB4QYLKoZIhvcNAQkQAgsx
-gdGggc4wgbYxHDAaBgNVBAMME05YUCBFbnRlcnByaXNlIENBIDUxCzAJBgNVBAsMAklUMREwDwYD
-VQQKDAhOWFAgQi5WLjESMBAGA1UEBwwJRWluZGhvdmVuMRYwFAYDVQQIDA1Ob29yZC1CcmFiYW50
-MRMwEQYKCZImiZPyLGQBGRYDd2JpMRMwEQYKCZImiZPyLGQBGRYDbnhwMRMwEQYKCZImiZPyLGQB
-GRYDY29tMQswCQYDVQQGEwJOTAITLQALBG4lg6jMf7JC5gABAAsEbjANBgkqhkiG9w0BAQEFAASC
-AQA7agIWoqsBPxHv8iqw7aipENpSvpDfTN/cH8AZ86P0SpE6Msev4wLqQt/5/kKppVyF8gVRARxd
-sz6wNm6kr5+arXmYkf98rXTqC7qaa5SbAkXJ0oZiare69ELv5c9Le3U3xICO9Cv+7s10Cx2rEsEw
-czg9vzeSGVpwdGRDCi3eGPFPwAeDGFvdEoJQAA3s3rO0fhmkDkHdE1C/lWvXNEe87Ll7CH2WuOUM
-4flGEeUCUpAMyzuj4km9gFCzgS8IZYUpBuwhGqtnWKl+ZVcl2gQBLRStV+58dH7LpBrLIkT1wDYE
-/N0jVwZUcNPIUU6xL1l9ctAKSle2KGiFQr/d3gaHAAAAAAAA
-
-------=_NextPart_000_001E_01DC1CE1.C898F900--
