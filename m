@@ -1,163 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4ED1E4AE;
-	Wed,  3 Sep 2025 14:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF321A2C04;
+	Wed,  3 Sep 2025 14:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756909435; cv=none; b=QAaQ5RgzV0mghDQh1rx+0GHmrMa0EVkr03j2XERq6RrgN2+vSQTEzd/E26kllb+tPHQPfE8K1bExIa+SPeo/Jt4ar+idfY29aJAOH4IS+ty/vGzB4X6fuFoOB/v98Bnm16GxQjn4AswUpGkDmKYyGx9KJOTG3a4Bh/DmQdwVJIQ=
+	t=1756911440; cv=none; b=QXnyiTu5xOyj5OJBV6pdqExfM2flBIVWebj/G5JmiLV/ogBHCNqdcSegOY3Q1KoJA8KZo8s4vcHRUwtYQ1Lq0hKW5QWst/gmokKC28SgmvwQpZ51cgJ7yn2wCDachl2na/6Trc3dOvTgztTZhiRkVBtQao3/aF3EYUMKtTvYAaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756909435; c=relaxed/simple;
-	bh=RH0JXllZP6MZUtbdIyvnSL6xOTZGtSyzuKbcwgJZhZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JZuBITg9tBDuaXaAvrqeuZLLC6KcT/oGYdwyNyyCoRFZ0kbhFXeACRmrstORFQoRH9x+AGHT2JMy/NwMtAGWyJK8lfz9A1kOI8u1d6fe+/op2MD+rMnyTZHcPT7anzwX/YVJsivIcEj68oe9WWHCxecgudDYtybBjb7f3AWsZJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uGiphPDg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756911440; c=relaxed/simple;
+	bh=UBGOcVsN02FLc+3G4s7YCvByclUEO3H7WjNbWeIbvsY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bvCB3bwQxbJFKPVmck8+5HpgFlK4LCmR1qMKiPvm6cSkvQ0YkmGVY11BjcG2XyKx0/X+84g4buNCT95jsabpmxD7brSpefC/PJ/iQJiFhGl3Ugtoaa02eltjoHxikxDiai+BX7NhiSY9i5uuPz32tR99WHyo49Qz3Ff7SLCh2jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibBhD+9Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uGiphPDg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8677FC4CEE7;
-	Wed,  3 Sep 2025 14:23:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibBhD+9Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93686C4CEE7;
+	Wed,  3 Sep 2025 14:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756909434;
-	bh=RH0JXllZP6MZUtbdIyvnSL6xOTZGtSyzuKbcwgJZhZ8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uGiphPDg6pqRYghg8mQ3iJf9rZTGTJvVgt56Ntji54toOVqzoEMmxeFzOPC0It7R8
-	 33TOcKwEnNxlz54A8OS7qkEGg/j5U7pOgUnTYAJ6lnjSQGSjv5hb240/CXNXCQCxND
-	 5W9UEdnq33hwParQ+7Ynp9e0qFQPgl1z1gs+Bkrm8B+Kc5kqNQHMJXaOEgp4Tkb34D
-	 lejn1a6pGiHPxyVsO5l6uTwf2ROY+9cfxMLtdZlud4b9vFoLCpGkUP3BuA6FmrHVOk
-	 6HT2/7tKocLDXCApRo3xnxsNBwxsj7IHGMT9FXqqmU80u9FtnyHtjTQ/vY3TU30Bkx
-	 yQjRdEjmbZcFQ==
-Message-ID: <9c2a863c-0c8a-4563-a58d-d59112ac45a8@kernel.org>
-Date: Wed, 3 Sep 2025 16:23:44 +0200
+	s=k20201202; t=1756911438;
+	bh=UBGOcVsN02FLc+3G4s7YCvByclUEO3H7WjNbWeIbvsY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ibBhD+9QlIfb/auG56wGqNncNbljPd90aOZCGj4MUsbqmHNLPBl8fQ6/xZt1/3J7Z
+	 e9i59dTBWkPrNnjhoW8MoGNARcR427mG9Tp0XjGn5V4GUX3kW6AhjaC4eIJg27AyE8
+	 lT0JJdr0dtBJwQgwG3VNeXDSxSEE+RW/436vVfXoerrK2g+Iq/J3F3rzixSvBfs/e+
+	 2ublm/Qh30tl7ZXbyCwEm/oIGNCuvPx6MPBM4l8IT2EJrAiPzUA4UCGyAIPB+FW35K
+	 M5Jw0sFHK8RNhGskUybZQY+OpI67mSbmfGSHAI1MXxkCktrIz5b4tsZDSoTbY16YCm
+	 siON00oM26H2w==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1utovD-00000007AQa-40MK;
+	Wed, 03 Sep 2025 16:57:15 +0200
+Date: Wed, 3 Sep 2025 16:57:15 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+Message-ID: <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw>
+References: <20250902141434.3e5b14e4@foz.lan>
+ <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
+ <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
+ <87ecsox4uy.fsf@trenco.lwn.net>
+ <20250902191929.504977bf@foz.lan>
+ <87frd4vfys.fsf@trenco.lwn.net>
+ <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
+ <20250903124229.332dfeae@foz.lan>
+ <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
+ <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/8] dt-bindings: remoteproc: k3-r5f: Add
- rpmsg-eth subnode
-To: Andrew Lunn <andrew@lunn.ch>, "Anwar, Md Danish" <a0501179@ti.com>
-Cc: MD Danish Anwar <danishanwar@ti.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Mengyuan Lou <mengyuanlou@net-swift.com>, Xin Guo <guoxin09@huawei.com>,
- Lei Wei <quic_leiwei@quicinc.com>, Lee Trager <lee@trager.us>,
- Michael Ellerman <mpe@ellerman.id.au>, Fan Gong <gongfan1@huawei.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>,
- Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
- Suman Anna <s-anna@ti.com>, Tero Kristo <kristo@kernel.org>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, srk@ti.com,
- Roger Quadros <rogerq@kernel.org>
-References: <20250902090746.3221225-1-danishanwar@ti.com>
- <20250902090746.3221225-3-danishanwar@ti.com>
- <20250903-peculiar-hot-monkey-4e7c36@kuoka>
- <d994594f-7055-47c8-842f-938cf862ffb0@ti.com>
- <f2550076-57b5-46f2-a90a-414e5f2cb8d7@kernel.org>
- <38c054a3-1835-4f91-9f89-fbe90ddba4a9@ti.com>
- <6e56f36f-70fd-4635-b83f-a221780237ba@lunn.ch>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <6e56f36f-70fd-4635-b83f-a221780237ba@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On 03/09/2025 16:06, Andrew Lunn wrote:
->>>>  	mboxes = <&mailbox0_cluster2 &mbox_main_r5fss0_core0>;
->>>>  	memory-region = <&main_r5fss0_core0_dma_memory_region>,
->>>>  			<&main_r5fss0_core0_memory_region>;
->>>> +	rpmsg-eth-region = <&main_r5fss0_core0_memory_region_shm>;
->>>
->>> You already have here memory-region, so use that one.
->>>
->>
->> There is a problem with using memory-region. If I add
->> `main_r5fss0_core0_memory_region_shm` to memory region, to get this
->> phandle from driver I would have to use
->> 	
->> 	of_parse_phandle(np, "memory-region", 2)
->>
->> Where 2 is the index for this region. But the problem is how would the
->> driver know this index. This index can vary for different vendors and
->> their rproc device.
->>
->> If some other vendor tries to use this driver but their memory-region
->> has 3 existing entries. so this this entry will be the 4th one.
+On Wed, Sep 03, 2025 at 12:54:04PM +0200, Johannes Berg wrote:
+> On Wed, 2025-09-03 at 12:45 +0200, Johannes Berg wrote:
+> > 
+> > I don't follow. If this setup breaks the build then that's good, I'll
+> > fix the env. If the build does magic inside and sort of ignores $PATH,
+> > that's bad.
 > 
-> Just adding to this, there is nothing really TI specific in this
-> system. We want the design so that any vendor can use it, just by
-> adding the needed nodes to their rpmsg node, indicating there is a
-> compatible implementation on the other end, and an indication of where
-> the shared memory is.
-
-I don't know your drivers, but I still do not see here a problem with
-'memory-region'. You just need to tell this common code which
-memory-region phandle by index or name is the one for rpmsg.
-
+> Or maybe it's not ignoring $PATH, but rather picking the "best"
+> python3.xy binary from $PATH - still that's annoying because you'd have
+> to control which ones are there and/or know which ones it might pick.
 > 
-> Logically, it is a different shared memory. memory-region above is for
-> the rpmsg mechanism itself. A second shared memory is used for the
-> Ethernet drivers where it can place Ethernet frames. The Ethernet
-> frames themselves are not transported over rpmsg. The rpmsg is just
-> used for the control path, not the data path.
+> Far more predictable and usable to just use "python3" and print a
+> message saying you might want to use a better version if you think it's
+> too slow.
 
-It is still "shared-dma-pool", right? Nothing in the bindings says that
-all memory-region phandles are equal or the same. Just like phandles for
-clocks. Some clocks need to be enabled for entire lifetime of the
-device, some are toggled on-off during runtime PM.
+There are actually 3 different issues that depend on python version:
 
-Best regards,
-Krzysztof
+1. sphinx-pre-install:
+
+    This used to be a Perl script. The goal is to check if sphinx-build
+    is installed and works, and identify missing dependencies.
+
+    The problem is: if one installs python3xx-Sphinx, instead of
+    python3-Sphinx, the script will fail, except if it first switches
+    to python3.xx;
+
+2. sphinx-build logic inside makefile, required for doc-specific targets:
+
+   - If python < 3.7, doc builds fail;
+   - If python3xx-Sphinx is installed, build only works if started using
+     the right python3.xx exec
+
+3. kernel-doc via command line. Python >=3.6 and <= 3.11 works. It is
+   just 60% slower.
+
+For (3), I agree with you: let it run at the slow way, printing a warning;
+eventually suggesting a newer version and, as Jon suggested, added a
+command line like --newest-python that could optionally pick the fastest
+version.
+
+Now, for (1) and (2), it should be possible to allow building docs even
+if the distro requires Python < 3.7, providing extra packages for newer
+Python, as almost all distros do. See, several distros require python
+on their minimal install images, because it can be using during package
+install. Removing the default python replacing by a new version may break
+the system, as the newer version may not be backward-compatible.
+
+So, what distros do, instead, to ensure backward-compatibility is to
+provide multpile Python versions (together with python libraries).
+
+The htmldocs/pdfdocs/... targets must support it somehow.
+
+The best alternative seems to check if:
+
+- python version is bellow the minimal supported version;
+- there is a newer python binary at PATH;
+- check if sphinx-build runs with the newest version.
+
+If all those 3 conditions are met, build docs with a version that works,
+printing a message to tell the user what Python binary was used.
+
+Thanks,
+Mauro
