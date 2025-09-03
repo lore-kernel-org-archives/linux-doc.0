@@ -1,135 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9255021D3F6;
-	Wed,  3 Sep 2025 15:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E8E29A9FE
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 16:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756914753; cv=none; b=P9qlG0eszmtLoTEwCq65xsDQ29/7u3jtpr7c9rbMl/qxCq0Lzm1c0CxSqhtaCZgCi7FQOHt84xovgAqC9+Kyclzf3oM515MUBCQjh2oB61zVF+T9UJn83LxKWRtOZ6ONUv+IGr80st7NgBMd5I0xQXXEVX6DKpdh25GREPOlPG0=
+	t=1756915222; cv=none; b=bwvpqraPAvgxDaioVybZYJjMPcoAh6gtriSmRVEDbD5+z+qFfx127hiM+BsnvFKiFvzm7OpEiEQRnREy+jo+wxaYRZ7RCSTWbB9+t4whOQFxoxeeIP91Lv+v4fauPcouZe7W+KH/UtY+sexfgSOcPb5n+OCBSBmclT34ZUM8w+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756914753; c=relaxed/simple;
-	bh=Dia7i4SZs/QHOK4dY0wnSKRQydjPdYaJVl6UENAVyZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mUyW98wO0ugh4rc3CjDcjasnnh8xwW1Ku637QaGjskI+acPejxU7HgFLTDEy/nA+DAR8G8SrmqH+FD9X30wNdJgObzt9jP69GXbkk8bxW4W2mNe4Bax8B94BW+5CHLvEJEyD/OQxzMee0NNErYEJyoUjowEfRopTQZCMAMe4M7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQAy7nl7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756915222; c=relaxed/simple;
+	bh=VzTEB4bQWY8fWAQTgqOF+HS9WXqmiqpiTrodHwtJGNM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nb4+1xYkZy9I7I42s5tRkjFYq50APAKP7glJBiuDjeebI4y1F85tUnzCy+wd1TyKaSLPMPeZMbkLSm+pWxrHKqY+IrXsL/xYfn6JmSOp8kaCG6xwjz6OVru35vNZbY62KsiaclIRtOaIxLWBsDbGuB0V+sBbFHx+4uJYKguGJB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=O9wxjTpF; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQAy7nl7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFF8C4CEE7;
-	Wed,  3 Sep 2025 15:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756914753;
-	bh=Dia7i4SZs/QHOK4dY0wnSKRQydjPdYaJVl6UENAVyZI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PQAy7nl7UPIDgDCCdMAEJyRYR6KwrHSgWVgfMqpjjmZ8w+H9+pxBzbZ14puy2esCf
-	 to0YkawgplwmOjd4GSYQiO8a2P9o9bhbUBZlKameNv9vYm+vkkaQWQoqxC2rIzpCSd
-	 LHe2XIyJsY0j4WSjo2EMeSZn1dYfifBvj4OzRG5vBI6/quOfnQnJz+GJejIjrQahsf
-	 rDaZyjMendTMo5DPAGbLEN8x2VGqldkyDIWA4/6ww+1/tkwAPw5CSWn0rioyirXC1X
-	 NRgYzXKS5rHngYYEzXDnpkVOf2mNwAkxHmNNHH0FQ5LPUduQ++hsITY9KetDvwjqVr
-	 YgOIpzMgywQCA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1utpmh-00000007NmB-00LH;
-	Wed, 03 Sep 2025 17:52:31 +0200
-Date: Wed, 3 Sep 2025 17:52:30 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Johannes Berg <johannes@sipsolutions.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-Message-ID: <5t23xw2yizkyfuevubkvi2keshpi7ut5txftx5tdgeqres24nf@dlewpyk746sw>
-References: <20250902191929.504977bf@foz.lan>
- <87frd4vfys.fsf@trenco.lwn.net>
- <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
- <20250903124229.332dfeae@foz.lan>
- <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
- <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
- <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw>
- <874a85f2154d6b05635d856dcdd85d4715d19d3c.camel@sipsolutions.net>
- <vu3l5df4iz4rbwinxldr56vzupzxeupemcvxt7ziqi7kwhytso@wrgznki67cew>
- <875xdzzgvz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="O9wxjTpF"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4b3319c3a27so240421cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Sep 2025 09:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1756915220; x=1757520020; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VzTEB4bQWY8fWAQTgqOF+HS9WXqmiqpiTrodHwtJGNM=;
+        b=O9wxjTpFtggVhgmg/dADDBjOniauMEbfQ/SHgA5FT5kPLsxZDtzS5WVXlXiQPoYlJH
+         e7xVnis3PS7PwsDCZm70i54D7yy9IrePgVvcfqs9jb3wuXm5slqigGlpnanb5YlJw9Mc
+         B0hgRcRYE1F9t1hf0oWhQeWN4qaOfhj2ScvBDRvgiZA5tR6Zn1ynL9cAL0t7aOu+HsFD
+         BqFZlwG5IPatyXp4j7sZVF7rm45rHV9GSYR3sHH9E3areJ6L8/4K6lTsuMFah3vcpA3i
+         bTSewI5AvkaZg7Qw0hLiaQGRnSVQqh2Mab328n1BzodAFhl6Gvl2iWcVIhR/w3RLHqRc
+         40Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756915220; x=1757520020;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VzTEB4bQWY8fWAQTgqOF+HS9WXqmiqpiTrodHwtJGNM=;
+        b=NUnFKiWamH9TBIfhUeTNBJSg62rAxFsdUDK3tH6s23j0cJgeiUXASZHYzLdUdImpe8
+         gHLjrwm40AfBdhoI8UO279e6xpCm8bem9hkm2IRNg6KZiZ6GWjSEjFlYWxPU5EGuF86o
+         zHBN9PYTcsYV1ukS3XB7wL+SzIbeRrEaPy01brCgvuVoandfdKgvoQt2c65VoGSi4mLw
+         +26fweSkH+hHJmZuRQ5V8UhMNdQ+3Wj9v7vSpKSNfTrwNR02toBJuITAvhCDagp+1+cU
+         YhCPA8UZDii0JbT+XgaN7icmX9X6T7h11DnoNO+Z+hBm8Nr1/2YRmVmSRg9swyawbL8+
+         5Wjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgvmzUoYz1LCVmZgQDFpfP/MpHHhmBCthzLFxtvSEz+/EXMsPOIXNtZ3rin8EBN7o54qrRvl/cFJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXqYh4RAuPZTVZl1LESX2CiE9XMVc3LV3G2SB6vF+K6awfu/ux
+	iYkMrteQm4i6W/H6XtQYs8aQeGkj3T9IKXrC+D3FptaWqnOsrsoQ4w0TPD5KlM70uaH5S0xAb9n
+	v8XieZaO8K7knAX3E25/7sDrqmjsM0LLRYnQp8jhzYg==
+X-Gm-Gg: ASbGncvHrGepFPsLg973J5aFLX40vpABIX6UTeHRLB4OmtoV2o9VUYqcNfOolcYXQ1a
+	PbVDOR1NfN8sGlrz3cBB7++LVU3mT4ytuvN49pOIAewrLMYS8WYR31I/tflcECqiBwe8p+0VPsp
+	W0zQCiGYnCTVj/38NQfGBixTmSCRyPX+Z05f3pEJzYLi46ENZ4S4+4G9MNXCa2ROG3tLSOWqSPP
+	n5dl/pZQPxwOcw=
+X-Google-Smtp-Source: AGHT+IEwx1LONda4kuiaJ848y4hM0OUKd0p1JeEharACFnO+JnUd0aS8iQNuarNBHObxQXAJhaTUSynWXDSmvzGvt7Q=
+X-Received: by 2002:a05:622a:1ba4:b0:4b3:1197:b93a with SMTP id
+ d75a77b69052e-4b31dc8f67fmr234759261cf.34.1756915218859; Wed, 03 Sep 2025
+ 09:00:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875xdzzgvz.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
+ <aLXIcUwt0HVzRpYW@kernel.org> <CA+CK2bC96fxHBb78DvNhyfdjsDfPCLY5J5cN8W0hUDt9KAPBJQ@mail.gmail.com>
+ <mafs03496w0kk.fsf@kernel.org> <CA+CK2bAb6s=gUTCNjMrOqptZ3a_nj3teuVSZs86AvVymvaURQA@mail.gmail.com>
+ <20250902113857.GB186519@nvidia.com>
+In-Reply-To: <20250902113857.GB186519@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 3 Sep 2025 15:59:40 +0000
+X-Gm-Features: Ac12FXzyfAMIU2bzOrGlEX9a8opKhAuJo6gq5GdnRJV0XcXKQKHlYu1Dn3mOunw
+Message-ID: <CA+CK2bB-CaEdvzxt9=c1SZwXBfy-nE202Q2mfHL_2K7spjf8rw@mail.gmail.com>
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, Mike Rapoport <rppt@kernel.org>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 03, 2025 at 09:37:36AM -0600, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > On Wed, Sep 03, 2025 at 05:11:12PM +0200, Johannes Berg wrote:
-> >> On Wed, 2025-09-03 at 16:57 +0200, Mauro Carvalho Chehab wrote:
-> >> > There are actually 3 different issues that depend on python version:
-> >> > 
-> >> > 1. sphinx-pre-install:
-> >> > 
-> >> >     This used to be a Perl script. The goal is to check if sphinx-build
-> >> >     is installed and works, and identify missing dependencies.
-> >> > 
-> >> >     The problem is: if one installs python3xx-Sphinx, instead of
-> >> >     python3-Sphinx, the script will fail, except if it first switches
-> >> >     to python3.xx;
-> >> 
-> >> So let it fail. Fail is fine, at least it's a clear signal. The python3-
-> >> Spinx package will anyway be a sort of meta-package that's basically
-> >> empty and depends on a specific version.
+> > > > The patch looks okay to me, but it doesn't support holes in vmap
+> > > > areas. While that is likely acceptable for vmalloc, it could be a
+> > > > problem if we want to preserve memfd with holes and using vmap
+> > > > preservation as a method, which would require a different approach.
+> > > > Still, this would help with preserving memfd.
+> > >
+> > > I agree. I think we should do it the other way round. Build a sparse
+> > > array first, and then use that to build vmap preservation. Our emails
 > >
-> > No, that's not the case. On Leap, python3-Sphinx uses python 3.6 and has
-> > Sphinx version 2.3.x, which is too old.
-> 
-> That's Leap 15, presumably?
+> > Yes, sparse array support would help both: vmalloc and memfd preservation.
+>
+> Why? vmalloc is always full popoulated, no sparseness..
 
-Yes. Leap 15.6 (the latest one)
+vmalloc is always fully populated, but if we add support for
+preserving an area with holes, it can also be used for preserving
+vmalloc. By the way, I don't like calling it *vmalloc* preservation
+because we aren't preserving the original virtual addresses; we are
+preserving a list of pages that are reassembled into a virtually
+contiguous area. Maybe kho map, or kho page map, not sure, but vmalloc
+does not sound right to me.
 
-> Given that 16 is due Real Soon Now, perhaps
-> before any kernel with these changes is released, do we need to concern
-> ourselves with that?
+> And again in real systems we expect memfd to be fully populated too.
 
-Not sure how it works on openSUSE, but on other LTS distros, people
-usually wait at least for x.1 version (16.1) before migrating their
-systems.
-
-> > True, but at least one of the major LTS distros don't have it(*).
-> >
-> > We can review it after Leap is replaced for the next openSUSE release.
-> >
-> > (*) also, RHEL8 (and its derivated releases) suffer the same issues
-> >      and they aren't EOL yet.
-> >
-> > For most of us, I doubt the fallback logic would ever be used.
-> 
-> CentOS 8 stream went EOL over a year ago.  How many people have systems
-> stuck on RHEL 8 and are using them to do docs builds?
-> 
-> > When it becomes painful, we can drop it.
-> >
-> > Anyway, I'll let it for Jon to decide.
-> 
-> I still really don't think that adding that stuff is a good idea; our
-> scripts should behave the way people expect them to and not go rooting
-> around for alternative interpreters to feed themselves to.  I appreciate
-> that you want to make things Just Work for people, that is a great goal,
-> but this seems a step too far.
-
-Ok, as I said, it is up to you to decide. I sent already a patch
-series with the last patch making the build break with python 3.6:
-
-    https://lore.kernel.org/linux-doc/cover.1756913837.git.mchehab+huawei@kernel.org/
-
-Patches 1 and 2 should be OK to be merged. Patch 3 is the one that
-will break for Leap15/RHEL8 and other distros where python 3.6 is
-required for the distro default (and typically mandatory) python3
-package.
-
-Feel free to apply it or not as you wish.
-
-Thanks,
-Mauro
+I thought so too, but we already have a use case for slightly sparse
+memfd, unfortunately, that becomes *very* inefficient when fully
+populated.
