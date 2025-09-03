@@ -1,171 +1,97 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D821C8611;
-	Wed,  3 Sep 2025 07:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52A62D8385
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 07:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756885482; cv=none; b=pbhQbVtrJW9h42km4yTZtf0Iddw2IE83SJwaB1ZhZEYNXLJcaVkqWsB14/KFLp5KUfEUhsL9JKjhv/ZNp16e96PpSDFfh9zn6HPCBkl94dUw27lBw/EZCLpjcZgfUH64Zgv0k2z2zg/k9N6zJq/3rUht2WSMBsTGgtKdLn3UBNw=
+	t=1756885658; cv=none; b=WdFcEir+9aikDcBxWt92qL7IS26yZN0EKV46cdiRTYx0zNW2GqUYJsBT6Av38C8eSCgK/7RQyip+peUiULSQ/pAqLwzLkUFnW6B8F/PXD4QISyh3A4HSuA4PwrQd+IY5WuRjllz5eZs+osfj+zfTXogQ2I9zCcpj9FeGikCkZ7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756885482; c=relaxed/simple;
-	bh=UzjeIvCkXA9dbokj6cXZQ/0m+/oSRETAN7DOXHcComw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=OwELczZGX6dIfaG4Gceh/jBdCkE7h8njVdHC3IYsZUNF5JelEdkzAdxnPtwcQDktGQhvUFsz/kh9gxXRrHFHs19+Dw0Y4Dev2Yge01BPamtCRC7HUbQSfQWtzRMhNMv2B1+9mPa4tTY+Orq7SgPFnOFBZ5z4gK1C2VBDPj4UsJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=oOC5tY9q; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1756885658; c=relaxed/simple;
+	bh=jb1+fIsCsDFWpCn7HcvoyKBcxDwCq0HWUA9v6nTvnjQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NpS5CYTj1F56MbIIu0sYrswBR/Vj4ZPlYjQ4Ax53KsWruOBoEfxJjzcLjntzTCloEuObaaI8mMT5Ftgm0aQxCQiymGpubh8Oy+gbjAzDVHtAome9x8lqI5I4ujsh97R3eGoRNokNR49LOstWKeCkTjSNKtVd6vhW2Lu+dEVhXMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFrpuXkz; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oOC5tY9q"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5837hlMt2779765;
-	Wed, 3 Sep 2025 02:43:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1756885427;
-	bh=La6ncxcZEmWdKtlYiqu4qaaCsos1RqPeSH44Dfbmrsg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=oOC5tY9q0MixsxO5Xobph2w7N4vEUNiRky93Q69HAAoIx2sePLaFHBWx0X3ND+G1E
-	 3FU6rH9ecK8AXPX9Y4vFv5fmMEZnKD9TkEnHh8cjFxWAnuDv91+beFx84zl5YwhTeZ
-	 rA6bQxoBaqnERooaaKdWbS7tAcH0XNXKIPTNtoXo=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5837hle13356790
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 3 Sep 2025 02:43:47 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 3
- Sep 2025 02:43:46 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 3 Sep 2025 02:43:46 -0500
-Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5837hbje1211215;
-	Wed, 3 Sep 2025 02:43:37 -0500
-Message-ID: <ce3b3241-b944-4d2b-95e9-259c71b26026@ti.com>
-Date: Wed, 3 Sep 2025 13:13:36 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFrpuXkz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756885657; x=1788421657;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=jb1+fIsCsDFWpCn7HcvoyKBcxDwCq0HWUA9v6nTvnjQ=;
+  b=WFrpuXkzq6s5enIkeROYfcCz265yPLq3imAkfJf8c/ykSUPNy/aIyguw
+   zj0fWD7FXK2j5Ud488LBeR2jqfABr6Mfcszw9x4MaWMnajS/WAm4opVPW
+   rlJYK9MQVtsNLcnlthsUB63gE6rV0hT/IQAN71wlj2DmGA536sEBi4PtV
+   jkRlqU7ygigKJQB+FVzF8Ngjm1dTrQM74rPEvY56wIDLrO9JvT05F2x9E
+   VsIEAHI1g0uoA81+Iy2fChJiIVouEeEfynY9+b1ZdIUG5mXuijoOklQDG
+   dYP0orJLFBzZzHmnn3NSJmKofeUu+sKuV0/lYUK4XCCAetohgl+5N8z33
+   g==;
+X-CSE-ConnectionGUID: 6x/XT3ueRbu+LM/j9yiJYg==
+X-CSE-MsgGUID: hTzb9dYESLW/TavnqJz7MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58405726"
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="58405726"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 00:47:36 -0700
+X-CSE-ConnectionGUID: PG4Vf26IQj+B11VHuu5Nkw==
+X-CSE-MsgGUID: kE1LeGEMQFGaqZ/5+GTH9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="208723904"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.246.246])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 00:47:32 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux
+ Documentation <linux-doc@vger.kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox
+ <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+In-Reply-To: <20250902185221.GA1602@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250901204635.51b81ffd@foz.lan>
+ <1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
+ <j3iblg4xx4nu64dgaxhl62mtherszeh3jyrskkf7l2jigld7wf@lr7mtq33gbi7>
+ <865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
+ <20250902135938.35048fbc@foz.lan> <20250902141434.3e5b14e4@foz.lan>
+ <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
+ <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
+ <87ecsox4uy.fsf@trenco.lwn.net> <20250902191929.504977bf@foz.lan>
+ <20250902185221.GA1602@pendragon.ideasonboard.com>
+Date: Wed, 03 Sep 2025 10:47:28 +0300
+Message-ID: <50492e9bd0d647a6ba7eccbed73f782181f83499@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 1/8] dt-bindings: net: ti,rpmsg-eth: Add DT
- binding for RPMSG ETH
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu
- Poirier <mathieu.poirier@linaro.org>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Nishanth Menon <nm@ti.com>, Vignesh
- Raghavendra <vigneshr@ti.com>,
-        Mengyuan Lou <mengyuanlou@net-swift.com>,
-        Xin
- Guo <guoxin09@huawei.com>, Lei Wei <quic_leiwei@quicinc.com>,
-        Lee Trager
-	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
-        Fan Gong
-	<gongfan1@huawei.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
-        Geert
- Uytterhoeven <geert+renesas@glider.be>,
-        Lukas Bulwahn
-	<lukas.bulwahn@redhat.com>,
-        Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>,
-        Suman Anna <s-anna@ti.com>, Tero
- Kristo <kristo@kernel.org>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <srk@ti.com>, Roger Quadros
-	<rogerq@kernel.org>
-References: <20250902090746.3221225-1-danishanwar@ti.com>
- <20250902090746.3221225-2-danishanwar@ti.com>
- <20250903-dark-horse-of-storm-cf68ea@kuoka>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <20250903-dark-horse-of-storm-cf68ea@kuoka>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain
 
-Hi Krzysztof,
+On Tue, 02 Sep 2025, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> I'm with Jon here, I wouldn't blindly override the Python interpreter
+> selected by the user. What we could however do is print a message if we
+> detect a version of Python that could improve performance, telling the
+> user they could switch.
 
-On 03/09/25 12:48 pm, Krzysztof Kozlowski wrote:
-> On Tue, Sep 02, 2025 at 02:37:39PM +0530, MD Danish Anwar wrote:
->> Add device tree binding documentation for Texas Instruments RPMsg Ethernet
->> channels. This binding describes the shared memory communication interface
->> between host processor and a remote processor for Ethernet packet exchange.
->>
->> The binding defines the required 'memory-region' property that references
->> the dedicated shared memory area used for exchanging Ethernet packets
->> between processors.
->>
->> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
->> ---
->>  .../devicetree/bindings/net/ti,rpmsg-eth.yaml | 38 +++++++++++++++++++
->>  1 file changed, 38 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml b/Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml
->> new file mode 100644
->> index 000000000000..1c86d5c020b0
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml
->> @@ -0,0 +1,38 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/net/ti,rpmsg-eth.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Texas Instruments RPMsg channel nodes for Ethernet communication
->> +
->> +description: |
->> +  RPMsg Ethernet subnode represents the communication interface between host
->> +  processor and a remote processor.
->> +
->> +maintainers:
->> +  - MD Danish Anwar <danishanwar@ti.com>
->> +
->> +properties:
->> +  memory-region:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: |
->> +      Phandle to the shared memory region used for communication between the
->> +      host processor and the remote processor.
->> +      This shared memory region is used to exchange Ethernet packets.
->> +
->> +required:
->> +  - memory-region
->> +
->> +additionalProperties: false
-> 
-> This cannot be really tested and is pointless binding... Really, one
-> property does not make it a device node.
-> 
-> 
+Just piling on here, totally agreed.
 
-I tried to do something similar to google,cros-ec.yaml and
-qcom,glink-edge.yaml
+Don't surprise the user. Let the user be in control. If they choose a
+silly combo, let them. You know, they might be debugging the issues in
+that silly combo to begin with, and don't want to jump through hoops to
+work around tools that think they know better.
 
-They are also rpmsg related and used by other vendors. I created similar
-to that as my use case seems similar to them.
+Letting the user know they're using a silly combo and suggesting better
+alternatives is a whole different matter.
 
-The only difference being I only need one property.
 
+BR,
+Jani.
 
 -- 
-Thanks and Regards,
-Danish
-
+Jani Nikula, Intel
