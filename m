@@ -1,116 +1,82 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74185274658
-	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 15:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7377C23D7E3;
+	Wed,  3 Sep 2025 15:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756913860; cv=none; b=Ukz2L263Tv/WsmkOvb+YwQkcHrtNFJ6H6mzsLdntfcPLO5+TcndQoRcau0Cgxt1at6LxwyzdCbwulU+bcaoFUng+luEgG+KITsATpmmQYFhx7AqZVO6J+LjsS2DD4uPbFGowCeaNSAqyPY0QzYUGDlhFGgiTNNQ5Vu0rdfqfOZI=
+	t=1756914298; cv=none; b=HspR/RRgm0Wtq9mHH1rypSzfTxiqwgjFgbSS6p/ECuDUItZLOxi+8Fb+BgE0rahDg8sYYTmGGc/CW9SU3gHMcW9oRNnKkRNChbutEITJ/ueauf06cGJWMbTko6sZcAec9+iN+eC0XqeZ98Qqta8+WINoWrlGCip0ypkkEu2NBCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756913860; c=relaxed/simple;
-	bh=USI51ege+2yYVyvZ+Tw4ysWpq3aef6ScqscMKEVh/bw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eyKwWZYu3Q+TJe1REGrHANrRZD0JMbtEAW1y9Mx7UlkCUPalw5ufcJ+EH82IxQpbCDl0tpw6O4rGZqMFnpUpQOX5DvGZAwKfZYNo4hq7RZZCUK40vA9uvoC16LgwJJj3qCPecWsywPEgkdqjWpE5vgDcWikXTfcjmygaLZtgfwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nwaf6BGO; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756914298; c=relaxed/simple;
+	bh=xO06wXRf41aCmpFe4aJ+1aeR28W2ul0MYKX0g34v4To=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=RmkbGY7eeFA54wrnxZ1ProfXygTtgV6dyxYX+TxelUeoxX7j53Rk+D/Dek+jbWXsH/iCkgTgsAuSOBOHQUh6UOHIJEDZUgvCZQiDW3OxtW0vQ5USCAoC5tEv9tbKNjQGqhmsTdc+4YYDgmGTmmSgHTD6F2uz7OB0z3Jn47ZMMIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vAHRe4fo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nwaf6BGO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4306440AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756913857; bh=YUjaglkD37DauUH4OwZb6DowB+XuOmTJzu0L3rDH6F0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nwaf6BGOcyK9CVhFxYaRftKja9GsvlKxC6OGo2lMkoipSznI7oOoBEvDaHFldvXZn
-	 UzwoZqov0mDmjC866rb19HEb7EMyJzZKxuXfnf8cANnlAjKXhACq7AT+4l2mEfHXmi
-	 soflxQtFaYj6uGj75OmLsgCQcNM17ivvC52H6byhQGooKlaLVFzJ7dpHQFitj9Mmy3
-	 NswjIPGnvPmhCO54gqnAoB448wmHQ2sDaofyw6KTTV+O7b0kxUSYhccggHUnTiZPk1
-	 3ScIv6i0sQwlFOwX2HCzbw8Xm8ABMaL9Vt15OIfaYtw97V171sLJUUYQqxtiFplKP8
-	 +SPyA9kJH1fQA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4306440AD8;
-	Wed,  3 Sep 2025 15:37:37 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Johannes Berg
- <johannes@sipsolutions.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
- <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Bagas
- Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-In-Reply-To: <vu3l5df4iz4rbwinxldr56vzupzxeupemcvxt7ziqi7kwhytso@wrgznki67cew>
-References: <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
- <87ecsox4uy.fsf@trenco.lwn.net> <20250902191929.504977bf@foz.lan>
- <87frd4vfys.fsf@trenco.lwn.net>
- <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
- <20250903124229.332dfeae@foz.lan>
- <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
- <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
- <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw>
- <874a85f2154d6b05635d856dcdd85d4715d19d3c.camel@sipsolutions.net>
- <vu3l5df4iz4rbwinxldr56vzupzxeupemcvxt7ziqi7kwhytso@wrgznki67cew>
-Date: Wed, 03 Sep 2025 09:37:36 -0600
-Message-ID: <875xdzzgvz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAHRe4fo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A83C4CEE7;
+	Wed,  3 Sep 2025 15:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756914298;
+	bh=xO06wXRf41aCmpFe4aJ+1aeR28W2ul0MYKX0g34v4To=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vAHRe4focy+UQZ74q8e4eEOFfPca/jj42MwFya3aUEDjJbqGB/vGoIqQl/ZrmictL
+	 WFK9T4IYFV/deL/necvQ5Td5gr8XMI0tuZjYDS8b6xIjQvbrkqnrhZQai3x2yNbeVu
+	 FTQ9JJxQd7/OoP6n0RddhS8PZUG503g+73JNx2i6SkGmmjJl6/sFZR+ZrH0HSDu8A3
+	 o6F5uXup1hfFTkE0ccXPqUEXl4VaxeTKl/NXRkvzPxzwUyO20zPu2Gg0P/yDOjPNSP
+	 j9UIEMujF3gNL241keOFb0RcV40ag5mBFhF1W8bCev/oV2cJzBbAy8ZD55WY2UFrvl
+	 nI2pnISn3FVDw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1utpfL-00000007N64-2cU0;
+	Wed, 03 Sep 2025 17:44:55 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RFC 0/3] Break building docs on distros where python3==python3.6 or older
+Date: Wed,  3 Sep 2025 17:44:33 +0200
+Message-ID: <cover.1756913837.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Add two patches improving python_version logic, adding two extra
+optional arguments: show_alternatives and bail_out.
 
-> On Wed, Sep 03, 2025 at 05:11:12PM +0200, Johannes Berg wrote:
->> On Wed, 2025-09-03 at 16:57 +0200, Mauro Carvalho Chehab wrote:
->> > There are actually 3 different issues that depend on python version:
->> > 
->> > 1. sphinx-pre-install:
->> > 
->> >     This used to be a Perl script. The goal is to check if sphinx-build
->> >     is installed and works, and identify missing dependencies.
->> > 
->> >     The problem is: if one installs python3xx-Sphinx, instead of
->> >     python3-Sphinx, the script will fail, except if it first switches
->> >     to python3.xx;
->> 
->> So let it fail. Fail is fine, at least it's a clear signal. The python3-
->> Spinx package will anyway be a sort of meta-package that's basically
->> empty and depends on a specific version.
->
-> No, that's not the case. On Leap, python3-Sphinx uses python 3.6 and has
-> Sphinx version 2.3.x, which is too old.
+The third patch changes the build behavior in a way that distros
+shipped with Python 3.6 like openSUSE Leap, RHEL8 and others will
+break.
 
-That's Leap 15, presumably?  Given that 16 is due Real Soon Now, perhaps
-before any kernel with these changes is released, do we need to concern
-ourselves with that?
+Personally, I'm against such patch, but based on some discussions at:
 
-> True, but at least one of the major LTS distros don't have it(*).
->
-> We can review it after Leap is replaced for the next openSUSE release.
->
-> (*) also, RHEL8 (and its derivated releases) suffer the same issues
->      and they aren't EOL yet.
->
-> For most of us, I doubt the fallback logic would ever be used.
+    https://lore.kernel.org/linux-doc/n4qixsp23dccgz6mtrmd2xumcngtphkbywjnxkrqpnuf2dbu2p@2sj44sbyga4j/T/#t
 
-CentOS 8 stream went EOL over a year ago.  How many people have systems
-stuck on RHEL 8 and are using them to do docs builds?
+Several developers voiced that the best is to break the build.
+So, I'll let up to the docs maintainer to decide weather or not
+apply the final patch or replace by something that would avoid
+such breakage.
 
-> When it becomes painful, we can drop it.
->
-> Anyway, I'll let it for Jon to decide.
+This series is on top of the sphinx-build-wrapper patch:
+    https://lore.kernel.org/linux-doc/cover.1756740314.git.mchehab+huawei@kernel.org/
 
-I still really don't think that adding that stuff is a good idea; our
-scripts should behave the way people expect them to and not go rooting
-around for alternative interpreters to feed themselves to.  I appreciate
-that you want to make things Just Work for people, that is a great goal,
-but this seems a step too far.
+Mauro Carvalho Chehab (3):
+  tools/docs: python_version.py: drop a debug print
+  tools/docs: python_version: allow check for alternatives and bail out
+  tools/docs: sphinx-* break documentation bulds on openSUSE
 
-Thanks,
+ tools/docs/lib/python_version.py | 33 +++++++++++++++++++++++---------
+ tools/docs/sphinx-pre-install    |  2 +-
+ 2 files changed, 25 insertions(+), 10 deletions(-)
 
-jon
+-- 
+2.51.0
+
