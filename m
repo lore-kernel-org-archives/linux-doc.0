@@ -1,67 +1,39 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB732F1FD1
-	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 10:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED78B2F1FE5;
+	Wed,  3 Sep 2025 10:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756894175; cv=none; b=gIga5p8bibipwj6Z9+QkxT9nOuxwgB6hZmQQs+bLpDh8oySs2YYSJ8zgV5v2ce8W3tE8zCvbop6/G4j2OkvYnytzkX15DA1PZ6Xfo2sBg9nLc+E5/DGoDX6XYPLjZHieymrXi/gxTR7uAucfcwF5aSUgV3Uw3ufva42YVBVRD4I=
+	t=1756894178; cv=none; b=B27f6Ivn+BvU4v1AApTafmqRoCXlFiwu9+d8QnXObfTv1537JrC4rJTOEREXkaXRFCVmHKmopqJq1tYMWzL2XfPv9v/Ckhcv67lZQx2JCnL5f+6fVS74fOK2Dys3/CLq4Z3lgk8jLp2cjG/5oE4QHhEWnUZBOwRo99QE9oRaATg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756894175; c=relaxed/simple;
-	bh=vnyhrYpor+raqMV9TmPVw5l42xlJHLjOWXt50Xfvef8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PYbYfV7kQVrYr51CnYT5h1SJqYbWoN8uZ5WpopNrtuv72DYh52sNYCNjk4VDVl99pW2qxKH82m/SLPcOajfuZR7M+c9xcgAD9JZ+dJOOISUS3GPwvPlghc7HVqWmLGq0Hw1JnbmROCvXB/IaGhkNL1IlYG7IKDAFx7yrskx+TAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pv76IuOp; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pv76IuOp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756894172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/0LEAmzCtYpefxOBCyf0V1G2dn2DHqiIkbbomUnwJEE=;
-	b=Pv76IuOpRqgqJ/TC4N2HLMQkem+4vMwwYiTwsNPWhiQ7L2Y6NpzTxeIyXi+5VEQe3LMu9W
-	hxFPoS6IWVjYteTUFjqhhxlMY/ataZOtkXGgh8pDRb4Ya0VKm+Ge9ohqF2h3GqujXRcrZi
-	HmyC7IUYY+Gh6GNmkxw/4dkGan0KAZw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-691-T6dB_rTaMDi3lmSRcalbzA-1; Wed,
- 03 Sep 2025 06:09:29 -0400
-X-MC-Unique: T6dB_rTaMDi3lmSRcalbzA-1
-X-Mimecast-MFC-AGG-ID: T6dB_rTaMDi3lmSRcalbzA_1756894167
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	s=arc-20240116; t=1756894178; c=relaxed/simple;
+	bh=mx+WGmMtDhfLsYJlNFvQ2dV7FpAt6QrAPy3KA2pq4Iw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H9gYvlzUcsPmUvNrlR+jTAca0jxpS/sUgBCfJ4gVMI4WMQG9imLGyAdXPw+EueKS2pExPYKVKFRLHZhwP1SXmt1g9stEx+ThSgVV20q+4Mnwr/FU9eb38jBZBr3WYIIH8R3vl3hbePb1+XCMPyfBjWwDE516JFtkh4Qk9dSSrkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from abreu.harnackhaus-berlin.mpg.de (hh-wlan-01.rz-berlin.mpg.de [141.14.51.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BE5B21800285;
-	Wed,  3 Sep 2025 10:09:27 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.44.33.85])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8648B18004D8;
-	Wed,  3 Sep 2025 10:09:23 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 3CB6B6020D50C;
+	Wed, 03 Sep 2025 12:09:04 +0200 (CEST)
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: [PATCH net-next v4 4/5] dpll: zl3073x: Refactor DPLL initialization
-Date: Wed,  3 Sep 2025 12:08:59 +0200
-Message-ID: <20250903100900.8470-5-ivecera@redhat.com>
-In-Reply-To: <20250903100900.8470-1-ivecera@redhat.com>
-References: <20250903100900.8470-1-ivecera@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: docs: Remove 3rd person singular s in *to indicate*
+Date: Wed,  3 Sep 2025 12:08:41 +0200
+Message-ID: <20250903100842.267194-1-pmenzel@molgen.mpg.de>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,357 +41,26 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Refactor DPLL initialization and move DPLL (de)registration, monitoring
-control, fetching device invariant parameters and phase offset
-measurement block setup to separate functions.
-
-Use these new functions during device probe and teardown functions and
-during changes to the clock_id devlink parameter.
-
-These functions will also be used in the next patch implementing devlink
-flash, where this functionality is likewise required.
-
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+Fixes: 78811dd56def ("ALSA: docs: Add documents for recently changes in snd-usb-audio")
+Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
 ---
-v2:
-* fixed warning with uninitialized 'mask'
----
- drivers/dpll/zl3073x/core.c    | 207 +++++++++++++++++++++------------
- drivers/dpll/zl3073x/core.h    |   3 +
- drivers/dpll/zl3073x/devlink.c |  18 +--
- 3 files changed, 142 insertions(+), 86 deletions(-)
+ Documentation/sound/alsa-configuration.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index 86c26edc90462..e96095baac657 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -956,21 +956,142 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
- 				   msecs_to_jiffies(500));
- }
- 
-+/**
-+ * zl3073x_dev_phase_meas_setup - setup phase offset measurement
-+ * @zldev: pointer to zl3073x_dev structure
-+ *
-+ * Enable phase offset measurement block, set measurement averaging factor
-+ * and enable DPLL-to-its-ref phase measurement for all DPLLs.
-+ *
-+ * Returns: 0 on success, <0 on error
-+ */
-+static int
-+zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev)
-+{
-+	struct zl3073x_dpll *zldpll;
-+	u8 dpll_meas_ctrl, mask = 0;
-+	int rc;
-+
-+	/* Read DPLL phase measurement control register */
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Setup phase measurement averaging factor */
-+	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
-+	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
-+
-+	/* Enable DPLL measurement block */
-+	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
-+
-+	/* Update phase measurement control register */
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Enable DPLL-to-connected-ref measurement for each channel */
-+	list_for_each_entry(zldpll, &zldev->dplls, list)
-+		mask |= BIT(zldpll->id);
-+
-+	return zl3073x_write_u8(zldev, ZL_REG_DPLL_PHASE_ERR_READ_MASK, mask);
-+}
-+
-+/**
-+ * zl3073x_dev_start - Start normal operation
-+ * @zldev: zl3073x device pointer
-+ * @full: perform full initialization
-+ *
-+ * The function starts normal operation, which means registering all DPLLs and
-+ * their pins, and starting monitoring. If full initialization is requested,
-+ * the function additionally initializes the phase offset measurement block and
-+ * fetches hardware-invariant parameters.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+int zl3073x_dev_start(struct zl3073x_dev *zldev, bool full)
-+{
-+	struct zl3073x_dpll *zldpll;
-+	int rc;
-+
-+	if (full) {
-+		/* Fetch device state */
-+		rc = zl3073x_dev_state_fetch(zldev);
-+		if (rc)
-+			return rc;
-+
-+		/* Setup phase offset measurement block */
-+		rc = zl3073x_dev_phase_meas_setup(zldev);
-+		if (rc) {
-+			dev_err(zldev->dev,
-+				"Failed to setup phase measurement\n");
-+			return rc;
-+		}
-+	}
-+
-+	/* Register all DPLLs */
-+	list_for_each_entry(zldpll, &zldev->dplls, list) {
-+		rc = zl3073x_dpll_register(zldpll);
-+		if (rc) {
-+			dev_err_probe(zldev->dev, rc,
-+				      "Failed to register DPLL%u\n",
-+				      zldpll->id);
-+			return rc;
-+		}
-+	}
-+
-+	/* Perform initial firmware fine phase correction */
-+	rc = zl3073x_dpll_init_fine_phase_adjust(zldev);
-+	if (rc) {
-+		dev_err_probe(zldev->dev, rc,
-+			      "Failed to init fine phase correction\n");
-+		return rc;
-+	}
-+
-+	/* Start monitoring */
-+	kthread_queue_delayed_work(zldev->kworker, &zldev->work, 0);
-+
-+	return 0;
-+}
-+
-+/**
-+ * zl3073x_dev_stop - Stop normal operation
-+ * @zldev: zl3073x device pointer
-+ *
-+ * The function stops the normal operation that mean deregistration of all
-+ * DPLLs and their pins and stop monitoring.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+void zl3073x_dev_stop(struct zl3073x_dev *zldev)
-+{
-+	struct zl3073x_dpll *zldpll;
-+
-+	/* Stop monitoring */
-+	kthread_cancel_delayed_work_sync(&zldev->work);
-+
-+	/* Unregister all DPLLs */
-+	list_for_each_entry(zldpll, &zldev->dplls, list) {
-+		if (zldpll->dpll_dev)
-+			zl3073x_dpll_unregister(zldpll);
-+	}
-+}
-+
- static void zl3073x_dev_dpll_fini(void *ptr)
- {
- 	struct zl3073x_dpll *zldpll, *next;
- 	struct zl3073x_dev *zldev = ptr;
- 
--	/* Stop monitoring thread */
-+	/* Stop monitoring and unregister DPLLs */
-+	zl3073x_dev_stop(zldev);
-+
-+	/* Destroy monitoring thread */
- 	if (zldev->kworker) {
--		kthread_cancel_delayed_work_sync(&zldev->work);
- 		kthread_destroy_worker(zldev->kworker);
- 		zldev->kworker = NULL;
- 	}
- 
--	/* Release DPLLs */
-+	/* Free all DPLLs */
- 	list_for_each_entry_safe(zldpll, next, &zldev->dplls, list) {
--		zl3073x_dpll_unregister(zldpll);
- 		list_del(&zldpll->list);
- 		zl3073x_dpll_free(zldpll);
- 	}
-@@ -986,7 +1107,7 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 
- 	INIT_LIST_HEAD(&zldev->dplls);
- 
--	/* Initialize all DPLLs */
-+	/* Allocate all DPLLs */
- 	for (i = 0; i < num_dplls; i++) {
- 		zldpll = zl3073x_dpll_alloc(zldev, i);
- 		if (IS_ERR(zldpll)) {
-@@ -996,25 +1117,9 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 			goto error;
- 		}
- 
--		rc = zl3073x_dpll_register(zldpll);
--		if (rc) {
--			dev_err_probe(zldev->dev, rc,
--				      "Failed to register DPLL%u\n", i);
--			zl3073x_dpll_free(zldpll);
--			goto error;
--		}
--
- 		list_add_tail(&zldpll->list, &zldev->dplls);
- 	}
- 
--	/* Perform initial firmware fine phase correction */
--	rc = zl3073x_dpll_init_fine_phase_adjust(zldev);
--	if (rc) {
--		dev_err_probe(zldev->dev, rc,
--			      "Failed to init fine phase correction\n");
--		goto error;
--	}
--
- 	/* Initialize monitoring thread */
- 	kthread_init_delayed_work(&zldev->work, zl3073x_dev_periodic_work);
- 	kworker = kthread_run_worker(0, "zl3073x-%s", dev_name(zldev->dev));
-@@ -1022,9 +1127,14 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 		rc = PTR_ERR(kworker);
- 		goto error;
- 	}
--
- 	zldev->kworker = kworker;
--	kthread_queue_delayed_work(zldev->kworker, &zldev->work, 0);
-+
-+	/* Start normal operation */
-+	rc = zl3073x_dev_start(zldev, true);
-+	if (rc) {
-+		dev_err_probe(zldev->dev, rc, "Failed to start device\n");
-+		goto error;
-+	}
- 
- 	/* Add devres action to release DPLL related resources */
- 	rc = devm_add_action_or_reset(zldev->dev, zl3073x_dev_dpll_fini, zldev);
-@@ -1039,46 +1149,6 @@ zl3073x_devm_dpll_init(struct zl3073x_dev *zldev, u8 num_dplls)
- 	return rc;
- }
- 
--/**
-- * zl3073x_dev_phase_meas_setup - setup phase offset measurement
-- * @zldev: pointer to zl3073x_dev structure
-- * @num_channels: number of DPLL channels
-- *
-- * Enable phase offset measurement block, set measurement averaging factor
-- * and enable DPLL-to-its-ref phase measurement for all DPLLs.
-- *
-- * Returns: 0 on success, <0 on error
-- */
--static int
--zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev, int num_channels)
--{
--	u8 dpll_meas_ctrl, mask;
--	int i, rc;
--
--	/* Read DPLL phase measurement control register */
--	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
--	if (rc)
--		return rc;
--
--	/* Setup phase measurement averaging factor */
--	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
--	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
--
--	/* Enable DPLL measurement block */
--	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
--
--	/* Update phase measurement control register */
--	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
--	if (rc)
--		return rc;
--
--	/* Enable DPLL-to-connected-ref measurement for each channel */
--	for (i = 0, mask = 0; i < num_channels; i++)
--		mask |= BIT(i);
--
--	return zl3073x_write_u8(zldev, ZL_REG_DPLL_PHASE_ERR_READ_MASK, mask);
--}
--
- /**
-  * zl3073x_dev_probe - initialize zl3073x device
-  * @zldev: pointer to zl3073x device
-@@ -1146,17 +1216,6 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- 		return dev_err_probe(zldev->dev, rc,
- 				     "Failed to initialize mutex\n");
- 
--	/* Fetch device state */
--	rc = zl3073x_dev_state_fetch(zldev);
--	if (rc)
--		return rc;
--
--	/* Setup phase offset measurement block */
--	rc = zl3073x_dev_phase_meas_setup(zldev, chip_info->num_channels);
--	if (rc)
--		return dev_err_probe(zldev->dev, rc,
--				     "Failed to setup phase measurement\n");
--
- 	/* Register DPLL channels */
- 	rc = zl3073x_devm_dpll_init(zldev, chip_info->num_channels);
- 	if (rc)
-diff --git a/drivers/dpll/zl3073x/core.h b/drivers/dpll/zl3073x/core.h
-index 16e750d77e1dd..128fb899cafc3 100644
---- a/drivers/dpll/zl3073x/core.h
-+++ b/drivers/dpll/zl3073x/core.h
-@@ -112,6 +112,9 @@ struct zl3073x_dev *zl3073x_devm_alloc(struct device *dev);
- int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- 		      const struct zl3073x_chip_info *chip_info);
- 
-+int zl3073x_dev_start(struct zl3073x_dev *zldev, bool full);
-+void zl3073x_dev_stop(struct zl3073x_dev *zldev);
-+
- /**********************
-  * Registers operations
-  **********************/
-diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
-index f3ca973a4d416..d0f6d9cd4a68e 100644
---- a/drivers/dpll/zl3073x/devlink.c
-+++ b/drivers/dpll/zl3073x/devlink.c
-@@ -86,14 +86,12 @@ zl3073x_devlink_reload_down(struct devlink *devlink, bool netns_change,
- 			    struct netlink_ext_ack *extack)
- {
- 	struct zl3073x_dev *zldev = devlink_priv(devlink);
--	struct zl3073x_dpll *zldpll;
- 
- 	if (action != DEVLINK_RELOAD_ACTION_DRIVER_REINIT)
- 		return -EOPNOTSUPP;
- 
--	/* Unregister all DPLLs */
--	list_for_each_entry(zldpll, &zldev->dplls, list)
--		zl3073x_dpll_unregister(zldpll);
-+	/* Stop normal operation */
-+	zl3073x_dev_stop(zldev);
- 
- 	return 0;
- }
-@@ -107,7 +105,6 @@ zl3073x_devlink_reload_up(struct devlink *devlink,
- {
- 	struct zl3073x_dev *zldev = devlink_priv(devlink);
- 	union devlink_param_value val;
--	struct zl3073x_dpll *zldpll;
- 	int rc;
- 
- 	if (action != DEVLINK_RELOAD_ACTION_DRIVER_REINIT)
-@@ -125,13 +122,10 @@ zl3073x_devlink_reload_up(struct devlink *devlink,
- 		zldev->clock_id = val.vu64;
- 	}
- 
--	/* Re-register all DPLLs */
--	list_for_each_entry(zldpll, &zldev->dplls, list) {
--		rc = zl3073x_dpll_register(zldpll);
--		if (rc)
--			dev_warn(zldev->dev,
--				 "Failed to re-register DPLL%u\n", zldpll->id);
--	}
-+	/* Restart normal operation */
-+	rc = zl3073x_dev_start(zldev, false);
-+	if (rc)
-+		dev_warn(zldev->dev, "Failed to re-start normal operation\n");
- 
- 	*actions_performed = BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT);
- 
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index 062b86522e4d..accaebbdd642 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2293,7 +2293,7 @@ delayed_register
+     notice the need.
+ skip_validation
+     Skip unit descriptor validation (default: no).
+-    The option is used to ignores the validation errors with the hexdump
++    The option is used to ignore the validation errors with the hexdump
+     of the unit descriptor instead of a driver probe error, so that we
+     can check its details.
+ quirk_flags
 -- 
-2.49.1
+2.51.0
 
