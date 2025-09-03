@@ -1,127 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF321A2C04;
-	Wed,  3 Sep 2025 14:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B02E61C862D;
+	Wed,  3 Sep 2025 15:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756911440; cv=none; b=QXnyiTu5xOyj5OJBV6pdqExfM2flBIVWebj/G5JmiLV/ogBHCNqdcSegOY3Q1KoJA8KZo8s4vcHRUwtYQ1Lq0hKW5QWst/gmokKC28SgmvwQpZ51cgJ7yn2wCDachl2na/6Trc3dOvTgztTZhiRkVBtQao3/aF3EYUMKtTvYAaA=
+	t=1756911632; cv=none; b=lWN4HhO8VzhXOWickQFXIOv0r91/IQIjd2gFDhFxxstRLaOUx5QmpwpGU1ApyUYf+/oqdq2PRHKmAxH/rN89qKEHiSLkOSgpiddXU9GMF0GRDo3lzn77AMPt9eI1KCrJKz1wPJy84IVwqweRWtpsKRKFLiMZmRXoqXciBKGt6Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756911440; c=relaxed/simple;
-	bh=UBGOcVsN02FLc+3G4s7YCvByclUEO3H7WjNbWeIbvsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bvCB3bwQxbJFKPVmck8+5HpgFlK4LCmR1qMKiPvm6cSkvQ0YkmGVY11BjcG2XyKx0/X+84g4buNCT95jsabpmxD7brSpefC/PJ/iQJiFhGl3Ugtoaa02eltjoHxikxDiai+BX7NhiSY9i5uuPz32tR99WHyo49Qz3Ff7SLCh2jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibBhD+9Q; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibBhD+9Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93686C4CEE7;
-	Wed,  3 Sep 2025 14:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756911438;
-	bh=UBGOcVsN02FLc+3G4s7YCvByclUEO3H7WjNbWeIbvsY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ibBhD+9QlIfb/auG56wGqNncNbljPd90aOZCGj4MUsbqmHNLPBl8fQ6/xZt1/3J7Z
-	 e9i59dTBWkPrNnjhoW8MoGNARcR427mG9Tp0XjGn5V4GUX3kW6AhjaC4eIJg27AyE8
-	 lT0JJdr0dtBJwQgwG3VNeXDSxSEE+RW/436vVfXoerrK2g+Iq/J3F3rzixSvBfs/e+
-	 2ublm/Qh30tl7ZXbyCwEm/oIGNCuvPx6MPBM4l8IT2EJrAiPzUA4UCGyAIPB+FW35K
-	 M5Jw0sFHK8RNhGskUybZQY+OpI67mSbmfGSHAI1MXxkCktrIz5b4tsZDSoTbY16YCm
-	 siON00oM26H2w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1utovD-00000007AQa-40MK;
-	Wed, 03 Sep 2025 16:57:15 +0200
-Date: Wed, 3 Sep 2025 16:57:15 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-Message-ID: <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw>
-References: <20250902141434.3e5b14e4@foz.lan>
- <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
- <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
- <87ecsox4uy.fsf@trenco.lwn.net>
- <20250902191929.504977bf@foz.lan>
- <87frd4vfys.fsf@trenco.lwn.net>
- <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
- <20250903124229.332dfeae@foz.lan>
- <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
- <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
+	s=arc-20240116; t=1756911632; c=relaxed/simple;
+	bh=x8JwYG7Wx55/A7NNAWh6A54TXGytTt6NVEtBbl/7w8E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D3M0yUkUkNLcU/IOlt6jULMsjNnVLOL2W3SlQGgZgEKvclHazLNJfiPUymsrLCmFGGgfP1PCYoWNBcDsGqAqbpda/+M1YgudbCQemBBQWQ8ankrr8ZJzNvQ2jPaFmaFAcUKlEdA9a1Yo29/igShjayJyGkVohKJW8wpOEp0N67E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65C9A1688;
+	Wed,  3 Sep 2025 08:00:21 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D89543F694;
+	Wed,  3 Sep 2025 08:00:25 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	akpm@linux-foundation.org,
+	scott@os.amperecomputing.com,
+	jhubbard@nvidia.com,
+	pankaj.gupta@amd.com,
+	leitao@debian.org,
+	kaleshsingh@google.com,
+	maz@kernel.org,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	james.morse@arm.com,
+	ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io,
+	david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v7 0/2] introduce kasan.write_only option in hw-tags
+Date: Wed,  3 Sep 2025 16:00:18 +0100
+Message-Id: <20250903150020.1131840-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 03, 2025 at 12:54:04PM +0200, Johannes Berg wrote:
-> On Wed, 2025-09-03 at 12:45 +0200, Johannes Berg wrote:
-> > 
-> > I don't follow. If this setup breaks the build then that's good, I'll
-> > fix the env. If the build does magic inside and sort of ignores $PATH,
-> > that's bad.
-> 
-> Or maybe it's not ignoring $PATH, but rather picking the "best"
-> python3.xy binary from $PATH - still that's annoying because you'd have
-> to control which ones are there and/or know which ones it might pick.
-> 
-> Far more predictable and usable to just use "python3" and print a
-> message saying you might want to use a better version if you think it's
-> too slow.
+Hardware tag based KASAN is implemented using the Memory Tagging Extension
+(MTE) feature.
 
-There are actually 3 different issues that depend on python version:
+MTE is built on top of the ARMv8.0 virtual address tagging TBI
+(Top Byte Ignore) feature and allows software to access a 4-bit
+allocation tag for each 16-byte granule in the physical address space.
+A logical tag is derived from bits 59-56 of the virtual
+address used for the memory access. A CPU with MTE enabled will compare
+the logical tag against the allocation tag and potentially raise an
+tag check fault on mismatch, subject to system registers configuration.
 
-1. sphinx-pre-install:
+Since ARMv8.9, FEAT_MTE_STORE_ONLY can be used to restrict raise of tag
+check fault on store operation only.
 
-    This used to be a Perl script. The goal is to check if sphinx-build
-    is installed and works, and identify missing dependencies.
+Using this feature (FEAT_MTE_STORE_ONLY), introduce KASAN write-only mode
+which restricts KASAN check write (store) operation only.
+This mode omits KASAN check for read (fetch/load) operation.
+Therefore, it might be used not only debugging purpose but also in
+normal environment.
 
-    The problem is: if one installs python3xx-Sphinx, instead of
-    python3-Sphinx, the script will fail, except if it first switches
-    to python3.xx;
+This patch is based on v6.17-rc4.
 
-2. sphinx-build logic inside makefile, required for doc-specific targets:
+Patch History
+=============
+from v6 to v7:
+  - modify some comments on KASAN kunit test.
+  - rebased to v6.17-rc4.
+  - https://lore.kernel.org/all/20250901104623.402172-1-yeoreum.yun@arm.com/
 
-   - If python < 3.7, doc builds fail;
-   - If python3xx-Sphinx is installed, build only works if started using
-     the right python3.xx exec
+from v5 to v6:
+  - change macro name for KASAN kunit test.
+  - remove and restore useless line adding/removal.
+  - modify some comments on KASAN kunit test.
+  - https://lore.kernel.org/all/20250820071243.1567338-1-yeoreum.yun@arm.com/
 
-3. kernel-doc via command line. Python >=3.6 and <= 3.11 works. It is
-   just 60% slower.
+from v4 to v5:
+  - fix wrong allocation
+  - add small comments
+  - https://lore.kernel.org/all/20250818075051.996764-1-yeoreum.yun@arm.com/
 
-For (3), I agree with you: let it run at the slow way, printing a warning;
-eventually suggesting a newer version and, as Jon suggested, added a
-command line like --newest-python that could optionally pick the fastest
-version.
+from v3 to v4:
+  - fix wrong condition
+  - https://lore.kernel.org/all/20250816110018.4055617-1-yeoreum.yun@arm.com/
 
-Now, for (1) and (2), it should be possible to allow building docs even
-if the distro requires Python < 3.7, providing extra packages for newer
-Python, as almost all distros do. See, several distros require python
-on their minimal install images, because it can be using during package
-install. Removing the default python replacing by a new version may break
-the system, as the newer version may not be backward-compatible.
+from v2 to v3:
+  - change MET_STORE_ONLY feature as BOOT_CPU_FEATURE
+  - change store_only to write_only
+  - move write_only setup into the place other option's setup place
+  - change static key of kasan_flag_write_only to static boolean.
+  - change macro KUNIT_EXPECT_KASAN_SUCCESS to KUNIT_EXPECT_KASAN_FAIL_READ.
+  - https://lore.kernel.org/all/20250813175335.3980268-1-yeoreum.yun@arm.com/
 
-So, what distros do, instead, to ensure backward-compatibility is to
-provide multpile Python versions (together with python libraries).
+from v1 to v2:
+  - change cryptic name -- stonly to store_only
+  - remove some TCF check with store which can make memory courruption.
+  - https://lore.kernel.org/all/20250811173626.1878783-1-yeoreum.yun@arm.com/
 
-The htmldocs/pdfdocs/... targets must support it somehow.
+Yeoreum Yun (2):
+  kasan/hw-tags: introduce kasan.write_only option
+  kasan: apply write-only mode in kasan kunit testcases
 
-The best alternative seems to check if:
+ Documentation/dev-tools/kasan.rst  |   3 +
+ arch/arm64/include/asm/memory.h    |   1 +
+ arch/arm64/include/asm/mte-kasan.h |   6 +
+ arch/arm64/kernel/cpufeature.c     |   2 +-
+ arch/arm64/kernel/mte.c            |  18 +++
+ mm/kasan/hw_tags.c                 |  70 +++++++++-
+ mm/kasan/kasan.h                   |   7 +
+ mm/kasan/kasan_test_c.c            | 205 +++++++++++++++++++----------
+ 8 files changed, 240 insertions(+), 72 deletions(-)
 
-- python version is bellow the minimal supported version;
-- there is a newer python binary at PATH;
-- check if sphinx-build runs with the newest version.
 
-If all those 3 conditions are met, build docs with a version that works,
-printing a message to tell the user what Python binary was used.
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
-Thanks,
-Mauro
