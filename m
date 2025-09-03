@@ -1,97 +1,127 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DE34204E;
-	Wed,  3 Sep 2025 10:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB3F2F291A
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 10:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756896339; cv=none; b=GIAkE4yeq9eEmEvoWueMZx2OsxMyNRWVqiKIgLfVEd7oYYDvhdqg3AfHulo7pQDP04cVlZXKxiCiY3oNVVxHp27NjZoAEzukepTIHokpSx2diMp7oLv+2Y+kX4n3TGYhzC+/VghVY+85LBtT+GGvtiMzUK7se+kqG3q4rEBpVz0=
+	t=1756896748; cv=none; b=q2+njQoAD6JmmFp3uQMJsihsqJG15WZtNqZGB227P8zyJmBEzJeK21V0lNG8Hco4p/sf39BYs9b2pAMy0eK+rraH35ANi4bhtNYc8bn+8aWx1LTTY5Mcl3f3UWrv1WGd/QgeMNaTOf+IfJJUd2fRBJ/gaYNwjS8cgXGPOLpPbFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756896339; c=relaxed/simple;
-	bh=10p7eDyGz4kyDf+IxN6RpfDdyR829KAOPLqiD+PQ+b8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TNYFe/6OT4kfI5593v6fZpO6gtjjuwYymLZhYFinwlL3BmcDkmArl9fED1rZgmaDT8zoNbtallQSzkFrWSsc5E0OuBTtpCEmYQt/OslFSOLHUzXpPSse9FJe4fnIQPhqDf3iYckuG0Sw6h2O9hY3XBKoLz4uViKmG6CB9fVYM8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=hF29nqav; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1756896748; c=relaxed/simple;
+	bh=nO9g3PNXhwTLKuaA2Jm4zlIfcuIINjcXTwiFdT85LUY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DhGug+MGCBK8pvkdWKdIlf02UK7zADnrbaI67ajwsO5qfh3fTfyQ5Fcj/xwtxT+nf4SAE0Y4TBgNWI83ehhr+Sl1ahOHFi573YXRhNpRslqNC5K55WoO09odVkmLOIRbeMj2QDyRKAi+NAOGBb/XXe/y7SflzFQuoGYg77hkzQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ReawGCfP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lGL7uF8M; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ReawGCfP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lGL7uF8M; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="hF29nqav"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=10p7eDyGz4kyDf+IxN6RpfDdyR829KAOPLqiD+PQ+b8=;
-	t=1756896338; x=1758105938; b=hF29nqavFaf0JpIXId9NujDeV0ZCTOb0MHexPjKAFgeIBR7
-	/0zeSGB/IG8tSiiHjWOoD4OC/9oY9AQxQP3jDEvvb5ONkSM4Hmkue6Hdln4z/0x7jVE+5At17C44n
-	qKtOExICX23ZoTYhl9ODcuFSRIGXhKqvHpR8zToAFY2LaS0s+7kvcw5WRCv0vfv552CDqNnso/yQU
-	sZlWPRffjXhakdCvoGoK0JpoBHLmRQutm/eaTYfWNVH4ydRaPjvZnyvZYAaNKyVB9Nary2hbQrrLO
-	JOeR6ySLvGG2U61oHHwebgHq26+3MNuKQ/NWhfUxC9MSwbjBfl4IWSBlC8jsdjwQ==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.2)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1utkzW-0000000BgzB-0Cva;
-	Wed, 03 Sep 2025 12:45:26 +0200
-Message-ID: <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Vegard Nossum	
- <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation	
- <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Bagas
- Sanjaya	 <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
-Date: Wed, 03 Sep 2025 12:45:25 +0200
-In-Reply-To: <20250903124229.332dfeae@foz.lan>
-References: <b452388b7796bba710790ceb5759b75ec6e57f23@intel.com>
-		<b41031ca-b4a4-450d-a833-5affefe958b2@infradead.org>
-		<2f927f53-9af5-4e0c-be8f-f7bdf90e23ff@sirena.org.uk>
-		<20250901204635.51b81ffd@foz.lan>
-		<1bf8a898-e697-46e2-86b1-4158b021d652@sirena.org.uk>
-		<j3iblg4xx4nu64dgaxhl62mtherszeh3jyrskkf7l2jigld7wf@lr7mtq33gbi7>
-		<865e583b-4c97-4db1-963c-ed8539fa56dc@sirena.org.uk>
-		<20250902135938.35048fbc@foz.lan>	<20250902141434.3e5b14e4@foz.lan>
-		<8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
-		<xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
-		<87ecsox4uy.fsf@trenco.lwn.net>	<20250902191929.504977bf@foz.lan>
-		<87frd4vfys.fsf@trenco.lwn.net>
-		<b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
-	 <20250903124229.332dfeae@foz.lan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ReawGCfP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lGL7uF8M";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ReawGCfP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lGL7uF8M"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 82F0F1F456;
+	Wed,  3 Sep 2025 10:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756896745; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SnMOUYeZoFXkfeNuRCqWig5KNvw7Qlwif546rjx2fGc=;
+	b=ReawGCfPiV9LEelH6cW6IkvDBRd8ncVPj3hLP2aO1u2rxIE5yRcHLh5c5kbL08+7bCZEQC
+	8uK1etXrJI7El9u63QgMUg++UwG/r2zbQMR+D3ZIoc4q8yFLWXTmlTrrFGLJec5oVdODfT
+	giY3j3gLj+y3aTcGP2o1Bda7N1EJgo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756896745;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SnMOUYeZoFXkfeNuRCqWig5KNvw7Qlwif546rjx2fGc=;
+	b=lGL7uF8MNkBZ+XZo4oyF5Q8wc0LR4m3KBs6sVEUD72IeaRJKwahPsddmonJJSjH8CanV86
+	TzfsbGrprk48tyDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756896745; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SnMOUYeZoFXkfeNuRCqWig5KNvw7Qlwif546rjx2fGc=;
+	b=ReawGCfPiV9LEelH6cW6IkvDBRd8ncVPj3hLP2aO1u2rxIE5yRcHLh5c5kbL08+7bCZEQC
+	8uK1etXrJI7El9u63QgMUg++UwG/r2zbQMR+D3ZIoc4q8yFLWXTmlTrrFGLJec5oVdODfT
+	giY3j3gLj+y3aTcGP2o1Bda7N1EJgo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756896745;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SnMOUYeZoFXkfeNuRCqWig5KNvw7Qlwif546rjx2fGc=;
+	b=lGL7uF8MNkBZ+XZo4oyF5Q8wc0LR4m3KBs6sVEUD72IeaRJKwahPsddmonJJSjH8CanV86
+	TzfsbGrprk48tyDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44A5A13888;
+	Wed,  3 Sep 2025 10:52:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BEyMD+kduGgSDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 03 Sep 2025 10:52:25 +0000
+Date: Wed, 03 Sep 2025 12:52:24 +0200
+Message-ID: <87qzwnvmdz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: docs: Remove 3rd person singular s in *to indicate*
+In-Reply-To: <20250903100842.267194-1-pmenzel@molgen.mpg.de>
+References: <20250903100842.267194-1-pmenzel@molgen.mpg.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-On Wed, 2025-09-03 at 12:42 +0200, Mauro Carvalho Chehab wrote:
-> > For example, use case we have: using nix-shell to lock down the softwar=
-e
-> > used to build, for reproducible builds and similar reasons. Without --
-> > pure, PATH may still contain (last!) software from the system itself,
-> > but it should basically never be used.
->=20
-> if the PATH is mangled, you'll have a lot more problems than just
-> building docs as it will pick wrong exec files anyway.
+On Wed, 03 Sep 2025 12:08:41 +0200,
+Paul Menzel wrote:
+> 
+> Fixes: 78811dd56def ("ALSA: docs: Add documents for recently changes in snd-usb-audio")
+> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
 
-Err, no? To search a binary, directories in $PATH are meant to be
-searched in order of appearance. It's well-defined which one you pick
-for which, and this setup takes advantage of that (with a rather long
-$PATH) to control the binaries used for the build.
+Applied now.  Thanks.
 
-> In the particular case of docs, if you have, for instance, two different
-> python versions, one with sphinx and another one without it, it may pick
-> the wrong one, causing the build to fail. There's nothing the build syste=
-m
-> can do to solve it. The proper fix would be to wrap the calling logic
-> to save the env before running under nix-shell, restoring env afterwards.
 
-I don't follow. If this setup breaks the build then that's good, I'll
-fix the env. If the build does magic inside and sort of ignores $PATH,
-that's bad.
-
-johannes
+Takashi
