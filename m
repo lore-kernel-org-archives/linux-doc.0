@@ -1,156 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C842D63E4;
-	Wed,  3 Sep 2025 16:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F152B2C0F8E;
+	Wed,  3 Sep 2025 16:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756916671; cv=none; b=ivGlkiadMQ4dm7Bkrhn4+fcRDi1EqK1tOMjnCsawNygHDsNYjhTBpiDK/1+fNKbE2rmi2EsJ9yxNh2cIkvdgDIszYZXCrARfRFXEzfnu0PuOPrHRdK+F3Ee5ZmNon3oqrZoxTohtfTE50zMvMWasCHXipw6+EWLUzf7Yvg03pLs=
+	t=1756917456; cv=none; b=hLVtOqh6XMq4T2xajeR4ZviIRRsGdQMymoOhfREWOJtnblxTFWkYMkwYwp3fHks8MT3N4JEex2LlhJ5+4sm6HUjQbvmuBdnQ+IdtiWX4NbzwxmO6axOiNIda4BzLzTorTzNkzsbhyDGbj0xEiS2UhEoOmAS5bkWfNRu+y3xDt58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756916671; c=relaxed/simple;
-	bh=DL6QTWpxjep8S77vkYK54cGY5aTugS5u3x3ExCSFzJc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oyDjURu+ff3TvgbPLd7zbLEl949gA7smaqHwLVugvg9liQJ+m08ka3v5bahe2K8Nw4xfvowxCCbHfZRaHhgp9WPDfhfZc8S7pN8odX+lUhWBLkh+YNUvqvgZBkyb3Cu5Gd4xbIR2LKljyezWEPo1WDZdvvgJtdir/7KtojjaUas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChG+Pq3q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756917456; c=relaxed/simple;
+	bh=e9n5Rs3gHNQX1+FX/JoOh7XFiWlFIPvPQv5TWhIwndk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QfCF3Th6Rmo9J1lsTZGnKm20cY4kdqb9EPZxmPGNX4xZU4FJerr5svBQulq46Q8T0XS2uZXuPybq2HSbfcOJumJn13e+IGU60E3l/ZelhTzGYL4Vw5QkKV0ROmxfynt9IBYxLJ7/RoYd2xGguZPtVR/6yDhurwunOsg/mU9k60g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=jwNFTUJV; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChG+Pq3q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EEA7C4CEF7;
-	Wed,  3 Sep 2025 16:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756916670;
-	bh=DL6QTWpxjep8S77vkYK54cGY5aTugS5u3x3ExCSFzJc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ChG+Pq3qDcRC+nd4R6whFyaNia1iwrqnCqXksGoRITxD03ICyUn4RQpLKr7UHAkut
-	 HRog8JvEQ45l2VlKsVFoI9LC9sKQSL/HNK9SfFWeQoZbprCCTmfP84yQtFC9k30Lq4
-	 FoyU9CFEMGuHrjuHQ6UfINLNSNJ5hGot05u8Wf7hV6fkggnT0MF4KZvE7f/xR1BA7f
-	 asBYUj9eqs+WUq3QbfehrVWmUJ41gwf2LPp6p4eO7X8tL1RXU3fyOXAOhQd9+js6jg
-	 0yrCfVrD2RQLJCWa8Uhlrm9cyFCxj9zfO9OqYLzWH5bOnfUnYdfR45K2Fijj94GSlC
-	 DpZMs8XmcbIfg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1utqHc-00000007Vov-3kcx;
-	Wed, 03 Sep 2025 18:24:28 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 3/3] tools/docs: sphinx-* break documentation bulds on openSUSE
-Date: Wed,  3 Sep 2025 18:24:16 +0200
-Message-ID: <29135db8c8094006f256e1fa0b64663c735737e7.1756916565.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756916565.git.mchehab+huawei@kernel.org>
-References: <cover.1756916565.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="jwNFTUJV"
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583GF4h9004481;
+	Wed, 3 Sep 2025 18:37:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	dWrHhZZ5Y+olcUt6NWxG3dwik630us9WBSc1ItXrPyA=; b=jwNFTUJVQWe3AyRQ
+	BLz2ELpsAgKAhizZ89xkl9oXPtRcy4FzgmTFpEjmGC0A1Kl7rPIt39oz29kCYtwV
+	YCjBXyVwyK+Dkrvtaf53HdguP4+kKW6vRDHovmWpdBwMGVgekoaI6I9CCYDPRffJ
+	WkZv54WRwVC11tzmDifVWwgruXmYhKIP38le9pYA/jMRDo54A8Rwzx8DZhqt9iov
+	kw+q95DEJVxhnwLD5x0Pk+dQfAZVLE/KzK5WyLIcKBOjdukU2sPwtg0be3BHZavT
+	vtSMcErkSUS260hwQcjk5ygM8CiS6E1743qkhnk+4G094DJ77qkbLHQgIILrE++3
+	ScBuMg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48vav2qrj4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Sep 2025 18:37:27 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 2956940045;
+	Wed,  3 Sep 2025 18:36:39 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 53CAF39EDBD;
+	Wed,  3 Sep 2025 18:36:16 +0200 (CEST)
+Received: from [10.48.86.79] (10.48.86.79) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Wed, 3 Sep
+ 2025 18:36:15 +0200
+Message-ID: <7d810c0d-12f4-42da-b6d9-b981ef5415eb@foss.st.com>
+Date: Wed, 3 Sep 2025 18:36:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] docs: arm: stm32: fix typo "busses" -> "buses"
+To: Jonathan Corbet <corbet@lwn.net>,
+        Akshaykumar Gunari
+	<akshaygunari@gmail.com>,
+        <mcoquelin.stm32@gmail.com>
+CC: <linux-doc@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20250807145119.2214-1-akshaygunari@gmail.com>
+ <078fb552-c848-49ef-b917-14aec0e4b6aa@foss.st.com>
+ <87plc7zlcx.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <87plc7zlcx.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-03_08,2025-08-28_01,2025-03-28_01
 
-Before this patch, building htmldocs on opensuseLEAP works
-fine:
+Hi Jon
 
-    # make htmldocs
-    Available Python versions:
-      /usr/bin/python3.11
+On 9/3/25 16:01, Jonathan Corbet wrote:
+> Alexandre TORGUE <alexandre.torgue@foss.st.com> writes:
+> 
+>> Hi
+>>
+>> On 8/7/25 16:51, Akshaykumar Gunari wrote:
+>>> Fix the spelling of "busses" to the preferred form "buses" in STM32 ARM
+>>> architecture documentation.
+>>>
+>>> Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
+>>> ---
+>>>    Documentation/arch/arm/stm32/stm32f746-overview.rst  | 2 +-
+>>>    Documentation/arch/arm/stm32/stm32f769-overview.rst  | 2 +-
+>>>    Documentation/arch/arm/stm32/stm32h743-overview.rst  | 2 +-
+>>>    Documentation/arch/arm/stm32/stm32h750-overview.rst  | 2 +-
+>>>    Documentation/arch/arm/stm32/stm32mp13-overview.rst  | 2 +-
+>>>    Documentation/arch/arm/stm32/stm32mp151-overview.rst | 2 +-
+>>>    6 files changed, 6 insertions(+), 6 deletions(-)
+>>>
+>>
+>> Applied on stm32-next.
+> 
+> I had already done so (and copied you) on August 12.  I can drop my
+> copy, I suppose, if that's how you want to do it?
 
-    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
-    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
-    Using alabaster theme
-    Using Python kernel-doc
+Sorry I missed it. Let me drop it on my side (my fault).
 
-    ...
+Thank
+Alex
 
-As the logic detects that Python 3.6 is too old and recommends
-intalling python311-Sphinx. If installed, documentation builds
-work like a charm.
-
-Yet, some develpers complained that running python3.11 instead
-of python3 should not happen. So, let's break the build to make
-them happier:
-
-    $ make htmldocs
-    Python 3.6.15 not supported. Bailing out
-    You could run, instead:
-      /usr/bin/python3.11 /root/tools/docs/sphinx-build-wrapper htmldocs --sphinxdirs=. --conf=conf.py --theme= --css= --paper=
-
-    Python 3.6.15 not supported. Bailing out
-    make[2]: *** [Documentation/Makefile:75: htmldocs] Error 1
-    make[1]: *** [/root/Makefile:1806: htmldocs] Error 2
-    make: *** [Makefile:248: __sub-make] Error 2
-
-It should be noticed that:
-
-1. after this change, sphinx-pre-install needs to be called
-   by hand:
-
-    $ /usr/bin/python3.11 tools/docs/sphinx-pre-install
-    Detected OS: openSUSE Leap 15.6.
-    Sphinx version: 7.2.6
-
-    All optional dependencies are met.
-    Needed package dependencies are met.
-
-2. sphinx-build-wrapper will auto-detect python3.11 and
-   suggest a way to build the docs using the parameters passed
-   via make variables. In this specific example:
-
-   /usr/bin/python3.11 /root/tools/docs/sphinx-build-wrapper htmldocs --sphinxdirs=. --conf=conf.py --theme= --css= --paper=
-
-3. As this needs to be executed outside docs Makefile, it won't run
-   the validation check scripts nor build Rust documentation if
-   enabled, as the extra scripts are part of the docs Makefile.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/docs/sphinx-build-wrapper | 3 ++-
- tools/docs/sphinx-pre-install   | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 932b1b675274..48e6e0a76aeb 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -719,7 +719,8 @@ def main():
- 
-     args = parser.parse_args()
- 
--    PythonVersion.check_python(MIN_PYTHON_VERSION)
-+    PythonVersion.check_python(MIN_PYTHON_VERSION, show_alternatives=True,
-+                               bail_out=True)
- 
-     builder = SphinxBuilder(venv=args.venv, verbose=args.verbose,
-                             n_jobs=args.jobs, interactive=args.interactive)
-diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
-index 663d4e2a3f57..698989584b6a 100755
---- a/tools/docs/sphinx-pre-install
-+++ b/tools/docs/sphinx-pre-install
-@@ -1531,7 +1531,8 @@ def main():
- 
-     checker = SphinxDependencyChecker(args)
- 
--    PythonVersion.check_python(MIN_PYTHON_VERSION)
-+    PythonVersion.check_python(MIN_PYTHON_VERSION,
-+                               bail_out=True, success_on_error=True)
-     checker.check_needs()
- 
- # Call main if not used as module
--- 
-2.51.0
+> 
+> Thanks,
+> 
+> jon
 
