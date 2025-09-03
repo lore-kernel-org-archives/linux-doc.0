@@ -1,224 +1,226 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4EA1E2838;
-	Wed,  3 Sep 2025 02:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756865485; cv=none; b=V5JHIebmg7b4++9NyiDEVd8CTp5+DTjfsQysrocbBCEUNGITdxO674d7AkqzPmQh9MfX/5+ldMuepeGBWUE0yTm1Ks9RXBCORl2v1xp6xJGSpTSKhspXQt9qLkAqDuQrCyj+CVZqh6cRYqIYfmit9VtX2PM4WU5rCE58P8nmiLg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756865485; c=relaxed/simple;
-	bh=up0m3QjYYM98dIry+86nDsuG3DeVB2n2A+F5JusZ3A8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f5LSK5rva7W4evdH+AUXCkRtXaGvsF7gOMv1pT8zlsfLHgddtmit235medA4LgrT92WYPkyAehUVE17px1EbF4OeE8AZrfWlOpqB7Y2SXYbdJcauwyWECq2VBF0K1ai2eT0/KDElCPC5iPTWOCESg75h1RjPxfh4yx3CvJ7zVNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CQbVQ8n9; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A938E1F948;
+	Wed,  3 Sep 2025 02:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756866591; cv=fail; b=WhhAEWgq82xEcQtWump8xp0o25dQxB4baY8Ccdj2AFnPdxDewErt2quwF4CnxYWm9Ki34WwWb9t1aOoj9J6XoPNOC1ZNUZPiQjAuYTzGuTUPi6mg9thwh2OgWOjCfALnXRX/A2s/opmuvL14mz80S2OS6AY3G0HkQZqR97pwMyY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756866591; c=relaxed/simple;
+	bh=1NDqk3X6qpHRAJiZT8pbcCv2WtAR0MzqjZ0PZv2LvKo=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qLsvE+ORM2O46izfl9mx5v8QsBZIZHLNsXwFhPreQl8DgYUznNut2uTrfcLGqVHT3cOL43zzEMW/p5lmkRMeBx70O/Gw3ysVZXkAa6zO+Z+iOtoXSmRR+/wEwn6F3aL3vLrTFKfJS1wKy/0jAfDHQBLCuMNpm5LUdY8pMlnznGs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3CLYjJx; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CQbVQ8n9"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-70de042246eso46787446d6.1;
-        Tue, 02 Sep 2025 19:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756865482; x=1757470282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SdqNFNYALodzYVHsNSrlk7v0LMXjLfKbkcpRQgMAJzY=;
-        b=CQbVQ8n9/C1fuWWo0aATOwCyuWaBpL9b3qQq1+9PMTgn+LmGAOF2Q/G1J4OsQxg+mP
-         rsernAhAYLLGnv2RT4O79gXdGjWVqLPUIGhk+KKqyTScm07EKBR1kCQTl1vsvSjRgofM
-         hhOKUD3AL+gnbW+tW4XsM8KLRvWQvB/uDxeoSNrl2MVUNdj/gynnkzxThxWszgYJkIrK
-         evJZX6Z7N8gAEUdn+Eo/UDbz+G2ZOBmPqfH9fO+cnDdfZRDi1ZWzER4KlccXD/+9t6u3
-         Oi822R+9STPVH10SQUPJ1rCS6rLxLPi9mADvrYIW4YBLDpDIAajyu0aldS8eZnAYc67E
-         GS8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756865482; x=1757470282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SdqNFNYALodzYVHsNSrlk7v0LMXjLfKbkcpRQgMAJzY=;
-        b=qNK3vGNW64O+t0L8wF/0wxsxHSNlM20o5OVFDQNvgYjHtWw9W1ZAdFVnBnjAzfbKhJ
-         uQ0wuRnCYaHm4xzK5V7w30hqeWil57YI7bkjUZzPSNCtiunHPHMaCQZvBqla2AxnOh4p
-         xXjz8uhTkucmlBtgB+r3tQx6DbWXF56xDKMmKnAkTw88fGfWDDUksN+Y3NX7pLqdOH7T
-         m8yYXnat2TP93lBcfpVUQzITzPGtjUQjpNq+sUebMgY4S7rNPkZxhYAY9TZd0LBmS7eQ
-         RIPIqHPJT1FojpoTsEtPydfGqWwx2tSyygAOTbtGyUqw1c/iveml7hue5O+7PjG4208d
-         neEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWZjOlhXDc/2zhQ7w2vAgRo6a5JSTIANxt2Ty4mYjsMgHHGeyXe3wFC/BFHR4VwkLAtQdM=@vger.kernel.org, AJvYcCX6X1fQ3ArMywNxheJ/UDSzT4W/Ofglnc2EsDQyEXBPHH2FuHXPJazfUGVc9eQljVxfjbrt0bMWX9Ld@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH+L4TE3dFU/SUrTL0uOiSUF5aWlIAwUKHuAMfVmgPHCUH8ZZu
-	EEijbIZf7TMCPyuStBklOaElPLykpWRCIZQVAfZJg5uFKBhaMI/58vVoXXxW3U2P5LQHY8jQSIQ
-	AebO7GeHpDouz9l5Ua4twvvLLsHmuw30=
-X-Gm-Gg: ASbGncvAofGzN0HvTAX4zMvgydZWUpEFdS61C1410EfjX9WjV90oy3evS/tZKgblDs4
-	lAurAbG78plK9VCbtlFFE3SwolklGSKCJUpNnA/zhcIeffrpBEdxlQmwW0rN0NARp1jdvf/20WI
-	hRFwwzwuRkHnHQ9ItuBxZcnK8dgyW7ZLGQpK1sC60WkgmM2YGqZ280BOvuLBHB5CKGLp3wxS8y6
-	f0D9Ca50dkzMgiYmutcLhVEOW4hJBecZMHvUP3G
-X-Google-Smtp-Source: AGHT+IGz2gBVy7MkvtGJ1h228Bg/OBFxRXDjUUk7x4EwH+bv0391gRJTsywXbH6IULWjrEHcWzM5SpX7ZwkmkyuZ2sw=
-X-Received: by 2002:a05:6214:622:b0:70f:a460:c454 with SMTP id
- 6a1803df08f44-70fac896f25mr173575846d6.34.1756865482399; Tue, 02 Sep 2025
- 19:11:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3CLYjJx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756866590; x=1788402590;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=1NDqk3X6qpHRAJiZT8pbcCv2WtAR0MzqjZ0PZv2LvKo=;
+  b=S3CLYjJxWtYOw8zIrWV94jv/xucsnR7pVI5xZjnCf+5J7VMQYPt5SaGP
+   A3NPEkF7HyBPjj564p1gxdvgSVSrLmdO6v46RUETz2uToC2dagaB1WUKp
+   04LNwU3/4KmTonxul8GpizGq2HrOa9JzxdR9dzX5GYTLvh3zMG2VqZ+WH
+   riTH+qtngvqy67FIRb9XfauulscxJUBFs7LV1Qxt/s7fcIQIstznCbmBN
+   y0Lvxhi/6Ty4AxWPHrb/Y1SusYJaSe0qxqCu9N293QgHnz8gPsgv7dlfc
+   yJH9zR89DvnosYgufaLsJqJnuxCDePI+f35WS1cIx+3hC2Am6G0Z2WtC2
+   g==;
+X-CSE-ConnectionGUID: +HSAVvrPTUiz1akIos4UBw==
+X-CSE-MsgGUID: OYVf6024RHGYF6PIzwUMEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="62811753"
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="62811753"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 19:29:50 -0700
+X-CSE-ConnectionGUID: Fc5eEWMpRUSPbrqrXNRWgQ==
+X-CSE-MsgGUID: bxg+oIBZTx2z5hIFWAIaDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="170735841"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 19:29:49 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Sep 2025 19:29:48 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 2 Sep 2025 19:29:48 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (40.107.96.63) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Sep 2025 19:29:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jRuuVdsXI8S8Ku4Lsk4YPRjOTbZjBmB0G5VYGR9qxhp0ZZE+2MrXqMtl/fjBxqDcCrxzbtb+Iawie2/RwSZnjzWbT5FprL+2uRBhjthf60nn0sbQQlDdA9DcZSpFCLYLLwL6mz5nzSUzCGNvwmBrjU4hKyki09dKekP3sFodos5A0GS7++Iajhpvd5LReoNc1ex7xWdVvHwHVa+QKnd6x7K+QXWAy/GPS9y+/Nv9kmTKB2eNdgzKuvURJEks6HbUDBRTxw0IdFDUzaFMEvNw2hln+T2He4IQCJssinT4khdDN4A4aon/ozANGHvwUDH7+apN1jHx8X7W3rzmP+7utA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pFkLeyGjYjy6yn2ptQr7Mh0BgfFU2OZcTR6y3zoY6To=;
+ b=A3C2fUO+f6LEeH9by6wG8uhVcKRRcmvcgCJcltN8ljOCNiEXmFRLukk+3d+fPG3wPgyiEHkVOS0rPsqktY4jdu9CWkKAfLGw1JaWa0YmQ6YRCYNnA76OOViJrb2G5ApGda5mwn1UCNrnKiVmRxebEv144ZwJvx16jwpXKmSRFXNWrUT52UzKt4r0mslVfdAhuinnoMgq0dLNtug6CK1Mj9OH3s+3CQ+I6x+liQFzlDBIauBEsKQrERZfHlojlre516H8tjQno+dOQrr71tMvO16+lLTM9ZFwEikSZ1EbLhY43y5cL+fZ89ijxxy0ssMlQMoxVLwvS2V3wfZljA0hsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA3PR11MB8076.namprd11.prod.outlook.com (2603:10b6:806:2f0::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
+ 2025 02:29:45 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.9073.026; Wed, 3 Sep 2025
+ 02:29:45 +0000
+Message-ID: <862bd865-ac75-4e4b-8445-fe3987ce7f20@intel.com>
+Date: Tue, 2 Sep 2025 19:29:41 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 08/33] x86,fs/resctrl: Detect Assignable Bandwidth
+ Monitoring feature details
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <Dave.Martin@arm.com>, <james.morse@arm.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <rostedt@goodmis.org>,
+	<paulmck@kernel.org>, <pawan.kumar.gupta@linux.intel.com>, <kees@kernel.org>,
+	<arnd@arndb.de>, <fvdl@google.com>, <seanjc@google.com>,
+	<thomas.lendacky@amd.com>, <yosry.ahmed@linux.dev>, <xin@zytor.com>,
+	<sohil.mehta@intel.com>, <kai.huang@intel.com>, <xiaoyao.li@intel.com>,
+	<peterz@infradead.org>, <mario.limonciello@amd.com>, <xin3.li@intel.com>,
+	<perry.yuan@amd.com>, <chang.seok.bae@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <eranian@google.com>, <gautham.shenoy@amd.com>
+References: <cover.1755224735.git.babu.moger@amd.com>
+ <57c33dd8ed98603d5b434b3f8f32c3c1b19dac00.1755224735.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <57c33dd8ed98603d5b434b3f8f32c3c1b19dac00.1755224735.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P220CA0015.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::20) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250826071948.2618-1-laoar.shao@gmail.com> <20250826071948.2618-2-laoar.shao@gmail.com>
- <f1bc20e0-9d39-4294-8f70-f51315a534d8@lucifer.local> <CALOAHbCd4vuZoot-Bt4y=4EMLB0UvX=5u8PjsW2Nz883sevT1g@mail.gmail.com>
- <80db932c-6d0d-43ef-9c80-386300cbeb64@lucifer.local> <CALOAHbCQucvD968pgmMzv0dcg1j5cJ+Nxz4FKaiGXajXXBcs0Q@mail.gmail.com>
- <95a32a87-5fa8-4919-8166-e9958d6d4e38@lucifer.local> <CALOAHbBRQf=QLqYgA9E8m6AKGmZxY6rFZsoXwTYCaiSqpTb=JQ@mail.gmail.com>
- <73ca819c-9a2b-4f12-853d-557a4e7399e9@lucifer.local> <CALOAHbDXBaumw0W=Ak=AQG+64jQb9Usy8_9m00vNaZ7SPKFayg@mail.gmail.com>
- <21b73d0f-c322-490b-8fb9-ef9f67f7393f@lucifer.local>
-In-Reply-To: <21b73d0f-c322-490b-8fb9-ef9f67f7393f@lucifer.local>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Wed, 3 Sep 2025 10:10:46 +0800
-X-Gm-Features: Ac12FXw7pJ_LSeKo9cC58k0LnXweemYE9VcHAzJCfbisVZoecU7a9SJNAsKTIRQ
-Message-ID: <CALOAHbCegJEHf+zaYuK6HFu_Y6KTwX_KSgsxaf_rvR1pF4aCMw@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
- order selection
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
-	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
-	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, bpf@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA3PR11MB8076:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66bc13ba-5a1d-40a0-d560-08ddea91be9d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bm9zNktFMHhpT0k1c01oMTdEZDBoVzgwSE5Pc0NQQUZGZko3eW9CaXB2a2ZK?=
+ =?utf-8?B?MDhvRG9sS1F5QkZWTEE4bHcvTzIvV0VVSncyVW13VTZLcWhTQkFlZVVTUm5F?=
+ =?utf-8?B?TU92c004U2pPS0xWV2FaWXFDL283MitpQkw4Wll5OEYzd05CdWlHZ1pKdllW?=
+ =?utf-8?B?Yi9MYlprRzVScGViaUY2VUhaM3pNSnBpZk9mdWRXTHBJSWhTTENrYy9sV2Z2?=
+ =?utf-8?B?aEROc05kcG9SN0d5dy9KSDcxdDJ0aExqemkxOFVwYWNscC9QZmFDMGpuMEhY?=
+ =?utf-8?B?RnVCUmkzY0VJSHFKRGdGQzdiRTBLYmphWGM0ZEpNNDhqUGs4bVNYRnpLYVF3?=
+ =?utf-8?B?c0JiMXdTcVVMb1IxZVk1RGRVVzlPenF1TTFvaktZVTVrL1VuUWxkRUZQRDIx?=
+ =?utf-8?B?RG9uMk5VRG5YVEpBS0VEZmg0N0hNSzhqVWlYazVlMzBLb1MvODF4MnlwWDRG?=
+ =?utf-8?B?VVJCK2kxYnRGRnF4RTVMOWU1QnZBcHp5Ukx6WlRRZ1pDMXMvOEF4TUNkdHBq?=
+ =?utf-8?B?SDJBSUI3N0hNcUdsUVJrWVFnTmpid2tyVE5CVkNGTS9ENUdWZm85Q0FYSXA0?=
+ =?utf-8?B?TERMWXczK3V6RnFiVTlTZ2Rla0J6V0ZCeFUrbnRUN1RqN0NQQ1prS3AwUGdC?=
+ =?utf-8?B?R0ZrU05iQ0ZIaWxkZVVIM1p0Q3NnNjQwRHZYQm83TkY4bmF1NHoxdEhKeDdx?=
+ =?utf-8?B?cEVXZ0xwK256c0d4eEZ2bW1sK201VmdDQXlLTlpNbEVjMGViK3U4YUx4M2tM?=
+ =?utf-8?B?WGI3bWhkYkZweTFSU1VTTnpReUI0LzJKNDh1c25tM1dVMEljMFhJbVE4Z2hv?=
+ =?utf-8?B?bnUyY2t5YVUvTkM4RkhnMDJGVzRYUzV4WG45eklNdXlFSWY5YkdYNGJ4dThE?=
+ =?utf-8?B?VXMrWVl3aUs1TXIxZU5FWFI3d3p1U1lOYjlIb3VDM2JTbjdlaVgyVFY1QkJ6?=
+ =?utf-8?B?TEJBNXpqeTRFM2Y4K0RucTlEQWVlVjE4emVyZlljVy9nVlQwek9TZEc4eCs2?=
+ =?utf-8?B?VWM0SFRTUmhRaVlnakJsV3AraURHaXVjbzB2KzQwdDdUT0pKSTVyYWN1aE9W?=
+ =?utf-8?B?UmI4YllTRXNjc0NGLzV3bXVkTlF4bFRYU243TUFKK0hNUFllVkJ1T0VIbW1W?=
+ =?utf-8?B?UzFjZ2NJZVZ4bk51NFVJdDFCR2FlcFZHUUxmT29ZbzdGaGNZVWM3Nm9JRmVw?=
+ =?utf-8?B?TnJDaEZpR2xlcjlxVHJ0LzlhSkw2VjZZSXMzMnhYYi9LM0lOWTVvTVM0WjNl?=
+ =?utf-8?B?S1ZUVHpjS0Q2SXRZaTNKSjY3ckIrL0VTRVVtZjBRVzUyY1M0WE5PRlVXYU0y?=
+ =?utf-8?B?NngwSTZxdmFUQ0NPalpmc1NvaU51RmY5UVJnUVczK2U3d1JGUE9RUkdOK1ZC?=
+ =?utf-8?B?dENnOWRzamEvNVBhQVp2VEZLTGU4SHRBa0xNRk5nL0tOMlhUS21UMitLMmdI?=
+ =?utf-8?B?SEd3OGVuUGhJR2Nnd2JJUDQ0NUxMdXF1RVZxeWhYekJFYWIyUFN2c0Q2TXRj?=
+ =?utf-8?B?R1FKOXdHR2FnYkxxbXlTZWdvazA5TVQ1T0VrUHJENGF4TlpYMzYrU0RjWXN6?=
+ =?utf-8?B?QmxramxPUy9CU1l6L2E5NlNOOGsrZkI4R21yUC92YmdPM0NBNlNoZ2w0ZXNI?=
+ =?utf-8?B?K0M1V3JtaU5IMHB2c2libWM1aFp0bGpocllwN1NaNytrSmZQUk9nZndhWFF3?=
+ =?utf-8?B?ZWFVQTJDT1gya0lxV2xFQnFLY2JpVWVwTUs5UFlpWnZvS3R0TjFOTzRRM3Fq?=
+ =?utf-8?B?RW9ETEplOGNQQTFzcHlEVzl3NmE0Z2ZmVjVJbXZ1bldSVWpBM3VvNURYQlJ4?=
+ =?utf-8?Q?jgjGRDwO02ACFPyNnHou0V/Mm26aAlw1C5Vfc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dE1KakI0OEJKaXh0SVVERFFjNjRUMkptRXpKNUMvcGthZW5yTHRnSDF4SWtO?=
+ =?utf-8?B?amwrTU5OeWdyQlJTektSOHEvSDREVVl5ZXdpamhkbnBCOHBTY3ZHbmRodFFw?=
+ =?utf-8?B?bWtVbUhodmFJY3hNdk5rb3ZUUjJrdkFKU2J3ZlRtc3M3djFCMlA2WHhEMjFE?=
+ =?utf-8?B?TTNveEdMQjc0SlkzL0ZCbmEwZ0JxTW5ncEo3d1BTQi9Xc0hwbS9ka3NRUE5R?=
+ =?utf-8?B?OXRsbjNwUFFFeVZ2bmF1K2U1dXU4SmU3NTIzRkNLL1VjVERacitob1hkNlJr?=
+ =?utf-8?B?azZJRGVMQldZSjJmSUpMNjlCVklIc1ZocDQyZ3Fwem5OTkwyQjlKVDZDWVdm?=
+ =?utf-8?B?R0Q3QVZSU1lnREZiU0tkeEUwNVlQNWlpdDZVbDhrYnBSR0dCWmxvMUplTHRQ?=
+ =?utf-8?B?dDN3N2pGU0JmUWZhUmNjUDVpemRKR0ZzZnRRTHpielg1TWRxVmlBM0ZSUXJ3?=
+ =?utf-8?B?cHd4cy9HRStNbGtId05SUFJ1VlkyNmxWVE56b1pWc2ZDenFHV0g5NUZlSWx6?=
+ =?utf-8?B?aEdrRmVwUjBRTWhSV09mME5ldHFLamY1VXNrOVJLc1NvZ0hibTFQUWt4eU1l?=
+ =?utf-8?B?bVpVR0ZaVWoyQWluZlRQYUt6MEJURXVXOHlZUXF5MXFDcGlJRldQbEcwbXVl?=
+ =?utf-8?B?bHJYVXJDbkZNSnVoZU1OWEF6MUdiYXBQbzFReW5kekdpS0orUkVtOGJ3Q0NH?=
+ =?utf-8?B?L2lDZGNPVFpKK3FVOUpVRkRBWGNkNW5RbHpmRnFuZmtBR1FwL0VYNFQ5K0x6?=
+ =?utf-8?B?MGMzVlZMYk5ka2RhYVNXZVUrYm9MOUdQQnpRNWhUWEJQS0tpcElaSWdPUXc2?=
+ =?utf-8?B?RWFaZVVvRXRJZ21RbEJpUnRUVFA2b1BKODkzRnpLcXd0VkhNK2JVZHZjM055?=
+ =?utf-8?B?cThWejFsZ3Nxa3BGVmJ5b3NOSW9GdmNXOE00Z3Y3dTNHRVpEZjZ0T05UWHQw?=
+ =?utf-8?B?bVo3QkYvNTNSbzRDUG5hV3gxWTVHNEdrMjd3bitRbkNZMXZoTDFPQjZLQ2No?=
+ =?utf-8?B?MnZHK25CTXlFWnUzVVlDQ1YyaUlFK3R3SVBJS2tUQ2JYZHFWV3hGNXZkZ2VF?=
+ =?utf-8?B?Yk84YW55Yys4S1hOaUFzbll0a2xPMHhTa0lFNXBRSWZoVkkvUjhYSURydVJD?=
+ =?utf-8?B?bzNZb09kNkFRMkZzL0JXNGdLNnByUUYwUGhNK3FGRzQxak1DK2xCdWVJTEto?=
+ =?utf-8?B?bkJTVkVUMXF5amdVanBsczMzemJnTlBhZXBUVlJ1SjFCaTFWZjZnak5jMWs3?=
+ =?utf-8?B?WStwckFSL3d3cG5RYktyUlNLTVBCM1ZQM1hWcUExRkp2TmE3MU5takdoRlll?=
+ =?utf-8?B?ZTZBUHZWYjJHUERxdVczWnpnLytXbHdhZThsRVdpSlczZ0Z5RTNJUVIxd3M4?=
+ =?utf-8?B?UlpXMEI3ak4vVWdzNVgrU0NjRncvTzlkNFFJOWJBVCt6YW9WVjQ5dytCWUZS?=
+ =?utf-8?B?TkJNajRwVUJaS0VCa1NVd0kzamcrM3FRVUJucm1hY1g0dWJ0Qk9MUVdHSDlB?=
+ =?utf-8?B?Qyt0ZmRmN1o0WXNlQXk4VmRldndaYm9DcHZvbG9sUzZJWWdaNUhVSlFGbFc2?=
+ =?utf-8?B?ODgxN0pyUG9LMldkRnEySGdJSTMrWjNYMXFtU3JVUHBHZjBZbkJNQVRzTzVO?=
+ =?utf-8?B?Vjl1ZHYybmRzNkF6c1hCaEFJUmV4SzZ6dTcxVFJIV3NqNFBwTlhlMUVuUEgr?=
+ =?utf-8?B?bFBjK1I2Zlg1eFhCakd4dGtlb2NjMTNRYWZVdm5KK2NJakRYTnJYLzM5ZDBo?=
+ =?utf-8?B?QlUwZUVnc2JZNnovbGkzTE1hdjFlWXp2dWdxbFdyUStMNzVWV3dYUE1GVjh3?=
+ =?utf-8?B?QnBCSW1KUFVvOFAxYkZqbTRXV3RRMThVZUN1dlEvVWlxMVdwODVHd3o0Z2Mr?=
+ =?utf-8?B?NTRHU2RzSE9WVlA1cmJQTkdtcXR5RW5oWGlxUUlqV1Q2VWVDNUc5TUhOYjJq?=
+ =?utf-8?B?Zm5hQ2thRytKOFVyNTVtVFU1ZC9QSjFaZk5MaDFkTXN4WE9qTGZaU2h6WmRJ?=
+ =?utf-8?B?ZWd6L2ZKOTRmeFBWZCtLZnRTSUc3N2RzNWRRbGhMaHVndnFMS0RLOStEY3RV?=
+ =?utf-8?B?RnorZVlhK1lzcDU5VmpjOFJoUGpJYkxDdzRpSWRSaVFLMkVCb0graUZFYzVV?=
+ =?utf-8?B?ZFFTZTJ0T1VuMEkwTktnMGNVZWxLWXJIMnh0UEpOenpQUEpqYlpmdXZPT0Np?=
+ =?utf-8?B?T2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66bc13ba-5a1d-40a0-d560-08ddea91be9d
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 02:29:44.8732
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8P+XE+Sc0uE1Wjua7hmTL9WDymxmBod3FiQKfQWtZlgStMYI7hSmU0hzCj9HI3Wk6cEaDI4NqV1bK0RiXa+XzAcU5+417bYzYGp537hW8pA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8076
+X-OriginatorOrg: intel.com
 
-On Tue, Sep 2, 2025 at 3:50=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Tue, Sep 02, 2025 at 10:48:47AM +0800, Yafang Shao wrote:
-> > > >
-> > > > >
-> > > > > >
-> > > > > > However, when you switch the THP mode to "never", tasks that st=
-ill
-> > > > > > have MMF_VM_HUGEPAGE remain on the khugepaged scan list. This i=
-sn=E2=80=99t an
-> > > > > > issue under the current global mode because khugepaged doesn=E2=
-=80=99t run
-> > > > > > when THP is set to "never".
-> > > > > >
-> > > > > > The problem arises when we move from a global mode to a per-tas=
-k mode.
-> > > > > > In that case, khugepaged may end up doing unnecessary work. For
-> > > > > > example, if the THP mode is "always", but some tasks are not al=
-lowed
-> > > > > > to allocate THP while still having MMF_VM_HUGEPAGE set, khugepa=
-ged
-> > > > > > will continue scanning them unnecessarily.
-> > > > >
-> > > > > But this can change right?
-> > > > >
-> > > > > I really don't like the idea _at all_ of overriding this hook to =
-do things
-> > > > > other than what it says it does.
-> > > > >
-> > > > > It's 'set which order to use' except when it's this case then it'=
-s 'will we
-> > > > > do any work'.
-> > > > >
-> > > > > This should be a separate callback or we should drop this and liv=
-e with the
-> > > > > possible additional work.
-> > > >
-> > > > Perhaps we could reuse the MMF_DISABLE_THP flag by introducing a ne=
-w
-> > > > BPF helper to set it when we want to disable THP for a specific tas=
-k.
-> > >
-> > > Interesting, yeah perhaps that could work, as long as we're in a sens=
-ible
-> > > context to be able to toggle this bit.
-> >
-> > Right, we can't set the mm->flags arbitrarily.
-> > Perhaps we should add a generic BPF hook in dup_mmap().
-> >
->
-> Yeah perhaps that could be a way forward :)
->
-> > diff --git a/mm/mmap.c b/mm/mmap.c
-> > index 7a057e0e8da9..1b60bdb08de1 100644
-> > --- a/mm/mmap.c
-> > +++ b/mm/mmap.c
-> > @@ -1843,6 +1843,8 @@ __latent_entropy int dup_mmap(struct mm_struct
-> > *mm, struct mm_struct *oldmm)
-> >  loop_out:
-> >         vma_iter_free(&vmi);
-> >         if (!retval) {
-> > +               /* Allow a BPF program to modify the new mm_struct in f=
-ork. */
-> > +               bpf_hook_mm_fork(mm, oldmm);
-> >                 mt_set_in_rcu(vmi.mas.tree);
-> >                 ksm_fork(mm, oldmm);
-> >                 khugepaged_fork(mm, oldmm);
-> >
-> > This provides a mechanism for BPF programs to configure the new
-> > mm_struct on demand, acting as a modern, flexible replacement for
-> > prctl() ;-)
->
-> Hahaha that's obviously very appealing to me :)))
->
-> >
-> > >
-> > > >
-> > > > Separately from this patchset, I realized we can optimize khugepage=
-d
-> > > > handling for the MMF_DISABLE_THP case with the following changes:
-> > > >
-> > > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > > > index 15203ea7d007..e9964edcee29 100644
-> > > > --- a/mm/khugepaged.c
-> > > > +++ b/mm/khugepaged.c
-> > > > @@ -402,6 +402,11 @@ void __init khugepaged_destroy(void)
-> > > >         kmem_cache_destroy(mm_slot_cache);
-> > > >  }
-> > > >
-> > > > +static inline int hpage_collapse_test_disable(struct mm_struct *mm=
-)
-> > > > +{
-> > > > +       return test_bit(MMF_DISABLE_THP, &mm->flags);
-> > > > +}
-> > > > +
-> > > >  static inline int hpage_collapse_test_exit(struct mm_struct *mm)
-> > > >  {
-> > > >         return atomic_read(&mm->mm_users) =3D=3D 0;
-> > > > @@ -1448,6 +1453,11 @@ static void collect_mm_slot(struct
-> > > > khugepaged_mm_slot *mm_slot)
-> > > >                 /* khugepaged_mm_lock actually not necessary for th=
-e below */
-> > > >                 mm_slot_free(mm_slot_cache, mm_slot);
-> > > >                 mmdrop(mm);
-> > > > +       } else if (hpage_collapse_test_disable(mm)) {
-> > > > +               hash_del(&slot->hash);
-> > > > +               list_del(&slot->mm_node);
-> > > > +               mm_flags_clear(MMF_VM_HUGEPAGE, mm);
-> > > > +               mm_slot_free(mm_slot_cache, mm_slot);
-> > > >         }
-> > > >  }
-> > > >
-> > > > Specifically, if MMF_DISABLE_THP is set, we should remove it from
-> > > > mm_slot to prevent unnecessary khugepaged processing.
-> > >
-> > > Ohhh interesting, perhaps send as separate patch?
-> >
-> > sure, I will send it separately.
->
-> Thanks!
->
-> >
-> > --
-> > Regards
-> > Yafang
->
-> And overall - cheers for being an ABSOLUTE DELIGHT on review :) it's much
-> appreciated. I shall buy you a beer (or whatever is your preferred
-> beverage) at the next conference we are both at :)
+Hi Babu,
 
-Honestly, that's exactly what I wanted to say to you too! I learned so
-much during your review process, and I owe you a beer (or your drink
-of choice) as well!
+On 8/14/25 7:25 PM, Babu Moger wrote:
+> ABMC feature details are reported via CPUID Fn8000_0020_EBX_x5.
+> Bits Description
+> 15:0 MAX_ABMC Maximum Supported Assignable Bandwidth
+>      Monitoring Counter ID + 1
+> 
+> The feature details are documented in APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC).
+> 
+> Detect the feature and number of assignable counters supported. For
+> backward compatibility, upon detecting the assignable counter feature,
+> enable the mbm_total_bytes and mbm_local_bytes events that users are
+> familiar with as part of original L3 MBM support.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
 
---=20
-Regards
-Yafang
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+
+Reinette
