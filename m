@@ -1,59 +1,90 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720441DE3DC;
-	Wed,  3 Sep 2025 04:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B7017A2F6;
+	Wed,  3 Sep 2025 05:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756874823; cv=none; b=DaXy03vcbIeJB2Yq/9GpVWRYrC2XySuI5LzhXbVEqZSIMEo1wfCDf9GRoycXDMke2WOHC9t4R8KPd9PaPxWeiRBMjzmgMv1ZufIQ2KbP1FqycTFHZPYNy59cO+VX4G0xAFyQTPbK9WJDjZFuH0Jj29NZaGI8PY3N4SUCwoZ8fV8=
+	t=1756876187; cv=none; b=dV7CWeFlwECzcaJx6DRGpAXktJpI8XSsFzWnZaFrFQ9hbsCCKMVMzKWSxKHSPbqjCkYndKtvaTg6++8krc7GHPIDCDHqIGST4vSKUX+3M9w8pTNSFI6goQMNDLCY3aB8sr6+LkRfbm3zALZNxaOfS0tbBuS9jBGCtg8NuzrcPKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756874823; c=relaxed/simple;
-	bh=Q6sLYZfbTF2EVDK67+GnWbAGy3UzZVGmyT0OpcGqbnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5wYMf9KWmF6IKF2EPqmWfYdafYyYJ5neCBrHqF5mAASsxknQTaovfIoWNWMajp1Qs8GpFtqrdtyvNDbah8TITaS9ymAtJpg5QywpSNg/bgWhgZXCCx5/UtFXV8LVlSy//nqBq/wbLgsmNVdz4M7P1Hvcw/0RjBq6Peo3ncDSmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vUc474dY; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1756876187; c=relaxed/simple;
+	bh=u9cu7HB6ZKQ+UYVov00HqMXQZI5HNQmOImREMoKCVsY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y4bIMVE2e5IoN5E6mRwIxM2Oy9926b3PuU4Xmynwv9tTM0tulwMZAxyeSwzfkTbIym+eWNUuNO0BQvswRsumUz2kQ/7Xlgmzf/PvSUB4JUaYW33Zj2fLgO5LgraCvnfn5YJeIrVaYL8EBwUWCyiKz+rjvlP+Vk4LFUzYGh8Zt+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ORz436ma; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vUc474dY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Oz+na+DDB0qci4Krf6kgl2+d1IC1NsN0QPDO6XJVDfE=; b=vUc474dYrwmNySav+vM3lsDLpH
-	jUDoLv4Fjw+3UWTx5CY25Gp9VHD3c3B7zWcYUJE5f+Xl/Xdyr3H/nRhHkEm8Xx91s23QorubXifzO
-	quLUCCP1bu/C8aowpigJqm4Osuc/AQARO+wxtacoM3s1CwJJJOtc/NoL8aANB6mzmPl847jEz9rwK
-	oMmrG2de/ya8NMX1cvDVJz7lys6UI9X8DcQGpwta6Nvl8LAP5Hg1brF6K8sc2sBxvY6GWKsPa8G+4
-	rmeWD6DnTon2c1/o7+wAnVbdy81TpUo97qq52No0BO2IOrr0zcm8PN2ncOxmbHLVRHnpXOsOSLTve
-	oKYbJCdA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utfOa-0000000FGiY-0yoh;
-	Wed, 03 Sep 2025 04:46:56 +0000
-Date: Wed, 3 Sep 2025 05:46:55 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Ranganath V N <vnranganath.20@gmail.com>
-Cc: rdunlap@infradead.org, brauner@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, devicetree@vger.kernel.org, djwong@kernel.org,
-	krzk+dt@kernel.org, krzk@kernel.org, kvm@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, pbonzini@redhat.com, robh@kernel.org
-Subject: Re: [PATCH] Documentation: Fix spelling mistakes
-Message-ID: <aLfIP0nXp06l6xcd@casper.infradead.org>
-References: <A33D792E-4773-458B-ACF4-5E66B1FCB5AC@infradead.org>
- <20250903040043.19398-1-vnranganath.20@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ORz436ma"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E785C4CEF0;
+	Wed,  3 Sep 2025 05:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756876187;
+	bh=u9cu7HB6ZKQ+UYVov00HqMXQZI5HNQmOImREMoKCVsY=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=ORz436marcCxKXRmkC2uegM99CJOZtok3Vi6GaKhZiIGU6Vj6fnW70mh6+uJXU+eO
+	 eFBKRyMR4+zlJ4zQoDi9aFkjlrgqVg6MHdUqRZr29VE6jz6jCemNpwnNS97c7wL+XS
+	 SeDPT068yiA9Bz+AcuXNtBBlRBTOESTcQf8vWuA1YEdoDAvJaxr8m91HHUyOw8I8Km
+	 xlVmtxMT2jBfS2WRvB+ihl7btMqwpfc3c7v+dDMu0oNWmGwBsu3BcCf0iM6CNjOL1N
+	 8JC13B7HSkPDw7pkiXL47xtJ+iI3Y4TbgwtH0TfBN+0i9l4ho7v9+DIlMUA8BfG700
+	 mt/3F2ubOGeUw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06408CA100B;
+	Wed,  3 Sep 2025 05:09:47 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Subject: [PATCH 0/4] ALSA: usb-audio: series of improvements to min_mute
+Date: Wed, 03 Sep 2025 13:09:44 +0800
+Message-Id: <20250903-sound-v1-0-d4ca777b8512@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903040043.19398-1-vnranganath.20@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJjNt2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDSwMj3eL80rwUXVNjs0Qzy1Rzo0RLYyWg2oKi1LTMCrA50bG1tQByimc
+ vVwAAAA==
+X-Change-ID: 20250902-sound-536a69e72a93
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
+ Feng Yuan <fengyuan@uniontech.com>, Celeste Liu <uwu@coelacanthus.name>, 
+ qaqland <anguoli@uniontech.com>, linux-doc@vger.kernel.org, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756876185; l=908;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=u9cu7HB6ZKQ+UYVov00HqMXQZI5HNQmOImREMoKCVsY=;
+ b=jUtYH3kvO6z2XVRsiRLHqkmWO/5NbLP1jz2uqcxBJyuYHw7amEwAOdh+Ahdp6mguSCly8YSxW
+ c+QqF3s1hLPDfk4A9kRnC+Pg3HjdubmwOztGjpw6HypX47rSh78agEL
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-On Wed, Sep 03, 2025 at 09:30:43AM +0530, Ranganath V N wrote:
-> Thanks for the response. Do you want me to resend the patch by ignoring this?
-> particular "serie".
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+---
+Cryolitia PukNgae (4):
+      ALSA: usb-audio: rename QUIRK_FLAG_MIXER_MIN_MUTE to QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE
+      ALSA: usb-audio: add quirk QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE
+      ALSA: usb-audio: apply "mixer_min_mute" quirks on some devices
+      ALSA: usb-audio: apply quirk for MOONDROP Quark2
 
-No.  "serie" is obsolete and was clearly a typo.
+ Documentation/sound/alsa-configuration.rst |  1 +
+ sound/usb/mixer.c                          |  7 +++++++
+ sound/usb/mixer_quirks.c                   | 14 ++++++++++++--
+ sound/usb/quirks.c                         | 24 ++++++++++++++----------
+ sound/usb/usbaudio.h                       |  7 +++++--
+ 5 files changed, 39 insertions(+), 14 deletions(-)
+---
+base-commit: d414194eefc275bd17ad059baa23f2cd29c7d213
+change-id: 20250902-sound-536a69e72a93
+
+Best regards,
+-- 
+Cryolitia PukNgae <cryolitia@uniontech.com>
+
+
