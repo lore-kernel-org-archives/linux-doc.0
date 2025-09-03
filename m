@@ -1,101 +1,150 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47A813A258
-	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 15:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF640259C92;
+	Wed,  3 Sep 2025 15:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756912983; cv=none; b=Flm3TWz69MVd/16Ho1sNVmZ+j8oB7+BEY2GaTy9+89C3ppC9V+ZCNgcvFyQT2qNgmzL1ERtJ8uNhFuYQeTk9ZLp7NH3Ha+EUA5nq3ykqMHIV94xJv90XmpaiUDIdUK23XTGlWEQjXhWKsL8PHthcrGX8wt78F7uxLE/gJ41zrl0=
+	t=1756913133; cv=none; b=ra57ipXf/3rtPK/4wChuIqFZLRX8t/urhrsfXgemkqI3IDBU33H3uuTZfznNWEPeqkmfN2mVBMPWcwts8g8oP+zOQIKqjL8bymSCpbps9wjAYanTH4FFkMncXkcASr+zRTFiYTCxM1jo62d1p4m4mdyv4G7A10FysMjNLyhKB8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756912983; c=relaxed/simple;
-	bh=DRqRsdGI2QjzNoSdniWIsQFCTY4AzQlVFo68JVENFAU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NodURP8gHsr+7Vg73cE+LNoIrzoqHXUeDM5xyzh7c9C6zntlWlReOiEj6KQ5cwHcfc8C9keonO+CT7i/e1/KH/SoZ49zlxmS6/aIlWh4paC7V9937UEORsgn4E1Go2+SXoBm6r9okpLrfHSXvpuAV3APdcxp8WGno+Jdl8yQ7t8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ECQLL7nO; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756913133; c=relaxed/simple;
+	bh=PPPHepslJ/GbTqHPpzV+/rJxxOq0MiE6gSStTzqYzzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iHtu5wr6IlPG1ZPA1eqHKmk6ba5yFe0t6oY4/+uk/o/FsC9AQmsN4k7QpQ52X7POTp6Jhw2c++Tg0XPXmmq7/oX8t7rR5VTSeMu9X6fGWwkFOECRJvpGK4VOmNeTbQmgT1Xioc6MUrETWnLnMBkLHUHjBmH4GkPeYFa8P22CVzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7bfkZBK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ECQLL7nO"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24cb6c57a16so64755ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Sep 2025 08:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756912981; x=1757517781; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DRqRsdGI2QjzNoSdniWIsQFCTY4AzQlVFo68JVENFAU=;
-        b=ECQLL7nOHKL6AgzP57fp+Du09qVWga4sTKkkdBx9FIX8bqfd/iB3DPGlyFotw0nkdT
-         UX/u2+L3QEdgiL9huIxpRoNuDvHFCuQzmANvnAsMiBFwtUgb86UmdyzS+Su9Tiu8MAWz
-         jMy4Ii/RSkS85L90s3FLZy2TauZJvi9mDI37/uRHbORA3XHuNL8/fu94irfYVG//KPdd
-         bG9ASEfdVpU769VhbXgwyEkrRiqbYBU5ZPLDiI3M9CP55hUZZo5hzT9qryWRTz13J/5C
-         DjyEngPINtM52lHAMM4bkwTcT74r0qCntVwG7bwsQUhaXYQW0kQnHUz1yZDKXhy7nW9+
-         7uiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756912981; x=1757517781;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DRqRsdGI2QjzNoSdniWIsQFCTY4AzQlVFo68JVENFAU=;
-        b=XrfPJF9tGLFbDcE8YNdS+vcRuQFIrFLMVtEd51ICSwzqEZTGGRmqkVnTXQmVaKUInB
-         ggb5l5/T5IcUgF1xkAYOm+SCl8w4vawTiMCEF23G8p9ju1wNl/56MeImCT+tzttsUsAe
-         p3t7HHGtr7IL5XIEX+WKdCBRqX9gbbfs6UPnMcVd2dBU3Zr41geF5NV8+kKZtbIDydCQ
-         43FUQqZv+MQc8KztDBFI7wDpv/XSxDcViU2s/Vmj07GgU4IfHuHvvSHExCDLpYZz7xgO
-         VX9VmwT4bsNA+AMFmPPNXyzWkne7iXx3xM7Eb3GR+uf1o74J7Whur3PkQ3jNie20qS+z
-         Dnig==
-X-Forwarded-Encrypted: i=1; AJvYcCWhA+kQzD6ZtlGCWzoavPIjz0AnqLZvk5VajGwAxxZooZy3aXd7v+oyk2qONUizUg91sao6WKvs+ns=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAcfXBL0rof038ZojnxG42jy9T03AYfRu9laijve9QNlfBKwpV
-	fCWQK2FeQiTBhVydV8V2jdyu0FEFC/WSHZSdueDkJ5lwa4t96ud6rPiQKsJJCyumNxnheQpmJLJ
-	zf9+75stqFxziHDZbn72pOQ3ubI53Lyg=
-X-Gm-Gg: ASbGncvx7n4NM4fP95/UC2u4sdT7ok3W8YlLCNbVOhwsDMr7aATBCnQIx14cVpmxyQY
-	lnSo3LJSSGF7Df4hIj4ZHLfjvLYrhOzbKYRnN1SKSrC9Pzy4DueUAoUbs1wiG8J4tqKCHP0tllO
-	QBaGCxzxnb5tojheL/GOGOrJxj34vpm+yfJOsLmo3pYnLbYXR/hfr2CGNtCkL7PDm+b0SJTgBea
-	xrOKifyYVu7Jka0BDQ2DW9K3b6e20N+oBVCapCds+CkKFUXX3uXIzAtmZ3GK1A4mCZ7Clf/3/aF
-	rUNKH9OwHcFDp0P8FQud07SUx36/k1krgFUf
-X-Google-Smtp-Source: AGHT+IHFm3/iQmvZ1V0Eu9tc93BSM8sUYNm54UaZC5/CwbnsV+UENfgNLgusC84WuZFBviqKy8wjw9fxH1dS32ySotM=
-X-Received: by 2002:a17:903:1d1:b0:248:cd0b:343a with SMTP id
- d9443c01a7336-2491e0f807cmr140414145ad.2.1756912981211; Wed, 03 Sep 2025
- 08:23:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7bfkZBK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B8C2C4CEE7;
+	Wed,  3 Sep 2025 15:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756913133;
+	bh=PPPHepslJ/GbTqHPpzV+/rJxxOq0MiE6gSStTzqYzzk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h7bfkZBKVlLoYtCa9GItdF2AF5Ic5IA++BESUUTwExi17DUHJrCTOsdR/ZvQBeL1L
+	 fRERsPI7PIUhN0Tgi0R+rjE6WZTKt8G+kkJsABlTdoUVbONICjmmwMElswCM54qudD
+	 cXbylfizJpIlv/XHZE9Lt8VES7KDTLe/zDvP+gHu0YeTjAa5v9QxTDB0COQqoGvhNo
+	 9Fe5OepsA1EJRkhnYmneOQpISBeiX0WXZgmOcqdyOn4pQusN4d2/dWuktlfLoASomR
+	 8cRtY1MZAq8WHisX+7bB4UwBY3v/1WonxKkzQ++NJJ8Ph1HPJ+qtlsEkgW80T/m6uR
+	 f3Ct+DVuKG9lg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1utpMZ-00000007Hf6-0zRK;
+	Wed, 03 Sep 2025 17:25:31 +0200
+Date: Wed, 3 Sep 2025 17:25:31 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+Message-ID: <vu3l5df4iz4rbwinxldr56vzupzxeupemcvxt7ziqi7kwhytso@wrgznki67cew>
+References: <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
+ <87ecsox4uy.fsf@trenco.lwn.net>
+ <20250902191929.504977bf@foz.lan>
+ <87frd4vfys.fsf@trenco.lwn.net>
+ <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
+ <20250903124229.332dfeae@foz.lan>
+ <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
+ <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
+ <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw>
+ <874a85f2154d6b05635d856dcdd85d4715d19d3c.camel@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
- <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
- <87ecsox4uy.fsf@trenco.lwn.net> <20250902191929.504977bf@foz.lan>
- <87frd4vfys.fsf@trenco.lwn.net> <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
- <20250903124229.332dfeae@foz.lan> <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
- <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
- <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw> <20250903150729.GP3648@pendragon.ideasonboard.com>
-In-Reply-To: <20250903150729.GP3648@pendragon.ideasonboard.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 3 Sep 2025 17:22:48 +0200
-X-Gm-Features: Ac12FXwN_tZXKtfRO7KZPDHRbedpKbASLbs-zNL0mjsFMzURym4LNhE7qF7tiUM
-Message-ID: <CANiq72kQGPciacU6hMz5ePxafy9hk9yL7nPf7s-4RJ7vJBB=Lg@mail.gmail.com>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
-	ksummit@lists.linux.dev, Linux Documentation <linux-doc@vger.kernel.org>, 
-	Akira Yokosawa <akiyks@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874a85f2154d6b05635d856dcdd85d4715d19d3c.camel@sipsolutions.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Wed, Sep 3, 2025 at 5:07=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> If you really insist you could print a message telling
-> the user there's another Python version on their system that may work,
+On Wed, Sep 03, 2025 at 05:11:12PM +0200, Johannes Berg wrote:
+> On Wed, 2025-09-03 at 16:57 +0200, Mauro Carvalho Chehab wrote:
+> > There are actually 3 different issues that depend on python version:
+> > 
+> > 1. sphinx-pre-install:
+> > 
+> >     This used to be a Perl script. The goal is to check if sphinx-build
+> >     is installed and works, and identify missing dependencies.
+> > 
+> >     The problem is: if one installs python3xx-Sphinx, instead of
+> >     python3-Sphinx, the script will fail, except if it first switches
+> >     to python3.xx;
+> 
+> So let it fail. Fail is fine, at least it's a clear signal. The python3-
+> Spinx package will anyway be a sort of meta-package that's basically
+> empty and depends on a specific version.
 
-There is also precedent for this in the kernel already, e.g. for Rust,
-we do the warning thing (or error) depending on what we versions we
-find etc.
+No, that's not the case. On Leap, python3-Sphinx uses python 3.6 and has
+Sphinx version 2.3.x, which is too old.
 
-The user is the one expected to fix the call to `make` and/or fix
-their environment if needed.
+> > 2. sphinx-build logic inside makefile, required for doc-specific targets:
+> > 
+> >    - If python < 3.7, doc builds fail;
+> 
+> Fine, python 3.7 is really old by now, if you actually have python3==3.7
+> you probably have other problems anyway. I don't think we need to
+> support that.
 
-Cheers,
-Miguel
+On our past discusions on linux-doc ML, we opted to support the latest
+openSUSE LTS version (Leap).
+
+> >    - If python3xx-Sphinx is installed, build only works if started using
+> >      the right python3.xx exec
+> 
+> Yeah, but again, we can require python3-sphinx here.
+
+See above. python311-Sphinx is OK, and it is a distro-installed package.
+
+I can't see why we can't use to build the docs if the user explicitly
+installed it.
+
+> > Now, for (1) and (2), it should be possible to allow building docs even
+> > if the distro requires Python < 3.7, providing extra packages for newer
+> > Python, as almost all distros do. See, several distros require python
+> > on their minimal install images, because it can be using during package
+> > install. Removing the default python replacing by a new version may break
+> > the system, as the newer version may not be backward-compatible.
+> 
+> Umm, no? I'm not sure there's a need to cater to truly ancient software
+> in today's kernel build environment. Even debian *oldoldstable* has
+> python3==3.9:
+> https://packages.debian.org/bullseye/python3
+
+True, but at least one of the major LTS distros don't have it(*).
+
+We can review it after Leap is replaced for the next openSUSE release.
+
+(*) also, RHEL8 (and its derivated releases) suffer the same issues
+     and they aren't EOL yet.
+
+For most of us, I doubt the fallback logic would ever be used.
+
+> > The best alternative seems to check if:
+> > 
+> > - python version is bellow the minimal supported version;
+> > - there is a newer python binary at PATH;
+> > - check if sphinx-build runs with the newest version.
+> > 
+> > If all those 3 conditions are met, build docs with a version that works,
+> > printing a message to tell the user what Python binary was used.
+> 
+> I still disagree. The only predictable thing is to use "python3" and
+> associated python3-xyz tools, and let things fail if those versions are
+> too old.
+> 
+> Picking a random different version that will depend on the kernel
+> version etc. is just going to introduce more moving parts and will
+> eventually be painful.
+
+When it becomes painful, we can drop it.
+
+Anyway, I'll let it for Jon to decide.
+
+-- 
+Thanks,
+Mauro
