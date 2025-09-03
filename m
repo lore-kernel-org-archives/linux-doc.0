@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D232F0C7A;
-	Wed,  3 Sep 2025 14:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6D22FCC0D;
+	Wed,  3 Sep 2025 14:17:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756908647; cv=none; b=s8LsmpXKZMrtqOTh35Q7D1Vp729xYLP7BWinLNTn8sc5B0BQ2I7LlMEdxTSU80KQYXk+kFgA0s79g8AxTL8JhO45S0t9ddf89a0UDUqJndnOTkABAMiihbF+ym0LKPZzZ5ykqUyjHFER9zqKGnUpmgRkoCvUYCYrO3SSYelhOes=
+	t=1756909046; cv=none; b=EyKGFxefhnXGMmha2K7m6HS/qNH0MWF0NdaO2/ZM3ciJXUZuH4fMvt83Wk19pkB8IP0zYMA4Ofe9nO1744UROrzIiQM3TVNYH9MRcTX4iWPp1oKwZO2fuYq60FaDS7b5EMpKtrrU2Oyv54flXH0nTIXtZ/YMayWGCQjcuNt0Ssc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756908647; c=relaxed/simple;
-	bh=IJP0VbHKnRlpLO/dj+/Ia2ILTC5O+iulYtBS4Wmtc7Y=;
+	s=arc-20240116; t=1756909046; c=relaxed/simple;
+	bh=rkSg1vCoekuc9whKWjo4hgqm1Elyfx6nN2+yYBdxBhc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eff2LAuaroLEU7fUi2chULqXChKhHvhX2IU2oRihsfHCyc2qy+RBcAPLF5trfxxnAPAnWC/MNpu4SvRU8lGnoVwGyelkmqfnu4gjYx03AOah7/vmPcEIBuAWbqqkTv0XY/3c5J/h00sg4JTchEvEzhDS3Ly3LbdPI34eKr9ywbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+S1d8QQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=lFgo4809J7RzDkntROlbTQKFaIcsJ52FDWFV2fM0vlrB6QMPUrRBVn1ro3+DxUa3/q3AVmKMqnTGvoYxHWeVbO2VtFf1tLRcEpnugLofrspQzyWrHwxN8QlU1Pu9TZEKq6cZUYXABwc0GbzaMl/D42Sm/lcld95Frz/j1nGPa/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2qkEx0s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+S1d8QQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4255EC4CEE7;
-	Wed,  3 Sep 2025 14:10:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2qkEx0s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 075E6C4CEE7;
+	Wed,  3 Sep 2025 14:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756908647;
-	bh=IJP0VbHKnRlpLO/dj+/Ia2ILTC5O+iulYtBS4Wmtc7Y=;
+	s=k20201202; t=1756909046;
+	bh=rkSg1vCoekuc9whKWjo4hgqm1Elyfx6nN2+yYBdxBhc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=R+S1d8QQ8JTOfieL00HXOZ34YoFUz7OL6PI6NmTox55mOQ5P2beuQkiHTw89xKvw3
-	 insOk7uKvWRNaeS2vTdE9Ht/CnQJzkKF7GSUV/9EH30J6MBbhwocfVgD71iA7LqCnt
-	 zqGDip6cF961mvzPUx6VluNXvCkxwekBrmumpiQS1Wblng3j0PvIFUjnebzWKb0g7R
-	 V4bkzKiUCPcrAIysTs2EMlCHah6rOsjnKvu10SpEX2QyWrKKe+3tUV7u4ej/phtqKG
-	 dYcayDouOvM9hUHm/g775ZgYpyBRWvfvMV7HVpKIckFauorE4h/2sjZVbRh4vbTHER
-	 6qYwmLFOmThTw==
+	b=g2qkEx0srlnMZm9jvTuQkoAfUMqfZLmOGvMvWAXSFNRLeSDA5jxOcfWXXmUvxxNM8
+	 yvdadUNZgnBX3z/+e4yDpoxMbRzcPuAnr38KTH3Vu7n/1F7mqMnQLDtY97FOFmU2qb
+	 f3BqGPAIhHQlFrXQgm64XqEAf2KGNfJM92WGL8OAKBaRXkA/f3UgK0fIr7zt5swxiJ
+	 hgOUO2rzO4bNzczWxkpktx7lTBG9e6nmau7vZmkjiEckwkS4MGMoDE1PbRdr39Xoxn
+	 kj4QeQgwRxQT2rdLQor3kdwOYj76BPFKEkjV4l2X1fOg6RdjMK6qKg5Z6N5j4zrE8l
+	 ZL568mTWs7NNw==
 From: Pratyush Yadav <pratyush@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
- <pasha.tatashin@soleen.com>,  jasonmiu@google.com,  graf@amazon.com,
-  changyuanl@google.com,  rppt@kernel.org,  dmatlack@google.com,
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Jason Gunthorpe <jgg@nvidia.com>,
+  Pasha Tatashin <pasha.tatashin@soleen.com>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  dmatlack@google.com,
   rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
   ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
   ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
@@ -56,14 +56,13 @@ Cc: Pratyush Yadav <pratyush@kernel.org>,  Pasha Tatashin
   saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
   leonro@nvidia.com,  witu@nvidia.com
 Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-In-Reply-To: <20250902134846.GN186519@nvidia.com>
+In-Reply-To: <aLbYk30V2EEJJtAf@kernel.org>
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
 	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
-	<20250826162019.GD2130239@nvidia.com> <mafs0bjo0yffo.fsf@kernel.org>
-	<20250828124320.GB7333@nvidia.com> <mafs0h5xmw12a.fsf@kernel.org>
-	<20250902134846.GN186519@nvidia.com>
-Date: Wed, 03 Sep 2025 16:10:37 +0200
-Message-ID: <mafs0v7lzvd7m.fsf@kernel.org>
+	<20250826162019.GD2130239@nvidia.com> <aLXIcUwt0HVzRpYW@kernel.org>
+	<mafs0ldmyw1hp.fsf@kernel.org> <aLbYk30V2EEJJtAf@kernel.org>
+Date: Wed, 03 Sep 2025 16:17:15 +0200
+Message-ID: <mafs0qzwnvcwk.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -73,110 +72,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Hi Jason,
+Hi Mike,
 
-On Tue, Sep 02 2025, Jason Gunthorpe wrote:
+On Tue, Sep 02 2025, Mike Rapoport wrote:
 
-> On Mon, Sep 01, 2025 at 07:10:53PM +0200, Pratyush Yadav wrote:
->> Building kvalloc on top of this becomes trivial.
+> Hi Pratyush,
+>
+> On Mon, Sep 01, 2025 at 07:01:38PM +0200, Pratyush Yadav wrote:
+>> Hi Mike,
+>> 
+>> On Mon, Sep 01 2025, Mike Rapoport wrote:
+>> 
+>> > On Tue, Aug 26, 2025 at 01:20:19PM -0300, Jason Gunthorpe wrote:
+>> >> On Thu, Aug 07, 2025 at 01:44:35AM +0000, Pasha Tatashin wrote:
+>> >> 
+>> >> > +	/*
+>> >> > +	 * Most of the space should be taken by preserved folios. So take its
+>> >> > +	 * size, plus a page for other properties.
+>> >> > +	 */
+>> >> > +	fdt = memfd_luo_create_fdt(PAGE_ALIGN(preserved_size) + PAGE_SIZE);
+>> >> > +	if (!fdt) {
+>> >> > +		err = -ENOMEM;
+>> >> > +		goto err_unpin;
+>> >> > +	}
+>> >> 
+>> >> This doesn't seem to have any versioning scheme, it really should..
+>> >> 
+>> >> > +	err = fdt_property_placeholder(fdt, "folios", preserved_size,
+>> >> > +				       (void **)&preserved_folios);
+>> >> > +	if (err) {
+>> >> > +		pr_err("Failed to reserve folios property in FDT: %s\n",
+>> >> > +		       fdt_strerror(err));
+>> >> > +		err = -ENOMEM;
+>> >> > +		goto err_free_fdt;
+>> >> > +	}
+>> >> 
+>> >> Yuk.
+>> >> 
+>> >> This really wants some luo helper
+>> >> 
+>> >> 'luo alloc array'
+>> >> 'luo restore array'
+>> >> 'luo free array'
+>> >
+>> > We can just add kho_{preserve,restore}_vmalloc(). I've drafted it here:
+>> > https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=kho/vmalloc/v1
+>> >
+>> > Will wait for kbuild and then send proper patches.
+>> 
+>> I have been working on something similar, but in a more generic way.
+>> 
+>> I have implemented a sparse KHO-preservable array (called kho_array)
+>> with xarray like properties. It can take in 4-byte aligned pointers and
+>> supports saving non-pointer values similar to xa_mk_value(). For now it
+>> doesn't support multi-index entries, but if needed the data format can
+>> be extended to support it as well.
+>> 
+>> The structure is very similar to what you have implemented. It uses a
+>> linked list of pages with some metadata at the head of each page.
+>> 
+>> I have used it for memfd preservation, and I think it is quite
+>> versatile. For example, your kho_preserve_vmalloc() can be very easily
+>> built on top of this kho_array by simply saving each physical page
+>> address at consecutive indices in the array.
+>
+> I've started to work on something similar to your kho_array for memfd case
+> and then I thought that since we know the size of the array we can simply
+> vmalloc it and preserve vmalloc, and that lead me to implementing
+> preservation of vmalloc :)
+>
+> I like the idea to have kho_array for cases when we don't know the amount
+> of data to preserve in advance, but for memfd as it's currently
+> implemented I think that allocating and preserving vmalloc is simpler.
+>
+> As for porting kho_preserve_vmalloc() to kho_array, I also feel that it
+> would just make kho_preserve_vmalloc() more complex and I'd rather simplify
+> it even more, e.g. with preallocating all the pages that preserve indices
+> in advance.
+
+I think there are two parts here. One is the data format of the KHO
+array and the other is the way to build it. I think the format is quite
+simple and versatile, and we can have many strategies of building it.
+
+For example, if you are only concerned with pre-allocating data, I can
+very well add a way to initialize the KHO array with with a fixed size
+up front.
+
+Beyond that, I think KHO array will actually make kho_preserve_vmalloc()
+simpler since it won't have to deal with the linked list traversal
+logic. It can just do ka_for_each() and just get all the pages. We can
+also convert the preservation bitmaps to use it so the linked list logic
+is in one place, and others just build on top of it.
+
+>  
+>> The code is still WIP and currently a bit hacky, but I will clean it up
+>> in a couple days and I think it should be ready for posting. You can
+>> find the current version at [0][1]. Would be good to hear your thoughts,
+>> and if you agree with the approach, I can also port
+>> kho_preserve_vmalloc() to work on top of kho_array as well.
 >> 
 >> [0] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=cf4c04c1e9ac854e3297018ad6dada17c54a59af
->
-> This isn't really an array, it is a non-seekable serialization of
-> key/values with some optimization for consecutive keys. IMHO it is
-
-Sure, an array is not the best name for the thing. Call it whatever,
-maybe a "sparse collection of pointers". But I hope you get the idea.
-
-> most useful if you don't know the size of the thing you want to
-> serialize in advance since it has a nice dynamic append.
->
-> But if you do know the size, I think it makes more sense just to do a
-> preserving vmalloc and write out a linear array..
-
-I think there are two separate parts here. One is the data format and
-the other is the data builder.
-
-The format itself is quite simple. It is a linked list of discontiguous
-pages that holds a set of pointers. We use that idea already for the
-preserved pages bitmap. Mike's vmalloc preservation patches also use the
-same idea, just with a small variation.
-
-The builder part (ka_iter in my patches) is an abstraction on top to
-build the data structure. I designed it with the nice dynamic append
-property since it seemed like a nice and convenient design, but we can
-have it define the size statically as well. The underlying data format
-won't change.
-
->
-> So, it could be useful, but I wouldn't use it for memfd, the vmalloc
-> approach is better and we shouldn't optimize for sparsness which
-> should never happen.
-
-I disagree. I think we are re-inventing the same data format with minor
-variations. I think we should define extensible fundamental data formats
-first, and then use those as the building blocks for the rest of our
-serialization logic.
-
-I think KHO array does exactly that. It provides the fundamental
-serialization for a collection of pointers, and other serialization use
-cases can then build on top of it. For example, the preservation bitmaps
-can get rid of their linked list logic and just use KHO array to hold
-and retrieve its bitmaps. It will make the serialization simpler.
-Similar argument for vmalloc preservation.
-
-I also don't get why you think sparseness "should never happen". For
-memfd for example, you say in one of your other emails that "And again
-in real systems we expect memfd to be fully populated too." Which
-systems and use cases do you have in mind? Why do you think people won't
-want a sparse memfd?
-
-And finally, from a data format perspective, the sparseness only adds a
-small bit of complexity (the startpos for each kho_array_page).
-Everything else is practically the same as a continuous array.
-
-All in all, I think KHO array is going to prove useful and will make
-serialization for subsystems easier. I think sparseness will also prove
-useful but it is not a hill I want to die on. I am fine with starting
-with a non-sparse array if people really insist. But I do think we
-should go with KHO array as a base instead of re-inventing the linked
-list of pages again and again.
-
->
->> > The versioning should be first class, not hidden away as some emergent
->> > property of registering multiple serializers or something like that.
+>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pratyush/linux.git/commit/?h=kho-array&id=5eb0d7316274a9c87acaeedd86941979fc4baf96
 >> 
->> That makes sense. How about some simple changes to the LUO interfaces to
->> make the version more prominent:
->> 
->> 	int (*prepare)(struct liveupdate_file_handler *handler,
->> 		       struct file *file, u64 *data, char **compatible);
->
-> Yeah, something more integrated with the ops is better.
->
-> You could list the supported versions in the ops itself
->
->   const char **supported_deserialize_versions;
->
-> And let the luo framework find the right versions.
->
-> But for prepare I would expect an inbetween object:
->
-> 	int (*prepare)(struct liveupdate_file_handler *handler,
-> 	    	       struct luo_object *obj, struct file *file);
->
-> And then you'd do function calls on 'obj' to store 'data' per version.
-
-What do you mean by "data per version"? I think there should be only one
-version of the serialized object. Multiple versions of the same thing
-will get ugly real quick.
-
-Other than that, I think this could work well. I am guessing luo_object
-stores the version and gives us a way to query it on the other side. I
-think if we are letting LUO manage supported versions, it should be
-richer than just a list of strings. I think it should include a ops
-structure for deserializing each version. That would encapsulate the
-versioning more cleanly.
+>> -- 
+>> Regards,
+>> Pratyush Yadav
 
 -- 
 Regards,
