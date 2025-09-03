@@ -1,189 +1,154 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843C82EACFB;
-	Wed,  3 Sep 2025 08:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9AF258CDF
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 09:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756888671; cv=none; b=XWF+3Sa3kNxKcC9bPeIUXU3GNq5RQMgNhrKu3dMSHugS/VLcNzM6CbpFk8g+1DDuDz/y18BwYHWsDM1SBhdrGrqxH+x88M+YdPI+du1ktntVNWT/cLIXtqqdXZQrMA2weDY27GzhStoGUTTpLOq5agcgXAxFXuZD/cajAHtO3OI=
+	t=1756890660; cv=none; b=F+kvv2MqgkfyNwSUqS/cg6lYZQ3suqQagsQePplpMILLpNTIYINwukyjYa9hLY1IHRFg4hMKYWmGa29jDQE6d3N+Jjjbkh1LEsIZ6qGlws5f//TKkRtSrPpzwcOYnhoHdDq9ZER/Lg2S94zfuIg1I2nmwyXcM3e/GAXzK+R5kVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756888671; c=relaxed/simple;
-	bh=HRJL63K+pt60xVYH2OwXL9cway+602AapnU1/G+3GW4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jkkZmrt9NQdxT6c+aJ9fULRLOd3FRb/jd5cN14S220uI/5ww5wd71XRnIlvJLD/V902H8kNpkQoXTJEB882PtZJyAndkHbOquKbqaEyOpagcE/55yjE7Ki+cCWM0Q0Ev3CcqHOc+8MBKNqW/ksfTkYdMA0M/ah3Fky37BisdYj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pbarker.dev; spf=pass smtp.mailfrom=pbarker.dev; dkim=pass (2048-bit key) header.d=pbarker.dev header.i=@pbarker.dev header.b=dkh0b5Iu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BbRGkPk6; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pbarker.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pbarker.dev
+	s=arc-20240116; t=1756890660; c=relaxed/simple;
+	bh=obY43WZ36Ui+bl12bWl48e1L9yiSSKaPY6THe3nPNm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KTftLcazis/dCp+myeyD7PueHpWYE9qiG+09CewnYxaDOIW8xBDYVGY2qCHeOvl48cr3hMBJMrz43LD0YRlkLE+z3iG+F+UES38Xmbj9+39fATXnRmWfwpPTRGQheAgbHgB6cixJnnOGdbwzd1OqKqj/FackiQCwLJCR71B+ye8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=j8+LcGFv; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pbarker.dev header.i=@pbarker.dev header.b="dkh0b5Iu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BbRGkPk6"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 52D7D7A02A3;
-	Wed,  3 Sep 2025 04:37:47 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Wed, 03 Sep 2025 04:37:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1756888667; x=1756975067; bh=US1cagWNYL
-	+QRlqKfTeyuWIXRO8VusLp8zQHX2qwJkE=; b=dkh0b5Iuu7zD3ncB3AIHzgByoC
-	xIIClIUl7j7gTS8f+438mL9SPXFL96ZxiDlKdRsrlmTNFMZrlIPOJ5jLtnQ6eG1l
-	poKhp8NG9lf7U8kJ67IAnmk4VIoYqsZhD6dzYu+ytdpkxNBAmlwDokbppSo4tL98
-	DycL8yJG+g6vy3sWLVkjlYh3I2SP09BC3wPzVA5BjOP1BWadQh7Mc6Yotv1ZUiOg
-	zM/kKExPsHQPIPZPHCoSGlC+FHSXEan5c4WYFpZLlHAIk+2pCmpn/Bj1lOG9SnGP
-	qurRvCbq4JR7gB1fc4/WEm+Edstz/15/9lLszcCQMZyJqYy3VsSnA+/nOxOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1756888667; x=1756975067; bh=US1cagWNYL+QRlqKfTeyuWIXRO8VusLp8zQ
-	HX2qwJkE=; b=BbRGkPk6xBwNelfFTn6sCy9ES1eVCq3Iup2vFO6TelDqOf2t0CR
-	TRNCCChnZiYHOd0CQkseec/2H0sqjL1oG3OnI95CHDuqf+fJ5yJWLWC5ETDVUFwG
-	5DEtxUnysDESR/Z007JYJQb4vaIjCWbI3/m6G4Ap/tq9ms8uvrtVY371oHojW/s8
-	UBN+zOzIPfC7hoAyYdDDkvrnJ8DWykfW8H0hhycHtyZEmp+zlcyLc68cY3SiKXV3
-	CChSu1zH2cKDsKXDxspX+X8fYfBFKW5P+/ZICNQhE5nYCOW2mw8SgmLAnPm0NIVq
-	WQonGeAEF3+V115/u8thNy7vMaluZf3KLbQ==
-X-ME-Sender: <xms:Wv63aAB9RPiEpsd0LZeNmjfUsPtrNqRJCiSLftFnmA0W7BYSXHW71g>
-    <xme:Wv63aAeBsM_Lyz3blsGXuP6aWxaoZWf-VkPzX45MIjH3Yntz-7iVkgsWzOA1VxJq_
-    5xHEQWegUqYX7o4MeY>
-X-ME-Received: <xmr:Wv63aF57-P0Et6eGud5HfQZZFbXW3zdxJ1XkUxjUnbtkynYEtq8Sq6PDmV2nW5tdmdGv8ESwiDTxfFXvvTYw1DRn0JXwIg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvieekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghr
-    khgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepve
-    ejkeekvddugfeileegvefggefghefgjeetffduheduudfhleeigfejfedviefhnecuffho
-    mhgrihhnpehgihhthhhusgdrtghomhdphihusghitghordgtohhmpdhprhhothgvtghtih
-    hnghdqtghouggvqdhinhhtvghgrhhithihrdhmugenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnh
-    gspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepkhhonhhs
-    thgrnhhtihhnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheptg
-    horhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepfihorhhkfhhlohifshesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:Wv63aLVVDumImbMBoKXTqM4clhURfQD80cZOVU3jLI1lOgkg4kbncw>
-    <xmx:Wv63aM6L5Pigk3cDUluhK3hELmYf7a5dJHkadgKJMDEn9esHjai1Lw>
-    <xmx:Wv63aOppSDuQeyTsmoDsEq6E3bOncz0VNaaPwjbzioqVmvgbxR6_tQ>
-    <xmx:Wv63aHlz5Wuy5Y9PIn9aq-DtAkx5By22vM6akMWa0qmaDpCceMNj6Q>
-    <xmx:W_63aOBIH7kAIT60mjV94UQDJF9sr0Dvm7la7swZwCnTZSYtKr-JQFAG>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 3 Sep 2025 04:37:46 -0400 (EDT)
-Message-ID: <9fbb364c46d4affdadec7702c4c0e8987f7dae03.camel@pbarker.dev>
-Subject: Re: [PATCH] Documentation: update maintainer-pgp-guide for latest
- best practices
-From: Paul Barker <paul@pbarker.dev>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Jonathan Corbet
-	 <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 03 Sep 2025 09:37:28 +0100
-In-Reply-To: <20250902-pgp-guide-updates-v1-1-62ac7312d3f9@linuxfoundation.org>
-References: 
-	<20250902-pgp-guide-updates-v1-1-62ac7312d3f9@linuxfoundation.org>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- ep0k17xg==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-EB9gnekdljQv8zsDx1AE"
-User-Agent: Evolution 3.56.1-1 
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="j8+LcGFv"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 47DFE1A0916;
+	Wed,  3 Sep 2025 09:10:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1BF37606C3;
+	Wed,  3 Sep 2025 09:10:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B2F4A1C22DB60;
+	Wed,  3 Sep 2025 11:10:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1756890652; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=3qfmCT2IJRj9E7bccRvk2rX7BuXxyaqOfnAhEGgrxro=;
+	b=j8+LcGFvEoytc8+gnOIPE0orhclkJo48lN0sjoHZyVo/GAsKJUOmV9gbSlKLcvbLvoEiB6
+	/kN+ZmtvppXoUKxlLkPiRYlXNp5T5t2p5qjFhxLMBaDDJ++eeJa16+E+3v/XkcCtMxMGqf
+	SoD/H1RBHBwm5izhAuP/iEQPs6HxM/SBN0Pej2Q4HlXaxfPCM8DPEuvKl6+8+9OQkrAr6B
+	cdvSp1oWygbpyYdNClXt4mKUlWrSR/uPTIzN5XgMNeQvxaaDZgemlPGFNOFPYWn0I52hYy
+	DwJnFj+jxtQ3sRgXz5spKFaO3VMG9zLIJtuLeYOlwGEQxQZk+EdBHL/LBFjt3g==
+Date: Wed, 3 Sep 2025 11:10:25 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jiri Pirko
+ <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, kernel@pengutronix.de, Dent Project
+ <dentproject@linuxfoundation.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>
+Subject: Re: [PATCH net-next v2 4/4] net: pse-pd: pd692x0: Add devlink
+ interface for configuration save/reset
+Message-ID: <20250903111025.4642efb7@kmaincent-XPS-13-7390>
+In-Reply-To: <aLfp5H5CTa24wA7H@pengutronix.de>
+References: <20250829-feature_poe_permanent_conf-v2-0-8bb6f073ec23@bootlin.com>
+	<20250829-feature_poe_permanent_conf-v2-4-8bb6f073ec23@bootlin.com>
+	<20250901133100.3108c817@kernel.org>
+	<20250902164314.12ce43b4@kmaincent-XPS-13-7390>
+	<20250902134212.4ceb5bc3@kernel.org>
+	<20250902134844.7e3593b9@kernel.org>
+	<aLfp5H5CTa24wA7H@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-EB9gnekdljQv8zsDx1AE
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 2025-09-02 at 11:44 -0400, Konstantin Ryabitsev wrote:
-> Freshen up the maintainer PGP guide:
+On Wed, 3 Sep 2025 09:10:28 +0200
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+
+> On Tue, Sep 02, 2025 at 01:48:44PM -0700, Jakub Kicinski wrote:
+> > On Tue, 2 Sep 2025 13:42:12 -0700 Jakub Kicinski wrote: =20
+> > > On Tue, 2 Sep 2025 16:43:14 +0200 Kory Maincent wrote: =20
+> > > > > Sorry for not offering a clear alternative, but I'm not aware of =
+any
+> > > > > precedent for treating devlink params as action triggers. devlink
+> > > > > params should be values that can be set and read, which is clearl=
+y not
+> > > > > the case here:     =20
+> > > >=20
+> > > > Ok.
+> > > > We could save the configuration for every config change and add a
+> > > > reset-conf action to devlink reload uAPI? The drawback it that it w=
+ill
+> > > > bring a bit of latency (about 110ms) for every config change.
+> > > >=20
+> > > > Or adding a new devlink uAPI like a devlink conf but maybe we don't
+> > > > have enough cases to add such generic new uAPI.
+> > > > Or get back to the first proposition to use sysfs.=20
+> > > >=20
+> > > > What do you think?   =20
+> > >=20
+> > > If you are asking for my real preference, abstracting away whether it=
+'s
+> > > doable and justifiable amount of effort for you -- I'd explore using
+> > > flags in the ethtool header to control whether setting is written to
+> > > the flash. =20
+> >=20
+> > PS. failing that the less uAPI the better. Tho, given that the whole
+> > point here is giving user the ability to write the flash -- asking for
+> > uAPI-light approach feels contradictory.
+> >=20
+> > Taking a step back -- the "save to flash" is something that OEM FW
+> > often supports. But for Linux-based control the "save to flash" should
+> > really be equivalent to updating some user space config. When user
+> > configures interfaces in OpenWRT we're not flashing them into the
+> > device tree... Could you perhaps explain what makes updating the
+> > in-flash config a high-priority requirement for PoE?
+> >  =20
 >=20
-> - Bump minimum GnuPG version requirement from 2.2 to 2.4, since 2.2 is
->   no longer maintained
-> - All major hardware tokens now support Curve25519, so remove outdated
->   ECC support callouts
-> - Update hardware device recommendations (Nitrokey Pro 2 -> Nitrokey 3)
-> - Broaden backup media terminology (USB thumb drive -> external media)
-> - Update wording to follow vale's linter recommendations
-> - Various minor wording improvements for clarity
->=20
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> I think the main use case question is: what happens if the application
+> CPU reboots?
+> Do we go back to =E2=80=9Csafe defaults=E2=80=9D? But what are safe defau=
+lts - that can
+> vary a lot between systems.
 
-In the last couple of months I moved my private keys onto a new Yubikey dev=
-ice,
-mostly following the kernel maintainer PGP guide. I read through the guide,=
- and
-some other sources [1] [2] [3], in detail before I started. So I think I'm =
-well
-placed to review these changes. They LGTM!
+In case of CPU reboot, the port matrix will be flashed, which means the
+controller is restarted and the ports get disconnected.
+Therefore indeed we will go back to default settings.
+=20
+> In many setups, if the CPU reboots it also means the bridge is down, so
+> there is no packet forwarding. In that case, does it even make sense to
+> keep providing PoE power if the networking part is non-functional?
 
-Reviewed-by: Paul Barker <paul@pbarker.dev>
+It depends, we might not want to reboot the Powered Devices if the switch
+reboot. I don't currently have specific case in mind which could need this
+behavior.
+Mainly, the Dent Project final aim was to support mainline all the features
+supported in their poed tool.
+https://github.com/dentproject/poed/blob/main/dentos-poe-agent/opt/poeagent=
+/docs/Userguide
 
-[1]: https://github.com/drduh/YubiKey-Guide
-[2]: https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-Y=
-ubiKey-with-OpenPGP
-[3]: https://github.com/lfit/itpol/blob/master/protecting-code-integrity.md
+> Another angle: does it make sense to overwrite the hardware power-on
+> defaults each time the system starts? Or should we rather be able to
+> read back the stored defaults from the hardware into the driver and work
+> with them?
 
+Yes that is one of the design proposition, but we will still need a way to
+reset the conf as said before.
+
+> Does anyone here have field experience with similar devices? How are
+> these topics usually handled outside of my bubble?
+
+Kyle any field experience on this?
+
+Regards,
 --=20
-Paul Barker
-
---=-EB9gnekdljQv8zsDx1AE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaLf+SBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0boc6AQDkoJFNqcEdpNfARXGZRqp0DVgZKTnh7oMZ
-TFjEtpcSwgEA1la9yaRFnzOVaf52f4flhFWTORyZaMDvCs5yfzdAHwQ=
-=takW
------END PGP SIGNATURE-----
-
---=-EB9gnekdljQv8zsDx1AE--
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
