@@ -1,102 +1,93 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F57A19C560;
-	Wed,  3 Sep 2025 22:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB482EC088;
+	Wed,  3 Sep 2025 22:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756939581; cv=none; b=LaCqOOr02sNXdkyv83LT4KKOzOMmoybqdB4MoF+72q+adC4tHnOVJiWL/q1NJ4NdAqrI65TyYV1BI3TN+GN5yvWMyK9TM7tIfb/e69YzOij2VFJ6rXIq6YTal3eKJC3r7qztYIumqmJ13ipReo79EP4mc3vy8sX60DNtJ/9D5yg=
+	t=1756939822; cv=none; b=rIJAxm8hZpZXhtnqZuXygUfX9AdDArz30/jW3BqRLNoT98MFEHst8Ovnb9WNzmwwjoBv4vsh2MeDF9iH1paaD6CFDmWrfrL+Jp1O0Inoyhd5T8f0Vd1zRDODoabUtBI+TxakR/3l7EghoOCA3wuJcMlI3XJz2LvsInhM85y1RDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756939581; c=relaxed/simple;
-	bh=E14G7hz4s7ZeraM27XTKxEUx9yqEMxZn0gjMb5mg+Ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b+UMLYT4TGcqBa7R/nuzP10PaGv8y3GNnERZJfRj0uwedN7htwjtpGJzRry0llROQbyxL9orkIeHR9Foaea8qv+H1vU+HW2Vd5Okdq8QltfNDS/o6cYfgE57yQCihSwtur0KLYLwq/kMDitwNY2i3Pbxz4f482OUru0GVi8iYUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=kgLW9QU8; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1756939822; c=relaxed/simple;
+	bh=mkiGvLk02qtQgOqRBzKCxDfgS3qMK2s2BhcKdBmvNBk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NEriXEzlLfagwX54FMb8XaIrzIo0HinvVwr9sdDzx48lBuMmdTnJ2nK9kRNdUPPFON/kDKqyAkv7pKE6/7gndbyq1IBha55PO5sSsD+ydp+sL6sd+hlRw1XN7KT8BMQ0K85Ii5sZ70QFZPxxEmPSgUSv324GdMnNwJRmd2LwOdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Z7n89/IJ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="kgLW9QU8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=7bTvRnVvVrdfJ0JlVJfNw8ILrW2UjTWiVk6aSWpIF4o=; b=kgLW9QU8Ncl0JCWG9zxLcy6027
-	qExkkYTYK9wyu3uwEhwlhSPDNvDcHvWKlmLqgRL4U8pKuvCnJNqWz80FBbnE5ZELuEpQT5ItwMExS
-	jwHtmSlG2uSv1rDDN9JakBjTQvRVuc92CsF5dCUKVukVdYzchFDMDF5Tl8VNkm7EzBRc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1utwEZ-0076SB-85; Thu, 04 Sep 2025 00:45:43 +0200
-Date: Thu, 4 Sep 2025 00:45:43 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Dong Yibo <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v10 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <19ca3e80-97f7-428a-bf09-f713706fd6ab@lunn.ch>
-References: <20250903025430.864836-1-dong100@mucse.com>
- <20250903025430.864836-5-dong100@mucse.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Z7n89/IJ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0B7A440AE3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756939816; bh=lFN1fJFly6KNTiZkgwEYEyOUtp9KsRdAxKVxfq2rRJo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Z7n89/IJlW2sk9Ncm54HOXPyVbXY1tSnGGVp1a8ybxr/+r+QyhYdGQhXQOM+cLwi9
+	 i03cQ5VGkA6n80aEV+GQXIVcp97LuXlyCAoGk/d6kw9tOng7ak5fLZ+LRR7LAhOlza
+	 B+wCC0zy5hvr45Imv9/d4OdVzODpo0Q7szZA90olBYYqy9dxaVYrrUG0SyavbePGSG
+	 wZ2abOs2h2aTfuPzvhH/zJ9smdYaPHnv0JJ6++9rTY6vVsXd1C0q4pjHGFsm5m0ViG
+	 VspElDv2lb3EaesncQIh4IkmcGPT50u0zOTt3rHpYmkTVqWEoRVxF78OHtz/Tp5xvF
+	 i+reFYMRHAY0g==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0B7A440AE3;
+	Wed,  3 Sep 2025 22:50:15 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 00/15] Split sphinx call logic from docs Makefile
+In-Reply-To: <cover.1756740314.git.mchehab+huawei@kernel.org>
+References: <cover.1756740314.git.mchehab+huawei@kernel.org>
+Date: Wed, 03 Sep 2025 16:50:14 -0600
+Message-ID: <873493p2vt.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903025430.864836-5-dong100@mucse.com>
+Content-Type: text/plain
 
-> +/**
-> + * mucse_mbx_powerup - Echo fw to powerup
-> + * @hw: pointer to the HW structure
-> + * @is_powerup: true for powerup, false for powerdown
-> + *
-> + * mucse_mbx_powerup echo fw to change working frequency
-> + * to normal after received true, and reduce working frequency
-> + * if false.
-> + *
-> + * Return: 0 on success, negative errno on failure
-> + **/
-> +int mucse_mbx_powerup(struct mucse_hw *hw, bool is_powerup)
-> +{
-> +	struct mbx_fw_cmd_req req = {};
-> +	int len;
-> +	int err;
-> +
-> +	build_powerup(&req, is_powerup);
-> +	len = le16_to_cpu(req.datalen);
-> +	mutex_lock(&hw->mbx.lock);
-> +
-> +	if (is_powerup) {
-> +		err = mucse_write_posted_mbx(hw, (u32 *)&req,
-> +					     len);
-> +	} else {
-> +		err = mucse_write_mbx_pf(hw, (u32 *)&req,
-> +					 len);
-> +	}
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-It looks odd that this is asymmetric. Why is a different low level
-function used between power up and power down?
+> This series does a major cleanup at docs Makefile by moving the
+> actual doc build logic to a helper script (scripts/sphinx-build-wrapper).
+>
+> Such script was written in a way that it can be called either
+> directly or via a makefile. When running via makefile, it will
+> use GNU jobserver to ensure that, when sphinx-build is
+> called, the number of jobs will match at most what it is
+> specified by the "-j" parameter.
 
-> +int mucse_mbx_reset_hw(struct mucse_hw *hw)
-> +{
-> +	struct mbx_fw_cmd_reply reply = {};
-> +	struct mbx_fw_cmd_req req = {};
-> +
-> +	build_reset_hw_req(&req);
-> +	return mucse_fw_send_cmd_wait(hw, &req, &reply);
-> +}
+So I've been playing with these a bit more, still trying to wrap my head
+around them.  I do wish that we were somehow ending up with something
+simpler than the status quo, but perhaps the problem domain just isn't
+that simple.
 
-And this uses a third low level API different to power up and power
-down?
+> The first 3 patches do a cleanup at scripts/jobserver-exec
+> and moves the actual code to a library. Such library is used
+> by both the jobserver-exec command line and by sphinx-build-wrappper.
 
-	Andrew
+These three seem OK, anyway, and could probably go in anytime.
+
+> The change also gets rid of parallel-wrapper.sh, whose
+> functions are now part of the wrapper code.
+>
+> I added two patches at the end adding an extra target: "mandocs".
+> The patches came from a series I sent in separate with 2 patches.
+
+As for the rest, a couple of notes from where I am so far:
+
+- The separation of the comments into their own patch is ... a bit
+  strange and makes the patches harder to review.  I plan to spend some
+  time looking at the end product, but still ...
+
+- Acting on a hint from Akira, I note that "make O=elsewhere htmldocs"
+  no longer works - the output goes into Documentation/output
+  regardless.  That, I think, needs to be fixed.
+
+Thanks,
+
+jon
