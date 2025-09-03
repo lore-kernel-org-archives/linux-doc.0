@@ -1,212 +1,432 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2050.outbound.protection.outlook.com [40.107.92.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6BE36809D;
-	Wed,  3 Sep 2025 18:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756925595; cv=fail; b=P2BuYVbQk0S0Ey03dRW76VPGm+mbuXK7TPkHziR2JZb6h+ak+BWWIbAQ6NYFgSm8LzKm34CEelGDgA+Cb1IDwV8PxlEQhOv2zPHoOL5jWlMFn5nT38l/SXUkHaR0QAWWCzaIsIa598IOcw5JhJv/eY6ZRvA2D12j9rhh6pZJZCw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756925595; c=relaxed/simple;
-	bh=5enyt2ommkmwsqN4V3h1ocwiM2QRSqDvisxsP1mjhCc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pPTmFIYfCJ4IOq2hhJhGLszyQkE+5+sTe1y+SQsL+9069W533bD4huRNZMxV6Iwj+4IYhXaF+VLANXlDfWZDkLqx+FA1MGFxrXe08aWzFQ4mYm+faFPR3ZhHkC+zheTePX19VV6JLCa1dVPPld6fE+gFs0djSEyDvfPp/pGxtdQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3z1KmHuA; arc=fail smtp.client-ip=40.107.92.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C553A20EB;
+	Wed,  3 Sep 2025 19:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756926528; cv=none; b=KcBObPd/3BF0xsZi0L0X27nOp9iu/q2KBLglydHviPUN6aDUXlYkcHYxXFYSLU3oiPpx/TwQAeqxPZ/n3zZ0K4eNlvPILHA1AnTaa76gqltZoMGvi66bo4/93whf+bEo6ErALKWZJCDI5o0ZzNeTBd0G8u0j8D8d1ionOMFxJJw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756926528; c=relaxed/simple;
+	bh=lt1X5nno3YagBYAPvaGQeyuIXD+O/kJMXvxR2+WGwvk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Vm1rvt0XFyjjvvdpwUDqkA9RmbvdA8UocNCiPcY4PLpUH4iotEmBMkQs5ZyYt1dcinbVuyWeZHu04obOyv4LSLmgJgffW0Rxrgk4e4wIywCla2gMtMLCXVGH+4EnA3YbEYGHncmraOvbOcD61xkiMK7XQMjFKS2am/KGd2ocup8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mCeTthky; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3z1KmHuA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jWyS17ImVldOieF1ne7BtDVnbcJuxfq1S+gLs35BhbtzNi8htFa1FckKNX+/50KNUojldHBCXMWpBWrjO0+qcZlp8duP8Oh9F+aUMMvL7wfU1SB5BmBX1CMfP4lLUCU/iqXf9ONvvXrl/RypAFzuHA53JSoYOkjq3PDk7s2PnU6GrEWXrqCj5zYOFYbQ0dDwrJTrEO/R/v6qemczJUxjudsvmiE2N5TZ2IHczvLshWbHGYu2dpr/W09mUPv7PuNcDK13GZVEBDp5lHJ72y/TqyJUxUByAyLc9YSvljEOzsRLciBJocrIgSHlqRdGgEG4JbVA8miNuRU5TjyB3KV6uQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/fG3VJpn78wVKKlUpRlG1/oNeqHhbjYpDmyuIbbtgtE=;
- b=VTwrlE6OZGnGgHZGBAJpT8PN40p1excPVYe2jP8BIshBOenbaDqtCnllTPoY8FisMlepbecmMpL/Rpq88WLTBelVUc9kR9xranIX6vjG768cYHyRAGQNuRHQl9SMqPhd9+Ar/f95vcAWWs4kHaxNSDFZR/jkzyO/WmXowOfzrva5ni4rmIOi3siSAgvS3dhYaEv7z+oY/esHXLzcoAPiHu1j6oLKRzymOO6suORn+qzGAXvX6syaVSt/+YXSybi0hDVh09LxSZ6bNUdDGfugpSqmKrS9ljKVUs+bO6g8A53UU3VvcV/sQWnu5V67ZukF0oij8/1Tfz9jInccREgqAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/fG3VJpn78wVKKlUpRlG1/oNeqHhbjYpDmyuIbbtgtE=;
- b=3z1KmHuA9vefeQOmf3BMm6OJpCREH3EShhXa/P/hLn0sM34yNfT/dxRDVdYLx7oDJA7MyWBZGLi9tPKA1EuSNqt4oM2yudbmCGm7gmEuIkanxU+RwqyFWXDzI4L7X8HOCAP42no0RhPZK5+IjiFK8xRRX8E1maQwKTkaBSggERM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by PH7PR12MB5877.namprd12.prod.outlook.com
- (2603:10b6:510:1d5::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 18:53:08 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.9094.016; Wed, 3 Sep 2025
- 18:53:07 +0000
-Message-ID: <bf052db2-3131-4295-a745-7ca21d0012df@amd.com>
-Date: Wed, 3 Sep 2025 13:53:03 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v17 26/33] fs/resctrl: Introduce mbm_assign_on_mkdir to
- enable assignments on mkdir
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: Dave.Martin@arm.com, james.morse@arm.com, x86@kernel.org, hpa@zytor.com,
- akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
- pawan.kumar.gupta@linux.intel.com, kees@kernel.org, arnd@arndb.de,
- fvdl@google.com, seanjc@google.com, thomas.lendacky@amd.com,
- yosry.ahmed@linux.dev, xin@zytor.com, sohil.mehta@intel.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, peterz@infradead.org,
- mario.limonciello@amd.com, xin3.li@intel.com, perry.yuan@amd.com,
- chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com,
- gautham.shenoy@amd.com
-References: <cover.1755224735.git.babu.moger@amd.com>
- <1966b499476d38cfbed6896dfbc50cddad35a126.1755224735.git.babu.moger@amd.com>
- <8620418c-d414-4b6a-bb27-bdb835c76a38@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <8620418c-d414-4b6a-bb27-bdb835c76a38@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN1PR12CA0106.namprd12.prod.outlook.com
- (2603:10b6:802:21::41) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCeTthky"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55f6f434c96so148667e87.2;
+        Wed, 03 Sep 2025 12:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756926524; x=1757531324; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FoAHxsHKD0ewEF953K31aGSSXT9m0xMjrB8ov1qgJGk=;
+        b=mCeTthkyad6w7hmVZaUP4e40ZIK5XCU7Mked2hZF8bb55BJ+HgSQMVDiHwQAo4V2pm
+         cUjBF/uAi/xzmtdbO0E/X8SdrF9jb0lLqvNx3a/nYloKFh0qXS0SAQo25Pzi7N9AviSN
+         v/gxvQDxxjGCvjKxBruCnlwR20JGlpTRAAbPYWwuWrtKf9ZXc7BPNSIJ2zpLww7obb62
+         piIecf/3WjIrRt8HU/oOd1zE6FzZiY3evde8LzEablz/67CLvyvrMTuj1VeAsAKpjocx
+         71bmtVr1xYViEgR3MGFNniiGFOqOwKq7Z0b5QhPx8prXDK5V6oEIO4kDi5VsiKooOHtZ
+         B17A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756926524; x=1757531324;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FoAHxsHKD0ewEF953K31aGSSXT9m0xMjrB8ov1qgJGk=;
+        b=XC7QjjVoPmAaFxdNLXwozCH50IzL7tK3qLWW1p2SmstmtO33a54bWnlrU+Sey3A0YJ
+         Z3C/bG3rkP9B+corV3/2pXn4YS6hAebH9scz2x8ooD+h1dK8c2YyYytNp4M1vOQJbnxo
+         LpD+8PYbl19VuwDsvA6i2Xqbd3oheu07Td9zHxDVfzKCrlm4ap/EuEoHNVU7d95iFhUW
+         ILdzBosp9F87u8METBqO0Gqqp/WLmyQtQzYmIhY3bWFf0wDARbSGHdOXTLwRRgNH8lk1
+         xLPjB0XNdFH59iKFFHxnPYcd1lTDJ5YBiK64HT85SuOAcg6TGfBHtP64O8Ewf6cEkmbr
+         oCkw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZpyKVJtk0jv7wNMpxaF14G3suclSdI/xzeU66ItvHeV8B6YzsgM7jGxnXHf7NFq69Go632lGIucqy3QWS@vger.kernel.org, AJvYcCXGKAPyMo/pSdCQ2C60/zICpgRb42H7H9FMjbujHBBin5iiqCw34v2+fNyZ3fNAl3Y75qj4bNwMJOrnk5Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztzGn2p94lrAJ8OApZl5IoYgUTDPKlBnGhcyL60hlyr/UNTy+S
+	v+as1IlFip+uqTPlT9N5+Qn/pbglzHTXM8I82m9twPxDHlL2+zJWLW9p
+X-Gm-Gg: ASbGncsendCsjVX2cupNkLPout/qfJ+blU562spAEE2reTBSBA7tXI0cTNPeyoRnQVz
+	sIVfEUxQlhJvSIeYsE+MaVUApq5Zd/Xd8GakFy4guDZ4VnCKPE55tHX02hs40pl17lKAygE4iD4
+	Cl73qIYnfyR53jVL5pzkYzZXDs9IuzI4tUFgJTnTjlO6eIRuRmjZa86Wny7G21Z7aWB7aKtJWSW
+	rKvAgwPM4926U34J4k+d5gWSN11KT9vsnbauuSrtxY22EYZmQ0l6xg5JVnH7FLXUBOSXIb0TGRa
+	/XMWBgfhm68tIqwvMyrZ6+Wf35GNi6vC754COuQdVQAddVmX1H38hn5zZCdiv0A8dx5Ddxepvys
+	bcw6Ivyzpw5H438A=
+X-Google-Smtp-Source: AGHT+IFGniFr4sXUdZW4Hd3B3FQYb7lgWC7FzZ4XugfWmKkHW/Gq3xd+KncZDUCMR1HaX/EQsrKUug==
+X-Received: by 2002:a05:6512:61c8:20b0:560:8a08:910d with SMTP id 2adb3069b0e04-5608a0892damr881661e87.14.1756926523348;
+        Wed, 03 Sep 2025 12:08:43 -0700 (PDT)
+Received: from minun.felixc.at ([2a01:4f9:6b:1cc4::2])
+        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5608abccc75sm704484e87.62.2025.09.03.12.08.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 12:08:42 -0700 (PDT)
+From: Asuna Yang <spriteovo@gmail.com>
+X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
+To: Conor Dooley <conor@kernel.org>,
+	Jason Montleon <jmontleo@redhat.com>,
+	Han Gao <rabenda.cn@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Matthew Maurer <mmaurer@google.com>,
+	Jeff Xu <jeffxu@chromium.org>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Brian Gerst <brgerst@gmail.com>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Asuna Yang <SpriteOvO@gmail.com>
+Subject: [PATCH 1/2] rust: get the version of libclang used by bindgen in a separate script
+Date: Wed,  3 Sep 2025 21:07:56 +0200
+Message-ID: <20250903190806.2604757-1-SpriteOvO@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250830-cheesy-prone-ee5fae406c22@spud>
+References: <20250830-cheesy-prone-ee5fae406c22@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|PH7PR12MB5877:EE_
-X-MS-Office365-Filtering-Correlation-Id: eaddc48d-7ce6-4d17-d149-08ddeb1b1efd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QURLWXdBV0hHYnBBN0dtWlBUejljbHo2WmlNdzJCQmhmekNjU1pYWVl0aVNO?=
- =?utf-8?B?OXdydmYraTdVUkRWcmsxVjlyK2oxeHVRQUw5Q1A3WnlIaEYwQWJidmdpNHd1?=
- =?utf-8?B?WjVJOS9sTTRjN2ZBVjlLUks1Zm5UUExhODU2QkdwUzRoOUhoU0tha2FlWDV1?=
- =?utf-8?B?VVZ3N1VSSkg4akw4Q1Q3UzdETGUyMXFkdGdCL0N4dDJpUjdYSGR1NXUvK3lD?=
- =?utf-8?B?eXdCd0hDbEM1UEQ0TUREcTlINmpSTDJuOFIzSER3VDcvZ0VQT2xYQTN5MW95?=
- =?utf-8?B?eEhhZzRjcm54Z1U0YUdzSGRWYmVLbkJBQUNtd2ZxRkZJeHVVRmtuU1ZvS3dk?=
- =?utf-8?B?eU93cEFaNDVXbjZJUkRwU3U2RlkxeXhmMis3cUUzVEpraDVWTENGSnhzUTll?=
- =?utf-8?B?T3c3RG5CWUlnU0lUaXYrdjE3bGd4V1ZDalg1K0FQL3Z1NmkzNllHMVlxcDIr?=
- =?utf-8?B?bFJ0OTFFWnFpM1AvaVhvVGc5Y1h4eGlQdWNIWTRzK2NzallXWDlEZ0p6RVln?=
- =?utf-8?B?eXd1MWs4TDRwRDREeUtJbk9EaHA2aXgyZm83RGdXWjdGVGVYa0Q0TG9ZLzgr?=
- =?utf-8?B?N3NOcCtyZFNkdlo4aHd4L2V1Y2QzZ0ZYdmtBOEh6czF4a3RaY1RrSTVQcFQv?=
- =?utf-8?B?KzBGMzBMaStHaXJ4WkQzeTZMdi8za29XaTROK2dUTVZSTkVacytPSjRLMkJE?=
- =?utf-8?B?S0xvYzJsSG5qZUdKL0RzMHA3ZDVVVEw5OEUvVTJhb0xEK201YlREMWdmdnFT?=
- =?utf-8?B?VVF1aVMyS1JybWZueUxzamNZTjZlSmV1cTVDamFuTFJROWV2VllhM0ZBUm41?=
- =?utf-8?B?UUF5VktYb2xQVEw5NnM0NUFnMFdRYmNlc0Fob0R6RVJvOHZUYjRoUTQwUjYw?=
- =?utf-8?B?REVESjNwTlI0aldtdmN0anM2NXQyelluc3BzRnFYTkh1RnpFV05zeHVjczBq?=
- =?utf-8?B?YUxxelNIc1R5Z3NFeUlwM3NPQ2t0ZUpIMGtoNE1ia1orYjAvaUNJdE5FbHNr?=
- =?utf-8?B?ZGZLblJGYVgzaWJDVGR3ZE9DNE1zYnE1RWZQaG5OZkRweGg0MytEVkx6cHVK?=
- =?utf-8?B?K3QrNWtqSzlqL1NJc3hBaXNCVnFDNWNoVCtFbUpmZjNCRU9GQjhrNjFUYU1K?=
- =?utf-8?B?Nll6YmlIODVYYUYydmo2TzFTZ3Q0QVA2aEppOHFNMnVRK0NHek05WThuV2k4?=
- =?utf-8?B?cHpYb0pDRnlkMnA1ay96alZYRjNRbWFUOGdoV3JOSlBlTklJZGNsTUpwUkc3?=
- =?utf-8?B?L3hrNGVmUDR4L0Jvb25HVlJ1UXk3SWRVL29RRDU1aDQ0eWhQbVBHRnFFdjMw?=
- =?utf-8?B?UWRhNWx0S1FDUGpZeW5ZWWdBQTM0VXVJRkQyRGlhRVVtcTAwL0h4bkIyK0hH?=
- =?utf-8?B?VEpPRWQ0RXpOcXUveUQ2NUN1aUs5SFF0UTJQWlpvZWtrSVNCT3R4WlBlaHh1?=
- =?utf-8?B?UFY3Um5zcTh3YjRsWjVBTEpVaFZUSUVmd1lWMkRxR0pOSisrNDkzZFR0VSsz?=
- =?utf-8?B?Z1g2Ty9YM1hpQWtvYnlzeFo0NXdlOEE5UDYvdkR2N2dwc0tObldhTEViMGF6?=
- =?utf-8?B?SENJQ09HSUZnQnVIYXlQbjJaMHJWejIzWnF3QWovMkI4ZmxjUEJIbXlqZW4z?=
- =?utf-8?B?dHBNcEZiNFBaOWxQN2UzNkJlMDVPRjlybmttVEhPTXJrVy9pWGhRcXN1bmt0?=
- =?utf-8?B?UjVJZFMzbGRGSDlZZTV3UzdoaWVndnVMeDFXSitUejR4U3ZwWjcwWFdpcy9J?=
- =?utf-8?B?bHlIUmd2NGFES3ZTUllxbGVtd1ArNmZNbFp5MkQzdWNuM3I3Z0RsN2xGMmda?=
- =?utf-8?B?U1BkM3NXUWl4YXFuSmlzaE1VVjJRS0Eza0tvcXhSS2tKUlFXUFdpYXltdWJV?=
- =?utf-8?B?aHdaV1l6Wi94R0JWSmRKbzRCRTVqbVRET09Ua0dkMWswcEtQcnBxL0xoY1Fu?=
- =?utf-8?Q?W8l3IAXzy7o=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a3hweWwzMmhOTUNDY1BVRGlWSW5FdnU1MTVFTk1CMFc3VDIxQkkyb1RneHdG?=
- =?utf-8?B?T0p1cGFlRHhBZlRxRGdoVnZvOWptaTZrVDVPWnRGZ2NuNWE2aDVnSmJiNUhQ?=
- =?utf-8?B?Qm9ROXJkZ3hCTml2SUtRdjYyS3JCNHdlUWRBSmxhSWp4bzNaMk1QOUV3MGNL?=
- =?utf-8?B?ZGUyQkxyZ1Ayeko0dGJpNWY3eDB2aHRzSDRJTCttanlzZkdVSEZPWFU1cmU1?=
- =?utf-8?B?aVlzKzVQaTk1RHZaallCVUZ3VGx5YlhES1FmU1hOeitPcGVMZzdpTzgzT09i?=
- =?utf-8?B?aEJrNE5MdHpHTXJLSjZkUzhrc1hEQmVVWnJYNVZnVHZvWVV1T0NvOGZwUHZ4?=
- =?utf-8?B?c3grbzkvMUJQSjFpS3FxTkd1djFKbE1WR0gzaVpsdDRnck4xejYzeVVXOE03?=
- =?utf-8?B?dVZ1Tk94S3JsYkdsZWIwaVBsdGNJUml2RzFqa0lyWnBMUkJ3cUwyTWNKN2Y0?=
- =?utf-8?B?SENweGg4SUt2SjE3bVgwOXRiTWMyTGZrT0Z6Vlo1TTJYWmJxRm5DTS9mTmp0?=
- =?utf-8?B?anhSQUtZSnNMZUgxcmJhMHYrV1RWazVvZ0swbWNvU09nRDJ0cU9WcE0yaTU5?=
- =?utf-8?B?RnF3OWNmeEhNZnplWTRmZTlobXRzZEtYZkJtbU9SaWZ2ZUdZamdMQ1VodUZz?=
- =?utf-8?B?ZTdwRU9RSy93bi9Na3pFaUV0MTYzajlSM0dOMFU5UDhMTGZTWUZnRUNYZmJy?=
- =?utf-8?B?ZFlaRGdVVjdQQm03MWtjcEJBNk1wZWg2NGJaMS94MU9kUTJ0R3dDQnhjUkhH?=
- =?utf-8?B?cE5CVkQ2bUN1Y3dMRXFwM2U4OXBwdFlXdGtXZE9CSituSUFrQ3gveC9PaGFC?=
- =?utf-8?B?Q1ZRdGZSMGY2dXl3NzdadFhDZFRaOHBVZURRODhiZk93VTVnMDIyWUxsbzNP?=
- =?utf-8?B?VjNjRzhxeFBZd1NVY0JTUDQyaFJtY1diLzVka0RmR3gwdFhkSnBBSmxRaUc3?=
- =?utf-8?B?dXVTQXZMT0JNeGR0dDRkVXc4SGlBYStqZWJuT25XZWFGcXRvN0RnUGdjRVlL?=
- =?utf-8?B?UGYydUFKbEwwYXhBbmc1a2d3QlFNdFBzRGtrTUQzS2R5a3VQT1UrcUhyUk5s?=
- =?utf-8?B?ZDk4K3BpQm1FREFrNTd6WVNKcnp2YVhrVmVtTWw5cmpYb3NGYTcwU2MrWDRY?=
- =?utf-8?B?RWV0VGFHcERFMHNHYXRjNU9ka2I3VDVvdkJkNU1hSTNEc2kyRndlUjhEQjZM?=
- =?utf-8?B?Mzg0OHZXNkxGanhVL0N5aThtZTNKUDlxRkJwbCtKQUV3c1ZsRlczbFF0Vkpy?=
- =?utf-8?B?NGtnTHBYUFNHWVY1Nm9qWW94Y0ozcWJOa2FIZm5rak4rK2tYS2lUMlVjYzB3?=
- =?utf-8?B?c0dWVERqLzQ5OFRVSVpsVDNqVVBFckt4WlJybmpNNTJJbDljODQ0OWlCQXhN?=
- =?utf-8?B?SVorRklTWkJydndmYlcycWV2cXNaUWxSREJ0S0x3VG4rbDVzb2xDYmhBemIv?=
- =?utf-8?B?a0M3UjhUd1BwaHNTV0RXUXdrMHhtdlc1MG9KOHUyRWp0dXJXWjBCZ0VPNmlV?=
- =?utf-8?B?TDZXT28xSU14T2JJdURFMThzaDFLb0dFWm1LSnRzdWM4S0o1dkhYR2xNKzNJ?=
- =?utf-8?B?dWliQmV1YVlxWTczSTJoWFJKMXpuZlpuMGFoUVdqYzFwZUlqUVpBMFdJTGN2?=
- =?utf-8?B?am12a0dzNjJuYUFqT3NlcDB2bTVjSlRjbW9iRnFZVjFKQzlvbXVZdFBkenVK?=
- =?utf-8?B?K21RSW1wbWhuWG5oVVEwYjdKOTF4SGphQTIwVk1mSjFRZnc0QUhKZmcrYmNH?=
- =?utf-8?B?QTVOTTdnSE91d1NVMEpYSHVyaGh6L3hSeWhsS1paNi9WRUhoYjlxSzFGT3lS?=
- =?utf-8?B?QmZDTExCcmdFTmVQMUd2cFFjS1VacW5NajVWTFpWc2tyRGJHY1BpeTBSejg0?=
- =?utf-8?B?L01jV29xOEJ4SnVXa2tVaUx2VTdOVkJPMWJWTm9CNEI2blNjcFF2Mkl6dzY2?=
- =?utf-8?B?bS9zcUh0dFI5UG5KQjFteVBsSlF6dzk0ZkxSejlJL2trSlRaT3BTdmc3Q1Jj?=
- =?utf-8?B?TTNLU2pZQ2dDVlhZT1dmUzcyWUlFdGRnaW1IWDdrTGc2RmpmZmJxOXZNdU1B?=
- =?utf-8?B?N1YyYXBhMVBHWWplQ2NXOXNTRklKVEQvQ3l2Uk9yL2FCdGoySm9MU3lSZFNr?=
- =?utf-8?Q?FxI4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eaddc48d-7ce6-4d17-d149-08ddeb1b1efd
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 18:53:07.5419
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: htgZceKHKhyhR3soEJr2xtOubxSKbMSW5X3SQcYTfUEmapGYUyZSi2AsW0Q2pGvY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5877
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+Decouple the code for getting the version of libclang used by Rust
+bindgen from rust_is_available.sh into a separate script so that we can
+define a symbol for the version in Kconfig that will be used for
+checking in subsequent patches.
 
-On 9/2/25 21:44, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/14/25 7:25 PM, Babu Moger wrote:
->> The "mbm_event" counter assignment mode allows users to assign a hardware
->> counter to an RMID, event pair and monitor the bandwidth as long as it is
->> assigned.
->>
->> Introduce a user-configurable option that determines if a counter will
->> automatically be assigned to an RMID, event pair when its associated
->> monitor group is created via mkdir. Accessible when mbm_event" counter
-> 
-> Mismatched quote: mbm_event" -> "mbm_event"
+Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
+---
+ init/Kconfig                                  |  6 ++
+ rust/Makefile                                 |  2 +-
+ scripts/Kconfig.include                       |  1 +
+ ...lang.h => rust-bindgen-libclang-version.h} |  0
+ scripts/rust-bindgen-libclang-version.sh      | 94 +++++++++++++++++++
+ scripts/rust_is_available.sh                  | 58 +++---------
+ scripts/rust_is_available_test.py             | 22 ++---
+ 7 files changed, 125 insertions(+), 58 deletions(-)
+ rename scripts/{rust_is_available_bindgen_libclang.h => rust-bindgen-libclang-version.h} (100%)
+ create mode 100755 scripts/rust-bindgen-libclang-version.sh
 
-Sure.
-
-> 
->> assignment mode is enabled.
->>
->> Suggested-by: Peter Newman <peternewman@google.com>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> | Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-> 
-Thanks
-
-> Reinette
-> 
-> ps. If there is a re-spin, please consider adding "mbm_assign_on_mkdir" 
-> in cover-letter under "Feature adds following interface files".
-> 
-
-Yes. There will be at-least on more re-spin. Sure. Will add it.
+diff --git a/init/Kconfig b/init/Kconfig
+index 666783eb50ab..322af2ba76cd 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -82,6 +82,12 @@ config RUSTC_LLVM_VERSION
+ 	int
+ 	default $(rustc-llvm-version)
+ 
++config RUST_BINDGEN_LIBCLANG_VERSION
++	int
++	default $(rustc-bindgen-libclang-version)
++	help
++	  This is the version of `libclang` used by the Rust bindings generator.
++
+ config CC_CAN_LINK
+ 	bool
+ 	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+diff --git a/rust/Makefile b/rust/Makefile
+index 115b63b7d1e3..34d0429d50fd 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -300,7 +300,7 @@ bindgen_extra_c_flags = -w --target=$(BINDGEN_TARGET)
+ # https://github.com/llvm/llvm-project/issues/44842
+ # https://github.com/llvm/llvm-project/blob/llvmorg-16.0.0-rc2/clang/docs/ReleaseNotes.rst#deprecated-compiler-flags
+ ifdef CONFIG_INIT_STACK_ALL_ZERO
+-libclang_maj_ver=$(shell $(BINDGEN) $(srctree)/scripts/rust_is_available_bindgen_libclang.h 2>&1 | sed -ne 's/.*clang version \([0-9]*\).*/\1/p')
++libclang_maj_ver=$(shell $(srctree)/scripts/rust-bindgen-libclang-version.sh --with-non-canonical $(BINDGEN) | sed -ne '2s/\([0-9]*\).*/\1/p')
+ ifeq ($(shell expr $(libclang_maj_ver) \< 16), 1)
+ bindgen_extra_c_flags += -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
+ endif
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 33193ca6e803..68df1fed69a1 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -67,6 +67,7 @@ m64-flag := $(cc-option-bit,-m64)
+ 
+ rustc-version := $(shell,$(srctree)/scripts/rustc-version.sh $(RUSTC))
+ rustc-llvm-version := $(shell,$(srctree)/scripts/rustc-llvm-version.sh $(RUSTC))
++rustc-bindgen-libclang-version := $(shell,$(srctree)/scripts/rust-bindgen-libclang-version.sh $(BINDGEN) 2>/dev/null)
+ 
+ # $(rustc-option,<flag>)
+ # Return y if the Rust compiler supports <flag>, n otherwise
+diff --git a/scripts/rust_is_available_bindgen_libclang.h b/scripts/rust-bindgen-libclang-version.h
+similarity index 100%
+rename from scripts/rust_is_available_bindgen_libclang.h
+rename to scripts/rust-bindgen-libclang-version.h
+diff --git a/scripts/rust-bindgen-libclang-version.sh b/scripts/rust-bindgen-libclang-version.sh
+new file mode 100755
+index 000000000000..45485d0f95c8
+--- /dev/null
++++ b/scripts/rust-bindgen-libclang-version.sh
+@@ -0,0 +1,94 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Print the version of `libclang` used by the Rust bindings generator in a 5 or 6-digit form,
++# and a non-canonical form if `--with-non-canonical` option is specified.
++# Also, perform the minimum version check.
++
++set -e
++
++# If the script fails, print 0 to stdout as the version output.
++trap 'if [ $? -ne 0 ]; then echo 0; fi' EXIT
++
++while [ $# -gt 0 ]; do
++	case "$1" in
++	--with-non-canonical)
++		with_non_canonical=1
++		;;
++	-*)
++		echo >&2 "Unknown option: $1"
++		exit 1
++		;;
++	*)
++		break
++		;;
++	esac
++	shift
++done
++
++get_bindgen_libclang_version()
++{
++	# Invoke `bindgen` to get the `libclang` version found by `bindgen`. This step
++	# may already fail if, for instance, `libclang` is not found, thus inform the
++	# user in such a case.
++	output=$( \
++		LC_ALL=C "$@" $(dirname $0)/rust-bindgen-libclang-version.h 2>&1 >/dev/null
++	) || code=$?
++	if [ -n "$code" ]; then
++		echo >&2 "***"
++		echo >&2 "*** Running '$@' to check the libclang version (used by the Rust"
++		echo >&2 "*** bindings generator) failed with code $code. This may be caused by"
++		echo >&2 "*** a failure to locate libclang. See output and docs below for details:"
++		echo >&2 "***"
++		echo >&2 "$output"
++		echo >&2 "***"
++		exit 1
++	fi
++
++	# Unlike other version checks, note that this one does not necessarily appear
++	# in the first line of the output, thus no `sed` address is provided.
++	version=$( \
++		echo "$output" \
++			| sed -nE 's:.*clang version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
++	)
++	if [ -z "$version" ]; then
++		echo >&2 "***"
++		echo >&2 "*** Running '$@' to check the libclang version (used by the Rust"
++		echo >&2 "*** bindings generator) did not return an expected output. See output"
++		echo >&2 "*** and docs below for details:"
++		echo >&2 "***"
++		echo >&2 "$output"
++		echo >&2 "***"
++		exit 1
++	fi
++	echo "$version"
++}
++
++# Convert the version string x.y.z to a canonical 5 or 6-digit form.
++get_canonical_version()
++{
++	IFS=.
++	set -- $1
++	echo $((10000 * $1 + 100 * $2 + $3))
++}
++
++min_tool_version=$(dirname $0)/min-tool-version.sh
++
++version=$(get_bindgen_libclang_version "$@")
++min_version=$($min_tool_version llvm)
++cversion=$(get_canonical_version $version)
++min_cversion=$(get_canonical_version $min_version)
++
++if [ "$cversion" -lt "$min_cversion" ]; then
++	echo >&2 "***"
++	echo >&2 "*** libclang (used by the Rust bindings generator '$@') is too old."
++	echo >&2 "***   Your version:    $version"
++	echo >&2 "***   Minimum version: $min_version"
++	echo >&2 "***"
++	exit 1
++fi
++
++echo "$cversion"
++if [ -n "$with_non_canonical" ]; then
++	echo "$version"
++fi
+diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
+index d2323de0692c..ccbd5efe9498 100755
+--- a/scripts/rust_is_available.sh
++++ b/scripts/rust_is_available.sh
+@@ -179,55 +179,21 @@ fi
+ 
+ # Check that the `libclang` used by the Rust bindings generator is suitable.
+ #
+-# In order to do that, first invoke `bindgen` to get the `libclang` version
+-# found by `bindgen`. This step may already fail if, for instance, `libclang`
+-# is not found, thus inform the user in such a case.
+-bindgen_libclang_output=$( \
+-	LC_ALL=C "$BINDGEN" $(dirname $0)/rust_is_available_bindgen_libclang.h 2>&1 >/dev/null
+-) || bindgen_libclang_code=$?
+-if [ -n "$bindgen_libclang_code" ]; then
+-	echo >&2 "***"
+-	echo >&2 "*** Running '$BINDGEN' to check the libclang version (used by the Rust"
+-	echo >&2 "*** bindings generator) failed with code $bindgen_libclang_code. This may be caused by"
+-	echo >&2 "*** a failure to locate libclang. See output and docs below for details:"
+-	echo >&2 "***"
+-	echo >&2 "$bindgen_libclang_output"
+-	echo >&2 "***"
+-	exit 1
+-fi
+-
+-# `bindgen` returned successfully, thus use the output to check that the version
+-# of the `libclang` found by the Rust bindings generator is suitable.
+-#
+-# Unlike other version checks, note that this one does not necessarily appear
+-# in the first line of the output, thus no `sed` address is provided.
+-bindgen_libclang_version=$( \
+-	echo "$bindgen_libclang_output" \
+-		| sed -nE 's:.*clang version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
+-)
+-if [ -z "$bindgen_libclang_version" ]; then
+-	echo >&2 "***"
+-	echo >&2 "*** Running '$BINDGEN' to check the libclang version (used by the Rust"
+-	echo >&2 "*** bindings generator) did not return an expected output. See output"
+-	echo >&2 "*** and docs below for details:"
+-	echo >&2 "***"
+-	echo >&2 "$bindgen_libclang_output"
+-	echo >&2 "***"
+-	exit 1
+-fi
+-bindgen_libclang_min_version=$($min_tool_version llvm)
+-bindgen_libclang_cversion=$(get_canonical_version $bindgen_libclang_version)
+-bindgen_libclang_min_cversion=$(get_canonical_version $bindgen_libclang_min_version)
+-if [ "$bindgen_libclang_cversion" -lt "$bindgen_libclang_min_cversion" ]; then
+-	echo >&2 "***"
+-	echo >&2 "*** libclang (used by the Rust bindings generator '$BINDGEN') is too old."
+-	echo >&2 "***   Your version:    $bindgen_libclang_version"
+-	echo >&2 "***   Minimum version: $bindgen_libclang_min_version"
+-	echo >&2 "***"
++# Get the version, and the minimum version check will be performed internally.
++bindgen_libclang_version_output=$( \
++	$(dirname $0)/rust-bindgen-libclang-version.sh --with-non-canonical $BINDGEN
++) || bindgen_libclang_version_code=$?
++if [ -n "$bindgen_libclang_version_code" ]; then
++	# Detailed error messages have already been output in the script we just called.
+ 	exit 1
+ fi
+ 
+-if [ "$bindgen_libclang_cversion" -ge 1900100 ] &&
++# Getting the version successfully, thus use the output to check that the
++# version of the `libclang` found by the Rust bindings generator is suitable.
++readarray -t bindgen_libclang_version_array <<<"$bindgen_libclang_version_output"
++bindgen_libclang_version=${bindgen_libclang_version_array[1]}
++bindgen_libclang_cversion=${bindgen_libclang_version_array[0]}
++if [ "$bindgen_libclang_cversion" -ge 190100 ] &&
+ 	[ "$rust_bindings_generator_cversion" -lt 6905 ]; then
+ 	# Distributions may have patched the issue (e.g. Debian did).
+ 	if ! "$BINDGEN" $(dirname $0)/rust_is_available_bindgen_libclang_concat.h | grep -q foofoo; then
+diff --git a/scripts/rust_is_available_test.py b/scripts/rust_is_available_test.py
+index 4fcc319dea84..b7265e2691cf 100755
+--- a/scripts/rust_is_available_test.py
++++ b/scripts/rust_is_available_test.py
+@@ -72,7 +72,7 @@ else:
+ 
+         return cls.generate_executable(f"""#!/usr/bin/env python3
+ import sys
+-if "rust_is_available_bindgen_libclang.h" in " ".join(sys.argv):
++if "rust-bindgen-libclang-version.h" in " ".join(sys.argv):
+     {libclang_case}
+ elif "rust_is_available_bindgen_0_66.h" in " ".join(sys.argv):
+     {version_0_66_case}
+@@ -113,7 +113,7 @@ else:
+ 
+         cls.bindgen_default_bindgen_version_stdout = f"bindgen {cls.bindgen_default_version}"
+         cls.bindgen_default_bindgen_libclang_failure_exit_code = 42
+-        cls.bindgen_default_bindgen_libclang_stderr = f"scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {cls.llvm_default_version} [-W#pragma-messages], err: false"
++        cls.bindgen_default_bindgen_libclang_stderr = f"scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {cls.llvm_default_version} [-W#pragma-messages], err: false"
+ 
+         cls.default_rustc = cls.generate_rustc(f"rustc {cls.rustc_default_version}")
+         cls.default_bindgen =  cls.generate_bindgen(cls.bindgen_default_bindgen_version_stdout, cls.bindgen_default_bindgen_libclang_stderr)
+@@ -265,13 +265,13 @@ else:
+         self.assertIn(f"bindings generator) failed with code {self.bindgen_default_bindgen_libclang_failure_exit_code}. This may be caused by", result.stderr)
+ 
+     def test_bindgen_libclang_unexpected_version(self):
+-        bindgen = self.generate_bindgen_libclang("scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version unexpected [-W#pragma-messages], err: false")
++        bindgen = self.generate_bindgen_libclang("scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version unexpected [-W#pragma-messages], err: false")
+         result = self.run_script(self.Expected.FAILURE, { "BINDGEN": bindgen })
+         self.assertIn(f"Running '{bindgen}' to check the libclang version (used by the Rust", result.stderr)
+         self.assertIn("bindings generator) did not return an expected output. See output", result.stderr)
+ 
+     def test_bindgen_libclang_old_version(self):
+-        bindgen = self.generate_bindgen_libclang("scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version 10.0.0 [-W#pragma-messages], err: false")
++        bindgen = self.generate_bindgen_libclang("scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version 10.0.0 [-W#pragma-messages], err: false")
+         result = self.run_script(self.Expected.FAILURE, { "BINDGEN": bindgen })
+         self.assertIn(f"libclang (used by the Rust bindings generator '{bindgen}') is too old.", result.stderr)
+ 
+@@ -291,7 +291,7 @@ else:
+         ):
+             with self.subTest(bindgen_version=bindgen_version, libclang_version=libclang_version):
+                 cc = self.generate_clang(f"clang version {libclang_version}")
+-                libclang_stderr = f"scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {libclang_version} [-W#pragma-messages], err: false"
++                libclang_stderr = f"scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {libclang_version} [-W#pragma-messages], err: false"
+                 bindgen = self.generate_bindgen(f"bindgen {bindgen_version}", libclang_stderr)
+                 result = self.run_script(expected_not_patched, { "BINDGEN": bindgen, "CC": cc })
+                 if expected_not_patched == self.Expected.SUCCESS_WITH_WARNINGS:
+@@ -301,7 +301,7 @@ else:
+                 result = self.run_script(self.Expected.SUCCESS, { "BINDGEN": bindgen, "CC": cc })
+ 
+     def test_clang_matches_bindgen_libclang_different_bindgen(self):
+-        bindgen = self.generate_bindgen_libclang("scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version 999.0.0 [-W#pragma-messages], err: false")
++        bindgen = self.generate_bindgen_libclang("scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version 999.0.0 [-W#pragma-messages], err: false")
+         result = self.run_script(self.Expected.SUCCESS_WITH_WARNINGS, { "BINDGEN": bindgen })
+         self.assertIn("version does not match Clang's. This may be a problem.", result.stderr)
+ 
+@@ -352,16 +352,16 @@ InstalledDir: /usr/bin
+ 
+     def test_success_bindgen_libclang(self):
+         for stderr in (
+-            f"scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {self.llvm_default_version} (https://github.com/llvm/llvm-project.git 4a2c05b05ed07f1f620e94f6524a8b4b2760a0b1) [-W#pragma-messages], err: false",
+-            f"/home/jd/Documents/dev/kernel-module-flake/linux-6.1/outputs/dev/lib/modules/6.1.0-development/source/scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {self.llvm_default_version}  [-W#pragma-messages], err: false",
+-            f"scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {self.llvm_default_version} (Fedora 13.0.0-3.fc35) [-W#pragma-messages], err: false",
++            f"scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {self.llvm_default_version} (https://github.com/llvm/llvm-project.git 4a2c05b05ed07f1f620e94f6524a8b4b2760a0b1) [-W#pragma-messages], err: false",
++            f"/home/jd/Documents/dev/kernel-module-flake/linux-6.1/outputs/dev/lib/modules/6.1.0-development/source/scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {self.llvm_default_version}  [-W#pragma-messages], err: false",
++            f"scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {self.llvm_default_version} (Fedora 13.0.0-3.fc35) [-W#pragma-messages], err: false",
+             f"""
+ /nix/store/dsd5gz46hdbdk2rfdimqddhq6m8m8fqs-bash-5.1-p16/bin/bash: warning: setlocale: LC_ALL: cannot change locale (c)
+-scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {self.llvm_default_version}  [-W#pragma-messages], err: false
++scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {self.llvm_default_version}  [-W#pragma-messages], err: false
+ """,
+             f"""
+ /nix/store/dsd5gz46hdbdk2rfdimqddhq6m8m8fqs-bash-5.1.0-p16/bin/bash: warning: setlocale: LC_ALL: cannot change locale (c)
+-/home/jd/Documents/dev/kernel-module-flake/linux-6.1/outputs/dev/lib/modules/6.1.0-development/source/scripts/rust_is_available_bindgen_libclang.h:2:9: warning: clang version {self.llvm_default_version} (Fedora 13.0.0-3.fc35) [-W#pragma-messages], err: false
++/home/jd/Documents/dev/kernel-module-flake/linux-6.1/outputs/dev/lib/modules/6.1.0-development/source/scripts/rust-bindgen-libclang-version.h:2:9: warning: clang version {self.llvm_default_version} (Fedora 13.0.0-3.fc35) [-W#pragma-messages], err: false
+ """
+         ):
+             with self.subTest(stderr=stderr):
 -- 
-Thanks
-Babu Moger
+2.51.0
 
