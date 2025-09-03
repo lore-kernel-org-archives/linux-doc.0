@@ -1,143 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0953B2D46CB;
-	Wed,  3 Sep 2025 20:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CADE32F755;
+	Wed,  3 Sep 2025 20:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756932265; cv=none; b=ZDRInsMbj3RcH96uGl8bBt9XtdGUa+wLXrVgvbMQC8Ou1fC17uBR7CSppD95NMy7Re724/0ThInoxsXnfldORzTS/Ht/HlNSZU56cIj84zuPXx8nMo/wxN03ILUE7oBPRz7rVfhJXlkLSzeph0i8d+5Q3IQAu5cZAvVQ586xU1c=
+	t=1756932333; cv=none; b=f8PgRPfBR38MLP5c3HPFGqRgqY+OvvrBixHxnlNpXlNZEqyYMnwy03tXDDNWS8oGOGr1EtWAu5eltpF0BXBWgZizgmH4W5sMfxxQRlsaG/CPAmSSjgndNAHc4uwgrVMt0ffO1y33eOxM/asn1rLKwiksc5aoCr+Fi5ttaZcTui0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756932265; c=relaxed/simple;
-	bh=IxxiMTaQgwOHVsT2m5W7178Bx/SUs3qe0M0lyVcgi04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aNXmw6O4sjA+FIC7fSmzOTYN1QDZOTt9d1bp1HDHeR2iIVJa6ukHhzgMKREp7Tgb+MiUyuoDFAtxsvANe5Yl7sqzcUiPlIIoYadxqZkPwfZCmXUjNZ+WlDHxo0LiO+NgtsHkQxpEHui+aZbtb4UnMknsnTXRcQi6KYE9Erf46+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DWdEW7bK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756932333; c=relaxed/simple;
+	bh=8Xv16h2KiIDyhQTLlmsUgVfIu/PAOnLcttZccG8gp+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DT/FGyQBbDIJCc2SK0Bep4Evp5EpUkxe4DQONMoSKjcQ+wJ6+oBuo5aXp7FGOv04oiVTd9Q9dqwCpMt3k512jqkooWPYD6GLUSt/p0bizAzlufyQBm81a/T4AAmXbfLgD16jV9rTXdFhD86RKhi2iaTWmRpNHVXRT/4t2Bggm9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+5+pB6d; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DWdEW7bK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A11C4CEE7;
-	Wed,  3 Sep 2025 20:44:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756932264;
-	bh=IxxiMTaQgwOHVsT2m5W7178Bx/SUs3qe0M0lyVcgi04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DWdEW7bKz8AQIhXRG8AFGbpSnSyczDs5crI9iw+Ynnq0pH5+HdawtKm3fAIpjgTTx
-	 a8DYK8gNWiEPVjbRVccQUZI5fSj+mxv2AXxLFnzbLMuchylSG3BQ2CITE6Olsn0eim
-	 QqeVLQlNFzHz1JXw1WI8iLCjhdn7SoQWFtyNpdWQb+4V5YrHMOGXkbgGRCLz30X3Fh
-	 6uLYq/PYn5i2pYwwXS+FKosJIr/vEqO3VYqLwQLpWM0+qcpyqB/1NMarSndHdZf7/I
-	 s5+Una/rXROLGa44jye5C2I5xnB8f+iyFoEghe3XnPePiyw2m/zSlYPEJi6ihb+sVb
-	 ArxBkhYVG45Cw==
-Date: Wed, 3 Sep 2025 13:44:24 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 09/16] iomap: rename iomap_readpage_ctx struct to
- iomap_readfolio_ctx
-Message-ID: <20250903204424.GP1587915@frogsfrogsfrogs>
-References: <20250829235627.4053234-1-joannelkoong@gmail.com>
- <20250829235627.4053234-10-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+5+pB6d"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45cb6180b60so2499535e9.0;
+        Wed, 03 Sep 2025 13:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756932330; x=1757537130; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NNSJ4OFuc0qJzJtggAMFVjTd+/JDhBon9pakUv8hWp8=;
+        b=f+5+pB6d8S4uc2HzgSzo9b6ebQ7LcGEpgIz2EzFdpzm3MNIXNrAhHKmTbV27aF/Ozt
+         1/YxXrI45apZCf0gYtGqu69UcZY+ttyopEGP26HwUEdpr641ZOrLTt6WGXDk2rZBRUOn
+         oFRtAQcHRF+KBfjy2hvQDBuNw+Qs6sNYxCQiKs76Q7fyCJAHdYOeJuRbp6bTSmhila4F
+         Yp6LsNTPk/84mrRaQGuKwADTraxoJ6y8g9vSG5N6pTTu1hKkyr+ERb3F2RZm7dqqcN2D
+         GEhO3nNwhVj57jfvApJNubyhJfjQhJDXVaS05wWQ2IgyEgTHJBxHeuD2lI7WvGaCWFY1
+         Q1JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756932330; x=1757537130;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NNSJ4OFuc0qJzJtggAMFVjTd+/JDhBon9pakUv8hWp8=;
+        b=n3p3S2AfGNB0y04tQFEq340Zfv6ypfTzsWcw7S8e0OEFoFbrfBjQWmot6NGqRozOqH
+         dI2eXDtFxaxl0Xhue0mi44B5OWU+zfYQp8cZhwMP64LQ4ZwM90qKqBbRcHe1Zl9q7c9x
+         m1lCaLAxU0jq+ni6Y8VpJhFoEzGCcSgm1NuX4stsciqegGIcYvlklEt3fMLPHEcLbDVO
+         KWmPLKXhTO2WwcMRhTna1OeUv8C3tcz8wsKdr+nr2suJ98kuXUWP0X/MAI0sLN7hzcnJ
+         IGIPtuGD3KfuVN8zfto2fKdkr6zh6nC9RMhsIihctFCaKT6DjMhJKXz0SItB0P1G0mPl
+         hiDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaj6k7e9pfvqMInXTF+KVt19RP7GXaoUjEgYNnalRdKkPz7ZE+yXJsnm0R2h+qWuPVseFNmTFBn8E1az7R@vger.kernel.org, AJvYcCVOxNo29UOPKHEm7prcfKxRe5qZfWtuyLeBhBcnd/wjwbbPLlVhzpZdpRq7x44Xe2nQQjl/Kx/2kAg+GirHbJGb@vger.kernel.org, AJvYcCVXAeUR9N7Qs61AQ8BrmxYwD8XEX+rO5VT3S/ivN0mrG/4v9xcWQGBHZ2o/MTfwsSwLGLU=@vger.kernel.org, AJvYcCWH/hwK9Yb8wy85X9eYfDxlUXRMMMMHcuC3NQEYy9GUPMabOgt5oivI44doclXBlTH0hBEAlIikGfAJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgWyxMOdxOdzDGaanufnCzhxgOL/d/T4ZOP4errl/w1HTsErEw
+	8FOIvpUMcTB8xGVgRXC/W6hkQiFMjhmbIcjGgAloNWq+q+u123WhQNeOxf9ITY+XqTVTAAbNqGN
+	eTMHLKw0T8vMdSavZNc6XXHaIqyZRUtNdhw==
+X-Gm-Gg: ASbGncvrbyrhjXhh6k4yiDsIg/gH27pMv5hCZ2HNjlJ8FQZB7cqKiZK+sVUIBV4zYOW
+	7HS4AmYObj5vOcRijdMrVDN5HGnsHl0/x/qVGybOXxTx1+qHNT5g7oI02Ziqsi7ZFAQzfoCxo4g
+	dLNlW1SGxxKYl5rRlpZ++DBuBCCyTwCktrBXArGELjkWbJRH3PeX4PUyM30e7LCsXJQpf1nENdD
+	NY05ABXtpYk4p0q4hEzMS0=
+X-Google-Smtp-Source: AGHT+IFE6dL5bgcnUBgZBuqjo8JoRtUZkDDFJozb02kFPQw9snoXc2ZWcJRHOBTqspVuwWDDx9KoVetSpoJG8erm9fI=
+X-Received: by 2002:a05:600c:1d10:b0:45b:891f:afcf with SMTP id
+ 5b1f17b1804b1-45b891fb24dmr111536585e9.27.1756932329553; Wed, 03 Sep 2025
+ 13:45:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250829235627.4053234-10-joannelkoong@gmail.com>
+References: <20250903203805.1335307-1-tom.hromatka@oracle.com>
+In-Reply-To: <20250903203805.1335307-1-tom.hromatka@oracle.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Wed, 3 Sep 2025 13:45:16 -0700
+X-Gm-Features: Ac12FXwNBTZEH4i39M2Lvsx2-HjuxmuNitFFC744jhe5v33rhJFQsMivvhBTsdI
+Message-ID: <CAADnVQLve3KgrqNqSqVrmL-wz6Jj1QUdjAcE5P26Z4wvh9e4HA@mail.gmail.com>
+Subject: Re: [PATCH] seccomp: Add SECCOMP_CLONE_FILTER operation
+To: Tom Hromatka <tom.hromatka@oracle.com>
+Cc: Kees Cook <kees@kernel.org>, Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, 
+	Sargun Dhillon <sargun@sargun.me>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 29, 2025 at 04:56:20PM -0700, Joanne Koong wrote:
-> ->readpage was deprecated and reads are now on folios.
-> 
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+On Wed, Sep 3, 2025 at 1:38=E2=80=AFPM Tom Hromatka <tom.hromatka@oracle.co=
+m> wrote:
+>
+> +
+> +       spin_lock_irq(&current->sighand->siglock);
+> +       spin_lock_irq(&task->sighand->siglock);
+> +
+> +       if (atomic_read(&task->seccomp.filter_count) =3D=3D 0) {
+> +               spin_unlock_irq(&task->sighand->siglock);
+> +               spin_unlock_irq(&current->sighand->siglock);
 
-For this and the previous rename patches,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
-> ---
->  fs/iomap/buffered-io.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 743112c7f8e6..a3a9b6146c2f 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -317,7 +317,7 @@ static int iomap_read_inline_data(const struct iomap_iter *iter,
->  	return 0;
->  }
->  
-> -struct iomap_readpage_ctx {
-> +struct iomap_readfolio_ctx {
->  	struct folio		*cur_folio;
->  	bool			folio_unlocked;
->  	struct readahead_control *rac;
-> @@ -357,7 +357,7 @@ static void iomap_read_end_io(struct bio *bio)
->  }
->  
->  static void iomap_read_folio_range_async(struct iomap_iter *iter,
-> -		struct iomap_readpage_ctx *ctx, loff_t pos, size_t plen)
-> +		struct iomap_readfolio_ctx *ctx, loff_t pos, size_t plen)
->  {
->  	struct folio *folio = ctx->cur_folio;
->  	const struct iomap *iomap = &iter->iomap;
-> @@ -426,7 +426,7 @@ static void iomap_readfolio_submit(const struct iomap_iter *iter)
->  }
->  #else
->  static void iomap_read_folio_range_async(struct iomap_iter *iter,
-> -		struct iomap_readpage_ctx *ctx, loff_t pos, size_t len)
-> +		struct iomap_readfolio_ctx *ctx, loff_t pos, size_t len)
->  {
->  	WARN_ON_ONCE(1);
->  }
-> @@ -445,7 +445,7 @@ static void iomap_readfolio_submit(const struct iomap_iter *iter)
->  #endif /* CONFIG_BLOCK */
->  
->  static int iomap_readfolio_iter(struct iomap_iter *iter,
-> -		struct iomap_readpage_ctx *ctx)
-> +		struct iomap_readfolio_ctx *ctx)
->  {
->  	const struct iomap *iomap = &iter->iomap;
->  	loff_t pos = iter->pos;
-> @@ -491,7 +491,7 @@ static int iomap_readfolio_iter(struct iomap_iter *iter,
->  }
->  
->  static void iomap_readfolio_complete(const struct iomap_iter *iter,
-> -		const struct iomap_readpage_ctx *ctx)
-> +		const struct iomap_readfolio_ctx *ctx)
->  {
->  	iomap_readfolio_submit(iter);
->  
-> @@ -506,7 +506,7 @@ int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops)
->  		.pos		= folio_pos(folio),
->  		.len		= folio_size(folio),
->  	};
-> -	struct iomap_readpage_ctx ctx = {
-> +	struct iomap_readfolio_ctx ctx = {
->  		.cur_folio	= folio,
->  	};
->  	int ret;
-> @@ -523,7 +523,7 @@ int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops)
->  EXPORT_SYMBOL_GPL(iomap_read_folio);
->  
->  static int iomap_readahead_iter(struct iomap_iter *iter,
-> -		struct iomap_readpage_ctx *ctx)
-> +		struct iomap_readfolio_ctx *ctx)
->  {
->  	int ret;
->  
-> @@ -567,7 +567,7 @@ void iomap_readahead(struct readahead_control *rac, const struct iomap_ops *ops)
->  		.pos	= readahead_pos(rac),
->  		.len	= readahead_length(rac),
->  	};
-> -	struct iomap_readpage_ctx ctx = {
-> +	struct iomap_readfolio_ctx ctx = {
->  		.rac	= rac,
->  	};
->  
-> -- 
-> 2.47.3
-> 
-> 
+did you copy this pattern from somewhere ?
+It's obviously buggy.
