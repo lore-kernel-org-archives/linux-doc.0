@@ -1,80 +1,111 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9031130EF6B;
-	Wed,  3 Sep 2025 14:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294E7286892;
+	Wed,  3 Sep 2025 14:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756908072; cv=none; b=YEXF0+zQ9CrL4HnxevNoaQjZaHD+j94QP1hkIynkKaDV6xyc5y6LGe6p74hUa0ZwZoXZSNFe9MM7LL1f5o25ObwY9KDXP+iD2hVYWPGToP0cVsdkmQEkmSZOMIOIK+e7meKt04glIU1RpoDgangrAaOsttBO30DBbnli7Sui+aU=
+	t=1756908431; cv=none; b=gdxX1FcRnWzxYJ8tLlx4bwl9TAXswxGxMZhCCRd/a+qS49uDKW1EtIz++HVBYEPMxRace+6faaH0dSUAJGkrT9ua1YSqDaTJHpQnM9mJASFCtQSemerErNnNwDilYSUe4bpr3sLHt9xPMtQrhxHS/uSyjd+kxMURxTUhZz7gOLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756908072; c=relaxed/simple;
-	bh=ZqQmkOArRuHnXAxn41bAke5L+mCbr9OLiPfQMEf3pmQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nZEDEUfIKJslS6fMlzcE+bLNb6ze1wsc+YUCvahFfGQkjyhcepUbFPkXO1r2HTRUyLrjuhqtc23VsOrTmaekY729u07Y/8Xa4gdvAR9pcdOBdM+FnENvUEPHFcSW43fn0sQAlSGvLOO3NzK7E3uE4u1MY4DDJQkUNvLOgA/onwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=d1rLcnuJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756908431; c=relaxed/simple;
+	bh=1Wb/6rFMh/8bTMs0N9gKDqFG6XZTLORKxkLUXcHhYIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+NhJEPTaRHqVaLL8MiuWkfzxokGban/csOr+03qeR+OvdvHOXEq1Y86UW02Q003IVDZ06LIp0kkQsjwomJjefvrO3QcgopMl+ySSZXCsoz5+SvbV/CanxiA7eMJmf1wS0zoN+SlJrR/CagZWrUH4hc9qknC89agfwbOLcfpKQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PKC7mlYt; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="d1rLcnuJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3F9E40AD8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756908064; bh=CUBTmrJzlHEyvioYPG6dRMuebJKjGgnlUmA+FpZYTdw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=d1rLcnuJ70Bdcnd6BGrhB8gji9pR6Y1PLBLs0vnsBUjGXNK2OHn7M66gh49hk8Qux
-	 2DX7OQsSV6eNQ3JtadwQ0LWkDIOPDiUQcfs+2D7MisdpCDCB3JEQIpgockV/ezsYb1
-	 FEGjyF7taom2AH737SHRdoktAuhWHKl2q8j3VK4sQsmQBWZQSR+CmlQGEUkX6aM9se
-	 XTUB3sYlhhQ4/Yu9ZAs8WpNbyEy7z9KFDuadUYjzfqA20SQdA80La5sXba8V6bsR9f
-	 TLHcz3S5H7KiobgLXhpDOstfwiBhHLtki6e5O+p085XJbaQHQz216IVSeJAYg+RpD8
-	 HtDLhd0x+bSow==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C3F9E40AD8;
-	Wed,  3 Sep 2025 14:01:03 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Alexandre TORGUE <alexandre.torgue@foss.st.com>, Akshaykumar Gunari
- <akshaygunari@gmail.com>, mcoquelin.stm32@gmail.com
-Cc: linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] docs: arm: stm32: fix typo "busses" -> "buses"
-In-Reply-To: <078fb552-c848-49ef-b917-14aec0e4b6aa@foss.st.com>
-References: <20250807145119.2214-1-akshaygunari@gmail.com>
- <078fb552-c848-49ef-b917-14aec0e4b6aa@foss.st.com>
-Date: Wed, 03 Sep 2025 08:01:02 -0600
-Message-ID: <87plc7zlcx.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PKC7mlYt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=IKFS3y5daOqWaKHPU+LGGnIxAUZ7p5yYYNJ7KEL39IE=; b=PKC7mlYtwmdrYmC9dO0eS6a/1v
+	PnXfB4PUclYOsME0dz80pvRIdvUM0urIXWfGBQSbQIQzjczgiDnrkhBvigxhm7SEKwENJis2+wpNp
+	eZOiMa3C0pyuvMvz0nVBaAawfzkfQom27j8rZtAF+mksOE4PLxCJa/OUlt/RsI7j3GrQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uto88-0071kq-AO; Wed, 03 Sep 2025 16:06:32 +0200
+Date: Wed, 3 Sep 2025 16:06:32 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Anwar, Md Danish" <a0501179@ti.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	MD Danish Anwar <danishanwar@ti.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Mengyuan Lou <mengyuanlou@net-swift.com>,
+	Xin Guo <guoxin09@huawei.com>, Lei Wei <quic_leiwei@quicinc.com>,
+	Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
+	Fan Gong <gongfan1@huawei.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+	Suman Anna <s-anna@ti.com>, Tero Kristo <kristo@kernel.org>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	srk@ti.com, Roger Quadros <rogerq@kernel.org>
+Subject: Re: [PATCH net-next v2 2/8] dt-bindings: remoteproc: k3-r5f: Add
+ rpmsg-eth subnode
+Message-ID: <6e56f36f-70fd-4635-b83f-a221780237ba@lunn.ch>
+References: <20250902090746.3221225-1-danishanwar@ti.com>
+ <20250902090746.3221225-3-danishanwar@ti.com>
+ <20250903-peculiar-hot-monkey-4e7c36@kuoka>
+ <d994594f-7055-47c8-842f-938cf862ffb0@ti.com>
+ <f2550076-57b5-46f2-a90a-414e5f2cb8d7@kernel.org>
+ <38c054a3-1835-4f91-9f89-fbe90ddba4a9@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38c054a3-1835-4f91-9f89-fbe90ddba4a9@ti.com>
 
-Alexandre TORGUE <alexandre.torgue@foss.st.com> writes:
+> >>  	mboxes = <&mailbox0_cluster2 &mbox_main_r5fss0_core0>;
+> >>  	memory-region = <&main_r5fss0_core0_dma_memory_region>,
+> >>  			<&main_r5fss0_core0_memory_region>;
+> >> +	rpmsg-eth-region = <&main_r5fss0_core0_memory_region_shm>;
+> > 
+> > You already have here memory-region, so use that one.
+> > 
+> 
+> There is a problem with using memory-region. If I add
+> `main_r5fss0_core0_memory_region_shm` to memory region, to get this
+> phandle from driver I would have to use
+> 	
+> 	of_parse_phandle(np, "memory-region", 2)
+> 
+> Where 2 is the index for this region. But the problem is how would the
+> driver know this index. This index can vary for different vendors and
+> their rproc device.
+> 
+> If some other vendor tries to use this driver but their memory-region
+> has 3 existing entries. so this this entry will be the 4th one.
 
-> Hi
->
-> On 8/7/25 16:51, Akshaykumar Gunari wrote:
->> Fix the spelling of "busses" to the preferred form "buses" in STM32 ARM
->> architecture documentation.
->> 
->> Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
->> ---
->>   Documentation/arch/arm/stm32/stm32f746-overview.rst  | 2 +-
->>   Documentation/arch/arm/stm32/stm32f769-overview.rst  | 2 +-
->>   Documentation/arch/arm/stm32/stm32h743-overview.rst  | 2 +-
->>   Documentation/arch/arm/stm32/stm32h750-overview.rst  | 2 +-
->>   Documentation/arch/arm/stm32/stm32mp13-overview.rst  | 2 +-
->>   Documentation/arch/arm/stm32/stm32mp151-overview.rst | 2 +-
->>   6 files changed, 6 insertions(+), 6 deletions(-)
->> 
->
-> Applied on stm32-next.
+Just adding to this, there is nothing really TI specific in this
+system. We want the design so that any vendor can use it, just by
+adding the needed nodes to their rpmsg node, indicating there is a
+compatible implementation on the other end, and an indication of where
+the shared memory is.
 
-I had already done so (and copied you) on August 12.  I can drop my
-copy, I suppose, if that's how you want to do it?
+Logically, it is a different shared memory. memory-region above is for
+the rpmsg mechanism itself. A second shared memory is used for the
+Ethernet drivers where it can place Ethernet frames. The Ethernet
+frames themselves are not transported over rpmsg. The rpmsg is just
+used for the control path, not the data path.
 
-Thanks,
-
-jon
+	Andrew
