@@ -1,57 +1,54 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4772A2DAFA7
-	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 07:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2972D8399;
+	Wed,  3 Sep 2025 07:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756883454; cv=none; b=PhYU/FkA8+9KVyGZWiw9f4wLoRjggSW4P/2h1maykvrG0RH9UerZ4vUv5FN/GxhYxQa/KyNdbrHrOaXRs2qAVl6boEULZNlpTx5QP7tbU0980VBGyARAA+up/uvBMPDG83TFPzLk6+MgPud7Q7dCC4UMGdfRE/YP8AFWXB3hqNQ=
+	t=1756883907; cv=none; b=gFhCM2noGOJwp7josZ3Ts/V2rNlUacU/44+5ifs6DfodShAT2P24cKzWAnTiY/LNMrTJNUwAkQanJK81RvASQ7fp7CpjZvAoodO2w3L8CXNeE1+BNZMaz5kR4ACo5u2lHnZYwDePhUic0CZM++0y6XwhwTQSkBJsX86QgOfPnbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756883454; c=relaxed/simple;
-	bh=z3o0bilwhDAquPyA40rDwkmCId8o1zHnXpkGPgt30ww=;
+	s=arc-20240116; t=1756883907; c=relaxed/simple;
+	bh=YuoISYCyGQJP6CZlxMjw80wdeLcQLhpCqTKRpVB9WGY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qk6YnZLSrk+DV6v1N/GcfIk/neO4F3x8AUHNMGe/M3KkNztv1DnvySlwd26jWseGsRvQNj7WefDzcHpxgCFW3/7bTU/4WDHzTdSRLmfLJ/8CXKA3X8xXTOB05z9E6oDLVUn7kevy0UvEX9NygZL+uk+Y1ITDWH+yGGzqQhCT6eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uthdY-0008T2-FV; Wed, 03 Sep 2025 09:10:32 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uthdU-003WP4-2U;
-	Wed, 03 Sep 2025 09:10:28 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uthdU-00HVsN-1z;
-	Wed, 03 Sep 2025 09:10:28 +0200
-Date: Wed, 3 Sep 2025 09:10:28 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-	Dent Project <dentproject@linuxfoundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 4/4] net: pse-pd: pd692x0: Add devlink
- interface for configuration save/reset
-Message-ID: <aLfp5H5CTa24wA7H@pengutronix.de>
-References: <20250829-feature_poe_permanent_conf-v2-0-8bb6f073ec23@bootlin.com>
- <20250829-feature_poe_permanent_conf-v2-4-8bb6f073ec23@bootlin.com>
- <20250901133100.3108c817@kernel.org>
- <20250902164314.12ce43b4@kmaincent-XPS-13-7390>
- <20250902134212.4ceb5bc3@kernel.org>
- <20250902134844.7e3593b9@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mV+4DmuDcqRjOjqdvp+XLDIgQzUMAOIm/SZPcD4fjj3oW+jTA76bHRAHKaoEkbaiw0ThMbGV7ozsU+eNkN8KOCOdKHz/gg/EAfyW9FoL09eeOVgrVaCC1WWS6B7DX1Uf8r3qQ0RuBAcZuYmbOq3mlUeCpSXTu8H9DutD6BhIZig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Onavuu25; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Onavuu25"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4367C4CEF0;
+	Wed,  3 Sep 2025 07:18:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756883907;
+	bh=YuoISYCyGQJP6CZlxMjw80wdeLcQLhpCqTKRpVB9WGY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Onavuu25vmdsBWj3aAVpuIn0haCHhtOp0Ucgqa+e3guMFePD70UzmO3VarK12SaQx
+	 MhI8xYFXTDMvSw4aiGbmzcnCCGlM9YVQzLP3E+9xR7cG7fcaLZu3bS+yFmr3J0OMJX
+	 hiVOhRGgBtePUldLKUlszstDLfYIU9bSiOdquNB1Utdt/qAH9bYwgg1Oo7fRgbVoJx
+	 /KpbvsKsvueX80BtwbSw7WVP9zpbr2MkceGhy/vQOm8QdHYdDUOBMKz+XIJzioMkK5
+	 jefMMNyqHoSz4ynxNBO8dckT2rKDJZd/GU3SXvJ0Ip/eqdkWIp0TID/ivpjp4MgIGJ
+	 q0lR6Myo4T04A==
+Date: Wed, 3 Sep 2025 09:18:24 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon <nm@ti.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Mengyuan Lou <mengyuanlou@net-swift.com>, 
+	Xin Guo <guoxin09@huawei.com>, Lei Wei <quic_leiwei@quicinc.com>, Lee Trager <lee@trager.us>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Fan Gong <gongfan1@huawei.com>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>, Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>, 
+	Suman Anna <s-anna@ti.com>, Tero Kristo <kristo@kernel.org>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, srk@ti.com, 
+	Roger Quadros <rogerq@kernel.org>
+Subject: Re: [PATCH net-next v2 1/8] dt-bindings: net: ti,rpmsg-eth: Add DT
+ binding for RPMSG ETH
+Message-ID: <20250903-dark-horse-of-storm-cf68ea@kuoka>
+References: <20250902090746.3221225-1-danishanwar@ti.com>
+ <20250902090746.3221225-2-danishanwar@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,74 +57,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250902134844.7e3593b9@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20250902090746.3221225-2-danishanwar@ti.com>
 
-On Tue, Sep 02, 2025 at 01:48:44PM -0700, Jakub Kicinski wrote:
-> On Tue, 2 Sep 2025 13:42:12 -0700 Jakub Kicinski wrote:
-> > On Tue, 2 Sep 2025 16:43:14 +0200 Kory Maincent wrote:
-> > > > Sorry for not offering a clear alternative, but I'm not aware of any
-> > > > precedent for treating devlink params as action triggers. devlink params
-> > > > should be values that can be set and read, which is clearly not
-> > > > the case here:    
-> > > 
-> > > Ok.
-> > > We could save the configuration for every config change and add a reset-conf
-> > > action to devlink reload uAPI? The drawback it that it will bring a bit of
-> > > latency (about 110ms) for every config change.
-> > > 
-> > > Or adding a new devlink uAPI like a devlink conf but maybe we don't have enough
-> > > cases to add such generic new uAPI.
-> > > Or get back to the first proposition to use sysfs. 
-> > > 
-> > > What do you think?  
-> > 
-> > If you are asking for my real preference, abstracting away whether it's
-> > doable and justifiable amount of effort for you -- I'd explore using
-> > flags in the ethtool header to control whether setting is written to
-> > the flash.
+On Tue, Sep 02, 2025 at 02:37:39PM +0530, MD Danish Anwar wrote:
+> Add device tree binding documentation for Texas Instruments RPMsg Ethernet
+> channels. This binding describes the shared memory communication interface
+> between host processor and a remote processor for Ethernet packet exchange.
 > 
-> PS. failing that the less uAPI the better. Tho, given that the whole
-> point here is giving user the ability to write the flash -- asking for
-> uAPI-light approach feels contradictory.
+> The binding defines the required 'memory-region' property that references
+> the dedicated shared memory area used for exchanging Ethernet packets
+> between processors.
 > 
-> Taking a step back -- the "save to flash" is something that OEM FW
-> often supports. But for Linux-based control the "save to flash" should
-> really be equivalent to updating some user space config. When user
-> configures interfaces in OpenWRT we're not flashing them into the
-> device tree... Could you perhaps explain what makes updating the
-> in-flash config a high-priority requirement for PoE?
+> Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
+> ---
+>  .../devicetree/bindings/net/ti,rpmsg-eth.yaml | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml b/Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml
+> new file mode 100644
+> index 000000000000..1c86d5c020b0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/ti,rpmsg-eth.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/ti,rpmsg-eth.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments RPMsg channel nodes for Ethernet communication
+> +
+> +description: |
+> +  RPMsg Ethernet subnode represents the communication interface between host
+> +  processor and a remote processor.
+> +
+> +maintainers:
+> +  - MD Danish Anwar <danishanwar@ti.com>
+> +
+> +properties:
+> +  memory-region:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      Phandle to the shared memory region used for communication between the
+> +      host processor and the remote processor.
+> +      This shared memory region is used to exchange Ethernet packets.
+> +
+> +required:
+> +  - memory-region
+> +
+> +additionalProperties: false
 
-I think the main use case question is: what happens if the application
-CPU reboots?
-Do we go back to “safe defaults”? But what are safe defaults - that can
-vary a lot between systems.
+This cannot be really tested and is pointless binding... Really, one
+property does not make it a device node.
 
-In many setups, if the CPU reboots it also means the bridge is down, so
-there is no packet forwarding. In that case, does it even make sense to
-keep providing PoE power if the networking part is non-functional?
 
-Another angle: does it make sense to overwrite the hardware power-on
-defaults each time the system starts? Or should we rather be able to
-read back the stored defaults from the hardware into the driver and work
-with them?
+> +
+> +examples:
+> +  - |
+> +    main_r5fss0_core0 {
+> +        mboxes = <&mailbox0_cluster2 &mbox_main_r5fss0_core0>;
+> +        memory-region = <&main_r5fss0_core0_dma_memory_region>,
+> +                        <&main_r5fss0_core0_memory_region>;
 
-Does anyone here have field experience with similar devices? How are
-these topics usually handled outside of my bubble?
+All this is irrelevant, drop.
 
-Best Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> +        rpmsg-eth {
+> +            memory-region = <&main_r5fss0_core0_memory_region_shm>;
+> +        };
+> +    };
+> -- 
+> 2.34.1
+> 
