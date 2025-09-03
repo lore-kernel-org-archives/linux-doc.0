@@ -1,53 +1,60 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87AC134CF;
-	Wed,  3 Sep 2025 15:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74185274658
+	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 15:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756913837; cv=none; b=YGmzrb00h8PmUeUynq1so1eLvsBxh9t4FD2NAeNfzcYpILy763C/3LxB7/13MwZK57sFXfsRLBUObypK3bNhKUOkuTUJWZBbyeTrCBgQWbRNg0LFI49idgwq9PTjxQPZWsHFjx15V4pq9PR3sGO/bD+Xlyth1OWiVkM4B2OAwEE=
+	t=1756913860; cv=none; b=Ukz2L263Tv/WsmkOvb+YwQkcHrtNFJ6H6mzsLdntfcPLO5+TcndQoRcau0Cgxt1at6LxwyzdCbwulU+bcaoFUng+luEgG+KITsATpmmQYFhx7AqZVO6J+LjsS2DD4uPbFGowCeaNSAqyPY0QzYUGDlhFGgiTNNQ5Vu0rdfqfOZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756913837; c=relaxed/simple;
-	bh=WmVAF180mm7X2RZf84Y37C+NTMzn0I5fFOha4nSNJoc=;
+	s=arc-20240116; t=1756913860; c=relaxed/simple;
+	bh=USI51ege+2yYVyvZ+Tw4ysWpq3aef6ScqscMKEVh/bw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Um2PVfP4kTciL8r/Wibe++56CIYbuMWy0vlQlsUzssZ8dEUkbCLeXu6+hHwFGKfmx/ILJDJOqSn6hrc9+EWHabz1XvomApuIZMUTF1r6hvXjnU3+jjf9JOieGYrLE9cx4ifsvn0Y0a+1Ovc+B/JhNo1oEmjRgyTjxPMzr9xpcjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ttzeCoqN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QlXlw+hs; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 MIME-Version:Content-Type; b=eyKwWZYu3Q+TJe1REGrHANrRZD0JMbtEAW1y9Mx7UlkCUPalw5ufcJ+EH82IxQpbCDl0tpw6O4rGZqMFnpUpQOX5DvGZAwKfZYNo4hq7RZZCUK40vA9uvoC16LgwJJj3qCPecWsywPEgkdqjWpE5vgDcWikXTfcjmygaLZtgfwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nwaf6BGO; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ttzeCoqN";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QlXlw+hs"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756913834;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vNzaIg8MZ1mGdQure+WIQHJfx+eJSHw9rM+4Nt2SCmc=;
-	b=ttzeCoqNGiU87fdGNWO5W5l7KORVW7W+afsUgZmrIqb/sE7gd4G8FiHKhiFnzDmlmUGiBM
-	br06cZizz80h1IzD/OhTZztofh4c4cK4+GtENc1dn2blkSzto/SZCiLBDd2T2sEjEQtzjy
-	+OgMwTFNQNu8a9KVNFqzrgXcMBWDALGo2DvEDuMfPesGFFjDNMawFLB9eX2C2t3Jrcxfb7
-	W6mJ50wqXMCJKcs7izEjFfwG9BTJaNMQymsJcUtcsHcKdAxBLOxnhdw9GfHWRhaJXgD/F4
-	lW1vSXnL+9+1DcBlU++JLmLkq+0gGFf/8XOz6hMbhkclwR6Odw2GobnpxlSkEQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756913834;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vNzaIg8MZ1mGdQure+WIQHJfx+eJSHw9rM+4Nt2SCmc=;
-	b=QlXlw+hs3uH3aVp94TuA8cExdv2k+ATDloTTq87o3kGm6LAjFDltnQQwIoTmGukmx9blRq
-	/N15bPcaQpUAulAQ==
-To: Sehee Jeong <sehee1.jeong@samsung.com>, anna-maria@linutronix.de,
- frederic@kernel.org, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- sehee1.jeong@samsung.com
-Subject: Re: timers/migration: add 'notmigr' kernel parameter to disable
- timer migration
-In-Reply-To: <20250807064849.3988-1-sehee1.jeong@samsung.com>
-References: <CGME20250807064855epcas2p3079c241a4da07d478e713021ca488d13@epcas2p3.samsung.com>
- <20250807064849.3988-1-sehee1.jeong@samsung.com>
-Date: Wed, 03 Sep 2025 17:37:12 +0200
-Message-ID: <87v7lzy2c7.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nwaf6BGO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4306440AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756913857; bh=YUjaglkD37DauUH4OwZb6DowB+XuOmTJzu0L3rDH6F0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=nwaf6BGOcyK9CVhFxYaRftKja9GsvlKxC6OGo2lMkoipSznI7oOoBEvDaHFldvXZn
+	 UzwoZqov0mDmjC866rb19HEb7EMyJzZKxuXfnf8cANnlAjKXhACq7AT+4l2mEfHXmi
+	 soflxQtFaYj6uGj75OmLsgCQcNM17ivvC52H6byhQGooKlaLVFzJ7dpHQFitj9Mmy3
+	 NswjIPGnvPmhCO54gqnAoB448wmHQ2sDaofyw6KTTV+O7b0kxUSYhccggHUnTiZPk1
+	 3ScIv6i0sQwlFOwX2HCzbw8Xm8ABMaL9Vt15OIfaYtw97V171sLJUUYQqxtiFplKP8
+	 +SPyA9kJH1fQA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4306440AD8;
+	Wed,  3 Sep 2025 15:37:37 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Johannes Berg
+ <johannes@sipsolutions.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, ksummit@lists.linux.dev, Linux Documentation
+ <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Bagas
+ Sanjaya <bagasdotme@gmail.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
+In-Reply-To: <vu3l5df4iz4rbwinxldr56vzupzxeupemcvxt7ziqi7kwhytso@wrgznki67cew>
+References: <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
+ <87ecsox4uy.fsf@trenco.lwn.net> <20250902191929.504977bf@foz.lan>
+ <87frd4vfys.fsf@trenco.lwn.net>
+ <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
+ <20250903124229.332dfeae@foz.lan>
+ <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
+ <a88f4cad41b2b0930f2cd486dc6c2ffc64300fa6.camel@sipsolutions.net>
+ <xxlm3ozmpel5iadhtambkzfx273oysjraffcizdmgexzhuqtwf@qxkwdvqmbadw>
+ <874a85f2154d6b05635d856dcdd85d4715d19d3c.camel@sipsolutions.net>
+ <vu3l5df4iz4rbwinxldr56vzupzxeupemcvxt7ziqi7kwhytso@wrgznki67cew>
+Date: Wed, 03 Sep 2025 09:37:36 -0600
+Message-ID: <875xdzzgvz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,43 +63,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Thu, Aug 07 2025 at 15:48, Sehee Jeong wrote:
-> On heterogeneous systems with big.LITTLE architectures, timer migration
-> may cause timers from little cores to run on big cores, or vice versa,
-> because core type differences are not taken into account in the current
-> timer migration logic.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-And what's the reason why this should be done?
-
-> This can be undesirable in systems that require strict power
-> management, predictable latency, or core isolation.
-
-Undesirable is not really a technical argument. Can you please describe
-the actual problems instead of handwaving?
-
-> This patch does not attempt to solve the structural limitation,
-
-# git grep "This patch" Documentation/process/
-
-> but provides a workaround by introducing an optional early boot parameter:
+> On Wed, Sep 03, 2025 at 05:11:12PM +0200, Johannes Berg wrote:
+>> On Wed, 2025-09-03 at 16:57 +0200, Mauro Carvalho Chehab wrote:
+>> > There are actually 3 different issues that depend on python version:
+>> > 
+>> > 1. sphinx-pre-install:
+>> > 
+>> >     This used to be a Perl script. The goal is to check if sphinx-build
+>> >     is installed and works, and identify missing dependencies.
+>> > 
+>> >     The problem is: if one installs python3xx-Sphinx, instead of
+>> >     python3-Sphinx, the script will fail, except if it first switches
+>> >     to python3.xx;
+>> 
+>> So let it fail. Fail is fine, at least it's a clear signal. The python3-
+>> Spinx package will anyway be a sort of meta-package that's basically
+>> empty and depends on a specific version.
 >
->     notmigr
+> No, that's not the case. On Leap, python3-Sphinx uses python 3.6 and has
+> Sphinx version 2.3.x, which is too old.
+
+That's Leap 15, presumably?  Given that 16 is due Real Soon Now, perhaps
+before any kernel with these changes is released, do we need to concern
+ourselves with that?
+
+> True, but at least one of the major LTS distros don't have it(*).
 >
-> When specified, timer migration initialization is skipped entirely.
+> We can review it after Leap is replaced for the next openSUSE release.
+>
+> (*) also, RHEL8 (and its derivated releases) suffer the same issues
+>      and they aren't EOL yet.
+>
+> For most of us, I doubt the fallback logic would ever be used.
 
-I agree with Frederic that this naming is suboptimal and should be
-tmigr=[on/off].
+CentOS 8 stream went EOL over a year ago.  How many people have systems
+stuck on RHEL 8 and are using them to do docs builds?
 
-But aside of that, disabling timer migration causes other power related
-issues as it keeps timers always CPU local and therefore fails to let
-idle CPUs stay truly idle.
+> When it becomes painful, we can drop it.
+>
+> Anyway, I'll let it for Jon to decide.
 
-So instead of just having a lazy work around and disabling everything,
-this should really be addressed properly. Though without a proper
-technical problem description, that's pretty much impossible.
+I still really don't think that adding that stuff is a good idea; our
+scripts should behave the way people expect them to and not go rooting
+around for alternative interpreters to feed themselves to.  I appreciate
+that you want to make things Just Work for people, that is a great goal,
+but this seems a step too far.
 
 Thanks,
 
-        tglx
-
-
+jon
