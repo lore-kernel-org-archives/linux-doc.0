@@ -1,408 +1,227 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30D022258E;
-	Wed,  3 Sep 2025 02:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756868133; cv=none; b=b72C+1ZlsQwU7+M0dPT/A2FqSS2zed7peT+WaY/Tv6d/DUh8RoINt032V8+B16QvtZw9EtTblp6rAvEGnDUPIgN2GlaG33Gqgf7yw8yE73IUvEFGervEaewcogGMevOmocmaix/fopnxIfnCOwpmJZtcZ+/xIqWJIEThH7INo0o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756868133; c=relaxed/simple;
-	bh=CQMl/bWQcNom0w9E0ye6Iydgedovv8+aZAoXeY/ntsw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jayqBtMKKVCKuqgB8pZvldqLnjrcDJfGnPdnFaaKlWcMMHXxAeLhP/HHUgAle0ZxC/WFZd540Ob9e3jyrGMDsyZDndIkDwmiHNeqr6ED7b+5SCMoofhkOFKXpqO8JQJ6Vy63IHNLlUKzNnSkPBF+mHG6vDzfNmYQ0svYgN1H6SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: esmtpsz11t1756868087t82b3e6a3
-X-QQ-Originating-IP: 2b8yhCJYFSa720UZCX+XqFKyo0s3r+DxhO0Osv7UWZs=
-Received: from localhost.localdomain ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 03 Sep 2025 10:54:44 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 13150418046888752316
-EX-QQ-RecipientCnt: 28
-From: Dong Yibo <dong100@mucse.com>
-To: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	gur.stavi@huawei.com,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	danishanwar@ti.com,
-	lee@trager.us,
-	gongfan1@huawei.com,
-	lorenzo@kernel.org,
-	geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com,
-	lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com,
-	richardcochran@gmail.com,
-	kees@kernel.org,
-	gustavoars@kernel.org,
-	rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	dong100@mucse.com
-Subject: [PATCH net-next v10 2/5] net: rnpgbe: Add n500/n210 chip support
-Date: Wed,  3 Sep 2025 10:54:27 +0800
-Message-Id: <20250903025430.864836-3-dong100@mucse.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250903025430.864836-1-dong100@mucse.com>
-References: <20250903025430.864836-1-dong100@mucse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1844C25A2BB;
+	Wed,  3 Sep 2025 02:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756868391; cv=fail; b=nzPvz1FRvFzK6Redtpf+yZjJwrWhYehrsTGTZvz8Tiv9J6pGWqrUfyLMm+zOv9fmAAMSUkWc0a2SYkM8RSIBzA44vndYa5qUoA64Ojk2oRtnku1waiUMxp03nH4N2ApGJ3nswuFeylGsEKMexzgVJ4+It6rVISjKooWQSj9xnfk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756868391; c=relaxed/simple;
+	bh=kL4KghgUjmyDwHBEL7E2KdMh3U/oqIKfnomS9B/q+kM=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UyIML8eqqqFANtptsEPEAFWMZdBBOAMIgsZJio+dsKqvrYlMpJVtMu32PUalb2a50RBBYfL/cWyDJFnqNyC9IQ9kuaZx9UycWipYaC1ZejyXgvXmJnpYiJdm7neGcZVj8BH3H2RrXznNZkJp1FjDKepMZzx4yOuQLLXt5sWSCpE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8vbIoLR; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8vbIoLR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756868390; x=1788404390;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=kL4KghgUjmyDwHBEL7E2KdMh3U/oqIKfnomS9B/q+kM=;
+  b=A8vbIoLR5qAkKs18PJ4cT+NPfitejf3/uFKI9Im8BVTksFIJE22nwCku
+   nOdqJihVc7jAAsY9GgKqYHV9fQh4ZiNMhlC3Oy69kaCObN391BrXAbVBa
+   ZPllzCDdzH6vvVAApR0/utO/MPTJHNjDksx2VSvKntFpElWvDMtqOiwfi
+   eqIkj9yfNgd6wYgUQJwmbN/Dm967m4xT7H7m7t7p69I4S7l0UbdOu8MvR
+   CmB5b/q9ONjMnyBenypFVvdEAfYkB17lrxPaBp1jVaP02dVc+bEa1Tafl
+   AUHCi7hDxYrBzAFhRldnrJbpnIQ9G1koRmo9xTMUJBbvVj4r+UCpr75AO
+   w==;
+X-CSE-ConnectionGUID: BB7/BVFKS6q6hFBp4iLGcQ==
+X-CSE-MsgGUID: 0iLZuVC5SHyHPTm8cOjj1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="76770644"
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="76770644"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 19:59:49 -0700
+X-CSE-ConnectionGUID: kOHQnywtRXqVxpVtYUwe/Q==
+X-CSE-MsgGUID: 9oKc8lA8ToG5wwjfZ9s0Iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="195099954"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 19:59:48 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Sep 2025 19:59:47 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 2 Sep 2025 19:59:47 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.75) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Sep 2025 19:59:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jdRxNh7VPnxHDR/LZ5irqg9JlwENQ/X2mSeDvbDwUKnWI+JzKx1k9TuRjdsTcateLEYDVVqOQzhRReYJaYlwie6MnizZzmyFNAVbUbI4CHbmZwFYjCmPB0HxvyWInOmCudpSWwp7eq01tBPjjQ8g/23p3xmtvbAWcXfzm+unKqH3Sz5WlN2zrFgQHs25hCMv+bAXJNi7dJVtJenKA6JxkJQtGS78jmpplZD/M+XIemFU15F/GP5MOmY+nJxBduZfSZh5/m8rnPhjF8hSZXoHt412KjHVbYf3KOAzvFGJvwglGK2xK2Z3xsFBD5bUjLr3UyPlsQeWnS5zi1qC9Kwx1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UJBeoun556+2p3vfmG1X5VTFIhsLKgZqGs8rFHWx8+k=;
+ b=aSg2h52wD0XuNr5OTzBBPolSPy9OyT4+CO4mxCAiv5hZZsohlRG0/t7Q4Ih08XfJjeIpjX/wLcdi6hCr9E+rh5MJ8D+mAry4z/FDH0UEVDuryOeghfOWlajFNHLYdNjEZuKa8jsTiyZQIS6OnnW7SbCwFJ3FPkgPbJJ6Y6tqR22dLnTP/SSK3NGmoIVZT31ExlbId+f/hjxbR7bruB82+Rx67lHxixGeUtVNob+KdeFEgVx0CmojFpWucjTKxReEzkYGTItphhBqlkzyB1Mf3afq8zR5iwMjgZfffTudWMDimKrcFu1sZbmHuG7UDPF4c+12LZzC4nAewj9piw4iiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by DS0PR11MB7410.namprd11.prod.outlook.com (2603:10b6:8:151::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Wed, 3 Sep
+ 2025 02:59:44 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.9073.026; Wed, 3 Sep 2025
+ 02:59:44 +0000
+Message-ID: <c7cfadb6-4751-4ea7-b602-896334014411@intel.com>
+Date: Tue, 2 Sep 2025 19:59:41 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 28/33] fs/resctrl: Introduce mbm_L3_assignments to
+ list assignments in a group
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <Dave.Martin@arm.com>, <james.morse@arm.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <rostedt@goodmis.org>,
+	<paulmck@kernel.org>, <pawan.kumar.gupta@linux.intel.com>, <kees@kernel.org>,
+	<arnd@arndb.de>, <fvdl@google.com>, <seanjc@google.com>,
+	<thomas.lendacky@amd.com>, <yosry.ahmed@linux.dev>, <xin@zytor.com>,
+	<sohil.mehta@intel.com>, <kai.huang@intel.com>, <xiaoyao.li@intel.com>,
+	<peterz@infradead.org>, <mario.limonciello@amd.com>, <xin3.li@intel.com>,
+	<perry.yuan@amd.com>, <chang.seok.bae@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <eranian@google.com>, <gautham.shenoy@amd.com>
+References: <cover.1755224735.git.babu.moger@amd.com>
+ <ceb6a32f3d539fb52f5271242a4fa68b1a173279.1755224735.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <ceb6a32f3d539fb52f5271242a4fa68b1a173279.1755224735.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0250.namprd04.prod.outlook.com
+ (2603:10b6:303:88::15) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: N2J0ax+MgH9HZbt3VGVDTWXZL28Zhj/iealEtmwag025zYlz6mf//WaJ
-	3P2wy7plEQSwfhzgla8AQwm8H2T8LxdrldEt6B2QuHo+5YwtbTvEJKMlNUGsptC8qTC4TwN
-	KYp5QllAogrrUMdnJ93f5n2aXYarFIxv/p06wzMYC/Neoe/HdQT/oMu5bGaWoX+ee4cOz7c
-	na5t7tqJE2ce/Z/EMz1WykWWWcLxtZxjNMuNQNfLKKmvRMgVkimS9ZxYQxdM527vnIh55p7
-	lI21QfoVvcr89DJwm0ifdJPSBZ55tgT5kAaz2jKZnO3OaDHeA2hkt0YXMi+7N8e557Tqzcp
-	NFati6HMaXr/ovpdSh578v4D3MGY92R0kSnlkWOtdI3BLykUeIYowVLV9yit36NPZstaUSO
-	oZhKTHndVbQYIVmkdCj7nBnJ5kXzYEkUFiV1yj8BApfh9mB+VTmzhKGPlUIRC9oi4IahiME
-	w+qxhhon+tFYX3pgVGyLMaYTWNm7lUWYGURPPdB4QxEpRuQPZMcepc99P3VqmUhHAlsE1Ly
-	XbBFtgym7k9TKfetCgmCPCCKOz9TcfjMW3iyK4ja68e113VTfpEuQzNMyRin/3S8x4cGEtD
-	Auh18S7r+oZNavMDzKWBkoufzGJppn8uaitapve8tq2HTufIrFvvhHfJPW9PP+zTI0E2CLf
-	b00reQjL8JuQQOlO60Sa15tIztjnHFS9r94y4ipl92opr067srPcpsNYM70aOP+clXBLUq4
-	v76o90JB5OUp4rlHL6F/ccbMN5sVkINeT5FrUj3XKI8cM0cl1pvoCQFj+FgD9VIRWXlHoLT
-	rzf1Wi+bxyHhEXGykus8vsgzaeRrI8EJPTEnq+Ns9z//eiL4EEBMhsxeWFy9F4YrEh3dXpz
-	FXil14uWbXR+0W5Lja9zbCiQIll3CtB75pOMuOqD4LWlvWGFZtZ3bA+gXMESX4+TZeFYll1
-	XsiizezV5YJupbcES23AnfHEB3eix12iY5hpYwlcs/zlq4VrPfR6XhH1xEBME/PT6o6v3l0
-	y2s1qpHXs69s4Qjypp
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB7410:EE_
+X-MS-Office365-Filtering-Correlation-Id: fdad21ad-323f-4772-9f68-08ddea95ef75
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UGhXVUUxSENWcDhnb3hmWmx3OU1qVEIzWFpTNWNMbDBPdnROdldjK2pObTkr?=
+ =?utf-8?B?emtNSzFxVXBKQ0ZsdmJpbjFxVURhOUMyVUFNcmw4VWpKY2pqOGF6Vmp0UGxF?=
+ =?utf-8?B?MUo2T1JhT1NCdytSbzVUa0RzRmVNTi81SGNCRVY0QWxYUDVKc0lsNUpjb0RQ?=
+ =?utf-8?B?MnIvL0R2d0hsa0hxYTU5NXIzdWtmSVRQQ25wWmxYcGtXc1pRa2tORFlTZGNY?=
+ =?utf-8?B?azhsVnBwN1BRTEcrZjdabFhZNUZid0ZsQ0R4VUVpVmI2UWRuR0ZtZEpWcHRD?=
+ =?utf-8?B?TXVadmVMdlFNamRGcVVmOTlXYW1Ddm1zZVE1QTAxbUFzNlZXc0k5MXVqYkhM?=
+ =?utf-8?B?OWJGcURvbEJ0TjMxTy9Qa3NIUkRoNi9DQnY4dHgxRHIwa3RhWmViUnVyYlJt?=
+ =?utf-8?B?K1hqZ0QreG82UlhVZHpncGF6d0hwSStjZkZ3RXBtVnBQcFNWM2JYYTgzSUVY?=
+ =?utf-8?B?QjVBd0lmeXBQajRIbkdTeGFLOWtXbjJSd3JKcHVrQnRPWFZ6WFRsRHN0TUdC?=
+ =?utf-8?B?TW9UOEtiOEhWemZsak8rUVNCdXhnUnFveldEUzBCS3hUemRaK1lDQzVPb2dD?=
+ =?utf-8?B?d1Yvdmx1a0kvajNNWlkrUHE2N0ZJZEJUMWtvUldVM01wMndVd3JxVU85TzJL?=
+ =?utf-8?B?WlY2N09jTGhVN0VFOVhOdyt0WGc4aHhCck5UZmpGalIyZzFpYW80MzlBOCth?=
+ =?utf-8?B?Ri9jV1dwVTc4SUZxcUl5Y2RCOGt1YlZiblAwYW1zNFIvMUdGSGJZNEZJYWlt?=
+ =?utf-8?B?V0l2SGpoQnQ0TkF1UXZkRTJJRlZLK0srZHVWL2FDcHorb3dUMHJvUDRtQmt0?=
+ =?utf-8?B?cVk1VGtJZHBjbFI5NW9KSTVxcWdJait1S05pVTJwTlkvTVRQb085NVE1OW9M?=
+ =?utf-8?B?cUxxbmxhWDNEaU1qdUtkMnFXYlNMNGtnOTlxVTdnRVo3VklPMzhlS01oNWQr?=
+ =?utf-8?B?WmUwam1yTWF0OXJYT20vUnoxVDBlQmk2LytvbUdHUnZneHlQdTg0MEJtb0VF?=
+ =?utf-8?B?MlZBOFZVeWZ0MEZtYWJnWkFvOVZYR2JVSlByTWRMaUs1YnVFUlFOcUxncm5T?=
+ =?utf-8?B?VVVWTGprUFFiZ04waDFqRXJzY3B6ZEF2WWEvT0RmTzNHNFJ1NzVjUmszVW9U?=
+ =?utf-8?B?dXh3S3NkUlVtU0RRM1kza3NZdjZtSVV4aVpiYUZwbTM5NnJibnBiSGxZNGJI?=
+ =?utf-8?B?SWdmTnErZEd1U1liM3NNMU84MDg4QVJQbm5MSU8xUEM2TG10WXk1WkNTU0pL?=
+ =?utf-8?B?NU9NNCtON1QxVTgwUWtXaERoajd5czM0K1NkVHhEQ1JKZTFXRHNLNmFQM2N0?=
+ =?utf-8?B?QXo3eGRCS3dpVnhRODJqT1ZQUDY1dGR6SmozZVE3T25id2VOVjhEeWE4cVB5?=
+ =?utf-8?B?WWc2OVhrWkNoc2xvQVZYeFRLVDJzTitBSmljOFJPVVpkSW1tVnl5QjlKWVZR?=
+ =?utf-8?B?aWowVGJ3UGV3cTB4RlJPN0oxYkh6Q0FzTWFLOEhxdEh0aDFWaG9oYVpMdW1S?=
+ =?utf-8?B?LzVTazhtcytmVXNQbUE1UFpIMkMvaU5mZStnZHVSa0gyb042UGdYY0xaRU15?=
+ =?utf-8?B?QzVrODE3OW16ZXZ4ZnFmUW1xd3hpZWtKVnd5YitSL2R2SVV1L2Q3UkZvbWpm?=
+ =?utf-8?B?czJRNEZ2Q3dRaytaUWMySC9nK1JOVlpHWjk4Sk5NM003ZTJicnRGZDlaSWkz?=
+ =?utf-8?B?K2pjQUxIcGZ5NDQ4MnRjejAyckJQOER2aEkyU0tMYWZtMWxTTWhPT3hsek1O?=
+ =?utf-8?B?RFMwcTNMa0hvdllTckxWWS9KNVRnV3pPaVlWdVhMYmtlUGoxcllHcmJDQmYv?=
+ =?utf-8?B?VWI0T1M0dnVFWkdRSGdVZUVLOHdXdlE3SkQ5YlUvZjBFU1QzcnRHQ3RDeSt5?=
+ =?utf-8?B?SkJYNFFpWno2OXBJWml3bythc0RUM0RrNWtOMVU3WWZPY2dNdVM3d2xQR3E4?=
+ =?utf-8?Q?ZTU9KamanAc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXNVbS9SZmFvaFFjbyszVTBmTkhMemxkSWlzQW5JU3p5NWZVRHBHbkZqeVVv?=
+ =?utf-8?B?cEdyK2hJYldsTmZPeWorRFVia2I1VDRhQ3VJM0hNdkNPSXhsQ0Z5OVNLMWFq?=
+ =?utf-8?B?VkgvTVJ3OU51allIbmZjZEF6bng2dWZsTWcxOTZ2cWJCZnY2ZTkvMDlsUW1p?=
+ =?utf-8?B?alN1RWh1aVJQaGRBbDk4ZFllS1duNndSeEc4RGQwbUIzL05wekdJNnhiekVj?=
+ =?utf-8?B?c3FWTzVWb2ZpRkxuemZXNGU4aDBDd1dRTFVOWUNzdW16Nkh6WE5TeWZ1Tm1h?=
+ =?utf-8?B?RnF2Y0N1S3ZWakd1Y2xpdnp0MC9pV0xPRkw3UVhFSlVNOE9LeXM5NVd3Vi9n?=
+ =?utf-8?B?SmdLanV0WjEzcGFic1VDU212SzduN1loUmpKaHJHU0RJSDlVVlpMbFdIeWF6?=
+ =?utf-8?B?RWdubWx3Si9JQmRwSDN6bUlFMmxEbmRMQm9QdTZtMnBIb1lsK1R2TXJQNjdK?=
+ =?utf-8?B?MVpWM0lYUUc0OWNrcEoxM1hQSld1dCtuTVdKOVVIUU9zS1VyUUV6NWRtYzFQ?=
+ =?utf-8?B?eHFvdHNxT1RPNWlLZkc3UnlxR3lwMjQ1TTd3eEx4T0FZcXpqSW5rVyt5TVQ3?=
+ =?utf-8?B?UWdKRUFxcDlmYjNqWCtGVUFYZjJyeEtYOHNXVXE2Y01uNjlsWDNEeSthazd0?=
+ =?utf-8?B?WVJWSjlCSGhQVWUxRmNvSFI3K3orQ3dnb0xIWVhvc0pBN3dudFhNZUMvWkhp?=
+ =?utf-8?B?eHRDZXljdjVLbktabFc5c21CTEZDZU1sYmlRcGQ1UGV3QWJkZjgzKzh1UERq?=
+ =?utf-8?B?djA3ZXZKdkpqOE50TlN5MDFOenBDVzMvVEFYMjk0aDhnZlFhSk5udk0zQ3ly?=
+ =?utf-8?B?bnJONFhFYzkyc3AwNCtFbkoxbkk1eTJsYW1pUVcwQkFCdHlWbEFPZmJjYmFI?=
+ =?utf-8?B?VnNHSWN6YmdPaytxZVJrb21sd3pMZm80NzZyT1VDRXBQYVhQTW9rMmhiUXRR?=
+ =?utf-8?B?WVRDM2pIVlkrUkdTaHhwZU9hYXNlNUJDbDhTWEJmMVlGNURMNkVNb3E3L2RR?=
+ =?utf-8?B?Mm93SVh5RVphUlZxbVdVbXNBVmhQT0ZMNzhGMDUvUUVZY2plMTMvbGlpR2pa?=
+ =?utf-8?B?ZXJrTUVPemJveExsM013ODhycEtFQUc5a2FxQXFONkZ5VVZUbXRkV3pPVDVR?=
+ =?utf-8?B?N3M3RGJITXZqLzFTNXhNTENabWxOYTRxQ250ZnlHVW1UQVZVV1VNa29KZXo3?=
+ =?utf-8?B?Rm9HbHdZWUI5VU5pdTNaRHJyN01OYUN0cjIwdVp6aHZzSk5VbTBtT2k3MlRr?=
+ =?utf-8?B?Y09sUnI3OUk2SkpHZmkzRTRoRExHZzdKQXBsenZOOWx5cEFvcnMzaThMVldr?=
+ =?utf-8?B?RENkY2RjWGNZSTIrRWhHTys5RkVnSEFxT04xd3NCSjhFVkVVMENMdkQwUVdW?=
+ =?utf-8?B?Y3FJMmxVTXM4U0lvOGxkdU1mS2ZNbnFMcnUraWo0dlEvN1R5akdhNDM3bjZY?=
+ =?utf-8?B?b0hTamltVzZQd0NQS2JVSnBTa1Rxa0F3TERnWVhLSm5XS05LYlJSc2I1UktT?=
+ =?utf-8?B?eUloVllLY0VBOXordXBjUmoxU1NYRVVWVDN4dWFEYzNiUnlzeVNLdjJkemNo?=
+ =?utf-8?B?UlpDRFNwaUpMSEZwMnkrY0d0OWNqOGF6Z2tCMEQrRWxoR1pVd3lIUjVhMm9q?=
+ =?utf-8?B?V0Fra0VOZlRzeU02WTBWSEo4Q0d2dnRPUHg1NWpLd1pRakZETkZERlZQVmNL?=
+ =?utf-8?B?SE9NQkxRMWU0Q1ZKRk80Q2ZrdnlSSlZ6Ymx4MTFETlZJdXZNcVNhT0pqenYx?=
+ =?utf-8?B?UEZuN3oxdUVkWU1jbUVzemRlcExVa1hrVnFIZTNtY01uM2srcW8wL3kxTnNR?=
+ =?utf-8?B?MDRsem4xM29BZ0RUeFpEMHRQUWdDQVFMeUtzWWhvUUc2RmphbVpIMFYxaSt0?=
+ =?utf-8?B?MDcyalJ6TUU4M0Q0cmdjd2RmVzZKTWJ0Z3l2UnB3cml2RUp1aklxbzNCWU1B?=
+ =?utf-8?B?NUZGWmZqblhvMTdPeFhGbW1YTHN4THJUZGVtcGY3WnJraWY4NEtLZ245akhE?=
+ =?utf-8?B?bjdWTTJrNklTMnp4S0swNEtyeEdIdjlab2w1c2oyV2N4ZlMyZ0NuekU3UDZN?=
+ =?utf-8?B?L2RUaGkySlRuS2s4OFpLS09CQnJnSUovK2FSbmlIR0hLV1pzeWdpam5KVlhE?=
+ =?utf-8?B?TVpLSW90RkVFTUlXb2NNRld6YTErT0dXczdNWStQdG1vcWRqRGJ2U01mck4v?=
+ =?utf-8?B?N3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdad21ad-323f-4772-9f68-08ddea95ef75
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 02:59:44.6670
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1xkdVPMqmthIr/DxYY5D9IxXwUsN/ToWAMg3knAyJiOFkWpJQQArxBy0IeBhmnjyOoXlpgglv4GudYwStSeqNDVTyqy+S0nd/NHZPN5CwUY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7410
+X-OriginatorOrg: intel.com
 
-Initialize n500/n210 chip bar resource map and
-dma, eth, mbx ... info for future use.
+Hi Babu,
 
-Signed-off-by: Dong Yibo <dong100@mucse.com>
----
- drivers/net/ethernet/mucse/rnpgbe/Makefile    |  3 +-
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    | 34 ++++++++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   | 68 +++++++++++++++
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h | 16 ++++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 85 +++++++++++++++++++
- 5 files changed, 205 insertions(+), 1 deletion(-)
- create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
- create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+On 8/14/25 7:25 PM, Babu Moger wrote:
+> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+> index 1de815b3a07b..af0c38206bab 100644
+> --- a/Documentation/filesystems/resctrl.rst
+> +++ b/Documentation/filesystems/resctrl.rst
+> @@ -519,6 +519,34 @@ When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
+>  	/sys/fs/resctrl/info/L3_MON/mon_features changes the input
+>  	event.
+>  
+> +"mbm_L3_assignments":
 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-index 9df536f0d04c..42c359f459d9 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
-+++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
-@@ -5,4 +5,5 @@
- #
- 
- obj-$(CONFIG_MGBE) += rnpgbe.o
--rnpgbe-objs := rnpgbe_main.o
-+rnpgbe-objs := rnpgbe_main.o\
-+	       rnpgbe_chip.o
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-index 64b2c093bc6e..9a86e67d6395 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-@@ -4,15 +4,49 @@
- #ifndef _RNPGBE_H
- #define _RNPGBE_H
- 
-+#include <linux/types.h>
-+
-+extern const struct rnpgbe_info rnpgbe_n500_info;
-+extern const struct rnpgbe_info rnpgbe_n210_info;
-+extern const struct rnpgbe_info rnpgbe_n210L_info;
-+
- enum rnpgbe_boards {
- 	board_n500,
- 	board_n210,
- 	board_n210L,
- };
- 
-+enum rnpgbe_hw_type {
-+	rnpgbe_hw_n500 = 0,
-+	rnpgbe_hw_n210,
-+	rnpgbe_hw_n210L,
-+	rnpgbe_hw_unknown
-+};
-+
-+struct mucse_mbx_info {
-+	/* fw <--> pf mbx */
-+	u32 fw_pf_shm_base;
-+	u32 pf2fw_mbox_ctrl;
-+	u32 fw_pf_mbox_mask;
-+	u32 fw2pf_mbox_vec;
-+};
-+
-+struct mucse_hw {
-+	void __iomem *hw_addr;
-+	struct pci_dev *pdev;
-+	enum rnpgbe_hw_type hw_type;
-+	struct mucse_mbx_info mbx;
-+};
-+
- struct mucse {
- 	struct net_device *netdev;
- 	struct pci_dev *pdev;
-+	struct mucse_hw hw;
-+};
-+
-+struct rnpgbe_info {
-+	enum rnpgbe_hw_type hw_type;
-+	void (*init)(struct mucse_hw *hw);
- };
- 
- /* Device IDs */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-new file mode 100644
-index 000000000000..179621ea09f3
---- /dev/null
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-+
-+#include "rnpgbe.h"
-+#include "rnpgbe_hw.h"
-+
-+/**
-+ * rnpgbe_init_common - Setup common attribute
-+ * @hw: hw information structure
-+ **/
-+static void rnpgbe_init_common(struct mucse_hw *hw)
-+{
-+	struct mucse_mbx_info *mbx = &hw->mbx;
-+
-+	mbx->pf2fw_mbox_ctrl = GBE_PF2FW_MBX_MASK_OFFSET;
-+	mbx->fw_pf_mbox_mask = GBE_FWPF_MBX_MASK;
-+}
-+
-+/**
-+ * rnpgbe_init_n500 - Setup n500 hw info
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_init_n500 initializes all private
-+ * structure, such as dma, eth, mac and mbx base on
-+ * hw->hw_addr for n500
-+ **/
-+static void rnpgbe_init_n500(struct mucse_hw *hw)
-+{
-+	struct mucse_mbx_info *mbx = &hw->mbx;
-+
-+	rnpgbe_init_common(hw);
-+
-+	mbx->fw2pf_mbox_vec = N500_FW2PF_MBX_VEC_OFFSET;
-+	mbx->fw_pf_shm_base = N500_FWPF_SHM_BASE_OFFSET;
-+}
-+
-+/**
-+ * rnpgbe_init_n210 - Setup n210 hw info
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_init_n210 initializes all private
-+ * structure, such as dma, eth, mac and mbx base on
-+ * hw->hw_addr for n210
-+ **/
-+static void rnpgbe_init_n210(struct mucse_hw *hw)
-+{
-+	struct mucse_mbx_info *mbx = &hw->mbx;
-+
-+	rnpgbe_init_common(hw);
-+
-+	mbx->fw2pf_mbox_vec = N210_FW2PF_MBX_VEC_OFFSET;
-+	mbx->fw_pf_shm_base = N210_FWPF_SHM_BASE_OFFSET;
-+}
-+
-+const struct rnpgbe_info rnpgbe_n500_info = {
-+	.hw_type = rnpgbe_hw_n500,
-+	.init = &rnpgbe_init_n500,
-+};
-+
-+const struct rnpgbe_info rnpgbe_n210_info = {
-+	.hw_type = rnpgbe_hw_n210,
-+	.init = &rnpgbe_init_n210,
-+};
-+
-+const struct rnpgbe_info rnpgbe_n210L_info = {
-+	.hw_type = rnpgbe_hw_n210L,
-+	.init = &rnpgbe_init_n210,
-+};
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-new file mode 100644
-index 000000000000..746dca78f1df
---- /dev/null
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright(c) 2020 - 2025 Mucse Corporation. */
-+
-+#ifndef _RNPGBE_HW_H
-+#define _RNPGBE_HW_H
-+
-+/**************** MBX Resource ****************************/
-+#define N500_FW2PF_MBX_VEC_OFFSET 0x28b00
-+#define N500_FWPF_SHM_BASE_OFFSET 0x2d000
-+#define GBE_PF2FW_MBX_MASK_OFFSET 0x5500
-+#define GBE_FWPF_MBX_MASK 0x5700
-+#define N210_FW2PF_MBX_VEC_OFFSET 0x29400
-+#define N210_FWPF_SHM_BASE_OFFSET 0x2d900
-+/**************** CHIP Resource ****************************/
-+#define RNPGBE_MAX_QUEUES 8
-+#endif /* _RNPGBE_HW_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-index 98905607e74b..25b7119d6ecb 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-@@ -4,10 +4,18 @@
- #include <linux/types.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/netdevice.h>
-+#include <linux/etherdevice.h>
- 
- #include "rnpgbe.h"
-+#include "rnpgbe_hw.h"
- 
- static const char rnpgbe_driver_name[] = "rnpgbe";
-+static const struct rnpgbe_info *rnpgbe_info_tbl[] = {
-+	[board_n500] = &rnpgbe_n500_info,
-+	[board_n210] = &rnpgbe_n210_info,
-+	[board_n210L] = &rnpgbe_n210L_info,
-+};
- 
- /* rnpgbe_pci_tbl - PCI Device ID Table
-  *
-@@ -27,6 +35,56 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
- 	{0, },
- };
- 
-+/**
-+ * rnpgbe_add_adapter - Add netdev for this pci_dev
-+ * @pdev: PCI device information structure
-+ * @info: chip info structure
-+ *
-+ * rnpgbe_add_adapter initializes a netdev for this pci_dev
-+ * structure. Initializes Bar map, private structure, and a
-+ * hardware reset occur.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+static int rnpgbe_add_adapter(struct pci_dev *pdev,
-+			      const struct rnpgbe_info *info)
-+{
-+	struct net_device *netdev;
-+	void __iomem *hw_addr;
-+	struct mucse *mucse;
-+	struct mucse_hw *hw;
-+	int err;
-+
-+	netdev = alloc_etherdev_mq(sizeof(struct mucse), RNPGBE_MAX_QUEUES);
-+	if (!netdev)
-+		return -ENOMEM;
-+
-+	SET_NETDEV_DEV(netdev, &pdev->dev);
-+	mucse = netdev_priv(netdev);
-+	mucse->netdev = netdev;
-+	mucse->pdev = pdev;
-+	pci_set_drvdata(pdev, mucse);
-+
-+	hw = &mucse->hw;
-+	hw->hw_type = info->hw_type;
-+	hw->pdev = pdev;
-+	hw_addr = devm_ioremap(&pdev->dev,
-+			       pci_resource_start(pdev, 2),
-+			       pci_resource_len(pdev, 2));
-+	if (!hw_addr) {
-+		err = -EIO;
-+		goto err_free_net;
-+	}
-+
-+	hw->hw_addr = hw_addr;
-+	info->init(hw);
-+	return 0;
-+
-+err_free_net:
-+	free_netdev(netdev);
-+	return err;
-+}
-+
- /**
-  * rnpgbe_probe - Device initialization routine
-  * @pdev: PCI device information struct
-@@ -39,6 +97,7 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
-  **/
- static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
-+	const struct rnpgbe_info *info = rnpgbe_info_tbl[id->driver_data];
- 	int err;
- 
- 	err = pci_enable_device_mem(pdev);
-@@ -65,6 +124,9 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		dev_err(&pdev->dev, "pci_save_state failed %d\n", err);
- 		goto err_free_regions;
- 	}
-+	err = rnpgbe_add_adapter(pdev, info);
-+	if (err)
-+		goto err_free_regions;
- 
- 	return 0;
- err_free_regions:
-@@ -74,6 +136,24 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return err;
- }
- 
-+/**
-+ * rnpgbe_rm_adapter - Remove netdev for this mucse structure
-+ * @pdev: PCI device information struct
-+ *
-+ * rnpgbe_rm_adapter remove a netdev for this mucse structure
-+ **/
-+static void rnpgbe_rm_adapter(struct pci_dev *pdev)
-+{
-+	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct net_device *netdev;
-+
-+	if (!mucse)
-+		return;
-+	netdev = mucse->netdev;
-+	mucse->netdev = NULL;
-+	free_netdev(netdev);
-+}
-+
- /**
-  * rnpgbe_remove - Device removal routine
-  * @pdev: PCI device information struct
-@@ -85,6 +165,7 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  **/
- static void rnpgbe_remove(struct pci_dev *pdev)
- {
-+	rnpgbe_rm_adapter(pdev);
- 	pci_release_mem_regions(pdev);
- 	pci_disable_device(pdev);
- }
-@@ -95,6 +176,10 @@ static void rnpgbe_remove(struct pci_dev *pdev)
-  **/
- static void rnpgbe_dev_shutdown(struct pci_dev *pdev)
- {
-+	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct net_device *netdev = mucse->netdev;
-+
-+	netif_device_detach(netdev);
- 	pci_disable_device(pdev);
- }
- 
--- 
-2.25.1
+Looking at the final documentation this addition is made in unexpected section titled:
+"When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:"
 
+How about placing this description in a new section titled "When monitoring is enabled all
+MON groups may also contain:" (note the word *may*) under the "mon_hw_id" description to complement
+the earlier "When monitoring is enabled all MON groups will also contain:" (note the
+word *will*). Open to other ideas of course.
+
+Actual change looks good to me, just the doc placement is unexpected.
+
+Reinette
