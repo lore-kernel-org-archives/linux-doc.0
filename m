@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D01B1FA272;
-	Wed,  3 Sep 2025 15:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBF6285C8A;
+	Wed,  3 Sep 2025 15:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756914302; cv=none; b=oPIX7dLB6XpS8YVnLnvvgdaJa5nhZVdTFcpNRNC7SEb71d7Ru+ZHUyOlCpghzUIM+lFgL8wW1DLTcRgj+A6GLw5IyXIaqVAsP/6ZLKXSG0V/fkt7aOs7CIdkFesXUqtgwXEvCtQ2jbeQRS05pDddal8wX8RhN8WNJTWDkGF8zOY=
+	t=1756914302; cv=none; b=pwRSRdHvmoasqg3MWG47wet9L80CsBgYL8MfaAJ6zbZHi4S/1xe8iMTZ5nDacn+Y2eC5Uf0uRx5hmwWVlFbcXjRcjilc1Y0MJdNkucC0kEW1MgJqineQCejwisW12RCp4VKa+Yd5pCvvce2lIsxhtIwARU1GzSwa/tV+aD0t+kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756914302; c=relaxed/simple;
-	bh=/dLIDswzK4KrvEpdBfQvdI/IqyHPjqk3TcTvIyNvmfo=;
+	bh=uGAsJGJpxFTuaDQGGkCgIKWHmb8lqqQagqgiF5HxTWc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jXwhu6k0/T6MevsnTzbBXC3LxPUawA5YpxvNKZ3k9AqdYW+Mbm3Uy7Yb/e2TVigyFSe9z5i7uJiY7ufdCn5+d8/cVd9b2624wIjcGVoX+13ovsQJ5eY+93DQ5a30cqUlQs8MFuhvHctCwtFzcwl0QZEv0eQ0/jF404NGzWIlgeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fWNTmoU0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=Me/UsGWH9GygJ7j/T+jJ/UdinzGx8Ke7GMg6zsBFrucyrpRheFPX3Tme27mNgXlIrSUPKDxsou9Feb9PxdihMRYn7u3BRVJq8KlhKr9UW8YeelIFWXq1xwy/RgM0zPvQH5me+d9ptsKf0j6i84Vu9CIlCLwLf7WLhJDHhuxg5oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RpZOoyQJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWNTmoU0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E4DAC4CEE7;
-	Wed,  3 Sep 2025 15:45:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RpZOoyQJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A8E0C4CEF0;
+	Wed,  3 Sep 2025 15:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756914301;
-	bh=/dLIDswzK4KrvEpdBfQvdI/IqyHPjqk3TcTvIyNvmfo=;
+	s=k20201202; t=1756914302;
+	bh=uGAsJGJpxFTuaDQGGkCgIKWHmb8lqqQagqgiF5HxTWc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fWNTmoU0ZOD+ndmT4jIR7jkei4i9P6Ueh3zbbwnwPV6+43eyxRH7+LOM0Xpps1OK4
-	 Zp2pqv7NaIdtB6RRHgziJC5BQI1iXXhuJngkqBwKOddCYwp8AHKDF+qIt5eD6J1OH1
-	 ozyoQ7jsMjHfaBdgNkM/sPV4BPoNhzNFIrm1vNADh/a3lz+6z/K5mAnG85P4W+MUt2
-	 AsZpucUUmspcPGBxe3vsNJJsGxt425GtePEq//cxQvWIzmddRKrb7qA7/bT0Bj+tLe
-	 9Fz51AJJ9rHfebMHqEGSyxGlRxeLO+l/tDvFpl9aBM2oqEo7jfH4MhTQCCkYj4N5VZ
-	 6N39+nCmEYfkw==
+	b=RpZOoyQJjY6zwmfqMRfRaJs1CEyKHhqCZmi2VogdhVE64l8kCkKVq8YYkKF3RJQB5
+	 /JaNo6aZSbVKNgCbOXfuSsphLmfOldD3xDVs2dT+ShQe+eUKhU9LTHpMoJwuJmgu88
+	 Yky28Ohx5PrYUQEqS3PkJbIzGdms8+hCb/Q44vkrSIqYjFkvagxl6g/CsGBJzi3p5y
+	 gKKUhY/mFJMou+v1o0tT+sIQi54DAlPs5FiPAROWWuCPNSVnXbJis5ymwrJ+QUYyhG
+	 VLHJfK6FfiPXgYBuTjDYk/5xLy8iL9VtEu4riCoNpC7rAnxKjXzRE6bV9oemrM9s9k
+	 qumLtKUWxtHMA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1utpfO-00000007N6Q-409i;
-	Wed, 03 Sep 2025 17:44:58 +0200
+	id 1utpfQ-00000007N6f-0ucW;
+	Wed, 03 Sep 2025 17:45:00 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 1/3] tools/docs: python_version.py: drop a debug print
-Date: Wed,  3 Sep 2025 17:44:34 +0200
-Message-ID: <623f783ca31fa33e71d700f1c5c659f7171acb51.1756913837.git.mchehab+huawei@kernel.org>
+Subject: [PATCH RFC 3/3] tools/docs: sphinx-* break documentation bulds on openSUSE
+Date: Wed,  3 Sep 2025 17:44:36 +0200
+Message-ID: <35ccc7da482127f1ed1f04b22b6fe42c39e86ab7.1756913837.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756913837.git.mchehab+huawei@kernel.org>
 References: <cover.1756913837.git.mchehab+huawei@kernel.org>
@@ -52,27 +52,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The version print at the lib was added for debugging purposes.
-Get rid of it.
+Before this patch, building htmldocs on opensuseLEAP works
+fine:
+
+    # make htmldocs
+    Available Python versions:
+      /usr/bin/python3.11
+
+    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
+    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
+    Using alabaster theme
+    Using Python kernel-doc
+
+    ...
+
+As the logic detects that Python 3.6 is too old and recommends
+intalling python311-Sphinx. If installed, documentation builds
+work like a charm.
+
+Yet, some develpers complained that running python3.11 instead
+of python3 should not happen. So, let's break the build to make
+them happier:
+
+    # make htmldocs Available Python versions:
+      /usr/bin/python3.11
+
+    Python 3.6.15 not supported. Bailing out
+    make[2]: *** [Documentation/Makefile:74: htmldocs] Error 1
+    make[1]: *** [/root/Makefile:1806: htmldocs] Error 2
+    make: *** [Makefile:248: __sub-make] Error 2
+
+It should be then up to the user to figure out a way to make
+it work again.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/lib/python_version.py | 2 --
- 1 file changed, 2 deletions(-)
+ tools/docs/sphinx-pre-install | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
-index 0519d524e547..660bfe7d23fa 100644
---- a/tools/docs/lib/python_version.py
-+++ b/tools/docs/lib/python_version.py
-@@ -109,8 +109,6 @@ class PythonVersion:
-         cur_ver = sys.version_info[:3]
-         if cur_ver >= min_version:
-             ver = PythonVersion.ver_str(cur_ver)
--            print(f"Python version: {ver}")
--
-             return
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index 663d4e2a3f57..ecd08e09bae9 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -1531,7 +1531,7 @@ def main():
  
-         python_ver = PythonVersion.ver_str(cur_ver)
+     checker = SphinxDependencyChecker(args)
+ 
+-    PythonVersion.check_python(MIN_PYTHON_VERSION)
++    PythonVersion.check_python(MIN_PYTHON_VERSION, show_alternatives=True)
+     checker.check_needs()
+ 
+ # Call main if not used as module
 -- 
 2.51.0
 
