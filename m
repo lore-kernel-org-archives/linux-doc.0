@@ -1,103 +1,80 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D05302CC2
-	for <linux-doc@vger.kernel.org>; Wed,  3 Sep 2025 13:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9031130EF6B;
+	Wed,  3 Sep 2025 14:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756907508; cv=none; b=m+aqPURvnFsM+9hlWUnqiJlgWa+9OF6XDRf9oO1f12WnJEb77pynLVTtImW37+YTT112Pb0Q1uUsGIrajEhg+NmeD/ugMXpHpffpGO0SfDbiFOdCSHpWxX/nCaEQgbQwHYK9E4HqgFudES/pCfuNCnXNBW+QyjzVQHy9wWQUYSs=
+	t=1756908072; cv=none; b=YEXF0+zQ9CrL4HnxevNoaQjZaHD+j94QP1hkIynkKaDV6xyc5y6LGe6p74hUa0ZwZoXZSNFe9MM7LL1f5o25ObwY9KDXP+iD2hVYWPGToP0cVsdkmQEkmSZOMIOIK+e7meKt04glIU1RpoDgangrAaOsttBO30DBbnli7Sui+aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756907508; c=relaxed/simple;
-	bh=O/fRfb9etV3ZNsMPi8FLLFmn+EVAdVXV9qldkPSBP9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b8tCW/RVAxlGskkjaQkOUYZ/Wy0cTAFcz53qFP2+Hvg6QOg+gs2tKLBZwxSGVE0SsGAl7Gc+5mUoX4fK4IYSI5boHrilm9xIzlfIep09DGclPpne5uGLI9vSWeNQYez+rDjuQyue+5EZL93fbm2V1MLwg+xyLHRawCkOd/n9DKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Rvhzm2b+; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1756908072; c=relaxed/simple;
+	bh=ZqQmkOArRuHnXAxn41bAke5L+mCbr9OLiPfQMEf3pmQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nZEDEUfIKJslS6fMlzcE+bLNb6ze1wsc+YUCvahFfGQkjyhcepUbFPkXO1r2HTRUyLrjuhqtc23VsOrTmaekY729u07Y/8Xa4gdvAR9pcdOBdM+FnENvUEPHFcSW43fn0sQAlSGvLOO3NzK7E3uE4u1MY4DDJQkUNvLOgA/onwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=d1rLcnuJ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Rvhzm2b+"
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 51444842;
-	Wed,  3 Sep 2025 15:50:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756907436;
-	bh=O/fRfb9etV3ZNsMPi8FLLFmn+EVAdVXV9qldkPSBP9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rvhzm2b+1KMYIucIfgcqj4LASB0TfE7eM4wlyzQA3B5QFm5Vp6DfXzqzwSEd1J156
-	 fHqb1JhcKRbQBbR60tZPSPtqvNVXvbkiby8x6yA2xuzO7ebhl28xADjumQM/CAkwHo
-	 Mxylh90qfSrTxGrGx9qZ4vdaXwW2XkevIVRyNJgE=
-Date: Wed, 3 Sep 2025 15:51:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>, ksummit@lists.linux.dev,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [TECH TOPIC] Kernel documentation - update and future directions
-Message-ID: <20250903135124.GG3648@pendragon.ideasonboard.com>
-References: <20250902141434.3e5b14e4@foz.lan>
- <8339a5dd-446d-4717-9d68-983f5e2354b3@sirena.org.uk>
- <xni5csulan6a3kngfw66okhrea2v2u4cwvfkk5vqy5p4xonowf@ajubzphgygit>
- <87ecsox4uy.fsf@trenco.lwn.net>
- <20250902191929.504977bf@foz.lan>
- <87frd4vfys.fsf@trenco.lwn.net>
- <b20224870cd266f93e11ed8ac75c9e77478884eb.camel@sipsolutions.net>
- <20250903124229.332dfeae@foz.lan>
- <431ce4a26d70de6b6d63778e62b732dc035633f9.camel@sipsolutions.net>
- <20250903153905.7d93c693@foz.lan>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="d1rLcnuJ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3F9E40AD8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1756908064; bh=CUBTmrJzlHEyvioYPG6dRMuebJKjGgnlUmA+FpZYTdw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=d1rLcnuJ70Bdcnd6BGrhB8gji9pR6Y1PLBLs0vnsBUjGXNK2OHn7M66gh49hk8Qux
+	 2DX7OQsSV6eNQ3JtadwQ0LWkDIOPDiUQcfs+2D7MisdpCDCB3JEQIpgockV/ezsYb1
+	 FEGjyF7taom2AH737SHRdoktAuhWHKl2q8j3VK4sQsmQBWZQSR+CmlQGEUkX6aM9se
+	 XTUB3sYlhhQ4/Yu9ZAs8WpNbyEy7z9KFDuadUYjzfqA20SQdA80La5sXba8V6bsR9f
+	 TLHcz3S5H7KiobgLXhpDOstfwiBhHLtki6e5O+p085XJbaQHQz216IVSeJAYg+RpD8
+	 HtDLhd0x+bSow==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C3F9E40AD8;
+	Wed,  3 Sep 2025 14:01:03 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Alexandre TORGUE <alexandre.torgue@foss.st.com>, Akshaykumar Gunari
+ <akshaygunari@gmail.com>, mcoquelin.stm32@gmail.com
+Cc: linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] docs: arm: stm32: fix typo "busses" -> "buses"
+In-Reply-To: <078fb552-c848-49ef-b917-14aec0e4b6aa@foss.st.com>
+References: <20250807145119.2214-1-akshaygunari@gmail.com>
+ <078fb552-c848-49ef-b917-14aec0e4b6aa@foss.st.com>
+Date: Wed, 03 Sep 2025 08:01:02 -0600
+Message-ID: <87plc7zlcx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250903153905.7d93c693@foz.lan>
+Content-Type: text/plain
 
-On Wed, Sep 03, 2025 at 03:39:05PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 03 Sep 2025 12:45:25 +0200 Johannes Berg escreveu:
-> > On Wed, 2025-09-03 at 12:42 +0200, Mauro Carvalho Chehab wrote:
-> > > > For example, use case we have: using nix-shell to lock down the software
-> > > > used to build, for reproducible builds and similar reasons. Without --
-> > > > pure, PATH may still contain (last!) software from the system itself,
-> > > > but it should basically never be used.  
-> > > 
-> > > if the PATH is mangled, you'll have a lot more problems than just
-> > > building docs as it will pick wrong exec files anyway.  
-> > 
-> > Err, no? To search a binary, directories in $PATH are meant to be
-> > searched in order of appearance. It's well-defined which one you pick
-> > for which, and this setup takes advantage of that (with a rather long
-> > $PATH) to control the binaries used for the build.
-> 
-> Yes. So? the logic does that.
-> 
-> > > In the particular case of docs, if you have, for instance, two different
-> > > python versions, one with sphinx and another one without it, it may pick
-> > > the wrong one, causing the build to fail. There's nothing the build system
-> > > can do to solve it. The proper fix would be to wrap the calling logic
-> > > to save the env before running under nix-shell, restoring env afterwards.  
-> > 
-> > I don't follow. If this setup breaks the build then that's good, I'll
-> > fix the env. If the build does magic inside and sort of ignores $PATH,
-> > that's bad.
-> 
-> The build logic does follow PATH. If python --version < 3.7, it will
-> seek, within PATH, for python > 3.6.
+Alexandre TORGUE <alexandre.torgue@foss.st.com> writes:
 
-Please, let's stop here. As pointed out by Jani, Johannes and Jon,
-that's not a good idea. If the user wants to shoot themselves in the
-foot, that's all fine. Printing a message to indicate they may want to
-use a more recent Python version is totally fine. Picking a Python
-interpreter manually to override the python3 symlink is not fine.
+> Hi
+>
+> On 8/7/25 16:51, Akshaykumar Gunari wrote:
+>> Fix the spelling of "busses" to the preferred form "buses" in STM32 ARM
+>> architecture documentation.
+>> 
+>> Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
+>> ---
+>>   Documentation/arch/arm/stm32/stm32f746-overview.rst  | 2 +-
+>>   Documentation/arch/arm/stm32/stm32f769-overview.rst  | 2 +-
+>>   Documentation/arch/arm/stm32/stm32h743-overview.rst  | 2 +-
+>>   Documentation/arch/arm/stm32/stm32h750-overview.rst  | 2 +-
+>>   Documentation/arch/arm/stm32/stm32mp13-overview.rst  | 2 +-
+>>   Documentation/arch/arm/stm32/stm32mp151-overview.rst | 2 +-
+>>   6 files changed, 6 insertions(+), 6 deletions(-)
+>> 
+>
+> Applied on stm32-next.
 
--- 
-Regards,
+I had already done so (and copied you) on August 12.  I can drop my
+copy, I suppose, if that's how you want to do it?
 
-Laurent Pinchart
+Thanks,
+
+jon
