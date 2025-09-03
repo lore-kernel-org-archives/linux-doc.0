@@ -1,69 +1,119 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000842EC081;
-	Wed,  3 Sep 2025 22:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90548155333;
+	Wed,  3 Sep 2025 22:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756937145; cv=none; b=jifDaF2Z+faQ3PaCFk+2yptjQ99e9IVtDrZPYs+qAvyN8OJkuX3vs6GE6xw19o1fpERTT9Gw0xDk3lSNQZ/CXDlLzO3kxBM4JSziF65Uhl+0AFwyeqlFYesySobEZ2uSZgXh669aBOz01V91ex3aR9rbI3jJL/wlMWnYwl8RSL8=
+	t=1756938308; cv=none; b=BLZ7rdp+y0E3FFB3RMDzDoKCwUKkoY1Jpj2rGTvYPk0WHuOvsncjr6qIxXBBdQSjzIN5cdONL7TBRtsq56I/YlLwIqk0II5+GUavzHMHEoODAWi7jNpFnaJ/1vXlqN4mvLFEBuZ3fiUgpWdQtSM+3A+PJ/Bb5KAE/w001IWH1jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756937145; c=relaxed/simple;
-	bh=HNBIccmfGFoDop+biLBwd00oaJFfIZd9vYmyh7u3MUM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=DYlEceyNZ51gotSMU+RB8AIruLMvNI67XUU5lnUfeUQ5NR7NGWlJryOABpEWXKo2WUjKY7cQ3CNtY5E33jjc+U3Zecd0eq+EPg0h6Vh0PDBBnyuqmVYvP0paAMdoZJ1xNPsr5KvcUGjSHz6PtIOFY8RWTNII7h8kWHeFN1XiQLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EKtv0c+v; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756938308; c=relaxed/simple;
+	bh=PAqn5ll1w4WzA93V6UQALMVRNrs6OiC8TUzJboJnmk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ewsye/mTYauq+E2xMSi5X4RVBf1WRsmqJYCqhCJzb2lg+B7nOo5LzlPCF3rj/ntdhpcW7KHohAo0tNpXM0gsJJW/1F5/7IkfuQT0qjD5z66pfN7SZnxo+XU9jZjeV0f7hNjTHtC9W0A72YdGuzC4LHK4x5P5m8Q2XdC7VzS269g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=NuLDJx/V; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EKtv0c+v"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E9F2940AE3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756937143; bh=njql8TB2ZvWulJYRGHAS4pFfMer8bhPtqvBWQVe+nQM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EKtv0c+vlmf+gfEthyCgcKkvSCLHKe3Zf0970KPcSEY3uHurDiDrKv6FgVz3KKnSE
-	 iBlU7OrEGkU0d+6Z8+SAgSIROL/SDj5LyUjIto56imxR10Bo1a88iixo+dU5afdA0v
-	 dsA0/de9Rs+T7X11H58UgJd9ibzQKA38wAPDKmfPeCsw+kO0518EFVBcr4iWUdo/dw
-	 HjNgIZrsW/nT0iKm2hy7+WA9u6m4NilWCni0935xjGoQ2Fe5zghiOkMor/qjn73/tr
-	 viybjll5kp6V+VQSl/uFE+PrKrDHC/sx9Tt9BsPZBj0zRVOeC22SryK/Ygg/tQ7ERb
-	 UrKWCpIZEFkuw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E9F2940AE3;
-	Wed,  3 Sep 2025 22:05:42 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Baruch Siach <baruch@tkos.co.il>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Baruch Siach
- <baruch@tkos.co.il>
-Subject: Re: [PATCH] doc: filesystems: proc: remove stale information from
- intro
-In-Reply-To: <cb4987a16ed96ee86841aec921d914bd44249d0b.1756294647.git.baruch@tkos.co.il>
-References: <cb4987a16ed96ee86841aec921d914bd44249d0b.1756294647.git.baruch@tkos.co.il>
-Date: Wed, 03 Sep 2025 16:05:42 -0600
-Message-ID: <87bjnrp4y1.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="NuLDJx/V"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=hOnnk2noF78dfU4ZbGRpjhX2RXceifum6ah+cMOBfng=; b=NuLDJx/VtDjySh6kD/OJEVSaBC
+	bzSz26/RcgKObjJWpskrD77FACyb/aVax19Hk6rFmi38QUqQ/k/WSPAc7Pvsv5X3465V247yIdM7M
+	KN0BOZlB54aQf6O8CQmwW8aJv2TBN8dvkUg9Z/krfp9DUO0raBiYEP6OZN9FDTmXwdZQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1utvtp-0076Ff-N1; Thu, 04 Sep 2025 00:24:17 +0200
+Date: Thu, 4 Sep 2025 00:24:17 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Dong Yibo <dong100@mucse.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v10 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <659df824-7509-4ffe-949b-187d7d44f69f@lunn.ch>
+References: <20250903025430.864836-1-dong100@mucse.com>
+ <20250903025430.864836-4-dong100@mucse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903025430.864836-4-dong100@mucse.com>
 
-Baruch Siach <baruch@tkos.co.il> writes:
+>  struct mucse_mbx_info {
+> +	struct mucse_mbx_stats stats;
+> +	u32 timeout;
+> +	u32 usec_delay;
+> +	u16 size;
+> +	u16 fw_req;
+> +	u16 fw_ack;
+> +	/* lock for only one use mbx */
+> +	struct mutex lock;
+>  	/* fw <--> pf mbx */
+>  	u32 fw_pf_shm_base;
+>  	u32 pf2fw_mbox_ctrl;
 
-> Most of the information in the first paragraph of the
-> Introduction/Credits section is outdated.
->
-> Documentation update suggestions should go to documentation maintainers
-> listed in MAINTAINERS. Remove misleading contact information.
->
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> ---
->  Documentation/filesystems/proc.rst | 21 ---------------------
->  1 file changed, 21 deletions(-)
+> +/**
+> + * mucse_obtain_mbx_lock_pf - Obtain mailbox lock
+> + * @hw: pointer to the HW structure
+> + *
+> + * This function maybe used in an irq handler.
+> + *
+> + * Return: 0 if we obtained the mailbox lock or else -EIO
+> + **/
+> +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +	int try_cnt = 5000;
+> +	u32 reg;
+> +
+> +	reg = PF2FW_MBOX_CTRL(mbx);
+> +	while (try_cnt-- > 0) {
+> +		mbx_ctrl_wr32(mbx, reg, MBOX_PF_HOLD);
+> +		/* force write back before check */
+> +		wmb();
+> +		if (mbx_ctrl_rd32(mbx, reg) & MBOX_PF_HOLD)
+> +			return 0;
+> +		udelay(100);
+> +	}
+> +	return -EIO;
+> +}
 
-I think this poor document needs a lot more love than this ... but it's
-a start, I guess, so I've applied it, thanks.
+If there is a function which obtains a lock, there is normally a
+function which releases a lock. But i don't see it.
 
-jon
+> +void mucse_init_mbx_params_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx = &hw->mbx;
+> +
+> +	mbx->usec_delay = 100;
+> +	mbx->timeout = (4 * USEC_PER_SEC) / mbx->usec_delay;
+> +	mbx->stats.msgs_tx = 0;
+> +	mbx->stats.msgs_rx = 0;
+> +	mbx->stats.reqs = 0;
+> +	mbx->stats.acks = 0;
+> +	mbx->size = MUCSE_MAILBOX_BYTES;
+> +	mutex_init(&mbx->lock);
+
+And this mutex never seems to be used anywhere. What is it supposed to
+be protecting?
+
+    Andrew
+
+---
+pw-bot: cr
