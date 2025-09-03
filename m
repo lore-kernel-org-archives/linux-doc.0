@@ -1,49 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79952304971;
-	Wed,  3 Sep 2025 16:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C63D284890;
+	Wed,  3 Sep 2025 16:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756917878; cv=none; b=pWBPrVV/ITo1+S7/1HKCq57xinTNE00p3VccDr+hifOuYCZtNvc+nVADwKmCGlVgecspmdVveyyxGo8zN5QZPykxTL45Xg5KLsCFWblVM9rZ8m4KtD6o5B+8R0GSAtAv4lcImveVugBI+km8q3BjR81mt/0k6KLt+fUCRKg5kzc=
+	t=1756917994; cv=none; b=kquSnQVXF0oWhuMiUvAoO2mUVADPbRbjkfogYFnvLMyNVLZp/B/wuBxRbn9jItyE2TaoKyn9IL72nZ8pLmZ7j8MOysO30QRCdUPyMBr9/9heKbSYKGo1poCmPUwfmELi4tcg013B06S3RBEfX0jtDAnUZRGittAqcCOUzR1fd8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756917878; c=relaxed/simple;
-	bh=i/Nlpyf6049cvEbac9097z7Dtvp2kNHFjvpzDfbTlhI=;
+	s=arc-20240116; t=1756917994; c=relaxed/simple;
+	bh=EdNiLGaF0ZMauav/t6Hrkbl+RAupFeS5umBN7p00M2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KFge0Xkk0fOYFusFidHJETtqcSYORv224Rh2Gkc9s/Y88UupolFimpvgQ9IqvueXATvJKSbfGaXW/V8efrxG5BPKLcMfyAnnw6p7qW8Sx6yr96HFruT3mPW5+5GXmcM3gy1nlwaJ5H9dGsX6QmvjTtfhLxcGbR3b8rgBxHOEVew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Emx9N4el; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=hLEXrB51KaEEtvjWczrwkQ7myF9elEds9UW8849d0fgBSTig1WlKilRNtIBOOelEo+KY9Z0dJ+HqIckxY8fduH/OJZwZ5tOz/a6Pvd9F6szxQF29txFJDc3Hbo4Ixx9od6pAVzSBLv5V2YBG4dRuh6iDrNyXGZhNvvSw/HzsNyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYJFkgGM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Emx9N4el"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B04DC4CEE7;
-	Wed,  3 Sep 2025 16:44:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYJFkgGM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C474BC4CEE7;
+	Wed,  3 Sep 2025 16:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756917878;
-	bh=i/Nlpyf6049cvEbac9097z7Dtvp2kNHFjvpzDfbTlhI=;
+	s=k20201202; t=1756917994;
+	bh=EdNiLGaF0ZMauav/t6Hrkbl+RAupFeS5umBN7p00M2g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Emx9N4elMpE1TUw9YeZsO399zAbTV/bxbFiYSQokruUc89e9oB8nrJh7Sh+dg+Qht
-	 r5CfHYLOcf1ohP8dDx9r6HpV2nyS8kcCLpJthfFtfq1azbE7SaKiK844WVxC0FW41c
-	 8TgId8zBbe+zZdnyfskvSU16TEo3Hp9GdThETGMyqyLvXeXnvIkHIZ0dOUeC9XFIl8
-	 Orc31/q+fEPNlnulcN7nhFLVyIy+WViMxeybSlzDt9rM0havE/OXuuCTqCmYa/6yjs
-	 DDp7Ct+EHA23QKZEKzm61gUM9gxgccgJX1mQjjjf47OzETK3L9GgJ/6xU4L92aH6N/
-	 saetrm8P4i9hg==
-Date: Wed, 3 Sep 2025 17:44:31 +0100
-From: Simon Horman <horms@kernel.org>
-To: Dong Yibo <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v10 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <20250903164431.GD361157@horms.kernel.org>
-References: <20250903025430.864836-1-dong100@mucse.com>
- <20250903025430.864836-4-dong100@mucse.com>
+	b=PYJFkgGMMdD/e0OL4JI0nTs9vwUj6bOLmGxIvBk+sW+wUTSPYZLYXyR/8ssHfAnVl
+	 Qp3oVaKGYlyBEwVy39E7gRFDLTjtE5Vlj8qW2UESMG9kX2tpb2o63dkKBMUL39k4qR
+	 Bg1U/aJpodahzMsuBXLcBWIrOqeU5UEmhBxb9bO2ymNtNde4MQovFHF9P36HjqiV4z
+	 kzhgw2mn832BG6KViFc+g0WVN8d2TtEg4PGij3TIHFnrqj5SJeWq5a2hSa2XTJtUTk
+	 f7VngzhnWi9b5fMcQtNpst3pdm3CWOS6H0mpgVp9lRVo4IsrvdwyxMn4TKGMC3zptX
+	 ygZ4TlNDqKDhA==
+Date: Wed, 3 Sep 2025 11:46:33 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ranganath V N <vnranganath.20@gmail.com>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	pbonzini@redhat.com, laurent.pinchart@ideasonboard.com,
+	brauner@kernel.org, conor+dt@kernel.org, linux-xfs@vger.kernel.org,
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, krzk+dt@kernel.org, djwong@kernel.org,
+	corbet@lwn.net
+Subject: Re: [PATCH] Documentation: Fix spelling mistakes
+Message-ID: <175691799203.2492867.8315727734115798731.robh@kernel.org>
+References: <20250902193822.6349-1-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,91 +46,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903025430.864836-4-dong100@mucse.com>
+In-Reply-To: <20250902193822.6349-1-vnranganath.20@gmail.com>
 
-On Wed, Sep 03, 2025 at 10:54:28AM +0800, Dong Yibo wrote:
-> Initialize basic mbx function.
+
+On Wed, 03 Sep 2025 01:08:22 +0530, Ranganath V N wrote:
+> Corrected a few spelling mistakes to improve the readability.
 > 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/submitting-patches.rst | 2 +-
+>  Documentation/filesystems/iomap/operations.rst           | 2 +-
+>  Documentation/virt/kvm/review-checklist.rst              | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
 
-...
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-> +/**
-> + * mucse_mbx_inc_pf_req - Increase req
-> + * @hw: pointer to the HW structure
-> + *
-> + * mucse_mbx_inc_pf_req read pf_req from hw, then write
-> + * new value back after increase
-> + **/
-> +static void mucse_mbx_inc_pf_req(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +	u16 req;
-> +	u32 v;
-> +
-> +	v = mbx_data_rd32(mbx, MBX_PF2FW_COUNTER);
-> +	req = (v & GENMASK_U32(15, 0));
-
-nit1: Unnecessary parentheses
-nit2: I would have used FIELD_GET here in conjunction with something like.
-
-      #define MBX_PF2FW_COUNTER_MASK GENMASK_U32(15, 0)
-
-> +	req++;
-> +	v &= GENMASK_U32(31, 16);
-> +	v |= req;
-
-      And using FIELD_PREP is probably more succinct here.
-
-      Likewise in the following function
-
-> +	mbx_data_wr32(mbx, MBX_PF2FW_COUNTER, v);
-> +	hw->mbx.stats.msgs_tx++;
-> +}
-> +
-> +/**
-> + * mucse_mbx_inc_pf_ack - Increase ack
-> + * @hw: pointer to the HW structure
-> + *
-> + * mucse_mbx_inc_pf_ack read pf_ack from hw, then write
-> + * new value back after increase
-> + **/
-> +static void mucse_mbx_inc_pf_ack(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +	u16 ack;
-> +	u32 v;
-> +
-> +	v = mbx_data_rd32(mbx, MBX_PF2FW_COUNTER);
-> +	ack = (v >> 16) & GENMASK_U32(15, 0);
-> +	ack++;
-> +	v &= GENMASK_U32(15, 0);
-> +	v |= (ack << 16);
-> +	mbx_data_wr32(mbx, MBX_PF2FW_COUNTER, v);
-> +	hw->mbx.stats.msgs_rx++;
-> +}
-
-...
-
-> +/**
-> + * mucse_mbx_reset - Reset mbx info, sync info from regs
-> + * @hw: pointer to the HW structure
-> + *
-> + * This function reset all mbx variables to default.
-> + **/
-> +static void mucse_mbx_reset(struct mucse_hw *hw)
-> +{
-> +	struct mucse_mbx_info *mbx = &hw->mbx;
-> +	u32 v;
-> +
-> +	v = mbx_data_rd32(mbx, MBX_FW2PF_COUNTER);
-> +	hw->mbx.fw_req = v & GENMASK_U32(15, 0);
-> +	hw->mbx.fw_ack = (v >> 16) & GENMASK_U32(15, 0);
-
-I'd use FIELD_GET here too.
-
-> +	mbx_ctrl_wr32(mbx, PF2FW_MBOX_CTRL(mbx), 0);
-> +	mbx_ctrl_wr32(mbx, FW_PF_MBOX_MASK(mbx), GENMASK_U32(31, 16));
-> +}
-
-...
