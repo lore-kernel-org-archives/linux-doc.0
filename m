@@ -1,150 +1,114 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B11277011
-	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 19:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF39215F5C;
+	Thu,  4 Sep 2025 20:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757015860; cv=none; b=ghaNTtEBo+XGAklIRJ9fh23hrjyR4qE3wdxrrbAyTP+jge/F5Pzzh1cL6njrOB0i6PyNxGGfv2L1VNbst5uHgFRn4FQnlZKM0nY2DjnBvKtLDB577NaWmxSkhyttm16x6ThwjlYeRwqKJaDzvRs30hvAzq+zav9eAICjXcaWYFQ=
+	t=1757016112; cv=none; b=tvy41QhKdMrlQBTo2is+IzAUAi71NVzGa1G1QvyZCTlcBZ2AAAdDzx0UTR0XI3GC2vnvxWRGFO/5Qn+5FhfdBEuPIG22xy/d7fk5PhmOWIUvoCo0ZuRDqL3EHSmQg4oiQyIlMHuGrZN5vyKZT7EBw0R10Eb9rEaMUJrK7rzxMIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757015860; c=relaxed/simple;
-	bh=AkQDfljW56aeK9hFyEplI/9Ee67wMd+uq6QJcRF62eo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AA1Sqk5+uW482JP66HUXAbgYkDCAiyj6dxV65H07zW9t7YYUupg8pGWj0Sbv0n9MQVkm7QNoQbddCl0JobvcfXIYHGUjI+dHnFht2wcGudTroyrx1o/e2oB/3zVA8HsNh7g7hIPL709yrlIpyfjgS83o7TJ3XY8iyR/n6y4tvX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Iv+32+pl; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757016112; c=relaxed/simple;
+	bh=giDG6yLbZbChEwyrNi7daCsisorV/2wtCDx2g6t/AQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dS4dLiqnh1H/odsLa6dRDAXReZ1a8Tnx7Ecs4OjHaejjMRdaWf3+QdMXko/CWi9AMWOPpzz8OG6XT7/5EGslPNKJWxNATBAn5r0Y4R1OCc999G98vd8b+bNywQumjQpVCsCrloCAVlmMFYhzl3AEg5lrPnBn/CtJZQZWD65H0Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Wdrg70sz; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Iv+32+pl"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55f7cd8ec2cso1923080e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 04 Sep 2025 12:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757015857; x=1757620657; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6kwPz46AfjWSljE81nGPsJRjk/PBKufX3IFU3DIxO20=;
-        b=Iv+32+pl+RF/5u9CXQ2H/5eyAmAkycT/gu4sr+1dppOQN7ClaN1+UkvsAo99TDI91J
-         JZTVbf1mcgBfbJyKlqFd/ymeo2YWyWes8minSpK/VUiXqtkViDeOzo2lbrRAE5bQek52
-         q7j1d2+8Ch3M7w8baGcVVxySNOnd3S8w3zQ1FKgO/1yjTjh5HXjnSgWETLcT72Gu/vjb
-         ffs9gc7cT4wIel3sXqOYcTnic/NCW8dGMWJ7sHdrnzLj4QQ/LSUXF7Rmr0UlikLNkxeq
-         gW2jIybvjzI3HKgnIZedva/HORa3f5dytWHHplPHe20DUd1v5W8Uzb2HzpDXsUZFSytk
-         aCsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757015857; x=1757620657;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6kwPz46AfjWSljE81nGPsJRjk/PBKufX3IFU3DIxO20=;
-        b=A5ePg7M/FGrKmTgqX4Bg2uy5f13yFwP6Yb+EaTEvta8IvYVhQUq5joG4cjelFfzpvl
-         BOvr0y6NgyouW3gYLOmwfTZQ7d1CIzaF+zmomG89BHMk83azANgtWjjTTMc+jRT5xhEI
-         OfueEgxFm0/pg/24Pv36jWqtTXOg0lYJbKvbunfbb3T5V9othHptUgVgbz4HVLAmO23n
-         KbLA/bvbi4VNY6I3eJ3nlWSnueddLRoO3QUn4Hm7lFBgIPtAn4dz6fljvn0gGCTQQcic
-         vYoky/p6lRz4eKCDm3/f1RUAgtPrzRlxUUTrOXXfSCbhcuujbOcSWdyGaCelXETORfmv
-         ABBw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVgkNYiXnytkUBk7dhSXD6UcwSBlDW84efvgftgJXC2uHEqp5g0Fu7qoTHjWiPDfaZrxRsQsBn7X0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPK19GE9ud7GZFf5fIGxCerd9aidDMvbEibVE4MhM7xNdWpPLk
-	XCfZzc+bkVfJRmnofROOBPDhumPm4psSuT3/b2UiBarafnfoiCGm+mv9STbfEn5bE7wvRIOZjPG
-	5UcD6+11oQ/aRaCizkuTVs9g5TMDJ/R8wfLmyeub5TOQqbDAuoMZZdHw=
-X-Gm-Gg: ASbGncvENglnKg0zOb6vDLSFwzPcSdQIMM0zwTNkqat8kHzRYK2jXo27kaJok2lZA9r
-	wpL1iO0SucsLvsBqO7htxC7L2JFb0sBqkcjAyq24P+EBjOdfjh0AHrniSkWajjEMXYsneSCfF90
-	laixTHD+CMd06ceRuIy4LsknHdxwJMUNpmpaLZ06anx0pkYGWGVmZWrQlDX+A3CPe6apXGzshXk
-	orOeUw=
-X-Google-Smtp-Source: AGHT+IGSNGuoZa0tGd2MuceeY+rWx4+fE98zKz5kXJNG5SS9yafrJ2IfBrrLXPyBqms3qzMRhIcBxsxK/c607/IOLes=
-X-Received: by 2002:a2e:a4d8:0:b0:32c:abf4:d76a with SMTP id
- 38308e7fff4ca-336caf58af5mr43186631fa.38.1757015856723; Thu, 04 Sep 2025
- 12:57:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wdrg70sz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=HwRnJdXLUnbJzEliJ8F7yWyHZeWeHGJT0waJGQRe0iU=; b=Wdrg70szvN/Jf+5SKMdlqaYhhw
+	7wWW7bSsYxodvgACuWp5HYjdBWfyuJ1ud6jBYmz+eZo9rPDD5PW/trO/gw+IViNTpZpf2MhGS34vm
+	Q094atAW/NFnksVkTTUhS1uUUa/DW81zkQNOjwiNSwNqmVEBabodf/RzW+XJaJSoWzjekPp09SD+4
+	LOkJnffbEPz0fYXukeH2U4soT0qjZYu53RF7UlA8COJDghYxoJsqpdiKmP8azk+TtE+kTH8uiED1p
+	XQhvYFDVIHRyKaHgFC2vsbXb7ptjqwRwxF8Nbkb2cvQiqHRbxU/XhxzCkG37SQPfn8M9IUb8eVmEJ
+	cT+kcimw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uuG9H-00000004PgU-3yfk;
+	Thu, 04 Sep 2025 20:01:36 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B8E2D300220; Thu, 04 Sep 2025 22:01:34 +0200 (CEST)
+Date: Thu, 4 Sep 2025 22:01:34 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Ramon de C Valle <rcvalle@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] kcfi: Prepare for GCC support
+Message-ID: <20250904200134.GA4067720@noisy.programming.kicks-ass.net>
+References: <20250904033217.it.414-kees@kernel.org>
+ <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
+ <202509040933.06AF02E714@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com> <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
-In-Reply-To: <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 4 Sep 2025 21:57:25 +0200
-X-Gm-Features: Ac12FXySP_jPTakETmSTujg6AZkgjLE-3L81eBmgyMtwcrvqz9e4_hK7r8cr0mE
-Message-ID: <CACRpkdbgcCjZbZ2HtrNO7vK1HXzrwxkrNFCzqGguq=ckKg3cFQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
- Swap Controller
-To: nuno.sa@analog.com
-Cc: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202509040933.06AF02E714@keescook>
 
-Hi Nuno,
+On Thu, Sep 04, 2025 at 09:37:14AM -0700, Kees Cook wrote:
+> On Thu, Sep 04, 2025 at 09:04:10AM +0200, Peter Zijlstra wrote:
+> > On Wed, Sep 03, 2025 at 08:46:39PM -0700, Kees Cook wrote:
+> > 
+> > > Kees Cook (9):
+> > >   compiler_types.h: Move __nocfi out of compiler-specific header
+> > >   x86/traps: Clarify KCFI instruction layout
+> > >   x86/cfi: Document the "cfi=" bootparam options
+> > >   x86/cfi: Standardize on common "CFI:" prefix for CFI reports
+> > >   x86/cfi: Add "debug" option to "cfi=" bootparam
+> > >   x86/cfi: Remove __noinitretpoline and __noretpoline
+> > 
+> > So I can take these first 6 patches (and edit that debug patch to
+> > un-annoy myself ;-), but I'm thinking this Kconfig stuff:
+> 
+> Sure, yeah. Do you want a v3 for the debug stuff that uses your proposed
+> helper?
 
-thanks for your patch!
+Nah, already done :-) I just pushed out these 6 and my UDB hackery to
+queue.git/x86/core. If the robots don't complain, I'll stuff it into tip
+in a few days.
 
-On Wed, Sep 3, 2025 at 12:04=E2=80=AFPM Nuno S=C3=A1 via B4 Relay
-<devnull+nuno.sa.analog.com@kernel.org> wrote:
+> > >   kconfig: Add transitional symbol attribute for migration support
+> > >   kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+> > 
+> > Should perhaps go through the kbuild tree? A
+> 
+> I had chatted offline with Nathan about this series, and he'd suggested
+> the kconfig change could go with it's first user (the rename). So if you
+> don't want to put it in -tip, I can take it in the hardening tree.
+> (There's no dependencies between these 2 and the first 6.)
 
-> From: Nuno S=C3=A1 <nuno.sa@analog.com>
->
-> The LTC4283 device has up to 8 pins that can be configured as GPIOs.
->
-> Note that PGIO pins are not set as GPIOs by default so if they are
-> configured to be used as GPIOs we need to make sure to initialize them
-> to a sane default. They are set as inputs by default.
->
-> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+So I suppose I can carry them, just to keep the lot together, but then I
+need an ack from someone that actually knows this Kconfig language stuff
+:-)
 
-(...)
-
-> +config GPIO_LTC4283
-> +       tristate "Analog Devices LTC4283 GPIO support"
-> +       depends on SENSORS_LTC4283
-
-Could that be
-depends on REGMAP && (SENSOR_LTC4283 || COMPILE_TEST)
-?
-
-Or does something blow up if you do that? (I guess it also needs
-AUXBUS but more on that below)
-
-should it also be
-
-default SENSOR_LTC4283
-
-Sof if that is compiled in (=3Dy) or module (=3Dm) then this becomes
-the same by default?
-
-> +       help
-> +         If you say yes here you want the GPIO function available in Ana=
-log
-> +         Devices LTC4283 Negative Voltage Hot Swap Controller.
-> +
-> +         This driver can also be built as a module. If so, the module wi=
-ll
-> +         be called gpio-ltc4283.
-> +
->  config GPIO_MB86S7X
-
-This is placed among the memory-mapped drivers, but:
-
-> +#include <linux/auxiliary_bus.h>
-(...)
-> +static struct auxiliary_driver ltc4283_gpio_driver =3D {
-> +       .probe =3D ltc4283_gpio_probe,
-> +       .id_table =3D ltc4283_aux_id_table,
-> +};
-> +module_auxiliary_driver(ltc4283_gpio_driver);
-
-Create a new submenu for auxiliary bus drivers and add it
-there. We already have a submenu for MFD so why not?
-
-menu "AUXBUS GPIO expanders"
-  depends on AUXILIARY_BUS
-...
-
-Have you looked into using GPIO_REGMAP?
-I guess some specials are used here so maybe it is
-not possible.
-
-Yours,
-Linus Walleij
+You taking them through the hardening tree also works for em.
