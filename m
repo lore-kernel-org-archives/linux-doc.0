@@ -1,187 +1,128 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C1E23F439;
-	Thu,  4 Sep 2025 02:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B90E1531C8;
+	Thu,  4 Sep 2025 03:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756954734; cv=none; b=FcUcZfnvCcvFCwufH2mRDIzrNzPQ3s6f3qCDj4EbzzHRy0uwJE/6AEpuXt23+Qko4UpkFnn8YDAXYNvybWEAFd83gfPzixTDI/gIpJbpKqHc3wyuDM/FTroMSM6VVzVvMueIm3KhjJGqvqXZGXa/7b+RvYvCfZ0bFWMuWeKrjP0=
+	t=1756955213; cv=none; b=nQ+eIvaNKkCdDGlSHkWxMbm6x+JhpxMsmbLXizSHdqLtBWLvCFNJiQNkQWrBzwu+S03ewvAtNVdhR2+U5eRBms5MXmG0fq8Tji0YqnlpfNKNLoUIKUc0Br4M5rKn5FlMJty6Wwgs0QdBcNuidsIh66Ymhr9yl9IG6M+Ek1fZcyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756954734; c=relaxed/simple;
-	bh=FTXLxSm5XRx5K6N1cUG/Pp8Dj2ugNjB+8Hr6SF2HjF0=;
+	s=arc-20240116; t=1756955213; c=relaxed/simple;
+	bh=SLdDmixQ5xqhW55ySdh8VN5DM9+F8oX01s2pKa/DH6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L48/vTku5wxFaM9ODn8XduSxX8BHK039tK03Kv9qvuhn/K9Ph/4nYi36vcp6WRsArrP3hcqUnvWREhG2WeFbLCWTrdoqmA/hsRLdFlLzvXdmfjjqX0dyAwKECX5WAnubOJdOaxuV0FqNdijI5M9Qg33s/1RB7mt1oujAYEcSZVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au; spf=pass smtp.mailfrom=gandalf.ozlabs.org; dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b=pG6mpbbR; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gandalf.ozlabs.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b="pG6mpbbR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gibson.dropbear.id.au; s=202508; t=1756954727;
-	bh=u/cz5gFnPDLf+w3W9DzyMROPsahYfYi4KmvveDhRwgo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pG6mpbbRtGd1j7r+3y8B6e69itVB4401JTUPQnONKbE+ldSlrlX73ktF9Cj9X8HiZ
-	 MCZdLKcV54hNcvboJGtZXP+sorrgqb5ElvEtFIr4wj0T/vyQ7m3R0EwklMmXR5/K9M
-	 /+nv0NnTmyy8IqQf2GESmB3GezMdlMC/LPG8sU3C4RuFyGD4/EEfaEt5kAqyIWzE+P
-	 Q2FVFfkVOasRxIuBTI7FJFtOCutqj4A+Be6Mcxbfg9KG9wpromrRH+4/RJbc44AsOa
-	 CpiLoItFR1ipH8p65siEXZ2iDHG2QFK3z549puZcEl8ajim+2v4cnepdXIQuaqtk3V
-	 d4frzJxEDtp1w==
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
-	id 4cHPLv68Rlz4wB1; Thu,  4 Sep 2025 12:58:47 +1000 (AEST)
-Date: Thu, 4 Sep 2025 12:58:42 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Raymond Mao <raymond.mao@linaro.org>
-Cc: linux-doc@vger.kernel.org, devicetree-spec@vger.kernel.org,
-	devicetree@vger.kernel.org, ilias.apalodimas@linaro.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: devicetree: overlay-notes: recommend top-level
- compatible in DTSO
-Message-ID: <aLkAYitpWxWx131p@zatzit>
-References: <20250902174351.2457022-1-raymond.mao@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XK68zuthdjj4EbXZf+dx+3cdc6/L1XGm84OlG14hgWiUXIzxN+/ZiLXglT9mQ+yf14VRhK/ivf6KL2qmxpd2Xk094wvcGUzrAnqaSm5z1XmcqWaq1eLHt+yI/HnZsh7YK8J4YwT6DMrzpQPfLWvGvtiItHDqT67yAV5Af369lik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz6t1756955183t967df603
+X-QQ-Originating-IP: c48yHqB4UNo0OeuTt4cMtpB33728CbYBNdyGcXJY+C8=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 04 Sep 2025 11:06:21 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11714803036421506829
+Date: Thu, 4 Sep 2025 11:06:21 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v10 5/5] net: rnpgbe: Add register_netdev
+Message-ID: <6B193997D4E4412A+20250904030621.GD1015062@nic-Precision-5820-Tower>
+References: <20250903025430.864836-1-dong100@mucse.com>
+ <20250903025430.864836-6-dong100@mucse.com>
+ <b9a066d0-17b5-4da5-9c5d-8fe848e00896@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LpS/mvko/ul+nKVk"
-Content-Disposition: inline
-In-Reply-To: <20250902174351.2457022-1-raymond.mao@linaro.org>
-
-
---LpS/mvko/ul+nKVk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b9a066d0-17b5-4da5-9c5d-8fe848e00896@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OYLtW6Z/0FVZzqayUpquJdjajqK8Qyq9xjpcAcZpYYslO3rY5oCOhUs3
+	uMgpxK1/NcUBnvdxLbjBZq0H0oITfHEaiAio3IaUkgApRgn824268M59/DtBbZTWbFyatGd
+	cW1kfji1en54YAv9y7bmwNbx4wlU/eLWdw5TmOSapqOwl2lTYawqdy1RaUY2QK67dkH8zl4
+	zssjBdX03pOaYamcAJI2CH8abwr5NcpDrbUmf70YvE6Nfgrz3K29Rvx+innKnLM5YzssQnJ
+	K4iXAIzi6iLf7+iA3AlFLx64BDEEP7BbAOkPiWvkT4oyWvZnQ4mD/TqdFBSQ6X7uYHkCiCG
+	F+tN3sPmGm5s05PcJ2e/kkaaJjtoKuuw3TBRi4Qiu+iPsdF0w9ATiYIz4CGDAfich93eXAI
+	N8EFCtEP0Q56jet06kFZfrYMETpEMplFPbwgWOlyXbchLdWZs7fyV4DnWK7l29MjegKKXzg
+	v26qZ7wXvqb1Z8HItIabwhRNH440sKPdaLxRFAfV+x/vWc+BDM1nNKoNFGZmXE9sBkO+wYD
+	+AUqOd4WOgB+Rn4y1tVkXAfhcLbLgYTrka5lEZNCKZ2IgJBDpypLJ8C25UVTpjcCLFRqz3X
+	9lAYE+Z3D0NML5tAU+YZ+JF4GgOGaas5BoK4vsAWFk+0X77n97jecg2o1W6NmrjnMexHZrI
+	yyXb8NhH61cquf9N8G2dbO2Wwvrp9PseDpX9vvl9j7/a/8qrPjW2vW4hTJlBykfGZdsqMTl
+	mYI8JRS+0GrSlcDA6SqvKR7J7K3vh4je03YZIl4+7YiUNSsEw3OLIYY9hcY9hwayFnBDMuA
+	9zVO36tYGTLBT/kjhhABsocTBnj9ylU3Inenipax6rY3tOD38IXP8S8PUmcaoNvzAdpPTBT
+	N/sNuSPEx7gJnaPEqRHvM2CvKWn8+04Ff+MZy31DkzZykR0nV0vaQzfgfk+/QIC/kdrxaRO
+	KLx6WU02lfiM292NYNRdUstQL8Wu+l5ThAPuluIcxcj1ZR0g7pBwR6cagNV657JPwwuxqAS
+	lQBvWt6tzci1ruxtXjFNBUPrwiIwtfKrkqZgtUo/EvIzUG5iEt
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-RECHKSPAM: 0
 
-On Tue, Sep 02, 2025 at 10:43:50AM -0700, Raymond Mao wrote:
-> When managing multiple base device trees and overlays in a structured
-> way (e.g. bundled in firmware or tools), it is helpful to identify the
-> intended target base DT for each overlay, which can be done via a
-> top-level compatible string in the overlay.
->=20
-> This provides a way to identify which overlays should be applied once the
-> DT is selected for the case when a device have a common firmware binary
-> which only differs on the DT and overlays.
->=20
-> This patch updates the document with a note and example for this
-> practice.
-> For more information on this firmware requirement, please see [1].
->=20
-> [1] https://github.com/FirmwareHandoff/firmware_handoff/pull/74
+On Thu, Sep 04, 2025 at 12:53:27AM +0200, Andrew Lunn wrote:
+> >   * rnpgbe_add_adapter - Add netdev for this pci_dev
+> >   * @pdev: PCI device information structure
+> > @@ -78,6 +129,38 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
+> >  
+> >  	hw->hw_addr = hw_addr;
+> >  	info->init(hw);
+> > +	mucse_init_mbx_params_pf(hw);
+> > +	err = hw->ops->echo_fw_status(hw, true, mucse_fw_powerup);
+> > +	if (err) {
+> > +		dev_warn(&pdev->dev, "Send powerup to hw failed %d\n", err);
+> > +		dev_warn(&pdev->dev, "Maybe low performance\n");
+> > +	}
+> > +
+> > +	err = mucse_mbx_sync_fw(hw);
+> > +	if (err) {
+> > +		dev_err(&pdev->dev, "Sync fw failed! %d\n", err);
+> > +		goto err_free_net;
+> > +	}
+> 
+> The order here seems odd. Don't you want to synchronise the mbox
+> before you power up? If your are out of sync, the power up could fail,
+> and you keep in lower power mode? 
+> 
 
-I think this idea is probably useful enough to be a good idea anyway.
-However, note that it leans in to an existing ugliness of the overlay forma=
-t:
+As I explained before, powerup sends mbx and wait fw read out, but
+without response data from fw. mucse_mbx_sync_fw sends mbx and wait for
+the corect response from fw, after mucse_mbx_sync_fw, driver->fw
+request and fw->driver response will be both ok.
 
-Overlay dtbs kind of mix "in band" information - the actual new
-content for the tree - with "out of band" information - how to apply
-the overlay itself.  Whether a given property is data or metadata is
-determined by it's place in the tree in a moderately complex and not
-super obvious way.
+> > +	netdev->netdev_ops = &rnpgbe_netdev_ops;
+> > +	netdev->watchdog_timeo = 5 * HZ;
+> > +	err = hw->ops->reset_hw(hw);
+> > +	if (err) {
+> > +		dev_err(&pdev->dev, "Hw reset failed %d\n", err);
+> > +		goto err_free_net;
+> > +	}
+> > +	err = hw->ops->get_perm_mac(hw);
+> > +	if (err == -EINVAL) {
+> > +		dev_warn(&pdev->dev, "Try to use random MAC\n");
+> > +		eth_random_addr(hw->perm_addr);
+> 
+> eth_random_addr() cannot fail. So you don't try to use a random MAC
+> address, you are using a random MAC address/
+> 
+> 	Andrew
+> 
 
-About the clearest divide that exists is that generally the root and
-first-level subnodes are information only for overlay application,
-everything under that is data to be applied to the tree.  This all
-tends to have names that would be unlikely (though not strictly
-impossible) in a fully applied tree.
+Maybe update it like this?
+if (err == -EINVAL) {
+	dev_warn(&pdev->dev, "Using a random MAC\n");
+....
 
-Putting 'compatible' at the root of the overlay is putting something
-that looks very much like a regular device tree property in a place
-and with a function that's purely about applying / validating the
-overlay itself.
+Thanks for your feedback.
 
-> Suggested-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Raymond Mao <raymond.mao@linaro.org>
-> ---
-> Changes in v2:
-> - Updated commit message.
->=20
->  Documentation/devicetree/overlay-notes.rst | 28 ++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/d=
-evicetree/overlay-notes.rst
-> index 35e79242af9a..30b142d1b2ee 100644
-> --- a/Documentation/devicetree/overlay-notes.rst
-> +++ b/Documentation/devicetree/overlay-notes.rst
-> @@ -103,6 +103,34 @@ The above bar.dtso example modified to use target pa=
-th syntax is::
->      ---- bar.dtso ------------------------------------------------------=
---------
-> =20
-> =20
-> +Overlay identification
-> +----------------------
-> +
-> +When managing overlays dynamically or bundling multiple base device trees
-> +and overlays in a single system (e.g., in firmware, initramfs, or user-s=
-pace
-> +tools), it becomes important to associate each overlay with its intended
-> +target base DT.
-> +
-> +To support this, overlays should include the top-level compatible string
-> +from its base DT.
-> +This enables higher-level software or firmware to identify which base DT
-> +an overlay is compatible with and apply it accordingly.
-> +
-> +Example usage::
-> +
-> +    ---- bar.dtso - overlay with top-level compatible string -----------=
---------
-> +	/dts-v1/;
-> +	/plugin/;
-> +	compatible =3D "corp,foo";
-
-This is not valid dts syntax.  Properties must be within a node.
-
-> +
-> +	...
-> +    ---- bar.dtso ------------------------------------------------------=
---------
-> +
-> +This top-level compatible string is not required by the kernel overlay
-> +mechanism itself, but it is strongly recommended for managing overlays in
-> +scalable systems.
-> +
-> +
->  Overlay in-kernel API
->  --------------------------------
-> =20
-> --=20
-> 2.25.1
->=20
->=20
-
---=20
-David Gibson (he or they)	| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you, not the other way
-				| around.
-http://www.ozlabs.org/~dgibson
-
---LpS/mvko/ul+nKVk
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEO+dNsU4E3yXUXRK2zQJF27ox2GcFAmi5AGEACgkQzQJF27ox
-2GeGuw/9GFIC/VwZAiCLKeFz4rMslFWYRnN5uQDhDzU6gFaRVJZgr2m1P7poSWFX
-91KtHcnUfiXc2dFE6ndfBrPnudTyPdMujkVEpKuM/KNGpLoDBDLni0tSIZKJIohs
-FW8t4tBVFx+nm8CDjXr/KJWXip4Q79ypUWRlMpUgM50WyYlrVD6nHkzfse/jeRWE
-dM0aMFvP9labF9BMWBgM6bSfQRIWQA2TtWEIIkl48vx7G5hOxN3pN65B3XXNZKVJ
-Kq8RPizP2amltzd5h+duL/HnWFxWw+2wdKwqRomw24JHlnvUnPLUMO3TP0hsYr+W
-0212oiD+XQqLku3yrG/QAodOyOH53w7VauhfhbdTvYJ4qa5xDe866x7TW/408jw0
-14sUEKGpDQJvC1cQ89O0KEnvdXar444abNDGB5b4HlJsLVbnDKN/k/OieutTUGI/
-fCKk7umFVsgS9VrebgO+FdTO6s+x+X0T+O0/TS2WeRJu+P589c0UL4kYT97jTNFW
-nkUX3wvs262xinsInPjneBSYvwVIR2YEnfpbRyGOeDowb7YTSpVxcnCDfp6y3Ksf
-e1RqZnuu3/vrrfFWPXxDTjb7nTBSaIGdmSwHO8fwouW0cQe/S4nylIYHsG2NUIsr
-g1r19xbeeos3uhwNA8mFQjNS7CLvxsjVE8/Jx8qoasg6O+z0TxY=
-=Y1Ke
------END PGP SIGNATURE-----
-
---LpS/mvko/ul+nKVk--
