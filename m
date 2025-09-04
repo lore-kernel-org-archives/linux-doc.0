@@ -1,421 +1,531 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF52F85B;
-	Thu,  4 Sep 2025 16:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0A82264BA;
+	Thu,  4 Sep 2025 16:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757002657; cv=none; b=rhcAktAJACFgoJSpLxIHAeccSE+jF5ctd4KroNZRinXZTJg7ab0vZhgCnjOCKUmUPandPr3oWYEQjvybdoknTAAAwDUUI4eYf5ju69+71tG4c+1kDXlRifOosUgjiMMgQR9stuux0BxuX4Yt5gbkBwaF73nhtRqMugueGMMUhYs=
+	t=1757003200; cv=none; b=HNMUYgPiGKaG5HzlamZg7kksFWL2vGMF82iLAFCg3Mt1UqvbAztioQsy+9OcSm+e/eE3wMbI7+Kz6CC5FCXY+Qc4c91EmShvuVBqh4y4F/a/dxAZZjeO4MwlgHjMXNKPW2qg/bXVsewwH1ZC/3Hv0hfv4QkZw54OKvBTWfbe5XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757002657; c=relaxed/simple;
-	bh=aS4m+j4x0Lbp5L5OTCA58QWhFR0XSf+Gnc/huuxfs5E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=avG9nvbyQmcjv0yhwBYnQpcX1+t19h0i3vI+W7Fdya6qILKuvPSTrprwPXtXXIlwrUzkz816dzlHqMnXCcRisYBDnzj8GSjO67VcFYBPAe+sICmWvFyKAkU4ivr+nOL5PLl6YbsiZwjJ/y6I60hftdCItB8lsCOGDkBzsi6X4v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dHC2BBtu; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757003200; c=relaxed/simple;
+	bh=lqZgHQzOxA1Zj3sJl1xvirCzLc0+9WX5kcWsHt+pKHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxF2YHFriuAxyNv9v2ZHHAcROi9qvP20Uoa9hBZs5I4+uzEVmI7kwWAfxs51sxaIxJr9fiKacFfzEs5unN8uZHxLA4TxuW7CG+REUN6bRTG/8YMBQrUcZjZeMzQj1RigQ6tlbRs2fRhgzRCyw9Ji6qBOgzwW6eu8N95u5B/EUH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6TViemx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dHC2BBtu"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-32bab30eefbso500979a91.1;
-        Thu, 04 Sep 2025 09:17:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757002654; x=1757607454; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yvIGNWKLCjQ2uahB1o048h1iG+G/TvRCcRw5Y64YDV4=;
-        b=dHC2BBtualEASgblDx023jxNTxO87COXGTauZmWSO/saXi5JR074C/akuYTcFh30RU
-         /IlwEYAwgmfwWIFQZCARZG/o7mUMdX5OuU4KqiG7ULw5qP56TNEDNWgkVyvms4A+RJDB
-         enoVHG6XZz03mrpfAEJ8aHCqCI/MSq5823eOv9zXjRR0NMb2G3i0mo6fErUFnaGfZrmU
-         WHAhS9/U8M30JC1+6SNzq5fQacF89IZbSgmkNdhAD5HOCK2XxdTUNda6g4UCL8ehIr4R
-         9mMeJj6vM3998+ArktZLn6dQKY/2OCA/pTgvWZnwAcGuvj0Nq22c+hbLD9uIUXOAAwi9
-         Upaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757002654; x=1757607454;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yvIGNWKLCjQ2uahB1o048h1iG+G/TvRCcRw5Y64YDV4=;
-        b=EUJqX7WpjozopVTANqO8w0kd0u453zoq2n/d33hSuU6sTIrKNglCDfCFWGZgjemcZf
-         u4bmVh/YSoblvttkMK1mcelwh0WIWRStjl4xCvCTLjPeVZCFDXAU8Rk33Z6zg36xSSbS
-         /5JbKj3GVS+ALB9nOXiMoyT1PU7OocWjrwo2/WJEJIn1UWmj86jlcn0s27Tk/Yqn/vb5
-         cjnleQbFd+2s9xTbnlsrlR8VcgF4l0BrYa7GiS3SdkR86cnrhMRmlYp+sVSsKcyOHPhE
-         0HQyR7MCIPjXduXlsG2pJJ8ADIeo+U1ESBELfO1Sr7Jv5ay+gYgUIl5/9ygRo6+p9toU
-         rOkw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjDbLnyinfg1gR6gKNR/ccsna7BaPSFGDnSXSVwtdyL6MS8KfFRF/9ZYxIlPCjGqy9HxcehCJ0/0mjVw==@vger.kernel.org, AJvYcCWGlVPf70QCNz+qGmGJ0a/+tmQfEUW3Xv4S7cQHWytOoKVpZcEv/EdkxWHzXxYVIeRdGchPpAUm6UU/@vger.kernel.org, AJvYcCWW6gw1HzIXidu63Xqp0he4LZvu8UOKwRqag8y78GSLhS93Y3r2wiw3Wj8IGqYom9B7SAQZjXCc9cAmCrh0@vger.kernel.org, AJvYcCWrl1x/tq8R1GZrKsjZHaSUoBjocCmZoKbclq98HatoIDZDjJO4ZxYx9KHmqJZnHtOl+4EhpLba9xm3@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmVUqIiMRd9nEWE/HcsiWFwJCVU7xGRDRdpeKvZ8XEPIw2ZUC9
-	90osOmy80QsKwx5yZ0A2dDptVujGkZljGGEr0gO7YrnA+wpfyFvmmGiYjmBdYQ==
-X-Gm-Gg: ASbGncupyjoAOAUx7yiSZEixHW+TE2QXEhRQsepjMti+GHA2vrK2H8sZn/7kkiLAKZ5
-	k0w7YcF1bly4FZaZBhmVZvhMhjmUPB8kirl6fvxkDCAf7j0TKFQ90RcGk06xR+EUAMY2f/qoYyP
-	wQI4hF1/Y1ysHiLgasp8jMFuO/k3BigmLfHepunr2Z13q3jvHH7zbRiK1+0qhMjNDtUWpYfA1o4
-	Eb9dixb6OJ4Z4fowo2VzKrOdMapefnOE2TU13Xw4WNH3EJhMQgg5CJjBE/tyiNBn+beaXfkB3XC
-	rGUSFPasejC5NbYh/g8Oar27R5sXdsstQ+TBBwal0BuA4SzjB71YqkknMDvXe4S0TdE6NoFnoPk
-	3PELvgFnQstipWGsK5vpQrgQUy//31Fj3bwrFxTI4/HtNuhpw8HeYtg==
-X-Google-Smtp-Source: AGHT+IGWLWlrRe5uglr/JGHLmTi9vnmsy+GoA2XmVyOvmMoBaVi+ynMunWIN2yeQbyLvv2l7GNE2Bg==
-X-Received: by 2002:a17:90b:1fc3:b0:329:8520:cee7 with SMTP id 98e67ed59e1d1-32bbdfed9ecmr216517a91.14.1757002654255;
-        Thu, 04 Sep 2025 09:17:34 -0700 (PDT)
-Received: from DESKTOP-P76LG1N.lan ([58.187.51.224])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32b617b104csm5149107a91.21.2025.09.04.09.17.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 09:17:33 -0700 (PDT)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 RESEND 2/4] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-Date: Thu,  4 Sep 2025 23:17:28 +0700
-Message-Id: <20250904161728.24020-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250902121130.GK2163762@google.com>
-References: <20250902121130.GK2163762@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6TViemx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 019BAC4CEF0;
+	Thu,  4 Sep 2025 16:26:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757003200;
+	bh=lqZgHQzOxA1Zj3sJl1xvirCzLc0+9WX5kcWsHt+pKHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S6TViemxT65cv1I6rXOnCLco9jZGlUXqJpo5BCDNXtAqJdtlQ57wh68gZs7H53RQm
+	 cd+Ns5MoOrxuYUVbNwJEjXnbpfZmMcwsMTJj+EceGXwyIpDHIae/0bcEkSRKQN25IT
+	 7Fu8StCuS0A9CHa4yqexArg8MbZt8fWNWlsgjzoLVUX5qtertdBG5PZTIC6HjKpRP/
+	 qoP+0yXzdsM6RiXY0PA7CylGhKD4f5ImoO2sqcr4ejuyBLH0LEjl3bZJkxSOElYJOl
+	 kyq8re1ZpG5dG7r/Q4KM4NB6fMcXMYI5t8C5m3ZyH+uaKX1rxnSwclW37siRLIQapN
+	 G6TpNGgP27Nng==
+Date: Thu, 4 Sep 2025 09:26:39 -0700
+From: Kees Cook <kees@kernel.org>
+To: Tom Hromatka <tom.hromatka@oracle.com>
+Cc: luto@amacapital.net, wad@chromium.org, sargun@sargun.me, corbet@lwn.net,
+	shuah@kernel.org, brauner@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH] seccomp: Add SECCOMP_CLONE_FILTER operation
+Message-ID: <202509040837.78EFA6E@keescook>
+References: <20250903203805.1335307-1-tom.hromatka@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903203805.1335307-1-tom.hromatka@oracle.com>
 
-On Tue, 2 Sep 2025, Lee Jones wrote:
+On Wed, Sep 03, 2025 at 08:38:03PM +0000, Tom Hromatka wrote:
+> Add an operation, SECCOMP_CLONE_FILTER, that can copy the seccomp filters
+> from another process to the current process.
+> 
+> I roughly reproduced the Docker seccomp filter [1] and timed how long it
+> takes to build it (via libseccomp) and attach it to a process.  After
+> 1000 runs, on average it took 3,740,000 TSC ticks (or ~1440 microseconds)
+> on an AMD EPYC 9J14 running at 2596 MHz.  The median build/load time was
+> 3,715,000 TSC ticks.
+> 
+> On the same system, I preloaded the above Docker seccomp filter onto a
+> process.  (Note that I opened a pidfd to the reference process and left
+> the pidfd open for the entire run.)  I then cloned the filter using the
+> feature in this patch to 1000 new processes.  On average, it took 9,300
+> TSC ticks (or ~3.6 microseconds) to copy the filter to the new processes.
+> The median clone time was 9,048 TSC ticks.
+> 
+> This is approximately a 400x performance improvement for those container
+> managers that are using the exact same seccomp filter across all of their
+> containers.
 
-> On Mon, 18 Aug 2025, Nam Tran wrote:
+This is a nice speedup, but with devil's advocate hat on, are launchers
+spawning at rates high enough that this makes a difference?
+
 > 
-> > The LP5812 is a 4x3 matrix RGB LED driver with an autonomous animation
-> > engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
-> > 4 RGB LEDs. Each LED can be configured through the related registers
-> > to realize vivid and fancy lighting effects.
-> > 
-> > This patch adds minimal driver support for the LP5812, implementing
-> > only the essential functionality: I2C communication with the device,
-> > LED registration, brightness control in manual mode, and basic sysfs
-> > interfaces for LED configuration and fault monitoring.
-> > 
-> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> > ---
-> >  MAINTAINERS                    |    4 +
-> >  drivers/leds/rgb/Kconfig       |   13 +
-> >  drivers/leds/rgb/Makefile      |    1 +
-> >  drivers/leds/rgb/leds-lp5812.c | 1086 ++++++++++++++++++++++++++++++++
-> >  drivers/leds/rgb/leds-lp5812.h |  164 +++++
-> >  5 files changed, 1268 insertions(+)
-> >  create mode 100644 drivers/leds/rgb/leds-lp5812.c
-> >  create mode 100644 drivers/leds/rgb/leds-lp5812.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 99512777b890..c2e1c02e206d 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -24828,6 +24828,10 @@ M:	Nam Tran <trannamatk@gmail.com>
-> >  L:	linux-leds@vger.kernel.org
-> >  S:	Maintained
-> >  F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-> > +F:	drivers/leds/rgb/Kconfig
-> > +F:	drivers/leds/rgb/Makefile
-> > +F:	drivers/leds/rgb/leds-lp5812.c
-> > +F:	drivers/leds/rgb/leds-lp5812.h
-> >  
-> >  TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
-> >  M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> > diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
-> > index 222d943d826a..28ef4c487367 100644
-> > --- a/drivers/leds/rgb/Kconfig
-> > +++ b/drivers/leds/rgb/Kconfig
-> > @@ -26,6 +26,19 @@ config LEDS_KTD202X
-> >  	  To compile this driver as a module, choose M here: the module
-> >  	  will be called leds-ktd202x.
-> >  
-> > +config LEDS_LP5812
-> > +	tristate "LED support for Texas Instruments LP5812"
-> > +	depends on I2C
-> > +	help
-> > +	  If you say Y here you get support for TI LP5812 LED driver.
-> > +	  The LP5812 is a 4x3 matrix RGB LED driver with autonomous
-> > +	  animation engine control.
-> > +
-> > +	  To compile this driver as a module, choose M here: the
-> > +	  module will be called leds-lp5812.
-> > +
-> > +	  If unsure, say N.
-> > +
-> >  config LEDS_NCP5623
-> >  	tristate "LED support for NCP5623"
-> >  	depends on I2C
-> > diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
-> > index a501fd27f179..be45991f63f5 100644
-> > --- a/drivers/leds/rgb/Makefile
-> > +++ b/drivers/leds/rgb/Makefile
-> > @@ -2,6 +2,7 @@
-> >  
-> >  obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
-> >  obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
-> > +obj-$(CONFIG_LEDS_LP5812)		+= leds-lp5812.o
-> >  obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
-> >  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
-> >  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
-> > diff --git a/drivers/leds/rgb/leds-lp5812.c b/drivers/leds/rgb/leds-lp5812.c
-> > new file mode 100644
-> > index 000000000000..fb5ea449761a
-> > --- /dev/null
-> > +++ b/drivers/leds/rgb/leds-lp5812.c
-> > @@ -0,0 +1,1086 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * LP5812 LED driver
-> > + *
-> > + * Copyright (C) 2025 Texas Instruments
-> > + *
-> > + * Author: Jared Zhou <jared-zhou@ti.com>
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/init.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/led-class-multicolor.h>
-> > +#include <linux/leds.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/sysfs.h>
-> > +#include <linux/types.h>
-> > +
-> > +#include "leds-lp5812.h"
-> > +
-> > +static int lp5812_write(struct lp5812_chip *chip, u16 reg, u8 val)
-> > +{
-> > +	struct device *dev = &chip->client->dev;
-> > +	struct i2c_msg msg;
-> > +	u8 buf[2];
-> > +	u8 extracted_bits;
+> [1] https://raw.githubusercontent.com/moby/moby/refs/heads/master/profiles/seccomp/default.json
 > 
-> What bits are being extracted?
+> Signed-off-by: Tom Hromatka <tom.hromatka@oracle.com>
+> ---
+>  .../userspace-api/seccomp_filter.rst          |  10 ++
+>  include/uapi/linux/seccomp.h                  |   1 +
+>  kernel/seccomp.c                              |  48 ++++++
+>  samples/seccomp/Makefile                      |   2 +-
+>  samples/seccomp/clone-filter.c                | 143 ++++++++++++++++++
+>  tools/include/uapi/linux/seccomp.h            |   1 +
+>  tools/testing/selftests/seccomp/seccomp_bpf.c |  71 +++++++++
+>  7 files changed, 275 insertions(+), 1 deletion(-)
+>  create mode 100644 samples/seccomp/clone-filter.c
 > 
-> addr_low?
+> diff --git a/Documentation/userspace-api/seccomp_filter.rst b/Documentation/userspace-api/seccomp_filter.rst
+> index cff0fa7f3175..ef1797d093f6 100644
+> --- a/Documentation/userspace-api/seccomp_filter.rst
+> +++ b/Documentation/userspace-api/seccomp_filter.rst
+> @@ -289,6 +289,16 @@ above in this document: all arguments being read from the tracee's memory
+>  should be read into the tracer's memory before any policy decisions are made.
+>  This allows for an atomic decision on syscall arguments.
+>  
+> +Cloning an Existing Seccomp Filter
+> +==================================
+> +
+> +Constructing and loading a complex seccomp filter can often take a non-trivial
+> +amount of time. If a user wants to use the same seccomp filter across more
+> +than one process, it can be cloned to new processes via the
+> +``SECCOMP_CLONE_FILTER`` operation. Note that the clone will only succeed if
+> +the destination process does not have any seccomp filters already applied to
+> +it. See ``samples/seccomp/clone-filter.c`` for an example.
+
+Is "does not have any seccomp filters" a reasonable expectation? I mean,
+I'm fine with it, but will this feature be generally useful with that
+restriction? (i.e. becomes unusable under Docker, in several systemd
+contexts, etc)
+
+> +static long seccomp_clone_filter(void __user *upidfd)
+> +{
+> +	struct task_struct *task;
+> +	unsigned int flags;
+> +	pid_t pidfd;
+> +
+> +	if (!capable(CAP_SYS_ADMIN))
+> +		return -EPERM;
+
+Again, I'm fine with this being CAP_SYS_ADMIN, but the normal seccomp
+filter restriction is NNP || CAP_SYS_ADMIN. Would it be safe to do
+clones with non-ADMIN? Hmmm.
+
+> +	if (atomic_read(&current->seccomp.filter_count) > 0)
+> +		return -EINVAL;
+
+I'd wait to test this until you're under &current->sighand->siglock,
+and just test current->seccomp.filter.
+
+> +
+> +	if (copy_from_user(&pidfd, upidfd, sizeof(pid_t)))
+> +		return -EFAULT;
+> +
+> +	task = pidfd_get_task(pidfd, &flags);
+> +	if (IS_ERR(task))
+> +		return -ESRCH;
+
+Is this the right way to pass in a pidfd? Shouldn't this be an int, not
+a pointer? What is idiomatic for pidfd interfaces?
+
+> +
+> +	spin_lock_irq(&current->sighand->siglock);
+> +	spin_lock_irq(&task->sighand->siglock);
+
+As others mentioned, you can't do this. ;) I'm pretty sure you can just
+take references progressively:
+
+- task = pidfd_get_task
+- mutex_lock_killable(&task->signal->cred_guard_mutex)
+- spin_lock_irq(&task->sighand->siglock);
+- check seccomp mode for filter mode, e.g. see seccomp_may_assign_mode()
+- get_seccomp_filter(task)
+- struct seccomp copy = task->seccomp (copies filter pointer, count,
+  and mode)
+- release siglock
+- release cred_guard_mutex
+- put task
+
+Now you have the seccomp copy! :) Any errors from here mean you need
+to use __seccomp_filter_release to "put" the filter, if I'm reading
+things correctly. (We might have issues with USER_NOTIF, but I haven't
+looked closely yet.)
+
+And applying it should be:
+
+- take current->signal->cred_guard_mutex
+- take current->sighand->siglock
+- make sure task->seccomp.filter == NULL
+- current->seccomp = copy
+- release siglock
+- release cred_guard_mutex
+
+I *think* the above is correct. I may have forgotten some details, but I
+was mostly trying to combine TSYNC and regular application of a filter
+to current.
+
+> +
+> +	if (atomic_read(&task->seccomp.filter_count) == 0) {
+> +		spin_unlock_irq(&task->sighand->siglock);
+> +		spin_unlock_irq(&current->sighand->siglock);
+> +		put_task_struct(task);
+> +		return -EINVAL;
+> +	}
+> +
+> +	get_seccomp_filter(task);
+> +	current->seccomp = task->seccomp;
+> +
+> +	spin_unlock_irq(&task->sighand->siglock);
+> +
+> +	set_task_syscall_work(current, SECCOMP);
+> +
+> +	spin_unlock_irq(&current->sighand->siglock);
+> +
+> +	put_task_struct(task);
+> +
+> +	return 0;
+> +}
+> +
+>  /* Common entry point for both prctl and syscall. */
+>  static long do_seccomp(unsigned int op, unsigned int flags,
+>  		       void __user *uargs)
+> @@ -2102,6 +2145,11 @@ static long do_seccomp(unsigned int op, unsigned int flags,
+>  			return -EINVAL;
+>  
+>  		return seccomp_get_notif_sizes(uargs);
+> +	case SECCOMP_CLONE_FILTER:
+> +		if (flags != 0)
+> +			return -EINVAL;
+> +
+> +		return seccomp_clone_filter(uargs);
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/samples/seccomp/Makefile b/samples/seccomp/Makefile
+> index c85ae0ed8342..d38977f41b86 100644
+> --- a/samples/seccomp/Makefile
+> +++ b/samples/seccomp/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -userprogs-always-y += bpf-fancy dropper bpf-direct user-trap
+> +userprogs-always-y += bpf-fancy dropper bpf-direct user-trap clone-filter
+>  
+>  bpf-fancy-objs := bpf-fancy.o bpf-helper.o
+>  
+> diff --git a/samples/seccomp/clone-filter.c b/samples/seccomp/clone-filter.c
+> new file mode 100644
+> index 000000000000..d26e1375b9dc
+> --- /dev/null
+> +++ b/samples/seccomp/clone-filter.c
+> @@ -0,0 +1,143 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Seccomp filter example for cloning a filter
+> + *
+> + * Copyright (c) 2025 Oracle and/or its affiliates.
+> + * Author: Tom Hromatka <tom.hromatka@oracle.com>
+> + *
+> + * The code may be used by anyone for any purpose,
+> + * and can serve as a starting point for developing
+> + * applications that reuse the same seccomp filter
+> + * across many processes.
+> + */
+> +#include <linux/seccomp.h>
+> +#include <linux/filter.h>
+> +#include <sys/syscall.h>
+> +#include <sys/wait.h>
+> +#include <stdbool.h>
+> +#include <signal.h>
+> +#include <stddef.h>
+> +#include <stdlib.h>
+> +#include <unistd.h>
+> +#include <stdio.h>
+> +#include <errno.h>
+> +
+> +#define ARRAY_SIZE(x) (sizeof(x) / sizeof(*(x)))
+> +
+> +static int seccomp(unsigned int op, unsigned int flags, void *args)
+> +{
+> +	errno = 0;
+> +	return syscall(__NR_seccomp, op, flags, args);
+> +}
+> +
+> +static int install_filter(void)
+> +{
+> +	struct sock_filter deny_filter[] = {
+> +		BPF_STMT(BPF_LD|BPF_W|BPF_ABS,
+> +			offsetof(struct seccomp_data, nr)),
+> +		BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, __NR_getppid, 0, 1),
+> +		BPF_STMT(BPF_RET|BPF_K, SECCOMP_RET_ERRNO | ESRCH),
+> +		BPF_STMT(BPF_RET|BPF_K, SECCOMP_RET_ALLOW),
+> +	};
+> +	struct sock_fprog deny_prog = {
+> +		.len = (unsigned short)ARRAY_SIZE(deny_filter),
+> +		.filter = deny_filter,
+> +	};
+> +
+> +	return seccomp(SECCOMP_SET_MODE_FILTER, 0, &deny_prog);
+> +}
+> +
+> +static int clone_filter(pid_t ref_pid)
+> +{
+> +	int ref_pidfd, ret;
+> +
+> +	ref_pidfd = syscall(SYS_pidfd_open, ref_pid, 0);
+> +	if (ref_pidfd < 0)
+> +		return -errno;
+> +
+> +	ret = seccomp(SECCOMP_CLONE_FILTER, 0, &ref_pidfd);
+> +
+> +	close(ref_pidfd);
+> +
+> +	return ret;
+> +}
+> +
+> +static void do_ref_filter(void)
+> +{
+> +	int ret;
+> +
+> +	ret = install_filter();
+> +	if (ret) {
+> +		perror("Failed to install ref filter\n");
+> +		exit(1);
+> +	}
+> +
+> +	while (true)
+> +		sleep(1);
+> +}
+> +
+> +static void do_child_process(pid_t ref_pid)
+> +{
+> +	pid_t res;
+> +	int ret;
+> +
+> +	ret = clone_filter(ref_pid);
+> +	if (ret != 0) {
+> +		perror("Failed to clone filter. Installing filter from scratch\n");
+> +
+> +		ret = install_filter();
+> +		if (ret != 0) {
+> +			perror("Filter install failed\n");
+> +			exit(ret);
+> +		}
+> +	}
+> +
+> +	res = syscall(__NR_getpid);
+> +	if (res < 0) {
+> +		perror("getpid() unexpectedly failed\n");
+> +		exit(errno);
+> +	}
+> +
+> +	res = syscall(__NR_getppid);
+> +	if (res > 0) {
+> +		perror("getppid() unexpectedly succeeded\n");
+> +		exit(1);
+> +	}
+> +
+> +	exit(0);
+> +}
+> +
+> +int main(void)
+> +{
+> +	pid_t ref_pid = -1, child_pid = -1;
+> +	int ret, status;
+> +
+> +	ref_pid = fork();
+> +	if (ref_pid < 0)
+> +		exit(errno);
+> +	else if (ref_pid == 0)
+> +		do_ref_filter();
+> +
+> +	child_pid = fork();
+> +	if (child_pid < 0)
+> +		goto out;
+> +	else if (child_pid == 0)
+> +		do_child_process(ref_pid);
+> +
+> +	waitpid(child_pid, &status, 0);
+> +	if (WEXITSTATUS(status) != 0) {
+> +		perror("child process failed");
+> +		ret = WEXITSTATUS(status);
+> +		goto out;
+> +	}
+> +
+> +	ret = 0;
+> +
+> +out:
+> +	if (ref_pid != -1)
+> +		kill(ref_pid, SIGKILL);
+> +	if (child_pid != -1)
+> +		kill(child_pid, SIGKILL);
+> +
+> +	exit(ret);
+> +}
+> diff --git a/tools/include/uapi/linux/seccomp.h b/tools/include/uapi/linux/seccomp.h
+> index dbfc9b37fcae..b0917e333b4b 100644
+> --- a/tools/include/uapi/linux/seccomp.h
+> +++ b/tools/include/uapi/linux/seccomp.h
+> @@ -16,6 +16,7 @@
+>  #define SECCOMP_SET_MODE_FILTER		1
+>  #define SECCOMP_GET_ACTION_AVAIL	2
+>  #define SECCOMP_GET_NOTIF_SIZES		3
+> +#define SECCOMP_CLONE_FILTER		4
+>  
+>  /* Valid flags for SECCOMP_SET_MODE_FILTER */
+>  #define SECCOMP_FILTER_FLAG_TSYNC		(1UL << 0)
+> diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> index 61acbd45ffaa..df5e0f615da0 100644
+> --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> @@ -177,6 +177,10 @@ struct seccomp_data {
+>  #define SECCOMP_GET_NOTIF_SIZES 3
+>  #endif
+>  
+> +#ifndef SECCOMP_CLONE_FILTER
+> +#define SECCOMP_CLONE_FILTER 4
+> +#endif
+> +
+>  #ifndef SECCOMP_FILTER_FLAG_TSYNC
+>  #define SECCOMP_FILTER_FLAG_TSYNC (1UL << 0)
+>  #endif
+> @@ -5090,6 +5094,73 @@ TEST_F(URETPROBE, uretprobe_default_block_with_uretprobe_syscall)
+>  	ASSERT_EQ(0, run_probed_with_filter(&prog));
+>  }
+>  
+> +TEST(clone_filter)
+
+Yay tests!
+
+> +{
+> +	struct sock_filter deny_filter[] = {
+> +		BPF_STMT(BPF_LD|BPF_W|BPF_ABS,
+> +			offsetof(struct seccomp_data, nr)),
+> +		BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K, __NR_getppid, 0, 1),
+> +		BPF_STMT(BPF_RET|BPF_K, SECCOMP_RET_ERRNO | ESRCH),
+> +		BPF_STMT(BPF_RET|BPF_K, SECCOMP_RET_ALLOW),
+> +	};
+> +	struct sock_fprog deny_prog = {
+> +		.len = (unsigned short)ARRAY_SIZE(deny_filter),
+> +		.filter = deny_filter,
+> +	};
+> +	struct timespec ts = {
+> +		.tv_sec = 0,
+> +		.tv_nsec = 100000000,
+> +	};
+> +
+> +	pid_t child_pid, self_pid, res;
+> +	int child_pidfd, ret;
+> +
+> +	/* Only real root can copy a filter. */
+> +	if (geteuid()) {
+
+That's not true: uid==0 is not CAP_SYS_ADMIN. :) Look in this test for:
+
+        cap_get_flag(cap, CAP_SYS_ADMIN, CAP_EFFECTIVE, &is_cap_sys_admin);
+
+which is how to test this correctly.
+
+> +		SKIP(return, "clone_filter requires real root");
+> +		return;
+> +	}
+> +
+> +	self_pid = getpid();
+> +
+> +	child_pid = fork();
+> +	ASSERT_LE(0, child_pid);
+
+Uh, isn't that supposed to be GE? This should have failed your test
+immediately every time. Does this test pass for you? :P
+
+> +
+> +	if (child_pid == 0) {
+> +		ASSERT_EQ(0, prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0));
+> +		ASSERT_EQ(0, prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &deny_prog));
+
+I'd assert that get_ppid gives ESRCH here just for completeness.
+
+> +
+> +		while (true)
+> +			EXPECT_EQ(0, syscall(__NR_nanosleep, &ts, NULL));
+> +	}
+> +
+> +	/* wait for the child pid to create its seccomp filter */
+> +	ASSERT_EQ(0, syscall(__NR_nanosleep, &ts, NULL));
+
+Please look at the other tests to see how to synchronize without a
+non-deterministic sleep "guess". :) It's bad form to induce needless
+delays in tests.
+
+> +
+> +	child_pidfd = syscall(SYS_pidfd_open, child_pid, 0);
+> +	EXPECT_LE(0, child_pidfd);
+> +
+> +	/* Invalid flag provided */
+> +	ret = seccomp(SECCOMP_CLONE_FILTER, 1, &child_pidfd);
+
+I'd set all the bits, not just 1.
+
+This is also missing a EFAULT test (i.e. a NULL child_pidfd). (Though I
+still want to know if this is idiomatic for pidfd interfaces -- I'd not
+expect this to be passed as a pointer.)
+
+And it's missing a ESRCH test.
+
+And a "this is not a pidfd" test.
+
+> +	EXPECT_EQ(-1, ret);
+> +	EXPECT_EQ(errno, EINVAL);
+> +
+> +	errno = 0;
+> +	ret = seccomp(SECCOMP_CLONE_FILTER, 0, &child_pidfd);
+> +	EXPECT_EQ(0, ret);
+> +	EXPECT_EQ(errno, 0);
+> +
+> +	res = syscall(__NR_getppid);
+> +	EXPECT_EQ(res, -1);
+> +	EXPECT_EQ(errno, ESRCH);
+
+I would validate that getppid succeeds before the CLONE_FILTER, just for
+robustness.
+
+> +
+> +	res = syscall(__NR_getpid);
+> +	EXPECT_EQ(res, self_pid);
+> +
+> +	close(child_pidfd);
+> +	kill(child_pid, SIGKILL);
+
+I'm not a fan of using "kill" for child sync in tests. I'd rather see a
+blocking read or similar (so the child doesn't have to spin, even if
+it's in sleep). But at the very least I'd want to see a
+waitpid for this kill.
+
+> +}
+
+Please also check for the "I already have a filter attached"
+failure path.
+
+> +
+>  /*
+>   * TODO:
+>   * - expand NNP testing
+> -- 
+> 2.47.3
 > 
 
-According to the LP5812 datasheet (page 24, I2C Data Format section),
-the first byte includes 5 bits for the chip address, the next 2 bits
-are register address bits [9:8], and the last bit is the R/W flag.
-Therefore, I need to extract bits [9:8] from the register address and
-place them into bits [2:1] of the first byte. I'll also update the
-variable name to make this clearer.
+Thanks for working on this! It'd be a nice speed-up for sure.
 
-> > +	int ret;
-> > +
-> > +	/* Extract register address bits 9 and 8 for Address Byte 1 */
-> > +	extracted_bits = (reg >> 8) & 0x03;
-> 
-> Define all magic numbers throughout.  This includes MASKs and SHIFTs.
-> 
+-Kees
 
-I'll replace the inline constants with proper macros.
-
-> > +	/* Prepare payload: Address Byte 2 (bits [7:0]) and value to write */
-> > +	buf[0] = (u8)(reg & 0xFF);
-> > +	buf[1] = val;
-> > +
-> > +	/* Construct I2C message for a write operation */
-> > +	msg.addr = (chip->client->addr << 2) | extracted_bits;
-> > +	msg.flags = 0;
-> > +	msg.len = sizeof(buf);
-> > +	msg.buf = buf;
-> > +
-> > +	ret = i2c_transfer(chip->client->adapter, &msg, 1);
-> 
-> 	if (ret == 1)
-> 		return 0;
-> 
-> 	dev_err(dev, "I2C write error, ret=%d\n", ret);
-> 	return ret < 0 ? ret : -EIO;
-> 
->
-
-This logic is cleaner. I will update it.
-
-> > +	if (ret != 1) {
-> > +		dev_err(dev, "I2C write error, ret=%d\n", ret);
-> > +		ret = ret < 0 ? ret : -EIO;
-> > +	} else {
-> > +		ret = 0;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int lp5812_read(struct lp5812_chip *chip, u16 reg, u8 *val)
-> > +{
-> > +	struct device *dev = &chip->client->dev;
-> > +	struct i2c_msg msgs[2];
-> > +	u8 ret_val;
-> > +	u8 extracted_bits;
-> > +	u8 converted_reg;
-> > +	int ret;
-> > +
-> > +	/* Extract register address bits 9 and 8 for Address Byte 1 */
-> > +	extracted_bits = (reg >> 8) & 0x03;
-> > +
-> > +	/* Lower 8 bits go in Address Byte 2 */
-> > +	converted_reg = (u8)(reg & 0xFF);
-> > +
-> > +	/* Prepare I2C write message to set register address */
-> > +	msgs[0].addr = (chip->client->addr << 2) | extracted_bits;
-> > +	msgs[0].flags = 0;
-> > +	msgs[0].len = 1;
-> > +	msgs[0].buf = &converted_reg;
-> > +
-> > +	/* Prepare I2C read message to retrieve register value */
-> > +	msgs[1].addr = (chip->client->addr << 2) | extracted_bits;
-> > +	msgs[1].flags = I2C_M_RD;
-> > +	msgs[1].len = 1;
-> > +	msgs[1].buf = &ret_val;
-> > +
-> > +	ret = i2c_transfer(chip->client->adapter, msgs, 2);
-> 
-> As above.
->
-
-I will update this as well.
-
-> > +	if (ret != 2) {
-> > +		dev_err(dev, "I2C read error, ret=%d\n", ret);
-> > +		*val = 0;
-> > +		ret = ret < 0 ? ret : -EIO;
-> > +	} else {
-> > +		/* Store the value retrieved from the hardware */
-> > +		*val = ret_val;
-> > +		ret = 0;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int lp5812_read_tsd_config_status(struct lp5812_chip *chip, u8 *reg_val)
-> > +{
-> > +	return lp5812_read(chip, chip->cfg->reg_tsd_config_status.addr, reg_val);
-> > +}
-> > +
-> > +static int lp5812_update_regs_config(struct lp5812_chip *chip)
-> > +{
-> > +	u8 reg_val;
-> > +	int ret;
-> > +
-> > +	ret = lp5812_write(chip, chip->cfg->reg_cmd_update.addr, LP5812_UPDATE_CMD_VAL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = lp5812_read_tsd_config_status(chip, &reg_val); /* Save register value */
-> 
-> Save register value where?
->
-
-This function just reads the TSD config status register into reg_val for verification.
-This comment is redundant. I will remove it.
-
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return reg_val & 0x01;
-> 
-> What bit is this?  Please define it properly.
->
-
-This is config_err_status. I will replace it with a properly defined macro.
-
-> > +}
-> > +
-> > +static int lp5812_fault_clear(struct lp5812_chip *chip, u8 value)
-> > +{
-> > +
-> > +	if (value == 0)
-> 
-> What do these values mean?  Define?
-> 
-> A switch() would be better.
->
-
-I agree, I'll switch to 'switch()' and replace raw numbers with enums/macros for clarity.
-
-> > +		reg_val = LOD_CLEAR_VAL;
-> > +	else if (value == 1)
-> > +		reg_val = LSD_CLEAR_VAL;
-> > +	else if (value == 2)
-> > +		reg_val = TSD_CLEAR_VAL;
-> > +	else if (value == 3)
-> > +		reg_val = FAULT_CLEAR_ALL;
-> > +	else
-> > +		return -EINVAL;
-> > +
-> > +	return lp5812_write(chip, chip->cfg->reg_reset.addr, reg_val);
-> > +}
-> > +
-> > +static void set_mix_sel_led(struct lp5812_chip *chip, int mix_sel_led)
-> 
-> What is a "mix_sel_led"?
-> 
-> If forthcoming nomenclature can't be incorporated use comments.
->
-
-I will change the name of this function.
-
-> > +{
-> > +	if (mix_sel_led == 0)
-> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = 1;
-> 
-> What are you doing here?
-> 
-> Why not something like:
-> 
->   chip->u_drive_mode.s_drive_mode.mix_sel_led[mix_sel_led] = true;
-> 
-> Or if there is only one:
-> 
->   chip->u_drive_mode.s_drive_mode.mix_sel_led = mix_sel_led;
->
-
-You're right. I'll rework it.
-
-> > +	if (mix_sel_led == 1)
-> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = 1;
-> > +
-> > +	if (mix_sel_led == 2)
-> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = 1;
-> > +
-> > +	if (mix_sel_led == 3)
-> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = 1;
-> > +}
-> > +
-> > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, char *str)
-> > +{
-> > +	char *sub_str;
-> > +	int tcm_scan_num, mix_scan_num, mix_sel_led, scan_oder[4], i, ret;
-> > +
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = 0;
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = 0;
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = 0;
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = 0;
-> > +
-> > +	sub_str = strsep(&str, ":");
-> 
-> This is totally unacceptable, sorry.
-> 
-> One value per sysfs file.
-> 
-> No parsing of weird and wonderful concats of data is allowed.
-> 
-> I'll end the review here.
-
-I will change solution to get value from sysfs file. No parsing or concats.
-Is it acceptable to consider a string format like "tcmscan:1:0:..." as a single value?
-
-Thank you for the detailed review.
-
-Best regards,
-Nam Tran
+-- 
+Kees Cook
