@@ -1,135 +1,150 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654F3242910;
-	Thu,  4 Sep 2025 19:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B11277011
+	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 19:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757015184; cv=none; b=bZFj4sQmqgBbcFHDEXF/mDnRnEdgfBywtNwrbewKRZHAK3yP6dahVtlZ23ZIgSMb10ItPuilrUpR/OReNi63saVUcuGSTDjDkmEN1Vk2jVXhCOlk9vDlMS5P3KyOW4RW2X5UDJ0Z1MJ4B0qPCK2h5JybU9twWqHJHgcpDkzCSFg=
+	t=1757015860; cv=none; b=ghaNTtEBo+XGAklIRJ9fh23hrjyR4qE3wdxrrbAyTP+jge/F5Pzzh1cL6njrOB0i6PyNxGGfv2L1VNbst5uHgFRn4FQnlZKM0nY2DjnBvKtLDB577NaWmxSkhyttm16x6ThwjlYeRwqKJaDzvRs30hvAzq+zav9eAICjXcaWYFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757015184; c=relaxed/simple;
-	bh=Wh1L5XpgQJ5vOpxlqyelKTn6PiP3ejdECIGs5xjC8ok=;
+	s=arc-20240116; t=1757015860; c=relaxed/simple;
+	bh=AkQDfljW56aeK9hFyEplI/9Ee67wMd+uq6QJcRF62eo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=olhkTVZ8dMvtvA8MLjftgVCJX+gDEshmpdInLP5p1eQyCz65SD4ydDCjtC6X8VAahLFhBWckxD4GDNxpMRCVuWa0+ePakYPkQ15Rro4skvyA+JydZImuwVImz49ERvkvDoqIJ4y+V0IiFkZgwwgg2XeKjhaQWfdnlBfXKwq5wNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hEs3WsgC; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=AA1Sqk5+uW482JP66HUXAbgYkDCAiyj6dxV65H07zW9t7YYUupg8pGWj0Sbv0n9MQVkm7QNoQbddCl0JobvcfXIYHGUjI+dHnFht2wcGudTroyrx1o/e2oB/3zVA8HsNh7g7hIPL709yrlIpyfjgS83o7TJ3XY8iyR/n6y4tvX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Iv+32+pl; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hEs3WsgC"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b38d4de61aso18291581cf.0;
-        Thu, 04 Sep 2025 12:46:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Iv+32+pl"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55f7cd8ec2cso1923080e87.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Sep 2025 12:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757015182; x=1757619982; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1757015857; x=1757620657; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TYm7syom9MWBpuJ7zcZzkOxlRKn4XoKNaWWjP9biNPY=;
-        b=hEs3WsgCOMD8euI+xTt35TFpW0p6KOHhisuD7CeWPY62eb/e8wEWUtK5/mQRHTEASj
-         5GLLs5OBdjr12/XmS1e7KZjV5RQNHAbmJLCfKlUnLKrm2Dvc9AW3csGJqSWihYo1zQ++
-         nRSkx+kXEeOWMPuD3Dgne2bFbvQAbD93PBSvUrbcGedXQEeXrvB/C1A716Hn7B3XWPtp
-         Gg297QA2iM+/p03SVC17QtqXN1EvMMj1eHPzOpbRu1lJK2bYyW78bNY0E8Icq35rScBf
-         v0vLrPEyGDey+kw52FDJpaLmgND7C0dbEDh6hOjXsRrQCCIMF1SOhOAoHkJQ033vtzDk
-         JNSw==
+        bh=6kwPz46AfjWSljE81nGPsJRjk/PBKufX3IFU3DIxO20=;
+        b=Iv+32+pl+RF/5u9CXQ2H/5eyAmAkycT/gu4sr+1dppOQN7ClaN1+UkvsAo99TDI91J
+         JZTVbf1mcgBfbJyKlqFd/ymeo2YWyWes8minSpK/VUiXqtkViDeOzo2lbrRAE5bQek52
+         q7j1d2+8Ch3M7w8baGcVVxySNOnd3S8w3zQ1FKgO/1yjTjh5HXjnSgWETLcT72Gu/vjb
+         ffs9gc7cT4wIel3sXqOYcTnic/NCW8dGMWJ7sHdrnzLj4QQ/LSUXF7Rmr0UlikLNkxeq
+         gW2jIybvjzI3HKgnIZedva/HORa3f5dytWHHplPHe20DUd1v5W8Uzb2HzpDXsUZFSytk
+         aCsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757015182; x=1757619982;
+        d=1e100.net; s=20230601; t=1757015857; x=1757620657;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TYm7syom9MWBpuJ7zcZzkOxlRKn4XoKNaWWjP9biNPY=;
-        b=AcT5q1KifhC5AZAnjMyapMjcove6hFk3eS9w1vWOoy8d2oqisyIaLoXYtNzp5KBsLS
-         RWudq04OQ7PY7mPQPBHXpJAae//5lP5PY83efBgnSIzt5e0Nov6vo++lzDb+D6VxA5oe
-         2VWTF0dNCHcpuGY8rLpd/eEg0bkq3lGyF//ZYlk2hcgbbigE/OTTZDm750E/oELy+0b5
-         2m7sCFc2LaZrGgnvSFWAk9Z3ULLc9n4aink7pcoEtKdHEqeIh6vlGgbz/zb9+/deIBpu
-         qvbNoTqw+vj0lOM1GQLNDH99XygMFMAa32FLem01jDoyr53wIVVXiTEDgc7hkmY4rDdo
-         VUUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEVORU8LAqW8zP2/Q6igFUvyiqvkauktI27QzwfmwbKbpirRtp3zp9OJm5w8ABRdut8VWKudwZx8vXXngBZg==@vger.kernel.org, AJvYcCXX0N1RU56qIJ8hKoNgSd4YeayPiSDN1X9sflVblJ5fYyKSoq9/Y6OF6h0kEFNoy/j3e1IYJl2c1m32@vger.kernel.org, AJvYcCXlvKk4kjJbr3rUBy3W/2MgYV2wEepoto0I7vTEP0PKeekM7FncEB0rjgGk2oYDOLhX6Aa2wT3QLOI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnY4C6Yj9XM6HE28TP32eibbClQ0+D4T+B88TW4h4CHZqYInwc
-	d8Qw5lZuc+aTb1UkpbG3DooHYHA4A27S35FOdu53/XjuEXLJTYtirm5UbOPovtujuXkwe9V8Cjo
-	yTKDG8mVd2yiGVgS001Y33iePCsXY1Pg=
-X-Gm-Gg: ASbGnctMzo70g8C7Pe1j7fLikl0k/XBVAWhkEIJfPFHhTN6ZkFz5TC7DRwRE0G40W3u
-	b/3ozmhq+MXzt5pPksVHoEp0wYg5UwqtssGlH4FMJ6DItPErZCD3rWQSgl/3To5LL5IV/5COTHq
-	+UEDd/DgJS5aAPWfdoVQDDt+pKBS3Zq++EW4NPH3jJ55VaIFLNi8vShPuiG/ZUAH9eDAsCBEXYl
-	WXiUa4e
-X-Google-Smtp-Source: AGHT+IGFt3R6bT2vPfGlFjKRKndtT851pS99zx9hnN5QeiNFVSBi5KMA74rY17+dIQCUUFKEx8djF0S4sBoW0HDzc6U=
-X-Received: by 2002:a05:622a:4008:b0:4b3:444d:d831 with SMTP id
- d75a77b69052e-4b3444ddad2mr159303211cf.77.1757015182203; Thu, 04 Sep 2025
- 12:46:22 -0700 (PDT)
+        bh=6kwPz46AfjWSljE81nGPsJRjk/PBKufX3IFU3DIxO20=;
+        b=A5ePg7M/FGrKmTgqX4Bg2uy5f13yFwP6Yb+EaTEvta8IvYVhQUq5joG4cjelFfzpvl
+         BOvr0y6NgyouW3gYLOmwfTZQ7d1CIzaF+zmomG89BHMk83azANgtWjjTTMc+jRT5xhEI
+         OfueEgxFm0/pg/24Pv36jWqtTXOg0lYJbKvbunfbb3T5V9othHptUgVgbz4HVLAmO23n
+         KbLA/bvbi4VNY6I3eJ3nlWSnueddLRoO3QUn4Hm7lFBgIPtAn4dz6fljvn0gGCTQQcic
+         vYoky/p6lRz4eKCDm3/f1RUAgtPrzRlxUUTrOXXfSCbhcuujbOcSWdyGaCelXETORfmv
+         ABBw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVgkNYiXnytkUBk7dhSXD6UcwSBlDW84efvgftgJXC2uHEqp5g0Fu7qoTHjWiPDfaZrxRsQsBn7X0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPK19GE9ud7GZFf5fIGxCerd9aidDMvbEibVE4MhM7xNdWpPLk
+	XCfZzc+bkVfJRmnofROOBPDhumPm4psSuT3/b2UiBarafnfoiCGm+mv9STbfEn5bE7wvRIOZjPG
+	5UcD6+11oQ/aRaCizkuTVs9g5TMDJ/R8wfLmyeub5TOQqbDAuoMZZdHw=
+X-Gm-Gg: ASbGncvENglnKg0zOb6vDLSFwzPcSdQIMM0zwTNkqat8kHzRYK2jXo27kaJok2lZA9r
+	wpL1iO0SucsLvsBqO7htxC7L2JFb0sBqkcjAyq24P+EBjOdfjh0AHrniSkWajjEMXYsneSCfF90
+	laixTHD+CMd06ceRuIy4LsknHdxwJMUNpmpaLZ06anx0pkYGWGVmZWrQlDX+A3CPe6apXGzshXk
+	orOeUw=
+X-Google-Smtp-Source: AGHT+IGSNGuoZa0tGd2MuceeY+rWx4+fE98zKz5kXJNG5SS9yafrJ2IfBrrLXPyBqms3qzMRhIcBxsxK/c607/IOLes=
+X-Received: by 2002:a2e:a4d8:0:b0:32c:abf4:d76a with SMTP id
+ 38308e7fff4ca-336caf58af5mr43186631fa.38.1757015856723; Thu, 04 Sep 2025
+ 12:57:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250829235627.4053234-1-joannelkoong@gmail.com> <20250829235627.4053234-16-joannelkoong@gmail.com>
-In-Reply-To: <20250829235627.4053234-16-joannelkoong@gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 4 Sep 2025 12:46:11 -0700
-X-Gm-Features: Ac12FXy13SRY4M405gjeOtKvNGp10QZZ6VbMtSyH5Rp4FAF1DkWbCGO8hD8JzNg
-Message-ID: <CAJnrk1Z4Oeh_en+pYH9fmq_erNyxm=_a+YgusYY1Uf9uuxP7pA@mail.gmail.com>
-Subject: Re: [PATCH v1 15/16] fuse: use iomap for readahead
-To: brauner@kernel.org, miklos@szeredi.hu
-Cc: hch@infradead.org, djwong@kernel.org, linux-fsdevel@vger.kernel.org, 
-	kernel-team@meta.com, linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com> <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
+In-Reply-To: <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 4 Sep 2025 21:57:25 +0200
+X-Gm-Features: Ac12FXySP_jPTakETmSTujg6AZkgjLE-3L81eBmgyMtwcrvqz9e4_hK7r8cr0mE
+Message-ID: <CACRpkdbgcCjZbZ2HtrNO7vK1HXzrwxkrNFCzqGguq=ckKg3cFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
+ Swap Controller
+To: nuno.sa@analog.com
+Cc: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 29, 2025 at 4:58=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
+Hi Nuno,
+
+thanks for your patch!
+
+On Wed, Sep 3, 2025 at 12:04=E2=80=AFPM Nuno S=C3=A1 via B4 Relay
+<devnull+nuno.sa.analog.com@kernel.org> wrote:
+
+> From: Nuno S=C3=A1 <nuno.sa@analog.com>
 >
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index bdfb13cdee4b..1659603f4cb6 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> +
-> +static int fuse_handle_readahead(struct folio *folio,
-> +                                struct fuse_fill_read_data *data, loff_t=
- pos,
-> +                                size_t len)
-> +{
-> +       struct fuse_io_args *ia =3D data->ia;
-> +       size_t off =3D offset_in_folio(folio, pos);
-> +       struct fuse_conn *fc =3D data->fc;
-> +       struct fuse_args_pages *ap;
-> +
-> +       if (ia && fuse_folios_need_send(fc, pos, len, &ia->ap, data->nr_b=
-ytes,
-> +                                       false)) {
-> +               fuse_send_readpages(ia, data->file, data->nr_bytes,
-> +                                   fc->async_read);
-> +               data->nr_bytes =3D 0;
-> +               ia =3D NULL;
-> +       }
-> +       if (!ia) {
-> +               struct readahead_control *rac =3D data->rac;
-> +               unsigned nr_pages =3D min(fc->max_pages, readahead_count(=
-rac));
+> The LTC4283 device has up to 8 pins that can be configured as GPIOs.
+>
+> Note that PGIO pins are not set as GPIOs by default so if they are
+> configured to be used as GPIOs we need to make sure to initialize them
+> to a sane default. They are set as inputs by default.
+>
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-This should also be constrained by "fc->max_read / PAGE_SIZE". Will
-fix this up for v2.
+(...)
 
+> +config GPIO_LTC4283
+> +       tristate "Analog Devices LTC4283 GPIO support"
+> +       depends on SENSORS_LTC4283
+
+Could that be
+depends on REGMAP && (SENSOR_LTC4283 || COMPILE_TEST)
+?
+
+Or does something blow up if you do that? (I guess it also needs
+AUXBUS but more on that below)
+
+should it also be
+
+default SENSOR_LTC4283
+
+Sof if that is compiled in (=3Dy) or module (=3Dm) then this becomes
+the same by default?
+
+> +       help
+> +         If you say yes here you want the GPIO function available in Ana=
+log
+> +         Devices LTC4283 Negative Voltage Hot Swap Controller.
 > +
-> +               if (fc->num_background >=3D fc->congestion_threshold &&
-> +                   rac->ra->async_size >=3D readahead_count(rac))
-> +                       /*
-> +                        * Congested and only async pages left, so skip t=
-he
-> +                        * rest.
-> +                        */
-> +                       return -EAGAIN;
+> +         This driver can also be built as a module. If so, the module wi=
+ll
+> +         be called gpio-ltc4283.
 > +
-> +               data->ia =3D fuse_io_alloc(NULL, nr_pages);
-> +               if (!data->ia)
-> +                       return -ENOMEM;
-> +               ia =3D data->ia;
-> +       }
-> +       folio_get(folio);
-> +       ap =3D &ia->ap;
-> +       ap->folios[ap->num_folios] =3D folio;
-> +       ap->descs[ap->num_folios].offset =3D off;
-> +       ap->descs[ap->num_folios].length =3D len;
-> +       data->nr_bytes +=3D len;
-> +       ap->num_folios++;
-> +
-> +       return 0;
-> +}
-> +
+>  config GPIO_MB86S7X
+
+This is placed among the memory-mapped drivers, but:
+
+> +#include <linux/auxiliary_bus.h>
+(...)
+> +static struct auxiliary_driver ltc4283_gpio_driver =3D {
+> +       .probe =3D ltc4283_gpio_probe,
+> +       .id_table =3D ltc4283_aux_id_table,
+> +};
+> +module_auxiliary_driver(ltc4283_gpio_driver);
+
+Create a new submenu for auxiliary bus drivers and add it
+there. We already have a submenu for MFD so why not?
+
+menu "AUXBUS GPIO expanders"
+  depends on AUXILIARY_BUS
+...
+
+Have you looked into using GPIO_REGMAP?
+I guess some specials are used here so maybe it is
+not possible.
+
+Yours,
+Linus Walleij
