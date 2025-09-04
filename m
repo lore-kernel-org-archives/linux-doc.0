@@ -1,332 +1,1302 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9C42D839E;
-	Thu,  4 Sep 2025 10:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0FA2EB87B
+	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 10:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756980161; cv=none; b=G9mnQtahx0PW86MRYcbRQQulrKCPJJJFTqE0mM11N0cGjNC9lATDSJHyWUQz/x7iLBqqnh5GuhIL22ZMUzZ9KHdf6gy2IvYc56ThdsuoY6HX0Dob+Y3r0KA1kde30oCJnYJzhJ5KPsvO+4mfmHNPWdCsgY1wK3+S3WZrdcJpnyk=
+	t=1756980321; cv=none; b=OF8V/CVWtk4xcgUHbXIdo06RfAj+2wZQ+YYTUn2k7vIKsgLimolBw75FT6SQhHjdbtiUj8yR940gUrOaFqFyBf3rV4vgiQlkkuk1RxSnYwsp3KszWNOH84oUJwvsoGuqKcrOHDIfK/QZtSd9NkMWS75nLDOde5ji5xJGuaR2BN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756980161; c=relaxed/simple;
-	bh=G9oD2Jar+WBoNITD/6b8bDhkhI4zfLlgPeYmXoXP9PE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IWZxbPO6CyA7zAis1Gc46vjmwVCoOR0ni2C71+UTPTn1wGM1N348DAa7P85LyVY9SgR7PAUkiLedVNrRc36D9rlbmkpcC0I4yT6LhgaQn87+tOSYDa+pPOZW6ae3AyIinc1A0DV15Gq9cHhvY4hDRAs/XbThazLxFqksGX0FTj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdmcYFwk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756980321; c=relaxed/simple;
+	bh=ZovHLPEPneg3eGwkwk5wV0vSNAMY7I3MZgh/5WD5SLE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=NTTArkuZ8ML39KQf4r+UJymAg/UzoDD04QGNPKQsQCbAHG/ntJZj/yqr5UGXJNIA9eoozoWTecGTiUveboqiLVYNofIzgow4Haya7Zqk50+fUfik7Aqqe8GWh3vFuTFxfDBNgIN4UUdgnqNbxnAF5hUMByh5xxgR76RkBdeIrPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=T1SHbsoR; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdmcYFwk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99F9DC4CEF0;
-	Thu,  4 Sep 2025 10:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756980160;
-	bh=G9oD2Jar+WBoNITD/6b8bDhkhI4zfLlgPeYmXoXP9PE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TdmcYFwkE7qw/EzVrYKlGzBUCbDRPeWVbHjSXhQfHXv021S4sW/xLPj/kH9giDCxp
-	 jeaKMKR2bDFrUduPep1e+YhWdsS115Fo1bUtmPAv2my6vC3JiArHmc8HQUl1OaXZre
-	 7X0gj1r5aKoXh/xmKjDOBLb0YpzvFI0KUf4464DKAKFh3HvPKYtjsdzxdeDG4rgqAM
-	 wB0kM0Dur57kZCyZ4tEGRmljxlm3YWQFmV2/iagbMNABQ0JFZKuzAx6xKsTG8mXXv3
-	 gMHoDFuWlyQzx/HdAhKhPDiHm5WXiCCkh4/DBuODPQOFHIDiXK505msl4YIfmTTu2H
-	 3LJrE1DZGnowg==
-Date: Thu, 4 Sep 2025 12:02:35 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jonathan Denose <jdenose@google.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	Sean O'Brien <seobrien@google.com>
-Subject: Re: [PATCH v3 00/11] HID: Implement haptic touchpad support
-Message-ID: <vyhhm3x6nfdfw6gbgluq3sjr6bzamhear7nec6xdi5wfxq7wcz@cx2egj4yr5sp>
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
- <CAMCVhVOUn-un9N_Bv00RVJ7kAw1O+AHgAHOzSGM6UuMBZVdtYw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="T1SHbsoR"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849iuEu024679;
+	Thu, 4 Sep 2025 10:05:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=ibGUA
+	TtkkNDuZ+sZ559CSGT0ctb9qoA22tfTtbcY/9M=; b=T1SHbsoRDbfp0NyVUOhEI
+	zWXPnI9k3Scr9zIFoJcvgcPdlTBXeUT4mFo4fs+eIb7LKXAguE3qlBYCljKIPkRT
+	pBGZWax+KXjUNVSVK3d6fseeDe5n5erEWLwDGu0djZ7RfzNnFImikVFX0l31dxn/
+	2inkC7pMtFiliwNwh9GhQngnBQI1h9TYmr0Srz+Uq1Og8SPKeczjMmWhpKOdIA6d
+	3m7N9rVPcFW0ktBU8QSJssCRbH/uMjxOlr3FsjtQlruRDiHUlHhF3bucbA1C0rcO
+	5nxF3czNKPfdOCc7lC+wi6Ccm2P0bQbqDtsRrB2e3px5CvJ48qzFCpoPgM7L89K5
+	w==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48y8dcr1ef-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 Sep 2025 10:05:02 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5848TNs0036208;
+	Thu, 4 Sep 2025 09:45:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrbbyc0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 Sep 2025 09:45:37 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5849jYZo033188;
+	Thu, 4 Sep 2025 09:45:37 GMT
+Received: from localhost.localdomain (dhcp-10-154-122-161.vpn.oracle.com [10.154.122.161])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 48uqrbbyar-2;
+	Thu, 04 Sep 2025 09:45:36 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-doc@vger.kernel.org,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH RFC 2/3] docs: add Documentation/.renames.txt
+Date: Thu,  4 Sep 2025 11:45:19 +0200
+Message-Id: <20250904094520.451070-2-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250904094520.451070-1-vegard.nossum@oracle.com>
+References: <20250904094520.451070-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMCVhVOUn-un9N_Bv00RVJ7kAw1O+AHgAHOzSGM6UuMBZVdtYw@mail.gmail.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_03,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2509040096
+X-Proofpoint-GUID: y5DJj7v6iM12mbWMIjXRdGfUcIwlH9ym
+X-Proofpoint-ORIG-GUID: y5DJj7v6iM12mbWMIjXRdGfUcIwlH9ym
+X-Authority-Analysis: v=2.4 cv=UexRSLSN c=1 sm=1 tr=0 ts=68b9644f b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=yJojWOMRYYMA:10 a=07d9gI8wAAAA:8 a=yPCof4ZbAAAA:8 a=56h881FUdpnm1BLikWkA:9
+ a=e2CUPOnPG4QKp8I52DXD:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA0MDA5NiBTYWx0ZWRfX11LEUbROApH3
+ UXepSCxpZmU1IkTe8LPEGzF5pvsHowzWk3sCOvsfo2AKYd3D4qsqiPrKVB/BIamfaziLgMkxJ1x
+ C/+cIPEwMFqzA9oYYKSPKfzszRMaNRwZQ1v04viz5/hTyhm9+1OS8N6otzwm0NTKhxnAHdOkozR
+ yD8mCspGF/bzq9NoSoet8lY2sqKHEM6N5VnXk6XRgh0lx0FW5lXZScfTKd3s6IHd2NwYW4VZtkN
+ rOOZlyJvq2wC1Uc8iIpyDP0OqsDVRGvCjyR2qfknLL2b8RWGLx5RVMwoRAjisyXxtKjNY3OErST
+ tgyy9d416yR80HB6bnkw8MME6PirgcA3pT3Mk8pP5V2LnmH7vJSGrTN+7KXKa46nnEQlereEL0j
+ 572kYPya
 
-On Sep 02 2025, Jonathan Denose wrote:
-> On Mon, Aug 18, 2025 at 6:10 PM Jonathan Denose <jdenose@google.com> wrote:
-> >
-> > Hello,
-> >
-> > This is an updated implementation of the interface for controlling haptic
-> > touchpads.
-> >
-> > Below is an updated design proposal for the userspace and HID interfaces,
-> > modified from what one of my colleagues submitted in 2019 [0].
-> >
-> > We would appreciate any feedback you might have.
-> >
-> > Thank you,
-> >
-> > Jonathan Denose
-> > Chromium OS Team
-> >
-> > Background
-> > ==========
-> >
-> > There are multiple independent projects to develop a touchpad with force sensors
-> > and haptic actuators, instead of a traditional button.  These haptic touchpads
-> > have several advantages and potential uses; they allow clicking across the
-> > entire touchpad surface, adjusting the force requirement for clicks, haptic
-> > feedback initiated by UI, etc. Supporting these features will potentially
-> > require two new communication channels at the kernel level:
-> > * Control of haptic motor by the host
-> > * Force sensor data from device to host
-> >
-> > This document includes two related proposals:
-> > 1. HID design proposal, that hardware makers would need to implement
-> > 2. Kernel design proposal
-> >
-> > Objective
-> > ==========
-> >
-> > Develop a standard protocol to allow userspace applications to communicate with
-> > haptic touchpads, and minimize duplicated code and effort.
-> >
-> > Requirements:
-> > 1. Support UI-initiated haptic feedback.
-> > 2. Allow userspace to control when button press and button release haptic
-> >    effects are triggered. (Useful when detecting a false click, changing force
-> >    thresholds, or sending context-dependent effects).
-> > 3. Reveal force sensor readings to userspace applications.
-> > 4. Only allow OS-controlled haptic feedback for those systems which support it.
-> >
-> > Proposal
-> > ========
-> >
-> > In order to minimize duplicated effort, we propose standardized haptic touchpad
-> > support in the linux kernel.
-> >
-> > HID API
-> > -------
-> >
-> > Modes
-> > .....
-> >
-> > The haptic touchpad should be able to operate under two different modes.
-> >
-> > 1. Device-controlled mode
-> >
-> > The haptic touchpad should start up in "device-controlled mode"
-> > (HID_HAPTIC_MODE_DEVICE), meaning it acts as a normal touchpad. This means it
-> > should perform the press and release haptic feedback autonomously at predefined
-> > force thresholds, and send the appropriate BTN_* events.
-> >
-> > 2. Host-controlled mode
-> >
-> > Once the touchpad has been confirmed as supporting haptics (described in more
-> > detail in the the "Click and release control" section below), the device should
-> > enter "host-controlled mode" (HID_HAPTIC_MODE_HOST). In this mode userspace
-> > should take control. From here, userspace will take control over
-> > press/release haptic feedback, relying on the effects sent by the kernel.
-> >
-> > Multitouch
-> > ..........
-> >
-> > The HID API for multitouch reports should follow the Microsoft precision
-> > touchpad spec [1], with the following changes:
-> > * A tip pressure field [2] should be used to report the force. The physical unit
-> >   Type (Newtons or grams), exponent, and limits should be reported in the
-> >   report descriptor for the force field.
-> > * The device will always report the button state according to its predefined
-> >   force thresholds, even when not in device-controlled mode.
-> > * The device must expose a "simple haptic controller" logical collection
-> >   alongside the touchpad collection.
-> >
-> > Haptic control
-> > ..............
-> >
-> > The HID protocol described in HUTRR63[3] must be used.
-> >
-> > The following waveforms should be supported:
-> >
-> > | WAVEFORMNONE             | Implicit waveforms required by protocol           |
-> > | WAVEFORMSTOP             |                                                   |
-> > | ------------------------ | ------------------------------------------------- |
-> > | WAVEFORMPRESS            | To be used to simulate button press. In device-   |
-> > |                          | controlled mode, it will also be used to simulate |
-> > |                          | button release.                                   |
-> > | ------------------------ | ------------------------------------------------- |
-> > | WAVEFORMRELEASE          | To be used to simulate button release.            |
-> >
-> > All waveforms will have an associated duration; continuous waveforms will be
-> > ignored by the kernel.
-> >
-> > Triggers & Mode switching
-> > .........................
-> >
-> > The “auto trigger waveform” should be set to WAVEFORM_PRESS by default, and the
-> > button from the touchpad collection should be set as the “auto trigger
-> > associated control”.
-> >
-> > The kernel can trigger the different modes in the following ways:
-> > * Device-controlled mode can be enabled by setting the “auto trigger waveform” to
-> >   WAVEFORM_PRESS.
-> > * Host-controlled mode can be enabled by setting the "auto trigger waveform" to
-> >   WAVEFORM_STOP.
-> >
-> > The device must also support manual triggering. If intensity modification for
-> > waveforms is supported by the device, the intensity control should be included
-> > in the manual trigger output report. This allows modification of the intensity
-> > on a per-waveform basis. Retriggering does not need to be supported by the
-> > device.
-> >
-> > Userspace API
-> > -------------
-> >
-> > Multitouch protocol
-> > ...................
-> >
-> > ABS_MT_PRESSURE will be used to report force. The resolution of ABS_MT_PRESSURE
-> > should also be defined and reported in force units of grams or Newtons.
-> > ABS_PRESSURE should be reported as the total force applied to the touchpad.
-> > When the kernel is in host-controlled mode, it should always forward the button
-> > press and release events to userspace.
-> >
-> > Use Force Feedback protocol to request pre-defined effects
-> > ..........................................................
-> >
-> > The force feedback protocol [4] should be used to control predefined effects.
-> >
-> > Typical use of the force feedback protocol requires loading effects to the
-> > driver by describing the output waveform, and then requesting those effects
-> > using an ID provided by the driver. However, for haptic touchpads we do not want
-> > to describe the output waveform explicitly, but use a set of predefined effects,
-> > which are identified by HID usage.
-> >
-> > The force feedback protocol will need to be extended to allow requests for HID
-> > haptic effects. This requires a new feedback effect type:
-> >
-> > /**
-> >  * struct ff_haptic_effect
-> >  * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, etc.)
-> >  * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-defined
-> >  * range
-> >  * @vendor_id: the vendor waveform page if hid_usage is in the vendor-defined
-> >  * range
-> >  * @intensity: strength of the effect
-> >  * @repeat_count: number of times to retrigger effect
-> >  * @retrigger_period: time before effect is retriggered (in ms)
-> >  */
-> > struct ff_haptic_effect {
-> >         __u16 hid_usage;
-> >         __u16 vendor_id;
-> >         __u8  vendor_waveform_page;
-> >         __s16 intensity;
-> >         __u16 repeat_count;
-> >         __u16 retrigger_period;
-> > }
-> >
-> > Since the standard waveform id namespace does not overlap with the vendor
-> > waveform id namespace, the vendor id and page can be ignored for standard
-> > waveforms.
-> >
-> > Click and release control
-> > .........................
-> >
-> > Haptic functionality shall be gated behind the HID_MULTITOUCH_HAPTIC kernel
-> > configuration option, and this kernel configuration option should only be
-> > enabled if userspace will support haptic capabilities. Haptic functionality will
-> > only be initialized and used if HID_MULTITOUCH_HAPTIC is enabled, and if the
-> > following conditions have been met:
-> > * ABS_MT_PRESSURE is defined and reporting force units of Newtons or grams.
-> > * The device supports haptic effects according to the hid protocol defined in
-> >   HUTRR63 [3].
-> > These checks will happen when the driver probes and initializes the multitouch
-> > device.
-> >
-> > In the case when the kernel configuration option has been set and the device
-> > reports pressure and haptic effects as defined above, the kernel will initialize
-> > the haptic device and configure the haptic driver to signal that the touchpad is
-> > haptic-compatible. To signal to userspace that the touchpad is haptic-compatible
-> > the kernel will mark INPUT_PROP_HAPTIC_TOUCHPAD.
-> >
-> > With userspace willing and able to take control, the kernel will signal to the
-> > device to exit device-controlled mode once a WAVEFORMPRESS or WAVEFORMRELEASE
-> > event is uploaded. From here, userspace will take control over press/release
-> > haptic feedback, relying on the effects sent by the kernel.
-> >
-> > In all other cases, the driver will take no action to enable haptic
-> > functionality.
-> >
-> > Summary of normal use-case
-> > 1. The kernel waits for userspace to upload WAVEFORMPRESS or
-> >    WAVEFORMRELEASE.
-> > 2. Userspace determines when a click has been performed based on its own
-> >    criteria and tells the touchpad to perform a haptic effect.
-> > 3. When userspace erases the WAVEFORMPRESS or WAVEFORMRELEASE effect, signal the
-> >    device to return to device-controlled mode.
-> >
-> > [0]: https://www.spinics.net/lists/linux-input/msg60938.html
-> > [1]: https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-devices
-> > [2]: Usage ID 0x30 of HID usage table 0x0D. See chapter 16:
-> >      https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
-> > [3]: https://www.usb.org/sites/default/files/hutrr63b_-_haptics_page_redline_0.pdf
-> > [4]: https://www.kernel.org/doc/html/v4.20/input/ff.html
-> >
-> > Signed-off-by: Jonathan Denose <jdenose@google.com>
-> > ---
-> > Changes in v3:
-> > - Change CONFIG_HID_HAPTIC from bool to tristate
-> > - Fix devm_kzalloc calls in hid-multitouch.c to use correct device
-> > - Minor comment cleanup + grammar fix
-> > - Link to v2: https://lore.kernel.org/r/20250818-support-forcepads-v2-0-ca2546e319d5@google.com
-> >
-> > Changes in v2:
-> > - Rename FF_HID and ff_hid_effect to FF_HAPTIC and ff_haptic_effect
-> > - Add more detail to CONFIG_HID_HAPTIC config option description
-> > - Remove CONFIG_MULTITOUCH_HAPTIC config option
-> > - Utilize devm api in hid-multitouch haptic functions
-> > - Link to v1: https://lore.kernel.org/all/20250714-support-forcepads-v1-0-71c7c05748c9@google.com
-> >
-> > ---
-> > Angela Czubak (11):
-> >       HID: add haptics page defines
-> >       Input: add FF_HAPTIC effect type
-> >       Input: add INPUT_PROP_HAPTIC_TOUCHPAD
-> >       HID: haptic: introduce hid_haptic_device
-> >       HID: input: allow mapping of haptic output
-> >       HID: haptic: initialize haptic device
-> >       HID: input: calculate resolution for pressure
-> >       HID: haptic: add functions handling events
-> >       Input: MT - add INPUT_MT_TOTAL_FORCE flags
-> >       HID: haptic: add hid_haptic_switch_mode
-> >       HID: multitouch: add haptic multitouch support
-> >
-> >  Documentation/input/event-codes.rst    |  14 +
-> >  drivers/hid/Kconfig                    |  11 +
-> >  drivers/hid/Makefile                   |   1 +
-> >  drivers/hid/hid-haptic.c               | 580 +++++++++++++++++++++++++++++++++
-> >  drivers/hid/hid-haptic.h               | 127 ++++++++
-> >  drivers/hid/hid-input.c                |  18 +-
-> >  drivers/hid/hid-multitouch.c           |  47 +++
-> >  drivers/input/input-mt.c               |  14 +-
-> >  include/linux/hid.h                    |  29 ++
-> >  include/linux/input/mt.h               |   1 +
-> >  include/uapi/linux/input-event-codes.h |   1 +
-> >  include/uapi/linux/input.h             |  22 +-
-> >  12 files changed, 858 insertions(+), 7 deletions(-)
-> > ---
-> > base-commit: 86731a2a651e58953fc949573895f2fa6d456841
-> > change-id: 20250625-support-forcepads-0b4f74fd3d0a
-> >
-> > Best regards,
-> > --
-> > Jonathan Denose <jdenose@google.com>
-> >
-> Hi all,
-> 
-> Please let me know if there is anything else needed from me.
-> 
+This is the result of running:
 
-Dmitry, I've just re-reviewed and tested this series. I'm fine with it.
-Can you give us your ack on the input bits?
+  scripts/documentation-gen-renames.py --rev v6.17-rc3 > Documentation/.renames.txt
 
-Cheers,
-Benjamin
+This file records renames in the Documentation/ directory so that we
+can use it to quickly generate HTML redirects from removed paths.
+
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/.renames.txt | 1191 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1191 insertions(+)
+ create mode 100644 Documentation/.renames.txt
+
+diff --git a/Documentation/.renames.txt b/Documentation/.renames.txt
+new file mode 100644
+index 0000000000000..c0bd5d3dc8b91
+--- /dev/null
++++ b/Documentation/.renames.txt
+@@ -0,0 +1,1191 @@
++80211/cfg80211 driver-api/80211/cfg80211
++80211/index driver-api/80211/index
++80211/introduction driver-api/80211/introduction
++80211/mac80211 driver-api/80211/mac80211
++80211/mac80211-advanced driver-api/80211/mac80211-advanced
++EDID/howto admin-guide/edid
++PCI/picebus-howto PCI/pciebus-howto
++RAS/address-translation admin-guide/RAS/address-translation
++RAS/error-decoding admin-guide/RAS/error-decoding
++RAS/ras admin-guide/RAS/error-decoding
++accelerators/ocxl userspace-api/accelerators/ocxl
++admin-guide/gpio/sysfs userspace-api/gpio/sysfs
++admin-guide/l1tf admin-guide/hw-vuln/l1tf
++admin-guide/media/v4l-with-ir admin-guide/media/remote-controller
++admin-guide/ras admin-guide/RAS/main
++admin-guide/security-bugs process/security-bugs
++aoe/aoe admin-guide/aoe/aoe
++aoe/examples admin-guide/aoe/examples
++aoe/index admin-guide/aoe/index
++aoe/todo admin-guide/aoe/todo
++arc/arc arch/arc/arc
++arc/features arch/arc/features
++arc/index arch/arc/index
++arch/x86/resctrl filesystems/resctrl
++arm/arm arch/arm/arm
++arm/booting arch/arm/booting
++arm/cluster-pm-race-avoidance arch/arm/cluster-pm-race-avoidance
++arm/features arch/arm/features
++arm/firmware arch/arm/firmware
++arm/google/chromebook-boot-flow arch/arm/google/chromebook-boot-flow
++arm/index arch/arm/index
++arm/interrupts arch/arm/interrupts
++arm/ixp4xx arch/arm/ixp4xx
++arm/kernel_mode_neon arch/arm/kernel_mode_neon
++arm/kernel_user_helpers arch/arm/kernel_user_helpers
++arm/keystone/knav-qmss arch/arm/keystone/knav-qmss
++arm/keystone/overview arch/arm/keystone/overview
++arm/marvel arch/arm/marvell
++arm/marvell arch/arm/marvell
++arm/mem_alignment arch/arm/mem_alignment
++arm/memory arch/arm/memory
++arm/microchip arch/arm/microchip
++arm/netwinder arch/arm/netwinder
++arm/nwfpe/index arch/arm/nwfpe/index
++arm/nwfpe/netwinder-fpe arch/arm/nwfpe/netwinder-fpe
++arm/nwfpe/notes arch/arm/nwfpe/notes
++arm/nwfpe/nwfpe arch/arm/nwfpe/nwfpe
++arm/nwfpe/todo arch/arm/nwfpe/todo
++arm/omap/dss arch/arm/omap/dss
++arm/omap/index arch/arm/omap/index
++arm/omap/omap arch/arm/omap/omap
++arm/omap/omap_pm arch/arm/omap/omap_pm
++arm/porting arch/arm/porting
++arm/pxa/mfp arch/arm/pxa/mfp
++arm/sa1100/assabet arch/arm/sa1100/assabet
++arm/sa1100/cerf arch/arm/sa1100/cerf
++arm/sa1100/index arch/arm/sa1100/index
++arm/sa1100/lart arch/arm/sa1100/lart
++arm/sa1100/serial_uart arch/arm/sa1100/serial_uart
++arm/samsung/bootloader-interface arch/arm/samsung/bootloader-interface
++arm/samsung/gpio arch/arm/samsung/gpio
++arm/samsung/index arch/arm/samsung/index
++arm/samsung/overview arch/arm/samsung/overview
++arm/setup arch/arm/setup
++arm/spear/overview arch/arm/spear/overview
++arm/sti/overview arch/arm/sti/overview
++arm/sti/stih407-overview arch/arm/sti/stih407-overview
++arm/sti/stih418-overview arch/arm/sti/stih418-overview
++arm/stm32/overview arch/arm/stm32/overview
++arm/stm32/stm32-dma-mdma-chaining arch/arm/stm32/stm32-dma-mdma-chaining
++arm/stm32/stm32f429-overview arch/arm/stm32/stm32f429-overview
++arm/stm32/stm32f746-overview arch/arm/stm32/stm32f746-overview
++arm/stm32/stm32f769-overview arch/arm/stm32/stm32f769-overview
++arm/stm32/stm32h743-overview arch/arm/stm32/stm32h743-overview
++arm/stm32/stm32h750-overview arch/arm/stm32/stm32h750-overview
++arm/stm32/stm32mp13-overview arch/arm/stm32/stm32mp13-overview
++arm/stm32/stm32mp151-overview arch/arm/stm32/stm32mp151-overview
++arm/stm32/stm32mp157-overview arch/arm/stm32/stm32mp157-overview
++arm/sunxi arch/arm/sunxi
++arm/sunxi/clocks arch/arm/sunxi/clocks
++arm/swp_emulation arch/arm/swp_emulation
++arm/tcm arch/arm/tcm
++arm/uefi arch/arm/uefi
++arm/vfp/release-notes arch/arm/vfp/release-notes
++arm/vlocks arch/arm/vlocks
++arm64/acpi_object_usage arch/arm64/acpi_object_usage
++arm64/amu arch/arm64/amu
++arm64/arm-acpi arch/arm64/arm-acpi
++arm64/asymmetric-32bit arch/arm64/asymmetric-32bit
++arm64/booting arch/arm64/booting
++arm64/cpu-feature-registers arch/arm64/cpu-feature-registers
++arm64/elf_hwcaps arch/arm64/elf_hwcaps
++arm64/features arch/arm64/features
++arm64/hugetlbpage arch/arm64/hugetlbpage
++arm64/index arch/arm64/index
++arm64/legacy_instructions arch/arm64/legacy_instructions
++arm64/memory arch/arm64/memory
++arm64/memory-tagging-extension arch/arm64/memory-tagging-extension
++arm64/perf arch/arm64/perf
++arm64/pointer-authentication arch/arm64/pointer-authentication
++arm64/silicon-errata arch/arm64/silicon-errata
++arm64/sme arch/arm64/sme
++arm64/sve arch/arm64/sve
++arm64/tagged-address-abi arch/arm64/tagged-address-abi
++arm64/tagged-pointers arch/arm64/tagged-pointers
++asm-annotations core-api/asm-annotations
++auxdisplay/lcd-panel-cgram admin-guide/lcd-panel-cgram
++backlight/lp855x-driver driver-api/backlight/lp855x-driver
++blockdev/drbd/data-structure-v9 admin-guide/blockdev/drbd/data-structure-v9
++blockdev/drbd/figures admin-guide/blockdev/drbd/figures
++blockdev/drbd/index admin-guide/blockdev/drbd/index
++blockdev/floppy admin-guide/blockdev/floppy
++blockdev/index admin-guide/blockdev/index
++blockdev/nbd admin-guide/blockdev/nbd
++blockdev/paride admin-guide/blockdev/paride
++blockdev/ramdisk admin-guide/blockdev/ramdisk
++blockdev/zram admin-guide/blockdev/zram
++bpf/README bpf/index
++bpf/bpf_lsm bpf/prog_lsm
++bpf/instruction-set bpf/standardization/instruction-set
++bpf/libbpf/libbpf bpf/libbpf/index
++bpf/standardization/linux-notes bpf/linux-notes
++bus-devices/ti-gpmc driver-api/memory-devices/ti-gpmc
++cgroup-v1/blkio-controller admin-guide/cgroup-v1/blkio-controller
++cgroup-v1/cgroups admin-guide/cgroup-v1/cgroups
++cgroup-v1/cpuacct admin-guide/cgroup-v1/cpuacct
++cgroup-v1/cpusets admin-guide/cgroup-v1/cpusets
++cgroup-v1/devices admin-guide/cgroup-v1/devices
++cgroup-v1/freezer-subsystem admin-guide/cgroup-v1/freezer-subsystem
++cgroup-v1/hugetlb admin-guide/cgroup-v1/hugetlb
++cgroup-v1/index admin-guide/cgroup-v1/index
++cgroup-v1/memcg_test admin-guide/cgroup-v1/memcg_test
++cgroup-v1/memory admin-guide/cgroup-v1/memory
++cgroup-v1/net_cls admin-guide/cgroup-v1/net_cls
++cgroup-v1/net_prio admin-guide/cgroup-v1/net_prio
++cgroup-v1/pids admin-guide/cgroup-v1/pids
++cgroup-v1/rdma admin-guide/cgroup-v1/rdma
++cma/debugfs admin-guide/mm/cma_debugfs
++connector/connector driver-api/connector
++console/console driver-api/console
++core-api/gcc-plugins kbuild/gcc-plugins
++core-api/ioctl driver-api/ioctl
++core-api/memory-hotplug-notifier core-api/memory-hotplug
++dev-tools/gdb-kernel-debugging process/debugging/gdb-kernel-debugging
++dev-tools/kgdb process/debugging/kgdb
++dev-tools/tools dev-tools/index
++development-process/1.Intro process/1.Intro
++development-process/2.Process process/2.Process
++development-process/3.Early-stage process/3.Early-stage
++development-process/4.Coding process/4.Coding
++development-process/5.Posting process/5.Posting
++development-process/6.Followthrough process/6.Followthrough
++development-process/7.AdvancedTopics process/7.AdvancedTopics
++development-process/8.Conclusion process/8.Conclusion
++development-process/development-process process/development-process
++development-process/index process/index
++device-mapper/cache admin-guide/device-mapper/cache
++device-mapper/cache-policies admin-guide/device-mapper/cache-policies
++device-mapper/delay admin-guide/device-mapper/delay
++device-mapper/dm-crypt admin-guide/device-mapper/dm-crypt
++device-mapper/dm-flakey admin-guide/device-mapper/dm-flakey
++device-mapper/dm-init admin-guide/device-mapper/dm-init
++device-mapper/dm-integrity admin-guide/device-mapper/dm-integrity
++device-mapper/dm-io admin-guide/device-mapper/dm-io
++device-mapper/dm-log admin-guide/device-mapper/dm-log
++device-mapper/dm-queue-length admin-guide/device-mapper/dm-queue-length
++device-mapper/dm-raid admin-guide/device-mapper/dm-raid
++device-mapper/dm-service-time admin-guide/device-mapper/dm-service-time
++device-mapper/dm-uevent admin-guide/device-mapper/dm-uevent
++device-mapper/dm-zoned admin-guide/device-mapper/dm-zoned
++device-mapper/era admin-guide/device-mapper/era
++device-mapper/index admin-guide/device-mapper/index
++device-mapper/kcopyd admin-guide/device-mapper/kcopyd
++device-mapper/linear admin-guide/device-mapper/linear
++device-mapper/log-writes admin-guide/device-mapper/log-writes
++device-mapper/persistent-data admin-guide/device-mapper/persistent-data
++device-mapper/snapshot admin-guide/device-mapper/snapshot
++device-mapper/statistics admin-guide/device-mapper/statistics
++device-mapper/striped admin-guide/device-mapper/striped
++device-mapper/switch admin-guide/device-mapper/switch
++device-mapper/thin-provisioning admin-guide/device-mapper/thin-provisioning
++device-mapper/unstriped admin-guide/device-mapper/unstriped
++device-mapper/verity admin-guide/device-mapper/verity
++device-mapper/writecache admin-guide/device-mapper/writecache
++device-mapper/zero admin-guide/device-mapper/zero
++devicetree/writing-schema devicetree/bindings/writing-schema
++driver-api/bt8xxgpio driver-api/gpio/bt8xxgpio
++driver-api/cxl/access-coordinates driver-api/cxl/linux/access-coordinates
++driver-api/cxl/memory-devices driver-api/cxl/theory-of-operation
++driver-api/dcdbas userspace-api/dcdbas
++driver-api/dell_rbu admin-guide/dell_rbu
++driver-api/edid admin-guide/edid
++driver-api/gpio driver-api/gpio/index
++driver-api/hte/tegra194-hte driver-api/hte/tegra-hte
++driver-api/isapnp userspace-api/isapnp
++driver-api/media/drivers/v4l-drivers/zoran driver-api/media/drivers/zoran
++driver-api/mtd/intel-spi driver-api/mtd/spi-intel
++driver-api/pci driver-api/pci/pci
++driver-api/pinctl driver-api/pin-control
++driver-api/rapidio admin-guide/rapidio
++driver-api/serial/moxa-smartio driver-api/tty/moxa-smartio
++driver-api/serial/n_gsm driver-api/tty/n_gsm
++driver-api/serial/tty driver-api/tty/tty_ldisc
++driver-api/thermal/intel_powerclamp admin-guide/thermal/intel_powerclamp
++driver-api/usb driver-api/usb/usb
++driver-model/binding driver-api/driver-model/binding
++driver-model/bus driver-api/driver-model/bus
++driver-model/design-patterns driver-api/driver-model/design-patterns
++driver-model/device driver-api/driver-model/device
++driver-model/devres driver-api/driver-model/devres
++driver-model/driver driver-api/driver-model/driver
++driver-model/index driver-api/driver-model/index
++driver-model/overview driver-api/driver-model/overview
++driver-model/platform driver-api/driver-model/platform
++driver-model/porting driver-api/driver-model/porting
++early-userspace/buffer-format driver-api/early-userspace/buffer-format
++early-userspace/early_userspace_support driver-api/early-userspace/early_userspace_support
++early-userspace/index driver-api/early-userspace/index
++errseq core-api/errseq
++filesystems/binderfs admin-guide/binderfs
++filesystems/cifs/cifsd filesystems/smb/ksmbd
++filesystems/cifs/cifsroot filesystems/smb/cifsroot
++filesystems/cifs/index filesystems/smb/index
++filesystems/cifs/ksmbd filesystems/smb/ksmbd
++filesystems/ext4/ext4 admin-guide/ext4
++filesystems/ext4/ondisk/about filesystems/ext4/about
++filesystems/ext4/ondisk/allocators filesystems/ext4/allocators
++filesystems/ext4/ondisk/attributes filesystems/ext4/attributes
++filesystems/ext4/ondisk/bigalloc filesystems/ext4/bigalloc
++filesystems/ext4/ondisk/bitmaps filesystems/ext4/bitmaps
++filesystems/ext4/ondisk/blockgroup filesystems/ext4/blockgroup
++filesystems/ext4/ondisk/blockmap filesystems/ext4/blockmap
++filesystems/ext4/ondisk/blocks filesystems/ext4/blocks
++filesystems/ext4/ondisk/checksums filesystems/ext4/checksums
++filesystems/ext4/ondisk/directory filesystems/ext4/directory
++filesystems/ext4/ondisk/dynamic filesystems/ext4/dynamic
++filesystems/ext4/ondisk/eainode filesystems/ext4/eainode
++filesystems/ext4/ondisk/globals filesystems/ext4/globals
++filesystems/ext4/ondisk/group_descr filesystems/ext4/group_descr
++filesystems/ext4/ondisk/ifork filesystems/ext4/ifork
++filesystems/ext4/ondisk/inlinedata filesystems/ext4/inlinedata
++filesystems/ext4/ondisk/inodes filesystems/ext4/inodes
++filesystems/ext4/ondisk/journal filesystems/ext4/journal
++filesystems/ext4/ondisk/mmp filesystems/ext4/mmp
++filesystems/ext4/ondisk/overview filesystems/ext4/overview
++filesystems/ext4/ondisk/special_inodes filesystems/ext4/special_inodes
++filesystems/ext4/ondisk/super filesystems/ext4/super
++filesystems/sysfs-pci PCI/sysfs-pci
++filesystems/sysfs-tagging networking/sysfs-tagging
++filesystems/xfs-delayed-logging-design filesystems/xfs/xfs-delayed-logging-design
++filesystems/xfs-maintainer-entry-profile filesystems/xfs/xfs-maintainer-entry-profile
++filesystems/xfs-online-fsck-design filesystems/xfs/xfs-online-fsck-design
++filesystems/xfs-self-describing-metadata filesystems/xfs/xfs-self-describing-metadata
++gpio/index admin-guide/gpio/index
++gpio/sysfs userspace-api/gpio/sysfs
++gpu/amdgpu gpu/amdgpu/index
++hte/hte driver-api/hte/hte
++hte/index driver-api/hte/index
++hte/tegra194-hte driver-api/hte/tegra-hte
++input/alps input/devices/alps
++input/amijoy input/devices/amijoy
++input/appletouch input/devices/appletouch
++input/atarikbd input/devices/atarikbd
++input/bcm5974 input/devices/bcm5974
++input/cma3000_d0x input/devices/cma3000_d0x
++input/cs461x input/devices/cs461x
++input/edt-ft5x06 input/devices/edt-ft5x06
++input/elantech input/devices/elantech
++input/iforce-protocol input/devices/iforce-protocol
++input/joystick input/joydev/joystick
++input/joystick-api input/joydev/joystick-api
++input/joystick-parport input/devices/joystick-parport
++input/ntrig input/devices/ntrig
++input/rotary-encoder input/devices/rotary-encoder
++input/sentelic input/devices/sentelic
++input/walkera0701 input/devices/walkera0701
++input/xpad input/devices/xpad
++input/yealink input/devices/yealink
++interconnect/interconnect driver-api/interconnect
++ioctl/botching-up-ioctls process/botching-up-ioctls
++ioctl/cdrom userspace-api/ioctl/cdrom
++ioctl/hdio userspace-api/ioctl/hdio
++ioctl/index userspace-api/ioctl/index
++ioctl/ioctl-decoding userspace-api/ioctl/ioctl-decoding
++ioctl/ioctl-number userspace-api/ioctl/ioctl-number
++kbuild/namespaces core-api/symbol-namespaces
++kdump/index admin-guide/kdump/index
++kdump/kdump admin-guide/kdump/kdump
++kdump/vmcoreinfo admin-guide/kdump/vmcoreinfo
++kernel-documentation doc-guide/kernel-doc
++laptops/asus-laptop admin-guide/laptops/asus-laptop
++laptops/disk-shock-protection admin-guide/laptops/disk-shock-protection
++laptops/index admin-guide/laptops/index
++laptops/laptop-mode admin-guide/laptops/laptop-mode
++laptops/lg-laptop admin-guide/laptops/lg-laptop
++laptops/sony-laptop admin-guide/laptops/sony-laptop
++laptops/sonypi admin-guide/laptops/sonypi
++laptops/thinkpad-acpi admin-guide/laptops/thinkpad-acpi
++laptops/toshiba_haps admin-guide/laptops/toshiba_haps
++loongarch/booting arch/loongarch/booting
++loongarch/features arch/loongarch/features
++loongarch/index arch/loongarch/index
++loongarch/introduction arch/loongarch/introduction
++loongarch/irq-chip-model arch/loongarch/irq-chip-model
++m68k/buddha-driver arch/m68k/buddha-driver
++m68k/features arch/m68k/features
++m68k/index arch/m68k/index
++m68k/kernel-options arch/m68k/kernel-options
++md/index driver-api/md/index
++md/md-cluster driver-api/md/md-cluster
++md/raid5-cache driver-api/md/raid5-cache
++md/raid5-ppl driver-api/md/raid5-ppl
++media/dvb-drivers/avermedia admin-guide/media/avermedia
++media/dvb-drivers/bt8xx admin-guide/media/bt8xx
++media/dvb-drivers/ci admin-guide/media/ci
++media/dvb-drivers/contributors driver-api/media/drivers/contributors
++media/dvb-drivers/dvb-usb driver-api/media/drivers/dvb-usb
++media/dvb-drivers/faq admin-guide/media/faq
++media/dvb-drivers/frontends driver-api/media/drivers/frontends
++media/dvb-drivers/index driver-api/media/drivers/index
++media/dvb-drivers/lmedm04 admin-guide/media/lmedm04
++media/dvb-drivers/opera-firmware admin-guide/media/opera-firmware
++media/dvb-drivers/technisat admin-guide/media/technisat
++media/dvb-drivers/ttusb-dec admin-guide/media/ttusb-dec
++media/intro userspace-api/media/intro
++media/kapi/cec-core driver-api/media/cec-core
++media/kapi/dtv-ca driver-api/media/dtv-ca
++media/kapi/dtv-common driver-api/media/dtv-common
++media/kapi/dtv-core driver-api/media/dtv-core
++media/kapi/dtv-demux driver-api/media/dtv-demux
++media/kapi/dtv-frontend driver-api/media/dtv-frontend
++media/kapi/dtv-net driver-api/media/dtv-net
++media/kapi/mc-core driver-api/media/mc-core
++media/kapi/rc-core driver-api/media/rc-core
++media/kapi/v4l2-async driver-api/media/v4l2-async
++media/kapi/v4l2-common driver-api/media/v4l2-common
++media/kapi/v4l2-controls driver-api/media/v4l2-controls
++media/kapi/v4l2-core driver-api/media/v4l2-core
++media/kapi/v4l2-dev driver-api/media/v4l2-dev
++media/kapi/v4l2-device driver-api/media/v4l2-device
++media/kapi/v4l2-dv-timings driver-api/media/v4l2-dv-timings
++media/kapi/v4l2-event driver-api/media/v4l2-event
++media/kapi/v4l2-fh driver-api/media/v4l2-fh
++media/kapi/v4l2-flash-led-class driver-api/media/v4l2-flash-led-class
++media/kapi/v4l2-fwnode driver-api/media/v4l2-fwnode
++media/kapi/v4l2-intro driver-api/media/v4l2-intro
++media/kapi/v4l2-mc driver-api/media/v4l2-mc
++media/kapi/v4l2-mediabus driver-api/media/v4l2-mediabus
++media/kapi/v4l2-mem2mem driver-api/media/v4l2-mem2mem
++media/kapi/v4l2-rect driver-api/media/v4l2-rect
++media/kapi/v4l2-subdev driver-api/media/v4l2-subdev
++media/kapi/v4l2-tuner driver-api/media/v4l2-tuner
++media/kapi/v4l2-tveeprom driver-api/media/v4l2-tveeprom
++media/kapi/v4l2-videobuf2 driver-api/media/v4l2-videobuf2
++media/media_kapi driver-api/media/index
++media/media_uapi userspace-api/media/index
++media/uapi/cec/cec-api userspace-api/media/cec/cec-api
++media/uapi/cec/cec-func-close userspace-api/media/cec/cec-func-close
++media/uapi/cec/cec-func-ioctl userspace-api/media/cec/cec-func-ioctl
++media/uapi/cec/cec-func-open userspace-api/media/cec/cec-func-open
++media/uapi/cec/cec-func-poll userspace-api/media/cec/cec-func-poll
++media/uapi/cec/cec-funcs userspace-api/media/cec/cec-funcs
++media/uapi/cec/cec-header userspace-api/media/cec/cec-header
++media/uapi/cec/cec-intro userspace-api/media/cec/cec-intro
++media/uapi/cec/cec-ioc-adap-g-caps userspace-api/media/cec/cec-ioc-adap-g-caps
++media/uapi/cec/cec-ioc-adap-g-conn-info userspace-api/media/cec/cec-ioc-adap-g-conn-info
++media/uapi/cec/cec-ioc-adap-g-log-addrs userspace-api/media/cec/cec-ioc-adap-g-log-addrs
++media/uapi/cec/cec-ioc-adap-g-phys-addr userspace-api/media/cec/cec-ioc-adap-g-phys-addr
++media/uapi/cec/cec-ioc-dqevent userspace-api/media/cec/cec-ioc-dqevent
++media/uapi/cec/cec-ioc-g-mode userspace-api/media/cec/cec-ioc-g-mode
++media/uapi/cec/cec-ioc-receive userspace-api/media/cec/cec-ioc-receive
++media/uapi/cec/cec-pin-error-inj userspace-api/media/cec/cec-pin-error-inj
++media/uapi/dvb/ca userspace-api/media/dvb/ca
++media/uapi/dvb/ca-fclose userspace-api/media/dvb/ca-fclose
++media/uapi/dvb/ca-fopen userspace-api/media/dvb/ca-fopen
++media/uapi/dvb/ca-get-cap userspace-api/media/dvb/ca-get-cap
++media/uapi/dvb/ca-get-descr-info userspace-api/media/dvb/ca-get-descr-info
++media/uapi/dvb/ca-get-msg userspace-api/media/dvb/ca-get-msg
++media/uapi/dvb/ca-get-slot-info userspace-api/media/dvb/ca-get-slot-info
++media/uapi/dvb/ca-reset userspace-api/media/dvb/ca-reset
++media/uapi/dvb/ca-send-msg userspace-api/media/dvb/ca-send-msg
++media/uapi/dvb/ca-set-descr userspace-api/media/dvb/ca-set-descr
++media/uapi/dvb/ca_data_types userspace-api/media/dvb/ca_data_types
++media/uapi/dvb/ca_function_calls userspace-api/media/dvb/ca_function_calls
++media/uapi/dvb/ca_high_level userspace-api/media/dvb/ca_high_level
++media/uapi/dvb/demux userspace-api/media/dvb/demux
++media/uapi/dvb/dmx-add-pid userspace-api/media/dvb/dmx-add-pid
++media/uapi/dvb/dmx-expbuf userspace-api/media/dvb/dmx-expbuf
++media/uapi/dvb/dmx-fclose userspace-api/media/dvb/dmx-fclose
++media/uapi/dvb/dmx-fopen userspace-api/media/dvb/dmx-fopen
++media/uapi/dvb/dmx-fread userspace-api/media/dvb/dmx-fread
++media/uapi/dvb/dmx-fwrite userspace-api/media/dvb/dmx-fwrite
++media/uapi/dvb/dmx-get-pes-pids userspace-api/media/dvb/dmx-get-pes-pids
++media/uapi/dvb/dmx-get-stc userspace-api/media/dvb/dmx-get-stc
++media/uapi/dvb/dmx-mmap userspace-api/media/dvb/dmx-mmap
++media/uapi/dvb/dmx-munmap userspace-api/media/dvb/dmx-munmap
++media/uapi/dvb/dmx-qbuf userspace-api/media/dvb/dmx-qbuf
++media/uapi/dvb/dmx-querybuf userspace-api/media/dvb/dmx-querybuf
++media/uapi/dvb/dmx-remove-pid userspace-api/media/dvb/dmx-remove-pid
++media/uapi/dvb/dmx-reqbufs userspace-api/media/dvb/dmx-reqbufs
++media/uapi/dvb/dmx-set-buffer-size userspace-api/media/dvb/dmx-set-buffer-size
++media/uapi/dvb/dmx-set-filter userspace-api/media/dvb/dmx-set-filter
++media/uapi/dvb/dmx-set-pes-filter userspace-api/media/dvb/dmx-set-pes-filter
++media/uapi/dvb/dmx-start userspace-api/media/dvb/dmx-start
++media/uapi/dvb/dmx-stop userspace-api/media/dvb/dmx-stop
++media/uapi/dvb/dmx_fcalls userspace-api/media/dvb/dmx_fcalls
++media/uapi/dvb/dmx_types userspace-api/media/dvb/dmx_types
++media/uapi/dvb/dvb-fe-read-status userspace-api/media/dvb/dvb-fe-read-status
++media/uapi/dvb/dvb-frontend-event userspace-api/media/dvb/dvb-frontend-event
++media/uapi/dvb/dvb-frontend-parameters userspace-api/media/dvb/dvb-frontend-parameters
++media/uapi/dvb/dvbapi userspace-api/media/dvb/dvbapi
++media/uapi/dvb/dvbproperty userspace-api/media/dvb/dvbproperty
++media/uapi/dvb/examples userspace-api/media/dvb/examples
++media/uapi/dvb/fe-bandwidth-t userspace-api/media/dvb/fe-bandwidth-t
++media/uapi/dvb/fe-diseqc-recv-slave-reply userspace-api/media/dvb/fe-diseqc-recv-slave-reply
++media/uapi/dvb/fe-diseqc-reset-overload userspace-api/media/dvb/fe-diseqc-reset-overload
++media/uapi/dvb/fe-diseqc-send-burst userspace-api/media/dvb/fe-diseqc-send-burst
++media/uapi/dvb/fe-diseqc-send-master-cmd userspace-api/media/dvb/fe-diseqc-send-master-cmd
++media/uapi/dvb/fe-dishnetwork-send-legacy-cmd userspace-api/media/dvb/fe-dishnetwork-send-legacy-cmd
++media/uapi/dvb/fe-enable-high-lnb-voltage userspace-api/media/dvb/fe-enable-high-lnb-voltage
++media/uapi/dvb/fe-get-event userspace-api/media/dvb/fe-get-event
++media/uapi/dvb/fe-get-frontend userspace-api/media/dvb/fe-get-frontend
++media/uapi/dvb/fe-get-info userspace-api/media/dvb/fe-get-info
++media/uapi/dvb/fe-get-property userspace-api/media/dvb/fe-get-property
++media/uapi/dvb/fe-read-ber userspace-api/media/dvb/fe-read-ber
++media/uapi/dvb/fe-read-signal-strength userspace-api/media/dvb/fe-read-signal-strength
++media/uapi/dvb/fe-read-snr userspace-api/media/dvb/fe-read-snr
++media/uapi/dvb/fe-read-status userspace-api/media/dvb/fe-read-status
++media/uapi/dvb/fe-read-uncorrected-blocks userspace-api/media/dvb/fe-read-uncorrected-blocks
++media/uapi/dvb/fe-set-frontend userspace-api/media/dvb/fe-set-frontend
++media/uapi/dvb/fe-set-frontend-tune-mode userspace-api/media/dvb/fe-set-frontend-tune-mode
++media/uapi/dvb/fe-set-tone userspace-api/media/dvb/fe-set-tone
++media/uapi/dvb/fe-set-voltage userspace-api/media/dvb/fe-set-voltage
++media/uapi/dvb/fe-type-t userspace-api/media/dvb/fe-type-t
++media/uapi/dvb/fe_property_parameters userspace-api/media/dvb/fe_property_parameters
++media/uapi/dvb/frontend userspace-api/media/dvb/frontend
++media/uapi/dvb/frontend-header userspace-api/media/dvb/frontend-header
++media/uapi/dvb/frontend-property-cable-systems userspace-api/media/dvb/frontend-property-cable-systems
++media/uapi/dvb/frontend-property-satellite-systems userspace-api/media/dvb/frontend-property-satellite-systems
++media/uapi/dvb/frontend-property-terrestrial-systems userspace-api/media/dvb/frontend-property-terrestrial-systems
++media/uapi/dvb/frontend-stat-properties userspace-api/media/dvb/frontend-stat-properties
++media/uapi/dvb/frontend_f_close userspace-api/media/dvb/frontend_f_close
++media/uapi/dvb/frontend_f_open userspace-api/media/dvb/frontend_f_open
++media/uapi/dvb/frontend_fcalls userspace-api/media/dvb/frontend_fcalls
++media/uapi/dvb/frontend_legacy_api userspace-api/media/dvb/frontend_legacy_api
++media/uapi/dvb/frontend_legacy_dvbv3_api userspace-api/media/dvb/frontend_legacy_dvbv3_api
++media/uapi/dvb/headers userspace-api/media/dvb/headers
++media/uapi/dvb/intro userspace-api/media/dvb/intro
++media/uapi/dvb/legacy_dvb_apis userspace-api/media/dvb/legacy_dvb_apis
++media/uapi/dvb/net userspace-api/media/dvb/net
++media/uapi/dvb/net-add-if userspace-api/media/dvb/net-add-if
++media/uapi/dvb/net-get-if userspace-api/media/dvb/net-get-if
++media/uapi/dvb/net-remove-if userspace-api/media/dvb/net-remove-if
++media/uapi/dvb/net-types userspace-api/media/dvb/net-types
++media/uapi/dvb/query-dvb-frontend-info userspace-api/media/dvb/query-dvb-frontend-info
++media/uapi/fdl-appendix userspace-api/media/fdl-appendix
++media/uapi/gen-errors userspace-api/media/gen-errors
++media/uapi/mediactl/media-controller userspace-api/media/mediactl/media-controller
++media/uapi/mediactl/media-controller-intro userspace-api/media/mediactl/media-controller-intro
++media/uapi/mediactl/media-controller-model userspace-api/media/mediactl/media-controller-model
++media/uapi/mediactl/media-func-close userspace-api/media/mediactl/media-func-close
++media/uapi/mediactl/media-func-ioctl userspace-api/media/mediactl/media-func-ioctl
++media/uapi/mediactl/media-func-open userspace-api/media/mediactl/media-func-open
++media/uapi/mediactl/media-funcs userspace-api/media/mediactl/media-funcs
++media/uapi/mediactl/media-header userspace-api/media/mediactl/media-header
++media/uapi/mediactl/media-ioc-device-info userspace-api/media/mediactl/media-ioc-device-info
++media/uapi/mediactl/media-ioc-enum-entities userspace-api/media/mediactl/media-ioc-enum-entities
++media/uapi/mediactl/media-ioc-enum-links userspace-api/media/mediactl/media-ioc-enum-links
++media/uapi/mediactl/media-ioc-g-topology userspace-api/media/mediactl/media-ioc-g-topology
++media/uapi/mediactl/media-ioc-request-alloc userspace-api/media/mediactl/media-ioc-request-alloc
++media/uapi/mediactl/media-ioc-setup-link userspace-api/media/mediactl/media-ioc-setup-link
++media/uapi/mediactl/media-request-ioc-queue userspace-api/media/mediactl/media-request-ioc-queue
++media/uapi/mediactl/media-request-ioc-reinit userspace-api/media/mediactl/media-request-ioc-reinit
++media/uapi/mediactl/media-types userspace-api/media/mediactl/media-types
++media/uapi/mediactl/request-api userspace-api/media/mediactl/request-api
++media/uapi/mediactl/request-func-close userspace-api/media/mediactl/request-func-close
++media/uapi/mediactl/request-func-ioctl userspace-api/media/mediactl/request-func-ioctl
++media/uapi/mediactl/request-func-poll userspace-api/media/mediactl/request-func-poll
++media/uapi/rc/keytable.c userspace-api/media/rc/keytable.c
++media/uapi/rc/lirc-dev userspace-api/media/rc/lirc-dev
++media/uapi/rc/lirc-dev-intro userspace-api/media/rc/lirc-dev-intro
++media/uapi/rc/lirc-func userspace-api/media/rc/lirc-func
++media/uapi/rc/lirc-get-features userspace-api/media/rc/lirc-get-features
++media/uapi/rc/lirc-get-rec-mode userspace-api/media/rc/lirc-get-rec-mode
++media/uapi/rc/lirc-get-rec-resolution userspace-api/media/rc/lirc-get-rec-resolution
++media/uapi/rc/lirc-get-send-mode userspace-api/media/rc/lirc-get-send-mode
++media/uapi/rc/lirc-get-timeout userspace-api/media/rc/lirc-get-timeout
++media/uapi/rc/lirc-header userspace-api/media/rc/lirc-header
++media/uapi/rc/lirc-read userspace-api/media/rc/lirc-read
++media/uapi/rc/lirc-set-measure-carrier-mode userspace-api/media/rc/lirc-set-measure-carrier-mode
++media/uapi/rc/lirc-set-rec-carrier userspace-api/media/rc/lirc-set-rec-carrier
++media/uapi/rc/lirc-set-rec-carrier-range userspace-api/media/rc/lirc-set-rec-carrier-range
++media/uapi/rc/lirc-set-rec-timeout userspace-api/media/rc/lirc-set-rec-timeout
++media/uapi/rc/lirc-set-send-carrier userspace-api/media/rc/lirc-set-send-carrier
++media/uapi/rc/lirc-set-send-duty-cycle userspace-api/media/rc/lirc-set-send-duty-cycle
++media/uapi/rc/lirc-set-transmitter-mask userspace-api/media/rc/lirc-set-transmitter-mask
++media/uapi/rc/lirc-set-wideband-receiver userspace-api/media/rc/lirc-set-wideband-receiver
++media/uapi/rc/lirc-write userspace-api/media/rc/lirc-write
++media/uapi/rc/rc-intro userspace-api/media/rc/rc-intro
++media/uapi/rc/rc-protos userspace-api/media/rc/rc-protos
++media/uapi/rc/rc-sysfs-nodes userspace-api/media/rc/rc-sysfs-nodes
++media/uapi/rc/rc-table-change userspace-api/media/rc/rc-table-change
++media/uapi/rc/rc-tables userspace-api/media/rc/rc-tables
++media/uapi/rc/remote_controllers userspace-api/media/rc/remote_controllers
++media/uapi/v4l/app-pri userspace-api/media/v4l/app-pri
++media/uapi/v4l/audio userspace-api/media/v4l/audio
++media/uapi/v4l/biblio userspace-api/media/v4l/biblio
++media/uapi/v4l/buffer userspace-api/media/v4l/buffer
++media/uapi/v4l/capture-example userspace-api/media/v4l/capture-example
++media/uapi/v4l/capture.c userspace-api/media/v4l/capture.c
++media/uapi/v4l/colorspaces userspace-api/media/v4l/colorspaces
++media/uapi/v4l/colorspaces-defs userspace-api/media/v4l/colorspaces-defs
++media/uapi/v4l/colorspaces-details userspace-api/media/v4l/colorspaces-details
++media/uapi/v4l/common userspace-api/media/v4l/common
++media/uapi/v4l/common-defs userspace-api/media/v4l/common-defs
++media/uapi/v4l/compat userspace-api/media/v4l/compat
++media/uapi/v4l/control userspace-api/media/v4l/control
++media/uapi/v4l/crop userspace-api/media/v4l/crop
++media/uapi/v4l/depth-formats userspace-api/media/v4l/depth-formats
++media/uapi/v4l/dev-capture userspace-api/media/v4l/dev-capture
++media/uapi/v4l/dev-codec userspace-api/media/v4l/dev-mem2mem
++media/uapi/v4l/dev-decoder userspace-api/media/v4l/dev-decoder
++media/uapi/v4l/dev-event userspace-api/media/v4l/dev-event
++media/uapi/v4l/dev-mem2mem userspace-api/media/v4l/dev-mem2mem
++media/uapi/v4l/dev-meta userspace-api/media/v4l/dev-meta
++media/uapi/v4l/dev-osd userspace-api/media/v4l/dev-osd
++media/uapi/v4l/dev-output userspace-api/media/v4l/dev-output
++media/uapi/v4l/dev-overlay userspace-api/media/v4l/dev-overlay
++media/uapi/v4l/dev-radio userspace-api/media/v4l/dev-radio
++media/uapi/v4l/dev-raw-vbi userspace-api/media/v4l/dev-raw-vbi
++media/uapi/v4l/dev-rds userspace-api/media/v4l/dev-rds
++media/uapi/v4l/dev-sdr userspace-api/media/v4l/dev-sdr
++media/uapi/v4l/dev-sliced-vbi userspace-api/media/v4l/dev-sliced-vbi
++media/uapi/v4l/dev-stateless-decoder userspace-api/media/v4l/dev-stateless-decoder
++media/uapi/v4l/dev-subdev userspace-api/media/v4l/dev-subdev
++media/uapi/v4l/dev-touch userspace-api/media/v4l/dev-touch
++media/uapi/v4l/devices userspace-api/media/v4l/devices
++media/uapi/v4l/diff-v4l userspace-api/media/v4l/diff-v4l
++media/uapi/v4l/dmabuf userspace-api/media/v4l/dmabuf
++media/uapi/v4l/dv-timings userspace-api/media/v4l/dv-timings
++media/uapi/v4l/ext-ctrls-camera userspace-api/media/v4l/ext-ctrls-camera
++media/uapi/v4l/ext-ctrls-codec userspace-api/media/v4l/ext-ctrls-codec
++media/uapi/v4l/ext-ctrls-detect userspace-api/media/v4l/ext-ctrls-detect
++media/uapi/v4l/ext-ctrls-dv userspace-api/media/v4l/ext-ctrls-dv
++media/uapi/v4l/ext-ctrls-flash userspace-api/media/v4l/ext-ctrls-flash
++media/uapi/v4l/ext-ctrls-fm-rx userspace-api/media/v4l/ext-ctrls-fm-rx
++media/uapi/v4l/ext-ctrls-fm-tx userspace-api/media/v4l/ext-ctrls-fm-tx
++media/uapi/v4l/ext-ctrls-image-process userspace-api/media/v4l/ext-ctrls-image-process
++media/uapi/v4l/ext-ctrls-image-source userspace-api/media/v4l/ext-ctrls-image-source
++media/uapi/v4l/ext-ctrls-jpeg userspace-api/media/v4l/ext-ctrls-jpeg
++media/uapi/v4l/ext-ctrls-rf-tuner userspace-api/media/v4l/ext-ctrls-rf-tuner
++media/uapi/v4l/extended-controls userspace-api/media/v4l/extended-controls
++media/uapi/v4l/field-order userspace-api/media/v4l/field-order
++media/uapi/v4l/format userspace-api/media/v4l/format
++media/uapi/v4l/func-close userspace-api/media/v4l/func-close
++media/uapi/v4l/func-ioctl userspace-api/media/v4l/func-ioctl
++media/uapi/v4l/func-mmap userspace-api/media/v4l/func-mmap
++media/uapi/v4l/func-munmap userspace-api/media/v4l/func-munmap
++media/uapi/v4l/func-open userspace-api/media/v4l/func-open
++media/uapi/v4l/func-poll userspace-api/media/v4l/func-poll
++media/uapi/v4l/func-read userspace-api/media/v4l/func-read
++media/uapi/v4l/func-select userspace-api/media/v4l/func-select
++media/uapi/v4l/func-write userspace-api/media/v4l/func-write
++media/uapi/v4l/hist-v4l2 userspace-api/media/v4l/hist-v4l2
++media/uapi/v4l/hsv-formats userspace-api/media/v4l/hsv-formats
++media/uapi/v4l/io userspace-api/media/v4l/io
++media/uapi/v4l/libv4l userspace-api/media/v4l/libv4l
++media/uapi/v4l/libv4l-introduction userspace-api/media/v4l/libv4l-introduction
++media/uapi/v4l/meta-formats userspace-api/media/v4l/meta-formats
++media/uapi/v4l/mmap userspace-api/media/v4l/mmap
++media/uapi/v4l/open userspace-api/media/v4l/open
++media/uapi/v4l/pixfmt userspace-api/media/v4l/pixfmt
++media/uapi/v4l/pixfmt-002 userspace-api/media/v4l/pixfmt-v4l2
++media/uapi/v4l/pixfmt-003 userspace-api/media/v4l/pixfmt-v4l2-mplane
++media/uapi/v4l/pixfmt-004 userspace-api/media/v4l/pixfmt-intro
++media/uapi/v4l/pixfmt-006 userspace-api/media/v4l/colorspaces-defs
++media/uapi/v4l/pixfmt-007 userspace-api/media/v4l/colorspaces-details
++media/uapi/v4l/pixfmt-013 userspace-api/media/v4l/pixfmt-compressed
++media/uapi/v4l/pixfmt-bayer userspace-api/media/v4l/pixfmt-bayer
++media/uapi/v4l/pixfmt-cnf4 userspace-api/media/v4l/pixfmt-cnf4
++media/uapi/v4l/pixfmt-compressed userspace-api/media/v4l/pixfmt-compressed
++media/uapi/v4l/pixfmt-indexed userspace-api/media/v4l/pixfmt-indexed
++media/uapi/v4l/pixfmt-intro userspace-api/media/v4l/pixfmt-intro
++media/uapi/v4l/pixfmt-inzi userspace-api/media/v4l/pixfmt-inzi
++media/uapi/v4l/pixfmt-m420 userspace-api/media/v4l/pixfmt-m420
++media/uapi/v4l/pixfmt-meta-d4xx userspace-api/media/v4l/metafmt-d4xx
++media/uapi/v4l/pixfmt-meta-intel-ipu3 userspace-api/media/v4l/metafmt-intel-ipu3
++media/uapi/v4l/pixfmt-meta-uvc userspace-api/media/v4l/metafmt-uvc
++media/uapi/v4l/pixfmt-meta-vivid userspace-api/media/v4l/metafmt-vivid
++media/uapi/v4l/pixfmt-meta-vsp1-hgo userspace-api/media/v4l/metafmt-vsp1-hgo
++media/uapi/v4l/pixfmt-meta-vsp1-hgt userspace-api/media/v4l/metafmt-vsp1-hgt
++media/uapi/v4l/pixfmt-packed-hsv userspace-api/media/v4l/pixfmt-packed-hsv
++media/uapi/v4l/pixfmt-packed-yuv userspace-api/media/v4l/pixfmt-packed-yuv
++media/uapi/v4l/pixfmt-reserved userspace-api/media/v4l/pixfmt-reserved
++media/uapi/v4l/pixfmt-rgb userspace-api/media/v4l/pixfmt-rgb
++media/uapi/v4l/pixfmt-sbggr16 userspace-api/media/v4l/pixfmt-srggb16
++media/uapi/v4l/pixfmt-sdr-cs08 userspace-api/media/v4l/pixfmt-sdr-cs08
++media/uapi/v4l/pixfmt-sdr-cs14le userspace-api/media/v4l/pixfmt-sdr-cs14le
++media/uapi/v4l/pixfmt-sdr-cu08 userspace-api/media/v4l/pixfmt-sdr-cu08
++media/uapi/v4l/pixfmt-sdr-cu16le userspace-api/media/v4l/pixfmt-sdr-cu16le
++media/uapi/v4l/pixfmt-sdr-pcu16be userspace-api/media/v4l/pixfmt-sdr-pcu16be
++media/uapi/v4l/pixfmt-sdr-pcu18be userspace-api/media/v4l/pixfmt-sdr-pcu18be
++media/uapi/v4l/pixfmt-sdr-pcu20be userspace-api/media/v4l/pixfmt-sdr-pcu20be
++media/uapi/v4l/pixfmt-sdr-ru12le userspace-api/media/v4l/pixfmt-sdr-ru12le
++media/uapi/v4l/pixfmt-srggb10 userspace-api/media/v4l/pixfmt-srggb10
++media/uapi/v4l/pixfmt-srggb10-ipu3 userspace-api/media/v4l/pixfmt-srggb10-ipu3
++media/uapi/v4l/pixfmt-srggb10alaw8 userspace-api/media/v4l/pixfmt-srggb10alaw8
++media/uapi/v4l/pixfmt-srggb10dpcm8 userspace-api/media/v4l/pixfmt-srggb10dpcm8
++media/uapi/v4l/pixfmt-srggb10p userspace-api/media/v4l/pixfmt-srggb10p
++media/uapi/v4l/pixfmt-srggb12 userspace-api/media/v4l/pixfmt-srggb12
++media/uapi/v4l/pixfmt-srggb12p userspace-api/media/v4l/pixfmt-srggb12p
++media/uapi/v4l/pixfmt-srggb14 userspace-api/media/v4l/pixfmt-srggb14
++media/uapi/v4l/pixfmt-srggb14p userspace-api/media/v4l/pixfmt-srggb14p
++media/uapi/v4l/pixfmt-srggb16 userspace-api/media/v4l/pixfmt-srggb16
++media/uapi/v4l/pixfmt-srggb8 userspace-api/media/v4l/pixfmt-srggb8
++media/uapi/v4l/pixfmt-tch-td08 userspace-api/media/v4l/pixfmt-tch-td08
++media/uapi/v4l/pixfmt-tch-td16 userspace-api/media/v4l/pixfmt-tch-td16
++media/uapi/v4l/pixfmt-tch-tu08 userspace-api/media/v4l/pixfmt-tch-tu08
++media/uapi/v4l/pixfmt-tch-tu16 userspace-api/media/v4l/pixfmt-tch-tu16
++media/uapi/v4l/pixfmt-uv8 userspace-api/media/v4l/pixfmt-uv8
++media/uapi/v4l/pixfmt-v4l2 userspace-api/media/v4l/pixfmt-v4l2
++media/uapi/v4l/pixfmt-v4l2-mplane userspace-api/media/v4l/pixfmt-v4l2-mplane
++media/uapi/v4l/pixfmt-y12i userspace-api/media/v4l/pixfmt-y12i
++media/uapi/v4l/pixfmt-y8i userspace-api/media/v4l/pixfmt-y8i
++media/uapi/v4l/pixfmt-z16 userspace-api/media/v4l/pixfmt-z16
++media/uapi/v4l/planar-apis userspace-api/media/v4l/planar-apis
++media/uapi/v4l/querycap userspace-api/media/v4l/querycap
++media/uapi/v4l/rw userspace-api/media/v4l/rw
++media/uapi/v4l/sdr-formats userspace-api/media/v4l/sdr-formats
++media/uapi/v4l/selection-api userspace-api/media/v4l/selection-api
++media/uapi/v4l/selection-api-002 userspace-api/media/v4l/selection-api-intro
++media/uapi/v4l/selection-api-003 userspace-api/media/v4l/selection-api-targets
++media/uapi/v4l/selection-api-004 userspace-api/media/v4l/selection-api-configuration
++media/uapi/v4l/selection-api-005 userspace-api/media/v4l/selection-api-vs-crop-api
++media/uapi/v4l/selection-api-006 userspace-api/media/v4l/selection-api-examples
++media/uapi/v4l/selection-api-configuration userspace-api/media/v4l/selection-api-configuration
++media/uapi/v4l/selection-api-examples userspace-api/media/v4l/selection-api-examples
++media/uapi/v4l/selection-api-intro userspace-api/media/v4l/selection-api-intro
++media/uapi/v4l/selection-api-targets userspace-api/media/v4l/selection-api-targets
++media/uapi/v4l/selection-api-vs-crop-api userspace-api/media/v4l/selection-api-vs-crop-api
++media/uapi/v4l/selections-common userspace-api/media/v4l/selections-common
++media/uapi/v4l/standard userspace-api/media/v4l/standard
++media/uapi/v4l/streaming-par userspace-api/media/v4l/streaming-par
++media/uapi/v4l/subdev-formats userspace-api/media/v4l/subdev-formats
++media/uapi/v4l/tch-formats userspace-api/media/v4l/tch-formats
++media/uapi/v4l/tuner userspace-api/media/v4l/tuner
++media/uapi/v4l/user-func userspace-api/media/v4l/user-func
++media/uapi/v4l/userp userspace-api/media/v4l/userp
++media/uapi/v4l/v4l2 userspace-api/media/v4l/v4l2
++media/uapi/v4l/v4l2-selection-flags userspace-api/media/v4l/v4l2-selection-flags
++media/uapi/v4l/v4l2-selection-targets userspace-api/media/v4l/v4l2-selection-targets
++media/uapi/v4l/v4l2grab-example userspace-api/media/v4l/v4l2grab-example
++media/uapi/v4l/v4l2grab.c userspace-api/media/v4l/v4l2grab.c
++media/uapi/v4l/video userspace-api/media/v4l/video
++media/uapi/v4l/videodev userspace-api/media/v4l/videodev
++media/uapi/v4l/vidioc-create-bufs userspace-api/media/v4l/vidioc-create-bufs
++media/uapi/v4l/vidioc-cropcap userspace-api/media/v4l/vidioc-cropcap
++media/uapi/v4l/vidioc-dbg-g-chip-info userspace-api/media/v4l/vidioc-dbg-g-chip-info
++media/uapi/v4l/vidioc-dbg-g-register userspace-api/media/v4l/vidioc-dbg-g-register
++media/uapi/v4l/vidioc-decoder-cmd userspace-api/media/v4l/vidioc-decoder-cmd
++media/uapi/v4l/vidioc-dqevent userspace-api/media/v4l/vidioc-dqevent
++media/uapi/v4l/vidioc-dv-timings-cap userspace-api/media/v4l/vidioc-dv-timings-cap
++media/uapi/v4l/vidioc-encoder-cmd userspace-api/media/v4l/vidioc-encoder-cmd
++media/uapi/v4l/vidioc-enum-dv-timings userspace-api/media/v4l/vidioc-enum-dv-timings
++media/uapi/v4l/vidioc-enum-fmt userspace-api/media/v4l/vidioc-enum-fmt
++media/uapi/v4l/vidioc-enum-frameintervals userspace-api/media/v4l/vidioc-enum-frameintervals
++media/uapi/v4l/vidioc-enum-framesizes userspace-api/media/v4l/vidioc-enum-framesizes
++media/uapi/v4l/vidioc-enum-freq-bands userspace-api/media/v4l/vidioc-enum-freq-bands
++media/uapi/v4l/vidioc-enumaudio userspace-api/media/v4l/vidioc-enumaudio
++media/uapi/v4l/vidioc-enumaudioout userspace-api/media/v4l/vidioc-enumaudioout
++media/uapi/v4l/vidioc-enuminput userspace-api/media/v4l/vidioc-enuminput
++media/uapi/v4l/vidioc-enumoutput userspace-api/media/v4l/vidioc-enumoutput
++media/uapi/v4l/vidioc-enumstd userspace-api/media/v4l/vidioc-enumstd
++media/uapi/v4l/vidioc-expbuf userspace-api/media/v4l/vidioc-expbuf
++media/uapi/v4l/vidioc-g-audio userspace-api/media/v4l/vidioc-g-audio
++media/uapi/v4l/vidioc-g-audioout userspace-api/media/v4l/vidioc-g-audioout
++media/uapi/v4l/vidioc-g-crop userspace-api/media/v4l/vidioc-g-crop
++media/uapi/v4l/vidioc-g-ctrl userspace-api/media/v4l/vidioc-g-ctrl
++media/uapi/v4l/vidioc-g-dv-timings userspace-api/media/v4l/vidioc-g-dv-timings
++media/uapi/v4l/vidioc-g-edid userspace-api/media/v4l/vidioc-g-edid
++media/uapi/v4l/vidioc-g-enc-index userspace-api/media/v4l/vidioc-g-enc-index
++media/uapi/v4l/vidioc-g-ext-ctrls userspace-api/media/v4l/vidioc-g-ext-ctrls
++media/uapi/v4l/vidioc-g-fbuf userspace-api/media/v4l/vidioc-g-fbuf
++media/uapi/v4l/vidioc-g-fmt userspace-api/media/v4l/vidioc-g-fmt
++media/uapi/v4l/vidioc-g-frequency userspace-api/media/v4l/vidioc-g-frequency
++media/uapi/v4l/vidioc-g-input userspace-api/media/v4l/vidioc-g-input
++media/uapi/v4l/vidioc-g-jpegcomp userspace-api/media/v4l/vidioc-g-jpegcomp
++media/uapi/v4l/vidioc-g-modulator userspace-api/media/v4l/vidioc-g-modulator
++media/uapi/v4l/vidioc-g-output userspace-api/media/v4l/vidioc-g-output
++media/uapi/v4l/vidioc-g-parm userspace-api/media/v4l/vidioc-g-parm
++media/uapi/v4l/vidioc-g-priority userspace-api/media/v4l/vidioc-g-priority
++media/uapi/v4l/vidioc-g-selection userspace-api/media/v4l/vidioc-g-selection
++media/uapi/v4l/vidioc-g-sliced-vbi-cap userspace-api/media/v4l/vidioc-g-sliced-vbi-cap
++media/uapi/v4l/vidioc-g-std userspace-api/media/v4l/vidioc-g-std
++media/uapi/v4l/vidioc-g-tuner userspace-api/media/v4l/vidioc-g-tuner
++media/uapi/v4l/vidioc-log-status userspace-api/media/v4l/vidioc-log-status
++media/uapi/v4l/vidioc-overlay userspace-api/media/v4l/vidioc-overlay
++media/uapi/v4l/vidioc-prepare-buf userspace-api/media/v4l/vidioc-prepare-buf
++media/uapi/v4l/vidioc-qbuf userspace-api/media/v4l/vidioc-qbuf
++media/uapi/v4l/vidioc-query-dv-timings userspace-api/media/v4l/vidioc-query-dv-timings
++media/uapi/v4l/vidioc-querybuf userspace-api/media/v4l/vidioc-querybuf
++media/uapi/v4l/vidioc-querycap userspace-api/media/v4l/vidioc-querycap
++media/uapi/v4l/vidioc-queryctrl userspace-api/media/v4l/vidioc-queryctrl
++media/uapi/v4l/vidioc-querystd userspace-api/media/v4l/vidioc-querystd
++media/uapi/v4l/vidioc-reqbufs userspace-api/media/v4l/vidioc-reqbufs
++media/uapi/v4l/vidioc-s-hw-freq-seek userspace-api/media/v4l/vidioc-s-hw-freq-seek
++media/uapi/v4l/vidioc-streamon userspace-api/media/v4l/vidioc-streamon
++media/uapi/v4l/vidioc-subdev-enum-frame-interval userspace-api/media/v4l/vidioc-subdev-enum-frame-interval
++media/uapi/v4l/vidioc-subdev-enum-frame-size userspace-api/media/v4l/vidioc-subdev-enum-frame-size
++media/uapi/v4l/vidioc-subdev-enum-mbus-code userspace-api/media/v4l/vidioc-subdev-enum-mbus-code
++media/uapi/v4l/vidioc-subdev-g-crop userspace-api/media/v4l/vidioc-subdev-g-crop
++media/uapi/v4l/vidioc-subdev-g-fmt userspace-api/media/v4l/vidioc-subdev-g-fmt
++media/uapi/v4l/vidioc-subdev-g-frame-interval userspace-api/media/v4l/vidioc-subdev-g-frame-interval
++media/uapi/v4l/vidioc-subdev-g-selection userspace-api/media/v4l/vidioc-subdev-g-selection
++media/uapi/v4l/vidioc-subscribe-event userspace-api/media/v4l/vidioc-subscribe-event
++media/uapi/v4l/yuv-formats userspace-api/media/v4l/yuv-formats
++media/v4l-drivers/au0828-cardlist admin-guide/media/au0828-cardlist
++media/v4l-drivers/bttv admin-guide/media/bttv
++media/v4l-drivers/bttv-cardlist admin-guide/media/bttv-cardlist
++media/v4l-drivers/bttv-devel driver-api/media/drivers/bttv-devel
++media/v4l-drivers/cafe_ccic admin-guide/media/cafe_ccic
++media/v4l-drivers/cardlist admin-guide/media/cardlist
++media/v4l-drivers/cx2341x driver-api/media/drivers/cx2341x-devel
++media/v4l-drivers/cx2341x-devel driver-api/media/drivers/cx2341x-devel
++media/v4l-drivers/cx2341x-uapi userspace-api/media/drivers/cx2341x-uapi
++media/v4l-drivers/cx23885-cardlist admin-guide/media/cx23885-cardlist
++media/v4l-drivers/cx88 admin-guide/media/cx88
++media/v4l-drivers/cx88-cardlist admin-guide/media/cx88-cardlist
++media/v4l-drivers/cx88-devel driver-api/media/drivers/cx88-devel
++media/v4l-drivers/em28xx-cardlist admin-guide/media/em28xx-cardlist
++media/v4l-drivers/fimc admin-guide/media/fimc
++media/v4l-drivers/fimc-devel driver-api/media/drivers/fimc-devel
++media/v4l-drivers/fourcc userspace-api/media/v4l/fourcc
++media/v4l-drivers/gspca-cardlist admin-guide/media/gspca-cardlist
++media/v4l-drivers/imx admin-guide/media/imx
++media/v4l-drivers/imx-uapi userspace-api/media/drivers/imx-uapi
++media/v4l-drivers/imx7 admin-guide/media/imx7
++media/v4l-drivers/index userspace-api/media/drivers/index
++media/v4l-drivers/ipu3 admin-guide/media/ipu3
++media/v4l-drivers/ivtv admin-guide/media/ivtv
++media/v4l-drivers/ivtv-cardlist admin-guide/media/ivtv-cardlist
++media/v4l-drivers/max2175 userspace-api/media/drivers/max2175
++media/v4l-drivers/omap3isp admin-guide/media/omap3isp
++media/v4l-drivers/omap3isp-uapi userspace-api/media/drivers/omap3isp-uapi
++media/v4l-drivers/philips admin-guide/media/philips
++media/v4l-drivers/pvrusb2 driver-api/media/drivers/pvrusb2
++media/v4l-drivers/pxa_camera driver-api/media/drivers/pxa_camera
++media/v4l-drivers/qcom_camss admin-guide/media/qcom_camss
++media/v4l-drivers/radiotrack driver-api/media/drivers/radiotrack
++media/v4l-drivers/rcar-fdp1 admin-guide/media/rcar-fdp1
++media/v4l-drivers/saa7134 admin-guide/media/saa7134
++media/v4l-drivers/saa7134-cardlist admin-guide/media/saa7134-cardlist
++media/v4l-drivers/saa7134-devel driver-api/media/drivers/saa7134-devel
++media/v4l-drivers/saa7164-cardlist admin-guide/media/saa7164-cardlist
++media/v4l-drivers/sh_mobile_ceu_camera driver-api/media/drivers/sh_mobile_ceu_camera
++media/v4l-drivers/si470x admin-guide/media/si470x
++media/v4l-drivers/si4713 admin-guide/media/si4713
++media/v4l-drivers/si476x admin-guide/media/si476x
++media/v4l-drivers/tuner-cardlist admin-guide/media/tuner-cardlist
++media/v4l-drivers/tuners driver-api/media/drivers/tuners
++media/v4l-drivers/uvcvideo userspace-api/media/drivers/uvcvideo
++media/v4l-drivers/v4l-with-ir admin-guide/media/remote-controller
++media/v4l-drivers/vimc admin-guide/media/vimc
++media/v4l-drivers/vimc-devel driver-api/media/drivers/vimc-devel
++media/v4l-drivers/vivid admin-guide/media/vivid
++media/v4l-drivers/zoran driver-api/media/drivers/zoran
++memory-devices/ti-emif driver-api/memory-devices/ti-emif
++mips/booting arch/mips/booting
++mips/features arch/mips/features
++mips/index arch/mips/index
++mips/ingenic-tcu arch/mips/ingenic-tcu
++mm/slub admin-guide/mm/slab
++mmc/index driver-api/mmc/index
++mmc/mmc-async-req driver-api/mmc/mmc-async-req
++mmc/mmc-dev-attrs driver-api/mmc/mmc-dev-attrs
++mmc/mmc-dev-parts driver-api/mmc/mmc-dev-parts
++mmc/mmc-tools driver-api/mmc/mmc-tools
++mtd/index driver-api/mtd/index
++mtd/intel-spi driver-api/mtd/spi-intel
++mtd/nand_ecc driver-api/mtd/nand_ecc
++mtd/spi-nor driver-api/mtd/spi-nor
++namespaces/compatibility-list admin-guide/namespaces/compatibility-list
++namespaces/index admin-guide/namespaces/index
++namespaces/resource-control admin-guide/namespaces/resource-control
++networking/altera_tse networking/device_drivers/ethernet/altera/altera_tse
++networking/baycom networking/device_drivers/hamradio/baycom
++networking/bpf_flow_dissector bpf/prog_flow_dissector
++networking/cxacru networking/device_drivers/atm/cxacru
++networking/defza networking/device_drivers/fddi/defza
++networking/device_drivers/3com/3c509 networking/device_drivers/ethernet/3com/3c509
++networking/device_drivers/3com/vortex networking/device_drivers/ethernet/3com/vortex
++networking/device_drivers/amazon/ena networking/device_drivers/ethernet/amazon/ena
++networking/device_drivers/aquantia/atlantic networking/device_drivers/ethernet/aquantia/atlantic
++networking/device_drivers/chelsio/cxgb networking/device_drivers/ethernet/chelsio/cxgb
++networking/device_drivers/cirrus/cs89x0 networking/device_drivers/ethernet/cirrus/cs89x0
++networking/device_drivers/davicom/dm9000 networking/device_drivers/ethernet/davicom/dm9000
++networking/device_drivers/dec/dmfe networking/device_drivers/ethernet/dec/dmfe
++networking/device_drivers/dlink/dl2k networking/device_drivers/ethernet/dlink/dl2k
++networking/device_drivers/freescale/dpaa networking/device_drivers/ethernet/freescale/dpaa
++networking/device_drivers/freescale/dpaa2/dpio-driver networking/device_drivers/ethernet/freescale/dpaa2/dpio-driver
++networking/device_drivers/freescale/dpaa2/ethernet-driver networking/device_drivers/ethernet/freescale/dpaa2/ethernet-driver
++networking/device_drivers/freescale/dpaa2/index networking/device_drivers/ethernet/freescale/dpaa2/index
++networking/device_drivers/freescale/dpaa2/mac-phy-support networking/device_drivers/ethernet/freescale/dpaa2/mac-phy-support
++networking/device_drivers/freescale/dpaa2/overview networking/device_drivers/ethernet/freescale/dpaa2/overview
++networking/device_drivers/freescale/gianfar networking/device_drivers/ethernet/freescale/gianfar
++networking/device_drivers/google/gve networking/device_drivers/ethernet/google/gve
++networking/device_drivers/intel/e100 networking/device_drivers/ethernet/intel/e100
++networking/device_drivers/intel/e1000 networking/device_drivers/ethernet/intel/e1000
++networking/device_drivers/intel/e1000e networking/device_drivers/ethernet/intel/e1000e
++networking/device_drivers/intel/fm10k networking/device_drivers/ethernet/intel/fm10k
++networking/device_drivers/intel/i40e networking/device_drivers/ethernet/intel/i40e
++networking/device_drivers/intel/iavf networking/device_drivers/ethernet/intel/iavf
++networking/device_drivers/intel/ice networking/device_drivers/ethernet/intel/ice
++networking/device_drivers/intel/igb networking/device_drivers/ethernet/intel/igb
++networking/device_drivers/intel/igbvf networking/device_drivers/ethernet/intel/igbvf
++networking/device_drivers/intel/ipw2100 networking/device_drivers/wifi/intel/ipw2100
++networking/device_drivers/intel/ipw2200 networking/device_drivers/wifi/intel/ipw2200
++networking/device_drivers/intel/ixgbe networking/device_drivers/ethernet/intel/ixgbe
++networking/device_drivers/intel/ixgbevf networking/device_drivers/ethernet/intel/ixgbevf
++networking/device_drivers/marvell/octeontx2 networking/device_drivers/ethernet/marvell/octeontx2
++networking/device_drivers/microsoft/netvsc networking/device_drivers/ethernet/microsoft/netvsc
++networking/device_drivers/neterion/s2io networking/device_drivers/ethernet/neterion/s2io
++networking/device_drivers/netronome/nfp networking/device_drivers/ethernet/netronome/nfp
++networking/device_drivers/pensando/ionic networking/device_drivers/ethernet/pensando/ionic
++networking/device_drivers/qualcomm/rmnet networking/device_drivers/cellular/qualcomm/rmnet
++networking/device_drivers/smsc/smc9 networking/device_drivers/ethernet/smsc/smc9
++networking/device_drivers/stmicro/stmmac networking/device_drivers/ethernet/stmicro/stmmac
++networking/device_drivers/ti/cpsw networking/device_drivers/ethernet/ti/cpsw
++networking/device_drivers/ti/cpsw_switchdev networking/device_drivers/ethernet/ti/cpsw_switchdev
++networking/device_drivers/ti/tlan networking/device_drivers/ethernet/ti/tlan
++networking/devlink-trap networking/devlink/devlink-trap
++networking/dpaa2/dpio-driver networking/device_drivers/ethernet/freescale/dpaa2/dpio-driver
++networking/dpaa2/ethernet-driver networking/device_drivers/ethernet/freescale/dpaa2/ethernet-driver
++networking/dpaa2/index networking/device_drivers/ethernet/freescale/dpaa2/index
++networking/dpaa2/overview networking/device_drivers/ethernet/freescale/dpaa2/overview
++networking/e100 networking/device_drivers/ethernet/intel/e100
++networking/e1000 networking/device_drivers/ethernet/intel/e1000
++networking/e1000e networking/device_drivers/ethernet/intel/e1000e
++networking/fm10k networking/device_drivers/ethernet/intel/fm10k
++networking/fore200e networking/device_drivers/atm/fore200e
++networking/hinic networking/device_drivers/ethernet/huawei/hinic
++networking/i40e networking/device_drivers/ethernet/intel/i40e
++networking/iavf networking/device_drivers/ethernet/intel/iavf
++networking/ice networking/device_drivers/ethernet/intel/ice
++networking/igb networking/device_drivers/ethernet/intel/igb
++networking/igbvf networking/device_drivers/ethernet/intel/igbvf
++networking/iphase networking/device_drivers/atm/iphase
++networking/ixgbe networking/device_drivers/ethernet/intel/ixgbe
++networking/ixgbevf networking/device_drivers/ethernet/intel/ixgbevf
++networking/netdev-FAQ process/maintainer-netdev
++networking/skfp networking/device_drivers/fddi/skfp
++networking/z8530drv networking/device_drivers/hamradio/z8530drv
++nfc/index driver-api/nfc/index
++nfc/nfc-hci driver-api/nfc/nfc-hci
++nfc/nfc-pn544 driver-api/nfc/nfc-pn544
++nios2/features arch/nios2/features
++nios2/index arch/nios2/index
++nios2/nios2 arch/nios2/nios2
++nvdimm/btt driver-api/nvdimm/btt
++nvdimm/index driver-api/nvdimm/index
++nvdimm/nvdimm driver-api/nvdimm/nvdimm
++nvdimm/security driver-api/nvdimm/security
++nvmem/nvmem driver-api/nvmem
++openrisc/features arch/openrisc/features
++openrisc/index arch/openrisc/index
++openrisc/openrisc_port arch/openrisc/openrisc_port
++openrisc/todo arch/openrisc/todo
++parisc/debugging arch/parisc/debugging
++parisc/features arch/parisc/features
++parisc/index arch/parisc/index
++parisc/registers arch/parisc/registers
++perf/arm-ccn admin-guide/perf/arm-ccn
++perf/arm_dsu_pmu admin-guide/perf/arm_dsu_pmu
++perf/hisi-pmu admin-guide/perf/hisi-pmu
++perf/index admin-guide/perf/index
++perf/qcom_l2_pmu admin-guide/perf/qcom_l2_pmu
++perf/qcom_l3_pmu admin-guide/perf/qcom_l3_pmu
++perf/thunderx2-pmu admin-guide/perf/thunderx2-pmu
++perf/xgene-pmu admin-guide/perf/xgene-pmu
++phy/samsung-usb2 driver-api/phy/samsung-usb2
++powerpc/associativity arch/powerpc/associativity
++powerpc/booting arch/powerpc/booting
++powerpc/bootwrapper arch/powerpc/bootwrapper
++powerpc/cpu_families arch/powerpc/cpu_families
++powerpc/cpu_features arch/powerpc/cpu_features
++powerpc/dawr-power9 arch/powerpc/dawr-power9
++powerpc/dexcr arch/powerpc/dexcr
++powerpc/dscr arch/powerpc/dscr
++powerpc/eeh-pci-error-recovery arch/powerpc/eeh-pci-error-recovery
++powerpc/elf_hwcaps arch/powerpc/elf_hwcaps
++powerpc/elfnote arch/powerpc/elfnote
++powerpc/features arch/powerpc/features
++powerpc/firmware-assisted-dump arch/powerpc/firmware-assisted-dump
++powerpc/hvcs arch/powerpc/hvcs
++powerpc/imc arch/powerpc/imc
++powerpc/index arch/powerpc/index
++powerpc/isa-versions arch/powerpc/isa-versions
++powerpc/kaslr-booke32 arch/powerpc/kaslr-booke32
++powerpc/mpc52xx arch/powerpc/mpc52xx
++powerpc/papr_hcalls arch/powerpc/papr_hcalls
++powerpc/pci_iov_resource_on_powernv arch/powerpc/pci_iov_resource_on_powernv
++powerpc/pmu-ebb arch/powerpc/pmu-ebb
++powerpc/ptrace arch/powerpc/ptrace
++powerpc/qe_firmware arch/powerpc/qe_firmware
++powerpc/syscall64-abi arch/powerpc/syscall64-abi
++powerpc/transactional_memory arch/powerpc/transactional_memory
++powerpc/ultravisor arch/powerpc/ultravisor
++powerpc/vas-api arch/powerpc/vas-api
++powerpc/vcpudispatch_stats arch/powerpc/vcpudispatch_stats
++powerpc/vmemmap_dedup arch/powerpc/vmemmap_dedup
++process/clang-format dev-tools/clang-format
++process/magic-number staging/magic-number
++process/unaligned-memory-access core-api/unaligned-memory-access
++rapidio/index driver-api/rapidio/index
++rapidio/mport_cdev driver-api/rapidio/mport_cdev
++rapidio/rapidio driver-api/rapidio/rapidio
++rapidio/rio_cm driver-api/rapidio/rio_cm
++rapidio/sysfs driver-api/rapidio/sysfs
++rapidio/tsi721 driver-api/rapidio/tsi721
++riscv/acpi arch/riscv/acpi
++riscv/boot arch/riscv/boot
++riscv/boot-image-header arch/riscv/boot-image-header
++riscv/features arch/riscv/features
++riscv/hwprobe arch/riscv/hwprobe
++riscv/index arch/riscv/index
++riscv/patch-acceptance arch/riscv/patch-acceptance
++riscv/uabi arch/riscv/uabi
++riscv/vector arch/riscv/vector
++riscv/vm-layout arch/riscv/vm-layout
++s390/3270 arch/s390/3270
++s390/cds arch/s390/cds
++s390/common_io arch/s390/common_io
++s390/driver-model arch/s390/driver-model
++s390/features arch/s390/features
++s390/index arch/s390/index
++s390/monreader arch/s390/monreader
++s390/pci arch/s390/pci
++s390/qeth arch/s390/qeth
++s390/s390dbf arch/s390/s390dbf
++s390/text_files arch/s390/text_files
++s390/vfio-ap arch/s390/vfio-ap
++s390/vfio-ap-locking arch/s390/vfio-ap-locking
++s390/vfio-ccw arch/s390/vfio-ccw
++s390/zfcpdump arch/s390/zfcpdump
++security/LSM security/lsm-development
++security/LSM-sctp security/SCTP
++serial/driver driver-api/serial/driver
++serial/index driver-api/serial/index
++serial/moxa-smartio driver-api/tty/moxa-smartio
++serial/n_gsm driver-api/tty/n_gsm
++serial/serial-iso7816 driver-api/serial/serial-iso7816
++serial/serial-rs485 driver-api/serial/serial-rs485
++serial/tty driver-api/tty/tty_ldisc
++sh/booting arch/sh/booting
++sh/features arch/sh/features
++sh/index arch/sh/index
++sh/new-machine arch/sh/new-machine
++sh/register-banks arch/sh/register-banks
++sparc/adi arch/sparc/adi
++sparc/console arch/sparc/console
++sparc/features arch/sparc/features
++sparc/index arch/sparc/index
++sparc/oradax/oracle-dax arch/sparc/oradax/oracle-dax
++staging/kprobes trace/kprobes
++sysctl/abi admin-guide/sysctl/abi
++sysctl/fs admin-guide/sysctl/fs
++sysctl/index admin-guide/sysctl/index
++sysctl/kernel admin-guide/sysctl/kernel
++sysctl/net admin-guide/sysctl/net
++sysctl/sunrpc admin-guide/sysctl/sunrpc
++sysctl/user admin-guide/sysctl/user
++sysctl/vm admin-guide/sysctl/vm
++thermal/cpu-cooling-api driver-api/thermal/cpu-cooling-api
++thermal/exynos_thermal driver-api/thermal/exynos_thermal
++thermal/exynos_thermal_emulation driver-api/thermal/exynos_thermal_emulation
++thermal/index driver-api/thermal/index
++thermal/intel_powerclamp admin-guide/thermal/intel_powerclamp
++thermal/nouveau_thermal driver-api/thermal/nouveau_thermal
++thermal/power_allocator driver-api/thermal/power_allocator
++thermal/sysfs-api driver-api/thermal/sysfs-api
++thermal/x86_pkg_temperature_thermal driver-api/thermal/x86_pkg_temperature_thermal
++tpm/index security/tpm/index
++tpm/tpm_vtpm_proxy security/tpm/tpm_vtpm_proxy
++trace/coresight trace/coresight/coresight
++trace/coresight-cpu-debug trace/coresight/coresight-cpu-debug
++trace/rv/da_monitor_synthesis trace/rv/monitor_synthesis
++translations/it_IT/admin-guide/security-bugs translations/it_IT/process/security-bugs
++translations/it_IT/process/clang-format translations/it_IT/dev-tools/clang-format
++translations/it_IT/process/magic-number translations/it_IT/staging/magic-number
++translations/it_IT/riscv/patch-acceptance translations/it_IT/arch/riscv/patch-acceptance
++translations/ja_JP/howto translations/ja_JP/process/howto
++translations/ko_KR/howto translations/ko_KR/process/howto
++translations/sp_SP/howto translations/sp_SP/process/howto
++translations/sp_SP/submitting-patches translations/sp_SP/process/submitting-patches
++translations/zh_CN/admin-guide/security-bugs translations/zh_CN/process/security-bugs
++translations/zh_CN/arch translations/zh_CN/arch/index
++translations/zh_CN/arm64/amu translations/zh_CN/arch/arm64/amu
++translations/zh_CN/arm64/elf_hwcaps translations/zh_CN/arch/arm64/elf_hwcaps
++translations/zh_CN/arm64/hugetlbpage translations/zh_CN/arch/arm64/hugetlbpage
++translations/zh_CN/arm64/index translations/zh_CN/arch/arm64/index
++translations/zh_CN/arm64/perf translations/zh_CN/arch/arm64/perf
++translations/zh_CN/coding-style translations/zh_CN/process/coding-style
++translations/zh_CN/loongarch/booting translations/zh_CN/arch/loongarch/booting
++translations/zh_CN/loongarch/features translations/zh_CN/arch/loongarch/features
++translations/zh_CN/loongarch/index translations/zh_CN/arch/loongarch/index
++translations/zh_CN/loongarch/introduction translations/zh_CN/arch/loongarch/introduction
++translations/zh_CN/loongarch/irq-chip-model translations/zh_CN/arch/loongarch/irq-chip-model
++translations/zh_CN/mips/booting translations/zh_CN/arch/mips/booting
++translations/zh_CN/mips/features translations/zh_CN/arch/mips/features
++translations/zh_CN/mips/index translations/zh_CN/arch/mips/index
++translations/zh_CN/mips/ingenic-tcu translations/zh_CN/arch/mips/ingenic-tcu
++translations/zh_CN/openrisc/index translations/zh_CN/arch/openrisc/index
++translations/zh_CN/openrisc/openrisc_port translations/zh_CN/arch/openrisc/openrisc_port
++translations/zh_CN/openrisc/todo translations/zh_CN/arch/openrisc/todo
++translations/zh_CN/parisc/debugging translations/zh_CN/arch/parisc/debugging
++translations/zh_CN/parisc/index translations/zh_CN/arch/parisc/index
++translations/zh_CN/parisc/registers translations/zh_CN/arch/parisc/registers
++translations/zh_CN/riscv/boot-image-header translations/zh_CN/arch/riscv/boot-image-header
++translations/zh_CN/riscv/index translations/zh_CN/arch/riscv/index
++translations/zh_CN/riscv/patch-acceptance translations/zh_CN/arch/riscv/patch-acceptance
++translations/zh_CN/riscv/vm-layout translations/zh_CN/arch/riscv/vm-layout
++translations/zh_CN/vm/active_mm translations/zh_CN/mm/active_mm
++translations/zh_CN/vm/balance translations/zh_CN/mm/balance
++translations/zh_CN/vm/damon/api translations/zh_CN/mm/damon/api
++translations/zh_CN/vm/damon/design translations/zh_CN/mm/damon/design
++translations/zh_CN/vm/damon/faq translations/zh_CN/mm/damon/faq
++translations/zh_CN/vm/damon/index translations/zh_CN/mm/damon/index
++translations/zh_CN/vm/free_page_reporting translations/zh_CN/mm/free_page_reporting
++translations/zh_CN/vm/highmem translations/zh_CN/mm/highmem
++translations/zh_CN/vm/hmm translations/zh_CN/mm/hmm
++translations/zh_CN/vm/hugetlbfs_reserv translations/zh_CN/mm/hugetlbfs_reserv
++translations/zh_CN/vm/hwpoison translations/zh_CN/mm/hwpoison
++translations/zh_CN/vm/index translations/zh_CN/mm/index
++translations/zh_CN/vm/ksm translations/zh_CN/mm/ksm
++translations/zh_CN/vm/memory-model translations/zh_CN/mm/memory-model
++translations/zh_CN/vm/mmu_notifier translations/zh_CN/mm/mmu_notifier
++translations/zh_CN/vm/numa translations/zh_CN/mm/numa
++translations/zh_CN/vm/overcommit-accounting translations/zh_CN/mm/overcommit-accounting
++translations/zh_CN/vm/page_frags translations/zh_CN/mm/page_frags
++translations/zh_CN/vm/page_owner translations/zh_CN/mm/page_owner
++translations/zh_CN/vm/page_table_check translations/zh_CN/mm/page_table_check
++translations/zh_CN/vm/remap_file_pages translations/zh_CN/mm/remap_file_pages
++translations/zh_CN/vm/split_page_table_lock translations/zh_CN/mm/split_page_table_lock
++translations/zh_CN/vm/zsmalloc translations/zh_CN/mm/zsmalloc
++translations/zh_TW/arm64/amu translations/zh_TW/arch/arm64/amu
++translations/zh_TW/arm64/elf_hwcaps translations/zh_TW/arch/arm64/elf_hwcaps
++translations/zh_TW/arm64/hugetlbpage translations/zh_TW/arch/arm64/hugetlbpage
++translations/zh_TW/arm64/index translations/zh_TW/arch/arm64/index
++translations/zh_TW/arm64/perf translations/zh_TW/arch/arm64/perf
++tty/device_drivers/oxsemi-tornado misc-devices/oxsemi-tornado
++tty/index driver-api/tty/index
++tty/n_tty driver-api/tty/n_tty
++tty/tty_buffer driver-api/tty/tty_buffer
++tty/tty_driver driver-api/tty/tty_driver
++tty/tty_internals driver-api/tty/tty_internals
++tty/tty_ldisc driver-api/tty/tty_ldisc
++tty/tty_port driver-api/tty/tty_port
++tty/tty_struct driver-api/tty/tty_struct
++usb/typec driver-api/usb/typec
++usb/usb3-debug-port driver-api/usb/usb3-debug-port
++userspace-api/media/drivers/st-vgxy61 userspace-api/media/drivers/vgxy61
++userspace-api/media/v4l/pixfmt-meta-d4xx userspace-api/media/v4l/metafmt-d4xx
++userspace-api/media/v4l/pixfmt-meta-intel-ipu3 userspace-api/media/v4l/metafmt-intel-ipu3
++userspace-api/media/v4l/pixfmt-meta-rkisp1 userspace-api/media/v4l/metafmt-rkisp1
++userspace-api/media/v4l/pixfmt-meta-uvc userspace-api/media/v4l/metafmt-uvc
++userspace-api/media/v4l/pixfmt-meta-vivid userspace-api/media/v4l/metafmt-vivid
++userspace-api/media/v4l/pixfmt-meta-vsp1-hgo userspace-api/media/v4l/metafmt-vsp1-hgo
++userspace-api/media/v4l/pixfmt-meta-vsp1-hgt userspace-api/media/v4l/metafmt-vsp1-hgt
++virt/coco/sevguest virt/coco/sev-guest
++virt/kvm/amd-memory-encryption virt/kvm/x86/amd-memory-encryption
++virt/kvm/arm/psci virt/kvm/arm/fw-pseudo-registers
++virt/kvm/cpuid virt/kvm/x86/cpuid
++virt/kvm/hypercalls virt/kvm/x86/hypercalls
++virt/kvm/mmu virt/kvm/x86/mmu
++virt/kvm/msr virt/kvm/x86/msr
++virt/kvm/nested-vmx virt/kvm/x86/nested-vmx
++virt/kvm/running-nested-guests virt/kvm/x86/running-nested-guests
++virt/kvm/s390-diag virt/kvm/s390/s390-diag
++virt/kvm/s390-pv virt/kvm/s390/s390-pv
++virt/kvm/s390-pv-boot virt/kvm/s390/s390-pv-boot
++virt/kvm/timekeeping virt/kvm/x86/timekeeping
++virt/kvm/x86/halt-polling virt/kvm/halt-polling
++virtual/index virt/index
++virtual/kvm/amd-memory-encryption virt/kvm/x86/amd-memory-encryption
++virtual/kvm/cpuid virt/kvm/x86/cpuid
++virtual/kvm/index virt/kvm/index
++virtual/kvm/vcpu-requests virt/kvm/vcpu-requests
++virtual/paravirt_ops virt/paravirt_ops
++vm/active_mm mm/active_mm
++vm/arch_pgtable_helpers mm/arch_pgtable_helpers
++vm/balance mm/balance
++vm/bootmem mm/bootmem
++vm/damon/api mm/damon/api
++vm/damon/design mm/damon/design
++vm/damon/faq mm/damon/faq
++vm/damon/index mm/damon/index
++vm/free_page_reporting mm/free_page_reporting
++vm/highmem mm/highmem
++vm/hmm mm/hmm
++vm/hugetlbfs_reserv mm/hugetlbfs_reserv
++vm/hugetlbpage admin-guide/mm/hugetlbpage
++vm/hwpoison mm/hwpoison
++vm/idle_page_tracking admin-guide/mm/idle_page_tracking
++vm/index mm/index
++vm/ksm mm/ksm
++vm/memory-model mm/memory-model
++vm/mmu_notifier mm/mmu_notifier
++vm/numa mm/numa
++vm/numa_memory_policy admin-guide/mm/numa_memory_policy
++vm/oom mm/oom
++vm/overcommit-accounting mm/overcommit-accounting
++vm/page_allocation mm/page_allocation
++vm/page_cache mm/page_cache
++vm/page_frags mm/page_frags
++vm/page_migration mm/page_migration
++vm/page_owner mm/page_owner
++vm/page_reclaim mm/page_reclaim
++vm/page_table_check mm/page_table_check
++vm/page_tables mm/page_tables
++vm/pagemap admin-guide/mm/pagemap
++vm/physical_memory mm/physical_memory
++vm/process_addrs mm/process_addrs
++vm/remap_file_pages mm/remap_file_pages
++vm/shmfs mm/shmfs
++vm/slab mm/slab
++vm/slub admin-guide/mm/slab
++vm/soft-dirty admin-guide/mm/soft-dirty
++vm/split_page_table_lock mm/split_page_table_lock
++vm/swap mm/swap
++vm/swap_numa admin-guide/mm/swap_numa
++vm/transhuge mm/transhuge
++vm/unevictable-lru mm/unevictable-lru
++vm/userfaultfd admin-guide/mm/userfaultfd
++vm/vmalloc mm/vmalloc
++vm/vmalloced-kernel-stacks mm/vmalloced-kernel-stacks
++vm/vmemmap_dedup mm/vmemmap_dedup
++vm/zsmalloc mm/zsmalloc
++vm/zswap admin-guide/mm/zswap
++watch_queue core-api/watch_queue
++x86/amd-memory-encryption arch/x86/amd-memory-encryption
++x86/amd_hsmp arch/x86/amd_hsmp
++x86/boot arch/x86/boot
++x86/booting-dt arch/x86/booting-dt
++x86/buslock arch/x86/buslock
++x86/cpuinfo arch/x86/cpuinfo
++x86/earlyprintk arch/x86/earlyprintk
++x86/elf_auxvec arch/x86/elf_auxvec
++x86/entry_64 arch/x86/entry_64
++x86/exception-tables arch/x86/exception-tables
++x86/features arch/x86/features
++x86/i386/IO-APIC arch/x86/i386/IO-APIC
++x86/i386/index arch/x86/i386/index
++x86/ifs arch/x86/ifs
++x86/index arch/x86/index
++x86/intel-hfi arch/x86/intel-hfi
++x86/intel_txt arch/x86/intel_txt
++x86/iommu arch/x86/iommu
++x86/kernel-stacks arch/x86/kernel-stacks
++x86/mds arch/x86/mds
++x86/microcode arch/x86/microcode
++x86/mtrr arch/x86/mtrr
++x86/orc-unwinder arch/x86/orc-unwinder
++x86/pat arch/x86/pat
++x86/protection-keys core-api/protection-keys
++x86/pti arch/x86/pti
++x86/resctrl filesystems/resctrl
++x86/resctrl_ui filesystems/resctrl
++x86/sgx arch/x86/sgx
++x86/sva arch/x86/sva
++x86/tdx arch/x86/tdx
++x86/tlb arch/x86/tlb
++x86/topology arch/x86/topology
++x86/tsx_async_abort arch/x86/tsx_async_abort
++x86/usb-legacy-support arch/x86/usb-legacy-support
++x86/x86_64/5level-paging arch/x86/x86_64/5level-paging
++x86/x86_64/cpu-hotplug-spec arch/x86/x86_64/cpu-hotplug-spec
++x86/x86_64/fake-numa-for-cpusets arch/x86/x86_64/fake-numa-for-cpusets
++x86/x86_64/fsgs arch/x86/x86_64/fsgs
++x86/x86_64/index arch/x86/x86_64/index
++x86/x86_64/machinecheck arch/x86/x86_64/machinecheck
++x86/x86_64/mm arch/x86/x86_64/mm
++x86/x86_64/uefi arch/x86/x86_64/uefi
++x86/xstate arch/x86/xstate
++x86/zero-page arch/x86/zero-page
++xilinx/eemi driver-api/xilinx/eemi
++xilinx/index driver-api/xilinx/index
++xtensa/atomctl arch/xtensa/atomctl
++xtensa/booting arch/xtensa/booting
++xtensa/features arch/xtensa/features
++xtensa/index arch/xtensa/index
++xtensa/mmu arch/xtensa/mmu
+-- 
+2.34.1
+
