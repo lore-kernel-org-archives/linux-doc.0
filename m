@@ -1,105 +1,255 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8669425A33A;
-	Thu,  4 Sep 2025 06:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F742750E1;
+	Thu,  4 Sep 2025 06:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756966871; cv=none; b=bp4tEmMR48OcChc/lh02J+Nmq5W8ru4tGoC3AzLyOxaryROST6vxKMvFADQJ6G2kI+vDtmr1r7IKrZSSmZQjCeik8Wuf4Sg+SUcqB6wbl0U4hAyt+8Mr/Y7fL1PXPjpICxx8JXfAaQhdTWmewer2KU7PakoN/tpXFdnYoJjPl48=
+	t=1756967743; cv=none; b=TqdfpztQJSIXKOYOcAbbDnUszOBp3Rmnctw3O8YuZibRgdYQtnntHsvfWZ8uUaWgy3U8tnJK4LoFri5ShjeVlx+hXheGBHzNmgA3zBm/qzivyoGz/PYWplVSgfNipgecEgGwGHF8EuIyuxSNsbAJ7ZPJ5GmDlC8aEO1Z3XnV87g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756966871; c=relaxed/simple;
-	bh=4t+iU1LHlHqctcAH2DAYCIvA8U4WkdpWIV+q2wFrAlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pjFZ6v967HcenrrLxQPul0RcOIZvhWxXqVZ0jQafIo5YoDDfYCQbQAJv8YFFHrQRKgdJCqmLJWWkMmhTya86TUKIAHX5gaEHWQYxs0ukhPfw9Wc6ffbZ1M5ZSrmQ9/dZvYWUAPqZ4wRgTAg0k/alpNaaaGMsoQrb2gKyo28s7d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yvYvAKEC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1756967743; c=relaxed/simple;
+	bh=FjQXXChF1UqOy7FKRSQjGWQ/hIkkXKXQmcLrd7YhGs8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XuPWZJtBhCzpWtuABuGsvY2OHFMiEE/wnVfIl2EzhsxJGHPCpxXk2pvPBywV3onay0a9R+gVsX3lG/nuV2QKID4Itnekb+ZmHg6+1pwMhRP2wtpk/E6JOFWxvBR/U+KnAV3dx9fDKDEFotTaajxjY+I4vle2+cJGWizEAZXzxCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ex3ajPSz; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yvYvAKEC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ROSGqH0M91384oeBa0AW0ZFuSxwkabcmaXmlvpcC8M4=; b=yvYvAKECyjiNoumKWD4cn1zQeo
-	lOWDRbBKrZIiWUHq7hpZIr1WgMj57wHdWnLAb6iRP6QwnfFagpJOQPd/CkgwwZHIqCYG6sUo8iSW3
-	XqTGDbNX/S3SiMYQT7zAsAklc36qgUFG4gd/qkP2nWjdeD+GQR+nuiVBGwCWmpO+1HcFmw6begBGP
-	DBQm6DniIKMRoE2D/DDsW8BBM/GsxM07Od8Ba14B76UdDM9aUZMupC9bFBjDVYcsfi8+VPF2VEE7o
-	A8SbVqGSUG0reliliHqSEXXrm3BuNmvqT+iePHR6kT2dpbrQfJf6SPr3TDKtwObu9HIAQKZwBIiTe
-	9K7CZukw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uu3LK-00000009UQr-0Wli;
-	Thu, 04 Sep 2025 06:21:10 +0000
-Date: Wed, 3 Sep 2025 23:21:10 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
-	djwong@kernel.org, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 12/16] iomap: add iomap_read_ops for read and readahead
-Message-ID: <aLkv1ueEE8-ULH6V@infradead.org>
-References: <20250829235627.4053234-1-joannelkoong@gmail.com>
- <20250829235627.4053234-13-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ex3ajPSz"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-724b9ba77d5so8088997b3.3;
+        Wed, 03 Sep 2025 23:35:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756967740; x=1757572540; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vvHhcp83qsBQuM6ySHCTxjF66qQvhHoowgPPy8cRsQY=;
+        b=Ex3ajPSzUGl9LunxeNMLUIVE5p75r3KpPOBVJ79AXR4W6sJAoNt3vgHyLrjruACrRl
+         KDtI60EThbhmpq2fpaGa1F8bZG07QK7EIViFM0bhI3A0YsUJ2X5Xu/NwhYsRnHL4i8OH
+         /4Lb2p83OAigGCeuw8T1AbQ/miG1AhIQPQJVPfeISkRdbec1DOLZUA4EDp09GCHp+nv5
+         s7IAxi7vjUvouIRlJhCuiSjZ0VytczNUBptz/D8wZKwZyjpx1fF7l5ZfK5HeaLmop4SF
+         qioYQTh37w8wTWCaWk1QGWL8Ywfbihy9ANS7eHGh7KKpY7LN8YeiNavgTeqm9CKcu07k
+         bp2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756967740; x=1757572540;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vvHhcp83qsBQuM6ySHCTxjF66qQvhHoowgPPy8cRsQY=;
+        b=R62R7qdaeCrWEEhlKEkVClw4tGBlZhfHRb+7HBSVukFwZ0LPtNPZ6yPFjND4XmsBCJ
+         sMCo9OvV2WiXcVsTJQBXW1WfFjadJQ/qTSc3SCdNE9JoDj2XuOmi+WfOpepFMbAAR/vq
+         mbaPHxNhH7oBPHxlMpmQ1uWUtkwIQYz4XE7m96ZUIKeSaHVUAEOmeBbVoXQsxuCn+d0N
+         9IQuRm7gbWDDGb9lkcNBvCG0/n5u1qtgLxlqC1b94y19zetGbON95dAk8bI5dJWv+PQC
+         fR3r+rQK0kuUeahb6+rKqXOV+OkUxDPpEVWXuHRt9xWZNYlu23nnmON7goytD6mEqFvt
+         36ow==
+X-Forwarded-Encrypted: i=1; AJvYcCUo/R63ufjCEAcFXqfKVkWhnvHMFWv2zpDhje79zpbkaszPkQedaTVcidDc5oVMfzr4kLlWCx0vwkA=@vger.kernel.org, AJvYcCUrHn2v/BMY8enCZ1C3OTit5iiqhyXHDw787zy/dNfvLoDKUSlAkuK5yhqrn7E4nL/hv3nrsEjKO+q8lP1Q@vger.kernel.org, AJvYcCUt+U9HHjNtG7Div+mCCW2L7rYoZ/ykLSwmAifSzmBiGwj0LyQBGw1tBu7efkNrdZupgaO23r/O7mjiW/xgqzzrg8aB@vger.kernel.org, AJvYcCXvr01Bbn3f2s08atPLRFCuDQE/SOp4WwSBDCCh/YbPmMCbTxAYQJP6VogiCjhrRDqni0putGIIqP3uXmxUGewmrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBY70SVK8Oem8KskDkcezhY9ihGDyBW6eFiqS/1x5OGOImsn7p
+	l7lUW1WkBFx1UQVjRCshK4YYtZWuwMzc368P+7ocLxt/5QS8E+etQHkCaQJaic82hzcZKw==
+X-Gm-Gg: ASbGncvaLVNQ9U1gT0v4oVscIwwxsU8gEzfSABynnQGX1hEQd/vyfH+dGTPBmVxPyYp
+	J37Md/uIy7hyzMv5/XUU1R526z8Cm5myc4G8e3kV+YmLCk57ck6DCYITUnpQIMtBIWqWL/FRG1r
+	BXP6dEuLOhJQ9cXyHoPHqbmapiSeanxonIaGv044xROM84wYONVMlf58ywMWadEmIe0QPGrOjC5
+	1D+a3ZGOsAXT3N1qUU/IXwrie0AxbJOBLaJCygOhJHI2aglsL4h2UZZZdMiBC6l+p2vELN7iNEf
+	fKX0g6ZZT9I/HvTlIWD31cEGQP1IMUONXhPyFtYtEt5fCjk3NaJhXLFqMQHYhVvD1/PcQpeAvR0
+	j/eKQo/MNQCUu8Jt24NqD256iL91ywg==
+X-Google-Smtp-Source: AGHT+IGgecQvCGBex5+3I/10iJMKBk/eFdZyo6YsgGfzzsbsYSr06jzNjj+3YbrxoGZBlyvsgEyYmQ==
+X-Received: by 2002:a05:690c:6f0f:b0:71b:d6a0:9771 with SMTP id 00721157ae682-722764052d2mr219807807b3.20.1756967740504;
+        Wed, 03 Sep 2025 23:35:40 -0700 (PDT)
+Received: from [127.0.0.1] ([2a12:a301:1000::20f3])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-723a82d94b4sm19469427b3.6.2025.09.03.23.35.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 23:35:40 -0700 (PDT)
+Message-ID: <c8a312e9-644a-45e0-8184-6eac8d8f4af1@gmail.com>
+Date: Thu, 4 Sep 2025 14:35:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250829235627.4053234-13-joannelkoong@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/6] tracing: wprobe: Add wprobe for watchpoint
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ x86@kernel.org, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+References: <175673787502.478080.3342912952394010967.stgit@devnote2>
+ <20250902230204.f3e81b03e7f6805caba1b717@kernel.org>
+Content-Language: en-US
+From: Jinchao Wang <wangjinchao600@gmail.com>
+In-Reply-To: <20250902230204.f3e81b03e7f6805caba1b717@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 29, 2025 at 04:56:23PM -0700, Joanne Koong wrote:
-> Add a "struct iomap_read_ops" that contains a read_folio_range()
-> callback that callers can provide as a custom handler for reading in a
-> folio range, if the caller does not wish to issue bio read requests
-> (which otherwise is the default behavior). read_folio_range() may read
-> the request asynchronously or synchronously. The caller is responsible
-> for calling iomap_start_folio_read()/iomap_finish_folio_read() when
-> reading the folio range.
+On 9/2/25 22:02, Masami Hiramatsu (Google) wrote:
+> (Adding Jinchao)
 > 
-> This makes it so that non-block based filesystems may use iomap for
-> reads.
+> On Mon,  1 Sep 2025 23:44:35 +0900
+> "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+> 
+>> Hi,
+>>
+>> Here is an RFC series for adding new wprobe (watch probe) which
+>> provides memory access tracing event. Moreover, this can be used via
+>> event trigger. Thus it can trace memory access on a dynamically
+>> allocated objects too.
+> 
+> BTW, this series is on the top of probes/for-next branch in the
+> linux-trace tree.
+> 
 
-Also for things like checksumming in block based file systems.  I've
-carried this patch originally from Goldwyn around for a while with
-my PI support patches:
+Hi, Masami
 
-https://git.infradead.org/?p=users/hch/misc.git;a=commitdiff;h=54ad84fded1d954cb9ebf483008cb57421efc959
+Thanks for including me. I only received the cover letter, so I'm 
+providing my feedback here:
 
-I'll see if we'll still need submit_bio with your version or if
-that can be reworked on top of your callout.
+- trigger_data issue:
+   it appears that the instance being removed is not the same as
+   the one that was originally set.
 
-> @@ -356,6 +356,12 @@ void iomap_finish_folio_read(struct folio *folio, size_t off, size_t len,
->  	if (finished)
->  		folio_end_read(folio, uptodate);
->  }
-> +
-> +void iomap_finish_folio_read(struct folio *folio, size_t off, size_t len,
-> +		int error)
-> +{
-> +	return __iomap_finish_folio_read(folio, off, len, error, true);
-> +}
->  EXPORT_SYMBOL_GPL(iomap_finish_folio_read);
+  - the function call issue:
+    `trace_wprobe_update_local()` is called twice, once in the trigger
+    callback and again in `wprobe_work_func`.
 
-..
 
-> +	if (ifs)
-> +		iomap_start_folio_read(folio, 1);
+I also noticed that the Watchpoint probe and KStackWatch implementations 
+share very similar logic for managing hardware breakpoints/watchpoints 
+(`hwbp/watch`):
+- `watch_init(unsigned long &place_holder)`
+- `watch_on(struct perf_event_attr *attr)`
+- `watch_off()` (or reset to the `place_holder` value)
+- `watch_uninit()`
 
-I don't fully understand these changes.  Any chance they could be split
-into a prep patch with a detailed commit message so that the method
-addition itself is mostly mechanical?
+Their primary difference lies in their handler functions, specifically 
+the `perf_overflow_handler_t triggered` callback.
 
-> +			if (read_ops && read_ops->read_folio_range) {
-> +				ret = read_ops->read_folio_range(iter, folio, pos, plen);
-> +				if (ret)
-> +					break;
-> +			} else {
-> +				iomap_read_folio_range_async(iter, ctx, pos, plen);
-> +			}
+I believe we could work together to unify this logic. I am open to 
+either approach: I can refactor my watch.c, or you can introduce new 
+helpers. This would help us save duplicated work and review time.
 
-Overly long lines.
+> Thanks,
+> 
+>>
+>> In this version, I reuse Jinchao's arch_reinstall_hw_breakpoint()
+>> patch[1].
+>>
+>> [1] https://lore.kernel.org/all/20250828073311.1116593-6-wangjinchao600@gmail.com/
+>>
+>> The basic usage of this wprobe is similar to other probes;
+>>
+>>    w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+OFFS]> [FETCHARGS]
+>>
+>> This defines a new wprobe event. For example, to trace jiffies update,
+>> you can do;
+>>
+>>   echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+>>   echo 1 > events/wprobes/my_jiffies/enable
+>>
+>> Moreover, this can be combined with event trigger to trace the memory
+>> accecss on slab objects. The trigger syntax is;
+>>
+>>    set_wprobe:WPROBE_EVENT:FIELD[+ADJUST]
+>>    clear_wprobe:WPROBE_EVENT
+>>
+>> For example, trace the first 8 byte of the dentry data structure passed
+>> to do_truncate() until it is deleted by __dentry_kill().
+>> (Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+>>
+>>    # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
+>>
+>>    # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+>>    # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+>>
+>>    # echo 'f:dentry_kill __dentry_kill dentry=$arg1' >> dynamic_events
+>>    # echo 'clear_wprobe:watch' >> events/fprobes/dentry_kill/trigger
+>>
+>>    # echo 1 >> events/fprobes/truncate/enable
+>>    # echo 1 >> events/fprobes/dentry_kill/enable
+>>
+>>    # echo aaa > /tmp/hoge
+>>    # echo bbb > /tmp/hoge
+>>    # echo ccc > /tmp/hoge
+>>    # rm /tmp/hoge
+>>
+>> Then, the trace data will show;
+>>
+>> # tracer: nop
+>> #
+>> # entries-in-buffer/entries-written: 16/16   #P:8
+>> #
+>> #                                _-----=> irqs-off/BH-disabled
+>> #                               / _----=> need-resched
+>> #                              | / _---=> hardirq/softirq
+>> #                              || / _--=> preempt-depth
+>> #                              ||| / _-=> migrate-disable
+>> #                              |||| /     delay
+>> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+>> #    [    7.026136] sh (113) used greatest stack depth: 12912 bytes left
+>>            | |         |   |||||     |         |
+>>                sh-113     [002] .....     7.024402: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880069194b8
+>>                sh-113     [002] ..Zff     7.024822: watch: (lookup_fast+0xaa/0x150) address=0xffff8880069194b8 value=0x200008
+>>                sh-113     [002] ..Zff     7.024830: watch: (step_into+0x82/0x360) address=0xffff8880069194b8 value=0x200008
+>>                sh-113     [002] ..Zff     7.024834: watch: (step_into+0x9f/0x360) address=0xffff8880069194b8 value=0x200008
+>>                sh-113     [002] ..Zff     7.024839: watch: (path_openat+0xb3a/0xe70) address=0xffff8880069194b8 value=0x200008
+>>                sh-113     [002] ..Zff     7.024843: watch: (path_openat+0xb9a/0xe70) address=0xffff8880069194b8 value=0x200008
+>>                sh-113     [002] .....     7.024847: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880069194b8
+>>                sh-113     [002] ...1.     7.025364: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff888006919380
+>>                sh-113     [002] ...1.     7.025511: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff8880069195f0
+>>                rm-118     [003] ...1.     7.027543: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff8880069194b8
+>>                sh-113     [002] ...2.     7.027825: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff8880044429c0
+>>                sh-113     [002] ...2.     7.027833: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff888004442270
+>>
+>>
+>> Thank you,
+>>
+>> ---
+>>
+>> Jinchao Wang (1):
+>>        x86/HWBP: introduce arch_reinstall_hw_breakpoint() for atomic context
+>>
+>> Masami Hiramatsu (Google) (5):
+>>        tracing: wprobe: Add watchpoint probe event based on hardware breakpoint
+>>        HWBP: Add modify_wide_hw_breakpoint_local() API
+>>        tracing: wprobe: Add wprobe event trigger
+>>        selftests: tracing: Add a basic testcase for wprobe
+>>        selftests: tracing: Add syntax testcase for wprobe
+>>
+>>
+>>   Documentation/trace/index.rst                      |    1
+>>   Documentation/trace/wprobetrace.rst                |  129 ++
+>>   arch/Kconfig                                       |   10
+>>   arch/x86/Kconfig                                   |    1
+>>   arch/x86/include/asm/hw_breakpoint.h               |    3
+>>   arch/x86/kernel/hw_breakpoint.c                    |   61 +
+>>   include/linux/hw_breakpoint.h                      |    6
+>>   include/linux/trace_events.h                       |    3
+>>   kernel/events/hw_breakpoint.c                      |   36 +
+>>   kernel/trace/Kconfig                               |   24
+>>   kernel/trace/Makefile                              |    1
+>>   kernel/trace/trace.c                               |    9
+>>   kernel/trace/trace.h                               |    5
+>>   kernel/trace/trace_probe.c                         |   20
+>>   kernel/trace/trace_probe.h                         |    8
+>>   kernel/trace/trace_wprobe.c                        | 1111 ++++++++++++++++++++
+>>   .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   68 +
+>>   .../test.d/dynevent/wprobes_syntax_errors.tc       |   20
+>>   18 files changed, 1513 insertions(+), 3 deletions(-)
+>>   create mode 100644 Documentation/trace/wprobetrace.rst
+>>   create mode 100644 kernel/trace/trace_wprobe.c
+>>   create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+>>   create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+>>
+>> --
+>> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> 
 
+
+-- 
+Best regards,
+Jinchao
