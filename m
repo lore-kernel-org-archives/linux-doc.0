@@ -1,261 +1,393 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919902C0280;
-	Thu,  4 Sep 2025 12:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756987732; cv=fail; b=diUaA9fZK1KCI8eehLof9q9KxeHslp/ang6kyjn/+fIW5mQe9ig90W7F8PCVZTMgL7ZHBObkG5ogqOsD19Vl1JEtmhjk4lWmEtz0o+k/7DPUgehZkHmt/jxrcA+9eDs0AQdzOAjiYkwFl76THyfG+vONSVQw8YbQS1JWtHx1lXo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756987732; c=relaxed/simple;
-	bh=cXrB/kw+jba/wiQekng6KypZZS+rbpCpuqB2nPP8zNU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kp+NqDrXZqkRfKgJoFfYZRPelH2dniR2ies/t/BMxARCT9oMWk2bR5QKWHihgYLNJK1hbpHat9hUUt2nzqFSzAaOfibvpfQhNkCvNSmfHwDvAtlJmxpm4MVXFNl4nEi23g5HW74uhNRnhbugMuwL0rHutG5ZF15G1ys0PlSzi5g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Ce2nw8sh; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=sHQSSonj; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858EC2EA480;
+	Thu,  4 Sep 2025 12:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756988883; cv=none; b=I9ToCpXFyM/ZHS75idLgxJZQ1NXOOslAAvhdfxYH0kdypq7pGJJUoj84DMKWqfzueHkQengnKjG3CXZVHvDnVMP2laPtUj+bkbNwLeJBcA2Ss1nza70tjJBR34qwDcWcQSV1MiXZ8kY7gtwtOIbHz2QUvzFFZDccOiC8cjZWdow=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756988883; c=relaxed/simple;
+	bh=3ZEmRxjZLaIPRC9HRDNrnRhSzhVZ8NzTBiURfd6pYZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IV+ycKGUQBiwm+UpZX9wgM7PjXEFRlIBAp1D4Xc4sUY3GbCSeXHtwz/GKdQDddcP80v9xGDbSiE3MNIivudL7qjUzbhPv2wupiLT0ajK3AAVfGmr4fFjZBsaFYDB16Jnx8goddtsWN40PQcHi3Og73SPfh7rW9tO3kTac7A73BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mr6popXI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ce2nw8sh";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="sHQSSonj"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584AYiHF021953;
-	Thu, 4 Sep 2025 12:08:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=6V9zEfLm/eHGWE5yzNcMk6hXDZnzLYl0O990jvvRXKw=; b=
-	Ce2nw8shoyknbaKkJo3wSwhpxpkgc45Qax1LP+3P5e7ccycf4ZXtI8M4u1nhGBfg
-	eba0SWw3AafWEWbg+2Ppots9LMvjK3LvlarCuXfiIOVXWlc9VHV+jFSPVrpdnoPh
-	qabdYOFHYjmcjDa+rTOtMpxJMr/EYemruhcY4zKdoqYdrUxJS7uWTXayIqDQjLyE
-	HryS0n37MomCG2U16T5SywMsXgjMagMuHZOIMXJ6MMLhMLxbxEsNRefGc4GaPhEi
-	xI71mBGWkMP+xYTviVhEJnYU3SlRhFPCOXlYB8zCmsRGZxF8dI6tDu/CqY/7xr3t
-	fdnRBp9yljyL9PQ+RBobkQ==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48y94v85ta-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Sep 2025 12:08:43 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 584AqCKo032618;
-	Thu, 4 Sep 2025 12:08:42 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrhtun3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Sep 2025 12:08:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a70v598lIh+2/jx4y1bPhlhJeDiSazI5O1KYUpvjpEv6IKsdQZKlAwAzPDw+KjTG/K03clKyFI5ZjKlubO07cRJUKy+qDRWxRERoFDAyrzhdBTsSr0g/E6/cYyviupfqXRAJ1yI8roJl73BQx8KzjOUmh4K05HTGL75fl3firo+txv3Q1LcwV24lmyfHRHhgFshLvVl3iOAJmbeswjqeiORGgSR6t43w6DhXq6il/xDlfY646yQfVXFu0IW+VDYVKgaHMpLITbLXz4C2cMKKao3Dloj6sGXEthWm2gwn3hoPMIvLV4AnI98eXu+nkGS4ivmaHND/wdZvN7Tgn9UMsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6V9zEfLm/eHGWE5yzNcMk6hXDZnzLYl0O990jvvRXKw=;
- b=uVM/UB+s/xBrIQYCRh3BMCvPgT4nb2WbSbkm/UY7134LweyPRny9KGRCtFIKUUU/XojIbUnKS6hMgg2JDvZIMSI68aj0MADBBiwaQxhqtGK0lsQTqM/oOPOLKf6mlH5yp8hw8UpKIpWpK4QCZzokank+vXhbo+nz2qCkQsbTKmwMBacOYaPNeUNPSw0jBRBJN+kcD9IsVlTdrTeiGp9mOgJEwenQAis8mG576Cmejtcj50rsg4WfhRgwoFUzAoqjfYYlxsaxedgq2VvH0/XxLu+ovFwD1UVOU5tI5E4H3wBxmNRZhSPH+mz9Y3o14LZTG++cuNc6vx0upraeyM1pGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6V9zEfLm/eHGWE5yzNcMk6hXDZnzLYl0O990jvvRXKw=;
- b=sHQSSonj5FZZdQwmFX9YOa71B4tjb1eq7FXG8KZZxlBtSOQ2wz8rPWjI0X+7bmp4y+2L8LagY2bMXsWPaxVKY/09a/FkR7SktLD2pyGlljrHrcwYtQaHT40qO+ancIE/LGMdpNO77hVIiy41PPm6IsWTwq/kLWV4rk7xy0cGv1o=
-Received: from SA1PR10MB5509.namprd10.prod.outlook.com (2603:10b6:806:1f5::20)
- by BY5PR10MB4369.namprd10.prod.outlook.com (2603:10b6:a03:204::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Thu, 4 Sep
- 2025 12:08:39 +0000
-Received: from SA1PR10MB5509.namprd10.prod.outlook.com
- ([fe80::a9aa:1b53:1397:fe24]) by SA1PR10MB5509.namprd10.prod.outlook.com
- ([fe80::a9aa:1b53:1397:fe24%3]) with mapi id 15.20.9073.026; Thu, 4 Sep 2025
- 12:08:38 +0000
-Message-ID: <0411cd55-6a3b-423c-b0b6-cb5de34827ff@oracle.com>
-Date: Thu, 4 Sep 2025 06:08:32 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] seccomp: Add SECCOMP_CLONE_FILTER operation
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Kees Cook <kees@kernel.org>, Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Sargun Dhillon <sargun@sargun.me>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
-References: <20250903203805.1335307-1-tom.hromatka@oracle.com>
- <CAADnVQLve3KgrqNqSqVrmL-wz6Jj1QUdjAcE5P26Z4wvh9e4HA@mail.gmail.com>
- <42cf76db-6cda-4606-9128-6f433da57d48@oracle.com>
- <CAADnVQJSgcAjEnU-A9bF6-9MQRFvbHqRsCCY7a0Y6bhVGtcGpA@mail.gmail.com>
-Content-Language: en-US
-From: Tom Hromatka <tom.hromatka@oracle.com>
-In-Reply-To: <CAADnVQJSgcAjEnU-A9bF6-9MQRFvbHqRsCCY7a0Y6bhVGtcGpA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CYXPR02CA0073.namprd02.prod.outlook.com
- (2603:10b6:930:ce::20) To SA1PR10MB5509.namprd10.prod.outlook.com
- (2603:10b6:806:1f5::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mr6popXI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DDE6C4CEF0;
+	Thu,  4 Sep 2025 12:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756988883;
+	bh=3ZEmRxjZLaIPRC9HRDNrnRhSzhVZ8NzTBiURfd6pYZU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mr6popXIa1e9rO2XDnT/n4XKA045CjsCzYcg4PrERcyad1xy7XdUyxuqZ862L1WOG
+	 wi+xMqMw8UjSAApSqmXpxlELbUPjfjbWOo7olkA4UzOtlzxLVapoAdxTonnmK2C+DS
+	 rebTHSZJxr99w/45pCl8gc+2lvkiYtGidhXT0eNBcA9RWT8pFE/87pN04J1v9RLaYs
+	 TLqR9hH4QNuqz7WsojMnrIvy1AeqbLbrpEZlziqtviBkzyLxhSUE+pkpfOsXUhQBEJ
+	 632XLGeC+hAv6sSlAfgZouUKYjF9/MwjR+EIVpafoQOnTkKv/SXMF7hydTl2wkMCiV
+	 v3LbC6xGZRmEQ==
+Date: Thu, 4 Sep 2025 13:27:53 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Asuna Yang <spriteovo@gmail.com>
+Cc: Jason Montleon <jmontleo@redhat.com>, Han Gao <rabenda.cn@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Tejun Heo <tj@kernel.org>,
+	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Matthew Maurer <mmaurer@google.com>, Jeff Xu <jeffxu@chromium.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Brian Gerst <brgerst@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/2] RISC-V: re-enable gcc + rust builds
+Message-ID: <20250904-sterilize-swagger-c7999b124e83@spud>
+References: <20250830-cheesy-prone-ee5fae406c22@spud>
+ <20250903190806.2604757-1-SpriteOvO@gmail.com>
+ <20250903190806.2604757-2-SpriteOvO@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR10MB5509:EE_|BY5PR10MB4369:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed05856b-08c4-46d3-7263-08ddebabc78d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?T3lUUkZLdGRKckx0SjBSSVA2dEg4dXVQcW4zZkV0eFpjKzRSVk5LcUthajkz?=
- =?utf-8?B?S0UvUDFYVE54bjc0MnVKS0duVHdOdElGN3ZmOGtKcnpWdy8wM3hFUDNwb1k5?=
- =?utf-8?B?Mjh6U0RiMmQ1VnorejA0SXlxaTZ1TkdDN25EYnU0V084QVFMK01pb0pOVnpt?=
- =?utf-8?B?VGxoUDk1b0x6T3ZPNU1remlyWFR3Wm93bXIwbzlXUiswKzM0SEp0TEVMTFB5?=
- =?utf-8?B?NXJpV1lpVVd0TTkyK0REQU5HWEsvOXJybGFkR3pZazBsd01JQmY3Zjh3dDFN?=
- =?utf-8?B?MWRKRTdOenRFRHN0aWE0TitLR1AySFZ1NWQ5SEFaQkhrMTV6QmdMK2V2cXc3?=
- =?utf-8?B?UmVKQXNYbEZubWtZWXY3MVJnUWd1b281SzA1Q1lqODZIVXhML0F0WEpreGhB?=
- =?utf-8?B?d1psQVNpTnhOTzRlMEg3SVcwWWdrNThFK0FJenhjUFVtUmNaSjZoRVF6VnlT?=
- =?utf-8?B?MlVrMUtMdC9jbFJqZlZOWTRmT2JHSmdyQmdKdWZCdzZMNnp3MlVGd2kzaFlU?=
- =?utf-8?B?c3pNRjRjR1NYQTB3NTZ5K08yaGc2OE41OWNoSkRGdjVCMGNGTmJuTVhMUmpY?=
- =?utf-8?B?VW5CQlVUdTdDYVZTbTRuK05hRkdNUzlaRDJmVWtCLy9SK1BLUnFCMnRjbUt2?=
- =?utf-8?B?cXdoVEVGcDVsdGx4ZHZVdkx4OWwzYm9ka3BuQlNuUHdVVllOZGFTaGtzdi91?=
- =?utf-8?B?alVmNlM0Y3M4amJjeUlsUFpjajZxZlY0dFBTOERJQmJKb1ZSakJSQXF3MmVL?=
- =?utf-8?B?NEJMY2tlNVpDU3lXRnA4Yk4vWXJUSm1rQ1ZjODQ5bkFrZCs1WS9GUTUxQmVw?=
- =?utf-8?B?L2xUNWZsR05yUVk1ZUUzN2wwcTNuNlRNZWdhUG1YaHdFeGNWTWRaa3JrNlA4?=
- =?utf-8?B?bEcvZm5ZTEhvZ1E1MHg1czl2ME5PY1ZEQ2RuS2lIN2tzWGtxMUpGaWxJSE81?=
- =?utf-8?B?TjZRVTlZVy9aZ1ZJTllmcWVPNTVTbEY2dFNxQkU5RVJ4bjBZeVBOTEdoWktl?=
- =?utf-8?B?Z1FPbUdUcXVaRnp4SkVmbVp1MDQrVWlWNXN2K3FRSlFvenF2YVR6Y2F3eUl1?=
- =?utf-8?B?aTZsU1dacXVzY2JHMTJ2UysxUHpoajNJNmhkRnVraXR4ZUJKeVVFL2Zid3lS?=
- =?utf-8?B?cE9jRXYxbFU1YmQwUE9yOEJSVXNhSi84bUlYeVQyRkVZTC9za0g0RThsb2g0?=
- =?utf-8?B?STh3Um1DeHhNU3BORCtDU1VXcVJKUW9aOEZCTGc3ekNHd3Fzc1Zrb3krR2Zq?=
- =?utf-8?B?Y0lyYy8vd2lhQWtXNFB6ZVlPRlRtVE1NTE1vYmxZb1gxVStSbkM0V3M4UzRV?=
- =?utf-8?B?L3JkbEZFZWN4VzVnYlkzaFFXSUMvRWdFRVRlYlFDUmJzWm1mNWx3NTdldUN3?=
- =?utf-8?B?QnBoekFicVVXQzFoTFlpbWR5bjVBbHh0TGp6SjM0WVN5QStrb2V3akZUOW5n?=
- =?utf-8?B?VTFWR0tmUzBORlAwVzJHaGo3aDB6WncydlBpMXVkc21GL21vNmlVQTZZZHRE?=
- =?utf-8?B?UWlPMWpzN3BqbTgrSk55MUd1ZzgrK3J3ZTVyTjEwV0xTMVgzSm1HdWhUeDZC?=
- =?utf-8?B?anZ2bXE2NDR0QVUrRzdoWkxnVXluUm1PNlpuREFTTXg4cDVDZXhrMkFWS21I?=
- =?utf-8?B?OFhacUIrOTY1RXcwTGt3a0ZXYytqYm9lVFpyWTRhK0RLZzNzVzdUYnNjTzB5?=
- =?utf-8?B?Vy9YUVkwRllKR2VCRFpMdFhrUjlCSmJXRmo3ZThHMENlSzIrZS9Bb0lNMCt1?=
- =?utf-8?B?dHBEQlRPWHlVYzhjTHlOcnBsdE10Y2dlNnNJYm1iMHY2TWV5V2x2aUhHNFZX?=
- =?utf-8?B?VGVESGdRKzA4dWIvRmNVcGlZQVZ5SGVPaklCVENFVXoyVFd0TXpxZndsdEwz?=
- =?utf-8?B?d1Y3bEEwenhIdXBZMSswNVh5cE9PRWlIcXV3NTdKSjJ4VWlFKzRLRjhucWlw?=
- =?utf-8?Q?mRI/HFH8mgQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR10MB5509.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MzR6N3ErRGdCRklBWTBHNWxPdkhjZENmZkVCbGxGOTFGeFVBaCtXaDNzNHla?=
- =?utf-8?B?YzBSSjRXZ2t0UXRPeUlzenlrTlR0VWswOEErdE5TYUhhZno2VU1hUFZMZzEw?=
- =?utf-8?B?ZkpmNE9LTGNscFNQSDc5YTJYQU5YdWZLY3VVeGh2OEZDWUM2QUoxTGV5UWtX?=
- =?utf-8?B?VDlBbUVZZFY2S2JodVRzRUJTeXFzK0RCOE1ENWpqK1JHQjJTREs2d0ptSjJI?=
- =?utf-8?B?NlVMYmsrZG5mZG5jQzJqSnA5K2xJQ3VPS2p5RTB0T28zUDJ0L3Vab094NElL?=
- =?utf-8?B?U3dIVmIzbytGN2dRdUpPOUJCREpoN0xpdE0vWUo4WXRWMDY0Nys0UkNDSTJO?=
- =?utf-8?B?Myt3ZXpDbGN4NC9iS3Bzc1gvenpwRmZ2R1BSeVpVUW5yQnYzZzVpcEFNTTcr?=
- =?utf-8?B?ZVpIWWNmVFNaT0k5L1NqQ3NwdlFmTGpYcFNndnV4SUVGSzBnTHZXdldYTVE2?=
- =?utf-8?B?NHFQNW1GL1NBNk5zNnVtMHl2dkVVbnJsSW92Y000ZFJ3amJJNGR5Q3REOGFr?=
- =?utf-8?B?d0dlNjZiZGRVajVIR2ZyQU5wc1lkOXBHL2VZNVUxcXpxa2tab2RudTlNR1U0?=
- =?utf-8?B?ZzNFNVZRVkZxK3lIcldSNlFVZlVaZDZyOTNFY1JBd3d5UStZNkNtWEtpcWVo?=
- =?utf-8?B?aEQvT2d2VnhEdnpFcjQxNlMySHdvTjRHMCtFbTV5cEhnZStZRCtuUFRyRlg0?=
- =?utf-8?B?VFFKeWJMVUtYL2Z1WXpvRWVzRHF5M1RCcVV0MCtNcGU3OWEzQTNkWVF6SG91?=
- =?utf-8?B?bytXMW04Vkt3Slk2a05BTEZRamFEVUUvbmJ5Z2pjVlJ1RDN4UThtbTU2Y1Rv?=
- =?utf-8?B?RlA3bzBvMExuNVRkS2o3VnVhSDFKNHpxUjNRMnpEcldTT2JFYmFFcmg0blhu?=
- =?utf-8?B?aDY2NmhYWGNyVG14REYrV1ErUjN5U3E1TFRZamdHKzA2YWxCYzVBUjhKZjUr?=
- =?utf-8?B?Ukg4TGJ0eDU4Y0tCQi8zOVlJWlZWRVRkN1RUSW95TnFKQi9RWWdMNG5QM090?=
- =?utf-8?B?Ty9sUTFHdHZvcDZObitLbnp3UUh3eGhCZTZXdytjYkJlbXFpQXdmczV0amZO?=
- =?utf-8?B?YlZPbUc3VjFHQkgzdFRKMDNMNlAwdVZqYW1RNFBwUnBVa1BxNjN6dGcxR1Y0?=
- =?utf-8?B?emFhMDdDd2pSNVBJcStmSG5RWFl3QitMUHlxTVZwbkJmV1dPRlNHY3BnMEZv?=
- =?utf-8?B?TDhOQnBUMndNRjNIc09Ubis4WVBIR0VObXRyVW1TbnlCOElLMFFCR05HVnh0?=
- =?utf-8?B?cXlZdVpZN2NhZlRTeTludldSQUh0ek56c1hkTDN5RnFUdGJlSVFZdExWMmxi?=
- =?utf-8?B?ZWhNaS9qdExiVXE3c1QxSzlLTjJtdFFZR2FoWVorU2M5aUp1OFpHZ3dRSzZh?=
- =?utf-8?B?QkVFanZGQ0xwZDI4dFFqOTlSZ0pqNVV4SVQ4WFRUZkxlUG8yT0RWNUdOOEZT?=
- =?utf-8?B?cXo2UThJTUNHK2pEWnNqZlVMQTZzYi9XbTRBaCtvSVFHTmtUMys4eTMvbllB?=
- =?utf-8?B?V01KVzJNaG1rTEorbEZJMVE2K3RIVFRMUTFNalZHWk9sRXJJNVZHWVZNRG1v?=
- =?utf-8?B?eGpucmRvbEZxZHpJSHczZWlEUjNMUlJFMmo0aElac3hVVkVPSlJVUkdRQjM4?=
- =?utf-8?B?Vlh4R05abjU0Z0JzNnlXKytOMjNaMjJIdWdNUFE4SmN0Z01ZcVdZa0J2Y3dL?=
- =?utf-8?B?OU1nTnU4OGx0WStPTnRiMHRGdDE3T3duS25hcmZRSk9GL2tjdyt5MjRlVmxT?=
- =?utf-8?B?YlpFZlpTUkRodlNGcU56ckJ2bTVOQzhBWGZ4ZEZtb2ZVMzMrRnNiUDhKM0FL?=
- =?utf-8?B?RkVXNTZzbnExNG5kSHNvenozSjRKMmx4dWQ3bmpmaEZzZDFDOHhRV2pkZk9z?=
- =?utf-8?B?YjdtTW41YkRxUHFVbUJxZ1U4S0MyQVRFTjlCOW0xSkt2MUk3TElXM3ZpV21j?=
- =?utf-8?B?bEJmbVE3K1ZDQnhLMTY1WERiZks4ZmdxZE9ZTkF3V1V0aTg5QnFMMy9xV2ND?=
- =?utf-8?B?dkMxaFFPZnZHem1wc3NqV09Qd1FEL3lyY0hPUkNqWmdsdXJsVWpRUXN4ejdH?=
- =?utf-8?B?TkxpNGtIUzRMazdBUUxhM1RBV01OTEVrcFRBTXFTQlhLMFZSU1Z2U3FIQUhj?=
- =?utf-8?Q?8QaDupWUW7+sIazsxbpu8KyGk?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	6a26jVannKWlRgLFHwyibobNKN/W2CmoT7aDMVnInPKIU2Wl0mVVNzZuog1MZVpS3oBRigCz2Qdhsn2jkntV8c700w4TEpBTI6WLFMnoY34dHeDJfZ/3IAdgrCrzMLO+xqKNlb6G0361vySzvEtTGgB7ZgZcfELcOz8NM+CpJEUppedzTvexEWR9sRYkhiKmqo9ut6sRatO8kSwFCd6DhxkMjawp/zxMYUj7C/cPglevQ8ZtG79OhoABuBFf+PW3S4Aa+MpaX8fdktbg507tycoWD9MeQwoAbZEZFHc236ZXx2/uhGxt5lOfzyiAEB25Yq93xcogzs4aGj+DvKlWxD/Y1Uy5DY2cCfkN+386Vjn/zUZQwHfN0D4ncvAYWqRzjadKuQpctGkG9Gz3Z2ZhEZX3H+707cAthTXhpe9X4IF+JAGefaZOYrfOedmV2wKZUI+okGqHoRYJVSbPfbbg4v7Upyxmvilzbyk+6Maquust9OkQw4lXUELZpqGG196FleYbcz3qcxtMAhG9kCiuim/8kMnDgKJikl/VFArrSP9BFQNYEHJSFKt9ddjqxZ3oI/SMkCQXGQ2d4UIHExW+e/kaFUQJBDUgTLXr7E98J8s=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed05856b-08c4-46d3-7263-08ddebabc78d
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5509.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 12:08:38.5929
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7opyzNYMNWq1umCpkcbZE/6TDq0lDXrJxzRysszjSm27G2yOgDsIRowbmUIW2xmAB93wivKr0h/eTFWvr/KGuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4369
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_04,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2508110000 definitions=main-2509040120
-X-Proofpoint-ORIG-GUID: 1t42mz8nlhbXz9DwpBCOOAqOdSCg_auY
-X-Proofpoint-GUID: 1t42mz8nlhbXz9DwpBCOOAqOdSCg_auY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA0MDEwNCBTYWx0ZWRfX7YWzPPrRNp8f
- 1VivV5Bu0v3aGmEdTABj7V4zXkCWwaS1yMzkZGLCosnEzHtJu3uJJv4yMHosK1D4EdLbzwwAw+e
- PrbxrGya6D47LTMspxtORUfqjmUKdSz7xT+uv777oAWD4mtjvd4eJgNvdcOd0n5qLi8ojQIzIYe
- vOFmtAA/aNXB8jzLVdYIU/1eKJ0r5ksBIdKE0WOJU7ReyYN8MBhXSEUqG16M6DDMVN35OUNwfQ2
- KULCRl+JutxukqtJeb1kFvDbtWx3IVXK5UzqfGebem/X8W9+bY9jdQlFiIXG416cfaWXOVHaNf2
- afV78YASkKAUVrolVW8sF54edeQ02rVJ/JtBe9nOriXJmGEHPcB0nomkzC480W26PdJ/psa+w4l
- B2HFSxAxss0uDMi9FA8avarVQR7ovw==
-X-Authority-Analysis: v=2.4 cv=UPHdHDfy c=1 sm=1 tr=0 ts=68b9814b b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=hV2IK7sstZAXtw1ccqcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf awl=host:12069
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bRU8yYMCdcvTZHhs"
+Content-Disposition: inline
+In-Reply-To: <20250903190806.2604757-2-SpriteOvO@gmail.com>
 
-On 9/3/25 4:44 PM, Alexei Starovoitov wrote:
-> On Wed, Sep 3, 2025 at 1:52 PM Tom Hromatka <tom.hromatka@oracle.com> wrote:
->>
->> On 9/3/25 2:45 PM, Alexei Starovoitov wrote:
->>> On Wed, Sep 3, 2025 at 1:38 PM Tom Hromatka <tom.hromatka@oracle.com> wrote:
->>>>
->>>> +
->>>> +       spin_lock_irq(&current->sighand->siglock);
->>>> +       spin_lock_irq(&task->sighand->siglock);
->>>> +
->>>> +       if (atomic_read(&task->seccomp.filter_count) == 0) {
->>>> +               spin_unlock_irq(&task->sighand->siglock);
->>>> +               spin_unlock_irq(&current->sighand->siglock);
->>>
->>> did you copy this pattern from somewhere ?
->>> It's obviously buggy.
->>
->> I tried to mimic the logic in copy_seccomp() in kernel/fork.c,
->> but as you point out, I probably messed it up :).
->>
->> Do you have recommendations for a better design pattern?
-> 
-> Several things look wrong here.
 
-Thanks so much for weighing in.
+--bRU8yYMCdcvTZHhs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Double _irq() is one obvious bug.
+On Wed, Sep 03, 2025 at 09:07:57PM +0200, Asuna Yang wrote:
+> Commit 33549fcf37ec ("RISC-V: disallow gcc + rust builds") disabled GCC
+> + Rust builds for RISC-V due to differences in extension handling
+> compared to LLVM.
+>=20
+> Add a Kconfig non-visible symbol to ensure that all important RISC-V
+> specific flags that will be used by GCC can be correctly recognized by
+> Rust bindgen's libclang, otherwise config HAVE_RUST will not be
+> selected.
+>=20
+> Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
 
-Makes sense.  I'll look through the kernel code to see if I can
-find another place where two task structs are being locked at
-the same time.  I've never had to do that before.
+Thanks for working on this. One thing - please don't send new versions
+of patchsets in response to earlier versions or other threads. It
+doesn't do you any favours with mailbox visibility.
 
-> Grabbing spin_lock to do atomic_read() is another oddity.
+> ---
+>  Documentation/rust/arch-support.rst |  2 +-
+>  arch/riscv/Kconfig                  | 62 ++++++++++++++++++++++++++++-
+>  rust/Makefile                       |  7 +++-
+>  3 files changed, 68 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arc=
+h-support.rst
+> index 6e6a515d0899..5282e0e174e8 100644
+> --- a/Documentation/rust/arch-support.rst
+> +++ b/Documentation/rust/arch-support.rst
+> @@ -18,7 +18,7 @@ Architecture   Level of support  Constraints
+>  ``arm``        Maintained        ARMv7 Little Endian only.
+>  ``arm64``      Maintained        Little Endian only.
+>  ``loongarch``  Maintained        \-
+> -``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
+> +``riscv``      Maintained        ``riscv64`` only.
+>  ``um``         Maintained        \-
+>  ``x86``        Maintained        ``x86_64`` only.
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 1c5544401530..d7f421e0f429 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -195,7 +195,7 @@ config RISCV
+>  	select HAVE_REGS_AND_STACK_ACCESS_API
+>  	select HAVE_RETHOOK if !XIP_KERNEL
+>  	select HAVE_RSEQ
+> -	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && CC_IS_CLANG
+> +	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && RUST_BINDGEN_LIBCLANG_RECOG=
+NIZES_FLAGS
+>  	select HAVE_SAMPLE_FTRACE_DIRECT
+>  	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI
+>  	select HAVE_STACKPROTECTOR
+> @@ -236,6 +236,27 @@ config RUSTC_SUPPORTS_RISCV
+>  	# -Zsanitizer=3Dshadow-call-stack flag.
+>  	depends on !SHADOW_CALL_STACK || RUSTC_VERSION >=3D 108200
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_FLAGS
+> +	def_bool y
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_V
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZABHA
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZACAS
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBA
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBB
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBC
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBKB
+> +	depends on RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZICSR_ZIFENCEI
 
-That would indeed be strange.
+Other than Zicsr/Zifencei that may need explicit handling in a dedicated
+option, the approach here seems kinda backwards.
+Individually these symbols don't actually mean what they say they do,
+which is confusing: "recognises" here is true even when it may not be
+true at all because TOOLCHAIN_HAS_FOO is not set. Why can these options
+not be removed, and instead the TOOLCHAIN_HAS_FOO options grow a
+"depends on !RUST || <condition>"?
 
-The spin_lock is needed to ensure that the source and target's
-seccomp filters don't change out from underneath me.  Once I
-read the target's seccomp filter count, I don't want another
-thread to make any changes before I've updated the target's
-filters.
+> +	help
+> +	  Rust bindgen currently relies on libclang as backend. When a mixed bu=
+ild is
+> +	  performed (building C code with GCC), GCC flags will be passed to lib=
+clang.
+> +	  However, not all GCC flags are recognized by Clang, so most of the
+> +	  incompatible flags have been filtered out in rust/Makefile.
+> +
+> +	  For RISC-V, GCC and Clang are not at the same pace of implementing ex=
+tensions.
+> +	  This config ensures that all important RISC-V specific flags that wil=
+l be
+> +	  used by GCC can be correctly recognized by Rust bindgen's libclang, o=
+therwise
+> +	  config HAVE_RUST will not be selected.
+> +
+>  config CLANG_SUPPORTS_DYNAMIC_FTRACE
+>  	def_bool CC_IS_CLANG
+>  	# https://github.com/ClangBuiltLinux/linux/issues/1817
+> @@ -634,6 +655,11 @@ config TOOLCHAIN_HAS_V
+>  	depends on LLD_VERSION >=3D 140000 || LD_VERSION >=3D 23800
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_V
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/e6de53b4de4aecca4ac892500=
+a0907805896ed27
+> +	depends on !TOOLCHAIN_HAS_V || RUST_BINDGEN_LIBCLANG_VERSION >=3D 140000
+> +
+>  config RISCV_ISA_V
+>  	bool "Vector extension support"
+>  	depends on TOOLCHAIN_HAS_V
+> @@ -698,6 +724,11 @@ config TOOLCHAIN_HAS_ZABHA
+>  	depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima_zabha)
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZABHA
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/6b7444964a8d028989beee554=
+a1f5c61d16a1cac
+> +	depends on !TOOLCHAIN_HAS_ZABHA || RUST_BINDGEN_LIBCLANG_VERSION >=3D 1=
+90100
+> +
+>  config RISCV_ISA_ZABHA
+>  	bool "Zabha extension support for atomic byte/halfword operations"
+>  	depends on TOOLCHAIN_HAS_ZABHA
+> @@ -716,6 +747,11 @@ config TOOLCHAIN_HAS_ZACAS
+>  	depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima_zacas)
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZACAS
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/614aeda93b2225c6eb42b00ba=
+189ba7ca2585c60
+> +	depends on !TOOLCHAIN_HAS_ZACAS || RUST_BINDGEN_LIBCLANG_VERSION >=3D 2=
+00100
+> +
+>  config RISCV_ISA_ZACAS
+>  	bool "Zacas extension support for atomic CAS"
+>  	depends on TOOLCHAIN_HAS_ZACAS
+> @@ -735,6 +771,11 @@ config TOOLCHAIN_HAS_ZBB
+>  	depends on LLD_VERSION >=3D 150000 || LD_VERSION >=3D 23900
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBB
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/33d008b169f3c813a4a45da22=
+0d0952f795ac477
+> +	depends on !TOOLCHAIN_HAS_ZBB || RUST_BINDGEN_LIBCLANG_VERSION >=3D 140=
+000
+> +
+>  # This symbol indicates that the toolchain supports all v1.0 vector cryp=
+to
+>  # extensions, including Zvk*, Zvbb, and Zvbc.  LLVM added all of these a=
+t once.
+>  # binutils added all except Zvkb, then added Zvkb.  So we just check for=
+ Zvkb.
+> @@ -750,6 +791,11 @@ config TOOLCHAIN_HAS_ZBA
+>  	depends on LLD_VERSION >=3D 150000 || LD_VERSION >=3D 23900
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBA
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/33d008b169f3c813a4a45da22=
+0d0952f795ac477
+> +	depends on !TOOLCHAIN_HAS_ZBA || RUST_BINDGEN_LIBCLANG_VERSION >=3D 140=
+000
+> +
+>  config RISCV_ISA_ZBA
+>  	bool "Zba extension support for bit manipulation instructions"
+>  	default y
+> @@ -785,6 +831,11 @@ config TOOLCHAIN_HAS_ZBC
+>  	depends on LLD_VERSION >=3D 150000 || LD_VERSION >=3D 23900
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBC
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/33d008b169f3c813a4a45da22=
+0d0952f795ac477
+> +	depends on !TOOLCHAIN_HAS_ZBC || RUST_BINDGEN_LIBCLANG_VERSION >=3D 140=
+000
+> +
+>  config RISCV_ISA_ZBCawl
+>  	bool "Zbc extension support for carry-less multiplication instructions"
+>  	depends on TOOLCHAIN_HAS_ZBC
+> @@ -808,6 +859,11 @@ config TOOLCHAIN_HAS_ZBKB
+>  	depends on LLD_VERSION >=3D 150000 || LD_VERSION >=3D 23900
+>  	depends on AS_HAS_OPTION_ARCH
+> =20
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZBKB
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/7ee1c162cc53d37f717f9a138=
+276ad64fa6863bc
+> +	depends on !TOOLCHAIN_HAS_ZBKB || RUST_BINDGEN_LIBCLANG_VERSION >=3D 14=
+0000
+> +
+>  config RISCV_ISA_ZBKB
+>  	bool "Zbkb extension support for bit manipulation instructions"
+>  	depends on TOOLCHAIN_HAS_ZBKB
+> @@ -894,6 +950,10 @@ config TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+>  	  versions of clang and GCC to be passed to GAS, which has the same res=
+ult
+>  	  as passing zicsr and zifencei to -march.
 
-Thanks!
+> +config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZICSR_ZIFENCEI
+> +	def_bool y
+> +	depends on TOOLCHAIN_NEEDS_OLD_ISA_SPEC || (TOOLCHAIN_NEEDS_EXPLICIT_ZI=
+CSR_ZIFENCEI && RUST_BINDGEN_LIBCLANG_VERSION >=3D 170000)
 
-Tom
+What does the libclang >=3D 17 requirement actually do here? Is that the
+version where llvm starts to require that Zicsr/Zifencei is set in order
+to use them? I think a comment to that effect is required if so. This
+doesn't actually need to be blocking either, should just be able to
+filter it out of march when passing to bindgen, no?
+
+What about the case where TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI is not
+set at all? Currently your patch is going to block rust in that case,
+when actually nothing needs to be done at all - no part of the toolchain
+requires understanding Zicsr/Zifencei as standalone extensions in this
+case.
+
+The TOOLCHAIN_NEEDS_OLD_ISA_SPEC handling I don't remember 100% how it
+works, but if bindgen requires them to be set to use the extension
+this will return true but do nothing to add the extensions to march?
+That seems wrong to me.
+I'd be fairly amenable to disabling rust though when used in combination
+with gcc < 11.3 and gas >=3D2.36 since it's such a niche condition, rather
+doing work to support it. That'd be effectively an inversion of your
+first condition.
+
+You could probably do something like blocking rust if
+TOOLCHAIN_NEEDS_OLD_ISA_SPEC and where TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFEN=
+CEI
+is set in combination with an older libclang - so like:
+
+	select HAVE_RUST if FOO && !ZICSR_ZIFENCEI_MISMATCH
+
+config ZICSR_ZIFENCEI_MISMATCH
+	def_bool y
+	depends on TOOLCHAIN_NEEDS_OLD_ISA_SPEC || (TOOLCHAIN_NEEDS_EXPLICIT_ZICSR=
+_ZIFENCEI && RUST_BINDGEN_LIBCLANG_VERSION < 170000)
+
+or alternatively, make a Kconfig option for the later half of that
+condition along the lines of:
+
+config BINDGEN_FILTER_OUT_ZICSR_ZIFENCEI
+	def_bool y
+	depends on TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI && RUST_BINDGEN_LIBCLAN=
+G_VERSION < 170000
+
+and use it to filter out _zicsr_zifencei and make the select
+
+	select HAVE_RUST if FOO && !TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+
+
+FWIW the reason that these odd mixes have dedicated work done for them
+in Kconfig is that the ?Linaro? CI infrastructure was running clang +
+binutils builds with a version of LLVM that predated us having full
+LLVM=3D1 support and it was done to stop that CI infrastructure falling
+over constantly.
+
+Cheers,
+Conor.
+
+> +
+>  config FPU
+>  	bool "FPU support"
+>  	default y
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 34d0429d50fd..7b1055c98146 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -277,20 +277,25 @@ bindgen_skip_c_flags :=3D -mno-fp-ret-in-387 -mpref=
+erred-stack-boundary=3D% \
+>  	-fno-inline-functions-called-once -fsanitize=3Dbounds-strict \
+>  	-fstrict-flex-arrays=3D% -fmin-function-alignment=3D% \
+>  	-fzero-init-padding-bits=3D% -mno-fdpic \
+> -	--param=3D% --param asan-%
+> +	--param=3D% --param asan-% -mno-riscv-attribute
+> =20
+>  # Derived from `scripts/Makefile.clang`.
+>  BINDGEN_TARGET_x86	:=3D x86_64-linux-gnu
+>  BINDGEN_TARGET_arm64	:=3D aarch64-linux-gnu
+>  BINDGEN_TARGET_arm	:=3D arm-linux-gnueabi
+>  BINDGEN_TARGET_loongarch	:=3D loongarch64-linux-gnusf
+> +BINDGEN_TARGET_riscv	:=3D riscv64-linux-gnu
+>  BINDGEN_TARGET_um	:=3D $(BINDGEN_TARGET_$(SUBARCH))
+>  BINDGEN_TARGET		:=3D $(BINDGEN_TARGET_$(SRCARCH))
+> =20
+> +ifeq ($(BINDGEN_TARGET),)
+> +$(error add '--target=3D' option to rust/Makefile)
+> +else
+>  # All warnings are inhibited since GCC builds are very experimental,
+>  # many GCC warnings are not supported by Clang, they may only appear in
+>  # some configurations, with new GCC versions, etc.
+>  bindgen_extra_c_flags =3D -w --target=3D$(BINDGEN_TARGET)
+> +endif
+> =20
+>  # Auto variable zero-initialization requires an additional special optio=
+n with
+>  # clang that is going to be removed sometime in the future (likely in
+> --=20
+> 2.51.0
+>=20
+
+--bRU8yYMCdcvTZHhs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLmFyQAKCRB4tDGHoIJi
+0hMEAQDtTxonALOV/JfCKvfTZ6lOMO5sKIiu+p36yGVHPeJcyAEA1gwfVGWd76Yv
+/iUM0vKFtuexQARFCnxY9cTCDeaywgY=
+=/COZ
+-----END PGP SIGNATURE-----
+
+--bRU8yYMCdcvTZHhs--
