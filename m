@@ -1,97 +1,115 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0152F3627
-	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 16:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4A6260580;
+	Thu,  4 Sep 2025 16:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757003770; cv=none; b=kSr6248991EXkbYR6OxbJbLGIOYaNgGZsvDr20raB/Qz2lZ3U4OOl5QZ2swyHVEoWXjL5M1fDx4R53CWP8ni/QtT3Jjejs8JhfB4bpFaP8fNtSSq5FAebqbA0jNNODcHwOe/DOUKiD1QDPFQFVoqcdGSOEFAmszzy9qJrWGym4k=
+	t=1757003837; cv=none; b=PFQPSnLwKuxSms5ZKmP5KAw/QVnCMAV58mlBVh6QOGCkNIeGEMcmjUbL2C+BgT0LtCCGbb9YWWtUS5WKZTdsyVRKGqDd2PP05f5uWzUC6C2BaJCVENQJrjsfjZo9vbb/yMPjU1OeW4EPFook5mIMPCpZ3LE+Y1J29gQPwWMXErc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757003770; c=relaxed/simple;
-	bh=aUMN8FhsVSLElUBbjq69uzF7yGIJy4XWSGdIWxOT+WA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RXEtT2wEkCaqeuzLLDzAxe07sCpIhJppvbV7YTppdS4vMFTGKUXYopi8MKb+BBT0uZvD4RtE9oGHkRoKU8tBfWtBOeA6hdFRIR4dsJnPmaxpLHb0J/QtMMGRTPrOthz5upkVwGjF20sIDl+lIlzZDiiobAgWum/ItFuBKnxP48c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kbs/ppUu; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757003837; c=relaxed/simple;
+	bh=ktaFNYGOy663BwK6rfV/ONBV11uoyQrRziv09fSFQ1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=siu2oTl+s7ROMotrWVaIRSYrmztMJPQUXKHDa5tQ3GamggDGHTcTncaaCKbBuh+M5BIC0tW/6manYJcdR5gtutI9wDJjUOFPgTTGPtXeIBSl22EPj/KiM+YtQJ7GFN0cOf0A/19BTBsb6OeJs6HtisUWAx4LAwVvaSezO8/lSoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hkRDPCwc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kbs/ppUu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 32659406FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757003761; bh=lfE8crIdcaJ14VvA828SA+k213F040wU5vYEB48LVxU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kbs/ppUuEOAtnfaFLk00P1VZXTsr+qbXfi7pKT8xx/D8eVD9VPJXPyR1nE/0UTU4o
-	 obVdWC7h88ZsPfF2A/+po1Nz2s4wz0/0lWGqWzwOgVP1kHCoi9GYvDb+4/8etbxioB
-	 cERJtTRCP8nRot7L9Ty3O/gJiT9etB4wvZoeBAnW54WdqE0NVdSrGaFb9mnspYHK9a
-	 JDrur6pcQRfLe86BnXkjfMkNB+aDjhTSXU28+Qs99hFzVJ646xRJYZtvzpJgHFvAiu
-	 hspD8xK9kxzjYC3Gjs29z17EoQalxL+ggj0O0IEo6UAZu1j0sMTv7W5cCDtloV6URI
-	 Ld1UMq+NC8XGw==
-Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 32659406FA;
-	Thu,  4 Sep 2025 16:36:01 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Vegard Nossum <vegard.nossum@oracle.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: linux-doc@vger.kernel.org, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>, Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH RFC 1/3] docs: add scripts/documentation-gen-renames.py
-In-Reply-To: <20250904094520.451070-1-vegard.nossum@oracle.com>
-References: <20250904094520.451070-1-vegard.nossum@oracle.com>
-Date: Thu, 04 Sep 2025 10:36:00 -0600
-Message-ID: <87qzwmmaz3.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkRDPCwc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87D8C4CEF0;
+	Thu,  4 Sep 2025 16:37:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757003834;
+	bh=ktaFNYGOy663BwK6rfV/ONBV11uoyQrRziv09fSFQ1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hkRDPCwcgpV8W/82FQ58Hd5lN+OM+10trpdtVo186jo1w+T6Sew0RKJ/4TY/RX2Ip
+	 r200ZrHL354DiFKrwms7xBmVqu08JXVvLuE4NErIdKRHDGruat+xbl3SHNKLxHP+Hz
+	 2/WSWuM5/y1bZJZUAm39JvLJzGixYRvMVE6a8VVY+F5r9Hi65LJpnWGBwz1ehPZwj6
+	 B8r2LYhfLODBKHBqtiyERC74r87xZITyQ8hJ0JE7fK8OpjHuW+RUNRMV3BKI9ySJcD
+	 CToGmN2fu60jEhJ6XbgicYPHuEjgzHP2Ww9lFQhmlX4HgTFwgMQkOh4COZI1fTKdBI
+	 6xyRidT+lU2Sw==
+Date: Thu, 4 Sep 2025 09:37:14 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Ramon de C Valle <rcvalle@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] kcfi: Prepare for GCC support
+Message-ID: <202509040933.06AF02E714@keescook>
+References: <20250904033217.it.414-kees@kernel.org>
+ <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
 
-Vegard Nossum <vegard.nossum@oracle.com> writes:
+On Thu, Sep 04, 2025 at 09:04:10AM +0200, Peter Zijlstra wrote:
+> On Wed, Sep 03, 2025 at 08:46:39PM -0700, Kees Cook wrote:
+> 
+> > Kees Cook (9):
+> >   compiler_types.h: Move __nocfi out of compiler-specific header
+> >   x86/traps: Clarify KCFI instruction layout
+> >   x86/cfi: Document the "cfi=" bootparam options
+> >   x86/cfi: Standardize on common "CFI:" prefix for CFI reports
+> >   x86/cfi: Add "debug" option to "cfi=" bootparam
+> >   x86/cfi: Remove __noinitretpoline and __noretpoline
+> 
+> So I can take these first 6 patches (and edit that debug patch to
+> un-annoy myself ;-), but I'm thinking this Kconfig stuff:
 
-> Add a new script that wraps git to trawl the repository history for
-> renames of .rst files in the Documentation/ directory.
->
-> Example usage:
->
->   scripts/documentation-gen-renames.py --rev v6.17-rc3 > Documentation/.renames.txt
->
-> The output format is simply:
->
->   <old path> SPACE <new path> NEWLINE
->
-> where neither <old path> nor <new path> contain the Documentation/
-> prefix or the .rst suffix. The file is sorted alphabetically.
->
-> We can suggest rerunning the script for future renames (and squash the
-> resulting change) or rerun it periodically to keep the file up to date.
->
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  scripts/documentation-gen-renames.py | 122 +++++++++++++++++++++++++++
->  1 file changed, 122 insertions(+)
->  create mode 100755 scripts/documentation-gen-renames.py
+Sure, yeah. Do you want a v3 for the debug stuff that uses your proposed
+helper?
 
-No cover letter?
+> >   kconfig: Add transitional symbol attribute for migration support
+> >   kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+> 
+> Should perhaps go through the kbuild tree? A
 
-It seems to work as advertised, thanks.
+I had chatted offline with Nathan about this series, and he'd suggested
+the kconfig change could go with it's first user (the rename). So if you
+don't want to put it in -tip, I can take it in the hardening tree.
+(There's no dependencies between these 2 and the first 6.)
 
-One request: the plan is to move all of the documentation-related tools
-into tools/docs once the churn settles a bit.  Rather can making us
-... rename ... these, can you just create them there in the first place?
-At that point, the "documentation-" prefix on the names would also be
-unnecessary.
+> Leaving this:
+> 
+> >   ARM: traps: Implement KCFI trap handler for ARM32
+> 
+> Can that go independently through the arm tree, or are there
+> dependencies?
 
-The programs need SPDX lines at the top.  Can we also get a brief
-comment block at the beginning of each saying what they do and how to
-run them?
+I can take this too, assuming ARM folks don't want to snag it. I may,
+however, wait on it, just to avoid implementing the kernel support
+before the GCC folks are happy with the arm32 KCFI backend and its UDF
+encoding, etc.
 
-I'm not convinced about ".renames" as a hidden file, but I guess I'm not
-deeply opposed to it either.
+Thanks for looking at these! :)
 
-Thanks,
+-Kees
 
-jon
+-- 
+Kees Cook
