@@ -1,71 +1,82 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B7E2857F9;
-	Thu,  4 Sep 2025 16:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF52F85B;
+	Thu,  4 Sep 2025 16:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757001724; cv=none; b=j6tzHmc3J0AhS6GO+67ABRbAnGbJx/mizYqAaC7QSh+8rFDbVOLSdcBLjp+gR/asg7PetGRJn8UuH2VNszSRQK2FMzI0cYhynBEO1qGP1GcaTV/IZjDOgOKEcDBGVsdJ9WfFol+kT2UiRBtELuFwZML+aOuWOfItR3MN11QS8Hw=
+	t=1757002657; cv=none; b=rhcAktAJACFgoJSpLxIHAeccSE+jF5ctd4KroNZRinXZTJg7ab0vZhgCnjOCKUmUPandPr3oWYEQjvybdoknTAAAwDUUI4eYf5ju69+71tG4c+1kDXlRifOosUgjiMMgQR9stuux0BxuX4Yt5gbkBwaF73nhtRqMugueGMMUhYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757001724; c=relaxed/simple;
-	bh=GWYHt3hWCszOTW+pJuUsAm+YAelIM6J5V/iqsnATWvU=;
+	s=arc-20240116; t=1757002657; c=relaxed/simple;
+	bh=aS4m+j4x0Lbp5L5OTCA58QWhFR0XSf+Gnc/huuxfs5E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EifHdqeObhfOJey19g2P5HNObFZRh3/g759rpANbPRcrtlj+wdJq6tfyWvrXC8vdslfnClYBq236jX9HQBR7ssogxeJW1tB5eKIrUrqjukEEHMunYK6vqB7ed6godE5IwryKU/QtmaUV9Q5ha71yR6Jj05cZDqW1Wam/CwXDpxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qTQ4D45/; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	 MIME-Version; b=avG9nvbyQmcjv0yhwBYnQpcX1+t19h0i3vI+W7Fdya6qILKuvPSTrprwPXtXXIlwrUzkz816dzlHqMnXCcRisYBDnzj8GSjO67VcFYBPAe+sICmWvFyKAkU4ivr+nOL5PLl6YbsiZwjJ/y6I60hftdCItB8lsCOGDkBzsi6X4v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dHC2BBtu; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qTQ4D45/"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584FtiU7023828;
-	Thu, 4 Sep 2025 16:01:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=puDhj
-	7AOd6F632Hw1n4QDGTLmJpzWRZR3HmzEkQgY+o=; b=qTQ4D45/OgOb/dQy649k+
-	pLrOfug6dswQ4ufNlnZOeuc1WiAwLPn2cD2pAt0shx1sRZ/5ufckKE/wh9hfOnrT
-	nYi01MZ768BjkQze974eTrvw/wAUdQTEBAIYMZnj0R0UCNBj5Gh0tcKfCgTSsouQ
-	JscnxNgyolEEIM9UpoxxQokwDtXkusE4X1dxk/4mLbyciscibmd2kxG0tkUai+oJ
-	ijKNssAX6T4IiZJo3fXD57QtYkBIgcWXlOJFrlo7XIe/4iwF3S48P4qjFTBn4tlK
-	/8Dyahl5FHTipO1R33Hwf5PO1UJ0NYjO9b+RFA73YWdIcQSUVsi/ohmum3JTD34k
-	g==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48ydhd02f1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Sep 2025 16:01:46 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 584F46sG040015;
-	Thu, 4 Sep 2025 16:01:45 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrhtub5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Sep 2025 16:01:45 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 584Fsx8E000707;
-	Thu, 4 Sep 2025 16:01:44 GMT
-Received: from localhost.localdomain (dhcp-10-154-122-161.vpn.oracle.com [10.154.122.161])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 48uqrhtkds-104;
-	Thu, 04 Sep 2025 16:01:44 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org,
-        Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-        Daniel Gomez <da.gomez@kernel.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Wang, Jay" <wanjay@amazon.com>, Nicolai Stange <nstange@suse.com>,
-        Vladis Dronov <vdronov@redhat.com>,
-        Stephan Mueller <smueller@chronox.de>,
-        Sami Tolvanen <samitolvanen@google.com>, linux-modules@vger.kernel.org,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH RFC 103/104] Documentation/crypto: add fips140.rst
-Date: Thu,  4 Sep 2025 17:52:15 +0200
-Message-Id: <20250904155216.460962-104-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250904155216.460962-1-vegard.nossum@oracle.com>
-References: <20250904155216.460962-1-vegard.nossum@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dHC2BBtu"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-32bab30eefbso500979a91.1;
+        Thu, 04 Sep 2025 09:17:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757002654; x=1757607454; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yvIGNWKLCjQ2uahB1o048h1iG+G/TvRCcRw5Y64YDV4=;
+        b=dHC2BBtualEASgblDx023jxNTxO87COXGTauZmWSO/saXi5JR074C/akuYTcFh30RU
+         /IlwEYAwgmfwWIFQZCARZG/o7mUMdX5OuU4KqiG7ULw5qP56TNEDNWgkVyvms4A+RJDB
+         enoVHG6XZz03mrpfAEJ8aHCqCI/MSq5823eOv9zXjRR0NMb2G3i0mo6fErUFnaGfZrmU
+         WHAhS9/U8M30JC1+6SNzq5fQacF89IZbSgmkNdhAD5HOCK2XxdTUNda6g4UCL8ehIr4R
+         9mMeJj6vM3998+ArktZLn6dQKY/2OCA/pTgvWZnwAcGuvj0Nq22c+hbLD9uIUXOAAwi9
+         Upaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757002654; x=1757607454;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yvIGNWKLCjQ2uahB1o048h1iG+G/TvRCcRw5Y64YDV4=;
+        b=EUJqX7WpjozopVTANqO8w0kd0u453zoq2n/d33hSuU6sTIrKNglCDfCFWGZgjemcZf
+         u4bmVh/YSoblvttkMK1mcelwh0WIWRStjl4xCvCTLjPeVZCFDXAU8Rk33Z6zg36xSSbS
+         /5JbKj3GVS+ALB9nOXiMoyT1PU7OocWjrwo2/WJEJIn1UWmj86jlcn0s27Tk/Yqn/vb5
+         cjnleQbFd+2s9xTbnlsrlR8VcgF4l0BrYa7GiS3SdkR86cnrhMRmlYp+sVSsKcyOHPhE
+         0HQyR7MCIPjXduXlsG2pJJ8ADIeo+U1ESBELfO1Sr7Jv5ay+gYgUIl5/9ygRo6+p9toU
+         rOkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjDbLnyinfg1gR6gKNR/ccsna7BaPSFGDnSXSVwtdyL6MS8KfFRF/9ZYxIlPCjGqy9HxcehCJ0/0mjVw==@vger.kernel.org, AJvYcCWGlVPf70QCNz+qGmGJ0a/+tmQfEUW3Xv4S7cQHWytOoKVpZcEv/EdkxWHzXxYVIeRdGchPpAUm6UU/@vger.kernel.org, AJvYcCWW6gw1HzIXidu63Xqp0he4LZvu8UOKwRqag8y78GSLhS93Y3r2wiw3Wj8IGqYom9B7SAQZjXCc9cAmCrh0@vger.kernel.org, AJvYcCWrl1x/tq8R1GZrKsjZHaSUoBjocCmZoKbclq98HatoIDZDjJO4ZxYx9KHmqJZnHtOl+4EhpLba9xm3@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmVUqIiMRd9nEWE/HcsiWFwJCVU7xGRDRdpeKvZ8XEPIw2ZUC9
+	90osOmy80QsKwx5yZ0A2dDptVujGkZljGGEr0gO7YrnA+wpfyFvmmGiYjmBdYQ==
+X-Gm-Gg: ASbGncupyjoAOAUx7yiSZEixHW+TE2QXEhRQsepjMti+GHA2vrK2H8sZn/7kkiLAKZ5
+	k0w7YcF1bly4FZaZBhmVZvhMhjmUPB8kirl6fvxkDCAf7j0TKFQ90RcGk06xR+EUAMY2f/qoYyP
+	wQI4hF1/Y1ysHiLgasp8jMFuO/k3BigmLfHepunr2Z13q3jvHH7zbRiK1+0qhMjNDtUWpYfA1o4
+	Eb9dixb6OJ4Z4fowo2VzKrOdMapefnOE2TU13Xw4WNH3EJhMQgg5CJjBE/tyiNBn+beaXfkB3XC
+	rGUSFPasejC5NbYh/g8Oar27R5sXdsstQ+TBBwal0BuA4SzjB71YqkknMDvXe4S0TdE6NoFnoPk
+	3PELvgFnQstipWGsK5vpQrgQUy//31Fj3bwrFxTI4/HtNuhpw8HeYtg==
+X-Google-Smtp-Source: AGHT+IGWLWlrRe5uglr/JGHLmTi9vnmsy+GoA2XmVyOvmMoBaVi+ynMunWIN2yeQbyLvv2l7GNE2Bg==
+X-Received: by 2002:a17:90b:1fc3:b0:329:8520:cee7 with SMTP id 98e67ed59e1d1-32bbdfed9ecmr216517a91.14.1757002654255;
+        Thu, 04 Sep 2025 09:17:34 -0700 (PDT)
+Received: from DESKTOP-P76LG1N.lan ([58.187.51.224])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32b617b104csm5149107a91.21.2025.09.04.09.17.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 09:17:33 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 RESEND 2/4] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+Date: Thu,  4 Sep 2025 23:17:28 +0700
+Message-Id: <20250904161728.24020-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250902121130.GK2163762@google.com>
+References: <20250902121130.GK2163762@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,285 +84,338 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_06,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509040157
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA0MDE1MyBTYWx0ZWRfX91h8H68lGGls
- bIIdppBShf4K9+Mb+SuEHq+PHPGORQeszI4qMgjFJUETEpuSyji/4rOAKtq0RGyaxkM5Yl9sU/1
- wP3skXDgMLa/B7xgvzjzEVkO3j9FfUEumB5ATEOlgHuKuZ+7rduOseVEfX2LskGIQ67lJkEZyIU
- MMOrgLrzMhYKgiCXGcKQGtZqF3oY5m2+9SzTv6PQZ2UqJAEW+SNLEjNGhMHuckp1Y5EvCq/A1jt
- gU+oFPiepS3eLurfCG9zxSEeUx6OXdzCUKWUjc2vsAsjt5LofM+KGJ44kEo107q/QDJ5N6ZYYbp
- K0d8fIjJ7ubf+f/+uw4iOlwOJ0YrJ3VyJf0RIx46N2IKZGeXccyMVjLqbTqzwUvZha8TCzJPnhO
- 2RVwtuZTjJSJ+BVGBDYfSjeLG80p7Q==
-X-Proofpoint-GUID: g2hjg_0CavlCpo2UHD_DBfGuey_IBOMt
-X-Proofpoint-ORIG-GUID: g2hjg_0CavlCpo2UHD_DBfGuey_IBOMt
-X-Authority-Analysis: v=2.4 cv=QoZe3Uyd c=1 sm=1 tr=0 ts=68b9b7ea b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=yJojWOMRYYMA:10 a=PYnjg3YJAAAA:8 a=07d9gI8wAAAA:8 a=VwQbUJbxAAAA:8
- a=yPCof4ZbAAAA:8 a=0xFrEbagEDTAMB6QI5oA:9 a=e2CUPOnPG4QKp8I52DXD:22 cc=ntf
- awl=host:12068
 
-Add documentation for the FIPS140 standalone module.
+On Tue, 2 Sep 2025, Lee Jones wrote:
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/crypto/fips140.rst | 231 +++++++++++++++++++++++++++++++
- Documentation/crypto/index.rst   |   1 +
- 2 files changed, 232 insertions(+)
- create mode 100644 Documentation/crypto/fips140.rst
+> On Mon, 18 Aug 2025, Nam Tran wrote:
+> 
+> > The LP5812 is a 4x3 matrix RGB LED driver with an autonomous animation
+> > engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
+> > 4 RGB LEDs. Each LED can be configured through the related registers
+> > to realize vivid and fancy lighting effects.
+> > 
+> > This patch adds minimal driver support for the LP5812, implementing
+> > only the essential functionality: I2C communication with the device,
+> > LED registration, brightness control in manual mode, and basic sysfs
+> > interfaces for LED configuration and fault monitoring.
+> > 
+> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > ---
+> >  MAINTAINERS                    |    4 +
+> >  drivers/leds/rgb/Kconfig       |   13 +
+> >  drivers/leds/rgb/Makefile      |    1 +
+> >  drivers/leds/rgb/leds-lp5812.c | 1086 ++++++++++++++++++++++++++++++++
+> >  drivers/leds/rgb/leds-lp5812.h |  164 +++++
+> >  5 files changed, 1268 insertions(+)
+> >  create mode 100644 drivers/leds/rgb/leds-lp5812.c
+> >  create mode 100644 drivers/leds/rgb/leds-lp5812.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 99512777b890..c2e1c02e206d 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -24828,6 +24828,10 @@ M:	Nam Tran <trannamatk@gmail.com>
+> >  L:	linux-leds@vger.kernel.org
+> >  S:	Maintained
+> >  F:	Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+> > +F:	drivers/leds/rgb/Kconfig
+> > +F:	drivers/leds/rgb/Makefile
+> > +F:	drivers/leds/rgb/leds-lp5812.c
+> > +F:	drivers/leds/rgb/leds-lp5812.h
+> >  
+> >  TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+> >  M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> > diff --git a/drivers/leds/rgb/Kconfig b/drivers/leds/rgb/Kconfig
+> > index 222d943d826a..28ef4c487367 100644
+> > --- a/drivers/leds/rgb/Kconfig
+> > +++ b/drivers/leds/rgb/Kconfig
+> > @@ -26,6 +26,19 @@ config LEDS_KTD202X
+> >  	  To compile this driver as a module, choose M here: the module
+> >  	  will be called leds-ktd202x.
+> >  
+> > +config LEDS_LP5812
+> > +	tristate "LED support for Texas Instruments LP5812"
+> > +	depends on I2C
+> > +	help
+> > +	  If you say Y here you get support for TI LP5812 LED driver.
+> > +	  The LP5812 is a 4x3 matrix RGB LED driver with autonomous
+> > +	  animation engine control.
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called leds-lp5812.
+> > +
+> > +	  If unsure, say N.
+> > +
+> >  config LEDS_NCP5623
+> >  	tristate "LED support for NCP5623"
+> >  	depends on I2C
+> > diff --git a/drivers/leds/rgb/Makefile b/drivers/leds/rgb/Makefile
+> > index a501fd27f179..be45991f63f5 100644
+> > --- a/drivers/leds/rgb/Makefile
+> > +++ b/drivers/leds/rgb/Makefile
+> > @@ -2,6 +2,7 @@
+> >  
+> >  obj-$(CONFIG_LEDS_GROUP_MULTICOLOR)	+= leds-group-multicolor.o
+> >  obj-$(CONFIG_LEDS_KTD202X)		+= leds-ktd202x.o
+> > +obj-$(CONFIG_LEDS_LP5812)		+= leds-lp5812.o
+> >  obj-$(CONFIG_LEDS_NCP5623)		+= leds-ncp5623.o
+> >  obj-$(CONFIG_LEDS_PWM_MULTICOLOR)	+= leds-pwm-multicolor.o
+> >  obj-$(CONFIG_LEDS_QCOM_LPG)		+= leds-qcom-lpg.o
+> > diff --git a/drivers/leds/rgb/leds-lp5812.c b/drivers/leds/rgb/leds-lp5812.c
+> > new file mode 100644
+> > index 000000000000..fb5ea449761a
+> > --- /dev/null
+> > +++ b/drivers/leds/rgb/leds-lp5812.c
+> > @@ -0,0 +1,1086 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * LP5812 LED driver
+> > + *
+> > + * Copyright (C) 2025 Texas Instruments
+> > + *
+> > + * Author: Jared Zhou <jared-zhou@ti.com>
+> > + */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/init.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/led-class-multicolor.h>
+> > +#include <linux/leds.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/sysfs.h>
+> > +#include <linux/types.h>
+> > +
+> > +#include "leds-lp5812.h"
+> > +
+> > +static int lp5812_write(struct lp5812_chip *chip, u16 reg, u8 val)
+> > +{
+> > +	struct device *dev = &chip->client->dev;
+> > +	struct i2c_msg msg;
+> > +	u8 buf[2];
+> > +	u8 extracted_bits;
+> 
+> What bits are being extracted?
+> 
+> addr_low?
+> 
 
-diff --git a/Documentation/crypto/fips140.rst b/Documentation/crypto/fips140.rst
-new file mode 100644
-index 000000000000..14a7fb7a69ed
---- /dev/null
-+++ b/Documentation/crypto/fips140.rst
-@@ -0,0 +1,231 @@
-+=========================
-+FIPS140 standalone module
-+=========================
-+
-+:Author: Vegard Nossum <vegard.nossum@oracle.com>
-+
-+
-+Target audience
-+===============
-+
-+This document is primarily meant for Linux distribution developers and
-+maintainers. It may also be interesting for kernel developers
-+contributing to the kernel's crypto code as it explains some of the
-+concepts and rationale behind the architecture of the crypto code and
-+how FIPS support is implemented.
-+
-+
-+Introduction
-+============
-+
-+FIPS 140-3 is a Federal Information Protection Standard, "Security
-+Requirements for Cryptographic Modules", maintained by the US National
-+Institute of Standards and Technology (NIST). [#fips140]_
-+
-+Binary implementation of specific approved cryptographic algorithms
-+can be certified as part of the Cryptographic Module Validation
-+Program (CMVP). In practice, the certification process includes both
-+source and binary code, though the end result is a certification
-+attached to the binary code.
-+
-+Having FIPS 140-3 certification is a requirement for running in many
-+secure contexts -- many Linux distros certify their kernels in order
-+to satisfy these requirements.
-+
-+Many distros have certified the entire kernel as a "FIPS module" (not
-+to be confused with kernel modules). Unfortunately, this means that
-+one cannot change any part of the kernel without invalidating the
-+certification. Moreover, certification is a costly process that can
-+last up to or even more than 12 months.
-+
-+The FIPS 140 standalone module (AKA ``fips140.ko``) fixes this situation
-+by allowing one to build the kernel's crypto code once and reuse it in
-+subsequent builds, thus enabling the rest of the kernel to receive bug
-+fixes and updates without invalidating the certification of the FIPS
-+module.
-+
-+
-+Design
-+======
-+
-+Requirements:
-+
-+- the FIPS module must not impose a stable internal kernel API on
-+  mainline or stable kernels
-+- the FIPS module must be a single, contiguous binary file and its HMAC
-+  (for easy verification)
-+- all crypto algorithms and code must reside within the FIPS module
-+- no crypto code in the FIPS module can be used before the FIPS module
-+  has executed its self-tests
-+- the FIPS module only comes into play when the kernel is booted with
-+  ``fips=1``
-+- source code should be shared between the kernel and the FIPS module
-+  where possible
-+
-+In order to satisfy these requirements, we have settled on a design
-+where the FIPS module duplicates the crypto API and all the algorithm
-+implementations that are part of the FIPS module. To avoid source code
-+duplication, we use symlinks from ``fips140/`` to the rest of the kernel
-+tree and build this directory as an external module -- in other words,
-+all the code and algorithms is built twice; once as part of vmlinux
-+and/or regular (non-FIPS) kernel modules, and once as part of
-+``fips140.ko``.
-+
-+To allow hot-swapping the crypto code (API + algorithms) at runtime
-+(i.e. when ``fips=1`` is detected during boot), we wrap any exported
-+symbols in C macros. These macros use static calls (see [#static_call]_)
-+to patch any and all users of the crypto code to call the FIPS module's
-+version of these functions instead of the functions in vmlinux.
-+
-+``fips140.ko`` is not really an ordinary kernel module -- it is not
-+meant to be loaded with ``modprobe`` or ``insmod``; instead, it is
-+embedded into the ``vmlinux`` image at build time. This avoid any
-+chicken-and-egg issues around how to verify cryptographic signatures
-+without using unverified crypto code. ``fips140.ko`` is loaded during
-+early boot -- before any crypto code is used by the kernel.
-+
-+The code for the FIPS 140 standalone module is therefore split into
-+two parts: the module itself (``fips140.ko``) and the loader
-+(``crypto/fips140-loader.c``). The loader is **NOT** part of the module
-+itself and is not covered by the certification; however, it is
-+essentially just a wrapper around the kernel module loader that runs
-+during early boot.
-+
-+We provide no explicit mechanisms to ensure compatibility between a
-+precompiled FIPS module and the rest of the kernel; this is the
-+responsibility of distros that choose to use the standalone FIPS module.
-+
-+
-+Building
-+========
-+
-+First off, ensure that ``CONFIG_CRYPTO_FIPS140_EXTMOD`` is enabled.
-+
-+Prepare for building out-of-tree module::
-+
-+  make modules_prepare
-+
-+Build fips140.ko as an out-of-tree module::
-+
-+  make M=fips140/ KBUILD_MODPOST_WARN=1
-+  cp fips140/fips140.ko crypto/
-+
-+Generate fips140.hmac::
-+
-+  hmac_key=$(awk -F'"' '/^CONFIG_CRYPTO_FIPS140_HMAC_KEY=/{print $2}' .config)
-+  openssl dgst -sha256 -hmac $hmac_key -binary -out crypto/fips140.hmac crypto/fips140.ko
-+
-+Build the rest of the kernel::
-+
-+  make
-+
-+
-+Adopting a standaline FIPS module for your distro
-+=================================================
-+
-+1. Carefully select which algorithms you want your FIPS module to
-+   provide (``CONFIG_FIPS140_*`` and ``CONFIG_CRYPTO_FIPS140_*``
-+   options)
-+
-+2. Integrate building ``fips140/`` as an out-of-tree module with the
-+   build system used by your distro's package manager.
-+
-+   - You may want to strip and separate out debuginfo before copying
-+     ``fips140.ko`` into ``crypto/``.
-+   - You need a mechanism to save and reintroduce the precompiled
-+     ``fips140.ko`` between builds.
-+   - All of this "build support" infrastructure is out of scope for
-+     mainline.
-+
-+3. Verify that the FIPS module satisfies your specific operational
-+   requirements.
-+
-+4. Submit the FIPS module to the certifying lab.
-+
-+.. warning::
-+   Mainline developers cannot and will not assist in getting a specific
-+   FIPS module certified. The code provided in the mainline source tree
-+   is intended to make certification of standalone FIPS modules easier,
-+   but we do not guarantee that a build will be certifiable as-is out of
-+   the box. Moreover, different distributions have different use cases,
-+   different requirements, etc. and all of this influences the specifics
-+   of any given FIPS module. Mainline developers will not be responsible
-+   for the certification or certifiability of your FIPS module.
-+
-+
-+Useful commands
-+===============
-+
-+
-+Extracting ``fips140.ko`` from ``vmlinux``
-+------------------------------------------
-+
-+To extract ``fips140.ko`` and ``fips140.hmac`` from an existing
-+``vmlinux`` build, use::
-+
-+  $ scripts/extract-fips140 /path/to/vmlinux
-+  extracted fips140.ko
-+  extracted fips140.hmac
-+
-+
-+Verifying the ``fips140.ko`` HMAC digest
-+----------------------------------------
-+
-+To verify the HMAC digest of ``fips140.ko``, use::
-+
-+  $ key="Sphinx of black quartz, judge my vow"
-+  $ openssl dgst -sha256 -hmac "$key" -binary fips140.ko > fips140.hmac-computed
-+  $ cmp -s fips140.hmac fips140.hmac-computed && echo ok
-+  ok
-+
-+
-+List the symbols used by ``fips140.ko``
-+---------------------------------------
-+
-+To list the kernel symbols used by ``fips140.ko`` (useful for checking
-+whether all the necessary crypto functions have been included in the
-+module), use::
-+
-+  $ nm --undefined-only fips140.ko
-+
-+
-+Quick crypto verification using AF_ALG
-+--------------------------------------
-+
-+Testing whether the code works properly is fairly easy using Python
-+and the ``AF_ALG`` interface, e.g.::
-+
-+  import socket
-+
-+  ALG_SET_KEY = 1
-+
-+  s = socket.socket(socket.AF_ALG, socket.SOCK_SEQPACKET, 0)
-+  s.bind(('hash', 'hmac(sha256)'))
-+  s.setsockopt(socket.SOL_ALG, ALG_SET_KEY, b'x' * 16)
-+
-+  op, _ = s.accept()
-+  op.sendall(b'x' * 32)
-+  print(op.recv(32))
-+
-+
-+Tracing the crypto code
-+-----------------------
-+
-+Testing whether the FIPS module is used correctly can also be done
-+using a combination of Python (as above) and ``trace-cmd`` like this::
-+
-+  $ sudo trace-cmd record -p function_graph -g __sys_bind python hmac.py
-+  $ trace-cmd report
-+
-+
-+Contributing
-+============
-+
-+Patches welcome.
-+
-+
-+References
-+==========
-+
-+.. [#fips140] <https://csrc.nist.gov/pubs/fips/140-3/final>
-+.. [#static_call] <https://lwn.net/Articles/815908/>
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index 100b47d049c0..e755ffd08d4f 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -27,3 +27,4 @@ for cryptographic use cases, as well as programming examples.
-    descore-readme
-    device_drivers/index
-    krb5
-+   fips140
--- 
-2.39.3
+According to the LP5812 datasheet (page 24, I2C Data Format section),
+the first byte includes 5 bits for the chip address, the next 2 bits
+are register address bits [9:8], and the last bit is the R/W flag.
+Therefore, I need to extract bits [9:8] from the register address and
+place them into bits [2:1] of the first byte. I'll also update the
+variable name to make this clearer.
 
+> > +	int ret;
+> > +
+> > +	/* Extract register address bits 9 and 8 for Address Byte 1 */
+> > +	extracted_bits = (reg >> 8) & 0x03;
+> 
+> Define all magic numbers throughout.  This includes MASKs and SHIFTs.
+> 
+
+I'll replace the inline constants with proper macros.
+
+> > +	/* Prepare payload: Address Byte 2 (bits [7:0]) and value to write */
+> > +	buf[0] = (u8)(reg & 0xFF);
+> > +	buf[1] = val;
+> > +
+> > +	/* Construct I2C message for a write operation */
+> > +	msg.addr = (chip->client->addr << 2) | extracted_bits;
+> > +	msg.flags = 0;
+> > +	msg.len = sizeof(buf);
+> > +	msg.buf = buf;
+> > +
+> > +	ret = i2c_transfer(chip->client->adapter, &msg, 1);
+> 
+> 	if (ret == 1)
+> 		return 0;
+> 
+> 	dev_err(dev, "I2C write error, ret=%d\n", ret);
+> 	return ret < 0 ? ret : -EIO;
+> 
+>
+
+This logic is cleaner. I will update it.
+
+> > +	if (ret != 1) {
+> > +		dev_err(dev, "I2C write error, ret=%d\n", ret);
+> > +		ret = ret < 0 ? ret : -EIO;
+> > +	} else {
+> > +		ret = 0;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int lp5812_read(struct lp5812_chip *chip, u16 reg, u8 *val)
+> > +{
+> > +	struct device *dev = &chip->client->dev;
+> > +	struct i2c_msg msgs[2];
+> > +	u8 ret_val;
+> > +	u8 extracted_bits;
+> > +	u8 converted_reg;
+> > +	int ret;
+> > +
+> > +	/* Extract register address bits 9 and 8 for Address Byte 1 */
+> > +	extracted_bits = (reg >> 8) & 0x03;
+> > +
+> > +	/* Lower 8 bits go in Address Byte 2 */
+> > +	converted_reg = (u8)(reg & 0xFF);
+> > +
+> > +	/* Prepare I2C write message to set register address */
+> > +	msgs[0].addr = (chip->client->addr << 2) | extracted_bits;
+> > +	msgs[0].flags = 0;
+> > +	msgs[0].len = 1;
+> > +	msgs[0].buf = &converted_reg;
+> > +
+> > +	/* Prepare I2C read message to retrieve register value */
+> > +	msgs[1].addr = (chip->client->addr << 2) | extracted_bits;
+> > +	msgs[1].flags = I2C_M_RD;
+> > +	msgs[1].len = 1;
+> > +	msgs[1].buf = &ret_val;
+> > +
+> > +	ret = i2c_transfer(chip->client->adapter, msgs, 2);
+> 
+> As above.
+>
+
+I will update this as well.
+
+> > +	if (ret != 2) {
+> > +		dev_err(dev, "I2C read error, ret=%d\n", ret);
+> > +		*val = 0;
+> > +		ret = ret < 0 ? ret : -EIO;
+> > +	} else {
+> > +		/* Store the value retrieved from the hardware */
+> > +		*val = ret_val;
+> > +		ret = 0;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int lp5812_read_tsd_config_status(struct lp5812_chip *chip, u8 *reg_val)
+> > +{
+> > +	return lp5812_read(chip, chip->cfg->reg_tsd_config_status.addr, reg_val);
+> > +}
+> > +
+> > +static int lp5812_update_regs_config(struct lp5812_chip *chip)
+> > +{
+> > +	u8 reg_val;
+> > +	int ret;
+> > +
+> > +	ret = lp5812_write(chip, chip->cfg->reg_cmd_update.addr, LP5812_UPDATE_CMD_VAL);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = lp5812_read_tsd_config_status(chip, &reg_val); /* Save register value */
+> 
+> Save register value where?
+>
+
+This function just reads the TSD config status register into reg_val for verification.
+This comment is redundant. I will remove it.
+
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return reg_val & 0x01;
+> 
+> What bit is this?  Please define it properly.
+>
+
+This is config_err_status. I will replace it with a properly defined macro.
+
+> > +}
+> > +
+> > +static int lp5812_fault_clear(struct lp5812_chip *chip, u8 value)
+> > +{
+> > +
+> > +	if (value == 0)
+> 
+> What do these values mean?  Define?
+> 
+> A switch() would be better.
+>
+
+I agree, I'll switch to 'switch()' and replace raw numbers with enums/macros for clarity.
+
+> > +		reg_val = LOD_CLEAR_VAL;
+> > +	else if (value == 1)
+> > +		reg_val = LSD_CLEAR_VAL;
+> > +	else if (value == 2)
+> > +		reg_val = TSD_CLEAR_VAL;
+> > +	else if (value == 3)
+> > +		reg_val = FAULT_CLEAR_ALL;
+> > +	else
+> > +		return -EINVAL;
+> > +
+> > +	return lp5812_write(chip, chip->cfg->reg_reset.addr, reg_val);
+> > +}
+> > +
+> > +static void set_mix_sel_led(struct lp5812_chip *chip, int mix_sel_led)
+> 
+> What is a "mix_sel_led"?
+> 
+> If forthcoming nomenclature can't be incorporated use comments.
+>
+
+I will change the name of this function.
+
+> > +{
+> > +	if (mix_sel_led == 0)
+> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = 1;
+> 
+> What are you doing here?
+> 
+> Why not something like:
+> 
+>   chip->u_drive_mode.s_drive_mode.mix_sel_led[mix_sel_led] = true;
+> 
+> Or if there is only one:
+> 
+>   chip->u_drive_mode.s_drive_mode.mix_sel_led = mix_sel_led;
+>
+
+You're right. I'll rework it.
+
+> > +	if (mix_sel_led == 1)
+> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = 1;
+> > +
+> > +	if (mix_sel_led == 2)
+> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = 1;
+> > +
+> > +	if (mix_sel_led == 3)
+> > +		chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = 1;
+> > +}
+> > +
+> > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, char *str)
+> > +{
+> > +	char *sub_str;
+> > +	int tcm_scan_num, mix_scan_num, mix_sel_led, scan_oder[4], i, ret;
+> > +
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = 0;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = 0;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = 0;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = 0;
+> > +
+> > +	sub_str = strsep(&str, ":");
+> 
+> This is totally unacceptable, sorry.
+> 
+> One value per sysfs file.
+> 
+> No parsing of weird and wonderful concats of data is allowed.
+> 
+> I'll end the review here.
+
+I will change solution to get value from sysfs file. No parsing or concats.
+Is it acceptable to consider a string format like "tcmscan:1:0:..." as a single value?
+
+Thank you for the detailed review.
+
+Best regards,
+Nam Tran
