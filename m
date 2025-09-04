@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23902BE03B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23F32BE03E;
 	Thu,  4 Sep 2025 07:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756971207; cv=none; b=AVbSXrwbaSz4LxffwXNiGSUkSVQ1pNhULm772iU3+VHNgmhgZ7Mw82Rgkwb26099iLfycb8jaf8AcuaY8CCZ9ilCyanx7zHVP5jVKl5o/BEgAo/D3iZ5q9hee26W61xRy0nmRnEMbpMt13+nlkrnEiiApU84BV7p/IAFP1t+8Wg=
+	t=1756971207; cv=none; b=UF0VO1Lut9B94hkzIXFsKeyBKstk3fzZoaA+9b3NyTPMyQwPy0E9s+CIveKuF6YipZMUMOAK35Trcy+P2TN5vAv5oMCGM3YuhgejlQ0gR7X0Bgtwnf2DeofeJIlaIctLSWI7PrLQNV6s4DTX67vUvxfRAw9NTi+dV8CvNZnQVEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756971207; c=relaxed/simple;
-	bh=ZLbhSMLrYrG412X2oMrDythT1CiWtmLDdQQNSbEgmmI=;
+	bh=/dLIDswzK4KrvEpdBfQvdI/IqyHPjqk3TcTvIyNvmfo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hWBtBs6jjaxMvfVmmNoZM2sMexCTpESotzeIjSbEqemZfisKmACy/MC6lPMMSbwRK3IsrKB5hkeXQFi2VYqM9gxnsADTgQleli9I5V67giDCyK2MbtXqJ0gR3RyBfuL+85i7dA/YdDHPppJ65bZtY+5vU1j8XDK/6iBCjPtJHdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJ3ae1hB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=eq0KDrj2lFxFWC+qH3FVXcbA8tKc7p1jLx4JxF9o7NqnzX/7UX2xW+7ZOddcplnDhwqtFNOd/uaD3sm0lEmqufiOX/OCEF2g55YzRIVU8K5fJWlVm/V+j0LrK9N79QG96ftTmuTRTML4/+DmMdhLC09qbemLeceWMdrTfdLrC/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olTW0BUV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJ3ae1hB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A07FFC4CEFE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olTW0BUV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C1EC4CEF4;
 	Thu,  4 Sep 2025 07:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756971206;
-	bh=ZLbhSMLrYrG412X2oMrDythT1CiWtmLDdQQNSbEgmmI=;
+	bh=/dLIDswzK4KrvEpdBfQvdI/IqyHPjqk3TcTvIyNvmfo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oJ3ae1hBCzr9H6EM6d5j3Pa+M9XZcoFHapiHSRm2OGbUUTm8lrWNpZVlaComxf03e
-	 2eJwL286weD4fMgVCBLau4guEVjfoS6Jd6Xm24KSOs2e4VrP7mzmv/F2cakfWCWcBn
-	 udVcPA8jIbIb9bLpM9gVCEAotdnvrN7k7HXCFK8kNlQnJQno02zJG6/j4C4IkOx6Gj
-	 G0oRGmaIFu2SzsURPMy0158El7f7DqvSgg0aPmjw3RBfIVv2m9AIo7IchytY1+evvI
-	 FAClPJcO0odOY/ovyYdy5lNPARO9JZJnJjiL70+xqSPJj2J8CLA+w6nGTt+F2bQXCI
-	 z1IrXBAJl/nag==
+	b=olTW0BUV8uUhz+OhKjYSqZaxES6n4IP1BzDAsguRctcvzUkHBGIsb+3bidZ/OLoO5
+	 BYUBLRxjqc77FsXlM1RMu15grqZJFv8CFjo7F2bjlVpX2QHdxwWMfIWvPAhXIv2VHm
+	 09WFO6Ip+gT2RtxES96bd9YDuhYRnkTZFUPH2DtuisbRBK/0nmhGSpPKf5+Xo5ZqAH
+	 77Mv/8+u8pyeVTbETMgWB3Ng9Gstsbf290/V9+Xq32XQhyrRxzFiPEoRc6HYoVTHAQ
+	 zYQN3nOeNEkWlF0THA34KtUugYYLCl3h8HjP3AFJo/4fihlfv0UbBJ4cSmklHovMWB
+	 fVyU69HAgjh/g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uu4TE-00000009jPr-40xC;
+	id 1uu4TE-00000009jPT-3REL;
 	Thu, 04 Sep 2025 09:33:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 11/19] docs: parallel-wrapper.sh: remove script
-Date: Thu,  4 Sep 2025 09:33:11 +0200
-Message-ID: <36db8fe6394b8339c2a45a1e698fc224fe35c9f4.1756969623.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 06/19] tools/docs: python_version: drop a debug print
+Date: Thu,  4 Sep 2025 09:33:06 +0200
+Message-ID: <64cdaa3c980931ee7e25e3b3494070c47bbf5545.1756969623.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756969623.git.mchehab+huawei@kernel.org>
 References: <cover.1756969623.git.mchehab+huawei@kernel.org>
@@ -52,55 +52,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The only usage of this script was docs Makefile. Now that
-it is using the new sphinx-build-wrapper, which has inside
-the code from parallel-wrapper.sh, we can drop this script.
+The version print at the lib was added for debugging purposes.
+Get rid of it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/parallel-wrapper.sh | 33 ------------------------
- 1 file changed, 33 deletions(-)
- delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
+ tools/docs/lib/python_version.py | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphinx/parallel-wrapper.sh
-deleted file mode 100644
-index e54c44ce117d..000000000000
---- a/Documentation/sphinx/parallel-wrapper.sh
-+++ /dev/null
-@@ -1,33 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0+
--#
--# Figure out if we should follow a specific parallelism from the make
--# environment (as exported by scripts/jobserver-exec), or fall back to
--# the "auto" parallelism when "-jN" is not specified at the top-level
--# "make" invocation.
+diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
+index 0519d524e547..660bfe7d23fa 100644
+--- a/tools/docs/lib/python_version.py
++++ b/tools/docs/lib/python_version.py
+@@ -109,8 +109,6 @@ class PythonVersion:
+         cur_ver = sys.version_info[:3]
+         if cur_ver >= min_version:
+             ver = PythonVersion.ver_str(cur_ver)
+-            print(f"Python version: {ver}")
 -
--sphinx="$1"
--shift || true
--
--parallel="$PARALLELISM"
--if [ -z "$parallel" ] ; then
--	# If no parallelism is specified at the top-level make, then
--	# fall back to the expected "-jauto" mode that the "htmldocs"
--	# target has had.
--	auto=$(perl -e 'open IN,"'"$sphinx"' --version 2>&1 |";
--			while (<IN>) {
--				if (m/([\d\.]+)/) {
--					print "auto" if ($1 >= "1.7")
--				}
--			}
--			close IN')
--	if [ -n "$auto" ] ; then
--		parallel="$auto"
--	fi
--fi
--# Only if some parallelism has been determined do we add the -jN option.
--if [ -n "$parallel" ] ; then
--	parallel="-j$parallel"
--fi
--
--exec "$sphinx" $parallel "$@"
+             return
+ 
+         python_ver = PythonVersion.ver_str(cur_ver)
 -- 
 2.51.0
 
