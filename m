@@ -1,189 +1,130 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E10C283FEA
-	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 03:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EF019F127;
+	Thu,  4 Sep 2025 03:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756957369; cv=none; b=iQvBEJjEzrWYJy0WeDGMBFZm1XXRvRTbbwq77Fu6GQNE0+3oi5C3WQjdO8kHzR3ETV1ROLkYbcKcVgDbluvw33Q53irhuVXrYF2fq5/SznWpTXkdJPzjlpiC/B5azi1MxG+UuZQuHmxocYS0KuwPnPWnu+FAXK7DebSt9gfQmAY=
+	t=1756957617; cv=none; b=liu3NMQGHqrhShXCxvszE2/Exgw5H6pN/1d5OOsrENw+AuHoI7xD+ejA/CeiebykcfmZkolfE4dO/0t1Z8tgHsfu068DJK04CGgMp1SKn7CSSTtJ+IzGtm7ouNF1TlAYap7EssuC3kDjJOqkIlXYypgR78lJCjG6kVQV+vXZe4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756957369; c=relaxed/simple;
-	bh=78rBjVRnFwQafZRZGWVZfwcxXYCaJ5R6Q4fIi9STuNw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J5K5CkkFMUOsIEviohwzYQSkfX+Q7I2KdT0a1ODv4o20IIKF4bVM+9BdWGYEMnrDaBToKQZxVLpeawoGeDdvM4jM/o4rVrja1+KIfmXD15j35mlIueucjtmIktwG3w0Wvt0Pa4CLNXH6R01k1/wjlP6yiyIyHTu1zJHigsBF7eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gu3ZG5nS; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756957617; c=relaxed/simple;
+	bh=d3lOLi68KOsHVuJ/f3j08zMj0QWctUjZ54+wY+NXD08=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=L5PcTkGEAbwovUOcrhx7wGDvuyFGnWd0WJXTUEf+P2iBmB9GLxATfRAolgo720NIJn1MALawdE4Ps9iF5KR0ETxs2UVpLwm2gDXtupm+XgYFTZ9gUbEl8kzzf4RWkA/MYMgIhDJoC+V3g0tzRZwS4vIJbg9eZvaSnRSXNllYrTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgQf/Pim; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gu3ZG5nS"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61cb4370e7bso801084a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Sep 2025 20:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756957365; x=1757562165; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+jNm30eNUMO6eOONSN2mNBnGpa9uzbzmVe5C0I59Wbw=;
-        b=gu3ZG5nSo+JyYpV+GM5+v5LJVq1/AROhwMhj/lbwW7AM4Go9C3SQVYWlMF/OmDTXci
-         E6z6kOHgf4+trxDG390V01E1HDNtOrrJMuMy+qX/XOLqCJL98tXXxUBbZz32oACbc7kN
-         VkuHqdyr7NJwzrziRBRR1do0IOpKcpWTFnMBbW8HBFVGYAaevqVWxSd2qqfxX2sPckjf
-         w/AeznC5mutpV8oad6VU0M0UqvjcLAspzPYIV21UiKs8NdYcZfqyhXGLhrJWXNsekRNq
-         3yUNottJTwsG05ncOlqGF/gXAZW7rNk7+3b2/bJrcJA9zXGCGYfGXg87212Lf5s9wgui
-         pk9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756957365; x=1757562165;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+jNm30eNUMO6eOONSN2mNBnGpa9uzbzmVe5C0I59Wbw=;
-        b=caC5k1KLAaoDXJq2DLQGnVWijSnZh5UoZCq3vFty69V9qx+/cpyEIzh/IifBKd84Dm
-         uM13c6ewxG1FEnWniwb6QjoLD7xgatjddDDVb6T9hy76+41bOMlpj9tSEWUUsibtw3gR
-         qme6xcFz/EYdhBqIDWJO49VLkHUP0oF/jMh1+Lcrsjds/gn6cfwNAZsozVuMZqzd5h2r
-         zNP/RvURWYgkTxtYd7kmwDGQmyBxa2YLPrv40g/LOejIRtXk18mJ2qdf/gumw6muriWe
-         JumP5CzX8feizJ1E7xFXNvdCkGP7ge8WohNU7Rgi0sGEmTJP4u00dsS74nJV8VT9S9PS
-         fbXA==
-X-Gm-Message-State: AOJu0YzzhcXz//lvUW4OFddntNw6AsrM30ytK5vmLMJhhjVICpCYpaxf
-	pVqiaHM9W+/0XlqlUuwWE94BJlr8zxyHoF0XJsc2LthibSEkCQRTMt6nxAgDB+zq0/cZeGdHMzT
-	0mCdR3PbW7emsEkCt+ZlnAEkmWgGXUl+ML27X6cX3tA==
-X-Gm-Gg: ASbGncuBkr8G+8yzBagjXNSEP3VxwmDRMJksMYEmxByXm7K/kjvwhLN/UuAXE7t6vdc
-	CTrstkcZHa8SK8NO1pEDhyM8j8romCxcMsdwX5LwcpYnVHZVQj/QAae9GkJnThnxRCO7RCEJT2d
-	Lla7USMzTTgz5NC8lvz0B0DfnMlRkIyYM2mlvxQ04ViPzLLU31wPhUQjfgfhqPngGDjA4qUKZyY
-	3KLC70coynn2yts4TbJjG+VVS0BttiHLKEOTUhMzu3/hBoYSbhP/noDwYwX+h9g
-X-Google-Smtp-Source: AGHT+IGai2U0QPV4B5s4iuTfemcPyo8pb8YrTbmFoYVYPI70CIqvZvJXlZNF96nhuwMBQoCPucjnQIyR/L/qan33emE=
-X-Received: by 2002:a05:6402:5110:b0:61c:9851:a92d with SMTP id
- 4fb4d7f45d1cf-61d269a11c8mr15169612a12.15.1756957365101; Wed, 03 Sep 2025
- 20:42:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgQf/Pim"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625BAC4CEF6;
+	Thu,  4 Sep 2025 03:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756957616;
+	bh=d3lOLi68KOsHVuJ/f3j08zMj0QWctUjZ54+wY+NXD08=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WgQf/PimBcqXFchHFFEXbGkt8CPsVDbpv3hGvURMfReygav6u5xf86AMUd5DROUP6
+	 fNC3wlARQSAoXfliV/h+AXt/o27Ivu9RfomLqUxm0+VdkuU5Nzk11H6HAohoCpzy6+
+	 rbIMn0HY71k68cSQtrjQFhE2gFUFMtMOqoB+wbFR4PEGbhPCzXNb7Z70z/EY6zc5Ax
+	 /lamD6uEhHQoHb3eW9UsQ4Tfw8JaEvOKTNv+0rhHdZhj0LEt1u8h9DgOrUth8TLAEN
+	 /g+wNzxYIDGe18HCyIQNPgM4YFUvb06pMfW7n/JpltZ4z4x7wDWtoBIKF/UcW/DEPt
+	 1iJYogmhAdLDQ==
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Ramon de C Valle <rcvalle@google.com>,
+	llvm@lists.linux.dev,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v2 1/9] compiler_types.h: Move __nocfi out of compiler-specific header
+Date: Wed,  3 Sep 2025 20:46:40 -0700
+Message-Id: <20250904034656.3670313-1-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250904033217.it.414-kees@kernel.org>
+References: <20250904033217.it.414-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
- <87a53cx4r0.fsf@trenco.lwn.net> <CALMA0xaFxH_AT8PYyxLYqjP9RGKpWK4PsYbh-jVD8ddY9bCyFw@mail.gmail.com>
-In-Reply-To: <CALMA0xaFxH_AT8PYyxLYqjP9RGKpWK4PsYbh-jVD8ddY9bCyFw@mail.gmail.com>
-From: Zhixu Liu <zhixu.liu@gmail.com>
-Date: Thu, 4 Sep 2025 11:42:09 +0800
-X-Gm-Features: Ac12FXw5T1mLDJ8Raqr4nZTxQYXzcDKxE92Uyc02UNmb1f3E57d2pZQxbsHP5B4
-Message-ID: <CALMA0xbKwA2Vz_QyHoJVgX8tPfO9FLcNbr39JF6SAW1N7t1XHg@mail.gmail.com>
-Subject: [PATCH v3] docs: sphinx: handle removal of utils.error_reporting in
- docutils 0.22
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1743; i=kees@kernel.org; h=from:subject; bh=d3lOLi68KOsHVuJ/f3j08zMj0QWctUjZ54+wY+NXD08=; b=owGbwMvMwCVmps19z/KJym7G02pJDBk7OYtuJi1qLixhqb860yLcbsEPyaa/uQe18+7JeZj9F RMXrm7sKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmMiSCIb/MfMWcC1u7nPcvDS9 tlDJtsX0xvJV3CKsf/eJimm8OfoxjZHhZYDFc4NVL3fzS9216vF/erDP5f6VnveKx15OPcOeoMn ADgA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-docutils.utils.error_reporting was removed in docutils v0.22, causing sphinx
-extensions (e.g. kernel_include) to fail with:
+Prepare for GCC KCFI support and move the __nocfi attribute from
+compiler-clang.h to compiler_types.h. This was already gated by
+CONFIG_CFI_CLANG, so this remains safe for non-KCFI GCC builds.
 
-    Traceback (most recent call last):
-      File "/usr/lib/python3.12/site-packages/sphinx/registry.py",
-line 541, in load_extension
-        mod = import_module(extname)
-              ^^^^^^^^^^^^^^^^^^^^^^
-      File "/usr/lib/python3.12/importlib/__init__.py", line 90, in
-import_module
-        return _bootstrap._gcd_import(name[level:], package, level)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
-      File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
-      File "<frozen importlib._bootstrap>", line 1331, in
-_find_and_load_unlocked
-      File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
-      File "<frozen importlib._bootstrap_external>", line 999, in exec_module
-      File "<frozen importlib._bootstrap>", line 488, in
-_call_with_frames_removed
-      File "/var/tmp/portage/sys-kernel/linux-docs-6.16.4/work/linux-6.16.4/Documentation/sphinx/kernel_include.py",
-line 37, in <module>
-        from docutils.utils.error_reporting import SafeString, ErrorString
-    ModuleNotFoundError: No module named 'docutils.utils.error_reporting'
-
-    The above exception was the direct cause of the following exception:
-
-    Traceback (most recent call last):
-      File "/usr/lib/python3.12/site-packages/sphinx/cmd/build.py",
-line 414, in build_main
-        app = Sphinx(
-              ^^^^^^^
-      File "/usr/lib/python3.12/site-packages/sphinx/application.py",
-line 291, in __init__
-        self.setup_extension(extension)
-      File "/usr/lib/python3.12/site-packages/sphinx/application.py",
-line 489, in setup_extension
-        self.registry.load_extension(self, extname)
-      File "/usr/lib/python3.12/site-packages/sphinx/registry.py",
-line 544, in load_extension
-        raise ExtensionError(
-    sphinx.errors.ExtensionError: Could not import extension
-kernel_include (exception: No module named
-'docutils.utils.error_reporting')
-
-Add compatibility handling with try/except (more robust than checking
-version numbers):
-- SafeString  -> str
-- ErrorString -> docutils.io.error_string()
-
-ModuleNotFoundError is a subclass of ImportError, added in python 3.6.
-
-Signed-off-by: Z. Liu <zhixu.liu@gmail.com>
+Signed-off-by: Kees Cook <kees@kernel.org>
 ---
- Documentation/sphinx/kernel_feat.py         | 6 +++++-
- Documentation/sphinx/kernel_include.py      | 7 ++++++-
- Documentation/sphinx/maintainers_include.py | 6 +++++-
- 3 files changed, 16 insertions(+), 3 deletions(-)
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+Cc: Bill Wendling <morbo@google.com>
+Cc: Justin Stitt <justinstitt@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>
+Cc: Marco Elver <elver@google.com>
+Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: Ramon de C Valle <rcvalle@google.com>
+Cc: <llvm@lists.linux.dev>
+---
+ include/linux/compiler-clang.h | 5 -----
+ include/linux/compiler_types.h | 4 +++-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/sphinx/kernel_feat.py
-b/Documentation/sphinx/kernel_feat.py
-index e3a51867f27bd..d077645254cd4 100644
---- a/Documentation/sphinx/kernel_feat.py
-+++ b/Documentation/sphinx/kernel_feat.py
-@@ -40,7 +40,11 @@ import sys
- from docutils import nodes, statemachine
- from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
--from docutils.utils.error_reporting import ErrorString
-+try:
-+    from docutils.utils.error_reporting import ErrorString
-+except ImportError:
-+    # docutils >= 0.22
-+    from docutils.io import error_string as ErrorString
- from sphinx.util.docutils import switch_source_input
+diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+index fa4ffe037bc7..7a4568e421dc 100644
+--- a/include/linux/compiler-clang.h
++++ b/include/linux/compiler-clang.h
+@@ -96,11 +96,6 @@
+ # define __noscs	__attribute__((__no_sanitize__("shadow-call-stack")))
+ #endif
+ 
+-#if __has_feature(kcfi)
+-/* Disable CFI checking inside a function. */
+-#define __nocfi		__attribute__((__no_sanitize__("kcfi")))
+-#endif
+-
+ /*
+  * Turn individual warnings and errors on and off locally, depending
+  * on version.
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 16755431fc11..a910f9fa5341 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -432,7 +432,9 @@ struct ftrace_likely_data {
+ # define __noscs
+ #endif
+ 
+-#ifndef __nocfi
++#if defined(CONFIG_CFI_CLANG)
++# define __nocfi		__attribute__((__no_sanitize__("kcfi")))
++#else
+ # define __nocfi
+ #endif
+ 
+-- 
+2.34.1
 
- __version__  = '1.0'
-diff --git a/Documentation/sphinx/kernel_include.py
-b/Documentation/sphinx/kernel_include.py
-index 1e566e87ebcdd..6c3cfcb904884 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -35,7 +35,12 @@
- import os.path
-
- from docutils import io, nodes, statemachine
--from docutils.utils.error_reporting import SafeString, ErrorString
-+try:
-+    from docutils.utils.error_reporting import SafeString, ErrorString
-+except ImportError:
-+    # docutils >= 0.22
-+    SafeString = str
-+    from docutils.io import error_string as ErrorString
- from docutils.parsers.rst import directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
- from docutils.parsers.rst.directives.misc import Include
-diff --git a/Documentation/sphinx/maintainers_include.py
-b/Documentation/sphinx/maintainers_include.py
-index d31cff8674367..efd866ff066b7 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -22,7 +22,11 @@ import re
- import os.path
-
- from docutils import statemachine
--from docutils.utils.error_reporting import ErrorString
-+try:
-+    from docutils.utils.error_reporting import ErrorString
-+except ImportError:
-+    # docutils >= 0.22
-+    from docutils.io import error_string as ErrorString
- from docutils.parsers.rst import Directive
- from docutils.parsers.rst.directives.misc import Include
-
---
-2.49.1
