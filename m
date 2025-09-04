@@ -1,292 +1,176 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4555B2BE65B;
-	Thu,  4 Sep 2025 07:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4148A2BE64F;
+	Thu,  4 Sep 2025 07:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756971207; cv=none; b=r0K3qFqjx+a1WXU/DGr4d9RI+u1yZtX+l4ueG1ha9pKAhPiy57rmAuX9g7Xivf4dZRnEborr+yrirRHVxYNWGHLZeFKp+PN7h6ieFDgPC/P+yUKAjIupLk9aTlsGP5DIYK1pc6nfcsYqESZYcyeDAvnL2u5Ky1m6pg2ly5iI9SQ=
+	t=1756971207; cv=none; b=m13hmeAKwmURjgvBKsAwjFN7CGGR1eIlnsMPweU/D31b1tG0RfFrBFEDlDXqgkTR9fIJYFoNQCvWMfcDCz38qMRwbptsZRWWNXuaGc60sZ9yPLfdXdbMW+a1+4YpYKUQNmqEe1O1I9bKIDlLoT/Bg2OyJrvniOX6+OLivoI89YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756971207; c=relaxed/simple;
-	bh=v60pr/JeZrm7zsenH9iTuHtr7B+1quiHIKEIqzlIcb4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I9Inp2Z4I/UITt+gVuv0bPs+kHq+pq3prfZPKVQ1hcsIMaIl3cihgfEEFdPlvX2kb5ARCJq0F3mAT6zxDJhvJGLS10DxgeTBbDqtUbjuylQU+KbyOkaaCLE8zKGulgRptBHbZBEXOS0Tki4yogd0eNd21ACboDPVpsitYOJunFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H3QE0sgS; arc=none smtp.client-ip=10.30.226.201
+	bh=NUhSPmiiTFsElbsHN+7oaJO/ADQMrAks9oZl6F2vjkQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uUrZJeynukpae/MpzmsHrGBua8vZBkjn4/OIJkeMyUOMzzoUl6JUsRYy5tf/ppZoM1rJo0j/f0YAuDsac4S6dUUJYFJM7w/Gznhx32/Ft1wVYGA6SoOIaPVLxs1e8shwkIZbsXY4+ZRsHQ/7aY6R/cbn+TxISmBpXYtyQmJHJIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qn6VDm4J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H3QE0sgS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7D2AC19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qn6VDm4J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF44C4CEFD;
 	Thu,  4 Sep 2025 07:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756971207;
-	bh=v60pr/JeZrm7zsenH9iTuHtr7B+1quiHIKEIqzlIcb4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H3QE0sgSZVGeKWtFBQU5grIYOKM7nOR1/gm296C2mb+vVRaisRDgpaGBB3nuYzMYz
-	 ZHXbIw9yhMnyI8Z1J9QR7snbefr7Lwlw4IVOz6SPIiDFvLdqt8R+dd+rm+bp5svwZE
-	 UehxlVxn90zrLq4mp4QzF1TBrtgfAm15SOahykQq/hWZ9W1b7mAe9cn4swizETo2p3
-	 cJZOpY4C4rk758qWzoTbhH/je75TaYIA6gc4wxiNMYB4JL9/C5QHcgLcl710rWZXRs
-	 dae0BDplJVZhrO/UbFiF/OAfwvj+5NQU2F2HrX+3A7d1QpvCJ9gm5aC+EvNaVyP0cv
-	 7JC5K6a3bW0gQ==
+	s=k20201202; t=1756971206;
+	bh=NUhSPmiiTFsElbsHN+7oaJO/ADQMrAks9oZl6F2vjkQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qn6VDm4Jyb2dcVKfDIz0GiUixG5RI6Vxw24KrCt90SGg8AuPD8mMx2ANNsvaDmxkt
+	 GT21I6YRC0wdzlA/amMOwTh7fC3Gaes88TD8jEwu55TRBCBV/8uNm4M2/ZNZgeNn/K
+	 beYPmZqq76e8lN9KAUcqU2a5NlnC/4tIu+RBmMsiqng+nixVteWlhV9zoTKpAwtApO
+	 JUjdO9WXdzULOtdthY2ytfizXn8Cm9yAFHMeIKiNZ4+zvtXsteiZj1LtsAMeYmcPc8
+	 xtGrVHgzQZFvYhAQDSV0bYD6w+0hMISAyiw5ySS3vJsJfKhubRY4ljTjL36Oh6yfZI
+	 2Tk+qSFz/aypg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uu4TF-00000009jQ7-0FiD;
-	Thu, 04 Sep 2025 09:33:25 +0200
+	id 1uu4TE-00000009jP6-2j0A;
+	Thu, 04 Sep 2025 09:33:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 15/19] tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
-Date: Thu,  4 Sep 2025 09:33:15 +0200
-Message-ID: <c9d2a4761628cc78bf6a7b9059ed9fb8d9fa76c4.1756969623.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v4 00/19] Split sphinx call logic from docs Makefile
+Date: Thu,  4 Sep 2025 09:33:00 +0200
+Message-ID: <cover.1756969623.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756969623.git.mchehab+huawei@kernel.org>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Use POSIX jobserver when available or -j<number> to run PDF
-builds in parallel, restoring pdf build performance. Yet,
-running it when debugging troubles is a bad idea, so, when
-calling directly via command line, except if "-j" is splicitly
-requested, it will serialize the build.
+Hi Jon,
 
-With such change, a PDF doc builds now takes around 5 minutes
-on a Ryzen 9 machine with 32 cpu threads:
+This series does a major cleanup at docs Makefile by moving the
+actual doc build logic to a helper script (scripts/sphinx-build-wrapper).
 
-	# Explicitly paralelize both Sphinx and LaTeX pdf builds
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs -j 33
+Such script was written in a way that it can be called either
+directly or via a makefile. When running via makefile, it will
+use GNU jobserver to ensure that, when sphinx-build is
+called, the number of jobs will match at most what it is
+specified by the "-j" parameter.
 
-	real	5m17.901s
-	user	15m1.499s
-	sys	2m31.482s
+The first 3 patches do a cleanup at scripts/jobserver-exec
+and moves the actual code to a library. Such library is used
+by both the jobserver-exec command line and by sphinx-build-wrappper.
 
-	# Use POSIX jobserver to paralelize both sphinx-build and LaTeX
-	$ make cleandocs; time make pdfdocs
+The change also gets rid of parallel-wrapper.sh, whose
+functions are now part of the wrapper code.
 
-	real	5m22.369s
-	user	15m9.076s
-	sys	2m31.419s
+I opted to pick patches from:
+   https://lore.kernel.org/linux-doc/cover.1756916565.git.mchehab+huawei@kernel.org/T/#t
 
-	# Serializes PDF build, while keeping Sphinx parallelized.
-	# it is equivalent of passing -jauto via command line
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs
+re-ordering them to make more sense.
 
-	real	11m20.901s
-	user	13m2.910s
-	sys	1m44.553s
+The last patch breaks doc build when Python3 < 3.7, as requested,
+or when sphinx-pre-install suggests to install an updated Sphinx
+version. Matteu suggested adding a PYTHON env to allow overriding it,
+but this won't would work with sphinx-pre-install, which is meant to
+be executed with older python versions, but still requires to run
+python from the suggested package to check if package install
+succeded. Currently, sphinx-pre-install recomments to install a newer
+Python on 3 distribution types:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+    - 3.11 on openSuse Leap;
+    - 3.9 on RHEL8 and RHEL8-based distros;
+    - 3.13 on openSUSE Thumbleweed.
+
+Patch 19 breaks sphinx-pre-install for those, and adding PYTHON
+env won't properly fix it. ATM, I can't think on a good non-hacky
+solution, as the only way I can think is to let sphinx-pre-install
+(and sphinx-build-wrapper) execute python3.x instead of python3.
+
 ---
- tools/docs/sphinx-build-wrapper | 158 +++++++++++++++++++++++---------
- 1 file changed, 117 insertions(+), 41 deletions(-)
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index c318af5f2af1..c5fcc448a275 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -52,6 +52,8 @@ import shutil
- import subprocess
- import sys
- 
-+from concurrent import futures
-+
- from lib.python_version import PythonVersion
- 
- LIB_DIR = "../../scripts/lib"
-@@ -282,6 +284,82 @@ class SphinxBuilder:
-         except (OSError, IOError) as e:
-             print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
- 
-+    def build_pdf_file(self, latex_cmd, from_dir, path):
-+        """Builds a single pdf file using latex_cmd"""
-+        try:
-+            subprocess.run(latex_cmd + [path],
-+                            cwd=from_dir, check=True)
-+
-+            return True
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+    def pdf_parallel_build(self, tex_suffix, latex_cmd, tex_files, n_jobs):
-+        """Build PDF files in parallel if possible"""
-+        builds = {}
-+        build_failed = False
-+        max_len = 0
-+        has_tex = False
-+
-+        #
-+        # LaTeX PDF error code is almost useless for us:
-+        # any warning makes it non-zero. For kernel doc builds it always return
-+        # non-zero even when build succeeds. So, let's do the best next thing:
-+        # Ignore build errors. At the end, check if all PDF files were built,
-+        # printing a summary with the built ones and returning 0 if all of
-+        # them were actually built.
-+        #
-+        with futures.ThreadPoolExecutor(max_workers=n_jobs) as executor:
-+            jobs = {}
-+
-+            for from_dir, pdf_dir, entry in tex_files:
-+                name = entry.name
-+
-+                if not name.endswith(tex_suffix):
-+                    continue
-+
-+                name = name[:-len(tex_suffix)]
-+
-+                max_len = max(max_len, len(name))
-+
-+                has_tex = True
-+
-+                future = executor.submit(self.build_pdf_file, latex_cmd,
-+                                         from_dir, entry.path)
-+                jobs[future] = (from_dir, pdf_dir, name)
-+
-+            for future in futures.as_completed(jobs):
-+                from_dir, pdf_dir, name = jobs[future]
-+
-+                pdf_name = name + ".pdf"
-+                pdf_from = os.path.join(from_dir, pdf_name)
-+
-+                try:
-+                    success = future.result()
-+
-+                    if success and os.path.exists(pdf_from):
-+                        pdf_to = os.path.join(pdf_dir, pdf_name)
-+
-+                        os.rename(pdf_from, pdf_to)
-+                        builds[name] = os.path.relpath(pdf_to, self.builddir)
-+                    else:
-+                        builds[name] = "FAILED"
-+                        build_failed = True
-+                except futures.Error as e:
-+                    builds[name] = f"FAILED ({repr(e)})"
-+                    build_failed = True
-+
-+        #
-+        # Handle case where no .tex files were found
-+        #
-+        if not has_tex:
-+            name = "Sphinx LaTeX builder"
-+            max_len = max(max_len, len(name))
-+            builds[name] = "FAILED (no .tex file was generated)"
-+            build_failed = True
-+
-+        return builds, build_failed, max_len
-+
-     def handle_pdf(self, output_dirs):
-         """
-         Extra steps for PDF output.
-@@ -292,7 +370,9 @@ class SphinxBuilder:
-         """
-         builds = {}
-         max_len = 0
-+        tex_suffix = ".tex"
- 
-+        tex_files = []
-         for from_dir in output_dirs:
-             pdf_dir = os.path.join(from_dir, "../pdf")
-             os.makedirs(pdf_dir, exist_ok=True)
-@@ -304,55 +384,51 @@ class SphinxBuilder:
- 
-             latex_cmd.extend(shlex.split(self.latexopts))
- 
--            tex_suffix = ".tex"
--
--            #
--            # Process each .tex file
--            #
--
--            has_tex = False
--            build_failed = False
-+            # Get a list of tex files to process
-             with os.scandir(from_dir) as it:
-                 for entry in it:
--                    if not entry.name.endswith(tex_suffix):
--                        continue
-+                    if entry.name.endswith(tex_suffix):
-+                        tex_files.append((from_dir, pdf_dir, entry))
- 
--                    name = entry.name[:-len(tex_suffix)]
--                    has_tex = True
-+        #
-+        # When using make, this won't be used, as the number of jobs comes
-+        # from POSIX jobserver. So, this covers the case where build comes
-+        # from command line. On such case, serialize by default, except if
-+        # the user explicitly sets the number of jobs.
-+        #
-+        n_jobs = 1
- 
--                    #
--                    # LaTeX PDF error code is almost useless for us:
--                    # any warning makes it non-zero. For kernel doc builds it
--                    # always return non-zero even when build succeeds.
--                    # So, let's do the best next thing: check if all PDF
--                    # files were built. If they're, print a summary and
--                    # return 0 at the end of this function
--                    #
--                    try:
--                        subprocess.run(latex_cmd + [entry.path],
--                                       cwd=from_dir, check=True)
--                    except subprocess.CalledProcessError:
--                        pass
-+        # n_jobs is either an integer or "auto". Only use it if it is a number
-+        if self.n_jobs:
-+            try:
-+                n_jobs = int(self.n_jobs)
-+            except ValueError:
-+                pass
- 
--                    pdf_name = name + ".pdf"
--                    pdf_from = os.path.join(from_dir, pdf_name)
--                    pdf_to = os.path.join(pdf_dir, pdf_name)
-+        #
-+        # When using make, jobserver.claim is the number of jobs that were
-+        # used with "-j" and that aren't used by other make targets
-+        #
-+        with JobserverExec() as jobserver:
-+            n_jobs = 1
- 
--                    if os.path.exists(pdf_from):
--                        os.rename(pdf_from, pdf_to)
--                        builds[name] = os.path.relpath(pdf_to, self.builddir)
--                    else:
--                        builds[name] = "FAILED"
--                        build_failed = True
-+            #
-+            # Handle the case when a parameter is passed via command line,
-+            # using it as default, if jobserver doesn't claim anything
-+            #
-+            if self.n_jobs:
-+                try:
-+                    n_jobs = int(self.n_jobs)
-+                except ValueError:
-+                    pass
- 
--                    name = entry.name.removesuffix(".tex")
--                    max_len = max(max_len, len(name))
-+            if jobserver.claim:
-+                n_jobs = jobserver.claim
- 
--            if not has_tex:
--                name = os.path.basename(from_dir)
--                max_len = max(max_len, len(name))
--                builds[name] = "FAILED (no .tex)"
--                build_failed = True
-+            builds, build_failed, max_len = self.pdf_parallel_build(tex_suffix,
-+                                                                    latex_cmd,
-+                                                                    tex_files,
-+                                                                    n_jobs)
- 
-         msg = "Summary"
-         msg += "\n" + "=" * len(msg)
+v4:
+- updated references for sphinx-pre-install after its rename;
+- added some extra patches to add more options to python_version,
+  allowing it to bail out and suggest alternatives;
+- added a patch at the end to explicitly break doc builds when
+  python3 points to python3.6 or older.
+
+v3:
+- rebased on the top of docs-next;
+- added two patches to build man files that were on a separate
+  patch series.
+
+v2:
+
+- there's no generic exception handler anymore;
+- it moves sphinx-pre-install to tools/docs;
+- the logic which ensures a minimal Python version got moved
+  to a library, which is now used by both pre-install and wrapper;
+- The first wrapper (05/13) doesn't contain comments (except for
+  shebang and SPDX). The goal is to help showing the size increase
+  when moving from Makefile to Python. Some file increase is
+  unavoidable, as Makefile is more compact: no includes, multple
+  statements per line, no argparse, etc;
+- The second patch adds docstrings and comments. It has almost
+  the same size of the code itself;
+- I moved the venv logic to a third wrapper patch;
+- I fixed an issue at the paraller build logic;
+- There are no generic except blocks anymore.
+
+Mauro Carvalho Chehab (19):
+  scripts/jobserver-exec: move the code to a class
+  scripts/jobserver-exec: move its class to the lib directory
+  scripts/jobserver-exec: add a help message
+  scripts: sphinx-pre-install: move it to tools/docs
+  tools/docs: python_version: move version check from sphinx-pre-install
+  tools/docs: python_version: drop a debug print
+  tools/docs: python_version: allow check for alternatives and bail out
+  tools/docs: sphinx-build-wrapper: add a wrapper for sphinx-build
+  tools/docs: sphinx-build-wrapper: add comments and blank lines
+  tools/docs: sphinx-build-wrapper: add support to run inside venv
+  docs: parallel-wrapper.sh: remove script
+  docs: Makefile: document latex/PDF PAPER= parameter
+  tools/docs: sphinx-build-wrapper: add an argument for LaTeX
+    interactive mode
+  tools/docs,scripts: sphinx-*: prevent sphinx-build crashes
+  tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
+  docs: add support to build manpages from kerneldoc output
+  tools: kernel-doc: add a see also section at man pages
+  scripts: kdoc_parser.py: warn about Python version only once
+  tools/docs: sphinx-* break documentation bulds on openSUSE
+
+ Documentation/Makefile                        | 136 +---
+ Documentation/doc-guide/kernel-doc.rst        |  29 +-
+ Documentation/doc-guide/sphinx.rst            |   4 +-
+ Documentation/sphinx/kerneldoc-preamble.sty   |   2 +-
+ Documentation/sphinx/parallel-wrapper.sh      |  33 -
+ .../translations/it_IT/doc-guide/sphinx.rst   |   4 +-
+ .../translations/zh_CN/doc-guide/sphinx.rst   |   4 +-
+ Documentation/translations/zh_CN/how-to.rst   |   2 +-
+ MAINTAINERS                                   |   3 +-
+ Makefile                                      |   2 +-
+ scripts/jobserver-exec                        |  88 +--
+ scripts/lib/jobserver.py                      | 149 ++++
+ scripts/lib/kdoc/kdoc_files.py                |   5 +-
+ scripts/lib/kdoc/kdoc_output.py               |  84 +-
+ scripts/lib/kdoc/kdoc_parser.py               |   7 +-
+ scripts/split-man.pl                          |  28 -
+ tools/docs/lib/python_version.py              | 178 +++++
+ tools/docs/sphinx-build-wrapper               | 739 ++++++++++++++++++
+ {scripts => tools/docs}/sphinx-pre-install    | 135 +---
+ 19 files changed, 1265 insertions(+), 367 deletions(-)
+ delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
+ create mode 100755 scripts/lib/jobserver.py
+ delete mode 100755 scripts/split-man.pl
+ create mode 100644 tools/docs/lib/python_version.py
+ create mode 100755 tools/docs/sphinx-build-wrapper
+ rename {scripts => tools/docs}/sphinx-pre-install (93%)
+
 -- 
 2.51.0
 
