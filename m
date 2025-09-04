@@ -1,75 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EA71D63F7;
-	Thu,  4 Sep 2025 02:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E28778F51
+	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 02:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756954275; cv=none; b=CQS7Kr1qDfNGU1D2tU/1OMbg4cRFNOVIoSKFRN/nSR0iBrv3AeVIUXNMcegQMVitB5R1OEaAaNqr3jiiLWx15go24FTHc+7KNRqYahULVOxBBy5MpoIQKAGO+gS82VEs2qP0HpWf7UY2yNexYpWvMrQNyGyd+OvTVFaOw3Vzo5k=
+	t=1756954511; cv=none; b=n1ex2hkqXwS7x7pJs7T3SpzKHF7Tg98JGxgtn37mophFBZ449o5b+P1hQ6iA3+AF8KF7I4+ScDZgIFyfcCoDaHrrhqzFNbMPG2hC4lECwJFbXZCQuKpBTrTXHW1O2rnE1QDhxr2nCil8WgUN0XAgpZbaps2SA6SDnxA7y0gbFb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756954275; c=relaxed/simple;
-	bh=0797LXPhzUWWmKfaqTHozOceixXo9Y5kTFjvx233sr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qzKZtMKww+HcStIb8qAw4jk36Fe1EuoiV4/kwkNICOFjmazJKuFXFuOYsYZdn8tNdl7hdpiAu33CqTooVPXwu3AIFFDDZrkSVvDGtPamWRQ35RtCg6G06MVXJJBOL7QkaktxpCNLLWYgNlBoQPGf9f8n9LHm9VdMeCfXvcLnCJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ciIOzHMP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756954511; c=relaxed/simple;
+	bh=5V8+/iKwtE1SllUjDf6n6GzwfOQoBg1OAcIqkoOZ71A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MtrwBOB+a7l9W9LI0Ch9ou29OS83+n0TvKbigh2Rma4Z1NOfJKbY4SBeOJu5lxVZT2UVmtdScXoA5Iq3pyYgTJGLdoB8f86l4qXFX1xxwyqoYJfnGAAyehIKPZajAe/yun9YKkQyo3Hq5UbXca6V1zzH9s5w4q6RfvGMfd7i1P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JmjFlbDE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ciIOzHMP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D57C4CEE7;
-	Thu,  4 Sep 2025 02:51:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756954274;
-	bh=0797LXPhzUWWmKfaqTHozOceixXo9Y5kTFjvx233sr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ciIOzHMPJ4gH+LPXkgpLk0sZ/vopItqvdlqeH+tdeTTmDhU28644VEhWBrinbvx3u
-	 nD5dPqP3agBuNLB/cnDUQeYvFj89O/tgVzkqDLJHAPHPJw5a39/DS5/ISSqgYH78Np
-	 gu2504NcLsh/llNKF5AB2jaBhYFOtuVng/GQr55EyZZsUI87dr4pie2SF9ChKqet+L
-	 G+mGryIeFrqr2Ea97h4DPbN13rajR8HJZlAvbyEzGOhWIjNNDBjuRkJihhgxe+vILY
-	 rWvX5OKIpQgUQfFW8ezPwhKGQNUoxn6+FIlVg0k2hGBM9mAyymzP1G83Oy+N0wqxed
-	 Mbjk7xHixrEtA==
-Date: Wed, 3 Sep 2025 19:51:14 -0700
-From: Kees Cook <kees@kernel.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
- migration support
-Message-ID: <202509031949.375138FB13@keescook>
-References: <20250830020109.it.598-kees@kernel.org>
- <59c4f103-7f1b-4829-bd82-0d392047fea4@oracle.com>
- <202509010949.9A61A98@keescook>
- <d25b2c63-32e2-4a41-b982-da5131cffd2f@oracle.com>
- <202509011125.5879901C@keescook>
- <0d9ef42f-57c7-472b-89c1-4534f40991f7@oracle.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JmjFlbDE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756954509;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BFGsvyfGlZeRUoo142qkd9fYdJJZqaobhSbYex4lato=;
+	b=JmjFlbDEySnDZF9YYVFoOFsbAnywXyUrwr9ftux3re5h2DGbfn6MZgidrMB9J5mEkuH3a5
+	IS0imKgGH5sQSOUPgoI/Aab6FSjeOYQO40zVe6YuCdo3BXn/IMRyRMPqWlNg9RxkACmkBj
+	OBjkbsLqBUyUar1PFOCdGvGA+m/B/l0=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-306-hwGTxbnjN1SGVhNP4-sr_g-1; Wed, 03 Sep 2025 22:55:07 -0400
+X-MC-Unique: hwGTxbnjN1SGVhNP4-sr_g-1
+X-Mimecast-MFC-AGG-ID: hwGTxbnjN1SGVhNP4-sr_g_1756954507
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-71d605205a0so8645827b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Sep 2025 19:55:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756954507; x=1757559307;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BFGsvyfGlZeRUoo142qkd9fYdJJZqaobhSbYex4lato=;
+        b=CA6DwiCmkQekp57LcEkafDlwxCWkrkzpHxgXaXQlKkjzWxPSxmCdp4aumimFS05Hd6
+         G22qeGhE4Lmc4SddW114sJfBaDYIUmQ/jzQK02nTQLR5hVTojt5hoCsf6r2RBRBCN+bW
+         y4cUau72IjE7ax23hgrGSdehkeYYnpPF8DYzia28JNZ1H+wTftIAQMMAb45zKSYHAy91
+         a4X1+NAD9IGVzV6IcbKn0/JEbiDOneOGAHliOh384SNZwjAmff+iFSDDb5Ty/s0g7x43
+         Wj7uK/aauEBt+bx6B8bNUB7FDY047oM8O23hIL9Po9VdzPqs5XYbFpK2XPBmM0LdrEqI
+         59OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSZs6QyczRRHTemA33JfqfLGMeWI+L/4QaE1TobsqRhiI/kYMY6OgKFEbO6ZN45b6itGK5sShC/6o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTSai6gMhIabHhlY3RbKh9i+MygshPyJxtOXVYbTgr0UAogMOm
+	hJg/HPDmuosH8OuV/6PCemAbNgsjBFNiTSPZx0VD9cT1XjnpEJ2ONfoMHuOdAEMjBSAWyQvFSHY
+	YpqkVN75bHjLkgNmX8SlePyuDKE6uoHzqk5H4Q3ziZyy0vrvGATdUqZaJuW7xhJFz/9yn1JNSO8
+	HbdMwodw1yHxG4BY2X6dF780dEwuQuigFF/m/D
+X-Gm-Gg: ASbGncuwl+zPMiaZNWUpW+ps1PNlGPuTWIWMk5ObaEmUFDsH9JpDKtw1ltzqYiyCgji
+	U7vmMYIDyjTVXXCzQbBu6qk48+lLD+qTrUQCgrax/+lbOTmnSrPn0tqWxW7C5p5VwucVb0Svsu0
+	7MUYIJE13+s6r0QhK/z8eE8z5YJ6ez7sdAFJk=
+X-Received: by 2002:a05:690e:2483:b0:5fc:aef:28c9 with SMTP id 956f58d0204a3-601782d5d5dmr1244607d50.29.1756954506641;
+        Wed, 03 Sep 2025 19:55:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFDp5KBBiAm/A14c1UZ2x88hWB4XMoRs9mNoQ299w19LQV6LRXEBDT8MMPS9G/48qZ5qMyz3tFyTQ/kB1gAxKA=
+X-Received: by 2002:a05:690e:2483:b0:5fc:aef:28c9 with SMTP id
+ 956f58d0204a3-601782d5d5dmr1244576d50.29.1756954506194; Wed, 03 Sep 2025
+ 19:55:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d9ef42f-57c7-472b-89c1-4534f40991f7@oracle.com>
+References: <20250819134205.622806-1-npache@redhat.com> <0d9c6088-536b-4d7a-8f75-9be5f0faa86f@lucifer.local>
+ <CAA1CXcCqhFoGBvFK-ox2sJw7QHaFt+-Lw09BDYsAGKg4qc8nSw@mail.gmail.com>
+ <CAA1CXcAXTL811VJxqyL18CUw8FNek6ibPr6pKJ_7rfGn-ZU-1A@mail.gmail.com>
+ <5bea5efa-2efc-4c01-8aa1-a8711482153c@lucifer.local> <CAA1CXcBDq9PucQdfQRh1iqJLPB6Jn6mNy28v_AuHWb9kz1gpqQ@mail.gmail.com>
+ <d110a84a-a827-48b4-91c5-67cec3e92874@lucifer.local> <95012dfc-d82d-4ae2-b4cd-1e8dcf15e44b@redhat.com>
+ <bdbb5168-7657-4f11-a42d-b75cce7e0bca@lucifer.local> <e34e1ffe-c377-4c9a-b28b-ca873f3620ac@redhat.com>
+ <db2320ee-6bd4-49c1-8fce-0468f48e1842@linux.alibaba.com> <c8c5e818-536a-4d72-b8dc-36aeb1b61800@arm.com>
+ <2a141eef-46e2-46e1-9b0f-066ec537600d@linux.alibaba.com> <f34b5fcb-6a97-4d97-86a8-906083b53be6@redhat.com>
+ <eb02c281-6d41-44af-8eaf-8ffc29153a3a@linux.alibaba.com> <286e2cb3-6beb-4d21-b28a-2f99bb2f759b@redhat.com>
+ <17075d6a-a209-4636-ae42-2f8944aea745@gmail.com> <287f3b64-bc34-48d9-9778-c519260c3dba@redhat.com>
+ <ad6ed55e-2471-46be-b123-5272f3052e01@gmail.com>
+In-Reply-To: <ad6ed55e-2471-46be-b123-5272f3052e01@gmail.com>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 3 Sep 2025 20:54:39 -0600
+X-Gm-Features: Ac12FXyZ7Om70-q7zqgNTiGl13FCHecHMQ3x9cRnHFwQsUK8x6vVkC5jouQ4XXQ
+Message-ID: <CAA1CXcCMPFqiiTi7hfVhhEvHs4Mddiktvpmb7dMe4coLDF0bgg@mail.gmail.com>
+Subject: Re: [PATCH v10 00/13] khugepaged: mTHP support
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Dev Jain <dev.jain@arm.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, ziy@nvidia.com, Liam.Howlett@oracle.com, 
+	ryan.roberts@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
+	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
+	peterx@redhat.com, wangkefeng.wang@huawei.com, sunnanyong@huawei.com, 
+	vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com, 
+	yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 01, 2025 at 08:44:56PM +0200, Vegard Nossum wrote:
-> If you change sym_calc_visibility() to always return 'yes' for
-> transitional values then I don't think you need to touch
-> sym_calc_value() at all.
+On Tue, Sep 2, 2025 at 2:23=E2=80=AFPM Usama Arif <usamaarif642@gmail.com> =
+wrote:
+>
+>
+>
+> On 02/09/2025 12:03, David Hildenbrand wrote:
+> > On 02.09.25 12:34, Usama Arif wrote:
+> >>
+> >>
+> >> On 02/09/2025 10:03, David Hildenbrand wrote:
+> >>> On 02.09.25 04:28, Baolin Wang wrote:
+> >>>>
+> >>>>
+> >>>> On 2025/9/2 00:46, David Hildenbrand wrote:
+> >>>>> On 29.08.25 03:55, Baolin Wang wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 2025/8/28 18:48, Dev Jain wrote:
+> >>>>>>>
+> >>>>>>> On 28/08/25 3:16 pm, Baolin Wang wrote:
+> >>>>>>>> (Sorry for chiming in late)
+> >>>>>>>>
+> >>>>>>>> On 2025/8/22 22:10, David Hildenbrand wrote:
+> >>>>>>>>>>> Once could also easily support the value 255 (HPAGE_PMD_NR / =
+2- 1),
+> >>>>>>>>>>> but not sure
+> >>>>>>>>>>> if we have to add that for now.
+> >>>>>>>>>>
+> >>>>>>>>>> Yeah not so sure about this, this is a 'just have to know' too=
+, and
+> >>>>>>>>>> yes you
+> >>>>>>>>>> might add it to the docs, but people are going to be mightily
+> >>>>>>>>>> confused, esp if
+> >>>>>>>>>> it's a calculated value.
+> >>>>>>>>>>
+> >>>>>>>>>> I don't see any other way around having a separate tunable if =
+we
+> >>>>>>>>>> don't just have
+> >>>>>>>>>> something VERY simple like on/off.
+> >>>>>>>>>
+> >>>>>>>>> Yeah, not advocating that we add support for other values than =
+0/511,
+> >>>>>>>>> really.
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>> Also the mentioned issue sounds like something that needs to b=
+e
+> >>>>>>>>>> fixed elsewhere
+> >>>>>>>>>> honestly in the algorithm used to figure out mTHP ranges (I ma=
+y be
+> >>>>>>>>>> wrong - and
+> >>>>>>>>>> happy to stand corrected if this is somehow inherent, but real=
+lly
+> >>>>>>>>>> feels that
+> >>>>>>>>>> way).
+> >>>>>>>>>
+> >>>>>>>>> I think the creep is unavoidable for certain values.
+> >>>>>>>>>
+> >>>>>>>>> If you have the first two pages of a PMD area populated, and yo=
+u
+> >>>>>>>>> allow for at least half of the #PTEs to be non/zero, you'd coll=
+apse
+> >>>>>>>>> first a
+> >>>>>>>>> order-2 folio, then and order-3 ... until you reached PMD order=
+.
+> >>>>>>>>>
+> >>>>>>>>> So for now we really should just support 0 / 511 to say "don't
+> >>>>>>>>> collapse if there are holes" vs. "always collapse if there is a=
+t
+> >>>>>>>>> least one pte used".
+> >>>>>>>>
+> >>>>>>>> If we only allow setting 0 or 511, as Nico mentioned before, "At=
+ 511,
+> >>>>>>>> no mTHP collapses would ever occur anyway, unless you have 2MB
+> >>>>>>>> disabled and other mTHP sizes enabled. Technically, at 511, only=
+ the
+> >>>>>>>> highest enabled order would ever be collapsed."
+> >>>>>>> I didn't understand this statement. At 511, mTHP collapses will o=
+ccur if
+> >>>>>>> khugepaged cannot get a PMD folio. Our goal is to collapse to the
+> >>>>>>> highest order folio.
+> >>>>>>
+> >>>>>> Yes, I=E2=80=99m not saying that it=E2=80=99s incorrect behavior w=
+hen set to 511. What I
+> >>>>>> mean is, as in the example I gave below, users may only want to al=
+low a
+> >>>>>> large order collapse when the number of present PTEs reaches half =
+of the
+> >>>>>> large folio, in order to avoid RSS bloat.
+> >>>>>
+> >>>>> How do these users control allocation at fault time where this para=
+meter
+> >>>>> is completely ignored?
+> >>>>
+> >>>> Sorry, I did not get your point. Why does the 'max_pte_none' need to
+> >>>> control allocation at fault time? Could you be more specific? Thanks=
+.
+> >>>
+> >>> The comment over khugepaged_max_ptes_none gives a hint:
+> >>>
+> >>> /*
+> >>>   * default collapse hugepages if there is at least one pte mapped li=
+ke
+> >>>   * it would have happened if the vma was large enough during page
+> >>>   * fault.
+> >>>   *
+> >>>   * Note that these are only respected if collapse was initiated by k=
+hugepaged.
+> >>>   */
+> >>>
+> >>> In the common case (for anything that really cares about RSS bloat) y=
+ou will just a
+> >>> get a THP during page fault and consequently RSS bloat.
+> >>>
+> >>> As raised in my other reply, the only documented reason to set max_pt=
+es_none=3D0 seems
+> >>> to be when an application later (after once possibly getting a THP al=
+ready during
+> >>> page faults) did some MADV_DONTNEED and wants to control the usage of=
+ THPs itself using
+> >>> MADV_COLLAPSE.
+> >>>
+> >>> It's a questionable use case, that already got more problematic with =
+mTHP and page
+> >>> table reclaim.
+> >>>
+> >>> Let me explain:
+> >>>
+> >>> Before mTHP, if someone would MADV_DONTNEED (resulting in
+> >>> a page table with at least one pte_none entry), there would have been=
+ no way we would
+> >>> get memory over-allocated afterwards with max_ptes_none=3D0.
+> >>>
+> >>> (1) Page faults would spot "there is a page table" and just fallback =
+to order-0 pages.
+> >>> (2) khugepaged was told to not collapse through max_ptes_none=3D0.
+> >>>
+> >>> But now:
+> >>>
+> >>> (A) With mTHP during page-faults, we can just end up over-allocating =
+memory in such
+> >>>      an area again: page faults will simply spot a bunch of pte_nones=
+ around the fault area
+> >>>      and install an mTHP.
+> >>>
+> >>> (B) With page table reclaim (when zapping all PTEs in a table at once=
+), we will reclaim the
+> >>>      page table. The next page fault will just try installing a PMD T=
+HP again, because there is
+> >>>      no PTE table anymore.
+> >>>
+> >>> So I question the utility of max_ptes_none. If you can't tame page fa=
+ults, then there is only
+> >>> limited sense in taming khugepaged. I think there is vale in setting =
+max_ptes_none=3D0 for some
+> >>> corner cases, but I am yet to learn why max_ptes_none=3D123 would mak=
+e any sense.
+> >>>
+> >>>
+> >>
+> >> For PMD mapped THPs with THP shrinker, this has changed. You can basic=
+ally tame pagefaults, as when you encounter
+> >> memory pressure, the shrinker kicks in if the value is less than HPAGE=
+_PMD_NR -1 (i.e. 511 for x86), and
+> >> will break down those hugepages and free up zero-filled memory.
+> >
+> > You are not really taming page faults, though, you are undoing what pag=
+e faults might have messed up :)
+> >
+> > I have seen in our prod workloads where
+> >> the memory usage and THP usage can spike (usually when the workload st=
+arts), but with memory pressure,
+> >> the memory usage is lower compared to with max_ptes_none =3D 511, whil=
+e still still keeping the benefits
+> >> of THPs like lower TLB misses.
+> >
+> > Thanks for raising that: I think the current behavior is in place such =
+that you don't bounce back-and-forth between khugepaged collapse and shrink=
+er-split.
+> >
+>
+> Yes, both collapse and shrinker split hinge on max_ptes_none to prevent o=
+ne of these things thrashing the effect of the other.
+I believe with mTHP support in khugepaged, the max_ptes_none value in
+the shrinker must also leverage the 'order' scaling to properly
+prevent thrashing.
+I've been testing a patch for this that I might include in the V11.
+>
+> > There are likely other ways to achieve that, when we have in mind that =
+the thp shrinker will install zero pages and max_ptes_none includes
+> > zero pages.
+> >
+> >>
+> >> I do agree that the value of max_ptes_none is magical and different wo=
+rkloads can react very differently
+> >> to it. The relationship is definitely not linear. i.e. if I use max_pt=
+es_none =3D 256, it does not mean
+> >> that the memory regression of using THP=3Dalways vs THP=3Dmadvise is h=
+alved.
+> >
+> > To which value would you set it? Just 510? 0?
+> >
+>
+> There are some very large workloads in the meta fleet that I experimented=
+ with and found that having
+> a small value works out. I experimented with 0, 51 (10%) and 256 (50%). 5=
+1 was found to be an optimal
+> comprimise in terms of application metrics improving, having an acceptabl=
+e amount of memory regression and
+> improved system level metrics (lower TLB misses, lower page faults). I am=
+ sure there was a better value out
+> there for these workloads, but not possible to experiment with every valu=
+e.
+>
+> In terms of wider rollout across the fleet, we are going to target 0 (or =
+a very very small value)
+> when moving from THP=3Dmadvise to always. Mainly because it is the least =
+likely to cause a memory regression as
+> THP shrinker will deal with page faults faulting in mostly zero-filled pa=
+ges and khugepaged wont collapse
+> pages that are dominated by 4K zero-filled chunks.
+>
 
-Hm, it looks like sym_calc_visibility() doesn't strictly just look at
-visibility. And visibility seems to "last"? And I think the "tri" still
-can't just be "yes", don't we need the other stuff handled?
-
-Do you see a way to do it how you're suggesting? And now I wrote the
-regression tests so we can test any alternatives! ;)
-
--- 
-Kees Cook
