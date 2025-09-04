@@ -1,190 +1,95 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4BD2628D;
-	Thu,  4 Sep 2025 02:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B328A3D3B3;
+	Thu,  4 Sep 2025 02:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756953565; cv=none; b=Xzf2jqDsJNyzCSaGIQlZT8vjsOoKd/La489Wp2W6bRokeIEO2LrvMSb8v0F/ForxOq0w4Az8B5O7ixTyDvWvx0tGOWNA1oLV95qwAbEmK5MECmpoISlsW8gE+19YxqcoaeXbNuOSK0g6S4MLMFAlQaGXBENUqdLnEnhMBETt1og=
+	t=1756953773; cv=none; b=DMYgpYjgxQCk753s0di+LrkcUUCfcb0hDN/bfZSA6xfNDDJ3SWBbVNk1DeLYaxXjN+E+VkRp3QE3hjl++XTyWlZeebvhMY2GvRHXdvlG/bAMHB8uQAq1IIuqO/IV6eCCJ1201lxg4Q6OQzJrdjOEbmeYlDCzqfhmjSOjz42xRXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756953565; c=relaxed/simple;
-	bh=Un2jBL3+CE2kkbBmaX1i7puEYmvyswZnW6zA6/jHXvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uux3IhSgg9G2mEH8MapPKpMb6BAt0DP5fpYB9p5VDj2IRUmawu4IcoWo4t61Dv87C1S4j69Ezz9YYaIek0LLjYSObZ91fbqtk2i6Pfg6trmMaLvsL/hRbIufpSpp06c6P+yQgyNA7TJfTOrVW2SrdqD2d56lpk4efjkWlwNfk+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpgz7t1756953533tab631f24
-X-QQ-Originating-IP: ZiD4DA2t9IebggFi5to5NbV3JdPD9/SXq88z6qRXx1U=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 04 Sep 2025 10:38:51 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9849765292979018679
-Date: Thu, 4 Sep 2025 10:38:51 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Simon Horman <horms@kernel.org>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com,
-	lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v10 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <C3FF2A9FD848166E+20250904023851.GB1015062@nic-Precision-5820-Tower>
-References: <20250903025430.864836-1-dong100@mucse.com>
- <20250903025430.864836-4-dong100@mucse.com>
- <20250903164431.GD361157@horms.kernel.org>
+	s=arc-20240116; t=1756953773; c=relaxed/simple;
+	bh=LQ1AA6YtGx0dyBtxOqIWy5XG55hhZgcniAQICgxVYLE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jNT3dLVyH629RtFb093EYASJgwQexcKpSN9XJ1pD33Htv5//ZV2wAo3jY8XAnny53fCf67KIcPoRCMQ2Z89TYu5UPtVGckXKUy1xfyWPoPsSuJQw087XKjQwoCBPxA2Bs28HnLEnImNHiSEIJex/WdqRFLPT2X0u3/b9bj4SvnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zgdPixrz; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zgdPixrz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=t6Qv7z1IN8S8fv1frwsYzP+oy3CFyPNsjv2eggmm0RA=; b=zgdPixrzDDevLDZ83jSHOwgKf9
+	iVbwl3LwKxvnX487n3tBetP+/pjSRWgdbJpBYkv+qV7b3w4Dw+San7GE8lzh/hZ9guYtNoyIuY3bZ
+	qit2B8QFI9UhgnV11v82DY44AU+OmF3pbLQ/+HBS9rZ5j5zkO+FfcPGEMPSrCwCllGXtdx+2bE0Ed
+	WSiTx/Hypmxc81neIZu9Ks/6B1nBqgvsGzqEJiAR2IrtHz1gAU8crTz/SUkqiBItyRbDPHk9logYs
+	CpEqF8VFX6DgAUFbOSs231zVd9FkB0nDMTFGf723AEfVdIqS5dyeAum3RdChMs1QQ6g5tM1VG9eTl
+	Dwx445+g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1utzvy-00000008S2K-0NuR;
+	Thu, 04 Sep 2025 02:42:46 +0000
+Message-ID: <afd7e91d-8c79-4f78-8c79-3b667b35f8f8@infradead.org>
+Date: Wed, 3 Sep 2025 19:42:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903164431.GD361157@horms.kernel.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NQ1SesBsQjVtGOsZlTHftgyo/547i5B3HWDBaMU63cWmf0NXzMl0+SCS
-	U0KekzMS4iu/YDKQ0aCEHPiYlKy1ZJdLrbsnhVA/qRHoKvhjQcffHWq6EbR/e0e0OCFfEv5
-	ldRwGpUpv2ybtPrCl+T+Idc0eDBmP9hCLaD/74XErLCUMp9z/EVn89vxhceg286c+gSOEMc
-	k/zrEY07S+9r4++aRZUq7AsuOEKPUNy6iGw15BFYlurywZFvzedcHb3lqoPxmukCD77qmbD
-	5KYsCNFcI4XpIVQUj7QQIXwKUq1J3bg/dsqKxco9kYChjJTv6FTDiTin8NhRNGFIw+8r2vf
-	iwooIDhh+U1AnlhnHUWLI4kW4dR/qxy1Bb6+O52gFPp3rj2G8fw1pgXsXWQER7A+l121mOe
-	+QrBM34fYByNuDX9ezFo76WVi+qOwks1aBjZmPiv5EPL0Kx5Z9C9qKQjwuY3nca1q4lxIIf
-	zDwsC9b+yp56n1nsZbbVPncscNCqutVQXuhjXRHxOLLpUkNRSFoxgkniiGCDM0gpIvclKwi
-	d9LPNPMpLebpbsHkoRA5utA6UJCFODr39bYKx46/chLZ/hAc4cV3LjSzyFOSh5Jtf+F8n9N
-	TZc5Q3Ul7CTYuPw9DnskV3cnpLjTVdvZkx8HTBrXkEfNqtxPaB8AC3xgpQpYad9m+6/BIlB
-	roo5flNe1WQJWfffDR1Ya8bVqp/7MWVczTA5pS25tgKN4FIDx1tWas/w9I60efkEc4JPpoJ
-	R8zu6LA0ngmD+s7nWhVA7mPxLFKlQpPz2gQ1htaGPI6gl2Kaza+EJtPG6dAUF33PLBzRxVN
-	pRBrVDhlDu3aggXfYk/DI5mV/eBr+7s2kv7Bwbb7gW0KM48KoIGPei09OEjbnZc1CjyfTL0
-	T0hvR1gMwpUswwMl93SLm238PLYGnKbRzN7L+e0gW5e4E+ZjRpQgnBqgh/wj2NFgyVVIRtz
-	ZJKETEA/2u7o6iTioazJqGIE5rCAgH9qDL7/PmqIpiQugU5NYN0zpFapHdvwTokjMfo5ftE
-	QoYYkllT9nYcBYVl49
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
+ Swap Controller
+To: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com>
+ <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 03, 2025 at 05:44:31PM +0100, Simon Horman wrote:
-> On Wed, Sep 03, 2025 at 10:54:28AM +0800, Dong Yibo wrote:
-> > Initialize basic mbx function.
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> 
-> ...
-> 
-> > +/**
-> > + * mucse_mbx_inc_pf_req - Increase req
-> > + * @hw: pointer to the HW structure
-> > + *
-> > + * mucse_mbx_inc_pf_req read pf_req from hw, then write
-> > + * new value back after increase
-> > + **/
-> > +static void mucse_mbx_inc_pf_req(struct mucse_hw *hw)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	u16 req;
-> > +	u32 v;
-> > +
-> > +	v = mbx_data_rd32(mbx, MBX_PF2FW_COUNTER);
-> > +	req = (v & GENMASK_U32(15, 0));
-> 
-> nit1: Unnecessary parentheses
-> nit2: I would have used FIELD_GET here in conjunction with something like.
-> 
->       #define MBX_PF2FW_COUNTER_MASK GENMASK_U32(15, 0)
-> 
+Hi--
 
-Got it, maybe update it like this?
+On 9/3/25 3:05 AM, Nuno Sá via B4 Relay wrote:
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index e43abb322fa6e15f19f2f498aa5adea03e6cd3bf..0273b0f8944b634f14141aac4d99f502d03b3a32 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -461,6 +461,16 @@ config GPIO_LPC32XX
+>  	  Select this option to enable GPIO driver for
+>  	  NXP LPC32XX devices.
+>  
 
-req = FIELD_GET(GENMASK_U32(15, 0), v);
+How about either of these instead?
 
-> > +	req++;
-> > +	v &= GENMASK_U32(31, 16);
-> > +	v |= req;
-> 
->       And using FIELD_PREP is probably more succinct here.
-> 
->       Likewise in the following function
-> 
+> +config GPIO_LTC4283
+> +	tristate "Analog Devices LTC4283 GPIO support"
+> +	depends on SENSORS_LTC4283
+> +	help
+> +	  If you say yes here you want the GPIO function available in Analog
+> +	  Devices LTC4283 Negative Voltage Hot Swap Controller.
 
-Got it, maybe update it like this?
+this
 
-req++;
-v = (v & ~GENMASK_U32(15, 0)) | FIELD_PREP(GENMASK_U32(15, 0), req);
+> +	  Say yes here you want the GPIO function available in Analog
+> +	  Devices LTC4283 Negative Voltage Hot Swap Controller.
 
-> > +	mbx_data_wr32(mbx, MBX_PF2FW_COUNTER, v);
-> > +	hw->mbx.stats.msgs_tx++;
-> > +}
-> > +
-> > +/**
-> > + * mucse_mbx_inc_pf_ack - Increase ack
-> > + * @hw: pointer to the HW structure
-> > + *
-> > + * mucse_mbx_inc_pf_ack read pf_ack from hw, then write
-> > + * new value back after increase
-> > + **/
-> > +static void mucse_mbx_inc_pf_ack(struct mucse_hw *hw)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	u16 ack;
-> > +	u32 v;
-> > +
-> > +	v = mbx_data_rd32(mbx, MBX_PF2FW_COUNTER);
-> > +	ack = (v >> 16) & GENMASK_U32(15, 0);
-> > +	ack++;
-> > +	v &= GENMASK_U32(15, 0);
-> > +	v |= (ack << 16);
-> > +	mbx_data_wr32(mbx, MBX_PF2FW_COUNTER, v);
-> > +	hw->mbx.stats.msgs_rx++;
-> > +}
-> 
-> ...
-> 
+or this
 
-Maybe like this ?
-...
-v = mbx_data_rd32(mbx, MBX_PF2FW_COUNTER);
-ack = FIELD_GET(GENMASK_U32(31, 16), v);
-ack++;
-v = (v & GENMASK_U32(15, 0)) | FIELD_PREP(GENMASK_U32(31, 16), ack);
-mbx_data_wr32(mbx, MBX_PF2FW_COUNTER, v);
-...
+> +	  If you say yes here you get the GPIO function available in Analog
+> +	  Devices LTC4283 Negative Voltage Hot Swap Controller.
 
-> > +/**
-> > + * mucse_mbx_reset - Reset mbx info, sync info from regs
-> > + * @hw: pointer to the HW structure
-> > + *
-> > + * This function reset all mbx variables to default.
-> > + **/
-> > +static void mucse_mbx_reset(struct mucse_hw *hw)
-> > +{
-> > +	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	u32 v;
-> > +
-> > +	v = mbx_data_rd32(mbx, MBX_FW2PF_COUNTER);
-> > +	hw->mbx.fw_req = v & GENMASK_U32(15, 0);
-> > +	hw->mbx.fw_ack = (v >> 16) & GENMASK_U32(15, 0);
-> 
-> I'd use FIELD_GET here too.
-> 
+or use the GPIO_LPC32XX kconfig entry just above here as a model.
 
-Maybe like this?
-hw->mbx.fw_req = FIELD_GET(GENMASK_U32(15, 0), v);
-hw->mbx.fw_ack = FIELD_GET(GENMASK_U32(31, 16), v);
-
-> > +	mbx_ctrl_wr32(mbx, PF2FW_MBOX_CTRL(mbx), 0);
-> > +	mbx_ctrl_wr32(mbx, FW_PF_MBOX_MASK(mbx), GENMASK_U32(31, 16));
-> > +}
-> 
-> ...
-> 
-
-Thanks for your feedback.
+thanks.
+-- 
+~Randy
 
