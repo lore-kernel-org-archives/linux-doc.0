@@ -1,59 +1,63 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77642D12E3
-	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 09:58:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BA72A1C7
+	for <linux-doc@vger.kernel.org>; Thu,  4 Sep 2025 10:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756979937; cv=none; b=gs7x/RLoxECbBN0f9n4nyUy2ppkEg8w3EHBUM2JMLRjGXdk7VGl+XRlHfqgcoUGNb2uFRsvrAveRZ9dtt9fEQVVvmHBYcx4vRlIzGH94jk3/kDWYj2ob7yALw5xQcSCjQZJezJV1gzj4aG/1BZK84kM3jhK1uDftqQ/HyuGPRbI=
+	t=1756980067; cv=none; b=rgI+O7NWd4r76ZZ/Oc759VTIr4jace49UuwhtrLe/mivy23zGCcZxfhRrnY/D3rcezz04HAUgQ/lzlTVGmRz+F9xOA041watRin8SMV+8XbS3F5bJ957GvxzNvfQVK+hXQujyXlaPbkqVvUEN+qf2L2Wur/UIkEgudi/31EMzUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756979937; c=relaxed/simple;
-	bh=dTjylt6FNuHvCptXeKETOZzHy8yDQ5Bd0hZn/zc7uNw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Vt52Q7/r6q7PKHfSdQ1QWPeKIkTr/dsMQs9i4tGEP0Itj+jRl4jUqQbUCdsq+nAuXip1utoHxFXrgM0OlApegYT1Ab269FL1VUInoE83SGYn9z6463aDRMfWHw7swOKoHzxco8PcNoJzVyGaWxpHc5I+v93REqdsNB/bKxEUUPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=UN1w2Z1k; arc=none smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1756980067; c=relaxed/simple;
+	bh=9grlEZvpNwYPR8AsyuZhWqYjtadqZ9sOLU55FMZFAkk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X9vN3ZYJd+eCRpst9BKtvsfsv+kyR6JlWvrG2We5SYxr5I/UpJzXck1L5HgNKTxaxpXfCdEewvEdmxsxeUxSpXx4tI8Uz3RZurSxQauSGIT/B02/s3OUe5lB3ImaUuPuXskPYaSEClVi/tVdyUMvZU9yklyeynFU+1+dEpiB8ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=DNDGLi2t; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UN1w2Z1k"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849smEJ002980;
-	Thu, 4 Sep 2025 09:58:52 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DNDGLi2t"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58499so4010470;
+	Thu, 4 Sep 2025 10:01:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=QGTM+9wG07CepGBq
-	rnnxxNl8gW41nFU/xgAMKwVz1GQ=; b=UN1w2Z1kYVyJXjMRfNnE8XziFMgnj6yJ
-	BhmRgfwka6rjGLUg8Pg/d1ZgT3t5cSs2ZmrlhtjiDHdTrqrLixi6CQggtBa7Vf7M
-	PmvzS0mrNxIJv5cE8ltThINl6G4imWqvYtplPiryzy1E2WhMEmosVHNNLa+NfqPX
-	81uzhoTzkZg8/47LE3djlLEs+S6csBPjvOYNagltp+Z3HoPVmDsYagM5yBWLWXuw
-	QcCN8oEvoTFpNFz0KD+x9r9ejq07Lc/3TmPTWr8kh34zHZh0Bv/MNf/99OfJ7KPB
-	8i7yumagN21OhI81XPCUQMXdBY2JzorC8Tuh10SQM5/NMmn98aHEpg==
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=H4SOmYSb0buI3Ba4avLrfLTr6HmRCtW+7ZHeJibXlNI=; b=
+	DNDGLi2tafCSqcewJkcQJMYjWIB7qR57ECpL6Va0zFu8vNBkSGbeCi5/WkTnVRvu
+	cFHhYqlGViNu5NapGrFroQzU1Wb11fQfyvwlGUf5urEBDxCdb9pEKoViKjPuLei2
+	ISUKfVJVb+LdQQHnuhkoU7dGJhoJsByaOJVI7+2umBszLpDepCkTmIW0CNtCV6V+
+	6Uf32BIxdu7Pi++4tWIoo8ChbXrlVrP3wY/vRnrM+VRq7lu3UmX+9qWgm4JIRkAJ
+	V/b7aE2XT5n6q04f4qbhePhWBcQHnEbYrG8DGzzjwz+c9iAkw4XlilA8JIvFDEGg
+	aIbXut2u4OpDO+oWkhUdFA==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48y8j3005v-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48y7vy0455-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Sep 2025 09:58:52 +0000 (GMT)
+	Thu, 04 Sep 2025 10:01:02 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5848bI5f036303;
-	Thu, 4 Sep 2025 09:45:35 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5848jgsZ036360;
+	Thu, 4 Sep 2025 09:45:39 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrbbyba-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrbbycp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Sep 2025 09:45:35 +0000
+	Thu, 04 Sep 2025 09:45:39 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5849jYZm033188;
-	Thu, 4 Sep 2025 09:45:34 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5849jYZq033188;
+	Thu, 4 Sep 2025 09:45:39 GMT
 Received: from localhost.localdomain (dhcp-10-154-122-161.vpn.oracle.com [10.154.122.161])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 48uqrbbyar-1;
-	Thu, 04 Sep 2025 09:45:34 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 48uqrbbyar-3;
+	Thu, 04 Sep 2025 09:45:38 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
 To: Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-doc@vger.kernel.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH RFC 1/3] docs: add scripts/documentation-gen-renames.py
-Date: Thu,  4 Sep 2025 11:45:18 +0200
-Message-Id: <20250904094520.451070-1-vegard.nossum@oracle.com>
+Subject: [PATCH RFC 3/3] docs: add scripts/documentation-gen-redirects.py
+Date: Thu,  4 Sep 2025 11:45:20 +0200
+Message-Id: <20250904094520.451070-3-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250904094520.451070-1-vegard.nossum@oracle.com>
+References: <20250904094520.451070-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,171 +73,126 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adul
  suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 mlxscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2508110000 definitions=main-2509040096
-X-Proofpoint-GUID: --jfkZpl5KASxjLGtYhSatkE3pE1-8u4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA0MDA5OCBTYWx0ZWRfX5gn00bFWFwq5
- ROSkmwVGoOEpXTU3vVp7QM52wbo6tSezrnlUzoaIBa/IN4XT/9JY8xWl/n07NapvHwjo4atIG9q
- NF2lCaBv6Gdj+dWKz55joiZDCg/VU6ZNc0ngR2pbqrYsBW/pCiSBbaYBIUCzrmRIhjcvVgSWDx0
- TQ+fNygJMrm4PjviUMN9h5crVVi55wqleq8CXr3zLCbfUHefTJ6mcrKqly8mZ4QjGA9oh2lB/zb
- Wre8LoHHkknKqnpm6orBes7YiloquWkOmlaYKvOfPLmw/jAXvhYHnbJOSTvYlbiKx2ZAWY9nAp3
- olOkRpg190luMNDGc+sRs+mgLfdUuzYkspmbEHSsL23Oxp5gs5fyrr+z44uHA3uLrhBf1EkgkQY
- QMalKgYL
-X-Proofpoint-ORIG-GUID: --jfkZpl5KASxjLGtYhSatkE3pE1-8u4
-X-Authority-Analysis: v=2.4 cv=JfC8rVKV c=1 sm=1 tr=0 ts=68b962dc b=1 cx=c_pps
+X-Proofpoint-ORIG-GUID: LUfg-FswQqCcMZz45C0AezlJ52XvRRiQ
+X-Proofpoint-GUID: LUfg-FswQqCcMZz45C0AezlJ52XvRRiQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA0MDA5MCBTYWx0ZWRfXy6pSk/3sgB8g
+ czbE9ujg5ODlraSYDnO2TfT8ym/QqEYUZ3fw4vqzZ1f+wZa/gVrl7+7yZO84+irYWQmk1C3h4Pl
+ SsSPb1OIqxGg+IXl//PEx3hDzoWtnwmFszBlA656Lx94mrXQHHhl0lz3k0+B9bpsm68FEXV+YFJ
+ 5PFsVQkBGiCnOf5nq4Lq4CCc48lhAukEoYAG3NH3mKc1m0NmPOAMDGFcCyA6xAvskY5B2CF7ZpQ
+ ecSyd927VA0GABQlfoNATEB8/Elc3IRtQyTPZOAAg2uBxCh/u1aPq4gJFEtZ4IDQDCp/MwgiFQS
+ F5/6RemHNWnHyY1vz8rdvQzUga2j5XSkcF2LgObeo937r2MnvG1c0FhI8OkpOqLiyQqQomF0aHc
+ /kdaENuc
+X-Authority-Analysis: v=2.4 cv=TIhFS0la c=1 sm=1 tr=0 ts=68b9635e b=1 cx=c_pps
  a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=yPCof4ZbAAAA:8 a=pI-514bexkF2qXON-WYA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=ag1SF4gXAAAA:8 a=07d9gI8wAAAA:8
+ a=yPCof4ZbAAAA:8 a=ZWDM03DPKvESC0Zxh4QA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=e2CUPOnPG4QKp8I52DXD:22
 
-Add a new script that wraps git to trawl the repository history for
-renames of .rst files in the Documentation/ directory.
+Add a new script and a new documentation 'make' target,
+htmldocs-redirects.
 
-Example usage:
+This will generate HTML stub files in the HTML documentation output
+directory that redirect the browser to the new path.
 
-  scripts/documentation-gen-renames.py --rev v6.17-rc3 > Documentation/.renames.txt
-
-The output format is simply:
-
-  <old path> SPACE <new path> NEWLINE
-
-where neither <old path> nor <new path> contain the Documentation/
-prefix or the .rst suffix. The file is sorted alphabetically.
-
-We can suggest rerunning the script for future renames (and squash the
-resulting change) or rerun it periodically to keep the file up to date.
-
+Suggested-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- scripts/documentation-gen-renames.py | 122 +++++++++++++++++++++++++++
- 1 file changed, 122 insertions(+)
- create mode 100755 scripts/documentation-gen-renames.py
+ Documentation/Makefile                 |  4 +++
+ Makefile                               |  5 +--
+ scripts/documentation-gen-redirects.py | 45 ++++++++++++++++++++++++++
+ 3 files changed, 52 insertions(+), 2 deletions(-)
+ create mode 100755 scripts/documentation-gen-redirects.py
 
-diff --git a/scripts/documentation-gen-renames.py b/scripts/documentation-gen-renames.py
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index b98477df5ddfc..59fc77ebeceed 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -124,6 +124,9 @@ htmldocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+ 
++htmldocs-redirects: $(srctree)/Documentation/.renames.txt
++	@scripts/documentation-gen-redirects.py --output $(BUILDDIR) < $<
++
+ # If Rust support is available and .config exists, add rustdoc generated contents.
+ # If there are any, the errors from this make rustdoc will be displayed but
+ # won't stop the execution of htmldocs
+@@ -193,6 +196,7 @@ cleandocs:
+ dochelp:
+ 	@echo  ' Linux kernel internal documentation in different formats from ReST:'
+ 	@echo  '  htmldocs        - HTML'
++	@echo  '  htmldocs-redirects - generate HTML redirects for moved pages'
+ 	@echo  '  texinfodocs     - Texinfo'
+ 	@echo  '  infodocs        - Info'
+ 	@echo  '  latexdocs       - LaTeX'
+diff --git a/Makefile b/Makefile
+index 06c28b1d7e67a..5dc8ce3d28a2a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1799,8 +1799,9 @@ $(help-board-dirs): help-%:
+ 
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+-DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+-	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
++DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs htmldocs-redirects \
++	       epubdocs cleandocs linkcheckdocs dochelp refcheckdocs \
++	       texinfodocs infodocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS):
+ 	$(Q)$(MAKE) $(build)=Documentation $@
+diff --git a/scripts/documentation-gen-redirects.py b/scripts/documentation-gen-redirects.py
 new file mode 100755
-index 0000000000000..daabd2366c53c
+index 0000000000000..20fecbf6697d6
 --- /dev/null
-+++ b/scripts/documentation-gen-renames.py
-@@ -0,0 +1,122 @@
++++ b/scripts/documentation-gen-redirects.py
+@@ -0,0 +1,45 @@
 +#! /usr/bin/env python3
 +#
 +# Copyright © 2025, Oracle and/or its affiliates.
 +# Author: Vegard Nossum <vegard.nossum@oracle.com>
 +
 +import argparse
-+import itertools
 +import os
-+import subprocess
 +import sys
 +
 +parser = argparse.ArgumentParser()
-+parser.add_argument('--rev', default='HEAD')
++parser.add_argument('-o', '--output', help='Output directory')
 +
 +args = parser.parse_args()
 +
-+def normalize(path):
-+    prefix = 'Documentation/'
-+    suffix = '.rst'
++for line in sys.stdin:
++    line = line.rstrip('\n')
 +
-+    assert path.startswith(prefix)
-+    assert path.endswith(suffix)
++    old_name, new_name = line.split(' ', 2)
 +
-+    return path[len(prefix):-len(suffix)]
++    old_html_path = os.path.join(args.output, old_name + '.html')
++    new_html_path = os.path.join(args.output, new_name + '.html')
 +
-+class Name(object):
-+    def __init__(self, name):
-+        self.names = [name]
-+
-+    def rename(self, new_name):
-+        self.names.append(new_name)
-+
-+names = {
-+}
-+
-+for line in subprocess.check_output([
-+    'git', 'log',
-+    '--reverse',
-+    '--oneline',
-+    '--find-renames',
-+    '--diff-filter=RD',
-+    '--name-status',
-+    '--format=commit %H',
-+    # ~v4.8-ish is when Sphinx/.rst was added in the first place
-+    f'v4.8..{args.rev}',
-+    '--',
-+    'Documentation/'
-+], text=True).splitlines():
-+    # rename
-+    if line.startswith('R'):
-+        _, old, new = line[1:].split('\t', 2)
-+
-+        if old.endswith('.rst') and new.endswith('.rst'):
-+            old = normalize(old)
-+            new = normalize(new)
-+
-+            name = names.get(old)
-+            if name is None:
-+                name = Name(old)
-+            else:
-+                del names[old]
-+
-+            name.rename(new)
-+            names[new] = name
-+
++    if not os.path.exists(new_html_path):
++        print(f"warning: target does not exist: {new_html_path} (redirect from {old_html_path})")
 +        continue
 +
-+    # delete
-+    if line.startswith('D'):
-+        _, old = line.split('\t', 1)
++    old_html_dir = os.path.dirname(old_html_path)
++    if not os.path.exists(old_html_dir):
++        os.makedirs(old_html_dir)
 +
-+        if old.endswith('.rst'):
-+            old = normalize(old)
++    relpath = os.path.relpath(new_name, os.path.dirname(old_name)) + '.html'
 +
-+            # TODO: we could save added/modified files as well and propose
-+            # them as alternatives
-+            name = names.get(old)
-+            if name is None:
-+                pass
-+            else:
-+                del names[old]
++    with open(old_html_path, 'w') as f:
++        print(f"""\
++<!DOCTYPE html>
 +
-+        continue
-+
-+#
-+# Get the set of current files so we can sanity check that we aren't
-+# redirecting any of those
-+#
-+
-+current_files = set()
-+for line in subprocess.check_output([
-+    'git', 'ls-tree',
-+    '-r',
-+    '--name-only',
-+    args.rev,
-+    'Documentation/',
-+], text=True).splitlines():
-+    if line.endswith('.rst'):
-+        current_files.add(normalize(line))
-+
-+#
-+# Format/group/output result
-+#
-+
-+result = []
-+for _, v in names.items():
-+    old_names = v.names[:-1]
-+    new_name = v.names[-1]
-+
-+    for old_name in old_names:
-+        if old_name == new_name:
-+            # A file was renamed to its new name twice; don't redirect that
-+            continue
-+
-+        if old_name in current_files:
-+            # A file was recreated with a former name; don't redirect those
-+            continue
-+
-+        result.append((old_name, new_name))
-+
-+for old_name, new_name in sorted(result):
-+    print(f"{old_name} {new_name}")
++<html lang="en">
++<head>
++    <title>This page has moved</title>
++    <meta http-equiv="refresh" content="0; url={relpath}">
++</head>
++<body>
++<p>This page has moved to <a href="{relpath}">{new_name}</a>.</p>
++</body>
++</html>""", file=f)
 -- 
 2.34.1
 
