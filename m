@@ -1,98 +1,110 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86B572604;
-	Thu,  4 Sep 2025 12:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8382F8BD0;
+	Thu,  4 Sep 2025 12:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756989354; cv=none; b=I2JKEhCmNrRXuxlQV/GjOkV7/NHsviYfUrEa8Nqg7VU0Yer8yeTxBEamqLrKCJv5kiRBzNckNIwJQjjGjs0zttX017Ervw4pqAs0SwR1h3BOdr6f7uJODWiUEwRRza50+v7NwtG7UI8Hs44TFKCOw1if+Hk2ThbU9S0MAIkXx6k=
+	t=1756989564; cv=none; b=pAclulHhoY2qsPUWjxs6rhMF0YoxH/Dmczmd5iL1G3iFxZlEj5U+rfq1Djbl/d16ChzrKqBpeLFNNLi4kBcJ2DkODNPL2vi3Ki37mJsUPJHRyZq6URq0Vctf4ACNCUTXeq7VZvGTrNLPwDlr3ZCFp/FIrv5gzgZtPW32hK0WhrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756989354; c=relaxed/simple;
-	bh=PDnxGRWeEjp96hBsqgEYqVc5VvH/OHtMXABg4S2tAPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4bT49ZzCzVyjG/RwTqLmcgNVWHHyJjvdqgpCRrKCTVaxDP2zuZFThTggevrTk6NBw7SWhOkkgi4mIF+hFqQZBl2bXwzIgl+J+l05U3zeRNK0ATpOKexiA8sQ1Lh0x9A558m7zNsoB2RmqkYSWyNUGe7EqzDWx4Mn1qovAl39Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=VfuYftdR; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1756989564; c=relaxed/simple;
+	bh=/dOXK4oy7iAhoUGr2MmfjWE8hXk9Y8tyleU9g8YasAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dlEvzWbD9LPCqClXvVdmyp7PLG2L+1ZOlJZoF0hoheVomli1glbe8dWWbtwpJrZ10wfR5gKld18RoGBp01zOSM1vFSYBmdJht1SAw7+Dh+XoNCDWj5O+MEiXCjU47/WmBRSyiP2edoK5ctPw3oYaXRyf9nzvpC0E2uZe5NOooqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9MOrYmH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="VfuYftdR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=vTMs0h45CDEOQS0xg4zE2o4BKftiiNc3aEpwZSrqS58=; b=VfuYftdRjRctpIk7NA+mQTfInT
-	3dRA62fep07AU7Epi2UpU/IfNfCmO6ILckb8HGEwEFCSoA4QmBiIvsY420tlxnhgeG5nugmtjr+4j
-	tsxsD7pXoxzKtCcyc5kj2/6ZYBggcJysmDDWh6eZLOW2BfwL0uGYS3SC+AeYTzgVHFD8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uu9BC-007D5j-8J; Thu, 04 Sep 2025 14:35:06 +0200
-Date: Thu, 4 Sep 2025 14:35:06 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yibo Dong <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v10 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <d30ee369-3711-41d2-95ad-85fa3e1cb65c@lunn.ch>
-References: <20250903025430.864836-1-dong100@mucse.com>
- <20250903025430.864836-6-dong100@mucse.com>
- <b9a066d0-17b5-4da5-9c5d-8fe848e00896@lunn.ch>
- <6B193997D4E4412A+20250904030621.GD1015062@nic-Precision-5820-Tower>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9MOrYmH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E171AC4CEF1;
+	Thu,  4 Sep 2025 12:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756989563;
+	bh=/dOXK4oy7iAhoUGr2MmfjWE8hXk9Y8tyleU9g8YasAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=i9MOrYmHgSH7Y+7qHtX1Byvl1ufAKEXc1Ej/VzGCte2ENcbxl6Mjs/y7IuxfEcCQ3
+	 lkRNGXjyWdOWAjOORBHFnPRA/tQO7cxQGyxoKmvFfmz4u8IXtmkl7ciAUTWgFT+GAP
+	 myO6mgfBUImeuJUAz/Pp3nRZc3rbxvf5UZr3Y0Bck70j808roKhLMObuwp5KEXxApA
+	 xpPMEoC4Z5WrmciOCLArypa7JShIxMw4iOYxs4tM20apqeuHeoOTbvLYZ/wTsANFrj
+	 0RU+AInyj9lCuH+cdHwn1+LLbCI7dNSEn4Q4fm9jFierntGz1oHAM9EVt+WbDdjGQ+
+	 uvggoCCmg/h4g==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Jason Gunthorpe <jgg@nvidia.com>,
+  Pasha Tatashin <pasha.tatashin@soleen.com>,  jasonmiu@google.com,
+  graf@amazon.com,  changyuanl@google.com,  dmatlack@google.com,
+  rientjes@google.com,  corbet@lwn.net,  rdunlap@infradead.org,
+  ilpo.jarvinen@linux.intel.com,  kanie@linux.alibaba.com,
+  ojeda@kernel.org,  aliceryhl@google.com,  masahiroy@kernel.org,
+  akpm@linux-foundation.org,  tj@kernel.org,  yoann.congal@smile.fr,
+  mmaurer@google.com,  roman.gushchin@linux.dev,  chenridong@huawei.com,
+  axboe@kernel.dk,  mark.rutland@arm.com,  jannh@google.com,
+  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+In-Reply-To: <aLiZbb_F5R2x9-y2@kernel.org>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
+	<20250826162019.GD2130239@nvidia.com> <aLXIcUwt0HVzRpYW@kernel.org>
+	<mafs0ldmyw1hp.fsf@kernel.org> <aLbYk30V2EEJJtAf@kernel.org>
+	<mafs0qzwnvcwk.fsf@kernel.org> <aLiZbb_F5R2x9-y2@kernel.org>
+Date: Thu, 04 Sep 2025 14:39:13 +0200
+Message-ID: <mafs0ecsmv1ce.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6B193997D4E4412A+20250904030621.GD1015062@nic-Precision-5820-Tower>
+Content-Type: text/plain
 
-On Thu, Sep 04, 2025 at 11:06:21AM +0800, Yibo Dong wrote:
-> On Thu, Sep 04, 2025 at 12:53:27AM +0200, Andrew Lunn wrote:
-> > >   * rnpgbe_add_adapter - Add netdev for this pci_dev
-> > >   * @pdev: PCI device information structure
-> > > @@ -78,6 +129,38 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
-> > >  
-> > >  	hw->hw_addr = hw_addr;
-> > >  	info->init(hw);
-> > > +	mucse_init_mbx_params_pf(hw);
-> > > +	err = hw->ops->echo_fw_status(hw, true, mucse_fw_powerup);
-> > > +	if (err) {
-> > > +		dev_warn(&pdev->dev, "Send powerup to hw failed %d\n", err);
-> > > +		dev_warn(&pdev->dev, "Maybe low performance\n");
-> > > +	}
-> > > +
-> > > +	err = mucse_mbx_sync_fw(hw);
-> > > +	if (err) {
-> > > +		dev_err(&pdev->dev, "Sync fw failed! %d\n", err);
-> > > +		goto err_free_net;
-> > > +	}
-> > 
-> > The order here seems odd. Don't you want to synchronise the mbox
-> > before you power up? If your are out of sync, the power up could fail,
-> > and you keep in lower power mode? 
-> > 
-> 
-> As I explained before, powerup sends mbx and wait fw read out, but
-> without response data from fw. mucse_mbx_sync_fw sends mbx and wait for
-> the corect response from fw, after mucse_mbx_sync_fw, driver->fw
-> request and fw->driver response will be both ok.
+Hi Mike,
 
-Because this is logically the wrong order, this deserves a comment.
+On Wed, Sep 03 2025, Mike Rapoport wrote:
+> On Wed, Sep 03, 2025 at 04:17:15PM +0200, Pratyush Yadav wrote:
+>> On Tue, Sep 02 2025, Mike Rapoport wrote:
+>> >
+>> > As for porting kho_preserve_vmalloc() to kho_array, I also feel that it
+>> > would just make kho_preserve_vmalloc() more complex and I'd rather simplify
+>> > it even more, e.g. with preallocating all the pages that preserve indices
+>> > in advance.
+[...]
+>  
+>> Beyond that, I think KHO array will actually make kho_preserve_vmalloc()
+>> simpler since it won't have to deal with the linked list traversal
+>> logic. It can just do ka_for_each() and just get all the pages.
+>>
+>> We can also convert the preservation bitmaps to use it so the linked list
+>> logic is in one place, and others just build on top of it.
+>
+> I disagree. The boilerplate to initialize and iterate the kho_array will
+> not make neither vmalloc nor bitmaps preservation simpler IMO.
 
-You choice of function names for the lower level functions also does
-not help. It is not so easy to look at the function used to know if it
-is a request/response to the firmware, or just a request without a
-response.
+I have done 80% of the work on this already, so let's do this: I will do
+the rest of the 20% and publish the patches. Then you and Jason can have
+a look and if you still think it's not worth it, I am fine shelving it
+for now and revisiting later when there might be a stronger case.
 
-	Andrew
+>
+> And for bitmaps Pasha and Jason M. are anyway working on a different data
+> structure already, so if their proposal moves forward converting bitmap
+> preservation to anything would be a wasted effort.
+
+-- 
+Regards,
+Pratyush Yadav
