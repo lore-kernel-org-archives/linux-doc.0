@@ -1,118 +1,133 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A601B27146A;
-	Wed,  3 Sep 2025 23:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5BA2566;
+	Thu,  4 Sep 2025 02:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756942039; cv=none; b=NJd3+4lUpRMmlIJHTrrQ9vrT/64DAbGQZuUAbYbjnD9oOdLzy/k5ShS5PPTQXMd4vw0kzRSybOcXahJR7MMqDcbvIgZN6iSkdp6MD329LCZT5ONWbDWNyfrlRxY2bkBEOAT9ZIHEiACy7xpgUkDQhx1kO8QxagKkqpTd1Slw+IA=
+	t=1756951735; cv=none; b=hxVHag6eBEcZKetxw+xgfnjtCQ+Lex3kj9gdz7b+c0bEU+cikMNf5DnBgityl2dBLGCbmn2p6gTzztCKsRLWkoew67/DzDujD+WQufp5pOUnSgIhJ/GTo2zaGUn4RFoiDLMSyQgJiNWZedrUBmC7r8u53HgWyszXZAth+ac+QUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756942039; c=relaxed/simple;
-	bh=agSZSZe+tQVZN8rhVQvwRsToQCPpFg14KIdGBgQcrtA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qCJxMXh7YlfAO0sQNoKXpuOCbCVpxC42ORib+LCj8XIrgzK1Tt5AeuL7ZCcBfs4YIlI3M/EmrqcXsXCOTTnwvPRNdive9ezZXI716XQbkukye/gVD+u9IpbIgbuT2cUtlCSHx9z7ZA4d2zOJsyeMAnoZXjCWsd8WwPbO9vElLwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eop4KtGu; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eop4KtGu"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-248f2da72edso715755ad.2;
-        Wed, 03 Sep 2025 16:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756942036; x=1757546836; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=agSZSZe+tQVZN8rhVQvwRsToQCPpFg14KIdGBgQcrtA=;
-        b=eop4KtGumZHYT8GIYnOX77iqoFnbZZg44Y/ySZ3LHOgba7h23uZXSJYALSX10KB3i8
-         KXBbKrCM9zabW3sMI3/6vxjTJadHxIsp65ufvChQ+vb3NMceZK2u+F2D5Ndj1T5ZgpTb
-         uvNMLUHMldnhPzr6tgfXzdVcOWLOtUstMNk09MiHT+2OM1RgxTrSTji6c3+M3joNkpX3
-         JRpLUlIDoGskI861rYQRH5Cy5F0/AWQP2llLoWQBLNK4DpVyXbBW5UiIAfl27EnNedQq
-         +SGA4jIk3B5sMXvdwf+JLAnm/Ccl5QM39mr1L/xIEo3MxOiOSkJ5AbFVlR/c4ZNcQAjz
-         JdgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756942036; x=1757546836;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=agSZSZe+tQVZN8rhVQvwRsToQCPpFg14KIdGBgQcrtA=;
-        b=SfviyHCf5DqIMC5gYyOvLkHpxB0PG+l8sg3L/k6Rtqy1eGhQT78CNpIueXSrgyE1gc
-         pmjNy5gV1o7OoAmDCgGTXPVqJznPQ1KyuheGGhJFGetUBv4ncG+kA/SUAhr1YBSQRT4A
-         383b7ndFnKhctYggptEh00qNQLaiX6pa2a1QljGkyTpKMLThCYFaQ41fsnFOjOcix9eZ
-         q1vtyb399aAK4gioqLLXFbtwS1yihhM0COrmu6v3/jVseDaGeUrv+CqLm4Xpfo6swK/P
-         FNDkUbuSOoKYQ/MWtE1/DF9EM3JMNaLL4/nFinU29Ay1PsDI2H9aFg1toClglkORQZN6
-         nviw==
-X-Forwarded-Encrypted: i=1; AJvYcCUj9INyaBcivVUovcYOZtJLUE06YzjkL3x4nriswKo5hIbN+YHH6yu2UuOOMyv4MrjfOlS6PcDHmdUfbIbTSAE=@vger.kernel.org, AJvYcCVT6OrA1WRR+pdBwPRI+T9AKzRuoOIKCb2dKmYn/1zzs2u1/x0pdWkPuew4W+TxLuLGwPoXHgtVWrY=@vger.kernel.org, AJvYcCWgwSSQ5EpgE2W1mGjQ+j9ozka2vOl6ZyoTagNx56Ojs55dGEIWBclTyGQzFCNz1kaxa7r365YLBWfsUMPm@vger.kernel.org, AJvYcCXsV8q4kQFaZJsrI4WuhCd3mS5bhmTBmBNf5G3w9K3ycIJs2wvIfISchrBLOlJGo8KUYiG73vH0hq0VN0R2@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4sOb9xThWniDpJ1N7kTM0GgBCXco3Odg1suuuWkdes3i7BS8C
-	bXmyGsVbCFVnTs9ta6WbtF80QydrslkxO6mqG4j/zG16fZ0JIte1gBl+VHqz5fBbSkMvOusclAR
-	few6wt2lVBOCnel/vPeXNRdPF+veDvvg=
-X-Gm-Gg: ASbGncvIo73J97VvqUPn1pBf8mlXUvg4R1JzrgA2mG8i1kKFRQaqp9UjKyHehbLBGwE
-	lJ59Z8jxWgt/3VKwBhEHwc6fnmWb6MR13wsdDnAD2bn4mk+Dg4zVFP1qMVsLWEChmXdfUSf9CFo
-	DXZg/Lh9VOljnQIzdKW0AdD6Ng/JbsadUcjgWguWqy1CqyADgmnBcau8CGJIigvYvvLkd01b+iv
-	wZgbCzEjptVbVZ2Ens1bgBfzX4QSiylRR6NOdBn0nf54FntBFwU+/kJcRNn3JxhwSuqU8im9YjJ
-	S6lNGAy1MklAgSPGNRcyq0zGhS7k/sDcp4ze
-X-Google-Smtp-Source: AGHT+IHTidnBVrl9x28IZyAbFtRyk1faHWra3cfcqzPBbplLrvafS2wCVDCjldwrmyF+S5C53slJRXjDIWwmfw6CDg4=
-X-Received: by 2002:a17:90b:4a8c:b0:329:cc8e:247c with SMTP id
- 98e67ed59e1d1-329cc8e278cmr7164799a91.8.1756942035722; Wed, 03 Sep 2025
- 16:27:15 -0700 (PDT)
+	s=arc-20240116; t=1756951735; c=relaxed/simple;
+	bh=YL+udEhqYvVb+hkB96hl3dN1ufgilHAKu0jAcG1osME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rNfJa34IUQ43jLfgF3BRw5ZPln8fktrRyTRIwyYngEVlNAPtWkWAR+KD0snF4YdOk9aLYFDPVLF9n3Axxl4TzliYbIGmW7788KvvphH2DcdqGo4mL8k6gomG/EKAys9wzr2hty9GKc7buLhucg9H823SUy/PTIR70nT72qLyP6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz3t1756951707tbaada6d1
+X-QQ-Originating-IP: OK09plULguSJIyt/VX69yXkyKISF9Tyqscn9kwrKVpk=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 04 Sep 2025 10:08:25 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 1257973263119002270
+Date: Thu, 4 Sep 2025 10:08:25 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v10 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <34F6EA2DE6501A3E+20250904020825.GA1015062@nic-Precision-5820-Tower>
+References: <20250903025430.864836-1-dong100@mucse.com>
+ <20250903025430.864836-4-dong100@mucse.com>
+ <be2b4af0-838e-4c7c-bae1-e74c027ad8fe@linux.dev>
+ <9156A3C8F1EFA452+20250903111237.GA967815@nic-Precision-5820-Tower>
+ <861c5b23-2d51-40b1-8363-67e666431251@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250830-cheesy-prone-ee5fae406c22@spud> <20250903190806.2604757-1-SpriteOvO@gmail.com>
- <20250903190806.2604757-2-SpriteOvO@gmail.com>
-In-Reply-To: <20250903190806.2604757-2-SpriteOvO@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 4 Sep 2025 01:27:03 +0200
-X-Gm-Features: Ac12FXzLAKLE3bvYxnCEro37dgST78_dgCYHlfdxLKDH7Bk_32DLgZHXXdMAE08
-Message-ID: <CANiq72=FJSRwOPNG4ZFeoex3MssTjmhozp5Xd++PTCCSJaJ3hA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] RISC-V: re-enable gcc + rust builds
-To: Asuna Yang <spriteovo@gmail.com>
-Cc: Conor Dooley <conor@kernel.org>, Jason Montleon <jmontleo@redhat.com>, 
-	Han Gao <rabenda.cn@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Tejun Heo <tj@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Matthew Maurer <mmaurer@google.com>, Jeff Xu <jeffxu@chromium.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jan Hendrik Farr <kernel@jfarr.cc>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Christian Brauner <brauner@kernel.org>, Brian Gerst <brgerst@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, 
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <861c5b23-2d51-40b1-8363-67e666431251@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NyqG2qnv0b2dYadHGYP9NPZJ1xViYibi4tW62cjiQ9AgQqnnIIphcJRX
+	vaRDxu3g4YYYIYXixyIVIHNiuLYD1oEPBCM2dLREAvmmU1wXAWJ21uYqYkhCyjIxxm1W2zi
+	gSy9Klrdt1H4CJ3pcb2p1QQiZzjZR4rMaIQCSILtZUg1rwujIL6aVGz3MwwmcjvSi37GpeN
+	/aZDwjGCR45sOoStoE+/Xj7ipS1NiUoUcfhHBR6nVvuyOCgRhmni83SCRTIyegUNeB76v4Z
+	6yI9Pd+uL8hZeLHqCx5EYBz72aJLZjgTlIZgZXNv4+VECdPMPDsuq/YRgcjQpMJoQCWsQdS
+	Fq+AG8j3PSO8+MHPnqmTnCytFM4XkaiOK8C0VP/x7zRBPceGzkj1/n8pbzaT76fZY9E1c8Z
+	8OmB7GQl4jJtrF08Qm+FOH7cAHwlVm+NrRvVzN6diXsd66tVOMeJb/RzOWGJDEcTAerJqU8
+	7Vdc5gKz3Z8UYP2bD9I0v3nWr+j3q4wkdjgTbS9Nxt0V/tooRE2EeVsRykGGQRTue0GNjW/
+	9vQAYyRZBmZuUwJFpxgXV8KRFs1IJ/hFPALqUhkKtzakdULsjVWLbDqmWAawSmB2vIZ2Cvu
+	WUArBPN0K2A4qozevRj/Y6T/akvHohD/OEmnX7TnMGpq/FVgPcF9r0dJ3EZaTw3xdkzJdqx
+	fy+jXV0FV029B6HcWs5t2qfTrbLF87iJr7ku9ABh4xfvYZJPkDzue5AjP3MEPMNnb9VwdKG
+	ZGLWJTxj7iUTCqBCI8HcbZJxWxDfBN8wZdRZJSCJbFbe62vqnJdlmFAH2ewYA0ghP8w/NXY
+	O4GvJgae/37dM8qXRja80gAlJH39Ji5JVZUFUHjAjplyXPOJvzZnhJw3KmX3oDIpsLm+lFj
+	9N4wm/Typ2FxeVXA6TRjLj+LogDoNer6ED0vM8Dg7eT1yhxr6KDD1lJmq9tTsuZZQlDZ9dp
+	h78yAaSR87zHpOgoikNojXFOkjW2RrJ99FviKSERYmyZMKdEkPGpzezLh
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-On Wed, Sep 3, 2025 at 9:08=E2=80=AFPM Asuna Yang <spriteovo@gmail.com> wro=
-te:
->
-> Commit 33549fcf37ec ("RISC-V: disallow gcc + rust builds") disabled GCC
-> + Rust builds for RISC-V due to differences in extension handling
-> compared to LLVM.
->
-> Add a Kconfig non-visible symbol to ensure that all important RISC-V
-> specific flags that will be used by GCC can be correctly recognized by
-> Rust bindgen's libclang, otherwise config HAVE_RUST will not be
-> selected.
+On Wed, Sep 03, 2025 at 01:43:02PM +0100, Vadim Fedorenko wrote:
+> On 03/09/2025 12:12, Yibo Dong wrote:
+> > On Wed, Sep 03, 2025 at 11:53:17AM +0100, Vadim Fedorenko wrote:
+> > > On 03/09/2025 03:54, Dong Yibo wrote:
+> > > > Initialize basic mbx function.
+> > > > 
+> > > > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > > > ---
+> > > >    drivers/net/ethernet/mucse/rnpgbe/Makefile    |   3 +-
+> > > >    drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  16 +
+> > > >    .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |   3 +
+> > > >    .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 393 ++++++++++++++++++
+> > > >    .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  25 ++
+> > > >    5 files changed, 439 insertions(+), 1 deletion(-)
+> > > >    create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> > > >    create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+> > > > 
+> > > > diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> > > > index 179621ea09f3..f38daef752a3 100644
+> > > > --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> > > > +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> > > > @@ -1,8 +1,11 @@
+> > > >    // SPDX-License-Identifier: GPL-2.0
+> > > >    /* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> > > > +#include <linux/string.h>
+> > > 
+> > > I don't see a reason to have string.h included into rnpgbe_chip.c
+> > > 
+> > 
+> > You are right, I should add it when it is used.
+> > 
+> > > > +
+> > > >    #include "rnpgbe.h"
+> > > >    #include "rnpgbe_hw.h"
+> > > > +#include "rnpgbe_mbx.h"
+> > > 
+> > > I believe this part has to be done in the previous patch.
+> > > Please, be sure that the code can compile after every patch in the
+> > > patchset.
+> > > 
+> > 
+> > You mean 'include "rnpgbe_mbx.h"'? But 'rnpgbe_mbx.h' is added in this patch.
+> 
+> Ok, so what's in rnpgbe_chip.c which needs rnpgbe_mbx.h to be included?
+> If the change is introduced later in patch 5, the move this include to
+> it as well.
+> 
 
-I think the commit message should try to explain each the changes here
-(or to split them).
+You are right, I will move it to patch 5.
 
-e.g. it doesn't mention the other config symbols added, nor the extra
-flag skipped, nor the `error` call.
+> > I had compiled every patch before submission for this series. And as you
+> > remind, I will keep check this in the future.
+> > 
+> > Thanks for your feedback.
+> > 
+> 
+> 
 
-Cc'ing the rust-for-linux list.
+Thanks for your feedback.
 
-Thanks!
-
-Cheers,
-Miguel
