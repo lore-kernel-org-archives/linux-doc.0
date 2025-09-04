@@ -1,115 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4A6260580;
-	Thu,  4 Sep 2025 16:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941EC1D554;
+	Thu,  4 Sep 2025 16:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757003837; cv=none; b=PFQPSnLwKuxSms5ZKmP5KAw/QVnCMAV58mlBVh6QOGCkNIeGEMcmjUbL2C+BgT0LtCCGbb9YWWtUS5WKZTdsyVRKGqDd2PP05f5uWzUC6C2BaJCVENQJrjsfjZo9vbb/yMPjU1OeW4EPFook5mIMPCpZ3LE+Y1J29gQPwWMXErc=
+	t=1757004182; cv=none; b=DtR7opAoxSOk0cjhGBf7VS9a9pU7K2sPbWxDM+KrHXS6m8w1FGCyU8eeR/dVWzbWvGbWHPgVRxYqWCVSd5cTI1VOZqv++K4tjX98Z3x5sqHa0PwctIK/TsIKWJnsk7D2FLe/MVPbA8MNQtDaRhM3FQ6E5k+phqi9CxE4Wgtuytw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757003837; c=relaxed/simple;
-	bh=ktaFNYGOy663BwK6rfV/ONBV11uoyQrRziv09fSFQ1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=siu2oTl+s7ROMotrWVaIRSYrmztMJPQUXKHDa5tQ3GamggDGHTcTncaaCKbBuh+M5BIC0tW/6manYJcdR5gtutI9wDJjUOFPgTTGPtXeIBSl22EPj/KiM+YtQJ7GFN0cOf0A/19BTBsb6OeJs6HtisUWAx4LAwVvaSezO8/lSoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hkRDPCwc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757004182; c=relaxed/simple;
+	bh=VclGNSTasmoyTyQtliq2S2zIA/MChid17egfEOlk83c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kVdbjG9NFtXMXrERue9i7aY6l/woFe58UCuMIW1e6vD2xaVy9Ib6QRePfXR7he7b851FwwA1dNbj89LLQaGoSeGwTRbxtjx0bPmovg8t9BBhxmItO/mYhPL1LDdmbMVQc2O9x/+YZYboGQcz9fcjE7RO78jBR6GTOE65IF0aq40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=f9aM0l70; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkRDPCwc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87D8C4CEF0;
-	Thu,  4 Sep 2025 16:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757003834;
-	bh=ktaFNYGOy663BwK6rfV/ONBV11uoyQrRziv09fSFQ1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hkRDPCwcgpV8W/82FQ58Hd5lN+OM+10trpdtVo186jo1w+T6Sew0RKJ/4TY/RX2Ip
-	 r200ZrHL354DiFKrwms7xBmVqu08JXVvLuE4NErIdKRHDGruat+xbl3SHNKLxHP+Hz
-	 2/WSWuM5/y1bZJZUAm39JvLJzGixYRvMVE6a8VVY+F5r9Hi65LJpnWGBwz1ehPZwj6
-	 B8r2LYhfLODBKHBqtiyERC74r87xZITyQ8hJ0JE7fK8OpjHuW+RUNRMV3BKI9ySJcD
-	 CToGmN2fu60jEhJ6XbgicYPHuEjgzHP2Ww9lFQhmlX4HgTFwgMQkOh4COZI1fTKdBI
-	 6xyRidT+lU2Sw==
-Date: Thu, 4 Sep 2025 09:37:14 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Marco Elver <elver@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Ramon de C Valle <rcvalle@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 0/9] kcfi: Prepare for GCC support
-Message-ID: <202509040933.06AF02E714@keescook>
-References: <20250904033217.it.414-kees@kernel.org>
- <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="f9aM0l70"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71F59406FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1757004177; bh=3Pkh2sB0VtPl6+kb9/0x9oQQp35VYh+YFPxsQo/WNrQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=f9aM0l70YnB/LZDpI3Af5UHc+ihAxPADLoFi04ZJaLcbB08LKyexr6OGamC05kzt6
+	 oxEaG3xVJC7INBpza9lOW/GRDg4KECuiWppyxdZFgQ1dzYlxoc5XAyvOgW6XlJ2ibL
+	 lHVVkKKOWEKZS3PrBFx6Ad3rcZpSjY5tbFdONM2M8JRM22IpImfR8RUpr61GvKwDcK
+	 8+XkBhsuiUBggvNodWBLSsnkNqPj1+k8kaWOtaNABGjAILG+tC08oleCih5gxS/Qd6
+	 sNPvOdJlwPqHgnGE/BFOzLYR2wzs9sC0Pk0lmQmdx6bO6SUFpHuPZeCXW8p6J5JUx+
+	 LwYbcOQ21vI7Q==
+Received: from localhost (c-73-14-55-248.hsd1.co.comcast.net [73.14.55.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 71F59406FA;
+	Thu,  4 Sep 2025 16:42:57 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>, Alex Shi <mchehab+huawei@kernel.org>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Federico Vaga <federico.vaga@vaga.pv.it>, Mauro
+ Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Yanteng Si <si.yanteng@linux.dev>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 04/19] scripts: sphinx-pre-install: move it to
+ tools/docs
+In-Reply-To: <68810fc1065bbe8ef1305041fb10fa632bb64dd3.1756969623.git.mchehab+huawei@kernel.org>
+References: <cover.1756969623.git.mchehab+huawei@kernel.org>
+ <68810fc1065bbe8ef1305041fb10fa632bb64dd3.1756969623.git.mchehab+huawei@kernel.org>
+Date: Thu, 04 Sep 2025 10:42:56 -0600
+Message-ID: <87ms7amanj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
+Content-Type: text/plain
 
-On Thu, Sep 04, 2025 at 09:04:10AM +0200, Peter Zijlstra wrote:
-> On Wed, Sep 03, 2025 at 08:46:39PM -0700, Kees Cook wrote:
-> 
-> > Kees Cook (9):
-> >   compiler_types.h: Move __nocfi out of compiler-specific header
-> >   x86/traps: Clarify KCFI instruction layout
-> >   x86/cfi: Document the "cfi=" bootparam options
-> >   x86/cfi: Standardize on common "CFI:" prefix for CFI reports
-> >   x86/cfi: Add "debug" option to "cfi=" bootparam
-> >   x86/cfi: Remove __noinitretpoline and __noretpoline
-> 
-> So I can take these first 6 patches (and edit that debug patch to
-> un-annoy myself ;-), but I'm thinking this Kconfig stuff:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Sure, yeah. Do you want a v3 for the debug stuff that uses your proposed
-helper?
+> As we're reorganizing the place where doc scripts are located,
+> move this one to tools/docs.
+>
+> No functional changes.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/Makefile                             | 14 +++++++-------
+>  Documentation/doc-guide/sphinx.rst                 |  4 ++--
+>  Documentation/sphinx/kerneldoc-preamble.sty        |  2 +-
+>  .../translations/it_IT/doc-guide/sphinx.rst        |  4 ++--
+>  .../translations/zh_CN/doc-guide/sphinx.rst        |  4 ++--
+>  Documentation/translations/zh_CN/how-to.rst        |  2 +-
 
-> >   kconfig: Add transitional symbol attribute for migration support
-> >   kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-> 
-> Should perhaps go through the kbuild tree? A
+This one fails to apply to the translations - it looks like some sort of
+encoding problem...?
 
-I had chatted offline with Nathan about this series, and he'd suggested
-the kconfig change could go with it's first user (the rename). So if you
-don't want to put it in -tip, I can take it in the hardening tree.
-(There's no dependencies between these 2 and the first 6.)
+Thanks,
 
-> Leaving this:
-> 
-> >   ARM: traps: Implement KCFI trap handler for ARM32
-> 
-> Can that go independently through the arm tree, or are there
-> dependencies?
-
-I can take this too, assuming ARM folks don't want to snag it. I may,
-however, wait on it, just to avoid implementing the kernel support
-before the GCC folks are happy with the arm32 KCFI backend and its UDF
-encoding, etc.
-
-Thanks for looking at these! :)
-
--Kees
-
--- 
-Kees Cook
+jon
