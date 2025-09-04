@@ -1,53 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D862BEC21;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618F42BE7CC;
 	Thu,  4 Sep 2025 07:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756971207; cv=none; b=bzNA5hO5EBgr0nrHj0ez16yHlpsabzkVVOo060JQCUiNc0mIK8wYmF1CZbh7eBCOdiGHAbeIXJtCqvsEp2n7MUXjIzvKXG+lnewD7qyvDM+SAXZonLMGJZ11P7Rp1ArKEQYjVMyRrTv4ol/gXUVAQcXa5FyAyiOjGo2dJyH3caE=
+	t=1756971207; cv=none; b=SJ1t/FDDeYKyj4KUGgv0nob9ocm6mCfkbk5150y+w8n77R5heigxwKIOjYqZYY2ObciKrJdJRiDcylgzkLgo/VgUMfW0W6IcQu12pbcdalSugMXpiHBAeeeEovPjNXLfiL8kQsRQ7ARnhPzopqPxoo2pBG5spg09bGU6gPZt1LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756971207; c=relaxed/simple;
-	bh=nr9CnFi7NZuG9xGHC2mIKw9taODTL2g8s7aUDQOWYkc=;
+	bh=HST4RGg0PfveQiwlk1hwWcTIziyW3CTk7tqSb0nnoIU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=X7W28GNoJ+zsmQM0j8cQ6R6uVYR86fNAuKFCMPxxLGJJqO4WjFfHDG2uPVgP4E0WSg1G3MLUvKZ2mmHWfAEJfGofz9NKmWc5YWZi/yqAfGe0LVAgeTZBgfhlI/KTHsESPyD+f3uMu128cD3LrPWCtUSreL52+wk7q+GbUNDFSbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjOZIb4v; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=Dsg/fMsv9BKnv+djmaxNIaCnIz6tdpVBpuj5y9n2KyllYUQEpzHleOTFPTWehG2EMO8J6aoX0N8rnsry43fOUhia1UR8wotVV+h+63LkEOfeYXjfit8u5FNNpq3M74Y6EmaZ6CHxgKHBgvUk2XHH3x2s4IBzXDjMJH11dghFEQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7SfqaXp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjOZIb4v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED9CC113D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7SfqaXp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCAB6C2BC9E;
 	Thu,  4 Sep 2025 07:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1756971206;
-	bh=nr9CnFi7NZuG9xGHC2mIKw9taODTL2g8s7aUDQOWYkc=;
+	bh=HST4RGg0PfveQiwlk1hwWcTIziyW3CTk7tqSb0nnoIU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kjOZIb4vMlVlOzAnqvgPf7grWf7J6ValjRXFNT4qtcj+GaRIijasLqs4muHgN7XrG
-	 9MCnhvCJJa6oMLszhd4dUQlnilnyuUbWt3BijMN44BXqwRt8RSBmRSx4fv3zwRy9Ld
-	 RkLo/XiINuRYtDfCfZgcpq5zDastjxex/rVdfVga6ZBBSRl0a9PR5nks/7RDaZmuHU
-	 1BRiHAeBhYnIssIx9ZvMSGlYc5hiEFNwaUxIt1OEwSO8roXtELez9dFrN031tJjNft
-	 L2HRorw0v7XKOjxpnXQtFgq4eEPSYl79qk3uNWMbN7CDEkZ8o3L+janesFjgg4pqwe
-	 UKalKhtaEZcVg==
+	b=i7SfqaXpKJUPTp4O/rBXSc//derUJyxkruqqrQSBMULmwIPp6HfYK2TpDoiSK3Gn+
+	 CNGZz5gsYS7GeR68KV8slfrBZn5xGJrnPIJWImV6FlYWgNXZPzNN5JVYRkUj2cqMcP
+	 5mZoaVVjxw+fGnUh8jRVLruG3PTh1foiMmWH054NjNdDGDPgSKUfVz7AqptxuNiSyP
+	 qjuYB1WNYefM9cu0WGFYEZkl+zUTn1ot0TSANl6YRNMVy3szSZz96CMqQvrKewTdJz
+	 +RHnSHpTpG/VxBNaB81euW627LlC7jIJhmyGN7s1cuFAQN6yPfHZ0haVgcBWsk893e
+	 12pZbRa9JVoIg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uu4TF-00000009jQB-0Mp5;
+	id 1uu4TF-00000009jQN-0iLH;
 	Thu, 04 Sep 2025 09:33:25 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
 	Alice Ryhl <aliceryhl@google.com>,
-	Masahiro Yamada <mchehab+huawei@kernel.org>,
+	Andreas Hindborg <mchehab+huawei@kernel.org>,
+	Benno Lossin <mchehab+huawei@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Danilo Krummrich <mchehab+huawei@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Nathan Chancellor <mchehab+huawei@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 16/19] docs: add support to build manpages from kerneldoc output
-Date: Thu,  4 Sep 2025 09:33:16 +0200
-Message-ID: <fb6049601e595bc9692d73783d8a7a5bfe95a0a3.1756969623.git.mchehab+huawei@kernel.org>
+	Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v4 19/19] tools/docs: sphinx-* break documentation bulds on openSUSE
+Date: Thu,  4 Sep 2025 09:33:19 +0200
+Message-ID: <f5bf66be220f3f4a0166356311eda5da33dd08ec.1756969623.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1756969623.git.mchehab+huawei@kernel.org>
 References: <cover.1756969623.git.mchehab+huawei@kernel.org>
@@ -61,259 +63,157 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Generating man files currently requires running a separate
-script. The target also doesn't appear at the docs Makefile.
+Before this patch, building htmldocs on opensuseLEAP works
+fine:
 
-Add support for mandocs at the Makefile, adding the build
-logic inside sphinx-build-wrapper, updating documentation
-and dropping the ancillary script.
+    # make htmldocs
+    Available Python versions:
+      /usr/bin/python3.11
+
+    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
+    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
+    Using alabaster theme
+    Using Python kernel-doc
+
+    ...
+
+As the logic detects that Python 3.6 is too old and recommends
+intalling python311-Sphinx. If installed, documentation builds
+work like a charm.
+
+Yet, some develpers complained that running python3.11 instead
+of python3 should not happen. So, let's break the build to make
+them happier:
+
+    $ make htmldocs
+    Python 3.6.15 not supported. Bailing out
+    You could run, instead:
+      /usr/bin/python3.11 tools/docs/sphinx-build-wrapper htmldocs \
+        --sphinxdirs=. --conf=conf.py --builddir=Documentation/output --theme= --css= \
+        --paper=
+
+    Python 3.6.15 not supported. Bailing out
+    make[2]: *** [Documentation/Makefile:76: htmldocs] Error 1
+    make[1]: *** [Makefile:1806: htmldocs] Error 2
+    make: *** [Makefile:248: __sub-make] Error 2
+
+It should be noticed that:
+
+1. after this change, sphinx-pre-install needs to be called
+   by hand:
+
+    $ /usr/bin/python3.11 tools/docs/sphinx-pre-install
+    Detected OS: openSUSE Leap 15.6.
+    Sphinx version: 7.2.6
+
+    All optional dependencies are met.
+    Needed package dependencies are met.
+
+2. sphinx-build-wrapper will auto-detect python3.11 and
+   suggest a way to build the docs using the parameters passed
+   via make variables. In this specific example:
+
+   /usr/bin/python3.11 tools/docs/sphinx-build-wrapper htmldocs --sphinxdirs=. --conf=conf.py --theme= --css= --paper=
+
+3. As this needs to be executed outside docs Makefile, it won't run
+   the validation check scripts nor build Rust documentation if
+   enabled, as the extra scripts are part of the docs Makefile.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile                 |  3 +-
- Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
- Makefile                               |  2 +-
- scripts/split-man.pl                   | 28 ---------
- tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
- 5 files changed, 95 insertions(+), 48 deletions(-)
- delete mode 100755 scripts/split-man.pl
+ tools/docs/lib/python_version.py | 28 ++++++++++++++++++++++++----
+ tools/docs/sphinx-build-wrapper  |  3 ++-
+ tools/docs/sphinx-pre-install    |  3 ++-
+ 3 files changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 0e1d8657a5cc..f9b6e9386a58 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
- else # HAVE_SPHINX
+diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
+index a9fda2470a26..4fde1b882164 100644
+--- a/tools/docs/lib/python_version.py
++++ b/tools/docs/lib/python_version.py
+@@ -20,9 +20,11 @@ Python version if present.
+ import os
+ import re
+ import subprocess
++import shlex
+ import sys
  
- # Common documentation targets
--infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-+mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
- 	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
- 		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
-@@ -106,6 +106,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  texinfodocs     - Texinfo'
- 	@echo  '  infodocs        - Info'
-+	@echo  '  mandocs         - Man pages'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
- 	@echo  '  epubdocs        - EPUB'
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index af9697e60165..4370cc8fbcf5 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -579,20 +579,23 @@ source.
- How to use kernel-doc to generate man pages
- -------------------------------------------
+ from glob import glob
++from textwrap import indent
  
--If you just want to use kernel-doc to generate man pages you can do this
--from the kernel git tree::
-+To generate man pages for all files that contain kernel-doc markups, run::
+ class PythonVersion:
+     """
+@@ -44,6 +46,25 @@ class PythonVersion:
+         """Returns a version tuple as major.minor.patch"""
+         return ".".join([str(x) for x in version])
  
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
--    | scripts/split-man.pl /tmp/man
-+  $ make mandocs
- 
--Some older versions of git do not support some of the variants of syntax for
--path exclusion.  One of the following commands may work for those versions::
-+Or calling ``script-build-wrapper`` directly::
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
--    | scripts/split-man.pl /tmp/man
-+  $ ./tools/docs/sphinx-build-wrapper mandocs
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
--    | scripts/split-man.pl /tmp/man
-+The output will be at ``/man`` directory inside the output directory
-+(by default: ``Documentation/output``).
++    @staticmethod
++    def cmd_print(cmd, max_len=80):
++        cmd_line = []
 +
-+Optionally, it is possible to generate a partial set of man pages by
-+using SPHINXDIRS:
++        for w in cmd:
++            w = shlex.quote(w)
 +
-+  $ make SPHINXDIRS=driver-api/media mandocs
++            if cmd_line:
++                if not max_len or len(cmd_line[-1]) + len(w) < max_len:
++                    cmd_line[-1] += " " + w
++                    continue
++                else:
++                    cmd_line[-1] += " \\"
++                    cmd_line.append(w)
++            else:
++                cmd_line.append(w)
 +
-+.. note::
++        return "\n  ".join(cmd_line)
 +
-+   When SPHINXDIRS={subdir} is used, it will only generate man pages for
-+   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
-diff --git a/Makefile b/Makefile
-index 6bfe776bf3c5..9bd44afeda26 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
- # Documentation targets
- # ---------------------------------------------------------------------------
- DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
--	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
-+	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
- 	$(Q)$(MAKE) $(build)=Documentation $@
-diff --git a/scripts/split-man.pl b/scripts/split-man.pl
-deleted file mode 100755
-index 96bd99dc977a..000000000000
---- a/scripts/split-man.pl
-+++ /dev/null
-@@ -1,28 +0,0 @@
--#!/usr/bin/env perl
--# SPDX-License-Identifier: GPL-2.0
--#
--# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
--#
--# Produce manpages from kernel-doc.
--# See Documentation/doc-guide/kernel-doc.rst for instructions
--
--if ($#ARGV < 0) {
--   die "where do I put the results?\n";
--}
--
--mkdir $ARGV[0],0777;
--$state = 0;
--while (<STDIN>) {
--    if (/^\.TH \"[^\"]*\" 9 \"([^\"]*)\"/) {
--	if ($state == 1) { close OUT }
--	$state = 1;
--	$fn = "$ARGV[0]/$1.9";
--	print STDERR "Creating $fn\n";
--	open OUT, ">$fn" or die "can't open $fn: $!\n";
--	print OUT $_;
--    } elsif ($state != 0) {
--	print OUT $_;
--    }
--}
--
--close OUT;
+     def __str__(self):
+         """Returns a version tuple as major.minor.patch from self.version"""
+         return self.ver_str(self.version)
+@@ -130,14 +151,13 @@ class PythonVersion:
+         else:
+             new_python_cmd = None
+ 
+-        if show_alternatives:
++        if show_alternatives and available_versions:
+             print("You could run, instead:")
+             for _, cmd in available_versions:
+                 args = [cmd, script_path] + sys.argv[1:]
+ 
+-                cmd_str = " ".join(args)
+-                print(f"  {cmd_str}")
+-            print()
++                cmd_str = indent(PythonVersion.cmd_print(args), "  ")
++                print(f"{cmd_str}\n")
+ 
+         if bail_out:
+             msg = f"Python {python_ver} not supported. Bailing out"
 diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index c5fcc448a275..183717eb6d87 100755
+index 183717eb6d87..897c3512d1c7 100755
 --- a/tools/docs/sphinx-build-wrapper
 +++ b/tools/docs/sphinx-build-wrapper
-@@ -47,6 +47,7 @@ the newer version.
- import argparse
- import locale
- import os
-+import re
- import shlex
- import shutil
- import subprocess
-@@ -55,6 +56,7 @@ import sys
- from concurrent import futures
+@@ -725,7 +725,8 @@ def main():
  
- from lib.python_version import PythonVersion
-+from glob import glob
+     args = parser.parse_args()
  
- LIB_DIR = "../../scripts/lib"
- SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-@@ -77,6 +79,7 @@ TARGETS = {
-     "epubdocs":      { "builder": "epub",    "out_dir": "epub" },
-     "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },
-     "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },
-+    "mandocs":       { "builder": "man",     "out_dir": "man" },
-     "latexdocs":     { "builder": "latex",   "out_dir": "latex" },
-     "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },
-     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
-@@ -459,6 +462,71 @@ class SphinxBuilder:
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
+-    PythonVersion.check_python(MIN_PYTHON_VERSION)
++    PythonVersion.check_python(MIN_PYTHON_VERSION, show_alternatives=True,
++                               bail_out=True)
  
-+    def handle_man(self, kerneldoc, docs_dir, src_dir, output_dir):
-+        """
-+        Create man pages from kernel-doc output
-+        """
-+
-+        re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
-+        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
-+
-+        if docs_dir == src_dir:
-+            #
-+            # Pick the entire set of kernel-doc markups from the entire tree
-+            #
-+            kdoc_files = set([self.srctree])
-+        else:
-+            kdoc_files = set()
-+
-+            for fname in glob(os.path.join(src_dir, "**"), recursive=True):
-+                if os.path.isfile(fname) and fname.endswith(".rst"):
-+                    with open(fname, "r", encoding="utf-8") as in_fp:
-+                        data = in_fp.read()
-+
-+                    for line in data.split("\n"):
-+                        match = re_kernel_doc.match(line)
-+                        if match:
-+                            if os.path.isfile(match.group(1)):
-+                                kdoc_files.add(match.group(1))
-+
-+        if not kdoc_files:
-+                sys.exit(f"Directory {src_dir} doesn't contain kernel-doc tags")
-+
-+        cmd = [ kerneldoc, "-m" ] + sorted(kdoc_files)
-+        try:
-+            if self.verbose:
-+                print(" ".join(cmd))
-+
-+            result = subprocess.run(cmd, stdout=subprocess.PIPE, text= True)
-+
-+            if result.returncode:
-+                print(f"Warning: kernel-doc returned {result.returncode} warnings")
-+
-+        except (OSError, ValueError, subprocess.SubprocessError) as e:
-+            sys.exit(f"Failed to create man pages for {src_dir}: {repr(e)}")
-+
-+        fp = None
-+        try:
-+            for line in result.stdout.split("\n"):
-+                match = re_man.match(line)
-+                if not match:
-+                    if fp:
-+                        fp.write(line + '\n')
-+                    continue
-+
-+                if fp:
-+                    fp.close()
-+
-+                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
-+
-+                if self.verbose:
-+                    print(f"Creating {fname}")
-+                fp = open(fname, "w", encoding="utf-8")
-+                fp.write(line + '\n')
-+        finally:
-+            if fp:
-+                fp.close()
-+
-     def cleandocs(self, builder):           # pylint: disable=W0613
-         """Remove documentation output directory"""
-         shutil.rmtree(self.builddir, ignore_errors=True)
-@@ -487,7 +555,7 @@ class SphinxBuilder:
-         # Other targets require sphinx-build, so check if it exists
-         #
-         sphinxbuild = shutil.which(self.sphinxbuild, path=self.env["PATH"])
--        if not sphinxbuild:
-+        if not sphinxbuild and target != "mandocs":
-             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
+     builder = SphinxBuilder(builddir=args.builddir, venv=args.venv,
+                             verbose=args.verbose, n_jobs=args.jobs,
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index 663d4e2a3f57..698989584b6a 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -1531,7 +1531,8 @@ def main():
  
-         if builder == "latex":
-@@ -576,10 +644,13 @@ class SphinxBuilder:
-                 output_dir,
-             ]
+     checker = SphinxDependencyChecker(args)
  
--            try:
--                self.run_sphinx(sphinxbuild, build_args, env=self.env)
--            except (OSError, ValueError, subprocess.SubprocessError) as e:
--                sys.exit(f"Build failed: {repr(e)}")
-+            if target == "mandocs":
-+                self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)
-+            else:
-+                try:
-+                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
-+                except (OSError, ValueError, subprocess.SubprocessError) as e:
-+                    sys.exit(f"Build failed: {repr(e)}")
+-    PythonVersion.check_python(MIN_PYTHON_VERSION)
++    PythonVersion.check_python(MIN_PYTHON_VERSION,
++                               bail_out=True, success_on_error=True)
+     checker.check_needs()
  
-             #
-             # Ensure that each html/epub output will have needed static files
+ # Call main if not used as module
 -- 
 2.51.0
 
