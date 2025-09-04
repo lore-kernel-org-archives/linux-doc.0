@@ -1,310 +1,152 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC702874F3;
-	Thu,  4 Sep 2025 20:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFFC29AB02;
+	Thu,  4 Sep 2025 21:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757019503; cv=none; b=qBOLXmphPSBjDV5dBe0l7Ztx8wcLvwzf3X2973PWQoQrak0cXJjnDnLVZKzQ2ERDXI3oIccKHwclqyR6dU/vytswobJeAxNNxpUA0fM+W2qe++LZHJ1Yi4ahMwOeYOmpq5+yhDRmT/gDT3GHW8HGLRdhhif/H1QztCD8ATXy+DQ=
+	t=1757020393; cv=none; b=NWipBOB35PYpCbGUoJAqye999TKtxrbQswF01zkqIC0a4C2K99fbuav+ufGmta25F2xC6AhEMwN1KeRbiN6DGt+oRVhqUor6q7G0nYfB+87s8Ffs2294Aqn7Sq4qijBLfEszdzKxbQNw8lzks+pe6D2F4sqobAumvLgzXJDZZlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757019503; c=relaxed/simple;
-	bh=GbPYQt63wKjujfZb/7zodtfPZpf2M98vl7RvUKSaMVc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mjc0O1OddCuTdKCMqJKLtAyfyu+h/ow+TCDjZHD5tE0XoVTJe6cwdj3uFSFThSp++R8A/M89pck6cgo9fOoV99nVueoaKkKICfjfR2hiLki3OqW7R7Wx19EOriFesKoSG3JE4k1AHbkq9vqTvZvGcJ1x2ZKdSbf0h9yhwxsAfXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LRI7MuGc; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757020393; c=relaxed/simple;
+	bh=cJeYw+fnmGuV/6yhEDTOpXJYJivHESINJnODijfUJeQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZJNtsJhK8vsw3gpLuceJIqzJAx4bo7OPJ/0l7YHMQlBLlr3WZIosmGHL9ptSXlKw3+EZDb7qW0Vbt/R0qa6/acZ9uz+ggxxYBNq32VXKm9Bj81Fp9P8N58nztmTMdhaAv1UM3ViZ04nO6ePZ+YiPdQLRpqe1nGe9pCSKHz8+lbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=h4byn6Rl; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LRI7MuGc"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4b3289ed834so17836051cf.1;
-        Thu, 04 Sep 2025 13:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757019501; x=1757624301; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YjIWkNshoqX+yPDVvFR9uyzNZLhGoD944zzaK0IVS0s=;
-        b=LRI7MuGcmIsNbu6hw+lw/hmXsE8XJy7MQ11VTcTaN+idqZCWtPkvc6miex1/49Mlcl
-         C6Na4b7whCz4PNyt/yZJFw7qRzYU4AIh7G6qxsgB7Bu6c+5wt9vzQQQ7DuAdCMBp/lAg
-         6SoACj7VwTdrU+MOYv6HkYqQSbX1yfS+/wYfPgFpI5RZbxq2FZTH2zVxHbUTqd67pmEu
-         6R2dCdwwZqoHeNzXNqIhOrlXo7LNU8eJ1iZFplSNmSpu2+vFVVTGcAjlUe9XuK4IuItF
-         mq5/DCjEYOq8njpvw97ayNna6TPCcImeiX04bv7CiAT/2ffUWuE1Qa1viWVwh4VmUZUF
-         mSDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757019501; x=1757624301;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YjIWkNshoqX+yPDVvFR9uyzNZLhGoD944zzaK0IVS0s=;
-        b=hBy0aZvpISsYhbbCJOecTNPc1qB1vsHMFLqLSd3+QuAstutJI9RTobVHyTG+HaykQN
-         ZakjBqN9C0wT3D1/3sglfExGI+YP//2lPCU/EN7wugaayzAHb0Ipac86+ukj0cvjAx1c
-         zKrtGj2PLbMDuxd0q6hv+7VdT8Th3ke8t4jx3dhlEM4htxg5uAVuBaMahG+sLIuewggY
-         mxh7XPDJ4ekAno3UnO8g4wJyJwAZbrLGxDfFvEalqNg+Wlj779QPpqWHgbR8OEwsyNV3
-         qt2v/TuzvSGW6VJ2N6L2fHrDqPp1Xe1ZWY61iAm2Yo78uk4cPoWpjp8va/GUL1X3vPWA
-         xXZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4zF7XxGMcXijvOGuEYE5aCm50kgpsChS2V0EBSpr23D300lVvoi/juIa7FMVxLariECrdWH8aTJew@vger.kernel.org, AJvYcCX9O0Mmn2mzJIm84ow0MbjyFJbCF5QW0caf9EaupWvV6oZAHcguf28G1/dmxTZq0odfuGSa0YGHYyrHy9ICyQ==@vger.kernel.org, AJvYcCXKqWf/KFt20nZsiFSeB/Jj4T8kb1Uq4vO+Ct2K8jdwL8sB67XBeLKlPNZKexyfkB8BHH2gV0Lpleo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcCfMc96y3i0b21zhm1rlzHGyEBd93HwZ7FnhTkUzqWzTX/sJe
-	S8aZYspWwV9S1v1lbFUKdz6QB8jodzuLp537dd4ksG7QNVIL9bx5dT4vZrsV52jSNNiOiDuS5OD
-	oDnLkvTQk7JXuVsEK7tzcZM3bm73MjZg=
-X-Gm-Gg: ASbGncuBp1gfVNpEPMwwCB+1VlCYr9sxMbBRittCVhiwY9UPXsskTnupybyWtj31X5n
-	fKQYQRM7ZbY+KxWoFOqqE+5r+SttAg/xQNKfApeMuFxRPIxNJQvRr70PqwdIW+772w1dGA75IYQ
-	kRQsTjSe74Liz7q7jDwAWL+NZvLQnmqnWHAQntmO8CHrzF80LHgKFEiL5OJFkjkkWW8iQIXgkgA
-	qcN30qFsEttVq6grCU=
-X-Google-Smtp-Source: AGHT+IGlajoodFNlAUxj3SBBz6KiuvIwKSuixFHDhY4up8xLBB9u6Pqovfv7y9tHlhYH5O4rHymbtI0KM02BdjTLmy8=
-X-Received: by 2002:a05:622a:13c6:b0:4b4:2d33:3bed with SMTP id
- d75a77b69052e-4b42d333fedmr108443161cf.30.1757019500534; Thu, 04 Sep 2025
- 13:58:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="h4byn6Rl"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584EDNYw020235;
+	Thu, 4 Sep 2025 21:13:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=gGSz/3wzTB7ULIot6d2uI8FCULkYJSh7CX+787MXO
+	VI=; b=h4byn6RlpOx5ytI43RfSm5XhBgP3sgbYbqD4FmYQEwY6Fyf49G5xx+QPv
+	tQgvUjTB/WB71enpUwZyGJHjp2jy/AyjhJkKs04/lNSoyVrY86vXvsCLFwNiYGgr
+	zzlB2eSg1WYWIytYb2/4sYBsLPizFbM3edNkyVGt7ICKPVnFuN/Hcy+1T47twXgW
+	aLdCYjsyMhzDMsJffvXI3WMAFI4mPDTuqGlMwUw8oyf31abP6goXM02H45nlLtX0
+	6g9N9uo0GP0Nl/ED9mT5m+xbSNwOONt0d5ZDsypDey0luSwy3aoKl6s7Gl8H2GER
+	LpXfZU0BTgXJmEe8f3YajiKnpXRIA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usv3cs3v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 21:13:07 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 584L77Lr003791;
+	Thu, 4 Sep 2025 21:13:06 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usv3cs3s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 21:13:06 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584J2KhP021170;
+	Thu, 4 Sep 2025 21:13:05 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48vcmpxfn4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 21:13:05 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584LD1e661342030
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 4 Sep 2025 21:13:01 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5FADC20040;
+	Thu,  4 Sep 2025 21:13:01 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1E6962004B;
+	Thu,  4 Sep 2025 21:13:01 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  4 Sep 2025 21:13:01 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>,
+        "D. Wythe" <alibuda@linux.alibaba.com>,
+        Dust Li <dust.li@linux.alibaba.com>,
+        Sidraya Jayagond <sidraya@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Mahanta Jambigi <mjambigi@linux.ibm.com>,
+        Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Subject: [PATCH net-next 0/2] net/smc: make wr buffer count configurable 
+Date: Thu,  4 Sep 2025 23:12:51 +0200
+Message-ID: <20250904211254.1057445-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250829235627.4053234-1-joannelkoong@gmail.com>
- <20250829235627.4053234-13-joannelkoong@gmail.com> <20250903210856.GT1587915@frogsfrogsfrogs>
-In-Reply-To: <20250903210856.GT1587915@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 4 Sep 2025 13:58:09 -0700
-X-Gm-Features: Ac12FXxLOWvhBdadrOyqQwz4w0JgKKdk3QYJbd8zKKnqjs5Ug4b2WYfQHShwqgs
-Message-ID: <CAJnrk1YQkSe10053L7O7dC9igjAHYqc3Mc5W4hGPFf=x377_zQ@mail.gmail.com>
-Subject: Re: [PATCH v1 12/16] iomap: add iomap_read_ops for read and readahead
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0N7XCAWMBfEUIccWqvYX4h1yw78u_pk2
+X-Authority-Analysis: v=2.4 cv=FPMbx/os c=1 sm=1 tr=0 ts=68ba00e3 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=yJojWOMRYYMA:10 a=OPAOpny1AAAA:8 a=piJGGMyLFvZckxoXyWEA:9
+ a=Vt4qOV5uLRUYeah0QK8L:22
+X-Proofpoint-GUID: qbasB6_8y8NRLwbyo1x5bU3BRhdVeJoR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfX5fgMXwX73yyl
+ /tNGGMedGYSG4BCjH6gySXDmbq0K1RRZzjHsORObH+dInnYbJZHqkq/r/q46myRS5gK9T80Ieh1
+ 9Dki9g66Sr0HJnX/LeDHUhuFWOpJGpdtKEVTzEoi/J13NtqBibFSYiGc5tPghXMTh8sbi5nFKG2
+ ZkDoDa2hXe2LxKCuPGUbcJvzYScVNrJPTt/9ckdoLgMjUQgLnfYu+KoQPvBZh7tnaTJsczsys0I
+ 875M6VBsIy7IeBf1uok+mlShVufxTfgPnKuJg1WRXstyr2Acn033N49gCiPcbrlxv69oIwSepx2
+ oqQ1SHTHgYsPtgl/cGhX/evbO3zhLtdxvePYxm4w20SUaKl3JkCNnAjTbNFummK2p6RJKNyx8qW
+ u6QOK0tL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_07,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1011 bulkscore=0
+ spamscore=0 adultscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300034
 
-On Wed, Sep 3, 2025 at 2:08=E2=80=AFPM Darrick J. Wong <djwong@kernel.org> =
-wrote:
->
-> On Fri, Aug 29, 2025 at 04:56:23PM -0700, Joanne Koong wrote:
-> > Add a "struct iomap_read_ops" that contains a read_folio_range()
-> > callback that callers can provide as a custom handler for reading in a
-> > folio range, if the caller does not wish to issue bio read requests
-> > (which otherwise is the default behavior). read_folio_range() may read
-> > the request asynchronously or synchronously. The caller is responsible
-> > for calling iomap_start_folio_read()/iomap_finish_folio_read() when
-> > reading the folio range.
-> >
-> > This makes it so that non-block based filesystems may use iomap for
-> > reads.
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > ---
-> >  .../filesystems/iomap/operations.rst          | 19 +++++
-> >  block/fops.c                                  |  4 +-
-> >  fs/erofs/data.c                               |  4 +-
-> >  fs/gfs2/aops.c                                |  4 +-
-> >  fs/iomap/buffered-io.c                        | 79 +++++++++++++------
-> >  fs/xfs/xfs_aops.c                             |  4 +-
-> >  fs/zonefs/file.c                              |  4 +-
-> >  include/linux/iomap.h                         | 21 ++++-
-> >  8 files changed, 105 insertions(+), 34 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/iomap/operations.rst b/Documenta=
-tion/filesystems/iomap/operations.rst
-> > index 067ed8e14ef3..215053f0779d 100644
-> > --- a/Documentation/filesystems/iomap/operations.rst
-> > +++ b/Documentation/filesystems/iomap/operations.rst
-> > @@ -57,6 +57,25 @@ The following address space operations can be wrappe=
-d easily:
-> >   * ``bmap``
-> >   * ``swap_activate``
-> >
-> > +``struct iomap_read_ops``
-> > +--------------------------
-> > +
-> > +.. code-block:: c
-> > +
-> > + struct iomap_read_ops {
-> > +     int (*read_folio_range)(const struct iomap_iter *iter,
-> > +                        struct folio *folio, loff_t pos, size_t len);
-> > + };
-> > +
-> > +iomap calls these functions:
-> > +
-> > +  - ``read_folio_range``: Called to read in the range (read does not n=
-eed to
-> > +    be synchronous). The caller is responsible for calling
->
-> Er... does this perform the read synchronously or asynchronously?
-> Does the implementer need to know?  How does iomap figure out what
-> happened?
+The current value of SMC_WR_BUF_CNT is 16 which leads to heavy
+contention on the wr_tx_wait workqueue of the SMC-R linkgroup and its
+spinlock when many connections are competing for the work request
+buffers. Currently up to 256 connections per linkgroup are supported.
 
-It is up to the implementer whether they do the read synchronously or
-asynchronously. Most filesystems I think will issue readahead
-asynchronously but for fuse, readahead needs to be synchronous unless
-the server explicitly opts into async read, otherwise the read
-requests can be sent in non-sequential order which some servers may
-not be able to handle.
+To make things worse when finally a buffer becomes available and
+smc_wr_tx_put_slot() signals the linkgroup's wr_tx_wait wq, because
+WQ_FLAG_EXCLUSIVE is not used all the waiters get woken up, most of the
+time a single one can proceed, and the rest is contending on the
+spinlock of the wq to go to sleep again.
 
-I don't think it matters from the iomap side whether the read is
-synchronous or asynchronous, or even if the read has completed by the
-time iomap_readahead() completes. I think it only needs to make sure
-the reads get kicked off.
+Addressing this by simply bumping SMC_WR_BUF_CNT to 256 was deemed
+risky, because the large-ish physically continuous allocation could fail
+and lead to TCP fall-backs. For reference see this discussion thread on
+"[PATCH net-next] net/smc: increase SMC_WR_BUF_CNT" (in archive
+https://lists.openwall.net/netdev/2024/11/05/186), which concludes with
+the agreement to try to come up with something smarter, which is what
+this series aims for.
 
->
-> My guess is that iomap_finish_folio_read unlocks the folio, and anyone
-> who cared is by this point already waiting on the folio lock?  So it's
-> actually not important if the ->read_folio_range implementation runs
-> async or not; the key is that the folio stays locked until we've
-> completed the read IO?
+Additionally if for some reason it is known that heavy contention is not
+to be expected going with something like 256 work request buffers is
+wasteful. To address these concerns make the number of work requests
+configurable, and introduce a back-off logic with handles -ENOMEM form
+smc_wr_alloc_link_mem() gracefully.
 
-This is my understanding too. The unlocking and
-waking-any-waiting-threads stuff happens in folio_end_read().
+Halil Pasic (2):
+  net/smc: make wr buffer count configurable
+  net/smc: handle -ENOMEM from smc_wr_alloc_link_mem gracefully
 
->
-> > +    iomap_start_folio_read() and iomap_finish_folio_read() when readin=
-g the
-> > +    folio range. This should be done even if an error is encountered d=
-uring
-> > +    the read. If this function is not provided by the caller, then iom=
-ap
-> > +    will default to issuing asynchronous bio read requests.
->
-> What is this function supposed to return?  The usual 0 or negative
-> errno?
-
-Good point, I will add that info in.
-
->
-> > +
-> >  ``struct iomap_write_ops``
-> >  --------------------------
-> >
-> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > index 5d153c6b16b6..06f2c857de64 100644
-> > --- a/fs/iomap/buffered-io.c
-> > +++ b/fs/iomap/buffered-io.c
-> > @@ -335,8 +335,8 @@ void iomap_start_folio_read(struct folio *folio, si=
-ze_t len)
-> >  }
-> >  EXPORT_SYMBOL_GPL(iomap_start_folio_read);
-> >
-> > -void iomap_finish_folio_read(struct folio *folio, size_t off, size_t l=
-en,
-> > -             int error)
-> > +static void __iomap_finish_folio_read(struct folio *folio, size_t off,
-> > +             size_t len, int error, bool update_bitmap)
-> >  {
-> >       struct iomap_folio_state *ifs =3D folio->private;
-> >       bool uptodate =3D !error;
-> > @@ -346,7 +346,7 @@ void iomap_finish_folio_read(struct folio *folio, s=
-ize_t off, size_t len,
-> >               unsigned long flags;
-> >
-> >               spin_lock_irqsave(&ifs->state_lock, flags);
-> > -             if (!error)
-> > +             if (!error && update_bitmap)
-> >                       uptodate =3D ifs_set_range_uptodate(folio, ifs, o=
-ff, len);
->
-> When do we /not/ want to set uptodate after a successful read?  I guess
-> iomap_read_folio_range_async goes through the bio machinery and sets
-> uptodate via iomap_finish_folio_read()?  Does the ->read_folio_range
-> function need to set the uptodate bits itself?  Possibly by calling
-> iomap_finish_folio_read as well?
->
-
-Maybe this is hacky but I'm not sure if there's a better way to do it,
-but I essentially need a "bias" for read requests if they are async so
-that we don't prematurely end the read on the folio if the first few
-async requests are completed before the next ones are issued. For
-example if there's a large folio and a readahead request for 16 pages
-in that folio, if doing readahead on the 16 pages is split into 4
-async requests and the first request is sent off and then completed
-before we send off the second request, then the
-"iomap_finish_folio_read()" call on the first request will set
-ifs->read_bytes_pending to now 0 and call folio_end_read().
-
-For that reason, I added a "__iomap_start_folio_read(folio, ..., 1);"
-before any async requests are sent and a
-"__iomap_finish_folio_read(folio, ..., 1);" after all the requests
-have been sent. (This is the same thing the iomap writeback logic does
-for their async requests). Those calls though should not update the
-uptodate bitmap, they are used only to prevent the premature
-folio_end_read().
-
-Yes, ->read_folio_range() is responsible for calling
-iomap_finish_folio_read() (as well as iomap_start_folio_read()); this
-call will update the uptodate bitmap.
+ Documentation/networking/smc-sysctl.rst | 40 +++++++++++++++++++++++++
+ net/smc/smc.h                           |  2 ++
+ net/smc/smc_core.c                      | 34 ++++++++++++++-------
+ net/smc/smc_core.h                      |  6 ++++
+ net/smc/smc_ib.c                        |  7 ++---
+ net/smc/smc_llc.c                       |  2 ++
+ net/smc/smc_sysctl.c                    | 22 ++++++++++++++
+ net/smc/smc_wr.c                        | 32 ++++++++++----------
+ net/smc/smc_wr.h                        |  2 --
+ 9 files changed, 115 insertions(+), 32 deletions(-)
 
 
-Thanks,
-Joanne
+base-commit: 5ef04a7b068cbb828eba226aacb42f880f7924d7
+-- 
+2.48.1
 
-> >               ifs->read_bytes_pending -=3D len;
-> >               finished =3D !ifs->read_bytes_pending;
-> > @@ -356,6 +356,12 @@ void iomap_finish_folio_read(struct folio *folio, =
-size_t off, size_t len,
-> >       if (finished)
-> >               folio_end_read(folio, uptodate);
-> >  }
-> > +
-> > @@ -471,7 +478,14 @@ static int iomap_readfolio_iter(struct iomap_iter =
-*iter,
-> >       }
-> >
-> >       /* zero post-eof blocks as the page may be mapped */
-> > -     ifs_alloc(iter->inode, folio, iter->flags);
-> > +     ifs =3D ifs_alloc(iter->inode, folio, iter->flags);
-> > +
-> > +     /*
-> > +      * Add a bias to ifs->read_bytes_pending so that a read is ended =
-only
-> > +      * after all the ranges have been read in.
-> > +      */
-> > +     if (ifs)
-> > +             iomap_start_folio_read(folio, 1);
-> >
-> >       length =3D min_t(loff_t, length,
-> >                       folio_size(folio) - offset_in_folio(folio, pos));
-> > @@ -479,35 +493,53 @@ static int iomap_readfolio_iter(struct iomap_iter=
- *iter,
-> >               iomap_adjust_read_range(iter->inode, folio, &pos,
-> >                               length, &poff, &plen);
-> >               count =3D pos - iter->pos + plen;
-> > -             if (plen =3D=3D 0)
-> > -                     return iomap_iter_advance(iter, &count);
-> > +             if (plen =3D=3D 0) {
-> > +                     ret =3D iomap_iter_advance(iter, &count);
-> > +                     break;
-> > +             }
-> >
-> >               if (iomap_block_needs_zeroing(iter, pos)) {
-> >                       folio_zero_range(folio, poff, plen);
-> >                       iomap_set_range_uptodate(folio, poff, plen);
-> >               } else {
-> > -                     iomap_read_folio_range_async(iter, ctx, pos, plen=
-);
-> > +                     ctx->folio_unlocked =3D true;
-> > +                     if (read_ops && read_ops->read_folio_range) {
-> > +                             ret =3D read_ops->read_folio_range(iter, =
-folio, pos, plen);
-> > +                             if (ret)
-> > +                                     break;
-> > +                     } else {
-> > +                             iomap_read_folio_range_async(iter, ctx, p=
-os, plen);
-> > +                     }
-> >               }
-> >
-> >               length -=3D count;
-> >               ret =3D iomap_iter_advance(iter, &count);
-> >               if (ret)
-> > -                     return ret;
-> > +                     break;
-> >               pos =3D iter->pos;
-> >       }
-> > -     return 0;
-> > +
-> > +     if (ifs) {
-> > +             __iomap_finish_folio_read(folio, 0, 1, ret, false);
-> > +             ctx->folio_unlocked =3D true;
->
-> Er.... so we subtract 1 from read_bytes_pending?  I thought the
-> ->read_folio_range ioend was supposed to decrease that?
->
-> --D
->
