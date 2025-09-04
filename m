@@ -1,85 +1,78 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347CD2FE05F;
-	Thu,  4 Sep 2025 13:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9E914AA9;
+	Thu,  4 Sep 2025 13:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756992160; cv=none; b=IvSrk/cKc/f04Cwkk21bi0dzIgGwjlY0an0lvIPHgcPEeyI5Fbqfq+AJlUCTLdBiXyHa5McvIwQIp8xiatZvh1aD75f87J7wIHT9tLH+Dqmo8Wt9f2RS03l2tyB5iNaNFIk33wllYzhh139xYMUpF4gwa/V+GhFsElLRChq0qRo=
+	t=1756992826; cv=none; b=Dn1xMqbfHyaq9XGYal8WfKkYJOe+ktmGsn+zlfTGS9GZ9V7tqusUl68qCqDgMFgpgsVyz2+1TkZqiSK13POP20roizjpFf3Tl5ZWL8mgHidhSKIPc3EqEKIVHd4gWcl3Tz5yTX6ofOeVQnkoWIRqhUCk/CTwnfQQJcGhYqpxG/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756992160; c=relaxed/simple;
-	bh=MJoKl3nZIVYgflwLVJKwukC+oP7B/0y6TE5o/EX3ifM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YMdyB/CGFVxK07FSsdcqXndjZya93DjG1Jkyqz91O8s9yZqWeVPrTC49LyUA+tmx1cFV3HVobg7vCAg8mzTIknCgLiZGybNGxhj/Ai9qFz1riGoBUat/lr+GA9KzdX/FypLQjkIlzLNRc/dvSXils82/aJ++tpcDjfwkWuacevA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DnmiXVU/; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1756992826; c=relaxed/simple;
+	bh=IMrYv7oCWbvt2UCstOYiVv3rbLBEMMRYsIR7L60yWAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nn2dRtzQAeltE6QjEF3AKOJwF+4V+tMHoV4SPzcDjfzKB42f3SvI2xmjwqC2dNnNM14lMrlo7LyvcfpqmjBqFh2BG+P39t3phMtlIUU3SnOsMUHHorx1ZxIKiz/G3UumXatLTCC6F70oQn+IOziBeedkjtTsDr8DAaziQkHU2pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CjUR3bN5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DnmiXVU/"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0D88F40AFD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1756992158; bh=BK03jMMk5Bp5Pi3nrPCq2zhRBB7WcROGWUToeOzSCzM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DnmiXVU//AC1Jg75YFm0yovk+hYyjXFgntRfysI+fFYYudlNaJsAWvPfrNzAYOEAh
-	 lt1KpN02CkUAO4tKhvNJXRFb7d8j+s3J1hG+egfAiotqu1vlIAbiGtuBj3ByStAWF6
-	 atqwVZfVUmLHiWtLgMz/ljsFjjnBcWo4ubYQV3FrXyCDpiUKHHH0gJRGMaRhXTnvfT
-	 pDmBMn8ZYASgc6rfyu2xfzCDOnSUX9U2VXd+FjoPH6JUGPt2NJyeZ9idFcm1NcsyxK
-	 eegBgzkxwuNWqu8KCoMlT5JVCXeAMTe2OHZSWfsbirktBVIXi/U4UatTHePsav0wj2
-	 UhBldZ3T7L2Ow==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0D88F40AFD;
-	Thu,  4 Sep 2025 13:22:37 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: kurita <akito5623@gmail.com>, linux-doc@vger.kernel.org
-Cc: akiyks@gmail.com, linux-kernel@vger.kernel.org, kurita
- <akito5623@gmail.com>
-Subject: Re: [PATCH] docs: ja_JP: Update SubmittingPatches for 'Fixes:' tag
-In-Reply-To: <20250903113552.2010371-1-akito5623@gmail.com>
-References: <20250903113552.2010371-1-akito5623@gmail.com>
-Date: Thu, 04 Sep 2025 07:22:37 -0600
-Message-ID: <878qiunyhu.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CjUR3bN5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859BFC4CEF1;
+	Thu,  4 Sep 2025 13:33:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756992826;
+	bh=IMrYv7oCWbvt2UCstOYiVv3rbLBEMMRYsIR7L60yWAA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CjUR3bN5FT9/qEnxJEpHPRU8z+99Z3ngzVNrm9qravPaE9OikalYlpwDz7Y6jBkk+
+	 en0nRX3QyMcCTred+t+EXJqefDfh6+pOme99YUpexNbJgrg962DMkt0NPs7XEgLOmi
+	 B8TP8DF4zdtQZEF2Kgv61T+JheiiQO+OJyy3Szg+3pdjYgN4g+8nkdkHYEUdjXO9Tn
+	 9vcZywAOJAo/vIGEAxx8VqYQD7PDViij2OyqbQogmYHglmoGQOxW95l61zsaKepQX9
+	 KsYARWRlmVbxZ/BnZ4KcergjKEqmN7FfQa6R+10HcaG8sPW57AFZ6a/ZCzz1MjNfZN
+	 ZTrgTX3vEgrEA==
+Date: Thu, 4 Sep 2025 06:33:44 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sabrina Dubroca <sd@queasysnail.net>
+Cc: Wilfred Mallawa <wilfred.opensource@gmail.com>, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ john.fastabend@gmail.com, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alistair.francis@wdc.com, dlemoal@kernel.org, Wilfred Mallawa
+ <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH v3] net/tls: support maximum record size limit
+Message-ID: <20250904063344.6507fcc6@kernel.org>
+In-Reply-To: <aLllqGpa2gLVNRbw@krikkit>
+References: <20250903014756.247106-2-wilfred.opensource@gmail.com>
+	<aLllqGpa2gLVNRbw@krikkit>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-kurita <akito5623@gmail.com> writes:
+On Thu, 4 Sep 2025 12:10:48 +0200 Sabrina Dubroca wrote:
+> If we set tx_record_size_limit to TLS_MAX_PAYLOAD_SIZE+1, we'll end up
+> sending a record with a plaintext of TLS_MAX_PAYLOAD_SIZE+2 bytes
+> (TLS_MAX_PAYLOAD_SIZE+1 of payload, then 1B of content_type), and a
+> "normal" implementation will reject the record since it's too big
+> (ktls does that in net/tls/tls_sw.c:tls_rx_msg_size).
+> 
+> So we should subtract 1 from the userspace-provided value for 1.3, and
+> then add it back in getsockopt/tls_get_info.
+> 
+> Or maybe userspace should provide the desired payload limit, instead
+> of the raw record_size_limit it got from the extension (ie, do -1 when
+> needed before calling the setsockopt). Then we should rename this
+> "tx_payload_size_limit" (and adjust the docs) to make it clear it's
+> not the raw record_size_limit.
+> 
+> The "tx_payload_size_limit" approach is maybe a little bit simpler
+> (not having to add/subtract 1 in a few places - I think userspace
+> would only have to do it in one place).
+> 
+> 
+> Wilfred, Jakub, what do you think?
 
-> The Japanese translation of SubmittingPatches is based on an old
-> kernel version (2.6.39) and is missing several new sections.
->
-> This patch adds the missing description for the 'Fixes:' tag to
-> bring the document more in line with the current English original
-> (Documentation/process/submitting-patches.rst).
->
-> Signed-off-by:Akiyoshi kurita <akito5623@gmail.com>
-> ---
->  Documentation/translations/ja_JP/SubmittingPatches | 4 ++++
->  1 file changed, 4 insertions(+)
-
-So I only saw this because of Akira's response; something in how you are
-sending your mail drives SpamAssassin nuts.
-
-Thank you for working to improve our documentation!
-
-In addition to everything Akira said, I must express a bit of worry
-about updating this document piecemeal in this way.  Backporting
-specific pieces in this way will yield a result that is not a
-translation of anything - it is a new creation that never existed in the
-original form.
-
-It sure would be nicer (says the guy who has no ability to do that work)
-to bring the translation as a whole current.
-
-I'll accept pieces with acks from people who can properly judge them,
-but I would prefer to just have a current translation.
-
-Thanks,
-
-jon
+I reckon either way is fine, assuming we clearly document the behavior.
+I'd lean slightly to using the same definition of the setsockopt as the
+RFC, it may be confusing but if it ever interacts with other settings
+it may make it easier to refer to other RFCs.
