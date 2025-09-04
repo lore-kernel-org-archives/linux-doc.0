@@ -1,96 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663ADC8CE;
-	Thu,  4 Sep 2025 05:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C674732F775;
+	Thu,  4 Sep 2025 06:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756963087; cv=none; b=k6S1KcxdzIWPnG5NPB71tqKs9T3hZz5FCX3k+FNUYU5fOetkpFw+LC0YVzlWsBOrWAJ3ABNdM7Uoh9RTWExspDPigoSV26naJV4hkSGTBkl/EJ1Y9wDiqzAkeXHWHB0DKl6fk2BvbUfKLGTZKAovSy4Zj0RNtB0LusH8WmFVP/Y=
+	t=1756965643; cv=none; b=C0kJeAxyMKlKsRDtlG8c4qtKFeJdJiWrD6yqX+3yuCDTCnlcTPqa/LNo5AZDepGl3q6bHitXR0caFhSLXHWlzegOqLNrWfkZEX5yxXLG1hls3mv44jkOpKyrJxXU7PkT8WbT6sdHiDK0WdxuE/OY3URCZTQxRZVPv/ZDH+K2QRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756963087; c=relaxed/simple;
-	bh=0aKem663rtBhcwUfKFeosww3r9HSWIadq/brKJlHnmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o/Cd1ig22tf4i8v0DKnATIBsKCHM9/GycHD+oR/a+ipxx4H+HTeJebRU/i568IMdAe6moYURrQJg2cKLOt1HK8Lv68Jh//AczuYDYVrreE55y932HQFwWpptIC6UUXcD7JaASdiaaPeYdL7GNBDQagPgaNR9sJW9URejojNsEsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEPY5UgD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756965643; c=relaxed/simple;
+	bh=33citsjqgJKqmysaG9AO6VPNkvkmlonfA0zuht2tGg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQYAVflw6GGSpncoAHD5twlm/LuH0IX7c/0f93+n7Hssfq2IfUiqgOvqxV2LGzLGZOouxbzzSc2wrijJDCRQyYJkVQ12FrhyWaUw1TNVb/JM6ExlW3Aqc8BPXAHYl1PQjIBS9QizXqjnBma0Y618YMuwfa1bbgikWFAZHoC6t5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XzqejuaP; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEPY5UgD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87235C4CEF0;
-	Thu,  4 Sep 2025 05:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756963086;
-	bh=0aKem663rtBhcwUfKFeosww3r9HSWIadq/brKJlHnmg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bEPY5UgDP3Gs0Ato7IWtAJ7/UYexLY6S3hxOcoCvmYOeUBjZ1Y5JT7HPqJ/yqyK1U
-	 lgSC26n6aWOkb0QFYmX4yglMpL3LJRilL81/ns/mAU3EYBUkh4FcBWpBKIvUN1+L20
-	 ntPDmMDafiopkCIdahu0qxUrFLOtgo23KpUz5TRQFq0UCVgR4tDwg4RE8fRG/q9WkA
-	 cJvQCn2hitl9b/QIQbQdDVuyq4KHfOeztm2V9hbJMPohldyp6uiv2wlgGlGuyTfX9c
-	 teqxsLyTiJBvh7rBKAbLfu8V+ATW3qWI8rVww1JQ6I0Pk7QT1BRRl8nhSLoxtaNEzK
-	 JQ9doD7MSuoYQ==
-Date: Thu, 4 Sep 2025 07:18:01 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl
- <aliceryhl@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, Trevor Gross <tmgross@umich.edu>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] tools/docs: sphinx-* break documentation bulds
- on openSUSE
-Message-ID: <20250904071700.2e680548@foz.lan>
-In-Reply-To: <aLh9HVd8_S9LvSgv@casper.infradead.org>
-References: <cover.1756916565.git.mchehab+huawei@kernel.org>
-	<29135db8c8094006f256e1fa0b64663c735737e7.1756916565.git.mchehab+huawei@kernel.org>
-	<aLh9HVd8_S9LvSgv@casper.infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XzqejuaP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=LlLqJ4E6KRh1PPACkJf/clH5UCgW54K+DvxcXFvIK8c=; b=XzqejuaPM9gaWSIr34HKoP32TN
+	+I9lSxLpGjTrFZg85jHSPlI2Zei7smw3OfhW3FjMe67/0ZynhIapXuAzHOVYxJya2jlUBlYVtsDeM
+	IoDmAaixEnaaPAMryMVP4HpPDu8cqArpPXIaJL/zkJXzK1G+b4yiUIysrMQIuJwHrd2jGvIEjBd4T
+	jeJ3h5VyI1O+MjgfMkQl45J3MaO5xQvetz14jBf9x/eYlcjMg9c2XA8P2clYLJpT+sPqWJStVxYz4
+	0hmnZzI2iUe4RrO8Mb1XacSRz4AWnEfkuUWHtbP1sa2+jSLeRrbVySC1TxoC3GQlOUCdzHoCRxU7P
+	due5p7qA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uu31T-00000009Ntg-2ely;
+	Thu, 04 Sep 2025 06:00:39 +0000
+Date: Wed, 3 Sep 2025 23:00:39 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
+	miklos@szeredi.hu, hch@infradead.org, linux-fsdevel@vger.kernel.org,
+	kernel-team@meta.com, linux-xfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 01/16] iomap: move async bio read logic into helper
+ function
+Message-ID: <aLkrB7CcPsaEkaA-@infradead.org>
+References: <20250829235627.4053234-1-joannelkoong@gmail.com>
+ <20250829235627.4053234-2-joannelkoong@gmail.com>
+ <20250903201659.GK1587915@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903201659.GK1587915@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Em Wed, 3 Sep 2025 18:38:37 +0100
-Matthew Wilcox <willy@infradead.org> escreveu:
-
-> On Wed, Sep 03, 2025 at 06:24:16PM +0200, Mauro Carvalho Chehab wrote:
-> > Before this patch, building htmldocs on opensuseLEAP works
-> > fine:
+On Wed, Sep 03, 2025 at 01:16:59PM -0700, Darrick J. Wong wrote:
+> On Fri, Aug 29, 2025 at 04:56:12PM -0700, Joanne Koong wrote:
+> > Move the iomap_readpage_iter() async bio read logic into a separate
+> > helper function. This is needed to make iomap read/readahead more
+> > generically usable, especially for filesystems that do not require
+> > CONFIG_BLOCK.
 > > 
-> >     # make htmldocs
-> >     Available Python versions:
-> >       /usr/bin/python3.11
-> > 
-> >     Python 3.6.15 not supported. Changing to /usr/bin/python3.11
-> >     Python 3.6.15 not supported. Changing to /usr/bin/python3.11  
+> > Rename iomap_read_folio_range() to iomap_read_folio_range_sync() to
+> > diferentiate between the synchronous and asynchronous bio folio read
+> > calls.
 > 
-> [...]
+> Hrmm.  Readahead is asynchronous, whereas reading in data as part of an
+> unaligned write to a file must be synchronous.  How about naming it
+> iomap_readahead_folio_range() ?
 > 
-> > 1. after this change, sphinx-pre-install needs to be called
-> >    by hand:
-> > 
-> >     $ /usr/bin/python3.11 tools/docs/sphinx-pre-install
-> >     Detected OS: openSUSE Leap 15.6.
-> >     Sphinx version: 7.2.6  
+> Oh wait, iomap_read_folio also calls iomap_readpage_iter, which uses the
+> readahead paths to fill out a folio, but then waits for the folio lock
+> to drop, which effectively makes it ... a synchronous user of
+> asynchronous code.
 > 
-> I thought the preferred option was to be able to specify:
-> 
-> PYTHON=/usr/bin/python3.11 make htmldocs
-> 
-> or even make htmldocs PYTHON=/usr/bin/python3.11
-> 
-> like being able to specify CC, LD or AWK.
+> Bleh, naming is hard.  Though the code splitting seems fine...
 
-This could be an option, but it is still half-broken - or at least
-implementing it is not trivial - as spinx-pre-install is the
-script which recommends what packages are needed on openSUSE Leap.
-and on RHEL8 (and based) distros.
+Maybe we can look at it from a different angle - the code split out
+isn't really about async vs sync, but about actually using a bio
+to read data from a block device.  Which is also kinda important
+for what Joanne is trying to do.  So I'd encode that in the name,
+e.g. iomap_read_folio_range_bio to mimici the naming used for
+iomap_dio_bio_iter in the direct I/O code.
 
-Internally, it needs to run sphinx-build --version to check if
-Sphinx version is compatible with the build. So, adding support
-for a PYTHON env is still half-broken after this series.
-
-Thanks,
-Mauro
