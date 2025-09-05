@@ -1,142 +1,206 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3789F306B00;
-	Fri,  5 Sep 2025 17:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CE83191A2;
+	Fri,  5 Sep 2025 17:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757092986; cv=none; b=k8iIfk17vGe+I7a7L/dIH1dRlw7Om5R2doXeeHkJrWqDIhQonq421NZekP9avywFdOYD8coBHwSkOTcliI+kWHI+2M98/cgJEkFwr6Wsmn2S4SDI6qtqYg0By+ZRw/RiXwZ8MC+HkwKqjM6txr21boxsGH0lPIXkbSxV8tx3u1g=
+	t=1757093935; cv=none; b=aZDrTys816/NRomw7OkJqC08+tz2Z60kjQXjvtNZYnU93t0dNL9LOPF1vAvBvQn2JNpiW0DkM7ZqrgIzESbz5pY2WxLQGcwKQd6upMizMizrkIUlbijGDDfw2JA96kIRUt9rX+9C1HUW7ijjfcB0O+H6HtqwBbBU46josiMcMxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757092986; c=relaxed/simple;
-	bh=mGWiWaE6I6hKE2f/4EzWDzmc6s/u3BxagDNUzVCSctk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FHE1KPZl0ISIxnaWsL9bWzn5HOd/N5p2uXAKVRHAhTNcTHAAbzifcTA5hjpEgGQU1KMNxFdk8muhSUO69GYE/EHNCjNAwQSXJEgYmkIJKnCJ2ciSp4hLZOGja++adtuRrT4ApTCWfXNRWwOigemMDXXLtzaKfPAyOHDM4sk38Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZceW/fl; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757093935; c=relaxed/simple;
+	bh=RwgI6iOiiGGaVq5ryV0ZWpJOK9YgvvrfbQAyHKlknns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ubr+6eQzglu21Zk/rhKmInfpkcsRiY028daSWnNnZ9aix7VLebvEsLFIjqdVPP/XUROVbQz7VnnBuG55/gGZ/3yj82JRjixB1YH0OLMY6GVI14zatg5vvT9P53ZwQ5d/oL7L6Kv+CaP3CsTMfhWTDBllNvAbnWEwLPf7QEb71zU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ld3/+CXF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZceW/fl"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6188b5ad681so3564661a12.0;
-        Fri, 05 Sep 2025 10:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757092983; x=1757697783; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mGWiWaE6I6hKE2f/4EzWDzmc6s/u3BxagDNUzVCSctk=;
-        b=RZceW/flPWaq9/xpqIXDHMHhXheo5Ta/QW10ch8R7f0ovfRyXCGfOQIZgIyzbRjXwj
-         s7VLnmL9IT4/Uet+9kndWzmJpcIly5tJ39WyeKBYCLM1ceoGDSw1HcSN1DxGyQpb1RmY
-         hVC4xyAJlv0+W+skW6L3/NLl+vYi2/9lsWo2OZLPwPiovGiH5BA8HXcd14Xtf6NHoTT5
-         nV5boyye/zgsFHQau0YJML0LJzMY+ODb2zwrKbW4EvY2+l4pKQ7yMjAdaXPrB6wNsQE6
-         a0Uh5lHvE7o8T9j3FDAQKEWm+Mjg0uzoJIR671SFVX6pWzXze//4xVPrPfBlX3oKh3TQ
-         oCFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757092983; x=1757697783;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mGWiWaE6I6hKE2f/4EzWDzmc6s/u3BxagDNUzVCSctk=;
-        b=nuUIsUKFr+jhLlZolSWUJoA4iSNsVb9W+yiVUZBLNO3d3vD0Am/7Nxa10kgdy88qUS
-         kPMeOyHWzuh13vbbGToAPRnFggVt5f6dds+wCttZr0LpPMro4qQBdxlvnzAqZde1IFTb
-         BE+Ueye4L0DNM45Fyoq0wDM8F8yQSxCxhOpFiopVd0jtpn+3Dpzx/wTlXLpvHFJr+5Y5
-         mDpA4PIj4CFrafy6mpQ5r3cBAwweJF689U2JxD+md656cTg+y7/+JV+gnYIQ6NHmridS
-         C9RUUMAGhpCXMrukFF/9Id1egy3etLpw2bbFgjuLkj/VSokhXC5gXf7eK6HeLhpQ8cfu
-         mQcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPOm/LZAdw9R3YggUTAGHZqR9PK3Yrt9r7VpLwc4WZ+twnYu6ZjrhXHfqNYgmlijMY5rF65WBTiAK2r1DQ@vger.kernel.org, AJvYcCWMUb/XEW+lp7W+CKMGCe3lrMhEbrU85ERM81bHSBsFiwO7iJ7Ubtqun0vFjVcoa/0CDu50mhc5SuHWvko=@vger.kernel.org, AJvYcCXDyJKze4MHrnFIERwqjNeyi3Vfh+3VDja402QhVIkN5say2U3+jnKBUUcZU8Am78xhhNHEIxQtcME7@vger.kernel.org, AJvYcCXic3r5JqxZUl5GM7riA+v3Xl+MGeA5d6ktCwC6rZxZNG6xkcMduH/plQdtBH+byMafoCNCeFseSLu1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6oAjkrRCwx3+V4iTf8xRYpZ6CgXc1+DNvZPSpZ0F7hExu/m3W
-	oJ7cbCX3ffmtge+iIqWwhMoPYrsSOFIfGyJS9se3hqHaPTtsOGp8CYFWMbiy/vgbNqPQYqaDC7l
-	dIGnticvFlNEdXB5F+exr3uUv1+ZUatIKm09FPT6U
-X-Gm-Gg: ASbGncsbMHT0BJMg7V6d7T0sscrnJlyYvhff8iRCawR/sMkkjIDSSUydH9+kB7GU3CV
-	h4hoYuToz35OJubG0N6spDlf1Z1MzP250sNXQOdYL3I4czdPID/CySGiWo5rAybpgQ4GNp/dQAO
-	6qsbpXSxaaE//GjpA2OQGBUd6l6w/0Nv59zGxHvWgLO3sx7Y3cirh3iBZ23yhDq2G1EvMuCZg6M
-	9oTWWBLCp7LCqobyzM=
-X-Google-Smtp-Source: AGHT+IG1EevZl5gNe7tD3U6dF+X3O4BzPpBn2tmPP3k+dNUVDqX/Q568jdKn1EyPG+pq749qDdlVfF5qm6ykFFbEqB8=
-X-Received: by 2002:a05:6402:3881:b0:61c:5b3f:4d69 with SMTP id
- 4fb4d7f45d1cf-61d2688c061mr19821874a12.11.1757092983140; Fri, 05 Sep 2025
- 10:23:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ld3/+CXF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AA22C4CEF1;
+	Fri,  5 Sep 2025 17:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757093935;
+	bh=RwgI6iOiiGGaVq5ryV0ZWpJOK9YgvvrfbQAyHKlknns=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ld3/+CXFzo5ZlgBaEJAAJ7n8ftGIf1vPmYVyQ1Q0lHbk30C+f/zGBCjYcCjqKGMkP
+	 ws0j93C+g7AZ/Qe51tbRHlFMkxmG8V2HiTKDDiIWpTC2x67XRe77cJRX2O/0Emokq3
+	 empFPEdzGq6Yu1WtRJ7c3H3VguQh/C6NxRnBxnFK+dgTB/PoKfshLNhSffqo96FEeK
+	 5gqAp6J/XAgqm8C64dBl5bC3cJKCuXlyMRuLkxNADtvKhMqMkGQ2Y7tGhP772p1Ynd
+	 b5DRxNZc712LsAvfWwUYrOIy6AN49OJHPTqpk5krnaWlYW3AAU/MPcrMbpxJdoJz6O
+	 DAfHVEkZTDmug==
+Date: Fri, 5 Sep 2025 20:38:50 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <20250905173850.GB25881@unreal>
+References: <cover.1755624249.git.leon@kernel.org>
+ <CGME20250829131641eucas1p2ddd687e4e8c16a2bc64a293b6364fa6f@eucas1p2.samsung.com>
+ <20250829131625.GK9469@nvidia.com>
+ <7557f31e-1504-4f62-b00b-70e25bb793cb@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250904-hwmon-tps23861-add-class-restrictions-v3-0-b4e33e6d066c@gmail.com>
- <20250904-hwmon-tps23861-add-class-restrictions-v3-1-b4e33e6d066c@gmail.com> <20250905-deft-porcelain-teal-a3bdbf@kuoka>
-In-Reply-To: <20250905-deft-porcelain-teal-a3bdbf@kuoka>
-From: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Date: Fri, 5 Sep 2025 10:22:26 -0700
-X-Gm-Features: Ac12FXyU_zPmF4j8ZQQX0_c8Sixq8TzhVGirncT8O8xrCsAjMiL2w60zjFD_UMk
-Message-ID: <CAAcybutsMdXmqrA6kG9L5OTP9ZPyLzYrXTGUGLAkWs5+MH9ifA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: update TI TPS23861 with
- per-port schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Robert Marko <robert.marko@sartura.hr>, Luka Perkov <luka.perkov@sartura.hr>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7557f31e-1504-4f62-b00b-70e25bb793cb@samsung.com>
 
-On Fri, Sep 5, 2025 at 1:10=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
-> On Thu, Sep 04, 2025 at 10:33:44AM -0700, Gregory Fuchedgi wrote:
-> What's the meaning of values? There are no other generic properties like
-> that? Last time it was a generic property, but maybe the answer to my
-> question should be that there is or should be such generic one?
->
-> Also, why exactly wouldn't you want to accept here always the highest
-> power class? What makes it a board-level property?
-poe class (values from 0 to 8, this chip only supports 0 to 4) defines maxi=
-mum
-power of a poe session. The higher the class the higher the power (with an
-exception of 0 for historical reasons).
+On Fri, Sep 05, 2025 at 06:20:51PM +0200, Marek Szyprowski wrote:
+> On 29.08.2025 15:16, Jason Gunthorpe wrote:
+> > On Tue, Aug 19, 2025 at 08:36:44PM +0300, Leon Romanovsky wrote:
+> >
+> >> This series does the core code and modern flows. A followup series
+> >> will give the same treatment to the legacy dma_ops implementation.
+> > I took a quick check over this to see that it is sane.  I think using
+> > phys is an improvement for most of the dma_ops implemenations.
+> >
+> >    arch/sparc/kernel/pci_sun4v.c
+> >    arch/sparc/kernel/iommu.c
+> >      Uses __pa to get phys from the page, never touches page
+> >
+> >    arch/alpha/kernel/pci_iommu.c
+> >    arch/sparc/mm/io-unit.c
+> >    drivers/parisc/ccio-dma.c
+> >    drivers/parisc/sba_iommu.c
+> >      Does page_addres() and later does __pa on it. Doesn't touch struct page
+> >
+> >    arch/x86/kernel/amd_gart_64.c
+> >    drivers/xen/swiotlb-xen.c
+> >    arch/mips/jazz/jazzdma.c
+> >      Immediately does page_to_phys(), never touches struct page
+> >
+> >    drivers/vdpa/vdpa_user/vduse_dev.c
+> >      Does page_to_phys() to call iommu_map()
+> >
+> >    drivers/xen/grant-dma-ops.c
+> >      Does page_to_pfn() and nothing else
+> >
+> >    arch/powerpc/platforms/ps3/system-bus.c
+> >     This is a maze but I think it wants only phys and the virt is only
+> >     used for debug prints.
+> >
+> > The above all never touch a KVA and just want a phys_addr_t.
+> >
+> > The below are touching the KVA somehow:
+> >
+> >    arch/sparc/mm/iommu.c
+> >    arch/arm/mm/dma-mapping.c
+> >      Uses page_address to cache flush, would be happy with phys_to_virt()
+> >      and a PhysHighMem()
+> >
+> >    arch/powerpc/kernel/dma-iommu.c
+> >    arch/powerpc/platforms/pseries/vio.c
+> >     Uses iommu_map_page() which wants phys_to_virt(), doesn't touch
+> >     struct page
+> >
+> >    arch/powerpc/platforms/pseries/ibmebus.c
+> >      Returns phys_to_virt() as dma_addr_t.
+> >
+> > The two PPC ones are weird, I didn't figure out how that was working..
+> >
+> > It would be easy to make map_phys patches for about half of these, in
+> > the first grouping. Doing so would also grant those arches
+> > map_resource capability.
+> >
+> > Overall I didn't think there was any reduction in maintainability in
+> > these places. Most are improvements eliminating code, and some are
+> > just switching to phys_to_virt() from page_address(), which we could
+> > further guard with DMA_ATTR_MMIO and a check for highmem.
+> 
+> Thanks for this summary.
+> 
+> However I would still like to get an answer for the simple question - 
+> why all this work cannot be replaced by a simple use of dma_map_resource()?
+> 
+> I've checked the most advertised use case in 
+> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio 
+> and I still don't see the reason why it cannot be based 
+> on dma_map_resource() API? I'm aware of the little asymmetry of the 
+> client calls is such case, indeed it is not preety, but this should work 
+> even now:
+> 
+> phys = phys_vec[i].paddr;
+> 
+> if (is_mmio)
+>      dma_map_resource(phys, len, ...);
+> else
+>      dma_map_page(phys_to_page(phys), offset_in_page(phys), ...);
+> 
+> What did I miss?
 
-A board may have a power budget of let's say 7W allocated for a poe device.=
- In
-that case the board should only provide power to devices which ask/negotiat=
-e poe
-class 1 (up to 4W) or class 2 (up to 7W). Devices that ask for more should =
-be
-rejected to prevent brown out issues.
+"Even now" can't work mainly because both of these interfaces don't
+support p2p case (PCI_P2PDMA_MAP_BUS_ADDR).
 
-I think some of my questions last time got lost in the noise. Given the inf=
-o
-above, should this be a generic property? And if yes where do I put it?
-I haven't found an existing one.
+It is unclear how to extend them without introducing new functions
+and/or changing whole kernel. In PCI_P2PDMA_MAP_BUS_ADDR case, there
+is no struct page, so dma_map_page() is unlikely to be possible to
+extend and dma_map_resource() has no direct way to access PCI
+bus_offset. In theory, it is doable, but will be layer violation as DMA
+will need to rely on PCI layer for address calculations.
 
-> I fail to see how this is property of a board... unless you wanted to
-> figure out which ports are not connected, but status=3Ddisabled could be
-> used for that.
-yes, status=3Ddisabled is used for ports that are not connected at all.
-off-by-default property is different.
+If we don't extend, in general case (for HMM, RDMA and NVMe) end result will be something like that:
+if (...PCI_P2PDMA_MAP_BUS_ADDR)
+  pci_p2pdma_bus_addr_map
+else if (mmio)
+  dma_map_resource
+else              <- this case is not applicable to VFIO-DMABUF
+  dma_map_page
 
-Most boards want simple automatic operation, no userspace involved. E.g. en=
-able
-power as soon as acceptable class was negotiated.
+In case, we will somehow extend these functions to support it, we will
+lose very important optimization where we are performing one IOTLB
+sync for whole DMABUF region == dma_iova_state, and I was told that
+it is very large region.
 
-For some boards, however, it is critical to have control of poe from the
-userspace. Without this property the driver may enable power before userspa=
-ce is
-ready.
+  103         for (i = 0; i < priv->nr_ranges; i++) {
+  <...>
+  107                 } else if (dma_use_iova(state)) {
+  108                         ret = dma_iova_link(attachment->dev, state,
+  109                                             phys_vec[i].paddr, 0,
+  110                                             phys_vec[i].len, dir, attrs);
+  111                         if (ret)
+  112                                 goto err_unmap_dma;
+  113
+  114                         mapped_len += phys_vec[i].len;
+  <...>
+  132         }
+  133
+  134         if (state && dma_use_iova(state)) {
+  135                 WARN_ON_ONCE(mapped_len != priv->size);
+  136                 ret = dma_iova_sync(attachment->dev, state, 0, mapped_len);
 
-> Sorry, but device has FIXED reset values for registers, so whether
-> something is off or on by default is defined by compatible.
-yes, but it is also defined by ports-shutdown pin state.
+> 
+> I'm not against this rework, but I would really like to know the 
+> rationale. I know that the 2-step dma-mapping API also use phys 
+> addresses and this is the same direction.
 
-Here's our board startup sequence (see 2/2 patch):
-reset pin has pull resistor keeping reset active until driver takes over th=
-e
-pin. The driver activates ports-shutdown pin first and only then deactivate=
-s
-reset. Then configuration over i2c happens, while ports are shut down. Then=
- the
-driver either enables a port based on off-by-default property or
-doesn't, leaving
-this up to the userspace.
+This series is continuation of 2-step dma-mapping API. The plan to
+provide dma_map_phys() was from the beginning.
 
-This setup guarantees that from soc reset until userspace is ready there's =
-no
-poe activity on the ports. This implementation is also flexible and backwar=
-ds
-compatible.
+Thanks
