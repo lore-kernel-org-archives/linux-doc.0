@@ -1,235 +1,263 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53E323BF96;
-	Fri,  5 Sep 2025 15:21:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558071EFF80;
+	Fri,  5 Sep 2025 15:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757085679; cv=none; b=XiOhkDFtAt4ReCSlSfJu5ekqH6t2wL4zL8LXvJk1oXT27ml7ZNEThxWSWvMUPzbuzdBd4vLyPgn/Ig6ddrSnVpnUgrpAjExXrP5sHQS9pDcAFVVmuU3VPGWw2sEW4GCFWtaA8Sf17mutyhdtX8eZ3hvUaaREW9Hzmg0yraRLgpA=
+	t=1757085889; cv=none; b=TqZSrtf9bYhOGDhuOZZD8pqC9tr6zsZFJ+vv+/oNIuE5g8YNUtg3HhhUaXe/CUM1XCkYkb6V50TLe12s3Pa2QxR4ilw2MuY2Ah0gmAvvSCivI3588E2lGVjuNGyKh1Dr4YKkNxuoGBok76o10Dw3GtJUri20vz0+PDBL/67j+Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757085679; c=relaxed/simple;
-	bh=Mk9Lv36ZcC/2I3dmxfTwbbljmUfZJLGQEyonJ6cYg30=;
+	s=arc-20240116; t=1757085889; c=relaxed/simple;
+	bh=8YZ6X5KZJEhH4BEj11wZLZMihkQrfiHeRWmRqcL1PG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VKY6kZ9iaJ++J7TxdEfpQ4sTTD5PpKN0DcEIW4YILzJSiEEYo4OPB4DJJ0Gmi6DHoRXlh8eoIZ1CvYcdC0qHe4XuiY7nwKQrp74VYkpS8Ltoj8pC7d8yuhEy7PZXWdfbUKog2IwB5Rbwq9u186gssHIebOTeDW77p2A8JTGRbeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfXisM1t; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZPV2hN4XlsgiilmMqbnQ4Ufudef0OBdBiGxTnjI4EMlo3iuCXJiHZDe/MvKq5mE+ALCL/+Wtl7X/56ggzzDifJGzDL0pND7AMUaLWN8AlFxlmF52vntF49aNWmrC3a6tfQ2Q69DO3vZ+0du7b6j/EfYS27ECo0C4ekkpXDkKlGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O18InHgf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfXisM1t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38116C4CEF1;
-	Fri,  5 Sep 2025 15:21:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O18InHgf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C28ADC4CEF1;
+	Fri,  5 Sep 2025 15:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757085679;
-	bh=Mk9Lv36ZcC/2I3dmxfTwbbljmUfZJLGQEyonJ6cYg30=;
+	s=k20201202; t=1757085888;
+	bh=8YZ6X5KZJEhH4BEj11wZLZMihkQrfiHeRWmRqcL1PG8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hfXisM1tX4nLrdzXxpXdR+g4pAROnPe6mAYGtSMkEpJKnlqQiVUNWZJ0PyavUPZ1a
-	 X/gc08cp2BvHaVEbd/utpk9OU1xiqX8oWDw7sJARiIiEBUrvQjZKWCHDEgRRF786HB
-	 PLew8ecnSfUtin+Hi5zFdlmsvH8U51gksH9rIOpYOEFYXYvdwo0bC2oBFK4u9Ev/bt
-	 tQ59xyPblt6dNom7YqwE7+1PmswGNdzdpdhWpQ7JrnLX/O7S2ib6pGu4fO5pjYwp5q
-	 9pMQ870pJOCBUtgxmYjBLMPb+2FCHx2OlFGGk8koCcRpEOPTM/cnMq2ZCDu+qZjvvl
-	 /1x485jJTQWqQ==
-Date: Fri, 5 Sep 2025 08:21:18 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
-	miklos@szeredi.hu, hch@infradead.org, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 13/16] iomap: add a private arg for read and readahead
-Message-ID: <20250905152118.GE1587915@frogsfrogsfrogs>
-References: <20250829235627.4053234-1-joannelkoong@gmail.com>
- <20250829235627.4053234-14-joannelkoong@gmail.com>
- <aLJZv5L6q0FH5F8a@debian>
- <CAJnrk1af4-FG==X=4LzoBRaxL9N-hnh1i-zx89immQZMLKSzyQ@mail.gmail.com>
- <a44fd64d-e0b1-4131-9d71-2d36151c90f4@linux.alibaba.com>
- <CAJnrk1bBmA+VK6UK1n6DRnuLvX8UOMp-VgQGnn2rUrq0=mCyqA@mail.gmail.com>
- <d631c71f-9d0d-405f-862d-b881767b1945@linux.alibaba.com>
+	b=O18InHgfGkEe6qdiupEfZ/rxyk3ESsIOqG1A+gtZL2zWNFkB6hXBdJvwWWToXla3l
+	 wAt98PCKdsFUpkXrvSO4AHZQFJN9gCb9FDN+6TO7w2QBpBmkyosA7Z6oOO0MmhQeJZ
+	 kfqIdOEL1meUpPA0oxdHmKOeUpD3ym12FVjUvRasaK0Nm9fCZSA5ncNqfI3ZRl7h6h
+	 2kDNIl0XEdwDeQ0PwyHJFnc1IS7JKRaCP9WYPMVMfQ+L3e8uTAyuf8XhElTZd4GkYN
+	 T4AUBeJq9gzbC/BR5QXn3gafdVGsvkEmOkNALjs5UhaQSbWbazp5DLIM60otJkG2+3
+	 fUTIVO4pU9OWg==
+Date: Fri, 5 Sep 2025 16:24:39 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Asuna <spriteovo@gmail.com>
+Cc: Jason Montleon <jmontleo@redhat.com>, Han Gao <rabenda.cn@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Tejun Heo <tj@kernel.org>,
+	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Matthew Maurer <mmaurer@google.com>, Jeff Xu <jeffxu@chromium.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Brian Gerst <brgerst@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/2] RISC-V: re-enable gcc + rust builds
+Message-ID: <20250905-prolonged-chip-73be9d74ddb5@spud>
+References: <20250830-cheesy-prone-ee5fae406c22@spud>
+ <20250903190806.2604757-1-SpriteOvO@gmail.com>
+ <20250903190806.2604757-2-SpriteOvO@gmail.com>
+ <20250904-sterilize-swagger-c7999b124e83@spud>
+ <f7434b76-49d0-4ef3-8c77-c1642dc211cd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nGPHKziLNNz0QDF3"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d631c71f-9d0d-405f-862d-b881767b1945@linux.alibaba.com>
+In-Reply-To: <f7434b76-49d0-4ef3-8c77-c1642dc211cd@gmail.com>
 
-On Fri, Sep 05, 2025 at 10:21:19AM +0800, Gao Xiang wrote:
-> 
-> 
-> On 2025/9/5 07:29, Joanne Koong wrote:
-> > On Tue, Sep 2, 2025 at 6:55 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
-> > > 
-> 
-> ...
-> 
-> 
-> > > > > 
-> > > > > >    int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
-> > > > > > -             const struct iomap_read_ops *read_ops)
-> > > > > > +             const struct iomap_read_ops *read_ops, void *private)
-> > > > > >    {
-> > > > > >         struct iomap_iter iter = {
-> > > > > >                 .inode          = folio->mapping->host,
-> > > > > >                 .pos            = folio_pos(folio),
-> > > > > >                 .len            = folio_size(folio),
-> > > > > > +             .private        = private,
-> > > > > >         };
-> > > > > 
-> > > > > Will this whole work be landed for v6.18?
-> > > > > 
-> > > > > If not, may I ask if this patch can be shifted advance in this
-> > > > > patchset for applying separately (I tried but no luck).
-> > > > > 
-> > > > > Because I also need some similar approach for EROFS iomap page
-> > > > > cache sharing feature since EROFS uncompressed I/Os go through
-> > > > > iomap and extra information needs a proper way to pass down to
-> > > > > iomap_{begin,end} with extra pointer `.private` too.
-> > > > 
-> > > > Hi Gao,
-> > > > 
-> > > > I'm not sure whether this will be landed for v6.18 but I'm happy to
-> > > > shift this patch to the beginning of the patchset for applying
-> > > > separately.
-> > > 
-> > > Yeah, thanks.  At least this common patch can be potentially applied
-> > > easily (e.g. form a common commit id for both features if really
-> > > needed) since other iomap/FUSE patches are not dependency of our new
-> > > feature and shouldn't be coupled with our development branch later.
-> > > 
-> > 
-> > Hi Gao,
-> > 
-> > I'll be dropping this patch in v2 since all the iomap read stuff is
-> > going to go through a struct ctx arg instead of through iter->private.
-> > Sorry this won't help your use case, but looking forward to seeing your patches.
-> 
-> Hi Joanne,
-> 
-> Thanks for your reminder.  Okay, I will check your v2 to know how
-> you change then.
-> 
-> Also, one thing I really think it's helpful for our use cases is
-> converting .iomap_begin() at least to pass struct iomap_iter *
-> directly rather than (inode, pos, len, flags, iomap, srcmap)
-> since:
->   - .iomap_{begin,end}() are introduced before iomap_iter()
->     and struct iomap_iter but those callbacks are basically
->     now passed down some fields of `struct iomap_iter` now;
-> 
->   - struct iomap_iter->private then can contain a per-request
->     context so that .iomap_begin() can leverage too;
-> 
->   - There are already too many arguments for .iomap_begin(),
->     pass down struct iomap_iter directly could avoid adding
->     another `private` argument to .iomap_begin()..
-> 
-> Therefore, I do wonder if this change (.iomap_begin() passes
-> struct iomap_iter *) is a good idea for the iomap folks, in
-> addition that filesystems can specify `struct iomap_iter->private`
-> as in this patch.  Since this change is necessary to make our
-> page cache sharing feature efficient, I will continue working on
-> this soon.
 
-From a source code perspective, I like the idea of cleaning up the
-function signature to pass fewer things to ->iomap_begin.  I suspect
-that we could simplify it to:
+--nGPHKziLNNz0QDF3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	int (*iomap_begin)(const struct iomap_iter *iter,
-			   struct iomap *iomap,
-			   struct iomap *srcmap);
+Yo,
 
-That way we preserve the notion that the ->iomap_begin functions aren't
-allowed to change the iterator contents except for the two iomaps.
+On Fri, Sep 05, 2025 at 06:56:35AM +0800, Asuna wrote:
+> > One thing - please don't send new versions
+> > of patchsets in response to earlier versions or other threads. It
+> > doesn't do you any favours with mailbox visibility.
+>=20
+> I apologize for this, I'm pretty much new to mailing lists, so I had
+> followed the step "Explicit In-Reply-To headers" [1] in doc. For future
+> patches I'll send them alone instead of replying to existing threads.
+>=20
+> [1]: https://www.kernel.org/doc/html/v6.9/process/submitting-patches.html=
+#explicit-in-reply-to-headers
+>=20
+> > Other than Zicsr/Zifencei that may need explicit handling in a dedicated
+> > option, the approach here seems kinda backwards.
+> > Individually these symbols don't actually mean what they say they do,
+> > which is confusing: "recognises" here is true even when it may not be
+> > true at all because TOOLCHAIN_HAS_FOO is not set. Why can these options
+> > not be removed, and instead the TOOLCHAIN_HAS_FOO options grow a
+> > "depends on !RUST || <condition>"?
+>=20
+> Yes, it's kinda "backwards", which is intentional, based on the following
+> considerations:
+>=20
+> 1) As mentioned in rust/Makefile, filtering flags for libclang is a hack,
+> because currently bindgen only has libclang as backend, and ideally bindg=
+en
+> should support GCC so that the passed CC flags are supposed to be fully
+> compatible. On the RISC-V side, I tend to think that version checking for
+> extensions for libclang is also a hack, which could have been accomplished
+> with just the cc-option function, ideally.
+>=20
+> 2) Rust bindgen only "generates" FFI stuff, it is not involved in the fin=
+al
+> assembly stage. In other words, it doesn't matter so much what RISC-V
+> extensions to turn on for bindgen (although it does have a little impact,
+> like some macro switches), it's more matter to CC.
 
-That said, the nice thing about passing so many parameters is that it
-probably leads to less pointer chasing in the implementation functions.
-I wonder if that makes any difference because extent mapping lookups
-likely involve a lot more pointer chasing anyway.  Another benefit is
-that since the parameters aren't const, each implementation can (re)use
-those variables if they need to.
+> Therefore, I chose not to modify the original extension config conditions=
+ so
+> that if libclang doesn't support the CC flag for an extension, then the R=
+ust
+> build is not supported, rather than treating the extension as not support=
+ed.
 
-I think you could simplify iomap_end too:
+I don't agree with this take, I don't think that any extension should
+"blindly" take priority over rust like this. Got two or three main gripes
+with how it is being done here.
+Firstly, you're lumping every extension into one option even though many
+of them will not be even implemented on the target. There's no need to
+disable rust if the user has no intention of even making use of the
+extension that would block its use. That runs into the second point, in
+that you're using TOOLCHAIN_HAS_FOO here, which is only an indicator of
+whether the toolchain supports the extension not whether the kernel is
+even going to use it. The third problem I have is that the symbol you're
+interacting with is not user selectable, and therefore doesn't allow the
+user to decide whether or not a particular extension or rust support
+with the toolchain they have is the higher priority. If the check moves
+to the individual TOOLCHAIN_HAS_FOO options, they could be a
 
-	int (*iomap_end)(const struct iomap_iter *iter,
-			 loff_t pos, u64 length,
-			 size_t written);
+	depends on !RUST || <condition>
 
-and make ->iomap_end implementations extract iter->flags and iter->iomap
-themselves if they want to.  I don't like how xfs_iomap.c abuses
-container_of to extract the iter from the iomap pointer.
+which would allow the user to make a decision about which has a greater
+priority while also handling the extensions individually.
 
-(But not enough to have written patches fixing any of this. :P)
+> Nonetheless, it occurred to me as I was writing this reply that if GCC
+> implements a new extension in the future that LLVM/Clang doesn't yet have,
+> this could once again lead to a break in GCC+Rust build support if the
+> kernel decides to use the new extension. So it's a trade-off, you guys
+> decide, I'm fine with both.
+>=20
+> Regarding the name, initially I named it "compatible", and ended up chang=
+ed
+> it to "recognize" before sending the patch. If we continue on this path, =
+I'm
+> not sure what name is appropriate to use here, do you guys have any ideas?
+>=20
+> > What does the libclang >=3D 17 requirement actually do here? Is that the
+> > version where llvm starts to require that Zicsr/Zifencei is set in order
+> > to use them? I think a comment to that effect is required if so. This
+> > doesn't actually need to be blocking either, should just be able to
+> > filter it out of march when passing to bindgen, no?
+>=20
+> libclang >=3D 17 starts recognizing Zicsr/Zifencei in -march, passing the=
+m to
+> -march doesn't generate an error, and passing them or not doesn't have any
+> real difference. (still follows ISA before version 20190608 --
+> Zicsr/Zifencei are included in base ISA). I should have written a comment
+> there to avoid confusion.
+>=20
+> Reference commit in LLVM/Clang 22e199e6af ("[RISCV] Accept zicsr and
+> zifencei command line options")
+> https://github.com/llvm/llvm-project/commit/22e199e6afb1263c943c0c0d44986=
+94e15bf8a16
+>=20
+> > What about the case where TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI is not
+> > set at all? Currently your patch is going to block rust in that case,
+> > when actually nothing needs to be done at all - no part of the toolchain
+> > requires understanding Zicsr/Zifencei as standalone extensions in this
+> > case.
+>=20
+> This is a bug, I missed this case. So it should be corrected to:
+>=20
+>    config RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZICSR_ZIFENCEI
+>     =A0 =A0 def_bool y
+>     =A0 =A0 depends on TOOLCHAIN_NEEDS_OLD_ISA_SPEC ||
+>    !TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI ||
+>    RUST_BINDGEN_LIBCLANG_VERSION >=3D 170000
+>=20
+>=20
+> > The TOOLCHAIN_NEEDS_OLD_ISA_SPEC handling I don't remember 100% how it
+> > works, but if bindgen requires them to be set to use the extension
+> > this will return true but do nothing to add the extensions to march?
+> > That seems wrong to me.
+> > I'd be fairly amenable to disabling rust though when used in combination
+> > with gcc < 11.3 and gas >=3D2.36 since it's such a niche condition, rat=
+her
+> > doing work to support it. That'd be effectively an inversion of your
+> > first condition.
+>=20
+> The current latest version of LLVM/Clang still does not require explicit
+> Zicsr/Zifence to enable these two extensions, Clang just accepts them in
+> -march and then silently ignores them.
+>=20
+> Checking the usage of CONFIG_TOOLCHAIN_NEEDS_OLD_ISA_SPEC:
+>=20
+>    ifdef CONFIG_TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+>    KBUILD_CFLAGS +=3D -Wa,-misa-spec=3D2.2
+>    KBUILD_AFLAGS +=3D -Wa,-misa-spec=3D2.2
+>    else
+>    riscv-march-$(CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI) :=3D
+>    $(riscv-march-y)_zicsr_zifencei
+>    endif
+>=20
+> It just uses -Wa to force an older ISA version to GAS. So the
+> RUST_BINDGEN_LIBCLANG_RECOGNIZES_ZICSR_ZIFENCEI I corrected above should =
+be
+> fine now I guess? Or would you still prefer your idea of blocking Rust if
+> TOOLCHAIN_NEEDS_OLD_ISA_SPEC is true?
 
-> Another thing I want to discuss (but it's less important for our
-> recent features) is the whole callback hook model of iomap.
-> 
-> Basically the current model does mean if any filesystem doesn't
-> fulfill the iomap standard flow, it has to add some customized
-> callback hook somewhere to modify the code flow then (or introduce
-> a new special flag and move their specific logic into iomap/
-> itself even other fses may not need this), but the hook way will
-> cause increased indirect calls for them, currently we have
-> `struct iomap_ops`, `struct iomap_writeback_ops` and
-> `struct iomap_dio_ops`, if some another filesystem (when converting
-> buffer I/Os for example or adding {pre,post}-processing ) have
-> specified timing, it needs to add new hooks then.
-> 
-> I do wonder if it's possible to convert iomap to get rid of the
-> indirect-call model by just providing helper kAPIs instead,
-> take .read_folio / .fiemap for example e.g.
-> 
->    xxxfs_read_folio:
->       loop iomap_iter
->         xxxfs_iomap_begin();
-> 	iomap_readpage_bio_advance(); [ or if a fs is non-bio
->              based, spliting more low-level helpers for them. ]
->         xxxfs_iomap_end();
-> 
->    xxxfs_fiemap():
->       iomap_fiemap_begin
->       loop iomap_iter
->         xxxfs_iomap_begin();
->         iomap_readpage_fiemap_advance()
->         xxxfs_iomap_end();
->       iomap_fiemap_end
-> So that each fs can use those helpers flexibly instead of diging
-> into adding various new indirect call hooks or moving customized
-> logic into iomap/ itself.
+Nah, if the explicit setting isn't required then it should be fine to
+not block on it being used. To be honest, I'm not concerned about
+Zicsr/Zifencei being communicated across to bindgen as much as I would
+be about other extensions, my motivation here is regarding build
+breakages - in particular when things like TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+is set, since it's a very niche configuration that if someone told me
+they were using I would tell them to stop. As I said, the original
+reason for this existing was to support w/e old version of debian linaro
+were using that could not do LLVM=3D1 builds and I think the person who
+added to this handle gcc with older binutils was trying to do a gradual
+move from an old toolchain in steps to a modern one, so neither were
+instances of someone actually wanting to use such a strange mix.
 
-Yes, it's quite possible to push the iomap iteration control down into
-the filesystems to avoid the indirect calls.  That might make things
-faster, though I have no idea what sort of performance impact that will
-have.
+> (To be clear, the breaking changes regarding Zicsr/Zifence are since ISA
+> version 20190608, and versions 2.0, 2.1, 2.2 are older than 20190608)
+>=20
+> The only thing I'm confused about is that according to the comment of
+> TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI, GCC-12.1.0 bumped the default ISA
+> to 20191213, but why doesn't the depends-on have condition || (CC_IS_GCC =
+&&
+> GCC_VERSION >=3D 120100)?
 
-> I don't have a specific example  because currently we don't have
-> direct issue against standard iomap flow on our uncompressed
-> path, but after a quick glance of other potential users who try
-> to convert their buffer I/Os to iomap, I had such impression in
-> my head for a while.
+It's probably something along the lines of there being no _C_ code that
+produces the Zicsr and Zifencei instructions, and therefore no build
+errors produced if they're missing. That's part of why I said my
+motivation in this particular case is build breakage, more than anything
+else.
 
-OTOH making it easier for non-disk filesystems to use iomap but supply
-their own IO mechanism (transformed bios, memcpy, etc) makes a far more
-compelling argument for doing this painful(?) treewide change IMO.
+--nGPHKziLNNz0QDF3
+Content-Type: application/pgp-signature; name="signature.asc"
 
---D
+-----BEGIN PGP SIGNATURE-----
 
-> Thanks,
-> Gao Xiang
-> 
-> > 
-> > 
-> > Thanks,
-> > Joanne
-> > 
-> > > Thanks,
-> > > Gao Xiang
-> > > 
-> > > > 
-> > > > Thanks,
-> > > > Joanne
-> > > > > 
-> > > > > Thanks,
-> > > > > Gao Xiang
-> > > 
-> 
-> 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLsApwAKCRB4tDGHoIJi
+0mwmAP9bDnlcc+95AWzyJyyoYFiI/Rtae49SrnuKHIhcU/MzCgD/XQD+0ddConmh
+ToGmliLxcwvMgLrAOpS8ZStzbjbnYQo=
+=xiVS
+-----END PGP SIGNATURE-----
+
+--nGPHKziLNNz0QDF3--
