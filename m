@@ -1,143 +1,139 @@
-Received: from bsdbackstore.eu (128-116-240-228.dyn.eolo.it [128.116.240.228])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4052AD2F;
-	Fri,  5 Sep 2025 06:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.116.240.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD64DF71;
+	Fri,  5 Sep 2025 07:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757053173; cv=none; b=FHRJiEng2ZI4ncvHsZwYz2Wo/iHDxWAXRTt7kBTkTehlr1YXphG+TFo1QILGV85vWpDl0gXmjSu7kgKbKxISUef8mq4/jIfTKPEoy7kJlTP9AyZYashgl3/q6yepTho/5YTy+GOlJp6EVcVc0v44XXsE8TV9rub68tEIxCx2Whk=
+	t=1757057955; cv=none; b=pP0ivyBRPYD9DtSwBLIb8v2SVMORNAYJY0BVFIRyPngk+uLGdNYij4NZq/OmQNNHd/n3rWMSRDqKPCra++7OIhebyY/3SeP3e8NfR2BqaCQz1EItv9aa+f1aKhF1E3T0jTAVLJMyssaBfKzAHgvDdGjjJPQ3WZwI0HoMi+yTA8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757053173; c=relaxed/simple;
-	bh=NhlN6InMMn588qcAitktClqWH4WsbE2cjvjyyXVGWpU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Lq/TVbymN3ZSHQXPvt/+v1kjREH8VTdFIlZDqs+ufiTPrKgOsesti15Atj8XGdHDJ+g3WPBT/nWmc0RFIjT7/0UTEN0NBhjyatyS8o2XBiBnHddQvkWi6qSl2z9h6CkAEP1Z680VXXjvi3GWgQ2GW5D8inO+lsqpr8XHnAbKREk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bsdbackstore.eu; spf=pass smtp.mailfrom=bsdbackstore.eu; arc=none smtp.client-ip=128.116.240.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bsdbackstore.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsdbackstore.eu
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id cf8a8994 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 5 Sep 2025 07:52:41 +0200 (CEST)
+	s=arc-20240116; t=1757057955; c=relaxed/simple;
+	bh=jV94hjqYlnI3MDHfUkjssEm/lBf+AReDNWe316CAHBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UN+MmKLyD8ugmnAEuIaj54WT2UTKWyKcZkgx+QWxt7Xt5M6ECgxp3VMf00qvEoUPlyqQn96ygXbFegJ0fMbrZanjuSeTf9FRx7nvzyU65wknza9Ae+tWapYzz0WLbd09zYnZxlk86KnQ+gZ3mq8fVQtdtVrXX0IffuD77JAuWME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O54aeCDV; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O54aeCDV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE01C4CEF1;
+	Fri,  5 Sep 2025 07:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757057953;
+	bh=jV94hjqYlnI3MDHfUkjssEm/lBf+AReDNWe316CAHBs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=O54aeCDV56bbSOp9JVigGWqnv/CVtwiPi1wF+Fr1SsMIuz0w6UO6aK/J/lHIHqkEr
+	 lQonsWQax3QFhZkCX9GZFHsYmjcE/DaywFqgbSH4d2/f3ZKNeGygMf4C7ev1zGXa5n
+	 c78EOa+/X+hzaWftcKLZlNxl283WH3ElFhJzvjvPn/6Z2YxawjyKZKFUXWXJmdHOF1
+	 SR1bH0aASrbEVzXI/WWHOTVL3Cwf6jJCpIM+60o6fkeTppF6qagxgg+B83bfm9Q7Wa
+	 L0BLgpGQ7qxpMPX5HidfdcMr6e0dWACV7Bp+ufruZfn6P0f7id3jrstte1MU9AKLeA
+	 LPxrPAxPg6y6w==
+Date: Fri, 5 Sep 2025 09:39:08 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>, Dongliang Mu <dzm91@hust.edu.cn>, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Randy Dunlap <rdunlap@infradead.org>, Yanteng
+ Si <si.yanteng@linux.dev>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 04/19] scripts: sphinx-pre-install: move it to
+ tools/docs
+Message-ID: <20250905093908.12ac00d3@foz.lan>
+In-Reply-To: <87ms7amanj.fsf@trenco.lwn.net>
+References: <cover.1756969623.git.mchehab+huawei@kernel.org>
+ <68810fc1065bbe8ef1305041fb10fa632bb64dd3.1756969623.git.mchehab+huawei@kernel.org>
+ <87ms7amanj.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 05 Sep 2025 07:52:41 +0200
-Message-Id: <DCKMSNY3N59V.3KQCDWA1VJQNQ@bsdbackstore.eu>
-Cc: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>,
- <sagi@grimberg.me>, <kch@nvidia.com>, "Alistair Francis"
- <alistair.francis@wdc.com>
-Subject: Re: [PATCH v2 7/7] nvmet-tcp: Support KeyUpdate
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: <alistair23@gmail.com>, <chuck.lever@oracle.com>, <hare@kernel.org>,
- <kernel-tls-handshake@lists.linux.dev>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-nvme@lists.infradead.org>, <linux-nfs@vger.kernel.org>
-X-Mailer: aerc
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <20250905024659.811386-8-alistair.francis@wdc.com>
-In-Reply-To: <20250905024659.811386-8-alistair.francis@wdc.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri Sep 5, 2025 at 4:46 AM CEST, alistair23 wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
-> a KeyUpdate handshake type then the underlying TLS keys need to be
-> updated.
->
-> If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
-> allow the NVMe layer to process the KeyUpdate request and forward the
-> request to userspace. Userspace must then update the key to keep the
-> connection alive.
->
-> This patch allows us to handle the NVMe host sending a KeyUpdate
-> request without aborting the connection. At this time we don't support
-> initiating a KeyUpdate.
->
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v2:
->  - Use a helper function for KeyUpdates
->  - Ensure keep alive timer is stopped
->  - Wait for TLS KeyUpdate to complete
->
->  drivers/nvme/target/tcp.c | 90 ++++++++++++++++++++++++++++++++++++---
->  1 file changed, 84 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index bee0355195f5..dd09940e9635 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
-> =20
->  	/* TLS state */
->  	key_serial_t		tls_pskid;
-> +	key_serial_t		user_session_id;
->  	struct delayed_work	tls_handshake_tmo_work;
-> =20
->  	unsigned long           poll_end;
-> @@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
->  	struct sockaddr_storage	sockaddr_peer;
->  	struct work_struct	release_work;
-> =20
-> +	struct completion       tls_complete;
-> +
->  	int			idx;
->  	struct list_head	queue_list;
-> =20
-> @@ -836,6 +839,11 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_q=
-ueue *queue,
->  	return 1;
->  }
-> =20
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue);
-> +static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w);
-> +#endif
-> +
->  static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
->  		int budget, int *sends)
->  {
-> @@ -844,6 +852,13 @@ static int nvmet_tcp_try_send(struct nvmet_tcp_queue=
- *queue,
->  	for (i =3D 0; i < budget; i++) {
->  		ret =3D nvmet_tcp_try_send_one(queue, i =3D=3D budget - 1);
->  		if (unlikely(ret < 0)) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret =3D=3D -EKEYEXPIRED &&
-> +				queue->state !=3D NVMET_TCP_Q_DISCONNECTING &&
-> +				queue->state !=3D NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +					goto done;
-> +			}
-> +#endif
->  			nvmet_tcp_socket_error(queue, ret);
->  			goto done;
->  		} else if (ret =3D=3D 0) {
-> @@ -1110,11 +1125,52 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
->  	return false;
->  }
-> =20
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static int update_tls_keys(struct nvmet_tcp_queue *queue)
-> +{
-> +	int ret;
-> +
-> +	cancel_work(&queue->io_work);
-> +	handshake_req_cancel(queue->sock->sk);
-> +	handshake_sk_destruct_req(queue->sock->sk);
-> +	queue->state =3D NVMET_TCP_Q_TLS_HANDSHAKE;
-> +
-> +	/* Restore the default callbacks before starting upcall */
-> +	read_lock_bh(&queue->sock->sk->sk_callback_lock);
-> +	queue->sock->sk->sk_data_ready =3D  queue->data_ready;
-> +	queue->sock->sk->sk_state_change =3D queue->state_change;
-> +	queue->sock->sk->sk_write_space =3D queue->write_space;
-> +	queue->sock->sk->sk_user_data =3D NULL;
+Em Thu, 04 Sep 2025 10:42:56 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Shouldn't "sk_user_data =3D NULL" be protected by a write lock?
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > As we're reorganizing the place where doc scripts are located,
+> > move this one to tools/docs.
+> >
+> > No functional changes.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/Makefile                             | 14 +++++++-------
+> >  Documentation/doc-guide/sphinx.rst                 |  4 ++--
+> >  Documentation/sphinx/kerneldoc-preamble.sty        |  2 +-
+> >  .../translations/it_IT/doc-guide/sphinx.rst        |  4 ++--
+> >  .../translations/zh_CN/doc-guide/sphinx.rst        |  4 ++--
+> >  Documentation/translations/zh_CN/how-to.rst        |  2 +- =20
+>=20
+> This one fails to apply to the translations - it looks like some sort of
+> encoding problem...?
 
-Maurizio
+Yes. My new mailbomb script in Python mangled it.
+
+I ended sending you a PR, as this way we know for sure that we won't
+have any encoding issues on either side.
+
+---
+
+Checking encoding after the patch series:
+
+    $ file Documentation/translations/zh_CN/how-to.rst
+    Documentation/translations/zh_CN/how-to.rst: Unicode text, UTF-8 text
+
+    $ python3
+    Python 3.13.7 (main, Aug 14 2025, 00:00:00) [GCC 15.2.1 20250808 (Red H=
+at 15.2.1-1)] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> with open("Documentation/translations/zh_CN/how-to.rst", "r", encod=
+ing=3D"utf-8") as fp: c=3Dfp.read()
+    ...=20
+   >>>=20
+
+And manually looking on its contents, the patch itself is OK.
+
+Looking at the e-mail generated using Python EmailMessage class, however:  =
+=20
+
+    Content-Type: text/plain; charset=3D"utf-8"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: 8bit
+
+Python completely mangled it by replacing all UTF chars with =EF=BF=BD:
+
+	--- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+	+++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+	@@ -84,7 +84,7 @@ PDF=EF=BF=BD=EF=BF=BD=EF=BF=BDLaTeX=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD
+	 =EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BDSphinx=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=
+=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD
+	 =EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=
+=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=
+=BF=BD=EF=BF=BD::
+	=20
+	-	$ ./scripts/sphinx-pre-install
+	+	$ ./tools/docs/sphinx-pre-install
+	 	Checking if the needed tools for Fedora release 26 (Twenty Six) are avai=
+lable
+
+When I have time, I'll try to fix it - or end giving up of the Python
+version returning to the Perl one, even with the content set to
+utf-8 at set_content() function call.
+
+Thanks,
+Mauro
