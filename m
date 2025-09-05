@@ -1,129 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC90306B3D;
-	Fri,  5 Sep 2025 16:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FDD30B50D;
+	Fri,  5 Sep 2025 16:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757091058; cv=none; b=in2Jjf5hDGgJ5BtBNl2mgSh3gmXfY3BlT8huNcPsfroXpNesqCYSULXqBPUfLr4M6t/UnTUsYhpYTgrJHBFRA9dtXRtOp/tqsNp2mtAlK6hOwVxTxdoGCJls62/X8eUxze5FGsPObOJHzI3p/ioNLB11q7dt5Gy5KNwAqqhZpCg=
+	t=1757091122; cv=none; b=Cq6Z6co6z00MyYqrrOJgqI64PiU1QV2Kf14tBpN3syKeY+Q8LuyMxqH/OzT07RCCiXD7wB26oS/6iIhxoyO7Fq4afgKB4WUuQ0PQ8NQzwAVExU+uJn0XztVPYEpRSX0bsOjNAvjhxQIsKQbqZDyb6/4NovVywIbYtVrdh/IVJ0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757091058; c=relaxed/simple;
-	bh=ed7tjh37WUsiWKbFsXU4Fz4LWP9OYuSxI0T6PtehL5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fF0IRiuy/yeYx6gLhj0ZJLHuFQusxejUghJ3ONvhsEGAJeUz0ZlwsWzGUkQ1b8hzrERb654vfk+fwH4oSxy7tgslFMiGX0hXnumqRuUqN3/Qqx3JCcBj+gQGG2V9Lg6RaK2QBBSYrdqWGdMTc9aISJHXl+zHlQ1TFczWt+RLdqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hkj6jwvL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757091122; c=relaxed/simple;
+	bh=WYLWUcPSd5jrYSeGhSGOmpkf3UQu+Fvp70h1FOBvL/E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vF7GqAe8PAQjvpqq8fH3AZ0gOCb1aQNzt9cf+IRGDh+pphfN5xWzmIIrZ0rW0MsbcROEaUMQw63V+8DMVitDWpjLWVCUB3wNcvLMhR1mJ3kml4REp4mIUpSboLXVxv0TkAZtNT6CphroqdcFRaKHdW4JPcE6uDpMXBP1n0t/wxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YlkRttTM; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hkj6jwvL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291F0C4CEF1;
-	Fri,  5 Sep 2025 16:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757091058;
-	bh=ed7tjh37WUsiWKbFsXU4Fz4LWP9OYuSxI0T6PtehL5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hkj6jwvLxKggBm5BaYRmXNHFJSTzS4j//v2v297B9zbvAb6zaXk3ye+d7kJpzYt+i
-	 pVjGPf+glYmCMY8ZXxKqFzfErZn5vYpuxstgE5z7K6bWjnB52Zu2pWhWX8YpcE0TZ3
-	 wqpQ/atJ+vA0oyDRUVNRdo8I0NXlm4wfllQDaEaUhi9U9aEo4xqnHh2mcEuBjTyxog
-	 A1t4vtOjJmcxMXWsrEs0iDeQq9drkmd4Whjs7cSHTOvVKn09EIzsL7m+VCMmXlxsZx
-	 LFVA53bS5HpTQKBuuE67ybcB5j6vm/3A//si20RgKUC4Z6Fe/u+7Z/FKOCjsOXLxSF
-	 Mdr++eBA7BRQw==
-Date: Fri, 5 Sep 2025 19:50:51 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
-	Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v5 07/16] dma-mapping: convert dma_direct_*map_page to be
- phys_addr_t based
-Message-ID: <20250905165051.GA25881@unreal>
-References: <cover.1756822782.git.leon@kernel.org>
- <CGME20250902144935eucas1p253de9e94315de54325cc61dea9c76490@eucas1p2.samsung.com>
- <6b2f4cb436c98d6342db69e965a5621707b9711f.1756822782.git.leon@kernel.org>
- <087e7f3d-1e0d-4efe-822f-72d16d161a60@samsung.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YlkRttTM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Lu0hDzSntfixagIqqAnPk5EmBO+qEzDTbOWkYSk//uM=; b=YlkRttTMuOxt4e5t6VZxxC+R2B
+	qUI4Vvdh/3JOYCS5R5IHKka+RFJw40TpFNd5VUJ1+a1oM9rWUuHVBG1lAwMyfBklvRXLXR03eZkqU
+	KCKXDGoQpWFEFqNyuDQONEYbefoGUCqKII6Kr0DeoKaJ9Q7Jdexo7zrutYslDUsYwBtzH0MpmLaIR
+	Xz8P7bx2u2QnilfFRFgoJ4acvkyMdb4mBcmyE5AljkiLg1dPBq6IElFAh67dp3ml3AElNi6/QgpB1
+	bzmsBSzYIt5fpR3xDcZPAGy0vQ32JS+i/gep+yxNAMJMxhxVbMFjZaofyYd1pVUg1ztzECdDDGik9
+	FbneDyAw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uuZfL-00000003GDO-2eRP;
+	Fri, 05 Sep 2025 16:51:59 +0000
+Message-ID: <00378f4c-ac64-459d-a990-6246a29c0ced@infradead.org>
+Date: Fri, 5 Sep 2025 09:51:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <087e7f3d-1e0d-4efe-822f-72d16d161a60@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: KVM: Add reference specs for PIT and LAPIC
+ ioctls
+To: Jiaming Zhang <r772577952@gmail.com>, pbonzini@redhat.com,
+ seanjc@google.com, corbet@lwn.net, kvm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CANypQFZKnwafAFm2v5S_kbgr=p0UBBsmcSVsE2r65cayObaoiA@mail.gmail.com>
+ <20250905075115.779749-1-r772577952@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250905075115.779749-1-r772577952@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 05, 2025 at 06:21:44PM +0200, Marek Szyprowski wrote:
-> On 02.09.2025 16:48, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> > Convert the DMA direct mapping functions to accept physical addresses
-> > directly instead of page+offset parameters. The functions were already
-> > operating on physical addresses internally, so this change eliminates
-> > the redundant page-to-physical conversion at the API boundary.
-> >
-> > The functions dma_direct_map_page() and dma_direct_unmap_page() are
-> > renamed to dma_direct_map_phys() and dma_direct_unmap_phys() respectively,
-> > with their calling convention changed from (struct page *page,
-> > unsigned long offset) to (phys_addr_t phys).
-> >
-> > Architecture-specific functions arch_dma_map_page_direct() and
-> > arch_dma_unmap_page_direct() are similarly renamed to
-> > arch_dma_map_phys_direct() and arch_dma_unmap_phys_direct().
-> >
-> > The is_pci_p2pdma_page() checks are replaced with DMA_ATTR_MMIO checks
-> > to allow integration with dma_direct_map_resource and dma_direct_map_phys()
-> > is extended to support MMIO path either.
-> >
-> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >   arch/powerpc/kernel/dma-iommu.c |  4 +--
-> >   include/linux/dma-map-ops.h     |  8 ++---
-> >   kernel/dma/direct.c             |  6 ++--
-> >   kernel/dma/direct.h             | 57 +++++++++++++++++++++------------
-> >   kernel/dma/mapping.c            |  8 ++---
-> >   5 files changed, 49 insertions(+), 34 deletions(-)
+Hi,
 
-<...>
-
-> > -	if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
-> > -	    dma_kmalloc_needs_bounce(dev, size, dir)) {
-> > -		if (is_pci_p2pdma_page(page))
-> > -			return DMA_MAPPING_ERROR;
-> > -		if (is_swiotlb_active(dev))
-> > -			return swiotlb_map(dev, phys, size, dir, attrs);
-> > -
-> > -		dev_WARN_ONCE(dev, 1,
-> > -			     "DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
-> > -			     &dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
-> > -		return DMA_MAPPING_ERROR;
-> > +	if (attrs & DMA_ATTR_MMIO) {
-> > +		dma_addr = phys;
-> > +		if (unlikely(dma_capable(dev, dma_addr, size, false)))
+On 9/5/25 12:51 AM, Jiaming Zhang wrote:
+> The behavior of KVM_SET_PIT2 and KVM_SET_LAPIC conforms to their
+> respective hardware specifications. Add references to the Intel 8254
+> PIT datasheet and the Software Developer's Manual (SDM)  to ensure
+> users can rely on the official datasheets for behavioral details.
 > 
-> "!dma_capable(dev, dma_addr, size, false)" in the above line.
+> Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> It took me a while to find this after noticing that this patchset breaks booting some of me test systems.
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 6aa40ee05a4a..d21494aa7dc2 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -2083,6 +2083,11 @@ The format of the APIC ID register (bytes 32-35 of struct kvm_lapic_state's
+>  regs field) depends on the state of the KVM_CAP_X2APIC_API capability.
+>  See the note in KVM_GET_LAPIC.
+>  
+> +.. Tip::
+> +  ``KVM_SET_LAPIC`` ioctl strictly adheres to Intel® 64 and IA-32 Architectures
+> +  Software Developer's Manual (SDM). Refer volume 3A of the `Intel SDM <https://
 
-Ohh, sorry, I overlooked it. Do you expect from me v6?
+                                        Refer to volume 3A of the Intel SDM
 
-Thanks
+> +  www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html>`_.
+
+Please put the full URL on one line -- don't split it on 2 lines.
+
+> +
+>  
+>  4.59 KVM_IOEVENTFD
+>  ------------------
+> @@ -3075,6 +3080,14 @@ This IOCTL replaces the obsolete KVM_GET_PIT.
+>  Sets the state of the in-kernel PIT model. Only valid after KVM_CREATE_PIT2.
+>  See KVM_GET_PIT2 for details on struct kvm_pit_state2.
+>  
+> +.. Tip::
+> +
+> +  ``KVM_SET_PIT2`` ioctl strictly adheres to the spec of Intel 8254 PIT.
+> +  For example, a ``count`` value of 0 in ``struct kvm_pit_channel_state`` is
+> +  interpreted as 65536, which is the maximum count value. Refer `Intel
+
+                                                             Refer to
+
+> +  8254 programmable interval timer <https://www.scs.stanford.edu/10wi-cs140/
+> +  pintos/specs/8254.pdf>`_.
+
+Put the full URL on one line, please.
+
+> +
+>  This IOCTL replaces the obsolete KVM_SET_PIT.
+>  
+>  
+Thanks.
+-- 
+~Randy
+
