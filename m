@@ -1,229 +1,306 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273701805A;
-	Fri,  5 Sep 2025 09:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8C8289824;
+	Fri,  5 Sep 2025 09:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757062884; cv=none; b=o1iQkLWeSfBzlseLp1NdVNAVyGSMaP6cgU5UapzzRkEy0Ws+d80akULnAe2RDrv44xCZJIg8JQDV7v4ZRM0825vu6rSyvjv6CZAsEhnmpsvdKlDmwU+XulmaKMrywZNDN6UFeUq8tYavdX4LQRGxOEryTacdESkgrZK0sbVYF/M=
+	t=1757062955; cv=none; b=FZd06XvJl3Mxf1g1Qs7W60x1aIuRcJWkqgGLXUtQhHZuoO/ZJDyVvwyebVOfzjumNeO3n3AIt2cG4QCPUKr7+z7RynHrnU4kvUGxoAagOikFbmRoGHBCixYnynvUbvIilogrTb2P7JfcrI+qkSgUXR1z9ttpBm7cCtJYkotlv5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757062884; c=relaxed/simple;
-	bh=bkiflH5uGvr88Tr1HTZ3lrEk1NM47FmFgaXR8yGH2Ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rJyPxCfzB68F2bUwWL2YGZEoiZlmCTFnzlsRUfU4lu76tDUzS3eZ/gEK5TU8i40S2RD4AebgkrfHnad4gA47hwnYYQwHZMXWa8HFdOTMgJmhuSyIou+10jIUdXEJkQROkmRrv2grGYBSbOWJ+j11raXDyCt0HbyJSE3MevgvISI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=PNcMZDOE; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1757062955; c=relaxed/simple;
+	bh=NM4vh7Y6amQgjxH0/DqheIDPbYhjnlxQF3rh5Z5U7/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GYs7pbaKeJ/fPVPPaXW5tC1yq4CPW4IpY9aOwAxgFRn2teIY1ZJpORtAp8g7YvjvOBpe3Zc7cggwQCsv5pu7kn13PEvtlxfrTcOmgsuT/OXWZ8Qc7k+iMCSUBXNCfxqt8gV6dC7G9uHlOlmccai4sTFg9Ppqm6bLLfmJeR9TRfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dkc/llix; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="PNcMZDOE"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5857YfNM006957;
-	Fri, 5 Sep 2025 09:01:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=a9W4u5
-	adXbL/N80SZd5jpWT4wlApuy0pwx3AfVS8xFE=; b=PNcMZDOEiOR7QxYl5+L1Zb
-	szavYhAgAOMKzGiwEWPQFhCWSAS0XMJC2XOshrStzEJ8XMrJ+Vc72mmiO+4UjXLI
-	QMUNw4VJXeboacjSJqLEiOGXhwJWIASIjmQK0+iOZuJmtzhwW2fqqbxR/OrRE5TN
-	Maw9n+2Wt/RhZnpxxZPAqvJjw+l+zbovAdzzdUZu2mUtby+abx3caQHn8sTii2b7
-	zt0R7rBYMmyy5tBjcf6YCP5kndwBXofaxJZ+1LO/pFzyASnCq2F/hs3RQHYfElZG
-	vVnYP23EXqBhLXiV3dDFD47iXWLw5KQ54YBsjYMXgG+LSlb0uMsV/4ngFCadbFrg
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usurfcdb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Sep 2025 09:01:16 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58591GMK001556;
-	Fri, 5 Sep 2025 09:01:16 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usurfcd5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Sep 2025 09:01:16 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5855R3oL019313;
-	Fri, 5 Sep 2025 09:01:14 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48vd4n8khs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Sep 2025 09:01:14 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58591AfB53674346
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 5 Sep 2025 09:01:10 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AA0362004E;
-	Fri,  5 Sep 2025 09:01:10 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C6F7D20049;
-	Fri,  5 Sep 2025 09:01:09 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.87.153.36])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Fri,  5 Sep 2025 09:01:09 +0000 (GMT)
-Date: Fri, 5 Sep 2025 11:00:59 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Dust Li <dust.li@linux.alibaba.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Simon
- Horman <horms@kernel.org>,
-        "D. Wythe" <alibuda@linux.alibaba.com>,
-        Sidraya
- Jayagond <sidraya@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Mahanta Jambigi <mjambigi@linux.ibm.com>,
-        Tony Lu
- <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH net-next 1/2] net/smc: make wr buffer count configurable
-Message-ID: <20250905110059.450da664.pasic@linux.ibm.com>
-In-Reply-To: <aLpc4H_rHkHRu0nQ@linux.alibaba.com>
-References: <20250904211254.1057445-1-pasic@linux.ibm.com>
-	<20250904211254.1057445-2-pasic@linux.ibm.com>
-	<aLpc4H_rHkHRu0nQ@linux.alibaba.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dkc/llix"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7725de6b57dso2261321b3a.0;
+        Fri, 05 Sep 2025 02:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757062952; x=1757667752; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CbWJrrsJi1lQoWWgSTtwrCIE35YEtTJx5WTUVLvwNGE=;
+        b=Dkc/llix3jvnD875YFbd3YQ+1Bx/NzCF7N8eF3Fq4QteU0WCv2CVEaHvwr7D5gJfkf
+         kcZmlig60E1gqjHkojD7DGHvy5QUXrMHodAFlto78Z2NY1pyJOyURe5N+Dg4eeb/pwxB
+         TDz0ycefeoPKPpZCX5v1qv8jDbYQhqxPS5oSWlDbVY5Zw5IJQAOq6xBGUHdd7dUA7IB1
+         t9GT3TJKYhEsoS1HIH/FSFlOuGtDgd04xiRVIz5P9VaPx6RWBJcuP9ie78pHfuS40oqA
+         6UpobAzhwGojDSwhWa4Zrm4lGcWRuhsOjzSk6xb86gDmv6091GsTD6wivzjMIAZ9xp2X
+         +Dxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757062952; x=1757667752;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CbWJrrsJi1lQoWWgSTtwrCIE35YEtTJx5WTUVLvwNGE=;
+        b=iGhOknWxbQXzxKuvNThmRbiZ9KGTgMwnNOisGA/+RjOkxNat8MmcMLXxOm+haHzK9D
+         2ZVzexjv2+sabE2mJG/w8O53iX0zf3mXp7/iUoz/UoGYjGeEfGna1LtjK+H7DklQLJtt
+         Nov4Zo34+OCNZls/6P5OMPJgNhhADgrqI5oCJ0xY1+eY7CqhzekICTeddXm+ENOWvtEv
+         uoc4j7gneWByRcp21HTpfv0T+wtyK1MaEaeS63s3H6jY/CpoOSW/Tz1XLmzqOyS+SWK3
+         jAlgdndCC/+/pWzpgR1ojj4YCbXJh7x6J753HaauxOC3AxjnRjkzbFzlbp2dkaKr3sa/
+         Kygg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMegcuZ4gbc+wkmYt14ORgeALSP8nhYBoj+F9y22t5GN78jrFK5Lj943ibwS8MPV8O0ExrJanxwheeRuvj@vger.kernel.org, AJvYcCWEu/a5WdLW7XBJ8suEbdcXsETw/WyyDTzuuC4n+dC0BJVlRqLpQUnkoT9oxXTMwpOfZoXUKawrMJ+NGccPkzBw0K4y@vger.kernel.org, AJvYcCWMiLxueWBBznIVc2rx9+bmcrqQKILAPvVsSOVs7k+z7etTdPBmWpyo5eaOr87UE18FLM8rVjkFsCE=@vger.kernel.org, AJvYcCWYawRfw3B7A1EvPPdj8zDqD4wMMgKKw8CfhIzh+v3elZO+YBzN3MP/SmxIS5oqoqwxUgasGG3Xxb4Q+iXsbze/lA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4EvvaMxrMtGQSItraHFK2ytHE0AJwsXEIrCud2w0GxAWNVtyu
+	UbR693MBZS8GbS+3YbZBNYykqDPy7Q2nj8K1M+jeiDCBZnJcM506tqrh
+X-Gm-Gg: ASbGncsqBjdCCg5Fdpve7aH8lMTquMvPHc9OSgaAGWP8bkvvp+oBRiUksdw3YGm5bpx
+	SrtAc5ZmYbuDnvDwHDZm6qp1SaPdukupX16mEHLEB9dLnpWyEmih6c/D3uzAQGkGYNNAu62a6b5
+	0Jijp2K4sUGCGXukuLMxf8C2SEnZ3AUvUOJfOPK8YhRed+QNhvY1hMjWXfWREvyuo3ZWuMMX9OI
+	83Ol1sL+4uF4JH6t/LSrNLpdTaB70jf2A807F2O1cZH7G3YZmRpKSOhtjB8dWh7o8xCOWpyv0a1
+	VyFD4c/KKDRXQG8yKKrzbE9hSePO5C8JiWAXwT9rJLMlXXZeB0VCZtl+zyY22jSdPftoZZQXBE9
+	/ts3zZmDdMDUpVth/NhylfUacLe8hb0OcmIGx
+X-Google-Smtp-Source: AGHT+IGPJDd0ZbcKmwOmMjvq98qz8SQzZoZzRttT4FvuKGdN6vETbbaK8w6DZAAbiwn1p8ByUXjIUA==
+X-Received: by 2002:a05:6a00:1495:b0:736:5664:53f3 with SMTP id d2e1a72fcca58-7723e36282amr26130625b3a.15.1757062952047;
+        Fri, 05 Sep 2025 02:02:32 -0700 (PDT)
+Received: from [127.0.0.1] ([2604:a840:3::10f3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a2af911sm21018350b3a.23.2025.09.05.02.02.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Sep 2025 02:02:31 -0700 (PDT)
+Message-ID: <bab08c27-cf0a-445e-8071-dac2a0f8c6d1@gmail.com>
+Date: Fri, 5 Sep 2025 17:02:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMCBTYWx0ZWRfX5uNUSYQWM4C9
- Atr8jnKEzq0tOjKx3r7HLqXieGGBwluvY5HFOxzviZh/GlsKYN6Goz+lnfSawPCLsH9BUkj7/wF
- tPnWCuV8sJRaBWJ49YZU9S/Xo5dKoeafqKy/47NfFmaOat1FqZcwzzApKFt0Uf9Vq2TCVu0kln7
- 4p7cXPmcgMH4MSheZKJwF/3TOqSR1pJfyo+WlbAo37yRaR+K0/63+FyiVUqxCdpS6Ot8hgh63X4
- Gk6fayE2cM6SnCcRnPH3k/fO0iJ+hhLWErdYl287lp0/BjHPfMZNxc8c2Venc8ojKRTLG4lfXLX
- TX19/6JYzXwkyU2UNEU1irU9OgoZLtedYDGl6Z0N1OODZHyP6hueP8dszeGFBcWcfWq8qiFaQyv
- 4d5AOpLy
-X-Proofpoint-GUID: h0rergmXxicsb0JC_9-XPiXjDEVhHVy1
-X-Proofpoint-ORIG-GUID: NBvzSwQDWi8yDcf8ETLK2SdLQlnBwj1G
-X-Authority-Analysis: v=2.4 cv=Ao/u3P9P c=1 sm=1 tr=0 ts=68baa6dc cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=SRrdq9N9AAAA:8 a=VnNF1IyMAAAA:8
- a=6BR_q7ufmxdy0nC1zUoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-05_02,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300030
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/6] tracing: wprobe: Add wprobe for watchpoint
+Content-Language: en-US
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ x86@kernel.org, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+References: <175673787502.478080.3342912952394010967.stgit@devnote2>
+ <20250902230204.f3e81b03e7f6805caba1b717@kernel.org>
+ <c8a312e9-644a-45e0-8184-6eac8d8f4af1@gmail.com>
+ <20250905110852.2c9a0be5f5e5338f1a00cdd4@kernel.org>
+From: Jinchao Wang <wangjinchao600@gmail.com>
+In-Reply-To: <20250905110852.2c9a0be5f5e5338f1a00cdd4@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 5 Sep 2025 11:45:36 +0800
-Dust Li <dust.li@linux.alibaba.com> wrote:
-
-> On 2025-09-04 23:12:52, Halil Pasic wrote:
-> >Think SMC_WR_BUF_CNT_SEND := SMC_WR_BUF_CNT used in send context and
-> >SMC_WR_BUF_CNT_RECV := 3 * SMC_WR_BUF_CNT used in recv context. Those
-> >get replaced with lgr->max_send_wr and lgr->max_recv_wr respective.  
+On 9/5/25 10:08, Masami Hiramatsu (Google) wrote:
+> On Thu, 4 Sep 2025 14:35:33 +0800
+> Jinchao Wang <wangjinchao600@gmail.com> wrote:
 > 
-> Hi Halil,
+>> On 9/2/25 22:02, Masami Hiramatsu (Google) wrote:
+>>> (Adding Jinchao)
+>>>
+>>> On Mon,  1 Sep 2025 23:44:35 +0900
+>>> "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+>>>
+>>>> Hi,
+>>>>
+>>>> Here is an RFC series for adding new wprobe (watch probe) which
+>>>> provides memory access tracing event. Moreover, this can be used via
+>>>> event trigger. Thus it can trace memory access on a dynamically
+>>>> allocated objects too.
+>>>
+>>> BTW, this series is on the top of probes/for-next branch in the
+>>> linux-trace tree.
+>>>
+>>
+>> Hi, Masami
+>>
+>> Thanks for including me. I only received the cover letter, so I'm
+>> providing my feedback here:
 > 
-> I think making the WR buffer count configurable helps make SMC more flexible.
-
-Hi Dust Li,
-
-Thank you for having a look. 
-
+> Thanks for your feedback! I'll send v2.
 > 
-> However, there are two additional issues we need to consider:
+>>
+>> - trigger_data issue:
+>>     it appears that the instance being removed is not the same as
+>>     the one that was originally set.
 > 
-> 1. What if the two sides have different max_send_wr/max_recv_wr configurations?
-> IIUC, For example, if the client sets max_send_wr to 64, but the server sets
-> max_recv_wr to 16, the client might overflow the server's QP receive
-> queue, potentially causing an RNR (Receiver Not Ready) error.
-
-I don't think the 16 is spec-ed anywhere and if the client and the server
-need to agree on the same value it should either be speced, or a
-protocol mechanism for negotiating it needs to exist. So what is your
-take on this as an SMC maintainer?
-
-I think, we have tested heterogeneous setups and didn't see any grave
-issues. But let me please do a follow up on this. Maybe the other
-maintainers can chime in as well.
-
+> Did you mean it will free invalid struct event_trigger_data by
+> wprobe_trigger_free(), or hw_breakpoint instance?
 > 
-> 2. Since WR buffers are configurable, it’d be helpful to add some
-> monitoring methods so we can keep track of how many WR buffers each QP
-> is currently using. This should be useful now that you introduced a fallback
-> retry mechanism, which can cause the number of WR buffers to change
-> dynamically.
+> When trace_event_enable_disable(wprobe_data->file, 1, 1) at
+> wprobe_trigger_cmd_parse(), the trace_wprobe is enabled == call
+> enable_trace_wprobe(), which eventually call register_wide_hw_breakpoint()
+> with dummy address. IOW, the (wide)hw_breakpoint is allocated here.
+> 
+> When the trigger is hit, modify_wide_hw_breakpoint_local() is called
+> for updating local target address on the same hw_breakpoint.
+> So latter instance should be the same.
+In wprobe_trigger_cmd_parse(), consider removing:
+   echo '!set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+The trigger_data passed to event_trigger_unregister() is freshly allocated.
+> 
+>>
+>>    - the function call issue:
+>>      `trace_wprobe_update_local()` is called twice, once in the trigger
+>>      callback and again in `wprobe_work_func`.
+> 
+> Yes, I found it can happen. Maybe I need a cpumask to skip the first one.
+> 
+>> I also noticed that the Watchpoint probe and KStackWatch implementations
+>> share very similar logic for managing hardware breakpoints/watchpoints
+>> (`hwbp/watch`):
+>> - `watch_init(unsigned long &place_holder)`
+>> - `watch_on(struct perf_event_attr *attr)`
+>> - `watch_off()` (or reset to the `place_holder` value)
+>> - `watch_uninit()`
+> 
+> Hmm, I agree that we are using hwbp in a similar way but
+> I think current interface is enough.
+> 
+>>
+>> Their primary difference lies in their handler functions, specifically
+>> the `perf_overflow_handler_t triggered` callback.
+>>
+>> I believe we could work together to unify this logic. I am open to
+>> either approach: I can refactor my watch.c, or you can introduce new
+>> helpers. This would help us save duplicated work and review time.
+> 
+> I'm not sure what you mean. Is there any concern to use the same
+> (current hwbp) interfaces?
+> 
+It is not the _current_ HWBP interface, it needs review. We will write
+the same logic except for the HWBP interface regarding atomic context
+watch switch (addr/type/len) and the process to sync with other CPUs.
+
+The only difference is the HWBP handler.
+
+I am not familiar with the process of how we usually do roughly the
+same thing. Maybe I am thinking about it the wrong way; I will look
+at it later. > Thank you,
+> 
+>>
+>>> Thanks,
+>>>
+>>>>
+>>>> In this version, I reuse Jinchao's arch_reinstall_hw_breakpoint()
+>>>> patch[1].
+>>>>
+>>>> [1] https://lore.kernel.org/all/20250828073311.1116593-6-wangjinchao600@gmail.com/
+>>>>
+>>>> The basic usage of this wprobe is similar to other probes;
+>>>>
+>>>>     w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+OFFS]> [FETCHARGS]
+>>>>
+>>>> This defines a new wprobe event. For example, to trace jiffies update,
+>>>> you can do;
+>>>>
+>>>>    echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+>>>>    echo 1 > events/wprobes/my_jiffies/enable
+>>>>
+>>>> Moreover, this can be combined with event trigger to trace the memory
+>>>> accecss on slab objects. The trigger syntax is;
+>>>>
+>>>>     set_wprobe:WPROBE_EVENT:FIELD[+ADJUST]
+>>>>     clear_wprobe:WPROBE_EVENT
+>>>>
+>>>> For example, trace the first 8 byte of the dentry data structure passed
+>>>> to do_truncate() until it is deleted by __dentry_kill().
+>>>> (Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+>>>>
+>>>>     # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
+>>>>
+>>>>     # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+>>>>     # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+>>>>
+>>>>     # echo 'f:dentry_kill __dentry_kill dentry=$arg1' >> dynamic_events
+>>>>     # echo 'clear_wprobe:watch' >> events/fprobes/dentry_kill/trigger
+>>>>
+>>>>     # echo 1 >> events/fprobes/truncate/enable
+>>>>     # echo 1 >> events/fprobes/dentry_kill/enable
+>>>>
+>>>>     # echo aaa > /tmp/hoge
+>>>>     # echo bbb > /tmp/hoge
+>>>>     # echo ccc > /tmp/hoge
+>>>>     # rm /tmp/hoge
+>>>>
+>>>> Then, the trace data will show;
+>>>>
+>>>> # tracer: nop
+>>>> #
+>>>> # entries-in-buffer/entries-written: 16/16   #P:8
+>>>> #
+>>>> #                                _-----=> irqs-off/BH-disabled
+>>>> #                               / _----=> need-resched
+>>>> #                              | / _---=> hardirq/softirq
+>>>> #                              || / _--=> preempt-depth
+>>>> #                              ||| / _-=> migrate-disable
+>>>> #                              |||| /     delay
+>>>> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+>>>> #    [    7.026136] sh (113) used greatest stack depth: 12912 bytes left
+>>>>             | |         |   |||||     |         |
+>>>>                 sh-113     [002] .....     7.024402: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880069194b8
+>>>>                 sh-113     [002] ..Zff     7.024822: watch: (lookup_fast+0xaa/0x150) address=0xffff8880069194b8 value=0x200008
+>>>>                 sh-113     [002] ..Zff     7.024830: watch: (step_into+0x82/0x360) address=0xffff8880069194b8 value=0x200008
+>>>>                 sh-113     [002] ..Zff     7.024834: watch: (step_into+0x9f/0x360) address=0xffff8880069194b8 value=0x200008
+>>>>                 sh-113     [002] ..Zff     7.024839: watch: (path_openat+0xb3a/0xe70) address=0xffff8880069194b8 value=0x200008
+>>>>                 sh-113     [002] ..Zff     7.024843: watch: (path_openat+0xb9a/0xe70) address=0xffff8880069194b8 value=0x200008
+>>>>                 sh-113     [002] .....     7.024847: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880069194b8
+>>>>                 sh-113     [002] ...1.     7.025364: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff888006919380
+>>>>                 sh-113     [002] ...1.     7.025511: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff8880069195f0
+>>>>                 rm-118     [003] ...1.     7.027543: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff8880069194b8
+>>>>                 sh-113     [002] ...2.     7.027825: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff8880044429c0
+>>>>                 sh-113     [002] ...2.     7.027833: dentry_kill: (__dentry_kill+0x0/0x220) dentry=0xffff888004442270
+>>>>
+>>>>
+>>>> Thank you,
+>>>>
+>>>> ---
+>>>>
+>>>> Jinchao Wang (1):
+>>>>         x86/HWBP: introduce arch_reinstall_hw_breakpoint() for atomic context
+>>>>
+>>>> Masami Hiramatsu (Google) (5):
+>>>>         tracing: wprobe: Add watchpoint probe event based on hardware breakpoint
+>>>>         HWBP: Add modify_wide_hw_breakpoint_local() API
+>>>>         tracing: wprobe: Add wprobe event trigger
+>>>>         selftests: tracing: Add a basic testcase for wprobe
+>>>>         selftests: tracing: Add syntax testcase for wprobe
+>>>>
+>>>>
+>>>>    Documentation/trace/index.rst                      |    1
+>>>>    Documentation/trace/wprobetrace.rst                |  129 ++
+>>>>    arch/Kconfig                                       |   10
+>>>>    arch/x86/Kconfig                                   |    1
+>>>>    arch/x86/include/asm/hw_breakpoint.h               |    3
+>>>>    arch/x86/kernel/hw_breakpoint.c                    |   61 +
+>>>>    include/linux/hw_breakpoint.h                      |    6
+>>>>    include/linux/trace_events.h                       |    3
+>>>>    kernel/events/hw_breakpoint.c                      |   36 +
+>>>>    kernel/trace/Kconfig                               |   24
+>>>>    kernel/trace/Makefile                              |    1
+>>>>    kernel/trace/trace.c                               |    9
+>>>>    kernel/trace/trace.h                               |    5
+>>>>    kernel/trace/trace_probe.c                         |   20
+>>>>    kernel/trace/trace_probe.h                         |    8
+>>>>    kernel/trace/trace_wprobe.c                        | 1111 ++++++++++++++++++++
+>>>>    .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   68 +
+>>>>    .../test.d/dynevent/wprobes_syntax_errors.tc       |   20
+>>>>    18 files changed, 1513 insertions(+), 3 deletions(-)
+>>>>    create mode 100644 Documentation/trace/wprobetrace.rst
+>>>>    create mode 100644 kernel/trace/trace_wprobe.c
+>>>>    create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+>>>>    create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+>>>>
+>>>> --
+>>>> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+>>>
+>>>
+>>
+>>
+>> -- 
+>> Best regards,
+>> Jinchao
+> 
 > 
 
-I agree, but I think that can be done in a different scope. I don't think
-this needs to be a part of the MVP. Or do you think that it needs to
-be part of the series?
-> 
-> Some other minor issues in the patch itself, see below
-> 
-> >
-> >While at it let us also remove a confusing comment that is either not
-> >about the context in which it resides (describing
-> >qp_attr.cap.max_send_wr and qp_attr.cap.max_recv_wr) or not applicable
-> >any more when these values become configurable .
-> >
-> >Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> >Reviewed-by: Wenjia Zhang <wenjia@linux.ibm.com>
-> >---
-> > Documentation/networking/smc-sysctl.rst | 37 +++++++++++++++++++++++++
-> > net/smc/smc.h                           |  2 ++
-> > net/smc/smc_core.h                      |  4 +++
-> > net/smc/smc_ib.c                        |  7 ++---
-> > net/smc/smc_llc.c                       |  2 ++
-> > net/smc/smc_sysctl.c                    | 22 +++++++++++++++
-> > net/smc/smc_wr.c                        | 32 +++++++++++----------
-> > net/smc/smc_wr.h                        |  2 --
-> > 8 files changed, 86 insertions(+), 22 deletions(-)
-> >
-> >diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
-> >index a874d007f2db..c687092329e3 100644
-> >--- a/Documentation/networking/smc-sysctl.rst
-> >+++ b/Documentation/networking/smc-sysctl.rst
-> >@@ -71,3 +71,40 @@ smcr_max_conns_per_lgr - INTEGER
-> > 	acceptable value ranges from 16 to 255. Only for SMC-R v2.1 and later.
-> > 
-> > 	Default: 255
-> >+
-> >+smcr_max_send_wr - INTEGER  
-> 
-> Why call it max ? But not something like smcr_send_wr_cnt ?
 
-Because of the back-off mechanism. You are not guaranteed to get
-this many but you are guaranteed to not get more.
-> > static struct ctl_table smc_table[] = {
-> > 	{
-> >@@ -99,6 +103,24 @@ static struct ctl_table smc_table[] = {
-> > 		.extra1		= SYSCTL_ZERO,
-> > 		.extra2		= SYSCTL_ONE,
-> > 	},
-> >+	{
-> >+		.procname       = "smcr_max_send_wr",
-> >+		.data		= &smc_ib_sysctl_max_send_wr,
-> >+		.maxlen         = sizeof(int),
-> >+		.mode           = 0644,
-> >+		.proc_handler   = proc_dointvec_minmax,
-> >+		.extra1		= &smc_ib_sysctl_max_wr_min,
-> >+		.extra2		= &smc_ib_sysctl_max_wr_max,
-> >+	},
-> >+	{
-> >+		.procname       = "smcr_max_recv_wr",
-> >+		.data		= &smc_ib_sysctl_max_recv_wr,
-> >+		.maxlen         = sizeof(int),
-> >+		.mode           = 0644,
-> >+		.proc_handler   = proc_dointvec_minmax,  
-> 
-> It's better to use tab instead of space before those '=' here.
-> 
-
-I can definitely fix that and do a respin if you like. But I think
-we need to sort out the other problems first.
-
-Regards,
-Halil
-
+-- 
+Best regards,
+Jinchao
