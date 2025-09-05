@@ -1,111 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BAA225408;
-	Fri,  5 Sep 2025 15:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757086133; cv=none; b=ErJwssJvDkeffWpK5bcFVku9DXAwxZITJOe0BPN4hLXJ3gASTf6Y6+2pU8jlRMxDsOQPaBRisJQul1WcKfqBGyjJSjxdDS8l46scz7fuwb3gaTZIEuJlaGuiaXT8HsFCriVaC78gsYrOAeedIJyNZY+KUNA2mzutdoOJMM5r4Y4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757086133; c=relaxed/simple;
-	bh=sPEEy5vULDAfl0FqPxMJIccT/9QzwSSYVorKW+7DqOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lD3DCjnqSllmu9NpufXuE13MoWK8C7xxTIhYdUfK7SjjOMYVeCbiwlU20Gzj05YNhNVsfiA49setVke1eytRi1eiSz648HYLkNA6aTC9zBM8Zt5l6h2OB3XO7415v2MDMM/4/SHP9kEiLSQDm/37RntBosiQVotqwyEi9nsc59g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfuKzJoB; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABF72F7AB5;
+	Fri,  5 Sep 2025 15:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757086607; cv=pass; b=Q2q27a1ouil+BjEQOigDJFkX/4oMFt8xbLB1Li+HVvFkiGDbD2FtxTidu2qln3S41ol/51i/Rt+xwQ3G8iMYuZokLLGSDYyp1KStf3TgM3HB7fFlMU2PShqXEfsEArmdLwGsURwKy0UJfBBYcsc5MB2Cc5WgTHXjai6Jocm7uHc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757086607; c=relaxed/simple;
+	bh=Odry3R6bS1eAPQGsgTzOfdP6nZUl5g4nQsM0O34G8I4=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=M5Y4L79FDtgSagFgBNUxn8dUtIP5jf9AHE26LufMO7rWuuiHX3vUIAMLlAlEuCXU2sTEtODR71WgurKAzdErwlWyn4Ky8byuTm9NUxAmJyABYV8hxXJxQvHWQwkvGrARIUqiuTMiasXseGvQuVfIOq8+7uEXLrZ75+lN/ye3znM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=SFbAhKrJ; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfuKzJoB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F727C4CEF1;
-	Fri,  5 Sep 2025 15:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757086133;
-	bh=sPEEy5vULDAfl0FqPxMJIccT/9QzwSSYVorKW+7DqOw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kfuKzJoB7YDS6ZdqbW1seO4OuIsImFFTGR/bXgnGmFJpT8WbxoE0kxe+/AkT2++HE
-	 aM2+HP3yidLqlM3C+RLjI7Z5r8mzwoxE4wfa2ikahg+1BswcHiQsmrt5orqitio4Ea
-	 Qas/HwsGqrfN7eF5HmmhXZFQfIN7s0XA/8Rk4kwnC3vgtWWQo+sOJlC6GgRHRTukOh
-	 GciBrU64ZYTKgOP2Bqx1S4J+G3efY9zyq4RFVewODDTRq5TghYcbO/XOMJiJ6Z/wWt
-	 eB9VWDk6YF1Dork/u60T77O+xEjdWSGPRaBYnwNzwHVccac84mr6BwXDrUCjTAHOkF
-	 LPXsaZS7k04ow==
-Date: Fri, 5 Sep 2025 16:28:43 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Asuna <spriteovo@gmail.com>
-Cc: Jason Montleon <jmontleo@redhat.com>, Han Gao <rabenda.cn@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Tejun Heo <tj@kernel.org>,
-	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	Matthew Maurer <mmaurer@google.com>, Jeff Xu <jeffxu@chromium.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Brian Gerst <brgerst@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 2/2] RISC-V: re-enable gcc + rust builds
-Message-ID: <20250905-swipe-unstuck-dd7ad6e5466a@spud>
-References: <20250830-cheesy-prone-ee5fae406c22@spud>
- <20250903190806.2604757-1-SpriteOvO@gmail.com>
- <20250903190806.2604757-2-SpriteOvO@gmail.com>
- <20250904-sterilize-swagger-c7999b124e83@spud>
- <f7434b76-49d0-4ef3-8c77-c1642dc211cd@gmail.com>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="SFbAhKrJ"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 1B7F0109D5675;
+	Sat,  6 Sep 2025 00:36:42 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id vqmMf98r-Zyc; Sat,  6 Sep 2025 00:36:38 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id 1F7E9109EFCDE;
+	Sat,  6 Sep 2025 00:36:38 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 1F7E9109EFCDE
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757086598;
+	cv=none; b=UQe7sIMnmpygKUu6f0Z4NOIE3rbil4S/pD9sDY9CBUyeM+c16qC4Y0m2WhFiT/SJXWtvz2yXprvfYrwCxF5nY/XhTPyxr/okAhm6VYjfDPyIYXK5bHcNFRyg3BDJ90joxg3uKqq+QjVEYSTFB94fm19+4cNBdDkSe3v+MVq1xsU=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757086598; c=relaxed/relaxed;
+	bh=3D+SPF+6ZhBelny5po/Ar3EvbsOnw9N45aR/eUFC7ww=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=eD2bJltBytMrM3cHidoRkmMFuScyZvp5voi3TpWaCAdCd1pYut+RYjFk3af6HW/cN/4wYCNp10ga7xj2Eyi08GDtcDvCYDMF0quz137XRp7YGmNbZQ5TofsALmr2LI6fUH3ark4GMQGDcY/QbWEM+jkHRo8avR9MFeM+ck8wOEI=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 1F7E9109EFCDE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757086598;
+	bh=3D+SPF+6ZhBelny5po/Ar3EvbsOnw9N45aR/eUFC7ww=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SFbAhKrJATOaqlmDsCkoueGvbkyKr3pnLGK4567JzpNnUynfHHC7vBmi9HD13ITks
+	 wPqZ55ovfDYXbWw+zOl2pbHmwf3vuNEK2EXyTPqTSHk/989Gn8drE1WoEUksXouoAg
+	 J/8IE7TO828Vgjvgdy3fU5IsELkJ7AXVZaKRzA/U=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cr2zhJdWyNpNS/E7"
-Content-Disposition: inline
-In-Reply-To: <f7434b76-49d0-4ef3-8c77-c1642dc211cd@gmail.com>
+Date: Sat, 06 Sep 2025 00:36:38 +0900
+From: weibu@redadmin.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net
+Subject: Re: [PATCH v2] docs: ja_JP: SubmittingPatches: document the 'Fixes:'
+ tag (+example)
+In-Reply-To: <cd17b8f5-b5f2-4d9a-87af-04ecb2a235ba@gmail.com>
+References: <20250905032729.2284883-1-weibu@redadmin.org>
+ <20250905111403.2338934-1-weibu@redadmin.org>
+ <cd17b8f5-b5f2-4d9a-87af-04ecb2a235ba@gmail.com>
+Message-ID: <c5a767e4d064cee8092b79ebc30e9cb0@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Akira-san,
 
---cr2zhJdWyNpNS/E7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you very much for your review and detailed feedback.
 
-On Fri, Sep 05, 2025 at 06:56:35AM +0800, Asuna wrote:
-> > One thing - please don't send new versions
-> > of patchsets in response to earlier versions or other threads. It
-> > doesn't do you any favours with mailbox visibility.
->=20
-> I apologize for this, I'm pretty much new to mailing lists, so I had
-> followed the step "Explicit In-Reply-To headers" [1] in doc. For future
-> patches I'll send them alone instead of replying to existing threads.
->=20
-> [1]: https://www.kernel.org/doc/html/v6.9/process/submitting-patches.html=
-#explicit-in-reply-to-headers
+I will update the Fixes: example to use a consistent 12-character SHA-1 
+hash.
 
-Ye I think this is mostly just misleading. You're better off providing a
-lore link in the body of the mail than replying to some old thread. I
-find that explicit in-reply-to stuff only really helpful to send a
-single patch as part of a conversation where it's effectively an RFC.
+I will also move the Link: line under the --- separator, as per 
+convention.
 
---cr2zhJdWyNpNS/E7
-Content-Type: application/pgp-signature; name="signature.asc"
+To clarify: v2 was intended as a full replacement of v1, not something 
+to be applied on top of it. I’ll make that explicit in the changelog 
+section for v3.
 
------BEGIN PGP SIGNATURE-----
+I’ll prepare and send a v3 patch early next week with these corrections.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLsBqwAKCRB4tDGHoIJi
-0o8oAQDiIK6HL6oaYXWxQpproLYlTxZVq7be/QUm0+0M9Fhj4gEAyoX5K7PDnHGS
-NVoLGxCGdehDtQmXjvmrQUSeQfwA8Ao=
-=fC2y
------END PGP SIGNATURE-----
+Thanks again for your guidance, and have a good weekend.
 
---cr2zhJdWyNpNS/E7--
+Best regards,
+Akiyoshi Kurita
+
+2025-09-06 00:14 に Akira Yokosawa さんは書きました:
+> Hi,
+> 
+> On Fri,  5 Sep 2025 20:14:03 +0900, Akiyoshi Kurita wrote:
+>> Sync the ja_JP translation with parts of:
+>>   - 8401aa1f5997 ("Documentation/SubmittingPatches: describe the 
+>> Fixes: tag")
+>>   - 5b5bbb8cc51be ("docs: process: Add an example for creating a fixes 
+>> tag")
+> 
+> Consistent SHA-1 hash length would look nicer.
+> 
+>> 
+>> Link: 
+>> https://lore.kernel.org/all/20250905032729.2284883-1-weibu@redadmin.org/
+> 
+> This link to v1 needs to be under the "---" below.
+> 
+> Wait, do you mean this patch is supposed to be applied on top of v1?
+> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> 
+>> ---
+>> v2:
+>>   - Add explanatory paragraphs from 8401aa1f5997 (purpose + stable 
+>> note)
+>>   - Keep example and pretty-format from 5b5bbb8cc51be
+>>  Documentation/translations/ja_JP/SubmittingPatches | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>> 
+> 
+> I think I need to be more clear on what I am expecting.
+> I'll send a follow-up comment early next week.
+> 
+> Have a nice weekend!
+> 
+> Thanks,
+> Akira
