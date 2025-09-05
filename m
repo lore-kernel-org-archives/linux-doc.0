@@ -1,122 +1,135 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66D917F4F6;
-	Fri,  5 Sep 2025 14:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D2A1DED42
+	for <linux-doc@vger.kernel.org>; Fri,  5 Sep 2025 14:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757082175; cv=none; b=rpbjJFtIb7cdUhO3Z3Ub6IBbIanAtQi9F1/z5dmC+Zmh44ZfzB62Otb9H7a5esxi1fXO1ES6p5cD6eI+0gJ9LwJ9pIpfwRSRgm873tkhlxCckznYHnH9EM2QBR6x+ujjjeGkn7cwNgn3634kfrEilF+i4Q3jFfwWfOJLhSG0uXY=
+	t=1757083588; cv=none; b=Gu7k9alcmhK54/fdmBM7CA+APM8AdHCZPi+IRuO3+R969cOGbxDaaA9ypw1b5BRMalfJ7qL6UqeAoxBfOZzVYDADrHBZl/eqau5VVuRlyFKVE4jEDOqHHfVrY4PF4fHibf5A3PDsDS4RZxda2rmyuZRzs2+izdoS+dq3EeSntNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757082175; c=relaxed/simple;
-	bh=iXh+Bl38X2EaiStHRHcv6FcU/gmGdvpDqsCf2aQDgPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vnh5RsnOx9vyQ8zWy5+vloxSySnSPfboCBWaEFvBRQVec/coS08Kz9hi561BOhxZzr+RO4t9B/GPoqb/2Ip4h+9E/Xa9Fjvo62H6B/a/+nWcWnzYKcdlg4187GUIO0MfL/u60j967AqfKC/b2QAXYnJtxLF4+3IfSQ/rU0Hh0h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=erpJX7YK; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1757083588; c=relaxed/simple;
+	bh=ebKEVaevJde6vHuuT/UtG5cuDDv80cunb2gHftbcnaE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=shuLJ2rgiZEVxAx5v5/xecUrTwTeotG3H/PomA5Q215V2O2IiyJSgGyqScBVa9R4JLhDo5OAL7ZZ5vL0nGRtmwHGfWqFT+S5ifSXK4FSzsWtOAnlcyKn+MMwEb/LEoCPq27CETVJJfBz4zi5tqXnaQfVOxXLOX5SwYvGdb/BTwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZSo32ZIV; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="erpJX7YK"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757082169; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=i7lSBQn9bunxBXeDCEhWwLI2E33KOvXQC3PG7TrCbjM=;
-	b=erpJX7YKlVMM64riye+FXAp9AmhNiyX03RveTN0mK2VNHkmrxQwtkALkZHt8hQxcSXjy5GnvCusr83srNkcYYH89FgCBWl2iGvMcXaoHbVs7InGRMGUGHaLv0+cojKRliDhQf/cLe2cQa0QfjqRKEQ8++PhZgWcsHn6XVPiwlY4=
-Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WnKtX9o_1757082168 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 05 Sep 2025 22:22:48 +0800
-Date: Fri, 5 Sep 2025 22:22:48 +0800
-From: Dust Li <dust.li@linux.alibaba.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Sidraya Jayagond <sidraya@linux.ibm.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>,
-	Mahanta Jambigi <mjambigi@linux.ibm.com>,
-	Tony Lu <tonylu@linux.alibaba.com>,
-	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] net/smc: make wr buffer count configurable
-Message-ID: <aLryOL-fahUINVg0@linux.alibaba.com>
-Reply-To: dust.li@linux.alibaba.com
-References: <20250904211254.1057445-1-pasic@linux.ibm.com>
- <20250904211254.1057445-2-pasic@linux.ibm.com>
- <aLpc4H_rHkHRu0nQ@linux.alibaba.com>
- <20250905110059.450da664.pasic@linux.ibm.com>
- <20250905140135.2487a99f.pasic@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZSo32ZIV"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 585EOJxS003551;
+	Fri, 5 Sep 2025 14:46:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=0lISpc25dDagOjrgdS+ZUPFWpk9By
+	dvmZTuhEaF4qLE=; b=ZSo32ZIVqpGoTQbWEN57Pvu+Aca5ncneQWUBZZIZmXPnr
+	Ct4FSn0XBKieFpQ3nMccyotKjRkNwt4RDpbNic6NohzUEuU9SoWMApRfr+4zLjPW
+	Q4G0ic0fMvP2HuLlYGgpizpDbZLQGrVMPi7N8JKI9Qwzf/4k+OYDWbUMSod+yrp6
+	j3RnQNbJ57ZpR8Ep06QbyI8RiUcN3xxteVAmnAJOAn8GdpkMquRD25HuzmgNoQ40
+	1hBNLLwm7jzC18lfCcDF4K2fuUiFEbJB/ENjx9RE+DjBHT4AMdL0ZbgRiVzyw8kj
+	pT4L41IlqdGuU0KFgtGNY0JaIRylMsIvQATkMkHhA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49002f07mr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 05 Sep 2025 14:46:21 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 585DkuI2026253;
+	Fri, 5 Sep 2025 14:46:20 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 48uqrd3vn6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 05 Sep 2025 14:46:20 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 585EkKZY022015;
+	Fri, 5 Sep 2025 14:46:20 GMT
+Received: from localhost.localdomain (dhcp-10-154-122-46.vpn.oracle.com [10.154.122.46])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 48uqrd3vm5-1;
+	Fri, 05 Sep 2025 14:46:19 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH v2 0/3] docs: new scripts to generate HTML redirects
+Date: Fri,  5 Sep 2025 16:46:05 +0200
+Message-Id: <20250905144608.577449-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250905140135.2487a99f.pasic@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-05_04,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 spamscore=0 phishscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2509050145
+X-Proofpoint-ORIG-GUID: KkcQUTZN0EQiHfiP2-y7U-zB2suWYucD
+X-Authority-Analysis: v=2.4 cv=c+urQQ9l c=1 sm=1 tr=0 ts=68baf7bd b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=Roey6KB8dDJ0gliMeL4A:9 cc=ntf
+ awl=host:13602
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA1MDEyNCBTYWx0ZWRfX/6vaGQzYV68J
+ ZGKRR1qa6Q+oGr/szTFJWtF0iVHHBpo9WEinedW7nlpj+888GO0P0yi8K8Zk4sFvzwdkHucaCic
+ TG+k42l9G/QPVEE8+3G1QFTdJPtsjruAfEL2Ik+dLiQjDfxTYTPGOlEDX6tMqsIv9VW/XXgSXU3
+ JY/j8NTf9Hykeq4UiVNmuEpLJONpFR8BdQOnlApYY2mWKwpxbwzoH+vZvs+ULNhLAgl0glNAhao
+ 5i5pCzjpGaKUban5WP3dlFvgSnSEnYinx7AU8oD5SGUUPyFyR39MOV6zZXT7a4SzJsbOtf+rEb5
+ IFwNcDyLopxbpkcXQ++YjoaKUnAknhJKyUZF4O3nd5kfqUwiG00MHd6frb01flLwOZnw5ebWF2B
+ GYjgZF80i6u2VZ/f9LXlXtWdO3WJAA==
+X-Proofpoint-GUID: KkcQUTZN0EQiHfiP2-y7U-zB2suWYucD
 
-On 2025-09-05 14:01:35, Halil Pasic wrote:
->On Fri, 5 Sep 2025 11:00:59 +0200
->Halil Pasic <pasic@linux.ibm.com> wrote:
->
->> > 1. What if the two sides have different max_send_wr/max_recv_wr configurations?
->> > IIUC, For example, if the client sets max_send_wr to 64, but the server sets
->> > max_recv_wr to 16, the client might overflow the server's QP receive
->> > queue, potentially causing an RNR (Receiver Not Ready) error.  
->>
->> I don't think the 16 is spec-ed anywhere and if the client and the server
->> need to agree on the same value it should either be speced, or a
->> protocol mechanism for negotiating it needs to exist. So what is your
->> take on this as an SMC maintainer?
+Hi,
 
-Right — I didn't realize that either until I saw this patch today :)
-But since the implementation's been set to 16 since day one, bumping it
-up might break things.
+When we rename an .rst file, that also changes the URL for the document
+at https://docs.kernel.org/ and results in a 404, which can be anonying
+for people who bookmark URLs and/or follow links from search engines
+and old changelogs and emails.
 
->>
->> I think, we have tested heterogeneous setups and didn't see any grave
->> issues. But let me please do a follow up on this. Maybe the other
->> maintainers can chime in as well.
+In order to be able to fearlessly rename individual documentation files
+and reorganize Documentation/, add two scripts:
 
-I'm glad to hear from others.
+- tools/docs/gen-renames.py : use git to figure out which .rst files
+  have been renamed
 
->
->Did some research and some thinking. Are you concerned about a
->performance regression for e.g. 64 -> 16 compared to 16 -> 16? According
->to my current understanding the RNR must not lead to a catastrophic
->failure, but the RDMA/IB stack is supposed to handle that.
+- tools/docs/gen-redirects.py : actually generate .html stubs for the
+  locations, redirecting to the new locations
 
-No, it's not just a performance regression.
-If we get an RNR when going from 64 -> 16, the whole link group gets
-torn down — and all SMC connections inside it break.
-So from the user’s point of view, connections will just randomly drop
-out of nowhere.
+The reason for splitting this into two is that trawling git history is
+slightly slow (on the order of 20-30 seconds on my laptop) whereas just
+generating the HTML files is very fast. This also allows us to cache
+the historical renames in Documentation/.renames.txt or add manual
+fixups as needed.
 
->
->I would like to also point out that bumping SMC_WR_BUF_CNT basically has
->the same problem, although admittedly to a smaller extent because it is
->only between "old" and "new".
+Changes since v1:
 
-Right.
+- cover letter
+- move files from scripts/ -> tools/docs/
+- add SPDX lines
+- program doc strings + improved --help
 
->
->Assuming that my understanding is correct, I believe that the problem of
->the potential RNR is inherent to the objective of the series, and
->probably one that can be lived with. Given this entire EID business, I
->think the SMC-R setup is likely to happen in a coordinated fashion for
->all potential peers, and I hope whoever tweaks those values has a
->sufficent understanding or empiric evidence to justify the tweaks.
->
->Assuming my understanding is not utterly wrong, I would very much like
->to know what would you want me to do with this?
 
-In my opinion, the best way to support different SMC_WR_BUF_CNT values
-is: First, define it in the spec - then do a handshake to agree on the
-value.
-If the peer doesn’t support this feature, just fall back to 16.
-If both sides support it, use the smaller (MIN) of the two values.
+Vegard
 
-Best regards,
-Dust
+---
+
+Vegard Nossum (3):
+  docs: add tools/docs/gen-renames.py
+  docs: add Documentation/.renames.txt
+  docs: add tools/docs/gen-redirects.py
+
+ Documentation/.renames.txt  | 1191 +++++++++++++++++++++++++++++++++++
+ Documentation/Makefile      |    4 +
+ Makefile                    |    5 +-
+ tools/docs/gen-redirects.py |   54 ++
+ tools/docs/gen-renames.py   |  130 ++++
+ 5 files changed, 1382 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/.renames.txt
+ create mode 100755 tools/docs/gen-redirects.py
+ create mode 100755 tools/docs/gen-renames.py
+
+-- 
+2.34.1
 
