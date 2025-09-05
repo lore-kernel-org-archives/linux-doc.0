@@ -1,134 +1,252 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF12EEBD;
-	Fri,  5 Sep 2025 03:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757042874; cv=pass; b=CuuMtugnQNtv1qqZw/UTU8rGkUnMtEXAdJIHAP/xzU2n0ylSIzOHlB8WXshpup75yjP23DgMccCuiBDHbswZs0LpVKb6oQmidAlP9ZnTI536fArZ5BWJr1ryiVRNRZUqZRpRPReT+Xe6yr7AmvPDXT59kG0nvf46DqxibhwrGcY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757042874; c=relaxed/simple;
-	bh=vfcYQ/FN9o6FE/ZXdUwR8GaKdJ3N3R19zv6RknNZVBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ckeC8zUmrJ+XsnNFItrV5UnOj035Dnhx3ZqkbFwfIAhbrrAvfJXAAvbhwaBJqJsA4+6tUCvH2scpwKbYkMFa6FPqdBuEOTsKm+ggLp8oRyj7coz448rXO5RRJePXJaPXsfF0gRDnWkI0B4esHxtO2Cs8fhIhNKn4SkXUlSwJDnY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=X8ihi48I; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA225CA5A;
+	Fri,  5 Sep 2025 03:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757043943; cv=none; b=m2d66Vu5ApYSTD3Q2D/3F5bPVQU6nKdaHdT4oILaxq5zG3sgY1n2RXgFf8aAbDsCN49U5uGynd8Cvjg0HHj5JnHcQTt5RYeWDdz4TlAVSo6j5d9jCebOUYCDuv6yz5rzFicTqnpNr2oTDzVk06/NsclcLVxA2l1zMIp4FaTVpX0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757043943; c=relaxed/simple;
+	bh=ODcJLz2yv8LUx5SB/Se6fulN0/HliBGOLlqT4v+rlYg=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PwKLg7BbqseHsY84koTNUrxZpLVrNb4OmqDS+erfEASUXKp3CdWB/dZhBrWfJzzX6/lQ+/YFBPJouffZR6+SCU+YoCrzYI9SinFmYfXB1f1juJfUDH4eq2jcwDucoEjM30/XPAlg+aHh9HPzXA4YMF1cQ3qvGNS8F6Re0WgBVK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=BtP78sm/; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="X8ihi48I"
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 5853Rhhi097613
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 5 Sep 2025 12:27:43 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id CCB5E109D5675;
-	Fri,  5 Sep 2025 12:27:42 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id J8YCdhpB346I; Fri,  5 Sep 2025 12:27:38 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id D7892109EFCDE; Fri,  5 Sep 2025 12:27:37 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757042857;
-	cv=none; b=xhmau25KID8WkN1isQ6OAcje5eV+Nf3oK5pEOKpiHH6fKG/RM2RxtFiYyNQcjPueLRoZFdhqWkhxzfDbvVXKdonX5gkESVKo1QuOwhslmoyrqm+yRKQ3xKYLjNfsxkfAD4z8lGf33heyhMi2Y21x8IIm2pvUBIWAmiZ6STYchlk=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1757042857; c=relaxed/relaxed;
-	bh=66+PbdQB6GijM0MPBjzUoqsDFZwav04yEvjAynzsHNM=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=vjd+2ooFDZ5BmKWZT4cWgN4cmd57f9Xy06LoMpAMNi9IgI7K3VUUABmjVkEBZPiE372w5bLh8DcixSZraFUdjAjCO8r/ggC2RTZMynAkys9aAjer6sBPCAzkyel4zJbsrYizHTgjaKvgJ4Tdl8pPpH3FdKVIbFTTopUbtxKhgic=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org D7892109EFCDE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1757042857;
-	bh=66+PbdQB6GijM0MPBjzUoqsDFZwav04yEvjAynzsHNM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=X8ihi48IhdHypotbGm/cos/F004+HsdK6bszWjygNrVsFyTeWcNpOlusfXaBLpzAd
-	 4h/P6Gld/tE39HW9xEWuZ5Y1l5Pw7YM13Y0mt1H9mWYzopKX88x/k1B3zcfDos7m4J
-	 S9LC3pgasMwlFcJMq8VwXJqnFklVsHqDiJPZYzPg=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, akiyks@gmail.com,
-        Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] docs: ja_JP: add guidance for the Fixes: tag in SubmittingPatches
-Date: Fri,  5 Sep 2025 12:27:29 +0900
-Message-ID: <20250905032729.2284883-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="BtP78sm/"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757043937; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=sUZboZ9UiPIP5KDhPN/lk7f2r5hzY8YgBdcI7qMPvJE=;
+	b=BtP78sm/Jrf5YHEwlz6HCxpVGSVoFPo1KMq/KNuIQz4SMbOtrCUX9a+qeFB4GAfCK5fLpfkBKwEM89S1k1EKB3HR1EA+fDOWzPn0kgsUX4EtIiu0j5D1SO2grd2UjuUNHXhEtP5hvIjgJJWIT59rcvfi6E+oV/hC0/7l0iJd4qw=
+Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0WnJ07mG_1757043936 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 05 Sep 2025 11:45:36 +0800
+Date: Fri, 5 Sep 2025 11:45:36 +0800
+From: Dust Li <dust.li@linux.alibaba.com>
+To: Halil Pasic <pasic@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Sidraya Jayagond <sidraya@linux.ibm.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Mahanta Jambigi <mjambigi@linux.ibm.com>,
+	Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH net-next 1/2] net/smc: make wr buffer count configurable
+Message-ID: <aLpc4H_rHkHRu0nQ@linux.alibaba.com>
+Reply-To: dust.li@linux.alibaba.com
+References: <20250904211254.1057445-1-pasic@linux.ibm.com>
+ <20250904211254.1057445-2-pasic@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250904211254.1057445-2-pasic@linux.ibm.com>
 
-The Japanese translation of SubmittingPatches was missing the section
-describing the use of the 'Fixes:' tag. This patch adds the missing
-description, aligning the translation with commit 8401aa1f5997
-("Documentation/SubmittingPatches: describe the Fixes: tag") in the
-English version.
+On 2025-09-04 23:12:52, Halil Pasic wrote:
+>Think SMC_WR_BUF_CNT_SEND := SMC_WR_BUF_CNT used in send context and
+>SMC_WR_BUF_CNT_RECV := 3 * SMC_WR_BUF_CNT used in recv context. Those
+>get replaced with lgr->max_send_wr and lgr->max_recv_wr respective.
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- .../translations/ja_JP/SubmittingPatches      | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Hi Halil,
 
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documenta=
-tion/translations/ja_JP/SubmittingPatches
-index 5334db471744..28ad83171252 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/SubmittingPatches
-@@ -132,6 +132,27 @@ http://savannah.nongnu.org/projects/quilt
-        platform_set_drvdata(), but left the variable "dev" unused,
-        delete it.
-=20
-+=E7=89=B9=E5=AE=9A=E3=81=AE=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=81=AE=
-=E3=83=90=E3=82=B0=E3=82=92=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=91=E3=
-=83=83=E3=83=81=E3=81=AE=E5=A0=B4=E5=90=88=EF=BC=88=E4=BE=8B=EF=BC=9A``git =
-bisect``=E3=81=A7=E5=95=8F=E9=A1=8C=E3=82=92=E7=99=BA=E8=A6=8B=E3=81=97=E3=
-=81=9F=E5=A0=B4=E5=90=88=EF=BC=89=E3=80=81
-+=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82 SHA-1 ID =E3=81=AE=E6=9C=80=
-=E5=88=9D=E3=81=AE 12 =E6=96=87=E5=AD=97=E3=81=A8 1 =E8=A1=8C=E3=81=AE=E8=
-=A6=81=E7=B4=84=E3=82=92=E8=A8=98=E8=BC=89=E3=81=97=E3=81=9F=E3=80=8CFixes:=
-=E3=80=8D=E3=82=BF=E3=82=B0=E3=82=92=E4=BD=BF=E7=94=A8=E3=81=97=E3=81=A6=E3=
-=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=82=BF=E3=82=B0=E3=82=92=E8=A4=87=E6=95=B0=E8=A1=8C=E3=81=AB=E5=88=86=
-=E5=89=B2=E3=81=97=E3=81=AA=E3=81=84=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=
-=81=84=E3=80=82=E8=A7=A3=E6=9E=90=E3=82=B9=E3=82=AF=E3=83=AA=E3=83=97=E3=83=
-=88=E3=82=92=E7=B0=A1=E7=B4=A0=E5=8C=96=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=
-=E3=80=81=E3=82=BF=E3=82=B0=E3=81=AF
-+=E3=80=8C75 =E6=96=87=E5=AD=97=E3=81=A7=E6=8A=98=E3=82=8A=E8=BF=94=E3=81=
-=99=E3=80=8D=E3=83=AB=E3=83=BC=E3=83=AB=E3=81=8B=E3=82=89=E9=99=A4=E5=A4=96=
-=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E4=BE=8B:
-+
-+        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the=
- number of pages it actually freed")
-+
-+=E4=BB=A5=E4=B8=8B=E3=81=AE ``git config`` =E8=A8=AD=E5=AE=9A=E3=82=92=E4=
-=BD=BF=E7=94=A8=E3=81=99=E3=82=8B=E3=81=A8=E3=80=81``git log`` =E3=82=84 ``=
-git show`` =E3=82=B3=E3=83=9E=E3=83=B3=E3=83=89=E3=81=A7
-+=E4=B8=8A=E8=A8=98=E5=BD=A2=E5=BC=8F=E3=82=92=E5=87=BA=E5=8A=9B=E3=81=99=
-=E3=82=8B=E9=9A=9B=E3=81=AB=E3=83=97=E3=83=AA=E3=83=86=E3=82=A3=E3=83=95=E3=
-=82=A9=E3=83=BC=E3=83=9E=E3=83=83=E3=83=88=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=
-=A7=E3=81=8D=E3=81=BE=E3=81=99::
-+
-+        [core]
-+                abbrev =3D 12
-+        [pretty]
-+                fixes =3D Fixes: %h (\"%s\")
-+
-+=E5=91=BC=E3=81=B3=E5=87=BA=E3=81=97=E4=BE=8B::
-+
-+        $ git log -1 --pretty=3Dfixes 54a4f0239f2e
-+        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the=
- number of pages it actually freed")
-=20
- 3) =E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=88=86=E5=89=B2
-=20
---=20
-2.47.3
+I think making the WR buffer count configurable helps make SMC more flexible.
+
+However, there are two additional issues we need to consider:
+
+1. What if the two sides have different max_send_wr/max_recv_wr configurations?
+IIUC, For example, if the client sets max_send_wr to 64, but the server sets
+max_recv_wr to 16, the client might overflow the server's QP receive
+queue, potentially causing an RNR (Receiver Not Ready) error.
+
+2. Since WR buffers are configurable, it’d be helpful to add some
+monitoring methods so we can keep track of how many WR buffers each QP
+is currently using. This should be useful now that you introduced a fallback
+retry mechanism, which can cause the number of WR buffers to change
+dynamically.
+
+
+Some other minor issues in the patch itself, see below
+
+>
+>While at it let us also remove a confusing comment that is either not
+>about the context in which it resides (describing
+>qp_attr.cap.max_send_wr and qp_attr.cap.max_recv_wr) or not applicable
+>any more when these values become configurable .
+>
+>Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>Reviewed-by: Wenjia Zhang <wenjia@linux.ibm.com>
+>---
+> Documentation/networking/smc-sysctl.rst | 37 +++++++++++++++++++++++++
+> net/smc/smc.h                           |  2 ++
+> net/smc/smc_core.h                      |  4 +++
+> net/smc/smc_ib.c                        |  7 ++---
+> net/smc/smc_llc.c                       |  2 ++
+> net/smc/smc_sysctl.c                    | 22 +++++++++++++++
+> net/smc/smc_wr.c                        | 32 +++++++++++----------
+> net/smc/smc_wr.h                        |  2 --
+> 8 files changed, 86 insertions(+), 22 deletions(-)
+>
+>diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
+>index a874d007f2db..c687092329e3 100644
+>--- a/Documentation/networking/smc-sysctl.rst
+>+++ b/Documentation/networking/smc-sysctl.rst
+>@@ -71,3 +71,40 @@ smcr_max_conns_per_lgr - INTEGER
+> 	acceptable value ranges from 16 to 255. Only for SMC-R v2.1 and later.
+> 
+> 	Default: 255
+>+
+>+smcr_max_send_wr - INTEGER
+
+Why call it max ? But not something like smcr_send_wr_cnt ?
+
+>+	So called work request buffers are SMCR link (and RDMA queue pair) level
+>+	resources necessary for performing RDMA operations. Since up to 255
+>+	connections can share a link group and thus also a link and the number
+>+	of the work request buffers is decided when the link is allocated,
+>+	depending on the workload it can a bottleneck in a sense that threads
+>+	have to wait for work request buffers to become available. Before the
+>+	introduction of this control the maximal number of work request buffers
+>+	available on the send path used to be hard coded to 16. With this control
+>+	it becomes configurable. The acceptable range is between 2 and 2048.
+>+
+>+	Please be aware that all the buffers need to be allocated as a physically
+>+	continuous array in which each element is a single buffer and has the size
+>+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+>+	like before having this control.
+>+	this control.
+>+
+>+	Default: 16
+>+
+>+smcr_max_recv_wr - INTEGER
+>+	So called work request buffers are SMCR link (and RDMA queue pair) level
+>+	resources necessary for performing RDMA operations. Since up to 255
+>+	connections can share a link group and thus also a link and the number
+>+	of the work request buffers is decided when the link is allocated,
+>+	depending on the workload it can a bottleneck in a sense that threads
+>+	have to wait for work request buffers to become available. Before the
+>+	introduction of this control the maximal number of work request buffers
+>+	available on the receive path used to be hard coded to 16. With this control
+>+	it becomes configurable. The acceptable range is between 2 and 2048.
+>+
+>+	Please be aware that all the buffers need to be allocated as a physically
+>+	continuous array in which each element is a single buffer and has the size
+>+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+>+	like before having this control.
+>+
+>+	Default: 48
+>diff --git a/net/smc/smc.h b/net/smc/smc.h
+>index 2c9084963739..ffe48253fa1f 100644
+>--- a/net/smc/smc.h
+>+++ b/net/smc/smc.h
+>@@ -33,6 +33,8 @@
+> 
+> extern struct proto smc_proto;
+> extern struct proto smc_proto6;
+>+extern unsigned int smc_ib_sysctl_max_send_wr;
+>+extern unsigned int smc_ib_sysctl_max_recv_wr;
+> 
+> extern struct smc_hashinfo smc_v4_hashinfo;
+> extern struct smc_hashinfo smc_v6_hashinfo;
+>diff --git a/net/smc/smc_core.h b/net/smc/smc_core.h
+>index 48a1b1dcb576..b883f43fc206 100644
+>--- a/net/smc/smc_core.h
+>+++ b/net/smc/smc_core.h
+>@@ -361,6 +361,10 @@ struct smc_link_group {
+> 						/* max conn can be assigned to lgr */
+> 			u8			max_links;
+> 						/* max links can be added in lgr */
+>+			u16			max_send_wr;
+>+						/* number of WR buffers on send */
+>+			u16			max_recv_wr;
+>+						/* number of WR buffers on recv */
+> 		};
+> 		struct { /* SMC-D */
+> 			struct smcd_gid		peer_gid;
+>diff --git a/net/smc/smc_ib.c b/net/smc/smc_ib.c
+>index 0052f02756eb..e8d35c22c525 100644
+>--- a/net/smc/smc_ib.c
+>+++ b/net/smc/smc_ib.c
+>@@ -669,11 +669,6 @@ int smc_ib_create_queue_pair(struct smc_link *lnk)
+> 		.recv_cq = lnk->smcibdev->roce_cq_recv,
+> 		.srq = NULL,
+> 		.cap = {
+>-				/* include unsolicited rdma_writes as well,
+>-				 * there are max. 2 RDMA_WRITE per 1 WR_SEND
+>-				 */
+>-			.max_send_wr = SMC_WR_BUF_CNT * 3,
+>-			.max_recv_wr = SMC_WR_BUF_CNT * 3,
+> 			.max_send_sge = SMC_IB_MAX_SEND_SGE,
+> 			.max_recv_sge = lnk->wr_rx_sge_cnt,
+> 			.max_inline_data = 0,
+>@@ -683,6 +678,8 @@ int smc_ib_create_queue_pair(struct smc_link *lnk)
+> 	};
+> 	int rc;
+> 
+>+	qp_attr.cap.max_send_wr = 3 * lnk->lgr->max_send_wr;
+>+	qp_attr.cap.max_recv_wr = lnk->lgr->max_recv_wr;
+> 	lnk->roce_qp = ib_create_qp(lnk->roce_pd, &qp_attr);
+> 	rc = PTR_ERR_OR_ZERO(lnk->roce_qp);
+> 	if (IS_ERR(lnk->roce_qp))
+>diff --git a/net/smc/smc_llc.c b/net/smc/smc_llc.c
+>index f865c58c3aa7..91c936bf7336 100644
+>--- a/net/smc/smc_llc.c
+>+++ b/net/smc/smc_llc.c
+>@@ -2157,6 +2157,8 @@ void smc_llc_lgr_init(struct smc_link_group *lgr, struct smc_sock *smc)
+> 	init_waitqueue_head(&lgr->llc_msg_waiter);
+> 	init_rwsem(&lgr->llc_conf_mutex);
+> 	lgr->llc_testlink_time = READ_ONCE(net->smc.sysctl_smcr_testlink_time);
+>+	lgr->max_send_wr = (u16)(READ_ONCE(smc_ib_sysctl_max_send_wr));
+>+	lgr->max_recv_wr = (u16)(READ_ONCE(smc_ib_sysctl_max_recv_wr));
+> }
+> 
+> /* called after lgr was removed from lgr_list */
+>diff --git a/net/smc/smc_sysctl.c b/net/smc/smc_sysctl.c
+>index 2fab6456f765..01da1297e150 100644
+>--- a/net/smc/smc_sysctl.c
+>+++ b/net/smc/smc_sysctl.c
+>@@ -29,6 +29,10 @@ static int links_per_lgr_min = SMC_LINKS_ADD_LNK_MIN;
+> static int links_per_lgr_max = SMC_LINKS_ADD_LNK_MAX;
+> static int conns_per_lgr_min = SMC_CONN_PER_LGR_MIN;
+> static int conns_per_lgr_max = SMC_CONN_PER_LGR_MAX;
+>+unsigned int smc_ib_sysctl_max_send_wr = 16;
+>+unsigned int smc_ib_sysctl_max_recv_wr = 48;
+>+static unsigned int smc_ib_sysctl_max_wr_min = 2;
+>+static unsigned int smc_ib_sysctl_max_wr_max = 2048;
+> 
+> static struct ctl_table smc_table[] = {
+> 	{
+>@@ -99,6 +103,24 @@ static struct ctl_table smc_table[] = {
+> 		.extra1		= SYSCTL_ZERO,
+> 		.extra2		= SYSCTL_ONE,
+> 	},
+>+	{
+>+		.procname       = "smcr_max_send_wr",
+>+		.data		= &smc_ib_sysctl_max_send_wr,
+>+		.maxlen         = sizeof(int),
+>+		.mode           = 0644,
+>+		.proc_handler   = proc_dointvec_minmax,
+>+		.extra1		= &smc_ib_sysctl_max_wr_min,
+>+		.extra2		= &smc_ib_sysctl_max_wr_max,
+>+	},
+>+	{
+>+		.procname       = "smcr_max_recv_wr",
+>+		.data		= &smc_ib_sysctl_max_recv_wr,
+>+		.maxlen         = sizeof(int),
+>+		.mode           = 0644,
+>+		.proc_handler   = proc_dointvec_minmax,
+
+It's better to use tab instead of space before those '=' here.
+
+Best regards,
+Dust
 
