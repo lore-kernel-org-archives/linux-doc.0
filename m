@@ -1,151 +1,166 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1357F1F95C;
-	Fri,  5 Sep 2025 09:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757065726; cv=none; b=fmUU2T2eScclkM2JBWKUoTcO27isikehCv7mvpHq1XUAYDm81j1ytS5S5YqVgzHds6DdFAWFkDwZIUHcWSUwt4UeOmeYZHkbi7FKKzxqCHWDqe9v3iJ2ayB2rJLfDGftJOQSA0oMqLGTf02Z4L6jd5zkCj7s0ASHJzaJi7xhxdE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757065726; c=relaxed/simple;
-	bh=J6ciJK5OYseCx33oRWPiAdiT2KynTrlqrDJwgJ6C0Rc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JIe0gcMoGq/VUDm7064gSv1fslwyUmjh1oBxRk0WiH3FxCKx7G4RrtKQ0ro9mb2QNyK8w8ewa/S72GqomJMspWXzbqNH0EeSQxxaaz+FCCPzaRB6K6QCNPB3YD2YNxsl4YSURMkVyg7o4zpqSxNCKwwRTWwAD0OU5iStNgZ/gJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlrdmfIv; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97DB299959;
+	Fri,  5 Sep 2025 10:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757066409; cv=pass; b=PKxAA3qaQ2UwKZqc2fH+kL6vTBqUn1GE2bDVRzuQU2TaqdEWE9trzRdgJ6SId60pfqwx2vwxUlKjEIj50OeDSw9ka8wQHxxCUPVVEeAgz3oykL6YfeU/ZDC1fqb+9blyKJrKiFxEa0/XqsifdRls17V5o9DFGpdxkVYvwh/kSlU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757066409; c=relaxed/simple;
+	bh=//E6VuckYvFeQEKYG5UGFWm9/s4L4UbMW/5I7jgdka8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=hsu/FLvyWQj/GX3vdLrFdDsxTFVZ+xi20KYFM3LdoumO0QgZA0u7mPFkaQsL4LFqUUTegVZtu2/0JzzpjY6HawmZ6f4Meu5+Id8PZK8jgwIVwQwEftoQdmhco/b1TaB+rFYuwK8Xtpf8/+HbQdDNJHHU+lC342NN2yRUrHev2NM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=bZ1rKPju; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlrdmfIv"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7722c88fc5fso1808459b3a.2;
-        Fri, 05 Sep 2025 02:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757065724; x=1757670524; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5VJo/YxZFHdX+2Y/e8DgutYHf/cZ8cVwYUuMWvfuEzw=;
-        b=KlrdmfIvtRC0ayFmBgyOC3u7wpOHuRCRyyThpV4ntNM4enhcJvKZP/CIGcGSquDgO1
-         4sK2D+NzbFaLU5i73gXbFHLkL60gcfZXAYcwgV95bBoCZj9DQfd+wwlbZkeTCIKIf88x
-         7kCOKwlEU4fQlsZjwAk9UmQiPOUAGTNXfBcsTjHPAoWnggDNsBCNtuPkJBpZAkCXM8GO
-         8iHQzTPiSVUdDriuF9pXkyweOAmPlNAFB4m0Rzf8Kl34C0l/aLhosId0Ek44ZXV+LzCF
-         DbWZ6oG8+JchyjXtNWdYURJ6YSxJeEgOQmm7ASWEJkPZSTbFDASLP5iscfjh3Wm0Luut
-         x15w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757065724; x=1757670524;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5VJo/YxZFHdX+2Y/e8DgutYHf/cZ8cVwYUuMWvfuEzw=;
-        b=Xv2ZhTR46rPmtgeCjUihbiUwpnL1entzJaDmTxSOtjUC4RCkXEpRnmk1UWJ0H67Bez
-         IufIP4NAXRJACSchWYmCsX/vkHZQWuNB8QPj2BKKLBiej39HD3rv18UXjY29mhXsiNYk
-         A+GXMCTC+WLj+AjCypsJKtieTC6MohWL+O/yCG5fBIAZ/DF4Fro8a7cnHDNS7nMGOLv5
-         p3SUcaPxOEskcQNO8/JA9CbBIWJnMQQ4eH9nx/3yLmN53qzWOu2vNc1hkG2Qk1vOSPAD
-         2hsc+P3GxQ7aoGIFnfeHlop8XnJLYzVyoiD604c5O1BibEeWvaZUelLe0z0VC0PNhXLE
-         mcCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUAXFIzr2Kz1h2JZSHEmPu1sDF41LBS0aBii9401SGNHJxD62DBZvStb4tdzRRxnZtaaonWUgqeCuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTxfks1Jp9PpF4zsgKOJapUXfd1UMWDBd/Ey/ILkIITrOva4wO
-	S+vciIc17KRx8iVW7r7uip9uPcld+Rts9M0qGWimcGoqU7s+HW3HtBJm
-X-Gm-Gg: ASbGncsjsiInZeOZhdXZ6ArWqFx2nIaftg9YfMxGKtZtl1wcSjosYamxZW5lT9JczOO
-	/Afji2qpbNNRj5ECSMIz92XNcYSgXcBQHo09SD/ZbllOtYaNfL/tr+qvujSEfyLY+O/21BTXpm9
-	vps5VJ3tukm1mheOf5LKKmVl4k9DXcxWLtuZyRnFk1EbH5f6eqCHjMrGKYbo/kZGjmKmeftCJgo
-	cp5ZriNNeoMUMZVvUMWV8FSoAwuxraEb3CN4e46DB85++dP4QyqVvBb0H3tXi2vQvo1t3axYRDn
-	bgreicf9WKBasv1DOAawq0a3IaBzMVljgpG3NwtP6mjmQwfq47bXcS8k35FTzZE2PlD9rrNNz0b
-	SlfmrNvhPH3Sd3ebQgB2mON1A1faEtYA+pVcy734qBn983gWUFy/HRy55kLDvtvSnmEXh
-X-Google-Smtp-Source: AGHT+IGCLSjxEXR/wi2vz5IPAOhDThSY2NgzoLNBrcBpcqFYnWzkme349pBGV3dg9DFXNIknHI6eng==
-X-Received: by 2002:a17:902:f549:b0:24b:e55:34b with SMTP id d9443c01a7336-24b0e550987mr206891555ad.31.1757065724142;
-        Fri, 05 Sep 2025 02:48:44 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ccfc7f988sm34957405ad.144.2025.09.05.02.48.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 02:48:43 -0700 (PDT)
-Message-ID: <cbcc3317-958c-450d-afab-e9a29b1d5add@gmail.com>
-Date: Fri, 5 Sep 2025 18:48:41 +0900
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="bZ1rKPju"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id EF0A1109D5675;
+	Fri,  5 Sep 2025 18:59:06 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NYVS74ahHZTi; Fri,  5 Sep 2025 18:59:02 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id DF6AD109EFCDE;
+	Fri,  5 Sep 2025 18:59:01 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org DF6AD109EFCDE
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757066342;
+	cv=none; b=YL6tgkaBt1LxeWphQps8FdRJQtEIbwOC5nl2H12TpywBHPelr0ymJvgLtLmZgyWmoIpjDydSVH4c5pZINjhTN87obDN49KRCFVJPlTpuYYkVKdU6NEtSKc85sEL25GsmOD1jYgU/aA25GFdhHNFspsggHiPTRdpPxlmg7N+vfPU=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757066342; c=relaxed/relaxed;
+	bh=rS61IeZT5rzeSXHAT1NTR7y9kJ8XX2rCqt+4Om7z2AI=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=zUOaAlKJJgVrOXzVwyGZ5iqS0sw9jFo90irHDaprz3lWXITBMm5gbbrmW58nNmYrmMo8VeQj4mQaWa5sOqRLmRRxbaPAOy1MtChv4MEF//XpABGSt1OsOQOvZA1uWLywS/zxUFWPlzMS4N288BpT2U5VgGt9vzHrbFsFEpfg/mY=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org DF6AD109EFCDE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757066341;
+	bh=rS61IeZT5rzeSXHAT1NTR7y9kJ8XX2rCqt+4Om7z2AI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bZ1rKPjua+ZPNAKTDRDJ172Q766XqoExWN+U/EWQLNygr3OX96knPCORlvJK1wwOu
+	 x5R+KwP+zFOZPokYGuCVNZ7Ag8Ox7GyBeXv0QyU/PFCDdY/QOXGPjB9gObRYdrXBez
+	 WznHYpOzfYOmDAIYpTd68RmZ+1fMH6VjqooClC9Y=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Date: Fri, 05 Sep 2025 18:59:01 +0900
+From: weibu@redadmin.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] docs: ja_JP: add guidance for the Fixes: tag in
  SubmittingPatches
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net,
- Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
+In-Reply-To: <cbcc3317-958c-450d-afab-e9a29b1d5add@gmail.com>
 References: <20250905032729.2284883-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250905032729.2284883-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
+ <cbcc3317-958c-450d-afab-e9a29b1d5add@gmail.com>
+Message-ID: <8cb26ed070501f86a555cd5c525e113d@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Akiyoshi,
 
-On Fri,  5 Sep 2025 12:27:29 +0900, Akiyoshi Kurita wrote:
-> The Japanese translation of SubmittingPatches was missing the section
-> describing the use of the 'Fixes:' tag. This patch adds the missing
-> description, aligning the translation with commit 8401aa1f5997
-> ("Documentation/SubmittingPatches: describe the Fixes: tag") in the
-> English version.
+
+Hi Akira-san
+
+Thanks—got it. I’ll take the middle ground you suggested.
+
+For v2, I’ll cover both commits:
+
+sync the “Fixes:” section and related wording from 8401aa1f5997, and
+
+keep the example/pretty-format from 5b5bbb8cc51be.
+
+I’ll keep v2 scoped to those hunks for an easier review. After that, I 
+can follow up with a separate series to gradually sync the ja_JP file 
+with the current English submitting-patches.rst.
+
+Thanks,
+Akiyoshi
+
+
+2025-09-05 18:48 に Akira Yokosawa さんは書きました:
+> Hi Akiyoshi,
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
-
-This one made my imbox. Nice!
-
->  .../translations/ja_JP/SubmittingPatches      | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
+> On Fri,  5 Sep 2025 12:27:29 +0900, Akiyoshi Kurita wrote:
+>> The Japanese translation of SubmittingPatches was missing the section
+>> describing the use of the 'Fixes:' tag. This patch adds the missing
+>> description, aligning the translation with commit 8401aa1f5997
+>> ("Documentation/SubmittingPatches: describe the Fixes: tag") in the
+>> English version.
+>> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
 > 
-> diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
-> index 5334db471744..28ad83171252 100644
-> --- a/Documentation/translations/ja_JP/SubmittingPatches
-> +++ b/Documentation/translations/ja_JP/SubmittingPatches
-> @@ -132,6 +132,27 @@ http://savannah.nongnu.org/projects/quilt
->         platform_set_drvdata(), but left the variable "dev" unused,
->         delete it.
->  
-> +特定のコミットのバグを修正するパッチの場合（例：``git bisect``で問題を発見した場合）、
-> +少なくとも SHA-1 ID の最初の 12 文字と 1 行の要約を記載した「Fixes:」タグを使用してください。
-> +タグを複数行に分割しないでください。解析スクリプトを簡素化するため、タグは
-> +「75 文字で折り返す」ルールから除外されます。
-> +
-> +例:
-> +
-> +        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
-> +
-> +以下の ``git config`` 設定を使用すると、``git log`` や ``git show`` コマンドで
-> +上記形式を出力する際にプリティフォーマットを追加できます::
-> +
-> +        [core]
-> +                abbrev = 12
-> +        [pretty]
-> +                fixes = Fixes: %h (\"%s\")
-> +
-> +呼び出し例::
-> +
-> +        $ git log -1 --pretty=fixes 54a4f0239f2e
-> +        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
->  
->  3) パッチの分割
->  
-
-So, this doesn't cover the other hunks in commit 8401aa1f5997.
-Instead, it includes the change made later in commit 5b5bbb8cc51be
-("docs: process: Add an example for creating a fixes tag").
-
-Your interpretation of Jon's desire might be different from that of
-mine, but I think Jon suggested translating up-to-date
-submitting-patches.rst as a whole.
-
-Of course that would be great, but I'm not sure it is a reasonable ask
-here.
-
-I think covering both commits 8401aa1f5997 and 5b5bbb8cc51be might be
-a reasonable middle ground here.
-
-What do you think?
-
-It's 100% up to you how far you want to do.
-
-Thanks, Akira
-
+> This one made my imbox. Nice!
+> 
+>>  .../translations/ja_JP/SubmittingPatches      | 21 
+>> +++++++++++++++++++
+>>  1 file changed, 21 insertions(+)
+>> 
+>> diff --git a/Documentation/translations/ja_JP/SubmittingPatches 
+>> b/Documentation/translations/ja_JP/SubmittingPatches
+>> index 5334db471744..28ad83171252 100644
+>> --- a/Documentation/translations/ja_JP/SubmittingPatches
+>> +++ b/Documentation/translations/ja_JP/SubmittingPatches
+>> @@ -132,6 +132,27 @@ http://savannah.nongnu.org/projects/quilt
+>>         platform_set_drvdata(), but left the variable "dev" unused,
+>>         delete it.
+>> 
+>> +特定のコミットのバグを修正するパッチの場合（例：``git bisect``で問題を発見した場合）、
+>> +少なくとも SHA-1 ID の最初の 12 文字と 1 行の要約を記載した「Fixes:」タグを使用してください。
+>> +タグを複数行に分割しないでください。解析スクリプトを簡素化するため、タグは
+>> +「75 文字で折り返す」ルールから除外されます。
+>> +
+>> +例:
+>> +
+>> +        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() 
+>> return the number of pages it actually freed")
+>> +
+>> +以下の ``git config`` 設定を使用すると、``git log`` や ``git show`` コマンドで
+>> +上記形式を出力する際にプリティフォーマットを追加できます::
+>> +
+>> +        [core]
+>> +                abbrev = 12
+>> +        [pretty]
+>> +                fixes = Fixes: %h (\"%s\")
+>> +
+>> +呼び出し例::
+>> +
+>> +        $ git log -1 --pretty=fixes 54a4f0239f2e
+>> +        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() 
+>> return the number of pages it actually freed")
+>> 
+>>  3) パッチの分割
+>> 
+> 
+> So, this doesn't cover the other hunks in commit 8401aa1f5997.
+> Instead, it includes the change made later in commit 5b5bbb8cc51be
+> ("docs: process: Add an example for creating a fixes tag").
+> 
+> Your interpretation of Jon's desire might be different from that of
+> mine, but I think Jon suggested translating up-to-date
+> submitting-patches.rst as a whole.
+> 
+> Of course that would be great, but I'm not sure it is a reasonable ask
+> here.
+> 
+> I think covering both commits 8401aa1f5997 and 5b5bbb8cc51be might be
+> a reasonable middle ground here.
+> 
+> What do you think?
+> 
+> It's 100% up to you how far you want to do.
+> 
+> Thanks, Akira
