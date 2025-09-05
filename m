@@ -1,247 +1,218 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0567A2989BA
-	for <linux-doc@vger.kernel.org>; Fri,  5 Sep 2025 12:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CA6219EB;
+	Fri,  5 Sep 2025 13:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757075939; cv=none; b=FdQEwqXMXVW5LVb8lJ0zUtT05e3dsZRTLxOB0maMmneeFI6jgtDHnd1aeyrN1Hau28nNZjMx3u9958VJVV44MhV2EEYg84m6yTZz+Vl9d0wwpDcPLdAtLeM9ili4aecMjMKZZ8i6hUoRc+lqUcmp7TMwEbsWKw86X1+LCaCFrqs=
+	t=1757077602; cv=none; b=nqQfGVpvtFoO/Xb5mPyTUPTP9ZFXrj+65BkmuDawfwmOsAWdCBeb7laehOLcaIOvEdFIUBj/90Rwe29jiLIpP1KB2uG6ndUdPRuscql7XgKWntYABCkXmaAUw+q9bT2KK9Yvu5YydsWwdKCU91d348arhecHq8JVsfoD9BtY69Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757075939; c=relaxed/simple;
-	bh=6TqvEbQeleEz7qSbsxUMAxlx0LbfTpAnHCx7IheNrQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c70kycRczJkrwDEfqSSEe6/QCoqnMprWdvEDh+IxaZAZlAAoAfuy2WVmypDDu8iHqp0rX1g/w6pm6RcqAsnQyYZDqKF5FSh8lRm9UV1EjpQRqqc7m5XFhNJpkcKFzUhHPj6d2WJ4jfcrjYU9WLWxbYbYMfb4NVea49yKVhTNqKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b/MM0b5n; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757077602; c=relaxed/simple;
+	bh=HxiuYgNYwxrIO8dkyKKccGLoa1n3kcaOo11GRqt6NMg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EKd413d2R3siyemZ+Ahi6/ue84n6zVYcoLq3GfDe+XTrM+mB3u3SNw+zthIbZrY3YvC6CfUa0hkyTkUWnxrI3sFGsgd6YiIIitJMCeCKK+I2CuPZsZXJ/hMOTpieTNCQT4N34SuAUM4Y65YrIHI3QzeveHnXDwSWq21TgzsvwQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCdRJhVx; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b/MM0b5n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757075936;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6snvWLEWnQ8R9SKAeGg2E7wEesWjYiyxgM50DESCJmU=;
-	b=b/MM0b5n3fSyG+r9B7cYKQsNHSwyVlZBQzRfJT5efwZ8W4i8XkjoUZYglg6YbPu0oorvyR
-	HhvgEBaZsNrmgkarwyrJfZuPFe/fqwF+XDqn6Xg9fm7/ghpi2c1uuRyAAkdKUGTZzvaZiy
-	KmTHrqUe2GRfzwENz6TQvEviM+zqS84=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-418-CH4ynMDJP2GsJNXiaY0SEA-1; Fri, 05 Sep 2025 08:38:55 -0400
-X-MC-Unique: CH4ynMDJP2GsJNXiaY0SEA-1
-X-Mimecast-MFC-AGG-ID: CH4ynMDJP2GsJNXiaY0SEA_1757075934
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b99c18484so8664825e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Sep 2025 05:38:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757075934; x=1757680734;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6snvWLEWnQ8R9SKAeGg2E7wEesWjYiyxgM50DESCJmU=;
-        b=NGUlwG41aasrL+5XAo++ecsHVFNmOSXhLnvpqeI5wCljPVrlL9Rv5Dqs1bk8w/loMg
-         1Gj/FEZis1P9CyjE8BQTqET46HPiCOoNIgI6wYPkxtjfl0u9s0nDVKqTjsVTDViZl5pi
-         RK9u1I331cieYJNiIcb8tMwIiRHHYQEmqnROD2AVo6Yxr9B7ySb3iDyXxZEX9xEqK7tl
-         qY4vE+1YusRxSZ0rHUY9wFoExxLzXILpXGDt3A3dp8XVEl5xJib6yQPtEM136xHLiF8+
-         nmFqRNDD1FmMoaGUfbmlP+WIUPrUpJG+6LDJhvzLhTkyvXwY96dzw6MP9pmPTZMp6jJo
-         t/bg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJzzbYnOIauYTza2VUWgcFvbx7038st8zWt7WXk3M4z0os4JVZKpe2Y/rIRrTXjV4rpwBok0eLciE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywubxovm5/RX2IX2nvSTQtYWGWhgvLcXAg6f2GFlJlOFOjKzFuT
-	XWgXhzjWrSPVH+QK3QDQia/8RER2ByRBCp3CDca1u/hFK0SMGcnfkp7qoG+ZiAFep1b0nDLT94j
-	Y3iBI402nR9vMU4Uq4MKDpZ8X+ASafgoVuyxNcGs+/qGU0eII8lRN0ca/M5OIGw==
-X-Gm-Gg: ASbGnct3ncfxamsWPSIeetR8GbdscOmfoh9jdMeOFrylNIpGXq3xHGX+dFSHwJRCV0E
-	hA9UU1syv/g+nrWGQVRLz9e4H75crka0iRVcY8f0b3Ygf5MCj3nBwfHMB5SvEeyukDvCWfa1fcZ
-	1zPWkLwGReFCiT8T4dR3IxCG64AG5Ky81TAQPZzdIxlPRrkGltzLWeUab6WY2HF+7oSHatOJWnY
-	J0lbmU+yDBdrgjxEQRmTYcrim8zbmAPeuJ9z7kESAlp08zY5+eb6VW4uh2XEXzZ2PxxoXc1Hhpd
-	cLhwkblyDx90cd+YyVpKuxB7KmHxWwWwn76mMw7eiFO9sLLUWKoNCgKo8W+3DiLpMz9JKokkXzr
-	ayibmZDypTk8TaXU0akxbRLax8LdiqE4VWmyhET1tSXWuZ3Wdh64LUgMX
-X-Received: by 2002:a05:6000:178c:b0:3d7:f363:2f0d with SMTP id ffacd0b85a97d-3d7f363361dmr12009705f8f.28.1757075934200;
-        Fri, 05 Sep 2025 05:38:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPRAo1/FEwKPT8167eG3CiF7EnCpIk1sO63oxm+Ap3csbu4tc3YQieqLS+bjZktZf+gj9E+g==
-X-Received: by 2002:a05:6000:178c:b0:3d7:f363:2f0d with SMTP id ffacd0b85a97d-3d7f363361dmr12009660f8f.28.1757075933652;
-        Fri, 05 Sep 2025 05:38:53 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4d:e00:298:59cc:2514:52? (p200300d82f4d0e00029859cc25140052.dip0.t-ipconnect.de. [2003:d8:2f4d:e00:298:59cc:2514:52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3df4fd372c1sm9458282f8f.29.2025.09.05.05.38.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 05:38:53 -0700 (PDT)
-Message-ID: <fbafc497-00c9-4612-8e9b-16d86770321d@redhat.com>
-Date: Fri, 5 Sep 2025 14:38:50 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCdRJhVx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757077600; x=1788613600;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=HxiuYgNYwxrIO8dkyKKccGLoa1n3kcaOo11GRqt6NMg=;
+  b=nCdRJhVxiEy/tz5o/YTyciE2q6HYqf5865feTSNX3LanPm4QPzOv6/xS
+   qwKFgDjP9IVEeZ0qH/Gbo2P0sJp8sDyG+FJxr9UZ7k8LxDvqfqsq4VjyG
+   j/ti9pZrFQqkfg2gIQjODXBd1S36S0r+LuDTkhTUEw4//+LhXCZQDoDPW
+   Cc33QlVB48m4XSVTvcs4+AJju+ogkp0/1k0vE/C5tioQ1eIqtWKkk+UO2
+   90Yx4UavqZGsXQBMGxM3hVKyqe6vQP8r8QsPICfeCcslhFsrGRUq3dVvh
+   8gMUHLLU+mPEZiakrw604u4/5XWi56e/7CMRFW/q3D3D/WlJl9DaU87Q6
+   Q==;
+X-CSE-ConnectionGUID: ExB36ddAQ/edBuX0VJSFBA==
+X-CSE-MsgGUID: 3vgb9pdQRzCZjJp3nM25kA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="59283211"
+X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
+   d="scan'208";a="59283211"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 06:06:39 -0700
+X-CSE-ConnectionGUID: 1QfBFO8xSs2NO+PC9Iu5jQ==
+X-CSE-MsgGUID: qhm5jLl2TSS4s014OA3SEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
+   d="scan'208";a="202978805"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.246.159])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 06:06:35 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>, Len Brown
+ <len.brown@intel.com>, linux-pm@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>
+Subject: Re: [PATCH v4] kernel.h: add comments for system_states
+In-Reply-To: <20250905140104.42418fba@foz.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250904063631.2364995-1-rdunlap@infradead.org>
+ <6089e22ddfdc135040cdeb69329d817846026728@intel.com>
+ <20250905140104.42418fba@foz.lan>
+Date: Fri, 05 Sep 2025 16:06:31 +0300
+Message-ID: <34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/13] khugepaged: mTHP support
-To: Usama Arif <usamaarif642@gmail.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Nico Pache <npache@redhat.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, Dev Jain <dev.jain@arm.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, ziy@nvidia.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
- peterx@redhat.com, wangkefeng.wang@huawei.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com
-References: <db2320ee-6bd4-49c1-8fce-0468f48e1842@linux.alibaba.com>
- <c8c5e818-536a-4d72-b8dc-36aeb1b61800@arm.com>
- <2a141eef-46e2-46e1-9b0f-066ec537600d@linux.alibaba.com>
- <f34b5fcb-6a97-4d97-86a8-906083b53be6@redhat.com>
- <eb02c281-6d41-44af-8eaf-8ffc29153a3a@linux.alibaba.com>
- <286e2cb3-6beb-4d21-b28a-2f99bb2f759b@redhat.com>
- <17075d6a-a209-4636-ae42-2f8944aea745@gmail.com>
- <287f3b64-bc34-48d9-9778-c519260c3dba@redhat.com>
- <ad6ed55e-2471-46be-b123-5272f3052e01@gmail.com>
- <CAA1CXcCMPFqiiTi7hfVhhEvHs4Mddiktvpmb7dMe4coLDF0bgg@mail.gmail.com>
- <61afc355-1877-4530-86b7-e0aa2b6fb827@lucifer.local>
- <65ce71c1-72a5-415e-9059-027167abf129@redhat.com>
- <71d11a43-e9ff-46e5-988d-b39905e10f61@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <71d11a43-e9ff-46e5-988d-b39905e10f61@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 05.09.25 14:31, Usama Arif wrote:
-> 
-> 
-> On 05/09/2025 12:55, David Hildenbrand wrote:
->> On 05.09.25 13:48, Lorenzo Stoakes wrote:
->>> On Wed, Sep 03, 2025 at 08:54:39PM -0600, Nico Pache wrote:
->>>> On Tue, Sep 2, 2025 at 2:23 PM Usama Arif <usamaarif642@gmail.com> wrote:
->>>>>>>> So I question the utility of max_ptes_none. If you can't tame page faults, then there is only
->>>>>>>> limited sense in taming khugepaged. I think there is vale in setting max_ptes_none=0 for some
->>>>>>>> corner cases, but I am yet to learn why max_ptes_none=123 would make any sense.
->>>>>>>>
->>>>>>>>
->>>>>>>
->>>>>>> For PMD mapped THPs with THP shrinker, this has changed. You can basically tame pagefaults, as when you encounter
->>>>>>> memory pressure, the shrinker kicks in if the value is less than HPAGE_PMD_NR -1 (i.e. 511 for x86), and
->>>>>>> will break down those hugepages and free up zero-filled memory.
->>>>>>
->>>>>> You are not really taming page faults, though, you are undoing what page faults might have messed up :)
->>>>>>
->>>>>> I have seen in our prod workloads where
->>>>>>> the memory usage and THP usage can spike (usually when the workload starts), but with memory pressure,
->>>>>>> the memory usage is lower compared to with max_ptes_none = 511, while still still keeping the benefits
->>>>>>> of THPs like lower TLB misses.
->>>>>>
->>>>>> Thanks for raising that: I think the current behavior is in place such that you don't bounce back-and-forth between khugepaged collapse and shrinker-split.
->>>>>>
->>>>>
->>>>> Yes, both collapse and shrinker split hinge on max_ptes_none to prevent one of these things thrashing the effect of the other.
->>>> I believe with mTHP support in khugepaged, the max_ptes_none value in
->>>> the shrinker must also leverage the 'order' scaling to properly
->>>> prevent thrashing.
->>>
->>> No please do not extend this 'scalling' stuff somewhere else, it's really horrid.
->>>
->>> We have to find an alternative to that, it's extremely confusing in what is
->>> already extremely confusing THP code.
->>>
->>> As I said before, if we can't have a boolean we need another interface, which
->>> makes most sense to be a ratio or in practice, a percentage sysctl.
->>>
->>> Speaking with David off-list, maybe the answer - if we must have this - is to
->>> add a new percentage interface and have this in lock-step with the existing
->>> max_ptes_none interface. One updates the other, but internally we're just using
->>> the percentage value.
->>
->> Yes, I'll try hacking something up and sending it as an RFC.
->>
->>>
->>>> I've been testing a patch for this that I might include in the V11.
->>>>>
->>>>>> There are likely other ways to achieve that, when we have in mind that the thp shrinker will install zero pages and max_ptes_none includes
->>>>>> zero pages.
->>>>>>
->>>>>>>
->>>>>>> I do agree that the value of max_ptes_none is magical and different workloads can react very differently
->>>>>>> to it. The relationship is definitely not linear. i.e. if I use max_ptes_none = 256, it does not mean
->>>>>>> that the memory regression of using THP=always vs THP=madvise is halved.
->>>>>>
->>>>>> To which value would you set it? Just 510? 0?
->>
->> Sorry, I missed Usama's reply. Thanks Usama!
->>
->>>>>>
->>>>>
->>>>> There are some very large workloads in the meta fleet that I experimented with and found that having
->>>>> a small value works out. I experimented with 0, 51 (10%) and 256 (50%). 51 was found to be an optimal
->>>>> comprimise in terms of application metrics improving, having an acceptable amount of memory regression and
->>>>> improved system level metrics (lower TLB misses, lower page faults). I am sure there was a better value out
->>>>> there for these workloads, but not possible to experiment with every value.
->>>
->>> (->Usama) It's a pity that such workloads exist. But then the percentage solution should work.
->>
->> Good. So if there is no strong case for > 255, that's already valuable for mTHP.
->>
-> 
-> tbh the default value of 511 is horrible. I have thought about sending a patch to change it to 0 as default
-> in upstream for sometime, but it might mean that people who upgrade their kernel might suddenly see
-> their memory not getting hugified and it could be confusing for them?
+On Fri, 05 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> Em Fri, 05 Sep 2025 12:02:37 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+>
+>> On Wed, 03 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
+>> > Provide some basic comments about the system_states and what they imply.
+>> > Also convert the comments to kernel-doc format.
+>> >
+>> > However, kernel-doc does not support kernel-doc notation on extern
+>> > struct/union/typedef/enum/etc. So I made this a DOC: block so that
+>> > I can use (insert) it into a Documentation (.rst) file and have it
+>> > look decent.  
+>> 
+>> The simple workaround is to separate the enum type and the variable:
+>> 
+>> /**
+>>  * kernel-doc for the enum
+>>  */
+>> enum system_states {
+>> 	...
+>> };
+>> 
+>> /**
+>>  * kernel-doc for the variable
+>>  */
+>> extern enum system_states system_state;
+>> 
+>> BR,
+>> Jani.
+>> 
+>> >
+>> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> > Acked-by: Rafael J. Wysocki <rafael@kernel.org> # v1
+>> > ---
+>> > v2: add Rafael's Ack.
+>> > v3: add Andrew
+>> > v4: add DOC: so that this DOC: block can be used in Documentation/
+>> >     add Greg K-H
+>> >     add Jon Corbet, Mauro Chehab, & linux-doc
+>> >
+>> > Cc: Andrew Morton <akpm@linux-foundation.org>
+>> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+>> > Cc: Pavel Machek <pavel@ucw.cz>
+>> > Cc: Len Brown <len.brown@intel.com>
+>> > Cc: linux-pm@vger.kernel.org
+>> > Cc: Jonathan Corbet <corbet@lwn.net>
+>> > Cc: linux-doc@vger.kernel.org
+>> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> > Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+>> > ---
+>> >  Documentation/driver-api/pm/devices.rst |    8 ++++++++
+>> >  include/linux/kernel.h                  |   18 ++++++++++++++++--
+>> >  2 files changed, 24 insertions(+), 2 deletions(-)
+>> >
+>> > --- linux-next-20250819.orig/include/linux/kernel.h
+>> > +++ linux-next-20250819/include/linux/kernel.h
+>> > @@ -164,8 +164,22 @@ extern int root_mountflags;
+>> >  
+>> >  extern bool early_boot_irqs_disabled;
+>> >  
+>> > -/*
+>> > - * Values used for system_state. Ordering of the states must not be changed
+>> > +/**
+>> > + * DOC: General system_states available for drivers
+>> > + *
+>> > + * enum system_states - Values used for system_state.
+>> > + *
+>> > + * * @SYSTEM_BOOTING:	%0, no init needed
+>> > + * * @SYSTEM_SCHEDULING:	system is ready for scheduling; OK to use RCU
+>> > + * * @SYSTEM_FREEING_INITMEM: system is freeing all of initmem; almost running
+>> > + * * @SYSTEM_RUNNING:	system is up and running
+>> > + * * @SYSTEM_HALT:	system entered clean system halt state
+>> > + * * @SYSTEM_POWER_OFF:	system entered shutdown/clean power off state
+>> > + * * @SYSTEM_RESTART:	system entered emergency power off or normal restart
+>> > + * * @SYSTEM_SUSPEND:	system entered suspend or hibernate state
+>> > + *
+>> > + * Note:
+>> > + * Ordering of the states must not be changed
+>> >   * as code checks for <, <=, >, >= STATE.
+>> >   */
+>> >  extern enum system_states {
+>> > --- linux-next-20250819.orig/Documentation/driver-api/pm/devices.rst
+>> > +++ linux-next-20250819/Documentation/driver-api/pm/devices.rst
+>> > @@ -241,6 +241,14 @@ before reactivating its class I/O queues
+>> >  More power-aware drivers might prepare the devices for triggering system wakeup
+>> >  events.
+>> >  
+>> > +System states available for drivers
+>> > +-----------------------------------
+>> > +
+>> > +These system states are available for drivers to help them determine how to
+>> > +handle state transitions.
+>> > +
+>> > +.. kernel-doc:: include/linux/kernel.h
+>> > +   :doc: General system_states available for drivers
+>> >  
+>> >  Call Sequence Guarantees
+>> >  ------------------------
+>> >  
+>> 
+>
+> If the problem is with "extern" before enum, fixing kdoc be
+> fairly trivial.
 
-511 is just what a page fault would have done, so I think it makes 
-perfect sense. More than anything else, actually.
+The non-trivial part is deciding whether you're documenting the enum
+type or the variable. Both are equally valid options.
 
-It's just not optimal in many cases.
+BR,
+Jani.
+
+>
+> If you see:
+>
+> 	def dump_function(self, ln, prototype):
+> 	
+>      	# Prefixes that would be removed
+>         sub_prefixes = [
+> 	    ...
+> 	    (r"^extern +", "", 0),	
+> 	    ...
+> 	}
+>
+>         for search, sub, flags in sub_prefixes:
+>             prototype = KernRe(search, flags).sub(sub, prototype)
+>
+>
+> we need something similar to that at:
+> 	def dump_enum(self, ln, proto):
+>
+> alternatively, we could use a simpler approach modifying adding a
+> non-group optional match for "extern". E.g:
+>
+> -	r = KernRe(r'enum\s+(\w*)\s*\{(.*)\}')
+> +       r = KernRe(r'(?:extern\s+)?enum\s+(\w*)\s*\{(.*)\}')
+>
+> (untested)
+>
+> Regards,
+> Mauro
+>
+>
+> Thanks,
+> Mauro
 
 -- 
-Cheers
-
-David / dhildenb
-
+Jani Nikula, Intel
