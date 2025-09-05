@@ -1,115 +1,118 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A667C30EF77;
-	Fri,  5 Sep 2025 11:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757070177; cv=pass; b=ftuAUzcH7y2neb+rvkOt3inlDhsjeWtemfDe+KqhPlDECdX6u5lANxVCU9BF+5To9BhGt6aT3TgxuOS1zLc7BpPiXawLQR6D2TNjQqkiTwhOkO/bKOIXlGWRXdTZj03W7LKBJi3AuD31vWkpdOUvRRzxPp4Lvt75v+L+78WC0Os=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757070177; c=relaxed/simple;
-	bh=P2iHI7vsheys9H8pRZ4vVNpOtevF6FDEoB/h/uYv2FQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BP00EXeSLXwSrR2eduusxrLjUKhDjHaAMrV8DqjGxuQOUB/d8vlkh95Clm3zrIexMDzYgaXF+sT6IhgngkyY3eQpFfRqgPJljTK/g+FLfRtGIjF2BwdMYkxKdNRAbDXN1JJl6Srxatdp23IiMHOMX8pzCdmKPSd119IdziyRUBM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=sUL8AhId; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D1034166C;
+	Fri,  5 Sep 2025 11:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757070303; cv=none; b=XG5xZoRwmaQLhMwmOukSs5EfSQnrzSbP1xs/chIHqXARmTVjaK8dd4N+0MA7KO7zFRA1KqcbsvlB3QPAvdzJvvk+xskMoDo6NIvhwVOn0vDnPyoCgPc9PKb1ghs1MM1lDl8YhQLGM90IBnKlooPsi9xS2wZTeooIE9LxqqbRmmk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757070303; c=relaxed/simple;
+	bh=z94UH18wEDTWuKbXydUnW9LoB+6yMEbgmCQLR68OqnY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5WSfxIH3MgSLXkDP5RvnCCmHFeWQoPZTMaQsl+jP3Pbl7ovnVTNvkrwAsgcATYG9wvjPAU4+lzb+VYeqwirIZK/okLvapdA0bp6/bx5hh7YSGBawEZvmXLp448ov64MGDBI1gPd5iChnULirWT8ZoYIUOP/B+L4m2r+pwnDG+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=hayVNcaJ; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="sUL8AhId"
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4cJD2z5nqQzyTd;
-	Fri,  5 Sep 2025 14:02:51 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1757070172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P1E2z40KUhb9oRrEcOHM1zFRsgM+QgNrSQ+qiRhPHDI=;
-	b=sUL8AhIdxsxTMzukF8G/jTcQDVttOThJlXe12ajJr8if9trJ29J2ZS1It5Aaw3/eKLNOtl
-	Fy8uY2d9ttD8i/KkA2+diWMcjjO0Tk7XRNDUR+hAXt2uRkQ4yQtd8GPeaytJpNGiPO5RWl
-	zhtIJMYrm1xVhJz37xzU2H5muL3WYTY=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1757070172; a=rsa-sha256; cv=none;
-	b=XjpUH1ct9YevFLDmw6HErb6LQ8oqcJLGEF3IdbV8BGyxscbvGcA3SLmXz+Jxva869Fcp2b
-	59P5zq14UZsKeSEysHWjgWhIiKcG/ditycwTIDzCoEeKCrWgs63v3W4l+ZG4cUamzO6j3y
-	Y+j6kOE/d6ElUqo88ydIVi22CmHW3aQ=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1757070172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P1E2z40KUhb9oRrEcOHM1zFRsgM+QgNrSQ+qiRhPHDI=;
-	b=bDRkPVmNuI2N178/yg6sZWx+T77CXdIiB02bolnMpjDfakID9qbJmb5tDC4oXKso0dkUrU
-	YFhWSPTVCM5VuGhf+b4AGASkDx5B3ZAq2j6FDe1mKcMoiTVy4Zp9zndXMcoFwTZ59UyUs7
-	hffdDSP+8cej4ti/DSPtYTaXCh+wf54=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2E1B9634C93;
-	Fri,  5 Sep 2025 14:02:51 +0300 (EEST)
-Date: Fri, 5 Sep 2025 14:02:51 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Andrew Donnellan <ajd@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Akshay Gupta <akshay.gupta@amd.com>, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v2 0/3] Document Media Controller IOCTL number assignments
-Message-ID: <aLrDWyxiiF2hPu_8@valkosipuli.retiisi.eu>
-References: <20250527055648.503884-1-sakari.ailus@linux.intel.com>
- <aLq6nRzW-KgSZ7yG@valkosipuli.retiisi.eu>
- <2025090509-stoppable-contrite-13ae@gregkh>
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="hayVNcaJ"
+Received: from pps.filterd (m0431383.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584Gvudu029451;
+	Fri, 5 Sep 2025 04:04:36 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=w
+	2iOvuXzHrhkIoaofGS46Rn+lBRShu3PnRtqUUYUkhI=; b=hayVNcaJVPB1FPRxn
+	s0AjQBkT9fQPwJSyLj6kM2eT/fPTWma57co+IYqddMgYJ5d3YI6BnGc7obhHAsuJ
+	88Iho1Y+p7edTyxXylzJJ/LmTo4DMX7pbu3DdKH7nmlWsjrrVlyi0+w9K5eK71uX
+	WHKbTWZ+jyReTL0fO2YiVGeSm1/uL7MM5UHzR5aRZdmtFxF5vMLlLNcwGyvnPu+o
+	Anwac3RYH5xfgMWd+NupO5fvwDbQPqs5H0RGquJgKLc9yppqOwpOKnIaHdk+55mE
+	9Vfa26pLW4iimSps6bNf0ph3w0IVevcFgdyrJj33m+S7MwppitQTzWzemG1d0h9M
+	I6RbQ==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 48yerk9wh3-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Sep 2025 04:04:36 -0700 (PDT)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 5 Sep 2025 04:04:41 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.25 via Frontend
+ Transport; Fri, 5 Sep 2025 04:04:41 -0700
+Received: from naveenm-PowerEdge-T630 (unknown [10.29.37.44])
+	by maili.marvell.com (Postfix) with ESMTP id 2F6EE3F7104;
+	Fri,  5 Sep 2025 04:04:30 -0700 (PDT)
+Date: Fri, 5 Sep 2025 16:34:30 +0530
+From: Naveen Mamindlapalli <naveenm@marvell.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+        <horms@kernel.org>, <corbet@lwn.net>, <andrew@lunn.ch>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next] docs: networking: clarify expectation of
+ persistent stats
+Message-ID: <aLrDvpAsVq4vTytH@naveenm-PowerEdge-T630>
+References: <20250825134755.3468861-1-naveenm@marvell.com>
+ <20250826174457.56705b46@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <2025090509-stoppable-contrite-13ae@gregkh>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250826174457.56705b46@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA0MDE2NyBTYWx0ZWRfX8owaW6XsXbmz iCxUxMWzFq/FsC4cBuTKze3Sl/MUBbI8ATPpa4JKvtsSoc4oMAkxQ3dT2VuJg9JV33ZyV0VOssj rk4H3BQVHi3HUQPDCrAx2ICCH0QQCnadT7QeJEU0Wwee12nPVHiTgIVUr23pj7NKfvs2a5YGEVf
+ EWkXawH2I6vQrETOu8mNFpIDXioPQyywuDFPe1fNFTkkdxKGggwoLNoQBirjEN42nDK+RR5JRJj BpRluJf7Qkr2qYh/pEw6MxVn4VNSnoUwNYoveCh9dPDNXFmvm/VysjsPPo0OeiyOkne0+JyoEAV fSkO1lnFSyDovEsrbpSu/ktAB0EADLANK4YZ0kqmRilwNMjL52BjBAfBUV/9hU0/lhoSkhaEuqR hAObYZvC
+X-Authority-Analysis: v=2.4 cv=JL47s9Kb c=1 sm=1 tr=0 ts=68bac3c4 cx=c_pps a=gIfcoYsirJbf48DBMSPrZA==:117 a=gIfcoYsirJbf48DBMSPrZA==:17 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=SfNP0LW7rUpxNmXbRPgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=lhd_8Stf4_Oa5sg58ivl:22
+X-Proofpoint-GUID: 0WeGHb-qpZOFV9vkSHIGbsjOjNyHYN_e
+X-Proofpoint-ORIG-GUID: 0WeGHb-qpZOFV9vkSHIGbsjOjNyHYN_e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-05_03,2025-09-04_01,2025-03-28_01
 
-Hi Greg,
-
-On Fri, Sep 05, 2025 at 12:32:45PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Sep 05, 2025 at 01:25:33PM +0300, Sakari Ailus wrote:
-> > Hi Jonathan, Greg, Miguel, others,
-> > 
-> > On Tue, May 27, 2025 at 08:56:45AM +0300, Sakari Ailus wrote:
-> > > Hello all,
-> > > 
-> > > The Media Controller uses IOCTL numbers with '|' type up to 0x81 but the
-> > > range from 0x80 upwards is documented to belong to samples. The samples,
-> > > however, are currently using these values. Solve the problem by bumping
-> > > the top of the MC range and the samples allocation by 0x10 as the samples
-> > > don't require a stable IOCTL interface.
-> > 
-> > Could you comment on this, please?
+On 2025-08-27 at 06:14:57, Jakub Kicinski (kuba@kernel.org) wrote:
+> On Mon, 25 Aug 2025 19:17:55 +0530 Naveen Mamindlapalli wrote:
+> > -Statistics must persist across routine operations like bringing the interface
+> > -down and up.
+> > +Statistics are expected to persist across routine operations like bringing the
 > 
-> Why not just live with the overlap?  What problem is this causing?  It's
-> the MC subsystem's "bug" in that it took over an ioctl range that was
-> already documented as being used by something else :)
+> Please don't weaken the requirement. The requirements is what it is.
+Ack on not weakening the requirement.
+> 
+> > +interface down and up. This includes both standard interface statistics and
+> > +driver-defined statistics reported via `ethtool -S`.
+> 
+> Rest of the paragraph looks good, but I think the preferred form of
+> quotations is double back ticks? Most of this doc doesn't comply but
+> let's stick to double when adding new stuff.
+Ack.
+> 
+> > +However, this behavior is not always strictly followed, and some drivers do
+> > +reset these counters to zero when the device is closed and reopened. This can
+> > +lead to misinterpretation of network behavior by monitoring tools, such as
+> > +SNMP, that expect monotonically increasing counters.
+> > +
+> > +Driver authors are expected to preserve statistics across interface down/up
+> > +cycles to ensure consistent reporting and better integration with monitoring
+> > +tools that consume these statistics.
+> 
+> This feels like too many words. How about:
+> 
+> Note that the following legacy drivers do not comply with this requirement
+> and cannot be fixed without breaking existing users:
+>  - driver1
+>  - driver2
+>  ...
+I don’t have a definitive list of non-compliant drivers. Would you prefer to add
+a brief note stating that some drivers may not comply, without naming them explicitly?
 
-I do agree ideally this shouldn't have happened in the first place, but I
-think it's also cleaner if we can have separate ranges. Pushing samples out
-a little doesn't look like an issue to me. The set also adds a comment on
-not adding media IOCTLs beyond the new allocation.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Regards,
+Naveen
+> -- 
+> pw-bot: cr
+> 
