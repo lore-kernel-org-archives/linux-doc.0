@@ -1,41 +1,37 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBA1305967;
-	Fri,  5 Sep 2025 18:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1232AD2F;
+	Fri,  5 Sep 2025 19:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757098014; cv=none; b=cbJFL9MPmU0Ap9i3CBqe6pAOXf80OWbDJFS2Gg0eoxuLTcJDofwAc4R1pTJwIrFKmvewdUlDQzRv5DZLf6vebyAw6uK6j23LQklrwiJJc3YkAqout55wupBcaTzWy460HRah8BlP5nQ3MFNJiFyT5kfuA4tmyamQ26iv/tVomwY=
+	t=1757099851; cv=none; b=KcJzn7Tvk4ShmqG3KPcIvmK7iAlBoKSvZkWlxJjtWRaOjldU+kjrsG/dO1BR89STS+CmhzrjSXEZyLZc9hbTZG+AzvBEqP/aA/ZZfMfYaS+xLXVyYWiuHoQjROZhDzV4tRonZjqFT7acxHidt8OUtyg+0u5bLPlgBhICqH/1IIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757098014; c=relaxed/simple;
-	bh=Pwy9K0h2ysHV5fV4DTvRgrbG2hbWyebs8oIqQsB8iAU=;
+	s=arc-20240116; t=1757099851; c=relaxed/simple;
+	bh=6DvTqiz5oE0MUYIdGEJzKhFGMzFYNPmlC08fSMO//K0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hO7FYq+1dHttqG3+YSCUcSElu1yIDbPkPBoHClmqDjq9WA14lKODMlnOWmr3orNlaOt5XYybBnTB2mncFDtwzMiYefHjK93vGIVC2hbooFNDZ3uYjlcWKf3iodO4hnx1dnCvC4YjiuB1Hyxv1SbJDJZRwoTcJ6o2GmW8aRYPDjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=r4r605hG; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	 In-Reply-To:Content-Type; b=tPRW9M7dXjaTgH4q5OODGzqIMZ1s5OxhkPOKMsXAtFL57TUDbC6Z0B4BhViecZwoG6r/+RVgSW0fv2bF1v0ZB7ZBp/NKL4AGcVLNW+B/HtQBW6NXeE5aaAwXcz7a+UJdh8k7bV+K7yl9P1eFpKGMqsq7sEVbnsDQVpy5eh2rSGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FErJ9/w/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="r4r605hG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1757098008; x=1757702808; i=w_armin@gmx.de;
-	bh=Pwy9K0h2ysHV5fV4DTvRgrbG2hbWyebs8oIqQsB8iAU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=r4r605hGcnAUizNRjVHah8SszSR9n/kAFgDg/vVRHCzfVCW9OJp7gKC5t4hE6gwo
-	 98ueS4dyzVedvO6o1hAmUwFx2dSi1uSvDTkycMceDBzZr4lMV/x8u0r2JFzwidZj3
-	 E0spA1qyE0RruJdOudkkXXa3xgzmjrACJgSGvldas2n5oXCRKa4ZYLOOKDX9vkCaQ
-	 +5EiSt6Yz7gmeHXqW9+Db1qBlDCdiVYyrgAu/9oa4F7tD6nOoKwqUDw4/+R3X6qGl
-	 O0vx05Tbiy0/mP9/I8htB9P3w9ESMtsWRgFBRKIPIHmlTYSQQLYhzj2afCmLqAiWt
-	 E39XCR9w1RYMx2mBxw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.84.88.1] ([176.1.12.67]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MkHQX-1uAFE10krR-00lwpy; Fri, 05
- Sep 2025 20:46:48 +0200
-Message-ID: <8d6f8cf4-3c60-4b5b-87d1-e4fe4bce06e7@gmx.de>
-Date: Fri, 5 Sep 2025 20:46:42 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FErJ9/w/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=7GxwLQxCzAg843L+h1jj3ZmsSQYEHcvwK6GOI2qdcLA=; b=FErJ9/w/te2gPH6BxKrroAxz+G
+	bVXzoOzrg4dNgUtPnai8uuA+wA4YKlh7N0xmNfqRszc/4z1LDvGh0IZEmqo3DrAktFhBwj5ITX+1o
+	7SZLMrVi83c18nCN6MFmGIWL2KEHLYYu2sCZUYvnerk4tJtR1j8zWdU0+SXdCvZqT1+2Lnxvw52BH
+	RdSEIQIVRF7BDpq183iBWkZ5+jWzALSB18bm/2Wu342DMXdwsumhB2AIC/Q5WWc3niUrUrDh+LSfn
+	bPIAiDjsBhVfg7oluC6EikIiBGbg5B5rkxejyrntRe2SR5tIUeWb98ul1cqe9c+EfH/pq0qP0keH7
+	oRF+acqQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uubw8-0000000444V-3ovf;
+	Fri, 05 Sep 2025 19:17:28 +0000
+Message-ID: <bccc8f53-9efa-4844-af5d-9abfe4446d06@infradead.org>
+Date: Fri, 5 Sep 2025 12:17:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,160 +39,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] platform/x86: Add Uniwill laptop driver
-To: Werner Sembach <wse@tuxedocomputers.com>, ilpo.jarvinen@linux.intel.com,
- hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
- ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
- alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org, lee@kernel.org,
- pobrn@protonmail.com
-References: <20250831192708.9654-1-W_Armin@gmx.de>
- <20250831192708.9654-2-W_Armin@gmx.de>
- <003d760c-0314-4ea2-b2b5-860021e0daf8@tuxedocomputers.com>
+Subject: Re: [PATCH v2] Documentation: KVM: Add reference specs for PIT and
+ LAPIC ioctls
+To: Jiaming Zhang <r772577952@gmail.com>
+Cc: corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com
+References: <00378f4c-ac64-459d-a990-6246a29c0ced@infradead.org>
+ <20250905174736.260694-1-r772577952@gmail.com>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <003d760c-0314-4ea2-b2b5-860021e0daf8@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:/yNYLxRKXhg4rCLsKDl9MCZM89/28D/J60g191Lzqp4s+e0nhZg
- FLIoyjztel4FrspE93wvqZq5URrlOBx31AGBqPSkRI3rUKCz56Jy0IOfLT3Q7yAwvjijmtJ
- f8M5QCXRVyod9qMGe1s5L9ncEx1cFVDsN7a5AigaRpAmZkaxGtgsww+P1QtxCOK7hIWXU9/
- qeg09dES2yyFklrUuMicA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Jtl7/z7dpKU=;lHESn1/L25j46c9HNvGSGSd1bp1
- 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
- h+YFwmWPv6fFnhBhD9BgEtX7D4o59mSg==
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250905174736.260694-1-r772577952@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-QW0gMDMuMDkuMjUgdW0gMTk6MDggc2NocmllYiBXZXJuZXIgU2VtYmFjaDoNCg0KPiBIaSwNCj4N
-Cj4gc3RhcnRlZCB0byBsb29rIGludG8gdGhlIGRyaXZlciByZWdhcmRpbmcgVFVYRURPIE5CMDIg
-ZGV2aWNlcyBzdXBwb3J0LCANCj4gc3RhcnRpbmcgd2l0aCB0aGUgRk4tS2V5czoNCj4NCj4gQW0g
-MzEuMDguMjUgdW0gMjE6Mjcgc2NocmllYiBBcm1pbiBXb2xmOg0KPj4gK3N0YXRpYyBjb25zdCBz
-dHJ1Y3Qga2V5X2VudHJ5IHVuaXdpbGxfa2V5bWFwW10gPSB7DQo+PiArwqDCoMKgIC8qIFJlcG9y
-dGVkIHZpYSBrZXlib2FyZCBjb250cm9sbGVyICovDQo+PiArwqDCoMKgIHsgS0VfSUdOT1JFLMKg
-wqDCoCBVTklXSUxMX09TRF9DQVBTTE9DSyzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgeyANCj4+IEtFWV9DQVBTTE9DSyB9fSwNCj4+ICvCoMKgwqAgeyBLRV9JR05PUkUswqDC
-oMKgIFVOSVdJTExfT1NEX05VTUxPQ0sswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgeyANCj4+IEtFWV9OVU1MT0NLIH19LA0KPj4gKw0KPj4gK8KgwqDCoCAvKiBSZXBvcnRl
-ZCB3aGVuIHRoZSB1c2VyIGxvY2tzL3VubG9ja3MgdGhlIHN1cGVyIGtleSAqLw0KPj4gK8KgwqDC
-oCB7IEtFX0lHTk9SRSzCoMKgwqAgVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xPQ0tfRU5BQkxFLMKg
-wqDCoMKgwqAgeyANCj4+IEtFWV9VTktOT1dOIH19LA0KPj4gK8KgwqDCoCB7IEtFX0lHTk9SRSzC
-oMKgwqAgVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xPQ0tfRElTQUJMRSzCoMKgwqDCoCB7IA0KPj4g
-S0VZX1VOS05PV04gfX0sDQo+DQo+IENhbiB5b3UgYWxzbyBhZGQNCj4NCj4geyBLRV9JR05PUkUs
-wqAgwqAgVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xPQ0tfQ0hBTkdFRCzCoCDCoCDCoHsgS0VZX1VO
-S05PV04gfX0sDQo+DQo+ID8NCj4NCj4gVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xPQ0tfRU5BQkxF
-IGFuZCANCj4gVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xPQ0tfRElTQUJMRSBhcmUgYWx3YXlzIHNl
-bnQgaW4gcGFpciANCj4gd2l0aMKgVU5JV0lMTF9PU0RfU1VQRVJfS0VZX0xPQ0tfQ0hBTkdFRCAo
-YXQgbGVhc3Qgb24gbXkgdGVzdCBkZXZpY2UpIA0KPiBhbmQgd2l0aG91dCB0aGlzIGxpbmUgYW4g
-dW5rbm93biBrZXkgZXZlbnQgaXMgZ2VuZXJhdGVkIChhcyB0aGF0IGlzIA0KPiBub3QgZXhwbGlj
-aXRseSBtYXJrZWQgYXMgS0VfSUdOT1JFIHdpdGhvdXQgdGhlIGxpbmUpLg0KDQpPSy4NCg0KPg0K
-Pj4gKw0KPj4gK8KgwqDCoCAvKiBSZXBvcnRlZCBpbiBtYW51YWwgbW9kZSB3aGVuIHRvZ2dsaW5n
-IHRoZSBhaXJwbGFuZSBtb2RlIA0KPj4gc3RhdHVzICovDQo+PiArwqDCoMKgIHsgS0VfS0VZLMKg
-wqDCoMKgwqDCoCBVTklXSUxMX09TRF9SRktJTEwswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCB7IA0KPj4gS0VZX1JGS0lMTCB9fSwNCj4+ICsNCj4+ICvCoMKgwqAgLyog
-UmVwb3J0ZWQgd2hlbiB1c2VyIHdhbnRzIHRvIGN5Y2xlIHRoZSBwbGF0Zm9ybSBwcm9maWxlICov
-DQo+PiArwqDCoMKgIHsgS0VfSUdOT1JFLMKgwqDCoCBVTklXSUxMX09TRF9QRVJGT1JNQU5DRV9N
-T0RFX1RPR0dMRSzCoMKgwqAgeyANCj4+IEtFWV9VTktOT1dOIH19LA0KPiBUaGlzIGlzIGEgcGh5
-c2ljYWwgYnV0dG9uIG9uIHRoZSBnYW1pbmcgZGV2aWNlcyBmcm9tIFVuaXdpbGwsIG15IA0KPiBz
-dWdnZXN0aW9uIHdvdWxkIGJlIHRvIGJpbmQgaXQgdG8gRjE0IChiZWNhdXNlIGFub3RoZXIgT0RN
-IGhhcyBhIHZlcnkgDQo+IHNpbWlsYXIga2V5IHRoYXQgYWxyZWFkeSBzZW5kcyBGMTQgYnkgZGVm
-YXVsdCkgYW5kIHRoZW4gbGV0IHVzZXJzcGFjZSANCj4gaGFuZGxlIGl0IChLREUgZm9yIGV4YW1w
-bGUgaGFzIGVuZXJneSBwcm9maWxlcyB0aGF0IGNvdWxkIGJlIGJvdW5kIHRvIA0KPiBpdCkuDQo+
-PiArDQo+PiArwqDCoMKgIC8qIFJlcG9ydGVkIHdoZW4gdGhlIHVzZXIgd2FudHMgdG8gYWRqdXN0
-IHRoZSBicmlnaHRuZXNzIG9mIHRoZSANCj4+IGtleWJvYXJkICovDQo+PiArwqDCoMKgIHsgS0Vf
-S0VZLMKgwqDCoMKgwqDCoCBVTklXSUxMX09TRF9LQkRJTExVTURPV04swqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCB7IA0KPj4gS0VZX0tCRElMTFVNRE9XTiB9fSwNCj4+ICvCoMKgwqAgeyBL
-RV9LRVkswqDCoMKgwqDCoMKgIFVOSVdJTExfT1NEX0tCRElMTFVNVVAswqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgeyANCj4+IEtFWV9LQkRJTExVTVVQIH19LA0KPj4gKw0KPj4gK8Kg
-wqDCoCAvKiBSZXBvcnRlZCB3aGVuIHRoZSB1c2VyIHdhbnRzIHRvIHRvZ2dsZSB0aGUgbWljcm9w
-aG9uZSBtdXRlIA0KPj4gc3RhdHVzICovDQo+PiArwqDCoMKgIHsgS0VfS0VZLMKgwqDCoMKgwqDC
-oCBVTklXSUxMX09TRF9NSUNfTVVURSzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgeyANCj4+IEtFWV9NSUNNVVRFIH19LA0KPj4gKw0KPj4gK8KgwqDCoCAvKiBSZXBvcnRlZCB3
-aGVuIHRoZSB1c2VyIGxvY2tzL3VubG9ja3MgdGhlIEZuIGtleSAqLw0KPj4gK8KgwqDCoCB7IEtF
-X0lHTk9SRSzCoMKgwqAgVU5JV0lMTF9PU0RfRk5fTE9DSyzCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB7IA0KPj4gS0VZX0ZOX0VTQyB9fSwNCj4+ICsNCj4+ICvCoMKgwqAg
-LyogUmVwb3J0ZWQgd2hlbiB0aGUgdXNlciB3YW50cyB0byB0b2dnbGUgdGhlIGJyaWdodG5lc3Mg
-b2YgdGhlIA0KPj4ga2V5Ym9hcmQgKi8NCj4+ICvCoMKgwqAgeyBLRV9LRVkswqDCoMKgwqDCoMKg
-IFVOSVdJTExfT1NEX0tCRElMTFVNVE9HR0xFLMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB7IA0K
-Pj4gS0VZX0tCRElMTFVNVE9HR0xFIH19LA0KPj4gKw0KPj4gK8KgwqDCoCAvKiBGSVhNRTogZmlu
-ZCBvdXQgdGhlIGV4YWN0IG1lYW5pbmcgb2YgdGhvc2UgZXZlbnRzICovDQo+PiArwqDCoMKgIHsg
-S0VfSUdOT1JFLMKgwqDCoCBVTklXSUxMX09TRF9CQVRfQ0hBUkdFX0ZVTExfMjRfSCzCoMKgwqDC
-oMKgwqAgeyANCj4+IEtFWV9VTktOT1dOIH19LA0KPj4gK8KgwqDCoCB7IEtFX0lHTk9SRSzCoMKg
-wqAgVU5JV0lMTF9PU0RfQkFUX0VSTV9VUERBVEUswqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHsg
-DQo+PiBLRVlfVU5LTk9XTiB9fSwNCj4+ICsNCj4+ICvCoMKgwqAgLyogUmVwb3J0ZWQgd2hlbiB0
-aGUgdXNlciB3YW50cyB0byB0b2dnbGUgdGhlIGJlbmNobWFyayBtb2RlIA0KPj4gc3RhdHVzICov
-DQo+PiArwqDCoMKgIHsgS0VfSUdOT1JFLMKgwqDCoCBVTklXSUxMX09TRF9CRU5DSE1BUktfTU9E
-RV9UT0dHTEUswqDCoMKgwqDCoCB7IA0KPj4gS0VZX1VOS05PV04gfX0sDQo+PiArDQo+PiArwqDC
-oMKgIHsgS0VfRU5EIH0NCj4+ICt9Ow0KPg0KPiBBbnkgcmVhc29uIGZvciBzdGlsbCBoYXZpbmcg
-S0VZXyogZGVmaW5lcyBldmVuIG9uIHRoZSBpZ25vcmVkIGV2ZW50cz8gDQo+IExvb2tpbmcgYXQg
-b3RoZXIgZHJpdmVycyBLRV9JR05PUkUgZXZlbnRzIHVzdWFsbHkgZG9uJ3QgaGF2ZSBpdC4NCj4N
-Cj4gQmVzdCByZWdhcmRzLA0KPg0KPiBXZXJuZXINCg0KSSBkZWNpZGVkIHRvIGlnbm9yZSBVTklX
-SUxMX09TRF9GTl9MT0NLIGJlY2F1c2UgaSBkbyBub3Qga25vdyBpZiB0aGUgRm4gKyBFc2Mga2V5
-IHByZXNzZXMgYXJlIGZpbHRlcmVkIGJ5IHRoZSBFQyBvciBhbHNvIHJlY2VpdmVkIGJ5IHRoZSBP
-Uy4NCg0KVGhhbmtzLA0KQXJtaW4gV29sZg0KDQo=
+
+
+On 9/5/25 10:47 AM, Jiaming Zhang wrote:
+> ---
+> 
+> The behavior of KVM_SET_PIT2 and KVM_SET_LAPIC conforms to their
+> respective hardware specifications. Add references to the Intel 8254
+> PIT datasheet and the Software Developer's Manual (SDM)  to ensure
+> users can rely on the official datasheets for behavioral details.
+> 
+> Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+
+Thanks. LGTM.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/virt/kvm/api.rst | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 6aa40ee05a4a..f55e1b7562db 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -2083,6 +2083,11 @@ The format of the APIC ID register (bytes 32-35 of struct kvm_lapic_state's
+>  regs field) depends on the state of the KVM_CAP_X2APIC_API capability.
+>  See the note in KVM_GET_LAPIC.
+>  
+> +.. Tip::
+> +  ``KVM_SET_LAPIC`` ioctl strictly adheres to Intel® 64 and IA-32 Architectures
+> +  Software Developer's Manual (SDM). Refer to volume 3A of the `Intel SDM
+> +  <https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html>`_.
+> +
+>  
+>  4.59 KVM_IOEVENTFD
+>  ------------------
+> @@ -3075,6 +3080,13 @@ This IOCTL replaces the obsolete KVM_GET_PIT.
+>  Sets the state of the in-kernel PIT model. Only valid after KVM_CREATE_PIT2.
+>  See KVM_GET_PIT2 for details on struct kvm_pit_state2.
+>  
+> +.. Tip::
+> +
+> +  ``KVM_SET_PIT2`` ioctl strictly adheres to the spec of Intel 8254 PIT.
+> +  For example, a ``count`` value of 0 in ``struct kvm_pit_channel_state`` is
+> +  interpreted as 65536, which is the maximum count value. Refer to `Intel 8254
+> +  programmable interval timer <https://www.scs.stanford.edu/10wi-cs140/pintos/specs/8254.pdf>`_.
+> +
+>  This IOCTL replaces the obsolete KVM_SET_PIT.
+>  
+>  
+
+-- 
+~Randy
