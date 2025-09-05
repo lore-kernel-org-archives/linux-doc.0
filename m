@@ -1,146 +1,150 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC16194A6C;
-	Fri,  5 Sep 2025 00:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746A7175BF;
+	Fri,  5 Sep 2025 01:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757033892; cv=none; b=KaNIgakTPP2GBuHBRrDPSLJ1iExIHMZeUpku3X4vR4RIcJBAeNYgOm7WJZJvrZBwZPORcb9Qm7h00I0erLHBxqTgRZpMqXwb2PNYEKdbxVe/q976B0gg9q6dHE7HTjn3JoElv2aYQzuVddGMw7WomdgI3raW8zZP+ZgsNf+3hpE=
+	t=1757035039; cv=none; b=DUhtbJU9S+CzGDI9pHh2PPLdirn5D91Gzp1hOtSHAMccKy7yYaFAvKCHwND2Q5spqcYUMd3DydU6e1PyHZLbwCymd9TZw/3uewJo+WYfn/P94T4pa6tEhLJkPuLUevvoQjKeELm/wAljEPM4TiNd7VIRoKcGXdqRVDk320DFwmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757033892; c=relaxed/simple;
-	bh=xbk8pyvLrP0pm05hmTCr/Mh88tw39MoGoO5XwLk87Yg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pI+EQ/NGBzbqXVN6lZRRxGYHTfDvfd6Lwc0C+AcXZ7giP7ntI7S4KYiBnz9k5eaqjcsasXOrOGlGQOfUg8cHJ5SMNbiZnBn9R0jmk5s6jSDYG2C5/1KmIn87o9fjOVkz+m1sYB2m0bwDeA2Hyx4fqZv5BcqVtjJ27kT/coLH1uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A41k/Grc; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A41k/Grc"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-77256e75eacso1515240b3a.0;
-        Thu, 04 Sep 2025 17:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757033891; x=1757638691; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bkqYPu8rOaY/q+A6P2O2P33O5z9aUpMhuyOs4Z4WjeM=;
-        b=A41k/GrcWFsNbki0ijFu1tvG09gG6YDEyhNu/vF1jnaiBHayypJpnQ+b9lQ/mo+D0s
-         F4wpFLrDJU5PF8LB4YdAKO9XvC+1A/UhpyBtXaeTefW+xrDFsTleuFKBlQt9FJy0tL5m
-         K2/90OBFbrJVwSAgWMIHb4GpP5yeUvpuOl/yxArEhIH0onFU/fsP4ytBiGESH4y8awrZ
-         1oPy7t3J8vVFa8Vr5fTMG6t7aEux22SLQaPmQWdJCN69O04KTEIT8f8XaOpOgLvkwhKB
-         39bPUQq6Q0L/PY2vwS0OcKG+8Ptsd+VraFFB30OnUNo6aJWsDMUUJ8HHlk6fOd/Cfx2u
-         7ksg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757033891; x=1757638691;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bkqYPu8rOaY/q+A6P2O2P33O5z9aUpMhuyOs4Z4WjeM=;
-        b=NendRrMo0fGROM2b+AXZsm/slH0X1Lbq1RwqUO8u8f7704ZyH98Lt/KDDP6nTWp7mF
-         BhE1dicqdvGDaOduiEqG84750/Gv5t0kNMS5tTcanXUBbPOXcktaK2rKeDD/4wTWqfJz
-         n2WiF53bHfuJoBDlZbkkZqC467mwKdPg/88DmXgvv/EvUrJINBPmcJNAD07m262E1JUo
-         5ObT+9/Wz1+WY5coitm19IhZv2MxBJDXIifT/AmXgdQsBN3w06wPdhgnAC5pFWVhaD4f
-         urS92moHVzFHRnHyp7QUnN6P4o5eVclXFVilHczF4BS2vMIzAjuBp9tdGAUuDtFVO63u
-         1UYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtUZxkiJc9SPR9n50vJ4qH+IN5opKblScOjhj0aSakGXy1AeP3+7Hmbg3KA+UKBZB0dBIcmhL+i5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqWUw5k2/r7jJGR0iSut4QqGizKYVOKwqMmrYPH4Xfky2BBK9X
-	Z/psyhldRgYzSmgzh4m5v/toiBqplMGZX5kBDuPxBK/RXvc28txOqngQ
-X-Gm-Gg: ASbGnctylD0oYfR0AUQBOenVV4e44+StZwTZlcx4GRoQCbmXCWfQm6YAVGNCJjsjwHg
-	9AexkHKgfCQtGVpkLw8QiJqG1ej41pnmIKWlNdDgEKuGEnQKKrqlT2aqf8XpShicxGudb5ELfJq
-	wd9nBjlOoSrabiN/rObu4sUfMiBaDF+17INnEHmthU7BDu0H4LtoYEJVXnOOj/9Fe4uUq0y671l
-	/z/ihGLLlahjU7iKQLQc8a84P5gseIxdt15K8e+P+9hfspmhqg6BxM52Ixm+MlDfsP1jhRGgT+V
-	8a82DWINKR+eIvY+PLXTj2GTNt8CmamoBxfl0Dwjrt2XJQdYPGzTt6CNI2oup8gJpc/M6ZRaUql
-	tf7GAurXedF1hAZ7hnXoXr0YKRnkSdxvupNZxeFnd4Hw6P+eYBuaaRALISvb86QyavBMK
-X-Google-Smtp-Source: AGHT+IGzrKwwsHQdYbXSgoPw+uethUqjKei1Bx4Pwg+bX1Lce60YWjP3PTtlYHqN9FPJ7CVOBqQhNg==
-X-Received: by 2002:a05:6a00:2d99:b0:772:2f06:3325 with SMTP id d2e1a72fcca58-7723e308b0amr28277605b3a.17.1757033890494;
-        Thu, 04 Sep 2025 17:58:10 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77256a0f916sm13511746b3a.63.2025.09.04.17.58.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Sep 2025 17:58:10 -0700 (PDT)
-Message-ID: <2955d7de-71a8-4767-914d-23e8d9f63971@gmail.com>
-Date: Fri, 5 Sep 2025 09:58:06 +0900
+	s=arc-20240116; t=1757035039; c=relaxed/simple;
+	bh=+wCBLkddcwyeCzPBMQjiuSKkCrej7JNqV4TB0tDCD8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M++ZtILacjplnieY9HElrHx844UK6QSvIo1cG9y//HBgvdI20QUyDb6hu8Va8FGY8qzu1rw5C7FnO5/K5N6Ms2gHh8VqD5vGjwb4t/+HXXjviOHe2TUWl0I2s8Ogn+TgOmRnvz75Cm2eWBug9MSO4XAz7MIBFtwlEemoj2EXVhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpgz9t1757035000t39e8f3c3
+X-QQ-Originating-IP: i4FX2pE7QvtBsnrO5X+wZgq5nyVzqV1BI164afJORGE=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 05 Sep 2025 09:16:37 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4385893563284536436
+Date: Fri, 5 Sep 2025 09:16:37 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v10 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <C825CC85444ED85D+20250905011637.GA1091337@nic-Precision-5820-Tower>
+References: <20250903025430.864836-1-dong100@mucse.com>
+ <20250903025430.864836-4-dong100@mucse.com>
+ <659df824-7509-4ffe-949b-187d7d44f69f@lunn.ch>
+ <AF92025D9CBFCF3B+20250904031948.GA1022066@nic-Precision-5820-Tower>
+ <908e4c95-81cb-4a95-9235-2d2c8c80d80c@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ja_JP: Update SubmittingPatches for 'Fixes:' tag
-To: Jonathan Corbet <corbet@lwn.net>, kurita <akito5623@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250903113552.2010371-1-akito5623@gmail.com>
- <878qiunyhu.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <878qiunyhu.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <908e4c95-81cb-4a95-9235-2d2c8c80d80c@lunn.ch>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OTaQrRjuGKLtJntBA4+B0Z7GyNwxtC973GzQYFbB+xOGXegwkUgKzwAk
+	j1KjRWBVZ4JR1V1cRnlSS1QRo0VZuJnxQ1NdzO9z5FMBm3vJDYYwCRUu24V/S0rL26OLPuc
+	NahRy9h4ckWXnJ5EQ7P3pHwi75qzdyJ58Mnr55GLeyxm9gJCqt/xw3WFLvElv04zFQP+EAx
+	xe16sNCjVEERU9CwhpIM5nhb/C27ceDxooqobGC6hjDtJXpaYf3s24/yfGQoYdFWvtNZ2ar
+	Ox1+gawdYb441iFJ2PoxAg3E9+sh/WnGqQ+fNTNz0r8ih+LrgENjsErpvIbwD2nsjMkrKLO
+	grJG06Xk+kCnIdVYcLnf17JjwUAnaTgx89bp7KIiMtv8xBuZIUsFntm6qEQZL4xhGQt9Hck
+	JZAMUTw/0Nm5LfJTI3PiWkihUzTTH1WoWONRoictTX95ao/7Czgh4KGOXk6wA/NQCL06NgF
+	ZzsRScyquz+9RSjUZRvKsXRYlXSjZrvYzf54RyA9AHPC+N+7/GMFe515XaDBSLP/KQ8fNr2
+	3GGHhoaJ0k8KfxdNRF1GZPF39FDq2aBLcxenQ+AnEgeRbndLIbhBywGy7YAXdqBIOcuehkd
+	yq4TWFgDggA6F0d+Clhi0KMPwtcH7wX8+sdcGXHJ/E4sY0G5hZ7cEygmtd4uIJ8N5JG9Lt8
+	jgHcICv5Fh8x6mJ2oX0iOad6nRDJoTYY6YgVksmh+DFb/NW1pvejBsaH/CQ2kY6sb7p20XK
+	3tiGe6jWT7MbyZJjZlfSoKn0zStrrthe1juf+Rg4JZNS6y/U9ZHKED7HV5JZb8Vf9wzCjIb
+	EP42RfcSGptYiRinIR2H0MgzD9ZwU+zqOt55J7YDuW4DPlCVZbhECVkF7csETNSSBexfE5c
+	X2YqGgTYt20o5F0mYc+iIqYeBCqbLEjAxz+kdXqXSr3IFcbOQ7anOVXML+kb1TRdroNSPdg
+	wCcqiT2SvkUOB0blrVlj9aJJHiUq4tk1m8jL3P5k3kRbyK5XGvnDDMNBJcqllQrhP4rxZsh
+	I9x3oB2qkUQXd/FV1lfUff/j7wB0I+UUnGVGJKRA==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-On Thu, 04 Sep 2025 07:22:37 -0600, Jonathan Corbet wrote:
-> kurita <akito5623@gmail.com> writes:
+On Thu, Sep 04, 2025 at 02:05:57PM +0200, Andrew Lunn wrote:
+> On Thu, Sep 04, 2025 at 11:19:48AM +0800, Yibo Dong wrote:
+> > On Thu, Sep 04, 2025 at 12:24:17AM +0200, Andrew Lunn wrote:
+> > > >  struct mucse_mbx_info {
+> > > > +	struct mucse_mbx_stats stats;
+> > > > +	u32 timeout;
+> > > > +	u32 usec_delay;
+> > > > +	u16 size;
+> > > > +	u16 fw_req;
+> > > > +	u16 fw_ack;
+> > > > +	/* lock for only one use mbx */
+> > > > +	struct mutex lock;
+> > > >  	/* fw <--> pf mbx */
+> > > >  	u32 fw_pf_shm_base;
+> > > >  	u32 pf2fw_mbox_ctrl;
+> > > 
+> > > > +/**
+> > > > + * mucse_obtain_mbx_lock_pf - Obtain mailbox lock
+> > > > + * @hw: pointer to the HW structure
+> > > > + *
+> > > > + * This function maybe used in an irq handler.
+> > > > + *
+> > > > + * Return: 0 if we obtained the mailbox lock or else -EIO
+> > > > + **/
+> > > > +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw)
+> > > > +{
+> > > > +	struct mucse_mbx_info *mbx = &hw->mbx;
+> > > > +	int try_cnt = 5000;
+> > > > +	u32 reg;
+> > > > +
+> > > > +	reg = PF2FW_MBOX_CTRL(mbx);
+> > > > +	while (try_cnt-- > 0) {
+> > > > +		mbx_ctrl_wr32(mbx, reg, MBOX_PF_HOLD);
+> > > > +		/* force write back before check */
+> > > > +		wmb();
+> > > > +		if (mbx_ctrl_rd32(mbx, reg) & MBOX_PF_HOLD)
+> > > > +			return 0;
+> > > > +		udelay(100);
+> > > > +	}
+> > > > +	return -EIO;
+> > > > +}
+> > > 
+> > > If there is a function which obtains a lock, there is normally a
+> > > function which releases a lock. But i don't see it.
+> > > 
+> > 
+> > The lock is relased when send MBOX_CTRL_REQ in mucse_write_mbx_pf:
+> > 
+> > mbx_ctrl_wr32(mbx, ctrl_reg, MBOX_CTRL_REQ);
+> > 
+> > Set MBOX_PF_HOLD(bit3) to hold the lock, clear bit3 to release, and set
+> > MBOX_CTRL_REQ(bit0) to send the req. req and lock are different bits in
+> > one register. So we send the req along with releasing lock (set bit0 and
+> > clear bit3).
+> > Maybe I should add comment like this?
+> > 
+> > /* send the req along with releasing the lock */
+> > mbx_ctrl_wr32(mbx, ctrl_reg, MBOX_CTRL_REQ);
 > 
->> The Japanese translation of SubmittingPatches is based on an old
->> kernel version (2.6.39) and is missing several new sections.
->>
->> This patch adds the missing description for the 'Fixes:' tag to
->> bring the document more in line with the current English original
->> (Documentation/process/submitting-patches.rst).
->>
->> Signed-off-by:Akiyoshi kurita <akito5623@gmail.com>
->> ---
->>  Documentation/translations/ja_JP/SubmittingPatches | 4 ++++
->>  1 file changed, 4 insertions(+)
+> As i said, functions like this come in pairs. obtain/release,
+> lock/unlock. When reading code, you want to be able to see both of the
+> pair in a function, to know the unlock is not missing. The kernel even
+> has tools which will validate all paths through a function releasing
+> locks. Often error paths get this wrong.
 > 
-> So I only saw this because of Akira's response; something in how you are
-> sending your mail drives SpamAssassin nuts.
-
-It didn't make my Gmail's inbox nor spam folder either.
-I only spotted it at the lore archive.
-
-Akiyoshi, I see you have submitted other two versions of this patch already,
-but both of them failed to make my inbox.
-
-Your email message at the lore archive has these in its header:
-
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=none smtp.mailfrom=www.redadmin.org; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=www.redadmin.org
-
-The mail-list is probably generous and accepted it.
-But Gmail is getting very strict these days.
-
-I'm not going to review your patches until you fix whatever issue
-on your (or your ISP?) side.
-
+> So please make this a function, give it a name which makes it obvious
+> it is the opposite of mucse_obtain_mbx_lock_pf().
 > 
-> Thank you for working to improve our documentation!
+> 	Andrew
 > 
-> In addition to everything Akira said, I must express a bit of worry
-> about updating this document piecemeal in this way.  Backporting
-> specific pieces in this way will yield a result that is not a
-> translation of anything - it is a new creation that never existed in the
-> original form.
-> 
-> It sure would be nicer (says the guy who has no ability to do that work)
-> to bring the translation as a whole current.
 
-Jon, of course that's the ultimate goal.
-And that was exactly I did in commit 991dabb24232 ("docs/ja_JP: Convert
-SubmitChecklist into reST with belated updates").
-I did it because the original check-list has only 137 lines and its
-direct translation would have ended up in odd looking one from Japanese
-speaker's POV.
+Got it, I will update this.
 
-Thanks,
-Akira
-
-> 
-> I'll accept pieces with acks from people who can properly judge them,
-> but I would prefer to just have a current translation.
-> 
-> Thanks,
-> 
-> jon
+Thanks for your feedback.
 
