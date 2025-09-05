@@ -1,202 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417C2DF71;
-	Fri,  5 Sep 2025 08:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CE02D0636;
+	Fri,  5 Sep 2025 08:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757059843; cv=none; b=u3GJLyRQbYZn9kqr+gzodqUj/cuDvCQG67hsN9UdzxyyLdznrJ9QURI7kg05Oy1fONP7mKE4uWtRXtlmmJvPx3aeUPzpevdHZK5vQ0dqX5s1p0WGjJqXAYdyQ/RBngimChw4D/muzHGVorrtNfW6vuXi0kzYjJTO5wTQefTOths=
+	t=1757060942; cv=none; b=cSu8ohsmXHVZXceQOiwtdzP9xthR7Su5gBlNCjokY1ZkOooK0BqcRiy7RQrPnGcmppKH9bRScqZPPYD37aMgeS9Edz/kRIp+x6QlM+8JYiE78tfZwJONMdX7tIKRgVd1qsmI6BzPqkIAmx6bDX5b2DrhogKOQ3nGzjAj2n6QXyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757059843; c=relaxed/simple;
-	bh=5j4EJZCYnaX5wdGukSnYY4+GHzOWlhHBIHpH4amAKuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lYTxV5+BKCoYwgXi8blgO79BfnC5OE4ThrDlkrSG38euNQpMVsgqhB7B9iwZmDWXGXKKj9NHW4sbthkoVjYiuufL98iTi4ICx/sH9bm95t5gg8K5cxkyEjSQBCsZ3jwhaNIj4L/TpErM/R6czz9XdqELEUG/xzObWAA0OH7xOA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s7r1A9vu; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s7r1A9vu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A526C4CEF1;
-	Fri,  5 Sep 2025 08:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757059842;
-	bh=5j4EJZCYnaX5wdGukSnYY4+GHzOWlhHBIHpH4amAKuc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s7r1A9vu6gEFM8SHHq+HTmjSr1qaGBNGm8kBouACRDR81QrFR5g7GB1bWnBlmuPRU
-	 2S3a7tunL4DtPhLB6XPcKqAJJem637OWSLRDUHaFFGb4XNvjscqCCwZiEL6rIvT6CS
-	 CenMpUFAovfdjOOaSx0W9KFPe90QNEAwoeYyGjMZZgj9p2EcQ3m/K9VB/eZXyrAYKV
-	 yPArVMcyX17vb+7e0hk+5+j/5wMvcR6h2clHhtCuBOm6aseQ2Y79QniGc7WCeMisUh
-	 Q2d4N2J2azUO24TELOzbhFxpQ+Y/X+SC9o6LOENvQWplfUkYisvwuuRHEGiYyWs5Wg
-	 l07sVD5ba6jHQ==
-Date: Fri, 5 Sep 2025 10:10:40 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Cc: Robert Marko <robert.marko@sartura.hr>, 
-	Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: update TI TPS23861 with
- per-port schema
-Message-ID: <20250905-deft-porcelain-teal-a3bdbf@kuoka>
-References: <20250904-hwmon-tps23861-add-class-restrictions-v3-0-b4e33e6d066c@gmail.com>
- <20250904-hwmon-tps23861-add-class-restrictions-v3-1-b4e33e6d066c@gmail.com>
+	s=arc-20240116; t=1757060942; c=relaxed/simple;
+	bh=iZgUe6JhcEMeAWz8pMhCMyGmzC4//h9ycZ47qqWfa9o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FCDVLCtd+RU0d7EG+DHFgZKu7xLvrKnRBod4M+uK0uftbpIhXw6K7gFO+HchF7UTBR+b4YNcigB+IZ2YS8Dv/Gj3MJQ9s8bLZzFqWp1UqfAAf3iTFBRUruXzlDjKfnPWwR+t6Our3GupYStoq5CaxjnCQaVXq8LuwgjgQfp9yy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4cJ8Yl1BnNz24j4K;
+	Fri,  5 Sep 2025 16:25:47 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2A8ED180042;
+	Fri,  5 Sep 2025 16:28:56 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 5 Sep 2025 16:28:54 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>, Meny Yossefi
+	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
+	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v04 00/14] net: hinic3: Add a driver for Huawei 3rd gen NIC - sw and hw initialization
+Date: Fri, 5 Sep 2025 16:28:34 +0800
+Message-ID: <cover.1757057860.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250904-hwmon-tps23861-add-class-restrictions-v3-1-b4e33e6d066c@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Thu, Sep 04, 2025 at 10:33:44AM -0700, Gregory Fuchedgi wrote:
-> Update schema after per-port poe class restrictions and a few other options
-> were implemented.
-> 
-> Signed-off-by: Gregory Fuchedgi <gfuchedgi@gmail.com>
-> ---
->  .../devicetree/bindings/hwmon/ti,tps23861.yaml     | 93 +++++++++++++++++++++-
->  1 file changed, 92 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> index ee7de53e19184d4c3df7564624532306d885f6e4..7538d1a9c19905ec90c48d34f84a92c1972f566b 100644
-> --- a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> @@ -24,12 +24,60 @@ properties:
->    reg:
->      maxItems: 1
->  
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
->    shunt-resistor-micro-ohms:
->      description: The value of current sense resistor in microohms.
->      default: 255000
->      minimum: 250000
->      maximum: 255000
->  
-> +  reset-gpios:
-> +    description: GPIO for the reset pin.
-> +    maxItems: 1
-> +
-> +  ti,ports-shutdown-gpios:
+This is [3/3] part of hinic3 Ethernet driver initial submission.
+With this patch hinic3 becomes a functional Ethernet driver.
 
-You can drop the vendor prefix, we do not have them for pins and
-supplies.
+The driver parts contained in this patch:
+Memory allocation and initialization of the driver structures.
+Management interfaces initialization.
+HW capabilities probing, initialization and setup using management
+interfaces.
+Net device open/stop implementation and data queues initialization.
+Register VID:DID in PCI id_table.
+Fix netif_queue_set_napi usage.
 
-> +    description:
-> +      GPIO for the shutdown pin. Used to prevent PoE activity before the driver
-> +      had a chance to configure the chip.
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description:
-> +      Only required if PoE class is restricted to less than class 4 in the
-> +      device tree.
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "^poe-port@[0-3]$":
+Changes:
 
-Keep consistent quotes, either ' or ".
+PATCH 03 V01: https://lore.kernel.org/netdev/cover.1756195078.git.zhuyikai1@h-partners.com
+* Remove extra memset 0 after kzalloc (Vadim Fedorenko)
+* Remove another init function in hinic3_init_hwdev/hwif/nic_io (Vadim Fedorenko)
+* Create a new separate patch of fixing code style (Vadim Fedorenko)
+* Use bitmap_free instead of kfree (ALOK TIWARI)
+* Add prefix "hinic3" to non-static functions and parse_* functions (Vadim Fedorenko)
+* Init func_tbl_cfg to {} (Vadim Fedorenko)
+* Extract endianess improvement from queue pair resource initialization (Vadim Fedorenko)
+* Use kmalloc_array before overwrite rss_hkey on the very next line (Vadim Fedorenko)
+* Remove extra key copy about hinic3_rss_set_hash_key (Vadim Fedorenko)
+* Use netdev_rss_key_fill instead of static rss hash key for safety (Eric Dumazet)
 
-> +    type: object
-> +    description: Port specific nodes.
-> +    unevaluatedProperties: false
-> +    properties:
-> +      reg:
-> +        description: Port index.
-> +        items:
+PATCH 03 V02: https://lore.kernel.org/netdev/cover.1756378721.git.zhuyikai1@h-partners.com
+* Modify get_hwif_attr function for improving readability (Vadim Fedorenko)
+* Add HINIC3_PCIE_LINK_DOWN errorcode to init_hwif_attr error handling (Vadim Fedorenko)
 
-Drop items, you want here a scalar, not array, and this suggests you
-miss array constrain.
+PATCH 03 V03: https://lore.kernel.org/netdev/cover.1756524443.git.zhuyikai1@h-partners.com
+* Use pci_enable_msix_range instead of pci_alloc_irq_vectors (Jakub Kicinski)
+* Move defensive codes to place that they are set/loaded (Jakub Kicinski)
+* Code format fixes: remove empty lines between error handling path (Jakub Kicinski)
+* Remove redundant waiting sleep in hinic3_rx_tx_flush (Jakub Kicinski)
+* Use ethtool_rxfh_indir_default for standalizing codes (Jakub Kicinski)
+* Use netif_get_num_default_rss_queues instead of driver-local logic (Jakub Kicinski)
+* Use netif_set_real_num_queues to set both TX and RX queues (Jakub Kicinski)
 
-> +          maximum: 3
-> +
-> +      ti,class:
-> +        description: The maximum power class a port should accept.
+PATCH 03 V04:
 
-What's the meaning of values? There are no other generic properties like
-that? Last time it was a generic property, but maybe the answer to my
-question should be that there is or should be such generic one?
+Fan Gong (14):
+  hinic3: HW initialization
+  hinic3: HW management interfaces
+  hinic3: HW common function initialization
+  hinic3: HW capability initialization
+  hinic3: Command Queue flush interfaces
+  hinic3: Nic_io initialization
+  hinic3: Queue pair endianness improvements
+  hinic3: Queue pair resource initialization
+  hinic3: Queue pair context initialization
+  hinic3: Tx & Rx configuration
+  hinic3: Add Rss function
+  hinic3: Add port management
+  hinic3: Fix missing napi->dev in netif_queue_set_napi
+  hinic3: Fix code style (Missing a blank line before return)
 
-Also, why exactly wouldn't you want to accept here always the highest
-power class? What makes it a board-level property?
-
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        maximum: 4
-
-default: [ ... ]
-
-> +
-> +      ti,off-by-default:
-> +        description: Indicates the port is off by default.
-
-I fail to see how this is property of a board... unless you wanted to
-figure out which ports are not connected, but status=disabled could be
-used for that.
-
-Sorry, but device has FIXED reset values for registers, so whether
-something is off or on by default is defined by compatible.
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   2 +
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    | 168 ++++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |   4 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 361 ++++++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  21 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   | 121 +++
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.c | 541 ++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 281 ++++++
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |   2 +-
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   |   9 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |   8 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.c  |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |   2 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     | 119 +++
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 425 ++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 152 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  20 +
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   5 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.c    | 870 +++++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    |  39 +-
+ .../huawei/hinic3/hinic3_pci_id_tbl.h         |   9 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 336 +++++++
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  14 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    | 226 ++++-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  38 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 184 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |  30 +-
+ 28 files changed, 3938 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_pci_id_tbl.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
 
 
-> +        type: boolean
-> +
-> +      label:
-> +        description: Port label.
-> +
-> +    required:
-> +      - reg
-> +
->  required:
->    - compatible
->    - reg
-> @@ -45,9 +93,52 @@ examples:
->          #address-cells = <1>;
->          #size-cells = <0>;
->  
-> -        tps23861@30 {
-> +        poe_controller@30 {
-
-See DTS coding style.
-
->              compatible = "ti,tps23861";
->              reg = <0x30>;
->              shunt-resistor-micro-ohms = <255000>;
->          };
->      };
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        poe_controller@28 {
-> +            compatible = "ti,tps23861";
-> +            reg = <0x28>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            shunt-resistor-micro-ohms = <255000>;
-> +            interrupt-parent = <&gpio1>;
-> +            interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
-> +            label = "cabinet_poe_controller";
-> +            reset-gpios = <&gpio1 13 GPIO_ACTIVE_LOW>;
-> +            ti,ports-shutdown-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
-> +
-> +            poe-port@0 {
-> +                    reg = <0>;
-
-Mixed up indentation.
-
-> +                    ti,class = <2>; // Max PoE class allowed.
-> +                    ti,off-by-default;
-> +                    label = "cabinet_port_a";
-
-Best regards,
-Krzysztof
+base-commit: b1c92cdf5af3198e8fbc1345a80e2a1dff386c02
+-- 
+2.43.0
 
