@@ -1,173 +1,91 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144AA3002C1;
-	Fri,  5 Sep 2025 21:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757108428; cv=fail; b=OF6TkkVl5VN6IwiW2d7WUsTUFdZlY8xRGroOQjY6R86WPlG21zDtVSr9KaU8osxq/V41O5V48YFWwGEViJ23xC7KlIJDcWQzp8+Kbt70MDWAmCxM6Ptk/e82q9k4/21x4D8w4qe1KgeLtkZXeofths3ceLdmN2NDI5zXhFWT4FQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757108428; c=relaxed/simple;
-	bh=h63NpjdlLeMdxnaWgqNeNYkJ8wUD6l6yPiv9JG9b9ek=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YvnZhxtgzKghauyYV8tDf+314/6Xjm4g09Gi+7ywhFzJCVk2AW+iGOltHNwKcoIlBcn6MIjuGFUUlf3F+9VYvPbAYZWhgivxmqUekyCqa7nR6eTzKpSXPrRExYEqRMUfm4PMWZ1ckz4YxBfqyaMWt4XqkTjiskGHRAVSGI5XxdI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oDj+pVOQ; arc=fail smtp.client-ip=40.107.92.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6328F25DB0D;
+	Fri,  5 Sep 2025 22:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757109645; cv=none; b=Ypc8hzJoKxFxcpif7dQeR9h4nCV7MQWiENjpYGgiYIpABpHOBKV5W5v8OZR2GDgwcfwP5PYsaw/PTx61bXy7qnHixqbBXBFfa0m2h/T5M2vvROwOGZKMDFrv0jyAu6ipwqYjCM7/GkJ43VJwkpdc4YaHHJaN/3J5bCQZGGReFc8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757109645; c=relaxed/simple;
+	bh=jCaKj3PMwoRDYdGQHGUNKiZrC2PINAiafW7/ulScedU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NeJlfgMyBOnBUIuUo5Dw4F7DG34pY6xnbyr83hDeARQhXUqE5zUgX6mFrgE/LR3jr23lDKxwcNpQ797+5K2r6b6JVXGyu3HyE9mEixEyIPGJSKbMdffp3gjo10su13DcP5f2ELhkTmwWFUSjdY5PzCxtSIY+qlTZ41RRp+yEaGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eCSH5kw8; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oDj+pVOQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l8PYnibh/ycKfWA0oo/a1VYgdz8dQZkbvk8wuIb0xS2Ec6u/l81E0v+VZzqU81mKkA+AWTiLHSD9F2wV++OtWLnSAFmdWfdPtuCtf1pm8Kwehmut3IeGvcGIA1sRbe2GvM1c/eI4JbgEH74cEtE5j6nCOdCRSa5Djt4E9U+QMELm99PVCsjhAXexsmDUPU5jeHH3EOXMDYDNjT+1Wx2huL/deRr+WB7Ndt9IkfnHi7fM3ceC8YC0ecTNkZBG5uNdTirB9Tg6AQJY42PizkPbeqEYoa9wzZ+bvCIgkhRF1i0BOzSr5qYl35WIOe0/bfH80F0GXHCLB6vSUgwVSfjnmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MBp6X4NkpzTyKP1Lg0EZ4Ga8Ilyni2aAKDyZwhOFBWI=;
- b=DPkbSgioAkxwKoN3osSmcbe8TT5nxXMudK+oM65ICH1pZDFOT+edmj3HH9HAbLKwI42IK3VhIflBsTVw3JTqUxsQnnrmt9jkkkyUsb11ZY5ZAI4M/RiDT/1Ev9zKgu48ntvJkJLpxQkTGOyJyNKaaDA6GSYsW8LzVgbXW9C/vl7DsmV2fgEOoh8HBcKdf2XNsjAV8ZSzSFvCrJNEkoTyy2EugGZUAecbe4h3a/tvlJyCEv+gTgaSxlmcfAGZwRJBl90+cf4fWiQ16kkCGhSgsd+6Yva1/v1Pfl8Isgam6Z6RnaoZwKlSNuryhm8qgyd1Ly2Z/3YjCJh74iOtf1xCnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MBp6X4NkpzTyKP1Lg0EZ4Ga8Ilyni2aAKDyZwhOFBWI=;
- b=oDj+pVOQ9xowil98I8zufnLH5gwC5lw/OnBEv7CfZOXpB8DqkSenxGqQIMkOPTEyBEoQAfwVLRfTyEjffcTROE/jC+UbqFv2fnBvBE0NGsxunXkG4dYENoyj8d0KRLOc4iMO5rEZhPLpiRFhr5xSyFEEV/O7FkzZgV4bYxsCp10=
-Received: from BN9PR03CA0558.namprd03.prod.outlook.com (2603:10b6:408:138::23)
- by IA1PR12MB6410.namprd12.prod.outlook.com (2603:10b6:208:38a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Fri, 5 Sep
- 2025 21:40:23 +0000
-Received: from BN3PEPF0000B073.namprd04.prod.outlook.com
- (2603:10b6:408:138:cafe::5b) by BN9PR03CA0558.outlook.office365.com
- (2603:10b6:408:138::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.26 via Frontend Transport; Fri,
- 5 Sep 2025 21:40:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN3PEPF0000B073.mail.protection.outlook.com (10.167.243.118) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9094.14 via Frontend Transport; Fri, 5 Sep 2025 21:40:22 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 5 Sep
- 2025 16:40:18 -0500
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Fri, 5 Sep
- 2025 14:40:15 -0700
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
-	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <babu.moger@amd.com>, <x86@kernel.org>, <hpa@zytor.com>, <kas@kernel.org>,
-	<rick.p.edgecombe@intel.com>, <akpm@linux-foundation.org>,
-	<paulmck@kernel.org>, <frederic@kernel.org>, <pmladek@suse.com>,
-	<rostedt@goodmis.org>, <kees@kernel.org>, <arnd@arndb.de>, <fvdl@google.com>,
-	<seanjc@google.com>, <thomas.lendacky@amd.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <perry.yuan@amd.com>,
-	<manali.shukla@amd.com>, <sohil.mehta@intel.com>, <xin@zytor.com>,
-	<Neeraj.Upadhyay@amd.com>, <peterz@infradead.org>, <tiala@microsoft.com>,
-	<mario.limonciello@amd.com>, <dapeng1.mi@linux.intel.com>,
-	<michael.roth@amd.com>, <chang.seok.bae@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<peternewman@google.com>, <eranian@google.com>, <gautham.shenoy@amd.com>
-Subject: [PATCH v18 33/33] MAINTAINERS: resctrl: add myself as reviewer
-Date: Fri, 5 Sep 2025 16:34:32 -0500
-Message-ID: <be18d59ef5458b22ef65fac59d9c2d06eda01d57.1757108044.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1757108044.git.babu.moger@amd.com>
-References: <cover.1757108044.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eCSH5kw8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=2sZTWD8rWRNjtfXFfF5ulIWiPDJJEtcOzCD2ZWH2xAg=; b=eCSH5kw8TQchkwmRLEmkkgYr+z
+	tCUQ+NAvDj0QHa/2hHFjXk9Xy+TdIu7k2X7r8KSOvNWKFkgTjZeaw53iPgI+ItoyFPz8EASpRAqn7
+	GrBNVc+XwB+SKh+eoj6lZTxIoRkU/C+BHZDfV7gsrH5JPCxc2qezYFaccYKg7yKx6kXZOJtqFEtjz
+	P06DoUZBylFnt9ZzDxAqudKYxaTzvBjfDDSz9Uo/V0+QTBQFXILAukcZRC4dniX8Sq08b6KabjMCL
+	2r5K+nPZKS6eyVxTjRetw+0ySLFs7iXBz5P27CJpaYnBrFsuzVa7018YGe28Wlgh8cP7e3bUaZ3ch
+	Bf9g8gog==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uueU4-00000004thW-01dp;
+	Fri, 05 Sep 2025 22:00:40 +0000
+Message-ID: <491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org>
+Date: Fri, 5 Sep 2025 15:00:38 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B073:EE_|IA1PR12MB6410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90b24626-8f24-46a5-1175-08ddecc4d14e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|7416014|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SqcVg33I5XWHSIj7JZrCXQ13UM2R21c1HOkCd7UStjuq3vzMT64KqMpCM6yB?=
- =?us-ascii?Q?IzCWcgMYYq6k0FKnrT3erndzQh+UltJGEBqfk2oDi7Irn7+AyoKQ2Vl1RunT?=
- =?us-ascii?Q?TgXR8LC9CPyBkOMnHUC3w10FlRPRUx7EsTErRPOW+mZKxQ1+vUmYRE/lJ30e?=
- =?us-ascii?Q?JK5xsMDsg3SxtXhm+HmNQdCdIMvGpQWAd3K7nNi8SGZRfsjv9trnD20QaOES?=
- =?us-ascii?Q?UZYpI9ylzbqI4Hs9WMbK6HrLcsu/lFAgn003PMBfTJZmAgZRQOwWK6pItAa5?=
- =?us-ascii?Q?qMicBVUIzOZ20UeaYpOYw3uNPniYEybZHUD7y9rW4Xe95BVO/soMh4W2nTwk?=
- =?us-ascii?Q?psNLqelLBYzb9Qxx8f4laAQuksg+SP6DPw3BpUqEm+IF/IpcPbFe/KUDEkrx?=
- =?us-ascii?Q?BFZjIuTBq71L3/3rTzi8XH7fInK1KFOKnw2hvUHrQV8ZYAHZIeaV0OGMbnsw?=
- =?us-ascii?Q?Mn7xT45AJTLNS62D5ZJT/3pzZZ4mfsrqTG7av0OQ7XDZW5V+8kLglhdk8ZuI?=
- =?us-ascii?Q?pjoF4cFfYPuHTHnrZ8HRJJzvVaiYPYX9Lc3+Zno4qBBqhf0a/ijWLXQWWfln?=
- =?us-ascii?Q?i0kz3RlbZurv0YviBnZixvY82fLS6Jfj6AO64gZ+D7jSDtnMJSvuDnSDSVIo?=
- =?us-ascii?Q?rV6uCLVQOVnu4eicHha5xX3VtVCeYU5lCm/X9iNDOQZH57tnnSirQHylP2fD?=
- =?us-ascii?Q?86uL3p+s0G/0kkoddz9FEsisSX1pPkip/IZ3xhgg55yMcqr22PjOtb0dzpCQ?=
- =?us-ascii?Q?GveuxSCrvLeWWp9nf5/ld7aaHgIkJNPeB+3OEuro7FBAXuJli8ZbHyTVfVPe?=
- =?us-ascii?Q?+fgVyBUERl35+BXkiw7pxXSq3i8Vf8z3qdaM94RN3Sl27HPiPesj00UFw16r?=
- =?us-ascii?Q?5cvFGiR/CJHoHaxKcF+ZsRwr5qMHeuaD36d9FFbbqsJxjv2GJStw9/WrKhHN?=
- =?us-ascii?Q?0f3oyki5x9EUU9b1iCQIeTDJQVlgjEpqJ8hkO+AnhHZxG06+j1zPfLVO9HqN?=
- =?us-ascii?Q?n+eyYaqlz8+CU9+H2frWRb9IFNJ+gtGZuAn/gZi6UeyrFX/6lNX2JbWYigC5?=
- =?us-ascii?Q?2rbZ9kUXjH5WHHHY6fHQdCpXT+WfK/5/qw5FT73mTQZsf3yWy1wxQj+sZIcc?=
- =?us-ascii?Q?3dWJs5MBN/TGeTS2oO7lRgZmyOmkj6vaz+Qaf/BJL+PAENiiGO7goPVgsYHe?=
- =?us-ascii?Q?t3UctdAXMZQTFrTUsO8NQM079dCil0CJv0efzr16b0oIahIP4nERdhOgs0fo?=
- =?us-ascii?Q?N1j7xuQM6ZyG9pyA+bn5ClosSLi1ntSnqSmNPZ4i7v3EUHZmSBb5eIzlUFK0?=
- =?us-ascii?Q?6dqzlxcbR+D9gBojSPU7EM7NyO1NvxxiowFHzT+TnGtHw/dbOCICmB3zly/8?=
- =?us-ascii?Q?n7wVmE+Fr1jOy1WYmPuwQwa4syUS6DQN0QSeNU0m54FVbADNsH5rSsP8HILF?=
- =?us-ascii?Q?ftT9WNmQgDbhyrSWunbqeKfE3Txbq7cxUxi3B7v0jmXkRTkJ0U8qs+8lYv6X?=
- =?us-ascii?Q?DY0zYTiuMx1PnMjg1WqwNuHwwh8b+waSuV6D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(7416014)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 21:40:22.5360
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90b24626-8f24-46a5-1175-08ddecc4d14e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B073.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6410
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] kernel.h: add comments for system_states
+To: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Machek
+ <pavel@ucw.cz>, Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+References: <20250904063631.2364995-1-rdunlap@infradead.org>
+ <6089e22ddfdc135040cdeb69329d817846026728@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <6089e22ddfdc135040cdeb69329d817846026728@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-I have been contributing to resctrl for sometime now and I would like to
-help with code reviews as well.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Acked-by: Reinette Chatre <reinette.chatre@intel.com>
----
-v18: No changes.
 
-v17: Added Acked-by tag.
+On 9/5/25 2:02 AM, Jani Nikula wrote:
+> On Wed, 03 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
+>> Provide some basic comments about the system_states and what they imply.
+>> Also convert the comments to kernel-doc format.
+>>
+>> However, kernel-doc does not support kernel-doc notation on extern
+>> struct/union/typedef/enum/etc. So I made this a DOC: block so that
+>> I can use (insert) it into a Documentation (.rst) file and have it
+>> look decent.
+> 
+> The simple workaround is to separate the enum type and the variable:
+> 
+> /**
+>  * kernel-doc for the enum
+>  */
+> enum system_states {
+> 	...
+> };
+> 
+> /**
+>  * kernel-doc for the variable
+>  */
+> extern enum system_states system_state;
 
-v16: Reinette suggested to add me as a reviewer. I am glad to help as a reviewer.
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Duh. Beautiful. Thanks.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ec2586487c9f..d27b0fce1146 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21171,6 +21171,7 @@ M:	Tony Luck <tony.luck@intel.com>
- M:	Reinette Chatre <reinette.chatre@intel.com>
- R:	Dave Martin <Dave.Martin@arm.com>
- R:	James Morse <james.morse@arm.com>
-+R:	Babu Moger <babu.moger@amd.com>
- L:	linux-kernel@vger.kernel.org
- S:	Supported
- F:	Documentation/filesystems/resctrl.rst
+@Andrew, please drop the v4 patch. I'll make another.
+
 -- 
-2.34.1
+~Randy
 
