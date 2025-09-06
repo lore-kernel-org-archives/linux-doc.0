@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF242405EC;
-	Sat,  6 Sep 2025 08:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07252C032C;
+	Sat,  6 Sep 2025 09:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757149138; cv=none; b=Wx+cju5hKWc7ObDqcUIzDsiV7G5PSfvMIYFYxYaKysKbBRD8jhI9Y+gLUaCzXsmkjANUMFUIV7SQRTe7P2vCLUncZPLFlv2B2jgZ3XUylCYJTGWw+3Zi+jwmRW4YZS1y6AsJWzxtAddo62JIyNB926m3sj06uFkcKwp2WYn+6qE=
+	t=1757151658; cv=none; b=tCOHhiFLcMugfO31cieY2tr0X9xR5HxbsC4CixgrVLFzUnoKOf9NChRMf1HT8qXe7YsvD2GkfjKF8d6ZbS0MNwMXnWJdJV3NsTU+JHCqCNZVhPHc/YFItYnGDWu28DzeCOradkUp7KDUj1igyh91t9vA6+WU2EMSHld6IxESEAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757149138; c=relaxed/simple;
-	bh=S6l82ubjGQ2QK0QX4FzJH8TH/F2OpmVSYr6x9ZyGaHw=;
+	s=arc-20240116; t=1757151658; c=relaxed/simple;
+	bh=JUFAncsfpeE15TmlQMq7DVXe85G2NJmyOIEQi4XGq9w=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XWgkgCuJKoPI93WIE2B9xkwqwLbSa1tUz0FI86PmP+2er0k+Ozw13Hb/NHcs3/aCChSOeFNGtKp293yndW4X6/D+QfvAx+Ite46yzFuXS7EPdwrzLOH26j1zV5dk1hQ70qeklGEFujyi6+wtZXynl5iPtZWVSXGGuhdXPOwkVi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/V7t4+w; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fdKu7D3nSBTdh45nk41nNwN+lmiAY4V5F7WCPVNQjqEvLqI+MsJglI/O+JJZ09odcYV8L5PqX0SlHuCdHPhIM/Kxi6JL3hCUSNB9hYfsexYJhrn1QQD3JDDDZgAXCXjw0+GsWmxuxPfjgjM58sq2LGewITZ6a5a4q0NYgOAewFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tKeUgGsn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/V7t4+w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2C6C4CEE7;
-	Sat,  6 Sep 2025 08:58:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKeUgGsn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2659CC4CEE7;
+	Sat,  6 Sep 2025 09:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757149137;
-	bh=S6l82ubjGQ2QK0QX4FzJH8TH/F2OpmVSYr6x9ZyGaHw=;
+	s=k20201202; t=1757151658;
+	bh=JUFAncsfpeE15TmlQMq7DVXe85G2NJmyOIEQi4XGq9w=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i/V7t4+wqW/sqTOvx8PGGNPWLcnRoN3LhP7vRqojtAlrjfvYRiRFhY1Eu3bwFJUNt
-	 SLYKSEjPEda5iFVeRfQ5Fe0lPjve6I4ULgX6Hf8Ngoy/UznpEx7r/i2eirEbXc3UDJ
-	 qMy7mPDINHhMyySj9Fgc7vVbU6R8y8la/1KgQGlWns9toGRUf9Nkljil/u7rbkSNyq
-	 3Lc2iLFvxRAwxD+/5v9ffrs/dTjD/tr+0+E3hvEm40lHZwHP1MGLWjYMKqqMBO3YGv
-	 CLS4j5WzqdtlDp+CRFM+CPGUHiGLucrWV8W5auispExp2mT3hd7etiU2w6IYXIOLx6
-	 9J/iB+pAfzm6Q==
-Date: Sat, 6 Sep 2025 10:58:51 +0200
+	b=tKeUgGsnbPm9s4K1qJOODWBi7kvtOwgEJsdNNW8/FS3VucolozDc6bGibglhxgPdB
+	 bT38JKE8U7esiywfsBnt0Gq+ghIxCOCg8wiJLnetGOU0AoogCvAIF9ltp5U4hxb9jU
+	 fGQbC16F8io8WWjTJJCCxtet7hUUtcRI0mpypmuksls0Xmww8tTCVkrbk454ZedkGE
+	 xHk1Nu79KTEdjymJRJTw/ytft4MFOnjUIdykR5GP26nI8R7mRMZwerNIxHPAcbm0Sg
+	 +vEcR1NSxybDg1dYhnHi9uvFQG0CEGIkvxv1k0TQCAfw6Zp13t0hxV6TWPeeBZ+pP/
+	 4IRfsevlgTcqQ==
+Date: Sat, 6 Sep 2025 11:40:52 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>, Len Brown
- <len.brown@intel.com>, linux-pm@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, Jani Nikula <jani.nikula@linux.intel.com>,
- linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Subject: Re: [PATCH v5] kernel.h: add comments for enum system_states
-Message-ID: <20250906105851.7c28416c@foz.lan>
-In-Reply-To: <20250906052758.2767832-1-rdunlap@infradead.org>
-References: <20250906052758.2767832-1-rdunlap@infradead.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v4 00/19] Split sphinx call logic from docs Makefile
+Message-ID: <20250906114052.4d2109f9@foz.lan>
+In-Reply-To: <87y0qskhm0.fsf@trenco.lwn.net>
+References: <cover.1756969623.git.mchehab+huawei@kernel.org>
+	<87y0qskhm0.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -50,92 +46,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Fri,  5 Sep 2025 22:27:58 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+Em Fri, 05 Sep 2025 10:07:51 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Provide some basic comments about the system_states and what they imply.
-> Also convert the comments to kernel-doc format.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> Split the enum declaration from the definition of the system_state
-> variable so that kernel-doc notation works cleanly with it.
-> This is picked up by Documentation/driver-api/basics.rst so it
-> does not need further inclusion in the kernel docbooks.
+> > This series does a major cleanup at docs Makefile by moving the
+> > actual doc build logic to a helper script (scripts/sphinx-build-wrapper).
+> >
+> > Such script was written in a way that it can be called either
+> > directly or via a makefile. When running via makefile, it will
+> > use GNU jobserver to ensure that, when sphinx-build is
+> > called, the number of jobs will match at most what it is
+> > specified by the "-j" parameter.  
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Rafael J. Wysocki <rafael@kernel.org> # v1
-> ---
-> v2: add Rafael's Ack.
-> v3: add Andrew
-> v4: add DOC: so that this DOC: block can be used in Documentation/
->     add Greg K-H
->     add Jon Corbet, Mauro Chehab, & linux-doc
-> v5: split enum declaration and definition (Jani Nikula)
->     drop the DOC: block since it is no longer needed
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Len Brown <len.brown@intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-> ---
->  include/linux/kernel.h |   21 +++++++++++++++++----
->  1 file changed, 17 insertions(+), 4 deletions(-)
-> 
-> --- linux-next-20250819.orig/include/linux/kernel.h
-> +++ linux-next-20250819/include/linux/kernel.h
-> @@ -164,11 +164,23 @@ extern int root_mountflags;
->  
->  extern bool early_boot_irqs_disabled;
->  
-> -/*
-> - * Values used for system_state. Ordering of the states must not be changed
-> +/**
-> + * enum system_states - Values used for system_state.
-> + *
+> I will try to make another pass over this stuff later today.  I would
+> really appreciate some more eyes on it, though, and perhaps even some
+> reports of testing.  This is a significant change, and the presence of
+> surprised would not be ... surprising ...
 
-> + * * @SYSTEM_BOOTING:	%0, no init needed
-> + * * @SYSTEM_SCHEDULING: system is ready for scheduling; OK to use RCU
-> + * * @SYSTEM_FREEING_INITMEM: system is freeing all of initmem; almost running
-> + * * @SYSTEM_RUNNING:	system is up and running
-> + * * @SYSTEM_HALT:	system entered clean system halt state
-> + * * @SYSTEM_POWER_OFF:	system entered shutdown/clean power off state
-> + * * @SYSTEM_RESTART:	system entered emergency power off or normal restart
-> + * * @SYSTEM_SUSPEND:	system entered suspend or hibernate state
+Take your time.
 
-You forgot to drop the extra asterisk at the above. definitions.
+Yeah, tests are very welcomed. The change itself is not significant
+in the sense that we just moved a complex logic with lots of magic
+from Makefile to Python (*) without changing the implementation, but 
+yeah, it requires testing. From my side, I've been testing cleandocs,
+htmldocs and pdfdocs for 3-4 weeks now on over ~20 different distros,
+all without O=, but didn't make any burn-in test for the other targets.
 
-Fixing it, feel free to add:
+I've got (and fixed) some corner cases, but I won't doubt that other
+corner cases might be there.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+(*) It actually solved one issue: with current implementation, at least for me,
+    using V=1 doesn't show the sphinx-build command line, as this is hidden
+    inside the complex makefile foreach macro:
 
-> + *
-> + * Note:
-> + * Ordering of the states must not be changed
->   * as code checks for <, <=, >, >= STATE.
->   */
-> -extern enum system_states {
-> +enum system_states {
->  	SYSTEM_BOOTING,
->  	SYSTEM_SCHEDULING,
->  	SYSTEM_FREEING_INITMEM,
-> @@ -177,7 +189,8 @@ extern enum system_states {
->  	SYSTEM_POWER_OFF,
->  	SYSTEM_RESTART,
->  	SYSTEM_SUSPEND,
-> -} system_state;
-> +};
-> +extern enum system_states system_state;
->  
->  /*
->   * General tracing related utility functions - trace_printk(),
+	loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
 
+	quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+	      cmd_sphinx = \
+	       PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+	       BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
+	       $(PYTHON3) $(srctree)/scripts/jobserver-exec \
+	       $(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+	       $(SPHINXBUILD) \
+	       -b $2 \
+	       -c $(abspath $(src)) \
+	       -d $(abspath $(BUILDDIR)/.doctrees/$3) \
+	       -D version=$(KERNELVERSION) -D release=$(KERNELRELEASE) \
+	       $(ALLSPHINXOPTS) \
+	       $(abspath $(src)/$5) \
+	       $(abspath $(BUILDDIR)/$3/$4) && \
+	       if [ "x$(DOCS_CSS)" != "x" ]; then \
+	               cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_static/; \
+	       fi
 
+	htmldocs:
+	...
+	       @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+
+    IMHO, this is problematic, as it makes harder to debug corner
+    cases. While doing this changeset, I actually had to add an echo
+    line to show the command line, to ensure that sphinx-build was
+    called with the same arguments.
+
+    On a side note, the above macro is complex and hard to maintain.
+
+    One of the reasons why the Python script is bigger is that it
+    has one statement per line instead of trying to do lots of
+    calls inside a single statement like above (there, cmd_sphinx
+    has 8 function calls; htmldocs foreach line has 3).
+
+    The core of cmd_sphinx grew from 14 LOC on Makefile to 64 lines
+    in Python, not counting:
+
+	- comments
+	- CSS logic
+	- path handling logic
+	- jobserver logic (in Makefile, this is a single "+" character,
+  	  at the foreach line)
+
+    I remember I had to touch on the foreach/call logic there a couple
+    of times in the past. It is not the easiest thing to do.
 
 Thanks,
 Mauro
