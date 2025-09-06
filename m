@@ -1,213 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71502315D43;
-	Sat,  6 Sep 2025 21:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DF323BF9B;
+	Sat,  6 Sep 2025 22:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757194234; cv=none; b=cfdxo2sDu9pOWtlUH+jeJZLM7Qh0BS0OwP9Z5r3CLdPJwpxu7ffzMKMqHTZN3Ux3qogypj9GALsO8EJX0JCFiU1d2IKfiv2Hckhn2aNKuKzkcx1XMQv63Go3Wtbzd2ltk/rDx7pORAuOAw99+zZctmM19cCh6VVIrznQFHBhBic=
+	t=1757197564; cv=none; b=BTkvBzo6MS0eUS6HTPEaLz8/0WCNSxuvUZ3lqHOmoNu2vkh+ObHD/rr67mIiu3L9xFps3kq9iYABy5dvIOe6SDtX2Co71PRHSPsKdhAMlywbXs7mUuR8vX+0rx8K/xh+Abftr/vWxDDus8leQgK5cbRMDzLmJv3xLx7qke4/tBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757194234; c=relaxed/simple;
-	bh=dR+HFN4RItes6cFLf8dFGdaPc8wtAZj68FPV+CJdYZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lA9t/Nk/vMenZmL5E456d9h6Qx3NSIGdGX0w0DcRkTLHzeR/dwfiM5AYKU+tqphQjzikFK3N8biQtFchBIiL9MuNPYMaKXVbMj7KP4b+uBc71l4YZCDvNIWJIbH6ap2RsiuMhH7I/+tauHEQ6L6QXtwfxcFjIcbyJ5GOtr7FadY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nRUlHDeD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757197564; c=relaxed/simple;
+	bh=JqldWRPERw4IKoFvl0pMtg74CW2Zzkauedrn/ZTVcd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFb0/aG4Rnzw6vFp9t4CJFu4PqYjDidWypnPHgjI2B6xOW1yzIjOdn6blPBFn1VBt5G+2or09dp5DsXlz4jQacOl+CCoQC6Y3PiYoTQ89wEPEw1+Qxtlkom/88+f4BbbM6GpaZ5TKkZMu7IWa6zMUC3Jw13Rc9QJ96AlXREqNJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WD3MTiEV; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nRUlHDeD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1824C4CEE7;
-	Sat,  6 Sep 2025 21:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757194234;
-	bh=dR+HFN4RItes6cFLf8dFGdaPc8wtAZj68FPV+CJdYZw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nRUlHDeDO85y8yiubgdJjtfmbfPyD03yJqpqNBaJy//z5MYR5sNlkxX7RVLEsL/Lc
-	 yELp57LPa1P3fgLl8JZSB7uDH3nDYdBOgMs22Wc/NhnmxgZDKPpBxq+fwtj+G+7HfX
-	 wPpNff9nEZlbyha6DV7yTEH43me5Iay7OIDoKxnak+7goZCV4+O4hp8grftjAgyDtQ
-	 RrUglOq708jwG96CGeCddVVkgVhd1Ys1XwIUOSUoYyumhGUKB6kEu4XXeOdyTzHiHQ
-	 7d7dPRFHEj16hvV66b4LQycVTLSQjmD+4ndmoFS6j88ngz2Cg3C1KS+kHL9tu9jmv6
-	 IjmmvdRgaBU/A==
-Date: Sat, 6 Sep 2025 23:30:28 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>, Len Brown
- <len.brown@intel.com>, linux-pm@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>
-Subject: Re: [PATCH v4] kernel.h: add comments for system_states
-Message-ID: <20250906233028.56573fd6@foz.lan>
-In-Reply-To: <d815f5c3-6e15-4758-8bf4-601d5543cab9@infradead.org>
-References: <20250904063631.2364995-1-rdunlap@infradead.org>
-	<6089e22ddfdc135040cdeb69329d817846026728@intel.com>
-	<20250905140104.42418fba@foz.lan>
-	<34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
-	<atj2koasbiuf67rzr7bbdwpu4kcgkdsqt6rhz5vwpbryfqxm7z@mfmts3tnsasf>
-	<2aad4540-ccdd-4519-9bed-7d8c7ccd009d@infradead.org>
-	<20250906105627.2c0cd0d9@foz.lan>
-	<d815f5c3-6e15-4758-8bf4-601d5543cab9@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WD3MTiEV"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 731A340E0173;
+	Sat,  6 Sep 2025 22:25:53 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Czw7wzyQ6SdZ; Sat,  6 Sep 2025 22:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1757197550; bh=+xt7zC4IHQ+iWsE/ZnrUTR3tvhZamW/XzIhStal409Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WD3MTiEV8OF4augBQVbQgNGLghdqY3TGMGBKaP04329b5L0DfzUVoj6QisowlNw4q
+	 /IMj/MOBJpym9nNPw614ZhpVoMP5w1yuQF5kPartCXJqMa8Y8XYxvSfck0Q/01W3B3
+	 nn8KSHr9Gl9zpWcYyX9FfXtO6rv8Acj0x8J7cOCKSj7mneCH1pBnU4tALMr//aSRiV
+	 JsarJg70bFFzngYonXdqFYcd12mk/nnjOgMSn6aBM+bE/OriCnRs6R4Hulgb2qz6O/
+	 VW7Lr/J5fCtr7CVUTwUERpePji+KXecc2VZ6m6Qvyhs18CQK1KPjx4x8gXZ046Pk5J
+	 3ue3KUJaHHsifVJ3uZy3f1QgGhX0OBZHyL7GvLXsHTTNOuD9O4weesISUfuLDcM5K1
+	 OqlaKTYRVzaGe4EITMImM1OnWIUj6FuCaK98tfb5WxnD2Z7ieoNWkgThfI0dvol3Vq
+	 YlxqNXWxHfq2LA3HPkRSY65mcoR7Eh6E0HB4bJWEmt5xWen+K9E4umS1F/OD92hhGH
+	 x/tsRl/3VkdOQ6cX5+jIkYx3cXzNLyCOeR/mpL4kDIhRgHxR4HfeXCIvAIa8Hi2rTU
+	 w+8vl+o4wHFs8OKdpAX5CGtYq90mFZUnHa2qU7Zed/GPtfOzClrq8bmmTPkBK70yan
+	 XdV58lIASbpHeb2xhWiQxkN8=
+Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id AA3B540E00DD;
+	Sat,  6 Sep 2025 22:24:29 +0000 (UTC)
+Date: Sun, 7 Sep 2025 00:24:20 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
+	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
+	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
+	trintaeoitogc@gmail.com, axelrasmussen@google.com,
+	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
+	joel.granados@kernel.org, graf@amazon.com,
+	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
+	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
+	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
+	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
+	kaleshsingh@google.com, justinstitt@google.com,
+	catalin.marinas@arm.com, alexander.shishkin@linux.intel.com,
+	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
+	corbet@lwn.net, xin@zytor.com, dvyukov@google.com,
+	tglx@linutronix.de, scott@os.amperecomputing.com,
+	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
+	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
+	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
+	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
+	mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com,
+	leitao@debian.org, peterz@infradead.org, wangkefeng.wang@huawei.com,
+	surenb@google.com, ziy@nvidia.com, smostafa@google.com,
+	ryabinin.a.a@gmail.com, ubizjak@gmail.com, jbohac@suse.cz,
+	broonie@kernel.org, akpm@linux-foundation.org,
+	guoweikang.kernel@gmail.com, rppt@kernel.org, pcc@google.com,
+	jan.kiszka@siemens.com, nicolas.schier@linux.dev, will@kernel.org,
+	andreyknvl@gmail.com, jhubbard@nvidia.com, x86@kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 11/19] x86: LAM initialization
+Message-ID: <20250906222420.GBaLy0lL5lHcVlYU0C@fat_crate.local>
+References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
+ <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
 
-Em Sat, 6 Sep 2025 10:13:23 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+On Mon, Aug 25, 2025 at 10:24:36PM +0200, Maciej Wieczor-Retman wrote:
+> diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
+> index bb57e93b4caf..756bd96c3b8b 100644
+> --- a/arch/x86/mm/init.c
+> +++ b/arch/x86/mm/init.c
+> @@ -763,6 +763,9 @@ void __init init_mem_mapping(void)
+>  	probe_page_size_mask();
+>  	setup_pcid();
+>  
+> +	if (boot_cpu_has(X86_FEATURE_LAM) && IS_ENABLED(CONFIG_KASAN_SW_TAGS))
 
-> On 9/6/25 1:56 AM, Mauro Carvalho Chehab wrote:
-> > Em Fri, 5 Sep 2025 15:07:31 -0700
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> >   
-> >> Hi,
-> >>
-> >> On 9/5/25 6:38 AM, Mauro Carvalho Chehab wrote:  
-> >>> On Fri, Sep 05, 2025 at 04:06:31PM +0300, Jani Nikula wrote:    
-> >>>> On Fri, 05 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:    
-> >>>>> Em Fri, 05 Sep 2025 12:02:37 +0300
-> >>>>> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> >>>>>    
-> >>>>>> On Wed, 03 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:    
-> >>>>>>> Provide some basic comments about the system_states and what they imply.
-> >>>>>>> Also convert the comments to kernel-doc format.
-> >>>>>>>
-> >>>>>>> However, kernel-doc does not support kernel-doc notation on extern
-> >>>>>>> struct/union/typedef/enum/etc. So I made this a DOC: block so that
-> >>>>>>> I can use (insert) it into a Documentation (.rst) file and have it
-> >>>>>>> look decent.      
-> >>>>>>
-> >>>>>> The simple workaround is to separate the enum type and the variable:
-> >>>>>>
-> >>>>>> /**
-> >>>>>>  * kernel-doc for the enum
-> >>>>>>  */
-> >>>>>> enum system_states {
-> >>>>>> 	...
-> >>>>>> };
-> >>>>>>
-> >>>>>> /**
-> >>>>>>  * kernel-doc for the variable
-> >>>>>>  */
-> >>>>>> extern enum system_states system_state;
-> >>>>>>
-> >>>>>> BR,
-> >>>>>> Jani.
-> >>>>>>    
-> >>>>>>>
-> >>>>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> >>>>>>> Acked-by: Rafael J. Wysocki <rafael@kernel.org> # v1
-> >>>>>>> ---    
-> >>
-> >> [snip]  
-> >>>>> If the problem is with "extern" before enum, fixing kdoc be
-> >>>>> fairly trivial.    
-> >>>>
-> >>>> The non-trivial part is deciding whether you're documenting the enum
-> >>>> type or the variable. Both are equally valid options.    
-> >>>
-> >>> True.
-> >>>
-> >>> I'd say that, if the variable is under EXPORT_SYMBOL macros, it
-> >>> should be documented.    
-> >>
-> >> Do you mean documented with kernel-doc? How do we do that?
-> >> I was under the impression that we don't currently have a way to
-> >> use kernel-doc for variables (definitions, only for declarations).  
-> > 
-> > No, but it shouldn't be hard to add something like:
-> > 
-> > 	/**
-> > 	 * global system_state - stores system state
-> > 	 * <some description>
-> > 	 */
-> > 	extern enum system_states system_state;  
-> > 
-> > and place a dump_global() function at kdoc parser. Ok, one might use
-> > DOC:, but IMHO the best is to have a proper handler for it that would
-> > automatically pick the type.  
-> 
-> Nitpick, I would s/global/var/. But I won't complain about "global".
+cpu_feature_enabled()
 
-Either way works for me. Yet, I would expect it to be used only for
-global variables, as documenting local ones using kernel-doc is
-probably not what we expect inside Kernel documentation. So, naming it
-"global" may help.
+> +		cr4_set_bits_and_update_boot(X86_CR4_LAM_SUP);
+> +
+>  #ifdef CONFIG_X86_64
+>  	end = max_pfn << PAGE_SHIFT;
+>  #else
+> -- 
 
-> More importantly, I have seen several patches where people try to document a
-> variable, so it seems like something that we should support at some point.
+Also, for all your patches' subjects and text:
 
-Agreed.
+Pls read
 
-Adding a parsing rule for the variable doesn't sound hard, as they follow,
-in principle, this regex(*):
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#patch-subject
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
 
-	OPTIONAL_ATTRIBS = ["
-	    "extern"
-	]
+and fixup.
 
-	optional = "|".join(OPTIONAL_ATTRIBS)
+Thx.
 
-	"^(?:extern\s+)?(\w.*)\s+([\w\_]+)(?:#.*)$"
+-- 
+Regards/Gruss,
+    Boris.
 
-(*) eventually, some might have extra attributes, but we can
-    start with a simpler regex, adding a more complex parser if/when
-    needed.
-
-I added at the end a one-minute hacky prototype I wrote, completely
-untested and incomplete.
-
-Thanks,
-Mauro
-
-The following code snippet is incomplete, not tested, and requires more
-work, like placing global vars at the beginning. Feel free
-to pick it and use it to produce a GPL code to the Kernel.
-
-Note that this is just the parsing part. for it to work, you also
-need to modify scripts/lib/kdoc/kdoc_output.py, which contains how
-this will be output at rst and man formats.
-
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index 574972e1f741..b3ffaa541e9d 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -886,6 +886,25 @@ class KernelDoc:
-         self.output_declaration('enum', declaration_name,
-                                 purpose=self.entry.declaration_purpose)
- 
-+   def dump_global(self, ln, proto):
-+        # TODO: move this to the beginning of this file
-+        VAR_ATTRIBS = [
-+            "extern",
-+        ]
-+        OPTIONAL_VAR_ATTR = "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-+
-+        type_var = KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)(?:#.*)?$")
-+
-+        # function logic starts here:
-+
-+        if type_var.match(proto):
-+                declaration_name = r.group(2)
-+                var_type = r.group(1)
-+
-+        self.output_declaration('global', declaration_name,
-+                                var_type=var_type,
-+                                purpose=self.entry.declaration_purpose)
-+
-     def dump_declaration(self, ln, prototype):
-         """
-         Stores a data declaration inside self.entries array.
-@@ -897,6 +916,8 @@ class KernelDoc:
-             self.dump_typedef(ln, prototype)
-         elif self.entry.decl_type in ["union", "struct"]:
-             self.dump_struct(ln, prototype)
-+        elif self.entry.decl_type == "global"]:
-+            self.dump_global(ln, prototype)
-         else:
-             # This would be a bug
-             self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
-
+https://people.kernel.org/tglx/notes-about-netiquette
