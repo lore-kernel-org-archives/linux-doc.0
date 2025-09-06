@@ -1,115 +1,253 @@
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581D5260586;
-	Sat,  6 Sep 2025 12:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776E81A2389;
+	Sat,  6 Sep 2025 14:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757160788; cv=none; b=BbElprteNZ0dFlBxruDtF3esxn2u28fgI3eAxoPm781klfXRdb1BTseZVziLv5DkKalKZUw0aHHCvEfRASCsaoLSuPafh5vy8kY8IVWKE92U6yZ0kbLZDHrWns/Kh8Tqk0cj0GP/eKoblUPVDSOU37E2oAHWV3xk8BtPaNqNbuU=
+	t=1757167583; cv=none; b=LbP7ONUw892kvE7yEedqUkJWC7UEWddCB2y3GtfymL+rrmHlc0Zx1NR5idhp21znaBphN4st0x4skUAQ/cSOkzHAgvDkw3fw2si/ozeyQxbmP7NYSOtP42FbjEaZhERuElHiyRCXbeFGFckb60qljwrmiArUbT1F0GoXO2csEwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757160788; c=relaxed/simple;
-	bh=74CcVAxcT4iEpQmyJgXaP91soXI3VklkIfWdOtX9Lkk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=utY2n7lw2mE+gifruBPBN3Yw4UfHRMGmPh9pxtg8r0UNersOQYxxpkbzM58TD3YuKRZvb3pM3OaSnY+tvy7TvW3mA2JXd7E8rMlHhHFIPVou9er46eaMK4DZ/wcxpxuDStIpUmti9F1pyChAhV5xorlzi8t378d/kRGfmDahLUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=hD8tKuhd; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1757167583; c=relaxed/simple;
+	bh=0hmzZXYxNKjIhDz+m1zGKrFgn23Dpx3WLUp+j6lBU5o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b2cANXLXHUqMDz6tEd5LFHKIjoVdlECdmicRP6zIYEm17PdoFnAvjcqWUeR23WbvINyifW9zuZgtUqkFA5ExlHwpTlQUSa4aZkR8icKKDqD1jV5EH/NODnWZnlUbO2mo6ga/J1GbmXzwwqZ1Hl/WmH5FeOPPMG8LwGAOZQ0Vfqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N8JMyqrM; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="hD8tKuhd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1757160785;
-	bh=74CcVAxcT4iEpQmyJgXaP91soXI3VklkIfWdOtX9Lkk=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=hD8tKuhdG2UIoVy6GgrwHldWzmqhqctOnvtwRidaeJwpWq0GhAfOumBKmYT4recMl
-	 655A6AX9/0W/hg/JSOAZOduaDW5jOLFanUQJ/L+C5nO/6JTUNJTeGypY60cApJKs0e
-	 NIaElJnHXdfiwRuHDbp71eUaEOz2TP0k66zlAwGg=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id A18071C0098;
-	Sat, 06 Sep 2025 08:13:04 -0400 (EDT)
-Message-ID: <b47c91a4f4c337ec8e2fdb663e0a90fd62b5c3b6.camel@HansenPartnership.com>
-Subject: Re: [PATCH v4] kernel.h: add comments for system_states
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Mauro Carvalho Chehab
-	 <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>, Len Brown
- <len.brown@intel.com>,  linux-pm@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>,  linux-doc@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Date: Sat, 06 Sep 2025 08:13:03 -0400
-In-Reply-To: <34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
-References: <20250904063631.2364995-1-rdunlap@infradead.org>
-	 <6089e22ddfdc135040cdeb69329d817846026728@intel.com>
-	 <20250905140104.42418fba@foz.lan>
-	 <34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N8JMyqrM"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2445806e03cso39733365ad.1;
+        Sat, 06 Sep 2025 07:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757167581; x=1757772381; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=rJqmB1Acck+ApY3q4nwCXeXJnDu3kt/0e3WOirNx8ss=;
+        b=N8JMyqrMDu2lR833xIue5m+AQicipbimLUy5g4xxtAbDCLZpgLNTgS7NuE5odBEUJD
+         rCVEfIAyhjoGKGYo4sxFMDIXNv6OIgjkmoelNtNmLbn0aiDNC3OSkeXYnGo4D40iOOgY
+         pRaVhc28sq6C2kX0SjToC9/t7BZFVN53NchKA7ZMxJeliUe7Nzk3kFn78eHyqsgNzCkQ
+         iMKYw2SS6ZK0JlpFMgEOSr0tQdbYzWHrr1t0jKuxT0VA+vWLwcVmhm0cpqerEkpOcXy7
+         mw0uLmQYY0Vp/Vz4Gry3Fkyjkm9ukPi+E5ZD7pS+phzAGE5cWED/DAeUnE4bToOgnQLR
+         28og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757167581; x=1757772381;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rJqmB1Acck+ApY3q4nwCXeXJnDu3kt/0e3WOirNx8ss=;
+        b=ZrYw082ZtgVY4kK9broIA2Wqj9AjG6VTaF0bw8BMiWWrPTdzt2OnOVOy6nHEVE8opw
+         XDJNBvNCddn5SbUEv6jEIlbL4L0nK9f2f3FL+Q3O6IP7dfacEbi/2Di+cl5fJnAf1Drb
+         UrNP9RWx1fddfJ7w0RLoZ7nY0VtlquNJUDThEwXegWeuQOpEM/v9sIGlLIiTAmuNr6KF
+         sGnIqQRCEv3B+r5t/bJkOvrqgjYEEylZAdeag+Vvz98p8r+4QuFx84ge6LlwPbH4Qhoc
+         DCa4DLGelLJR/G0bXP8DiQna9JYDHTTwucOY293C598dyL29ug7WqIZuVZvbYMPNW4Mn
+         rCow==
+X-Forwarded-Encrypted: i=1; AJvYcCUNQL9LofsuMtIsKgoATy4uG0LaFafhXk3AiIzkgHWxQPF8RECbiT+U9SoLM3oB78RazThdVTGSmIikF/0=@vger.kernel.org, AJvYcCV1R497L033x3AgUJzQFa/8aBM0FWLeWq5di4EWgxwMl+CV1AZZNEG7ejYMyW1d1aBSn+mPOKgrdGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVvADWrXIoDSYtGu5xBqF129r0z2SA/aQ/V6BTIo2+XL1JV4Ig
+	XhfUJiNPodjsCbjRbrF3twXTP7uuMmgbC/t08LU+LR5rJuHY1lc0hmUq
+X-Gm-Gg: ASbGncuxrQsF65wSrye48MAIMeOTMVsMvcC4AWy/Qf2hXv0JJol5HDBRgl1Q4Ve5u8J
+	fQ2YxyCj3a3RDYuFNxd9OSkHwcjEYZDmIL+SOR4acpAYGd0Ls21x9rXWHB+6pxUMqJeW/Z3H6I5
+	qBjh3kmXGGD4HtLPmGSq+uqPAVwC30CvPy320/V3GdA0sEPfBhzCaIkSHzdEXj5d4aV3ZtvE0sx
+	Ky2YpevyGUatFhkUvrJU7adluv50dNk9uFu8L10MziTwcJNi+iChejQo4E2GjbLCiNwrYQjbWYp
+	wMYnj/+qky68Vo/w5NnTO5O7uxot6x+qNxHlqFmiXJ3WuKlTGNYwSHjJyN23MNC70lXc50EY5j+
+	jmC4t7dPP3dpGmI6UUiabbYo64hlAkUO+ycG8XhLinDjAKy+4Cs8iftnpAtJMNsJc28mPUrdTDP
+	C5wd6CJw==
+X-Google-Smtp-Source: AGHT+IFLO2aMTzUGaIbcHtiVgPQuMiIUV2cpKCgHWEqJFjdACMtSFQ31JYoq/lo0xxJFF1dBxmgTeg==
+X-Received: by 2002:a17:902:fc44:b0:24b:62ef:9d38 with SMTP id d9443c01a7336-2516e887fd5mr30289215ad.19.1757167580556;
+        Sat, 06 Sep 2025 07:06:20 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24e18bf05dcsm39013605ad.147.2025.09.06.07.06.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Sep 2025 07:06:19 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <c6694917-fbfd-432d-ab17-f5f9b7232e7c@roeck-us.net>
+Date: Sat, 6 Sep 2025 07:06:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/2] hwmon: add GPD devices sensor driver
+To: cryolitia@uniontech.com, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+ Yao Zi <ziyao@disroot.org>, Derek John Clark <derekjohn.clark@gmail.com>,
+ Jun Zhan <zhanjun@uniontech.com>, Cheng Nie <niecheng1@uniontech.com>,
+ =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
+ someone5678 <someone5678.dev@gmail.com>,
+ Justin Weiss <justin@justinweiss.com>, Antheas Kapenekakis
+ <lkml@antheas.dev>, command_block <mtf@ik.me>, derjohn <himself@derjohn.de>,
+ Crashdummyy <crashdummy1337@proton.me>
+References: <20250904-gpd_fan-v8-0-0752584f16da@uniontech.com>
+ <20250904-gpd_fan-v8-1-0752584f16da@uniontech.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20250904-gpd_fan-v8-1-0752584f16da@uniontech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2025-09-05 at 16:06 +0300, Jani Nikula wrote:
-> On Fri, 05 Sep 2025, Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> > Em Fri, 05 Sep 2025 12:02:37 +0300
-> > Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> >=20
-> > > On Wed, 03 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
-[...]
-> > > > +++ linux-next-20250819/Documentation/driver-api/pm/devices.rst
-> > > > @@ -241,6 +241,14 @@ before reactivating its class I/O queues
-> > > > =C2=A0More power-aware drivers might prepare the devices for
-> > > > triggering system wakeup
-> > > > =C2=A0events.
-> > > > =C2=A0
-> > > > +System states available for drivers
-> > > > +-----------------------------------
-> > > > +
-> > > > +These system states are available for drivers to help them
-> > > > determine how to
-> > > > +handle state transitions.
-> > > > +
-> > > > +.. kernel-doc:: include/linux/kernel.h
-> > > > +=C2=A0=C2=A0 :doc: General system_states available for drivers
-> > > > =C2=A0
-> > > > =C2=A0Call Sequence Guarantees
-> > > > =C2=A0------------------------
-> > > > =C2=A0
-> > >=20
-> >=20
-> > If the problem is with "extern" before enum, fixing kdoc be
-> > fairly trivial.
->=20
-> The non-trivial part is deciding whether you're documenting the enum
-> type or the variable. Both are equally valid options.
+On 9/4/25 01:33, Cryolitia PukNgae via B4 Relay wrote:
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
+> 
+> Sensors driver for GPD Handhelds that expose fan reading and control via
+> hwmon sysfs.
+> 
+> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+> devices. This driver implements these functions through x86 port-mapped
+> IO.
+> 
+> Tested-by: Marcin Strągowski <marcin@stragowski.com>
+> Tested-by: someone5678 <someone5678.dev@gmail.com>
+> Tested-by: Justin Weiss <justin@justinweiss.com>
+> Tested-by: Antheas Kapenekakis <lkml@antheas.dev>
+> Tested-by: command_block <mtf@ik.me>
+> Tested-by: derjohn <himself@derjohn.de>
+> Tested-by: Crashdummyy <crashdummy1337@proton.me>
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+> ---
+>   MAINTAINERS             |   6 +
+>   drivers/hwmon/Kconfig   |  10 +
+>   drivers/hwmon/Makefile  |   1 +
+>   drivers/hwmon/gpd-fan.c | 786 ++++++++++++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 803 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6dcfbd11efef87927041f5cf58d70633dbb4b18d..14a616be5ff08aaeee52436dff54a86c4a81e5fb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10421,6 +10421,12 @@ F:	drivers/phy/samsung/phy-gs101-ufs.c
+>   F:	include/dt-bindings/clock/google,gs101.h
+>   K:	[gG]oogle.?[tT]ensor
+>   
+> +GPD FAN DRIVER
+> +M:	Cryolitia PukNgae <cryolitia@uniontech.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hwmon/gpd-fan.c
+> +
+>   GPD POCKET FAN DRIVER
+>   M:	Hans de Goede <hansg@kernel.org>
+>   L:	platform-driver-x86@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 9d28fcf7cd2a6f9e2f54694a717bd85ff4047b46..a552a5ced64d0fee2c80a5399ce9d1f0dbd7d763 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -769,6 +769,16 @@ config SENSORS_GL520SM
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called gl520sm.
+>   
+> +config SENSORS_GPD
+> +	tristate "GPD handhelds"
+> +	depends on X86
+> +	help
+> +	  If you say yes here you get support for fan readings and
+> +	  control over GPD handheld devices.
+> +
+> +	  Can also be built as a module. In that case it will be
+> +	  called gpd-fan.
+> +
+>   config SENSORS_G760A
+>   	tristate "GMT G760A"
+>   	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index cd8bc4752b4dbf015c6eb46157626f4e8f87dfae..051981eb8a5089608e9eb351a1d5857805c728c8 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -88,6 +88,7 @@ obj-$(CONFIG_SENSORS_GIGABYTE_WATERFORCE) += gigabyte_waterforce.o
+>   obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
+>   obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
+>   obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
+> +obj-$(CONFIG_SENSORS_GPD)	+= gpd-fan.o
+>   obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
+>   obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
+>   obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
+> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..4a9ae049a78524caa0fd608c119eb34c333429ae
+> --- /dev/null
+> +++ b/drivers/hwmon/gpd-fan.c
+> @@ -0,0 +1,786 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +/* Platform driver for GPD devices that expose fan control via hwmon sysfs.
+> + *
+> + * Fan control is provided via pwm interface in the range [0-255].
+> + * Each model has a different range in the EC, the written value is scaled to
+> + * accommodate for that.
+> + *
+> + * Based on this repo:
+> + * https://github.com/Cryolitia/gpd-fan-driver
+> + *
+> + * Copyright (c) 2024 Cryolitia PukNgae
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/dmi.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/ioport.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define DRIVER_NAME "gpdfan"
+> +#define GPD_PWM_CTR_OFFSET 0x1841
+> +
+> +static char *gpd_fan_board = "";
+> +module_param(gpd_fan_board, charp, 0444);
+> +
+> +// EC read/write locker, protecting single EC access
+> +// Should never access EC at the same time, otherwise system down.
+> +static DEFINE_MUTEX(gpd_fan_atomic_lock);
 
-If you're building a system that's easy to maintain, it shouldn't be at
-all non trivial: you add the documentation where someone adding a new
-state would find it.  i.e. on the enum.  If you document the variable,
-no-one adding a new state would likely look at it.  I get that in this
-case they're one after the other, but think about the precedent for
-when they're not.
+Why keep this lock ? Each access sequence is now locked in the top
+level read/write function, which should make this lock redundant.
 
-Regards,
-
-James
+Guenter
 
