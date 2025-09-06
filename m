@@ -1,133 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07252C032C;
-	Sat,  6 Sep 2025 09:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581D5260586;
+	Sat,  6 Sep 2025 12:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757151658; cv=none; b=tCOHhiFLcMugfO31cieY2tr0X9xR5HxbsC4CixgrVLFzUnoKOf9NChRMf1HT8qXe7YsvD2GkfjKF8d6ZbS0MNwMXnWJdJV3NsTU+JHCqCNZVhPHc/YFItYnGDWu28DzeCOradkUp7KDUj1igyh91t9vA6+WU2EMSHld6IxESEAE=
+	t=1757160788; cv=none; b=BbElprteNZ0dFlBxruDtF3esxn2u28fgI3eAxoPm781klfXRdb1BTseZVziLv5DkKalKZUw0aHHCvEfRASCsaoLSuPafh5vy8kY8IVWKE92U6yZ0kbLZDHrWns/Kh8Tqk0cj0GP/eKoblUPVDSOU37E2oAHWV3xk8BtPaNqNbuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757151658; c=relaxed/simple;
-	bh=JUFAncsfpeE15TmlQMq7DVXe85G2NJmyOIEQi4XGq9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fdKu7D3nSBTdh45nk41nNwN+lmiAY4V5F7WCPVNQjqEvLqI+MsJglI/O+JJZ09odcYV8L5PqX0SlHuCdHPhIM/Kxi6JL3hCUSNB9hYfsexYJhrn1QQD3JDDDZgAXCXjw0+GsWmxuxPfjgjM58sq2LGewITZ6a5a4q0NYgOAewFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tKeUgGsn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757160788; c=relaxed/simple;
+	bh=74CcVAxcT4iEpQmyJgXaP91soXI3VklkIfWdOtX9Lkk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=utY2n7lw2mE+gifruBPBN3Yw4UfHRMGmPh9pxtg8r0UNersOQYxxpkbzM58TD3YuKRZvb3pM3OaSnY+tvy7TvW3mA2JXd7E8rMlHhHFIPVou9er46eaMK4DZ/wcxpxuDStIpUmti9F1pyChAhV5xorlzi8t378d/kRGfmDahLUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=hD8tKuhd; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKeUgGsn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2659CC4CEE7;
-	Sat,  6 Sep 2025 09:40:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757151658;
-	bh=JUFAncsfpeE15TmlQMq7DVXe85G2NJmyOIEQi4XGq9w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tKeUgGsnbPm9s4K1qJOODWBi7kvtOwgEJsdNNW8/FS3VucolozDc6bGibglhxgPdB
-	 bT38JKE8U7esiywfsBnt0Gq+ghIxCOCg8wiJLnetGOU0AoogCvAIF9ltp5U4hxb9jU
-	 fGQbC16F8io8WWjTJJCCxtet7hUUtcRI0mpypmuksls0Xmww8tTCVkrbk454ZedkGE
-	 xHk1Nu79KTEdjymJRJTw/ytft4MFOnjUIdykR5GP26nI8R7mRMZwerNIxHPAcbm0Sg
-	 +vEcR1NSxybDg1dYhnHi9uvFQG0CEGIkvxv1k0TQCAfw6Zp13t0hxV6TWPeeBZ+pP/
-	 4IRfsevlgTcqQ==
-Date: Sat, 6 Sep 2025 11:40:52 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v4 00/19] Split sphinx call logic from docs Makefile
-Message-ID: <20250906114052.4d2109f9@foz.lan>
-In-Reply-To: <87y0qskhm0.fsf@trenco.lwn.net>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-	<87y0qskhm0.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="hD8tKuhd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1757160785;
+	bh=74CcVAxcT4iEpQmyJgXaP91soXI3VklkIfWdOtX9Lkk=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=hD8tKuhdG2UIoVy6GgrwHldWzmqhqctOnvtwRidaeJwpWq0GhAfOumBKmYT4recMl
+	 655A6AX9/0W/hg/JSOAZOduaDW5jOLFanUQJ/L+C5nO/6JTUNJTeGypY60cApJKs0e
+	 NIaElJnHXdfiwRuHDbp71eUaEOz2TP0k66zlAwGg=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id A18071C0098;
+	Sat, 06 Sep 2025 08:13:04 -0400 (EDT)
+Message-ID: <b47c91a4f4c337ec8e2fdb663e0a90fd62b5c3b6.camel@HansenPartnership.com>
+Subject: Re: [PATCH v4] kernel.h: add comments for system_states
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Mauro Carvalho Chehab
+	 <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>, Len Brown
+ <len.brown@intel.com>,  linux-pm@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>,  linux-doc@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Date: Sat, 06 Sep 2025 08:13:03 -0400
+In-Reply-To: <34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
+References: <20250904063631.2364995-1-rdunlap@infradead.org>
+	 <6089e22ddfdc135040cdeb69329d817846026728@intel.com>
+	 <20250905140104.42418fba@foz.lan>
+	 <34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-Em Fri, 05 Sep 2025 10:07:51 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Fri, 2025-09-05 at 16:06 +0300, Jani Nikula wrote:
+> On Fri, 05 Sep 2025, Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> > Em Fri, 05 Sep 2025 12:02:37 +0300
+> > Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+> >=20
+> > > On Wed, 03 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
+[...]
+> > > > +++ linux-next-20250819/Documentation/driver-api/pm/devices.rst
+> > > > @@ -241,6 +241,14 @@ before reactivating its class I/O queues
+> > > > =C2=A0More power-aware drivers might prepare the devices for
+> > > > triggering system wakeup
+> > > > =C2=A0events.
+> > > > =C2=A0
+> > > > +System states available for drivers
+> > > > +-----------------------------------
+> > > > +
+> > > > +These system states are available for drivers to help them
+> > > > determine how to
+> > > > +handle state transitions.
+> > > > +
+> > > > +.. kernel-doc:: include/linux/kernel.h
+> > > > +=C2=A0=C2=A0 :doc: General system_states available for drivers
+> > > > =C2=A0
+> > > > =C2=A0Call Sequence Guarantees
+> > > > =C2=A0------------------------
+> > > > =C2=A0
+> > >=20
+> >=20
+> > If the problem is with "extern" before enum, fixing kdoc be
+> > fairly trivial.
+>=20
+> The non-trivial part is deciding whether you're documenting the enum
+> type or the variable. Both are equally valid options.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > This series does a major cleanup at docs Makefile by moving the
-> > actual doc build logic to a helper script (scripts/sphinx-build-wrapper).
-> >
-> > Such script was written in a way that it can be called either
-> > directly or via a makefile. When running via makefile, it will
-> > use GNU jobserver to ensure that, when sphinx-build is
-> > called, the number of jobs will match at most what it is
-> > specified by the "-j" parameter.  
-> 
-> I will try to make another pass over this stuff later today.  I would
-> really appreciate some more eyes on it, though, and perhaps even some
-> reports of testing.  This is a significant change, and the presence of
-> surprised would not be ... surprising ...
+If you're building a system that's easy to maintain, it shouldn't be at
+all non trivial: you add the documentation where someone adding a new
+state would find it.  i.e. on the enum.  If you document the variable,
+no-one adding a new state would likely look at it.  I get that in this
+case they're one after the other, but think about the precedent for
+when they're not.
 
-Take your time.
+Regards,
 
-Yeah, tests are very welcomed. The change itself is not significant
-in the sense that we just moved a complex logic with lots of magic
-from Makefile to Python (*) without changing the implementation, but 
-yeah, it requires testing. From my side, I've been testing cleandocs,
-htmldocs and pdfdocs for 3-4 weeks now on over ~20 different distros,
-all without O=, but didn't make any burn-in test for the other targets.
+James
 
-I've got (and fixed) some corner cases, but I won't doubt that other
-corner cases might be there.
-
-(*) It actually solved one issue: with current implementation, at least for me,
-    using V=1 doesn't show the sphinx-build command line, as this is hidden
-    inside the complex makefile foreach macro:
-
-	loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
-
-	quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
-	      cmd_sphinx = \
-	       PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
-	       BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
-	       $(PYTHON3) $(srctree)/scripts/jobserver-exec \
-	       $(CONFIG_SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
-	       $(SPHINXBUILD) \
-	       -b $2 \
-	       -c $(abspath $(src)) \
-	       -d $(abspath $(BUILDDIR)/.doctrees/$3) \
-	       -D version=$(KERNELVERSION) -D release=$(KERNELRELEASE) \
-	       $(ALLSPHINXOPTS) \
-	       $(abspath $(src)/$5) \
-	       $(abspath $(BUILDDIR)/$3/$4) && \
-	       if [ "x$(DOCS_CSS)" != "x" ]; then \
-	               cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_static/; \
-	       fi
-
-	htmldocs:
-	...
-	       @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
-
-    IMHO, this is problematic, as it makes harder to debug corner
-    cases. While doing this changeset, I actually had to add an echo
-    line to show the command line, to ensure that sphinx-build was
-    called with the same arguments.
-
-    On a side note, the above macro is complex and hard to maintain.
-
-    One of the reasons why the Python script is bigger is that it
-    has one statement per line instead of trying to do lots of
-    calls inside a single statement like above (there, cmd_sphinx
-    has 8 function calls; htmldocs foreach line has 3).
-
-    The core of cmd_sphinx grew from 14 LOC on Makefile to 64 lines
-    in Python, not counting:
-
-	- comments
-	- CSS logic
-	- path handling logic
-	- jobserver logic (in Makefile, this is a single "+" character,
-  	  at the foreach line)
-
-    I remember I had to touch on the foreach/call logic there a couple
-    of times in the past. It is not the easiest thing to do.
-
-Thanks,
-Mauro
