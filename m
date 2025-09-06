@@ -1,130 +1,177 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4606C279DB2;
-	Sat,  6 Sep 2025 05:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9742C2341
+	for <linux-doc@vger.kernel.org>; Sat,  6 Sep 2025 06:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757136485; cv=none; b=ofE0/t6tghO1CgqOUbyzJX3BNNeUzo/pGsNPAV1gJ+JABnidPBct0uy5klDoZhox0djoSXz/RN1P+YbL58mj/FdP4Sjuw40QL68x+NKltTUrVZmkFZlGTA0ZPe6kQiCPXkMPFYCCJljKhv7pBT68BVxU+2KYThw8OMjM2UMCApI=
+	t=1757141870; cv=none; b=mKOk8cNwuaDiXDKQMcSGazjfqYZO8BUZNNOaB+6llsHSD7ro9i5k8xXSuWKkU/+ff5I0nCYHXf5LaD/hyFSkdqF2Pk0/mdieHtifavAEBrI5xP5Z5MmzBJ3x2h9pdgw8zMHXQH1NYTyyDmYZixL66UTFUxvjiuNZlq5IBupkSfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757136485; c=relaxed/simple;
-	bh=CrT8JEHCyXG6YV6cFp3hT9XCGY1QGmIppEZH2vzoCUc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cz0r2EEPUW63AoMaGyugYXYhQ4ne8b5/TcVz4nBfS7/Ql6r0CdKgFupJ4xk6tEo6RxK8jZ+XQE7hWs9F4pXOvUwB+taaTjzIsfusyCZblEdqwVbK3lR0gW6ZA4xy+NTUU7zJto0NH7mb7SVph8hrHfKW2ccdTMD5oaJ8ThJeX+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yzNB6tsm; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757141870; c=relaxed/simple;
+	bh=ZdjKkfJoHiNakSwH8vDlKRd1pmuPHtWQLHwJ3ze4QIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CUvO8eWv1MZVB8vkgiVwHeRj+wQxItLbvJDcpIVJgdcRUTx7fU/kGbZyDb3kWyEnUaFFy7TiYso5P9aQ/3hIhmYv5ZzLfCsyeFL3yWl32Eq14UTeEKCU6anV6LVrX65MdTfqk0cTqCz4+S7RGIeHrqkM5vHKN7AHTSoF5mLrerM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MQVx3DSk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yzNB6tsm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=iqj54Cn31NsbsQ65ZPACX2iqR+ISlTVVxWRV3yEQ1jM=; b=yzNB6tsmSyqGh0q+E9N4mc5IsM
-	8+vG39NnPBi2RvqCxI54wfyUMP0JhzBfNJS7HEmU3wWqnsHM+1uY4ABtjcKci4oeIwaPaNk70ewSa
-	UBnPyxpHiyeo6LSw+3ln3acHP6aV8MnTeouX0Gm3KeV/wkRN/a9E5qRD4ld/+MBfoxYS/jU1XA9oI
-	6fkjlEcO67gblYv9Mwbg5Yn8D2Zw2kJMEb3Q3M24iZjl3qbU3EH+0VWbsnb0o/8uWdG632frNvnhT
-	IbWy0dTbbtWTXUkiKJxGW1tEzfZRDF0wkoQX1qdvEuU1jLEAQtkbppUrcb/5yW5FD5e/0ZfPJx2Qx
-	xyaO5mWg==;
-Received: from [50.53.25.54] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uulSx-00000006oaW-3Gao;
-	Sat, 06 Sep 2025 05:27:59 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	Len Brown <len.brown@intel.com>,
-	linux-pm@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	linux-doc@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Subject: [PATCH v5] kernel.h: add comments for enum system_states
-Date: Fri,  5 Sep 2025 22:27:58 -0700
-Message-ID: <20250906052758.2767832-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MQVx3DSk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757141868;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AMjDlR0sGCSb1S5XkqRhY0gCtJvKgV/eSaD7F6oVPO0=;
+	b=MQVx3DSky79zmGThMagIXc7+QkOgzV6nbRUwNlhY2PG/rA3MpdLZFVmTMqrSvW4fkFOiB/
+	JEPDmNmVCyuWgjhXpFHwnyFcQrVbxkP6XAig3Ov4RxODZeS2Bwape3ZShWFRDamAKQVihG
+	0zoXAItnCsgNPNX2vvrRKPQuk8XYqYg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-301-DJjOIiObODGWwQ0SudJ6NQ-1; Sat,
+ 06 Sep 2025 02:57:46 -0400
+X-MC-Unique: DJjOIiObODGWwQ0SudJ6NQ-1
+X-Mimecast-MFC-AGG-ID: DJjOIiObODGWwQ0SudJ6NQ_1757141864
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B57119560B2;
+	Sat,  6 Sep 2025 06:57:43 +0000 (UTC)
+Received: from [10.45.224.31] (unknown [10.45.224.31])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 630641955F24;
+	Sat,  6 Sep 2025 06:57:39 +0000 (UTC)
+Message-ID: <2948c2d9-1600-444d-89c9-c129ddfba109@redhat.com>
+Date: Sat, 6 Sep 2025 08:57:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 2/5] dpll: zl3073x: Add low-level flash
+ functions
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Jiri Pirko <jiri@resnulli.us>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
+References: <20250903100900.8470-1-ivecera@redhat.com>
+ <20250903100900.8470-3-ivecera@redhat.com>
+ <20250905191905.05476586@kernel.org>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <20250905191905.05476586@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Provide some basic comments about the system_states and what they imply.
-Also convert the comments to kernel-doc format.
 
-Split the enum declaration from the definition of the system_state
-variable so that kernel-doc notation works cleanly with it.
-This is picked up by Documentation/driver-api/basics.rst so it
-does not need further inclusion in the kernel docbooks.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Rafael J. Wysocki <rafael@kernel.org> # v1
----
-v2: add Rafael's Ack.
-v3: add Andrew
-v4: add DOC: so that this DOC: block can be used in Documentation/
-    add Greg K-H
-    add Jon Corbet, Mauro Chehab, & linux-doc
-v5: split enum declaration and definition (Jani Nikula)
-    drop the DOC: block since it is no longer needed
+On 06. 09. 25 4:19 dop., Jakub Kicinski wrote:
+> On Wed,  3 Sep 2025 12:08:57 +0200 Ivan Vecera wrote:
+>> +/**
+>> + * zl3073x_flash_download_block - Download image block to device memory
+>> + * @zldev: zl3073x device structure
+>> + * @image: image to be downloaded
+>> + * @start: start position (in 32-bit words)
+>> + * @size: size to download (in 32-bit words)
+>> + * @extack: netlink extack pointer to report errors
+>> + *
+>> + * Returns 0 in case of success or negative value otherwise.
+>> + */
+>> +static int
+>> +zl3073x_flash_download(struct zl3073x_dev *zldev, const char *component,
+>> +		       u32 addr, const void *data, size_t size,
+>> +		       struct netlink_ext_ack *extack)
+> 
+> function name doesn't match kdoc, and "Returns" -> "Return:"
+> 
+> No idea why the kernel-doc script doesn't catch this..
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Len Brown <len.brown@intel.com>
-Cc: linux-pm@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: linux-doc@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
----
- include/linux/kernel.h |   21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+Will fix...
 
---- linux-next-20250819.orig/include/linux/kernel.h
-+++ linux-next-20250819/include/linux/kernel.h
-@@ -164,11 +164,23 @@ extern int root_mountflags;
- 
- extern bool early_boot_irqs_disabled;
- 
--/*
-- * Values used for system_state. Ordering of the states must not be changed
-+/**
-+ * enum system_states - Values used for system_state.
-+ *
-+ * * @SYSTEM_BOOTING:	%0, no init needed
-+ * * @SYSTEM_SCHEDULING: system is ready for scheduling; OK to use RCU
-+ * * @SYSTEM_FREEING_INITMEM: system is freeing all of initmem; almost running
-+ * * @SYSTEM_RUNNING:	system is up and running
-+ * * @SYSTEM_HALT:	system entered clean system halt state
-+ * * @SYSTEM_POWER_OFF:	system entered shutdown/clean power off state
-+ * * @SYSTEM_RESTART:	system entered emergency power off or normal restart
-+ * * @SYSTEM_SUSPEND:	system entered suspend or hibernate state
-+ *
-+ * Note:
-+ * Ordering of the states must not be changed
-  * as code checks for <, <=, >, >= STATE.
-  */
--extern enum system_states {
-+enum system_states {
- 	SYSTEM_BOOTING,
- 	SYSTEM_SCHEDULING,
- 	SYSTEM_FREEING_INITMEM,
-@@ -177,7 +189,8 @@ extern enum system_states {
- 	SYSTEM_POWER_OFF,
- 	SYSTEM_RESTART,
- 	SYSTEM_SUSPEND,
--} system_state;
-+};
-+extern enum system_states system_state;
- 
- /*
-  * General tracing related utility functions - trace_printk(),
+>> +		rc = zl3073x_write_hwreg(zldev, addr, *(const u32 *)ptr);
+> 
+> you're sure data is 4B aligned? Otherwise get_unaligned()
+
+Yes, this should be always aligned but you are right, using
+get_unaligned() here is the safest.
+
+>> +		if (time_after(jiffies, timeout)) {
+> 
+> time_after_jiffies() ?
+
+I miss that macros, thanks for pointing out.
+
+Anyway:
+time_after(jiffies,...) -> time_is_before_jiffies(...)
+
+Will use.
+
+>> +			if (signal_pending(current)) {
+>> +				ZL_FLASH_ERR_MSG(extack,
+>> +						 "Flashing interrupted");
+>> +				return -EINTR;
+>> +			}
+> 
+> Is the flash dual-banked? Normally random signals interrupting flashing
+> is recipe for bricked parts.
+
+The download is safe operation... During this the driver downloads
+block from host memory to device memory (RAM) and it is safe to break
+this operation. (What should not be interrupted is flash itself (device
+memory to internal flash memory).
+
+> A little odd to use "timeout" for periodic check. check_time?
+
+Will rename.
+
+>> +	/* Return if no error occurred */
+>> +	if (!count)
+>> +		return 0;
+> 
+> Did I already accus^W ask you if AI helped you write this ? :D
+> This level of commenting makes me think of code generators :)
+
+:-D no, I didn't really use AI for code generation :-D
+
+As the zl3073x is the first standalone DPLL driver I tried from the
+start to write well commented code :-) But maybe I overdid it a bit :-)
+
+> +	/* Enable host control */
+> +	rc = zl3073x_flash_host_ctrl_enable(zldev);
+> +	if (rc) {
+> +		ZL_FLASH_ERR_MSG(extack, "cannot enable host control");
+> +		goto error;
+> +	}
+> +
+> +	zl3073x_devlink_flash_notify(zldev, "Flash mode enabled", "utility",
+> +				     0, 0);
+> +
+> +	return 0;
+> +
+> +error:
+> +	rc = zl3073x_flash_mode_leave(zldev, extack);
+> +	if (rc)
+> +		ZL_FLASH_ERR_MSG(extack,
+> +				 "failed to switch back to normal mode");
+> +
+> +	return rc;
+> 
+> Should we be overriding rc here if there was an error on entering
+> but we cleanly left? If so that _is_ worth commenting on..
+
+Oops, this is an error, we should not override final rc here... Instead
+of this the driver should make its best to revert back to normal mode.
+
+Will fix this.
+
+Thanks for the review,
+Ivan
+
