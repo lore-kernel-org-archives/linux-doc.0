@@ -1,156 +1,194 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56D21DF982
-	for <linux-doc@vger.kernel.org>; Sat,  6 Sep 2025 14:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA83D1C5F10;
+	Sat,  6 Sep 2025 16:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757169542; cv=none; b=Mq5szfuRk2tDhaFJ5o1XqSnXOFkibgfyogyky2r/DJXKVp0o4gBytVybhOE69g+996ub7w4LfqT4OYCxR//Ka9zCQOwMG11ArSdFGms9DTilCVcfuDfPPmcSvC7srTGAB7sViHqQrUzZ31YeCSs0PAfhSnFCXCgczmjVjIi7tvM=
+	t=1757175090; cv=none; b=Y9+pjstGB7lA12h+WaGGmxmdSs/3bL1DfFnfGmf08vHuGvjxBsGNEtOWshOmF6mHJy19kGmhHRMuhn3y0F37yri331lGiu8ccD0J8PsqFKhD/jE97NtH+yS2tTSYLJ+oU1SVeQaX493ugkzq9lvG+DO2pIo3j+rkUBCxewFeXKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757169542; c=relaxed/simple;
-	bh=y0jjV1WQPVJy+mTbNadBE+qA/m0yKVZj7rqkNY231KU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KdaCV8xF9O36pRjckBFXn5tNO+N88gjBxqSCiFeTbYzz10WBRMpPDKumWt5Xu8K4bruIgKmQojMh0Fn+Yq1WfEciWzUF69HuZE6EdzUe+a0eZVdE5lwrWkBeiql+kfsXbYjGTAQlOoTa2vvHA2sRr9GcWsxJT5H7Yb0wMyrfyrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eWOJ9A5P; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eWOJ9A5P"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b04b55d5a2cso72362466b.2
-        for <linux-doc@vger.kernel.org>; Sat, 06 Sep 2025 07:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757169539; x=1757774339; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jUWFTKE9vov6PvGyPWUtB0lKl+bhJN7E97C4nU3KTfg=;
-        b=eWOJ9A5PgW/ZFxfuYtmOUg4zNpiA55YLzMQ47UHz17C7/pDEKxteqqKgA4o+mxOqxJ
-         0RmFu5YzlHk5b+Li9y/gfb2qIGFdfeDHwvQhywT4lUPpu4c3t8GCPKvQmpYjU0vE/emD
-         +WcaSruFgQMlWTbBTNysCY4OUnhWehknCZ5IJZLV2HsPodLIvHzbgxzkUFcXyYSSfPmh
-         ask6Oh6ImwckhTPZ9HFfPi3u1K22/7j9fJgVcKQ8QNt1km/qb2qNLyyGvlmo+rRxpJfe
-         keOtWoKHToofSx6Vt5RzpEnS5uUu5HeBBypqEh90a5xVjOceHwc7SLGsOYAoq8HViRVQ
-         vzLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757169539; x=1757774339;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jUWFTKE9vov6PvGyPWUtB0lKl+bhJN7E97C4nU3KTfg=;
-        b=U+ZfiDPg+hK/6wxQmyjIeIQQhUNchHAOzcWvJJuqGcsCPSpcUN1vb+SoViHCUikgIE
-         LzpadkJan3lqHJhe7jg2AOHeFa1hMg35dx5yQ4AvYiH24vCBodVRxpxy4L9g6bQmebH4
-         fmLPk2ZdbfknVdfuV70/c89h4T0VeiaOjvb2564OKnps1TlNZVPv+70twuqJl2/TkXzH
-         atRDxyANgIE8AbhiIQbmoyi/XLhwro9iyzCAq6Ynkl97+tlNP69p8F/mRXlcA3n/H20c
-         ikw8EWEPCBLfJ1yaZ+wWgNZkAmec5jQLG9AETU1uu3OzAlB3k6ELoSnwyFsloLljalfu
-         R9/Q==
-X-Gm-Message-State: AOJu0Yy0fFQqLP9uc/vajP4gKzSNxaE2Whm7LZSZDloARiAhdXQS+SIh
-	DK9GLJcZts4cQnRP0yOCIKMrjIre3oOoAOThibav+5Un/1/DJsx9oyESDpAj24e95VGe8Ft1dut
-	sVT37+/Ia7EyP/zOmPduKAcQR5tJpkCr9pfJqAJA=
-X-Gm-Gg: ASbGncsTw8AAVEWTXmVAlD33qvudUbAPWJImqG9+XaYlg2aNknU7Ki62oSowuBOapog
-	Twb/LnzBQZmq7O6lqLcCJNqoB3kxh+P4DK4aDJ/hlQ7ZIVShQqylK6A6xhZfWZ6In9In9wIE4ht
-	RrLjRjYjccPEot3rqgVewbKJo1ey4/6ROJki39cbEh3NnDSXL6qNUJrt4h1FWQFy/GJ52rzAfoa
-	JnFpp0tt+iHKq9pq3/EeXUeWBK94p2W9mZfkrMxTEHBtGfWPkvketfAeR8sQHwrotVtzJPoYIg=
-X-Google-Smtp-Source: AGHT+IHP12GmDQ5gHtxwpxuUdz1kd5YvAR7R+AB74G5dEiAhyKVhzXbv3jYklILzreuucNYPuHGHOmuwT1g3ZX26Z0Q=
-X-Received: by 2002:a17:907:7ea7:b0:afe:b311:a274 with SMTP id
- a640c23a62f3a-b04b16dc5f0mr208767166b.46.1757169538823; Sat, 06 Sep 2025
- 07:38:58 -0700 (PDT)
+	s=arc-20240116; t=1757175090; c=relaxed/simple;
+	bh=Hoe93HOntX7QH7qqyJ291jeFOmpzeJk0DKOBWCOd1XE=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=Ui3EShTOgs9JSniA3V9WjhcsRK/kJRK//yWmBnfRMJ4I/Ep/UHxBjMC/8Ex5H7lI6xfM4DsUXOusmMoAI+5+1YplMCHE1r46vy8onHXbMnAaVYGxkESueiAaAWd2pYkviq8enPdXhMARQugx1bO7ypkhTqZS3Ki3E+2dWeGoPzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cJyrH3rc7z59trL;
+	Sun, 07 Sep 2025 00:11:11 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl1.zte.com.cn with SMTP id 586GAwUY034174;
+	Sun, 7 Sep 2025 00:10:58 +0800 (+08)
+	(envelope-from fan.yu9@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sun, 7 Sep 2025 00:11:01 +0800 (CST)
+Date: Sun, 7 Sep 2025 00:11:01 +0800 (CST)
+X-Zmail-TransId: 2af968bc5d153d2-433da
+X-Mailer: Zmail v1.0
+Message-ID: <20250907001101305vrTGnXaRNvtmsGkp-Ljk_@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
- <87a53cx4r0.fsf@trenco.lwn.net>
-In-Reply-To: <87a53cx4r0.fsf@trenco.lwn.net>
-From: Zhixu Liu <zhixu.liu@gmail.com>
-Date: Sat, 6 Sep 2025 22:38:21 +0800
-X-Gm-Features: Ac12FXw952CAfJUMgyd2gybEZ53Pz7HRTDiNUkGrd6mHvSSivyLR7XPSK_sRlbA
-Message-ID: <CALMA0xYMNcD8UN5ykJALMskFGnNaau3cxJ1E5=bDE_mGS+bZBQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: sphinx: handle removal of utils.error_reporting
- in docutils 0.22
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <fan.yu9@zte.com.cn>
+To: <akpm@linux-foundation.org>, <wang.yaxin@zte.com.cn>, <corbet@lwn.net>
+Cc: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <fan.yu9@zte.com.cn>, <wang.yaxin@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIdjIgbGludXgtbmV4dCAwLzVdIHRvb2xzL2RlbGF5dG9wOiBpbXBsZW1lbnQgcmVhbC10aW1lIGtleWJvYXJkIGludGVyYWN0aW9uIHN1cHBvcnQ=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 586GAwUY034174
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: fan.yu9@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Sun, 07 Sep 2025 00:11:11 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68BC5D1F.000/4cJyrH3rc7z59trL
 
-Hi Jonathan,
+From: Fan Yu <fan.yu9@zte.com.cn>
 
-How about the v3 patch? I still think try/except is more robust,
-but I can switch to version comparison if you prefer, e.g.:
+Current Limitations
+===================
+The current delaytop implementation has two main limitations:
+1) Static sorting only by CPU delay
+Forcing users to restart with different parameters to analyze
+other resource bottlenecks.
+2) Memory delay information is always expanded
+Causing information overload when only high-level memory pressure
+monitoring is needed.
 
-if docutils.__version_info__ >=3D (0, 22):
-    ...
-else:
-    ...
+Improvements
+============
+1) Implemented dynamic sorting capability
+- Interactive key 'o' triggers sort mode.
+- Supports sorting by CPU/IO/Memory/IRQ delays.
+- Memory subcategories available in verbose mode.
+ * c - CPU delay (default)
+ * i - IO delay
+ * m - Total memory delay
+ * q - IRQ delay
+ * s/r/t/p/w - Memory subcategories (in verbose mode)
+2) Added memory display modes
+- Compact view (default): shows aggregated memory delays.
+- Verbose view ('M' key): breaks down into memory sub-delays.
+ * SWAP - swapin delays
+ * RCL - freepages reclaim delays
+ * THR - thrashing delays
+ * CMP - compaction delays
+ * WP - write-protect copy delays
 
-My preference for try/except:
+Practical benefits
+==================
+1) Dynamic Sorting for Real-Time Bottleneck Detection
+System administrators can now dynamically change sorting to identify
+different types of resource bottlenecks without restarting.
 
-1. Reflects the actual runtime environment, while version checks can
-be broken by backported patches.
-2. Avoids parsing non-standard version strings (e.g. 0.21a1,
-0.21.dev0); try/except is simpler and has no extra dependencies.
-(__version_info__ mitigates this somewhat.)
-3. More Pythonic and straightforward.
+2) Enhanced Usability with On-Screen Keybindings
+More intuitive interactive usage with on-screen keybindings help.
+Reduced screen clutter when only memory overview is needed.
 
-I=E2=80=99m fine with either approach=E2=80=94please let me know which you=
-=E2=80=99d like me to go with.
+Use Case
+========
+# ./delaytop
+System Pressure Information: (avg10/avg60vg300/total)
+CPU some:       0.0%/   0.0%/   0.0%/  106817(ms)
+CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
+Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
+Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
+IO full:        0.0%/   0.0%/   0.0%/    2245(ms)
+IO some:        0.0%/   0.0%/   0.0%/    2791(ms)
+IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
+[o]sort [M]memverbose [q]quit
+Top 20 processes (sorted by cpu delay):
+     PID      TGID  COMMAND           CPU(ms)   IO(ms)  IRQ(ms)  MEM(ms)
+------------------------------------------------------------------------
+     110       110  kworker/15:0H-s   27.91     0.00     0.00     0.00
+      57        57  cpuhp/7            3.18     0.00     0.00     0.00
+      99        99  cpuhp/14           2.97     0.00     0.00     0.00
+      51        51  cpuhp/6            0.90     0.00     0.00     0.00
+      44        44  kworker/4:0H-sy    0.80     0.00     0.00     0.00
+      76        76  idle_inject/10     0.31     0.00     0.00     0.00
+     100       100  idle_inject/14     0.30     0.00     0.00     0.00
+    1309      1309  systemsettings     0.29     0.00     0.00     0.00
+      60        60  ksoftirqd/7        0.28     0.00     0.00     0.00
+      45        45  cpuhp/5            0.22     0.00     0.00     0.00
+      63        63  cpuhp/8            0.20     0.00     0.00     0.00
+      87        87  cpuhp/12           0.18     0.00     0.00     0.00
+      93        93  cpuhp/13           0.17     0.00     0.00     0.00
+    1265      1265  acpid              0.17     0.00     0.00     0.00
+    1552      1552  sshd               0.17     0.00     0.00     0.00
+    2584      2584  sddm-helper        0.16     0.00     0.00     0.00
+    1284      1284  rtkit-daemon       0.15     0.00     0.00     0.00
+    1326      1326  nde-netfilter      0.14     0.00     0.00     0.00
+      27        27  cpuhp/2            0.13     0.00     0.00     0.00
+     631       631  kworker/11:2-rc    0.11     0.00     0.00     0.00
 
-On Tue, Sep 2, 2025 at 11:18=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Zhixu Liu <zhixu.liu@gmail.com> writes:
->
-> > docutils.utils.error_reporting was removed in docutils v0.22, causing s=
-phinx
-> > extensions (e.g. kernel_include) to fail with:
-> >
-> >>   File "/usr/lib/python3.12/site-packages/sphinx/registry.py", line 54=
-4, in load_extension
-> >>     raise ExtensionError(
-> >> sphinx.errors.ExtensionError: Could not import extension kernel_includ=
-e (exception: No module named 'docutils.utils.error_reporting')
-> >
-> > Add compatibility handling with try/except (more robust than checking
-> > version numbers):
-> > - SafeString  -> str
-> > - ErrorString -> docutils.io.error_string()
-> >
-> > Signed-off-by: Z. Liu <zhixu.liu@gmail.com>
-> > ---
-> >  Documentation/sphinx/kernel_feat.py         | 6 +++++-
-> >  Documentation/sphinx/kernel_include.py      | 7 ++++++-
-> >  Documentation/sphinx/maintainers_include.py | 6 +++++-
-> >  3 files changed, 16 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/sphinx/kernel_feat.py
-> > b/Documentation/sphinx/kernel_feat.py
-> > index e3a51867f27bd..d077645254cd4 100644
-> > --- a/Documentation/sphinx/kernel_feat.py
-> > +++ b/Documentation/sphinx/kernel_feat.py
-> > @@ -40,7 +40,11 @@ import sys
-> >  from docutils import nodes, statemachine
-> >  from docutils.statemachine import ViewList
-> >  from docutils.parsers.rst import directives, Directive
-> > -from docutils.utils.error_reporting import ErrorString
-> > +try:
-> > +    from docutils.utils.error_reporting import ErrorString
-> > +except ImportError:
-> > +    # docutils >=3D 0.22
-> > +    from docutils.io import error_string as ErrorString
-> >  from sphinx.util.docutils import switch_source_input
->
-> This is a step in the right direction ... but the exception you report
-> in the changelog is sphinx.errors.ExtensionError; why a different
-> exception here?
->
-> I would still rather just look at the docutils version in any case,
-> rather than trying to interpret exceptions.
->
-> Thanks,
->
-> jon
+# ./delaytop -M
+System Pressure Information: (avg10/avg60vg300/total)
+CPU some:       0.0%/   0.0%/   0.0%/  106827(ms)
+CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
+Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
+Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
+IO full:        0.0%/   0.0%/   0.0%/    2245(ms)
+IO some:        0.0%/   0.0%/   0.0%/    2791(ms)
+IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
+[o]sort [M]memverbose [q]quit
+Top 20 processes (sorted by mem delay):
+     PID      TGID  COMMAND           MEM(ms) SWAP(ms)  RCL(ms)  THR(ms)  CMP(ms)   WP(ms)
+------------------------------------------------------------------------------------------
+  121732    121732  delaytop           0.01     0.00     0.00     0.00     0.00     0.01
+   95876     95876  top                0.00     0.00     0.00     0.00     0.00     0.00
+  121641    121641  systemd-userwor    0.00     0.00     0.00     0.00     0.00     0.00
+  121693    121693  systemd-userwor    0.00     0.00     0.00     0.00     0.00     0.00
+  121661    121661  systemd-userwor    0.00     0.00     0.00     0.00     0.00     0.00
+       1         1  systemd            0.00     0.00     0.00     0.00     0.00     0.00
+       2         2  kthreadd           0.00     0.00     0.00     0.00     0.00     0.00
+       3         3  pool_workqueue_    0.00     0.00     0.00     0.00     0.00     0.00
+       4         4  kworker/R-rcu_g    0.00     0.00     0.00     0.00     0.00     0.00
+       5         5  kworker/R-rcu_p    0.00     0.00     0.00     0.00     0.00     0.00
+       6         6  kworker/R-slub_    0.00     0.00     0.00     0.00     0.00     0.00
+       7         7  kworker/R-netns    0.00     0.00     0.00     0.00     0.00     0.00
+       9         9  kworker/0:0H-sy    0.00     0.00     0.00     0.00     0.00     0.00
+      11        11  kworker/u32:0-n    0.00     0.00     0.00     0.00     0.00     0.00
+      12        12  kworker/R-mm_pe    0.00     0.00     0.00     0.00     0.00     0.00
+      13        13  rcu_tasks_kthre    0.00     0.00     0.00     0.00     0.00     0.00
+      14        14  rcu_tasks_rude_    0.00     0.00     0.00     0.00     0.00     0.00
+      15        15  rcu_tasks_trace    0.00     0.00     0.00     0.00     0.00     0.00
+      16        16  ksoftirqd/0        0.00     0.00     0.00     0.00     0.00     0.00
+      17        17  rcu_preempt        0.00     0.00     0.00     0.00     0.00     0.00
 
+When psi is not enabled:
+# ./delaytop
+System Pressure Information: (avg10/avg60vg300/total)
+  PSI not found: check if psi=1 enabled in cmdline
 
+v2->v1:
+Some fixes according to:
+https://lore.kernel.org/all/202509021454480003xS5M8WmAIQT2F_IiSd3p@zte.com.cn/
+https://lore.kernel.org/all/202509021138097501cXkw4xiXiYSWRs8thevi@zte.com.cn/
+1. Refactored delay sorting and view display logic for better extensibility
+2. Optimized memory delay verbose view (exclude CPU/IRQ/IO delays) 
+3. Added user notice for PSI configuration when not enabled
+4. Updated documentation covering all new interactive features
 
---=20
-Z. Liu
+Fan Yu (5):
+  tools/delaytop: add flexible sorting by delay field
+  tools/delaytop: add memory verbose mode support
+  tools/delaytop: add interactive mode with keyboard controls
+  tools/delaytop: Improve error handling for missing PSI support
+  docs: update delaytop documentation for new interactive features
+
+ Documentation/accounting/delay-accounting.rst |  91 ++-
+ tools/accounting/delaytop.c                   | 571 +++++++++++++-----
+ 2 files changed, 485 insertions(+), 177 deletions(-)
+
+-- 
+2.25.1
