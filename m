@@ -1,112 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9298B22B8B0;
-	Sat,  6 Sep 2025 07:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1AA4C98
+	for <linux-doc@vger.kernel.org>; Sat,  6 Sep 2025 08:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757143194; cv=none; b=dUVe04DeD8+iK4Vn549jE1zJjCk9vOVRLMQ2eervRl722L50ZLSkN4DnKxTqQS4dUYg8FOaTnMDx1Sh6qMKONUfVGSUz3Cy16Q+BwV6pjuZVUhHc7ayfIfhZ3mpHNWxgCAwcZtcuWBz25uSlpsU83NHWLhpjAcG+1KLkY5KN92k=
+	t=1757147597; cv=none; b=erxfNGykTvbxRZl1+SueY1oqfhMeAAZ1XSXfihVuw2Vn8FAM4ipC8taBO6sXD8sW7SLyr9uO9eWTfyO8PkdOYhFCNtKEF7ZqgWypqVFfjx0o5cFjTC7VeQcuQ7HREsE4nTXMWvuAeT+1Lhq4jTLWk/UcoYV75/7n1LHEspZUNc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757143194; c=relaxed/simple;
-	bh=HccljbpU2NVHcTWDgc09fwSCBkehFNV5TwHj8ILtago=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aqljUxy8UXQTFzVsb+OCju1oUmt3gSNx3OSPSlEHbLnBAv/S45Yy4zXjfk/1TkU0eTnGm4figY2ZhUbl99yNdekhHINkiVrLa0vgEadSpbsCs5oTfLQSB/SxkZwbfxvhAuDxO+McKp/G36ZGP9SbR1QxmDxLZX/aHEmlkRcRJhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+TC99zl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757147597; c=relaxed/simple;
+	bh=fBCgQ9+Esjb03hqSkMbtVgmbhJSrvSN5rMOZIFLecCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oj4FalJYwvpBWZFBuP4tSqgSkK+HRKgRKBlgwL/ZUy1rAcmPc3Ex8K/UA3AJO/xAy9IQv5j7rCKafTaGNwO14AxNI9iWDG7NT8WhYWjrKWpogWHYMoSvuLUo9BB1SP5b1a+dG93Yugoa/fzCH0nl7KISfW2xbyD+9X9p7gdhci0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCkqrHNV; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+TC99zl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E0E8C4CEE7;
-	Sat,  6 Sep 2025 07:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757143194;
-	bh=HccljbpU2NVHcTWDgc09fwSCBkehFNV5TwHj8ILtago=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=q+TC99zlVzC80Oo+AtTyznQz/5lto9JjYOcbjgEfFjhV0Gf9wcJks0KD53RqaXD3w
-	 CNbRe4zo2rW0A4ZsVdpiJulN77hNpzdrGyTOnei+c/Bu5sfN8h0NytQPE4EqCdCgZc
-	 ZNQRg56vU4KkM/5157Il1vMffo8AFohQp1JTyLbdadUED/045uH10Mv+QyexFKP/jo
-	 0zAKhp71+zSIU4OaZ0m8XAjrHzM73yUn/LDAt6WBT7+jCRCHhHoFkaJWE4U7oLkYIr
-	 mn7x3vy5szW8bE6+bLlQKLsesp6FLQb64bnpRTU5tMaKmda5fvy80hjCFO2tRGtmhK
-	 zzDLVOSfifdOA==
-Message-ID: <9bd7beeb-0c11-4502-9d45-c85a0744ec82@kernel.org>
-Date: Sat, 6 Sep 2025 09:19:50 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCkqrHNV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757147596; x=1788683596;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fBCgQ9+Esjb03hqSkMbtVgmbhJSrvSN5rMOZIFLecCA=;
+  b=nCkqrHNVNoX/o+hAwiOldsdfGnDhch2pG0sW04B4dptdqiAnNoNfZDuT
+   viRfTBZmAJ8W2Amw1D1EmIjYhrnNioxcKCH+9LgE2fmtDFP2Lk7eaiPTk
+   GaElqcapWMSKv/NRcG96MKtYNEdjRRfwmzz05DvuaUMjq5wF/O+XMfuPI
+   MlAL6tVFLYBstX7cYIegnL5kwpY2ZMRY2mdjrF3CUfD51v0Ex+2Sisyix
+   3DhNRT+R/Pv5BEOhKtSP4usa/20jBlsRY428y5CwnETfZ3RWm7TdtaNkN
+   n/TUZL8FxTpyzMJILgnahwHw9QuVl0bnPjQQCNKYweNVDP0DmsgXE6mQ1
+   g==;
+X-CSE-ConnectionGUID: eYi134WWSLeWo4jjAxK68A==
+X-CSE-MsgGUID: iuGJdU07TYetbjDHtLaS+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59407641"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59407641"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 01:33:16 -0700
+X-CSE-ConnectionGUID: LvB4lU6ZTZKfSy0ULtCbiA==
+X-CSE-MsgGUID: 9RDaaRPjR9ejrPX6d4ISyw==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Sep 2025 01:33:15 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uuoMC-00049P-2U;
+	Sat, 06 Sep 2025 08:33:12 +0000
+Date: Sat, 6 Sep 2025 10:32:59 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [jgunthorpe:pcie_switch_groups 5/12] htmldocs:
+ Documentation/driver-api/pci/pci:19: ./drivers/pci/search.c:611: WARNING:
+ Block quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202509061043.HTW4fby7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: update TI TPS23861 with
- per-port schema
-To: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Cc: Robert Marko <robert.marko@sartura.hr>,
- Luka Perkov <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250904-hwmon-tps23861-add-class-restrictions-v3-0-b4e33e6d066c@gmail.com>
- <20250904-hwmon-tps23861-add-class-restrictions-v3-1-b4e33e6d066c@gmail.com>
- <20250905-deft-porcelain-teal-a3bdbf@kuoka>
- <CAAcybutsMdXmqrA6kG9L5OTP9ZPyLzYrXTGUGLAkWs5+MH9ifA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAAcybutsMdXmqrA6kG9L5OTP9ZPyLzYrXTGUGLAkWs5+MH9ifA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/09/2025 19:22, Gregory Fuchedgi wrote:
-> On Fri, Sep 5, 2025 at 1:10 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On Thu, Sep 04, 2025 at 10:33:44AM -0700, Gregory Fuchedgi wrote:
->> What's the meaning of values? There are no other generic properties like
+tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
+head:   b07d062a257fab9b08dc1b6708ada05aa90d4cf8
+commit: c99c2800fa7ff067b894e473bf60473ca4b7ee4c [5/12] PCI: Add pci_reachable_set()
+reproduce: (https://download.01.org/0day-ci/archive/20250906/202509061043.HTW4fby7-lkp@intel.com/reproduce)
 
-Where is context here? To which part was I replying / commenting on?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509061043.HTW4fby7-lkp@intel.com/
 
-You are not making the process easy. I receive a lot of emails and have
-no clue what this refers to.
+All warnings (new ones prefixed by >>):
 
-Best regards,
-Krzysztof
+   WARNING: No kernel-doc for file ./include/linux/pwm.h
+   ERROR: Cannot find file ./include/linux/mtd/rawnand.h
+   ERROR: Cannot find file ./include/linux/mtd/rawnand.h
+   WARNING: No kernel-doc for file ./include/linux/mtd/rawnand.h
+   Documentation/driver-api/pci/pci:19: ./drivers/pci/search.c:610: ERROR: Unexpected indentation. [docutils]
+>> Documentation/driver-api/pci/pci:19: ./drivers/pci/search.c:611: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/pm.h
+   WARNING: No kernel-doc for file ./include/linux/pm.h
+   ERROR: Cannot find file ./include/linux/pwrseq/provider.h
+   ERROR: Cannot find file ./include/linux/pwrseq/provider.h
+   WARNING: No kernel-doc for file ./include/linux/pwrseq/provider.h
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
