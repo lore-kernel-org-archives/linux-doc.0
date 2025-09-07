@@ -1,197 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5F1283FD4;
-	Sun,  7 Sep 2025 16:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA8321578F;
+	Sun,  7 Sep 2025 16:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757262148; cv=none; b=FfV61DUprR/AJTQ/KBmFPyn9MfraMeVRt5xrbjcpSyHbMBPOVRvSh6sm8Lo3AQu62Q2GxqAKwypjQsRkVsp2u8D8Xbts73dEon9rvaSR8fHSIbgh6EijAohQYcPSxW9U7D8mDLqylV+lwBRZaaO8tBFvI7rGCe2Eo+WvCfIIUNQ=
+	t=1757264143; cv=none; b=UZcQYoiKU0ch22ZGjSBH9cXtHYC1t1OHSCIxbutoy0PiyX0ZDfQJgfhbeh7PPUrtUbSM6HIA7ExG4A3AlPIGLr8h+R7D6tQG67I2YHxMWyFr3ZpIcewGe3+t+H51MFdVeK5yzGqGF0FAZZelQZHdM1IwC/08SGuOZG0xnWO6oe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757262148; c=relaxed/simple;
-	bh=rseNWx4p8Z6IKHAzzmqFgXVjwzTwBA/0+6t5EuWmh7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=n/WXoe+yPVCejdPehnDUgfAZdiWCXlxAVaOE/DtKg0nZOHAjQZq7pkF/X/JUK/lGhicizGMFTYFJdtExckZlPk5hHl+kKFyZhx3U9Vm9UfvMgG33T56FfYNKkKxtA8Y3qmdieLW6ebmwy+txtQUT7GZwUvRrq34/FXMlOccd018=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRdSjPNf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757264143; c=relaxed/simple;
+	bh=hj/oyp4cEgcvL/1yElr6j76VlPObqr1h7l8aQw98mog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IKenFeps1fl2+u2H/SdtVRTiNI1zwFuQbYf011zgEbF277HBUbcE/qviiscYETYaQLFkxmwX/snwT9CzX1OFrs+iO+CpQ9kN+kPjTsxa8jqtDrvanxgtyxZy+0nAx84kRfr2WecW1mPE2/w2/Lq+4Lhfs33+HnmSuMM7daQwJUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SiRhoxjz; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRdSjPNf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18FF6C4CEF0;
-	Sun,  7 Sep 2025 16:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757262148;
-	bh=rseNWx4p8Z6IKHAzzmqFgXVjwzTwBA/0+6t5EuWmh7Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=RRdSjPNflz3p8XyQK4Sm6PmaCz5vYZGVnVA5a7Lr3z140VvMEB62b7dshiK09SilK
-	 caxoQGIrr8NPbc1L89Cj4XrIdMtXtSWVIm9qBGYlIiSjsm7Ttlc6PCECVo92tTMi/I
-	 85MpYMZvZqvyj13cB2+CY2bK1kcG7xqwjSdnImcJTTjgYcZ2PRLRRPHMWKX5HmH6J0
-	 mmdaHqyE3Uo+lRZnSDeHyXaRW5eyFfRSkagZtyeEbYaJ+7zTo5NyIYDb93uOR9m0Xw
-	 k4kiBYBB3aNuqnE1FQINMgdnR9Y4XtcHt4efHtFzfq1EnL2Xtom+U8cGt0v1rWjfHq
-	 eSfIhsb/NGemg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uvI9p-00000004DP1-22GX;
-	Sun, 07 Sep 2025 18:22:25 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kernel-doc: add support for handling global variables
-Date: Sun,  7 Sep 2025 18:22:22 +0200
-Message-ID: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SiRhoxjz"
+Message-ID: <00d37c64-f584-4846-b65c-76582601c30f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757264129;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ELddA0f2ttvGHdC8Ifs6ZhKF0YoIStSpLQZE8s5K2Hk=;
+	b=SiRhoxjzpq/2GariF7snGksH/Pd5bDzzHTigFdy3aSAkiser8+ypa/adG+daV1Bk4oA1qh
+	SWBT2+lOQdHsHT0hRRA3vKKs6Ss9Z6Go2J1T0gffzlYtP8tc42aa+KezEjCMfhR4xSiWVY
+	57phi9DDi2EaPMzzkOi3DZ8+tOGFiYY=
+Date: Sun, 7 Sep 2025 17:55:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH net-next v04 05/14] hinic3: Command Queue flush interfaces
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+ Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>,
+ Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>,
+ Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
+ Suman Ghosh <sumang@marvell.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Joe Damato <jdamato@fastly.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <cover.1757057860.git.zhuyikai1@h-partners.com>
+ <be5378bb148410286bb319a82fd2e2f0c9044117.1757057860.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <be5378bb148410286bb319a82fd2e2f0c9044117.1757057860.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Specially on kAPI, sometimes it is desirable to be able to
-describe global variables that are part of kAPI.
+On 05/09/2025 09:28, Fan Gong wrote:
 
-Documenting vars with Sphinx is simple, as we don't need
-to parse a data struct. All we need is the variable
-declaration and use natice C domain ::c:var: to format it
-for us.
+[...]
 
-Add support for it.
+> +struct comm_cmd_clear_doorbell {
+> +	struct mgmt_msg_head head;
+> +	u16                  func_id;
+> +	u16                  rsvd1[3];
+> +};
+> +
+> +struct comm_cmd_clear_resource {
+> +	struct mgmt_msg_head head;
+> +	u16                  func_id;
+> +	u16                  rsvd1[3];
+> +};
 
-Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
- scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
- 2 files changed, 55 insertions(+), 1 deletion(-)
+I don't see any difference in these 2 structures. And the code
+implementation doesn't check types. Probably it's better to refactor
+things and try to implement it using common thing.
 
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index 1eca9a918558..405a5c407522 100644
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -199,6 +199,10 @@ class OutputFormat:
-             self.out_enum(fname, name, args)
-             return self.data
- 
-+        if dtype == "global":
-+            self.out_global(fname, name, args)
-+            return self.data
-+
-         if dtype == "typedef":
-             self.out_typedef(fname, name, args)
-             return self.data
-@@ -227,6 +231,9 @@ class OutputFormat:
-     def out_enum(self, fname, name, args):
-         """Outputs an enum"""
- 
-+    def out_global(self, fname, name, args):
-+        """Outputs a global variable"""
-+
-     def out_typedef(self, fname, name, args):
-         """Outputs a typedef"""
- 
-@@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
-         self.lineprefix = oldprefix
-         self.out_section(args)
- 
-+    def out_global(self, fname, name, args):
-+        oldprefix = self.lineprefix
-+        ln = args.declaration_start_line
-+        prototype = args.other_stuff["var_type"]
-+
-+        self.data += f"
+[...]
 
-.. c:var:: {prototype}
+> +void hinic3_enable_doorbell(struct hinic3_hwif *hwif)
+> +{
+> +	u32 addr, attr4;
+> +
+> +	addr = HINIC3_CSR_FUNC_ATTR4_ADDR;
+> +	attr4 = hinic3_hwif_read_reg(hwif, addr);
+> +
+> +	attr4 &= ~HINIC3_AF4_DOORBELL_CTRL_MASK;
+> +	attr4 |= HINIC3_AF4_SET(ENABLE_DOORBELL, DOORBELL_CTRL);
+> +
+> +	hinic3_hwif_write_reg(hwif, addr, attr4);
+> +}
+> +
+> +void hinic3_disable_doorbell(struct hinic3_hwif *hwif)
+> +{
+> +	u32 addr, attr4;
+> +
+> +	addr = HINIC3_CSR_FUNC_ATTR4_ADDR;
+> +	attr4 = hinic3_hwif_read_reg(hwif, addr);
+> +
+> +	attr4 &= ~HINIC3_AF4_DOORBELL_CTRL_MASK;
+> +	attr4 |= HINIC3_AF4_SET(DISABLE_DOORBELL, DOORBELL_CTRL);
+> +
+> +	hinic3_hwif_write_reg(hwif, addr, attr4);
+> +}
 
-"
-+
-+        self.print_lineno(ln)
-+        self.lineprefix = "  "
-+        self.output_highlight(args.get('purpose', ''))
-+        self.data += "
-"
-+
-     def out_typedef(self, fname, name, args):
- 
-         oldprefix = self.lineprefix
-@@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
-             self.data += f'.SH "{section}"' + "
-"
-             self.output_highlight(text)
- 
-+    def out_global(self, fname, name, args):
-+        out_name = self.arg_name(args, name)
-+        prototype = args.other_stuff["var_type"]
-+
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "
-"
-+
-+        self.data += ".SH NAME
-"
-+        self.data += f"{prototype} \- {args['purpose']}
-"
-+
-+        self.data += ".SH SYNOPSIS
-"
-+        self.data += f"enum {name}" + " {
-"
-+
-     def out_typedef(self, fname, name, args):
-         module = self.modulename
-         purpose = args.get('purpose')
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index 574972e1f741..e2a3f4574894 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -64,7 +64,7 @@ type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
- # Tests for the beginning of a kerneldoc block in its various forms.
- #
- doc_block = doc_com + KernRe(r'DOC:\s*(.*)?', cache=False)
--doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)\s*(\w*)", cache = False)
-+doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|global)\s*(\w*)", cache = False)
- doc_begin_func = KernRe(str(doc_com) +			# initial " * '
-                         r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
-                         r'(?:define\s+)?' + 		# possible "define" (not captured)
-@@ -886,6 +886,27 @@ class KernelDoc:
-         self.output_declaration('enum', declaration_name,
-                                 purpose=self.entry.declaration_purpose)
- 
-+    def dump_global(self, ln, proto):
-+        """
-+        Stores global variables that are part of kAPI.
-+        """
-+        VAR_ATTRIBS = [
-+            "extern",
-+        ]
-+        OPTIONAL_VAR_ATTR = "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-+
-+        r= KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s*;(?:#.*)?$")
-+        if not r.match(proto):
-+           self.emit_msg(ln,f"{proto}: can't parse variable")
-+           return
-+
-+        declaration_name = r.group(2)
-+        var_type = r.group(0)
-+
-+        self.output_declaration("global", declaration_name,
-+                                var_type=var_type,
-+                                purpose=self.entry.declaration_purpose)
-+
-     def dump_declaration(self, ln, prototype):
-         """
-         Stores a data declaration inside self.entries array.
-@@ -897,6 +918,8 @@ class KernelDoc:
-             self.dump_typedef(ln, prototype)
-         elif self.entry.decl_type in ["union", "struct"]:
-             self.dump_struct(ln, prototype)
-+        elif self.entry.decl_type == "global":
-+            self.dump_global(ln, prototype)
-         else:
-             # This would be a bug
-             self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
--- 
-2.51.0
+These 2 functions differ only in one bit. It might be better to
+implement it once and use extra boolean parameter?
+
 
