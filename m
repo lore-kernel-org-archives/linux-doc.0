@@ -1,131 +1,76 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6A927055D;
-	Sun,  7 Sep 2025 14:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8011D2F84F;
+	Sun,  7 Sep 2025 15:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757255125; cv=none; b=EY+6AwYidXGvzaDEA7XMMp7iCjum8Av8cJCFTOzzxTBTr7hfdqnwUg7iYNCVVj15GSOmd1LlEiilHEhgCq3/hPWVYUcRPNr07bpTOnobDMhZhFBlY/4P3wq4T2+AJWHkQ85awv7w5kYsawn192SiXMNI02+uy4AOFW7ENjsO2N0=
+	t=1757258321; cv=none; b=Bhb5H/xxur0Q37LHTK/Yr722oCeTtwGb5mKVFTPKVsXf1FfI/L7MRriQgiJBORkrjEL3hfcWfp91D6TEk51nNfrDb/NsijXlOvlski7bixvm4iSIGbDyPwBNs/SJlFCsQ6xZtX5/0B4cOFw5wA+iRCN1jw4oCBuR6/fOeKJIG50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757255125; c=relaxed/simple;
-	bh=kw5QtyRnvKi/VxmgRaSRYThMkx+5yIciBkjBuGOndgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=CGO1UhFzxUjOV2Bwu5LPyWbFjTlTbGLoUY/vISkwewv4+1Peu/7Yai6yXc5OPfCILF8mwqSWUSm6sgzrhAg4nIdrkr6Bqe29LtV4ZCaNi6tek7y0DKpKhGRYz3Nsvpolf0C39OB9lmC6zDFUiARjfD88r1sjFLAKooUf6q7/Mac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=LxAEL1hA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gkkyoHxl; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1757258321; c=relaxed/simple;
+	bh=LYyDvq0GXrH2DKyUhF07XevDxFGTDVdVeG14S4KHIUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZky+y1OPcjq+Y6MZl0uUHXsEYZUY4/Y+kgpdgmdK/DKIuZWTA2sGBdJoxB+GmW79mjAzCogaPdp2GZOhBHo5djlegvKUaONGaNn0v2O2QPKTGeZfklza1OyMKFlhhmKB6QcJfDG566mx9Yq28pXX3M+16Y1Cf9DmA6rNwMm+UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UqH64FWO; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="LxAEL1hA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gkkyoHxl"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C2941140003F;
-	Sun,  7 Sep 2025 10:25:21 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Sun, 07 Sep 2025 10:25:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1757255121; x=1757341521; bh=G/
-	EPaorfj+fFyTEHaVMF0Aq5nU/5YHn8ZldlmV9nSRU=; b=LxAEL1hA32JcJEnG98
-	oeJWFJW96Ab1ZdHJgGFlspwkJEj8Aiavk+dntTuQR94KmnDxtmALl7CB+fX7pbmo
-	zvwHV9izosIpgEyayMmq4HTHRSL2iK4fMKWHMvvD41vWIEJCTnEIIqxOvjqUMPdN
-	FaaZNPb2cDEYVHxVXwipUcCnSOWtlHTWUV9b7UKVDN46YphS5bUyXSD3O2FSIvg3
-	JUD1TcNnZpGiXsQ7MCTj1TVHQ3ohhj+xY79FbL/+BRd7wIICp8XkFAHyKTyD/8lm
-	yl+rKrALxeGxgT5Cn2F0n3Vujw7PsQdn7K1EKLloRiZFtuJG1JI5PkcjOkt6ZukQ
-	tPFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1757255121; x=1757341521; bh=G/EPaorfj+fFyTEHaVMF0Aq5nU/5YHn8Zld
-	lmV9nSRU=; b=gkkyoHxlYwH2iEfC+POnjbirfwG9a7+WNBFdUULpIUfCF6QwBKD
-	CXcsXkweDWwsQzN7Gd/GbXOk1SV+QIJUgWkOe1GLc0VVeUYBy346pR/YD304mG7z
-	1ztsB7KcR9c74q1QJaQIjsplL9rOCD+fGXEZYd3b1CaBQnjtDDPbNZDWICkLf5pp
-	E+qxogYXjT9un6LXfyJoljBVnMPFxj2E3BW22x2ShtmyGXx44gZthxk9ic+CJ+5v
-	xe6lmL0VZ16DWgsUqgTs96f66G7saKooHJEnRz+Yld+xGqzw4yGMu+xPzsXFPe8w
-	GNdDDSQNNRcQqEmj5hrowrarHbImiv5H7QA==
-X-ME-Sender: <xms:zpW9aHBBt0nmuBo9smDJ2pyc66XAz51H2zLxPIL-bKuIIirEqr75FQ>
-    <xme:zpW9aP5GM0Oa9oXSpXiYSqnaKLnHMrts9xFSY3EInc6RNC_Ob2dxgDJB8d83jBdim
-    fy3XXGQESbNHiHsUNQ>
-X-ME-Received: <xmr:zpW9aNLIKTgt7t1RechOqALMeiJc4jvDTVIeA0j8Y6R9TLQOMTuGJFNVHgmJLi83Qw1w6W0IAc1sMtpcdOdKwHPv5EDXH_yn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddugeekkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhhihcu
-    ufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjpheqne
-    cuggftrfgrthhtvghrnhepveehudehueekveelteevkeevkeeiudfgtdeivdehjeetffdt
-    vdeukeekheeitdetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghrtghp
-    thhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjghhgsehnvhhiug
-    hirgdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdr
-    tghomhdprhgtphhtthhopegrsgguihgvlhdrjhgrnhhulhhguhgvsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepghhlihguvghrsehgohhoghhlvgdrtghomhdprhgtphhtthhopegr
-    lhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghkphhmsehlih
-    hnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehhtghhsehlshhtrdgu
-    vgdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhomh
-    hmuheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:zpW9aESQOTluGcoqM_cunEP_CQ11Qvxrpy5aGTfr1MzqwvK2MTzWog>
-    <xmx:zpW9aFHJqGCH6u0UWGJG3VtNOeC2T8wJ8cwxckTphVMd0qLeV964DA>
-    <xmx:zpW9aNpr-peDJ1nPk1kSevLyeyufAy3XpVeJTpuplknDlKhO7wcF7A>
-    <xmx:zpW9aLNxtTkNoAukVHmomnYFXm7ah-6QwcR2-dfdjXXF-bo6zSTB0A>
-    <xmx:0ZW9aEVsvUTTHZprT5gFlKyXEiCBT6fpdOnxgCny8ixcqLiQ3QkTgVqI>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Sep 2025 10:25:11 -0400 (EDT)
-Date: Sun, 7 Sep 2025 23:25:09 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,	virtualization@lists.linux.dev,
- Will Deacon <will@kernel.org>,	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
- API
-Message-ID: <20250907142509.GA507575@workstation.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,	virtualization@lists.linux.dev,
- Will Deacon <will@kernel.org>,	xen-devel@lists.xenproject.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UqH64FWO"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-32b60a9aa4cso2241426a91.0;
+        Sun, 07 Sep 2025 08:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757258319; x=1757863119; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r/E8J0+UDrFZVPW+XIBVI88qGmovgkSzjMGwttvN0GQ=;
+        b=UqH64FWOKzJXmEjSeIRpwwPCMkRPeKZknUgZkisk1yllWV8UygD5PTDeCrE+uAAMRy
+         sRxQZf/wixYUS6Jcj3JISvk5JRZZnHc5s4nWcXq7tY8xosr2mn8ihYT5YxFXm/vWk8m5
+         RXuh/ApK1CwSHAOPv5jGcoffongqyvZhd670OnXl8ktksC/mQbLz830MWPzM1xeps6Qg
+         dp+n9QiX9ae0I1eg/B6sTSiW5PjjCOqyhrgdygFXEiL8NkZaTBwlHHsOiZoYN8JEbDxT
+         IWGYM57FBBQNBwRdDtdma2PwPdYbopqzs4zMvYmp+PYqHhv+5iddwWe7xBQH+beCCQ0c
+         0C9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757258319; x=1757863119;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r/E8J0+UDrFZVPW+XIBVI88qGmovgkSzjMGwttvN0GQ=;
+        b=mPAHG1dH3CLGuwyu+tqpz3KN992Y3fTj2XJ6abZ8Vq6jylGs4mRmBeUN0uORcnn7C+
+         SG9LhUKVsiSB9F2J1dmT0aoHUGVE0K4oRcAHblCK8S0xGv2ctZwqm1iJVX6q74a8pdQx
+         blSCyxeClMIQWXqAgoIl3qH0y3eEvY6+c6uhPep5fNB1NIbnyeVPATs4nLbqfRFb8DRX
+         z4FoQlVE5w7aQK8IhnQqkhezzSgjzjAc5N3OO85m8pxWg71+D2fWIl/6HZAPXrsNWI6+
+         G7PfZNAZsTNJl9/WaXAvnKnMnwAyEsymynY2eN+zeX14ing8TUYAmKJzBYaQPSAvVnCW
+         U2VA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIhwPN6hafI1bGXCYYeDiETG8b94qVFDuqOsfuYLimK08pdG8meFPlLuo1S7Vkrk/UcdBnjG61OlI0@vger.kernel.org, AJvYcCWUBAssIDTRlMHsFi+pjb3PRxfcEIVH3n3PRTqpb2z6oO7RtA/DW3mnS/nv4NFX0+xmrVR2GghCgOL3@vger.kernel.org, AJvYcCX7wisNEFjL8SwICpBfSMFDCgEhUnIb/JSTHuFpNTLcRQ8LMohT+oTkzdeMyI15aMq6SUPy/NHQSWhYOfMT@vger.kernel.org, AJvYcCXbAdagOnppR48kr/rYw5JAynN+EmOMqZIFfLSw03KsL0j0gbwNztLP+pc1klTChPaWImFEzkBFNDqtIGM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYE5Uot5SmNDkyYSZN0wTKYXFc8uscaYM9guLcUWXuwZXzchIH
+	rZV8EMkMBun5svmir2l6xbNnRzeCDZ5f2CVP1pgObhbFwuaF7VqQnNe6
+X-Gm-Gg: ASbGnctZlmpPuN2joEAk7/lhnPyog+4VBoNHZXd+NCOjD0CYKf2BSi9kVFVftlq5iR4
+	SFg2R3haSqjiD0m2y77FWyyC07DoFKH0G0/BAmOo4imgcCQZur2u//ypPoDyNOoS0DYDJXP+sAm
+	L3xbjvr0X0obbSYVALehn9HVDvzMkE199+jMWVVNh7+xB1rIDH6LMBpMz5r60G13Qwjak9P5P1S
+	/oLuJIXsbwAC4CX8qU7XFMzXAKbb0t+uNi65jU3C5450wPyxoV6rCCJwanmfBLPih0a+m6c1iRr
+	aRPb6LeyodcHnn6LYOJf+qX2bI+1om5leGuNkx+JAfWic0QxTIN3kr851S2U7TXGlvoTAPnfEEl
+	dqfNc/f7Ee/Qy7uHcKSZSjF3aXqvPrZZztRE=
+X-Google-Smtp-Source: AGHT+IH0NRfIjdXGmDg+4fUORjKshyxGPbn3RDkWC6+6ULZI5bE10kWEcroIGsW4+gnsEJgl1rqeig==
+X-Received: by 2002:a17:90b:3c0f:b0:329:f408:1070 with SMTP id 98e67ed59e1d1-32d43fcfd9emr7886971a91.33.1757258318677;
+        Sun, 07 Sep 2025 08:18:38 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276f57b232sm33761531a91.2.2025.09.07.08.18.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Sep 2025 08:18:38 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 7 Sep 2025 08:18:36 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: wenswang@yeah.net
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	jdelvare@suse.com, corbet@lwn.net, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] dt-bindings: hwmon: Add MPS
+ mp2869,mp29608,mp29612,mp29816 and mp29502
+Message-ID: <28e779b7-43aa-4e82-87b4-e56c6cb0b7f1@roeck-us.net>
+References: <20250805101754.749492-1-wenswang@yeah.net>
+ <20250805102020.749850-1-wenswang@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -134,29 +79,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250905174324.GI616306@nvidia.com>
+In-Reply-To: <20250805102020.749850-1-wenswang@yeah.net>
 
-Hi,
+On Tue, Aug 05, 2025 at 06:20:18PM +0800, wenswang@yeah.net wrote:
+> From: Wensheng Wang <wenswang@yeah.net>
+> 
+> Add support for MPS mp2869/mp2869a,mp29608/mp29608a,mp29612/mp29612a,
+> mp29816/mp29816a/mp29816b/mp29816c and mp29502 controller.
+> 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
 
-I'm a present maintainer of Linux FireWire subsystem, and recent years
-have been working to modernize the subsystem.
+Applied.
 
-On Fri, Sep 05, 2025 at 14:43:24PM -0300, Jason Gunthorpe wrote:
-> There is only one user I found of alloc_pages:
->
-> drivers/firewire/ohci.c:                ctx->pages[i] = dma_alloc_pages(dev, PAGE_SIZE, &dma_addr,
->
-> And it deliberately uses page->private:
->
->		set_page_private(ctx->pages[i], dma_addr);
->
-> So it is correct to use the struct page API.
-
-I've already realized it, and it is in my TODO list to use modern
-alternative APIs to replace it (but not yet). If you know some
-candidates for this purpose, it is really helpful to accomplish it.
-
-
-Regards
-
-Takashi Sakamoto
+Guenter
