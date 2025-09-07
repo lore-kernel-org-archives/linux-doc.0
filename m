@@ -1,182 +1,190 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29492BE64A;
-	Sun,  7 Sep 2025 22:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A522811187;
+	Sun,  7 Sep 2025 22:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757283224; cv=none; b=ovdWVSie2Qn3YDLExAha47Lt9BWmEJToipdU/O5bdHx2XX7ogroMnrbDlyeIFz/zhkIusD/jL29IHtK9nNHesSCulo0D3U+Wrb+nj4wbJCtIw9YZcsxD99LKHav1WFshPgtFNE6WLiB9MstnlWlgDo/hlyNDr5kfXyEUF6FcbHQ=
+	t=1757283567; cv=none; b=g8bVbOMnYeTAoQiJgDVLuk1hyxejqOUoqwDx+VRTYRnZFCRgvRI1kxfOcu4ZV04SR7UbQ9QSAF/68vEpyHBEIHsh+FzdyH+aqfXUuWEK5Cy3CdZMSjo8mV0DDXLZsbD8zp5X4eSHuhWpYoxu6lgDqIpvo/FivaHgf2zqyMXMGTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757283224; c=relaxed/simple;
-	bh=4T1t4KuD1Q2QDSSpnR6A3GUjSlzURYNzAIn06Y6AXSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGrW7MjUe9eRUYctnt6/BPe1W597au7NFiHGtkUVJRh7aR3JozgGWp1zDf5oifrsMYHqBUghopgjtRG1YEJsARkuyiP3pI3mXtmrdOHhfPqIAyfNLWROd8Or57Rmy5muun86HoQRJ/8VG1qJvg9aTBD14Z15rSP9MOgPyn5fVcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=bmcDx3v0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BAN1UwBT; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1757283567; c=relaxed/simple;
+	bh=eZTsOkoKMhjbme01dEVhw58QFdW+25N2Q5pfF93MP3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z8IEndAAoRlWO0SJ8dGXE+KAK9GSy0eBRkNc79+1weq9na3WpgNbSd16YzCRE1wInyYZaAvmvBwjYHQW/12fvs2kvnntxuXjbuspqZMq9HNo/gyB05V+1MiV3wK5XqJVAKO4uPSVNvCqG/U16zbdcqPh2NaTjQdfj7SEjR0iwIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JGodD0lJ; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="bmcDx3v0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BAN1UwBT"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9ADF1EC0093;
-	Sun,  7 Sep 2025 18:13:39 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Sun, 07 Sep 2025 18:13:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1757283219; x=
-	1757369619; bh=ip7nO8F2H6Y29dT8CjYPQzDSOjOANiwrV+fhMGJx33U=; b=b
-	mcDx3v0oi4ED/4obUnQD+eBl7MlIwKJT13sZmON27QZgoggd98tmc9FaYVBS8/7F
-	Aphlcs268PCm0hbf1b9CA7BSawm2d1BmdHwKmK9+Or1roCfKcKRPB/OpM/pPLQJW
-	fRViUHJ/v2JCOXtNeFocUtTPta5xwM/khUFFkAoETcxhbaiFXv9hz7AoOsPfWq/w
-	LBQiq/zsLmlMF4/XsnQtNTfUvVUrzVY7qUle+eEB66dT6jPZntjO7Q4IIu8Pn+A0
-	NhvVAA2bNx3SGCmXLFyPG91Bi1z1vw2j6BotfE7A5yCxhOPNHz052KtbJOsWDQaq
-	ILn/Mre4meS7IgkremR1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1757283219; x=1757369619; bh=ip7nO8F2H6Y29dT8CjYPQzDSOjOANiwrV+f
-	hMGJx33U=; b=BAN1UwBTG1aG5/UMfNR4qCPeK6NHlf+BFfmSG66PPkO42USeHKU
-	P3Md/a56tNP13+RAlzgvXrpy+zVhxsubwE2M+5wmoa1f2LQE+dco1kH3jC1NFEUU
-	T6GlBBtTQtolKWMv7UfFe75MFC/SO/Qi8u9HxLyXm+6C8RErShLWQYyyH+EXBxAq
-	Csmd5Owq7ZZtV5CbTZZt/aiRubd6pBmLNpxYmZoDteUjDXkn1MNMNxn77SRyPmXw
-	HBdv265xDXUeYXPwIAGM/ru/rKnhdnJ1JqWysSRvWf3abFGlp9IDmqDP6HJhkBPX
-	YMOvBFyQeabLb0bYzD5p2oU6C0PDLwfmrKw==
-X-ME-Sender: <xms:kwO-aEkPffz1xEP8zOuTUQC7JFu1aKk_VistRLBRFeP0prS6PD3CMA>
-    <xme:kwO-aBX7NLy9vIyhVUOqilDYLVCKO_npApb7LUlOPCiMYlSR2KsLL1ZOjJXW8T5-w
-    f1KJxG3132ztaH48Tk>
-X-ME-Received: <xmr:kwO-aFS5RQfJVG0dQVhVIKM6-gbplaKu_kG4iXQeGdpHFP5D1oNEwHI-uWLl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheekudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefurggsrhhinhgr
-    ucffuhgsrhhotggruceoshgusehquhgvrghshihsnhgrihhlrdhnvghtqeenucggtffrrg
-    htthgvrhhnpeeuhffhfffgfffhfeeuiedugedtfefhkeegteehgeehieffgfeuvdeuffef
-    gfduffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsugesqhhuvggrshihshhnrghilhdrnhgvthdpnhgspghrtghpthhtohepudefpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopeifihhlfhhrvggurdhmrghllhgrfigrseifug
-    gtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohep
-    ughlvghmohgrlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlihhsthgrihhrrd
-    hfrhgrnhgtihhsseifuggtrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhl
-    ohhfthdrnhgvthdprhgtphhtthhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilh
-    drtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:kwO-aGCuGDa1Jbkommw4soIW4f8NK18MpUX_5EXB1tULsFjtEV0C4A>
-    <xmx:kwO-aFvGLGZO26lHZwT19YO9rNE9-Sqshi8HrcHmaMUK6xxq8ti1wg>
-    <xmx:kwO-aM--lKBfE1xWNWPv454iHnlQDcIWFPgmp1IJYX8SywKDcc-B1w>
-    <xmx:kwO-aER3tQm_MIbRogKGEw5eaISYKNflHc-A47bsJryfRx2-FxiRfQ>
-    <xmx:kwO-aLiaDFnSFvK2uwwa27tyccyp67NMyEH7AukTAA5susRmcFPEZ51b>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Sep 2025 18:13:38 -0400 (EDT)
-Date: Mon, 8 Sep 2025 00:13:36 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>,
-	"dlemoal@kernel.org" <dlemoal@kernel.org>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>
-Subject: Re: [PATCH v2] net/tls: support maximum record size limit
-Message-ID: <aL4DkNijXKKx2LVY@krikkit>
-References: <20250902033809.177182-2-wilfred.opensource@gmail.com>
- <aLcWOJeAFeM6_U6w@krikkit>
- <0ba1e9814048e52b1b7cb4f772ad30bdd3a0cbbd.camel@wdc.com>
- <aLf6j73xSGGLAhQv@krikkit>
- <00d28a79b597128b33b53873597f7ba2808ebbe6.camel@wdc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGodD0lJ"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b52196e8464so1268324a12.3;
+        Sun, 07 Sep 2025 15:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757283565; x=1757888365; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=nOFINSsardnktHpLa8/z21dgEWAihHseyXSOQbkPZEs=;
+        b=JGodD0lJXi59MkGF1VWkb4GKLURiSLfrCIUznoY8hlcwamboT9QFvlNuTH71QRHpvw
+         xQfmdfxHe+avyQhwO3Sq0BwlHWjsX7YRuxfILWYvy+Pn0paG6e1o9tFkwEGdAfOPJ8bV
+         2nHkFGhzN9rasV5yS5qqNTGnjoAn/1mfKtLzYfwxkQQJKNWw0MIHP0qMYFaP9xiqL/uC
+         3ifvsq/nk+Mg3nuVedFM1r5PWpNIS35urncFJu7eKrCsIs+8STT3m0skY7qNdvOBjCLE
+         bzlKfSmeKfT7X8HuMG45cHtp0pgHki1xgafJsdyXXcniTUzJP7M6qRrjDwu8MFtThcxK
+         YADg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757283565; x=1757888365;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nOFINSsardnktHpLa8/z21dgEWAihHseyXSOQbkPZEs=;
+        b=BoxjZ/bHLZ0+UDhU6QN3Y6Sh3i8qv8/o+HD4LWGHpMCxEv8o9pQydZY0zawwSwE5E/
+         Ncv5WBE4ant2xLB+qJtEIMpH9J6qynNlfeUAv5ZnzUbc4SrFq28dkEGtdvozRazkUhPM
+         SU0smVSzL5zc+VF7VdXFx5V5DqnGcNhQ0XxELSgyG6QPdcqGYNUIGgLFBNbytG+QTGXr
+         M0W5kl0DmZ0skdHfxdio5Sfb9OXxygiV49wNq4VfAT9MR27GIfB0AxiLi/SA9XSZOTqg
+         5M4UKAZRQNGGyrzpnMGH1wIY8vzgbUbSm0tyThdHDXjMHswXrbYtYA9S4V6eNwPIWKaF
+         swzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUAsUu/iob8PYFBM/Uqqc0W4bHcwKbqfP6vDvHVLVUnYfG5aQgE814u5N+xWYEv5NGKRz0cpHq6EwwA@vger.kernel.org, AJvYcCV4Qm+QzKz7C3ttOWVtaBYNEERaWI0tmCy46OPqAffYtYOv+FzkTAlzD9GuzqdPaqDUw9GBCS6I84C2@vger.kernel.org, AJvYcCVAgEczISs8UgGrONeEcaiBmgVt6gtCKQP7s0/uVKiT6JjS5PA7EGSZvnWd2GUJ4fy6F08XOE7N/3cwlf2p@vger.kernel.org, AJvYcCWrMuBtjLsZNaOlWuBb8z31AzeWjMVlAeGc4G+3TlMVpsRpQd5vkjNWR+wDbaGeyY80xphwIUFL/fvZwHk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytM/uiEg/xVDg8226u7nuIPCgeLFtOVkdOEulc/jHtzsWMNdRC
+	Lp62mLpYeEWctrYo3YikN3hACAEfNKgVku81lNOGqpFJDbt7UpbOMMfC
+X-Gm-Gg: ASbGncsgBI5eibz/6b69pGsKrMqCuxeiNWG8k8Z7qCZr0XrDrV6VGrIvd7d9IGJ6tYK
+	r/au6a+bc+7Ow67Y1CJxBXXaugsShD7j5jDoiR32gtZbD9VAvvx9uaVHZ8UREpNtBeSJhDYQbVO
+	HLOSczwZsO9xPeetWXkAOZqo1NmTKvnFV2FUMt6wDCe5yQFnQIrToxzoCflefqbx5CabW9wiVVX
+	IpiTVvj5Fk/i5p87d8QQfRPM7zpz727uHK8lFX069pE1rfUVY8jM+v4Iwr5x7EfIEgYxVWmg+pl
+	2lPbdty7vIJUbdurY2FboUzh8Awcn3+17xb25s92jQb18xe8G9lV89wT8B/A7My3j35FjBhlGNY
+	SrgLhoUoh5HAhPffzuAkySdCyT7vUEYYFq73qDy5qDIryj0LzhsBfK8fDjsY3HrjlTAJoIn8=
+X-Google-Smtp-Source: AGHT+IHhVp/+lDlmHkN/kg743agblfHXogH2wRJm6g2H/7DhB2sYLgdi/C4FmHam27b11HDYbLM68A==
+X-Received: by 2002:a17:902:d2ce:b0:24c:c8fe:e272 with SMTP id d9443c01a7336-2516e9816eemr85688645ad.19.1757283564876;
+        Sun, 07 Sep 2025 15:19:24 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24cbc8706a2sm100903925ad.79.2025.09.07.15.19.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Sep 2025 15:19:24 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6d385692-a4be-4fce-9628-274f95fb24ba@roeck-us.net>
+Date: Sun, 7 Sep 2025 15:19:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <00d28a79b597128b33b53873597f7ba2808ebbe6.camel@wdc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] hwmon: (sht21) Add support for all sht2x chips
+To: Kurt Borja <kuurtb@gmail.com>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: stable@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250907-sht2x-v1-0-fd56843b1b43@gmail.com>
+ <20250907-sht2x-v1-1-fd56843b1b43@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20250907-sht2x-v1-1-fd56843b1b43@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-2025-09-04, 23:31:23 +0000, Wilfred Mallawa wrote:
-> On Wed, 2025-09-03 at 10:21 +0200, Sabrina Dubroca wrote:
-> > 2025-09-02, 22:50:53 +0000, Wilfred Mallawa wrote:
-> > > On Tue, 2025-09-02 at 18:07 +0200, Sabrina Dubroca wrote:
-> > > > 2025-09-02, 13:38:10 +1000, Wilfred Mallawa wrote:
-> > > > > From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> > > Hey Sabrina,
-> > > > A selftest would be nice (tools/testing/selftests/net/tls.c), but
-> > > > I'm
-> > > > not sure what we could do on the "RX" side to check that we are
-> > > > respecting the size restriction. Use a basic TCP socket and try
-> > > > to
-> > > > parse (and then discard without decrypting) records manually out
-> > > > of
-> > > > the stream and see if we got the length we wanted?
-> > > > 
-> > > So far I have just been using an NVMe TCP Target with TLS enabled
-> > > and
-> > > checking that the targets RX record sizes are <= negotiated size in
-> > > tls_rx_one_record(). I didn't check for this patch and the bug
-> > > below
-> > > got through...my bad!
-> > > 
-> > > Is it possible to get the exact record length into the testing
-> > > layer?
-> > 
-> > Not really, unless we come up with some mechanism using probes. I
-> > wouldn't go that route unless we don't have any other choice.
-> > 
-> > > Wouldn't the socket just return N bytes received which doesn't
-> > > necessarily correlate to a record size?
-> > 
-> > Yes. That's why I suggested only using ktls on one side of the test,
-> > and parsing the records out of the raw stream of bytes on the RX
-> > side.
-> > 
-> Ah okay I see.
-> > Actually, control records don't get aggregated on read, so sending a
-> > large non-data buffer should result in separate limit-sized reads.
-> > But
-> > this makes me wonder if this limit is supposed to apply to control
-> > records, and how the userspace library/application is supposed to
-> > deal
-> > with the possible splitting of those records?
-> > 
-> Good point, from the spec, "When the "record_size_limit" extension is
-> negotiated, an endpoint MUST NOT generate a protected record with
-> plaintext that is larger than the RecordSizeLimit value it receives
-> from its peer. Unprotected messages are not subject to this limit." [1]
+On 9/7/25 15:06, Kurt Borja wrote:
+> All sht2x chips share the same communication protocol so add support for
+> them.
 > 
-> From what I understand, as long as it in encrypted. It must respect the
-> record size limit?
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+> ---
+>   Documentation/hwmon/sht21.rst | 11 +++++++++++
+>   drivers/hwmon/sht21.c         |  3 +++
+>   2 files changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/sht21.rst b/Documentation/hwmon/sht21.rst
+> index 1bccc8e8aac8d3532ec17dcdbc6a172102877085..65f85ca68ecac1cba6ad23f783fd648305c40927 100644
+> --- a/Documentation/hwmon/sht21.rst
+> +++ b/Documentation/hwmon/sht21.rst
+> @@ -2,6 +2,17 @@ Kernel driver sht21
+>   ===================
+>   
+>   Supported chips:
+> +  * Sensirion SHT20
+> +
+> +    Prefix: 'sht20'
+> +
+> +    Addresses scanned: none
+> +
+> +    Datasheet: Publicly available at the Sensirion website
+> +
+> +    https://www.sensirion.com/file/datasheet_sht20
+> +
+> +
 
-Yes, and the kernel will make sure to split all the data it sends over
-records of the maximum acceptable length (currently
-TLS_MAX_PAYLOAD_SIZE, with your patch tx_record_size_limit). The
-question was more about what happens if userspace does a send(!DATA,
-length > tx_record_size_limit). The kernel will happily split that
-over N consecutive records of tx_record_size_limit (or fewer) bytes,
-and the peer will receive N separate messages. But this could already
-happen with a non-DATA record larger than TLS_MAX_PAYLOAD_SIZE, so
-it's not really something we need to worry about here. It's a concern
-for the userspace library (reconstructing the original message from
-consecutive records read separately from the ktls socket). So, my
-comment here was pretty much noise, sorry.
+Too many empty lines.
 
-> In regards to user-space, do you mean for TX or RX? For TX, there
-> shouldn't need to be any changes as record splitting occurs in the
-> kernel. For RX, I am not too sure, but this patch shouldn't change
-> anything for that case?
+Please add SHT20 to Kconfig as well.
 
-Yes, I'm talking about TX here.
+>   
+>     * Sensirion SHT21
+>   
+> diff --git a/drivers/hwmon/sht21.c b/drivers/hwmon/sht21.c
+> index 97327313529b467ed89d8f6b06c2d78efd54efbf..a2748659edc262dac9d87771f849a4fc0a29d981 100644
+> --- a/drivers/hwmon/sht21.c
+> +++ b/drivers/hwmon/sht21.c
+> @@ -275,7 +275,10 @@ static int sht21_probe(struct i2c_client *client)
+>   
+>   /* Device ID table */
+>   static const struct i2c_device_id sht21_id[] = {
+> +	{ "sht20" },
+>   	{ "sht21" },
+> +	{ "sht25" },
+> +	{ "sht2x" },
 
--- 
-Sabrina
+AFAICS there is no sht2x chip.
+
+
+>   	{ }
+>   };
+>   MODULE_DEVICE_TABLE(i2c, sht21_id);
+> 
+
