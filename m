@@ -1,128 +1,124 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DF323BF9B;
-	Sat,  6 Sep 2025 22:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476321E487;
+	Sun,  7 Sep 2025 01:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757197564; cv=none; b=BTkvBzo6MS0eUS6HTPEaLz8/0WCNSxuvUZ3lqHOmoNu2vkh+ObHD/rr67mIiu3L9xFps3kq9iYABy5dvIOe6SDtX2Co71PRHSPsKdhAMlywbXs7mUuR8vX+0rx8K/xh+Abftr/vWxDDus8leQgK5cbRMDzLmJv3xLx7qke4/tBc=
+	t=1757209999; cv=none; b=fTiizydaf9xMTjZeTR5Uwkk/jOKGHa0pRoLgElrV/llgQL2J6Vr4a0QU1Pqn/EAbxb0w841PEGs9sH8GmCC7YnUrZXeJ27icFF0oAtR/7vbxhUPPfpiV0FeMKRBDWecMHBEIUy+r2yxOiCIYWePGuWsuCC1+N/RLSqaC0IwAwbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757197564; c=relaxed/simple;
-	bh=JqldWRPERw4IKoFvl0pMtg74CW2Zzkauedrn/ZTVcd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rFb0/aG4Rnzw6vFp9t4CJFu4PqYjDidWypnPHgjI2B6xOW1yzIjOdn6blPBFn1VBt5G+2or09dp5DsXlz4jQacOl+CCoQC6Y3PiYoTQ89wEPEw1+Qxtlkom/88+f4BbbM6GpaZ5TKkZMu7IWa6zMUC3Jw13Rc9QJ96AlXREqNJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WD3MTiEV; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1757209999; c=relaxed/simple;
+	bh=onua4uGiY8b06S0kaHxtedAho1jMgBQC9N7wPI006h0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZikD6STHLiGM0uJiEMCwk6TtiD/j8fg6XXV5lwGx/TSHK56gU2bvbm9uPaezTC+SoPezRRfmj4kQYWSxIK1eQr7Dqyq/wwKEdQ48ieyK9UiwBWnOqygPpXg2+7uLPL/CKtvBpX1gghSq5EMWbiA9wGru94EBEHv2lgYHXStUE18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcLdwkvJ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WD3MTiEV"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 731A340E0173;
-	Sat,  6 Sep 2025 22:25:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Czw7wzyQ6SdZ; Sat,  6 Sep 2025 22:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1757197550; bh=+xt7zC4IHQ+iWsE/ZnrUTR3tvhZamW/XzIhStal409Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WD3MTiEV8OF4augBQVbQgNGLghdqY3TGMGBKaP04329b5L0DfzUVoj6QisowlNw4q
-	 /IMj/MOBJpym9nNPw614ZhpVoMP5w1yuQF5kPartCXJqMa8Y8XYxvSfck0Q/01W3B3
-	 nn8KSHr9Gl9zpWcYyX9FfXtO6rv8Acj0x8J7cOCKSj7mneCH1pBnU4tALMr//aSRiV
-	 JsarJg70bFFzngYonXdqFYcd12mk/nnjOgMSn6aBM+bE/OriCnRs6R4Hulgb2qz6O/
-	 VW7Lr/J5fCtr7CVUTwUERpePji+KXecc2VZ6m6Qvyhs18CQK1KPjx4x8gXZ046Pk5J
-	 3ue3KUJaHHsifVJ3uZy3f1QgGhX0OBZHyL7GvLXsHTTNOuD9O4weesISUfuLDcM5K1
-	 OqlaKTYRVzaGe4EITMImM1OnWIUj6FuCaK98tfb5WxnD2Z7ieoNWkgThfI0dvol3Vq
-	 YlxqNXWxHfq2LA3HPkRSY65mcoR7Eh6E0HB4bJWEmt5xWen+K9E4umS1F/OD92hhGH
-	 x/tsRl/3VkdOQ6cX5+jIkYx3cXzNLyCOeR/mpL4kDIhRgHxR4HfeXCIvAIa8Hi2rTU
-	 w+8vl+o4wHFs8OKdpAX5CGtYq90mFZUnHa2qU7Zed/GPtfOzClrq8bmmTPkBK70yan
-	 XdV58lIASbpHeb2xhWiQxkN8=
-Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id AA3B540E00DD;
-	Sat,  6 Sep 2025 22:24:29 +0000 (UTC)
-Date: Sun, 7 Sep 2025 00:24:20 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
-	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
-	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
-	trintaeoitogc@gmail.com, axelrasmussen@google.com,
-	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
-	joel.granados@kernel.org, graf@amazon.com,
-	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
-	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
-	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
-	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
-	kaleshsingh@google.com, justinstitt@google.com,
-	catalin.marinas@arm.com, alexander.shishkin@linux.intel.com,
-	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
-	corbet@lwn.net, xin@zytor.com, dvyukov@google.com,
-	tglx@linutronix.de, scott@os.amperecomputing.com,
-	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
-	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
-	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
-	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
-	mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com,
-	leitao@debian.org, peterz@infradead.org, wangkefeng.wang@huawei.com,
-	surenb@google.com, ziy@nvidia.com, smostafa@google.com,
-	ryabinin.a.a@gmail.com, ubizjak@gmail.com, jbohac@suse.cz,
-	broonie@kernel.org, akpm@linux-foundation.org,
-	guoweikang.kernel@gmail.com, rppt@kernel.org, pcc@google.com,
-	jan.kiszka@siemens.com, nicolas.schier@linux.dev, will@kernel.org,
-	andreyknvl@gmail.com, jhubbard@nvidia.com, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 11/19] x86: LAM initialization
-Message-ID: <20250906222420.GBaLy0lL5lHcVlYU0C@fat_crate.local>
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcLdwkvJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757209997; x=1788745997;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=onua4uGiY8b06S0kaHxtedAho1jMgBQC9N7wPI006h0=;
+  b=mcLdwkvJHhAWD13/xShlualwSIvozY/qtIDi1tOuzdbK2qTQAq/dqzzx
+   SnM+wW6AHh8odeb82a4Z9slqZKAxGw7ZkB/RIyOdLfz6cIL3QN7/byRgZ
+   pIbnhLJCxOFewyfVvDdL3NQu1Wlr3XLzSUNsQLH+DaZC+wn5FwQoDVbN+
+   vDgUujAcv3u0+M8uAlwBkp//rGSNdqB88FNrOsrxWO8UwS8Qq17jGoC+R
+   r0wdeiaZtjZbHwKNcXqkhFlbuhFYiqjR5JKQGE8aD/zABD24KEGpmBCdh
+   vUoE/iAjCNfumZ8PP8OqE4kmaNVe60pKWvWbkmcPenUoq/HvAXArmxL5D
+   g==;
+X-CSE-ConnectionGUID: ydcHArxySAS5z3tcCvs96A==
+X-CSE-MsgGUID: +ZSrmKGXSjq/05gENSSzvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59578011"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59578011"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 18:53:16 -0700
+X-CSE-ConnectionGUID: Q2ewZRTwQHG7KgS+O9jxHg==
+X-CSE-MsgGUID: rDb0QugRTAqHusgz3nL/jQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
+   d="scan'208";a="172030905"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 06 Sep 2025 18:53:15 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uv4af-0004GZ-0n;
+	Sun, 07 Sep 2025 01:53:13 +0000
+Date: Sun, 7 Sep 2025 03:52:33 +0200
+From: kernel test robot <lkp@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [groeck-staging:hwmon-next 37/37] htmldocs:
+ Documentation/hwmon/hwmon-kernel-api.rst:291: WARNING: Inline emphasis
+ start-string without end-string. [docutils]
+Message-ID: <202509070312.GIIw6No7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
 
-On Mon, Aug 25, 2025 at 10:24:36PM +0200, Maciej Wieczor-Retman wrote:
-> diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
-> index bb57e93b4caf..756bd96c3b8b 100644
-> --- a/arch/x86/mm/init.c
-> +++ b/arch/x86/mm/init.c
-> @@ -763,6 +763,9 @@ void __init init_mem_mapping(void)
->  	probe_page_size_mask();
->  	setup_pcid();
->  
-> +	if (boot_cpu_has(X86_FEATURE_LAM) && IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   3c56a8e682e94ee9ac48c1fb2153becb861c0f7d
+commit: a2d68a9f51c27051c4b84990ffbd2531a6024389 [37/37] hwmon: Introduce 64-bit energy attribute support
+reproduce: (https://download.01.org/0day-ci/archive/20250907/202509070312.GIIw6No7-lkp@intel.com/reproduce)
 
-cpu_feature_enabled()
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509070312.GIIw6No7-lkp@intel.com/
 
-> +		cr4_set_bits_and_update_boot(X86_CR4_LAM_SUP);
-> +
->  #ifdef CONFIG_X86_64
->  	end = max_pfn << PAGE_SHIFT;
->  #else
-> -- 
+All warnings (new ones prefixed by >>):
 
-Also, for all your patches' subjects and text:
+   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
+   ERROR: Cannot find file ./include/linux/hid_bpf.h
+   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
+   ERROR: Cannot find file ./include/linux/hid.h
+   WARNING: No kernel-doc for file ./include/linux/hid.h
+>> Documentation/hwmon/hwmon-kernel-api.rst:291: WARNING: Inline emphasis start-string without end-string. [docutils]
+   ERROR: Cannot find file ./include/linux/i2c-atr.h
+   WARNING: No kernel-doc for file ./include/linux/i2c-atr.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
 
-Pls read
 
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#patch-subject
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
+vim +291 Documentation/hwmon/hwmon-kernel-api.rst
 
-and fixup.
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  274  
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  275  	int read_func(struct device *dev, enum hwmon_sensor_types type,
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  276  		      u32 attr, int channel, long *val)
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  277  
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  278  Parameters:
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  279  	dev:
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  280  		Pointer to the hardware monitoring device.
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  281  	type:
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  282  		The sensor type.
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  283  	attr:
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  284  		Attribute identifier associated with a specific attribute.
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  285  		For example, the attribute value for HWMON_T_INPUT would be
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  286  		hwmon_temp_input. For complete mappings please see
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  287  		include/linux/hwmon.h.
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  288  	channel:
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  289  		The sensor channel number.
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  290  	val:
+b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17 @291  		Pointer to attribute value.
+a2d68a9f51c270 Documentation/hwmon/hwmon-kernel-api.rst Guenter Roeck         2024-08-28  292  		For hwmon_energy64, 'val' is passed as long * but needs
+a2d68a9f51c270 Documentation/hwmon/hwmon-kernel-api.rst Guenter Roeck         2024-08-28  293  		a typecast to s64 *.
+bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  294  
 
-Thx.
+:::::: The code at line 291 was first introduced by commit
+:::::: b04f2f7d387b3160883c2a1f5e2285483a791e82 docs: hwmon: convert remaining files to ReST format
+
+:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
