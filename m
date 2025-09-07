@@ -1,116 +1,182 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC06929BDBB;
-	Sun,  7 Sep 2025 22:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29492BE64A;
+	Sun,  7 Sep 2025 22:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757282800; cv=none; b=k9mTiqGiburfiWY5TRDEhs8zu+2L3YvggQ/j7kgQZVY7oddHYvX0N35Gav8toSpxuP1kc38iJ/bTblTE+pufBxtl94Eix+TQV7apDzNJWKXUiv1Blxy4t/t0ibTYc1qi1YTmxzKdUUnOTd1ZU/A6aD3n6WWS9G/x9Rgstm65PN8=
+	t=1757283224; cv=none; b=ovdWVSie2Qn3YDLExAha47Lt9BWmEJToipdU/O5bdHx2XX7ogroMnrbDlyeIFz/zhkIusD/jL29IHtK9nNHesSCulo0D3U+Wrb+nj4wbJCtIw9YZcsxD99LKHav1WFshPgtFNE6WLiB9MstnlWlgDo/hlyNDr5kfXyEUF6FcbHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757282800; c=relaxed/simple;
-	bh=PCMBASvQ5nOtVDvUdRsvZSJTMc7BZohzTqlsS7DSP98=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=vA/6Wl9BJ79EsVTePE4Y1EocitMfheeHLuuK+mKm/wzowy++RahPJRXf/vNTYu6fvaQipQtiq0DaxdW/ztlvnK0dl16AIn4bj8E1zmRCTjb5S29FzXa3W1GYJc+xnMY4fvW5JBy4fKVHCxx+3x9OTCeaMHz3+NWe7x2TBOd8MVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZqsX5yO; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757283224; c=relaxed/simple;
+	bh=4T1t4KuD1Q2QDSSpnR6A3GUjSlzURYNzAIn06Y6AXSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jGrW7MjUe9eRUYctnt6/BPe1W597au7NFiHGtkUVJRh7aR3JozgGWp1zDf5oifrsMYHqBUghopgjtRG1YEJsARkuyiP3pI3mXtmrdOHhfPqIAyfNLWROd8Or57Rmy5muun86HoQRJ/8VG1qJvg9aTBD14Z15rSP9MOgPyn5fVcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=bmcDx3v0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BAN1UwBT; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZqsX5yO"
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-54488e51c37so1491718e0c.2;
-        Sun, 07 Sep 2025 15:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757282798; x=1757887598; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=trvTyargdqGe7qp6lGj19gNt7RsGcGq8W9yuGZo/e9E=;
-        b=lZqsX5yOH/unwVZFWVyeZISbKHCaNAg86+K4barscGZocS2fqI5XZA8ptYRgBgaIP0
-         hZmwkJATJonBsjGVlj0XbvcLNFjkHxJozu3cM9qoGLo8Uz7VqN0GPgDUuTKFkGn4GrN0
-         +ICS8atq+e/kgAofvIE4fCFf3Yfi2l8L4SgrS3EyuJ3qi407QjEHl9UYeteef4hGsX+6
-         vHXwXNtkzf501eKysIrq/vl2wv2ZuXUxhosATQA6AmvFLXgGD3bQxV+nzrCI6SOoqLHx
-         FvuYuzYzImWF38EBnWNzTeVQ2YQBPbf4LHHyicoppaKZYAdNe23Uwt+QgQDNnNxFRIgu
-         EzPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757282798; x=1757887598;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=trvTyargdqGe7qp6lGj19gNt7RsGcGq8W9yuGZo/e9E=;
-        b=IfeBuYAxGDYCB0CP6IXobGkio2Q1ORk75PE2TMYMSI3slx6rwvu65mBl7FajVpVa91
-         Cj/FE+FQu9zxHNA9q2JDppE3swxMXJ2acquYUJBr4uMUvLUcwT03XQv6eemB/g9/6iT/
-         j0tBydYoEpnbknkwulOrEx5hgzmNIEjm6LzChztGHDwJ83OFAcmVV1e+IHxDHZXNNvzI
-         l0J2MopstAvIPun4CQ0eX1Kamb9/tmbcgrbrQGLzG7qbZO7KzryS8r3ulitn+8shrWsR
-         vxUJB06AH8rhVlqut8rJu6z995PZkXN5HcicrII9Q3lvyni9qkzUkTiqiw6UVVFCKVaf
-         pfCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcUTml0mVFd7zm6MqCaKWNcumzl02+WcuW8pd1immztUNtqvJSyBa+HmlC1oYKUjPnAEG/CtGpZJgV@vger.kernel.org, AJvYcCVU28dccs7zbJUm3tI3+KchmxPWdSlH11XiO8b9mWIYSgufuOXlLANUlTS2EVFWgQsThjxsvzlbnVNC@vger.kernel.org, AJvYcCVnVaUA/XTxGDi6LBVdcX7EMh+8XWFdKXZoopdUCDjCtNGQ/pwD9F2KMrmlEAU/pj1NulT0tZuPByZrcSY=@vger.kernel.org, AJvYcCXspiARmtoEW8OjjpRO8CEQXWcK7tO94z+lYSVCtEptUlNUGtmmNioB7hF3yOJUNONHcUzTJhGzndjB8pkX@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQxdFYJPfc9fYOMMVMf6uPvJNM+8C9jXa/u9y0otSp+lRQYdAj
-	LUCqCishHwQWf70f2PHdRdwj2rAkQzW7Tl7sVejAq41ORGJIV/WM9zcdAF6Omw==
-X-Gm-Gg: ASbGncuH/QHzfajRtsUw6c0RjoAV0KFTkgr1htC3odeIk7unAuoOi8XO6yfaxoy/3fe
-	dEs6fDTawtK4Yj3BF2ORkZ8F9O44BwUZZOQygTQsh61quJnp37SLJm/pqZIdyiHuCqUd529P7V6
-	GhaUslQ52jGv9fk2wLeG/EtkVM6l7fhQm1bVj1Jl4shPeJeESqDU59dROtStSL865RvZ9SGpwdt
-	NdUCgSsf+KSnVZuopzGGoJKMAMTgOI5GlPpX131RR5+0uf8c+3zHs76JeMyOLLbzSuGjJd+0j7W
-	Ez/4kbHc1rsPBAR4BcxS423Cln0TsUbEuyg8na/BFNIZAdQ2H/peyR6+k9BX7LcVC8v+pV8TjDV
-	9z3LRMGUeIJep4+yX1AUzYGTQt5yKbiO0IfvFQe05AklWxg==
-X-Google-Smtp-Source: AGHT+IG380zKlRQnOT1qzsIHNnrDwf4hZiIYzbe1FVcruC1DewW0lseBiaAcrtBV+Nz+8LDVV+0yCQ==
-X-Received: by 2002:a05:6122:1d44:b0:541:52d4:7447 with SMTP id 71dfb90a1353d-5472abf01dbmr1185433e0c.0.1757282797581;
-        Sun, 07 Sep 2025 15:06:37 -0700 (PDT)
-Received: from [192.168.100.70] ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5449ed5a91esm10397004e0c.20.2025.09.07.15.06.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Sep 2025 15:06:37 -0700 (PDT)
-From: Kurt Borja <kuurtb@gmail.com>
-Date: Sun, 07 Sep 2025 17:06:17 -0500
-Subject: [PATCH 3/3] dt-bindings: trivial-devices: Add sht2x sensors
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="bmcDx3v0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BAN1UwBT"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9ADF1EC0093;
+	Sun,  7 Sep 2025 18:13:39 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Sun, 07 Sep 2025 18:13:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1757283219; x=
+	1757369619; bh=ip7nO8F2H6Y29dT8CjYPQzDSOjOANiwrV+fhMGJx33U=; b=b
+	mcDx3v0oi4ED/4obUnQD+eBl7MlIwKJT13sZmON27QZgoggd98tmc9FaYVBS8/7F
+	Aphlcs268PCm0hbf1b9CA7BSawm2d1BmdHwKmK9+Or1roCfKcKRPB/OpM/pPLQJW
+	fRViUHJ/v2JCOXtNeFocUtTPta5xwM/khUFFkAoETcxhbaiFXv9hz7AoOsPfWq/w
+	LBQiq/zsLmlMF4/XsnQtNTfUvVUrzVY7qUle+eEB66dT6jPZntjO7Q4IIu8Pn+A0
+	NhvVAA2bNx3SGCmXLFyPG91Bi1z1vw2j6BotfE7A5yCxhOPNHz052KtbJOsWDQaq
+	ILn/Mre4meS7IgkremR1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1757283219; x=1757369619; bh=ip7nO8F2H6Y29dT8CjYPQzDSOjOANiwrV+f
+	hMGJx33U=; b=BAN1UwBTG1aG5/UMfNR4qCPeK6NHlf+BFfmSG66PPkO42USeHKU
+	P3Md/a56tNP13+RAlzgvXrpy+zVhxsubwE2M+5wmoa1f2LQE+dco1kH3jC1NFEUU
+	T6GlBBtTQtolKWMv7UfFe75MFC/SO/Qi8u9HxLyXm+6C8RErShLWQYyyH+EXBxAq
+	Csmd5Owq7ZZtV5CbTZZt/aiRubd6pBmLNpxYmZoDteUjDXkn1MNMNxn77SRyPmXw
+	HBdv265xDXUeYXPwIAGM/ru/rKnhdnJ1JqWysSRvWf3abFGlp9IDmqDP6HJhkBPX
+	YMOvBFyQeabLb0bYzD5p2oU6C0PDLwfmrKw==
+X-ME-Sender: <xms:kwO-aEkPffz1xEP8zOuTUQC7JFu1aKk_VistRLBRFeP0prS6PD3CMA>
+    <xme:kwO-aBX7NLy9vIyhVUOqilDYLVCKO_npApb7LUlOPCiMYlSR2KsLL1ZOjJXW8T5-w
+    f1KJxG3132ztaH48Tk>
+X-ME-Received: <xmr:kwO-aFS5RQfJVG0dQVhVIKM6-gbplaKu_kG4iXQeGdpHFP5D1oNEwHI-uWLl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheekudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefurggsrhhinhgr
+    ucffuhgsrhhotggruceoshgusehquhgvrghshihsnhgrihhlrdhnvghtqeenucggtffrrg
+    htthgvrhhnpeeuhffhfffgfffhfeeuiedugedtfefhkeegteehgeehieffgfeuvdeuffef
+    gfduffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsugesqhhuvggrshihshhnrghilhdrnhgvthdpnhgspghrtghpthhtohepudefpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopeifihhlfhhrvggurdhmrghllhgrfigrseifug
+    gtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohep
+    ughlvghmohgrlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlihhsthgrihhrrd
+    hfrhgrnhgtihhsseifuggtrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhl
+    ohhfthdrnhgvthdprhgtphhtthhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilh
+    drtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:kwO-aGCuGDa1Jbkommw4soIW4f8NK18MpUX_5EXB1tULsFjtEV0C4A>
+    <xmx:kwO-aFvGLGZO26lHZwT19YO9rNE9-Sqshi8HrcHmaMUK6xxq8ti1wg>
+    <xmx:kwO-aM--lKBfE1xWNWPv454iHnlQDcIWFPgmp1IJYX8SywKDcc-B1w>
+    <xmx:kwO-aER3tQm_MIbRogKGEw5eaISYKNflHc-A47bsJryfRx2-FxiRfQ>
+    <xmx:kwO-aLiaDFnSFvK2uwwa27tyccyp67NMyEH7AukTAA5susRmcFPEZ51b>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 7 Sep 2025 18:13:38 -0400 (EDT)
+Date: Mon, 8 Sep 2025 00:13:36 +0200
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>,
+	"dlemoal@kernel.org" <dlemoal@kernel.org>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"pabeni@redhat.com" <pabeni@redhat.com>
+Subject: Re: [PATCH v2] net/tls: support maximum record size limit
+Message-ID: <aL4DkNijXKKx2LVY@krikkit>
+References: <20250902033809.177182-2-wilfred.opensource@gmail.com>
+ <aLcWOJeAFeM6_U6w@krikkit>
+ <0ba1e9814048e52b1b7cb4f772ad30bdd3a0cbbd.camel@wdc.com>
+ <aLf6j73xSGGLAhQv@krikkit>
+ <00d28a79b597128b33b53873597f7ba2808ebbe6.camel@wdc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250907-sht2x-v1-3-fd56843b1b43@gmail.com>
-References: <20250907-sht2x-v1-0-fd56843b1b43@gmail.com>
-In-Reply-To: <20250907-sht2x-v1-0-fd56843b1b43@gmail.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: stable@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Kurt Borja <kuurtb@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=934; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=PCMBASvQ5nOtVDvUdRsvZSJTMc7BZohzTqlsS7DSP98=;
- b=kA0DAAoWFmBDOPSf1GYByyZiAGi+AebIUVVcBcfWeQq8fb6QW+U/Qj7IITzbQv3AFQlJhI2W/
- 4h1BAAWCgAdFiEEh2Ci9uJabu1OwFXfFmBDOPSf1GYFAmi+AeYACgkQFmBDOPSf1GaD3wD7BUwI
- SeicKn1uRLDF9eJGDAu7lTuSvQ50tRvyNHYuJboA/ic43Zfu003PP3mYfJJOLNqCeIPHSZ1Trln
- ySpE682AF
-X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
- fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <00d28a79b597128b33b53873597f7ba2808ebbe6.camel@wdc.com>
 
-Add sensirion,sht2x trivial sensors.
+2025-09-04, 23:31:23 +0000, Wilfred Mallawa wrote:
+> On Wed, 2025-09-03 at 10:21 +0200, Sabrina Dubroca wrote:
+> > 2025-09-02, 22:50:53 +0000, Wilfred Mallawa wrote:
+> > > On Tue, 2025-09-02 at 18:07 +0200, Sabrina Dubroca wrote:
+> > > > 2025-09-02, 13:38:10 +1000, Wilfred Mallawa wrote:
+> > > > > From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> > > Hey Sabrina,
+> > > > A selftest would be nice (tools/testing/selftests/net/tls.c), but
+> > > > I'm
+> > > > not sure what we could do on the "RX" side to check that we are
+> > > > respecting the size restriction. Use a basic TCP socket and try
+> > > > to
+> > > > parse (and then discard without decrypting) records manually out
+> > > > of
+> > > > the stream and see if we got the length we wanted?
+> > > > 
+> > > So far I have just been using an NVMe TCP Target with TLS enabled
+> > > and
+> > > checking that the targets RX record sizes are <= negotiated size in
+> > > tls_rx_one_record(). I didn't check for this patch and the bug
+> > > below
+> > > got through...my bad!
+> > > 
+> > > Is it possible to get the exact record length into the testing
+> > > layer?
+> > 
+> > Not really, unless we come up with some mechanism using probes. I
+> > wouldn't go that route unless we don't have any other choice.
+> > 
+> > > Wouldn't the socket just return N bytes received which doesn't
+> > > necessarily correlate to a record size?
+> > 
+> > Yes. That's why I suggested only using ktls on one side of the test,
+> > and parsing the records out of the raw stream of bytes on the RX
+> > side.
+> > 
+> Ah okay I see.
+> > Actually, control records don't get aggregated on read, so sending a
+> > large non-data buffer should result in separate limit-sized reads.
+> > But
+> > this makes me wonder if this limit is supposed to apply to control
+> > records, and how the userspace library/application is supposed to
+> > deal
+> > with the possible splitting of those records?
+> > 
+> Good point, from the spec, "When the "record_size_limit" extension is
+> negotiated, an endpoint MUST NOT generate a protected record with
+> plaintext that is larger than the RecordSizeLimit value it receives
+> from its peer. Unprotected messages are not subject to this limit." [1]
+> 
+> From what I understand, as long as it in encrypted. It must respect the
+> record size limit?
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- Documentation/devicetree/bindings/trivial-devices.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Yes, and the kernel will make sure to split all the data it sends over
+records of the maximum acceptable length (currently
+TLS_MAX_PAYLOAD_SIZE, with your patch tx_record_size_limit). The
+question was more about what happens if userspace does a send(!DATA,
+length > tx_record_size_limit). The kernel will happily split that
+over N consecutive records of tx_record_size_limit (or fewer) bytes,
+and the peer will receive N separate messages. But this could already
+happen with a non-DATA record larger than TLS_MAX_PAYLOAD_SIZE, so
+it's not really something we need to worry about here. It's a concern
+for the userspace library (reconstructing the original message from
+consecutive records read separately from the ktls socket). So, my
+comment here was pretty much noise, sorry.
 
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index f3dd18681aa6f81255141bdda6daf8e45369a2c2..736b8b6819036a183f26f84dc489ce27ec7d8bc4 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -362,6 +362,7 @@ properties:
-             # Sensirion low power multi-pixel gas sensor with I2C interface
-           - sensirion,sgpc3
-             # Sensirion temperature & humidity sensor with I2C interface
-+          - sensirion,sht2x
-           - sensirion,sht4x
-             # Sensortek 3 axis accelerometer
-           - sensortek,stk8312
+> In regards to user-space, do you mean for TX or RX? For TX, there
+> shouldn't need to be any changes as record splitting occurs in the
+> kernel. For RX, I am not too sure, but this patch shouldn't change
+> anything for that case?
+
+Yes, I'm talking about TX here.
 
 -- 
-2.51.0
-
+Sabrina
