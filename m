@@ -1,94 +1,110 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593EA27AC44;
-	Sun,  7 Sep 2025 15:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D31D1DA3D;
+	Sun,  7 Sep 2025 15:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757258378; cv=none; b=VfWA150fiCd2VmH/F3p/yvNbxvf3itsDWEgc+KWgDFdnLGKW4LneQ0tDoBFsam6VQyA4xX/iZEvIFuk+6MAea6I3mu/D6JANU2y/2czaJDrt+erAfppYfRvr1CpBDrHu8391GQ+V6smIICE/VMgRDYAi1JP44eQigS94VtVxMXk=
+	t=1757259186; cv=none; b=H2gtXrCTSf9UisP9hlRCAW2SjPmOZSCZi2I3PIaQjAi6gCql/U5qFsIST49+pj6MAOf+PFYH7XtZwo7VUCFbq7bh9p7rFQF/9welZc/0qeDrA08sO34pDeMGaG7D5x5xtf8fR7vKXCvz4gB0SvELT7vln0oAKC1zLEo7t5ONSH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757258378; c=relaxed/simple;
-	bh=SqKMAQ7sFn80rNZ/6WgDZ/7jXt308cRb3LHhVkWNI48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MkaHlGst0YK1a3h9ENijTsPHdjWuP1xaTy6iGvr9THo3rAX9PDY10g8OsaukbX6VFmpGZG0vBY5jD4l8SmXk5a5zEyasdVfM/gBEQUsyhfyGS3Lfp5cPKIPDy0KS/mMGTXuigVC0baJTCru2jml72AOGfdtluJeQCL1qVegfzLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JBXzwkEM; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757259186; c=relaxed/simple;
+	bh=iwKzv4pUY7edOHN/KUR9H+9NetHGNN81/qECaSfSfOU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Jc7uVO9puizG3emwGd06AKKAwx5ivM0r0CfnY/7jPGYCIbjCfX0F2ojZ9aLXsg36HYcYm60Zb5xD639d7sf4twNJ/oO7obnV+PJSdCc/5sqsFeq+nZyPwjk757v3x/RiKdbC4e3NphI+ZqY5ZTk5YEJcMXVoyMgymZZoFLHA5fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rl5azkgI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JBXzwkEM"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7723cf6e4b6so2719574b3a.3;
-        Sun, 07 Sep 2025 08:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757258376; x=1757863176; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KoCTtKW3Tr/yX2iRTvA5LX7KDXYbgv/R3LjzPROXCKw=;
-        b=JBXzwkEMUdAEROjkXMqIhvFJ2DNj9/IZFKf/yjn0rwjgqEFR8a9aPgvRD+tcHAsqMV
-         jMtMW5fiYy0hyiUtWfJ8+BfXIK3GgyV/Fa1RJ5A7jQIFOwGBS5YXo5veYG56R0vyEWIE
-         //QOkrFJw4V5eM/4c6RjhRIeul+W2kLNbYZubB7DLmr/+80QXAoPpeTKImND7YvZb2rE
-         JCuhhFpR/W2qSh8axIjXOf5G7YzZXnMAqhjLD7EX1a0tka6bEXJAudu0pSLm5XNZ75Gl
-         YVA16XVfTV8dDO+VSlTHoWOkxmK6DmJops7v+Z6Xj3kC2OL9z3EwuCp404AJ86PkQN44
-         r6og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757258376; x=1757863176;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KoCTtKW3Tr/yX2iRTvA5LX7KDXYbgv/R3LjzPROXCKw=;
-        b=co7Ot3p/jGP/vPoO+XyZiOnNrfsa4XLdYMgawPHtr3OcgSiks2ngpxWDGTPruu/Rcu
-         MCyae6NlHUmt1FpccB6h0hyHNWDb/eRFm5iGMMRqJk9gsBM+MOXb0TGjIWKU6yg9xfDI
-         5bKg74gdOEuhZl8u4YSWQ6q++MTTIp2wQ7AMbcxfGa9mkuxHEMiw+kk+V3adcgXCvuAd
-         Rox108VZwMMXbqEPvOuc70uP+GGdWQnlqnnnZr7RqXUU3QHpyMAOr/VhFD0JmsVT3068
-         E95YOhL4DiHOiBSu6mkHlNusaJb9ZtopZpA6gTJmHs2uo8j+d+oMKRaN0NBg5vbPkhk5
-         4Oug==
-X-Forwarded-Encrypted: i=1; AJvYcCVfei7zalqETZdzfo+eMlq00J7HJrEQRcgqG0qzqaXDipGL1ncdRU5pNXj3SCvmBmmhTFVdhn1FMrp9@vger.kernel.org, AJvYcCVtTZf1C5oFZsEfp6UlyL0U0XaIFUQrWToCpvkFE5Ire57nK0Jb9VsBmXJg1p5rE+Ynzw3lYNthmI4B@vger.kernel.org, AJvYcCX/TLIueUJYuqVwNpjMX8+mTp8mX2SmSUXZ6yzGqnznTA0IUR0xLyc+lS0rP3RGm069keD42l1CAmSezotK@vger.kernel.org, AJvYcCXqICbOsRibu+D7PkSPcmH020iyCiUGeer9EI/0W70lRHZ3xCYFJ2KAgXHj/sDcHE9UUMkP2SsAsvYRUbQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfqrItt+tyQFQmJhwm8BCNoA/A1vmof4ytwE1gZw2pY84jkqTy
-	39fffH3/mIMrLXC7qrXRCypbD3YbU+1BqnpxTVKH2nQVGhZ2htNgBm3X
-X-Gm-Gg: ASbGncuQBxnaPpquxpSqeM7mtBAic1jluhPIvV62yPKSTjez3VeboilnKqhbaReRDKc
-	rK2vT7TAhTYe0BYiVh2bVt+ZMx3YcXv6XnGODz3Rmrx5cwCX2rqXMNeiOmSbOg0oPhIqisc8TdY
-	R50nj8R7Egpb+s1QBk/bSk/wJ3HeYsytansrQWu9EhziRBS4iL6u+xbAskGtpBqpitKcSc7Ahvv
-	53GJNoSr+C/qhSPfAsYe+VPh3uo4uraCH6nz8Fu0Uykru9xIxn3wbk8SXIFcakzo6FiaGjIR1c/
-	Ybral9Uesgzh+0w9YB5eKsyMxqONxAmHzC6awYA/BGuJHQuaEuup/sMiVdkkMC3aRFGPmzXzaJO
-	H+SoDmDYsYiEFyR4mSC7RDlfi0L8jWYKgyAM=
-X-Google-Smtp-Source: AGHT+IEBlI712JdWUw7U2nLunIqLeFUvAcl9YTIuScdErDIJ89NHG/Px36nmk1S5CBTenCfgOu2PKQ==
-X-Received: by 2002:a05:6a00:2e16:b0:76b:c9b9:a11b with SMTP id d2e1a72fcca58-7742dc9e3b5mr6009979b3a.3.1757258375589;
-        Sun, 07 Sep 2025 08:19:35 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a26a4e5sm27361256b3a.19.2025.09.07.08.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Sep 2025 08:19:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 7 Sep 2025 08:19:34 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: wenswang@yeah.net
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	jdelvare@suse.com, corbet@lwn.net, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] hwmon: add MP29502 driver
-Message-ID: <49d39a3b-db02-4fd6-bf63-72c0597b05b0@roeck-us.net>
-References: <20250805101754.749492-1-wenswang@yeah.net>
- <20250805102020.749850-1-wenswang@yeah.net>
- <20250805102020.749850-3-wenswang@yeah.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rl5azkgI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F01E2C4CEF0;
+	Sun,  7 Sep 2025 15:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757259185;
+	bh=iwKzv4pUY7edOHN/KUR9H+9NetHGNN81/qECaSfSfOU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Rl5azkgIsvn14rQ5C5h3uWjaUsTBVJaV6GlAyJLREm9zfk1tVYawJJOzTJu+E8XIL
+	 Zglm3O9x4Drrlqsv6RhtJnUU/io5oAogj2Y+WozzvuXlIXbuowL2CYSzDTxF/bIAAx
+	 oBi6x6xktdgecp2JCZQ1DYLlalznrzjQ01vzEltvonXp/2fQCzDDjqenkR7D4fhn7i
+	 a7LXOWyTv/qi3XZyQk0XnKijyWxdmyoMBvc9Rdy8CvaUPYY1USe5u74pQhA6si4gWq
+	 hzEz4fx8NalU7DXMSqvX13aXThprnq+4rVwkoS33kEm02Zz68LE7z0ELKRkQj7a5zf
+	 R+v68iadQsUwg==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net-next 0/3] mptcp: make ADD_ADDR retransmission timeout
+ adaptive
+Date: Sun, 07 Sep 2025 17:32:41 +0200
+Message-Id: <20250907-net-next-mptcp-add_addr-retrans-adapt-v1-0-824cc805772b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250805102020.749850-3-wenswang@yeah.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJmlvWgC/zWNQQoCMQxFrzJkbaDOUKVeRURim9EsrCUNMjDM3
+ ScILt7i/cX7K3RW4Q6XYQXlr3T5VJfjYYD8ovpklOIOYxhjSCFiZXMWw3ez3JBKuTuKyqZUuw/
+ UDOMpPlI6T5TnAt5qyrMsv58r/BNw27Yd4p+83oEAAAA=
+X-Change-ID: 20250905-net-next-mptcp-add_addr-retrans-adapt-565b9973acfd
+To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, 
+ Christoph Paasch <cpaasch@openai.com>, Geliang Tang <geliang@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2006; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=iwKzv4pUY7edOHN/KUR9H+9NetHGNN81/qECaSfSfOU=;
+ b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDL2Ll0Z3PVp3vWZZyK/H74gy9Bp+Wzt9htzlIPtf1yer
+ HK0RL9Ar6OUhUGMi0FWTJFFui0yf+bzKt4SLz8LmDmsTCBDGLg4BWAibSsZ/lfOVxX81j2hyYy5
+ XWThkdsnRAPXRW9TfbQ07sv1lxvPPuZk+GcVu/zijqvTn5xzm/E27fCvay9OHb8z92bZ/WO5Ocv
+ dF6xnBQA=
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-On Tue, Aug 05, 2025 at 06:20:20PM +0800, wenswang@yeah.net wrote:
-> From: Wensheng Wang <wenswang@yeah.net>
-> 
-> Add support for MPS VR controller mp29502. This driver exposes
-> telemetry and limits value readings and writtings.
-> 
-> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
+Currently, the MPTCP ADD_ADDR notifications are retransmitted after a
+fixed timeout controlled by the net.mptcp.add_addr_timeout sysctl knob,
+if the corresponding "echo" packets are not received before. This can be
+too slow (or too quick), especially with a too cautious default value
+set to 2 minutes.
 
-Applied.
+- Patch 1: make ADD_ADDR retransmission timeout adaptive, using the
+  TCP's retransmission timeout. The corresponding sysctl knob is now
+  used as a maximum value.
 
-Guenter
+- Patch 2: now that these ADD_ADDR retransmissions can happen faster,
+  all MPTCP Join subtests checking ADD_ADDR counters accept more
+  ADD_ADDR than expected (if any). This is aligned with the previous
+  behaviour, when the ADD_ADDR RTO was lowered down to 1 second.
+
+- Patch 3: Some CIs have reported that some MPTCP Join signalling tests
+  were unstable. It seems that it is due to the time it can take in slow
+  environments to send a bunch of ADD_ADDR notifications and wait each
+  time for their echo reply. Use a longer transfer to avoid such errors.
+
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+Notes:
+- Patch 1 has already been sent before, but the selftests had to be
+  adapted differently, see:
+  https://lore.kernel.org/d5397026-92eb-4a43-9534-954b43ab9305@kernel.org
+
+---
+Geliang Tang (1):
+      mptcp: make ADD_ADDR retransmission timeout adaptive
+
+Matthieu Baerts (NGI0) (2):
+      selftests: mptcp: join: tolerate more ADD_ADDR
+      selftests: mptcp: join: allow more time to send ADD_ADDR
+
+ Documentation/networking/mptcp-sysctl.rst       |  8 ++++---
+ net/mptcp/pm.c                                  | 28 +++++++++++++++++++++----
+ tools/testing/selftests/net/mptcp/mptcp_join.sh | 25 ++++++++++------------
+ 3 files changed, 40 insertions(+), 21 deletions(-)
+---
+base-commit: c6142e1913de563ab772f7b0e4ae78d6de9cc5b1
+change-id: 20250905-net-next-mptcp-add_addr-retrans-adapt-565b9973acfd
+
+Best regards,
+-- 
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
