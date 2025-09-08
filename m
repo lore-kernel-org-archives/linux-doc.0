@@ -1,72 +1,72 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1762C27F4C7
-	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 20:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA64C277CA1
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 20:32:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757363317; cv=none; b=INTbJ2lSkRRZApne8+iLWNDureP7K7d3gkYWwttT6KXUTeqV1BytuG2iEU7DP1/1SlPrvFVJ/SVWB4Uxdm0Z34vWEuUkAaApwxNP3bj0qmzPKgPRcg7NFllIXH+ucriegtX/MmjBD+i/1hn19oc5pc2/ct+mAcuuQjuBPQ6YWaw=
+	t=1757363551; cv=none; b=lQvYMXz7jA8GF/DG+DvD36uZU9FTVmfhLMDKxrqgjlOcjPlsfqUYeZCTRMqo6ENmNuNVOX+m1OaU5mOpLRifu8pSo35fP2Cx7c88U+/X/JqcmYiWEa4gMbHJIcXPwJx3IIOuhROjudkYzOZEnCUNheWW/CLls0t2ELmn1zyPY8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757363317; c=relaxed/simple;
-	bh=r8LseYBMJGPeDTkEIlmQA8hA/xOfBFZAF3b8Q4xzECg=;
+	s=arc-20240116; t=1757363551; c=relaxed/simple;
+	bh=ISzBikuO5/AQUfbX6TaDawBdF3DKRyP9ExusajZudB0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tDCnxLkWDV9bsb8axpZS5xr04/vD7IJsNg7831Q57GARJpzWZW5ULl7gLUO080MfM6BcdjkNMpE7z7ElTlMTP1gEEFC3/eNsAr3hNlzRRvb0nuUlPmq/C/Te9bSu1CgQ5ksYcDdFyjNiaNCcv2U6AAFU/VpDi747Dr3PCeBHoXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QV5qeeFb; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=jhVT4uT1AzHTSs6bdQYWvJqqoIOpkEeevwR+5S+AknRhUjr7Q1k8L23Nvl0T/zYxRwZfWBqkYpbVrT9xkyiRZgXE+txIHxn/Uv2BQ6vFEb9yG43BWuqegwpsbB7FF315gm0Nnqf7PtlM4aI9WTI1UaDnny2+dlxthQk6p9h0ixU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R9KGOyzH; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QV5qeeFb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R9KGOyzH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757363315;
+	s=mimecast20190719; t=1757363548;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Bxb19G3442DgWyJiqqUjcRLQKcfJrjyTTRUmwA5uVFs=;
-	b=QV5qeeFbItD0syAGwVMk08sffHwjdsE8/0Aa8qzoClkysUruHONUL3uvRRQwg9NcrggeAK
-	r49PZPhzCjBDJzQZuGASRVGHCTsDzAJ8NeZ0jwBT2r8UR4+/Z/c+iy5ZjxyXbhd+QshwfU
-	u7OrfQF2Y0w2vdrtUMA2HDV+10lBOxU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1ybgcdEsM9ns8A+Pl8rfnblzohG3wZoz4Ud/GugpTAQ=;
+	b=R9KGOyzHsCXnA2VpBwktUe/s56br26ht6g54iKVzZ1ow/nMu+SQIGhazTA2UyfaqCjC3K/
+	pv3lLegT6AqJ9JDSAnlB6Z5D8F/X0Ed5vMLG6D9F5yUDga8kk6zD8eNibLTIS+3V2LHdvN
+	+wg/xJIwAKs7g8EEfQOqqKC2RYOX/us=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-313-iWgOIIFNMlaNo7FXu1Lu6g-1; Mon, 08 Sep 2025 16:28:33 -0400
-X-MC-Unique: iWgOIIFNMlaNo7FXu1Lu6g-1
-X-Mimecast-MFC-AGG-ID: iWgOIIFNMlaNo7FXu1Lu6g_1757363313
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45cb4f23156so26231715e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 13:28:33 -0700 (PDT)
+ us-mta-157-cRX8Z_LjMAamG8F40qvSOQ-1; Mon, 08 Sep 2025 16:32:27 -0400
+X-MC-Unique: cRX8Z_LjMAamG8F40qvSOQ-1
+X-Mimecast-MFC-AGG-ID: cRX8Z_LjMAamG8F40qvSOQ_1757363546
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3e61deaf253so1710183f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 13:32:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757363312; x=1757968112;
+        d=1e100.net; s=20230601; t=1757363546; x=1757968346;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Bxb19G3442DgWyJiqqUjcRLQKcfJrjyTTRUmwA5uVFs=;
-        b=U2OP327X8Uf6zrB80kStQN4diYN2fpdJPiQZeD2n+pUIsB2daLVMxl0KU9TP6qZkO4
-         wAhKcjllTc3fsJKvfZ/7F0twUm/vvxNd6ZW+2abwRIHgmVjpc3CK9uNQ+Z5h+LnNgckT
-         /2+Pln4t4v33N186MHpEIueQC3SkzfQbbELvvvQdutctIEz3GEVTVZaWeLslORDCSlH7
-         4tiCyBr3hBxQsoDVjSH3MHtbTbleJChhJ6bvmzNyCF2KdNBjE2JD7K5Vvvc8fK6d8AIE
-         tdJ/LRx2hEyLgJBz9myUmujxjQACj71DQi/HXq61G9cBvyCIenTzSyynYsNl51Ip4GoG
-         kcPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfNpMTD89/AM89cGee+ClwxxPr2VtJZEJvZxB4oEsXB70WB3JR6kz8hQCmrljX2pFkylXIIkTZvUo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR73+vcdAOlRP8+HIyN3+N9FY2Z8vYlqvOyN6cJst1smADD8EY
-	DKwH8eEH0gwg3Xib6APG10FpCU4eZVNjTeCo6DWPiax9Q//wY5h4gs5sRbBsLH31czCiOISIAN5
-	BaomcPVFKHWHlUkTDX7N9dV758zGfqSJad6TZo95k6cRa9OPUoc3KeCvc1Jxlxw==
-X-Gm-Gg: ASbGncukbDYdfKRGBGGQllw6o6Ati1vBKQl8PMdSsp4NN2gQ/vlKSVyWWFGNd4M6GbB
-	/ZULyY5nm15LtOscwD/+6qFbcvrieqZQNL929XIIpkw73TnAdL0g72+QRLGLdewMjROJeBHZqu5
-	7JGCSiCSRB0Y2bw6IbmVPYbDl8zeycOee/SuULSAF/s3wq69MWcsOWsSWWKWS75X1Vr4vp1eNgb
-	ijmyfREEggXAYWZN+GbSBKvEDWSL3ZW+rzvISzoTMHZeWV6uua6INAW9vgy1qJfRb6OsQQDEFFP
-	ocYQq9W6eQhVwTTvmCU/xXHk9ys2cEkijUEXpQdaCO6wlcOqN0+BcSaschHBx0CO9/nw82k=
-X-Received: by 2002:a05:600c:c4ac:b0:45b:8a6f:c6de with SMTP id 5b1f17b1804b1-45ddded4e96mr73981795e9.29.1757363312523;
-        Mon, 08 Sep 2025 13:28:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJXsjpdhZEn7w8fFB+LV9zG6ThVcnhw68syW4sBBZ2cyLQUhMVhLuFxV2Kr3/2gkuGtxeFNQ==
-X-Received: by 2002:a05:600c:c4ac:b0:45b:8a6f:c6de with SMTP id 5b1f17b1804b1-45ddded4e96mr73981545e9.29.1757363312024;
-        Mon, 08 Sep 2025 13:28:32 -0700 (PDT)
+        bh=1ybgcdEsM9ns8A+Pl8rfnblzohG3wZoz4Ud/GugpTAQ=;
+        b=OH0h19eM43paNxlxcKRmbQ3hWfYo27rkXcv9sZVWtCoNi54q6YIDtJuxvfdgqcq1TM
+         lsiOmVxWlPw4xcpsW2b1IUVrCvETzSqnseeIphuSJbkMz718VCMmovnnymbdpy/v6HQ5
+         /4UTsMY9ztOBGig5YCDb061VrDFpHCr9GD3PeV9LGuxyrjjWoS+YWC94j7ZFVXd+CeAZ
+         XABV/I5EAacgsWAWUEeSv+6dxO22wmpuCd+4kNweR57jgrZHK7XKXMXCNL293PFPnFlm
+         ktKZ3/e9GejDncPqYG/PAqrUNf2IQcw6es4jCkxmk5f0Xk4pagvIyxk6mRNH0V06qAKI
+         uQCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnuY1wEbD6pUA1y0JBbSqczdPXm0deDufoAAtFzTtUpXcP+Vifjeya9pZIl5GvxdbPsXdcIIC121g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeWwNng1Q0MwXPq2VA/HrxpWBARt/tebKdyw0RpII25u1rUuMM
+	gXsmZW5n+jtMAHKl8xkQ31VA+7NzoKnoRYL0kndx+mSbWxVDNU2y9HFPwuACotnOqOLVrGJJjoK
+	oIsL9GDe2eKzi1zLuwBl6dfpbpwnoJlsL9E9g4bocueC/4+f0k9k6zDjN7Uke+g==
+X-Gm-Gg: ASbGncsXk2/YtZIb1OPiEAyv50+aqPYBWwDmBPCweRHlNazru8MSIsX8xWRK5x2YpV6
+	unufQUXaYKWS2iU06pWWqvtIO8MgqkUWrO6aMyfQCVEHiiN0CrTipGQEgwVajLFgjQTHkKKRsTn
+	zkLpbVC+McwneP5L4vTT8vjKm2xYJtIRsvTW3/YIRPRK6hfeCw4c9x9G6PwmjbTpoFwNHOXr5xo
+	aw7fDpW+V1/uIHVtP3eYHZ/mqTLfyeFkJN1Xjl0oIVOFuSSJM71I8xHczqVPB681ZBVJK4He7po
+	lIIwPdk0yda2exMqMVxk+BAuJriLXTzJ0FGqGM2I/mFQ++u6/I0H1evoJsZyHVTQ39uQCHQ=
+X-Received: by 2002:a05:6000:40da:b0:3e2:b2f0:6e57 with SMTP id ffacd0b85a97d-3e642f91589mr8254879f8f.36.1757363546341;
+        Mon, 08 Sep 2025 13:32:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGuDegDqgJ6N0gGE/Lb3UGdgK1piEs+PdHsr5oQcTDbsibAuF1ZyiUHJADT2Pc11YvmZEdCvw==
+X-Received: by 2002:a05:6000:40da:b0:3e2:b2f0:6e57 with SMTP id ffacd0b85a97d-3e642f91589mr8254820f8f.36.1757363545827;
+        Mon, 08 Sep 2025 13:32:25 -0700 (PDT)
 Received: from [192.168.3.141] (p57a1ae98.dip0.t-ipconnect.de. [87.161.174.152])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45cb61377a7sm252991295e9.13.2025.09.08.13.28.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d701622b92sm31349052f8f.58.2025.09.08.13.32.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Sep 2025 13:28:31 -0700 (PDT)
-Message-ID: <fbbd4b7d-1614-4d6f-9f7c-2821f35404ae@redhat.com>
-Date: Mon, 8 Sep 2025 22:28:29 +0200
+        Mon, 08 Sep 2025 13:32:25 -0700 (PDT)
+Message-ID: <5b7e71e8-4e31-4699-b656-c35dce678a80@redhat.com>
+Date: Mon, 8 Sep 2025 22:32:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,8 +74,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 22/22] mm/mshare: charge fault handling allocations to
- the mshare owner
+Subject: Re: [PATCH v3 00/22] Add support for shared PTEs across processes
 To: Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org
 Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
  bp@alien8.de, brauner@kernel.org, bsegall@google.com, corbet@lwn.net,
@@ -94,9 +93,6 @@ Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arch@vger.kernel.org
 References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
- <20250820010415.699353-23-anthony.yznaga@oracle.com>
- <a0238ff1-3ca2-4f0b-8452-26584b531724@redhat.com>
- <3752d094-e754-4453-b404-75d92de3e364@oracle.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -143,52 +139,64 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <3752d094-e754-4453-b404-75d92de3e364@oracle.com>
+In-Reply-To: <20250820010415.699353-1-anthony.yznaga@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08.09.25 21:21, Anthony Yznaga wrote:
+On 20.08.25 03:03, Anthony Yznaga wrote:
+> Memory pages shared between processes require page table entries
+> (PTEs) for each process. Each of these PTEs consume some of
+> the memory and as long as the number of mappings being maintained
+> is small enough, this space consumed by page tables is not
+> objectionable. When very few memory pages are shared between
+> processes, the number of PTEs to maintain is mostly constrained by
+> the number of pages of memory on the system. As the number of shared
+> pages and the number of times pages are shared goes up, amount of
+> memory consumed by page tables starts to become significant. This
+> issue does not apply to threads. Any number of threads can share the
+> same pages inside a process while sharing the same PTEs. Extending
+> this same model to sharing pages across processes can eliminate this
+> issue for sharing across processes as well.
 > 
+> Some of the field deployments commonly see memory pages shared
+> across 1000s of processes. On x86_64, each page requires a PTE that
+> is 8 bytes long which is very small compared to the 4K page
+> size. When 2000 processes map the same page in their address space,
+> each one of them requires 8 bytes for its PTE and together that adds
+> up to 8K of memory just to hold the PTEs for one 4K page. On a
+> database server with 300GB SGA, a system crash was seen with
+> out-of-memory condition when 1500+ clients tried to share this SGA
+> even though the system had 512GB of memory. On this server, in the
+> worst case scenario of all 1500 processes mapping every page from
+> SGA would have required 878GB+ for just the PTEs. If these PTEs
+> could be shared, the a substantial amount of memory saved.
 > 
-> On 9/8/25 11:50 AM, David Hildenbrand wrote:
->> On 20.08.25 03:04, Anthony Yznaga wrote:
->>> When handling a fault in an mshare range, redirect charges for page
->>> tables and other allocations to the mshare owner rather than the
->>> current task.
->>>
->>
->> That looks rather weird. I would have thought there would be an easy way
->> to query the mshare owner for a given mshare mapping, and if the current
->> MM corresponds to that owner you know that you are running in the owner
->> context.
->>
->> Of course, we could have a helper like is_mshare_owner(mapping, current)
->> or sth like that.
->>
-> 
-> I'm not quite following you. Charges for newly faulted pages will be
-> automatically directed to the mshare owner because the mshare mm will
-> have its mm_owner field pointing to the owner. On the other hand,
-> allocations for page table pages are handled differently.
-> GFP_PGTABLE_USER causes the accounting to go through
-> __memcg_kmem_charge_page() which will charge them to the memcg for the
-> current task unless unless current->active_memcg is set to point to
-> another memcg.
+> This patch series implements a mechanism that allows userspace
+> processes to opt into sharing PTEs. It adds a new in-memory
+> filesystem - msharefs. A file created on msharefs represents a
+> shared region where all processes mapping that region will map
+> objects within it with shared PTEs. When the file is created,
+> a new host mm struct is created to hold the shared page tables
+> and vmas for objects later mapped into the shared region. This
+> host mm struct is associated with the file and not with a task.
+> When a process mmap's the shared region, a vm flag VM_MSHARE
+> is added to the vma. On page fault the vma is checked for the
+> presence of the VM_MSHARE flag. If found, the host mm is
+> searched for a vma that covers the fault address. Fault handling
+> then continues using that host vma which establishes PTEs in the
+> host mm. Fault handling in a shared region also links the shared
+> page table to the process page table if the shared page table
+> already exists.
 
-As a note, I think at some point we discussed re-routing page faults to 
-the owner, so the owner can take care of all of that naturally. Is that 
-what's happening here?
+Regarding the overall design, two important questions:
 
+In the context of this series, how do we handle VMA-modifying functions 
+like mprotect/some madvise/mlock/mempolicy/...? Are they currently 
+blocked when applied to a mshare VMA?
 
-So, are we running into that code that we have current be another MM 
-than vma->vm_mm?
+And how are we handling other page table walkers that don't modify VMAs 
+like MADV_DONTNEED, smaps, migrate_pages, ... etc?
 
-Reminds me of: FOLL_REMOTE->FAULT_FLAG_REMOTE. But I guess, we don't 
-take care of different accounting in that case.
-
-Anyhow, what I meant is that you could just check whether you have a 
-mshare VMA, and if so check if current is different to the mshare MM 
-owner. So I don't immediately see why MMF_MSHARE is required.
 
 -- 
 Cheers
