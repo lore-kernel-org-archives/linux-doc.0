@@ -1,67 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B012FB0BE
-	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 09:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086392EE61D;
+	Mon,  8 Sep 2025 09:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757324406; cv=none; b=T1VXa5uiBtLdZYCMzISWIoGazDfny6or/t3o4VfoPGbtNVBhRG7pvBpSlW2XO3CLotPkSN0OfggnXrbGwVt+H7UylCqKcT2+4OhmCHHTQzP8GNvNeC0xEwxPhUUavI0Xjn+oELNGUqlEhR/65S23j8DwVWUWCVB6b0RNqDfeYcw=
+	t=1757325306; cv=none; b=G4SmpiCezVgVZUjOcPA53lvMnF+PH61e5HOCU5LgpQfK4HlXG0n6F/+9b7r6S6wKFiIcWiw3ByqFFjhJoPJfzdlUOlA50pQVskwt7x7kPJmOxRtlZbV0HLMyYgOuBAJI+eDgQR4eOFDNY6OpCQdHSgcq2vsLMHb1/Q4C0pWp5N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757324406; c=relaxed/simple;
-	bh=oVv24RZQlKH22Ja6cyHWdi7oBOb6EOI1GUtwdyNI2ls=;
+	s=arc-20240116; t=1757325306; c=relaxed/simple;
+	bh=Cpf6u8mnULKW8NOv2lWmw4jXSP3ZZJGHV0cvbJrWCUU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f5qoENzlUX+RXli5pq5GQtSBARcVSRz+BwoXt3AgbzjXlBC3JIR71dDG99X4BgWRnC+/rakx61RhrSHYk6hy+W1QQ/+0bw8daav6nZxt3xIAbmcwBMm2dsUPdT9T2Lk5cEdLJfP2+Pr6VEGwr6GFWzFY91kq3wC8StzZLVL6P0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LedsraH/; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 MIME-Version; b=jNyek8b9nkNCDkkMaycH3dp1A6ryBL2N2rXpV7Kn6hLjebgKj5L6yN4QUoMc4+ia4Vd39T7INQop1mpAxmwTEwqAYNKCsdXC/1IvQIQsxNKXSGgl6TVZamRdyowN0NdaZB+REAJts6+KFWZQNGMHorBLJBsozN1GjRvt22HLbS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7heg0QG; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LedsraH/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757324403;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5wjGJD3gvFoEiZrkJU/Pic1oDbV4RUgzaWVlQA83tMU=;
-	b=LedsraH/Vc/hMN6YO19alTu/1oRgVuQ7bO9Cl5D/F8g9qge14hEgMly5UGJEvQdVCmCokv
-	hR24tozJv0trbC/Q10oWJ/BJm/lX8cqAVkhLkMyy7525eiVBztIMr6snveEmwPz70uDSG/
-	cwRQ2SwDh1itoy0wgNEJUXr8R7dGKSo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-582-HHgqXmp4OK67t1WhQjVFNg-1; Mon,
- 08 Sep 2025 05:39:59 -0400
-X-MC-Unique: HHgqXmp4OK67t1WhQjVFNg-1
-X-Mimecast-MFC-AGG-ID: HHgqXmp4OK67t1WhQjVFNg_1757324396
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8CE4D195608B;
-	Mon,  8 Sep 2025 09:39:56 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.45.224.31])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 12E861800446;
-	Mon,  8 Sep 2025 09:39:51 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7heg0QG"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45de56a042dso5810315e9.3;
+        Mon, 08 Sep 2025 02:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757325302; x=1757930102; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8x1Hsp+dpJ5U2ObHkY3BT1x09SwgDYmCzeo6+eGU2wY=;
+        b=m7heg0QGSUpn74VniRv2J8Ir8ZjEnLmZSpkzyF7xmuvq4kt014YcpNsYU1lOoT37f5
+         3n/m0a1L53mssVLRI2L14VONKbnPPHwGgTGTqoWUr3jjU9CfzKU6Ss3O+2VsyfV6+HnO
+         TukinHmmU5J0lPHwKj2tOuQ3/kU6Ynil+e7tM9Ybl0+eFC2Z2Qy9YuaoXvP18BoF9YWz
+         SBgapLvs0qESAbrXyfgdaSxdEmQVyWTvbr4wMh4d2cc3e9OlTHiOzIJGQ5XnKC1EQNCD
+         0J4odEgDihlz55KteL1IUo0OcNCkIqPn0LGN7py26IKI0flhSBsDL4WYLuytJOqTff0F
+         mkjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757325302; x=1757930102;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8x1Hsp+dpJ5U2ObHkY3BT1x09SwgDYmCzeo6+eGU2wY=;
+        b=iKLopVu5JkbgNi6fKYJokwQ3fEUkM1mt8DQo1gyTgeqFvxDqN5Xc3puC6xbvDmecgU
+         KHxPM/1RpmQDh3WVZHCTRIWAvhL/d71EshH2JjCNeODXbRCif6NnFt03hOWW/GbniYKW
+         UPG+UzBQqaVtfQFSiHjwortIebrPlWjuQTB+//7FQFUojeOL4f0yU6+yYd+QUM1fUVEE
+         dmrOBQgAKDcwsQyEvNXf/YThQtMgCmIGRAUjupiEog1h1I//Vbzi+CU1pX0Eq8iXfenW
+         gFuZmvpL/B9g5You9YTNIgxHfguXRXQpZp6m04QqmGF4Nd+otEY6IwmONUWKjDHwuzIv
+         LnjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZGZOZzmIqRqbDNzL0yDeD2HwLI0yiET3ntgQWOEoxRAkqzr8mAQpctpPq/3JALNbB5zNMFb2OZpk=@vger.kernel.org, AJvYcCXhNJ+7zgfY8sOzJJdQvu/w5m0tcIjSEMphTAunUuV02e/8vADp7RDHoNei1UA+f7xyXe3JW/7NLtwMbDjo@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzsrB0U/Pw6nzQcqmdFPUopGDICahQKUXEH4fK2FQsMJEJu4ag
+	JwH3GVW+RDm+Vo8UZsKXqV7LT4DU29z3MjoJXkWsLFXLS5PqRxgRa8AY
+X-Gm-Gg: ASbGncsCj3qeEu1pyHT+wDDdQ2mI/SjUVeThIE4ok1lTDFfXOA01mnZrFFgaos+ttZp
+	LSxECdT0zeWbGyVPxE37urdGIYYnBN9AtZJei9nAEmfvI1ZbnUtWRyKwcaXex0qvvFrzxvuZuS/
+	Nbgg0CX/4Me7Nyw9IpogglQp1XX93hNNicMZSRyzWc1ywyMjG/5nXRTkayrplKOYYSh/hjdJjUJ
+	LX25hlrukEKEvz3ELPS8NXKY3UVaMw09pdKLOkcPxY88Acd+NqTB72apfaqG9VcKDQpDQJ2ARTU
+	BLYhOlmFiK2BgLu1+unXSX9JyGIsy9m0bhbQRUpYeHXMHBLoOrk945BAjwHHFSXer85kjf3xQGJ
+	zzzh5tnsoVWblraBL9YSOkBbFzchtmW5AdEs6Zr7BYLqfBEY=
+X-Google-Smtp-Source: AGHT+IFpX5YvuO3ig+/s1rYDvV/s66K6rV4ZFk+aZNpl+OJbyIG/Pd9Xd6ssYqvc8Q1pL8RLNoEYkQ==
+X-Received: by 2002:a05:600c:1c08:b0:45b:8600:2bd5 with SMTP id 5b1f17b1804b1-45dddea6002mr65196005e9.5.1757325301945;
+        Mon, 08 Sep 2025 02:55:01 -0700 (PDT)
+Received: from gmail.com ([147.161.145.112])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d7ac825b88sm27797095f8f.7.2025.09.08.02.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 02:55:01 -0700 (PDT)
+From: hariconscious@gmail.com
+To: corbet@lwn.net
+Cc: catalin.marinas@arm.com,
+	hariconscious@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next v5 5/5] dpll: zl3073x: Implement devlink flash callback
-Date: Mon,  8 Sep 2025 11:39:24 +0200
-Message-ID: <20250908093924.1952317-6-ivecera@redhat.com>
-In-Reply-To: <20250908093924.1952317-1-ivecera@redhat.com>
-References: <20250908093924.1952317-1-ivecera@redhat.com>
+	shuah@kernel.org,
+	will@kernel.org
+Subject: 
+Date: Mon,  8 Sep 2025 15:24:50 +0530
+Message-ID: <20250908095450.42929-1-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <871pp8a9ze.fsf@trenco.lwn.net>
+References: <871pp8a9ze.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,224 +80,103 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-Use the introduced functionality to read firmware files and flash their
-contents into the device's internal flash memory to implement the devlink
-flash update callback.
+m mboxrd@z Thu Jan  1 00:00:00 1970
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286623770B;
+	Mon, 18 Aug 2025 16:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755533304; cv=none; b=uzqxObiUW0V5/KwDbGE974y+FjJSI5MFNyebWi2+5q0TOrcLDMz7UaGA7zz0rM3Untp7AnczUbPlO0EA7ijp4VWjKvA/jRHEa1WGY2xCRbl7sgaCW2Jjds9q0+1gZLf0j/daCCEppHrPUjZ8YflPc2iu9lSvMSpKu47NIakpBUE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755533304; c=relaxed/simple;
+	bh=ou2NodSL61SjBBx3oNoEL8d9FXu/qhf54SYinlYpEpw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZgMDNRzIMf6C1EvsD5ClxxovJPOa43e4oQ6VSmdSN6I7NCnbnvwlTuhLwbC7PoGla8+5kqNNoHprCsJFKlmaUz88nO4IC+USEYcRtm/2Bcyxy5Vkovozj6Qt8dT+KI2+uNMueCPw97mRWW184W5bNT6MZmCp0bCVjUVZaMhgFsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FS1soXLa; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FS1soXLa"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5CE0F40AB4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755533302; bh=PgKB2qnc/bRPAL5RwjdygVePDYnntw4ZWdIavREWLBQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=FS1soXLa521ujJUbl/402whSSESTHg9tMk1J4yJXD61Dfi279n3ZYdXUxCAqBrXbP
+	 7uzuyvggLkYoXlerUj63roxK9vLzAUnVybiJ8ADgblvGi5LkC02Rne6uNwELG05I+6
+	 k7OuwJQBxt+73WjptP+fON5qK+HI/wyJ2vePn9MgKDmwsi+JYLLCa/Ou+Yk0IU287M
+	 3Bs39RXJcFhH8aA2anPFcTcN3lReE6Ci8Tc22FjnWBpnYKR6l1Y7r40THAF4d2OISs
+	 tpNV3csYjY/jWhXXQNvQZbmv84TtmdKAC3lrG0p2OxW0RInDuM1q8EFkKH6kheFgli
+	 bhQXe4L9M8KpA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5CE0F40AB4;
+	Mon, 18 Aug 2025 16:08:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: hariconscious@gmail.com, shuah@kernel.org, catalin.marinas@arm.com,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: HariKrishna <hariconscious@gmail.com>
+Subject: Re: [PATCH] documentation/arm64 : kdump fixed typo errors
+In-Reply-To: <20250816120731.24508-1-hariconscious@gmail.com>
+References: <20250816120731.24508-1-hariconscious@gmail.com>
+Date: Mon, 18 Aug 2025 10:08:21 -0600
+Message-ID: <871pp8a9ze.fsf@trenco.lwn.net>
+Precedence: bulk
+X-Mailing-List: linux-kernel@vger.kernel.org
+List-Id: <linux-kernel.vger.kernel.org>
+List-Subscribe: <mailto:linux-kernel+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-kernel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Sample output on EDS2 development board:
- # devlink -j dev info i2c/1-0070 | jq '.[][]["versions"]["running"]'
- {
-   "fw": "6026"
- }
- # devlink dev flash i2c/1-0070 file firmware_fw2.hex
- [utility] Prepare flash mode
- [utility] Downloading image 100%
- [utility] Flash mode enabled
- [firmware1-part1] Downloading image 100%
- [firmware1-part1] Flashing image
- [firmware1-part2] Downloading image 100%
- [firmware1-part2] Flashing image
- [firmware1] Flashing done
- [firmware2] Downloading image 100%
- [firmware2] Flashing image 100%
- [firmware2] Flashing done
- [utility] Leaving flash mode
- Flashing done
- # devlink -j dev info i2c/1-0070 | jq '.[][]["versions"]["running"]'
- {
-   "fw": "7006"
- }
+hariconscious@gmail.com writes:
 
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
-v4:
-* Removed excessive comments
-* Refactored flash callback by adding helper for preparation and finish
-  phase
-v3:
-* Fixed return value documentation for zl3073x_flash_update()
----
- Documentation/networking/devlink/zl3073x.rst |  14 ++
- drivers/dpll/zl3073x/devlink.c               | 129 +++++++++++++++++++
- 2 files changed, 143 insertions(+)
+> From: HariKrishna <hariconscious@gmail.com>
+>
+> kdump.rst documentation typos corrected
+>
+> Signed-off-by: HariKrishna <hariconscious@gmail.com>
+> ---
+>  Documentation/arch/arm64/kdump.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/arch/arm64/kdump.rst b/Documentation/arch/arm64/kdump.rst
+> index 56a89f45df28..d3195a93a066 100644
+> --- a/Documentation/arch/arm64/kdump.rst
+> +++ b/Documentation/arch/arm64/kdump.rst
+> @@ -5,7 +5,7 @@ crashkernel memory reservation on arm64
+>  Author: Baoquan He <bhe@redhat.com>
+>  
+>  Kdump mechanism is used to capture a corrupted kernel vmcore so that
+> -it can be subsequently analyzed. In order to do this, a preliminarily
+> +it can be subsequently analyzed. In order to do this, a preliminary
+>  reserved memory is needed to pre-load the kdump kernel and boot such
+>  kernel if corruption happens.
 
-diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
-index 4b6cfaf386433..fc5a8dc272a77 100644
---- a/Documentation/networking/devlink/zl3073x.rst
-+++ b/Documentation/networking/devlink/zl3073x.rst
-@@ -49,3 +49,17 @@ The ``zl3073x`` driver reports the following versions
-       - running
-       - 1.3.0.1
-       - Device configuration version customized by OEM
-+
-+Flash Update
-+============
-+
-+The ``zl3073x`` driver implements support for flash update using the
-+``devlink-flash`` interface. It supports updating the device flash using a
-+combined flash image ("bundle") that contains multiple components (firmware
-+parts and configurations).
-+
-+During the flash procedure, the standard firmware interface is not available,
-+so the driver unregisters all DPLLs and associated pins, and re-registers them
-+once the flash procedure is complete.
-+
-+The driver does not support any overwrite mask flags.
-diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
-index d0f6d9cd4a68e..f55d5309d4f9c 100644
---- a/drivers/dpll/zl3073x/devlink.c
-+++ b/drivers/dpll/zl3073x/devlink.c
-@@ -9,6 +9,8 @@
- #include "core.h"
- #include "devlink.h"
- #include "dpll.h"
-+#include "flash.h"
-+#include "fw.h"
- #include "regs.h"
- 
- /**
-@@ -141,11 +143,138 @@ void zl3073x_devlink_flash_notify(struct zl3073x_dev *zldev, const char *msg,
- 					   total);
- }
- 
-+/**
-+ * zl3073x_devlink_flash_prepare - Prepare and enter flash mode
-+ * @zldev: zl3073x device pointer
-+ * @zlfw: pointer to loaded firmware
-+ * @extack: netlink extack pointer to report errors
-+ *
-+ * The function stops normal operation and switches the device to flash mode.
-+ * If an error occurs the normal operation is resumed.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+static int
-+zl3073x_devlink_flash_prepare(struct zl3073x_dev *zldev,
-+			      struct zl3073x_fw *zlfw,
-+			      struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_fw_component *util;
-+	int rc;
-+
-+	util = zlfw->component[ZL_FW_COMPONENT_UTIL];
-+	if (!util) {
-+		zl3073x_devlink_flash_notify(zldev,
-+					     "Utility is missing in firmware",
-+					     NULL, 0, 0);
-+		zl3073x_fw_free(zlfw);
-+		return -ENOEXEC;
-+	}
-+
-+	/* Stop normal operation prior entering flash mode */
-+	zl3073x_dev_stop(zldev);
-+
-+	rc = zl3073x_flash_mode_enter(zldev, util->data, util->size, extack);
-+	if (rc) {
-+		zl3073x_devlink_flash_notify(zldev,
-+					     "Failed to enter flash mode",
-+					     NULL, 0, 0);
-+
-+		/* Resume normal operation */
-+		zl3073x_dev_start(zldev, true);
-+
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * zl3073x_devlink_flash_finish - Leave flash mode and resume normal operation
-+ * @zldev: zl3073x device pointer
-+ * @extack: netlink extack pointer to report errors
-+ *
-+ * The function switches the device back to standard mode and resumes normal
-+ * operation.
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+static int
-+zl3073x_devlink_flash_finish(struct zl3073x_dev *zldev,
-+			     struct netlink_ext_ack *extack)
-+{
-+	int rc;
-+
-+	/* Reset device CPU to normal mode */
-+	zl3073x_flash_mode_leave(zldev, extack);
-+
-+	/* Resume normal operation */
-+	rc = zl3073x_dev_start(zldev, true);
-+	if (rc)
-+		zl3073x_devlink_flash_notify(zldev,
-+					     "Failed to start normal operation",
-+					     NULL, 0, 0);
-+
-+	return rc;
-+}
-+
-+/**
-+ * zl3073x_devlink_flash_update - Devlink flash update callback
-+ * @devlink: devlink structure pointer
-+ * @params: flashing parameters pointer
-+ * @extack: netlink extack pointer to report errors
-+ *
-+ * Return: 0 on success, <0 on error
-+ */
-+static int
-+zl3073x_devlink_flash_update(struct devlink *devlink,
-+			     struct devlink_flash_update_params *params,
-+			     struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dev *zldev = devlink_priv(devlink);
-+	struct zl3073x_fw *zlfw;
-+	int rc = 0;
-+
-+	zlfw = zl3073x_fw_load(zldev, params->fw->data, params->fw->size,
-+			       extack);
-+	if (IS_ERR(zlfw)) {
-+		zl3073x_devlink_flash_notify(zldev, "Failed to load firmware",
-+					     NULL, 0, 0);
-+		rc = PTR_ERR(zlfw);
-+		goto finish;
-+	}
-+
-+	/* Stop normal operation and enter flash mode */
-+	rc = zl3073x_devlink_flash_prepare(zldev, zlfw, extack);
-+	if (rc)
-+		goto finish;
-+
-+	rc = zl3073x_fw_flash(zldev, zlfw, extack);
-+	if (rc) {
-+		zl3073x_devlink_flash_finish(zldev, extack);
-+		goto finish;
-+	}
-+
-+	/* Resume normal mode */
-+	rc = zl3073x_devlink_flash_finish(zldev, extack);
-+
-+finish:
-+	if (!IS_ERR(zlfw))
-+		zl3073x_fw_free(zlfw);
-+
-+	zl3073x_devlink_flash_notify(zldev,
-+				     rc ? "Flashing failed" : "Flashing done",
-+				     NULL, 0, 0);
-+
-+	return rc;
-+}
-+
- static const struct devlink_ops zl3073x_devlink_ops = {
- 	.info_get = zl3073x_devlink_info_get,
- 	.reload_actions = BIT(DEVLINK_RELOAD_ACTION_DRIVER_REINIT),
- 	.reload_down = zl3073x_devlink_reload_down,
- 	.reload_up = zl3073x_devlink_reload_up,
-+	.flash_update = zl3073x_devlink_flash_update,
- };
- 
- static void
--- 
-2.49.1
+I don't think this is right.  While reserving judgment on
+"preliminarily" as a word, the intended use is adverbial, so this change
+does not make things better.  The better fix, perhaps, is to say
+"previously" instead.
+
+Should you choose to resubmit this, we'll need your real name in the
+Signed-off-by tag, please.
+
+Thanks,
+
+jon
+
+Hi Jon,
+
+Good day.
+Thanks for the suggestion, will correct and send the patch again.
+And my real name is "HariKrishna" and see that it is mentioned in Signed-off-by tag.
+Do I need to add surname as well ? Please let me know.
+
+Thank you.
+HariKrishna.
 
