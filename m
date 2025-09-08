@@ -1,124 +1,234 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C6D53A7;
-	Mon,  8 Sep 2025 16:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFC230ACE5
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 17:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757350667; cv=none; b=efXY0gq8fRxBG5h8l61bXX4xlpcBJMduPy8RzvytH5LgZI+rildDZtJ9fllu8Gf90NM1ZB7VtoyMOMt6wXEaGt1dsbhvqPT1ls6VFJ185BRXfUFD2eUFBnyU5K6BX9fl+/+aeUU9drYjAmDkMHDZQWseR7VRaUBaBRoDXCv0bEE=
+	t=1757352644; cv=none; b=EkH6smZ2p7HTXKppx1QIFGO+JlwmRj3UpJJCMHTy9p49UEiO3t6ClZrBFxJz+5xJD7L/Zb0fwHqhEtyRcY1vbpGPs3NSBcsiDRbEPk3Lh+DfJwSLIqvLoH4tOTWRzTlHnEwEZEhT9xGfB+XDMKBDZ6P3L4V4ASfYPSuEDVYp/cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757350667; c=relaxed/simple;
-	bh=/qelRmYr3Q/9Ite35XcawnNc4XvZolL9PylH3Ax8o+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iFNqP3+a4F4B85vcjNE+ybSxwZCQNnl5tf6tD6vWhmFqLt0FcRhkCIfKZvZ/Z65k4Ym+nmwmZhWa3WDrcAERRurM/H2PhY8C3sNsg4z7ReY6j7DYvHPpKopPuWbPLBnAoAONMiYCR6hyBdH/z0srOQ9/TTaPcXhCYWtpVIZM2GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ivj7SIcU; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1757352644; c=relaxed/simple;
+	bh=JyPkBfczRRzXpM98VuI8SgsMu1wrAKH/fI6gRLdmGRQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k8+knreiPkcaAo70BRDfaQZ6pbgUaLiJFHVAZd7cYvkoHh8LygcV8VbJfHWyZRTxS+Rg2J3f2/LoEQ+zhUYpSCRonEbOzrVF/kBfvB6SiGse/Fkn9/57lo0pOZjqJf8lU56gcMY8Rwlo04WFSwUXOmQtCh3KBa46beE+nNMRGSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QYWRPAmM; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ivj7SIcU"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id C5FE91A0964;
-	Mon,  8 Sep 2025 16:57:43 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 90FF36061A;
-	Mon,  8 Sep 2025 16:57:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CE512102F289F;
-	Mon,  8 Sep 2025 18:57:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757350662; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=fKXqpYuHrmlZ+6q6Sntvh/B1FhNEe/BmEN2KsR5ia3E=;
-	b=ivj7SIcUAAyvLHTlvOAYjVWoumaZrgJ6KWxhna6Ur3x3D010MzqZQVXzsK92JTP78+yUZ1
-	2tTwK1l9KsozoYegeThbog5kjttURzIUIm+UyCGnXtdvGUby1mcMLTzOX4UYYAjHJ414pz
-	LjiOUrVvOp+LGW7bWPMGRLz4qFKSx5UKp6wW4N+Wn5FON4d8HYu14OSeN2MryXhYM29P6x
-	txGVSHRrc7ZyLDrz0vCVtCq0FypfAzI4SlxvXxt26WKmnpa2O7fiaxOg1SfKxyvWk7PVR6
-	vAwLRiZhyU7fXhXRY9brKLOnWNRJ0cuc/qZQwUOZSDM0xGhTJcy/4UfJgu9JlQ==
-Date: Mon, 8 Sep 2025 18:57:28 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Gregory Fuchedgi <gfuchedgi@gmail.com>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Guenter Roeck
- <linux@roeck-us.net>, Robert Marko <robert.marko@sartura.hr>, Luka Perkov
- <luka.perkov@sartura.hr>, Jean Delvare <jdelvare@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Network
- Development <netdev@vger.kernel.org>
-Subject: Re: [PATCH v3 0/2] hwmon: (tps23861) add class restrictions and
- semi-auto mode support
-Message-ID: <20250908185728.132e9665@kmaincent-XPS-13-7390>
-In-Reply-To: <CAAcybuvqqKBniV+OtgfCLHJdmZ836FJ3p7ujp3is2B8bxQh4Kw@mail.gmail.com>
-References: <20250904-hwmon-tps23861-add-class-restrictions-v3-0-b4e33e6d066c@gmail.com>
-	<4e7a2570-41ec-4179-96b2-f8550181afd9@roeck-us.net>
-	<aL5g2JtIpupAeoDz@pengutronix.de>
-	<CAAcybuvqqKBniV+OtgfCLHJdmZ836FJ3p7ujp3is2B8bxQh4Kw@mail.gmail.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QYWRPAmM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757352642;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=RAwcm1nPLLX4X92euXLnYeRyvAbGSoqBmBe5SHTlwFM=;
+	b=QYWRPAmMwbZts0Ti25U4biMsPO0W0rW3vaFAt8iGyyL/bFPGhx6bTVRPjIXHPzjqdr8kxT
+	MAKI0LRi76XtwURBmzC1gLEqPP5vnPfZ53GkK6+HhHLelPMFKxXUugtnppeutSAtnBRAI3
+	N2zjPHRHpF7UkI94R/mmVzv+EfYgz1Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-50-2E7R56hTMlycMKyz1UpJZA-1; Mon, 08 Sep 2025 13:30:40 -0400
+X-MC-Unique: 2E7R56hTMlycMKyz1UpJZA-1
+X-Mimecast-MFC-AGG-ID: 2E7R56hTMlycMKyz1UpJZA_1757352640
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3dc3f943e6eso2928802f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 10:30:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757352639; x=1757957439;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RAwcm1nPLLX4X92euXLnYeRyvAbGSoqBmBe5SHTlwFM=;
+        b=gT4LPOgelKjYK3nU/jCPzoPnAvpKaFHTS1qbfJzS0n32qbD0HIks/YJtgVmZj7+04R
+         sOfNNz0DQO3M0DT7rsoBJXwF1ff2hap4/jW4t4qAQZwxNI9vu+uePOx18ewdjC36jL40
+         do48ruqzPsB47TgxDCoTFj/UWPAIypc926gpspI6lHy4gm9ohbP3e8pCKoZRBRTCNeHD
+         3blbRmpY7tbjl61TR1tYgDhC/Zo86wMsId+qaU43BUvN0ohLtVMmUii36SZJczh/497V
+         DRp3d9OJM4Cmnt31DpbD45ZQrt8xPB2P40lgFtVd5BhEjTG4ajdbAFk6OlOS8pl7CzgP
+         O9kw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkdI5rKgLLZmWe53PXRxjxZE3LU9MPmnrVDf0i2vmZitt0yJVVRqdPloUJKqq6r/uOWBQ2EGcDPiQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9EdXCddqO3hBRMHM/LTsJh3s9p26DKy55DwN0Y0irXN8BuoxA
+	IjbVh+kfC7l6VuEFzgX1WvtpLPiQTpopAvXhF/AC+ELuCiNcctp4wxctJF7zauuWbtXB9PXEHYE
+	ONvCQd8xnJjmw04UJaxrEJz7HW5Gkhp5mrf4WADajbReoxFlaSPXmR/ddn2jo9g==
+X-Gm-Gg: ASbGncunQE/4tvKc/oRZ1+kGkyET8oHDi6vzWJeI+bkXIeOb8fmAEyc3j6te8+amG4x
+	K+gabrlmDeFJbTmCsKQrkNfm5zjmPWjvrMU6DbHK7lqN9hpyWyGg7oVtluEVEPccMnl8nIE59R/
+	ePJdhO9sorkBfr13FxNs2h/agwYk8oEP5NbvniJkoppZQR0GuIDDnsIpYmopp35W1uQdJvxDuK7
+	h7h4wFvNjCw40k0MwhrYYgMLxy1asdgm8VCCt0THQmVbrmA8oRJ0r3ICsh8EOovE4YYh2zU48TU
+	3HYII5LCCTOmVd3RCq8295o7FpsjbAxYMwaUlswT4Is/Wx7YGUS5W4qwiySZAxBnNA3AkiAMD/4
+	gSScLrAKTMePJJYeEDu2/LgjOhBmZhaXwiLfB09mRxrxj7DCLKdGfBpwCR7FgVft+
+X-Received: by 2002:a5d:5d05:0:b0:3ce:f0a5:d581 with SMTP id ffacd0b85a97d-3e636d8ff6dmr7012200f8f.7.1757352639354;
+        Mon, 08 Sep 2025 10:30:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGj6Fx/oJ/i3mGb5tdhsyoUu3a7TRpHUY03SW3dQRjVAjsi0xq639ZH0YB5uZksW3RpOLFefg==
+X-Received: by 2002:a5d:5d05:0:b0:3ce:f0a5:d581 with SMTP id ffacd0b85a97d-3e636d8ff6dmr7012120f8f.7.1757352638837;
+        Mon, 08 Sep 2025 10:30:38 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f25:700:d846:15f3:6ca0:8029? (p200300d82f250700d84615f36ca08029.dip0.t-ipconnect.de. [2003:d8:2f25:700:d846:15f3:6ca0:8029])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45dd296ed51sm197762845e9.3.2025.09.08.10.30.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Sep 2025 10:30:38 -0700 (PDT)
+Message-ID: <92def589-a76f-4360-8861-6bc9f94c1987@redhat.com>
+Date: Mon, 8 Sep 2025 19:30:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/16] mm: add vma_desc_size(), vma_desc_pages() helpers
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, "David S . Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ kexec@lists.infradead.org, kasan-dev@googlegroups.com
+References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
+ <d8767cda1afd04133e841a819bcedf1e8dda4436.1757329751.git.lorenzo.stoakes@oracle.com>
+ <20250908125101.GX616306@nvidia.com>
+ <e71b7763-4a62-4709-9969-8579bdcff595@lucifer.local>
+ <20250908133224.GE616306@nvidia.com>
+ <090675bd-cb18-4148-967b-52cca452e07b@lucifer.local>
+ <20250908142011.GK616306@nvidia.com>
+ <764d413a-43a3-4be2-99c4-616cd8cd3998@lucifer.local>
+ <af3695c3-836a-4418-b18d-96d8ae122f25@redhat.com>
+ <d47b68a2-9376-425c-86ce-0a3746819f38@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZoEEwEIAEQCGwMCF4ACGQEFCwkIBwICIgIG
+ FQoJCAsCBBYCAwECHgcWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaJzangUJJlgIpAAKCRBN
+ 3hD3AP+DWhAxD/9wcL0A+2rtaAmutaKTfxhTP0b4AAp1r/eLxjrbfbCCmh4pqzBhmSX/4z11
+ opn2KqcOsueRF1t2ENLOWzQu3Roiny2HOU7DajqB4dm1BVMaXQya5ae2ghzlJN9SIoopTWlR
+ 0Af3hPj5E2PYvQhlcqeoehKlBo9rROJv/rjmr2x0yOM8qeTroH/ZzNlCtJ56AsE6Tvl+r7cW
+ 3x7/Jq5WvWeudKrhFh7/yQ7eRvHCjd9bBrZTlgAfiHmX9AnCCPRPpNGNedV9Yty2Jnxhfmbv
+ Pw37LA/jef8zlCDyUh2KCU1xVEOWqg15o1RtTyGV1nXV2O/mfuQJud5vIgzBvHhypc3p6VZJ
+ lEf8YmT+Ol5P7SfCs5/uGdWUYQEMqOlg6w9R4Pe8d+mk8KGvfE9/zTwGg0nRgKqlQXrWRERv
+ cuEwQbridlPAoQHrFWtwpgYMXx2TaZ3sihcIPo9uU5eBs0rf4mOERY75SK+Ekayv2ucTfjxr
+ Kf014py2aoRJHuvy85ee/zIyLmve5hngZTTe3Wg3TInT9UTFzTPhItam6dZ1xqdTGHZYGU0O
+ otRHcwLGt470grdiob6PfVTXoHlBvkWRadMhSuG4RORCDpq89vu5QralFNIf3EysNohoFy2A
+ LYg2/D53xbU/aa4DDzBb5b1Rkg/udO1gZocVQWrDh6I2K3+cCs7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <d47b68a2-9376-425c-86ce-0a3746819f38@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 8 Sep 2025 09:39:58 -0700
-Gregory Fuchedgi <gfuchedgi@gmail.com> wrote:
+On 08.09.25 17:35, Lorenzo Stoakes wrote:
+> On Mon, Sep 08, 2025 at 05:07:57PM +0200, David Hildenbrand wrote:
+>> On 08.09.25 16:47, Lorenzo Stoakes wrote:
+>>> On Mon, Sep 08, 2025 at 11:20:11AM -0300, Jason Gunthorpe wrote:
+>>>> On Mon, Sep 08, 2025 at 03:09:43PM +0100, Lorenzo Stoakes wrote:
+>>>>>> Perhaps
+>>>>>>
+>>>>>> !vma_desc_cowable()
+>>>>>>
+>>>>>> Is what many drivers are really trying to assert.
+>>>>>
+>>>>> Well no, because:
+>>>>>
+>>>>> static inline bool is_cow_mapping(vm_flags_t flags)
+>>>>> {
+>>>>> 	return (flags & (VM_SHARED | VM_MAYWRITE)) == VM_MAYWRITE;
+>>>>> }
+>>>>>
+>>>>> Read-only means !CoW.
+>>>>
+>>>> What drivers want when they check SHARED is to prevent COW. It is COW
+>>>> that causes problems for whatever the driver is doing, so calling the
+>>>> helper cowable and making the test actually right for is a good thing.
+>>>>
+>>>> COW of this VMA, and no possibilty to remap/mprotect/fork/etc it into
+>>>> something that is COW in future.
+>>>
+>>> But you can't do that if !VM_MAYWRITE.
+>>>
+>>> I mean probably the driver's just wrong and should use is_cow_mapping() tbh.
+>>>
+>>>>
+>>>> Drivers have commonly various things with VM_SHARED to establish !COW,
+>>>> but if that isn't actually right then lets fix it to be clear and
+>>>> correct.
+>>>
+>>> I think we need to be cautious of scope here :) I don't want to accidentally
+>>> break things this way.
+>>>
+>>> OK I think a sensible way forward - How about I add desc_is_cowable() or
+>>> vma_desc_cowable() and only set this if I'm confident it's correct?
+>>
+>> I'll note that the naming is bad.
+>>
+>> Why?
+>>
+>> Because the vma_desc is not cowable. The underlying mapping maybe is.
+> 
+> Right, but the vma_desc desribes a VMA being set up.
+> 
+> I mean is_cow_mapping(desc->vm_flags) isn't too egregious anyway, so maybe
+> just use that for that case?
 
-> On Sun, Sep 7, 2025 at 9:51=E2=80=AFPM Oleksij Rempel <o.rempel@pengutron=
-ix.de> wrote:
-> >
-> > On Sun, Sep 07, 2025 at 09:06:25AM -0700, Guenter Roeck wrote: =20
-> > > +Cc: pse-pd maintainers and netdev mailing list
-> > >
-> > > On 9/4/25 10:33, Gregory Fuchedgi via B4 Relay wrote: =20
->  [...] =20
-> > >
-> > > This entire series makes me more and more unhappy. It is not the
-> > > responsibility of the hardware monitoring subsystem to control power.=
- The
-> > > hardware monitoring subsystem is for monitoring, not for control.
-> > >
-> > > Please consider adding a driver for this chip to the pse-pd subsystem
-> > > (drivers/net/pse-pd). As it turns out, that subsystem already supports
-> > > tps23881. This is a similar chip which even has a similar register se=
-t.
-> > >
-> > > This driver could then be modified to be an auxiliary driver of that
-> > > driver. Alternatively, we could drop this driver entirely since the
-> > > pse-pd subsystem registers the chips it supports as regulator which h=
-as
-> > > its own means to handle telemetry. =20
-> > Yes, Guenter is right. This driver belongs to the pse-pd framework. =20
-> No disagreement here in principle. However, the current hwmon driver
-> already implements power control and exposes it via in*_enable sysfs
-> files. I found this a bit odd, but I don't write drivers often.
-> My understanding of Guenter's suggestion is that it would require breaking
-> this userspace API?
->
-> From a quick look at the tps23881 datasheet I can see that it is
-> similar, however, it is quite different in the context of this patch.
-> tps23881 (unlike tps23861) has Port Power Allocation register that can
-> limit poe power class. This register can be set prior to
-> detection/classification. So the extra complexity of an interrupt
-> handler that decides whether to enable the power may not be required.
->=20
-> Perhaps it still makes sense to merge these drivers, but I don't have
-> time or hardware to do it at the moment.
+Yes, I don't think we would need another wrapper.
 
-In either way the tps23861 is a PoE controller therefore the driver should =
-land
-into the pse-pd framework. Then tweaking tps23881 driver to support tps2361=
- or
-using a standalone driver is another question.
-=46rom a quick look the register map is really similar so indeed using tps238=
-81
-driver seems relevant.
+-- 
+Cheers
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+David / dhildenb
+
