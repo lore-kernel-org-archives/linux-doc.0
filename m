@@ -1,105 +1,123 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9A43002C8;
-	Mon,  8 Sep 2025 11:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3181C3209;
+	Mon,  8 Sep 2025 11:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757330000; cv=none; b=R/eSsc6R9HtI6bwJxP5m3dk+/zZSSOE18Uu4H66zQVgq/L/T1gRP84db5iu18vq7QkxEDhx9tTx+LmDf8h99oQeuCzLByZFOg/eOxOnLRKn2RqGObh6WgDhNyT418v79y1pBKoLqxwfGWIINvUtKtrkbboJ1i8MgNgnC0JdjUyg=
+	t=1757330899; cv=none; b=ZYr/qsnDTaooLB3yBOdCYAfIuJlsn7K5MXcHDghiioR6mq6nT1GUfdl5huWJ8++bHmlTfTqGDpkoURHkJGcuVfpjfMROSCPPVkKYSja7K1uZUqaVly4w0BMov6ynRuXvgs1BGODsgGb8VNXyC0NMwYhgdXOWO83+TWPXJ3s504o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757330000; c=relaxed/simple;
-	bh=dPb288Jo21uTWPVnj9MDJ0ryDL9Is033HnSH62NlSGc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u11fRUOwWWjekPthGHap+f2Y3YgeKF2JBjf78/D9CMSc0jbQfYByHNUbSiDjmbEXJvYWhNstaWThABS0C0lfsu9Le2ZTyNEn9mG17O+N5SQ/dsgqF0hT30jtDqIgeLp7iCGobKX+x7118OXqFHr1kyWAfM5iuyQaZQazVx2xuDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3fzRQuJ; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1757330899; c=relaxed/simple;
+	bh=yn3DFY54dpfRYE23YFj22qSGMrD08cs5ROb/kz6rhzY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=uckPpIl8+bJ+2y58xze3vt6BeizXUKHDxEBedfOtK5JLfV8mw1g3dAipxm6kubTC59AyGaLLNpe/Nx8JTykcEqHTl7fhldRylaS1CBbXlBsCHdvgG1PcDwpDwF+dP9sFb2FqwNgweEs+Nqx1zLIlHr0NWAaqGoYx5HPpkCIUpAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=giC/O0HM; arc=none smtp.client-ip=209.85.222.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3fzRQuJ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45de6490e74so7673325e9.2;
-        Mon, 08 Sep 2025 04:13:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giC/O0HM"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-8a756436f44so1278164241.3;
+        Mon, 08 Sep 2025 04:28:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757329996; x=1757934796; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3JFsZ9+YKTnrhkakgaIYMEKoDfFk5f5bJk4s8F2eCHU=;
-        b=B3fzRQuJ6+Cdp+071F70MmQEnqOMkrMzZ54s7LNtYx63+Evh3pkaOVMiqR+RRd0GIR
-         0FGj5KQ2gfDFxwfg0pgEAXT5v2kr14iCvMT/oO6JfHHjDIMJM2+8AKavbvTmR0hF7R9Q
-         QnaeMl6k6c8ZWJZd36ve4gc5nPvxoiv+bShuV3Xb70zCdawx1cFI2ZNDQM2ySBWagugB
-         7OsighNzJBLwgtExGqXITHHGCRcTvRnrFz0PrJBzH5mTgzVJb+W5jORLlGu9XblVjCYi
-         tvsMfAOMHVQdv7N1O4HGA1ki97jEelKX6rX8vvPg76oprwXUANllG8eprTfYG3E8ZFQP
-         rE3g==
+        d=gmail.com; s=20230601; t=1757330897; x=1757935697; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yn3DFY54dpfRYE23YFj22qSGMrD08cs5ROb/kz6rhzY=;
+        b=giC/O0HMysKBvufK5CSc1LJ+6NmNapZE8EoVLAltBcaXhUiNpCaomxwNpvJCJUrwx5
+         2bCDPMXTsZ9TRd9vswGQ+M5u/N/EwULuBlKawJwMtZQL1+pOYtK+Fxwu16hT8dWTINHp
+         NA4/tPpQgI0hJQ0T9zJ9mMyWS3qGnQWrvQbSBSuJiwcG/ymqbIK+W0YZ3ONXkWhuaFxo
+         +ff6AApafwAb4I33AKvYVFsAoSgh3w/d/FpwnZ7LbTKAVhFnzrb3Agels5ZVH3wjfdoa
+         nk5M8iAlkZWlb16j3k5odEHtfeoUq8BJVQj1wRbXCDi62j7jQa9aV5FDBlvTJOnngwN2
+         1RYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757329996; x=1757934796;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3JFsZ9+YKTnrhkakgaIYMEKoDfFk5f5bJk4s8F2eCHU=;
-        b=UsT+R0pb9EtuJttQRk0DrXXD+loDblGqdvHU5QI8+DCDsP56hfBWZ4xvkXs1kI52hv
-         l94my9ncckS4Uzsd2Uf30XLJLgACcjAJIRzQut3kOaN/C9HyUYjI1WrC7pmmlkEp6i6p
-         q4g4ywTRigYP+6LtQHbYzYNWI+u6mQ+hu4GRMuFfTkrB+tFwOSvvXkbjYdDaAP4tSsDO
-         zsNkl+N+dy4dlGkGX1p9NSF6etvPjHYOckVMlyJB4MF7RVDJBdYzOigmSPmUrHiYF+AG
-         LtHRmJql0Bb50sqs03MH4KYw4LuFZ2q0qbsFoH3eweI/G0kow87lojkH6EheFb+f7h5W
-         JEow==
-X-Forwarded-Encrypted: i=1; AJvYcCU9y//PL/R9eeBxfCTZ0Aew8TcGKdf/UI27dWjxIuiX+Scmyx4j0HdmBllZ6BpEbPWKp/LH/wL9S2AxANoy@vger.kernel.org, AJvYcCXgXz7EWDzWfWLoPb4L2zHJSOEAplwTI8jbgtEUaDGh9MyUAUJrP472fcbg6r2Hbm4sMrKSaQ8H/b8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAF+aPXDv3vbS+fbCgoRWGr+94kI+fdTCOVwgKWup71UVH4Udc
-	Tz3SDI4UO/w/7TdE7J+CfEdEhWFOCWVmIPMywd71irl7LbdaIBbKYqu5
-X-Gm-Gg: ASbGncuyqQkTxBcsoWK3MjhItvJLBXms5kwyhLT8HIiEhVNixBkYODM62iFOVaJVEqQ
-	hn/V2EmjNDkrH8z93o5Qct6yOO2k0rtpnNK4k8CDIBTYkn6HXJcrwrfodTd54TXqDQNhWL417cf
-	c8naB4PzFCHEYgYMKzqNVWHr3y5HLE5K0AjJ/vFu422OL3jC/9rON0A/PJLkWcCFrDURdOd/PDG
-	z0/zdjE9b137u/cqFE4PnLYkKQQUa6RVGki7SE4EPjjNU/TD7zafjUJPIoV0LPWXlMPyTXT9SVa
-	zb7r6/AN7Ct5VRnTmORQmp7temOZHoN9BOdbvR4UDSW7HIH9fQM8LMrJYpIF9CEa6IqEeFMAdsF
-	MlfcZhOtSyA7yITSQ///6ZvcM
-X-Google-Smtp-Source: AGHT+IG5uQOiOoQhJJ/mhTQdnV7nSQkKRpmjvrrmU/zTkJX7X66L4LIULBGIcjgXcCeKAsh4gyVJsw==
-X-Received: by 2002:a05:600c:3586:b0:45d:d56c:4ab5 with SMTP id 5b1f17b1804b1-45ddde9583bmr63031115e9.5.1757329996041;
-        Mon, 08 Sep 2025 04:13:16 -0700 (PDT)
-Received: from gmail.com ([147.161.145.84])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45dd6891d23sm141671515e9.4.2025.09.08.04.13.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 04:13:15 -0700 (PDT)
-From: hariconscious@gmail.com
-To: shuah@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: HariKrishna S <hariconscious@gmail.com>
-Subject: [PATCH v2] documentation/arm64 : kdump fixed typo errors (review comment addressed)
-Date: Mon,  8 Sep 2025 16:41:19 +0530
-Message-ID: <20250908111118.46666-2-hariconscious@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1757330897; x=1757935697;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yn3DFY54dpfRYE23YFj22qSGMrD08cs5ROb/kz6rhzY=;
+        b=MM1NdahdGGAOlc+Ah965OqvnLnWcfoK3npQCJJLRfvS4cPTlmvCJfK3cq1i/jWTGO6
+         n6QSxBn+K0QduB0YjYvTQGWadEWOdeQDLkGuKJQSCUVsN+nJgBH2PxL4B6pKdnsJl/0I
+         mlQlUpZD7n4PPUQ1adQiGmxtiinUqoG8iwxEFPuioPRETuq46bLqJ5tt6Nc5DWHxy16K
+         r4JQpIvz4+qR1E04e1iwWDoFft5EaEgx5zbpq030TjMsFTt1nEIOMnKu4hBZogqHsOOs
+         iPXJ2wQgzVHt+BJMSRy4i3+p3iODDxRU4h+8OqwhCRdn+iPfEFclc9/nQUp6FDco1tiu
+         SqEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZDq5hzT2yEEUKq1HuAvQgi5GToScuzAyWMqsQNlAPfgGs7lpotrHrDPBx/5PkLhu3lEwphbp1qrgh@vger.kernel.org, AJvYcCX27mxCt45E3l3RvA6q4czqQhBt59qtuk6xEG2VJSvg4zycXodfGqucd/lk+gNe8J+Poy4TCY77Klbb@vger.kernel.org, AJvYcCXAc1NfJ4gWlXJk29rXDp5IPwjJm5uOkupPnprkl+yXCyEn5YMwKVrsOqIIO3fYuWD9MXp3TNr0zvLN3179@vger.kernel.org, AJvYcCXqbiOywWEoWfs+jWlQBA1A2Ss7bC/vbN+Ys7f5vyC5I6VgIEiG2vp/clRqfDe0ZnpqjqMiBYpB@vger.kernel.org
+X-Gm-Message-State: AOJu0Yywn4pWBDPj/v+bQESPZGAzWBZJxt+rkjaV5vjPuKUKqR8FqBMa
+	VrhxdEcKOi+9sqOeb6GmqP9s616a5o8VWXQJzOaU4yU8cFEWDfYSRIbA
+X-Gm-Gg: ASbGncuW2VknR10/J2mogSXh9Tpw6RC8UhBTM2TSDZrqw/mBzPX4fZG6KfyeQGwX75g
+	vw626XJdAFvQkso2IHzkDR0utz9n7TGvLCR70oYhvHRz2PoeDihOBTdBj66YaAh3DrKuUa8Ai//
+	dsFvSyGOoMgZqJtj1gUbewnbGfXo3jp0FIU3ySxgpaGhJa+4QDYCqXcaRqgQRchpy8AzFGwngHP
+	vubfLEEmpd2ctaUHeumi7aMlElfVfdrG0yuqbRG4cujuPqneuwB+DVu79GFv84DiM+fx7wiv8Ic
+	i4KplbmBSN7vmzHNmY2/4qP1wd77teloTsMWx6etyJFN5VWRtrsqHvsOY3hlsdjeXWCPrkaqN0P
+	VK/Ms8CIK/8ePdrA=
+X-Google-Smtp-Source: AGHT+IEmxj5SRucLxgsqc+XZK/hD/wEdSRDYn5/LVNzSGWmoBPOWSOPPWS7ZDyNcF+IG54oWcnCxTQ==
+X-Received: by 2002:a05:6102:c8f:b0:521:f809:9969 with SMTP id ada2fe7eead31-53d1c3d62c5mr2376675137.8.1757330896892;
+        Mon, 08 Sep 2025 04:28:16 -0700 (PDT)
+Received: from localhost ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-52af1915741sm10417808137.10.2025.09.08.04.28.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Sep 2025 04:28:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 08 Sep 2025 06:28:14 -0500
+Message-Id: <DCNDT81S98GW.2SJOV5C94E43H@gmail.com>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Jean Delvare"
+ <jdelvare@suse.com>, "Guenter Roeck" <linux@roeck-us.net>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>
+Cc: <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <stable@vger.kernel.org>
+Subject: Re: [PATCH v3 4/4] dt-bindings: trivial-devices: Add sht2x sensors
+From: "Kurt Borja" <kuurtb@gmail.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250907-sht2x-v3-0-bf846bd1534b@gmail.com>
+ <20250907-sht2x-v3-4-bf846bd1534b@gmail.com>
+ <edc840e1-44ed-4397-8e5f-2f5e468ec030@kernel.org>
+In-Reply-To: <edc840e1-44ed-4397-8e5f-2f5e468ec030@kernel.org>
 
-From: HariKrishna S <hariconscious@gmail.com>
+Hi Krzysztof,
 
-Signed-off-by: HariKrishna S <hariconscious@gmail.com>
----
-Changes in v2:
-	- Review comment from Jonathan Corbet addressed
+On Mon Sep 8, 2025 at 2:02 AM -05, Krzysztof Kozlowski wrote:
+> On 08/09/2025 03:33, Kurt Borja wrote:
+>> Add sensirion,sht2x trivial sensors.
+>>=20
+>> Cc: stable@vger.kernel.org
+>
+> No, drop. No bug to fix here.
 
- Documentation/arch/arm64/kdump.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I included it because stable is fine with device IDs [1]. Is this
+avoided with dt-bindings related stuff?
 
-diff --git a/Documentation/arch/arm64/kdump.rst b/Documentation/arch/arm64/kdump.rst
-index d3195a93a066..36701262ccaf 100644
---- a/Documentation/arch/arm64/kdump.rst
-+++ b/Documentation/arch/arm64/kdump.rst
-@@ -5,7 +5,7 @@ crashkernel memory reservation on arm64
- Author: Baoquan He <bhe@redhat.com>
- 
- Kdump mechanism is used to capture a corrupted kernel vmcore so that
--it can be subsequently analyzed. In order to do this, a preliminary
-+it can be subsequently analyzed. In order to do this, a previously
- reserved memory is needed to pre-load the kdump kernel and boot such
- kernel if corruption happens.
- 
--- 
-2.43.0
+>
+> Please organize the patch documenting compatible (DT bindings) before
+> their user.
+> See also:
+> https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetre=
+e/bindings/submitting-patches.rst#L46
+
+I will reorder.
+
+Thanks for the review!
+
+>>=20
+>
+>
+> Best regards,
+> Krzysztof
+
+[1] https://elixir.bootlin.com/linux/v6.17-rc4/source/Documentation/process=
+/stable-kernel-rules.rst#L15
+
+--=20
+ ~ Kurt
 
