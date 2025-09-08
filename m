@@ -1,126 +1,207 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FA430FC22;
-	Mon,  8 Sep 2025 15:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D33C2E8E12
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 15:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757346068; cv=none; b=Q/oxIFPow8D/vXH08xq2MNxqeMoftRK+GNQYcIf9/5Qp4MciFg+p65pUp5XAnzOCSV478P+ystUaNkdeueVKcfWBmCnJrGV9Y5aWiM8f5Cvp4SqwOzrksJ/iTvQUIVlgfWe/vCY0GZXhTRcr3xqfAn1mpfvyTk96E0Dv47aB7vg=
+	t=1757346370; cv=none; b=Bwbjk3M1oTyTz+ok6OUOYRPczyx6V8j7CY3EpS+tDArS2Qz2nJsLIPjYFxdlLk9/PqkGgcBciKx3srxUx0WG5qkqf0bRMuI8uaSwnzxzHU0Gaha+/nrnHKAritWzpJFyha7QCe/Tv5M2ouvJJLuxBHJ9x9KouFlV95Z+uxxUckM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757346068; c=relaxed/simple;
-	bh=Z6jrl4mLAXX6r9DE8sEMl+1MLl0DAZ0bEBGDAozfhTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HFA8Ofq9WWvLvMwHtjbZM84M3UTXljOcg4evZQrfvODa0LCyfsieZDsQOyak0wWGrmuwKm1ILfQw9DHHyzIaIDrk2nVIe1nhGVma7Eh05X32qJgja2ZdvbZmSpz4GZ5tKDakpnPj+3GgADaABDKIFDcYTxJ0cwWAlPzx6DfyJ/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GBi0aSjX; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757346370; c=relaxed/simple;
+	bh=zAjyz+sUpkrFQrEGDsHBHrFQafZRofKHU3NxpV0p+aw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qYxmlpkB3qj8zmF+Xl0Bexz3/dCGdb2cQvr9xueT6FDtQWc8kexH4aPSPEiELxfNs5UBmb+YsafjUeR5c39hMejp6IUftZGxPZvbSK2R+MbfwIoJ/2jmI4b6iTfZvcu2KSIaExCFXlvupIIDqZMdGqpTJFxtHMSbFHWJDGul2gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P196fo3a; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GBi0aSjX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=i/NTHz2QW7PrsPI9dqlnUBz3BBd0hMA6KRgZuxingf0=; b=GBi0aSjXvmeOh74/NWSi3Netvt
-	umXLRbKELo8BXdYxPT9vJ2FKLymdmCKs9+em8KbrcqX5x00auk1qmfwCy56dH7bfo+4jsjIbkXiNF
-	Py8LhDHqpag7Y3M0CkWiEKvdMIcgJ5JAp5LybORafLtsFTB5aXzU+ehZDwT0JwzbDJVRGHTX2c2Zj
-	UYIaPgOuNqdZRD4w4j4SgdGitxRIMxyjAv/mhet+Oc06/B0dKLFB3Ah9dtlIlwAW3lFr+MQiYUx0I
-	FkKCVk8NQSLmu0KmpPeagx0WYy54sRY9J1MQNXqs8UmccEueofDmvgnKJ2Ycx8lDiQBosX0/IswBx
-	uzwXl7dw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvdzB-000000055Nt-1QWl;
-	Mon, 08 Sep 2025 15:40:53 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D2D5E300230; Mon, 08 Sep 2025 17:40:52 +0200 (CEST)
-Date: Mon, 8 Sep 2025 17:40:52 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
-	Liam.Howlett@oracle.com, urezki@gmail.com, will@kernel.org,
-	kaleshsingh@google.com, rppt@kernel.org, leitao@debian.org,
-	coxu@redhat.com, surenb@google.com, akpm@linux-foundation.org,
-	luto@kernel.org, jpoimboe@kernel.org, changyuanl@google.com,
-	hpa@zytor.com, dvyukov@google.com, kas@kernel.org, corbet@lwn.net,
-	vincenzo.frascino@arm.com, smostafa@google.com,
-	nick.desaulniers+lkml@gmail.com, morbo@google.com,
-	andreyknvl@gmail.com, alexander.shishkin@linux.intel.com,
-	thiago.bauermann@linaro.org, catalin.marinas@arm.com,
-	ryabinin.a.a@gmail.com, jan.kiszka@siemens.com, jbohac@suse.cz,
-	dan.j.williams@intel.com, joel.granados@kernel.org,
-	baohua@kernel.org, kevin.brodsky@arm.com, nicolas.schier@linux.dev,
-	pcc@google.com, andriy.shevchenko@linux.intel.com,
-	wei.liu@kernel.org, bp@alien8.de, ada.coupriediaz@arm.com,
-	xin@zytor.com, pankaj.gupta@amd.com, vbabka@suse.cz,
-	glider@google.com, jgross@suse.com, kees@kernel.org,
-	jhubbard@nvidia.com, joey.gouly@arm.com, ardb@kernel.org,
-	thuth@redhat.com, pasha.tatashin@soleen.com,
-	kristina.martsenko@arm.com, bigeasy@linutronix.de,
-	lorenzo.stoakes@oracle.com, jason.andryuk@amd.com, david@redhat.com,
-	graf@amazon.com, wangkefeng.wang@huawei.com, ziy@nvidia.com,
-	mark.rutland@arm.com, dave.hansen@linux.intel.com,
-	samuel.holland@sifive.com, kbingham@kernel.org,
-	trintaeoitogc@gmail.com, scott@os.amperecomputing.com,
-	justinstitt@google.com, kuan-ying.lee@canonical.com, maz@kernel.org,
-	tglx@linutronix.de, samitolvanen@google.com, mhocko@suse.com,
-	nunodasneves@linux.microsoft.com, brgerst@gmail.com,
-	willy@infradead.org, ubizjak@gmail.com, mingo@redhat.com,
-	sohil.mehta@intel.com, linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, llvm@lists.linux.dev, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 13/18] kasan: arm64: x86: Handle int3 for inline KASAN
- reports
-Message-ID: <20250908154052.GG4067720@noisy.programming.kicks-ass.net>
-References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
- <9030d5a35eb5a3831319881cb8cb040aad65b7b6.1755004923.git.maciej.wieczor-retman@intel.com>
- <20250813151702.GO4067720@noisy.programming.kicks-ass.net>
- <nuzda7g3l2e4qeqdh6m4bmhlux6ywnrrh4ktivldljm2od7vou@z4wtuggklxei>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P196fo3a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757346367;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ZriZC5ZCFi8VYhXaUXVlHuq1MXLstgNz6E2jeOUAEIM=;
+	b=P196fo3ajbgLiR3YqS4tMxyIEp5ZP8wz1OpyNe66QHo5LkXJec4qKbWGiRiaLMxedrkDob
+	MaknStf/aQk4iETSxpKQ1i8UjGl2H2mB/aReBpyTTDnFD1uvDlc5xD50BhrCYejZb0+NYH
+	Vn04VMphmck2rtkBB6h0UzFo7swicKA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-SvW9cCAZPy6UZlECJc5rLw-1; Mon, 08 Sep 2025 11:46:05 -0400
+X-MC-Unique: SvW9cCAZPy6UZlECJc5rLw-1
+X-Mimecast-MFC-AGG-ID: SvW9cCAZPy6UZlECJc5rLw_1757346364
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3e04ea95c6cso2149988f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 08:46:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757346364; x=1757951164;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZriZC5ZCFi8VYhXaUXVlHuq1MXLstgNz6E2jeOUAEIM=;
+        b=XL9B4CV4sp6UVYvWvgQw8ydnuzhbuXPWodhdZMasQG85xRfZDtobRPyDoZOkHvdndD
+         qnA1ppbFFzdy/VQKaFDgOdtq61JlGpwlJ4ppO39OR7cTpvXDCKWW06nVXA/kJra9yyrS
+         YT1f8rfegt0nI0NOQeBTIG9QhvrnP7vKZcTHXKIAHvOFNSwRib2VZhDL7r9mm6eIA2mL
+         bVTFrv/pfIOBr+jE13i1nwuxS2hvpGJvciolsUW0Bj+mUxs77vA1RRcxKd8zbDQL/fWM
+         zJFdagIbpk8wa8qGFCyc5y6CRXRqEPmfVCrzwxAtgpEm3VyrvKSdXd+HyJedCciN9w7R
+         1jvA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1GuTkkYQ5O1ZcUw8HiE8FU5s9NpkHEJu3suAt6ZXE/7VaGeaSnXcwk2cd7ZrNRprIj7q+EKgb304=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9unM8faqnsmwsId8csFJeZsJ6VnrH5YYQ0T0vfgSAyMVvtIDn
+	StazP0AavbT6Hq/Z3am10VMJhDf1r9VSWH51IWdXpBPeLNGSpJt0wusToFLsSKBOZE7Ofl4C8C5
+	J1czFP1qwCS3F6f5e7LydAtQHt3wj4dWox0tjdiwD57s621eNVpamXPShOPqOcg==
+X-Gm-Gg: ASbGnctmtBLB1lGCOuGo+OZ44FPXZxbKqctlODkUSxsfqYGNUMCQzuMLzP7jJpBgq/n
+	plH7KScXzaRDXKA81jRwF/2IINCKFBr3wFAA+O0wRiZYy2k2TNuJb+8ACBXk9FJyL+EFmXgmwqg
+	qS8qDUOWDoBReHEt/5RgmAy7GX7EnYEtnKR6+8xfE8dCY+5/ESMB14qRimmdx6NmNxqwRx6CrYG
+	ntP+ztawaaZDLvR6ux42Qd81ObTDPVShhMpO5Yv3xsouBHSG7Wp5n1VQiQFru52UwvMaPgDmomm
+	k5+YZXC8cyBDy17sJ2IPsDE3W87r8lOwCViypci0HhXcWPUrBZ1pIYHqoerHUbd8GexckcLC3y9
+	RNDUXRu/BMXc8nRksnCsbemczlGL2PDcL2ivyKduZC42vDh/xL5tlK8JQBWKHZoqn
+X-Received: by 2002:a05:6000:2601:b0:3e4:64b0:a776 with SMTP id ffacd0b85a97d-3e64c4a5859mr6039909f8f.52.1757346363984;
+        Mon, 08 Sep 2025 08:46:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGH0L9/mCUrbfcy9B9f9kRjFruh5pYVslSI/dkJK5qtzud/rfRXHKTDbMjnJFVOPXLqfNNQtw==
+X-Received: by 2002:a05:6000:2601:b0:3e4:64b0:a776 with SMTP id ffacd0b85a97d-3e64c4a5859mr6039843f8f.52.1757346363314;
+        Mon, 08 Sep 2025 08:46:03 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f25:700:d846:15f3:6ca0:8029? (p200300d82f250700d84615f36ca08029.dip0.t-ipconnect.de. [2003:d8:2f25:700:d846:15f3:6ca0:8029])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e21e4c0e6fsm15532578f8f.17.2025.09.08.08.46.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Sep 2025 08:46:02 -0700 (PDT)
+Message-ID: <365c1ec2-cda6-4d94-895c-b2a795101857@redhat.com>
+Date: Mon, 8 Sep 2025 17:46:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nuzda7g3l2e4qeqdh6m4bmhlux6ywnrrh4ktivldljm2od7vou@z4wtuggklxei>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/16] mm: add vma_desc_size(), vma_desc_pages() helpers
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, "David S . Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ kexec@lists.infradead.org, kasan-dev@googlegroups.com
+References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
+ <d8767cda1afd04133e841a819bcedf1e8dda4436.1757329751.git.lorenzo.stoakes@oracle.com>
+ <20250908125101.GX616306@nvidia.com>
+ <e71b7763-4a62-4709-9969-8579bdcff595@lucifer.local>
+ <20250908133224.GE616306@nvidia.com>
+ <090675bd-cb18-4148-967b-52cca452e07b@lucifer.local>
+ <20250908142011.GK616306@nvidia.com>
+ <764d413a-43a3-4be2-99c4-616cd8cd3998@lucifer.local>
+ <20250908151637.GM616306@nvidia.com>
+ <8edb13fc-e58d-4480-8c94-c321da0f4d8e@redhat.com>
+ <20250908153342.GA789684@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20250908153342.GA789684@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 18, 2025 at 08:26:11AM +0200, Maciej Wieczor-Retman wrote:
-> On 2025-08-13 at 17:17:02 +0200, Peter Zijlstra wrote:
-> >On Tue, Aug 12, 2025 at 03:23:49PM +0200, Maciej Wieczor-Retman wrote:
-> >> Inline KASAN on x86 does tag mismatch reports by passing the faulty
-> >> address and metadata through the INT3 instruction - scheme that's setup
-> >> in the LLVM's compiler code (specifically HWAddressSanitizer.cpp).
-> >> 
-> >> Add a kasan hook to the INT3 handling function.
-> >> 
-> >> Disable KASAN in an INT3 core kernel selftest function since it can raise
-> >> a false tag mismatch report and potentially panic the kernel.
-> >> 
-> >> Make part of that hook - which decides whether to die or recover from a
-> >> tag mismatch - arch independent to avoid duplicating a long comment on
-> >> both x86 and arm64 architectures.
-> >> 
-> >> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> >
-> >Can we please split this into an arm64 and x86 patch. Also, why use int3
-> >here rather than a #UD trap, which we use for all other such cases?
+On 08.09.25 17:33, Jason Gunthorpe wrote:
+> On Mon, Sep 08, 2025 at 05:24:23PM +0200, David Hildenbrand wrote:
+>>>
+>>>> I think we need to be cautious of scope here :) I don't want to
+>>>> accidentally break things this way.
+>>>
+>>> IMHO it is worth doing when you get into more driver places it is far
+>>> more obvious why the VM_SHARED is being checked.
+>>>
+>>>> OK I think a sensible way forward - How about I add desc_is_cowable() or
+>>>> vma_desc_cowable() and only set this if I'm confident it's correct?
+>>>
+>>> I'm thinking to call it vma_desc_never_cowable() as that is much much
+>>> clear what the purpose is.
+>>
+>> Secretmem wants no private mappings. So we should check exactly that, not
+>> whether we might have a cow mapping.
 > 
-> Sure, two patches seem okay. I'll first add all the new functions and modify the
-> x86 code, then add the arm64 patch which will replace its die() + comment with
-> kasan_inline_recover().
-> 
-> About INT3 I'm not sure, it's just how it's written in the LLVM code. I didn't
-> see any justification why it's not #UD. My guess is SMD describes INT3 as an
-> interrupt for debugger purposes while #UD is described as "for software
-> testing". So from the documentation point INT3 seems to have a stronger case.
-> 
-> Does INT3 interfere with something? Or is #UD better just because of
-> consistency?
+> secretmem is checking shared for a different reason than many other places..
 
-INT3 from kernel space is already really tricky, since it is used for
-self-modifying code.
+I think many cases just don't want any private mappings.
 
-I suppose we *can* do this, but #UD is already set up to effectively
-forward to WARN and friends, and has UBSAN integration. Its just really
-weird to have KASAN do something else again.
+After all, you need a R/O file (VM_MAYWRITE cleared) mapped MAP_PRIVATE 
+to make is_cow_mapping() == false.
+
+And at that point, you just mostly have a R/O MAP_SHARED mapping IIRC.
+
+-- 
+Cheers
+
+David / dhildenb
+
