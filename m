@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E751DFE0B;
-	Mon,  8 Sep 2025 23:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F0F1B87F2;
+	Mon,  8 Sep 2025 23:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757373463; cv=none; b=o2yCZT/SwWuT16yOBK3hJvD6NrolM482KwUFdnWkkRa9rBvOwulASl593WpuxXMJfZCqYTyccDb4oQ15rsy7r4x7GPlaHVOZUw9wKZKDzY/1HpwGxFOIQYG/X8IuZbqoI4KlxDkBjs2FM9FO5mNW+0PTu8nPGrDsFMbYExH1cvI=
+	t=1757373894; cv=none; b=lyW9WRf9thYh05IHzoYHI5X0NKF8F219JBg6baIOXv3Bx7XjQqwNu+fx4cTsschE+xIHUqclo7BykfchHaG9XQzD1OljVdqCCgkH/wmYS9fbxe/3TQZPSre7W6hCYzo4WHuw8TJaQUAxpQB+RwKw7CRsUzJYxDFgZCZ0heW8f4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757373463; c=relaxed/simple;
-	bh=H/1lSf0qRkqLPIS21dDIq6+Jb5KinRAndOcezAcipC4=;
+	s=arc-20240116; t=1757373894; c=relaxed/simple;
+	bh=kknwVALPchxX0mj+Hxc56nDgnBNJk/z7KwE2dTVLSYI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sDJr5dXBb4hu2+iXAOXy+igaYSJ2cELzjZcHXJtHDzG7tT+AYXocDmXkrF+WzkCeq401SYrIJz2hVMyAwWfEmT5k2CO5H5MoHle79je7Tbwhxq0c/Q1P3DYG2tagkJOt8mk9Zw0S/tZrV9CyUT2xSPW9HEcu1mOnaIEsvj82Ja4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o/yhZAT6; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=iUFyZ8SWEGRoXrHMVkVRtvMcQKPcnLGBMV+lXINhLQBmYXy/F0xpWHf0TRIU/g4mQ/TSISM5O+QTjaRdm9AY77gHWquN654DtFOEjbFclLv+gt524mSPL64bU4c1WBtn3dx3xrtsXQc8EEkNa1g4cQkmaJDF+wSKt7VVRWO2VHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=G16NZRd0; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o/yhZAT6"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G16NZRd0"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CMlqYlKj+ILUokIqP1ABAMFD7Ot5oBLbcsJFMFm2zE0=; b=o/yhZAT6Pleqpfj3cap4+Ocr0X
-	SQndNm93uEb+a4QqInydfI6lMJSJFzsSu3/0qeMTKdhPtlmWw3TUQRbR6L2wKk2W3Fv+UH9KsOJEg
-	9qPRFInLAK8DjwwP3kbclODQZmsO+zdGm2eIzKDYqjx3wV8Z9WwBemPbQiE4A+eNMuh7m64z6qIdV
-	KXBfJtcalLtNb7nUQOkOJ5v6vc4bBx6ZTya7R+MDIox9Nxyg/2OCB4wbhLPO78J0Opb4io0rwvic4
-	NDpaGlW9vP1blgirQfaegykINHE1UsAXggKwlIZNRbsS5mNDQybb9YhDkcTYBLtgKyHdfGed+PEsS
-	przXJOJw==;
+	bh=l95PSEtUbGHnCqBRekzfUsDtN3LLag+0o85iItgBhQ0=; b=G16NZRd0OjOFf1g2Psq/MdTzvm
+	v91ln3LmWVFnFMi+uvsezVYTDJRvFDq0rm+qXbNnrKgQzKp7L2h5nEh3qcKPlhtNA8mXbED0cSylL
+	nHO6Z5raIuuJ/pNFkd4+DdNWvOVEDzmHGDdu1NMU7VQb7TvC8+P9Quc05a0GI/iImkMQ7Zt8guckS
+	a9ZKaJLwOBREugd6GpEAw6/q5/tUHVFZTav8pjEknyMEFOX/KEdNmghtBsf2U8oB6MOXqGUfGLB0o
+	0NuBBesQaX0J3yjT/ZsJXeH/2ssPtlucmGvqvwztlZEaNQeIeo7xIlmzYnoY4WknAfy71gIqPR8Zi
+	hAFVr42g==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvl6s-00000002unf-1xHe;
-	Mon, 08 Sep 2025 23:17:18 +0000
-Message-ID: <c0d7df5f-ac43-4e15-8400-155bf87d5e77@infradead.org>
-Date: Mon, 8 Sep 2025 16:17:16 -0700
+	id 1uvlEC-00000002wVg-0YFq;
+	Mon, 08 Sep 2025 23:24:52 +0000
+Message-ID: <b85f833d-1da7-4e4e-8258-7358c9d5a0b2@infradead.org>
+Date: Mon, 8 Sep 2025 16:24:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,101 +39,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/16] doc: update porting, vfs documentation for
- mmap_[complete, abort]
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
- Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, "David S . Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
- Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>,
- Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
- kexec@lists.infradead.org, kasan-dev@googlegroups.com,
- Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
- <1ceb56fec97f891df5070b24344bf2009aca6655.1757329751.git.lorenzo.stoakes@oracle.com>
+Subject: Re: [PATCH] docs: update the guidance for Link: tags
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linuxfoundation.org>, linus.walleij@linaro.org
+References: <87segwyc3p.fsf@trenco.lwn.net>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <1ceb56fec97f891df5070b24344bf2009aca6655.1757329751.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <87segwyc3p.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi--
 
-On 9/8/25 4:10 AM, Lorenzo Stoakes wrote:
-> We have introduced the mmap_complete() and mmap_abort() callbacks, which
-> work in conjunction with mmap_prepare(), so describe what they used for.
+
+On 9/8/25 12:32 PM, Jonathan Corbet wrote:
+> As stated definitively by Linus, the use of Link: tags should be limited to
+> situations where there is additional useful information to be found at the
+> far end of the link.  Update our documentation to reflect that policy, and
+> to remove the suggestion for a Git hook to add those tags automatically.
 > 
-> We update both the VFS documentation and the porting guide.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Link: https://lore.kernel.org/all/CAHk-=wh5AyuvEhNY9a57v-vwyr7EkPVRUKMPwj92yF_K0dJHVg@mail.gmail.com/
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  Documentation/filesystems/porting.rst |  9 +++++++
->  Documentation/filesystems/vfs.rst     | 35 +++++++++++++++++++++++++++
->  2 files changed, 44 insertions(+)
+>  Documentation/maintainer/configure-git.rst | 28 ----------------------
+>  Documentation/process/5.Posting.rst        |  7 +++---
+>  2 files changed, 3 insertions(+), 32 deletions(-)
 > 
-
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index 486a91633474..172d36a13e13 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-
-> @@ -1236,6 +1240,37 @@ otherwise noted.
->  	file-backed memory mapping, most notably establishing relevant
->  	private state and VMA callbacks.
+> diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
+> index 0a36831814ea..0c21f203cf7a 100644
+> --- a/Documentation/maintainer/configure-git.rst
+> +++ b/Documentation/maintainer/configure-git.rst
+> @@ -28,31 +28,3 @@ You may also like to tell ``gpg`` which ``tty`` to use (add to your shell
+>  rc file)::
 >  
-> +``mmap_complete``
-> +	If mmap_prepare is provided, will be invoked after the mapping is fully
-
-s/mmap_prepare/mmap_complete/ ??
-
-> +	established, with the mmap and VMA write locks held.
-> +
-> +	It is useful for prepopulating VMAs before they may be accessed by
-> +	users.
-> +
-> +	The hook MUST NOT release either the VMA or mmap write locks. This is
-
-You could also do **bold** above:
-
-	The hook **MUST NOT** release ...
-
-
-> +	asserted by the mmap logic.
-> +
-> +	If an error is returned by the hook, the VMA is unmapped and the
-> +	mmap() operation fails with that error.
-> +
-> +	It is not valid to specify this hook if mmap_prepare is not also
-> +	specified, doing so will result in an error upon mapping.
+>  	export GPG_TTY=$(tty)
+> -
+> -
+> -Creating commit links to lore.kernel.org
+> -----------------------------------------
+> -
+> -The web site https://lore.kernel.org is meant as a grand archive of all mail
+> -list traffic concerning or influencing the kernel development. Storing archives
+> -of patches here is a recommended practice, and when a maintainer applies a
+> -patch to a subsystem tree, it is a good idea to provide a Link: tag with a
+> -reference back to the lore archive so that people that browse the commit
+> -history can find related discussions and rationale behind a certain change.
+> -The link tag will look like this::
+> -
+> -    Link: https://lore.kernel.org/r/<message-id>
+> -
+> -This can be configured to happen automatically any time you issue ``git am``
+> -by adding the following hook into your git::
+> -
+> -	$ git config am.messageid true
+> -	$ cat >.git/hooks/applypatch-msg <<'EOF'
+> -	#!/bin/sh
+> -	. git-sh-setup
+> -	perl -pi -e 's|^Message-I[dD]:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
+> -	test -x "$GIT_DIR/hooks/commit-msg" &&
+> -		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
+> -	:
+> -	EOF
+> -	$ chmod a+x .git/hooks/applypatch-msg
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index 22fa925353cf..9999bcbdccc9 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -207,10 +207,9 @@ document with a specification implemented by the patch::
+>  
+>  	Link: https://example.com/somewhere.html  optional-other-stuff
+>  
+> -Many maintainers when applying a patch also add this tag to link to the
+> -latest public review posting of the patch; often this is automatically done
+> -by tools like b4 or a git hook like the one described in
+> -'Documentation/maintainer/configure-git.rst'.
+> +As per guidance from the Chief Penguin, a Link: tag should only be added to
+> +a commit if it leads to useful information that is not found in the commit
+> +itself.
+>  
+>  If the URL points to a public bug report being fixed by the patch, use the
+>  "Closes:" tag instead::
 
 -- 
 ~Randy
-
