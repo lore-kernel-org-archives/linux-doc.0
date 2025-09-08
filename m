@@ -1,125 +1,126 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B465A1C3BFC;
-	Mon,  8 Sep 2025 15:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FA430FC22;
+	Mon,  8 Sep 2025 15:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757346037; cv=none; b=pOLI1DZb6mI0PVa5rOQI7IV/aAyq1347p/EXvOQLowRWZd9Vd+dGeDYDio5g2QsijrwnB5PqgmHJAOf5Go8K/9bJhihNRh2Ute/LP1ENcy0fp4A22d7uElGHhdPcFRpRuBW5v9SdJYf4dsNEev6/7zc4P0jENb3r3vXOq25dYLI=
+	t=1757346068; cv=none; b=Q/oxIFPow8D/vXH08xq2MNxqeMoftRK+GNQYcIf9/5Qp4MciFg+p65pUp5XAnzOCSV478P+ystUaNkdeueVKcfWBmCnJrGV9Y5aWiM8f5Cvp4SqwOzrksJ/iTvQUIVlgfWe/vCY0GZXhTRcr3xqfAn1mpfvyTk96E0Dv47aB7vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757346037; c=relaxed/simple;
-	bh=qwriLjbmcAGst/zCmLUrZmks1+AuUfZH39KvUOcOH0Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RFQVd9M2eaSnVbjweXbNdcyXx61wjQbTiaEhQbvXuHBANfqc2+zM3dGYLf1Q2bumoAsXhIbekMkJ6gpEujHBc0vAG3iVfQrdeeKISKaoaCYVVrV8aMNmAKWcqXkqfnolAucum10caK8imLEsINXfEVDA/DL+2IvM09luTdLFoNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjOanSVC; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757346068; c=relaxed/simple;
+	bh=Z6jrl4mLAXX6r9DE8sEMl+1MLl0DAZ0bEBGDAozfhTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFA8Ofq9WWvLvMwHtjbZM84M3UTXljOcg4evZQrfvODa0LCyfsieZDsQOyak0wWGrmuwKm1ILfQw9DHHyzIaIDrk2nVIe1nhGVma7Eh05X32qJgja2ZdvbZmSpz4GZ5tKDakpnPj+3GgADaABDKIFDcYTxJ0cwWAlPzx6DfyJ/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GBi0aSjX; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjOanSVC"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4b5d5b1bfa3so43206091cf.1;
-        Mon, 08 Sep 2025 08:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757346034; x=1757950834; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mmlBlDpl+4/RqcC9nUmRT5mg0GKEaeGb1rCCM8xHueA=;
-        b=cjOanSVCQmSsQ+LhkaIc8PG0AetM8KahhpKaq0v4uZPUOf/DJSDdTi5k3Znu/n78+i
-         6hxnx6t7pkUnXpKPIUn18MY1gUalAJgjOuJdHVqbN0hih74EF9Bt6byDhwV5NddSG6z6
-         CDGVMTpqZb6KPp/hWb/C7Gi9AFIEaDn0FijpfeGziJa481mRYNTg5zoRjJSl+37GezKF
-         N2EbWuzVsRzxOQKstJrpY/gsAhCm3g8NfOBvW+95BTgY9DlkzM9ADHtfgCU433izM/yN
-         39WQ+jvhAyPOP24MyGEnEBSUnlp2CK29qxzUuMuXF18w8xWjuOE+nrqxrZU9BuwEl3yG
-         Z6XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757346034; x=1757950834;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mmlBlDpl+4/RqcC9nUmRT5mg0GKEaeGb1rCCM8xHueA=;
-        b=bbQFEefL2hp5DeDe+6ahDG7HCPrQ/H64zOI00Pjqk2WplpA6qfUTDdZGK89HU5elzP
-         TuZ4mGwuWDv5t4b1k3ofHHMFeqrwCzrh1OPi5ZRUI7pCXLqy2hnl6ryjNXKqnTW1jVe2
-         wgwXc4xrWeZqxQnSrdR2+uP8EhxYGiuQFL9wRFXt6bbQ9eVD9u74pW+TgVWRzVD36SLM
-         7au5kOhJnQjm3INHSTGej20fBiHaNXYNbNP17dV0VEKjkVKaWdfVXz1JyryXrc5nKzXP
-         AeCHI9D5AMYzQMyqa8py6h06EOi1aJ4qd42pubN7Ms3Q7lbSEKbfvsOhNdKz4bqTPO+b
-         2fvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0cqPRnCq8kqOwNlDP13fqv6OvokQp9GYY5nw6vzfcyWNe5MFbQpdQN+nlCob3kMmCno30AnDKB4ivae3j@vger.kernel.org, AJvYcCXJ3GIBsqgx/AxmrWJDXQ7IuPSnNTDdzVftE+JRemalsHZsW5E7Moy2fr+XLctJYRFAv+WAhPchjerOZzmwMA==@vger.kernel.org, AJvYcCXuajJMU2pxJvUQwIIPRk96shn1J60gycJ9ituECNwZgFw3ZEoaqLci00jpmVNX9p6TbqhrQ2XT3jg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvhJD8ysZayR42W0NJkbU/qjD/wo6oRr8walDa6kUvbEe9q1c8
-	ed/WfT+SZkp5jIRQtT9IKwbJnoBxXfk0B8qNi0naAP2zJ5u4Mxl8fS7B
-X-Gm-Gg: ASbGnct8hs47PuOprxwapvpfkCoIew7M5H2cC8hvIT1A2yIvIKAE4Hfs7A1IiOJ32W9
-	8nC/9NIjMfOLEce0WIAXMBx2gmxgMR4lkck0VyBpmJSa6yWlx14OV2tUmtV8sF8i7erExoESsxZ
-	VnfoWh6wtCrMhspnUB4Jl6FW6K5cTbk+mTsj4pM+hlTWXnsxdtdmLhFRf02cY7PHjYHY/kkWcI1
-	DB/si0xgwANOifqTd7he857TMgjaEGfPBfzB8hk7+56FQ0qs00IfkTmpSzGpxlif5xxKzmfDE9K
-	WuTGsQ91DacJm7zruX/8MxADk7LG2AjZTYqT/SU6vfHoh1xsejqq2eOuesd0jEIgHWpkdfa044q
-	5DSbj24SYYjVr97BBhze8am8zx8W2Nwzu0n9cxe4J6LJLGzWcJfBbJizSP588FNubqaJNqM5wtO
-	QLsILFk2v6+Io=
-X-Google-Smtp-Source: AGHT+IFU1PZ+J2iW9oBqGqqd64Y3TTikMQfv+fShqzgZXQJgjFCltE/gj+GjX+w0jAHOPjKr8vx3MA==
-X-Received: by 2002:a05:622a:19a5:b0:4b3:15d4:1c1d with SMTP id d75a77b69052e-4b5f84bdc33mr88981991cf.84.1757346034372;
-        Mon, 08 Sep 2025 08:40:34 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1145:4:1456:e851:ddd5:be9f? ([2620:10d:c091:500::3:4e10])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f7ac9f8sm106132511cf.52.2025.09.08.08.40.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Sep 2025 08:40:33 -0700 (PDT)
-Message-ID: <1d7a945c-70db-4446-85ab-19f5af88e204@gmail.com>
-Date: Mon, 8 Sep 2025 11:40:30 -0400
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GBi0aSjX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=i/NTHz2QW7PrsPI9dqlnUBz3BBd0hMA6KRgZuxingf0=; b=GBi0aSjXvmeOh74/NWSi3Netvt
+	umXLRbKELo8BXdYxPT9vJ2FKLymdmCKs9+em8KbrcqX5x00auk1qmfwCy56dH7bfo+4jsjIbkXiNF
+	Py8LhDHqpag7Y3M0CkWiEKvdMIcgJ5JAp5LybORafLtsFTB5aXzU+ehZDwT0JwzbDJVRGHTX2c2Zj
+	UYIaPgOuNqdZRD4w4j4SgdGitxRIMxyjAv/mhet+Oc06/B0dKLFB3Ah9dtlIlwAW3lFr+MQiYUx0I
+	FkKCVk8NQSLmu0KmpPeagx0WYy54sRY9J1MQNXqs8UmccEueofDmvgnKJ2Ycx8lDiQBosX0/IswBx
+	uzwXl7dw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uvdzB-000000055Nt-1QWl;
+	Mon, 08 Sep 2025 15:40:53 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D2D5E300230; Mon, 08 Sep 2025 17:40:52 +0200 (CEST)
+Date: Mon, 8 Sep 2025 17:40:52 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
+	Liam.Howlett@oracle.com, urezki@gmail.com, will@kernel.org,
+	kaleshsingh@google.com, rppt@kernel.org, leitao@debian.org,
+	coxu@redhat.com, surenb@google.com, akpm@linux-foundation.org,
+	luto@kernel.org, jpoimboe@kernel.org, changyuanl@google.com,
+	hpa@zytor.com, dvyukov@google.com, kas@kernel.org, corbet@lwn.net,
+	vincenzo.frascino@arm.com, smostafa@google.com,
+	nick.desaulniers+lkml@gmail.com, morbo@google.com,
+	andreyknvl@gmail.com, alexander.shishkin@linux.intel.com,
+	thiago.bauermann@linaro.org, catalin.marinas@arm.com,
+	ryabinin.a.a@gmail.com, jan.kiszka@siemens.com, jbohac@suse.cz,
+	dan.j.williams@intel.com, joel.granados@kernel.org,
+	baohua@kernel.org, kevin.brodsky@arm.com, nicolas.schier@linux.dev,
+	pcc@google.com, andriy.shevchenko@linux.intel.com,
+	wei.liu@kernel.org, bp@alien8.de, ada.coupriediaz@arm.com,
+	xin@zytor.com, pankaj.gupta@amd.com, vbabka@suse.cz,
+	glider@google.com, jgross@suse.com, kees@kernel.org,
+	jhubbard@nvidia.com, joey.gouly@arm.com, ardb@kernel.org,
+	thuth@redhat.com, pasha.tatashin@soleen.com,
+	kristina.martsenko@arm.com, bigeasy@linutronix.de,
+	lorenzo.stoakes@oracle.com, jason.andryuk@amd.com, david@redhat.com,
+	graf@amazon.com, wangkefeng.wang@huawei.com, ziy@nvidia.com,
+	mark.rutland@arm.com, dave.hansen@linux.intel.com,
+	samuel.holland@sifive.com, kbingham@kernel.org,
+	trintaeoitogc@gmail.com, scott@os.amperecomputing.com,
+	justinstitt@google.com, kuan-ying.lee@canonical.com, maz@kernel.org,
+	tglx@linutronix.de, samitolvanen@google.com, mhocko@suse.com,
+	nunodasneves@linux.microsoft.com, brgerst@gmail.com,
+	willy@infradead.org, ubizjak@gmail.com, mingo@redhat.com,
+	sohil.mehta@intel.com, linux-mm@kvack.org,
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, llvm@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 13/18] kasan: arm64: x86: Handle int3 for inline KASAN
+ reports
+Message-ID: <20250908154052.GG4067720@noisy.programming.kicks-ass.net>
+References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
+ <9030d5a35eb5a3831319881cb8cb040aad65b7b6.1755004923.git.maciej.wieczor-retman@intel.com>
+ <20250813151702.GO4067720@noisy.programming.kicks-ass.net>
+ <nuzda7g3l2e4qeqdh6m4bmhlux6ywnrrh4ktivldljm2od7vou@z4wtuggklxei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/7] selftests: prctl: introduce tests for disabling
- THPs completely
-Content-Language: en-GB
-To: Mark Brown <broonie@kernel.org>
-Cc: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- david@redhat.com, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- corbet@lwn.net, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- hannes@cmpxchg.org, baohua@kernel.org, shakeel.butt@linux.dev,
- riel@surriel.com, laoar.shao@gmail.com, dev.jain@arm.com,
- baolin.wang@linux.alibaba.com, npache@redhat.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- vbabka@suse.cz, jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
- sj@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Aishwarya.TCV@arm.com
-References: <20250815135549.130506-1-usamaarif642@gmail.com>
- <20250815135549.130506-7-usamaarif642@gmail.com>
- <c8249725-e91d-4c51-b9bb-40305e61e20d@sirena.org.uk>
- <5F7011AF-8CC2-45E0-A226-273261856FF0@nvidia.com>
- <620a27cc-7a5f-473f-8937-5221d257c066@sirena.org.uk>
- <abe39fc3-37a3-416d-b868-345f4e577427@gmail.com>
- <771871a1-9ee7-472d-b8fd-449565c5ae80@sirena.org.uk>
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <771871a1-9ee7-472d-b8fd-449565c5ae80@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nuzda7g3l2e4qeqdh6m4bmhlux6ywnrrh4ktivldljm2od7vou@z4wtuggklxei>
 
-
-
-On 08/09/2025 16:38, Mark Brown wrote:
-> On Fri, Sep 05, 2025 at 08:40:25PM +0100, Usama Arif wrote:
+On Mon, Aug 18, 2025 at 08:26:11AM +0200, Maciej Wieczor-Retman wrote:
+> On 2025-08-13 at 17:17:02 +0200, Peter Zijlstra wrote:
+> >On Tue, Aug 12, 2025 at 03:23:49PM +0200, Maciej Wieczor-Retman wrote:
+> >> Inline KASAN on x86 does tag mismatch reports by passing the faulty
+> >> address and metadata through the INT3 instruction - scheme that's setup
+> >> in the LLVM's compiler code (specifically HWAddressSanitizer.cpp).
+> >> 
+> >> Add a kasan hook to the INT3 handling function.
+> >> 
+> >> Disable KASAN in an INT3 core kernel selftest function since it can raise
+> >> a false tag mismatch report and potentially panic the kernel.
+> >> 
+> >> Make part of that hook - which decides whether to die or recover from a
+> >> tag mismatch - arch independent to avoid duplicating a long comment on
+> >> both x86 and arm64 architectures.
+> >> 
+> >> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> >
+> >Can we please split this into an arm64 and x86 patch. Also, why use int3
+> >here rather than a #UD trap, which we use for all other such cases?
 > 
->> diff --git a/tools/testing/selftests/mm/prctl_thp_disable.c b/tools/testing/selftests/mm/prctl_thp_disable.c
->> index 89ed0d7db1c16..0afcdbad94f3d 100644
->> --- a/tools/testing/selftests/mm/prctl_thp_disable.c
->> +++ b/tools/testing/selftests/mm/prctl_thp_disable.c
->> @@ -9,6 +9,7 @@
->>  #include <string.h>
->>  #include <unistd.h>
->>  #include <sys/mman.h>
->> +#include <linux/mman.h>
->>  #include <sys/prctl.h>
->>  #include <sys/wait.h>
+> Sure, two patches seem okay. I'll first add all the new functions and modify the
+> x86 code, then add the arm64 patch which will replace its die() + comment with
+> kasan_inline_recover().
 > 
->> should fix this issue?
+> About INT3 I'm not sure, it's just how it's written in the LLVM code. I didn't
+> see any justification why it's not #UD. My guess is SMD describes INT3 as an
+> interrupt for debugger purposes while #UD is described as "for software
+> testing". So from the documentation point INT3 seems to have a stronger case.
 > 
-> That seems to do the right thing for me, I'm slightly nervous about
-> collisions with glibc in future (it's been an issue in the past when
-> they're not using our headers) but I guess we can deal with that if it
-> actually comes up.
+> Does INT3 interfere with something? Or is #UD better just because of
+> consistency?
 
-I have seen this included in another selftest as well with MADV_COLLAPSE.
+INT3 from kernel space is already really tricky, since it is used for
+self-modifying code.
 
-I think best to have it. I will send a patch with it.
-
-Thanks for confirming!
+I suppose we *can* do this, but #UD is already set up to effectively
+forward to WARN and friends, and has UBSAN integration. Its just really
+weird to have KASAN do something else again.
