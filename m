@@ -1,126 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6AA27F4F5;
-	Mon,  8 Sep 2025 09:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA3C2F1FD5
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 09:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757324176; cv=none; b=TcX+SQCnHRsj5+RFKXBeEFGsOetvKYltfySFK9yfiel1peAKARk6G/S5yFYuNK9S7GZQwqKC89gOFVdDRlKsr6Am5Rc4VWUjcxYo31sQFfyfTMibN3ntFRj40nr5A1dgbRz67FumhtR8ICu5NfijlzrNcP0zaByR8+tMQMLH1JE=
+	t=1757324381; cv=none; b=PYeqtFiKKV+FLQNpPUOIQ1BZODvrU/AlHSpD/9IdZkvaZsOMrKFGLsttzns0ZNeTDdoyJQ4KTBRCzy9KAYkqMA7txGpmIAQqWAo6S7y/jzqbhDLL5d52nocVoa96CslqHlI0vxjxpBYgU8suNeCZpoi1soK5eDIUuASlEyn7yhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757324176; c=relaxed/simple;
-	bh=wTJIKbb7SQ1n1SinbgKp6nbexsmY5xc9jbdV11ciElk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NCoJcqV45+jtooV5iLQA87uPILC+q1YWScdUFDo0PXX4DGXWb81/XQOaMtJW+moiq9Loso/7+L/Gi3xgDFFGTByVXfOktwI2PBdrl0qjDm2IABlf5FcgB+e+ZeilVgrCk+4RAde6G6otCpLTsAE7sAZyy9d5TzMtnvhJU5GquC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwHlHsPH; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757324381; c=relaxed/simple;
+	bh=frn6MTJWR//VJW92bdNtX5qG2M4LrHlltRbZnb5+cSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XDNtMg7G0uzu5CQHu1LE1L+RJITkOI4Cobsaqnk+Z2V4rOu7XuKYkrouV9QAnCaCGlaxuQm+YRibU1YXM7gFgSc+Y4Putp3EzXnR/ClnBgdxt7AHB+pxrNRhjbju7w1/CcKBTuPsKT9sTVhWNFsdmLB0s4SdBlQKjagXIa4kOJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FhHuYryH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwHlHsPH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757324175; x=1788860175;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=wTJIKbb7SQ1n1SinbgKp6nbexsmY5xc9jbdV11ciElk=;
-  b=BwHlHsPHP3SzemgupF09ytMzZm0+k21xCwJ5JCVKswMbfjqNumOUxDzD
-   GY7NQvXnnBfxCaUMY9VrcEFTDuEG2ZeZ0wNMBE82Umk00uXZO7OzZALW/
-   RtSGA6rp28NasR4nO+oHO6/Sdnc0w1CS4FHZy7jFmkgnnGgTGKGZDwR1K
-   4G02SO0HWahSxiE6o1wvsgBDXDT2tqZ1t0pd/IjUXMWx3oMLOx+43rNVg
-   u09KwT/tQcZ9GkT7ok4YiKrKhyxLuQH1jH4X5vbDFxk4Cea0mml0PFIZ/
-   knOjNJaJ5r68aktbFC4koXYS1NH/+bw0uupqly19q9i7hc3oKAhrkkP9V
-   A==;
-X-CSE-ConnectionGUID: kqDkZUqLQZKp+husSV6bng==
-X-CSE-MsgGUID: bS6d8BP3SzCS0B/7Z3ZHMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="59273467"
-X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; 
-   d="scan'208";a="59273467"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 02:36:13 -0700
-X-CSE-ConnectionGUID: 8rx//6F7QnmJSxVMkP7RhA==
-X-CSE-MsgGUID: 8PNtX6E4QZuHCeH7CqapDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; 
-   d="scan'208";a="172010227"
-Received: from carterle-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.204])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 02:36:08 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>, Len Brown
- <len.brown@intel.com>, linux-pm@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Subject: Re: [PATCH v4] kernel.h: add comments for system_states
-In-Reply-To: <b47c91a4f4c337ec8e2fdb663e0a90fd62b5c3b6.camel@HansenPartnership.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250904063631.2364995-1-rdunlap@infradead.org>
- <6089e22ddfdc135040cdeb69329d817846026728@intel.com>
- <20250905140104.42418fba@foz.lan>
- <34fb6a27a2c17c22c0ac93bebb0bbfd1a04d1833@intel.com>
- <b47c91a4f4c337ec8e2fdb663e0a90fd62b5c3b6.camel@HansenPartnership.com>
-Date: Mon, 08 Sep 2025 12:36:04 +0300
-Message-ID: <a016a06ceaa05b446d06d669cc8bac43a64c72c8@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FhHuYryH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757324377;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lXf6ZTHJqw350jIUEEtaGMR8Q7V7MNq8Dan21RyLa+w=;
+	b=FhHuYryHrZSN9dHG8qOXN/2ULFDVdfy5HFrKzO9/wARIxiPdAsrZVHFVnGMktkJ7vLLLgw
+	roVlTjubs2hSseXz2v6eF68JwdJRA0LeKsxWMuWgjzH5nAa1NxIOh36RmuYg5cb/UcD7An
+	1N8l61hl7qwijT1QB8I7NJzE2t9+rrM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-329-79M4r4PrOVOKNPsCyXw5pw-1; Mon,
+ 08 Sep 2025 05:39:33 -0400
+X-MC-Unique: 79M4r4PrOVOKNPsCyXw5pw-1
+X-Mimecast-MFC-AGG-ID: 79M4r4PrOVOKNPsCyXw5pw_1757324371
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AA3911800365;
+	Mon,  8 Sep 2025 09:39:30 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.45.224.31])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DB3571800446;
+	Mon,  8 Sep 2025 09:39:25 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michal Schmidt <mschmidt@redhat.com>,
+	Petr Oros <poros@redhat.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: [PATCH net-next v5 0/5] dpll: zl3073x: Add support for devlink flash
+Date: Mon,  8 Sep 2025 11:39:19 +0200
+Message-ID: <20250908093924.1952317-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Sat, 06 Sep 2025, James Bottomley <James.Bottomley@HansenPartnership.com=
-> wrote:
-> On Fri, 2025-09-05 at 16:06 +0300, Jani Nikula wrote:
->> On Fri, 05 Sep 2025, Mauro Carvalho Chehab
->> <mchehab+huawei@kernel.org> wrote:
->> > Em Fri, 05 Sep 2025 12:02:37 +0300
->> > Jani Nikula <jani.nikula@linux.intel.com> escreveu:
->> >=20
->> > > On Wed, 03 Sep 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
-> [...]
->> > > > +++ linux-next-20250819/Documentation/driver-api/pm/devices.rst
->> > > > @@ -241,6 +241,14 @@ before reactivating its class I/O queues
->> > > > =C2=A0More power-aware drivers might prepare the devices for
->> > > > triggering system wakeup
->> > > > =C2=A0events.
->> > > > =C2=A0
->> > > > +System states available for drivers
->> > > > +-----------------------------------
->> > > > +
->> > > > +These system states are available for drivers to help them
->> > > > determine how to
->> > > > +handle state transitions.
->> > > > +
->> > > > +.. kernel-doc:: include/linux/kernel.h
->> > > > +=C2=A0=C2=A0 :doc: General system_states available for drivers
->> > > > =C2=A0
->> > > > =C2=A0Call Sequence Guarantees
->> > > > =C2=A0------------------------
->> > > > =C2=A0
->> > >=20
->> >=20
->> > If the problem is with "extern" before enum, fixing kdoc be
->> > fairly trivial.
->>=20
->> The non-trivial part is deciding whether you're documenting the enum
->> type or the variable. Both are equally valid options.
->
-> If you're building a system that's easy to maintain, it shouldn't be at
-> all non trivial: you add the documentation where someone adding a new
-> state would find it.  i.e. on the enum.  If you document the variable,
-> no-one adding a new state would likely look at it.  I get that in this
-> case they're one after the other, but think about the precedent for
-> when they're not.
+Add functionality for accessing device hardware registers, loading
+firmware bundles, and accessing the device's internal flash memory,
+and use it to implement the devlink flash functionality.
 
-Ah, I meant deciding what the *tool* should do with the documentation
-when the type and the variable are bundled together like here.
+Patch breakdown:
+Patch1: helpers to access hardware registers
+Patch2: low level functions to access flash memory
+Patch3: support to load firmware bundles
+Patch4: refactoring device initialization and helper functions
+        for stopping and resuming device normal operation
+Patch5: devlink .flash_update callback implementation
 
-BR,
-Jani.
+Changes:
+v5:
+* additional fixes for issues reported by Jakub
+v4:
+* fixed issues reported by Jakub (see patches' changelogs)
+v3:
+* fixed issues reported by Przemek (see patches' changelogs)
+v2:
+* fixed several warnings found by patchwork bot
+* added includes into new .c files
+* fixed typos
+* fixed uninitialized variable
 
---=20
-Jani Nikula, Intel
+Ivan Vecera (5):
+  dpll: zl3073x: Add functions to access hardware registers
+  dpll: zl3073x: Add low-level flash functions
+  dpll: zl3073x: Add firmware loading functionality
+  dpll: zl3073x: Refactor DPLL initialization
+  dpll: zl3073x: Implement devlink flash callback
+
+ Documentation/networking/devlink/zl3073x.rst |  14 +
+ drivers/dpll/zl3073x/Makefile                |   2 +-
+ drivers/dpll/zl3073x/core.c                  | 362 +++++++---
+ drivers/dpll/zl3073x/core.h                  |  33 +
+ drivers/dpll/zl3073x/devlink.c               | 156 ++++-
+ drivers/dpll/zl3073x/devlink.h               |   3 +
+ drivers/dpll/zl3073x/flash.c                 | 665 +++++++++++++++++++
+ drivers/dpll/zl3073x/flash.h                 |  29 +
+ drivers/dpll/zl3073x/fw.c                    | 419 ++++++++++++
+ drivers/dpll/zl3073x/fw.h                    |  52 ++
+ drivers/dpll/zl3073x/regs.h                  |  51 ++
+ 11 files changed, 1695 insertions(+), 91 deletions(-)
+ create mode 100644 drivers/dpll/zl3073x/flash.c
+ create mode 100644 drivers/dpll/zl3073x/flash.h
+ create mode 100644 drivers/dpll/zl3073x/fw.c
+ create mode 100644 drivers/dpll/zl3073x/fw.h
+
+-- 
+2.49.1
+
