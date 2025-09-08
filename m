@@ -1,147 +1,111 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68DD16F0FE;
-	Mon,  8 Sep 2025 04:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506252206A9
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 04:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757304176; cv=none; b=uSPqjGSYVs01kVzaCNHb+IErCniDUb7tyf8LDPRGYZGSKqb9Z745uizTTMFutzREJAY5bV0zge5Rg3m35ABLx7KYgHzS3JPDwyRtPjScX4utGiNnKtont2G/Cbq6grtwU/q/CRUVYUSpTts3JTg61PDg74sSAif1g/tjDE8JzKQ=
+	t=1757307136; cv=none; b=WVQy96Bs3/GfumiL/fK56GWQIrLxSBOx7XR+i6dO1znS39aEVO+yr02Fo9ZncpMB9pS0n2nKauUlFU5f+S3xInqOAG25CVX1r9zXFUr/EFbfpzGDBO9amxwwy77qRtpN6uHI4NOdto/OWFo2mhrNdtY7c9VvdXuHL0iebKSJicc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757304176; c=relaxed/simple;
-	bh=Mw7y5CKpjj1kCLIHq49+s1B3tHAv6to+LItwIXxncn4=;
+	s=arc-20240116; t=1757307136; c=relaxed/simple;
+	bh=vSKC/kmQeqND3A2rQlChRNGe1FptQNXba+tF78DaMzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uTWCUBbVQNWKMVDA+y/UOoeqhg6HuUg8qBBZ4NzbgXABkHVWjecC/33j+tNhJLtIiRyf8ugZB8JSsd2FrqPwGc5Rd+CxIoTko3qGTnzIXLaHEW85Yb+ysssFlMvK/tx+BTMw3JD9lWlzG1xmRWhlEmInLnzY70TwkFASwEs7IJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au; spf=pass smtp.mailfrom=gandalf.ozlabs.org; dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b=tvyXn3ui; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.dropbear.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gandalf.ozlabs.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gibson.dropbear.id.au header.i=@gibson.dropbear.id.au header.b="tvyXn3ui"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gibson.dropbear.id.au; s=202508; t=1757304169;
-	bh=+DVku2GpjSU8Pe98enb9DbHLBpEscK8lb8VBTFVwSS4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tvyXn3ui3/qGGNbGkyZvGREWFbduw3vm8b1i8Od1Yv+s+WAICJ1GktEsrGf9dbsMB
-	 X7+/vwj09HO+4z+LzInVma5oPjiu8DtvSCB5ILhAig8RZolxLCx5gtMh/KZ6x0unUA
-	 G1Cvasi/QzDqbSVVSWc5pjrqh5LslcsYDoUC35sO+9rqidXuMuzKWbseVrqwyjqgGn
-	 N2mA3MIxwd7UD49VaOnQ/yvVssNldTDLpNA0PZ2F8egist/9jGpXXEqrimveWwfooy
-	 rmB7qXXvo7Rt5Gky4dUtrZ0d+S3CD/uEl2CLB1QuU191XGUikg7Fp/JlYM2ReK4jrw
-	 +vEn5rlDSxBNw==
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
-	id 4cKtZx4RStz4w9y; Mon,  8 Sep 2025 14:02:49 +1000 (AEST)
-Date: Mon, 8 Sep 2025 14:02:45 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Raymond Mao <raymond.mao@linaro.org>
-Cc: linux-doc@vger.kernel.org, devicetree-spec@vger.kernel.org,
-	devicetree@vger.kernel.org, ilias.apalodimas@linaro.org,
-	Conor Dooley <conor.dooley@microchip.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=BUfTRi62wdOEdqGnKznJtQ4v6F0LfwNK4rUaLTH1IFZKOtTTkArMJMRl3+zphIpV4dUXZopA9vSV+InPwTi9PFHVppaOv7CtGJkB47iDfzCJr/RjkkkztYyKZux8CS4muQt7YhiMk5HRZATFhX11q8g36nWQNstTBPm5p4HNJkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uvTqu-0006ng-7X; Mon, 08 Sep 2025 06:51:40 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uvTqq-000Bt9-2g;
+	Mon, 08 Sep 2025 06:51:36 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uvTqq-00Bi0F-2A;
+	Mon, 08 Sep 2025 06:51:36 +0200
+Date: Mon, 8 Sep 2025 06:51:36 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: gfuchedgi@gmail.com, Robert Marko <robert.marko@sartura.hr>,
+	Luka Perkov <luka.perkov@sartura.hr>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: devicetree: overlay-notes: recommend top-level
- compatible in DTSO
-Message-ID: <aL5VZfOoy1g2uyAH@zatzit>
-References: <20250902174351.2457022-1-raymond.mao@linaro.org>
- <aLkAYitpWxWx131p@zatzit>
- <CAEfUkULwQxJ-EKT7bQ8+hkH+_xO8esThnL2P_Rc-32tHyMdA1A@mail.gmail.com>
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Network Development <netdev@vger.kernel.org>
+Subject: Re: [PATCH v3 0/2] hwmon: (tps23861) add class restrictions and
+ semi-auto mode support
+Message-ID: <aL5g2JtIpupAeoDz@pengutronix.de>
+References: <20250904-hwmon-tps23861-add-class-restrictions-v3-0-b4e33e6d066c@gmail.com>
+ <4e7a2570-41ec-4179-96b2-f8550181afd9@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XVQ/eLKMwcuqE7xj"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAEfUkULwQxJ-EKT7bQ8+hkH+_xO8esThnL2P_Rc-32tHyMdA1A@mail.gmail.com>
+In-Reply-To: <4e7a2570-41ec-4179-96b2-f8550181afd9@roeck-us.net>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
+On Sun, Sep 07, 2025 at 09:06:25AM -0700, Guenter Roeck wrote:
+> +Cc: pse-pd maintainers and netdev mailing list
+> 
+> On 9/4/25 10:33, Gregory Fuchedgi via B4 Relay wrote:
+> > This patch series introduces per-port device tree configuration with poe
+> > class restrictions. Also adds optional reset/shutdown gpios.
+> > 
+> > Tested with hw poe tester:
+> >   - Auto mode tested with no per-port DT settings as well as explicit port
+> >     DT ti,class=4. Tested that no IRQ is required in this case.
+> >   - Semi-Auto mode with class restricted to 0, 1, 2 or 3. IRQ required.
+> >   - Tested current cut-offs in Semi-Auto mode.
+> >   - On/off by default setting tested for both Auto and Semi-Auto modes.
+> >   - Tested fully disabling the ports in DT.
+> >   - Tested with both reset and ti,ports-shutdown gpios defined, as well as
+> >     with reset only, as well as with neither reset nor shutdown.
+> > 
+> > Signed-off-by: Gregory Fuchedgi <gfuchedgi@gmail.com>
+> 
+> This entire series makes me more and more unhappy. It is not the responsibility
+> of the hardware monitoring subsystem to control power. The hardware monitoring
+> subsystem is for monitoring, not for control.
+> 
+> Please consider adding a driver for this chip to the pse-pd subsystem
+> (drivers/net/pse-pd). As it turns out, that subsystem already supports
+> tps23881. This is a similar chip which even has a similar register set.
+> 
+> This driver could then be modified to be an auxiliary driver of that driver.
+> Alternatively, we could drop this driver entirely since the pse-pd subsystem
+> registers the chips it supports as regulator which has its own means to handle
+> telemetry.
+> 
+> Thanks,
+> Guenter
 
---XVQ/eLKMwcuqE7xj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, Guenter is right. This driver belongs to the pse-pd framework.
 
-On Thu, Sep 04, 2025 at 10:40:31AM -0400, Raymond Mao wrote:
-> Hi David,
->=20
-> On Wed, 3 Sept 2025 at 22:58, David Gibson <david@gibson.dropbear.id.au> =
-wrote:
-> >
-> > On Tue, Sep 02, 2025 at 10:43:50AM -0700, Raymond Mao wrote:
-> > > When managing multiple base device trees and overlays in a structured
-> > > way (e.g. bundled in firmware or tools), it is helpful to identify the
-> > > intended target base DT for each overlay, which can be done via a
-> > > top-level compatible string in the overlay.
-> > >
-> > > This provides a way to identify which overlays should be applied once=
- the
-> > > DT is selected for the case when a device have a common firmware bina=
-ry
-> > > which only differs on the DT and overlays.
-> > >
-> > > This patch updates the document with a note and example for this
-> > > practice.
-> > > For more information on this firmware requirement, please see [1].
-> > >
-> > > [1] https://github.com/FirmwareHandoff/firmware_handoff/pull/74
-> >
-> > I think this idea is probably useful enough to be a good idea anyway.
-> > However, note that it leans in to an existing ugliness of the overlay f=
-ormat:
-> >
-> > Overlay dtbs kind of mix "in band" information - the actual new
-> > content for the tree - with "out of band" information - how to apply
-> > the overlay itself.  Whether a given property is data or metadata is
-> > determined by it's place in the tree in a moderately complex and not
-> > super obvious way.
-> >
-> > About the clearest divide that exists is that generally the root and
-> > first-level subnodes are information only for overlay application,
-> > everything under that is data to be applied to the tree.  This all
-> > tends to have names that would be unlikely (though not strictly
-> > impossible) in a fully applied tree.
-> >
-> > Putting 'compatible' at the root of the overlay is putting something
-> > that looks very much like a regular device tree property in a place
-> > and with a function that's purely about applying / validating the
-> > overlay itself.
-> >
->=20
-> Since all information at the root of an overlay is considered as
-> metadata (out-of-band),
-> If you think 'compatible' is confused, I can change it to
-> 'overlay-compatible' - which should be 'unlikely' to exist in a full
-> tree.
-
-No, as I said, I think the advantages of this proposal still outweigh
-the disadvantages.  Just pointing out that this is highlighting some
-of the ugliness in the current way overlays are designed, which is
-relevant in the context of concurrent discussions about connectors and
-the like.
-
---=20
-David Gibson (he or they)	| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you, not the other way
-				| around.
-http://www.ozlabs.org/~dgibson
-
---XVQ/eLKMwcuqE7xj
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEO+dNsU4E3yXUXRK2zQJF27ox2GcFAmi+VWQACgkQzQJF27ox
-2Gco/g/8C3x3D3BQ8/L44GZMTfbxKC5NPMh/+kDZ6h5bE5MOuTi6mv6VffiQ96qG
-xMS4b/H0pLEKy9RtBfV2f1EZio88mUmDpe4Nv6w/LVQdaow6+loanMOdQ1+H26XX
-SoCTDUaJfzeAaV4GJ7A4RSup5mCdCkz7uNAdaGa9BQSgnFjfQt0QHtjNywpzltpE
-9XVSB+v8t9uSx7U+HqGDSvMx4TQ2iXQ1aiiAQ/+PFFsOk4j/EM/tVJrckxDkddfF
-INEK3XPdDoi1EbjYUugCMV8bm0KpzZbVOJgPp8Wlt4U1XWno1dsUNYaY0djTFLK4
-/RehLRKXe/E3AdS0wv9CundSw+Ag9/+8k93o3Mf020m5cusDBRwo+9I+HJFo1Hhc
-3vSQuhTLZFpXdpBNJsy3xVOqZTc4vGXJbv6jLvxCpqrPRobziksGJDTcRqsQ+Ut8
-C79j8vXUOu5oK1fmNihFJu1Mve55+9MiirTVyPl3zmepLRE59BeqJ+JLdjJ20sxy
-dm+dTeX5RHHlt+GIZMsqhaKLObC3THmm7CW4sdegHv+b72BOwQdKZ4CcfmiIp60k
-YNw89/qbGqS2z3NQ9UXg71n9KWfje8wkG0sXDtFhyuZewBK8MH+S9Y/uHBjvc2Hj
-tTaxLI9r5Y7Y2/qFFXgSkmBrRkVfpNtd4QVP8c9WcQjP/AzpWS8=
-=LWzd
------END PGP SIGNATURE-----
-
---XVQ/eLKMwcuqE7xj--
+Best Regards,
+Oleksik
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
