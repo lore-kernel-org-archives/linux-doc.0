@@ -1,803 +1,199 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6DE30594A
-	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 12:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757335597; cv=none; b=UL8BZhqabs0d3n9FupwKFl/cc5Mz837QIxyFELZd1nWZxlsNTbL3REwctbtk44RJaqVzdH10nBvsUyPyU8D/ESiZI3piAuxpsaP9/e9/StjBH0X4jMrr5ydoYSjD+hD3sQwSc2hSI7nEDtmC/HAbkDQMIR3SsH7/vTn4qwiZIxc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757335597; c=relaxed/simple;
-	bh=Tn4bVRJuF4JBmy1BVKoQ1YkKIXHXU/mV+zSkyQBecIU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kweWRfoHJ/JJaVucoMS9+P1zzfgxQ7XoGXXtfEvbPeSZFOvdGHZosdLsqE0LDdMwRq2TFsoyqzn1q4KV9su9ewMrAg+0IjjM0dZ6Ez/lhEZMAyVxsnL0p2a1g8OX/MCZJFS/jG/o/xzhO8iq07q2Q0ssPEiS5Ohe/02bKoHlvEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uvbG9-0003S6-F8; Mon, 08 Sep 2025 14:46:13 +0200
-Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uvbG7-000Fip-2U;
-	Mon, 08 Sep 2025 14:46:11 +0200
-Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uvbG7-0000000CKJU-2pj4;
-	Mon, 08 Sep 2025 14:46:11 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4BA2F39CD;
+	Mon,  8 Sep 2025 12:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757335871; cv=fail; b=hhA1yCgZOIeDgkVcHDNSIMIRI6fGkUAviU0dMpL4WcUd4O8YrEEjwrV4+kH/ercZpeA6XkUnCy0Hg1CmKSnSZ16yOz5jPzmS1ZVvQxwY+bczB1rKFTz13WYuziFuqNB0t/sWpVo6ocPASF6GeJv3EdOVR4n2tjM3XYyV9iXYrJk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757335871; c=relaxed/simple;
+	bh=iNh/lCEX1gVDgHCtrTe8+iAKxRYEL6C3y5Umw7EiPpw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=QL/dZw9A4fbDLKaruACfn3Y4epEriltMqQG6nUk9NsPPhlF7UCxDSXgA5p8kHmGEtIVU5axwfM3/fvmiyjh/L3nE8GUz9f3CqCMT0y/tdvSPf94BffG9IJ2WqGWjO1A7I0IFZBYpYTLgjdbnOY1jKCll0c1xeqj2SIPbFn0Qykk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Q04TGYks; arc=fail smtp.client-ip=40.107.244.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q04TGYks"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kMvaxhUHleRxntZGYNAQ6oYMMU1JbeUP44toucYGKbizGwaVMRXKNbkyUFUPdd0e5Cx1IPl7vdp6NNOfeScVoPrEkHkhyxvyg4Z3WGpwprovcRWpUbAKPj3LpU3yLKYEGI4N/IBMz8V4RdV88lY/2ZC6Xue21KFvFMzNVqI//cN0BaviWdnunZkApyGcUGQYPnAfZT2SAd0F2w5Bh3reSRHld3eTwjTzhHpyuc9FBQOxUCbwFN4OtNc3B1ZiAyEbVcyqhEP5hi8KOmS/QIwrn/1kwgtzi/wnDJRZhlfqlp2fv4jY8SPduKV85cq+NgFbmtVBMuxznJWsv+Kl/L4G8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3OSHuO/Vc5BKJ5cHo5+Vst34M23kDq4EdFQN0zPkUWU=;
+ b=mAunikoQejeLXAvW4UoM/ycWFNsazJgGlsg2fFTcvhHr61/n9tobPBooHxj3TwWiuVwbSxm+AGM9klT5+AuulVxt82iMD+bqYOPay2LMN6Ls/xLRH5tMO6XW6R8SCwTGnLOYkS786s5iFd8HhFP8FgGqQK1nu/tRrY3hs+ZxLXc1GPyp0jAO9I2FD22OG0sVxSlQz+Cui+g2Oh0RartMJkUtDClkC0e1hCGEwoGk+bGiYer6erlnkqX2KXhpOBAKk6XGemXPUeOSV94gPD5qIE4/4g139jRdQ5kWOa+kqk26RabCHPWwcwiGEbQK6CJe/dcp4u4ZP4nWHjEKIfUt+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3OSHuO/Vc5BKJ5cHo5+Vst34M23kDq4EdFQN0zPkUWU=;
+ b=Q04TGYksIpFK4xKfPRXEpzDwggj1q0h+qYk0d7ZqmiIFm/0+DHpNdDkdmeqzhhmXNAxK6tDOsuNUGRIWSKaYTIG5AMBKPLb881wYG9gDr+uKXm6pyN+i5BynVcOpCxZ2Xj9hLjy2NgxwMI148lzpdn8BjAPTFj0x2TjA/p7nkI88Eop1JBFS7YAKe198Ojyk3/5COGrqsFV0lY0oDkcIyIBQgaxVlt23FiO/RU/LEHPqbSl1ax0qIjVoD7hcjBGQApcFaHSnC50dJZrkJjDEZ6kUPkw+ig62UravuzYtDCPVW6GSljOVxfg+blItmKBPDto7qLkD4i/X8iMtCzzmJw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by MW5PR12MB5623.namprd12.prod.outlook.com (2603:10b6:303:199::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 8 Sep
+ 2025 12:51:03 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9094.017; Mon, 8 Sep 2025
+ 12:51:03 +0000
+Date: Mon, 8 Sep 2025 09:51:01 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Nishanth Menon <nm@ti.com>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
-	kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com,
-	linux-doc@vger.kernel.org,
-	Michal Kubecek <mkubecek@suse.cz>,
-	Roan van Dijk <roan@protonic.nl>
-Subject: [PATCH net-next v5 2/5] ethtool: netlink: add ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Date: Mon,  8 Sep 2025 14:46:07 +0200
-Message-ID: <20250908124610.2937939-3-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250908124610.2937939-1-o.rempel@pengutronix.de>
-References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
+	Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@redhat.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+	ntfs3@lists.linux.dev, kexec@lists.infradead.org,
+	kasan-dev@googlegroups.com
+Subject: Re: [PATCH 03/16] mm: add vma_desc_size(), vma_desc_pages() helpers
+Message-ID: <20250908125101.GX616306@nvidia.com>
+References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
+ <d8767cda1afd04133e841a819bcedf1e8dda4436.1757329751.git.lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d8767cda1afd04133e841a819bcedf1e8dda4436.1757329751.git.lorenzo.stoakes@oracle.com>
+X-ClientProxiedBy: YT4PR01CA0026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fe::11) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|MW5PR12MB5623:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4535ed58-2ad9-4ee8-9dcc-08ddeed65ea1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?RK/YBv5RNmNrwTy3JLCS1Y1nfiWysNq4+ETCGrZ4WZi0XuFOccD62zIDAlil?=
+ =?us-ascii?Q?nUIP8RZbII+RXqNS05kjw5UbPaF/PQU6Be88QsX5mxma/KsXEZF7cvvkHZO2?=
+ =?us-ascii?Q?rdqeSeZr5YraoB+Cr/Qk+akQ3NZ2HayLh/VudWRzntdZ0xpxUPq6FIO8Kile?=
+ =?us-ascii?Q?s5FE9Qjp0kv25LidB6vAS9HybJ3yEyF9t2rnW2VpddB1fNKdEZe56IS6eX6E?=
+ =?us-ascii?Q?CNOT3HxG3Wn988IPGJ4oKmmJ773At2GItnm/lEMmWSvBJ/UlzQfVoKODwdLA?=
+ =?us-ascii?Q?YHPKlBwJG72E7OotPbX9Y7qXLKi5smIS/C06uKbhWECr8idy/CU122C7Yl2b?=
+ =?us-ascii?Q?XD/RcFNqYQKzWVGzR8QrSIdDPn2FcmtrBcApFeOEdixuVlIm4s42RCtTm/g2?=
+ =?us-ascii?Q?xoVhUsJ/N9dBbVIisQWF5AllOd5e1+XYYdxIR5Kt1QkwioLJ0KyTEDeCTFGy?=
+ =?us-ascii?Q?lUQSASAg7/1Hj0swNb0t1Ed25d3dBPWK42qlFjWUlSpl7P7+on6HWCSw7J+e?=
+ =?us-ascii?Q?4evEH2DAzAcbmbaUfUXVlalDx8ckqV5vjEcDB8DUEZGowI4ViyWSEC9K3W1q?=
+ =?us-ascii?Q?IS3Qx84Oi7NAkm+WfOV8kYFaOogHkT0ts40/8aEY31D0fzCIK1ELHnrHzNkm?=
+ =?us-ascii?Q?pUho4uxM3CqCKWfugqZ0JFUHkK8PnIcJR8ya3hxr125S1jpyIiFAGA216uw9?=
+ =?us-ascii?Q?t8xdXPAmkOsIbHGh4QhvB/xbPrYwie4HqCCIIRIZxW2paXWxmBgo1PR1RU8e?=
+ =?us-ascii?Q?MWbad7VZbjodBwhrL8xGFZd2vvOuHcfbJQGo5q0Ep4zMsQgxP+kQ4LiLCE0j?=
+ =?us-ascii?Q?IuGz+MOgY6XXyZuwzp/P1xdHoTpT8M2XwdxuYR8BxH1N5m8PW/HS2dH4TVco?=
+ =?us-ascii?Q?VNUc83r6YFKFeighj5ALqEIsRZ17wUbCbYZ2ri2+pDTwKh0bubzc86Tu+9LG?=
+ =?us-ascii?Q?kVTyxhhlS/kRr6ASBt0DKNl17jpla7l+MAXu0TOJiDcBvGx/UdnF7JJ+GwSv?=
+ =?us-ascii?Q?v4MDkLqydrts2aOb+01r6FIi55aETunKug+Es4+4nRMT4ptW5icztTsEv6W9?=
+ =?us-ascii?Q?24ZT6eRRiIikbgND645qTHgusuaJ3aoQh4Ls6apYRamNS8yax+yeynAo4jZ4?=
+ =?us-ascii?Q?rO1fa2RoFM25adezfrSsYLS5lRFOWPfVW5iNIrUfNnVpCiJONDJJ968TLeaP?=
+ =?us-ascii?Q?IiBCfqG4Exa36ZYdyC06vfK50GLf2FK7OjtjYkKdqOwC4QoRwoTlcPawz03o?=
+ =?us-ascii?Q?gYAmipXzZVQ6otp2+Rnr+DIPRziuykb3ofJH6c20nxZlHmIqaapEiH8V2hXG?=
+ =?us-ascii?Q?mNf5NZQncmdcuZ4E2h/txc7MswUwwwhSNPG/zJXwB169zPSwpKTXduIf8wCL?=
+ =?us-ascii?Q?zO5m8DSRVMxSCZNcagD8yJrV5fMymM7BQeMJQLjj47O/uoc4a4qBg/ug4B/Y?=
+ =?us-ascii?Q?xFwDFI1zPwo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?YOgrbUOulWOusbdk/vwY/I6Z0hEnYRMIwKYZWRYlkMsXhv0unFY8GITjYHEW?=
+ =?us-ascii?Q?FnoYUxSTvZfH+MbxKuG8wvPbmhco82reC6g7tADJQk/Ne/1S81ZpK1+qlZfD?=
+ =?us-ascii?Q?6r1tXru1+1lkTFks5IiZU5uNdIkDtH3gKk1cMyhFPNNlLcaTSUxy3wHKtOIT?=
+ =?us-ascii?Q?ONWrZmv0N8y5ZrAEe0bjSPpBkRWfA9gLXs8aoL/+fqWNNTsF7Ytv6yiDWEL3?=
+ =?us-ascii?Q?c8JBkZgNXWp33U1/D8XCrMtNxeGGECxEQklzrNYwXQv5Zfm3WcjN//xwIWIz?=
+ =?us-ascii?Q?6YTjg9IEV5hfrKr+uvzpsMEMT0ws5155Z0dJkdyoQ02LwQ5AQACKhh2hcUNs?=
+ =?us-ascii?Q?OkYpZIu1LiG3M6bi1ezhol1hGrg29Tn8OdoZVPRrItimWlN5V+r6tmE58NfD?=
+ =?us-ascii?Q?ooDp9ZT7dklMIKGRsL0PPbxXJ+8qQ9BETZNakHq/EQWunHRDuCbz0G/bIH41?=
+ =?us-ascii?Q?/klUb/zRAKYQoU22ga5sIoPqi/OzPKt+d0um5OobjK6BIN9r/XzddQEa+TsZ?=
+ =?us-ascii?Q?a/GVUuzPC87G/4dV36GMj7j6f0C8DQEuLUNbs83zQ0T+E9wvun1/sEwJUuiG?=
+ =?us-ascii?Q?gvfijF6fhL8wNQoD/lYo1kzQRrWRfsDzI/ywhPEUANQyo1rTcYEccgEqaiFs?=
+ =?us-ascii?Q?lbWpTI2agTB3i3XmPyJw7KG6SzrN4OIIeslybDy7xA826vEstw8ro+gQDXO+?=
+ =?us-ascii?Q?2sjqodoscdkfv3a8x+X9zgEisXkTTwhqO0eayayzehCwNKZs1GTxBzWucVJK?=
+ =?us-ascii?Q?s22no0ChtnK24gCSESJApYtZAn5D/go5ATo3i3OtAc1Oi2YxRIuWr6Nkm0q4?=
+ =?us-ascii?Q?eDxkbPA5lehfuCPidPixQoghqmDqqPIo6vvQBkK9DuqhTjrYlFDNaYdfj6D/?=
+ =?us-ascii?Q?AfDc+aROynD+8LQScdbXCy6FrRqr/YarM8tKdVJjK+UMotbYGicjMHd95UFW?=
+ =?us-ascii?Q?h501mXq1jmhhQZ2R/IW3LQTNdszvKZV9hg9WuFBEidHEkT5RSUGrgp6bosAX?=
+ =?us-ascii?Q?/cgE4rtBChfs8qOWdd/RrwfdBT0fE6so+0nSI4GeOb57wwtKAxWqAShaHLF1?=
+ =?us-ascii?Q?f0GsySe1WFciFtdY7OQSwzK2T7Z8T/SZNoGEqngNSQ0Yr+iXN3OcuORMBHbw?=
+ =?us-ascii?Q?GXO3y8XI4U2Ab6laC8IbG4E9dZu8fDBBoEdkaAGrNZ7s+UfP3GFDy0j19FWR?=
+ =?us-ascii?Q?VyNR59v23zZ6ZVdtMoYTT9cNJHloAZ9jPdrUYDTGVesEoYxEBtlHBYc6yOgG?=
+ =?us-ascii?Q?QM3OCOxzWNSqbgFfZOHkyeSBwUDkgr1r+7+9bW6GX6+r6g7n7BBeTZBCsrJO?=
+ =?us-ascii?Q?hr5cc0JW2YZetLCZ+OEWv5beZ8ksNlcnDTuu0Lydd4Opj8sUASzCLaaYqFt7?=
+ =?us-ascii?Q?ZC2yXeFf8vUhJ6m4qv33HWVMd1wBmOqtDgU7i/DWmD/LSLrbmUoJYUmOkf7F?=
+ =?us-ascii?Q?kOJZ0vqoxjg47Gt/Y4il4nlQioOgNhdhsCq4ojUuORoHXL4spuE2y4YSRggx?=
+ =?us-ascii?Q?CnAhL7Ev9UBO1vyGa6isplhSj+Ke/CpF8hqBx4gCEqS+gAUqGYr+06lH3PP2?=
+ =?us-ascii?Q?ZdmjeAbLBE+QQVTIYYE=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4535ed58-2ad9-4ee8-9dcc-08ddeed65ea1
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 12:51:03.6211
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hPSYzFEjHMyzJ4cZEzUHXo0bko3ctFNuaC/vuTYRitLPN1OBS4RYznmP/7soLPCh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5623
 
-Introduce the userspace entry point for PHY MSE diagnostics via
-ethtool netlink. This exposes the core API added previously and
-returns both configuration and one or more snapshots.
+On Mon, Sep 08, 2025 at 12:10:34PM +0100, Lorenzo Stoakes wrote:
+>  static int secretmem_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> -	const unsigned long len = desc->end - desc->start;
+> +	const unsigned long len = vma_desc_size(desc);
+>  
+>  	if ((desc->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+>  		return -EINVAL;
 
-Userspace sends ETHTOOL_MSG_MSE_GET with an optional channel
-selector. The reply carries:
-  - ETHTOOL_A_MSE_CONFIG: scale limits, timing, and supported
-    capability bitmask
-  - ETHTOOL_A_MSE_SNAPSHOT+: one or more snapshots, each tagged
-    with the selected channel
+I wonder if we should have some helper for this shared check too, it
+is a bit tricky with the two flags. Forced-shared checks are pretty
+common.
 
-If no channel is requested, the kernel returns snapshots for all
-supported selectors (per‑channel if available, otherwise WORST,
-otherwise LINK). Requests for unsupported selectors fail with
--EOPNOTSUPP; link down returns -ENOLINK.
+vma_desc_must_be_shared(desc) ?
 
-Changes:
-  - YAML: add attribute sets (mse, mse-config, mse-snapshot) and
-    the mse-get operation
-  - UAPI (generated): add ETHTOOL_A_MSE_* enums and message IDs,
-    ETHTOOL_MSG_MSE_GET/REPLY
-  - ethtool core: add net/ethtool/mse.c implementing the request,
-    register genl op, and hook into ethnl dispatch
-  - docs: document MSE_GET in ethtool-netlink.rst
+Also 'must not be exec' is common too.
 
-The include/uapi/linux/ethtool_netlink_generated.h is generated
-from Documentation/netlink/specs/ethtool.yaml.
-
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
-changes v5:
-- add struct phy_mse_snapshot and phy_mse_config to the documentation
-changes v4:
-- s/__ethtool-a-mse/--ethtool-a-mse
-- remove duplicate kernel-doc line
-- fix htmldocs compile warnings
----
- Documentation/netlink/specs/ethtool.yaml      |  88 +++++
- Documentation/networking/ethtool-netlink.rst  |  62 +++
- .../uapi/linux/ethtool_netlink_generated.h    |  37 ++
- net/ethtool/Makefile                          |   2 +-
- net/ethtool/mse.c                             | 362 ++++++++++++++++++
- net/ethtool/netlink.c                         |  10 +
- net/ethtool/netlink.h                         |   2 +
- 7 files changed, 562 insertions(+), 1 deletion(-)
- create mode 100644 net/ethtool/mse.c
-
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 969477f50d84..d69dd3fb534b 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -1899,6 +1899,79 @@ attribute-sets:
-         type: uint
-         enum: pse-event
-         doc: List of events reported by the PSE controller
-+  -
-+    name: mse-config
-+    attr-cnt-name: --ethtool-a-mse-config-cnt
-+    attributes:
-+      -
-+        name: unspec
-+        type: unused
-+        value: 0
-+      -
-+        name: max-average-mse
-+        type: u32
-+      -
-+        name: max-peak-mse
-+        type: u32
-+      -
-+        name: refresh-rate-ps
-+        type: u64
-+      -
-+        name: num-symbols
-+        type: u64
-+      -
-+        name: supported-caps
-+        type: nest
-+        nested-attributes: bitset
-+      -
-+        name: pad
-+        type: pad
-+  -
-+    name: mse-snapshot
-+    attr-cnt-name: --ethtool-a-mse-snapshot-cnt
-+    attributes:
-+      -
-+        name: unspec
-+        type: unused
-+        value: 0
-+      -
-+        name: channel
-+        type: u32
-+        enum: phy-mse-channel
-+      -
-+        name: average-mse
-+        type: u32
-+      -
-+        name: peak-mse
-+        type: u32
-+      -
-+        name: worst-peak-mse
-+        type: u32
-+  -
-+    name: mse
-+    attr-cnt-name: --ethtool-a-mse-cnt
-+    attributes:
-+      -
-+        name: unspec
-+        type: unused
-+        value: 0
-+      -
-+        name: header
-+        type: nest
-+        nested-attributes: header
-+      -
-+        name: channel
-+        type: u32
-+        enum: phy-mse-channel
-+      -
-+        name: config
-+        type: nest
-+        nested-attributes: mse-config
-+      -
-+        name: snapshot
-+        type: nest
-+        multi-attr: true
-+        nested-attributes: mse-snapshot
-
- operations:
-   enum-model: directional
-@@ -2832,6 +2905,21 @@ operations:
-         attributes:
-           - header
-           - context
-+    -
-+      name: mse-get
-+      doc: Get PHY MSE measurement data and configuration.
-+      attribute-set: mse
-+      do: &mse-get-op
-+        request:
-+          attributes:
-+            - header
-+            - channel
-+        reply:
-+          attributes: &mse-reply
-+            - header
-+            - config
-+            - snapshot
-+      dump: *mse-get-op
-
- mcast-groups:
-   list:
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index ab20c644af24..aae53f39c2b0 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -242,6 +242,7 @@ Userspace to kernel:
-   ``ETHTOOL_MSG_RSS_SET``               set RSS settings
-   ``ETHTOOL_MSG_RSS_CREATE_ACT``        create an additional RSS context
-   ``ETHTOOL_MSG_RSS_DELETE_ACT``        delete an additional RSS context
-+  ``ETHTOOL_MSG_MSE_GET``               get MSE diagnostic data
-   ===================================== =================================
-
- Kernel to userspace:
-@@ -299,6 +300,7 @@ Kernel to userspace:
-   ``ETHTOOL_MSG_RSS_CREATE_ACT_REPLY``     create an additional RSS context
-   ``ETHTOOL_MSG_RSS_CREATE_NTF``           additional RSS context created
-   ``ETHTOOL_MSG_RSS_DELETE_NTF``           additional RSS context deleted
-+  ``ETHTOOL_MSG_MSE_GET_REPLY``            MSE diagnostic data
-   ======================================== =================================
-
- ``GET`` requests are sent by userspace applications to retrieve device
-@@ -2453,6 +2455,66 @@ Kernel response contents:
-
- For a description of each attribute, see ``TSCONFIG_GET``.
-
-+MSE_GET
-+=======
-+
-+Retrieves detailed Mean Square Error (MSE) diagnostic information from the PHY.
-+
-+Request Contents:
-+
-+  ====================================  ======  ============================
-+  ETHTOOL_A_MSE_HEADER                  nested  request header
-+  ETHTOOL_A_MSE_CHANNEL                 u32     optional channel enum value
-+  ====================================  ======  ============================
-+
-+.. kernel-doc:: include/uapi/linux/ethtool_netlink_generated.h
-+    :identifiers: phy_mse_channel
-+
-+The optional ``ETHTOOL_A_MSE_CHANNEL`` attribute allows the caller to request
-+data for a specific channel. If omitted, the kernel will return snapshots for
-+all supported channels.
-+
-+Kernel Response Contents:
-+
-+  ====================================  ======  ============================
-+  ETHTOOL_A_MSE_HEADER                  nested  reply header
-+  ETHTOOL_A_MSE_CONFIG                  nested  MSE measurement configuration
-+  ETHTOOL_A_MSE_SNAPSHOT+               nested  one or more MSE snapshots
-+  ====================================  ======  ============================
-+
-+MSE Configuration
-+-----------------
-+
-+This nested attribute contains the full configuration properties for the MSE
-+measurements
-+
-+  ===============================================  ======  ====================
-+  ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE             u32     max avg_mse scale
-+  ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE                u32     max peak_mse scale
-+  ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS             u64     sample rate (ps)
-+  ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS                 u64     symbols per sample
-+  ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS              bitset  capability bitmask
-+  ===============================================  ======  ====================
-+
-+See ``struct phy_mse_config`` Kernel documentation defined in
-+``include/linux/phy.h``
-+
-+MSE Snapshot
-+------------
-+
-+This nested attribute contains an atomic snapshot of MSE values for a specific
-+channel or for the link as a whole.
-+
-+  ===============================================  ======  ======================
-+  ETHTOOL_A_MSE_SNAPSHOT_CHANNEL                   u32     channel enum value
-+  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE               u32     average MSE value
-+  ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE                  u32     current peak MSE
-+  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE            u32     worst-case peak MSE
-+  ===============================================  ======  ======================
-+
-+See ``struct phy_mse_snapshot`` Kernel documentation defined in
-+``include/linux/phy.h``
-+
- Request translation
- ===================
-
-diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
-index d36faf5f20f4..8317e4b230a5 100644
---- a/include/uapi/linux/ethtool_netlink_generated.h
-+++ b/include/uapi/linux/ethtool_netlink_generated.h
-@@ -898,6 +898,41 @@ enum {
- 	ETHTOOL_A_PSE_NTF_MAX = (__ETHTOOL_A_PSE_NTF_CNT - 1)
- };
-
-+enum {
-+	ETHTOOL_A_MSE_CONFIG_UNSPEC,
-+	ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE,
-+	ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE,
-+	ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS,
-+	ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS,
-+	ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS,
-+	ETHTOOL_A_MSE_CONFIG_PAD,
-+
-+	__ETHTOOL_A_MSE_CONFIG_CNT,
-+	ETHTOOL_A_MSE_CONFIG_MAX = (__ETHTOOL_A_MSE_CONFIG_CNT - 1)
-+};
-+
-+enum {
-+	ETHTOOL_A_MSE_SNAPSHOT_UNSPEC,
-+	ETHTOOL_A_MSE_SNAPSHOT_CHANNEL,
-+	ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE,
-+	ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE,
-+	ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE,
-+
-+	__ETHTOOL_A_MSE_SNAPSHOT_CNT,
-+	ETHTOOL_A_MSE_SNAPSHOT_MAX = (__ETHTOOL_A_MSE_SNAPSHOT_CNT - 1)
-+};
-+
-+enum {
-+	ETHTOOL_A_MSE_UNSPEC,
-+	ETHTOOL_A_MSE_HEADER,
-+	ETHTOOL_A_MSE_CHANNEL,
-+	ETHTOOL_A_MSE_CONFIG,
-+	ETHTOOL_A_MSE_SNAPSHOT,
-+
-+	__ETHTOOL_A_MSE_CNT,
-+	ETHTOOL_A_MSE_MAX = (__ETHTOOL_A_MSE_CNT - 1)
-+};
-+
- enum {
- 	ETHTOOL_MSG_USER_NONE = 0,
- 	ETHTOOL_MSG_STRSET_GET = 1,
-@@ -950,6 +985,7 @@ enum {
- 	ETHTOOL_MSG_RSS_SET,
- 	ETHTOOL_MSG_RSS_CREATE_ACT,
- 	ETHTOOL_MSG_RSS_DELETE_ACT,
-+	ETHTOOL_MSG_MSE_GET,
-
- 	__ETHTOOL_MSG_USER_CNT,
- 	ETHTOOL_MSG_USER_MAX = (__ETHTOOL_MSG_USER_CNT - 1)
-@@ -1010,6 +1046,7 @@ enum {
- 	ETHTOOL_MSG_RSS_CREATE_ACT_REPLY,
- 	ETHTOOL_MSG_RSS_CREATE_NTF,
- 	ETHTOOL_MSG_RSS_DELETE_NTF,
-+	ETHTOOL_MSG_MSE_GET_REPLY,
-
- 	__ETHTOOL_MSG_KERNEL_CNT,
- 	ETHTOOL_MSG_KERNEL_MAX = (__ETHTOOL_MSG_KERNEL_CNT - 1)
-diff --git a/net/ethtool/Makefile b/net/ethtool/Makefile
-index a1490c4afe6b..1be76e8d584f 100644
---- a/net/ethtool/Makefile
-+++ b/net/ethtool/Makefile
-@@ -9,4 +9,4 @@ ethtool_nl-y	:= netlink.o bitset.o strset.o linkinfo.o linkmodes.o rss.o \
- 		   channels.o coalesce.o pause.o eee.o tsinfo.o cabletest.o \
- 		   tunnels.o fec.o eeprom.o stats.o phc_vclocks.o mm.o \
- 		   module.o cmis_fw_update.o cmis_cdb.o pse-pd.o plca.o mm.o \
--		   phy.o tsconfig.o
-+		   phy.o tsconfig.o mse.o
-diff --git a/net/ethtool/mse.c b/net/ethtool/mse.c
-new file mode 100644
-index 000000000000..78389491cc49
---- /dev/null
-+++ b/net/ethtool/mse.c
-@@ -0,0 +1,362 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/ethtool.h>
-+#include <linux/phy.h>
-+#include <linux/slab.h>
-+
-+#include "netlink.h"
-+#include "common.h"
-+
-+#define PHY_MSE_CHANNEL_COUNT 4
-+
-+struct mse_req_info {
-+	struct ethnl_req_info base;
-+};
-+
-+struct mse_snapshot_entry {
-+	struct phy_mse_snapshot snapshot;
-+	int channel;
-+};
-+
-+struct mse_reply_data {
-+	struct ethnl_reply_data base;
-+	struct phy_mse_config config;
-+	struct mse_snapshot_entry *snapshots;
-+	unsigned int num_snapshots;
-+};
-+
-+static inline struct mse_reply_data *
-+mse_repdata(const struct ethnl_reply_data *reply_base)
-+{
-+	return container_of(reply_base, struct mse_reply_data, base);
-+}
-+
-+const struct nla_policy ethnl_mse_get_policy[] = {
-+	[ETHTOOL_A_MSE_HEADER] = NLA_POLICY_NESTED(ethnl_header_policy_phy),
-+	[ETHTOOL_A_MSE_CHANNEL] = { .type = NLA_U32 },
-+};
-+
-+static int get_snapshot_if_supported(struct phy_device *phydev,
-+				     struct mse_reply_data *data,
-+				     unsigned int *idx, u32 cap_bit,
-+				     int channel_id)
-+{
-+	int ret;
-+
-+	if (data->config.supported_caps & cap_bit) {
-+		ret = phydev->drv->get_mse_snapshot(phydev, channel_id,
-+					&data->snapshots[*idx].snapshot);
-+		if (ret)
-+			return ret;
-+		data->snapshots[*idx].channel = channel_id;
-+		(*idx)++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mse_get_channels(struct phy_device *phydev,
-+			    struct mse_reply_data *data)
-+{
-+	unsigned int i = 0;
-+	int ret;
-+
-+	if (!data->config.supported_caps)
-+		return 0;
-+
-+	data->snapshots = kcalloc(PHY_MSE_CHANNEL_COUNT,
-+				  sizeof(*data->snapshots), GFP_KERNEL);
-+	if (!data->snapshots)
-+		return -ENOMEM;
-+
-+	/* Priority 1: Individual channels */
-+	ret = get_snapshot_if_supported(phydev, data, &i, PHY_MSE_CAP_CHANNEL_A,
-+					PHY_MSE_CHANNEL_A);
-+	if (ret)
-+		return ret;
-+	ret = get_snapshot_if_supported(phydev, data, &i, PHY_MSE_CAP_CHANNEL_B,
-+					PHY_MSE_CHANNEL_B);
-+	if (ret)
-+		return ret;
-+	ret = get_snapshot_if_supported(phydev, data, &i, PHY_MSE_CAP_CHANNEL_C,
-+					PHY_MSE_CHANNEL_C);
-+	if (ret)
-+		return ret;
-+	ret = get_snapshot_if_supported(phydev, data, &i, PHY_MSE_CAP_CHANNEL_D,
-+					PHY_MSE_CHANNEL_D);
-+	if (ret)
-+		return ret;
-+
-+	/* If any individual channels were found, we are done. */
-+	if (i > 0) {
-+		data->num_snapshots = i;
-+		return 0;
-+	}
-+
-+	/* Priority 2: Worst channel, if no individual channels supported. */
-+	ret = get_snapshot_if_supported(phydev, data, &i,
-+					PHY_MSE_CAP_WORST_CHANNEL,
-+					PHY_MSE_CHANNEL_WORST);
-+	if (ret)
-+		return ret;
-+
-+	/* If worst channel was found, we are done. */
-+	if (i > 0) {
-+		data->num_snapshots = i;
-+		return 0;
-+	}
-+
-+	/* Priority 3: Link-wide, if nothing else is supported. */
-+	ret = get_snapshot_if_supported(phydev, data, &i, PHY_MSE_CAP_LINK,
-+					PHY_MSE_CHANNEL_LINK);
-+	if (ret)
-+		return ret;
-+
-+	data->num_snapshots = i;
-+	return 0;
-+}
-+
-+static int mse_get_one_channel(struct phy_device *phydev,
-+			       struct mse_reply_data *data, int channel)
-+{
-+	u32 cap_bit = 0;
-+	int ret;
-+
-+	switch (channel) {
-+	case PHY_MSE_CHANNEL_A:
-+		cap_bit = PHY_MSE_CAP_CHANNEL_A;
-+		break;
-+	case PHY_MSE_CHANNEL_B:
-+		cap_bit = PHY_MSE_CAP_CHANNEL_B;
-+		break;
-+	case PHY_MSE_CHANNEL_C:
-+		cap_bit = PHY_MSE_CAP_CHANNEL_C;
-+		break;
-+	case PHY_MSE_CHANNEL_D:
-+		cap_bit = PHY_MSE_CAP_CHANNEL_D;
-+		break;
-+	case PHY_MSE_CHANNEL_WORST:
-+		cap_bit = PHY_MSE_CAP_WORST_CHANNEL;
-+		break;
-+	case PHY_MSE_CHANNEL_LINK:
-+		cap_bit = PHY_MSE_CAP_LINK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (!(data->config.supported_caps & cap_bit))
-+		return -EOPNOTSUPP;
-+
-+	data->snapshots = kzalloc(sizeof(*data->snapshots), GFP_KERNEL);
-+	if (!data->snapshots)
-+		return -ENOMEM;
-+
-+	ret = phydev->drv->get_mse_snapshot(phydev, channel,
-+					    &data->snapshots[0].snapshot);
-+	if (ret)
-+		return ret;
-+
-+	data->snapshots[0].channel = channel;
-+	data->num_snapshots = 1;
-+	return 0;
-+}
-+
-+static int mse_prepare_data(const struct ethnl_req_info *req_base,
-+			    struct ethnl_reply_data *reply_base,
-+			    const struct genl_info *info)
-+{
-+	struct mse_reply_data *data = mse_repdata(reply_base);
-+	struct net_device *dev = reply_base->dev;
-+	struct phy_device *phydev;
-+	int ret;
-+
-+	phydev = ethnl_req_get_phydev(req_base, info->attrs,
-+				      ETHTOOL_A_MSE_HEADER, info->extack);
-+	if (IS_ERR(phydev))
-+		return PTR_ERR(phydev);
-+	if (!phydev)
-+		return -EOPNOTSUPP;
-+
-+	ret = ethnl_ops_begin(dev);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&phydev->lock);
-+
-+	if (!phydev->drv || !phydev->drv->get_mse_config ||
-+	    !phydev->drv->get_mse_snapshot) {
-+		ret = -EOPNOTSUPP;
-+		goto out_unlock;
-+	}
-+	if (!phydev->link) {
-+		ret = -ENETDOWN;
-+		goto out_unlock;
-+	}
-+
-+	ret = phydev->drv->get_mse_config(phydev, &data->config);
-+	if (ret)
-+		goto out_unlock;
-+
-+	if (info->attrs[ETHTOOL_A_MSE_CHANNEL]) {
-+		u32 channel = nla_get_u32(info->attrs[ETHTOOL_A_MSE_CHANNEL]);
-+
-+		ret = mse_get_one_channel(phydev, data, channel);
-+	} else {
-+		ret = mse_get_channels(phydev, data);
-+	}
-+
-+out_unlock:
-+	mutex_unlock(&phydev->lock);
-+	ethnl_ops_complete(dev);
-+	if (ret)
-+		kfree(data->snapshots);
-+	return ret;
-+}
-+
-+static void mse_cleanup_data(struct ethnl_reply_data *reply_base)
-+{
-+	struct mse_reply_data *data = mse_repdata(reply_base);
-+
-+	kfree(data->snapshots);
-+}
-+
-+static int mse_reply_size(const struct ethnl_req_info *req_base,
-+			  const struct ethnl_reply_data *reply_base)
-+{
-+	const struct mse_reply_data *data = mse_repdata(reply_base);
-+	size_t len = 0;
-+	unsigned int i;
-+
-+	/* ETHTOOL_A_MSE_CONFIG */
-+	len += nla_total_size(0);
-+	if (data->config.supported_caps & PHY_MSE_CAP_AVG)
-+		/* ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE */
-+		len += nla_total_size(sizeof(u32));
-+	if (data->config.supported_caps & (PHY_MSE_CAP_PEAK |
-+					   PHY_MSE_CAP_WORST_PEAK))
-+		/* ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE */
-+		len += nla_total_size(sizeof(u32));
-+	/* ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS */
-+	len += nla_total_size(sizeof(u64));
-+	/* ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS */
-+	len += nla_total_size(sizeof(u64));
-+	/* ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS */
-+	len += nla_total_size(sizeof(u32));
-+
-+	for (i = 0; i < data->num_snapshots; i++) {
-+		size_t snapshot_len = 0;
-+
-+		/* ETHTOOL_A_MSE_SNAPSHOT */
-+		snapshot_len += nla_total_size(0);
-+		/* ETHTOOL_A_MSE_SNAPSHOT_CHANNEL */
-+		snapshot_len += nla_total_size(sizeof(u32));
-+
-+		if (data->config.supported_caps & PHY_MSE_CAP_AVG)
-+			snapshot_len += nla_total_size(sizeof(u32));
-+		if (data->config.supported_caps & PHY_MSE_CAP_PEAK)
-+			snapshot_len += nla_total_size(sizeof(u32));
-+		if (data->config.supported_caps & PHY_MSE_CAP_WORST_PEAK)
-+			snapshot_len += nla_total_size(sizeof(u32));
-+
-+		len += snapshot_len;
-+	}
-+
-+	return len;
-+}
-+
-+static int mse_fill_reply(struct sk_buff *skb,
-+			  const struct ethnl_req_info *req_base,
-+			  const struct ethnl_reply_data *reply_base)
-+{
-+	const struct mse_reply_data *data = mse_repdata(reply_base);
-+	struct nlattr *config_nest, *snapshot_nest;
-+	unsigned int i;
-+	int ret;
-+
-+	config_nest = nla_nest_start(skb, ETHTOOL_A_MSE_CONFIG);
-+	if (!config_nest)
-+		return -EMSGSIZE;
-+
-+	if (data->config.supported_caps & PHY_MSE_CAP_AVG)
-+		if (nla_put_u32(skb, ETHTOOL_A_MSE_CONFIG_MAX_AVERAGE_MSE,
-+				data->config.max_average_mse))
-+			goto nla_put_config_failure;
-+
-+	if (data->config.supported_caps & (PHY_MSE_CAP_PEAK |
-+					   PHY_MSE_CAP_WORST_PEAK))
-+		if (nla_put_u32(skb, ETHTOOL_A_MSE_CONFIG_MAX_PEAK_MSE,
-+				data->config.max_peak_mse))
-+			goto nla_put_config_failure;
-+
-+	if (nla_put_u64_64bit(skb, ETHTOOL_A_MSE_CONFIG_REFRESH_RATE_PS,
-+			      data->config.refresh_rate_ps,
-+			      ETHTOOL_A_MSE_CONFIG_PAD) ||
-+	    nla_put_u64_64bit(skb, ETHTOOL_A_MSE_CONFIG_NUM_SYMBOLS,
-+			      data->config.num_symbols,
-+			      ETHTOOL_A_MSE_CONFIG_PAD) ||
-+	    nla_put_u32(skb, ETHTOOL_A_MSE_CONFIG_SUPPORTED_CAPS,
-+			data->config.supported_caps))
-+		goto nla_put_config_failure;
-+
-+	nla_nest_end(skb, config_nest);
-+
-+	for (i = 0; i < data->num_snapshots; i++) {
-+		const struct mse_snapshot_entry *s = &data->snapshots[i];
-+
-+		snapshot_nest = nla_nest_start(skb, ETHTOOL_A_MSE_SNAPSHOT);
-+		if (!snapshot_nest)
-+			return -EMSGSIZE;
-+
-+		ret = nla_put_u32(skb, ETHTOOL_A_MSE_SNAPSHOT_CHANNEL,
-+				  s->channel);
-+		if (ret)
-+			goto nla_put_failure;
-+
-+		if (data->config.supported_caps & PHY_MSE_CAP_AVG) {
-+			ret = nla_put_u32(skb,
-+					  ETHTOOL_A_MSE_SNAPSHOT_AVERAGE_MSE,
-+					  s->snapshot.average_mse);
-+			if (ret)
-+				goto nla_put_failure;
-+		}
-+		if (data->config.supported_caps & PHY_MSE_CAP_PEAK) {
-+			ret = nla_put_u32(skb, ETHTOOL_A_MSE_SNAPSHOT_PEAK_MSE,
-+					  s->snapshot.peak_mse);
-+			if (ret)
-+				goto nla_put_failure;
-+		}
-+		if (data->config.supported_caps & PHY_MSE_CAP_WORST_PEAK) {
-+			ret = nla_put_u32(skb,
-+					  ETHTOOL_A_MSE_SNAPSHOT_WORST_PEAK_MSE,
-+					  s->snapshot.worst_peak_mse);
-+			if (ret)
-+				goto nla_put_failure;
-+		}
-+
-+		nla_nest_end(skb, snapshot_nest);
-+	}
-+
-+	return 0;
-+
-+nla_put_config_failure:
-+	nla_nest_cancel(skb, config_nest);
-+	return -EMSGSIZE;
-+
-+nla_put_failure:
-+	nla_nest_cancel(skb, snapshot_nest);
-+	return -EMSGSIZE;
-+}
-+
-+const struct ethnl_request_ops ethnl_mse_request_ops = {
-+	.request_cmd = ETHTOOL_MSG_MSE_GET,
-+	.reply_cmd = ETHTOOL_MSG_MSE_GET_REPLY,
-+	.hdr_attr = ETHTOOL_A_MSE_HEADER,
-+	.req_info_size = sizeof(struct mse_req_info),
-+	.reply_data_size = sizeof(struct mse_reply_data),
-+
-+	.prepare_data = mse_prepare_data,
-+	.cleanup_data = mse_cleanup_data,
-+	.reply_size = mse_reply_size,
-+	.fill_reply = mse_fill_reply,
-+};
-diff --git a/net/ethtool/netlink.c b/net/ethtool/netlink.c
-index 2f813f25f07e..6e5f0f4f815a 100644
---- a/net/ethtool/netlink.c
-+++ b/net/ethtool/netlink.c
-@@ -420,6 +420,7 @@ ethnl_default_requests[__ETHTOOL_MSG_USER_CNT] = {
- 	[ETHTOOL_MSG_TSCONFIG_GET]	= &ethnl_tsconfig_request_ops,
- 	[ETHTOOL_MSG_TSCONFIG_SET]	= &ethnl_tsconfig_request_ops,
- 	[ETHTOOL_MSG_PHY_GET]		= &ethnl_phy_request_ops,
-+	[ETHTOOL_MSG_MSE_GET]		= &ethnl_mse_request_ops,
- };
-
- static struct ethnl_dump_ctx *ethnl_dump_context(struct netlink_callback *cb)
-@@ -1534,6 +1535,15 @@ static const struct genl_ops ethtool_genl_ops[] = {
- 		.policy	= ethnl_rss_delete_policy,
- 		.maxattr = ARRAY_SIZE(ethnl_rss_delete_policy) - 1,
- 	},
-+	{
-+		.cmd	= ETHTOOL_MSG_MSE_GET,
-+		.doit	= ethnl_default_doit,
-+		.start	= ethnl_perphy_start,
-+		.dumpit	= ethnl_perphy_dumpit,
-+		.done	= ethnl_perphy_done,
-+		.policy = ethnl_mse_get_policy,
-+		.maxattr = ARRAY_SIZE(ethnl_mse_get_policy) - 1,
-+	},
- };
-
- static const struct genl_multicast_group ethtool_nl_mcgrps[] = {
-diff --git a/net/ethtool/netlink.h b/net/ethtool/netlink.h
-index 1d4f9ecb3d26..f9ebcfb327a6 100644
---- a/net/ethtool/netlink.h
-+++ b/net/ethtool/netlink.h
-@@ -442,6 +442,7 @@ extern const struct ethnl_request_ops ethnl_plca_status_request_ops;
- extern const struct ethnl_request_ops ethnl_mm_request_ops;
- extern const struct ethnl_request_ops ethnl_phy_request_ops;
- extern const struct ethnl_request_ops ethnl_tsconfig_request_ops;
-+extern const struct ethnl_request_ops ethnl_mse_request_ops;
-
- extern const struct nla_policy ethnl_header_policy[ETHTOOL_A_HEADER_FLAGS + 1];
- extern const struct nla_policy ethnl_header_policy_stats[ETHTOOL_A_HEADER_FLAGS + 1];
-@@ -497,6 +498,7 @@ extern const struct nla_policy ethnl_module_fw_flash_act_policy[ETHTOOL_A_MODULE
- extern const struct nla_policy ethnl_phy_get_policy[ETHTOOL_A_PHY_HEADER + 1];
- extern const struct nla_policy ethnl_tsconfig_get_policy[ETHTOOL_A_TSCONFIG_HEADER + 1];
- extern const struct nla_policy ethnl_tsconfig_set_policy[ETHTOOL_A_TSCONFIG_MAX + 1];
-+extern const struct nla_policy ethnl_mse_get_policy[ETHTOOL_A_MSE_CHANNEL + 1];
-
- int ethnl_set_features(struct sk_buff *skb, struct genl_info *info);
- int ethnl_act_cable_test(struct sk_buff *skb, struct genl_info *info);
---
-2.47.3
-
+Jason
