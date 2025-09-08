@@ -1,188 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E66621FF39;
-	Mon,  8 Sep 2025 21:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4A523B61A;
+	Mon,  8 Sep 2025 22:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757366883; cv=none; b=UqqRaAPcGjtUzuFXzrtvgQjbA9y/23F3XDHsRaBsc9F3L8d033mUjFRkuwUVupVphjiJoOjP9n3n3wgiSeBZQNQq0JEu5U9n9JL1jzxg76WIYXZ/qKP2UzTud1oCtxtS0ijX9AV7diyvcv04wN+P+s/Xh+CdPJFnP1CVrzvnWWE=
+	t=1757368935; cv=none; b=JMVSIk7abRjsB97AsNDxpX3TakOT1LOJMnCJcAcmswFHwFzWtPE5X4EgEOW92HKvA8mGYOyvcUnT2jwuAXs+k8RhRQdsg2TIspeiu2/Qb3l/JRxYg1OJ3FDDX9mqssN1KJGZVL3YHmYb0qGMmMY5XQzPEBfqVEkltwoeQ3VIEyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757366883; c=relaxed/simple;
-	bh=gDCZvvVNWEMCU3nT1uDyLwDLHgKoibMV4aiujAjJvhU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kJgElTdjlOZpJXpj4uwohBTJfEF0B56qVodRQUz+QKA23EO5MuwJs1bok0Oolj9GZp1j1c4Cw5ccg10TLH1lSLa87KJBdhyQT4PLigJfvh7Py4A7DmdQcCRqsD5AXds3Zl5NxjPtohg5tPYUHrYETNU6squt+NVDbEl033Hd7oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEab8R9/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757368935; c=relaxed/simple;
+	bh=hhE6RGL+FRpzFdGhBf7AK1KQErFfrcOxy9ye5CpwxNo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XWLJ+tZP4YoTlIDwlVvJ9AA/kpuC/wiU+n4vcJ1QFR6M/8Nm9wB6/piZ5i/7qvzqn0J6pvr1WF/NLtY+Kn2B4fnDvL6+xtDrtlB83iXptlI5PNEzft7vkc345Jubyfeyuyy1NcXkcVG64j0stuRNweaOuNBhDMd7GA0T6ZgF2JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=KG8awAPp; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEab8R9/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3450C4CEF7;
-	Mon,  8 Sep 2025 21:27:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757366882;
-	bh=gDCZvvVNWEMCU3nT1uDyLwDLHgKoibMV4aiujAjJvhU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UEab8R9/I2NlvC9GuptOXjwWyNik5bnCFfAaT+bUnuhIdp8hm8dbl9uEfbqbgtwOs
-	 DUcb42pDgMcyyX9HOK5cwYHomGfx2vM1HDmVDhk+WGg4mKBCJoDheiAMk42G34YC8O
-	 eGpIWySvhosZV/B41kL/bj8D8Gn2nK1cRE6ciIjN+u4kIlsROyOTS73gqBQ/IbZljZ
-	 zxNt+qBgb3dQz+YXeI0mPwW4yIOfK10DNDDDQqgVTi9NVWswNEWSREJPOuX98l+CtO
-	 g1oPRc7nlMOkd3oUtydwpR19nUsNy0eqhfcROTbLjLyP5AO98QTcxsLkEJlTsXmrHL
-	 C+ptPjrmCfVfg==
-From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Date: Mon, 08 Sep 2025 23:27:29 +0200
-Subject: [PATCH net 3/3] selftests: mptcp: shellcheck: support v0.11.0
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="KG8awAPp"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 588HsGjK006469;
+	Mon, 8 Sep 2025 22:02:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=qpbTHU8EIW3qhR3cjrpx1set9Uut6u/PXSeZfaBSi
+	UM=; b=KG8awAPpy/C8y8G7pcV5X4hzRXpOUghByGPU04rmEVwNGpkvEmBFtmduT
+	0HC4ecesu04ME5Gh4+nKfGd11+bGuZc1Zwm1fsQnjy/5yVCkHM0KiTXqheZzB8Xi
+	POcJ8dNBh9mOEbRfkOSkF88yvRA4b8qhfQUqwuMbzaVdOztxftyPubWb+rXJ4wDS
+	tWOg4HhHKw26sZrtUKyFsuBacT0YEsUAg1SJfcnLdWAEpIaP+GezXzkbpgWMi9V7
+	uUclB/POEwa/DO/MyeYgWlFdz4lKLLjoxpX/9FchUoXUrJz8CLPUfPdT2AqqDTcM
+	aNTxUWEhXFtx8hI0ZcTAkEs1wKMZQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490cmwm43j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Sep 2025 22:02:09 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 588LrKxp027864;
+	Mon, 8 Sep 2025 22:02:08 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490cmwm43a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Sep 2025 22:02:08 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 588KC61K011435;
+	Mon, 8 Sep 2025 22:02:07 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 490y9u8b5v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Sep 2025 22:02:07 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 588M24Vk61538686
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 Sep 2025 22:02:04 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EDF4F20040;
+	Mon,  8 Sep 2025 22:02:03 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ADBA820043;
+	Mon,  8 Sep 2025 22:02:03 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  8 Sep 2025 22:02:03 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>,
+        "D. Wythe" <alibuda@linux.alibaba.com>,
+        Dust Li <dust.li@linux.alibaba.com>,
+        Sidraya Jayagond <sidraya@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Mahanta Jambigi <mjambigi@linux.ibm.com>,
+        Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Subject: [PATCH net-next v2 0/2] net/smc: make wr buffer count configurable 
+Date: Tue,  9 Sep 2025 00:01:48 +0200
+Message-ID: <20250908220150.3329433-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-3-5f2168a66079@kernel.org>
-References: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
-In-Reply-To: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
-To: Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
- Davide Caratti <dcaratti@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, mptcp@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
- "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4972; i=matttbe@kernel.org;
- h=from:subject:message-id; bh=gDCZvvVNWEMCU3nT1uDyLwDLHgKoibMV4aiujAjJvhU=;
- b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDL2e4Wc7vbjmbjuEffb+Geralk43bI4G44UyC9SZ5dYd
- GylNcuTjlIWBjEuBlkxRRbptsj8mc+reEu8/Cxg5rAygQxh4OIUgIl4nGb4xfw6bvuaFyxWMU7n
- omYfSjVc+7stxEl/336ZHY+v2lluPczw353N3qKedeqUGrW1fx2fz5sobSz7Py7066en9VsW5H6
- oZgAA
-X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZvQu3b2NvW__VhgPLhLqlyl9HpPgnH97
+X-Proofpoint-ORIG-GUID: gtQ_0s5TQzq9r25UlxbXbPysDtje5wda
+X-Authority-Analysis: v=2.4 cv=J52q7BnS c=1 sm=1 tr=0 ts=68bf5261 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=yJojWOMRYYMA:10 a=OPAOpny1AAAA:8 a=vF7HM7XGAAAA:8 a=QyXUC8HyAAAA:8
+ a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=piJGGMyLFvZckxoXyWEA:9
+ a=Vt4qOV5uLRUYeah0QK8L:22 a=bNn2QJc11pDkoTYzAKk6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNSBTYWx0ZWRfXxlIICvURjiWB
+ 1Cz96MRYfonkWO8i63gCKHPysWKwCzMbVrW93SYq+Qle4vnGNs5YUxwNCjsbjomitPms7p/TCJd
+ TRdPvmTox6zp4KaCBLPvIOLLOVsQNKVMVCadK0gHjZDp8ioTDtVu84pkWnJ3BZ1qLNxYEg4UORQ
+ 7A0UO92puRlWP61kG38eoSHgRNpBdg0NIpFG1AI8cEZEzYRIoCWNdKP1LlDEgHWOTdqh6E1o0gy
+ x0GjXacKyA7lpL0e2uwBNxPAJt7nwDvITRhr4uj9JnLiQr7uXO6BUqvZqM3CrhVzkThr4chzuU/
+ IM8R//Mue9lOkkowbi5cGuHA/ZTABKIlUmwie197k7fokePIlItP2kMnAAqRBWTFAulq/mP327l
+ CVtsbWxG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 suspectscore=0 spamscore=0 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060025
 
-This v0.11.0 version introduces SC2329:
+The current value of SMC_WR_BUF_CNT is 16 which leads to heavy
+contention on the wr_tx_wait workqueue of the SMC-R linkgroup and its
+spinlock when many connections are competing for the work request
+buffers. Currently up to 256 connections per linkgroup are supported.
 
-  Warn when (non-escaping) functions are never invoked.
+To make things worse when finally a buffer becomes available and
+smc_wr_tx_put_slot() signals the linkgroup's wr_tx_wait wq, because
+WQ_FLAG_EXCLUSIVE is not used all the waiters get woken up, most of the
+time a single one can proceed, and the rest is contending on the
+spinlock of the wq to go to sleep again.
 
-Except that, similar to SC2317, ShellCheck is currently unable to figure
-out functions that are invoked via trap, or indirectly, when calling
-functions via variables. It is then needed to disable this new SC2329.
+Addressing this by simply bumping SMC_WR_BUF_CNT to 256 was deemed
+risky, because the large-ish physically continuous allocation could fail
+and lead to TCP fall-backs. For reference see this discussion thread on
+"[PATCH net-next] net/smc: increase SMC_WR_BUF_CNT" (in archive
+https://lists.openwall.net/netdev/2024/11/05/186), which concludes with
+the agreement to try to come up with something smarter, which is what
+this series aims for.
 
-Reviewed-by: Geliang Tang <geliang@kernel.org>
-Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
----
- tools/testing/selftests/net/mptcp/diag.sh          | 2 +-
- tools/testing/selftests/net/mptcp/mptcp_connect.sh | 2 +-
- tools/testing/selftests/net/mptcp/mptcp_join.sh    | 2 +-
- tools/testing/selftests/net/mptcp/mptcp_sockopt.sh | 2 +-
- tools/testing/selftests/net/mptcp/pm_netlink.sh    | 5 +++--
- tools/testing/selftests/net/mptcp/simult_flows.sh  | 2 +-
- tools/testing/selftests/net/mptcp/userspace_pm.sh  | 2 +-
- 7 files changed, 9 insertions(+), 8 deletions(-)
+Additionally if for some reason it is known that heavy contention is not
+to be expected going with something like 256 work request buffers is
+wasteful. To address these concerns make the number of work requests
+configurable, and introduce a back-off logic with handles -ENOMEM form
+smc_wr_alloc_link_mem() gracefully.
 
-diff --git a/tools/testing/selftests/net/mptcp/diag.sh b/tools/testing/selftests/net/mptcp/diag.sh
-index 7a3cb4c09e450f0ae570015c4724ec268c6dc19f..d847ff1737c30c0eae1cefeb5a83bd3223897707 100755
---- a/tools/testing/selftests/net/mptcp/diag.sh
-+++ b/tools/testing/selftests/net/mptcp/diag.sh
-@@ -28,7 +28,7 @@ flush_pids()
- }
- 
- # This function is used in the cleanup trap
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- cleanup()
- {
- 	ip netns pids "${ns}" | xargs --no-run-if-empty kill -SIGKILL &>/dev/null
-diff --git a/tools/testing/selftests/net/mptcp/mptcp_connect.sh b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
-index 5e3c56253274a1f938d2ed9986c4290fcea8b96b..c2ab9f7f0d2133559bb18ce884b613d21d1ec5f0 100755
---- a/tools/testing/selftests/net/mptcp/mptcp_connect.sh
-+++ b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
-@@ -134,7 +134,7 @@ ns4=""
- TEST_GROUP=""
- 
- # This function is used in the cleanup trap
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- cleanup()
- {
- 	rm -f "$cin_disconnect"
-diff --git a/tools/testing/selftests/net/mptcp/mptcp_join.sh b/tools/testing/selftests/net/mptcp/mptcp_join.sh
-index 82cae37d9c2026cc55466636d53a76f929a03452..7fd555b123b900c135bae5f61da30c21a3110eb3 100755
---- a/tools/testing/selftests/net/mptcp/mptcp_join.sh
-+++ b/tools/testing/selftests/net/mptcp/mptcp_join.sh
-@@ -8,7 +8,7 @@
- 
- # ShellCheck incorrectly believes that most of the code here is unreachable
- # because it's invoked by variable name, see how the "tests" array is used
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- 
- . "$(dirname "${0}")/mptcp_lib.sh"
- 
-diff --git a/tools/testing/selftests/net/mptcp/mptcp_sockopt.sh b/tools/testing/selftests/net/mptcp/mptcp_sockopt.sh
-index 418a903c3a4d396bd733bf8b6f68b1447d4d1de3..f01989be6e9b3daeecc5a8f41b37c9a284efef61 100755
---- a/tools/testing/selftests/net/mptcp/mptcp_sockopt.sh
-+++ b/tools/testing/selftests/net/mptcp/mptcp_sockopt.sh
-@@ -95,7 +95,7 @@ init()
- }
- 
- # This function is used in the cleanup trap
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- cleanup()
- {
- 	mptcp_lib_ns_exit "${ns1}" "${ns2}" "${ns_sbox}"
-diff --git a/tools/testing/selftests/net/mptcp/pm_netlink.sh b/tools/testing/selftests/net/mptcp/pm_netlink.sh
-index ac7ec6f9402376a34602ef1ca6c4822e8dde0ded..ec6a8758819194f2c53791d76ae68e088f188813 100755
---- a/tools/testing/selftests/net/mptcp/pm_netlink.sh
-+++ b/tools/testing/selftests/net/mptcp/pm_netlink.sh
-@@ -32,7 +32,7 @@ ns1=""
- err=$(mktemp)
- 
- # This function is used in the cleanup trap
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- cleanup()
- {
- 	rm -f "${err}"
-@@ -70,8 +70,9 @@ format_endpoints() {
- 	mptcp_lib_pm_nl_format_endpoints "${@}"
- }
- 
-+# This function is invoked indirectly
-+#shellcheck disable=SC2317,SC2329
- get_endpoint() {
--	# shellcheck disable=SC2317 # invoked indirectly
- 	mptcp_lib_pm_nl_get_endpoint "${ns1}" "${@}"
- }
- 
-diff --git a/tools/testing/selftests/net/mptcp/simult_flows.sh b/tools/testing/selftests/net/mptcp/simult_flows.sh
-index 2329c2f8519b7c336e9f90a705dfa7588207a543..1903e8e84a315175e2ffd620dd7b4e94dbf25dfb 100755
---- a/tools/testing/selftests/net/mptcp/simult_flows.sh
-+++ b/tools/testing/selftests/net/mptcp/simult_flows.sh
-@@ -35,7 +35,7 @@ usage() {
- }
- 
- # This function is used in the cleanup trap
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- cleanup()
- {
- 	rm -f "$cout" "$sout"
-diff --git a/tools/testing/selftests/net/mptcp/userspace_pm.sh b/tools/testing/selftests/net/mptcp/userspace_pm.sh
-index 333064b0b5ac03ae003417d2070f3c08f94743ed..970c329735ff14f87f0048ba0030dc7edaaa86bc 100755
---- a/tools/testing/selftests/net/mptcp/userspace_pm.sh
-+++ b/tools/testing/selftests/net/mptcp/userspace_pm.sh
-@@ -94,7 +94,7 @@ test_fail()
- }
- 
- # This function is used in the cleanup trap
--#shellcheck disable=SC2317
-+#shellcheck disable=SC2317,SC2329
- cleanup()
- {
- 	print_title "Cleanup"
+Changelog:
+v2:
+ 1) Fixed https://lore-kernel.gnuweeb.org/linux-doc/202509070225.pVKkaaCr-lkp@intel.com/
+ 2) Inspired by 1) made the sysctls namespaced and moved the backing
+    variables into struct netns_smc 
+ 3) Use tabs instead of spaces for alignment in (Dust Li) 
+ 4) Renamed the sysctls form smcr_max_*_wr to smcr_pref_*_wr (along with
+    the affiliated fields/variables based on the discussion with Dust Li
+    (although maximal is mathematically accurate preferred is more fitting
+    IMHO). Should the community decide tha max was better I can roll
+    this change back very quickly
+ 5) Removed Wenjia's r-b form patch 1 as quite a few things changed
+ 4) Add r-b from Mahanta I forgot to add in v1 (which remains the
+    same moduo rename.
+v1: https://lore.kernel.org/all/20250904211254.1057445-1-pasic@linux.ibm.com/
 
+Halil Pasic (2):
+  net/smc: make wr buffer count configurable
+  net/smc: handle -ENOMEM from smc_wr_alloc_link_mem gracefully
+
+ Documentation/networking/smc-sysctl.rst | 40 +++++++++++++++++++++++++
+ include/net/netns/smc.h                 |  2 ++
+ net/smc/smc_core.c                      | 34 ++++++++++++++-------
+ net/smc/smc_core.h                      |  8 +++++
+ net/smc/smc_ib.c                        |  7 ++---
+ net/smc/smc_llc.c                       |  2 ++
+ net/smc/smc_sysctl.c                    | 22 ++++++++++++++
+ net/smc/smc_sysctl.h                    |  2 ++
+ net/smc/smc_wr.c                        | 32 ++++++++++----------
+ net/smc/smc_wr.h                        |  2 --
+ 10 files changed, 119 insertions(+), 32 deletions(-)
+
+
+base-commit: f3883b1ea5a8f31df4eba1c2cb5196e3a249a09e
 -- 
-2.51.0
+2.48.1
 
