@@ -1,111 +1,277 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506252206A9
-	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 04:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D9715ADB4;
+	Mon,  8 Sep 2025 06:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757307136; cv=none; b=WVQy96Bs3/GfumiL/fK56GWQIrLxSBOx7XR+i6dO1znS39aEVO+yr02Fo9ZncpMB9pS0n2nKauUlFU5f+S3xInqOAG25CVX1r9zXFUr/EFbfpzGDBO9amxwwy77qRtpN6uHI4NOdto/OWFo2mhrNdtY7c9VvdXuHL0iebKSJicc=
+	t=1757314597; cv=none; b=TndO+gvFbcc7n0t9dXcqYtqzzjyuxCoP+a19Nsl8GdrraUCIbNAb13CqR9xEKTaHJe3ueBYzmveP9ol5/H6QKKi/89aXRhpGWAhmErl01LMx8SY53EK2X3ir/4IDpeGryksHTezJ9IepeFHt4iaSBsNJoYyGdriWTAR6C8CABLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757307136; c=relaxed/simple;
-	bh=vSKC/kmQeqND3A2rQlChRNGe1FptQNXba+tF78DaMzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BUfTRi62wdOEdqGnKznJtQ4v6F0LfwNK4rUaLTH1IFZKOtTTkArMJMRl3+zphIpV4dUXZopA9vSV+InPwTi9PFHVppaOv7CtGJkB47iDfzCJr/RjkkkztYyKZux8CS4muQt7YhiMk5HRZATFhX11q8g36nWQNstTBPm5p4HNJkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uvTqu-0006ng-7X; Mon, 08 Sep 2025 06:51:40 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uvTqq-000Bt9-2g;
-	Mon, 08 Sep 2025 06:51:36 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uvTqq-00Bi0F-2A;
-	Mon, 08 Sep 2025 06:51:36 +0200
-Date: Mon, 8 Sep 2025 06:51:36 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: gfuchedgi@gmail.com, Robert Marko <robert.marko@sartura.hr>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Network Development <netdev@vger.kernel.org>
-Subject: Re: [PATCH v3 0/2] hwmon: (tps23861) add class restrictions and
- semi-auto mode support
-Message-ID: <aL5g2JtIpupAeoDz@pengutronix.de>
-References: <20250904-hwmon-tps23861-add-class-restrictions-v3-0-b4e33e6d066c@gmail.com>
- <4e7a2570-41ec-4179-96b2-f8550181afd9@roeck-us.net>
+	s=arc-20240116; t=1757314597; c=relaxed/simple;
+	bh=IHHgWpB7XcU7hYXbGGKm76CMAvv1L16rOpYVAS1UiRw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nCeoJD7XjBHUumjZNhrmjIZGrj+qmWU6jzpsMFRTcVtBg0VOyGr9mt8hg6Vo6S9TA2JHKEoKTHXjaqgFOzEQEZR+MnWn4qz55SXv2hTyvD9UGxwf9vBKqszK++7A+3SHL0P+7bicoPwML69zwcx4S93OfLNTBTitjM7xuaI4X8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=O+4tICuy; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="O+4tICuy"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757314584; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=qRfhMOU1jwt6QQs/bLEA+T15CSW+jtTj6s7+A3xD1P0=;
+	b=O+4tICuyc4u09eQyXJ7YSCdiessZnqfiqoqyj9BLk+agre+muiGU0UXBwW+/ezIZLAw108CUSix/fTrudajUJDVpOPSzegyvTtwsmZRgp2RhGWqAb2T7+ZbG7Zf4boDokHl4Y/ywo/3bJdw/9+b2UDzMGcsPLeO/uR6KjUI6lkI=
+Received: from 30.221.130.235(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WnT.E8Y_1757314582 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 08 Sep 2025 14:56:23 +0800
+Message-ID: <2c51b7dd-4eb8-4af3-b554-1044fa493388@linux.alibaba.com>
+Date: Mon, 8 Sep 2025 14:56:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4e7a2570-41ec-4179-96b2-f8550181afd9@roeck-us.net>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 13/16] iomap: add a private arg for read and readahead
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
+ miklos@szeredi.hu, hch@infradead.org, linux-fsdevel@vger.kernel.org,
+ kernel-team@meta.com, linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250829235627.4053234-1-joannelkoong@gmail.com>
+ <20250829235627.4053234-14-joannelkoong@gmail.com> <aLJZv5L6q0FH5F8a@debian>
+ <CAJnrk1af4-FG==X=4LzoBRaxL9N-hnh1i-zx89immQZMLKSzyQ@mail.gmail.com>
+ <a44fd64d-e0b1-4131-9d71-2d36151c90f4@linux.alibaba.com>
+ <CAJnrk1bBmA+VK6UK1n6DRnuLvX8UOMp-VgQGnn2rUrq0=mCyqA@mail.gmail.com>
+ <d631c71f-9d0d-405f-862d-b881767b1945@linux.alibaba.com>
+ <20250905152118.GE1587915@frogsfrogsfrogs>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20250905152118.GE1587915@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 07, 2025 at 09:06:25AM -0700, Guenter Roeck wrote:
-> +Cc: pse-pd maintainers and netdev mailing list
-> 
-> On 9/4/25 10:33, Gregory Fuchedgi via B4 Relay wrote:
-> > This patch series introduces per-port device tree configuration with poe
-> > class restrictions. Also adds optional reset/shutdown gpios.
-> > 
-> > Tested with hw poe tester:
-> >   - Auto mode tested with no per-port DT settings as well as explicit port
-> >     DT ti,class=4. Tested that no IRQ is required in this case.
-> >   - Semi-Auto mode with class restricted to 0, 1, 2 or 3. IRQ required.
-> >   - Tested current cut-offs in Semi-Auto mode.
-> >   - On/off by default setting tested for both Auto and Semi-Auto modes.
-> >   - Tested fully disabling the ports in DT.
-> >   - Tested with both reset and ti,ports-shutdown gpios defined, as well as
-> >     with reset only, as well as with neither reset nor shutdown.
-> > 
-> > Signed-off-by: Gregory Fuchedgi <gfuchedgi@gmail.com>
-> 
-> This entire series makes me more and more unhappy. It is not the responsibility
-> of the hardware monitoring subsystem to control power. The hardware monitoring
-> subsystem is for monitoring, not for control.
-> 
-> Please consider adding a driver for this chip to the pse-pd subsystem
-> (drivers/net/pse-pd). As it turns out, that subsystem already supports
-> tps23881. This is a similar chip which even has a similar register set.
-> 
-> This driver could then be modified to be an auxiliary driver of that driver.
-> Alternatively, we could drop this driver entirely since the pse-pd subsystem
-> registers the chips it supports as regulator which has its own means to handle
-> telemetry.
-> 
-> Thanks,
-> Guenter
 
-Yes, Guenter is right. This driver belongs to the pse-pd framework.
 
-Best Regards,
-Oleksik
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+On 2025/9/5 23:21, Darrick J. Wong wrote:
+> On Fri, Sep 05, 2025 at 10:21:19AM +0800, Gao Xiang wrote:
+>>
+>>
+>> On 2025/9/5 07:29, Joanne Koong wrote:
+>>> On Tue, Sep 2, 2025 at 6:55 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
+>>>>
+>>
+>> ...
+>>
+>>
+>>>>>>
+>>>>>>>     int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
+>>>>>>> -             const struct iomap_read_ops *read_ops)
+>>>>>>> +             const struct iomap_read_ops *read_ops, void *private)
+>>>>>>>     {
+>>>>>>>          struct iomap_iter iter = {
+>>>>>>>                  .inode          = folio->mapping->host,
+>>>>>>>                  .pos            = folio_pos(folio),
+>>>>>>>                  .len            = folio_size(folio),
+>>>>>>> +             .private        = private,
+>>>>>>>          };
+>>>>>>
+>>>>>> Will this whole work be landed for v6.18?
+>>>>>>
+>>>>>> If not, may I ask if this patch can be shifted advance in this
+>>>>>> patchset for applying separately (I tried but no luck).
+>>>>>>
+>>>>>> Because I also need some similar approach for EROFS iomap page
+>>>>>> cache sharing feature since EROFS uncompressed I/Os go through
+>>>>>> iomap and extra information needs a proper way to pass down to
+>>>>>> iomap_{begin,end} with extra pointer `.private` too.
+>>>>>
+>>>>> Hi Gao,
+>>>>>
+>>>>> I'm not sure whether this will be landed for v6.18 but I'm happy to
+>>>>> shift this patch to the beginning of the patchset for applying
+>>>>> separately.
+>>>>
+>>>> Yeah, thanks.  At least this common patch can be potentially applied
+>>>> easily (e.g. form a common commit id for both features if really
+>>>> needed) since other iomap/FUSE patches are not dependency of our new
+>>>> feature and shouldn't be coupled with our development branch later.
+>>>>
+>>>
+>>> Hi Gao,
+>>>
+>>> I'll be dropping this patch in v2 since all the iomap read stuff is
+>>> going to go through a struct ctx arg instead of through iter->private.
+>>> Sorry this won't help your use case, but looking forward to seeing your patches.
+>>
+>> Hi Joanne,
+>>
+>> Thanks for your reminder.  Okay, I will check your v2 to know how
+>> you change then.
+>>
+>> Also, one thing I really think it's helpful for our use cases is
+>> converting .iomap_begin() at least to pass struct iomap_iter *
+>> directly rather than (inode, pos, len, flags, iomap, srcmap)
+>> since:
+>>    - .iomap_{begin,end}() are introduced before iomap_iter()
+>>      and struct iomap_iter but those callbacks are basically
+>>      now passed down some fields of `struct iomap_iter` now;
+>>
+>>    - struct iomap_iter->private then can contain a per-request
+>>      context so that .iomap_begin() can leverage too;
+>>
+>>    - There are already too many arguments for .iomap_begin(),
+>>      pass down struct iomap_iter directly could avoid adding
+>>      another `private` argument to .iomap_begin()..
+>>
+>> Therefore, I do wonder if this change (.iomap_begin() passes
+>> struct iomap_iter *) is a good idea for the iomap folks, in
+>> addition that filesystems can specify `struct iomap_iter->private`
+>> as in this patch.  Since this change is necessary to make our
+>> page cache sharing feature efficient, I will continue working on
+>> this soon.
+> 
+>  From a source code perspective, I like the idea of cleaning up the
+> function signature to pass fewer things to ->iomap_begin.  I suspect
+> that we could simplify it to:
+> 
+> 	int (*iomap_begin)(const struct iomap_iter *iter,
+> 			   struct iomap *iomap,
+> 			   struct iomap *srcmap);
+
+Hi Darrick,
+
+Thanks for your reply and sorry for my late reply due to another
+internal stuff.
+
+It sounds better to me since `const` annonation may have some more
+aggressive compiler optimization.
+
+> 
+> That way we preserve the notion that the ->iomap_begin functions aren't
+> allowed to change the iterator contents except for the two iomaps.
+> 
+> That said, the nice thing about passing so many parameters is that it
+> probably leads to less pointer chasing in the implementation functions.
+> I wonder if that makes any difference because extent mapping lookups
+> likely involve a lot more pointer chasing anyway.  Another benefit is
+> that since the parameters aren't const, each implementation can (re)use
+> those variables if they need to.
+
+Ok, but I'm not sure, in principle, even without `const` annotation,
+users can make local variables in their callbacks to avoid extra pointer
+chasing.
+
+But anyway, that is not what's my own original intention: we need
+another `->private` ctx to pass among all-iomap_begin() because it
+holds extra information, I think passing in `const struct iomap_iter *`
+is cleaner than adding a new argument.
+
+I will post this after the whole new feature work is finished.
+
+> 
+> I think you could simplify iomap_end too:
+> 
+> 	int (*iomap_end)(const struct iomap_iter *iter,
+> 			 loff_t pos, u64 length,
+> 			 size_t written);
+> 
+> and make ->iomap_end implementations extract iter->flags and iter->iomap
+> themselves if they want to.  I don't like how xfs_iomap.c abuses
+> container_of to extract the iter from the iomap pointer.
+
+Yeah, make sense.
+
+> 
+> (But not enough to have written patches fixing any of this. :P)
+> 
+>> Another thing I want to discuss (but it's less important for our
+>> recent features) is the whole callback hook model of iomap.
+>>
+>> Basically the current model does mean if any filesystem doesn't
+>> fulfill the iomap standard flow, it has to add some customized
+>> callback hook somewhere to modify the code flow then (or introduce
+>> a new special flag and move their specific logic into iomap/
+>> itself even other fses may not need this), but the hook way will
+>> cause increased indirect calls for them, currently we have
+>> `struct iomap_ops`, `struct iomap_writeback_ops` and
+>> `struct iomap_dio_ops`, if some another filesystem (when converting
+>> buffer I/Os for example or adding {pre,post}-processing ) have
+>> specified timing, it needs to add new hooks then.
+>>
+>> I do wonder if it's possible to convert iomap to get rid of the
+>> indirect-call model by just providing helper kAPIs instead,
+>> take .read_folio / .fiemap for example e.g.
+>>
+>>     xxxfs_read_folio:
+>>        loop iomap_iter
+>>          xxxfs_iomap_begin();
+>> 	iomap_readpage_bio_advance(); [ or if a fs is non-bio
+>>               based, spliting more low-level helpers for them. ]
+>>          xxxfs_iomap_end();
+>>
+>>     xxxfs_fiemap():
+>>        iomap_fiemap_begin
+>>        loop iomap_iter
+>>          xxxfs_iomap_begin();
+>>          iomap_readpage_fiemap_advance()
+>>          xxxfs_iomap_end();
+>>        iomap_fiemap_end
+>> So that each fs can use those helpers flexibly instead of diging
+>> into adding various new indirect call hooks or moving customized
+>> logic into iomap/ itself.
+> 
+> Yes, it's quite possible to push the iomap iteration control down into
+> the filesystems to avoid the indirect calls.  That might make things
+> faster, though I have no idea what sort of performance impact that will
+> have.
+
+It's not from the performance impact perspective, but for the
+flexibility.  Adding new hooks everywhere doesn't smell good
+at least on my side (because iomap tends to cover the whole I/O
+lifetime, which is by design different from page cache callbacks
+for example).
+
+> 
+>> I don't have a specific example  because currently we don't have
+>> direct issue against standard iomap flow on our uncompressed
+>> path, but after a quick glance of other potential users who try
+>> to convert their buffer I/Os to iomap, I had such impression in
+>> my head for a while.
+> 
+> OTOH making it easier for non-disk filesystems to use iomap but supply
+> their own IO mechanism (transformed bios, memcpy, etc) makes a far more
+> compelling argument for doing this painful(?) treewide change IMO.
+
+Yeah, I can see it's rather a painful treewide change, but if more
+hooks are added, it will be more painful than now.
+
+Anyway, it's just my random thought but it doesn't have real impact
+to our work and much less important to me.
+
+Thanks,
+Gao Xiang
+
+> 
+> --D
+> 
+>> Thanks,
+>> Gao Xiang
+>>
+>>>
+>>>
+>>> Thanks,
+>>> Joanne
+>>>
+>>>> Thanks,
+>>>> Gao Xiang
+>>>>
+>>>>>
+>>>>> Thanks,
+>>>>> Joanne
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Gao Xiang
+>>>>
+>>
+>>
+
