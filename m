@@ -1,95 +1,118 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482F827B346;
-	Mon,  8 Sep 2025 19:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9DE12CDA5;
+	Mon,  8 Sep 2025 19:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757359367; cv=none; b=Lp8fhzlrDNg1vQGiZVbGYf719j7xeP2YOKeJ03r4ZFFZ3mRwvRSTu6rwlfvuA/4mBPRISHy+5hFo9o9rkAqmAuMKfwkUJJ9+e8ptc2KhEAY0FaJA/WbCHXeGEo1I9hS9iQL6N5/AY3m/cLTLripMS2jVLrCpcrMZkSPZ3oqugfw=
+	t=1757359939; cv=none; b=RU6lYzlpVQgb5WLVLHZlO9Tp6uJ/aH55lZpxcE5LZR4bDr9oKBFeI7r7/0/e6hJ6wRiXahIx3YUXhc7UQZu80pWLb5yrlnYcEVpDoKZ4Q9pSyOiuycWekj/hAHetp3lVX6r46HN4ij09KyK7a8TMv5Be4PyPetbBfLWw0MZLjfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757359367; c=relaxed/simple;
-	bh=i+1gUo25QAYIkAtfs1W2WQ2KPPxBtZ8s34Kqlmu5qY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqW64e78XzvbbqIOHkA2CNev973ddeySSHJtcOtbj0b9D1qalD2OL+/lMQQcHwElOzdaz3/YWC3f7R/ZNaZswuJLkUnZ1x0YIFl5nPCeaTrZu4jLc9O6p7IHskETCRri6CzI0DRF17DAVx/VaYk3vWi/ZJNN/PjGP1SIewzOFCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZG1Rn05; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757359939; c=relaxed/simple;
+	bh=svwIjY0odUvrkEDPsSID8kA/rnu9D+UdLxV13N8PzoA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CVhcRjQgMk9VUTgF558Pb3kh2WNHCci+a+LcLgU/7deqdn2C/aRwzUeDzaQZIJ4fa8gmbJ2ahJaLNjnPfBX6P8JNERxYHgpMVPIEJF+9xGV75JKMnWDD+E+EjsXXAoUAIbixS1/qPlYoVFH9NN7KahLFnUSBEc4qjjEfEGkxIhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BsJ+hE50; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZG1Rn05"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24cbd9d9f09so63724355ad.2;
-        Mon, 08 Sep 2025 12:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757359365; x=1757964165; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KI3ctfrnvQONdgPkMOEdiajuJBRA6f0TmNsZjTS3ges=;
-        b=IZG1Rn05rNvGYX7jDGF3fPxit0MyMidjhjdX9eGYZngPXan7UwXygl3BnB5Z0LNkJ2
-         Ju7XhWppjO6goo5QYAY1u6Ge6G5QUMAF6IhqAsKq7lFgWJ4GSFzO/0CQo4/+78Amd5Ah
-         3wciixa+t9VIiLSI3RVkLfF8FkUuz3IsiXBdLdH+RakQ8IqLokmuOMsWL2sz6uG/5s72
-         5gKw0jRbBBxfW84omMeFGYlPjKB1fsj6YYsk48EQPyBmPpbEuh3TNUgxFuXE6NL2Iyga
-         j5RoZSnek5tVgMy/v5z9+0aX9gVj9gepgAPxGcD3v4oAMIVEYkqCFWnfle12Z9n3GKBP
-         yxuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757359365; x=1757964165;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KI3ctfrnvQONdgPkMOEdiajuJBRA6f0TmNsZjTS3ges=;
-        b=eb/u0d5Sxv/D5ueleJg0XdOE0CFWEZbXaQJ6Jywfaj1m7nOKll/pzLM/ALrR1j2C1s
-         PUVA9d3vR9g4ydagiwlPQajzJylAWXwqeooFbkZPCierbFWs4BLMCwi4eXZiW4P0ylSy
-         eakjlJqtM5auGqbH3nxpm2OIzgCCeCgAInt8/lcMwn0UqMgJ+I+W8F6WXt3PqJGVH3Fp
-         3ZZqXlvlDdDhpSP8v2uoAvP3hozUzIx9YVZj9UMGtP9DwDJBawj4XhyWr5CI26vCofZe
-         tWCOmaE3uYlNiZYQp03+kf3inXVVBkdNRiA598wikhCR9gnRdyEdBHMSJyVJ4KnQcK2M
-         mwYg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5+mnkkiEdNst9r3myd6VqD15v+rAFuvyZRPR18zIPtunlPfPYE0J4xJwK5qSRDGqB9sxDvV4nPiA=@vger.kernel.org, AJvYcCXGl/MmQ+aqvvcRIuKSXJSkKR4WHSwKR5u20u5dgTaXFW/t9JAagngQMW5EUQizKURsaK5iBmzaLkWbFBY=@vger.kernel.org, AJvYcCXaHHzDyRp4LYl7klWoNevaustxwXrlsc+4lGWq7MYI0qZN+Hwm3qnsfMJD9pvWb0SL6aerqxgu6nThZbOB@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBe+WtrkA7Jj5qI5BvbGS0tW0N4/mJk6xeAUdQy4cRTX+hKKew
-	ukB6nfwuGDT7BtI7vrg5n/hoTgC0Fp++PDSUdduJIVcd/6Bq6OOP980k
-X-Gm-Gg: ASbGncvsuir8co0usjPlEZLdYtebmVgSXTJ9CvnFdwGbF0kteTJyAMybVa4V6dmMIEP
-	4NUqYP+FPULV8BdXd3zDZH+sJRqxUJw/FsjDAV+953ebVKJyB2e2wS3eEbTs8iRAodPqP+LBHVy
-	mRkXhWRm8fLiu5ycbdfcn9aDdtEX7edmi5Q8EM3NuudR6u1oC+RVD4ut2H0sfTWoUmnYCwwG7Qv
-	tun8NZNOi5ol++rIZP78IAivD2dWvv4M/M4uSQLe5/J5I7oKi2m41qnkIv+N56AIOwVdpl7tCRL
-	FrJttI1rKPeedafO9fi+632TF7WNdgMavLGbEmsJpWuoWd5J1Iz8RjGelzrAkAZTvCLDxCzdVo2
-	7YOo8dHyq+tHzeSWnzTphFsSopt/twmG2mfw=
-X-Google-Smtp-Source: AGHT+IEU8PhPJvzL2pWcwLiCOwam9XZADE3q6DHHuzAzvf84V/Nt+nrocAE4ZERNPUAaKkMr7KT4uQ==
-X-Received: by 2002:a17:902:ce89:b0:251:493c:43e6 with SMTP id d9443c01a7336-2516ef57cd4mr108047555ad.10.1757359365511;
-        Mon, 08 Sep 2025 12:22:45 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b1f7492d8sm177011875ad.129.2025.09.08.12.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 12:22:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 8 Sep 2025 12:22:44 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cryolitia PukNgae <cryolitia@uniontech.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
-	Yao Zi <ziyao@disroot.org>,
-	Derek John Clark <derekjohn.clark@gmail.com>,
-	Jun Zhan <zhanjun@uniontech.com>,
-	Cheng Nie <niecheng1@uniontech.com>
-Subject: Re: [PATCH v9 2/2] hwmon: document: add gpd-fan
-Message-ID: <ab050d0d-595e-4b8e-8868-684886255c88@roeck-us.net>
-References: <20250908-gpd_fan-v9-0-7b4506c03953@uniontech.com>
- <20250908-gpd_fan-v9-2-7b4506c03953@uniontech.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BsJ+hE50"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB2940AE2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1757359931; bh=04ulyLXE+0xvoTpvavjUlihUixTI43QBBYVfUuXOlHk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BsJ+hE50SK+OQCJtXVe1DZ7g43d2UlDERpy7TNkNBDNB+StzYZisnoQ7dZEhj5F2a
+	 rcxkX2mzKU/toNyTENKs0niFWDbDMeEOQaC7Bw44H+b57EzQ19wrBGtMSXd3ePIw9Y
+	 CFr141I/ICady/xI/7LO0ToemUHgEpl/Ioq1+4AohvavUbk9wb4PsoD16abVDHXGsq
+	 0Nea2F/q+plBk1N92AFMQXaZ4/5xqtH0OlEeQVN+pccy/vTjYWjzEAJIygWRpVpQnu
+	 o3ytQy7m10CvMU3/jRrdsRnytHMYV7GRmjGi3T5Kg3cp0yeVXk/v5D7holWjpwbNWQ
+	 c4EcKobdnE5NA==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CBB2940AE2;
+	Mon,  8 Sep 2025 19:32:10 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linuxfoundation.org>, linus.walleij@linaro.org
+Subject: [PATCH] docs: update the guidance for Link: tags
+Date: Mon, 08 Sep 2025 13:32:10 -0600
+Message-ID: <87segwyc3p.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250908-gpd_fan-v9-2-7b4506c03953@uniontech.com>
+Content-Type: text/plain
 
-On Mon, Sep 08, 2025 at 10:25:45AM +0800, Cryolitia PukNgae wrote:
-> From: Cryolitia PukNgae <cryolitia@uniontech.com>
-> 
-> Add GPD fan driver document
-> 
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+As stated definitively by Linus, the use of Link: tags should be limited to
+situations where there is additional useful information to be found at the
+far end of the link.  Update our documentation to reflect that policy, and
+to remove the suggestion for a Git hook to add those tags automatically.
 
-Applied.
+Link: https://lore.kernel.org/all/CAHk-=wh5AyuvEhNY9a57v-vwyr7EkPVRUKMPwj92yF_K0dJHVg@mail.gmail.com/
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/maintainer/configure-git.rst | 28 ----------------------
+ Documentation/process/5.Posting.rst        |  7 +++---
+ 2 files changed, 3 insertions(+), 32 deletions(-)
 
-Guenter
+diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
+index 0a36831814ea..0c21f203cf7a 100644
+--- a/Documentation/maintainer/configure-git.rst
++++ b/Documentation/maintainer/configure-git.rst
+@@ -28,31 +28,3 @@ You may also like to tell ``gpg`` which ``tty`` to use (add to your shell
+ rc file)::
+ 
+ 	export GPG_TTY=$(tty)
+-
+-
+-Creating commit links to lore.kernel.org
+-----------------------------------------
+-
+-The web site https://lore.kernel.org is meant as a grand archive of all mail
+-list traffic concerning or influencing the kernel development. Storing archives
+-of patches here is a recommended practice, and when a maintainer applies a
+-patch to a subsystem tree, it is a good idea to provide a Link: tag with a
+-reference back to the lore archive so that people that browse the commit
+-history can find related discussions and rationale behind a certain change.
+-The link tag will look like this::
+-
+-    Link: https://lore.kernel.org/r/<message-id>
+-
+-This can be configured to happen automatically any time you issue ``git am``
+-by adding the following hook into your git::
+-
+-	$ git config am.messageid true
+-	$ cat >.git/hooks/applypatch-msg <<'EOF'
+-	#!/bin/sh
+-	. git-sh-setup
+-	perl -pi -e 's|^Message-I[dD]:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
+-	test -x "$GIT_DIR/hooks/commit-msg" &&
+-		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
+-	:
+-	EOF
+-	$ chmod a+x .git/hooks/applypatch-msg
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 22fa925353cf..9999bcbdccc9 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -207,10 +207,9 @@ document with a specification implemented by the patch::
+ 
+ 	Link: https://example.com/somewhere.html  optional-other-stuff
+ 
+-Many maintainers when applying a patch also add this tag to link to the
+-latest public review posting of the patch; often this is automatically done
+-by tools like b4 or a git hook like the one described in
+-'Documentation/maintainer/configure-git.rst'.
++As per guidance from the Chief Penguin, a Link: tag should only be added to
++a commit if it leads to useful information that is not found in the commit
++itself.
+ 
+ If the URL points to a public bug report being fixed by the patch, use the
+ "Closes:" tag instead::
+-- 
+2.51.0
+
