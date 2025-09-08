@@ -1,324 +1,224 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2056.outbound.protection.outlook.com [40.107.95.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384E315E97;
-	Mon,  8 Sep 2025 14:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757342320; cv=none; b=hi4Y6gLKpv9BP+xySBo6JHa2D2C5+mSvRas4HHzhVPc4zfTDJXAqm4XK5Y79wmRfoVf018XkH/I+/jUaLIpb6YTD3sL8o6GvaeB6I9JtiIGrcktv5340hYxpSMBaxnwIvdqTP/qvq9uBh4WcbKE8L8BPUUCiJdzSTZVbPG+oIQ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757342320; c=relaxed/simple;
-	bh=qUlRg/BVEm7t071O21mHN6WvnwLctBlLdCaBYMGsDMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uKLgCB01Vqv+lfI3WJd/FclAvzVs1I8SUXjSANEvITINJHiP1NZ96gkxJKALiZeXtyz75eeKBQM7dsFAUV+M/T9iL80EMJJkYqL2yVy/rHNypvRu6/2F/bfU7ZyGgVmW2w/aQzRx71OkitQ2bWqz3sUCpOHkdG0FzZJ8BCcFHow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rZWo/xG7; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0E31C7013;
+	Mon,  8 Sep 2025 14:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757342491; cv=fail; b=ZMRhY2C1Lo+FiIcSsZSRSaA1CIneGPJKO13myfUATfjryxaW9uTZeKlf2O91aZohUeFjCe7IW6SBPjAXJQMBXAyoDNvETuwaZQU1ZFmH2EEcuRuF0Neps/egnMeo9dFs4FdpGa9jkph3f+kykFL7qwXp0jwCh5PqQbxWIR26gTI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757342491; c=relaxed/simple;
+	bh=Gedjl2ie5Z3jDa8Jct5ns5wOAugxNnCZnvE/KaBWZjQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CxF0Y+PqBhadWPyZf6LRnEqgw5tsyua+n5UnRSRpW7QRsPPso8bkDTmh8gCoUKk8Eg2M825yWAWB1kK43Tm+QobG1l3u5Zd2uk+OePnpzwSdnD0BssNaRJ2025Tkmh0bQVROYhxIFEeAGlo4stjEEJgrfcZ/KButKqQkww+XwXY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=o2xftqg9; arc=fail smtp.client-ip=40.107.95.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rZWo/xG7"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 677491A0E17;
-	Mon,  8 Sep 2025 14:38:35 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 392C96061A;
-	Mon,  8 Sep 2025 14:38:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5CAE5102F270F;
-	Mon,  8 Sep 2025 16:38:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757342314; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
-	bh=3+kRf5MNNIFuKMtF8DkuLBor42xHpAuXkRT1mWr6b70=;
-	b=rZWo/xG7tjPxZfgwuZ77qZWGPSIzH1ri8Gu+k61WptQZAk+tGtEfw3a7Lrsp2qHX38sxgT
-	k0nRLvzO87UJ3/IxKiEIzRSBpVyJlLciF74aDMTjJSzwRYWw1q3d0nsVJLuNBgv5Y9emQi
-	BBB+K0uW3h+lgZsbj9WqCi0c2lgwo2FnHd3K+ymd8+S656hww87hm9IyUoTnmxACAlsxI2
-	QojWGWLLHxJkY8GyOt7HBf0Y36j1x9p4iGxlzNu3rjSsv56EC3t5lj0le+59JnIVoF3F7e
-	kzs3ukLc5MMsMY72T6r4LOU38HVbXURYoqWphwZn2qrvIfS73QrGXuQ5CcaX6g==
-Message-ID: <ea069c8f-b724-409c-9dc6-345b3f9d6d85@bootlin.com>
-Date: Mon, 8 Sep 2025 16:38:09 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="o2xftqg9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NfHcgezXGLB2G+G14UEfSguUxNziQRBe46tNPKcWfXgsj4OTkTBc8Plr71JfXrEaN6wS6SJ5SZeJtgkKIZiU0FC/cSV/cFMvuMS5nhaIK+6Rzi1eg126n+6m7WhY1soZGDeTPbXCqKnN39AZ+u1qRd1STCkKoPFtOv0DAlMU4YeGEjxxsTpAAEC7Olq1XJpXO/bxntk/3ZWq/3fqwobhEFoqG9d+52dD633etzgW6Z/TEmUsUnzQ73y1krjHpmc2DF1FJW5l5aHe9FHWYJfTMsQYa5BZuukZ+QglCOPt5efVe2kjRHG61zHXaHXPZ8F31uui2vNyOFbCBDVtC60FmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iZByfrrxLzdBnMAULlt6XtlTrUZllTd8j41qDc8Isxc=;
+ b=gLgY+0f545zyr8Sii1stJpuD6i4VG0yNZaTgcKLGQiA/+EjJL+g/+Qo32Aa7FM5Tux2VTqvQXTkAyTu7o0JhWyZzmMFlPqT+voTJGBk8lJivalKOQ8LS3/a8KRaqgTH1a59VujO1cyfCt6SuX9f4mdooypmPR61P3leYyx0NYzfokxTKR+CsJi+3E7TFcfDRDvK6kt+2ByZuOv98s+TnCoST/lCMQU3JForKw2p7GgQbmDopHi94x0Algt25GAtgUs3W7o8+D+XZQj35ziSEIAa4aIttd3YvYx3UHfgxKz8a6Uk2KX4Fdo1XlcMJVk5D5KUs5u3KsrmkNUdi56kqMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iZByfrrxLzdBnMAULlt6XtlTrUZllTd8j41qDc8Isxc=;
+ b=o2xftqg9ASGtCiIBacLny7IpdLxAnczWPORGdbNZi4ZmxwGAR5e3dR+oVdlPk8S/47MtI8/BtGhn5A8LziPn11xMs4tJPzBA3Ah+xSsCeeWtSEhll+NHV86b0YDGJKzfoEeGLhFANrHXYNSlBD8FjfRCr+PioFnOfV3mpwE5R84=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by PH0PR12MB7862.namprd12.prod.outlook.com
+ (2603:10b6:510:26d::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 8 Sep
+ 2025 14:41:25 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::bed0:97a3:545d:af16%7]) with mapi id 15.20.9094.021; Mon, 8 Sep 2025
+ 14:41:25 +0000
+Message-ID: <d3e4ddd7-2ca2-4601-8191-53e00632bf93@amd.com>
+Date: Mon, 8 Sep 2025 09:41:22 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v18 05/33] x86/cpufeatures: Add support for Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, kas@kernel.org,
+ rick.p.edgecombe@intel.com, akpm@linux-foundation.org, paulmck@kernel.org,
+ frederic@kernel.org, pmladek@suse.com, rostedt@goodmis.org, kees@kernel.org,
+ arnd@arndb.de, fvdl@google.com, seanjc@google.com, thomas.lendacky@amd.com,
+ pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
+ manali.shukla@amd.com, sohil.mehta@intel.com, xin@zytor.com,
+ Neeraj.Upadhyay@amd.com, peterz@infradead.org, tiala@microsoft.com,
+ mario.limonciello@amd.com, dapeng1.mi@linux.intel.com, michael.roth@amd.com,
+ chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
+ kvm@vger.kernel.org, peternewman@google.com, eranian@google.com,
+ gautham.shenoy@amd.com
+References: <cover.1757108044.git.babu.moger@amd.com>
+ <08c0ad5eb21ab2b9a4378f43e59a095572e468d0.1757108044.git.babu.moger@amd.com>
+ <fb2d5df6-543f-43da-a86a-05ecf75be46d@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <fb2d5df6-543f-43da-a86a-05ecf75be46d@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1PR04CA0016.namprd04.prod.outlook.com
+ (2603:10b6:806:2ce::21) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 29/58] docs/dyndbg: add classmap info to howto
-To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
- jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com, seanpaul@chromium.org,
- robdclark@gmail.com, groeck@google.com, yanivt@google.com,
- bleung@google.com, quic_saipraka@quicinc.com, will@kernel.org,
- catalin.marinas@arm.com, quic_psodagud@quicinc.com, maz@kernel.org,
- arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, mingo@redhat.com, linux-doc@vger.kernel.org
-References: <20250803035816.603405-1-jim.cromie@gmail.com>
- <20250803035816.603405-30-jim.cromie@gmail.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250803035816.603405-30-jim.cromie@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|PH0PR12MB7862:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad6f2e3f-42c3-4938-8b57-08ddeee5c990
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TUdra1FVWDY1SWU2Ty9nOERtOXRoNjZPbzRsVXdzVnFyRjR5eEhmRUk5T0lo?=
+ =?utf-8?B?cmFVYVdPWHhraW1hVUQwUFgxeFdGc2QvZU9wdU5XeStIZEh2cjZzRktzek5x?=
+ =?utf-8?B?Qy95WlhuNFJRNFF6MEgxVnNtbExITksraHNrOGJsendDZnVYaWVraVRqcjQ4?=
+ =?utf-8?B?RllyNzdaeXhvbjd6SU5uNE00Q0NFWTdRVmtLa3ZDOUR0YkFnbURSUW03YytQ?=
+ =?utf-8?B?bmxiVHkvb3NVa2h1SCt3VW4vZVViSW1oeSs5MGV3dG5Eb1lPOWU0aCtuaWFk?=
+ =?utf-8?B?UnBHdUhVSWplSjZqUitZdFE3anVyNWREK3hqaFcweitVWjFZWVUwektsTTBZ?=
+ =?utf-8?B?UEZlV3psVm5sTmM3Q3oxY0Z5UnZueml1YkNEU0FTSmt5bGRpd3VNVzc2cEFm?=
+ =?utf-8?B?RXI4TEo5R3hNeUZRRWpQaWpKNThmMjdhVzBDd0xaWjFrdEJYa1R5eUVLdUY0?=
+ =?utf-8?B?ZTlNemtRVE9GQzE0S3YrbzF3YmYzSjJlam43MjNPUkpEc0xNdExkUkFGTG1u?=
+ =?utf-8?B?eGxia1FrcWtKcGFYVHVBQzJzdU1tNytmVm1pVzFYODczOGozemR4Mm5DR3o5?=
+ =?utf-8?B?NmRuWm5oTm5PS2dkQzc1Q3JINVFiUVZIMWRwK0lJbzZBamw4cndMeUI1L096?=
+ =?utf-8?B?dzFnZGdwQlJGOFhEbEkxUWloVjl1K3V5dVpYNGE1eVd3cHlOOWVNYWVvVllV?=
+ =?utf-8?B?cHFYL0ZNK0RQUXd3ZGs4V3g4T296N0E5bXlTT0FrMkRmTk5jc3Y4a1RyTWk1?=
+ =?utf-8?B?V0t4SVdidTRTRUVxQkNhN1k4U2pVV1NWNXVNeUFhMUZMa3Ftc0kvQ0srNEJq?=
+ =?utf-8?B?UStQcmxXdU1Cb1RxTThPdW5MR3dUV1VpUXgwck81dTgxK0h0OVQ4MWQ0aDB2?=
+ =?utf-8?B?MlFwcnJaSXdmS3hXLzB2MHpvSWZPdG1DdjRyZk54YWRPR1dwVnBhRjlkM2Nx?=
+ =?utf-8?B?dWNGdTAxOGQwaDAxWTNuVlhVNUM0UjJLMUFWcFZNb0tGMFhMaVMyRXdjR0k4?=
+ =?utf-8?B?UllnSWZiMk1ndmtvbVozQ3h3MG5MYzVGN1EyNHJvelpGNkRGY1dzTDVQa0d1?=
+ =?utf-8?B?ZE5FZndKODY1V29jUnUxVnFpbWNDWFpLeGtRSEY1dGQ5aUd0Q3A5WEJkZDFw?=
+ =?utf-8?B?UlpNd1dhSVVFWWREU2ZWWXBDNklZa1lVMDJ6Q2xYZHRyTk5kZk9VbXp0cktU?=
+ =?utf-8?B?YkF2UVk2RklQZ1NRd3BVTHpaLzRPTUtTVnphL0ExZHBOYm1IbE8vSW1ndGtp?=
+ =?utf-8?B?VThWN25yMHVsam43ZzlLd1VVdmlKZmJ4RkFDS09CQ1p5WDhKa0hIU2swV3hx?=
+ =?utf-8?B?MitWZElKZmJPQ2p5SE4yRkVlMGJtRHlxYy9seXJ0ei8wcWNpMkVNVXZORzhF?=
+ =?utf-8?B?akpyVHFDSEMrcmVxQnhLbFArRFhMOXp1RkZZZEc2c3ltaHUrbC9MSjFrNC95?=
+ =?utf-8?B?Vmt0SHFaU0p5QXhzaGxRMDhRYzdVQ3lsMnFSU3Byc1R4WTQ3SlVIZklWbGFS?=
+ =?utf-8?B?K1JKYUNTR0lwQ3IzK1BPWEVPemhhQVdEWmZ4WitsYWJ4cTZWS0xJV0xlZmph?=
+ =?utf-8?B?UmxJQTY3U0tVNHhkTEswQTlweThzOXZsdjJ3Q0x3a0QxMUlXaVNuaktOM1dp?=
+ =?utf-8?B?L3c1Qm14K1ovTDhjdTJ3dzMvSUZJVFZqd2hOdzFSeGsxWU1Jb2RkYkx6OW53?=
+ =?utf-8?B?Um9ESGRYMXVjN1ZmcXQ1R0FYaGo2M3hodU00ZmhhQXFSL2lJSHNYNEpqUnl0?=
+ =?utf-8?B?Y0x5OE9ESnpEaWdxUUFDVGFHa3l4WUdxWVYzZHVLOEhlQWMyQ3hYbE9BR29F?=
+ =?utf-8?B?aDdrK09rMytaMmREbStvWWRtd0VubmN0QnpMMlMrRUZXbG9neFNJdnBrOHA5?=
+ =?utf-8?Q?3nOdkzzVF2fmt?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b29FTE1YbVR2TFB3cU95VENMTng1Yk5BVGNyTEozeTEwUnpobmdhaU0rcFNz?=
+ =?utf-8?B?MXhLNjRmSHdBWGFJNU5QZzNOV3VDaGlpY1dCZ1U3aUJoRG1YUjRGdTZSZHEv?=
+ =?utf-8?B?WTRmVTYvOU4xWm9xMnd6bVlVNFhYZnkyQkVEMkZhT2dvem80akRiZWkxRGNC?=
+ =?utf-8?B?M3k5Ry85Yzh1WnEvWmx0MHE2QWY2aGRqaHhMU1pzUk5ma0ZmRFhDeVcxVGkz?=
+ =?utf-8?B?dFdrVnlLNVZuZHdRN05nUEFSaUJ6dDhIYzZEaUJYNHNrYjFVSmZXYksxM2c4?=
+ =?utf-8?B?NHF6cVJ2cHJoTjU0aEVBS2JzTm02UXl2STVzN2hiWWZqRUYxMnRQanJLNkZm?=
+ =?utf-8?B?RW0vdGFMc09xY0JpUURxUjhNd2tOemlxb1JyR0dIN3NESS9Gd0ErMGpjL3Zn?=
+ =?utf-8?B?d2pHMWp3blQ5UDZhNFVDeGpsTU1TbkJPTndQQzJYdFhvVU9SNzU4ZmsvSkFO?=
+ =?utf-8?B?OXppVjg4alB1L2o2SlJHZk1JWnI1KzFTSG10OXVlUThqeGU2aithcTFPZVo0?=
+ =?utf-8?B?OENwM1V5Uk5xeFpVenJYMTFkMG4vOHlUZjBYeFoyeFFQNHZnd0lGcnljZ21p?=
+ =?utf-8?B?TmoyaTVKbWhVTUpUekdWNWo0ZUY4Y1ZkRGRzWDFpRnMwK0hYcVVYNWFhVjEv?=
+ =?utf-8?B?SXJMbXZkZnpFYUg4MUlXSCtJdUpacmNzTlplMy93Vm1TbDIwUCt2cGpjM0NZ?=
+ =?utf-8?B?S21ZOUl2TDAzSzEwVzFUYXFqUHNPZjdiemlzSlhSZGtBSTBlcWFBUzl5UDE5?=
+ =?utf-8?B?Ty9ORnQyd1VaRUo3eEJHazRmeWdMbjdtYkZnaEFJZkNHdGo2TTFZR0tIbjZP?=
+ =?utf-8?B?OWZJcWpmdjIwcmhDWngyL2FLRnV0ZGdLeGM4RGk5QkdYRFNmOEpzZy83Yjdn?=
+ =?utf-8?B?SXViUWRpL3d4NytMYjgrUmZkWWVkWmh2dXJuQWxvZC9Nc2dBcDVIR1VIYWFU?=
+ =?utf-8?B?ajgxazJaZDBTaTlXdHVSaXVMVkg3TVV3Ti9UZEpwVzVwUkNSdWc2M0RBUG9G?=
+ =?utf-8?B?UHlXN2pSU1JGbHBpY1lKdXJ3TkpQOWRZRXZIdStIWHZ4UVdSMmprMy9SVWVr?=
+ =?utf-8?B?ckhnT2xLU2t4LzNPTEgraWdIK0c0L0kzR3dqcWJ2UFhnYmRENng5MUk1VlJz?=
+ =?utf-8?B?NVQyckVmd0ZUcTFkSUZJWW85R3Byd3pweDVLMi9vQVVObE1TT3ByK0E3NTk3?=
+ =?utf-8?B?MHJ0dDhreHErL1pUenVUTFlha2lGOCtCQVhmNHNTbDNrcnFqdFdiU1I5Tkgx?=
+ =?utf-8?B?UHB2SG9pT1dNd01FZ2l0NkdEWmlyb0Z1TE5XK29zZVI1dFFZNm83ZXhwcXJu?=
+ =?utf-8?B?KzJDc3lCajNtRThBU1BBeklQRVBSRTE3VjVCUFFNZHkwa2ljeVdZOEZiV3Iz?=
+ =?utf-8?B?M3FuK2FrVmZxZ3JubGw3Qy9jdkh4cFpkTmlFS0xWYjlGbGxzcjNUWm9HNUhw?=
+ =?utf-8?B?dlVTTkxZbzVpc2hwOVU5SDBCVkN0UDczZnNCT0w1bE5rb3g0V0VBMmVZR3Nv?=
+ =?utf-8?B?N0Y5UjBsdDVwc1UwTzVpWE5VNzkvSksvRktocVZFUWRjQW5yVmt0WHBIa1RZ?=
+ =?utf-8?B?Y2l1ZWJyWU9xT1hFSlAzKzR5cnhmcStodFJkL2J1bHdwUlUza0ZVcnFOMUJz?=
+ =?utf-8?B?UHpTSlA0YU15Z3l4L3VGeE5yb3RUem93T2R3Mk9iSWVwVmsrYzVoY2xzSGVP?=
+ =?utf-8?B?Tk9wRytGU0VZdGs4cTNkeVorZzB2MTBYRVNQUjcxY3VJUzJpeERBRnRxVFBO?=
+ =?utf-8?B?Ly9aK2Y1emVxN2JFMXhnRks2SHNUZWkrSnpzR3VhVGloNEJEOEppWHN3a3hz?=
+ =?utf-8?B?RVZlM2hhV1dSQjhTMWhvajRMa2lCeUVvUklGTTJIUEU1NFVEM0Z1Ri9DV1Zq?=
+ =?utf-8?B?QjJQa3hGeDNzOHNyVjU0SXEzNDhlMnRJeWFwVzhTanV2MU0yMmRDbGNmU28w?=
+ =?utf-8?B?SS9oaGQrczlUWnZFampXUFd0NDhEL3orbWVpQ2doaHRIMm51NGZjSVdaeXpy?=
+ =?utf-8?B?WW40THlHeEp0SnNud2R6a0xzQkFyWVlmVFdVVElrcU9lZTdUSGg0SnJLUEhG?=
+ =?utf-8?B?MGt3NC9kQ2NVTmFWckRpMG5yOG1meVNMd3I1VTM2blkvQ1Y1Q2J2TFhkMy92?=
+ =?utf-8?Q?UlGo=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad6f2e3f-42c3-4938-8b57-08ddeee5c990
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 14:41:25.5167
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kqCF+ykmMkIDdqRmOlSNqZss8Nx+JWll70sZcYgaMIc8TE0IEmTaRoEwhhziJ53H
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7862
+
+Hi Reinette,
+
+On 9/5/25 23:49, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 9/5/25 2:34 PM, Babu Moger wrote:
+>>
+>> The ABMC feature details are documented in APM [1] available from [2].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>> Monitoring (ABMC).
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+>> ---
+> 
+> Apologies for not catching this earlier. I double checked to make sure
+> we get this right and I interpret Documentation/process/maintainer-tip.rst
+> to say that "Link:" should be the final tag.
+> 
+
+That’s fine. It wasn’t very clear to me in maintainer-tip.rst.
+
+I checked a few older commits, and the placement seems mixed—some have it
+at the end, but it’s not very consistent. I can update my patches
+accordingly and apply the same change across all of them.
 
 
+ The ABMC feature details are documented in APM [1] available from [2].
+ [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+ Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+ Monitoring (ABMC).
 
-Le 03/08/2025 à 05:57, Jim Cromie a écrit :
-> Describe the 3 API macros providing dynamic_debug's classmaps
-> 
-> DYNDBG_CLASSMAP_DEFINE - create & export a classmap
-> DYNDBG_CLASSMAP_USE    - refer to exported map
-> DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-> DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
-> 
-> TBD: some of this might be over-specification, or just over-talked.
-> 
-> NB: The _DEFINE & _USE model makes the user dependent on the definer,
-> just like EXPORT_SYMBOL(__drm_debug) already does.
-> 
-> cc: linux-doc@vger.kernel.org
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+ Signed-off-by: Babu Moger <babu.moger@amd.com>
+ Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+ Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [2]
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> ---
-> v3- rework protection around PARAM
-> 
-> v0.5 adjustments per Randy Dunlap
-> v0.7 checkpatch fixes
-> v0.8 more
-> v0.9 rewords
-> 
-> fixup-howto
-> ---
->   .../admin-guide/dynamic-debug-howto.rst       | 137 ++++++++++++++++--
->   1 file changed, 126 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 1ceadf4f28f9f..556e00299ed35 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -146,7 +146,9 @@ keywords are:::
->     "1-30" is valid range but "1 - 30" is not.
->   
->   
-> -The meanings of each keyword are:
-> +Keywords:::
-> +
-> +The meanings of each keyword are::
->   
->   func
->       The given string is compared against the function name
-> @@ -194,16 +196,6 @@ format
->   	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
->   	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
->   
-> -class
-> -    The given class_name is validated against each module, which may
-> -    have declared a list of known class_names.  If the class_name is
-> -    found for a module, callsite & class matching and adjustment
-> -    proceeds.  Examples::
-> -
-> -	class DRM_UT_KMS	# a DRM.debug category
-> -	class JUNK		# silent non-match
-> -	// class TLD_*		# NOTICE: no wildcard in class names
-> -
->   line
->       The given line number or range of line numbers is compared
->       against the line number of each ``pr_debug()`` callsite.  A single
-> @@ -218,6 +210,24 @@ line
->   	line -1605          // the 1605 lines from line 1 to line 1605
->   	line 1600-          // all lines from line 1600 to the end of the file
->   
-> +class
-> +
-> +    The given class_name is validated against each module, which may
-> +    have declared a list of class_names it accepts.  If the class_name
-> +    accepted by a module, callsite & class matching and adjustment
-> +    proceeds.  Examples::
-> +
-> +	class DRM_UT_KMS	# a DRM.debug category
-> +	class JUNK		# silent non-match
-> +	// class TLD_*		# NOTICE: no wildcard in class names
-> +
-> +.. note ::
-> +
-> +    Unlike other keywords, classes are "name-to-change", not
-> +    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-> +
-> +Flags:::
-> +
->   The flags specification comprises a change operation followed
->   by one or more flag characters.  The change operation is one
->   of the characters::
-> @@ -394,3 +404,108 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
->   For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
->   its ``prefix_str`` argument, if it is constant string; or ``hexdump``
->   in case ``prefix_str`` is built dynamically.
-> +
-> +Dynamic Debug Classmaps
-> +=======================
-> +
-> +The "class" keyword selects prdbgs based on author supplied,
-> +domain-oriented names.  This complements the nested-scope keywords:
-> +module, file, function, line.
-> +
-> +The main difference from the others: classes must be named to be
-> +changed.  This protects them from generic overwrite:
-> +
-> +  # IOW this cannot undo any DRM.debug settings
-> +  :#> ddcmd -p
-> +
-> +This protection is needed; /sys/module/drm/parameters/debug is ABI.
-> +DRM.debug is authoritative when dyndbg is not used, dyndbg's PARAM
-> +cannot undermine that guarantee just because its optional for DRM to
-> +use it.
-> +
-> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-> +
-> +So each class must be enabled individually (no wildcards):
-> +
-> +  :#> ddcmd class DRM_UT_CORE +p
-> +  :#> ddcmd class DRM_UT_KMS +p
-> +  # or more selectively
-> +  :#> ddcmd class DRM_UT_CORE module drm +p
-> +
-> +That makes direct >control wordy and annoying, but it is a secondary
-> +interface; it is not intended to replace the ABI, just slide in
-> +underneath and reimplement it.
-> +
-> +However, since the sysfs/kparam is the ABI, if a classmap DEFINEr
-> +doesn't also add a _CLASSMAP_PARAM, there is no ABI, and no protection
-> +is needed.  In that case, class'd prdbgs would be enabled/disabled by
-> +legacy (class-less) queries, as a convenience, and because there's no
-> +need to enforce irrelevant rules.
-> +
-> +
-> +Dynamic Debug Classmap API
-> +==========================
-> +
-> +DRM.debug is built upon:
-> +
-> +- enum drm_debug_category: DRM_UT_<*> - <T> for short
-> +- 23 categorized api macros: drm_dbg_<T>(), DRM_DEBUG_<T>()
-> +- 5000 calls to them
-> +- all calling to __pr_debug_cls(<T>, ...)
-> +
-> +Those compile-time const short ints are good for optimizing compilers;
-> +a primary classmaps design goal was to keep that property.
-> +So basically .class_id === category.
-> +
-> +Then we use the drm_categories DRM_UT_* enum for both the classnames
-> +(stringified enum symbols) and their numeric values.
-> +
-> +Its expected that future users will also use categorized macros and an
-> +enum-defined categorization scheme like DRM's, with dyndbg inserted in
-> +similarly.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-> +classnames (a list of strings) onto class-ids consecutively, starting
-> +at _base, it also maps the names onto CLASSMAP_PARAM bits 0..N.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
-> +var _DEFINEd elsewhere (and exported).
-> +
-> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-> +dyndbg to update those classes.  "class FOO" queries are validated
-> +against the classes, this finds the classid to alter; classes are not
-> +directly selectable by their classid.
-> +
-> +NB: It is an inherent API limitation that the following are possible:
-> +
-> +  // these would be caught in review
-> +  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-> +  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does nothing
-> +
-> +There are 2 types of classmaps:
-> +
-> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-> +refers to a DEFINEd classmap, and associates it to the param's
-> +data-store.  This state is then applied to DEFINEr and USEr modules
-> +when they're modprobed.
-> +
-> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> +amongst the contained classnames; all classes are independent in the
-> +control parser itself; there is no implied meaning in names like "V4".
-> +
-> +Modules or module-groups (drm & drivers) can define multiple
-> +classmaps, as long as they (all the classmaps) share the limited 0..62
-> +per-module-group _class_id range, without overlap.
-> +
-> +If a module encounters a conflict between 2 classmaps its USEing, we
-> +can extend the _USE macro with an offset to allow de-conflicting the
-> +respective ranges.  Or they use the DEFINErs macro-api, but with new
-> +enum symbols.
-> +
-> +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> +class'd ones.  This won't be reflected in the PARAM readback value,
-> +but the class'd pr_debug callsites can be forced off by toggling the
-> +classmap-kparam all-on then all-off.
+I’ve been basing the patches on top of:
+git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+with `origin/HEAD -> origin/master`.
+
+Please let me know if this is the correct branch to use to make the merge
+process easier.
 
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks
+Babu Moger
 
