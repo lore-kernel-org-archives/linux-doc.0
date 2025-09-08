@@ -1,118 +1,95 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9DE12CDA5;
-	Mon,  8 Sep 2025 19:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34F32D3745
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 19:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757359939; cv=none; b=RU6lYzlpVQgb5WLVLHZlO9Tp6uJ/aH55lZpxcE5LZR4bDr9oKBFeI7r7/0/e6hJ6wRiXahIx3YUXhc7UQZu80pWLb5yrlnYcEVpDoKZ4Q9pSyOiuycWekj/hAHetp3lVX6r46HN4ij09KyK7a8TMv5Be4PyPetbBfLWw0MZLjfk=
+	t=1757360895; cv=none; b=Lhfej/elJV4OBWe3rTffDi6WzxCsAizyzbcKsNXDEHBDXF/sCJtHN36ftJ/V80kwGhAacAy3UYhB7RuuyXiiAZdzZ7lKK9MFuDKg6wKe7eioW9weQo0Hkc03iv99P328Md/TNP9WwduFE+yOAIMwYQ1slwulylEzr/J6N+RS/5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757359939; c=relaxed/simple;
-	bh=svwIjY0odUvrkEDPsSID8kA/rnu9D+UdLxV13N8PzoA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CVhcRjQgMk9VUTgF558Pb3kh2WNHCci+a+LcLgU/7deqdn2C/aRwzUeDzaQZIJ4fa8gmbJ2ahJaLNjnPfBX6P8JNERxYHgpMVPIEJF+9xGV75JKMnWDD+E+EjsXXAoUAIbixS1/qPlYoVFH9NN7KahLFnUSBEc4qjjEfEGkxIhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BsJ+hE50; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757360895; c=relaxed/simple;
+	bh=jmcLddsM1rSmyuBEhmQTe6QzWT65ZsqYoD7U2JXM3bY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=skLxEPExi8AJD1hgMMigeBipYGQ4rUZu6qved/ojmYuWhXQN1z3etj3Y6xg+NsUixub7VoicR+gHe7YS9dsTGQbN4BNuzCvmU5upylMHpl5pDa1KKnIarv6Hrkh6EtpiLDMz/QFVLGZgsf92wzZVPtdM5uPsob6jST2Xd7SHM0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rykNTnHO; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BsJ+hE50"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB2940AE2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757359931; bh=04ulyLXE+0xvoTpvavjUlihUixTI43QBBYVfUuXOlHk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BsJ+hE50SK+OQCJtXVe1DZ7g43d2UlDERpy7TNkNBDNB+StzYZisnoQ7dZEhj5F2a
-	 rcxkX2mzKU/toNyTENKs0niFWDbDMeEOQaC7Bw44H+b57EzQ19wrBGtMSXd3ePIw9Y
-	 CFr141I/ICady/xI/7LO0ToemUHgEpl/Ioq1+4AohvavUbk9wb4PsoD16abVDHXGsq
-	 0Nea2F/q+plBk1N92AFMQXaZ4/5xqtH0OlEeQVN+pccy/vTjYWjzEAJIygWRpVpQnu
-	 o3ytQy7m10CvMU3/jRrdsRnytHMYV7GRmjGi3T5Kg3cp0yeVXk/v5D7holWjpwbNWQ
-	 c4EcKobdnE5NA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CBB2940AE2;
-	Mon,  8 Sep 2025 19:32:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Linus Torvalds
- <torvalds@linuxfoundation.org>, linus.walleij@linaro.org
-Subject: [PATCH] docs: update the guidance for Link: tags
-Date: Mon, 08 Sep 2025 13:32:10 -0600
-Message-ID: <87segwyc3p.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rykNTnHO"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-336badc713dso32379641fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 12:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757360892; x=1757965692; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3INsSU1uTYQupmizf/+V0CpP7n8ujecpPRfiWEL0UCE=;
+        b=rykNTnHOg+5Hh1ScgAlTgO4g+Dl9cziV0mJ3XCQUpwgPSFoY9K+ATM3kq2d1eByOzD
+         2TKAgpEPdsC1PkmBSSuu8yGE9XKCXNjRiXgIwKGeBVyRtBzeispJuWCzRzBHHNISatqQ
+         cMNlSVb0p/guBHOHzmBbmd8wyaZaBmcnfYcexxkPWJJ7VSyexoP4Sqx2LjVq+NHHklQ9
+         Xm4TZ6pz8r1NyAOvaA2ICRinTVqSqLlKLVH8lE6ZF8y7ImBRd5O62vSTQwa9BoDKTIXu
+         aGnphQLsyWPjCmy363qTFOdKLozb4MF2dR0pHeAk27GeD/VRDHSvOnNzaxlyFQ0W9p4A
+         p7MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757360892; x=1757965692;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3INsSU1uTYQupmizf/+V0CpP7n8ujecpPRfiWEL0UCE=;
+        b=Y0M2HK8rhRP8NcQuvLWwaK/gfTEkC4A79BP+FvhjlwAB7nvskqJY+fIh7EZBWEmay4
+         mGoyxcJ5UySjIa/ZImGxQX63OZw/yLwAcUnjAwiO1VzsK5CkvenRpFZ6XezEt+kqd1fl
+         43/DKlTBRqp7HyFfyY6tXTiaMm0ad70i/zntT46xNz9BjtSO8sueGP7pOgpU3d3s2vEC
+         Rt3VJHsI5DqTbATkGJv2rNbV1kuc8HBpjflF80PXzkFsWwlmT69kXhTjJY5YvwpNhQfy
+         TlLSt4nLV8BXpp6HHCsMn6DOjMwKhpugwXasgVWnf5eoyf92pY2r08rHcAq2s/C64TBo
+         01fA==
+X-Gm-Message-State: AOJu0YwQ2KSrdBaVKqiuP7wm2wzVe2/shJHBV0cFglmSxxOABXjR26Qj
+	4oTCDPKe0xwsNiQbarfR5z5gYiMAwTfA7d4nFx5fl1wrKMiLhuGhRMwuL+YUrhLO46xUyK56UIp
+	s8VAYoEelnH79WLSRs+ENyWsh717Bp8tQbfBPTbaMwQ==
+X-Gm-Gg: ASbGncs1CDm3UPQESraD7uUM3R11zUiGeFr8GCtXNe8q2kG3PnNyf5d59D87ijoWq57
+	+XupBvLyzy/uiCoZ0QgGgX/Ta32ORyQcq1NNM1WGyHBqRG4mdhCvhiQ/mRtHtzSuEdPYVGMVEc+
+	zg8Mch/+ahMR0dnRUzs070/xXbMKMSdKCXy8h7jkOT0IGIY/kqaFmthNtgFp8InV+AUYWxTWKcO
+	fhmXY3mTjysbAcZgQ==
+X-Google-Smtp-Source: AGHT+IECsnVMplJOvU1wSeDf+UtwgKH+GUnENKyyNmAGanLxQEiq6JDDQKehxdXdClMMDAwVmWV+qsEKFt9fd6U9X9w=
+X-Received: by 2002:a2e:bc09:0:b0:336:e32f:7a07 with SMTP id
+ 38308e7fff4ca-33b526a8613mr21819761fa.24.1757360892038; Mon, 08 Sep 2025
+ 12:48:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <87segwyc3p.fsf@trenco.lwn.net>
+In-Reply-To: <87segwyc3p.fsf@trenco.lwn.net>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 8 Sep 2025 21:48:01 +0200
+X-Gm-Features: Ac12FXwlhaA_zh5PcQMw0KQlzwm74NsSx5Pd--nbogRPFrwMhW7PG6XBm2TCOmk
+Message-ID: <CACRpkdbbzV=ximWZkkfNiGpdCRCkB=--x818ikf0APdQo=5J3w@mail.gmail.com>
+Subject: Re: [PATCH] docs: update the guidance for Link: tags
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As stated definitively by Linus, the use of Link: tags should be limited to
-situations where there is additional useful information to be found at the
-far end of the link.  Update our documentation to reflect that policy, and
-to remove the suggestion for a Git hook to add those tags automatically.
+On Mon, Sep 8, 2025 at 9:32=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
+te:
 
-Link: https://lore.kernel.org/all/CAHk-=wh5AyuvEhNY9a57v-vwyr7EkPVRUKMPwj92yF_K0dJHVg@mail.gmail.com/
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/maintainer/configure-git.rst | 28 ----------------------
- Documentation/process/5.Posting.rst        |  7 +++---
- 2 files changed, 3 insertions(+), 32 deletions(-)
+> As stated definitively by Linus, the use of Link: tags should be limited =
+to
+> situations where there is additional useful information to be found at th=
+e
+> far end of the link.  Update our documentation to reflect that policy, an=
+d
+> to remove the suggestion for a Git hook to add those tags automatically.
+>
+> Link: https://lore.kernel.org/all/CAHk-=3Dwh5AyuvEhNY9a57v-vwyr7EkPVRUKMP=
+wj92yF_K0dJHVg@mail.gmail.com/
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
-index 0a36831814ea..0c21f203cf7a 100644
---- a/Documentation/maintainer/configure-git.rst
-+++ b/Documentation/maintainer/configure-git.rst
-@@ -28,31 +28,3 @@ You may also like to tell ``gpg`` which ``tty`` to use (add to your shell
- rc file)::
- 
- 	export GPG_TTY=$(tty)
--
--
--Creating commit links to lore.kernel.org
------------------------------------------
--
--The web site https://lore.kernel.org is meant as a grand archive of all mail
--list traffic concerning or influencing the kernel development. Storing archives
--of patches here is a recommended practice, and when a maintainer applies a
--patch to a subsystem tree, it is a good idea to provide a Link: tag with a
--reference back to the lore archive so that people that browse the commit
--history can find related discussions and rationale behind a certain change.
--The link tag will look like this::
--
--    Link: https://lore.kernel.org/r/<message-id>
--
--This can be configured to happen automatically any time you issue ``git am``
--by adding the following hook into your git::
--
--	$ git config am.messageid true
--	$ cat >.git/hooks/applypatch-msg <<'EOF'
--	#!/bin/sh
--	. git-sh-setup
--	perl -pi -e 's|^Message-I[dD]:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
--	test -x "$GIT_DIR/hooks/commit-msg" &&
--		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
--	:
--	EOF
--	$ chmod a+x .git/hooks/applypatch-msg
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index 22fa925353cf..9999bcbdccc9 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -207,10 +207,9 @@ document with a specification implemented by the patch::
- 
- 	Link: https://example.com/somewhere.html  optional-other-stuff
- 
--Many maintainers when applying a patch also add this tag to link to the
--latest public review posting of the patch; often this is automatically done
--by tools like b4 or a git hook like the one described in
--'Documentation/maintainer/configure-git.rst'.
-+As per guidance from the Chief Penguin, a Link: tag should only be added to
-+a commit if it leads to useful information that is not found in the commit
-+itself.
- 
- If the URL points to a public bug report being fixed by the patch, use the
- "Closes:" tag instead::
--- 
-2.51.0
+Fair enough,
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
+Yours,
+Linus Walleij
