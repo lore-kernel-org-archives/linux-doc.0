@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDE931CA50
-	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 18:45:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCFA31C583
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 18:50:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757357137; cv=none; b=Gk7BOWTc6MqO9AqErr2t0GojiFcRrcknWAIpyp4FG2NCQkZW8YTTaMcdACnF3zKZ/S+ElnyWUKUsrpI0OYEaDObsiUG9IM3+aZtR92kHQmdtoKb7ANwRQU7ukCORF240T0aeJLm+meD6g4MXVOSITiVkygKujUfDnLBc+2n2gcM=
+	t=1757357408; cv=none; b=F38FMQMwUWCGjlngU2Qg+LPEfKmopSo5EH/HZMKjZUD8R54vrGx77sDc2t7sldYfCxc5/OoYSAgID8ARr24eXkubg7XihcDPcKCWRh+B9qVpX+pcvfPQR7CA/SIbdeB3iqpkEOwUbCQs/fDVmdk1+efc95CTQc/2qAqr47MnWKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757357137; c=relaxed/simple;
-	bh=u4634A0GpgrHa65LJw+AaevVl1eVSTRE0zlvp0/N79A=;
+	s=arc-20240116; t=1757357408; c=relaxed/simple;
+	bh=E7Vj9/23AE8WzpJfHTcwBG4Ng9PhfJNp1DnthXzdKgQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pLp6DOowkU1El6yGNqkv1M6OG85JIrABJgOfgs6cUJWEkkR5rTA2uaAxiWq5Ii7AwcURGFuqjkOObG6LMwV6vP0sN062FKjhUGnZWONmV4dFPZsGzPg0jSN5c/4bLTTDh+ku6kthyLZfSuL1cSYxTXcYQDuAP+Zym/VK3b2QjPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=atM+x1QP; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=C1igxbXrpbzFLhNjnhuniTqaFd7Mg6flF2e8TaFJV+yPAs1qENjPDknVb+pRWSomxGFMOHPHvHGoJLyh6VUFQ53M+gZ9IJtF6YlYq/2ilZCc+XPm/dFeGK6Q9Xk8mxeN5io5ZstQyFx5OLLhAUKBWm2vNKxxzkUdGRxPoLuLl3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aCqx3VLP; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="atM+x1QP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aCqx3VLP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757357135;
+	s=mimecast20190719; t=1757357406;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CZ1U0+nto9ykqfQPo7HpxxJzqiGtL77TvIiUKaOMOeM=;
-	b=atM+x1QPEOhL/+n9ifJwPdqj9r2YVswjCJzHonahWQS0HKPS6r5djVcPRqvn0Km1gMXnSW
-	vfuci1PkWvppH825uN6EI5aI3+XcWP2ii0MZWXtRVkeYM0z7xkLeBOzZhyHoqaU9EhjfW4
-	2WcOf9KoqdW191eYfhof4MJ/BWUlBSs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=UUZtrw9Ce3OTyc4thmlH4DQBN7q3kEq/o1AqpiGl1UQ=;
+	b=aCqx3VLPM0i+ERJizvv6zGlhR3L1Xhz4WLqT2w21dSi9vKx4im8zwuG1EeeGfOIs+uzbXe
+	ysACZYSESLEKvuhIzS9YRM05CEoCN8i7hdAyZoOvn9eEU7znpy4pIeuvq4ZGFd9JqGfMb7
+	DJSScW0JWAV9c/ekWRv8XHd436ic42M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-151-j_pzQ3HCOtGQYgw7SZjZFQ-1; Mon, 08 Sep 2025 14:45:33 -0400
-X-MC-Unique: j_pzQ3HCOtGQYgw7SZjZFQ-1
-X-Mimecast-MFC-AGG-ID: j_pzQ3HCOtGQYgw7SZjZFQ_1757357132
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45b9912a07dso29413705e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 11:45:33 -0700 (PDT)
+ us-mta-333-ov2EYZj1PRODArYfEW_HTA-1; Mon, 08 Sep 2025 14:50:05 -0400
+X-MC-Unique: ov2EYZj1PRODArYfEW_HTA-1
+X-Mimecast-MFC-AGG-ID: ov2EYZj1PRODArYfEW_HTA_1757357404
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45de27bf706so8076295e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 11:50:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757357132; x=1757961932;
+        d=1e100.net; s=20230601; t=1757357404; x=1757962204;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CZ1U0+nto9ykqfQPo7HpxxJzqiGtL77TvIiUKaOMOeM=;
-        b=AX1EnxevZCRnIXq7ZAGRdl+XyH+TR5aSExCwUHOL7ewECNXejr2xA5GIpsyvH1lzI6
-         9mbxMonQUVvKlLXbgbWMmCD4srkEBtmbRyuPVAP3zCfI5K8KJDuCpsUNlZj9hmQtioR3
-         lgEN0CBANv5k+gcI07YeZUrT1UBT1M2YUO2fu5+s6GI0jzkf3JdjKP+V7u/IjHLzz5hd
-         JiSp41dmn1hkPP+T0jhJsrqIewWMvI2+0o8uWgG+ET3ayzMwb8ZZhTe8XQgg+mrqlJUH
-         gFK6IRJMhSEdwpczQW49buTc0oHXasRfaj4Eie8zsoh6kO+LffMZ9BQmVWOB2GlZD2kT
-         DqWg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRJqX4OX2I+itHLkztelp1JoxX0sDb6fQORd1DE8Y6iIXSqWxx9jfwmN9hrVcLofQmu6Xm86t1vKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRcCimC2kpVbY6Mm+O7FNAKZAvwH3b9MZYm9iCm1uES4qgkFes
-	C1a4de5aKP7RANT7x2dixVOEPN88mgcmLHiq9QBE2P/B+zNe0mRV8mJwst4Iv/CMNXKIwfHHNzl
-	2DTHDGe0vO/YWmfMdOuOCdDukwoi5tq15fUGv51N6QrBiY0yUrpC4Ct5JTcR8aQ==
-X-Gm-Gg: ASbGnctdcNcQTK8N/byo5HdicGqsKT9/ET1C+O+mBmW5efYRWSaIHx2wOiGyypPcWD6
-	mfAO3hW6Vmc3Hricmc7DtyR98Vg9bpZXgFtXuVBF2PUL7eu5s6uL87KsECMa1tGgaJr60/ERKv5
-	mlAAxr/K0g+TkZdhy8gxsn4BSpiipUeFdPMMs2L+9VWZdWSJc/iMB+pjcWlhaDFNnAenVeyVpBk
-	RQX/WXcSqBXVA75yn82Og8GF6BZYm7OI0JkXVmjRshwiKkkr/J5NdYd+Z7/z6Qr5/NPZbNN+aEA
-	AkhLOLYpNzg5DTvpU+78YT9g60bT0CI8Kefu8MQqqosCnCCD1rTD+eCx+m52VonTPedw/LXa0aA
-	lP3s2u3/Lec48frf27XybvHdHibkJ/3HAIZsiNEPRellOMpnaMfRrn+erzm8FN6sz
-X-Received: by 2002:a05:600c:46ca:b0:459:d3ce:2cbd with SMTP id 5b1f17b1804b1-45de072e878mr66056905e9.13.1757357132101;
-        Mon, 08 Sep 2025 11:45:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGl6W6PZgDJSOeT0hvE61lJkei0qub4EjvxomlpdB428UuZFOkk6zMkWPcWT58RiDXm1V4n4A==
-X-Received: by 2002:a05:600c:46ca:b0:459:d3ce:2cbd with SMTP id 5b1f17b1804b1-45de072e878mr66056435e9.13.1757357131588;
-        Mon, 08 Sep 2025 11:45:31 -0700 (PDT)
+        bh=UUZtrw9Ce3OTyc4thmlH4DQBN7q3kEq/o1AqpiGl1UQ=;
+        b=ArTwPip5pz0at/B9+v0Yd0elsPt85Fx6qwvfCn8Pfwbjla4QRAvvGPZFl1VcjXGwrA
+         dhy0c95c2A8tGMtRES/pwPEj3HMOgalrsU6jUQA5doQuyKzt/tM1T+TeDoZapdOPsLNc
+         1vd1EIXMKvLJXImIYWKmbdfm9tX//RFOiNnD5hik7/4pZLHV6WCSoggHPri6el3FrJAv
+         qh1ZeTV3zfOz5yWb4doPuHfJmTczNUN3jNzQBdu9xcdP38mBJ7s3V1BjZsQlP+GJ6oro
+         7lhQdZ1C0PWkA45zOg6pPxyj15e40CimOlKWLiYlLS92V2/a3aN+g8c/ghpNLURsHcYq
+         4ClA==
+X-Forwarded-Encrypted: i=1; AJvYcCVeqfHGoyBAKtY3wGWssj7BUr5cAVEXd1YTmDrL/ER8fleckPF8s1gyQPgdtfJvxVQUhI3Hc1T6zlI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXqzRVsqVQnfqtJFT4bDVnm+6LybJR+2ZZBpLerYZRSc8h7O0C
+	W8LrZeC7hwQJm0vCsmJL/9moJxC/AgTf3n1YYTyeD8wc9iuE5R/JFLl3CQS1v7LTE6atEVWfvLG
+	ZThOBHrM3vVOhEzVllM1ClbhFMO9eWUJujVnrzXmxH1WMyG86OiDW4HMkViWMrQ==
+X-Gm-Gg: ASbGnctTBu4jjl7JlAfMTLQciEF7pDF+8aTEhJUYCM+sS4q/5429bMDF2KHvEN2H3Ei
+	0F9Gg/OKgzStl8lMQS1ouV5IOHpP1a5OnI3U6vmboTyA6mR48ZI+9FEqZ23g1M3wrG1mikIxAbi
+	1Kwex5YIHVi6GKvYvFv2cQD7yNTC72lt3+CnRluWC6k9+zeW5bwDd+eQ2WZzJvVdNWC1vwVhQWg
+	9ajMsvlwJqNneImgFkrbu6VU35bwzYwr024ZQalh6qxfFqnAKeNnYuNka0laYigl2vsXZ/Xx2TE
+	8XnZQL1iXOlF3u7hGWQxzjZ5cukr92b5CToy7tgG1wnRMslI4eDz6Y2wTTvLgBoQHLwp6ngax+J
+	elY1Kv1V4qMTcWfOL/Gbz+Um7rjK5HefdsQZiS8Ocdalbhm3Z7xCKAruG00NhjbCU
+X-Received: by 2002:a05:600c:3b8b:b0:45d:d356:c358 with SMTP id 5b1f17b1804b1-45dddec3b92mr97992935e9.16.1757357403763;
+        Mon, 08 Sep 2025 11:50:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGm/PFvNVvzQhpYmtJ6sQ83PhVXMHxysLrDdewgd4nQchvdGU1VvxC8ioJR+t94JeN3eCthg==
+X-Received: by 2002:a05:600c:3b8b:b0:45d:d356:c358 with SMTP id 5b1f17b1804b1-45dddec3b92mr97992345e9.16.1757357403298;
+        Mon, 08 Sep 2025 11:50:03 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f25:700:d846:15f3:6ca0:8029? (p200300d82f250700d84615f36ca08029.dip0.t-ipconnect.de. [2003:d8:2f25:700:d846:15f3:6ca0:8029])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45de5180623sm34433125e9.0.2025.09.08.11.45.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d92d51982bsm27196227f8f.21.2025.09.08.11.50.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Sep 2025 11:45:30 -0700 (PDT)
-Message-ID: <5c43116f-fef9-426d-8c90-1a3a129f3d20@redhat.com>
-Date: Mon, 8 Sep 2025 20:45:28 +0200
+        Mon, 08 Sep 2025 11:50:02 -0700 (PDT)
+Message-ID: <a0238ff1-3ca2-4f0b-8452-26584b531724@redhat.com>
+Date: Mon, 8 Sep 2025 20:50:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/22] mm/mshare: Add a vma flag to indicate an mshare
- region
+Subject: Re: [PATCH v3 22/22] mm/mshare: charge fault handling allocations to
+ the mshare owner
 To: Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org
 Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
  bp@alien8.de, brauner@kernel.org, bsegall@google.com, corbet@lwn.net,
@@ -95,7 +95,7 @@ Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arch@vger.kernel.org
 References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
- <20250820010415.699353-7-anthony.yznaga@oracle.com>
+ <20250820010415.699353-23-anthony.yznaga@oracle.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -142,22 +142,24 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20250820010415.699353-7-anthony.yznaga@oracle.com>
+In-Reply-To: <20250820010415.699353-23-anthony.yznaga@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 20.08.25 03:03, Anthony Yznaga wrote:
-> From: Khalid Aziz <khalid@kernel.org>
+On 20.08.25 03:04, Anthony Yznaga wrote:
+> When handling a fault in an mshare range, redirect charges for page
+> tables and other allocations to the mshare owner rather than the
+> current task.
 > 
-> An mshare region contains zero or more actual vmas that map objects
-> in the mshare range with shared page tables.
-> 
-> Signed-off-by: Khalid Aziz <khalid@kernel.org>
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
-> ---
 
-Why can't we query the mapping instead?
+That looks rather weird. I would have thought there would be an easy way 
+to query the mshare owner for a given mshare mapping, and if the current 
+MM corresponds to that owner you know that you are running in the owner 
+context.
+
+Of course, we could have a helper like is_mshare_owner(mapping, current) 
+or sth like that.
+
 
 -- 
 Cheers
