@@ -1,95 +1,107 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34F32D3745
-	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 19:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E9122333B
+	for <linux-doc@vger.kernel.org>; Mon,  8 Sep 2025 20:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757360895; cv=none; b=Lhfej/elJV4OBWe3rTffDi6WzxCsAizyzbcKsNXDEHBDXF/sCJtHN36ftJ/V80kwGhAacAy3UYhB7RuuyXiiAZdzZ7lKK9MFuDKg6wKe7eioW9weQo0Hkc03iv99P328Md/TNP9WwduFE+yOAIMwYQ1slwulylEzr/J6N+RS/5c=
+	t=1757362618; cv=none; b=QtIaZGD3Fbxr3se8xeMwk8dBUvzKJFDVfuyip888vsP6PbocH/CTCzf19VYQGJoTyvH6vOq1uVz9iKwX2RBrRFtxzdJ+LdLHP9YsxrDkvLdukF7IVI58McSOTBXa7+sTY3lU57qyY4QzkpifXePDtBlYLwzKD69pJVEU422QSAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757360895; c=relaxed/simple;
-	bh=jmcLddsM1rSmyuBEhmQTe6QzWT65ZsqYoD7U2JXM3bY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=skLxEPExi8AJD1hgMMigeBipYGQ4rUZu6qved/ojmYuWhXQN1z3etj3Y6xg+NsUixub7VoicR+gHe7YS9dsTGQbN4BNuzCvmU5upylMHpl5pDa1KKnIarv6Hrkh6EtpiLDMz/QFVLGZgsf92wzZVPtdM5uPsob6jST2Xd7SHM0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rykNTnHO; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757362618; c=relaxed/simple;
+	bh=mBaws8il8SUlA6WSSLGfhI9qLX70tcq/5enQocS4ayM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Xzp2Xw89aZMcdmMgxC7iFh/J9UQiANeWCBS9EYtfJLDDP9ylhbKfO8JaRyPR70ifecPi0Mf+0+MRpWXU1W+yoqiUGsqWWGaOm0GZmYjSvH8xpHi5YF0N5gjFnmyecAwPxYEbYegeh4g8foywFTSZ8UaqGYaJP4OQ3RjWx7NL1Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aYSYMBnh; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rykNTnHO"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-336badc713dso32379641fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 12:48:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aYSYMBnh"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-24ced7cfa07so46870095ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Sep 2025 13:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757360892; x=1757965692; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3INsSU1uTYQupmizf/+V0CpP7n8ujecpPRfiWEL0UCE=;
-        b=rykNTnHOg+5Hh1ScgAlTgO4g+Dl9cziV0mJ3XCQUpwgPSFoY9K+ATM3kq2d1eByOzD
-         2TKAgpEPdsC1PkmBSSuu8yGE9XKCXNjRiXgIwKGeBVyRtBzeispJuWCzRzBHHNISatqQ
-         cMNlSVb0p/guBHOHzmBbmd8wyaZaBmcnfYcexxkPWJJ7VSyexoP4Sqx2LjVq+NHHklQ9
-         Xm4TZ6pz8r1NyAOvaA2ICRinTVqSqLlKLVH8lE6ZF8y7ImBRd5O62vSTQwa9BoDKTIXu
-         aGnphQLsyWPjCmy363qTFOdKLozb4MF2dR0pHeAk27GeD/VRDHSvOnNzaxlyFQ0W9p4A
-         p7MQ==
+        d=google.com; s=20230601; t=1757362616; x=1757967416; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qfpE52Gqw2W2qOIF2LEWUdlTiZrgbTClWQgTw7V+KY8=;
+        b=aYSYMBnh/oqW479LSXnZa8NBOYIuVwv+Gi0AC1YfhcHj7WACdVo+278sVJ30Ax0l/T
+         J1pMV27Cvgb3eXcmL/S4KoHEuc6wBLnQ1mQyjehWOUxUQPn08THKp8p0OyNP8BO8RP/V
+         UJhXEWhUEGotTw9FO4jWGRLRN92zncnXGS2Q15xFSKU7fGStvLo3Rb69sqLINBWTblBD
+         qx4kQOwtfXjsHKtMo4RARVBOyYTm+RszZTNrbLl1cIRdTEAvoesr8Oaww0cbskl4KLzD
+         4pwfq+Vnmx5rWv7Gs5QqbIedw2/ROEPzSyV/RPaDdMNKV4ff+zFhKTuInUXy8pdEtyX0
+         HCVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757360892; x=1757965692;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3INsSU1uTYQupmizf/+V0CpP7n8ujecpPRfiWEL0UCE=;
-        b=Y0M2HK8rhRP8NcQuvLWwaK/gfTEkC4A79BP+FvhjlwAB7nvskqJY+fIh7EZBWEmay4
-         mGoyxcJ5UySjIa/ZImGxQX63OZw/yLwAcUnjAwiO1VzsK5CkvenRpFZ6XezEt+kqd1fl
-         43/DKlTBRqp7HyFfyY6tXTiaMm0ad70i/zntT46xNz9BjtSO8sueGP7pOgpU3d3s2vEC
-         Rt3VJHsI5DqTbATkGJv2rNbV1kuc8HBpjflF80PXzkFsWwlmT69kXhTjJY5YvwpNhQfy
-         TlLSt4nLV8BXpp6HHCsMn6DOjMwKhpugwXasgVWnf5eoyf92pY2r08rHcAq2s/C64TBo
-         01fA==
-X-Gm-Message-State: AOJu0YwQ2KSrdBaVKqiuP7wm2wzVe2/shJHBV0cFglmSxxOABXjR26Qj
-	4oTCDPKe0xwsNiQbarfR5z5gYiMAwTfA7d4nFx5fl1wrKMiLhuGhRMwuL+YUrhLO46xUyK56UIp
-	s8VAYoEelnH79WLSRs+ENyWsh717Bp8tQbfBPTbaMwQ==
-X-Gm-Gg: ASbGncs1CDm3UPQESraD7uUM3R11zUiGeFr8GCtXNe8q2kG3PnNyf5d59D87ijoWq57
-	+XupBvLyzy/uiCoZ0QgGgX/Ta32ORyQcq1NNM1WGyHBqRG4mdhCvhiQ/mRtHtzSuEdPYVGMVEc+
-	zg8Mch/+ahMR0dnRUzs070/xXbMKMSdKCXy8h7jkOT0IGIY/kqaFmthNtgFp8InV+AUYWxTWKcO
-	fhmXY3mTjysbAcZgQ==
-X-Google-Smtp-Source: AGHT+IECsnVMplJOvU1wSeDf+UtwgKH+GUnENKyyNmAGanLxQEiq6JDDQKehxdXdClMMDAwVmWV+qsEKFt9fd6U9X9w=
-X-Received: by 2002:a2e:bc09:0:b0:336:e32f:7a07 with SMTP id
- 38308e7fff4ca-33b526a8613mr21819761fa.24.1757360892038; Mon, 08 Sep 2025
- 12:48:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757362616; x=1757967416;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qfpE52Gqw2W2qOIF2LEWUdlTiZrgbTClWQgTw7V+KY8=;
+        b=jCCmStwKIxBwiCr+23AqHnfePuFBqVSRrFD1uNdHh+SO/egSb0WvVyUJVZyTWJoImQ
+         kiKsqxRV61RFA68SBOWI9o3uI1EIt115ex1o4w6u/MhlYkaLdRpkJdASmXg1ZMa/ZHmz
+         +aLo/SXS58yyYSvGTIbZIrWhENYzRZyx1rj0I5iEdOnmvuCnutyxOHsy+A6H4CbFzEN1
+         f2BOGy93M8lFZHZFINxCHUBVEsFlMDxdTJyJJpUmwd3MPHTmeo9iHWPxXdb+gnylxSgD
+         TWV1jym2xlmdHBlmzo2Uc1dTgElv2S3WEMD9EigANueLb9EyUY6lchLSd/Nq8gDz8oK0
+         Y4xw==
+X-Forwarded-Encrypted: i=1; AJvYcCUAKxFbQHoW+8m8CI8OA7vtUB2tUokeOWuiy7y06JRcvEgyEYJ1WAOJyMUbx6r1eFzL2H0m098u8HY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxktsUo/NgHvNciL12oYWM5ZfxO8ylu+z5B/woggEE7on5xKMuA
+	nmejYxHcIwkYsU5gorlE564/5QLCqzjepefLscdUQYBmATXq5a3WcmmKiVbK4WxMRNK8v0XL4m4
+	sipbdhQ==
+X-Google-Smtp-Source: AGHT+IE4Uz4aeL1CzrhdbWXCrjzRFDnmBdT6CWeiwE54bJsWIU6/UxS2chnflOdmVd3uAXCExvexqh0uWAM=
+X-Received: from plble7.prod.google.com ([2002:a17:902:fb07:b0:24b:1589:e332])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e94f:b0:24a:fd5a:6b58
+ with SMTP id d9443c01a7336-251738ca0demr121146205ad.50.1757362615512; Mon, 08
+ Sep 2025 13:16:55 -0700 (PDT)
+Date: Mon, 8 Sep 2025 13:16:53 -0700
+In-Reply-To: <aKBPjfyIHMc2X_ZL@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <87segwyc3p.fsf@trenco.lwn.net>
-In-Reply-To: <87segwyc3p.fsf@trenco.lwn.net>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 8 Sep 2025 21:48:01 +0200
-X-Gm-Features: Ac12FXwlhaA_zh5PcQMw0KQlzwm74NsSx5Pd--nbogRPFrwMhW7PG6XBm2TCOmk
-Message-ID: <CACRpkdbbzV=ximWZkkfNiGpdCRCkB=--x818ikf0APdQo=5J3w@mail.gmail.com>
-Subject: Re: [PATCH] docs: update the guidance for Link: tags
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <cover.1752869333.git.ashish.kalra@amd.com> <aKBPjfyIHMc2X_ZL@gondor.apana.org.au>
+Message-ID: <aL85tQ2mm6d2PqSx@google.com>
+Subject: Re: [PATCH v7 0/7] Add SEV-SNP CipherTextHiding feature support
+From: Sean Christopherson <seanjc@google.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Ashish Kalra <Ashish.Kalra@amd.com>, corbet@lwn.net, pbonzini@redhat.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	thomas.lendacky@amd.com, john.allen@amd.com, davem@davemloft.net, 
+	akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org, 
+	nikunj@amd.com, Neeraj.Upadhyay@amd.com, aik@amd.com, ardb@kernel.org, 
+	michael.roth@amd.com, arnd@arndb.de, linux-doc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Sep 8, 2025 at 9:32=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
-te:
+On Sat, Aug 16, 2025, Herbert Xu wrote:
+> On Mon, Jul 21, 2025 at 02:12:15PM +0000, Ashish Kalra wrote:
+> > Ashish Kalra (7):
+> >   crypto: ccp - New bit-field definitions for SNP_PLATFORM_STATUS
+> >     command
+> >   crypto: ccp - Cache SEV platform status and platform state
+> >   crypto: ccp - Add support for SNP_FEATURE_INFO command
+> >   crypto: ccp - Introduce new API interface to indicate SEV-SNP
+> >     Ciphertext hiding feature
+> >   crypto: ccp - Add support to enable CipherTextHiding on SNP_INIT_EX
+> >   KVM: SEV: Introduce new min,max sev_es and sev_snp asid variables
+> >   KVM: SEV: Add SEV-SNP CipherTextHiding support
+> > 
+> >  .../admin-guide/kernel-parameters.txt         |  18 +++
+> >  arch/x86/kvm/svm/sev.c                        |  96 +++++++++++--
+> >  drivers/crypto/ccp/sev-dev.c                  | 127 ++++++++++++++++--
+> >  drivers/crypto/ccp/sev-dev.h                  |   6 +-
+> >  include/linux/psp-sev.h                       |  44 +++++-
+> >  include/uapi/linux/psp-sev.h                  |  10 +-
+> >  6 files changed, 274 insertions(+), 27 deletions(-)
+> > 
+> > -- 
+> > 2.34.1
+> 
+> Patches 1-5 applied.  Thanks.
 
-> As stated definitively by Linus, the use of Link: tags should be limited =
-to
-> situations where there is additional useful information to be found at th=
-e
-> far end of the link.  Update our documentation to reflect that policy, an=
-d
-> to remove the suggestion for a Git hook to add those tags automatically.
->
-> Link: https://lore.kernel.org/all/CAHk-=3Dwh5AyuvEhNY9a57v-vwyr7EkPVRUKMP=
-wj92yF_K0dJHVg@mail.gmail.com/
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Can you provide a tag for commit c9760b0fca6b ("crypto: ccp - Add support to
+enable CipherTextHiding on SNP_INIT_EX")?  I'd like to apply the KVM side of
+things for 6.17, and would prefer not to merge or base the KVM patches on a bare
+commit.
 
-Fair enough,
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+Thanks!
