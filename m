@@ -1,150 +1,214 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2548311594;
-	Tue,  9 Sep 2025 07:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646BF23C4F3
+	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 07:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757403263; cv=none; b=fpZ5ktofoYaG3DpV5JC8lsXRdFbU3+eA9wD/yAimsKFy+gqpWl+NFUyW2yBBfaroxwPs+eUr1oUnE1hwanl8mBX47jh++EnOzm+T97n1C1lI7APrOurJoF1p1SZ/CntMfXL13zNjkrGXeWO3s+WJte1CHhOhIA53SiHJ/czNwhQ=
+	t=1757404425; cv=none; b=AYFjFkNNB1Mh9E+xVhhowFzS2lQaQR3iMF5/Do748s62mvZ4dWhIVC8PoL+IEEIEe81XqY0DZabGAVoShYXkh8jrcpkICjdS+aBgJKmLS6cc5Ln2uUqM9nIWS3E0OYh/H7PUgWdEFpkV2gZUqzKJBWE1ete8BhqTXivhnRXLwtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757403263; c=relaxed/simple;
-	bh=s6eDdhRxwiAGwBQu1EeWsS2Kiz3ungjNpeZ+VY7CMBk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EmCgr6OTxCaegUQFNzfzB+29qx2swWRL8Xc2E2PQ6t6AvvhARZsF6LxISYl5Rcq1lwCzbm0LFjta1chcCy17k9SQEFf/x6JksxWEWCQg9hNQyWbb2reC1GKlQh2+ye3Vu8ZVuk6OHeNJ7zhjLvF3SqWst7kS+nd5RUZWIaU+3ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4cLb7H27lyzdcXr;
-	Tue,  9 Sep 2025 15:29:47 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3C116180485;
-	Tue,  9 Sep 2025 15:34:19 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 9 Sep 2025 15:34:17 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
-	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>, Meny Yossefi
-	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
-	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH net-next v05 14/14] hinic3: Fix code style (Missing a blank line before return)
-Date: Tue, 9 Sep 2025 15:33:39 +0800
-Message-ID: <c697066a3e0d574d159be9ba49ec7f19ed6ad06b.1757401320.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1757401320.git.zhuyikai1@h-partners.com>
-References: <cover.1757401320.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1757404425; c=relaxed/simple;
+	bh=DrTJEmL6DrGOsHsvh3FQzphkk5kTj81FonJsolMZfr8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s6Nq/fXJJ5nxUBek3JIT4HlIAtEuOq4H929QiInctS6MbGQQwS88gypP4XDRxeW5U8DskcV2Ix2zZDzBxdE0SfeYFb1JdSpnyjgI9A6cz0BeVvwzONOwnZk55nmrXxcLwGyNjpTl3fkgNnBuN4uxVdz8+5x+GVeMflGWai9BcqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V0cqtYfn; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V0cqtYfn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757404422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ZEmBeYvm+QHo4HcVfrljhh+DxHJQ+lr1tf/W4Tmx/TQ=;
+	b=V0cqtYfn0E2HKQHd4chJZnbS5IKuwz+m2sgslRJTN4qqHg6V49NQCS/gfkM24Z93eP7wZ+
+	n9FN6L4DBIXbRNjnlHVoypuUKEAYzeEfFZ2D6lZQaLGXfn/Yz+CC07hauFtOHzsOfMVcG/
+	3Dve64aS3lWdAbIwVmeLZNld+n9wwIA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-41--qa1VaCXN22JfzV4PGfrlQ-1; Tue, 09 Sep 2025 03:53:41 -0400
+X-MC-Unique: -qa1VaCXN22JfzV4PGfrlQ-1
+X-Mimecast-MFC-AGG-ID: -qa1VaCXN22JfzV4PGfrlQ_1757404420
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45ceeae0513so29787695e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 00:53:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757404420; x=1758009220;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZEmBeYvm+QHo4HcVfrljhh+DxHJQ+lr1tf/W4Tmx/TQ=;
+        b=eF67ambRLzRRBKWRWnhhiArvDmumDbJHFpEaVuG5eGx/dRoG/rTk/6ohQpxoYyxi/z
+         8XWD1AYCtt7T7XNQnhS8lGhftUiAAl37GhqL9KDzqF0uflgOm7NWmzB57hyyK4AHPEXF
+         3xdv6rQfYlECbIeqsr9afkGaeYu67SVR6j8vt4JS3aylNLnOtq7CQTI+i6lZWWSlpa6i
+         gvSbDWItX04FKXrdVwYlQ6tTvbfCviRohSqHxom0z8N9zO7sLz1NuYUCjLmBrDX0mkI6
+         eiYIDroZU9/uP8UKe0VmN7/8hCz76JcW9p8llJsTxz6LCN8MJz/Y4Rj3qMn9zAcll7k0
+         ikfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXroMnB0e9bsfWUncKvsvUFOL6McDws6WxFxnnhzjxkcjhu7HlBLoVv8xitWBXoha4LZxuaVlsjlEQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4hZy3kNKnCWoKmg6XYsUyzLHlDEVbBHcz9LvmhAiZCqYN8ZBN
+	LmoyK0Eznd8BMmdcQIwFWSNor92KkhKOekdCJkVEuQoZyEsIHFYoIBr5zDiz4oZOR6gA5p+1pZd
+	NNCVr6ypS7g0NMyUILG2ycZxE6uPXPD2NPIS5/FHmq9Kp4Ocjg2riY+H8a+uZdw==
+X-Gm-Gg: ASbGnctSPJC3U44YWlWDkGlZcuGYqMr8P8ugMZaOK2X4mtoo3nqf6QuaMxojcxzQ1xe
+	EvEWv7WaL4xWGRivWTR/S/5xYAArjypClALQUzRDFQsSBUqSafpYs3XOG6pyVWY1h6eO7tavRBn
+	oy+6w/dnL0MQCPNG0vlbHB/J2dYStiz9LMoXdGMndSesWIE92gatPUpgM1s/Vy8yfP+rpfFeXjS
+	iHGGQ58T0yZuDLB27cmik/VrHUqvdoCgxeZWcd/dToM/lRIA8lny3lK0PtNjCcZ7qxU3TbzkmS9
+	MYZo9O+kxYk3yW9rsLJcWAAHMCuUl/W5zezc65wwRWMgTgumrqEyvbCDPMrk5cXR5rpusd00OE2
+	NkNJmHEyKEG49wzUmyBtCvUZQwuEZ6Eoe6dRhk3+IvIkIJfgsrtSXxqhTY/BnqQ0JLdk=
+X-Received: by 2002:a05:600c:1912:b0:45d:e326:96e7 with SMTP id 5b1f17b1804b1-45de326996dmr71556035e9.29.1757404419873;
+        Tue, 09 Sep 2025 00:53:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFS4AFMGxOq5LNuJns+zgBlN8rwn2xGsseYDqK0Yl4p7XSEF2HDrrN0L0SRylb3Q3uPkkO5zg==
+X-Received: by 2002:a05:600c:1912:b0:45d:e326:96e7 with SMTP id 5b1f17b1804b1-45de326996dmr71555455e9.29.1757404419328;
+        Tue, 09 Sep 2025 00:53:39 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f23:9c00:d1f6:f7fe:8f14:7e34? (p200300d82f239c00d1f6f7fe8f147e34.dip0.t-ipconnect.de. [2003:d8:2f23:9c00:d1f6:f7fe:8f14:7e34])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e752238910sm1462804f8f.41.2025.09.09.00.53.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 00:53:38 -0700 (PDT)
+Message-ID: <3fb2b394-fa75-4576-ad8d-6480741f0c1b@redhat.com>
+Date: Tue, 9 Sep 2025 09:53:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/22] Add support for shared PTEs across processes
+To: Anthony Yznaga <anthony.yznaga@oracle.com>,
+ Matthew Wilcox <willy@infradead.org>
+Cc: linux-mm@kvack.org, akpm@linux-foundation.org, andreyknvl@gmail.com,
+ arnd@arndb.de, bp@alien8.de, brauner@kernel.org, bsegall@google.com,
+ corbet@lwn.net, dave.hansen@linux.intel.com, dietmar.eggemann@arm.com,
+ ebiederm@xmission.com, hpa@zytor.com, jakub.wartak@mailbox.org,
+ jannh@google.com, juri.lelli@redhat.com, khalid@kernel.org,
+ liam.howlett@oracle.com, linyongting@bytedance.com,
+ lorenzo.stoakes@oracle.com, luto@kernel.org, markhemm@googlemail.com,
+ maz@kernel.org, mhiramat@kernel.org, mgorman@suse.de, mhocko@suse.com,
+ mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de, osalvador@suse.de,
+ pcc@google.com, peterz@infradead.org, pfalcato@suse.de, rostedt@goodmis.org,
+ rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com,
+ tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz,
+ vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com,
+ x86@kernel.org, xhao@linux.alibaba.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
+ <5b7e71e8-4e31-4699-b656-c35dce678a80@redhat.com>
+ <aL9DsGR8KimEQ44H@casper.infradead.org>
+ <bff57a63-4383-4890-8c68-8778b3a75571@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <bff57a63-4383-4890-8c68-8778b3a75571@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix code style of missing a blank line before return.
+On 08.09.25 23:14, Anthony Yznaga wrote:
+> 
+> 
+> On 9/8/25 1:59 PM, Matthew Wilcox wrote:
+>> On Mon, Sep 08, 2025 at 10:32:22PM +0200, David Hildenbrand wrote:
+>>> In the context of this series, how do we handle VMA-modifying functions like
+>>> mprotect/some madvise/mlock/mempolicy/...? Are they currently blocked when
+>>> applied to a mshare VMA?
+>>
+>> I haven't been following this series recently, so I'm not sure what
+>> Anthony will say.  My expectation is that the shared VMA is somewhat
+>> transparent to these operations; that is they are faulty if they span
+>> the boundary of the mshare VMA, but otherwise they pass through and
+>> affect the shared VMAs.
+>>
+>> That does raise the interesting question of how mlockall() affects
+>> an mshare VMA.  I'm tempted to say that it should affect the shared
+>> VMA, but reasonable people might well disagree with me and have
+>> excellent arguments.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
-Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_lld.c     | 5 +++++
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c | 1 +
- drivers/net/ethernet/huawei/hinic3/hinic3_tx.c      | 2 ++
- 3 files changed, 8 insertions(+)
+Right, I think there are (at least) two possible models.
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-index 10477fb9cc34..3db8241a3b0c 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-@@ -122,6 +122,7 @@ static int hinic3_attach_aux_devices(struct hinic3_hwdev *hwdev)
- 			goto err_del_adevs;
- 	}
- 	mutex_unlock(&pci_adapter->pdev_mutex);
-+
- 	return 0;
- 
- err_del_adevs:
-@@ -133,6 +134,7 @@ static int hinic3_attach_aux_devices(struct hinic3_hwdev *hwdev)
- 		}
- 	}
- 	mutex_unlock(&pci_adapter->pdev_mutex);
-+
- 	return -ENOMEM;
- }
- 
-@@ -154,6 +156,7 @@ struct hinic3_hwdev *hinic3_adev_get_hwdev(struct auxiliary_device *adev)
- 	struct hinic3_adev *hadev;
- 
- 	hadev = container_of(adev, struct hinic3_adev, adev);
-+
- 	return hadev->hwdev;
- }
- 
-@@ -335,6 +338,7 @@ static int hinic3_probe_func(struct hinic3_pcidev *pci_adapter)
- 
- err_out:
- 	dev_err(&pdev->dev, "PCIe device probe function failed\n");
-+
- 	return err;
- }
- 
-@@ -367,6 +371,7 @@ static int hinic3_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- err_out:
- 	dev_err(&pdev->dev, "PCIe device probe failed\n");
-+
- 	return err;
- }
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index 9349b8a314ae..979f47ca77f9 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -112,6 +112,7 @@ int hinic3_set_port_mtu(struct net_device *netdev, u16 new_mtu)
- 	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
- 
- 	func_tbl_cfg.mtu = new_mtu;
-+
- 	return hinic3_set_function_table(hwdev, BIT(L2NIC_FUNC_TBL_CFG_MTU),
- 					 &func_tbl_cfg);
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index dea882260b11..92c43c05e3f2 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -116,6 +116,7 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 	}
- 	dma_unmap_single(&pdev->dev, dma_info[0].dma, dma_info[0].len,
- 			 DMA_TO_DEVICE);
-+
- 	return err;
- }
- 
-@@ -601,6 +602,7 @@ netdev_tx_t hinic3_xmit_frame(struct sk_buff *skb, struct net_device *netdev)
- 
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
-+
- 	return NETDEV_TX_OK;
- }
- 
+(A) It's just a special file mapping.
+
+How that special file is orchestrated is not controlled through VMA 
+change operations (mprotect etc) from one process but through dedicated 
+ioctl.
+
+(B) It's something different.
+
+VMA change operations will affect how that file is orchestrated but not 
+modify how the VMA in each process looks like.
+
+
+I still believe that (A) is clean and (B) is asking for trouble. But in 
+any case, this is one of the most vital parts of mshare integration and 
+should be documented clearly.
+
+>>
+>>> And how are we handling other page table walkers that don't modify VMAs like
+>>> MADV_DONTNEED, smaps, migrate_pages, ... etc?
+>>
+>> I'd expect those to walk into the shared region too.
+> 
+> I've received conflicting feedback in previous discussions that things
+> like protection changes should be done via ioctl. I do thing somethings
+> are appropriate for ioctl like map and unmap, but I also like the idea
+> of the existing APIs being transparent to mshare so long as they are
+> operating entirely with an mshare range and not crossing boundaries.
+
+We have to be very careful here to not create a mess (this is all going 
+to be unchangeable API later), and getting the opinion from other VMA 
+handling folks (i.e., Lorenzo, Liam, Vlastimil, Pedro) will be crucial.
+
+So if can you answer the questions I raised in more detail? In 
+particular how it works with the current series or what the current 
+long-term plans are?
+
+Thanks!
+
 -- 
-2.43.0
+Cheers
+
+David / dhildenb
 
