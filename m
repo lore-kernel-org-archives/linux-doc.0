@@ -1,117 +1,146 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b7-smtp.messagingengine.com (flow-b7-smtp.messagingengine.com [202.12.124.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F18205ABA;
-	Tue,  9 Sep 2025 14:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CDB3451B6;
+	Tue,  9 Sep 2025 14:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757429191; cv=none; b=EkF8+B9ytpF1JqvYjhDjYrTeqh6tFdpbxgiyWkLZOmCA3g0BeBdWEn7IxIOfGtniyOHHQ2lOPsN95oqzUs0p+GznRJtjnG4XGSYgumYx3KeX7zAgY+euY/dtUpXAcePokc8Lrhhj3c64kkzawgWSAAbfZ0zs0rhzTwNPQFeyypY=
+	t=1757429346; cv=none; b=Ys98B65e4jcAtinYI5mduUcvtnTErtiUH+OMC50I/1KwPyki40RWwkOvI8N2T78lbRPiMxoGgI0WUpNkSz/7SSZQov7Ltiz87UMsHdB6Qw29smmPufvEZzorxqSifpU/fi5tVunUnn7X3F0HsLPzaBKsGD4cZHKEo+EcbCSvIsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757429191; c=relaxed/simple;
-	bh=9r8is19th/mpc8+gBUPuFGFOMpuM+eINAVaHU5/+AZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Up1s+aGd5ceujjobAYoQtNwnf2EPGxOIZAbqZ0JPtT2R1p9Xu6gRKlOaXmGWsvv6e1F6RfMbpvC6sw9sFulO+1zlAvVGZmu2M/J9+Jy/v8dlGuWGjj1uz1OjXwrVRyPp2QTraJ/H+FRN2WS6kvjP81u4/4eZnez9moqJaOgOuTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXSCxk0O; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757429346; c=relaxed/simple;
+	bh=AbBtY9co23uwQZa5euqlsLmByYJLSL8y/i6l8asEyoU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=in8uER3z9+tJY1mZ1We3u32kHEAd5tRG0fL1IbtdzaOf10X9cFSnhIn4FH66A3rb9a0BXOVsQ5wy0zRAU+K6SkleS2ArO7c+uvZ8wBtbvMAQFDCmQBooTBT9FbUEQSzTCfMQG2eLRHuDAXkD0HzUA/R86WMDDragbEqdTUlQCyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yadavpratyush.com; spf=pass smtp.mailfrom=yadavpratyush.com; dkim=pass (2048-bit key) header.d=yadavpratyush.com header.i=@yadavpratyush.com header.b=mgP0v51A; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k9UAhErE; arc=none smtp.client-ip=202.12.124.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yadavpratyush.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yadavpratyush.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXSCxk0O"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so38304145e9.0;
-        Tue, 09 Sep 2025 07:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757429188; x=1758033988; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9r8is19th/mpc8+gBUPuFGFOMpuM+eINAVaHU5/+AZQ=;
-        b=FXSCxk0OphkLXH5Y60GjqIB40uXL8ZhgtgbxAyodaZ56PCbLJc2dolMyrkB4j4dPRx
-         4KKw6Z86tL/8jy5QWQ0BzB5brKbMTyhL1zrU4pFfCGQawMsgQoiBslCH7ymZdyD10x1P
-         WCtvBHuVP9wlWPfWfW0FeAeYewtvL6ctGaX/hP4H9qm85IIPv0qyptOI1brdKq9nPY9S
-         4nQCx7c8H1/rzlEEpUCr8mUVBGIBH1sauBK4Cwgt8gEvRa8f1lUoy+oD3RAb08q+pW81
-         1ksueaRzeF0PmMR69/HMcKWHfyH9yV9uUZEoTdhxrl1nszA5BkLCzDS4jiK+yrCuaRO7
-         +92w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757429188; x=1758033988;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9r8is19th/mpc8+gBUPuFGFOMpuM+eINAVaHU5/+AZQ=;
-        b=Rhoh07uQ4PO+XTdclyKyI4pDqEFPOaQO6wpe6Y82M7RBRhXud/x1kLfy/jZjcQvgUp
-         59Qm5xYHh8Q+iGryUGfttIK69zhQYdiulMkEGJkRNTnAc5eAiKz9XoEsyHxU3DtH53cR
-         2ivmFFcuhdc7NW2zrZa/Bd4wwmOm/YAXvjMBD4akHQix8x/fdkhMxTF2VkbcLwoZg0Tl
-         tVJenDicKm8SrxyTmysn4jQB6I9J7nTzos04g58FxTFmCZbFonRO3BCtQnGwzxyAwvHD
-         ZHkwjnv6lzIBL3gCvOCc/+gKWFlKivN9aTIOJJFbIyDT8coxiOcV71rLj2hGftmHe3ET
-         Ul4A==
-X-Forwarded-Encrypted: i=1; AJvYcCV0cBK8TReEMi0xpsduFFBEeO4PiTGyU8OrFLcwTGDjjppEy+b7e43EiI+6+v4oe3hlqSG1B7c969zgFNiy@vger.kernel.org, AJvYcCWLNzi2q4MwCvktK9IQgCZCgJBOexMVvn0smyDIiDBDuPzHTGvKYSb6AbscVcqUeOnIkBseJFAcrFJq0f4r@vger.kernel.org, AJvYcCWhjcB7VONve6tzP57gPH0fDgznER1dywoLOuyb8JZBp95N6SPhM6DMWOG6uBgebbbDg2CmF+oRfK0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN9oOtb5GPgNas8g6kJTA0SnpukRo9UU1iVW2vdhNtzcJz1PzZ
-	IhnBt+1RVg5qTnnjAOJzHpb1Y9IcyfXbOgDLxcdmciZfBgVLgUUalU6X/jS45Ho3B/1QgLkYPJ/
-	sKeIygetbDbOOfyZN/YoeL8BbzKenLZA=
-X-Gm-Gg: ASbGncsnYP6aeBgebSVOQx7QZ3Z3PqkJ7ww9PCot/9hbOx/kY/UF77Z7bNNBE3XUS5j
-	AzHXGE/rwKtXXk9aXjYsbCP2bF7A1g7yS150/V9fDM7YhMc+7HQ/HJxrpBFTJjg2xI6ybSTTT7m
-	HjwaRReoOzh5eKSVFPNfpSeq/GHqUXr/kF+fJch1Th0FzBJsVTURIqGUr+yyLATPz6QZ15He2h0
-	7gZdqolw7KWfBvo89w=
-X-Google-Smtp-Source: AGHT+IHX8hpEThdKWhfgKRLr6W0FWhcfhr7A4C3lXlb+Th2laAYeLYdN8LPk5jePjYDY52XyG4mlIX7jog2+tQhQdNM=
-X-Received: by 2002:a05:600c:3b1d:b0:45b:8ac2:9761 with SMTP id
- 5b1f17b1804b1-45dde20e5c0mr116112155e9.13.1757429188072; Tue, 09 Sep 2025
- 07:46:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=yadavpratyush.com header.i=@yadavpratyush.com header.b="mgP0v51A";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k9UAhErE"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailflow.stl.internal (Postfix) with ESMTP id B3F9E1300990;
+	Tue,  9 Sep 2025 10:49:01 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Tue, 09 Sep 2025 10:49:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	yadavpratyush.com; h=cc:cc:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1757429341;
+	 x=1757436541; bh=Y/TCCEjl1x7wxnth3DtTGIDGSel1rUvJ59NmeiL2G4Q=; b=
+	mgP0v51AEKZ1oLuhYhq0dxoxmzdIjuj3YRTMs5TontGsnXuKeSsgTrsrHF6MMIfE
+	212eXMod+EeJVAYGpAy4Wv7mBiYjAcuP6BQl0XEtvwCtFrOR3K7yecENrjLlgS+0
+	GXlPErjy7qBU86skUgjtHi0JX73VCP4d2e6kArizhL8smzMUphAKx3KnN6NRc70+
+	SBZBlQgCGhIuouqkBKe3T+HAMeylqU047Faj+5IWuvhIgMUt5yQO5NxiWcg9pAgl
+	ipuSUbIJEwKfx9Bu+4HDHaX3P4/73OO7C3zCWENMLai5nGCDCq+btAty7NtMpVT5
+	ICZUnKckfHRjdd9HvxPKIQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1757429341; x=1757436541; bh=Y/TCCEjl1x7wxnth3DtTGIDGSel1rUvJ59N
+	meiL2G4Q=; b=k9UAhErE0BymxMplbvUgbBzNElquxstojyh1E9JDW+hlCckC4yi
+	Wxfbe/64U4mV02XMEQa41HdXXr6D7Pz0TeLA2qkTHnrg8Sad+Av1yC214EPVlh7c
+	gGU/Zm8cgJ0YNGHykqSjIPPRgVIBJMHh4vNKSyFr/1Rw0sMkKtmz/l8KddE/3m5T
+	d3bK2EMMn4Zp5aVovyEmeH3U+RiBG9K6iHTkI+gB5vUhOJbHZB/e3OsBpJMB5AMP
+	YUnki6cCr0TLbu0DTcscCRzctwspe3ooGET70Sb+kC2h/zbuTL77tcH47MLZR4V5
+	rB38co4swoM2kR6N5/JxiYwdS2wwFxtWX3w==
+X-ME-Sender: <xms:Wj7AaIrI7M7ldDEGh2_Ckv7KIyHISKSpgzqMKkKLJFhg0iGJe_pciQ>
+    <xme:Wj7AaNJLH6L9L49uJ1lYcLGgIaQLnilMIFWmRCqyovoUqXEb9Ci53_420Ne6ZiMES
+    _l0O6XwDo13qd_55UM>
+X-ME-Received: <xmr:Wj7AaFnq_4-dBrJZbIFCdnlipGr0VxvsMJXV5oxjE7RVXL_yHwuriD0TFPRF0Y05P0zdplbqUMEfjEmzXnpjINJGeYfc-UqE6gP95EOykMfw8egzlum9VL28v2PgT-KgkR8gW0xC>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdeilecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufgjfhffkfgfgggtsehttdertddtredtnecuhfhrohhmpefrrhgrthihuhhs
+    hhcujggruggrvhcuoehmvgeshigruggrvhhprhgrthihuhhshhdrtghomheqnecuggftrf
+    grthhtvghrnhepvefgffeuffelffeiveeghfffffeikeeivefhvdeuueetfeekkeegtdeh
+    heeuueeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvgeshigruggrvhhprhgrthihuhhs
+    hhdrtghomhdpnhgspghrtghpthhtohepjedvpdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopeifihhtuhesnhhvihguihgrrdgtohhmpdhrtghpthhtoheplhgvohhnrhhosehn
+    vhhiughirgdrtghomhdprhgtphhtthhopehprghrrghvsehnvhhiughirgdrtghomhdprh
+    gtphhtthhopegrjhgrhigrtghhrghnughrrgesnhhvihguihgrrdgtohhmpdhrtghpthht
+    ohepshgrvggvughmsehnvhhiughirgdrtghomhdprhgtphhtthhopehlihhnuhigqdhfsh
+    guvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    rghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvghnnhgrrhhtsehpohgvthhtvghrihhn
+    ghdrnhgvth
+X-ME-Proxy: <xmx:Wj7AaBvS0dMVGs9SUTzz9TmH0Mep055tenv7pII7aNenLBLMCPxeIA>
+    <xmx:Wj7AaP1ih8Dwk4RbYaA7fuRZaAcv1inNagfhkDbMSjDtIy4Uvu0wQw>
+    <xmx:Wj7AaIbuJb2pBcDWFQ93y58maHi90wS0GGoAglU5mfYfgdOIqspENQ>
+    <xmx:Wj7AaIFs2_0V2RcnSQ8cf9Ni9dMlDYA7DolIPUG6L7_ZxPllJtO1sQ>
+    <xmx:XT7AaFDEX4cosPWdCU8mMesLFLGI6DT7fI8E4jebyApuljdXe77ZNvcm>
+Feedback-ID: i93f149c1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 9 Sep 2025 10:48:51 -0400 (EDT)
+From: Pratyush Yadav <me@yadavpratyush.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Chris Li <chrisl@kernel.org>,
+  Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
+  jasonmiu@google.com,  graf@amazon.com,  changyuanl@google.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  zhangguopeng@kylinos.cn,  linux@weissschuh.net,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  gregkh@linuxfoundation.org,  tglx@linutronix.de,
+  mingo@redhat.com,  bp@alien8.de,  dave.hansen@linux.intel.com,
+  x86@kernel.org,  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
+  leonro@nvidia.com,  witu@nvidia.com
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+In-Reply-To: <20250904173433.GA616306@nvidia.com>
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+	<20250807014442.3829950-30-pasha.tatashin@soleen.com>
+	<20250826162019.GD2130239@nvidia.com>
+	<CAF8kJuPaSQN04M-pvpFTjjpzk3pfHNhpx+mCkvWpZOs=0TF3gg@mail.gmail.com>
+	<20250902134156.GM186519@nvidia.com>
+	<CACePvbWGR+XPfTub41=Ekj3aSMjzyO+FyJmzMy5HEQKq0-wqag@mail.gmail.com>
+	<20250904173433.GA616306@nvidia.com>
+Date: Tue, 09 Sep 2025 16:48:50 +0200
+Message-ID: <mafs0h5xblm0d.fsf@yadavpratyush.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <36c0e5e9d875addc42a73168b8090144c327ec9f.1756151769.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZcMV0BOJyvx2nciCK2jvht-Hx0HnFtRzcc=zu+pQSOdVw@mail.gmail.com>
- <couuy2aawztipvnlmaloadkbceewcekur5qbtzktr7ovneduvf@l47rxycy65aa>
- <hw7xa2ooqeyjo5ypc5jluuyjlgyzimxtylj5sh6igyffsxtyaf@qajqp37h6v2n>
- <epbqhjyfdt3daudp2wx54jsw6d7jf6ifbr3yknlfuqptz7b4uq@73n5k6b2jrrl>
- <CA+fCnZdJckDC4AKYxLS1MLBXir4wWqNddrD0o+mY4MXt0CYhcQ@mail.gmail.com>
- <ra5s3u5ha6mveijzwkoe2437ged5k5kacs5nqvkf4o7c2lcfzd@fishogqlatjb> <47ip2q7fc3q2igjjjg24bl3gwlpcr5y37pahkqb63ridzj262u@augjvsnpq4kz>
-In-Reply-To: <47ip2q7fc3q2igjjjg24bl3gwlpcr5y37pahkqb63ridzj262u@augjvsnpq4kz>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 9 Sep 2025 16:46:15 +0200
-X-Gm-Features: AS18NWBnjU96S1X9HzwLOYnj48ud-1aT029AYj3EOfOXKk4tlcXWbWhwT0m09CU
-Message-ID: <CA+fCnZcG4Eqy84zNuvZ2Tumi=eA=KAGFFeduRLiUUHYRBMuDqQ@mail.gmail.com>
-Subject: Re: [PATCH v5 13/19] kasan: x86: Handle int3 for inline KASAN reports
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com, 
-	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com, 
-	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com, 
-	trintaeoitogc@gmail.com, axelrasmussen@google.com, yuanchu@google.com, 
-	joey.gouly@arm.com, samitolvanen@google.com, joel.granados@kernel.org, 
-	graf@amazon.com, vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org, 
-	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com, 
-	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com, 
-	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com, 
-	justinstitt@google.com, catalin.marinas@arm.com, 
-	alexander.shishkin@linux.intel.com, samuel.holland@sifive.com, 
-	dave.hansen@linux.intel.com, corbet@lwn.net, xin@zytor.com, 
-	dvyukov@google.com, tglx@linutronix.de, scott@os.amperecomputing.com, 
-	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org, 
-	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com, 
-	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org, 
-	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com, mhocko@suse.com, 
-	ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org, 
-	peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com, 
-	ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com, 
-	ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org, 
-	akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org, 
-	pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev, 
-	will@kernel.org, jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Sep 9, 2025 at 10:54=E2=80=AFAM Maciej Wieczor-Retman
-<maciej.wieczor-retman@intel.com> wrote:
+On Thu, Sep 04 2025, Jason Gunthorpe wrote:
+
+> On Wed, Sep 03, 2025 at 05:01:15AM -0700, Chris Li wrote:
 >
-> But as Peter Zijlstra noticed, x86 already uses the #UD instruction simil=
-arly to
-> BRK on arm64. So I think I'll use this one here, and then change INT3 to =
-UD in
-> the LLVM patch.
+>> > And if you want to serialize that the optimal path would be to have a
+>> > vmalloc of all the strings and a vmalloc of the [] data, sort of like
+>> > the kho array idea.
+>> 
+>> The KHO array idea is already implemented in the existing KHO code or
+>> that is something new you want to propose?
+>
+> Pratyush has proposed it
 
-Sound good, thanks!
+I just sent out the RFC:
+https://lore.kernel.org/linux-mm/20250909144426.33274-1-pratyush@kernel.org/T/#u
+
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
