@@ -1,109 +1,99 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8497E2BEC28;
-	Tue,  9 Sep 2025 17:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFDC24BCF5;
+	Tue,  9 Sep 2025 17:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757439592; cv=none; b=sUm4bgH/LKgo4HLPw24wNhyObqSs0XWihWYA1NouN6lpZEMWq3sY2As33LvbOosI1vJTIRpj/cqIOJBDmLiVO2oN1eGlpWcipbQ8D+CedzBZcm+mwoY2R1lFztyc7mmbQSzHJBhRia7PGKFE473u1vykt1zitUj6C1rzzQM2Zas=
+	t=1757439986; cv=none; b=LFhJflPg1XBUIKvFsyvidaLzBWDuqdYkHlesQeoyb5DCuf59JpT2bR9Y25ZePSyJs5xqY6AcD2eGlNHggQPaGQDyizu6sSWmOpXRO53195RosXNm5UFH5JmhaSVs/vDuhwaaLPZabjx0kjtbtD5pgvoeOpNhB4pVnbNeNDF4c80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757439592; c=relaxed/simple;
-	bh=+n9pz43aS4hOhK8bXI2NJBf6dCltl6zFRfC8DVieOtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JAvDgJt74ryt0c5RL3Ck9K5lqBMe7TaR/khwesOVI1zadTbozaLyrlgHEqMv3Pegcvk82crybvAaHTXAt6Bc8i8DexzgOI5UC4/Us7RZYaK4OQ4wRaV7dXm3BUtC+9AvdHiZQkYhrYc6LftUMpI9mMAjkBmtLzFsFAxVxKiP6tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=IrNWt2lx; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1757439986; c=relaxed/simple;
+	bh=v9xXxmxDXQYkaEAJAX0BRW6tnDjxk8gf8Bml2n9XIwU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iaE2ad41yZCrR1YIijHGfjf01AESzACq8W6pN/qS/g6W6b1hdWRAHjKtJPwtRgOkOrTpzAAO6q3ldMa1lj8VIxL5sdeDjtmAe1X/hkM+iCpVmuxjkbWSlSudgPztaulB4MKwqCEdh5DLJUgOU6eWFnijjvOw692GuXVsr+VFGww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XR8HvAUp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="IrNWt2lx"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C0FD540E015C;
-	Tue,  9 Sep 2025 17:39:46 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id dA0Od3MwFIK0; Tue,  9 Sep 2025 17:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1757439579; bh=UTdzHdMhMiMBsjVrY3uR5aLdq+eZ3RE3QSN+QBRgISo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IrNWt2lx5gtduj5ozxb0AWdfv7JAmZGzqtdFog/80hQ2U5AWpx8i4FM4T4b6bHvF4
-	 k1r/QOYkE6Sst/PimeQqZpzfabt3RlWeRWwKMsMQHUHJn7JxOtDJjwRTtggarlAP+p
-	 aIwD0okNab5VAvcJvsF5NJRp4mMgYlFky9qUol96ZiuUGpN8NkHSH00eeYMtl54M4g
-	 u823Rl95VxdQB9emFXoN0c2UpLQ1oCvP7/N1tapJflVB0iA3p/2ox+TY83BRty3Uns
-	 yUBR6dOiQBxC4Mp6PbvX/CJl463FVO9QxLrMPB4gjxsdh5g3k7m+1Nq1KqQm3PACie
-	 TgAd/xizsmzr9UTOJzJO5PTyYj/+UO4WS7kFlXnTLO2K1Y+syuIphJJ7OKp1bCUW1C
-	 IrTETgZ1eXemYSc7fbgclRyn8oQvIStCNk/ps2P/mQmk0knasa4nLir3/0oFynvXJi
-	 P1aMZoVxpfP/6/nrvYyLfZwOB/T8elWe3H7qEmEsfD98tORVH9EgviuMtaGYZIP7y/
-	 XrJoxo6avCsyWm0Fq8DgWgW4xBSAcHdgSO5yAI9aMVBOfFo78dTO9K1cLdsDRnKgqC
-	 BZIqYD4jwXDt1ChwFDNJtUEF5ZXKDyGAh59+L55B14kIRSpPPPmXAmYlu/JxpIVROs
-	 uhqta4D7UQ6QNa6U6NJt525Y=
-Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 305E940E01B0;
-	Tue,  9 Sep 2025 17:38:57 +0000 (UTC)
-Date: Tue, 9 Sep 2025 19:38:50 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>,
-	Babu Moger <babu.moger@amd.com>, corbet@lwn.net,
-	Dave.Martin@arm.com, james.morse@arm.com, tglx@linutronix.de,
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	akpm@linux-foundation.org, paulmck@kernel.org, frederic@kernel.org,
-	pmladek@suse.com, rostedt@goodmis.org, kees@kernel.org,
-	arnd@arndb.de, fvdl@google.com, seanjc@google.com,
-	thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
-	perry.yuan@amd.com, manali.shukla@amd.com, sohil.mehta@intel.com,
-	xin@zytor.com, Neeraj.Upadhyay@amd.com, peterz@infradead.org,
-	tiala@microsoft.com, mario.limonciello@amd.com,
-	dapeng1.mi@linux.intel.com, michael.roth@amd.com,
-	chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org, peternewman@google.com, eranian@google.com,
-	gautham.shenoy@amd.com
-Subject: Re: [PATCH v18 00/33] x86,fs/resctrl: Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-Message-ID: <20250909173850.GCaMBmKk6mrAP6IF4V@fat_crate.local>
-References: <cover.1757108044.git.babu.moger@amd.com>
- <107058d3-9c2d-4cd4-beba-d65b7c6bd9a0@intel.com>
- <20250909161930.GBaMBTku_VgKUpTs2V@fat_crate.local>
- <0227e8ec-aa65-43e6-af07-e71f7a1edca2@intel.com>
- <aMBlAG1Pmtr2hHWN@agluck-desk3>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XR8HvAUp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EA78C4CEF4;
+	Tue,  9 Sep 2025 17:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757439985;
+	bh=v9xXxmxDXQYkaEAJAX0BRW6tnDjxk8gf8Bml2n9XIwU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=XR8HvAUpgEDsG9LXQ9uxZ8OQ1r9prbNDn2ztFSkEc4KFfBw74wAJ0pIePPg2qQN0s
+	 woZ5IeJG+LZdriZ3t7J9Zu1QdTYLTigVXU8eFLHY6VLIH0ykTRVmWmfZzKGifp6LoI
+	 iUyfo8zAksWUHtmusejt/nfOaTgiDr/mOjbcWOzhJsAuLbpkOAGf5v3lzzahdlQv5z
+	 wR+29EBCUIVHbMTWSYGY+MKB2ogQ1ZjGvMcUACxlCwwhHvKjy3cbTY2alOtKArrH+d
+	 C3kaMd24u3y60Q9cBBT6dCQb4ewFCwDkvBEmTRV3GJ0zye0zlpxMXyIj4btuao8Dx7
+	 Yu38G9ikfwHLQ==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Date: Tue, 09 Sep 2025 19:46:09 +0200
+Subject: [PATCH net-next] doc: mptcp: fix Netlink specs link
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aMBlAG1Pmtr2hHWN@agluck-desk3>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250909-net-next-mptcp-pm-link-v1-1-0f1c4b8439c6@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAOBnwGgC/zWMQQqAIBAAvxJ7bsGUsPpKdAjbaqlMVCII/54EH
+ eYwh5kHAnmmAF3xgKeLA582S1UWYNbRLoQ8ZQcpZC1a0aKlmLkjHi4ah+7Ane2GlW5qpScj1aw
+ gx87TzPc37uFvYEjpBUW7yF9yAAAA
+X-Change-ID: 20250909-net-next-mptcp-pm-link-178537dc23f3
+To: Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: netdev@vger.kernel.org, mptcp@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1558; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=v9xXxmxDXQYkaEAJAX0BRW6tnDjxk8gf8Bml2n9XIwU=;
+ b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDIOpL/jilp9PqFN5nsLa5Jtyk+1y3PyzJf3HDzuHl60K
+ uzBysAzHaUsDGJcDLJiiizSbZH5M59X8ZZ4+VnAzGFlAhnCwMUpABOZ6M7wP/lFn8YUI4sHpe//
+ R9v/PqNgd7GOm+106o9Xc+/c7dbZk8/wP/PwzON7Sn/266yfOGvX2envjxkw3wheeS2GdeqlW/+
+ zJrEBAA==
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-On Tue, Sep 09, 2025 at 10:33:52AM -0700, Luck, Tony wrote:
-> Conflicts in Babu's series were trivial.
+The Netlink specs RST files are no longer generated inside the source
+tree.
 
-Right, and considering how tip:x86/cache has only one patch, I might even
-fast-forward it to -rc6 which will have Reinette's fix so we should be good.
+In other words, the path to mptcp_pm.rst has changed, and needs to be
+updated to the new location.
 
-At least that's the plan - we'll see.
+Fixes: 1ce4da3dd99e ("docs: use parser_yaml extension to handle Netlink specs")
+Reported-by: Kory Maincent <kory.maincent@bootlin.com>
+Closes: https://lore.kernel.org/20250828185037.07873d04@kmaincent-XPS-13-7390
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+ Documentation/networking/mptcp.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Fractionally more complex in my AET series (because some of the code touched
-> by Reinette's patch moved to a whole new function. But still not hard.
-> 
-> Whole set (upstream + Reinette + Babu + Me) pushed here:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git reinette-abmc-aet-wip
+diff --git a/Documentation/networking/mptcp.rst b/Documentation/networking/mptcp.rst
+index 17f2bab611644727e19c3969fa08fa974c702d92..fdc7bfd5d5c5f7a6be089e23fb3d97da294e4c88 100644
+--- a/Documentation/networking/mptcp.rst
++++ b/Documentation/networking/mptcp.rst
+@@ -66,7 +66,7 @@ same rules are applied for all the connections (see: ``ip mptcp``) ; and the
+ userspace one (type ``1``), controlled by a userspace daemon (i.e. `mptcpd
+ <https://mptcpd.mptcp.dev/>`_) where different rules can be applied for each
+ connection. The path managers can be controlled via a Netlink API; see
+-netlink_spec/mptcp_pm.rst.
++../netlink/specs/mptcp_pm.rst.
+ 
+ To be able to use multiple IP addresses on a host to create multiple *subflows*
+ (paths), the default in-kernel MPTCP path-manager needs to know which IP
 
-It doesn't hurt to test the different piles.
+---
+base-commit: 3b4296f5893d3a4e19edfc3800cb79381095e55f
+change-id: 20250909-net-next-mptcp-pm-link-178537dc23f3
 
-Thx.
-
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
 
-https://people.kernel.org/tglx/notes-about-netiquette
