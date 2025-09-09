@@ -1,129 +1,144 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65907350820
-	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 14:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8B91A9F8E;
+	Tue,  9 Sep 2025 14:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757428658; cv=none; b=EEae7r/jsHTpEmEZhtcQzXHSRTh4kURYeQm/1MYLjH5hX+hoafc4Az0gQUniY8/YU0xmp8OkWkrdEV7qNt6kdUBjp70UIpN+sDNN55oZF/lgIyRfG7HdbcmVtcON91mP0arvKZ+HQ341UQ21MuDx3ycDokXBPWLRV3L7DjV+9bo=
+	t=1757429159; cv=none; b=IxQXugOedZD2ScnHIRuCOuvWjMTIt3/oV46vX53oF8iHouoQmihpBMqlCzcABFaywccbr1ZIHc2icKo5f3QL+qO/PWyfWEpuLhi2RNezCwpA+voAVTK5i4oQcxK0x0aXM3kxQlXLtfM2ync5CbPpPuq5UeylmzzE+0FU4lkepeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757428658; c=relaxed/simple;
-	bh=hImgRP5PDSJ8tahE+RtUsG3WvwJy/+Y1BnkvJrIMRfM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NjZwTxomSIAEEnDxcNgUs3NfCQI9wSSDLRPNl1yR9fsONLkBspLqb3iDw17srtRkLqapV6LArt/B7QKDd1FsxTraA0Ab/c8zw9gtqFQmgplJLZ4Tl11DZSKKTjJvp6RdXkzUSvyCKUiD9Mq3RKytSMEcdV0B9Kue32oK1IdEPFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OBtCrRsb; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1757429159; c=relaxed/simple;
+	bh=h9g92wWrXJhuOCmJ8Py7lEU0MPRoS9lrUiVWjii3lxY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Gd019p1wkvxl1Er8SAMlJhklkQn3gbU06rI4/7WNy/54Iizuiwd5aqRrKfYi+rzsT13SUmN3c7ybbWwAhXRDNrMFyrYe17VeXqrIs4dBELbyBhX/ykZtuE4C4JPhcEe7o6X/X3syn3W4wSX/lO0dMxybBUMQsRG6zQktP2lRhDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0xlMchK; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OBtCrRsb"
-Message-ID: <2ec8c7f8-cf79-4701-97dc-2d0a687f0f3b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757428643;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=joBHHo2vNOa9/tISXv4x8ETwG4JXU3LtDMt2JeCyLyM=;
-	b=OBtCrRsbxfPzoj5D3rkn5kRq6++vRm4cPJxZet2JnWn0QfYPTL7nbnbOZWm5Tw3rBdC3uq
-	IQJ0BUlyseKMXmdkTRZLSkawjmyuAbFXu0zZjb8Zo/VdP0anjTSxei8fqRFe84t6u9fRD4
-	WcPczDipxB6bdThSvMIuiY+tTZsSQ+Y=
-Date: Tue, 9 Sep 2025 15:37:19 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0xlMchK"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3e2055ce973so3110606f8f.0;
+        Tue, 09 Sep 2025 07:45:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757429156; x=1758033956; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8T/yu3N8TV6o0nCvXPls2b7J7vwcGfC7bXk5KdT0X2s=;
+        b=K0xlMchKtS1zSeEAB7zblOybthOsZREgUi19xv8mUzjS9kEZ4m89sSUc1xqI0m+Iqf
+         lU+i8Lf5Rpd+BddPoMoSaWPAGrOn3MOBD2BEmf/Q+Jp4QILxzFW/p/tOPj2HmOoBibQ2
+         1taY+CJRvQ1RmbrQUB0TIez8/FBA3EvtJk6mSpJZFZSFgKY5xMrOTloyRRvOerjsS7e9
+         kp3h0bU1ThoZnnDIZ2smb/FkS1Vm4Ne3dr6wnV1SrZqM/mCUN2L1NNZxDm+tmkY91BK2
+         4tD5Of5ClmT+IDXaiXgqf2GrVvb83K2GupBI8rJCoOrLt3znl71D4MKGGZt7BWe9W6BS
+         t6Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757429156; x=1758033956;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8T/yu3N8TV6o0nCvXPls2b7J7vwcGfC7bXk5KdT0X2s=;
+        b=BGxug+9re15bLf+/xiP387qbj1uBTaMZ2K5UoLkrX2LTE4+atjcgkj8JxzhCQTCNNL
+         klknKB+HaHXZw0yxz9K4/aCUKPDQnZR+0ttu2YDemFrQUEVTNQKPoMK+/DOB53aygQOB
+         eSaUSjwsxpvg88rDsCnpNMF0wdQa2aaRDTF63P1qRLmyA/uwIKTB1coiyASb73E56t+N
+         fBkJnOB1trpZ/f+1x8HBqvc09LbPMJ7sxSbjsV96jjNVQXJpjnCyCri3Ufz7++bTl2Pe
+         G+mac39TieBRFxcNUZnwkCrZKoqPGb/GSXputsZX+oEaFjTwppxWRqTyP9NBS5ZQog+p
+         7pwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFEwpYla8Te2rybinTTmn8m2bWHF/Yb9vAoo3BvODJ09LDtSJIO5u/tVnFYH3DkpHLgWETclBPvMIeHw25@vger.kernel.org, AJvYcCWbBck9kWyu7RB7k7TK2JW+I6uVhk7v812OMykzZSNcB9zoJNchF32cavP6XpQd3UhssX1fYg8OjTY=@vger.kernel.org, AJvYcCXX1Pszt5ltiFdgSrF5eZL+SSSFVGufCC/CJoSjqSoGAWMvvacoJTKHWoHb3UBvbGXwo+WnkYMaA6otNvA6@vger.kernel.org
+X-Gm-Message-State: AOJu0YwU2+LuhbSKAxwqyYnRL18Tbg/npwywcLsZslDf0JA82C7FzrxP
+	QfSM9VPUcWy6ouOfEIxRXsmrcXVFpRp9iANlzoCndFRSpJcoe1sZhXuNNCFFCwA5k7srxinwbeA
+	hA40xmszVRzXv7MzbrhMbT8UfFIQlyjY=
+X-Gm-Gg: ASbGncvSblsbBVlXXXgBkdoYCHV8uRYrHs23ULYYGgJ+9raV2ROWb00Xh2yaw5+R7w6
+	+0i/Gc4FCirAaEfTkZiU9ifmK1DOb4ZjkhYKo6Q/LreWMbI3nCWLnlUbdeYHZ9pavvrgtptJGTU
+	GmoeiM5v3kkE4zuren6CA9x9nOpWUGS/RfE5kV0S81CLm05yVJs7b0nUbdTzHId7sUmD5IwSDML
+	MBE1q6F
+X-Google-Smtp-Source: AGHT+IH8mznDXMiTQJweNCJMFeyunuSNo6fJv5XkfHlGkiJSKVNMuvO31tCVhwde5ClSRv4GzI1pVbP/cjzPjFzqa4s=
+X-Received: by 2002:a05:6000:2c0d:b0:3e7:441e:c9e1 with SMTP id
+ ffacd0b85a97d-3e7441ecde8mr6759404f8f.18.1757429155814; Tue, 09 Sep 2025
+ 07:45:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v11 5/5] net: rnpgbe: Add register_netdev
-To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
- maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
- gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
- Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
- alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
- gustavoars@kernel.org, rdunlap@infradead.org
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250909120906.1781444-1-dong100@mucse.com>
- <20250909120906.1781444-6-dong100@mucse.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <20250909120906.1781444-6-dong100@mucse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
+ <2f8115faaca5f79062542f930320cbfc6981863d.1756151769.git.maciej.wieczor-retman@intel.com>
+ <CA+fCnZf1YeWzf38XjkXPjTH3dqSCeZ2_XaK0AGUeG05UuXPAbw@mail.gmail.com>
+ <cfz7zprwfird7gf5fl36zdpmv3lmht2ibcfwkeulqocw3kokpl@u6snlpuqcc5k>
+ <CA+fCnZe52tKCuGUP0LzbAsxqiukOXyLFT4Zc6_c0K1mFCXJ=dQ@mail.gmail.com> <m7sliogcv2ggy2m7inkzy5p6fkpinic7hqtjoo22ewycancs64@dnfcl2khgfur>
+In-Reply-To: <m7sliogcv2ggy2m7inkzy5p6fkpinic7hqtjoo22ewycancs64@dnfcl2khgfur>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 9 Sep 2025 16:45:43 +0200
+X-Gm-Features: AS18NWCko3Nu4vYg1YjsVoZlO3pFTQTWFNFMYZcWhGCR7k_x37D691H981KEWl4
+Message-ID: <CA+fCnZc3ZY43KeQcWSw4kgcCqJpAvNj6gKd+x0AkjhuE2R8Hdw@mail.gmail.com>
+Subject: Re: [PATCH v5 15/19] kasan: x86: Apply multishot to the inline report handler
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com, 
+	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com, 
+	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com, 
+	trintaeoitogc@gmail.com, axelrasmussen@google.com, yuanchu@google.com, 
+	joey.gouly@arm.com, samitolvanen@google.com, joel.granados@kernel.org, 
+	graf@amazon.com, vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org, 
+	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com, 
+	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com, 
+	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com, 
+	justinstitt@google.com, catalin.marinas@arm.com, 
+	alexander.shishkin@linux.intel.com, samuel.holland@sifive.com, 
+	dave.hansen@linux.intel.com, corbet@lwn.net, xin@zytor.com, 
+	dvyukov@google.com, tglx@linutronix.de, scott@os.amperecomputing.com, 
+	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org, 
+	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com, 
+	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org, 
+	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com, mhocko@suse.com, 
+	ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org, 
+	peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com, 
+	ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com, 
+	ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org, 
+	akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org, 
+	pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev, 
+	will@kernel.org, jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/09/2025 13:09, Dong Yibo wrote:
-> Complete the network device (netdev) registration flow for Mucse Gbe
-> Ethernet chips, including:
-> 1. Hardware state initialization:
->     - Send powerup notification to firmware (via echo_fw_status)
->     - Sync with firmware
->     - Reset hardware
-> 2. MAC address handling:
->     - Retrieve permanent MAC from firmware (via mucse_mbx_get_macaddr)
->     - Fallback to random valid MAC (eth_random_addr) if not valid mac
->       from Fw
-> 
-> Signed-off-by: Dong Yibo <dong100@mucse.com>
+On Tue, Sep 9, 2025 at 10:42=E2=80=AFAM Maciej Wieczor-Retman
+<maciej.wieczor-retman@intel.com> wrote:
+>
+> On 2025-09-08 at 22:19:11 +0200, Andrey Konovalov wrote:
+> >On Mon, Sep 8, 2025 at 3:04=E2=80=AFPM Maciej Wieczor-Retman
+> ><maciej.wieczor-retman@intel.com> wrote:
+> >>
+> >> >> +       if (kasan_multi_shot_enabled())
+> >> >> +               return true;
+> >> >
+> >> >It's odd this this is required on x86 but not on arm64, see my commen=
+t
+> >> >on the patch that adds kasan_inline_handler().
+> >> >
+> >>
+> >> I think this is needed if we want to keep the kasan_inline_recover bel=
+ow.
+> >> Because without this patch, kasan_report() will report a mismatch, an =
+then die()
+> >> will be called. So the multishot gets ignored.
+> >
+> >But die() should be called only when recovery is disabled. And
+> >recovery should always be enabled.
+>
+> Hmm I thought when I was testing inline mode last time, that recovery was=
+ always
+> disabled. I'll recheck later.
+>
+> But just looking at llvm code, hwasan-recover has init(false). And the ke=
+rnel
+> doesn't do anything to this value in Makefile.kasan. Perhaps it just need=
+s to be
+> corrected in the Makefile.kasan?
 
-[...]
+Recovery should be disabled as the default when
+-fsanitize=3Dkernel-hwaddress is used (unless something was
+broken/changed); see this patch:
 
-> +struct mucse_hw;
-
-why do you need this forward declaration ...> +
-> +struct mucse_hw_operations {
-> +	int (*reset_hw)(struct mucse_hw *hw);
-> +	int (*get_perm_mac)(struct mucse_hw *hw);
-> +	int (*mbx_send_notify)(struct mucse_hw *hw, bool enable, int mode);
-> +};
-> +
-> +enum {
-> +	mucse_fw_powerup,
-> +};
-> +
->   struct mucse_hw {
->   	void __iomem *hw_addr;
-> +	struct pci_dev *pdev;
-> +	const struct mucse_hw_operations *ops;
-> +	struct mucse_dma_info dma;
->   	struct mucse_mbx_info mbx;
-> +	int port;
-> +	u8 perm_addr[ETH_ALEN];
->   	u8 pfvfnum;
->   };
-
-... if you can simply move mucse_hw_operations down here?
-
->   
-> @@ -54,4 +76,7 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
->   #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
->   #define PCI_DEVICE_ID_N210 0x8208
->   #define PCI_DEVICE_ID_N210L 0x820a
-> +
-> +#define rnpgbe_dma_wr32(dma, reg, val) \
-> +	writel((val), (dma)->dma_base_addr + (reg))
-
-[...]
-
-> @@ -48,8 +127,14 @@ static void rnpgbe_init_n210(struct mucse_hw *hw)
->    **/
->   int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
->   {
-> +	struct mucse_dma_info *dma = &hw->dma;
->   	struct mucse_mbx_info *mbx = &hw->mbx;
->   
-> +	hw->ops = &rnpgbe_hw_ops;
-> +	hw->port = 0;
-> +
-> +	dma->dma_base_addr = hw->hw_addr;
-
-not quite sure why do you need additional structure just to store the
-value that already exists in mucse_hw?
-
-> +
->   	mbx->pf2fw_mbx_ctrl = MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
->   	mbx->fwpf_mbx_mask = MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
->   
+https://github.com/llvm/llvm-project/commit/1ba9d9c6ca1ffeef7e833261ebca463=
+a92adf82f
