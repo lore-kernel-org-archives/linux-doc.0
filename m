@@ -1,110 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97C52571A5;
-	Tue,  9 Sep 2025 23:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0951F3D58;
+	Tue,  9 Sep 2025 23:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757459347; cv=none; b=MAPmp4Ul5MaJW+Q6cbFIbHeQ1twxPuQFBc5I7GwAHOHGmImJAkD3KoXj+0o2hgzej+Ivr5mZXgaLfFr8Sg6HIdne1uRb8FTRuKExa5M+bNIVjbH82v6sWVPSjym+BJ3Xik7fH7fWRZa7nxSULrY2iF42X83EkhFVNDiIQsI5YuA=
+	t=1757460116; cv=none; b=OssVQcprkr4rc3t26iuo/Cow/k8lPW6AwtohFb1uGbF5sMFpjNLPx6ioEnueZtnOlgdpI643XKy1svvreB5ufMEv/OEfGpfJ2pocUZZPtujXzhJqiJwXC2kh6lmX3JYfDAirYe8tRWmg0MBXs+9ohQrZqzt3TVdvAbn/x+VpN/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757459347; c=relaxed/simple;
-	bh=X4MgtKTATrL5i+a2AAbV55RNW1mWPBi3lK6FRDpfT0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=alg+wjnXmbJ0d/BDC7NQAkxuH1w47LHpEEevcdsP3iBVXrIo/yca4kBDnB2YjXVzSmFRVZDUr32B62B6IuvL3rZzQuaPFMmlxXxTpy8NIvyJZSDn8azjbGicx4nQGLC77zcc2PowtisDYyxQQtye6ozScEbJwZvluzOHJVQzrzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4ysR8NN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757460116; c=relaxed/simple;
+	bh=eibTRJ7HE0lU2R0MPS4mUJGOox1jCETS8teAgOrwFjk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=W1Fc2jecFNyepjZ+5phcW7s2mDphtpNnLfuYSN+U+iRq99HXYKR2ZSx35w+KqFZAiZPMSx1/qsMbRBO9lWPuxalEqihIhpD8M3iR0rf6jRwMY+cYwmxQx//gdSGoS2NWc7NU+HxObpIXkm7Y4jpj9c1MShsw7qSpUbaa5dzN02M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wXnbFwfA; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4ysR8NN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C34C4CEF4;
-	Tue,  9 Sep 2025 23:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757459347;
-	bh=X4MgtKTATrL5i+a2AAbV55RNW1mWPBi3lK6FRDpfT0g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=O4ysR8NNdTEu+Arui/n0RNJP13chl4Zn4LfxGrzSNDwxrixdWwgGqRDFikrUAVw3m
-	 Ghml8tEP08uqybByE9ENWKDUpF726/d2sxddrPV8DiGidt6f3QwuhYa4UJ4lUiVQsH
-	 609PIbZvkF3nQdhmUsZUZba0ZZVgCIShU2l2SGg7CSlC3U6jH5DbG17MuL/mdLigxm
-	 SGhjcUCKUI7KqKxPwpDC8QQyvmUUP9Vrg74bEqrP4HQmtfSJkFHNe/XHtUQaGshcja
-	 BKNyw7n5mI0b+Z5RLpKO1z7mU+Y17aBYhYOfOvt255PwdVmEy5e4gnPMhhiYR4gKVW
-	 rn2rofYVNEvDw==
-Date: Wed, 10 Sep 2025 01:09:03 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-Message-ID: <20250910010903.5388bffc@foz.lan>
-In-Reply-To: <5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-	<d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
-	<20250909215824.1968220c@foz.lan>
-	<5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wXnbFwfA"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757460110; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=108KB8TcIdTBZlziMq4PiXlySytzFGUVDHJv6u8P/ss=;
+	b=wXnbFwfAzv/LidCVZ8/U8296g++8KU3IJXma8z9avo0lRQs+AxnmIQFJnaxhTEB4QRDnTOgG2hnmVh947cIIGjEpxFZctzfsP0sDMewVnnSRhhmFCaX1MljDqgqy1LBMyvTiiaixx5nDNr0fDSFsSmuOAUzzS+U03GbrKsHvY0M=
+Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WnfVsA3_1757460109 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 10 Sep 2025 07:21:50 +0800
+Message-ID: <488d246b-13c7-4e36-9510-8ae2de450647@linux.alibaba.com>
+Date: Wed, 10 Sep 2025 07:21:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/16] iomap: add caller-provided callbacks for read
+ and readahead
+To: Joanne Koong <joannelkoong@gmail.com>, djwong@kernel.org,
+ hch@infradead.org, brauner@kernel.org, miklos@szeredi.hu,
+ linux-block@vger.kernel.org, gfs2@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+ linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-12-joannelkoong@gmail.com> <aL9xb5Jw8tvIRMcQ@debian>
+ <CAJnrk1YPpNs811dwWo+ts1xwFi-57OgWvSO4_8WLL_3fJgzrFw@mail.gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <CAJnrk1YPpNs811dwWo+ts1xwFi-57OgWvSO4_8WLL_3fJgzrFw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Em Tue, 9 Sep 2025 14:06:43 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+Hi Joanne,
 
-> On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:
-> > Em Tue, 9 Sep 2025 00:27:20 -0700
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-
-> >> +.. kernel-doc:: init/kdoc-globals-test.c
-> >> +   :identifiers:
-> >>
-> >> The html output says
-> >> "Kernel Globals"
-> >> but nothing else.  
-> > 
-> > I usually don't add :identifiers: on kernel-doc entries. If you use
-> > identifiers, you need to explicitly tell what symbols you want.  
+On 2025/9/9 23:24, Joanne Koong wrote:
+> On Mon, Sep 8, 2025 at 8:14 PM Gao Xiang <xiang@kernel.org> wrote:
+>>
+>> Hi Joanne,
+>>
+>> On Mon, Sep 08, 2025 at 11:51:17AM -0700, Joanne Koong wrote:
+>>> Add caller-provided callbacks for read and readahead so that it can be
+>>> used generically, especially by filesystems that are not block-based.
+>>>
+>>> In particular, this:
+>>> * Modifies the read and readahead interface to take in a
+>>>    struct iomap_read_folio_ctx that is publicly defined as:
+>>>
+>>>    struct iomap_read_folio_ctx {
+>>>        const struct iomap_read_ops *ops;
+>>>        struct folio *cur_folio;
+>>>        struct readahead_control *rac;
+>>>        void *private;
+>>>    };
+>>>
+>>>    where struct iomap_read_ops is defined as:
+>>>
+>>>    struct iomap_read_ops {
+>>>        int (*read_folio_range)(const struct iomap_iter *iter,
+>>>                               struct iomap_read_folio_ctx *ctx,
+>>>                               loff_t pos, size_t len);
+>>>        int (*read_submit)(struct iomap_read_folio_ctx *ctx);
+>>>    };
+>>>
+>>
+>> No, I don't think `struct iomap_read_folio_ctx` has another
+>> `.private` makes any sense, because:
+>>
+>>   - `struct iomap_iter *iter` already has `.private` and I think
+>>     it's mainly used for per-request usage; and your new
+>>     `.read_folio_range` already passes
+>>      `const struct iomap_iter *iter` which has `.private`
+>>     I don't think some read-specific `.private` is useful in any
+>>     case, also below.
+>>
+>>   - `struct iomap_read_folio_ctx` cannot be accessed by previous
+>>     .iomap_{begin,end} helpers, which means `struct iomap_read_ops`
+>>     is only useful for FUSE read iter/submit logic.
+>>
+>> Also after my change, the prototype will be:
+>>
+>> int iomap_read_folio(const struct iomap_ops *ops,
+>>                       struct iomap_read_folio_ctx *ctx, void *private2);
+>> void iomap_readahead(const struct iomap_ops *ops,
+>>                       struct iomap_read_folio_ctx *ctx, void *private2);
+>>
+>> Is it pretty weird due to `.iomap_{begin,end}` in principle can
+>> only use `struct iomap_iter *` but have no way to access
+>> ` struct iomap_read_folio_ctx` to get more enough content for
+>> read requests.
 > 
-> Well, it worked/works without using having any identifiers listed, and
-> the docs in Documentation/doc-guide/kernel-doc.rst says that they are
-> optional:
+> Hi Gao,
 > 
-> identifiers: *[ function/type ...]*
->   Include documentation for each *function* and *type* in *source*.
->   If no *function* is specified, the documentation for all functions
->   and types in the *source* will be included.
->   *type* can be a struct, union, enum, or typedef identifier.
+> imo I don't think it makes sense to, if I'm understanding what you're
+> proposing correctly, have one shared data pointer between iomap
+> read/readahead and the iomap_{begin,end} helpers because
 
-Hmm.. looking the entire logic:
+My main concern is two `private` naming here: I would like to add
+`private` to iomap_read/readahead() much like __iomap_dio_rw() at
+least to make our new feature work efficiently.
 
-        elif 'identifiers' in self.options:
-            identifiers = self.options.get('identifiers').split()
-            if identifiers:
-                for i in identifiers:
-                    i = i.rstrip("\\").strip()
-                    if not i:
-                        continue
+> 
+> a) I don't think it's guaranteed that the data needed by
+> read/readahead and iomap_{begin,end} is the same.  I guess we could
+> combine the data each needs altogether into one struct, but it seems
+> simpler and cleaner to me to just have the two be separate.
+> 
+> b) I'm not sure about the erofs use case, but at least for what I'm
+> seeing for fuse and the block-based filesystems currently using iomap,
+> the data needed by iomap read/readahead (eg bios, the fuse
+> fuse_fill_read_data) is irrelevant for iomap_{begin/end} and it seems
+> unclean to expose that extraneous info. (btw I don't think it's true
+> that iomap_iter is mainly used for per-request usage - for readahead
+> for example, iomap_{begin,end} is called before and after we service
+> the entire readahead, not called per request, whereas
+> .read_folio_range() is called per request).
 
-                    cmd += ['-function', i]
-                    self.msg_args["symbol"].append(i)
-            else:
-                cmd += ['-no-doc-sections']
-                self.msg_args["no_doc_sections"] = True
+I said `per-request` meant a single sync read or readahead request,
+which is triggered by vfs or mm for example.
 
-I suspect that an empty identifier could be raising an exception.
+> 
+> c) imo iomap_{begin,end} is meant to be a more generic interface and I
+> don't think it makes sense to tie read-specific data to it. For
+> example, some filesystems (eg gfs2) use the same iomap_ops across
+> different file operations (eg buffered writes, direct io, reads, bmap,
+> etc).
 
-The right logic should be, instead:
+Previously `.iomap_{begin,end}` participates in buffer read and write
+I/O paths (except for page writeback of course) as you said, in
+principle users only need to care about fields in `struct iomap_iter`.
 
--        elif 'identifiers' in self.options:
--            identifiers = self.options.get('identifiers').split()
--            if identifiers:
--                for i in identifiers:
-+        elif 'identifiers' in self.options:
-+            identifiers = self.options.get('identifiers')
-+            if identifiers:
-+                for i in identifiers.split():
+`struct iomap_readpage_ctx` is currently used as an internal structure
+which is completely invisible to filesystems (IOWs, filesystems don't
+need to care or specify any of that).
 
-(tests needed)
+After your proposal, new renamed `struct iomap_read_folio_ctx` will be
+exposed to individual filesystems too, but that makes two external
+context structures for the buffer I/O reads (`struct iomap_iter` and
+`struct iomap_read_folio_ctx`) instead of one.
+
+I'm not saying your proposal doesn't work, but:
+
+  - which is unlike `struct iomap_writepage_ctx` because writeback path
+    doesn't have `struct iomap_iter` involved, and it has only that
+    exact one `struct iomap_writepage_ctx` context and all callbacks
+    use that only;
+
+  - take a look at `iomap_dio_rw` and `iomap_dio_ops`, I think it's
+    somewhat similiar to the new `struct iomap_read_ops` in some
+    extent, but dio currently also exposes the exact one context
+    (`struct iomap_iter`) to users.
+
+  - take a look at `iomap_write_ops`, it also exposes
+    `struct iomap_iter` only. you may say `folio`, `pos`, `len` can be
+    wrapped as another `struct iomap_write_ctx` if needed, but that is
+    not designed to be exposed to be specfied by write_iter (e.g.
+    fuse_cache_write_iter)
+
+In short, traditionally the buffered read/write external context is
+the only unique one `struct iomap_iter` (`struct iomap_readpage_ctx`
+is only for iomap internal use), after your proposal there will be
+two external contexts specified by users (.read_folio and .readahead)
+but `.iomap_{begin,end}` is unable to get one of them, which is
+unlike the current writeback and direct i/o paths (they uses one
+external context too.)
+
+Seperate into two contexts works for your use case, but it may
+cause issues since future developers have to decide where to
+place those new context fields for buffer I/O paths (
+`struct iomap_iter` or `struct iomap_read_folio_ctx`), it's still
+possible but may cause further churn on the codebase perspective.
+
+That is my minor concern, but my main concern is still `private`
+naming.
 
 Thanks,
-Mauro
+Gao Xiang
+
+
+> 
+> 
+> Thanks,
+> Joanne
+> 
+>>
+>> Thanks,
+>> Gao Xiang
+
