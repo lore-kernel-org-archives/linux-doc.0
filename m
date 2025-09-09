@@ -1,125 +1,102 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F2D35CEB7
-	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 17:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153EB31D36B;
+	Tue,  9 Sep 2025 17:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757437941; cv=none; b=eUWwpAkm/zlSoUmXhPPI3H7RkOnMZmA9sij8VuJqeCA0ZomBTWn1dcvXNOkWPhTQ6s3VneCDtBzZlInfxaGUeIsqCEj/ROqTjUOwOU3vr7MejJb56dBHZCCd3ToUde123k84f8KcqWX0ZbmHiGAQ6M631gDPXlPMeNuuB/nJZng=
+	t=1757438343; cv=none; b=nkhngt5QQmQL5/GzAkHX1jR+cg7l8ntvnCKYmT/lf/2kFTTjO05U/QkS16MzvSAYmpTA6J9enryJXDm0jbgc270qadCtTbVO4xdrKAW3X0g5axE6HOm9EvbYJ/KhiwDQRHDUpQ12Sz5o44O3eo6vk4Ei3Iqzg8kIeFLYftiOlyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757437941; c=relaxed/simple;
-	bh=pZl9KmUTOudQy15/vr3pLhP7rnPAj40pW4802s5NWJg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fQWcaFZq49KiyeBJ7buwNkGcZaeAXYLASdLpSXB2/GucfX59e78Z/mqoFG64wL5Sfjg7dtvlvwO5KMbvp5f/q6szTwWVxea3GeItSV9gaxtfv8TMuQeBHdxipqApj5vtggabufp+fyuB8brhGCafDu6FCscftpWZWT4WMenjoy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQHgqusb; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1757438343; c=relaxed/simple;
+	bh=Zm7VvOOeDOR6npg9I6+moKEGxYkK+6BlGRi966Odu/U=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ZaYjStkiGJCoBsJ6qRBqU4W490lnqFmWHtXO/LTRecJbp+1gSSiGLvvi5vCnCKLW41pyEOYVIcm3lEiSnhYxZvMe09JWyOTPaxv/FKgB0T7ex854RvRep2/KMfaeYoID9XoYLkjdkuYwsspvLjH4GN4XvfcIBUmwTTXcvTxiuVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9pYGj24; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQHgqusb"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b47174b335bso585287a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 10:12:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9pYGj24"
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544bac3caf2so4996240e0c.0;
+        Tue, 09 Sep 2025 10:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757437939; x=1758042739; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1757438341; x=1758043141; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pZl9KmUTOudQy15/vr3pLhP7rnPAj40pW4802s5NWJg=;
-        b=RQHgqusb43uEsiz/Qq24KeTT+MdFr5ccsOa9UTnWOOLEk8F3LVY2TglbSVdpWqvVWl
-         NtfHKVZAs/i/OZDclB+jYnRKTuHEN82chf6QE/eOpdGIDn8u0QqhGXuwG8aBA4Okj95P
-         zdG72TH6jETBVDLZ6tZzWKYSGL5+m23FW3FavHe/pSLojZiEilhaotgrP4RszInAB9gg
-         CCFlud/LUeIiJ1owocLE2Qib3QaOlGKYEYyk6+vDYrz5LB0+6CsiPZa7xZqvvibQScbr
-         Yd8qOrmIUhXp2s22rez+UIMXsixe/nrp119PbSIjktxN2lyU6qKDMo2M33HI+1B/lHyA
-         Fi7A==
+        bh=Zm7VvOOeDOR6npg9I6+moKEGxYkK+6BlGRi966Odu/U=;
+        b=F9pYGj24ZXLL4W1e5RtGzDEQOorGlObpbfI+o5aJXlmYNc+CDAgxI2EhmpwImwjGI+
+         buNl6IwTCL1+RJdZkfUPyWLGMBndcbXmGk3MRr21x0Utg66JbHzRS00174rfIS0gUqgp
+         KzQnSMZxBoavw/QriOGxviZWWiAmhVSQGxIJUz+GbDihkxpdQ7apq+cHOmSMj9vSIalt
+         KMywzdhjin//k4z1GxQo2Rra1XbrorbxVbf0cTz+dm7F/usNHfd9qPbZ2KiZbrN9mava
+         wdOBIEM9uthMcGeog505rhR5tMA8VH24MBW3CH8bs2BlaONi5YJRn2L4yrOJgWld5XYY
+         Qy7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757437939; x=1758042739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pZl9KmUTOudQy15/vr3pLhP7rnPAj40pW4802s5NWJg=;
-        b=ef9EdHV60Z9TB5kq6hMT65G+mDGtZpkCYuTER7CE8GEChrmqjkqqWRUqCdVGbmW46Y
-         JEDEoRlEa4qEykJVmjveN4cp4/LCEHezmFDr863LELpwKEikdqLkWiEMpqNvRxZJsw8C
-         ewoxrujJ/oRJkldhQxKunj73vofHohLnzG/zrDuuyQOP3fV8cdHuUeujzAW7BpPXEeyJ
-         wh8oPBa7T5waj45mwM8VF4+Kt2INN/y3Nj/rvELJfQ3I9dnAGnSTsAvD5tHOy88Pb5KP
-         XoYBuSZohcZWZhfil/TGr609rI02vb0I1rrjTlWiN/ySaVNcj+Uh9VQTVmE8jBF79H2x
-         N+wg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrvMcFRsCIb7R7HwOI+9jPpDV7VY/tG525M3YeJRGkrFT/QPXOWNnqC1kPyBSTYNJwIiJ7Tk+Rj0A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxyv2RSlT6Z74y4+OZAeJxR3ACr2evDWFpzVycImaLtf5TGO92I
-	IgnOrMtqzko8haZOAjDwF/kzt8RRXV1reqFflYRb/xDgJAOsX0DbSPflQJluSXUmR5hJcNVTaoa
-	lTRLZ6B6vpsiAAANWmcKUmfo488iPswg=
-X-Gm-Gg: ASbGnctskRDWwXHnhoBFROpzu6T2tmfKAVDzcdPxpThZKT+UVwtd8iwWoqxjTXXDOcG
-	JDWp7IXFmV6HH1nJyoO+2L0gGzeUhI2XKIOU5CZ+/NAtjHe3QHa9G062QLyxLHbW1Q8RAq3dXNJ
-	TQ8yPbT/IS3DQw/Fy3tCTwA4A+MZjWTee9mijza9zm6vRYBsgGEqDo0CUUWE7TXltMbIxuzOq7F
-	e/k3q4Ua68Id60TfZdqnDTjhehrfKUZGtA221gapqIFCYIT83mAjDJwbXGKGtiNrPAt6jFlziIx
-	xapuyHhs4OGd6vZScYeLhZ9+pQ==
-X-Google-Smtp-Source: AGHT+IHd4zHzKJHiSaDYt+fas3wn4v2M9LloxztcReggEbdZvs7nvGHlisZ6Va1BAVyt7RDoMvRIKgyRryjYrTxDWWk=
-X-Received: by 2002:a17:903:1cc:b0:248:a01f:a549 with SMTP id
- d9443c01a7336-251771d5b61mr95742675ad.11.1757437939384; Tue, 09 Sep 2025
- 10:12:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757438341; x=1758043141;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Zm7VvOOeDOR6npg9I6+moKEGxYkK+6BlGRi966Odu/U=;
+        b=KZ8s91shhhrzsN2kwm0tqHLsnZTFsL8MNeFjVlllWkQmijXnR8868bc4FHO5CS/oMD
+         CpMZNIf0TKlQFDD4WcuBE2Fy7lJlnP7dI/TV9tJ6NifJ/p6u0ykGCr52EcVmtMfYjQg6
+         emEFUhIKfxM45nkLFgsqizTGPpZHvzXSXFwO8LbGjsNP6N5+iUJ5NT69MMDLI3PmhJ+O
+         3RD61aBl6xSFdLjCwh430gLfHh8QjATwC/n1SwCQlkayyYyJs3UGV7MLOjEUGOHIBFiC
+         FJkcruny4jJs6NMg12xkMFLF6VrIZyigyc6Br1QMQl9D4zfkQLdBrWqxPZnHl4YmGQBL
+         7sVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBfntsVX/uGeZa95KK5gmDEIj5joptYvuDw6oJ1Q6bi0xvYXmCu+PNgx5DuOZ7ioO6bTo/4Ul/dHBScFD4@vger.kernel.org, AJvYcCUWM4v+cTaihZ6k/AWc/tslYL0HDYtKquvu5i8TT5SBsn71PI82B15FA9uNfYmgiNx5q3C/tT0cwhcR@vger.kernel.org, AJvYcCVP2q4cvzhXQ3UGvD4+lVe1ErSWkC9Vn0dupjAUDXxKk5TR6TbPsvBhMUZA+bJbHC1IT+5vNEH7Mt9fJAY=@vger.kernel.org, AJvYcCXSrT6BRv1fB6CkF+Eh9d67ESCeWzHQzx6PyIkdP+mE7jZJevHFuPMwWWDtGSPnyXvWsQq5VJQKGWO6@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP7WgCmOWImrRKOd3rUReLlRHXjE/iu+mshB2rW9QUzl2utlm2
+	oIYgXOKeB/LoULHv1F0dljvBHG1r4o9Wn9I6AVK+JveV2zSQhnPI+NnW
+X-Gm-Gg: ASbGnctAYg+6aL2bVF+W+1w9qKw/9KLcSPIOYp6+RfUjOjRtzbWo2wMNohNt1TG/ak2
+	iLEQN8NkodTsnRDGR/ExrFTor1iMyzhN95dZd8b/cvlgcsy8tZyCDZFRI6+9jtGAFK4gDxvZG7O
+	4CwntuN2UWxW8oDvpx9OaW5avEDyPmOuHHkjwc7T9ONHkHFSJR3pqM9VmNd7Jh93tm0WkWiUeuB
+	XIIUDrW09EKMIUZtn1313OKpCahHExX3hPnkPXOy0IeyRnlqgD/5GMfAvWj4DUcNzUXg0Uoz1Cj
+	iBAWN398akq6wY2EgLzgMyOuyx9bcnuexL6tjJeTEGp/R4wiwxqC8OT94dCE6jmx+T0Xzyjo50B
+	rvyQFgGoRpcvJ7jgETw==
+X-Google-Smtp-Source: AGHT+IHK+XrLR9nzLmssHwGsF3FY/vJz5YzX53asL0ZsGc/4fHjLGGtfvlof1YLUsZOQVPF3Yh2aqA==
+X-Received: by 2002:a05:6122:251c:b0:545:f7df:4769 with SMTP id 71dfb90a1353d-547923097c4mr4407967e0c.0.1757438340871;
+        Tue, 09 Sep 2025 10:19:00 -0700 (PDT)
+Received: from localhost ([2800:bf0:4580:3149:7d4:54b1:c444:6f2f])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5449bc6668esm13241166e0c.0.2025.09.09.10.18.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 10:19:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
-In-Reply-To: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 9 Sep 2025 19:12:06 +0200
-X-Gm-Features: AS18NWAUC9KOXLRVuptzGWpY6jU98Yraxc-lyvHQvj-0Ea4KpP1HNw-UevG-aP8
-Message-ID: <CANiq72kZAeVjPF_O+o9zy=1-wh+6nUiW26_ngqf8unNi4twMCA@mail.gmail.com>
-Subject: Re: [PATCH v2] RISC-V: re-enable gcc + rust builds
-To: Asuna Yang <spriteovo@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 Sep 2025 12:18:58 -0500
+Message-Id: <DCOFWB420ZRS.2N43ZQ97QZ8UY@gmail.com>
+Cc: "Jean Delvare" <jdelvare@suse.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, <linux-hwmon@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v4 3/4] dt-bindings: trivial-devices: Add sht2x sensors
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Guenter Roeck" <linux@roeck-us.net>, "Kurt Borja" <kuurtb@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250908-sht2x-v4-0-bc15f68af7de@gmail.com>
+ <20250908-sht2x-v4-3-bc15f68af7de@gmail.com>
+ <58e111ea-508c-4042-9ae4-d4293871e73f@roeck-us.net>
+In-Reply-To: <58e111ea-508c-4042-9ae4-d4293871e73f@roeck-us.net>
 
-On Tue, Sep 9, 2025 at 6:55=E2=80=AFPM Asuna Yang <spriteovo@gmail.com> wro=
-te:
+On Tue Sep 9, 2025 at 7:25 AM -05, Guenter Roeck wrote:
+> On Mon, Sep 08, 2025 at 10:54:51AM -0500, Kurt Borja wrote:
+>> Add sensirion,sht2x trivial sensors.
+>>=20
+>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >
-> The separation of get-rust-bindgen-libclang script is reverted based on t=
-he
-> concerns raised by Miguel. However, it's worth noting that we now have 3
-> different places rust/Makefile scripts/{Kconfig.include,rust_is_avilable.=
-sh}
-> where manually calling bindgen rust_is_available_bindgen_libclang.h + sed=
- to get
-> the version of libclang, and in particular, for our newly added Kconfig s=
-ymbol,
-> we now use awk to canonicalize the version to an integer. I would still l=
-ike to
-> do the script separation later for better maintainability and readability=
- if
-> possible, which can be discussed further later when Miguel has time.
+> Applied.
+>
+> Guenter
 
-To clarify, since this probably targets the next cycle, there is time
-to discuss and get feedback to do whatever we feel it is best
-(personally, I can take a look after Kangrejos at some point). Is
-there a particular rush for this?
+Thanks Guenter and Krzysztof!
 
-Having said that, this v2 looks substantially simpler than v1, which
-is nice, and perhaps RISC-V wants to land it already. Up to them in
-that case.
 
-(I see the `ifeq ($(BINDGEN_TARGET),)` is still there -- in general I
-would suggest splitting things if they don't depend on each other, but
-it is not a huge deal. I would also probably have split the
-`rustc-bindgen-libclang-version` into its own, but at least that is a
-dependency).
+--=20
+ ~ Kurt
 
-Thanks!
-
-Cheers,
-Miguel
