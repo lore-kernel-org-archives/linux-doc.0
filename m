@@ -1,480 +1,327 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E66C356910
-	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 16:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE8035CEC2
+	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 16:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757436316; cv=none; b=YQNJ0+kj7SW2qC3THCCazhcLxVxCou1hPMbXfGB/cE6IrbG7k7JvNZ/ScGx2gj27jNsI2PlztxLzK5ojDAZ/c34A7MNCeSL+LanQ8kVMoC2OUud9ZaONylzvyHSq4ZUjIOsNJxcItPBUYwbC5ZZcWJnfvREGYhF1l19OWDrDMug=
+	t=1757436912; cv=none; b=cBmVSRVizBEzxMoRWw9ZX/uu6nAMUgxwEBwCRv+HylssLHsP++Dmgtd1jOHpYE9a9wWPKBRp+xYT3kaO6zCJmR704zpLHkJf5ysRcw0yXcT0xb8WFGCcN8pC/zS8hMQhfvbDi49GplJKCTVuSydeYfAhZj/p4Jlzdo+nRBFeJxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757436316; c=relaxed/simple;
-	bh=YdqZOJS1XegllADYMp14xOqLRozKDiiQo9nTBZULf1E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iema6eFGAfmvo8Uxvv0j/DT3E/woQoH8gdPsZWptD2+Z/y/DW3wCRMsY/j3F4P/cVGNn21mUW115dDYeR2+LZJtMFaLZr44ROeAPSln4+M/NoUSZiIdwXKfdhoah05AXnPFGWxJeUZryFUvVAQupLuonfuzEPijAKv3sMHSmKUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E11HMBmL; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1757436912; c=relaxed/simple;
+	bh=aju7ZqoAtd/yUvatkgcpy1nQkGxOaNsbSjPEfpRHISk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GYhKtaak/il45toSmLDRpa3pUJ2VZwVpGG/Qfs8Uu/xruVDBH4wi2ajtj9mYmGuOtT8TCOVAlzxYK2rVaFtCahEPgfAZeBis3nZiEI5hz8UCu3ivyD5y0yRaZ9xS0/fQw/Ocppdt+IAzTUeO+g84VcooOxeuSmP2HdSSinGeWCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OulMKZyL; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E11HMBmL"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61d14448c22so98a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 09:45:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OulMKZyL"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-33ca74c62acso24191121fa.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 09:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757436312; x=1758041112; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wg66ytqT5gW0pLgpcFNtD+RmpG9kakagwaMvlSmeZ+A=;
-        b=E11HMBmLeymjWvmtiHL/nmg29yKYDj0qR/fgxd/AkKdzjtxM0GUWvRliYNyXuhN/kS
-         wfWqpyNuEJfla+m3VWckONvZYF46FzTcya9aarfdmXliTw7+eh79zmdqic7hTnrzAYaW
-         LDErsXSnXMMh0SSjTVgN2FW850MlGnG7AxvqF6H3Ntb/OxdX02C3CmDvgelNMYV0gJlE
-         huWVE3tuZc2p3BxdYEKBiBfYjDkFgwLL1K29atO3PJksQqd9j18JBpauC1dT2htHUyta
-         Nocxi0Z8KblDnJtaXDsMsgPg8eWNOt5RUOzAUc3j56dkEkMKAdrMT2oM4m8ucyuLR/5K
-         ZfVg==
+        d=gmail.com; s=20230601; t=1757436908; x=1758041708; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MW2UyO8szgIwKPOV9iQ6lOYKMxiMFpTTkGCMRsYswlo=;
+        b=OulMKZyLTEPDXeuuWfiMoOhiUjWsJqduBbuoJa1hM5TZhCJn7W7LjR9QuTr+h8yTUJ
+         /ChL8G08ps7/NjLp/edBY7xF/hmMNO5NPv5Uuex0e0BQOpYvN0VDhMU5cIVbKpxtQdBW
+         A5swpVf+H32ORzASPMOwjJJydb8WAfbNZphVotWOKvUMBGp7PMq4/zqY6g7hN2v7s4Be
+         ad+p6e0pntAXPeg/W1zm2cCK2Asruxh7rtQSLS1VCgWxHGNgu6npwCoK5K3QBjokmGwu
+         3ry8xmTuBwJXdlXYkssC2eNDgf+XwjN5Zh7us7lktiCNR4AlUL958rgZHLI88jx5+QnW
+         Farw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757436312; x=1758041112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wg66ytqT5gW0pLgpcFNtD+RmpG9kakagwaMvlSmeZ+A=;
-        b=wGJO5eXMuix4aSuhliOxj5z5ePvzj9yPdo+5qP+ay2/IaHAYKW0ecDciwF6dCQtwmG
-         5rckh7k0HkfVOUKWu8jn9i9Scy9w74iOLcKFkJz4SacZJ/VY/efNB4pIwgSiAgD27Vfv
-         15nYAEChmRgRYljZPH7gRaL5QBKyVWUqf9yTyLXGv1hLpB77P5C3DY4BMILhu+8cv+6G
-         rQOBUtuPp39bYCFcHYk2bYuu679BD1BGkvvbt9xHeyMTr096/AgYrtSWepNqD13rm8ry
-         GvvNEi4KHZ8dOK77fGq6bek7rcSB3c3DoeyWRg+2meFQ/Bx4UOG+JAwtfaW5Wqm50911
-         BXZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPSLzGVMcYv+udF7rw1skPAhPJa3WjdyaCILF4t84dNGbERa9C/wyL9X4zGL1r8TkqWecj55Y3JpU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrEk1xi2fhSu9fx48xzwwdh2WgYDadKFd2mjNsHbkqjiXmKUbi
-	BTczvYd8feHK+ugzsQt5y50PBgpdzqxSzIj1pVWoQ0cu/flk6NfpH+QIuTJP5SnQE+8zb6OydJL
-	T/pczTSiLE3a3RU943zJPdCiiSJqNqW2MrbPaalHi
-X-Gm-Gg: ASbGncseo3zICqQ1zNZV0fHcsi87Dubz23f42or3M2DXc1p4JBEI50TAdzwD0ATTf72
-	bcsws0muryWrE4rlYVRZQxON9yzwbeUvGlmM1XYpPPD1BAeWUNMuhm3IZ1omGB5QTkpDQ+3gt8A
-	009K2DHRZBCL3jLnjONZTuTWk0VbCinjjPeDI98ouQwHvHTDhB6vwNthEy0xs2xGXaJUb27Amuk
-	9C+AsU0O25vqUpKbE1Gu/9wQjDJ6r9kIMk20BaTFU6wpRzPkWrrQMM=
-X-Google-Smtp-Source: AGHT+IGPGk0qf/IiaeJSTR25Y6zNMAmob9Bf6pRZiB8Cz91tPx5tFvdw6FMK8xHuP6h0JHF887G6sd0LUCfFyNW1CIU=
-X-Received: by 2002:a05:6402:d60:b0:61c:d36d:218c with SMTP id
- 4fb4d7f45d1cf-6234d3ee779mr242645a12.0.1757436311257; Tue, 09 Sep 2025
- 09:45:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757436908; x=1758041708;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MW2UyO8szgIwKPOV9iQ6lOYKMxiMFpTTkGCMRsYswlo=;
+        b=HychHCghXFnWiUde9y+1cpIz3zjsWG9LNsh10fLuJOGl99tbFi/djNTgLCUwH7+CKI
+         6s6XbcgkDQ1YVe0V/bjI6WK3+YLMdB976ZptmHgK9a9ZNdeKgUizrJ0uPVcm0mlIe0E/
+         zxeSIxUgkY6GGFQCwnaJCbi/y46MnLQ6iWdVgQrYEie5egYekUDO50Kd1/XRr0l5vi8H
+         YGcF6DC0QOs8hghU0RIMcWZaQ3NNnazf76YHcNZCJko1lBZwhgzw3yzTJlxKouVSkRMt
+         JK1NzGhJ4FsDzLVshHCemOzYYPkyHZeqfgylD7Z410Us9E2mtOsBAyloJ5oHFdSe/Po2
+         8wMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKsWUE0Ay8Ohi6tFzKq4aGbDn5mAecyV1Pnbs2qn5SXj9LmPj5TG3w0QY2oGSdOBRXRldtErXeUEc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6GyVpzxLAN+R9WiRXIYYZyzOSZbZEgiPn+n5JQ4JmKujahvfH
+	L0bNS4wig5GXcXuTWU8wemfjth7CWfZhwT4+Ik8rF54gGU7GDRrapRlP
+X-Gm-Gg: ASbGncvmPzl8ZQKjqgdMzwZzzx6mSf0KlQzM8BuzfBS1p+xkZbUxOUl7ou7Q7Q0Ubfp
+	rrB/yRC0GYkbAyDbsXC4ZEaPylpdkdYskgEvdVBAgzF7QVdMOhyfv2YAp5JEgvqZu7thCPOSYhk
+	bR92/sk1dDiPDyQvAjz4gch71OB98mSJDiP8JI8x9fzahVissZApFgiC22z/4r32QDkUN7iek/5
+	HcO+JrAR1W/wWUOaHPYFbIKsS3enDtwNag7jbBgBumnFwqVbnDP00+eujmqPspJsnx96K5HHtqG
+	Ipo1wjk3nGc7j/SrIsm9RNGrOaHa6Gc4a6vJHTHsGWvgghU/1PEa2NWXHN4622jJSnZ4ZVsnaQE
+	bqP9zdKeYrZqd9lb3S/aUKvA6Rg==
+X-Google-Smtp-Source: AGHT+IESxbSTowEh/MuV1VONawSYgLYSwi5N1KMPdlHX0qge6NWZjwfM9S3IqiM6P3/sAtYhBb/H5w==
+X-Received: by 2002:a05:651c:b0b:b0:337:f9dc:d81e with SMTP id 38308e7fff4ca-33b4d8cb121mr36405451fa.17.1757436907493;
+        Tue, 09 Sep 2025 09:55:07 -0700 (PDT)
+Received: from minun.felixc.at ([2a01:4f9:6b:1cc4::2])
+        by smtp.googlemail.com with ESMTPSA id 38308e7fff4ca-337f4c5076esm41435621fa.7.2025.09.09.09.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 09:55:06 -0700 (PDT)
+From: Asuna Yang <spriteovo@gmail.com>
+X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
+Date: Tue, 09 Sep 2025 18:53:11 +0200
+Subject: [PATCH v2] RISC-V: re-enable gcc + rust builds
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1757329751.git.lorenzo.stoakes@oracle.com> <ea1a5ab9fff7330b69f0b97c123ec95308818c98.1757329751.git.lorenzo.stoakes@oracle.com>
-In-Reply-To: <ea1a5ab9fff7330b69f0b97c123ec95308818c98.1757329751.git.lorenzo.stoakes@oracle.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 9 Sep 2025 09:44:58 -0700
-X-Gm-Features: AS18NWD_8AWrPfmI0tsMVHUiuAGzDjgerBQcQZeWasEIUA51d1DPsE14BgjCaGA
-Message-ID: <CAJuCfpFr+vMowHzAs7QDwMmNvS4RMJg0xqXkYAxBLCKh1wdAmQ@mail.gmail.com>
-Subject: Re: [PATCH 06/16] mm: introduce the f_op->mmap_complete, mmap_abort hooks
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	"David S . Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, 
-	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, 
-	sparclinux@vger.kernel.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-mm@kvack.org, ntfs3@lists.linux.dev, kexec@lists.infradead.org, 
-	kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAHZbwGgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDI1MDSwNL3fTkZN2i0uIS3TIjXXMDCxMDA+OkZDNDSyWgjoKi1LTMCrBp0bG
+ 1tQBdd7CTXQAAAA==
+X-Change-ID: 20250909-gcc-rust-v2-7084003bc619
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, 
+ Asuna Yang <SpriteOvO@gmail.com>
+X-Mailer: b4 0.14.2
 
-On Mon, Sep 8, 2025 at 4:11=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> We have introduced the f_op->mmap_prepare hook to allow for setting up a
-> VMA far earlier in the process of mapping memory, reducing problematic
-> error handling paths, but this does not provide what all
-> drivers/filesystems need.
->
-> In order to supply this, and to be able to move forward with removing
-> f_op->mmap altogether, introduce f_op->mmap_complete.
->
-> This hook is called once the VMA is fully mapped and everything is done,
-> however with the mmap write lock and VMA write locks held.
->
-> The hook is then provided with a fully initialised VMA which it can do wh=
-at
-> it needs with, though the mmap and VMA write locks must remain held
-> throughout.
->
-> It is not intended that the VMA be modified at this point, attempts to do
-> so will end in tears.
->
-> This allows for operations such as pre-population typically via a remap, =
-or
-> really anything that requires access to the VMA once initialised.
->
-> In addition, a caller may need to take a lock in mmap_prepare, when it is
-> possible to modify the VMA, and release it on mmap_complete. In order to
-> handle errors which may arise between the two operations, f_op->mmap_abor=
-t
-> is provided.
->
-> This hook should be used to drop any lock and clean up anything before th=
-e
-> VMA mapping operation is aborted. After this point the VMA will not be
-> added to any mapping and will not exist.
->
-> We also add a new mmap_context field to the vm_area_desc type which can b=
-e
-> used to pass information pertinent to any locks which are held or any sta=
-te
-> which is required for mmap_complete, abort to operate correctly.
->
-> We also update the compatibility layer for nested filesystems which
-> currently still only specify an f_op->mmap() handler so that it correctly
-> invokes f_op->mmap_complete as necessary (note that no error can occur
-> between mmap_prepare and mmap_complete so mmap_abort will never be called
-> in this case).
->
-> Also update the VMA tests to account for the changes.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
->  include/linux/fs.h               |  4 ++
->  include/linux/mm_types.h         |  5 ++
->  mm/util.c                        | 18 +++++--
->  mm/vma.c                         | 82 ++++++++++++++++++++++++++++++--
->  tools/testing/vma/vma_internal.h | 31 ++++++++++--
->  5 files changed, 129 insertions(+), 11 deletions(-)
->
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 594bd4d0521e..bb432924993a 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2195,6 +2195,10 @@ struct file_operations {
->         int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_bat=
-ch *,
->                                 unsigned int poll_flags);
->         int (*mmap_prepare)(struct vm_area_desc *);
-> +       int (*mmap_complete)(struct file *, struct vm_area_struct *,
-> +                            const void *context);
-> +       void (*mmap_abort)(const struct file *, const void *vm_private_da=
-ta,
-> +                          const void *context);
->  } __randomize_layout;
->
->  /* Supports async buffered reads */
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index cf759fe08bb3..052db1f31fb3 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -793,6 +793,11 @@ struct vm_area_desc {
->         /* Write-only fields. */
->         const struct vm_operations_struct *vm_ops;
->         void *private_data;
-> +       /*
-> +        * A user-defined field, value will be passed to mmap_complete,
-> +        * mmap_abort.
-> +        */
-> +       void *mmap_context;
->  };
->
->  /*
-> diff --git a/mm/util.c b/mm/util.c
-> index 248f877f629b..f5bcac140cb9 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -1161,17 +1161,26 @@ int __compat_vma_mmap_prepare(const struct file_o=
-perations *f_op,
->         err =3D f_op->mmap_prepare(&desc);
->         if (err)
->                 return err;
-> +
->         set_vma_from_desc(vma, &desc);
->
-> -       return 0;
-> +       /*
-> +        * No error can occur between mmap_prepare() and mmap_complete so=
- no
-> +        * need to invoke mmap_abort().
-> +        */
-> +
-> +       if (f_op->mmap_complete)
-> +               err =3D f_op->mmap_complete(file, vma, desc.mmap_context)=
-;
-> +
-> +       return err;
->  }
->  EXPORT_SYMBOL(__compat_vma_mmap_prepare);
->
->  /**
->   * compat_vma_mmap_prepare() - Apply the file's .mmap_prepare() hook to =
-an
-> - * existing VMA.
-> + * existing VMA and invoke .mmap_complete() if provided.
->   * @file: The file which possesss an f_op->mmap_prepare() hook.
+Commit 33549fcf37ec ("RISC-V: disallow gcc + rust builds") disabled GCC
++ Rust builds for RISC-V due to differences in extension handling
+compared to LLVM.
 
-nit: possesss seems to be misspelled. Maybe we can fix it here as well?
+Add a Kconfig symbol to indicate the version of libclang used by Rust
+bindgen and add conditions for the availability of libclang to the
+RISC-V extension Kconfig symbols that depend on the cc-option function.
 
-> - * @vma: The VMA to apply the .mmap_prepare() hook to.
-> + * @vma: The VMA to apply the hooks to.
->   *
->   * Ordinarily, .mmap_prepare() is invoked directly upon mmap(). However,=
- certain
->   * stacked filesystems invoke a nested mmap hook of an underlying file.
-> @@ -1188,6 +1197,9 @@ EXPORT_SYMBOL(__compat_vma_mmap_prepare);
->   * establishes a struct vm_area_desc descriptor, passes to the underlyin=
-g
->   * .mmap_prepare() hook and applies any changes performed by it.
->   *
-> + * If the relevant hooks are provided, it also invokes .mmap_complete() =
-upon
-> + * successful completion.
-> + *
->   * Once the conversion of filesystems is complete this function will no =
-longer
->   * be required and will be removed.
->   *
-> diff --git a/mm/vma.c b/mm/vma.c
-> index 0efa4288570e..a0b568fe9e8d 100644
-> --- a/mm/vma.c
-> +++ b/mm/vma.c
-> @@ -22,6 +22,7 @@ struct mmap_state {
->         /* User-defined fields, perhaps updated by .mmap_prepare(). */
->         const struct vm_operations_struct *vm_ops;
->         void *vm_private_data;
-> +       void *mmap_context;
->
->         unsigned long charged;
->
-> @@ -2343,6 +2344,23 @@ static int __mmap_prelude(struct mmap_state *map, =
-struct list_head *uf)
->         int error;
->         struct vma_iterator *vmi =3D map->vmi;
->         struct vma_munmap_struct *vms =3D &map->vms;
-> +       struct file *file =3D map->file;
-> +
-> +       if (file) {
-> +               /* f_op->mmap_complete requires f_op->mmap_prepare. */
-> +               if (file->f_op->mmap_complete && !file->f_op->mmap_prepar=
-e)
-> +                       return -EINVAL;
-> +
-> +               /*
-> +                * It's not valid to provide an f_op->mmap_abort hook wit=
-hout also
-> +                * providing the f_op->mmap_prepare and f_op->mmap_comple=
-te hooks it is
-> +                * used with.
-> +                */
-> +               if (file->f_op->mmap_abort &&
-> +                    (!file->f_op->mmap_prepare ||
-> +                     !file->f_op->mmap_complete))
-> +                       return -EINVAL;
-> +       }
->
->         /* Find the first overlapping VMA and initialise unmap state. */
->         vms->vma =3D vma_find(vmi, map->end);
-> @@ -2595,6 +2613,7 @@ static int call_mmap_prepare(struct mmap_state *map=
-)
->         /* User-defined fields. */
->         map->vm_ops =3D desc.vm_ops;
->         map->vm_private_data =3D desc.private_data;
-> +       map->mmap_context =3D desc.mmap_context;
->
->         return 0;
->  }
-> @@ -2636,16 +2655,61 @@ static bool can_set_ksm_flags_early(struct mmap_s=
-tate *map)
->         return false;
->  }
->
-> +/*
-> + * Invoke the f_op->mmap_complete hook, providing it with a fully initia=
-lised
-> + * VMA to operate upon.
-> + *
-> + * The mmap and VMA write locks must be held prior to and after the hook=
- has
-> + * been invoked.
-> + */
-> +static int call_mmap_complete(struct mmap_state *map, struct vm_area_str=
-uct *vma)
-> +{
-> +       struct file *file =3D map->file;
-> +       void *context =3D map->mmap_context;
-> +       int error;
-> +       size_t len;
-> +
-> +       if (!file || !file->f_op->mmap_complete)
-> +               return 0;
-> +
-> +       error =3D file->f_op->mmap_complete(file, vma, context);
-> +       /* The hook must NOT drop the write locks. */
-> +       vma_assert_write_locked(vma);
-> +       mmap_assert_write_locked(current->mm);
-> +       if (!error)
-> +               return 0;
-> +
-> +       /*
-> +        * If an error occurs, unmap the VMA altogether and return an err=
-or. We
-> +        * only clear the newly allocated VMA, since this function is onl=
-y
-> +        * invoked if we do NOT merge, so we only clean up the VMA we cre=
-ated.
-> +        */
-> +       len =3D vma_pages(vma) << PAGE_SHIFT;
-> +       do_munmap(current->mm, vma->vm_start, len, NULL);
-> +       return error;
-> +}
-> +
-> +static void call_mmap_abort(struct mmap_state *map)
-> +{
-> +       struct file *file =3D map->file;
-> +       void *vm_private_data =3D map->vm_private_data;
-> +
-> +       VM_WARN_ON_ONCE(!file || !file->f_op);
-> +       file->f_op->mmap_abort(file, vm_private_data, map->mmap_context);
-> +}
-> +
->  static unsigned long __mmap_region(struct file *file, unsigned long addr=
-,
->                 unsigned long len, vm_flags_t vm_flags, unsigned long pgo=
-ff,
->                 struct list_head *uf)
->  {
-> -       struct mm_struct *mm =3D current->mm;
-> -       struct vm_area_struct *vma =3D NULL;
-> -       int error;
->         bool have_mmap_prepare =3D file && file->f_op->mmap_prepare;
-> +       bool have_mmap_abort =3D file && file->f_op->mmap_abort;
-> +       struct mm_struct *mm =3D current->mm;
->         VMA_ITERATOR(vmi, mm, addr);
->         MMAP_STATE(map, mm, &vmi, addr, len, pgoff, vm_flags, file);
-> +       struct vm_area_struct *vma =3D NULL;
-> +       bool allocated_new =3D false;
-> +       int error;
->
->         map.check_ksm_early =3D can_set_ksm_flags_early(&map);
->
-> @@ -2668,8 +2732,12 @@ static unsigned long __mmap_region(struct file *fi=
-le, unsigned long addr,
->         /* ...but if we can't, allocate a new VMA. */
->         if (!vma) {
->                 error =3D __mmap_new_vma(&map, &vma);
-> -               if (error)
-> +               if (error) {
-> +                       if (have_mmap_abort)
-> +                               call_mmap_abort(&map);
->                         goto unacct_error;
-> +               }
-> +               allocated_new =3D true;
->         }
->
->         if (have_mmap_prepare)
-> @@ -2677,6 +2745,12 @@ static unsigned long __mmap_region(struct file *fi=
-le, unsigned long addr,
->
->         __mmap_epilogue(&map, vma);
->
-> +       if (allocated_new) {
-> +               error =3D call_mmap_complete(&map, vma);
-> +               if (error)
-> +                       return error;
-> +       }
-> +
->         return addr;
->
->         /* Accounting was done by __mmap_prelude(). */
-> diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma_int=
-ernal.h
-> index 07167446dcf4..566cef1c0e0b 100644
-> --- a/tools/testing/vma/vma_internal.h
-> +++ b/tools/testing/vma/vma_internal.h
-> @@ -297,11 +297,20 @@ struct vm_area_desc {
->         /* Write-only fields. */
->         const struct vm_operations_struct *vm_ops;
->         void *private_data;
-> +       /*
-> +        * A user-defined field, value will be passed to mmap_complete,
-> +        * mmap_abort.
-> +        */
-> +       void *mmap_context;
->  };
->
->  struct file_operations {
->         int (*mmap)(struct file *, struct vm_area_struct *);
->         int (*mmap_prepare)(struct vm_area_desc *);
-> +       void (*mmap_abort)(const struct file *, const void *vm_private_da=
-ta,
-> +                          const void *context);
-> +       int (*mmap_complete)(struct file *, struct vm_area_struct *,
-> +                            const void *context);
->  };
->
->  struct file {
-> @@ -1471,7 +1480,7 @@ static inline int __compat_vma_mmap_prepare(const s=
-truct file_operations *f_op,
->  {
->         struct vm_area_desc desc =3D {
->                 .mm =3D vma->vm_mm,
-> -               .file =3D vma->vm_file,
-> +               .file =3D file,
->                 .start =3D vma->vm_start,
->                 .end =3D vma->vm_end,
->
-> @@ -1485,13 +1494,21 @@ static inline int __compat_vma_mmap_prepare(const=
- struct file_operations *f_op,
->         err =3D f_op->mmap_prepare(&desc);
->         if (err)
->                 return err;
-> +
->         set_vma_from_desc(vma, &desc);
->
-> -       return 0;
-> +       /*
-> +        * No error can occur between mmap_prepare() and mmap_complete so=
- no
-> +        * need to invoke mmap_abort().
-> +        */
-> +
-> +       if (f_op->mmap_complete)
-> +               err =3D f_op->mmap_complete(file, vma, desc.mmap_context)=
-;
-> +
-> +       return err;
->  }
->
-> -static inline int compat_vma_mmap_prepare(struct file *file,
-> -               struct vm_area_struct *vma)
-> +static inline int compat_vma_mmap_prepare(struct file *file, struct vm_a=
-rea_struct *vma)
->  {
->         return __compat_vma_mmap_prepare(file->f_op, file, vma);
->  }
-> @@ -1548,4 +1565,10 @@ static inline vm_flags_t ksm_vma_flags(const struc=
-t mm_struct *, const struct fi
->         return vm_flags;
->  }
->
-> +static inline int do_munmap(struct mm_struct *mm, unsigned long start, s=
-ize_t len,
-> +             struct list_head *uf)
-> +{
-> +       return 0;
-> +}
-> +
->  #endif /* __MM_VMA_INTERNAL_H */
-> --
-> 2.51.0
->
+For Zicsr/Zifencei special handling, since LLVM/Clang always enables
+these two extensions, either don't pass them to -march, or pass them
+explicitly and Rust bindgen libclang must recognize them.
+
+Clang does not support -mno-riscv-attribute flag, filter it out to
+resolve error: unknown argument: '-mno-riscv-attribute'.
+
+Define BINDGEN_TARGET_riscv to pass the target triplet to Rust bindgen
+libclang for RISC-V to resolve error: unsupported argument 'medany' to
+option '-mcmodel=' for target 'unknown'. Improve to output a clearer
+error message if the target triplet is undefined for Rust bindgen
+libclang.
+
+Update the documentation, GCC + Rust builds are now supported.
+
+---
+Discussion:
+https://lore.kernel.org/linux-riscv/68496eed-b5a4-4739-8d84-dcc428a08e20@gmail.com/
+Patch v1:
+https://lore.kernel.org/linux-riscv/20250903190806.2604757-1-SpriteOvO@gmail.com/
+
+GCC + Rust builds for RISC-V are disabled about a year ago due to differences in
+extension handling compared to LLVM, as discussed in
+https://lore.kernel.org/all/20240917000848.720765-1-jmontleo@redhat.com/
+
+This patch re-enables GCC + Rust builds. Compared to v1, v2 reverts the
+separation of get-rust-bindgen-libclang script and improves Kconfig conditions
+based on Conor's review.
+
+The separation of get-rust-bindgen-libclang script is reverted based on the
+concerns raised by Miguel. However, it's worth noting that we now have 3
+different places rust/Makefile scripts/{Kconfig.include,rust_is_avilable.sh}
+where manually calling bindgen rust_is_available_bindgen_libclang.h + sed to get
+the version of libclang, and in particular, for our newly added Kconfig symbol,
+we now use awk to canonicalize the version to an integer. I would still like to
+do the script separation later for better maintainability and readability if
+possible, which can be discussed further later when Miguel has time.
+
+Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
+---
+ Documentation/rust/arch-support.rst |  2 +-
+ arch/riscv/Kconfig                  | 30 +++++++++++++++++++++++++++++-
+ init/Kconfig                        |  6 ++++++
+ rust/Makefile                       |  7 ++++++-
+ scripts/Kconfig.include             |  1 +
+ 5 files changed, 43 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
+index 6e6a515d08991a130a8e79dc4ad7ad09da244020..5282e0e174e8de66b4c6fec354cf329fd2aec873 100644
+--- a/Documentation/rust/arch-support.rst
++++ b/Documentation/rust/arch-support.rst
+@@ -18,7 +18,7 @@ Architecture   Level of support  Constraints
+ ``arm``        Maintained        ARMv7 Little Endian only.
+ ``arm64``      Maintained        Little Endian only.
+ ``loongarch``  Maintained        \-
+-``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
++``riscv``      Maintained        ``riscv64`` only.
+ ``um``         Maintained        \-
+ ``x86``        Maintained        ``x86_64`` only.
+ =============  ================  ==============================================
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 51dcd8eaa24356d947ebe0f1c4a701a3cfc6b757..3e892864f930778218073e8ee5980eb8f4e1594a 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -191,7 +191,7 @@ config RISCV
+ 	select HAVE_REGS_AND_STACK_ACCESS_API
+ 	select HAVE_RETHOOK if !XIP_KERNEL
+ 	select HAVE_RSEQ
+-	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && CC_IS_CLANG
++	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && TOOLCHAIN_MATCHES_ZICSR_ZIFENCEI
+ 	select HAVE_SAMPLE_FTRACE_DIRECT
+ 	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI
+ 	select HAVE_STACKPROTECTOR
+@@ -629,6 +629,8 @@ config TOOLCHAIN_HAS_V
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32imv)
+ 	depends on LLD_VERSION >= 140000 || LD_VERSION >= 23800
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/e6de53b4de4aecca4ac892500a0907805896ed27
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 140000
+ 
+ config RISCV_ISA_V
+ 	bool "Vector extension support"
+@@ -693,6 +695,8 @@ config TOOLCHAIN_HAS_ZABHA
+ 	depends on !64BIT || $(cc-option,-mabi=lp64 -march=rv64ima_zabha)
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zabha)
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/6b7444964a8d028989beee554a1f5c61d16a1cac
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 190100
+ 
+ config RISCV_ISA_ZABHA
+ 	bool "Zabha extension support for atomic byte/halfword operations"
+@@ -711,6 +715,8 @@ config TOOLCHAIN_HAS_ZACAS
+ 	depends on !64BIT || $(cc-option,-mabi=lp64 -march=rv64ima_zacas)
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zacas)
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/614aeda93b2225c6eb42b00ba189ba7ca2585c60
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 200100
+ 
+ config RISCV_ISA_ZACAS
+ 	bool "Zacas extension support for atomic CAS"
+@@ -730,6 +736,8 @@ config TOOLCHAIN_HAS_ZBB
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zbb)
+ 	depends on LLD_VERSION >= 150000 || LD_VERSION >= 23900
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/33d008b169f3c813a4a45da220d0952f795ac477
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 140000
+ 
+ # This symbol indicates that the toolchain supports all v1.0 vector crypto
+ # extensions, including Zvk*, Zvbb, and Zvbc.  LLVM added all of these at once.
+@@ -745,6 +753,8 @@ config TOOLCHAIN_HAS_ZBA
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zba)
+ 	depends on LLD_VERSION >= 150000 || LD_VERSION >= 23900
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/33d008b169f3c813a4a45da220d0952f795ac477
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 140000
+ 
+ config RISCV_ISA_ZBA
+ 	bool "Zba extension support for bit manipulation instructions"
+@@ -780,6 +790,8 @@ config TOOLCHAIN_HAS_ZBC
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zbc)
+ 	depends on LLD_VERSION >= 150000 || LD_VERSION >= 23900
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/33d008b169f3c813a4a45da220d0952f795ac477
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 140000
+ 
+ config RISCV_ISA_ZBC
+ 	bool "Zbc extension support for carry-less multiplication instructions"
+@@ -803,6 +815,8 @@ config TOOLCHAIN_HAS_ZBKB
+ 	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zbkb)
+ 	depends on LLD_VERSION >= 150000 || LD_VERSION >= 23900
+ 	depends on AS_HAS_OPTION_ARCH
++	# https://github.com/llvm/llvm-project/commit/7ee1c162cc53d37f717f9a138276ad64fa6863bc
++	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 140000
+ 
+ config RISCV_ISA_ZBKB
+ 	bool "Zbkb extension support for bit manipulation instructions"
+@@ -890,6 +904,20 @@ config TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+ 	  versions of clang and GCC to be passed to GAS, which has the same result
+ 	  as passing zicsr and zifencei to -march.
+ 
++config TOOLCHAIN_MATCHES_ZICSR_ZIFENCEI
++	def_bool y
++	# https://github.com/llvm/llvm-project/commit/22e199e6afb1263c943c0c0d4498694e15bf8a16
++	depends on TOOLCHAIN_NEEDS_OLD_ISA_SPEC || !TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI || RUST_BINDGEN_LIBCLANG_VERSION >= 170000
++	help
++	  LLVM/Clang >= 17.0.0 starts recognizing Zicsr/Zifencei in -march, passing
++	  them to -march doesn't generate an error anymore, and passing them or not
++	  doesn't have any real difference, it still follows ISA before version
++	  20190608 - Zicsr/Zifencei are included in base ISA.
++
++	  The current latest version of LLVM/Clang still does not require explicit
++	  Zicsr/Zifencei to enable these two extensions, Clang just accepts them in
++	  -march and then silently ignores them.
++
+ config FPU
+ 	bool "FPU support"
+ 	default y
+diff --git a/init/Kconfig b/init/Kconfig
+index e3eb63eadc8757a10b091c74bbee8008278c0521..0859d308a48591df769c7dbaef6f035324892bd3 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -82,6 +82,12 @@ config RUSTC_LLVM_VERSION
+ 	int
+ 	default $(rustc-llvm-version)
+ 
++config RUST_BINDGEN_LIBCLANG_VERSION
++	int
++	default $(rustc-bindgen-libclang-version)
++	help
++	  This is the version of `libclang` used by the Rust bindings generator.
++
+ config CC_CAN_LINK
+ 	bool
+ 	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+diff --git a/rust/Makefile b/rust/Makefile
+index bfa915b0e58854045b367557342727fee4fe2808..8c6f84487c41880816d1e55ba4c0df0e5af4e8fd 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -290,20 +290,25 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
+ 	-fno-inline-functions-called-once -fsanitize=bounds-strict \
+ 	-fstrict-flex-arrays=% -fmin-function-alignment=% \
+ 	-fzero-init-padding-bits=% -mno-fdpic \
+-	--param=% --param asan-%
++	--param=% --param asan-% -mno-riscv-attribute
+ 
+ # Derived from `scripts/Makefile.clang`.
+ BINDGEN_TARGET_x86	:= x86_64-linux-gnu
+ BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
+ BINDGEN_TARGET_arm	:= arm-linux-gnueabi
+ BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
++BINDGEN_TARGET_riscv	:= riscv64-linux-gnu
+ BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
+ BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
+ 
++ifeq ($(BINDGEN_TARGET),)
++$(error add '--target=' option to rust/Makefile)
++else
+ # All warnings are inhibited since GCC builds are very experimental,
+ # many GCC warnings are not supported by Clang, they may only appear in
+ # some configurations, with new GCC versions, etc.
+ bindgen_extra_c_flags = -w --target=$(BINDGEN_TARGET)
++endif
+ 
+ # Auto variable zero-initialization requires an additional special option with
+ # clang that is going to be removed sometime in the future (likely in
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 33193ca6e8030e659d6b321acaea1acd42c387a4..00462b29030515fcaaa49613e87e2a33320468ae 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -67,6 +67,7 @@ m64-flag := $(cc-option-bit,-m64)
+ 
+ rustc-version := $(shell,$(srctree)/scripts/rustc-version.sh $(RUSTC))
+ rustc-llvm-version := $(shell,$(srctree)/scripts/rustc-llvm-version.sh $(RUSTC))
++rustc-bindgen-libclang-version := $(shell,$(BINDGEN) $(srctree)/scripts/rust_is_available_bindgen_libclang.h 2>&1 | sed -nE 's:.*clang version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p' | awk -F'.' '{print $1 * 10000 + $2 * 100 + $3}')
+ 
+ # $(rustc-option,<flag>)
+ # Return y if the Rust compiler supports <flag>, n otherwise
+
+---
+base-commit: f777d1112ee597d7f7dd3ca232220873a34ad0c8
+change-id: 20250909-gcc-rust-v2-7084003bc619
+
+Best regards,
+-- 
+Asuna Yang <SpriteOvO@gmail.com>
+
