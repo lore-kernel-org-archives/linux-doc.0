@@ -1,112 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B24E14286;
-	Tue,  9 Sep 2025 00:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AE81E9906;
+	Tue,  9 Sep 2025 00:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757376889; cv=none; b=hTRkxCQmtkmq2MMGDZ10ZbNlbDMnp36Z9gzkhOsi+l2NplCyBMO3vHDjxMCZ/j1dnq5Ud8HiKPD8OjDw5x3aEbiMKXBzuk0uAMEXAgPEaNa7D4WQtafst54FkwLL+xJ3qa1N+ndpVorySYPD1C4YsDg8FMpC5IhgxJj2UmPRgbo=
+	t=1757378402; cv=none; b=IqTdY6zjtwYFib3lJ9MnkhJmSu1I/smvYhlM8JWECAegUzY4R05ZSlXvSEC1hnx5GKK3wcJmiCYG66+5cWNwpqrGkaK5a/iqIXZDxZT/Lje/cY2K3qB7iBE+cwiITowafzhoXqWT6ea2mANdCNTcWwfC6MOnRjBaeN98AcU2b/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757376889; c=relaxed/simple;
-	bh=HTsCb1oDiC0QvYoU0wK26hVLcTbGDrlmKN2iL0nK59Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LleKrGoXl1VMbO0VeOIM/tqftqTAPleQpYIr8iNA1VdUxO2Iv+WMuQUpayM9o4Dd+4vDvwChQF0POCs6nOwgEpte9QAie45FICCVcshD6ujSZM8vdPF8BmuZXiNDxavkdg1Uf4hYd0I+dnwVIh/cOYKPifNbtYGh2Cw3ZtCEeis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mOWLOxo4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757378402; c=relaxed/simple;
+	bh=CO0FjS+2hJVAJS10NZf8s53S/WpzUmN69A/+HLx9ckA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UChvoJ2Dz3WFsrpWpHPMQq/KyIokQ5u+eUd7ykkEFFU/MbEgT8AHXHQjBg02lqjPeapwxERetCsA5k5MRm/YBqcVSWpPOVRM3jlJtFGKk8S3wlrIMokAVtxbJ1mhRxso2Z4v51CbHUehX+bVv3HrPMb3GDheqX5IfplgndcwOFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WotnxMPn; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mOWLOxo4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47C20C4CEF1;
-	Tue,  9 Sep 2025 00:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757376889;
-	bh=HTsCb1oDiC0QvYoU0wK26hVLcTbGDrlmKN2iL0nK59Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mOWLOxo4BzWDRUTrIyczukYbrDUi6BpGVpqF02LfVogMJjDzTgu3zKAIJw/24vuhl
-	 JuBmK+DeME4iDYrssJTvZytKoo3/HNJ8ZHNOWQNFo4Z9j+2pxdz0a9VuvcbhTg8BzY
-	 JNcxEgjTlcPeF0PHAmAPQlXzYOtkupbyeEHR26QhpokNikwMeN2YFrUPSha4oliOKc
-	 yWVx6heegbO8GTlN1ZOOJZ/+TmR1ELaqBVSlvNGivewbF1rguAYWAexRIVnxckpgK3
-	 CNE8r+6ygI/jfJ613WpJLiiarxIOUw/Ey+eSN1/WxFI0Y0ULHg5mP7Jov/SR0ztYhY
-	 mXdEL5L7ST2ew==
-Date: Tue, 9 Sep 2025 08:14:39 +0800
-From: Gao Xiang <xiang@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>, djwong@kernel.org,
-	hch@infradead.org
-Cc: brauner@kernel.org, miklos@szeredi.hu, hsiangkao@linux.alibaba.com,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 11/16] iomap: add caller-provided callbacks for read
- and readahead
-Message-ID: <aL9xb5Jw8tvIRMcQ@debian>
-Mail-Followup-To: Joanne Koong <joannelkoong@gmail.com>, djwong@kernel.org,
-	hch@infradead.org, brauner@kernel.org, miklos@szeredi.hu,
-	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-12-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WotnxMPn"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-32d3e17d925so2499315a91.2;
+        Mon, 08 Sep 2025 17:40:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757378400; x=1757983200; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KPJkBjtxnpDGCQnjAlatzBYUpsYeWLU6mm2ymMNie5I=;
+        b=WotnxMPn+0iXRCjhQvTFILSr7rxvLdLMCXIOIY/+GfDUEg7pR8iSQhO4/1S0zmiTLI
+         kmBzRXWKvIm/jK7ibrZn7ygiU5vBu+V7PIB5faxpmg7QF2SSpfmgR6sHSXVsVVaLdq1n
+         3hIqstNITHEXEYYV3TeSZSgW/VpO/VeInos24Y2tVDkFxevzg1b2X45JDxX9f1VOdMtf
+         ZtqT0RmH33MoohMnZCn/SGNZ0+wZ+KkE0xHKodBViqJxI4VWP4ZByft1A/kFH7IHDLE0
+         THXKRXfx5Zo14mGn+R8bEXhDMepyGMhyxT/lphDRygdHHIMH0Ltk9Blie3h402iCUbVL
+         AjwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757378400; x=1757983200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KPJkBjtxnpDGCQnjAlatzBYUpsYeWLU6mm2ymMNie5I=;
+        b=uhXH+s4unvv71z8sSwE09/7JJbUqn36GjwJurBs+AeqAs4tM8KDJSLouN/Pzfv1ChT
+         Pk7qm+dB65CIkLrKItAdLJw5qrYJqpbesMSM6WVUgYO+/+OuUp+BoMOO+8vZml02lzIq
+         v3LKdjAyd2k+FhN+yr5p0mBMpE37g3zyzBJ0YoW9FHuUmBEDs7atjnNOjjy227ksUN2u
+         B9Hz2rVrDHXXuAbAxRpaoVzK+Hp+hYfIbsA5BRARHHFu0pvimpNIwqFHElfOk7iR4C5S
+         QPoYpYMAU8RuLFVPJI14IK7/LjBzeDb5cFo8yecFI4WhOdU8eRHr8HK6ijsOXNXbES5P
+         a1bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUd1Zp1vW3o67PWrGJXXzKC7oOEAOlyMlIeJMMHZKm6uQtsRxDLZmlRD7WQPnCiKIm6Rc8=@vger.kernel.org, AJvYcCVtetbmWa7qHgDE0cfdzti/Otf3zdKvGzYRciQQLICaHJTXJaitoLPqEF3X6RikUmio+ExcdERvP/aZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YySgVWmx5Qa1qYzcNVu/nqISd7anXe3dmXoHhiMqWeAxsxOs6L+
+	waRo7EDKzad13HOaaXvnrQJOT6op+XZsChdwi7JB9E2NiBKo9etlFjcq
+X-Gm-Gg: ASbGncvAd4UMIUwqi9Nry50cXd7HFl/ow1Zm0KpdeQNjd2QeYinz394+2K60Jmp7xO+
+	X8KBOAhrj8Ey4GbhB4vgNubr3pMjBSS3eFQHACNWQhDTnHjfVFRIH5ZMxKUndFEr0FjheAef2a2
+	CiXvU58gOpvOr8GRNwNi8dpH9aRqatoOjmn3HeQDf1PYWblVzdgYmcmwCv6AQo5l1RG81a8P4vt
+	54xMnPbhOs+YNnOwv9f8K5ZeEd1OdWh4eacthlC1Y1J9Z90uZ/S1TDzwyMawEKIND/uj3BiQkM0
+	7zhRkJRY++DbD8vNSC4bYrwIGWGZcMO6j7Tg5EiVxUHudjMt09KB5C8FZyrDH5TRNH1HiRiyxWv
+	QK7iGXEjw/mXhbobVJHB947P04A==
+X-Google-Smtp-Source: AGHT+IH6ulDgy2phv+kimj5Of+llTgHUm6R29mHUPofhStfAmJZS4UaniCBJPzBprvT861hcoGqJxQ==
+X-Received: by 2002:a17:90b:278d:b0:328:acc:da37 with SMTP id 98e67ed59e1d1-32d43f04ffamr12197864a91.5.1757378400157;
+        Mon, 08 Sep 2025 17:40:00 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32d7d4074b4sm4779254a91.4.2025.09.08.17.39.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 17:39:59 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9B2AC4206923; Tue, 09 Sep 2025 07:39:56 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux KVM <kvm@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Wanpeng Li <wanpengli@tencent.com>
+Subject: [PATCH] KVM: x86: Fix hypercalls docs section number order
+Date: Tue,  9 Sep 2025 07:39:52 +0700
+Message-ID: <20250909003952.10314-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250908185122.3199171-12-joannelkoong@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1686; i=bagasdotme@gmail.com; h=from:subject; bh=CO0FjS+2hJVAJS10NZf8s53S/WpzUmN69A/+HLx9ckA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn7y9I5325+KXJATi8zZtIMaZ2otY3utubTlqjFvWu8+ uX4vuvTO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRB5wMf8WM+SvPLZ1aq33w 0I7wSb2VRZXbW2YvPemUrcS49J1I3E1GhgkRAZWBaVaZF1qn7itUfyS47MbDLWYbDy85997Pqep GJDcA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi Joanne,
+Commit 4180bf1b655a79 ("KVM: X86: Implement "send IPI" hypercall")
+documents KVM_HC_SEND_IPI hypercall, yet its section number duplicates
+KVM_HC_CLOCK_PAIRING one (which both are 6th). Fix the numbering order
+so that the former should be 7th.
 
-On Mon, Sep 08, 2025 at 11:51:17AM -0700, Joanne Koong wrote:
-> Add caller-provided callbacks for read and readahead so that it can be
-> used generically, especially by filesystems that are not block-based.
-> 
-> In particular, this:
-> * Modifies the read and readahead interface to take in a
->   struct iomap_read_folio_ctx that is publicly defined as:
-> 
->   struct iomap_read_folio_ctx {
-> 	const struct iomap_read_ops *ops;
-> 	struct folio *cur_folio;
-> 	struct readahead_control *rac;
-> 	void *private;
->   };
-> 
->   where struct iomap_read_ops is defined as:
-> 
->   struct iomap_read_ops {
->       int (*read_folio_range)(const struct iomap_iter *iter,
->                              struct iomap_read_folio_ctx *ctx,
->                              loff_t pos, size_t len);
->       int (*read_submit)(struct iomap_read_folio_ctx *ctx);
->   };
-> 
+Fixes: 4180bf1b655a ("KVM: X86: Implement "send IPI" hypercall")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/virt/kvm/x86/hypercalls.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-No, I don't think `struct iomap_read_folio_ctx` has another
-`.private` makes any sense, because:
+diff --git a/Documentation/virt/kvm/x86/hypercalls.rst b/Documentation/virt/kvm/x86/hypercalls.rst
+index 10db7924720f16..521ecf9a8a361a 100644
+--- a/Documentation/virt/kvm/x86/hypercalls.rst
++++ b/Documentation/virt/kvm/x86/hypercalls.rst
+@@ -137,7 +137,7 @@ compute the CLOCK_REALTIME for its clock, at the same instant.
+ Returns KVM_EOPNOTSUPP if the host does not use TSC clocksource,
+ or if clock type is different than KVM_CLOCK_PAIRING_WALLCLOCK.
+ 
+-6. KVM_HC_SEND_IPI
++7. KVM_HC_SEND_IPI
+ ------------------
+ 
+ :Architecture: x86
+@@ -158,7 +158,7 @@ corresponds to the APIC ID a2+1, and so on.
+ 
+ Returns the number of CPUs to which the IPIs were delivered successfully.
+ 
+-7. KVM_HC_SCHED_YIELD
++8. KVM_HC_SCHED_YIELD
+ ---------------------
+ 
+ :Architecture: x86
+@@ -170,7 +170,7 @@ a0: destination APIC ID
+ :Usage example: When sending a call-function IPI-many to vCPUs, yield if
+ 	        any of the IPI target vCPUs was preempted.
+ 
+-8. KVM_HC_MAP_GPA_RANGE
++9. KVM_HC_MAP_GPA_RANGE
+ -------------------------
+ :Architecture: x86
+ :Status: active
 
- - `struct iomap_iter *iter` already has `.private` and I think
-   it's mainly used for per-request usage; and your new
-   `.read_folio_range` already passes
-    `const struct iomap_iter *iter` which has `.private`
-   I don't think some read-specific `.private` is useful in any
-   case, also below.
+base-commit: a6ad54137af92535cfe32e19e5f3bc1bb7dbd383
+-- 
+An old man doll... just what I always wanted! - Clara
 
- - `struct iomap_read_folio_ctx` cannot be accessed by previous
-   .iomap_{begin,end} helpers, which means `struct iomap_read_ops`
-   is only useful for FUSE read iter/submit logic.
-
-Also after my change, the prototype will be:
-
-int iomap_read_folio(const struct iomap_ops *ops,
-		     struct iomap_read_folio_ctx *ctx, void *private2);
-void iomap_readahead(const struct iomap_ops *ops,
-		     struct iomap_read_folio_ctx *ctx, void *private2);
-
-Is it pretty weird due to `.iomap_{begin,end}` in principle can
-only use `struct iomap_iter *` but have no way to access
-` struct iomap_read_folio_ctx` to get more enough content for
-read requests.
-
-Thanks,
-Gao Xiang
