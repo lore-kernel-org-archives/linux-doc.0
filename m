@@ -1,308 +1,157 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4040E1F30A4;
-	Tue,  9 Sep 2025 07:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC46B2DA753;
+	Tue,  9 Sep 2025 07:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757402845; cv=none; b=qz6DQmZQS9/lHDPSIXFjjue41DYdYa+rHSHsL6xZuEnc1GLzdzU5yNc0QfLi2oyt7e/tQ6Fx9dhh/JhK7LvodNU+CF7j/exHCn+T+00pSiTykZndabqH3ZEnEH5Q1Bbtqst+i4MqKf5PeL8mFNptBu7R63Z6Hcq+0M/gw7NjUMQ=
+	t=1757403232; cv=none; b=LYF4yPT+hStPFjTKE/9P0w30facw8X+kxb+C9Q5C/RM1Z34gopcuOzrxuESsh5o6spHM2DJXp5rpPzgFv85PzOGq86NSJdJbe1GAVR7EURp/1NgsAO3UbYBu8sq9r3OBOH5V86WrxShDkMMjeEeh0zE0XCXNGFhlFMdwWnguLNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757402845; c=relaxed/simple;
-	bh=I/Q1Ax5c1wQTpMhuYDt7fD8nZ37iGWNXzYylEwq5gjs=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=cU2ouFYcjBLavtHTxAa43trCLBPM25N9V1LKBLyZhr8QLovYR9va3VEUMkHc5bxzl4oJg4/kQQN58HiPb+SHEAA1jHhr0ZSkn8bjlPEMmR506xnAWKZmsSQ90j4PLclRrQlAp+oEqLkdVJRl8yxUih5+lKQWbfQJFAehdWLZcIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ubCzsdxx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ubCzsdxx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Content-Type:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=KT+YpU8BD12q5IWd/R6k5WcbvOYLYBwR0Ioh/tGh6vA=; b=ubCzsdxxbLdFE/UqCJD8PNAFJl
-	0dQCbiPpxgc+eme/EFm+cM2ag7j6rJ+fZjhpVnURf9fyMoYN+/Up0GhNKrXuPB6COJs8bZNY+jEpk
-	QBHNkG+BnSybQKmFGof9oESOAgH5YMr3kgSK7Sa9o5zgy9WCHbiRAZSlfk6TzQujcRUsD538lu2U1
-	W0xUIoGHiLFFWvkW8IpwEW+rfOGhY58/g01qJzNgflNX9X1zrz8sfAPNGZFR2gDgHkUX0QaSXquOm
-	4BEMmzMlPvSmN8RGFY/XQmfdOghUMkUduI8sVOAyUOfeCCXTq8uutxUYxGQCWYbsrfPpcdy8Q/zAR
-	H8U0hk4g==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvsl7-000000059Z5-0qmx;
-	Tue, 09 Sep 2025 07:27:21 +0000
-Content-Type: multipart/mixed; boundary="------------BiD645pp0mAMW6GmujFBc40N"
-Message-ID: <d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
-Date: Tue, 9 Sep 2025 00:27:20 -0700
+	s=arc-20240116; t=1757403232; c=relaxed/simple;
+	bh=s5WDRABbopl64JiQZLMuXdSfEZhS/v30YCdeutDBtx8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YZP9W/rAdZ+PNRQNt87VN9z5yeGE9HyZkFZym9UwWpErYr8hVucz9cSAw4lm5LJRbyhzZnSQ2fgUZh3pgB4oSkE9nFL1rdKIg/nGrz+VbTDwAmzg1Bm15ZyOskN46AlKS+h39aYHm4DBLgw89xF4A2w5ef6T4JHcZKxf3Y9N0y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4cLb884cZtz2TTD5;
+	Tue,  9 Sep 2025 15:30:32 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 29C88180043;
+	Tue,  9 Sep 2025 15:33:47 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 9 Sep 2025 15:33:45 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>, Meny Yossefi
+	<meny.yossefi@huawei.com>, Gur Stavi <gur.stavi@huawei.com>, Lee Trager
+	<lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, Suman Ghosh <sumang@marvell.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH net-next v05 00/14] net: hinic3: Add a driver for Huawei 3rd gen NIC - sw and hw initialization
+Date: Tue, 9 Sep 2025 15:33:25 +0800
+Message-ID: <cover.1757401320.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-This is a multi-part message in MIME format.
---------------BiD645pp0mAMW6GmujFBc40N
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+This is [3/3] part of hinic3 Ethernet driver initial submission.
+With this patch hinic3 becomes a functional Ethernet driver.
 
-Hi Mauro,
+The driver parts contained in this patch:
+Memory allocation and initialization of the driver structures.
+Management interfaces initialization.
+HW capabilities probing, initialization and setup using management
+interfaces.
+Net device open/stop implementation and data queues initialization.
+Register VID:DID in PCI id_table.
+Fix netif_queue_set_napi usage.
 
-I have a few patch nits below, then some testing info.
+Changes:
+
+PATCH 03 V01: https://lore.kernel.org/netdev/cover.1756195078.git.zhuyikai1@h-partners.com
+
+PATCH 03 V02: https://lore.kernel.org/netdev/cover.1756378721.git.zhuyikai1@h-partners.com
+* Remove extra memset 0 after kzalloc (Vadim Fedorenko)
+* Remove another init function in hinic3_init_hwdev/hwif/nic_io (Vadim Fedorenko)
+* Create a new separate patch of fixing code style (Vadim Fedorenko)
+* Use bitmap_free instead of kfree (ALOK TIWARI)
+* Add prefix "hinic3" to non-static functions and parse_* functions (Vadim Fedorenko)
+* Init func_tbl_cfg to {} (Vadim Fedorenko)
+* Extract endianess improvement from queue pair resource initialization (Vadim Fedorenko)
+* Use kmalloc_array before overwrite rss_hkey on the very next line (Vadim Fedorenko)
+* Remove extra key copy about hinic3_rss_set_hash_key (Vadim Fedorenko)
+* Use netdev_rss_key_fill instead of static rss hash key for safety (Eric Dumazet)
+
+PATCH 03 V03: https://lore.kernel.org/netdev/cover.1756524443.git.zhuyikai1@h-partners.com
+* Modify get_hwif_attr function for improving readability (Vadim Fedorenko)
+* Add HINIC3_PCIE_LINK_DOWN errorcode to init_hwif_attr error handling (Vadim Fedorenko)
+
+PATCH 03 V04: https://lore.kernel.org/netdev/cover.1757057860.git.zhuyikai1@h-partners.com
+* Use pci_enable_msix_range instead of pci_alloc_irq_vectors (Jakub Kicinski)
+* Move defensive codes to place that they are set/loaded (Jakub Kicinski)
+* Code format fixes: remove empty lines between error handling path (Jakub Kicinski)
+* Remove redundant waiting sleep in hinic3_rx_tx_flush (Jakub Kicinski)
+* Use ethtool_rxfh_indir_default for standalizing codes (Jakub Kicinski)
+* Use netif_get_num_default_rss_queues instead of driver-local logic (Jakub Kicinski)
+* Use netif_set_real_num_queues to set both TX and RX queues (Jakub Kicinski)
+
+PATCH 03 V05:
+* Merge comm_cmd_clear_doorbell & comm_cmd_clear_resource (Vadim Fedorenko)
+* Merge hinic3_enable/disable_doorbell to hinic3_toggle_doorbel (Vadim Fedorenko)
+* Update hinic3_Nic_io initialization commit message (Vadim Fedorenko)
+
+Fan Gong (14):
+  hinic3: HW initialization
+  hinic3: HW management interfaces
+  hinic3: HW common function initialization
+  hinic3: HW capability initialization
+  hinic3: Command Queue flush interfaces
+  hinic3: Nic_io initialization
+  hinic3: Queue pair endianness improvements
+  hinic3: Queue pair resource initialization
+  hinic3: Queue pair context initialization
+  hinic3: Tx & Rx configuration
+  hinic3: Add Rss function
+  hinic3: Add port management
+  hinic3: Fix missing napi->dev in netif_queue_set_napi
+  hinic3: Fix code style (Missing a blank line before return)
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   2 +
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    | 168 ++++
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |   4 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 361 ++++++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  21 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   | 115 +++
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.c | 541 ++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  | 269 ++++++
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |   2 +-
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   |   9 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |   8 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.c  |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |   2 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     | 119 +++
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 425 ++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 152 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  20 +
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   5 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.c    | 870 +++++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    |  39 +-
+ .../huawei/hinic3/hinic3_pci_id_tbl.h         |   9 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 336 +++++++
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  14 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    | 226 ++++-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  38 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 184 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |  30 +-
+ 28 files changed, 3920 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_pci_id_tbl.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
 
 
-On 9/7/25 9:22 AM, Mauro Carvalho Chehab wrote:
-> Specially on kAPI, sometimes it is desirable to be able to
-> describe global variables that are part of kAPI.
-> 
-> Documenting vars with Sphinx is simple, as we don't need
-> to parse a data struct. All we need is the variable
-> declaration and use natice C domain ::c:var: to format it
-> for us.
-> 
-> Add support for it.
-> 
-> Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
->  scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
->  2 files changed, 55 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 1eca9a918558..405a5c407522 100644
-> --- a/scripts/lib/kdoc/kdoc_output.py
-> +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -199,6 +199,10 @@ class OutputFormat:
->              self.out_enum(fname, name, args)
->              return self.data
->  
-> +        if dtype == "global":
-> +            self.out_global(fname, name, args)
-> +            return self.data
-> +
->          if dtype == "typedef":
->              self.out_typedef(fname, name, args)
->              return self.data
-> @@ -227,6 +231,9 @@ class OutputFormat:
->      def out_enum(self, fname, name, args):
->          """Outputs an enum"""
->  
-> +    def out_global(self, fname, name, args):
-> +        """Outputs a global variable"""
-> +
->      def out_typedef(self, fname, name, args):
->          """Outputs a typedef"""
->  
-> @@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
->          self.lineprefix = oldprefix
->          self.out_section(args)
->  
-> +    def out_global(self, fname, name, args):
-> +        oldprefix = self.lineprefix
-> +        ln = args.declaration_start_line
-> +        prototype = args.other_stuff["var_type"]
-> +
-> +        self.data += f"
-> 
-> .. c:var:: {prototype}
-> 
-> "
-
-Are the 5 lines above supposed to be on one line?  Did git send-email split that up for you?
-There are a few others like this below.
-patch(1) complains when I try to apply the patch from this email.
-
-> +
-> +        self.print_lineno(ln)
-> +        self.lineprefix = "  "
-> +        self.output_highlight(args.get('purpose', ''))
-> +        self.data += "
-> "
-> +
->      def out_typedef(self, fname, name, args):
->  
->          oldprefix = self.lineprefix
-> @@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
->              self.data += f'.SH "{section}"' + "
-> "
->              self.output_highlight(text)
->  
-> +    def out_global(self, fname, name, args):
-> +        out_name = self.arg_name(args, name)
-> +        prototype = args.other_stuff["var_type"]
-> +
-> +        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "
-> "
-> +
-> +        self.data += ".SH NAME
-> "
-> +        self.data += f"{prototype} \- {args['purpose']}
-
-Python complains about the "\-" above. Other places nearby use "\\-"
-so I changed it to that instead. Hope that's OK.
-
-> "
-> +
-> +        self.data += ".SH SYNOPSIS
-> "
-> +        self.data += f"enum {name}" + " {
-> "
-> +
->      def out_typedef(self, fname, name, args):
->          module = self.modulename
->          purpose = args.get('purpose')
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 574972e1f741..e2a3f4574894 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -64,7 +64,7 @@ type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
->  # Tests for the beginning of a kerneldoc block in its various forms.
->  #
->  doc_block = doc_com + KernRe(r'DOC:\s*(.*)?', cache=False)
-> -doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)\s*(\w*)", cache = False)
-> +doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|global)\s*(\w*)", cache = False)
->  doc_begin_func = KernRe(str(doc_com) +			# initial " * '
->                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
->                          r'(?:define\s+)?' + 		# possible "define" (not captured)
-> @@ -886,6 +886,27 @@ class KernelDoc:
->          self.output_declaration('enum', declaration_name,
->                                  purpose=self.entry.declaration_purpose)
->  
-> +    def dump_global(self, ln, proto):
-> +        """
-> +        Stores global variables that are part of kAPI.
-> +        """
-> +        VAR_ATTRIBS = [
-> +            "extern",
-> +        ]
-> +        OPTIONAL_VAR_ATTR = "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-> +
-> +        r= KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s*;(?:#.*)?$")
-> +        if not r.match(proto):
-> +           self.emit_msg(ln,f"{proto}: can't parse variable")
-> +           return
-> +
-> +        declaration_name = r.group(2)
-> +        var_type = r.group(0)
-> +
-> +        self.output_declaration("global", declaration_name,
-> +                                var_type=var_type,
-> +                                purpose=self.entry.declaration_purpose)
-> +
->      def dump_declaration(self, ln, prototype):
->          """
->          Stores a data declaration inside self.entries array.
-> @@ -897,6 +918,8 @@ class KernelDoc:
->              self.dump_typedef(ln, prototype)
->          elif self.entry.decl_type in ["union", "struct"]:
->              self.dump_struct(ln, prototype)
-> +        elif self.entry.decl_type == "global":
-> +            self.dump_global(ln, prototype)
->          else:
->              # This would be a bug
->              self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
-So, I grabbed some global data from 6-8 places in the kernel and put them intoinit/kdoc-globals-test.c. Then I modified Documentation/core-api/kernel-api.rst
-like this at the end of that file:
-
-+
-+Kernel Globals
-+==========================
-+
-+.. kernel-doc:: init/kdoc-globals-test.c
-+   :identifiers:
-
-The html output says
-"Kernel Globals"
-but nothing else.
-
-My test files are attached. I dumbed down (simplified) a few
-of the globals from fancy types to just unsigned long, but that
-didn't help the output results any.
-
-What's happening?
-Thanks.
-
+base-commit: b1c92cdf5af3198e8fbc1345a80e2a1dff386c02
 -- 
-~Randy
+2.43.0
 
---------------BiD645pp0mAMW6GmujFBc40N
-Content-Type: text/x-patch; charset=UTF-8; name="kdoc-globals-test.patch"
-Content-Disposition: attachment; filename="kdoc-globals-test.patch"
-Content-Transfer-Encoding: base64
-
-LS0tCiBEb2N1bWVudGF0aW9uL2NvcmUtYXBpL2tlcm5lbC1hcGkucnN0IHwgICAgNiArCiBp
-bml0L2tkb2MtZ2xvYmFscy10ZXN0LmMgICAgICAgICAgICAgIHwgICA5NiArKysrKysrKysr
-KysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMTAyIGluc2VydGlvbnMoKykKCi0t
-LSAvZGV2L251bGwKKysrIGxpbnV4LW5leHQtMjAyNTA5MDgvaW5pdC9rZG9jLWdsb2JhbHMt
-dGVzdC5jCkBAIC0wLDAgKzEsOTYgQEAKKy8vIGtkb2MtZ2xvYmFscy10ZXN0LmM6CisvLyB0
-ZXN0IGtlcm5lbC1kb2MgImdsb2JhbCIga2V5d29yZC4KKworLy8gZnJvbSBpbml0L2RvX21v
-dW50cy5jOgorLyoqCisgKiBnbG9iYWwgUk9PVF9ERVYgLSBzeXN0ZW0gcm9vdCBkZXZpY2UK
-KyAqCisgKiBAUk9PVF9ERVYgaXMgZWl0aGVyIHRoZSBzdWNjZXNzZnVsIHJvb3QgZGV2aWNl
-IG9yIHRoZSByb290IGRldmljZQorICogdGhhdCBmYWlsZWQgYm9vdCBpbiB0aGUgYm9vdCBm
-YWlsdXJlIG1lc3NhZ2UuCisgKi8KK3Vuc2lnbmVkIGxvbmcgUk9PVF9ERVY7CisvL2Rldl90
-IFJPT1RfREVWOworCisvLyBmcm9tIGluaXQvbWFpbi5jOgorLyoqCisgKiBnbG9iYWwgc3lz
-dGVtX3N0YXRlIC0gc3lzdGVtIHN0YXRlIHVzZWQgZHVyaW5nIGJvb3Qgb3Igc3VzcGVuZC9o
-aWJlcm5hdGUvcmVzdW1lCisgKgorICogQHN5c3RlbV9zdGF0ZSBjYW4gYmUgdXNlZCBkdXJp
-bmcgYm9vdCB0byBkZXRlcm1pbmUgaWYgaXQgaXMgc2FmZSB0bworICogbWFrZSBjZXJ0YWlu
-IGNhbGxzIHRvIG90aGVyIHBhcnRzIG9mIHRoZSBrZXJuZWwuIEl0IGNhbiBhbHNvIGJlIHVz
-ZWQKKyAqIGR1cmluZyBzdXNwZW5kL2hpYmVybmF0ZSBvciByZXN1bWUgdG8gZGV0ZXJtaW5l
-IHRoZSBvcmRlciBvZiBhY3Rpb25zCisgKiB0aGF0IG5lZWQgdG8gYmUgZXhlY3V0ZWQuIFRo
-ZSBudW1lcmljYWwgdmFsdWVzIG9mIHN5c3RlbV9zdGF0ZSBhcmUKKyAqIHNvbWV0aW1lcyB1
-c2VkIGluIG51bWVyaWNhbCBvcmRlcmluZyB0ZXN0cywgc28gdGhlIHJlbGF0aXZlIHZhbHVl
-cworICogbXVzdCBub3QgYmUgYWx0ZXJlZC4KKyAqLworZW51bSBzeXN0ZW1fc3RhdGVzIHN5
-c3RlbV9zdGF0ZSBfX3JlYWRfbW9zdGx5OworCisvKioKKyAqIGdsb2JhbCBzYXZlZF9jb21t
-YW5kX2xpbmUgLSBrZXJuZWwncyBjb21tYW5kIGxpbmUsIHNhdmVkIGZyb20gdXNlIGF0Cisg
-KiBhbnkgbGF0ZXIgdGltZSBpbiB0aGUga2VybmVsLgorICovCitjaGFyICpzYXZlZF9jb21t
-YW5kX2xpbmUgX19yb19hZnRlcl9pbml0OworCisvKioKKyAqIGdsb2JhbCBsb29wX3Blcl9q
-aWZmeSAtIGNhbGN1bGF0ZWQgbG9vcCBjb3VudCBuZWVkZWQgdG8gY29uc3VtZSBvbmUgamlm
-ZnkKKyAqIG9mIHRpbWUKKyAqLwordW5zaWduZWQgbG9uZyBsb29wc19wZXJfamlmZnkgPSAo
-MTw8MTIpOworCisvLyBmcm9tIGluaXQvY2FsaWJyYXRlLmM6CisvKioKKyAqIGdsb2JhbCBw
-cmVzZXRfbHBqIC0gbHBqIChsb29wcyBwZXIgamlmZnkpIHZhbHVlIHNldCBmcm9tIGtlcm5l
-bAorICogY29tbWFuZCBsaW5lIHVzaW5nICJscGo9VkFMVUUiCisgKgorICogU2VlIERvY3Vt
-ZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0ICgibHBqPSIpIGZv
-ciBkZXRhaWxzLgorICovCit1bnNpZ25lZCBsb25nIHByZXNldF9scGo7CisKKy8vIGZyb20g
-aW5pdC92ZXJzaW9uLmM6CisvKioKKyAqIGdsb2JhbCBsaW51eF9wcm9jX2Jhbm5lciAtIHRl
-eHQgdXNlZCBmcm9tIC9wcm9jL3ZlcnNpb24gZmlsZQorICoKKyAqICogZmlyc3QgJXMgaXMg
-c3lzbmFtZSAoZS5nLiwgIkxpbnV4IikKKyAqICogc2Vjb25kICVzIGlzIHJlbGVhc2UKKyAq
-ICogdGhpcmQgJXMgaXMgdmVyc2lvbgorICovCitjaGFyIGxpbnV4X3Byb2NfYmFubmVyW107
-CisjaWYgMAorY29uc3QgY2hhciBsaW51eF9wcm9jX2Jhbm5lcltdID0KKwkiJXMgdmVyc2lv
-biAlcyIKKwkiICgiIExJTlVYX0NPTVBJTEVfQlkgIkAiIExJTlVYX0NPTVBJTEVfSE9TVCAi
-KSIKKwkiICgiIExJTlVYX0NPTVBJTEVSICIpICVzXG4iOworI2VuZGlmCisKKy8vIGZyb20g
-aW5pdC92ZXJzaW9uLXRpbWVzdGFtcC5jOgorLyoqCisgKiBnbG9iYWwgbGludXhfYmFubmVy
-IC0gTGludXggYm9vdCBiYW5uZXIsIHVzdWFsbHkgcHJpbnRlZCBhdCBib290IHRpbWUKKyAq
-LworY29uc3QgY2hhciBsaW51eF9iYW5uZXJbXTsKKyNpZiAwCitjb25zdCBjaGFyIGxpbnV4
-X2Jhbm5lcltdID0KKwkiTGludXggdmVyc2lvbiAiIFVUU19SRUxFQVNFICIgKCIgTElOVVhf
-Q09NUElMRV9CWSAiQCIKKwlMSU5VWF9DT01QSUxFX0hPU1QgIikgKCIgTElOVVhfQ09NUElM
-RVIgIikgIiBVVFNfVkVSU0lPTiAiXG4iOworI2VuZGlmCisKKy8vIGZyb20gYmxvY2svZ2Vu
-aGQuYzoKKy8qKgorICogZ2xvYmFsIGRpc2tzZXEgLSB1bmlxdWUgc2VxdWVuY2UgbnVtYmVy
-IGZvciBibG9jayBkZXZpY2UgaW5zdGFuY2VzCisgKgorICogQWxsb3dzIHVzZXJzcGFjZSB0
-byBhc3NvY2lhdGUgdWV2ZW50cyB0byB0aGUgbGlmZXRpbWUgb2YgYSBkZXZpY2UKKyAqLwor
-c3RhdGljIGF0b21pYzY0X3QgZGlza3NlcTsKKworLy8gZnJvbSBuZXQvY29yZS9ydG5ldGxp
-bmsuYzoKKy8qKgorICogZ2xvYmFsIHJ0bmxfbXV0ZXggLSBoaXN0b3JpY2FsIGdsb2JhbCBs
-b2NrIGZvciBuZXR3b3JraW5nIGNvbnRyb2wgb3BlcmF0aW9ucy4KKyAqCisgKiBAcnRubF9t
-dXRleCBpcyB1c2VkIHRvIHNlcmlhbGl6ZSBydG5ldGxpbmsgcmVxdWVzdHMKKyAqIGFuZCBw
-cm90ZWN0IGFsbCBrZXJuZWwgaW50ZXJuYWwgZGF0YSBzdHJ1Y3R1cmVzIHJlbGF0ZWQgdG8g
-bmV0d29ya2luZy4KKyAqCisgKiBTZWUgRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nL25ldGRl
-dmljZXMucnN0IGZvciBkZXRhaWxzLgorICogT2Z0ZW4ga25vd24gYXMgdGhlIHJ0bmxfbG9j
-aywgYWx0aG91Z2ggcnRubF9sb2NrIGlzIGEga2VybmVsIGZ1bmN0aW9uLgorICovCit1bnNp
-Z25lZCBsb25nIHJ0bmxfbXV0ZXg7CisvL3N0YXRpYyBERUZJTkVfTVVURVgocnRubF9tdXRl
-eCk7CisKKy8vIGVuZCB0ZXN0LgotLS0gbGludXgtbmV4dC0yMDI1MDkwOC5vcmlnL0RvY3Vt
-ZW50YXRpb24vY29yZS1hcGkva2VybmVsLWFwaS5yc3QKKysrIGxpbnV4LW5leHQtMjAyNTA5
-MDgvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9rZXJuZWwtYXBpLnJzdApAQCAtNDI4LDMgKzQy
-OCw5IEBAIFJlYWQtQ29weSBVcGRhdGUgKFJDVSkKIC4uIGtlcm5lbC1kb2M6OiBpbmNsdWRl
-L2xpbnV4L3JjdXJlZi5oCiAKIC4uIGtlcm5lbC1kb2M6OiBpbmNsdWRlL2xpbnV4L3JjdXRy
-ZWUuaAorCitLZXJuZWwgR2xvYmFscworPT09PT09PT09PT09PT09PT09PT09PT09PT0KKwor
-Li4ga2VybmVsLWRvYzo6IGluaXQva2RvYy1nbG9iYWxzLXRlc3QuYworICAgOmlkZW50aWZp
-ZXJzOgo=
-
---------------BiD645pp0mAMW6GmujFBc40N--
