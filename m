@@ -1,178 +1,238 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B223352096;
-	Tue,  9 Sep 2025 15:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5725F13774D;
+	Tue,  9 Sep 2025 15:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757432046; cv=none; b=A3w5oixoAOHy1f6qkt/tdv9jfVctKWKGY6crCnOrv0hqiwk17ew3CeM7usUcexzvSN0l5WXWM/ik4wAm89F4jW7aSTaeITZ21GJWWkOGDhZCNMhJP4kVVOC12bZkPOK+YfPLOarq1b0qpNML7t5tQC+sk9k1BmuU8BCiqmV0r0M=
+	t=1757432396; cv=none; b=WXkDenU/1Mm8+HlZ0UP1lnsHGr6/ttHyeRQ6vHLfAXYYvuLJPUquz34hn/uuqKxveuoReBJIOo5+e/Ua0Fl+4fMyIkcVgjDB9o77m5dZYRwtXtG39/nVDnX6yjgz0EFEjVfMPOA4XtLbHFLzH3zAVoTUjTcBbi0mBWXSaOAOfHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757432046; c=relaxed/simple;
-	bh=6JlSmRBzOwfJDw81Wdqg0lZlZvfb9SVf6c+eUyxm70k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bL6gjbJSZDDDxqCvGM+9VjEq3EEZAgR1mdDZqo9IDqlDxCe/C6oU0oCAva2c+hozmP1Cd8kKHvuCpWZp7yFKlQdgiHmjXJQjKiFYPUwoL/Z39uuXHHIUVnk9AgJFBU41joWwGsle7yWpS1Sw/GPP95Zc3gK/8Fl08hCOzwsBLJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPx4wJh5; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757432396; c=relaxed/simple;
+	bh=+ozRznCUnYe3hIE4F/MJBXqFwWY29ua0Eli0zW59EtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qy03oj6XQTo69gcX1ymjN4ehaAFMJF9VKsegwPGO263dzrtUrianEMGHf51PeqZqfQBSGfmY9zeWI2KqN4j+qNz5J3SFQFqukJIkkV0vtwEa0hH2SxwxAuzb052KEspAmB1lHnnf6bTEzdy4OEyja1Kib7vXDCfuM3QEpcYOfSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wtV6en51; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPx4wJh5"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-811b06efefdso478281185a.1;
-        Tue, 09 Sep 2025 08:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757432044; x=1758036844; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nm019m6Jpg9WlE0fDkKmwk8SZTc8G6zXBvzps0igUOY=;
-        b=ZPx4wJh5uUKkqSmwWiYmqg0N8R6oYbrYCFlzuTJb/W0dCuLMkxRQAmyB1SqaTROcOM
-         DERr4CHMz1+hd1Vb+YUQAg9z4m0J+7YUgBZM+oiVtblkoMq7LynPU+bkOIcRA9NnhKx2
-         xBkOk278NMzm0MfK6GE52RTit+Sr3KB6MiYOTfzftLr9t3CHupbNWyqnRh8VgGXoDSMW
-         LMllWgG5xKw7OKTc5+TQ48PVQYL3MKIoojRRTXzqOu6E1SRJykpRrVVovYNeJUkmjnbj
-         RqNqKEU3wXKKhAh2V6nTRuEUjNwiTcyAhVeQAclTg+2bCroHvnPVj3f+AtTfifxkUa4z
-         j4SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757432044; x=1758036844;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nm019m6Jpg9WlE0fDkKmwk8SZTc8G6zXBvzps0igUOY=;
-        b=oc6/i1iYgrrVkPobM56JSexEU5ZJzsd2wVM7qzR8EoSOk1a/0PQGC1i84+6OICptGm
-         YK3Uzk9NanGCovzNqWpZ8J7UgW4G1fjI1gNBEZ3gILdX28WhjT3xhPozCaWN2BeX20dS
-         8a43k/iT3Ca/39L5iyof7PvMv7XACoIAPaRfg7x/eMEDQt5NEbIz+xZIDuJs9Zr5rPek
-         meNsoJ5Zwx7PJ9ALR6SKqOaWSAjrHLBpo21NqjhwGs+FBTXup5fUhne2gcN92PfF8hA/
-         mFmB4vYc0LpnVVC2oqnV9SM2caUHpOrNU4OWyPiCG/c9NvHWniGnUek8ErgwnnmIHC+3
-         5T4A==
-X-Forwarded-Encrypted: i=1; AJvYcCU3dxp6m5KKR8XcH717aLzA2dY4Web/pJBB+vklp72HjIYG6HLgFA3yMy4xtisFyKwkKx3NYaReKuo6Y6T6MQ==@vger.kernel.org, AJvYcCUM+tEUSSW3mxCgX49ALAovbxFBSLJ0GDXKdccOQzxG7ZdFuT8laP74Tm1NBkx9JXCpHfe1HX05Ennd@vger.kernel.org, AJvYcCUOKqBo72W0p/qiZZHEoHJ9AAtqP6XQtMPN+k1ZOrnWZAA0akRov0MLdftRWhYHHEbuCfGyipbCogwX0g==@vger.kernel.org, AJvYcCVhhS4bq2/l92d/x8vvPeQOkbM1yGTdyeR1FHQV79kYiM8ukFgXFtew9i2Hxjj+kmiItkvW4EJBtkzF@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWCexEv0PSijopCGsvO2vJRrQLilEyDcf46IhN27PgU98snRIf
-	MO2OupZk2NNlnGbZ0i3B+OV4S5F0gvuD6hiZTcaRD3u8QM5DdmLnzKKzIk1xRjOCNepl1Hg1DZa
-	qdCckazhJDG3Ls5P4Y84jPuhio0dc4Cs=
-X-Gm-Gg: ASbGncvQE6Edvp9/72c3HjsYf+Oiyvmi3hJztPgxakf4xTjbcciky/l+llSd76KLKCk
-	Iv4Jy40b/bBQcb3huRJAhGS4f4Ig3Ik3UTO0zdTv9iSzmFvXM1Oylrf0IPzHbYJCOyVUoIpzcnD
-	ptoa1H5kzBJpqL5MPSN4zvdcchlBBL2NsNxaMmO6HCZ/6cmqKZDvhsJoinFLiyYHgzfUwZ4gNPq
-	O7TBc57hxlg7FVDG58BDS8=
-X-Google-Smtp-Source: AGHT+IHsvKQIqY1eKcTSpIDfewB71Vz1SzsjVHsBfXSv4SayZ8R1VsL4otO2UwFpXNAm9zonHXLetqA++OARoiEstzA=
-X-Received: by 2002:a05:620a:a207:b0:814:ac72:cb53 with SMTP id
- af79cd13be357-814ac72ce37mr1348060785a.39.1757432042924; Tue, 09 Sep 2025
- 08:34:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wtV6en51"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 8B09F4E40957;
+	Tue,  9 Sep 2025 15:39:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 62EA160630;
+	Tue,  9 Sep 2025 15:39:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6EEC2102F28E7;
+	Tue,  9 Sep 2025 17:39:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757432391; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ts/SJluN6cQdUcCgVD3HQ7ETDwWBAUQodwnr68auTBU=;
+	b=wtV6en51mclGmP5+mmQyZ21Zbg/GIh6mfEa/I9Q9yhw+lxzDl31FxvDetR72unXo8KSYWR
+	fFsvxflfrD5KpTxM2euZDli9Wgzv3Is27i2JjKVXgkuow/qpJwMUb82Mk6Lw6bbKmdYOgW
+	ghcFm1RshpaRjJqbiHWK/afodrh3XPL6SbYn3z6oqMe0mJ9W3U8BTpQE+ntC0uf8hvPv/k
+	m++qUygy8A6Jo6Z/HXaL+LvOmstEj+e5xQURF04IHForwStJ5Lxd0npxS2atgqDWuGQyuw
+	uqISDZrI9Q8hJNuC/upW6T0YSymLtxR6ZqiGDfXmB4OpemRR4fD/IhOYxG2dIw==
+Date: Tue, 9 Sep 2025 17:39:33 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
+ =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 10/10] drm/bridge: hotplug-bridge: add driver to
+ support hot-pluggable DSI bridges
+Message-ID: <20250909173933.20fc5d6a@booty>
+In-Reply-To: <20250909172907.09157d70@booty>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+	<20241231-hotplug-drm-bridge-v5-10-173065a1ece1@bootlin.com>
+	<ourjepuvkhzpemhak3t6do3or6shrj4cq2plhii4afgej4qhkk@p6tvptupr3ey>
+	<20250102130140.59363125@booty>
+	<20250909172907.09157d70@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-14-joannelkoong@gmail.com> <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
-In-Reply-To: <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 9 Sep 2025 11:33:49 -0400
-X-Gm-Features: Ac12FXxmaTYFDfytENNUUKz7GREv8kkuFk-74PyqDa4R1bwoLlwwHTGCX5N6tT0
-Message-ID: <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
- CONFIG_BLOCK guard
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org, 
-	djwong@kernel.org, linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Sep 8, 2025 at 10:14=E2=80=AFPM Gao Xiang <hsiangkao@linux.alibaba.=
-com> wrote:
->
-> On 2025/9/9 02:51, Joanne Koong wrote:
-> > There is no longer a dependency on CONFIG_BLOCK in the iomap read and
-> > readahead logic. Move this logic out of the CONFIG_BLOCK guard. This
-> > allows non-block-based filesystems to use iomap for reads/readahead.
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > ---
-> >   fs/iomap/buffered-io.c | 151 +++++++++++++++++++++-------------------=
--
-> >   1 file changed, 76 insertions(+), 75 deletions(-)
-> >
-> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > index f673e03f4ffb..c424e8c157dd 100644
-> > --- a/fs/iomap/buffered-io.c
-> > +++ b/fs/iomap/buffered-io.c
-> > @@ -358,81 +358,6 @@ void iomap_finish_folio_read(struct folio *folio, =
-size_t off, size_t len,
-> >   }
-> > +
-> > +/**
-> > + * Read in a folio range asynchronously through bios.
-> > + *
-> > + * This should only be used for read/readahead, not for buffered write=
-s.
-> > + * Buffered writes must read in the folio synchronously.
-> > + */
-> > +static int iomap_read_folio_range_bio_async(const struct iomap_iter *i=
-ter,
-> > +             struct iomap_read_folio_ctx *ctx, loff_t pos, size_t plen=
-)
-> > +{
-> > +     struct folio *folio =3D ctx->cur_folio;
-> > +     const struct iomap *iomap =3D &iter->iomap;
-> > +     size_t poff =3D offset_in_folio(folio, pos);
-> > +     loff_t length =3D iomap_length(iter);
-> > +     sector_t sector;
-> > +     struct bio *bio =3D ctx->private;
-> > +
-> > +     iomap_start_folio_read(folio, plen);
-> > +
-> > +     sector =3D iomap_sector(iomap, pos);
-> > +     if (!bio || bio_end_sector(bio) !=3D sector ||
-> > +         !bio_add_folio(bio, folio, plen, poff)) {
-> > +             gfp_t gfp =3D mapping_gfp_constraint(folio->mapping, GFP_=
-KERNEL);
-> > +             gfp_t orig_gfp =3D gfp;
-> > +             unsigned int nr_vecs =3D DIV_ROUND_UP(length, PAGE_SIZE);
-> > +
-> > +             if (bio)
-> > +                     submit_bio(bio);
-> > +
-> > +             if (ctx->rac) /* same as readahead_gfp_mask */
-> > +                     gfp |=3D __GFP_NORETRY | __GFP_NOWARN;
-> > +             bio =3D bio_alloc(iomap->bdev, bio_max_segs(nr_vecs),
-> > +                                  REQ_OP_READ, gfp);
-> > +             /*
-> > +              * If the bio_alloc fails, try it again for a single page=
- to
-> > +              * avoid having to deal with partial page reads.  This em=
-ulates
-> > +              * what do_mpage_read_folio does.
-> > +              */
-> > +             if (!bio)
-> > +                     bio =3D bio_alloc(iomap->bdev, 1, REQ_OP_READ, or=
-ig_gfp);
-> > +             if (ctx->rac)
-> > +                     bio->bi_opf |=3D REQ_RAHEAD;
-> > +             bio->bi_iter.bi_sector =3D sector;
-> > +             bio->bi_end_io =3D iomap_read_end_io;
-> > +             bio_add_folio_nofail(bio, folio, plen, poff);
-> > +             ctx->private =3D bio;
->
-> Yes, I understand some way is needed to isolate bio from non-bio
-> based filesystems, and I also agree `bio` shouldn't be stashed
-> into `iter->private` since it's just an abuse usage as mentioned
-> in:
-> https://lore.kernel.org/r/20250903203031.GM1587915@frogsfrogsfrogs
-> https://lore.kernel.org/r/aLkskcgl3Z91oIVB@infradead.org
->
-> However, the naming of `(struct iomap_read_folio_ctx)->private`
-> really makes me feel confused because the `private` name in
-> `read_folio_ctx` is much like a filesystem read context instead
-> of just be used as `bio` internally in iomap for block-based
-> filesystems.
->
-> also the existing of `iter->private` makes the naming of
-> `ctx->private` more confusing at least in my view.
+Hello,
 
-Do you think "ctx->data" would be better? Or is there something else
-you had in mind?
++Cc: Dmitry's current e-mail address
 
-Thanks,
-Joanne
->
-> Thanks,
-> Gao Xiang
+I replied to such an old thread that is had an old address for Dmitry.
+
+On Tue, 9 Sep 2025 17:29:07 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+
+> Hello Dmitry, Maxime, DRM maintainers,
+> 
+> On Thu, 2 Jan 2025 13:01:40 +0100
+> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> 
+> > Hi Dmitry,
+> > 
+> > On Tue, 31 Dec 2024 17:29:52 +0200
+> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> >   
+> > > On Tue, Dec 31, 2024 at 11:40:04AM +0100, Luca Ceresoli wrote:    
+> > > > This driver implements the point of a DRM pipeline where a connector allows
+> > > > removal of all the following bridges up to the panel.
+> > > > 
+> > > > The DRM subsystem currently allows hotplug of the monitor but not preceding
+> > > > components. However there are embedded devices where the "tail" of the DRM
+> > > > pipeline, including one or more bridges, can be physically removed:
+> > > > 
+> > > >  .------------------------.
+> > > >  |   DISPLAY CONTROLLER   |
+> > > >  | .---------.   .------. |
+> > > >  | | ENCODER |<--| CRTC | |
+> > > >  | '---------'   '------' |
+> > > >  '------|-----------------'
+> > > >         |
+> > > >         |               HOTPLUG
+> > > >         V              CONNECTOR
+> > > >    .---------.        .--.    .-.        .---------.         .-------.
+> > > >    | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
+> > > >    | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
+> > > >    |         |        |  |    | |        |         |         |       |
+> > > >    '---------'        '--'    '-'        '---------'         '-------'
+> > > > 
+> > > >  [--- fixed components --]  [----------- removable add-on -----------]
+> > > > 
+> > > > This driver supports such a device, where the final segment of a MIPI DSI
+> > > > bus, including one or more bridges, can be physically disconnected and
+> > > > reconnected at runtime, possibly with a different model.
+> > > > 
+> > > > The add-on supported by this driver has a MIPI DSI bus traversing the
+> > > > hotplug connector and a DSI to LVDS bridge and an LVDS panel on the add-on.
+> > > > Hovever this driver is designed to be as far as possible generic and
+> > > > extendable to other busses that have no native hotplug and model ID
+> > > > discovery.
+> > > > 
+> > > > This driver does not itself add and remove the bridges or panel on the
+> > > > add-on: this needs to be done by other means, e.g. device tree overlay
+> > > > runtime insertion and removal. The hotplug-bridge gets notified by the DRM
+> > > > bridge core after a removable bridge gets added or before it is removed.
+> > > > 
+> > > > The hotplug-bridge role is to implement the "hot-pluggable connector" in
+> > > > the bridge chain. In this position, what the hotplug-bridge should ideally
+> > > > do is:
+> > > > 
+> > > >  * communicate with the previous component (bridge or encoder) so that it
+> > > >    believes it always has a connected bridge following it and the DRM card
+> > > >    is always present
+> > > >  * be notified of the addition and removal of the following bridge and
+> > > >    attach/detach to/from it
+> > > >  * communicate with the following bridge so that it will attach and detach
+> > > >    using the normal procedure (as if the entire pipeline were being created
+> > > >    or destroyed, not only the tail)
+> > > >  * instantiate two DRM connectors (similarly to what the DisplayPort MST
+> > > >    code does):
+> > > >    - a DSI connector representing the video lines of the hotplug connector;
+> > > >      the status is always "disconnected" (no panel is ever attached
+> > > >      directly to it)
+> > > >    - an LSVD connector representing the classic connection to the panel;
+> > > >      this gets added/removed whenever the add-on gets
+> > > >      connected/disconnected; the status is always "connected" as the panel
+> > > >      is always connected to the preceding bridge      
+> > > 
+> > > I'd rather have just a single connector. MST connectors can be added and
+> > > gone as there is fit, so should be your LVDS panel-related connector.    
+> > 
+> > The plan we discussed at LPC 2024 is to eventually get rid of the first
+> > connector (see "Roadmap and current status" in the cover letter), so
+> > you can consider this legacy code. However the current implementation
+> > won't work without this connector, so it is still there for the time
+> > being. Pointing this out in a note in the commit message of this patch
+> > would probably be useful to avoid future misunderstanding, so I'm
+> > adding one for v6.  
+> 
+> Reviving this old thread for a specific question I need to clarify.
+> Before starting a work that I consider far from trivial I'd like to
+> make sure the requirement is clear.
+> 
+> There was a precise request by both Dmitry and (IIRC) Maxime to remove
+> the "always present, never connected" DSI connector.
+> 
+> [Recap of previous discussion: skip if unneeded]
+> 
+> The current status is that the hotplug-bridge, which can start without
+> an add-on plugged, adds a DSI connector unconditionally:
+> 
+>   # modetest -c  | grep -i '^[a-z0-9]'
+>   Connectors:
+>   id    encoder status          name        size (mm)     modes   encoders
+>   38    0       disconnected    DSI-1       0x0           0       37
+> 
+> That DSI connector status is always "unconnected" (in my implementation
+> at least) because it does never a panel _directly_ attached, only a
+> further bridge.
+> 
+> Then when the add-on is plugged, which contains a DSI-to-LVDS bridge, a
+> new LVDS connector is added:
+> 
+>   # modetest -c  | grep -i '^[a-z0-9]'
+>   Connectors:
+>   id    encoder status          name        size (mm)     modes   encoders
+>   38    0       disconnected    DSI-1       0x0           0       37
+>   39    0       connected       LVDS-1      344x194       1       37
+> 
+> The LVDS connector has a panel attached and provides the modes, so it
+> is "the connector" in the DRM logic. It is always in "connected" status
+> because it drives a panel that is always tied to the DSI-to-LVDS bridge.
+> It is removed when the add-on is removed and so the removable bridge(s)
+> disappear(s).
+> 
+> The request is to get rid of the DSI connector, because it is not a DRM
+> connector in the classic DRM sense (DRM connector ~= a modes +
+> connection status provider). That would mean without addon plugged
+> there is no DRM connector at all.
+> 
+> However for user space to be able to always have a card we need the
+> card to be populated even before the addon is plugged and to persist
+> after its removal. So, a card without any connectors.
+> 
+> [End of recap of previous discussion]
+> 
+> Now comes the question!
+> 
+> Based on the above, I understand that:
+> 
+>  * Current DRM code won't populate a card without at least a DRM
+>    connector
+>  * We now need to change the DRM code to allow populating a card,
+>    and expose it to user space, without a DRM connector
+>  * The previous bullet is a prerequisite to get rid of DSI connector as
+>    requested
+> 
+> Is my understanding correct?
+> 
+> Best regards,
+> Luca
+> 
+
+
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
