@@ -1,95 +1,132 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF3131D36D
-	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 19:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4D0238D3A
+	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 19:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757446264; cv=none; b=q2uDtSb3zGtnSGmeVcZZPhw0rGfibf+Np8RYJOsGNrIWUSfnfOl+c/Cjp3N7LrZkGKfZ8DIiWRi/AuAcMsSli8JPNFE5ay71GRn+VWBNLqbkgcl2kfJhBuIGQxrpf5d9YmDZRb18q0H5IBdxVZjiV8+RZX9yXdubi2389hXnOnY=
+	t=1757446547; cv=none; b=BAVZrslW4pVVD8U80x1cLo1+t1Pq8GAIy5BLfArylfcPbJvHvk5S9OQDoKvm22BpgAQu2PvD/HWRhURt/dbw0bVbMIcu/PJWN6LQt5JicLf41Ln/MAZYPEs8DogtrnH52E8Ll5gsLVfBauCQqvqCieJI4Vdgcjy5s6Q5Y7jt3KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757446264; c=relaxed/simple;
-	bh=1c8BWIaotlPOvQTqdXkppJJEQif1aqXYFtUWjqrzXwE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uyJtCrR7yDWCDz7cHk58XdVqGeguNkiDTLChwnflNkJW6Mqe7fbaE+uc4hUsRenYkjwg+bKZbAoRSBSFtj0qQ7XgvEH4mLe8iXQsDe8JH6B7pWCAWkyh1YmRRNHSC7JNo1URHeDVDUQ4VNaXSQTUXXnvzZfknzlD2SY8C3kvraE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PKrYl4dF; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1757446547; c=relaxed/simple;
+	bh=4I8OyzGZ47LZ5w6vPCFKVEkUqm3JCXyF75uvlNmmHJ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ttVdUu+9C92pf5V2hGJqWPNPCQ/Ul7GiKqO/7/hW+h4OtypUtb//u2NhBaYC+NDB0UzWbcYkOd5+2nWaxTil7VqSh6rVtwHKXZjpOeI1NRrL6DamWW5rp3fKqR7YjcOSj/G6S9mo6MSQ6WXQbiO1c/604X7B2i7i+kR82d0rGW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=F5ahCdGN; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PKrYl4dF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4DFEB40AF9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="F5ahCdGN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC52340AF9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757446260; bh=XRjgOM2WZyxUtHyZrkgfNP1Hi3i2XvVqVNp5OJhVEU4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PKrYl4dFY/eumkhBW4m4+aaXaQXy18f2UAlWsi+LcVZPTVajskF07x02h1bjnKj/Z
-	 8Xt1/zRM8rVVQUn/jb+vw2bNDl1OGH69NfCd8PSNiLbgB2PywrG7+eJaQ7H+FXgHwc
-	 3clSl4S/PA/ykooi+CejDUN1TGFZE2Zj3HstornschBmHd6z+v57uEbg330Ak36W62
-	 BNDJICU7CLJBhd0c78D01HR6XVasFmhcdL4+sEgFVy9zoLDwA4j8Q55sx/qngTwdKs
-	 yl/GM/UOQQYJPejfrw3drzzvMr+9TC6JDUIqbb+MlOVmW5086mmbj8dszOI3PuJaTm
-	 cvcXujjwbmbSQ==
+	t=1757446539; bh=1yGodqynLUTpEJRi4jTKUDvMqA6YYM9tbPKfeKRY6Ww=;
+	h=From:To:Cc:Subject:Date:From;
+	b=F5ahCdGN8Xr6BVUNSywyTDGzDd6e4OHR182aRwT77xZt6nMQrek33QAh7bCOVNTyp
+	 +shFuGaR10fAIe0bsfMdvPU1E39/x7663lJKD/esHjxqqUZdxjLy3zLQMRo5EJ++h6
+	 vFqqrdIrRTQcPc+0CWakr6J19TbLsXBUeGroi8xfqgbpNKa40jm/wXkXRoH9nMT5cj
+	 YtqiBPppmRxxlKzUogkzw7Ke7/rNr5dMz0/MF/fnMJvfNQ5edvMk3DWpYjyXPkJ7BV
+	 qskC+hIfKugw8gI4vDdOFJliOzqKsJQ9B5g7VsvIb3s5UipgzeRlybsAzdM6vmjmyZ
+	 6q88uGiYEYqsA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4DFEB40AF9;
-	Tue,  9 Sep 2025 19:31:00 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id CC52340AF9;
+	Tue,  9 Sep 2025 19:35:38 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Zhixu Liu <zhixu.liu@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: sphinx: handle removal of
- utils.error_reporting in docutils 0.22
-In-Reply-To: <CALMA0xYMNcD8UN5ykJALMskFGnNaau3cxJ1E5=bDE_mGS+bZBQ@mail.gmail.com>
-References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
- <87a53cx4r0.fsf@trenco.lwn.net>
- <CALMA0xYMNcD8UN5ykJALMskFGnNaau3cxJ1E5=bDE_mGS+bZBQ@mail.gmail.com>
-Date: Tue, 09 Sep 2025 13:30:59 -0600
-Message-ID: <87plbzv2x8.fsf@trenco.lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: Zhixu Liu <zhixu.liu@gmail.com>
+Subject: [PATCH] docs: kdoc: handle the obsolescensce of docutils.ErrorString()
+Date: Tue, 09 Sep 2025 13:35:37 -0600
+Message-ID: <87ldmnv2pi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Zhixu Liu <zhixu.liu@gmail.com> writes:
+The ErrorString() and SafeString() docutils functions were helpers meant to
+ease the handling of encodings during the Python 3 transition.  There is no
+real need for them after Python 3.6, and docutils 0.22 removes them,
+breaking the docs build
 
-> Hi Jonathan,
->
-> How about the v3 patch? I still think try/except is more robust,
-> but I can switch to version comparison if you prefer, e.g.:
->
-> if docutils.__version_info__ >=3D (0, 22):
->     ...
-> else:
->     ...
->
-> My preference for try/except:
->
-> 1. Reflects the actual runtime environment, while version checks can
-> be broken by backported patches.
-> 2. Avoids parsing non-standard version strings (e.g. 0.21a1,
-> 0.21.dev0); try/except is simpler and has no extra dependencies.
-> (__version_info__ mitigates this somewhat.)
-> 3. More Pythonic and straightforward.
->
-> I=E2=80=99m fine with either approach=E2=80=94please let me know which yo=
-u=E2=80=99d like me to go with.
+Handle this by just injecting our own one-liner version of ErrorString(),
+and removing the sole SafeString() call entirely.
 
-I've already been fairly clear on that, I think.  Exceptions mask bugs,
-so I really don't want to spread random exception-handling code around.
-A version check says exactly what we need to know, and lets us know when
-the older code can be removed.
+Reported-by: Zhixu Liu <zhixu.liu@gmail.com>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/sphinx/kernel_feat.py         | 4 +++-
+ Documentation/sphinx/kernel_include.py      | 6 ++++--
+ Documentation/sphinx/maintainers_include.py | 4 +++-
+ 3 files changed, 10 insertions(+), 4 deletions(-)
 
-That said: I dug into this a bit and concluded that this approach is not
-right.  ErrorString and SafeString() are old Python 2 compatibility
-stuff; there really seems to be no need for them with Python >=3D 3.6.  So
-the right fix is to do away with that import entirely.  I've put
-together a patch with that approach, will post shortly.
+diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
+index e3a51867f27b..aaac76892ceb 100644
+--- a/Documentation/sphinx/kernel_feat.py
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -40,9 +40,11 @@ import sys
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+-from docutils.utils.error_reporting import ErrorString
+ from sphinx.util.docutils import switch_source_input
+ 
++def ErrorString(exc):  # Shamelessly stolen from docutils
++    return f'{exc.__class__.__name}: {exc}'
++
+ __version__  = '1.0'
+ 
+ def setup(app):
+diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
+index 2c4bb8215b4c..f94412cd17c9 100755
+--- a/Documentation/sphinx/kernel_include.py
++++ b/Documentation/sphinx/kernel_include.py
+@@ -89,7 +89,6 @@ import sys
+ 
+ from docutils import io, nodes, statemachine
+ from docutils.statemachine import ViewList
+-from docutils.utils.error_reporting import SafeString, ErrorString
+ from docutils.parsers.rst import Directive, directives
+ from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
+ 
+@@ -106,6 +105,9 @@ logger = logging.getLogger(__name__)
+ RE_DOMAIN_REF = re.compile(r'\\ :(ref|c:type|c:func):`([^<`]+)(?:<([^>]+)>)?`\\')
+ RE_SIMPLE_REF = re.compile(r'`([^`]+)`')
+ 
++def ErrorString(exc):  # Shamelessly stolen from docutils
++    return f'{exc.__class__.__name}: {exc}'
++
+ 
+ # ==============================================================================
+ class KernelInclude(Directive):
+@@ -156,7 +158,7 @@ class KernelInclude(Directive):
+             except UnicodeEncodeError:
+                 raise self.severe('Problems with directive path:\n'
+                                 'Cannot encode input file path "%s" '
+-                                '(wrong locale?).' % SafeString(path))
++                                '(wrong locale?).' % path)
+             except IOError as error:
+                 raise self.severe('Problems with directive path:\n%s.' % ErrorString(error))
+ 
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index d31cff867436..519ad18685b2 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -22,10 +22,12 @@ import re
+ import os.path
+ 
+ from docutils import statemachine
+-from docutils.utils.error_reporting import ErrorString
+ from docutils.parsers.rst import Directive
+ from docutils.parsers.rst.directives.misc import Include
+ 
++def ErrorString(exc):  # Shamelessly stolen from docutils
++    return f'{exc.__class__.__name}: {exc}'
++
+ __version__  = '1.0'
+ 
+ def setup(app):
+-- 
+2.51.0
 
-(Incidentally, Sphinx has not caught up with this change, so how did you
-test your change?)
-
-Thanks,
-
-jon
