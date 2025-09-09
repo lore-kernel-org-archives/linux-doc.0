@@ -1,76 +1,69 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D666E146A66;
-	Tue,  9 Sep 2025 18:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C103D3009F7;
+	Tue,  9 Sep 2025 19:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757444253; cv=none; b=hmMdWV3HjOFKCaAzup4TpHR5fxA0gx60rPZWbJI4IzBedCOBAoy9RXVSVi36vg+CeC2DFcqwyEGurh4QMvF5AjR1ZWsuR3REQpAmRizQIFlXQkbbVNx694Gi73LV50ePVOUuKmaE8h37LFl4YhBcYeokH51tVv44JAlOKTSlCG8=
+	t=1757444610; cv=none; b=pZmFyp1pWMUX68UeyefVkKQnNpttK2FWJazZXnF8p5ZB3bgN1qUpN3FpL6ETo+KUgtLNYIJbpmWurjxvsym9dCUoTPzHlE2Z/0W94wv+2JCnQecfxkPgfZWijbMa5vUWEsX8UqDWgr5hj8wejFhg1Ct/OtbzPTCjSRFh7dVCo0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757444253; c=relaxed/simple;
-	bh=p0Bv5TmrcngOZl8WxUbf2ek/V5EqxTcV/eAOHyR1Kx8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Unqn40am9Ms3ZsEWzaZraPSLk4+dS14yv5uePyuDIeUxlAElMLGqCGpZup1paPSgVpq76GsIIAZaz8sGnMZuNo6xcDj94NrV5n0/65G093gyKQ7PCKcFARWObc72DQNLqSDB01FGgeTVIw5bTLlwqonoecEY5jjKISM+P5sUhuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kirVXiHo; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757444610; c=relaxed/simple;
+	bh=iQ2hGEIaFfNxNx3BhJMnrqdW4TZqrof8lMc5P3dIvXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUom5EtfvgVzMDhCXJ9ZPaNIxE2Y6c8M/M+531tTHy5IGeStaMagFQ4AxWnSLEA+W6hgwE59f3pUVW0ERRSKSpJDovFYGs2gpLdaYvWZvtgyzgzIpZTJu+qmtf5J2erBPrs8eS+hy5GzafppNLZOgDI+cKskBxlcKxxBdrrN1es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYicwdvO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kirVXiHo"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D797840AF9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757444251; bh=aakfAt7u2qZZ/Sti9ZnFlm7QA/jarhANlSt/J68+KEU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kirVXiHo5Rbhc5eTYlbNpBJ9WjGFbCvJKcbCz+EGXzJClnhPrKd+Rxyt5GmadfnR0
-	 5qm/DxUXUHTC5HI2rgQ8l2PF8+JymWepjjgTZQX5GayG/PONR7DhD6ZqBFNTXEyZDj
-	 v2QoJp7L4HRDTsTeNqp0fqrquo0jvRGIxmZLJZZX3PJ/Ju2OW/yOYs/cogXmQoyR+Z
-	 OmEgXwonhsmh3CH9L4/Pk2CggHmGOR39EdntgmLAeUDihKbBdOGJfGZj4JEANNak2z
-	 2w7oT0bBR0OQxugFTjEo8R5vKwhQgIa+9WYb3NXEgeZedI/FaxgK9Dw/WDfPRViU2i
-	 NfJtyAFUkR20g==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D797840AF9;
-	Tue,  9 Sep 2025 18:57:30 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] Documentation: w1: Fix SPDX comment syntax on masters
- and slaves toctree index
-In-Reply-To: <20250909022142.18007-1-bagasdotme@gmail.com>
-References: <20250909022142.18007-1-bagasdotme@gmail.com>
-Date: Tue, 09 Sep 2025 12:57:29 -0600
-Message-ID: <87tt1bv4h2.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYicwdvO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4089C4CEF4;
+	Tue,  9 Sep 2025 19:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757444610;
+	bh=iQ2hGEIaFfNxNx3BhJMnrqdW4TZqrof8lMc5P3dIvXQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jYicwdvOmjWT1Dq6UAJeXBSgJ4KfbqCpNC5tMrV0G0JnCHKUnYLD6mytrDTZYigFo
+	 uJnodv7UqXfrHLM+NhKk3qrg72hH0morH0BJa0NifP/yLE1avYHJ1znVwil2fug2RL
+	 h6zo3VI+on5W5891blflhISF98niUWJ4dPEDM9UJ2orO3gv1rodLea9kznEbeI1Yew
+	 uhWC0k2rdlBBDgc6769JCQiyaJ0Mg2e3g9R754PYEfIrDJd8CKSOJJ3rtUN5oXX5rc
+	 55hCYGuhYlC63fWKQUo3SVyCFQ8IK4lJHtL2TBjhFGFZjTYsi5qqvE6cDWZRbszoSC
+	 5WUOfF4u6JfDQ==
+Date: Tue, 9 Sep 2025 20:03:24 +0100
+From: Simon Horman <horms@kernel.org>
+To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Cc: Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Davide Caratti <dcaratti@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	netdev@vger.kernel.org, mptcp@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net 2/3] doc: mptcp: net.mptcp.pm_type is deprecated
+Message-ID: <20250909190324.GE20205@horms.kernel.org>
+References: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
+ <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-2-5f2168a66079@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-2-5f2168a66079@kernel.org>
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Mon, Sep 08, 2025 at 11:27:28PM +0200, Matthieu Baerts (NGI0) wrote:
+> The net.mptcp.pm_type sysctl knob has been deprecated in v6.15,
+> net.mptcp.path_manager should be used instead.
+> 
+> Adapt the section about path managers to suggest using the new sysctl
+> knob instead of the deprecated one.
+> 
+> Fixes: 595c26d122d1 ("mptcp: sysctl: set path manager by name")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Geliang Tang <geliang@kernel.org>
+> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
 
-> Commit e9bb627561535d ("docs: w1: convert to ReST and add to the kAPI
-> group of docs") converts 1-Wire docs to reST alongside with SPDX
-> comment, yet the comment is written in one dot as opposed to two in
-> order to be recognized as comment directive, which spills it into
-> htmldocs output. This issue is partially fixed in d8fb03e1ea64e7 ("docs:
-> w1: Fix SPDX-License-Identifier syntax") as it only touches top-level w1
-> toctree.
->
-> Do the same fix on masters and slaves toctrees.
->
-> Fixes: e9bb62756153 ("docs: w1: convert to ReST and add to the kAPI group of docs")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/w1/masters/index.rst | 2 +-
->  Documentation/w1/slaves/index.rst  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Applied, thanks.
-
-jon
