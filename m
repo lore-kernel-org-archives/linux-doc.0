@@ -1,270 +1,313 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2109.outbound.protection.outlook.com [40.107.100.109])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A642566D3;
-	Tue,  9 Sep 2025 02:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.109
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757386405; cv=fail; b=g0H0UDRYY4zfKv4I8vxOZJ7r9KwRoxLqLQwcavBJXFRkSp2TDsYcXy4lE5oklaTHbSnsxGRCra1pla5ZxwtOZmnVIBBmuq1Wkpk7QFSSWFSAo8gegENOL8VlwBCbxY9qnAO9qzTq7nYKrqfTZNJw+QjAIn1vLJarv55frw3vc+o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757386405; c=relaxed/simple;
-	bh=dRfkWa2hRNvm3QHgPvrrLcw9MUxC1+xWuWN2TNDCy/g=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=X6ridzHSJYp7l4WG8z09DuYqWrv956haqU9d+I2Q3zz67EiS/3r+rGk00aq2NCnuVk1B5qllzKX+RT5W8s1wjeC/DGvt8O/rheST/3YA0lhCoODaODPHUZzvLyP9fNAtxpDnuLolurRnBg1gdJx4/Y7ubZuTAho1hb49X4TJZIk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amperemail.onmicrosoft.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=fail (0-bit key) header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.b=Fvmu06ld reason="key not found in DNS"; arc=fail smtp.client-ip=40.107.100.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amperemail.onmicrosoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A9E1A9FA8;
+	Tue,  9 Sep 2025 03:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757386858; cv=none; b=NhdimknraXvfwes0vlueWpC6Kkka8NhF3inqWek12w4i3bWEPEnGRhoKiIKDHxuQe4lkbXG600yEj6ynH4orqy3bLpCPjChg2jXfKaHxm8W2aRK4n7JXB2DPzlR0M2bgRz+o9kgKWkTtgO4TquoCZ/yeASErkjRnqoLovUzVkGE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757386858; c=relaxed/simple;
+	bh=NfFKRrbMY180gKH5/k3BgxsRzM1shYeRTXAI0vZsyZ4=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n5ys7nSxP4oCva1sXX8eN/vDxYDXe1hc+PFwKawOrmAnH8HppBsqGtzKUWpI/lLpBkHEl/vTootNdEZRE/QGLvwudJX5jQP1nSCvuJRu8YijKfdexJzCSXGjLiMAKufCAB/t5IXU52VENLfv3sfeCQ8iyt9PWQxNVzW7NhuK2R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=T/RuqLXR; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.b="Fvmu06ld"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A1icrNynNPKqrFp4ezhwyF0y4UxoxxwVXFoM75XpkOVx1iVdn36kSvpfZ3m7gUsVRlqtNFTqiBbmjItPhuTzPM4hzh6ifHT2K3P4bZTAuzx0rdfX3XnNgdGFdKUulTPLRwo0bnUGhoRjTLE57ONMYx6doTH/fgbOy+goU0gPwF5vUhh9RJS4yASxEQdyrNvnfv2ZmJO2ltmQfzP+4IA7nMYJUXz5eA048kbeEQXOoTXPBOTw0tfvKQXjR95T/x6uAnASavoGbudiBxMnWH2CiG/iJF8mOZ+VQjK+wny9XyaJghUe9N7EvTlRRbl0e9viu6hWvA0Kv3kCfAMNte80dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p4xmZIjNAqie+eTHDP12RJ+GAyDU7eRFwxrdAqhmezo=;
- b=FSW0gscVR4D9LzzfRwlurrz0kEc3FtWHSNIY4mQ4H6eeK4qoAT/woF/+AVRaN8/Uvj5sxoZ6weU4rfPUMK0lVBHnJnXnNMkKpFPvPJOv0a9arMHqtvO4Sp0rvjSPG5dX6Njp4S8Wm1h8Uct1EXzyw3O1WDTR563phJcDGbTCONCuLGtewESgQtk9SXHcpcFI0MJgA3G7ngXBsH9ca3NoVTZiDtz0KBJBIivEvCGcHrfTzA4yBGAsNf+G6ljK886iqHPuDVU2RF8zH3rhS99AfqgaiDMijO/rVduyvobiqHBpf5dYF5zF26Z7cXdP2g02etqcVxZ/YVOkPnmq023Nog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=amperemail.onmicrosoft.com; dkim=pass
- header.d=amperemail.onmicrosoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amperemail.onmicrosoft.com; s=selector1-amperemail-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p4xmZIjNAqie+eTHDP12RJ+GAyDU7eRFwxrdAqhmezo=;
- b=Fvmu06ld0nBfAtFZb16OR1l/YHFXFLA4h9eAmq5sbfaLGqPI09vOUmhIxBjI2suZLok3pd6ANhznKh9wnd1il3KswfI5JjzzwKgpS6X2p8mZCZ2Fnu1QraFk7FGlnrDj6MIdnPy+0z7lhZLOu2Hof4jE8/JfDFqXtggoZNnM3c0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amperemail.onmicrosoft.com;
-Received: from PH0PR01MB7975.prod.exchangelabs.com (2603:10b6:510:26d::15) by
- CH0PR01MB6969.prod.exchangelabs.com (2603:10b6:610:106::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9094.22; Tue, 9 Sep 2025 02:53:19 +0000
-Received: from PH0PR01MB7975.prod.exchangelabs.com
- ([fe80::6926:a627:118e:8050]) by PH0PR01MB7975.prod.exchangelabs.com
- ([fe80::6926:a627:118e:8050%4]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
- 02:53:18 +0000
-Message-ID: <3e71ddb9-f457-461e-a949-13e07a4a8b08@amperemail.onmicrosoft.com>
-Date: Tue, 9 Sep 2025 10:52:55 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V6 1/2] arm64: refactor the rodata=xxx
-To: Will Deacon <will@kernel.org>,
- Huang Shijie <shijie@os.amperecomputing.com>
-Cc: catalin.marinas@arm.com, corbet@lwn.net, patches@amperecomputing.com,
- cl@linux.com, yang@os.amperecomputing.com, akpm@linux-foundation.org,
- paulmck@kernel.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
- bp@alien8.de, ardb@kernel.org, anshuman.khandual@arm.com,
- suzuki.poulose@arm.com, gshan@redhat.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- rdunlap@infradead.org, Christoph Lameter <cl@gentwo.org>
-References: <20250703094212.20294-1-shijie@os.amperecomputing.com>
- <20250703094212.20294-2-shijie@os.amperecomputing.com>
- <aL6_gZWeqAGZjda2@willie-the-truck>
-Content-Language: en-GB
-From: Shijie Huang <shijie@amperemail.onmicrosoft.com>
-In-Reply-To: <aL6_gZWeqAGZjda2@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR06CA0016.apcprd06.prod.outlook.com
- (2603:1096:4:186::22) To PH0PR01MB7975.prod.exchangelabs.com
- (2603:10b6:510:26d::15)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="T/RuqLXR"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757386851; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=WwXArvLBuHr1pJLV0X+3gsDYjBANT2MX4WT8+PUoGkk=;
+	b=T/RuqLXR3Vjdo9juLxJwujnhiYLSg5Ir2z8Haz1wbE/UeaqHiV5wVE4c6TOugHQxLRNcJ1TbexRNMDxqCg38ESZoENlw/QCpPTSuoZ859+e5uyEHOTb2ZBO8E0OAlUt5xZmX1Tw5dpBlaYViD66A/9Mehx3DbRvqhyAEtjc/qX8=
+Received: from localhost(mailfrom:dust.li@linux.alibaba.com fp:SMTPD_---0Wnc5Yhj_1757386850 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 09 Sep 2025 11:00:50 +0800
+Date: Tue, 9 Sep 2025 11:00:50 +0800
+From: Dust Li <dust.li@linux.alibaba.com>
+To: Halil Pasic <pasic@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Sidraya Jayagond <sidraya@linux.ibm.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Mahanta Jambigi <mjambigi@linux.ibm.com>,
+	Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/2] net/smc: make wr buffer count
+ configurable
+Message-ID: <aL-YYoYRsFiajiPW@linux.alibaba.com>
+Reply-To: dust.li@linux.alibaba.com
+References: <20250908220150.3329433-1-pasic@linux.ibm.com>
+ <20250908220150.3329433-2-pasic@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR01MB7975:EE_|CH0PR01MB6969:EE_
-X-MS-Office365-Filtering-Correlation-Id: dded108b-7bad-4bc3-7d24-08ddef4c0792
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?R2N3QlgxV0FqVXdjWDdUZnBNa1pJN0xmYi9CbmJjNSt3WnJtdmhxYndWV3d3?=
- =?utf-8?B?WGNtSmpoNHRtN2hidVVYT0Q4SEVFUW4rRXpRM1BUZ0pjcmxpeG5MM0JSNEI4?=
- =?utf-8?B?QlRvdDFsZkdvdUhxdmZReisyTlNLSnVGek90NTBXYTlDRnUraEdaUkZ0WDNR?=
- =?utf-8?B?TTU4WXE4cHJzYUpQMFhRNDRvTW5yS283cnREUVRWQ3VqQTBhdzNVUHI3RVdL?=
- =?utf-8?B?QURRS1lWVWdOQWFTaXBQb283QXJQdEJmOFIxZWNoRmYxUGJNb0xwbmZTOC9o?=
- =?utf-8?B?VDRGcmp6c1NZbDFMVXUrUVhJTmVDY29tTlUxSzF6Zi9qMUtnQklWUXBKSmxi?=
- =?utf-8?B?REF1aFZwTjd3Mm44WVNjVlg0S0U0OUsvNTh1Z0krUzJua0wyRFhiNHJDalFi?=
- =?utf-8?B?SUg1elhvQnlPb0h0WVRSK1M4NnlJUlh2UCtoQTNtSWV1Uk5KNER6VldkRDBo?=
- =?utf-8?B?aEJWZStXQ3pKWFRja3dOQVc4Ym93OHVSR3lTN0lKRjcvWXhOUVVvVHZkR05a?=
- =?utf-8?B?N2tpclIrdXlaR1RCZGxiVmVkbDZOa0tVOEV4cjcwRTFPekpoU2hrQW8rTFFT?=
- =?utf-8?B?WVhtdCtNZFFla2xPZll2SE9xeUpCb3EvNnN6UmpRVktCV1dPRmFRVE1hcTlB?=
- =?utf-8?B?dDhBaU54cVdXL1dnYzJ3bm1sZ0pjbHRVSCtlYUUvWWJNUGxLWVBXRTZGVk54?=
- =?utf-8?B?ODFFMkRPNEJiNGhjRmM2KzMxaDJJUWk1VzgrYm9Gd3BUMllSV0I5U3c0bVIr?=
- =?utf-8?B?L2VZQTh4RCtPY0RyZ1BvUko3akhJeU1pQitOUGJlbkRPR3FRaGxMZDZrTC9j?=
- =?utf-8?B?Uk1LRTNtY0NDL09aQ252N0VQRUVYckZnUUxBMDlBTVJSOFRJRjd1VnIzTEFu?=
- =?utf-8?B?L1MxNUJvYjdBOS9SaVJqWmZMUERuQ2kzbUNaM2xGRStrSUtoZzZQU08xVWJ5?=
- =?utf-8?B?UXdlbkY3NHF1S3l5dlhTR1VUY1FCUUx4RUhWdmZoTXJWNVRiN0NzTlIzUzg1?=
- =?utf-8?B?WGF2MWlERStWWFVyL0FkVzRQdnpPdDhLdXNhbXQ2Q1h5bTdZbjlVSnBjeDF4?=
- =?utf-8?B?d2JCQk05NWNlcHlycG5iMTlESkx3WmM0eWpTYW1LN2NvQlFLeXNOOFhlV2tH?=
- =?utf-8?B?ZlpjZFkzcWMxRVZlWUg1YlJSMFdTWnlZL3o5RW8xakx6dDh2Ym04WS96Q1pF?=
- =?utf-8?B?Q0dKT3Q4VDdaWUhEZkYvclQ3Q3ZMbmx0cmEyY1RuY2xJV0ZmRXpxVTZyL3ZS?=
- =?utf-8?B?aUVCSkNpMEYzZ1UrSG5xSFNkOTdlNStHbDlidjM0aXBwditWZWlZUDVSNm8w?=
- =?utf-8?B?SEttek9YWERvSHV0WERNTUxNYzVVWkxYajNPSlRBSUZCZ2o4cmZ5akJ5MjBX?=
- =?utf-8?B?RHZ6eEtWdVpJeTdOU2dwSUVvUGFFS3pmZDZnaWV0UnF2TzFRckZoS3oxLzJj?=
- =?utf-8?B?aFgzVGhxSVVNaVo5S1E1Y3poTzNvc1Z6WUs2bWVjVlBub2djUjAzbTBTK1ND?=
- =?utf-8?B?eWdIOUkxMHkyUXZFcUZBeXUyTk9hV3YrVEJ2clIyU3J3K1ZyMm94ak9HT2Ew?=
- =?utf-8?B?eXBjaThNZmdrYktnc2RaN0MwQUNsdGhUMnNwQ3UxYmdtWWlLcyttRW0wSksx?=
- =?utf-8?B?aGs0a1F0MlFMNk4yeHNwWDNJYmwwT2lYRlhhdEhXZE5ncmhUMEJ4a1U4SFA3?=
- =?utf-8?B?ZkVtSUJHQ3BETXl2OTliVDQzMmk5V2Rmb3phejRmcjFJMWFwK3VUeEdScVhF?=
- =?utf-8?B?aVFscDlYZTU0Y3UraUNZWWJQcGZyZEpvRHBXbC9abkxtSXorWmNtYVhNdC96?=
- =?utf-8?B?aFMvS3F3MW5WOG16NTdhZjZDbWY4OVFZMnFKeDRuZUJ1M0c3WFB4alZad0Z1?=
- =?utf-8?B?QmNmYld3bTJIUDczeENNbWlzV2pOUU1zMHRvdUZuZ0VSWlZIQ2czTWpNeFZI?=
- =?utf-8?Q?5HnYRMedHEI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR01MB7975.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VXdrREp1TStjaEtHYjNwQjRUbjdTQ0FkWFMzcjJKMnhtcDFwUzBHZkE1V3Az?=
- =?utf-8?B?TnlCWGF5TG9mWWxtNnhPNko0S296clZTVTNyMkdVcVg2M0lHbVhwM0tFUXF0?=
- =?utf-8?B?WHBkakJKNjFwNEwxNk9wbzFacTdYd0tZSWs2ck5pbEVKWjdaWHlzNHhTMmh1?=
- =?utf-8?B?RkJpWFBYTitMSjhaREFaZlc5VDhYZk92L3FNWWx6VFhJelA0dEtibU9CL2U5?=
- =?utf-8?B?YTgxem9iZ21sakU5bjVYUUQzb1N2OXVSQUFUYitoaXBJRHNHTzlJdzJ2emZw?=
- =?utf-8?B?UTFFMUc0djZkWTYzbFdMSUpCeTF1SURKN05XcnFNWjkxb1lZZ3hqbjlXby9T?=
- =?utf-8?B?RVJIMkZGMkwwK1BmeHVpcmpndmUvNUtGNjg1L0NzNnRQYmNJaDlxOU9UN0pG?=
- =?utf-8?B?ekZ4bGplcjlqZGF1ZDh5dmNNK3NJY3RyeFZxM3FwNklwRExLTlhGT09OWVdG?=
- =?utf-8?B?cWNvNUpGRFJTYTl4NU5tbmo1ZkpqVEpLa0I5QzdsNThHT28rVzRVRkpvOEpP?=
- =?utf-8?B?RWEwSmVsRCtiQnlZY0ErZUNXY2FFcGZaU2JOQWtRbW8wMURibnd5aVpieWhj?=
- =?utf-8?B?VHR6QytObHBBbDQwWGZobzluYlMzUEk2Q3NqTzlSa1NQVzZwUHVtaGMvRjhu?=
- =?utf-8?B?UzZBVmlwdnhTN3A0TWlRNlNvUENreFcrZDNhVlF4ZDZJOWRKM0pzRi82aGNH?=
- =?utf-8?B?cHA0REx0MkxaQjFPbTFMTUQrd0hOTnA3eE5KQ2Z3MXdWVHMrR2RGNWo0RWo0?=
- =?utf-8?B?UUppeGFZTzFoWVV2QXlyY3BaSFpublNFMnRsSGNiUFBiOXlHNmRZMFI3UUcz?=
- =?utf-8?B?Z3pIUDB2dDdJMlZaY090SnBnWmhKWDlpbDNGVmpKUVRwdE1kdGQvUzBKK05u?=
- =?utf-8?B?NXBDY3hRTTJaTENOcGNzRW56Qnc5Z0E3empCMWdTOTBmbEZEcjFnQ3BEcVlJ?=
- =?utf-8?B?aUh5T1BXeW1yTHg5NGFTbFI3QVovZmkyR0tFTks0SEZ1cVh0cmFqdVByL1pN?=
- =?utf-8?B?eHo0eHk2SWx6SGpNYnVIUm5BSUs3bnBjOWlmZ2NLNUlrQVVWeVBoalRhN3Fj?=
- =?utf-8?B?TW1ZN2JGbnlzeVkvUjMyTld2OTJScmQvTENuQWlsZkM5b1VDQ1UyeElvYzVY?=
- =?utf-8?B?Sk9BUVdoR0xqM0EwNzY0MHJDQWhQVHAyYjV4K2l1ckUvYzNMUXFBYlFpeE9B?=
- =?utf-8?B?S2tlc051elpRZkhhVzkzVEoxWm5neStvNkt5cnFFbnI2RHpKVzM0RnBxRHhq?=
- =?utf-8?B?RVYwTGNHWXlOamhkbGh0VHlDeS9xZlhzemNKSHNEZ0lvTXdabVNRMUJRcElK?=
- =?utf-8?B?VkNtUXJ6d1BBQXN1RjBpL3NueTMyS3VqU2JkNDkyS3BScUZCczNQalFhMlJk?=
- =?utf-8?B?UEk3Y0JON2ZIanJhdi9HSGdXMW5CM013SDVGWlgzaG1uaG1Nd1lOMlpDRk1i?=
- =?utf-8?B?ZnlzalZvbG9lODBONTZZTXluSjIrWUY4T2FyOTh6c00yMGZscnVVUUNaVjEy?=
- =?utf-8?B?dWU0RWpuVXVhbDU0VHJNRWVLVjNSUnBtRld6Q2RTRXRDc2F5MUhMVDRNSlVP?=
- =?utf-8?B?emtRaDA5QUljRGNNVnYwNkhacFdNQVN6ejlRQVFmYmtiMnNna2dtUTFCV0x3?=
- =?utf-8?B?S1RsWXpCK1pFUjNVY0NGMTMrbXFnYWJrT1dkTWRzOWpYVkdLNjZyWWRpZVBv?=
- =?utf-8?B?U2hxRnRZVHFvdUhGNUxoUnV0NGdDSDc1RXhZRWZJdWFRbjBubnhQalRFZVRy?=
- =?utf-8?B?OUlxY0xiT21sVGp3dnJoOXZOTHJqbU5iSnhwWkNSc3VIZHcrZWNrTmxoNU1B?=
- =?utf-8?B?K0k2MlV6OTdCUjA4ek5WWGh1UmJKeTRXVGpJS1lIWE5RTFJrbzM2UXU2cVVx?=
- =?utf-8?B?YWpxN3FjSTUrbncybGxDNWt6R0N0S2wxTnpCOFprV0sxa2RQQk5kZ1AwejRl?=
- =?utf-8?B?aU9UcU4zVnJDRGRJTVg5T2pqMUpiNitZL29JaFFESUZ2N1c3RVFMaThudWNm?=
- =?utf-8?B?TFZ6WlBFeFVicU0xZjVZcXc1SmZ2UGtHZ3hhMHhGdE9TUXBmSW9udFRnc29r?=
- =?utf-8?B?UXpGd0dITjJpaXc0THY1YmVXU0s5V0dGNFBsVU9uOUZMMzJwWnJ0bEQ0eUlD?=
- =?utf-8?B?ajFYYXBGRE16Q3VtdzVRL1RQYmV3RUkrYXV3d0U3aWp2SzJKNDk4L1UzMEF6?=
- =?utf-8?Q?C12d6mw3Vi+F9IlZYUis6Dc=3D?=
-X-OriginatorOrg: amperemail.onmicrosoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dded108b-7bad-4bc3-7d24-08ddef4c0792
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR01MB7975.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 02:53:18.4799
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: du/FlzATKdDNkltOdXyV7pIfKroFlwNb8vQqR5ZlTNbphiTDUs2Oc7RWFDKIr4IAnd5voQ0zMR476alCvPkPYHFZe5XuWns5Xxzvz05pfRkthIFS3N5tHXq2GCeZ7Tlp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR01MB6969
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250908220150.3329433-2-pasic@linux.ibm.com>
 
+On 2025-09-09 00:01:49, Halil Pasic wrote:
+>Think SMC_WR_BUF_CNT_SEND := SMC_WR_BUF_CNT used in send context and
+>SMC_WR_BUF_CNT_RECV := 3 * SMC_WR_BUF_CNT used in recv context. Those
+>get replaced with lgr->pref_send_wr and lgr->max_recv_wr respective.
+                            ^                       ^
+                            better to use the same prefix
 
-On 08/09/2025 19:35, Will Deacon wrote:
-> On Thu, Jul 03, 2025 at 05:42:11PM +0800, Huang Shijie wrote:
->> As per admin guide documentation, "rodata=on" should be the default on
->> platforms. Documentation/admin-guide/kernel-parameters.txt describes
->> these options as
->>
->>     rodata=         [KNL,EARLY]
->>             on      Mark read-only kernel memory as read-only (default).
->>             off     Leave read-only kernel memory writable for debugging.
->>             full    Mark read-only kernel memory and aliases as read-only
->>                     [arm64]
->>
->> But on arm64 platform, "rodata=full" is the default instead.
-> Please mention RODATA_FULL_DEFAULT_ENABLED here.
-okay.
->> This patch implements the following changes.
->>
->>   - Make "rodata=on" behaviour same as the original "rodata=full"
-> You should mention that this gives us parity with x86.
-No problem.
->>   - Make "rodata=noalias" (new) behaviour same as the original "rodata=on"
->>   - Drop the original "rodata=full"
->>   - Add comment for arch_parse_debug_rodata()
->>   - Update kernel-parameters.txt as required
-> These last two are self-evident from the code and don't need to be listed
-> here.
+I personally prefer max_send_wr/max_recv_wr.
+
 >
->> After this patch, the "rodata=on" will be the default on arm64 platform
->> as well.
->>
->> Reviewed-by: Christoph Lameter (Ampere) <cl@gentwo.org>
->> Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
->> ---
->>   .../admin-guide/kernel-parameters.txt         |  2 +-
->>   arch/arm64/include/asm/setup.h                | 28 +++++++++++++++++--
->>   2 files changed, 27 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index ee0735c6b8e2..3590bdc8d9a5 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -6354,7 +6354,7 @@
->>   	rodata=		[KNL,EARLY]
->>   		on	Mark read-only kernel memory as read-only (default).
->>   		off	Leave read-only kernel memory writable for debugging.
->> -		full	Mark read-only kernel memory and aliases as read-only
->> +		noalias	Use more block mappings, may have better performance.
->>   		        [arm64]
-> This isn't particularly helpful documentation and I think we need to mention
-> the linear alias rather than talk about the page-table structure.
+>While at it let us also remove a confusing comment that is either not
+>about the context in which it resides (describing
+>qp_attr.cap.pref_send_wr and qp_attr.cap.max_recv_wr) or not applicable
+                ^
+I haven't found pref_send_wr in qp_attr.cap
+
+>any more when these values become configurable.
 >
-> How about:
+>Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>---
+> Documentation/networking/smc-sysctl.rst | 37 +++++++++++++++++++++++++
+> include/net/netns/smc.h                 |  2 ++
+> net/smc/smc_core.h                      |  6 ++++
+> net/smc/smc_ib.c                        |  7 ++---
+> net/smc/smc_llc.c                       |  2 ++
+> net/smc/smc_sysctl.c                    | 22 +++++++++++++++
+> net/smc/smc_sysctl.h                    |  2 ++
+> net/smc/smc_wr.c                        | 32 +++++++++++----------
+> net/smc/smc_wr.h                        |  2 --
+> 9 files changed, 90 insertions(+), 22 deletions(-)
 >
-> 	noalias	Mark read-only kernel memory as read-only but retain
-> 		writable aliases in the direct map for regions outside
-> 		of the kernel image. [arm64]
->
-> ?
-Okay, thanks.
->> diff --git a/arch/arm64/include/asm/setup.h b/arch/arm64/include/asm/setup.h
->> index ba269a7a3201..6b994d0881d1 100644
->> --- a/arch/arm64/include/asm/setup.h
->> +++ b/arch/arm64/include/asm/setup.h
->> @@ -13,6 +13,30 @@
->>   extern phys_addr_t __fdt_pointer __initdata;
->>   extern u64 __cacheline_aligned boot_args[4];
->>   
->> +/*
->> + * rodata=on (default)
->> + *
->> + *    This applies read-only attributes to VM areas and to the linear
->> + *    alias of the backing pages as well. This prevents code or read-
->> + *    only data from being modified (inadvertently or intentionally),
->> + *    via another mapping for the same memory page.
->> + *
->> + *    But this might cause linear map region to be mapped down to base
->> + *    pages, which may adversely affect performance in some cases.
->> + *
->> + * rodata=off
->> + *
->> + *    This provides more block mappings and contiguous hints for linear
->> + *    map region which would minimize TLB footprint. This also leaves
->> + *    read-only kernel memory writable for debugging.
->> + *
->> + * rodata=noalias
->> + *
->> + *    This provides more block mappings and contiguous hints for linear
->> + *    map region which would minimize TLB footprint. This leaves the linear
->> + *    alias of read-only mappings in the vmalloc space writeable, making
->> + *    them susceptible to inadvertent modification by software.
->> + */
-> Please remove this comment. If you want to keep it, this information
-> belongs either in the commit message (to justify the performance impact)
+>diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
+>index a874d007f2db..d533830df28f 100644
+>--- a/Documentation/networking/smc-sysctl.rst
+>+++ b/Documentation/networking/smc-sysctl.rst
+>@@ -71,3 +71,40 @@ smcr_max_conns_per_lgr - INTEGER
+> 	acceptable value ranges from 16 to 255. Only for SMC-R v2.1 and later.
+> 
+> 	Default: 255
+>+
+>+smcr_pref_send_wr - INTEGER
+>+	So called work request buffers are SMCR link (and RDMA queue pair) level
+>+	resources necessary for performing RDMA operations. Since up to 255
+>+	connections can share a link group and thus also a link and the number
+>+	of the work request buffers is decided when the link is allocated,
+>+	depending on the workload it can a bottleneck in a sense that threads
+>+	have to wait for work request buffers to become available. Before the
+>+	introduction of this control the maximal number of work request buffers
+>+	available on the send path used to be hard coded to 16. With this control
+>+	it becomes configurable. The acceptable range is between 2 and 2048.
+>+
+>+	Please be aware that all the buffers need to be allocated as a physically
+>+	continuous array in which each element is a single buffer and has the size
+>+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+>+	like before having this control.
+>+	this control.
 
-Okay, I can move it to commit message.
+The final 'this control' looks unwanted.
 
 
-Thanks
+>+
+>+	Default: 16
+>+
+>+smcr_pref_recv_wr - INTEGER
+>+	So called work request buffers are SMCR link (and RDMA queue pair) level
+>+	resources necessary for performing RDMA operations. Since up to 255
+>+	connections can share a link group and thus also a link and the number
+>+	of the work request buffers is decided when the link is allocated,
+>+	depending on the workload it can a bottleneck in a sense that threads
+>+	have to wait for work request buffers to become available. Before the
+>+	introduction of this control the maximal number of work request buffers
+>+	available on the receive path used to be hard coded to 16. With this control
+>+	it becomes configurable. The acceptable range is between 2 and 2048.
+>+
+>+	Please be aware that all the buffers need to be allocated as a physically
+>+	continuous array in which each element is a single buffer and has the size
+>+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+>+	like before having this control.
+>+
+>+	Default: 48
+>diff --git a/include/net/netns/smc.h b/include/net/netns/smc.h
+>index fc752a50f91b..830817fc7fd7 100644
+>--- a/include/net/netns/smc.h
+>+++ b/include/net/netns/smc.h
+>@@ -24,5 +24,7 @@ struct netns_smc {
+> 	int				sysctl_rmem;
+> 	int				sysctl_max_links_per_lgr;
+> 	int				sysctl_max_conns_per_lgr;
+>+	unsigned int			sysctl_smcr_pref_send_wr;
+>+	unsigned int			sysctl_smcr_pref_recv_wr;
+> };
+> #endif
+>diff --git a/net/smc/smc_core.h b/net/smc/smc_core.h
+>index 48a1b1dcb576..78d5bcefa1b8 100644
+>--- a/net/smc/smc_core.h
+>+++ b/net/smc/smc_core.h
+>@@ -33,6 +33,8 @@
+> 					 * distributions may modify it to a value between
+> 					 * 16-255 as needed.
+> 					 */
+>+#define SMCR_MAX_SEND_WR_DEF	16	/* Default number of work requests per send queue */
+>+#define SMCR_MAX_RECV_WR_DEF	48	/* Default number of work requests per recv queue */
+> 
+> struct smc_lgr_list {			/* list of link group definition */
+> 	struct list_head	list;
+>@@ -361,6 +363,10 @@ struct smc_link_group {
+> 						/* max conn can be assigned to lgr */
+> 			u8			max_links;
+> 						/* max links can be added in lgr */
+>+			u16			pref_send_wr;
+>+						/* number of WR buffers on send */
+>+			u16			pref_recv_wr;
+>+						/* number of WR buffers on recv */
+> 		};
+> 		struct { /* SMC-D */
+> 			struct smcd_gid		peer_gid;
+>diff --git a/net/smc/smc_ib.c b/net/smc/smc_ib.c
+>index 0052f02756eb..2f8f214fc634 100644
+>--- a/net/smc/smc_ib.c
+>+++ b/net/smc/smc_ib.c
+>@@ -669,11 +669,6 @@ int smc_ib_create_queue_pair(struct smc_link *lnk)
+> 		.recv_cq = lnk->smcibdev->roce_cq_recv,
+> 		.srq = NULL,
+> 		.cap = {
+>-				/* include unsolicited rdma_writes as well,
+>-				 * there are max. 2 RDMA_WRITE per 1 WR_SEND
+>-				 */
+>-			.max_send_wr = SMC_WR_BUF_CNT * 3,
+>-			.max_recv_wr = SMC_WR_BUF_CNT * 3,
+> 			.max_send_sge = SMC_IB_MAX_SEND_SGE,
+> 			.max_recv_sge = lnk->wr_rx_sge_cnt,
+> 			.max_inline_data = 0,
+>@@ -683,6 +678,8 @@ int smc_ib_create_queue_pair(struct smc_link *lnk)
+> 	};
+> 	int rc;
+> 
+>+	qp_attr.cap.max_send_wr = 3 * lnk->lgr->pref_send_wr;
+>+	qp_attr.cap.max_recv_wr = lnk->lgr->pref_recv_wr;
+> 	lnk->roce_qp = ib_create_qp(lnk->roce_pd, &qp_attr);
+> 	rc = PTR_ERR_OR_ZERO(lnk->roce_qp);
+> 	if (IS_ERR(lnk->roce_qp))
+>diff --git a/net/smc/smc_llc.c b/net/smc/smc_llc.c
+>index f865c58c3aa7..1098bdc3557b 100644
+>--- a/net/smc/smc_llc.c
+>+++ b/net/smc/smc_llc.c
+>@@ -2157,6 +2157,8 @@ void smc_llc_lgr_init(struct smc_link_group *lgr, struct smc_sock *smc)
+> 	init_waitqueue_head(&lgr->llc_msg_waiter);
+> 	init_rwsem(&lgr->llc_conf_mutex);
+> 	lgr->llc_testlink_time = READ_ONCE(net->smc.sysctl_smcr_testlink_time);
+>+	lgr->pref_send_wr = (u16)(READ_ONCE(net->smc.sysctl_smcr_pref_send_wr));
+>+	lgr->pref_recv_wr = (u16)(READ_ONCE(net->smc.sysctl_smcr_pref_recv_wr));
+> }
+> 
+> /* called after lgr was removed from lgr_list */
+>diff --git a/net/smc/smc_sysctl.c b/net/smc/smc_sysctl.c
+>index 2fab6456f765..f320443e563b 100644
+>--- a/net/smc/smc_sysctl.c
+>+++ b/net/smc/smc_sysctl.c
+>@@ -29,6 +29,8 @@ static int links_per_lgr_min = SMC_LINKS_ADD_LNK_MIN;
+> static int links_per_lgr_max = SMC_LINKS_ADD_LNK_MAX;
+> static int conns_per_lgr_min = SMC_CONN_PER_LGR_MIN;
+> static int conns_per_lgr_max = SMC_CONN_PER_LGR_MAX;
+>+static unsigned int smcr_max_wr_min = 2;
+>+static unsigned int smcr_max_wr_max = 2048;
+> 
+> static struct ctl_table smc_table[] = {
+> 	{
+>@@ -99,6 +101,24 @@ static struct ctl_table smc_table[] = {
+> 		.extra1		= SYSCTL_ZERO,
+> 		.extra2		= SYSCTL_ONE,
+> 	},
+>+	{
+>+		.procname	= "smcr_pref_send_wr",
+>+		.data		= &init_net.smc.sysctl_smcr_pref_send_wr,
+>+		.maxlen		= sizeof(int),
+>+		.mode		= 0644,
+>+		.proc_handler	= proc_dointvec_minmax,
+>+		.extra1		= &smcr_max_wr_min,
+>+		.extra2		= &smcr_max_wr_max,
+>+	},
+>+	{
+>+		.procname	= "smcr_pref_recv_wr",
+>+		.data		= &init_net.smc.sysctl_smcr_pref_recv_wr,
+>+		.maxlen		= sizeof(int),
+>+		.mode		= 0644,
+>+		.proc_handler	= proc_dointvec_minmax,
+>+		.extra1		= &smcr_max_wr_min,
+>+		.extra2		= &smcr_max_wr_max,
+>+	},
+> };
+> 
+> int __net_init smc_sysctl_net_init(struct net *net)
+>@@ -130,6 +150,8 @@ int __net_init smc_sysctl_net_init(struct net *net)
+> 	WRITE_ONCE(net->smc.sysctl_rmem, net_smc_rmem_init);
+> 	net->smc.sysctl_max_links_per_lgr = SMC_LINKS_PER_LGR_MAX_PREFER;
+> 	net->smc.sysctl_max_conns_per_lgr = SMC_CONN_PER_LGR_PREFER;
+>+	net->smc.sysctl_smcr_pref_send_wr = SMCR_MAX_SEND_WR_DEF;
+>+	net->smc.sysctl_smcr_pref_recv_wr = SMCR_MAX_RECV_WR_DEF;
+> 	/* disable handshake limitation by default */
+> 	net->smc.limit_smc_hs = 0;
+> 
+>diff --git a/net/smc/smc_sysctl.h b/net/smc/smc_sysctl.h
+>index eb2465ae1e15..5d17c6082cc2 100644
+>--- a/net/smc/smc_sysctl.h
+>+++ b/net/smc/smc_sysctl.h
+>@@ -25,6 +25,8 @@ static inline int smc_sysctl_net_init(struct net *net)
+> 	net->smc.sysctl_autocorking_size = SMC_AUTOCORKING_DEFAULT_SIZE;
+> 	net->smc.sysctl_max_links_per_lgr = SMC_LINKS_PER_LGR_MAX_PREFER;
+> 	net->smc.sysctl_max_conns_per_lgr = SMC_CONN_PER_LGR_PREFER;
+>+	net->smc.sysctl_smcr_pref_send_wr = SMCR_MAX_SEND_WR_DEF;
+>+	net->smc.sysctl_smcr_pref_recv_wr = SMCR_MAX_RECV_WR_DEF;
+> 	return 0;
+> }
+> 
+>diff --git a/net/smc/smc_wr.c b/net/smc/smc_wr.c
+>index b04a21b8c511..606fe0bec4ef 100644
+>--- a/net/smc/smc_wr.c
+>+++ b/net/smc/smc_wr.c
+>@@ -34,6 +34,7 @@
+> #define SMC_WR_MAX_POLL_CQE 10	/* max. # of compl. queue elements in 1 poll */
+> 
+> #define SMC_WR_RX_HASH_BITS 4
+>+
+> static DEFINE_HASHTABLE(smc_wr_rx_hash, SMC_WR_RX_HASH_BITS);
+> static DEFINE_SPINLOCK(smc_wr_rx_hash_lock);
+> 
+>@@ -547,9 +548,9 @@ void smc_wr_remember_qp_attr(struct smc_link *lnk)
+> 		    IB_QP_DEST_QPN,
+> 		    &init_attr);
+> 
+>-	lnk->wr_tx_cnt = min_t(size_t, SMC_WR_BUF_CNT,
+>+	lnk->wr_tx_cnt = min_t(size_t, lnk->lgr->pref_send_wr,
+> 			       lnk->qp_attr.cap.max_send_wr);
+>-	lnk->wr_rx_cnt = min_t(size_t, SMC_WR_BUF_CNT * 3,
+>+	lnk->wr_rx_cnt = min_t(size_t, lnk->lgr->pref_recv_wr,
+> 			       lnk->qp_attr.cap.max_recv_wr);
+> }
+> 
+>@@ -741,50 +742,51 @@ int smc_wr_alloc_lgr_mem(struct smc_link_group *lgr)
+> int smc_wr_alloc_link_mem(struct smc_link *link)
+> {
+> 	/* allocate link related memory */
+>-	link->wr_tx_bufs = kcalloc(SMC_WR_BUF_CNT, SMC_WR_BUF_SIZE, GFP_KERNEL);
+>+	link->wr_tx_bufs = kcalloc(link->lgr->pref_send_wr,
+>+				   SMC_WR_BUF_SIZE, GFP_KERNEL);
+> 	if (!link->wr_tx_bufs)
+> 		goto no_mem;
+>-	link->wr_rx_bufs = kcalloc(SMC_WR_BUF_CNT * 3, link->wr_rx_buflen,
+>+	link->wr_rx_bufs = kcalloc(link->lgr->pref_recv_wr, SMC_WR_BUF_SIZE,
+> 				   GFP_KERNEL);
 
-Huang Shijie
+Why change wr_rx_buflen to SMC_WR_BUF_SIZE ? wr_rx_buflen depends on
+SMCV1 or SMCV2.
 
+If this is mistake, we need the change the comments in sysctl.rst as
+well.
+
+Best regards,
+Dust
