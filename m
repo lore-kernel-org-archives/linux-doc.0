@@ -1,185 +1,171 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0CD219A7A;
-	Tue,  9 Sep 2025 10:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1476256C7E;
+	Tue,  9 Sep 2025 10:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757413144; cv=none; b=E+s+odI7+mQfBbFSR/pExah9xapZGNcEnKwxQqs+QmdG44PZ3j4cI3QErY4x5dDT9VgxhwaepxRxnHiqlYP65Q88DgBwYTvtal2wpx1/5NuQAbEnQ9xfHAGO4c5LHKXPHlIWhyyxfOcyCY/nMVC3yQLNrrYxvj5lbqz8NSvFDtY=
+	t=1757413340; cv=none; b=CUkaHlNa7sZUpKfU067EjBFIdmnEBHqNhT5WnszYDvqN6E9kafCFsS/nC3TsZXf3+OaTopOM91vnBPWfCdNwJBYCnpvq9xvz07H5DdQFoM4X4tAWL29tadMVFFdhNcth7VMk0Si9mB17lfyiZmASJ6C2D1MwS2kVtLTRaivVwxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757413144; c=relaxed/simple;
-	bh=NWOEu18B+foxaU60ODchsyiVUXQtXS2hXD0XBYzA0yw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wc9apHU4sMBkg2Xpme1/uelxZqWLcIQdNVFiV1TC9cMlUwhzNcZChIIAQaHjDqcfQi2K8179m+85CmTOmlZBAGWA3kxC8T4PTUppxs6Zj43wB1qNAv4PdpkioJuFMZWJ2dFGSgBfWhr94rI6NIPJDSyXbzRUbM/pnuyd0FpkWL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=YfrHPNLB; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1757413340; c=relaxed/simple;
+	bh=kP+p4T77fU+/uQu2mK7yMlAfDmd3j6+05hh7HsoLMq0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YbK/+O7tMvkPx+9imBTbZSVGX63tS7h3Y3P69jtOb0zXEEpsSTH8R8uUGbOVm5xbg907NdDEw+4RNBodyB0/xQ0zh01XokrTOvlMTlO/nmJlNOfXA2wEEagTgSch885OcAvBR0kh91lEr12rKYs2BfoAv5B3+Yii/Lkc8vETXM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cpqXtRyG; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YfrHPNLB"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5890Lf9x011307;
-	Tue, 9 Sep 2025 10:18:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=o2nQEF
-	sqMXsSZn1MR5zX/hHpl0yOesXiOxhC6JXsvJ0=; b=YfrHPNLBzAYj3w4Mbfl2PS
-	GOnfUa8GcaK/bMbs8D9K8xZ7pZaF+nERCHXzi8OT2NI6vRHiLhy9iX3KoRoToxHf
-	AD+JVzRnsYp60LQ/SDJ+j+oYV+hB0eC9h6CkC994S0hWMmVxkyc3nkhA3m4Hcwk9
-	fYLlYfke/NUQt4zrRNLP2/iVPCqbwZEbVEWoZrUCkbOCzXnlBR56WkiaGxj6PYVW
-	sKzHAlOM73sxN8jxyujgyAeaYVraWuDedWdytS8pXUkd5NfKJ1iVUwj69rDQc5f7
-	bZsPP7YHuZ/D2OatHq+vUikbdBP1+9qAWXXJSs+fjfx6wO6IRW1A21gXCHNtRpoQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490bcsptxs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 10:18:58 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 589AHfan024446;
-	Tue, 9 Sep 2025 10:18:57 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490bcsptxp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 10:18:57 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5899NqXK020492;
-	Tue, 9 Sep 2025 10:18:57 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 490yp0tr7p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 10:18:57 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 589AIrlJ34013882
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 9 Sep 2025 10:18:53 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1B06B2006E;
-	Tue,  9 Sep 2025 10:18:53 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5BE372006C;
-	Tue,  9 Sep 2025 10:18:52 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.111.23.69])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Tue,  9 Sep 2025 10:18:52 +0000 (GMT)
-Date: Tue, 9 Sep 2025 12:18:50 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Dust Li <dust.li@linux.alibaba.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Simon
- Horman <horms@kernel.org>,
-        "D. Wythe" <alibuda@linux.alibaba.com>,
-        Sidraya
- Jayagond <sidraya@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Mahanta Jambigi <mjambigi@linux.ibm.com>,
-        Tony Lu
- <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH net-next v2 1/2] net/smc: make wr buffer count
- configurable
-Message-ID: <20250909121850.2635894a.pasic@linux.ibm.com>
-In-Reply-To: <aL-YYoYRsFiajiPW@linux.alibaba.com>
-References: <20250908220150.3329433-1-pasic@linux.ibm.com>
-	<20250908220150.3329433-2-pasic@linux.ibm.com>
-	<aL-YYoYRsFiajiPW@linux.alibaba.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cpqXtRyG"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b02c719a117so960675366b.1;
+        Tue, 09 Sep 2025 03:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757413335; x=1758018135; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kP+p4T77fU+/uQu2mK7yMlAfDmd3j6+05hh7HsoLMq0=;
+        b=cpqXtRyGlXngZ/3SwGcL5k4co31BHVBMezUu6fBbK6VdRcg0htTYYn/02NVhxml4h+
+         62+V4Up5CAy5wfVwxU2NtbDMF9TWTJe7Mq5LaGSJGlK9Um5uucg+eftmZdhAJcBgIr2B
+         FEebMJQMlRUx7gvp1bRSPV4ZIVwkjvF5VlJ59E3gYuMhLZpKc5jrNRjYlA9hryDWmheK
+         9MPElJwcBqec6hPpZE71M0+yD5Dym+vCwr17c36aCmdPPCMbOr5ynlcFgOBhKM+HUnC6
+         Je7YAzxiaNr46cH+Oo0jE6qJaAloRrUkSdJUf9Rx7Nw/YzX3KdgWRcvqwefSCGmx7L6K
+         YzPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757413335; x=1758018135;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kP+p4T77fU+/uQu2mK7yMlAfDmd3j6+05hh7HsoLMq0=;
+        b=WF1Pw0ARrfBsKYetu1AE8F3b9l+Xyhelj820hiHtv8QzJZGtVz2X2xAxDAPsRJGToR
+         9O0Olzi0V5ixk3iXvwd27RLOuXcSa6Y1/s1R+gF54Y7+akRFPmP8BFi3A/2AkI0mzXnK
+         +hZArv1Yenvr9lvr4GiMR3WymVl79A570jFOPJu7+5cNwQcKIZcMZlbBE2086iL/L3MD
+         xCt3tzILvkYlJtduteMv8QqDFEEs8rxxIs+Azh+yXnT7SoBQCK2R1m9EYj8hOzxYLwjb
+         N5O5hpUWTDWuWa/GXDEkuuGYZhvTeaUK41EPl7SLmdcJEXUpmh8jBK9zbQtV3FcpOHpY
+         5Chw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4wAhlE3q0vplFs9Ulo/NfaF3Zr13JLHhy+6Sr1BdV+JRQGaey00z55ZRnRuuVrYuT+aDKrgT5f2sArg==@vger.kernel.org, AJvYcCU6v3TlMSxaxc1l0xVwWKVXksPBXY+WPTBRwiGt/FwECdAqIEeEJUMy3RjMcpQ88cc9dYaNKNtAxbt8@vger.kernel.org, AJvYcCXA+CXHNltpdNC328yedAwBE/fvpHwYO9cCLor1om0dHH9RtDlsLOFYY4AxOAExsMV3+e6E1BgcBThx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+jkaTUAyrzovhT4OxeMs+bTSF69QBzZ6u8L5XtQGRC7X8V3I8
+	+tRCy9J7aI+SCks3VG2RZ6YVwhGebLeMqJ7a3tyFWF2MNoprOid0NkhHfLKw9oVfpFI=
+X-Gm-Gg: ASbGncuXBfXI5WkrZhUcZuJM8Fe5FJ5XMy3p8ZXimD1SjAFXAu1xKmYpnaUCPrNmmg+
+	WKI7NMZJvFd7T7waeQkUyjbsns4dYL2AQQEbl7p1VgYy7gxNmXwDYV/15cDkCCclzFiC87WhcLX
+	gwYES338+TEsIKp3c/uLFZxa+FSzRtsy/9y3fVP1lTieToe+vIxb6U7AfbTKXpsdVS/X7UBlUgv
+	oUf1UFQUAKDPMNkpnGtiqqXHAEEEWNv1/XheUxF67Yvsp2hV0X7f0walepwbAtyn07SwoMQ4GW3
+	z/yp7tkTegDwqAlFH9zTd0kDsADygYMKOpSNklnwxdLN2s36lLM80+cSCtpxDwRoOf3pGxXVmql
+	E4caQyINKZqXI1J/+7xrbIrLPJSZ+2Z0Wm3aDtLUcTbjr
+X-Google-Smtp-Source: AGHT+IEeiZhQ5iRi/NkjSzSOS3+Gwg1chX2/517JIJATKBdRH5Qr4QTujWHjK/JQezMyCQLaAzb36w==
+X-Received: by 2002:a17:907:97d3:b0:b04:5435:901b with SMTP id a640c23a62f3a-b04b177b6femr1105112566b.62.1757413334715;
+        Tue, 09 Sep 2025 03:22:14 -0700 (PDT)
+Received: from [10.5.0.2] ([45.94.208.162])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b04709b3effsm1447556566b.5.2025.09.09.03.22.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 03:22:14 -0700 (PDT)
+Message-ID: <9133df7af594a0066a555bc81332d7876bc08c82.camel@gmail.com>
+Subject: Re: [PATCH v2 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
+ Swap Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>, nuno.sa@analog.com
+Cc: linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jean Delvare
+	 <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet
+	 <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 09 Sep 2025 11:22:39 +0100
+In-Reply-To: <CACRpkdbgcCjZbZ2HtrNO7vK1HXzrwxkrNFCzqGguq=ckKg3cFQ@mail.gmail.com>
+References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com>
+	 <20250903-ltc4283-support-v2-3-6bce091510bf@analog.com>
+	 <CACRpkdbgcCjZbZ2HtrNO7vK1HXzrwxkrNFCzqGguq=ckKg3cFQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxMCBTYWx0ZWRfXxeWmgkEAGi/D
- SxGF3ya44SyJJrQUdNkgCofOTXWHrwaCViXubHVn/69Z53lJumdAjq3CCM/ykAQF4BN5NxIBBlf
- KOzO7HmB7PVWNAUKb4azcarSKjGoU4yhr0q90t2HXXMqgX1OoWeqi06+XCKvz9qT0mNYeoZi3G5
- rOkBescYPpoBIMoejs4CY7tP56MaBLKLDL03549msbuI2JKSMzAgKb+/lCRSOSVYcnqevqVs/m9
- 0jpvIkIRCh4x/5wg3FaB+jE8o+Hv0HVM9P79YmuE4zZr9BEOQRN/hnBpWLjA9iz59irKEBFA+lZ
- mpsLHonI6Tm3moUx7aBpFVdG80whMgMhpzTLDPRAmH0fVHBTTUqR+UmlRXyETOxdohmLnjKWP38
- fi3kv6WT
-X-Authority-Analysis: v=2.4 cv=SKNCVPvH c=1 sm=1 tr=0 ts=68bfff12 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=SRrdq9N9AAAA:8 a=yba5Uwut08PlTq8H50kA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: 0U49OlBsC8IZnhxJiIXafk6oEFThXR0F
-X-Proofpoint-ORIG-GUID: NGqJhiHEEpz3BjjobnLk_onfjMoTwbps
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060010
 
-On Tue, 9 Sep 2025 11:00:50 +0800
-Dust Li <dust.li@linux.alibaba.com> wrote:
+On Thu, 2025-09-04 at 21:57 +0200, Linus Walleij wrote:
+> Hi Nuno,
+>=20
+> thanks for your patch!
+>=20
+> On Wed, Sep 3, 2025 at 12:04=E2=80=AFPM Nuno S=C3=A1 via B4 Relay
+> <devnull+nuno.sa.analog.com@kernel.org> wrote:
+>=20
+> > From: Nuno S=C3=A1 <nuno.sa@analog.com>
+> >=20
+> > The LTC4283 device has up to 8 pins that can be configured as GPIOs.
+> >=20
+> > Note that PGIO pins are not set as GPIOs by default so if they are
+> > configured to be used as GPIOs we need to make sure to initialize them
+> > to a sane default. They are set as inputs by default.
+> >=20
+> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+>=20
+> (...)
+>=20
+> > +config GPIO_LTC4283
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tristate "Analog Devices LTC4283 =
+GPIO support"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on SENSORS_LTC4283
+>=20
+> Could that be
+> depends on REGMAP && (SENSOR_LTC4283 || COMPILE_TEST)
+> ?
+>=20
+> Or does something blow up if you do that? (I guess it also needs
+> AUXBUS but more on that below)
+>=20
+> should it also be
+>=20
+> default SENSOR_LTC4283
+>=20
+> Sof if that is compiled in (=3Dy) or module (=3Dm) then this becomes
+> the same by default?
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 help
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If you say yes here y=
+ou want the GPIO function available in Analog
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Devices LTC4283 Negat=
+ive Voltage Hot Swap Controller.
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This driver can also =
+be built as a module. If so, the module will
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 be called gpio-ltc428=
+3.
+> > +
+> > =C2=A0config GPIO_MB86S7X
+>=20
+> This is placed among the memory-mapped drivers, but:
+>=20
+> > +#include <linux/auxiliary_bus.h>
+> (...)
+> > +static struct auxiliary_driver ltc4283_gpio_driver =3D {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .probe =3D ltc4283_gpio_probe,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .id_table =3D ltc4283_aux_id_tabl=
+e,
+> > +};
+> > +module_auxiliary_driver(ltc4283_gpio_driver);
+>=20
+> Create a new submenu for auxiliary bus drivers and add it
+> there. We already have a submenu for MFD so why not?
+>=20
+> menu "AUXBUS GPIO expanders"
+> =C2=A0 depends on AUXILIARY_BUS
+> ...
+>=20
+> Have you looked into using GPIO_REGMAP?
+> I guess some specials are used here so maybe it is
+> not possible.
+>=20
 
-> On 2025-09-09 00:01:49, Halil Pasic wrote:
-> >Think SMC_WR_BUF_CNT_SEND := SMC_WR_BUF_CNT used in send context and
-> >SMC_WR_BUF_CNT_RECV := 3 * SMC_WR_BUF_CNT used in recv context. Those
-> >get replaced with lgr->pref_send_wr and lgr->max_recv_wr respective.  
+Yeps I looked and I even replied to you on some other thread
 
-Yes it is just in the commit message, I messed up the search and replace
-in the commit message. :(
+https://lore.kernel.org/linux-iio/908feb42783fd182c8b0f22ae5c147de2f7a60d2.=
+camel@gmail.com/
 
->                             ^                       ^
->                             better to use the same prefix
-> 
-> I personally prefer max_send_wr/max_recv_wr.
-> 
+So for now, .init_valid_mask() is the real blocker (I think)
 
-Will go back to that then for v3
+- Nuno S=C3=A1
 
-> >
-> >While at it let us also remove a confusing comment that is either not
-> >about the context in which it resides (describing
-> >qp_attr.cap.pref_send_wr and qp_attr.cap.max_recv_wr) or not applicable  
->                 ^
-> I haven't found pref_send_wr in qp_attr.cap
-> 
-
-Again search and replace. Sorry!
-
-[..]
-> >+
-> >+	Please be aware that all the buffers need to be allocated as a physically
-> >+	continuous array in which each element is a single buffer and has the size
-> >+	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
-> >+	like before having this control.
-> >+	this control.  
-> 
-> The final 'this control' looks unwanted.
- 
-
-You are right
-
-[..]
-> > 
-> >@@ -741,50 +742,51 @@ int smc_wr_alloc_lgr_mem(struct smc_link_group *lgr)
-> > int smc_wr_alloc_link_mem(struct smc_link *link)
-> > {
-> > 	/* allocate link related memory */
-> >-	link->wr_tx_bufs = kcalloc(SMC_WR_BUF_CNT, SMC_WR_BUF_SIZE, GFP_KERNEL);
-> >+	link->wr_tx_bufs = kcalloc(link->lgr->pref_send_wr,
-> >+				   SMC_WR_BUF_SIZE, GFP_KERNEL);
-> > 	if (!link->wr_tx_bufs)
-> > 		goto no_mem;
-> >-	link->wr_rx_bufs = kcalloc(SMC_WR_BUF_CNT * 3, link->wr_rx_buflen,
-> >+	link->wr_rx_bufs = kcalloc(link->lgr->pref_recv_wr, SMC_WR_BUF_SIZE,
-> > 				   GFP_KERNEL);  
-
-
-I will have to do some digging, let's assume for now that it is my
-mistake. Unfortunately I won't be able to revisit this before next
-Wednesday.
-
-Thank you for your review!
-
-Regards,
-Halil
-
+> Yours,
+> Linus Walleij
