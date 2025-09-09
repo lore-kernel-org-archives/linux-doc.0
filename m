@@ -1,27 +1,28 @@
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2126.outbound.protection.outlook.com [40.107.236.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29266246782;
-	Tue,  9 Sep 2025 03:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2145E2741CB;
+	Tue,  9 Sep 2025 03:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.126
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757388901; cv=fail; b=pXE2C5kdtWxWyRugHtkMImWiJt0rKTsSrc5+B9CvXi1r90HfGNfDqE2yL5cae/20loB7+8DweGg6e0jnYl0HDqz47SsQdyXM3RUc0Kp6X2DyDnnTYaXss3Bn3OU3wrkPE5vYIYHZTj0FQaUkL/qtfpX+3OimYOmOawMLP43+034=
+	t=1757388903; cv=fail; b=lOaz03IKUNVVQD7pMVatkpJBm5j1vJr0ShRNrIhVH2zsAcQIx2KTSGXPMh7xbkBxLty+LnfEybNlbjODR6zOoRN+SfxL/7CkzMIqgOa+0+iX96+hmEQ9qT3XA9DTkD44r9cs3C5x8KYAO3tiQ16UmYSUgwm2s0y5/ahz17U5BE4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757388901; c=relaxed/simple;
-	bh=g13VXpXWrQ2pXrExRDzPD4QU41kTcSDOWJ88kbpC704=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=LtGbSM4qo4cxGAZQft9dDUmT0IfvonwtJfa2hWQxug5nKPUmPkNBbXvwYwYyccwvcrN5qyOgH9CAtD7jDFudnnOAZZLZMnaysIvPLZsqznpEsYJO2ZCZCNGDoww5ZBXKufawcfnmj/PV73AKtV5MvJUAHH5/fB0oNhZILDsWDpY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=JAUE6IYE; arc=fail smtp.client-ip=40.107.236.126
+	s=arc-20240116; t=1757388903; c=relaxed/simple;
+	bh=u7V5aBHJPM6BZbpHGV1mNexG+GFxQZ7gAcY/J1k2SSs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VjqJf/KVFlCjaa72vGfhxoVX5gBF0J3fUWedgqfsnuQqRFL2xES70Yq+fBp1DcGlaSfCMod+iwU/xZLaUb0p9U4TR01jYLlGFoCDf0UtzoUYWsSP56nyu8WdAln8U++s7LrrFKD0agS4tczVVUoL74Zc54VwfZS2gP4esywK4FE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=CE1/j+8/; arc=fail smtp.client-ip=40.107.236.126
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="JAUE6IYE"
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="CE1/j+8/"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OMcPrOdeqqVIOWd3gGbyxMCXhwMqT4I+dXj3OCE3PFAynn4mrHhkYCd362GcCPlPTKBpai2kC9F86p9CZsXJAPJppb5zQQLLrVblaczxjZToYOGXUTJjqA7QF0e+3vbJkdRvJKskS3lRRLBnxeewCGbXa+Aqmm+egHekmliNKIz6SfW8v2FguKsSsJ5H9KH7aoPKtmNbNDrwH7sT5wZ+yxfPDevOrjo/A2QHuDLiiRaVOW+I5ul4JK7IDYxzFbPmlel7Rh3BqGi44BANLQv7ZbSTurFKb/jHHRYNuTMf/W7c2m6ul6B0OF9ey3w/MLCP5BW6sKrY7ZiycT3pzvelQw==
+ b=bl6q4amhPMz6AXEbBMneyiWiTsUpiJjlHOiqbegsLEkBazn9aX1kmKiM11h/Ry1SccvQSbzmoeEpqwpPhRfJTaJCSSt9bSx0nf5fb2pA6pjmccow5CVhz/Zr/dTBfmQsEtQaFHWydaiAEnqjdDaH8UL7n6FW75DY/oL0ujL1NGH9yNAq+/v76234GYVG8WP5XUTpYY4Fj9eLi6g4qpiP3jueDr9xanadEgNmovcGXOCbW5WV7X6aflVb20c8PnIE+1nntr/LYW6Bqj2TrK2+umbs29MShxU324DmLJ2OsEG7rnLPRSBMnp/OaB8xluJc2/7iqaRN2br7CFvMeZeI4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OhcQPBqPqhdxrmCFR4wDRk2xNbeL6gw+gjdKLWJpYts=;
- b=BliLqwLhU85gkl+KgwGGzIBb19ov7Ai4ekZ+02igjp152tZy43Gf3/9uKKj7RIgR23Pe/mvQzw951pkby0GPJN/wZnSrItUmzOuaMSOz0zoYxGPRsMBMwNiodUCZI8ZQXfZ9HUA8q1JoOvgqNI5CmEpTJPkltmbxbsDWI/8kVh0QNOuXwewIxxRhCkKPOu7aLTQ0CgkLIg/ewEloUFcvxLjjYLK/8DjsA+3eCDtwKgIHzPlTtbdHASjaaeOmoUkYujzcUPvjI8S2SiW+qjC6jbXLZ/cP600FFVbL/wV7sFxjM7L3YjR8sJpPXPQi02a43DkPdStXWnHAcxPVXiBd8g==
+ bh=G4/oHXOcXbP+Q5Oxa3dVeBvgo9QjyjKeJarb0yfV16Q=;
+ b=omJy5To3ZYg2IQieCBXQWDtdEcnIe0MO5tpwvMzdMr9TkJR2ShfqSd4IZc4i3qu4wFyP94WKmM8CnoV4IYyG0EV0hHErHKU7op9VI+hvNx6oY4uIR/1uUDyJehnpti6ZO3e61e6AsceUDYzkwv2BDNR2vAh3gAuPSi4tMTxQDvLk7dpSm9y1KEsgF9CiOaH95DvF5Jd2WhHaFhIeA9SvcbVtDyCzpXxOsSZrMlyoBWZqEh9ouYsZU9NYEjdR4YR+q1ZpZBt3575TTaWXLyOmb6iYYNHh5cxEKF9avC+tRWNXIzEBlwZB+0kuJCoJi1SsYM7KYC1DlpS9G1hnIkxfBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -29,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OhcQPBqPqhdxrmCFR4wDRk2xNbeL6gw+gjdKLWJpYts=;
- b=JAUE6IYECW1GbnVgDtFlw2Bu5ub4Q7uJ25oZ4E7krz+lj+WypVGs0zP8UavarV6KiLMpjZF0CCNbyvA5CZD9PsaNcZXq5Qum0m9JXrCv6Uld6sVvsxXFUTFHhow7DaQEtqOVrq6i+8GSgqFX9Yb0B3jlBc9PSe4IBQdoQYFKKkQ=
+ bh=G4/oHXOcXbP+Q5Oxa3dVeBvgo9QjyjKeJarb0yfV16Q=;
+ b=CE1/j+8/l+hLSf2hJL4uutb+jqEI1UQ/AUHu22/eycFEaO8h2EengB4L/gC7PByY5/xULLOP7epJuJDkO6yi4vrfEk2qRpN57D/QRPsymYMCRcQwoB4EsqERgSKVOTLN8WIwj3SNyXwsRB5hKA/SBI8NVNSKsxzVxqRks2SpHmU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
 Received: from PH0PR01MB7975.prod.exchangelabs.com (2603:10b6:510:26d::15) by
  SJ2PR01MB8128.prod.exchangelabs.com (2603:10b6:a03:500::9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9094.22; Tue, 9 Sep 2025 03:34:52 +0000
+ 15.20.9094.22; Tue, 9 Sep 2025 03:34:55 +0000
 Received: from PH0PR01MB7975.prod.exchangelabs.com
  ([fe80::6926:a627:118e:8050]) by PH0PR01MB7975.prod.exchangelabs.com
  ([fe80::6926:a627:118e:8050%4]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
- 03:34:23 +0000
+ 03:34:53 +0000
 From: Huang Shijie <shijie@os.amperecomputing.com>
 To: catalin.marinas@arm.com,
 	will@kernel.org
@@ -61,10 +62,12 @@ Cc: patches@amperecomputing.com,
 	linux-arm-kernel@lists.infradead.org,
 	rdunlap@infradead.org,
 	Huang Shijie <shijie@os.amperecomputing.com>
-Subject: [PATCH v7 0/2]  arm64: refactor the rodata=xxx
-Date: Tue,  9 Sep 2025 11:32:34 +0800
-Message-Id: <20250909033236.4099-1-shijie@os.amperecomputing.com>
+Subject: [PATCH v7 2/2] arm64/Kconfig: Remove CONFIG_RODATA_FULL_DEFAULT_ENABLED
+Date: Tue,  9 Sep 2025 11:32:36 +0800
+Message-Id: <20250909033236.4099-3-shijie@os.amperecomputing.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20250909033236.4099-1-shijie@os.amperecomputing.com>
+References: <20250909033236.4099-1-shijie@os.amperecomputing.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: TYCP286CA0375.JPNP286.PROD.OUTLOOK.COM
@@ -78,142 +81,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR01MB7975:EE_|SJ2PR01MB8128:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82cd1418-32df-4bee-29b3-08ddef51c4c0
+X-MS-Office365-Filtering-Correlation-Id: 583a7418-7f3d-49f9-40ff-08ddef51cfa4
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LxfFc+d75jqbCuuoLbfi1Wnl+eBn01mzSsJpnY3w+ffISHouwD140TJerPmq?=
- =?us-ascii?Q?mwqwCxTjZLNq7DS9n07wesOmpP6f0f6jiTa7r2KFtqzXyXBVFXRlwLjGN86j?=
- =?us-ascii?Q?zzMCZ6bnsM52LawUkmoXW+6P0T2DR5WBrdMxETW5gnAqAqeAyKOuPGsb875m?=
- =?us-ascii?Q?F2B2naGrEdnORk7DPlJaqN/3ojM3h+2FzQ0lDbXKvv6dg23ALV1feRNspmvu?=
- =?us-ascii?Q?JNUfhtGqwwhefXpsoW6dRqwfJy5jO4EQHDUmUbNFIdyjjtGLsEUQ7CLiuRyo?=
- =?us-ascii?Q?XNKSKXCCZxKfwCfhcZCdVd2Nd2vtaiYoERylqo4O92CrtBrv6juG2ySIaBy1?=
- =?us-ascii?Q?AIqfuwEIM5suVEGf8RPUkG8zc05H0T0FMN83DVHBYhvZWhNirHVgsX3/s4cw?=
- =?us-ascii?Q?RPASZcM3RV/0NHKOepvCf0ew7Rgm8gyKM6Zrw5OFPvWT8KRJBMx9YnRTFOXa?=
- =?us-ascii?Q?JSMiY+9Cx1SLKM6bgHzaxCzOyY1OEMooGjWD4RizQPfoMW4XegfBx2B329/7?=
- =?us-ascii?Q?Kebk6J1JUWqR7rBm8duUYk+LLO2w7rD1ydUaOZlOb6EeJLro0fUyTKFkN2jR?=
- =?us-ascii?Q?rsrOdP5WsF5+Yo5Qw8Rs2GK0lDTi0Gfu7mz0aRVAmo2nb14pnSEz2zB+2pCl?=
- =?us-ascii?Q?tVJEpJWulVpobZ7iCfTn+3alDgjMjmU3ar6itHdRwgL8X5VIquVHkWorN/1x?=
- =?us-ascii?Q?rWN7+9VVdxsIo05X26qZYHEOG7yBPfJQZGVRSOVprsYw/WsoxA3KZcgxdf7X?=
- =?us-ascii?Q?uLTcy6mN3Cc2p1Qd3po72gnqOvjJ6384X7ZoOIQJW/psfkFWQ9xEzfCFozFE?=
- =?us-ascii?Q?7GOngdzztxxczsOX17G0Ii29OSfSMFc1Ejs4PsEuGgFhWWAWAjHoHFAimdMs?=
- =?us-ascii?Q?bCKtPQVvD1PHoGxxi9WOHaWnWWIF6jQW4BU6AtQQyaJYxVWPthk6EOVe4yiY?=
- =?us-ascii?Q?nWfbdLJweDtFuJwFo4IUdQTWsyBZwhCBQg7RaMYAJvvrmyoY3eMyEBEHYomE?=
- =?us-ascii?Q?tt18QtrVn4E7AJLWV68f40p9IeZS7BGwX0QVT1HcbuiVsF5GmQXG7GJ5YAsI?=
- =?us-ascii?Q?2LiGXTOMRf7hULxp1dsfumhahY4D2VKgHxFVTXi4v9GrYr74B9ZRQQaINZYm?=
- =?us-ascii?Q?+1VKVojSAyVndbGGvPZldPWwnPYql988T1G+zrnKRNM87DHTem1olI17L+5f?=
- =?us-ascii?Q?8zT9yCo8+1NXK8w7c/6RPCpgFfguSKrEw140cb47HZyKub952eHJ7X0GxV1q?=
- =?us-ascii?Q?1b/x8Oh+Rku1GAAd89OEnoahVvzL5cVMwcsWJsP+kBr4oWZ5l8YdOjtK120D?=
- =?us-ascii?Q?UHvP9mhIaPhSo4OynTzhrC7IjiXFM7etTc6lu2cI7iZLwAHMz2VHvNJi3X/d?=
- =?us-ascii?Q?vRqV3cnr/KOpzsYoX9CB8k0PYQFqTut/UITx0Zr5c1rowx5Z46B4cP7HljGv?=
- =?us-ascii?Q?gWu4I5eHXZnz9wJ7us/2sQABL/vSlsAM+Xzz5qM8IQbY9OnqBlMBRQzh7OMf?=
- =?us-ascii?Q?V1QO+Xkm7FOppYE=3D?=
+	=?us-ascii?Q?IknolHLTRzfIavekdOl2G/vd6Q/xRGLBdPhYblhZjtFUXs7o5GLCnJRu+o9Q?=
+ =?us-ascii?Q?fULAXk1nnTHLACyAbdUvNnjXYoadLloKUABs49vslXFkWJCvCFl+QDRIUfrv?=
+ =?us-ascii?Q?Ga617X+q/zPb1jzduNJ2+gboGuQQLeVZTbiA1SCct7rUjUVBGcmB5fYCuAXn?=
+ =?us-ascii?Q?SeRqolDXJQOfqJMnIYZNqwABnW3J1hvgBunOzogrs6DJkElhfL+9XhhbftYt?=
+ =?us-ascii?Q?ABy2MwRx7+NjiWz74twA+Z7xo6wcWVGuuCvgR/NKnsSvwk/mF9biOlYsu9rt?=
+ =?us-ascii?Q?yjEgrnfusBeESqe02yVXOaTpQmwtoOWvoypT4u27nMWRMubIVphU5bHx16e/?=
+ =?us-ascii?Q?KH9vW42Qsg3EMzNFaHLH4h32RlCLKQVNKMj6DDLNgm9KmZza2ZB3zBsgR6DX?=
+ =?us-ascii?Q?EfLWp0EEqc5ZvG5qrgm8XND1gb6c+ojlEpPleezrqw+MT8NMxKUaBmDrQ0qF?=
+ =?us-ascii?Q?Ra7bjzk5xGQL6gSwHY7+joKelFTnZBR4y31vupCbEGVWq8KQi+llVQAsC7jp?=
+ =?us-ascii?Q?KOTe5QT/1qLh6dmHAI/e9NKX5YsDdS39RZMqbLyC3p8LqBibNCSBJbW8thXm?=
+ =?us-ascii?Q?/TF6W7WC1ESd5/Sg4PNA8yV+hOPspOnRHZyvZlzVDLF6XJ7lU02C/HEoleV6?=
+ =?us-ascii?Q?YjPqu4tXjZwcahO01mfsLMieRl7loOlEEbs7Ukks6q5Nh/P40+NiclVvP775?=
+ =?us-ascii?Q?7WwgmrzURytBz5/QhqCX75GtNFIbSQFmZVbnrdvNzDmusklZh3fdv7/PX6DN?=
+ =?us-ascii?Q?MJ/yJWpgHxBBzAZ3QwPRxRBGxlBwKp+SstPVMTNUFuvdwDQ02aIr6FAyAFXm?=
+ =?us-ascii?Q?Zw8X9IIk71r5926G1q8L4w+IHrrlrYaqgqorZf8I4fD+fOgJrxmmfzm2T/Qp?=
+ =?us-ascii?Q?bWFrR/8fWtotrAuTDQ3RZJ5iYaIxv5fYeMs+oeTMeaS1u8vj69xFHGxxzvlw?=
+ =?us-ascii?Q?UXHBPlRzp5Plh8AEL6iJOWgrRRTM/SnViA2ntrPaIEEw91RrZt126luhd2I1?=
+ =?us-ascii?Q?+YYDVkwX2jFxjBxpeMqAY1HnQXy/vcjkZOE9myP+IacgvWfB6hyVIM/wUL/H?=
+ =?us-ascii?Q?2cXYMR2XdJhyg/nSdDLQbXj4q26/klwFYarEcYJjZe7vKE337wsk46ijEB5q?=
+ =?us-ascii?Q?cKft/zo6gBahfdGy6IZa3mgbPqXPN7zpYQ3ig/XY+EBUoJuu0mKL/XTx3Ehl?=
+ =?us-ascii?Q?93DLdyDrLZ14CEPydn4EIktJWm9pRORTwr8NwB12pSY/jx9e1n93zqwo1LVS?=
+ =?us-ascii?Q?QmmrwDPSS3dfCyGvRADUIy0YvxOu/hKsgafYKLa38zuDgFqlTzHefaKRN2uP?=
+ =?us-ascii?Q?UTGQNrNPFATWyEaoyhARp0ZmrjYDJF20B/C4KGi4SAE01uViCni3rXAyRqQN?=
+ =?us-ascii?Q?YV49PELsCLpQtA1qmV4BIt8rUHmCfd3S/KFA5zzKDiSNtP09SZU0NJz/qMsa?=
+ =?us-ascii?Q?K6HesEFUZpnTeTZ5KZf4EmkJsGmyFnS/8MeyHsMrK2C+bZQ9DwgAkXYrUWPE?=
+ =?us-ascii?Q?CY9swm9uf3ei5pQ=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR01MB7975.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rcqHArLoLGLoZ+SbjLJEbzD5NrX1yCPUQYD9JdvLHCqq2HcsfttjwgqttwNQ?=
- =?us-ascii?Q?Nue0L9SMOjX3kCEd2yRppo7eBniwjrm07bOyTSvww23IiBWPGVziBaMeARzB?=
- =?us-ascii?Q?pl5bRmvPXUllG3PjVhOamtNvHybQZO/wMCg1coXrhhsgGGhISgjfJidPBUaF?=
- =?us-ascii?Q?LutO+Yvj+jpj6DPva1lyiON0+npKHI9/QhhWKJHuzG/Eb9fXbX0AjpBVJkI4?=
- =?us-ascii?Q?V59rEy+0rddRfcQOlOW2f46UxFvPz51BHIspIE+8d9WbV5oItJ1mQNgBm+JK?=
- =?us-ascii?Q?f1VK9AsYvqFLuI45vYXgWuCugXP3oRN/b6V8oaZlyYxFDy19fWEnk5dA1W6p?=
- =?us-ascii?Q?M40aQObN1RJtXX+D7Qm9xgk12koxE5zgIsv6bmfWk6NMyKPkkKDUl/tlGWOe?=
- =?us-ascii?Q?31YO9QkRDt47nsjl/SGRCnv7uXBgtAWV3DaxC4XR/J2kdMMjoRxv9QX0xZ+F?=
- =?us-ascii?Q?XdEgiHl2W/bxHoKS/Twv2zeHRXGS10XcYUaYIHR552GXHlS1AtNFAp4Zsmot?=
- =?us-ascii?Q?MMKeV3/iPQaRzJ1P1ZrLKq+ouX9rj0pl/AvLr10DMsEB+UDZ2O+jgrNjjZxy?=
- =?us-ascii?Q?b8Yp7v+1dipfX9ywgLiHw97oLHZxzoRw+fcILbfcxs6EZQKTeBSBmojm/8Zm?=
- =?us-ascii?Q?mbFpG8t/5GhWu0UEjGL7afFOko1zeADDZUOGB5jzBDezngJytnBa0dDBVOcC?=
- =?us-ascii?Q?ByP1iFIKksm9Ld19NG5t7Awv4yS7NC1Jwp45+kPdcTddqW2UgLcRI72oBsk/?=
- =?us-ascii?Q?pNn5WnM0VGMdVoBm70UYXbKJtnARDsl+LhDNu4gbaplcUd1gCLtrLrAeHinl?=
- =?us-ascii?Q?1TGgE9bQpOACT5MZu7dDEbe8oekeQRJGHI5ZQSE2dyYH3xHUorN09ao5KFzs?=
- =?us-ascii?Q?WiozohV9UbDZ2kq6+YouViMAna5kl1NPBP4oS8zTwhfkso/MxpWb9wdvt5eI?=
- =?us-ascii?Q?J5vE3q0ANCDPMAfc3bRlCtfI8Q43gIadnKRFDFi7cpT04nLDyqxlQlAAK6fF?=
- =?us-ascii?Q?MALaDiiBINbnir9y5cO2yW4B+PcysThPYR+aZ1JCZr4M+8A4FQ/EyZGJluDt?=
- =?us-ascii?Q?b/u9BHRN50okBxCftoSgv6fwWxuM95SBSVZm8shrwF+9Zflg+UkjiYaFlKfC?=
- =?us-ascii?Q?uIPRNkn+0BuZo4q7VASnbCmM3Y1Gj1mwZ3w8y9uBg4TrUelZlwtHOBVwHC81?=
- =?us-ascii?Q?/Kz2b0qJnZzU5JO/iUjs46k7MAMNmUIIwyVnC0aMRp1Kel1OactJYMHAmEwh?=
- =?us-ascii?Q?J5uEK7pQtXTJUADd6Lyr+tqC7jEVlYU30j0n6pTkj0M6cW4lMVxLO/BXK0sJ?=
- =?us-ascii?Q?7AnhZdDstgjSeUE/BprQHJbuQCukBrpJ5ucaDfUOFFklj2VxUfvrxuFuO60F?=
- =?us-ascii?Q?woxZzVZ1Z1V/KLmi5j3DSnD+wlYFg983AuvIaRLNqdaJ07t75WtlG5tSyr9h?=
- =?us-ascii?Q?4wQIzSBOhi8anOBQH0mwjcNwuz8D63nBuPknpVMvlZ8iYbc6VJo937EzVOm1?=
- =?us-ascii?Q?Ia/dHebIviy76MaAFIxHR3pE0+g/PPP3SJe0O23ScPWnQCUT7BottNQRv9ku?=
- =?us-ascii?Q?+lrJJxnT/RHQ9tEzzLu69okMtxWLIk0/jjsjTkmYCtlxCPuAAUCHn3rlC8f8?=
- =?us-ascii?Q?lQs5661mZq1Uh8r/B4UCvbY=3D?=
+	=?us-ascii?Q?Z7w+d+B61O75iJqSV7IR2dHKxXy0RLxpzhcUWTCYU+xkmf6ne0lAJe5iN3h6?=
+ =?us-ascii?Q?xO+ujOJiS+lM4yPBBbXeDp7gkXe698mJFhibZfsxKvNMJmxgyCJ01bVQvKhN?=
+ =?us-ascii?Q?WsOV3BYSUDVhI5t9JRiTKKuU9H4LEfTtR/SwwTVyZB55jWXf5ibxbcIL1UsF?=
+ =?us-ascii?Q?KcZQ3sctKiuZmtFEU7XFdHPdEdf7Z0p8BDhbU1OFkHMqixadN5RjU8t7uSnL?=
+ =?us-ascii?Q?Ebm0bMB1lJazxr3xs9OX90tfkYejybDiFHQ88TKLoZnpZ4ic6viervwOKlpr?=
+ =?us-ascii?Q?FQ2CFeT01q+zFrovjpw3QImsmjziJZotsk7zuFkbOfZcyNvQuMApLbi344rl?=
+ =?us-ascii?Q?pE0Em4H9qC+Oy344wskiTVBSA4Ocm9eJ5GzBXFD/XxPIBBFbE/BL6MtXTD+x?=
+ =?us-ascii?Q?rfp6mQ6uc3zZeZagb72pdNtYdQnZPlkGkUQWXwnAUQzKRIeYwsXa3tyYGKYA?=
+ =?us-ascii?Q?pIbtf6r8Mqn8Z8j0yFeMJ8x/xLjBUf8AmecV0ixrHvtneIQkS8IsdPHyni+t?=
+ =?us-ascii?Q?kr1g9ttOyTLOwnSc7u5IOK07NzA7VwWII9c152nj9iZGK9vA5HRfhgl+BkNZ?=
+ =?us-ascii?Q?6HgTXW8Nhq0qSw0wXwjkhCLiEmfdYSiDVmhQCqukBgWCZjhstrnEwjeNKdZd?=
+ =?us-ascii?Q?PrO1eY8f3NnMqP0K1bMRctwbfUSehr34r2a5VDIzrZCepvjMfQOpJw2Qm2jE?=
+ =?us-ascii?Q?cma5pT+sqv01GndoUPVgjHqBt1ElPD4KBXjewGDt0TJXNHbcwRqScLjVJtON?=
+ =?us-ascii?Q?uZo+ErXDcAedd3afs0UJ9s4XNo1FasgsJwibGX6Dki8/GfjVuxRsJnPlLA62?=
+ =?us-ascii?Q?tbna4aML3l7GzJC2mlNp4LiF+EQOdZ6EpOE2OsdghfKbtQOXreCM0Rz7AxDv?=
+ =?us-ascii?Q?qkbd8BQop0NxLcWUHRydfuOCo9GEzflvdm9+ngWsV65kYG+nTTtiFNVOsI33?=
+ =?us-ascii?Q?pgOJh0bDsDPESsoOGCPtGZAgtpMRRL4obwDefU+bLq3Pi/HkWa1DWjfnlPan?=
+ =?us-ascii?Q?1tIaTOHaHNycdajN8/MkFOI9LlwkqcOiDHWiYbgea/UhpXWCnPs7rkQSSt2H?=
+ =?us-ascii?Q?9ajw2xXJnzgFDx1dcdVD8SDxXAGfDdkq6IBBJZGnvCKJoVScQ+agfCe76GY4?=
+ =?us-ascii?Q?0cGQqsjAQto4uCdLufRY+1+5R+haB1io2PEUpHEo4tpQD57BYVbofRre9Azw?=
+ =?us-ascii?Q?YsB4r1LdGiGNigqzwGvrvrpigLlJIdMh/h65UAJ1Vl+yabxsHdP9haxGT0h9?=
+ =?us-ascii?Q?5MhZuD1sgxOzRow4kOCwRcxOnW8RJt0uxiuISYMNkyJGctPgdVUlFjFJJU16?=
+ =?us-ascii?Q?NzW+r/pCjlVx3KsWJIjWhZ8H1z0IJmmRp1to7KtdAsjpnFZLPmk9mUmm+Hbc?=
+ =?us-ascii?Q?G7Ro9LA3LoponMASuPH8fFsmaGS/xjHoRIbjpU3PCCDbdqkOkIlbUNgItKJ6?=
+ =?us-ascii?Q?PyvwwQn5OkiIiOyyAVJmND9jcS51ptPgu5NCI4G/SZjRB7bdMAmO6m8ivccs?=
+ =?us-ascii?Q?xDNyzwrPXKl5O3JxzpZAiO2Ktu9AG8RWXebRtMBpVV77iXD8myaiWc4Z2+UP?=
+ =?us-ascii?Q?L7iPPJiBVAzDzSkrk/4ZD5Glvm++zfGgaA2MXxvGOQfWT+DS8/Lfr8Zh9/sW?=
+ =?us-ascii?Q?mTqYAhNtAlQHnZQjzpMhXwI=3D?=
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82cd1418-32df-4bee-29b3-08ddef51c4c0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 583a7418-7f3d-49f9-40ff-08ddef51cfa4
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR01MB7975.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 03:34:23.3074
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 03:34:41.5097
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VFrfFwvlfFIitNFhxW91z1sSTVk9JobAzWpF3dkMfhwbDDyaamWNU+b6aPMkMWpF/7kG6iQWhxWGojQTQ2VeUnMplPxiD7hR8soSHPnR8m2NMt9vNZ4maxTA4OFR/z3k
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0SRn+lBcUtIWjj9ZrhCENp7Gim7lilPNxG7YVviaKs25ewqwEa7pFhBk/llvDJM+GQcyhKu26Km3dkuq65NjsysBZQGoh6LgKQI2tD0Ql7j+L2xI7nuW55rnivBIbVmG
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR01MB8128
 
-From Documentation/admin-guide/kernel-parameters.txt, we know that:
- rodata=	[KNL,EARLY]
-	on	Mark read-only kernel memory as read-only (default).
-	off	Leave read-only kernel memory writable for debugging.
-	full	Mark read-only kernel memory and aliases as read-only
-		[arm64]
+After patch "arm64: refacotr the rodata=xxx",
+the "rodata=on" becomes the default.
 
-So the "rodata=on" is the default.
+     ......................................
+	if (!strcmp(arg, "on")) {
+		rodata_enabled = rodata_full = true;
+		return true;
+	}
+     ......................................
 
-But the current code does not follow the document, it makes "rodata=full"
-as the default.
+The rodata_full is always "true" via "rodata=on" and does not
+depend on the config RODATA_FULL_DEFAULT_ENABLED anymore,
+so it can be dropped.
 
-This patch set follows Anshuman Khandual's suggetions.
-It makes the "rodata=on" as the default, and removes the CONFIG_RODATA_FULL_DEFAULT_ENABLED.
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+---
+ arch/arm64/Kconfig       | 14 --------------
+ arch/arm64/mm/pageattr.c |  2 +-
+ 2 files changed, 1 insertion(+), 15 deletions(-)
 
-v7:
-  Change the code by following Will's suggestions.
-  
-v6:
-  Fix a small issue pointed by Randy Dunlap.
-  https://lists.infradead.org/pipermail/linux-arm-kernel/2025-July/1041488.html
-  
-v5:
-  Rebase this patch set with linux-next20250627
-  https://lists.infradead.org/pipermail/linux-arm-kernel/2025-June/1040297.html
-
-v4:
-  Follows Anshuman Khandual/Ard Biesheuvel's suggetions:
-  - Change commit message format.
-  - Change the titile name.
-  - others
-  https://lists.infradead.org/pipermail/linux-arm-kernel/2024-December/985629.html
-
-v3:
-  Follows Anshuman Khandual's suggetions:
-  - Merge patch 1 and patch 3 into one patch.
-  - Remove patch 4
-  - update comments and document.
-   https://lists.infradead.org/pipermail/linux-arm-kernel/2024-December/984344.html
-
-v2:
-  Follows Will's suggetions.
-  Add a new file fine-tuning-tips.rst for the expert users.
-   https://lists.infradead.org/pipermail/linux-arm-kernel/2024-November/981190.html
-
-v1:
-   https://lists.infradead.org/pipermail/linux-arm-kernel/2024-October/971415.html
-
-
-Huang Shijie (2):
-  arm64: refactor the rodata=xxx
-  arm64/Kconfig: Remove CONFIG_RODATA_FULL_DEFAULT_ENABLED
-
- Documentation/admin-guide/kernel-parameters.txt |  5 +++--
- arch/arm64/Kconfig                              | 14 --------------
- arch/arm64/include/asm/setup.h                  |  4 ++--
- arch/arm64/mm/pageattr.c                        |  2 +-
- 4 files changed, 6 insertions(+), 19 deletions(-)
-
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 1bd9c364da6e..5d15bcd0702e 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1673,20 +1673,6 @@ config MITIGATE_SPECTRE_BRANCH_HISTORY
+ 	  When taking an exception from user-space, a sequence of branches
+ 	  or a firmware call overwrites the branch history.
+ 
+-config RODATA_FULL_DEFAULT_ENABLED
+-	bool "Apply r/o permissions of VM areas also to their linear aliases"
+-	default y
+-	help
+-	  Apply read-only attributes of VM areas to the linear alias of
+-	  the backing pages as well. This prevents code or read-only data
+-	  from being modified (inadvertently or intentionally) via another
+-	  mapping of the same memory page. This additional enhancement can
+-	  be turned off at runtime by passing rodata=[off|on] (and turned on
+-	  with rodata=full if this option is set to 'n')
+-
+-	  This requires the linear region to be mapped down to pages,
+-	  which may adversely affect performance in some cases.
+-
+ config ARM64_SW_TTBR0_PAN
+ 	bool "Emulate Privileged Access Never using TTBR0_EL1 switching"
+ 	depends on !KCSAN
+diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
+index 04d4a8f676db..667aff1efe49 100644
+--- a/arch/arm64/mm/pageattr.c
++++ b/arch/arm64/mm/pageattr.c
+@@ -20,7 +20,7 @@ struct page_change_data {
+ 	pgprot_t clear_mask;
+ };
+ 
+-bool rodata_full __ro_after_init = IS_ENABLED(CONFIG_RODATA_FULL_DEFAULT_ENABLED);
++bool rodata_full __ro_after_init = true;
+ 
+ bool can_set_direct_map(void)
+ {
 -- 
 2.40.1
 
