@@ -1,195 +1,169 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F43C1A9F96;
-	Tue,  9 Sep 2025 01:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB202236FA;
+	Tue,  9 Sep 2025 01:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757382379; cv=none; b=sAx0EIyNYOs9hsAcMDOGGAI+AmGZAiuafYvm7sepKquh7ntSU06OfP7/XsvUJ+PFYwTfpM4RJ3i4MmlNO81I9ERcfyS+EcP+vCmg7Q73MkSuauk+LWPV0Viz6xUGQibypjKzKAmdu1yKZHDH+3Jnrve2uGQ9vbH3l+6eCka4bFU=
+	t=1757382493; cv=none; b=SjT2QsitlDR3/jWqNzSPSkMRqXOS5BHKF4lv1Vqiajm3//DpdwnD+H2rFesYqvInDeK6lMetprP+Vmhbua8fnu1Mbp1g1E1DavXydKikDKxSH488oXqk8oSLC3q+pbGelRHoK+tNStxw2pAI5YLeLpOvPjHEfssfRivgH9pSCng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757382379; c=relaxed/simple;
-	bh=Mgm/f/dyyNj+1Olh/CY02O9anr2CSratmtmw7/rayiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=seBhWzWoEHVkTozYIHoAtA5hr4CYAnSms7DwU3cFtDooM82U9Q9GUqoacPmhaSNNo+yfWJzxZsV4Hj4++ebqtqtNNtOyk2WnT6uBruZRdpOyevt1aILfkFf99h/mYD8LTz3/VfeKZbGQzwUQ172p4wKxid1pJ8ldOaZJr68C+jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/C0SwbJ; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/C0SwbJ"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2518a38e7e4so28741265ad.1;
-        Mon, 08 Sep 2025 18:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757382377; x=1757987177; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KuiOo15AG4OXtbWW33TbGP3QjJoF6Rgu6PmjoTlWNs0=;
-        b=P/C0SwbJBggBxTxFjsPLs9/FIO2SQEytk9YuSibhX1jHEabo+P7WZHVWRsVIrz2OpG
-         fTauSxl1UwySuxrAFSqn5qKoJtUMwfk2ruOiHblyAXP2Idu4yE+YpKVDhhMOpvFOhxBV
-         YHtv/tAPsxBW60LDKVf48GsGwAO7Lu20GHpDGpSVez4hQ4SwaXInwZhgt7d5W8Nx/+rg
-         P8ofDA3Db1QL9WdMaYgTd4O9SfsuR6E82Urg/MQ2S0Chy0G01q/5Ui/yD7UC7BhyPp2y
-         0jUlrKP35s3oT8/Spm0yG0+6/4Q/mZHBMdTX4uRsKI8/AflCTmZBFQFCcQoKGvsN5YFJ
-         JPow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757382377; x=1757987177;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KuiOo15AG4OXtbWW33TbGP3QjJoF6Rgu6PmjoTlWNs0=;
-        b=bVmK1/MdRBIQfibPbGV9i0KY0rIcVblwjkimd1USrDXV5F10bua2ODCR4jtQNsY/X3
-         cT4uvHzUPMWN1JoMq05xlfPkVo+PQWYPpNht5AIXHYUSClsw+ye+JP8ZJ8lmHVeu+F1l
-         bJNn2dKQSDn3RAeGRsnH2e6p0nSBAuQYPWQRtjjbkufY5w1ja4Ukz6NvEhmFeuKQtCGq
-         aGVykwlwZTbls+oclhXgG8pQ5aRY6hdZUEupYhBoECByWCCv526sV5zLJZDCIhiESyKB
-         x/jkF04+Bpaeu9iBCIqN6jmppNr4nztOUDiZB7Ve7bDyqMIuMaikwPOsQ9glXRWy96kV
-         3+Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHFZXChr9/lzQbutsxUltW9s3rJY8pJXqxb1pBVoVJbEILqH3TiMLNnQt3wewHvwntaXnaTWaN4+I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw75imS+BeoXi2PG5RGTBuQLvSbIKg7kWCgQOv3h+Un/uwQwGen
-	HFHHBC73MEVcWfXhxgrnsbyOIfxbJxLoojrbjBIGQfCIIFuLzfl+xvzn
-X-Gm-Gg: ASbGnct9nwrlGeLx4uXYeTW7jNekPNf6+3DVQp+FVSEWiYgsr6VF70iMirJiu4WoYAi
-	iNujO8KLgwS7IqQ86PQmqWg9LjacVzOL/cttMEgjFkxGZcRe8Qo/25Ix9ZPvb/h05pzHFTOK0FA
-	zCPA/OgsBgCp64RU3jH6AY0m1f6TbLFtdO49xNpJcMdmPuHJAf3UsTwsLkLeDducxnpdvMptv7x
-	v6Db+ZDxrEWggqGP3fQoPtVs9mqEOFgRfEZ8wLaxsN7oob4PhSFOWRFKd4nauX9XA2KagPUZktx
-	0p14v88ff0FCAuItuV2bFRgy2fdrARP+aHN72UwOhO8SJIhvKxgUP1ZhLT1XTVpoarXNaIptl/r
-	RQMHt4+9s0FVMAUyXNZeElniSrA==
-X-Google-Smtp-Source: AGHT+IGXoxvJ02bO5wRwlNWwxniZMYMlgSaFXoJXpCTp4h8dPraKosEMNBMembTfFIeOUDc1sptulw==
-X-Received: by 2002:a17:903:2f92:b0:249:37b2:8629 with SMTP id d9443c01a7336-251759a97e4mr123230625ad.9.1757382377180;
-        Mon, 08 Sep 2025 18:46:17 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b11448a5asm189941315ad.54.2025.09.08.18.46.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 18:46:16 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 54E17420A80B; Tue, 09 Sep 2025 08:46:14 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux GFS2 <gfs2@lists.linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v3] Documentation: gfs2: Consolidate GFS2 docs into its own subdirectory
-Date: Tue,  9 Sep 2025 08:46:06 +0700
-Message-ID: <20250909014606.15043-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1757382493; c=relaxed/simple;
+	bh=is2pUEHEiZMQU1R2ZtXgqvP+1teelQQSyxe1k0SHyzk=;
+	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=RsxHqscZ/XmDeI/zu85IWWZQDjR9coDm1a8+ZkQ9PzG2En+DUZbn3hR5EWPihp1TSPPqSkL/XdrdO0uuG7EKaZS9YTRZQ6bDzPIMQvbp+MVNpC+0pCX2KdD9YTQXiE0JDG6dkW8OFHLMZKFSbM2zADGpM3kXXwBvoQUYQNTpT30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4cLRRj1mY3zRk4L;
+	Tue,  9 Sep 2025 09:43:29 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2AAE7180087;
+	Tue,  9 Sep 2025 09:48:06 +0800 (CST)
+Received: from kwepemq200018.china.huawei.com (7.202.195.108) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 9 Sep 2025 09:48:05 +0800
+Received: from [10.67.121.177] (10.67.121.177) by
+ kwepemq200018.china.huawei.com (7.202.195.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 9 Sep 2025 09:48:04 +0800
+CC: <yangyicong@hisilicon.com>, <catalin.marinas@arm.com>, <maz@kernel.org>,
+	<oliver.upton@linux.dev>, <corbet@lwn.net>,
+	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
+	<shuah@kernel.org>, <jonathan.cameron@huawei.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <tangchengchang@huawei.com>,
+	<wangzhou1@hisilicon.com>
+Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
+To: Will Deacon <will@kernel.org>
+References: <20250715081356.12442-1-yangyicong@huawei.com>
+ <20250715081356.12442-6-yangyicong@huawei.com>
+ <aL7Fgx__LeLfbDyU@willie-the-truck>
+From: Yicong Yang <yangyicong@huawei.com>
+Message-ID: <5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
+Date: Tue, 9 Sep 2025 09:48:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3807; i=bagasdotme@gmail.com; h=from:subject; bh=Mgm/f/dyyNj+1Olh/CY02O9anr2CSratmtmw7/rayiA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn72wI3PP566pbttS3uO5jZTBQ+Tv034/xDNfcOiWzZK MdnScESHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjI4xaG/77Cn2t6OVh1V+lu /a0jvWYBX2PxlwcLpt65wj3txWemGWsY/tkmGz3coi12z2FhY/IEjXtc+x7dEfbK3Grup5jSfar 2HBsA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <aL7Fgx__LeLfbDyU@willie-the-truck>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemq200018.china.huawei.com (7.202.195.108)
 
-Documentation for GFS2 is scattered in three docs that are in
-Documentation/filesystems/ directory. As these docs are standing out as
-a group, move them into separate gfs2/ subdirectory.
+On 2025/9/8 20:01, Will Deacon wrote:
+> On Tue, Jul 15, 2025 at 04:13:54PM +0800, Yicong Yang wrote:
+>> From: Yicong Yang <yangyicong@hisilicon.com>
+>>
+>> Armv8.7 introduces single-copy atomic 64-byte loads and stores
+>> instructions and its variants named under FEAT_{LS64, LS64_V}.
+>> These features are identified by ID_AA64ISAR1_EL1.LS64 and the
+>> use of such instructions in userspace (EL0) can be trapped. In
+>> order to support the use of corresponding instructions in userspace:
+>> - Make ID_AA64ISAR1_EL1.LS64 visbile to userspace
+>> - Add identifying and enabling in the cpufeature list
+>> - Expose these support of these features to userspace through HWCAP3
+>>   and cpuinfo
+>>
+>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>> ---
+>>  Documentation/arch/arm64/booting.rst    | 12 ++++++
+>>  Documentation/arch/arm64/elf_hwcaps.rst |  6 +++
+>>  arch/arm64/include/asm/hwcap.h          |  2 +
+>>  arch/arm64/include/uapi/asm/hwcap.h     |  2 +
+>>  arch/arm64/kernel/cpufeature.c          | 51 +++++++++++++++++++++++++
+>>  arch/arm64/kernel/cpuinfo.c             |  2 +
+>>  arch/arm64/tools/cpucaps                |  2 +
+>>  7 files changed, 77 insertions(+)
+>>
+>> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+>> index ee9b790c0d72..837823d49212 100644
+>> --- a/Documentation/arch/arm64/booting.rst
+>> +++ b/Documentation/arch/arm64/booting.rst
+>> @@ -483,6 +483,18 @@ Before jumping into the kernel, the following conditions must be met:
+>>  
+>>     - MDCR_EL3.TPM (bit 6) must be initialized to 0b0
+>>  
+>> +  For CPUs support for 64-byte loads and stores without status (FEAT_LS64):
+> 
+> nit: I think you're missing a word ("For CPUs with support ...").
+> 
+>> +
+>> +  - If the kernel is entered at EL1 and EL2 is present:
+>> +
+>> +    - HCRX_EL2.EnALS (bit 1) must be initialised to 0b1.
+>> +
+>> +  For CPUs support for 64-byte loads and stores with status (FEAT_LS64_V):
+> 
+> Same here, but also FEAT_LS64_V only applies to stores so no need to
+> mention loads.
+> 
+>> +
+>> +  - If the kernel is entered at EL1 and EL2 is present:
+>> +
+>> +    - HCRX_EL2.EnASR (bit 2) must be initialised to 0b1.
+>> +
+>>  The requirements described above for CPU mode, caches, MMUs, architected
+>>  timers, coherency and system registers apply to all CPUs.  All CPUs must
+>>  enter the kernel in the same exception level.  Where the values documented
+>> diff --git a/Documentation/arch/arm64/elf_hwcaps.rst b/Documentation/arch/arm64/elf_hwcaps.rst
+>> index 69d7afe56853..9e6db258ff48 100644
+>> --- a/Documentation/arch/arm64/elf_hwcaps.rst
+>> +++ b/Documentation/arch/arm64/elf_hwcaps.rst
+>> @@ -435,6 +435,12 @@ HWCAP2_SME_SF8DP4
+>>  HWCAP2_POE
+>>      Functionality implied by ID_AA64MMFR3_EL1.S1POE == 0b0001.
+>>  
+>> +HWCAP3_LS64
+>> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0001.
+>> +
+>> +HWCAP3_LS64_V
+>> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0010.
+> 
+> Given that these instructions only work on IMPLEMENTATION DEFINED memory
+> locations and aren't guaranteed to generate an abort if used elsewhere,
+> how is userspace supposed to know what to do with them?
+> 
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v2 [1]:
+per ARM DDI0487 L.b section C3.2.6,
 
-  * Do not use wildcard on MAINTAINERS file entry and add review tag (Randy)
+  When the instructions access a memory type that is not one of the following,
+  a data abort for unsupported Exclusive or atomic access is generated...
 
-[1]: https://lore.kernel.org/linux-doc/20250827022122.12132-1-bagasdotme@gmail.com/
+so...
 
- .../filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} |  0
- Documentation/filesystems/gfs2/index.rst             | 12 ++++++++++++
- .../filesystems/{gfs2.rst => gfs2/overview.rst}      |  6 +++---
- .../{gfs2-uevents.rst => gfs2/uevents.rst}           |  0
- Documentation/filesystems/index.rst                  |  4 +---
- MAINTAINERS                                          |  2 +-
- 6 files changed, 17 insertions(+), 7 deletions(-)
- rename Documentation/filesystems/{gfs2-glocks.rst => gfs2/glocks.rst} (100%)
- create mode 100644 Documentation/filesystems/gfs2/index.rst
- rename Documentation/filesystems/{gfs2.rst => gfs2/overview.rst} (96%)
- rename Documentation/filesystems/{gfs2-uevents.rst => gfs2/uevents.rst} (100%)
+> As it stands, exposing the feature blindly feels like a bad idea to me.
+> Surely there needs to be a way for userspace to either probe or request
+> memory that supports the instructions? We should also make sure we
+> handle the abort properly if it occurs and presumably deliver a SIGBUS.
+> 
 
-diff --git a/Documentation/filesystems/gfs2-glocks.rst b/Documentation/filesystems/gfs2/glocks.rst
-similarity index 100%
-rename from Documentation/filesystems/gfs2-glocks.rst
-rename to Documentation/filesystems/gfs2/glocks.rst
-diff --git a/Documentation/filesystems/gfs2/index.rst b/Documentation/filesystems/gfs2/index.rst
-new file mode 100644
-index 00000000000000..9d9ca84d45a7ae
---- /dev/null
-+++ b/Documentation/filesystems/gfs2/index.rst
-@@ -0,0 +1,12 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+Global File System 2
-+====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   overview
-+   glocks
-+   uevents
-diff --git a/Documentation/filesystems/gfs2.rst b/Documentation/filesystems/gfs2/overview.rst
-similarity index 96%
-rename from Documentation/filesystems/gfs2.rst
-rename to Documentation/filesystems/gfs2/overview.rst
-index 1bc48a13430c1c..f971353d23611c 100644
---- a/Documentation/filesystems/gfs2.rst
-+++ b/Documentation/filesystems/gfs2/overview.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--====================
--Global File System 2
--====================
-+=============
-+GFS2 Overview
-+=============
- 
- GFS2 is a cluster file system. It allows a cluster of computers to
- simultaneously use a block device that is shared between them (with FC,
-diff --git a/Documentation/filesystems/gfs2-uevents.rst b/Documentation/filesystems/gfs2/uevents.rst
-similarity index 100%
-rename from Documentation/filesystems/gfs2-uevents.rst
-rename to Documentation/filesystems/gfs2/uevents.rst
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 11a599387266a4..897eabaa30d65d 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -90,9 +90,7 @@ Documentation for filesystem implementations.
-    ext3
-    ext4/index
-    f2fs
--   gfs2
--   gfs2-uevents
--   gfs2-glocks
-+   gfs2/index
-    hfs
-    hfsplus
-    hpfs
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef87548b8f88c6..1b19137f50a6b7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10336,7 +10336,7 @@ L:	gfs2@lists.linux.dev
- S:	Supported
- B:	https://bugzilla.kernel.org/enter_bug.cgi?product=File%20System&component=gfs2
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
--F:	Documentation/filesystems/gfs2*
-+F:	Documentation/filesystems/gfs2/
- F:	fs/gfs2/
- F:	include/uapi/linux/gfs2_ondisk.h
- 
+...on host accessing an unsupported memory region a SIGBUS will be delivered,
+selftests for the instruction added in PATCH 7/7 make use of this, comments
+added in ls64_sigill() explained there will be a SIGBUS recieved if accessing
+the normal memory.
 
-base-commit: 7e5a0fe4e8ae2eb341f8ebbee2b24231a58fc28b
--- 
-An old man doll... just what I always wanted! - Clara
+if in a VM the DABT will be taken by the guestOS (then handled in the same
+way like host, deliver a SIGBUS by the guestOS) or by the hypervisor depend
+on the hardware implementation. for the latter case PATCH 3/7 add the handling
+to inject the DABT back to the VM.
 
+as for the usage, since LS64 is intended to interact with the device, currently
+we only use it in userspace drviers, as mentioned in the coverletter:
+
+  A real scenario for this feature is that the userspace driver can make use of
+  this to implement direct WQE (workqueue entry) - a mechanism to fill WQE
+  directly into the hardware.
+
+the userspace driver will know exactly whether their devices support LS64 or not
+and request the target memory.
+
+thanks.
