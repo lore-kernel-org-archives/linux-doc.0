@@ -1,441 +1,94 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF74334704;
-	Tue,  9 Sep 2025 12:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708E0258CDC;
+	Tue,  9 Sep 2025 12:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757419803; cv=none; b=EbBD4TpU04+NwMAWb1IMtdj8y4nukbguuMMr58HsTL/SaYAqY0vGqPehGIsRTg/vTSsJcRj/vTE5+k9fsJMU1fhaV/oT5rg/YrdORMpvk+NjLmk7dcM9f3wLgolZgOjigSZoPtZ9chn3PiZMCFvLRzE3NJkMo6IVi5Y3Iy9PJaE=
+	t=1757420757; cv=none; b=D2a2M1k8f1LPTOQeyjOiW5rDzIE7dBl0oNySkAXujS5p/gwm1zxva7Q8Id621LvZ4oP6qynYO5aXupGQR87eDts5k2nOhtoPsT4FJYyV5BAo9KayWBiX7wnhOXC/MatAc57kG+2WFGZgwGNbMrrC7LjHmTaiYfJ7uwhm4hPZkqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757419803; c=relaxed/simple;
-	bh=fb+9nirWQzlNmSVT6DXPZW7dnFkveduyG16VUJZp0Vo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TfQIjpp4+gGbIRytuCh3O1YnzVDyF3Fj5bU+q1ERS8ZnTLXIXprrLYxA6uZV7LlxWOPCuAyURcy4S0nRD+2cbeDx+x2AyBD6xxV74pRHGCus6Rf31C2hrpmGyc8y6zOcvVN0pFzajbehRq/V0J1kdy+EYSzgFnCuZ/OflhDdBGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz6t1757419777tc115d208
-X-QQ-Originating-IP: OLjRMUrsZaAfbbJy7epHSYAgn5O1zQVi3D5eUiVsHm0=
-Received: from localhost.localdomain ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 09 Sep 2025 20:09:34 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 8394822052060240261
-EX-QQ-RecipientCnt: 28
-From: Dong Yibo <dong100@mucse.com>
-To: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	gur.stavi@huawei.com,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	danishanwar@ti.com,
-	lee@trager.us,
-	gongfan1@huawei.com,
-	lorenzo@kernel.org,
-	geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com,
-	lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com,
-	richardcochran@gmail.com,
-	kees@kernel.org,
-	gustavoars@kernel.org,
-	rdunlap@infradead.org,
-	vadim.fedorenko@linux.dev
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	dong100@mucse.com
-Subject: [PATCH net-next v11 5/5] net: rnpgbe: Add register_netdev
-Date: Tue,  9 Sep 2025 20:09:06 +0800
-Message-Id: <20250909120906.1781444-6-dong100@mucse.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250909120906.1781444-1-dong100@mucse.com>
-References: <20250909120906.1781444-1-dong100@mucse.com>
+	s=arc-20240116; t=1757420757; c=relaxed/simple;
+	bh=SNdGNyWh7kfEGKcOhsoNoL3IUtByr8pXyLVobokUrgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uiDML45LhYU+f9pf6p7tXbhOVd2VUUOurD43YeCXdx+guHdTlYJ6gPQpfueRYx82yrTYrczRvvV4QDDnx9HN2iG9FFwKywqu4I4LyoaQx39GiYLCRxfsgfsX1EsO5M/dUjTwhCd/TyIqBSc01kk+JxS/B6/YQIlB0K59je+IgtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UUEUDF/9; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUEUDF/9"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24458272c00so62796045ad.3;
+        Tue, 09 Sep 2025 05:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757420755; x=1758025555; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wo5WqI55ESBi7gI3oZgXmx452TCDsTLZ+NeN6clGyvI=;
+        b=UUEUDF/9ptrLpr6mTCyTm6hwzMX94CrGAEIewVonlaoNQy0PTSAv6q4rMqym9HtI5o
+         j4QnZHLdlvRMV9bdHM3jWbZEvnqWbh/N7Dm0SL9PXDWloxGx5LKiqsXT8mYYr2OThRGJ
+         W8OV+pcVy85FuB4WYkzr+fYbP1GBQxnuEIG4GvZNspYvWTMHQOEsbgq4IwvrCtt76N3O
+         ksjlb4g60lj3IV17LZ/4GhxtBAIt4ortP7vnXsI2YZm2GDHHn7olPGZ4JQVkkrV1mEmh
+         CMKJqBVJDB6mA1NzqJS9p6KgT95f3nIjgoZkr/P4lzh45HMwuOZbLVSYEJwMPGCP26Os
+         rwQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757420755; x=1758025555;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wo5WqI55ESBi7gI3oZgXmx452TCDsTLZ+NeN6clGyvI=;
+        b=IN8JxVw76sSiZ1bmcVDVEmS24V/41z37x8EssIamyWLhN7s66NRDc+sOoayttdmAec
+         2E1U27Yht6rH1weGmhY9Gdn19RPNcWo8AQJ3e0KFSKgQtER8kJ8tU2qQKc1JDOiJUOry
+         1dHFFG+E++DOCLUcEXfBvjYOgse/hOuko6/w89W8pHin0bssXMHT5izXzOqIBJENXwF2
+         Jzs1Ng4Q64k3wgh8wVatvI7DH8UP9mKuARQvpNKOcXkb9L962US5BaYMo7ZfH0sizQkV
+         kcs9rwIySCmyC7eag9BmNWre3VEeD79hX5HWK4dFjAvegVVWW/kGNCY9eoBomQdenM3/
+         YXVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfjeN718iyyxoNdtkOwcxOY7KEkwC5swSSb4bbjtgYyhhvtedEzHHjAgrXkDCyReeKTWBonKKbI6kT+aI=@vger.kernel.org, AJvYcCUgryKW+8NldImhUxjrEHm7swqFDHltBtj/UO3EiaF7AYTntkIWbgqnkNaybrf9jY6VlxsJQG60Yh1v@vger.kernel.org, AJvYcCUqLS7NDLPxpU4ExTBerJF2l9KJ745thZmsQAWBpO0hf9Gq6gyrDLaANsBHnvBPyk2xoZQlw6qxQ6RjXpAg@vger.kernel.org, AJvYcCVobqmz8z++qTM3+XW+qufotp3RDUqX0tebdB7glsc1w8bfM3w1cSO3TNNBs1GtLM2NrxZIsGSJMOb9@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyo+vZf4trjj7PhybIQOCgSREDFCwwNUkUqbPIsIbz0jrBgPBXG
+	YpREmPlzL1428uP28oQ79xgGHy/EL4oIRMEDMhgVWUzy2sYEh/23gjFn
+X-Gm-Gg: ASbGncvL0fnBbfU7H4JiAmavNaTB+nX06zlsy54avr8BCGBT+dXqu8zL912bMuylA23
+	Fz6kZopYD2yCGwH/h9rHZ4WoiGyoYivCzkPjR6LxU+M/XOSpJjsxV67JIviBda3X4euD7lazKhG
+	HZCPo81JUdFA/YhJohklX8pxQgHAeCHY1Isyr7DI+UgcKkqFQR9LnkmpEN07Mz28M+2aXRjqJvQ
+	2ruTVF0c+CWWXQQxgEQu2a8aOIk2aZU2xY2MAx9LyUN/8XuoRgXl0Yp7zc2pKUhuSa07Ic9G2vD
+	sk1GC8gOBkqkdbZB90LdIJy3xbJ/+cHZJz1dltaB2Nkp/Iz05Jju3X1L5O99QNsHr2TN/d5ON1L
+	7BZinrFuqA78yJGUk0KIChHcG9ygYSqK2M86zq8+5tOEtLQ==
+X-Google-Smtp-Source: AGHT+IHJs/MEPuIo3jzVF/OWKOd4P8099tRniR/rHouNz9fNcABxouo0ssy0F/yBSff3+LaHG4xFdw==
+X-Received: by 2002:a17:902:ea03:b0:24a:ceea:b96f with SMTP id d9443c01a7336-2516ec6e834mr156519765ad.24.1757420754653;
+        Tue, 09 Sep 2025 05:25:54 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24cb28e33d7sm155915035ad.89.2025.09.09.05.25.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 05:25:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 9 Sep 2025 05:25:52 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Kurt Borja <kuurtb@gmail.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] dt-bindings: trivial-devices: Add sht2x sensors
+Message-ID: <58e111ea-508c-4042-9ae4-d4293871e73f@roeck-us.net>
+References: <20250908-sht2x-v4-0-bc15f68af7de@gmail.com>
+ <20250908-sht2x-v4-3-bc15f68af7de@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OLC9REgaVYQoWfnuDbwzc727RdpjUA7G21o+47soomlkRNiGP53GHW1X
-	iaBCYO51ofB+k/XaLKBqgAMUXUJ59T8pYbK3U2b77JdE+k2HtK+E4LXysG8T+zHA6WfjYYk
-	Dlf7O4pRaJ9nQUc9LH+NCcTHkKOTj1EseFNMlh6mSfvbwsFgAicTZFhQeCdJNfVion5u5Xh
-	btXCZh1R8ejnz3S4CbLgYSObaxLfJ0hCzCDVaryaB2ZpbVUuGEXQVz5stvfJiHX+avKGD/U
-	Ulu22E46khTiQzpRmZqpI5HHaXWyPlEvn0fPxoWU3eh+qV4QmFSuRmCTBrkiV2kx1f2NYYp
-	4/f5jIPBTgycVEgClQXuB8cxq30xEbB32KnAZCYSYPgDnVV0M3fDSfsT6S+kzSoiw/9+nHc
-	4AQbxWJu2iVOSZPe2f7yST5ByMkJ27Uj/Sufrh9c1Y7kOgJf9t8ld+YuSrnrG+mFynX//aX
-	QFC0whzRgMn0yUJk4d0k+Y+IYtfh5pz/OzBLasYw40XX+k3jBFokghKq6RbJ0l6YTgF9dgq
-	8EfbnefRI2wl0qCY+dIEKMqIDyyBbhNk8WuwNuNSK02oIXhFEgLy6HkH6B6geVv9QLa2g+s
-	Dy6dU/eL/aOMtOQJjzJNcYvUVCpiBtlUcEWXPcazUwS3uckkgI/ddJRHiSs1MAL/bfRDM+A
-	kRfpUEaTBObknxNhvFO0EKA3boVMEYBqKie1VgmwMh4hQmMmS9KCeqX/dw4Wffe5rCGzKH9
-	LztBvfQx5hU9gvNFSoC+rpJcqZPa3un8E208rx03rlhPs6elYsGwPG56Hh16iaQKNm3HGCo
-	JY+HuwCmCTPXTi0/T0XO+a86+/HvEvnXoc9VYRALqA/GQOqklxpP7jSbAZIKfRlT4mDBqvb
-	LoSF5qCNB6p+ibQ1uWJsgon+YEXd38GmmMmjPLf+2mTZn2DUa4MTubukHkW1lURt5KQSEXv
-	tCkFHhxhg3idOBAHkz98KbB7+ij8ZhxsK++zWBds4gL70QixGQNsQq1XN7MJ9WUht1s9Qbx
-	UCkRu6QfppNvMf6yLmwWy8Sy4oLlmmV2zVoM+T7w==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250908-sht2x-v4-3-bc15f68af7de@gmail.com>
 
-Complete the network device (netdev) registration flow for Mucse Gbe
-Ethernet chips, including:
-1. Hardware state initialization:
-   - Send powerup notification to firmware (via echo_fw_status)
-   - Sync with firmware
-   - Reset hardware
-2. MAC address handling:
-   - Retrieve permanent MAC from firmware (via mucse_mbx_get_macaddr)
-   - Fallback to random valid MAC (eth_random_addr) if not valid mac
-     from Fw
+On Mon, Sep 08, 2025 at 10:54:51AM -0500, Kurt Borja wrote:
+> Add sensirion,sht2x trivial sensors.
+> 
+> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Dong Yibo <dong100@mucse.com>
----
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  25 +++++
- .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  85 +++++++++++++++
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   2 +
- .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   | 102 ++++++++++++++++++
- 4 files changed, 214 insertions(+)
+Applied.
 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-index 3a1ad82c24bd..5278cb1d421e 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
-@@ -6,12 +6,17 @@
- 
- #include <linux/types.h>
- #include <linux/mutex.h>
-+#include <linux/netdevice.h>
- 
- enum rnpgbe_boards {
- 	board_n500,
- 	board_n210
- };
- 
-+struct mucse_dma_info {
-+	void __iomem *dma_base_addr;
-+};
-+
- struct mucse_mbx_stats {
- 	u32 msgs_tx; /* Number of messages sent from PF to fw */
- 	u32 msgs_rx; /* Number of messages received from fw to PF */
-@@ -34,9 +39,26 @@ struct mucse_mbx_info {
- 	u32 fwpf_ctrl_base;
- };
- 
-+struct mucse_hw;
-+
-+struct mucse_hw_operations {
-+	int (*reset_hw)(struct mucse_hw *hw);
-+	int (*get_perm_mac)(struct mucse_hw *hw);
-+	int (*mbx_send_notify)(struct mucse_hw *hw, bool enable, int mode);
-+};
-+
-+enum {
-+	mucse_fw_powerup,
-+};
-+
- struct mucse_hw {
- 	void __iomem *hw_addr;
-+	struct pci_dev *pdev;
-+	const struct mucse_hw_operations *ops;
-+	struct mucse_dma_info dma;
- 	struct mucse_mbx_info mbx;
-+	int port;
-+	u8 perm_addr[ETH_ALEN];
- 	u8 pfvfnum;
- };
- 
-@@ -54,4 +76,7 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
- #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
- #define PCI_DEVICE_ID_N210 0x8208
- #define PCI_DEVICE_ID_N210L 0x820a
-+
-+#define rnpgbe_dma_wr32(dma, reg, val) \
-+	writel((val), (dma)->dma_base_addr + (reg))
- #endif /* _RNPGBE_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-index 0e277e7557ee..436fb03f9736 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
-@@ -1,11 +1,90 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright(c) 2020 - 2025 Mucse Corporation. */
- 
-+#include <linux/pci.h>
- #include <linux/errno.h>
-+#include <linux/etherdevice.h>
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
- #include "rnpgbe_mbx.h"
-+#include "rnpgbe_mbx_fw.h"
-+
-+/**
-+ * rnpgbe_get_permanent_mac - Get permanent mac
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_get_permanent_mac tries to get mac from hw
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+static int rnpgbe_get_permanent_mac(struct mucse_hw *hw)
-+{
-+	struct device *dev = &hw->pdev->dev;
-+	u8 *mac_addr = hw->perm_addr;
-+	int err;
-+
-+	err = mucse_mbx_get_macaddr(hw, hw->pfvfnum, mac_addr, hw->port);
-+	if (err) {
-+		dev_err(dev, "Failed to get MAC from FW %d\n", err);
-+		return err;
-+	}
-+
-+	if (!is_valid_ether_addr(mac_addr)) {
-+		dev_err(dev, "Failed to get valid MAC from FW\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_reset - Do a hardware reset
-+ * @hw: hw information structure
-+ *
-+ * rnpgbe_reset calls fw to do a hardware
-+ * reset, and cleans some regs to default.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+static int rnpgbe_reset(struct mucse_hw *hw)
-+{
-+	struct mucse_dma_info *dma = &hw->dma;
-+
-+	rnpgbe_dma_wr32(dma, RNPGBE_DMA_AXI_EN, 0);
-+	return mucse_mbx_reset_hw(hw);
-+}
-+
-+/**
-+ * rnpgbe_mbx_send_notify - Echo fw status
-+ * @hw: hw information structure
-+ * @enable: true or false status
-+ * @mode: status mode
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ **/
-+static int rnpgbe_mbx_send_notify(struct mucse_hw *hw,
-+				  bool enable,
-+				  int mode)
-+{
-+	int err;
-+
-+	switch (mode) {
-+	case mucse_fw_powerup:
-+		err = mucse_mbx_powerup(hw, enable);
-+		break;
-+	default:
-+		err = -EINVAL;
-+	}
-+
-+	return err;
-+}
-+
-+static const struct mucse_hw_operations rnpgbe_hw_ops = {
-+	.reset_hw = rnpgbe_reset,
-+	.get_perm_mac = rnpgbe_get_permanent_mac,
-+	.mbx_send_notify = rnpgbe_mbx_send_notify,
-+};
- 
- /**
-  * rnpgbe_init_n500 - Setup n500 hw info
-@@ -48,8 +127,14 @@ static void rnpgbe_init_n210(struct mucse_hw *hw)
-  **/
- int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
- {
-+	struct mucse_dma_info *dma = &hw->dma;
- 	struct mucse_mbx_info *mbx = &hw->mbx;
- 
-+	hw->ops = &rnpgbe_hw_ops;
-+	hw->port = 0;
-+
-+	dma->dma_base_addr = hw->hw_addr;
-+
- 	mbx->pf2fw_mbx_ctrl = MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
- 	mbx->fwpf_mbx_mask = MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
- 
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-index 612f0ba65265..00bf7571bf35 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
-@@ -11,6 +11,8 @@
- #define MUCSE_GBE_FWPF_MBX_MASK_OFFSET 0x5700
- #define MUCSE_N210_FWPF_CTRL_BASE 0x29400
- #define MUCSE_N210_FWPF_SHM_BASE 0x2d900
-+/**************** DMA Registers ****************************/
-+#define RNPGBE_DMA_AXI_EN 0x0010
- /**************** CHIP Resource ****************************/
- #define RNPGBE_MAX_QUEUES 8
- #endif /* _RNPGBE_HW_H */
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-index c6cfb54f7c59..94de1693c4a0 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
-@@ -7,6 +7,7 @@
- 
- #include "rnpgbe.h"
- #include "rnpgbe_hw.h"
-+#include "rnpgbe_mbx_fw.h"
- 
- static const char rnpgbe_driver_name[] = "rnpgbe";
- 
-@@ -28,6 +29,55 @@ static struct pci_device_id rnpgbe_pci_tbl[] = {
- 	{0, },
- };
- 
-+/**
-+ * rnpgbe_open - Called when a network interface is made active
-+ * @netdev: network interface device structure
-+ *
-+ * The open entry point is called when a network interface is made
-+ * active by the system (IFF_UP).
-+ *
-+ * Return: 0 on success, negative value on failure
-+ **/
-+static int rnpgbe_open(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_close - Disables a network interface
-+ * @netdev: network interface device structure
-+ *
-+ * The close entry point is called when an interface is de-activated
-+ * by the OS.
-+ *
-+ * Return: 0, this is not allowed to fail
-+ **/
-+static int rnpgbe_close(struct net_device *netdev)
-+{
-+	return 0;
-+}
-+
-+/**
-+ * rnpgbe_xmit_frame - Send a skb to driver
-+ * @skb: skb structure to be sent
-+ * @netdev: network interface device structure
-+ *
-+ * Return: NETDEV_TX_OK or NETDEV_TX_BUSY
-+ **/
-+static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-+				     struct net_device *netdev)
-+{
-+	dev_kfree_skb_any(skb);
-+	netdev->stats.tx_dropped++;
-+	return NETDEV_TX_OK;
-+}
-+
-+static const struct net_device_ops rnpgbe_netdev_ops = {
-+	.ndo_open = rnpgbe_open,
-+	.ndo_stop = rnpgbe_close,
-+	.ndo_start_xmit = rnpgbe_xmit_frame,
-+};
-+
- /**
-  * rnpgbe_add_adapter - Add netdev for this pci_dev
-  * @pdev: PCI device information structure
-@@ -68,11 +118,55 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
- 	}
- 
- 	hw->hw_addr = hw_addr;
-+	hw->pdev = pdev;
-+
- 	err = rnpgbe_init_hw(hw, board_type);
- 	if (err) {
- 		dev_err(&pdev->dev, "Init hw err %d\n", err);
- 		goto err_free_net;
- 	}
-+	/* Step 1: Send power-up notification to firmware (no response expected)
-+	 * This informs firmware to initialize hardware power state, but
-+	 * firmware only acknowledges receipt without returning data. Must be
-+	 * done before synchronization as firmware may be in low-power idle
-+	 * state initially.
-+	 */
-+	err = hw->ops->mbx_send_notify(hw, true, mucse_fw_powerup);
-+	if (err) {
-+		dev_warn(&pdev->dev, "Send powerup to hw failed %d\n", err);
-+		dev_warn(&pdev->dev, "Maybe low performance\n");
-+	}
-+	/* Step 2: Synchronize mailbox communication with firmware (requires
-+	 * response) After power-up, confirm firmware is ready to process
-+	 * requests with responses. This ensures subsequent request/response
-+	 * interactions work reliably.
-+	 */
-+	err = mucse_mbx_sync_fw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Sync fw failed! %d\n", err);
-+		goto err_free_net;
-+	}
-+
-+	netdev->netdev_ops = &rnpgbe_netdev_ops;
-+	err = hw->ops->reset_hw(hw);
-+	if (err) {
-+		dev_err(&pdev->dev, "Hw reset failed %d\n", err);
-+		goto err_free_net;
-+	}
-+
-+	err = hw->ops->get_perm_mac(hw);
-+	if (err == -EINVAL) {
-+		dev_warn(&pdev->dev, "Using random MAC\n");
-+		eth_random_addr(hw->perm_addr);
-+	} else if (err) {
-+		dev_err(&pdev->dev, "get perm_addr failed %d\n", err);
-+		goto err_free_net;
-+	}
-+
-+	eth_hw_addr_set(netdev, hw->perm_addr);
-+	err = register_netdev(netdev);
-+	if (err)
-+		goto err_free_net;
- 
- 	return 0;
- 
-@@ -141,11 +235,17 @@ static int rnpgbe_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void rnpgbe_rm_adapter(struct pci_dev *pdev)
- {
- 	struct mucse *mucse = pci_get_drvdata(pdev);
-+	struct mucse_hw *hw = &mucse->hw;
- 	struct net_device *netdev;
-+	int err;
- 
- 	if (!mucse)
- 		return;
- 	netdev = mucse->netdev;
-+	unregister_netdev(netdev);
-+	err = hw->ops->mbx_send_notify(hw, false, mucse_fw_powerup);
-+	if (err)
-+		dev_warn(&pdev->dev, "Send powerdown to hw failed %d\n", err);
- 	free_netdev(netdev);
- }
- 
-@@ -176,6 +276,8 @@ static void rnpgbe_dev_shutdown(struct pci_dev *pdev)
- 
- 	rtnl_lock();
- 	netif_device_detach(netdev);
-+	if (netif_running(netdev))
-+		rnpgbe_close(netdev);
- 	rtnl_unlock();
- 	pci_disable_device(pdev);
- }
--- 
-2.25.1
-
+Guenter
