@@ -1,132 +1,97 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4D0238D3A
-	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 19:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574E5303A21;
+	Tue,  9 Sep 2025 19:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757446547; cv=none; b=BAVZrslW4pVVD8U80x1cLo1+t1Pq8GAIy5BLfArylfcPbJvHvk5S9OQDoKvm22BpgAQu2PvD/HWRhURt/dbw0bVbMIcu/PJWN6LQt5JicLf41Ln/MAZYPEs8DogtrnH52E8Ll5gsLVfBauCQqvqCieJI4Vdgcjy5s6Q5Y7jt3KA=
+	t=1757446673; cv=none; b=QMIENappSzMzwE3tsCbeYlAzwWpGty8pwrW7hR+W/O1/GWNHyrClRtiB5iOYSqNtR5TWHstscdlKj/2hRaUjoCb7PD7pt3zSayKVSfq/RhfcefSSmqZreLjv7GZQ9i31h9s8eMr5pWUJCZqbdZ6kGHUQOAyWch/oIgb87dNUMDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757446547; c=relaxed/simple;
-	bh=4I8OyzGZ47LZ5w6vPCFKVEkUqm3JCXyF75uvlNmmHJ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ttVdUu+9C92pf5V2hGJqWPNPCQ/Ul7GiKqO/7/hW+h4OtypUtb//u2NhBaYC+NDB0UzWbcYkOd5+2nWaxTil7VqSh6rVtwHKXZjpOeI1NRrL6DamWW5rp3fKqR7YjcOSj/G6S9mo6MSQ6WXQbiO1c/604X7B2i7i+kR82d0rGW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=F5ahCdGN; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757446673; c=relaxed/simple;
+	bh=Vkfs1C2Q/m2ciXngYEnMywKI/5g7jYuOYmYnMi4Z+6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rm4LUgXeKAsTGWx/ZlACaduok0nVUObGFx9OsGPz6taAPydSRUvc4WtNHB+WR2CZEAtihAnoMa8W3oiqdVtvLrPDtqXLI8U553y93eLI+rxkVKWhQlpfVw0KEv0J25lpUWW9/gJfGRmd+nb2hmHabdPbGIP3eIlgGskjtnG3s9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BK33sGpV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="F5ahCdGN"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC52340AF9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757446539; bh=1yGodqynLUTpEJRi4jTKUDvMqA6YYM9tbPKfeKRY6Ww=;
-	h=From:To:Cc:Subject:Date:From;
-	b=F5ahCdGN8Xr6BVUNSywyTDGzDd6e4OHR182aRwT77xZt6nMQrek33QAh7bCOVNTyp
-	 +shFuGaR10fAIe0bsfMdvPU1E39/x7663lJKD/esHjxqqUZdxjLy3zLQMRo5EJ++h6
-	 vFqqrdIrRTQcPc+0CWakr6J19TbLsXBUeGroi8xfqgbpNKa40jm/wXkXRoH9nMT5cj
-	 YtqiBPppmRxxlKzUogkzw7Ke7/rNr5dMz0/MF/fnMJvfNQ5edvMk3DWpYjyXPkJ7BV
-	 qskC+hIfKugw8gI4vDdOFJliOzqKsJQ9B5g7VsvIb3s5UipgzeRlybsAzdM6vmjmyZ
-	 6q88uGiYEYqsA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CC52340AF9;
-	Tue,  9 Sep 2025 19:35:38 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: Zhixu Liu <zhixu.liu@gmail.com>
-Subject: [PATCH] docs: kdoc: handle the obsolescensce of docutils.ErrorString()
-Date: Tue, 09 Sep 2025 13:35:37 -0600
-Message-ID: <87ldmnv2pi.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BK33sGpV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BB1C4CEF4;
+	Tue,  9 Sep 2025 19:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757446672;
+	bh=Vkfs1C2Q/m2ciXngYEnMywKI/5g7jYuOYmYnMi4Z+6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BK33sGpV6gJZdNQka35B5igzFncF6O4QoVJduYx5uymEwm19+Pae/Y8Ji2ztm6vFh
+	 Of79hrgQzN752E6kK9Pd6CitdpQ05JM71b0yY2nJK5WUadz3JmWI4AqHd+rhRkpPML
+	 jPSesTwS7Zw48bKNgh3AxJtfj3r28MMf09jWFv3Lide1Ok8C5lkasp0zoJfr6zuOnF
+	 N5cxlSvTSt07fnYvpbKZtFqt6TP2eL80kCSBPIQL9mOveIT/STSyNFrSlP91N6uUF+
+	 FdL0uwcDH/ATxbhiykxuiJP1XMjnnp4vhtxpR+0sRrU4PCEIaA22KI5S4HXWZpjWlB
+	 smMV1bUYsFvcA==
+Date: Tue, 9 Sep 2025 22:37:48 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 03/16] dma-debug: refactor to use physical addresses
+ for page mapping
+Message-ID: <20250909193748.GG341237@unreal>
+References: <cover.1757423202.git.leonro@nvidia.com>
+ <56d1a6769b68dfcbf8b26a75a7329aeb8e3c3b6a.1757423202.git.leonro@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56d1a6769b68dfcbf8b26a75a7329aeb8e3c3b6a.1757423202.git.leonro@nvidia.com>
 
-The ErrorString() and SafeString() docutils functions were helpers meant to
-ease the handling of encodings during the Python 3 transition.  There is no
-real need for them after Python 3.6, and docutils 0.22 removes them,
-breaking the docs build
+On Tue, Sep 09, 2025 at 04:27:31PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 
-Handle this by just injecting our own one-liner version of ErrorString(),
-and removing the sole SafeString() call entirely.
+<...>
 
-Reported-by: Zhixu Liu <zhixu.liu@gmail.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/sphinx/kernel_feat.py         | 4 +++-
- Documentation/sphinx/kernel_include.py      | 6 ++++--
- Documentation/sphinx/maintainers_include.py | 4 +++-
- 3 files changed, 10 insertions(+), 4 deletions(-)
+>  include/linux/page-flags.h         |  1 +
 
-diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
-index e3a51867f27b..aaac76892ceb 100644
---- a/Documentation/sphinx/kernel_feat.py
-+++ b/Documentation/sphinx/kernel_feat.py
-@@ -40,9 +40,11 @@ import sys
- from docutils import nodes, statemachine
- from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
--from docutils.utils.error_reporting import ErrorString
- from sphinx.util.docutils import switch_source_input
- 
-+def ErrorString(exc):  # Shamelessly stolen from docutils
-+    return f'{exc.__class__.__name}: {exc}'
-+
- __version__  = '1.0'
- 
- def setup(app):
-diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index 2c4bb8215b4c..f94412cd17c9 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -89,7 +89,6 @@ import sys
- 
- from docutils import io, nodes, statemachine
- from docutils.statemachine import ViewList
--from docutils.utils.error_reporting import SafeString, ErrorString
- from docutils.parsers.rst import Directive, directives
- from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
- 
-@@ -106,6 +105,9 @@ logger = logging.getLogger(__name__)
- RE_DOMAIN_REF = re.compile(r'\\ :(ref|c:type|c:func):`([^<`]+)(?:<([^>]+)>)?`\\')
- RE_SIMPLE_REF = re.compile(r'`([^`]+)`')
- 
-+def ErrorString(exc):  # Shamelessly stolen from docutils
-+    return f'{exc.__class__.__name}: {exc}'
-+
- 
- # ==============================================================================
- class KernelInclude(Directive):
-@@ -156,7 +158,7 @@ class KernelInclude(Directive):
-             except UnicodeEncodeError:
-                 raise self.severe('Problems with directive path:\n'
-                                 'Cannot encode input file path "%s" '
--                                '(wrong locale?).' % SafeString(path))
-+                                '(wrong locale?).' % path)
-             except IOError as error:
-                 raise self.severe('Problems with directive path:\n%s.' % ErrorString(error))
- 
-diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index d31cff867436..519ad18685b2 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -22,10 +22,12 @@ import re
- import os.path
- 
- from docutils import statemachine
--from docutils.utils.error_reporting import ErrorString
- from docutils.parsers.rst import Directive
- from docutils.parsers.rst.directives.misc import Include
- 
-+def ErrorString(exc):  # Shamelessly stolen from docutils
-+    return f'{exc.__class__.__name}: {exc}'
-+
- __version__  = '1.0'
- 
- def setup(app):
--- 
-2.51.0
+<...>
 
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -614,6 +614,7 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>   * available at this point.
+>   */
+>  #define PageHighMem(__p) is_highmem_idx(page_zonenum(__p))
+> +#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
+
+This was a not so great idea to add PhysHighMem() because of "else"
+below which unfolds to maze of macros and automatically generated
+functions with "static inline int Page##uname ..." signature.
+
+>  #define folio_test_highmem(__f)	is_highmem_idx(folio_zonenum(__f))
+>  #else
+>  PAGEFLAG_FALSE(HighMem, highmem)
+
+Thanks
