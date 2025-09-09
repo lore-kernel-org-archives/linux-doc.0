@@ -1,122 +1,180 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAB225D1F5
-	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 16:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF8D350D7D
+	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 16:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757435478; cv=none; b=d22OR1QsxLgdWTSw2zVRo+f49YPvcopxdGAURkvx9BWO4nxeBbKdLGJKBYbC2p4EZarffbd1axhyYuXndGDs4/qnWsMAcM2joUbOkPl843HHoH5KznpwGiu5bZlZrdmWPdp+1/e4UpUmJmF54FvJQFJAKnSpWtSc/6GJnAaJUQY=
+	t=1757436223; cv=none; b=QO/MmYn1E4CYJ6rohD735MkQfyajv8CsZ+k9YB8H6ruIy3B+PoiQvf3oxvVCBv14H9bEDLEbRs+Ti6Lj5sWNL15fm3+5PAQOwve3ZwSUnfXmFXznc5D3hR+iCHNWEf25roeUw9Wg4GPwr/x5shnANcrwJJJ/nD0wjQnghflqSEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757435478; c=relaxed/simple;
-	bh=mefygqhgG/25eVyDa/qEx6O2io7m5fyI2dwOWnP2+28=;
+	s=arc-20240116; t=1757436223; c=relaxed/simple;
+	bh=QvvxVmrQ6ERDo1A0ifaFO0uKs7uSQdW94E943VWjhCY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aQlAENaVC5+IkENtTn8j9QgBC+gG/z4LC/PtRu4O8FD8P0cvHDQL/NxOdVnguOobA0cIVIGGXu3xMh+GAmtVp6Ucr9Ehkej1va2dZ1PKq8lWJfITHZ+ODyJdWcneT3JhFLfc+IdegVsnX31b/Uyo0vg6EVzF6yecxRkU45/kZGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=MjkRVCeG; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=oWy6bSYu1m8DOKI0vF3y0+Tpk3aJ4Gw5aQOqND7SUJk+ngrmk6OjZxda5G1tqEGaAB4LUOGNVcGa7X2xZwcJkmVz9XKH76MUuvlSswJa7ioLYVqIgnkm/m1lBVWOOasiBKt5pBjXGvxzUsdQQKvJqpl4xO92c3px6amILr0O2eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QzUgrfth; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="MjkRVCeG"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b60144fc74so33235661cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 09:31:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QzUgrfth"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-61d14448c22so41a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 09:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1757435473; x=1758040273; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1757436219; x=1758041019; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mefygqhgG/25eVyDa/qEx6O2io7m5fyI2dwOWnP2+28=;
-        b=MjkRVCeGYqtWgZA51G1XdQDmq0aipoVTf9eHwu/VD4iGDytyMy/y/QSncGUyvrb4gJ
-         0GoTL/2AiR8cp4avbjjC8ekpiNWoJVi9sWT7IcLL3/0XQt0uwF0Bj/1BytY+fYCUZ5BA
-         G68Sb26p4jUMftUIPEMW7LldKBFyaeexx5bqGI0f/ea1CKosZrBdOggBFOiJbxbST3Xt
-         7hXb3WdNphFueG3KdAtlcsjBqC+KEDMDTk9JA0F29NNIDSvBRbIvc7HZ40gLfQIxYEPf
-         o/S48YnUGg5RBHVJ8gOIgxhXU1asKIPwb38RuM7Yju9CpUZs5epDsm8loMg6NAdgZ6m2
-         7DFg==
+        bh=X9zR1ns6r4tli6kgpMkZXeVyHg9onE4yZmroH/q5x2E=;
+        b=QzUgrfthjX+yZze12AQ3vqjYc7zDU+KrFfKFBVIltMYKbRIcSmqKe4BqXoUL+1mQ0x
+         LUhNhONY5gXIA3q/XJaSSVid6Ye0sOwiOH4UANYuGqLxpk7ToRf+6XDTDqrJSAYIICls
+         oALC3W7ynSYZZvb3peuweLW0tBdTH0GYsxrl1SXhKFwgpzMYlewXlE9i3XpSj8MFopMf
+         3EHFGbhcgtFu2NkskmpEm5Va/jVPB8s3M/eqCavOuYeAz+68gIiMvZMI90cpDXzrNBuu
+         jhC219nyQZutY/ueKfIO/hqqoSBvADI+JI+wyWdOE9tLz/nysVZeDik40Mys5jGIOKJp
+         uDlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757435473; x=1758040273;
+        d=1e100.net; s=20230601; t=1757436219; x=1758041019;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mefygqhgG/25eVyDa/qEx6O2io7m5fyI2dwOWnP2+28=;
-        b=qg7VA7AnM8zqO7c/dTQwTEG/1IU9XLf/E+BXoMEhXMu8zA+7iwwSMHmE7grnKdavZo
-         ese0WWCfNE0w3shMz3eUVXbV4YCBC4xVZ9xfNDntlW5fy/XVyi/5ZkCIJU9XzN74fRFS
-         Uh+XaNP93obq9jg/7lclhkdlZzBVFcADCKuGBgbDICB3f6M5sHCYUMgT2SYtONDDFRNI
-         hhKCwaegWlELBeSznjl28ZERwytYOGZbltwIDDCqBuunzw4M3eTCZyYv0ddatgWifDJM
-         SEPycIu1HNqDoI+UWDT4tP4uS7TZGw1EFp4jzwTVLbvq9jCD5tOeLqv0tL9A8Ywts3M7
-         PJlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtqyo0TPjnqdeLEYyx4izoR/U5cZoRV2JlZG7cJ93vM2Qll+5tpSrhujeakQU5oVB6/xVgGjLrd88=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFMubscB+5L7oTj3ChJ/QXNiwvDxwodDJiuM/+QFUMADXUNUdh
-	wqw8mPAQl44VvXzf4ssUkJ2Dlbfek6NAlbsBHXfV5Py9N/SzL1l3VltN5uQEg6gNzIBfqM5AP8q
-	sVenqJE6aeyIXL/HurWcKre8dUcPQ7+RJbrm+bkRVEA==
-X-Gm-Gg: ASbGncuo7FxYjFL9z0fiT+8AUVnFi9495dyY3R3Fwztb2beYWrdGUKHu6kJAVHWh1A4
-	2SiA0VNcePLu8oFre8D33nWkkU5aH2MIe60dBPkV6yDi34AFw0LgP/JhL3CGSFQAKB+IZhrDBP6
-	L4Yxvtow1NEUNHNORR+q2FROAtvS3u8JELswv08t6MdybwdwkEsqbw8cPxfRO9yKjrCCZpQ+hNe
-	yiU
-X-Google-Smtp-Source: AGHT+IG7jq+sgIVXGN3h/LueN2WhEhyxg+lgF8zD8d4TVGlNbmugwYuofv2hu7ci7G9Y0iK0GJJdSRb+1h+3q0EXcwA=
-X-Received: by 2002:ac8:5acc:0:b0:4b4:94e7:7307 with SMTP id
- d75a77b69052e-4b5f85898f4mr141860471cf.66.1757435473222; Tue, 09 Sep 2025
- 09:31:13 -0700 (PDT)
+        bh=X9zR1ns6r4tli6kgpMkZXeVyHg9onE4yZmroH/q5x2E=;
+        b=Jo+OIdY3J1J7f2sDM3aIAe1tU6WT4Nw4XhGHq0cnxLoMCGuKi8kZeFjUAUjrsliVlQ
+         sRh6Xcx3EJwlNJy7HzUS447tOOPvFOsi3MRYZXNyT6muOzu43yYjhHeEIjVLIk1DUvTc
+         TCaIROKysBle/MYa96EGrPQq80D8xalOJlo9kg8LguO9P1cn89lobGihEy6MXx6irANZ
+         xoe0HNc0BGbVPDzrWHPmehe5wxcUKcJxWVdw3LmGavnQ1fifUWHNDi8LLueD/zCrSaFs
+         ffYRydAS6zgf7PSqgGTWMvgpggr5Bsry0aT5U37c27vKVwofvKvFOcfF9g0MNyFwKRg3
+         04zA==
+X-Forwarded-Encrypted: i=1; AJvYcCUB0Fhsn4XmuvRyTn947iF/P4ABxg9yH4zH8GjfbNT6Z052CYGy0yjqWqvvYS7JbANDTEKqLKlDt4Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwducxlDRJ7/X42mYNWFtOwH6GaKjP+njP8gSLpNjAkjaxrVl6m
+	FrEhxPXnhmITj+uocicd1h7uiWilU+lNCa6INhEUhFCQiE7vwxZ7KeCOqvoCwQzvWZdrWUuz0Ym
+	Ly1262K87oDHqQaDd+jHlHAHgXF1h24bLnUmuGIxu
+X-Gm-Gg: ASbGncsQKNg+CloJo4f5Jyg5+40G6B7O8S3J2dz+jhK5mDEpR2ZiyXH4lho+fNFuOUD
+	3erhN+qaB13YFlM+3rWXXDvNVERio1oVo3oWcF8F7SQVRCwQKYDdTN9zKa+QtLHuLONnl+T0HXs
+	pCFqbaaVII4xZLwz8qAkIEoJEqk5KZg10KqkXhjvM0ZJ2V6l99CNid/qZylZ9/kMro+0uWwi97j
+	KTZ78GEe2qJKw4wG/ebTnD2zEy+KAdLWQcLLfBzPA0G5a4j0M9viKY=
+X-Google-Smtp-Source: AGHT+IELrtj08JXZeKFczydeIaWz+ZDdGREnJhxstnY5vYYsKxfzgQANvCdFJ1mjoGgstj0WHnOScZjfoo2Pzh65Zfk=
+X-Received: by 2002:a05:6402:4024:b0:61c:c9e3:18f9 with SMTP id
+ 4fb4d7f45d1cf-623d2c4dda5mr356673a12.3.1757436218862; Tue, 09 Sep 2025
+ 09:43:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <mafs0bjo0yffo.fsf@kernel.org> <20250828124320.GB7333@nvidia.com>
- <mafs0h5xmw12a.fsf@kernel.org> <20250902134846.GN186519@nvidia.com>
- <mafs0v7lzvd7m.fsf@kernel.org> <20250903150157.GH470103@nvidia.com>
- <mafs0a53av0hs.fsf@kernel.org> <20250904144240.GO470103@nvidia.com>
- <mafs0cy7zllsn.fsf@yadavpratyush.com> <CA+CK2bAKL-gyER2abOV-f4M6HOx9=xDE+=jtcDL6YFbQf1-6og@mail.gmail.com>
- <20250909155407.GO789684@nvidia.com>
-In-Reply-To: <20250909155407.GO789684@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 9 Sep 2025 12:30:35 -0400
-X-Gm-Features: Ac12FXyuJ9OO-2DZjI3E0TxJNzWUwRCJ02D-wXqnWeEvra68NFxAUUaITiNW7fc
-Message-ID: <CA+CK2bAvxvXKKanKzMZYrknBnVBUGBwYmgXppdiPbotbXRkGeQ@mail.gmail.com>
-Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <me@yadavpratyush.com>, Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, 
-	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
+ <ea1a5ab9fff7330b69f0b97c123ec95308818c98.1757329751.git.lorenzo.stoakes@oracle.com>
+ <ad69e837-b5c7-4e2d-a268-c63c9b4095cf@redhat.com> <c04357f9-795e-4a5d-b762-f140e3d413d8@lucifer.local>
+ <e882bb41-f112-4ec3-a611-0b7fcf51d105@redhat.com> <8994a0f1-1217-49e6-a0db-54ddb5ab8830@lucifer.local>
+In-Reply-To: <8994a0f1-1217-49e6-a0db-54ddb5ab8830@lucifer.local>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 9 Sep 2025 09:43:25 -0700
+X-Gm-Features: AS18NWB56jIrhZDM4c-qSVZLOkH6X6dA_iJA_IjgEAuDFh14nG2Q8lK0Ov1ujjQ
+Message-ID: <CAJuCfpEeUkta7UfN2qzSxHuohHnm7qXe=rEzVjfynhmn2WF0fA@mail.gmail.com>
+Subject: Re: [PATCH 06/16] mm: introduce the f_op->mmap_complete, mmap_abort hooks
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	"David S . Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, 
+	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
+	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, 
+	sparclinux@vger.kernel.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-mm@kvack.org, ntfs3@lists.linux.dev, kexec@lists.infradead.org, 
+	kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 9, 2025 at 11:54=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
+On Tue, Sep 9, 2025 at 2:37=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
 >
-> On Tue, Sep 09, 2025 at 11:40:18AM -0400, Pasha Tatashin wrote:
-> > In reality, this is not something that is high priority for cloud
-> > providers, because these kinds of incompatibilities would be found
-> > during qualification; the kernel will fail to update by detecting a
-> > version mismatch during boot instead of during shutdown.
+> On Tue, Sep 09, 2025 at 11:26:21AM +0200, David Hildenbrand wrote:
+> > > >
+> > > > In particular, the mmap_complete() looks like another candidate for=
+ letting
+> > > > a driver just go crazy on the vma? :)
+> > >
+> > > Well there's only so much we can do. In an ideal world we'd treat VMA=
+s as
+> > > entirely internal data structures and pass some sort of opaque thing =
+around, but
+> > > we have to keep things real here :)
+> >
+> > Right, we'd pass something around that cannot be easily abused (like
+> > modifying random vma flags in mmap_complete).
+> >
+> > So I was wondering if most operations that driver would perform during =
+the
+> > mmap_complete() could be be abstracted, and only those then be called w=
+ith
+> > whatever opaque thing we return here.
 >
-> Given I expect CSPs will have to add-in specific version support for
-> their own special version-pair needs, I think it would be helpful in
-> the long run to have a tool that reported what versions a kernel build
-> wrote and parsed. Test-to-learn the same information sounds a bit too
-> difficult.
+> Well there's 2 issues at play:
+>
+> 1. I might end up having to rewrite _large parts_ of kernel functionality=
+ all of
+>    which relies on there being a vma parameter (or might find that to be
+>    intractable).
+>
+> 2. There's always the 'odd ones out' :) so there'll be some drivers that
+>    absolutely do need to have access to this.
+>
+> But as I was writing this I thought of an idea - why don't we have someth=
+ing
+> opaque like this, perhaps with accessor functions, but then _give the abi=
+lity to
+> get the VMA if you REALLY have to_.
+>
+> That way we can handle both problems without too much trouble.
+>
+> Also Jason suggested generic functions that can just be assigned to
+> .mmap_complete for instance, which would obviously eliminate the crazy
+> factor a lot too.
+>
+> I'm going to refactor to try to put ONLY prepopulate logic in
+> .mmap_complete where possible which fits with all of this.
 
-Yes, I agree. My point was only about the near term: it's just not a
-priority at the moment. This won't block us in the future, as we can
-always add a tooling later to inject the required ELF segments for
-pre-live update checks.
+Thinking along these lines, do you have a case when mmap_abort() needs
+vm_private_data? I was thinking if VMA mapping failed, why would you
+need vm_private_data to unwind prep work? You already have the context
+pointer for that, no?
 
-Pasha
+>
+> >
+> > But I have no feeling about what crazy things a driver might do. Just
+> > calling remap_pfn_range() would be easy, for example, and we could abst=
+ract
+> > that.
+>
+> Yeah, I've obviously already added some wrappers for these.
+>
+> BTW I really really hate that STUPID ->vm_pgoff hack, if not for that, li=
+fe
+> would be much simpler.
+>
+> But instead now we need to specify PFN in the damn remap prepare wrapper =
+in
+> case of CoW. God.
+>
+> >
+> > --
+> > Cheers
+> >
+> > David / dhildenb
+> >
+>
+> Cheers, Lorenzo
