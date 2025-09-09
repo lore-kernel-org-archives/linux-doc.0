@@ -1,279 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2101.outbound.protection.outlook.com [40.107.94.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFB078F59;
-	Tue,  9 Sep 2025 04:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757392456; cv=none; b=D6dEDJ8OWho1h0oSH6vEoBvtDrfLn8a5fiJvKPfo0+zKVaEFJrrfsJnhWeZh2EqWmS4gAHhjUUD+tH6hnKKXJoeOZtXnikepNZ9VKjLIkjLzPnvEFRHl/M7NS9HNZb5YOhC3Rhh1OJG1yM7gTuKaWsS/+v5h9R6LNEe6gP7dQOM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757392456; c=relaxed/simple;
-	bh=neqyfqmtsH5WxBuhp7zr/9a7BUe/IdbYKd8k15bapxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mwEchwUyUUhp+bLESP0zTfNb6/sS5I8yPHgO4GkhKIv3f4UhH7FCpCJnSMf8+TYVXxsFmDa7XC7k9FEKp3+OgPt2HxwA2bSoHpP/EjXYGWlW2AQ61yulDQzh46ZLtU69FUD91dvY5/Jv6Fz27l18TcLV7NIBapY98f29B1oYQ/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E51cHqFe; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9071D63F7;
+	Tue,  9 Sep 2025 05:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757395596; cv=fail; b=NClvnQMN9AMbhZv+hUBgihFeNYdxmLJNCEyfoEwJIkMyg/8ZNu3+7ip6yuEbXmwobDgQHQUPhosgCcGBL4kS/bx9X9yS9pMq+1QADA4FI51Kpe7y5l1En0dB6qEhdStO69RAK7mhAsLhRR0t3ycehqmAWzXslzdQjXNg7u08UDA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757395596; c=relaxed/simple;
+	bh=p2GGWXlANdXhcL+FtM8nAE/3kGgflnFoEVggu+Rj8ns=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ra3r1ZWG9zO4BC4g+rbHunvND07KnJqJj/sFxCH/bPpQI0dwEpZ5sRKV6pW2ympDbv42svqaq+mE2F9qODYRDU2qE2a62wli5HwqpQJP1u8hLhmHutiJAhUvzYt4ZgstTxx4slJwwOYjIA6HHnzlIwM3L2snLXHf3f9a68fFaTs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amperemail.onmicrosoft.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=fail (0-bit key) header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.b=K0Lr2Km5 reason="key not found in DNS"; arc=fail smtp.client-ip=40.107.94.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amperemail.onmicrosoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E51cHqFe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6288CC4CEF5;
-	Tue,  9 Sep 2025 04:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757392455;
-	bh=neqyfqmtsH5WxBuhp7zr/9a7BUe/IdbYKd8k15bapxU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E51cHqFeBoTa3cxqmaOtvA9YpWYY2KhF6yBJKXPf5LV6Jf6kGdii5IstwVkc+7Gyd
-	 kqfEebJ8SdF7/NQPYZk//MB8CYh9Es6Tizm0We/wGevmp+Jkb7HqqMZ11SBfdb4TX+
-	 WNOhxGARTj4B+0QuH2YE7Mzy31uPULphmupdqlWNKJ4z51Tfqo/4ugCJVSIh7sgXBR
-	 qCbQLniI9CMCujkAdqNO2HGFx+Nn+JI7Bas+n1AeSAZjVqF20VpLnFMXvQof/c65Cd
-	 EpGg2LdNqoRdPZAvUFkUlR17/jMPg8G4M7cetd/sudXf5vAXo9/ok8dV+VcI3nKCi7
-	 nN3XWxOrpl1XA==
-Date: Tue, 9 Sep 2025 10:04:00 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v7 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-Message-ID: <aL-uOEByKImuvIYF@sumit-X1>
-References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.b="K0Lr2Km5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=anGTU7aCFQbAln3XxL42wYV1m74AZQnDdWBluO+yajaBtyxADw02oZxvD7l+dR7GMSiUyquzp1PgKO2jXOKX32wmq09n6cuo0fENzs6gtBaiW7LkPBhqOJwFG3KkTTXplKy/LOiVepfKWgBi3W3YGCduaEA9w+Hn1VCDkyr6JexqAbrpdqx4o1AAbe/hgxiHjGpu/0C6igE0MBr4BAuF5k7xb/jxiwiSZkdDtkeLGJ796IxkAAGNYW5fUSdqiC108gMhzJeYQCKhttxGawi3Tff7S0u0cLYWXN2VUN++59YOeoMXz25WCeNzcmPNprFRjdLPjxn98PqmcNVq+gPKgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d+vGum7V0Og0IH7RaEsWoemY5haN0Y9h0LacfPqMnqo=;
+ b=dQhuG9z9wtP2J3yRdezz9WThovHMm8GMe12mwqGFEUaG/a13V7OfZGVMf5iSt62UombbFAXrxIpw0PITjlKczF9lmotaV9dN9FPzSL4fvU10tHaZN7/saIsiR4V4zjb31ht/00/4m1QBDcvjGHekKQrWtA8S17jVlr8b4VmlPa5bRv3GQDLlXcVQ/TRb4CHsPu8v0FkT+kVrYIgLb8yBk/1TCiBU5GwsBQzptYR1GA2AVpWqDvE16hyXYdAH931zjkXmwMiwWu/QEbP65hM4dvCQUQBypzSgJJbE98itw+EGkDzZgWx9GPC2cg/beE6lnx7hqLMxJs4zT697/3QWFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=amperemail.onmicrosoft.com; dkim=pass
+ header.d=amperemail.onmicrosoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amperemail.onmicrosoft.com; s=selector1-amperemail-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d+vGum7V0Og0IH7RaEsWoemY5haN0Y9h0LacfPqMnqo=;
+ b=K0Lr2Km5vT467AeGmKzCOeAMRauucdhNrczugokJqnaiYemPzqC7yKlraCIg+rFDeLjJBdRQQkc8iWHjzNJ2Kh4g6QsuWiOVnur6Z+QtYaI9ECvfgum1oEkUUzxfEvDe8Xp/FaEtLVkZ6Osuyg+6NVAw35kzwFhRmN3aGiatvhQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amperemail.onmicrosoft.com;
+Received: from PH0PR01MB7975.prod.exchangelabs.com (2603:10b6:510:26d::15) by
+ PH0PR01MB6502.prod.exchangelabs.com (2603:10b6:510:18::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9094.22; Tue, 9 Sep 2025 05:26:31 +0000
+Received: from PH0PR01MB7975.prod.exchangelabs.com
+ ([fe80::6926:a627:118e:8050]) by PH0PR01MB7975.prod.exchangelabs.com
+ ([fe80::6926:a627:118e:8050%4]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
+ 05:26:31 +0000
+Message-ID: <a18f3b2a-0869-436b-ab20-41a92f1f468a@amperemail.onmicrosoft.com>
+Date: Tue, 9 Sep 2025 13:26:10 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/2] arm64: refactor the rodata=xxx
+Content-Language: en-GB
+To: Anshuman Khandual <anshuman.khandual@arm.com>,
+ Huang Shijie <shijie@os.amperecomputing.com>, catalin.marinas@arm.com,
+ will@kernel.org
+Cc: patches@amperecomputing.com, cl@linux.com,
+ Shubhang@os.amperecomputing.com, corbet@lwn.net, paulmck@kernel.org,
+ akpm@linux-foundation.org, rostedt@goodmis.org, Neeraj.Upadhyay@amd.com,
+ bp@alien8.de, ardb@kernel.org, suzuki.poulose@arm.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, rdunlap@infradead.org
+References: <20250909033236.4099-1-shijie@os.amperecomputing.com>
+ <20250909033236.4099-2-shijie@os.amperecomputing.com>
+ <bc0ae013-2314-4513-a759-cbf2b922aa6a@arm.com>
+From: Shijie Huang <shijie@amperemail.onmicrosoft.com>
+In-Reply-To: <bc0ae013-2314-4513-a759-cbf2b922aa6a@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR02CA0043.apcprd02.prod.outlook.com
+ (2603:1096:4:196::12) To PH0PR01MB7975.prod.exchangelabs.com
+ (2603:10b6:510:26d::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR01MB7975:EE_|PH0PR01MB6502:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5302aa7-520b-42d0-5ad8-08ddef616f3b
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YjVoaWJWNnNHeUJTOHVHdlE2WGlCMTl2ZFlUMGpvN2tCZ1drNExvQzJNTkhE?=
+ =?utf-8?B?SXYrR1ZEU05iTXdEZjJVL1JUTjNSemNhclM5NVFrSmp6V2xubmRJVExJbXJG?=
+ =?utf-8?B?c2hnQkRYUzVPS2oyL0dhcHlUT0FjNFdPbzdvMGVGbjB2SXVVNFBxYmFIRW1v?=
+ =?utf-8?B?QkhyR3ZtRXdoRlppTW1rcFkvMWVPUGZpTW15TmRUeTZPa3IxK2EvUmpmbGZY?=
+ =?utf-8?B?dVd5RGtUVlAwM2V0Y3EvQjd1TjJGakc0WVM3WVh5ZTBGWGY1ZjhYcWhjcDNv?=
+ =?utf-8?B?TVBCaWF0TGw5N1Q2bkQxNXMwd0Y4M0tuYndVbEduU25XLy9xUWF6aU5XZ3FV?=
+ =?utf-8?B?U25PRDhqNzJqOEdVbUtmeVFWa0FHempFZm0wUEcwMnJpUG5TM2ErM2R6WU9K?=
+ =?utf-8?B?NnJ5MlkrYWdUeXp0dGtvaUQwdzYxbXJDWDQrakIwdlY1NEN0VXFKRXNyYmRP?=
+ =?utf-8?B?bmhjVUpQczU5TmhHdDEyQlJkZXY4am5kaUJMd0RjUkNId2FXa1E1VUQ5SEhO?=
+ =?utf-8?B?SUQvSGNJWE1EMW9VWDFKZEhnTXNncFRJL2x4bC9FZ3M5WW91MFRBMHpWaDRn?=
+ =?utf-8?B?aDJnM2VqRkZCcXYwTUo0YURmejd0NXA2RWtMek9XeU5EQmlyYkpXRTJzNU5E?=
+ =?utf-8?B?dG9UY0pQZE9SeGhrbW1LaUpIY1B3d2dBRWNJcGNNTVpqUnpLVnZiUG1WNC93?=
+ =?utf-8?B?N0tidTZ2cStWQWVDMzhIVGE0TExGOGhTekZMUUFLTGdVanM0dDYyeUtZL2Rz?=
+ =?utf-8?B?Q3Y3MjIrZ2RTT2NuWHE4RWxjOGFYVzRYMEZjZ0NoQWp6VnNuY3c3azlIS1Mw?=
+ =?utf-8?B?MW9EMHlhbEttMDU5TTc0cjZHN3lYQ0FoSlZNVjNtYTBvOGI4NEJaVnJmbVRW?=
+ =?utf-8?B?YWJ4aXk0YVMwdzFXYUhYYU1XZzY3Tzg0cnY4aFluZkNRcm1tZGlOczQyWmQ5?=
+ =?utf-8?B?UXFuTGRXYnJyUGlMNVdISjVaYnJlR0doSWpzOCtBTDZiZmVacnR3djdFbm1P?=
+ =?utf-8?B?WEM3K2hQRmp0amRQYVovWEtWa0VjcjRLT0t6bVFYRkdRTXBnV0IzUW5keGo1?=
+ =?utf-8?B?N3VHb212aWl1cDRZckt2MiswRVQ1SUM3T3hpQ1FwZ2JMaGkrQ3dXOFdYc01V?=
+ =?utf-8?B?WmNRWWlGOUJicUNkVGpFT2lZMGtrR1daNVZPa21JVWxXRGhnMGRqTVErQXpu?=
+ =?utf-8?B?QWF4dzhhdEo4bzBWL0hPUXU3cFNkVUo4WXhNdmwrNlVpT2g1aXdQd0FhUExt?=
+ =?utf-8?B?akZKd0lSaG9UdkUzK08rczdsUjZrRkVwb2xQWkxJTytUMEhsK1Y1aldwWDJL?=
+ =?utf-8?B?Sk9ob2xybWNHU0ZzNVZiNlVvYWlKb242amtXd0hZUXJack9UeWJaTzJmeXYv?=
+ =?utf-8?B?OTRNSE1vY0VZVmlOVVNTSUgySC82aWl2N3YxcVE1d1lBakVrUG9ZamxkdHZW?=
+ =?utf-8?B?ck5Kb1JjQkJpN3pIUUEwMVpEU21vZ2RaQUJkWVp2bnBLUzVudU94NCtLeW5Q?=
+ =?utf-8?B?TGNjZWVYb3QxYm8xZ1VXSkdNTUVOMVEzN1dBbWtLQWxPREpGdTFCL1JrYVl0?=
+ =?utf-8?B?d3hkMXZZZHo3THJLUEdIQStDUXAzRFcwcFA5NG91OERTZ1laL055cm12Qkh5?=
+ =?utf-8?B?UWM3cFZLTmlRMkdyVVpmU3lsYmg2VUVzc1R3cnYxeFduL0NIbWZOM1ovcXY0?=
+ =?utf-8?B?YjduY0xQN2NaeFkra3haVUFOZG1IS3ZWZmFVOGcrYm5abExXWnpOZkZacG9M?=
+ =?utf-8?B?TmJDSWNmMG1JVDlJSW11YkR2N2kwWWQweDVYcmVpUTFLb040SytMWjNTcDhH?=
+ =?utf-8?B?eU9RM1RDbUpZT256YXo1bmlmTEpSTm1ya0FvR0dpMXpkblpQUlFERzMyMGVa?=
+ =?utf-8?B?bzZXSjh3UmFTREdTdXdTOFJVbVhjbkhGeEtJV3phTU9YTHJoU2VFTUpBUVpa?=
+ =?utf-8?Q?U+SpAyGitts=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR01MB7975.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TlN4dmkwa1hURTFTWWVBYzZieVpWeWM1d0tRK0hkVW1jeW5HeS8wREd3Vktr?=
+ =?utf-8?B?LzlRcTB1U1NRNGtLZmhQa04wM28rRS9rby9kb3Yvd2d4akhXTEN0a25wZDBB?=
+ =?utf-8?B?ZE14TmFySVNPL2paTFJxWW5sSlc3Mi8xMW43b2ltZExsVm8zdVMwWU80OXZF?=
+ =?utf-8?B?YnROS3YvVldEcS9iMWRaRzRobGNScUt5TTNrVFltbGFsd096ajQ4KzVvMFFY?=
+ =?utf-8?B?c25XYkY3ZnpkaDJZWkNjcmFqaGFEUEVtVEVmSCt0Z1M1OXlOSndxREgrN0lY?=
+ =?utf-8?B?bERtcXFSa0NyMElTNm5adWNJOTVIVzMySUtBbHh4RzM3eEdNODJUbkRYK1JV?=
+ =?utf-8?B?UENSTmUxMW9NUzBMN1IxMnpiMitGZFJ0NmFnM2x2c1Fnd3p2YmhIWTg3eG1k?=
+ =?utf-8?B?SkNyMksvZmJkc3pQVmdYUFcwSGh4Njd6S2o5ZjF1c01palFvVTVJWFRLQlBZ?=
+ =?utf-8?B?RE9lRlVjQmk0MWR0RmxTdS9US0hnVFZ1N2lHMWVhQmVsUks2TFBvVHRIcUcw?=
+ =?utf-8?B?OVNVUko0NlVXWkQ4VzlpSnFTN1FFVVN3S0JUa1lPLzVqUUlzKyt2Yy9jN0J6?=
+ =?utf-8?B?MVJXRk1aUVNRWGFlcy8xTmJQSDNwQ0ZYVGYvbW92cm1jSzhDMU1TMWFiUnNX?=
+ =?utf-8?B?UnNyaG5BKzNLeGxjUzhON3dtNTdZbWtQd1lnTW9jQ1NCUUE2M0FTUytuQmFT?=
+ =?utf-8?B?TDV5ZTc0MnBVQVc3c0U0UmdaYTdRL24vd0tETHQ0MXREYVlzTG5YdUEyQmR0?=
+ =?utf-8?B?TitJRGdJVEdaekN2NXlyNWpZVzdSTlJrSmY2TDlwektRR1hKYW82NFQ1OWtV?=
+ =?utf-8?B?TlR6RFZadzRDNURqMXlrTWh5WlF5MzN5eUpIbVZGazBZYWxYOFhtdTl6aThh?=
+ =?utf-8?B?YmhuQzZnbDlYdldnTzJsSk04QUkxOTE4aytBZnQwNVJZdi81V3pPQXQ4S1pP?=
+ =?utf-8?B?eVNJeTI2Qmp5MitKSzQyS1NNY3U2L3Q3S0RvWW9pbVVLc1NyWG51M2RUV21y?=
+ =?utf-8?B?U0huT1doSHJZeXRxZVBHdSt5bnY1ME5WbHBYczI3MFpZdE5VSmZqRS92N2NV?=
+ =?utf-8?B?RmJoSkZaNmcySUFhcDZyRUZ5QnFQWEpNQ2gxdjJSN1JJUkZnYXpFV21sVUtz?=
+ =?utf-8?B?UmdRYzBsWk5HNGVleDZoNm9ldEk3TnUxbjRoZWpkelFsOWN6dnAxVUNSV2RT?=
+ =?utf-8?B?cFhjZ3hUSGlqZXZMQzM5eTBDbzBTd21TQ2s5dXVIN2E5SjdDR293MGNISjY1?=
+ =?utf-8?B?d0I4MlJ1NDNZTS9yOTV5ZXZab29QRG5LMzBudkdkeGtFOGQ3RWtGdTRvUnlX?=
+ =?utf-8?B?ZE1vMEFPT3RaVTJSWWRSZ3cwbFlDZzFVN0VkL1lLTER6Y0JzdnQrRHNyMUN4?=
+ =?utf-8?B?VnM2bkl5cmlvZ25aSmI0RnkwVlpaaDBJRDZ1UHhSNU5aZktWU2NoekJrdSts?=
+ =?utf-8?B?bE52RjV5NzZNQTBSWU5IYmRtUkpodTFGV3FMQ0M4K0w4dWcxNk1ISVVDdGdq?=
+ =?utf-8?B?V2M0b3NiYnZOUmJBYjh0WVlPb2pXNFlUM3hTczU0RGhwZXN6UXcxWXBhN3hY?=
+ =?utf-8?B?dFQ0WURYcXQ3a2VTcHlGaHRUTUpsNG00eFJRMlEyL0UwUWV1NUFhK2o5L3NR?=
+ =?utf-8?B?dDNzMTJOR0E1cDdJYVBSckF2RWlGSE1FMDIxWDdBeVl4TjQ0YmJreU9KVldM?=
+ =?utf-8?B?dTVKRExOUS9TL0tCVkl2bUNzaXYvUlJyWEYwSmxLRWhFcXh5MGh2TEpFY3Vt?=
+ =?utf-8?B?MlZPM3NRRE1Ld3lxS1M0ZytMZ0xJRGZDMVJsV0E4Slh1TTk3cnFmNFNrTzY5?=
+ =?utf-8?B?VklTM2RodjVIUmsyRC9ud2tseTJta0pWRzZ0b3F2UUR2bjZlRUNTNEh5dWNE?=
+ =?utf-8?B?dVNzUFhjRDdzQjNCUlNYc3dkUU1vbEowZEJOeTJ0NFVHVGVSQXFDVUtXNHZF?=
+ =?utf-8?B?c09WaHYySE9zbzZyRkVwMjJTeFgwMTZzN1VYQlZNb3JxbXBxS3BhRkYrc0Jh?=
+ =?utf-8?B?VUdwWUZ1NFJoUWRaT2FCK0VaMVp0aFduYm1nS0l0cEllMWU1Z1dGYStiTUwz?=
+ =?utf-8?B?cWFkajNtYjlkMko5K2pxaWQzTytPMDFqWkhzOVhRNFQxblF2ZHZ6SENQZ29v?=
+ =?utf-8?B?SlJoUzZNcllsVlJzVXdxZ2tYZFFFZ1FZUjFXVlVxOTNZdkhQL3Evb2FLTHd0?=
+ =?utf-8?Q?UBF+UHoJkQHKbgf9TbKtddQ=3D?=
+X-OriginatorOrg: amperemail.onmicrosoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5302aa7-520b-42d0-5ad8-08ddef616f3b
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR01MB7975.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 05:26:31.6654
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3sH0DywsMRnl8HdgLHKBq4i3rBZuZeF99w85txnNVq5jcqGF/k9rZKM0qYG/3pMjQBYFesSWJ0oHYh2PehXMdlqs8LXLCfn0pJXUxVWaoIT1dRj35PwK5Eg2pC1j/cW2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR01MB6502
 
-On Tue, Aug 12, 2025 at 05:35:29PM -0700, Amirreza Zarrabi wrote:
-> This patch series introduces a Trusted Execution Environment (TEE)
-> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> and services to run securely. It uses an object-based interface, where
-> each service is an object with sets of operations. Clients can invoke
-> these operations on objects, which can generate results, including other
-> objects. For example, an object can load a TA and return another object
-> that represents the loaded TA, allowing access to its services.
-> 
-> Kernel and userspace services are also available to QTEE through a
-> similar approach. QTEE makes callback requests that are converted into
-> object invocations. These objects can represent services within the
-> kernel or userspace process.
-> 
-> Note: This patch series focuses on QTEE objects and userspace services.
-> 
-> Linux already provides a TEE subsystem, which is described in [1]. The
-> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
-> can be used by userspace to talk to a TEE backend driver. We extend the
-> Linux TEE subsystem to understand object parameters and an ioctl call so
-> client can invoke objects in QTEE:
-> 
->   - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
->   - TEE_IOC_OBJECT_INVOKE
-> 
-> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
-> used for invoking services in the userspace process by QTEE.
-> 
-> The TEE backend driver uses the QTEE Transport Message to communicate
-> with QTEE. Interactions through the object INVOKE interface are
-> translated into QTEE messages. Likewise, object invocations from QTEE
-> for userspace objects are converted into SEND/RECV ioctl calls to
-> supplicants.
-> 
-> The details of QTEE Transport Message to communicate with QTEE is
-> available in [PATCH 12/12] Documentation: tee: Add Qualcomm TEE driver.
-> 
-> You can run basic tests with following steps:
-> git clone https://github.com/quic/quic-teec.git
-> cd quic-teec
-> mkdir build
-> cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
-> 
-> https://github.com/quic/quic-teec/blob/main/README.md lists dependencies
-> needed to build the above.
-> 
-> More comprehensive tests are availabe at
-> https://github.com/qualcomm/minkipc.
-> 
-> root@qcom-armv8a:~# qtee_supplicant &
-> root@qcom-armv8a:~# qtee_supplicant: process entry PPID = 378
-> Total listener services to start = 4
-> Opening CRequestTABuffer_open
-> Path /data/
-> register_service ::Opening CRegisterTABufCBO_UID
-> Calling TAbufCBO Register
-> QTEE_SUPPLICANT RUNNING
->  
-> root@qcom-armv8a:~# smcinvoke_client -c /data 1
-> Run callback obj test...
-> Load /data/tzecotestapp.mbn, size 52192, buf 0x1e44ba0.
-> System Time: 2024-02-27 17:26:31
-> PASSED - Callback tests with Buffer inputs.
-> PASSED - Callback tests with Remote and Callback object inputs.
-> PASSED - Callback tests with Memory Object inputs.
-> TEST PASSED!
-> root@qcom-armv8a:~#
-> root@qcom-armv8a:~# smcinvoke_client -m /data 1
-> Run memory obj test...
-> Load /data/tzecotestapp.mbn, size 52192, buf 0x26cafba0.
-> System Time: 2024-02-27 17:26:39
-> PASSED - Single Memory Object access Test.
-> PASSED - Two Memory Object access Test.
-> TEST PASSED!
-> 
-> This series has been tested for QTEE object invocations, including
-> loading a TA, requesting services from the TA, memory sharing, and
-> handling callback requests to a supplicant.
-> 
-> Tested platforms: sm8650-mtp, sm8550-qrd, sm8650-qrd, sm8650-hdk
-> 
-> [1] https://www.kernel.org/doc/Documentation/tee.txt
-> 
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> 
 
-At this point, I think this series is ready to be applied to linux-next.
+On 09/09/2025 12:29, Anshuman Khandual wrote:
+> On 09/09/25 9:02 AM, Huang Shijie wrote:
+>> As per admin guide documentation, "rodata=on" should be the default on
+>> platforms. Documentation/admin-guide/kernel-parameters.txt describes
+>> these options as
+>>
+>>     rodata=         [KNL,EARLY]
+>>             on      Mark read-only kernel memory as read-only (default).
+>>             off     Leave read-only kernel memory writable for debugging.
+>>             full    Mark read-only kernel memory and aliases as read-only
+>>                     [arm64]
+>>
+>> But on arm64 platform, RODATA_FULL_DEFAULT_ENABLED is enabled by default,
+>> so "rodata=full" is the default instead.
+>>
+>> This patch implements the following changes:
+>>   - Make "rodata=on" behaviour same as the original "rodata=full".
+>>     This keeps align with the x86.
+>>   - Make "rodata=noalias" (new) behaviour same as the original "rodata=on"
+>>   - Drop the original "rodata=full"
+>>
+>> After this patch, the "rodata=on" will be the default on arm64 platform
+>> as well.
+>>
+>> Different rodata options may have different performance, so record more
+>> detail information here:
+>>
+>>   rodata=on (default)
+>>      This applies read-only attributes to VM areas and to the linear
+>>      alias of the backing pages as well. This prevents code or read-
+>>      only data from being modified (inadvertently or intentionally),
+>>      via another mapping for the same memory page.
+>>
+>>      But this might cause linear map region to be mapped down to base
+>>      pages, which may adversely affect performance in some cases.
+>>
+>>   rodata=off
+>>      This provides more block mappings and contiguous hints for linear
+>>      map region which would minimize TLB footprint. This also leaves
+>>      read-only kernel memory writable for debugging.
+>>
+>>   rodata=noalias
+>>      This provides more block mappings and contiguous hints for linear
+>>      map region which would minimize TLB footprint. This leaves the linear
+>>      alias of read-only mappings in the vmalloc space writeable, making
+> 						typo     ^^^^^^^^
+What's the typo? It seems "writeable" is okay.
+>>      them susceptible to inadvertent modification by software.
+>>
+>> Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+>> ---
+>>   Documentation/admin-guide/kernel-parameters.txt | 5 +++--
+>>   arch/arm64/include/asm/setup.h                  | 4 ++--
+>>   2 files changed, 5 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index db84a629f7b1..138e0db5af64 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -6418,8 +6418,9 @@
+>>   	rodata=		[KNL,EARLY]
+>>   		on	Mark read-only kernel memory as read-only (default).
+>>   		off	Leave read-only kernel memory writable for debugging.
+>> -		full	Mark read-only kernel memory and aliases as read-only
+>> -		        [arm64]
+>> +		noalias	Mark read-only kernel memory as read-only but retain
+>> +			writable aliases in the direct map for regions outside
+>> +			of the kernel image. [arm64]
+> Should not the arm64 specific performance implications be mentioned
+> in the above documentation update as well ? But in case this appears
+> too much platform specific - probably do consider adding them above
+> or inside arch_parse_debug_rodata() as an in-code documentation.
 
-> Changes in v7:
-> - Updated copyrights.
-> - Updated Acked-by: tags.
-> - Fixed kernel bot errors.
-> - Link to v6:
->   https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-0-697fb7d41c36@oss.qualcomm.com
-> 
-> Changes in v6:
-> - Relocate QTEE version into the driver's main service structure.
-> - Simplfies qcomtee_objref_to_arg() and qcomtee_objref_from_arg().
-> - Enhanced the return logic of qcomtee_object_do_invoke_internal().
-> - Improve comments and remove redundant checks.
-> - Improve helpers in qcomtee_msh.h to use GENMASK() and FIELD_GET().
-> - updated Tested-by:, Acked-by:, and Reviewed-by: tags
-> - Link to v5:
->   https://lore.kernel.org/r/20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com
-> 
-> Changes in v5:
-> - Remove references to kernel services and public APIs.
-> - Support auto detection for failing devices (e.g., RB1, RB4).
-> - Add helpers for obtaining client environment and service objects.
-> - Query the QTEE version and print it.
-> - Move remaining static variables, including the object table, to struct
->   qcomtee.
-> - Update TEE_MAX_ARG_SIZE to 4096.
-> - Add a dependancy to QCOM_TZMEM_MODE_SHMBRIDGE in Kconfig
-> - Reorganize code by removing release.c and qcom_scm.c.
-> - Add more error messages and improve comments.
-> - updated Tested-by:, Acked-by:, and Reviewed-by: tags
-> - Link to v4: https://lore.kernel.org/r/20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com
-> 
-> Changes in v4:
-> - Move teedev_ctx_get/put and tee_device_get/put to tee_core.h.
-> - Rename object to id in struct tee_ioctl_object_invoke_arg.
-> - Replace spinlock with mutex for qtee_objects_idr.
-> - Move qcomtee_object_get to qcomtee_user/memobj_param_to_object.
-> - More code cleanup following the comments.
-> - Cleanup documentations.
-> - Update MAINTAINERS file.
-> - Link to v3: https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com
-> 
-> Changes in v3:
-> - Export shm_bridge create/delete APIs.
-> - Enable support for QTEE memory objects.
-> - Update the memory management code to use the TEE subsystem for all
->   allocations using the pool.
-> - Move all driver states into the driver's main service struct.
-> - Add more documentations.
-> - Link to v2: https://lore.kernel.org/r/20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com
-> 
-> Changes in v2:
-> - Clean up commit messages and comments.
-> - Use better names such as ubuf instead of membuf or QCOMTEE prefix
->   instead of QCOM_TEE, or names that are more consistent with other
->   TEE-backend drivers such as qcomtee_context_data instead of
->   qcom_tee_context.
-> - Drop the DTS patch and instantiate the device from the scm driver.
-> - Use a single structure for all driver's internal states.
-> - Drop srcu primitives and use the existing mutex for synchronization
->   between the supplicant and QTEE.
-> - Directly use tee_context to track the lifetime of qcomtee_context_data.
-> - Add close_context() to be called when the user closes the tee_context.
-> - Link to v1: https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com
-> 
-> Changes in v1:
-> - It is a complete rewrite to utilize the TEE subsystem.
-> - Link to RFC: https://lore.kernel.org/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com
-> 
-> ---
-> Amirreza Zarrabi (11):
->       tee: allow a driver to allocate a tee_device without a pool
->       tee: add close_context to TEE driver operation
->       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
->       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
->       tee: increase TEE_MAX_ARG_SIZE to 4096
+Will had already suggested do not add them for the 
+arch_parse_debug_rodata():
 
->       firmware: qcom: scm: add support for object invocation
->       firmware: qcom: tzmem: export shm_bridge create/delete
-
-Bjorn/Konrad,
-
-Since majority of this series belong to TEE subsystem, are you folks
-fine to ack these patches for Jens to pick them up for next?
-
--Sumit
-
->       tee: add Qualcomm TEE driver
->       qcomtee: add primordial object
->       qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
->       Documentation: tee: Add Qualcomm TEE driver
+https://lists.infradead.org/pipermail/linux-arm-kernel/2025-September/1060135.html
 
 
 
-> 
->  Documentation/tee/index.rst              |   1 +
->  Documentation/tee/qtee.rst               |  96 ++++
->  MAINTAINERS                              |   7 +
->  drivers/firmware/qcom/qcom_scm.c         | 128 +++++
->  drivers/firmware/qcom/qcom_scm.h         |   7 +
->  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
->  drivers/tee/Kconfig                      |   1 +
->  drivers/tee/Makefile                     |   1 +
->  drivers/tee/qcomtee/Kconfig              |  11 +
->  drivers/tee/qcomtee/Makefile             |   9 +
->  drivers/tee/qcomtee/async.c              | 183 ++++++
->  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
->  drivers/tee/qcomtee/core.c               | 920 +++++++++++++++++++++++++++++++
->  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
->  drivers/tee/qcomtee/primordial_obj.c     | 116 ++++
->  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
->  drivers/tee/qcomtee/qcomtee_msg.h        | 300 ++++++++++
->  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
->  drivers/tee/qcomtee/shm.c                | 150 +++++
->  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
->  drivers/tee/tee_core.c                   | 127 ++++-
->  drivers/tee/tee_private.h                |   6 -
->  include/linux/firmware/qcom/qcom_scm.h   |   6 +
->  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
->  include/linux/tee_core.h                 |  54 +-
->  include/linux/tee_drv.h                  |  12 +
->  include/uapi/linux/tee.h                 |  56 +-
->  27 files changed, 4423 insertions(+), 28 deletions(-)
-> ---
-> base-commit: 2674d1eadaa2fd3a918dfcdb6d0bb49efe8a8bb9
-> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
-> 
-> Best regards,
-> -- 
-> Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> 
-> 
+Thanks
+
+Huang Shijie
+
