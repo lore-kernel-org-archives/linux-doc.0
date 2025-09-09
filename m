@@ -1,143 +1,110 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE62156230;
-	Tue,  9 Sep 2025 21:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97C52571A5;
+	Tue,  9 Sep 2025 23:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757452007; cv=none; b=M9HcbM7GWBKoSekBEpGL4L89Vt1zbZXbge3ugdzvXlJ2JaSKVDllko/a/yPTC0dX0HnxjXmSD9i1HTmwoevjrWdtXRMW9dz8gLKdNtQvJBMleZ3RPeOgqqPuJ4dl8rJ1Ec7sOduhvotdnjkfJl8Moe0F22h8SHC3xnt48GB3MXs=
+	t=1757459347; cv=none; b=MAPmp4Ul5MaJW+Q6cbFIbHeQ1twxPuQFBc5I7GwAHOHGmImJAkD3KoXj+0o2hgzej+Ivr5mZXgaLfFr8Sg6HIdne1uRb8FTRuKExa5M+bNIVjbH82v6sWVPSjym+BJ3Xik7fH7fWRZa7nxSULrY2iF42X83EkhFVNDiIQsI5YuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757452007; c=relaxed/simple;
-	bh=WleETWC+GsQIv4WF9jFa8jkLFZOSyzCZ01AJm3KkFnE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ActQ0HS2YVAj7A6fWPNxPBcd+8gpYIn91psCXjwPyoO8Skb6uSGWl81yy2flDNKqPRZvKLLTcsGjjU5okyUarHZscp4+CVD7Rq9fCHkTbQ/83l7Okchid3p8yZi7cizcnvyaoodUW91R5wAwskgS5MRKRVvwEm2+PGictlvEUwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QErhSw5g; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757459347; c=relaxed/simple;
+	bh=X4MgtKTATrL5i+a2AAbV55RNW1mWPBi3lK6FRDpfT0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=alg+wjnXmbJ0d/BDC7NQAkxuH1w47LHpEEevcdsP3iBVXrIo/yca4kBDnB2YjXVzSmFRVZDUr32B62B6IuvL3rZzQuaPFMmlxXxTpy8NIvyJZSDn8azjbGicx4nQGLC77zcc2PowtisDYyxQQtye6ozScEbJwZvluzOHJVQzrzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4ysR8NN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QErhSw5g"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JpRhAacMskRE5f/7K9KISuGLtmoNhtQQkhXvzxgsxk0=; b=QErhSw5gIC360LztoXcePOd95b
-	KMnGYTYwbYlr0Wy2zaVv1LSSkjIFIs6Mn4iVHSOaDQ+pwMUGY3ONEj/XLtISMNpdC4qiaSk1u+YEd
-	GfUBEFjvV33zeQedRXvc1gS8Qw3coMI0rT/1FR59Wqoog9+U6Y+hXIWYx9MtinCOMNLvNq80VUNRA
-	osaz+HdPkxSwb8m65iK5X5B3pgWZwkXknfR1VoLZ965oDgwKqhZMVgxACVXDA8SmDMOwbBPqhzLB5
-	cddE819BVr00VKtNJeV7OBVPq4FYF4wHdolCZyidwLKFra02Aorc5XakYCJjeMZTyNWyPo02kCqkF
-	FYmMCaow==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uw5Y4-0000000AGqm-0af7;
-	Tue, 09 Sep 2025 21:06:44 +0000
-Message-ID: <5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
-Date: Tue, 9 Sep 2025 14:06:43 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4ysR8NN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C34C4CEF4;
+	Tue,  9 Sep 2025 23:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757459347;
+	bh=X4MgtKTATrL5i+a2AAbV55RNW1mWPBi3lK6FRDpfT0g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=O4ysR8NNdTEu+Arui/n0RNJP13chl4Zn4LfxGrzSNDwxrixdWwgGqRDFikrUAVw3m
+	 Ghml8tEP08uqybByE9ENWKDUpF726/d2sxddrPV8DiGidt6f3QwuhYa4UJ4lUiVQsH
+	 609PIbZvkF3nQdhmUsZUZba0ZZVgCIShU2l2SGg7CSlC3U6jH5DbG17MuL/mdLigxm
+	 SGhjcUCKUI7KqKxPwpDC8QQyvmUUP9Vrg74bEqrP4HQmtfSJkFHNe/XHtUQaGshcja
+	 BKNyw7n5mI0b+Z5RLpKO1z7mU+Y17aBYhYOfOvt255PwdVmEy5e4gnPMhhiYR4gKVW
+	 rn2rofYVNEvDw==
+Date: Wed, 10 Sep 2025 01:09:03 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: add support for handling global variables
+Message-ID: <20250910010903.5388bffc@foz.lan>
+In-Reply-To: <5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
+References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+	<d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
+	<20250909215824.1968220c@foz.lan>
+	<5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
- <d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
- <20250909215824.1968220c@foz.lan>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250909215824.1968220c@foz.lan>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+Em Tue, 9 Sep 2025 14:06:43 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
+> On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:
+> > Em Tue, 9 Sep 2025 00:27:20 -0700
+> > Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:
-> Em Tue, 9 Sep 2025 00:27:20 -0700
-> Randy Dunlap <rdunlap@infradead.org> escreveu:
+> >> +.. kernel-doc:: init/kdoc-globals-test.c
+> >> +   :identifiers:
+> >>
+> >> The html output says
+> >> "Kernel Globals"
+> >> but nothing else.  
+> > 
+> > I usually don't add :identifiers: on kernel-doc entries. If you use
+> > identifiers, you need to explicitly tell what symbols you want.  
 > 
->> Hi Mauro,
->>
+> Well, it worked/works without using having any identifiers listed, and
+> the docs in Documentation/doc-guide/kernel-doc.rst says that they are
+> optional:
+> 
+> identifiers: *[ function/type ...]*
+>   Include documentation for each *function* and *type* in *source*.
+>   If no *function* is specified, the documentation for all functions
+>   and types in the *source* will be included.
+>   *type* can be a struct, union, enum, or typedef identifier.
 
+Hmm.. looking the entire logic:
 
->> So, I grabbed some global data from 6-8 places in the kernel and put them intoinit/kdoc-globals-test.c. Then I modified Documentation/core-api/kernel-api.rst
->> like this at the end of that file:
->>
->> +
->> +Kernel Globals
->> +==========================
->> +
->> +.. kernel-doc:: init/kdoc-globals-test.c
->> +   :identifiers:
->>
->> The html output says
->> "Kernel Globals"
->> but nothing else.
-> 
-> I usually don't add :identifiers: on kernel-doc entries. If you use
-> identifiers, you need to explicitly tell what symbols you want.
+        elif 'identifiers' in self.options:
+            identifiers = self.options.get('identifiers').split()
+            if identifiers:
+                for i in identifiers:
+                    i = i.rstrip("\\").strip()
+                    if not i:
+                        continue
 
-Well, it worked/works without using having any identifiers listed, and
-the docs in Documentation/doc-guide/kernel-doc.rst says that they are
-optional:
+                    cmd += ['-function', i]
+                    self.msg_args["symbol"].append(i)
+            else:
+                cmd += ['-no-doc-sections']
+                self.msg_args["no_doc_sections"] = True
 
-identifiers: *[ function/type ...]*
-  Include documentation for each *function* and *type* in *source*.
-  If no *function* is specified, the documentation for all functions
-  and types in the *source* will be included.
-  *type* can be a struct, union, enum, or typedef identifier.
+I suspect that an empty identifier could be raising an exception.
 
+The right logic should be, instead:
 
-> As a reference, kerneldoc.py logic for identifiers is:
-> 
-> 	if 'identifiers' in self.options:                                                                                                                                                                      
->             identifiers = self.options.get('identifiers').split()                                                                                                                                                
->             if identifiers:
->                 for i in identifiers:
->                     i = i.rstrip("\\").strip()
->                     if not i:
->                         continue
-> 
->                     cmd += ['-function', i]
->                     self.msg_args["symbol"].append(i)
-> 
-> without it, it will pick the entire set of symbols. 
+-        elif 'identifiers' in self.options:
+-            identifiers = self.options.get('identifiers').split()
+-            if identifiers:
+-                for i in identifiers:
++        elif 'identifiers' in self.options:
++            identifiers = self.options.get('identifiers')
++            if identifiers:
++                for i in identifiers.split():
 
-Yeah, that's exactly what I want, so I don't see a problem.
+(tests needed)
 
-
->> My test files are attached. I dumbed down (simplified) a few
->> of the globals from fancy types to just unsigned long, but that
->> didn't help the output results any.
-> 
-> Looking on your attachment, you can either drop :identifiers:
-> or list all of them:
-> 
-> 	.. kernel-doc:: init/kdoc-globals-test.c
-> 	   :identifiers: ROOT_DEV loop_per_jiffy
-> 	   :identifiers: preset_lpj
-> 
-> (here, it should only show those 3 symbols)
-> 
-> see, having this:
-> 
-> 	.. kernel-doc:: init/kdoc-globals-test.c
-> 	   :identifiers: ROOT_DEV 
-> 
-> will run:
-> 
-> 	$ ./scripts/kernel-doc init/kdoc-globals-test.c -function ROOT_DEV 
-> 
-> 
-> 	.. c:var:: unsigned long ROOT_DEV;
-> 
-> 	  system root device
-
-
-Yes, I understand how to use explicit identifiers.  :)
-Thanks.
--- 
-~Randy
-
+Thanks,
+Mauro
