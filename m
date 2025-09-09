@@ -1,102 +1,103 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153EB31D36B;
-	Tue,  9 Sep 2025 17:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596512D5C74;
+	Tue,  9 Sep 2025 17:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757438343; cv=none; b=nkhngt5QQmQL5/GzAkHX1jR+cg7l8ntvnCKYmT/lf/2kFTTjO05U/QkS16MzvSAYmpTA6J9enryJXDm0jbgc270qadCtTbVO4xdrKAW3X0g5axE6HOm9EvbYJ/KhiwDQRHDUpQ12Sz5o44O3eo6vk4Ei3Iqzg8kIeFLYftiOlyI=
+	t=1757438805; cv=none; b=mvR4JsYjrOngR8USG02YtnARALNhO08/dQFPuh8zdaEQGeNJJdLmDZaVeSIPArUOW8NCp8aaZP0leiEGLrqKrPXYDxmiBHefJ8owkVU2IivJmzW/U/c7KDTiDNe5c4IRkXIsdEk+WOsx8uOYlxy/wxPYreh79Aj0la+0j0W9FJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757438343; c=relaxed/simple;
-	bh=Zm7VvOOeDOR6npg9I6+moKEGxYkK+6BlGRi966Odu/U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=ZaYjStkiGJCoBsJ6qRBqU4W490lnqFmWHtXO/LTRecJbp+1gSSiGLvvi5vCnCKLW41pyEOYVIcm3lEiSnhYxZvMe09JWyOTPaxv/FKgB0T7ex854RvRep2/KMfaeYoID9XoYLkjdkuYwsspvLjH4GN4XvfcIBUmwTTXcvTxiuVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9pYGj24; arc=none smtp.client-ip=209.85.221.169
+	s=arc-20240116; t=1757438805; c=relaxed/simple;
+	bh=N+pGwPw9MZww6G+9DA4s3ooxnN9i57hMzT73xzakERs=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fVuqGZ2xAuOKBdC2S/K3Tz3PGyhhs6fnu9osCUH20v8X9wi5lpXltLxhoOPXErMnm2iJE295yozx7we/4zDHiJMHKiEm7aUI6C0Uzmmi5HwpAVs8KDpqL2I3SbmPKDA5DQUF3CCgM8EePdMTg2tYV7NrhUcGpFbTn6dG4sHcnMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QyIfbSRm; arc=none smtp.client-ip=209.85.219.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9pYGj24"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544bac3caf2so4996240e0c.0;
-        Tue, 09 Sep 2025 10:19:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QyIfbSRm"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e96d65194c1so4533488276.1;
+        Tue, 09 Sep 2025 10:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757438341; x=1758043141; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zm7VvOOeDOR6npg9I6+moKEGxYkK+6BlGRi966Odu/U=;
-        b=F9pYGj24ZXLL4W1e5RtGzDEQOorGlObpbfI+o5aJXlmYNc+CDAgxI2EhmpwImwjGI+
-         buNl6IwTCL1+RJdZkfUPyWLGMBndcbXmGk3MRr21x0Utg66JbHzRS00174rfIS0gUqgp
-         KzQnSMZxBoavw/QriOGxviZWWiAmhVSQGxIJUz+GbDihkxpdQ7apq+cHOmSMj9vSIalt
-         KMywzdhjin//k4z1GxQo2Rra1XbrorbxVbf0cTz+dm7F/usNHfd9qPbZ2KiZbrN9mava
-         wdOBIEM9uthMcGeog505rhR5tMA8VH24MBW3CH8bs2BlaONi5YJRn2L4yrOJgWld5XYY
-         Qy7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757438341; x=1758043141;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+        d=gmail.com; s=20230601; t=1757438803; x=1758043603; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Zm7VvOOeDOR6npg9I6+moKEGxYkK+6BlGRi966Odu/U=;
-        b=KZ8s91shhhrzsN2kwm0tqHLsnZTFsL8MNeFjVlllWkQmijXnR8868bc4FHO5CS/oMD
-         CpMZNIf0TKlQFDD4WcuBE2Fy7lJlnP7dI/TV9tJ6NifJ/p6u0ykGCr52EcVmtMfYjQg6
-         emEFUhIKfxM45nkLFgsqizTGPpZHvzXSXFwO8LbGjsNP6N5+iUJ5NT69MMDLI3PmhJ+O
-         3RD61aBl6xSFdLjCwh430gLfHh8QjATwC/n1SwCQlkayyYyJs3UGV7MLOjEUGOHIBFiC
-         FJkcruny4jJs6NMg12xkMFLF6VrIZyigyc6Br1QMQl9D4zfkQLdBrWqxPZnHl4YmGQBL
-         7sVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBfntsVX/uGeZa95KK5gmDEIj5joptYvuDw6oJ1Q6bi0xvYXmCu+PNgx5DuOZ7ioO6bTo/4Ul/dHBScFD4@vger.kernel.org, AJvYcCUWM4v+cTaihZ6k/AWc/tslYL0HDYtKquvu5i8TT5SBsn71PI82B15FA9uNfYmgiNx5q3C/tT0cwhcR@vger.kernel.org, AJvYcCVP2q4cvzhXQ3UGvD4+lVe1ErSWkC9Vn0dupjAUDXxKk5TR6TbPsvBhMUZA+bJbHC1IT+5vNEH7Mt9fJAY=@vger.kernel.org, AJvYcCXSrT6BRv1fB6CkF+Eh9d67ESCeWzHQzx6PyIkdP+mE7jZJevHFuPMwWWDtGSPnyXvWsQq5VJQKGWO6@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP7WgCmOWImrRKOd3rUReLlRHXjE/iu+mshB2rW9QUzl2utlm2
-	oIYgXOKeB/LoULHv1F0dljvBHG1r4o9Wn9I6AVK+JveV2zSQhnPI+NnW
-X-Gm-Gg: ASbGnctAYg+6aL2bVF+W+1w9qKw/9KLcSPIOYp6+RfUjOjRtzbWo2wMNohNt1TG/ak2
-	iLEQN8NkodTsnRDGR/ExrFTor1iMyzhN95dZd8b/cvlgcsy8tZyCDZFRI6+9jtGAFK4gDxvZG7O
-	4CwntuN2UWxW8oDvpx9OaW5avEDyPmOuHHkjwc7T9ONHkHFSJR3pqM9VmNd7Jh93tm0WkWiUeuB
-	XIIUDrW09EKMIUZtn1313OKpCahHExX3hPnkPXOy0IeyRnlqgD/5GMfAvWj4DUcNzUXg0Uoz1Cj
-	iBAWN398akq6wY2EgLzgMyOuyx9bcnuexL6tjJeTEGp/R4wiwxqC8OT94dCE6jmx+T0Xzyjo50B
-	rvyQFgGoRpcvJ7jgETw==
-X-Google-Smtp-Source: AGHT+IHK+XrLR9nzLmssHwGsF3FY/vJz5YzX53asL0ZsGc/4fHjLGGtfvlof1YLUsZOQVPF3Yh2aqA==
-X-Received: by 2002:a05:6122:251c:b0:545:f7df:4769 with SMTP id 71dfb90a1353d-547923097c4mr4407967e0c.0.1757438340871;
-        Tue, 09 Sep 2025 10:19:00 -0700 (PDT)
-Received: from localhost ([2800:bf0:4580:3149:7d4:54b1:c444:6f2f])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5449bc6668esm13241166e0c.0.2025.09.09.10.18.59
+        bh=0oIkfurNYJ8ubibO+ta3BmDEx7AccbTt3F6wYbDoMRI=;
+        b=QyIfbSRmWt/H/WdIs9NxGXg28tR4bQgTUsuxQFFGCMEjtZGTtAd44nokr64mRLHba7
+         z09jAa1zpBqdZQBwdyRZ3CiRKoQvTcS+Lykke23hJyx1jaEwjFOh2qh6BPVNjM2kRXcL
+         XJNO/qxHup6JirMBHL0KnI+rTa5H/SFkKVqFSJOtYCPkDTk1ndAvcM/fDqMwIp1Iu2qG
+         YqTEGu6M83nXjDzB9NUGg6KC8ZYDxb6UMk1sXiZKNpjg0QcsQe3ArqkwCobH+z2TJWGW
+         rg00aPmljaAi0O573u7/axQujATfCUmMUT8dpIIFRG5VYDnBmdKUfFbLwjwOcyF5Tpn8
+         Ggeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757438803; x=1758043603;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0oIkfurNYJ8ubibO+ta3BmDEx7AccbTt3F6wYbDoMRI=;
+        b=Knn9wIoNv9jEWVYIf+ltK4Rv3W3ZeeL3nRlTgJRRIYsclGq/m08SEKX4APVWHQ+9aW
+         qWZRlAJamPd3Euk4N0rxSsD5Ild6GgZM57utepY09L+yXf+fCjWxkX/q5vLiMoKf8hqV
+         PKsfGeoa6RKmA8ZzPrQP5e3dIFYDV7ncXZ3Nzits6qXCgYGSorHS8h5epAS15t1aIpUl
+         RRfWjGlC6U048tp/Em+719M7WbPHVdj/0+LiwUSV6X/Gm+N7uD84LXnjkswFBCfGUG/W
+         xWnFL7xasXV1FVxQ5JdtAA80FLj9UffbsYwObn0CxyOwX5kDfnIW8E+SoFcb8+nXdtgR
+         vsGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPs0b0mCZ/uv+cluZu1SNKdsdBDtuwKE0H8+VR+vDBaQtV8EwGLS2E0WtqVU/1R7+HcykvJuXTTgbT4x69@vger.kernel.org, AJvYcCVnqd5qC/aBdviP5HaMF7DdPiwyhAxDuczL0nhCULJC1506vsBXWLAYfu9/l0WsZyccDliIICQ00Mk=@vger.kernel.org, AJvYcCWJ8mtkNJ70aacTYtWD0dUNboMKtaDFbA4X4gag+AyJEHA6odyPLOfdIkWi5zs9ROE4rc5oyCFCVr+YEqrQKqk=@vger.kernel.org, AJvYcCWqYuYRr+119jfkXSzToD6mo8W3JPc9MGrMHmBtHrm0PqveWRVv/NTHBwolvg9pxaPJCbTGOrmViS6jEx36@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHg3zYxBMgpZ1OBKvK//3aL2+WuzVThEqfTAYTvxdGJDu7Frdw
+	fm5esQT1Of9wIsW5Amr/GGB/BzvGsFL2akj2xmdATMQmwStaizSQI7wJHb/UgFMdHUk=
+X-Gm-Gg: ASbGncs1vsVNuzQbU3ANxg1l/N9qgFY2c/esJySAuaN7y8QC7g3cCnkwfokQgRk3/UK
+	DCjaRg5hMPjNAfyL0j6RBSdcAcFZU2Kd4+5O+nt89EqsBjbKH0MFb+pkpfiTEbGPP3Bm1Rafw0d
+	ZmboCl8at8TAb9HLK4TR+MxFsAhBH1pDqn4rQMDFQMXbR+2fjSPst3Y+1Nj+UFcabmlqkhCt4qU
+	QqxML1Rmn27adJEEb66SvLwmD2CjDz3CkFhw/hmCNUrBhi5xPPw1gRB37LfZXlVbf2/L/eX25YJ
+	XN7x3F1V7CHE2q0+VXecjLWGNxn+46emcAvWOpb4DYryKc5QDdH/MgUJFZtFJp+H1X+bz2RCj56
+	w1POiKTj3kFHXvpm/ZVGykeioUNbvd/80peocCy5mG/zyuhQcTz37
+X-Google-Smtp-Source: AGHT+IGWvHZDYiA4RGkwYsweLqhI/RtpyRtGhg9Auj53oYUggWnrYnKSkAk9+pz7VYUcyUr/yHalzg==
+X-Received: by 2002:a05:6902:2b8c:b0:e97:1bc:b273 with SMTP id 3f1490d57ef6-e9f662ee3b5mr12680572276.21.1757438802651;
+        Tue, 09 Sep 2025 10:26:42 -0700 (PDT)
+Received: from [192.168.1.209] (74.211.99.176.16clouds.com. [74.211.99.176])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e9bbdf1fcbasm6726070276.6.2025.09.09.10.26.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 10:19:00 -0700 (PDT)
+        Tue, 09 Sep 2025 10:26:42 -0700 (PDT)
+From: Asuna <spriteovo@gmail.com>
+X-Google-Original-From: Asuna <SpriteOvO@gmail.com>
+Message-ID: <a78dca6d-5504-4f46-910b-820cb9ca750c@gmail.com>
+Date: Wed, 10 Sep 2025 01:26:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Sep 2025 12:18:58 -0500
-Message-Id: <DCOFWB420ZRS.2N43ZQ97QZ8UY@gmail.com>
-Cc: "Jean Delvare" <jdelvare@suse.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, <linux-hwmon@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4 3/4] dt-bindings: trivial-devices: Add sht2x sensors
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "Guenter Roeck" <linux@roeck-us.net>, "Kurt Borja" <kuurtb@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250908-sht2x-v4-0-bc15f68af7de@gmail.com>
- <20250908-sht2x-v4-3-bc15f68af7de@gmail.com>
- <58e111ea-508c-4042-9ae4-d4293871e73f@roeck-us.net>
-In-Reply-To: <58e111ea-508c-4042-9ae4-d4293871e73f@roeck-us.net>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] RISC-V: re-enable gcc + rust builds
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
+ <CANiq72kZAeVjPF_O+o9zy=1-wh+6nUiW26_ngqf8unNi4twMCA@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CANiq72kZAeVjPF_O+o9zy=1-wh+6nUiW26_ngqf8unNi4twMCA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue Sep 9, 2025 at 7:25 AM -05, Guenter Roeck wrote:
-> On Mon, Sep 08, 2025 at 10:54:51AM -0500, Kurt Borja wrote:
->> Add sensirion,sht2x trivial sensors.
->>=20
->> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> Applied.
->
-> Guenter
+On 9/10/25 1:12 AM, Miguel Ojeda wrote:
+> To clarify, since this probably targets the next cycle, there is time
+> to discuss and get feedback to do whatever we feel it is best
+> (personally, I can take a look after Kangrejos at some point). Is
+> there a particular rush for this?
 
-Thanks Guenter and Krzysztof!
-
-
---=20
- ~ Kurt
-
+Nah, no rush, as long as it works so that RISC-V distros can deliver 
+Rust-based components, that's the main issue I'm trying to address.
