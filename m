@@ -1,49 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2EE1FF5F9;
-	Tue,  9 Sep 2025 20:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F741FF5F9;
+	Tue,  9 Sep 2025 20:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757451193; cv=none; b=bgpEPivyn7al6cCzkcUfclWxzlOms7vir+2KTVM4TSfzQGdKnfwWg6dCOTxzKsnPf6/s1M8rSLzEfY21aZfipZuXJnokPOfZQItzoYTrhy8+rO7clsBlAa37TqoElTrB89kZ2qTJIOKNkUWUzJqGQZ5oZdDKn9DnrE9HhLgGUbo=
+	t=1757451357; cv=none; b=U4B8VUX8JDv+H0/45aYXH3Eyl8+n4/xlMxzfUOfwEDEHaelWeEuGXwD3GwKcDCWfdZxsGg5blIxaX5j8kUOA4SAqmgvWxWso+ypU0Tp2N/El81Jq4XNZXonmZq7pCZkQTTE3j4rUtqT+gsuWKbhc3XCXcl/pjQRBgNVSLisfZUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757451193; c=relaxed/simple;
-	bh=lRNvw5Vej2PNjUqrctTC6POIwS0tW4NvDAn8P9RwduA=;
+	s=arc-20240116; t=1757451357; c=relaxed/simple;
+	bh=6p5J73eIUs+wFjXX8VTD3kV/VgYHijJObwj/6Vt0D1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fapfX/k6V91EeXl3a7kEQNgVunn83Pw3RPYxMiYs73bsau5SZrh0ypE9WW7rftFWUrb2Z2E7MfEleoEsV00zsZn4PZOLNk9PQJE4S19fDuCcHmAlLR+GIXMrnWNDaCMm7mzHy+lvwkd5ISvqo4EZFymKYadnSOPKRs90li6Iy9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCgi2h/o; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kj3aBrJGZ3NGmwIDHBUSStbbzRP9l/niHlbvaT6lgo12+iZhFgHy4jZs0TGy8LSkmRzieiNf+hoU7ZiNuN5Dq+7GubU2sf8Nd6ZIHgESs9l+fTuTuBWD69oYbZsaOxm5K+cxuqlsWylooQeZlGxGoB5isc/ykuTpGgwotsS2akY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QH96TEDV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCgi2h/o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D628DC4CEF4;
-	Tue,  9 Sep 2025 20:53:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QH96TEDV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37299C4CEF4;
+	Tue,  9 Sep 2025 20:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757451193;
-	bh=lRNvw5Vej2PNjUqrctTC6POIwS0tW4NvDAn8P9RwduA=;
+	s=k20201202; t=1757451356;
+	bh=6p5J73eIUs+wFjXX8VTD3kV/VgYHijJObwj/6Vt0D1I=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HCgi2h/oQxBkyv+fOnr8t5TFe2z+Zv5AnIySO30rnXXrcif2Z2sLz6aR01iGQGeuI
-	 dZBqoYvtKNZZWUZq4gvUKQvHs/q5pp0nRCSZjlCVWy0HgfSu6R4wUWsCU2wEttsIc1
-	 jEpxu+T8CL2JuMA/a+2gdTh68sm3ozEM5+s4sQARkQct8uykEGEn1HlAkgoFDwWLQZ
-	 OY66NiLuCqvt6lqitD5Vkb86PQsVKe4MtFDop2g87p4dW4bUfRx+Ik4GNg+RqES6Hj
-	 bQlqo5j4UWTwKa/G43M0oNoa2jTBn0NVhgOGtSKk0xGYOBUpPB4uZGtew6K4ThgU/H
-	 s7nARvIYuMpcw==
-Date: Tue, 9 Sep 2025 22:53:08 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, =?UTF-8?B?QmrDtnJu?=
- Roy Baron <bjorn3_gh@protonmail.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Alice Ryhl <aliceryhl@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary
- Guo <gary@garyguo.net>, Trevor Gross <tmgross@umich.edu>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v4 08/19] tools/docs: sphinx-build-wrapper: add a
- wrapper for sphinx-build
-Message-ID: <20250909225308.30a42062@foz.lan>
-In-Reply-To: <87y0qnv4j2.fsf@trenco.lwn.net>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-	<e019f951190a732f9ac0b21bcda7e49af3bd5cbd.1756969623.git.mchehab+huawei@kernel.org>
-	<87plbzwubl.fsf@trenco.lwn.net>
-	<7tk2mkydbcblodhipoddued5smsc3ifnmeqen5wv7eu3mbmvgi@nwxqo5366umj>
-	<87y0qnv4j2.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	b=QH96TEDVC7ghNHQurxKv8Rg2iFmu7k5LZmLGo5Ww0sAyGgfsqMTKr+G5YPeyNF/4K
+	 KBRHd+DNvOHj/VVQHOYrjo8PH+P0Vnhc28rVeXxryrr0gLUfX/lf+DQH+3O1UIQBWg
+	 kGlY5bwb9a3GgJeAqzHcwTQqsuD9s+65HrDm9wP00HGYO0CtLhiE1Z/cn82mC8e2rO
+	 dayQWsXaP475onCZbcNkwcowGWGZXBjZrWHVGvGn8qeN1FQ/28l3shJZc1BqIynsng
+	 Asz8JL9mq27Vk8FbDU8B7k6vNx3YlhwvowgjB3G3LCPCR/YIaD3oi2sJS3vdZTUEmw
+	 e58nET7xC8tQA==
+Date: Tue, 9 Sep 2025 13:55:54 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Anwar, Md Danish" <a0501179@ti.com>
+Cc: Dong Yibo <dong100@mucse.com>, <andrew+netdev@lunn.ch>,
+ <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+ <horms@kernel.org>, <corbet@lwn.net>, <gur.stavi@huawei.com>,
+ <maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <danishanwar@ti.com>,
+ <lee@trager.us>, <gongfan1@huawei.com>, <lorenzo@kernel.org>,
+ <geert+renesas@glider.be>, <Parthiban.Veerasooran@microchip.com>,
+ <lukas.bulwahn@redhat.com>, <alexanderduyck@fb.com>,
+ <richardcochran@gmail.com>, <kees@kernel.org>, <gustavoars@kernel.org>,
+ <rdunlap@infradead.org>, <vadim.fedorenko@linux.dev>,
+ <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH net-next v11 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <20250909135554.5013bcb0@kernel.org>
+In-Reply-To: <54602bba-3ec1-4cae-b068-e9c215b43773@ti.com>
+References: <20250909120906.1781444-1-dong100@mucse.com>
+	<20250909120906.1781444-4-dong100@mucse.com>
+	<54602bba-3ec1-4cae-b068-e9c215b43773@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,42 +55,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 09 Sep 2025 12:56:17 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Tue, 9 Sep 2025 19:52:21 +0530 Anwar, Md Danish wrote:
+> > +	for (i = 0; i < size_in_words; i++)
+> > +		msg[i] = mbx_data_rd32(mbx, MUCSE_MBX_FWPF_SHM + 4 * i);  
 > 
-> > Basically, what happens is that the number of jobs can be on
-> > different places:  
-> 
-> There is a lot of complexity there, and spread out between __init__(),
-> run_sphinx(), and handle_pdf().  Is there any way to create a single
-> figure_out_how_many_damn_jobs() and coalesce that logic there?  That
-> would help make that part of the system a bit more comprehensible.
+> The array indexing calculation should use multiplication by sizeof(u32)
+> instead of hardcoded 4.
 
-I'll try to better organize it, but run_sphinx() does something
-different than handle_pdf():
-
-- run_sphinx: claims all tokens;
-- handle_pdf: use future.concurrent and handle parallelism inside it.
-
-Perhaps I can move the future.concurrent parallelism to jobserver library
-to simplify the code a little bit while offering an interface somewhat similar
-to run_sphinx logic. Let's see if I can find a way to do it while keeping
-the code generic (*).
-
-Will take a look on it probably on Thursday of Friday.
-
-(*) I did one similar attempt at devel time adding a subprocess call
-    wrapper there, but didn't like much the solution, but this was
-    before the need to use futures.concurrent.
-
-> That said, I've been unable to make this change break in my testing.  I
-> guess I'm not seeing a lot of impediments to applying the next version
-> at this point.
-
-Great! I'll probably be respinning the next (hopefully final) version
-by the end of this week, if I don't get sidetracked with other things.
-
-Thanks,
-Mauro
+Not sure this is really necessary, I'd expect C programmers to intuit 
+that 4 is the number of bytes in u32 here. sizeof(u32) is going to
+overflow 80 char line limit and cause more harm than good.
