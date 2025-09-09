@@ -1,93 +1,67 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667073314DD;
-	Tue,  9 Sep 2025 12:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A429321F40
+	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 12:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757420789; cv=none; b=O74TgSvQ8d7/UKFBRTISb36gu0vGog7gh2AT5wMKpwGxr3TxuNh6y9YiAHPYD7t3hY3yPYNWmCLsBJqUx8mOFqSKlU1gbzb519C2TKHd0zCrGY6rHFP0vQ/2u7wSL1gn/lG6XOsW7+STwVbeBNV9/N5+v2dS0cwg+prTcxcliRA=
+	t=1757421489; cv=none; b=cfUFi5CoWidFZ1GNEV4dtEpM9ogC+5AsIeDZWUGVemYeGRfFXs9Y9fWRp1XISxB8577PIG10Ix8BAikKpDhQbJ1vwQzyZrn4oE74FOC1GfsH4d+Ty7xURkdAaNC4cv8l5OW2obhhFZS4ay3vMiAHCoV53/vdT+Nx8WC6UvSkpPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757420789; c=relaxed/simple;
-	bh=U7TaQrD6Z9fVJPERIe2QUuANZU8/QdaSRLm/2t9oIcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hrDe+QQRltMgz5PJVjvjhiSykkEghV67XQA6g7/b1CGMkJslOFYko3a+P8L7MD3MHOxUUgrTI0d4v/Fo2wT+mhSpwDLbINJX80fFIBWDb6gLbPRDEt01bCVB5jRWhBqfiwv7cM16fW+AmsaK8iP0aQgjJZKHUZqIdgs66s8BluI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STRJiY5f; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757421489; c=relaxed/simple;
+	bh=AwlCg6UHOncWugo3loGql859Ew84PL/D9QEznoNdr4k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OKnCmr+jgZs/cTUJHHrbBa/ZoKZSHl6uSZMnPxsShhnzKjC5R0LrF2JSEzWkmD7qpJSa7SqDeSE+AzHQgSa44CFISodzINd1IxZwmJ7DYZh+ltVuhEC9zdLJJOC+lJWe/X7VwUOTfMdJbkZLPvd37YSZEa9szxRVQIn16upW1RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K8q7vAU+; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STRJiY5f"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-77238cb3cbbso5781771b3a.0;
-        Tue, 09 Sep 2025 05:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757420788; x=1758025588; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I+JVT/wxmER+Hohr3wia1VPwKySwieE1n34G+gOen2M=;
-        b=STRJiY5fzj7fK9YnAq59/vwyTKi/06VfF7YuOpv6bKAo6T1sWXeNvGjVxlSS/aB23m
-         89vDioT7k7uDKGTPknkFrA4hSFpB3CCNUKuPMIYwBMTu0pFSC4xDHsskk05mhXDJY6dl
-         PZvJvJ/jOxmrkmi4iHFgjJlzPlVBWHX7NEHn1668YfsivtPI2E7f5/JtkHCxAonP3djT
-         wpe3FuLtuPqo0q0oxeoYuXRRXUOgM/CYanT7blAkuoXyWM+znaROxXw1/ykoAcjrz6nh
-         AiMT1lYAkkziYcr2fnwWmESYAda8CkKIDkoPQcDJ0Trcm6Nwmueo4FuYZg3Vd6+9fqIh
-         c9WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757420788; x=1758025588;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I+JVT/wxmER+Hohr3wia1VPwKySwieE1n34G+gOen2M=;
-        b=RMAYOEnAKX9DrNKkfD8rTDKOjLLL7Jvk4unIT4pYClIo3XRuhk/3O1+rjhQr8Z7WLv
-         9zNDV1OY6YCkLUzIYgpybyp3/aWySzH5VLCWzW2TuKlVMho1+wz5ERm9waMEoh28PmYe
-         SETyH7goWcF9+D9acUY0cNvRx7yLYBBTFv+6PfArYjOt3UxLkQtXFp5yMPShSW89Dt91
-         rPrRUB1baeGeAk7mRNneGe6yFUtun0ed05hzOSTW4L3d8jr1OLMTyGxY2nezxAtjbgi9
-         zFlnTKcglYFIro/EMewg4pKNWlMyBh1Zdgk8E+Z0Yvg3cSxvZcaWV7SPpgykvDQFM7Wl
-         dd0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUo2hb0+w5h1HwFj3HjvzckbepAfq972aviW+95dKHByTur02utIMIAN2HB5elkCBvD+KUAisa8H6jC@vger.kernel.org, AJvYcCUsNM3nVoKGxt0mCu9Tnh3BhaWbxhOTTL4s+zv1/ta/eRgcy+pTOljx1ioGUurpdS+1QtOQh09OSYE331Qc@vger.kernel.org, AJvYcCUxUp0TQYjj1VcT9EmBm7HkheYmCaslQl5h4Q1d3FQ3qEBBfGD1bk9J4oOoOE2MWmNxBMmK7n+4imSvxoA=@vger.kernel.org, AJvYcCXSSScrLENW16rm1zUxX/0JSNwAzg9AElGGzywxWbzfaltPNe9OMFP/A5gshiZZCYlMWFgCbuCB5fjI@vger.kernel.org
-X-Gm-Message-State: AOJu0YweM+En9+Sg60AYUg3s0oZ9NG9W/KZbDXcSphFf+SFPJcESOYi8
-	xia8i7BeNHaI2jOivPNiAqPjpBIbJQWquR1bRMJc06wrkGkEyXeNpgeR
-X-Gm-Gg: ASbGncsXgjllOMifHZxW8WWS7XdTeJyR3QeIV2vRsg2mSZAol8P8TQFr3RfZdrxnGZJ
-	NvUssRsfJ1Iq0DbnYN+kb9MeeT22fquw+ukE+/wmbYOJ7BQ2LQlNJ6bbxleMIWk3ZR2ZPmbu0NE
-	GWG9M7WEulqaNx+NAiGsdJYoq1fmpkSl/VFE2tjOZ4/sERrrkxQRR6QjGv5TxTuWbvyxPEF4z0x
-	MWuxZlymxOrXa72O5RCrDIoUO6/1qZMrvF5HkEID74LLQm+K5dgVWREHVEv8fZwuMnFIBHIsXA9
-	Yd+HTsvDpbJyskF7LaMmVGeqIWs4IQmm32SuSTznPNGAo0d6F91bBascZ5viJn7IUvvxi1tZXF2
-	WmHMUrlo4Rogd735hLoFCmEmtcrY8EvKH/mxBFgy7bNz+msn8auP3LofP
-X-Google-Smtp-Source: AGHT+IEo1/k3nA9TlKM57eXi0NSc+v5OQGJ5GpILeZ4cYAMHSrGC90gCokC/g6HdzrNNkDBsXRNhKQ==
-X-Received: by 2002:a05:6a20:3c90:b0:251:7f83:11d0 with SMTP id adf61e73a8af0-2533e5732e2mr17831182637.5.1757420787345;
-        Tue, 09 Sep 2025 05:26:27 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4d6cde2f0fsm27980059a12.13.2025.09.09.05.26.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 05:26:26 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 9 Sep 2025 05:26:26 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 4/4] hwmon: (sht21) Add devicetree support
-Message-ID: <fa158b94-33f3-4fbe-9491-771bf70d8617@roeck-us.net>
-References: <20250908-sht2x-v4-0-bc15f68af7de@gmail.com>
- <20250908-sht2x-v4-4-bc15f68af7de@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K8q7vAU+"
+Message-ID: <71629bf0-9c61-47a0-a56e-664bde0ba853@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757421474;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=48/xwh638NkFUCq4et+8iyMSrrRkWWc1f9x5JOS6UrU=;
+	b=K8q7vAU+GggklQq47Rd7nds+ybARZaP6wmn0tzNbBQgLmexzx/99WHXN+/9G9R2g2425Yv
+	lhJ+97Q7LmIQumu5YVmWTvuTQ1LM5u1LPdHz3X/nSYYEzrQ5URmt9GaX0raILlrMdMYr1U
+	hMlnHEEvXEBt5i8BXv23OaPDeoDD2y8=
+Date: Tue, 9 Sep 2025 13:37:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250908-sht2x-v4-4-bc15f68af7de@gmail.com>
+Subject: Re: [PATCH net-next v11 1/5] net: rnpgbe: Add build support for
+ rnpgbe
+To: Dong Yibo <dong100@mucse.com>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+ gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+ Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+ alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+ gustavoars@kernel.org, rdunlap@infradead.org
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Andrew Lunn <andrew@lunn.ch>
+References: <20250909120906.1781444-1-dong100@mucse.com>
+ <20250909120906.1781444-2-dong100@mucse.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20250909120906.1781444-2-dong100@mucse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Sep 08, 2025 at 10:54:52AM -0500, Kurt Borja wrote:
-> Add DT support for sht2x chips.
+On 09/09/2025 13:09, Dong Yibo wrote:
+> Add build options and doc for mucse.
+> Initialize pci device access for MUCSE devices.
 > 
-> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-Applied.
-
-Guenter
+Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
