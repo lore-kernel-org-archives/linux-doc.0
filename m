@@ -1,205 +1,161 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0951F3D58;
-	Tue,  9 Sep 2025 23:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A185287262;
+	Tue,  9 Sep 2025 23:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757460116; cv=none; b=OssVQcprkr4rc3t26iuo/Cow/k8lPW6AwtohFb1uGbF5sMFpjNLPx6ioEnueZtnOlgdpI643XKy1svvreB5ufMEv/OEfGpfJ2pocUZZPtujXzhJqiJwXC2kh6lmX3JYfDAirYe8tRWmg0MBXs+9ohQrZqzt3TVdvAbn/x+VpN/E=
+	t=1757460530; cv=none; b=MbZbMGz9vjzXwMrMW0H2meFpqB411g9Dg++u8NpFKLissaZiYz5sAmjQo7ijYymfQyplw/G4wbIRGf/cv1DqWGn5nglkoNBKiAlGZlreli3FL8DG21dhEg9/WKz0SakhO8egFIxrEiOn5ee085jrshmjPI8eKohzlIRWc5Q0U1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757460116; c=relaxed/simple;
-	bh=eibTRJ7HE0lU2R0MPS4mUJGOox1jCETS8teAgOrwFjk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=W1Fc2jecFNyepjZ+5phcW7s2mDphtpNnLfuYSN+U+iRq99HXYKR2ZSx35w+KqFZAiZPMSx1/qsMbRBO9lWPuxalEqihIhpD8M3iR0rf6jRwMY+cYwmxQx//gdSGoS2NWc7NU+HxObpIXkm7Y4jpj9c1MShsw7qSpUbaa5dzN02M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wXnbFwfA; arc=none smtp.client-ip=115.124.30.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1757460530; c=relaxed/simple;
+	bh=aP32tY/7gzIP/DubLKct8s8WemhrgWLqsffY5Vv1N34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdOsgVv+lw+qijW8RYQKvWw7SAVnKbIS7M1IYCAdZgKQtYnOakXAtGUM2ybD6pfgtaztqlINipu3MtiOnyHpYBHn01okc3qTm/aQg7klsOcmTm8arWdHfx3sICgVxFQU9+9j+3QFBZttiDUBm1igaGpzq3rimodGmLQydJ/wq/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZGa9aIS1; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wXnbFwfA"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757460110; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=108KB8TcIdTBZlziMq4PiXlySytzFGUVDHJv6u8P/ss=;
-	b=wXnbFwfAzv/LidCVZ8/U8296g++8KU3IJXma8z9avo0lRQs+AxnmIQFJnaxhTEB4QRDnTOgG2hnmVh947cIIGjEpxFZctzfsP0sDMewVnnSRhhmFCaX1MljDqgqy1LBMyvTiiaixx5nDNr0fDSFsSmuOAUzzS+U03GbrKsHvY0M=
-Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WnfVsA3_1757460109 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 10 Sep 2025 07:21:50 +0800
-Message-ID: <488d246b-13c7-4e36-9510-8ae2de450647@linux.alibaba.com>
-Date: Wed, 10 Sep 2025 07:21:48 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZGa9aIS1"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-24eb713b2dfso41623195ad.0;
+        Tue, 09 Sep 2025 16:28:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757460528; x=1758065328; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u1py8/Jv9TkRWmTtTOdiRKj2ug1E6J/3gf1mMsVDV/8=;
+        b=ZGa9aIS1LNkiZJw+lNNTMaTVdlXS0N3EO9VGogDWBdoZSdFcrF4fvFynyRzNvtIhHm
+         YbT/mCroE9aq2b3q/lTU39zW7X8GjNHyNQ/mTIWToWTdeQSLmjolSH7o5YKxmoQB3kCM
+         UhK4YKvITvclDcuYofkeacmaiBNDi3Zlum9dTgXutwI5/or0zfMQERt1Mp9cWYvjP+Uq
+         dnpquwljcIJwCxZW76VT0+bDcfrvkGVjQb24+bMBxnjobgC2mmGtpySIgnPeqb4923xx
+         l2YueaYlpb+8cAxyC8Kc+HT5vYoG+Mv30TXXc9ukxo+2M/7cAbn2UkHkqkeAIs5armTc
+         vYBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757460528; x=1758065328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u1py8/Jv9TkRWmTtTOdiRKj2ug1E6J/3gf1mMsVDV/8=;
+        b=GdDDqqo03ootEipRqc9f2nFYPeyjk1fyNV7OM1QrDKHIOShSvX0w/ohuEVsov3ToGO
+         +x52TkLA3cgBiJdVEkZh6zG+mcIBEAgxAZcWfkSfpUbuQM2OOwk7lErgObEhXp6grB43
+         bv9k3/4ijq4wVFx0bEA5H1OrjM0whqEOO8/bu3ILyx43jmierNqu2wAl64z9negz0XDv
+         J3WRYUUk2XKLKqMApuWmapNPo6Y86G/dNekxjr3R6gjmsHaYxVl1lRtAonqavLdfpGKv
+         XESMrPDjSez9ccqXr+gp8ti5WCeKg1p61bz1x1VVwb8X5u4sQRVX4vVix617TUEZ/zNj
+         O2TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNbjVe3o+lckYz2wrGLk8Y6Unwn1TlTXv3mEYckKzAxgIO7K9ts9lU65obNPSJ6RNB+XW9Br6yzpES7Vci@vger.kernel.org, AJvYcCXf1B3I5ddyF7IBsyT7AJVjhj+T9ejoB2CgUJ9rbrprhBaOsoZe28MtEeVt+hniBRuyG7LKJIjQApw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIS9+RL5e11qTHfUGrxo2odC/dt/NSVxmpmuu+BRDj3X+y4XZy
+	c+A+r8D/ckcbJARdRn3vvf+EZjajHG0JJcdO/2UiKUV1taqkZRadQwx8
+X-Gm-Gg: ASbGncsqgXvZC1cw2eNvtVyGa5RRcd0QPc/AqwChDV99sGsOxGubMl3pK35YBz3zM0A
+	1/fp7IIR9r72NsXAq1rxKW48i+iQkRjEhUD8bkfpqUOJpDQvzr2LWLChj2UDcLbcDK0SZyaw6le
+	gQLZj8lNXluTO3hTV8XvsBLxYkwQ3fSXWbaz6C8vH5F4gfeV1rgcv+PIYxku46U+SPJ/d2AtB6Z
+	ty27Q7WR5YWEZ1M4yJYd3wzwt3ROTsdQzgt/d9ksYDYpIgIrFwhsgD0JGKDrcIAu7/A6hRsay8/
+	phLbXiTXdBVPLF09GOU5ZCWzE/7lllPc/ZkzRVxyzT2gdTqHpqmI1xwOo5hQbweasLivtiHixHZ
+	3mPujIUlykro5ouyYn45Az+hecMUgP5c5t8cX
+X-Google-Smtp-Source: AGHT+IHzV63aqLnTtdmYIOYinkzvvWyF2KLPwY/kTRq4fanCxApLrZjpsNTQgCocL2ksNOykityyIw==
+X-Received: by 2002:a17:903:2286:b0:24a:f7dc:caa3 with SMTP id d9443c01a7336-251715f33f7mr163441345ad.37.1757460528309;
+        Tue, 09 Sep 2025 16:28:48 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25a27422e30sm8632275ad.23.2025.09.09.16.28.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 16:28:47 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9B3704206923; Wed, 10 Sep 2025 06:28:44 +0700 (WIB)
+Date: Wed, 10 Sep 2025 06:28:44 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux GFS2 <gfs2@lists.linux.dev>
+Cc: Andreas Gruenbacher <agruenba@redhat.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Jeff Layton <jlayton@kernel.org>, James Morse <james.morse@arm.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3] Documentation: gfs2: Consolidate GFS2 docs into its
+ own subdirectory
+Message-ID: <aMC4LIltHWlpF9iY@archie.me>
+References: <20250909014606.15043-1-bagasdotme@gmail.com>
+ <874itbv23b.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/16] iomap: add caller-provided callbacks for read
- and readahead
-To: Joanne Koong <joannelkoong@gmail.com>, djwong@kernel.org,
- hch@infradead.org, brauner@kernel.org, miklos@szeredi.hu,
- linux-block@vger.kernel.org, gfs2@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
- linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-12-joannelkoong@gmail.com> <aL9xb5Jw8tvIRMcQ@debian>
- <CAJnrk1YPpNs811dwWo+ts1xwFi-57OgWvSO4_8WLL_3fJgzrFw@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAJnrk1YPpNs811dwWo+ts1xwFi-57OgWvSO4_8WLL_3fJgzrFw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Joanne,
-
-On 2025/9/9 23:24, Joanne Koong wrote:
-> On Mon, Sep 8, 2025 at 8:14 PM Gao Xiang <xiang@kernel.org> wrote:
->>
->> Hi Joanne,
->>
->> On Mon, Sep 08, 2025 at 11:51:17AM -0700, Joanne Koong wrote:
->>> Add caller-provided callbacks for read and readahead so that it can be
->>> used generically, especially by filesystems that are not block-based.
->>>
->>> In particular, this:
->>> * Modifies the read and readahead interface to take in a
->>>    struct iomap_read_folio_ctx that is publicly defined as:
->>>
->>>    struct iomap_read_folio_ctx {
->>>        const struct iomap_read_ops *ops;
->>>        struct folio *cur_folio;
->>>        struct readahead_control *rac;
->>>        void *private;
->>>    };
->>>
->>>    where struct iomap_read_ops is defined as:
->>>
->>>    struct iomap_read_ops {
->>>        int (*read_folio_range)(const struct iomap_iter *iter,
->>>                               struct iomap_read_folio_ctx *ctx,
->>>                               loff_t pos, size_t len);
->>>        int (*read_submit)(struct iomap_read_folio_ctx *ctx);
->>>    };
->>>
->>
->> No, I don't think `struct iomap_read_folio_ctx` has another
->> `.private` makes any sense, because:
->>
->>   - `struct iomap_iter *iter` already has `.private` and I think
->>     it's mainly used for per-request usage; and your new
->>     `.read_folio_range` already passes
->>      `const struct iomap_iter *iter` which has `.private`
->>     I don't think some read-specific `.private` is useful in any
->>     case, also below.
->>
->>   - `struct iomap_read_folio_ctx` cannot be accessed by previous
->>     .iomap_{begin,end} helpers, which means `struct iomap_read_ops`
->>     is only useful for FUSE read iter/submit logic.
->>
->> Also after my change, the prototype will be:
->>
->> int iomap_read_folio(const struct iomap_ops *ops,
->>                       struct iomap_read_folio_ctx *ctx, void *private2);
->> void iomap_readahead(const struct iomap_ops *ops,
->>                       struct iomap_read_folio_ctx *ctx, void *private2);
->>
->> Is it pretty weird due to `.iomap_{begin,end}` in principle can
->> only use `struct iomap_iter *` but have no way to access
->> ` struct iomap_read_folio_ctx` to get more enough content for
->> read requests.
-> 
-> Hi Gao,
-> 
-> imo I don't think it makes sense to, if I'm understanding what you're
-> proposing correctly, have one shared data pointer between iomap
-> read/readahead and the iomap_{begin,end} helpers because
-
-My main concern is two `private` naming here: I would like to add
-`private` to iomap_read/readahead() much like __iomap_dio_rw() at
-least to make our new feature work efficiently.
-
-> 
-> a) I don't think it's guaranteed that the data needed by
-> read/readahead and iomap_{begin,end} is the same.  I guess we could
-> combine the data each needs altogether into one struct, but it seems
-> simpler and cleaner to me to just have the two be separate.
-> 
-> b) I'm not sure about the erofs use case, but at least for what I'm
-> seeing for fuse and the block-based filesystems currently using iomap,
-> the data needed by iomap read/readahead (eg bios, the fuse
-> fuse_fill_read_data) is irrelevant for iomap_{begin/end} and it seems
-> unclean to expose that extraneous info. (btw I don't think it's true
-> that iomap_iter is mainly used for per-request usage - for readahead
-> for example, iomap_{begin,end} is called before and after we service
-> the entire readahead, not called per request, whereas
-> .read_folio_range() is called per request).
-
-I said `per-request` meant a single sync read or readahead request,
-which is triggered by vfs or mm for example.
-
-> 
-> c) imo iomap_{begin,end} is meant to be a more generic interface and I
-> don't think it makes sense to tie read-specific data to it. For
-> example, some filesystems (eg gfs2) use the same iomap_ops across
-> different file operations (eg buffered writes, direct io, reads, bmap,
-> etc).
-
-Previously `.iomap_{begin,end}` participates in buffer read and write
-I/O paths (except for page writeback of course) as you said, in
-principle users only need to care about fields in `struct iomap_iter`.
-
-`struct iomap_readpage_ctx` is currently used as an internal structure
-which is completely invisible to filesystems (IOWs, filesystems don't
-need to care or specify any of that).
-
-After your proposal, new renamed `struct iomap_read_folio_ctx` will be
-exposed to individual filesystems too, but that makes two external
-context structures for the buffer I/O reads (`struct iomap_iter` and
-`struct iomap_read_folio_ctx`) instead of one.
-
-I'm not saying your proposal doesn't work, but:
-
-  - which is unlike `struct iomap_writepage_ctx` because writeback path
-    doesn't have `struct iomap_iter` involved, and it has only that
-    exact one `struct iomap_writepage_ctx` context and all callbacks
-    use that only;
-
-  - take a look at `iomap_dio_rw` and `iomap_dio_ops`, I think it's
-    somewhat similiar to the new `struct iomap_read_ops` in some
-    extent, but dio currently also exposes the exact one context
-    (`struct iomap_iter`) to users.
-
-  - take a look at `iomap_write_ops`, it also exposes
-    `struct iomap_iter` only. you may say `folio`, `pos`, `len` can be
-    wrapped as another `struct iomap_write_ctx` if needed, but that is
-    not designed to be exposed to be specfied by write_iter (e.g.
-    fuse_cache_write_iter)
-
-In short, traditionally the buffered read/write external context is
-the only unique one `struct iomap_iter` (`struct iomap_readpage_ctx`
-is only for iomap internal use), after your proposal there will be
-two external contexts specified by users (.read_folio and .readahead)
-but `.iomap_{begin,end}` is unable to get one of them, which is
-unlike the current writeback and direct i/o paths (they uses one
-external context too.)
-
-Seperate into two contexts works for your use case, but it may
-cause issues since future developers have to decide where to
-place those new context fields for buffer I/O paths (
-`struct iomap_iter` or `struct iomap_read_folio_ctx`), it's still
-possible but may cause further churn on the codebase perspective.
-
-That is my minor concern, but my main concern is still `private`
-naming.
-
-Thanks,
-Gao Xiang
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yD03C9Tz4Fzfcskn"
+Content-Disposition: inline
+In-Reply-To: <874itbv23b.fsf@trenco.lwn.net>
 
 
-> 
-> 
-> Thanks,
-> Joanne
-> 
->>
->> Thanks,
->> Gao Xiang
+--yD03C9Tz4Fzfcskn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Sep 09, 2025 at 01:48:56PM -0600, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+>=20
+> > Documentation for GFS2 is scattered in three docs that are in
+> > Documentation/filesystems/ directory. As these docs are standing out as
+> > a group, move them into separate gfs2/ subdirectory.
+> >
+> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> > Changes since v2 [1]:
+> >
+> >   * Do not use wildcard on MAINTAINERS file entry and add review tag (R=
+andy)
+> >
+> > [1]: https://lore.kernel.org/linux-doc/20250827022122.12132-1-bagasdotm=
+e@gmail.com/
+> >
+> >  .../filesystems/{gfs2-glocks.rst =3D> gfs2/glocks.rst} |  0
+> >  Documentation/filesystems/gfs2/index.rst             | 12 ++++++++++++
+> >  .../filesystems/{gfs2.rst =3D> gfs2/overview.rst}      |  6 +++---
+> >  .../{gfs2-uevents.rst =3D> gfs2/uevents.rst}           |  0
+> >  Documentation/filesystems/index.rst                  |  4 +---
+> >  MAINTAINERS                                          |  2 +-
+> >  6 files changed, 17 insertions(+), 7 deletions(-)
+> >  rename Documentation/filesystems/{gfs2-glocks.rst =3D> gfs2/glocks.rst=
+} (100%)
+> >  create mode 100644 Documentation/filesystems/gfs2/index.rst
+> >  rename Documentation/filesystems/{gfs2.rst =3D> gfs2/overview.rst} (96=
+%)
+> >  rename Documentation/filesystems/{gfs2-uevents.rst =3D> gfs2/uevents.r=
+st} (100%)
+>=20
+> I'm not sure which tree this is meant to go through ...
+
+There's linux-gfs2 tree (see MAINTAINERS)
+
+>=20
+> I do have one suggestion: the changes seem good as far as I go, but I
+> would have made gfs2.rst into the new index.rst and avoided creating an
+> essentially no-content file there.
+
+As gfs2 docs currently only has not many (only three), I'm fine with your
+suggestion.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--yD03C9Tz4Fzfcskn
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMC4JwAKCRD2uYlJVVFO
+ozEKAP4lpszupR635IazRjMRtgE7q5h0RViow552zXI2EZ9Q/AD/YsypM+DqP+sS
+MEaZ4dA30h6opucVYhImfFlnHvxq+go=
+=JqMA
+-----END PGP SIGNATURE-----
+
+--yD03C9Tz4Fzfcskn--
