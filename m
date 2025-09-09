@@ -1,96 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD220D515;
-	Tue,  9 Sep 2025 03:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D79A22A7E4;
+	Tue,  9 Sep 2025 03:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757387838; cv=none; b=FRbL6Rv9rb87erf2VCEllWt8Ves4aM+IFneT3jHjc/8AHjBzEFaU25s57NHkaUOqFe48KGZidUQY1lQhB0+jb3KtTI/4+v2+SAXQrxdd8qHSJ2gc/4qVFAEgotSOxbR9A1OHLz00vg2FRN3cz07W8oT5ll9tGZCce56UR4s1lcc=
+	t=1757387968; cv=none; b=T4enqM5JHCIBBHIcqrYYHTG4NbFzcGuN2Cn8IzeySWAR6LQM3Xv9az48CTfWGA93Tlu1+r+NCeuS7JAvm6zrNhc745W57llO07bJIwJHrP4CNhymFmuFGO0DOU32INwCkJSXGQPWjn8p9ShJEnxaGVdJAfV4KPcQCo51ykemrqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757387838; c=relaxed/simple;
-	bh=bmGEjE1BbbOZN0kN0rnz16hH12Hzuo0BVc3brUsgI2c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnlf/oWjIQQQ0BIzFUNxKdjgC3QVKdRY5l7Au6YXETm8TC27Qy51kAlXXiVrUNT16sL+ydGl15hm7qs1uSv32XTVM4jLlcjAjtI/S+1lviTyn/2P6DcCUfAQEHsXv3C8cpE8Cpwlsz8clHHKWwOtNeDcCik2c1aCZXk97zrVdNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVHip9Sd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757387968; c=relaxed/simple;
+	bh=dXeL8bHgEJS0WBDFa6oVj6Cg2JQha9x3GSBxLbSsSp4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gSqDZVHg4Zx472kGkR+tYRLJspdYZuRjjKjo6CxSmyaDauKcLpk7IU078AXpPziEr7EWy9DGZplR//cep5S7lqI2cr4dBRnw8MpWzKg0pJBrVu7WsqkAOucrKY2bdqXpOyRmWVpJWLeyU8XyWY05PAAL632+OfBrNqLClQ6Ul/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=neOoo9fi; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVHip9Sd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4DCCC4CEF1;
-	Tue,  9 Sep 2025 03:17:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757387838;
-	bh=bmGEjE1BbbOZN0kN0rnz16hH12Hzuo0BVc3brUsgI2c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oVHip9SdqiCIsONAGssvHSYWwccBgLjTnf2DTaccxlIt3U73uX9uQLTbnuMElSnWJ
-	 CcA5uz7MCClzm6NKrgrp6TGrqhn3bPsI9oLZFLm3f99T8ST//AaWcGJHS08FWIsug5
-	 MsQ4uGSAAkiGK4MxlogjXCQ1hNNBCOXpk5YS2Hvp1cLnu082Dopa2Nj8nv5X1m1xUy
-	 j9lvOFXHaoNTNBho8cTFaSeYZTJd3akMl6Jfd7fSHZrBWAlZRAg2+oXv1J/W8V4cye
-	 oTGMRr6urr0bg6fDkSn4bo7xWRvFCWiS7cSq6oFy9ylugghZzc26xmvwVPl2i8ynA4
-	 vKZXmH9JM55Ww==
-From: Kees Cook <kees@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Fiona Behrens <me@kloenk.dev>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Gary Guo <gary@garyguo.net>,
-	Kris Van Hees <kris.van.hees@oracle.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Li Zhijian <lizhijian@fujitsu.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v2] .gitignore: Add Coding Assistants section
-Date: Mon,  8 Sep 2025 20:17:17 -0700
-Message-Id: <20250909031712.it.968-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="neOoo9fi"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757387962; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=kp/49YwOqYc4XSnECrXc1wc8q5JFsR73JTB4gmB0H9s=;
+	b=neOoo9fiPql50Cf0f0s9a8YQh/khunQ8lY2XlD2dktzPloXUrCLWlf5pOFiqwzzBEvFMWEDG6pRsUWq+HEJaTDjpsGDTssXG99pVuT3y//1TUxM4no2j1JxrY3O7Kthd2X6o5Puo15wFv2fMWFwlMaZGQusUltdTTsm3Kd6qkX8=
+Received: from 30.74.144.127(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Wnc5f31_1757387957 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 09 Sep 2025 11:19:18 +0800
+Message-ID: <2a08292a-fdad-49f1-8ad9-550bf3129b2f@linux.alibaba.com>
+Date: Tue, 9 Sep 2025 11:19:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=966; i=kees@kernel.org; h=from:subject:message-id; bh=bmGEjE1BbbOZN0kN0rnz16hH12Hzuo0BVc3brUsgI2c=; b=owGbwMvMwCVmps19z/KJym7G02pJDBn759hMWCO+t+LPl/aX7wOzfqpoGa6cqFmxav4lX5/O9 f4LFsQv7yhlYRDjYpAVU2QJsnOPc/F42x7uPlcRZg4rE8gQBi5OAZiIhRwjw9PLKQ+ObZJjfbd3 40H2IBuNh84uLSdYXh+yUd57+GFkKR8jw6/eWZuf9/2O/8YgXn+K9Wjaf70125+ttOVJ/XLW6We VAwsA
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/16] mm/shmem: update shmem to use mmap_prepare
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
+ Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, "David S . Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ kexec@lists.infradead.org, kasan-dev@googlegroups.com,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1757329751.git.lorenzo.stoakes@oracle.com>
+ <2f84230f9087db1c62860c1a03a90416b8d7742e.1757329751.git.lorenzo.stoakes@oracle.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <2f84230f9087db1c62860c1a03a90416b8d7742e.1757329751.git.lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Both Claude and Gemini save locally personalized configurations in their
-respective .md files and dot-directories. Since these are continuously
-updated by the developer (and agent) when working on projects, these
-files must be ignored, much like how we ignore the debian/ directory, etc.
 
-Reviewed-by: Tamir Duberstein <tamird@kernel.org>
-Link: https://lore.kernel.org/r/20250815064430.work.772-kees@kernel.org
-Signed-off-by: Kees Cook <kees@kernel.org>
----
- v2: drop the trailing /s so symlinks will be ignored too
- v1: https://lore.kernel.org/lkml/20250815064430.work.772-kees@kernel.org/
----
- .gitignore | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/.gitignore b/.gitignore
-index 929054df5212..8b9ccfa8e3b7 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -183,3 +183,11 @@ sphinx_*/
- 
- # Rust analyzer configuration
- /rust-project.json
-+
-+#
-+# Coding assistants
-+#
-+/CLAUDE.md
-+/.claude
-+/GEMINI.md
-+/.gemini
--- 
-2.34.1
+On 2025/9/8 19:10, Lorenzo Stoakes wrote:
+> This simply assigns the vm_ops so is easily updated - do so.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+
+LGTM.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+
+>   mm/shmem.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 29e1eb690125..cfc33b99a23a 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -2950,16 +2950,17 @@ int shmem_lock(struct file *file, int lock, struct ucounts *ucounts)
+>   	return retval;
+>   }
+>   
+> -static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+> +static int shmem_mmap_prepare(struct vm_area_desc *desc)
+>   {
+> +	struct file *file = desc->file;
+>   	struct inode *inode = file_inode(file);
+>   
+>   	file_accessed(file);
+>   	/* This is anonymous shared memory if it is unlinked at the time of mmap */
+>   	if (inode->i_nlink)
+> -		vma->vm_ops = &shmem_vm_ops;
+> +		desc->vm_ops = &shmem_vm_ops;
+>   	else
+> -		vma->vm_ops = &shmem_anon_vm_ops;
+> +		desc->vm_ops = &shmem_anon_vm_ops;
+>   	return 0;
+>   }
+>   
+> @@ -5229,7 +5230,7 @@ static const struct address_space_operations shmem_aops = {
+>   };
+>   
+>   static const struct file_operations shmem_file_operations = {
+> -	.mmap		= shmem_mmap,
+> +	.mmap_prepare	= shmem_mmap_prepare,
+>   	.open		= shmem_file_open,
+>   	.get_unmapped_area = shmem_get_unmapped_area,
+>   #ifdef CONFIG_TMPFS
 
