@@ -1,238 +1,205 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5725F13774D;
-	Tue,  9 Sep 2025 15:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB835226D1D
+	for <linux-doc@vger.kernel.org>; Tue,  9 Sep 2025 15:40:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757432396; cv=none; b=WXkDenU/1Mm8+HlZ0UP1lnsHGr6/ttHyeRQ6vHLfAXYYvuLJPUquz34hn/uuqKxveuoReBJIOo5+e/Ua0Fl+4fMyIkcVgjDB9o77m5dZYRwtXtG39/nVDnX6yjgz0EFEjVfMPOA4XtLbHFLzH3zAVoTUjTcBbi0mBWXSaOAOfHc=
+	t=1757432459; cv=none; b=Vo1+Iv6rPZAjgdz61wXc/gdn+p/3VDyt1OPnjAIt27LUzNQnLXIuh2m9fMJjfm//MxCmlUeeqLB8dDvuYrad1JEN1U3fzK2cuXUQUtfJ4uuigfJV2ZiyYEfIaoj8D4reqr0yGoNQrIx4Hxx3qz+ZCVLSzUViTZbp8D1AGKsjGMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757432396; c=relaxed/simple;
-	bh=+ozRznCUnYe3hIE4F/MJBXqFwWY29ua0Eli0zW59EtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qy03oj6XQTo69gcX1ymjN4ehaAFMJF9VKsegwPGO263dzrtUrianEMGHf51PeqZqfQBSGfmY9zeWI2KqN4j+qNz5J3SFQFqukJIkkV0vtwEa0hH2SxwxAuzb052KEspAmB1lHnnf6bTEzdy4OEyja1Kib7vXDCfuM3QEpcYOfSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wtV6en51; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1757432459; c=relaxed/simple;
+	bh=NRWX0gy62EFsM5r2pNvxcPyoBc+pc5A2tLFR+LFtsLM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CorHpo8qgaWPWCDoO12aydzBOKZlOt97u1mGgrZzYteGOUGdcdPSELuwnK4ZAmmFlDKb99eQ1vQgmPGOm8fMyS8ytjew39DTkWOCHHXfY6D2XUeU1q7jNNFM+xwziLdB9jtizk0SShp7qM20ZlCQKQ1ruP6xiwhRWPSbSelMAII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DtShKGGn; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wtV6en51"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 8B09F4E40957;
-	Tue,  9 Sep 2025 15:39:52 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 62EA160630;
-	Tue,  9 Sep 2025 15:39:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6EEC2102F28E7;
-	Tue,  9 Sep 2025 17:39:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757432391; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ts/SJluN6cQdUcCgVD3HQ7ETDwWBAUQodwnr68auTBU=;
-	b=wtV6en51mclGmP5+mmQyZ21Zbg/GIh6mfEa/I9Q9yhw+lxzDl31FxvDetR72unXo8KSYWR
-	fFsvxflfrD5KpTxM2euZDli9Wgzv3Is27i2JjKVXgkuow/qpJwMUb82Mk6Lw6bbKmdYOgW
-	ghcFm1RshpaRjJqbiHWK/afodrh3XPL6SbYn3z6oqMe0mJ9W3U8BTpQE+ntC0uf8hvPv/k
-	m++qUygy8A6Jo6Z/HXaL+LvOmstEj+e5xQURF04IHForwStJ5Lxd0npxS2atgqDWuGQyuw
-	uqISDZrI9Q8hJNuC/upW6T0YSymLtxR6ZqiGDfXmB4OpemRR4fD/IhOYxG2dIw==
-Date: Tue, 9 Sep 2025 17:39:33 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
- =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 10/10] drm/bridge: hotplug-bridge: add driver to
- support hot-pluggable DSI bridges
-Message-ID: <20250909173933.20fc5d6a@booty>
-In-Reply-To: <20250909172907.09157d70@booty>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
-	<20241231-hotplug-drm-bridge-v5-10-173065a1ece1@bootlin.com>
-	<ourjepuvkhzpemhak3t6do3or6shrj4cq2plhii4afgej4qhkk@p6tvptupr3ey>
-	<20250102130140.59363125@booty>
-	<20250909172907.09157d70@booty>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DtShKGGn"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4b5fb2f7295so29619291cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 08:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1757432456; x=1758037256; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NRWX0gy62EFsM5r2pNvxcPyoBc+pc5A2tLFR+LFtsLM=;
+        b=DtShKGGni6SXsHlPTbhu3MgCPC2po9WCxrPewGsVU1eP35FcyDpBxu2d5t/qFQmvYX
+         OPInbDxEuIQmHa74j5yxZYzXgyQHupC792gQSCJmGF0kyzPRflOSjLLiaAuv2XmeQonL
+         2tScxw32eNWXV6dqHcfx5lg1ifMvgmrJCvLMlakS0adfxhuTXumANei8R20jow6P8flm
+         Hy8meQwVRJ6CZnng7egGZLIVYq8wPUaSD/4rtKazWY7VPFxunjg7sazXYfXA0xTwO3qw
+         quC7q0vjLFFXFjjUd2c0uqYXPcmmgS5F08JYMTg2ESJZLCG1msrc0j2rvnSK++JNt4hT
+         jaPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757432456; x=1758037256;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NRWX0gy62EFsM5r2pNvxcPyoBc+pc5A2tLFR+LFtsLM=;
+        b=fSK4nC7Timpd7GvfSfwno/uuBzu531avelpeDKlX8IaSbEFVtvQA4NKK7Ij0KTAS7M
+         ZCYwZ8YzhWota1cvlicLFop3P0VZC2N/PQ2VanC/fIqOMKhdMhbzuDF0JqUtRwgNqbcg
+         79RqspbwDpXSrAIyjWNkc0R4Tnyi8y4CEIuIfRD3EQYN/yOd4Il5GvJqVgi/OcCzOx5m
+         qd/GY0mD6HM9doUX3iVyIISRBFcUAjCblyDoGrcSvLB20o2Y4Rb0Xb13xeOXPYOoYtpj
+         dMw+AktUHKnV6757tn8GYNHGuAzkITMPLIrxx8VYvwaQ302ydeQ31axghJHm4G42m/IL
+         a4PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWa4oOY7SUYIPUqB76IlC+3UkamIF0fShP9XWX90xkE8Jqq+bBkDbDrf1FtQGjcJ5DFyL8MFHVK5Vw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNRWBJcQlPvinXCscitspy6JnbEknRF8UkIpDQPFJT5AWPqDmU
+	C6K+QU9fhIev3Q30BUw/zHsn8U2rf3SL5x8KFyyR4IxK+lx2Xzp8pihDU7H3l6MOcJlarrJmPJ5
+	1Gzo7EjZCS/OBCWdNtEgeBYqk8lGvqqSyptRBpzgcog==
+X-Gm-Gg: ASbGncsF+0g1S00uvq6e2SSQfCy6C6tsj5yPBhqjWDOUISYpdx1UWsaJSpynKTD5Fad
+	aleWVScz1PGXHuzaC0MTH+deiqac6BBKlP4LhSChTv3P4SAn6aysfdkr53Pxo85D7IIC2L7frim
+	yPGJ0LNDtHtc0bNDlJNspsYS3avYFwVMMbHzCpSyx1vTsd+wQAOzLePFRxZYipW9+x+adGlgStN
+	hpP2kf8UKvnMzA=
+X-Google-Smtp-Source: AGHT+IFIyhmzGWFTrUx5qTZBLu9qAAH3OqD11kjv9JWMaCvsLsEFvRfp7eNadU4BDO41Wf/Ch0HESERQxsGjvKdRSzY=
+X-Received: by 2002:ac8:5d4b:0:b0:4b5:ebe7:ac16 with SMTP id
+ d75a77b69052e-4b5f85694b2mr112159801cf.58.1757432456172; Tue, 09 Sep 2025
+ 08:40:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-30-pasha.tatashin@soleen.com> <20250826162019.GD2130239@nvidia.com>
+ <mafs0bjo0yffo.fsf@kernel.org> <20250828124320.GB7333@nvidia.com>
+ <mafs0h5xmw12a.fsf@kernel.org> <20250902134846.GN186519@nvidia.com>
+ <mafs0v7lzvd7m.fsf@kernel.org> <20250903150157.GH470103@nvidia.com>
+ <mafs0a53av0hs.fsf@kernel.org> <20250904144240.GO470103@nvidia.com> <mafs0cy7zllsn.fsf@yadavpratyush.com>
+In-Reply-To: <mafs0cy7zllsn.fsf@yadavpratyush.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 9 Sep 2025 11:40:18 -0400
+X-Gm-Features: Ac12FXxeog2W-sndMgfE-Kiuw70lrrt6PwppqWI5s8CYKqzXaWa3HgK79sNYiwg
+Message-ID: <CA+CK2bAKL-gyER2abOV-f4M6HOx9=xDE+=jtcDL6YFbQf1-6og@mail.gmail.com>
+Subject: Re: [PATCH v3 29/30] luo: allow preserving memfd
+To: Pratyush Yadav <me@yadavpratyush.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Pratyush Yadav <pratyush@kernel.org>, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Sep 9, 2025 at 10:53=E2=80=AFAM Pratyush Yadav <me@yadavpratyush.co=
+m> wrote:
+>
+> On Thu, Sep 04 2025, Jason Gunthorpe wrote:
+>
+> > On Thu, Sep 04, 2025 at 02:57:35PM +0200, Pratyush Yadav wrote:
+> >
+> >> I don't think it matters if they are preserved or not. The serializati=
+on
+> >> and deserialization is independent of that. You can very well create a
+> >> KHO array that you don't KHO-preserve. On next boot, you can still use
+> >> it, you just have to be careful of doing it while scratch-only. Same a=
+s
+> >> we do now.
+> >
+> > The KHO array machinery itself can't preserve its own memory
+> > either.
+>
+> It can. Maybe it couldn't in the version I showed you, but now it can.
+> See kho_array_preserve() in
+> https://lore.kernel.org/linux-mm/20250909144426.33274-2-pratyush@kernel.o=
+rg/
+>
+> >
+> >> For the _hypervisor_ live update case, sure. Though even there, I have=
+ a
+> >> feeling we will start seeing userspace components on the hypervisor us=
+e
+> >> memfd for stashing some of their state.
+> >
+> > Sure, but don't make excessively sparse memfds for kexec use, why
+> > should that be hard?
+>
+> Sure, I don't think they should be excessively sparse. But _some_ level
+> of sparseness can be there.
 
-+Cc: Dmitry's current e-mail address
+This is right; loosely sparse memfd support is needed. However, an
+excessively sparse preservation will be inefficient for LU, unless we
+change the backing to be from a separate pool of physical pages that
+is always preserved. If we do that, it would probably make sense only
+for guestmemfd and only if we ever decide to support overcommitted
+VMs. I suspect it is not something that we currently need to worry
+about.
 
-I replied to such an old thread that is had an old address for Dmitry.
+> >> applications. Think big storage nodes with memory in order of TiB. Tho=
+se
+> >> can use a memfd to back their caches so on a kernel upgrade the caches
+> >> don't have to be re-fetched. Sparseness is to be expected for such use
+> >> cases.
+> >
+> > Oh? I'm surpised you'd have sparseness there. sparseness seems like
+> > such a weird feature to want to rely on :\
+> >
+> >> But perhaps it might be a better idea to come up with a mechanism for
+> >> the kernel to discover which formats the "next" kernel speaks so it ca=
+n
+> >> for one decide whether it can do the live update at all, and for anoth=
+er
+> >> which formats it should use. Maybe we give a way for luod to choose
+> >> formats, and give it the responsibility for doing these checks?
+> >
+> > I have felt that we should catalog the formats&versions the kernel can
+> > read/write in some way during kbuild.
+> >
+> > Maybe this turns into a sysfs directory of all the data with an
+> > 'enable_write' flag that luod could set to 0 to optimize.
+> >
+> > And maybe this could be a kbuild report that luod could parse to do
+> > this optimization.
+>
+> Or maybe we put that information in a ELF section in the kernel image?
+> Not sure how feasible it would be for tooling to read but I think that
+> would very closely associate the versions info with the kernel. The
+> other option might be to put it somewhere with modules I guess.
 
-On Tue, 9 Sep 2025 17:29:07 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+To me, all this sounds like hardening, which, while important, can be
+added later. The pre-kexec check for compatibility can be defined and
+implemented once we have all live update components ready
+(KHO/LUO/PCI/IOMMU/VFIO/MEMFD), once we stabilize the versioning
+story, and once we start discussing update stability.
 
-> Hello Dmitry, Maxime, DRM maintainers,
-> 
-> On Thu, 2 Jan 2025 13:01:40 +0100
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> 
-> > Hi Dmitry,
-> > 
-> > On Tue, 31 Dec 2024 17:29:52 +0200
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> >   
-> > > On Tue, Dec 31, 2024 at 11:40:04AM +0100, Luca Ceresoli wrote:    
-> > > > This driver implements the point of a DRM pipeline where a connector allows
-> > > > removal of all the following bridges up to the panel.
-> > > > 
-> > > > The DRM subsystem currently allows hotplug of the monitor but not preceding
-> > > > components. However there are embedded devices where the "tail" of the DRM
-> > > > pipeline, including one or more bridges, can be physically removed:
-> > > > 
-> > > >  .------------------------.
-> > > >  |   DISPLAY CONTROLLER   |
-> > > >  | .---------.   .------. |
-> > > >  | | ENCODER |<--| CRTC | |
-> > > >  | '---------'   '------' |
-> > > >  '------|-----------------'
-> > > >         |
-> > > >         |               HOTPLUG
-> > > >         V              CONNECTOR
-> > > >    .---------.        .--.    .-.        .---------.         .-------.
-> > > >    | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
-> > > >    | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
-> > > >    |         |        |  |    | |        |         |         |       |
-> > > >    '---------'        '--'    '-'        '---------'         '-------'
-> > > > 
-> > > >  [--- fixed components --]  [----------- removable add-on -----------]
-> > > > 
-> > > > This driver supports such a device, where the final segment of a MIPI DSI
-> > > > bus, including one or more bridges, can be physically disconnected and
-> > > > reconnected at runtime, possibly with a different model.
-> > > > 
-> > > > The add-on supported by this driver has a MIPI DSI bus traversing the
-> > > > hotplug connector and a DSI to LVDS bridge and an LVDS panel on the add-on.
-> > > > Hovever this driver is designed to be as far as possible generic and
-> > > > extendable to other busses that have no native hotplug and model ID
-> > > > discovery.
-> > > > 
-> > > > This driver does not itself add and remove the bridges or panel on the
-> > > > add-on: this needs to be done by other means, e.g. device tree overlay
-> > > > runtime insertion and removal. The hotplug-bridge gets notified by the DRM
-> > > > bridge core after a removable bridge gets added or before it is removed.
-> > > > 
-> > > > The hotplug-bridge role is to implement the "hot-pluggable connector" in
-> > > > the bridge chain. In this position, what the hotplug-bridge should ideally
-> > > > do is:
-> > > > 
-> > > >  * communicate with the previous component (bridge or encoder) so that it
-> > > >    believes it always has a connected bridge following it and the DRM card
-> > > >    is always present
-> > > >  * be notified of the addition and removal of the following bridge and
-> > > >    attach/detach to/from it
-> > > >  * communicate with the following bridge so that it will attach and detach
-> > > >    using the normal procedure (as if the entire pipeline were being created
-> > > >    or destroyed, not only the tail)
-> > > >  * instantiate two DRM connectors (similarly to what the DisplayPort MST
-> > > >    code does):
-> > > >    - a DSI connector representing the video lines of the hotplug connector;
-> > > >      the status is always "disconnected" (no panel is ever attached
-> > > >      directly to it)
-> > > >    - an LSVD connector representing the classic connection to the panel;
-> > > >      this gets added/removed whenever the add-on gets
-> > > >      connected/disconnected; the status is always "connected" as the panel
-> > > >      is always connected to the preceding bridge      
-> > > 
-> > > I'd rather have just a single connector. MST connectors can be added and
-> > > gone as there is fit, so should be your LVDS panel-related connector.    
-> > 
-> > The plan we discussed at LPC 2024 is to eventually get rid of the first
-> > connector (see "Roadmap and current status" in the cover letter), so
-> > you can consider this legacy code. However the current implementation
-> > won't work without this connector, so it is still there for the time
-> > being. Pointing this out in a note in the commit message of this patch
-> > would probably be useful to avoid future misunderstanding, so I'm
-> > adding one for v6.  
-> 
-> Reviving this old thread for a specific question I need to clarify.
-> Before starting a work that I consider far from trivial I'd like to
-> make sure the requirement is clear.
-> 
-> There was a precise request by both Dmitry and (IIRC) Maxime to remove
-> the "always present, never connected" DSI connector.
-> 
-> [Recap of previous discussion: skip if unneeded]
-> 
-> The current status is that the hotplug-bridge, which can start without
-> an add-on plugged, adds a DSI connector unconditionally:
-> 
->   # modetest -c  | grep -i '^[a-z0-9]'
->   Connectors:
->   id    encoder status          name        size (mm)     modes   encoders
->   38    0       disconnected    DSI-1       0x0           0       37
-> 
-> That DSI connector status is always "unconnected" (in my implementation
-> at least) because it does never a panel _directly_ attached, only a
-> further bridge.
-> 
-> Then when the add-on is plugged, which contains a DSI-to-LVDS bridge, a
-> new LVDS connector is added:
-> 
->   # modetest -c  | grep -i '^[a-z0-9]'
->   Connectors:
->   id    encoder status          name        size (mm)     modes   encoders
->   38    0       disconnected    DSI-1       0x0           0       37
->   39    0       connected       LVDS-1      344x194       1       37
-> 
-> The LVDS connector has a panel attached and provides the modes, so it
-> is "the connector" in the DRM logic. It is always in "connected" status
-> because it drives a panel that is always tied to the DSI-to-LVDS bridge.
-> It is removed when the add-on is removed and so the removable bridge(s)
-> disappear(s).
-> 
-> The request is to get rid of the DSI connector, because it is not a DRM
-> connector in the classic DRM sense (DRM connector ~= a modes +
-> connection status provider). That would mean without addon plugged
-> there is no DRM connector at all.
-> 
-> However for user space to be able to always have a card we need the
-> card to be populated even before the addon is plugged and to persist
-> after its removal. So, a card without any connectors.
-> 
-> [End of recap of previous discussion]
-> 
-> Now comes the question!
-> 
-> Based on the above, I understand that:
-> 
->  * Current DRM code won't populate a card without at least a DRM
->    connector
->  * We now need to change the DRM code to allow populating a card,
->    and expose it to user space, without a DRM connector
->  * The previous bullet is a prerequisite to get rid of DSI connector as
->    requested
-> 
-> Is my understanding correct?
-> 
-> Best regards,
-> Luca
-> 
+Currently, we've agreed that there are no stability guarantees.
+Sometime in the future, we may guarantee minor-to-minor stability, and
+later, stable-to-stable. Once we start working on minor-to-minor
+stability, it would be a good idea to also add hardening where a
+pre-live update would check for compatibility.
 
+In reality, this is not something that is high priority for cloud
+providers, because these kinds of incompatibilities would be found
+during qualification; the kernel will fail to update by detecting a
+version mismatch during boot instead of during shutdown.
 
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> > And maybe distro/csps use this information mechanically to check if
+> > version pairs are kexec compatible.
+> >
+> > Which re-enforces my feeling that the formats/version should be first
+> > class concepts, every version should be registered and luo should
+> > sequence calling the code for the right version at the right time.
+> >
+> > Jason
+>
+> --
+> Regards,
+> Pratyush Yadav
