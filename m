@@ -1,130 +1,147 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F0F1B87F2;
-	Mon,  8 Sep 2025 23:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E5E4D8CE;
+	Tue,  9 Sep 2025 00:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757373894; cv=none; b=lyW9WRf9thYh05IHzoYHI5X0NKF8F219JBg6baIOXv3Bx7XjQqwNu+fx4cTsschE+xIHUqclo7BykfchHaG9XQzD1OljVdqCCgkH/wmYS9fbxe/3TQZPSre7W6hCYzo4WHuw8TJaQUAxpQB+RwKw7CRsUzJYxDFgZCZ0heW8f4U=
+	t=1757376292; cv=none; b=CP/CYcHo6CPOdruBgpvNBLKIY9Ff1rD143R+uzf12tUpoHCAGl/5TO+7d+WuD5/12G7bJGqdahszMI5wItn3OrV0R3H6Z/GwpvXuN3SEY5Vjz/vEjOSMwOHkXUDgrNQzFSZ1X/aZDV0XGb6IYlT9xwDjrS5ZwW1tySRn502Kfy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757373894; c=relaxed/simple;
-	bh=kknwVALPchxX0mj+Hxc56nDgnBNJk/z7KwE2dTVLSYI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iUFyZ8SWEGRoXrHMVkVRtvMcQKPcnLGBMV+lXINhLQBmYXy/F0xpWHf0TRIU/g4mQ/TSISM5O+QTjaRdm9AY77gHWquN654DtFOEjbFclLv+gt524mSPL64bU4c1WBtn3dx3xrtsXQc8EEkNa1g4cQkmaJDF+wSKt7VVRWO2VHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=G16NZRd0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757376292; c=relaxed/simple;
+	bh=WdGf+7GX1oqYLGIVMKnGCpfDd9nBgG9QqXGjKOfeczQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KzdTqJehxwo1oGwL6zVmM1xWLRzLXUj8LrS4CseUoi7YeqOrTr7Lcz/Hoo/HggrnnjpbpdI7DbhsKClpzHf3o0Z824OgVtBg7Z4PTMy8vpZd9COXyj1LQolCHSebI2ucGpkKkk8MOYtE8ShcnKp0dVBBjJHolfXIwk7yUGWwfDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eoUyexKM; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G16NZRd0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=l95PSEtUbGHnCqBRekzfUsDtN3LLag+0o85iItgBhQ0=; b=G16NZRd0OjOFf1g2Psq/MdTzvm
-	v91ln3LmWVFnFMi+uvsezVYTDJRvFDq0rm+qXbNnrKgQzKp7L2h5nEh3qcKPlhtNA8mXbED0cSylL
-	nHO6Z5raIuuJ/pNFkd4+DdNWvOVEDzmHGDdu1NMU7VQb7TvC8+P9Quc05a0GI/iImkMQ7Zt8guckS
-	a9ZKaJLwOBREugd6GpEAw6/q5/tUHVFZTav8pjEknyMEFOX/KEdNmghtBsf2U8oB6MOXqGUfGLB0o
-	0NuBBesQaX0J3yjT/ZsJXeH/2ssPtlucmGvqvwztlZEaNQeIeo7xIlmzYnoY4WknAfy71gIqPR8Zi
-	hAFVr42g==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvlEC-00000002wVg-0YFq;
-	Mon, 08 Sep 2025 23:24:52 +0000
-Message-ID: <b85f833d-1da7-4e4e-8258-7358c9d5a0b2@infradead.org>
-Date: Mon, 8 Sep 2025 16:24:51 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eoUyexKM"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24c8ef94e5dso40989015ad.1;
+        Mon, 08 Sep 2025 17:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757376289; x=1757981089; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qOD5ei9uBXe9lzh0xmikmMLL8kCT/tmChQ9kbfXheCY=;
+        b=eoUyexKMqVLHag+hBj77XzF4FiA11iElVbgz5F4r+i1vzj2naqsynoLokRphLL4bKg
+         BPgp1yEBTP6iL6YPLllQtoeCIb83Liqmty+qDMEkDiOTJGME2CT1hWLRRPfsHrjWnDTh
+         5bx/45ZDg1/kv3JcAzkpI0KBM2pZjk+TEw6e4HqcT5pfo1VhVwe3nEe2NikU8vx1X8bd
+         vDOSBMd9PlBg3AVVwPZ8gZpxY58qG8QbH+eD8QOknOFO4+B7g4TY1aLptdp+OwlIrcb8
+         cyvh0Zbtcp/NNpeDCTbB6wfTQauDue6eo3dtAZ6dWCrKlDf8Pwn4fvYPKGD5ldN1uEa9
+         jMfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757376289; x=1757981089;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qOD5ei9uBXe9lzh0xmikmMLL8kCT/tmChQ9kbfXheCY=;
+        b=DH9INoFO8KvkvbGsPh3b7Oc+oWp8nDxMhJXK0ahkGNLtieJy8LLK7rhT0hqRdS/gkt
+         cIt6mIpD//Gq+UjblYvoWOsbUaW3EKA7KpifeiSRflpcIPzI5pZn1inLRpDHkWCN0EHA
+         SmXoBr5fTVHgaShMynZvCGPAkmIMyn002J1mAVgpMH3/XV9/TBA3aVVEXaDUlLuqJoMw
+         1mwH8hjZ1fUHOtVQeke3/U7tTupoEAkrxIbxr0/ILrxzH64vUPNfWjklra38+NHjPUpD
+         Q3sXCo0z7CiANjQWSNvmUUxr+cC1lR0m77MniAr9cBagZZ7qCjLGgTk1qOiiJuVzZvOk
+         0T4g==
+X-Forwarded-Encrypted: i=1; AJvYcCWSPULcxzKWxT8sAspaG3TjeO0FlPtEzOKmVYkypGZ52TC8MoUZanLlrhg0U6ICR7G1V7DbpPKFZws=@vger.kernel.org, AJvYcCXy8ZYI+SIEXrw1u1kSXbgJ+YHwuLeGMlIj1OaUNuu1hRlDIyYCige3knqGkoCGTV4I6RyZLnaWFFzT@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywml+MFBaIfxbmRJVNPp3TooW8aRgcl2jmUDAiL6iu6DBieQ+fR
+	9+GXhQ52vxwJrjlWRS6Ysm2qr3fnBba+7iT290ReEewzHd6frFWi/Kwx
+X-Gm-Gg: ASbGncu9s17D6LftA9pJ8OF99eo84ZuT68E6ywDufp6pIqUu6eLgFBGG1oqAKbI+PH0
+	lFlWUwrDAE/BNlmfSDwB5fUKiOw+PvCoP5+N15C27/3C8hPI3ce44VUVIK1W7R+giOXbyP6YIMv
+	R6GE12cpwGBtXHFgFxaPyt1+ghvZfXvn0+5kNFPQR07AN0KMpWQYSxBOY/GI5hJzVxX1t0M+MmS
+	z2IqkvthMxwLc5mkkfqnYnrRALxLHJJiQnqNtHmBODbq1Ji5/JRv91a86fUOBM2PMMhT2lhbPZC
+	jtTOtsVGdON/sfbn32zZgciQUU/96da3/Il2j2BpVV189KI1j1Jhe7nv+5vGB47O0cBWF39XYIW
+	5qWsNy9KBuePdmo3gAaF3s/yblg==
+X-Google-Smtp-Source: AGHT+IElPRkCKmy3yKD496KWEtWkJi3Nd4zSMZCMWnuyJTlcKTI5S5vbRjGGUWeBjcC+1sK0M4iAKQ==
+X-Received: by 2002:a17:902:e804:b0:249:37b2:8630 with SMTP id d9443c01a7336-24cedc3973dmr209377695ad.5.1757376289188;
+        Mon, 08 Sep 2025 17:04:49 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-774660e5572sm142142b3a.14.2025.09.08.17.04.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 17:04:48 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id AB2D84206923; Tue, 09 Sep 2025 07:04:45 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux XFS <linux-xfs@vger.kernel.org>
+Cc: David Chinner <david@fromorbit.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Charles Han <hanchunchao@inspur.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] xfs: extend removed sysctls table
+Date: Tue,  9 Sep 2025 07:04:31 +0700
+Message-ID: <20250909000431.7474-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: update the guidance for Link: tags
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linuxfoundation.org>, linus.walleij@linaro.org
-References: <87segwyc3p.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87segwyc3p.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2446; i=bagasdotme@gmail.com; h=from:subject; bh=WdGf+7GX1oqYLGIVMKnGCpfDd9nBgG9QqXGjKOfeczQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn780rZjUPe8MSfrzpy54O25vyTy+awG7zYol9pnnZaf mql42y2jlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExkvwojw0Wzk0GtbEJFUUsS cw799ptq9TJE0lSlSrAt5WL7UrHtRYwM0494u08wK68J3bP99uGddVdbdoV/KN7QafluQY6wqOh CLgA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Commit 21d59d00221e4e ("xfs: remove deprecated sysctl knobs") moves
+recently-removed sysctls to the removed sysctls table but fails to
+extend the table, hence triggering Sphinx warning:
 
+Documentation/admin-guide/xfs.rst:365: ERROR: Malformed table.
+Text in column margin in table line 8.
 
-On 9/8/25 12:32 PM, Jonathan Corbet wrote:
-> As stated definitively by Linus, the use of Link: tags should be limited to
-> situations where there is additional useful information to be found at the
-> far end of the link.  Update our documentation to reflect that policy, and
-> to remove the suggestion for a Git hook to add those tags automatically.
-> 
-> Link: https://lore.kernel.org/all/CAHk-=wh5AyuvEhNY9a57v-vwyr7EkPVRUKMPwj92yF_K0dJHVg@mail.gmail.com/
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+=============================   =======
+  Name                          Removed
+=============================   =======
+  fs.xfs.xfsbufd_centisec       v4.0
+  fs.xfs.age_buffer_centisecs   v4.0
+  fs.xfs.irix_symlink_mode      v6.18
+  fs.xfs.irix_sgid_inherit      v6.18
+  fs.xfs.speculative_cow_prealloc_lifetime      v6.18
+=============================   ======= [docutils]
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Extend "Name" column of the table to fit the now-longest sysctl, which
+is fs.xfs.speculative_cow_prealloc_lifetime.
 
-Thanks.
+Fixes: 21d59d00221e ("xfs: remove deprecated sysctl knobs")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250908180406.32124fb7@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/admin-guide/xfs.rst | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-> ---
->  Documentation/maintainer/configure-git.rst | 28 ----------------------
->  Documentation/process/5.Posting.rst        |  7 +++---
->  2 files changed, 3 insertions(+), 32 deletions(-)
-> 
-> diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
-> index 0a36831814ea..0c21f203cf7a 100644
-> --- a/Documentation/maintainer/configure-git.rst
-> +++ b/Documentation/maintainer/configure-git.rst
-> @@ -28,31 +28,3 @@ You may also like to tell ``gpg`` which ``tty`` to use (add to your shell
->  rc file)::
->  
->  	export GPG_TTY=$(tty)
-> -
-> -
-> -Creating commit links to lore.kernel.org
-> -----------------------------------------
-> -
-> -The web site https://lore.kernel.org is meant as a grand archive of all mail
-> -list traffic concerning or influencing the kernel development. Storing archives
-> -of patches here is a recommended practice, and when a maintainer applies a
-> -patch to a subsystem tree, it is a good idea to provide a Link: tag with a
-> -reference back to the lore archive so that people that browse the commit
-> -history can find related discussions and rationale behind a certain change.
-> -The link tag will look like this::
-> -
-> -    Link: https://lore.kernel.org/r/<message-id>
-> -
-> -This can be configured to happen automatically any time you issue ``git am``
-> -by adding the following hook into your git::
-> -
-> -	$ git config am.messageid true
-> -	$ cat >.git/hooks/applypatch-msg <<'EOF'
-> -	#!/bin/sh
-> -	. git-sh-setup
-> -	perl -pi -e 's|^Message-I[dD]:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
-> -	test -x "$GIT_DIR/hooks/commit-msg" &&
-> -		exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
-> -	:
-> -	EOF
-> -	$ chmod a+x .git/hooks/applypatch-msg
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index 22fa925353cf..9999bcbdccc9 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -207,10 +207,9 @@ document with a specification implemented by the patch::
->  
->  	Link: https://example.com/somewhere.html  optional-other-stuff
->  
-> -Many maintainers when applying a patch also add this tag to link to the
-> -latest public review posting of the patch; often this is automatically done
-> -by tools like b4 or a git hook like the one described in
-> -'Documentation/maintainer/configure-git.rst'.
-> +As per guidance from the Chief Penguin, a Link: tag should only be added to
-> +a commit if it leads to useful information that is not found in the commit
-> +itself.
->  
->  If the URL points to a public bug report being fixed by the patch, use the
->  "Closes:" tag instead::
+diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
+index d6f531f2c0e694..c85cd327af284d 100644
+--- a/Documentation/admin-guide/xfs.rst
++++ b/Documentation/admin-guide/xfs.rst
+@@ -355,15 +355,15 @@ None currently.
+ Removed Sysctls
+ ===============
+ 
+-=============================	=======
+-  Name				Removed
+-=============================	=======
+-  fs.xfs.xfsbufd_centisec	v4.0
+-  fs.xfs.age_buffer_centisecs	v4.0
+-  fs.xfs.irix_symlink_mode      v6.18
+-  fs.xfs.irix_sgid_inherit      v6.18
+-  fs.xfs.speculative_cow_prealloc_lifetime      v6.18
+-=============================	=======
++==========================================   =======
++  Name                                       Removed
++==========================================   =======
++  fs.xfs.xfsbufd_centisec                    v4.0
++  fs.xfs.age_buffer_centisecs                v4.0
++  fs.xfs.irix_symlink_mode                   v6.18
++  fs.xfs.irix_sgid_inherit                   v6.18
++  fs.xfs.speculative_cow_prealloc_lifetime   v6.18
++==========================================   =======
+ 
+ Error handling
+ ==============
 
+base-commit: e90dcba0a350836a5e1a1ac0f65f9e74644d7d3b
 -- 
-~Randy
+An old man doll... just what I always wanted! - Clara
+
