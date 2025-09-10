@@ -1,98 +1,118 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4067A201278;
-	Wed, 10 Sep 2025 13:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDEB35977;
+	Wed, 10 Sep 2025 13:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757511979; cv=none; b=nu4zlHZ3AnryoDUfwwe55zxRLhrrQhDNwMwY4z273WNr1y+umaeBdrTw0oAfBhAd3gqvSk0+LgJX42MeOeDRJr/eFI/Au02fjglwfsZYi1ZWQSk8bTfdCbUDGEvv4Q5ogERoFi1myjezrTSGPmPoPD2qoT/wnZShr8eqkJ/xo7U=
+	t=1757512248; cv=none; b=l2/VdwPH0zaxwppHxfn9hBxodSfciqg6uGKISG6aFD6HiIwkeFtNPVTSF+EydLlkhzmALxsoY67egZaiFoPjfiXrcvHV/ObuCmMZBfvEFRPtKn2awH+mTsTtjumIyIxdzVZblSd5tjGGvk6uvg3zkxNrP+ZrTbm7h2DNM+xTzYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757511979; c=relaxed/simple;
-	bh=3rU7hZdzei42Lc3xVobYk15fOkmf2I77X9n+u0OVfw4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i8kK+V7qAeZ/iUSs+8EGk4yEhs4cnnQNp5f6qo8GmVZ+o3XFxJ+JZ9xHInnifK00nyCzm78de2Ur6zvcY8LBrUZq0q5reV/VvFUPCuNbPog1ZYXXm6LVqo7/2Rt6/+a4dzLwEOoVSSSQRji1RXE4epBngFvpc4HvxHKJungoJeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=osTs61rA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757512248; c=relaxed/simple;
+	bh=qb6kI15oTJfRUux34RoBAq7bEV2NkwWFZHgrsdB3I08=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aLqYzNRhCEV6L8UIqevcZKuwsO7IqLwaMbOehdSs5RepLI37G2k4mCIbNwylW6LtjIIUPimmPbEV5B8MYPlNjxocUzWofdMJs13Og/R4MPYHgI7hCtOR0atC1j8CqNN5sjQT0v946uih1fkIHHpAe6ug+U+OI9fyK48WUniCFqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgJmIu3s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="osTs61rA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6713C40ACB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757511977; bh=Rk00fT0CnwEcT1hPEit/apVB9S7eFZYoFHTVDCTrJA0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=osTs61rAFdGlPNdJy1YMKDmK3FEcto4eVZUDMGsZPCO0awdUVyA8ipCjWsSfoXmAc
-	 eNT/yV3s8uL5aDnX0aG+iWUIlfcfw9PTYWwr+JS9Mkosi89KYUzVmyMw846TKOCmy9
-	 wlOPRGsrF35zybY1cGpRgdxO2DpSMeV417DCWzO0+8RYxDhtN/ygEOqpqIqzRAQlsQ
-	 DbxJ/aWyHaj+wMoyPsDRhp3FIw9SJdrJK90mlyCdHozIhsKtGYvxAvxNF2DZJwm2bB
-	 WLmUrBc9ogUNUKQPQizjvOWlhpeo8MyTKeB0pPi1zOKy7EN5BoNs0dWVkUYSXfy+Z/
-	 Fswwa4/Zah+1A==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6713C40ACB;
-	Wed, 10 Sep 2025 13:46:17 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 13/13] docs: kdoc: a few more dump_typedef() tweaks
-In-Reply-To: <8ff91be7-7cb7-492b-b1be-2d03516c8386@gmail.com>
-References: <20250909204349.123680-1-corbet@lwn.net>
- <20250909204349.123680-14-corbet@lwn.net>
- <8ff91be7-7cb7-492b-b1be-2d03516c8386@gmail.com>
-Date: Wed, 10 Sep 2025 07:46:16 -0600
-Message-ID: <87segus9nb.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgJmIu3s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F10C4CEEB;
+	Wed, 10 Sep 2025 13:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757512247;
+	bh=qb6kI15oTJfRUux34RoBAq7bEV2NkwWFZHgrsdB3I08=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SgJmIu3sAC7m+L2SJFj1Gmwoa7WKUe/5ZUUfTpMIOc7wVuPaIFG/PAkWxbt64Moqk
+	 lFPimdDtfHyufgQFv+3+LLw+N1Tqq9zBnzLrNeVjI8MRjzi1WWmoZpwq6c9okVODPV
+	 /igG/kKaaPcUA9hfPFTiQigR8sIgldmVW8DxxSrQc4Q/dO+DlIaIThAl/AXFgFZW/I
+	 OfymFr/YIi9ZDpBNM0ZcgRgPmoeA6vde7IVdqhx0OTrKm0dvgy8XyFis72MZWWYdcx
+	 IZ/BkD5kCCi3mMFPKwaB/TPAPiheg7CXzVHhOkM22dwjcqdcZiLPFfeVCTZPYPBTZc
+	 edC51lLaH4EKA==
+Date: Wed, 10 Sep 2025 15:50:41 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Michal =?UTF-8?B?S291dG7DvQ==?= <mkoutny@suse.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux cgroups <cgroups@vger.kernel.org>, Tejun
+ Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Andrea Righi
+ <arighi@nvidia.com>, Johannes Bechberger <me@mostlynerdless.de>, Changwoo
+ Min <changwoo@igalia.com>, Shashank Balaji <shashank.mahadasyam@sony.com>,
+ Ingo Molnar <mingo@kernel.org>, Jake Rice <jake@jakerice.dev>, Cengiz Can
+ <cengiz@kernel.wtf>
+Subject: Re: [PATCH 2/2] Documentation: cgroup-v2: Replace manual table of
+ contents with contents:: directive
+Message-ID: <20250910155021.418ac199@foz.lan>
+In-Reply-To: <875xdqtp7m.fsf@trenco.lwn.net>
+References: <20250910072334.30688-1-bagasdotme@gmail.com>
+	<20250910072334.30688-3-bagasdotme@gmail.com>
+	<6geggl3iu2hffdop43rtd6yp2ivd26ytfn4xdclurwce6mapal@4ve46y652dbj>
+	<875xdqtp7m.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Em Wed, 10 Sep 2025 07:24:45 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Hi Jon,
->
-> A quick report on minor regression. Please see below.
->
-> On Tue,  9 Sep 2025 14:43:49 -0600, Jonathan Corbet wrote:
->> Merge "typedef" into the typedef_type pattern rather than repeating it
->> later, and add some comments.
->
-> I'm seeing new warnings after applying 13/13:
->
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/media/demux.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/media/v4l2-ioctl.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/media/v4l2-ctrls.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/media/v4l2-dv-timings.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/media/videobuf2-core.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/linux/hte.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno ./include/linux/xarray.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno -function gen_pool_add ./include/linux/genalloc.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno -function gen_pool_alloc ./include/linux/genalloc.h' processing failed with: NameError("name '_type' is not defined")
-> WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno -function vdso_sgx_enter_enclave_t ./arch/x86/include/uapi/asm/sgx.h' processing failed with: NameError("name '_type' is not defined")
+> Michal Koutn=C3=BD <mkoutny@suse.com> writes:
+>=20
+> > On Wed, Sep 10, 2025 at 02:23:34PM +0700, Bagas Sanjaya <bagasdotme@gma=
+il.com> wrote: =20
+> >> manually-arranged table of contents (as reST comments) gets out-of-sync
+> >> with actual toctree as not all of these are added to it. =20
+> >
+> > Is this true? I generated HTML with this patch and the resulting ToC
+> > matches what's in the comment.
+> > =20
+> >> Replace it with automatically-generated table of contents via contents=
+::
+> >> directive. =20
+> >
+> > Mauro, what's the best practice wrt consistent ToC and having it in
+> > plaintext form? =20
+>=20
+> I fairly routinely get patches fixing manual TOCs that are not updated
+> to match changes elsewhere.  We have a nice system that can manage the
+> TOC automatically for us, it seems best to me to use it.
 
-OK, that is embarrassing, not sure how that got through.  My apologies.
+Agreed. If you use:
 
-An add-on fix is appended if you have the patience to try it; I'll
-update the series before too long in any case.
 
-Thanks for testing!
+	.. toctree::
+	   :maxdepth: 1
+	   :glob:
 
-jon
+	   *=20
 
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index 8215948dd548..2376f180b1fa 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -1050,7 +1050,7 @@ class KernelDoc:
-                               f"expecting prototype for typedef {self.entry.identifier}. Prototype was for typedef {declaration_name} instead\n")
-                 return
- 
--            self.create_parameter_list(ln, 'function',_type, args, ',', declaration_name)
-+            self.create_parameter_list(ln, 'function', args, ',', declaration_name)
- 
-             self.output_declaration('function', declaration_name,
-                                     typedef=True,
+There won't be the need of manually updating the TOC tree.
+
+That's said, I guess very few documents currently use grub:
+	$ git grep :glob: Documentation/|wc -l
+	7
+
+Also, it has some drawbacks, as you can't control anymore the order=20
+where the docs will be placed. So, if this is important, you may need
+to do something different, or maybe use things like (untested):
+
+	.. toctree::
+	   :maxdepth: 1
+	   :glob:
+
+	   pre*
+	   main*
+	   post*
+
+> That said, if having the TOC in the plain-text version of the document
+> is deemed to be important, then it needs to be kept and manually
+> maintained.
+
+Agreed.
+
+
+Thanks,
+Mauro
