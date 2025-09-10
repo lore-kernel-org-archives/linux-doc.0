@@ -1,199 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA58C8248C;
-	Wed, 10 Sep 2025 04:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D57BEAC7;
+	Wed, 10 Sep 2025 04:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757478209; cv=none; b=VXoXtW8dVCQGV9O8/gPI2DJhZBPu3KwhXX07zKN8plCG6aExCYGAh4A3aYW9NGoUibUqNJBgPzDpPXcpVVazbSx3S5C2vnr9/R4KaFBvm8FTbO2UYFvKnJKtrOL1yfKD9QO2lzACm5T+ufm6/2Ejh9HS3Si8btH8NtffYrDi4oM=
+	t=1757480395; cv=none; b=JYvLUlTehivQMaBsoYus7HT9qmLjoQpV9Hl77rO5majjIiSbuKYgMmKvrsldcaRWJB9C7NXxywj3ZXAAVSt5q52xJzMbdvvEq/lc20vtsoIRfJpE8Y+6WqBY41jTmO0u0O23PkMjlcsBWrf7/s7tFYzpStjzVZV0mvB1mX36TvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757478209; c=relaxed/simple;
-	bh=rE8gJPwTFV7yXLUljHlupB2t0ikdiGeonTdVcLTIHsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q29EkVKCfwsMmjseezcyttCdJGafiBOo/NxFyiQnzWaZWcoER2bbTBEnQ6obEe6IwYdOXs59+ctlQ8HjEotT6cnCuWB/HKycW7xlLx4VnqZoNO1J0WB/vrW9AncSHgTXuDGzOh8Kw5sHqUShv861zGIs60yv983lt6iB3+Iqz3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ntc5FemF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757480395; c=relaxed/simple;
+	bh=lj5kD8P6093sAHvRDXOxI/tbWQdnAOy4Ybz98dwxlLY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WTEQBtUWootuDzV0wyLKobT0XijYu3ze0QVaHxW2MwocLIjgKeSpbVNGJAZrFWCUbfwALCzDuoVg7zRg2tT81q6bQDXT4MLn8zqTVp5i44WkMcpU6SqUsFEyxUkVXkCCaBoCF2csRooiciyjURptsGo/oMXwBW3cl5NiWELi/i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=fbM1aV9h; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ntc5FemF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11FDEC4CEF0;
-	Wed, 10 Sep 2025 04:23:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757478207;
-	bh=rE8gJPwTFV7yXLUljHlupB2t0ikdiGeonTdVcLTIHsw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ntc5FemFlZh2pP3IxVGJVZpGv2GGSe19vt7QsOivy6KqDKXIHHaYDMZcKUYUn8VpJ
-	 Ow3nFbm3QXEQ4BUooY6wmXlIjw2yjsfRo95LIOSistM4xwI6Mvij49ijaJclU8ky1b
-	 YFdPhBLGlOp2JLwEaHj8/ypOAX9S5eJtgfEQiDEo8SVsoUxZVonOuho0EKbjbVxP0k
-	 RHknYfLEUbPrYVlOEjHwZK2l7VdWMpLce6PuCdeP0LeIwnzhbmOHOZxUkvTo8jml8Y
-	 1TgITq+fAXUVYG2WkxbpjfPT9vk3LzfUvv+h0wfpxvQ20JweZIphT32MvLmr/p2uIT
-	 bBE81EtsxOqgg==
-Date: Wed, 10 Sep 2025 06:23:23 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-Message-ID: <20250910062323.059bb078@foz.lan>
-In-Reply-To: <c195c68f-e815-4428-9134-8746198a4611@infradead.org>
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-	<d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
-	<20250909215824.1968220c@foz.lan>
-	<5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
-	<20250910010903.5388bffc@foz.lan>
-	<0d190bf0-b9d4-4d5c-a1cc-6d5d79be3886@infradead.org>
-	<656591ff-fa7d-4763-8759-0a0af3a4039a@infradead.org>
-	<c195c68f-e815-4428-9134-8746198a4611@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="fbM1aV9h"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757480384; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=nhxJhzMQKjnuR6FVjOzzTFISD7o26U38o9kESPDCcIc=;
+	b=fbM1aV9hyw5e8BiEuSZibcFsYnCPoc4/YHDqD2FFARYycVnsy1MK+Rs5iTQU5e3RYgckPTE5uYPxFTagkPHqQH2jyiTfX+sfAQ5T5LT0fT07DNg9BSQQviEgq+4cvMZulkcvocgH6csDQbthIXRqH2WnIGxs9vnybVya+alD24M=
+Received: from 30.221.131.126(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wngc.UD_1757480382 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 10 Sep 2025 12:59:43 +0800
+Message-ID: <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com>
+Date: Wed, 10 Sep 2025 12:59:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
+ CONFIG_BLOCK guard
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
+ djwong@kernel.org, linux-block@vger.kernel.org, gfs2@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+ linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-14-joannelkoong@gmail.com>
+ <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
+ <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Em Tue, 9 Sep 2025 17:02:00 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-> On 9/9/25 4:50 PM, Randy Dunlap wrote:
-> > 
-> > 
-> > On 9/9/25 4:49 PM, Randy Dunlap wrote:  
-> >>
-> >>
-> >> On 9/9/25 4:09 PM, Mauro Carvalho Chehab wrote:  
-> >>> Em Tue, 9 Sep 2025 14:06:43 -0700
-> >>> Randy Dunlap <rdunlap@infradead.org> escreveu:
-> >>>  
-> >>>> On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:  
-> >>>>> Em Tue, 9 Sep 2025 00:27:20 -0700
-> >>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:  
-> >>>  
-> >>>>>> +.. kernel-doc:: init/kdoc-globals-test.c
-> >>>>>> +   :identifiers:
-> >>>>>>
-> >>>>>> The html output says
-> >>>>>> "Kernel Globals"
-> >>>>>> but nothing else.    
-> >>>>>
-> >>>>> I usually don't add :identifiers: on kernel-doc entries. If you use
-> >>>>> identifiers, you need to explicitly tell what symbols you want.    
-> >>>>
-> >>>> Well, it worked/works without using having any identifiers listed, and
-> >>>> the docs in Documentation/doc-guide/kernel-doc.rst says that they are
-> >>>> optional:
-> >>>>
-> >>>> identifiers: *[ function/type ...]*
-> >>>>   Include documentation for each *function* and *type* in *source*.
-> >>>>   If no *function* is specified, the documentation for all functions
-> >>>>   and types in the *source* will be included.
-> >>>>   *type* can be a struct, union, enum, or typedef identifier.  
-> >>>
-> >>> Hmm.. looking the entire logic:
-> >>>
-> >>>         elif 'identifiers' in self.options:
-> >>>             identifiers = self.options.get('identifiers').split()
-> >>>             if identifiers:
-> >>>                 for i in identifiers:
-> >>>                     i = i.rstrip("\\").strip()
-> >>>                     if not i:
-> >>>                         continue
-> >>>
-> >>>                     cmd += ['-function', i]
-> >>>                     self.msg_args["symbol"].append(i)
-> >>>             else:
-> >>>                 cmd += ['-no-doc-sections']
-> >>>                 self.msg_args["no_doc_sections"] = True
-> >>>
-> >>> I suspect that an empty identifier could be raising an exception.  
+
+On 2025/9/9 23:33, Joanne Koong wrote:
+> On Mon, Sep 8, 2025 at 10:14 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
+>>
+>> On 2025/9/9 02:51, Joanne Koong wrote:
+>>> There is no longer a dependency on CONFIG_BLOCK in the iomap read and
+>>> readahead logic. Move this logic out of the CONFIG_BLOCK guard. This
+>>> allows non-block-based filesystems to use iomap for reads/readahead.
+>>>
+>>> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+>>> ---
+>>>    fs/iomap/buffered-io.c | 151 +++++++++++++++++++++--------------------
+>>>    1 file changed, 76 insertions(+), 75 deletions(-)
+>>>
+>>> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+>>> index f673e03f4ffb..c424e8c157dd 100644
+>>> --- a/fs/iomap/buffered-io.c
+>>> +++ b/fs/iomap/buffered-io.c
+>>> @@ -358,81 +358,6 @@ void iomap_finish_folio_read(struct folio *folio, size_t off, size_t len,
+>>>    }
+>>> +
+>>> +/**
+>>> + * Read in a folio range asynchronously through bios.
+>>> + *
+>>> + * This should only be used for read/readahead, not for buffered writes.
+>>> + * Buffered writes must read in the folio synchronously.
+>>> + */
+>>> +static int iomap_read_folio_range_bio_async(const struct iomap_iter *iter,
+>>> +             struct iomap_read_folio_ctx *ctx, loff_t pos, size_t plen)
+>>> +{
+>>> +     struct folio *folio = ctx->cur_folio;
+>>> +     const struct iomap *iomap = &iter->iomap;
+>>> +     size_t poff = offset_in_folio(folio, pos);
+>>> +     loff_t length = iomap_length(iter);
+>>> +     sector_t sector;
+>>> +     struct bio *bio = ctx->private;
+>>> +
+>>> +     iomap_start_folio_read(folio, plen);
+>>> +
+>>> +     sector = iomap_sector(iomap, pos);
+>>> +     if (!bio || bio_end_sector(bio) != sector ||
+>>> +         !bio_add_folio(bio, folio, plen, poff)) {
+>>> +             gfp_t gfp = mapping_gfp_constraint(folio->mapping, GFP_KERNEL);
+>>> +             gfp_t orig_gfp = gfp;
+>>> +             unsigned int nr_vecs = DIV_ROUND_UP(length, PAGE_SIZE);
+>>> +
+>>> +             if (bio)
+>>> +                     submit_bio(bio);
+>>> +
+>>> +             if (ctx->rac) /* same as readahead_gfp_mask */
+>>> +                     gfp |= __GFP_NORETRY | __GFP_NOWARN;
+>>> +             bio = bio_alloc(iomap->bdev, bio_max_segs(nr_vecs),
+>>> +                                  REQ_OP_READ, gfp);
+>>> +             /*
+>>> +              * If the bio_alloc fails, try it again for a single page to
+>>> +              * avoid having to deal with partial page reads.  This emulates
+>>> +              * what do_mpage_read_folio does.
+>>> +              */
+>>> +             if (!bio)
+>>> +                     bio = bio_alloc(iomap->bdev, 1, REQ_OP_READ, orig_gfp);
+>>> +             if (ctx->rac)
+>>> +                     bio->bi_opf |= REQ_RAHEAD;
+>>> +             bio->bi_iter.bi_sector = sector;
+>>> +             bio->bi_end_io = iomap_read_end_io;
+>>> +             bio_add_folio_nofail(bio, folio, plen, poff);
+>>> +             ctx->private = bio;
+>>
+>> Yes, I understand some way is needed to isolate bio from non-bio
+>> based filesystems, and I also agree `bio` shouldn't be stashed
+>> into `iter->private` since it's just an abuse usage as mentioned
+>> in:
+>> https://lore.kernel.org/r/20250903203031.GM1587915@frogsfrogsfrogs
+>> https://lore.kernel.org/r/aLkskcgl3Z91oIVB@infradead.org
+>>
+>> However, the naming of `(struct iomap_read_folio_ctx)->private`
+>> really makes me feel confused because the `private` name in
+>> `read_folio_ctx` is much like a filesystem read context instead
+>> of just be used as `bio` internally in iomap for block-based
+>> filesystems.
+>>
+>> also the existing of `iter->private` makes the naming of
+>> `ctx->private` more confusing at least in my view.
 > 
-> and it's being caught and ignored (not printed)?
+> Do you think "ctx->data" would be better? Or is there something else
+> you had in mind?
 
-there is a try/except block to capture exceptions. It is supposed to
-print something, though:
-
-        try:
-            if kfiles:
-                return self.run_kdoc(cmd, kfiles)
-            else:
-                return self.run_cmd(cmd)
-
-        except Exception as e:  # pylint: disable=W0703
-            logger.warning("kernel-doc '%s' processing failed with: %s" %
-                           (cmd_str(cmd), pformat(e)))
-            return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
-
-> >>> The right logic should be, instead:
-> >>>
-> >>> -        elif 'identifiers' in self.options:
-> >>> -            identifiers = self.options.get('identifiers').split()
-> >>> -            if identifiers:
-> >>> -                for i in identifiers:
-> >>> +        elif 'identifiers' in self.options:
-> >>> +            identifiers = self.options.get('identifiers')
-> >>> +            if identifiers:
-> >>> +                for i in identifiers.split():
-> >>>
-> >>> (tests needed)  
-> >>
-> >> Sheesh, I can't find that code so that I can patch it.
-> >> (in today's linux-next 20250909)  
-> > 
-> > oops, I was looking in scripts/ and not in Documentation/.
-> > got it.
-> >   
-> >> Anyway, does this take away something that currently works?  
-> 
-> The output looks the same with this patch AFAICT.
-
-run it in verbose mode to see what command line was passed to
-the file:
-
-	$ make SPHINXDIRS=your_test_dir V=1 htmldocs
-
-This should be printing how the kernel-doc.py command line would be(*):
-
-	scripts/kernel-doc.py -rst -enable-lineno ./include/linux/peci.h
-	./include/linux/peci.h:20 Scanning doc for struct peci_controller_ops
-	./include/linux/peci.h:32 Scanning doc for struct peci_controller
-	./include/linux/peci.h:58 Scanning doc for struct peci_device
-	./include/linux/peci.h:88 Scanning doc for struct peci_request
-
-(*) the kerneldoc.py extension doesn't call kernel-doc.py, but instead
-    run directly the Python classes from the library. Yet, to help one
-    to debug it, the command line is displayed.
-
-for instance, on a more complex kernel-doc tags case:
-
-	$ make SPHINXDIRS=driver-api/cxl/ V=1 htmldocs 2>&1 |grep scripts/kernel-doc.py
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl pci' ./drivers/cxl/pci.c
-	scripts/kernel-doc.py -rst -enable-lineno -internal ./drivers/cxl/pci.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl mem' ./drivers/cxl/mem.c
-	scripts/kernel-doc.py -rst -enable-lineno -internal ./drivers/cxl/cxlmem.h
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/memdev.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl port' ./drivers/cxl/port.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl objects' ./drivers/cxl/cxl.h
-	scripts/kernel-doc.py -rst -enable-lineno -internal ./drivers/cxl/cxl.h
-	scripts/kernel-doc.py -rst -enable-lineno -function add_cxl_resources ./drivers/cxl/acpi.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core hdm' ./drivers/cxl/core/hdm.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/hdm.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/cdat.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core' ./drivers/cxl/core/port.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/port.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core pci' ./drivers/cxl/core/pci.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/pci.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl pmem' ./drivers/cxl/core/pmem.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/pmem.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl registers' ./drivers/cxl/core/regs.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/regs.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl mbox' ./drivers/cxl/core/mbox.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/mbox.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl features' ./drivers/cxl/core/features.c
-	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core region' ./drivers/cxl/core/region.c
-	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/region.c
-	scripts/kernel-doc.py -rst -enable-lineno -function UAPI ./include/uapi/linux/cxl_mem.h
-	scripts/kernel-doc.py -rst -enable-lineno -internal ./include/uapi/linux/cxl_mem.h
-
+At least it sounds better on my side, but anyway it's just
+my own overall thought.  If other folks have different idea,
+I don't have strong opinion, I just need something for my own
+as previous said.
 
 Thanks,
-Mauro
+Gao Xiang
+
+> 
+> Thanks,
+> Joanne
+>>
+>> Thanks,
+>> Gao Xiang
+
