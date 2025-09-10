@@ -1,145 +1,261 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582DB2737F4
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 17:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E972D0C91
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 17:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757525493; cv=none; b=jGd4PY+jmVAkgAm//d9Ly7Dc+FGcBxx4UW82gaBb38Vt3ssNVnFLDzSNPVkxe4Mgax3WxUuu4MVJdNTtY4Pv0ImkVdXYNNtPKeD1WW1oUGxLHa7xd54k/JtHOyEpvSqDqah+iNFZ8ZVxO4U5lIf1m+44t4ChraJv1de5hdElhnk=
+	t=1757526102; cv=none; b=UKjFL65iIUdvhaObPePfvMo5FYQUol2DX8srkhQhg+NAA10FBZ7fuD1idJXgmksKIJy86XeJD9f4C6vh7Xf/ErlIOwpJU3RD8OuXok/E4no5zFlFppfWZ/XNsoXYvVxHB4GwgEhXZjQ6AEx9C+cBVkscQr9yUzqD5hLnbLHD720=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757525493; c=relaxed/simple;
-	bh=T42WLsYUag3i4x76FdcxddwpCrpFK4jtgY9tzWa7sDQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c1vXpo3cHpYDfR0GhI/rcEzXld5s4hxlIDZ1t8sHK1sZ/O93Z7ug9n4sE7iam4Y1oG6chHMtDk1+tc1tSpYBAf0W67Epa4VjhaeH8HoDa6/21h72kufsJ0jOaqOgYTDzSWfwEnRAKlizzrw8U6fDTiQq45hcwnOuL4SFtuRgKRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hAlKPrfa; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757526102; c=relaxed/simple;
+	bh=ya3nCeHXX4cIOcVB3zT+qGwqtNq6bvInaVnCb1Wx2VE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eWdgUUP9pyBd7Vns7Kozr1r0OFfx2AW0B0pMGFuD0iszgr7L3WOl7Gn7YO91juRCEU/5kl3DGEWdm0KwwbdXdwqxzZkHEqX7D76AOtaZMr/SzDthJKd1OQbnKWMMcyTk7Qn4L3Lxtjz72O7fIqRaSdBop+92arIHbdNf8Uza87Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESkeav3L; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hAlKPrfa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757525490;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y4DBrNtiTrUiFvnKqXZbU34j/Yix0O34EDnkigeP54A=;
-	b=hAlKPrfaAI/0yFydyk3T2M4nMoN/Nr7OGzmoNbgVznPfKp7nVqw2YeICl1Brx5BFoiEQMt
-	Ly9l1i20EdZarSJu7/xnKqiAWtMRTOh8NqAWWxmLW10h4G3dRFC4OpJ60L0DkTEgMwg9Va
-	u2IgcGuQhmS72Wrcy/suBvM4taQIWtQ=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-12-F2ttI1oxPJquUvy_WeqVng-1; Wed,
- 10 Sep 2025 13:31:26 -0400
-X-MC-Unique: F2ttI1oxPJquUvy_WeqVng-1
-X-Mimecast-MFC-AGG-ID: F2ttI1oxPJquUvy_WeqVng_1757525485
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 70E6619541B2;
-	Wed, 10 Sep 2025 17:31:24 +0000 (UTC)
-Received: from [10.45.225.144] (unknown [10.45.225.144])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 935291956095;
-	Wed, 10 Sep 2025 17:31:20 +0000 (UTC)
-Message-ID: <4277866b-67e9-4d75-a7e4-9296b898fbcb@redhat.com>
-Date: Wed, 10 Sep 2025 19:31:19 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESkeav3L"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4b5f6ad78e4so48649181cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 10:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757526099; x=1758130899; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qHT+u2S9m3RVDHyPVmpZb2IEdtnx3gNXVCQQWQ1AuyM=;
+        b=ESkeav3L1JysDAQu8Z3qVss0OcDtwx/8+xGNo7tA6jAl5WtvBeNZ2PFPmetQKo8gdW
+         WKmVgT/Mw3VUSuwX8FKdgCH18t8zs3IR8wSMXzj+wRJnzId51LIca5ArJ+Ge5CCTr3Hr
+         W7hvwTimN3YbCFyo3nnGahUakdOPSQTSOkrBl8XW6VCkru6Zlh9wpesSU4cDcIWJmPkE
+         IZi3Qy3nE5eMKg2KLPssYRXY2RtWMF640hkYA0c3+50ndWVzKdzTCEWavaEIgwNGX1gu
+         Pe6wMZ5nreXtx/eJ7Go71KLSCN8vuTHOhSeaIZtpOX6u5bLf+B1DN3Dpm7rzx0C7gST5
+         E+eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757526099; x=1758130899;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qHT+u2S9m3RVDHyPVmpZb2IEdtnx3gNXVCQQWQ1AuyM=;
+        b=dndyS70AMrLpXbnyr/Fk4CQ7oU20Mlg3Bn2/Ra/EoHEVWZZoB1HpuDH1UOXr82tcJn
+         Hxj+w5fF6z92rwG/vH70q5pVT7z0QMA4pP79kaistdbFmqVhP9XvINewdX89ZF/57y8k
+         /tPEnekyVwCwRbJsi1hPKfiny/DIt51ygGFFHHMrMCxWdE4i3VLNpgNAf8rwpWqcUGwm
+         RsrtVH5/2GJEWX5fHhyO1Db2FKSbrYNcwnVzFz4Zy+yrfWYfwAfzCtoE5ZIj8cSnOhTH
+         dZyn7uDa/wZpAlDXKodMYyu9RT9lEdw3XyUMfqxX1PgKzdhj1OUsXpqNahch7grLyE64
+         ozwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUM0fxhUf1Up+0NJ7HIpPlYEtf85bbe7ox0yLEYiYoTDXPtAu5joEvDSy6l3sfuWtRiKomCAPferiI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMdW0+mqb73QfiPRdC+PkE1TDlJkfvCgyuRCmldxeSa6/CpHK1
+	RkwV7lYshOaePsIRs481lvx9B9/vQIoXOD1XRLjF4Nrkv/86R6TfeWojxHTnqRPQs1/Wc/ZiCvk
+	K6lB0BXEfy7M+ihGC2yNy0/tDo1hytD4=
+X-Gm-Gg: ASbGncvcXrCR8KDQWGnQ24Z11B2Pt/OsLBVPtWUUxVw4d6kaqfz29ooTB1jt1RZEfwA
+	mVC91pplSuAH/u1DTemOgriDuIEzvadbYlhyvasHRYObkf1MLyi36JZNc6k8DRldL09RREXKeXe
+	hndnzT9Co/vxO23qQBQG2vVaYJ5aD/S1GFSu0yQx1l43J9hSyf7cEdZUsrMPNQOiLxOB+L3aiSa
+	ZIZqjtfw9E4fza1Chn4yGgO7rTZUcRilw==
+X-Google-Smtp-Source: AGHT+IGM4v8CCbZik1kELSMXAYG/GKBchBBFALBliyv/onlKWZFY2W1P7n4z7sWDqXgSFcqrmLLSXIe+ROn9OwqKnI0=
+X-Received: by 2002:ac8:5f14:0:b0:4b3:50b0:d7f with SMTP id
+ d75a77b69052e-4b5f8464d8amr161064711cf.61.1757526099174; Wed, 10 Sep 2025
+ 10:41:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] dpll: zl3073x: Allow to use custom phase measure
- averaging factor
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: netdev@vger.kernel.org, Prathosh Satish <Prathosh.Satish@microchip.com>,
- Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20250910103221.347108-1-ivecera@redhat.com>
- <acfc8c63-4434-4738-84a9-00360e70c773@lunn.ch>
- <0817610a-e3dd-427e-b0ad-c2d503bb8a4f@redhat.com>
- <10886c5f-1265-46ec-8caa-41bde6888905@lunn.ch>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <10886c5f-1265-46ec-8caa-41bde6888905@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-12-joannelkoong@gmail.com> <aL9xb5Jw8tvIRMcQ@debian>
+ <CAJnrk1YPpNs811dwWo+ts1xwFi-57OgWvSO4_8WLL_3fJgzrFw@mail.gmail.com> <488d246b-13c7-4e36-9510-8ae2de450647@linux.alibaba.com>
+In-Reply-To: <488d246b-13c7-4e36-9510-8ae2de450647@linux.alibaba.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 10 Sep 2025 13:41:25 -0400
+X-Gm-Features: Ac12FXx3f2gw2O3qOKT1Xmh_ecXNa2Ke7YGwp9bTrR6B-OHcqgL5c7RB1qg35NQ
+Message-ID: <CAJnrk1a5af-BMPUM3HfGwKZ=zoN4bcmbViLBWMtLao1KfK2gww@mail.gmail.com>
+Subject: Re: [PATCH v2 11/16] iomap: add caller-provided callbacks for read
+ and readahead
+To: Gao Xiang <hsiangkao@linux.alibaba.com>
+Cc: djwong@kernel.org, hch@infradead.org, brauner@kernel.org, 
+	miklos@szeredi.hu, linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Sep 9, 2025 at 7:21=E2=80=AFPM Gao Xiang <hsiangkao@linux.alibaba.c=
+om> wrote:
+>
+> Hi Joanne,
+>
+> On 2025/9/9 23:24, Joanne Koong wrote:
+> > On Mon, Sep 8, 2025 at 8:14=E2=80=AFPM Gao Xiang <xiang@kernel.org> wro=
+te:
+> >>
+> >> Hi Joanne,
+> >>
+> >> On Mon, Sep 08, 2025 at 11:51:17AM -0700, Joanne Koong wrote:
+> >>> Add caller-provided callbacks for read and readahead so that it can b=
+e
+> >>> used generically, especially by filesystems that are not block-based.
+> >>>
+> >>> In particular, this:
+> >>> * Modifies the read and readahead interface to take in a
+> >>>    struct iomap_read_folio_ctx that is publicly defined as:
+> >>>
+> >>>    struct iomap_read_folio_ctx {
+> >>>        const struct iomap_read_ops *ops;
+> >>>        struct folio *cur_folio;
+> >>>        struct readahead_control *rac;
+> >>>        void *private;
+> >>>    };
+> >>>
+> >>>    where struct iomap_read_ops is defined as:
+> >>>
+> >>>    struct iomap_read_ops {
+> >>>        int (*read_folio_range)(const struct iomap_iter *iter,
+> >>>                               struct iomap_read_folio_ctx *ctx,
+> >>>                               loff_t pos, size_t len);
+> >>>        int (*read_submit)(struct iomap_read_folio_ctx *ctx);
+> >>>    };
+> >>>
+> >>
+> >> No, I don't think `struct iomap_read_folio_ctx` has another
+> >> `.private` makes any sense, because:
+> >>
+> >>   - `struct iomap_iter *iter` already has `.private` and I think
+> >>     it's mainly used for per-request usage; and your new
+> >>     `.read_folio_range` already passes
+> >>      `const struct iomap_iter *iter` which has `.private`
+> >>     I don't think some read-specific `.private` is useful in any
+> >>     case, also below.
+> >>
+> >>   - `struct iomap_read_folio_ctx` cannot be accessed by previous
+> >>     .iomap_{begin,end} helpers, which means `struct iomap_read_ops`
+> >>     is only useful for FUSE read iter/submit logic.
+> >>
+> >> Also after my change, the prototype will be:
+> >>
+> >> int iomap_read_folio(const struct iomap_ops *ops,
+> >>                       struct iomap_read_folio_ctx *ctx, void *private2=
+);
+> >> void iomap_readahead(const struct iomap_ops *ops,
+> >>                       struct iomap_read_folio_ctx *ctx, void *private2=
+);
+> >>
+> >> Is it pretty weird due to `.iomap_{begin,end}` in principle can
+> >> only use `struct iomap_iter *` but have no way to access
+> >> ` struct iomap_read_folio_ctx` to get more enough content for
+> >> read requests.
+> >
+> > Hi Gao,
+> >
+> > imo I don't think it makes sense to, if I'm understanding what you're
+> > proposing correctly, have one shared data pointer between iomap
+> > read/readahead and the iomap_{begin,end} helpers because
+>
+> My main concern is two `private` naming here: I would like to add
+> `private` to iomap_read/readahead() much like __iomap_dio_rw() at
+> least to make our new feature work efficiently.
+>
+> >
+> > a) I don't think it's guaranteed that the data needed by
+> > read/readahead and iomap_{begin,end} is the same.  I guess we could
+> > combine the data each needs altogether into one struct, but it seems
+> > simpler and cleaner to me to just have the two be separate.
+> >
+> > b) I'm not sure about the erofs use case, but at least for what I'm
+> > seeing for fuse and the block-based filesystems currently using iomap,
+> > the data needed by iomap read/readahead (eg bios, the fuse
+> > fuse_fill_read_data) is irrelevant for iomap_{begin/end} and it seems
+> > unclean to expose that extraneous info. (btw I don't think it's true
+> > that iomap_iter is mainly used for per-request usage - for readahead
+> > for example, iomap_{begin,end} is called before and after we service
+> > the entire readahead, not called per request, whereas
+> > .read_folio_range() is called per request).
+>
+> I said `per-request` meant a single sync read or readahead request,
+> which is triggered by vfs or mm for example.
+>
+> >
+> > c) imo iomap_{begin,end} is meant to be a more generic interface and I
+> > don't think it makes sense to tie read-specific data to it. For
+> > example, some filesystems (eg gfs2) use the same iomap_ops across
+> > different file operations (eg buffered writes, direct io, reads, bmap,
+> > etc).
+>
+> Previously `.iomap_{begin,end}` participates in buffer read and write
+> I/O paths (except for page writeback of course) as you said, in
+> principle users only need to care about fields in `struct iomap_iter`.
+>
+> `struct iomap_readpage_ctx` is currently used as an internal structure
+> which is completely invisible to filesystems (IOWs, filesystems don't
+> need to care or specify any of that).
+>
+> After your proposal, new renamed `struct iomap_read_folio_ctx` will be
+> exposed to individual filesystems too, but that makes two external
+> context structures for the buffer I/O reads (`struct iomap_iter` and
+> `struct iomap_read_folio_ctx`) instead of one.
+>
+> I'm not saying your proposal doesn't work, but:
+>
+>   - which is unlike `struct iomap_writepage_ctx` because writeback path
+>     doesn't have `struct iomap_iter` involved, and it has only that
+>     exact one `struct iomap_writepage_ctx` context and all callbacks
+>     use that only;
+>
+>   - take a look at `iomap_dio_rw` and `iomap_dio_ops`, I think it's
+>     somewhat similiar to the new `struct iomap_read_ops` in some
+>     extent, but dio currently also exposes the exact one context
+>     (`struct iomap_iter`) to users.
+>
+>   - take a look at `iomap_write_ops`, it also exposes
+>     `struct iomap_iter` only. you may say `folio`, `pos`, `len` can be
+>     wrapped as another `struct iomap_write_ctx` if needed, but that is
+>     not designed to be exposed to be specfied by write_iter (e.g.
+>     fuse_cache_write_iter)
+>
+> In short, traditionally the buffered read/write external context is
+> the only unique one `struct iomap_iter` (`struct iomap_readpage_ctx`
+> is only for iomap internal use), after your proposal there will be
+> two external contexts specified by users (.read_folio and .readahead)
+> but `.iomap_{begin,end}` is unable to get one of them, which is
+> unlike the current writeback and direct i/o paths (they uses one
+> external context too.)
+>
+> Seperate into two contexts works for your use case, but it may
+> cause issues since future developers have to decide where to
+> place those new context fields for buffer I/O paths (
+> `struct iomap_iter` or `struct iomap_read_folio_ctx`), it's still
+> possible but may cause further churn on the codebase perspective.
+>
+> That is my minor concern, but my main concern is still `private`
+> naming.
 
+Hi Gao,
 
-On 10. 09. 25 7:06 odp., Andrew Lunn wrote:
-> On Wed, Sep 10, 2025 at 06:50:47PM +0200, Ivan Vecera wrote:
->> On 10. 09. 25 6:13 odp., Andrew Lunn wrote:
->>> On Wed, Sep 10, 2025 at 12:32:21PM +0200, Ivan Vecera wrote:
->>>> The DPLL phase measurement block uses an exponential moving average,
->>>> calculated using the following equation:
->>>>
->>>>                          2^N - 1                1
->>>> curr_avg = prev_avg * --------- + new_val * -----
->>>>                            2^N                 2^N
->>>>
->>>> Where curr_avg is phase offset reported by the firmware to the driver,
->>>> prev_avg is previous averaged value and new_val is currently measured
->>>> value for particular reference.
->>>>
->>>> New measurements are taken approximately 40 Hz or at the frequency of
->>>> the reference (whichever is lower).
->>>>
->>>> The driver currently uses the averaging factor N=2 which prioritizes
->>>> a fast response time to track dynamic changes in the phase. But for
->>>> applications requiring a very stable and precise reading of the average
->>>> phase offset, and where rapid changes are not expected, a higher factor
->>>> would be appropriate.
->>>>
->>>> Add devlink device parameter phase_offset_avg_factor to allow a user
->>>> set tune the averaging factor via devlink interface.
->>>>
->>>> Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
->>>> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
->>>> ---
->>>>    Documentation/networking/devlink/zl3073x.rst |  4 ++
->>>>    drivers/dpll/zl3073x/core.c                  |  6 +-
->>>>    drivers/dpll/zl3073x/core.h                  |  8 ++-
->>>>    drivers/dpll/zl3073x/devlink.c               | 67 ++++++++++++++++++++
->>>>    4 files changed, 82 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
->>>> index 4b6cfaf386433..ddd159e39e616 100644
->>>> --- a/Documentation/networking/devlink/zl3073x.rst
->>>> +++ b/Documentation/networking/devlink/zl3073x.rst
->>>> @@ -20,6 +20,10 @@ Parameters
->>>>         - driverinit
->>>>         - Set the clock ID that is used by the driver for registering DPLL devices
->>>>           and pins.
->>>> +   * - ``phase_offset_avg_factor``
->>>> +     - runtime
->>>> +     - Set the factor for the exponential moving average used by DPLL phase
->>>> +       measurement block. The value has to be in range <0, 15>.
->>>
->>> Maybe put the text in the commit message here as well?
->>
->> Do you mean to put the equation and details from commit message here?
->> This is pretty long.
-> 
-> So what if it is long? At the moment, it is hiding in the commit
-> message. It is not easy to find, you effectively need to be a kernel
-> developer to find it. If it is in the documentation of the device, it
-> will be much easier to find and understand what this knob actually
-> does.
-> 
+In my mind, the big question is whether or not the data the
+filesystems pass in is logically shared by both iomap_begin/end and
+buffered reads/writes/dio callbacks, or whether the data needed by
+both are basically separate entities but have to be frankensteined
+together so that it can be passed in through iter->private. My sense
+of the read/readahead code is that the data needed by iomap begin/end
+vs buffered reads are basically logically separate entities. I see
+your point about how the existing code for buffered writes and dio in
+iomap have them combined into one, but imo, if the iomap_iter data is
+a separate entity from the data needed in the callbacks, then those
+pointers should be separate.
 
-Agree. I will describe it in more detail in the documentation.
-+ optimization proposed by Vadim.
+But I also am happy to change this back to having it the way it was
+for v1 where everything just went through iter->private. I don't feel
+strongly about this decision, I'm happy with whichever way we go with.
 
-Thanks for the review.
+Thanks,
+Joanne
 
-Ivan
-
-
+>
+> Thanks,
+> Gao Xiang
+>
+> > Thanks,
+> > Joanne
+> >
+> >>
+> >> Thanks,
+> >> Gao Xiang
+>
