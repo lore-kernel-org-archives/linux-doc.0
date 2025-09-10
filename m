@@ -1,102 +1,149 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC2C255F5E;
-	Wed, 10 Sep 2025 17:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7ADEACD;
+	Wed, 10 Sep 2025 17:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757525255; cv=none; b=BAL+/AQHReKph6AMKfOqocxxeJWfN1MZTs201B+MMI0dMCjt8ciZrqKE3Dy9+bauRFQW4Y800eOt0GWvZxW6hrdWI/qapbor1jmUNTub5wxnMUEpC0qR1RLrRHsUjcmHq+shV1Oa9Sn+gEgs/5u6RCCTszpkioCB+5cAb95VyBk=
+	t=1757525350; cv=none; b=qutxNbrOhTL0Vl/UxAi8BhVfcv5Jyhef6fSr25yzV+lA+QAO5CAMlY+oU3OmlSwEjo68VjDp+p+Zvn1KeAZuYcTkVgm12aaBnmtfhkGPIVll/fuWFb3kc1JwDO6rM+13WbxaxO1F05t9ET7mUl4LpmAUM0oLQcRVnaxJxyY0Kcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757525255; c=relaxed/simple;
-	bh=IbDI6NByxIuvJpDQV0z450B/UbqXV9f1soeWIoUs718=;
+	s=arc-20240116; t=1757525350; c=relaxed/simple;
+	bh=lnqyI9f64I1yhXVL6nN7wKwIlUzM9Wz76sbGLU0tYUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KmJy1ixWWLsrmpcsdiXPwUiX80Zgbtpf8qdq7jp7gWaqMzSRVznRCUXntYqk2z9HIZuIoF6Iw3BLAIn5tt0gx3WkS+vGDrWbfKwcs+VrIIai2RyMu+hIMcOjutGAQphvSLb8mD4qJTlfxi6ikeenwRAf3+ZFqrd5+f/xSXyqFpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=YoIYZjZz; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=WhnXqx4V68NuaWSD66QxlPVEBFDDMs+yrCoyeoWgDyPfLzP3868s1pa/lWAd0SiKsnLnSOIYaS5eVzQ7myE6w131DYddBNJjVZ5RM+aymhEk0lpiDMJL9gSTeH7dbNPE/pB26aq1cyfhKQMoeIxh/HjZxTbAKKYnGEQOpYWkfSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcfZ8jUB; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YoIYZjZz"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 698A140E01D2;
-	Wed, 10 Sep 2025 17:27:23 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ejTizIk3HIBh; Wed, 10 Sep 2025 17:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1757525238; bh=AaHxBJ1T5/lzqwfAIWFqoerftxnxSVKw4mzH9fNFLvQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YoIYZjZz7DB/GNwEwUULywd3ovui4UA0jSTMFhu59QEAtf45IB08kRZFA+JHt4Z8e
-	 h8wTl7aBch86V1TbFJ6csu0YyK3MZMArHg5LKD3xKxWn7HnnTcdGejMlWP/nRuTKcH
-	 asNn23Ya35Z39N9uCWjB3qBnJFGET9cAeveBzp0xyvIGQRTWL9tiCkk2cRF0bD8Mfg
-	 Rc2fhhMbUc+6zj+UIge9ORMbI3zOdrvIuxJ54Kd2i54Kr27OJZJZGTAxsz5JkNXk3e
-	 kGbs1v8GKaF4jF8ODc564UfR7oqMwjUZSOvMSHqYnRAHQLn6Ji2sMcKT82KMK6PV/K
-	 hrW670pt2m2Ru7I+NkmUKr+oTbIr1M2u2nW1rDhG0lMpwaJ5aHl/dfe5ItJoprAGb+
-	 kSOpAH6Yw1GnSNPy/e7CfcpK8pBBfkjzcMsXgyP7jMH2HdlXnmAfRoGckzw4Q6hPQM
-	 ifjkfVFsDyUOj7U4UWcCXWJs1bls+JKyvFoKRkp+BdqEwSZsGc2VJCWCAe7nWgC7Mx
-	 OB6qBF7WLbuv8K+jHMa63UsRB2yX5v4rMttSTxkXM6d8nZv+QXBi/GTPMQW6NK/dpd
-	 Ap5kFEG/3LfRka8OpNjLATnxhZz7IXPDLPZjT4NnXXxyXjm8PxXa0PvHOBgEzBCqP0
-	 GIqu/SuwgH7nbr3m+nmFGv/g=
-Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 37CA240E00DD;
-	Wed, 10 Sep 2025 17:26:36 +0000 (UTC)
-Date: Wed, 10 Sep 2025 19:26:27 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com,
-	Dave.Martin@arm.com, james.morse@arm.com, tglx@linutronix.de,
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	akpm@linux-foundation.org, paulmck@kernel.org, frederic@kernel.org,
-	pmladek@suse.com, rostedt@goodmis.org, kees@kernel.org,
-	arnd@arndb.de, fvdl@google.com, seanjc@google.com,
-	thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
-	perry.yuan@amd.com, manali.shukla@amd.com, sohil.mehta@intel.com,
-	xin@zytor.com, Neeraj.Upadhyay@amd.com, peterz@infradead.org,
-	tiala@microsoft.com, mario.limonciello@amd.com,
-	dapeng1.mi@linux.intel.com, michael.roth@amd.com,
-	chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org, peternewman@google.com, eranian@google.com,
-	gautham.shenoy@amd.com
-Subject: Re: [PATCH v18 14/33] x86/resctrl: Add data structures and
- definitions for ABMC assignment
-Message-ID: <20250910172627.GCaMG0w6UP4ksqZZ50@fat_crate.local>
-References: <cover.1757108044.git.babu.moger@amd.com>
- <1eb6f7ba74f37757ebf3a45cfe84081b8e6cd89a.1757108044.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcfZ8jUB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757525348; x=1789061348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lnqyI9f64I1yhXVL6nN7wKwIlUzM9Wz76sbGLU0tYUk=;
+  b=bcfZ8jUBd5wZcpuPoCbjPL4h+gPwCYeAsz7W14BKqEEhlr7LfBobxYJ/
+   BZrVLX5hJ1b1sfegQ//l0qs5g9R9zzzFIjG50byPOMkYko8XGPJkS4vKF
+   3KqZzqKA9943J9ZdbTJEfq60v1Kl+ro3/E1lkoKsF1ck0GW/fjTN1aHWS
+   SodHtP9Bp71dTzf5d1ljupmbMO5rbf+93snf2RQzZJJdt4T/JXzclg0uk
+   fuCeO1sRZ2ebYggrnvccbyYX1E5i0XLl2Q1jRVjKXCKIH/woc9FXpL8f4
+   vuwX9JNWfSWQFCD3+TWl8+UNgVbVk61cjNygAceT57LiOVEi8j1ODKZSb
+   Q==;
+X-CSE-ConnectionGUID: EFA+svv8T+upCVNxcZkaJg==
+X-CSE-MsgGUID: w1QyYt1pQIir+sWn4K++Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="58886909"
+X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
+   d="scan'208";a="58886909"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 10:29:08 -0700
+X-CSE-ConnectionGUID: 4mWWF5aTSDe+1XoKr5D04w==
+X-CSE-MsgGUID: ltXG1s5yRRe/xWJO8Hq3Ow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
+   d="scan'208";a="173826211"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 10 Sep 2025 10:28:42 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwOca-0006Al-0G;
+	Wed, 10 Sep 2025 17:28:40 +0000
+Date: Thu, 11 Sep 2025 01:27:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+	hannes@cmpxchg.org, usamaarif642@gmail.com,
+	gutierrez.asier@huawei-partners.com, willy@infradead.org,
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net,
+	21cnbao@gmail.com, shakeel.butt@linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Lance Yang <ioworker0@gmail.com>
+Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from
+ khugepaged_mm_slot
+Message-ID: <202509110109.PSgSHb31-lkp@intel.com>
+References: <20250910024447.64788-2-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1eb6f7ba74f37757ebf3a45cfe84081b8e6cd89a.1757108044.git.babu.moger@amd.com>
+In-Reply-To: <20250910024447.64788-2-laoar.shao@gmail.com>
 
-On Fri, Sep 05, 2025 at 04:34:13PM -0500, Babu Moger wrote:
-> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-> index 18222527b0ee..48230814098d 100644
-> --- a/arch/x86/include/asm/msr-index.h
-> +++ b/arch/x86/include/asm/msr-index.h
-> @@ -1232,6 +1232,7 @@
->  /* - AMD: */
->  #define MSR_IA32_MBA_BW_BASE		0xc0000200
->  #define MSR_IA32_SMBA_BW_BASE		0xc0000280
-> +#define MSR_IA32_L3_QOS_ABMC_CFG	0xc00003fd
->  #define MSR_IA32_L3_QOS_EXT_CFG		0xc00003ff
->  #define MSR_IA32_EVT_CFG_BASE		0xc0000400
+Hi Yafang,
 
-Some of those MSRs are AMD-specific: why do they have "IA32" in the name and
-not "AMD64"?
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp-remove-disabled-task-from-khugepaged_mm_slot/20250910-144850
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250910024447.64788-2-laoar.shao%40gmail.com
+patch subject: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from khugepaged_mm_slot
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250911/202509110109.PSgSHb31-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110109.PSgSHb31-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110109.PSgSHb31-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/sys.c:2500:6: error: call to undeclared function 'hugepage_pmd_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2500 |             hugepage_pmd_enabled())
+         |             ^
+>> kernel/sys.c:2501:3: error: call to undeclared function '__khugepaged_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2501 |                 __khugepaged_enter(mm);
+         |                 ^
+   2 errors generated.
+
+
+vim +/hugepage_pmd_enabled +2500 kernel/sys.c
+
+  2471	
+  2472	static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
+  2473					 unsigned long arg4, unsigned long arg5)
+  2474	{
+  2475		struct mm_struct *mm = current->mm;
+  2476	
+  2477		if (arg4 || arg5)
+  2478			return -EINVAL;
+  2479	
+  2480		/* Flags are only allowed when disabling. */
+  2481		if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
+  2482			return -EINVAL;
+  2483		if (mmap_write_lock_killable(current->mm))
+  2484			return -EINTR;
+  2485		if (thp_disable) {
+  2486			if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
+  2487				mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
+  2488				mm_flags_set(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+  2489			} else {
+  2490				mm_flags_set(MMF_DISABLE_THP_COMPLETELY, mm);
+  2491				mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+  2492			}
+  2493		} else {
+  2494			mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
+  2495			mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+  2496		}
+  2497	
+  2498		if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
+  2499		    !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
+> 2500		    hugepage_pmd_enabled())
+> 2501			__khugepaged_enter(mm);
+  2502		mmap_write_unlock(current->mm);
+  2503		return 0;
+  2504	}
+  2505	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
