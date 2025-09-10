@@ -1,427 +1,199 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2042.outbound.protection.outlook.com [40.107.237.42])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F055263892;
-	Wed, 10 Sep 2025 03:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757475679; cv=fail; b=dW90KsUdkqFDez8gc3EKuQLbbc71v/zkLWiBbiXKoXrB7wBEdqG5CCFEwioHPExQwkiDjgwwM8KYSLu+mqFTVlJQQ9ae7/q1WPviza25T51UyiQseMPdvRN0s7br/9ziHpZc5bVAQfFFWlVth6I+5XhHbde25NxYiLbD+at/di0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757475679; c=relaxed/simple;
-	bh=1uJdHbF/2p6WFaS/WRmXw/z/3nxH22R8M/oHMBKxIGQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ARCHfLONnwTjnI6YuI4VDLRHa2djrk8Gbs+atx3QkGBBnnkJIlpnG6kss6XmNvsZ+K9zAph6WtfwAFTP/LV+pkNuXzwO2gEP+kujW13olkQw27vAzpNkT2G9EeNvokX3hVOSNebX8qF/V/8xtLcLfdDIqrMVyY3m8Jk2mV5kiVI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i9sMBVFK; arc=fail smtp.client-ip=40.107.237.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA58C8248C;
+	Wed, 10 Sep 2025 04:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757478209; cv=none; b=VXoXtW8dVCQGV9O8/gPI2DJhZBPu3KwhXX07zKN8plCG6aExCYGAh4A3aYW9NGoUibUqNJBgPzDpPXcpVVazbSx3S5C2vnr9/R4KaFBvm8FTbO2UYFvKnJKtrOL1yfKD9QO2lzACm5T+ufm6/2Ejh9HS3Si8btH8NtffYrDi4oM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757478209; c=relaxed/simple;
+	bh=rE8gJPwTFV7yXLUljHlupB2t0ikdiGeonTdVcLTIHsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q29EkVKCfwsMmjseezcyttCdJGafiBOo/NxFyiQnzWaZWcoER2bbTBEnQ6obEe6IwYdOXs59+ctlQ8HjEotT6cnCuWB/HKycW7xlLx4VnqZoNO1J0WB/vrW9AncSHgTXuDGzOh8Kw5sHqUShv861zGIs60yv983lt6iB3+Iqz3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ntc5FemF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i9sMBVFK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qkOvYG8gYpN9N+Tuw4HNfW7ew9P7M535+48squEttE61VAQCjRcEE1wkCWmYV5MpjnMEmYKIU7l/8kY+DkcvQmHWITEII5wWi5uMar8kQf4rR6+A94ItzZGk2wTD5mY1Mcr1t+OC15LlANZHXPxWl2lAnXRnVwzIuNd7W9yZssZboyuf+M2bq4UjOvKjk5IBnfLIMoQTYu7caTX2raFhnJq5B6VhLFDcriPkRVq7YOep8i9BhgsCnfwpdJhGXaIA0qOAIuyDoxWnyLL+cr5iabIAunM+eUkrHVc3rVaIEn0tMiVF7YOsajZSkdp55wwBE2CmVDRCpGGBl1qYuFJmaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e57k7knQGO7/P4zdu53XlbuNfFwJnDaDKDBucIRLWMI=;
- b=gseUrK1PmoaaKki6H4ItZsC0x/f+UQAW+Ml6mmxm/1v0Tka+tVrOoR274/Az0CjGdfpF36f5ECcYud38s+P1edAm/AgJfuJCCagrzd4zagi2uI/HahT7GY6VAdvnJKTxhJ5c9/QHld2qGTEO8t6V5bpUMYqMG1el8YlyOR4ZrQOOBahIAOOBLb28gA9YY/IkAx4V2cbathCULsQqWWutxrXfLdrRbR/seq1x3CG6lV7Kg3y9/q9R0loxZ6MplvUv/1GZrNOmi/IhcKtN+CVF3O5gI3NF2V8gadBwFsKSuM199Jzik8sz22QgVrE9dKfYPuEtrl1DyjpxrxUKrY4QgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e57k7knQGO7/P4zdu53XlbuNfFwJnDaDKDBucIRLWMI=;
- b=i9sMBVFKbSRV1ZQVfOHKo2U5HdGq0g5OkRlLjjOSB4HEh/iixe8pJwceb7Da+0UhJPAsWm/IsbAtyLeHXeihM9FFuXexsAJLg0RP5jr3wlb17z9ov+PbTwWnlfh9cQ101wiQjFdJKzq02f81BZ1+2YgGqx9uV244jwfmdw/hJ8rKj9lRW3fhRD/J4XELN9KMlA0phG2a9wPR7cn2Lmfi7IsAK5dTS/csFpWa+9Ds3/oJLkdzyRCRAln+9rVRdIYlvPi7hRSg9lwt99R0r16VsHjK96Pp4vQEraglVSnkXGuHikKsMK7DFS3VO2qlNvMdqreNr5x/YHIxAraFkxQZZg==
-Received: from SJ0PR03CA0369.namprd03.prod.outlook.com (2603:10b6:a03:3a1::14)
- by CH8PR12MB9792.namprd12.prod.outlook.com (2603:10b6:610:2b5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 03:41:11 +0000
-Received: from SN1PEPF00036F3D.namprd05.prod.outlook.com
- (2603:10b6:a03:3a1:cafe::c6) by SJ0PR03CA0369.outlook.office365.com
- (2603:10b6:a03:3a1::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.15 via Frontend Transport; Wed,
- 10 Sep 2025 03:41:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SN1PEPF00036F3D.mail.protection.outlook.com (10.167.248.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.13 via Frontend Transport; Wed, 10 Sep 2025 03:41:10 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 9 Sep
- 2025 20:40:47 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 9 Sep
- 2025 20:40:35 -0700
-Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Tue, 9 Sep 2025 20:40:31 -0700
-Date: Tue, 9 Sep 2025 20:40:28 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
-	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
-	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
- Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
-	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v5 01/15] genpt: Generic Page Table base API
-Message-ID: <aMDzLC9nV47Xvud9@nvidia.com>
-References: <0-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
- <1-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ntc5FemF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11FDEC4CEF0;
+	Wed, 10 Sep 2025 04:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757478207;
+	bh=rE8gJPwTFV7yXLUljHlupB2t0ikdiGeonTdVcLTIHsw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ntc5FemFlZh2pP3IxVGJVZpGv2GGSe19vt7QsOivy6KqDKXIHHaYDMZcKUYUn8VpJ
+	 Ow3nFbm3QXEQ4BUooY6wmXlIjw2yjsfRo95LIOSistM4xwI6Mvij49ijaJclU8ky1b
+	 YFdPhBLGlOp2JLwEaHj8/ypOAX9S5eJtgfEQiDEo8SVsoUxZVonOuho0EKbjbVxP0k
+	 RHknYfLEUbPrYVlOEjHwZK2l7VdWMpLce6PuCdeP0LeIwnzhbmOHOZxUkvTo8jml8Y
+	 1TgITq+fAXUVYG2WkxbpjfPT9vk3LzfUvv+h0wfpxvQ20JweZIphT32MvLmr/p2uIT
+	 bBE81EtsxOqgg==
+Date: Wed, 10 Sep 2025 06:23:23 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: add support for handling global variables
+Message-ID: <20250910062323.059bb078@foz.lan>
+In-Reply-To: <c195c68f-e815-4428-9134-8746198a4611@infradead.org>
+References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+	<d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
+	<20250909215824.1968220c@foz.lan>
+	<5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
+	<20250910010903.5388bffc@foz.lan>
+	<0d190bf0-b9d4-4d5c-a1cc-6d5d79be3886@infradead.org>
+	<656591ff-fa7d-4763-8759-0a0af3a4039a@infradead.org>
+	<c195c68f-e815-4428-9134-8746198a4611@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3D:EE_|CH8PR12MB9792:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3202ec10-8b0a-4bc0-d157-08ddf01be248
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Fh1lpHf7wTivpkTSMN5CWpCL2iivEBTtLYQOYWD2cw0IVz9aOjrLSAJsDDHC?=
- =?us-ascii?Q?HE7whtKHBThXnW3yXP1rONOuy9eHg5meZeGY0xwaFiXPlUVTax9BGR3ksHva?=
- =?us-ascii?Q?nuDJ1P2hDl0RRMZNwfnISGd3A5OEsQu8hJUG+axW+bwz/dRazFfx1FW9QNVh?=
- =?us-ascii?Q?KRl+47kC5lAi8eBc6U6tk6ykyd/U1EkjkxykssPTioC/qCuuLzLU7g9Prae+?=
- =?us-ascii?Q?37MtEJrKIBA3XdtW7TPnO8Qj1IOQc1xYBFuKYSXiYz4DQJC4ehzjE+ltYmYm?=
- =?us-ascii?Q?vtCR6HGSREMlPzNR1arMOC860jCEfZ4QIQSPed6D1eqI5YGaeu3Hq17BtjGw?=
- =?us-ascii?Q?nyUh9mhwWJNfi2xwBwteAftwSFz49GYWSeY4W98tKNYS/JSCJaiu3vKPAzqA?=
- =?us-ascii?Q?sVmYa5FRXuBcdi/GPP6iOTzXteqbRsTMry2eRUcFdw1Y7H8bRp66ul2iYdo5?=
- =?us-ascii?Q?aymZyLbSX7LlmGoEx8sTRnIFWCowg8PVBtxguVmYU1eQwsZdXTXo0A4pGdu7?=
- =?us-ascii?Q?2eb6J5PjJB0FQrasmRhWjcKRIvI6JwN7U1QPZOIdhbfjsySft5UXvnFveqYK?=
- =?us-ascii?Q?whobzAOdGdjw6WdZpF8eKtP8ZAiCihsGxoWSBoqdf/zGcMUvWTNFvgGfVKaH?=
- =?us-ascii?Q?m9N0Zt5BeShkZGG9q67zrPpoffUqO1mfDKnECK2tIgecQrFeR8hoZ2YLwz8r?=
- =?us-ascii?Q?IMa3MOT0+QemE9Zzy2D3kUxXGF+k8O0E3NqD2oDM+T509mcLF220Cstiy4AC?=
- =?us-ascii?Q?lHY4ECjZpukfF/khPs5gP2AwzDPw+y2BGBUcFkgZworoNELpAeoIRJ+bSlms?=
- =?us-ascii?Q?+D7fBN+KkNmchPHfi4Omassbqdm/DWjPYELykFIRPQwj9fMeLgClHTA3IxQ6?=
- =?us-ascii?Q?ngVqSfiEjq3CK2prbeFYgw5HfLjq9qPGWpOPpVPw1GiJAdxx2HYKtah8Qidw?=
- =?us-ascii?Q?mOC4Bf+nSComi+zUR7EGzsR/Qq/iMvjTnOc2HprilGwI1ZzcVS1SvJqxvUvu?=
- =?us-ascii?Q?t9SELNtfzT4S8U4YQUgXxI+oDzfGqGEasg4qJqoUjZGL3k7Xyt3pTrDZubUM?=
- =?us-ascii?Q?LIWJDJR/DetMOJXXrZPFrsC0fDpOzg8PJVjheHUXZNen/Ki3bjt1T2fq/fJl?=
- =?us-ascii?Q?8qnCAWZUUt94nDTs/lLgWmwDCVQsY6TMgTKUItWfspH8AWIPb4P1oL2izhGr?=
- =?us-ascii?Q?c+Gcarvw7EsPpbXR/f96SOoDQ5xxk0mklpteq2WLXeVOCZH3KwMrJmXbyTYQ?=
- =?us-ascii?Q?hx8MnUVxsrGO4XzMXdVdnV8Yd5dVZM8QhDLx0zA6K7+dChUaoD6Bikvfbi6r?=
- =?us-ascii?Q?ERZkI+VMFvs3yTvh1jFjAGq8KFQgmpQz5vjHCEtxUEZS9ZHdG5ePUTSkj6LS?=
- =?us-ascii?Q?31PwxeL8xZHrF3fmJeLI11IQuiyWAi+HnNV1JpmFVr2VjfW/eIV5uPP1G0nc?=
- =?us-ascii?Q?gDF+OTy1xbVi3Al6KNMtD3tFmMo/+3gT4ZGYnLi1uNqka3l6raosY6dutZHD?=
- =?us-ascii?Q?RrLqBClntOyT+iP9MIqwOMLlrntG27DmfH+Q?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 03:41:10.4937
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3202ec10-8b0a-4bc0-d157-08ddf01be248
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF00036F3D.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9792
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 03, 2025 at 02:46:28PM -0300, Jason Gunthorpe wrote:
-> +/**
-> + * pt_entry_oa_lg2sz() - Return the size of a OA entry
+Em Tue, 9 Sep 2025 17:02:00 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-an OA
+> On 9/9/25 4:50 PM, Randy Dunlap wrote:
+> > 
+> > 
+> > On 9/9/25 4:49 PM, Randy Dunlap wrote:  
+> >>
+> >>
+> >> On 9/9/25 4:09 PM, Mauro Carvalho Chehab wrote:  
+> >>> Em Tue, 9 Sep 2025 14:06:43 -0700
+> >>> Randy Dunlap <rdunlap@infradead.org> escreveu:
+> >>>  
+> >>>> On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:  
+> >>>>> Em Tue, 9 Sep 2025 00:27:20 -0700
+> >>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:  
+> >>>  
+> >>>>>> +.. kernel-doc:: init/kdoc-globals-test.c
+> >>>>>> +   :identifiers:
+> >>>>>>
+> >>>>>> The html output says
+> >>>>>> "Kernel Globals"
+> >>>>>> but nothing else.    
+> >>>>>
+> >>>>> I usually don't add :identifiers: on kernel-doc entries. If you use
+> >>>>> identifiers, you need to explicitly tell what symbols you want.    
+> >>>>
+> >>>> Well, it worked/works without using having any identifiers listed, and
+> >>>> the docs in Documentation/doc-guide/kernel-doc.rst says that they are
+> >>>> optional:
+> >>>>
+> >>>> identifiers: *[ function/type ...]*
+> >>>>   Include documentation for each *function* and *type* in *source*.
+> >>>>   If no *function* is specified, the documentation for all functions
+> >>>>   and types in the *source* will be included.
+> >>>>   *type* can be a struct, union, enum, or typedef identifier.  
+> >>>
+> >>> Hmm.. looking the entire logic:
+> >>>
+> >>>         elif 'identifiers' in self.options:
+> >>>             identifiers = self.options.get('identifiers').split()
+> >>>             if identifiers:
+> >>>                 for i in identifiers:
+> >>>                     i = i.rstrip("\\").strip()
+> >>>                     if not i:
+> >>>                         continue
+> >>>
+> >>>                     cmd += ['-function', i]
+> >>>                     self.msg_args["symbol"].append(i)
+> >>>             else:
+> >>>                 cmd += ['-no-doc-sections']
+> >>>                 self.msg_args["no_doc_sections"] = True
+> >>>
+> >>> I suspect that an empty identifier could be raising an exception.  
+> 
+> and it's being caught and ignored (not printed)?
 
-> + * @pts: Entry to query
-> + *
-> + * If the entry is not contiguous this returns pt_table_item_lg2sz(), otherwise
-> + * it returns the total VA/OA size of the entire contiguous entry.
-> + */
-> +static inline unsigned int pt_entry_oa_lg2sz(const struct pt_state *pts)
-> +{
-> +	return pt_entry_num_contig_lg2(pts) + pt_table_item_lg2sz(pts);
-> +}
-------
+there is a try/except block to capture exceptions. It is supposed to
+print something, though:
 
-> + *  level
-> + *     The number of table hops from the lowest leaf. Level 0
-> + *     is always a table of only leaves of the least significant VA bits. The
+        try:
+            if kfiles:
+                return self.run_kdoc(cmd, kfiles)
+            else:
+                return self.run_cmd(cmd)
 
-Hmm, I am a bit confused here. I thought "leaf" was meant to be a
-"leaf" table? But here "a table of only leaves" makes it feel like
-a "leaf" table entry?
+        except Exception as e:  # pylint: disable=W0703
+            logger.warning("kernel-doc '%s' processing failed with: %s" %
+                           (cmd_str(cmd), pformat(e)))
+            return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
 
-Also, isn't "the least significant VA bits" the page offset?
+> >>> The right logic should be, instead:
+> >>>
+> >>> -        elif 'identifiers' in self.options:
+> >>> -            identifiers = self.options.get('identifiers').split()
+> >>> -            if identifiers:
+> >>> -                for i in identifiers:
+> >>> +        elif 'identifiers' in self.options:
+> >>> +            identifiers = self.options.get('identifiers')
+> >>> +            if identifiers:
+> >>> +                for i in identifiers.split():
+> >>>
+> >>> (tests needed)  
+> >>
+> >> Sheesh, I can't find that code so that I can patch it.
+> >> (in today's linux-next 20250909)  
+> > 
+> > oops, I was looking in scripts/ and not in Documentation/.
+> > got it.
+> >   
+> >> Anyway, does this take away something that currently works?  
+> 
+> The output looks the same with this patch AFAICT.
 
-> + *  table
-> + *     A linear array of entries representing the translation items for that
-> + *     level.
-> + *  index
-> + *     The position in a table of an element: item = table[index]
-> + *  item
-> + *     A single position in a table
-> + *  entry
-> + *     A single logical element in a table. If contiguous pages are not
-> + *     supported then item and entry are the same thing, otherwise entry refers
-> + *     to the all the items that comprise a single contiguous translation.
+run it in verbose mode to see what command line was passed to
+the file:
 
-So, an "entry" is a group of "items" if contiguous pages (huge
-page?) are supported. Then, the "entry" sounds like a physical
-(v.s. "logical") table entry, e.g. a PTE that we usually say?
+	$ make SPHINXDIRS=your_test_dir V=1 htmldocs
 
-> +#if !IS_ENABLED(CONFIG_GENERIC_ATOMIC64)
-> +static inline bool pt_table_install64(struct pt_state *pts, u64 table_entry)
-> +{
-> +	u64 *entryp = pt_cur_table(pts, u64) + pts->index;
-> +	u64 old_entry = pts->entry;
-> +	bool ret;
-> +
-> +	/*
-> +	 * Ensure the zero'd table content itself is visible before its PTE can
-> +	 * be. release is a NOP on !SMP, but the HW is still doing an acquire.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_SMP))
-> +		dma_wmb();
+This should be printing how the kernel-doc.py command line would be(*):
 
-Mind elaborating why SMP doesn't need this?
+	scripts/kernel-doc.py -rst -enable-lineno ./include/linux/peci.h
+	./include/linux/peci.h:20 Scanning doc for struct peci_controller_ops
+	./include/linux/peci.h:32 Scanning doc for struct peci_controller
+	./include/linux/peci.h:58 Scanning doc for struct peci_device
+	./include/linux/peci.h:88 Scanning doc for struct peci_request
 
-> +/*
-> + * PT_WARN_ON is used for invariants that the kunit should be checking can't
-> + * happen.
-> + */
-> +#if IS_ENABLED(CONFIG_DEBUG_GENERIC_PT)
-> +#define PT_WARN_ON WARN_ON
-> +#else
-> +static inline bool PT_WARN_ON(bool condition)
-> +{
-> +	return false;
+(*) the kerneldoc.py extension doesn't call kernel-doc.py, but instead
+    run directly the Python classes from the library. Yet, to help one
+    to debug it, the command line is displayed.
 
-Should it "return condition"?
+for instance, on a more complex kernel-doc tags case:
 
-Otherwise, these validations wouldn't be effective?
+	$ make SPHINXDIRS=driver-api/cxl/ V=1 htmldocs 2>&1 |grep scripts/kernel-doc.py
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl pci' ./drivers/cxl/pci.c
+	scripts/kernel-doc.py -rst -enable-lineno -internal ./drivers/cxl/pci.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl mem' ./drivers/cxl/mem.c
+	scripts/kernel-doc.py -rst -enable-lineno -internal ./drivers/cxl/cxlmem.h
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/memdev.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl port' ./drivers/cxl/port.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl objects' ./drivers/cxl/cxl.h
+	scripts/kernel-doc.py -rst -enable-lineno -internal ./drivers/cxl/cxl.h
+	scripts/kernel-doc.py -rst -enable-lineno -function add_cxl_resources ./drivers/cxl/acpi.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core hdm' ./drivers/cxl/core/hdm.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/hdm.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/cdat.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core' ./drivers/cxl/core/port.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/port.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core pci' ./drivers/cxl/core/pci.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/pci.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl pmem' ./drivers/cxl/core/pmem.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/pmem.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl registers' ./drivers/cxl/core/regs.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/regs.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl mbox' ./drivers/cxl/core/mbox.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/mbox.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl features' ./drivers/cxl/core/features.c
+	scripts/kernel-doc.py -rst -enable-lineno -function 'cxl core region' ./drivers/cxl/core/region.c
+	scripts/kernel-doc.py -rst -enable-lineno -no-doc-sections ./drivers/cxl/core/region.c
+	scripts/kernel-doc.py -rst -enable-lineno -function UAPI ./include/uapi/linux/cxl_mem.h
+	scripts/kernel-doc.py -rst -enable-lineno -internal ./include/uapi/linux/cxl_mem.h
 
-drivers/iommu/generic_pt/pt_iter.h:388: if (PT_WARN_ON(!pts->table_lower))
-drivers/iommu/generic_pt/pt_iter.h-389-         return -EINVAL;
---
-drivers/iommu/generic_pt/pt_iter.h-429-
-drivers/iommu/generic_pt/pt_iter.h:430: if (PT_WARN_ON(!pt_can_have_table(pts)) ||
-drivers/iommu/generic_pt/pt_iter.h:431:     PT_WARN_ON(!pts->table_lower))
-drivers/iommu/generic_pt/pt_iter.h-432-         return -EINVAL;
 
-> +/**
-> + * pt_load_entry() - Read from the location pts points at into the pts
-> + * @pts: Table index to load
-> + *
-> + * Set the type of entry that was loaded. pts->entry and pts->table_lower
-> + * will be filled in with the entry's content.
-> + */
-> +static inline void pt_load_entry(struct pt_state *pts)
-> +{
-> +	pts->type = pt_load_entry_raw(pts);
-> +	if (pts->type == PT_ENTRY_TABLE)
-> +		pts->table_lower = pt_table_ptr(pts);
-> +}
-
-I see a couple of callers check pts->type. Maybe it could return
-pts->type, matching with pt_load_entry_raw()?
-
-> diff --git a/drivers/iommu/generic_pt/pt_fmt_defaults.h b/drivers/iommu/generic_pt/pt_fmt_defaults.h
-> new file mode 100644
-> index 00000000000000..19e8f820c1dccf
-> --- /dev/null
-> +++ b/drivers/iommu/generic_pt/pt_fmt_defaults.h
-> @@ -0,0 +1,193 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2024-2025, NVIDIA CORPORATION & AFFILIATES
-> + *
-> + * Default definitions for formats that don't define these functions.
-> + */
-> +#ifndef __GENERIC_PT_PT_FMT_DEFAULTS_H
-> +#define __GENERIC_PT_PT_FMT_DEFAULTS_H
-> +
-> +#include "pt_defs.h"
-> +#include <linux/log2.h>
-
-<> precedes ""
-
-> +#ifndef pt_pgsz_lg2_to_level
-> +static inline unsigned int pt_pgsz_lg2_to_level(struct pt_common *common,
-> +						unsigned int pgsize_lg2)
-> +{
-> +	return (pgsize_lg2 - PT_GRANULE_LG2SZ) /
-> +	       (PT_TABLEMEM_LG2SZ - ilog2(PT_ITEM_WORD_SIZE));
-> +	return 0;
-
-"return 0" should likely be dropped.
-
-> +/*
-> + * Format supplies either:
-> + *   pt_entry_oa - OA is at the start of a contiguous entry
-> + * or
-> + *   pt_item_oa  - OA is correct for every item in a contiguous entry
-
-What does the "correct" mean here?
-
-> +/**
-> + * pt_range_to_end_index() - Ending index iteration
-> + * @pts: Iteration State
-> + *
-> + * Return: the last index for the iteration in pts.
-> + */
-> +static inline unsigned int pt_range_to_end_index(const struct pt_state *pts)
-> +{
-> +	unsigned int isz_lg2 = pt_table_item_lg2sz(pts);
-> +	struct pt_range *range = pts->range;
-> +	unsigned int num_entries_lg2;
-> +
-> +	if (range->va == range->last_va)
-> +		return pts->index + 1;
-> +
-> +	if (pts->range->top_level == pts->level)
-> +		return log2_div(fvalog2_mod(pts->range->last_va,
-> +					    pts->range->max_vasz_lg2),
-> +				isz_lg2) +
-> +		       1;
-
-How about:
-		return 1 + log2_div(...);
-?
-
-> +static __always_inline struct pt_range _pt_top_range(struct pt_common *common,
-> +						     uintptr_t top_of_table)
-> +{
-> +	struct pt_range range = {
-> +		.common = common,
-> +		.top_table =
-> +			(struct pt_table_p *)(top_of_table &
-> +					      ~(uintptr_t)PT_TOP_LEVEL_MASK),
-> +		.top_level = top_of_table % (1 << PT_TOP_LEVEL_BITS),
-
-Since top_level is unsigned, would it be faster to do bitwise:
-		.top_level = top_of_table & PT_TOP_LEVEL_MASK,
-?
-
-> +/*
-
-/**
-
-> + * pt_walk_descend_all() - Recursively invoke the walker for a table item
-> + * @parent_pts: Iteration State
-> + * @fn: Walker function to call
-> + * @arg: Value to pass to the function
-> + *
-> + * With pts pointing at a table item this will descend and over the entire lower
-> + * table. This creates a new walk and does not alter pts or pts->range.
-> + */
-> +static __always_inline int
-> +pt_walk_descend_all(const struct pt_state *parent_pts, pt_level_fn_t fn,
-> +		    void *arg)
--------
-
-> +/**
-> + * pt_compute_best_pgsize() - Determine the best page size for leaf entries
-> + * @pgsz_bitmap: Permitted page sizes
-> + * @va: Starting virtual address for the leaf entry
-> + * @last_va: Last virtual address for the leaf entry, sets the max page size
-> + * @oa: Starting output address for the leaf entry
-> + *
-> + * Compute the largest page size for va, last_va, and oa together and return it
-> + * in lg2. The largest page size depends on the format's supported page sizes at
-> + * this level, and the relative alignment of the VA and OA addresses. 0 means
-> + * the OA cannot be stored with the provided pgsz_bitmap.
-> + */
-> +static inline unsigned int pt_compute_best_pgsize(pt_vaddr_t pgsz_bitmap,
-> +						  pt_vaddr_t va,
-> +						  pt_vaddr_t last_va,
-> +						  pt_oaddr_t oa)
-> +{
-> +	unsigned int best_pgsz_lg2;
-> +	unsigned int pgsz_lg2;
-> +	pt_vaddr_t len = last_va - va + 1;
-> +	pt_vaddr_t mask;
-> +
-> +	if (PT_WARN_ON(va >= last_va))
-> +		return 0;
-> +
-> +	/*
-> +	 * Given a VA/OA pair the best page size is the largest page side
-> +	 * where:
-> +	 *
-> +	 * 1) VA and OA start at the page. Bitwise this is the count of least
-> +	 *    significant 0 bits.
-> +	 *    This also implies that last_va/oa has the same prefix as va/oa.
-> +	 */
-> +	mask = va | oa;
-> +
-> +	/*
-> +	 * 2) The page size is not larger than the last_va (length). Since page
-> +	 *    sizes are always power of two this can't be larger than the
-> +	 *    largest power of two factor of the length.
-> +	 */
-> +	mask |= log2_to_int(log2_fls(len) - 1);
-> +
-> +	best_pgsz_lg2 = log2_ffs(mask);
-> +
-> +	/* Choose the higest bit <= best_pgsz_lg2 */
-
-highest
-
-> +/* Compute a */
-> +#define log2_to_int_t(type, a_lg2) ((type)(((type)1) << (a_lg2)))
-> +static_assert(log2_to_int_t(unsigned int, 0) == 1);
-> +
-> +/* Compute a - 1 (aka all low bits set) */
-> +#define log2_to_max_int_t(type, a_lg2) ((type)(log2_to_int_t(type, a_lg2) - 1))
-> +
-> +/* Compute a / b */
-> +#define log2_div_t(type, a, b_lg2) ((type)(((type)a) >> (b_lg2)))
-> +static_assert(log2_div_t(unsigned int, 4, 2) == 1);
-
-I skimmed through these macros and its callers. They are mostly
-dealing with VA, OA, and mask, which feels like straightforward
-bit-masking/shifting operations.
-
-E.g.
-log2_to_int_t = 64bit ? BIT_ULL(lg2) : BIT(lg2);
-log2_to_max_int_t = 64bit ? GENMASK_ULL(lg2 - 1, 0) : GENMASK(lg2 - 1, 0);
-
-What's the benefit from making them as arithmetic ones?
-
-> diff --git a/include/linux/generic_pt/common.h b/include/linux/generic_pt/common.h
-> new file mode 100644
-> index 00000000000000..a29bdd7b244de6
-> --- /dev/null
-> +++ b/include/linux/generic_pt/common.h
-> @@ -0,0 +1,134 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2024-2025, NVIDIA CORPORATION & AFFILIATES
-> + */
-> +#ifndef __GENERIC_PT_COMMON_H
-> +#define __GENERIC_PT_COMMON_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/bits.h>
-
-In alphabetical order.
-
-Thanks
-Nicolin
+Thanks,
+Mauro
