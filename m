@@ -1,204 +1,161 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBB92673AA;
-	Wed, 10 Sep 2025 06:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B41124C676;
+	Wed, 10 Sep 2025 06:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757485106; cv=none; b=VFm4o+DQuopDLFO0OvVGgw5xJSzMMwMml+S7vIqsVSv2h+3Y/83MfcilOsSCg3u1tghEPpTYnZEkXsLmpPAtyuhvw0VT6zMLzR+CNWfiNHZ2yhQWnOM7it53ypS2tJfdryGgZP10b6+HOd3zoYXtbOsY+VbJO0YneGE0OM9u5Ng=
+	t=1757485378; cv=none; b=IRzkWN7JP0/jJWLkyEpt7Ol7A8vtZ6eQv1YG+N7Cuk3VIxcGPjsKhI29zBod8S1bx0FYjR7huhe4b596TxT/3rGuAak4IC+43qskTAIM6Sh2VOh08wRLkO9oBQRnVsBPUu4+hUg3l87ceAuvkMqM5cP7V8YpMFl960FheRE5XPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757485106; c=relaxed/simple;
-	bh=J36O/t9pbZpHyekI/cR19In77YQfyzOLXMq7MsVD7Uk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J+8ouZVh0544ymHAOiMfLL6CLG6VsEFiGTk04HMiUQYdNi65M41jwYYjwbUl05HJ9Orrt3PjLZcHiySqAHAAhEkk3q5mAocXDYTS9OEHfJc+KSlihtb3ixRHL4em3hTPdlEhHOnRZelM3Gur8S+MvIej5hBqcVL3/cOoc958fyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJHzqsnS; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LJHzqsnS"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-7220d7dea27so52692616d6.1;
-        Tue, 09 Sep 2025 23:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757485104; x=1758089904; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DYzJL7Hx4cl0FskNvKkVhvtLZ/R9JXw2qBXsF5fYGzI=;
-        b=LJHzqsnSUsNciaQ/5MGGtCAMdloqKa7gIn8zH5ZtYMceKFSz9lqs88taXwj3HsdKLH
-         USuuPxK5h7TvoeeDnj/5wQ3sjKfG5r0an71Zo2PUdTKLcLpq+0iEqmH5+wY5BiWFqoRG
-         MUonQNdb9aysQygh46apU5HNAzz+qIkqwwbnpkpfufaUUhxJiliodFv4HOnJF78Z9gct
-         mcWImqNYrAUQqwJf8gUIyholPsmN8qGLUK3/tVwPgfPIocz09nqGCVIfGnbwtbmNM2+v
-         8jk1MfUncRewgzVbBu2lyPt4kYX8kBTw+c7qLkqzygd9rxzF4TrWC8UlGHvpaj+VUyHe
-         xU3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757485104; x=1758089904;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DYzJL7Hx4cl0FskNvKkVhvtLZ/R9JXw2qBXsF5fYGzI=;
-        b=Oi9pxsukS3xgNBnl718s6xj+rsIjzQoKnIn8pb2Jz+RPjOs+iTOk2qP1EaeaI/Ja8k
-         7I/TQuUNoU285O00q1gRQzip9hOhauuzJKy+5pFB2diC++afweaG7FwUQY0+ckWSdBt9
-         I0r+jEJXLF64TCTs9GtGWYZc0fwe2SRvQ1U7kYmu+PwjdqfZJPvz8kwtyXCb5zIDYKQW
-         8RmzApDIo4DLeljlyJFxVjnz/CjMlnO+9dSw0f7fGxPnvOZUrg2eEIe4bZSerg+4HSrB
-         ztmGW/jRhtaNvUqbhLhv5EuIzG4Ty0zNfrU2RNyY9KII5SAQffqS4uU/9WZJyaiezmS/
-         +DMA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3qlbpTj2xCQoDEW0afRcL3RjBFrJg7VHbO3lHoBmiEechgl9o4iX4Hn4uouqzK3mR3Tyg3lImecw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycCaFpoXMLpW1mMoKRL8KALY22yIG0J7eI5rghOb4IGyth59mm
-	3hzOTOKQgjKBf8IMephm4hiw1BBCAr1F6g4v/fjv0Ph6YhwQgRAzO1iocypqzmBQt7bqhyWiVlN
-	1NsB4NI5DQ/1rGldt0Oe6LxtJyzIm9oA=
-X-Gm-Gg: ASbGncskMjpoJapd9ZKwZ8Bf8VZe1e0sAAVRVGEocU60h/zmzBTsut/tdVcJuPFFhY2
-	Aq8Qvbw6ZFQ0tf1Rvp2RNTCQ45RMcwYgPaGVJKX2gSeKX1LdNelEl/OH5KHL6/V5LzfB93I8u+y
-	SqkRswwZuYARGHsYOnkWtDfVkp/i8E2TalQJU3LZmUD2IrEtqkCDeeyj18e4lKeXn1VH5tgTYoh
-	9oxdYQToDqnu1UjrSCNZ9qEaeAd1YETkLusz3s8RsgQnfvv+2E=
-X-Google-Smtp-Source: AGHT+IFvX8ysVDBbiXtbizZMNGoZJmz5YmPfl+MEXyDzgFg9igYbqr/nnoZNtm5eoSPGvCef4i3c5jWe9oYtmW6CEfo=
-X-Received: by 2002:a05:6214:1c43:b0:720:3cd9:1f7e with SMTP id
- 6a1803df08f44-738f718cb4cmr113550666d6.0.1757485103832; Tue, 09 Sep 2025
- 23:18:23 -0700 (PDT)
+	s=arc-20240116; t=1757485378; c=relaxed/simple;
+	bh=m+R1W/M3puWz7LopfUDBFdfky5zc/hL0+mmbhkVpLXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FDvy2m+9SNNaeitWL4BYnjHetiSkJQhDRch+G6G9MxasKwRlo06QgaaFqMpsC+DLQSsOmwPu7XRGVHp0SG7njpHGfN+u2/6985yb4FkwmaQz4DhUrQOm4CMq7ZqrwGFxWVMqXNoU4s8flYIOqvOfVj4X5Md4AyVgef7yJ06W6Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: zesmtpsz3t1757485358tf0f8328e
+X-QQ-Originating-IP: GvKLTUOR+tQwCuIW6pSEJKaDGjCgZmDZVsz6vR3QrKU=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 10 Sep 2025 14:22:36 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 2655984975433566693
+Date: Wed, 10 Sep 2025 14:22:36 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v11 5/5] net: rnpgbe: Add register_netdev
+Message-ID: <6C0625E60A7E1E95+20250910062236.GA1832954@nic-Precision-5820-Tower>
+References: <20250909120906.1781444-1-dong100@mucse.com>
+ <20250909120906.1781444-6-dong100@mucse.com>
+ <2ec8c7f8-cf79-4701-97dc-2d0a687f0f3b@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-2-laoar.shao@gmail.com>
- <7c890b42-610f-42ec-acf2-b5b9f95209b1@linux.dev>
-In-Reply-To: <7c890b42-610f-42ec-acf2-b5b9f95209b1@linux.dev>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Wed, 10 Sep 2025 14:17:47 +0800
-X-Gm-Features: AS18NWAEtXjJHwi77ZRJ7QtvbBT2n7zXaHBMPXJVp87PMZaJZ2j5bODmbGmPrA0
-Message-ID: <CALOAHbDWJMyNQknX9ihGKuAJNQk+MuG8Af4cpLh=0N5mB_-2tg@mail.gmail.com>
-Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from khugepaged_mm_slot
-To: Lance Yang <lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>
-Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	Lance Yang <ioworker0@gmail.com>, baolin.wang@linux.alibaba.com, ziy@nvidia.com, 
-	hannes@cmpxchg.org, corbet@lwn.net, ameryhung@gmail.com, 21cnbao@gmail.com, 
-	shakeel.butt@linux.dev, rientjes@google.com, andrii@kernel.org, 
-	daniel@iogearbox.net, ast@kernel.org, ryan.roberts@arm.com, 
-	gutierrez.asier@huawei-partners.com, willy@infradead.org, 
-	usamaarif642@gmail.com, lorenzo.stoakes@oracle.com, npache@redhat.com, 
-	dev.jain@arm.com, Liam.Howlett@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2ec8c7f8-cf79-4701-97dc-2d0a687f0f3b@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: M5znx2hx04lbdDzfTtmcjIwM9Boq5F55QxCvGVEo0+o5yuc2tvIZs1RU
+	kUid4L2U97xdLoiiIGD7Ej/jeP8Ae9VV4FRM78hipxy4J8Mm6qgRbUSJSeD7sANH1uEUJQI
+	IfnmjJrfWzDflcPXsStS0QPWEWou2EX687kkALDnwQEadh/3kUgRl5xchQ1vP0OFKtz8egD
+	NMXJSBSvfWLnZi3l5CTrJYRsFgPhNqUx53nwvj6427aBMl+laRiL0g3N/KIQ3mc9Ywz/CBb
+	R8xUlFLTk2ZheUxkQZrUgTrVMlfAiwPeQwOlctiflctIDarVi4w9tg2v7W4Da3mFkVN8B8O
+	/JLSu/ow7OWHHVbHmXVk/pGBmDzkoRJd5mn5nxL29Sc6O2po92n3npkU5YDwbmjeC6XaCEz
+	rhUZ7TuE7sDDlagCybHQJVkzMKxhWB8/nk7yuhXdgPgM5JJXqTriAomt1uatLG1X8OwjbHE
+	pzigD08j4fHvdGgAq2DFZdYaBWUuzpQjHP2w/G95otOEBwRmolQVdhuH0fQntHSc6uaIEc2
+	Ra1iDo4jH40wRNRA7ZCAAlWSv5JrXkDrjF9OHiJqJTI8VQgLPbTqVzTgFXM1u3NTutMzEPq
+	GPemi9hIpDx1r86rktjczJqSGReHjgftTJxVe/yecVX7oNN+8z9pjQTD9EVFOgYyKIZ4ZVG
+	D0utzyXLf9tFR9L8XAjxIcXmlkbaBLZNHwuHe7MME7r/8YgKflCcu/8tA4cbnh+NXkDWv0J
+	6bgc/xPZyK/2r3lzyomMoGsG3tvFLYeOFuVn/apn2ltaV72F9iPvrinfrkdZqqublEk9nPe
+	BZn/pRW8NowmW7IIRtPde5rRRWuSGw4qSNNBh1VOSft+TQcEofWzpcYB/n54uy1pDoROpzy
+	EKGZu28Q1z4/m4VZ6g0OAfH5nYOQP7YJ9p1XXr9MBk/4MwCTo1Ur6NlHT3o03sJRBjjNXGt
+	3l/U/7EonRtwRYBOLSl8ndljY2fQFE15vfVs5DgF/zYfXc+AnRu2BOtyMvvuhgkYoGxojY2
+	7r6Z+7M+ir4Af+wUCf6E/mJhtpNLM=
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-On Wed, Sep 10, 2025 at 1:11=E2=80=AFPM Lance Yang <lance.yang@linux.dev> w=
-rote:
->
-> Hey Yafang,
->
-> On 2025/9/10 10:44, Yafang Shao wrote:
-> > Since a task with MMF_DISABLE_THP_COMPLETELY cannot use THP, remove it =
-from
-> > the khugepaged_mm_slot to stop khugepaged from processing it.
-> >
-> > After this change, the following semantic relationship always holds:
-> >
-> >    MMF_VM_HUGEPAGE is set     =3D=3D task is in khugepaged mm_slot
-> >    MMF_VM_HUGEPAGE is not set =3D=3D task is not in khugepaged mm_slot
-> >
-> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-> > Cc: Lance Yang <ioworker0@gmail.com>
-> > ---
-> >   include/linux/khugepaged.h |  1 +
-> >   kernel/sys.c               |  6 ++++++
-> >   mm/khugepaged.c            | 19 +++++++++----------
-> >   3 files changed, 16 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
-> > index eb1946a70cff..6cb9107f1006 100644
-> > --- a/include/linux/khugepaged.h
-> > +++ b/include/linux/khugepaged.h
-> > @@ -19,6 +19,7 @@ extern void khugepaged_min_free_kbytes_update(void);
-> >   extern bool current_is_khugepaged(void);
-> >   extern int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned lon=
-g addr,
-> >                                  bool install_pmd);
-> > +bool hugepage_pmd_enabled(void);
-> >
-> >   static inline void khugepaged_fork(struct mm_struct *mm, struct mm_st=
-ruct *oldmm)
-> >   {
-> > diff --git a/kernel/sys.c b/kernel/sys.c
-> > index a46d9b75880b..a1c1e8007f2d 100644
-> > --- a/kernel/sys.c
-> > +++ b/kernel/sys.c
-> > @@ -8,6 +8,7 @@
-> >   #include <linux/export.h>
-> >   #include <linux/mm.h>
-> >   #include <linux/mm_inline.h>
-> > +#include <linux/khugepaged.h>
-> >   #include <linux/utsname.h>
-> >   #include <linux/mman.h>
-> >   #include <linux/reboot.h>
-> > @@ -2493,6 +2494,11 @@ static int prctl_set_thp_disable(bool thp_disabl=
-e, unsigned long flags,
-> >               mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
-> >               mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-> >       }
+On Tue, Sep 09, 2025 at 03:37:19PM +0100, Vadim Fedorenko wrote:
+> On 09/09/2025 13:09, Dong Yibo wrote:
+> > Complete the network device (netdev) registration flow for Mucse Gbe
+> > Ethernet chips, including:
+> > 1. Hardware state initialization:
+> >     - Send powerup notification to firmware (via echo_fw_status)
+> >     - Sync with firmware
+> >     - Reset hardware
+> > 2. MAC address handling:
+> >     - Retrieve permanent MAC from firmware (via mucse_mbx_get_macaddr)
+> >     - Fallback to random valid MAC (eth_random_addr) if not valid mac
+> >       from Fw
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> 
+> [...]
+> 
+> > +struct mucse_hw;
+> 
+> why do you need this forward declaration ...> +
+> > +struct mucse_hw_operations {
+> > +	int (*reset_hw)(struct mucse_hw *hw);
+> > +	int (*get_perm_mac)(struct mucse_hw *hw);
+> > +	int (*mbx_send_notify)(struct mucse_hw *hw, bool enable, int mode);
+> > +};
 > > +
-> > +     if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
-> > +         !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
-> > +         hugepage_pmd_enabled())
-> > +             __khugepaged_enter(mm);
-> >       mmap_write_unlock(current->mm);
->
-> One minor style suggestion for prctl_set_thp_disable():
->
-> static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
->                                  unsigned long arg4, unsigned long arg5)
-> {
->         struct mm_struct *mm =3D current->mm;
->
->         [...]
->         if (mmap_write_lock_killable(current->mm))
->                 return -EINTR;
->         [...]
->         mmap_write_unlock(current->mm);
->         return 0;
-> }
->
-> It initializes struct mm_struct *mm =3D current->mm; at the beginning, bu=
-t
-> then uses both mm and current->mm. Could you change the calls using
-> current->mm to use the local mm variable for consistency? Just a nit ;)
+> > +enum {
+> > +	mucse_fw_powerup,
+> > +};
+> > +
+> >   struct mucse_hw {
+> >   	void __iomem *hw_addr;
+> > +	struct pci_dev *pdev;
+> > +	const struct mucse_hw_operations *ops;
+> > +	struct mucse_dma_info dma;
+> >   	struct mucse_mbx_info mbx;
+> > +	int port;
+> > +	u8 perm_addr[ETH_ALEN];
+> >   	u8 pfvfnum;
+> >   };
+> 
+> ... if you can simply move mucse_hw_operations down here?
+> 
 
-Nice catch
+Got it, I will update it. At the beginning I defined 
+'struct mucse_hw_operations ops' in 'struct mucse_hw'. I missed to
+consider this when it is changed to 'struct mucse_hw_operations *ops'.
 
-Hello Andrew, David,
+> > @@ -54,4 +76,7 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
+> >   #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
+> >   #define PCI_DEVICE_ID_N210 0x8208
+> >   #define PCI_DEVICE_ID_N210L 0x820a
+> > +
+> > +#define rnpgbe_dma_wr32(dma, reg, val) \
+> > +	writel((val), (dma)->dma_base_addr + (reg))
+> 
+> [...]
+> 
+> > @@ -48,8 +127,14 @@ static void rnpgbe_init_n210(struct mucse_hw *hw)
+> >    **/
+> >   int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
+> >   {
+> > +	struct mucse_dma_info *dma = &hw->dma;
+> >   	struct mucse_mbx_info *mbx = &hw->mbx;
+> > +	hw->ops = &rnpgbe_hw_ops;
+> > +	hw->port = 0;
+> > +
+> > +	dma->dma_base_addr = hw->hw_addr;
+> 
+> not quite sure why do you need additional structure just to store the
+> value that already exists in mucse_hw?
+> 
 
-The original commit "prctl: extend PR_SET_THP_DISABLE to optionally
-exclude VM_HUGEPAGE" is still in mm-new branch. The change below is a
-minor cleanup for it.
+The original meaning was that all submodules have their own base, such
+as dma, mbx... Just that 'dma_base_addr' is 'offset 0 from hw_addr'.
+And maybe it is not good to do it like this?
+...
+#define MUCSE_GBE_DMA_BASE 0
+dma->dma_base_addr = hw->hw_addr + MUCSE_GBE_DMA_BASE;
+...
+If so, I will remove dma_base_addr, and use hw_addr instead.
 
-Could we please fold this change directly into the original commit to
-keep the history clean?
+> > +
+> >   	mbx->pf2fw_mbx_ctrl = MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
+> >   	mbx->fwpf_mbx_mask = MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
+> 
 
-diff --git a/kernel/sys.c b/kernel/sys.c
-index a46d9b7..2250a32 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -2479,7 +2479,7 @@ static int prctl_set_thp_disable(bool
-thp_disable, unsigned long flags,
-        /* Flags are only allowed when disabling. */
-        if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVI=
-SED))
-                return -EINVAL;
--       if (mmap_write_lock_killable(current->mm))
-+       if (mmap_write_lock_killable(mm))
-                return -EINTR;
-        if (thp_disable) {
-                if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
-@@ -2493,7 +2493,7 @@ static int prctl_set_thp_disable(bool
-thp_disable, unsigned long flags,
-                mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
-                mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-        }
--       mmap_write_unlock(current->mm);
-+       mmap_write_unlock(mm);
-        return 0;
- }
+Thanks for your feedback.
 
-
---=20
-Regards
-Yafang
