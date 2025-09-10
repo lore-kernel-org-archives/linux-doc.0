@@ -1,198 +1,133 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D73D305957;
-	Wed, 10 Sep 2025 07:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34001E5219;
+	Wed, 10 Sep 2025 07:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757489518; cv=none; b=ZYVvqLSwEe62k4MZ2nJU5OvainZ1E4CaDInxQE54kL9Nd6LMBvR6gdXl4tssrjRT58hbX2GOtjukbEgxOM30ELo3NT5gx4q/UqhpPIjgVvlWkmZnATXPt3DA1BQ/Mfs+Soptb8ulM58beJL1GjuSOqTqvCCXrDVb6v+HS9oEQPw=
+	t=1757489629; cv=none; b=FABDb6HuMJeDZvBOvhzjWHoIBvNmRdJBaRlu7qBSIKYTxtTVtNgO8qfYmBFWEp5AzheyGFtCzOwfnIdu0h8mFEAUjSh2XOKGlTO1tls7SVvmQq7t9cVTH6nf9TeoDhvPOv0eVOCtf4t+FipGuE5opkgmkKXDm6CN6TRhvwVqxlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757489518; c=relaxed/simple;
-	bh=GCAvUEt817jE1UfrkUfHOuRjFkE/h7Ued4bNwWkeIv4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P6BezpUxPyPGHCnn3QQovkAcZ3SRsCuk1ZffZAg8m1s5OUyXlQxZoUuAvnygchyoXmROYdgBNDLI/dsBuf0VkhIQvK8H/Iu5QzZfAbUHwxQnyu+AdTH7bpsRZoFGWM70Aj5AibrXN/kP8FUdlKCRk9a3YmBYnVBbkQ4eNiseX0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GeeongAW; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757489629; c=relaxed/simple;
+	bh=/XnpTWNk/kv+NQgAdTS1A1Ab76RuactuTcyAflw/L7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ao2FaGswLqsDr1A8ZnOZlTQxQtMQgde0Ba+gkapSTeEksQHoxHvAVG0GwRCb8bZJxBg5NzqwtyXHeCbu3UMG/5ET60hqQFdI8/67i/UQ5VZyNmFaeCUTT2+gDu2nTlW+jh8OhKJkIPR9jiUdaPIg/QVyod+3Pgr48zSMTWo/Akg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qaweH+z8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GeeongAW"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-77460a64848so1423762b3a.1;
-        Wed, 10 Sep 2025 00:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757489516; x=1758094316; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gDw9rvUm4LoCF9nUVjTsCctP6XEfIJnsd1KEfoMSp8Q=;
-        b=GeeongAW1fhlckqTGUlw+taqWmr9ps3DuuOHn7EP39ErMBrPM9rcPa9LG8P1OUoOGB
-         IKchtk+cswuNJiUFASE+bpbUu8WFLsB3pwx+z64/L3JWq2pVPRBEoDcIjHSVy6DFpVQ3
-         NYofsHcrdDReJzci4HiXU3zp0AS0ISeUjLH60lKsTfdviHnLxRBbXBH0EORC0PIbsd+H
-         MJJGe2YVQDRcI4i27Sccfk6I1N3SNiygG/ZW/bSwSuJpZRnCnaUtlDiaqYib8m/PKZGz
-         zQTPhQbvEPRxMstJS9BZpjFyO6B5oc3lM3SMTtzhaeTkcswhfn0v1PtOEpRktYK10+Zx
-         Y6sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757489516; x=1758094316;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gDw9rvUm4LoCF9nUVjTsCctP6XEfIJnsd1KEfoMSp8Q=;
-        b=P/DLar3O1f9XgqPxr0xfFzsWk8RSlCnzrqB0eT2Gttcnj+rw8p+s/WF809i6b0RQvK
-         5E0bP9OblJy0lg8AFBY8SBUeB5lHCIXtcpq3TokL3O5ZLplwGMC3HJqEuUJJOG0b1FWW
-         4S6M0SoGUCEt0Hwh6EdbY2NBiPODeDa/NH36vsU8A0dQE1GlNFk5fTOIcuJGdinI38FH
-         gc9Qins+FlNsakcQ1FTHWv72ogfhBPI1H6wSpV865bWuEj9PwVo6W0piP5ONnYVpCWsw
-         PTaDotAZ8sX3Lk7v2hkvrmNJD1ssL70+BGFAT/UUSYdXxp/HMCKxQqI/FXYDjKGpKUVO
-         k0Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCW5j4SFKfD32qfJj1z1MmBjirdwnDRVY1q5/6MA/zINSIRusSiRF3CMTOmxZQccGNVfiPWx8ontBlt2@vger.kernel.org, AJvYcCXw/drVV6MZEqDWPb+2khyrcNcgpL2cC365F0JLAN0nTKu7zRZ0yP0ibdgl2coL87GuR4iuzwMF@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzh7oi03I/CzOsu9ZK74Vv658HKHV4Hxu1OzAUr0nq6QRxmoZrf
-	qPGkGoNPenpOUHtYtW7AzvcYQ/Yim+O8vtQMYfNL3HQwfgEO6PhHfpLL
-X-Gm-Gg: ASbGnctCzJ9E0Brkr2whBjTjoZVPxM8RY5D880X5x38Hbr3vRERmzAUzmNRWJw0s7s4
-	89nw9ne2zNh4PqnasEXl8XQ9eP7MdGZSOZaNOhtFF25zZjpKxsiXJUKCRG0u2Rnc3auButrHao/
-	wnyKLc+85AlzsIb7QFysG/YtGRPmns2xoATBAgQMzrP3KvW3RWtFjSnA4YqWfyyZS4vUYci6G13
-	gxMrgdWoX27Hx0RbyJMyPD83mwxftt8vSEwlkQju07SYS5C5Rt3+atlj3ACHn8FO6DUKpsLF0/T
-	dGc3pI5Pi4H7x41A1jofYkgJwUfsynsJtXyJvI67e2IZ8J2MifE79An6lBB1KlqIF555Cn9SKP5
-	2pKi3I6RdfHMIN/LP58s4MUtl+A==
-X-Google-Smtp-Source: AGHT+IE3pEaftAQHMINkBNOZJ4EgXbJdxBxWcNKXKOENumrJ3wbdoJJJ4s4My3kWHhNRXKnlYdWVDA==
-X-Received: by 2002:a05:6a20:9392:b0:24c:48f3:3fdb with SMTP id adf61e73a8af0-25344413080mr20465619637.39.1757489515665;
-        Wed, 10 Sep 2025 00:31:55 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dbb31458dsm1487539a91.10.2025.09.10.00.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 00:31:54 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8D45041FA3A5; Wed, 10 Sep 2025 14:23:36 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux cgroups <cgroups@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Andrea Righi <arighi@nvidia.com>,
-	Johannes Bechberger <me@mostlynerdless.de>,
-	Changwoo Min <changwoo@igalia.com>,
-	Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Jake Rice <jake@jakerice.dev>,
-	Cengiz Can <cengiz@kernel.wtf>
-Subject: [PATCH 1/2] Documentation: cgroup-v2: Use document path for cross-references
-Date: Wed, 10 Sep 2025 14:23:33 +0700
-Message-ID: <20250910072334.30688-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250910072334.30688-1-bagasdotme@gmail.com>
-References: <20250910072334.30688-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qaweH+z8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB517C4CEF0;
+	Wed, 10 Sep 2025 07:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757489628;
+	bh=/XnpTWNk/kv+NQgAdTS1A1Ab76RuactuTcyAflw/L7w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qaweH+z8BxmkKE1ouYJdFNhlYQj7OSwPR6vei84660qDGY3b2ayba8Xa4NjRhRKqQ
+	 epTHEwqDw7OOhz42xo6a3A9e4uehd2Gr9neNldgZ9djYFdeMgDg6V+foFy5QOBv1Uz
+	 i5lSzewoRPlG06mEm7cYk9DdBcniCZXb3KefyLLOO0rU0dNm8ZAzQghWHi8bEbRCZZ
+	 itXMl6OPuDhFdNfzXYphQv+ZxGx9804vA4czk6CZ+ZJKTCTXrw2LrYXR+A50evfJXv
+	 0Dz0F9RPM0QrdZrLUO7hYRN5OtTtEbg/6vJXWYoBn7vmo0i1GvF7n0DyV82UuAVK0n
+	 lJ87BRzJ4JaEg==
+Date: Wed, 10 Sep 2025 09:33:45 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
+	Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Message-ID: <20250910-vigorous-attractive-gorilla-af6fec@houat>
+References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
+ <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4079; i=bagasdotme@gmail.com; h=from:subject; bh=GCAvUEt817jE1UfrkUfHOuRjFkE/h7Ued4bNwWkeIv4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkH1QVOnlU2UJJ7uvLg/zat5wdF5L3P7LLnSV1u9atUx 5rpf8P6jlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEwk7ArDf481jw5OzW2X1m5k 8uGxPS1z8NC9abkPZ8hMbl3s9XaL0BqG/2Fep2+9vGG9/6Jbw6Enb0xyA8/O9zCfbJby1Uxzp08 NLxMA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="nkmy2zjqcls5g6m2"
+Content-Disposition: inline
+In-Reply-To: <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
 
-Cross-references in cgroup v2 docs are written using :ref: directive
-with full document path as anchor text. As there is a facility on
-kernel docs that allows simply cross-references with target docs path,
-replace the directive.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/accounting/psi.rst              |  2 --
- Documentation/admin-guide/cgroup-v1/index.rst |  2 --
- Documentation/admin-guide/cgroup-v2.rst       | 12 ++++++------
- Documentation/scheduler/sched-ext.rst         |  2 --
- 4 files changed, 6 insertions(+), 12 deletions(-)
+--nkmy2zjqcls5g6m2
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+MIME-Version: 1.0
 
-diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
-index d455db3e580838..460e11f988fa89 100644
---- a/Documentation/accounting/psi.rst
-+++ b/Documentation/accounting/psi.rst
-@@ -1,5 +1,3 @@
--.. _psi:
--
- ================================
- PSI - Pressure Stall Information
- ================================
-diff --git a/Documentation/admin-guide/cgroup-v1/index.rst b/Documentation/admin-guide/cgroup-v1/index.rst
-index 99fbc8a64ba9e2..c0c6ac522569d4 100644
---- a/Documentation/admin-guide/cgroup-v1/index.rst
-+++ b/Documentation/admin-guide/cgroup-v1/index.rst
-@@ -1,5 +1,3 @@
--.. _cgroup-v1:
--
- ========================
- Control Groups version 1
- ========================
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index a1e3d431974c20..83bb69e3ab12a4 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -11,7 +11,7 @@ This is the authoritative documentation on the design, interface and
- conventions of cgroup v2.  It describes all userland-visible aspects
- of cgroup including core and specific controller behaviors.  All
- future changes must be reflected in this document.  Documentation for
--v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgroup-v1>`.
-+v1 is available under Documentation/admin-guide/cgroup-v1/index.rst.
- 
- .. CONTENTS
- 
-@@ -1081,7 +1081,7 @@ All cgroup core files are prefixed with "cgroup."
- 	A read-write nested-keyed file.
- 
- 	Shows pressure stall information for IRQ/SOFTIRQ. See
--	:ref:`Documentation/accounting/psi.rst <psi>` for details.
-+	Documentation/accounting/psi.rst for details.
- 
- Controllers
- ===========
-@@ -1132,7 +1132,7 @@ processes can be categorized as follows:
-   without the ``cgroup_set_weight`` callback
- 
- For details on when a process is under the fair-class scheduler or a BPF scheduler,
--check out :ref:`Documentation/scheduler/sched-ext.rst <sched-ext>`.
-+check out Documentation/scheduler/sched-ext.rst.
- 
- For each of the following interface files, the above categories
- will be referred to. All time durations are in microseconds.
-@@ -1213,7 +1213,7 @@ will be referred to. All time durations are in microseconds.
- 	A read-write nested-keyed file.
- 
- 	Shows pressure stall information for CPU. See
--	:ref:`Documentation/accounting/psi.rst <psi>` for details.
-+	Documentation/accounting/psi.rst for details.
- 
- 	This file accounts for all the processes in the cgroup.
- 
-@@ -1903,7 +1903,7 @@ The following nested keys are defined.
- 	A read-only nested-keyed file.
- 
- 	Shows pressure stall information for memory. See
--	:ref:`Documentation/accounting/psi.rst <psi>` for details.
-+	Documentation/accounting/psi.rst for details.
- 
- 
- Usage Guidelines
-@@ -2142,7 +2142,7 @@ IO Interface Files
- 	A read-only nested-keyed file.
- 
- 	Shows pressure stall information for IO. See
--	:ref:`Documentation/accounting/psi.rst <psi>` for details.
-+	Documentation/accounting/psi.rst for details.
- 
- 
- Writeback
-diff --git a/Documentation/scheduler/sched-ext.rst b/Documentation/scheduler/sched-ext.rst
-index 404fe6126a7694..1e614958dd96c3 100644
---- a/Documentation/scheduler/sched-ext.rst
-+++ b/Documentation/scheduler/sched-ext.rst
-@@ -1,5 +1,3 @@
--.. _sched-ext:
--
- ==========================
- Extensible Scheduler Class
- ==========================
--- 
-An old man doll... just what I always wanted! - Clara
+On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
+> Hi,
+>=20
+> On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
+> > Here's another attempt at supporting user-space allocations from a
+> > specific carved-out reserved memory region.
+> >=20
+> > The initial problem we were discussing was that I'm currently working on
+> > a platform which has a memory layout with ECC enabled. However, enabling
+> > the ECC has a number of drawbacks on that platform: lower performance,
+> > increased memory usage, etc. So for things like framebuffers, the
+> > trade-off isn't great and thus there's a memory region with ECC disabled
+> > to allocate from for such use cases.
+> >=20
+> > After a suggestion from John, I chose to first start using heap
+> > allocations flags to allow for userspace to ask for a particular ECC
+> > setup. This is then backed by a new heap type that runs from reserved
+> > memory chunks flagged as such, and the existing DT properties to specify
+> > the ECC properties.
+> >=20
+> > After further discussion, it was considered that flags were not the
+> > right solution, and relying on the names of the heaps would be enough to
+> > let userspace know the kind of buffer it deals with.
+> >=20
+> > Thus, even though the uAPI part of it had been dropped in this second
+> > version, we still needed a driver to create heaps out of carved-out mem=
+ory
+> > regions. In addition to the original usecase, a similar driver can be
+> > found in BSPs from most vendors, so I believe it would be a useful
+> > addition to the kernel.
+> >=20
+> > Some extra discussion with Rob Herring [1] came to the conclusion that
+> > some specific compatible for this is not great either, and as such an
+> > new driver probably isn't called for either.
+> >=20
+> > Some other discussions we had with John [2] also dropped some hints that
+> > multiple CMA heaps might be a good idea, and some vendors seem to do
+> > that too.
+> >=20
+> > So here's another attempt that doesn't affect the device tree at all and
+> > will just create a heap for every CMA reserved memory region.
+> >=20
+> > It also falls nicely into the current plan we have to support cgroups in
+> > DRM/KMS and v4l2, which is an additional benefit.
+> >=20
+> > Let me know what you think,
+> > Maxime
+>=20
+> Any chance we can get this merged?
 
+Guys, can we move forward on this?
+
+Maxime
+
+--nkmy2zjqcls5g6m2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMEp2QAKCRAnX84Zoj2+
+dsg7AXsGZJPtUsHUnHvNADap4iyMsh/caF3U64tQkHWWAcnVwP1ptV6A6FmBCXx9
+Lw0xiv8BgKYytEtc6THWvRv6a29zx8LVSv9EuNTYDZshPTgSqETUzAx4CVEAAA/O
+//tQ1dcNeA==
+=tTl0
+-----END PGP SIGNATURE-----
+
+--nkmy2zjqcls5g6m2--
