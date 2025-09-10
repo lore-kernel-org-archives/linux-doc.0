@@ -1,76 +1,113 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9411A4E70
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 07:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A540F1E5219;
+	Wed, 10 Sep 2025 07:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757488906; cv=none; b=PciZL8Lwd9WAtndtyUWEy3KmkVLf5WUkkhI+o5Cm0q8rTz6A6GLcMuVgGoRIG9eY99Y+e1S68Vn/KSgZyUbIyXjSWE53iDGV+jSihrbTSuKCMvpZ64X/bXXn535gzn0bJXMiuQKj6ZRf8gDso1KIeZZrbby7Sj8FASdnuDdCIfs=
+	t=1757489517; cv=none; b=YM5bnx6maLg8Kqp2okyLVyXW4Oxu9HwiwxLL9xSWp4Lpi7zaQ2KBVPNZ+1Fb+Rm4ehm7dYNtvM3ys6cQVb3ImtORnXqL3KZNVUu3fL8iRwdLIP/ujwJu9dTQuu7BcgeQTa4AqykZiZHAkLR2Bpa1TrIsMQuim2OfCVwdf1xTIuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757488906; c=relaxed/simple;
-	bh=geJ0UJM3b7SPADl/tSeh7XgnStA+R2HOh7EaVM0Q1AI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VJysxyo+7oqSrDpALubol7pVJBmHIy8BuHpRd8Y6aacfVWqVZC0oZElb/f0QFLrMIpYL2fwbQOpwzGenlE+4ptvz0TcFX78T0yxqVhhKdVQiCsbCHWTw8LbzXE2jBM8eGlv8jk2jS66pIF+JF+RkrA5L6AhTthNsK/V5Q17Pwhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=R1JsHXZK; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1757489517; c=relaxed/simple;
+	bh=Hdr2Tf1DBDM8PZbgIXMvuFC2zCTYQ3GcUj66ljSSZpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PxcCtAXuYaVcUK2WECaJ7zmg+o2mbFXiCnsG1khzEJ6xQnrEHMxmGikyrMKIwhA7h4BMSjtS6Dz08q8ipOBalVtNvoal1hs+KK9P/P/3DxRpGeeE+h7NZWosYkojtj0HsMITEtlJ2FTzdN9jULufJa8tpoFRowVqUbLQYWdtnAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kqLacYC+; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="R1JsHXZK"
-Message-ID: <f3c790ce-c324-41c2-8c24-0785076ed642@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757488901;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OAv5/wmgEhBxyGGZDq9dVoGWNpR4NISRNE5iBQbxwr0=;
-	b=R1JsHXZKAHoopuh+8xShMw+SCrTjEhON3EEyKfiPutR/YewjydNo7iet+AGgETh5L8cOdV
-	CTPIgJj9fQOUYNO3NJF33I0UgFNMGet3CwULZHpxHeAwq1kNqNk3CFfpPOKoptodNjwyad
-	2dN15XdyCZggvLJMdKDfVpniXg2NprI=
-Date: Wed, 10 Sep 2025 15:21:29 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kqLacYC+"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-32326e2f0b3so5417159a91.2;
+        Wed, 10 Sep 2025 00:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757489515; x=1758094315; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RYmCRSZ5YZDf6SRxvO9+byFu7D/FmsrW9LChG8eCQ4Q=;
+        b=kqLacYC+QwWu4pz42FE+Yi1WDIs6mqWlyIxXgf0iVbiGP1by9g/RKy3lY9uF4N0rr7
+         LK7bYTctmsy/Tz62Nn69EfF8V4X1m327+26iLSznXriOT+x3YCE7EH4mqpB5+sDdQrlz
+         sRNyfLPeqqShVf0YOQzwcJYlUyonmsS4UwPXASumE+wGxNM3YuWCYunsgoDtoymqvVaM
+         4isg9Jw96+qP1k2QpYcRnwNOoYWDIWCDQNLbBf3JafqIfHOH2T2Ob9p+dJ/U1x1tUKUY
+         tbSii5hf3qz8EBRcDpJCs9xYVA7e1prqA2q3c0ofGWYItWzWEiRyC16hPuEsmyevZ9cS
+         XKkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757489515; x=1758094315;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RYmCRSZ5YZDf6SRxvO9+byFu7D/FmsrW9LChG8eCQ4Q=;
+        b=hyrLzzx2FCP6sz1L4tg+gHLcepTHMdiJ885ekEdHy+m/8uqY1KA5AE/AbzZK+OdZih
+         YrTxqUsa9AAchA9ngPQxpDo+1zVykEzgue4jRrbrqCzS12fq0WjRgkaOotgN2xv5WjVC
+         JXYCfhR6gX54maBrvxh7LgRhkWPqZcNcCtGKRtnsMrgog6G5MhHG2J2shI1XJdLvydJ5
+         lI2drZ56jNoxdbzCxWIqxF8ttMl3wI6b4zLl/30fDcBlJw9Midf/uNvRdnZHQ7TAezEp
+         VNufabpbVMq6t9jNrTYpP74QusfvyTwBwdGb673EFAPWO18oXMJQlqumWGM5BY869Ae4
+         6+Lw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLsOLSu8ccuJlXwzGFuKviypHigcml9bubykFV8wItTYffEA1wvGIzqPnuht9iu2jIr963AH3s@vger.kernel.org, AJvYcCX84dPScY4UKOb1XHxcCmeowmVTSjlK7GlRbGzCTEmy92g59OjEXhFNt6y2nAds9trNgCqJC6WPNZjS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy76r8vEqqUh/v9aQCqlhE6wwh7zc50JrTzmDBE5mSQlWpkpVux
+	UXxRa+WytAfPKj8uaPZKEt4IUelN3DryUWOmTBLYwB7+BqhbHK0meEiU
+X-Gm-Gg: ASbGncsP5XQCEHo3vLhf2TlOH4Ql1d9Jn7ieyTuW5WAEfr4sGfRyq7gFzHKOgUkRt80
+	4C7BmATHIEow3yQyem3LwIEB85NebfVVyTEY48qnRFqMAYbAMMEhlUYfrgaK9BtEGj4yPEvPJb+
+	MOe82ouOzbCg17oSDBJSVsNy3O4WSKrI1lNO25wC/pMai6cRemP2ErolZlHe1Lm7UhpOKeiOzmP
+	pWaB5tvMIQlMaJhOyQf0iSd+e3kLmvvvaEZBO7rfsAfkL/5jCBmMKVPl2TnXAIW64SPqRZp9pDo
+	gHOPcWsLrJA3lLiUpKEnhsrZhUI/ni7qto2XD1wouKvqszOQ6jzv0Opa4s6lR5yewp2cIw3LR9t
+	OCcHS1ksZLYWycVSTMWa+CRpkCHXuawex/zLdHbWtRPD8GuE=
+X-Google-Smtp-Source: AGHT+IHtoW7yqTSs88VXQwkRKdpCydUh3MOHv9se5dsw4+ymAlEF2aSX7iGdkiRJRBgF07MhgCJ8GQ==
+X-Received: by 2002:a17:90b:1d8f:b0:329:e4d1:c20f with SMTP id 98e67ed59e1d1-32d43eff84dmr18391628a91.9.1757489514829;
+        Wed, 10 Sep 2025 00:31:54 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-775f6b42023sm1296372b3a.87.2025.09.10.00.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 00:31:54 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7A42E41FA3A4; Wed, 10 Sep 2025 14:23:36 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux cgroups <cgroups@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Johannes Bechberger <me@mostlynerdless.de>,
+	Changwoo Min <changwoo@igalia.com>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Jake Rice <jake@jakerice.dev>,
+	Cengiz Can <cengiz@kernel.wtf>
+Subject: [PATCH 0/2] cgroup v2 docs update
+Date: Wed, 10 Sep 2025 14:23:32 +0700
+Message-ID: <20250910072334.30688-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from
- khugepaged_mm_slot
-Content-Language: en-US
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- Lance Yang <ioworker0@gmail.com>, shakeel.butt@linux.dev,
- rientjes@google.com, ast@kernel.org, gutierrez.asier@huawei-partners.com,
- 21cnbao@gmail.com, daniel@iogearbox.net, ameryhung@gmail.com,
- corbet@lwn.net, andrii@kernel.org, willy@infradead.org,
- usamaarif642@gmail.com, hannes@cmpxchg.org, dev.jain@arm.com,
- baolin.wang@linux.alibaba.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- david@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- npache@redhat.com, akpm@linux-foundation.org
-References: <20250910024447.64788-1-laoar.shao@gmail.com>
- <20250910024447.64788-2-laoar.shao@gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20250910024447.64788-2-laoar.shao@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-Developer-Signature: v=1; a=openpgp-sha256; l=708; i=bagasdotme@gmail.com; h=from:subject; bh=Hdr2Tf1DBDM8PZbgIXMvuFC2zCTYQ3GcUj66ljSSZpU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkH1blXtcz0ipjsFmfSdjF+TlzwmrleOzrieD6LL/+3e 1ZF3emjHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZgIdw4jwwSmxT7PTgX5X74e vnJ/7IVItpkeC706JgQ9EFN4cOje/WZGhtvnGPQeHq68bpEvqj3Xh+tT4H/fr2eVDm4L+Wq1f9P tfewA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+Just two independent docs update for cgroup v2. The shortlog below
+should be self-explanatory.
+
+Enjoy!
+
+Bagas Sanjaya (2):
+  Documentation: cgroup-v2: Use document path for cross-references
+  Documentation: cgroup-v2: Replace manual table of contents with
+    contents:: directive
+
+ Documentation/accounting/psi.rst              |  2 -
+ Documentation/admin-guide/cgroup-v1/index.rst |  2 -
+ Documentation/admin-guide/cgroup-v2.rst       | 91 ++-----------------
+ Documentation/scheduler/sched-ext.rst         |  2 -
+ 4 files changed, 7 insertions(+), 90 deletions(-)
 
 
-
-On 2025/9/10 10:44, Yafang Shao wrote:
-> Since a task with MMF_DISABLE_THP_COMPLETELY cannot use THP, remove it from
-> the khugepaged_mm_slot to stop khugepaged from processing it.
-> 
-> After this change, the following semantic relationship always holds:
-> 
->    MMF_VM_HUGEPAGE is set     == task is in khugepaged mm_slot
->    MMF_VM_HUGEPAGE is not set == task is not in khugepaged mm_slot
-> 
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-
-Acked-by: Lance Yang <lance.yang@linux.dev>
-
-Cheers,
-Lance
+base-commit: 8bfb4580b4be057b99256029ce4010dc63544777
+-- 
+An old man doll... just what I always wanted! - Clara
 
