@@ -1,90 +1,54 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B3A33471F
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 16:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D861274B35;
+	Wed, 10 Sep 2025 16:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757521396; cv=none; b=le+xMLIxWYDdrYPgKWPuwBSO+DgW2I3SMmmF8TDdwFOlUKRSR0ZNSiAOU1QYAVPypkmF8y7dyGvZTe5ZdlIpEuw1yUUMoe80uS1JhdAZvNrJKmUBaajkBI7z3+HBMrt1NyxqmQWzXh8R4oa7nOeF6VAV1OhzwjI4SQbnfd5duXo=
+	t=1757522664; cv=none; b=Ebi/552qfxqUfiWGd+YCVZecZo06qPVUJzH3STnhrGHRbSnPTIDCbwoPi+h8VFxI+A0HR9W+UWc9v6nfK/J3IseYFq5atrobRhYyi2N7DbpN46Nt2a4n0D2fhL7qIofL6aa3v+H4nwKmRPYamak2ZsOiYtgtE3AVgdWe1OB6VJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757521396; c=relaxed/simple;
-	bh=QV4qaVeduj/yREU+BcPgw7XZ6y4Ontzbperd5ZjM2FQ=;
+	s=arc-20240116; t=1757522664; c=relaxed/simple;
+	bh=duKjujbgky8HcxNtbyBBgLnGw3VqC6OpenSzO2VXTLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=skuJHpNeZj+bNOkbt8ZY8elpCyMNo+UyxoRegvqK+xm5aChB61T2SVT73G0dnGUp/HY9aQuMM8gu9fyvG/2sdn9BnQBDCWLaFOIQAxZNAuJmZ3HzDtO9PfOEZNyKKifiycmQqZ0q08ZYfbluXI5VIUiapFKkoUTO6s+akF3THUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=cizFS0WC; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=us7CjD2k0i/8XMjnoFuCuLaFyDa8LnSyYgS8YqjFuQoAwcYpWNFpziNVYwaPCoP2+hPH6eIuzsiQkY6j5jKW0Pc250Hh3NvPLUUqBImReHPZVwNSg2c/F9w+Wh3fenuBoaLksNS0po7xhYPfa1safToBGT5y4iphhUXye+aSbg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S544noVN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="cizFS0WC"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-726549f81bdso64616376d6.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 09:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1757521392; x=1758126192; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6FwkMlW01VIxUYcm4CJlAUCNZh7Z+O+5WtmWOGwJI3A=;
-        b=cizFS0WC8vRAcl0sPHOePwmP9NRrSK0I0cSA0sybqtf6Kk+TwyRYi5NoV9j5By68vX
-         txqZjDzCNnLLtjUFgNbLZgMm2PIEjb3diY59e9Rv2MxBfEphYCDYW8MJWJd/Yvco04io
-         asuKnCZBaDDJmwvrjjT+CLujnF7ef/g7piEI57c/hvpjvo1XIYz/xQ/MhiBFBhthL4JW
-         y6OzRvwKT7STEOcg+M1UZj0/9eKXrcws622boCjDTg2QZkviUxWDyaW0lTu4mZU+l/St
-         CYe1jb5r7dMSwcwy5Hbp9dF6KWf+TKAlk/WbJ2r7vHd6ks5+t/6u8rbwR1jJMJjRjM+o
-         I8qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757521392; x=1758126192;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6FwkMlW01VIxUYcm4CJlAUCNZh7Z+O+5WtmWOGwJI3A=;
-        b=DLDmQuqumDnTv0Ak/0tB8AV5/x5dpyBDVU6xg9pKVSKscEqsKe1mUQ0G6LtYDACFBf
-         xVOxSkL3n5ejR2YhSIxNsz27knIFWmQNBM5GKbwhJfcD7yuEdfbMyXwspI8YIn1P/ajf
-         MqmzndxDJN2sYvtjULGZFw4Lyw4UHhLXA4tc15MY7QEP8Yc/twnT1mcEFKew78ul8Jnq
-         P8FfTnq7g8bXGZ65sx71x1J1QGh1n9dineUjpz5G/Y8F2HGeFc4dr9Eg7pnre2FyReJ9
-         w5ZM5gFWWCQp48syOqxiasGanlZ9i+dHY7AfbNNo6VuUc15sN4wa/1navM4OaJuhFEfc
-         05ow==
-X-Forwarded-Encrypted: i=1; AJvYcCWHhvuSIvjDcsiMS5/zQ7cvsMKZ/+AX0QGD78LHELObtKQAnvYriaqQ8ERWRCMozFxu2hN3xQcDa9A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz70S+amg0pnxoh/Xg7urosIOoz+KaBpubLVbcu0E3mWIeor4HJ
-	IrzBmhVVyz1kA5rOLPtkfUJ129YkQUZAzJHHaxubRaBloECY1ISmkYr67E2ntCASzFc=
-X-Gm-Gg: ASbGncs4j/VJxqBeHgN7LKucMI+LBuf+3WytFLfmi/FvtdYT1+5gryho4UTAzBKTz3a
-	IR0+lGVOuVoGOEjbn603ZIJePWoWubup4NM8Bb79SzuqeyC9MlNs+5ivP0J6rLnSpLZdVE3yOMv
-	Hr3jVrstOcLQHn1ewxEofpKMufV4aWkfMD4vW7btei5md0J8/Sj3rWWMo4iXgu4+3MHzpOPq4sB
-	12nLvWjajmaCEud6lMFoPzLP2/HlwyG/V3uegKL8gUqL8nGjkQKbF4IkBNPu8bKwJQdAKl58r/J
-	k6VtKTINwC9FtSQy3zrjit83JUKOY45ofP/P+UnGDvb7+FpiOmPM0zc6UdrFOVOGnwfAGzIZn1M
-	eqaz7crEcRdGuKSJGbVVkw1hpek/UF8WXU48m5TVngEwCpFztKTY2IKHqjQ0yD9P+UXRQ
-X-Google-Smtp-Source: AGHT+IHPGap2dCYWlJBOrKoIpqhzx0hg0+yPsTujjfLJBGMgHZWbcQURT6fJPbtpQWPkXIn9zn4B6A==
-X-Received: by 2002:a05:6214:ca8:b0:747:b0b8:307 with SMTP id 6a1803df08f44-747b0b805a2mr108386976d6.26.1757521392357;
-        Wed, 10 Sep 2025 09:23:12 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-721cf6d6cffsm150161886d6.54.2025.09.10.09.23.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 09:23:11 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1uwNbC-00000003tad-1XQm;
-	Wed, 10 Sep 2025 13:23:10 -0300
-Date: Wed, 10 Sep 2025 13:23:10 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Stanislav Fomichev <stfomichev@gmail.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
-	Leon Romanovsky <leon@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-	Gal Pressman <gal@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>,
-	Dragos Tatulea <dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
-Subject: Re: [PATCH net-next 10/10] net/mlx5e: Use the 'num_doorbells'
- devlink param
-Message-ID: <20250910162310.GF882933@ziepe.ca>
-References: <1757499891-596641-1-git-send-email-tariqt@nvidia.com>
- <1757499891-596641-11-git-send-email-tariqt@nvidia.com>
- <aMGkaDoZpmOWUA_L@mini-arch>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S544noVN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69D47C4CEEB;
+	Wed, 10 Sep 2025 16:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757522663;
+	bh=duKjujbgky8HcxNtbyBBgLnGw3VqC6OpenSzO2VXTLo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S544noVNsxNsc/7MpbSw0QQVzf35R4J6OOKFThqRLJfnktPg0GfvXL+6yLP74OFm5
+	 I4eZNHsCDuDSxWzrcmIsziyifNqpqCQxYHSplq26uBKDbvNjX4fnIFBuEvvxBU9d2L
+	 F6W2BNbREM59whxBT1YJtqme80X597KzObXr9p+ryedCCMNgeb8Dx5NNCLAP+gMveb
+	 Uew9qXSjQENMhK6rHXmHbwo+LRbU2QZ+ycH+bQrP9oPHEk7qh92Vf8Y2B2AJ5tcXXA
+	 nB2Qe6mx910+UpvDO6EB13I69FG9uyvmMcsDzG1JQwXXwFF7ZkICdiaM3kHPkkTBEa
+	 pvneNH2NDHguA==
+Date: Wed, 10 Sep 2025 06:44:22 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux cgroups <cgroups@vger.kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrea Righi <arighi@nvidia.com>,
+	Johannes Bechberger <me@mostlynerdless.de>,
+	Changwoo Min <changwoo@igalia.com>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ingo Molnar <mingo@kernel.org>, Jake Rice <jake@jakerice.dev>,
+	Cengiz Can <cengiz@kernel.wtf>
+Subject: Re: [PATCH 2/2] Documentation: cgroup-v2: Replace manual table of
+ contents with contents:: directive
+Message-ID: <aMGq5tNNAk5DsJWo@slm.duckdns.org>
+References: <20250910072334.30688-1-bagasdotme@gmail.com>
+ <20250910072334.30688-3-bagasdotme@gmail.com>
+ <6geggl3iu2hffdop43rtd6yp2ivd26ytfn4xdclurwce6mapal@4ve46y652dbj>
+ <875xdqtp7m.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,35 +57,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aMGkaDoZpmOWUA_L@mini-arch>
+In-Reply-To: <875xdqtp7m.fsf@trenco.lwn.net>
 
-On Wed, Sep 10, 2025 at 09:16:40AM -0700, Stanislav Fomichev wrote:
+Hello,
 
-> > +   * - ``num_doorbells``
-> > +     - driverinit
-> > +     - This controls the number of channel doorbells used by the netdev. In all
-> > +       cases, an additional doorbell is allocated and used for non-channel
-> > +       communication (e.g. for PTP, HWS, etc.). Supported values are:
-> > +       - 0: No channel-specific doorbells, use the global one for everything.
-> > +       - [1, max_num_channels]: Spread netdev channels equally across these
-> > +         doorbells.
+On Wed, Sep 10, 2025 at 07:24:45AM -0600, Jonathan Corbet wrote:
+...
+> I fairly routinely get patches fixing manual TOCs that are not updated
+> to match changes elsewhere.  We have a nice system that can manage the
+> TOC automatically for us, it seems best to me to use it.
 > 
-> Do you have any guidance on this number? Why would the user want
-> `num_doorbells < num_doorbells` vs `num_doorbells == num_channels`?
+> That said, if having the TOC in the plain-text version of the document
+> is deemed to be important, then it needs to be kept and manually
+> maintained.
 
-I expect it to be common that most deployment should continue to use
-the historical value of num_doorbells = 0.
+Wouldn't it be better to have some automated script which triggers on
+mismatching TOC so that these get fixed up. I think people (including me) do
+read the plain text version, so it'd be a shame if we lose TOC in the source
+file.
 
-Certain systems with troubled CPUs will need to increase this, I don't
-know if we yet fully understand what values these CPUs will need.
+Thanks.
 
-Nor do I think I'm permitted to say what CPUs are troubled :\
-
-> IOW, why not allocate the same number of doorbells as the number of
-> channels and do it unconditionally without devlink param? Are extra
-> doorbells causing any overhead in the non-contended case?
-
-It has a cost that should be minimized to not harm the current
-majority of users.
-
-Jason
+-- 
+tejun
