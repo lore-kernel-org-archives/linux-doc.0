@@ -1,227 +1,274 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC2E30CD92;
-	Wed, 10 Sep 2025 09:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816DE2D0636;
+	Wed, 10 Sep 2025 09:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757496297; cv=none; b=sX8mzuvn3YqKAsrLTUKbfYPW7DQLmk0boBo8YJE5ro5BvS+bCDVU6eRmPL6mIvzcUeVcXq1my4YlobdoQgDp6itNkE6xWjWMobYkRYK7Jx8YvQo+osF4VFjA58YWFRU3Cv/Xi+seByyAkYRTAhl6ouI11f8/69OFxmIHB3a6h4s=
+	t=1757496396; cv=none; b=rzgXjdgFKJW4aMJKkWeIPp8LFYU52jhP3D/ZTJGQIsOgBfrggo1OGPUK6Rk5o6/gpA2nGUDA/ciP7zkb7K3Xfr6Wu+/eL+l8nDN11I7T/hdSodZlPDV2O2Q2GLAMBAohH0p4X+jIOUUYgOw9ZD56PrlCGJTTDHyZsb9ZCVzhIDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757496297; c=relaxed/simple;
-	bh=2tjya5D9cnGgRanoRcp4aCC6LMSjB7GbonEFWYPcVQw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=B5JtZYejqKBpaBrySCQz9aVJ41M2+BuntogXr7x7UIjmqGYnxyfmdOHC5nDRXahzVwomZJxW5BEEcQK0ZBx28hVE3ua1YURVaAK+BqL1b1h7hrn/FBkrtvY3q3QhMnNDnskmD0Jss5Vm2qjsfk9fo7Mgd00SHP1hTGJQT3zwY3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+w3maF6; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+w3maF6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757496295; x=1789032295;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=2tjya5D9cnGgRanoRcp4aCC6LMSjB7GbonEFWYPcVQw=;
-  b=X+w3maF6vNxlLFTHr+NuZRNgk660MpToMFungA91Np3yZ1dBhjTmcSu9
-   i+VjDIOuGe5btH8wioB+mRaEvB7X1qxUD/0BwdChEN4lQC/2amctSzS3V
-   gxy8aZoHngat/GURMZ+f9FD6fHCZD60d04VDd/eJ2fQvjPADF4AIybHSH
-   dkAwN5rWDull27sRKhj4dtVGBjnLzTkjHAEg8JU61limuM0mabyP18JPp
-   ML8R3oh0VZqnzU8XoX+MogSN6zy/tgvZggGWxDBYkcmxHrB5IxwRSm95d
-   eRYZ0HBXv+UmxQ9qU/pAfhlLtEu8rTaHQrGxvXqR7xQy2XWXYe/OdePxF
-   A==;
-X-CSE-ConnectionGUID: Qinbj0XkToWrKGUqBfAmnw==
-X-CSE-MsgGUID: 06YrZWfTSXKAFQqk8ItK+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59863477"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59863477"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:24:54 -0700
-X-CSE-ConnectionGUID: OaUDq58OQe+zMr6Fwn87cA==
-X-CSE-MsgGUID: +Blb/w1USVa6gV6E7GjzoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="172626775"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.72])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:24:51 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-In-Reply-To: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-Date: Wed, 10 Sep 2025 12:24:47 +0300
-Message-ID: <b9f8831490b9e8e3e4f6d90d6092b0b78c79137f@intel.com>
+	s=arc-20240116; t=1757496396; c=relaxed/simple;
+	bh=TBLaQu9oUkQF+zTBH/m7B/ZNup/xKW2pgwz5OFtQZR0=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nx6Pu0x/V6ZebrWxCu/N0HvfpFpOOZihTe4fYBbSLTryiE4DUoEvBI/v1ivO/VWqJZ/I2MTO9NxtSEbxdbPO2BWmbjetVPp6vwiB5jc5yQ7L5chaYI0zENx0jBcmmnmLpanyljyecO1/DSZxmgX/IoSRjZeOcTuG23U7vaZ+Veo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cMFf600s8z6L5R0;
+	Wed, 10 Sep 2025 17:25:18 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1377E1404C4;
+	Wed, 10 Sep 2025 17:26:30 +0800 (CST)
+Received: from localhost (10.203.177.15) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 10 Sep
+ 2025 11:26:29 +0200
+Date: Wed, 10 Sep 2025 10:26:27 +0100
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: =?ISO-8859-1?Q?Cl=E9ment?= Le Goffic <legoffic.clement@gmail.com>
+CC: Gatien Chevallier <gatien.chevallier@foss.st.com>, Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Gabriel Fernandez
+	<gabriel.fernandez@foss.st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+	Julius Werner <jwerner@chromium.org>, Will Deacon <will@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	<linux-stm32@st-md-mailman.stormreply.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	=?ISO-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH v6 13/20] perf: stm32: introduce DDRPERFM driver
+Message-ID: <20250910102627.00007a40@huawei.com>
+In-Reply-To: <20250909-b4-ddrperfm-upstream-v6-13-ce082cc801b5@gmail.com>
+References: <20250909-b4-ddrperfm-upstream-v6-0-ce082cc801b5@gmail.com>
+	<20250909-b4-ddrperfm-upstream-v6-13-ce082cc801b5@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Sun, 07 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> Specially on kAPI, sometimes it is desirable to be able to
-> describe global variables that are part of kAPI.
->
-> Documenting vars with Sphinx is simple, as we don't need
-> to parse a data struct. All we need is the variable
-> declaration and use natice C domain ::c:var: to format it
-> for us.
->
-> Add support for it.
+On Tue, 09 Sep 2025 12:12:20 +0200
+Cl=E9ment Le Goffic <legoffic.clement@gmail.com> wrote:
 
-Bikeshedding on "global", it sort of implies visibility or linkage, but
-here it means "variable".
+> From: Cl=E9ment Le Goffic <clement.legoffic@foss.st.com>
+>=20
+> Introduce the driver for the DDR Performance Monitor available on
+> STM32MPU SoC.
+>=20
+> On STM32MP2 platforms, the DDRPERFM allows to monitor up to 8 DDR events
+> that come from the DDR Controller such as read or write events.
+>=20
+> On STM32MP1 platforms, the DDRPERFM cannot monitor any event on any
+> counter, there is a notion of set of events.
+> Events from different sets cannot be monitored at the same time.
+> The first chosen event selects the set.
+> The set is coded in the first two bytes of the config value which is on 4
+> bytes.
+>=20
+> On STM32MP25x series, the DDRPERFM clock is shared with the DDR controller
+> and may be secured by bootloaders.
+> Access controllers allow to check access to a resource. Use the access
+> controller defined in the devicetree to know about the access to the
+> DDRPERFM clock.
+>=20
+> Signed-off-by: Cl=E9ment Le Goffic <clement.legoffic@foss.st.com>
+> Signed-off-by: Cl=E9ment Le Goffic <legoffic.clement@gmail.com>
+Hi Cl=E9ment
 
-You could document variables that are static, global to the module, or
-exported to the entire kernel. And you could document functions that are
-global (for some meaning of global).
+A quick drive by review,
 
-I didn't look into kernel-doc, but can't you figure the type out from
-the source, instead of having to tell it? And if you can't, why not just
-make it "var" (matching Sphinx) or "variable"?
+J
+
+> diff --git a/drivers/perf/stm32_ddr_pmu.c b/drivers/perf/stm32_ddr_pmu.c
+> new file mode 100644
+> index 000000000000..38328663d2c5
+> --- /dev/null
+> +++ b/drivers/perf/stm32_ddr_pmu.c
+> @@ -0,0 +1,897 @@
+
+> +
+> +#define MP1_CLR_CNT		GENMASK(3, 0)
+> +#define MP1_CLR_TIME		BIT(31)
+> +#define MP2_CLR_CNT		GENMASK(7, 0)
+> +#define MP2_CLR_TIME		BIT(8)
+> +
+> +/* 4 event counters plus 1 dedicated to time */
+> +#define MP1_CNT_NB		(4 + 1)
+
+This is never used so I would drop it and rename the MP2_CNT_NB
+to indicate it is the max value for any devices supported.
 
 
-BR,
-Jani.
+> +/* Index of the time dedicated counter */
+> +#define MP1_TIME_CNT_IDX	4
+> +
+> +/* 8 event counters plus 1 dedicated to time */
+> +#define MP2_CNT_NB		(8 + 1)
+...
 
->
-> Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
->  scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
->  2 files changed, 55 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 1eca9a918558..405a5c407522 100644
-> --- a/scripts/lib/kdoc/kdoc_output.py
-> +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -199,6 +199,10 @@ class OutputFormat:
->              self.out_enum(fname, name, args)
->              return self.data
->  
-> +        if dtype == "global":
-> +            self.out_global(fname, name, args)
-> +            return self.data
-> +
->          if dtype == "typedef":
->              self.out_typedef(fname, name, args)
->              return self.data
-> @@ -227,6 +231,9 @@ class OutputFormat:
->      def out_enum(self, fname, name, args):
->          """Outputs an enum"""
->  
-> +    def out_global(self, fname, name, args):
-> +        """Outputs a global variable"""
-> +
->      def out_typedef(self, fname, name, args):
->          """Outputs a typedef"""
->  
-> @@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
->          self.lineprefix = oldprefix
->          self.out_section(args)
->  
-> +    def out_global(self, fname, name, args):
-> +        oldprefix = self.lineprefix
-> +        ln = args.declaration_start_line
-> +        prototype = args.other_stuff["var_type"]
-> +
-> +        self.data += f"
->
-> .. c:var:: {prototype}
->
-> "
-> +
-> +        self.print_lineno(ln)
-> +        self.lineprefix = "  "
-> +        self.output_highlight(args.get('purpose', ''))
-> +        self.data += "
-> "
-> +
->      def out_typedef(self, fname, name, args):
->  
->          oldprefix = self.lineprefix
-> @@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
->              self.data += f'.SH "{section}"' + "
-> "
->              self.output_highlight(text)
->  
-> +    def out_global(self, fname, name, args):
-> +        out_name = self.arg_name(args, name)
-> +        prototype = args.other_stuff["var_type"]
-> +
-> +        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "
-> "
-> +
-> +        self.data += ".SH NAME
-> "
-> +        self.data += f"{prototype} \- {args['purpose']}
-> "
-> +
-> +        self.data += ".SH SYNOPSIS
-> "
-> +        self.data += f"enum {name}" + " {
-> "
-> +
->      def out_typedef(self, fname, name, args):
->          module = self.modulename
->          purpose = args.get('purpose')
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 574972e1f741..e2a3f4574894 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -64,7 +64,7 @@ type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
->  # Tests for the beginning of a kerneldoc block in its various forms.
->  #
->  doc_block = doc_com + KernRe(r'DOC:\s*(.*)?', cache=False)
-> -doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)\s*(\w*)", cache = False)
-> +doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|global)\s*(\w*)", cache = False)
->  doc_begin_func = KernRe(str(doc_com) +			# initial " * '
->                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
->                          r'(?:define\s+)?' + 		# possible "define" (not captured)
-> @@ -886,6 +886,27 @@ class KernelDoc:
->          self.output_declaration('enum', declaration_name,
->                                  purpose=self.entry.declaration_purpose)
->  
-> +    def dump_global(self, ln, proto):
-> +        """
-> +        Stores global variables that are part of kAPI.
-> +        """
-> +        VAR_ATTRIBS = [
-> +            "extern",
-> +        ]
-> +        OPTIONAL_VAR_ATTR = "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-> +
-> +        r= KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s*;(?:#.*)?$")
-> +        if not r.match(proto):
-> +           self.emit_msg(ln,f"{proto}: can't parse variable")
-> +           return
-> +
-> +        declaration_name = r.group(2)
-> +        var_type = r.group(0)
-> +
-> +        self.output_declaration("global", declaration_name,
-> +                                var_type=var_type,
-> +                                purpose=self.entry.declaration_purpose)
-> +
->      def dump_declaration(self, ln, prototype):
->          """
->          Stores a data declaration inside self.entries array.
-> @@ -897,6 +918,8 @@ class KernelDoc:
->              self.dump_typedef(ln, prototype)
->          elif self.entry.decl_type in ["union", "struct"]:
->              self.dump_struct(ln, prototype)
-> +        elif self.entry.decl_type == "global":
-> +            self.dump_global(ln, prototype)
->          else:
->              # This would be a bug
->              self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
+> +struct stm32_ddr_pmu {
+> +	struct pmu pmu;
+> +	void __iomem *membase;
+> +	struct device *dev;
+> +	struct clk *clk;
+> +	const struct stm32_ddr_pmu_cfg *cfg;
+> +	struct hrtimer hrtimer;
+> +	ktime_t poll_period;
+> +	int selected_set;
+> +	u32 dram_type;
+> +	struct list_head counters[];
+The absence of a __counted_by() marking made me wonder how
+we ensured that this wasn't overrun.  I see below that's because
+size is always the same.  So
+	struct list_head counters[MP2_CNT_NB];
+If you do want to make it dynamic then that is fine but added
+a local variable for the size and the __counted_by() marking so
+the various analysis tools can check for buffer overruns.
 
--- 
-Jani Nikula, Intel
+> +};
+
+
+
+> +static void stm32_ddr_pmu_event_del(struct perf_event *event, int flags)
+> +{
+> +	struct stm32_ddr_pmu *pmu =3D to_stm32_ddr_pmu(event->pmu);
+> +	struct stm32_ddr_cnt *counter =3D event->pmu_private;
+> +	bool events =3D true;
+
+Always set before use, so don't set it here.  I'd move this into the
+scope of the for loop to make this more obvious.
+
+> +
+> +	stm32_ddr_pmu_event_stop(event, PERF_EF_UPDATE);
+> +
+> +	stm32_ddr_pmu_free_counter(pmu, counter);
+> +
+> +	for (int i =3D 0; i < pmu->cfg->counters_nb; i++) {
+> +		events =3D !list_empty(&pmu->counters[i]);
+> +		if (events) /* If there is activity nothing to do */
+> +			return;
+> +	}
+> +
+> +	hrtimer_cancel(&pmu->hrtimer);
+> +	stm32_ddr_stop_counters(pmu);
+> +
+> +	pmu->selected_set =3D -1;
+> +
+> +	clk_disable(pmu->clk);
+> +}
+
+> +
+> +#define STM32_DDR_PMU_EVENT_ATTR(_name, _id)			\
+> +	PMU_EVENT_ATTR_ID(_name, stm32_ddr_pmu_sysfs_show, _id)
+> +
+> +static struct attribute *stm32_ddr_pmu_events_attrs_mp[] =3D {
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_rd, PERF_OP_IS_RD),
+
+Prefixing perf events with perf_ seems unnecessary.
+
+I guess perf_op_is_rd is counting all reads?  Is so why not call it simply =
+'reads'
+or something else short like that?  If it's cycles when a read is going on =
+then
+maybe a more complex is needed, but perf_op_is_rd doesn't convey that to me.
+
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_wr, PERF_OP_IS_WR),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_activate, PERF_OP_IS_ACTIVATE),
+> +	STM32_DDR_PMU_EVENT_ATTR(ctl_idle, CTL_IDLE),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_hpr_req_with_no_credit, PERF_HPR_REQ_WITH=
+_NO_CREDIT),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_lpr_req_with_no_credit, PERF_LPR_REQ_WITH=
+_NO_CREDIT),
+> +	STM32_DDR_PMU_EVENT_ATTR(cactive_ddrc, CACTIVE_DDRC),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_enter_powerdown, PERF_OP_IS_ENTER_P=
+OWERDOWN),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_refresh, PERF_OP_IS_REFRESH),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_selfresh_mode, PERF_SELFRESH_MODE),
+> +	STM32_DDR_PMU_EVENT_ATTR(dfi_lp_req, DFI_LP_REQ),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_hpr_xact_when_critical, PERF_HPR_XACT_WHE=
+N_CRITICAL),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_lpr_xact_when_critical, PERF_LPR_XACT_WHE=
+N_CRITICAL),
+> +	STM32_DDR_PMU_EVENT_ATTR(perf_wr_xact_when_critical, PERF_WR_XACT_WHEN_=
+CRITICAL),
+> +	STM32_DDR_PMU_EVENT_ATTR(dfi_lp_req_cpy, DFI_LP_REQ),  /* Suffixed '_cp=
+y' to allow the
+> +								* choice between sets 2 and 3
+> +								*/
+> +	STM32_DDR_PMU_EVENT_ATTR(time_cnt, TIME_CNT),
+> +	NULL
+> +};
+
+
+> +static int stm32_ddr_pmu_device_probe(struct platform_device *pdev)
+> +{
+> +	struct stm32_firewall firewall;
+> +	struct stm32_ddr_pmu *pmu;
+> +	struct reset_control *rst;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	pmu =3D devm_kzalloc(&pdev->dev, struct_size(pmu, counters, MP2_CNT_NB)=
+, GFP_KERNEL);
+
+If using a fixed number of counters why not put it in the struct
+definition and simplify the code?  I agree it is probably not
+worth making this dynamic given small sizes but I don't mind
+if you do want to do this.  The only thing that isn't a good idea
+is this dynamic, but not really, current situation.
+
+
+> +	if (!pmu)
+> +		return -ENOMEM;
+
+
+
+> +static DEFINE_SIMPLE_DEV_PM_OPS(stm32_ddr_pmu_pm_ops, NULL, stm32_ddr_pm=
+u_device_resume);
+> +
+> +static const struct of_device_id stm32_ddr_pmu_of_match[] =3D {
+> +	{
+> +		.compatible =3D "st,stm32mp131-ddr-pmu",
+> +		.data =3D &stm32_ddr_pmu_cfg_mp1
+
+Trivial but if you are spinning again, normal convention is trailing commas
+in cases like this because maybe other fields will get set later.
+
+> +	},
+> +	{
+> +		.compatible =3D "st,stm32mp251-ddr-pmu",
+> +		.data =3D &stm32_ddr_pmu_cfg_mp2
+> +	},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, stm32_ddr_pmu_of_match);
+> +
+> +static struct platform_driver stm32_ddr_pmu_driver =3D {
+> +	.driver =3D {
+> +		.name =3D DRIVER_NAME,
+> +		.pm =3D pm_sleep_ptr(&stm32_ddr_pmu_pm_ops),
+> +		.of_match_table =3D stm32_ddr_pmu_of_match,
+> +	},
+> +	.probe =3D stm32_ddr_pmu_device_probe,
+> +	.remove =3D stm32_ddr_pmu_device_remove,
+> +};
+> +
+> +module_platform_driver(stm32_ddr_pmu_driver);
+> +
+> +MODULE_AUTHOR("Cl=E9ment Le Goffic");
+> +MODULE_DESCRIPTION("STMicroelectronics STM32 DDR performance monitor dri=
+ver");
+> +MODULE_LICENSE("GPL");
+>=20
+
