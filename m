@@ -1,86 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4007221F06;
-	Wed, 10 Sep 2025 01:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A771F473A;
+	Wed, 10 Sep 2025 01:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757469007; cv=none; b=RueCJot3XurEbVhWq3ADvyQsMdm42U3iQq7FMGSrICEWtZZu5jVZuLpi8hfwu2+oCPw9tKBn76lMlOrIhgM6QHib8V4FuFlO8PNxRbAmt/5XUQyKx5Krh+Gwrns1fiN71XGy2Q+te3zAaw8Muynt06hi9sFGrQQ5fTkpO+Y19sg=
+	t=1757469482; cv=none; b=Q9BxpZRkhGKkDnlcEePI0fl/E4iQY5r36nclPDC0H2Dhg9dz6uhll1v1tZtwH1IpzNPb9t8Rml1vL+Ud0FJynrSvQAxbc6E7zs4bb/J17sgEn1fdbsfanqD4EUs/jgnFt3L0XrusX8UgKhuGsM9EOAkItfciY3nj9ZuovkUHWsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757469007; c=relaxed/simple;
-	bh=xcMbxq68mHjENi1WkmjxOX64pUgX31sPw0jQSLLPWnk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=UHFaKJ9lQSVfmiAF+odFyQncvPJTLOHq4+stoevak3mgi6JBrN2TB9RK+cdI1YsjxyM6hMTJn7YvySaKdNjLPYmwbQHJPDYH5IY1SU0IwBZQLUQG9hOfre3A0rau2AfvxKqL464fA1HM2Qd+6wJqRRauk4C12GSII/h5ZZ7w6lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ew8GiYGx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757469482; c=relaxed/simple;
+	bh=DwwSWKWua2fP1JnFtxyFfbR/mFvTt5o9hP0QEXPJ7UY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dd9JG02gIlNlQBs1L30c32UvKzu+dNkszNDB8xKEbHWzo1xq2+CvFu9vfyomJ8tfPJLFKzIElCPpYF4H/dUpY5oAUEuptHcKDjp7bw20uEz5IaRaTjG4h1iWuHueA/2fz7IYK25qnqrvthP9ZiOgq+ggxaM2ZFC7Z8SIlkILWLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHsU3iZm; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ew8GiYGx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26609C4CEF4;
-	Wed, 10 Sep 2025 01:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757469007;
-	bh=xcMbxq68mHjENi1WkmjxOX64pUgX31sPw0jQSLLPWnk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Ew8GiYGxM68JfRi4OnQe9RK68QnJcAsEXY5WkTZh9gw3RrL4uhAPYQ8GGWUiksEdG
-	 W8jxuHyZ8sYdShYrkRxAF55Wnv3LS8ThqrgY+yNUbkRT9R668fY1AH1H1wMaFyYG0+
-	 PLD27Vyv99Mu07msxN3EEop12wBCLixH0A7diQgmoXyHoIgN7GMhTo1hvqF1CPEVhu
-	 qKkGXKRJ2EvzeIINg5ZS3wTzf9kTpaS1BEDNgwdRqff5IF/mWd/kx6NSUcvBK+JTIb
-	 AdbBY+s8cgj9sSFrgEfjskLgsuAUmPiWnaGau/oTG8p5g0XDHXt8m55BdNE2wQvZWC
-	 lMKBSoDUKitUw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70D03383BF69;
-	Wed, 10 Sep 2025 01:50:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHsU3iZm"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-772679eb358so5904457b3a.1;
+        Tue, 09 Sep 2025 18:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757469480; x=1758074280; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5GZjnq9AmQvvJ2VMhIbxJpK0z8GY39o/fsj+KeVvFsc=;
+        b=gHsU3iZmVhkqPH9Ov1ENuEaMrkNCZ8vuf/0yd0axHRva2og8/bKWoXd3cpqtfun5C3
+         DxvgfWA5bB6s1GCgxwH1kR9hKAgoj/LhdhQVSrJYfuNf6Jip5akWH9H1R6flV//WffQe
+         4chGWnzCNJvds+8eE/tIspT4wi/ocmZFd8NmazUQUTH2IRgHTk4s2RvcVgEQt4vDfQrr
+         jyMvlfpJdQtvxnKeVyTovXPb6onTgC46/mqny496j4+Mcdz4AeTnCv8eql9Cq6RRqr2T
+         3KmCiy9pWN/fyP3nnTOa0sG8Z95ZEm0UBSljYoMaPguC6mztczWO8iWkgtUFxLERb1Kt
+         Ds7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757469480; x=1758074280;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5GZjnq9AmQvvJ2VMhIbxJpK0z8GY39o/fsj+KeVvFsc=;
+        b=nUbeIhRt0I2ldfaAHsIMkmV2L4tYyy7JOkBsRX0GL9Tmdk1uLlbvJCAGg5YLD5O2PW
+         HyN0Zz0AMaoF+DxVqR6JBDTPMRo/Yu91DmNpjg/KRRh1FmtX+QWKRD3TyV4q+GMIRJyJ
+         MI+0MZV/ViGiCF9WRZVxoV8kv5PANzVcubDtbOb3rWCkJQ7LpFLM7WFWTn1lIzw4J/AU
+         n8O4qY+NeVzO2iamcVO1GMD+JAkVJbalbcLRjz8G6n/9ON4mSPM8o6rg5OUNtGfTpuGA
+         6LKDNWu1GfjDZlgL3KgerutOX/BitnPID4c9iLAba+pa37Bw8Movod6xcHDeMHB00Zs4
+         Olpw==
+X-Forwarded-Encrypted: i=1; AJvYcCWejTRFOx7HCC2Re1mnXI7eyevsrORbqqsU1SbhDiWG3FAeW9Bl/9qDOgkLq3zOsq0MXbT8OD2QYi8T@vger.kernel.org, AJvYcCWqZA1M14u0PJRPzjmhjMUePqQ/YvpZyjbXA+lxRZ/0RvUCIcgpit+wfDipsZjicO/1Xuov+h4fVKY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWYybmOsERGP/thURvdOSwL5+R3uWqkLnjF3JzYVMPZyUu1uFF
+	meq96rRm2W1lY58VJFZjDyX9ZhcRpr+e0KUK+YgTdtAvRKxpOPP5fUSGYXSOqd1l
+X-Gm-Gg: ASbGncv+cjT5m40bNJfuEf7kxVIguKRegHkW6DgDpN7D2E+a+LilXYS03c0WGvB+VD6
+	1QAc5QEpz542MuhjFRjAhho5CpNJGDRYA2/rbDN+VQ+xsq/wBb0nfVNfHo8SFca8f5dFC27pjpm
+	oBuGoxLsCDFh3VYQJBryKMhFH0btr4uNIBZ7R6liZQGiGmKdpve9qgoQgPHx5000rRF1xW4IPMI
+	Qkjp2Rh1qm/e7IE0WirGzhkgJIObm5TWNDLrr7UoenUJkS+ORBzAQbJQMrt91nB4H+cqWKMjgtZ
+	PWFLXom0iVrv3Qihvff0JriLwy0uZTTQYL1jAZzgYzlSMYUZXBDUitrFCdIi2HLyn1Aa4vdr/ne
+	YJFctHz12f0Jc3NMqJBxv7aSonzgyQ68TYa0K1N5s7JlkVzs=
+X-Google-Smtp-Source: AGHT+IF9ZvsbQcYo1OI1i2Nra/8Uzua4Ps3+RVKqPqc+4dH6P2hNuY3FstQmH2W39cN4w5gWqaTbLw==
+X-Received: by 2002:a05:6a00:148d:b0:771:bfed:bd61 with SMTP id d2e1a72fcca58-7742dde5047mr19743321b3a.17.1757469480435;
+        Tue, 09 Sep 2025 18:58:00 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-774660e545bsm3452584b3a.19.2025.09.09.18.57.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 18:57:59 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 1E31841FA3A1; Wed, 10 Sep 2025 08:57:57 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux EFI <linux-efi@vger.kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Subject: [PATCH] x86/Documentation: explain LINUX_EFI_INITRD_MEDIA_GUID
+Date: Wed, 10 Sep 2025 08:57:39 +0700
+Message-ID: <20250910015738.14848-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4037; i=bagasdotme@gmail.com; h=from:subject; bh=EBUSWss9E9WENovDBzaOhhA52uBfbXMQiYxAZXQrvQc=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkHbk1Svfbda0dru3/3Tf2iM9+j57vPehbc4mobe+phq NyTyr1zO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCR/g+MDO1JPBPe/Luy9+pq DY7/k6Ve7X9/nOmZo/i+yX+3zZkUu+4Qw//4oivrYgSuKK/VCvRom+P47Onsj9UhgT9exueFVOu Zt3IBAA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net 0/3] mptcp: misc fixes for v6.17-rc6
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175746901031.871782.6846414902696606931.git-patchwork-notify@kernel.org>
-Date: Wed, 10 Sep 2025 01:50:10 +0000
-References: 
- <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
-In-Reply-To: 
- <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
-To: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-Cc: martineau@kernel.org, geliang@kernel.org, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- donald.hunter@gmail.com, dcaratti@redhat.com, corbet@lwn.net,
- shuah@kernel.org, netdev@vger.kernel.org, mptcp@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, stable@vger.kernel.org
 
-Hello:
+From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
 
-This series was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Since the Handover Protocol was deprecated, the recommended approach is
+to provide an initrd using a UEFI boot service with the
+LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+approach has been no more than an admonition with a link to an existing
+implementation.
 
-On Mon, 08 Sep 2025 23:27:26 +0200 you wrote:
-> Here are various unrelated fixes:
-> 
-> - Patch 1: Fix a wrong attribute type in the MPTCP Netlink specs. A fix
->   for v6.7.
-> 
-> - Patch 2: Avoid mentioning a deprecated MPTCP sysctl knob in the doc. A
->   fix for v6.15.
-> 
-> [...]
+Provide a short explanation of this functionality, to ease future
+implementations without having to reverse engineer existing ones.
 
-Here is the summary with links:
-  - [net,1/3] netlink: specs: mptcp: fix if-idx attribute type
-    https://git.kernel.org/netdev/net/c/7094b84863e5
-  - [net,2/3] doc: mptcp: net.mptcp.pm_type is deprecated
-    https://git.kernel.org/netdev/net/c/6f021e95d082
-  - [net,3/3] selftests: mptcp: shellcheck: support v0.11.0
-    https://git.kernel.org/netdev/net/c/ef1bd93b3b92
+Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+[Bagas: Don't use :ref: link to EFI stub documentation]
+Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/admin-guide/efi-stub.rst |  3 +++
+ Documentation/arch/x86/boot.rst        | 35 ++++++++++++++++++++------
+ 2 files changed, 30 insertions(+), 8 deletions(-)
 
-You are awesome, thank you!
+diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+index 090f3a185e1897..2f0f040f6913a4 100644
+--- a/Documentation/admin-guide/efi-stub.rst
++++ b/Documentation/admin-guide/efi-stub.rst
+@@ -79,6 +79,9 @@ because the image we're executing is interpreted by the EFI shell,
+ which understands relative paths, whereas the rest of the command line
+ is passed to bzImage.efi.
+ 
++.. hint::
++   It is also possible to provide an initrd using UEFI boot services. See
++   :ref:`pe-coff-entry-point` for details.
+ 
+ The "dtb=" option
+ -----------------
+diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+index 77e6163288db08..fadbe66517bdf2 100644
+--- a/Documentation/arch/x86/boot.rst
++++ b/Documentation/arch/x86/boot.rst
+@@ -1431,12 +1431,31 @@ The boot loader *must* fill out the following fields in bp::
+ All other fields should be zero.
+ 
+ .. note::
+-     The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+-     entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+-     loading protocol (refer to [0] for an example of the bootloader side of
+-     this), which removes the need for any knowledge on the part of the EFI
+-     bootloader regarding the internal representation of boot_params or any
+-     requirements/limitations regarding the placement of the command line
+-     and ramdisk in memory, or the placement of the kernel image itself.
++   The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
++   entry point described below.
+ 
+-[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _pe-coff-entry-point:
++
++PE/COFF entry point
++===================
++
++When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
++regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
++implementation details.
++
++The stub loader can request the initrd via a UEFI protocol. For this to work,
++the firmware or bootloader needs to register a handle which implements the
++``EFI_LOAD_FILE2`` protocol with the ``LINUX_EFI_INITRD_MEDIA_GUID`` device
++path. In this case, a kernel booting via the EFI stub will use the ``LoadFile``
++function on the registered handle to obtain a reference to the initrd.
++
++This approach removes the need for any knowledge on the part of the EFI
++bootloader regarding the internal representation of boot_params or any
++requirements/limitations regarding the placement of the command line and
++ramdisk in memory, or the placement of the kernel image itself.
++
++For sample implementations, refer to `the original u-boot implementation`_ or
++`the implementation in candyboot`_.
++
++.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _the implementation in candyboot: https://git.sr.ht/~whynothugo/candyboot/tree/4097b2538d7f1cf85f03922bf42409490b666202/item/src/main.rs#L225
+
+base-commit: f44a29784f685804d9970cfb0d3439c9e30981d7
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+An old man doll... just what I always wanted! - Clara
 
