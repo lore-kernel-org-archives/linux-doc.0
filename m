@@ -1,154 +1,127 @@
-Received: from s1.jo-so.de (s1.jo-so.de [37.221.195.157])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371C1311952;
-	Wed, 10 Sep 2025 08:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.221.195.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327B91C700C
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 08:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757494649; cv=none; b=i8r8Fh8G8EjGgINfte6THCrMQM8JM12nB5OZI0wAfFXivfJVoQ0thxgLxLrcQDWoKnn8SF/Y9Bh61XG6EQh1QP+AgydPU8AQum0woeynEio1cXx/0eX/90p2sDUXAk5nTbsh7X9ED5NP5N44IOWRhYMhVpoRJsqCGFqs18JC3eo=
+	t=1757494747; cv=none; b=OG/dDW6WlkrCNs1f8k5liU8Rnl+aweE6QmXlC1hlyecwYYVni+KE2gn6P2Mn0Wq7r1WeU4EPUmnI1pvEDOSJDkk+GpygFrZGUbnBNan//oYj3viLdp/PRGRqOGgM831solj5O3ZH4OAUJ+kq7gN4dshVCTSE+Xzf/guZXpuVU/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757494649; c=relaxed/simple;
-	bh=UyTKr/gRlDYEGxckMgklqxwcPAl9u7MPrPxBjUXQOW4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cn0AOIEwZb4xvhsHu/BeNy5zLh4ne8/LO2mAwn2gbcuAWad5kIJGdBnw5nA0G6OOJRGNPMoK9qOe8JjDP8HCFal+76/bp4tSHxxFhxFKObzVoBW7R0x2P4lYJPjgceIba/MAEPgbQMVrUDKLTtWsnZkyo28KDAmEiCJ53fA2/Yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jo-so.de; spf=pass smtp.mailfrom=jo-so.de; arc=none smtp.client-ip=37.221.195.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jo-so.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jo-so.de
-Received: from mail-relay (helo=jo-so.de)
-	by s1.jo-so.de with local-bsmtp (Exim 4.98.2)
-	(envelope-from <joerg@jo-so.de>)
-	id 1uwG5X-00000006hFm-0ZHo;
-	Wed, 10 Sep 2025 10:21:59 +0200
-Received: from joerg by zenbook.jo-so.de with local (Exim 4.98.2)
-	(envelope-from <joerg@jo-so.de>)
-	id 1uwG5W-00000000Okw-2Jme;
-	Wed, 10 Sep 2025 10:21:58 +0200
-Date: Wed, 10 Sep 2025 10:21:58 +0200
-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg@jo-so.de>
-To: Yibo Dong <dong100@mucse.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, "Anwar, Md Danish" <a0501179@ti.com>, 
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, 
-	horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com, 
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us, gongfan1@huawei.com, 
-	lorenzo@kernel.org, geert+renesas@glider.be, Parthiban.Veerasooran@microchip.com, 
-	lukas.bulwahn@redhat.com, alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org, 
-	gustavoars@kernel.org, rdunlap@infradead.org, vadim.fedorenko@linux.dev, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v11 4/5] net: rnpgbe: Add basic mbx_fw support
-Message-ID: <vfarjsi3uf55kb5uj25stnjriemyvra7gomxmtik3jowsp24n5@k44vc2gdmyaf>
-References: <20250909120906.1781444-1-dong100@mucse.com>
- <20250909120906.1781444-5-dong100@mucse.com>
- <68fc2f5c-2cbd-41f6-a814-5134ba06b4b5@ti.com>
- <20250909135822.2ac833fc@kernel.org>
- <00A30C785FE598BA+20250910060821.GB1832711@nic-Precision-5820-Tower>
+	s=arc-20240116; t=1757494747; c=relaxed/simple;
+	bh=qVUqCiNWKhbm4OJQ/h1GXQ4Ue76QXxYJE1ZLypTGFuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JUPBqdZVrDX0JqAnFuFKPh8sjZbnlO54EVFpGkeLCp2GYFF5zPG4b5FGj/UDXD8X+G2sD29YSHIXPRkR/IfhyvEqckdRZcuNiufMjn/NFlapk/WETkI/bkoLdPobDrAOZfW2OesSrVbw3jIqHiL9jjKWitWpYQ0G5h2jqx2SL+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HeqqGFvx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HeqqGFvx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757494745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=YbNpi+kDNBgUr3iCBEGx1sOECaER/m1rAGG176HSF7M=;
+	b=HeqqGFvxb84KgnFV5/+PBjLBGDuHkIKMBWGuRiR3yl2dm7ht3qjHY7n5D3u3dqq3L235yT
+	7FWjL2zXnF4ONFgDajA0lXAYaNN+lgyV9GN8YI8l6jOKUXR4vNWMWgwZXTkVLD5tfAsMMx
+	pCnD1YwetWeQ3Hl2bo++EwuZ8dJu0wE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-252-pjvEexObMpOXY0pMDFoyDQ-1; Wed, 10 Sep 2025 04:59:03 -0400
+X-MC-Unique: pjvEexObMpOXY0pMDFoyDQ-1
+X-Mimecast-MFC-AGG-ID: pjvEexObMpOXY0pMDFoyDQ_1757494742
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-628f17953c7so4097321a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 01:59:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757494742; x=1758099542;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YbNpi+kDNBgUr3iCBEGx1sOECaER/m1rAGG176HSF7M=;
+        b=D/kIRF9eib8CmrHBCBDnNofYZGN4gsEfwNpe3tH/sK4nA4DnVa3fmNx7KxCWtXmDSk
+         Yzyrh0J0r2h5CgrdWPcUQHaGw9mKd2mfllTePebpXZXRqPk57yjWdzE+j22Ct+30d8NY
+         lqaDjnnQi1hLf/pE0k8j0QHItmu+dWKWBr2cRTgZKTJ8NmkKYIjERF/H5ZWrTNMoefLE
+         0rdxiCAcHl+NXx9/hlpsJt1AvL4zCnQHydG2rxU/OlmxUhKzzGAI1FlLJdxumI9+LOU8
+         wpH+bJ8fjYzrs4vmJW7G6aHOzSND5yDyROwDJNx9n8vaOk7MP7VL3N37y6f+jIakkLpY
+         Fg0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUcfNTorLiZLzMYsk2MY7f0ky8e515+Ua9AdFXGS6/IG7TCScstFiWAjNuJHb843luEPlY6WawqojY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBG0sZzmXJG0M1naWAQeewlCVpF3xQuVE1GkXUwSUOzScTXPqV
+	e26QLMU/wjNyn6pIU4orLYCUdb5Ijnz2oCxzc2uSrBqYfpN4XHcF5xPqZeIHCAo+bLN77fds/vb
+	o4Nj4IRlaFltGQb5KQh57qhacS2xZxYqmjzyqzdK974iL06hHfV8xBKbarZnOlg==
+X-Gm-Gg: ASbGncuRtiBzY9ZHOmlPFd70Qct66Qp23lg5ieiWXeBQGMpdknxnQOYoQHQD4CQQzqQ
+	acR0/eDiUuWUXlGX6JEi4ZLs/wpqcH0kMoxDo1UETufpaNCjY7ein3udc6/D+4vUptV6yswLll4
+	PeuN3/Wi11QVgkZE4XIEnL6IpQYsA7OGMbbKvgd9lcP5KFAHTA5MQLe7Wg4ipsmUXUq+gPqpzHj
+	3m79kbtS2bRFC5ptWbCi3Jlz++S3g/5mHw3kRNYPzAlh0YA8obAgmhBHO0uFtDD5CiJ29VLwVp7
+	+cnINc3DkaxiemWsm38LdBKHa1fLA8Hoi+S/7Fcg1H2wZt5Y8cdY6/y6dtdyTGMEn/dV+LEC2vp
+	CtvnfZWopHxEAVw==
+X-Received: by 2002:a05:6402:1d4c:b0:62c:710d:5600 with SMTP id 4fb4d7f45d1cf-62c710d58b3mr3918123a12.5.1757494742444;
+        Wed, 10 Sep 2025 01:59:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIhjF/hQzrKDBiBG++LNsoFWIGNfnxMPAxlcabo5++O/vC/iz8XosvW+jycdz3EyQro8e4TQ==
+X-Received: by 2002:a05:6402:1d4c:b0:62c:710d:5600 with SMTP id 4fb4d7f45d1cf-62c710d58b3mr3918105a12.5.1757494741975;
+        Wed, 10 Sep 2025 01:59:01 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-62c0123f35esm2792862a12.32.2025.09.10.01.59.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 01:59:01 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] Documentation: update config name in real-time architecture support
+Date: Wed, 10 Sep 2025 10:58:59 +0200
+Message-ID: <20250910085859.47818-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ave2a22qe2b7h3wz"
-Content-Disposition: inline
-In-Reply-To: <00A30C785FE598BA+20250910060821.GB1832711@nic-Precision-5820-Tower>
+Content-Transfer-Encoding: 8bit
 
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
---ave2a22qe2b7h3wz
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH net-next v11 4/5] net: rnpgbe: Add basic mbx_fw support
-MIME-Version: 1.0
+Commit 14ec35ff5786 ("entry: Rename "kvm" entry code assets to "virt" to
+genericize APIs") renames the config KVM_XFER_TO_GUEST_WORK to
+VIRT_XFER_TO_GUEST_WORK. In a concurrent development work with commit
+f51fe3b7e48c ("Documentation: Add real-time to core-api"), the
+documentation on making an architecture support PREEMPT_RT has been
+included referring to this config with its previous name.
 
-Yibo Dong schrieb am Mi 10. Sep, 14:08 (+0800):
-> On Tue, Sep 09, 2025 at 01:58:22PM -0700, Jakub Kicinski wrote:
-> > On Tue, 9 Sep 2025 19:59:11 +0530 Anwar, Md Danish wrote:
-> > > > +int mucse_mbx_sync_fw(struct mucse_hw *hw)
-> > > > +{
-> > > > +	int try_cnt =3D 3;
-> > > > +	int err;
-> > > > +
-> > > > +	do {
-> > > > +		err =3D mucse_mbx_get_info(hw);
-> > > > +		if (err =3D=3D -ETIMEDOUT)
-> > > > +			continue;
-> > > > +		break;
-> > > > +	} while (try_cnt--);
-> > > > +
-> > > > +	return err;
-> > > > +} =20
-> > >=20
-> > > There's a logical issue in the code. The loop structure attempts to
-> > > retry on ETIMEDOUT errors, but the unconditional break statement after
-> > > the if-check will always exit the loop after the first attempt,
-> > > regardless of the error. The do-while loop will never actually retry
-> > > because the break statement is placed outside of the if condition that
-> > > checks for timeout errors.
-> >=20
->=20
-> What is expected is 'retry on ETIMEDOUT' and 'no retry others'.=20
-> https://lore.kernel.org/netdev/a066746c-2f12-4e70-b63a-7996392a9132@lunn.=
-ch/
->=20
-> > The other way around. continue; in a do {} while () look does *not*
-> > evaluate the condition. So this can loop forever.
-> >=20
->=20
-> Maybe I can update like this ?
->=20
-> int mucse_mbx_sync_fw(struct mucse_hw *hw)
-> {
-> 	int try_cnt =3D 3;
-> 	int err;
->=20
-> 	do {
-> 		err =3D mucse_mbx_get_info(hw);
-> 		if (err !=3D -ETIMEDOUT)
-> 			break;
-> 		/* only retry with ETIMEDOUT, others just return */
-> 	} while (try_cnt--);
->=20
-> 	return err;
-> } =20
+Adjust the documentation to the current situation, and specifically
+refer to the new name of the config.
 
-How about something like this?
+Fixes: f51fe3b7e48c ("Documentation: Add real-time to core-api")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ Documentation/core-api/real-time/architecture-porting.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-int mucse_mbx_sync_fw(struct mucse_hw *hw)
-{
-	for (int try =3D 3; try; --try) {
-		int err =3D mucse_mbx_get_info(hw);
-		if (err !=3D -ETIMEDOUT)
-			return err;
-	}
+diff --git a/Documentation/core-api/real-time/architecture-porting.rst b/Documentation/core-api/real-time/architecture-porting.rst
+index d822fac29922..3062cff0e5a3 100644
+--- a/Documentation/core-api/real-time/architecture-porting.rst
++++ b/Documentation/core-api/real-time/architecture-porting.rst
+@@ -35,9 +35,10 @@ POSIX CPU timers and KVM
+   POSIX CPU timers must expire from thread context rather than directly within
+   the timer interrupt. This behavior is enabled by setting the configuration
+   option CONFIG_HAVE_POSIX_CPU_TIMERS_TASK_WORK.
+-  When KVM is enabled, CONFIG_KVM_XFER_TO_GUEST_WORK must also be set to ensure
+-  that any pending work, such as POSIX timer expiration, is handled before
+-  transitioning into guest mode.
++  When virtualization support, such as KVM, is enabled,
++  CONFIG_VIRT_XFER_TO_GUEST_WORK must also be set to ensure that any pending
++  work, such as POSIX timer expiration, is handled before transitioning into
++  guest mode.
+ 
+ Hard-IRQ and Soft-IRQ stacks
+   Soft interrupts are handled in the thread context in which they are raised. If
+-- 
+2.51.0
 
-	return ETIMEDOUT;
-}
-
-
-My 2cent.
-
-Regards J=C3=B6rg
-
---=20
-=E2=80=9EEs wurden und werden zu viele sprachlose B=C3=BCcher gedruckt, nac=
-h deren
-schon fl=C3=BCchtiger Lekt=C3=BCre man all die B=C3=A4ume um Vergebung bitt=
-en m=C3=B6chte,
-die f=C3=BCr den Schund ihr Leben lassen mussten.=E2=80=9C (Michael J=C3=BC=
-rgs,
-                      Seichtgebiete =E2=80=93 Warum wir hemmungslos verbl=
-=C3=B6den)
-
---ave2a22qe2b7h3wz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABEIAB0WIQS1pYxd0T/67YejVyF9LJoj0a6jdQUCaME1JAAKCRB9LJoj0a6j
-dWHfAP9MpwXSbDkmn0L3EBxXklRTyGo9dD4BVrhkdXrXtYNrXgD/f0quVJJNn+Zo
-2d4EZ+ulmakNhpMKJUdjDi8P1IHNG6c=
-=3Gfd
------END PGP SIGNATURE-----
-
---ave2a22qe2b7h3wz--
