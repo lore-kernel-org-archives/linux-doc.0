@@ -1,133 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34001E5219;
-	Wed, 10 Sep 2025 07:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0A230C373
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 07:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757489629; cv=none; b=FABDb6HuMJeDZvBOvhzjWHoIBvNmRdJBaRlu7qBSIKYTxtTVtNgO8qfYmBFWEp5AzheyGFtCzOwfnIdu0h8mFEAUjSh2XOKGlTO1tls7SVvmQq7t9cVTH6nf9TeoDhvPOv0eVOCtf4t+FipGuE5opkgmkKXDm6CN6TRhvwVqxlI=
+	t=1757490187; cv=none; b=lMrYcXHbQIfKwkHGEipEITWxwL7nHVFOc39V2yQ/H84SYx7ZibAzw1Zgf1W/tXRukoWO7XPeikLHTYwJf0o9mkAWEoU6UUmj0qlCiUG/eDD5avFfo/CEvvKX7XggXk5HGPTxwneOw5G7v7Zt9ExpPmjCyTE2/sXIJrY82CH4cQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757489629; c=relaxed/simple;
-	bh=/XnpTWNk/kv+NQgAdTS1A1Ab76RuactuTcyAflw/L7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ao2FaGswLqsDr1A8ZnOZlTQxQtMQgde0Ba+gkapSTeEksQHoxHvAVG0GwRCb8bZJxBg5NzqwtyXHeCbu3UMG/5ET60hqQFdI8/67i/UQ5VZyNmFaeCUTT2+gDu2nTlW+jh8OhKJkIPR9jiUdaPIg/QVyod+3Pgr48zSMTWo/Akg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qaweH+z8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757490187; c=relaxed/simple;
+	bh=oYh90tcsDpw7CrDcG/7P8GueqMyroIAKQgKmfVUY8Ds=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:MIME-Version:
+	 Content-Type:References; b=mu5YKNpl3LZqYDIUvFVfzjp2jly8xNGyx5IRHJ+ozJisM3cJyLv5omzM2lJHaqWFut3unIctHBk9tllwBB/luqGCTGhWpUAi2jBxJuBx9vKRcAc4antLOfX4sfI9ocgtXh9yrGRkG4O333qdDEHZlhpC1062v6IvbqxonOdtrCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=g1K7H1SU; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qaweH+z8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB517C4CEF0;
-	Wed, 10 Sep 2025 07:33:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757489628;
-	bh=/XnpTWNk/kv+NQgAdTS1A1Ab76RuactuTcyAflw/L7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qaweH+z8BxmkKE1ouYJdFNhlYQj7OSwPR6vei84660qDGY3b2ayba8Xa4NjRhRKqQ
-	 epTHEwqDw7OOhz42xo6a3A9e4uehd2Gr9neNldgZ9djYFdeMgDg6V+foFy5QOBv1Uz
-	 i5lSzewoRPlG06mEm7cYk9DdBcniCZXb3KefyLLOO0rU0dNm8ZAzQghWHi8bEbRCZZ
-	 itXMl6OPuDhFdNfzXYphQv+ZxGx9804vA4czk6CZ+ZJKTCTXrw2LrYXR+A50evfJXv
-	 0Dz0F9RPM0QrdZrLUO7hYRN5OtTtEbg/6vJXWYoBn7vmo0i1GvF7n0DyV82UuAVK0n
-	 lJ87BRzJ4JaEg==
-Date: Wed, 10 Sep 2025 09:33:45 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
-	Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-Message-ID: <20250910-vigorous-attractive-gorilla-af6fec@houat>
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
- <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="g1K7H1SU"
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250910074302epoutp039c72359fdd05bde9ed58d761cb273efa~j3AJW4RfK2083920839epoutp03b
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 07:43:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250910074302epoutp039c72359fdd05bde9ed58d761cb273efa~j3AJW4RfK2083920839epoutp03b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1757490182;
+	bh=9expbpYhVgObgPfAlnk7ZtalLHtzPTqZxjjfHnnvWUM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=g1K7H1SU6dBatpr+nVZDuSvnVweadziYubv6VvWrbYUdErO4isxWKjE+t0m0F2S7x
+	 xRokdIcLB6iGJH15yqGdvwYcQbZPDH81bkB30udnnuLew5+5vIYbwn93CXEq/CTb8o
+	 3dHLk7pm9lzCCOM94o2JASGFp75N07/5luOOzJKg=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTPS id
+	20250910074301epcas2p4adda38d3e6226f46dd5097b221807b46~j3AIfxcA_0054800548epcas2p4W;
+	Wed, 10 Sep 2025 07:43:01 +0000 (GMT)
+Received: from epcas2p4.samsung.com (unknown [182.195.36.101]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4cMCN44DMnz6B9mS; Wed, 10 Sep
+	2025 07:43:00 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250910074259epcas2p294790d53f9e2c7a7b9ecea003ad66092~j3AHRKlPC2105321053epcas2p2P;
+	Wed, 10 Sep 2025 07:42:59 +0000 (GMT)
+Received: from KORCO190374.samsungds.net (unknown [12.36.160.50]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250910074259epsmtip14649612a61786e5a6a1da6aee4d8f6af~j3AHOfeQs2861828618epsmtip1O;
+	Wed, 10 Sep 2025 07:42:59 +0000 (GMT)
+From: Sehee Jeong <sehee1.jeong@samsung.com>
+To: anna-maria@linutronix.de, frederic@kernel.org, tglx@linutronix.de,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	sehee1.jeong@samsung.com
+Subject: [PATCH v2 1/1] timers/migration: add 'tmigr' kernel parameter to
+ optionally disable timer migration
+Date: Wed, 10 Sep 2025 16:42:51 +0900
+Message-Id: <20250910074251.8148-2-sehee1.jeong@samsung.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250910074251.8148-1-sehee1.jeong@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="nkmy2zjqcls5g6m2"
-Content-Disposition: inline
-In-Reply-To: <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250910074259epcas2p294790d53f9e2c7a7b9ecea003ad66092
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+cpgsPolicy: CPGSC10-234,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250910074259epcas2p294790d53f9e2c7a7b9ecea003ad66092
+References: <20250910074251.8148-1-sehee1.jeong@samsung.com>
+	<CGME20250910074259epcas2p294790d53f9e2c7a7b9ecea003ad66092@epcas2p2.samsung.com>
 
+On heterogeneous systems with big.LITTLE architectures, timer migration
+may cause timers from little cores to run on big cores, or vice versa,
+because core type differences are not considered in the current timer
+migration logic. This can be undesirable in systems that require
+strict power management.
 
---nkmy2zjqcls5g6m2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-MIME-Version: 1.0
+For example, if timers are frequently migrated to a big CPU, it must
+handle callbacks that could have run on a little CPU. This reduces the
+big CPU's idle residency and increases overall energy consumption due to
+higher power draw on the big CPU.
 
-On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
-> Hi,
->=20
-> On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> > Here's another attempt at supporting user-space allocations from a
-> > specific carved-out reserved memory region.
-> >=20
-> > The initial problem we were discussing was that I'm currently working on
-> > a platform which has a memory layout with ECC enabled. However, enabling
-> > the ECC has a number of drawbacks on that platform: lower performance,
-> > increased memory usage, etc. So for things like framebuffers, the
-> > trade-off isn't great and thus there's a memory region with ECC disabled
-> > to allocate from for such use cases.
-> >=20
-> > After a suggestion from John, I chose to first start using heap
-> > allocations flags to allow for userspace to ask for a particular ECC
-> > setup. This is then backed by a new heap type that runs from reserved
-> > memory chunks flagged as such, and the existing DT properties to specify
-> > the ECC properties.
-> >=20
-> > After further discussion, it was considered that flags were not the
-> > right solution, and relying on the names of the heaps would be enough to
-> > let userspace know the kind of buffer it deals with.
-> >=20
-> > Thus, even though the uAPI part of it had been dropped in this second
-> > version, we still needed a driver to create heaps out of carved-out mem=
-ory
-> > regions. In addition to the original usecase, a similar driver can be
-> > found in BSPs from most vendors, so I believe it would be a useful
-> > addition to the kernel.
-> >=20
-> > Some extra discussion with Rob Herring [1] came to the conclusion that
-> > some specific compatible for this is not great either, and as such an
-> > new driver probably isn't called for either.
-> >=20
-> > Some other discussions we had with John [2] also dropped some hints that
-> > multiple CMA heaps might be a good idea, and some vendors seem to do
-> > that too.
-> >=20
-> > So here's another attempt that doesn't affect the device tree at all and
-> > will just create a heap for every CMA reserved memory region.
-> >=20
-> > It also falls nicely into the current plan we have to support cgroups in
-> > DRM/KMS and v4l2, which is an additional benefit.
-> >=20
-> > Let me know what you think,
-> > Maxime
->=20
-> Any chance we can get this merged?
+To avoid this issue, introduce an early boot parameter to optionally
+disable timer migration:
 
-Guys, can we move forward on this?
+    tmigr=on|off	(default: on)
 
-Maxime
+When set to "off", timer migration initialization is skipped entirely.
 
---nkmy2zjqcls5g6m2
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Sehee Jeong <sehee1.jeong@samsung.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  4 ++++
+ kernel/time/timer_migration.c                 | 19 +++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ab4c049faba9..0f5d42c046bb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6783,6 +6783,10 @@
+ 			Force threading of all interrupt handlers except those
+ 			marked explicitly IRQF_NO_THREAD.
+ 
++	tmigr		[KNL,EARLY] Enable/disable timer migration
++			Valid parameters: on, off
++			Default: on
++
+ 	topology=	[S390,EARLY]
+ 			Format: {off | on}
+ 			Specify if the kernel should make use of the cpu
+diff --git a/kernel/time/timer_migration.c b/kernel/time/timer_migration.c
+index 72538baa7a1f..00e3740aec98 100644
+--- a/kernel/time/timer_migration.c
++++ b/kernel/time/timer_migration.c
+@@ -422,6 +422,8 @@ static unsigned int tmigr_crossnode_level __read_mostly;
+ 
+ static DEFINE_PER_CPU(struct tmigr_cpu, tmigr_cpu);
+ 
++static bool tmigr_enabled = true;
++
+ #define TMIGR_NONE	0xFF
+ #define BIT_CNT		8
+ 
+@@ -1790,6 +1792,9 @@ static int __init tmigr_init(void)
+ 
+ 	BUILD_BUG_ON_NOT_POWER_OF_2(TMIGR_CHILDREN_PER_GROUP);
+ 
++	if (!tmigr_enabled)
++		return 0;
++
+ 	/* Nothing to do if running on UP */
+ 	if (ncpus == 1)
+ 		return 0;
+@@ -1854,3 +1859,17 @@ static int __init tmigr_init(void)
+ 	return ret;
+ }
+ early_initcall(tmigr_init);
++
++static int __init tmigr_setup(char *str)
++{
++	if (!str)
++		return 0;
++
++	if (!strcmp(str, "off"))
++		tmigr_enabled = false;
++	else if (!strcmp(str, "on"))
++		tmigr_enabled = true;
++
++	return 0;
++}
++early_param("tmigr", tmigr_setup);
+-- 
+2.49.0
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMEp2QAKCRAnX84Zoj2+
-dsg7AXsGZJPtUsHUnHvNADap4iyMsh/caF3U64tQkHWWAcnVwP1ptV6A6FmBCXx9
-Lw0xiv8BgKYytEtc6THWvRv6a29zx8LVSv9EuNTYDZshPTgSqETUzAx4CVEAAA/O
-//tQ1dcNeA==
-=tTl0
------END PGP SIGNATURE-----
-
---nkmy2zjqcls5g6m2--
