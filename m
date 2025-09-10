@@ -1,182 +1,237 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06EA316900;
-	Wed, 10 Sep 2025 11:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757505525; cv=fail; b=Ag5mG3hWo5IuXknetv8IhE9SbBxnLUI10gy1ne1jOZ6ejNo1iIRjE5CA2z8OUR1WNmQno6CGpYTn2093+HNp3r9W6WamyzIoOKeVFmlIxlQwdcqmxuQThnJKvEjFdSHNwZfTORLxUgOefxym042Mkm43tag5uSbJvTU6MbwlUVk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757505525; c=relaxed/simple;
-	bh=D0diukIneuBxxsZ+gaEgXn6zfxuX17JD8EjqTvzBrTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YRD7aRkjnkjq+Ut/heqyjdsAAHO+DeeaI6HSNOJGYxe0kf7PRcxYXhbYATG0FBvoPti1H/+YSBUMeTJztmbUGsw1qGfHNPoJ4dDCPvVtLNRofYt+GYzeUIG5b9p71YUshDULwBL0wEpG+MlGOkYM4QjwvFATkvT2yilPyRSvbDM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DCGX5i1w; arc=fail smtp.client-ip=40.107.94.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371EB30EF72;
+	Wed, 10 Sep 2025 12:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757506434; cv=none; b=JJbggoRdmB9IYURZM+opkj+kjVWqRfHeJWhtSVyQHWWZldN87hznimsgKRrEYuBLNJdxP3XclPs2q9VpgNf90O8vjSKvsDHvdXjBsAsMArr3HX8joaAaK6mLhLxjz6i/kEjubdUX85YID6Wyl+dPqSZeQ/npofEU8cQGq0fpZP4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757506434; c=relaxed/simple;
+	bh=tL2FAdyt0zFqi+FSeV2e67Ti/XzJaCUPI8eZb2eioWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jF46rVpS3Sj1Y+s/73Aps8pvZzcVJFBVxMN3jszXbh3gM8XJslecNDes578g7rgfwc3LmUgB01WnCHaOa7r4lcXSYmYMWIQIhDykbR+TE3L+PwfiHodO5k0rOpjvy10jajGFGOgP+8ZKUTd6odO4KVNG/ximHoeLLw6/sO3O/cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IvEAkL7C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DCGX5i1w"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Sn3V7oELjkrT+Ex+wYuTTfJd3WsUwYgnJmnkM+tItOpmbM+J8qovkAPHYt/A7PKdAxoWGlisZ5TesXjmIXvOHKWcNXtA1O3Hg9SA6mAhfrHEezRPKmMCSHIRBmSiBgsvZgxaw6V0hH4pbdO54/Yd5q5EIYBFKZuN7d/8WIw+zLxloBetM/UCcYtcIc6GW5rH0jBKwge7a0m4jPykaBH8Y8sKHehJQWlDdKdUNpkCp2evYTZ7lvgs+TsiTWScPuI24eLlp6TrdOL+hleedbJyK+OJ4SytpZZpW4FYO/j3zVP4FD60hiKyFc9ZB4/0Ery3tfckBgfq1QXuqElNvsjftw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M2CRGJWbvgTRAKQCpQVq3CvW0DQ/ZyYML+xgjXHDleo=;
- b=tB2vXc4aLG7Xvj/iBdZSvwn5l5BDP6C+4bz1pIRIWCRgMWFDDbhmT5qJwttomGtb8BHCznSs1U/3u4v6DHTHmWC/I6z+Xr6vluxXtIpc3nRzQiDjGvtecnGkPUr8uW7zs/hJWBGP80S7Nc1dUlCLFh9qUOu5jO987pSlHgXoT/P1w6NsT3FQBwOILLwl3So1eAjWPEjg3x9jiy8sN7xCZqAPkDZVJitbvd8ChCDhycviaJq9+sQzjix1CUYwDf9us224wMfxwnVp/LXMt9t30uAoOeFS7X2kQZFGh8Eg3ciqLaMSqi0Ur/Kgqry1mm4HqC3j/XfupYGVGiT8b2TLaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M2CRGJWbvgTRAKQCpQVq3CvW0DQ/ZyYML+xgjXHDleo=;
- b=DCGX5i1wV1JzbNNAuAK46B1FTzUqbIWJJr1k/xRxSeDUhzU9om62gERPuNF9zaGeSw3Z47iVGhqjLYvnnpANarQksVzq5onyjKQEa/uqx4+QH9ptjWiYcpUBJuCKrMO21J8C5gZEzPW3uZshpwp8TsczXFauxzksXuc9pJwioRUTXudhdy6L2hUGfrzW6zFhm7ermfbnA+frN//qvdI/SL4Ye+KQ/MfEcYEEtrj13319OvercvtIa+jAK7pRYfUZPJwYgn+rUmDsHPM/wcOgja0mFu5Tjb6neURlaC8VFX+tVNuwHJvJyj+If2Ypv4p2rx/AJA7xTfLlNTPx9BllEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
- by CH3PR12MB8709.namprd12.prod.outlook.com (2603:10b6:610:17c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 11:58:41 +0000
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 11:58:40 +0000
-Date: Wed, 10 Sep 2025 08:58:39 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
-	Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v6 03/16] dma-debug: refactor to use physical addresses
- for page mapping
-Message-ID: <20250910115839.GT789684@nvidia.com>
-References: <cover.1757423202.git.leonro@nvidia.com>
- <56d1a6769b68dfcbf8b26a75a7329aeb8e3c3b6a.1757423202.git.leonro@nvidia.com>
- <20250909193748.GG341237@unreal>
- <20250910052618.GH341237@unreal>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910052618.GH341237@unreal>
-X-ClientProxiedBy: YT4PR01CA0498.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10c::6) To PH7PR12MB5757.namprd12.prod.outlook.com
- (2603:10b6:510:1d0::13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IvEAkL7C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 892F6C4CEF5;
+	Wed, 10 Sep 2025 12:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757506432;
+	bh=tL2FAdyt0zFqi+FSeV2e67Ti/XzJaCUPI8eZb2eioWg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IvEAkL7CpiOH4XoOuK4X57fnSBjEpGvEuvqq77/aje0fRseYep7L98lrBnr0B+7B5
+	 xvdt6v1OYrvgVbWp/cj3fBMnmXX1rfZhrvkxsKjXpz0Lo/koWst52Iez+Q/pM/Ld/o
+	 LXZZt9jNyCTqJEN2Mhz3a6UaFI4wrt9Am6oi2K5nd+xXva7UJRte/MbB/K8KvVETcP
+	 iUrjwHn56emRu9qri4erM5j2kwEBEi9xDrzCnLXID2Rbg/v7SjcJi1M7rXiZuadw8c
+	 QydDrLRqzciwMzwg3oR9HPeoHfoE6vap1l4iBiMitiDYqx0V5YSCrZ7aq7Jd01kFTD
+	 WPUtFyYRn9+uA==
+Date: Wed, 10 Sep 2025 14:13:48 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: add support for handling global variables
+Message-ID: <20250910141348.5499bb3d@foz.lan>
+In-Reply-To: <b9f8831490b9e8e3e4f6d90d6092b0b78c79137f@intel.com>
+References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+	<b9f8831490b9e8e3e4f6d90d6092b0b78c79137f@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|CH3PR12MB8709:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3d1beeb-870b-4064-522c-08ddf0616235
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FzIxhCTl/DFGFmaXIkSJW43QRlHeUwrObkzUBGOXZlpW5TknvixiA4gDQdO0?=
- =?us-ascii?Q?Y/Q2AqArhV3Ean+ESTnkZr/fvpBX2nkWxFKLLH4g5CA9C8G475Hr3gb3OOjv?=
- =?us-ascii?Q?6uJVbcwr9hyVssPYNNIHf4cHbHNfa1FcsJ0EkEfNXG98vrQPHF/sWCvG8QI/?=
- =?us-ascii?Q?COGsWCNfWUGpIWeBBcktY7eFttSjXnJa/fCDlR5M7SnWvVHjP09ct5kmeZoH?=
- =?us-ascii?Q?SAYNOPDNskcy46Em8ly9RRUNfqYG4XoPucVxFGwyPQt0cGYV/RAX2nuBRLnY?=
- =?us-ascii?Q?oDenFOddnolaVnUlfh0CImgVZFr/tUkfCle8aamRAftKGcs67gzyutBwvoDi?=
- =?us-ascii?Q?dNUaAWRksh0OpZeDtOzS+yUixVU6iF6zuAgdtdJ+/SJw1dzFDkGfm80wGCoH?=
- =?us-ascii?Q?pckzkDSveUd+iwi2lfDzjyPVQ9yj0CiH/xxWs9md9M1AQSc3NZiJU1hLjeKm?=
- =?us-ascii?Q?aAY8FuT7mkNTvmr+F8IaY1xbUkqwDE0/IWF1EmvaP2B2COuQ7wMj4RNUjEOc?=
- =?us-ascii?Q?O/AhbcPzLAMyP9dJTa4ojajfgOMtdCIXx/Rxry4yk0Rx2rZ2fjSA6M+C0jit?=
- =?us-ascii?Q?E4yYm3ZocgAEqqYDdafANBeHp39vXTx87t0jZIqiUkS+AeC6ISIHwD9hDxkj?=
- =?us-ascii?Q?3NKmejdUiaLbjH+sBCgqd206gGNFVcc0Zt98Oozys1GBZXwHRLMY812uQPYE?=
- =?us-ascii?Q?uyHrhpRnGAIYWFfAHefw01QVwryhLl4F/p2FxxZ5WJ2mJk8iLma6uzFa9nse?=
- =?us-ascii?Q?KDIQcCRrG9o4DskmRPMDf1PaNxx8TvwULUPJB0jwTMsE0RkZQnTZYU69eX3J?=
- =?us-ascii?Q?DTJiamg3E5I0LV9zQ7KUNLWj7+scC2fn2wUO2D+w6NK2kvcb0lvj02l6UkTc?=
- =?us-ascii?Q?X7jKgFI4/1/bAGQetuBuvx+ircaAenX1Iq6FMnRYQcgdor2MWhUDTqFKizIA?=
- =?us-ascii?Q?vJmD0Pht5I+lSm+VVTECa5eMOZE6H/UwUgnXBgFiR+SdXv8DEnEnO9a+9Ujl?=
- =?us-ascii?Q?fTzsLsC/NZI0DsiAFIBO+4w+7SMolqtyX9A00a9XgVJOp0yXxu2QqO44FHlF?=
- =?us-ascii?Q?F5kOApjBfLOwHK4UEafL48ADf1hzQpNZPMIk6R2fhwlKEIUMoSNqHn4cTPxl?=
- =?us-ascii?Q?znJlbuU5Ch+3Eejo3q7yZqrX3ozlPCo0nBxc8d/f9Cr9yddhddHSyXN4+eBq?=
- =?us-ascii?Q?1K8vM06RHw5aht/nrdIYWUbgLh/jYAL7eVKdCjw67lWNVVQn+anrn3l19WdD?=
- =?us-ascii?Q?BSnlzXwqrv/YfQoqXhsDx+EYQ9FcwydQzXtPK0D5bSt8yOGcjkm9NRk++zQ6?=
- =?us-ascii?Q?K5aUj8NJxT+OVBPsX2TS4htXjJaFpFkDZIIIo3/5K+GVBWGmqOwVOybPuki7?=
- =?us-ascii?Q?iI62pGuhOEA82Yro5WGvlkvleuez4YsUAy/C9hO+W3hCWvzy7fg3ZN0wgqkG?=
- =?us-ascii?Q?ptHYclhyF3Q=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9YO2VNtN7/AVkNY5N+N6bpbx5DVFYyJdxIshjK2kTpMeuaOdcSF5l7noHEF1?=
- =?us-ascii?Q?s+lB5UEncua+s5Drg3oPC44ZKgxdHC7EQ1mmSbi+XEq4qFKNNVBpiRWSIfc/?=
- =?us-ascii?Q?8ywQrj440x8YBHiXj4uZB0QE+J1KktuhiJc4bflyorZLYXXCNTQlvOTv371c?=
- =?us-ascii?Q?ASDGOoCEv3wTgUSySdjTbUQQGWvJC0NQpKSsq2qJNstew84LYBuDpBk3uV4o?=
- =?us-ascii?Q?vBenXfKllbuWTEDAUQSxwockvdu2HZ5HxpgplNGCWZ7znKBO2Us7KIHdhBAe?=
- =?us-ascii?Q?TCX53Fa2wFwLETR5Ho0D0sOXqpILTIZlgHisolBKChaVQ1AKIqqsvk1hmIgd?=
- =?us-ascii?Q?YE6/iB4CEGVROiDFPAO5TfADkkrbbKpGKD5A/XCbSSUrHrrkqIUnPM/LzYXQ?=
- =?us-ascii?Q?WGT0sXGTpAAVusd7OCVZF7nEWNxNPvf9OafKMixxZg+5lm9hMrGaDiXZ7U/0?=
- =?us-ascii?Q?bWiQu0xeLBXSVpmNEob1HkW8KfUJ1e3A8+quycFN8fJOn5cfpnSW3FEqOAjC?=
- =?us-ascii?Q?JgfkhIRa6APiEb2G4je21c6BWKbOX5cOHZDHFENP3jL5g+YoyyU1LJz0NoX8?=
- =?us-ascii?Q?mASc/SCKxHdg3dyOiFa2V+Xpjd+N2LutqqAwhQg4IORPN9sNWSwzKWeX8TPJ?=
- =?us-ascii?Q?OYNp+31ak76mDNFtIe0GgR/CPpX7wrNktItOo5t05HaCglof/SdPTIbMFvnQ?=
- =?us-ascii?Q?dIlVEWzu0f1mZZgQUsT1aBY9Hx24N4Kx5QcmLxuijEYIEebO87J8trQkpOC6?=
- =?us-ascii?Q?5HvTn80xxmbnBR4Z8s48Qux7dO4liJ+EP9gA8N10i8HYKFz6FU5y6aWdKBDu?=
- =?us-ascii?Q?F2nCo6aUF13uff4b9pX53OdttabCsWvQhcMi73AjQz70ijVhIZRi5rD81caI?=
- =?us-ascii?Q?qzAmnxy0fXs8ZFjYivEVLHNmcYoWZVTCFLm9h9ZlCYQajTaL3WZ2b4bBYqGY?=
- =?us-ascii?Q?mE3YlmZLwZtHu8pjWIHa8Vu9ugDe14ebg5WRs5a83zohvO7s4Sb4LfCpMic1?=
- =?us-ascii?Q?IpBv8kPo4agNFbf1H2TyXz5QyQaAkHqbPjJgR2bgQJ8ELYUjejyvmEhrmoEJ?=
- =?us-ascii?Q?cle6p7D1vIfzHtVjImdzimXsTUYCsAKTGPmt140QMNxPK7rxy96x1wl3+GfE?=
- =?us-ascii?Q?2QmAUir2xSQdsVPQXgP+rTTiGOpzo02zLXIOySsQlKBQPfcSP0MVBNdZmxpU?=
- =?us-ascii?Q?KY1LAWASYTztVwsHLEbLnBvuORa0/G0/n1GbQA1BBOj9PkqnwENbff4O7HYX?=
- =?us-ascii?Q?n/06d/f2gFt8Gr7mnZ6gme2FoyHeKWUKi0gX2Yeoawx+x9szqxzDkBmWGxM8?=
- =?us-ascii?Q?R24cd960+95kkj5RLQyuLq+qQSfIut3CnDpnavZuMCT8M7VanWjlKpxbVBmH?=
- =?us-ascii?Q?9ZdLMvbeCVO22byX6zJ/TqPCtJxTr4zQCRF5JSAHjnClMwsB+zPNa8RuDdCD?=
- =?us-ascii?Q?ozo2sXZqvbCbHoDATIse33PWDM4HV99uQGVFvcLv2sGGvcSNU4Qq3K73wuEo?=
- =?us-ascii?Q?rAyxsA9mNo4oh0K+wFkx6BNR032gCcNqav90jaUAoi5RrDp9pRWy4nuuK/ZR?=
- =?us-ascii?Q?TKRZ0lKjkgxNLtP0ngU=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3d1beeb-870b-4064-522c-08ddf0616235
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 11:58:40.8152
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NOBo5qiUePOEw1x7YNat0KXcE5eLDbKYD5g/dL+or0XOWmfL8YpjCGLIZSmZwreP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8709
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 10, 2025 at 08:26:18AM +0300, Leon Romanovsky wrote:
->  #define PageHighMem(__p) is_highmem_idx(page_zonenum(__p))
-> -#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
->  #define folio_test_highmem(__f)        is_highmem_idx(folio_zonenum(__f))
->  #else
->  PAGEFLAG_FALSE(HighMem, highmem)
->  #endif
-> +#define PhysHighMem(__p) (PageHighMem(phys_to_page(__p)))
+Em Wed, 10 Sep 2025 12:24:47 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-Yeah, that's what I imagined, and I'd make it a static inline
+> On Sun, 07 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wr=
+ote:
+> > Specially on kAPI, sometimes it is desirable to be able to
+> > describe global variables that are part of kAPI.
+> >
+> > Documenting vars with Sphinx is simple, as we don't need
+> > to parse a data struct. All we need is the variable
+> > declaration and use natice C domain ::c:var: to format it
+> > for us.
+> >
+> > Add support for it. =20
+>=20
+> Bikeshedding on "global", it sort of implies visibility or linkage, but
+> here it means "variable".
+>=20
+> You could document variables that are static, global to the module, or
+> exported to the entire kernel. And you could document functions that are
+> global (for some meaning of global).
+>=20
+> I didn't look into kernel-doc, but can't you figure the type out from
+> the source, instead of having to tell it? And if you can't, why not just
+> make it "var" (matching Sphinx) or "variable"?
 
-static inline bool PhysHighMem(phys_addr_t phys)
+I don't have a strong opinion here. I ended picking "global" just as a
+sort of declaration of intent, in the sense that this is aimed to be
+used for kAPI vars.
 
-These existing macros are old fashioned imho.
+Now, "var" has certainly an appeal, as it matches Sphinx.
 
-Jason
+>=20
+>=20
+> BR,
+> Jani.
+>=20
+> >
+> > Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b=
+63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
+> > Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
+> >  scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
+> >  2 files changed, 55 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_ou=
+tput.py
+> > index 1eca9a918558..405a5c407522 100644
+> > --- a/scripts/lib/kdoc/kdoc_output.py
+> > +++ b/scripts/lib/kdoc/kdoc_output.py
+> > @@ -199,6 +199,10 @@ class OutputFormat:
+> >              self.out_enum(fname, name, args)
+> >              return self.data
+> > =20
+> > +        if dtype =3D=3D "global":
+> > +            self.out_global(fname, name, args)
+> > +            return self.data
+> > +
+> >          if dtype =3D=3D "typedef":
+> >              self.out_typedef(fname, name, args)
+> >              return self.data
+> > @@ -227,6 +231,9 @@ class OutputFormat:
+> >      def out_enum(self, fname, name, args):
+> >          """Outputs an enum"""
+> > =20
+> > +    def out_global(self, fname, name, args):
+> > +        """Outputs a global variable"""
+> > +
+> >      def out_typedef(self, fname, name, args):
+> >          """Outputs a typedef"""
+> > =20
+> > @@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
+> >          self.lineprefix =3D oldprefix
+> >          self.out_section(args)
+> > =20
+> > +    def out_global(self, fname, name, args):
+> > +        oldprefix =3D self.lineprefix
+> > +        ln =3D args.declaration_start_line
+> > +        prototype =3D args.other_stuff["var_type"]
+> > +
+> > +        self.data +=3D f"
+> >
+> > .. c:var:: {prototype}
+> >
+> > "
+> > +
+> > +        self.print_lineno(ln)
+> > +        self.lineprefix =3D "  "
+> > +        self.output_highlight(args.get('purpose', ''))
+> > +        self.data +=3D "
+> > "
+> > +
+> >      def out_typedef(self, fname, name, args):
+> > =20
+> >          oldprefix =3D self.lineprefix
+> > @@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
+> >              self.data +=3D f'.SH "{section}"' + "
+> > "
+> >              self.output_highlight(text)
+> > =20
+> > +    def out_global(self, fname, name, args):
+> > +        out_name =3D self.arg_name(args, name)
+> > +        prototype =3D args.other_stuff["var_type"]
+> > +
+> > +        self.data +=3D f'.TH "{self.modulename}" 9 "{out_name}" "{self=
+.man_date}" "API Manual" LINUX' + "
+> > "
+> > +
+> > +        self.data +=3D ".SH NAME
+> > "
+> > +        self.data +=3D f"{prototype} \- {args['purpose']}
+> > "
+> > +
+> > +        self.data +=3D ".SH SYNOPSIS
+> > "
+> > +        self.data +=3D f"enum {name}" + " {
+> > "
+> > +
+> >      def out_typedef(self, fname, name, args):
+> >          module =3D self.modulename
+> >          purpose =3D args.get('purpose')
+> > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_pa=
+rser.py
+> > index 574972e1f741..e2a3f4574894 100644
+> > --- a/scripts/lib/kdoc/kdoc_parser.py
+> > +++ b/scripts/lib/kdoc/kdoc_parser.py
+> > @@ -64,7 +64,7 @@ type_param =3D KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\=
+.)?)", cache=3DFalse)
+> >  # Tests for the beginning of a kerneldoc block in its various forms.
+> >  #
+> >  doc_block =3D doc_com + KernRe(r'DOC:\s*(.*)?', cache=3DFalse)
+> > -doc_begin_data =3D KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)=08\s=
+*(\w*)", cache =3D False)
+> > +doc_begin_data =3D KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|globa=
+l)=08\s*(\w*)", cache =3D False)
+> >  doc_begin_func =3D KernRe(str(doc_com) +			# initial " * '
+> >                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
+> >                          r'(?:define\s+)?' + 		# possible "define" (not=
+ captured)
+> > @@ -886,6 +886,27 @@ class KernelDoc:
+> >          self.output_declaration('enum', declaration_name,
+> >                                  purpose=3Dself.entry.declaration_purpo=
+se)
+> > =20
+> > +    def dump_global(self, ln, proto):
+> > +        """
+> > +        Stores global variables that are part of kAPI.
+> > +        """
+> > +        VAR_ATTRIBS =3D [
+> > +            "extern",
+> > +        ]
+> > +        OPTIONAL_VAR_ATTR =3D "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
+> > +
+> > +        r=3D KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s=
+*;(?:#.*)?$")
+> > +        if not r.match(proto):
+> > +           self.emit_msg(ln,f"{proto}: can't parse variable")
+> > +           return
+> > +
+> > +        declaration_name =3D r.group(2)
+> > +        var_type =3D r.group(0)
+> > +
+> > +        self.output_declaration("global", declaration_name,
+> > +                                var_type=3Dvar_type,
+> > +                                purpose=3Dself.entry.declaration_purpo=
+se)
+> > +
+> >      def dump_declaration(self, ln, prototype):
+> >          """
+> >          Stores a data declaration inside self.entries array.
+> > @@ -897,6 +918,8 @@ class KernelDoc:
+> >              self.dump_typedef(ln, prototype)
+> >          elif self.entry.decl_type in ["union", "struct"]:
+> >              self.dump_struct(ln, prototype)
+> > +        elif self.entry.decl_type =3D=3D "global":
+> > +            self.dump_global(ln, prototype)
+> >          else:
+> >              # This would be a bug
+> >              self.emit_message(ln, f'Unknown declaration type: {self.en=
+try.decl_type}') =20
+>=20
+
+
+
+Thanks,
+Mauro
