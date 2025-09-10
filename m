@@ -1,147 +1,123 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6CD30F550;
-	Wed, 10 Sep 2025 08:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8DD2BE7D5;
+	Wed, 10 Sep 2025 08:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757493543; cv=none; b=bbVMTrRj1krntTJhBisL6jVK2EvSODJ+SM9F7KzcRT1K0kWhh89B1yVHoJ46hmdWiykbCBTMjDw9o2c4yMFqYNCUkedBv2h7sU4N35J+otmQWS/b6xqJHbprqmItxEG1WMzgShrGP7bPjgBelQkR0q577PHPIliDJaf4FFntR6o=
+	t=1757493707; cv=none; b=ZQ7u8jcNEPHrO/13mqUcXPJfIBK4G0sqawwESK456ugccrEW3O18A2xse0viNW5LqF0Bs5ONZXjueWwBj/nrMBxG2b/BDlBO9TfuO9dEJRvLchsh9rFhk6GwMO44prV55Dl/2bn6NdAL7dqpQZ3TJc6II5U5dKuS0LFneVZDR4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757493543; c=relaxed/simple;
-	bh=1unVb9A7rLJncC482sVIjlZ8IfluMpc4MVJgVqD0JVE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PE4tsfcry0+g4aE7eM9Nby2mj2DeQEu3ZD/1YVK6hEv5Z3UmRhBr45JMdyWQ/P0aurIKjU2wDApanGM0ih+ULPyb98NP38k8+RE4gtiNfJLJX1G1MBtqiCYObX3L8eqK6zymxKQR9LBud5/GKRx+Tx8XmocSSbe3YdtiWtttXaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cMDbC6vdSz6GD5p;
-	Wed, 10 Sep 2025 16:37:43 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id E95FB14033C;
-	Wed, 10 Sep 2025 16:38:55 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml500005.china.huawei.com (7.182.85.13) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 10 Sep 2025 10:38:55 +0200
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Wed, 10 Sep 2025 10:38:55 +0200
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-CC: "rafael@kernel.org" <rafael@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "rppt@kernel.org"
-	<rppt@kernel.org>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-acpi@vger.kernel.org"
-	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>, Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
-	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
-	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
-	<gthelen@google.com>, "wschwartz@amperecomputing.com"
-	<wschwartz@amperecomputing.com>, "wbs@os.amperecomputing.com"
-	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Topic: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Index: AQHcHC9WuMPoKRXbY02Oy+WxUZ/jerSK8o4AgAEvHbA=
-Date: Wed, 10 Sep 2025 08:38:55 +0000
-Message-ID: <81f32641fbc5448c8da1918ddc5d6965@huawei.com>
-References: <20250902173043.1796-1-shiju.jose@huawei.com>
- <20250902173043.1796-2-shiju.jose@huawei.com>
- <20250909162434.GB11602@yaz-khff2.amd.com>
-In-Reply-To: <20250909162434.GB11602@yaz-khff2.amd.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1757493707; c=relaxed/simple;
+	bh=WXEEu67YxLZJ0AVlikwwITZAXBcBgZXrS90WmG7/K0M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kfVvCYexzPipzCUd6pIxr8Op50zy3FCSXvhvU+KPvhKx5Q4NK/y87nLFlZXjcWh2M7rVYqzNlHexgqmrL3lljiFVjoQ6piwkZ2pdshEiHvPTzkk5eAZv9fC8VyY6ceAaZWh5cAJwiJle9rZ3RDiA8YukCN38k2FV/p+3tpDCFSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MpRI2CqC; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MpRI2CqC"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45dcff2f313so40558585e9.0;
+        Wed, 10 Sep 2025 01:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757493704; x=1758098504; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P3IKUpQfaLekPKjen96M//7ifX26lwnIh4aj6a3++lk=;
+        b=MpRI2CqCBsG0v1sLGeXXpbe6zcal6XaDBbzaNfxzVyYHxTvynE5srpo2ZHAIFIjxAj
+         nTa2CVx1SQG0XyMRnaLQfxc9x+O0hdSFZYDeWPte2YNxZDdfm+F5+ZVIN1b7HMyr69H8
+         4hkoGm/7nLtQ9OVRgC490djfSXkK5RpDkNmz7Q3Ktzm71Ujg3pflDBqEtdNnkhqgJ7Qx
+         K7Wiw23lm8cwi4gHw5Cc44HpFJBf7KzG+5yag1nLPzNCEcsATHNefCMngBJJvQ0EzQy+
+         K5fG3IbBnKsI4rae88EaoTTsOUd+BpOkHzer5jy6k854auZM5Zlev0N+ybodTDUD2Pdx
+         vFcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757493704; x=1758098504;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P3IKUpQfaLekPKjen96M//7ifX26lwnIh4aj6a3++lk=;
+        b=f8pImHltOEx6MiGT/kPYJn9GMSd34OQ++jBMDUmFPQPXQJZPpABbWsnY4TFI6UJ3dU
+         UZA6UQ97FefxdivRJCimaUqePwmQQlLtpYNCaPRvAxdpUsoX+CSh3rPqN0EP6TTrLeyg
+         iWdNKKqhx8ngV7DP+r4AtRc4wuD5ysWqDOsgPBW0boUYo0lVa3/ldg2qGo26JRdzFfzq
+         3Sy8bTGvVzMulEY/ftPbggPTji3rwoghuIWQZzO3a1D/j6/b3s3gXc/dxPhn1zpiKfzk
+         gUGf5vHGzxYjOSSFxhb8BVyFZzJPt0+e5ThQgMk4rylnIZSrZhTK2lcYoBoQdsU+/XVX
+         IuPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUR3VoLNvesKy7Cob8Fq1jYWGGbTDRjhC70fcIEoTyheOuN/8PoYZ+9zelcrK6TJbLvZOLADZZXMpHy@vger.kernel.org, AJvYcCVvB7qT6V+1rE3WIIF+te9wpB9nZi+KD++uqJKZQM/ZSWHNVvTajhLELRcgkBYasSaTM4O7sQIwqboatY7u@vger.kernel.org, AJvYcCWnmPuq0aRBpw1IfpMZS6Xf7X9MbLiLY9K1Dv/JBZPhT1DC0SovNTWVj0iKOvC09188hX3hnzC15Y3B@vger.kernel.org, AJvYcCWwusylzWsjpaSw9si7Qh58UTzAHAkwBUgkweomF7AH9EsKYHOnpTDVCMBKAZMyGSzOuIv5Yn5h+fcA@vger.kernel.org, AJvYcCXAFC3GwuTw8TBG+pjsCEwbndYDIN/GuClaSUp+Q6GVsJQIgSfrmEnfo6LTAccZJNtxQGStrXYaVuubI7YC5L8uGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxqk7XqjYVLz+9aNHh4uT2fICD/1kYCEzMNw318KZsLWJN2OqtQ
+	64rtfw7u+get86A+LC/FOYxhnpOJ+wqZlLvgNDOL4RP8p7a/BifMpKR3
+X-Gm-Gg: ASbGncuaf16pYCO9GRVGIPbop1HNG0vodPSjHEDppUjiZ5fVDKrLFLNI9GFKMdY1Rp5
+	l2uDLnu/wWXPRGiSwTEH1awPR5N9Tr6miXm0FsFX66RHla4Nzpv1354MvU07Kj5nYLs9yZqfDZT
+	WEzbyJOQHBMSDuLgGYdVyLvJ1CrqVCwtCkZhuJhXbSOeJwyorhBLfCBfCHS2cganWQdI0BIuUvD
+	0DbA8G9GaVLLll1sHRYaNn4CEYkPE8Fv8xg4aCPXyyV3TxyKARwZ4MALXGC0G9AmE1VU5v+cnSC
+	Y55b8IZ+5xy76EfF/JvbR+sNlgmtHwS0ihcG77x0MlPe/R8OYXIQCYu8S2e4461KAfbK0plJTdB
+	To6fZtL9Vs9PU5ckLWG/zqHh4p6baCimHQiFi63H4CBDYmvbCCQGQbYkPlnP3sJWAC8pQGT5zND
+	T5gBM6WoILQvrbsyRSfnIJncWwtniILHPXFJJUWOweEBHZqPcpp+lrPuAIz3dmXzm47X1HpmrcD
+	A==
+X-Google-Smtp-Source: AGHT+IFAC+KaKdWZCDt0F29FwBEVeFET6FJu2DQLhogXKqRlrNmNAmvGOz7dmZmfwY3vjWPcfaiR9g==
+X-Received: by 2002:a05:600c:1387:b0:45b:9c93:d237 with SMTP id 5b1f17b1804b1-45dddeb93f1mr119978935e9.14.1757493703536;
+        Wed, 10 Sep 2025 01:41:43 -0700 (PDT)
+Received: from ?IPV6:2a02:8440:7135:4f4c:9000:7072:695b:3ef? (2a02-8440-7135-4f4c-9000-7072-695b-03ef.rev.sfr.net. [2a02:8440:7135:4f4c:9000:7072:695b:3ef])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df81d3ee4sm19382275e9.6.2025.09.10.01.41.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Sep 2025 01:41:43 -0700 (PDT)
+Message-ID: <899eb863-6b6d-42f0-9e7c-e2020ee45f4d@gmail.com>
+Date: Wed, 10 Sep 2025 10:41:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 05/20] dt-bindings: memory: factorise LPDDR props into
+ SDRAM props
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Gatien Chevallier <gatien.chevallier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+ Julius Werner <jwerner@chromium.org>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+References: <20250909-b4-ddrperfm-upstream-v6-0-ce082cc801b5@gmail.com>
+ <20250909-b4-ddrperfm-upstream-v6-5-ce082cc801b5@gmail.com>
+ <20250910-flat-raptor-of-temperance-5e8c7c@kuoka>
+Content-Language: en-US
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
+In-Reply-To: <20250910-flat-raptor-of-temperance-5e8c7c@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
->-----Original Message-----
->From: Yazen Ghannam <yazen.ghannam@amd.com>
->Sent: 09 September 2025 17:25
->To: Shiju Jose <shiju.jose@huawei.com>
->Cc: rafael@kernel.org; bp@alien8.de; akpm@linux-foundation.org;
->rppt@kernel.org; dferguson@amperecomputing.com; linux-
->edac@vger.kernel.org; linux-acpi@vger.kernel.org; linux-mm@kvack.org; linu=
-x-
->doc@vger.kernel.org; tony.luck@intel.com; lenb@kernel.org;
->leo.duran@amd.com; mchehab@kernel.org; Jonathan Cameron
-><jonathan.cameron@huawei.com>; Linuxarm <linuxarm@huawei.com>;
->rientjes@google.com; jiaqiyan@google.com; Jon.Grimm@amd.com;
->dave.hansen@linux.intel.com; naoya.horiguchi@nec.com;
->james.morse@arm.com; jthoughton@google.com; somasundaram.a@hpe.com;
->erdemaktas@google.com; pgonda@google.com; duenwen@google.com;
->gthelen@google.com; wschwartz@amperecomputing.com;
->wbs@os.amperecomputing.com; nifan.cxl@gmail.com; tanxiaofei
-><tanxiaofei@huawei.com>; Zengtao (B) <prime.zeng@hisilicon.com>; Roberto
->Sassu <roberto.sassu@huawei.com>; kangkang.shen@futurewei.com;
->wanghuiqiang <wanghuiqiang@huawei.com>
->Subject: Re: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
->
->On Tue, Sep 02, 2025 at 06:30:39PM +0100, shiju.jose@huawei.com wrote:
->> From: Shiju Jose <shiju.jose@huawei.com>
->
->[...]
->
->> +static int ras2_add_aux_device(char *name, int channel, u32 pxm_inst)
->> +{
->> +	unsigned long start_pfn, size_pfn;
->> +	struct ras2_mem_ctx *ras2_ctx;
->> +	int id, rc;
->
->'rc' is uninitialized, and LLVM gives a warning.
->
->The issue is the "goto ctx_free" paths return 'rc' before it is set.
+On 10/09/2025 09:54, Krzysztof Kozlowski wrote:
+> On Tue, Sep 09, 2025 at 12:12:12PM +0200, Clément Le Goffic wrote:
+>> From: Clément Le Goffic <clement.legoffic@foss.st.com>
+>>
+>> LPDDR and DDR bindings are SDRAM types and are likely to share the same
+>> properties (at least for density, io-width and reg).
+>> To avoid bindings duplication, factorise the properties.
+>>
+>> The compatible description has been updated because the MR (Mode
+>> registers) used to get manufacturer ID and revision ID are not present
+>> in case of DDR.
+>> Those information should be in a SPD (Serial Presence Detect) EEPROM in
+>> case of DIMM module or are known in case of soldered memory chips as
+>> they are in the datasheet of the memory chips.
+>>
+>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> 
+> Is this email defunct now, that you add second SoB?
 
-Thanks Yazen. I missed setting rc with the error code in the failure case o=
-f the
-newly added code. I will fix in the next version.
+Yes, but I still want to upstream it and was thinking to keep the 
+"original" author even if it is me.
+Am I wrong here ? What should I do ?
 
->
->> +
->> +	ras2_ctx =3D kzalloc(sizeof(*ras2_ctx), GFP_KERNEL);
->> +	if (!ras2_ctx)
->> +		return -ENOMEM;
->> +
->> +	ras2_ctx->sys_comp_nid =3D pxm_to_node(pxm_inst);
->> +	/*
->> +	 * Retrieve the lowest contiguous physical memory address range within
->> +	 * the NUMA node.
->> +	 */
->> +	start_pfn =3D node_start_pfn(ras2_ctx->sys_comp_nid);
->> +	size_pfn =3D node_spanned_pages(ras2_ctx->sys_comp_nid);
->> +	if (!size_pfn) {
->> +		pr_debug("Failed to find phy addr range for NUMA node(%u)\n",
->> +			 pxm_inst);
->> +		goto ctx_free;
->> +	}
->> +	ras2_ctx->mem_base_addr =3D __pfn_to_phys(start_pfn);
->> +	ras2_ctx->mem_size =3D __pfn_to_phys(size_pfn);
->> +
-[...]
->
->Thanks,
->Yazen
+>> Signed-off-by: Clément Le Goffic <legoffic.clement@gmail.com>
 
-Thanks,
-Shiju
+
