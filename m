@@ -1,91 +1,76 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922F8246788
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 06:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9411A4E70
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 07:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757486426; cv=none; b=oAzhuN6CpPCO1aaHeWqDFGTgVZxAa9h3YbjoY2ruYFBI4eyxpSCeD/AcXTrxZ9I5odJunR5vxijAftYX6PKdWvDzwGBBQKTOKIto7iimHEsjfRRpto37kLwdjR4gNp+mxBSxi/licZfk0/1nkVRhUp3VEVwiZig+/H/5KYq1CmM=
+	t=1757488906; cv=none; b=PciZL8Lwd9WAtndtyUWEy3KmkVLf5WUkkhI+o5Cm0q8rTz6A6GLcMuVgGoRIG9eY99Y+e1S68Vn/KSgZyUbIyXjSWE53iDGV+jSihrbTSuKCMvpZ64X/bXXn535gzn0bJXMiuQKj6ZRf8gDso1KIeZZrbby7Sj8FASdnuDdCIfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757486426; c=relaxed/simple;
-	bh=hf11k3OBssHbcr2V1ojQSrD4Nw0awIhkcyvrlBqe8HY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BUo+bajBx/1oyP3aR/4Y0R5hXxizEu56RqJVjgEfYFnUQzTwF6B0gsi/p+aGGNDHcpyFg/Zvb7gxZS9l/gK8eFk8kP4BpcH3ydiYw2c372TCqiU47OBwCa7LBZ3rTZJ3T74QAs7zYamgO7VQM+LxKMTZPvhIo1d6+R7W3RvOl0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDhWDgiV; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757488906; c=relaxed/simple;
+	bh=geJ0UJM3b7SPADl/tSeh7XgnStA+R2HOh7EaVM0Q1AI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VJysxyo+7oqSrDpALubol7pVJBmHIy8BuHpRd8Y6aacfVWqVZC0oZElb/f0QFLrMIpYL2fwbQOpwzGenlE+4ptvz0TcFX78T0yxqVhhKdVQiCsbCHWTw8LbzXE2jBM8eGlv8jk2jS66pIF+JF+RkrA5L6AhTthNsK/V5Q17Pwhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=R1JsHXZK; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDhWDgiV"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6228de28242so426921a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 23:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757486423; x=1758091223; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hf11k3OBssHbcr2V1ojQSrD4Nw0awIhkcyvrlBqe8HY=;
-        b=DDhWDgiVkYO9f68Ri4O43kvkHLDXZjONnhJprmk51LgPvN3/Y9tTj4pSDAMWlNZzLT
-         XXD/0MJh62GLqWDc89Q9WWjyx6M6DznpxV/Ih0IMhjYYc+RsJgT9DQ0mErSy27JYgUOq
-         Q9gWjq5An6e9XRbSQk1IwvD8l9umVv42uyUufxynkkpzqWl8jE3RRk5ejA2P4PHYWIIe
-         RmTw4TOK+TeTMb4BNHWQf7M7mSOquAeEbJpKAZvW9mhbJ0ONwmhFE89IJuBAz4VrPbNW
-         ISaIzuKOVu0Zjfh2sFm0hsjfGVLsGbCX2xHVYHmFmBpaePpaHi4GPIvNxE3Louj2Ph+A
-         62sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757486423; x=1758091223;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hf11k3OBssHbcr2V1ojQSrD4Nw0awIhkcyvrlBqe8HY=;
-        b=ITDiUeVGNzi2Tn79QqI3Mj/L3Ks0XDYACHZbWWaConMN264lCDBkEOEpPGogyAd4sw
-         Md8ZjDeKfVZhTrFdKflY70ZDEJdE1kWISmXbO6A08XLRbyazvvRvG/dYxnIGAxCqjceU
-         KrEgPjemTBvX6BRl3p3YQfbPL7gXTAGj6zOAGpoiUvlmNEz9RzqRN/H4tgxIDG1y0xcm
-         p1EPNapn9keUFhaqB/J4N0j2+yHhUgmQVCLDC9vclFTQCxrO3rW6MlxUVh6Gxn6ruELZ
-         gl8JqdS4MwquYkZMOi/ePni9Y1yp3tP1Sg4P66o97hkMy+N742DHOK+22UfvrDF4QBbO
-         n/Ww==
-X-Gm-Message-State: AOJu0YyV+aMOWpQfO/EwXPUhzG8ARmFR1ntuF7hRTp+jmGwCFHjD94iz
-	znMVvVzVtAfIlkFgYEwB74gFWIJIMDl/eSoG6pEOlSFym/O2A5+B86FNT6sBDPUvmRdeQXqB7lm
-	Lyv99+FQLIKDOC7TeH5C4cVdCqaUNOYZSlimsCxJ8Lw==
-X-Gm-Gg: ASbGncsEjpulbdBosT2sA0bR/JQ72E79teJMv1/vEyVZGwJiBfuL/nHHk11oyMoL+Tv
-	NsjxxUKNY2+0yZePTapSjKEv3enRFj3cqAbvyjWY+HBR+P8DPkzYpRH3fF3+fsWkm6xvjZkA3z2
-	f0zuCmCmLAP+hNPkgT+VPKgPqJuAnbrvMRPNLEg7BYIYzDo/3bRWJxXzQATrqcWjZ0IxA01iBh2
-	2Ujm5uKn8KF9t9j+FhQbaakvkEMCMW+ZxWwztzLj6mTBknSCMgKI0H9QkWbHcsO9dR/9fYbudg=
-X-Google-Smtp-Source: AGHT+IFKb1oYZ+ybP2RYFHNiIG+Ja5VxfDg5EssCfKi2oQI3t1Ux4fscelrcRXOuTEoVtY6GHAJGAinzcJNGWxPwLOE=
-X-Received: by 2002:a50:d4d2:0:b0:62d:411c:f6ab with SMTP id
- 4fb4d7f45d1cf-62d411cfa14mr835834a12.15.1757486422773; Tue, 09 Sep 2025
- 23:40:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="R1JsHXZK"
+Message-ID: <f3c790ce-c324-41c2-8c24-0785076ed642@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757488901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAv5/wmgEhBxyGGZDq9dVoGWNpR4NISRNE5iBQbxwr0=;
+	b=R1JsHXZKAHoopuh+8xShMw+SCrTjEhON3EEyKfiPutR/YewjydNo7iet+AGgETh5L8cOdV
+	CTPIgJj9fQOUYNO3NJF33I0UgFNMGet3CwULZHpxHeAwq1kNqNk3CFfpPOKoptodNjwyad
+	2dN15XdyCZggvLJMdKDfVpniXg2NprI=
+Date: Wed, 10 Sep 2025 15:21:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
- <87a53cx4r0.fsf@trenco.lwn.net> <CALMA0xYMNcD8UN5ykJALMskFGnNaau3cxJ1E5=bDE_mGS+bZBQ@mail.gmail.com>
- <87plbzv2x8.fsf@trenco.lwn.net>
-In-Reply-To: <87plbzv2x8.fsf@trenco.lwn.net>
-From: Zhixu Liu <zhixu.liu@gmail.com>
-Date: Wed, 10 Sep 2025 14:39:46 +0800
-X-Gm-Features: AS18NWCpcoafUhcfTXSJXIrsp_IEqWKbztP-kSB_re6dGs_rvXvXxn6nZOXlQZY
-Message-ID: <CALMA0xaRpHXbpfQV3bFLgyhG+usg2c72ddPpYD5JU9r1AV=rZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: sphinx: handle removal of utils.error_reporting
- in docutils 0.22
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from
+ khugepaged_mm_slot
+Content-Language: en-US
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ Lance Yang <ioworker0@gmail.com>, shakeel.butt@linux.dev,
+ rientjes@google.com, ast@kernel.org, gutierrez.asier@huawei-partners.com,
+ 21cnbao@gmail.com, daniel@iogearbox.net, ameryhung@gmail.com,
+ corbet@lwn.net, andrii@kernel.org, willy@infradead.org,
+ usamaarif642@gmail.com, hannes@cmpxchg.org, dev.jain@arm.com,
+ baolin.wang@linux.alibaba.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ david@redhat.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ npache@redhat.com, akpm@linux-foundation.org
+References: <20250910024447.64788-1-laoar.shao@gmail.com>
+ <20250910024447.64788-2-laoar.shao@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20250910024447.64788-2-laoar.shao@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Sep 10, 2025 at 3:31=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> (Incidentally, Sphinx has not caught up with this change, so how did you
-> test your change?)
 
-I see this problem on gentoo, someone else report it at
-https://bugs.gentoo.org/962349 later.
 
-Your patch is fine, I don't know (or didn't check) that we can remove
-support for python <3.6.
+On 2025/9/10 10:44, Yafang Shao wrote:
+> Since a task with MMF_DISABLE_THP_COMPLETELY cannot use THP, remove it from
+> the khugepaged_mm_slot to stop khugepaged from processing it.
+> 
+> After this change, the following semantic relationship always holds:
+> 
+>    MMF_VM_HUGEPAGE is set     == task is in khugepaged mm_slot
+>    MMF_VM_HUGEPAGE is not set == task is not in khugepaged mm_slot
+> 
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
 
-Thanks.
---=20
-Z. Liu
+Acked-by: Lance Yang <lance.yang@linux.dev>
+
+Cheers,
+Lance
+
