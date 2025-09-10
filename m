@@ -1,237 +1,275 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371EB30EF72;
-	Wed, 10 Sep 2025 12:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D6A2857CB
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 12:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757506434; cv=none; b=JJbggoRdmB9IYURZM+opkj+kjVWqRfHeJWhtSVyQHWWZldN87hznimsgKRrEYuBLNJdxP3XclPs2q9VpgNf90O8vjSKvsDHvdXjBsAsMArr3HX8joaAaK6mLhLxjz6i/kEjubdUX85YID6Wyl+dPqSZeQ/npofEU8cQGq0fpZP4=
+	t=1757506468; cv=none; b=mbd3Fv7Pv4jZJeQ8hL5IcJ+Q94y/kXSDCa0ihiDboSn2NkPMxt5fm851xn2DyaIAzLvaLUMfjgLay8YI2b5JRNP1vd0vMjZQo7t4G0X/CK4JDPxQzwnJaqrWxG92QZcz99QROxbfeYZE39UJrqeZaxnmqRFlzqh8merbPgpcv40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757506434; c=relaxed/simple;
-	bh=tL2FAdyt0zFqi+FSeV2e67Ti/XzJaCUPI8eZb2eioWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jF46rVpS3Sj1Y+s/73Aps8pvZzcVJFBVxMN3jszXbh3gM8XJslecNDes578g7rgfwc3LmUgB01WnCHaOa7r4lcXSYmYMWIQIhDykbR+TE3L+PwfiHodO5k0rOpjvy10jajGFGOgP+8ZKUTd6odO4KVNG/ximHoeLLw6/sO3O/cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IvEAkL7C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757506468; c=relaxed/simple;
+	bh=EC7sFF7I2rLgk4E0lip3iu04YahpP6G6VRpjsv6Adoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJ/MUwmtKLJTqwuLJsRTFOGdV5kkPcy4+WJxVWoPv3yBCnetPmyHr1I+NOar1Ui+G8P/EIVrhQsBOwdgAfHEsVxuHbRUPWOJgwULwkE/aJLprpXQplL+RJi6QaD9nO+HJTPrz0NL/5p58GeJvobCSlmKLKj4KOq3AZlSV4Eo80g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pxUK7Ex4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Ky4gXRZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pxUK7Ex4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Ky4gXRZ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IvEAkL7C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 892F6C4CEF5;
-	Wed, 10 Sep 2025 12:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757506432;
-	bh=tL2FAdyt0zFqi+FSeV2e67Ti/XzJaCUPI8eZb2eioWg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IvEAkL7CpiOH4XoOuK4X57fnSBjEpGvEuvqq77/aje0fRseYep7L98lrBnr0B+7B5
-	 xvdt6v1OYrvgVbWp/cj3fBMnmXX1rfZhrvkxsKjXpz0Lo/koWst52Iez+Q/pM/Ld/o
-	 LXZZt9jNyCTqJEN2Mhz3a6UaFI4wrt9Am6oi2K5nd+xXva7UJRte/MbB/K8KvVETcP
-	 iUrjwHn56emRu9qri4erM5j2kwEBEi9xDrzCnLXID2Rbg/v7SjcJi1M7rXiZuadw8c
-	 QydDrLRqzciwMzwg3oR9HPeoHfoE6vap1l4iBiMitiDYqx0V5YSCrZ7aq7Jd01kFTD
-	 WPUtFyYRn9+uA==
-Date: Wed, 10 Sep 2025 14:13:48 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-Message-ID: <20250910141348.5499bb3d@foz.lan>
-In-Reply-To: <b9f8831490b9e8e3e4f6d90d6092b0b78c79137f@intel.com>
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-	<b9f8831490b9e8e3e4f6d90d6092b0b78c79137f@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pxUK7Ex4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Ky4gXRZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pxUK7Ex4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Ky4gXRZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4790221C86;
+	Wed, 10 Sep 2025 12:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757506462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
+	b=pxUK7Ex4yGUYNZN5PAhw/Tv8WMvIaGVpDrwKkZypT8Tt/i7D8ZuxmpL/UcajxPIzwF7tEo
+	7yqX/56rfaO8T8K4BA4kzZnZPmDrnda+0l6EoZmlxsQdE57FoTbaB1XrLnopGf2+mQL/Nh
+	4zD0nijuHe6aMZY7DbzDYqXQEBWdGVo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757506462;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
+	b=9Ky4gXRZ131dmOszA0mfrMQRRdIB/H1HsExL07hjq7MUHDiFjy1R943NmRUPW9NaYMiMeh
+	5Y3L9e/6vzRzwxBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pxUK7Ex4;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9Ky4gXRZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757506462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
+	b=pxUK7Ex4yGUYNZN5PAhw/Tv8WMvIaGVpDrwKkZypT8Tt/i7D8ZuxmpL/UcajxPIzwF7tEo
+	7yqX/56rfaO8T8K4BA4kzZnZPmDrnda+0l6EoZmlxsQdE57FoTbaB1XrLnopGf2+mQL/Nh
+	4zD0nijuHe6aMZY7DbzDYqXQEBWdGVo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757506462;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
+	b=9Ky4gXRZ131dmOszA0mfrMQRRdIB/H1HsExL07hjq7MUHDiFjy1R943NmRUPW9NaYMiMeh
+	5Y3L9e/6vzRzwxBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7870713310;
+	Wed, 10 Sep 2025 12:14:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4cE8GptrwWhadQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 10 Sep 2025 12:14:19 +0000
+Date: Wed, 10 Sep 2025 13:14:13 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Anthony Yznaga <anthony.yznaga@oracle.com>
+Cc: linux-mm@kvack.org, akpm@linux-foundation.org, andreyknvl@gmail.com, 
+	arnd@arndb.de, bp@alien8.de, brauner@kernel.org, bsegall@google.com, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@redhat.com, 
+	dietmar.eggemann@arm.com, ebiederm@xmission.com, hpa@zytor.com, jakub.wartak@mailbox.org, 
+	jannh@google.com, juri.lelli@redhat.com, khalid@kernel.org, 
+	liam.howlett@oracle.com, linyongting@bytedance.com, lorenzo.stoakes@oracle.com, 
+	luto@kernel.org, markhemm@googlemail.com, maz@kernel.org, mhiramat@kernel.org, 
+	mgorman@suse.de, mhocko@suse.com, mingo@redhat.com, muchun.song@linux.dev, 
+	neilb@suse.de, osalvador@suse.de, pcc@google.com, peterz@infradead.org, 
+	rostedt@goodmis.org, rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com, 
+	tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz, 
+	vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com, 
+	willy@infradead.org, x86@kernel.org, xhao@linux.alibaba.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v3 01/22] mm: Add msharefs filesystem
+Message-ID: <do7cmy4eiiqd5ux62r3u2ghizc62ljg5m3mqx7qzy3im4kc2p6@upmigdbp7eat>
+References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
+ <20250820010415.699353-2-anthony.yznaga@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820010415.699353-2-anthony.yznaga@oracle.com>
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 4790221C86
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,googlemail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLziudqfrzo6b7hzgpxksh1d9i)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kvack.org,linux-foundation.org,gmail.com,arndb.de,alien8.de,kernel.org,google.com,lwn.net,linux.intel.com,redhat.com,arm.com,xmission.com,zytor.com,mailbox.org,oracle.com,bytedance.com,googlemail.com,suse.de,suse.com,linux.dev,infradead.org,goodmis.org,linutronix.de,suse.cz,linaro.org,zeniv.linux.org.uk,linux.alibaba.com,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.01
 
-Em Wed, 10 Sep 2025 12:24:47 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+On Tue, Aug 19, 2025 at 06:03:54PM -0700, Anthony Yznaga wrote:
+> From: Khalid Aziz <khalid@kernel.org>
+> 
+> Add a pseudo filesystem that contains files and page table sharing
+> information that enables processes to share page table entries.
+> This patch adds the basic filesystem that can be mounted, a
+> CONFIG_MSHARE option to enable the feature, and documentation.
+> 
+> Signed-off-by: Khalid Aziz <khalid@kernel.org>
+> Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
+> ---
+>  Documentation/filesystems/index.rst    |  1 +
+>  Documentation/filesystems/msharefs.rst | 96 +++++++++++++++++++++++++
+>  include/uapi/linux/magic.h             |  1 +
+>  mm/Kconfig                             | 11 +++
+>  mm/Makefile                            |  4 ++
+>  mm/mshare.c                            | 97 ++++++++++++++++++++++++++
+>  6 files changed, 210 insertions(+)
+>  create mode 100644 Documentation/filesystems/msharefs.rst
+>  create mode 100644 mm/mshare.c
+> 
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 11a599387266..dcd6605eb228 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -102,6 +102,7 @@ Documentation for filesystem implementations.
+>     fuse-passthrough
+>     inotify
+>     isofs
+> +   msharefs
+>     nilfs2
+>     nfs/index
+>     ntfs3
+> diff --git a/Documentation/filesystems/msharefs.rst b/Documentation/filesystems/msharefs.rst
+> new file mode 100644
+> index 000000000000..3e5b7d531821
+> --- /dev/null
+> +++ b/Documentation/filesystems/msharefs.rst
+> @@ -0,0 +1,96 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================================================
+> +Msharefs - A filesystem to support shared page tables
+> +=====================================================
+> +
+> +What is msharefs?
+> +-----------------
+> +
+> +msharefs is a pseudo filesystem that allows multiple processes to
+> +share page table entries for shared pages. To enable support for
+> +msharefs the kernel must be compiled with CONFIG_MSHARE set.
+> +
+> +msharefs is typically mounted like this::
+> +
+> +	mount -t msharefs none /sys/fs/mshare
+> +
+> +A file created on msharefs creates a new shared region where all
+> +processes mapping that region will map it using shared page table
+> +entries. Once the size of the region has been established via
+> +ftruncate() or fallocate(), the region can be mapped into processes
+> +and ioctls used to map and unmap objects within it. Note that an
+> +msharefs file is a control file and accessing mapped objects within
+> +a shared region through read or write of the file is not permitted.
+> +
 
-> On Sun, 07 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wr=
-ote:
-> > Specially on kAPI, sometimes it is desirable to be able to
-> > describe global variables that are part of kAPI.
-> >
-> > Documenting vars with Sphinx is simple, as we don't need
-> > to parse a data struct. All we need is the variable
-> > declaration and use natice C domain ::c:var: to format it
-> > for us.
-> >
-> > Add support for it. =20
->=20
-> Bikeshedding on "global", it sort of implies visibility or linkage, but
-> here it means "variable".
->=20
-> You could document variables that are static, global to the module, or
-> exported to the entire kernel. And you could document functions that are
-> global (for some meaning of global).
->=20
-> I didn't look into kernel-doc, but can't you figure the type out from
-> the source, instead of having to tell it? And if you can't, why not just
-> make it "var" (matching Sphinx) or "variable"?
+Welp. I really really don't like this API.
+I assume this has been discussed previously, but why do we need a new
+magical pseudofs mounted under some random /sys directory?
 
-I don't have a strong opinion here. I ended picking "global" just as a
-sort of declaration of intent, in the sense that this is aimed to be
-used for kAPI vars.
+But, ok, assuming we're thinking about something hugetlbfs like, that's not too
+bad, and programs already know how to use it.
 
-Now, "var" has certainly an appeal, as it matches Sphinx.
+> +How to use mshare
+> +-----------------
+> +
+> +Here are the basic steps for using mshare:
+> +
+> +  1. Mount msharefs on /sys/fs/mshare::
+> +
+> +	mount -t msharefs msharefs /sys/fs/mshare
+> +
+> +  2. mshare regions have alignment and size requirements. Start
+> +     address for the region must be aligned to an address boundary and
+> +     be a multiple of fixed size. This alignment and size requirement
+> +     can be obtained by reading the file ``/sys/fs/mshare/mshare_info``
+> +     which returns a number in text format. mshare regions must be
+> +     aligned to this boundary and be a multiple of this size.
+> +
 
->=20
->=20
-> BR,
-> Jani.
->=20
-> >
-> > Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b=
-63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
-> > Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
-> >  scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
-> >  2 files changed, 55 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_ou=
-tput.py
-> > index 1eca9a918558..405a5c407522 100644
-> > --- a/scripts/lib/kdoc/kdoc_output.py
-> > +++ b/scripts/lib/kdoc/kdoc_output.py
-> > @@ -199,6 +199,10 @@ class OutputFormat:
-> >              self.out_enum(fname, name, args)
-> >              return self.data
-> > =20
-> > +        if dtype =3D=3D "global":
-> > +            self.out_global(fname, name, args)
-> > +            return self.data
-> > +
-> >          if dtype =3D=3D "typedef":
-> >              self.out_typedef(fname, name, args)
-> >              return self.data
-> > @@ -227,6 +231,9 @@ class OutputFormat:
-> >      def out_enum(self, fname, name, args):
-> >          """Outputs an enum"""
-> > =20
-> > +    def out_global(self, fname, name, args):
-> > +        """Outputs a global variable"""
-> > +
-> >      def out_typedef(self, fname, name, args):
-> >          """Outputs a typedef"""
-> > =20
-> > @@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
-> >          self.lineprefix =3D oldprefix
-> >          self.out_section(args)
-> > =20
-> > +    def out_global(self, fname, name, args):
-> > +        oldprefix =3D self.lineprefix
-> > +        ln =3D args.declaration_start_line
-> > +        prototype =3D args.other_stuff["var_type"]
-> > +
-> > +        self.data +=3D f"
-> >
-> > .. c:var:: {prototype}
-> >
-> > "
-> > +
-> > +        self.print_lineno(ln)
-> > +        self.lineprefix =3D "  "
-> > +        self.output_highlight(args.get('purpose', ''))
-> > +        self.data +=3D "
-> > "
-> > +
-> >      def out_typedef(self, fname, name, args):
-> > =20
-> >          oldprefix =3D self.lineprefix
-> > @@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
-> >              self.data +=3D f'.SH "{section}"' + "
-> > "
-> >              self.output_highlight(text)
-> > =20
-> > +    def out_global(self, fname, name, args):
-> > +        out_name =3D self.arg_name(args, name)
-> > +        prototype =3D args.other_stuff["var_type"]
-> > +
-> > +        self.data +=3D f'.TH "{self.modulename}" 9 "{out_name}" "{self=
-.man_date}" "API Manual" LINUX' + "
-> > "
-> > +
-> > +        self.data +=3D ".SH NAME
-> > "
-> > +        self.data +=3D f"{prototype} \- {args['purpose']}
-> > "
-> > +
-> > +        self.data +=3D ".SH SYNOPSIS
-> > "
-> > +        self.data +=3D f"enum {name}" + " {
-> > "
-> > +
-> >      def out_typedef(self, fname, name, args):
-> >          module =3D self.modulename
-> >          purpose =3D args.get('purpose')
-> > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_pa=
-rser.py
-> > index 574972e1f741..e2a3f4574894 100644
-> > --- a/scripts/lib/kdoc/kdoc_parser.py
-> > +++ b/scripts/lib/kdoc/kdoc_parser.py
-> > @@ -64,7 +64,7 @@ type_param =3D KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\=
-.)?)", cache=3DFalse)
-> >  # Tests for the beginning of a kerneldoc block in its various forms.
-> >  #
-> >  doc_block =3D doc_com + KernRe(r'DOC:\s*(.*)?', cache=3DFalse)
-> > -doc_begin_data =3D KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)=08\s=
-*(\w*)", cache =3D False)
-> > +doc_begin_data =3D KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|globa=
-l)=08\s*(\w*)", cache =3D False)
-> >  doc_begin_func =3D KernRe(str(doc_com) +			# initial " * '
-> >                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
-> >                          r'(?:define\s+)?' + 		# possible "define" (not=
- captured)
-> > @@ -886,6 +886,27 @@ class KernelDoc:
-> >          self.output_declaration('enum', declaration_name,
-> >                                  purpose=3Dself.entry.declaration_purpo=
-se)
-> > =20
-> > +    def dump_global(self, ln, proto):
-> > +        """
-> > +        Stores global variables that are part of kAPI.
-> > +        """
-> > +        VAR_ATTRIBS =3D [
-> > +            "extern",
-> > +        ]
-> > +        OPTIONAL_VAR_ATTR =3D "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-> > +
-> > +        r=3D KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s=
-*;(?:#.*)?$")
-> > +        if not r.match(proto):
-> > +           self.emit_msg(ln,f"{proto}: can't parse variable")
-> > +           return
-> > +
-> > +        declaration_name =3D r.group(2)
-> > +        var_type =3D r.group(0)
-> > +
-> > +        self.output_declaration("global", declaration_name,
-> > +                                var_type=3Dvar_type,
-> > +                                purpose=3Dself.entry.declaration_purpo=
-se)
-> > +
-> >      def dump_declaration(self, ln, prototype):
-> >          """
-> >          Stores a data declaration inside self.entries array.
-> > @@ -897,6 +918,8 @@ class KernelDoc:
-> >              self.dump_typedef(ln, prototype)
-> >          elif self.entry.decl_type in ["union", "struct"]:
-> >              self.dump_struct(ln, prototype)
-> > +        elif self.entry.decl_type =3D=3D "global":
-> > +            self.dump_global(ln, prototype)
-> >          else:
-> >              # This would be a bug
-> >              self.emit_message(ln, f'Unknown declaration type: {self.en=
-try.decl_type}') =20
->=20
+I don't see why size and alignment needs to be taken into consideration by
+userspace. You can simply establish a mapping and pad it out.
 
+> +  3. For the process creating an mshare region:
+> +
+> +    a. Create a file on /sys/fs/mshare, for example::
+> +
+> +        fd = open("/sys/fs/mshare/shareme",
+> +                        O_RDWR|O_CREAT|O_EXCL, 0600);
 
+Ok, makes sense.
 
-Thanks,
-Mauro
+> +
+> +    b. Establish the size of the region::
+> +
+> +        fallocate(fd, 0, 0, BUF_SIZE);
+> +
+> +      or::
+> +
+> +        ftruncate(fd, BUF_SIZE);
+> +
+
+Yep.
+
+> +    c. Map some memory in the region::
+> +
+> +	struct mshare_create mcreate;
+> +
+> +	mcreate.region_offset = 0;
+> +	mcreate.size = BUF_SIZE;
+> +	mcreate.offset = 0;
+> +	mcreate.prot = PROT_READ | PROT_WRITE;
+> +	mcreate.flags = MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED;
+> +	mcreate.fd = -1;
+> +
+> +	ioctl(fd, MSHAREFS_CREATE_MAPPING, &mcreate);
+
+Why?? Do you want to map mappings in msharefs files, that can themselves be
+mapped? Why do we need an ioctl here?
+
+Really, this feature seems very overengineered. If you want to go the fs route,
+doing a new pseudofs that's just like hugetlb, but without the hugepages, sounds
+like a decent idea. Or enhancing tmpfs to actually support this kind of stuff.
+Or properly doing a syscall that can try to attach the page-table-sharing
+property to random VMAs.
+
+But I'm wholly opposed to the idea of "mapping a file that itself has more
+mappings, mappings which you establish using a magic filesystem and ioctls".
+
+-- 
+Pedro
