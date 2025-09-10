@@ -1,161 +1,91 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B41124C676;
-	Wed, 10 Sep 2025 06:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922F8246788
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 06:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757485378; cv=none; b=IRzkWN7JP0/jJWLkyEpt7Ol7A8vtZ6eQv1YG+N7Cuk3VIxcGPjsKhI29zBod8S1bx0FYjR7huhe4b596TxT/3rGuAak4IC+43qskTAIM6Sh2VOh08wRLkO9oBQRnVsBPUu4+hUg3l87ceAuvkMqM5cP7V8YpMFl960FheRE5XPw=
+	t=1757486426; cv=none; b=oAzhuN6CpPCO1aaHeWqDFGTgVZxAa9h3YbjoY2ruYFBI4eyxpSCeD/AcXTrxZ9I5odJunR5vxijAftYX6PKdWvDzwGBBQKTOKIto7iimHEsjfRRpto37kLwdjR4gNp+mxBSxi/licZfk0/1nkVRhUp3VEVwiZig+/H/5KYq1CmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757485378; c=relaxed/simple;
-	bh=m+R1W/M3puWz7LopfUDBFdfky5zc/hL0+mmbhkVpLXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FDvy2m+9SNNaeitWL4BYnjHetiSkJQhDRch+G6G9MxasKwRlo06QgaaFqMpsC+DLQSsOmwPu7XRGVHp0SG7njpHGfN+u2/6985yb4FkwmaQz4DhUrQOm4CMq7ZqrwGFxWVMqXNoU4s8flYIOqvOfVj4X5Md4AyVgef7yJ06W6Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz3t1757485358tf0f8328e
-X-QQ-Originating-IP: GvKLTUOR+tQwCuIW6pSEJKaDGjCgZmDZVsz6vR3QrKU=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 10 Sep 2025 14:22:36 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2655984975433566693
-Date: Wed, 10 Sep 2025 14:22:36 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
-	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
-	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
-	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
-	gustavoars@kernel.org, rdunlap@infradead.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v11 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <6C0625E60A7E1E95+20250910062236.GA1832954@nic-Precision-5820-Tower>
-References: <20250909120906.1781444-1-dong100@mucse.com>
- <20250909120906.1781444-6-dong100@mucse.com>
- <2ec8c7f8-cf79-4701-97dc-2d0a687f0f3b@linux.dev>
+	s=arc-20240116; t=1757486426; c=relaxed/simple;
+	bh=hf11k3OBssHbcr2V1ojQSrD4Nw0awIhkcyvrlBqe8HY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BUo+bajBx/1oyP3aR/4Y0R5hXxizEu56RqJVjgEfYFnUQzTwF6B0gsi/p+aGGNDHcpyFg/Zvb7gxZS9l/gK8eFk8kP4BpcH3ydiYw2c372TCqiU47OBwCa7LBZ3rTZJ3T74QAs7zYamgO7VQM+LxKMTZPvhIo1d6+R7W3RvOl0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDhWDgiV; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDhWDgiV"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6228de28242so426921a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 23:40:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757486423; x=1758091223; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hf11k3OBssHbcr2V1ojQSrD4Nw0awIhkcyvrlBqe8HY=;
+        b=DDhWDgiVkYO9f68Ri4O43kvkHLDXZjONnhJprmk51LgPvN3/Y9tTj4pSDAMWlNZzLT
+         XXD/0MJh62GLqWDc89Q9WWjyx6M6DznpxV/Ih0IMhjYYc+RsJgT9DQ0mErSy27JYgUOq
+         Q9gWjq5An6e9XRbSQk1IwvD8l9umVv42uyUufxynkkpzqWl8jE3RRk5ejA2P4PHYWIIe
+         RmTw4TOK+TeTMb4BNHWQf7M7mSOquAeEbJpKAZvW9mhbJ0ONwmhFE89IJuBAz4VrPbNW
+         ISaIzuKOVu0Zjfh2sFm0hsjfGVLsGbCX2xHVYHmFmBpaePpaHi4GPIvNxE3Louj2Ph+A
+         62sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757486423; x=1758091223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hf11k3OBssHbcr2V1ojQSrD4Nw0awIhkcyvrlBqe8HY=;
+        b=ITDiUeVGNzi2Tn79QqI3Mj/L3Ks0XDYACHZbWWaConMN264lCDBkEOEpPGogyAd4sw
+         Md8ZjDeKfVZhTrFdKflY70ZDEJdE1kWISmXbO6A08XLRbyazvvRvG/dYxnIGAxCqjceU
+         KrEgPjemTBvX6BRl3p3YQfbPL7gXTAGj6zOAGpoiUvlmNEz9RzqRN/H4tgxIDG1y0xcm
+         p1EPNapn9keUFhaqB/J4N0j2+yHhUgmQVCLDC9vclFTQCxrO3rW6MlxUVh6Gxn6ruELZ
+         gl8JqdS4MwquYkZMOi/ePni9Y1yp3tP1Sg4P66o97hkMy+N742DHOK+22UfvrDF4QBbO
+         n/Ww==
+X-Gm-Message-State: AOJu0YyV+aMOWpQfO/EwXPUhzG8ARmFR1ntuF7hRTp+jmGwCFHjD94iz
+	znMVvVzVtAfIlkFgYEwB74gFWIJIMDl/eSoG6pEOlSFym/O2A5+B86FNT6sBDPUvmRdeQXqB7lm
+	Lyv99+FQLIKDOC7TeH5C4cVdCqaUNOYZSlimsCxJ8Lw==
+X-Gm-Gg: ASbGncsEjpulbdBosT2sA0bR/JQ72E79teJMv1/vEyVZGwJiBfuL/nHHk11oyMoL+Tv
+	NsjxxUKNY2+0yZePTapSjKEv3enRFj3cqAbvyjWY+HBR+P8DPkzYpRH3fF3+fsWkm6xvjZkA3z2
+	f0zuCmCmLAP+hNPkgT+VPKgPqJuAnbrvMRPNLEg7BYIYzDo/3bRWJxXzQATrqcWjZ0IxA01iBh2
+	2Ujm5uKn8KF9t9j+FhQbaakvkEMCMW+ZxWwztzLj6mTBknSCMgKI0H9QkWbHcsO9dR/9fYbudg=
+X-Google-Smtp-Source: AGHT+IFKb1oYZ+ybP2RYFHNiIG+Ja5VxfDg5EssCfKi2oQI3t1Ux4fscelrcRXOuTEoVtY6GHAJGAinzcJNGWxPwLOE=
+X-Received: by 2002:a50:d4d2:0:b0:62d:411c:f6ab with SMTP id
+ 4fb4d7f45d1cf-62d411cfa14mr835834a12.15.1757486422773; Tue, 09 Sep 2025
+ 23:40:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ec8c7f8-cf79-4701-97dc-2d0a687f0f3b@linux.dev>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M5znx2hx04lbdDzfTtmcjIwM9Boq5F55QxCvGVEo0+o5yuc2tvIZs1RU
-	kUid4L2U97xdLoiiIGD7Ej/jeP8Ae9VV4FRM78hipxy4J8Mm6qgRbUSJSeD7sANH1uEUJQI
-	IfnmjJrfWzDflcPXsStS0QPWEWou2EX687kkALDnwQEadh/3kUgRl5xchQ1vP0OFKtz8egD
-	NMXJSBSvfWLnZi3l5CTrJYRsFgPhNqUx53nwvj6427aBMl+laRiL0g3N/KIQ3mc9Ywz/CBb
-	R8xUlFLTk2ZheUxkQZrUgTrVMlfAiwPeQwOlctiflctIDarVi4w9tg2v7W4Da3mFkVN8B8O
-	/JLSu/ow7OWHHVbHmXVk/pGBmDzkoRJd5mn5nxL29Sc6O2po92n3npkU5YDwbmjeC6XaCEz
-	rhUZ7TuE7sDDlagCybHQJVkzMKxhWB8/nk7yuhXdgPgM5JJXqTriAomt1uatLG1X8OwjbHE
-	pzigD08j4fHvdGgAq2DFZdYaBWUuzpQjHP2w/G95otOEBwRmolQVdhuH0fQntHSc6uaIEc2
-	Ra1iDo4jH40wRNRA7ZCAAlWSv5JrXkDrjF9OHiJqJTI8VQgLPbTqVzTgFXM1u3NTutMzEPq
-	GPemi9hIpDx1r86rktjczJqSGReHjgftTJxVe/yecVX7oNN+8z9pjQTD9EVFOgYyKIZ4ZVG
-	D0utzyXLf9tFR9L8XAjxIcXmlkbaBLZNHwuHe7MME7r/8YgKflCcu/8tA4cbnh+NXkDWv0J
-	6bgc/xPZyK/2r3lzyomMoGsG3tvFLYeOFuVn/apn2ltaV72F9iPvrinfrkdZqqublEk9nPe
-	BZn/pRW8NowmW7IIRtPde5rRRWuSGw4qSNNBh1VOSft+TQcEofWzpcYB/n54uy1pDoROpzy
-	EKGZu28Q1z4/m4VZ6g0OAfH5nYOQP7YJ9p1XXr9MBk/4MwCTo1Ur6NlHT3o03sJRBjjNXGt
-	3l/U/7EonRtwRYBOLSl8ndljY2fQFE15vfVs5DgF/zYfXc+AnRu2BOtyMvvuhgkYoGxojY2
-	7r6Z+7M+ir4Af+wUCf6E/mJhtpNLM=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
+ <87a53cx4r0.fsf@trenco.lwn.net> <CALMA0xYMNcD8UN5ykJALMskFGnNaau3cxJ1E5=bDE_mGS+bZBQ@mail.gmail.com>
+ <87plbzv2x8.fsf@trenco.lwn.net>
+In-Reply-To: <87plbzv2x8.fsf@trenco.lwn.net>
+From: Zhixu Liu <zhixu.liu@gmail.com>
+Date: Wed, 10 Sep 2025 14:39:46 +0800
+X-Gm-Features: AS18NWCpcoafUhcfTXSJXIrsp_IEqWKbztP-kSB_re6dGs_rvXvXxn6nZOXlQZY
+Message-ID: <CALMA0xaRpHXbpfQV3bFLgyhG+usg2c72ddPpYD5JU9r1AV=rZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: sphinx: handle removal of utils.error_reporting
+ in docutils 0.22
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 09, 2025 at 03:37:19PM +0100, Vadim Fedorenko wrote:
-> On 09/09/2025 13:09, Dong Yibo wrote:
-> > Complete the network device (netdev) registration flow for Mucse Gbe
-> > Ethernet chips, including:
-> > 1. Hardware state initialization:
-> >     - Send powerup notification to firmware (via echo_fw_status)
-> >     - Sync with firmware
-> >     - Reset hardware
-> > 2. MAC address handling:
-> >     - Retrieve permanent MAC from firmware (via mucse_mbx_get_macaddr)
-> >     - Fallback to random valid MAC (eth_random_addr) if not valid mac
-> >       from Fw
-> > 
-> > Signed-off-by: Dong Yibo <dong100@mucse.com>
-> 
-> [...]
-> 
-> > +struct mucse_hw;
-> 
-> why do you need this forward declaration ...> +
-> > +struct mucse_hw_operations {
-> > +	int (*reset_hw)(struct mucse_hw *hw);
-> > +	int (*get_perm_mac)(struct mucse_hw *hw);
-> > +	int (*mbx_send_notify)(struct mucse_hw *hw, bool enable, int mode);
-> > +};
-> > +
-> > +enum {
-> > +	mucse_fw_powerup,
-> > +};
-> > +
-> >   struct mucse_hw {
-> >   	void __iomem *hw_addr;
-> > +	struct pci_dev *pdev;
-> > +	const struct mucse_hw_operations *ops;
-> > +	struct mucse_dma_info dma;
-> >   	struct mucse_mbx_info mbx;
-> > +	int port;
-> > +	u8 perm_addr[ETH_ALEN];
-> >   	u8 pfvfnum;
-> >   };
-> 
-> ... if you can simply move mucse_hw_operations down here?
-> 
+On Wed, Sep 10, 2025 at 3:31=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> (Incidentally, Sphinx has not caught up with this change, so how did you
+> test your change?)
 
-Got it, I will update it. At the beginning I defined 
-'struct mucse_hw_operations ops' in 'struct mucse_hw'. I missed to
-consider this when it is changed to 'struct mucse_hw_operations *ops'.
+I see this problem on gentoo, someone else report it at
+https://bugs.gentoo.org/962349 later.
 
-> > @@ -54,4 +76,7 @@ int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
-> >   #define PCI_DEVICE_ID_N500_DUAL_PORT 0x8318
-> >   #define PCI_DEVICE_ID_N210 0x8208
-> >   #define PCI_DEVICE_ID_N210L 0x820a
-> > +
-> > +#define rnpgbe_dma_wr32(dma, reg, val) \
-> > +	writel((val), (dma)->dma_base_addr + (reg))
-> 
-> [...]
-> 
-> > @@ -48,8 +127,14 @@ static void rnpgbe_init_n210(struct mucse_hw *hw)
-> >    **/
-> >   int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
-> >   {
-> > +	struct mucse_dma_info *dma = &hw->dma;
-> >   	struct mucse_mbx_info *mbx = &hw->mbx;
-> > +	hw->ops = &rnpgbe_hw_ops;
-> > +	hw->port = 0;
-> > +
-> > +	dma->dma_base_addr = hw->hw_addr;
-> 
-> not quite sure why do you need additional structure just to store the
-> value that already exists in mucse_hw?
-> 
+Your patch is fine, I don't know (or didn't check) that we can remove
+support for python <3.6.
 
-The original meaning was that all submodules have their own base, such
-as dma, mbx... Just that 'dma_base_addr' is 'offset 0 from hw_addr'.
-And maybe it is not good to do it like this?
-...
-#define MUCSE_GBE_DMA_BASE 0
-dma->dma_base_addr = hw->hw_addr + MUCSE_GBE_DMA_BASE;
-...
-If so, I will remove dma_base_addr, and use hw_addr instead.
-
-> > +
-> >   	mbx->pf2fw_mbx_ctrl = MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
-> >   	mbx->fwpf_mbx_mask = MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
-> 
-
-Thanks for your feedback.
-
+Thanks.
+--=20
+Z. Liu
