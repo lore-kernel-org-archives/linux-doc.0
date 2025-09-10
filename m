@@ -1,275 +1,504 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D6A2857CB
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 12:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC8E264638;
+	Wed, 10 Sep 2025 12:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757506468; cv=none; b=mbd3Fv7Pv4jZJeQ8hL5IcJ+Q94y/kXSDCa0ihiDboSn2NkPMxt5fm851xn2DyaIAzLvaLUMfjgLay8YI2b5JRNP1vd0vMjZQo7t4G0X/CK4JDPxQzwnJaqrWxG92QZcz99QROxbfeYZE39UJrqeZaxnmqRFlzqh8merbPgpcv40=
+	t=1757507072; cv=none; b=gDJTKwpt6B3Wf+7r9wZcLNPmPUzrKeIclykD3nIX4eRNs8L36H1N7f1ztmCKB7ZnpSpBtZIesHM2Ke40fIYQRHYSBvLnzRUTqjUf23qw3rl6DlAK2HTQbV9i5irGBk6AGNVE2j3WemAVEiv4uMTZCpoY1a7mXmYfl+SvGVoFvDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757506468; c=relaxed/simple;
-	bh=EC7sFF7I2rLgk4E0lip3iu04YahpP6G6VRpjsv6Adoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FJ/MUwmtKLJTqwuLJsRTFOGdV5kkPcy4+WJxVWoPv3yBCnetPmyHr1I+NOar1Ui+G8P/EIVrhQsBOwdgAfHEsVxuHbRUPWOJgwULwkE/aJLprpXQplL+RJi6QaD9nO+HJTPrz0NL/5p58GeJvobCSlmKLKj4KOq3AZlSV4Eo80g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pxUK7Ex4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Ky4gXRZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pxUK7Ex4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Ky4gXRZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1757507072; c=relaxed/simple;
+	bh=dLMSaw/k3LKVYx+mrNApFSAFiUQF8+6vrHM9mvBP03A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jxWvyOnNCs70wvuUfMzZ5RsgwEgW/iHvyszLhglkPPo/jIeaf34tAxGxpQkcfREoj8kFdNOi0IqoFeLOatuCH/w8rY9Mg/em3e+PMfc3UZDdKwYHHKBBoCaX9H88srQBiaZPckftNbNAMF2JHC2Iv8VCS2LqTM+InYav4wIxzpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCF2uPNV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pxUK7Ex4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Ky4gXRZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pxUK7Ex4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Ky4gXRZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4790221C86;
-	Wed, 10 Sep 2025 12:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757506462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
-	b=pxUK7Ex4yGUYNZN5PAhw/Tv8WMvIaGVpDrwKkZypT8Tt/i7D8ZuxmpL/UcajxPIzwF7tEo
-	7yqX/56rfaO8T8K4BA4kzZnZPmDrnda+0l6EoZmlxsQdE57FoTbaB1XrLnopGf2+mQL/Nh
-	4zD0nijuHe6aMZY7DbzDYqXQEBWdGVo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757506462;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
-	b=9Ky4gXRZ131dmOszA0mfrMQRRdIB/H1HsExL07hjq7MUHDiFjy1R943NmRUPW9NaYMiMeh
-	5Y3L9e/6vzRzwxBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pxUK7Ex4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9Ky4gXRZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757506462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
-	b=pxUK7Ex4yGUYNZN5PAhw/Tv8WMvIaGVpDrwKkZypT8Tt/i7D8ZuxmpL/UcajxPIzwF7tEo
-	7yqX/56rfaO8T8K4BA4kzZnZPmDrnda+0l6EoZmlxsQdE57FoTbaB1XrLnopGf2+mQL/Nh
-	4zD0nijuHe6aMZY7DbzDYqXQEBWdGVo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757506462;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N5gaLRnDjWbSxcnFQcn+mJTPFqz2bFPqndDkLtin1DQ=;
-	b=9Ky4gXRZ131dmOszA0mfrMQRRdIB/H1HsExL07hjq7MUHDiFjy1R943NmRUPW9NaYMiMeh
-	5Y3L9e/6vzRzwxBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7870713310;
-	Wed, 10 Sep 2025 12:14:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4cE8GptrwWhadQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 10 Sep 2025 12:14:19 +0000
-Date: Wed, 10 Sep 2025 13:14:13 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Anthony Yznaga <anthony.yznaga@oracle.com>
-Cc: linux-mm@kvack.org, akpm@linux-foundation.org, andreyknvl@gmail.com, 
-	arnd@arndb.de, bp@alien8.de, brauner@kernel.org, bsegall@google.com, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@redhat.com, 
-	dietmar.eggemann@arm.com, ebiederm@xmission.com, hpa@zytor.com, jakub.wartak@mailbox.org, 
-	jannh@google.com, juri.lelli@redhat.com, khalid@kernel.org, 
-	liam.howlett@oracle.com, linyongting@bytedance.com, lorenzo.stoakes@oracle.com, 
-	luto@kernel.org, markhemm@googlemail.com, maz@kernel.org, mhiramat@kernel.org, 
-	mgorman@suse.de, mhocko@suse.com, mingo@redhat.com, muchun.song@linux.dev, 
-	neilb@suse.de, osalvador@suse.de, pcc@google.com, peterz@infradead.org, 
-	rostedt@goodmis.org, rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com, 
-	tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz, 
-	vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com, 
-	willy@infradead.org, x86@kernel.org, xhao@linux.alibaba.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v3 01/22] mm: Add msharefs filesystem
-Message-ID: <do7cmy4eiiqd5ux62r3u2ghizc62ljg5m3mqx7qzy3im4kc2p6@upmigdbp7eat>
-References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
- <20250820010415.699353-2-anthony.yznaga@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCF2uPNV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA029C4CEF0;
+	Wed, 10 Sep 2025 12:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757507072;
+	bh=dLMSaw/k3LKVYx+mrNApFSAFiUQF8+6vrHM9mvBP03A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kCF2uPNVeFaLEM3vJ37pALV4ZnW+iE1pas9hXYJ1gXBdzLGFR2E3ss8FUkwNmEynC
+	 Cjl7hv9BQq0IJMdiGvhg9rTlCq1Fxp9uerUwKNILR+riBJfnuv8Fp5P6tL/kAkTbrg
+	 YXPN9zah3atXW3ssJ1QzRoz5dEK54++mDBbpiyBjcxiXQafmEpIkOdjl4n2kDz7dXh
+	 WKe3Nzf3wo52s44xZhCHhBkzYg8sehb4uYaUhaYy8FmJDMyOUC2BDAyk5IojgHctGw
+	 GRazh7wGdkUOJpsgiqPEDWZRxnLG6w6HpQ3ojiAr/LZAn/tHjYvrDa49ZpFxUPDUtA
+	 NnEtH2ODss0Jw==
+Date: Wed, 10 Sep 2025 14:24:27 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 05/19] tools/docs: python_version: move version check
+ from sphinx-pre-install
+Message-ID: <20250910142427.61347215@foz.lan>
+In-Reply-To: <12f948d2bb995d9321ce07d8765e00bcbd822402@intel.com>
+References: <cover.1756969623.git.mchehab+huawei@kernel.org>
+	<784ca5070326558220cc275deaa046a274badebe.1756969623.git.mchehab+huawei@kernel.org>
+	<12f948d2bb995d9321ce07d8765e00bcbd822402@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820010415.699353-2-anthony.yznaga@oracle.com>
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 4790221C86
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,googlemail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLziudqfrzo6b7hzgpxksh1d9i)];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kvack.org,linux-foundation.org,gmail.com,arndb.de,alien8.de,kernel.org,google.com,lwn.net,linux.intel.com,redhat.com,arm.com,xmission.com,zytor.com,mailbox.org,oracle.com,bytedance.com,googlemail.com,suse.de,suse.com,linux.dev,infradead.org,goodmis.org,linutronix.de,suse.cz,linaro.org,zeniv.linux.org.uk,linux.alibaba.com,vger.kernel.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.01
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 19, 2025 at 06:03:54PM -0700, Anthony Yznaga wrote:
-> From: Khalid Aziz <khalid@kernel.org>
-> 
-> Add a pseudo filesystem that contains files and page table sharing
-> information that enables processes to share page table entries.
-> This patch adds the basic filesystem that can be mounted, a
-> CONFIG_MSHARE option to enable the feature, and documentation.
-> 
-> Signed-off-by: Khalid Aziz <khalid@kernel.org>
-> Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
-> ---
->  Documentation/filesystems/index.rst    |  1 +
->  Documentation/filesystems/msharefs.rst | 96 +++++++++++++++++++++++++
->  include/uapi/linux/magic.h             |  1 +
->  mm/Kconfig                             | 11 +++
->  mm/Makefile                            |  4 ++
->  mm/mshare.c                            | 97 ++++++++++++++++++++++++++
->  6 files changed, 210 insertions(+)
->  create mode 100644 Documentation/filesystems/msharefs.rst
->  create mode 100644 mm/mshare.c
-> 
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 11a599387266..dcd6605eb228 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -102,6 +102,7 @@ Documentation for filesystem implementations.
->     fuse-passthrough
->     inotify
->     isofs
-> +   msharefs
->     nilfs2
->     nfs/index
->     ntfs3
-> diff --git a/Documentation/filesystems/msharefs.rst b/Documentation/filesystems/msharefs.rst
-> new file mode 100644
-> index 000000000000..3e5b7d531821
-> --- /dev/null
-> +++ b/Documentation/filesystems/msharefs.rst
-> @@ -0,0 +1,96 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================================================
-> +Msharefs - A filesystem to support shared page tables
-> +=====================================================
-> +
-> +What is msharefs?
-> +-----------------
-> +
-> +msharefs is a pseudo filesystem that allows multiple processes to
-> +share page table entries for shared pages. To enable support for
-> +msharefs the kernel must be compiled with CONFIG_MSHARE set.
-> +
-> +msharefs is typically mounted like this::
-> +
-> +	mount -t msharefs none /sys/fs/mshare
-> +
-> +A file created on msharefs creates a new shared region where all
-> +processes mapping that region will map it using shared page table
-> +entries. Once the size of the region has been established via
-> +ftruncate() or fallocate(), the region can be mapped into processes
-> +and ioctls used to map and unmap objects within it. Note that an
-> +msharefs file is a control file and accessing mapped objects within
-> +a shared region through read or write of the file is not permitted.
-> +
+Em Wed, 10 Sep 2025 13:14:33 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-Welp. I really really don't like this API.
-I assume this has been discussed previously, but why do we need a new
-magical pseudofs mounted under some random /sys directory?
+> On Thu, 04 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wr=
+ote:
+> > The sphinx-pre-install code has some logic to deal with Python
+> > version, which ensures that a minimal version will be enforced
+> > for documentation build logic.
+> >
+> > Move it to a separate library to allow re-using its code.
+> >
+> > No functional changes.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  tools/docs/lib/python_version.py | 133 +++++++++++++++++++++++++++++++
+> >  tools/docs/sphinx-pre-install    | 120 +++-------------------------
+> >  2 files changed, 146 insertions(+), 107 deletions(-)
+> >  create mode 100644 tools/docs/lib/python_version.py
+> >
+> > diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_v=
+ersion.py
+> > new file mode 100644
+> > index 000000000000..0519d524e547
+> > --- /dev/null
+> > +++ b/tools/docs/lib/python_version.py
+> > @@ -0,0 +1,133 @@
+> > +#!/usr/bin/env python3
+> > +# SPDX-License-Identifier: GPL-2.0-or-later
+> > +# Copyright (c) 2017-2025 Mauro Carvalho Chehab <mchehab+huawei@kernel=
+.org>
+> > +
+> > +"""
+> > +Handle Python version check logic.
+> > +
+> > +Not all Python versions are supported by scripts. Yet, on some cases,
+> > +like during documentation build, a newer version of python could be
+> > +available.
+> > +
+> > +This class allows checking if the minimal requirements are followed.
+> > +
+> > +Better than that, PythonVersion.check_python() not only checks the min=
+imal
+> > +requirements, but it automatically switches to a the newest available
+> > +Python version if present.
+> > +
+> > +"""
+> > +
+> > +import os
+> > +import re
+> > +import subprocess
+> > +import sys
+> > +
+> > +from glob import glob
+> > +
+> > +class PythonVersion:
+> > +    """
+> > +    Ancillary methods that checks for missing dependencies for differe=
+nt
+> > +    types of types, like binaries, python modules, rpm deps, etc.
+> > +    """
+> > +
+> > +    def __init__(self, version):
+> > +        """=EF=BF=BD=EF=BF=BDnitialize self.version tuple from a versi=
+on string"""
+> > +        self.version =3D self.parse_version(version)
+> > +
+> > +    @staticmethod
+> > +    def parse_version(version):
+> > +        """Convert a major.minor.patch version into a tuple"""
+> > +        return tuple(int(x) for x in version.split(".")) =20
+>=20
+> I've written a few quick and dirty semver parsers myself, and it saddens
+> me to think of adding a simplistic one in the kernel.
+>=20
+> I'm just wondering, are we doomed to reinventing the wheels in our
+> reluctance to depend on anything else?
 
-But, ok, assuming we're thinking about something hugetlbfs like, that's not too
-bad, and programs already know how to use it.
+What do you propose instead, using only internal libs(*)?
 
-> +How to use mshare
-> +-----------------
-> +
-> +Here are the basic steps for using mshare:
-> +
-> +  1. Mount msharefs on /sys/fs/mshare::
-> +
-> +	mount -t msharefs msharefs /sys/fs/mshare
-> +
-> +  2. mshare regions have alignment and size requirements. Start
-> +     address for the region must be aligned to an address boundary and
-> +     be a multiple of fixed size. This alignment and size requirement
-> +     can be obtained by reading the file ``/sys/fs/mshare/mshare_info``
-> +     which returns a number in text format. mshare regions must be
-> +     aligned to this boundary and be a multiple of this size.
-> +
+In any case, import a library just for one or two single-line
+functions seem overkill to me.
 
-I don't see why size and alignment needs to be taken into consideration by
-userspace. You can simply establish a mapping and pad it out.
+(*) As this is used by sphinx-pre-install, which is the script which=20
+    checks for missing dependencies, whatever we pick, it should not
+    use external libs.
 
-> +  3. For the process creating an mshare region:
-> +
-> +    a. Create a file on /sys/fs/mshare, for example::
-> +
-> +        fd = open("/sys/fs/mshare/shareme",
-> +                        O_RDWR|O_CREAT|O_EXCL, 0600);
+>=20
+> > +
+> > +    @staticmethod
+> > +    def ver_str(version):
+> > +        """Returns a version tuple as major.minor.patch"""
+> > +        return ".".join([str(x) for x in version])
+> > +
+> > +    def __str__(self):
+> > +        """Returns a version tuple as major.minor.patch from self.vers=
+ion"""
+> > +        return self.ver_str(self.version)
+> > +
+> > +    @staticmethod
+> > +    def get_python_version(cmd):
+> > +        """
+> > +        Get python version from a Python binary. As we need to detect =
+if
+> > +        are out there newer python binaries, we can't rely on sys.rele=
+ase here.
+> > +        """
+> > +
+> > +        kwargs =3D {}
+> > +        if sys.version_info < (3, 7): =20
+>=20
+> Checking for things that EOL'd four years ago. Why are we doing this to
+> ourselves? Why should we take on maintenance of code that jumps through
+> hoops for things that nobody supports anymore?
+>=20
+> In Documentation/process/changes.rst we've declared Python 3.9 as
+> minimum, which is also the oldest version supported by upstream (until
+> next month). Even Debian oldoldstable (that's two olds) has 3.9.
+>
+> We're talking about the documentation build. I can undertand being more
+> conservative about the kernel build in general, but IMHO this is just
+> extra work for absolutely no users out there. And I'm not advocating for
+> bleeding edge here.
+>=20
+> We could just throw out a lot of crap by setting newer but still
+> moderately concervative required Python (and Sphinx) versions, and bail
+> out on older version. Let the user figure out how to get them.
+>=20
+> We don't do this for any other tools either.
+>=20
+> I'm saying that instead of refactoring this overgrown logic to a
+> separate file and class, it should be nuked out of the kernel
+> completely.
 
-Ok, makes sense.
+True, but latest SUSE and openSUSE distros (not counting Thumbleweed
+rolling version one) still have Python 3.6 as the main version.
 
-> +
-> +    b. Establish the size of the region::
-> +
-> +        fallocate(fd, 0, 0, BUF_SIZE);
-> +
-> +      or::
-> +
-> +        ftruncate(fd, BUF_SIZE);
-> +
+They provide 3.9 as well, but the detection script needs to work with
+3.6 to discover that.
 
-Yep.
+If we don't have something like that, we should probably return
+using the Perl version of sphinx-pre-install script, which is
+a lot more compatible with different distros.
 
-> +    c. Map some memory in the region::
-> +
-> +	struct mshare_create mcreate;
-> +
-> +	mcreate.region_offset = 0;
-> +	mcreate.size = BUF_SIZE;
-> +	mcreate.offset = 0;
-> +	mcreate.prot = PROT_READ | PROT_WRITE;
-> +	mcreate.flags = MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED;
-> +	mcreate.fd = -1;
-> +
-> +	ioctl(fd, MSHAREFS_CREATE_MAPPING, &mcreate);
+> > +            kwargs['universal_newlines'] =3D True
+> > +        else:
+> > +            kwargs['text'] =3D True
+> > +
+> > +        result =3D subprocess.run([cmd, "--version"],
+> > +                                stdout =3D subprocess.PIPE,
+> > +                                stderr =3D subprocess.PIPE,
+> > +                                **kwargs, check=3DFalse)
+> > +
+> > +        version =3D result.stdout.strip()
+> > +
+> > +        match =3D re.search(r"(\d+\.\d+\.\d+)", version)
+> > +        if match:
+> > +            return PythonVersion.parse_version(match.group(1))
+> > +
+> > +        print(f"Can't parse version {version}")
+> > +        return (0, 0, 0)
+> > +
+> > +    @staticmethod
+> > +    def find_python(min_version):
+> > +        """
+> > +        Detect if are out there any python 3.xy version newer than the
+> > +        current one.
+> > +
+> > +        Note: this routine is limited to up to 2 digits for python3. We
+> > +        may need to update it one day, hopefully on a distant future.
+> > +        """
+> > +        patterns =3D [
+> > +            "python3.[0-9]",
+> > +            "python3.[0-9][0-9]",
+> > +        ]
+> > +
+> > +        # Seek for a python binary newer than min_version
+> > +        for path in os.getenv("PATH", "").split(":"):
+> > +            for pattern in patterns:
+> > +                for cmd in glob(os.path.join(path, pattern)):
+> > +                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
+> > +                        version =3D PythonVersion.get_python_version(c=
+md)
+> > +                        if version >=3D min_version:
+> > +                            return cmd
+> > +
+> > +        return None
+> > +
+> > +    @staticmethod
+> > +    def check_python(min_version):
+> > +        """
+> > +        Check if the current python binary satisfies our minimal requi=
+rement
+> > +        for Sphinx build. If not, re-run with a newer version if found.
+> > +        """
+> > +        cur_ver =3D sys.version_info[:3]
+> > +        if cur_ver >=3D min_version:
+> > +            ver =3D PythonVersion.ver_str(cur_ver)
+> > +            print(f"Python version: {ver}")
+> > +
+> > +            return
+> > +
+> > +        python_ver =3D PythonVersion.ver_str(cur_ver)
+> > +
+> > +        new_python_cmd =3D PythonVersion.find_python(min_version)
+> > +        if not new_python_cmd:
+> > +            print(f"ERROR: Python version {python_ver} is not spported=
+ anymore\n")
+> > +            print("       Can't find a new version. This script may fa=
+il")
+> > +            return
+> > +
+> > +        # Restart script using the newer version =20
+>=20
+> I thought the whole idea of restarting was completely rejected by
+> approximately everyone?!
 
-Why?? Do you want to map mappings in msharefs files, that can themselves be
-mapped? Why do we need an ioctl here?
+This patch is just moving the code. There is a patch after this one
+changing the behavior.
 
-Really, this feature seems very overengineered. If you want to go the fs route,
-doing a new pseudofs that's just like hugetlb, but without the hugepages, sounds
-like a decent idea. Or enhancing tmpfs to actually support this kind of stuff.
-Or properly doing a syscall that can try to attach the page-table-sharing
-property to random VMAs.
+> BR,
+> Jani.
+>=20
+>=20
+> > +        script_path =3D os.path.abspath(sys.argv[0])
+> > +        args =3D [new_python_cmd, script_path] + sys.argv[1:]
+> > +
+> > +        print(f"Python {python_ver} not supported. Changing to {new_py=
+thon_cmd}")
+> > +
+> > +        try:
+> > +            os.execv(new_python_cmd, args)
+> > +        except OSError as e:
+> > +            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
+> > diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-inst=
+all
+> > index 954ed3dc0645..d6d673b7945c 100755
+> > --- a/tools/docs/sphinx-pre-install
+> > +++ b/tools/docs/sphinx-pre-install
+> > @@ -32,20 +32,10 @@ import subprocess
+> >  import sys
+> >  from glob import glob
+> > =20
+> > +from lib.python_version import PythonVersion
+> > =20
+> > -def parse_version(version):
+> > -    """Convert a major.minor.patch version into a tuple"""
+> > -    return tuple(int(x) for x in version.split("."))
+> > -
+> > -
+> > -def ver_str(version):
+> > -    """Returns a version tuple as major.minor.patch"""
+> > -
+> > -    return ".".join([str(x) for x in version])
+> > -
+> > -
+> > -RECOMMENDED_VERSION =3D parse_version("3.4.3")
+> > -MIN_PYTHON_VERSION =3D parse_version("3.7")
+> > +RECOMMENDED_VERSION =3D PythonVersion("3.4.3").version
+> > +MIN_PYTHON_VERSION =3D PythonVersion("3.7").version
+> > =20
+> > =20
+> >  class DepManager:
+> > @@ -235,95 +225,11 @@ class AncillaryMethods:
+> > =20
+> >          return None
+> > =20
+> > -    @staticmethod
+> > -    def get_python_version(cmd):
+> > -        """
+> > -        Get python version from a Python binary. As we need to detect =
+if
+> > -        are out there newer python binaries, we can't rely on sys.rele=
+ase here.
+> > -        """
+> > -
+> > -        result =3D SphinxDependencyChecker.run([cmd, "--version"],
+> > -                                            capture_output=3DTrue, tex=
+t=3DTrue)
+> > -        version =3D result.stdout.strip()
+> > -
+> > -        match =3D re.search(r"(\d+\.\d+\.\d+)", version)
+> > -        if match:
+> > -            return parse_version(match.group(1))
+> > -
+> > -        print(f"Can't parse version {version}")
+> > -        return (0, 0, 0)
+> > -
+> > -    @staticmethod
+> > -    def find_python():
+> > -        """
+> > -        Detect if are out there any python 3.xy version newer than the
+> > -        current one.
+> > -
+> > -        Note: this routine is limited to up to 2 digits for python3. We
+> > -        may need to update it one day, hopefully on a distant future.
+> > -        """
+> > -        patterns =3D [
+> > -            "python3.[0-9]",
+> > -            "python3.[0-9][0-9]",
+> > -        ]
+> > -
+> > -        # Seek for a python binary newer than MIN_PYTHON_VERSION
+> > -        for path in os.getenv("PATH", "").split(":"):
+> > -            for pattern in patterns:
+> > -                for cmd in glob(os.path.join(path, pattern)):
+> > -                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
+> > -                        version =3D SphinxDependencyChecker.get_python=
+_version(cmd)
+> > -                        if version >=3D MIN_PYTHON_VERSION:
+> > -                            return cmd
+> > -
+> > -    @staticmethod
+> > -    def check_python():
+> > -        """
+> > -        Check if the current python binary satisfies our minimal requi=
+rement
+> > -        for Sphinx build. If not, re-run with a newer version if found.
+> > -        """
+> > -        cur_ver =3D sys.version_info[:3]
+> > -        if cur_ver >=3D MIN_PYTHON_VERSION:
+> > -            ver =3D ver_str(cur_ver)
+> > -            print(f"Python version: {ver}")
+> > -
+> > -            # This could be useful for debugging purposes
+> > -            if SphinxDependencyChecker.which("docutils"):
+> > -                result =3D SphinxDependencyChecker.run(["docutils", "-=
+-version"],
+> > -                                                    capture_output=3DT=
+rue, text=3DTrue)
+> > -                ver =3D result.stdout.strip()
+> > -                match =3D re.search(r"(\d+\.\d+\.\d+)", ver)
+> > -                if match:
+> > -                    ver =3D match.group(1)
+> > -
+> > -                print(f"Docutils version: {ver}")
+> > -
+> > -            return
+> > -
+> > -        python_ver =3D ver_str(cur_ver)
+> > -
+> > -        new_python_cmd =3D SphinxDependencyChecker.find_python()
+> > -        if not new_python_cmd:
+> > -            print(f"ERROR: Python version {python_ver} is not spported=
+ anymore\n")
+> > -            print("       Can't find a new version. This script may fa=
+il")
+> > -            return
+> > -
+> > -        # Restart script using the newer version
+> > -        script_path =3D os.path.abspath(sys.argv[0])
+> > -        args =3D [new_python_cmd, script_path] + sys.argv[1:]
+> > -
+> > -        print(f"Python {python_ver} not supported. Changing to {new_py=
+thon_cmd}")
+> > -
+> > -        try:
+> > -            os.execv(new_python_cmd, args)
+> > -        except OSError as e:
+> > -            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
+> > -
+> >      @staticmethod
+> >      def run(*args, **kwargs):
+> >          """
+> >          Excecute a command, hiding its output by default.
+> > -        Preserve comatibility with older Python versions.
+> > +        Preserve compatibility with older Python versions.
+> >          """
+> > =20
+> >          capture_output =3D kwargs.pop('capture_output', False)
+> > @@ -527,11 +433,11 @@ class MissingCheckers(AncillaryMethods):
+> >          for line in result.stdout.split("\n"):
+> >              match =3D re.match(r"^sphinx-build\s+([\d\.]+)(?:\+(?:/[\d=
+a-f]+)|b\d+)?\s*$", line)
+> >              if match:
+> > -                return parse_version(match.group(1))
+> > +                return PythonVersion.parse_version(match.group(1))
+> > =20
+> >              match =3D re.match(r"^Sphinx.*\s+([\d\.]+)\s*$", line)
+> >              if match:
+> > -                return parse_version(match.group(1))
+> > +                return PythonVersion.parse_version(match.group(1))
+> > =20
+> >      def check_sphinx(self, conf):
+> >          """
+> > @@ -542,7 +448,7 @@ class MissingCheckers(AncillaryMethods):
+> >                  for line in f:
+> >                      match =3D re.match(r"^\s*needs_sphinx\s*=3D\s*[\'\=
+"]([\d\.]+)[\'\"]", line)
+> >                      if match:
+> > -                        self.min_version =3D parse_version(match.group=
+(1))
+> > +                        self.min_version =3D PythonVersion.parse_versi=
+on(match.group(1))
+> >                          break
+> >          except IOError:
+> >              sys.exit(f"Can't open {conf}")
+> > @@ -562,8 +468,8 @@ class MissingCheckers(AncillaryMethods):
+> >              sys.exit(f"{sphinx} didn't return its version")
+> > =20
+> >          if self.cur_version < self.min_version:
+> > -            curver =3D ver_str(self.cur_version)
+> > -            minver =3D ver_str(self.min_version)
+> > +            curver =3D PythonVersion.ver_str(self.cur_version)
+> > +            minver =3D PythonVersion.ver_str(self.min_version)
+> > =20
+> >              print(f"ERROR: Sphinx version is {curver}. It should be >=
+=3D {minver}")
+> >              self.need_sphinx =3D 1
+> > @@ -1304,7 +1210,7 @@ class SphinxDependencyChecker(MissingCheckers):
+> >              else:
+> >                  if self.need_sphinx and ver >=3D self.min_version:
+> >                      return (f, ver)
+> > -                elif parse_version(ver) > self.cur_version:
+> > +                elif PythonVersion.parse_version(ver) > self.cur_versi=
+on:
+> >                      return (f, ver)
+> > =20
+> >          return ("", ver)
+> > @@ -1411,7 +1317,7 @@ class SphinxDependencyChecker(MissingCheckers):
+> >              return
+> > =20
+> >          if self.latest_avail_ver:
+> > -            latest_avail_ver =3D ver_str(self.latest_avail_ver)
+> > +            latest_avail_ver =3D PythonVersion.ver_str(self.latest_ava=
+il_ver)
+> > =20
+> >          if not self.need_sphinx:
+> >              # sphinx-build is present and its version is >=3D $min_ver=
+sion
+> > @@ -1507,7 +1413,7 @@ class SphinxDependencyChecker(MissingCheckers):
+> >          else:
+> >              print("Unknown OS")
+> >          if self.cur_version !=3D (0, 0, 0):
+> > -            ver =3D ver_str(self.cur_version)
+> > +            ver =3D PythonVersion.ver_str(self.cur_version)
+> >              print(f"Sphinx version: {ver}\n")
+> > =20
+> >          # Check the type of virtual env, depending on Python version
+> > @@ -1613,7 +1519,7 @@ def main():
+> > =20
+> >      checker =3D SphinxDependencyChecker(args)
+> > =20
+> > -    checker.check_python()
+> > +    PythonVersion.check_python(MIN_PYTHON_VERSION)
+> >      checker.check_needs()
+> > =20
+> >  # Call main if not used as module =20
+>=20
 
-But I'm wholly opposed to the idea of "mapping a file that itself has more
-mappings, mappings which you establish using a magic filesystem and ioctls".
 
--- 
-Pedro
+
+Thanks,
+Mauro
