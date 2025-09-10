@@ -1,83 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5919128EB;
-	Wed, 10 Sep 2025 01:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EFE212550;
+	Wed, 10 Sep 2025 01:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757467345; cv=none; b=fqhtzf8x0xrpmtZrylqFVMZNsmRkVt+v2wJfwt7D0y6hDzMreqR205MlI+WVD8bd6hdW29LH4mQ5jFwbu4vmxfRf7J7Oo1WdVQr51jpcV0uqvdbPxsSPnxzM/xB5pZEmanwtKkT0m4xTSA+HVCJRelIEfpiTekcB72M7noDWRe0=
+	t=1757468543; cv=none; b=NzVzobWQoZnTFlIg90kbGdSqoYnosp20HqGEAHFpI78w+aNcVu/dfM5mHLr7LbIVSCMXliOrn6WoESvLD+V++o5XFgJS58De4sfcjWw1WwlGM9mpXlTbvJz2Y04BcW7Rv3QuDEejy0RlCIHylIONxzMoOwKUvtUg4ehfSf7dvSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757467345; c=relaxed/simple;
-	bh=p544tyskxhMXXHIGtIgpsGHuS7qiqPp4PGaGoTa2Ig8=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=bPJbJQQvlAfBHdcIWvK/OOw4Qf5l+3He2GhjbQVtNr6pbLn5Je/6sdLnMTVp4ol2+jv+XC2hNhLqkaph6Xuz5MBLKERwled/NrT3gvcm9Vb94jOhi4u59re/dQ6SyVF1oI11J0YPZXX/nG3h0iN5KtoSVXf6m5ZzttXaXeVYP7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZxu1pNY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757468543; c=relaxed/simple;
+	bh=VS/jCBz/twNOKbVyRFcGfLXUgMkqYIWxlqN5dl4ocB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kMTzoJdNPyt6Ys5aB6t7yjXFmQpcF2/yJWFnbArBqsy0pl9gt54Q/n7qIkSm5+RP3mtbNYN0i/tySUTjMD5RRBbKAQhlPLi2VatR0BszxQzDD4sl0FLLp4cvfp64SYnwyi9Aj2pm6EzhTFHTmmwxSEiFYkhSdMXeujV6geFSjdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=shzysXrn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZxu1pNY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C29C4CEF4;
-	Wed, 10 Sep 2025 01:22:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="shzysXrn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3414FC4CEF4;
+	Wed, 10 Sep 2025 01:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757467344;
-	bh=p544tyskxhMXXHIGtIgpsGHuS7qiqPp4PGaGoTa2Ig8=;
+	s=k20201202; t=1757468543;
+	bh=VS/jCBz/twNOKbVyRFcGfLXUgMkqYIWxlqN5dl4ocB4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IZxu1pNY/OK3nNWHUTCV+REZCpAYaxASKOOnuamiyzTX5kvPS+GVxYDhvkj0NYomA
-	 /IE6WP/GesSkuo9RXzqzoFHdAsVIV0V3zvEj5n7TCiT85bEnHNZ1aN8Yb10N8tQeZW
-	 LGRTolUhFIRSXe+8j3KEHtk+/dsbO3CjQxCT+thuFLvKHeJKWJLvdkAK5vyk220zMV
-	 5jnL8NCHFUzAUHw/WyD31qKvnZpZf+mIpYs85W3i68xTdCYhMrjQzjprJcSQUqtpLQ
-	 ro0U4mz/UhZ7whjqYxZkP/YXt3oFUag2wEEfRtdRV+brrwzU4pWVBJGmoKTdzeMFIZ
-	 zn4sw2XnfsdHA==
-Date: Wed, 10 Sep 2025 10:22:18 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] tracing: wprobe: Add wprobe event trigger
-Message-Id: <20250910102218.a767c63f91e7b4dcb68144ee@kernel.org>
-In-Reply-To: <175708432404.64001.2572289500054005289.stgit@devnote2>
-References: <175708427997.64001.11661389635019507808.stgit@devnote2>
-	<175708432404.64001.2572289500054005289.stgit@devnote2>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=shzysXrnijyXfHLYpyT0/8kUeGhZc26sw18hS5wfolGD7r2BMPFf2kA526KbMNQjn
+	 L3aea3U9+sdhRPlT9zNP07bZDIjNKOkIY4eiRPOXsrz9J65RQ1JQhfw72FtEIz75mt
+	 aAYEUb+JOYhAQLYZjoE6uesT+bvtWlx63EX3x+D7vEjEBiGxjalpUMBVdV7Cb4NN3m
+	 wZLrTGT2y9u1m4+D9Xx48/2RhRdgIWWtng/oGoKhENmAQe6G/DTKrxIWsBMasqb5cL
+	 NIoROMFfc7PQ15JafpquIZF6gc+NoDFyWRhpQUPGyhp+nnQpfp9zwpEbiRuhB/fmnC
+	 GddC+ao8h1CcA==
+Date: Tue, 9 Sep 2025 18:42:21 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Mat Martineau
+ <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Davide Caratti
+ <dcaratti@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <shuah@kernel.org>, netdev@vger.kernel.org, mptcp@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net 1/3] netlink: specs: mptcp: fix if-idx attribute
+ type
+Message-ID: <20250909184221.02b070b0@kernel.org>
+In-Reply-To: <8f0bc70f-1657-4938-88e8-532ffb7c1a12@kernel.org>
+References: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
+	<20250908-net-mptcp-misc-fixes-6-17-rc5-v1-1-5f2168a66079@kernel.org>
+	<m2plc0ui9z.fsf@gmail.com>
+	<8f0bc70f-1657-4938-88e8-532ffb7c1a12@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  5 Sep 2025 23:58:44 +0900
-"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+On Tue, 9 Sep 2025 11:08:46 +0200 Matthieu Baerts wrote:
+> > Note that mptcp_pm_parse_entry has this, which should maybe be fixed at
+> > the same time:
+> > 
+> > 	u32 val = nla_get_s32(tb[MPTCP_PM_ADDR_ATTR_IF_IDX]);  
+> 
+> Good catch!
 
-> +static void wprobe_unregister_trigger(char *glob,
-> +				      struct event_trigger_data *data,
-> +				      struct trace_event_file *file)
-> +{
-> +	lockdep_assert_held(&event_mutex);
-> +
-> +	if (wprobe_trigger_exist_same(data, file)) {
-> +		list_del_rcu(&data->list);
-> +		trace_event_trigger_enable_disable(file, 0);
-> +		update_cond_flag(file);
-> +	}
-> +
-> +	if (data && data->ops->free)
-> +		data->ops->free(data);
-> +}
+indeed!
 
-This function is wrongly free the passed trigger_data instead of
-trigger_data on the event. The passed @data is a dummy data to
-find the actual data from @file.
-Thanks Jinchao to find it!
+> This should be fixed in a dedicated patch, because this fixes commit:
+> ef0da3b8a2f1 ("mptcp: move address attribute into mptcp_addr_info"), a
+> different commit than the one being fixed here.
 
-Thank you,
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+int = u32 is unlikely to cause issues AFAIU. We recently applied 
+a bunch of such fixes to net-next. I think this can also go to -next.
