@@ -1,149 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7ADEACD;
-	Wed, 10 Sep 2025 17:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582DB2737F4
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 17:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757525350; cv=none; b=qutxNbrOhTL0Vl/UxAi8BhVfcv5Jyhef6fSr25yzV+lA+QAO5CAMlY+oU3OmlSwEjo68VjDp+p+Zvn1KeAZuYcTkVgm12aaBnmtfhkGPIVll/fuWFb3kc1JwDO6rM+13WbxaxO1F05t9ET7mUl4LpmAUM0oLQcRVnaxJxyY0Kcs=
+	t=1757525493; cv=none; b=jGd4PY+jmVAkgAm//d9Ly7Dc+FGcBxx4UW82gaBb38Vt3ssNVnFLDzSNPVkxe4Mgax3WxUuu4MVJdNTtY4Pv0ImkVdXYNNtPKeD1WW1oUGxLHa7xd54k/JtHOyEpvSqDqah+iNFZ8ZVxO4U5lIf1m+44t4ChraJv1de5hdElhnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757525350; c=relaxed/simple;
-	bh=lnqyI9f64I1yhXVL6nN7wKwIlUzM9Wz76sbGLU0tYUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WhnXqx4V68NuaWSD66QxlPVEBFDDMs+yrCoyeoWgDyPfLzP3868s1pa/lWAd0SiKsnLnSOIYaS5eVzQ7myE6w131DYddBNJjVZ5RM+aymhEk0lpiDMJL9gSTeH7dbNPE/pB26aq1cyfhKQMoeIxh/HjZxTbAKKYnGEQOpYWkfSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcfZ8jUB; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757525493; c=relaxed/simple;
+	bh=T42WLsYUag3i4x76FdcxddwpCrpFK4jtgY9tzWa7sDQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c1vXpo3cHpYDfR0GhI/rcEzXld5s4hxlIDZ1t8sHK1sZ/O93Z7ug9n4sE7iam4Y1oG6chHMtDk1+tc1tSpYBAf0W67Epa4VjhaeH8HoDa6/21h72kufsJ0jOaqOgYTDzSWfwEnRAKlizzrw8U6fDTiQq45hcwnOuL4SFtuRgKRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hAlKPrfa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcfZ8jUB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757525348; x=1789061348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lnqyI9f64I1yhXVL6nN7wKwIlUzM9Wz76sbGLU0tYUk=;
-  b=bcfZ8jUBd5wZcpuPoCbjPL4h+gPwCYeAsz7W14BKqEEhlr7LfBobxYJ/
-   BZrVLX5hJ1b1sfegQ//l0qs5g9R9zzzFIjG50byPOMkYko8XGPJkS4vKF
-   3KqZzqKA9943J9ZdbTJEfq60v1Kl+ro3/E1lkoKsF1ck0GW/fjTN1aHWS
-   SodHtP9Bp71dTzf5d1ljupmbMO5rbf+93snf2RQzZJJdt4T/JXzclg0uk
-   fuCeO1sRZ2ebYggrnvccbyYX1E5i0XLl2Q1jRVjKXCKIH/woc9FXpL8f4
-   vuwX9JNWfSWQFCD3+TWl8+UNgVbVk61cjNygAceT57LiOVEi8j1ODKZSb
-   Q==;
-X-CSE-ConnectionGUID: EFA+svv8T+upCVNxcZkaJg==
-X-CSE-MsgGUID: w1QyYt1pQIir+sWn4K++Rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="58886909"
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="58886909"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 10:29:08 -0700
-X-CSE-ConnectionGUID: 4mWWF5aTSDe+1XoKr5D04w==
-X-CSE-MsgGUID: ltXG1s5yRRe/xWJO8Hq3Ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="173826211"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Sep 2025 10:28:42 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwOca-0006Al-0G;
-	Wed, 10 Sep 2025 17:28:40 +0000
-Date: Thu, 11 Sep 2025 01:27:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, akpm@linux-foundation.org,
-	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	hannes@cmpxchg.org, usamaarif642@gmail.com,
-	gutierrez.asier@huawei-partners.com, willy@infradead.org,
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net,
-	21cnbao@gmail.com, shakeel.butt@linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Lance Yang <ioworker0@gmail.com>
-Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from
- khugepaged_mm_slot
-Message-ID: <202509110109.PSgSHb31-lkp@intel.com>
-References: <20250910024447.64788-2-laoar.shao@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hAlKPrfa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757525490;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y4DBrNtiTrUiFvnKqXZbU34j/Yix0O34EDnkigeP54A=;
+	b=hAlKPrfaAI/0yFydyk3T2M4nMoN/Nr7OGzmoNbgVznPfKp7nVqw2YeICl1Brx5BFoiEQMt
+	Ly9l1i20EdZarSJu7/xnKqiAWtMRTOh8NqAWWxmLW10h4G3dRFC4OpJ60L0DkTEgMwg9Va
+	u2IgcGuQhmS72Wrcy/suBvM4taQIWtQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-12-F2ttI1oxPJquUvy_WeqVng-1; Wed,
+ 10 Sep 2025 13:31:26 -0400
+X-MC-Unique: F2ttI1oxPJquUvy_WeqVng-1
+X-Mimecast-MFC-AGG-ID: F2ttI1oxPJquUvy_WeqVng_1757525485
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 70E6619541B2;
+	Wed, 10 Sep 2025 17:31:24 +0000 (UTC)
+Received: from [10.45.225.144] (unknown [10.45.225.144])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 935291956095;
+	Wed, 10 Sep 2025 17:31:20 +0000 (UTC)
+Message-ID: <4277866b-67e9-4d75-a7e4-9296b898fbcb@redhat.com>
+Date: Wed, 10 Sep 2025 19:31:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910024447.64788-2-laoar.shao@gmail.com>
-
-Hi Yafang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp-remove-disabled-task-from-khugepaged_mm_slot/20250910-144850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250910024447.64788-2-laoar.shao%40gmail.com
-patch subject: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from khugepaged_mm_slot
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250911/202509110109.PSgSHb31-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110109.PSgSHb31-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509110109.PSgSHb31-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/sys.c:2500:6: error: call to undeclared function 'hugepage_pmd_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2500 |             hugepage_pmd_enabled())
-         |             ^
->> kernel/sys.c:2501:3: error: call to undeclared function '__khugepaged_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2501 |                 __khugepaged_enter(mm);
-         |                 ^
-   2 errors generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] dpll: zl3073x: Allow to use custom phase measure
+ averaging factor
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: netdev@vger.kernel.org, Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250910103221.347108-1-ivecera@redhat.com>
+ <acfc8c63-4434-4738-84a9-00360e70c773@lunn.ch>
+ <0817610a-e3dd-427e-b0ad-c2d503bb8a4f@redhat.com>
+ <10886c5f-1265-46ec-8caa-41bde6888905@lunn.ch>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <10886c5f-1265-46ec-8caa-41bde6888905@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
 
-vim +/hugepage_pmd_enabled +2500 kernel/sys.c
 
-  2471	
-  2472	static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
-  2473					 unsigned long arg4, unsigned long arg5)
-  2474	{
-  2475		struct mm_struct *mm = current->mm;
-  2476	
-  2477		if (arg4 || arg5)
-  2478			return -EINVAL;
-  2479	
-  2480		/* Flags are only allowed when disabling. */
-  2481		if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
-  2482			return -EINVAL;
-  2483		if (mmap_write_lock_killable(current->mm))
-  2484			return -EINTR;
-  2485		if (thp_disable) {
-  2486			if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
-  2487				mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
-  2488				mm_flags_set(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-  2489			} else {
-  2490				mm_flags_set(MMF_DISABLE_THP_COMPLETELY, mm);
-  2491				mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-  2492			}
-  2493		} else {
-  2494			mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
-  2495			mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-  2496		}
-  2497	
-  2498		if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
-  2499		    !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
-> 2500		    hugepage_pmd_enabled())
-> 2501			__khugepaged_enter(mm);
-  2502		mmap_write_unlock(current->mm);
-  2503		return 0;
-  2504	}
-  2505	
+On 10. 09. 25 7:06 odp., Andrew Lunn wrote:
+> On Wed, Sep 10, 2025 at 06:50:47PM +0200, Ivan Vecera wrote:
+>> On 10. 09. 25 6:13 odp., Andrew Lunn wrote:
+>>> On Wed, Sep 10, 2025 at 12:32:21PM +0200, Ivan Vecera wrote:
+>>>> The DPLL phase measurement block uses an exponential moving average,
+>>>> calculated using the following equation:
+>>>>
+>>>>                          2^N - 1                1
+>>>> curr_avg = prev_avg * --------- + new_val * -----
+>>>>                            2^N                 2^N
+>>>>
+>>>> Where curr_avg is phase offset reported by the firmware to the driver,
+>>>> prev_avg is previous averaged value and new_val is currently measured
+>>>> value for particular reference.
+>>>>
+>>>> New measurements are taken approximately 40 Hz or at the frequency of
+>>>> the reference (whichever is lower).
+>>>>
+>>>> The driver currently uses the averaging factor N=2 which prioritizes
+>>>> a fast response time to track dynamic changes in the phase. But for
+>>>> applications requiring a very stable and precise reading of the average
+>>>> phase offset, and where rapid changes are not expected, a higher factor
+>>>> would be appropriate.
+>>>>
+>>>> Add devlink device parameter phase_offset_avg_factor to allow a user
+>>>> set tune the averaging factor via devlink interface.
+>>>>
+>>>> Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
+>>>> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+>>>> ---
+>>>>    Documentation/networking/devlink/zl3073x.rst |  4 ++
+>>>>    drivers/dpll/zl3073x/core.c                  |  6 +-
+>>>>    drivers/dpll/zl3073x/core.h                  |  8 ++-
+>>>>    drivers/dpll/zl3073x/devlink.c               | 67 ++++++++++++++++++++
+>>>>    4 files changed, 82 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
+>>>> index 4b6cfaf386433..ddd159e39e616 100644
+>>>> --- a/Documentation/networking/devlink/zl3073x.rst
+>>>> +++ b/Documentation/networking/devlink/zl3073x.rst
+>>>> @@ -20,6 +20,10 @@ Parameters
+>>>>         - driverinit
+>>>>         - Set the clock ID that is used by the driver for registering DPLL devices
+>>>>           and pins.
+>>>> +   * - ``phase_offset_avg_factor``
+>>>> +     - runtime
+>>>> +     - Set the factor for the exponential moving average used by DPLL phase
+>>>> +       measurement block. The value has to be in range <0, 15>.
+>>>
+>>> Maybe put the text in the commit message here as well?
+>>
+>> Do you mean to put the equation and details from commit message here?
+>> This is pretty long.
+> 
+> So what if it is long? At the moment, it is hiding in the commit
+> message. It is not easy to find, you effectively need to be a kernel
+> developer to find it. If it is in the documentation of the device, it
+> will be much easier to find and understand what this knob actually
+> does.
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Agree. I will describe it in more detail in the documentation.
++ optimization proposed by Vadim.
+
+Thanks for the review.
+
+Ivan
+
+
