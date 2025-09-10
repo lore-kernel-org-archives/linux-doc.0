@@ -1,313 +1,227 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E9730C62A;
-	Wed, 10 Sep 2025 09:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757494840; cv=fail; b=ZLPVEFMzXahCiqYi/r97B+2LMxeskjp8GOoKUQCdv3h7lBM5yrwfzdknRp57+FKkp0P4EEATp/5ICCwsPsDO38CsZbr7oTXKMcFIy4P9XG3GdUJro9y73LYeJnoJ7hiPD25M8fIyc4SQaJk555XWaUzfCH6bLX4285XvfRPx0q4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757494840; c=relaxed/simple;
-	bh=/m4T7Obdo8nSf4gaxRZ5uzcwRuTUz9/6p+z+et4vvZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=IPOp9XPrUwHauHBInW7Dj/IcEZ3ZkAiCAu6svPCyoUen/JchSQe1kIntsHRlVXLMJV1m0tZvL10PV53PEPKopC7ypEDUbEuR1Ik+0EWfQmSv7YMm7X+6aemj2DCPXTfkb0Q+HS8EyHhdEJIfYlEODv3TG3WPnT4pP9qI8sXGGHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=oitxkUzs; dkim=pass (1024-bit key) header.d=stmicroelectronics.onmicrosoft.com header.i=@stmicroelectronics.onmicrosoft.com header.b=LevCEaZZ; arc=fail smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC2E30CD92;
+	Wed, 10 Sep 2025 09:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757496297; cv=none; b=sX8mzuvn3YqKAsrLTUKbfYPW7DQLmk0boBo8YJE5ro5BvS+bCDVU6eRmPL6mIvzcUeVcXq1my4YlobdoQgDp6itNkE6xWjWMobYkRYK7Jx8YvQo+osF4VFjA58YWFRU3Cv/Xi+seByyAkYRTAhl6ouI11f8/69OFxmIHB3a6h4s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757496297; c=relaxed/simple;
+	bh=2tjya5D9cnGgRanoRcp4aCC6LMSjB7GbonEFWYPcVQw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=B5JtZYejqKBpaBrySCQz9aVJ41M2+BuntogXr7x7UIjmqGYnxyfmdOHC5nDRXahzVwomZJxW5BEEcQK0ZBx28hVE3ua1YURVaAK+BqL1b1h7hrn/FBkrtvY3q3QhMnNDnskmD0Jss5Vm2qjsfk9fo7Mgd00SHP1hTGJQT3zwY3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+w3maF6; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="oitxkUzs";
-	dkim=pass (1024-bit key) header.d=stmicroelectronics.onmicrosoft.com header.i=@stmicroelectronics.onmicrosoft.com header.b="LevCEaZZ"
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58A8g4pQ006049;
-	Wed, 10 Sep 2025 10:42:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	J4FpgXhEMAGf7egEgiEdPnRQIewNbRLswdo2X/eMG6w=; b=oitxkUzse9wagNRf
-	EvValU/t6Wnvtm0pkJ8Exr+ELHNZv6ByI4/i5EMrQ/4K3DZ+nvZQtxRXhKIH9Bm7
-	KWdGBjFWcoSqVim5J4XqjdGcRs1iACAOtC07w1OV58IMkfipAzonmnoDDP/0D2cz
-	U3ll0k9NlxlNQvCw7P/XXGoU2YzwIEaHaI5TouuMBAWa/iTi5lZtxt3qhn7Ue16t
-	NxDYaMxgvylgUaSyK8uJ+kcHjnqKXTqa+rbitlNY0jGzyiLCyeJ838XEbAViCN4B
-	dpKs5BcCyanlVpLImK/AWC9VBQPKYgdY+b989qfmQwGUqTMzeJFJa0USIC4myzMH
-	TgYrRA==
-Received: from am0pr02cu008.outbound.protection.outlook.com (mail-westeuropeazon11013061.outbound.protection.outlook.com [52.101.72.61])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 490a386umx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Sep 2025 10:42:52 +0200 (MEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t7JmGUMtOp3202VdA120D9Sa7atEVQLWxx27LHJVmHr7htQVK+1g1FMtJnX8F387T+rtAQsrNztMdYnDAegVKVfdi8JsjDdL5lJjZoQWmaXQhzPL6y+LhVXvLupA4fVqKY9LGY1uA33LuLGsduxgTQbolMv683Bv9svIhoGxlau8mx9Nkn+CGNUPmz9prkTM0C7Vp4Z8Id85a6t32bxd3lpjvbXkExB6UP2CxXuFszkiK9tCMA7mV3pXaPJZAShtH6VDREh+Ftbzi9BMVe61UHjAoH4ZUPXhIYSTej0hqf2c+CT4pA+cUyn+1FslLwIaOsTmEuH5uX1nRVE/ySA7QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J4FpgXhEMAGf7egEgiEdPnRQIewNbRLswdo2X/eMG6w=;
- b=B4Nqo38sdEgKQBBP7jyeVjKFG4cjvDCpNZTBQNoy0LCqdLkBfMeWPEX7GLYTXmmbI+0ZkbinwyxBbwmdcmVIFDht3QXGl6YYvYF6/wTsi0SHs+zZQYOo2CaXepHnlGD2iFA4xTb60sy60gI6ZmY4aXtLtN12Rf58oOIPhJ9o4/u6+qVAubA3xinS0tTe+5Fu+AVycVghSXEYVRTQ59GhC5Yw1BjGpCo+Npc4DRMGrXqWBpPD8bCcfsOnK1zcmSXZWC1dMbMCHt6qE9o846NznhzvtaHQzBFo1IylDwWKXZt0VADnZLt5NMDPe3irP9G/kF9Jd9IcGi5TZbJtOPjkrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.43) smtp.rcpttodomain=gmail.com smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=stmicroelectronics.onmicrosoft.com;
- s=selector2-stmicroelectronics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J4FpgXhEMAGf7egEgiEdPnRQIewNbRLswdo2X/eMG6w=;
- b=LevCEaZZLjQ7re4ypqqZ0M/BA15Me9faC0jV1SsGUaxfWOw+2+IzwW4itUopdfBidlIv4FUXVwWQvnWO5grC0B4L5kcxEyfLZGWREHFem0fyDFgeyMVA5UauVkhJrGV/LsxhW2cTVQnnbQI7JdXfqdeKujxdij6fjeqKG7T8S/A=
-Received: from DB8PR06CA0060.eurprd06.prod.outlook.com (2603:10a6:10:120::34)
- by VI1PR10MB3230.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:136::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 08:42:49 +0000
-Received: from DU6PEPF00009525.eurprd02.prod.outlook.com
- (2603:10a6:10:120:cafe::fd) by DB8PR06CA0060.outlook.office365.com
- (2603:10a6:10:120::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.15 via Frontend Transport; Wed,
- 10 Sep 2025 08:42:49 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.43)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.43 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.43; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.43) by
- DU6PEPF00009525.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.13 via Frontend Transport; Wed, 10 Sep 2025 08:42:48 +0000
-Received: from SHFDAG1NODE1.st.com (10.75.129.69) by smtpO365.st.com
- (10.250.44.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Wed, 10 Sep
- 2025 10:40:26 +0200
-Received: from [10.48.87.141] (10.48.87.141) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Wed, 10 Sep
- 2025 10:42:46 +0200
-Message-ID: <7cfb167a-26df-4abf-a6ec-73813a1a0986@foss.st.com>
-Date: Wed, 10 Sep 2025 10:42:57 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+w3maF6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757496295; x=1789032295;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=2tjya5D9cnGgRanoRcp4aCC6LMSjB7GbonEFWYPcVQw=;
+  b=X+w3maF6vNxlLFTHr+NuZRNgk660MpToMFungA91Np3yZ1dBhjTmcSu9
+   i+VjDIOuGe5btH8wioB+mRaEvB7X1qxUD/0BwdChEN4lQC/2amctSzS3V
+   gxy8aZoHngat/GURMZ+f9FD6fHCZD60d04VDd/eJ2fQvjPADF4AIybHSH
+   dkAwN5rWDull27sRKhj4dtVGBjnLzTkjHAEg8JU61limuM0mabyP18JPp
+   ML8R3oh0VZqnzU8XoX+MogSN6zy/tgvZggGWxDBYkcmxHrB5IxwRSm95d
+   eRYZ0HBXv+UmxQ9qU/pAfhlLtEu8rTaHQrGxvXqR7xQy2XWXYe/OdePxF
+   A==;
+X-CSE-ConnectionGUID: Qinbj0XkToWrKGUqBfAmnw==
+X-CSE-MsgGUID: 06YrZWfTSXKAFQqk8ItK+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59863477"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59863477"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:24:54 -0700
+X-CSE-ConnectionGUID: OaUDq58OQe+zMr6Fwn87cA==
+X-CSE-MsgGUID: +Blb/w1USVa6gV6E7GjzoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
+   d="scan'208";a="172626775"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.72])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:24:51 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy
+ Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: add support for handling global variables
+In-Reply-To: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+Date: Wed, 10 Sep 2025 12:24:47 +0300
+Message-ID: <b9f8831490b9e8e3e4f6d90d6092b0b78c79137f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/20] bus: firewall: move stm32_firewall header file
- in include folder
-To: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>,
-        "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "Gabriel
- Fernandez" <gabriel.fernandez@foss.st.com>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>,
-        Julius Werner <jwerner@chromium.org>, Will Deacon
-	<will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>
-CC: <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-References: <20250909-b4-ddrperfm-upstream-v6-0-ce082cc801b5@gmail.com>
- <20250909-b4-ddrperfm-upstream-v6-1-ce082cc801b5@gmail.com>
- <9a46c8a8-1d25-410c-9fa2-267eb4040390@foss.st.com>
- <19e664da-df4c-4bc0-84ce-41e4364f10bc@gmail.com>
-Content-Language: en-US
-From: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <19e664da-df4c-4bc0-84ce-41e4364f10bc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF00009525:EE_|VI1PR10MB3230:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ee64fa2-aa79-4dca-4c9a-08ddf04605be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|36860700013|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aVJVWkFZa2IvRHdicU8xWVRGa2xGa2xYUEJhNVcwblhCN3lkWS9kYkhKNmta?=
- =?utf-8?B?WXJmUXBTSTE4WkJ5MVpSWVBHMHZsNVhGZ1VkUGRXdVBXZG54WUdEaW1IMTV3?=
- =?utf-8?B?em5XZk9zL3JYRnVBekpJWTVCUis2MEw4c1I0dHFjemtFbEZONGZNNURudWk5?=
- =?utf-8?B?ejBMQms1L2RKd3l3blZPd1hrZnNSeFhzQThuQ0lvNEZ3Z1hRY0Q0M3ZDUTJ6?=
- =?utf-8?B?Q1RXbWZ5TE5ldmZiL1BZK2VhV2U3QmZ5WkNDMUp0c3ZFVmxRR21TaVNRM25F?=
- =?utf-8?B?UmJhMDF5ajN4bVJ2anFZbEFTN2Y0UUNzQzFyNjhkNnF4ZmJWUnVydk9tMzR5?=
- =?utf-8?B?Z0laY2hOaVZiWmdsZ2ZLd01Sb09abDBPRDkrQitPN013ZHBVVUcyWHpML055?=
- =?utf-8?B?QzZwc1JqeWdvWkh1b3h5elI0cVpXWXN3cGl5MGdidDRBaWJyU1E3eWg5SGht?=
- =?utf-8?B?bktDQUpzcjM3YW1nVmdEUG9yQU5uV2RaT2pOUXNaZDJYVVNlcFFheUEwWkt1?=
- =?utf-8?B?SWFzYVQ2UDZqRUlDbGlENWdSbkpRREIxdm1KbUEvTHg0M1lTRTQ2S0h2VndI?=
- =?utf-8?B?L1JNeXhRNVJtTmdSUlhHemJpVHZTL1hpSklnaG83MTNSR2hPendZUE9xNjFa?=
- =?utf-8?B?cXd1TC9veEVFQTU5UjlYd1l2MC9PajVFOGdKZXpFaUlVYjhEWlNwT0dJRGdN?=
- =?utf-8?B?SlRBNjlxMktZRktNTnMxYzNYekN2anYyTHU1bFpnV2dVRlBMOC9hMmtUYmRv?=
- =?utf-8?B?TFE5Tkd5cWtLK00vbEdITEJ2OGlkN3RKNXRYUm84TVBxNlBsR2NzVG8wL3Az?=
- =?utf-8?B?QTNYLzFnRkRJQmV3dm5ZV0hFdnVJQUtuVVd1a0ZNanMwUWhDTFgvbkJiMWpP?=
- =?utf-8?B?ek1nZVVzTkpzY2s0YzBNeFJsMVZnVUZKbDNhV0dCN1BMZUk3SlNOZmF5VGgz?=
- =?utf-8?B?S2gyakJrd0pkaGkxUVBEcHN1QUhJOEp3eXFzRmppai9TbVBmcGNTR3cvWkZn?=
- =?utf-8?B?MzJCTFNmZjk3K21JemJqMkJCNGExWEVFMmdzQ3I4ZTFzUS9KNUsyMFFnTXgy?=
- =?utf-8?B?WUthUGRlSy8weXhQdDZQVWxiVXA1SHJoZWxlU2FmR01JVFdMWWdyOElXdnVF?=
- =?utf-8?B?SnJhQXR0eGQ4UGRLNFBXa3Zlczg0ZFhRSFB0c2gycW9yNWZTdGxDTHZIanU0?=
- =?utf-8?B?WTFUdm5wdFJRSnZtSDF1SStJclNGWDhIUjBobktyWDA4eWlDZTVRbXlKY2w1?=
- =?utf-8?B?U0ZucTNoem9KQ0hLWTVQWlFqVGxYUjhxTHVBSjZDa1V3a3UvQjd1Y2ZrV0lt?=
- =?utf-8?B?ZmtTbkYzWW45aHRkT2JTNGVOYXBUY0FRdHVIYVNHMGJrelA3ZERkNUJZaVhw?=
- =?utf-8?B?WnBaaG1GSzUxclNWdmF0bDNOdzBrcWFpNmZOZVNWSXhhN3RZOVZJZDc3U0Va?=
- =?utf-8?B?ZnpZbXpzM1hLb0Vqc2FLK3VvSitBWDFXZ0FMTkxtZ0QrYW1ZTmN2S1BWWGRz?=
- =?utf-8?B?WWJtS3I4ck1uc0V3ZGkyRnRwUTJ1MmNOY2tKdC81eEp2RjBWajJWVkc1aEZV?=
- =?utf-8?B?UGV6d1R6QmN5eEx3VnNYWklvSlE0RGtmQUdUVVRUbDNsNWdqcXJQT21QdUhV?=
- =?utf-8?B?a3laQ0o4TkZTS3ZLNktjU21XUFJKZVVZZmNqRVlFcTQ4MDV0bVh6aEIxL2lB?=
- =?utf-8?B?VGdoUEp1bWVkdU53dVZtblY4ZzhpeTFuSTN4VGlteGprS1YvL0NqSGt5Q3l1?=
- =?utf-8?B?ais2Sk82YjRzbnN5RlZ2NkZERXBsV3dnOG5keld1VDE4aHRWbGRRUERERWNs?=
- =?utf-8?B?RmlJa1h2a044b0EvWXBmbnlaTHNlM2x3TFFCV3lnakdxek1RdEpGczVpd1lM?=
- =?utf-8?B?NDVvemRURmxkNVhmT1dYY041MHg2RUdrOEF6dzJQMzVFOFJvZ01JUm9wQnZi?=
- =?utf-8?B?M3VPY3daTFNsZzFFSmVoL09MN3Z6dGlMTUx4U0lrQWJTdEVmZ1dsNEhqQzlE?=
- =?utf-8?B?Wm95UjVKUUZIOHV2cDJNWTFHdFdlWHBCTVRCOFVzVnI0cEM4Y1FRdGxQcEdT?=
- =?utf-8?B?M1dhSzJjU0FNeXJZOHloNDFua29EZENPNS8vZz09?=
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.43;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 08:42:48.9991
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ee64fa2-aa79-4dca-4c9a-08ddf04605be
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.43];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU6PEPF00009525.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3230
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA1MDIzNyBTYWx0ZWRfX1KbADuoLthWh i/LCcDEK8JaapDabifDHC/znWq9h3yhpmGDO2S0tMSbNq/x7zQzrmzWR9ISGHCxsnJdEKOs12xb 7xsY/6UIkKPwqA0tZqquzW49AQm385YlKXY77or+b028m7bTqumHHqhpF/Z+H/hyCn58acEIloJ
- ga1GXoh+32y2pEuYnQDkvlb25AWC7leQdoXNyD4kv7G1BCG1sKgzANGL+DyQM/YeUg3emgFjjz7 H//mpTFsNItmrxDg2mr49UHBqburvH0+vLJjv3soB2XSxpUeIrOte0GHpiwkBrorgn9y4nVq9pZ SYJp+c7ap9xHlkb/9xBiYBqg7sqUAsswXOXf31w3xJpYApM6OgK8S3XKUPMKkoSe1xmH1I2jSl8 T62I6LXd
-X-Proofpoint-GUID: I6cA2-H2HqpFTqPVdZoFNp0I1FAr5hgO
-X-Proofpoint-ORIG-GUID: I6cA2-H2HqpFTqPVdZoFNp0I1FAr5hgO
-X-Authority-Analysis: v=2.4 cv=WLB/XmsR c=1 sm=1 tr=0 ts=68c13a0c cx=c_pps a=lih53SDVldumcZxYoUPpqg==:117 a=peP7VJn1Wk7OJvVWh4ABVQ==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=h8e1o3o8w34MuCiiGQrqVE4VwXA=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=ei1tl_lDKmQA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=FUbXzq8tPBIA:10 a=8b9GpE9nAAAA:8 a=pGLkceISAAAA:8 a=1Ic4tg3mJiWtIKtg5K4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-09_03,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 clxscore=1015 adultscore=0
- impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2507300000
- definitions=main-2509050237
+Content-Type: text/plain
+
+On Sun, 07 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> Specially on kAPI, sometimes it is desirable to be able to
+> describe global variables that are part of kAPI.
+>
+> Documenting vars with Sphinx is simple, as we don't need
+> to parse a data struct. All we need is the variable
+> declaration and use natice C domain ::c:var: to format it
+> for us.
+>
+> Add support for it.
+
+Bikeshedding on "global", it sort of implies visibility or linkage, but
+here it means "variable".
+
+You could document variables that are static, global to the module, or
+exported to the entire kernel. And you could document functions that are
+global (for some meaning of global).
+
+I didn't look into kernel-doc, but can't you figure the type out from
+the source, instead of having to tell it? And if you can't, why not just
+make it "var" (matching Sphinx) or "variable"?
 
 
+BR,
+Jani.
 
-On 9/10/25 09:47, Clément Le Goffic wrote:
-> On 09/09/2025 14:25, Gatien CHEVALLIER wrote:
->>
->>
->> On 9/9/25 12:12, Clément Le Goffic wrote:
->>> From: Clément Le Goffic <clement.legoffic@foss.st.com>
->>>
->>> Other driver than rifsc and etzpc can implement firewall ops, such as
->>> rcc.
->>> In order for them to have access to the ops and type of this framework,
->>> we need to get the `stm32_firewall.h` file in the include/ folder.
->>>
->>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->>> Signed-off-by: Clément Le Goffic <legoffic.clement@gmail.com>
->>> ---
->>>   drivers/bus/stm32_etzpc.c                       | 3 +--
->>>   drivers/bus/stm32_firewall.c                    | 3 +--
->>>   drivers/bus/stm32_rifsc.c                       | 3 +--
->>>   {drivers => include/linux}/bus/stm32_firewall.h | 0
->>>   4 files changed, 3 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/bus/stm32_etzpc.c b/drivers/bus/stm32_etzpc.c
->>> index 7fc0f16960be..4918a14e507e 100644
->>> --- a/drivers/bus/stm32_etzpc.c
->>> +++ b/drivers/bus/stm32_etzpc.c
->>> @@ -5,6 +5,7 @@
->>>   #include <linux/bitfield.h>
->>>   #include <linux/bits.h>
->>> +#include <linux/bus/stm32_firewall.h>
->>>   #include <linux/device.h>
->>>   #include <linux/err.h>
->>>   #include <linux/init.h>
->>> @@ -16,8 +17,6 @@
->>>   #include <linux/platform_device.h>
->>>   #include <linux/types.h>
->>> -#include "stm32_firewall.h"
->>> -
->>>   /*
->>>    * ETZPC registers
->>>    */
->>> diff --git a/drivers/bus/stm32_firewall.c b/drivers/bus/stm32_firewall.c
->>> index 2fc9761dadec..ef4988054b44 100644
->>> --- a/drivers/bus/stm32_firewall.c
->>> +++ b/drivers/bus/stm32_firewall.c
->>> @@ -5,6 +5,7 @@
->>>   #include <linux/bitfield.h>
->>>   #include <linux/bits.h>
->>> +#include <linux/bus/stm32_firewall.h>
->>>   #include <linux/bus/stm32_firewall_device.h>
->>>   #include <linux/device.h>
->>>   #include <linux/err.h>
->>> @@ -18,8 +19,6 @@
->>>   #include <linux/types.h>
->>>   #include <linux/slab.h>
->>> -#include "stm32_firewall.h"
->>> -
->>>   /* Corresponds to STM32_FIREWALL_MAX_EXTRA_ARGS + firewall ID */
->>>   #define STM32_FIREWALL_MAX_ARGS (STM32_FIREWALL_MAX_EXTRA_ARGS + 1)
->>> diff --git a/drivers/bus/stm32_rifsc.c b/drivers/bus/stm32_rifsc.c
->>> index 4cf1b60014b7..643ddd0a5f54 100644
->>> --- a/drivers/bus/stm32_rifsc.c
->>> +++ b/drivers/bus/stm32_rifsc.c
->>> @@ -5,6 +5,7 @@
->>>   #include <linux/bitfield.h>
->>>   #include <linux/bits.h>
->>> +#include <linux/bus/stm32_firewall.h>
->>>   #include <linux/device.h>
->>>   #include <linux/err.h>
->>>   #include <linux/init.h>
->>> @@ -16,8 +17,6 @@
->>>   #include <linux/platform_device.h>
->>>   #include <linux/types.h>
->>> -#include "stm32_firewall.h"
->>> -
->>>   /*
->>>    * RIFSC offset register
->>>    */
->>> diff --git a/drivers/bus/stm32_firewall.h b/include/linux/bus/ 
->>> stm32_firewall.h
->>> similarity index 100%
->>> rename from drivers/bus/stm32_firewall.h
->>> rename to include/linux/bus/stm32_firewall.h
->>>
-> 
-> Hi Gatien
-> 
->> As the firewall header is moved to a dedicated firewall directory,
-> 
-> I don't move it to a dedicated firewall directory just to the "bus" 
-> directory where the "stm32_firewall_device.h" header file is already 
-> located.
-> 
+>
+> Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
+>  scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
+>  2 files changed, 55 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+> index 1eca9a918558..405a5c407522 100644
+> --- a/scripts/lib/kdoc/kdoc_output.py
+> +++ b/scripts/lib/kdoc/kdoc_output.py
+> @@ -199,6 +199,10 @@ class OutputFormat:
+>              self.out_enum(fname, name, args)
+>              return self.data
+>  
+> +        if dtype == "global":
+> +            self.out_global(fname, name, args)
+> +            return self.data
+> +
+>          if dtype == "typedef":
+>              self.out_typedef(fname, name, args)
+>              return self.data
+> @@ -227,6 +231,9 @@ class OutputFormat:
+>      def out_enum(self, fname, name, args):
+>          """Outputs an enum"""
+>  
+> +    def out_global(self, fname, name, args):
+> +        """Outputs a global variable"""
+> +
+>      def out_typedef(self, fname, name, args):
+>          """Outputs a typedef"""
+>  
+> @@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
+>          self.lineprefix = oldprefix
+>          self.out_section(args)
+>  
+> +    def out_global(self, fname, name, args):
+> +        oldprefix = self.lineprefix
+> +        ln = args.declaration_start_line
+> +        prototype = args.other_stuff["var_type"]
+> +
+> +        self.data += f"
+>
+> .. c:var:: {prototype}
+>
+> "
+> +
+> +        self.print_lineno(ln)
+> +        self.lineprefix = "  "
+> +        self.output_highlight(args.get('purpose', ''))
+> +        self.data += "
+> "
+> +
+>      def out_typedef(self, fname, name, args):
+>  
+>          oldprefix = self.lineprefix
+> @@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
+>              self.data += f'.SH "{section}"' + "
+> "
+>              self.output_highlight(text)
+>  
+> +    def out_global(self, fname, name, args):
+> +        out_name = self.arg_name(args, name)
+> +        prototype = args.other_stuff["var_type"]
+> +
+> +        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "
+> "
+> +
+> +        self.data += ".SH NAME
+> "
+> +        self.data += f"{prototype} \- {args['purpose']}
+> "
+> +
+> +        self.data += ".SH SYNOPSIS
+> "
+> +        self.data += f"enum {name}" + " {
+> "
+> +
+>      def out_typedef(self, fname, name, args):
+>          module = self.modulename
+>          purpose = args.get('purpose')
+> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+> index 574972e1f741..e2a3f4574894 100644
+> --- a/scripts/lib/kdoc/kdoc_parser.py
+> +++ b/scripts/lib/kdoc/kdoc_parser.py
+> @@ -64,7 +64,7 @@ type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
+>  # Tests for the beginning of a kerneldoc block in its various forms.
+>  #
+>  doc_block = doc_com + KernRe(r'DOC:\s*(.*)?', cache=False)
+> -doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)\s*(\w*)", cache = False)
+> +doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|global)\s*(\w*)", cache = False)
+>  doc_begin_func = KernRe(str(doc_com) +			# initial " * '
+>                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
+>                          r'(?:define\s+)?' + 		# possible "define" (not captured)
+> @@ -886,6 +886,27 @@ class KernelDoc:
+>          self.output_declaration('enum', declaration_name,
+>                                  purpose=self.entry.declaration_purpose)
+>  
+> +    def dump_global(self, ln, proto):
+> +        """
+> +        Stores global variables that are part of kAPI.
+> +        """
+> +        VAR_ATTRIBS = [
+> +            "extern",
+> +        ]
+> +        OPTIONAL_VAR_ATTR = "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
+> +
+> +        r= KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s*;(?:#.*)?$")
+> +        if not r.match(proto):
+> +           self.emit_msg(ln,f"{proto}: can't parse variable")
+> +           return
+> +
+> +        declaration_name = r.group(2)
+> +        var_type = r.group(0)
+> +
+> +        self.output_declaration("global", declaration_name,
+> +                                var_type=var_type,
+> +                                purpose=self.entry.declaration_purpose)
+> +
+>      def dump_declaration(self, ln, prototype):
+>          """
+>          Stores a data declaration inside self.entries array.
+> @@ -897,6 +918,8 @@ class KernelDoc:
+>              self.dump_typedef(ln, prototype)
+>          elif self.entry.decl_type in ["union", "struct"]:
+>              self.dump_struct(ln, prototype)
+> +        elif self.entry.decl_type == "global":
+> +            self.dump_global(ln, prototype)
+>          else:
+>              # This would be a bug
+>              self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
 
-Yes, my bad, I mixed my words there.
-
->> maybe it would be coherent to create the same kind of directory
->> for the sources as non-buses drivers use it. I can test it on my
->> side if you're willing to make the change.
-> 
-> Do you mean create an include/linux/bus/firewall/ directory ?
-> 
-
-Rather include/linux/firewall/(stm32/). and a drivers/firewall/(stm32/)
-directory for the firewall files would be great. If that's not too much
-of a burden.
-
-Cheers,
-Gatien
-
-> Best regards,
-> Clément
+-- 
+Jani Nikula, Intel
