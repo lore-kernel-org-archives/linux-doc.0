@@ -1,86 +1,87 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3D7282F5;
-	Wed, 10 Sep 2025 23:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB3A21ABB9;
+	Wed, 10 Sep 2025 23:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757547297; cv=none; b=jSaBsRCHUjErcQiRU+5ysc/UzsYloLfRE2V7N5L1DtkJXOA6y9/XB4b1yjTbs6Hwj/mVC3YCqmfOyjKYQgOEs7HaQhM/ETjTO/Qn27zI5bT7+qYXTsz9CRcQKZ972WtTzAlk5yRc7nRv5W6S7DvsRkrF9zpA1IlraXBWNP8Bfvs=
+	t=1757547698; cv=none; b=E80PaQ9OHltPXRuNjYr+JzQIIzgExQ4wFqzPzqAisZu5jmp/wXUR7MXkis7c1YPB3yMVFL4/8VtMBVitR0Rl0CWOtBfdJNpUtjFPi25KdFOUc4bGmQV5Ux9/Zq0JROeCCVo1AjGsPeK6hd9xWDcvemgnBaAmduLTWXMjQZVbqRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757547297; c=relaxed/simple;
-	bh=eFxtgKR83MrEuA47DhOIbgBHX+KlIG8hTh2LQqjlSlQ=;
+	s=arc-20240116; t=1757547698; c=relaxed/simple;
+	bh=/CIC7CwmIJL1HWJm+gFKpQIYWIydgvlXQgBo8aAnR68=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I6Cl6/gJn7GX2K6FItdRTFi11782mJRp0XYozsKzOc+SQ62aWseErmsetoDlbTkeMEe6Ag6qYVj8cPqnnNZvsHWHpdHlhjEqvS7Hj8liGQxOpFEsKttoQ3SJwoe1uL9J1eB0XsMkve7jrd0AVOq5cZm7t/61bm9NLv1UqxeWKJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WCvxi0ew; arc=none smtp.client-ip=209.85.210.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=eWcg7EgILLSddfzHAIo6FiRBwmKJDq6VRuOUTABNJE/jlR/VUaIoyKqdAPRqHI0DydSsTsgnRjGqoqAhl27HJC5wdeECsHYYiAmdHGa8YM2nfefz4DJgH+VKsJ4LMnst/hzU6liBcZHdUdKNvfoK5sd4ERk0DJQVFlvTA0g31UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LR8+Idjh; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WCvxi0ew"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7726c7ff7e5so106858b3a.3;
-        Wed, 10 Sep 2025 16:34:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LR8+Idjh"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-24b2de2e427so632945ad.2;
+        Wed, 10 Sep 2025 16:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757547295; x=1758152095; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757547696; x=1758152496; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L83OmJnlnRObHJm5rh4huVP1DHkzrTe/WeiSjIPyfoA=;
-        b=WCvxi0ewQ5jGvLscjsSIrpcFXNf+qQ4Yrb+I392bsFYb6XuTXElFNSO1tJEPurxHqj
-         mezu0Ck1L4Jkqj7f8ake1ESYhiUE8PAPTPzb+Zie5+PCSCJ4EBia8HkqjjWmrEKd+7Hp
-         mEb7T7cJGrmhK7ivsnZ1hWsb7p/lg+Rj7VI6zQ5JXHsNxOS+Jj2L9K+9KPPak6hbIFt0
-         NcSwBrlsP8VsK8YJ2/9q/7590NK6l6vk6z284C0ZTvA99i0uLuGUR3ezZtD1PyNlMCkM
-         8h2Zfv0XbVS+ZezEaDPzcECQFfJX55p6P6TYeZgNNM8lZGgYVLtVpfLrt+gSWmV6eYWN
-         UYcw==
+        bh=/CIC7CwmIJL1HWJm+gFKpQIYWIydgvlXQgBo8aAnR68=;
+        b=LR8+IdjhqKUZwWG0xyghMkN9bGftbeLhCNN2ftE9g6FAHf0CuyEsePiuhol+JWqhcz
+         yT3sgZYj3BevIP2YGyZL3Ifw5BaAau4ZGo/TxSt1HRfgAJCpiTi4FOIQ8fsLG44R97x6
+         XSc+hQEovjoN8biOJMVRuREgBA5V1mLBH8GK1EKH+LamoQ11l+zZQDnyJCGdXWuqAU8V
+         bM4SEuvS7KXXD/xdUmt7V7U1e80q41L0BLVlnc+pVnFhoml4OP0SPSTwPjwvcSklw5p2
+         qNRX9Osbf303+0QCczqrgoncZrFRsWRaWgNxPfjVxeHT+3PJqmuVYU4Kq58TRmEk/LBT
+         +quw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757547295; x=1758152095;
+        d=1e100.net; s=20230601; t=1757547696; x=1758152496;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L83OmJnlnRObHJm5rh4huVP1DHkzrTe/WeiSjIPyfoA=;
-        b=aCshBl0DUNFVjgO6ffzmjgXcHkCLpYocT26YKXgKxNJTqPPH4nHRdBFvw+NneE1h31
-         a0K9RVlCUCtIOXS4PrezjbEyn3/f+A+1aFezqsNly+16j/bes+IZcqizkgkg+JS2xz9e
-         bJ5yoP04cIEdOfGPKKmEFKd+zpuR21XtoBLuEaPTUOfCW26/nJrvD5+6rP0SmGSeb8Qi
-         aw2ZvTSXwdLIhrUsULOWmVqiTto1mJSsJfOzziCXM9pcK5jZ0VYD0i4/FNT7Lsw5SWLb
-         4keWovGrDqtSTkSbpOxJbf5hH2XxaROQqJniEDOyOosfwYe+1l6JvPx+5+H2FH2G5ebO
-         c+FA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbc84hLGz4mVuc6CqPHvre6k6KEzGZ8KJiZHq9P+NjHB+MyUUNlespTwWhO8tRFWoyykhFcX+fK3Kj@vger.kernel.org, AJvYcCUmxbVfeqQ4BdevFhFYBwvO+pFFgKuJ36LGHu4rdUm8x/uNsobEZGNEwnPvvaDugvl/D61HQQxX@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzjlZJX692rc+jcBY2cvow9AlA4v14VZjVX+74S0yfWgTRSR39
-	KEIJDpkfucNadBXAGqv1Lim0mO+JkBQLECqoKbIUKExHL+NS7jdeQyiq
-X-Gm-Gg: ASbGncsXSSF3kaCshVswrtREp8opDfvgoGSA4j0lBXacOSBs+eP1m6tloMUbn/N2YY0
-	d7YosFhN+fCw53GUmCbOBiBgnqtw2bux+X/DXHPs0cHcH5q5la1/pvkgBlnYo/TFiU0xz+yR/rX
-	0KEHwACdbQd4HQEsiJ9IHNN4vIhziP5pMptZNz4Dtnj57GwWwvQZ0xrZZws08ZxpCGDJ5gMwLaC
-	1IRUbwDccCNLQrT1/htqR0lVncFpKhT/U0XAOtti98nf6WHVyTnFKTwOnTmjGCOxHRXvosoHh2L
-	ficCZXE91VKA1pT7Dod8IPZUxNLINT5ZisVow8oSUZRqee79U/hHtX7srfcsdQaSG2V4z9HLP/5
-	+SvILrws3A2vo319pJ7LpgA+V9Q==
-X-Google-Smtp-Source: AGHT+IH1VBXQZF9Pbgh0Y0oOXEX86Q5eTMHk/H1cMk3qgJg7DkCYSDiwZfGuYRp99w8BfskwDEDxAQ==
-X-Received: by 2002:a17:902:e551:b0:24d:cd5a:5e88 with SMTP id d9443c01a7336-2516da07750mr226912245ad.2.1757547295042;
-        Wed, 10 Sep 2025 16:34:55 -0700 (PDT)
+        bh=/CIC7CwmIJL1HWJm+gFKpQIYWIydgvlXQgBo8aAnR68=;
+        b=mR6hw0ZQOYxE135IW9onVE6GoI36C/cfp1lKH7h8ql3WsQwHZ/LfS5pLe5K/jkizGm
+         83ju4PhS3eYm9SGZ5AB23szO7kCUyu8UboJ7exGRJxxzjRAzaarRmeP1zngyfqcTtBir
+         4SDXpSD3wohWe5bevqgoIdTzEZZPp9GxQm40mreDquuLUNjFkZKWsxg83JOL/2VphpQI
+         qc1g4IJ5n9pAH3HFq3QZ5zO5s2MQv9yW1BEVUQOsLaGo0WhkpqKXHjXSPB1jB3Aytf9k
+         ZNGL2nerw+s1wxbVUCTVtkBvNOKfibgDw3qoNv6gxBuKuql4244alKgMsD8YREFxR/qX
+         tC9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUPuq1+2asozDDqd0BtV2lX8WPKes+Kb9PAJ1KtSvrigEjP5Kv6YB2hzePKX76yQKaXTQkIiNBC+Cw=@vger.kernel.org, AJvYcCW58Gju0tDSGK5XVYvvOD3YaWAMXxMuAOp1WIk2Q54Uf5OtxybEY007pWfhL1Fp5luo0OU8UpZltxO4fF3i@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2FhlFerLcdnHiysVsUdy0HexvzSYT/e6EZuiufw7KOIgntecv
+	MxDN7K41fJw0xMUdF09oKMmD2cFdguF97NerNXOlMGMhCpT5zhHEjZ57
+X-Gm-Gg: ASbGncsoWgl1s+4z9Qo0Ew78YkXZzprf5CYIzlASwMUf9jLG5mcIDV4zP6VDdGo1FT3
+	xW/5ZzMlmPs09lSqzWdQr9WLN9ruLoHOnigqgK6hEH4jNU9g9YVSXRXfNjQ6udY8UAfETcXpLdD
+	jH6tw1uEFqbFobCzmC4U4U91EiA6GlFLEAeGw0NXL1qyN3ibSGOGSzKBg39h7cMydTEeAx5VwNr
+	f3KLYE4XtlWZBWFVGCO54Mz4woddWp/p+SMwufPUDINNQJ8XU03jiEa60a8biy3mp+D8KrBcitf
+	oUIhYMTAh2UlASYAcNL+8z1+/QnhWrbalfvTK7brE36XNJj3PKok7qEQm2Mz890F+8QYLjV/eJN
+	1D7JCxiaz2wqG6fOabLvhmlV+Gg==
+X-Google-Smtp-Source: AGHT+IHU2zlntDNV6h4NG6CW9V6x20J9LTc0sJI2cj9065qL+Weta1oYP+ihM44ibqxT3EDmV8tEbg==
+X-Received: by 2002:a17:903:3d0c:b0:25b:dcbf:43a2 with SMTP id d9443c01a7336-25bdcbf45e7mr7234665ad.52.1757547695955;
+        Wed, 10 Sep 2025 16:41:35 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25a2acff5a7sm39108455ad.121.2025.09.10.16.34.53
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25be6fc0f23sm4297075ad.48.2025.09.10.16.41.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 16:34:54 -0700 (PDT)
+        Wed, 10 Sep 2025 16:41:35 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 0283241FA3A1; Thu, 11 Sep 2025 06:34:50 +0700 (WIB)
-Date: Thu, 11 Sep 2025 06:34:50 +0700
+	id DD5B041FA3A1; Thu, 11 Sep 2025 06:41:31 +0700 (WIB)
+Date: Thu, 11 Sep 2025 06:41:31 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux cgroups <cgroups@vger.kernel.org>, Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Andrea Righi <arighi@nvidia.com>,
-	Johannes Bechberger <me@mostlynerdless.de>,
-	Changwoo Min <changwoo@igalia.com>,
-	Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Ingo Molnar <mingo@kernel.org>, Jake Rice <jake@jakerice.dev>,
-	Cengiz Can <cengiz@kernel.wtf>
-Subject: Re: [PATCH 2/2] Documentation: cgroup-v2: Replace manual table of
- contents with contents:: directive
-Message-ID: <aMILGtrAHb3dKVq7@archie.me>
-References: <20250910072334.30688-1-bagasdotme@gmail.com>
- <20250910072334.30688-3-bagasdotme@gmail.com>
- <6geggl3iu2hffdop43rtd6yp2ivd26ytfn4xdclurwce6mapal@4ve46y652dbj>
- <875xdqtp7m.fsf@trenco.lwn.net>
+	Linux GFS2 <gfs2@lists.linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Jeff Layton <jlayton@kernel.org>, James Morse <james.morse@arm.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3] Documentation: gfs2: Consolidate GFS2 docs into its
+ own subdirectory
+Message-ID: <aMIMq_8i4LUe9yOX@archie.me>
+References: <20250909014606.15043-1-bagasdotme@gmail.com>
+ <874itbv23b.fsf@trenco.lwn.net>
+ <aMC4LIltHWlpF9iY@archie.me>
+ <CAHc6FU709iYrAVB+2DeL8+AkCMtgwtqC-7ikx+f=wqYPAZfjmg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,59 +89,34 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UsU7vGubNiLv2087"
+	protocol="application/pgp-signature"; boundary="OVswxxCfIJEK97dT"
 Content-Disposition: inline
-In-Reply-To: <875xdqtp7m.fsf@trenco.lwn.net>
+In-Reply-To: <CAHc6FU709iYrAVB+2DeL8+AkCMtgwtqC-7ikx+f=wqYPAZfjmg@mail.gmail.com>
 
 
---UsU7vGubNiLv2087
+--OVswxxCfIJEK97dT
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 10, 2025 at 07:24:45AM -0600, Jonathan Corbet wrote:
-> Michal Koutn=C3=BD <mkoutny@suse.com> writes:
->=20
-> > On Wed, Sep 10, 2025 at 02:23:34PM +0700, Bagas Sanjaya <bagasdotme@gma=
-il.com> wrote:
-> >> manually-arranged table of contents (as reST comments) gets out-of-sync
-> >> with actual toctree as not all of these are added to it.
-> >
-> > Is this true? I generated HTML with this patch and the resulting ToC
-> > matches what's in the comment.
-> >
-> >> Replace it with automatically-generated table of contents via contents=
-::
-> >> directive.
-> >
-> > Mauro, what's the best practice wrt consistent ToC and having it in
-> > plaintext form?
->=20
-> I fairly routinely get patches fixing manual TOCs that are not updated
-> to match changes elsewhere.  We have a nice system that can manage the
-> TOC automatically for us, it seems best to me to use it.
->=20
-> That said, if having the TOC in the plain-text version of the document
-> is deemed to be important, then it needs to be kept and manually
-> maintained.
+On Wed, Sep 10, 2025 at 01:25:13PM +0200, Andreas Gruenbacher wrote:
+> Sure, I can take it. Can you please send your v4 patch to gfs2@lists.linu=
+x.dev?
 
-So for the v2, should I fix up the manual toctree to match autogenerated
-one?
-
-Thanks.
+Of course! I will prepare it shortly.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---UsU7vGubNiLv2087
+--OVswxxCfIJEK97dT
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMILGgAKCRD2uYlJVVFO
-oy3PAP4yTquF7DXoT96XrGn5T6IGDvwCzQg3+0dEjrX0lyLC7QEAzwEi6CO3ZnGr
-3wkojXo+RTN8o3V0Y1letnvGzguC1A0=
-=4FUJ
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMIMqwAKCRD2uYlJVVFO
+o1nWAPwJPNLFwTgriVEqnN7Jlnjk/u/i7R58qvOBwAL7J96sXQD9FuoTv+2Yb5va
+sQrdnSCbUPZOLQWc88YU2k3Z+dgK1AQ=
+=eyoj
 -----END PGP SIGNATURE-----
 
---UsU7vGubNiLv2087--
+--OVswxxCfIJEK97dT--
