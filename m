@@ -1,132 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C206A2C11CB;
-	Wed, 10 Sep 2025 08:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196AE2D0639;
+	Wed, 10 Sep 2025 08:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757492872; cv=none; b=FgBoWTwfeL+qUMmPnzw7Dh9UHONJQE28QPv8pjwr9UJPlCuiQGrK2O7w10xTWoyMZXGox31mDZSYLt0EG9CZ9O49qBMbHfCDAX7FlQMiVjbFnd5JkNIMMKQX5QfUtvHaNoE/UByMXxjtdMZ6cHc+us8NqHSgX1Uyy2qLrzynKQo=
+	t=1757493097; cv=none; b=OSZrP4q2q1Thd+M8JBnAfO6oH3Tm0fNotsAUJhpcKmLCWAoy13HNdd/3bTQM2TCYfgjCZDT2RgvY4MeJoWn/amQIqpx5NVLWlaA+IQtLnyqbtApi7ds7tgd1hxadqSd9KUf+2JcY4YqbtYrly6vlda+inR+ugpeNnzYHRBeeFYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757492872; c=relaxed/simple;
-	bh=Jn3IN7T2ibSeH1qEfh+8dD2heAvbWrgUf8A3kjq+o8s=;
+	s=arc-20240116; t=1757493097; c=relaxed/simple;
+	bh=z/y9SDPa5RivZXhVP+3sMoBp/5DIxMZDzFaym+YBtWE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bcEiZ2IpH810sptrbIWb94LKyJlDebHz99XgPYBmXZjUUfNrBKv60uFjJmzLIc5kNQcgC+kELMLAu5mbPUiJXtG75mcMcywDjQSdNxOMsl//sE7q6tYkWiXAsws8RsziTzD+EA3sxLQfNqRqZ+6f3pxxGEZwa90tNHgVN6PMXv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoqKSXG1; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=QMeggzgDWM4e67/ORhe6+OVUrZ99MnrGwx6VUbol9e3n+VaQXQYQ7OcY9IlwjpCazxIIKq7cjbSqAXuG3B9wDp25c4W08sWGosF113RcH4/XPQM/N+y7LDzOy2wEtB6BOuqlPCvudhLFLjWiAcXQxzG1Ph1nHdJNHXTAC0BnBZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sy29mMHT; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoqKSXG1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A019C4CEF0;
-	Wed, 10 Sep 2025 08:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757492872;
-	bh=Jn3IN7T2ibSeH1qEfh+8dD2heAvbWrgUf8A3kjq+o8s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eoqKSXG1NFiQZvwJ08l76u8K77C7dwsDjo0A2Y+LYZZpO24VrRutl1WCVVhs0Q2un
-	 I4IMxyX5Sui3u2D/0dzzHC0uRdo9z1U4qSVeLzBBo8nY6Fh2VYB0K/x6jt699v9R8t
-	 6d5f1AZ+I6f6uzOvWLCxrv25DHXCFSMsyOsX25dO2CIVxU3T/3cAuuqWBhrnJurM4y
-	 cbt5wdVmqPbwKlcDTd4nmmjaSO4CvtiQO+6hN6MqIigzMu8PjhBUHjVx6EngDNdscG
-	 9pI+OM62HnyzHLQ2D6Cn6V0vE5pRkKihtwEwD92l4RgofPOZno22s5tsDGjt5OzD+S
-	 YG4XxzCYZxzPQ==
-Message-ID: <704358b3-22c9-42d2-b7d7-08f435b2991f@kernel.org>
-Date: Wed, 10 Sep 2025 10:27:44 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sy29mMHT"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so3531095e9.0;
+        Wed, 10 Sep 2025 01:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757493094; x=1758097894; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PZiUguKRHSjLNl8qev2KvUrL6xayZ/2jdKMeAroqeQk=;
+        b=Sy29mMHTWQ2QvcxSdL+y76eMTUfEhXOFLLYMHXfSw08P/faGB9LbZHk/9wILfByphT
+         be6M4Pq0nDs2/AFBd1jRXSPvn/ec646vDemWAVI+4sDQ/dlAkbTXED1kmtAEYO9BbqZq
+         TCOwzmHIPckYyvJ4ZyKOdci1lSb45kF8MJEzFwIdrP3oHPuav80BweJUiD7JsjThLDhe
+         uK3FoJXggN9wYE5E0ijkerIA3ZXBfe2yXNf83LjZJAXsYPLKLuGEoNE/9mMS/BlVAwFN
+         r8TVxGiyLIJbDCV3HT2YZp2hhEPk/9m68UwEszzdknhGQS7B3p1I3ra3QRvCe/DYy2CM
+         ivqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757493094; x=1758097894;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PZiUguKRHSjLNl8qev2KvUrL6xayZ/2jdKMeAroqeQk=;
+        b=J6AMOEbYkNJ4vsstjNIC8zkWKczpsR/IPt2+paKpRsxV1i9dJe6O004LtEkBG3rjr3
+         5lr416wu8w3tAUQQDna2a4E+kNMsR74is23zPE+5OAzo0WcuhYZO1G1CBdRxESP5kwtt
+         O86e5oF5gqzg66s84xs4s0sipscRZpuh2J+krdCS/PzB8I9xmy/IdvhwmP6tW7HhuVXF
+         GN2UlTf3LiKIXJs2Htlhm8PAI4MB7h7v1X01pdnCf+9+H8fepm5Sqk3KtBTRTZDks0yD
+         FyM1WARp/w0NNf1vxDqn2j4XwZbH00GkTVSP2aH5KGfEym0CpoPLTXU89AR+6ttL2Rtp
+         vLNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBbaLyDcn8w2ZAYdH74D5leB9RxTn7Y4BULgts1BLYLa6re2MTIjCwvTNvS+LNAACGR9hCYKCsarQbzYQ98i0I1A==@vger.kernel.org, AJvYcCUVSnZCkt3VHOcX6wAQ/8SXceJreZADfdWVAdvMr00ex5b8heSx4/Fv9duSRvgROCmiWCzE095kV/J3@vger.kernel.org, AJvYcCUnXfXh5lR3bUI1sbLVgu1SXMc1W5W7ot1P/MkfqWn4KdMAAfi0k2w6QKJuBLi3s/rPvl6hXk1seNm6@vger.kernel.org, AJvYcCVYSiLm+rOzTCyBOgURDaMgWFA8JmcFqJK5GiwBp2LC2U9a8J2ryDygqDF7xmCSJTsEKe+KMNJRu9RB@vger.kernel.org, AJvYcCX+8mKA6CnJc84gdNyoBafW92NnGlQZtPVix83QZXllpmMmwKtMjQKl1JtUSTL6HDBiTbrD8pYhgAYDsqkK@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXZVwPU9uBGWgYjkKhsWnYZnmqtwi1sjYDDmolr+1VKMM3VJy8
+	EM0ti+ZRfBKbPV7jaqb7Zuee+X3dNLdc5Yyhs7uw0dEU2PyIYdfsW2TE
+X-Gm-Gg: ASbGncuTdaW1aM8cvHDIRnwWjouABWXg0R0usz1fmn7OClhJevlb37N5cHzwOpEhdpv
+	qJlyDGpjwDCS+q1CWjPjfcJBV0BHIv4m5sToJBnzezrwKW1hZlMCU2nsxo5lqtF+rDKnFjbl3Ax
+	7Z6fJLI8LOdlKPF71jZxC5aSovEM7AjsLVD47YoJhMvONlCI2MX+LZttZ19fu/sW+llKz5C4rtE
+	QSP6Y9QSgcIsFwwJAvkEtgWWra+kFvduJBTc6W+bvPK+AYkAZICz+0uG3RLACVtYfnWVqdlqwmD
+	Mkrh21U7ZPG/1T6kxb7WAgkRTJ3LsAYciVhoKKWq3uidgmUm5s2UHr47majRRRbpCm9xCNdLxUa
+	i2wGjfFkt3Ve65fpiivgxjesZ6mTU36wmM8Itp9dPBlK7aYdR7cfbhXnFAKAldh0A+jYJC5k9Qc
+	L7pAn9EDZ93KN/DvMw7MQrPO0NDHH1jnsVo2fF0GydaaUBr92m7mhmGzvwEbFnanmkbqT5ko/ho
+	Q==
+X-Google-Smtp-Source: AGHT+IHtxpNnwR+OSaL4WHAtvZm3SZwKKJRshnL76nqSRl+ub9r1kz9W9fnbmNI59d2V+S62gNIBxA==
+X-Received: by 2002:a05:600c:1907:b0:458:b8b0:6338 with SMTP id 5b1f17b1804b1-45dde1b15b7mr140442595e9.6.1757493094104;
+        Wed, 10 Sep 2025 01:31:34 -0700 (PDT)
+Received: from ?IPV6:2a02:8440:7135:4f4c:9000:7072:695b:3ef? (2a02-8440-7135-4f4c-9000-7072-695b-03ef.rev.sfr.net. [2a02:8440:7135:4f4c:9000:7072:695b:3ef])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e75224bc2csm5817574f8f.54.2025.09.10.01.31.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Sep 2025 01:31:33 -0700 (PDT)
+Message-ID: <4066608d-af1e-41b7-ac7a-6c0aa3791c2f@gmail.com>
+Date: Wed, 10 Sep 2025 10:31:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net 1/3] netlink: specs: mptcp: fix if-idx attribute type
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Donald Hunter <donald.hunter@gmail.com>,
- Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Davide Caratti <dcaratti@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
- mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- stable@vger.kernel.org
-References: <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-0-5f2168a66079@kernel.org>
- <20250908-net-mptcp-misc-fixes-6-17-rc5-v1-1-5f2168a66079@kernel.org>
- <m2plc0ui9z.fsf@gmail.com> <8f0bc70f-1657-4938-88e8-532ffb7c1a12@kernel.org>
- <20250909184221.02b070b0@kernel.org>
-From: Matthieu Baerts <matttbe@kernel.org>
-Content-Language: en-GB, fr-BE
-Autocrypt: addr=matttbe@kernel.org; keydata=
- xsFNBFXj+ekBEADxVr99p2guPcqHFeI/JcFxls6KibzyZD5TQTyfuYlzEp7C7A9swoK5iCvf
- YBNdx5Xl74NLSgx6y/1NiMQGuKeu+2BmtnkiGxBNanfXcnl4L4Lzz+iXBvvbtCbynnnqDDqU
- c7SPFMpMesgpcu1xFt0F6bcxE+0ojRtSCZ5HDElKlHJNYtD1uwY4UYVGWUGCF/+cY1YLmtfb
- WdNb/SFo+Mp0HItfBC12qtDIXYvbfNUGVnA5jXeWMEyYhSNktLnpDL2gBUCsdbkov5VjiOX7
- CRTkX0UgNWRjyFZwThaZADEvAOo12M5uSBk7h07yJ97gqvBtcx45IsJwfUJE4hy8qZqsA62A
- nTRflBvp647IXAiCcwWsEgE5AXKwA3aL6dcpVR17JXJ6nwHHnslVi8WesiqzUI9sbO/hXeXw
- TDSB+YhErbNOxvHqCzZEnGAAFf6ges26fRVyuU119AzO40sjdLV0l6LE7GshddyazWZf0iac
- nEhX9NKxGnuhMu5SXmo2poIQttJuYAvTVUNwQVEx/0yY5xmiuyqvXa+XT7NKJkOZSiAPlNt6
- VffjgOP62S7M9wDShUghN3F7CPOrrRsOHWO/l6I/qJdUMW+MHSFYPfYiFXoLUZyPvNVCYSgs
- 3oQaFhHapq1f345XBtfG3fOYp1K2wTXd4ThFraTLl8PHxCn4ywARAQABzSRNYXR0aGlldSBC
- YWVydHMgPG1hdHR0YmVAa2VybmVsLm9yZz7CwZEEEwEIADsCGwMFCwkIBwIGFQoJCAsCBBYC
- AwECHgECF4AWIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZUDpDAIZAQAKCRD2t4JPQmmgcz33
- EACjROM3nj9FGclR5AlyPUbAq/txEX7E0EFQCDtdLPrjBcLAoaYJIQUV8IDCcPjZMJy2ADp7
- /zSwYba2rE2C9vRgjXZJNt21mySvKnnkPbNQGkNRl3TZAinO1Ddq3fp2c/GmYaW1NWFSfOmw
- MvB5CJaN0UK5l0/drnaA6Hxsu62V5UnpvxWgexqDuo0wfpEeP1PEqMNzyiVPvJ8bJxgM8qoC
- cpXLp1Rq/jq7pbUycY8GeYw2j+FVZJHlhL0w0Zm9CFHThHxRAm1tsIPc+oTorx7haXP+nN0J
- iqBXVAxLK2KxrHtMygim50xk2QpUotWYfZpRRv8dMygEPIB3f1Vi5JMwP4M47NZNdpqVkHrm
- jvcNuLfDgf/vqUvuXs2eA2/BkIHcOuAAbsvreX1WX1rTHmx5ud3OhsWQQRVL2rt+0p1DpROI
- 3Ob8F78W5rKr4HYvjX2Inpy3WahAm7FzUY184OyfPO/2zadKCqg8n01mWA9PXxs84bFEV2mP
- VzC5j6K8U3RNA6cb9bpE5bzXut6T2gxj6j+7TsgMQFhbyH/tZgpDjWvAiPZHb3sV29t8XaOF
- BwzqiI2AEkiWMySiHwCCMsIH9WUH7r7vpwROko89Tk+InpEbiphPjd7qAkyJ+tNIEWd1+MlX
- ZPtOaFLVHhLQ3PLFLkrU3+Yi3tXqpvLE3gO3LM7BTQRV4/npARAA5+u/Sx1n9anIqcgHpA7l
- 5SUCP1e/qF7n5DK8LiM10gYglgY0XHOBi0S7vHppH8hrtpizx+7t5DBdPJgVtR6SilyK0/mp
- 9nWHDhc9rwU3KmHYgFFsnX58eEmZxz2qsIY8juFor5r7kpcM5dRR9aB+HjlOOJJgyDxcJTwM
- 1ey4L/79P72wuXRhMibN14SX6TZzf+/XIOrM6TsULVJEIv1+NdczQbs6pBTpEK/G2apME7vf
- mjTsZU26Ezn+LDMX16lHTmIJi7Hlh7eifCGGM+g/AlDV6aWKFS+sBbwy+YoS0Zc3Yz8zrdbi
- Kzn3kbKd+99//mysSVsHaekQYyVvO0KD2KPKBs1S/ImrBb6XecqxGy/y/3HWHdngGEY2v2IP
- Qox7mAPznyKyXEfG+0rrVseZSEssKmY01IsgwwbmN9ZcqUKYNhjv67WMX7tNwiVbSrGLZoqf
- Xlgw4aAdnIMQyTW8nE6hH/Iwqay4S2str4HZtWwyWLitk7N+e+vxuK5qto4AxtB7VdimvKUs
- x6kQO5F3YWcC3vCXCgPwyV8133+fIR2L81R1L1q3swaEuh95vWj6iskxeNWSTyFAVKYYVskG
- V+OTtB71P1XCnb6AJCW9cKpC25+zxQqD2Zy0dK3u2RuKErajKBa/YWzuSaKAOkneFxG3LJIv
- Hl7iqPF+JDCjB5sAEQEAAcLBXwQYAQIACQUCVeP56QIbDAAKCRD2t4JPQmmgc5VnD/9YgbCr
- HR1FbMbm7td54UrYvZV/i7m3dIQNXK2e+Cbv5PXf19ce3XluaE+wA8D+vnIW5mbAAiojt3Mb
- 6p0WJS3QzbObzHNgAp3zy/L4lXwc6WW5vnpWAzqXFHP8D9PTpqvBALbXqL06smP47JqbyQxj
- Xf7D2rrPeIqbYmVY9da1KzMOVf3gReazYa89zZSdVkMojfWsbq05zwYU+SCWS3NiyF6QghbW
- voxbFwX1i/0xRwJiX9NNbRj1huVKQuS4W7rbWA87TrVQPXUAdkyd7FRYICNW+0gddysIwPoa
- KrLfx3Ba6Rpx0JznbrVOtXlihjl4KV8mtOPjYDY9u+8x412xXnlGl6AC4HLu2F3ECkamY4G6
- UxejX+E6vW6Xe4n7H+rEX5UFgPRdYkS1TA/X3nMen9bouxNsvIJv7C6adZmMHqu/2azX7S7I
- vrxxySzOw9GxjoVTuzWMKWpDGP8n71IFeOot8JuPZtJ8omz+DZel+WCNZMVdVNLPOd5frqOv
- mpz0VhFAlNTjU1Vy0CnuxX3AM51J8dpdNyG0S8rADh6C8AKCDOfUstpq28/6oTaQv7QZdge0
- JY6dglzGKnCi/zsmp2+1w559frz4+IC7j/igvJGX4KDDKUs0mlld8J2u2sBXv7CGxdzQoHaz
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20250909184221.02b070b0@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 05/20] dt-bindings: memory: factorise LPDDR props into
+ SDRAM props
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Gatien Chevallier <gatien.chevallier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+ Julius Werner <jwerner@chromium.org>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+References: <20250909-b4-ddrperfm-upstream-v6-0-ce082cc801b5@gmail.com>
+ <20250909-b4-ddrperfm-upstream-v6-5-ce082cc801b5@gmail.com>
+ <20250910-flat-raptor-of-temperance-5e8c7c@kuoka>
+Content-Language: en-US
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
+In-Reply-To: <20250910-flat-raptor-of-temperance-5e8c7c@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Jakub,
-
-On 10/09/2025 03:42, Jakub Kicinski wrote:
-> On Tue, 9 Sep 2025 11:08:46 +0200 Matthieu Baerts wrote:
->>> Note that mptcp_pm_parse_entry has this, which should maybe be fixed at
->>> the same time:
->>>
->>> 	u32 val = nla_get_s32(tb[MPTCP_PM_ADDR_ATTR_IF_IDX]);  
+On 10/09/2025 09:54, Krzysztof Kozlowski wrote:
+> On Tue, Sep 09, 2025 at 12:12:12PM +0200, Clément Le Goffic wrote:
+>> From: Clément Le Goffic <clement.legoffic@foss.st.com>
 >>
->> Good catch!
+>> LPDDR and DDR bindings are SDRAM types and are likely to share the same
+>> properties (at least for density, io-width and reg).
+>> To avoid bindings duplication, factorise the properties.
+>>
+>> The compatible description has been updated because the MR (Mode
+>> registers) used to get manufacturer ID and revision ID are not present
+>> in case of DDR.
+>> Those information should be in a SPD (Serial Presence Detect) EEPROM in
+>> case of DIMM module or are known in case of soldered memory chips as
+>> they are in the datasheet of the memory chips.
+>>
+>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 > 
-> indeed!
+> Is this email defunct now, that you add second SoB?
 > 
->> This should be fixed in a dedicated patch, because this fixes commit:
->> ef0da3b8a2f1 ("mptcp: move address attribute into mptcp_addr_info"), a
->> different commit than the one being fixed here.
+>> Signed-off-by: Clément Le Goffic <legoffic.clement@gmail.com>
+
+Hi Krzysztof,
 > 
-> int = u32 is unlikely to cause issues AFAIU. We recently applied 
-> a bunch of such fixes to net-next. I think this can also go to -next.
+> I still see in this patchset around 5 different subsystems. Nothing in
+> the cover letter explains the dependencies, so grouping looks like
+> coincidence and you just make it difficult for maintainers for no
+> reason.
+> 
+> Please organize your patchsets per subsystems, see submitting patches
+> doc for more details.
 
-Good point, in our tree, I will queue this patch for -next:
+Yes I agree it is a big series.
+I'll split it according to each subsystem it targets.
 
-
-https://lore.kernel.org/20250909-mptcp-pm-user-c-flag-v2-1-a6f9542481c5@kernel.org
-
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
+Best regards,
+Clément
 
