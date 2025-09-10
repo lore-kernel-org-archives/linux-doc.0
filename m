@@ -1,127 +1,174 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BD2338F59
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 20:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAAF340D83
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 20:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757537094; cv=none; b=mnNLG0Wuztsf09Tm8a9wEFbc+J+XqY/AwZOsw1xgojcIq01q5BDqSxzZcKnBwhaJaKIvjnKlxFHKAbDaIoTRm3N4i7x37DN1LUXh7zCTC7X7gjHC9A7K+g0cV51EtrIEGAPZhBmwJ+DrQMw0gIg9i2fHMYPhR5xjsjeFTa/sabY=
+	t=1757537101; cv=none; b=O5Ll75xjSIaViJOvlk3YPCT+KUdLIb1iitXjjFSKHMIjykxavUpD+jexOMzy+MPwG/LhtUeO47fmiDLxDGdZB/Nf5qvyZm0Q3r9dZr0Wi/oguqunpNhocEAEd13WlLYCJ0aylDMmnNk5DIS54M2bpt2gdT2gIqPu3yMo7iQbQzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757537094; c=relaxed/simple;
-	bh=PKRrTKZjGDnwCc9xSD/VofdNKOJmPvBt27BWd4yB0Yw=;
+	s=arc-20240116; t=1757537101; c=relaxed/simple;
+	bh=zdj+uOiXuiIXzM1Vn3fcDOOxGOrxrCVtY7jUVpK65ZI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qWmj8EShXAEBnPH42pX+u/g/hf1QyXCuYA5v5gCEQ46dFSUyyWVufmEa5AZ5CxCcfq1sBRCmOrRPtqCr0Jlo5rCZ5xrQ20hE8olE2DTVTyWp9Q2sRkr2wzWep8BOQ7FWLn3H8RA3f5TiRU8zV/cDHWxH0gBctAYj7eNMV3QgLwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEVcF0EF; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=MeNME6KZIKtwIm+eoDOcz9QOE37oTOmmnTbOpo8OXjSuFRe6FdS1AoaOH/9WrSEYkX7NScIa4Nkoku8stEKy73FCdIUdM33NkYFEBIuBzbvgq/SKoRYN1qKlDjkq/k5ylza6e9QNmP3MXr2DJHeWrK5JYyVZfOHuv4xyqWIqHTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W+Woafyj; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEVcF0EF"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3e2055ce7b3so46446f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 13:44:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W+Woafyj"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45dd9d72f61so26645e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 13:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757537091; x=1758141891; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1757537098; x=1758141898; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hURlif60FPSjNG3pKdufMNt+U9y26SiGUSn1HYK+xuk=;
-        b=kEVcF0EFinSgGU78S+B/hpxO7gFTN7e8MW2szaA7lNDhzVumqHhzY1HLQcSM4Zz+Ha
-         h8K6g/aPSv0hEA2XMPCcVW+oWULWMM0A+tb/98vSE5eM28BSDtLKGRtdYJbi5NMfJRX0
-         VpHhC5MmI7Y7FUr8MhjJdhWHPETg9TNd9yPjPwd+eVDqsLK8zXO04j7zMD0MQaE9v3PC
-         accUehLsusOWr1OTI7/40lA+Mq455D6Oesymv1ntKzj20vxNfFfiejISJGVH3ov2mFoF
-         IR4fNLibzY/n+Mamo5ZmL6CbNp1FEno8c9+J+bZA+AxNAttuISfrF3iuvKlyjvg8cFpN
-         tKGA==
+        bh=zdj+uOiXuiIXzM1Vn3fcDOOxGOrxrCVtY7jUVpK65ZI=;
+        b=W+WoafyjcJ5f2BosdXGeB215pCNhmz3t7tMobUPuB0dVxY/NYaJ2bx0FVDbHiRtmUZ
+         YzFJiw5SVtE4Fge0ZdUATuSKhjrpnniZFwZ7Rhya7BjupBEtaKG3P0Nv+fKJh/4BjosP
+         DVcR4yH2rvo3giZomGQkK4RzUNGDzzPaPqUO3eYD0UWZKuLhig0GoE5Ag6O8UP3yfrVA
+         wmDU6jyIhXhzr8ZpZHhJC4CHbx+coJAGSBVaanVSNw7L3IoK0fk01iJv5OV0XZPUHbiw
+         iR0h+WGGBVG94nne2WlsOFnRpk+0Oguur2ePJ+zlm635Mm2UybciFV+lDDVzBI+BZwo7
+         Le7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757537091; x=1758141891;
+        d=1e100.net; s=20230601; t=1757537098; x=1758141898;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hURlif60FPSjNG3pKdufMNt+U9y26SiGUSn1HYK+xuk=;
-        b=nsHNrrPntuVm+071QbJrEaYCzklktvFpsR18aqIU0i9gss5F/bJpiD+x1+a2ZeqXVv
-         RmVW8ASp/yYYiwqDinHpnd5cgJdjbpSeuVZYDH32qfw/POtfao+tF+6lP+yKGBR26dux
-         pxWdoFxpPLo2tKitEXQ5nmOeOVyUVI+Qwm82bHggzGn/Jpjc5iBmsnHAyGnMboj/R9hO
-         T0PjbF7ZuOlKS1nFfsO/q/vmZweXQiqr+0si9i27VFTljllR7g2+9HDXRrqSygBgvohr
-         NadY4ynvz2Jv0/2wianiW1DVekpr7X6ZYaVGqMDgdQRGhE4r/hr6eKD5LbBWieFUbzkN
-         uExw==
-X-Forwarded-Encrypted: i=1; AJvYcCV63zQmQ8Z8erhkX7RC5A/gxrohb1XP1e+3jxi8xgoAjfdvwFwLJiw4I5uTNQnukLyqnNKPPTL5hBw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvbAeqcDPdbNw/Gn6I4MI8ZgZulrm64ha6Oncpx06oyhJVYrXx
-	78Ts2eJocmW8pn41KR4/1meTYxLika7OMR5z+92F4T8e5ZQFstcEybG7bB1tTvF/1JRORnf9e1y
-	zYttQftimhctP4eFt6/K3wm0GZ1/hggE=
-X-Gm-Gg: ASbGnct74xwpu0LEY6af3mgVG1Po+9v7vDVg5GoGniHnomszOXw8bhLty4ks1e6/0/b
-	MChJUacVWfYEjkYLytI0EALNTMLaDy1apOZ4eIJJ9MKjXUkxF6z5PpBlyKV1t8CF9A2eakwkzg9
-	PfkTe7DyJZeCcXG7UGq6Z+t1h+3Uz8Fuof2KaweaQvd0mZVT8+49cLDy+0Kzsp6TDB52al7+LgZ
-	94JtVuFnEj3L1NAmqrOhjrFG/oLqaFUMUTeFVx0VsjKPdc=
-X-Google-Smtp-Source: AGHT+IEgKZrxpEMcuKUrNZZ/VjmpOkAy5xtzbBJMsk33KsFm2AIoLuo+xsbMm68dkSaOFsa/gF4LW0lXPvvk+72L35I=
-X-Received: by 2002:adf:9c87:0:b0:3e7:17d4:389b with SMTP id
- ffacd0b85a97d-3e717d43b81mr9837201f8f.52.1757537090882; Wed, 10 Sep 2025
- 13:44:50 -0700 (PDT)
+        bh=zdj+uOiXuiIXzM1Vn3fcDOOxGOrxrCVtY7jUVpK65ZI=;
+        b=TPLKiiiKkOaauM5lyaQA7ROhaXMd6lHwPuVwtGok4qPHPz6ft7e3L9OMldKT1En2si
+         8B6pfqIRzGjk3T1m04sM61ut0ptLmN5SDETxx2Y59pze3wCRmjL99kXNeCdn387dPjJq
+         ryIcZy/SWtM7amZ2ZBC2Ep80or4BUV7+zSXEYZf6HzxSbueFVdjnHAd3WFb6Agla0kQT
+         F6jY+YN1QRTH4quvv0N7rWeIOtkprVONtA2UiepoyDtsPg8fvCO1ZPkQBmVuwOaxHX74
+         E+jnSz8V0rcd//cPbXu3QM1jh6lamhmgKTBqWlYX6IeXbcF/Wh8mkVGkrICUi2lYuYtM
+         7+eA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/ok9QI8Db9fKoGHfPogQYBObGWVueyOFAncGeL8cVQBM1RtcDbhkm6fXl7u7nA/+KwaqH1BFvVaY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2N0v4l/HcnXsm7nTwMRfg1wtNp/F1i6RJZ8n+ntNgaNPgbPdc
+	e97ZzEBTRbaNNo8lJhMON6fu553VuDXD/H0d0ekwAl3FHz7vASZeFqP/yOfPRtsL/dIOouteKX1
+	RXJwwGD8qHiIIEaX55O9BIltDtg+km9vhuGpAFb75
+X-Gm-Gg: ASbGncuKICsClZVNUlXBmqKphGl3GB2wZfhfPGlO5cNmrUUv0BHBAXkpA43uXyRh7WM
+	WNLNqp2D+w4Xuy5EJKXflwb+roudiQDIviLBqEIdspjugHGgC7ru1/MukLpAvYmW+xicvact7OJ
+	2j1LrldD6OCLeOTGL2SX+g1Kp68b5XAI5xlMGJ9mZw/rkC3W0DEG9dt6JVm4NDpa0QE96QfSShD
+	vo7jZlToqLzZgc+lu5gGShgzDV77f2yI9NvSIgo2YgtMHSkrcCNmfo=
+X-Google-Smtp-Source: AGHT+IF/Fz2Y5nk02badGqITxY1/tzo4lRqGZ2Zao4nfkcXFZyjJgtYYuI6B/Fj3L639UAHyqOxbIJ21cF9JPLUpaI8=
+X-Received: by 2002:a05:600c:1502:b0:45b:7d8f:4bd4 with SMTP id
+ 5b1f17b1804b1-45df74f81cemr1873365e9.4.1757537098041; Wed, 10 Sep 2025
+ 13:44:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-8-laoar.shao@gmail.com>
-In-Reply-To: <20250910024447.64788-8-laoar.shao@gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Wed, 10 Sep 2025 13:44:39 -0700
-X-Gm-Features: AS18NWC0PddnEh_K4ml7j_4k0fHCbV_INsBk7po365NYjaa9qQUoIAl6ZZzp51o
-Message-ID: <CAADnVQJF6YtzOojGV16hmUpFCiZGxuJAi6=Q4TK=VPH=_93eJA@mail.gmail.com>
-Subject: Re: [PATCH v7 mm-new 07/10] selftests/bpf: add a simple BPF based THP policy
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Liam Howlett <Liam.Howlett@oracle.com>, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, Johannes Weiner <hannes@cmpxchg.org>, usamaarif642@gmail.com, 
-	gutierrez.asier@huawei-partners.com, Matthew Wilcox <willy@infradead.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
-	David Rientjes <rientjes@google.com>, Jonathan Corbet <corbet@lwn.net>, 21cnbao@gmail.com, 
-	Shakeel Butt <shakeel.butt@linux.dev>, bpf <bpf@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
+ <20250826-vagabond-catfish-of-courtesy-cbfa76@houat> <20250910-vigorous-attractive-gorilla-af6fec@houat>
+In-Reply-To: <20250910-vigorous-attractive-gorilla-af6fec@houat>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 10 Sep 2025 13:44:45 -0700
+X-Gm-Features: AS18NWDgBu3edPeSCZERO8HncQFGrRuZvzuC8yXw-tqKPcuIWCidg2bFxSYLb0U
+Message-ID: <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
+	Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 9, 2025 at 7:46=E2=80=AFPM Yafang Shao <laoar.shao@gmail.com> w=
-rote:
+On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
 >
-> +/* Detecting whether a task can successfully allocate THP is unreliable =
-because
-> + * it may be influenced by system memory pressure. Instead of making the=
- result
-> + * dependent on unpredictable factors, we should simply check
-> + * bpf_hook_thp_get_orders()'s return value, which is deterministic.
-> + */
-> +SEC("fexit/bpf_hook_thp_get_orders")
-> +int BPF_PROG(thp_run, struct vm_area_struct *vma, u64 vma_flags, enum tv=
-a_type tva_type,
-> +            unsigned long orders, int retval)
-> +{
+> On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
+> > Hi,
+> >
+> > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
+> > > Here's another attempt at supporting user-space allocations from a
+> > > specific carved-out reserved memory region.
+> > >
+> > > The initial problem we were discussing was that I'm currently working=
+ on
+> > > a platform which has a memory layout with ECC enabled. However, enabl=
+ing
+> > > the ECC has a number of drawbacks on that platform: lower performance=
+,
+> > > increased memory usage, etc. So for things like framebuffers, the
+> > > trade-off isn't great and thus there's a memory region with ECC disab=
+led
+> > > to allocate from for such use cases.
+> > >
+> > > After a suggestion from John, I chose to first start using heap
+> > > allocations flags to allow for userspace to ask for a particular ECC
+> > > setup. This is then backed by a new heap type that runs from reserved
+> > > memory chunks flagged as such, and the existing DT properties to spec=
+ify
+> > > the ECC properties.
+> > >
+> > > After further discussion, it was considered that flags were not the
+> > > right solution, and relying on the names of the heaps would be enough=
+ to
+> > > let userspace know the kind of buffer it deals with.
+> > >
+> > > Thus, even though the uAPI part of it had been dropped in this second
+> > > version, we still needed a driver to create heaps out of carved-out m=
+emory
+> > > regions. In addition to the original usecase, a similar driver can be
+> > > found in BSPs from most vendors, so I believe it would be a useful
+> > > addition to the kernel.
+> > >
+> > > Some extra discussion with Rob Herring [1] came to the conclusion tha=
+t
+> > > some specific compatible for this is not great either, and as such an
+> > > new driver probably isn't called for either.
+> > >
+> > > Some other discussions we had with John [2] also dropped some hints t=
+hat
+> > > multiple CMA heaps might be a good idea, and some vendors seem to do
+> > > that too.
+> > >
+> > > So here's another attempt that doesn't affect the device tree at all =
+and
+> > > will just create a heap for every CMA reserved memory region.
+> > >
+> > > It also falls nicely into the current plan we have to support cgroups=
+ in
+> > > DRM/KMS and v4l2, which is an additional benefit.
+> > >
+> > > Let me know what you think,
+> > > Maxime
+> >
+> > Any chance we can get this merged?
+>
+> Guys, can we move forward on this?
+>
+> Maxime
 
-...
+Hi Maxime,
 
-> +SEC("struct_ops/thp_get_order")
-> +int BPF_PROG(alloc_in_khugepaged, struct vm_area_struct *vma, enum bpf_t=
-hp_vma_type vma_type,
-> +            enum tva_type tva_type, unsigned long orders)
-> +{
+Sorry I've been MIA the last couple of months.
 
-This is a bad idea to mix struct_ops logic with fentry/fexit style.
-struct_ops hook will not be affected by compiler optimizations,
-while fentry depends on a whim of compilers.
-struct_ops can be scoped, while fentry is always global.
-sched-ext already struggles with the later, since some scheds
-need tracing data from other parts of the kernel and they cannot
-be grouped together. All sorts of workarounds were proposed, but
-no good solution in sight. So don't go this route for THP.
-Make everything you need to be struct_ops based and/or pass
-whatever extra data into these ops.
+The docs for the "reusable" property say, "device driver(s) owning the
+region need to be able to reclaim it back", but how can a driver
+reclaim memory backing a dmabuf, since pages allocated for a dmabuf
+aren't necessarily movable. Couldn't a user allocate all of it, and
+refuse to close those dmabufs?
 
-Also think of scoping for bpf-thp from the start.
-Currently st_ops/thp_get_order is only one and it's global.
-It's ok for prototypes and experiments, but not ok for landing upstream.
-I think cgroup would a natural scope and different cgroups might
-want their own bpf based THP hints. Once you do that, think through
-how delegation of suggested order will propagate through hierarchy.
+I backported this to 6.6 and ran it on a Pixel. While there are
+already similar out-of-tree dmabuf heap drivers that expose heaps for
+these reserved regions, they do more than just cma_alloc (multiple
+flavors of buffer securing, use case specific alignment and padding,
+and slightly different allocation strategies) so I don't think this
+series would allow us to completely drop the custom heap code, but
+it's a nice start. Does the cgroup part come in because the plan is to
+add charging in cma_heap.c?
 
-bpf-oom seems to be aligning toward the same design principles,
-so don't reinvent the wheel.
+Thanks,
+T.J.
