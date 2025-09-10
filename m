@@ -1,99 +1,192 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D7F2D97BE;
-	Wed, 10 Sep 2025 05:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6CC3B186;
+	Wed, 10 Sep 2025 05:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757483821; cv=none; b=PGhu8umwcQ2ncOgiyXm+dtN2+ostAlxX9jz8yUHUyMsvwQnkFfYJcX645M7Ys1qbhCbAtGiUh2baQifPbMEGTpwyZWMoTw7t3H1bOB2XvNfZEGNvmNQLgPSFA+zTyA8zLdbw0ttnYHj3q1JKTsz8sOvrzziSu1tNYjwqozLjvQk=
+	t=1757483985; cv=none; b=k5p0LlicxwYbV8FbRU4GDJ0cPGrPw11jWaWvJfhT6G1Njeq8ImLMUPCLxItunxD9gCMZGtlaGfOOMvxQBbYy6duBmXqbzcGNvsKZ6obCKTmIHGNusgSmysTiyrxAyZqOaegqXxUYLgvGefJDC9/xfW50NhHBnwf+5fEvDhzK/mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757483821; c=relaxed/simple;
-	bh=fswMvV2JhjoYkNR/3InHtloxIMbtnBVjmtbkTtfCVto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZa5HP698eMp+fmCpXoZAbLqb1SBYh6ihVf/t8YeQGmcA6ivNr5eUYOLpOUUx6GLYCdh9lzf5r/JwNxtyQojeJjwmnJZ1Pv0FVolmrBNpHYcZk0imzMt5dZ9KqXaFZCjtjpyggUXi9hFSqWLAOzTzjpJq5wNccOjHtXP/jv3h6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
-X-QQ-mid: zesmtpsz8t1757483799t0123b750
-X-QQ-Originating-IP: lyem3Oekvl4MxcDQrc9OHBjV390njzAolyA3bLir5BA=
-Received: from localhost ( [203.174.112.180])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 10 Sep 2025 13:56:36 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1762630498417445566
-Date: Wed, 10 Sep 2025 13:56:36 +0800
-From: Yibo Dong <dong100@mucse.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "Anwar, Md Danish" <a0501179@ti.com>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
-	maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com,
-	lee@trager.us, gongfan1@huawei.com, lorenzo@kernel.org,
-	geert+renesas@glider.be, Parthiban.Veerasooran@microchip.com,
-	lukas.bulwahn@redhat.com, alexanderduyck@fb.com,
-	richardcochran@gmail.com, kees@kernel.org, gustavoars@kernel.org,
-	rdunlap@infradead.org, vadim.fedorenko@linux.dev,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v11 3/5] net: rnpgbe: Add basic mbx ops support
-Message-ID: <36DC826EE102DC1F+20250910055636.GA1832711@nic-Precision-5820-Tower>
-References: <20250909120906.1781444-1-dong100@mucse.com>
- <20250909120906.1781444-4-dong100@mucse.com>
- <54602bba-3ec1-4cae-b068-e9c215b43773@ti.com>
- <20250909135554.5013bcb0@kernel.org>
+	s=arc-20240116; t=1757483985; c=relaxed/simple;
+	bh=5IxG8Z9PgwiMMwrOHhG7jefOPrAnnnDK9LcuzzTL9Z4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gMoApKom/8dvSNmj9zJ+UkXV8lb54dFFWY2T5f8dCtr6ynr1NsKqTlm5B5w7iVpbjsBJ0MiYBfcVjZ8ltUrhHj9AqOPi3NEkDMA++IVPOR0FrFrZtNl19wIs6GvwOych2X9XMywBhFEEtFdqFBAJ2X5Hd4tRCjAllXUz/I9hDLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GUiKNtmi; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GUiKNtmi"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Mnw4Ea8vEVwGfnN17/VxvzfcceILPNEC7ILi6SjVv80=; b=GUiKNtmigoEsHj6WJ/U4Lo4PHh
+	aEqD0U1Dqn1GFAFoGiSHOt4SD2akXQEPG0QP9q4+fv+qmoDW2uMWnzJXruJWUNr3PDCbAoRokwyR0
+	oHr69BREEsUhf4MMX0bLe6+fFsD4DjUCiWzl4BkIc5tB1c19jB2SvW5oXF5+5uhAEVX+Duk53ijTH
+	x3BenGs8/jzwXUpzKzw19NW2zFx3iIO4az1AQwDovyu1sdsTKUSsk0KXUHaC1/a4zJs1t22MEAEe/
+	GSa9HDAa01NBV90lOposu/RJrtO5ahp6QHUdzdj/VPSL1Z16GUIbz1vsMVW93HLKOGaGTTggD7bNP
+	NPlWLlEA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uwDrq-0000000CETl-14dY;
+	Wed, 10 Sep 2025 05:59:42 +0000
+Message-ID: <14133b75-a984-4244-a18d-f02f0b81d1b7@infradead.org>
+Date: Tue, 9 Sep 2025 22:59:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250909135554.5013bcb0@kernel.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MmIUUz9KGMMd/33id8JVeJq4ygdv4Fb6TngcYuKqsjh14Un+5IekNnpN
-	60vYQPXOKoTvUQe6XjU1StrkgCZajfyctyEl0ae3H8rYB614EDqT2lQfKSIsVzXaohpmDZa
-	O3LXrBzQuCImWtOhrf7g8Stv4rr1mkUoCQucfZFnngg471y7QqVpxgmOwdBABVgr911jPOP
-	QVeEUGek13yKeTSaJrqHT/JSeUtVnDmWwmrXjfOKVEH+SrjDtTFiVj0pXlOvqqlXp4qXfOr
-	8j71uXc+86vN7jnPnKvy7DzdEcZl7Y7s89FBe9I9LgEaSnrVquAlJrbCI/tLAgQEITc29fM
-	Pnc65A/cI5c9q0K0eSTbLfyZuUhLq7QTgZMvYjBsH5D38ngKQVmZqRSt6jG+2ezVOOyuRiK
-	BW8FrY8lRCQPomsBe9YtqSQMiyV8n6URMcIYwAuVJfp4abkCYP9ob9QHXd7Q+wNBHqwfFcM
-	AnYizLTz5Fo4MhcrW0okoYryXOekDNu0os+2naYxnEy3I2PAiXxZRkXtg2Iw+4bxTJkdCVr
-	JeKpwhXLyLWbc8NI939eAO++CcYEbZ+4O+k67ApYkgkFTPEZzmRv8lWahgmSrP2JMKUM9eo
-	iNFovopPqcZ4Oy/FN/y3uhRpT2orBwaep20IsdMFgEOU9gEMpgoKgLpf37di0jPv5cUo8lq
-	Lzyf8ctUWBDhX6eYLEKKw0r1zfDfpz2iCIHkOrTzXKUDgR8+IXl/DsoELpr5wJ1Tn/BMOKQ
-	xbUNKBAZukdQCG80Yu952TX6/+pmIzQAlgjk1ehVUvi7krE3kY+9vxEeVVnKOYhFaCGOcu6
-	ltQ+7WR+wk7r+yqJcRKzw65BL+FxChF9OSKbatx6+sWk9ttGf5Poy5qKWBr07AuebDjAMji
-	dX/4u00kXdHPIQdOJka77KcHKyV+o3p8tpq+Cang5iR4WZs5NY33oRrtAorxs+75EToMHQ/
-	LakPmTb1SyaDYqOf2LQL0jAPIDGP9vVYxdofQWmMQ+GlgfLiVMTSv6Oob1Ot3z+R5SrM4XA
-	4EsoEibglp7/mUl3pgQ6rbnGXimko=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kernel-doc: add support for handling global variables
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
+ <d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
+ <20250909215824.1968220c@foz.lan>
+ <5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
+ <20250910010903.5388bffc@foz.lan>
+ <0d190bf0-b9d4-4d5c-a1cc-6d5d79be3886@infradead.org>
+ <656591ff-fa7d-4763-8759-0a0af3a4039a@infradead.org>
+ <c195c68f-e815-4428-9134-8746198a4611@infradead.org>
+ <20250910062323.059bb078@foz.lan>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250910062323.059bb078@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 09, 2025 at 01:55:54PM -0700, Jakub Kicinski wrote:
-> On Tue, 9 Sep 2025 19:52:21 +0530 Anwar, Md Danish wrote:
-> > > +	for (i = 0; i < size_in_words; i++)
-> > > +		msg[i] = mbx_data_rd32(mbx, MUCSE_MBX_FWPF_SHM + 4 * i);  
-> > 
-> > The array indexing calculation should use multiplication by sizeof(u32)
-> > instead of hardcoded 4.
+Hi Mauro,
+
+On 9/9/25 9:23 PM, Mauro Carvalho Chehab wrote:
+> Em Tue, 9 Sep 2025 17:02:00 -0700
+> Randy Dunlap <rdunlap@infradead.org> escreveu:
 > 
-> Not sure this is really necessary, I'd expect C programmers to intuit 
-> that 4 is the number of bytes in u32 here. sizeof(u32) is going to
-> overflow 80 char line limit and cause more harm than good.
+>> On 9/9/25 4:50 PM, Randy Dunlap wrote:
+>>>
+>>>
+>>> On 9/9/25 4:49 PM, Randy Dunlap wrote:  
+>>>>
+>>>>
+>>>> On 9/9/25 4:09 PM, Mauro Carvalho Chehab wrote:  
+>>>>> Em Tue, 9 Sep 2025 14:06:43 -0700
+>>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:
+>>>>>  
+>>>>>> On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:  
+>>>>>>> Em Tue, 9 Sep 2025 00:27:20 -0700
+>>>>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:  
+>>>>>  
+>>>>>>>> +.. kernel-doc:: init/kdoc-globals-test.c
+>>>>>>>> +   :identifiers:
+>>>>>>>>
+>>>>>>>> The html output says
+>>>>>>>> "Kernel Globals"
+>>>>>>>> but nothing else.    
+>>>>>>>
+>>>>>>> I usually don't add :identifiers: on kernel-doc entries. If you use
+>>>>>>> identifiers, you need to explicitly tell what symbols you want.    
+>>>>>>
+>>>>>> Well, it worked/works without using having any identifiers listed, and
+>>>>>> the docs in Documentation/doc-guide/kernel-doc.rst says that they are
+>>>>>> optional:
+>>>>>>
+>>>>>> identifiers: *[ function/type ...]*
+>>>>>>   Include documentation for each *function* and *type* in *source*.
+>>>>>>   If no *function* is specified, the documentation for all functions
+>>>>>>   and types in the *source* will be included.
+>>>>>>   *type* can be a struct, union, enum, or typedef identifier.  
+>>>>>
+
+
+>>>>> I suspect that an empty identifier could be raising an exception.  
+>>
+>> and it's being caught and ignored (not printed)?
+> 
+> there is a try/except block to capture exceptions. It is supposed to
+> print something, though:
+> 
+>         try:
+>             if kfiles:
+>                 return self.run_kdoc(cmd, kfiles)
+>             else:
+>                 return self.run_cmd(cmd)
+> 
+>         except Exception as e:  # pylint: disable=W0703
+>             logger.warning("kernel-doc '%s' processing failed with: %s" %
+>                            (cmd_str(cmd), pformat(e)))
+>             return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
 > 
 
-I found similar code in other drivers, ixgbe, it like this:
 
-#define IXGBE_READ_REG_ARRAY(a, reg, offset) \
-                 ixgbe_read_reg((a), (reg) + ((offset) << 2))
+>>>> Anyway, does this take away something that currently works?  
+>>
+>> The output looks the same with this patch AFAICT.
+> 
+> run it in verbose mode to see what command line was passed to
+> the file:
+> 
+> 	$ make SPHINXDIRS=your_test_dir V=1 htmldocs
+> 
+> This should be printing how the kernel-doc.py command line would be(*):
+> 
+> 	scripts/kernel-doc.py -rst -enable-lineno ./include/linux/peci.h
+> 	./include/linux/peci.h:20 Scanning doc for struct peci_controller_ops
+> 	./include/linux/peci.h:32 Scanning doc for struct peci_controller
+> 	./include/linux/peci.h:58 Scanning doc for struct peci_device
+> 	./include/linux/peci.h:88 Scanning doc for struct peci_request
+> 
+> (*) the kerneldoc.py extension doesn't call kernel-doc.py, but instead
+>     run directly the Python classes from the library. Yet, to help one
+>     to debug it, the command line is displayed.
 
-         for (i = 0; i < size; i++)
-                 msg[i] = IXGBE_READ_REG_ARRAY(hw, IXGBE_PFMBMEM(vf_number), i);
+I see. Thanks.
 
-Maybe I should follow that style?
+I get this if I list all of them (on 2 separate identifiers lines):
 
-Thanks for your feedback.
+../scripts/kernel-doc.py -rst -enable-lineno -function ROOT_DEV -function system_state -function saved_command_line -function diskseq ../init/kdoc-globals-test.c
+../init/kdoc-globals-test.c:5 Scanning doc for global ROOT_DEV
+../init/kdoc-globals-test.c:15 Scanning doc for global system_state
+../init/kdoc-globals-test.c:27 Scanning doc for global saved_command_line
+../init/kdoc-globals-test.c:33 Scanning doc for global loops_per_jiffy
+../init/kdoc-globals-test.c:40 Scanning doc for global preset_lpj
+../init/kdoc-globals-test.c:49 Scanning doc for global linux_proc_banner
+../init/kdoc-globals-test.c:63 Scanning doc for global linux_banner
+../init/kdoc-globals-test.c:72 Scanning doc for global diskseq
+../init/kdoc-globals-test.c:80 Scanning doc for global rtnl_mutex
+../scripts/kernel-doc.py -rst -enable-lineno -function loops_per_jiffy -function preset_lpj -function linux_proc_banner -function linux_banner ../init/kdoc-globals-test.c
+
+or this is I don't use the identifiers line at all:
+
+../scripts/kernel-doc.py -rst -enable-lineno ../init/kdoc-globals-test.c
+../init/kdoc-globals-test.c:5 Scanning doc for global ROOT_DEV
+../init/kdoc-globals-test.c:15 Scanning doc for global system_state
+../init/kdoc-globals-test.c:27 Scanning doc for global saved_command_line
+../init/kdoc-globals-test.c:33 Scanning doc for global loops_per_jiffy
+../init/kdoc-globals-test.c:40 Scanning doc for global preset_lpj
+../init/kdoc-globals-test.c:49 Scanning doc for global linux_proc_banner
+../init/kdoc-globals-test.c:63 Scanning doc for global linux_banner
+../init/kdoc-globals-test.c:72 Scanning doc for global diskseq
+../init/kdoc-globals-test.c:80 Scanning doc for global rtnl_mutex
+
+
+And then both of them report these warnings (already discussed):
+
+Documentation/core-api/kernel-api:435: ../init/kdoc-globals-test.c:10: WARNING: Invalid C declaration: Expected end of definition. [error at 32]
+  enum system_states system_state __read_mostly;
+  --------------------------------^
+Documentation/core-api/kernel-api:435: ../init/kdoc-globals-test.c:20: WARNING: Invalid C declaration: Expected end of definition. [error at 25]
+  char *saved_command_line __ro_after_init;
+  -------------------------^
+
+and the 3 globals with initialization values are skipped/omitted.
+
+So to get "all identifiers," I should just omit the :identifiers:
+line completely. kernel-doc.rst could use some clarification on that
+point.
+
+Thanks.
+-- 
+~Randy
 
