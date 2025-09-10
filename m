@@ -1,74 +1,74 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D8E81724
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 00:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462A11BCA1C
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 00:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757463087; cv=none; b=kKP+Ivqez6e/syAU4xo4BNTT/9Y9mlVCReaEfOGTVnyY19qVoKFyQasn8vm7VX/03wQpUMpW6iQjs1cRXeqY7y56op1yA63bsw85uTXJBB530BPod+42GCJ3JRKaiL5G4qp9uWy3Z+vLTYxonxh5HQKu5x3Wok3y/Fc+w/rQUcM=
+	t=1757463091; cv=none; b=WbJ47B/zO8KNQcR/z/+AbKb+pLfAIm8OEahlDTbsxOpMsWtAyRfhL5jU+zJ6ycXFWl3WWT4tq7ZwNTvZTEvyLDMSBfOxbZ5Zng8b3KKwA0mU31CFXS8KekkBDDrwugIf4I9u5p8f0dGtZphFJ7wiQSalZVnDSXCiiJ9ePUW87Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757463087; c=relaxed/simple;
-	bh=8TSbhEgUPN9kdxwy9KCMFyUVP58G/S0fhvuvLlT55sU=;
+	s=arc-20240116; t=1757463091; c=relaxed/simple;
+	bh=p1+amx9xWqw3n8rwGKlwrcFPH327CAYQiayrFQb7lOY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ECTvxHNXCZu87mVfcdwtIE0ib2UoUj3ccW/o3NFKrJJ30tNMFOdNLakSHCUKF6/8rXEfY9BSwRWQlHRZk6AgirR3D+QBNeVKSdo6RYsVhf7Gao2n/s6KeS3X3q2ncUmJdlDExR0QgU/i4gBrB/F4a83zSi8NxONXhMdnt9eKdBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dyBBvqZO; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=XCpj7JwbWGiG3nFy/JR/JuyS+wjEMIlTyosoGXxVVb8ICWdJ/tvXj4WSQar2b1Ta2cmVUi4Hb+bHMt4QfH44m8GSvbYCT4OtfCm3xmDf0h+zBNpyU1ONMGaap21LDIs16TIMs+yH0b69ckiIHz7lmphsZ317HWp1laKapEZBvJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QX/rgTPe; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dyBBvqZO"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 589HR58U020143
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 00:11:24 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QX/rgTPe"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 589HbIsp009026
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 00:11:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kjXvseb+vxS0ErbDImEwiyaXgCwIyoxRM6Sfo6q8WkU=; b=dyBBvqZOdh5SxqjV
-	jdbIKh8nc2E3KsLOv182eqV1uZYQ4phHBm2lD8iW85CbQyvPUzFYvLlHuLETaje6
-	PnzTR2Lu3m8eCMD3vLttCaZYTtxAg3BonTZzDCs9I4e0YOx76HHFzboUDI2wdeDW
-	rwUfaxDa74+S+6UoXdfeQnCtfYk5q7ffsuhT0Uv/AaDtXiH4s02nONnSxgz3zco8
-	DnTyF2J3lwMxfVD4XJluEwvmnmiD0bfZddLQmWn3a8CajVqGaW+M/35HuB85QPef
-	4xKIgH6W2Ibt6rhgPo7CcoWjaRHlcN9IvHc4iMtCiVn0BB4X9wW2mY8TbKg0xLOW
-	qvsNfg==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490e8a9x58-1
+	bJUEScgHd669sTbCi3K/5DZAJvI+GRUfGpoFZdMFrdg=; b=QX/rgTPef39viCOo
+	UQYTjVCuAOZAPGAkbaIBOqV+/E/CvUPeOPNUqhPYnWv6be1dV9p+SbqYT0ppWqWj
+	cyrDGxfyQ0iW4QVw4voqQbs+dyTPYoOuvM/rFV5GROqLO01vWRWXLHsS1/JlZLB7
+	fJTPp8koUv4O2xijU7Vp8trztwK7l/RKZiixJhv+Mta6JbMw/ARcEk75kpNly5uJ
+	RvuQqI+hSEw8HEZPQN0pA/zrluQKu+O2e/7i2tHWt6j8fKVIAxRQgslrG2ZGnYFZ
+	QV1FKi0b3SjvzfsVAzok6NGicB7j7JhBX0XeANbQ/SycAhz3RdVHe2mU/75jZFbC
+	QVgBdA==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491qhdxtqt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 00:11:24 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-77422201fd8so4600223b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 17:11:24 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 00:11:28 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b522c35db5fso2422937a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Sep 2025 17:11:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757463084; x=1758067884;
+        d=1e100.net; s=20230601; t=1757463087; x=1758067887;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kjXvseb+vxS0ErbDImEwiyaXgCwIyoxRM6Sfo6q8WkU=;
-        b=utMeVFUj0P7iNHJ+y3Sx0ZsQ7YbSgTeQvEbGFuGq2khmcM+oUKzrXzlioJGUFsNawL
-         WnFsgDt5jIXEnRTt1bSby0ODrxzeKoOej8w5t0Q3hYUFAqoHpYY5b3Yss1ca37bOrXam
-         pscAdTnccvig+QKHSVLisDLbMPeIqcwvS+s/f63t6hlNpalcJ2uxl2YJazF0ZUvBfK+h
-         QttffBtruiN3P2iUxCPNiXwaUXa3pGmcuYcbV1oa/kVIB+vqJWEja4E3IxEwrhRnx122
-         4JDCF1zgxaQzfzLMjYk9XlucOz2tOC9lhXf8gset9EYpLTq0/apSwidUsZ2rsHyM+SqV
-         HKkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXnR+GPjR/QA5zMPPvNRDmyb63255e2ytRw/t66Oq7jagwuRKznQ0zDhg/Yfv1LaG7mbv8VzvkQBgA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbOERUCiKlrfemerW1JmJzsOr7IMn6oC0Ae5wZlD1Kao7pNcak
-	NNZrJpC3toPJIakZwL8xesCY3y3W97HpzePCgtB1PKVRf/pYzEvIULhb5kb74iLucOLLDRzkVjL
-	zUG0bQ50facnKpa8laR383dFuRJ8dBvbD+fnqg4T7A21y84M+1w+t9EpGtS9Lgg==
-X-Gm-Gg: ASbGncuHuWuJv4xMZi5hwTFOl1th9YlfRCJVfg7BZmF27sWaQVlFBYmB0CixfUJqBuO
-	owhfP6Bfwot/WkF0zchikmiu15zastZsZAYVBwOE4K6ok5xDAoAxgarzv6OX7Lp72OFJBz2nJWK
-	o+L2vp+k/Mdr9L+vNVu0LjN5n8ot961fTAUGii6WrWpp18Ee3n1S+nxJJ0lwK+mDoCWABT3Ao74
-	YnPglAPpQhuAHSO3CLBWPOHHH+xZ6MhNRe9avxqyEzkwG+t5DRvErtIdAHfp3cqrDiM5qgMwcfX
-	rYIVSOf8fY/zVROouhg+/fTnN3lcxZ9lBoZDf/r/dPV5sLqIhPs6Miphgl+Orjp2DSny3W7j9eB
-	P4XuQfrFJhcJHuzNt6sKJJNk=
-X-Received: by 2002:a05:6a20:4320:b0:24c:cb06:f0db with SMTP id adf61e73a8af0-253430ae888mr19487913637.35.1757463083409;
-        Tue, 09 Sep 2025 17:11:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH6YXV/yo/etuXH1mofBir8R0+46jHu2hZYYNv2+fbMH7+eQOvuVrW4JcNtH6BTxe1fJ2MX+Q==
-X-Received: by 2002:a05:6a20:4320:b0:24c:cb06:f0db with SMTP id adf61e73a8af0-253430ae888mr19487873637.35.1757463082883;
-        Tue, 09 Sep 2025 17:11:22 -0700 (PDT)
+        bh=bJUEScgHd669sTbCi3K/5DZAJvI+GRUfGpoFZdMFrdg=;
+        b=NhtMmN1DDi+z1EVvHmVp1aQqDghxrKCEUuZ4S561rWC3pCD93IFRnez7cO12RAnT5K
+         srsQO43uTiWgPRCbVA3ciB4YoRpj3ekYgrjwAoTg76Tdqtlek2cjTuU/rhfKoCRbfTBa
+         JBG80YgbKKj/FQVbJbma3T0Sen57QsmwX5xL9VClAGrjsS7nhkVZKXdMSMJNB+wmuIbm
+         ipngFCMb3b/C6GLn0OsSiYpELdwTTjzt83mf/wtnAPWGzqCLQ5EaxH7ixUXvUAhE5ahr
+         SEjUZB3XxoK5w5CZU5OnToW1PV56pu8RrbVRl20uBZzxm3woT2dYTsX5XED/7V1Kn3qx
+         mvbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXfupQoQ4f52Aq1bFwoQ8cSxXPyj5qrc4jeGlJWa7oNsH1Tki18nRetPR2CLq87R9QN5Ty0cSLJv1s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRgg1zeNtTe3TOHthR+j8Sc5foXLSKvK+EuVHEK19tW0KzAY4i
+	HSbVb9n/yDiWG5IAQJheqEdsh6ti1pGvhcAwjZiPQt1je9Yssp8YtazcBOX/zDBAAPn8FW85h3r
+	bY16RvHNW6t6CF22b0c0OehXMK9KyYYxW/A3085vSLRTuCtkSRLKeLEvvzTf8Tg==
+X-Gm-Gg: ASbGncvBMeep9thxFvufmCpVbxVPo/fV1SkCluhkJQNNP4TJFHaoVzz5M+hLjiVCsrL
+	KVX3AaNufAyV/Us4i+r1QXO2tDza0b6WtI4sCqydrpDHSblz+M5/hTYBmr/bgFVavVJAjtOPcZ+
+	o0E1/u9SLWbfRbyJ5PrhMByLj77MKWXHzMnH+810jvCzP0KOMLS4QmyCtMv4UskEF6FQlwFNQnr
+	BB6pqXfCJkzNVGaQbo1lG2tFlV9Wv22W4iIP6hkWC+vFJbpY9r7jhCebtWt1fOfG58pebBbwvuj
+	iLxoPp7WTLx/CH7tv3d9u8/z7B77KZkVQUWi7sMyDRbPIGOXt/sD2vF02SFtjbFP4epmny/5yMp
+	kVTC/2U/yDuNyO5eoyjOG3q4=
+X-Received: by 2002:a05:6a20:1594:b0:24d:7926:bb29 with SMTP id adf61e73a8af0-2533d605fafmr20523227637.5.1757463087145;
+        Tue, 09 Sep 2025 17:11:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGYhuFSs97p3AvLp04BPVBOEDhd9OnAESZJJlKAWg0wZNnj27/DM9UEFY3VTjiNdvHXocRdaQ==
+X-Received: by 2002:a05:6a20:1594:b0:24d:7926:bb29 with SMTP id adf61e73a8af0-2533d605fafmr20523157637.5.1757463086520;
+        Tue, 09 Sep 2025 17:11:26 -0700 (PDT)
 Received: from hu-azarrabi-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dab6bb655sm1285672a91.10.2025.09.09.17.11.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dab6bb655sm1285672a91.10.2025.09.09.17.11.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 17:11:22 -0700 (PDT)
+        Tue, 09 Sep 2025 17:11:25 -0700 (PDT)
 From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Date: Tue, 09 Sep 2025 17:11:06 -0700
-Subject: [PATCH v10 04/11] tee: add close_context to TEE driver operation
+Date: Tue, 09 Sep 2025 17:11:08 -0700
+Subject: [PATCH v10 06/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-4-20b17855ef31@oss.qualcomm.com>
+Message-Id: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-6-20b17855ef31@oss.qualcomm.com>
 References: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-0-20b17855ef31@oss.qualcomm.com>
 In-Reply-To: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-0-20b17855ef31@oss.qualcomm.com>
 To: Jens Wiklander <jens.wiklander@linaro.org>,
@@ -98,200 +98,312 @@ Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
         Sumit Garg <sumit.garg@oss.qualcomm.com>,
         Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.13.0
-X-Authority-Analysis: v=2.4 cv=H7Dbw/Yi c=1 sm=1 tr=0 ts=68c0c22c cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Proofpoint-GUID: WeHzKrIMigX9rQ0AeRrtqwiP-m8e2yka
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDAzNCBTYWx0ZWRfX4jPcxjl47PuS
+ MW6DZyx2acioDWPtqnDfuajacb6m8mvRY6kz3uvP/3p3FMiQnM8Vp3znz14o/f32gTIIokcT2nU
+ 3SL/HgZtSOH8wQ/k/Q1w7nYcHbd0gPr6iR/90vjfaPE3F5EKCL9Y6bd0n5Mmeqtku1Q+3SMyzFA
+ RqBvTGUh5rehuU5UnMZYLr2ZhtfsoALPjRBu0o4Z884bGGEVIrTEjebB0KZelQwdbajjOOKnfpX
+ 6UXKxeDfvm3yJIzGJI4FbY+743IITBXsz4N7Zvyjviem6x4EN/Fd6ilirUFF8hUKp/Sx1XSOGaP
+ 3DgmSQAk2OND0hGILDi62kzXJf8kMtWocRSq2Q1djiD++LqPiThq58Bt/4aOpwIQAp3TlpQesQh
+ YdiDcx9r
+X-Authority-Analysis: v=2.4 cv=YOCfyQGx c=1 sm=1 tr=0 ts=68c0c230 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=0l_YNDiMcOfTHwIteTYA:9 a=QEXdDO2ut3YA:10
- a=IoOABgeZipijB_acs4fv:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: h7rrLKIp8RMLSoEFDDY5ZD0eB-2m_-1j
-X-Proofpoint-ORIG-GUID: h7rrLKIp8RMLSoEFDDY5ZD0eB-2m_-1j
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzOSBTYWx0ZWRfX5hB7z9mqdxMr
- yHcCQvBfArvdPc3YZ8wvHEwPCcrOVSQbkMjR5eciT/O2LXbfFsJDg5EsXpYK7bk+vhwibMjCuer
- 2SEoiHp7WjJkaC7eg92l6pWbrX7fkkOwf/022KEhGmoDwm9wssMYVVWBtzgDW4uGr+ygoMHIyG0
- Gg0fJWB+U2ULs1La7WW7W19/eF2P/rYTUptlj22iXOVXU5IH51G9omJU4CFose/48twkqJkGf2P
- j+vkRoJAiR5ZltAB1kteADVf/u4wSW+a/j6WN+CahNL7LOjM+n63oHv79uUTOJ9bT6gsrRXvuOm
- 98ZyexWDP1uHiIXMMBKX1XauW6T8QnGz3K1zfjP0x2hY5DdjzXMUACcWLZWr+KHvfAnkveRVrVy
- kVe0mviT
+ a=COk6AnOGAAAA:8 a=fw-SQdjKjSnpQ1BqlTsA:9 a=QEXdDO2ut3YA:10
+ a=x9snwWr2DeNwDh03kgHS:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: WeHzKrIMigX9rQ0AeRrtqwiP-m8e2yka
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-09_03,2025-09-08_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 phishscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060039
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080034
 
-The tee_context can be used to manage TEE user resources, including
-those allocated by the driver for the TEE on behalf of the user.
-The release() callback is invoked only when all resources, such as
-tee_shm, are released and there are no references to the tee_context.
+The TEE subsystem allows session-based access to trusted services,
+requiring a session to be established to receive a service. This
+is not suitable for an environment that represents services as objects.
+An object supports various operations that a client can invoke,
+potentially generating a result or a new object that can be invoked
+independently of the original object.
 
-When a user closes the device file, the driver should notify the
-TEE to release any resources it may hold and drop the context
-references. To achieve this, a close_context() callback is
-introduced to initiate resource release in the TEE driver when
-the device file is closed.
-
-Relocate teedev_ctx_get, teedev_ctx_put, tee_device_get, and
-tee_device_get functions to tee_core.h to make them accessible
-outside the TEE subsystem.
+Add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT/INOUT to represent an
+object. Objects may reside in either TEE or userspace. To invoke an
+object in TEE, introduce a new ioctl. Use the existing SUPPL_RECV and
+SUPPL_SEND to invoke an object in userspace.
 
 Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
 Tested-by: Harshal Dev <quic_hdev@quicinc.com>
 Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 ---
- drivers/tee/tee_core.c    |  7 +++++++
- drivers/tee/tee_private.h |  6 ------
- include/linux/tee_core.h  | 50 +++++++++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 55 insertions(+), 8 deletions(-)
+ drivers/tee/tee_core.c   | 85 ++++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/tee_core.h |  4 +++
+ include/linux/tee_drv.h  |  6 ++++
+ include/uapi/linux/tee.h | 41 +++++++++++++++++++----
+ 4 files changed, 130 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-index 33091aa21be0..0b4c65dc14cc 100644
+index c21f1909ed17..317cb044d92f 100644
 --- a/drivers/tee/tee_core.c
 +++ b/drivers/tee/tee_core.c
-@@ -79,6 +79,7 @@ void teedev_ctx_get(struct tee_context *ctx)
+@@ -343,6 +343,7 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+ 		switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
+ 			break;
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+@@ -361,6 +362,11 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+ 				return -EFAULT;
  
- 	kref_get(&ctx->refcount);
+ 			break;
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
++			params[n].u.objref.id = ip.a;
++			params[n].u.objref.flags = ip.b;
++			break;
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+@@ -434,6 +440,12 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+ 			if (put_user((u64)p->u.ubuf.size, &up->b))
+ 				return -EFAULT;
+ 			break;
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
++			if (put_user(p->u.objref.id, &up->a) ||
++			    put_user(p->u.objref.flags, &up->b))
++				return -EFAULT;
++			break;
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+ 			if (put_user((u64)p->u.memref.size, &up->b))
+@@ -586,6 +598,66 @@ static int tee_ioctl_invoke(struct tee_context *ctx,
+ 	return rc;
  }
-+EXPORT_SYMBOL_GPL(teedev_ctx_get);
  
- static void teedev_ctx_release(struct kref *ref)
- {
-@@ -96,11 +97,15 @@ void teedev_ctx_put(struct tee_context *ctx)
- 
- 	kref_put(&ctx->refcount, teedev_ctx_release);
- }
-+EXPORT_SYMBOL_GPL(teedev_ctx_put);
- 
- void teedev_close_context(struct tee_context *ctx)
- {
- 	struct tee_device *teedev = ctx->teedev;
- 
-+	if (teedev->desc->ops->close_context)
-+		teedev->desc->ops->close_context(ctx);
++static int tee_ioctl_object_invoke(struct tee_context *ctx,
++				   struct tee_ioctl_buf_data __user *ubuf)
++{
++	int rc;
++	size_t n;
++	struct tee_ioctl_buf_data buf;
++	struct tee_ioctl_object_invoke_arg __user *uarg;
++	struct tee_ioctl_object_invoke_arg arg;
++	struct tee_ioctl_param __user *uparams = NULL;
++	struct tee_param *params = NULL;
 +
- 	teedev_ctx_put(ctx);
- 	tee_device_put(teedev);
- }
-@@ -1001,6 +1006,7 @@ void tee_device_put(struct tee_device *teedev)
- 	}
- 	mutex_unlock(&teedev->mutex);
- }
-+EXPORT_SYMBOL_GPL(tee_device_put);
- 
- bool tee_device_get(struct tee_device *teedev)
++	if (!ctx->teedev->desc->ops->object_invoke_func)
++		return -EINVAL;
++
++	if (copy_from_user(&buf, ubuf, sizeof(buf)))
++		return -EFAULT;
++
++	if (buf.buf_len > TEE_MAX_ARG_SIZE ||
++	    buf.buf_len < sizeof(struct tee_ioctl_object_invoke_arg))
++		return -EINVAL;
++
++	uarg = u64_to_user_ptr(buf.buf_ptr);
++	if (copy_from_user(&arg, uarg, sizeof(arg)))
++		return -EFAULT;
++
++	if (sizeof(arg) + TEE_IOCTL_PARAM_SIZE(arg.num_params) != buf.buf_len)
++		return -EINVAL;
++
++	if (arg.num_params) {
++		params = kcalloc(arg.num_params, sizeof(struct tee_param),
++				 GFP_KERNEL);
++		if (!params)
++			return -ENOMEM;
++		uparams = uarg->params;
++		rc = params_from_user(ctx, params, arg.num_params, uparams);
++		if (rc)
++			goto out;
++	}
++
++	rc = ctx->teedev->desc->ops->object_invoke_func(ctx, &arg, params);
++	if (rc)
++		goto out;
++
++	if (put_user(arg.ret, &uarg->ret)) {
++		rc = -EFAULT;
++		goto out;
++	}
++	rc = params_to_user(uparams, arg.num_params, params);
++out:
++	if (params) {
++		/* Decrease ref count for all valid shared memory pointers */
++		for (n = 0; n < arg.num_params; n++)
++			if (tee_param_is_memref(params + n) &&
++			    params[n].u.memref.shm)
++				tee_shm_put(params[n].u.memref.shm);
++		kfree(params);
++	}
++	return rc;
++}
++
+ static int tee_ioctl_cancel(struct tee_context *ctx,
+ 			    struct tee_ioctl_cancel_arg __user *uarg)
  {
-@@ -1013,6 +1019,7 @@ bool tee_device_get(struct tee_device *teedev)
- 	mutex_unlock(&teedev->mutex);
- 	return true;
- }
-+EXPORT_SYMBOL_GPL(tee_device_get);
+@@ -641,6 +713,12 @@ static int params_to_supp(struct tee_context *ctx,
+ 			ip.b = p->u.ubuf.size;
+ 			ip.c = 0;
+ 			break;
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
++			ip.a = p->u.objref.id;
++			ip.b = p->u.objref.flags;
++			ip.c = 0;
++			break;
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+@@ -753,6 +831,11 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+ 				return -EFAULT;
  
- /**
-  * tee_device_unregister() - Removes a TEE device
-diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-index 9bc50605227c..d3f40a03de36 100644
---- a/drivers/tee/tee_private.h
-+++ b/drivers/tee/tee_private.h
-@@ -14,12 +14,6 @@
- 
- int tee_shm_get_fd(struct tee_shm *shm);
- 
--bool tee_device_get(struct tee_device *teedev);
--void tee_device_put(struct tee_device *teedev);
--
--void teedev_ctx_get(struct tee_context *ctx);
--void teedev_ctx_put(struct tee_context *ctx);
--
- struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size);
- struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
- 					  unsigned long addr, size_t length);
+ 			break;
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
++		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
++			p->u.objref.id = ip.a;
++			p->u.objref.flags = ip.b;
++			break;
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+ 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+ 			/*
+@@ -833,6 +916,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		return tee_ioctl_open_session(ctx, uarg);
+ 	case TEE_IOC_INVOKE:
+ 		return tee_ioctl_invoke(ctx, uarg);
++	case TEE_IOC_OBJECT_INVOKE:
++		return tee_ioctl_object_invoke(ctx, uarg);
+ 	case TEE_IOC_CANCEL:
+ 		return tee_ioctl_cancel(ctx, uarg);
+ 	case TEE_IOC_CLOSE_SESSION:
 diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-index a38494d6b5f4..284ca6b3e03a 100644
+index 284ca6b3e03a..eb891de81e12 100644
 --- a/include/linux/tee_core.h
 +++ b/include/linux/tee_core.h
-@@ -65,8 +65,9 @@ struct tee_device {
- /**
-  * struct tee_driver_ops - driver operations vtable
-  * @get_version:	returns version of driver
-- * @open:		called when the device file is opened
-- * @release:		release this open file
-+ * @open:		called for a context when the device file is opened
-+ * @close_context:	called when the device file is closed
-+ * @release:		called to release the context
-  * @open_session:	open a new session
+@@ -72,6 +72,7 @@ struct tee_device {
   * @close_session:	close a session
   * @system_session:	declare session as a system session
-@@ -76,11 +77,17 @@ struct tee_device {
+  * @invoke_func:	invoke a trusted function
++ * @object_invoke_func:	invoke a TEE object
+  * @cancel_req:		request cancel of an ongoing invoke or open
+  * @supp_recv:		called for supplicant to get a command
   * @supp_send:		called for supplicant to send a response
-  * @shm_register:	register shared memory buffer in TEE
-  * @shm_unregister:	unregister shared memory buffer in TEE
-+ *
-+ * The context given to @open might last longer than the device file if it is
-+ * tied to other resources in the TEE driver. @close_context is called when the
-+ * client closes the device file, even if there are existing references to the
-+ * context. The TEE driver can use @close_context to start cleaning up.
+@@ -97,6 +98,9 @@ struct tee_driver_ops {
+ 	int (*invoke_func)(struct tee_context *ctx,
+ 			   struct tee_ioctl_invoke_arg *arg,
+ 			   struct tee_param *param);
++	int (*object_invoke_func)(struct tee_context *ctx,
++				  struct tee_ioctl_object_invoke_arg *arg,
++				  struct tee_param *param);
+ 	int (*cancel_req)(struct tee_context *ctx, u32 cancel_id, u32 session);
+ 	int (*supp_recv)(struct tee_context *ctx, u32 *func, u32 *num_params,
+ 			 struct tee_param *param);
+diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+index bec9a918b950..92992148b687 100644
+--- a/include/linux/tee_drv.h
++++ b/include/linux/tee_drv.h
+@@ -87,6 +87,11 @@ struct tee_param_ubuf {
+ 	size_t size;
+ };
+ 
++struct tee_param_objref {
++	u64 id;
++	u64 flags;
++};
++
+ struct tee_param_value {
+ 	u64 a;
+ 	u64 b;
+@@ -97,6 +102,7 @@ struct tee_param {
+ 	u64 attr;
+ 	union {
+ 		struct tee_param_memref memref;
++		struct tee_param_objref objref;
+ 		struct tee_param_ubuf ubuf;
+ 		struct tee_param_value value;
+ 	} u;
+diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+index 3e9b1ec5dfde..ac455683ab5b 100644
+--- a/include/uapi/linux/tee.h
++++ b/include/uapi/linux/tee.h
+@@ -48,8 +48,10 @@
+ #define TEE_GEN_CAP_PRIVILEGED	(1 << 1)/* Privileged device (for supplicant) */
+ #define TEE_GEN_CAP_REG_MEM	(1 << 2)/* Supports registering shared memory */
+ #define TEE_GEN_CAP_MEMREF_NULL	(1 << 3)/* NULL MemRef support */
++#define TEE_GEN_CAP_OBJREF	(1 << 4)/* Supports generic object reference */
+ 
+-#define TEE_MEMREF_NULL		(__u64)(-1) /* NULL MemRef Buffer */
++#define TEE_MEMREF_NULL		((__u64)(-1)) /* NULL MemRef Buffer */
++#define TEE_OBJREF_NULL		((__u64)(-1)) /* NULL ObjRef Object */
+ 
+ /*
+  * TEE Implementation ID
+@@ -158,6 +160,13 @@ struct tee_ioctl_buf_data {
+ #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
+ #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
+ 
++/*
++ * These defines object reference parameters.
++ */
++#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT	11
++#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT	12
++#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT	13
++
+ /*
+  * Mask for the type part of the attribute, leaves room for more types
   */
- struct tee_driver_ops {
- 	void (*get_version)(struct tee_device *teedev,
- 			    struct tee_ioctl_version_data *vers);
- 	int (*open)(struct tee_context *ctx);
-+	void (*close_context)(struct tee_context *ctx);
- 	void (*release)(struct tee_context *ctx);
- 	int (*open_session)(struct tee_context *ctx,
- 			    struct tee_ioctl_open_session_arg *arg,
-@@ -154,6 +161,24 @@ int tee_device_register(struct tee_device *teedev);
+@@ -195,15 +204,16 @@ struct tee_ioctl_buf_data {
+  * @attr: attributes
+  * @a: if a memref, offset into the shared memory object,
+  *     else if a ubuf, address of the user buffer,
+- *     else a value parameter
+- * @b: if a memref or ubuf, size of the buffer, else a value parameter
++ *     else if an objref, object identifier, else a value parameter
++ * @b: if a memref or ubuf, size of the buffer,
++ *     else if objref, flags for the object, else a value parameter
+  * @c: if a memref, shared memory identifier, else a value parameter
+  *
+  * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
+  * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+- * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
+- * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+- * are used.
++ * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, TEE_PARAM_ATTR_TYPE_UBUF_*
++ * indicates ubuf, and TEE_PARAM_ATTR_TYPE_OBJREF_* indicates objref.
++ * TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members are used.
+  *
+  * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+  * identifier representing the shared memory object. A memref can reference
+@@ -411,4 +421,23 @@ struct tee_ioctl_shm_register_data {
+  * munmap(): unmaps previously shared memory
   */
- void tee_device_unregister(struct tee_device *teedev);
  
 +/**
-+ * tee_device_get() - Increment the user count for a tee_device
-+ * @teedev: Pointer to the tee_device
-+ *
-+ * If tee_device_unregister() has been called and the final user of @teedev
-+ * has already released the device, this function will fail to prevent new users
-+ * from accessing the device during the unregistration process.
-+ *
-+ * Returns: true if @teedev remains valid, otherwise false
++ * struct tee_ioctl_invoke_func_arg - Invokes an object in a Trusted Application
++ * @id:		[in] Object id
++ * @op:		[in] Object operation, specific to the object
++ * @ret:	[out] return value
++ * @num_params:	[in] number of parameters following this struct
 + */
-+bool tee_device_get(struct tee_device *teedev);
++struct tee_ioctl_object_invoke_arg {
++	__u64 id;
++	__u32 op;
++	__u32 ret;
++	__u32 num_params;
++	/* num_params tells the actual number of element in params */
++	struct tee_ioctl_param params[];
++};
 +
-+/**
-+ * tee_device_put() - Decrease the user count for a tee_device
-+ * @teedev: pointer to the tee_device
-+ */
-+void tee_device_put(struct tee_device *teedev);
++#define TEE_IOC_OBJECT_INVOKE	_IOR(TEE_IOC_MAGIC, TEE_IOC_BASE + 10, \
++				     struct tee_ioctl_buf_data)
 +
- /**
-  * tee_device_set_dev_groups() - Set device attribute groups
-  * @teedev:	Device to register
-@@ -315,4 +340,25 @@ struct tee_context *teedev_open(struct tee_device *teedev);
-  */
- void teedev_close_context(struct tee_context *ctx);
- 
-+/**
-+ * teedev_ctx_get() - Increment the reference count of a context
-+ * @ctx: Pointer to the context
-+ *
-+ * This function increases the refcount of the context, which is tied to
-+ * resources shared by the same tee_device. During the unregistration process,
-+ * the context may remain valid even after tee_device_unregister() has returned.
-+ *
-+ * Users should ensure that the context's refcount is properly decreased before
-+ * calling tee_device_put(), typically within the context's release() function.
-+ * Alternatively, users can call tee_device_get() and teedev_ctx_get() together
-+ * and release them simultaneously (see shm_alloc_helper()).
-+ */
-+void teedev_ctx_get(struct tee_context *ctx);
-+
-+/**
-+ * teedev_ctx_put() - Decrease reference count on a context
-+ * @ctx: pointer to the context
-+ */
-+void teedev_ctx_put(struct tee_context *ctx);
-+
- #endif /*__TEE_CORE_H*/
+ #endif /*__TEE_H*/
 
 -- 
 2.34.1
