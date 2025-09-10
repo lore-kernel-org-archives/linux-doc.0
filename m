@@ -1,504 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC8E264638;
-	Wed, 10 Sep 2025 12:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74A331A540;
+	Wed, 10 Sep 2025 12:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757507072; cv=none; b=gDJTKwpt6B3Wf+7r9wZcLNPmPUzrKeIclykD3nIX4eRNs8L36H1N7f1ztmCKB7ZnpSpBtZIesHM2Ke40fIYQRHYSBvLnzRUTqjUf23qw3rl6DlAK2HTQbV9i5irGBk6AGNVE2j3WemAVEiv4uMTZCpoY1a7mXmYfl+SvGVoFvDU=
+	t=1757507370; cv=none; b=kaJPdlMiANoDmC9PzXmSn5i8Di6VkEV2/nFn1RZgl/r0lTKlcIHkFUb/y9MJw9xSszXwuo90WnidgbliDEdXHI0XNB1DVTjVNHKwiX7v31TXnmVAZwZw+qm8/1ZNQVvjrA4vtOcZZYn6G1ZryRkCcFOaa90mw9rRwu1McdiWz0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757507072; c=relaxed/simple;
-	bh=dLMSaw/k3LKVYx+mrNApFSAFiUQF8+6vrHM9mvBP03A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jxWvyOnNCs70wvuUfMzZ5RsgwEgW/iHvyszLhglkPPo/jIeaf34tAxGxpQkcfREoj8kFdNOi0IqoFeLOatuCH/w8rY9Mg/em3e+PMfc3UZDdKwYHHKBBoCaX9H88srQBiaZPckftNbNAMF2JHC2Iv8VCS2LqTM+InYav4wIxzpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCF2uPNV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757507370; c=relaxed/simple;
+	bh=nWzNiPXljVOHh+NshENWSTobfj+Yky+a+6vNKVZ+mls=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mcLnOqBBfB1gGhs75JG1s3Dcf91XlMUemksvYr8rCDr1fZ8muGEfL+CR8/9HBf+taJJj0EKIzacprGo+CuTUdV/nmFG5oxnyeVsDJHOpMyHv/mkQlYHnTKJTJCYD+AE4aR7Pfjv2uMCl39yM5hoYr5yQnlB3+kdz/C5QcczWQo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TcIwnWJV; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCF2uPNV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA029C4CEF0;
-	Wed, 10 Sep 2025 12:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757507072;
-	bh=dLMSaw/k3LKVYx+mrNApFSAFiUQF8+6vrHM9mvBP03A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kCF2uPNVeFaLEM3vJ37pALV4ZnW+iE1pas9hXYJ1gXBdzLGFR2E3ss8FUkwNmEynC
-	 Cjl7hv9BQq0IJMdiGvhg9rTlCq1Fxp9uerUwKNILR+riBJfnuv8Fp5P6tL/kAkTbrg
-	 YXPN9zah3atXW3ssJ1QzRoz5dEK54++mDBbpiyBjcxiXQafmEpIkOdjl4n2kDz7dXh
-	 WKe3Nzf3wo52s44xZhCHhBkzYg8sehb4uYaUhaYy8FmJDMyOUC2BDAyk5IojgHctGw
-	 GRazh7wGdkUOJpsgiqPEDWZRxnLG6w6HpQ3ojiAr/LZAn/tHjYvrDa49ZpFxUPDUtA
-	 NnEtH2ODss0Jw==
-Date: Wed, 10 Sep 2025 14:24:27 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 05/19] tools/docs: python_version: move version check
- from sphinx-pre-install
-Message-ID: <20250910142427.61347215@foz.lan>
-In-Reply-To: <12f948d2bb995d9321ce07d8765e00bcbd822402@intel.com>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-	<784ca5070326558220cc275deaa046a274badebe.1756969623.git.mchehab+huawei@kernel.org>
-	<12f948d2bb995d9321ce07d8765e00bcbd822402@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TcIwnWJV"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58A9TQus011724;
+	Wed, 10 Sep 2025 12:29:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=p9n6Q4
+	GmBM4ZKicZsH3qs6Dk5+exvXi+SDxeuxwV9RA=; b=TcIwnWJVVT7RAwKjk8z3ud
+	Sgj2hGI4mxNZ+WMGvCWW9zRNQ+Fwe52tPg3XEaNveQ6uiOpWHhHw+oxiLX6QpIID
+	fFX+PprFyBHfZ5r0kShr3CTckNm0UMja0aflI13aLhqkSmAzZnJ2T96hQQoLCY+8
+	P47+2khDGgJxZOs/e5uN5CyQO6t/nY4p0BHdZ1XeeLBTF0oSJF9HOZ4tOAydQGss
+	Hh7LGIcuEGcscJfca18/hGZZ1HFMgCfsjM/UiJRL+sz3zeY/HXhGfsjKsD2Ug+oY
+	/DMZfccUz4rKihNCgTOEMApsdrpB8AI+KUWhtcAB2AumwDZ6yW1o8e2iJrsu85oA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 490xyd2we0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Sep 2025 12:29:15 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58A9VooE020695;
+	Wed, 10 Sep 2025 12:29:14 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 490yp10hfr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Sep 2025 12:29:14 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58ACTCbJ21168452
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Sep 2025 12:29:12 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6F40E2004E;
+	Wed, 10 Sep 2025 12:29:12 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2EABA2004B;
+	Wed, 10 Sep 2025 12:29:12 +0000 (GMT)
+Received: from [9.111.51.223] (unknown [9.111.51.223])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 10 Sep 2025 12:29:12 +0000 (GMT)
+Message-ID: <453e8931-636b-477b-a339-b7cbcc9def64@linux.ibm.com>
+Date: Wed, 10 Sep 2025 14:29:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: kvm: Fix ordering
+From: Janosch Frank <frankja@linux.ibm.com>
+To: kvm@vger.kernel.org
+Cc: pbonzini@redhat.com, corbet@lwn.net, ankita@nvidia.com,
+        oliver.upton@linux.dev, linux-doc@vger.kernel.org
+References: <20250813110937.527033-1-frankja@linux.ibm.com>
+Content-Language: en-US
+Autocrypt: addr=frankja@linux.ibm.com; keydata=
+ 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
+In-Reply-To: <20250813110937.527033-1-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: EjVJR-kCSxHzJxzGLs75pjy8KBKlHa9v
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDIzNSBTYWx0ZWRfX7jEA2W6GtdZD
+ xHi18jq9JuoVYXKQ1v17gDuA81AQhEpu4XMa9PCuU6d6Ek9Wto/zlsG84ElAShQcaK+iaHr7Srz
+ Yg8IJv9piTUGZQtH1+hhB6dFAXgEp1XJ2RMV4F2EhijGd7X+EXUL41oLw9VIFOEhpZU225Z6UJs
+ v+QMvxOnvfmyQEkaxL0J16pfZl1U+DxGr40tVdIShBkw+6Mlw+pgP/4b4V+FY2fkdcLvcK2VdFo
+ pR0bYQgt30tI4KY8cO9puoksr52LILgUGAqorZm3tf3t5wvKzKx7WP9Llz6Iz6UIFz6hZhilbWE
+ 80vIun6rmKit6pNNpUtnAlIZata0A+lLoKmI1qpU2lNqSsfpY8PgbQhdcU2cQG+HO0c69P7lTgc
+ OqNFoOUv
+X-Proofpoint-GUID: EjVJR-kCSxHzJxzGLs75pjy8KBKlHa9v
+X-Authority-Analysis: v=2.4 cv=F59XdrhN c=1 sm=1 tr=0 ts=68c16f1b cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VnNF1IyMAAAA:8 a=OMAO9fA1QOfPoSTfeRYA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_01,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 adultscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060235
 
-Em Wed, 10 Sep 2025 13:14:33 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-
-> On Thu, 04 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wr=
-ote:
-> > The sphinx-pre-install code has some logic to deal with Python
-> > version, which ensures that a minimal version will be enforced
-> > for documentation build logic.
-> >
-> > Move it to a separate library to allow re-using its code.
-> >
-> > No functional changes.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  tools/docs/lib/python_version.py | 133 +++++++++++++++++++++++++++++++
-> >  tools/docs/sphinx-pre-install    | 120 +++-------------------------
-> >  2 files changed, 146 insertions(+), 107 deletions(-)
-> >  create mode 100644 tools/docs/lib/python_version.py
-> >
-> > diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_v=
-ersion.py
-> > new file mode 100644
-> > index 000000000000..0519d524e547
-> > --- /dev/null
-> > +++ b/tools/docs/lib/python_version.py
-> > @@ -0,0 +1,133 @@
-> > +#!/usr/bin/env python3
-> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> > +# Copyright (c) 2017-2025 Mauro Carvalho Chehab <mchehab+huawei@kernel=
-.org>
-> > +
-> > +"""
-> > +Handle Python version check logic.
-> > +
-> > +Not all Python versions are supported by scripts. Yet, on some cases,
-> > +like during documentation build, a newer version of python could be
-> > +available.
-> > +
-> > +This class allows checking if the minimal requirements are followed.
-> > +
-> > +Better than that, PythonVersion.check_python() not only checks the min=
-imal
-> > +requirements, but it automatically switches to a the newest available
-> > +Python version if present.
-> > +
-> > +"""
-> > +
-> > +import os
-> > +import re
-> > +import subprocess
-> > +import sys
-> > +
-> > +from glob import glob
-> > +
-> > +class PythonVersion:
-> > +    """
-> > +    Ancillary methods that checks for missing dependencies for differe=
-nt
-> > +    types of types, like binaries, python modules, rpm deps, etc.
-> > +    """
-> > +
-> > +    def __init__(self, version):
-> > +        """=EF=BF=BD=EF=BF=BDnitialize self.version tuple from a versi=
-on string"""
-> > +        self.version =3D self.parse_version(version)
-> > +
-> > +    @staticmethod
-> > +    def parse_version(version):
-> > +        """Convert a major.minor.patch version into a tuple"""
-> > +        return tuple(int(x) for x in version.split(".")) =20
->=20
-> I've written a few quick and dirty semver parsers myself, and it saddens
-> me to think of adding a simplistic one in the kernel.
->=20
-> I'm just wondering, are we doomed to reinventing the wheels in our
-> reluctance to depend on anything else?
-
-What do you propose instead, using only internal libs(*)?
-
-In any case, import a library just for one or two single-line
-functions seem overkill to me.
-
-(*) As this is used by sphinx-pre-install, which is the script which=20
-    checks for missing dependencies, whatever we pick, it should not
-    use external libs.
-
->=20
-> > +
-> > +    @staticmethod
-> > +    def ver_str(version):
-> > +        """Returns a version tuple as major.minor.patch"""
-> > +        return ".".join([str(x) for x in version])
-> > +
-> > +    def __str__(self):
-> > +        """Returns a version tuple as major.minor.patch from self.vers=
-ion"""
-> > +        return self.ver_str(self.version)
-> > +
-> > +    @staticmethod
-> > +    def get_python_version(cmd):
-> > +        """
-> > +        Get python version from a Python binary. As we need to detect =
-if
-> > +        are out there newer python binaries, we can't rely on sys.rele=
-ase here.
-> > +        """
-> > +
-> > +        kwargs =3D {}
-> > +        if sys.version_info < (3, 7): =20
->=20
-> Checking for things that EOL'd four years ago. Why are we doing this to
-> ourselves? Why should we take on maintenance of code that jumps through
-> hoops for things that nobody supports anymore?
->=20
-> In Documentation/process/changes.rst we've declared Python 3.9 as
-> minimum, which is also the oldest version supported by upstream (until
-> next month). Even Debian oldoldstable (that's two olds) has 3.9.
->
-> We're talking about the documentation build. I can undertand being more
-> conservative about the kernel build in general, but IMHO this is just
-> extra work for absolutely no users out there. And I'm not advocating for
-> bleeding edge here.
->=20
-> We could just throw out a lot of crap by setting newer but still
-> moderately concervative required Python (and Sphinx) versions, and bail
-> out on older version. Let the user figure out how to get them.
->=20
-> We don't do this for any other tools either.
->=20
-> I'm saying that instead of refactoring this overgrown logic to a
-> separate file and class, it should be nuked out of the kernel
-> completely.
-
-True, but latest SUSE and openSUSE distros (not counting Thumbleweed
-rolling version one) still have Python 3.6 as the main version.
-
-They provide 3.9 as well, but the detection script needs to work with
-3.6 to discover that.
-
-If we don't have something like that, we should probably return
-using the Perl version of sphinx-pre-install script, which is
-a lot more compatible with different distros.
-
-> > +            kwargs['universal_newlines'] =3D True
-> > +        else:
-> > +            kwargs['text'] =3D True
-> > +
-> > +        result =3D subprocess.run([cmd, "--version"],
-> > +                                stdout =3D subprocess.PIPE,
-> > +                                stderr =3D subprocess.PIPE,
-> > +                                **kwargs, check=3DFalse)
-> > +
-> > +        version =3D result.stdout.strip()
-> > +
-> > +        match =3D re.search(r"(\d+\.\d+\.\d+)", version)
-> > +        if match:
-> > +            return PythonVersion.parse_version(match.group(1))
-> > +
-> > +        print(f"Can't parse version {version}")
-> > +        return (0, 0, 0)
-> > +
-> > +    @staticmethod
-> > +    def find_python(min_version):
-> > +        """
-> > +        Detect if are out there any python 3.xy version newer than the
-> > +        current one.
-> > +
-> > +        Note: this routine is limited to up to 2 digits for python3. We
-> > +        may need to update it one day, hopefully on a distant future.
-> > +        """
-> > +        patterns =3D [
-> > +            "python3.[0-9]",
-> > +            "python3.[0-9][0-9]",
-> > +        ]
-> > +
-> > +        # Seek for a python binary newer than min_version
-> > +        for path in os.getenv("PATH", "").split(":"):
-> > +            for pattern in patterns:
-> > +                for cmd in glob(os.path.join(path, pattern)):
-> > +                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
-> > +                        version =3D PythonVersion.get_python_version(c=
-md)
-> > +                        if version >=3D min_version:
-> > +                            return cmd
-> > +
-> > +        return None
-> > +
-> > +    @staticmethod
-> > +    def check_python(min_version):
-> > +        """
-> > +        Check if the current python binary satisfies our minimal requi=
-rement
-> > +        for Sphinx build. If not, re-run with a newer version if found.
-> > +        """
-> > +        cur_ver =3D sys.version_info[:3]
-> > +        if cur_ver >=3D min_version:
-> > +            ver =3D PythonVersion.ver_str(cur_ver)
-> > +            print(f"Python version: {ver}")
-> > +
-> > +            return
-> > +
-> > +        python_ver =3D PythonVersion.ver_str(cur_ver)
-> > +
-> > +        new_python_cmd =3D PythonVersion.find_python(min_version)
-> > +        if not new_python_cmd:
-> > +            print(f"ERROR: Python version {python_ver} is not spported=
- anymore\n")
-> > +            print("       Can't find a new version. This script may fa=
-il")
-> > +            return
-> > +
-> > +        # Restart script using the newer version =20
->=20
-> I thought the whole idea of restarting was completely rejected by
-> approximately everyone?!
-
-This patch is just moving the code. There is a patch after this one
-changing the behavior.
-
-> BR,
-> Jani.
->=20
->=20
-> > +        script_path =3D os.path.abspath(sys.argv[0])
-> > +        args =3D [new_python_cmd, script_path] + sys.argv[1:]
-> > +
-> > +        print(f"Python {python_ver} not supported. Changing to {new_py=
-thon_cmd}")
-> > +
-> > +        try:
-> > +            os.execv(new_python_cmd, args)
-> > +        except OSError as e:
-> > +            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
-> > diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-inst=
-all
-> > index 954ed3dc0645..d6d673b7945c 100755
-> > --- a/tools/docs/sphinx-pre-install
-> > +++ b/tools/docs/sphinx-pre-install
-> > @@ -32,20 +32,10 @@ import subprocess
-> >  import sys
-> >  from glob import glob
-> > =20
-> > +from lib.python_version import PythonVersion
-> > =20
-> > -def parse_version(version):
-> > -    """Convert a major.minor.patch version into a tuple"""
-> > -    return tuple(int(x) for x in version.split("."))
-> > -
-> > -
-> > -def ver_str(version):
-> > -    """Returns a version tuple as major.minor.patch"""
-> > -
-> > -    return ".".join([str(x) for x in version])
-> > -
-> > -
-> > -RECOMMENDED_VERSION =3D parse_version("3.4.3")
-> > -MIN_PYTHON_VERSION =3D parse_version("3.7")
-> > +RECOMMENDED_VERSION =3D PythonVersion("3.4.3").version
-> > +MIN_PYTHON_VERSION =3D PythonVersion("3.7").version
-> > =20
-> > =20
-> >  class DepManager:
-> > @@ -235,95 +225,11 @@ class AncillaryMethods:
-> > =20
-> >          return None
-> > =20
-> > -    @staticmethod
-> > -    def get_python_version(cmd):
-> > -        """
-> > -        Get python version from a Python binary. As we need to detect =
-if
-> > -        are out there newer python binaries, we can't rely on sys.rele=
-ase here.
-> > -        """
-> > -
-> > -        result =3D SphinxDependencyChecker.run([cmd, "--version"],
-> > -                                            capture_output=3DTrue, tex=
-t=3DTrue)
-> > -        version =3D result.stdout.strip()
-> > -
-> > -        match =3D re.search(r"(\d+\.\d+\.\d+)", version)
-> > -        if match:
-> > -            return parse_version(match.group(1))
-> > -
-> > -        print(f"Can't parse version {version}")
-> > -        return (0, 0, 0)
-> > -
-> > -    @staticmethod
-> > -    def find_python():
-> > -        """
-> > -        Detect if are out there any python 3.xy version newer than the
-> > -        current one.
-> > -
-> > -        Note: this routine is limited to up to 2 digits for python3. We
-> > -        may need to update it one day, hopefully on a distant future.
-> > -        """
-> > -        patterns =3D [
-> > -            "python3.[0-9]",
-> > -            "python3.[0-9][0-9]",
-> > -        ]
-> > -
-> > -        # Seek for a python binary newer than MIN_PYTHON_VERSION
-> > -        for path in os.getenv("PATH", "").split(":"):
-> > -            for pattern in patterns:
-> > -                for cmd in glob(os.path.join(path, pattern)):
-> > -                    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
-> > -                        version =3D SphinxDependencyChecker.get_python=
-_version(cmd)
-> > -                        if version >=3D MIN_PYTHON_VERSION:
-> > -                            return cmd
-> > -
-> > -    @staticmethod
-> > -    def check_python():
-> > -        """
-> > -        Check if the current python binary satisfies our minimal requi=
-rement
-> > -        for Sphinx build. If not, re-run with a newer version if found.
-> > -        """
-> > -        cur_ver =3D sys.version_info[:3]
-> > -        if cur_ver >=3D MIN_PYTHON_VERSION:
-> > -            ver =3D ver_str(cur_ver)
-> > -            print(f"Python version: {ver}")
-> > -
-> > -            # This could be useful for debugging purposes
-> > -            if SphinxDependencyChecker.which("docutils"):
-> > -                result =3D SphinxDependencyChecker.run(["docutils", "-=
--version"],
-> > -                                                    capture_output=3DT=
-rue, text=3DTrue)
-> > -                ver =3D result.stdout.strip()
-> > -                match =3D re.search(r"(\d+\.\d+\.\d+)", ver)
-> > -                if match:
-> > -                    ver =3D match.group(1)
-> > -
-> > -                print(f"Docutils version: {ver}")
-> > -
-> > -            return
-> > -
-> > -        python_ver =3D ver_str(cur_ver)
-> > -
-> > -        new_python_cmd =3D SphinxDependencyChecker.find_python()
-> > -        if not new_python_cmd:
-> > -            print(f"ERROR: Python version {python_ver} is not spported=
- anymore\n")
-> > -            print("       Can't find a new version. This script may fa=
-il")
-> > -            return
-> > -
-> > -        # Restart script using the newer version
-> > -        script_path =3D os.path.abspath(sys.argv[0])
-> > -        args =3D [new_python_cmd, script_path] + sys.argv[1:]
-> > -
-> > -        print(f"Python {python_ver} not supported. Changing to {new_py=
-thon_cmd}")
-> > -
-> > -        try:
-> > -            os.execv(new_python_cmd, args)
-> > -        except OSError as e:
-> > -            sys.exit(f"Failed to restart with {new_python_cmd}: {e}")
-> > -
-> >      @staticmethod
-> >      def run(*args, **kwargs):
-> >          """
-> >          Excecute a command, hiding its output by default.
-> > -        Preserve comatibility with older Python versions.
-> > +        Preserve compatibility with older Python versions.
-> >          """
-> > =20
-> >          capture_output =3D kwargs.pop('capture_output', False)
-> > @@ -527,11 +433,11 @@ class MissingCheckers(AncillaryMethods):
-> >          for line in result.stdout.split("\n"):
-> >              match =3D re.match(r"^sphinx-build\s+([\d\.]+)(?:\+(?:/[\d=
-a-f]+)|b\d+)?\s*$", line)
-> >              if match:
-> > -                return parse_version(match.group(1))
-> > +                return PythonVersion.parse_version(match.group(1))
-> > =20
-> >              match =3D re.match(r"^Sphinx.*\s+([\d\.]+)\s*$", line)
-> >              if match:
-> > -                return parse_version(match.group(1))
-> > +                return PythonVersion.parse_version(match.group(1))
-> > =20
-> >      def check_sphinx(self, conf):
-> >          """
-> > @@ -542,7 +448,7 @@ class MissingCheckers(AncillaryMethods):
-> >                  for line in f:
-> >                      match =3D re.match(r"^\s*needs_sphinx\s*=3D\s*[\'\=
-"]([\d\.]+)[\'\"]", line)
-> >                      if match:
-> > -                        self.min_version =3D parse_version(match.group=
-(1))
-> > +                        self.min_version =3D PythonVersion.parse_versi=
-on(match.group(1))
-> >                          break
-> >          except IOError:
-> >              sys.exit(f"Can't open {conf}")
-> > @@ -562,8 +468,8 @@ class MissingCheckers(AncillaryMethods):
-> >              sys.exit(f"{sphinx} didn't return its version")
-> > =20
-> >          if self.cur_version < self.min_version:
-> > -            curver =3D ver_str(self.cur_version)
-> > -            minver =3D ver_str(self.min_version)
-> > +            curver =3D PythonVersion.ver_str(self.cur_version)
-> > +            minver =3D PythonVersion.ver_str(self.min_version)
-> > =20
-> >              print(f"ERROR: Sphinx version is {curver}. It should be >=
-=3D {minver}")
-> >              self.need_sphinx =3D 1
-> > @@ -1304,7 +1210,7 @@ class SphinxDependencyChecker(MissingCheckers):
-> >              else:
-> >                  if self.need_sphinx and ver >=3D self.min_version:
-> >                      return (f, ver)
-> > -                elif parse_version(ver) > self.cur_version:
-> > +                elif PythonVersion.parse_version(ver) > self.cur_versi=
-on:
-> >                      return (f, ver)
-> > =20
-> >          return ("", ver)
-> > @@ -1411,7 +1317,7 @@ class SphinxDependencyChecker(MissingCheckers):
-> >              return
-> > =20
-> >          if self.latest_avail_ver:
-> > -            latest_avail_ver =3D ver_str(self.latest_avail_ver)
-> > +            latest_avail_ver =3D PythonVersion.ver_str(self.latest_ava=
-il_ver)
-> > =20
-> >          if not self.need_sphinx:
-> >              # sphinx-build is present and its version is >=3D $min_ver=
-sion
-> > @@ -1507,7 +1413,7 @@ class SphinxDependencyChecker(MissingCheckers):
-> >          else:
-> >              print("Unknown OS")
-> >          if self.cur_version !=3D (0, 0, 0):
-> > -            ver =3D ver_str(self.cur_version)
-> > +            ver =3D PythonVersion.ver_str(self.cur_version)
-> >              print(f"Sphinx version: {ver}\n")
-> > =20
-> >          # Check the type of virtual env, depending on Python version
-> > @@ -1613,7 +1519,7 @@ def main():
-> > =20
-> >      checker =3D SphinxDependencyChecker(args)
-> > =20
-> > -    checker.check_python()
-> > +    PythonVersion.check_python(MIN_PYTHON_VERSION)
-> >      checker.check_needs()
-> > =20
-> >  # Call main if not used as module =20
->=20
+On 8/13/25 1:04 PM, Janosch Frank wrote:
+> 7.43 has been assigned twice, make
+> KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED 7.44.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Fixes: f55ce5a6cd33 ("KVM: arm64: Expose new KVM cap for cacheable PFNMAP")
 
 
-
-Thanks,
-Mauro
+Paolo, will you pick this up or should I move this via the 390 tree?
+If you haven't yet picked up the fix pull by me, I can still put it on 
+top and send a v2 of the PULL.
