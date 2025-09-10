@@ -1,223 +1,141 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9933148C2;
-	Wed, 10 Sep 2025 09:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA0031D37D;
+	Wed, 10 Sep 2025 09:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757497400; cv=none; b=gSNcVwkZkrsuNRc9AT4INP4kn0gtMxO4T/FKsnIVRmLpL/19PQvt9jVRYcyr1HD/gjCojodbKxq9VF8tdLUl0ZdB/znzbJqgIS9JmTvPeLT6/rH1AUwZ846hhUTja6Ptxk7874fPAj0Q8UENN2lWSrV3GIMpGopX3Q2KAoQLCk8=
+	t=1757497614; cv=none; b=P+2WBWkep+5iOEN2RFeO8ElXnGp8BOF7SCDq9yIPy0ySYGdiNO5rhE1JBomNIRZcdDRH8sORLI6gTan9ZmmU1T0M8cIheEu1hyqw2q0k0feMPiz1PDrtSC0qFmhF5PsCggOLXlj3tug+I2dAZsIMNqSjxhobj/C5PukHoRpwcbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757497400; c=relaxed/simple;
-	bh=Qg4SnOajWTPp0F9yvDIVD6p+vbZ6EUUeIv6GZ9qy+bs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gc1+z4rvJS1cbpOsE8D4ASk2+PrWc6xIOYa5qSBz7qmYVB/5puTwegRNfLAdbjuZ0KCKk2dqhQY977ZRj05dmihuziQePdeu0e+k1fIHMiP2tYzohiHqZfEXQOaLNry77y8K4JxHme0XL00a70A2wwehlNTWZBhqow7GZ3CAh2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCNZv6Py; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCNZv6Py"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45cb659e858so45699125e9.2;
-        Wed, 10 Sep 2025 02:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757497396; x=1758102196; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8+Yb/IxxLIspa6tHUrNInqlVlxK+I+nsywpKyzMZIM8=;
-        b=TCNZv6PyC56oz2eR1xLMpcRJMGdLr8JyYtqV8g4KW5icFcXxzQ9+u5MPPYCaPs0ImW
-         5j6GR28NHkmt2R4ihcv7E+fLHoIOVAYnv1FNck3qC2BBAiKiYgTQuRaDx9w7Ta9ncD9E
-         bLw9fN7kWqcnbULhNoD2sMs29wm+0IYXjilAFXQB8uMhSA/ku6xQjMWMyAbJUiqq/9yE
-         aK5XC0sJgRMWJ1Mdm1gsOFCCONtItF0wBV3CUxYua/DeKG2yB5irYT1Dcp1xJj3oJiMf
-         WHydKjaHhDxbla45146HygE80AcXgX2hBoGQqThIldEY+v+Ab5byMeBEY/J2kdvoG/jX
-         lHAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757497396; x=1758102196;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8+Yb/IxxLIspa6tHUrNInqlVlxK+I+nsywpKyzMZIM8=;
-        b=eMfh5fFy75Wdn/dlmkTMQp7bNa9+eoaV9KogCBTjwGW9JFtl1nuOrT+eDUI6Boroqu
-         9EVW8/2TVSBU8CN3b6xVugKsvy3HYg7Gd2krBPsn9MgfjG5gs6Rsfkb01/GIs5AxMBx8
-         j7DlimwdXe5uZu7KbxpW8/vGvldpJeCqmH2AoOmCQRM3POUvLoFgCEH1r4EMTP4eQpMT
-         VB/1Pd046PwmP6L2MxijqHB/ysnz7CcnJAsP+AeGfvJLKCfL934M47T7aTN/ElkbocNn
-         VTcCuhMUvefHIBth6rWpsge7NZ1NgcdHBP/RrQZgGtMoIHibe7k0Gw7rIV4fiaOBXWn2
-         Lsmg==
-X-Forwarded-Encrypted: i=1; AJvYcCV/hPq0g4wYTmWwgCihwAFkCgnEoQM6duq5752WKDmrN5aGFiDScsmwUGSBbsiQpmdtAHvh2utDZ+C8@vger.kernel.org, AJvYcCVOYYXV2iBrnSii5B0WxKZ90KzR54K4wGx5eNlZVsHMHgK54gvmsUm+lOu+K4NfQgNZD4W+rW/xj5rS@vger.kernel.org, AJvYcCVmrL+BEEdGoRGTlZYvt0Ccjpm3PZpA7lx6xCnQk5aEaXb85iM7bmQGCRse4s0DK/NV01GgRokAqfUxXKWY@vger.kernel.org, AJvYcCW6yDm5DXH6tNrwJJNEnWZ+qKj0EuPzT2NzDN5afDF0mU6OG7DZQwSlOHRpayFxq2GsliuB8APuRw0T2Zt67m6HYA==@vger.kernel.org, AJvYcCXu+1FJOkhJOYIp+1B/62AFR+ItMIzGMRpngK7S5QVLPW61VdKu/fEmbIE7EI2LMxEjslMxwHy4MXGE@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywj2lJW3V2Q5OYmWSN6k1C8gHwj5F0wx9aKhwYTRnTqFnOdt6Gv
-	WbwGQZyEoc14kBKIMRS20d2ItE0JQBwpnUeFytTJYZgIDEIyuFfn8VSG
-X-Gm-Gg: ASbGnct1CPmEIgpj2WQ60QiouIpujeNxAriFpJDL4TVRVhZBQvgf1nOHNIYUG1JzWzG
-	8Rx8DInLS8IxVRrFKh7vrNxEqYsbGPMvAfz+OcywdZ7d9k4ImmCsaSzX4kJ6gfB8CUbCsUqkK/Z
-	jVg/CrI1iYzI9GwM8rJcpwkjVPleeiUKRKQHuW/4oXAFvRlEGmaovgypPPNtKq2dOzrtL+03Cwv
-	el1brM/Y1jPjevHjII/i35qXAVrgwYns/x3Wfk5q3IED43tPwNqDrJtK+D8sRT93sJbykOjFGA6
-	7dn4XElb7r5/xsliX8byDIweaCZUTG/1GVxRtcdgqmiBp3+cszpVyg+f0wVbEZao9urfIK4KyC3
-	8yyVfZR0wM+HR3n3AqKd9yh1ynqv7fSje37at0cOTsWJe8gPu6bCDUy6S4yzlXYstzEq1W1t2Ls
-	u0yiytm58jSiLOepInxkBQuYFiQhy4kfSb/+yqlOP42CZj0tXER6ebIo7thVanLeQbGDOYpIvRw
-	7Oj
-X-Google-Smtp-Source: AGHT+IG++5gaOV3PJKYuJ0A9nAeEycj+nF32F/RTHqK48mjNiX/HpSzosqAvPkjm4CBA9YvRx7JU+A==
-X-Received: by 2002:a05:600c:c48e:b0:45b:6743:2242 with SMTP id 5b1f17b1804b1-45dddee9cc4mr128836755e9.22.1757497396149;
-        Wed, 10 Sep 2025 02:43:16 -0700 (PDT)
-Received: from ?IPV6:2a02:8440:7135:4f4c:c6d5:9a0c:a4c1:1e58? (2a02-8440-7135-4f4c-c6d5-9a0c-a4c1-1e58.rev.sfr.net. [2a02:8440:7135:4f4c:c6d5:9a0c:a4c1:1e58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df1ba282dsm25183485e9.5.2025.09.10.02.43.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 02:43:15 -0700 (PDT)
-Message-ID: <22a485b9-1b86-41d3-a42c-f813eea94697@gmail.com>
-Date: Wed, 10 Sep 2025 11:43:14 +0200
+	s=arc-20240116; t=1757497614; c=relaxed/simple;
+	bh=IS5IwAzX7TFHjXEEXmEPIusDZxypsR4BPH7MgERJxek=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pCGiYkIRRYuHT9+9w5XhswuE69Eg5ir8IkXyI9vGNXXOHaq+q5kwlpQ0YTKIhDCT+W/yF9no7gJZ7t8bAR12FYu81qDckvFM1XOMH1GyE/RGe+jsllWXNVBNNRrGczECBjtWN7Efs8b7O6zxOSyV9mzP9+LrUJ4Z2WMQbl+akSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B328D16F8;
+	Wed, 10 Sep 2025 02:46:43 -0700 (PDT)
+Received: from a076716.blr.arm.com (a076716.blr.arm.com [10.164.21.47])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8AE313F63F;
+	Wed, 10 Sep 2025 02:46:46 -0700 (PDT)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 3/3] arm64/ptdump: Add 'early_ptdump' kernel command line option
+Date: Wed, 10 Sep 2025 15:16:23 +0530
+Message-Id: <20250910094623.2356282-4-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250910094623.2356282-1-anshuman.khandual@arm.com>
+References: <20250910094623.2356282-1-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/20] bus: firewall: move stm32_firewall header file
- in include folder
-To: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Julius Werner <jwerner@chromium.org>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-References: <20250909-b4-ddrperfm-upstream-v6-0-ce082cc801b5@gmail.com>
- <20250909-b4-ddrperfm-upstream-v6-1-ce082cc801b5@gmail.com>
- <9a46c8a8-1d25-410c-9fa2-267eb4040390@foss.st.com>
- <19e664da-df4c-4bc0-84ce-41e4364f10bc@gmail.com>
- <7cfb167a-26df-4abf-a6ec-73813a1a0986@foss.st.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
-In-Reply-To: <7cfb167a-26df-4abf-a6ec-73813a1a0986@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/09/2025 10:42, Gatien CHEVALLIER wrote:
-> 
-> 
-> On 9/10/25 09:47, Clément Le Goffic wrote:
->> On 09/09/2025 14:25, Gatien CHEVALLIER wrote:
->>>
->>>
->>> On 9/9/25 12:12, Clément Le Goffic wrote:
->>>> From: Clément Le Goffic <clement.legoffic@foss.st.com>
->>>>
->>>> Other driver than rifsc and etzpc can implement firewall ops, such as
->>>> rcc.
->>>> In order for them to have access to the ops and type of this framework,
->>>> we need to get the `stm32_firewall.h` file in the include/ folder.
->>>>
->>>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->>>> Signed-off-by: Clément Le Goffic <legoffic.clement@gmail.com>
->>>> ---
->>>>   drivers/bus/stm32_etzpc.c                       | 3 +--
->>>>   drivers/bus/stm32_firewall.c                    | 3 +--
->>>>   drivers/bus/stm32_rifsc.c                       | 3 +--
->>>>   {drivers => include/linux}/bus/stm32_firewall.h | 0
->>>>   4 files changed, 3 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/drivers/bus/stm32_etzpc.c b/drivers/bus/stm32_etzpc.c
->>>> index 7fc0f16960be..4918a14e507e 100644
->>>> --- a/drivers/bus/stm32_etzpc.c
->>>> +++ b/drivers/bus/stm32_etzpc.c
->>>> @@ -5,6 +5,7 @@
->>>>   #include <linux/bitfield.h>
->>>>   #include <linux/bits.h>
->>>> +#include <linux/bus/stm32_firewall.h>
->>>>   #include <linux/device.h>
->>>>   #include <linux/err.h>
->>>>   #include <linux/init.h>
->>>> @@ -16,8 +17,6 @@
->>>>   #include <linux/platform_device.h>
->>>>   #include <linux/types.h>
->>>> -#include "stm32_firewall.h"
->>>> -
->>>>   /*
->>>>    * ETZPC registers
->>>>    */
->>>> diff --git a/drivers/bus/stm32_firewall.c b/drivers/bus/ 
->>>> stm32_firewall.c
->>>> index 2fc9761dadec..ef4988054b44 100644
->>>> --- a/drivers/bus/stm32_firewall.c
->>>> +++ b/drivers/bus/stm32_firewall.c
->>>> @@ -5,6 +5,7 @@
->>>>   #include <linux/bitfield.h>
->>>>   #include <linux/bits.h>
->>>> +#include <linux/bus/stm32_firewall.h>
->>>>   #include <linux/bus/stm32_firewall_device.h>
->>>>   #include <linux/device.h>
->>>>   #include <linux/err.h>
->>>> @@ -18,8 +19,6 @@
->>>>   #include <linux/types.h>
->>>>   #include <linux/slab.h>
->>>> -#include "stm32_firewall.h"
->>>> -
->>>>   /* Corresponds to STM32_FIREWALL_MAX_EXTRA_ARGS + firewall ID */
->>>>   #define STM32_FIREWALL_MAX_ARGS (STM32_FIREWALL_MAX_EXTRA_ARGS + 1)
->>>> diff --git a/drivers/bus/stm32_rifsc.c b/drivers/bus/stm32_rifsc.c
->>>> index 4cf1b60014b7..643ddd0a5f54 100644
->>>> --- a/drivers/bus/stm32_rifsc.c
->>>> +++ b/drivers/bus/stm32_rifsc.c
->>>> @@ -5,6 +5,7 @@
->>>>   #include <linux/bitfield.h>
->>>>   #include <linux/bits.h>
->>>> +#include <linux/bus/stm32_firewall.h>
->>>>   #include <linux/device.h>
->>>>   #include <linux/err.h>
->>>>   #include <linux/init.h>
->>>> @@ -16,8 +17,6 @@
->>>>   #include <linux/platform_device.h>
->>>>   #include <linux/types.h>
->>>> -#include "stm32_firewall.h"
->>>> -
->>>>   /*
->>>>    * RIFSC offset register
->>>>    */
->>>> diff --git a/drivers/bus/stm32_firewall.h b/include/linux/bus/ 
->>>> stm32_firewall.h
->>>> similarity index 100%
->>>> rename from drivers/bus/stm32_firewall.h
->>>> rename to include/linux/bus/stm32_firewall.h
->>>>
->>
->> Hi Gatien
->>
->>> As the firewall header is moved to a dedicated firewall directory,
->>
->> I don't move it to a dedicated firewall directory just to the "bus" 
->> directory where the "stm32_firewall_device.h" header file is already 
->> located.
->>
-> 
-> Yes, my bad, I mixed my words there.
-> 
->>> maybe it would be coherent to create the same kind of directory
->>> for the sources as non-buses drivers use it. I can test it on my
->>> side if you're willing to make the change.
->>
->> Do you mean create an include/linux/bus/firewall/ directory ?
->>
-> 
-> Rather include/linux/firewall/(stm32/). and a drivers/firewall/(stm32/)
-> directory for the firewall files would be great. If that's not too much
-> of a burden.
+Enable kernel pgtable dump during boot via a new kernel command line option
+'early_ptdump'. This calls ptdump_walk() during boot right after ptdump has
+been initialized with ptdump_init().
 
-I thinks that's a bit too much for this one.
-As you're the firewall maintainer I would need to modify your entry in 
-the MAINTAINER file (and I just see that your entry is lacking the 
-header file path).
-For now I think it is not urgent neither mandatory.
-Maybe in a next patch series ?
-Even in the driver bus directory there is no vendor policy so adding a 
-path like drivers/bus/{stm32/|firewall/}stm32_firewall.c is a bit 
-overlapping as with the filename we already know it is ST and its firewall.
-Let me know what you think !
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Suggested-by: Ryan Roberts <ryan.roberts@arm.com>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  4 ++++
+ arch/arm64/include/asm/ptdump.h                 |  2 ++
+ arch/arm64/kernel/setup.c                       |  1 +
+ arch/arm64/mm/ptdump.c                          | 16 ++++++++++++++++
+ 4 files changed, 23 insertions(+)
 
-BR,
-Clément
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 747a55abf494..f8e916750e2e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1295,6 +1295,10 @@
+ 			Enable debug messages in early_ioremap support. This
+ 			is useful for tracking down temporary early mappings
+ 			which are not unmapped.
++	early_ptdump[=on]
++			Enable kernel page table dump during boot in current
++			ptdump format. This helps analyze early boot mapping
++			kernel regions.
+ 
+ 	earlycon=	[KNL,EARLY] Output early console device and options.
+ 
+diff --git a/arch/arm64/include/asm/ptdump.h b/arch/arm64/include/asm/ptdump.h
+index 27e774134e7f..ed30d25ca9de 100644
+--- a/arch/arm64/include/asm/ptdump.h
++++ b/arch/arm64/include/asm/ptdump.h
+@@ -74,8 +74,10 @@ void __init ptdump_debugfs_register(struct ptdump_info *info, const char *name);
+ static inline void ptdump_debugfs_register(struct ptdump_info *info,
+ 					   const char *name) { }
+ #endif /* CONFIG_PTDUMP_DEBUGFS */
++void __init arm64_kernel_pgtable_dump(void);
+ #else
+ static inline void __init ptdump_init(void) { }
++static inline void __init arm64_kernel_pgtable_dump(void) { }
+ static inline void note_page(struct ptdump_state *pt_st, unsigned long addr,
+ 			     int level, pteval_t val) { }
+ static inline void note_page_pte(struct ptdump_state *st, unsigned long addr, pte_t pte) { }
+diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+index 0a3812c8e177..86bf7607d304 100644
+--- a/arch/arm64/kernel/setup.c
++++ b/arch/arm64/kernel/setup.c
+@@ -361,6 +361,7 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
+ 	init_bootcpu_ops();
+ 	smp_init_cpus();
+ 	smp_build_mpidr_hash();
++	arm64_kernel_pgtable_dump();
+ 
+ #ifdef CONFIG_ARM64_SW_TTBR0_PAN
+ 	/*
+diff --git a/arch/arm64/mm/ptdump.c b/arch/arm64/mm/ptdump.c
+index c78e6b496dea..1624be5160e4 100644
+--- a/arch/arm64/mm/ptdump.c
++++ b/arch/arm64/mm/ptdump.c
+@@ -407,6 +407,22 @@ void __init ptdump_init(void)
+ 	ptdump_initialize();
+ }
+ 
++static bool early_ptdump __initdata;
++
++static int __init parse_early_ptdump(char *arg)
++{
++	if (strcmp(arg, "on") == 0)
++		early_ptdump = true;
++	return 0;
++}
++early_param("early_ptdump", parse_early_ptdump);
++
++void __init arm64_kernel_pgtable_dump(void)
++{
++	if (early_ptdump)
++		ptdump_walk(CONSOLE, &kernel_ptdump_info);
++}
++
+ static int __init ptdump_debugfs_init(void)
+ {
+ 	ptdump_debugfs_register(&kernel_ptdump_info, "kernel_page_tables");
+-- 
+2.25.1
 
