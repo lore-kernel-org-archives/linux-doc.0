@@ -1,75 +1,135 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A3B1E9915
-	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 13:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C251DE8AE
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 13:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757510780; cv=none; b=ROHrQmrKsJBZN06rqqQY4ZtbZos6G577tHYjddSzXrbPnxzfPsEHqiWsyRxApbWulMeQ5hIohavtZmgplvksoH2yWNWptXk95dxuT6SMH3R9yWqLTswjk35FYxZUR+1Bb5z0ykbvW5845OAlm0QXrwgZ0Cg5eiEn3hxWVYCSx28=
+	t=1757511020; cv=none; b=MRUPa0/i484Ln9B5fhe9kkiaepISgqoHcd5SXgf+yjMz4HvwHxfXDSUxo1+DULBvegIHXjDAqxeekJb+G6SDgKaTCLP82+B+O0CEa2wb4oLXuUrUirpPtiIR0wRyLjjYi+6qD2R0Uir8BtqBTuvY77g+ySnAS2JkOlfnz+uzuMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757510780; c=relaxed/simple;
-	bh=EtIwskouixYac0vnLUnzVuX8YxP0ix/79lSYafYuDVw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OGeLbd1tGTxCOw2ih06917VelsjpDaIFL0d9vwd+ueV51RFuIOQp6d+d7gK/YcxrYqHbSFN7qqNvnP3Wq5YtnZwmRMAZ6bCm8SOFa2mNx4fN6rJXhLlcLW+tR/DAv+P1f/gi/eILJYYJQV3shqkF7TLUYcfOZu2U2nq8D1etFIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EWun7zTX; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757511020; c=relaxed/simple;
+	bh=6x+Vpsnc+xkOPq71Wuxf8fF0DuLDPVUnbFe36/ataco=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LAq4eBHcFwT1Sy6qWECTjyAHersEtmgHCMpbfRZUvUS6VxhR5M46B0MCwUfJgY1S4r/ybH1ocS+xJ5d6Eir1q31KJq1PhhEwfmJT1oNYoVNG9Hm9Dc7+WYjRA+YRcV1DKsr5QhVcQ0ybNwye3spUEFY8VGD1GRJ2zXPtyCAUJdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DM9LgfjK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EWun7zTX"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EB5DD40ACB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757510778; bh=EtIwskouixYac0vnLUnzVuX8YxP0ix/79lSYafYuDVw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EWun7zTXHB3N+a6nrJsFNTXeRhBaL/vPmcyX+CY/pav1gpGgmjGD8pRYFGhtYEA8j
-	 XJmXMBWknNSA+EcBfhyFa4Jf+vuq3URnZk4rgoELblBRVxC+QX7/Hk7K0QTNuxMPE2
-	 4Ev/pA96m3GnL2OGMA5AVV6cJKD4VVrlPAdhD694GqWkfhHk0oTsCfhovJeLoNMl1b
-	 P8E9xUG6WnfcHEJvHKoAGlfy87Rli+vZtXmrdfXq+eJKk/IT5fzSSSVD8jVxTb9TWG
-	 S/KYShTW0H5k94fJs0R9wQE5qTRGtuRhLgETz6YdImeXvdrtIVc0RuhQuLWHCaPDiK
-	 mW6vg/DQJeIeg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DM9LgfjK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757511017;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AcLbP4DZN3vOin6ohkFEHicNsZylVtQfBbadWvWw0qU=;
+	b=DM9LgfjK1PG8/DOJ+6XexyDxj2Mz+i+UIitnL1G1G5tSRmngSaEJKKaG3YN8wNm0UM/Mg8
+	kH1yIpSx5YjdC3EvBQr8078VL0CWBeHId7A7FTaZPeC2F0BMPMFotjVHbgLNFIs408cexr
+	smQrXFIbmF2fn4Udu3UdSYAgKnk/gRc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-600-Qco1AUOeNTKTj_Gg18lhGQ-1; Wed,
+ 10 Sep 2025 09:30:16 -0400
+X-MC-Unique: Qco1AUOeNTKTj_Gg18lhGQ-1
+X-Mimecast-MFC-AGG-ID: Qco1AUOeNTKTj_Gg18lhGQ_1757511013
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EB5DD40ACB;
-	Wed, 10 Sep 2025 13:26:17 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Zhixu Liu <zhixu.liu@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: sphinx: handle removal of
- utils.error_reporting in docutils 0.22
-In-Reply-To: <CALMA0xaRpHXbpfQV3bFLgyhG+usg2c72ddPpYD5JU9r1AV=rZQ@mail.gmail.com>
-References: <CALMA0xbOLkE8kUwrZA3FY=EFfV9ZCBdbFW5BTLbPM99E9TP+ng@mail.gmail.com>
- <87a53cx4r0.fsf@trenco.lwn.net>
- <CALMA0xYMNcD8UN5ykJALMskFGnNaau3cxJ1E5=bDE_mGS+bZBQ@mail.gmail.com>
- <87plbzv2x8.fsf@trenco.lwn.net>
- <CALMA0xaRpHXbpfQV3bFLgyhG+usg2c72ddPpYD5JU9r1AV=rZQ@mail.gmail.com>
-Date: Wed, 10 Sep 2025 07:26:17 -0600
-Message-ID: <871poetp52.fsf@trenco.lwn.net>
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DE6E01800590;
+	Wed, 10 Sep 2025 13:30:11 +0000 (UTC)
+Received: from [10.45.225.144] (unknown [10.45.225.144])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0EC3D1800579;
+	Wed, 10 Sep 2025 13:30:07 +0000 (UTC)
+Message-ID: <b9be10d5-16de-4ad5-80eb-df28c5b5ae29@redhat.com>
+Date: Wed, 10 Sep 2025 15:30:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] dpll: zl3073x: Allow to use custom phase measure
+ averaging factor
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org
+Cc: Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250910103221.347108-1-ivecera@redhat.com>
+ <5ca46c45-96c3-4ad8-b00a-2494ae12d88b@linux.dev>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <5ca46c45-96c3-4ad8-b00a-2494ae12d88b@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Zhixu Liu <zhixu.liu@gmail.com> writes:
 
-> On Wed, Sep 10, 2025 at 3:31=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> =
-wrote:
+
+On 10. 09. 25 2:34 odp., Vadim Fedorenko wrote:
+> On 10.09.2025 11:32, Ivan Vecera wrote:
+>> The DPLL phase measurement block uses an exponential moving average,
+>> calculated using the following equation:
 >>
->> (Incidentally, Sphinx has not caught up with this change, so how did you
->> test your change?)
->
-> I see this problem on gentoo, someone else report it at
-> https://bugs.gentoo.org/962349 later.
->
-> Your patch is fine, I don't know (or didn't check) that we can remove
-> support for python <3.6.
+>>                         2^N - 1                1
+>> curr_avg = prev_avg * --------- + new_val * -----
+>>                           2^N                 2^N
+>>
+>> Where curr_avg is phase offset reported by the firmware to the driver,
+>> prev_avg is previous averaged value and new_val is currently measured
+>> value for particular reference.
+>>
+>> New measurements are taken approximately 40 Hz or at the frequency of
+>> the reference (whichever is lower).
+>>
+>> The driver currently uses the averaging factor N=2 which prioritizes
+>> a fast response time to track dynamic changes in the phase. But for
+>> applications requiring a very stable and precise reading of the average
+>> phase offset, and where rapid changes are not expected, a higher factor
+>> would be appropriate.
+>>
+>> Add devlink device parameter phase_offset_avg_factor to allow a user
+>> set tune the averaging factor via devlink interface.
+>>
+>> Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
+>> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> 
+> [...]
+> 
+>> +static int
+>> +zl3073x_devlink_param_phase_avg_factor_set(struct devlink *devlink, 
+>> u32 id,
+>> +                       struct devlink_param_gset_ctx *ctx,
+>> +                       struct netlink_ext_ack *extack)
+>> +{
+>> +    struct zl3073x_dev *zldev = devlink_priv(devlink);
+>> +    u8 avg_factor, dpll_meas_ctrl;
+>> +    int rc;
+>> +
+>> +    /* Read DPLL phase measurement control register */
+>> +    rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
+>> +    if (rc)
+>> +        return rc;
+>> +
+>> +    /* Convert requested factor to register value */
+>> +    if (ctx->val.vu8 < 15)
+>> +        avg_factor = ctx->val.vu8 + 1;
+>> +    else
+>> +        avg_factor = 0;
+>> +
+> 
+> This looks like avg_factor = (ctx->val.vu8 + 1) & 0x0f;
+> The same logic can be applied for get() function assuming we are aware of
+> unsigned roll-over...
 
-The minimum supported version for kernel stuff is currently 3.9.
+Yes, I know about this trick but I wanted to use more readable code and
+leave potential optimization to the compiler.
 
-Thanks,
+Ivan
 
-jon
