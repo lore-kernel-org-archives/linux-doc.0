@@ -1,116 +1,80 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72046199BC;
-	Wed, 10 Sep 2025 17:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4E03126AD;
+	Wed, 10 Sep 2025 17:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757524018; cv=none; b=oK7OJUwPL/yaqoonf0MuL+t+fUbpVW1WgS8UZh6/9+q610TkeASXTxHol+PhsoT+8vmTUYC/JR8sfO9gFR5GfuZQlRirmQKeIUZUN49hOsH8mz41e7ShbRQv4W5tqDQvHRf+1Pa9va3/23C9val/ojktGyIlprYoWzutiR4E4sY=
+	t=1757525027; cv=none; b=P9yNOU9QVyiWOS/QhWqclXmdW2GWoCCHSSB3imNuS2wIH8roTgzniqodIGLfoeQPg7hL/v90HKj8lnzkQNOLB06kkP0AwpuEeu0pU0tEsfybVFFC/Gul52z+x83Ybfd298dKo3WnklIe5mpOCRw/7w+ihnUKo6Qr22A1CJSzzu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757524018; c=relaxed/simple;
-	bh=G5nh0715UpWLzRXg9YmQPgMBShNPvGJQvOPZKNYY0Mg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cbFVG7h75IT5YtTiLbI4SLMp7E3l/WaDmoQzoY7whJJvKXdZgwtQSa5xNwAuw83svUvmRIjHIeArNE82tOJA5FjHF5giX7jOSXXmBNupvSRRo27hVl2L0X2m+tI7U4onmg7uv1al6WgrcXSqG8+NpChyaR0bhkC5jc6iY6exZ2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=sV0mD3uV; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1757525027; c=relaxed/simple;
+	bh=2oZJ4NanHFBpJK7mVTRXGTHVse28QdOdraSCom3vIek=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aK56oWF9oG8YyW0oG77YFBZwLqRIxPknvEFvtguEQKz9pxBgvxIkJCV0rfn7oRxX5343MgA9fJY7TqrzJEiFhOoteJEfDV5tP3f5xqZijVb4ecUOG4SJ77DUVg9vWKWU9X2vne7+zQQS+uS2tKC/t0LPTZgiYy0bscPQKkbMKKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6O9S5Q2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="sV0mD3uV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=vZCSWRx40v1Xaci7gNOMPkqd2PjvYShFNY03kXoEdMg=; b=sV0mD3uVJkNCGFPAieYuLXDtnU
-	ITwIPagjApnS7+inyGrbjMgiRsrW4r/uNzBUkOplEQ+8gAtYOwN7DoodXYFJ43CYZaEMYa6MsEHYq
-	RLeRWNmPaP86iAAqlKRHvwWmWrjN63kSZM8atJH9jK3X+/8+yLq1ncprPjJursE6IEfM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uwOHN-007ygK-SF; Wed, 10 Sep 2025 19:06:45 +0200
-Date: Wed, 10 Sep 2025 19:06:45 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next] dpll: zl3073x: Allow to use custom phase
- measure averaging factor
-Message-ID: <10886c5f-1265-46ec-8caa-41bde6888905@lunn.ch>
-References: <20250910103221.347108-1-ivecera@redhat.com>
- <acfc8c63-4434-4738-84a9-00360e70c773@lunn.ch>
- <0817610a-e3dd-427e-b0ad-c2d503bb8a4f@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6O9S5Q2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6391FC4CEEB;
+	Wed, 10 Sep 2025 17:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757525027;
+	bh=2oZJ4NanHFBpJK7mVTRXGTHVse28QdOdraSCom3vIek=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=r6O9S5Q2uEm03nX9khvKTs3zwLxAynuxcSNN2DcHEDwglyX7vSXB7VJ4WxQsSzyUt
+	 GMGIx+WAPsTj3Y8w2VXDbln5WqnVwsFu5TUV5j+g0EcLSm+Oy6ZQXKcBWf1ce6B/zN
+	 6qt2mSdMsDr6J2+2kl8o+UApCD1as6lOCjJqZDcYiIaTUw1DmtDDT8Z7uXusQo/+RX
+	 XSEtnT8vQSC9gwAui/qvxbkFk2F/E0CXFPzsibGLNQzHCDjlW713o2VD5vVpO270Cw
+	 Z07Mr/aFxcmEaP7CA9RewabJJkEvkYk8GiAAJNk+1RTfEV9fncPnQBrfV3g1OhzQcy
+	 CpdmRM/d5VtOQ==
+Date: Wed, 10 Sep 2025 10:23:45 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet
+ <corbet@lwn.net>, "Leon Romanovsky" <leon@kernel.org>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch
+ <mbloch@nvidia.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, "John
+ Fastabend" <john.fastabend@gmail.com>, <netdev@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <bpf@vger.kernel.org>, Gal Pressman
+ <gal@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Dragos Tatulea
+ <dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+Subject: Re: [PATCH net-next 10/10] net/mlx5e: Use the 'num_doorbells'
+ devlink param
+Message-ID: <20250910102345.4fd2b49f@kernel.org>
+In-Reply-To: <1757499891-596641-11-git-send-email-tariqt@nvidia.com>
+References: <1757499891-596641-1-git-send-email-tariqt@nvidia.com>
+	<1757499891-596641-11-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0817610a-e3dd-427e-b0ad-c2d503bb8a4f@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 10, 2025 at 06:50:47PM +0200, Ivan Vecera wrote:
-> On 10. 09. 25 6:13 odp., Andrew Lunn wrote:
-> > On Wed, Sep 10, 2025 at 12:32:21PM +0200, Ivan Vecera wrote:
-> > > The DPLL phase measurement block uses an exponential moving average,
-> > > calculated using the following equation:
-> > > 
-> > >                         2^N - 1                1
-> > > curr_avg = prev_avg * --------- + new_val * -----
-> > >                           2^N                 2^N
-> > > 
-> > > Where curr_avg is phase offset reported by the firmware to the driver,
-> > > prev_avg is previous averaged value and new_val is currently measured
-> > > value for particular reference.
-> > > 
-> > > New measurements are taken approximately 40 Hz or at the frequency of
-> > > the reference (whichever is lower).
-> > > 
-> > > The driver currently uses the averaging factor N=2 which prioritizes
-> > > a fast response time to track dynamic changes in the phase. But for
-> > > applications requiring a very stable and precise reading of the average
-> > > phase offset, and where rapid changes are not expected, a higher factor
-> > > would be appropriate.
-> > > 
-> > > Add devlink device parameter phase_offset_avg_factor to allow a user
-> > > set tune the averaging factor via devlink interface.
-> > > 
-> > > Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-> > > Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> > > ---
-> > >   Documentation/networking/devlink/zl3073x.rst |  4 ++
-> > >   drivers/dpll/zl3073x/core.c                  |  6 +-
-> > >   drivers/dpll/zl3073x/core.h                  |  8 ++-
-> > >   drivers/dpll/zl3073x/devlink.c               | 67 ++++++++++++++++++++
-> > >   4 files changed, 82 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
-> > > index 4b6cfaf386433..ddd159e39e616 100644
-> > > --- a/Documentation/networking/devlink/zl3073x.rst
-> > > +++ b/Documentation/networking/devlink/zl3073x.rst
-> > > @@ -20,6 +20,10 @@ Parameters
-> > >        - driverinit
-> > >        - Set the clock ID that is used by the driver for registering DPLL devices
-> > >          and pins.
-> > > +   * - ``phase_offset_avg_factor``
-> > > +     - runtime
-> > > +     - Set the factor for the exponential moving average used by DPLL phase
-> > > +       measurement block. The value has to be in range <0, 15>.
-> > 
-> > Maybe put the text in the commit message here as well?
-> 
-> Do you mean to put the equation and details from commit message here?
-> This is pretty long.
+On Wed, 10 Sep 2025 13:24:51 +0300 Tariq Toukan wrote:
+> @@ -45,6 +45,14 @@ Parameters
+>       - The range is between 1 and a device-specific max.
+>       - Applies to each physical function (PF) independently, if the device
+>         supports it. Otherwise, it applies symmetrically to all PFs.
+> +   * - ``num_doorbells``
+> +     - driverinit
+> +     - This controls the number of channel doorbells used by the netdev. In all
+> +       cases, an additional doorbell is allocated and used for non-channel
+> +       communication (e.g. for PTP, HWS, etc.). Supported values are:
+> +       - 0: No channel-specific doorbells, use the global one for everything.
+> +       - [1, max_num_channels]: Spread netdev channels equally across these
+> +         doorbells.
 
-So what if it is long? At the moment, it is hiding in the commit
-message. It is not easy to find, you effectively need to be a kernel
-developer to find it. If it is in the documentation of the device, it
-will be much easier to find and understand what this knob actually
-does.
+This is not vibing with the changes we merged yesterday (or I fumbled
+the merge):
 
-	Andrew
+Documentation/networking/devlink/mlx5.rst:13: ERROR: Error parsing content block for the "list-table" directive: uniform two-level bullet list expected, but row 8 does not contain the same number of items as row 1 (3 vs 4).
+
+Also in this series:
+
+drivers/net/ethernet/mellanox/mlx5/core/devlink.c:549:11-83: WARNING avoid newline at end of message in NL_SET_ERR_MSG_FMT_MOD
