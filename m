@@ -1,118 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDEB35977;
-	Wed, 10 Sep 2025 13:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECC5320CBD
+	for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 13:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757512248; cv=none; b=l2/VdwPH0zaxwppHxfn9hBxodSfciqg6uGKISG6aFD6HiIwkeFtNPVTSF+EydLlkhzmALxsoY67egZaiFoPjfiXrcvHV/ObuCmMZBfvEFRPtKn2awH+mTsTtjumIyIxdzVZblSd5tjGGvk6uvg3zkxNrP+ZrTbm7h2DNM+xTzYY=
+	t=1757512666; cv=none; b=r+bPfz4RP4jrs4q9im38edVL8xk3gb3T9iWolHRCbqjIUv8xZT7L55JXgj0wxlJvx0wwP8QEeRBtFH2nnvk0UGHVAs4r4tvGRL68FnE5B5hwMoUjFrEoVkDzvihTc7AQ11YEoeZAgWGMfISS0sXNWyfIT1iOZO4yKNf1rhGWtk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757512248; c=relaxed/simple;
-	bh=qb6kI15oTJfRUux34RoBAq7bEV2NkwWFZHgrsdB3I08=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aLqYzNRhCEV6L8UIqevcZKuwsO7IqLwaMbOehdSs5RepLI37G2k4mCIbNwylW6LtjIIUPimmPbEV5B8MYPlNjxocUzWofdMJs13Og/R4MPYHgI7hCtOR0atC1j8CqNN5sjQT0v946uih1fkIHHpAe6ug+U+OI9fyK48WUniCFqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgJmIu3s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757512666; c=relaxed/simple;
+	bh=yVe9U9geFB5iyxU7D0dM8xT+Qqgu7g+qNAf6Aw8yL2I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ige2WAoUCcbqZY5z6HSq1a6qLTRrkOQlggdfWWZqmx5ApllDRXIZnGyx56LPkVhVTzYLZFS0s+nJf25m5n36ox+Aeu/fR0h39N4FcAwnzAAJgfTkU+YB6iZrG+6g5yKmF3vJdFWttXVYYx/tjXveE3A5mC+Ln8RrG0yDuFSTu74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dhFFIoIi; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgJmIu3s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F10C4CEEB;
-	Wed, 10 Sep 2025 13:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757512247;
-	bh=qb6kI15oTJfRUux34RoBAq7bEV2NkwWFZHgrsdB3I08=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SgJmIu3sAC7m+L2SJFj1Gmwoa7WKUe/5ZUUfTpMIOc7wVuPaIFG/PAkWxbt64Moqk
-	 lFPimdDtfHyufgQFv+3+LLw+N1Tqq9zBnzLrNeVjI8MRjzi1WWmoZpwq6c9okVODPV
-	 /igG/kKaaPcUA9hfPFTiQigR8sIgldmVW8DxxSrQc4Q/dO+DlIaIThAl/AXFgFZW/I
-	 OfymFr/YIi9ZDpBNM0ZcgRgPmoeA6vde7IVdqhx0OTrKm0dvgy8XyFis72MZWWYdcx
-	 IZ/BkD5kCCi3mMFPKwaB/TPAPiheg7CXzVHhOkM22dwjcqdcZiLPFfeVCTZPYPBTZc
-	 edC51lLaH4EKA==
-Date: Wed, 10 Sep 2025 15:50:41 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Michal =?UTF-8?B?S291dG7DvQ==?= <mkoutny@suse.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux cgroups <cgroups@vger.kernel.org>, Tejun
- Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Andrea Righi
- <arighi@nvidia.com>, Johannes Bechberger <me@mostlynerdless.de>, Changwoo
- Min <changwoo@igalia.com>, Shashank Balaji <shashank.mahadasyam@sony.com>,
- Ingo Molnar <mingo@kernel.org>, Jake Rice <jake@jakerice.dev>, Cengiz Can
- <cengiz@kernel.wtf>
-Subject: Re: [PATCH 2/2] Documentation: cgroup-v2: Replace manual table of
- contents with contents:: directive
-Message-ID: <20250910155021.418ac199@foz.lan>
-In-Reply-To: <875xdqtp7m.fsf@trenco.lwn.net>
-References: <20250910072334.30688-1-bagasdotme@gmail.com>
-	<20250910072334.30688-3-bagasdotme@gmail.com>
-	<6geggl3iu2hffdop43rtd6yp2ivd26ytfn4xdclurwce6mapal@4ve46y652dbj>
-	<875xdqtp7m.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dhFFIoIi"
+Message-ID: <ac633edf-4744-4215-b105-c168d3a734ce@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757512660;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QC748CIWajxw/7iZYNCHx4/C+cp4Fd9J30JGsoguRxU=;
+	b=dhFFIoIie+p/VEsPvypd9s5MRxg2Lb9DUmuYfQ3f2LNIuyyMPc8At2WhkWe6StPF30dk7u
+	v6OjCUU+DwT0iZzkJbWGizycjetKlqt3SBsVAYC9YuPs1MoLzK+mAcKvJLbNN5dVynBoGm
+	FRxJrDXHxeuBtNJXB9r2Fr/5sBnC5cM=
+Date: Wed, 10 Sep 2025 21:56:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Em Wed, 10 Sep 2025 07:24:45 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Michal Koutn=C3=BD <mkoutny@suse.com> writes:
->=20
-> > On Wed, Sep 10, 2025 at 02:23:34PM +0700, Bagas Sanjaya <bagasdotme@gma=
-il.com> wrote: =20
-> >> manually-arranged table of contents (as reST comments) gets out-of-sync
-> >> with actual toctree as not all of these are added to it. =20
-> >
-> > Is this true? I generated HTML with this patch and the resulting ToC
-> > matches what's in the comment.
-> > =20
-> >> Replace it with automatically-generated table of contents via contents=
-::
-> >> directive. =20
-> >
-> > Mauro, what's the best practice wrt consistent ToC and having it in
-> > plaintext form? =20
->=20
-> I fairly routinely get patches fixing manual TOCs that are not updated
-> to match changes elsewhere.  We have a nice system that can manage the
-> TOC automatically for us, it seems best to me to use it.
-
-Agreed. If you use:
+Subject: Re: [PATCH v7 mm-new 02/10] mm: thp: add support for BPF based THP
+ order selection
+Content-Language: en-US
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com,
+ gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org,
+ daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com,
+ rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com,
+ shakeel.butt@linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+References: <20250910024447.64788-1-laoar.shao@gmail.com>
+ <20250910024447.64788-3-laoar.shao@gmail.com>
+ <CABzRoyZm32HT2fDpSy_PRDxeXZVJD35+9YqRpn9XWix8jG6w8g@mail.gmail.com>
+ <CABzRoyYqGsABGVgXbH3Sts3yBsk7ED=BsKbcP3Skc-oWeFsN_w@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <CABzRoyYqGsABGVgXbH3Sts3yBsk7ED=BsKbcP3Skc-oWeFsN_w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-	.. toctree::
-	   :maxdepth: 1
-	   :glob:
 
-	   *=20
+On 2025/9/10 20:54, Lance Yang wrote:
+> On Wed, Sep 10, 2025 at 8:42 PM Lance Yang <lance.yang@linux.dev> wrote:
+>>
+>> Hey Yafang,
+>>
+>> On Wed, Sep 10, 2025 at 10:53 AM Yafang Shao <laoar.shao@gmail.com> wrote:
+>>>
+>>> This patch introduces a new BPF struct_ops called bpf_thp_ops for dynamic
+>>> THP tuning. It includes a hook bpf_hook_thp_get_order(), allowing BPF
+>>> programs to influence THP order selection based on factors such as:
+>>> - Workload identity
+>>>    For example, workloads running in specific containers or cgroups.
+>>> - Allocation context
+>>>    Whether the allocation occurs during a page fault, khugepaged, swap or
+>>>    other paths.
+>>> - VMA's memory advice settings
+>>>    MADV_HUGEPAGE or MADV_NOHUGEPAGE
+>>> - Memory pressure
+>>>    PSI system data or associated cgroup PSI metrics
+>>>
+>>> The kernel API of this new BPF hook is as follows,
+>>>
+>>> /**
+>>>   * @thp_order_fn_t: Get the suggested THP orders from a BPF program for allocation
+>>>   * @vma: vm_area_struct associated with the THP allocation
+>>>   * @vma_type: The VMA type, such as BPF_THP_VM_HUGEPAGE if VM_HUGEPAGE is set
+>>>   *            BPF_THP_VM_NOHUGEPAGE if VM_NOHUGEPAGE is set, or BPF_THP_VM_NONE if
+>>>   *            neither is set.
+>>>   * @tva_type: TVA type for current @vma
+>>>   * @orders: Bitmask of requested THP orders for this allocation
+>>>   *          - PMD-mapped allocation if PMD_ORDER is set
+>>>   *          - mTHP allocation otherwise
+>>>   *
+>>>   * Return: The suggested THP order from the BPF program for allocation. It will
+>>>   *         not exceed the highest requested order in @orders. Return -1 to
+>>>   *         indicate that the original requested @orders should remain unchanged.
+>>>   */
+>>> typedef int thp_order_fn_t(struct vm_area_struct *vma,
+>>>                             enum bpf_thp_vma_type vma_type,
+>>>                             enum tva_type tva_type,
+>>>                             unsigned long orders);
+>>>
+>>> Only a single BPF program can be attached at any given time, though it can
+>>> be dynamically updated to adjust the policy. The implementation supports
+>>> anonymous THP, shmem THP, and mTHP, with future extensions planned for
+>>> file-backed THP.
+>>>
+>>> This functionality is only active when system-wide THP is configured to
+>>> madvise or always mode. It remains disabled in never mode. Additionally,
+>>> if THP is explicitly disabled for a specific task via prctl(), this BPF
+>>> functionality will also be unavailable for that task.
+>>>
+>>> This feature requires CONFIG_BPF_GET_THP_ORDER (marked EXPERIMENTAL) to be
+>>> enabled. Note that this capability is currently unstable and may undergo
+>>> significant changes—including potential removal—in future kernel versions.
+>>>
+>>> Suggested-by: David Hildenbrand <david@redhat.com>
+>>> Suggested-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+>>> ---
+>> [...]
+>>> diff --git a/mm/huge_memory_bpf.c b/mm/huge_memory_bpf.c
+>>> new file mode 100644
+>>> index 000000000000..525ee22ab598
+>>> --- /dev/null
+>>> +++ b/mm/huge_memory_bpf.c
+>>> @@ -0,0 +1,243 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * BPF-based THP policy management
+>>> + *
+>>> + * Author: Yafang Shao <laoar.shao@gmail.com>
+>>> + */
+>>> +
+>>> +#include <linux/bpf.h>
+>>> +#include <linux/btf.h>
+>>> +#include <linux/huge_mm.h>
+>>> +#include <linux/khugepaged.h>
+>>> +
+>>> +enum bpf_thp_vma_type {
+>>> +       BPF_THP_VM_NONE = 0,
+>>> +       BPF_THP_VM_HUGEPAGE,    /* VM_HUGEPAGE */
+>>> +       BPF_THP_VM_NOHUGEPAGE,  /* VM_NOHUGEPAGE */
+>>> +};
+>>> +
+>>> +/**
+>>> + * @thp_order_fn_t: Get the suggested THP orders from a BPF program for allocation
+>>> + * @vma: vm_area_struct associated with the THP allocation
+>>> + * @vma_type: The VMA type, such as BPF_THP_VM_HUGEPAGE if VM_HUGEPAGE is set
+>>> + *            BPF_THP_VM_NOHUGEPAGE if VM_NOHUGEPAGE is set, or BPF_THP_VM_NONE if
+>>> + *            neither is set.
+>>> + * @tva_type: TVA type for current @vma
+>>> + * @orders: Bitmask of requested THP orders for this allocation
+>>> + *          - PMD-mapped allocation if PMD_ORDER is set
+>>> + *          - mTHP allocation otherwise
+>>> + *
+>>> + * Return: The suggested THP order from the BPF program for allocation. It will
+>>> + *         not exceed the highest requested order in @orders. Return -1 to
+>>> + *         indicate that the original requested @orders should remain unchanged.
+>>
+>> A minor documentation nit: the comment says "Return -1 to indicate that the
+>> original requested @orders should remain unchanged". It might be slightly
+>> clearer to say "Return a negative value to fall back to the original
+>> behavior". This would cover all error codes as well ;)
+>>
+>>> + */
+>>> +typedef int thp_order_fn_t(struct vm_area_struct *vma,
+>>> +                          enum bpf_thp_vma_type vma_type,
+>>> +                          enum tva_type tva_type,
+>>> +                          unsigned long orders);
+>>
+>> Sorry if I'm missing some context here since I haven't tracked the whole
+>> series closely.
+>>
+>> Regarding the return value for thp_order_fn_t: right now it returns a
+>> single int order. I was thinking, what if we let it return an unsigned
+>> long bitmask of orders instead? This seems like it would be more flexible
+>> down the road, especially if we get more mTHP sizes to choose from. It
+>> would also make the API more consistent, as bpf_hook_thp_get_orders()
+>> itself returns an unsigned long ;)
+> 
+> I just realized a flaw in my previous suggestion :(
+> 
+> Changing the return type of thp_order_fn_t to unsigned long for consistency
+> and flexibility. However, I completely overlooked that this would prevent
+> the BPF program from returning negative error codes ...
+> 
+> Thanks,
+> Lance
+> 
+>>
+>> Also, for future extensions, it might be a good idea to add a reserved
+>> flags argument to the thp_order_fn_t signature.
+>>
+>> For example thp_order_fn_t(..., unsigned long flags).
+>>
+>> This would give us aforward-compatible way to add new semantics later
+>> without breaking the ABI and needing a v2. We could just require it to be
+>> 0 for now.
+>>
+>> Thanks for the great work!
+>> Lance
 
-There won't be the need of manually updating the TOC tree.
 
-That's said, I guess very few documents currently use grub:
-	$ git grep :glob: Documentation/|wc -l
-	7
+Forgot to add:
 
-Also, it has some drawbacks, as you can't control anymore the order=20
-where the docs will be placed. So, if this is important, you may need
-to do something different, or maybe use things like (untested):
+Noticed that if the hook returns 0, bpf_hook_thp_get_orders() falls
+back to 'orders', preventing us from dynamically disabling mTHP
+allocations.
 
-	.. toctree::
-	   :maxdepth: 1
-	   :glob:
+Honoring a return of 0 is critical for our use case, which is to
+dynamically disable mTHP for low-priority containers when memory gets
+low in mixed workloads.
 
-	   pre*
-	   main*
-	   post*
-
-> That said, if having the TOC in the plain-text version of the document
-> is deemed to be important, then it needs to be kept and manually
-> maintained.
-
-Agreed.
-
-
-Thanks,
-Mauro
+And then re-enable it for them when memory is back above the low
+watermark.
