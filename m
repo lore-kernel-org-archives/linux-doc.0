@@ -1,213 +1,204 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6432D24A7;
-	Wed, 10 Sep 2025 06:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBB92673AA;
+	Wed, 10 Sep 2025 06:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757484806; cv=none; b=dpC8FNwUOhbF8nsSYOHjjYTxMT9oewdFrVfZBXAmPBfk8dpbY+ljwfZYeuNT/0437cQgaBBEBZL+DRr4FaxwDdzdZm16piqgdWkTS0drKLkFTlgwXK5QWGc4IfsCcR4e4JSmsrvId4hbu7VTz7ykp7lX/IwslarUjYyFpG2WY+Q=
+	t=1757485106; cv=none; b=VFm4o+DQuopDLFO0OvVGgw5xJSzMMwMml+S7vIqsVSv2h+3Y/83MfcilOsSCg3u1tghEPpTYnZEkXsLmpPAtyuhvw0VT6zMLzR+CNWfiNHZ2yhQWnOM7it53ypS2tJfdryGgZP10b6+HOd3zoYXtbOsY+VbJO0YneGE0OM9u5Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757484806; c=relaxed/simple;
-	bh=TfRMU+9Gdx1HC4JtInnhupQ4idDhmQVckLzwHxwUqzY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=eo2MHED3+EgaiULtjhPhvjSu797GbZuGX1FChTl3afg5ZVz6kwA6u7MpQ9eBZDdLM5j1FICjqVTiOpyV8mVlDRPG7d7nf4D8v3o+V4muUXNksrJ9W8y94VmPmMkDb1JeFnzS2+tH7NZbe9dc2qGP8aeIxcZaPImgJ0MQ9bDrNsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qgvGcVJo; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757485106; c=relaxed/simple;
+	bh=J36O/t9pbZpHyekI/cR19In77YQfyzOLXMq7MsVD7Uk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J+8ouZVh0544ymHAOiMfLL6CLG6VsEFiGTk04HMiUQYdNi65M41jwYYjwbUl05HJ9Orrt3PjLZcHiySqAHAAhEkk3q5mAocXDYTS9OEHfJc+KSlihtb3ixRHL4em3hTPdlEhHOnRZelM3Gur8S+MvIej5hBqcVL3/cOoc958fyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJHzqsnS; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qgvGcVJo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=67Gw54VTjVoR7AIVRUVgTTN6sTGR1jOjlc8cyyIBWo0=; b=qgvGcVJoFyUqHE7JepjL2lDInc
-	ME+w7KYYabpVHhce4yFXxS1h7tInMh8jP4rrMcaPTxQy/XSv+G92cpU1SgmW4d49YvYujMjAI5/m6
-	y7A8l/N/aiWq2XScZQpNPHJmiQmaL7gHAX+f+OaLO9OptEqFmYjnBq+YtcwPiFCjYUoKDpcS2j+Wt
-	pf+H6ZFzPyBJ0sxaMYXnaDhv8u08OvNsvD+PPq5qn2+wCoCVMN4dfuB5z6sLk/oZ1i1bu0WIyodHD
-	BnDtmnUSuY6LVniHrBsnQbFFCCzOtC9vcG4Cq+yOO1ov3tWyPm4AgMwArY7b72ga7cb0pPy+RjHmT
-	K+zQL5kQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwE56-0000000CG6N-29BK;
-	Wed, 10 Sep 2025 06:13:24 +0000
-Message-ID: <c5262290-38e3-4c48-af00-b91f03a065a8@infradead.org>
-Date: Tue, 9 Sep 2025 23:13:24 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LJHzqsnS"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-7220d7dea27so52692616d6.1;
+        Tue, 09 Sep 2025 23:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757485104; x=1758089904; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DYzJL7Hx4cl0FskNvKkVhvtLZ/R9JXw2qBXsF5fYGzI=;
+        b=LJHzqsnSUsNciaQ/5MGGtCAMdloqKa7gIn8zH5ZtYMceKFSz9lqs88taXwj3HsdKLH
+         USuuPxK5h7TvoeeDnj/5wQ3sjKfG5r0an71Zo2PUdTKLcLpq+0iEqmH5+wY5BiWFqoRG
+         MUonQNdb9aysQygh46apU5HNAzz+qIkqwwbnpkpfufaUUhxJiliodFv4HOnJF78Z9gct
+         mcWImqNYrAUQqwJf8gUIyholPsmN8qGLUK3/tVwPgfPIocz09nqGCVIfGnbwtbmNM2+v
+         8jk1MfUncRewgzVbBu2lyPt4kYX8kBTw+c7qLkqzygd9rxzF4TrWC8UlGHvpaj+VUyHe
+         xU3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757485104; x=1758089904;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DYzJL7Hx4cl0FskNvKkVhvtLZ/R9JXw2qBXsF5fYGzI=;
+        b=Oi9pxsukS3xgNBnl718s6xj+rsIjzQoKnIn8pb2Jz+RPjOs+iTOk2qP1EaeaI/Ja8k
+         7I/TQuUNoU285O00q1gRQzip9hOhauuzJKy+5pFB2diC++afweaG7FwUQY0+ckWSdBt9
+         I0r+jEJXLF64TCTs9GtGWYZc0fwe2SRvQ1U7kYmu+PwjdqfZJPvz8kwtyXCb5zIDYKQW
+         8RmzApDIo4DLeljlyJFxVjnz/CjMlnO+9dSw0f7fGxPnvOZUrg2eEIe4bZSerg+4HSrB
+         ztmGW/jRhtaNvUqbhLhv5EuIzG4Ty0zNfrU2RNyY9KII5SAQffqS4uU/9WZJyaiezmS/
+         +DMA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3qlbpTj2xCQoDEW0afRcL3RjBFrJg7VHbO3lHoBmiEechgl9o4iX4Hn4uouqzK3mR3Tyg3lImecw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycCaFpoXMLpW1mMoKRL8KALY22yIG0J7eI5rghOb4IGyth59mm
+	3hzOTOKQgjKBf8IMephm4hiw1BBCAr1F6g4v/fjv0Ph6YhwQgRAzO1iocypqzmBQt7bqhyWiVlN
+	1NsB4NI5DQ/1rGldt0Oe6LxtJyzIm9oA=
+X-Gm-Gg: ASbGncskMjpoJapd9ZKwZ8Bf8VZe1e0sAAVRVGEocU60h/zmzBTsut/tdVcJuPFFhY2
+	Aq8Qvbw6ZFQ0tf1Rvp2RNTCQ45RMcwYgPaGVJKX2gSeKX1LdNelEl/OH5KHL6/V5LzfB93I8u+y
+	SqkRswwZuYARGHsYOnkWtDfVkp/i8E2TalQJU3LZmUD2IrEtqkCDeeyj18e4lKeXn1VH5tgTYoh
+	9oxdYQToDqnu1UjrSCNZ9qEaeAd1YETkLusz3s8RsgQnfvv+2E=
+X-Google-Smtp-Source: AGHT+IFvX8ysVDBbiXtbizZMNGoZJmz5YmPfl+MEXyDzgFg9igYbqr/nnoZNtm5eoSPGvCef4i3c5jWe9oYtmW6CEfo=
+X-Received: by 2002:a05:6214:1c43:b0:720:3cd9:1f7e with SMTP id
+ 6a1803df08f44-738f718cb4cmr113550666d6.0.1757485103832; Tue, 09 Sep 2025
+ 23:18:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
- <d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
- <20250909215824.1968220c@foz.lan>
- <5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
- <20250910010903.5388bffc@foz.lan>
- <0d190bf0-b9d4-4d5c-a1cc-6d5d79be3886@infradead.org>
- <656591ff-fa7d-4763-8759-0a0af3a4039a@infradead.org>
- <c195c68f-e815-4428-9134-8746198a4611@infradead.org>
- <20250910062323.059bb078@foz.lan>
- <14133b75-a984-4244-a18d-f02f0b81d1b7@infradead.org>
-Content-Language: en-US
-In-Reply-To: <14133b75-a984-4244-a18d-f02f0b81d1b7@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-2-laoar.shao@gmail.com>
+ <7c890b42-610f-42ec-acf2-b5b9f95209b1@linux.dev>
+In-Reply-To: <7c890b42-610f-42ec-acf2-b5b9f95209b1@linux.dev>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Wed, 10 Sep 2025 14:17:47 +0800
+X-Gm-Features: AS18NWAEtXjJHwi77ZRJ7QtvbBT2n7zXaHBMPXJVp87PMZaJZ2j5bODmbGmPrA0
+Message-ID: <CALOAHbDWJMyNQknX9ihGKuAJNQk+MuG8Af4cpLh=0N5mB_-2tg@mail.gmail.com>
+Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from khugepaged_mm_slot
+To: Lance Yang <lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>
+Cc: bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	Lance Yang <ioworker0@gmail.com>, baolin.wang@linux.alibaba.com, ziy@nvidia.com, 
+	hannes@cmpxchg.org, corbet@lwn.net, ameryhung@gmail.com, 21cnbao@gmail.com, 
+	shakeel.butt@linux.dev, rientjes@google.com, andrii@kernel.org, 
+	daniel@iogearbox.net, ast@kernel.org, ryan.roberts@arm.com, 
+	gutierrez.asier@huawei-partners.com, willy@infradead.org, 
+	usamaarif642@gmail.com, lorenzo.stoakes@oracle.com, npache@redhat.com, 
+	dev.jain@arm.com, Liam.Howlett@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 10, 2025 at 1:11=E2=80=AFPM Lance Yang <lance.yang@linux.dev> w=
+rote:
+>
+> Hey Yafang,
+>
+> On 2025/9/10 10:44, Yafang Shao wrote:
+> > Since a task with MMF_DISABLE_THP_COMPLETELY cannot use THP, remove it =
+from
+> > the khugepaged_mm_slot to stop khugepaged from processing it.
+> >
+> > After this change, the following semantic relationship always holds:
+> >
+> >    MMF_VM_HUGEPAGE is set     =3D=3D task is in khugepaged mm_slot
+> >    MMF_VM_HUGEPAGE is not set =3D=3D task is not in khugepaged mm_slot
+> >
+> > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> > Cc: Lance Yang <ioworker0@gmail.com>
+> > ---
+> >   include/linux/khugepaged.h |  1 +
+> >   kernel/sys.c               |  6 ++++++
+> >   mm/khugepaged.c            | 19 +++++++++----------
+> >   3 files changed, 16 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> > index eb1946a70cff..6cb9107f1006 100644
+> > --- a/include/linux/khugepaged.h
+> > +++ b/include/linux/khugepaged.h
+> > @@ -19,6 +19,7 @@ extern void khugepaged_min_free_kbytes_update(void);
+> >   extern bool current_is_khugepaged(void);
+> >   extern int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned lon=
+g addr,
+> >                                  bool install_pmd);
+> > +bool hugepage_pmd_enabled(void);
+> >
+> >   static inline void khugepaged_fork(struct mm_struct *mm, struct mm_st=
+ruct *oldmm)
+> >   {
+> > diff --git a/kernel/sys.c b/kernel/sys.c
+> > index a46d9b75880b..a1c1e8007f2d 100644
+> > --- a/kernel/sys.c
+> > +++ b/kernel/sys.c
+> > @@ -8,6 +8,7 @@
+> >   #include <linux/export.h>
+> >   #include <linux/mm.h>
+> >   #include <linux/mm_inline.h>
+> > +#include <linux/khugepaged.h>
+> >   #include <linux/utsname.h>
+> >   #include <linux/mman.h>
+> >   #include <linux/reboot.h>
+> > @@ -2493,6 +2494,11 @@ static int prctl_set_thp_disable(bool thp_disabl=
+e, unsigned long flags,
+> >               mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
+> >               mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+> >       }
+> > +
+> > +     if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
+> > +         !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
+> > +         hugepage_pmd_enabled())
+> > +             __khugepaged_enter(mm);
+> >       mmap_write_unlock(current->mm);
+>
+> One minor style suggestion for prctl_set_thp_disable():
+>
+> static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
+>                                  unsigned long arg4, unsigned long arg5)
+> {
+>         struct mm_struct *mm =3D current->mm;
+>
+>         [...]
+>         if (mmap_write_lock_killable(current->mm))
+>                 return -EINTR;
+>         [...]
+>         mmap_write_unlock(current->mm);
+>         return 0;
+> }
+>
+> It initializes struct mm_struct *mm =3D current->mm; at the beginning, bu=
+t
+> then uses both mm and current->mm. Could you change the calls using
+> current->mm to use the local mm variable for consistency? Just a nit ;)
+
+Nice catch
+
+Hello Andrew, David,
+
+The original commit "prctl: extend PR_SET_THP_DISABLE to optionally
+exclude VM_HUGEPAGE" is still in mm-new branch. The change below is a
+minor cleanup for it.
+
+Could we please fold this change directly into the original commit to
+keep the history clean?
+
+diff --git a/kernel/sys.c b/kernel/sys.c
+index a46d9b7..2250a32 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -2479,7 +2479,7 @@ static int prctl_set_thp_disable(bool
+thp_disable, unsigned long flags,
+        /* Flags are only allowed when disabling. */
+        if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVI=
+SED))
+                return -EINVAL;
+-       if (mmap_write_lock_killable(current->mm))
++       if (mmap_write_lock_killable(mm))
+                return -EINTR;
+        if (thp_disable) {
+                if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
+@@ -2493,7 +2493,7 @@ static int prctl_set_thp_disable(bool
+thp_disable, unsigned long flags,
+                mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
+                mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+        }
+-       mmap_write_unlock(current->mm);
++       mmap_write_unlock(mm);
+        return 0;
+ }
 
 
-
-On 9/9/25 10:59 PM, Randy Dunlap wrote:
-> Hi Mauro,
-> 
-> On 9/9/25 9:23 PM, Mauro Carvalho Chehab wrote:
->> Em Tue, 9 Sep 2025 17:02:00 -0700
->> Randy Dunlap <rdunlap@infradead.org> escreveu:
->>
->>> On 9/9/25 4:50 PM, Randy Dunlap wrote:
->>>>
->>>>
->>>> On 9/9/25 4:49 PM, Randy Dunlap wrote:  
->>>>>
->>>>>
->>>>> On 9/9/25 4:09 PM, Mauro Carvalho Chehab wrote:  
->>>>>> Em Tue, 9 Sep 2025 14:06:43 -0700
->>>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:
->>>>>>  
->>>>>>> On 9/9/25 12:58 PM, Mauro Carvalho Chehab wrote:  
->>>>>>>> Em Tue, 9 Sep 2025 00:27:20 -0700
->>>>>>>> Randy Dunlap <rdunlap@infradead.org> escreveu:  
->>>>>>  
->>>>>>>>> +.. kernel-doc:: init/kdoc-globals-test.c
->>>>>>>>> +   :identifiers:
->>>>>>>>>
->>>>>>>>> The html output says
->>>>>>>>> "Kernel Globals"
->>>>>>>>> but nothing else.    
->>>>>>>>
->>>>>>>> I usually don't add :identifiers: on kernel-doc entries. If you use
->>>>>>>> identifiers, you need to explicitly tell what symbols you want.    
->>>>>>>
->>>>>>> Well, it worked/works without using having any identifiers listed, and
->>>>>>> the docs in Documentation/doc-guide/kernel-doc.rst says that they are
->>>>>>> optional:
->>>>>>>
->>>>>>> identifiers: *[ function/type ...]*
->>>>>>>   Include documentation for each *function* and *type* in *source*.
->>>>>>>   If no *function* is specified, the documentation for all functions
->>>>>>>   and types in the *source* will be included.
->>>>>>>   *type* can be a struct, union, enum, or typedef identifier.  
->>>>>>
-
-
-
->>>>> Anyway, does this take away something that currently works?  
->>>
->>> The output looks the same with this patch AFAICT.
->>
->> run it in verbose mode to see what command line was passed to
->> the file:
->>
->> 	$ make SPHINXDIRS=your_test_dir V=1 htmldocs
->>
->> This should be printing how the kernel-doc.py command line would be(*):
->>
->> 	scripts/kernel-doc.py -rst -enable-lineno ./include/linux/peci.h
->> 	./include/linux/peci.h:20 Scanning doc for struct peci_controller_ops
->> 	./include/linux/peci.h:32 Scanning doc for struct peci_controller
->> 	./include/linux/peci.h:58 Scanning doc for struct peci_device
->> 	./include/linux/peci.h:88 Scanning doc for struct peci_request
->>
->> (*) the kerneldoc.py extension doesn't call kernel-doc.py, but instead
->>     run directly the Python classes from the library. Yet, to help one
->>     to debug it, the command line is displayed.
-> 
-> I see. Thanks.
-> 
-> I get this if I list all of them (on 2 separate identifiers lines):
-> 
-> ../scripts/kernel-doc.py -rst -enable-lineno -function ROOT_DEV -function system_state -function saved_command_line -function diskseq ../init/kdoc-globals-test.c
-> ../init/kdoc-globals-test.c:5 Scanning doc for global ROOT_DEV
-> ../init/kdoc-globals-test.c:15 Scanning doc for global system_state
-> ../init/kdoc-globals-test.c:27 Scanning doc for global saved_command_line
-> ../init/kdoc-globals-test.c:33 Scanning doc for global loops_per_jiffy
-> ../init/kdoc-globals-test.c:40 Scanning doc for global preset_lpj
-> ../init/kdoc-globals-test.c:49 Scanning doc for global linux_proc_banner
-> ../init/kdoc-globals-test.c:63 Scanning doc for global linux_banner
-> ../init/kdoc-globals-test.c:72 Scanning doc for global diskseq
-> ../init/kdoc-globals-test.c:80 Scanning doc for global rtnl_mutex
-> ../scripts/kernel-doc.py -rst -enable-lineno -function loops_per_jiffy -function preset_lpj -function linux_proc_banner -function linux_banner ../init/kdoc-globals-test.c
-> 
-> or this is I don't use the identifiers line at all:
-> 
-> ../scripts/kernel-doc.py -rst -enable-lineno ../init/kdoc-globals-test.c
-> ../init/kdoc-globals-test.c:5 Scanning doc for global ROOT_DEV
-> ../init/kdoc-globals-test.c:15 Scanning doc for global system_state
-> ../init/kdoc-globals-test.c:27 Scanning doc for global saved_command_line
-> ../init/kdoc-globals-test.c:33 Scanning doc for global loops_per_jiffy
-> ../init/kdoc-globals-test.c:40 Scanning doc for global preset_lpj
-> ../init/kdoc-globals-test.c:49 Scanning doc for global linux_proc_banner
-> ../init/kdoc-globals-test.c:63 Scanning doc for global linux_banner
-> ../init/kdoc-globals-test.c:72 Scanning doc for global diskseq
-> ../init/kdoc-globals-test.c:80 Scanning doc for global rtnl_mutex
-> 
-> 
-> And then both of them report these warnings (already discussed):
-> 
-> Documentation/core-api/kernel-api:435: ../init/kdoc-globals-test.c:10: WARNING: Invalid C declaration: Expected end of definition. [error at 32]
->   enum system_states system_state __read_mostly;
->   --------------------------------^
-> Documentation/core-api/kernel-api:435: ../init/kdoc-globals-test.c:20: WARNING: Invalid C declaration: Expected end of definition. [error at 25]
->   char *saved_command_line __ro_after_init;
->   -------------------------^
-> 
-> and the 3 globals with initialization values are skipped/omitted.
-> 
-> So to get "all identifiers," I should just omit the :identifiers:
-> line completely. kernel-doc.rst could use some clarification on that
-> point.
-
-
-Oh darn, the html output is different:
-
-when I omit the :identifiers: line, I see:
-
-Kernel Globals
-dev_t ROOT_DEV;
-system root device
-
-enum system_states system_state __read_mostly;
-system state used during boot or suspend/hibernate/resume
-
-char *saved_command_line __ro_after_init;
-kernel’s command line, saved from use at any later time in the kernel.
-
-unsigned long preset_lpj;
-lpj (loops per jiffy) value set from kernel command line using “lpj=VALUE”
-
-static atomic64_t diskseq;
-unique sequence number for block device instances
-
-and when I list all 8 identifiers (on 2 separate lines), I see:
-
-Kernel Globals
-dev_t ROOT_DEV;
-system root device
-
-static atomic64_t diskseq;
-unique sequence number for block device instances
-
-unsigned long preset_lpj;
-lpj (loops per jiffy) value set from kernel command line using “lpj=VALUE”
-
-so for some reason, system_state, saved_command_line, and diskseq are
-skipped/omitted when I list all 8 identifiers.
-
-
--- 
-~Randy
-
+--=20
+Regards
+Yafang
