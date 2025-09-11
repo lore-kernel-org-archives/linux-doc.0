@@ -1,273 +1,316 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FB931CA65;
-	Thu, 11 Sep 2025 11:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B757931C587;
+	Thu, 11 Sep 2025 11:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757590926; cv=none; b=amIGTXHWBKVopL8+6/Uj6rgLpA6wcrUiJjeEOLFcQOx1DQUfr7s6kLUDFB17wJ1QsAxf2+dkeuxDBrEwHhajKIUwMF7q9ohEI3YZhWnCmoQGLoAeLZaROqAvkfQ1ctOvOlrwunPmcSdNPIW9HqDXvmiJinaFjl9cgcOX5Hv24xQ=
+	t=1757591072; cv=none; b=TYSvnahWkjEAMA0tFURpIPswR7MSNb5M1fKH+NsuhinrWbjl6Qvz4xpzdCVLnd+zA45WJiT5BDaYR3S8vWF7eFKMoKlQZqfTD7c5KOp+c+jR2NwxS8m7Zqhq6NJPoAyQ26MgLo1e+YnoPcDxuQ9CQRb8PYmmOBl//XwG75G4194=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757590926; c=relaxed/simple;
-	bh=JQQi36eZE14yH3jRBYl6UW9XA0A2eEGQafkfVENT8Ac=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=grYFFn9bvHLQjA6EX4ME36y5+LKTtt8DkHyAPkIax4fGjhz9Gu7VR3+SRRUQD4LV9VSkl6qgwFI4EiEYuz+XKt4oxDyBcLwEJpZ/69gbBH6pXc/drmPAv+tnBIIatxrZlsOjdI0LEREMA2k2R1+oRBPBGl9PnxQS3OBUo1qbgnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=i5JGUhxZ; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1757591072; c=relaxed/simple;
+	bh=kZ3prMyI5i241zhb9QGgx5+5DQzkJzOtw9+Uzt04C1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VGp6C2Lh9i2gsdj9EzpVY77fEc1DN+A9E8YHaeuTE1r0IFc9C2reSPcLUNYNeh6FargPiLORqb9CqpB5ZQ2/cLTnOTcfqiih4TIcEiCo2IKSScsHsJgSm3qXNpoL+Dfx98SjojwCOCiUFTpxC4AX4scNZeJMP/s8GmmZYwdfeGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xCKKkeBk; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="i5JGUhxZ"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58BBaSPF282600;
-	Thu, 11 Sep 2025 06:36:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757590588;
-	bh=MvLpwpR2k8oWPS7J/omjOonARgnQ/9NgXe245RoEZPI=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=i5JGUhxZAtlepksxmLTonKbL9ibKpoQc9n3ck1pQSbI+fWfUeepdUQ9DoYwDw876U
-	 8Ef/8ztmGSbAcSisQMNAXipQL4VMXUKSuBrh633GqFusOsqg8p5gIFxn81e2bFbIcj
-	 cbZKFivyWQmOaRmgz8rAvH2F651YJVZk6rUzMvTk=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58BBaSVT464628
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 11 Sep 2025 06:36:28 -0500
-Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 11
- Sep 2025 06:36:28 -0500
-Received: from fllvem-mr07.itg.ti.com (10.64.41.89) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 11 Sep 2025 06:36:28 -0500
-Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
-	by fllvem-mr07.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58BBaSwp1068579;
-	Thu, 11 Sep 2025 06:36:28 -0500
-Received: from localhost (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 58BBaR4d032081;
-	Thu, 11 Sep 2025 06:36:27 -0500
-From: MD Danish Anwar <danishanwar@ti.com>
-To: "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra
-	<vigneshr@ti.com>,
-        Tero Kristo <kristo@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        MD Danish Anwar
-	<danishanwar@ti.com>,
-        Mengyuan Lou <mengyuanlou@net-swift.com>,
-        Lei Wei
-	<quic_leiwei@quicinc.com>, Xin Guo <guoxin09@huawei.com>,
-        Michael Ellerman
-	<mpe@ellerman.id.au>, Fan Gong <gongfan1@huawei.com>,
-        Lorenzo Bianconi
-	<lorenzo@kernel.org>,
-        Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>,
-        Lukas Bulwahn
-	<lukas.bulwahn@redhat.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>
-Subject: [PATCH net-next v4 5/7] net: rpmsg-eth: Add support for multicast filtering
-Date: Thu, 11 Sep 2025 17:06:10 +0530
-Message-ID: <20250911113612.2598643-6-danishanwar@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250911113612.2598643-1-danishanwar@ti.com>
-References: <20250911113612.2598643-1-danishanwar@ti.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xCKKkeBk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=6iKezg0/3kaaDC2tOOFg1XDQx9qWJDF4MHqo/lI7WwE=; b=xCKKkeBkyLl3Y301OPAbDs9q+/
+	c0TrMP2OZ3vjnfR65IdCUA4LINaA4gTdckdaftu+0ZB4T3Jtcms3Jea9uK6vKul2yzMNKeH43IAfe
+	pEnT6hxosUbMFZ774+vsW7CPh9m19pU6dLLH5NEq/rrBRpO2skQCbfeaZeA4DGluX1MuxNUekqWUB
+	W/KJm6YcZYf47I+U1lAezOr87gcp2rops/FlM4Y5AkvY+FcIMr3xg9xBh3waI+S5ByPxxRS9dAfeJ
+	FJQZt6RGJ4XTd6QnFVvOFFjd8/+28EBi/g9/vAaQEdysFr18HAT2K28d5n5d/4JVkktKriJlSAW5M
+	VwOQ75fw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uwfj0-00000002mYc-3vAR;
+	Thu, 11 Sep 2025 11:44:26 +0000
+Date: Thu, 11 Sep 2025 04:44:26 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
+	djwong@kernel.org, hsiangkao@linux.alibaba.com,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
+ CONFIG_BLOCK guard
+Message-ID: <aMK2GuumUf93ep99@infradead.org>
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-14-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250908185122.3199171-14-joannelkoong@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add support for multicast filtering for RPMSG ETH driver. Implement the
-ndo_set_rx_mode callback as icve_set_rx_mode() API. rx_mode_workqueue is
-initialized in rpmsg_eth_probe() and queued in rpmsg_eth_set_rx_mode().
+On Mon, Sep 08, 2025 at 11:51:19AM -0700, Joanne Koong wrote:
+> There is no longer a dependency on CONFIG_BLOCK in the iomap read and
+> readahead logic. Move this logic out of the CONFIG_BLOCK guard. This
+> allows non-block-based filesystems to use iomap for reads/readahead.
 
-Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
----
- drivers/net/ethernet/rpmsg_eth.c | 63 ++++++++++++++++++++++++++++++++
- drivers/net/ethernet/rpmsg_eth.h | 12 ++++++
- 2 files changed, 75 insertions(+)
+Please move the bio code into a new file.  Example patch attached below
+that does just that without addressing any of the previous comments:
 
-diff --git a/drivers/net/ethernet/rpmsg_eth.c b/drivers/net/ethernet/rpmsg_eth.c
-index 43196e1d7eeb..cde19d924b89 100644
---- a/drivers/net/ethernet/rpmsg_eth.c
-+++ b/drivers/net/ethernet/rpmsg_eth.c
-@@ -80,6 +80,11 @@ static int create_request(struct rpmsg_eth_common *common,
- 		ether_addr_copy(msg->req_msg.mac_addr.addr,
- 				common->port->ndev->dev_addr);
- 		break;
-+	case RPMSG_ETH_REQ_ADD_MC_ADDR:
-+	case RPMSG_ETH_REQ_DEL_MC_ADDR:
-+		ether_addr_copy(msg->req_msg.mac_addr.addr,
-+				common->mcast_addr);
-+		break;
- 	case RPMSG_ETH_NOTIFY_PORT_UP:
- 	case RPMSG_ETH_NOTIFY_PORT_DOWN:
- 		msg->msg_hdr.msg_type = RPMSG_ETH_NOTIFY_MSG;
-@@ -131,6 +136,22 @@ static int rpmsg_eth_create_send_request(struct rpmsg_eth_common *common,
- 	return ret;
- }
- 
-+static int rpmsg_eth_add_mc_addr(struct net_device *ndev, const u8 *addr)
-+{
-+	struct rpmsg_eth_common *common = rpmsg_eth_ndev_to_common(ndev);
+diff --git a/fs/iomap/Makefile b/fs/iomap/Makefile
+index f7e1c8534c46..a572b8808524 100644
+--- a/fs/iomap/Makefile
++++ b/fs/iomap/Makefile
+@@ -14,5 +14,6 @@ iomap-y				+= trace.o \
+ iomap-$(CONFIG_BLOCK)		+= direct-io.o \
+ 				   ioend.o \
+ 				   fiemap.o \
+-				   seek.o
++				   seek.o \
++				   bio.o
+ iomap-$(CONFIG_SWAP)		+= swapfile.o
+diff --git a/fs/iomap/bio.c b/fs/iomap/bio.c
+new file mode 100644
+index 000000000000..bcb87441be9f
+--- /dev/null
++++ b/fs/iomap/bio.c
+@@ -0,0 +1,97 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2010 Red Hat, Inc.
++ * Copyright (C) 2016-2023 Christoph Hellwig.
++ */
++#include <linux/iomap.h>
++#include <linux/pagemap.h>
++#include "internal.h"
++#include "trace.h"
 +
-+	ether_addr_copy(common->mcast_addr, addr);
-+	return rpmsg_eth_create_send_request(common, RPMSG_ETH_REQ_ADD_MC_ADDR, true);
++static void iomap_read_end_io(struct bio *bio)
++{
++	int error = blk_status_to_errno(bio->bi_status);
++	struct folio_iter fi;
++
++	bio_for_each_folio_all(fi, bio)
++		iomap_finish_folio_read(fi.folio, fi.offset, fi.length, error);
++	bio_put(bio);
 +}
 +
-+static int rpmsg_eth_del_mc_addr(struct net_device *ndev, const u8 *addr)
++static int iomap_submit_read_bio(struct iomap_read_folio_ctx *ctx)
 +{
-+	struct rpmsg_eth_common *common = rpmsg_eth_ndev_to_common(ndev);
++	struct bio *bio = ctx->private;
 +
-+	ether_addr_copy(common->mcast_addr, addr);
-+	return rpmsg_eth_create_send_request(common, RPMSG_ETH_REQ_DEL_MC_ADDR, true);
++	if (bio)
++		submit_bio(bio);
++
++	return 0;
 +}
 +
- static void rpmsg_eth_state_machine(struct work_struct *work)
- {
- 	struct delayed_work *dwork = to_delayed_work(work);
-@@ -213,6 +234,10 @@ static int rpmsg_eth_rpmsg_cb(struct rpmsg_device *rpdev, void *data, int len,
- 			break;
- 		case RPMSG_ETH_RESP_SET_MAC_ADDR:
- 			break;
-+		case RPMSG_ETH_RESP_ADD_MC_ADDR:
-+		case RPMSG_ETH_RESP_DEL_MC_ADDR:
-+			complete(&common->sync_msg);
-+			break;
- 		}
- 		break;
- 	case RPMSG_ETH_NOTIFY_MSG:
-@@ -407,10 +432,15 @@ static int rpmsg_eth_ndo_stop(struct net_device *ndev)
- 
- 	netif_carrier_off(port->ndev);
- 
-+	__dev_mc_unsync(ndev, rpmsg_eth_del_mc_addr);
-+	__hw_addr_init(&common->mc_list);
-+
- 	cancel_delayed_work_sync(&common->state_work);
- 	timer_delete_sync(&port->rx_timer);
- 	napi_disable(&port->rx_napi);
- 
-+	cancel_work_sync(&common->rx_mode_work);
-+
- 	return 0;
- }
- 
-@@ -467,10 +497,35 @@ static int rpmsg_eth_set_mac_address(struct net_device *ndev, void *addr)
- 	return rpmsg_eth_create_send_request(common, RPMSG_ETH_REQ_SET_MAC_ADDR, false);
- }
- 
-+static void rpmsg_eth_ndo_set_rx_mode_work(struct work_struct *work)
++/**
++ * Read in a folio range asynchronously through bios.
++ *
++ * This should only be used for read/readahead, not for buffered writes.
++ * Buffered writes must read in the folio synchronously.
++ */
++static int iomap_read_folio_range_bio_async(const struct iomap_iter *iter,
++		struct iomap_read_folio_ctx *ctx, loff_t pos, size_t plen)
 +{
-+	struct rpmsg_eth_common *common;
-+	struct net_device *ndev;
++	struct folio *folio = ctx->cur_folio;
++	const struct iomap *iomap = &iter->iomap;
++	size_t poff = offset_in_folio(folio, pos);
++	loff_t length = iomap_length(iter);
++	sector_t sector;
++	struct bio *bio = ctx->private;
 +
-+	common = container_of(work, struct rpmsg_eth_common, rx_mode_work);
-+	ndev = common->port->ndev;
++	iomap_start_folio_read(folio, plen);
 +
-+	/* make a mc list copy */
-+	netif_addr_lock_bh(ndev);
-+	__hw_addr_sync(&common->mc_list, &ndev->mc, ndev->addr_len);
-+	netif_addr_unlock_bh(ndev);
++	sector = iomap_sector(iomap, pos);
++	if (!bio || bio_end_sector(bio) != sector ||
++	    !bio_add_folio(bio, folio, plen, poff)) {
++		gfp_t gfp = mapping_gfp_constraint(folio->mapping, GFP_KERNEL);
++		gfp_t orig_gfp = gfp;
++		unsigned int nr_vecs = DIV_ROUND_UP(length, PAGE_SIZE);
 +
-+	__hw_addr_sync_dev(&common->mc_list, ndev, rpmsg_eth_add_mc_addr,
-+			   rpmsg_eth_del_mc_addr);
-+}
++		if (bio)
++			submit_bio(bio);
 +
-+static void rpmsg_eth_set_rx_mode(struct net_device *ndev)
-+{
-+	struct rpmsg_eth_common *common = rpmsg_eth_ndev_to_common(ndev);
-+
-+	queue_work(common->cmd_wq, &common->rx_mode_work);
-+}
-+
- static const struct net_device_ops rpmsg_eth_netdev_ops = {
- 	.ndo_open = rpmsg_eth_ndo_open,
- 	.ndo_stop = rpmsg_eth_ndo_stop,
- 	.ndo_start_xmit = rpmsg_eth_start_xmit,
-+	.ndo_set_rx_mode = rpmsg_eth_set_rx_mode,
- 	.ndo_set_mac_address = rpmsg_eth_set_mac_address,
- };
- 
-@@ -546,6 +601,13 @@ static int rpmsg_eth_probe(struct rpmsg_device *rpdev)
- 	INIT_DELAYED_WORK(&common->state_work, rpmsg_eth_state_machine);
- 	init_completion(&common->sync_msg);
- 
-+	__hw_addr_init(&common->mc_list);
-+	INIT_WORK(&common->rx_mode_work, rpmsg_eth_ndo_set_rx_mode_work);
-+	common->cmd_wq = create_singlethread_workqueue("rpmsg_eth_rx_work");
-+	if (!common->cmd_wq) {
-+		dev_err(dev, "Failure requesting workqueue\n");
-+		return -ENOMEM;
++		if (ctx->rac) /* same as readahead_gfp_mask */
++			gfp |= __GFP_NORETRY | __GFP_NOWARN;
++		bio = bio_alloc(iomap->bdev, bio_max_segs(nr_vecs),
++				     REQ_OP_READ, gfp);
++		/*
++		 * If the bio_alloc fails, try it again for a single page to
++		 * avoid having to deal with partial page reads.  This emulates
++		 * what do_mpage_read_folio does.
++		 */
++		if (!bio)
++			bio = bio_alloc(iomap->bdev, 1, REQ_OP_READ, orig_gfp);
++		if (ctx->rac)
++			bio->bi_opf |= REQ_RAHEAD;
++		bio->bi_iter.bi_sector = sector;
++		bio->bi_end_io = iomap_read_end_io;
++		bio_add_folio_nofail(bio, folio, plen, poff);
++		ctx->private = bio;
 +	}
- 	/* Register the network device */
- 	ret = rpmsg_eth_init_ndev(common);
- 	if (ret)
-@@ -562,6 +624,7 @@ static void rpmsg_eth_remove(struct rpmsg_device *rpdev)
- 	netif_napi_del(&port->rx_napi);
- 	timer_delete_sync(&port->rx_timer);
- 	unregister_netdev(port->ndev);
-+	destroy_workqueue(common->cmd_wq);
++	return 0;
++}
++
++const struct iomap_read_ops iomap_read_bios_ops = {
++	.read_folio_range = iomap_read_folio_range_bio_async,
++	.read_submit = iomap_submit_read_bio,
++};
++EXPORT_SYMBOL_GPL(iomap_read_bios_ops);
++
++int iomap_read_folio_range(const struct iomap_iter *iter,
++		struct folio *folio, loff_t pos, size_t len)
++{
++	const struct iomap *srcmap = iomap_iter_srcmap(iter);
++	struct bio_vec bvec;
++	struct bio bio;
++
++	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
++	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
++	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
++	return submit_bio_wait(&bio);
++}
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index c424e8c157dd..48626c11f3d8 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -8,6 +8,7 @@
+ #include <linux/writeback.h>
+ #include <linux/swap.h>
+ #include <linux/migrate.h>
++#include "internal.h"
+ #include "trace.h"
  
- 	dev_dbg(&rpdev->dev, "rpmsg-eth client driver is removed\n");
+ #include "../internal.h"
+@@ -526,103 +527,6 @@ void iomap_readahead(const struct iomap_ops *ops,
  }
-diff --git a/drivers/net/ethernet/rpmsg_eth.h b/drivers/net/ethernet/rpmsg_eth.h
-index 80fa07be1678..d6112cb9269a 100644
---- a/drivers/net/ethernet/rpmsg_eth.h
-+++ b/drivers/net/ethernet/rpmsg_eth.h
-@@ -58,10 +58,14 @@ enum rpmsg_eth_rpmsg_type {
- 	/* Request types */
- 	RPMSG_ETH_REQ_SHM_INFO = 0,
- 	RPMSG_ETH_REQ_SET_MAC_ADDR,
-+	RPMSG_ETH_REQ_ADD_MC_ADDR,
-+	RPMSG_ETH_REQ_DEL_MC_ADDR,
+ EXPORT_SYMBOL_GPL(iomap_readahead);
  
- 	/* Response types */
- 	RPMSG_ETH_RESP_SHM_INFO,
- 	RPMSG_ETH_RESP_SET_MAC_ADDR,
-+	RPMSG_ETH_RESP_ADD_MC_ADDR,
-+	RPMSG_ETH_RESP_DEL_MC_ADDR,
+-#ifdef CONFIG_BLOCK
+-static void iomap_read_end_io(struct bio *bio)
+-{
+-	int error = blk_status_to_errno(bio->bi_status);
+-	struct folio_iter fi;
+-
+-	bio_for_each_folio_all(fi, bio)
+-		iomap_finish_folio_read(fi.folio, fi.offset, fi.length, error);
+-	bio_put(bio);
+-}
+-
+-static int iomap_submit_read_bio(struct iomap_read_folio_ctx *ctx)
+-{
+-	struct bio *bio = ctx->private;
+-
+-	if (bio)
+-		submit_bio(bio);
+-
+-	return 0;
+-}
+-
+-/**
+- * Read in a folio range asynchronously through bios.
+- *
+- * This should only be used for read/readahead, not for buffered writes.
+- * Buffered writes must read in the folio synchronously.
+- */
+-static int iomap_read_folio_range_bio_async(const struct iomap_iter *iter,
+-		struct iomap_read_folio_ctx *ctx, loff_t pos, size_t plen)
+-{
+-	struct folio *folio = ctx->cur_folio;
+-	const struct iomap *iomap = &iter->iomap;
+-	size_t poff = offset_in_folio(folio, pos);
+-	loff_t length = iomap_length(iter);
+-	sector_t sector;
+-	struct bio *bio = ctx->private;
+-
+-	iomap_start_folio_read(folio, plen);
+-
+-	sector = iomap_sector(iomap, pos);
+-	if (!bio || bio_end_sector(bio) != sector ||
+-	    !bio_add_folio(bio, folio, plen, poff)) {
+-		gfp_t gfp = mapping_gfp_constraint(folio->mapping, GFP_KERNEL);
+-		gfp_t orig_gfp = gfp;
+-		unsigned int nr_vecs = DIV_ROUND_UP(length, PAGE_SIZE);
+-
+-		if (bio)
+-			submit_bio(bio);
+-
+-		if (ctx->rac) /* same as readahead_gfp_mask */
+-			gfp |= __GFP_NORETRY | __GFP_NOWARN;
+-		bio = bio_alloc(iomap->bdev, bio_max_segs(nr_vecs),
+-				     REQ_OP_READ, gfp);
+-		/*
+-		 * If the bio_alloc fails, try it again for a single page to
+-		 * avoid having to deal with partial page reads.  This emulates
+-		 * what do_mpage_read_folio does.
+-		 */
+-		if (!bio)
+-			bio = bio_alloc(iomap->bdev, 1, REQ_OP_READ, orig_gfp);
+-		if (ctx->rac)
+-			bio->bi_opf |= REQ_RAHEAD;
+-		bio->bi_iter.bi_sector = sector;
+-		bio->bi_end_io = iomap_read_end_io;
+-		bio_add_folio_nofail(bio, folio, plen, poff);
+-		ctx->private = bio;
+-	}
+-	return 0;
+-}
+-
+-const struct iomap_read_ops iomap_read_bios_ops = {
+-	.read_folio_range = iomap_read_folio_range_bio_async,
+-	.read_submit = iomap_submit_read_bio,
+-};
+-EXPORT_SYMBOL_GPL(iomap_read_bios_ops);
+-
+-static int iomap_read_folio_range(const struct iomap_iter *iter,
+-		struct folio *folio, loff_t pos, size_t len)
+-{
+-	const struct iomap *srcmap = iomap_iter_srcmap(iter);
+-	struct bio_vec bvec;
+-	struct bio bio;
+-
+-	bio_init(&bio, srcmap->bdev, &bvec, 1, REQ_OP_READ);
+-	bio.bi_iter.bi_sector = iomap_sector(srcmap, pos);
+-	bio_add_folio_nofail(&bio, folio, len, offset_in_folio(folio, pos));
+-	return submit_bio_wait(&bio);
+-}
+-#else
+-static int iomap_read_folio_range(const struct iomap_iter *iter,
+-		struct folio *folio, loff_t pos, size_t len)
+-{
+-	WARN_ON_ONCE(1);
+-	return -EIO;
+-}
+-#endif /* CONFIG_BLOCK */
+-
+ /*
+  * iomap_is_partially_uptodate checks whether blocks within a folio are
+  * uptodate or not.
+diff --git a/fs/iomap/internal.h b/fs/iomap/internal.h
+index d05cb3aed96e..dc6e95c93f13 100644
+--- a/fs/iomap/internal.h
++++ b/fs/iomap/internal.h
+@@ -6,4 +6,17 @@
  
- 	/* Notification types */
- 	RPMSG_ETH_NOTIFY_PORT_UP,
-@@ -220,6 +224,10 @@ enum rpmsg_eth_state {
-  * @state: Interface state
-  * @state_work: Delayed work for state machine
-  * @sync_msg: Completion for synchronous message
-+ * @rx_mode_work: Work structure for rx mode
-+ * @cmd_wq: Workqueue for commands
-+ * @mc_list: List of multicast addresses
-+ * @mcast_addr: Multicast address filter
-  */
- struct rpmsg_eth_common {
- 	struct rpmsg_device *rpdev;
-@@ -237,6 +245,10 @@ struct rpmsg_eth_common {
- 	struct mutex state_lock;
- 	struct delayed_work state_work;
- 	struct completion sync_msg;
-+	struct work_struct rx_mode_work;
-+	struct workqueue_struct *cmd_wq;
-+	struct netdev_hw_addr_list mc_list;
-+	u8 mcast_addr[ETH_ALEN];
- };
+ u32 iomap_finish_ioend_direct(struct iomap_ioend *ioend);
  
- /**
--- 
-2.34.1
-
++#ifdef CONFIG_BLOCK
++int iomap_read_folio_range(const struct iomap_iter *iter,
++		struct folio *folio, loff_t pos, size_t len);
++#else
++static int iomap_read_folio_range(const struct iomap_iter *iter,
++		struct folio *folio, loff_t pos, size_t len)
++{
++	WARN_ON_ONCE(1);
++	return -EIO;
++}
++#endif /* CONFIG_BLOCK */
++
++
+ #endif /* _IOMAP_INTERNAL_H */
