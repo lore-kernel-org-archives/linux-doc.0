@@ -1,215 +1,145 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1216131C582
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 15:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86CA3469E4
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 15:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757605963; cv=none; b=lhjDfY455eo5JYisDbX9os6rkeY3i8sq1PRPsK0g7u+xxdTK4eRTuf1cWJYNQbi91XkHOFdYsvpE59g8nd3md4Ae+Sq87Axxt/OVfpJxeoNFxDrzuFF4nLbEFylbyIRGMGNsbsu2XMEfe2bSZvD57QfzqXFw6K3lI/ay7GLKdGk=
+	t=1757606058; cv=none; b=tHkyOOKAUtlzt4XqFBiMB/WiA/9OWtcH9j9cRxJNJcWhiBN3E9yy/xe+I2CNArz1kgAy2paDsOYVexDmuzVQqj1om9x9MBGTu+jObhNG+5SquymS6VvnL3hO8rjsV7/y38o9SVLyTk9W2MqtLiMYlMN1Uph4CN07dEX3dOpLE3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757605963; c=relaxed/simple;
-	bh=foMaJCpT5aQB0DVDGayrfvczYmTKtjYQaxnfqBcxeQk=;
+	s=arc-20240116; t=1757606058; c=relaxed/simple;
+	bh=VEBRenWFNA5Gge2DB4XVJ+EG9DM8eTh9AsWwYWpd6o4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jdy2aGQyVjfK8kHhvGi7ewoQYEAH12V59HDZVh6fXo+SfYUVW8/zOI7P+1ENwLl1OSjDWudxQkddA6FCKkjyr2pjt4M71d37YUvo2nNK3gvLZ6pAj52lusefU/y0KxEYtpp8wQnlRZ2FgVqRBNTNQHwWLu1u7rtn5ghHy3IaMo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lyVGzEBJ; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=BAq/NYUPQEnAo4uOvDuaCPtB6k+HSjCqDvUFArgv++059nU7Pa5Z1euquc8BhDeimj+mD2eHYoJ+CwlgNmeAXs+IfhZ/f0PqmDgp1O8QygmSN1Virs/PYMlWfra8SGhuPEjHgdRB9O+7xlR5e0BhorhYN7hjNk2YH8v0B1VW/8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jk9cn2Lo; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lyVGzEBJ"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45ddca76f22so74795e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 08:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757605959; x=1758210759; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=foMaJCpT5aQB0DVDGayrfvczYmTKtjYQaxnfqBcxeQk=;
-        b=lyVGzEBJZWsKaIbB3apC5mC2zHl9kkzUAsPP9DKFYnMfWl8Kcl75ils8I25fa0jEdL
-         wVV3/oXxepXtxPJmiTrVkTGXe5sYtv7fyOObJ18tjr3cfnSkwOKj1doCSU+/pLI1tW6n
-         itrLyT7f9zzoVLe+e/v1sGtkT6AAn827J6GzKgp/VYcwEvoxLPEHJ418lc0pu3Omu1O1
-         Oe/mUBIjm7uc4x/erbCsV3twb4BJeAy3iik0acxe63mkytm0cPvVNc4B6iHxBFNl2bmc
-         3p7C9socHqRpVDsc8lgiFrcuCKVoSItNFESV4e2SD3IEW7qhfQtPXgCtPVDWzhYsoDFW
-         mtqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757605959; x=1758210759;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=foMaJCpT5aQB0DVDGayrfvczYmTKtjYQaxnfqBcxeQk=;
-        b=K/q21bO3f9fA4zs7UcMuVYpaa5b0Z+theaSeQsrr+cniT5uC9gbskdI9wGlQeCzlrC
-         lQCVIDsn2diTX5V8EgWQCqmCXb1DBu1f3+FoPTf7Xc9fsVLGcMSJ8o6Gcwg3Yu8BNdfD
-         G2PfodjX4BVNZX9YnTox3GSPL9+Iv7mCfxnZ6mizVOcf31CJQc+NsmRZEvpSHHowYRJV
-         1GTpo4SDPiYt38/37Rjy9oCgcHXI2QPnQx2gRj9Zq/Vnc6oentDaYqJcptwZRZPb+ncB
-         sdVt2KMBMHnGHLrlqQrS6mX2dOE4PL4iWUyJY7W0vTHMyYNEznx8/mNrsRnK7v+3y8xy
-         dujw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzzM95YzuX2sidXGp3FvLJRmgZV8MJGdGibYpznhRjRNo0zmdkfbF9a9H8VI4Xel3zMLZddDXytKc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxB4pOJDaUz3YgHYJNLsxpEUKRuJsFHB2B5IU0KOUIvMvOrx7w
-	0eyjWRjudlU4DKH+FnzAjtucavP2JkqOJaoxVk+evy3EfqGf3uB5duIJFNTQ5pSVckE3cHLKY6X
-	LZB79VJ6pd/2glfmGglV4m9Y9Yd4ZE2g2wmWZnj0e
-X-Gm-Gg: ASbGnctf6+FtV7OSk+gKE1IGJZ3gQDF2ab+nXxREhVW/X2QOQbasyMztqyPl4IRr2ov
-	bmmtJ35KY6LCQnru6vqLRM+5NXu5/Gtus4EO1g3Pka/2H3KIelDq+N8pcGfNajsYXtRnMe7Y+z1
-	pu41rC9MDPtlKYod0+NSfnH8CXwHWCaec74bD7YMZu+fuJRfWsvWsVy3SdPp7V0IT1N45EqSWjm
-	r1VLs+Vte/obYSFEwW3zjZK0SKlx5/1npo8PhRD5Wo=
-X-Google-Smtp-Source: AGHT+IFPtXGS3xfleXOqxUh4NB8MIkaUyVVSq3pObyoX2WKiKcEimPgaW/wvhaqmwPl3cn8wFgGAwaPg27+INgq99jg=
-X-Received: by 2002:a05:600c:4193:b0:45c:b621:9199 with SMTP id
- 5b1f17b1804b1-45df821ead8mr2846075e9.7.1757605959182; Thu, 11 Sep 2025
- 08:52:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jk9cn2Lo"
+X-Forwarded-Encrypted: i=1; AJvYcCUWVhBpysWf2i6ZlBOAEjdflG5bLI3RSe0felkQR8x6ffZKJWYLiptogPXdJihqRUikx+7wmOD/Pi2s@vger.kernel.org, AJvYcCWWnsD06aW+Ckluu2YPrX6e3uTdT+buHmsOn9NjfDoOkP7frCqbr2oL1d+ldvNa7x8BNIA=@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757606042;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uGts6uY/eXXZ4jOhJeaDgu9s/XIV0Y179Z31AUQ/R3I=;
+	b=jk9cn2LoLVjLxO6RLNHaiNINj8YoOx8ZhjxkuHf91KOkmtn0OSZKUSX51HoKtS//NqPHTp
+	S7Zy6dUVyujwPNUgfVrJZPeX3gzLWZ+G7ngKSHLFVdGK1zwTrjIxHEX34alPnOwQ0J9kiL
+	tMgs7ECJ5TVZeR4YTE1MpKsU3VBypHI=
+X-Gm-Message-State: AOJu0YwNE2mFEj7fjUld8q17bbjhBKS6//ZdKAHOOUbdBIP0EYjMVZsS
+	04EtlcdS9JTw6lGVtONuLS1O+eRPRmQlXkJfj76IzqWxE+9QEK2Jh/AB2lWjClDfJ5T0BLwd1j6
+	u1WxnqkH0629+IvXsMEL+68pu7oxf6eU=
+X-Google-Smtp-Source: AGHT+IG8RU5WUTbItIq64fMUvoQl7NiAmvFL95+B7zkbK88FTqWjmJTl8UIuRNKQ8Vgk15ueCOMsjt6KmiQM6iVjSCY=
+X-Received: by 2002:a17:906:dc8d:b0:b04:4de8:7c70 with SMTP id
+ a640c23a62f3a-b04b140d189mr1986469666b.14.1757606035821; Thu, 11 Sep 2025
+ 08:53:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
- <20250826-vagabond-catfish-of-courtesy-cbfa76@houat> <20250910-vigorous-attractive-gorilla-af6fec@houat>
- <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com> <20250911-didactic-authentic-cockle-e6d5fc@houat>
-In-Reply-To: <20250911-didactic-authentic-cockle-e6d5fc@houat>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 11 Sep 2025 08:52:27 -0700
-X-Gm-Features: AS18NWAeBqzBQ72YMefW3bpdVUuxd7DtaUCa6fSUYA3My40EoN0I9-kxEb7x3sc
-Message-ID: <CABdmKX1RhwgHb1EizSHUE0PHnxgXib7C8=ZWuVeCi6QetQgGSw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
-	Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org
+References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-5-laoar.shao@gmail.com>
+In-Reply-To: <20250910024447.64788-5-laoar.shao@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+Date: Thu, 11 Sep 2025 23:53:02 +0800
+X-Gmail-Original-Message-ID: <CABzRoyZQMDodwBEJwNOoJNASJBP50xMhLdvo+kKENyDKWcRAfw@mail.gmail.com>
+X-Gm-Features: Ac12FXxOxggsu2EceF8FpAM16vMzK0st5G8fBe8c1465wRynAe4bps1_2BSr7P8
+Message-ID: <CABzRoyZQMDodwBEJwNOoJNASJBP50xMhLdvo+kKENyDKWcRAfw@mail.gmail.com>
+Subject: Re: [PATCH v7 mm-new 04/10] mm: thp: enable THP allocation
+ exclusively through khugepaged
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
+	rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com, 
+	shakeel.butt@linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Sep 11, 2025 at 12:01=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+On Wed, Sep 10, 2025 at 11:00=E2=80=AFAM Yafang Shao <laoar.shao@gmail.com>=
  wrote:
 >
-> Hi TJ,
+> Currently, THP allocation cannot be restricted to khugepaged alone while
+> being disabled in the page fault path. This limitation exists because
+> disabling THP allocation during page faults also prevents the execution o=
+f
+> khugepaged_enter_vma() in that path.
 >
-> On Wed, Sep 10, 2025 at 01:44:45PM -0700, T.J. Mercier wrote:
-> > On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.=
-org> wrote:
-> > >
-> > > On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
-> > > > Hi,
-> > > >
-> > > > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> > > > > Here's another attempt at supporting user-space allocations from =
-a
-> > > > > specific carved-out reserved memory region.
-> > > > >
-> > > > > The initial problem we were discussing was that I'm currently wor=
-king on
-> > > > > a platform which has a memory layout with ECC enabled. However, e=
-nabling
-> > > > > the ECC has a number of drawbacks on that platform: lower perform=
-ance,
-> > > > > increased memory usage, etc. So for things like framebuffers, the
-> > > > > trade-off isn't great and thus there's a memory region with ECC d=
-isabled
-> > > > > to allocate from for such use cases.
-> > > > >
-> > > > > After a suggestion from John, I chose to first start using heap
-> > > > > allocations flags to allow for userspace to ask for a particular =
-ECC
-> > > > > setup. This is then backed by a new heap type that runs from rese=
-rved
-> > > > > memory chunks flagged as such, and the existing DT properties to =
-specify
-> > > > > the ECC properties.
-> > > > >
-> > > > > After further discussion, it was considered that flags were not t=
-he
-> > > > > right solution, and relying on the names of the heaps would be en=
-ough to
-> > > > > let userspace know the kind of buffer it deals with.
-> > > > >
-> > > > > Thus, even though the uAPI part of it had been dropped in this se=
-cond
-> > > > > version, we still needed a driver to create heaps out of carved-o=
-ut memory
-> > > > > regions. In addition to the original usecase, a similar driver ca=
-n be
-> > > > > found in BSPs from most vendors, so I believe it would be a usefu=
-l
-> > > > > addition to the kernel.
-> > > > >
-> > > > > Some extra discussion with Rob Herring [1] came to the conclusion=
- that
-> > > > > some specific compatible for this is not great either, and as suc=
-h an
-> > > > > new driver probably isn't called for either.
-> > > > >
-> > > > > Some other discussions we had with John [2] also dropped some hin=
-ts that
-> > > > > multiple CMA heaps might be a good idea, and some vendors seem to=
- do
-> > > > > that too.
-> > > > >
-> > > > > So here's another attempt that doesn't affect the device tree at =
-all and
-> > > > > will just create a heap for every CMA reserved memory region.
-> > > > >
-> > > > > It also falls nicely into the current plan we have to support cgr=
-oups in
-> > > > > DRM/KMS and v4l2, which is an additional benefit.
-> > > > >
-> > > > > Let me know what you think,
-> > > > > Maxime
-> > > >
-> > > > Any chance we can get this merged?
-> > >
-> > > Guys, can we move forward on this?
-> > >
-> > > Maxime
-> >
-> > Hi Maxime,
-> >
-> > Sorry I've been MIA the last couple of months.
-> >
-> > The docs for the "reusable" property say, "device driver(s) owning the
-> > region need to be able to reclaim it back", but how can a driver
-> > reclaim memory backing a dmabuf, since pages allocated for a dmabuf
-> > aren't necessarily movable. Couldn't a user allocate all of it, and
-> > refuse to close those dmabufs?
+> With the introduction of BPF, we can now implement THP policies based on
+> different TVA types. This patch adjusts the logic to support this new
+> capability.
 >
-> I guess, but how is that any different than what we're doing on the
-> default allocator already?
+> While we could also extend prtcl() to utilize this new policy, such a
+> change would require a uAPI modification.
+>
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> ---
+>  mm/huge_memory.c |  1 -
+>  mm/memory.c      | 13 ++++++++-----
+>  2 files changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 523153d21a41..1e9e7b32e2cf 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -1346,7 +1346,6 @@ vm_fault_t do_huge_pmd_anonymous_page(struct vm_fau=
+lt *vmf)
+>         ret =3D vmf_anon_prepare(vmf);
+>         if (ret)
+>                 return ret;
+> -       khugepaged_enter_vma(vma, vma->vm_flags);
+>
+>         if (!(vmf->flags & FAULT_FLAG_WRITE) &&
+>                         !mm_forbids_zeropage(vma->vm_mm) &&
+> diff --git a/mm/memory.c b/mm/memory.c
+> index d8819cac7930..d0609dc1e371 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -6289,11 +6289,14 @@ static vm_fault_t __handle_mm_fault(struct vm_are=
+a_struct *vma,
+>         if (pud_trans_unstable(vmf.pud))
+>                 goto retry_pud;
+>
+> -       if (pmd_none(*vmf.pmd) &&
+> -           thp_vma_allowable_order(vma, vm_flags, TVA_PAGEFAULT, PMD_ORD=
+ER)) {
+> -               ret =3D create_huge_pmd(&vmf);
+> -               if (!(ret & VM_FAULT_FALLBACK))
+> -                       return ret;
+> +       if (pmd_none(*vmf.pmd)) {
+> +               if (vma_is_anonymous(vma))
+> +                       khugepaged_enter_vma(vma, vm_flags);
 
-Yeah fair, it's not. I'm thinking that makes determining a size for a
-reusable driver-specified region that's always exposed to userspace a
-bit fuzzy. The requirements for the driver can probably be known, but
-for potentially unrelated allocations from userspace? The default
-ownership / file permissions for the heap would have to be changed to
-allow those non-reclaimable allocations, so maybe that's enough of an
-opt-in for such regions.
+Hmm... I'm a bit confused about the different conditions for calling
+khugepaged_enter_vma(). It's sometimes called for anonymous VMAs, other
+times ONLY for non-anonymous, and sometimes unconditionally ;)
 
-> It also has to be reusable, and will not be able to reclaim any memory
-> allocated through the heap.
->
-> > I backported this to 6.6 and ran it on a Pixel. While there are
-> > already similar out-of-tree dmabuf heap drivers that expose heaps for
-> > these reserved regions, they do more than just cma_alloc (multiple
-> > flavors of buffer securing, use case specific alignment and padding,
-> > and slightly different allocation strategies) so I don't think this
-> > series would allow us to completely drop the custom heap code, but
-> > it's a nice start.
->
-> Thanks for testing, and I totally expect more heaps coming for things
-> like protected memory, but it should indeed reduce the number of heap
-> drivers needed going forward.
->
-> > Does the cgroup part come in because the plan is to add charging in
-> > cma_heap.c?
->
-> Yes, and the system heap as well.
->
-> Maxime
+Anyway, this isn't a blocker, just something I noticed. I might try to
+simplify that down the road.
 
-Thanks,
+Acked-by: Lance Yang <lance.yang@linux.dev>
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Cheers,
+Lance
+
+> +               if (thp_vma_allowable_order(vma, vm_flags, TVA_PAGEFAULT,=
+ PMD_ORDER)) {
+> +                       ret =3D create_huge_pmd(&vmf);
+> +                       if (!(ret & VM_FAULT_FALLBACK))
+> +                               return ret;
+> +               }
+>         } else {
+>                 vmf.orig_pmd =3D pmdp_get_lockless(vmf.pmd);
+>
+> --
+> 2.47.3
+>
+>
