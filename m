@@ -1,61 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A0B266B6B
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 07:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E721C27703D;
+	Thu, 11 Sep 2025 07:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757575397; cv=none; b=Ze2qQtOVwzoFcsvu7tUzp9P2p9+zoQfZoSkvSs9HhoQYuyxeCuYwarqYdD9XJQ5fPp8i8GyqiOvUWkcw1ZG09qRfdq4tPFklO//6bvkBnuH3D0k0jThvmXl75iXJDVaWBFlPdLzoW0yylrT9CmZjx4EgDHjoxu+pqG3vSmMT0NM=
+	t=1757576480; cv=none; b=M70eJBGiz9MubSpKTHuQHuU1IM9KK8al0sZLUb23UVX+DCWuzaBy7N+WdUUCeQwJ8tzoZH6j1fzhvmziI41LsZMI3G2H7wUXa0WZhBTiy3RSG479doNOIYkFgEM5hX36j9dyS8SMIAnPLZnxhIzUUArSrFH4tuYouRo0XfstsOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757575397; c=relaxed/simple;
-	bh=CaWSZrgm1M8YqD1WcirOTRnj0ww0foEmKSgKyjrm5nU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dERZdAzBeaqLuq91B+eXuLBeql3cM7ih7cYt54RCIszu2eU11qpwBvBvBmmvKoj0pZRh87Cs1hcz7NMj4BZfOkA9VwOkJZxfpYjnsbRWtDuP82kbvbIPHsb28ZUSKqDYLN62mKo0lrb6y6UYlzMFYFyToBE2OhyAGHkjTxB2LC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AK5AFITj; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AK5AFITj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757575393;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jvuTVWNZDyZ0h579CaXBpKTLbC1d5EjG/JgIw3vY0w8=;
-	b=AK5AFITj6vTD6ad5zgR7e72QklijWJwA5yP3gE8sYfGnvcubPb/uuifs1MWNyV1jpTyeTM
-	1MloGl7MvgyKN/F4f3mcN1dV3FYfSOVo78P8hpAIf8CaMCP0yYwnv4lyLo1asHh606oymr
-	401BP2BBdgYZAKdqw5DhCFP83AqCc1A=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-625-_j9gDVGhOqqMnUc1xnhP2A-1; Thu,
- 11 Sep 2025 03:23:09 -0400
-X-MC-Unique: _j9gDVGhOqqMnUc1xnhP2A-1
-X-Mimecast-MFC-AGG-ID: _j9gDVGhOqqMnUc1xnhP2A_1757575388
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AC686180057C;
-	Thu, 11 Sep 2025 07:23:07 +0000 (UTC)
-Received: from p16v.luc.cera.cz (unknown [10.45.225.144])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9652F19560B1;
-	Thu, 11 Sep 2025 07:23:03 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase measure averaging factor
-Date: Thu, 11 Sep 2025 09:23:01 +0200
-Message-ID: <20250911072302.527024-1-ivecera@redhat.com>
+	s=arc-20240116; t=1757576480; c=relaxed/simple;
+	bh=GFT3xJ+Fkz80bqhMX6JXYUEgjypR4BJKo9su5SlKML8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jDPy77/ye+6ORnTPSNrO33fIEb+wsJMNXKdbycvT6p9KaFuwkM61NMoXEEgI+TFw/EMFljCCkWJaQI8uLtgdxrrX/8Ee99SxgH2V8gjPa66PUDs6piyLF8ijscw+kwSrfxmvHZ9k7cxLMmmio+1aTPkhPSiRR6sUZSWjpIAbU48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cMqHZ2j4yzKHLsr;
+	Thu, 11 Sep 2025 15:41:14 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id A35131A10CC;
+	Thu, 11 Sep 2025 15:41:14 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP4 (Coremail) with SMTP id gCh0CgAncY0XfcJorYmACA--.14632S5;
+	Thu, 11 Sep 2025 15:41:14 +0800 (CST)
+From: linan666@huaweicloud.com
+To: corbet@lwn.net,
+	song@kernel.org,
+	yukuai3@huawei.com,
+	linan122@huawei.com,
+	xni@redhat.com,
+	hare@suse.de
+Cc: martin.petersen@oracle.com,
+	bvanassche@acm.org,
+	filipe.c.maia@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linan666@huaweicloud.com,
+	yangerkun@huawei.com,
+	yi.zhang@huawei.com
+Subject: [PATCH v4 1/2] md: prevent adding disks with larger logical_block_size to active arrays
+Date: Thu, 11 Sep 2025 15:31:43 +0800
+Message-Id: <20250911073144.42160-2-linan666@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20250911073144.42160-1-linan666@huaweicloud.com>
+References: <20250911073144.42160-1-linan666@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,210 +52,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-CM-TRANSID:gCh0CgAncY0XfcJorYmACA--.14632S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr15Zr17CFy3Wr1UZrWDurg_yoW8JFWrpa
+	97Xa4Yk348JF1akay7J3WrAFy5uws7KrZ7Kry2k3yvqFZxJr17KF43CFZ8Xr1rta93AF4a
+	qw4UKw4kua48tF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUHj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAa
+	c4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzV
+	Aqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S
+	6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxw
+	ACI402YVCY1x02628vn2kIc2xKxwAKzVCY07xG64k0F24lc7CjxVAaw2AFwI0_Jw0_GFyl
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU16wuUUUUU
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-The DPLL phase measurement block uses an exponential moving average,
-calculated using the following equation:
+From: Li Nan <linan122@huawei.com>
 
-                       2^N - 1                1
-curr_avg = prev_avg * --------- + new_val * -----
-                         2^N                 2^N
+When adding a disk to a md array, avoid updating the array's
+logical_block_size to match the new disk. This prevents accidental
+partition table loss that renders the array unusable.
 
-Where curr_avg is phase offset reported by the firmware to the driver,
-prev_avg is previous averaged value and new_val is currently measured
-value for particular reference.
+The later patch will introduce a way to configure the array's
+logical_block_size.
 
-New measurements are taken approximately 40 Hz or at the frequency of
-the reference (whichever is lower).
+The issue was introduced before Linux 2.6.12-rc2.
 
-The driver currently uses the averaging factor N=2 which prioritizes
-a fast response time to track dynamic changes in the phase. But for
-applications requiring a very stable and precise reading of the average
-phase offset, and where rapid changes are not expected, a higher factor
-would be appropriate.
-
-Add devlink device parameter phase_offset_avg_factor to allow a user
-set tune the averaging factor via devlink interface.
-
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+Fixes: d2e45eace8 ("[PATCH] Fix raid "bio too big" failures")
+Signed-off-by: Li Nan <linan122@huawei.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
-v2:
-* optimized conversion between factor value and register value
-* more detailed parameter documentation
----
- Documentation/networking/devlink/zl3073x.rst | 17 ++++++
- drivers/dpll/zl3073x/core.c                  |  6 +-
- drivers/dpll/zl3073x/core.h                  |  8 ++-
- drivers/dpll/zl3073x/devlink.c               | 61 ++++++++++++++++++++
- 4 files changed, 89 insertions(+), 3 deletions(-)
+ drivers/md/md.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
-index 4b6cfaf386433..1988721bdfa8b 100644
---- a/Documentation/networking/devlink/zl3073x.rst
-+++ b/Documentation/networking/devlink/zl3073x.rst
-@@ -20,6 +20,23 @@ Parameters
-      - driverinit
-      - Set the clock ID that is used by the driver for registering DPLL devices
-        and pins.
-+   * - ``phase_offset_avg_factor``
-+     - runtime
-+     - Set the factor for the exponential moving average used for phase offset
-+       reporting. The DPLL phase measurement block applies this value in the
-+       following formula:
-+
-+       .. math::
-+          curr\_avg = prev\_avg * \frac{2^N-1}{2^N} + new\_val * \frac{1}{2^N}
-+
-+       where `curr_avg` is the current phase offset, `prev_avg` is the previous
-+       phase offset, and `new_val` is currently measured phase offset.
-+
-+       New measurements are taken approximately 40 Hz or at the frequency of
-+       the reference, whichever is lower.
-+
-+       The default value of this parameter is 2, and the supported range of
-+       values is <0, 15>, where a value 0 effectively disables averaging.
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index a77c59527d4c..40f56183c744 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -6064,6 +6064,13 @@ int mddev_stack_new_rdev(struct mddev *mddev, struct md_rdev *rdev)
+ 	if (mddev_is_dm(mddev))
+ 		return 0;
  
- Info versions
- =============
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index 7ebcfc5ec1f09..4f6395372f0eb 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -915,7 +915,8 @@ zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev, int num_channels)
- 
- 	/* Setup phase measurement averaging factor */
- 	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
--	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
-+	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR,
-+				     zldev->phase_avg_factor);
- 
- 	/* Enable DPLL measurement block */
- 	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
-@@ -991,6 +992,9 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
- 	 */
- 	zldev->clock_id = get_random_u64();
- 
-+	/* Default phase offset averaging factor */
-+	zldev->phase_avg_factor = 3;
++	if (queue_logical_block_size(rdev->bdev->bd_disk->queue) >
++	    queue_logical_block_size(mddev->gendisk->queue)) {
++		pr_err("%s: incompatible logical_block_size, can not add\n",
++		       mdname(mddev));
++		return -EINVAL;
++	}
 +
- 	/* Initialize mutex for operations where multiple reads, writes
- 	 * and/or polls are required to be done atomically.
- 	 */
-diff --git a/drivers/dpll/zl3073x/core.h b/drivers/dpll/zl3073x/core.h
-index 71af2c8001109..289d09fcc5c5a 100644
---- a/drivers/dpll/zl3073x/core.h
-+++ b/drivers/dpll/zl3073x/core.h
-@@ -67,19 +67,19 @@ struct zl3073x_synth {
-  * @dev: pointer to device
-  * @regmap: regmap to access device registers
-  * @multiop_lock: to serialize multiple register operations
-- * @clock_id: clock id of the device
-  * @ref: array of input references' invariants
-  * @out: array of outs' invariants
-  * @synth: array of synths' invariants
-  * @dplls: list of DPLLs
-  * @kworker: thread for periodic work
-  * @work: periodic work
-+ * @clock_id: clock id of the device
-+ * @phase_avg_factor: phase offset measurement averaging factor
-  */
- struct zl3073x_dev {
- 	struct device		*dev;
- 	struct regmap		*regmap;
- 	struct mutex		multiop_lock;
--	u64			clock_id;
- 
- 	/* Invariants */
- 	struct zl3073x_ref	ref[ZL3073X_NUM_REFS];
-@@ -92,6 +92,10 @@ struct zl3073x_dev {
- 	/* Monitor */
- 	struct kthread_worker		*kworker;
- 	struct kthread_delayed_work	work;
-+
-+	/* Devlink parameters */
-+	u64			clock_id;
-+	u8			phase_avg_factor;
- };
- 
- struct zl3073x_chip_info {
-diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
-index 7e7fe726ee37a..fe8333a2ea1ee 100644
---- a/drivers/dpll/zl3073x/devlink.c
-+++ b/drivers/dpll/zl3073x/devlink.c
-@@ -195,10 +195,71 @@ zl3073x_devlink_param_clock_id_validate(struct devlink *devlink, u32 id,
- 	return 0;
- }
- 
-+static int
-+zl3073x_devlink_param_phase_avg_factor_get(struct devlink *devlink, u32 id,
-+					   struct devlink_param_gset_ctx *ctx)
-+{
-+	struct zl3073x_dev *zldev = devlink_priv(devlink);
-+
-+	/* Convert the value to actual factor value */
-+	ctx->val.vu8 = (zldev->phase_avg_factor - 1) & 0x0f;
-+
-+	return 0;
-+}
-+
-+static int
-+zl3073x_devlink_param_phase_avg_factor_set(struct devlink *devlink, u32 id,
-+					   struct devlink_param_gset_ctx *ctx,
-+					   struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dev *zldev = devlink_priv(devlink);
-+	u8 avg_factor, dpll_meas_ctrl;
-+	int rc;
-+
-+	/* Read DPLL phase measurement control register */
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Convert requested factor to register value */
-+	avg_factor = (ctx->val.vu8 + 1) & 0x0f;
-+
-+	/* Update phase measurement control register */
-+	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
-+	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, avg_factor);
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
-+	if (rc)
-+		return rc;
-+
-+	/* Save the new factor */
-+	zldev->phase_avg_factor = avg_factor;
-+
-+	return 0;
-+}
-+
-+static int
-+zl3073x_devlink_param_phase_avg_factor_validate(struct devlink *devlink, u32 id,
-+						union devlink_param_value val,
-+						struct netlink_ext_ack *extack)
-+{
-+	return (val.vu8 < 16) ? 0 : -EINVAL;
-+}
-+
-+enum zl3073x_dl_param_id {
-+	ZL3073X_DEVLINK_PARAM_ID_BASE = DEVLINK_PARAM_GENERIC_ID_MAX,
-+	ZL3073X_DEVLINK_PARAM_ID_PHASE_OFFSET_AVG_FACTOR,
-+};
-+
- static const struct devlink_param zl3073x_devlink_params[] = {
- 	DEVLINK_PARAM_GENERIC(CLOCK_ID, BIT(DEVLINK_PARAM_CMODE_DRIVERINIT),
- 			      NULL, NULL,
- 			      zl3073x_devlink_param_clock_id_validate),
-+	DEVLINK_PARAM_DRIVER(ZL3073X_DEVLINK_PARAM_ID_PHASE_OFFSET_AVG_FACTOR,
-+			     "phase_offset_avg_factor", DEVLINK_PARAM_TYPE_U8,
-+			     BIT(DEVLINK_PARAM_CMODE_RUNTIME),
-+			     zl3073x_devlink_param_phase_avg_factor_get,
-+			     zl3073x_devlink_param_phase_avg_factor_set,
-+			     zl3073x_devlink_param_phase_avg_factor_validate),
- };
- 
- static void
+ 	lim = queue_limits_start_update(mddev->gendisk->queue);
+ 	queue_limits_stack_bdev(&lim, rdev->bdev, rdev->data_offset,
+ 				mddev->gendisk->disk_name);
 -- 
-2.49.1
+2.39.2
 
