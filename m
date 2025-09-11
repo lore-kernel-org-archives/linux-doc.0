@@ -1,220 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AFC2571B3;
-	Thu, 11 Sep 2025 06:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5121A1553A3;
+	Thu, 11 Sep 2025 07:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757573799; cv=none; b=Muxv3HKhgo1PQ9l99VWHhTsKqNpJgURm19DPdxgQcZkxMtb56rjMj0V3xTYk7/ZAGtXdeWRBYZ8ey/cnOGrl12ooogz3Elo8W8/VtLdrKLMJZ6XX9FdNy7xHiZNOviGoA5HUyUy2Q52d0pgXFZdT4jd3LlboVix5CoHwvCZIcog=
+	t=1757574087; cv=none; b=o3XpmL+auTgb//k6WLK3Tx+5XY+cfOmutxvC44/CETza+lhthTg+pMlVamgMTh02szc0f0cqyUPkmWpxrVgMzZ64WJr+MCUR7D+uYErdLELCLlAKrPoPrh4Cn+nEbw3jZ39FXKaU2xTBHAzBxau2lp9oMOcU8nIqi+8iVlg8U7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757573799; c=relaxed/simple;
-	bh=oIM7g2ij+hRTtmsTUxg3aNAIPq94pwM+yFfdyQVRgp4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ozw9c2f+QDrm3ryjsw+/4tlD48ehhDOt6woU4qXBjk5LpSkWJxSleWEpY8SW+aiW4blx3iMB29BotrttRCAqcZtmIT2SXejNF4GewUbwHaKR36FrxvNsddO6HLH1qRNw0nMtoIHRjIz6bUt3w8qXlZkMYeLmeZ/CWTTEF9V4l3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HtVN6w51; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757574087; c=relaxed/simple;
+	bh=qr122yp8JUYBZU96I18Z8ELkl5DxLXHRqTyQLe7CWAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Krk4FDfqexsK4L2B5ZrpOZy/H5qiAFvLfe2G6B7UqvQxGPzjiXge/02hcolJI6RUGT+/nURzb4F2qF4kJ9nzurLuah58GuvLM+zmEb9xlcJNBbLxSg8vkOLWCzR6+d5fwhxyt9ej0QO56tPZsZ4xQtkvNavTVfUoG+BK8dwBKAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kNGHzc5L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HtVN6w51"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BBD13C4CEF9;
-	Thu, 11 Sep 2025 06:56:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kNGHzc5L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A72C4CEF1;
+	Thu, 11 Sep 2025 07:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757573798;
-	bh=oIM7g2ij+hRTtmsTUxg3aNAIPq94pwM+yFfdyQVRgp4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=HtVN6w51yenlx8NQFda6zv2A/9DA23KXbIlqC1UuFHSj2SwSLNfrIZUgPwT+z0n+j
-	 cto1U+73uyOsymUvLGJ6wniL7SU1n4w7iuzwDU0PJ1NLQqObMjl+CdjNq3XbQ9mOlO
-	 Y6UqsIH4zCuccjMkkp422SWn87iLxUjJJplgUrYPB0OA5kgZXRpr+5K3rxr/pPqzmn
-	 g/gfY6XtIRDw2kJvwDgS+LCA0Ouw6BZTqmxN7kXEtnTef63tLiUg3X1X1UGuV7BEpf
-	 GvmRqhsKF1Hxpa5TclbFM+nyMWo1TnvOWgDCwO/pvxBH5Z5xTr/wjMb87n8yzmtQSq
-	 SmafPquHyzVRA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B11CCCAC592;
-	Thu, 11 Sep 2025 06:56:38 +0000 (UTC)
-From: Sung-Chi Li via B4 Relay <devnull+lschyi.google.com@kernel.org>
-Date: Thu, 11 Sep 2025 06:56:36 +0000
-Subject: [PATCH v6 3/3] hwmon: (cros_ec) register fans into thermal
- framework cooling devices
+	s=k20201202; t=1757574086;
+	bh=qr122yp8JUYBZU96I18Z8ELkl5DxLXHRqTyQLe7CWAE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kNGHzc5LShxDoby6w+5B0rArOpeaiVE7rVvfrO816zAUBMrrpPJ0dUr2xaf4QLWhy
+	 mY+qNgBlxPEy3zXyUFdDDnJB7hi5Du0P4X6pW0kdRkHGArzrm9yHV3/MYgsA8NDNol
+	 kmc10a26FwkUmvRqIHSernvfMzY0CdmAsh3Czgj8l9W7P7M98o4M3GihQZm0juWDRk
+	 toFJKJ3PZMpypAvEJVOGELJQc633e95pfQW2Kg002tmNI4Q1oSKL6qki07jMnup1Ke
+	 H+qB+p4h7SiSVsY56tuJxfXBJm07+J0rYDESBrULBjJSENWLQsudeVU2Kao2Bgs1zO
+	 ZqAhYn49Hv17Q==
+Date: Thu, 11 Sep 2025 09:01:24 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Davis <afd@ti.com>, 
+	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Message-ID: <20250911-didactic-authentic-cockle-e6d5fc@houat>
+References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
+ <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
+ <20250910-vigorous-attractive-gorilla-af6fec@houat>
+ <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250911-cros_ec_fan-v6-3-a1446cc098af@google.com>
-References: <20250911-cros_ec_fan-v6-0-a1446cc098af@google.com>
-In-Reply-To: <20250911-cros_ec_fan-v6-0-a1446cc098af@google.com>
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757573797; l=5416;
- i=lschyi@google.com; s=20250911; h=from:subject:message-id;
- bh=dck84HE8xEadqj5AMVaS+UMpm+4v/AhxG0nwdDKi0AE=;
- b=mNVajCQGJdiIFYhdqiYR2OqG/1lXeEbf6zST4/BPgFRx9SMdU/ddWPbQAnyA2rfjZ1kkV38aa
- gkvdBoFtPC8BUkeggHOR7fXDgNV2+A5gds8KwMgIHIXSW2R1ehiyUPX
-X-Developer-Key: i=lschyi@google.com; a=ed25519;
- pk=fBhhFxZrEyInLLODzeoq06UxQhKVqNjmZ2680pwMBCM=
-X-Endpoint-Received: by B4 Relay for lschyi@google.com/20250911 with
- auth_id=518
-X-Original-From: Sung-Chi Li <lschyi@google.com>
-Reply-To: lschyi@google.com
-
-From: Sung-Chi Li <lschyi@chromium.org>
-
-Register fans connected under EC as thermal cooling devices as well, so
-these fans can then work with the thermal framework.
-
-During the driver probing phase, we will also try to register each fan
-as a thermal cooling device based on previous probe result (whether the
-there are fans connected on that channel, and whether EC supports fan
-control). The basic get max state, get current state, and set current
-state methods are then implemented as well.
-
-Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-Acked-by: Thomas Weißschuh <linux@weissschuh.net>
----
- Documentation/hwmon/cros_ec_hwmon.rst |  2 +
- drivers/hwmon/cros_ec_hwmon.c         | 83 +++++++++++++++++++++++++++++++++++
- 2 files changed, 85 insertions(+)
-
-diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-index 355557a08c9a54b4c177bafde3743e7dc02218be..6db812708325f7abb6d319af3312b4079e6923c6 100644
---- a/Documentation/hwmon/cros_ec_hwmon.rst
-+++ b/Documentation/hwmon/cros_ec_hwmon.rst
-@@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
- the EC also supports setting fan PWM values and fan mode. Note that EC will
- switch fan control mode back to auto when suspended. This driver will restore
- the fan state to what they were before suspended when resumed.
-+If a fan is controllable, this driver will register that fan as a cooling device
-+in the thermal framework as well.
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index 9eddc554ddefde42f70c09689b64ad9e636a3020..48331703f2f50decf245805d735de39105e5f39f 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -13,6 +13,7 @@
- #include <linux/platform_device.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/thermal.h>
- #include <linux/types.h>
- #include <linux/units.h>
- 
-@@ -31,6 +32,11 @@ struct cros_ec_hwmon_priv {
- 	u8 manual_fan_pwm[EC_FAN_SPEED_ENTRIES];
- };
- 
-+struct cros_ec_hwmon_cooling_priv {
-+	struct cros_ec_hwmon_priv *hwmon_priv;
-+	u8 index;
-+};
-+
- static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
- {
- 	int ret;
-@@ -308,6 +314,42 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
- 	NULL
- };
- 
-+static int cros_ec_hwmon_cooling_get_max_state(struct thermal_cooling_device *cdev,
-+					       unsigned long *val)
-+{
-+	*val = 255;
-+	return 0;
-+}
-+
-+static int cros_ec_hwmon_cooling_get_cur_state(struct thermal_cooling_device *cdev,
-+					       unsigned long *val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+	u8 read_val;
-+	int ret;
-+
-+	ret = cros_ec_hwmon_read_pwm_value(priv->hwmon_priv->cros_ec, priv->index, &read_val);
-+	if (ret)
-+		return ret;
-+
-+	*val = read_val;
-+	return 0;
-+}
-+
-+static int cros_ec_hwmon_cooling_set_cur_state(struct thermal_cooling_device *cdev,
-+					       unsigned long val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+
-+	return cros_ec_hwmon_write_pwm_input(priv->hwmon_priv->cros_ec, priv->index, val);
-+}
-+
-+static const struct thermal_cooling_device_ops cros_ec_thermal_cooling_ops = {
-+	.get_max_state = cros_ec_hwmon_cooling_get_max_state,
-+	.get_cur_state = cros_ec_hwmon_cooling_get_cur_state,
-+	.set_cur_state = cros_ec_hwmon_cooling_set_cur_state,
-+};
-+
- static const struct hwmon_ops cros_ec_hwmon_ops = {
- 	.read = cros_ec_hwmon_read,
- 	.read_string = cros_ec_hwmon_read_string,
-@@ -386,6 +428,46 @@ static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cro
- 					CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION);
- }
- 
-+static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-+						       struct cros_ec_hwmon_priv *priv)
-+{
-+	struct cros_ec_hwmon_cooling_priv *cpriv;
-+	struct thermal_cooling_device *cdev;
-+	const char *type;
-+	size_t i;
-+
-+	if (!IS_ENABLED(CONFIG_THERMAL))
-+		return;
-+
-+	if (!priv->fan_control_supported)
-+		return;
-+
-+	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-+		if (!(priv->usable_fans & BIT(i)))
-+			continue;
-+
-+		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-+		if (!cpriv)
-+			continue;
-+
-+		type = devm_kasprintf(dev, GFP_KERNEL, "%s-fan%zu", dev_name(dev), i);
-+		if (!type) {
-+			dev_warn(dev, "no memory to compose cooling device type for fan %zu\n", i);
-+			continue;
-+		}
-+
-+		cpriv->hwmon_priv = priv;
-+		cpriv->index = i;
-+		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
-+							       &cros_ec_thermal_cooling_ops);
-+		if (IS_ERR(cdev)) {
-+			dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
-+				 cdev);
-+			continue;
-+		}
-+	}
-+}
-+
- static int cros_ec_hwmon_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -413,6 +495,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
- 	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
- 	cros_ec_hwmon_probe_fans(priv);
- 	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
-+	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
- 
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
- 							 &cros_ec_hwmon_chip_info, NULL);
-
--- 
-2.51.0.384.g4c02a37b29-goog
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="mvqneghb5gn2pldr"
+Content-Disposition: inline
+In-Reply-To: <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
 
 
+--mvqneghb5gn2pldr
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+MIME-Version: 1.0
+
+Hi TJ,
+
+On Wed, Sep 10, 2025 at 01:44:45PM -0700, T.J. Mercier wrote:
+> On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> >
+> > On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
+> > > Hi,
+> > >
+> > > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
+> > > > Here's another attempt at supporting user-space allocations from a
+> > > > specific carved-out reserved memory region.
+> > > >
+> > > > The initial problem we were discussing was that I'm currently worki=
+ng on
+> > > > a platform which has a memory layout with ECC enabled. However, ena=
+bling
+> > > > the ECC has a number of drawbacks on that platform: lower performan=
+ce,
+> > > > increased memory usage, etc. So for things like framebuffers, the
+> > > > trade-off isn't great and thus there's a memory region with ECC dis=
+abled
+> > > > to allocate from for such use cases.
+> > > >
+> > > > After a suggestion from John, I chose to first start using heap
+> > > > allocations flags to allow for userspace to ask for a particular ECC
+> > > > setup. This is then backed by a new heap type that runs from reserv=
+ed
+> > > > memory chunks flagged as such, and the existing DT properties to sp=
+ecify
+> > > > the ECC properties.
+> > > >
+> > > > After further discussion, it was considered that flags were not the
+> > > > right solution, and relying on the names of the heaps would be enou=
+gh to
+> > > > let userspace know the kind of buffer it deals with.
+> > > >
+> > > > Thus, even though the uAPI part of it had been dropped in this seco=
+nd
+> > > > version, we still needed a driver to create heaps out of carved-out=
+ memory
+> > > > regions. In addition to the original usecase, a similar driver can =
+be
+> > > > found in BSPs from most vendors, so I believe it would be a useful
+> > > > addition to the kernel.
+> > > >
+> > > > Some extra discussion with Rob Herring [1] came to the conclusion t=
+hat
+> > > > some specific compatible for this is not great either, and as such =
+an
+> > > > new driver probably isn't called for either.
+> > > >
+> > > > Some other discussions we had with John [2] also dropped some hints=
+ that
+> > > > multiple CMA heaps might be a good idea, and some vendors seem to do
+> > > > that too.
+> > > >
+> > > > So here's another attempt that doesn't affect the device tree at al=
+l and
+> > > > will just create a heap for every CMA reserved memory region.
+> > > >
+> > > > It also falls nicely into the current plan we have to support cgrou=
+ps in
+> > > > DRM/KMS and v4l2, which is an additional benefit.
+> > > >
+> > > > Let me know what you think,
+> > > > Maxime
+> > >
+> > > Any chance we can get this merged?
+> >
+> > Guys, can we move forward on this?
+> >
+> > Maxime
+>=20
+> Hi Maxime,
+>=20
+> Sorry I've been MIA the last couple of months.
+>=20
+> The docs for the "reusable" property say, "device driver(s) owning the
+> region need to be able to reclaim it back", but how can a driver
+> reclaim memory backing a dmabuf, since pages allocated for a dmabuf
+> aren't necessarily movable. Couldn't a user allocate all of it, and
+> refuse to close those dmabufs?
+
+I guess, but how is that any different than what we're doing on the
+default allocator already?
+
+It also has to be reusable, and will not be able to reclaim any memory
+allocated through the heap.
+
+> I backported this to 6.6 and ran it on a Pixel. While there are
+> already similar out-of-tree dmabuf heap drivers that expose heaps for
+> these reserved regions, they do more than just cma_alloc (multiple
+> flavors of buffer securing, use case specific alignment and padding,
+> and slightly different allocation strategies) so I don't think this
+> series would allow us to completely drop the custom heap code, but
+> it's a nice start.
+
+Thanks for testing, and I totally expect more heaps coming for things
+like protected memory, but it should indeed reduce the number of heap
+drivers needed going forward.
+
+> Does the cgroup part come in because the plan is to add charging in
+> cma_heap.c?
+
+Yes, and the system heap as well.
+
+Maxime
+
+--mvqneghb5gn2pldr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMJzxAAKCRAnX84Zoj2+
+dsvHAX9IpZOMjeU0ynWChRbSjBVdeZtylN7gZQL2xiSKdre2cCOs+EzPryzJzsTk
+tRNxMScBfAwmOazIjwKlseNgI+HDT4rryBoWdzpYERPwpsG4vLSlAqtaiPiPmf41
+ekyA/2h0Sg==
+=POxF
+-----END PGP SIGNATURE-----
+
+--mvqneghb5gn2pldr--
