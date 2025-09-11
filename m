@@ -1,84 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B7E1DA55;
-	Thu, 11 Sep 2025 21:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E9D2DEA67;
+	Thu, 11 Sep 2025 21:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757625009; cv=none; b=F9tWIP2eHFNHJ98J0TIxE0bf69wOrhFu4v9YEifQ9IZbnGE6CaPnSyGFdcnO85j+ToBFQz+VxxDczkTNUGxv3ObqLrsaeVsZOkpULR9g5QrX/tJ0nQJrhLN96E+y5iYPUzM4yszt99g9m7FqG5Pnbzv1iXWrxkx7Z1iy3vJcPUc=
+	t=1757625758; cv=none; b=M6APIx+9gCqYcTOhgY0uz54axT1XJVWjTiBrvctuiQJN7Bja/5AI/qbcsWi+bkniVvNTott8aqbYR7/dFOoD/ySy19kHtxlzgRvZgqbaDBjrLA+cWXfD29KmUWZVrMLOHZiAcrWizQRRC9oF7n9Am7Tl2AZ/KvT8Cki4j4t9AS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757625009; c=relaxed/simple;
-	bh=FWAIwdvUNs+VfhZmeFQIOIGqW4Ncymbm8d8vyNuVGS8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=mpLsZNPLpxfw/MDlS5Q3gN0EjghU3lMTHhnTSNsI6b6FXcKiRWR3VfVQNipshHAoF0SjpmFDKZ7kBXrWBTPTUafEVrZ+RyzCApwnd9hjcC2VRuuEZW3tvj1ZLwoGxT04j6G/zRRl3hv6gPE0b4+D9nzoNHkGgW/NWzVN6GF1dpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FplmLsfk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757625758; c=relaxed/simple;
+	bh=G4x8WT9IQ917qljQ8+0bEQAPkz5VVkbi0WgXNlnnUIE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mxgtQLCbof3SRflHRwwUySVCnjjAjd9XQdCwBara8d/oizscLfRTfaYkDg2kWJPsilkgYWa5ItPKUVBXYh5hAFSnZZDKPXGipu1kEyWeYi8WoSYD4G7m0VqyCVQPCF4fYmzHJBLpOOnforzPNPvBoqb/LNCtmHX2XR6O1i9N5So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WC3z9Hpw; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FplmLsfk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F15C4CEF0;
-	Thu, 11 Sep 2025 21:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757625009;
-	bh=FWAIwdvUNs+VfhZmeFQIOIGqW4Ncymbm8d8vyNuVGS8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=FplmLsfkxuXgfgIOHwCvJaT7xutHU5WD0di9Z3x4y/6ZL34TIoaEVKe6yiCl1BUYS
-	 a6GWUFSo4j8agHzN7y4kmEC3Wv/dx14PKZIrGVdXCcbX2XbAe46n9Lowx0DeZUx5uw
-	 2MlAwXjKCnMvy2/79OZxS4WWh6U67eKYv8vFuRLSAxqe3a/UmQkbr7+/2SjqGyVekW
-	 w51tQ+FupG6pfbe90V8nLF416Ay+n5/Bo78QTmq6mwmGazczGy4FQlMOt5gwZGUr0j
-	 /ue07EIyQk6FEGVo1njEE1+p1e0XHmssMHdYvlDU3W8LRxgsX0rNmiKkfM6ipYPrpy
-	 H4B0htgTvETzg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70FC0383BF69;
-	Thu, 11 Sep 2025 21:10:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WC3z9Hpw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IVAYyMQ+cK3zA3EOneonkoIunE31Alk/hAhkIFvp5ZA=; b=WC3z9Hpwg06RkDRN9UoWSLMKw+
+	1NZdFQNg+SOsv/W0WHi2Ca64Pgrvv6WlfFsc9HDsiE+o9J+H60UqpbcdKVQshA/2r3YjGbhoTHRQV
+	rYpix/zDovTtt0QqINGPfIAHJSAWboKxm5HgDkcWQSC18dru5qVxHgCkx5znyzj5LJ6I07skuNg6w
+	a0h+ZloMfspsNhgX61I18ygcSMXaJ2SWu83D/TC5U06KPatGue0Sv5v0ylDeZfK4/As3YOx5mOKKE
+	ncSSXvP5zMKV9Z5Kk5OeRO8zb/O1DzucwpEau44eHQAYTQYio+lShoyHcNEc33mkRyn/SKcTWz9Ns
+	msVGv2SQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uwokT-00000005Qji-0ReA;
+	Thu, 11 Sep 2025 21:22:33 +0000
+Message-ID: <cfeacf42-c489-4b84-a21a-3cd126759cfc@infradead.org>
+Date: Thu, 11 Sep 2025 14:22:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCHv5 iproute2-next] iplink: bond_slave: add support for
- actor_port_prio
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175762501226.2314970.10917315881007643115.git-patchwork-notify@kernel.org>
-Date: Thu, 11 Sep 2025 21:10:12 +0000
-References: <20250902064738.360874-1-liuhangbin@gmail.com>
-In-Reply-To: <20250902064738.360874-1-liuhangbin@gmail.com>
-To: Hangbin Liu <liuhangbin@gmail.com>
-Cc: netdev@vger.kernel.org, jv@jvosburgh.net, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, shuah@kernel.org, corbet@lwn.net, petrm@nvidia.com,
- amcohen@nvidia.com, vladimir.oltean@nxp.com, stephen@networkplumber.org,
- dsahern@gmail.com, jonas.gorski@gmail.com, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/Documentation: explain LINUX_EFI_INITRD_MEDIA_GUID
+To: Hugo Osvaldo Barrera <hugo@whynothugo.nl>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Ard Biesheuvel <ardb@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux EFI <linux-efi@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+References: <20250910015738.14848-2-bagasdotme@gmail.com>
+ <CAMj1kXHCi1pr3XNzwe7b7EFBkPGjkppeNWNSvy4wU1VBHj9kfA@mail.gmail.com>
+ <c30fb598-2878-4bdd-ab84-4f4d07d0db5d@app.fastmail.com>
+ <aMK3h1zvHc0sK-F3@archie.me>
+ <073bbd39-5173-4f6d-b9a6-0e4259959551@app.fastmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <073bbd39-5173-4f6d-b9a6-0e4259959551@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello:
+Hi,
 
-This patch was applied to iproute2/iproute2-next.git (main)
-by David Ahern <dsahern@kernel.org>:
-
-On Tue,  2 Sep 2025 06:47:38 +0000 you wrote:
-> Add support for the actor_port_prio option for bond slaves.
-> This per-port priority can be used by the bonding driver in ad_select to
-> choose the higher-priority aggregator during failover.
+On 9/11/25 5:16 AM, Hugo Osvaldo Barrera wrote:
 > 
-> Signed-off-by: Hangbin Liu <liuhangbin@gmail.com>
-> ---
-> v5: rename port in ad_select_tbl to actor_port_prio
-> v4: no update
-> v3: rename ad_actor_port_prio to actor_port_prio
-> v2: no update
 > 
-> [...]
+> On Thu, 11 Sep 2025, at 13:50, Bagas Sanjaya wrote:
+>> On Thu, Sep 11, 2025 at 01:22:54PM +0200, Hugo Osvaldo Barrera wrote:
+>>> On Thu, 11 Sep 2025, at 08:46, Ard Biesheuvel wrote:
+>>>> On Wed, 10 Sept 2025 at 03:58, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>>>> +.. _pe-coff-entry-point:
+>>>>> +
+>>>>> +PE/COFF entry point
+>>>>> +===================
+>>>>> +
+>>>>> +When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
+>>>>> +regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
+>>>>> +implementation details.
+>>>>> +
+>>>
+>>> This should be a link rather than a path to the source file.
+>>
+>> I think you miss the point of Jon's comment on your original submission [1].
+>> Long story short, in Sphinx, one would cross-reference to other documentation
+>> files (so-called internal linking) either with :doc: or :ref: directives. In
+>> case of kernel docs, there is third and preferred way: simply mentioning the
+>> full docs path. The latter is preferred as it is simpler and also allows
+>> building only portion of docs (with make SPHINXDIRS=<dir>) without triggering
+>> any reference warnings. Hence why I did addressing his comment.
+>> For more information, see Documentation/doc-guide/sphinx.rst.
+>>
+> 
+> The RST files are source files to produce documentation in HTML and PDF. If you
+> write the path to another source file, the resulting HTML files don't have
+> any link and the reference is completely lost.
+> 
+> Given the path Documentation/admin-guide/efi-stub.rst, if I'm looking at
+> https://www.kernel.org/doc/html/latest/arch/x86/boot.html, I'd have on idea
+> where this path is pointing me to.
 
-Here is the summary with links:
-  - [PATCHv5,iproute2-next] iplink: bond_slave: add support for actor_port_prio
-    https://git.kernel.org/pub/scm/network/iproute2/iproute2-next.git/commit/?id=41b981c133a0
+I applied the original patch from Bagas. I'm looking at
+arch/x86/boot.html. It shows me:
 
-You are awesome, thank you!
+1.16. PE/COFF entry point
+
+  When compiled with CONFIG_EFI_STUB=y, the kernel can be executed as a regular PE/COFF binary. See The EFI Boot Stub for implementation details.
+
+where "The EFI Boot Stub" is (in my browser) in blue and underlined and is a link to
+admin-guide/efi-stub.html
+
+
+Is this what you are saying will not happen or am I
+completely confused?  Kernel documentation automarkup handles
+Documentation/.../*.rst file links automatically.
+
+
+
+> WRT Jon's comment on the original submission, I do agree that the label
+> is unnecessary, since we can link to the page directly without a label at
+> the top.
+
+Thanks.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+~Randy
 
