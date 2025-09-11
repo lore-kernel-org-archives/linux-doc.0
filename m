@@ -1,160 +1,108 @@
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993DF27A454;
-	Thu, 11 Sep 2025 20:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E96B2D7DD1;
+	Thu, 11 Sep 2025 20:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757624262; cv=none; b=qTC8KQlYOcz/J69+d4CQrRIXvdpZMqqFmTZVFk78xGIlNEvpvUi/c9tNBLG853xy+CO9uND3PcAIMhiDe/ncgFeAL9CXQWqNoj59lQV6E/i8jLS6V8hJmvK5kb8OYswbzaxZM6qjvHYnDsj0LrpmMOwdNs1U4wn2Z4oNefIBesk=
+	t=1757624306; cv=none; b=aSPhxaSFuSEWLeTXIgJaqU4+1BlzCBYAxrBhc8jKSrFto9XSOWTwoulMTZUde6Z/7K49SR7BnCGtsck4QDuLuEMYtp43/u1+LPZwAKjUizlZzal4Wlgj+Fj32lwl31obLv+sfTiRyg5wR5stAsavqka3tY/FnzqkShFx4jl7+40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757624262; c=relaxed/simple;
-	bh=bSsPa9XEyW8z/su++j6tQWWmZoPbZWL/uldiO/VimDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ld77nKsQP3eIAmXFVSo6G/iAwE7765ERfIFlrABO4kAB/uWn+jV5GMnQhyOse6JFYL8KXl62RSiwheuS35anfJ5yLP0ezlKOsyA1BZndOO+4c01kDgHC3rHCp3a35AIQG66SIvHKLN5fpka0HHFmlVMNVAwN2q7vT/41xen2nd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=cSQfZyXH; arc=none smtp.client-ip=148.163.147.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+	s=arc-20240116; t=1757624306; c=relaxed/simple;
+	bh=9xTFYBpfVXgAIAe+xeFobNHCnzAp2klE/GvShxlxQmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OGkktsSe4URgDACTNUC80XpHiqjZvIHUBZ7LWp1YT8/iHnrhz8BooVtFpN2AaO0YbS18MjVYPi3o5+sJ/Bnl+P0p2c1AJP8r/1x+huyjvkF8lUFSd6upkoxV1u6b8LNZdO3f861BBpg2eiQYL8d02Ol7EoNoMMVXLO22y2dR+ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Z8Nvya0A; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="cSQfZyXH"
-Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
-	by mx0a-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BFINgC007212;
-	Thu, 11 Sep 2025 20:56:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps0720; bh=J0ID9F64YdLXnEJhVLSOMHkdqi
-	2X6q7O8dZhA/oVjxI=; b=cSQfZyXHw97+qAk5GLrVBgwewFdz885Cteb9qF6kZC
-	cl0B/IlTfIYZlYVAQL80a6ViC3RMb7LwXyVxWpyeUQW2ZjFRH89J7JwZPy7swLK8
-	bfJdi8MluU5znLPe19N6KRAHsTlRVjl9hc2fwjmchGWfXeicxabPj8CO4JJ95aRV
-	D+zFfqrdQw7/J2i1jmRyxhcTzHsKKP8MGvlaz9Bm3J2WYbe576VycumLp3m3y7wL
-	cmgGV0a94bE4YbFXaAsE3e48TESw/6B8qRdJ7MM59bacGyVJ3D/ggJqoVo67Ocpm
-	Hq8fo4AFsLG/i0MW3vGgTuCEWf3aENH+ykwjbcc2Wq1Q==
-Received: from p1lg14879.it.hpe.com ([16.230.97.200])
-	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 493p9xfpef-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Sep 2025 20:56:34 +0000 (GMT)
-Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by p1lg14879.it.hpe.com (Postfix) with ESMTPS id 206FD132D3;
-	Thu, 11 Sep 2025 20:56:32 +0000 (UTC)
-Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id 708208118D1;
-	Thu, 11 Sep 2025 20:56:28 +0000 (UTC)
-Date: Thu, 11 Sep 2025 15:56:26 -0500
-From: Kyle Meyer <kyle.meyer@hpe.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
-        corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org,
-        Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org,
-        jack@suse.cz, jane.chu@oracle.com, jiaqiyan@google.com,
-        joel.granados@kernel.org, laoar.shao@gmail.com,
-        lorenzo.stoakes@oracle.com, mclapinski@google.com, mhocko@suse.com,
-        nao.horiguchi@gmail.com, osalvador@suse.de, rafael.j.wysocki@intel.com,
-        rppt@kernel.org, russ.anderson@hpe.com, shawn.fan@intel.com,
-        surenb@google.com, vbabka@suse.cz, linux-acpi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] mm/memory-failure: Disable soft offline for HugeTLB
- pages by default
-Message-ID: <aMM3elPmG1MdUNrJ@hpe.com>
-References: <aMGkAI3zKlVsO0S2@hpe.com>
- <749511a8-7c57-4f97-9e49-8ebe8befe9aa@redhat.com>
- <aMMNVA9EXXHYvmKH@agluck-desk3>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Z8Nvya0A"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=0qy55m6NltHy97e3BgE53LDGV8tmJEWe7HuI0Fh9fMU=; b=Z8Nvya0A5h9hSajXA7XhLa9YNA
+	QznMZ9P5uW4O+XyH9XMxoco14sEFcjkDwyxUJygW9N3DquMGnIX6CPuHYhFFxp+hjeAXvsm/eZWzJ
+	oh9q5JXsCQSQnuFocm241p2ZLwpgI+LENLStiQlj9eMaCe29iy8gW2XTTAsw4VEPJg76mIVhcSktQ
+	MhzchP7Hbft3zhwnkDSGjCoF25c1SpfIjSDAXI1U60vAMzwAV8EJzka/VlUSFaymc3I/4eadTfkCq
+	E2AbrSPZxbho7Gtdtrh8tnL7G77PQTHysIq5t/lf+PGHytQ5vGmyicqgXKIWNv3ala9/xIhf+Xtd7
+	/G5j8JXQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uwoN4-00000005LTR-0IIn;
+	Thu, 11 Sep 2025 20:58:22 +0000
+Message-ID: <8be02c33-b659-4999-8408-2bd939009e82@infradead.org>
+Date: Thu, 11 Sep 2025 13:58:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aMMNVA9EXXHYvmKH@agluck-desk3>
-X-Proofpoint-ORIG-GUID: Ethw6hHnLfczx3VAEZBXc-08gscPDyGN
-X-Proofpoint-GUID: Ethw6hHnLfczx3VAEZBXc-08gscPDyGN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTExMDAyNiBTYWx0ZWRfXyI2+SdrKv+fr
- J09MeyCR3Ioip+tv+DaUAAlfVfIk22LrAWmlkzH/QV5q4UAWPgfHNFOl4+ub//1Adee37pHPb4b
- 764zMHo5pXXt1CcHaobNJvfMfwFmUUV/nH/D82/1aTPO6jutWA9MvX8an2UNfGrfTzL9DSk8XRW
- WdZT5V1erw/xxDMTunGIMHe9T2MS+FKEBZCOwsxI4yn8gC3OcGhueHg0cu+lqePY9/N+YX888Hk
- 3sUbWytd+nDRfz/JfHwjdEa8Usy/cqfyazlCUsltcgMUe3O7HboftW1ebSfQdBIJZ49UPQ+CDK2
- gt4/eks53CHvrIBOELJSndItTN1QUeIx7bgqpZ1GHhLx5QsJwOy/K+Q1x9blJwm1hm8x2x3EJNQ
- nmqPYiXa
-X-Authority-Analysis: v=2.4 cv=Ke/SsRYD c=1 sm=1 tr=0 ts=68c33782 cx=c_pps
- a=5jkVtQsCUlC8zk5UhkBgHg==:117 a=5jkVtQsCUlC8zk5UhkBgHg==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=e0XSXhz86abGffj2R7MA:9
- a=CjuIK1q_8ugA:10
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-11_03,2025-09-11_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 malwarescore=0 adultscore=0 clxscore=1015
- phishscore=0 bulkscore=0 impostorscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509110026
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/11] PCI: Improve Resizable BAR functions kernel doc
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
+ <20250911075605.5277-5-ilpo.jarvinen@linux.intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250911075605.5277-5-ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 11, 2025 at 10:56:36AM -0700, Luck, Tony wrote:
-> On Thu, Sep 11, 2025 at 10:46:10AM +0200, David Hildenbrand wrote:
-> > On 10.09.25 18:15, Kyle Meyer wrote:
-> > > Soft offlining a HugeTLB page reduces the available HugeTLB page pool.
-> > > Since HugeTLB pages are preallocated, reducing the available HugeTLB
-> > > page pool can cause allocation failures.
-> > > 
-> > > /proc/sys/vm/enable_soft_offline provides a sysctl interface to
-> > > disable/enable soft offline:
-> > > 
-> > > 0 - Soft offline is disabled.
-> > > 1 - Soft offline is enabled.
-> > > 
-> > > The current sysctl interface does not distinguish between HugeTLB pages
-> > > and other page types.
-> > > 
-> > > Disable soft offline for HugeTLB pages by default (1) and extend the
-> > > sysctl interface to preserve existing behavior (2):
-> > > 
-> > > 0 - Soft offline is disabled.
-> > > 1 - Soft offline is enabled (excluding HugeTLB pages).
-> > > 2 - Soft offline is enabled (including HugeTLB pages).
-> > > 
-> > > Update documentation for the sysctl interface, reference the sysctl
-> > > interface in the sysfs ABI documentation, and update HugeTLB soft
-> > > offline selftests.
-> > 
-> > I'm sure you spotted that the documentation for
-> > "/sys/devices/system/memory/soft_offline_pag" resides under "testing".
+Hi,
+
+On 9/11/25 12:55 AM, Ilpo Järvinen wrote:
+> Fix the copy-pasted errors in the Resizable BAR handling functions
+> kernel doc and generally improve wording choices.
 > 
-> But that is only one of several places in the kernel that
-> feed into the page offline code.
+> Fix the formatting errors of the Return: line.
 > 
-> This patch was motivated by the GHES path where BIOS indicates
-> a corrected error threshold was exceeded. There's also the
-> drivers/ras/cec.c path where Linux does it's own threshold
-> counting.
-> > 
-> > If your read about MADV_SOFT_OFFLINE in the man page it clearly says:
-> > 
-> > "This feature is intended for testing of memory error-handling code; it is
-> > available  only if the kernel was configured with CONFIG_MEMORY_FAILURE."
+> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+>  drivers/pci/rebar.c | 29 ++++++++++++++++++-----------
+>  1 file changed, 18 insertions(+), 11 deletions(-)
 > 
-> Agreed that this all depends on CONFIG_MEMORY_FAILURE ... so if any
-> part of the flow is compiled in when that is "=n" then some
-> changes are needed to fix that.
-> 
-> > 
-> > So I'm sorry to say: I miss why we should add all this complexity to make a
-> > feature used for testing soft-offlining work differently for hugetlb folios
-> > -- with a testing interface.
+> diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
+> index 020ed7a1b3aa..64315dd8b6bb 100644
+> --- a/drivers/pci/rebar.c
+> +++ b/drivers/pci/rebar.c
+> @@ -58,8 +58,9 @@ void pci_rebar_init(struct pci_dev *pdev)
+>   * @bar: BAR to find
+>   *
+>   * Helper to find the position of the ctrl register for a BAR.
+> - * Returns -ENOTSUPP if resizable BARs are not supported at all.
+> - * Returns -ENOENT if no ctrl register for the BAR could be found.
+> + *
+> + * Return: %-ENOTSUPP if resizable BARs are not supported at all,
+> + *	   %-ENOENT if no ctrl register for the BAR could be found.
 
-I would also like to note that the current sysctl interface already affects
-testing interfaces. Please see the following commit:
+These 2 lines will run together in the (html) output. They could be
+made "prettier" (IMO) into a 2-item list if you choose:
 
-56374430c5dfc ("mm/memory-failure: userspace controls soft-offlining pages")
+ * Return:
+ * * %-ENOTSUPP if resizable BARs are not supported at all
+ * * %-ENOENT if no ctrl register for the BAR could be found
 
-The sysctl interface should probably be mentioned in
-sysfs-memory-page-offline with or without this patch.
 
-Thanks,
-Kyle Meyer
+>   */
+>  static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
+>  {
+
+-- 
+~Randy
+
