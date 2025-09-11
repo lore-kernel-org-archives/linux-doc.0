@@ -1,73 +1,72 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E201430E832
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 10:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046BF30FC06
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 10:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757585911; cv=none; b=lB0LDWZlhwU48xumUWxJGeAy8UbfPllHG7lHwTlKQ6Zvu+NAI13kxOP5DBKb332FAUtV+bvZpSr+3M/+KI/uzLja33s9DIF6NNOXeyB8h/tRLme8OZatrPW7Jep1Oa1/0f1hJI26nogGwzdH2IjetzX4DA8Ecr6ZBCqE8L8hfDs=
+	t=1757586225; cv=none; b=GaDl/8gqw+rJgjoDgAR7P+128Z88Z0Hh/MotCq0xs2zGM251vUb1FV/VqGBarlgl3cSQ6v+NAGrhqx4tXbvekzEtxMvlYxJfiFpXOAjw+lBntYssh4KSnJ5f4jzeyMG8VbC+zGDt08ivxGPACCUXk7fJqF+dhbcMqLRcDQIdRAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757585911; c=relaxed/simple;
-	bh=b8kOCoUNiju/FWlmhh2Efh6jL8KK7YKRK8N0sSL+ihY=;
+	s=arc-20240116; t=1757586225; c=relaxed/simple;
+	bh=ukn8wxXXJttJe0inA/6JoLw4EvA5oymvYI6Xf/Ei0M0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RQJ9pW1BFLIOyW1irlQK4LnUGUnGrn7FTgSI+KKZ73Ae0CULbKLLtewTEprwheYH/k7sVQxCQjXhP4KR7UHeFRLwkIrm5OS3Y0IkdIsFgbzEWsQNuj1b1svnjKmuVz3rhA4i2SPQ7JenOmVei3NhrP5q98yTZSqRijtKLYjh1ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zd/CHr04; arc=none smtp.client-ip=209.85.219.50
+	 To:Cc:Content-Type; b=tRZn4TwuBGdoN80/m+EEx3WfkduMKSfNv233wz5hTC5HzlImU3LGq+9D/k+NnmXqss9hMcW2ftX54ukmg4Lplowqmkp+W9+9rbZY+V8hK36h+/nrWvbOY5rWZzVAOmCPYo4f2HpyTpukth4JjBzvbJelJVtLQvf22LljIbUPXwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1So9rSBm; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zd/CHr04"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-721c6ffab58so4706706d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:18:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1So9rSBm"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8173e8effa1so33874585a.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757585909; x=1758190709; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1757586223; x=1758191023; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b8kOCoUNiju/FWlmhh2Efh6jL8KK7YKRK8N0sSL+ihY=;
-        b=Zd/CHr04NiV8NK/uaWUmoo6yfow/Cm0ZQqeugNK/LjKfDLdzQSmpFAYY9SDXNibLYe
-         IHyaFVfLCp0VKbQZ+lsvYirwfOp6F5tBBVsAsjb/3lrtPf9W2Vc++e19PWYXIrS7v3eP
-         psh6KU0eZsU5vQ698A5+vN9NAkA6YdzJwTqvolvRWF8TI/3OC1lbSHrQGkqvrLvRpRIR
-         5LrWSTomqCnvN8BOPQn9yW1VYHfGRf2+uJs++Kg/o73obEGTwlg8keD793Z8OG11Ot8w
-         jjkqgYFTCmoQwkBoUXGSi9ffUqopG843/7ZrdJXLqVup9U8qQlF8mZXUdslGaeR+H5FT
-         p+4A==
+        bh=nHnZCYEfRxnGmMFHuhxex5pyTO1Gc8zq/OjkEGwsVds=;
+        b=1So9rSBmXScebmIV9UhHdJ9t5sKNYZV8nzCaxBsiujwU50cMy3av9JnjY3Tquh41pA
+         N4eXIad6ohoJRUQdhpEdut0i5tTFH64GXud5j/0fx97KQmlzu9FgTDpfUVAJIUlqmOrM
+         PX9a2JsT1w5Jp2VmV87vlPNPTqcEajJorxtrUO00V9B5/Ufi1KADhKLxrEOoYQLIlKdJ
+         4ppcYV6UGOz9yDwU9Fr2SEDVUi0GgXbEI1VvaJBvfDtGbOz3SDl22z8ObsH1HfFaEa+d
+         3CV2GYPOuMzTQvTVhxCOTJ6OdpI2NU9Zuf4ccno1h5YB2wwPEU1RsC9PGHAAh26sPqal
+         5PwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757585909; x=1758190709;
+        d=1e100.net; s=20230601; t=1757586223; x=1758191023;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b8kOCoUNiju/FWlmhh2Efh6jL8KK7YKRK8N0sSL+ihY=;
-        b=SReJ4fuEL378vpA8eEBAM3/A0YD92fhRblTEIDpStFtRFxXt50XtCmCDw0MnfdPBIc
-         37Z8j5J6cgWCy76EeiY9s6wJbXC+h6bH6tri9sO1PiSPJle+yve7adHjwxzI9skSguNR
-         MSYUdfqgH0JLT+NNfZgC6JUftkKs2QlBEt0SXSoBbasZ7kFJKSiy52W4l94ZHdkY7seH
-         Dy3OkavM5bQkuw87PvW5NcXNJPmGKQE+3Hd2dmaflEHnEwn2bhlA8fKQPG9qAGhaoXKJ
-         WjDI/JyqFY4lSEnTn5UDhii1eUA5j8K8akPc4UiBZyhvB8mB7hSMM/kIJ7DErlcQ+vu/
-         Gq4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXGumTulxz0bWGcmT60xvc21gBaathma61PXVI2dJ460JzF/wLfxkgj1EfGSX8UPDYcLgBC1bJT5xM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMMqUl2ETjLlCeWeTjkUI6nO4oEDU0BL5/xhqN7xTnwMl/+QT4
-	WPCwmT0vIpyvNvk5n551e91H6FCzLNSBSUhUJsuTA6AU08WzNReKONLADouIkSNjgJDb65jkxAk
-	YBuE84RX/lVw9ANphaIVTbmVTt/cfneLA29uzceql
-X-Gm-Gg: ASbGnctnsEJ9Bd1kBlovJjRbp7sO2Htg+DLrVFPXJBbtTz1DBw1cqO2cyvtT3cN68ZB
-	RyljwxGu6qAWgBstdeP4l+nE7jrP4+QGu753+GfXqm6pujV7BlosGCQTk4nxP2oXh8KIFyYv3NJ
-	/Aby001IgaVAu9Akq+YX1/sg/rR3OXU07wlqIjSYBzVg+XotYZo0wAIyX0IdHDuTSxZ2XdNJ91Q
-	/zxKQ8fvcUL0d9MUbvE1Apt+wmEJIE7IgI=
-X-Google-Smtp-Source: AGHT+IEqQMhkVh/lYGalDwkpiYZ6f35/G1vtOQ2l6IDxuZ/NsAD8i3LfdKsGnA8/soxwk9WffOfYsUldgmrLaRipwNs=
-X-Received: by 2002:ac8:5e49:0:b0:4b5:e822:36e0 with SMTP id
- d75a77b69052e-4b5f839047fmr204347991cf.12.1757585908196; Thu, 11 Sep 2025
- 03:18:28 -0700 (PDT)
+        bh=nHnZCYEfRxnGmMFHuhxex5pyTO1Gc8zq/OjkEGwsVds=;
+        b=IkHAZpeUfjnLPvuH5TOZitKiG5L45YnpXJ92V47X49ddDyWpacEeh+8dSFBys5TCOY
+         99CVlMPEG2XiJQGGOm7RKal1JdHJiPennhPxI2lXm7bbq1pl8h1L+PMyKgGSQxgkjPjM
+         frFhQKhottKO5tMrCdY1Z0l8zR9Sp/DKq2jreWKV6T8+BhRU6fu7sQ2GzSF9D2IQFno+
+         u/+OFGIEUigPhswXzDFN+VVSgDejVAo44h2F4bJi2BqyjdqrD4TNZr0iXb7fnJHy7p7C
+         gs2yda0U+rCmRd9HXHgrFhyNYC7GtcL1EcMl6ZW4UyzNhEUsjz/p/dh5Zt1ca4gHEG1T
+         skMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWm7X/Q6qBbVH90SzWLPDgondzMOdoCYdyLGfM0nmtnS4bXtlEtzNMa82kjLQvsGqn3Od47EVz+7JA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlOAuXNH0tb3oMCpNf2VZpF71JPTYza0jmoI98jXkIIMJaWCrf
+	NBwLzjO9etX9XzvGaY6/4ghtj56tlhrGTnx99EoJFshWIqhHF8CvT2stV/HOZvOwJ5e91Xgbk+Y
+	4u8eePByA2p3wtnDeKwntrg7Ba6KQ1Dte6oRsXipL
+X-Gm-Gg: ASbGncu90NTXuaACm7Mx6VxtI4/8Ik0R28wsWgEe06vbobtYxsoGRVWWmzHBHDxjvHQ
+	R2lW3Qr66qt8pgZ0ewxqAVTRuuIG0o4JXWVhJjnZw/wCW81tIUP7kfK+5QYz60RsWeNo0otSqBB
+	Stdqk+asAT9YWFZikokN+uu3RO7ybhFee3MjTPNfNIilnccH6Ed1KjnwB1R4vxPbGB7FE/R4/qt
+	OYoE4PCsgYYxaGeW0VfKU6V
+X-Google-Smtp-Source: AGHT+IGgK8q4SNrpdQUJbe38ZudlYHbCzwzu4yMycJPq+zayMUYl4Bx38d6dAEyRQo0OxNalegvGHWF/qhqKliKmXlE=
+X-Received: by 2002:a05:620a:370e:b0:80e:455:941c with SMTP id
+ af79cd13be357-813c4347e16mr2301175385a.75.1757586222335; Thu, 11 Sep 2025
+ 03:23:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250908173408.79715-1-chia-yu.chang@nokia-bell-labs.com> <20250908173408.79715-9-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20250908173408.79715-9-chia-yu.chang@nokia-bell-labs.com>
+References: <20250908173408.79715-1-chia-yu.chang@nokia-bell-labs.com> <20250908173408.79715-11-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20250908173408.79715-11-chia-yu.chang@nokia-bell-labs.com>
 From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 11 Sep 2025 03:18:17 -0700
-X-Gm-Features: Ac12FXyMpCAA7q3vBOdalZhfapQxJhqhSZEIpQwkhEKdjvw-ONLg3xPKC40oLaw
-Message-ID: <CANn89i+2=bNkkf89RysrYxb9DW0Vw9+jSg7FotqtaHZa7tmerA@mail.gmail.com>
-Subject: Re: [PATCH v17 net-next 08/14] tcp: accecn: AccECN needs to know
- delivered bytes
+Date: Thu, 11 Sep 2025 03:23:31 -0700
+X-Gm-Features: Ac12FXyvUxriD3hjoGqqSHZZuY5KfMXoGHwV4vpzThNN3yobS1kkx_rd_GW-OVw
+Message-ID: <CANn89i+LVRbmGq8Ft3WrsCoQmP8YfMYLM8-NQbaVT2bXnCWQ3g@mail.gmail.com>
+Subject: Re: [PATCH v17 net-next 10/14] tcp: accecn: AccECN option
 To: chia-yu.chang@nokia-bell-labs.com
 Cc: pabeni@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net, 
 	horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org, 
@@ -88,17 +87,117 @@ On Mon, Sep 8, 2025 at 10:34=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.com>=
 >
 > From: Ilpo J=C3=A4rvinen <ij@kernel.org>
 >
-> AccECN byte counter estimation requires delivered bytes
-> which can be calculated while processing SACK blocks and
-> cumulative ACK. The delivered bytes will be used to estimate
-> the byte counters between AccECN option (on ACKs w/o the
-> option).
+> The Accurate ECN allows echoing back the sum of bytes for
+> each IP ECN field value in the received packets using
+> AccECN option. This change implements AccECN option tx & rx
+> side processing without option send control related features
+> that are added by a later change.
 >
-> Accurate ECN does not depend on SACK to function; however,
-> the calculation would be more accurate if SACK were there.
+> Based on specification:
+>   https://tools.ietf.org/id/draft-ietf-tcpm-accurate-ecn-28.txt
+> (Some features of the spec will be added in the later changes
+> rather than in this one).
+>
+> A full-length AccECN option is always attempted but if it does
+> not fit, the minimum length is selected based on the counters
+> that have changed since the last update. The AccECN option
+> (with 24-bit fields) often ends in odd sizes so the option
+> write code tries to take advantage of some nop used to pad
+> the other TCP options.
+>
+> The delivered_ecn_bytes pairs with received_ecn_bytes similar
+> to how delivered_ce pairs with received_ce. In contrast to
+> ACE field, however, the option is not always available to update
+> delivered_ecn_bytes. For ACK w/o AccECN option, the delivered
+> bytes calculated based on the cumulative ACK+SACK information
+> are assigned to one of the counters using an estimation
+> heuristic to select the most likely ECN byte counter. Any
+> estimation error is corrected when the next AccECN option
+> arrives. It may occur that the heuristic gets too confused
+> when there are enough different byte counter deltas between
+> ACKs with the AccECN option in which case the heuristic just
+> gives up on updating the counters for a while.
+>
+> tcp_ecn_option sysctl can be used to select option sending
+> mode for AccECN: TCP_ECN_OPTION_DISABLED, TCP_ECN_OPTION_MINIMUM,
+> and TCP_ECN_OPTION_FULL.
+>
+> This patch increases the size of tcp_info struct, as there is
+> no existing holes for new u32 variables. Below are the pahole
+> outcomes before and after this patch:
+>
+> [BEFORE THIS PATCH]
+> struct tcp_info {
+>     [...]
+>      __u32                     tcpi_total_rto_time;  /*   244     4 */
+>
+>     /* size: 248, cachelines: 4, members: 61 */
+> }
+>
+> [AFTER THIS PATCH]
+> struct tcp_info {
+>     [...]
+>     __u32                      tcpi_total_rto_time;  /*   244     4 */
+>     __u32                      tcpi_received_ce;     /*   248     4 */
+>     __u32                      tcpi_delivered_e1_bytes; /*   252     4 */
+>     __u32                      tcpi_delivered_e0_bytes; /*   256     4 */
+>     __u32                      tcpi_delivered_ce_bytes; /*   260     4 */
+>     __u32                      tcpi_received_e1_bytes; /*   264     4 */
+>     __u32                      tcpi_received_e0_bytes; /*   268     4 */
+>     __u32                      tcpi_received_ce_bytes; /*   272     4 */
+>
+>     /* size: 280, cachelines: 5, members: 68 */
+> }
+>
+> This patch uses the existing 1-byte holes in the tcp_sock_write_txrx
+> group for new u8 members, but adds a 4-byte hole in tcp_sock_write_rx
+> group after the new u32 delivered_ecn_bytes[3] member. Therefore, the
+> group size of tcp_sock_write_rx is increased from 96 to 112. Below
+> are the pahole outcomes before and after this patch:
+>
+> [BEFORE THIS PATCH]
+> struct tcp_sock {
+>     [...]
+>     u8                         received_ce_pending:4; /*  2522: 0  1 */
+>     u8                         unused2:4;             /*  2522: 4  1 */
+>     /* XXX 1 byte hole, try to pack */
+>
+>     [...]
+>     u32                        rcv_rtt_last_tsecr;    /*  2668     4 */
+>
+>     [...]
+>     __cacheline_group_end__tcp_sock_write_rx[0];      /*  2728     0 */
+>
+>     [...]
+>     /* size: 3200, cachelines: 50, members: 167 */
+> }
+>
+> [AFTER THIS PATCH]
+> struct tcp_sock {
+>     [...]
+>     u8                         received_ce_pending:4;/*  2522: 0  1 */
+>     u8                         unused2:4;            /*  2522: 4  1 */
+>     u8                         accecn_minlen:2;      /*  2523: 0  1 */
+>     u8                         est_ecnfield:2;       /*  2523: 2  1 */
+>     u8                         unused3:4;            /*  2523: 4  1 */
+>
+>     [...]
+>     u32                        rcv_rtt_last_tsecr;   /*  2668     4 */
+>     u32                        delivered_ecn_bytes[3];/*  2672    12 */
+>     /* XXX 4 bytes hole, try to pack */
+>
+>     [...]
+>     __cacheline_group_end__tcp_sock_write_rx[0];     /*  2744     0 */
+>
+>     [...]
+>     /* size: 3200, cachelines: 50, members: 171 */
+> }
 >
 > Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> Signed-off-by: Neal Cardwell <ncardwell@google.com>
+
+> Co-developed-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 > Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> Acked-by: Paolo Abeni <pabeni@redhat.com>
+>
 
 Reviewed-by: Eric Dumazet <edumazet@google.com>
