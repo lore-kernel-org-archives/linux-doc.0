@@ -1,183 +1,204 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CA82820D6
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 08:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDBC2E6CC9
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 08:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757580378; cv=none; b=MOno1SoPNw8ZeAFUebyCo0CSaBBCYcx9bN7i6tA4T7pOo3FPc8RTGPElotIqHYlxQagil2w3G/GKRzzLyQqpTdtVUqIfdmlsNHlg+JUgvh5P2BiSJSgqb2cS7mKU6hmuMnpKpi6ATCNKvvhBVoMTJpGhRVLo/Oy7aMSnPpD+96U=
+	t=1757580950; cv=none; b=negy8QZsE0i+nnDOrF38pDSOifLdCvL4vLVgzejG1hjplwhqjmvUjwH1h/+XwL+zSfwwC7LFAv7cRMhRnW8Xr/uSITzOv0Qh8NeO30bqxo9bEPfQ9Hn0Ir8OgmBojWIGS3kbq2NOSTde8DrnzzgpWnDUwaN7Y860fGMaOsWz8Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757580378; c=relaxed/simple;
-	bh=K1OfSduqwQRBsTKKg1BvFgKfn1PGIxJFKzG2KTEy5K8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JX6oT2oHY9CfDN6JouKK1ZNGFGS+JYKIPCKHNm6Fg7ydGc2ZjMBE3cAScL3gyO+/x9SxeOiL5VWxV9Zc37w6zvSN2XYpmr7BHfO71SOXgjLWVKq0xnkTstbJzflnKoygJAEA2pb2Ed7MvksGNtyB2UDRILlaPrIFAd0nSF+4RcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WBtR5k2Z; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757580950; c=relaxed/simple;
+	bh=g8rjLkGZDz8l75aKfZa7HlbA3xNuO5qdMG27VMFj5qU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ezQ58iZgViF24kCEBrG1GPsYmdLyPGjuF1g+986z1RxOEL8+nfB99S48dQP3CHT5KN0lEHDuxPl+nAT7LeBLySP2kcHzguCERJJRAjiYB7IeR+F/dpVXbRjDbc5ROeO9jQ65jTZGXcpNFGyHqi6cJfQDftFWd9Zuq0Gt01yVpCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=H06dORKL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iIQ+Ipq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=H06dORKL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iIQ+Ipq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WBtR5k2Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757580375;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ssCjsQRosnIsyQi6TRiWy/gOOQy1TqZDzUkPJYAbPso=;
-	b=WBtR5k2ZA6cY/L+yclCcM5OI7cnSoOqs9qifEqLQSuSjGWo8+Hn0PMKW2Lc/UpKs7kMBqm
-	ClvIiXOKbz4yas8IF/ZWjR/YJFYtyD2qqliF+bqurgZb7j62ns+L4yoi8IkZPRyw9lK/Us
-	wdjxU4DLKDIEbFhkJPCNlP5y1tKnz5I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-59-aSg_FJ7QNV-CaIPEqedpdw-1; Thu, 11 Sep 2025 04:46:14 -0400
-X-MC-Unique: aSg_FJ7QNV-CaIPEqedpdw-1
-X-Mimecast-MFC-AGG-ID: aSg_FJ7QNV-CaIPEqedpdw_1757580373
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45e05ff0b36so956175e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 01:46:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757580373; x=1758185173;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ssCjsQRosnIsyQi6TRiWy/gOOQy1TqZDzUkPJYAbPso=;
-        b=nBa95oaBMrUXoJ90jhYoYErIAjShv7GxL6QRPlxuSeGQVqsYqKwPWXa4ZUmMOxa+SW
-         i2Lj/eUHLEQaHuDGO00gco8bDJJTrFrIyuZtj3Y6DJf2G4c5pQnwadUHu4UJ/Q8w5jBJ
-         8D/V5nfyM8JGxL4Uk9T0DhE+f6HzzCnWry+eaE0W/00K1YSUGf8fatYaniZ5ss4uyE4g
-         p4ZB8fd4siA3oaw58nEFebplNr7OtSB2Ivyr2joPXhQC2rHzXJpckKTHJAduQT0/IKRo
-         5BA0KMgMP65hjp+l+Up/rP65UXyUiv4OJQbJ3Ejtc6PvT/kT32N4wETd6Hk1HOLPPgem
-         SGGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcpQLyV5e1/eQBzbimon1bOrfEHLV7ouIvNkEszGDjo/M6hzCm6yPsqqhi3ohxGLkHp90k23x6tbw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1kY9BGCSmKoQd4qq3uKSgIXUXJfbtns4R/CEhfF+6/XfethrI
-	6cYHo6pQe/WB8dxoB57U4RmrSm0cHmElJ0yevr8SPTZarcMJK3EIr0yIeOsN/tGVnsiMUTVyZ6h
-	209q3NnA9o7DCUJ1ppYR+94az+ySNRXiVTSlhcKS0zfv4WRxGSU+VuSm5Um+hWA==
-X-Gm-Gg: ASbGncuZ40p2UleVpN1cApvSiRTnp0RSvXw/KT3ISSVC8+Ry6PfZwvQ1XSXUir9b5Jh
-	TxS0AZ5eFLcKsflZn/1ZUTbxYsIeQPYwL+CQFbeRtPjx/KXgAQzBc7P5BqeH+V9GktrkHwV0otV
-	ZsKK6yiPNq2w8P2YDdebNu+G59qSrGbur8cam5ZtE+1ZTbMQdMuPAWJs4lfi3vXqoDc3NkuljAz
-	ctFf7ChUOsQxKr5gVW57d3r2EcM5k6prM+j/+QrtkoNjsJNWAb0+xgDjX0Jj3d9uKiHD/SsFWUh
-	K/36akqRsOxhE4Aa7SwOjQYtgW7GPY0IPVM6asbwVwSLaMGC0XlIR2Jm9edcbkLC/8T13Wk6+K8
-	En0dcbP3T2sxM8tDKff06hIMswOls8rbeNAQmrvaGgaZRjrX2Pnz/TL9hI8zTjbFjDJg=
-X-Received: by 2002:a05:600c:46c8:b0:458:b8b0:6338 with SMTP id 5b1f17b1804b1-45dfd5c473bmr26815965e9.6.1757580373275;
-        Thu, 11 Sep 2025 01:46:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFEKWKwxqu2qOEyBEgAUAxpXzm9G4HcETc4FviAdPqhEnNC1NKGJCc3NQuXVk0LzZ/0UgZIzQ==
-X-Received: by 2002:a05:600c:46c8:b0:458:b8b0:6338 with SMTP id 5b1f17b1804b1-45dfd5c473bmr26815495e9.6.1757580372845;
-        Thu, 11 Sep 2025 01:46:12 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f42:b000:db8b:7655:f60f:812b? (p200300d82f42b000db8b7655f60f812b.dip0.t-ipconnect.de. [2003:d8:2f42:b000:db8b:7655:f60f:812b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e760786ceasm1624111f8f.16.2025.09.11.01.46.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Sep 2025 01:46:12 -0700 (PDT)
-Message-ID: <749511a8-7c57-4f97-9e49-8ebe8befe9aa@redhat.com>
-Date: Thu, 11 Sep 2025 10:46:10 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="H06dORKL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iIQ+Ipq";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="H06dORKL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iIQ+Ipq"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF3946864B;
+	Thu, 11 Sep 2025 08:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1757580946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
+	b=H06dORKLeqy9oLKCwBAyy8KbyMMgBGmw2umEdwRHB5t4//gwrPu6p/UqepgBh+cqtCMGYj
+	gu16/N0MH0OUE8I2dmmLR/foB3LQlqym6FvW7Qq9xnnjWKvZeFtm5D+PPNO1HxnjqxADHx
+	R9Jg+XWpXeRhDFWLoByfZA9usPYkdhw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1757580946;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
+	b=0iIQ+Ipqu9W5Px/nULTByH8LjK8QRRM8NgGXedpdy+DrzCu/JG3h5fU1YWI+FWRaeWdOMk
+	PDTOzamFaGTIDVCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=H06dORKL;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0iIQ+Ipq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1757580946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
+	b=H06dORKLeqy9oLKCwBAyy8KbyMMgBGmw2umEdwRHB5t4//gwrPu6p/UqepgBh+cqtCMGYj
+	gu16/N0MH0OUE8I2dmmLR/foB3LQlqym6FvW7Qq9xnnjWKvZeFtm5D+PPNO1HxnjqxADHx
+	R9Jg+XWpXeRhDFWLoByfZA9usPYkdhw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1757580946;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
+	b=0iIQ+Ipqu9W5Px/nULTByH8LjK8QRRM8NgGXedpdy+DrzCu/JG3h5fU1YWI+FWRaeWdOMk
+	PDTOzamFaGTIDVCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B13C613974;
+	Thu, 11 Sep 2025 08:55:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4H7vKpKOwmjqeAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:55:46 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 5F916A0A2D; Thu, 11 Sep 2025 10:55:42 +0200 (CEST)
+Date: Thu, 11 Sep 2025 10:55:42 +0200
+From: Jan Kara <jack@suse.cz>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, 
+	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
+	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org, 
+	ntfs3@lists.linux.dev, kexec@lists.infradead.org, kasan-dev@googlegroups.com, 
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 09/16] doc: update porting, vfs documentation for
+ mmap_prepare actions
+Message-ID: <xbz56k25ftkjbjpjpslqad5b77klaxg3ganckhbnwe3mf6vtpy@3ytagvaq4gk5>
+References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
+ <e50e91a6f6173f81addb838c5049bed2833f7b0d.1757534913.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/memory-failure: Disable soft offline for HugeTLB pages
- by default
-To: Kyle Meyer <kyle.meyer@hpe.com>, akpm@linux-foundation.org,
- corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com
-Cc: Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
- jane.chu@oracle.com, jiaqiyan@google.com, joel.granados@kernel.org,
- laoar.shao@gmail.com, lorenzo.stoakes@oracle.com, mclapinski@google.com,
- mhocko@suse.com, nao.horiguchi@gmail.com, osalvador@suse.de,
- rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
- shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org
-References: <aMGkAI3zKlVsO0S2@hpe.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aMGkAI3zKlVsO0S2@hpe.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e50e91a6f6173f81addb838c5049bed2833f7b0d.1757534913.git.lorenzo.stoakes@oracle.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,infradead.org,kernel.org,alpha.franken.de,linux.ibm.com,davemloft.net,gaisler.com,arndb.de,linuxfoundation.org,intel.com,fluxnic.net,linux.dev,suse.de,redhat.com,paragon-software.com,arm.com,zeniv.linux.org.uk,suse.cz,oracle.com,google.com,suse.com,linux.alibaba.com,gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,lists.infradead.org,googlegroups.com,nvidia.com];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_GT_50(0.00)[59];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: BF3946864B
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.51
 
-On 10.09.25 18:15, Kyle Meyer wrote:
-> Soft offlining a HugeTLB page reduces the available HugeTLB page pool.
-> Since HugeTLB pages are preallocated, reducing the available HugeTLB
-> page pool can cause allocation failures.
+On Wed 10-09-25 21:22:04, Lorenzo Stoakes wrote:
+> Now we have introduced the ability to specify that actions should be taken
+> after a VMA is established via the vm_area_desc->action field as specified
+> in mmap_prepare, update both the VFS documentation and the porting guide to
+> describe this.
 > 
-> /proc/sys/vm/enable_soft_offline provides a sysctl interface to
-> disable/enable soft offline:
-> 
-> 0 - Soft offline is disabled.
-> 1 - Soft offline is enabled.
-> 
-> The current sysctl interface does not distinguish between HugeTLB pages
-> and other page types.
-> 
-> Disable soft offline for HugeTLB pages by default (1) and extend the
-> sysctl interface to preserve existing behavior (2):
-> 
-> 0 - Soft offline is disabled.
-> 1 - Soft offline is enabled (excluding HugeTLB pages).
-> 2 - Soft offline is enabled (including HugeTLB pages).
-> 
-> Update documentation for the sysctl interface, reference the sysctl
-> interface in the sysfs ABI documentation, and update HugeTLB soft
-> offline selftests.
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-I'm sure you spotted that the documentation for 
-"/sys/devices/system/memory/soft_offline_pag" resides under "testing".
+Looks good. Feel free to add:
 
-If your read about MADV_SOFT_OFFLINE in the man page it clearly says:
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-"This feature is intended for testing of memory error-handling code; it 
-is available  only if the kernel was configured with CONFIG_MEMORY_FAILURE."
+								Honza
 
-So I'm sorry to say: I miss why we should add all this complexity to 
-make a feature used for testing soft-offlining work differently for 
-hugetlb folios -- with a testing interface.
-
+> ---
+>  Documentation/filesystems/porting.rst | 5 +++++
+>  Documentation/filesystems/vfs.rst     | 4 ++++
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+> index 85f590254f07..6743ed0b9112 100644
+> --- a/Documentation/filesystems/porting.rst
+> +++ b/Documentation/filesystems/porting.rst
+> @@ -1285,3 +1285,8 @@ rather than a VMA, as the VMA at this stage is not yet valid.
+>  The vm_area_desc provides the minimum required information for a filesystem
+>  to initialise state upon memory mapping of a file-backed region, and output
+>  parameters for the file system to set this state.
+> +
+> +In nearly all cases, this is all that is required for a filesystem. However, if
+> +a filesystem needs to perform an operation such a pre-population of page tables,
+> +then that action can be specified in the vm_area_desc->action field, which can
+> +be configured using the mmap_action_*() helpers.
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index 486a91633474..9e96c46ee10e 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -1236,6 +1236,10 @@ otherwise noted.
+>  	file-backed memory mapping, most notably establishing relevant
+>  	private state and VMA callbacks.
+>  
+> +	If further action such as pre-population of page tables is required,
+> +	this can be specified by the vm_area_desc->action field and related
+> +	parameters.
+> +
+>  Note that the file operations are implemented by the specific
+>  filesystem in which the inode resides.  When opening a device node
+>  (character or block special) most filesystems will call special
+> -- 
+> 2.51.0
+> 
 -- 
-Cheers
-
-David / dhildenb
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
