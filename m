@@ -1,340 +1,167 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747241F03C5;
-	Thu, 11 Sep 2025 13:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757598529; cv=fail; b=V4EF6hZhuFihZuQFSaTooOvKZn6u8w2T54eTjshaOuHC+gNtXAPk82yRP8+NLS3QunE2Dhu1XqHvyqmHhSGyT11gTGxIRGG4LBoNJwOgZL86aqaMcRsGC1LWLPqMKygZbk1faL1YTGNPJSOxoZkSQH25b+zVP71vbK6wyUlQ+iU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757598529; c=relaxed/simple;
-	bh=H74xTXJZ1B9/t1fPHT8DTaV+z23vHnSgCG9M5wkMmYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=CXF6uL3RZ26/jqo16t19lP66c8YCCepi5f/ZQIkNp98PWNsKBLrM2ILpSQH4Uevrmn+v0PUgEN08HJhus8OdIxowlBhQ8OM5WTQnh5t23Ll3MyZqEJp+5v48VSQs+TFCjY6XZVVR/6FrwgdeiIGF5VoddmGRqUxM5FJ5r6ZAfx0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=A+mUHSYt; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ihGd3EpS; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AD2335BBC;
+	Thu, 11 Sep 2025 14:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757599679; cv=none; b=oOhSLoF+cz+s50jErwdvYHdsnzcc7y34Q9/gWSE3RsPzq5QNhdtTEIPnIRo9NkfSb68M2Vxg9S+rj70Ow4GwD7AzIM9+Sto1W11fjB4abxvm/LU43JStZP/iSQuNjtozWenpz30sCniw/CUUiCHxHPa9Vk9wSvGfPLCK12Ax+yk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757599679; c=relaxed/simple;
+	bh=12qnGEA+L3OAnlRsUnuhOCXh35RWwj/l9yuG+xevubk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=omH0pMl/pLxFvKfmDRUadBmsuqBVBhNo9SlbFdXH6YBdMGgkLWKvTGljpZbfsjmaLITIwZ9Q7JNSOjY+aW6W0DhFib32AC7XopVg5CPJ09cizpCqiTXnr/5SvtiBccY8hn07vOqMLoqaP5mkCyvSE8M4TSv+Wds7/5Qp2yBQf9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=whynothugo.nl; spf=pass smtp.mailfrom=whynothugo.nl; dkim=pass (2048-bit key) header.d=whynothugo.nl header.i=@whynothugo.nl header.b=kr9/qo0I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kQvPsas3; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=whynothugo.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=whynothugo.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="A+mUHSYt";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ihGd3EpS"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BDdXiJ031938;
-	Thu, 11 Sep 2025 13:47:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=5WG/e2rMBWkyZexWxD
-	5D+SyEk71uXhAoD20xrliCMsQ=; b=A+mUHSYtryuP97HDOEVl7pbfkctBKRdI9l
-	OPGZvQxTfeaBe+GAb4J6Zg/AW7iswImvlHEvgfWAaR/ax9Y60O0HylNJhjZwy7zJ
-	rtck8lctypP47we4O89FyaK2OHqJZ39QTcO//4ZSedqbsqC2VGcAqdDqmkOf4htY
-	zN4HNhDmJkAiv4wcvmHpX2xDBI+tx/fhe9IhYamDLXGPno3FXtF1u6mjqIQ/wTJY
-	7y0fobAVOrdbC1y8lmkZDyv7H126d5JtBh3dcnRH/Ka25SqvOWiTvroFBKPYp9Ih
-	VbZRvoM2/jpFSXiPUIfYDIncyYgJD5QFvmbNLIyOHJnbGGgKHbHw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4922x968e1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Sep 2025 13:47:55 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58BDHDXL002779;
-	Thu, 11 Sep 2025 13:47:54 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2043.outbound.protection.outlook.com [40.107.237.43])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 490bdk0jqf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Sep 2025 13:47:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dkv78dzCs3PGGkuggR4b3nhfvg+t3uMzka68b7WWbdzPA+7XpNHIansZ75kGkVDIMNJ4ON2SLhWEDcCk/spTHaKrJEWbfMzUA9hW/60c9bTMJv6216Rm/5La8C7fTk1GniE9cvPt9g6zMBxMDF3bgMJTAY98tDrI49NOuEOKGvTnhS1S1QlAFI3iJhUkgd86Nhhisk1BA5xpEtQirtZxsTMAtbb6cqao0ljZ0zq85LXDQToZQrB+N3uzlIZ1Eif1/eslUvkg0OnhbKgu2ALIEqXkaoftJ+D73uPASD+ktx9izrDRJjj/RL7sSk64uRNU/0cZi89gkcV6dUClFQ03FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5WG/e2rMBWkyZexWxD5D+SyEk71uXhAoD20xrliCMsQ=;
- b=U+tbCF1YREDSsFKhU2q198Yet3eEzf5/BJW31CLyN0wbjVrtr3kdpGSuNmUaVbalFfRdbfNGuPTfIT4+JgacjblAZtCkUNZCjuJM2cQg53hN5/GhGfnLoDJi1qaZF8NYZ3ySNNg2IBVXOg+cd1+JajSdGCPHPfwahtfJcgX0/RyhG2P+cfJSjOv8WVJ1OCRgdIcfQ9+uTjiQaC6G93NHFrtyD9LKyIApIL+NkSrLIZL4j8TN3E0U8ZKIAoKPUmH1THz2VUUUw2cPQ9/IRQNNlzbd/n11zhXLLZJt0wmnpe3uFdFE1rqklGUcqVbD00rOIH1MfvmTs832YkhXp+eRgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5WG/e2rMBWkyZexWxD5D+SyEk71uXhAoD20xrliCMsQ=;
- b=ihGd3EpSiEkC0IHoI4tL5Pv7AQZ8aY6YTTBHYp3mIuPKjhEsPZxsGPeTdDsddIBrLC8mQZ/JV+dyhgXQV02L2IsvThk19eE58/sAOz7T6RITJSprHEkA8VhMLtT8ct2+2rhr0NBWl6hbwTFVmHz7FvSghIiYLLS3Z0otKzEabPg=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by SA2PR10MB4426.namprd10.prod.outlook.com (2603:10b6:806:117::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 13:47:51 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 13:47:51 +0000
-Date: Thu, 11 Sep 2025 14:47:49 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Lance Yang <lance.yang@linux.dev>, Yafang Shao <laoar.shao@gmail.com>,
-        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Lance Yang <ioworker0@gmail.com>, akpm@linux-foundation.org,
-        gutierrez.asier@huawei-partners.com, rientjes@google.com,
-        andrii@kernel.org, david@redhat.com, baolin.wang@linux.alibaba.com,
-        Liam.Howlett@oracle.com, ameryhung@gmail.com, ryan.roberts@arm.com,
-        usamaarif642@gmail.com, willy@infradead.org, corbet@lwn.net,
-        npache@redhat.com, dev.jain@arm.com, 21cnbao@gmail.com,
-        shakeel.butt@linux.dev, ast@kernel.org, daniel@iogearbox.net,
-        hannes@cmpxchg.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from
- khugepaged_mm_slot
-Message-ID: <7d4548ce-e381-47fe-8bb3-5ea38a172527@lucifer.local>
-References: <20250910024447.64788-2-laoar.shao@gmail.com>
- <202509110109.PSgSHb31-lkp@intel.com>
- <49b70945-7483-4af1-95ba-e128eb9f6d7e@linux.dev>
- <DF4CA2C0-25AF-462B-A6D2-888DB20E0DFA@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DF4CA2C0-25AF-462B-A6D2-888DB20E0DFA@nvidia.com>
-X-ClientProxiedBy: LO2P265CA0067.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:60::31) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+	dkim=pass (2048-bit key) header.d=whynothugo.nl header.i=@whynothugo.nl header.b="kr9/qo0I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kQvPsas3"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 12C4BEC01BC;
+	Thu, 11 Sep 2025 10:07:56 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Thu, 11 Sep 2025 10:07:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=whynothugo.nl;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1757599676; x=1757686076; bh=uEYnB7YMtFbSpYh+8MMip4fPKS/ZUyYV
+	YWNehhXOTE4=; b=kr9/qo0ISKDlWJ5KNrqoZVK+DPe6Lsd8QHDbIMGUyVyH5mwW
+	TrA91v56mW8brtJXHIfHqwMItmOPElkDmffgnqaLiIgr+S6GeDrNtZqSY/IIOLVS
+	5zqgBDLqqCpuogK6h/ccFP70X6BwXgg0Cqj/wBkblcuLWs2ewNXOeH130JqXwi/f
+	93kAT3blIsFva9yplGdQLc0TsEFZWSLBjEPtxtogCE2kM9hVE68obWOiGmpL4eFj
+	Ww/TygoyOObGnSJRW4BQrgH1rLFyanTR6cNv6akFbXl0Lgwu+oXgnAtoq2YrvX/y
+	JpuWsnCMh+Vv9eNJUrFPlDnT+WXZX07eL9PlgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757599676; x=
+	1757686076; bh=uEYnB7YMtFbSpYh+8MMip4fPKS/ZUyYVYWNehhXOTE4=; b=k
+	QvPsas3rd8ezxuleI6AedCwncxX+JXzlFK81agdv0pfkdTDCuE9AscRSCVbfdNVX
+	kPRltPRAZUje5fT2MxRSky/srnO1pefZXpGxV9fTESh+CS2e+M34unrgdg177gE4
+	rlGkhCqYdXPRq2OubbxA3MMYuAwspa/8L5TZgj1FXDjP5iC47fDVICI8uwEvqrbx
+	mQvEKh/DAZfdEVLl2rPEbk2k8Kczd7wmUSOvCY249xWO7oNDTcYFNZi60IDNYScN
+	draChjEDkjOyH4t0RzkCWhdf7ywhGqXgTg5ol4d9wqc6Tfdhj0ItWnZr5ULD1aUU
+	5A+lpqhpA/E2YAHQhncjg==
+X-ME-Sender: <xms:u9fCaFV0gW_P_N0mxkY2P50XupraMSZ9ZgGmhYIYt7pUsZWaArwp7Q>
+    <xme:u9fCaFkC9QQ_2luoXLEOikKgMfGe5PfGlAayfsQA15odYhvkXnwxodSG7ldgu5GwA
+    6MOu3LbPYE_dakddA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvieefiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdfjuhhgohcu
+    qfhsvhgrlhguohcuuegrrhhrvghrrgdfuceohhhughhoseifhhihnhhothhhuhhgohdrnh
+    hlqeenucggtffrrghtthgvrhhnpeduieefkedvhfdugefggfeghfekffeitdehjeejtdek
+    vdelvedtvedvfefhjefgtdenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhsrhdrhh
+    htpdhmrghinhdrrhhsnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhephhhughhoseifhhihnhhothhhuhhgohdrnhhlpdhnsggprhgtphhtthhope
+    duvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsghpsegrlhhivghnkedruggv
+    pdhrtghpthhtohepsggrghgrshguohhtmhgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    eprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopeigkeeisehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehtghhlgieslhhinhhuthhrohhnihigrdguvgdprhgtphhtth
+    hopegurghvvgdrhhgrnhhsvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthht
+    oheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepmhhinhhgohesrhgvughhrg
+    htrdgtohhmpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrgh
+X-ME-Proxy: <xmx:u9fCaFTmhRdBs2ToqP4Tt3Mnyp88sSmArfIEpmzTY9ppQavryaNN7A>
+    <xmx:u9fCaI2UTBfUjJ0SEoKa4lSkfHAWZJ6iqnmTqGGsBt4cXvdHCDOhWg>
+    <xmx:u9fCaPw5uP6rTf5DhAkdMnJ0cpBLQ3Yj6E2oiItpkMZbLRndQfpgDg>
+    <xmx:u9fCaEz7xm4AiWVg2EEYvbybf-CLHyxp-Zlh7uQXPujzYJzlNawgzw>
+    <xmx:vNfCaNuJKCMlb9oiBMfJQbAUkRjjWNkqIGnvrvfjjFZfj-OqNXt-XuUl>
+Feedback-ID: ib8c04050:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 439D21B4006D; Thu, 11 Sep 2025 10:07:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SA2PR10MB4426:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75df47c7-cddb-44aa-f2b9-08ddf139ccf8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?trQ0TWp6qEB386xD9jWx6V3rQV6YpcGgK21EUULSEVRR7N5TkJRKoSy/iDqn?=
- =?us-ascii?Q?5cHOp7qfgdPHBaLf0tOFGULCkZnth4F+QjR6cJWeA8Ic17/oCLwIbIuZiLu3?=
- =?us-ascii?Q?/c1sOfWoURXhEAWo1BGqOg0JPOSPdJhN0XFXGpWRdrzxAiq2dvaHNH0qAcbc?=
- =?us-ascii?Q?abY/vRZKQ3eRyHVgodEO6D/JX0x4zOGNWoi/DuJWrIb8ZEZMgJPvq6KPO11s?=
- =?us-ascii?Q?LkI8/Gp8Xk1X7tY2AIO0OIV2hmn+nhtUmGy3hc9s6Zvtw54gKU6hVCyYCWo0?=
- =?us-ascii?Q?UhROF1dVpGeKZEYjxpmWJaVFAMVfCsVczqs7b2qT5NonhDOrT69FypvbK8kd?=
- =?us-ascii?Q?OQ1qefOgWEWw5NxZ8P2IAcYyQ6+KGYv3E1uR3NClNnc8U0AgA4ycyUBAioAq?=
- =?us-ascii?Q?4b8S8eOeA0E9aBjEWZKpGA948B58fVex2+pfcokITQZcpRMG8Kl3wAQp9/DP?=
- =?us-ascii?Q?vpatSgzbsXD8Hr57hcFOOdkjvkcCFBIasbwov7GzlhaWweIK2jHorUzNLYUa?=
- =?us-ascii?Q?foGWwE1EYx4BhhLDls5ARpePMtFy0ezdS6lcVVdkpSQ5aGFzR6uDBp50chPO?=
- =?us-ascii?Q?Pu/D0VOb0PMkXdLaLh6zIKilbIE6Covyo8xXjD0QmAzOTlYHln3bU4qilrbp?=
- =?us-ascii?Q?Tx4sFcwcuhrWw5OCRxeAT43QNVaabYTzQXfwt7riHii97n890OOwIVwMXxMy?=
- =?us-ascii?Q?mVl5b9zxbMmFsPXZJc+36jv+o1rFoIdXKBXGepilCxRPEdlHM31ifEC5V0k1?=
- =?us-ascii?Q?qK984qRAPR0pX38o/g7LHfgHsO6+rfWOVpjnVubBBFJ5F9Z2q3Hvcar4uXLG?=
- =?us-ascii?Q?hdCoI1g7hqgQDU+k/YDSP1JraOmYJ/HAtJ0/QzsKrM7RfaF4eZ9g0J1PIpky?=
- =?us-ascii?Q?E29rquaWhD7lWACNuj7HdQiV2jjDNl186s1j3Lpo2Pu4KVsLmSLu7fVmWCKR?=
- =?us-ascii?Q?cWOsHoNAjffCyE+2opt6eL1+zKGAnfjB/+gFmxfflMV+XMwYhXj9lP+EbMmI?=
- =?us-ascii?Q?pk/+JnIkxE/XOZpENhYXxSCLMa4uP2cfngYaX6g/Wlo3YSQYZGWlwtMpc2wm?=
- =?us-ascii?Q?EylABn/h1oyS4hku4YfP8l9Ys0l9iwp5DZjx8Qi65f848HwcXSQPFGR9uGsZ?=
- =?us-ascii?Q?0c5rFZueSHakkTIw1CsoSlesGrCs1JtR/nHrJnxNmgCODr7+GEjZHP04Fu3Z?=
- =?us-ascii?Q?gwNodLtRIKHj71ktlcluEBjjdjw8wsPzf4+noicPQzqTKQIP/AHpu3S828Pj?=
- =?us-ascii?Q?fV8vgf6NjPoS5Al3pAKccXbNucWJyLUgczu1r45VHOzN6WsU5Ev+Fu+LR31W?=
- =?us-ascii?Q?Q0GXlNHuOfL3Yp+mPz5h587LF8YXPzUdqolTyRgJC/oK9TQFEgcMr5Munw+J?=
- =?us-ascii?Q?bM96V4K/DjcpXnhzZHEQX6iUb+sv?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pns78xNJmC5XItV8P2/7cmSgNZfBz10QsoJVoFPZ0Ah9Yx+xQlAQr7CJLKOS?=
- =?us-ascii?Q?iYfUcCKJs6NBaqtzDh0IYtpbBt+0t1SxkeSLkMsriIdKGdUiuHATCPveaHEc?=
- =?us-ascii?Q?ne5/AzPt++Ty1WBtibmXXZ8y7JbTYgD+LmfDarDe1fhO/NCCACFFrvi+3QM8?=
- =?us-ascii?Q?uzwG86T/wLoCzcci4Q73LcQxGvuQPzmCmqF/TFhAKVcfZyzyziy5TEURDfCv?=
- =?us-ascii?Q?y6kTdj9zQ7/HLIVS6y7TSElPP2sI0dqyqz/yhFSURXpFUeeoN+FoOVVZAdzA?=
- =?us-ascii?Q?yujxAJ4c4ZPDEYinpip+YrUUdRPC036vNM8fC8RKn1hvEXPs7RF5rIyagikf?=
- =?us-ascii?Q?65TP4xnbkYBxujw2tXFMYbopHd39JgLHiDIMdiVUTaFuwakI3yri5Yhm+0Ip?=
- =?us-ascii?Q?qeKdap2tx/TQ33hPp5jtjIfcamrgH8DJuD8Mvl0BdPKTSXd2tMBdnTYH+j2O?=
- =?us-ascii?Q?/FM3ePJTjQbLG9i0Ba9p6OiEgfb/AtGqlttX2+qNzdSN8xXXA64ff4x6gmqN?=
- =?us-ascii?Q?dqb+jD7pN/HLi6CN2Lswcbtyx1IVAtZC1QzbT6IQoF3YrL+kPka8j8/MjdFH?=
- =?us-ascii?Q?sO+T0PYMrqCkwzvRHTMZdAcmNetiMvblkzDFnGHjAxNgl11ZaGngOLtDALRd?=
- =?us-ascii?Q?Hs/N5tJkullulw5JtfRDM6SSTPiu+oKAf0Zv/e/pgVm9mexKXJkZaEJx8ts8?=
- =?us-ascii?Q?F7QkAGdZ4wTZGWqfaXc07LG37oJ07GxZJIMB6yaNIMarMHDNgA+/v36VVnNc?=
- =?us-ascii?Q?5oswAOyFwxyfSdGqtImlxIFx6aSvVua6Nvw5SizxH01ZhKmuwOj+b+KrB8ti?=
- =?us-ascii?Q?qIljIuzGFsp3tKmDXqxhBBrd8vS8JPUlm7/9hwWYWh4cVZ4ggJTdlMJou6B0?=
- =?us-ascii?Q?k5+bdGXVnQWUVU/3+PHvj5YuFOIG2JL+bjDiu1nzEFgsVdoviqj+R+XHPcB1?=
- =?us-ascii?Q?H06vYCA9jGCCoh/wgtnNZdal98MeqM6FVoAiQWvo2IDW/uC0/SCvXPCu1OC3?=
- =?us-ascii?Q?q1N5vajOwnCGih8vcOtxp/HhtOBZTK0MtZXhZdM+TNdvfaELWXSURZ6I1FVM?=
- =?us-ascii?Q?3Rc5jihBAspl4I+I7+3TFH/RSMsU958TDy/ODajCmXwC5srTIdd+qS7NfOZC?=
- =?us-ascii?Q?9Tr64+AXvx0go4s8dQ+l/mAassWHJgIOMG9JIHOEoUwikvycMFv5uOT/0Z2V?=
- =?us-ascii?Q?nEU28n2zOADNlHO5iNNeBZ/GTtUAXgM5yuz516Pfm1VrgUnPwoCmF/r275hi?=
- =?us-ascii?Q?q/O4F9qmhjYrkElSfQXbrs3eBWDgcrar3WMuFfqxEU7G4sHB3BaCJ8jhkJWA?=
- =?us-ascii?Q?syCBDwIXlFsKp/sin6tuX2lLmyiRbWaw6l2UxDccchXxuPNJ48Ay1VKgWUBL?=
- =?us-ascii?Q?ckRU0ucY5WTztKbzLJDaCYbg3MhK2nV7F+Xv+dYvHgM1gD/wiz7ISPppgq9p?=
- =?us-ascii?Q?/rjPCYB7gimdx2d58RN7aZkIudv8ghCI0fF3SlR3xL8D9zmRUGNQU5aHsqiy?=
- =?us-ascii?Q?KdPIYfN5V8J1/8xjAMhwxKIAVwKPuUvTvFf1t5ipuCxRVs/PKPZdApFAOlKB?=
- =?us-ascii?Q?2HrE7EuriBRS4jlOEUFrGZZ16PTJCD3sRWL496su6bKDGYg9Z6jugtsvNk98?=
- =?us-ascii?Q?ng=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	2XE4vN5nBBB/tx3+O1yjWjCZbAEG5v66a9Os0RJWY52US1BvE3x1GpwpsNp+V4CdtlD/OjfKobvPm7OnpoEWQNSaMcCzb3QaAz4Sbh6B5dM1MRL78Ote0PCGrcTd9Yfq+w8kTc853CgJ1f9og6n4rerg3okKTz0v+KfYatCa0PsxPILyhbHnEYbMbXDzzO/KNrK8rDyGaYgl/dp/twU4oa+9aX08YDyDc4JV4QfK738AXi3epAPEIPiIwNDDDMueYDXuhjXTfZCcPDOKysSORvWQ8qsW8KUzTpZMJ/MA7YPRydrn5/8mqLFJbfR+bLDMNpngiCy0tJgtHffbkUlsRpJtlDV06ttgFUBkqKz4aR/2OBxZwtue0Yt3OEEvGJJK7HGRgAtan5iSbf0SCSaOr6EVUngOut0UfY2HV+PywAdiJAa+75fkzL4MVDiVrQCI4QR5Pi+tgBcUu4acFMUP7tvmIEQagugyuEnUs+yfDndv/Bm4cat0ZHUJ+R2eURPJU1aeug/K4yBgCQknnnpiSnY+ZdzH6gPZ8tzYDoBx/9RO4i4gKqYfnu+uqoq7I037TMzdAEgox20SrSNaFA9d2DOJNT+bmXkyPXCyF2JyRFE=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75df47c7-cddb-44aa-f2b9-08ddf139ccf8
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 13:47:51.1427
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ckivZiaSt6FrC2GyyAyB2JFowNiU7KxsRIJW74uZSSRpg4VG9uxrI36HCrfLdofAsmuIuyEnll0qMPAaznTlBwU85vxL/xMnYA3sd0KSQG0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4426
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-11_01,2025-09-11_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 suspectscore=0
- bulkscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509110121
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDE2NiBTYWx0ZWRfX7VAg+d8G/9SW
- kG0Txcda6WazdwAialerlFPOW4oL3LvU7MsLDcpsGK+nT2mDC8VMBAuAJ80IbjaByMKW+uJpbaj
- 4cKmiAgSq7MCOUWGMvPxy3ZT6J8Xnb/bNxV8mT6wN+P5man5Sek2YNmb/272/eyF+KadM0kk/b+
- oEmYEwzC6t1I8bUL6qgBpfAqyTyRuIEyK8dvUn+4GW2fCKbd6lTxAYokJg6HKMs6lAf+abWlktK
- 5VvMYyd6e/zsz6rNqIPGn0iivIWA69nMQ4dHHgx5FdPLGDvsib6zASTU8cPWppxllrsMHCMZEW3
- +qSvk1LELp2csuxOsGNGE6uLErRYEGyxFUVrexNNQBrWxz6YFPqNmKqUecOnY9mdj86OM3o7Ywd
- awLOhqkYpBRkvvYEwOcT2cKvt0wQfQ==
-X-Proofpoint-GUID: z-XUSDEq26vbEyTz9WyNohQqTFuIfxst
-X-Proofpoint-ORIG-GUID: z-XUSDEq26vbEyTz9WyNohQqTFuIfxst
-X-Authority-Analysis: v=2.4 cv=LYY86ifi c=1 sm=1 tr=0 ts=68c2d30b b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=Bw992Em18476OfrFuUoA:9
- a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22 cc=ntf awl=host:12084
+X-ThreadId: Atl5U7xjKeAs
+Date: Thu, 11 Sep 2025 16:07:33 +0200
+From: "Hugo Osvaldo Barrera" <hugo@whynothugo.nl>
+To: "Ard Biesheuvel" <ardb@kernel.org>
+Cc: "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ "Linux Documentation" <linux-doc@vger.kernel.org>,
+ "Linux EFI" <linux-efi@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>
+Message-Id: <4f36eee9-7e25-4e2f-ab9d-82f9732d0bf1@app.fastmail.com>
+In-Reply-To: 
+ <CAMj1kXFtdqN+cDVVWK1KTbfyfe0kazHt1t1XmPz58uf+axknOg@mail.gmail.com>
+References: <20250910015738.14848-2-bagasdotme@gmail.com>
+ <CAMj1kXHCi1pr3XNzwe7b7EFBkPGjkppeNWNSvy4wU1VBHj9kfA@mail.gmail.com>
+ <c30fb598-2878-4bdd-ab84-4f4d07d0db5d@app.fastmail.com>
+ <CAMj1kXFtdqN+cDVVWK1KTbfyfe0kazHt1t1XmPz58uf+axknOg@mail.gmail.com>
+Subject: Re: [PATCH] x86/Documentation: explain LINUX_EFI_INITRD_MEDIA_GUID
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 10, 2025 at 10:28:30PM -0400, Zi Yan wrote:
-> On 10 Sep 2025, at 22:12, Lance Yang wrote:
->
-> > Hi Yafang,
-> >
-> > On 2025/9/11 01:27, kernel test robot wrote:
-> >> Hi Yafang,
-> >>
-> >> kernel test robot noticed the following build errors:
-> >>
-> >> [auto build test ERROR on akpm-mm/mm-everything]
-> >>
-> >> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp-remove-disabled-task-from-khugepaged_mm_slot/20250910-144850
-> >> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> >> patch link:    https://lore.kernel.org/r/20250910024447.64788-2-laoar.shao%40gmail.com
-> >> patch subject: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from khugepaged_mm_slot
-> >> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250911/202509110109.PSgSHb31-lkp@intel.com/config)
-> >> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110109.PSgSHb31-lkp@intel.com/reproduce)
-> >>
-> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> >> the same patch/commit), kindly add following tags
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202509110109.PSgSHb31-lkp@intel.com/
-> >>
-> >> All errors (new ones prefixed by >>):
-> >>
-> >>>> kernel/sys.c:2500:6: error: call to undeclared function 'hugepage_pmd_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> >>      2500 |             hugepage_pmd_enabled())
-> >>           |             ^
-> >>>> kernel/sys.c:2501:3: error: call to undeclared function '__khugepaged_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> >>      2501 |                 __khugepaged_enter(mm);
-> >>           |                 ^
-> >>     2 errors generated.
-> >
-> > Oops, seems like hugepage_pmd_enabled() and __khugepaged_enter() are only
-> > available when CONFIG_TRANSPARENT_HUGEPAGE is enabled ;)
-> >
-> >>
-> >>
-> >> vim +/hugepage_pmd_enabled +2500 kernel/sys.c
-> >>
-> >>    2471
-> >>    2472	static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
-> >>    2473					 unsigned long arg4, unsigned long arg5)
-> >>    2474	{
-> >>    2475		struct mm_struct *mm = current->mm;
-> >>    2476
-> >>    2477		if (arg4 || arg5)
-> >>    2478			return -EINVAL;
-> >>    2479
-> >>    2480		/* Flags are only allowed when disabling. */
-> >>    2481		if ((!thp_disable && flags) || (flags & ~PR_THP_DISABLE_EXCEPT_ADVISED))
-> >>    2482			return -EINVAL;
-> >>    2483		if (mmap_write_lock_killable(current->mm))
-> >>    2484			return -EINTR;
-> >>    2485		if (thp_disable) {
-> >>    2486			if (flags & PR_THP_DISABLE_EXCEPT_ADVISED) {
-> >>    2487				mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
-> >>    2488				mm_flags_set(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-> >>    2489			} else {
-> >>    2490				mm_flags_set(MMF_DISABLE_THP_COMPLETELY, mm);
-> >>    2491				mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-> >>    2492			}
-> >>    2493		} else {
-> >>    2494			mm_flags_clear(MMF_DISABLE_THP_COMPLETELY, mm);
-> >>    2495			mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-> >>    2496		}
-> >>    2497
-> >>    2498		if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
-> >>    2499		    !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
-> >>> 2500		    hugepage_pmd_enabled())
-> >>> 2501			__khugepaged_enter(mm);
-> >>    2502		mmap_write_unlock(current->mm);
-> >>    2503		return 0;
-> >>    2504	}
-> >>    2505
-> >
-> > So, let's wrap the new logic in an #ifdef CONFIG_TRANSPARENT_HUGEPAGE block.
-> >
-> > diff --git a/kernel/sys.c b/kernel/sys.c
-> > index a1c1e8007f2d..c8600e017933 100644
-> > --- a/kernel/sys.c
-> > +++ b/kernel/sys.c
-> > @@ -2495,10 +2495,13 @@ static int prctl_set_thp_disable(bool thp_disable, unsigned long flags,
-> >                 mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
-> >         }
-> >
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >         if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
-> >             !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
-> >             hugepage_pmd_enabled())
-> >                 __khugepaged_enter(mm);
-> > +#endif
-> > +
-> >         mmap_write_unlock(current->mm);
-> >         return 0;
-> >  }
->
-> Or in the header file,
->
-> #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+
+On Thu, 11 Sep 2025, at 14:49, Ard Biesheuvel wrote:
+> On Thu, 11 Sept 2025 at 13:23, Hugo Osvaldo Barrera <hugo@whynothugo.nl> wrote:
+>>
+>>
+>>
+>> On Thu, 11 Sep 2025, at 08:46, Ard Biesheuvel wrote:
+>> > On Wed, 10 Sept 2025 at 03:58, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>> >>
+>> >> From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+>> >>
 > ...
-> #else
-> bool hugepage_pmd_enabled()
-> {
-> 	return false;
-> }
+>> >> +For sample implementations, refer to `the original u-boot implementation`_ or
+>> >> +`the implementation in candyboot`_.
+>> >> +
+>> >> +.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+>> >> +.. _the implementation in candyboot: https://git.sr.ht/~whynothugo/candyboot/tree/4097b2538d7f1cf85f03922bf42409490b666202/item/src/main.rs#L225
+>> >>
+>> >
+>> > What is candyboot, and why are we adding this plug for it into the
+>> > Linux documentation?
+>>
+>> It's a UEFI stub loader which can load the Linux kernel and provide it with an
+>> initramfs using the above described protocol.
+>>
+>> The original version of this patch was based on my notes researching _how_
+>> to implement this stub loader. The implementation is quite minimal, so I think
+>> it serves as a useful reference example.
+>>
 >
-> int __khugepaged_enter(struct mm_struct *mm)
-> {
-> 	return 0;
-> }
+> I think one example reference is sufficient, and I think piggybacking
+> a plug of your own project onto a documentation refactoring patch is
+> slightly dodgy, to be completely honest.
 
-It seems we have a convention of just not implementing things here if they're
-necessarily used in core code paths (and _with my suggested change_) it's _just_
-khugepaged that's invoking them).
+I don't know what kind of reaction you're expecting. The documentation
+improvements were a side-effect of developing candyboot. You're free to
+exclude the mention if you feel it is inadequate, but I don't appreciate
+the personal attack.
 
-Anyway with my suggestion we can fix this entirely with:
+> Where is candyboot used, and what does it add to the existing u-boot
+> reference, which is the most widely used EFI implementation after EDK2
+> for non-x86 systems?
 
-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+candyboot can be used to produce a single bootable UEFI binary bundling
+the kernel, cmdline and initrd. This binary can be signed to boot using
+SecureBoot on regular consumer hardware. It is typically useful is
+situations where u-boot isn't supported, and useless in most situations
+where u-boot is usable.
 
-void khugepaged_enter_mm(struct mm_struct *mm);
+The use-case is somewhat tangential here; the reference is merely as a
+minimal (single file) reference implementation of the feature being
+described here.
 
-#else
+> If anything, we should be referring to the OVMF implementation here.
 
-void khugepaged_enter_mm(struct mm_struct *mm)
-{
-}
+Agreed (I didn't know of its existence), here's a link to it:
 
-#endif
+https://github.com/tianocore/edk2/blob/502f0dfda4f2c4d1cc091f68b6467b6ef12cab45/OvmfPkg/QemuKernelLoaderFsDxe/QemuKernelLoaderFsDxe.c#L908
 
-
-Cheers, Lorenzo
-
-> #endif
->
-> Best Regards,
-> Yan, Zi
+-- 
+Hugo
