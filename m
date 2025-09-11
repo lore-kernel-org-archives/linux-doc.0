@@ -1,131 +1,155 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA65235E4D6;
-	Thu, 11 Sep 2025 16:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4799235FC29;
+	Thu, 11 Sep 2025 16:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757609730; cv=none; b=ZfN/SXpJ5tehCHhp2EoDQxjCD1gIiSH1iXiuTOp2i446rkl7nOA6zp/4GXU31FOP2BxiQg2bzjO9V/dedzxCTOGaa5EyLGRJxwSLK81g9GXpVC8KOYDrmV9R9x4wPEP1k3KKMli7R20Y5+GDIDCDtOt2f+RrJsTWuvv0bAcsvpM=
+	t=1757609954; cv=none; b=IMw0Zo51rWMxDs8ICkRu/xVHmPq5PQBR56HofRkE5VmSy3clyRSkiTqmMNC/mliw76PGmO+ssfzDiJccJXQQmq8qPnEn4kQRLHTB9BOQE20pOmJrAH8mGTeUamQGC/AOfuEjVZoLWHI1n0Smnypq7aV6VWEQH2Gt3cALr1m0KHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757609730; c=relaxed/simple;
-	bh=4cJtU/t0FdZWw6KNuoCu6d8SJpl8M6ogjVQ+HQSCxs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/LDfSK/E2HrZzXdm5p7ktZo2msfsOD1b4+9GdRaREmdnoQxarHDGA2Klk0Cqult3D2hhatx1iHoPmKQZugGzNdUIK4WdWg5FwFN0OFlLeVqCX7RUGlLAf18bfpn/PoapsHbd8XCgSqgY9DuZqyOxEq8gYZrLrWL5dbnGwWOzk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=D7Li4eg/; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1757609954; c=relaxed/simple;
+	bh=Xlc6koJ0vm41M4SAUwgaUOtl1XLT+vpjoBqnu6zMYUM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CZcORU9wxM6NW7Lhf7LR+11qUKZGHhcxu/z4u9HIb7UivLyb+w6ybda/V0WQ8g0WKKrdWe61vPZ8iBxVJK56TQt+y1F96pnU4zXf/z5UXaS0qWgwM8ujtrW8baDgLhnKx/DRDleX4EnJBP1L6aH1Yengc+FNW4OSS6fpZ+CcjUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmEsSBUe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="D7Li4eg/"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EC6BD40E0140;
-	Thu, 11 Sep 2025 16:55:24 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id GbyUNlOUsH3D; Thu, 11 Sep 2025 16:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1757609721; bh=Stz8ndbzOk/9lU3pydnqDDO5LXGN0x06KMzK037HgYM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D7Li4eg/w8pnztqcM7ecRESztUR9tum0X9oJHu4Z/XN2jMVK9EfdPBUyX6wQAGqo3
-	 h++oKCCutBYR1CrsdatsNeyyhv+0Ksizc676Z82wRojyzdFP4E0G9dcU8+2QK7usCi
-	 uZkbiqpyR+HWPQSeLgZPNpRIlKQ0CacKeoHDoUFLMFf+TYPjCWB/Pi/3eGMOGa83CA
-	 +4tmWZnUwSLVr+RocnncpF/huY4zxZNOxX8Z0H1FCuurslt1a663c9hDyIfUX/mHRk
-	 zjFyVotOlW9s/CIEOGm50fx2kWM0I2rFdJN0NGQZ3fRSQQnSIhDXpQv7hZIzOT/YZF
-	 D0UeOK4Jpz8iWEGj27wrUDECSPDoDLGtbN3DXpS6afcBwatk5m4A2xcTWkiJU+o9Fv
-	 t5hh/QBQCVcfFW6lq/fYlncq0QEDosZ80eKBw8bHect2KjZenwvQ/zkKtgjBexOnsW
-	 2Tl+moHboBA+phbXKvIadnCQnO/0n7rs71D7IrmaHHZsN5VC4/5yVBdca+lgfysxlm
-	 R9CZXHs6C7OFsWTVaoaUFBETLqsU+u4fB0G38IuNeyNwgreoUiuilAHb0rE6GzTwTj
-	 OtmcD7GObLXc61+ukIxfrmPOtfdlEEiTYrxEAmSPSf0LCFAFdK+arkEdkV2QCrr4S6
-	 YhTnE/xQ1EjaP4m1TSHySTE4=
-Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id DCB2540E0174;
-	Thu, 11 Sep 2025 16:54:38 +0000 (UTC)
-Date: Thu, 11 Sep 2025 18:54:33 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
-	Dave.Martin@arm.com, james.morse@arm.com, tglx@linutronix.de,
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	akpm@linux-foundation.org, paulmck@kernel.org, frederic@kernel.org,
-	pmladek@suse.com, rostedt@goodmis.org, kees@kernel.org,
-	arnd@arndb.de, fvdl@google.com, seanjc@google.com,
-	thomas.lendacky@amd.com, pawan.kumar.gupta@linux.intel.com,
-	perry.yuan@amd.com, manali.shukla@amd.com, sohil.mehta@intel.com,
-	xin@zytor.com, Neeraj.Upadhyay@amd.com, peterz@infradead.org,
-	tiala@microsoft.com, mario.limonciello@amd.com,
-	dapeng1.mi@linux.intel.com, michael.roth@amd.com,
-	chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org, peternewman@google.com, eranian@google.com,
-	gautham.shenoy@amd.com
-Subject: Re: [PATCH v18 26/33] fs/resctrl: Introduce mbm_assign_on_mkdir to
- enable assignments on mkdir
-Message-ID: <20250911165433.GBaML-yTUZHkywuJIe@fat_crate.local>
-References: <cover.1757108044.git.babu.moger@amd.com>
- <3b73498a18ddd94b0c6ab5568a23ec42b62af52a.1757108044.git.babu.moger@amd.com>
- <20250911150850.GAaMLmAoi5fTIznQzY@fat_crate.local>
- <0bacc30d-0e0d-45da-ab13-dca971f27e2c@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmEsSBUe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E585FC4CEF5;
+	Thu, 11 Sep 2025 16:59:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757609954;
+	bh=Xlc6koJ0vm41M4SAUwgaUOtl1XLT+vpjoBqnu6zMYUM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZmEsSBUe46oKNFLs1zZshCDORSXi/vmIA/olocQ/bs1EL0jdPhHubpF9/o5rsmBiQ
+	 qcAMn0p6sYL3ASP57egXTeRsBLyv5tXq8CaQ63dmYuSRhmcO+8UfEhahaJ9iN20Zgn
+	 yY7EvHXs4XrNDI4p13gRncZLx/bGnHw/rmm/18FRpOWtlqUXQDELkz6Q5afLcl7UnE
+	 UfVHJyp5DHvPh3Rk26y+2UMb0zSFm6/gDRB7dh+MtqA/AehTkAGeqv1Kn16ztaHU6c
+	 b52mxvx24QaDyqGlYtp7W/lm/hg+3NLy0zxA1leuOfHbIB6rzuGqFDWNqWZPk3hENk
+	 xlB2sGAM2fLHg==
+Message-ID: <a1f55940-7115-4650-835c-2f1138c5eaa4@kernel.org>
+Date: Thu, 11 Sep 2025 18:59:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0bacc30d-0e0d-45da-ab13-dca971f27e2c@intel.com>
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH net-next] tools: ynl: rst: display attribute-set doc
+Content-Language: en-GB, fr-BE
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org>
+ <m2v7lpuv2w.fsf@gmail.com>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <m2v7lpuv2w.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 11, 2025 at 09:24:01AM -0700, Reinette Chatre wrote:
-> About repeating things: As I see it the annoying repeating results from desire to
-> follow the "context-problem-solution" changelog script while also ensuring each
-> patch stands on its own. With these new features many patches share the same context
-> and then copy&paste results. I see how this can be annoying when going through
-> the series and I can also see how this is a lazy approach since the context is
-> not tailored to each patch. Will work on this.
+Hi Donald,
 
-Thanks. And I know it makes sense to repeat things to introduce the context
-but let's try to keep that at minimum and only when absolutely necessary.
+On 11/09/2025 12:44, Donald Hunter wrote:
+> "Matthieu Baerts (NGI0)" <matttbe@kernel.org> writes:
+> 
+>> Some attribute-set have a documentation (doc:), but it was not displayed
+>> in the RST / HTML version. Such field can be found in ethtool, netdev,
+>> tcp_metrics and team YAML files.
+>>
+>> Only the 'name' and 'attributes' fields from an 'attribute-set' section
+>> were parsed. Now the content of the 'doc' field, if available, is added
+>> as a new paragraph before listing each attribute. This is similar to
+>> what is done when parsing the 'operations'.
+> 
+> This fix looks good, but exposes the same issue with the team
+> attribute-set in team.yaml.
 
-> About too much text that explains the obvious: I hear you and will add these criteria
-> to how changelogs are measured. I do find the criteria a bit subjective though and expect
-> that I will not get this right immediately and appreciate and welcome your feedback until
-> I do.
+Good catch! I forgot to check why the output was like that before
+sending this patch.
 
-Yeah, that's fine, don't worry. But it is actually very simple: if it is
-visible from the diff itself, then there's no need to state it again in text.
-That would be waste of text.
+> The following patch is sufficient to generate output that sphinx doesn't
+> mangle:
+> 
+> diff --git a/Documentation/netlink/specs/team.yaml b/Documentation/netlink/specs/team.yaml
+> index cf02d47d12a4..fae40835386c 100644
+> --- a/Documentation/netlink/specs/team.yaml
+> +++ b/Documentation/netlink/specs/team.yaml
+> @@ -25,7 +25,7 @@ definitions:
+>  attribute-sets:
+>    -
+>      name: team
+> -    doc:
+> +    doc: |
+>        The team nested layout of get/set msg looks like
+>            [TEAM_ATTR_LIST_OPTION]
+>                [TEAM_ATTR_ITEM_OPTION]
+Yes, that's enough to avoid the mangled output in .rst and .html files.
 
-Lemme paste my old git archeology example here in the hope it makes things
-more clear. :-)
+Do you plan to send this patch, or do you prefer if I send it? As part
+of another series or do you prefer a v2?
 
-Do not talk about *what* the patch is doing in the commit message - that
-should be obvious from the diff itself. Rather, concentrate on the *why*
-it needs to be done.
+Note that a few .yaml files have the doc definition starting at the next
+line, but without this '|' at the end. It looks strange to me to have
+the string defined at the next line like that. I was thinking about
+sending patches containing modifications created by the following
+command, but I see that this way of writing the string value is valid in
+YAML.
 
-Imagine one fine day you're doing git archeology, you find the place in
-the code about which you want to find out why it was changed the way it 
-is now.
+  $ git grep -l "doc:$" -- Documentation/netlink/specs | \
+        xargs sed -i 's/doc:$/doc: |/g'
 
-You do git annotate <filename> ... find the line, see the commit id and
-you do:
+Except the one with "team", the other ones don't have their output
+mangled. So such modifications are probably not needed for the other ones.
 
-git show <commit id>
-
-You read the commit message and there's just gibberish and nothing's
-explaining *why* that change was done. And you start scratching your head,
-trying to figure out why. Because the damn commit message is not worth the
-electrons used to display it with.
-
-This happens to us maintainers at least once a week.
-
+Cheers,
+Matt
 -- 
-Regards/Gruss,
-    Boris.
+Sponsored by the NGI0 Core fund.
 
-https://people.kernel.org/tglx/notes-about-netiquette
