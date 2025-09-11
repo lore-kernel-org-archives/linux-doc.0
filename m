@@ -1,190 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5121A1553A3;
-	Thu, 11 Sep 2025 07:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A0B266B6B
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 07:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757574087; cv=none; b=o3XpmL+auTgb//k6WLK3Tx+5XY+cfOmutxvC44/CETza+lhthTg+pMlVamgMTh02szc0f0cqyUPkmWpxrVgMzZ64WJr+MCUR7D+uYErdLELCLlAKrPoPrh4Cn+nEbw3jZ39FXKaU2xTBHAzBxau2lp9oMOcU8nIqi+8iVlg8U7Q=
+	t=1757575397; cv=none; b=Ze2qQtOVwzoFcsvu7tUzp9P2p9+zoQfZoSkvSs9HhoQYuyxeCuYwarqYdD9XJQ5fPp8i8GyqiOvUWkcw1ZG09qRfdq4tPFklO//6bvkBnuH3D0k0jThvmXl75iXJDVaWBFlPdLzoW0yylrT9CmZjx4EgDHjoxu+pqG3vSmMT0NM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757574087; c=relaxed/simple;
-	bh=qr122yp8JUYBZU96I18Z8ELkl5DxLXHRqTyQLe7CWAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Krk4FDfqexsK4L2B5ZrpOZy/H5qiAFvLfe2G6B7UqvQxGPzjiXge/02hcolJI6RUGT+/nURzb4F2qF4kJ9nzurLuah58GuvLM+zmEb9xlcJNBbLxSg8vkOLWCzR6+d5fwhxyt9ej0QO56tPZsZ4xQtkvNavTVfUoG+BK8dwBKAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kNGHzc5L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757575397; c=relaxed/simple;
+	bh=CaWSZrgm1M8YqD1WcirOTRnj0ww0foEmKSgKyjrm5nU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dERZdAzBeaqLuq91B+eXuLBeql3cM7ih7cYt54RCIszu2eU11qpwBvBvBmmvKoj0pZRh87Cs1hcz7NMj4BZfOkA9VwOkJZxfpYjnsbRWtDuP82kbvbIPHsb28ZUSKqDYLN62mKo0lrb6y6UYlzMFYFyToBE2OhyAGHkjTxB2LC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AK5AFITj; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kNGHzc5L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A72C4CEF1;
-	Thu, 11 Sep 2025 07:01:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757574086;
-	bh=qr122yp8JUYBZU96I18Z8ELkl5DxLXHRqTyQLe7CWAE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kNGHzc5LShxDoby6w+5B0rArOpeaiVE7rVvfrO816zAUBMrrpPJ0dUr2xaf4QLWhy
-	 mY+qNgBlxPEy3zXyUFdDDnJB7hi5Du0P4X6pW0kdRkHGArzrm9yHV3/MYgsA8NDNol
-	 kmc10a26FwkUmvRqIHSernvfMzY0CdmAsh3Czgj8l9W7P7M98o4M3GihQZm0juWDRk
-	 toFJKJ3PZMpypAvEJVOGELJQc633e95pfQW2Kg002tmNI4Q1oSKL6qki07jMnup1Ke
-	 H+qB+p4h7SiSVsY56tuJxfXBJm07+J0rYDESBrULBjJSENWLQsudeVU2Kao2Bgs1zO
-	 ZqAhYn49Hv17Q==
-Date: Thu, 11 Sep 2025 09:01:24 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Davis <afd@ti.com>, 
-	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-Message-ID: <20250911-didactic-authentic-cockle-e6d5fc@houat>
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
- <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
- <20250910-vigorous-attractive-gorilla-af6fec@houat>
- <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AK5AFITj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757575393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jvuTVWNZDyZ0h579CaXBpKTLbC1d5EjG/JgIw3vY0w8=;
+	b=AK5AFITj6vTD6ad5zgR7e72QklijWJwA5yP3gE8sYfGnvcubPb/uuifs1MWNyV1jpTyeTM
+	1MloGl7MvgyKN/F4f3mcN1dV3FYfSOVo78P8hpAIf8CaMCP0yYwnv4lyLo1asHh606oymr
+	401BP2BBdgYZAKdqw5DhCFP83AqCc1A=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-625-_j9gDVGhOqqMnUc1xnhP2A-1; Thu,
+ 11 Sep 2025 03:23:09 -0400
+X-MC-Unique: _j9gDVGhOqqMnUc1xnhP2A-1
+X-Mimecast-MFC-AGG-ID: _j9gDVGhOqqMnUc1xnhP2A_1757575388
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AC686180057C;
+	Thu, 11 Sep 2025 07:23:07 +0000 (UTC)
+Received: from p16v.luc.cera.cz (unknown [10.45.225.144])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9652F19560B1;
+	Thu, 11 Sep 2025 07:23:03 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase measure averaging factor
+Date: Thu, 11 Sep 2025 09:23:01 +0200
+Message-ID: <20250911072302.527024-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="mvqneghb5gn2pldr"
-Content-Disposition: inline
-In-Reply-To: <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
+The DPLL phase measurement block uses an exponential moving average,
+calculated using the following equation:
 
---mvqneghb5gn2pldr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-MIME-Version: 1.0
+                       2^N - 1                1
+curr_avg = prev_avg * --------- + new_val * -----
+                         2^N                 2^N
 
-Hi TJ,
+Where curr_avg is phase offset reported by the firmware to the driver,
+prev_avg is previous averaged value and new_val is currently measured
+value for particular reference.
 
-On Wed, Sep 10, 2025 at 01:44:45PM -0700, T.J. Mercier wrote:
-> On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> >
-> > On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
-> > > Hi,
-> > >
-> > > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> > > > Here's another attempt at supporting user-space allocations from a
-> > > > specific carved-out reserved memory region.
-> > > >
-> > > > The initial problem we were discussing was that I'm currently worki=
-ng on
-> > > > a platform which has a memory layout with ECC enabled. However, ena=
-bling
-> > > > the ECC has a number of drawbacks on that platform: lower performan=
-ce,
-> > > > increased memory usage, etc. So for things like framebuffers, the
-> > > > trade-off isn't great and thus there's a memory region with ECC dis=
-abled
-> > > > to allocate from for such use cases.
-> > > >
-> > > > After a suggestion from John, I chose to first start using heap
-> > > > allocations flags to allow for userspace to ask for a particular ECC
-> > > > setup. This is then backed by a new heap type that runs from reserv=
-ed
-> > > > memory chunks flagged as such, and the existing DT properties to sp=
-ecify
-> > > > the ECC properties.
-> > > >
-> > > > After further discussion, it was considered that flags were not the
-> > > > right solution, and relying on the names of the heaps would be enou=
-gh to
-> > > > let userspace know the kind of buffer it deals with.
-> > > >
-> > > > Thus, even though the uAPI part of it had been dropped in this seco=
-nd
-> > > > version, we still needed a driver to create heaps out of carved-out=
- memory
-> > > > regions. In addition to the original usecase, a similar driver can =
-be
-> > > > found in BSPs from most vendors, so I believe it would be a useful
-> > > > addition to the kernel.
-> > > >
-> > > > Some extra discussion with Rob Herring [1] came to the conclusion t=
-hat
-> > > > some specific compatible for this is not great either, and as such =
-an
-> > > > new driver probably isn't called for either.
-> > > >
-> > > > Some other discussions we had with John [2] also dropped some hints=
- that
-> > > > multiple CMA heaps might be a good idea, and some vendors seem to do
-> > > > that too.
-> > > >
-> > > > So here's another attempt that doesn't affect the device tree at al=
-l and
-> > > > will just create a heap for every CMA reserved memory region.
-> > > >
-> > > > It also falls nicely into the current plan we have to support cgrou=
-ps in
-> > > > DRM/KMS and v4l2, which is an additional benefit.
-> > > >
-> > > > Let me know what you think,
-> > > > Maxime
-> > >
-> > > Any chance we can get this merged?
-> >
-> > Guys, can we move forward on this?
-> >
-> > Maxime
->=20
-> Hi Maxime,
->=20
-> Sorry I've been MIA the last couple of months.
->=20
-> The docs for the "reusable" property say, "device driver(s) owning the
-> region need to be able to reclaim it back", but how can a driver
-> reclaim memory backing a dmabuf, since pages allocated for a dmabuf
-> aren't necessarily movable. Couldn't a user allocate all of it, and
-> refuse to close those dmabufs?
+New measurements are taken approximately 40 Hz or at the frequency of
+the reference (whichever is lower).
 
-I guess, but how is that any different than what we're doing on the
-default allocator already?
+The driver currently uses the averaging factor N=2 which prioritizes
+a fast response time to track dynamic changes in the phase. But for
+applications requiring a very stable and precise reading of the average
+phase offset, and where rapid changes are not expected, a higher factor
+would be appropriate.
 
-It also has to be reusable, and will not be able to reclaim any memory
-allocated through the heap.
+Add devlink device parameter phase_offset_avg_factor to allow a user
+set tune the averaging factor via devlink interface.
 
-> I backported this to 6.6 and ran it on a Pixel. While there are
-> already similar out-of-tree dmabuf heap drivers that expose heaps for
-> these reserved regions, they do more than just cma_alloc (multiple
-> flavors of buffer securing, use case specific alignment and padding,
-> and slightly different allocation strategies) so I don't think this
-> series would allow us to completely drop the custom heap code, but
-> it's a nice start.
+Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Tested-by: Prathosh Satish <Prathosh.Satish@microchip.com>
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+---
+v2:
+* optimized conversion between factor value and register value
+* more detailed parameter documentation
+---
+ Documentation/networking/devlink/zl3073x.rst | 17 ++++++
+ drivers/dpll/zl3073x/core.c                  |  6 +-
+ drivers/dpll/zl3073x/core.h                  |  8 ++-
+ drivers/dpll/zl3073x/devlink.c               | 61 ++++++++++++++++++++
+ 4 files changed, 89 insertions(+), 3 deletions(-)
 
-Thanks for testing, and I totally expect more heaps coming for things
-like protected memory, but it should indeed reduce the number of heap
-drivers needed going forward.
+diff --git a/Documentation/networking/devlink/zl3073x.rst b/Documentation/networking/devlink/zl3073x.rst
+index 4b6cfaf386433..1988721bdfa8b 100644
+--- a/Documentation/networking/devlink/zl3073x.rst
++++ b/Documentation/networking/devlink/zl3073x.rst
+@@ -20,6 +20,23 @@ Parameters
+      - driverinit
+      - Set the clock ID that is used by the driver for registering DPLL devices
+        and pins.
++   * - ``phase_offset_avg_factor``
++     - runtime
++     - Set the factor for the exponential moving average used for phase offset
++       reporting. The DPLL phase measurement block applies this value in the
++       following formula:
++
++       .. math::
++          curr\_avg = prev\_avg * \frac{2^N-1}{2^N} + new\_val * \frac{1}{2^N}
++
++       where `curr_avg` is the current phase offset, `prev_avg` is the previous
++       phase offset, and `new_val` is currently measured phase offset.
++
++       New measurements are taken approximately 40 Hz or at the frequency of
++       the reference, whichever is lower.
++
++       The default value of this parameter is 2, and the supported range of
++       values is <0, 15>, where a value 0 effectively disables averaging.
+ 
+ Info versions
+ =============
+diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
+index 7ebcfc5ec1f09..4f6395372f0eb 100644
+--- a/drivers/dpll/zl3073x/core.c
++++ b/drivers/dpll/zl3073x/core.c
+@@ -915,7 +915,8 @@ zl3073x_dev_phase_meas_setup(struct zl3073x_dev *zldev, int num_channels)
+ 
+ 	/* Setup phase measurement averaging factor */
+ 	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
+-	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, 3);
++	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR,
++				     zldev->phase_avg_factor);
+ 
+ 	/* Enable DPLL measurement block */
+ 	dpll_meas_ctrl |= ZL_DPLL_MEAS_CTRL_EN;
+@@ -991,6 +992,9 @@ int zl3073x_dev_probe(struct zl3073x_dev *zldev,
+ 	 */
+ 	zldev->clock_id = get_random_u64();
+ 
++	/* Default phase offset averaging factor */
++	zldev->phase_avg_factor = 3;
++
+ 	/* Initialize mutex for operations where multiple reads, writes
+ 	 * and/or polls are required to be done atomically.
+ 	 */
+diff --git a/drivers/dpll/zl3073x/core.h b/drivers/dpll/zl3073x/core.h
+index 71af2c8001109..289d09fcc5c5a 100644
+--- a/drivers/dpll/zl3073x/core.h
++++ b/drivers/dpll/zl3073x/core.h
+@@ -67,19 +67,19 @@ struct zl3073x_synth {
+  * @dev: pointer to device
+  * @regmap: regmap to access device registers
+  * @multiop_lock: to serialize multiple register operations
+- * @clock_id: clock id of the device
+  * @ref: array of input references' invariants
+  * @out: array of outs' invariants
+  * @synth: array of synths' invariants
+  * @dplls: list of DPLLs
+  * @kworker: thread for periodic work
+  * @work: periodic work
++ * @clock_id: clock id of the device
++ * @phase_avg_factor: phase offset measurement averaging factor
+  */
+ struct zl3073x_dev {
+ 	struct device		*dev;
+ 	struct regmap		*regmap;
+ 	struct mutex		multiop_lock;
+-	u64			clock_id;
+ 
+ 	/* Invariants */
+ 	struct zl3073x_ref	ref[ZL3073X_NUM_REFS];
+@@ -92,6 +92,10 @@ struct zl3073x_dev {
+ 	/* Monitor */
+ 	struct kthread_worker		*kworker;
+ 	struct kthread_delayed_work	work;
++
++	/* Devlink parameters */
++	u64			clock_id;
++	u8			phase_avg_factor;
+ };
+ 
+ struct zl3073x_chip_info {
+diff --git a/drivers/dpll/zl3073x/devlink.c b/drivers/dpll/zl3073x/devlink.c
+index 7e7fe726ee37a..fe8333a2ea1ee 100644
+--- a/drivers/dpll/zl3073x/devlink.c
++++ b/drivers/dpll/zl3073x/devlink.c
+@@ -195,10 +195,71 @@ zl3073x_devlink_param_clock_id_validate(struct devlink *devlink, u32 id,
+ 	return 0;
+ }
+ 
++static int
++zl3073x_devlink_param_phase_avg_factor_get(struct devlink *devlink, u32 id,
++					   struct devlink_param_gset_ctx *ctx)
++{
++	struct zl3073x_dev *zldev = devlink_priv(devlink);
++
++	/* Convert the value to actual factor value */
++	ctx->val.vu8 = (zldev->phase_avg_factor - 1) & 0x0f;
++
++	return 0;
++}
++
++static int
++zl3073x_devlink_param_phase_avg_factor_set(struct devlink *devlink, u32 id,
++					   struct devlink_param_gset_ctx *ctx,
++					   struct netlink_ext_ack *extack)
++{
++	struct zl3073x_dev *zldev = devlink_priv(devlink);
++	u8 avg_factor, dpll_meas_ctrl;
++	int rc;
++
++	/* Read DPLL phase measurement control register */
++	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, &dpll_meas_ctrl);
++	if (rc)
++		return rc;
++
++	/* Convert requested factor to register value */
++	avg_factor = (ctx->val.vu8 + 1) & 0x0f;
++
++	/* Update phase measurement control register */
++	dpll_meas_ctrl &= ~ZL_DPLL_MEAS_CTRL_AVG_FACTOR;
++	dpll_meas_ctrl |= FIELD_PREP(ZL_DPLL_MEAS_CTRL_AVG_FACTOR, avg_factor);
++	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_MEAS_CTRL, dpll_meas_ctrl);
++	if (rc)
++		return rc;
++
++	/* Save the new factor */
++	zldev->phase_avg_factor = avg_factor;
++
++	return 0;
++}
++
++static int
++zl3073x_devlink_param_phase_avg_factor_validate(struct devlink *devlink, u32 id,
++						union devlink_param_value val,
++						struct netlink_ext_ack *extack)
++{
++	return (val.vu8 < 16) ? 0 : -EINVAL;
++}
++
++enum zl3073x_dl_param_id {
++	ZL3073X_DEVLINK_PARAM_ID_BASE = DEVLINK_PARAM_GENERIC_ID_MAX,
++	ZL3073X_DEVLINK_PARAM_ID_PHASE_OFFSET_AVG_FACTOR,
++};
++
+ static const struct devlink_param zl3073x_devlink_params[] = {
+ 	DEVLINK_PARAM_GENERIC(CLOCK_ID, BIT(DEVLINK_PARAM_CMODE_DRIVERINIT),
+ 			      NULL, NULL,
+ 			      zl3073x_devlink_param_clock_id_validate),
++	DEVLINK_PARAM_DRIVER(ZL3073X_DEVLINK_PARAM_ID_PHASE_OFFSET_AVG_FACTOR,
++			     "phase_offset_avg_factor", DEVLINK_PARAM_TYPE_U8,
++			     BIT(DEVLINK_PARAM_CMODE_RUNTIME),
++			     zl3073x_devlink_param_phase_avg_factor_get,
++			     zl3073x_devlink_param_phase_avg_factor_set,
++			     zl3073x_devlink_param_phase_avg_factor_validate),
+ };
+ 
+ static void
+-- 
+2.49.1
 
-> Does the cgroup part come in because the plan is to add charging in
-> cma_heap.c?
-
-Yes, and the system heap as well.
-
-Maxime
-
---mvqneghb5gn2pldr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMJzxAAKCRAnX84Zoj2+
-dsvHAX9IpZOMjeU0ynWChRbSjBVdeZtylN7gZQL2xiSKdre2cCOs+EzPryzJzsTk
-tRNxMScBfAwmOazIjwKlseNgI+HDT4rryBoWdzpYERPwpsG4vLSlAqtaiPiPmf41
-ekyA/2h0Sg==
-=POxF
------END PGP SIGNATURE-----
-
---mvqneghb5gn2pldr--
