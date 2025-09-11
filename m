@@ -1,148 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD2B1DFDE;
-	Thu, 11 Sep 2025 12:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6665322536;
+	Thu, 11 Sep 2025 12:50:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757594011; cv=none; b=VmU0kOsuGu/PDNt5KhgD9Ou2b3X0/lrEhV2hsL+LVXk0czQ5QV64y+DzhJEAs4DIa1l8ocPDaXtBdEtZJ6yhC7mG9mMqkqsKOFo3N6XJgRlp5nu25mzfbFV6i621gX5vT65klV2XDHKHUd3hqfd1c/DYg0QLk6bH3TldvG9/Koo=
+	t=1757595004; cv=none; b=ewtt19fGg508aqKrp3M6iYyfNzGdz6btW+41h3+ipdROrrFEbMpcrIuHfTpQTD7yMonJr7kltJDghidyXOTla/vbs4sDhV3/cXIf0QhrSqspapLerh5Tvye/hVs+rIbhMaV5+rbYH2i0IJsJlGm6oTbmCuQRs2q5HrXTokMvDi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757594011; c=relaxed/simple;
-	bh=P48xfB55szeLvDmSgHttsgXhs7aEst40wBJg3abuJE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OuOjHsAqhzvdB5w6PYW5b523KVJMkxkfhVQbQivrgIud4ctvnNHFPDB51ZPUbLzgzxLlLezIQMOZJ+g0ga+sBDKxQjFldOJrKVoGyOehdJgm8rVo0cK7svHMj3+268y0OpTXpHggnu+6ReXuhvjXIEmt+7BPGCI/azrJnTcy9xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=isn6120n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757595004; c=relaxed/simple;
+	bh=BMIUK1+4ZGU7sEfYZEU/14/S7jBlhbO/ImkwvUZM6Zc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cfbQz9O3ECnBEkBFsxlzi0ofTY+84sXD2x106XkpCoXlWgPT5eG++VKnMFyQCBwjqSP559Fj1S3cmB/bZGbvPvPBiwENr67Vnj/H/jMZ0wuUSsK2Py2K2Qe4MP8TR/U1JbevRwae43dmMu60jZBby2A1gfKdUb1J3Cv6OLm+umY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dW14L4cK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="isn6120n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A00F5C4CEF1;
-	Thu, 11 Sep 2025 12:33:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dW14L4cK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E694C4CEFD;
+	Thu, 11 Sep 2025 12:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757594011;
-	bh=P48xfB55szeLvDmSgHttsgXhs7aEst40wBJg3abuJE0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=isn6120n/iONjEJMNXwY7lFI2zOPw5/xk7OTh/lFNzKUSRm/jgtHzFJbQot6pTMbL
-	 e2x1bsQkpraqSg9CRYV92TbRM464masca2teDYVlQYhwv5kvqj63YxEbs3hVNUZTNl
-	 zTDO5gtsWusyG/5tHAbAUC2PAVfeRyzacSTdIFtD5jkf0WykK4gZ8mAz9pMriKZjuB
-	 NQ+W5dfvIXOn7TnY+hJh+rwcRPN7R+dlXkDSGD6bw6DWcanboho0QhwyX2wlpk5aSk
-	 OLCY9CB9zPQRdmVmRFai3qeZ9ZcOEwuBMFqa15dzQLVTeVVfS80y5+hg+3fnOpq5H7
-	 Vurewde39Myew==
-Date: Thu, 11 Sep 2025 13:33:24 +0100
-From: Simon Horman <horms@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Luo Yang <luoyang82@h-partners.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Suman Ghosh <sumang@marvell.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next v05 12/14] hinic3: Add port management
-Message-ID: <20250911123324.GJ30363@horms.kernel.org>
-References: <cover.1757401320.git.zhuyikai1@h-partners.com>
- <9fa22ecd4b8dfe9ea613b0d81d2cabf7c233e7d2.1757401320.git.zhuyikai1@h-partners.com>
+	s=k20201202; t=1757595003;
+	bh=BMIUK1+4ZGU7sEfYZEU/14/S7jBlhbO/ImkwvUZM6Zc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dW14L4cKP1q+jsWKljM5v+JZEX2QBm56mIEi9Mvk7721gU7o/hUOiHvhQ4cOFJNZZ
+	 FW34nZnbtBMwm9hD7W32Updrws0Hh4EI2pcBL6tJYqm2J5vqiADtAdgKFnsqC5xaVz
+	 X+CpI0Y9wSBUlBHi+6e+NLYMllIX9XKqCUMwuEorPKFKl4FF8y8rcagBAaQyYlzIac
+	 sv8w1Q00bHUfYQC1980DxdNkFVB/ak8XAJRfnpuUZvGpHVPP6/PgENjc1EiQ1X0YQR
+	 l/6yt+vi9MTdX8hrZIPsH1Z8RqRxnpqeqSNFLSlA8/x0CWnieTWh/+YadNQtg6yOVI
+	 IwZdknJ/aVz9w==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-56d1b40ed70so477292e87.3;
+        Thu, 11 Sep 2025 05:50:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU3HCMfFHc4K2QCnNrhMD9QkNZz5TrSyMqSw+PFBhMimtZrFcqJnAFuURgODcH2cZYq3+El0UOfV8Q=@vger.kernel.org, AJvYcCUIWmTkMWD6pNSpVjSePQv7G6g7kqRvn58VlQvLZ6m3Z8O7Jp/Pk1ShMwdPyCf8H7telbXZGac6LcBEqwba@vger.kernel.org, AJvYcCUhnfji/NN5bAYbonmvHX8XxkRIhCkzMr+lxJ6FdAZ2+GVe/0gITAe/37SGYdjmaY0shKW+pcQ+ijS9@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywrz0K2DjZuFJZWhLteSB8LbsBWZjnIOt8zJk7Ru9OT9V+qk/Kl
+	qmqg/n4mJ2M5sokcyhq4ZaBh7lf+aehD00W+4omz+qOC90tBp7TaBUFgePzSXfrh2szdZiWzLYn
+	sLxpq/saTqzTET9EnAaHEz7JLzvI06Vg=
+X-Google-Smtp-Source: AGHT+IHV4d8eI4lIWGGACKtN9SWdkLlkmrv3qKSfocI9aFx9ZkgHzd2sNTRgdmQJFfb2vJkct1yKW68/joJ+O6RS5Gc=
+X-Received: by 2002:a05:651c:1116:20b0:338:11e1:c7d9 with SMTP id
+ 38308e7fff4ca-33b603008f6mr47449521fa.43.1757595001754; Thu, 11 Sep 2025
+ 05:50:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9fa22ecd4b8dfe9ea613b0d81d2cabf7c233e7d2.1757401320.git.zhuyikai1@h-partners.com>
+References: <20250910015738.14848-2-bagasdotme@gmail.com> <CAMj1kXHCi1pr3XNzwe7b7EFBkPGjkppeNWNSvy4wU1VBHj9kfA@mail.gmail.com>
+ <c30fb598-2878-4bdd-ab84-4f4d07d0db5d@app.fastmail.com>
+In-Reply-To: <c30fb598-2878-4bdd-ab84-4f4d07d0db5d@app.fastmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 11 Sep 2025 14:49:49 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXFtdqN+cDVVWK1KTbfyfe0kazHt1t1XmPz58uf+axknOg@mail.gmail.com>
+X-Gm-Features: Ac12FXxw7_iwUPPuK9VmAhBbGDG0qqGTDTMLJY4mdIX7KYY4b8hnYxCGYgEpQcg
+Message-ID: <CAMj1kXFtdqN+cDVVWK1KTbfyfe0kazHt1t1XmPz58uf+axknOg@mail.gmail.com>
+Subject: Re: [PATCH] x86/Documentation: explain LINUX_EFI_INITRD_MEDIA_GUID
+To: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux EFI <linux-efi@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 09, 2025 at 03:33:37PM +0800, Fan Gong wrote:
-> Add port management of enable/disable/query/flush function.
-> 
-> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-
+On Thu, 11 Sept 2025 at 13:23, Hugo Osvaldo Barrera <hugo@whynothugo.nl> wrote:
+>
+>
+>
+> On Thu, 11 Sep 2025, at 08:46, Ard Biesheuvel wrote:
+> > On Wed, 10 Sept 2025 at 03:58, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> >>
+> >> From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+> >>
 ...
+> >> +For sample implementations, refer to `the original u-boot implementation`_ or
+> >> +`the implementation in candyboot`_.
+> >> +
+> >> +.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+> >> +.. _the implementation in candyboot: https://git.sr.ht/~whynothugo/candyboot/tree/4097b2538d7f1cf85f03922bf42409490b666202/item/src/main.rs#L225
+> >>
+> >
+> > What is candyboot, and why are we adding this plug for it into the
+> > Linux documentation?
+>
+> It's a UEFI stub loader which can load the Linux kernel and provide it with an
+> initramfs using the above described protocol.
+>
+> The original version of this patch was based on my notes researching _how_
+> to implement this stub loader. The implementation is quite minimal, so I think
+> it serves as a useful reference example.
+>
 
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> index 3d17ca5e7ba5..a07fa4bd71e7 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> @@ -326,6 +326,59 @@ static void hinic3_close_channel(struct net_device *netdev)
->  	hinic3_free_qp_ctxts(nic_dev);
->  }
->  
-> +static int hinic3_vport_up(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	bool link_status_up;
-> +	u16 glb_func_id;
-> +	int err;
-> +
-> +	glb_func_id = hinic3_global_func_id(nic_dev->hwdev);
-> +	err = hinic3_set_vport_enable(nic_dev->hwdev, glb_func_id, true);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to enable vport\n");
-> +		goto err_flush_qps_res;
-> +	}
-> +
-> +	err = netif_set_real_num_queues(netdev, nic_dev->q_params.num_qps,
-> +					nic_dev->q_params.num_qps);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to set real number of queues\n");
-> +		goto err_flush_qps_res;
-> +	}
-> +	netif_tx_start_all_queues(netdev);
-> +
-> +	err = hinic3_get_link_status(nic_dev->hwdev, &link_status_up);
-> +	if (!err && link_status_up)
-> +		netif_carrier_on(netdev);
-> +
-> +	return 0;
-> +
-> +err_flush_qps_res:
-> +	hinic3_flush_qps_res(nic_dev->hwdev);
-> +	/* wait to guarantee that no packets will be sent to host */
-> +	msleep(100);
+I think one example reference is sufficient, and I think piggybacking
+a plug of your own project onto a documentation refactoring patch is
+slightly dodgy, to be completely honest.
 
-I realise that Jakub's feedback on msleep() in his review of v3 was
-in a different code path. But I do wonder if there is a better way.
-
-> +
-> +	return err;
-> +}
-> +
-> +static void hinic3_vport_down(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	u16 glb_func_id;
-> +
-> +	netif_carrier_off(netdev);
-> +	netif_tx_disable(netdev);
-> +
-> +	glb_func_id = hinic3_global_func_id(nic_dev->hwdev);
-> +	hinic3_set_vport_enable(nic_dev->hwdev, glb_func_id, false);
-> +
-> +	hinic3_flush_txqs(netdev);
-> +	/* wait to guarantee that no packets will be sent to host */
-> +	msleep(100);
-
-Likewise, here.
-
-> +	hinic3_flush_qps_res(nic_dev->hwdev);
-> +}
-> +
->  static int hinic3_open(struct net_device *netdev)
->  {
->  	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-
-...
+Where is candyboot used, and what does it add to the existing u-boot
+reference, which is the most widely used EFI implementation after EDK2
+for non-x86 systems? If anything, we should be referring to the OVMF
+implementation here.
