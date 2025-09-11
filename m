@@ -1,204 +1,184 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDBC2E6CC9
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 08:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4721D8DFB;
+	Thu, 11 Sep 2025 09:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757580950; cv=none; b=negy8QZsE0i+nnDOrF38pDSOifLdCvL4vLVgzejG1hjplwhqjmvUjwH1h/+XwL+zSfwwC7LFAv7cRMhRnW8Xr/uSITzOv0Qh8NeO30bqxo9bEPfQ9Hn0Ir8OgmBojWIGS3kbq2NOSTde8DrnzzgpWnDUwaN7Y860fGMaOsWz8Ko=
+	t=1757581210; cv=none; b=LoTF8iWZ7fy5Pj2cdeZhsyQ9PY0QUvQ5B0M0gy8rUsWUbHqAce8caTbWVkoXrNqWo0TI+zTxeMVTjjzXqgo1xZEbuNfzY34VEWSG5chmiQuRHMG/ZVAffHq7s8pPGbglV0VYMmutxpVMmOar8MSgvJUKbrPNOfAT0vaM0Wf+Z90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757580950; c=relaxed/simple;
-	bh=g8rjLkGZDz8l75aKfZa7HlbA3xNuO5qdMG27VMFj5qU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ezQ58iZgViF24kCEBrG1GPsYmdLyPGjuF1g+986z1RxOEL8+nfB99S48dQP3CHT5KN0lEHDuxPl+nAT7LeBLySP2kcHzguCERJJRAjiYB7IeR+F/dpVXbRjDbc5ROeO9jQ65jTZGXcpNFGyHqi6cJfQDftFWd9Zuq0Gt01yVpCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=H06dORKL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iIQ+Ipq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=H06dORKL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iIQ+Ipq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1757581210; c=relaxed/simple;
+	bh=apxpL+JA5234BjF+vbBSUV5l8bBfl2JCXGsBGUN2Sww=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Zyc6wszwCSkuSPqmdKy++GKILcQu/YHv9UZDX3kEsckG3eeCCikgPsUXBei4DLMVrhRz9jxYq2Wnb8f6C5gvZAKDelxx1aJDLS/kcWs5XCmXL357Lhg622aCMk1IOUZ8wViCwflN++kl2ZfkXp3RJDsfegmP7vd6wTtA21wKJ/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CN731Js3; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="H06dORKL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iIQ+Ipq";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="H06dORKL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iIQ+Ipq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF3946864B;
-	Thu, 11 Sep 2025 08:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1757580946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
-	b=H06dORKLeqy9oLKCwBAyy8KbyMMgBGmw2umEdwRHB5t4//gwrPu6p/UqepgBh+cqtCMGYj
-	gu16/N0MH0OUE8I2dmmLR/foB3LQlqym6FvW7Qq9xnnjWKvZeFtm5D+PPNO1HxnjqxADHx
-	R9Jg+XWpXeRhDFWLoByfZA9usPYkdhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1757580946;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
-	b=0iIQ+Ipqu9W5Px/nULTByH8LjK8QRRM8NgGXedpdy+DrzCu/JG3h5fU1YWI+FWRaeWdOMk
-	PDTOzamFaGTIDVCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=H06dORKL;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0iIQ+Ipq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1757580946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
-	b=H06dORKLeqy9oLKCwBAyy8KbyMMgBGmw2umEdwRHB5t4//gwrPu6p/UqepgBh+cqtCMGYj
-	gu16/N0MH0OUE8I2dmmLR/foB3LQlqym6FvW7Qq9xnnjWKvZeFtm5D+PPNO1HxnjqxADHx
-	R9Jg+XWpXeRhDFWLoByfZA9usPYkdhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1757580946;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g+JbXqJwzf7cOodAKH9xqcseUyaAMBde80ixVE0ZgKU=;
-	b=0iIQ+Ipqu9W5Px/nULTByH8LjK8QRRM8NgGXedpdy+DrzCu/JG3h5fU1YWI+FWRaeWdOMk
-	PDTOzamFaGTIDVCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B13C613974;
-	Thu, 11 Sep 2025 08:55:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4H7vKpKOwmjqeAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 11 Sep 2025 08:55:46 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5F916A0A2D; Thu, 11 Sep 2025 10:55:42 +0200 (CEST)
-Date: Thu, 11 Sep 2025 10:55:42 +0200
-From: Jan Kara <jack@suse.cz>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, 
-	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org, 
-	ntfs3@lists.linux.dev, kexec@lists.infradead.org, kasan-dev@googlegroups.com, 
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 09/16] doc: update porting, vfs documentation for
- mmap_prepare actions
-Message-ID: <xbz56k25ftkjbjpjpslqad5b77klaxg3ganckhbnwe3mf6vtpy@3ytagvaq4gk5>
-References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
- <e50e91a6f6173f81addb838c5049bed2833f7b0d.1757534913.git.lorenzo.stoakes@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CN731Js3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757581209; x=1789117209;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=apxpL+JA5234BjF+vbBSUV5l8bBfl2JCXGsBGUN2Sww=;
+  b=CN731Js3kiHGhOxf+CyNtov06/vfZ5YPLbKQGqE/m3J1C15vEJu33W3a
+   CNLhez96zaQokVhxVvYWu33EPqdIjLTbCfhxL1zKFBeD86I5295TWbmuJ
+   FEN8EHckskKlCcm5ecXwBE3MOaueS8NiCTn8We/vF7AwWeM35K1RphhOS
+   PdVnJQDBQKxFq79X0g3Pa+6TwWjKnSBb0u2Na75OEhCB03KrpInp+GUfg
+   wH2Ddx/YclPrQ6olhBNf33aDEoOal60qAuM1gqoq5I6VeEgw3TcSwa1l8
+   cNdPH0TmW2pii/I9yTFmFIseb+7KLkgOgVWoqi7uCZfUJZuq5rQ4UfAEO
+   g==;
+X-CSE-ConnectionGUID: y6YRnXHfREGMOA60rEi+VQ==
+X-CSE-MsgGUID: M7ff5+1HST66WCvZHBNMRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59980857"
+X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
+   d="scan'208";a="59980857"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 02:00:08 -0700
+X-CSE-ConnectionGUID: DK3xpkOuRkutGbdOlc8uZg==
+X-CSE-MsgGUID: S0y7rLfnSaGwSUn6CKkovA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
+   d="scan'208";a="173539949"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.187])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 02:00:01 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 11 Sep 2025 11:59:58 +0300 (EEST)
+To: =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>
+cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+    =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>, 
+    Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
+    David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
+    intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+    Jani Nikula <jani.nikula@linux.intel.com>, 
+    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+    Lucas De Marchi <lucas.demarchi@intel.com>, 
+    Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
+    Tvrtko Ursulin <tursulin@ursulin.net>, 
+    ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+    LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 04/11] PCI: Improve Resizable BAR functions kernel doc
+In-Reply-To: <97f8d4a7-6897-4fe5-878c-c04a887cce62@amd.com>
+Message-ID: <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
+References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com> <20250911075605.5277-5-ilpo.jarvinen@linux.intel.com> <97f8d4a7-6897-4fe5-878c-c04a887cce62@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e50e91a6f6173f81addb838c5049bed2833f7b0d.1757534913.git.lorenzo.stoakes@oracle.com>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,infradead.org,kernel.org,alpha.franken.de,linux.ibm.com,davemloft.net,gaisler.com,arndb.de,linuxfoundation.org,intel.com,fluxnic.net,linux.dev,suse.de,redhat.com,paragon-software.com,arm.com,zeniv.linux.org.uk,suse.cz,oracle.com,google.com,suse.com,linux.alibaba.com,gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,lists.infradead.org,googlegroups.com,nvidia.com];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_GT_50(0.00)[59];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: BF3946864B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.51
+Content-Type: multipart/mixed; boundary="8323328-183604244-1757581198=:944"
 
-On Wed 10-09-25 21:22:04, Lorenzo Stoakes wrote:
-> Now we have introduced the ability to specify that actions should be taken
-> after a VMA is established via the vm_area_desc->action field as specified
-> in mmap_prepare, update both the VFS documentation and the porting guide to
-> describe this.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Looks good. Feel free to add:
+--8323328-183604244-1757581198=:944
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+On Thu, 11 Sep 2025, Christian K=C3=B6nig wrote:
 
-								Honza
+> On 11.09.25 09:55, Ilpo J=C3=A4rvinen wrote:
+> > Fix the copy-pasted errors in the Resizable BAR handling functions
+> > kernel doc and generally improve wording choices.
+> >=20
+> > Fix the formatting errors of the Return: line.
+> >=20
+> > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> > ---
+> >  drivers/pci/rebar.c | 29 ++++++++++++++++++-----------
+> >  1 file changed, 18 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
+> > index 020ed7a1b3aa..64315dd8b6bb 100644
+> > --- a/drivers/pci/rebar.c
+> > +++ b/drivers/pci/rebar.c
+> > @@ -58,8 +58,9 @@ void pci_rebar_init(struct pci_dev *pdev)
+> >   * @bar: BAR to find
+> >   *
+> >   * Helper to find the position of the ctrl register for a BAR.
+> > - * Returns -ENOTSUPP if resizable BARs are not supported at all.
+> > - * Returns -ENOENT if no ctrl register for the BAR could be found.
+> > + *
+> > + * Return: %-ENOTSUPP if resizable BARs are not supported at all,
+> > + *=09   %-ENOENT if no ctrl register for the BAR could be found.
+> >   */
+> >  static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
+> >  {
+> > @@ -92,12 +93,15 @@ static int pci_rebar_find_pos(struct pci_dev *pdev,=
+ int bar)
+> >  }
+> > =20
+> >  /**
+> > - * pci_rebar_get_possible_sizes - get possible sizes for BAR
+> > + * pci_rebar_get_possible_sizes - get possible sizes for Resizable BAR
+> >   * @pdev: PCI device
+> >   * @bar: BAR to query
+> >   *
+> >   * Get the possible sizes of a resizable BAR as bitmask defined in the=
+ spec
+> > - * (bit 0=3D1MB, bit 31=3D128TB). Returns 0 if BAR isn't resizable.
+> > + * (bit 0=3D1MB, bit 31=3D128TB).
+> > + *
+> > + * Return: A bitmask of possible sizes (0=3D1MB, 31=3D128TB), or %0 if=
+ BAR isn't
+> > + *=09   resizable.
+> >   */
+> >  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
+> >  {
+> > @@ -121,12 +125,14 @@ u32 pci_rebar_get_possible_sizes(struct pci_dev *=
+pdev, int bar)
+> >  EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
+> > =20
+> >  /**
+> > - * pci_rebar_get_current_size - get the current size of a BAR
+> > + * pci_rebar_get_current_size - get the current size of a Resizable BA=
+R
+> >   * @pdev: PCI device
+> > - * @bar: BAR to set size to
+> > + * @bar: BAR to get the size from
+> >   *
+> > - * Read the size of a BAR from the resizable BAR config.
+> > - * Returns size if found or negative error code.
+> > + * Reads the current size of a BAR from the Resizable BAR config.
+> > + *
+> > + * Return: BAR Size if @bar is resizable (bit 0=3D1MB, bit 31=3D128TB)=
+, or
+>=20
+> This is a bit misleading since there is no mask returned but rather the=
+=20
+> order or in other words which bit of the mask was used.=20
 
-> ---
->  Documentation/filesystems/porting.rst | 5 +++++
->  Documentation/filesystems/vfs.rst     | 4 ++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-> index 85f590254f07..6743ed0b9112 100644
-> --- a/Documentation/filesystems/porting.rst
-> +++ b/Documentation/filesystems/porting.rst
-> @@ -1285,3 +1285,8 @@ rather than a VMA, as the VMA at this stage is not yet valid.
->  The vm_area_desc provides the minimum required information for a filesystem
->  to initialise state upon memory mapping of a file-backed region, and output
->  parameters for the file system to set this state.
-> +
-> +In nearly all cases, this is all that is required for a filesystem. However, if
-> +a filesystem needs to perform an operation such a pre-population of page tables,
-> +then that action can be specified in the vm_area_desc->action field, which can
-> +be configured using the mmap_action_*() helpers.
-> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> index 486a91633474..9e96c46ee10e 100644
-> --- a/Documentation/filesystems/vfs.rst
-> +++ b/Documentation/filesystems/vfs.rst
-> @@ -1236,6 +1236,10 @@ otherwise noted.
->  	file-backed memory mapping, most notably establishing relevant
->  	private state and VMA callbacks.
->  
-> +	If further action such as pre-population of page tables is required,
-> +	this can be specified by the vm_area_desc->action field and related
-> +	parameters.
-> +
->  Note that the file operations are implemented by the specific
->  filesystem in which the inode resides.  When opening a device node
->  (character or block special) most filesystems will call special
-> -- 
-> 2.51.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks for noticing this. I'll removed "bit" x2 from it, does that fully=20
+address your concern?
+
+--=20
+ i.
+
+> > + *=09   negative on error.
+> >   */
+> >  int pci_rebar_get_current_size(struct pci_dev *pdev, int bar)
+> >  {
+> > @@ -142,13 +148,14 @@ int pci_rebar_get_current_size(struct pci_dev *pd=
+ev, int bar)
+> >  }
+> > =20
+> >  /**
+> > - * pci_rebar_set_size - set a new size for a BAR
+> > + * pci_rebar_set_size - set a new size for a Resizable BAR
+> >   * @pdev: PCI device
+> >   * @bar: BAR to set size to
+> > - * @size: new size as defined in the spec (0=3D1MB, 31=3D128TB)
+> > + * @size: new size as defined in the PCIe spec (0=3D1MB, 31=3D128TB)
+> >   *
+> >   * Set the new size of a BAR as defined in the spec.
+> > - * Returns zero if resizing was successful, error code otherwise.
+> > + *
+> > + * Return: %0 if resizing was successful, or negative on error.
+> >   */
+> >  int pci_rebar_set_size(struct pci_dev *pdev, int bar, int size)
+> >  {
+>=20
+--8323328-183604244-1757581198=:944--
