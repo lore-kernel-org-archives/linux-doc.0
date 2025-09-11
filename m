@@ -1,74 +1,74 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2241223B632
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01C326FD86
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757562103; cv=none; b=lvR6ciQ7XqjpA42ZbmlQYCtO6RK3fLZU8XvRoqC4y7ROifTOocciQWowT27CabsbGgFuIU8KvPIbqlHO/rP60mFrtIIZ+98rRFmPLmdjr3LddaJ+sjyA6OKYZKT+hezkqJLJ/EEtAIkTbqjbxJ4xiZ9izVpERxJGPUA6dHsnANE=
+	t=1757562105; cv=none; b=RynWG+8S79XAy23/ey1SfSQVWG0SxqKGZioyGMnmo5LPYCoC9otrYEjcAuiT/QPLllIzWwPC8gNn4Dsp33P+LPvx2zdyxamVjcbANVfKHTlWCaqK3qO5rRDHmoUSLXLJq8Rj/MOnIQ4uitl/Dv1xIS+NVkQKjvUDxyDzQrqNa2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757562103; c=relaxed/simple;
-	bh=+8dSfgrMG4eFIFtqJ20ROAswX13YmpqsL2XfyfUksAU=;
+	s=arc-20240116; t=1757562105; c=relaxed/simple;
+	bh=kENdZrweqhHGnJf6wEosVdgBKcM0+mk+sFhIIGNHgqs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dtikuh7BOBjQYw0qFjQJE4zNWMe3N2fvfpYqNTyAkj+PEkBC6nwlQ4BruMp8YUs1u4J66kjf6Iw/TxP6HOizt5cq3ITphX0XuC71s/BPqcCFhEdMyR0CjmwBRsoGIwxas+VlgjLcGk0AlKGN4LMSE4kqaN4dLzJ7ZNkfoJZRnXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OO9tQCMz; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=S1twRHHUO+GpF1q9s5xgw604uMG+WYb3Lbof1gBfOs1w7vnNgO14iJ99g4L/O5zrZGfoGDOoq8VJFgsPvYRfqCzZlyjUcAlKSp091A8jZzkQeUl0oCnX8f+TgVPcW37lSH4kl8FNdTV8nfzkl5Ie8QLjr17jskTO4Tp3TZaq2mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=f6ZHaDw0; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OO9tQCMz"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2JFWT009306
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:41:41 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="f6ZHaDw0"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2IYWC005455
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:41:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	GaTc6vdim5GJ1OsrX7tFizDxK1+T66nxGle441QICfs=; b=OO9tQCMz3Qb0Xccs
-	QwhFB5TXi3WfB03/jC3Rg/Cb+9tK5aAml1hj72dd5vr2jgo9JYPB4YVThbd683Gq
-	d0y8+GfsWfa3p6ee+xa+/n5r/W2vlRtgRdyHL2J1/iC3w7Cv1KFWHk4qR7Ez/+sI
-	wHypqJja54zeYg5/uh78BDG+TPuNr63BHCeqvKExLC8Lwcku9AXkBuP1UG9g47Zu
-	1xFzNbSmTiltMEStYVH0b1JyH+u8F02B055escaZk1rKCCPm/16je63+rRtmT16Y
-	4dCGFW4FuC6n8VcxklhsyYlzKyNeeXRlfG4IF/Md2kBRN9vbpr4WzaARy5qZL6Yo
-	VkCmpg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490aappdat-1
+	XwnYng4J7ze/dOFBSejFi7aWyaFRlAnXEGBPJ3w6NTU=; b=f6ZHaDw03bB5c9Ox
+	NaMlewikrPImO0mDizXC8kEsIjpqUjuHrvu6aDibRSb9utvy5EJiZs79KtfibNxK
+	K06CZoB5jGMBCshmTiuuPh1E0hYJwXwOkPcp4f54kH4jC2hTy28QGWRVD+bTsB+8
+	IR7HUiTXd+ZDXYHZMvi7c5y4auj0k+JOXl+E31uOAuBpc40/cmG5NElMTmyPQBDk
+	A/DQHaJJ2TyY8qmt5+DCYgWketL9/scn/ie1OMdnhGpFE834TxIkdHdDw0ICzM+M
+	EVdT11Ii33pvw9q0AuOrKRbDuwDOIrJoocXlzM2wxo2LhtzxTNRPxb0aEMrpzNzN
+	INZUTw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc2a63x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:41:40 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-248d9301475so4382685ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 20:41:40 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 03:41:42 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-24cc4458e89so5556825ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Sep 2025 20:41:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757562099; x=1758166899;
+        d=1e100.net; s=20230601; t=1757562101; x=1758166901;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GaTc6vdim5GJ1OsrX7tFizDxK1+T66nxGle441QICfs=;
-        b=DKe42u47C/2lp0hqJBVja4qIBeCAbZmm3MnlGjXaMVvUB454KPnlHsJnzczzcjYOz2
-         doDkZDM+aj8yldYgLOfrfDLhiR7QknfBZmGFHy2CwAIPNs+Q5yKadDiTZnIIqcDS+atE
-         QO6n+J5fRgg+o7IGgJYh9Uu1lkMLd+ev/0zAdVr+feswDQ/4/yQx3w9wDEidZIdt4eEj
-         dBsj/5lDEZmWFqwMi7yQmpYQwIPqEHpBSPJw8PtZE3Xm9Me3LKuBv9WU+/9ePtRVoVgo
-         nVjr3di3LbCyxnOAiGev/daT4ZdsJ2LUKxKn7I391HkxbD/lh2I90gnyHCLOj/mjgIJg
-         HEZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXhLUpVzrTahyassRHlIf9m+Li5esO6gqJAjp+KCq8ElWznAb7UN1puRagbGiG08OkzbrcoW/iichY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAbM/uIXdOb6auRE5MfghJR7Gbl6Ku3b/iEQfW5wdkHMAC0L7e
-	npFaJzOFOG6bIw1VUloLheI8qbjqvuaoXu9/YPiaEDjmjRii1lql5ZuP/6gRZsxDAdr1dGYy3A2
-	8IuIHDt2kbZo5ltlp3un0NsGAsphI5fawSdnv0uNW67Go00uCZ5pkftjl3m1Xiw==
-X-Gm-Gg: ASbGncsetdbyphipu8yy2XPIARYehwYxMyx+McePaJ9X8TusFjzGhv1DF/57eI7Qnth
-	famANRNtVZrLMOckQOkIJaIlwWdjr8N6uxf4HLV1mXVgiVXmTpcFITk0LNSvKYd6vXCVXpqqVCF
-	LZYSo0BSxxqtN49uOg7M6LTXgHDduihz/RGyuqUM5NCFycmJgvVbJN/PEyII0qBj3nFr67p0gcQ
-	V7tRHwRQqTe35xzxnncZeuJTLjLUH8MvWd3LFX2yeDWqifPVJci1mCdF2jzM6hdWSWQc6padpqB
-	E43BcoGiv/5aq0rSMYpn1DEAr9dVl5hMRId/AIrlTRyB7ry6qpUJp0PCJzma13umI2Iekvqtaps
-	nN4Puq4/jDmAJvaGnBWbb8N0=
-X-Received: by 2002:a17:903:189:b0:24c:ce43:e60b with SMTP id d9443c01a7336-2516e2bddf9mr240695735ad.18.1757562099302;
-        Wed, 10 Sep 2025 20:41:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/i6ecLj5MYiXQ9AmYwku7JyAUYSshq8Oq7pjTWJmAC0pSVc3B/lcSH6c85M2ciudDJ2NEmA==
-X-Received: by 2002:a17:903:189:b0:24c:ce43:e60b with SMTP id d9443c01a7336-2516e2bddf9mr240695395ad.18.1757562098800;
-        Wed, 10 Sep 2025 20:41:38 -0700 (PDT)
+        bh=XwnYng4J7ze/dOFBSejFi7aWyaFRlAnXEGBPJ3w6NTU=;
+        b=ELoM5Ol6WsWIgd3lhSIrkOho7dZEr/wpfrzv37Y/haPHqsysa2W73FJ7wGHwsccJE6
+         BhWvh+VqMvweCHuIq5mNyR59C5O9PaLAeAf7DdXBvegqRwGVAZT8S0/60MeV8T7Liaql
+         k+aQieWcnk+lavG+HDHOzhEdpt4K7++iX1QQScRlY3JHNY6Ep1V4RZu3f0vbXGdzo5H2
+         2plVXXC9HQ8Fz3R1ku4NV0bZdoJFBHKKwR8UmStwAh7F/Ly/zmH08WOIkXHthgvAInI7
+         qv/+Nmjtmaau61UgwXutej7DdlvChtEhJ6R6r6sqwDNMwB234rbkMZH15xYrpsGp6ycJ
+         GpKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhfqExn7RqLk2fMYQfgC3XZw1MASXP6thBOEOnFnz2iw3OdQ6x9ekRSJZKYRGInFDX4dpNN5IjV6M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0tgZ7GRDHFNQUN0zDzxzg+JFUl9y6s01EticcXevqYRv1CZrs
+	pAMATb57D5Z0nkfNnioGq3WTF/BXp2qFVSfQjEJR5zT28sIk+0vDKR6DPddWiyKc3ZA3z5UYuU+
+	RTmk6soU7PFOtcT8/uGRaIr2eLbRZq2+zDq5Tp2repE/9R001A3QY01fDrmp3WA==
+X-Gm-Gg: ASbGnctr9Qsqpu0UBZreTrj/hhnwl0iri2KufBYw6g/VkrKJ6wbcZ8zHyq5MG/rOvgG
+	XXEQcrfpNUfKvbY2gch8HpRoztyiH1AMytSxQ1MrLnPnbBmv/F7dSGHIgfemWmhfXcemnNGySge
+	+dvrtEc6vov2rPD+lMFZDiY1zIIovv5VSdRoeyQwtganqKtx3uvvtF4HtzE7aPEGnRxtoJx1nbe
+	wbhWbfARLrqsg4ECNveNcI1pkgpt/sqOSJBwqlcjhNPTyBbPvb5rbdknjKBF/tBEiUR+4rYjCbq
+	rJ2EmlFZNm1B1QfvjU+Y+2yEmMsdjgZVmCEXJOB+HEvyhdsoueiiGfZm9aqxsvIVVVu98/oXmQh
+	8SMRLpaHueYq5CfLD/R3yGOg=
+X-Received: by 2002:a17:902:dac8:b0:25c:2ed4:fd95 with SMTP id d9443c01a7336-25c2ed5005dmr6815315ad.59.1757562100980;
+        Wed, 10 Sep 2025 20:41:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3oevox7nqXEWF2DYBxqUbHqFTlhVuAe4cuBaS+gdJ0kKth+OfDN91fqSo5gDIycSAYiYQ6g==
+X-Received: by 2002:a17:902:dac8:b0:25c:2ed4:fd95 with SMTP id d9443c01a7336-25c2ed5005dmr6814725ad.59.1757562100314;
+        Wed, 10 Sep 2025 20:41:40 -0700 (PDT)
 Received: from hu-azarrabi-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3b304f76sm2962275ad.130.2025.09.10.20.41.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3b304f76sm2962275ad.130.2025.09.10.20.41.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 20:41:38 -0700 (PDT)
+        Wed, 10 Sep 2025 20:41:39 -0700 (PDT)
 From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Date: Wed, 10 Sep 2025 20:41:22 -0700
-Subject: [PATCH v11 09/11] tee: qcom: add primordial object
+Date: Wed, 10 Sep 2025 20:41:23 -0700
+Subject: [PATCH v11 10/11] tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-9-520e867b3d74@oss.qualcomm.com>
+Message-Id: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-10-520e867b3d74@oss.qualcomm.com>
 References: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-0-520e867b3d74@oss.qualcomm.com>
 In-Reply-To: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-0-520e867b3d74@oss.qualcomm.com>
 To: Jens Wiklander <jens.wiklander@linaro.org>,
@@ -95,191 +95,431 @@ Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
         linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
         Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-        Sumit Garg <sumit.garg@oss.qualcomm.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Sumit Garg <sumit.garg@oss.qualcomm.com>
 X-Mailer: b4 0.13.0
-X-Authority-Analysis: v=2.4 cv=eMETjGp1 c=1 sm=1 tr=0 ts=68c244f5 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=6dJEewf6gjddJ4Qna_sA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: D_HI8ZDmEtomuY598MWFWLyNu31Lq2B8
-X-Proofpoint-ORIG-GUID: D_HI8ZDmEtomuY598MWFWLyNu31Lq2B8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAwMCBTYWx0ZWRfX+YSRYNOz1SrJ
- F8cPpl5pdAzfslU/o0Gv3jRu82DDWnh5VOZy0iSGNZbMDmG3VTG7K/tgmzRyuTenVNKlQwY0za2
- BBo6JEWDSKcO9jr7OuFdksF6/ijvfDjoYO4vop7qJ1JABY5hhPWEqyFW9naiPmDG5oR1d3CoMSa
- 8NUQVYnu/4mtfqp7FzY1/XiOTLinliK6blGIxRPhBz9aqRZDKdbGh3zRYkjPGoHFwolafbirmbt
- zfqAeWmXrPUxEK44v5OBVN/of/Ak7tMvpt1sH/Y9us0ErzK1d4KSjyROQfAzI2SsuvwkZEGaK9Z
- mjUPbkwbu6LExoCLZDqgqxWJ/aXsGq9o79grUnXln1agh1l2ff36QpbrNgHA9y4C7ipeeDt2RYV
- JU9Pl75K
+X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c244f6 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=OR1utrCcES5rRZ7Z870A:9 a=DPARgtBJioFDCh1s:21
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: dDrM1Z4-7I_woJMG50uhS3P5S6IJzQwH
+X-Proofpoint-GUID: dDrM1Z4-7I_woJMG50uhS3P5S6IJzQwH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX06dHEoPL85wT
+ 16hIhc2H151EY8cNL+5vB7Rr/8EevbhLuJ3D5t09SmOe8RaSUBykycR9Y8oB8uXxwmLQuiV2ZHj
+ K8sy9gENQxqfLqQllIXDQ+wTY2BQwKFvUG+zBazxjAWV8Kg0Taq0QGhQJja9AyAp+oDl+m0G+c1
+ 48aCnU6K56fuWU1fBxbkF2sS2UnsFDLYaj0um03TDYWRGsRYumMJR45nVKmc4kcaKW7sljuNp+B
+ jWYekbvS5fUUeihUqYoPdQyeLDlsJU9dhpdMDDYNTq847AjaKTMT9mRTMXbE7686FysHDWuDlTq
+ AKmSrWL5iqhlA1dP6C8+y78PduifLfCyHTUVDVKvG/xYRhQ1FInCxeNjlSMBHCAxR/HCz48QLWm
+ 4gEtNfzQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
- bulkscore=0 phishscore=0 spamscore=0 suspectscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509060000
+ spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
 
-After booting, the kernel provides a static object known as the
-primordial object. This object is utilized by QTEE for native
-kernel services such as yield or privileged operations.
+Enable userspace to allocate shared memory with QTEE. Since
+QTEE handles shared memory as object, a wrapper is implemented
+to represent tee_shm as an object. The shared memory identifier,
+obtained through TEE_IOC_SHM_ALLOC, is transferred to the driver using
+TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT.
 
-Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 Tested-by: Harshal Dev <quic_hdev@quicinc.com>
 Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 ---
- drivers/tee/qcomtee/Makefile         |  1 +
- drivers/tee/qcomtee/core.c           | 19 ++++++++---
- drivers/tee/qcomtee/primordial_obj.c | 63 ++++++++++++++++++++++++++++++++++++
- drivers/tee/qcomtee/qcomtee.h        |  3 ++
- 4 files changed, 81 insertions(+), 5 deletions(-)
+ drivers/tee/qcomtee/Makefile         |   1 +
+ drivers/tee/qcomtee/call.c           |   9 +-
+ drivers/tee/qcomtee/mem_obj.c        | 169 +++++++++++++++++++++++++++++++++++
+ drivers/tee/qcomtee/primordial_obj.c |  50 +++++++++++
+ drivers/tee/qcomtee/qcomtee.h        |  39 ++++++++
+ drivers/tee/qcomtee/shm.c            |   3 -
+ 6 files changed, 267 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/tee/qcomtee/Makefile b/drivers/tee/qcomtee/Makefile
-index 600af2b8f1c1..78f8e899d143 100644
+index 78f8e899d143..7c466c9f32af 100644
 --- a/drivers/tee/qcomtee/Makefile
 +++ b/drivers/tee/qcomtee/Makefile
-@@ -3,5 +3,6 @@ obj-$(CONFIG_QCOMTEE) += qcomtee.o
+@@ -3,6 +3,7 @@ obj-$(CONFIG_QCOMTEE) += qcomtee.o
  qcomtee-objs += async.o
  qcomtee-objs += call.o
  qcomtee-objs += core.o
-+qcomtee-objs += primordial_obj.o
++qcomtee-objs += mem_obj.o
+ qcomtee-objs += primordial_obj.o
  qcomtee-objs += shm.o
  qcomtee-objs += user_obj.o
-diff --git a/drivers/tee/qcomtee/core.c b/drivers/tee/qcomtee/core.c
-index b6931ed6f200..783acc59cfa9 100644
---- a/drivers/tee/qcomtee/core.c
-+++ b/drivers/tee/qcomtee/core.c
-@@ -31,10 +31,12 @@ int qcomtee_next_arg_type(struct qcomtee_arg *u, int i,
- }
+diff --git a/drivers/tee/qcomtee/call.c b/drivers/tee/qcomtee/call.c
+index 33daa4d7033d..cc17a48d0ab7 100644
+--- a/drivers/tee/qcomtee/call.c
++++ b/drivers/tee/qcomtee/call.c
+@@ -122,7 +122,10 @@ int qcomtee_objref_to_arg(struct qcomtee_arg *arg, struct tee_param *param,
+ 		err =  qcomtee_user_param_to_object(&arg->o, param, ctx);
+ 	/* param is a QTEE object: */
+ 	else if (param->u.objref.flags & QCOMTEE_OBJREF_FLAG_TEE)
+-		err =  qcomtee_context_find_qtee_object(&arg->o, param, ctx);
++		err = qcomtee_context_find_qtee_object(&arg->o, param, ctx);
++	/* param is a memory object: */
++	else if (param->u.objref.flags & QCOMTEE_OBJREF_FLAG_MEM)
++		err = qcomtee_memobj_param_to_object(&arg->o, param, ctx);
  
- /*
-- * QTEE expects IDs with the QCOMTEE_MSG_OBJECT_NS_BIT set for objects
-- * of the QCOMTEE_OBJECT_TYPE_CB type.
-+ * QTEE expects IDs with QCOMTEE_MSG_OBJECT_NS_BIT set for objects of
-+ * QCOMTEE_OBJECT_TYPE_CB type. The first ID with QCOMTEE_MSG_OBJECT_NS_BIT
-+ * set is reserved for the primordial object.
-  */
--#define QCOMTEE_OBJECT_ID_START (QCOMTEE_MSG_OBJECT_NS_BIT + 1)
-+#define QCOMTEE_OBJECT_PRIMORDIAL (QCOMTEE_MSG_OBJECT_NS_BIT)
-+#define QCOMTEE_OBJECT_ID_START (QCOMTEE_OBJECT_PRIMORDIAL + 1)
- #define QCOMTEE_OBJECT_ID_END (U32_MAX)
+ 	/*
+ 	 * For callback objects, call qcomtee_object_get() to keep a temporary
+@@ -168,6 +171,10 @@ int qcomtee_objref_from_arg(struct tee_param *param, struct qcomtee_arg *arg,
+ 		if (is_qcomtee_user_object(object))
+ 			return qcomtee_user_param_from_object(param, object,
+ 							      ctx);
++		/* object is a memory object: */
++		else if (is_qcomtee_memobj_object(object))
++			return qcomtee_memobj_param_from_object(param, object,
++							       ctx);
  
- #define QCOMTEE_OBJECT_SET(p, type, ...) \
-@@ -157,7 +159,9 @@ static void qcomtee_object_release(struct kref *refcount)
-  */
- int qcomtee_object_get(struct qcomtee_object *object)
- {
--	if (object != NULL_QCOMTEE_OBJECT && object != ROOT_QCOMTEE_OBJECT)
-+	if (object != &qcomtee_primordial_object &&
-+	    object != NULL_QCOMTEE_OBJECT &&
-+	    object != ROOT_QCOMTEE_OBJECT)
- 		return kref_get_unless_zero(&object->refcount);
- 
- 	return 0;
-@@ -169,7 +173,9 @@ int qcomtee_object_get(struct qcomtee_object *object)
-  */
- void qcomtee_object_put(struct qcomtee_object *object)
- {
--	if (object != NULL_QCOMTEE_OBJECT && object != ROOT_QCOMTEE_OBJECT)
-+	if (object != &qcomtee_primordial_object &&
-+	    object != NULL_QCOMTEE_OBJECT &&
-+	    object != ROOT_QCOMTEE_OBJECT)
- 		kref_put(&object->refcount, qcomtee_object_release);
- }
- 
-@@ -261,6 +267,9 @@ qcomtee_local_object_get(struct qcomtee_object_invoke_ctx *oic,
- 	struct qcomtee *qcomtee = tee_get_drvdata(oic->ctx->teedev);
- 	struct qcomtee_object *object;
- 
-+	if (object_id == QCOMTEE_OBJECT_PRIMORDIAL)
-+		return &qcomtee_primordial_object;
-+
- 	guard(rcu)();
- 	object = xa_load(&qcomtee->xa_local_objects, object_id);
- 	/* It already checks for %NULL_QCOMTEE_OBJECT. */
-diff --git a/drivers/tee/qcomtee/primordial_obj.c b/drivers/tee/qcomtee/primordial_obj.c
+ 		break;
+ 	case QCOMTEE_OBJECT_TYPE_TEE:
+diff --git a/drivers/tee/qcomtee/mem_obj.c b/drivers/tee/qcomtee/mem_obj.c
 new file mode 100644
-index 000000000000..0e43f04493e2
+index 000000000000..228a3e30a31b
 --- /dev/null
-+++ b/drivers/tee/qcomtee/primordial_obj.c
-@@ -0,0 +1,63 @@
++++ b/drivers/tee/qcomtee/mem_obj.c
+@@ -0,0 +1,169 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 + */
 +
-+#include <linux/delay.h>
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/firmware/qcom/qcom_scm.h>
++#include <linux/mm.h>
++
 +#include "qcomtee.h"
 +
 +/**
-+ * DOC: Primordial Object
++ * DOC: Memory and Mapping Objects
 + *
-+ * After boot, the kernel provides a static object of type
-+ * %QCOMTEE_OBJECT_TYPE_CB called the primordial object. This object is used
-+ * for native kernel services or privileged operations.
++ * QTEE uses memory objects for memory sharing with Linux.
++ * A memory object can be a standard dma_buf or a contiguous memory range,
++ * e.g., tee_shm. A memory object should support one operation: map. When
++ * invoked by QTEE, a mapping object is generated. A mapping object supports
++ * one operation: unmap.
 + *
-+ * We support:
-+ *  - %QCOMTEE_OBJECT_OP_YIELD to yield by the thread running in QTEE.
-+ *  - %QCOMTEE_OBJECT_OP_SLEEP to wait for a period of time.
++ *  (1) To map a memory object, QTEE invokes the primordial object with
++ *      %QCOMTEE_OBJECT_OP_MAP_REGION operation; see
++ *      qcomtee_primordial_obj_dispatch().
++ *  (2) To unmap a memory object, QTEE releases the mapping object which
++ *      calls qcomtee_mem_object_release().
++ *
++ * The map operation is implemented in the primordial object as a privileged
++ * operation instead of qcomtee_mem_object_dispatch(). Otherwise, on
++ * platforms without shm_bridge, a user can trick QTEE into writing to the
++ * kernel memory by passing a user object as a memory object and returning a
++ * random physical address as the result of the mapping request.
 + */
 +
-+#define QCOMTEE_OBJECT_OP_YIELD 1
-+#define QCOMTEE_OBJECT_OP_SLEEP 2
++struct qcomtee_mem_object {
++	struct qcomtee_object object;
++	struct tee_shm *shm;
++	/* QTEE requires these felids to be page aligned. */
++	phys_addr_t paddr; /* Physical address of range. */
++	size_t size; /* Size of the range. */
++};
 +
-+static int
-+qcomtee_primordial_obj_dispatch(struct qcomtee_object_invoke_ctx *oic,
-+				struct qcomtee_object *primordial_object_unused,
-+				u32 op, struct qcomtee_arg *args)
++#define to_qcomtee_mem_object(o) \
++	container_of((o), struct qcomtee_mem_object, object)
++
++static struct qcomtee_object_operations qcomtee_mem_object_ops;
++
++/* Is it a memory object using tee_shm? */
++int is_qcomtee_memobj_object(struct qcomtee_object *object)
 +{
-+	int err = 0;
-+
-+	switch (op) {
-+	case QCOMTEE_OBJECT_OP_YIELD:
-+		cond_resched();
-+		/* No output object. */
-+		oic->data = NULL;
-+		break;
-+	case QCOMTEE_OBJECT_OP_SLEEP:
-+		/* Check message format matched QCOMTEE_OBJECT_OP_SLEEP op. */
-+		if (qcomtee_args_len(args) != 1 ||
-+		    args[0].type != QCOMTEE_ARG_TYPE_IB ||
-+		    args[0].b.size < sizeof(u32))
-+			return -EINVAL;
-+
-+		msleep(*(u32 *)(args[0].b.addr));
-+		/* No output object. */
-+		oic->data = NULL;
-+		break;
-+	default:
-+		err = -EINVAL;
-+	}
-+
-+	return err;
++	return object != NULL_QCOMTEE_OBJECT &&
++	       typeof_qcomtee_object(object) == QCOMTEE_OBJECT_TYPE_CB &&
++	       object->ops == &qcomtee_mem_object_ops;
 +}
 +
-+static struct qcomtee_object_operations qcomtee_primordial_obj_ops = {
-+	.dispatch = qcomtee_primordial_obj_dispatch,
++static int qcomtee_mem_object_dispatch(struct qcomtee_object_invoke_ctx *oic,
++				       struct qcomtee_object *object, u32 op,
++				       struct qcomtee_arg *args)
++{
++	return -EINVAL;
++}
++
++static void qcomtee_mem_object_release(struct qcomtee_object *object)
++{
++	struct qcomtee_mem_object *mem_object = to_qcomtee_mem_object(object);
++
++	/* Matching get is in qcomtee_memobj_param_to_object(). */
++	tee_shm_put(mem_object->shm);
++	kfree(mem_object);
++}
++
++static struct qcomtee_object_operations qcomtee_mem_object_ops = {
++	.release = qcomtee_mem_object_release,
++	.dispatch = qcomtee_mem_object_dispatch,
 +};
 +
-+struct qcomtee_object qcomtee_primordial_object = {
-+	.name = "primordial",
-+	.object_type = QCOMTEE_OBJECT_TYPE_CB,
-+	.ops = &qcomtee_primordial_obj_ops
-+};
++/**
++ * qcomtee_memobj_param_to_object() - OBJREF parameter to &struct qcomtee_object.
++ * @object: object returned.
++ * @param: TEE parameter.
++ * @ctx: context in which the conversion should happen.
++ *
++ * @param is an OBJREF with %QCOMTEE_OBJREF_FLAG_MEM flags.
++ *
++ * Return: On success return 0 or <0 on failure.
++ */
++int qcomtee_memobj_param_to_object(struct qcomtee_object **object,
++				   struct tee_param *param,
++				   struct tee_context *ctx)
++{
++	struct qcomtee_mem_object *mem_object __free(kfree) = NULL;
++	struct tee_shm *shm;
++	int err;
++
++	mem_object = kzalloc(sizeof(*mem_object), GFP_KERNEL);
++	if (!mem_object)
++		return -ENOMEM;
++
++	shm = tee_shm_get_from_id(ctx, param->u.objref.id);
++	if (IS_ERR(shm))
++		return PTR_ERR(shm);
++
++	/* mem-object wrapping the memref. */
++	err = qcomtee_object_user_init(&mem_object->object,
++				       QCOMTEE_OBJECT_TYPE_CB,
++				       &qcomtee_mem_object_ops, "tee-shm-%d",
++				       shm->id);
++	if (err) {
++		tee_shm_put(shm);
++
++		return err;
++	}
++
++	mem_object->paddr = shm->paddr;
++	mem_object->size = shm->size;
++	mem_object->shm = shm;
++
++	*object = &no_free_ptr(mem_object)->object;
++
++	return 0;
++}
++
++/* Reverse what qcomtee_memobj_param_to_object() does. */
++int qcomtee_memobj_param_from_object(struct tee_param *param,
++				     struct qcomtee_object *object,
++				     struct tee_context *ctx)
++{
++	struct qcomtee_mem_object *mem_object;
++
++	mem_object = to_qcomtee_mem_object(object);
++	/* Sure if the memobj is in a same context it is originated from. */
++	if (mem_object->shm->ctx != ctx)
++		return -EINVAL;
++
++	param->u.objref.id = mem_object->shm->id;
++	param->u.objref.flags = QCOMTEE_OBJREF_FLAG_MEM;
++
++	/* Passing shm->id to userspace; drop the reference. */
++	qcomtee_object_put(object);
++
++	return 0;
++}
++
++/**
++ * qcomtee_mem_object_map() - Map a memory object.
++ * @object: memory object.
++ * @map_object: created mapping object.
++ * @mem_paddr: physical address of the memory.
++ * @mem_size: size of the memory.
++ * @perms: QTEE access permissions.
++ *
++ * Return: On success return 0 or <0 on failure.
++ */
++int qcomtee_mem_object_map(struct qcomtee_object *object,
++			   struct qcomtee_object **map_object, u64 *mem_paddr,
++			   u64 *mem_size, u32 *perms)
++{
++	struct qcomtee_mem_object *mem_object = to_qcomtee_mem_object(object);
++
++	/* Reuses the memory object as a mapping object by re-sharing it. */
++	qcomtee_object_get(&mem_object->object);
++
++	*map_object = &mem_object->object;
++	*mem_paddr = mem_object->paddr;
++	*mem_size = mem_object->size;
++	*perms = QCOM_SCM_PERM_RW;
++
++	return 0;
++}
+diff --git a/drivers/tee/qcomtee/primordial_obj.c b/drivers/tee/qcomtee/primordial_obj.c
+index 0e43f04493e2..b6f811e83b11 100644
+--- a/drivers/tee/qcomtee/primordial_obj.c
++++ b/drivers/tee/qcomtee/primordial_obj.c
+@@ -14,18 +14,31 @@
+  * for native kernel services or privileged operations.
+  *
+  * We support:
++ *  - %QCOMTEE_OBJECT_OP_MAP_REGION to map a memory object and return mapping
++ *    object and mapping information (see qcomtee_mem_object_map()).
+  *  - %QCOMTEE_OBJECT_OP_YIELD to yield by the thread running in QTEE.
+  *  - %QCOMTEE_OBJECT_OP_SLEEP to wait for a period of time.
+  */
+ 
++#define QCOMTEE_OBJECT_OP_MAP_REGION 0
+ #define QCOMTEE_OBJECT_OP_YIELD 1
+ #define QCOMTEE_OBJECT_OP_SLEEP 2
+ 
++/* Mapping information format as expected by QTEE. */
++struct qcomtee_mapping_info {
++	u64 paddr;
++	u64 len;
++	u32 perms;
++} __packed;
++
+ static int
+ qcomtee_primordial_obj_dispatch(struct qcomtee_object_invoke_ctx *oic,
+ 				struct qcomtee_object *primordial_object_unused,
+ 				u32 op, struct qcomtee_arg *args)
+ {
++	struct qcomtee_mapping_info *map_info;
++	struct qcomtee_object *mem_object;
++	struct qcomtee_object *map_object;
+ 	int err = 0;
+ 
+ 	switch (op) {
+@@ -33,6 +46,7 @@ qcomtee_primordial_obj_dispatch(struct qcomtee_object_invoke_ctx *oic,
+ 		cond_resched();
+ 		/* No output object. */
+ 		oic->data = NULL;
++
+ 		break;
+ 	case QCOMTEE_OBJECT_OP_SLEEP:
+ 		/* Check message format matched QCOMTEE_OBJECT_OP_SLEEP op. */
+@@ -44,6 +58,29 @@ qcomtee_primordial_obj_dispatch(struct qcomtee_object_invoke_ctx *oic,
+ 		msleep(*(u32 *)(args[0].b.addr));
+ 		/* No output object. */
+ 		oic->data = NULL;
++
++		break;
++	case QCOMTEE_OBJECT_OP_MAP_REGION:
++		if (qcomtee_args_len(args) != 3 ||
++		    args[0].type != QCOMTEE_ARG_TYPE_OB ||
++		    args[1].type != QCOMTEE_ARG_TYPE_IO ||
++		    args[2].type != QCOMTEE_ARG_TYPE_OO ||
++		    args[0].b.size < sizeof(struct qcomtee_mapping_info))
++			return -EINVAL;
++
++		map_info = args[0].b.addr;
++		mem_object = args[1].o;
++
++		qcomtee_mem_object_map(mem_object, &map_object,
++				       &map_info->paddr, &map_info->len,
++				       &map_info->perms);
++
++		args[2].o = map_object;
++		/* One output object; pass it for cleanup to notify. */
++		oic->data = map_object;
++
++		qcomtee_object_put(mem_object);
++
+ 		break;
+ 	default:
+ 		err = -EINVAL;
+@@ -52,8 +89,21 @@ qcomtee_primordial_obj_dispatch(struct qcomtee_object_invoke_ctx *oic,
+ 	return err;
+ }
+ 
++/* Called after submitting the callback response. */
++static void qcomtee_primordial_obj_notify(struct qcomtee_object_invoke_ctx *oic,
++					  struct qcomtee_object *unused,
++					  int err)
++{
++	struct qcomtee_object *object = oic->data;
++
++	/* If err, QTEE did not obtain mapping object. Drop it. */
++	if (object && err)
++		qcomtee_object_put(object);
++}
++
+ static struct qcomtee_object_operations qcomtee_primordial_obj_ops = {
+ 	.dispatch = qcomtee_primordial_obj_dispatch,
++	.notify = qcomtee_primordial_obj_notify,
+ };
+ 
+ struct qcomtee_object qcomtee_primordial_object = {
 diff --git a/drivers/tee/qcomtee/qcomtee.h b/drivers/tee/qcomtee/qcomtee.h
-index f34be992e68b..084b3882017e 100644
+index 084b3882017e..f39bf63fd1c2 100644
 --- a/drivers/tee/qcomtee/qcomtee.h
 +++ b/drivers/tee/qcomtee/qcomtee.h
-@@ -140,4 +140,7 @@ int qcomtee_user_object_submit(struct tee_context *ctx,
- 			       struct tee_param *params, int num_params,
- 			       int req_id, int errno);
+@@ -15,6 +15,7 @@
+ /* Flags relating to object reference. */
+ #define QCOMTEE_OBJREF_FLAG_TEE		BIT(0)
+ #define QCOMTEE_OBJREF_FLAG_USER	BIT(1)
++#define QCOMTEE_OBJREF_FLAG_MEM		BIT(2)
  
-+/* (2) Primordial Object. */
-+extern struct qcomtee_object qcomtee_primordial_object;
+ /**
+  * struct qcomtee - Main service struct.
+@@ -143,4 +144,42 @@ int qcomtee_user_object_submit(struct tee_context *ctx,
+ /* (2) Primordial Object. */
+ extern struct qcomtee_object qcomtee_primordial_object;
+ 
++/* (3) Memory Object API. */
++
++/* Is it a memory object using tee_shm? */
++int is_qcomtee_memobj_object(struct qcomtee_object *object);
++
++/**
++ * qcomtee_memobj_param_to_object() - OBJREF parameter to &struct qcomtee_object.
++ * @object: object returned.
++ * @param: TEE parameter.
++ * @ctx: context in which the conversion should happen.
++ *
++ * @param is an OBJREF with %QCOMTEE_OBJREF_FLAG_MEM flags.
++ *
++ * Return: On success return 0 or <0 on failure.
++ */
++int qcomtee_memobj_param_to_object(struct qcomtee_object **object,
++				   struct tee_param *param,
++				   struct tee_context *ctx);
++
++/* Reverse what qcomtee_memobj_param_to_object() does. */
++int qcomtee_memobj_param_from_object(struct tee_param *param,
++				     struct qcomtee_object *object,
++				     struct tee_context *ctx);
++
++/**
++ * qcomtee_mem_object_map() - Map a memory object.
++ * @object: memory object.
++ * @map_object: created mapping object.
++ * @mem_paddr: physical address of the memory.
++ * @mem_size: size of the memory.
++ * @perms: QTEE access permissions.
++ *
++ * Return: On success return 0 or <0 on failure.
++ */
++int qcomtee_mem_object_map(struct qcomtee_object *object,
++			   struct qcomtee_object **map_object, u64 *mem_paddr,
++			   u64 *mem_size, u32 *perms);
 +
  #endif /* QCOMTEE_H */
+diff --git a/drivers/tee/qcomtee/shm.c b/drivers/tee/qcomtee/shm.c
+index 2aea76487372..580bd25f98ed 100644
+--- a/drivers/tee/qcomtee/shm.c
++++ b/drivers/tee/qcomtee/shm.c
+@@ -117,9 +117,6 @@ static int qcomtee_shm_unregister(struct tee_context *ctx, struct tee_shm *shm)
+ static int pool_op_alloc(struct tee_shm_pool *pool, struct tee_shm *shm,
+ 			 size_t size, size_t align)
+ {
+-	if (!(shm->flags & TEE_SHM_PRIV))
+-		return -ENOMEM;
+-
+ 	return tee_dyn_shm_alloc_helper(shm, size, align, qcomtee_shm_register);
+ }
+ 
 
 -- 
 2.34.1
