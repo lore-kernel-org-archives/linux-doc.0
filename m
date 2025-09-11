@@ -1,151 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18ABE2C08AC;
-	Thu, 11 Sep 2025 07:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B36E2C026A
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 07:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757577382; cv=none; b=XwttPDhdQtf8ImqUeuFRprJobsi7qYjmb9PPDnlxj7ust1H7LoxWtRZjcq4oCPvqzSlqmO/nn+iJDO8AQz7nzHHhDRplNjYY+Mk666co0x9xfFSugu/UgfAOrtCG8jqc1swWfnRo7212jc0PHmFnR69jX/WErGH28Rc/dlXVsFE=
+	t=1757577397; cv=none; b=DPky7wTLH48SPWc3Mxhe1/jmZxGa7+Na+gNoG1cf1s8//nzC/f5LnQRPfickk7n/F7XlHrR3ZMQ+8gkiT2qepgeEx2R0llyk1tGjMHVFvpU3doS7+hkRbL/ukC9gnfA4FM8+88HPv3ybsV/7KqkLF7RWEXn138P4FXlzrTLtFl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757577382; c=relaxed/simple;
-	bh=NdLKAQlWUr0SnI1fWCp+SY3s4Yp8zDJc9KTErx0pre0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=J+PIdW+pWqEamePuK2udi79z2kH4TDfB7ufgmKiEZs7U5H/hO6TlaPulIEPnXgQn58oSAn21EpO9fKWk1uPD5N6xf6Gp+Ln5ZTrO+8teTIFq+smLY0APL3S/XWB6y/oHvodzInDtzo1QVkrWol2IBKzbdIDlh5tx7aIddUEzsZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pgc9bvnw; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1757577397; c=relaxed/simple;
+	bh=iQptQ7gTbmXxopSjxBxOANU0HqRVgiApdv76+PN6Eag=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JOYkTzEYntyBtDCdItz77PTN1OwbuLJI6EbFwXTiAf3PEGnxh5HB5Wb/BZ3LegkaiyHpSOvQZKd+r8jOPFX9/f5nonPqAK4zLUfe2w3eFRgh5v8kRiA0drYTwxPpC+wdsq8E43JvztVOSVU/3WHcRSlCGe8Frcpqii9BaH3eFNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C1dkI6Oo; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pgc9bvnw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757577381; x=1789113381;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NdLKAQlWUr0SnI1fWCp+SY3s4Yp8zDJc9KTErx0pre0=;
-  b=Pgc9bvnwgYzyS/oxiqWP3c9lw0aP9dn6rxdlL3PzA8mxIhVDLI7VWEIc
-   PXuh849AQsKYhULkJnZnk7DSxbw9JozFxpOraUc/j7xLlm5D6kCDTjD7Y
-   qz3Zh2FW3XvqrvYZ/V4Qcc2VyOW57vGxXyFD7tUNySMsZBPfRvBabDVW5
-   Edv4vebcGuwLbMEUn3zKVInFdT7tBMpXOkttM6wP6bImWYGr/7sZa0IJe
-   WHFpyn+L6Qlwkc3v+P5xRvCIVIy3Y22KYq6QWDcZ3NF05oOk8KvXoYzyy
-   OFLKYQtZLQWtlNrvxbZR1QUpDksD97mlyB6mXBb9oV/9ganG0ASleeG5L
-   Q==;
-X-CSE-ConnectionGUID: S31QwmsYTrWq/jWcxfR/fg==
-X-CSE-MsgGUID: vFxmZBZaSb6V1uc1Zvmy7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="58942205"
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
-   d="scan'208";a="58942205"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 00:56:20 -0700
-X-CSE-ConnectionGUID: vPGNxPT3TFm13imjCknavQ==
-X-CSE-MsgGUID: PTSScRSiSEyaM2fCiqO+cQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
-   d="scan'208";a="210757574"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.187])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 00:56:13 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	=?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	David Airlie <airlied@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 00/11] PCI: Resizable BAR improvements
-Date: Thu, 11 Sep 2025 10:55:54 +0300
-Message-Id: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C1dkI6Oo"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-746d72028e0so369979a34.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 00:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757577394; x=1758182194; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gcHgyDkcspweVIk7kRhliSymO4E+l9imWizmqVG+IwQ=;
+        b=C1dkI6OoBl84RGEkPIel8mXic7XqikfRUDV7psj/UWtUjQYMj4vonX53DwUYqjiMsT
+         fAR3QR1UKz4Txn7pTSSQ1zSwljsLSGqIE2UQe1ebOdFMU/EmeUo2KasMEPJ+8hrn7Waa
+         /cDvCmmvjI8NnK+j+0iQwxeido3CA6/o/7tpiodBIVsIhA/2q3e0aqcUguenA59OuwPz
+         147MQNleCaTsFIZFd9AWHX3m7fOBy+P46SewE3hwLGH++x4mViBEL6DSh9KipnYyalyL
+         sCSkUS8ctdj4xxU6mNnNtUPtT9ys9B5Fy2fniCKDjQXT3wDpJCbTnjtty5dg0g6JgpqK
+         jjBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757577394; x=1758182194;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gcHgyDkcspweVIk7kRhliSymO4E+l9imWizmqVG+IwQ=;
+        b=OEnhCWgUOAycncUtZrIxE+oj2938cmj2DSALdhiZWkyAWKY6vsfUa/NBXLfw0SQIUe
+         8RvmVMXziH5Pwy8zFwANs+c7hG4MiPadRgCneCP1W4mXCNP2KZS4ZI/84le4oCi6P0jm
+         579U0642yh2YcW1dHnAqiig0tv5NmkVSwsB70ULsV4yXx03xzjqqo5wXKtIGD553WALf
+         rLyOoBh3DJKbBVDc8LdRj7di4Do+AJmNUDX31MHxjCtcYZ35tRouWBekAavL58VCTNeQ
+         ScRz+wXfYHo/lW1pbM9k+p4Xee9h1JoxzQmH6WbmRYwI1pwP95SvVRbWwRGgJHi1nDdv
+         0HXA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/DI1gGn8Vt0wPEXlmthI6rEpHGhTDD1dvXFBWkVk+r8RAIIxzDe0+8SEzkL+dswcEq1wbu2ziJG4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMg40zWR1AGFEaVQJnPavAYdZlONg8pVUenXrm2mr/kwHklxzF
+	KEoXrGj0g9mBarAuC42usR3JrkJJi8aHNk84hMx2PFeGrtRQI4RQ7tbfOXseEkiPBDHSPD7pzHw
+	IQ/up/pCKYARXCbe5WFrzBQak5PXmbtpPL4ZL4gyRCA==
+X-Gm-Gg: ASbGnctKrEEauxZhtjXWxYxU7HihrUyPSyLZhnHu6ty8a7soZXT1qxXGm/1OAfWkhA4
+	ULYFr84ciqe08qUPNzIYBCjgLYnpwTNLnW/EyhPCLbuWBD9LZuTb4+2d/2UfDdrwW1aDJULziCd
+	lYLLbf6nL3j6VDwa5QSYlqH8WIrMEscwmrWO9WpjUSKwQ6WcbPg+jh4S8WqnVDTWFYXqomuC5v8
+	c1q0m+z3ukdjKZq/oo=
+X-Google-Smtp-Source: AGHT+IG9ZMBIi6nBb96Zia9gSrtbi78A+YjqGi7eJdd43h+fxHz0Dsu/RXvlzn6cV1ytlcXB923nl0QOCRHh3jcErhM=
+X-Received: by 2002:a05:6830:67c5:b0:746:d4d3:c8b3 with SMTP id
+ 46e09a7af769-74c720f972bmr10157224a34.15.1757577394426; Thu, 11 Sep 2025
+ 00:56:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-0-520e867b3d74@oss.qualcomm.com>
+ <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-5-520e867b3d74@oss.qualcomm.com>
+In-Reply-To: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-5-520e867b3d74@oss.qualcomm.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 11 Sep 2025 09:56:23 +0200
+X-Gm-Features: Ac12FXyIP0WtPINFQV_xAL4fJ4Nl0DDdmiM8KSkVr4BQuuRBN2IjnhZ18XWv8gI
+Message-ID: <CAHUa44EsGNuYzjZo_kBJfa6O6u0o14tfDNo2fhSeo+g0BpwX7Q@mail.gmail.com>
+Subject: Re: [PATCH v11 05/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Cc: Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu <quic_apurupa@quicinc.com>, 
+	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	Sumit Garg <sumit.garg@oss.qualcomm.com>, Neil Armstrong <neil.armstrong@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-pci.c has been used as catch everything that doesn't fits elsewhere
-within PCI core and thus resizable BAR code has been placed there as
-well. Move Resizable BAR related code to a newly introduced rebar.c to
-reduce size of pci.c. After move, there are no pci_rebar_*() calls from
-pci.c indicating this is indeed well-defined subset of PCI core.
+Hi Amir,
 
-Endpoint drivers perform Resizable BAR related operations which could
-well be performed by PCI core to simplify driver-side code. This
-series adds a few new API functions to that effect and converts the
-drivers to use the new APIs (in separate patches).
+On Thu, Sep 11, 2025 at 5:41=E2=80=AFAM Amirreza Zarrabi
+<amirreza.zarrabi@oss.qualcomm.com> wrote:
+>
+> For drivers that can transfer data to the TEE without using shared
+> memory from client, it is necessary to receive the user address
+> directly, bypassing any processing by the TEE subsystem. Introduce
+> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
+> userspace buffers.
+>
+> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> ---
+>  drivers/tee/tee_core.c   | 33 +++++++++++++++++++++++++++++++++
+>  include/linux/tee_drv.h  |  6 ++++++
+>  include/uapi/linux/tee.h | 22 ++++++++++++++++------
+>  3 files changed, 55 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index f8534a00c56c..bb2e3a6c23a3 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -457,6 +457,17 @@ static int params_from_user(struct tee_context *ctx,=
+ struct tee_param *params,
+>                         params[n].u.value.b =3D ip.b;
+>                         params[n].u.value.c =3D ip.c;
+>                         break;
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +                       params[n].u.ubuf.uaddr =3D u64_to_user_ptr(ip.a);
+> +                       params[n].u.ubuf.size =3D ip.b;
+> +
+> +                       if (!access_ok(params[n].u.ubuf.uaddr,
+> +                                      params[n].u.ubuf.size))
+> +                               return -EFAULT;
+> +
+> +                       break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -490,6 +501,11 @@ static int params_to_user(struct tee_ioctl_param __u=
+ser *uparams,
+>                             put_user(p->u.value.c, &up->c))
+>                                 return -EFAULT;
+>                         break;
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +                       if (put_user((u64)p->u.ubuf.size, &up->b))
+> +                               return -EFAULT;
+> +                       break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>                         if (put_user((u64)p->u.memref.size, &up->b))
+> @@ -690,6 +706,13 @@ static int params_to_supp(struct tee_context *ctx,
+>                         ip.b =3D p->u.value.b;
+>                         ip.c =3D p->u.value.c;
+>                         break;
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +                       ip.a =3D (__force u64)p->u.ubuf.uaddr;
 
-While at it, also convert BAR sizes bitmask to u64 as PCIe spec already
-specifies more sizes than what will fit u32 to make the API typing more
-future-proof. The extra sizes beyond 128TB are not added at this point.
+There's a warning on arm32:
+drivers/tee/tee_core.c: In function 'params_to_supp':
+drivers/tee/tee_core.c:821:32: warning: cast from pointer to integer
+of different size [-Wpointer-to-int-cast]
+  821 |                         ip.a =3D (__force u64)p->u.ubuf.uaddr;
 
-These are based on pci/main, there are two minor conflicts with the
-work in pci/resource but I'm hesitant to base this on top of it as this
-is otherwise entirely independent. If we end up having to pull the
-bridge window select changes, there should be no reason why this does
-have to become collateral damage (so my suggestion, if this is good to
-go in this cycle, to take this into a separate branch than pci/resource
-and deal with those small conflicts while merging into pci/next).
+I think you need to cast to unsigned long instead.
 
-I've tested sysfs resize, i915, and xe BAR resizing functionality. In
-the case of xe, I did small hack patch as its resize is anyway broken
-as is because BAR0 pins the bridge window so resizing BAR2 fails. My
-hack caused other problems further down the road (likely because BAR0
-is in use by the driver so releasing it messed assumptions xe driver
-has) but the BAR resize itself was working which was all I was
-interested to know. I'm not planning to pursue fixing the pinning
-problem within xe driver because the core changes to consider maximum
-size of the resizable BARs should take care of the main problem by
-different means.
-
-Some parts of this are to be used by the resizable BAR changes into the
-resource fitting/assingment logic but these seem to stand on their own
-so sending these out now to reduce the size of the other patch series.
+Cheers,
+Jens
 
 
-Ilpo Järvinen (11):
-  PCI: Move Resizable BAR code into rebar.c
-  PCI: Cleanup pci_rebar_bytes_to_size() and move into rebar.c
-  PCI: Move pci_rebar_size_to_bytes() and export it
-  PCI: Improve Resizable BAR functions kernel doc
-  PCI: Add pci_rebar_size_supported() helper
-  drm/i915/gt: Use pci_rebar_size_supported()
-  drm/xe/vram: Use PCI rebar helpers in resize_vram_bar()
-  PCI: Add pci_rebar_get_max_size()
-  drm/xe/vram: Use pci_rebar_get_max_size()
-  drm/amdgpu: Use pci_rebar_get_max_size()
-  PCI: Convert BAR sizes bitmasks to u64
-
- Documentation/driver-api/pci/pci.rst        |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |   8 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c |  10 +-
- drivers/gpu/drm/xe/xe_vram.c                |  32 +-
- drivers/pci/Makefile                        |   2 +-
- drivers/pci/iov.c                           |   9 +-
- drivers/pci/pci-sysfs.c                     |   2 +-
- drivers/pci/pci.c                           | 145 ---------
- drivers/pci/pci.h                           |   5 +-
- drivers/pci/rebar.c                         | 318 ++++++++++++++++++++
- drivers/pci/setup-res.c                     |  78 -----
- include/linux/pci.h                         |  15 +-
- 12 files changed, 354 insertions(+), 273 deletions(-)
- create mode 100644 drivers/pci/rebar.c
-
-
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
--- 
-2.39.5
-
+> +                       ip.b =3D p->u.ubuf.size;
+> +                       ip.c =3D 0;
+> +                       break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -792,6 +815,16 @@ static int params_from_supp(struct tee_param *params=
+, size_t num_params,
+>                         p->u.value.b =3D ip.b;
+>                         p->u.value.c =3D ip.c;
+>                         break;
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +               case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +                       p->u.ubuf.uaddr =3D u64_to_user_ptr(ip.a);
+> +                       p->u.ubuf.size =3D ip.b;
+> +
+> +                       if (!access_ok(params[n].u.ubuf.uaddr,
+> +                                      params[n].u.ubuf.size))
+> +                               return -EFAULT;
+> +
+> +                       break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>                         /*
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index 824f1251de60..7915e8869cbd 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -82,6 +82,11 @@ struct tee_param_memref {
+>         struct tee_shm *shm;
+>  };
+>
+> +struct tee_param_ubuf {
+> +       void __user *uaddr;
+> +       size_t size;
+> +};
+> +
+>  struct tee_param_value {
+>         u64 a;
+>         u64 b;
+> @@ -92,6 +97,7 @@ struct tee_param {
+>         u64 attr;
+>         union {
+>                 struct tee_param_memref memref;
+> +               struct tee_param_ubuf ubuf;
+>                 struct tee_param_value value;
+>         } u;
+>  };
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index d843cf980d98..0e3b735dcfca 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
+>  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT        6
+>  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT 7       /* input and outp=
+ut */
+>
+> +/*
+> + * These defines userspace buffer parameters.
+> + */
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT   8
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT  9
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT   10      /* input and outp=
+ut */
+> +
+>  /*
+>   * Mask for the type part of the attribute, leaves room for more types
+>   */
+> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
+>  /**
+>   * struct tee_ioctl_param - parameter
+>   * @attr: attributes
+> - * @a: if a memref, offset into the shared memory object, else a value p=
+arameter
+> - * @b: if a memref, size of the buffer, else a value parameter
+> + * @a: if a memref, offset into the shared memory object,
+> + *     else if a ubuf, address of the user buffer,
+> + *     else a value parameter
+> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
+>   * @c: if a memref, shared memory identifier, else a value parameter
+>   *
+> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used=
+ in
+> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
+> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NO=
+NE
+> - * indicates that none of the members are used.
+> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value =
+is
+> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYP=
+E_UBUF_*
+> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the m=
+embers
+> + * are used.
+>   *
+>   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>   * identifier representing the shared memory object. A memref can refere=
+nce
+>
+> --
+> 2.34.1
+>
