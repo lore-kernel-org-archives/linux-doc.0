@@ -1,249 +1,129 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292F12E7F05;
-	Thu, 11 Sep 2025 09:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757581735; cv=fail; b=HkTwpSkaGBQdIhVBaEEK0PiUH7N0t4hWlaIH3go39PYPV0QiXDOnDZuQFNL15LxMOVq6JIH/aJUoU2YK5q5ATDxWiwvfFnsTsBePt3quwlvk/9fC/WS69jR242YAHf6vse4IR1Hi+HNg8q+3YxOtxP/I7Ze/mthUgAfezqMtZ6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757581735; c=relaxed/simple;
-	bh=WWywRhSXw8G8gYAaT/RzxY+FzQzBcdgbvsygdxhmJTc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=U8o9nKIkBCk3y/Ox4zsx/LT16k+YVzvxqwfZQHbxhrtn5PgvsHXiExu6BnHvo4IbvJJ4qOcN/YA4XsTLprLyS68ZwuToJttltYI8pJTWMjVw/kAPIbPyzsfz/h3Kb0pw9/N7t0bnocLPm/ocTqPTPcO4aeHJ0H63GzVkwRV7NEE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bRHEK/35; arc=fail smtp.client-ip=40.107.92.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511352E7F17
+	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 09:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757582302; cv=none; b=cvubjjLc593Z2u9lrBz77pvuSSQcBL+MtAWY6xPc0yqsGv0yQdE+u1UxlG1XuFzG1L4eVf49ZjAL3NWipU+VoTuBIql1QS04dn8RgNFlC/bgUa5QuRDQbyeFCylxPAHJjDqyrWEtLQp3Flk1gTwSPyRMIlvCoI8DfzIg5zWXlGs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757582302; c=relaxed/simple;
+	bh=1B3D6WIyM4uKCWTK+JvwjK5rmKnBn1DsJarcuewJmQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HJxMqUn6vn92q6By4XjzTE+5vcnRjIDc98juZtGTjA6mbHyi74KBEhPI9JwhlNo2qKgm6jNMGbu/NlTgB5t4B+cKcGYToTkuwHdDDRPIXHOstSTBByQPyhl57enI6Fg2N3dSebLeP3yJfbfTP5wlLDaGHK5JIqBUeG7I0ga8lv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yBHad4Al; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bRHEK/35"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mrQdda6znwGZhDtyQ4xA+i3R7pkbEMQQlpPGBSkN94YF9jx4gX9SseMTR78dTb/pOHrVeH3ux/PFBbnmHSWL4YvgtzgkYm+QogEl52QFtSkYhB5ThcwI7eebNAPottz38E3NjGdIlz0ZPDZOgPG+dCzzKjTDsvAnPhNtVXyRlWLhRWW32kN1AAmLD3TzFnoRTuNg/AbX0D+tfjZ88PUCEkEupAawqh1jJiKqab8ZX4lDPoZbLq07u2fsh9j0h5/r9xSMlnMtT/u/WJP28SYEbC/f64bJXYAI+PGu/YdmViuKQH00+iNLdtmKaVAm/5r1SoKwue1zFooA5rRJWtafOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7dqPdxBDFE6loLC8n3xCtNYTNMfXGVrkboerY4Nn8Vg=;
- b=RG6gUEssP4ljn61TKBCrLxJXEODKX6rXStIZBxTW9jeOcsnrcs4ljulcWmhYPjl5ospsqvzBKoE4zXRb9JHAC83U5UjR1GXJ2C5kzA/l8te/Crp8jOStkAmgcosBSH1/2nODCZf2V7UKWbrUCEyzMHdYu2K++Owlo/D4Z51HxctD1Awe+nh1xriY8+lq746Pzfrp8NVEj/mPFv5EFErZuvtzZWTuXwFbwE3lWiHitg3JSGr0FwOhX4uV6hkv86SOcL0Zy4hV0syMbGZWsybjjl3p0scsuUPhhmEhtkB2Bb8lIM277+SXsmQmTy9J0eUB/s2sNbU9vD42H6gPzplsDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7dqPdxBDFE6loLC8n3xCtNYTNMfXGVrkboerY4Nn8Vg=;
- b=bRHEK/35Soj+xydSTvxTgskGZ3qn2hg4N4xiZXyq4MpF8v2bQhldhczR9l6OPvho/deslTk/Te8S5GJpT0+eyc+CXNQVxLR73/3NnZz+sWLV1SN71DoM14GXF3kvVlNYomErNoBsV4plqR8gtHxtg54cEMsKRUUHqGKvD179TOA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6155.namprd12.prod.outlook.com (2603:10b6:930:25::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 09:08:51 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 09:08:51 +0000
-Message-ID: <a07e33ac-85f8-4b5e-a700-032d7667cccd@amd.com>
-Date: Thu, 11 Sep 2025 11:08:43 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] PCI: Improve Resizable BAR functions kernel doc
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
- <20250911075605.5277-5-ilpo.jarvinen@linux.intel.com>
- <97f8d4a7-6897-4fe5-878c-c04a887cce62@amd.com>
- <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0047.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yBHad4Al"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-81076e81a23so61033085a.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 02:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1757582299; x=1758187099; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1B3D6WIyM4uKCWTK+JvwjK5rmKnBn1DsJarcuewJmQY=;
+        b=yBHad4AlHhN6xy1ETyIXTUjHUNyn8b1AyhTsMHAfhIed9rD2urdwr25RkJl/3nbDmo
+         1VWACUkvD7U3dYFobURlyHBwJJdDnpOtUHDT6WMqkM9y4XeoGBhk2Ru9hfAdfBfoTBqO
+         mJ2sJEeVKNHoSwzDgOZD34o0CJ4wsOwF45aUg8OsHxQOV6BMVRBPjlHEPc3y1eg3xuWz
+         w3lZ4EqqzNuLbF8ir0bMPq6eWdsBtOO4CNcj0NhrJ6o2WZw4K2d9JZIRCOMXo+ckdvK2
+         WlHQ8DAKM5F5YmF8fLW7d3BWgiLPrKXsjMA72uWERZna9hnOKwmoDz9alq8MGWJg27kC
+         ZA9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757582299; x=1758187099;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1B3D6WIyM4uKCWTK+JvwjK5rmKnBn1DsJarcuewJmQY=;
+        b=PLbWkcO/GolCwgaTwT/lYs4AFSJw6r1Vops+scLQMrZjUYSUUkKXnOr79TTkdvxvZs
+         I/HRWYRfva+VPi+KuR2FGQTVZjOdN1XOO2XsV+FTzDo/NZ6ZLNwpo7z5GkRitTnCKiDS
+         c4BgmSg9ZfW9KCQUbJf2wmbMB1eJS3ICzT9KiCUesy/CWfVyhOcibho83qbJQOLkBFhJ
+         mGAKyMycfJ5blwOFgcqewSkWsGeVdKjZhBiTd87C29WlDZK84XefmD4ZMivOKANcFdKQ
+         ZU91MXwLhZKFPk0ghR1lLaaQsmsxmRQe4eODbBCARoFuCG3uW11Cbe2co9TqGmH+ZwIp
+         73mg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9N3duUNOeIjxceEINy5ufX+b4ydk6dNyADRN/UgOQ7DlYye7ce2MojurdCVgLRPxvgda9o5iCPJY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdBOYjeAxAjZvNqSzMshsiQbku0Ks0LauNEgJ264AeTNLEx6Sj
+	1SQeidVUHNnl8pr6UoJkav7+BL6WK1lrIj0fM4NGc3eqTSeYOs9j1CqO/uQbfU7IkGXB3c54UbV
+	PPx6yypBK1rIf2GzUh2q7IhBNpqjIzwfyqZ8R9II8PiJqWuhTBSMcfaKgIR0=
+X-Gm-Gg: ASbGncvamuAJLETLg00XBYUQ95Y2jkdxNd6l1KZcQo7/fa+2VybqIV9tZCWEjpSl/BW
+	6Wwa1uTe0GNoqAzjI6gL5mNejBAOi1snI5UybZf4dF+pTMfPkAGth+xgu3AYMS8hMQdvZ1NfSmh
+	LkS6I4YUeioiFcDEL+onE2H5Dc7JicEWfu9QOdmf1mr9JqLbHdKng3cnem3rktR5car6t8U1MO5
+	rjzwYLL2B0oDGtxVhBrqCs2cD7/LZJ3E2bV91lE0DNu
+X-Google-Smtp-Source: AGHT+IEAdn2JRKDnhaL2qmt37A4l17luV2CMhXbLee/vFTGYZd/pxxVUthlBX8HJQeQEoIdvrbi8slCg3eRXyv3n/Qs=
+X-Received: by 2002:a05:620a:45a7:b0:813:8842:93bf with SMTP id
+ af79cd13be357-813c1e8e0femr1958044985a.40.1757582298381; Thu, 11 Sep 2025
+ 02:18:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6155:EE_
-X-MS-Office365-Filtering-Correlation-Id: 702dbc14-8152-417c-0f72-08ddf112d328
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Q0xONEZQaWJEU3EyV1A1TmZITnI4MEdZN0ZIRUZaZVFaZWo4NGxxN1htSVFq?=
- =?utf-8?B?S3N1YkxLT21CYjlSR3dwcXU2MFFTZWMvQ0liUlNlUnhKNTVjb213S09oUGJt?=
- =?utf-8?B?U2F2Yy9yaUpDRmlMUkFBMTI1NGh1Q3VON2M0Wld4Umg0UjZVVVFFblAwVWZo?=
- =?utf-8?B?RCsyUnFiS2tlWVZKZjRVM1hDeERiRXNSR2J5RENTUDRidXdUb05sMkV0QUJ0?=
- =?utf-8?B?a0tDZWtqR3FBRXYzclRQOEZ4dEVpVFAwWURCWmFzSUY3Ry9BdGZIUi9DamJa?=
- =?utf-8?B?NGdFdWdkSXRSeEdzQ1plYUxXK1BBMk9mSERuak5vYW1sMXd2cGFhUWxDbzdS?=
- =?utf-8?B?amExcGlqc2d0VVFTWFRGOXNhSEoxWXhiMUpxa1pFWXpZOCt1MU1EcEVDNHFN?=
- =?utf-8?B?cjQ1MDdKZnVSM0VlYXk3T255MzV1NERNQ0dkRzRhMW1Tb1FCZGFGOVBqUFc3?=
- =?utf-8?B?eGRXdkZQbEo4dFBWOU4zVXNaeUtrc2pvdnBMUTJVR2hHcmhCUXRPdzNWT3VZ?=
- =?utf-8?B?WUtCSWtIVS9pRVppQ3FCZVNjTGlaSDhVcE5QWW9VV2RLb2NYY3lVcGhlcHFO?=
- =?utf-8?B?SUZzMmtrSjZvczg1ZDRRamZ2cWZSVW5GRUdvQ3c1Wk9LT0pUYTNRM3RtSEJS?=
- =?utf-8?B?SVh5bzdTVnlOUE43YXh3NVhEYmoyOHp6K1gwRkpsR09zcFVMU1NwMWhLYVF1?=
- =?utf-8?B?VVJrQktWWS9VUm5pa1dGczcrZWVtQ1ZKUllWZ1JWTmQxMUhXaGxBNmpPSkQ5?=
- =?utf-8?B?cFJrQlBoQ25YcUtKK3NoekRldTZaMkl2OWF1OUVsdVlZWEl6UkVwZFpUK0RE?=
- =?utf-8?B?bFlTYTk3RkF4QU14OW9mRnlYWG1HeGJFd0RDaDJSU0hlQ205c2NRUXZFMjFu?=
- =?utf-8?B?S0lGamZGVTFoR0lkSnRRV3dWYXBjNXJLNmltWGhFVnF0dVVFZ3pQZTlSSjdH?=
- =?utf-8?B?SmV3T0orS28wWFF0c09zc1doaDlaN3B0Y1N2dTh1M0hlSjdJeEZGNWM4emVJ?=
- =?utf-8?B?TFpuTWZ5amxISmxyQU1rU2Uyb3EySzltQkVudDlyNTdpR3ZMcTdvdm9UeHl0?=
- =?utf-8?B?eGVKRHIvTjRVcnNacnpiN3hPc215Uk5DaTZUekFWV0xob0t0bzV2WWUvYThR?=
- =?utf-8?B?aXN1WlJZYWV4dDRLakdoS3dMeEk3empmcWRDNFhNalBuM1dsZFNGRFlzNDE1?=
- =?utf-8?B?WWtOdThvTlRJbHoySS8xQmZ2cmxBTEl2UVpkT1drYStMYy9FbHE2MHFDQ0h5?=
- =?utf-8?B?aU4xaldXQXJWcUpqUmR6MnNWT2MyNVoyc1lHejBOeXQvOUZOK3ZwMFdhY3hu?=
- =?utf-8?B?WkFhemJoRktuZ2lSUDRMb0FZNHYrTnN2MmEvejBXdTFkUk00SUJKeFBENFVp?=
- =?utf-8?B?VzVFS3JBSmlSdlBLY1YxYjIrYzhoR1RFMGVBZ3hqNEFiWkdGcWNzMmFMU3FM?=
- =?utf-8?B?S2JnOVpWcERpS0VoOUNrK1JYZEd4YkZCWW1sZC93YlhGbkVGKzM5Z3MweitE?=
- =?utf-8?B?Z3NXaDZjWmQwa2xpcmVtNEdGTVQxSEl4dzB5aHJoRFhrdC9hSm9rZzRlRWRn?=
- =?utf-8?B?TFQrQkF5eURWamQ3Z2wvK3d2aEI1YUo2V1BVcU5lb0VJMUtFNWVRT1lVYXFD?=
- =?utf-8?B?REhxLzZacXRJY1BrV1F6WlYrYkxsekV2ZXc5N1BNY29FWFZkQTU4T0ZIZXRU?=
- =?utf-8?B?VU0vTUVldkxIRXk4VWNDMmRXZGNFdU9iMlpkSzVnS1ZxNEdLMDdzcDh0aEo3?=
- =?utf-8?B?UFFFM3AzOUx1alk1MGlJMERlaEJBbCtpcktOdkp6eTA4L2ZiZ2xVWkpvbHlD?=
- =?utf-8?B?OFVFeFlVMFlVWlRPd1hKbFVNUUhRbmRibk40amhLbDYwS0ZXdFRTU2RSb1lE?=
- =?utf-8?B?MWd1OXNQRFBaSW5sRVdSbU53OWd3NzFvWEpJRUh2Mm5yQU91ejYrbFQ4Mkhj?=
- =?utf-8?Q?d9UdirN7DE4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TUFhbGppeThkK3ZSQ3BEK2RwN0psdTZiWVJRNmNxSXFxMDFhRDNTYjNESXlw?=
- =?utf-8?B?K2Y3Tld6QmRYdzhxbkxQVTk4bHJ6SFhXSEFzNkZvNVR3TzRNdFd6TWRnL1Uz?=
- =?utf-8?B?a1o4YnhabXoyNnBKbmdCRzlyd2VOUVhFKzcrNlJMa0w1bGVwSVRQYkhDSVFs?=
- =?utf-8?B?Rnc1V1UvYTJmdmJMcTlxM0YwM3dmYk9ZZFVtRHJLbE0rM1RRQThOK2RUSWhF?=
- =?utf-8?B?THd3TGRPMWFheFJSa3U2S1lvYW9uNm11ay9JdWtCbVlpdVh0KzJqdTBGQk5t?=
- =?utf-8?B?RWV2NlN0WEl1b09zeCtIYUoyVDNLSjFoY2pnRmY5R2NkblJjRTNreU5JSTQ5?=
- =?utf-8?B?K3BvTXVvOWFrZDFXK2NIQ2YwenU3MFN3Y3VlNmRENG0zQUlPanhTRjd6QXBF?=
- =?utf-8?B?OFI4N081K1BUZk4rZ05OTVhJR3hBTHdwdXMwSGE1QzZTb3B6SnhoTU00cFc3?=
- =?utf-8?B?T1lSV3ZYTzRhbEc1M2toL3JWZzVvNnRlbE05ZEpTb0twaW5SemJKRWplci9z?=
- =?utf-8?B?QjVaVFlDQng1TjRaR0xJY0U4UEI1aUNabXFzMGc3d1dBdFAydU5aUkVWUERR?=
- =?utf-8?B?aERWZjNGbnUyM0huVjJjR1VDYjVKNVdUb1JxRUR0Y2NwRngwcFJyZmNVbCtx?=
- =?utf-8?B?b1NFcDVxNVVicG1BcWN0SEVMMFhVT2VtNlJjZ2hlZUtQZCtIRFY2T0F5MXBC?=
- =?utf-8?B?QVZBY0ViTjhYOWxFQTAzcWNyU3g2T3pSdC9qSnBrWFhOUXlHeWhUMjU1WXFr?=
- =?utf-8?B?aWJUNi9Ed0MwWUtBWnNBY0U4czM4NEJjZG9yRzZ6NERsM2dzQzdnNEE2dUow?=
- =?utf-8?B?QnRScFFjQ2MzdHA5L3lZclRqWmQ3ZkdCSWVsTXJ6Zkh4SVpoMjFIY21GQ3RP?=
- =?utf-8?B?clp2Q0RUNHhjVlNXTFNvaXZ0d3dvdVlRSzRNV2kwcjRkS1pMak8vYm1aZ0lQ?=
- =?utf-8?B?SjhHOUhuYUNBOU1HWnRpYUFocmlCTHVmbWcyMDk0L0M0WHN5RkwwY21nWjFZ?=
- =?utf-8?B?dndSUFVDQzVpWGhxMnZtQ1c2OFpJSzZJTXN6MGNlbzhSKzVISnZpZEw3dEo5?=
- =?utf-8?B?dXJua3BlRFJtaWVxVHZ0aHI2SitrVXVGTmJBYllLZ3VDQmF2NkltQTRxVEd3?=
- =?utf-8?B?OEQ2K3ZEaEUwaS9HOWZDWlRmZ2FGUmlGVE9sQW80dWRaWSszYUZLejFkbG1U?=
- =?utf-8?B?MURTWGhJT3g3aG5haG5ma0NSRGRFNmdkNVh3NVhjT0MrdE1ESWh3UVpicjZR?=
- =?utf-8?B?bG5JVHFmSW9leUxFM1ZYTklDRHFFV3dnUWdFL3kxbEI5a00zUzljb3h2WnY2?=
- =?utf-8?B?ZUFUeDZ4UHI2K2dXcEs4Rk9OdkJ4NWFHOUNqY0dkVlUwejRibWlqbFBkczlP?=
- =?utf-8?B?bXljYjA3RUI1bU0xMExUbmY1SWc3L1VPQ3lPd2pibjhtWno2QXR1Z1hma1Ir?=
- =?utf-8?B?ZVp3TVFRL2NOd0xQcmtjNC9JYzFlTE1xUWFqc1RaZXAwSEFIMjBwTURyT3h0?=
- =?utf-8?B?QVlLWTJwY2EyUmdvb1J2SFJVUG1paHFtUXZtSWNCSkJiR003ajRUcUVMYkdE?=
- =?utf-8?B?Z09oSHBmRmhoTUxNbE9XcDBwTHVlZW1aMGV5WFpXN21GM005dWJXWmYweVUz?=
- =?utf-8?B?T3ZnRDZaRk84SEppM2U0K21TRnEwdmszR21HelVFU0hvTFJhTnFROWNLcm1U?=
- =?utf-8?B?eUgzcjREa1JQTTIrT3cyOU9QWG9yNFEzSEJzZFBxQ3ZnVzAwYlpoeDJxYXRx?=
- =?utf-8?B?Sk5MMTZZS3Q2K1lTR3RKRkRnVjZnRU1saFNSSjFPTmxVSHcydTFtQisyaXlo?=
- =?utf-8?B?WWhvV0ZjR3laUER4Wk8vc0ZMNXVuZjhqaEtxS05UV0hpRmFGWTAzYzY5TzBt?=
- =?utf-8?B?bGdCcjJ4YS84UUdRUHZMRlM0SWpJVUxFbzlYeml5WDRhR2Y1VEtHQURGYkNz?=
- =?utf-8?B?SDVJVHdnQ3grWVVNMjdKMTJDelpiM1ZHalY2bHAyamZnbmJZVStjeDJyUVU0?=
- =?utf-8?B?YThBNHNLRzRqMVBJVjZNeXBURVRYK0hMeVRCRGRXMm9Rd1BOZnB0amEzR2Fx?=
- =?utf-8?B?TlpwbXk1UGd4bFRkSTR2RGhtdk0rR2ZYNXo5NTJrQWNrTUhBZlE0STVtcFlx?=
- =?utf-8?Q?9PKcip2XCxcu6w6nLnf3MfS+w?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 702dbc14-8152-417c-0f72-08ddf112d328
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 09:08:51.3056
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MT/cpK4lXkRIZpgJk+pMdy7GI/qrkTXy5M1/qgVZV61nfMzDLlZ0ui4fPNoq1XLB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6155
+References: <20250910024328.17911-1-bagasdotme@gmail.com> <20250910024328.17911-8-bagasdotme@gmail.com>
+In-Reply-To: <20250910024328.17911-8-bagasdotme@gmail.com>
+From: Alexander Potapenko <glider@google.com>
+Date: Thu, 11 Sep 2025 11:17:41 +0200
+X-Gm-Features: AS18NWC9Ax6HJ7xE41xsztIAoL9MxJcZhppucVI7C3-6QUaMqtQ6glgozKyha94
+Message-ID: <CAG_fn=WPCtL2Knk7_so+9QMcUPY2wCG93BZN-rwJC+ELLgJ4nQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/13] Documentation: kasan: Use internal link to kunit
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux DAMON <damon@lists.linux.dev>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Power Management <linux-pm@vger.kernel.org>, 
+	Linux Block Devices <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, 
+	Linux Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN <kasan-dev@googlegroups.com>, 
+	Linux Devicetree <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>, 
+	Linux MTD <linux-mtd@lists.infradead.org>, 
+	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>, 
+	Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Huang Rui <ray.huang@amd.com>, 
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu, Richard Weinberger <richard@nod.at>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Shay Agroskin <shayagr@amazon.com>, 
+	Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon <darinzon@amazon.com>, 
+	Saeed Bishara <saeedb@amazon.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Alexandru Ciobotaru <alcioa@amazon.com>, 
+	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Ranganath V N <vnranganath.20@gmail.com>, Steve French <stfrench@microsoft.com>, 
+	Meetakshi Setiya <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11.09.25 10:59, Ilpo Järvinen wrote:
-> On Thu, 11 Sep 2025, Christian König wrote:
-> 
->> On 11.09.25 09:55, Ilpo Järvinen wrote:
->>> Fix the copy-pasted errors in the Resizable BAR handling functions
->>> kernel doc and generally improve wording choices.
->>>
->>> Fix the formatting errors of the Return: line.
->>>
->>> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->>> ---
->>>  drivers/pci/rebar.c | 29 ++++++++++++++++++-----------
->>>  1 file changed, 18 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
->>> index 020ed7a1b3aa..64315dd8b6bb 100644
->>> --- a/drivers/pci/rebar.c
->>> +++ b/drivers/pci/rebar.c
->>> @@ -58,8 +58,9 @@ void pci_rebar_init(struct pci_dev *pdev)
->>>   * @bar: BAR to find
->>>   *
->>>   * Helper to find the position of the ctrl register for a BAR.
->>> - * Returns -ENOTSUPP if resizable BARs are not supported at all.
->>> - * Returns -ENOENT if no ctrl register for the BAR could be found.
->>> + *
->>> + * Return: %-ENOTSUPP if resizable BARs are not supported at all,
->>> + *	   %-ENOENT if no ctrl register for the BAR could be found.
->>>   */
->>>  static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
->>>  {
->>> @@ -92,12 +93,15 @@ static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
->>>  }
->>>  
->>>  /**
->>> - * pci_rebar_get_possible_sizes - get possible sizes for BAR
->>> + * pci_rebar_get_possible_sizes - get possible sizes for Resizable BAR
->>>   * @pdev: PCI device
->>>   * @bar: BAR to query
->>>   *
->>>   * Get the possible sizes of a resizable BAR as bitmask defined in the spec
->>> - * (bit 0=1MB, bit 31=128TB). Returns 0 if BAR isn't resizable.
->>> + * (bit 0=1MB, bit 31=128TB).
->>> + *
->>> + * Return: A bitmask of possible sizes (0=1MB, 31=128TB), or %0 if BAR isn't
->>> + *	   resizable.
->>>   */
->>>  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
->>>  {
->>> @@ -121,12 +125,14 @@ u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
->>>  EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
->>>  
->>>  /**
->>> - * pci_rebar_get_current_size - get the current size of a BAR
->>> + * pci_rebar_get_current_size - get the current size of a Resizable BAR
->>>   * @pdev: PCI device
->>> - * @bar: BAR to set size to
->>> + * @bar: BAR to get the size from
->>>   *
->>> - * Read the size of a BAR from the resizable BAR config.
->>> - * Returns size if found or negative error code.
->>> + * Reads the current size of a BAR from the Resizable BAR config.
->>> + *
->>> + * Return: BAR Size if @bar is resizable (bit 0=1MB, bit 31=128TB), or
->>
->> This is a bit misleading since there is no mask returned but rather the 
->> order or in other words which bit of the mask was used. 
-> 
-> Thanks for noticing this. I'll removed "bit" x2 from it, does that fully 
-> address your concern?
-
-That works for me, yes.
-
-Regards,
-Christian.
-
-> 
-
+On Wed, Sep 10, 2025 at 4:44=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> Use internal linking to KUnit documentation.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
