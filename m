@@ -1,300 +1,336 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2117.outbound.protection.outlook.com [40.107.255.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8C222126D;
-	Thu, 11 Sep 2025 09:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.117
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757582799; cv=fail; b=X3vw5xupiG+XjLy0IZ6JKNbWTIBK/F9vAT9Ru32CINP+4uCFlEIGB4blXgozkxmxTi2+di/OpxqwxnmdeKK0wFmhknxoWWqG16zXxLQhyCD/nB31jJ/VF2cXWVLgQJmd1jSlfzIfBI6hCuMGHpHNzYzxd1XM83LJPJ46CufM5Ss=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757582799; c=relaxed/simple;
-	bh=F1mojV1QRje5qK4gtwMlZK6B4ewfsktQR4HhPq0xMLk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ulCgpMhpZ4GSUBUD1FWke+GS0sxgYwI2JvUfNIOJ43teNXoaeSL2pmtl47pEg+O90Px0dyfCztbsrrDemGA/R0FlGjAmgwhe6i6sey3Z9d69eWE2/soiCzRnLO9ENyJFdOD0EmYkjFrXvHfL5s+M4vM45E0yXMP3VThcAoZMRhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=THHGlCXu; arc=fail smtp.client-ip=40.107.255.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A3F1A9FA8;
+	Thu, 11 Sep 2025 09:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757584609; cv=none; b=J6+tjfUyIIoOWFh9+fPwgvxWMj0zNb5UgpO5QO9Sgif2EfIl+cEwRxLKKgvvXrnpo6n6415YYET58NiZs6beWCiRTewXbwkANN0EVq3r7xzI41CV9ES+poGmzkx82yC6WMlMBZfOYWb1o4D/l1NYX0ms/jyrFw+6kcrNAHqBtCc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757584609; c=relaxed/simple;
+	bh=NNRDzEMyXb7z9BvX+5iCWZ1jzriJYgVNyQVrmXGPbQ8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rAbo1Ge5iww7HaAc6IwZZQVoPSIgb4IAvCEnqYH26D/HlNvPx71SzG7YGcNPCgOFiuU17YYDLwJQNlD9hHNhXM4hwbYfKuI1BkF59XsdI0JeeUE/n1fj/oA1QNl51YdUntQbbf0T1ftaslbXJHYi7+gLk+sPkNrq9k0En5qA6nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/TKvTcF; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="THHGlCXu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zVqiE8qodyznrED14QiOexcCgbUz90kslW4vxybxF0H0OCY4A4mRV68tnUDmAcipUiOHVEwOYc82WMnrXRW4kDXkg89hyzq4BdCC/dkGeuxmyIk06Di+/Qh8+Or9cx09FABAYU4b1C01g5EEluz+mqxVoXHqNiWXM6Ujf0Ddj6abBb1SncEOzgRHEFJmvITJVOsboCz+g1FYZIaG44Sc0kOj8b+YyR+/Bd5OyNBJJz5Rd7DcrAUCxZqrjqu2qIGn1wefArYcbU4rozzfHRA2nxcQJXaw5zddH2FTY4UfRgWIJ9EWJnbYTrFvtNs43Hi9vahZ2atUirsbiV7ONeWSng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TBK23OXsywbgw4hVPUHA5LcDKuySojQzSE8m3JGbyWo=;
- b=MdcQzeTSVW9lz095en1Z1eLFHBfeNDRqyEJW/hZ+MaqfCWTSEU+TQH/We2v7DYo/JJFUWIY5nvE+k33CgOOqG3EMw5KUTkeIf19z+Bl7eSanROHhAp7VQKPYRxkQnDyPLoxM8lP+tgcEBl2p689n5IADwnMR28yNuvPBkMb7jX0hwzchk1HQvoiABPVtxZ8ZdnLyRuh5wZnQlfU9zwHqXnZOPtL5eiDhBWvW6EdLbg0IUfkIC+06GvYRUt9ByD03cHb5jw9A/t9m5cdwA0sonVWieHOLhfdZdyQfDU4YxBPUhMfQ2iOA3yQnrxA5ybcIuFexRWIDsCElmFSgY8HuFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TBK23OXsywbgw4hVPUHA5LcDKuySojQzSE8m3JGbyWo=;
- b=THHGlCXuSMHLnGrxypQ6yWrgIzlZPIYT7B6SXRlDMomSS6ZF58as7JLQLmnDts7Di7IaXx+kWQSziD/WIMIHCEU0dG4qe9dwhrbOqT1ch7wwbD8eS/C840p6aP6053o7zzH1pbKq8R8joQa3+oY30EY3iGSHKdFmRxjp6qkRdpc=
-Received: from OSQP153MB1330.APCP153.PROD.OUTLOOK.COM (2603:1096:604:372::16)
- by TYZP153MB0692.APCP153.PROD.OUTLOOK.COM (2603:1096:400:25e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.15; Thu, 11 Sep
- 2025 09:26:31 +0000
-Received: from OSQP153MB1330.APCP153.PROD.OUTLOOK.COM
- ([fe80::2b00:49bb:7d41:c2dc]) by OSQP153MB1330.APCP153.PROD.OUTLOOK.COM
- ([fe80::2b00:49bb:7d41:c2dc%6]) with mapi id 15.20.9115.010; Thu, 11 Sep 2025
- 09:26:30 +0000
-From: Meetakshi Setiya <msetiya@microsoft.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
-	<linux-kernel@vger.kernel.org>, Linux Documentation
-	<linux-doc@vger.kernel.org>, Linux DAMON <damon@lists.linux.dev>, Linux
- Memory Management List <linux-mm@kvack.org>, Linux Power Management
-	<linux-pm@vger.kernel.org>, Linux Block Devices
-	<linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux Kernel
- Workflows <workflows@vger.kernel.org>, Linux KASAN
-	<kasan-dev@googlegroups.com>, Linux Devicetree <devicetree@vger.kernel.org>,
-	Linux fsverity <fsverity@lists.linux.dev>, Linux MTD
-	<linux-mtd@lists.infradead.org>, Linux DRI Development
-	<dri-devel@lists.freedesktop.org>, Linux Kernel Build System
-	<linux-kbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
-	Linux Sound <linux-sound@vger.kernel.org>
-CC: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
-	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet
-	<corbet@lwn.net>, SeongJae Park <sj@kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
-	<Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy"
-	<gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii
- Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
- Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
-	<yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
- Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
-	<haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray
-	<dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches <joe@perches.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov
-	<andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino
-	<vincenzo.frascino@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Eric
- Biggers <ebiggers@kernel.org>, "tytso@mit.edu" <tytso@mit.edu>, Richard
- Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Nathan Chancellor
-	<nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar
-	<mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
-	<boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski
-	<akiyano@amazon.com>, David Arinzon <darinzon@amazon.com>, Saeed Bishara
-	<saeedb@amazon.com>, Andrew Lunn <andrew@lunn.ch>, Alexandru Ciobotaru
-	<alcioa@amazon.com>, The AWS Nitro Enclaves Team
-	<aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard Brouer
-	<hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Ranganath V N <vnranganath.20@gmail.com>, Steven French
-	<Steven.French@microsoft.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>,
-	=?iso-8859-1?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, Masahiro Yamada
-	<masahiroy@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [EXTERNAL] [PATCH v2 10/13] Documentation: smb: smbdirect:
- Convert KSMBD docs link
-Thread-Topic: [EXTERNAL] [PATCH v2 10/13] Documentation: smb: smbdirect:
- Convert KSMBD docs link
-Thread-Index: AQHcIf3l00Mre1nk0UWLjBtxz9dfZLSNt5un
-Date: Thu, 11 Sep 2025 09:26:30 +0000
-Message-ID:
- <OSQP153MB133044C12B6FFB86DF108725BF09A@OSQP153MB1330.APCP153.PROD.OUTLOOK.COM>
-References: <20250910024328.17911-1-bagasdotme@gmail.com>
- <20250910024328.17911-11-bagasdotme@gmail.com>
-In-Reply-To: <20250910024328.17911-11-bagasdotme@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2025-09-11T09:26:29.396Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=1;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSQP153MB1330:EE_|TYZP153MB0692:EE_
-x-ms-office365-filtering-correlation-id: 3ed9e36f-e82c-4f44-c11d-08ddf1154a8b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|7416014|921020|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?mBGWFTSdoxNR/lbkIR4Da4kAYHa7ahZ6YLFDpVQrpGkWnct1CUpv6frV9F?=
- =?iso-8859-1?Q?YefFV1I20zaV7aTiNolrmYyUTiO7QB0TC/yBs9DHs+PG/LUsjYw9ip83i7?=
- =?iso-8859-1?Q?EEqcpIEWT8MM2coNRzuzYEcqMgeNgJoADT1kuG5OMOxI1c7zLJpJnrUsGz?=
- =?iso-8859-1?Q?ORPLPnPmdKwKdhy9QVkf30jDeVaM5ZQXOA5BJ+PXHeu7cYLC7i6Sdpijx1?=
- =?iso-8859-1?Q?qVK8Q5A3K4k2vEaxdkwws1wYnBkSjJ8m7SNdkPMhXlPAAu2HZa3QSZx67z?=
- =?iso-8859-1?Q?3Bq0As8R1ropE86mEAoA0+iUBLxxSaNCnChCTWP7H24WPUIlAMkH6KLGZ7?=
- =?iso-8859-1?Q?bDIyNqFJ6oMD/MzMDCt8IW/Qlshf9HBqgszA6vvVUsA5ujLnYmfXiA7RxS?=
- =?iso-8859-1?Q?tpSgc38qmp8Yf797+C2yfkuermU8H+ThlDEXnJ5EckFLGnB/ZHpqz+e7Aa?=
- =?iso-8859-1?Q?A8vM20s0yMgcqf9CbsNYpvVcsY5qqp7+EsUK6ea3xcxRYOhmqgXD3M5yvS?=
- =?iso-8859-1?Q?CZl2hQrRnzybM8dTMwxZyhqf8ScNC3r8fbC4PvXqFIRcsbsDeA+dM3uufo?=
- =?iso-8859-1?Q?xG6IclfbR/wcptNl55AFOtqWFy/rpETPm7Kg0Ndf9klt1KUGSDnE1Ukp2b?=
- =?iso-8859-1?Q?0mIMFRD1+wjIS+quDiqG/nAe2vQQFDV7DVWRxi3FG60leUAujbLIZ5mmzl?=
- =?iso-8859-1?Q?Mo3hdvWsHOKdytIkmPhD6JK/4Z65aQmmqVoyVONcMRLQ/kOZ2ng4fPc3un?=
- =?iso-8859-1?Q?MfmimQ3WorMOHs5FYbdPLCpTT5oVILsdd/XVorFdjPgZYUSFwJE/IyC0ZZ?=
- =?iso-8859-1?Q?LwkPMJPAoOt5edepJxpsrnjW/wLkuo+63/yBwvpeE3u6ajkuGrNOMkaNpn?=
- =?iso-8859-1?Q?p47gG/91oxU13IiyAwKhMEziA0NYKLShdRM1BmJ3Mnt9HRW2uxztU1+dAb?=
- =?iso-8859-1?Q?z3JkHj2xNZitl16GYp3MWkET0pgqg6GDDjwrisTyBWPdU3xqov5NDxrkkE?=
- =?iso-8859-1?Q?9DxiZPXKNxrFpCv92Kgw3A0UVjjVxEV+ztwilOQyUeSYXYeHLJkH13hlpE?=
- =?iso-8859-1?Q?yvsDjHz4lIFTPiDWqDLkZLAz5VMZ/h06zRS7p+cDaY08K/8bm5Vudz7rYo?=
- =?iso-8859-1?Q?pC5SABvJqX8GTzUNq5pNN9cYbtCCOkvZsunoyPiFfmj7c2eyHr+Q+NV44j?=
- =?iso-8859-1?Q?kBkw7jh0whjzxzLrbUmI4CD2Kp9CEFZ2xIJ4kQoI0riWZ74GyvB11Yy3bd?=
- =?iso-8859-1?Q?VKiJD+9c/J8eGG1T/s4LjlO1kYpW2sEjQhtgd/UFkS0UOo5qPa6Gj1Xz0C?=
- =?iso-8859-1?Q?4wQ9/GvQN3ru8ws+yc1TUZsuRKX2byIiYTkfG9lZ+9f/KDYyEjtO8C1nY6?=
- =?iso-8859-1?Q?TtD3A5GBQhIEAxGjdsy4Yr8aO3d6jd/RqYr3X8iDZzknixGduJaHyndJvj?=
- =?iso-8859-1?Q?a+WRo4EiikWBXt2IkSQVLWkGiT32phDB0AlaOJdH02UPcZDr9xTDZU1WKh?=
- =?iso-8859-1?Q?Y2mozr2vdoxTb/li2MnmOG?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSQP153MB1330.APCP153.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(921020)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?j4kHAkDUeD6Kepjp54gD2pRReXc3fZLHne+imB/QQoWmrH60eLudcMJ2+1?=
- =?iso-8859-1?Q?hEi4BUaLwtassZEuzaizG6Zr1att6tPtPudpYVWYrMe9OvjevKC1MPmS/d?=
- =?iso-8859-1?Q?dKyhPvAYh5NIHgoVCVBuNK5ffRCD61c+u86quLp63raBxmrfk7/zWjzAn7?=
- =?iso-8859-1?Q?1/JAE5NiCV4YOt8Bh/IE0oSfVeD4GJrKY9AGvW7zsoeWPEaA+PUzTzcFWP?=
- =?iso-8859-1?Q?GIZURXawycmjsXaXLipx1NWz5yL9zlmjh17egPbviAg1nHFLuPt75xaos3?=
- =?iso-8859-1?Q?Kx7eXhA5cOzV60Xl3KJvEenbxFQe6VhB9lo6frZv52S0qFQqF7zZypfREq?=
- =?iso-8859-1?Q?yyONhdDxAphIasOqe4hd4xtgqYDWs25+0fSQHqlYqFXeUvZD69IDJhgCsj?=
- =?iso-8859-1?Q?LCyZfiyyqZofo94QPVDJHKkHcB0H+IBLzEN55qCmT1sKThaaxWnK49A8lW?=
- =?iso-8859-1?Q?FgiQad8xVs13fAIGiF4HMOV46AjkjHwZ5DuznCzR99yUs4Uj51YbwwDx+5?=
- =?iso-8859-1?Q?SyVcwYoEzBu6aIfSpICH32C2dQI1DMZtzz1sTi3A0XMilUKm96ACIajnLN?=
- =?iso-8859-1?Q?OmAmJNSRdufr2LK8gJEIRRtlyJHU0ljSs2IwBSGeSplmJZAv2qCixFm78L?=
- =?iso-8859-1?Q?k7DDRh8myW8cCSRRwpmFkmfiQG6o1e8NlFOljR5S2dQaXaQtNTGyNm1EWa?=
- =?iso-8859-1?Q?V+2oy4M1QSAdKdyAG6A4scQCOPJA7tAdQzmPmZOTgtnOBn0cU+PFRwSIBY?=
- =?iso-8859-1?Q?WtZOTUO7WbX2r8Iy0XbJ/sBMQnmCm9iu40EOQrDGTPBRJCWRWVKk1hhpqE?=
- =?iso-8859-1?Q?0cULcOpjftDD8Gdx5Bc7OdDxQgKG8SZmIev+rU4q83Hv6rsELEtUupEEW0?=
- =?iso-8859-1?Q?IP66mjE2MFiTU4Ux9VyFUEg9msyiI1WG9JJxRNJJ9OZuox6ejVurSJBL/k?=
- =?iso-8859-1?Q?4CxWn44FMqdHHMGsZPw8pQQCQL7scobgIISBjImAvp1CyWHvSPE1nQWtGO?=
- =?iso-8859-1?Q?kG4RrCl8TO9VItEOhdAG0GbJTJuiw7xu/DA220cXhKHz7lzkZCgkWbuEeR?=
- =?iso-8859-1?Q?2wbS9JHNdthL1RjVa6Pd1jQ/Pkv1QIvcTXhq5HzK9QhiKe8MfVp0+TauJb?=
- =?iso-8859-1?Q?aXr/f2FncE8Zndf0bPTB8qqhKpW0ow/o5Ln7MQdLWrlybVx2UJcN6U7doM?=
- =?iso-8859-1?Q?z9ShcgL+KCt6U5Qgnqklw6AOiwwTJoXSiirIP/w8AfH+XTWTOx1+CivlI1?=
- =?iso-8859-1?Q?gQyfvDtb0BLZ8B8zEw0+XWqtrl9EjStuULlLYgnTCjUVFIKTYTQ1M1vyhl?=
- =?iso-8859-1?Q?Ufi9RHy6c0QTPKAB4B75qCsdNNTHY0p+xtpiDt6jRxeYupf7boep0jvrb7?=
- =?iso-8859-1?Q?xQLhSVa8OLV0TQzzmDQdO4+sAHvEFZ4cpiw6egt5Wpt94JWroS8pNQJVvg?=
- =?iso-8859-1?Q?ISfbBgmOTFUbvz6ydDY3WqjgL1DIG8oP45KWiVyww+hOZcOQ4+u0s49Roo?=
- =?iso-8859-1?Q?bLU6EzLRJeSkCOvNLtuRbt25B4f5SPXgZgFZsCML2q3cuXDpx31FFlEgqn?=
- =?iso-8859-1?Q?CjafVAwQM/cPx18NRnGmSrcIFHY//TeBh4NGMesYHG3FOc96sUW0ILj8qK?=
- =?iso-8859-1?Q?1CBMihiV0Xoxw=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/TKvTcF"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3e7428c4cbdso393712f8f.0;
+        Thu, 11 Sep 2025 02:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757584606; x=1758189406; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+gFz16OXxdVWNpZ+XAvrYshRDoVNNNdGGCZgE4lW13o=;
+        b=F/TKvTcFwyf2sK9KPMaysB23sEG6gik6YcJEQb8QADBuoBgi5xrlLKbzG7OdjxS+zP
+         0Ay4DGoEFrw36K+LRsc1r68JdKbTtKDdMekb9LgMvV//yNlJ88+pDmMdEU5/ou19Ez2f
+         eL0qWFnFD5mWkbV7wXSYFyAgI6hajcSaN4h5hb5boLIh8x5DdUgW5+x/SQMGRMo+49TM
+         Fjfm6Laa/5j/VUKA4VNKxGyp+xOxY8Rb0Zau8t47IML5PDGf8dJs/JFKZeUwB2hvHDJH
+         kI/zy9JWVhWRwIV6CAGWeQlLLAVIPxwyUpHa8DkzfHSk5DO2Q5c+9RUIqq4JfUCI+Exh
+         G9Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757584606; x=1758189406;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+gFz16OXxdVWNpZ+XAvrYshRDoVNNNdGGCZgE4lW13o=;
+        b=IEI2lfqouZpFovxQ53nn9oEe2Hs8xaoyXHjvsKDES04zs/kMVTsN5FJAu82rEaGJog
+         w0QhZBjolQsoDjo9i/I2AuS7OehGCgj2Xh+UK5YVwf3ObfBz+SSdvjknMoh5zMPaE83s
+         xJqJqdUoMkDa9mmngtvZJ2SlDBi62ZIW3msGRDBZLuTfVBiMauOTlf4CAptG05bX2dYI
+         aAfiQc5EQpVnNEJVdMja4XqInhiTA2czjw5Kb0nGVfqRJYyRww11EgeZO1Jou19F50vh
+         iQBfGzyjV0l4Tk4kiHZt4840NkozGNB+EuOBrzmopDDVNhFHP7NShdCrvohwy1oDdmQW
+         /vZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbggr7IZQVcyh7W0mpJKsz2wC74H8YIXoFFOJmJqKpPs30VfRTIedXYwLoBc5UCgZzVSm7yzynpbZa@vger.kernel.org, AJvYcCVgQjrBSH+hjhvap9UeE4ZUH7oauOwx6Dd16XNozjdlecELm9agAFUx3/3c8bH/EsfK3ODPV301x/irTosMPsYy2A==@vger.kernel.org, AJvYcCWGS+nRK5Xe0ONY667hmnr3treGllh/lcOkWdSR3GSTOKG93EFEJy2OXaJoeh8fmdOvYpmT5xFU8CkD@vger.kernel.org, AJvYcCWwlgasxvWeFgBvmOe5OBnsPK5EgaQ071Z9dgJbEvHs0eOeuZHttR7ikE325QKeiOnOtcidME3WAWlvOOrO@vger.kernel.org, AJvYcCXWqRmAi/fKJx9ePFVGXpkFPs5NHNuNIwoKzrDAtzctWwSbyfL58vlgH056Lyuc8TuvFzzLQH4wTCrd@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgOCk4/a/BYuTKHLOasvKxHo46pzRoO+ReuZOrKKj4wUFrKAtO
+	1Lo8GbW9y2YR3U2jprWDSZx7TEBWUpyEi08vKUGXC3zScfImOAFLWY6x
+X-Gm-Gg: ASbGncvmUo38E+XBL1Db8MdOCUMKPMagkgQls3PJRqFmUIjeN510YzJ1GBFCjBwslr/
+	jh9zcSMrOhNe9GCt8fv3gskVugpOWE31cBrwKLv1OXJVZJ3MnP2vx5ZFCemSt2C3TSHHb1vNkCY
+	72rPXvFFBX6Zizb1BCjt/lGQ46+GmoJOXH2XIAL38sXSQy/jZ4B3sVW1EE0pk3sqjorcFot1FuL
+	ZrtSnfPBVt19wIW71j9cbIPrBx17j1nvzYVOZxbWe1IFNOQhMKkfgiWFNCJZT7NkTTW5tl06i5h
+	YWZGE4n8K7D8EnjsDg9wkKsVUTldiJXDE8BUI4cZj3H91NxfPbQOGFGXY3O0uAtCxJjcgyRy2M7
+	JzM5OAh/Wn+qDv4YDo5aYmkNVRaeK5dQLYgVpFkAmJZQWl9ElKvzrWeeXPTdFo1mK/AmIJq5Y8D
+	gstgXUHZjkKRK9YtF6JHnl7p+tWcPrTEsnt/28540/txByhK9NFvCNgkdNMe1IgCG9/A==
+X-Google-Smtp-Source: AGHT+IFsyOKmEcChP9t0DqmtXOvTU/RBxiKR0aH0FNUztPJysvQ4Mcixg7qVyb6OlqpSIPNKJ5m26Q==
+X-Received: by 2002:a05:6000:1a8b:b0:3c2:d7f0:9c4e with SMTP id ffacd0b85a97d-3e75e0fadc1mr2058003f8f.8.1757584605567;
+        Thu, 11 Sep 2025 02:56:45 -0700 (PDT)
+Received: from ?IPV6:2a02:8440:714e:6956:5ea7:44db:f723:be79? (2a02-8440-714e-6956-5ea7-44db-f723-be79.rev.sfr.net. [2a02:8440:714e:6956:5ea7:44db:f723:be79])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607d7c02sm1803049f8f.52.2025.09.11.02.56.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 02:56:45 -0700 (PDT)
+Message-ID: <1a9ddd04-7877-4b4b-b746-0f3cf6ce0d8b@gmail.com>
+Date: Thu, 11 Sep 2025 11:56:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSQP153MB1330.APCP153.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ed9e36f-e82c-4f44-c11d-08ddf1154a8b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2025 09:26:30.3194
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: U/Q8DJoatsv2sSbzzxhnTu+diP/JdGZvQa8EpnmBnmF4xCP5rfCXyVfhnTj1QLr+6Ma0IZQMVGeQWUBCJlsc0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZP153MB0692
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 13/20] perf: stm32: introduce DDRPERFM driver
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Gatien Chevallier <gatien.chevallier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Julius Werner <jwerner@chromium.org>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+References: <20250909-b4-ddrperfm-upstream-v6-0-ce082cc801b5@gmail.com>
+ <20250909-b4-ddrperfm-upstream-v6-13-ce082cc801b5@gmail.com>
+ <20250910102627.00007a40@huawei.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <legoffic.clement@gmail.com>
+In-Reply-To: <20250910102627.00007a40@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Meetakshi Setiya <msetiya@microsoft.com>
+On 10/09/2025 11:26, Jonathan Cameron wrote:
+> On Tue, 09 Sep 2025 12:12:20 +0200
+> Clément Le Goffic <legoffic.clement@gmail.com> wrote:
+> 
+>> From: Clément Le Goffic <clement.legoffic@foss.st.com>
+>>
+>> Introduce the driver for the DDR Performance Monitor available on
+>> STM32MPU SoC.
+>>
+>> On STM32MP2 platforms, the DDRPERFM allows to monitor up to 8 DDR events
+>> that come from the DDR Controller such as read or write events.
+>>
+>> On STM32MP1 platforms, the DDRPERFM cannot monitor any event on any
+>> counter, there is a notion of set of events.
+>> Events from different sets cannot be monitored at the same time.
+>> The first chosen event selects the set.
+>> The set is coded in the first two bytes of the config value which is on 4
+>> bytes.
+>>
+>> On STM32MP25x series, the DDRPERFM clock is shared with the DDR controller
+>> and may be secured by bootloaders.
+>> Access controllers allow to check access to a resource. Use the access
+>> controller defined in the devicetree to know about the access to the
+>> DDRPERFM clock.
+>>
+>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+>> Signed-off-by: Clément Le Goffic <legoffic.clement@gmail.com>
+> Hi Clément
+> 
+> A quick drive by review,
+> 
 
-Thanks
-Meetakshi
+Hi Jonathan,
 
-________________________________________
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-Sent: 10 September 2025 08:13
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; Linux Documen=
-tation <linux-doc@vger.kernel.org>; Linux DAMON <damon@lists.linux.dev>; Li=
-nux Memory Management List <linux-mm@kvack.org>; Linux Power Management <li=
-nux-pm@vger.kernel.org>; Linux Block Devices <linux-block@vger.kernel.org>;=
- Linux BPF <bpf@vger.kernel.org>; Linux Kernel Workflows <workflows@vger.ke=
-rnel.org>; Linux KASAN <kasan-dev@googlegroups.com>; Linux Devicetree <devi=
-cetree@vger.kernel.org>; Linux fsverity <fsverity@lists.linux.dev>; Linux M=
-TD <linux-mtd@lists.infradead.org>; Linux DRI Development <dri-devel@lists.=
-freedesktop.org>; Linux Kernel Build System <linux-kbuild@vger.kernel.org>;=
- Linux Networking <netdev@vger.kernel.org>; Linux Sound <linux-sound@vger.k=
-ernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>; Borislav Petkov <bp@alien8.de>; P=
-eter Zijlstra <peterz@infradead.org>; Josh Poimboeuf <jpoimboe@kernel.org>;=
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>; Jonathan Corbet <corbet@l=
-wn.net>; SeongJae Park <sj@kernel.org>; Andrew Morton <akpm@linux-foundatio=
-n.org>; David Hildenbrand <david@redhat.com>; Lorenzo Stoakes <lorenzo.stoa=
-kes@oracle.com>; Liam R. Howlett <Liam.Howlett@oracle.com>; Vlastimil Babka=
- <vbabka@suse.cz>; Mike Rapoport <rppt@kernel.org>; Suren Baghdasaryan <sur=
-enb@google.com>; Michal Hocko <mhocko@suse.com>; Huang Rui <ray.huang@amd.c=
-om>; Gautham R. Shenoy <gautham.shenoy@amd.com>; Mario Limonciello <mario.l=
-imonciello@amd.com>; Perry Yuan <perry.yuan@amd.com>; Jens Axboe <axboe@ker=
-nel.dk>; Alexei Starovoitov <ast@kernel.org>; Daniel Borkmann <daniel@iogea=
-rbox.net>; Andrii Nakryiko <andrii@kernel.org>; Martin KaFai Lau <martin.la=
-u@linux.dev>; Eduard Zingerman <eddyz87@gmail.com>; Song Liu <song@kernel.o=
-rg>; Yonghong Song <yonghong.song@linux.dev>; John Fastabend <john.fastaben=
-d@gmail.com>; KP Singh <kpsingh@kernel.org>; Stanislav Fomichev <sdf@fomich=
-ev.me>; Hao Luo <haoluo@google.com>; Jiri Olsa <jolsa@kernel.org>; Dwaipaya=
-n Ray <dwaipayanray1@gmail.com>; Lukas Bulwahn <lukas.bulwahn@gmail.com>; J=
-oe Perches <joe@perches.com>; Andrey Ryabinin <ryabinin.a.a@gmail.com>; Ale=
-xander Potapenko <glider@google.com>; Andrey Konovalov <andreyknvl@gmail.co=
-m>; Dmitry Vyukov <dvyukov@google.com>; Vincenzo Frascino <vincenzo.frascin=
-o@arm.com>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@ker=
-nel.org>; Conor Dooley <conor+dt@kernel.org>; Eric Biggers <ebiggers@kernel=
-.org>; tytso@mit.edu <tytso@mit.edu>; Richard Weinberger <richard@nod.at>; =
-Zhihao Cheng <chengzhihao1@huawei.com>; Maarten Lankhorst <maarten.lankhors=
-t@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann <=
-tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <simo=
-na@ffwll.ch>; Nathan Chancellor <nathan@kernel.org>; Nicolas Schier <nicola=
-s.schier@linux.dev>; Ingo Molnar <mingo@redhat.com>; Will Deacon <will@kern=
-el.org>; Boqun Feng <boqun.feng@gmail.com>; Waiman Long <longman@redhat.com=
->; David S. Miller <davem@davemloft.net>; Eric Dumazet <edumazet@google.com=
->; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Simon=
- Horman <horms@kernel.org>; Shay Agroskin <shayagr@amazon.com>; Arthur Kiya=
-novski <akiyano@amazon.com>; David Arinzon <darinzon@amazon.com>; Saeed Bis=
-hara <saeedb@amazon.com>; Andrew Lunn <andrew@lunn.ch>; Alexandru Ciobotaru=
- <alcioa@amazon.com>; The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel=
-@amazon.com>; Jesper Dangaard Brouer <hawk@kernel.org>; Bagas Sanjaya <baga=
-sdotme@gmail.com>; Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Ra=
-nganath V N <vnranganath.20@gmail.com>; Steven French <Steven.French@micros=
-oft.com>; Meetakshi Setiya <msetiya@microsoft.com>; Greg Kroah-Hartman <gre=
-gkh@linuxfoundation.org>; Martin K. Petersen <martin.petersen@oracle.com>; =
-Bart Van Assche <bvanassche@acm.org>; Thomas Wei=DFschuh <linux@weissschuh.=
-net>; Masahiro Yamada <masahiroy@kernel.org>; Mauro Carvalho Chehab <mcheha=
-b+huawei@kernel.org>; Jani Nikula <jani.nikula@intel.com>
-Subject: [EXTERNAL] [PATCH v2 10/13] Documentation: smb: smbdirect: Convert=
- KSMBD docs link
+Thank you for the review, below are my answers
 
-Convert KSMBD docs link to internal link.
+> 
+>> diff --git a/drivers/perf/stm32_ddr_pmu.c b/drivers/perf/stm32_ddr_pmu.c
+>> new file mode 100644
+>> index 000000000000..38328663d2c5
+>> --- /dev/null
+>> +++ b/drivers/perf/stm32_ddr_pmu.c
+>> @@ -0,0 +1,897 @@
+> 
+>> +
+>> +#define MP1_CLR_CNT		GENMASK(3, 0)
+>> +#define MP1_CLR_TIME		BIT(31)
+>> +#define MP2_CLR_CNT		GENMASK(7, 0)
+>> +#define MP2_CLR_TIME		BIT(8)
+>> +
+>> +/* 4 event counters plus 1 dedicated to time */
+>> +#define MP1_CNT_NB		(4 + 1)
+> 
+> This is never used so I would drop it and rename the MP2_CNT_NB
+> to indicate it is the max value for any devices supported.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/smb/smbdirect.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+It is used in the stm32_ddr_pmu_cfg_mp1 struct which is the device 
+platform data.
+> 
+> 
+>> +/* Index of the time dedicated counter */
+>> +#define MP1_TIME_CNT_IDX	4
+>> +
+>> +/* 8 event counters plus 1 dedicated to time */
+>> +#define MP2_CNT_NB		(8 + 1)
+> ...
+> 
+>> +struct stm32_ddr_pmu {
+>> +	struct pmu pmu;
+>> +	void __iomem *membase;
+>> +	struct device *dev;
+>> +	struct clk *clk;
+>> +	const struct stm32_ddr_pmu_cfg *cfg;
+>> +	struct hrtimer hrtimer;
+>> +	ktime_t poll_period;
+>> +	int selected_set;
+>> +	u32 dram_type;
+>> +	struct list_head counters[];
+> The absence of a __counted_by() marking made me wonder how
+> we ensured that this wasn't overrun.  I see below that's because
+> size is always the same.  So
+> 	struct list_head counters[MP2_CNT_NB];
+> If you do want to make it dynamic then that is fine but added
+> a local variable for the size and the __counted_by() marking so
+> the various analysis tools can check for buffer overruns.
 
-diff --git a/Documentation/filesystems/smb/smbdirect.rst b/Documentation/fi=
-lesystems/smb/smbdirect.rst
-index ca6927c0b2c084..6258de919511fa 100644
---- a/Documentation/filesystems/smb/smbdirect.rst
-+++ b/Documentation/filesystems/smb/smbdirect.rst
-@@ -76,8 +76,8 @@ Installation
- Setup and Usage
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Oh I didn't know about this __counted_by compiler attribute.
+I'll have a look and try to use it.
+The array shouldn't have the same size basically it should depends on 
+the platform counters number.
+There is definitely something to rework regarding the allocation.
+Thank you for pointing it.
 
--- Set up and start a KSMBD server as described in the `KSMBD documentation
--  <https://www.kernel.org/doc/Documentation/filesystems/smb/ksmbd.rst>`_.
-+- Set up and start a KSMBD server as described in the :doc:`KSMBD document=
-ation
-+  <ksmbd>`.
-   Also add the "server multi channel support =3D yes" parameter to ksmbd.c=
-onf.
+> 
+>> +};
+> 
+> 
+> 
+>> +static void stm32_ddr_pmu_event_del(struct perf_event *event, int flags)
+>> +{
+>> +	struct stm32_ddr_pmu *pmu = to_stm32_ddr_pmu(event->pmu);
+>> +	struct stm32_ddr_cnt *counter = event->pmu_private;
+>> +	bool events = true;
+> 
+> Always set before use, so don't set it here.  I'd move this into the
+> scope of the for loop to make this more obvious.
 
- - On the client, mount the share with `rdma` mount option to use SMB Direc=
-t
---
-An old man doll... just what I always wanted! - Clara
+Right, i'll remove the assignation.
+
+> 
+>> +
+>> +	stm32_ddr_pmu_event_stop(event, PERF_EF_UPDATE);
+>> +
+>> +	stm32_ddr_pmu_free_counter(pmu, counter);
+>> +
+>> +	for (int i = 0; i < pmu->cfg->counters_nb; i++) {
+>> +		events = !list_empty(&pmu->counters[i]);
+>> +		if (events) /* If there is activity nothing to do */
+>> +			return;
+>> +	}
+>> +
+>> +	hrtimer_cancel(&pmu->hrtimer);
+>> +	stm32_ddr_stop_counters(pmu);
+>> +
+>> +	pmu->selected_set = -1;
+>> +
+>> +	clk_disable(pmu->clk);
+>> +}
+> 
+>> +
+>> +#define STM32_DDR_PMU_EVENT_ATTR(_name, _id)			\
+>> +	PMU_EVENT_ATTR_ID(_name, stm32_ddr_pmu_sysfs_show, _id)
+>> +
+>> +static struct attribute *stm32_ddr_pmu_events_attrs_mp[] = {
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_rd, PERF_OP_IS_RD),
+> 
+> Prefixing perf events with perf_ seems unnecessary.
+> 
+> I guess perf_op_is_rd is counting all reads?  Is so why not call it simply 'reads'
+> or something else short like that?  If it's cycles when a read is going on then
+> maybe a more complex is needed, but perf_op_is_rd doesn't convey that to me.
+
+Here I just extracted the name of each event from the datasheet and for 
+some of them there are prefixed by "perf_".
+I do not have enough knowledge of the HW to just rename it read and let 
+other event with their "scientific name".
+To me I should stick to a policy either rename all the events with 
+understandable names or keep all event names like this.
+And I'm unable to find an understandable name for each event.
+
+> 
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_wr, PERF_OP_IS_WR),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_activate, PERF_OP_IS_ACTIVATE),
+>> +	STM32_DDR_PMU_EVENT_ATTR(ctl_idle, CTL_IDLE),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_hpr_req_with_no_credit, PERF_HPR_REQ_WITH_NO_CREDIT),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_lpr_req_with_no_credit, PERF_LPR_REQ_WITH_NO_CREDIT),
+>> +	STM32_DDR_PMU_EVENT_ATTR(cactive_ddrc, CACTIVE_DDRC),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_enter_powerdown, PERF_OP_IS_ENTER_POWERDOWN),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_op_is_refresh, PERF_OP_IS_REFRESH),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_selfresh_mode, PERF_SELFRESH_MODE),
+>> +	STM32_DDR_PMU_EVENT_ATTR(dfi_lp_req, DFI_LP_REQ),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_hpr_xact_when_critical, PERF_HPR_XACT_WHEN_CRITICAL),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_lpr_xact_when_critical, PERF_LPR_XACT_WHEN_CRITICAL),
+>> +	STM32_DDR_PMU_EVENT_ATTR(perf_wr_xact_when_critical, PERF_WR_XACT_WHEN_CRITICAL),
+>> +	STM32_DDR_PMU_EVENT_ATTR(dfi_lp_req_cpy, DFI_LP_REQ),  /* Suffixed '_cpy' to allow the
+>> +								* choice between sets 2 and 3
+>> +								*/
+>> +	STM32_DDR_PMU_EVENT_ATTR(time_cnt, TIME_CNT),
+>> +	NULL
+>> +};
+> 
+> 
+>> +static int stm32_ddr_pmu_device_probe(struct platform_device *pdev)
+>> +{
+>> +	struct stm32_firewall firewall;
+>> +	struct stm32_ddr_pmu *pmu;
+>> +	struct reset_control *rst;
+>> +	struct resource *res;
+>> +	int ret;
+>> +
+>> +	pmu = devm_kzalloc(&pdev->dev, struct_size(pmu, counters, MP2_CNT_NB), GFP_KERNEL);
+> 
+> If using a fixed number of counters why not put it in the struct
+> definition and simplify the code?  I agree it is probably not
+> worth making this dynamic given small sizes but I don't mind
+> if you do want to do this.  The only thing that isn't a good idea
+> is this dynamic, but not really, current situation.
+
+Yes something need reworks here as said above in your first comment.
+I will try to find the best solution.
+
+> 
+>> +	if (!pmu)
+>> +		return -ENOMEM;
+> 
+> 
+> 
+>> +static DEFINE_SIMPLE_DEV_PM_OPS(stm32_ddr_pmu_pm_ops, NULL, stm32_ddr_pmu_device_resume);
+>> +
+>> +static const struct of_device_id stm32_ddr_pmu_of_match[] = {
+>> +	{
+>> +		.compatible = "st,stm32mp131-ddr-pmu",
+>> +		.data = &stm32_ddr_pmu_cfg_mp1
+> 
+> Trivial but if you are spinning again, normal convention is trailing commas
+> in cases like this because maybe other fields will get set later.
+Yes this is something I should keep in mind each time I init a struct.
+I'll fix it for the next version.
+
+> 
+>> +	},
+>> +	{
+>> +		.compatible = "st,stm32mp251-ddr-pmu",
+>> +		.data = &stm32_ddr_pmu_cfg_mp2
+>> +	},
+>> +	{ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, stm32_ddr_pmu_of_match);
+>> +
+>> +static struct platform_driver stm32_ddr_pmu_driver = {
+>> +	.driver = {
+>> +		.name = DRIVER_NAME,
+>> +		.pm = pm_sleep_ptr(&stm32_ddr_pmu_pm_ops),
+>> +		.of_match_table = stm32_ddr_pmu_of_match,
+>> +	},
+>> +	.probe = stm32_ddr_pmu_device_probe,
+>> +	.remove = stm32_ddr_pmu_device_remove,
+>> +};
+>> +
+>> +module_platform_driver(stm32_ddr_pmu_driver);
+>> +
+>> +MODULE_AUTHOR("Clément Le Goffic");
+>> +MODULE_DESCRIPTION("STMicroelectronics STM32 DDR performance monitor driver");
+>> +MODULE_LICENSE("GPL");
+>>
+> 
+
+Best regards,
+Clément
+
