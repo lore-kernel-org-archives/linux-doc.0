@@ -1,141 +1,223 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0503B1A83F9
-	for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 11:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA05231076D;
+	Thu, 11 Sep 2025 11:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757589655; cv=none; b=R4rFlIpglk+YN2tjq4PxTiko1be6lhwl8x/bvIJzTf6fXQUXyDGMwQbHnull9/SvipFEH/MLYt0zLlqyOtLozmPx0AfyvR8T6q95cTmfo4mHI96an2C2YoSKy6yPeXi4gbRTPJHJi+ReATNq+X/FtWsAyYiN3wLa44DA2wYn9AI=
+	t=1757589800; cv=none; b=ZOC276q0RJg8hB8mJnS0hzAmL8d3jVp/TfRMclQuiw1nwxtgWqqAgJE1/lyg9JyUba5sK1IxJISJgm7q3dcB/VAFS56vah7QpKMjhaIyheD0nDbqqFAtKlwrKz8r0+sVnxm8lKbxzIASCzepzxQffO5dpWAbOlShbcyKcJ7LXk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757589655; c=relaxed/simple;
-	bh=H8yk+xrqMoi1BmiRtNvzwsuYwehWP27jlscfOOwW9g0=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=CcS8qDitGRKpZKsZA7tD7MuHw0ptRjLIH+3ZgQwvQh3b3l6vJX3vx5jiDi8rF1K+yzvlYMM4HZc+QfCV7sjVYMgub1lGzKMFmaeP8S0E/KU8bZHq7c21yBVos27vsXnOKorfKlqQocn2SHx8Lig3aQKItZEPYl3sTzHep8CgqkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BY5usAHu; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757589800; c=relaxed/simple;
+	bh=BhrTyR4yMbcsK5yfmOCBZj42BKA/FZ+kbUhnhlbCvo0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=cqvjiuVvN0/92/JrGVrf1qYBFM7PzrJ8ZDgzPsiXaN7+qfoIZ5yYgrTDp8kIDA+tYJg+/0Sgx0buauOSS7VAtZVXiv7ykLSKOyUiA+V2Fj27fh9XFS9p3DJfdptjfweYMUZ0Qv9ipP9bfdinKE9kYIp8uSQtEWliiGyMKClCGwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=whynothugo.nl; spf=pass smtp.mailfrom=whynothugo.nl; dkim=pass (2048-bit key) header.d=whynothugo.nl header.i=@whynothugo.nl header.b=aUwzyDUS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HtNp15C6; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=whynothugo.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=whynothugo.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BY5usAHu"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3d44d734cabso537381f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 04:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757589652; x=1758194452; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h2HQS+cQinE0HErUF+RK2/CMrXAUaYTUSDi0hoQyZeM=;
-        b=BY5usAHuL0pcxURLrYzKIpLS9bohcNiHdFZGsM/RAQJaGFnRX2PgBX/kQRB5VeygMT
-         2/EKGTXw6usiTZnn8ISx8WWdmHJDCXZKnia4D9r+l8uVdSqH0AgtQ3wgFBbpB0zBUCND
-         j1D5sUOWavyIDoYKtWUEPeXT8BHs9A0UjnH1XSdlouQxV1JM6+b4BRjv+4XGWE2RWf6h
-         Yn7DyUgbZe7ypeUI3lna7zBODaeZW5gBi6qr+YoJ+n5vPnBGNS0M28PHzzTVRjC+CbHg
-         pm2S/cL/3LmOy+4tSpPiGtzCEWgZacwHeEJt+kzooMj6SV4eWbQokBeVI0ZIrHFSUYfs
-         hgiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757589652; x=1758194452;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h2HQS+cQinE0HErUF+RK2/CMrXAUaYTUSDi0hoQyZeM=;
-        b=ZTIUO2HJEF8Ack4CysQGgSapvgIsRur25rilHmvEyC5QN//3F3t8nGbcTiy7/R0uHD
-         WgyG8xdLPLGf67JZC0nOe0EBCXb21OseIQTRj5bQCtE0D6ZfQODETtyO/Yoz7etsS8rl
-         BldKDDABf39lEEh1ZdBg+bPcTOC1Nlv3ymOCUon5wbmFcDMQG04j9NKg0YFtcrhT44Ac
-         5jdedFHOar0iytDHsdz74N0FEZF76niPW2L3rcJgFMGykNzXeNTOC4lVQ9g+aeUblk6X
-         deOaG9ruuA1LryaJzTC7RBAQzplBDFeDryuIqB0y3spYDqCFH1ICMFBLn2cspQH0nL0y
-         92XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjeb0Am0YV2SBFvZhUZE3NxDLFuGZZObOiMeziXk011WmpGvZPlGnRPcmCs+H1HJEsr/43nwEz4wM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPxmSAje6pQUS4BBxsDWwVBHEKo+GJS+OGNM023RJPJ92tbLuK
-	/is+gPW/TdFMJMrLJx5awRuf046LbLkSRVjHo3z4u7j1F9fn3dXer6qh
-X-Gm-Gg: ASbGncsH3aBYupeDQdB5tZXW+8l85LpLyG4jNwbXY/FfKp5+1eESq2OsHcAif/FDhQY
-	/1JawuhWHdcgcn+dAEaEHzLAOK+Rwc4IqpdEhvRVDPyH8g7RngKXAn+HRI3H3B3nQAPIqO09Feu
-	yR7A2aTPQd7TZ5iIIcCgnlUg3s12O0REjE+cS1u62cilwQLET++b/X+vitWmnkaQ5PzTD6H5xtX
-	qn5o72Abd0ijByigfxABg2KnEqAJJCYJx3eIFaOVE27uGrVcH1FjdG0rAn2lq0s3uLl7YcdYD4F
-	L1BygTxwByLPRguVaIT1ORGDcg8fjOTpj+3IoEgtIH7NEWw8qxuys1LD5HiI6f8yZdWJ8v5T0wM
-	GGg7fI+XjqZ7tBl3JRiYSpbzsBMIU5+FGEAxtegw=
-X-Google-Smtp-Source: AGHT+IGo+F4NUZA5jrtFJZ3gols7D7bXthNGq85BXY2ZGDeIz6G8pf+puXsiQ9wTfeZ6/fjO6sDA+Q==
-X-Received: by 2002:a5d:64e7:0:b0:3da:e7d7:f1ec with SMTP id ffacd0b85a97d-3e646257889mr15832414f8f.32.1757589651961;
-        Thu, 11 Sep 2025 04:20:51 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:18f9:fa9:c12a:ac60])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e760786ceasm2152003f8f.16.2025.09.11.04.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 04:20:51 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,  Jakub Kicinski <kuba@kernel.org>,
-  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet
- <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Simon Horman
- <horms@kernel.org>,  linux-doc@vger.kernel.org,  netdev@vger.kernel.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] tools: ynl: rst: display attribute-set doc
-In-Reply-To: <20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org>
-Date: Thu, 11 Sep 2025 11:44:55 +0100
-Message-ID: <m2v7lpuv2w.fsf@gmail.com>
-References: <20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=whynothugo.nl header.i=@whynothugo.nl header.b="aUwzyDUS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HtNp15C6"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id ED3611400037;
+	Thu, 11 Sep 2025 07:23:16 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Thu, 11 Sep 2025 07:23:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=whynothugo.nl;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1757589796; x=1757676196; bh=phsMw9DpPdUU5v2F8lNwtFPs0tTryaYN
+	/3X1959+Xa8=; b=aUwzyDUS6Ni4t/QvgHl6LsBHmF3uI/J2bwfyWZz7hDPwalU1
+	En7wI3iL9JLskuGRKmGCqKjNN/OdK81vPFBKO0IJ/KemD+GVGwNovZ3OOxMU/sEt
+	ovW8IXtobZm7plBNei4gMlwR2se3NXojGVGB20ipf78KMQqPXvxBb2wDDEmkvjaf
+	/jw0BLSXPZzTdY+zdq06NPikxsQksPOjLKKZlPkpVqvMSFWlcs0UtGTpOvRT6JzP
+	65AdxFLBN49Nm4VgAzxaqVj2ankj04N9NfzF8/CHg7GtxD4fSWlgS/P5+9D1pqvY
+	LQRum97mztFPSwrM/sfnKGOdk64VUIQ+CVWIoQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757589796; x=
+	1757676196; bh=phsMw9DpPdUU5v2F8lNwtFPs0tTryaYN/3X1959+Xa8=; b=H
+	tNp15C6ewceirNuY7Lt55W5yO0gsECn8eon3Aav341PO3Ayad9iJzLUedEVsWylC
+	n6ZlJU+i6w8g1PLoPRGDlT3Hnub9ko4xfllfieRkPktvhBqZ8ZYTSmCtJzFaOfSe
+	I8wjOX4XfpRWGU1k/h6GPhs9BUdSG9Wq5KpX/a8hhOzej7EJH81MY4zpcmLRo7QJ
+	pj3eEqeTD8MxsdEdloyYctr3yJJjh6YOLw5+N1gH+RAxItA1Qn3fVEN+k4OoHgL4
+	vezNaFot0718VFsUYltuATRn6Cd6UBFMi/dqxuGm8guwW8hfPjKikBGOlRpE+Ovt
+	YacpwppQk+iwffojfZpVA==
+X-ME-Sender: <xms:I7HCaDWY9wJYM3hQR4RWcDQNUipz8bn_7SgxhAhqzVTY_TF-dxoRUw>
+    <xme:I7HCaLmI_UR7JPJs2Cypq6Bq8AjyND1kUzfETAdN_O0PmkrrseLPQbPxlIupKUQn5
+    dgRQ7ETps8TJ7wvVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddviedtgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdfjuhhgohcu
+    qfhsvhgrlhguohcuuegrrhhrvghrrgdfuceohhhughhoseifhhihnhhothhhuhhgohdrnh
+    hlqeenucggtffrrghtthgvrhhnpefhgfeivdekvefgjeeludffieefgffgvdeugffgteef
+    feefjeevhfefudduuddvffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthh
+    husgdrtghomhdpshhrrdhhthdpmhgrihhnrdhrshenucevlhhushhtvghrufhiiigvpedt
+    necurfgrrhgrmhepmhgrihhlfhhrohhmpehhuhhgohesfihhhihnohhthhhughhordhnlh
+    dpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegs
+    phesrghlihgvnhekrdguvgdprhgtphhtthhopegsrghgrghsughothhmvgesghhmrghilh
+    drtghomhdprhgtphhtthhopegrrhgusgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    giekieeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonh
+    higidruggvpdhrtghpthhtohepuggrvhgvrdhhrghnshgvnheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhope
+    hmihhnghhosehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhnuhigqdguohgtsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:I7HCaDS15vkvBBDt2u3ukQI2EAMZVffKfcwGK1NX4cJUbRaZanVXlw>
+    <xmx:I7HCaO3p4WrzWAv7tZ6Wsn576pQ56gBCKOD3rLG7L3s3HoZ-1ahm6g>
+    <xmx:I7HCaNzTgbSWNFQfP0mQ2Mq6DfuIjVcKK5fr3he1sGkesFC73ckddw>
+    <xmx:I7HCaKy_XBAiduFtR37sRkWxZh9eGlikwkwJ8gIFwCzg2fZiyDIACg>
+    <xmx:JLHCaDv0HHdTHulTCdDOew615F8frATTJRvqzWfntn4UX41y3_PEGXsU>
+Feedback-ID: ib8c04050:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C56691B4006D; Thu, 11 Sep 2025 07:23:15 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-ThreadId: Atl5U7xjKeAs
+Date: Thu, 11 Sep 2025 13:22:54 +0200
+From: "Hugo Osvaldo Barrera" <hugo@whynothugo.nl>
+To: "Ard Biesheuvel" <ardb@kernel.org>, "Bagas Sanjaya" <bagasdotme@gmail.com>
+Cc: "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ "Linux Documentation" <linux-doc@vger.kernel.org>,
+ "Linux EFI" <linux-efi@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>
+Message-Id: <c30fb598-2878-4bdd-ab84-4f4d07d0db5d@app.fastmail.com>
+In-Reply-To: 
+ <CAMj1kXHCi1pr3XNzwe7b7EFBkPGjkppeNWNSvy4wU1VBHj9kfA@mail.gmail.com>
+References: <20250910015738.14848-2-bagasdotme@gmail.com>
+ <CAMj1kXHCi1pr3XNzwe7b7EFBkPGjkppeNWNSvy4wU1VBHj9kfA@mail.gmail.com>
+Subject: Re: [PATCH] x86/Documentation: explain LINUX_EFI_INITRD_MEDIA_GUID
 Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-"Matthieu Baerts (NGI0)" <matttbe@kernel.org> writes:
 
-> Some attribute-set have a documentation (doc:), but it was not displayed
-> in the RST / HTML version. Such field can be found in ethtool, netdev,
-> tcp_metrics and team YAML files.
+
+On Thu, 11 Sep 2025, at 08:46, Ard Biesheuvel wrote:
+> On Wed, 10 Sept 2025 at 03:58, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>
+>> From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+>>
+>> Since the Handover Protocol was deprecated, the recommended approach is
+>> to provide an initrd using a UEFI boot service with the
+>> LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+>> approach has been no more than an admonition with a link to an existing
+>> implementation.
+>>
+>> Provide a short explanation of this functionality, to ease future
+>> implementations without having to reverse engineer existing ones.
+>>
+>> Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+>> Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+>> [Bagas: Don't use :ref: link to EFI stub documentation]
+>> Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> ---
+>>  Documentation/admin-guide/efi-stub.rst |  3 +++
+>>  Documentation/arch/x86/boot.rst        | 35 ++++++++++++++++++++------
+>>  2 files changed, 30 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+>> index 090f3a185e1897..2f0f040f6913a4 100644
+>> --- a/Documentation/admin-guide/efi-stub.rst
+>> +++ b/Documentation/admin-guide/efi-stub.rst
+>> @@ -79,6 +79,9 @@ because the image we're executing is interpreted by the EFI shell,
+>>  which understands relative paths, whereas the rest of the command line
+>>  is passed to bzImage.efi.
+>>
+>> +.. hint::
+>> +   It is also possible to provide an initrd using UEFI boot services. See
+>> +   :ref:`pe-coff-entry-point` for details.
+>>
 >
-> Only the 'name' and 'attributes' fields from an 'attribute-set' section
-> were parsed. Now the content of the 'doc' field, if available, is added
-> as a new paragraph before listing each attribute. This is similar to
-> what is done when parsing the 'operations'.
-
-This fix looks good, but exposes the same issue with the team
-attribute-set in team.yaml.
-
-The following patch is sufficient to generate output that sphinx doesn't
-mangle:
-
-diff --git a/Documentation/netlink/specs/team.yaml b/Documentation/netlink/specs/team.yaml
-index cf02d47d12a4..fae40835386c 100644
---- a/Documentation/netlink/specs/team.yaml
-+++ b/Documentation/netlink/specs/team.yaml
-@@ -25,7 +25,7 @@ definitions:
- attribute-sets:
-   -
-     name: team
--    doc:
-+    doc: |
-       The team nested layout of get/set msg looks like
-           [TEAM_ATTR_LIST_OPTION]
-               [TEAM_ATTR_ITEM_OPTION]
-
-> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-> ---
-> Note: this patch can be applied without conflicts on top of net-next and
-> docs-next. To be honest, it is not clear to me who is responsible for
-> applying it :)
-> ---
->  tools/net/ynl/pyynl/lib/doc_generator.py | 4 ++++
->  1 file changed, 4 insertions(+)
+> Better say 'using a Linux-specific UEFI protocol at boot time'. The
+> boot services are a specific set of APIs none of which have anything
+> to do with initrd loading.
 >
-> diff --git a/tools/net/ynl/pyynl/lib/doc_generator.py b/tools/net/ynl/pyynl/lib/doc_generator.py
-> index 403abf1a2edaac6936d0e9db0623cd3e07aaad8e..3a16b8eb01ca0cf61a5983d3bd6a866e04c75844 100644
-> --- a/tools/net/ynl/pyynl/lib/doc_generator.py
-> +++ b/tools/net/ynl/pyynl/lib/doc_generator.py
-> @@ -289,6 +289,10 @@ class YnlDocGenerator:
->          for entry in entries:
->              lines.append(self.fmt.rst_section(namespace, 'attribute-set',
->                                                entry["name"]))
-> +
-> +            if "doc" in entry:
-> +                lines.append(self.fmt.rst_paragraph(entry["doc"], 0) + "\n")
-> +
->              for attr in entry["attributes"]:
->                  if LINE_STR in attr:
->                      lines.append(self.fmt.rst_lineno(attr[LINE_STR]))
+>>  The "dtb=" option
+>>  -----------------
+>> diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+>> index 77e6163288db08..fadbe66517bdf2 100644
+>> --- a/Documentation/arch/x86/boot.rst
+>> +++ b/Documentation/arch/x86/boot.rst
+>> @@ -1431,12 +1431,31 @@ The boot loader *must* fill out the following fields in bp::
+>>  All other fields should be zero.
+>>
+>>  .. note::
+>> -     The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+>> -     entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+>> -     loading protocol (refer to [0] for an example of the bootloader side of
+>> -     this), which removes the need for any knowledge on the part of the EFI
+>> -     bootloader regarding the internal representation of boot_params or any
+>> -     requirements/limitations regarding the placement of the command line
+>> -     and ramdisk in memory, or the placement of the kernel image itself.
+>> +   The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+>> +   entry point described below.
+>>
+>> -[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+>> +.. _pe-coff-entry-point:
+>> +
+>> +PE/COFF entry point
+>> +===================
+>> +
+>> +When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
+>> +regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
+>> +implementation details.
+>> +
+
+This should be a link rather than a path to the source file.
+
+>> +The stub loader can request the initrd via a UEFI protocol. For this to work,
+>> +the firmware or bootloader needs to register a handle which implements the
 >
-> ---
-> base-commit: deb105f49879dd50d595f7f55207d6e74dec34e6
-> change-id: 20250910-net-next-ynl-attr-doc-rst-b61532634245
+> ... which carries implementations of the ``EFI_LOAD_FILE2`` protocol
+> and the device path protocol exposing the
+> ``LINUX_EFI_INITRD_MEDIA_GUID`` vendor media device path.
 >
-> Best regards,
+>> +``EFI_LOAD_FILE2`` protocol with the ``LINUX_EFI_INITRD_MEDIA_GUID`` device
+>> +path. In this case, a kernel booting via the EFI stub will use the ``LoadFile``
+>> +function on the registered handle to obtain a reference to the initrd.
+>> +
+
+Might be worth mentioning that this protocol is defined in the UEFI spec,
+section 13.2.
+
+>
+> ... will invoke LoadFile2::LoadFile() method on the registered
+> protocol to instruct the firmware to load the initrd into a memory
+> location chosen by the kernel/EFI stub.
+>
+>> +This approach removes the need for any knowledge on the part of the EFI
+>> +bootloader regarding the internal representation of boot_params or any
+>> +requirements/limitations regarding the placement of the command line and
+>> +ramdisk in memory, or the placement of the kernel image itself.
+>> +
+>> +For sample implementations, refer to `the original u-boot implementation`_ or
+>> +`the implementation in candyboot`_.
+>> +
+>> +.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
+>> +.. _the implementation in candyboot: https://git.sr.ht/~whynothugo/candyboot/tree/4097b2538d7f1cf85f03922bf42409490b666202/item/src/main.rs#L225
+>>
+>
+> What is candyboot, and why are we adding this plug for it into the
+> Linux documentation?
+
+It's a UEFI stub loader which can load the Linux kernel and provide it with an
+initramfs using the above described protocol.
+
+The original version of this patch was based on my notes researching _how_
+to implement this stub loader. The implementation is quite minimal, so I think
+it serves as a useful reference example.
+
+-- 
+Hugo
