@@ -1,126 +1,131 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BA928643D
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 09:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00727EFE3;
+	Fri, 12 Sep 2025 09:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757669066; cv=none; b=FOJjec5R/kqdO4N9kyRUzcxA0fiCIkmrCmbj9SJ1SAMV00VLaBzfmh3cdrsSiep+BR9XMSfBB1PqkJR2EkRMaHsvUtUDMsbo6D1Ix7jmzTM2Vy5qmdhwfUzdKOno1dKJXzUFzSIAN5xmNIUzflpIV8t/DC8Hx4h3QN4Emu/ePws=
+	t=1757669101; cv=none; b=pn7SlpOXJ+T5MHoCPSjTttvD4Cj3uaUPCNrG8Qcf4hTbdfn1//Yx74YCfQlfjzkCmjOPf1iexa+KhlFARhQKtx3mDCVwni8XV0isdU4pE4cw78mtSjHir+odK9yqtxVbImwdozCl820eS3BWuBzQoEyVug6YSdycsXY1L8LZK9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757669066; c=relaxed/simple;
-	bh=zZ3EdgDqG32koRVEzkCdU26BudT4DPvEmFEKbPHfTpc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dobfl/sSKp6E4T/9s/2NQgrPB14M5Ia7vFO7BAw+7Z1ofpvjlCxydi6DE/A8wt8Tzg2IttfNJvS5yo1pYyr3OaJPV/84o5xHrQyYpeJkmfNeRXvGE7/SmOidDJc3qPOYeTXqC292J7j3AaVWy/TsdE8uZt5T727X4cm7zPYodf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dqoyVcPX; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757669101; c=relaxed/simple;
+	bh=GmEAPbFMXpczpVM7DQb8d28PRbScKAo5q6THwLy4XlM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d2AqHL2w2cUPLiLLEt9f46h7dxrdBaGwfGIRQHiNiBbYZII5OvfAx/VChP7qdLYm9PG8LiJ3bgHkvXDezc2SrDWhvYo9wbZuoN/YVw2dfL87kXVLEpPyGnZCOKtKZvQv8I5BndGdFqFEFSdGlEaJcjOg6y3ooJ0th/AWbdnLeqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=FC5rw6ix; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dqoyVcPX"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b0785be64f5so462796666b.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 02:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757669062; x=1758273862; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ejOVXapMEGWfb71MDH1k0hVwflqRG+5TP6RxYPYRsR4=;
-        b=dqoyVcPXoTN93DExdiwxhhzwT6Vm/NElVLwtQ7IAwdx9yWDS2gwil6GCHlM3ZPaDRB
-         XS/Muo/J9WUP8B6EmhQgf24Fn6+D3wmfJZqr1mcvThPJDqKXR7ZCVmqJ5gNsIbjAf71G
-         p0WdPEgHsFd4WvVnxx1p5XG7XwuR5b3DfPeK/8IxAsgmaUpAqX4efcgzA4IfhzH5tMxt
-         xl9E6bJ1gtz46KSWGnm5GPPZxrTcSEZCBqCLbd2xxMgQmieI4HFDfr0ALK6CNThyftbv
-         UDm6DQ76I7oQmbn3ogZfsWlawpdRyaCW4y69Dw/llPfT+BNBXrmS9clG6Y/NZNpu74dM
-         9kPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757669062; x=1758273862;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ejOVXapMEGWfb71MDH1k0hVwflqRG+5TP6RxYPYRsR4=;
-        b=Qs6p6DbP5vkrN0rKHhpPDFFT2KixoGzm12atZudPR8CpPmB7XS61qOHbjKxEoT5R61
-         2gDeXVlKQ+FnO7Q4x8TXHUaMh9kzepj7NJO5QLPSmPXQVRB1Hdg7CYeiXDHdRVXhp+wo
-         q/Z4RgIhV3C9T+hI7bvQqxP+jWpszEPt/vS7oLSK+Nh6jFdvRM4qtUmEPwHVCluTvntk
-         Wl5XcWIhMo6/KkZQjH922KTti0WK32nmW7w9VpNPwt9unPPGPT8oloTVQ6U1J7YagbDn
-         X8UD7ocLLTsBOmhK7HkBn4C8TtUg/Ts4PmBNCmIFXpVr5PdRxSiIZZ5Sk7pBcS5I7i+d
-         wb8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUfTz1oH6hc8oACr8nTaSxyK1cLXtCi8FPBY+VKYD+fRao9uWOQaarHc7ReiEXqleUgy7d3hyc5v2g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLPYZ1nlKDBGpfiSpRrU+0EUA9+kSx8xOSgtt+Rt32EmUHeRWH
-	YSyaCMYhO64uuhYUcDSYw54KaE0cBjqVwYOCgzZe0CsESKrd2mq9RXreGP2AFZ4ksmQOfyjIoc9
-	0Ojx57NjjLOTLe6ofxM0ShXOpuTrFuo2e6ewzLHPJFk20YQkkS+Q4r3k=
-X-Gm-Gg: ASbGncuZg8gMPouK5W0xzH4x7u+k+amBWUs87cm7bp5HxTp9b/+QQB47ogPHL7JlZRr
-	OttWWMH7vtUgpfmzeruWtfK8peXd7G4AiymGSeNXxkXl5a4zlNotjcYh2Ed1Y40UixeWXGPF/2V
-	LVYqYdYv+VHcUGTyuM3IAj8hB8NXeC2o2kqaFTUV3yBm5q3jRNf1oQm8fBdfs8MW5eDcps5ezgf
-	aLc2T52tNYqNN6SZsl3iOvtbJNUZzVXa9HQwKwEVw9Rt3RW
-X-Google-Smtp-Source: AGHT+IEG7d2O5fuiKOqLaxk4wNWtHu8A08plk+DQOGkfs2DJxQxya6tEWqjjc+qZvluiPc70wIKTosdznqW6MDbVNpE=
-X-Received: by 2002:a17:907:96a4:b0:b04:25e6:2dc2 with SMTP id
- a640c23a62f3a-b07c254393cmr229565966b.22.1757669062471; Fri, 12 Sep 2025
- 02:24:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="FC5rw6ix"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757669095; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=yeQuxM0fjpmIe4g0xUTHddlrE41HXqCqb25Ih/uw2qU=;
+	b=FC5rw6ixR5LazE+N3z4/dTcrJQMWug331XVyZltsj007wwaIMcbYk1MIz7HngLF0s48iJ7+quRnMaADJDkw5FAgDSKcC/7EV7t1PcFZAU7rVMv77wrKs5veqVYDtymV6+emOeD/vU/Fp/dzr9mc5ojNrdmEOPVrDVkd25W2SiMw=
+Received: from 30.74.144.122(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WnqpgPM_1757669090 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 12 Sep 2025 17:24:52 +0800
+Message-ID: <50305e9f-ad03-4ce9-9ae7-0c657bd87ef0@linux.alibaba.com>
+Date: Fri, 12 Sep 2025 17:24:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250912081718.3827390-1-tzungbi@kernel.org> <2033c6cd-4112-4c8a-a9ef-2ab34f3504b8@kernel.org>
-In-Reply-To: <2033c6cd-4112-4c8a-a9ef-2ab34f3504b8@kernel.org>
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Date: Fri, 12 Sep 2025 11:24:10 +0200
-X-Gm-Features: Ac12FXwlBWZ3wqZGCB6PrzXYD4LYlvvCAzsc1bzxtVBUhf_RXrToQWQG2Wcs3jw
-Message-ID: <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
-To: Krzysztof Kozlowski <krzk@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 11/15] khugepaged: introduce collapse_allowable_orders
+ helper function
+To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
+ raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+ lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
+ pfalcato@suse.de
+References: <20250912032810.197475-1-npache@redhat.com>
+ <20250912032810.197475-12-npache@redhat.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20250912032810.197475-12-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 12 Sept 2025 at 11:09, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> On 12/09/2025 10:17, Tzung-Bi Shih wrote:
-> > This is a follow-up series of [1].  It tries to fix a possible UAF in the
-> > fops of cros_ec_chardev after the underlying protocol device has gone by
-> > using revocable.
-> >
-> > The 1st patch introduces the revocable which is an implementation of ideas
-> > from the talk [2].
-> >
-> > The 2nd and 3rd patches add test cases for revocable in Kunit and selftest.
-> >
-> > The 4th patch converts existing protocol devices to resource providers
-> > of cros_ec_device.
-> >
-> > The 5th patch converts cros_ec_chardev to a resource consumer of
-> > cros_ec_device to fix the UAF.
-> >
-> > [1] https://lore.kernel.org/chrome-platform/20250721044456.2736300-6-tzungbi@kernel.org/
-> > [2] https://lpc.events/event/17/contributions/1627/
-> >
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
->
-> Thanks for the work. Just a note, please start using b4, so above Cc
-> will be propagated to all patches. Folks above received only the cover
-> letter...
->
 
-Thanks to Krzysztof for making me aware of this. Could you please Cc
-my brgl@bgdev.pl address on the next iteration.
 
-I haven't looked into the details yet but the small size of the first
-patch strikes me as odd. The similar changes I did for GPIO were quite
-big and they were designed just for a single sub-system.
+On 2025/9/12 11:28, Nico Pache wrote:
+> Add collapse_allowable_orders() to generalize THP order eligibility. The
+> function determines which THP orders are permitted based on collapse
+> context (khugepaged vs madv_collapse).
+> 
+> This consolidates collapse configuration logic and provides a clean
+> interface for future mTHP collapse support where the orders may be
+> different.
+> 
+> Signed-off-by: Nico Pache <npache@redhat.com>
 
-During the talk you reference, after I suggested a library like this,
-Greg KH can be heard saying: do this for two big subsystems so that
-you're sure it's a generic solution. Here you're only using it in a
-single driver which makes me wonder if we can actually use it to
-improve bigger offenders, like for example I2C, or even replace the
-custom, SRCU-based solution in GPIO we have now. Have you considered
-at least doing a PoC in a wider kernel framework?
+LGTM.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 
-Just my two cents.
+> ---
+>   mm/khugepaged.c | 15 ++++++++++++---
+>   1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 5b45ef575446..d224fa97281a 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -485,7 +485,16 @@ static int collapse_max_ptes_none(unsigned int order)
+>   	else
+>   		max_ptes_none = khugepaged_max_ptes_none;
+>   	return max_ptes_none >> (HPAGE_PMD_ORDER - order);
+> +}
+> +
+> +/* Check what orders are allowed based on the vma and collapse type */
+> +static unsigned long collapse_allowable_orders(struct vm_area_struct *vma,
+> +			vm_flags_t vm_flags, bool is_khugepaged)
+> +{
+> +	enum tva_type tva_flags = is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
+> +	unsigned long orders = BIT(HPAGE_PMD_ORDER);
+>   
+> +	return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
+>   }
+>   
+>   void khugepaged_enter_vma(struct vm_area_struct *vma,
+> @@ -493,7 +502,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
+>   {
+>   	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
+>   	    hugepage_pmd_enabled()) {
+> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
+> +		if (collapse_allowable_orders(vma, vm_flags, true))
+>   			__khugepaged_enter(vma->vm_mm);
+>   	}
+>   }
+> @@ -2557,7 +2566,7 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, int *result,
+>   			progress++;
+>   			break;
+>   		}
+> -		if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_KHUGEPAGED, PMD_ORDER)) {
+> +		if (!collapse_allowable_orders(vma, vma->vm_flags, true)) {
+>   skip:
+>   			progress++;
+>   			continue;
+> @@ -2865,7 +2874,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>   	BUG_ON(vma->vm_start > start);
+>   	BUG_ON(vma->vm_end < end);
+>   
+> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLAPSE, PMD_ORDER))
+> +	if (!collapse_allowable_orders(vma, vma->vm_flags, false))
+>   		return -EINVAL;
+>   
+>   	cc = kmalloc(sizeof(*cc), GFP_KERNEL);
 
-Bartosz
