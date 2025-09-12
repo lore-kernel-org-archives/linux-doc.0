@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F6F2DC793;
-	Fri, 12 Sep 2025 08:46:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E490270EBF;
+	Fri, 12 Sep 2025 08:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757666804; cv=none; b=Bi6DIv45xJviRN9+UQk+UuT90Tzh9TAqN/49xG2zBk833RVanovrYk2RqQkvZcgEFycbdXJforf+7OQBMgeauz/djFxIDpUiHxEnW19i8AJoE7XYH26/J8iG73GGNygoO2wPyjo0nuNxSQjM0wj7ejLzbYxdHe20Bi+gHztCQXc=
+	t=1757667384; cv=none; b=Hfg9MelkEDeSX+RF71wK13eY9exCiRABo+jb2uxji0NTJ2C+HwZ5mwIcR8hEUmCn3SA+78aube+w8kZAbC2hB5teQc3mwfD2kFf2IzTr2a9lPmmRAy1Kp9pqpZA9KYOmEiqI2fcqW0En8v668EUEJdFHwfX/GV1hyhZHvACfPvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757666804; c=relaxed/simple;
-	bh=tB552EcC3dT+MWtH2KGQtr52pu/sx5gcFpmjxx+Sm2M=;
+	s=arc-20240116; t=1757667384; c=relaxed/simple;
+	bh=aGj95vE+HeX/MtHrExL73IFxy035ObvEQTw/TraBBgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cyXalNKuPQGFFwvaMHkFAxrq/gSb+r/MqClDFmzStqRz9TrjUq+Dw3ZlnzgfEGBFxHA4kma8RAu3CC+0n9y10/ezqqHQkfiTj0hzeCpzI3NdEOBnXBNXpTjIQ0aHWWH4+jlgAvmp3JkJhIWFyhwaw97c+Vcs5/BaM2UtemEKMH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0WQMvCm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=tdU/eTrqIVstDy/NsSqELKYpnCKMq51NfSxVh9xiWcK6ktcpDbclYdK8sbcuOzALQKRmN8d4TGSKSYdIHqYhXX72auSddBDlOsI651gCAX1FbhXUz9AEQBg57QJNMoEuijJ1T5/ALok7kRz9ac6J03t9yWuYxeQoZ59+0+hoCQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eI9RVXTq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0WQMvCm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4461C4CEF4;
-	Fri, 12 Sep 2025 08:46:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eI9RVXTq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA69CC4CEF4;
+	Fri, 12 Sep 2025 08:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757666803;
-	bh=tB552EcC3dT+MWtH2KGQtr52pu/sx5gcFpmjxx+Sm2M=;
+	s=k20201202; t=1757667384;
+	bh=aGj95vE+HeX/MtHrExL73IFxy035ObvEQTw/TraBBgg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K0WQMvCmANFvkTj4XCidgSwyBgHSFZMr6PxortgBnNgxEajQhARfbs7pFywd+44+H
-	 6D5jOdQPAKfSz6evhaWfXZpvx/ay635697622aaQCsVLaCTXYkgJbZgyQhDqrAKU5g
-	 RRcoCVPcdukPjuaNmjjCRoh2X4s8JneiWfXN790heh+aASbNlZ7RFCeWolf0poIpMJ
-	 vbCyALIZBKxy8+h/vcSINDa8HgoTRIuH4OaJfmvoLfzMh7kSy+gqp1RO41cUA2Tnk4
-	 Ls26qG4mLIe66taBB7AvF0muBhT8407ceOPM2GDIM/qhklV5d5p9wFsRsieKqdeM7l
-	 9HE2CTTitdQwQ==
-Date: Fri, 12 Sep 2025 10:46:39 +0200
+	b=eI9RVXTqOyiYKua4+r4sm1Qer0Q3SuzeF6YT1Lx2oudBBoL628Z6+OxTkwQrWo5gh
+	 ZLl7cLy7RoqF8klYaLYUekNEWC76jg4UUk49thNxhTxDEZdKGLckXCkyYiaTAXWaBV
+	 4AC/BDUr1O6+IUuZoFsStnaLduRtOZRqlhy73ixcSu3zvwmx6Lf8LDjKTC9ZvyoeLj
+	 VJcSLgRFzdhb5nLKpZdwJIG1XfDvY7+iHhvm+iY95oR4QRhqixOWQU/roySf544WyR
+	 8TnGKXVRb4kpMQirwco4vlixaDPELpVxu15mCpgmOPeNA4vtXdhvDcJ88Van2sADNA
+	 b1po/Ed1Grv/g==
+Date: Fri, 12 Sep 2025 10:56:18 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
  <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 10/19] tools/docs: sphinx-build-wrapper: add support
- to run inside venv
-Message-ID: <20250912104639.4781b638@foz.lan>
-In-Reply-To: <b76575eab805884ee5227ae6f1aded505df4ec56@intel.com>
+Subject: Re: [PATCH v4 12/19] docs: Makefile: document latex/PDF PAPER=
+ parameter
+Message-ID: <20250912105618.10e7953e@foz.lan>
+In-Reply-To: <d20b612ee510c65dcd60183eda5068b164294759@intel.com>
 References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-	<2158cc4cf1f9bcf4c191f8031c1fb717cb989f7f.1756969623.git.mchehab+huawei@kernel.org>
-	<b76575eab805884ee5227ae6f1aded505df4ec56@intel.com>
+	<52411bce7bf0d068bfc8e33b35db3259c3ae0c64.1756969623.git.mchehab+huawei@kernel.org>
+	<d20b612ee510c65dcd60183eda5068b164294759@intel.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,113 +48,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 10 Sep 2025 13:51:40 +0300
+Em Wed, 10 Sep 2025 13:54:07 +0300
 Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
 > On Thu, 04 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > Sometimes, it is desired to run Sphinx from a virtual environment.
-> > Add a command line parameter to automatically build Sphinx from
-> > such environment.  
-> 
-> Why?
-
-In my case, to be able to test build with different Sphinx versions.
-On some distros, only venv works.
-
-> If you want Sphinx from a virtual environment, you enter the
-> environment, and run the regular build, with sphinx-build from the PATH
-> that points at the venv.
-
-when you do that, ./scripts/spdxcheck.py breaks, affecting checkpatch.
-
-> 
-> We don't do this kind of extra magic for any other tools, I honestly
-> don't understand why we'd do this for Sphinx. This just adds complexity
-> for no good reason.
-
+> > While the build system supports this for a long time, this was
+> > never documented. Add a documentation for it.
 > >
 > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > > ---
-> >  tools/docs/sphinx-build-wrapper | 30 +++++++++++++++++++++++++++---
-> >  1 file changed, 27 insertions(+), 3 deletions(-)
+> >  Documentation/Makefile | 2 ++
+> >  1 file changed, 2 insertions(+)
 > >
-> > diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-> > index ea9f8e17b0bc..cf7b30bc40ff 100755
-> > --- a/tools/docs/sphinx-build-wrapper
-> > +++ b/tools/docs/sphinx-build-wrapper
-> > @@ -63,6 +63,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
-> >  #
-> >  #  Some constants
-> >  #
-> > +VENV_DEFAULT = "sphinx_latest"
-> >  MIN_PYTHON_VERSION = PythonVersion("3.7").version
-> >  PAPER = ["", "a4", "letter"]
-> >  
-> > @@ -119,8 +120,9 @@ class SphinxBuilder:
-> >  
-> >          return path
-> >  
-> > -    def __init__(self, builddir, verbose=False, n_jobs=None):
-> > +    def __init__(self, builddir, venv=None, verbose=False, n_jobs=None):
-> >          """Initialize internal variables"""
-> > +        self.venv = venv
-> >          self.verbose = None
-> >  
-> >          #
-> > @@ -195,6 +197,21 @@ class SphinxBuilder:
-> >  
-> >          self.env = os.environ.copy()
-> >  
-> > +        #
-> > +        # If venv command line argument is specified, run Sphinx from venv
-> > +        #
-> > +        if venv:
-> > +            bin_dir = os.path.join(venv, "bin")
-> > +            if not os.path.isfile(os.path.join(bin_dir, "activate")):
-> > +                sys.exit(f"Venv {venv} not found.")
-> > +
-> > +            # "activate" virtual env
-> > +            self.env["PATH"] = bin_dir + ":" + self.env["PATH"]
-> > +            self.env["VIRTUAL_ENV"] = venv
-> > +            if "PYTHONHOME" in self.env:
-> > +                del self.env["PYTHONHOME"]
-> > +            print(f"Setting venv to {venv}")
-> > +
-> >      def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
-> >          """
-> >          Executes sphinx-build using current python3 command and setting
-> > @@ -209,7 +226,10 @@ class SphinxBuilder:
-> >  
-> >              cmd = []
-> >  
-> > -            cmd.append(sys.executable)
-> > +            if self.venv:
-> > +                cmd.append("python")
-> > +            else:
-> > +                cmd.append(sys.executable)
-> >  
-> >              cmd.append(sphinx_build)
-> >  
-> > @@ -533,11 +553,15 @@ def main():
-> >      parser.add_argument('-j', '--jobs', type=jobs_type,
-> >                          help="Sets number of jobs to use with sphinx-build")
-> >  
-> > +    parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
-> > +                        default=None,
-> > +                        help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
-> > +
-> >      args = parser.parse_args()
-> >  
-> >      PythonVersion.check_python(MIN_PYTHON_VERSION)
-> >  
-> > -    builder = SphinxBuilder(builddir=args.builddir,
-> > +    builder = SphinxBuilder(builddir=args.builddir, venv=args.venv,
-> >                              verbose=args.verbose, n_jobs=args.jobs)
-> >  
-> >      builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,  
+> > diff --git a/Documentation/Makefile b/Documentation/Makefile
+> > index 4736f02b6c9e..0e1d8657a5cc 100644
+> > --- a/Documentation/Makefile
+> > +++ b/Documentation/Makefile
+> > @@ -126,4 +126,6 @@ dochelp:
+> >  	@echo
+> >  	@echo  '  make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.'
+> >  	@echo
+> > +	@echo  '  make PAPER={a4|letter} Specifies the paper size used for LaTeX/PDF output.'
+> > +	@echo
+> >  	@echo  '  Default location for the generated documents is Documentation/output'  
 > 
+> The Sphinx make mode 'sphinx-build -M help' provides all of this and
+> more...
 
+So? Relying on a help message from sphinx-build would just make
+our makefile fragile.
 
+btw, it didn't work here:
+
+	$ ./sphinx_latest/bin/sphinx-build --version
+	sphinx-build 8.2.3
+
+	 $ ./sphinx_latest/bin/sphinx-build  -M help
+	Error: at least 3 arguments (builder, source dir, build dir) are required.
 
 Thanks,
 Mauro
