@@ -1,92 +1,160 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9580D27A465;
-	Fri, 12 Sep 2025 09:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E490284B26;
+	Fri, 12 Sep 2025 09:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757670061; cv=none; b=hYqwYP2XWD5x4oPil2bCBnd5/GTh+ZEP7ttBJu5udbtQNvnNFaE8enLaVTJlC24p0cyxsps6rBnNzJQcDQCigvxbQbTtUHrS0jfIb/jOc3sD7X9nsaD319NIcOshJuZJj4K4B1yrWTTssJ+JO1NJY8j8G/MApZfYVPDOFQSNlvY=
+	t=1757670412; cv=none; b=pl8EwPwIYIQ2S4Xr8UK16Sz4yzlPUYL7FHROM0XTmoOCRgixksZGrpDMTs18JdZxPLqRUy+lCvfWI3Rf8jaF04fwoCCiUaUdpr99ce4GsItyk24OQ+4AbUpXHIHit7MP4YR+ZKG+XCbRaE76dpKF5+iwgwwMYp5oICVqIqArCHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757670061; c=relaxed/simple;
-	bh=lJ36e+t/tg8LmpoQ6endDbrNr7eRgy5K+DROEoJYN0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sUl9gPGtqqknMPzwYLARIV3SsOKXgZwcxHYRmvg43RlRD1AF5aPWmB6Ge4d2D1LHz+IeSOt0atGAHv/GCQwRiIChUxEi9h9COXpDEpQ32VIm1s6PGeHH6RAQbxs6uOozo79gOz4CljYEceCgtsfHfvQ496Flmry/sb0REMP1aGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Xt6HyY9g; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1757670412; c=relaxed/simple;
+	bh=NegVXeCczBLb95zus6Xi050gA1rei1TvPnU9xQh+Oz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZU03Z9iBBodcnnHRvd/yfUoXzvrZpYMBFPPyr7flKc0rjJYanj8Z5w/TpE7TCfpYOFcWno7E76seSzFyVMHHc1Q9Rprfoq9Ge8fp2IbknnL1wWep1efGxaWpH0EttmYZosw2w6bPZLpfRSIEehZOJftNflR4snLKd3Jz7TRKShI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlHwIS8u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Xt6HyY9g"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757670055; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=8wqlXppzbfyIOcS8BfKoIJCpvoAzpjciPU1+yNHw35A=;
-	b=Xt6HyY9gswY87UdAPCE6BA83evTUJGamPqQrffh1bPmucYESaMAp1YO7dpWY00k08ZipzcHOZeuS348ILcdMcFfFbzGeW4liQnegRPvzQ447HhLpix+iwk/K3fVXjRCFPk1UiCKuyR+wjMFAGAPjH7TB7VSKp4uCZxpL66KbBoo=
-Received: from 30.74.144.122(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WnqpLMs_1757669731 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 12 Sep 2025 17:35:32 +0800
-Message-ID: <068a41eb-3a5c-4749-a8f6-c1bda1fb6a4b@linux.alibaba.com>
-Date: Fri, 12 Sep 2025 17:35:31 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlHwIS8u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C41CC4CEFB;
+	Fri, 12 Sep 2025 09:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757670411;
+	bh=NegVXeCczBLb95zus6Xi050gA1rei1TvPnU9xQh+Oz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tlHwIS8ug6kpBIrC+YecNbpE7U+PsFjIkpz8qRKv0N8I/dMi05ykyBedvzKGA9d+z
+	 UyfCvbqR8D4bmoMvnGGtflnFBLXY07Cqu9o1LLWyrBAIQESt+qlQSE/yQN6l1tMfqr
+	 9g1FPoIalkF/eMyh872sL/l8IIbH5Mdp829VHOxyOxi/QSlQdfultYiLZ4b2tJtbGN
+	 h48YWJ+Q3mPXk9Fae45hjGdZlsSOEW38Zo4E03YQWNnSW3kVBOv0JU26h21GAFlWTZ
+	 s80T7jn2C06bJoLUtOYhmNyu7qpCNhTBotRJ1feUw3EeQDvhlEqhhFZqQZ0HV13QYW
+	 btfi9G8AHwzbA==
+Date: Fri, 12 Sep 2025 15:16:34 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>
+Cc: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kuldeep Singh <quic_kuldsing@quicinc.com>,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v12 00/11] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+Message-ID: <aMPr-sYzFDlr-R8R@sumit-X1>
+References: <20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-0-17f07a942b8d@oss.qualcomm.com>
+ <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 09/15] khugepaged: add per-order mTHP collapse failure
- statistics
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20250912032810.197475-1-npache@redhat.com>
- <20250912032810.197475-10-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250912032810.197475-10-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
 
+On Fri, Sep 12, 2025 at 10:21:55AM +0200, Jens Wiklander wrote:
+> Hi,
+> 
+> On Fri, Sep 12, 2025 at 6:07 AM Amirreza Zarrabi
+> <amirreza.zarrabi@oss.qualcomm.com> wrote:
+> >
+> > This patch series introduces a Trusted Execution Environment (TEE)
+> > driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+> > and services to run securely. It uses an object-based interface, where
+> > each service is an object with sets of operations. Clients can invoke
+> > these operations on objects, which can generate results, including other
+> > objects. For example, an object can load a TA and return another object
+> > that represents the loaded TA, allowing access to its services.
+> >
+> [snip]
+> 
+> I'm OK with the TEE patches, Sumit and I have reviewed them.
+> 
+> There were some minor conflicts with other patches I have in the pipe
+> for this merge window, so this patchset is on top of what I have to
+> avoid merge conflicts.
+> 
+> However, the firmware patches are for code maintained by Björn.
+> Björn, how would you like to do this? Can I take them via my tree, or
+> what do you suggest?
 
+I had an offline chat with Amir about this and there is a build
+dependency of QTEE driver on firmware patches in case the patches gets
+applied in reverse order (first QTEE patches and then firmware ones).
+So I would suggest the complete patch-set goes through Jens tree given
+the very limited time we have.
 
-On 2025/9/12 11:28, Nico Pache wrote:
-> Add three new mTHP statistics to track collapse failures for different
-> orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
-> 
-> - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
-> 	PTEs
-> 
-> - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
->    	exceeding the none PTE threshold for the given order
-> 
-> - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
->    	PTEs
-> 
-> These statistics complement the existing THP_SCAN_EXCEED_* events by
-> providing per-order granularity for mTHP collapse attempts. The stats are
-> exposed via sysfs under
-> `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
-> supported hugepage size.
-> 
-> As we currently dont support collapsing mTHPs that contain a swap or
-> shared entry, those statistics keep track of how often we are
-> encountering failed mTHP collapses due to these restrictions.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
+Bjorn,
 
-LGTM.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Would it be fine for you to provide your ack for the firmware patches?
+
+-Sumit
+
+> 
+> It's urgent to get this patchset into linux-next if it's to make it
+> for the coming merge window. Ideally, I'd like to send my pull request
+> to arm-soc during this week.
+> 
+> Cheers,
+> Jens
+> 
+> >
+> > ---
+> > Amirreza Zarrabi (11):
+> >       firmware: qcom: tzmem: export shm_bridge create/delete
+> >       firmware: qcom: scm: add support for object invocation
+> >       tee: allow a driver to allocate a tee_device without a pool
+> >       tee: add close_context to TEE driver operation
+> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+> >       tee: increase TEE_MAX_ARG_SIZE to 4096
+> >       tee: add Qualcomm TEE driver
+> >       tee: qcom: add primordial object
+> >       tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
+> >       Documentation: tee: Add Qualcomm TEE driver
+> >
+> >  Documentation/tee/index.rst              |   1 +
+> >  Documentation/tee/qtee.rst               |  96 ++++
+> >  MAINTAINERS                              |   7 +
+> >  drivers/firmware/qcom/qcom_scm.c         | 119 ++++
+> >  drivers/firmware/qcom/qcom_scm.h         |   7 +
+> >  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
+> >  drivers/tee/Kconfig                      |   1 +
+> >  drivers/tee/Makefile                     |   1 +
+> >  drivers/tee/qcomtee/Kconfig              |  12 +
+> >  drivers/tee/qcomtee/Makefile             |   9 +
+> >  drivers/tee/qcomtee/async.c              | 182 ++++++
+> >  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
+> >  drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++++++++
+> >  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
+> >  drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
+> >  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
+> >  drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
+> >  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
+> >  drivers/tee/qcomtee/shm.c                | 150 +++++
+> >  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
+> >  drivers/tee/tee_core.c                   | 127 ++++-
+> >  drivers/tee/tee_private.h                |   6 -
+> >  include/linux/firmware/qcom/qcom_scm.h   |   6 +
+> >  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
+> >  include/linux/tee_core.h                 |  54 +-
+> >  include/linux/tee_drv.h                  |  12 +
+> >  include/uapi/linux/tee.h                 |  56 +-
+> >  27 files changed, 4410 insertions(+), 28 deletions(-)
+> > ---
+> > base-commit: 8b8aefa5a5c7d4a65883e5653cf12f94c0b68dbf
+> > change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+> >
+> > Best regards,
+> > --
+> > Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> >
