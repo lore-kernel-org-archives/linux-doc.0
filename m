@@ -1,37 +1,33 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1AF242D9E;
-	Fri, 12 Sep 2025 20:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDE422256B;
+	Fri, 12 Sep 2025 21:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757710719; cv=none; b=rs+zxA/nNqQJwoPa2CCWw+Hb9tUven3fQZ10ZFmjzxGOizqWF0a9q//RlNYSOrvd4nZ02g1IcgExHHf6EiVR2QwMalogi+BCOP0BQGq+aMSDB/MJKUEhFq2maiw5/pozWYeAw6FXJ9UsGn+oX15FCJZ1zWHHCJ8pJtHE85rTMmM=
+	t=1757712460; cv=none; b=Qh5wngyPgOUF805PWUX18AXZOPRpmBfpj9JoCGoXhhN1OMxvsETT8JwQUysUYuhf7va4c83FjSxsZmFWKucAxrw3anPfVb8TT6cGBNluU5seNa4TVwZUP1QH0fB+IiQiBTS7DBOcKYGYGwkFDNQbeZV7snx+Qo3lqYkztFJEwIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757710719; c=relaxed/simple;
-	bh=hkPf4NG18cr+svLukm92kqXa86JRyXzWrX2yDcyUf2A=;
+	s=arc-20240116; t=1757712460; c=relaxed/simple;
+	bh=RGcx0TtggTU05NRX/31eZRhT7+0F5HLxdRyakxLHmjc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kiJG+Gh0KgHqtEIYUU79wo70Zmw0nAyshej81Ku6aA6g7GYoEsaTL7P9q03nQ5QuXYWlyg34YLPN32LHEO7fCXlbzbjq7iJT9AFsIwwfxBexVrkdSeVn0sRu4z4TeUnfP17fzryDA3Gt20KjeBMysygjS+euVMhBzfFMAs+t4KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GgYY+K7+; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=CJd8u0DVVb3XBlNkYVA8dlFIZnZfn12NSjyl+pN62xUX0qvdL7y9ZKBZzg/xD3NjWFJpJqW6ZYbz4W8u/F2PtD9LwkQ3UJayhNH1WoZciCKCkpVFgBVTHLsaIqbybI2v+2EDSGcoEJBdYJExoEOjJ/wAzEtnDwdXPaedv4BEX6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMB5kFz0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GgYY+K7+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=LJHK7dsTB/ThO7Z2EP/SeNUzVk4mffiuK9Sa9a/39e4=; b=GgYY+K7+wiV+MpG4kO15w5qH+k
-	2WDSXuAg5k3G6ic4OnsA5tqxqUWWIkTVHHvl/OF3XUy4DakgAE6fiiA985ifFXW6TT5faR1uLIXG8
-	B6ciUprU+MM+N892Ut5ku3Ln9p15qVGYJX54q5e1j2xxS0sOVSnCx0q5FyYxZFu0RIvJlbPzW4oKL
-	SGU6xNfcRf8rc9vwKjxOUOEgPgVyfma6HNa9LbmE3Dom08imHl4z3AD8eeQr4BnijnnkZZXToFOBH
-	2EgfzN80emdvF98CXoiOicwkmvywStj1NrGJRChqiwg88Fgz9WtqGjF0SYkPl2H70sRRkmCr7NGrG
-	OFTEQkgw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxAqp-0000000BXIW-2wyb;
-	Fri, 12 Sep 2025 20:58:35 +0000
-Message-ID: <de409ffc-100a-4120-b6b1-f89c59a97530@infradead.org>
-Date: Fri, 12 Sep 2025 13:58:34 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMB5kFz0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6496EC4CEF1;
+	Fri, 12 Sep 2025 21:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757712459;
+	bh=RGcx0TtggTU05NRX/31eZRhT7+0F5HLxdRyakxLHmjc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hMB5kFz0BK530ASXZdztqWyR40j1z8lSTN/Q6UgQSaRDUL0ysc37zYiXY3W74T2sR
+	 9ebo5pcNXJ6Szkv7P2rfIByTJuSCrDqQ4P1dt986Sawn7PpCpz0eAowkxd6ItR2Sw5
+	 RETLSlU6Xt7TINo00WaRMsECxl8EKJEfyp8WMl6hDFtFV84fiCtN4N2NlqZHJA2O6r
+	 DdXRTZM+y1pMBrl4jEYnv3aQeEb3FDeo4V7/2gjQcAWd/5r7yaxGW7IVIDjtKXLQqu
+	 xci1hjsHSP8HhCJNSoPm4EM1wHjzqlTDwiO6CT2yVI7tMaR85CwnhyLtbHlZBAGv+E
+	 om3KlER42getA==
+Message-ID: <e0252635-4dc4-483a-911a-fee5a36c19c3@kernel.org>
+Date: Fri, 12 Sep 2025 23:27:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,11 +36,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Revert "drm: Add directive to format code in comment"
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Danilo Krummrich <dakr@kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
  Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>,
@@ -55,17 +50,15 @@ Cc: Danilo Krummrich <dakr@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Antonino Maniscalco <antomani103@gmail.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
+ Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell <sfr@canb.auug.org.au>
 References: <20250912130649.27623-2-bagasdotme@gmail.com>
+From: Danilo Krummrich <dakr@kernel.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
 In-Reply-To: <20250912130649.27623-2-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 9/12/25 6:06 AM, Bagas Sanjaya wrote:
+On 9/12/25 3:06 PM, Bagas Sanjaya wrote:
 > Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
 > fixes original Sphinx indentation warning as introduced in
 > 471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
@@ -81,30 +74,6 @@ On 9/12/25 6:06 AM, Bagas Sanjaya wrote:
 > Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
 > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Need me to pick this one up? Otherwise,
 
-Thanks!
-
-> ---
->  drivers/gpu/drm/drm_gpuvm.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index db9b089ef62c85..86853535fb7bd7 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2432,8 +2432,6 @@ static const struct drm_gpuvm_ops lock_ops = {
->   *
->   * The expected usage is::
->   *
-> - * .. code-block:: c
-> - *
->   *    vm_bind {
->   *        struct drm_exec exec;
->   *
-> 
-> base-commit: 9a3f210737e958c3f45a4ce0d7f1ff330af3965f
-
--- 
-~Randy
+Acked-by: Danilo Krummrich <dakr@kernel.org>
