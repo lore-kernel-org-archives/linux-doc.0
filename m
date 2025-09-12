@@ -1,175 +1,285 @@
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDEA280A2F;
-	Fri, 12 Sep 2025 23:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5979D284694
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 23:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757719261; cv=none; b=BRyyMrNixA4ENgV3+SScvi1JB6hAtzsXdX8hGii6gkKpoA6ruMGcxS8AjngikIMkQHPa4GCW33MRXAD1JZ/e6PCxjkh5VkdurutRdEPdImkM4E46PJCPZ6Y5PLf/4cyi6Lp2+JClXY10/YgjdHxDz7iKjOOo2jYdsrS7f6TuPDs=
+	t=1757719595; cv=none; b=VdLEeXYIFNZjsOUZpZUB/Qsx8Hgas9Co/onG9XBsl+CQRVTG+PlM0aBMqx+Q14FW8p2MN7EyAl9Pu9y/To80iAU/U6xTlNt8qxuXhY2fBTGhqQy9F3uJK/upYDbAQUlNYQomcvllqIQ71ozC35DREOUoE2xxP4bV6WHAvKQVgXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757719261; c=relaxed/simple;
-	bh=LMgjFCFXS7lWqAMsP0k6ElrXCn4PbmCAQ9cG/JltHiU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qp3zxXgp8hbiX+WVxtfM1eLO5TkNriVv35GiuVSO9b6Ky7SHkxvsGluPwbFgtzfkxMf0KzuMYqoSLLaxXF96nFK6dS0/MeS2orst0adsayd+hA5eLzntvZVBGSPEmOfnkz3pjc1tfirrPvSN6a3Sv+oOafZrgDJzCTmXwMGqwGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wiatbwaE; arc=none smtp.client-ip=115.124.30.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1757719595; c=relaxed/simple;
+	bh=RUkRli7PaRf5LNeLB4V9FNYl+iBZf3baaMUpWMMuQ84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Di5NBXdnE8SK1dPufnuCkDMla1NsZnzas05Z7kRHIXXdWAWUviPrI7uQu4wqyZ8PIm1zMapt/FM3uBxx+aSRTVDdCl7xfnv0epQOcfj6sSAFkKtFoQQSdY7MuQadEuoRU1m6xNaH6uLz/qoUhG5qHzwl+VdPvEzT46Gi5/IPUSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aZK8YPQ/; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wiatbwaE"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757719249; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=0O+HEt4GxNAVHjkomsoPJNj9dN5Mu9s+azTdTAvcdIQ=;
-	b=wiatbwaECKg8LhzmLa4Yl6IgFgxSWcq0JlJrkZfRu1nQuEmYkoCxL6s6PCKbqP1RJq5RT+p9gdHG4bnva0EHW/HYIHMxrbFjsLWxY5XWPhf31vxOX57HsGSm51HRIcPIcljvJ2UAcI6/zlWE5hDFy9SQS7gyS1QK+502Op/RVks=
-Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wns48bz_1757719247 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sat, 13 Sep 2025 07:20:48 +0800
-Message-ID: <dd0ea3a4-5e2e-4dc3-8cba-94dfdec06d17@linux.alibaba.com>
-Date: Sat, 13 Sep 2025 07:20:46 +0800
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aZK8YPQ/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757719592;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FYya9fW1mJvYJ3jPqwJBitUidkWXto77tPEtahloeFg=;
+	b=aZK8YPQ/ifD47sdtHvco5cUmekC5suMdzywvrXeZe0RgNPeb9NxrkwH169KbhJDAqqMqyg
+	4s7XSZ8bbNsxOwyzD6F2sq3P7lL5ig7Fkfs2wt9p6czwGjS4AQmnBiPXrO4QkCUX3EtvA0
+	V3P92xx6yblZVdfGIMeIeMAvVIw1gOQ=
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-550-MaAKcqwCPCi0DP3Va0m90A-1; Fri, 12 Sep 2025 19:26:30 -0400
+X-MC-Unique: MaAKcqwCPCi0DP3Va0m90A-1
+X-Mimecast-MFC-AGG-ID: MaAKcqwCPCi0DP3Va0m90A_1757719590
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-61cbe562a8bso2488065d50.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 16:26:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757719590; x=1758324390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FYya9fW1mJvYJ3jPqwJBitUidkWXto77tPEtahloeFg=;
+        b=Y6rxd4npCedBG+HLAd2UswAHbMpIk61jZHR4lJSKjLrB5Uk7Cr11ewgyR6RVWxbVZr
+         H/FMjEW/jLSj+wbKT3jIMBzzbMsgbXHXkPVRn7Di/E6zgcaMRLnbJgClHRKsTHC+dyP4
+         jI5rsShPYwmhBvCUU+SKNUwNZhq115cZxE6xKEBVUrHRBmhtRi2qh+Ha5FRikU3HstR0
+         iQKg4cxzmCVUf14WqWm8kbQZC+VQaKKi5AYW2wmiJLYj1xUTHGn0M0Xp2jSCjvLiOVRZ
+         9by7e3MWpCxoT9pYPmfvncs2Zp0VIdpnn8dYAByxvovoK8UVZDyyJJhR86LYtwet6MKM
+         RF4A==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ1AFswyLF3ZMZTHNvGTOI2af0P14wqo8sQwI4Ez/47LUYPYhMmQyUDtFBAo8hEYpcTgxZcLIjavo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3f4YnNEOYJqsvuK7JxuTXj8MQ+LZIMDS3s+hYtzrzgYrjWlgc
+	0DbM7QU+0wQYGvocnhjKUbGCZ9QcYp6Z6GKTC60QuWO0BWdwfKDxq3vZvy7ktLem46fnYY0Ihq9
+	/GvGLDa39HbTqPo4scU9LyCXo0DgRUTvr30d0brS+EuFlFC+GGyjgUWY9ofW+pW+7Vx/5hKdo4b
+	pttzgeRk87osjCiWm9EpUpykIeMxXUQI2lufiJ
+X-Gm-Gg: ASbGncseuJn2QhOpOV+hSqRMxTFbpHZE5iF6R7hRPY2kebhmclUOUFfKY8TJzEkscQN
+	zknAHnKusMd86dxzVFHYptunHJxq2naq3YCL/4BfTBWVPQ+THTuBu3rZm6iiX3NnzAWwyQI0H+s
+	b6rEBD1HAo3nx52ifRB6Ic8Vy8mtXdC90SAhI=
+X-Received: by 2002:a53:c949:0:b0:623:696e:39c6 with SMTP id 956f58d0204a3-62724632d67mr3454898d50.35.1757719589829;
+        Fri, 12 Sep 2025 16:26:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH4AnimwV4DJpIrzY5zDni7Ex/wppWCYlFBHUNbQWqcehb1JqlslO2cG7IpWR63nH0AcJL1oIrwAvdwGrMu0Z8=
+X-Received: by 2002:a53:c949:0:b0:623:696e:39c6 with SMTP id
+ 956f58d0204a3-62724632d67mr3454856d50.35.1757719589379; Fri, 12 Sep 2025
+ 16:26:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
- CONFIG_BLOCK guard
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org,
- miklos@szeredi.hu, djwong@kernel.org, linux-block@vger.kernel.org,
- gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
- linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-14-joannelkoong@gmail.com>
- <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
- <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
- <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com>
- <aMK0lC5iwM0GWKHq@infradead.org>
- <9c104881-f09e-4594-9e41-0b6f75a5308c@linux.alibaba.com>
- <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
- <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com>
- <66971d07-2c1a-4632-bc9e-e0fc0ae2bd04@linux.alibaba.com>
- <267abd34-2337-4ae3-ae95-5126e9f9b51c@linux.alibaba.com>
- <CAJnrk1Y31b-Yr03rN8SXPmUA7D6HW8OhnkfFOebn56z57egDOw@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAJnrk1Y31b-Yr03rN8SXPmUA7D6HW8OhnkfFOebn56z57egDOw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250912032810.197475-1-npache@redhat.com> <20250912032810.197475-7-npache@redhat.com>
+ <4e1fef74-f369-439e-83ff-c50f991c834e@lucifer.local>
+In-Reply-To: <4e1fef74-f369-439e-83ff-c50f991c834e@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Fri, 12 Sep 2025 17:26:03 -0600
+X-Gm-Features: Ac12FXw8kuzu15sT3828_sGKN1OjxWfPvlvmcTocIEno-x-VWWBe1uDeooNmQyg
+Message-ID: <CAA1CXcCugu0C3s2V1GcZZC=WksiNy8vkomHCcdvtGKfhxhoyfw@mail.gmail.com>
+Subject: Re: [PATCH v11 06/15] khugepaged: introduce collapse_max_ptes_none
+ helper function
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
+	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Sep 12, 2025 at 7:36=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Thu, Sep 11, 2025 at 09:28:01PM -0600, Nico Pache wrote:
+> > The current mechanism for determining mTHP collapse scales the
+> > khugepaged_max_ptes_none value based on the target order. This
+> > introduces an undesirable feedback loop, or "creep", when max_ptes_none
+> > is set to a value greater than HPAGE_PMD_NR / 2.
+> >
+> > With this configuration, a successful collapse to order N will populate
+> > enough pages to satisfy the collapse condition on order N+1 on the next
+> > scan. This leads to unnecessary work and memory churn.
+> >
+> > To fix this issue introduce a helper function that caps the max_ptes_no=
+ne
+> > to HPAGE_PMD_NR / 2 - 1 (255 on 4k page size). The function also scales
+> > the max_ptes_none number by the (PMD_ORDER - target collapse order).
+>
+> I would say very clearly that this is only in the mTHP case.
 
+ack, I stole most of the verbiage here from other notes I've
+previously written, but it can be improved.
 
-On 2025/9/13 03:56, Joanne Koong wrote:
-> On Thu, Sep 11, 2025 at 9:11 PM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
->>
->> On 2025/9/12 09:09, Gao Xiang wrote:
->>>
->>>
->>> On 2025/9/12 08:06, Gao Xiang wrote:
->>>>
->>>>
->>>> On 2025/9/12 03:45, Joanne Koong wrote:
->>>>> On Thu, Sep 11, 2025 at 8:29 AM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
->>>>
->>>>>> But if FUSE or some other fs later needs to request L2P information
->>>>>> in their .iomap_begin() and need to send L2P requests to userspace
->>>>>> daemon to confirm where to get the physical data (maybe somewhat
->>>>>> like Darrick's work but I don't have extra time to dig into that
->>>>>> either) rather than just something totally bypass iomap-L2P logic
->>>>>> as above, then I'm not sure the current `iomap_iter->private` is
->>>>>> quite seperate to `struct iomap_read_folio_ctx->private`, it seems
->>>>>
->>>>> If in the future this case arises, the L2P mapping info is accessible
->>>>> by the read callback in the current design. `.read_folio_range()`
->>>>> passes the iomap iter to the filesystem and they can access
->>>>> iter->private to get the L2P mapping data they need.
->>>>
->>>> The question is what exposes to `iter->private` then, take
->>>> an example:
->>>>
->>>> ```
->>>> struct file *file;
->>>> ```
->>>>
->>>> your .read_folio_range() needs `file->private_data` to get
->>>> `struct fuse_file` so `file` is kept into
->>>> `struct iomap_read_folio_ctx`.
->>>>
->>>> If `file->private_data` will be used for `.iomap_begin()`
->>>> as well, what's your proposal then?
->>>>
->>>> Duplicate the same `file` pointer in both
->>>> `struct iomap_read_folio_ctx` and `iter->private` context?
->>>
->>> It's just an not-so-appropriate example because
->>> `struct file *` and `struct fuse_file *` are widely used
->>> in the (buffer/direct) read/write flow but Darrick's work
->>> doesn't use `file` in .iomap_{begin/end}.
->>>
->>> But you may find out `file` pointer is already used for
->>> both FUSE buffer write and your proposal, e.g.
->>>
->>> buffer write:
->>>    /*
->>>     * Use iomap so that we can do granular uptodate reads
->>>     * and granular dirty tracking for large folios.
->>>     */
->>>    written = iomap_file_buffered_write(iocb, from,
->>>                                        &fuse_iomap_ops,
->>>                                        &fuse_iomap_write_ops,
->>>                                        file);
->>
->> And your buffer write per-fs context seems just use
->> `iter->private` entirely instead to keep `file`.
->>
-> 
-> I don’t think the iomap buffered writes interface is good to use as a
-> model. I looked a bit at some of the other iomap file operations and I
-> think we should just pass operation-specific data through an
-> operation-specific context for those too, eg for buffered writes and
-> dio modifying the interface from
-> 
-> ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter
-> *from, const struct iomap_ops *ops, const struct iomap_write_ops
-> *write_ops, void *private);
-> ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter, const
-> struct iomap_ops *ops, const struct iomap_dio_ops *dops, unsigned int
-> dio_flags, void *private, size_t done_before);
-> 
-> to something like
-> 
-> ssize_t iomap_file_buffered_write(const struct iomap_ops *ops, struct
-> iomap_write_folio_ctx *ctx);
-> ssize_t iomap_dio_rw(const struct iomap_ops *ops, struct iomap_dio_ctx *ctx);
-> 
-> There’s one filesystem besides fuse that uses “iter->private” and
-> that’s for xfs zoned inodes (xfs_zoned_buffered_write_iomap_begin()),
-> which passes the  struct xfs_zone_alloc_ctx*  through iter->private,
-> and it's used afaict for tracking block reservations. imo that's what
-> iter->private should be used for, to track the more high level
-> metadata stuff and then the lower-level details that are
-> operation-specific go through the ctx->data fields. That seems the
-> cleanest design to me. I think we should rename the iter->private
-> field to something like "iter->metadata" to make that delineation more
-> clear.  I'm not sure what the iomap maintainers think, but that is my
-> opinion.
+>
+>
+> >
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+>
+> Hmm I thought we were going to wait for David to investigate different
+> approaches to this?
+>
+> This is another issue with quickly going to another iteration. Though I d=
+o think
+> David explicitly said he'd come back with a solution?
 
-In short, I don't think new "low-level" and "high-level" concepts are
-really useful even for disk fses.
+Sorry I thought that was being done in lockstep. The last version was
+about a month ago and I had a lot of changes queued up. Now that we
+have collapse_max_pte_none() David has a much easier entry point to
+work off :)
 
-> 
-> I think if in the future there is a case/feature which needs something
-> previously in one of the operation-specific ctxes, it seems fine to me
-> to have both iter->private and ctx->data point to the same thing.
-> 
+I think he will still need this groundwork for the solution he is
+working on with "eagerness". if 10 -> 511, and 9 ->255, ..., 0 -> 0.
+It will still have to do the scaling. Although I believe 0-10 should
+be more like 0-5 mapping to 0,32,64,128,255,511
 
-I want to stop this topic here, it's totally up to iomap maintainers to
-decide what's the future iomap looks like but I still keep my strong
-reserve opinion (you can ignore) from my own code design taste.
+>
+> So I'm not sure why we're seeing this solution here? Unless I'm missing
+> something?
+>
+> > ---
+> >  mm/khugepaged.c | 22 +++++++++++++++++++++-
+> >  1 file changed, 21 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index b0ae0b63fc9b..4587f2def5c1 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -468,6 +468,26 @@ void __khugepaged_enter(struct mm_struct *mm)
+> >               wake_up_interruptible(&khugepaged_wait);
+> >  }
+> >
+> > +/* Returns the scaled max_ptes_none for a given order.
+>
+> We don't start comments at the /*, please use a normal comment format lik=
+e:
+ack
+>
+> /*
+>  * xxxx
+>  */
+>
+> > + * Caps the value to HPAGE_PMD_NR/2 - 1 in the case of mTHP collapse t=
+o prevent
+>
+> This is super unclear.
+>
+> It start with 'caps the xxx' which seems like you're talking generally.
+>
+> You should say very clearly 'For PMD allocations we apply the
+> khugepaged_max_ptes_none parameter as normal. For mTHP ... [details about=
+ mTHP].
+ack I will clean this up.
+>
+> > + * a feedback loop. If max_ptes_none is greater than HPAGE_PMD_NR/2, t=
+he value
+> > + * would lead to collapses that introduces 2x more pages than the orig=
+inal
+> > + * number of pages. On subsequent scans, the max_ptes_none check would=
+ be
+> > + * satisfied and the collapses would continue until the largest order =
+is reached
+> > + */
+>
+> This is a super vauge explanation. Please describe the issue with creep m=
+ore
+> clearly.
+ok I will try to come up with something clearer.
+>
+> Also aren't we saying that 511 or 0 are the sensible choices? But now som=
+ehow
+> that's not the case?
+Oh I stated I wanted to propose this, and although there was some
+pushback I still thought it deserved another attempt. This still
+allows for some configurability, and with David's eagerness toggle
+this still seems to fit nicely.
+>
+> You're also not giving a kdoc info on what this returns.
+Ok I'll add a kdoc here, why this function in particular, I'm trying
+to understand why we dont add kdocs on other functions?
+>
+> > +static int collapse_max_ptes_none(unsigned int order)
+>
+> It's a problem that existed already, but khugepaged_max_ptes_none is an u=
+nsigned
+> int and this returns int.
+>
+> Maybe we should fix this while we're at it...
+ack
+>
+> > +{
+> > +     int max_ptes_none;
+> > +
+> > +     if (order !=3D HPAGE_PMD_ORDER &&
+> > +         khugepaged_max_ptes_none >=3D HPAGE_PMD_NR/2)
+> > +             max_ptes_none =3D HPAGE_PMD_NR/2 - 1;
+> > +     else
+> > +             max_ptes_none =3D khugepaged_max_ptes_none;
+> > +     return max_ptes_none >> (HPAGE_PMD_ORDER - order);
+> > +
+> > +}
+> > +
+>
+> I really don't like this formulation, you're making it unnecessarily uncl=
+ear and
+> now, for the super common case of PMD size, you have to figure out 'oh it=
+'s this
+> second branch and we're subtracting HPAGE_PMD_ORDER from HPAGE_PMD_ORDER =
+so just
+> return khugepaged_max_ptes_none'. When we could... just return it no?
+>
+> So something like:
+>
+> #define MAX_PTES_NONE_MTHP_CAP (HPAGE_PMD_NR / 2 - 1)
+>
+> static unsigned int collapse_max_ptes_none(unsigned int order)
+> {
+>         unsigned int max_ptes_none_pmd;
+>
+>         /* PMD-sized THPs behave precisely the same as before. */
+>         if (order =3D=3D HPAGE_PMD_ORDER)
+>                 return khugepaged_max_ptes_none;
+>
+>         /*
+>         * Bizarrely, this is expressed in terms of PTEs were this PMD-siz=
+ed.
+>         * For the reasons stated above, we cap this value in the case of =
+mTHP.
+>         */
+>         max_ptes_none_pmd =3D MIN(MAX_PTES_NONE_MTHP_CAP,
+>                 khugepaged_max_ptes_none);
+>
+>         /* Apply PMD -> mTHP scaling. */
+>         return max_ptes_none >> (HPAGE_PMD_ORDER - order);
+> }
+yeah that's much cleaner thanks!
+>
+> >  void khugepaged_enter_vma(struct vm_area_struct *vma,
+> >                         vm_flags_t vm_flags)
+> >  {
+> > @@ -554,7 +574,7 @@ static int __collapse_huge_page_isolate(struct vm_a=
+rea_struct *vma,
+> >       struct folio *folio =3D NULL;
+> >       pte_t *_pte;
+> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
+enced =3D 0;
+> > -     int scaled_max_ptes_none =3D khugepaged_max_ptes_none >> (HPAGE_P=
+MD_ORDER - order);
+> > +     int scaled_max_ptes_none =3D collapse_max_ptes_none(order);
+> >       const unsigned long nr_pages =3D 1UL << order;
+> >
+> >       for (_pte =3D pte; _pte < pte + nr_pages;
+> > --
+> > 2.51.0
+> >
+>
+> Thanks, Lorenzo
+>
 
-Thanks,
-Gao Xiang
-
-> 
-> Thanks,
-> Joanne
