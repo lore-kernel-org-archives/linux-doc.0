@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EC1326D4A
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 17:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F00A329F1F
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 17:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757699614; cv=none; b=cTjnimaqeXwOqsd+FnEKOt1W1H52C9hoeyPbjZ5B6Di3iNXxoyctRaBVqc3Hu5l/v5in13l3hJmiluyLizQ2z/83GtQ7VzCBN57efwXVuhp9uuiB+egUOMKawA9DjU/rlq0dwVtaH1wPEjKiTeEfZDgJi8RSrC+YatyZPEew/uw=
+	t=1757699816; cv=none; b=h7MjJMQSRuZ+giOxU+dMNMNnhOv3E954UI9bu3y2x3xhaiFlNjey9joTNbsq+4Hy7DdXMHiZOkNnIOkRkFlM++lZWtXVz9j8l9lq/rC9kZgIjBORwwHEoqzX0T7Xvanql1HDrw5wud7kf+g3wYsWyCn28ac/YE9CuTscLiudsZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757699614; c=relaxed/simple;
-	bh=eb3P4Y2a7fEPFMxbLKxl8jSsdcS3SIyS1X+Y/7z8lHw=;
+	s=arc-20240116; t=1757699816; c=relaxed/simple;
+	bh=t6JYHFn6xtQi0eO3tcMpphFu+Moxe/d2WklRNG+P690=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LDrzaat7r74Zkz8K5MuEHZvPZ8wtMAtlChUdlXrCRve/+3NN0VoPafb6Gt7tCDZeWuvGRXUIn0QzURxW0aVhArlXaYPcTEDpTR9ckLREFZGyPaqG9EYlLizj/cOG6+7NcRRNpMLuij1tmCOwZzY9ucDq5A0v83JoizhzEpw/u20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F+jCtgAt; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=fe+pD9gLrureX0nWjO3ZnGNDXM/fEpD1JfUsk9waF0xU4kMff8Qm7DRYuWxAL1MbOcNAZBA2eTQ5Bs0ufN4zJLzfW0hyqglpeeLOEarb23qwPqPQ4etIL2Tv+jzuT7tlG6jCKHgGrOrAXJ7trBsYj8h34NG3ca74tADL5DJpon0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ePRJ6cJT; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F+jCtgAt"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ePRJ6cJT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757699611;
+	s=mimecast20190719; t=1757699813;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=GWaQp0kZeJAdEBYzp9zyFZzreyIaLb6taNvlZ6KnZNg=;
-	b=F+jCtgAtK7Br8ZNlFtp0G2gzl8DaBtHYJVyZ6BvvT+xZiGXomu2UQfqsDeTJreLPEe5D2w
-	EazZ4X18DFcl9QsGImobtgVCC2iwLPEO0KgaFDK7nTpu1FFO6i2FmXNiDiSh/cKvvp5M+B
-	ZSFCgBc6FY/p2qLOBW91yPVXGcKCOyg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1WFUlnErlcGz3KGoSgWtaZOcBftKtTBkFfUxb/98m8k=;
+	b=ePRJ6cJTFH9jJgpERY4Lbs5/2dMORkVOGFlX1RvK8t1D/tDZzzZ8SeBi2/2oY7qbqFIeWi
+	py3wCxDNtuCBLY7SmadOyCLOBOEA9QwWfxm4l8XLFGvbTV0jMyfS/GLXKwtshNXhwY2Ufv
+	XxnQgfguJUZPWWbmHVnSGa9p+ERfHYQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-83-Mo6SzSrfPOKAesz-PVz95w-1; Fri, 12 Sep 2025 13:53:28 -0400
-X-MC-Unique: Mo6SzSrfPOKAesz-PVz95w-1
-X-Mimecast-MFC-AGG-ID: Mo6SzSrfPOKAesz-PVz95w_1757699607
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45cb604427fso13700015e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 10:53:27 -0700 (PDT)
+ us-mta-668-PJQ8kgy7NbiimALbtph_NQ-1; Fri, 12 Sep 2025 13:56:52 -0400
+X-MC-Unique: PJQ8kgy7NbiimALbtph_NQ-1
+X-Mimecast-MFC-AGG-ID: PJQ8kgy7NbiimALbtph_NQ_1757699811
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b9912a07dso12253685e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 10:56:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757699607; x=1758304407;
+        d=1e100.net; s=20230601; t=1757699811; x=1758304611;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GWaQp0kZeJAdEBYzp9zyFZzreyIaLb6taNvlZ6KnZNg=;
-        b=UkCQFFj33APxRw0YmNp9sTb8vbUVRNVOontLRcIREtq4c57QYO7uzCA9ERD3+nIlGs
-         rmM/HQgWLm8uKt69LS0ZZCYsuV8p5Glt+oKLdstx9px03t1R4fwk7orCi1MdyTINouxi
-         wsjCl0OO72Pk/YsgpLgYlfbdJO7r7Q9TaifHJustLZneML+tCur+jG53F1VMRpEe0bMy
-         LU629vXPxBB2o62T8ELR8RGtub+x3flEM5sEYG/eV8MF/AYcCU6Xy94PvoX4U/ksSlrz
-         IlpHgovtiT062iFTu2srNM9vja3r+45T1lkKi7mEzJK5nUP24PJR7d0FatHld7Tqcp5T
-         ywuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUF1lsXDkMGAkMTvjGG1OW/NGJzQOsuPGp1zjOJP+DKmTITT1GCUGJSl1aIoWgX4MBhPEOlf1AzA0o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrjhchDF0eY29gJfMilot3/X7NayTsJ2M//+IWsjSg1ENTfGIn
-	CyuYJCtRjlcp957D23qv2HigEnt1GfZITqWONjfzsJj3FhHlMcyix42eOWjA9+805E3oIpR4gmq
-	3BkAZVGsaa5QUbjJdylvLF4qbspw8VWGU40ZYa2/mu/IvHAw/JkBOuqGJBxLVVw==
-X-Gm-Gg: ASbGncscPJUQoi4Oq0UsstKALkgSmkPffbtZc1F18teJ1mmXKIsvk82M1fTrdbnW0YK
-	y7kIjyeHEcIJ9iQi+W+QkIy7jxMnY+3pycdQLX5UF4OwyiEkf0cnjtPwpTFjuW517sNj7dl/BhN
-	wfpj+wAKcqkSrb/jx7zeM1x1j0SISYwKZpR3bkOIMNisB+IEWCLX3TN4zTM3gZsJcT4QH8rIaZz
-	I5CrdDRt7GetsYF6GV5lThVUDX3IcYHFZpFAx+rnkzajdSLsAcRgI8uYzFObBsAqP5+ic7ceklv
-	IqAZXu/X6tl79C+Pg7qkju8D1gTTLoKkEKale24epCSZ/Drb2w/yF7iVnaHGGEpQl6k73Z3Ko2M
-	YvvmoAyX/KTTP5f0dV4Qw+Fi64rsSyef9AlDbiWd09qyCR/03y8cz/UzNM58F6pBCxUk=
-X-Received: by 2002:a05:600c:8a1b:20b0:45d:d3a1:70dd with SMTP id 5b1f17b1804b1-45f21221e50mr29826005e9.35.1757699606567;
-        Fri, 12 Sep 2025 10:53:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnvTRCdvZUrWLKVO8/YsaHIQ6vlWYzWujC55SFweNtk2eP8Jx1ikBkDI8/I9BWLAS+Y/KDYg==
-X-Received: by 2002:a05:600c:8a1b:20b0:45d:d3a1:70dd with SMTP id 5b1f17b1804b1-45f21221e50mr29825535e9.35.1757699606102;
-        Fri, 12 Sep 2025 10:53:26 -0700 (PDT)
+        bh=1WFUlnErlcGz3KGoSgWtaZOcBftKtTBkFfUxb/98m8k=;
+        b=OaEfBEqcdSglKzLQ1QGn4d9hlKP7DjILEwRZwV4SkCMKZt1TXIeC0Y/3zADJHXcm2d
+         i94Jo2iRiOlibOzdgzy1b7KUj0LZteJRJAG8ACxnIgfoF+TDTRhILRjS8ePBs0rORwMx
+         r8yU5vnZq9hvKzX+t8mFfSzAXTD8b+ZSYcwriMqg5ZJW1IiA8cGBTi2kxf5de+Wk6XjA
+         dqG6lPR/Lf2RSsvZt4c2XaC61tVzEGmmjJ6dpcLliYqkfUEjFQ9TgT1duFclY/sRCToL
+         JOo3uF4Y0XbDQm2sie6xPGJSOmaa+XKkBhNHvfHoZ6Ed0rUszYvlxOKywldV1RzcXxNZ
+         2dkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUr8YOQBbmTdQ64WOLfFuGpWYEV9ozIl5OCqGZXUQWCtnrmn8miC47RGzh80Sb6YbFfpMq36MB/TI4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtLJWvmyEtW74bKYgmhYhM5qun33yhwPwtVqZrChPUnQOdxGBj
+	fBSsuZ9OCbWsVT89LUKV2JUKGPd/Xnn0aAqoqWK0TNy+31lnoJrzPjneuW7q8cpQZC+1WYIoB/a
+	slmcqFl4ZeKBeWEdf63fKAIyb9yNm9UsnVbAYuHNX1a0geVhk1bi48ncUVqUk/Q==
+X-Gm-Gg: ASbGnctX8isGcl5iEr1efY2UW/yfFEyeCH7q66pevBvBdm7+iaYEU5p3/E6GY6lJkJY
+	nUc67rcasxEhu/aSA1X3fpcIK5FLFMBCQSuhz5URLydskxykj8Yzo0bI2OBpRqYUDe9jXjIGXuv
+	Iyrft5wJC22KOevp5LzFJ2R1+XlBKxX8a4WSb5MxcFElShKVPPpQ8Fp6bZhP3yE4WqxDlVCUSZm
+	a1ZPrJfGFT3vavC35PvMd6VklMpwz0EAd6ir7tcK8zSSlKBJ55/EgAE66y10Wz/myyeN519z5KT
+	PS80urTRPS3NE9ID7f4+/naifH8Y4cC3RBssiVyKyen72vNWVmf8HoZWgfcmkE0HBggC0Vrui25
+	l7OXCAq0G38bznPkSqX46Bo5c7+HgO1caEtX3TEWmMjJlL3Y0NpbMCqMFfsW6H4B43rc=
+X-Received: by 2002:a5d:64e6:0:b0:3cd:6cd:8c2 with SMTP id ffacd0b85a97d-3e765a22c28mr4163076f8f.60.1757699811043;
+        Fri, 12 Sep 2025 10:56:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFbQWWosXseBmiCDWHjZ+i8QCGCkijiPXS7J5DPAO7lPWNkZhPahOhzNwRV6nh+EFTyxM8bbQ==
+X-Received: by 2002:a5d:64e6:0:b0:3cd:6cd:8c2 with SMTP id ffacd0b85a97d-3e765a22c28mr4163028f8f.60.1757699810512;
+        Fri, 12 Sep 2025 10:56:50 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f20:da00:b70a:d502:3b51:1f2d? (p200300d82f20da00b70ad5023b511f2d.dip0.t-ipconnect.de. [2003:d8:2f20:da00:b70a:d502:3b51:1f2d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0157cc84sm36555805e9.7.2025.09.12.10.53.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7c778f764sm1719041f8f.57.2025.09.12.10.56.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 10:53:25 -0700 (PDT)
-Message-ID: <ed784d6c-6c2a-4e0b-ad2f-e953bf310ce8@redhat.com>
-Date: Fri, 12 Sep 2025 19:53:22 +0200
+        Fri, 12 Sep 2025 10:56:49 -0700 (PDT)
+Message-ID: <3f11cb3a-7f48-4fb8-a700-228fee3e4627@redhat.com>
+Date: Fri, 12 Sep 2025 19:56:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,35 +75,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Nico Pache <npache@redhat.com>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
- peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
- sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20250912032810.197475-1-npache@redhat.com>
- <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
- <43f42d9d-f814-4b54-91a6-3073f7c7cedf@redhat.com>
- <ab8c2e03-53fb-402c-a674-c2c6ab11f54e@redhat.com>
- <rapl4xr55zv2nq3jh5ulk4wvfyxa2kmbnnb4uram6q43y4cbwn@dv5m52ocyqne>
- <80c50bf4-27b1-483c-9977-2519369c2630@redhat.com>
- <7ri4u7uxsv6elyohqiq2w5oxv4yhk2tyniwglfxtiueiyofb3n@l4exlmlf5ty4>
- <59641180-a0d9-400c-aaeb-0c9e93954bf5@redhat.com>
- <c5bcecb8-13e7-4db5-849e-2120c69b2af5@lucifer.local>
+Subject: Re: [PATCH v2 03/16] mm: add vma_desc_size(), vma_desc_pages()
+ helpers
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
+ Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, "David S . Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ kexec@lists.infradead.org, kasan-dev@googlegroups.com,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
+ <5ac75e5ac627c06e62401dfda8c908eadac8dfec.1757534913.git.lorenzo.stoakes@oracle.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -150,151 +161,74 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <c5bcecb8-13e7-4db5-849e-2120c69b2af5@lucifer.local>
+In-Reply-To: <5ac75e5ac627c06e62401dfda8c908eadac8dfec.1757534913.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12.09.25 17:51, Lorenzo Stoakes wrote:
-> On Fri, Sep 12, 2025 at 05:45:26PM +0200, David Hildenbrand wrote:
->> On 12.09.25 17:41, Kiryl Shutsemau wrote:
->>> On Fri, Sep 12, 2025 at 04:56:47PM +0200, David Hildenbrand wrote:
->>>> On 12.09.25 16:35, Kiryl Shutsemau wrote:
->>>>> On Fri, Sep 12, 2025 at 04:28:09PM +0200, David Hildenbrand wrote:
->>>>>> On 12.09.25 15:47, David Hildenbrand wrote:
->>>>>>> On 12.09.25 14:19, Kiryl Shutsemau wrote:
->>>>>>>> On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
->>>>>>>>> The following series provides khugepaged with the capability to collapse
->>>>>>>>> anonymous memory regions to mTHPs.
->>>>>>>>>
->>>>>>>>> To achieve this we generalize the khugepaged functions to no longer depend
->>>>>>>>> on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
->>>>>>>>> pages that are occupied (!none/zero). After the PMD scan is done, we do
->>>>>>>>> binary recursion on the bitmap to find the optimal mTHP sizes for the PMD
->>>>>>>>> range. The restriction on max_ptes_none is removed during the scan, to make
->>>>>>>>> sure we account for the whole PMD range. When no mTHP size is enabled, the
->>>>>>>>> legacy behavior of khugepaged is maintained. max_ptes_none will be scaled
->>>>>>>>> by the attempted collapse order to determine how full a mTHP must be to be
->>>>>>>>> eligible for the collapse to occur. If a mTHP collapse is attempted, but
->>>>>>>>> contains swapped out, or shared pages, we don't perform the collapse. It is
->>>>>>>>> now also possible to collapse to mTHPs without requiring the PMD THP size
->>>>>>>>> to be enabled.
->>>>>>>>>
->>>>>>>>> When enabling (m)THP sizes, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on
->>>>>>>>> 4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 for
->>>>>>>>> mTHP collapses to prevent collapse "creep" behavior. This prevents
->>>>>>>>> constantly promoting mTHPs to the next available size, which would occur
->>>>>>>>> because a collapse introduces more non-zero pages that would satisfy the
->>>>>>>>> promotion condition on subsequent scans.
->>>>>>>>
->>>>>>>> Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
->>>>>>>> all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
->>>>>>>
->>>>>>> BTW, I thought further about this and I agree: if we count zero-filled
->>>>>>> pages towards none_or_zero one we can avoid the "creep" problem.
->>>>>>>
->>>>>>> The scanning-for-zero part is rather nasty, though.
->>>>>>
->>>>>> Aaand, thinking again from the other direction, this would mean that just
->>>>>> because pages became zero after some time that we would no longer collapse
->>>>>> because none_or_zero would then be higher. Hm ....
->>>>>>
->>>>>> How I hate all of this so very very much :)
->>>>>
->>>>> This is not new. Shrinker has the same problem: it cannot distinguish
->>>>> between hot 4k that happened to be zero from the 4k that is there just
->>>>> because of we faulted in 2M a time.
->>>>
->>>> Right. And so far that problem is isolated to the shrinker.
->>>>
->>>> To me so far "none_or_zero" really meant "will I consume more memory when
->>>> collapsing". That's not true for zero-filled pages, obviously.
->>>
->>> Well, KSM can reclaim these zero-filled memory until we collapse it.
->>
->> KSM is used so rarely (for good reasons) that I would never ever build an
->> argument based on its existence :P
->>
->> But yes: during the very first shrinker discussion I raised that KSM can do
->> the same thing. Obviously that was not good enough.
->>
->> --
->> Cheers
->>
->> David / dhildenb
->>
+On 10.09.25 22:21, Lorenzo Stoakes wrote:
+> It's useful to be able to determine the size of a VMA descriptor range used
+> on f_op->mmap_prepare, expressed both in bytes and pages, so add helpers
+> for both and update code that could make use of it to do so.
 > 
-> With all this stuff said, do we have an actual plan for what we intend to do
-> _now_?
-
-Oh no, no I have to use my brain and it's Friday evening.
-
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>   fs/ntfs3/file.c    |  2 +-
+>   include/linux/mm.h | 10 ++++++++++
+>   mm/secretmem.c     |  2 +-
+>   3 files changed, 12 insertions(+), 2 deletions(-)
 > 
-> As Nico has implemented a basic solution here that we all seem to agree is not
-> what we want.
-> 
-> Without needing special new hardware or major reworks, what would this parameter
-> look like?
-> 
-> What would the heuristics be? What about the eagerness scales?
-> 
-> I'm but a simple kernel developer, 
+> diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+> index c1ece707b195..86eb88f62714 100644
+> --- a/fs/ntfs3/file.c
+> +++ b/fs/ntfs3/file.c
+> @@ -304,7 +304,7 @@ static int ntfs_file_mmap_prepare(struct vm_area_desc *desc)
+>   
+>   	if (rw) {
+>   		u64 to = min_t(loff_t, i_size_read(inode),
+> -			       from + desc->end - desc->start);
+> +			       from + vma_desc_size(desc));
+>   
+>   		if (is_sparsed(ni)) {
+>   			/* Allocate clusters for rw map. */
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 892fe5dbf9de..0b97589aec6d 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3572,6 +3572,16 @@ static inline unsigned long vma_pages(const struct vm_area_struct *vma)
+>   	return (vma->vm_end - vma->vm_start) >> PAGE_SHIFT;
+>   }
+>   
+> +static inline unsigned long vma_desc_size(struct vm_area_desc *desc)
+> +{
+> +	return desc->end - desc->start;
+> +}
+> +
+> +static inline unsigned long vma_desc_pages(struct vm_area_desc *desc)
+> +{
+> +	return vma_desc_size(desc) >> PAGE_SHIFT;
+> +}
 
-:)
+Should parameters in both functions be const * ?
 
-and interested in simple pragmatic stuff :)
-> do you have a plan right now David?
+> +
+>   /* Look up the first VMA which exactly match the interval vm_start ... vm_end */
+>   static inline struct vm_area_struct *find_exact_vma(struct mm_struct *mm,
+>   				unsigned long vm_start, unsigned long vm_end)
+> diff --git a/mm/secretmem.c b/mm/secretmem.c
+> index 60137305bc20..62066ddb1e9c 100644
+> --- a/mm/secretmem.c
+> +++ b/mm/secretmem.c
+> @@ -120,7 +120,7 @@ static int secretmem_release(struct inode *inode, struct file *file)
+>   
+>   static int secretmem_mmap_prepare(struct vm_area_desc *desc)
+>   {
+> -	const unsigned long len = desc->end - desc->start;
+> +	const unsigned long len = vma_desc_size(desc);
+>   
+>   	if ((desc->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+>   		return -EINVAL;
 
-Ehm, if you ask me that way ...
-
-> 
-> Maybe we can start with something simple like a rough percentage per eagerness
-> entry that then gets scaled based on utilisation?
-
-... I think we should probably:
-
-1) Start with something very simple for mTHP that doesn't lock us into any particular direction.
-
-2) Add an "eagerness" parameter with fixed scale and use that for mTHP as well
-
-3) Improve that "eagerness" algorithm using a dynamic scale or #whatever
-
-4) Solve world peace and world hunger
-
-5) Connect it all to memory pressure / reclaim / shrinker / heuristics / hw hotness / #whatever
-
-
-I maintain my initial position that just using
-
-max_ptes_none == 511 -> collapse mTHP always
-max_ptes_none != 511 -> collapse mTHP only if we all PTEs are non-none/zero
-
-As a starting point is probably simple and best, and likely leaves room for any
-changes later.
-
-
-Of course, we could do what Nico is proposing here, as 1) and change it all later.
-
-It's just when it comes to documenting all that stuff in patch #15 that I feel like
-"alright, we shouldn't be doing it longterm like that, so let's not make anybody
-depend on any weird behavior here by over-domenting it".
-
-I mean
-
-"
-+To prevent "creeping" behavior where collapses continuously promote to larger
-+orders, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on 4K page size), it is
-+capped to HPAGE_PMD_NR/2 - 1 for mTHP collapses. This is due to the fact
-+that introducing more than half of the pages to be non-zero it will always
-+satisfy the eligibility check on the next scan and the region will be collapse.
-"
-
-Is just way, way to detailed.
-
-I would just say "The kernel might decide to use a more conservative approach
-when collapsing smaller THPs" etc.
-
-
-Thoughts?
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Cheers
