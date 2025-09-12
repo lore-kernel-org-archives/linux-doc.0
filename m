@@ -1,79 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDE422256B;
-	Fri, 12 Sep 2025 21:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D06273D6D;
+	Fri, 12 Sep 2025 21:30:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757712460; cv=none; b=Qh5wngyPgOUF805PWUX18AXZOPRpmBfpj9JoCGoXhhN1OMxvsETT8JwQUysUYuhf7va4c83FjSxsZmFWKucAxrw3anPfVb8TT6cGBNluU5seNa4TVwZUP1QH0fB+IiQiBTS7DBOcKYGYGwkFDNQbeZV7snx+Qo3lqYkztFJEwIA=
+	t=1757712659; cv=none; b=gqUBnKd/tNHK3oBdn++w0Qu4nKvJzb+u4qPViuH9OeHjXENRVMdAk7JFkrL1W48A4/Y5VtcKKZ7Wn4+80J1pStQaG1NlxvYU6B5VTRsg9NZv+uaWDfNurl3+eQcHi1oYQo3BvnybnnWlq5C1oBj86dUWqeVPayZQ07Vua0V3qAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757712460; c=relaxed/simple;
-	bh=RGcx0TtggTU05NRX/31eZRhT7+0F5HLxdRyakxLHmjc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CJd8u0DVVb3XBlNkYVA8dlFIZnZfn12NSjyl+pN62xUX0qvdL7y9ZKBZzg/xD3NjWFJpJqW6ZYbz4W8u/F2PtD9LwkQ3UJayhNH1WoZciCKCkpVFgBVTHLsaIqbybI2v+2EDSGcoEJBdYJExoEOjJ/wAzEtnDwdXPaedv4BEX6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMB5kFz0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757712659; c=relaxed/simple;
+	bh=ROOxPMoHZeX2C55B+T1892lm27mdEE7tXf8RWUdYD4s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pyD7Iu168c/8ASzoJKnBmq/YU6iN2RE7xBoap38S8gqeFUx4ZG5o+Pe359CG6+UIZ7alporvPS2z1RrhiulGk/S4m3Ei/TnoKPJh5zPoV0MGwc+yBBD0SrUYcitm8Otck9dj/ZCstzDG5Z2GY1yRaF3ZoZGyRKnlDRUUpEMHMgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NCQ4vNf6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMB5kFz0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6496EC4CEF1;
-	Fri, 12 Sep 2025 21:27:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NCQ4vNf6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F599C4CEF5;
+	Fri, 12 Sep 2025 21:30:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757712459;
-	bh=RGcx0TtggTU05NRX/31eZRhT7+0F5HLxdRyakxLHmjc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hMB5kFz0BK530ASXZdztqWyR40j1z8lSTN/Q6UgQSaRDUL0ysc37zYiXY3W74T2sR
-	 9ebo5pcNXJ6Szkv7P2rfIByTJuSCrDqQ4P1dt986Sawn7PpCpz0eAowkxd6ItR2Sw5
-	 RETLSlU6Xt7TINo00WaRMsECxl8EKJEfyp8WMl6hDFtFV84fiCtN4N2NlqZHJA2O6r
-	 DdXRTZM+y1pMBrl4jEYnv3aQeEb3FDeo4V7/2gjQcAWd/5r7yaxGW7IVIDjtKXLQqu
-	 xci1hjsHSP8HhCJNSoPm4EM1wHjzqlTDwiO6CT2yVI7tMaR85CwnhyLtbHlZBAGv+E
-	 om3KlER42getA==
-Message-ID: <e0252635-4dc4-483a-911a-fee5a36c19c3@kernel.org>
-Date: Fri, 12 Sep 2025 23:27:34 +0200
+	s=k20201202; t=1757712658;
+	bh=ROOxPMoHZeX2C55B+T1892lm27mdEE7tXf8RWUdYD4s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NCQ4vNf6J1KUx693QddwsDnduxLLflhhPbPEkncW3RejjdZYdMemWaPGwzK895scA
+	 FyWtRO+KFAZVF+KUZ/nSMCGg7Gw+WoUrbjeCeG1pzZWodGGYDUNzD9LhKF1ZCV4cMk
+	 efPG20V13+oix10lAReteVa0qUaaSiIsgwEKXZfPsox3Kwiq8CVqELdFirC4M/Mu+A
+	 ETN271tzU5OyQJDNIQdOvha65YOINhAb+ur3AktrnqoANgU9dOE1a2T1kqfyXj/5dV
+	 jjTMDDJitjHRibc7Q7/INfgoyrckQe1yZef4IX2iefNuIHZEA/Fb+8QalMbFtTzFao
+	 EzEzQd+iPJvtQ==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1uxBM7-00000005pJX-3RCo;
+	Fri, 12 Sep 2025 21:30:55 +0000
+Date: Fri, 12 Sep 2025 22:30:53 +0100
+Message-ID: <87frcrz7ci.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v16 2/6] KVM: arm64: Manage GCS access and registers for guests
+In-Reply-To: <aMRLYBWfDFiIB7wx@finisterre.sirena.org.uk>
+References: <20250912-arm64-gcs-v16-0-6435e5ec37db@kernel.org>
+	<20250912-arm64-gcs-v16-2-6435e5ec37db@kernel.org>
+	<865xdndgpw.wl-maz@kernel.org>
+	<aMRLYBWfDFiIB7wx@finisterre.sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "drm: Add directive to format code in comment"
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Javier Garcia <rampxxxx@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Antonino Maniscalco <antomani103@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250912130649.27623-2-bagasdotme@gmail.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250912130649.27623-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 9/12/25 3:06 PM, Bagas Sanjaya wrote:
-> Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
-> fixes original Sphinx indentation warning as introduced in
-> 471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
-> code-block:: directive. It semantically conflicts with earlier
-> bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
-> usage in literal code block") that did the same using double colon
-> syntax instead. These duplicated literal code block directives causes
-> the original warnings not being fixed.
+On Fri, 12 Sep 2025 17:33:36 +0100,
+Mark Brown <broonie@kernel.org> wrote:
 > 
-> Revert 6cc44e9618f03f to keep things rolling without these warnings.
+> On Fri, Sep 12, 2025 at 12:59:23PM +0100, Marc Zyngier wrote:
+> > On Fri, 12 Sep 2025 10:25:28 +0100,
+> > Mark Brown <broonie@kernel.org> wrote:
 > 
-> Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
-> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > >  		MAPPED_EL2_SYSREG(PIR_EL2,     PIR_EL1,     NULL	     );
+> > >  		MAPPED_EL2_SYSREG(PIRE0_EL2,   PIRE0_EL1,   NULL	     );
+> > >  		MAPPED_EL2_SYSREG(POR_EL2,     POR_EL1,     NULL	     );
+> > > +		MAPPED_EL2_SYSREG(GCSCR_EL2,   GCSCR_EL1,   NULL             );
+> > > +		MAPPED_EL2_SYSREG(GCSPR_EL2,   GCSPR_EL1,   NULL             );
+> > >  		MAPPED_EL2_SYSREG(AMAIR_EL2,   AMAIR_EL1,   NULL	     );
+> > >  		MAPPED_EL2_SYSREG(ELR_EL2,     ELR_EL1,	    NULL	     );
+> > >  		MAPPED_EL2_SYSREG(SPSR_EL2,    SPSR_EL1,    NULL	     );
+> 
+> > Just like the previous version, you're missing the accessors that
+> > would be this table useful. Meaning that the vcpu_read_sys_reg() and
+> > vcpu_write_sys_reg() accessors will fail for all 4 GSC registers.
+> 
+> Just to confirm, this is __vcpu_{read,write}_sysreg()?
 
-Need me to pick this one up? Otherwise,
+No.
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+vcpu_{read,write}_sys_reg() and co are the broken high-level
+accessors. __vcpu_{read,write}_sysreg() call into those depending on
+the context, and __vcpu_{read,write}_sys_reg_{to,from}_cpu() have now
+been removed and replaced by similar (but private) accessors.
+
+See -rc4 for the details.
+
+In any case, a bunch of register accesses in this series are broken,
+as they don't respect the register life cycle of the guest.
+
+	M.
+
+-- 
+Jazz isn't dead. It just smells funny.
