@@ -1,122 +1,84 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B017283FEB;
-	Fri, 12 Sep 2025 23:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEB87494;
+	Fri, 12 Sep 2025 23:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757720159; cv=none; b=VqqAF0QtPAJjzeBN2RDJzgmbcuCOXktVsgnMKzAj2uacAISO9h0apllHE00OO/QOeuNO7BzPSp9KlMjYieFX2hxf0Z/qAD/+7OCBHRv4US/fRpczYPGNHl+ZqVsA7SbI0Wt7A7iQnSErvfnEYN17Poi03KHNBk5q5xGE289dY2w=
+	t=1757721284; cv=none; b=tH5mmENQ1MfaMR5b+KEsJ9sQkjocULU8ZZfsBHYfrEK17+o/CQNpoXuCJJIC2WoTliwawUFPdczu4qScM+KtGSHRAJqJ6bfQKjgZREuDZmN+91BKjbHarga1wwHc36ImXse/rxAvHSW+MgXCZonuDvtA2MjeHx3VI+QcstTQn+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757720159; c=relaxed/simple;
-	bh=0bIBfPWuw5ZM1DgXMXybxVA8D6G9EUTJlY7Lrt4adWc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rzk/t/nJSSI5kj7yvttflMsh0Yf5Dea8sg0R8PnB8mAL29ShbXETlBMRIqz76SHGDBbA3VLERIFW+s2fWE3lrc8cw56XcjuYGNfIyejiliGTQrAX+yi3a2H3olAIl2bHVX2zp2bZLqgJjGG3rsOx06iX30nKTPq9NYdffyinrZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=j1hOEH6s; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1757721284; c=relaxed/simple;
+	bh=1yk++boy0iy5FJE0t4WFA49gcNkY6JHhuQy9y+mC7s8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K6PMGQNyYFlqkZyq9aCK0F1gYvMyZlJCYKm1Bpo6nMMKuPBM84SOALQEIgiATKbMsgZqoAMaG9OdDbe+KZkBGcGXQTdMgpv8UMrWfHks5w7eawxzcE/ppmOJybDL+QTD2EGYGOvsFQS5byakobstV26eIZFdowZB8KYKb8sA7JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DinqVdA/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="j1hOEH6s"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757720148; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=BGcA9S5haR9shxP4e1Rj9BiCfMYulsAHb54maNa9apg=;
-	b=j1hOEH6sLugNry5YQdlhte12Xy3NsOtNlS629Zja3oW8gd+VdW1eE5prU/9lBCvOfjWUvCIwNvavX01qrOLP3y4z8+dGZvCzzlCR3hx/yddAnnBGzUDwolwfW4eS4FqmjtYZAuOWDQnu/n1mwvoNHPqPCyYlHvbKmVVbECKWPfk=
-Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wns4Zin_1757720146 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sat, 13 Sep 2025 07:35:47 +0800
-Message-ID: <9dc446dd-9a7d-4bd0-8f95-a6121a773cfb@linux.alibaba.com>
-Date: Sat, 13 Sep 2025 07:35:45 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DinqVdA/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EAF0C4CEF1;
+	Fri, 12 Sep 2025 23:54:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757721283;
+	bh=1yk++boy0iy5FJE0t4WFA49gcNkY6JHhuQy9y+mC7s8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DinqVdA/NUdddf35zIasPzhhnDNZvjTjHqquGLCkxiqYF8HqWwqMezy839j5TXILw
+	 7Q4obwimADA8rCmIfiGqxnDRD3jVvqAUHRqu6imtJ6SDd0x1viimgmbURitTz8MXTQ
+	 ISwqb5xSLVES3IZRqoI5bKoms4M2EeoFq6q/KTrnpd2QSs9oQLQeaoaEZmjeCVjl4x
+	 roJp7fxb+qFvQbtp4tI27UZbsdnK81Zjm3w4WX2rRSufiaKc9TLvyTJ9a5io4pLOM2
+	 lw2F0SDsEag8k0ofO6P9nMxj6BMIYTRy5itkm3OJRCss525eRMu7EvKVemx8qE+3LH
+	 xSDfamdCUeJbA==
+Date: Fri, 12 Sep 2025 16:54:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Kory Maincent
+ <kory.maincent@bootlin.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Nishanth Menon <nm@ti.com>,
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
+ linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
+ <roan@protonic.nl>
+Subject: Re: [PATCH net-next v5 1/5] ethtool: introduce core UAPI and driver
+ API for PHY MSE diagnostics
+Message-ID: <20250912165442.2e3bc13e@kernel.org>
+In-Reply-To: <aMP0F0NVrIHk7jBY@pengutronix.de>
+References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
+	<20250908124610.2937939-2-o.rempel@pengutronix.de>
+	<20250911192318.0628831f@kernel.org>
+	<aMP0F0NVrIHk7jBY@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
- CONFIG_BLOCK guard
-To: Joanne Koong <joannelkoong@gmail.com>, "Darrick J. Wong"
- <djwong@kernel.org>, Christoph Hellwig <hch@infradead.org>
-Cc: brauner@kernel.org, miklos@szeredi.hu, linux-block@vger.kernel.org,
- gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
- linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-14-joannelkoong@gmail.com>
- <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
- <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
- <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com>
- <aMK0lC5iwM0GWKHq@infradead.org>
- <9c104881-f09e-4594-9e41-0b6f75a5308c@linux.alibaba.com>
- <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
- <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com>
- <66971d07-2c1a-4632-bc9e-e0fc0ae2bd04@linux.alibaba.com>
- <267abd34-2337-4ae3-ae95-5126e9f9b51c@linux.alibaba.com>
- <CAJnrk1Y31b-Yr03rN8SXPmUA7D6HW8OhnkfFOebn56z57egDOw@mail.gmail.com>
- <CAJnrk1ZXM-fRKytRFptKNJrdN9pSbKJqXLW80T4UY=RLRKOBKQ@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAJnrk1ZXM-fRKytRFptKNJrdN9pSbKJqXLW80T4UY=RLRKOBKQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-
-
-On 2025/9/13 04:09, Joanne Koong wrote:
-> On Fri, Sep 12, 2025 at 3:56 PM Joanne Koong <joannelkoong@gmail.com> wrote:
->>
-
-...
-
->>>>> but I don't see it will happen.
->>>>>
->>>>> [1] https://lore.kernel.org/linux-fsdevel/YfivxC9S52FlyKoL@B-P7TQMD6M-0146/
+On Fri, 12 Sep 2025 12:21:11 +0200 Oleksij Rempel wrote:
+> > > All investigated devices differ in MSE configuration parameters, such
+> > > as sample rate, number of analyzed symbols, and scaling factors.
+> > > For example, the KSZ9131 uses different scaling for MSE and pMSE.
+> > > To make this visible to userspace, scale limits and timing information
+> > > are returned via get_mse_config().  
+> > 
+> > But the parameter set is set by the standard? If not we should annotate
+> > which one is and which isn't.  
 > 
-> (sorry, just saw this part of the email otherwise I would have
-> included this in the previous message)
-> 
-> Thanks for the link to the thread. My understanding is that the large
-> folio optimizations stuff was added to iomap in July 2023 (afaict from
-> the git history) and iomap is entangled with the block layer but it's
-> becoming more of a generic interface now. Maybe now it makes sense to
-> go through iomap's interface than it did in 2022, but of course David
-> has the most context on this.
+> Do you mean we should show which parameters are defined by a standard
+> (for example Open-Alliance - MSE/pMSE) or which parts of the measurement
+> method - like how many samples in what time - are vendor or product
+> specific?
 
-Again, I really think iomap callback model is not good stuff especially
-as it becomes a more generic thing, and it seems inflexible compared
-with other interfaces like the page cache (it also has callbacks
-but many of them are just a few entrances of IO flows) or bio kAPIs.
+Yes. Your call if it really makes sense, but if we have a mix it's good
+to mention which ones are safe(r) to depend on in mixed environments.
+One way to do this would be to annotate the standard ones with standard
+references but doesn't seem like the OA standard lends itself to
+concise ways of referring to it (like IEEE standards do).
 
-As in the previous example, network filesystems generally don't need
-any L2P logic (in principle, FUSE is more like a network filesystem),
-but they still have to implement those iomap dummy callbacks and
-ignore `iomap->addr`.
+> And should we only write this in comments/docs, or add a flag/enum so
+> user space can detect it?
 
-
-As for per-block dirty/uptodate tracking, that is just an atomic
-feature to manage sub-folio metadata, but iomap is initially a part
-which is out of XFS, and basically standard flows for disk/pmem fses.
-I really think better generic interfaces are like lego bricks instead,
-therefore filesystems can optionally use any of those atomic features
-instead of just calling in iomap {read,write,writeback} maze-like
-helpers and do different work in the callback hooks (even not all
-filesystems need this).
-
-I've mentioned too in
-https://lore.kernel.org/r/d631c71f-9d0d-405f-862d-b881767b1945@linux.alibaba.com
-https://lore.kernel.org/r/20250905152118.GE1587915@frogsfrogsfrogs
-
-Thanks,
-Gao Xiang
-
-
-
-> 
-> 
-> Thanks,
-> Joanne
-> 
->>>>>
->>>>> Thanks,
->>>>> Gao Xiang
->>>>
->>>
-
+Just comments/docs
