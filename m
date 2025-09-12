@@ -1,90 +1,164 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E490270EBF;
-	Fri, 12 Sep 2025 08:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C2625785D;
+	Fri, 12 Sep 2025 09:05:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757667384; cv=none; b=Hfg9MelkEDeSX+RF71wK13eY9exCiRABo+jb2uxji0NTJ2C+HwZ5mwIcR8hEUmCn3SA+78aube+w8kZAbC2hB5teQc3mwfD2kFf2IzTr2a9lPmmRAy1Kp9pqpZA9KYOmEiqI2fcqW0En8v668EUEJdFHwfX/GV1hyhZHvACfPvo=
+	t=1757667924; cv=none; b=gJF/RHQTTAk5k7t4bB4rDsUHEqgG9GebjsLHBuOl4xZ+4ST6q+y1NIuDpZAcpAGAj4oqrT9n3mmd94uwzZjhEFMTjSVVCaNhxV81Fbe1AQcRSl2UhXdkGGq9zdD0WJkMR5+4UDJEuiKgEHx7ryY6bdeghzFk7cT/eiG4F+MOfWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757667384; c=relaxed/simple;
-	bh=aGj95vE+HeX/MtHrExL73IFxy035ObvEQTw/TraBBgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tdU/eTrqIVstDy/NsSqELKYpnCKMq51NfSxVh9xiWcK6ktcpDbclYdK8sbcuOzALQKRmN8d4TGSKSYdIHqYhXX72auSddBDlOsI651gCAX1FbhXUz9AEQBg57QJNMoEuijJ1T5/ALok7kRz9ac6J03t9yWuYxeQoZ59+0+hoCQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eI9RVXTq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757667924; c=relaxed/simple;
+	bh=CqjnGTYUtFsjV4i7EQ5ZEIH80QjkINQH/T0xW4BLaVE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=LP4t0lGw68Wcvmk7Dx2J6+0sCIHH28WiRzzDV4eb/LOmAOkv0QvR+zSkZhgMILnt6G+efKXvN2JqzCuy9fa6B+ekeI8+y4JtS8YLQQqvTEXx3YLUTxt8wsfu5vJHKA3saEnSYbCR3qmXQl0VzOWyqp2UglqC3vYhEmt6Sg3VovU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g0u6qv5A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eI9RVXTq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA69CC4CEF4;
-	Fri, 12 Sep 2025 08:56:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g0u6qv5A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B7CC4CEF1;
+	Fri, 12 Sep 2025 09:05:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757667384;
-	bh=aGj95vE+HeX/MtHrExL73IFxy035ObvEQTw/TraBBgg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eI9RVXTqOyiYKua4+r4sm1Qer0Q3SuzeF6YT1Lx2oudBBoL628Z6+OxTkwQrWo5gh
-	 ZLl7cLy7RoqF8klYaLYUekNEWC76jg4UUk49thNxhTxDEZdKGLckXCkyYiaTAXWaBV
-	 4AC/BDUr1O6+IUuZoFsStnaLduRtOZRqlhy73ixcSu3zvwmx6Lf8LDjKTC9ZvyoeLj
-	 VJcSLgRFzdhb5nLKpZdwJIG1XfDvY7+iHhvm+iY95oR4QRhqixOWQU/roySf544WyR
-	 8TnGKXVRb4kpMQirwco4vlixaDPELpVxu15mCpgmOPeNA4vtXdhvDcJ88Van2sADNA
-	 b1po/Ed1Grv/g==
-Date: Fri, 12 Sep 2025 10:56:18 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 12/19] docs: Makefile: document latex/PDF PAPER=
- parameter
-Message-ID: <20250912105618.10e7953e@foz.lan>
-In-Reply-To: <d20b612ee510c65dcd60183eda5068b164294759@intel.com>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-	<52411bce7bf0d068bfc8e33b35db3259c3ae0c64.1756969623.git.mchehab+huawei@kernel.org>
-	<d20b612ee510c65dcd60183eda5068b164294759@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1757667924;
+	bh=CqjnGTYUtFsjV4i7EQ5ZEIH80QjkINQH/T0xW4BLaVE=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=g0u6qv5AjHNvvHAaR6AJrTnKsbag0JpSkGy0k6fZTJ3ZBgAnVY/uT241VOfs1hf9I
+	 Iv7V9IX+Gs17hr03OR2JueI7OIjJcK/gkEQp4mI4VPOsH4SJ23xufRHNiTDOASVxdz
+	 U8pQnZpDNBAQErUZRvc3U3QfnzpcZbNq2UXNM9BRLlc3R9w/DJvLofpbP13yAs5+y6
+	 pyoth7CI+1HJy8zst/DTXGf6z1sp4BSnopxOQmsMSSE0YXxc6PYTztWKYQDc/HtqPM
+	 FNXUqdxjyF+Lxfq7RTHEZHV8v3/oYhmVmT30/va/iongUQlkt43ZjGqUNetNW1R9oD
+	 wzINnBzVoFz0Q==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 12 Sep 2025 11:05:20 +0200
+Message-Id: <DCQP9ZJ0DFBO.3O3W57IDYN08I@kernel.org>
+Subject: Re: [PATCH v3 1/5] revocable: Revocable resource management
+Cc: "Benson Leung" <bleung@chromium.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Dawid
+ Niedzwiecki" <dawidn@google.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
+ <linux-kselftest@vger.kernel.org>
+To: "Tzung-Bi Shih" <tzungbi@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250912081718.3827390-1-tzungbi@kernel.org>
+ <20250912081718.3827390-2-tzungbi@kernel.org>
+In-Reply-To: <20250912081718.3827390-2-tzungbi@kernel.org>
 
-Em Wed, 10 Sep 2025 13:54:07 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+On Fri Sep 12, 2025 at 10:17 AM CEST, Tzung-Bi Shih wrote:
+> +/**
+> + * struct revocable_provider - A handle for resource provider.
+> + * @srcu: The SRCU to protect the resource.
+> + * @res:  The pointer of resource.  It can point to anything.
+> + * @kref: The refcount for this handle.
+> + */
+> +struct revocable_provider {
+> +	struct srcu_struct srcu;
+> +	void __rcu *res;
+> +	struct kref kref;
+> +};
 
-> On Thu, 04 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > While the build system supports this for a long time, this was
-> > never documented. Add a documentation for it.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/Makefile | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/Makefile b/Documentation/Makefile
-> > index 4736f02b6c9e..0e1d8657a5cc 100644
-> > --- a/Documentation/Makefile
-> > +++ b/Documentation/Makefile
-> > @@ -126,4 +126,6 @@ dochelp:
-> >  	@echo
-> >  	@echo  '  make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.'
-> >  	@echo
-> > +	@echo  '  make PAPER={a4|letter} Specifies the paper size used for LaTeX/PDF output.'
-> > +	@echo
-> >  	@echo  '  Default location for the generated documents is Documentation/output'  
-> 
-> The Sphinx make mode 'sphinx-build -M help' provides all of this and
-> more...
+I think a revocable provider should provide an optional revoke() callback w=
+here
+users of the revocable provider can release the revoked resource.
 
-So? Relying on a help message from sphinx-build would just make
-our makefile fragile.
+But this can also be done as a follow-up.
 
-btw, it didn't work here:
+> +/**
+> + * struct revocable - A handle for resource consumer.
+> + * @rp: The pointer of resource provider.
+> + * @idx: The index for the RCU critical section.
+> + */
+> +struct revocable {
+> +	struct revocable_provider *rp;
+> +	int idx;
+> +};
 
-	$ ./sphinx_latest/bin/sphinx-build --version
-	sphinx-build 8.2.3
+I think I asked about this in the previous version (but I don't remember if
+there was an answer):
 
-	 $ ./sphinx_latest/bin/sphinx-build  -M help
-	Error: at least 3 arguments (builder, source dir, build dir) are required.
+In Rust we get away with a single Revocable<T> structure, but we're using R=
+CU
+instead of SRCU. It seems to me that the split between struct revocable and
+struct revocable_provider is only for the SRCU index? Or is there any other
+reason?
 
-Thanks,
-Mauro
+> +/**
+> + * revocable_provider_free() - Free struct revocable_provider.
+> + * @rp: The pointer of resource provider.
+> + *
+> + * This sets the resource `(struct revocable_provider *)->res` to NULL t=
+o
+> + * indicate the resource has gone.
+> + *
+> + * This drops the refcount to the resource provider.  If it is the final
+> + * reference, revocable_provider_release() will be called to free the st=
+ruct.
+> + */
+> +void revocable_provider_free(struct revocable_provider *rp)
+> +{
+> +	rcu_assign_pointer(rp->res, NULL);
+> +	synchronize_srcu(&rp->srcu);
+> +	kref_put(&rp->kref, revocable_provider_release);
+> +}
+> +EXPORT_SYMBOL_GPL(revocable_provider_free);
+
+I think naming this "free" is a bit misleading, since what it basically doe=
+s is
+
+  (1) Revoke access to the resource.
+
+  (2) Drop a reference count of struct revocable_provider.
+
+In a typical application there may still be struct revocable instances that=
+ have
+a reference to the provider, so we can't claim that it's freed here.
+
+So, given that, I'd rather call this revocable_provider_revoke().
+
+> +static void devm_revocable_provider_free(void *data)
+> +{
+> +	struct revocable_provider *rp =3D data;
+> +
+> +	revocable_provider_free(rp);
+> +}
+
+Same here, I'd call this devm_revocable_provider_revoke().
+
+> +DEFINE_FREE(revocable, struct revocable *, if (_T) revocable_release(_T)=
+)
+> +
+> +#define _REVOCABLE(_rev, _label, _res)						\
+> +	for (struct revocable *__UNIQUE_ID(name) __free(revocable) =3D _rev;	\
+> +	     (_res =3D revocable_try_access(_rev)) || true; ({ goto _label; }))=
+	\
+> +		if (0) {							\
+> +_label:										\
+> +			break;							\
+> +		} else
+> +
+> +#define REVOCABLE(_rev, _res) _REVOCABLE(_rev, __UNIQUE_ID(label), _res)
+
+This is basically the same as Revocable::try_access_with() [1] in Rust, i.e=
+.
+try to access and run a closure.
+
+Admittedly, REVOCABLE_TRY_ACCESS_WITH() is pretty verbose and I also do not=
+ have
+a great idea to shorten it.
+
+Maybe you have a good idea, otherwise I'm also fine with the current name.
+
+Otherwise, maybe it's worth to link to the Rust Revocable API for reference=
+?
+
+With *_free() renamed to *_revoke(), feel free to add:
+
+	Acked-by: Danilo Krummrich <dakr@kernel.org>
+
+[1] https://rust.docs.kernel.org/kernel/revocable/struct.Revocable.html#met=
+hod.try_access_with
