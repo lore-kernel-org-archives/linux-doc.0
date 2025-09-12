@@ -1,55 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E490284B26;
-	Fri, 12 Sep 2025 09:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC182E040F
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 10:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757670412; cv=none; b=pl8EwPwIYIQ2S4Xr8UK16Sz4yzlPUYL7FHROM0XTmoOCRgixksZGrpDMTs18JdZxPLqRUy+lCvfWI3Rf8jaF04fwoCCiUaUdpr99ce4GsItyk24OQ+4AbUpXHIHit7MP4YR+ZKG+XCbRaE76dpKF5+iwgwwMYp5oICVqIqArCHE=
+	t=1757671693; cv=none; b=mrnwtwEgVvdldlHoUo0TgOrtPh7lpHSudFVun9izPJYpFcg5g/eFWgUcQwJiIbPF5wkG8pVarilHEw9IfYncEHQJInLxnd/R7BHhF8mLLSy2vUfRlVJ58+iE0utph0u7P6oeqj+rfXW3Z1mGPJoqPQ9TkGWw74YqO5SVLQu1dPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757670412; c=relaxed/simple;
-	bh=NegVXeCczBLb95zus6Xi050gA1rei1TvPnU9xQh+Oz8=;
+	s=arc-20240116; t=1757671693; c=relaxed/simple;
+	bh=EF0XbL6IlnaHE2qbTDiV/IN2E9A96iQ4Th57l3axgJg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZU03Z9iBBodcnnHRvd/yfUoXzvrZpYMBFPPyr7flKc0rjJYanj8Z5w/TpE7TCfpYOFcWno7E76seSzFyVMHHc1Q9Rprfoq9Ge8fp2IbknnL1wWep1efGxaWpH0EttmYZosw2w6bPZLpfRSIEehZOJftNflR4snLKd3Jz7TRKShI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlHwIS8u; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlHwIS8u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C41CC4CEFB;
-	Fri, 12 Sep 2025 09:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757670411;
-	bh=NegVXeCczBLb95zus6Xi050gA1rei1TvPnU9xQh+Oz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tlHwIS8ug6kpBIrC+YecNbpE7U+PsFjIkpz8qRKv0N8I/dMi05ykyBedvzKGA9d+z
-	 UyfCvbqR8D4bmoMvnGGtflnFBLXY07Cqu9o1LLWyrBAIQESt+qlQSE/yQN6l1tMfqr
-	 9g1FPoIalkF/eMyh872sL/l8IIbH5Mdp829VHOxyOxi/QSlQdfultYiLZ4b2tJtbGN
-	 h48YWJ+Q3mPXk9Fae45hjGdZlsSOEW38Zo4E03YQWNnSW3kVBOv0JU26h21GAFlWTZ
-	 s80T7jn2C06bJoLUtOYhmNyu7qpCNhTBotRJ1feUw3EeQDvhlEqhhFZqQZ0HV13QYW
-	 btfi9G8AHwzbA==
-Date: Fri, 12 Sep 2025 15:16:34 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>
-Cc: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kuldeep Singh <quic_kuldsing@quicinc.com>,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v12 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-Message-ID: <aMPr-sYzFDlr-R8R@sumit-X1>
-References: <20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-0-17f07a942b8d@oss.qualcomm.com>
- <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUr/wxSSCPFKehF4gK7TltWQcsTFUHAeA2/tbN6iaA2VTnsN+wUHN4Sakyyj3xRaJST7pp/q8dmWI0tIjAkThaunFz738xs5uv6IEyBF5nGMTuEucuZP7tzN9/Ia6I1LqY6Lr+jj00losnJP5tWZcohereiRelPpXr9TbxWmlFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1ux0gz-0003Fr-F3; Fri, 12 Sep 2025 12:07:45 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1ux0gw-000umm-0n;
+	Fri, 12 Sep 2025 12:07:42 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1ux0gw-002yar-0I;
+	Fri, 12 Sep 2025 12:07:42 +0200
+Date: Fri, 12 Sep 2025 12:07:42 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v5 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <aMPw7kUddvGPJCzx@pengutronix.de>
+References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
+ <20250908124610.2937939-3-o.rempel@pengutronix.de>
+ <20250911193440.1db7c6b4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,103 +59,181 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
+In-Reply-To: <20250911193440.1db7c6b4@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Fri, Sep 12, 2025 at 10:21:55AM +0200, Jens Wiklander wrote:
-> Hi,
+Hi Jakub,
+
+On Thu, Sep 11, 2025 at 07:34:40PM -0700, Jakub Kicinski wrote:
+> On Mon,  8 Sep 2025 14:46:07 +0200 Oleksij Rempel wrote:
+> > diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+> > index 969477f50d84..d69dd3fb534b 100644
+> > --- a/Documentation/netlink/specs/ethtool.yaml
+> > +++ b/Documentation/netlink/specs/ethtool.yaml
+> > @@ -1899,6 +1899,79 @@ attribute-sets:
+> >          type: uint
+> >          enum: pse-event
+> >          doc: List of events reported by the PSE controller
+> > +  -
+> > +    name: mse-config
+> > +    attr-cnt-name: --ethtool-a-mse-config-cnt
+> > +    attributes:
+> > +      -
+> > +        name: unspec
+> > +        type: unused
+> > +        value: 0
 > 
-> On Fri, Sep 12, 2025 at 6:07 AM Amirreza Zarrabi
-> <amirreza.zarrabi@oss.qualcomm.com> wrote:
-> >
-> > This patch series introduces a Trusted Execution Environment (TEE)
-> > driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> > and services to run securely. It uses an object-based interface, where
-> > each service is an object with sets of operations. Clients can invoke
-> > these operations on objects, which can generate results, including other
-> > objects. For example, an object can load a TA and return another object
-> > that represents the loaded TA, allowing access to its services.
-> >
-> [snip]
-> 
-> I'm OK with the TEE patches, Sumit and I have reviewed them.
-> 
-> There were some minor conflicts with other patches I have in the pipe
-> for this merge window, so this patchset is on top of what I have to
-> avoid merge conflicts.
-> 
-> However, the firmware patches are for code maintained by Björn.
-> Björn, how would you like to do this? Can I take them via my tree, or
-> what do you suggest?
+> Are you actually using this somewhere?
+> It's good to not use attr ID 0 in case we encounter an uninitialized
+> attr, but there's no need to define a name for it, usually.
+> Just skip the entry 0 if you don't need then name.
 
-I had an offline chat with Amir about this and there is a build
-dependency of QTEE driver on firmware patches in case the patches gets
-applied in reverse order (first QTEE patches and then firmware ones).
-So I would suggest the complete patch-set goes through Jens tree given
-the very limited time we have.
-
-Bjorn,
-
-Would it be fine for you to provide your ack for the firmware patches?
-
--Sumit
+No. I'll drop it.
 
 > 
-> It's urgent to get this patchset into linux-next if it's to make it
-> for the coming merge window. Ideally, I'd like to send my pull request
-> to arm-soc during this week.
+> > +      -
+> > +        name: max-average-mse
+> > +        type: u32
+> > +      -
+> > +        name: max-peak-mse
+> > +        type: u32
+> > +      -
+> > +        name: refresh-rate-ps
+> > +        type: u64
+> > +      -
+> > +        name: num-symbols
+> > +        type: u64
 > 
-> Cheers,
-> Jens
+> type: uint for all these?
+
+I would prefer to keep u64 for refresh-rate-ps and num-symbols.
+
+My reasoning comes from comparing the design decisions of today's industrial
+hardware to the projected needs of upcoming standards like 800 Gbit/s. This
+analysis shows that future PHYs will require values that exceed the limits of a
+u32.
+
+We see two different design approaches in today's PHYs:
+
+- The "Quick Check" Approach (e.g., KSZ9477): This PHY uses a minimal sample
+  size for a very fast check, capturing ~250 symbols over 2 microseconds.
+
+- The "Detailed Sample" Approach (e.g., KSZ9131): This PHY captures a much
+larger sample for a more statistically significant analysis, capturing 125,000
+symbols over 1 millisecond.
+
+Now, let's see what happens when we apply these same design decisions to an 800
+Gbit/s link.
+
+Applying the "Quick Check" (KSZ9477) Logic:  If a future PHY designer wants to
+capture the same minimal amount of symbols (250), the required refresh interval
+on an 800G link would shrink to just 2.5 nanoseconds. Since future standards
+will be even faster, this demonstrates why picosecond-level granularity is
+necessary. In this specific minimal case, the values (250 symbols and 2,500 ps)
+would still fit within a u32.
+
+Applying the "Detailed Sample" Logic: If a designer follows the "detailed
+sample" approach or needs to run common diagnostics, the numbers become too
+large for a u32.
+
+- Scenario A (High-Granularity Sample): To get a dense sample over a 100
+millisecond interval, the PHY would need to process ~10 billion symbols. This
+overflows the u32 for num-symbols.
+
+- Scenario B (Long-Term Monitoring): To run a standard 10 millisecond
+diagnostic, the interval measured in picoseconds is 10 billion ps. This
+overflows the u32 for refresh-rate-ps.
+
+> > +      -
+> > +        name: supported-caps
+> > +        type: nest
+> > +        nested-attributes: bitset
+> > +      -
+> > +        name: pad
+> > +        type: pad
 > 
-> >
-> > ---
-> > Amirreza Zarrabi (11):
-> >       firmware: qcom: tzmem: export shm_bridge create/delete
-> >       firmware: qcom: scm: add support for object invocation
-> >       tee: allow a driver to allocate a tee_device without a pool
-> >       tee: add close_context to TEE driver operation
-> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
-> >       tee: increase TEE_MAX_ARG_SIZE to 4096
-> >       tee: add Qualcomm TEE driver
-> >       tee: qcom: add primordial object
-> >       tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
-> >       Documentation: tee: Add Qualcomm TEE driver
-> >
-> >  Documentation/tee/index.rst              |   1 +
-> >  Documentation/tee/qtee.rst               |  96 ++++
-> >  MAINTAINERS                              |   7 +
-> >  drivers/firmware/qcom/qcom_scm.c         | 119 ++++
-> >  drivers/firmware/qcom/qcom_scm.h         |   7 +
-> >  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
-> >  drivers/tee/Kconfig                      |   1 +
-> >  drivers/tee/Makefile                     |   1 +
-> >  drivers/tee/qcomtee/Kconfig              |  12 +
-> >  drivers/tee/qcomtee/Makefile             |   9 +
-> >  drivers/tee/qcomtee/async.c              | 182 ++++++
-> >  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
-> >  drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++++++++
-> >  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
-> >  drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
-> >  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
-> >  drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
-> >  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
-> >  drivers/tee/qcomtee/shm.c                | 150 +++++
-> >  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
-> >  drivers/tee/tee_core.c                   | 127 ++++-
-> >  drivers/tee/tee_private.h                |   6 -
-> >  include/linux/firmware/qcom/qcom_scm.h   |   6 +
-> >  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
-> >  include/linux/tee_core.h                 |  54 +-
-> >  include/linux/tee_drv.h                  |  12 +
-> >  include/uapi/linux/tee.h                 |  56 +-
-> >  27 files changed, 4410 insertions(+), 28 deletions(-)
-> > ---
-> > base-commit: 8b8aefa5a5c7d4a65883e5653cf12f94c0b68dbf
-> > change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
-> >
-> > Best regards,
-> > --
-> > Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> >
+> you shouldn't need it if you use uint
+> 
+> > +  -
+> > +    name: mse-snapshot
+> > +    attr-cnt-name: --ethtool-a-mse-snapshot-cnt
+> > +    attributes:
+> > +      -
+> > +        name: unspec
+> > +        type: unused
+> > +        value: 0
+> > +      -
+> > +        name: channel
+> > +        type: u32
+> > +        enum: phy-mse-channel
+> > +      -
+> > +        name: average-mse
+> > +        type: u32
+> > +      -
+> > +        name: peak-mse
+> > +        type: u32
+> > +      -
+> > +        name: worst-peak-mse
+> > +        type: u32
+> > +  -
+> > +    name: mse
+> > +    attr-cnt-name: --ethtool-a-mse-cnt
+> > +    attributes:
+> > +      -
+> > +        name: unspec
+> > +        type: unused
+> > +        value: 0
+> > +      -
+> > +        name: header
+> > +        type: nest
+> > +        nested-attributes: header
+> > +      -
+> > +        name: channel
+> > +        type: u32
+> 
+> Please annotate attrs which carry enums and flags with
+> 
+> 	enum: $name
+
+Sorry, I can't follow here. What do you mean?
+
+> 
+> > +        enum: phy-mse-channel
+> > +      -
+> > +        name: config
+> > +        type: nest
+> > +        nested-attributes: mse-config
+> 
+> config sounds like something we'd be able to change
+> Looks like this is more of a capability struct?
+
+Yes? mse-config describes haw the measurements in the snapshot should be
+interpreted.
+
+> > +      -
+> > +        name: snapshot
+> > +        type: nest
+> > +        multi-attr: true
+> > +        nested-attributes: mse-snapshot
+> 
+> This multi-attr feels un-netlinky to me.
+> You define an enum for IDs which are then carried inside
+> snapshot.channel. In netlink IDs should be used as attribute types.
+> Why not add an entry here for all snapshot types?
+
+Can you please give me some examples here? I feel under-caffeinated, sorry.
+
+Best Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
