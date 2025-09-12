@@ -1,126 +1,92 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EC31114;
-	Fri, 12 Sep 2025 00:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0801B17D2;
+	Fri, 12 Sep 2025 00:58:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757635595; cv=none; b=RPKuJURD903DgJm3UunozAx84f+od33LAVf24xGLWFl9+LR1OR+jiqOxrt0kjKpe/BLCrrHOPg47IJYjCTTD9rE5xbK88/kTmbWnzg20f9EV+qlbRtXEss/ENc30X1b66QDoPkljAkZPu6kktpKjn2iZYfyAvNLgyqWenphTtYA=
+	t=1757638713; cv=none; b=PMeWUpF2pa91+fcr3qZgsDwdqBYTNKBDZ0Q6cZzZhJgZxsupS69/ya2jk40R7OozoBe1sZHKzSE6oVslYrPwPPRVrLTVGMvVIxkdTOc6JmnWIcY7FTKhiLygSWtY/hKZ+JBS0Yu1LoBQs1AqMiFEKt8GQtSPLfuVgkC5hD2uL7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757635595; c=relaxed/simple;
-	bh=uuId6RVxbxVcke3+P4e45amuMIc/DVveXZXSYU+ifzU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j463kvfciV+QCyJZLPIMWpEZtrtwTW4XIchij9EnQGzvbTK+6qizvlkz+dVclzFrvwqn5lAKFnnSakJyCo/T5mpUkxX98sQyNe0V1K9rrNny3LGEpV7dVYBPUtqr5Bq846axwZ7UdFaKTXkJRhwgGJki1jah2RA75JwDMm4Pn7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Yx4aRNzW; arc=none smtp.client-ip=115.124.30.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1757638713; c=relaxed/simple;
+	bh=mNMcAhLz75xkpjqqUqqvq0LB84zFQSqJ02YXY1DjF+Y=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=CdsVN7apkBz9m9TrvYfLDBTO0WeJitI/BcdZA1ogh+cC+2mhlYtefHrdbRzoEM/X0tTL1trg2qYZweKpgA//lM9//ZB6aG3wo648AX4m74euKKPIPoBtLt34rGEerorNbxa1fdgMIxWXEvaWMygBqxggqDJPmMkfkRBz1LGx2yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuLbT/9W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Yx4aRNzW"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757635583; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=4l/OnBqgkZe1Br8bpGPNu/6NUjQj9S0DUi0oZkkxZRQ=;
-	b=Yx4aRNzWabtTDKYBB89+iAVOV+Qs39u4Wp9o1FzJdiP07aABPV3GU/mRvt8QrEnqE3bgWsgELeKbJa+d/BGa3tpKuJWY0uRRP0deyncrnjGHONEmud98CA2fea3e/ZTESz8Jv6ZVlMNQMeiwvR50Kh96EJWBxOnQZVVaJ53UjLA=
-Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wno1Q-e_1757635581 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 12 Sep 2025 08:06:22 +0800
-Message-ID: <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com>
-Date: Fri, 12 Sep 2025 08:06:19 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuLbT/9W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34945C4CEF0;
+	Fri, 12 Sep 2025 00:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757638712;
+	bh=mNMcAhLz75xkpjqqUqqvq0LB84zFQSqJ02YXY1DjF+Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EuLbT/9WjBULn8MLHy2diSlRQv5tRXmUkvTxnwjZ3Vzkue9+uofpPAKUJhDD8dezR
+	 OXqf2vLrwLX8BlJJiP2C8RqGPpXc5oMnztHOoDMKOS6vyafDf+EBwWgpCMz5/Ofk24
+	 N3uyelRYv3Y1mI0HABohYNhjw6yqKVpsFQxcfJEoYXSiuH7BpPdB5hWzhmzBdH1wcg
+	 wmTSsO4/MHEDVynznuZbEHtIHwkFARCKv9O29uLeUXyNvnMAQJAeU6WosaYj21xMug
+	 QHtG45DvM8hWB85iIT94tNsTyhSn4GqsvEQ8q2e3ug5YcrrJeYe+xQgonKPnpc7fo6
+	 DjWDbO45E2Htg==
+Date: Fri, 12 Sep 2025 09:58:27 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Linux Kernel Tracing
+ <linux-trace-kernel@vger.kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Tom
+ Zanussi <zanussi@kernel.org>
+Subject: Re: [PATCH 5/5] Documentation: trace: histogram: Link to ftrace
+ docs
+Message-Id: <20250912095827.3d5a3feb80d5c6c44667328f@kernel.org>
+In-Reply-To: <20250911042527.22573-6-bagasdotme@gmail.com>
+References: <20250911042527.22573-1-bagasdotme@gmail.com>
+	<20250911042527.22573-6-bagasdotme@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
- CONFIG_BLOCK guard
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org,
- miklos@szeredi.hu, djwong@kernel.org, linux-block@vger.kernel.org,
- gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
- linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-14-joannelkoong@gmail.com>
- <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
- <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
- <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com>
- <aMK0lC5iwM0GWKHq@infradead.org>
- <9c104881-f09e-4594-9e41-0b6f75a5308c@linux.alibaba.com>
- <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 11 Sep 2025 11:25:27 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
+> In brief "Extended error information" section, details on error
+> condition is referred to ftrace docs. Add the link to it.
 
-On 2025/9/12 03:45, Joanne Koong wrote:
-> On Thu, Sep 11, 2025 at 8:29 AM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
+It seems this does not add the link. Can you make a tag and
+link to it?
 
-...
-
->> ```
->>
->> But if FUSE or some other fs later needs to request L2P information
->> in their .iomap_begin() and need to send L2P requests to userspace
->> daemon to confirm where to get the physical data (maybe somewhat
->> like Darrick's work but I don't have extra time to dig into that
->> either) rather than just something totally bypass iomap-L2P logic
->> as above, then I'm not sure the current `iomap_iter->private` is
->> quite seperate to `struct iomap_read_folio_ctx->private`, it seems
-> 
-> If in the future this case arises, the L2P mapping info is accessible
-> by the read callback in the current design. `.read_folio_range()`
-> passes the iomap iter to the filesystem and they can access
-> iter->private to get the L2P mapping data they need.
-
-The question is what exposes to `iter->private` then, take
-an example:
-
-```
-struct file *file;
-```
-
-your .read_folio_range() needs `file->private_data` to get
-`struct fuse_file` so `file` is kept into
-`struct iomap_read_folio_ctx`.
-
-If `file->private_data` will be used for `.iomap_begin()`
-as well, what's your proposal then?
-
-Duplicate the same `file` pointer in both
-`struct iomap_read_folio_ctx` and `iter->private` context?
-
+Thank you,
 
 > 
->> both needs fs-specific extra contexts for the same I/O flow.
->>
->> I think the reason why `struct iomap_read_folio_ctx->private` is
->> introduced is basically previous iomap filesystems are all
->> bio-based, and they shares `bio` concept in common but
->> `iter->private` was not designed for this usage.
->>
->> But fuse `struct iomap_read_folio_ctx` and
->> `struct fuse_fill_read_data` are too FUSE-specific, I cannot
->> see it could be shared by other filesystems in the near future,
->> which is much like a single-filesystem specific concept, and
->> unlike to `bio` at all.
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/trace/histogram.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Currently fuse is the only non-block-based filesystem using iomap but
-> I don't see why there wouldn't be more in the future. For example,
-> while looking at some of the netfs code, a lot of the core
-> functionality looks the same between that and iomap and I think it
-> might be a good idea to have netfs in the future use iomap's interface
-> so that it can get the large folio dirty/uptodate tracking stuff and
-> any other large folio stuff like more granular writeback stats
-> accounting for free.
+> diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
+> index d158dadaa42447..340bcb5099e7a4 100644
+> --- a/Documentation/trace/histogram.rst
+> +++ b/Documentation/trace/histogram.rst
+> @@ -209,8 +209,8 @@ Documentation written by Tom Zanussi
+>  
+>    For some error conditions encountered when invoking a hist trigger
+>    command, extended error information is available via the
+> -  tracing/error_log file.  See Error Conditions in
+> -  :file:`Documentation/trace/ftrace.rst` for details.
+> +  tracing/error_log file.  See "Error conditions" section in
+> +  Documentation/trace/ftrace.rst for details.
+>  
+>  2.3. 'hist' trigger examples
+>  ----------------------------
+> -- 
+> An old man doll... just what I always wanted! - Clara
+> 
 
-I think you need to ask David on this idea, I've told him to
-switch fscache to use iomap in 2022 before netfs is fully out [1],
-but I don't see it will happen.
 
-[1] https://lore.kernel.org/linux-fsdevel/YfivxC9S52FlyKoL@B-P7TQMD6M-0146/
-
-Thanks,
-Gao Xiang
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
