@@ -1,130 +1,104 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7383043D1
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 13:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8F1308F2D;
+	Fri, 12 Sep 2025 13:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757682442; cv=none; b=sOQwIquXTTx6xEV/NxkRUtyICIqfVWfyePeonSC6abX6NBQdFgGX4AnGCMAT5LNwyup43KtCMBP6X8+Uf7+r3TnLlLq6CTtpM2+037xT3/aVQIWcsSbiW01Orv8Tw424TM1gP5kjQrcwsKF64BTSHaK/1a4+balMpwipnjP2zOg=
+	t=1757683392; cv=none; b=h82m6Z7u8SQCGt6B0MDoawf3uIAVxVwh+zYa9RZaBty30hVgfw2DNSZLtdpVaIwWYFWdOUaVAUgvDb82K3D+Farolok+unJqNhh5svSBwpLZio34aeZ+HILVCQ/zbLM+vkOCAKyFoB/oUef0HJ3S8dJiJEDXwpd+nHrrPwtrOiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757682442; c=relaxed/simple;
-	bh=m4qhwnsry/SWycpMdOHNFZlNWW6x4f1W26dSGmgsJ6o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cyKn5v3WrocwPd9NBM7Jv7uUGyi0GjMPcEUg2SCWyQBqxwRFtlaib/qXGo8KSpFnQe33bDWdAVXPtUjVpomynnbh8qa+uvm3TlfZPS6J6tygCn1rYK37FMpJgisfMrVmsw/02Fo7SNs6KpwH0CyXTuVk94pGIyzhUSQKUROGyUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UbeVSEJG; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757683392; c=relaxed/simple;
+	bh=P3nDH813s3kZpLneMxR22lFxhvMPUeFpT115QbR4EhY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VAelTRTHpF87Ve6SaoHU1JnUdu2LeytJnqgy+JNmL9NZlr+3sQMmdCtt+M/F1iNYNq9ztjNcFEQO4mLjepYZGPQbk85m7AZOuZvTf3tqx7xlMMMqKY9hSYzVO3yipYC5M3E7sP/meYDbdKhF9XnnMOGtjsS4/uopyeUU6L1tKN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N2IwOVAI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UbeVSEJG"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-25d44908648so10181525ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 06:07:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757682441; x=1758287241; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=x544GYJay0OImzEkLS/doW76Om1NP9OFkc47rJ1bRQg=;
-        b=UbeVSEJGsx5L4+X2GjmpwNQPMul4dTVwnTmQ9wwb/c8Ze/lyLFFnVliJe+1bWmc67j
-         V+0qNq7p/6dYc2leTqyChjY6ioO/DG64skca74puTFWVC4XH5fOaMNAF9nhLMKEXIJHc
-         VIBzv6e2qC4L9XmtUpLXy8ykiTdpuB7+AFFTzgS3dJBNPqGI0WUHAiIWKQR/Qk7+NPbW
-         bTzjLG6fTGFuVrctSISX75jDKQleeN509HKRI0T4qv0tMB7tbKoYQh4ZOnST/hjHzPxe
-         0NsfYJoOP++issdfFw5HtiuUk14TFyWgrsUTLth6MPfGat5FBd3VOp3Mv3viLLVLtpcy
-         C9tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757682441; x=1758287241;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x544GYJay0OImzEkLS/doW76Om1NP9OFkc47rJ1bRQg=;
-        b=bbd5S3QVi7uSOGB03+juLlktEKTSLT0K8PMHPtTYAgQ44HfjsMRfjJ4D7w3lKvCf+4
-         ILscbLrZdco9Y5ta9v5sKVF4f/VQHozMIWMXBObAtp624y7QFnL2UhinXQVjf/ENp0VL
-         UZgL6i8KBFSFaIMZBe4QiqJfgOn8+KURl3wt1PYTpRu6LEunu0CxYVRHd0kJeIJhf2tk
-         WI6kJRaSiFocZYuSwnDlRE7X2jUPhEAgttCGcX1NJn2v+uLVFf6xzSVYvuynUZWA4mWr
-         PZ/kLGZ9OnaxD2ovQtDpvTUslE3S5M73jjGRZ/IBO0Y7CZe7AODeLuW+npEd17fLRFr5
-         /cdA==
-X-Forwarded-Encrypted: i=1; AJvYcCVyhZgz5aSjfb2LR9M64imFzbh7PNAU4xq2njnYok82/qxpzUm76eUraaP1qREr9SpRT4iOrmwbISw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgFIJct1/r8H9wQW7C82H7KZRJkTqflDSMbQxbfCvT74VCR6LI
-	dGDrUnPqe88e/us8UuLRLHHH8TDadGW1eezG/RabjCrMYWONs0its5H+
-X-Gm-Gg: ASbGncsk+Cic1ErCdxr0LxBvjfTLJue9zDlfVCPIpNy7i2+XVVcsweaTUaDiAWxQg20
-	tBOUscrCzFxKuRhjFwm79tXCB35BcLlD2AqwShLXmBAM8and+krEjgO9NaOmnqJb6qOfKQ7nl7e
-	ERL9EuNYQVnwClE9VU6iwuJWS5/9nUwACzIUj6AOy9Es8WRkwbqLVkxLbgyafCifhC6+XC4j7U6
-	becmJfyTzD2aj1i+x1VDSBh2PhPbGLajI1keEMx8m1dRaVcwEDo37lULp9NKpmCN+iWK9iD+SCQ
-	9wtdJXHasB28/iLqcFyeCQbOGsqg1KX6VUIHMsp31frkvQARSUUqo0TaRGodMPq6grzKk7rJC6b
-	SUFP8Vp8XE92Fb6CQNRB2NHVQtK9jfwGkDEci
-X-Google-Smtp-Source: AGHT+IFNtOF9483lJqZ0eCDuywtMNSA4/x1QrNPIz5w6iEwUoJ0MCDnna++VYIfN2AunXMyW/zkq8A==
-X-Received: by 2002:a17:903:144f:b0:251:19e0:2805 with SMTP id d9443c01a7336-25d27922652mr33876225ad.55.1757682440563;
-        Fri, 12 Sep 2025 06:07:20 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3b307225sm49207635ad.145.2025.09.12.06.07.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 06:07:19 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id AA34441FA3A0; Fri, 12 Sep 2025 20:07:16 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Javier Garcia <rampxxxx@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Antonino Maniscalco <antomani103@gmail.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Revert "drm: Add directive to format code in comment"
-Date: Fri, 12 Sep 2025 20:06:50 +0700
-Message-ID: <20250912130649.27623-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N2IwOVAI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBAB7C4CEF4;
+	Fri, 12 Sep 2025 13:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757683391;
+	bh=P3nDH813s3kZpLneMxR22lFxhvMPUeFpT115QbR4EhY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=N2IwOVAIq196fLIINuT5bHNHjn8bd2OyJOvzQFu58qbPx40jx/s6kW/zrkO5XmTpc
+	 bM5sIy2qzNqvk2YsKBszbWSpaEes5R79QsJCIi9tK5WfSLtAQJ/94l0fIU2vvHWVtb
+	 dJUdJ2JCNIdUaCyfXqlHS3ENXJGdwTjAtsxtluuzPBVdnqNQBcfmXDE2KTSUMm5JOn
+	 mPyXn5EJe/fcaZ+tJf9YRj+4tJfQ2crjHQbYxuA9/o8mTgHGBNnT6dALEvcsnHlkkm
+	 yzv7PwjMPCcqVcjaV4D6/qGX6Bh4YEvcJXx+pwW/H3evurkBcU2ZxX4mvUqLXQWk/d
+	 ksfZZ5CqILb8A==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net-next v2 0/3] tools: ynl: rst: display attribute-set doc
+Date: Fri, 12 Sep 2025 15:22:58 +0200
+Message-Id: <20250912-net-next-ynl-attr-doc-rst-v2-0-c44d36a99992@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1345; i=bagasdotme@gmail.com; h=from:subject; bh=m4qhwnsry/SWycpMdOHNFZlNWW6x4f1W26dSGmgsJ6o=; b=kA0DAAoW9rmJSVVRTqMByyZiAGjEGlKhXlw/mPScHOQuMTJJKb9msLDKVjN5d75gGJeg1FAW4 Ih1BAAWCgAdFiEEkmEOgsu6MhTQh61B9rmJSVVRTqMFAmjEGlIACgkQ9rmJSVVRTqNraQD9G99e 9SXsT9d6z3iT9FNmQBBdwBmkS2WzrDYbjm1fbCgBANgvs+XgMdf6dSl9lCQ5vHWWgIoppY6NPRZ zWj/mPL4M
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALIexGgC/42NzQqDMBCEX0X23C3Z+Nf21PcoHoxuNVQS2QRRx
+ HdvEHrvYQ7Dx3yzQ2CxHOCR7SC82GC9S0VfMujG1g2Mtk8dtNKlupNCxzFljbi5CdsYBXvfoYS
+ IpqIy11Ve6KKEtJ+F33Y93S/4zaBJZLQhetnO04VO/od/ISRUxnR1faOK6uL5YXE8Xb0M0BzH8
+ QUw36DmzQAAAA==
+X-Change-ID: 20250910-net-next-ynl-attr-doc-rst-b61532634245
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jiri Pirko <jiri@resnulli.us>
+Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1770; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=P3nDH813s3kZpLneMxR22lFxhvMPUeFpT115QbR4EhY=;
+ b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDKOyO34pfTg+XmfloifRbINLJl/fQ7eCX62aapG4jbx7
+ +WCK/ZGd5SyMIhxMciKKbJIt0Xmz3xexVvi5WcBM4eVCWQIAxenAExk/kGGfwo1ZQLfw6+cZ5+Q
+ PcmFe7ek85FdCW+uXNC3lmN/JztfdDsjw6xXt1/Jc61ivSo56emPaQX6PnOaXQu1I6aevKLMPee
+ 0HwMA
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
-fixes original Sphinx indentation warning as introduced in
-471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
-code-block:: directive. It semantically conflicts with earlier
-bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
-usage in literal code block") that did the same using double colon
-syntax instead. These duplicated literal code block directives causes
-the original warnings not being fixed.
+Some attribute-set have a documentation (doc:), but they are not
+displayed in the RST / HTML version. This series adds the missing
+parsing of these 'doc' fields.
 
-Revert 6cc44e9618f03f to keep things rolling without these warnings.
+While at it, it also fixes how the 'doc' fields are declared on multiple
+lines.
 
-Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
-Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
 ---
- drivers/gpu/drm/drm_gpuvm.c | 2 --
- 1 file changed, 2 deletions(-)
+Changes in v2:
+- patch 2 & 3: new
+- Link to v1: https://lore.kernel.org/r/20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index db9b089ef62c85..86853535fb7bd7 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2432,8 +2432,6 @@ static const struct drm_gpuvm_ops lock_ops = {
-  *
-  * The expected usage is::
-  *
-- * .. code-block:: c
-- *
-  *    vm_bind {
-  *        struct drm_exec exec;
-  *
+---
+Matthieu Baerts (NGI0) (3):
+      tools: ynl: rst: display attribute-set doc
+      netlink: specs: team: avoid mangling multilines doc
+      netlink: specs: explicitly declare block scalar strings
 
-base-commit: 9a3f210737e958c3f45a4ce0d7f1ff330af3965f
+ Documentation/netlink/specs/conntrack.yaml    |  2 +-
+ Documentation/netlink/specs/netdev.yaml       | 22 +++++++++++-----------
+ Documentation/netlink/specs/nftables.yaml     |  2 +-
+ Documentation/netlink/specs/nl80211.yaml      |  2 +-
+ Documentation/netlink/specs/ovs_datapath.yaml |  2 +-
+ Documentation/netlink/specs/ovs_flow.yaml     |  2 +-
+ Documentation/netlink/specs/ovs_vport.yaml    |  2 +-
+ Documentation/netlink/specs/rt-addr.yaml      |  2 +-
+ Documentation/netlink/specs/rt-link.yaml      |  2 +-
+ Documentation/netlink/specs/rt-neigh.yaml     |  2 +-
+ Documentation/netlink/specs/rt-route.yaml     |  2 +-
+ Documentation/netlink/specs/rt-rule.yaml      |  2 +-
+ Documentation/netlink/specs/tc.yaml           |  2 +-
+ Documentation/netlink/specs/team.yaml         |  2 +-
+ tools/net/ynl/pyynl/lib/doc_generator.py      |  4 ++++
+ 15 files changed, 28 insertions(+), 24 deletions(-)
+---
+base-commit: dc2f650f7e6857bf384069c1a56b2937a1ee370d
+change-id: 20250910-net-next-ynl-attr-doc-rst-b61532634245
+
+Best regards,
 -- 
-An old man doll... just what I always wanted! - Clara
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
 
