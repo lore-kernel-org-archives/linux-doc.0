@@ -1,103 +1,112 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60992DA767;
-	Fri, 12 Sep 2025 09:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279182E283E;
+	Fri, 12 Sep 2025 09:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757668837; cv=none; b=p8APtMlxtUUX/yuT1KnPlpJ7nbB6ArbbpAcfwBHuUGO39M8FquYA71uI2oD1ty/3tpmQuc/5cyCavWRHyHoou02aJzKTGc02yQ6uib9K9zg75GZ11pDF6aFiyyzK8RfsKHla+oKcMkfzh+YU2Ih5KyAB8nGL7V81n+jOulluxQ4=
+	t=1757668856; cv=none; b=Ic9zKI10/ROiYKr3DMFQfx9cSNyyYH8woIJnnW0kuP3Rh9J5eHWTAfAAjIytNhmzqoJkSJNZDg7RMeOGfcSGhPCs8jgwfzS3WgAwr2eVOdNaLppR/20p/AOrfbpBXeZsHE1f+eZHoei+ExjFbxa9EOXQMtgxdxkw47aMpfnCWlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757668837; c=relaxed/simple;
-	bh=/JBv9g/ms0yohE1VAUeM82qVVVJ8bxxHWCzB9dcxlBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VBVtiANuW3PWM+v03re6GBkP+ePuxnMdcomKv8i7XB+F9UTyZwtYQMJBCF0HVGJu4TGMu89AyIbXjys0BndiFmfVZ460qWz4rg/vi6vMldw/60jy3HbsQzHP2YNGzx6JhaynhVs/B2AnZiRSCiniotohQ2L9aYmH/5pff0YVZkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gNutyQue; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gNutyQue"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D20BF316;
-	Fri, 12 Sep 2025 11:19:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757668751;
-	bh=/JBv9g/ms0yohE1VAUeM82qVVVJ8bxxHWCzB9dcxlBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gNutyQuemxqbWsIBz45xg51ZkZ8GFlGv69YP4FBeMEraRdCMeOIiZrmZ7yacQ0Qm3
-	 Sstyhs34olXMD0BSmFURfYLxSaIMVwbwG6Yl29vyM48OyQJpop7bYSczlJ1oo3IxF9
-	 3UFSr3AEWKGYpkS9yJO5+ATlYDz3B9DA2VSzc9LE=
-Date: Fri, 12 Sep 2025 12:20:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
-Message-ID: <20250912092000.GA31682@pendragon.ideasonboard.com>
-References: <20250912081718.3827390-1-tzungbi@kernel.org>
- <2025091224-blaming-untapped-6883@gregkh>
+	s=arc-20240116; t=1757668856; c=relaxed/simple;
+	bh=fdWq7jU/r+YPyJLFYj+oQNcMiUGHgVPoVaERQllpVTE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T5bVjoug3SGISzpoq/G839PPXnxLDSJzmHKBHy8DS00qlDoNu3/gAL+1CeakqLzDpFgeMsmjmf7JCLV3GlG3ToCkV9ZPbLZVXgtDBJurqcdq2jb2n4urdCLRU7XB4tfLt9PBtcqwT+ZoiZzpyWxZnEeqYd/QN9V5r7lhnMj9sCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cNTS213rGzKHNq6;
+	Fri, 12 Sep 2025 17:20:50 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 7CD351A0D2B;
+	Fri, 12 Sep 2025 17:20:50 +0800 (CST)
+Received: from [10.174.179.247] (unknown [10.174.179.247])
+	by APP4 (Coremail) with SMTP id gCh0CgB3wY3t5cNovJT6CA--.44667S3;
+	Fri, 12 Sep 2025 17:20:48 +0800 (CST)
+Message-ID: <028c1184-a114-d814-cf11-ef6d9408502b@huaweicloud.com>
+Date: Fri, 12 Sep 2025 17:20:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2025091224-blaming-untapped-6883@gregkh>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 1/2] md: prevent adding disks with larger
+ logical_block_size to active arrays
+To: Xiao Ni <xni@redhat.com>, linan666@huaweicloud.com
+Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, hare@suse.de,
+ martin.petersen@oracle.com, bvanassche@acm.org, filipe.c.maia@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
+References: <20250911073144.42160-1-linan666@huaweicloud.com>
+ <20250911073144.42160-2-linan666@huaweicloud.com>
+ <CALTww2-rbwtJTm+yyX6mar_eybLCbpFoWQWdOM9j4_hgW0=4Hg@mail.gmail.com>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <CALTww2-rbwtJTm+yyX6mar_eybLCbpFoWQWdOM9j4_hgW0=4Hg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgB3wY3t5cNovJT6CA--.44667S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7GF4UCr1kWFW3Ary7XrWUArb_yoWktFg_CF
+	4Yywn7Ww1DZwn29a1DKrs29Fn8Gw1xGFyqq348JFW3Wa48JFs5JFnagry2v3Z3J3WkGF9I
+	9rn5XwsYvrZ7CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbqxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
+	xwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14
+	v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+	67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbQV
+	y7UUUUU==
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-On Fri, Sep 12, 2025 at 10:30:45AM +0200, Greg KH wrote:
-> On Fri, Sep 12, 2025 at 08:17:12AM +0000, Tzung-Bi Shih wrote:
-> > This is a follow-up series of [1].  It tries to fix a possible UAF in the
-> > fops of cros_ec_chardev after the underlying protocol device has gone by
-> > using revocable.
-> > 
-> > The 1st patch introduces the revocable which is an implementation of ideas
-> > from the talk [2].
-> > 
-> > The 2nd and 3rd patches add test cases for revocable in Kunit and selftest.
-> > 
-> > The 4th patch converts existing protocol devices to resource providers
-> > of cros_ec_device.
-> > 
-> > The 5th patch converts cros_ec_chardev to a resource consumer of
-> > cros_ec_device to fix the UAF.
-> > 
-> > [1] https://lore.kernel.org/chrome-platform/20250721044456.2736300-6-tzungbi@kernel.org/
-> > [2] https://lpc.events/event/17/contributions/1627/
-> > 
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> 
-> This is, frankly, wonderful work.  Thanks so much for doing this, it's
-> what many of us have been wanting to see for a very long time but none
-> of us got around to actually doing it.
-> 
-> And it has tests!  And documentation!  Couldn't ask for more.
-> 
-> We can bikeshed about the REVOCABLE() macro name, but frankly, you wrote
-> it, you get to pick it :)
-> 
-> Laurent, Bartosz, Wolfram, any objection to this series?  I think this
-> addresses the issues that all of you have been raising for years with
-> our access of pointers that have different lifecycles from other
-> structures (i.e. struct cdev from struct device).
 
-I'll check this either later today or over the weekend.
 
-> Also, Danilo, if you get the chance, can you give this a review as well?
-> At first glance it looks good to me, but as you wrote the Rust
-> implementation of this feature, a second pair of eyes would be great to
-> have if you have the time.
+在 2025/9/12 11:18, Xiao Ni 写道:
+> On Thu, Sep 11, 2025 at 3:41 PM <linan666@huaweicloud.com> wrote:
+>>
+>> From: Li Nan <linan122@huawei.com>
+>>
+>> When adding a disk to a md array, avoid updating the array's
+>> logical_block_size to match the new disk. This prevents accidental
+>> partition table loss that renders the array unusable.
+>>
+>> The later patch will introduce a way to configure the array's
+>> logical_block_size.
+>>
+>> The issue was introduced before Linux 2.6.12-rc2.
+>>
+>> Fixes: d2e45eace8 ("[PATCH] Fix raid "bio too big" failures")
+> 
+> Hi Li Nan
+> 
+> I can't find the commit in
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> 
+> git show d2e45eace8
+> fatal: ambiguous argument 'd2e45eace8': unknown revision or path not
+> in the working tree.
+> Use '--' to separate paths from revisions, like this:
+> 'git <command> [<revision>...] -- [<file>...]'
+> 
+> Regards
+> Xiao
+
+Thank you for your reply.
+
+As mentioned in the commit message, the issue was introduced before Linux
+2.6.12-rc2, and needs to be get it in the history repository.
+
+https://kernel.googlesource.com/pub/scm/linux/kernel/git/tglx/history.git
 
 -- 
-Regards,
+Thanks,
+Nan
 
-Laurent Pinchart
