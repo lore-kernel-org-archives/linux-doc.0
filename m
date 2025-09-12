@@ -1,124 +1,143 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA519155A4E
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 02:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D7B15A848
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 03:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757645721; cv=none; b=awy6xJaRCovFvRIOUnX08ZDFROKOHT0Gg7/cvqGirOv2X+TSU6Tt0QfzcUSMRXbONuVGPDyZ2aJbkckgkyNWprMwqm2F9iaWDZ37RFPsZcCgiOMIAmUtTKYBksu9onMVLy7lmkW86y/yNldBxDLfSz9fIypbeK5GmL0Hg5IvVGA=
+	t=1757647148; cv=none; b=BtpdP9m2bg7tNboX+DOuMZFl7oH7Jn5VZW/kiFZ96zvqYN7keOgAmNuwKv7zvXptdRjegzOLzT0zLCz2/F2oBuKaw/91euoti9RUWwTqjxcDhYtPevthb18b0zKSKHL8gNVQ8jlMm2aZOp59c/pOGFkvPpMiifFh0DI2za/HZLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757645721; c=relaxed/simple;
-	bh=8dUblNqD+QvR3lypM6+6pgQKaz5acFHh70UWBGlz9eA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZmLY8HHc/Bz8HQNM+vlo0nTW0/jMHBwZNlqLeDDGmYApNbcp2VBep+yi4cuDzZsWNHO6zcSiuXeO6T/E0acuF/mDBug0FNn3Zmw6R4+HVUygD6xv9A9goKqfypTW0uVz0eZkaG9kCpOTdSZywcvc9d4BtXKC9ZEeY2/pHCY61/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VKoIXlND; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757647148; c=relaxed/simple;
+	bh=PjHoT/d6hpougxDUieTzavYFgDNfvQOoy5mw2Kkbi+Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VLSntLWFuRqyy+tYA+xVVtD0iYBNxr62Yn5UXlauwD+UjhACoh1qkYut0vET2vnOy5JDKWGj961X1dQAygdJXkP8jCvg0vs7eOtygFXQQq2xxGVmekco1tnvH8gSYWHmfCD45z+Nsf2EhVI56qCsNcFPaFmUkShG5XlkTBDclQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VrudoT0N; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VKoIXlND"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b4c1fc383eeso955866a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 19:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757645719; x=1758250519; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8dUblNqD+QvR3lypM6+6pgQKaz5acFHh70UWBGlz9eA=;
-        b=VKoIXlNDVjjQcM0nV8J6JZHH10HMkxnCiF5gnIodzWTX5ioxi3aujvaz4MP4X1JgaE
-         gMg3L0M4m5Ykn4sFNfDpBvLAijNPWD44+UVuscgXpHhJn4lJfPIGnvxIedOYeS/9S800
-         qiA0A7DDRCTduJa5zK7HqOBc1dv8EeKJUKMqvrH3WJ3FXiUMqZ4ObrA/PHTEE3ntiTjQ
-         CfSkB1+OuOl84NrRiTB7BPkMGo2Kt0Eku4xt4znS20bqfufpJdSc7TadRbgcUq2OVSyd
-         wMdGS81EkZuHLxsXzB+e1DQAEEY6csky8ch9I4XocMIjQG1Aepm1Hd/CUTXkFOzoMwRw
-         lS7A==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VrudoT0N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757647145;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ec4LT5rosSmS5p18qT9MoldgNlL6llQc6DnAN4H36dc=;
+	b=VrudoT0NDtpveaDhqJlm7em5SdKRRz/wVufWYONqtqzLrcrYO8oBGUE5L7l09+8pyUuQ7K
+	3bIg2ZH8+DcOvtSau0zUNJ3aUjHzGqaD/qy+YDCsVARyeSfjKKVgLWQP+1PzGCJoNZzv7R
+	kq0YP/xoJep1YYNEU67/kUPhBtovhVk=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-513-2aHycAbrN2SQyhbAGZ6qKw-1; Thu, 11 Sep 2025 23:19:03 -0400
+X-MC-Unique: 2aHycAbrN2SQyhbAGZ6qKw-1
+X-Mimecast-MFC-AGG-ID: 2aHycAbrN2SQyhbAGZ6qKw_1757647142
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-336e1c46feeso6754481fa.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 20:19:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757645719; x=1758250519;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8dUblNqD+QvR3lypM6+6pgQKaz5acFHh70UWBGlz9eA=;
-        b=chRWP7ggjZ9WIfRasWznT1ShiPzSzHXLyvMyRQR1jReHxbYUUmLUuMj5AIXyg/M0fW
-         SwwNt18UNvfY6w35OsUzh6pzHkMDSA55M4PEjXTC4Klvim75acZIqSVd0Ivjj+ZddRKk
-         xeEtWow7uAeFnJp6SE0ypi/5wTOonXBuIge02xFaHOtpuMqQk6XHQs10TlA05WMj5vJE
-         wN1jw2RfviH/QEVvBBVUbjSAssfDGv2ml1bEQWQrFp0lNimKKM0VKNov+xiCO6qlK6U3
-         TpcS4Cydz1848NDg1HXShS7ooNU2j6Gm2HAFa+SAQnVyX+Xm0p5jJO6NZttt2O7UWOov
-         0FQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWveFP1ipjKkjlEwb+mEcZL3JxqNEbcryD2hlf797PxnL0GcJCNBsf+/oBQ43maoFGAc045Yt82RYs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlKwMlDOaJ1VM27WVY7tIpV+vLnaPqIerSkfbfYDkGvyFjvTrp
-	ZIoGhWNiQGMexsJX3nacgJqmd+sGaB/Uoe+NuhZFYIwlyU9VnWTEyQMf
-X-Gm-Gg: ASbGncujnzu3bQQzoftZQUhM048pA5ONNsLbWKgqU4lJExxfA1UtsRcPNjZ+vKCfM48
-	lNPR5VvvFoKqtwjm7h+Z+murjF/P7b0jXd4RNraOMdrIVBwHoRWOxucZ3GCKsu9oFjKbWjDbjAX
-	TgpKO8/6jKd5oj77uYHC491eW7HX5EcNEhZGQR9wTfyhKPFSkfgES6vaYJBE9WJg/G8EFcjGlO2
-	vbb6/fBcXy7gDBmhLRFEUhYmbI2rDUCDV2J4/hAK0U8hgwsjasJN0QcGy7d+gdGGhRm6i0YUKAj
-	gk7yVhXkIV5UzyfamdG0ombYDaDt3K7DSyps2NJL68HCt7QYmm4bXoLgCxAb7Te7IUL9hxq389L
-	emt9Edk2qJqZVnfoAqgSWADhqgA==
-X-Google-Smtp-Source: AGHT+IH5JN5qNkoNcsYWg6dw0fXdbfeF5sEn0cts8H3wCmJnWb9B3BmToRmZiDopftsOn3Mj7ikpQw==
-X-Received: by 2002:a17:90b:17d2:b0:32d:8eb1:4e26 with SMTP id 98e67ed59e1d1-32de5144a8fmr1650790a91.30.1757645719140;
-        Thu, 11 Sep 2025 19:55:19 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd632692bsm4479084a91.25.2025.09.11.19.55.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 19:55:18 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1BF0941FA3A0; Fri, 12 Sep 2025 09:55:15 +0700 (WIB)
-Date: Fri, 12 Sep 2025 09:55:15 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Tracing <linux-trace-kernel@vger.kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>, Tom Zanussi <zanussi@kernel.org>
-Subject: Re: [PATCH 5/5] Documentation: trace: histogram: Link to ftrace docs
-Message-ID: <aMOLk7SAOrjogIy-@archie.me>
-References: <20250911042527.22573-1-bagasdotme@gmail.com>
- <20250911042527.22573-6-bagasdotme@gmail.com>
- <20250912095827.3d5a3feb80d5c6c44667328f@kernel.org>
+        d=1e100.net; s=20230601; t=1757647142; x=1758251942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ec4LT5rosSmS5p18qT9MoldgNlL6llQc6DnAN4H36dc=;
+        b=X6KlxfDRvnjNrg4lOXKezMjEonXTzNerh2toWZsSorNJhph/KuoQamXBSh38xMiPZT
+         zIDnckp1hmFW0xGWerIAqMbJJ9aS9GGQ9zup+hyZ3NdquszjIMymTrjBYjkcVmJ6kDao
+         Zt9hRxKR4gzNGxeAIK/LlNP9I7tebphBRLRNs8bdlu+vyqLKNhBuIkwF8/EUfYcWZ5mB
+         uooCv9jNYP3EWKrFUcxo7spUDgvxKXEaSCpfuOsRMZqG2/LaSR8ibML5k3B/ddBcApcX
+         nc/AJkV6AmfckkdPZcdXYldFe8BqkmGPjZOL2fkEzCDLG8v7x3Mr2//LGhj/ak/duu9m
+         mN0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVOjwMyrixNSvngLNWnsB+5uc5aaj2JcuulSfE99riNcT5UFcUis/K+v5GMK3IGaTi6XPNfo/qetPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5q2v+yStXvhVyXSCv6bQ+cyiYNr5Ruc+YsQWO0iqR0thkuc2X
+	cMqLxM5eI5zIad15BVN4iAg+P+5qmIJJk7Bwfr1NjM0h8QUCgdnsQK+IlcjCWpqQgSxlbj40Yfi
+	WuRYp1kc5m/a2BsdtHoYG5XkrF95klmpzCwXBmZiqkrLxPApvtPGJUX3hj9z4VA03UiP4Vcg6K2
+	VgxNnmcqkNIFDyGqiIRqttBDDUkMUAbXLHV/TF
+X-Gm-Gg: ASbGncudsewThJPVjKronF/DtCOWukF5xJkn+6v+QLkxwBqofEYTbXhu6QyvzjoFQzo
+	I2h/tJJjQS0VJdhd9tChSUiW/jtAhINp//2v2ip+X+Tquz71rKuAqPsKfFCYRCzud7yb2HfZMO2
+	E1QC560SZcv+jDLdYuIKnT
+X-Received: by 2002:a2e:be9b:0:b0:336:89b5:c70a with SMTP id 38308e7fff4ca-3513a8ee687mr4215201fa.12.1757647141864;
+        Thu, 11 Sep 2025 20:19:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHLR6dW4LJcHhS0+kblBMouz4MnGzTLv42S4hlrpmzCND9qYd5eY9mleXav7CncLnrWS8GkeEb5PppVWguERIU=
+X-Received: by 2002:a2e:be9b:0:b0:336:89b5:c70a with SMTP id
+ 38308e7fff4ca-3513a8ee687mr4215081fa.12.1757647141439; Thu, 11 Sep 2025
+ 20:19:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0lyQ/UvkQaG+h1EJ"
-Content-Disposition: inline
-In-Reply-To: <20250912095827.3d5a3feb80d5c6c44667328f@kernel.org>
-
-
---0lyQ/UvkQaG+h1EJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250911073144.42160-1-linan666@huaweicloud.com> <20250911073144.42160-2-linan666@huaweicloud.com>
+In-Reply-To: <20250911073144.42160-2-linan666@huaweicloud.com>
+From: Xiao Ni <xni@redhat.com>
+Date: Fri, 12 Sep 2025 11:18:49 +0800
+X-Gm-Features: Ac12FXwC64X2iTtI6ND0sn_OfF3t4ygR1KBz6aQfQNHJU7vgbM5-fEvoSGl_XJo
+Message-ID: <CALTww2-rbwtJTm+yyX6mar_eybLCbpFoWQWdOM9j4_hgW0=4Hg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] md: prevent adding disks with larger
+ logical_block_size to active arrays
+To: linan666@huaweicloud.com
+Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, linan122@huawei.com, 
+	hare@suse.de, martin.petersen@oracle.com, bvanassche@acm.org, 
+	filipe.c.maia@gmail.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, 
+	yangerkun@huawei.com, yi.zhang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 09:58:27AM +0900, Masami Hiramatsu wrote:
-> On Thu, 11 Sep 2025 11:25:27 +0700
-> Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->=20
-> > In brief "Extended error information" section, details on error
-> > condition is referred to ftrace docs. Add the link to it.
->=20
-> It seems this does not add the link. Can you make a tag and
-> link to it?
+On Thu, Sep 11, 2025 at 3:41=E2=80=AFPM <linan666@huaweicloud.com> wrote:
+>
+> From: Li Nan <linan122@huawei.com>
+>
+> When adding a disk to a md array, avoid updating the array's
+> logical_block_size to match the new disk. This prevents accidental
+> partition table loss that renders the array unusable.
+>
+> The later patch will introduce a way to configure the array's
+> logical_block_size.
+>
+> The issue was introduced before Linux 2.6.12-rc2.
+>
+> Fixes: d2e45eace8 ("[PATCH] Fix raid "bio too big" failures")
 
-Nope.
+Hi Li Nan
 
-What the patch does instead is to convert :file: markup to proper
-cross-reference. I will fix the patch description in v2.
+I can't find the commit in
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 
-Thanks.
+git show d2e45eace8
+fatal: ambiguous argument 'd2e45eace8': unknown revision or path not
+in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
 
---=20
-An old man doll... just what I always wanted! - Clara
+Regards
+Xiao
+> Signed-off-by: Li Nan <linan122@huawei.com>
+> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+> ---
+>  drivers/md/md.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index a77c59527d4c..40f56183c744 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -6064,6 +6064,13 @@ int mddev_stack_new_rdev(struct mddev *mddev, stru=
+ct md_rdev *rdev)
+>         if (mddev_is_dm(mddev))
+>                 return 0;
+>
+> +       if (queue_logical_block_size(rdev->bdev->bd_disk->queue) >
+> +           queue_logical_block_size(mddev->gendisk->queue)) {
+> +               pr_err("%s: incompatible logical_block_size, can not add\=
+n",
+> +                      mdname(mddev));
+> +               return -EINVAL;
+> +       }
+> +
+>         lim =3D queue_limits_start_update(mddev->gendisk->queue);
+>         queue_limits_stack_bdev(&lim, rdev->bdev, rdev->data_offset,
+>                                 mddev->gendisk->disk_name);
+> --
+> 2.39.2
+>
 
---0lyQ/UvkQaG+h1EJ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMOLkAAKCRD2uYlJVVFO
-o+jSAQDIDumTK8LVsSWKsUI3RUgdsGDqRYt2dirDbpbLNSnz0wEAhsnSBv69gyj9
-k5kn7BpHmEuJjj63nZFMXRa0UbXj8Ao=
-=+PaU
------END PGP SIGNATURE-----
-
---0lyQ/UvkQaG+h1EJ--
