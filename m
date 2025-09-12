@@ -1,63 +1,63 @@
 Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15329320384
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 15:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A583B320CAE
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 15:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757689829; cv=none; b=hKPktDzd4USvGFSzubvBzVijhdfQVBE8K/yIJuIsLITWQXeKJqEIJd2vlcVWwGinrGF55DhlWvGfVG1C+SIRFBd+Dwi4cWuG55Ou6URz3O6sWbGsvnwjhrRJ7kvKxky0I2olHMFap2Q4cYLtRz/eyDHvEP2qwg/CPuDD/IqgY3k=
+	t=1757689835; cv=none; b=kInGHe6tKlae3WqP5SMsxQqwTsOokhQCJoqmPA3v2a4NVM0l8uGDR05TsIlgZ8E2K3aZ2WSckeKq7o+Y3Pw/nGCu9LSFcMUm+ij9tNog8fDdkf79RckkELIeVFASo1AqlFyptur2yRGtNJFmWFyg8rb9bOndq8o7FfO2Jgc5y6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757689829; c=relaxed/simple;
-	bh=UKnrnaITdDqPZ68aThZkj5EHl6fWFAOsgR33B94Eji4=;
+	s=arc-20240116; t=1757689835; c=relaxed/simple;
+	bh=k5/I3UYTWdnJjKzBx+/VZfwmc+jXcyZQNgYc3CqZv50=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CkZSsy00X8iGZ4OEE8U489hRb2/V+mh9XEd0I1o2zGnSYSe9uKfYX502FzHv1L7TSd5G8JqQlvUfZgbOBcJYs0oN8BpK5+Ce8MRySU35tWlA1322T19YbqN8kOdJy1pbiuTHSYMk3tEHFd8cW/z7hXhTipnN/zwx7qBVc8DVgPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p6l0e4hO; arc=none smtp.client-ip=209.85.128.179
+	 MIME-Version; b=cVaMuSHjiU9AivxsdCAdxzKNwdaJprSGmRKy8GPV3jA6ErlCD2AU2eXSqodywbbc3Xy/ZcRWuWkUik6Udar6d9uayzIjB9kaBFwXpCOFM8QR7xeO7LdjIxN1apVt8SMqLirDUdlgJuyj+z4vhQ8FYkV/Hzd10vm15psYn3ATwmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sWZ0DllT; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p6l0e4hO"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-72267c05111so15218007b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 08:10:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sWZ0DllT"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-72485e14efbso12117507b3.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 08:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757689827; x=1758294627; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1757689831; x=1758294631; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/4llYgtc09L9A5EYyW7VZ9K8LmFJt/10Sl5wTfADcVo=;
-        b=p6l0e4hOTJp1G8KL22RFNd3021RY+ntedu0Lzqm9lcXYV8vd/Rq9UchDOZNDdUtqWs
-         /vZHnWD0519FCS5psjAV9EUBs6a2Zf8/20nZ7lOMj99SY+Hak+yZ5A6d64MHXcrx3UMI
-         Sz4J0ddstSHH7cJNbtWh7mdbAF+9Il4tvtnN/PgmQBp6iSyxb350GVPeifG3v4Mh8R3/
-         dZJxvOz+fboFSQt6+cDTTyMym7CYVjItnXAhl9JAJY/yggXqvbU5yyemW6KwTO1PE9jM
-         SkNd4AgCifUcd4tiair+kbtxku52cT1X7GYGj+txrDWb056Vd+eGxWEGsnXjBJ1qa7/X
-         s/ug==
+        bh=b1ubFmujdan3yUawwr3ZvZLjd/mUy6/pR3VRzzGBTTA=;
+        b=sWZ0DllT4BQ0jI3qqkg+XD6RTzjidkX4MxjJia4EeeNc5bXrnz+bG3bw8URL9PUYWO
+         +sSP1xwl9ipPyC9kHfPp5/11hMMugNY55NggwsdyDYgt6OONEMiodLwMFjkAoJmyT597
+         r0Bt6FE7vP6ZcYipiv0ddHKggikm9iHpIF/bzZ8NovLIeq2DwR+P5xIanNGeqGDi+4O4
+         alHKWBpiQPCvlncXdI79f/JA2hpchOfrcTetMi43L20OmVTbzd+FbOHnF0DfZ5q8do0I
+         b1JSnkdNq8Zgy7f07l+0Q1C5Y3hrXb4Nmyv4A2gKyIqWT0Ru/niXKF1+6AwFQYsekmsP
+         4eCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757689827; x=1758294627;
+        d=1e100.net; s=20230601; t=1757689831; x=1758294631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/4llYgtc09L9A5EYyW7VZ9K8LmFJt/10Sl5wTfADcVo=;
-        b=cb4OIJ/52y2NpRLDbpGjM1hO++4C5OSolHnYNF4l/Bk7eGax4CqA8kuySuEHx4XL6D
-         6nN8jGDsezIuAPnC1rDnY8f2itNJrHu/iLl/k6uX5qUvrtuxz5Kld7kkr4fSbT29kFAn
-         Qtlnn7pLMllKGN3UPtWeYhOPSzT1gxAYMPBxuCZM+6dAg/LlL3Pi0vdZuHXhwLxvvYVN
-         yc5JMxSK/OT+OCMwj0o3aDfQAWlpvkRPY+cNEHzM+T8qBU5pvCEm7OOmSqLs5mATHyBg
-         0lZbrtK98FEMVXZX1KY4Xt9x0QXxGOC3i8+A8sfOIFTda3q6ZSeVQZ08+ASoIP+7v5Q0
-         et0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX0UkP02WRkmNGDt5JqbvpjOIjQMhTmETz0SHFJg0BTkrXhXW5YnrMdUmqDIEg3QhGNi9vMrawZDmw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPTKh95FETW4BNuWg0QhZafxGtdtwhmCpjvCeK/XT9tIQoLPuf
-	3nUzJG9lkVqROEqgaVsWUDAsC88wY6K1i0sl7cjlCtm0Bztdi0+T/ACsikKink180QI=
-X-Gm-Gg: ASbGncvj1n+aWDdLhqTCKc/ZO0AsMKis2TD5IdufubVEzR8rLLFOaJMjWjk7QPf+2SE
-	BCT40WpdqNacoXQExno4XWodEJHEPRV2xI8OT2b+LqYOfZdUOIOwtOmIYIOlwAN1ar8hTMlAPlC
-	0zc9TFQ3NQWSPGOoSPSShVXzSBKhNcBz8POEuABOe1gNiW+Uslyx/vkDo703Z8oZR2QObzbygKG
-	Lp2dZZHZbZqP/NZ/hQMaePO4VSupEHL1GXHkmf6j62J8wUi81xJtUGtIT+yt79h5fX6PeCVLN+u
-	edBX4AF8Q1xCGRsngWS4zOdp/ITUHJ+TFEe09bWqMbSW+raUZG5Ff4/55UdDDTh/5PUgOqk2fdT
-	GDTyTNB/FgVxhy/m0utemm9RqG5bFdFD62A==
-X-Google-Smtp-Source: AGHT+IELEo3IIrw2/QnWmoSL7oBay1esdy/6RcSnsiIQj9jdk3byMst9Z0k97wU9qaWUWBvFOqWfkQ==
-X-Received: by 2002:a05:690c:6406:b0:727:c325:c5dc with SMTP id 00721157ae682-73064a12b20mr30549157b3.29.1757689826814;
-        Fri, 12 Sep 2025 08:10:26 -0700 (PDT)
+        bh=b1ubFmujdan3yUawwr3ZvZLjd/mUy6/pR3VRzzGBTTA=;
+        b=KlxoerEgkGaNH28foPHHprDByK5BDaWDbeiEaG3zlC73/0HnyJdMXd4FE/W3dG77df
+         4vcFtuTK/xV6jRLrOg91KHKvw/FIDeO1NlBKrTO22X3GkOPNoEQ5NNH8SFEfXe+vLz5U
+         8PpqstkvgZQ8GgNok6+lmy4YdktENxE/dXj1+HCSv76HBcsKMM/FQyOk7Q55LRHQOpSq
+         27QmtcvKp/8bOwFOVawjO10RyQV3qkhPqSX6eW/I0ShWYJwd4iQZZGo5g/XuyYMqvcKe
+         aDzfwMVX5DWPFaA8yPrDWfPcBGl+z+2evNjHfcIzj8q56dKfXJaDvx6E7jpH2ndrG1gG
+         gxKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsDl2AA2zzmyR78wDHg6cYh5mdGA5Lpm2xZrvHRIwSK1VuC0Q++N6FhiDWnKupSiXnI/FMLYWAl84=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK2UXBQgex04Z3JXquf+TF/Bpcm74v8kadQNhd8l4rEMxbxOjr
+	Lj9Z7zTw5TAs28/gU5dzaKKzv2XzAonY9slkFDdaKANL8awd0KBBEYf/FDqEbPBkSBo=
+X-Gm-Gg: ASbGnctFRdvvS3rirg1sHr6xEWyRGXkF8+/URO3IUvT8IaaFYYMe6sx0014yjE9RjGr
+	W9yBShm3BX7lc2tdNvC2O9wtox7KzpjWKzELpIEv6y8DK1vLNhtTqmpIvfCfKjjjHaodf3322mQ
+	sxcHK5pjBDATicVQvUv9EEJQG3Md6boOzr1JhKNCwqtw71tx1mlIo1whcJXUBmYlsTPXiAIqozH
+	b3OPtrV5yES3Aer6TDmDrd7s2zC4dU+8rPINAuja18tQ4FZpbpOGlS3EtgvEyUtEI/v3ZWq3R4L
+	uFhkcFlev7mIRzIyLPVgMkn1kYM3Qzg1pJRkJybRbMt4NumHPGL+/YBWRU+oYlh74pHCJOx24sG
+	DfxtxpPOPAuVSWPcRY8pXCMJ+bd/0Sl4R8uBiyCKuRSb+
+X-Google-Smtp-Source: AGHT+IGQPX6y0JKi888sfyXxAah3q3fQIwu7cpMyf9JJWf5Y6/yYrim06D3kAGSOfpN7Gh01tRPdkA==
+X-Received: by 2002:a05:690c:c08:b0:72a:2d15:a2a2 with SMTP id 00721157ae682-730627c9015mr33553397b3.11.1757689831515;
+        Fri, 12 Sep 2025 08:10:31 -0700 (PDT)
 Received: from eugen-station.. ([145.224.119.89])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-624841586c1sm1302244d50.6.2025.09.12.08.10.21
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-624841586c1sm1302244d50.6.2025.09.12.08.10.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 08:10:26 -0700 (PDT)
+        Fri, 12 Sep 2025 08:10:31 -0700 (PDT)
 From: Eugen Hristev <eugen.hristev@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -78,9 +78,9 @@ Cc: tudor.ambarus@linaro.org,
 	linux-doc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: [RFC][PATCH v3 07/16] soc: qcom: smem: Add minidump device
-Date: Fri, 12 Sep 2025 18:08:46 +0300
-Message-ID: <20250912150855.2901211-8-eugen.hristev@linaro.org>
+Subject: [RFC][PATCH v3 08/16] init/version: Add banner_len to save banner length
+Date: Fri, 12 Sep 2025 18:08:47 +0300
+Message-ID: <20250912150855.2901211-9-eugen.hristev@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250912150855.2901211-1-eugen.hristev@linaro.org>
 References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
@@ -92,62 +92,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a minidump platform device.
-Minidump can collect various memory snippets using dedicated firmware.
-To know which snippets to collect, each snippet must be registered
-by the kernel into a specific shared memory table which is controlled
-by the qcom smem driver.
-To instantiate the minidump platform driver, register its data using
-platform_device_register_data.
-Later on, the minidump driver will probe and register itself into
-kmemdump as a backend.
+Add banner_len to store banner length.
+This is useful to save the banner into dumping mechanisms.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 ---
- drivers/soc/qcom/smem.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/linux/printk.h   | 1 +
+ init/version-timestamp.c | 1 +
+ init/version.c           | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
-index c4c45f15dca4..03315722d71a 100644
---- a/drivers/soc/qcom/smem.c
-+++ b/drivers/soc/qcom/smem.c
-@@ -270,6 +270,7 @@ struct smem_region {
-  * @partitions: list of partitions of current processor/host
-  * @item_count: max accepted item number
-  * @socinfo:	platform device pointer
-+ * @mdinfo:	minidump device pointer
-  * @num_regions: number of @regions
-  * @regions:	list of the memory regions defining the shared memory
-  */
-@@ -280,6 +281,7 @@ struct qcom_smem {
+diff --git a/include/linux/printk.h b/include/linux/printk.h
+index 45c663124c9b..5bc617222948 100644
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -12,6 +12,7 @@
+ struct console;
  
- 	u32 item_count;
- 	struct platform_device *socinfo;
-+	struct platform_device *mdinfo;
- 	struct smem_ptable *ptable;
- 	struct smem_partition global_partition;
- 	struct smem_partition partitions[SMEM_HOST_COUNT];
-@@ -1236,12 +1238,20 @@ static int qcom_smem_probe(struct platform_device *pdev)
- 	if (IS_ERR(smem->socinfo))
- 		dev_dbg(&pdev->dev, "failed to register socinfo device\n");
+ extern const char linux_banner[];
++extern const int banner_len;
+ extern const char linux_proc_banner[];
  
-+	smem->mdinfo = platform_device_register_data(&pdev->dev, "qcom-minidump",
-+						     PLATFORM_DEVID_AUTO, NULL,
-+						     0);
-+	if (IS_ERR(smem->mdinfo))
-+		dev_err(&pdev->dev, "failed to register platform md device\n");
-+
- 	return 0;
- }
+ extern int oops_in_progress;	/* If set, an oops, panic(), BUG() or die() is in progress */
+diff --git a/init/version-timestamp.c b/init/version-timestamp.c
+index 043cbf80a766..1fdd795be747 100644
+--- a/init/version-timestamp.c
++++ b/init/version-timestamp.c
+@@ -28,3 +28,4 @@ struct uts_namespace init_uts_ns = {
+ const char linux_banner[] =
+ 	"Linux version " UTS_RELEASE " (" LINUX_COMPILE_BY "@"
+ 	LINUX_COMPILE_HOST ") (" LINUX_COMPILER ") " UTS_VERSION "\n";
++const int banner_len = sizeof(linux_banner);
+diff --git a/init/version.c b/init/version.c
+index 94c96f6fbfe6..68d16748b081 100644
+--- a/init/version.c
++++ b/init/version.c
+@@ -48,6 +48,7 @@ BUILD_LTO_INFO;
  
- static void qcom_smem_remove(struct platform_device *pdev)
- {
- 	platform_device_unregister(__smem->socinfo);
-+	if (!IS_ERR(__smem->mdinfo))
-+		platform_device_unregister(__smem->mdinfo);
+ struct uts_namespace init_uts_ns __weak;
+ const char linux_banner[] __weak;
++const int banner_len __weak;
  
- 	hwspin_lock_free(__smem->hwlock);
- 	__smem = NULL;
+ #include "version-timestamp.c"
+ 
 -- 
 2.43.0
 
