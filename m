@@ -1,186 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C4A2DC787;
-	Fri, 12 Sep 2025 13:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7383043D1
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 13:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757682331; cv=none; b=Bbe7MImljA1Hkz/KIfNN6ku0dJTI6d+ggw84/8LG3goeGapylPBH9rBqwDVf3aURjqK2prRVU0evg8yurmOAp/rcqex8l+JHD1+6VZp7pXyTGHZF+JpMLy5Hl8j9taCz0yosCwMwqoAy/qe8UO3Kco1pd9kMVXGRdgmOTN0gVCk=
+	t=1757682442; cv=none; b=sOQwIquXTTx6xEV/NxkRUtyICIqfVWfyePeonSC6abX6NBQdFgGX4AnGCMAT5LNwyup43KtCMBP6X8+Uf7+r3TnLlLq6CTtpM2+037xT3/aVQIWcsSbiW01Orv8Tw424TM1gP5kjQrcwsKF64BTSHaK/1a4+balMpwipnjP2zOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757682331; c=relaxed/simple;
-	bh=Oj2YhsrlW7/LL2/+FfpL2MDbCW0BhZLRp8bVjxYH3/4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sG0Yha6Kx84OCUdLYCI46WvOpphwmhBiZVq1Ea/jzdrjmtSPETGxCVhc1CcbeVs7VZ+upjlrcacLDKAOrCkWHqNs5Rz5xcByvqCCp4P6FYN7asab6p97/SMj/Yi0dRgjuYLBRfcq4VHD0RmqfCKCaH+7xx4s9Yai26Gb+USyIPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QYmYXTzS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757682442; c=relaxed/simple;
+	bh=m4qhwnsry/SWycpMdOHNFZlNWW6x4f1W26dSGmgsJ6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cyKn5v3WrocwPd9NBM7Jv7uUGyi0GjMPcEUg2SCWyQBqxwRFtlaib/qXGo8KSpFnQe33bDWdAVXPtUjVpomynnbh8qa+uvm3TlfZPS6J6tygCn1rYK37FMpJgisfMrVmsw/02Fo7SNs6KpwH0CyXTuVk94pGIyzhUSQKUROGyUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UbeVSEJG; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QYmYXTzS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCDCC4CEF1;
-	Fri, 12 Sep 2025 13:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757682330;
-	bh=Oj2YhsrlW7/LL2/+FfpL2MDbCW0BhZLRp8bVjxYH3/4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QYmYXTzSvoub6ckp1xdpKOdLcSDR/MGN65tzs+mhcDVodcTVq4E0vyN83ehL+5jls
-	 ebOPq+YIRNK8+3qzlOYuHLUMUE+GawtStVvB5HdnTpuQ22W3MW2B3mlKxzDAmBWwy/
-	 1FJAe1Jve27dbaPIBLnrFnxL4ldNsXO/YOdz53BsBfUhceap1kcbGF0zR9X/iooRK+
-	 e5Mj+ZyPjWuKjpM2TzrFWsYtkyBB2VmsSyqjsyY7px1/Q+AJtZLXNMxbk9q6I4rFdP
-	 l33tP7e8dZb7kcc/eFpbFvF9LROABe07SVyr9fIGYJVmEqG2ZSn9gxJocjwm9l2l4T
-	 4mMRrYuK/Xpcw==
-Message-ID: <73c95643-e1eb-461c-b547-931642ec633a@kernel.org>
-Date: Fri, 12 Sep 2025 15:05:25 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UbeVSEJG"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-25d44908648so10181525ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 06:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757682441; x=1758287241; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x544GYJay0OImzEkLS/doW76Om1NP9OFkc47rJ1bRQg=;
+        b=UbeVSEJGsx5L4+X2GjmpwNQPMul4dTVwnTmQ9wwb/c8Ze/lyLFFnVliJe+1bWmc67j
+         V+0qNq7p/6dYc2leTqyChjY6ioO/DG64skca74puTFWVC4XH5fOaMNAF9nhLMKEXIJHc
+         VIBzv6e2qC4L9XmtUpLXy8ykiTdpuB7+AFFTzgS3dJBNPqGI0WUHAiIWKQR/Qk7+NPbW
+         bTzjLG6fTGFuVrctSISX75jDKQleeN509HKRI0T4qv0tMB7tbKoYQh4ZOnST/hjHzPxe
+         0NsfYJoOP++issdfFw5HtiuUk14TFyWgrsUTLth6MPfGat5FBd3VOp3Mv3viLLVLtpcy
+         C9tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757682441; x=1758287241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x544GYJay0OImzEkLS/doW76Om1NP9OFkc47rJ1bRQg=;
+        b=bbd5S3QVi7uSOGB03+juLlktEKTSLT0K8PMHPtTYAgQ44HfjsMRfjJ4D7w3lKvCf+4
+         ILscbLrZdco9Y5ta9v5sKVF4f/VQHozMIWMXBObAtp624y7QFnL2UhinXQVjf/ENp0VL
+         UZgL6i8KBFSFaIMZBe4QiqJfgOn8+KURl3wt1PYTpRu6LEunu0CxYVRHd0kJeIJhf2tk
+         WI6kJRaSiFocZYuSwnDlRE7X2jUPhEAgttCGcX1NJn2v+uLVFf6xzSVYvuynUZWA4mWr
+         PZ/kLGZ9OnaxD2ovQtDpvTUslE3S5M73jjGRZ/IBO0Y7CZe7AODeLuW+npEd17fLRFr5
+         /cdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVyhZgz5aSjfb2LR9M64imFzbh7PNAU4xq2njnYok82/qxpzUm76eUraaP1qREr9SpRT4iOrmwbISw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgFIJct1/r8H9wQW7C82H7KZRJkTqflDSMbQxbfCvT74VCR6LI
+	dGDrUnPqe88e/us8UuLRLHHH8TDadGW1eezG/RabjCrMYWONs0its5H+
+X-Gm-Gg: ASbGncsk+Cic1ErCdxr0LxBvjfTLJue9zDlfVCPIpNy7i2+XVVcsweaTUaDiAWxQg20
+	tBOUscrCzFxKuRhjFwm79tXCB35BcLlD2AqwShLXmBAM8and+krEjgO9NaOmnqJb6qOfKQ7nl7e
+	ERL9EuNYQVnwClE9VU6iwuJWS5/9nUwACzIUj6AOy9Es8WRkwbqLVkxLbgyafCifhC6+XC4j7U6
+	becmJfyTzD2aj1i+x1VDSBh2PhPbGLajI1keEMx8m1dRaVcwEDo37lULp9NKpmCN+iWK9iD+SCQ
+	9wtdJXHasB28/iLqcFyeCQbOGsqg1KX6VUIHMsp31frkvQARSUUqo0TaRGodMPq6grzKk7rJC6b
+	SUFP8Vp8XE92Fb6CQNRB2NHVQtK9jfwGkDEci
+X-Google-Smtp-Source: AGHT+IFNtOF9483lJqZ0eCDuywtMNSA4/x1QrNPIz5w6iEwUoJ0MCDnna++VYIfN2AunXMyW/zkq8A==
+X-Received: by 2002:a17:903:144f:b0:251:19e0:2805 with SMTP id d9443c01a7336-25d27922652mr33876225ad.55.1757682440563;
+        Fri, 12 Sep 2025 06:07:20 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3b307225sm49207635ad.145.2025.09.12.06.07.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 06:07:19 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id AA34441FA3A0; Fri, 12 Sep 2025 20:07:16 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Javier Garcia <rampxxxx@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Antonino Maniscalco <antomani103@gmail.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] Revert "drm: Add directive to format code in comment"
+Date: Fri, 12 Sep 2025 20:06:50 +0700
+Message-ID: <20250912130649.27623-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net-next] tools: ynl: rst: display attribute-set doc
-Content-Language: en-GB, fr-BE
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org>
- <m2v7lpuv2w.fsf@gmail.com> <a1f55940-7115-4650-835c-2f1138c5eaa4@kernel.org>
- <m2ecscudyf.fsf@gmail.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <m2ecscudyf.fsf@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1345; i=bagasdotme@gmail.com; h=from:subject; bh=m4qhwnsry/SWycpMdOHNFZlNWW6x4f1W26dSGmgsJ6o=; b=kA0DAAoW9rmJSVVRTqMByyZiAGjEGlKhXlw/mPScHOQuMTJJKb9msLDKVjN5d75gGJeg1FAW4 Ih1BAAWCgAdFiEEkmEOgsu6MhTQh61B9rmJSVVRTqMFAmjEGlIACgkQ9rmJSVVRTqNraQD9G99e 9SXsT9d6z3iT9FNmQBBdwBmkS2WzrDYbjm1fbCgBANgvs+XgMdf6dSl9lCQ5vHWWgIoppY6NPRZ zWj/mPL4M
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On 12/09/2025 13:07, Donald Hunter wrote:
-> Matthieu Baerts <matttbe@kernel.org> writes:
-> 
->> Hi Donald,
->>
->> On 11/09/2025 12:44, Donald Hunter wrote:
->>> "Matthieu Baerts (NGI0)" <matttbe@kernel.org> writes:
->>>
->>>> Some attribute-set have a documentation (doc:), but it was not displayed
->>>> in the RST / HTML version. Such field can be found in ethtool, netdev,
->>>> tcp_metrics and team YAML files.
->>>>
->>>> Only the 'name' and 'attributes' fields from an 'attribute-set' section
->>>> were parsed. Now the content of the 'doc' field, if available, is added
->>>> as a new paragraph before listing each attribute. This is similar to
->>>> what is done when parsing the 'operations'.
->>>
->>> This fix looks good, but exposes the same issue with the team
->>> attribute-set in team.yaml.
->>
->> Good catch! I forgot to check why the output was like that before
->> sending this patch.
->>
->>> The following patch is sufficient to generate output that sphinx doesn't
->>> mangle:
->>>
->>> diff --git a/Documentation/netlink/specs/team.yaml b/Documentation/netlink/specs/team.yaml
->>> index cf02d47d12a4..fae40835386c 100644
->>> --- a/Documentation/netlink/specs/team.yaml
->>> +++ b/Documentation/netlink/specs/team.yaml
->>> @@ -25,7 +25,7 @@ definitions:
->>>  attribute-sets:
->>>    -
->>>      name: team
->>> -    doc:
->>> +    doc: |
->>>        The team nested layout of get/set msg looks like
->>>            [TEAM_ATTR_LIST_OPTION]
->>>                [TEAM_ATTR_ITEM_OPTION]
->> Yes, that's enough to avoid the mangled output in .rst and .html files.
->>
->> Do you plan to send this patch, or do you prefer if I send it? As part
->> of another series or do you prefer a v2?
-> 
-> Could you add it to a v2 please.
+Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
+fixes original Sphinx indentation warning as introduced in
+471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
+code-block:: directive. It semantically conflicts with earlier
+bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+usage in literal code block") that did the same using double colon
+syntax instead. These duplicated literal code block directives causes
+the original warnings not being fixed.
 
-Sure, will do!
+Revert 6cc44e9618f03f to keep things rolling without these warnings.
 
->> Note that a few .yaml files have the doc definition starting at the next
->> line, but without this '|' at the end. It looks strange to me to have
->> the string defined at the next line like that. I was thinking about
->> sending patches containing modifications created by the following
->> command, but I see that this way of writing the string value is valid in
->> YAML.
->>
->>   $ git grep -l "doc:$" -- Documentation/netlink/specs | \
->>         xargs sed -i 's/doc:$/doc: |/g'
->>
->> Except the one with "team", the other ones don't have their output
->> mangled. So such modifications are probably not needed for the other ones.
-> 
-> Yeah, those doc: entries look weird to me too. Not sure it's worth
-> fixing them up, given that they are valid. Also worth noting that the
-> two formats that we should encourage are
-> 
->   doc: >-
->     Multi line text that will get folded and
->     stripped, i.e. internal newlines and trailing
->     newlines will be removed.
-> 
->   doc: |
->     Multi line text that will be handled literally
->     and clipped, i.e. internal newlines and trailing
->     newline are preserved but additional trailing
->     newlines get removed.
-> 
-> So if we were to fix up the doc:$ occurrences, then I'd suggest using
-> doc: >-
+Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
+Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/gpu/drm/drm_gpuvm.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Good point!
+diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+index db9b089ef62c85..86853535fb7bd7 100644
+--- a/drivers/gpu/drm/drm_gpuvm.c
++++ b/drivers/gpu/drm/drm_gpuvm.c
+@@ -2432,8 +2432,6 @@ static const struct drm_gpuvm_ops lock_ops = {
+  *
+  * The expected usage is::
+  *
+- * .. code-block:: c
+- *
+  *    vm_bind {
+  *        struct drm_exec exec;
+  *
 
-If these entries look weird to you too, I will add one patch adding
-'>-', at least to push people to "properly" declare future scalar strings.
-
-Cheers,
-Matt
+base-commit: 9a3f210737e958c3f45a4ce0d7f1ff330af3965f
 -- 
-Sponsored by the NGI0 Core fund.
+An old man doll... just what I always wanted! - Clara
 
