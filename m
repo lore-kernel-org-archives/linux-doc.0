@@ -1,245 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76C62E401;
-	Fri, 12 Sep 2025 08:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E292E401;
+	Fri, 12 Sep 2025 08:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757664411; cv=none; b=Xzy/zHuPqd/QJ8LWxUX30kKWgoekceARj8nz6So+5CYPL8KPTzrK9CMCaPqPPoKXA5k9EVu1UcdetAXxQYFNf46RCaa4ZvpdSaYFX6T7AWNBsWQzOZHReqrC4Ha5iYx7y8izbAgtcAg9qcUieTtzEYFwkzydCkQPs1fL28Wjg8g=
+	t=1757665096; cv=none; b=HVxE+Yfi+XG3NYN99776oc1HcO2nMjs6PVpggYSHnuuPwKrtSZsXZMfd5ci89F48iIeOkiN1562bJ37b2wEBjVpzGF6WH43myeYjRIWQt/LCLBiaRx4mG+UpC9UNwfebgv3aevdQapq47F4VJrsJKmkuCrNhfSZ2bYgASfpJQlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757664411; c=relaxed/simple;
-	bh=JIDNigBEQ26LMxGdb3Stg7SADUM2py3C9JqZNK5PaBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z2W0UFqo+a5ztUXNhRqH3Q3iVRF96mSii7sTuwIu9SnE7liEEq+/zAzXoRGUDagPkHHhFA8xVbHdn+kF7Kf6frWa2W5BdUJ4daiTwaGApsSeBWTWadKyzPk9wGu70HHvEIfgZLYPhernEI/Nkcfp4prxJqRjiHAEgpBNngsnuak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xi6LesXp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757665096; c=relaxed/simple;
+	bh=e711hS+rgV444nNMnFjLGf+X5w1SGP/L2zBBnyjeT+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L0ZtfrcJoOldWKXRh/2dlTuxEdQX74lGK6+m8sHh9EO6myCwTJBd7ULR8HAQA4WM+8mT6A0CqTjSIyQHt0plPohuwhQwvz7AnNMZt+JMOS0L7taLkKsLUiJOhawhu8fndLNs2GSyPPivW4Oc3S6EDTCl15+O2QLUFE8q04G21hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/62oiqs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xi6LesXp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 061DEC4CEF5;
-	Fri, 12 Sep 2025 08:06:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/62oiqs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05292C4CEF4;
+	Fri, 12 Sep 2025 08:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757664411;
-	bh=JIDNigBEQ26LMxGdb3Stg7SADUM2py3C9JqZNK5PaBM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Xi6LesXpM5el8fvLzaOJ/6hXe8hKRX727RutnRMh+D5yeUkpSfHrWY3NlCZ10qHKj
-	 9OJpk08TH9Cq5TmKLQthA1Ntm+s0J1lIyMOc5S/iiZrXQ2gVXRkorZ2H5PCfswHWQf
-	 oEr20N5QU1MnJwHzI553WVNyow9NMueYI+9OewiwCR+xV6UuILGkuIf9iDQzmZ0C2d
-	 A/HGRK6nBKFSqkgIBykCSzIHNv5gurGb3xRkmsr6WfafvYU8rgDokziBwhrYlQGszf
-	 8BvoRfv54yuwiz+nm0J4iLAs3iWMieKEMWh2gLD/+QE/4yGk9RueqOY0U65s1weRPs
-	 6clf7PV+Rk1Og==
-Date: Fri, 12 Sep 2025 10:06:45 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl
- <aliceryhl@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, Trevor Gross <tmgross@umich.edu>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v4 08/19] tools/docs: sphinx-build-wrapper: add a
- wrapper for sphinx-build
-Message-ID: <20250912100645.15c79351@foz.lan>
-In-Reply-To: <87ldmkojo5.fsf@trenco.lwn.net>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
-	<e019f951190a732f9ac0b21bcda7e49af3bd5cbd.1756969623.git.mchehab+huawei@kernel.org>
-	<e13837a0ac46dffe39c600d11fdf33f538bdc9c3@intel.com>
-	<20250910145926.453f5441@foz.lan>
-	<45888ca6c88071c754784495b4ef69460ea67b4f@intel.com>
-	<fuv4p45tvjfdvwu2625s2l2kvcw64p4ohherlwyum3vmogmrfz@yb47nt66xgm6>
-	<87zfb1p0r3.fsf@trenco.lwn.net>
-	<a1333c717bb5bcea7f7c616cbf8604fa259c3158@intel.com>
-	<87ldmkojo5.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1757665096;
+	bh=e711hS+rgV444nNMnFjLGf+X5w1SGP/L2zBBnyjeT+U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q/62oiqs6m4mF7WUbfclhp0jjJdkSwMJOmyK61FkH4zcrMM8T36pCFYx9aRcF9jhM
+	 lK5BVKcJPhtSpxQD8DE50RlsdGL1uCI6LlddXwcGNPlOEUmO2MM8fIVaZPpzf42XPk
+	 DYymNHpQMDXv0s5XGpPA/SeQQzPagOpvurfhAQOc90Tljh80LZsoWwC7cvbu++RHIC
+	 wU+1r7VgrGo8Vy2MfOw6XgU1ucsUMtLoWy0Ek44P/GTKKRpbVUk2Auy9QvWfIFZK/l
+	 6f4szknCiKeyISUu+/+uQ7K+qXc7gJ+jA23j4f4zdfgc6XXsGoTDz64wfT95SfZHx+
+	 S1rqsAVrwwywA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Dawid Niedzwiecki <dawidn@google.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	tzungbi@kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
+Date: Fri, 12 Sep 2025 08:17:12 +0000
+Message-ID: <20250912081718.3827390-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em Thu, 11 Sep 2025 13:47:54 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+This is a follow-up series of [1].  It tries to fix a possible UAF in the
+fops of cros_ec_chardev after the underlying protocol device has gone by
+using revocable.
 
-> Jani Nikula <jani.nikula@linux.intel.com> writes:
->=20
-> > On Thu, 11 Sep 2025, Jonathan Corbet <corbet@lwn.net> wrote: =20
-> >> A couple of times I have looked into using intersphinx, making each bo=
-ok
-> >> into an actually separate book.  The thing I always run into is that
-> >> doing a complete docs build, with working references, would require
-> >> building everything twice.  This is probably worth another attempt one
-> >> of these years... =20
+The 1st patch introduces the revocable which is an implementation of ideas
+from the talk [2].
 
-There are a couple of different usecase scenarios for building docs.
+The 2nd and 3rd patches add test cases for revocable in Kunit and selftest.
 
-1) The first and most important one is to produce book(s) for people
-   to use. This is usually done by some automation, and the result is
-   placed on places like:
-	- https://docs.kernel.org/
+The 4th patch converts existing protocol devices to resource providers
+of cros_ec_device.
 
-   and on subsystem-specific places like:
-	- https://linuxtv.org/downloads/v4l-dvb-apis-new/
+The 5th patch converts cros_ec_chardev to a resource consumer of
+cros_ec_device to fix the UAF.
 
-for scenario (1), taking twice the time to build is not an issue, as
-nobody will be sitting on a chair waiting for the build to finish.
+[1] https://lore.kernel.org/chrome-platform/20250721044456.2736300-6-tzungbi@kernel.org/
+[2] https://lpc.events/event/17/contributions/1627/
 
-On such scenario, SPHINXDIRS is important on subsystem-specific docs.
-For instance, on media, we use SPHINXDIRS to pick parts of 3 different
-books:
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-	- Documentation/admin-guide/media/
-	- Documentation/driver-api/media/
-	- Documentation/userspace-api/media/
+v3:
+- Rebase onto https://lore.kernel.org/chrome-platform/20250828083601.856083-1-tzungbi@kernel.org
+  and next-20250912.
+- Change the 4th patch accordingly.
 
-What media automation does, once per day, is:
+v2: https://lore.kernel.org/chrome-platform/20250820081645.847919-1-tzungbi@kernel.org
+- Rename "ref_proxy" -> "revocable".
+- Add test cases in Kunit and selftest.
 
-	# Non-essencial parts of index.rst dropped
-	cat <<END >Documentation/media/index.rst
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-	Linux Kernel Media Documentation
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
+v1: https://lore.kernel.org/chrome-platform/20250814091020.1302888-1-tzungbi@kernel.org/
 
-	.. toctree::
+Tzung-Bi Shih (5):
+  revocable: Revocable resource management
+  revocable: Add Kunit test cases
+  selftests: revocable: Add kselftest cases
+  platform/chrome: Protect cros_ec_device lifecycle with revocable
+  platform/chrome: cros_ec_chardev: Consume cros_ec_device via revocable
 
-	        admin-guide/index
-        	driver-api/index
-	        userspace-api/index
-	END
+ .../driver-api/driver-model/index.rst         |   1 +
+ .../driver-api/driver-model/revocable.rst     | 151 ++++++++++++
+ MAINTAINERS                                   |   9 +
+ drivers/base/Kconfig                          |   8 +
+ drivers/base/Makefile                         |   5 +-
+ drivers/base/revocable.c                      | 229 ++++++++++++++++++
+ drivers/base/revocable_test.c                 | 110 +++++++++
+ drivers/platform/chrome/cros_ec.c             |   5 +
+ drivers/platform/chrome/cros_ec_chardev.c     | 124 +++++++---
+ include/linux/platform_data/cros_ec_proto.h   |   4 +
+ include/linux/revocable.h                     |  37 +++
+ tools/testing/selftests/Makefile              |   1 +
+ .../selftests/drivers/base/revocable/Makefile |   7 +
+ .../drivers/base/revocable/revocable_test.c   | 116 +++++++++
+ .../drivers/base/revocable/test-revocable.sh  |  39 +++
+ .../base/revocable/test_modules/Makefile      |  10 +
+ .../revocable/test_modules/revocable_test.c   | 188 ++++++++++++++
+ 17 files changed, 1003 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/driver-api/driver-model/revocable.rst
+ create mode 100644 drivers/base/revocable.c
+ create mode 100644 drivers/base/revocable_test.c
+ create mode 100644 include/linux/revocable.h
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/Makefile
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/revocable_test.c
+ create mode 100755 tools/testing/selftests/drivers/base/revocable/test-revocable.sh
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/test_modules/Makefile
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
 
-	rsync -uAXEHlaSx -W --inplace --delete Documentation/admin-guide/media/ Do=
-cumentation/media/admin-guide
-	rsync -uAXEHlaSx -W --inplace --delete Documentation/driver-api/media/ Doc=
-umentation/media/driver-api
-	rsync -uAXEHlaSx -W --inplace --delete Documentation/userspace-api/media/ =
-Documentation/media/userspace-api
+-- 
+2.51.0.384.g4c02a37b29-goog
 
-	make SPHINXDIRS=3D'media' CSS=3D'$CSS' DOCS_THEME=3D'$DOCS_THEME' htmldocs
-	make SPHINXDIRS=3D'media' pdfdocs
-	make SPHINXDIRS=3D'media' epubdocs
-
-2) CI tests. Here, taking more time usually is not a problem, except
-   when CI is used before pushing stuff, and the developer has to wait
-   it to finish before pushing.
-
-For scenario (2), a build time increase is problematic, as, if it now
-takes twice the time, a change like that will require twice the
-resources for the build with may increase costs.
-
-3) developers who touched docs. They want a way to quickly build and
-   verify the output for their changes.
-
-Here, any time increase is problematic, and SPHINXDIRS play an important=20
-hole by allowing them to build only the touched documents.
-
-For instance, when I was developing Netlink yaml plugin, I had to use
-dozens of times:
-
-	make SPINXDRS=3DDocumentation/netlink/specs/ htmldocs
-
-If I had to build the entire documentation every time, the development
-time would increase from days to weeks.
-
-Looking on those three scenarios, the only one where intersphinx is
-useful is (1).
-
-=46rom my PoV, we should support intersphinx, but this should be optional.
-Also, one has to point from where intersphinx will point unsolved
-symbols. So, we would need something like:
-
-	make SPHINXREFMAP=3Dintersphinx_mapping.py htmldocs
-
-where intersphinx_mapping.py would be a file containing intersphinx
-configuration. We would add a default map at Documentation/, while
-letting it to be overridden if some subsystem has different requirements
-or is using a different CSS tamplate or not using alabaster.
-
-> > I think the main factor in that should be whether it makes sense from
-> > overall documentation standpoint, not the technical details.
-
-Agreed.
-
-> > Having several books might make sense. It might even be helpful in
-> > organizing the documentation by audiences. But having the granularity of
-> > SPHINXDIRS with that would be overkill.=20
-
-On the contrary. SPHINXDIRS granuarity is very important for scenario (3).
-
-> > And there needs to be a book to
-> > bring them together, and link to the other books, acting as the landing
-> > page. =20
->=20
-> Well, I think that the number of existing directories needs to be
-> reduced rather further.  I made progress in that direction by coalescing
-> all the arch docs under Documentation/arch/.  I would like to do
-> something similar with all the device-specific docs, creating
-> Documentation/devices/.  Then we start to get to a reasonable number of
-> books.
-
-I don't think reducing the number of books should be the goal, but,
-instead, to have them with a clear and coherent organization with focus
-on the audience that will be actually using them.
-
-After reorg, we may have less books. That's fine. But it is also fine
-if we end with more books.
-
-I lost the battle years ago, but I still believe that, at least for
-some subsystems like media, i2c, DRM, security and others, a=20
-subsystem-specific book could be better. After all, the audience for
-such subsystems is very specialized.
-
-> > I believe it should be possible to generate the intersphinx inventory
-> > without generating the full html or pdf documentation. So I don't think
-> > it's actually two complete docs builds. It might speed things up to have
-> > a number of independent documentation builds. =20
->=20
-> That's a good point, I hadn't looked into that part.  The builder phase
-> takes a lot of the time, if that could be cut out things would go
-> faster.=20
-
-Indeed, but we need to double check if .doctree cache expiration will
-happen the right way for all books affected by a partial build.
-
-During this merge window, I sent a RFC patch in the middle of a comment
-with a conf.py logic to detect Sphinx cache expiration. I remember I
-added a comment asking if we should upstream it or not, but, as nobody
-answered, I ended forgetting about it.
-
-If we're willing to experiment with that, I recommend looking on such
-patch and add a variant of it, enabled via V=3D1 or via some debug
-parameter.
-
-The goal would be to check if a change on a file will ensure that all
-books using it will have cache expiration and be rebuilt.
-
-> > As to the working references, IIUC partial builds with SPHINXDIRS
-> > doesn't get that part right if there are references outside of the
-> > designated dirs, leading to warnings. =20
->=20
-> That is true.  My point though is that, to get the references right with
-> a *full* build, a two-pass approach is needed though, as you suggest,
-> perhaps the first pass could be faster.
-
-How fast? during development time, SPHINXDIRS means a couple of seconds:
-
-	$ make clean; time make SPHINXDIRS=3D"peci" htmldocs
-	...
-	real    0m1,373s
-	user    0m1,348s
-
-Even more complex builds, even when picking more than one book, like this:
-
-	$ make clean; time make SPHINXDIRS=3D"driver-api/media/ userspace-api/medi=
-a/" htmldocs
-	...
-	real    0m11,801s
-	user    0m31,381s
-	sys     0m6,880s
-
-it still fits at the seconds range. Can interphinx first pass have a
-similar build time?
-
-Thanks,
-Mauro
