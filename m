@@ -1,234 +1,321 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB0E2D1301
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 07:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0372D3ECE
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 07:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757663590; cv=none; b=kPMXfYz99uxpf7pR8PgAV3DILwfL0Iz0bOH1aBGxsRQXxlIG93WNOkbcT3vJk9rd1tMivzgaF47F6Azf71CLeJ9ctN1JYiD7TNXnPRG4FXXp8RjuWVHrhHmRFuwbzNGjv+iELeI8elU0iyllOdIB74p71Xj+zDsAaw8CmI4w1bE=
+	t=1757663949; cv=none; b=l11E0ml2ZxHosTI1rHdaXyezr2j2xk1rf0csmg/0QbXJJPDojn2I6nbEAbuE2qvSk4weZdL/t/oPGyQow08q6nkhEMlUIfoh8xI7q9BnDgTADTDdxrt776Xzl01+DTSriczM1gfSWIiPM++OZg7SoZYyOzpPe7rNyPQpFfJRiH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757663590; c=relaxed/simple;
-	bh=DHF/SpXJs31eHtthTDeMe/efWHqXWnIwvBwhuvFJIug=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bki1lczwtcPqOldipSH6mViJHli+ybqrYTTuNVIFpGDSiZZG3c/GM5NVYl9btK4nByLE6bUiRTrnhmO3PAPu7h+lWIdKqUOuCpK7v8BxC5EIzRIZKdQb/JUIFXcLaZ4iPbKsOOyKW+9u2BDXPrBg9ejbLkDLbARNmlBFeBXdIPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EMvgFXIU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757663949; c=relaxed/simple;
+	bh=axPzTehhJ+RudfRqwcc4KUD2dI5A0xMjQpVhyFNzFQU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fhjgg5bqHeZHxATofKJwiuR/oY9O7YodiZfWIXh6bFQkaB144G6ufu/as4WNtu834IWf75DqDUzBv0MLb4tyJio9fNszMmuW4ZOHGp4+463n1knqYaZtbki4xDZ0ZMNO8qh9ob+gcTUGVgDZodiq/uxsyVOermQfkiMWmmxlA+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lz7C4N0H; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EMvgFXIU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757663587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=p22hl1mxPQvYXz93krcBnYpXobl8Fk3Ezh7wV4Ywahc=;
-	b=EMvgFXIUIXa306XZljnEvNZRFMsMqgT4/08UBTSWpkKtfK16mGT683nJKPv4pWaHnyBvr3
-	1OQR32aKW/U9IEH3GAggED41Oc28j0UQuuKgS1J6pme65rrfzTOyhECD6uWFZ7hJr8Wg/m
-	Z6M1iXFui9ITHlcwTfgeYcmpzC6SG4s=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-433-ljsONrMeNO67cCOkGkDQiw-1; Fri, 12 Sep 2025 03:53:06 -0400
-X-MC-Unique: ljsONrMeNO67cCOkGkDQiw-1
-X-Mimecast-MFC-AGG-ID: ljsONrMeNO67cCOkGkDQiw_1757663585
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3e7696b36d9so185698f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 00:53:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lz7C4N0H"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-76485dfbf71so12041456d6.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 00:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757663945; x=1758268745; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qYy2brfv/lGBhEHGS6G90beLGEnMaAiYcYf7uECp+D4=;
+        b=lz7C4N0H0v0Zmr8u6SoSrKhyCqFEIAtah48y+Z7X6E9k4e0IRrVapzVH0kN6Ns8584
+         SuqA8QIJZ9H05dfT0Zqel0t9Cl66f7rZatRrWoqxa3oAoXyBN1uh9UTKfOPBr1E226+m
+         yJS8QATsI54Ti9oJBB98S1ebLAfJadp9lo1HpEL1h4Pk5B/TswJh6EOo63SkwJ8a9qO4
+         /kvN/baeTc/Q3C7+nXBnByazxW3ob7PoGld/+WQlTFQd6HgjNHoabvdfm/S28S4t3BPV
+         SvlU5LaDi7VV53G3QkwCO0izzuBox/ZADfmAdV5qw0GcsiwUZ/p9epQR1qSE+Irue9dL
+         DyRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757663585; x=1758268385;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p22hl1mxPQvYXz93krcBnYpXobl8Fk3Ezh7wV4Ywahc=;
-        b=Zkao8LGUlf167WjwojzheKhIUrZuCo94p+Bnpb7ObBS8vnsOYn+RoYnipPOuKXn7Ft
-         bUsXrkWvGU3d0JpJ6AuQZ1AwR29Q60tg6inPU5Qb8BolEemdAAQMidu62XrfkaHcAQk9
-         32IqigJpHK+jcYW6PC7m6Uv0RQOhMYGeVfKoxoQwlx4CArlR9MR50utdJS6jSlYG25wb
-         LCxPM/Wii+mA+e1rx0PhrerWz9W4aKbvMM4FKFGPPjQCp3YoiT/IP3Uz6BxXAKfCWYEi
-         HHk29BHVJ8tz5oArCrvxbPHGJOJPDrpmYT47PUC8nvdWwQPsi/VRys/70ABnQaeRc+O7
-         Ikww==
-X-Forwarded-Encrypted: i=1; AJvYcCWCGatjjhXAcWuzlWPN1S+1jt9dPYfaYECJ12Up6MnZAjxxzBvx8sSjWc5AI/rMmD+qT8zmnfRWvLw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFs9oNBA6oUF2sBT3J37ZmrwI7qBLC26gljIWOJy/nfk7+0Mu7
-	bSJKFckHYWDzMAAnuD1iSm/D8GuaGTpVHSu0GaP3FZ9shiTAEyCIrfICesolCu0+LUJdTNwc9od
-	X78eGGBo21xnraQPRFSa2ux4pJhTjzSwtv3HG2su/3zxaNyzWd1yiv8JmJe2B3Q==
-X-Gm-Gg: ASbGnctOaYKIV9q7nxPee//zpHVVHs1AbSO5HlDkFjz9FocRBQfExdhYoxXInpcUoGS
-	9zpcjfpU+DDsPUVI6IBfLSLhG2SgkJAvtm2qS9f4t0u4ctR4kDKnhqxSvLoUweIbIXf1teGzlap
-	kf6IXD0+9QfPrSUsGtRDFU35FC2BMxmcOrEcPXhVxfDKYroRpcLtXKWTo/ddRSTcuEy92z9/N/E
-	sHuQn5+2iAx781FVc3fWEhzKMMoH2iSJHBVLmFnonv0/wWAHHNcQnDUIxDPT/rGRS1dIpofKq2z
-	A+Bi+N5iC2hTbnPSVLmSw5GUfTEUNVfMqojzVPfpP3n1pE9Wk0inydSpGsMmP8VD+wePUz8Znjf
-	T263SeioknDyq/iXQd+go9vYxjAlLXWC0rFTuCX8BbyvbTI7extca2FOl9w4KKfVzg9s=
-X-Received: by 2002:a05:6000:2003:b0:3de:e787:5d8c with SMTP id ffacd0b85a97d-3e75e1071bdmr5309914f8f.13.1757663584762;
-        Fri, 12 Sep 2025 00:53:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFq7C4qTXd+XsofeMwanjE1i08XNy6UqslUe+yjaLRudd1Ww9k5jR9x6r0SjXc+XP9zCsAuvg==
-X-Received: by 2002:a05:6000:2003:b0:3de:e787:5d8c with SMTP id ffacd0b85a97d-3e75e1071bdmr5309885f8f.13.1757663584264;
-        Fri, 12 Sep 2025 00:53:04 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f20:da00:b70a:d502:3b51:1f2d? (p200300d82f20da00b70ad5023b511f2d.dip0.t-ipconnect.de. [2003:d8:2f20:da00:b70a:d502:3b51:1f2d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e774a3fb5bsm805305f8f.58.2025.09.12.00.53.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 00:53:03 -0700 (PDT)
-Message-ID: <a0e586dc-dce6-41a2-9607-f2f64b752df1@redhat.com>
-Date: Fri, 12 Sep 2025 09:53:02 +0200
+        d=1e100.net; s=20230601; t=1757663945; x=1758268745;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qYy2brfv/lGBhEHGS6G90beLGEnMaAiYcYf7uECp+D4=;
+        b=SKFgZHMXu/uQVHCvje9QScqoN305yHDnemNN8dW6EOpNwSWWR0hZMhdBHeKgBNTULX
+         5wgka79Zv+8g7ZwtDVPCJZrkfZMr2zm+h7CPuudxlKmQWcRjeNDfNUPfV42rG8jQjJlS
+         rYSbh8hAia2+HRaEcS6gTguEWI3AvwOVkcLK0zUonnleoz6a0pMAr3S1vwAfaE7kg8pp
+         7c7eWhJbLLSGS2+5Gded1ZoDbZYZuvQLKxfX8WFDOxDWCUUdlOjM+5hw7PSuzyzUtgjz
+         3ohp9MeCjFjM2U0LByCG5M5SmCDS0ITWmz+6+VPM2kr5YsyEyRGxeaCBh/qBV0BFoEvh
+         eDbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWT1GexCulGN/bcecQKmn2DJ8AtyW3TtfIAW0a2k3dbqXko1Ogi8p4wlBBOLN6OLxb3thxdh+7W+24=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFkMrX84ohDs/iseCRyHWh6qas08orLYUT4VfzMNSl74WFmOhh
+	g78SjWvZtbWR+WyMiZc6Abnj+0PR9RgXvCz+QUFEFpDuubGUpspJqUWvl4zgnObrmpvHjobWf7O
+	TjA9jxEGYGrn4hlMMTTAQ/eq2exwyZL8=
+X-Gm-Gg: ASbGncsbUr9DqIHfpj5/tMDD6KHnwv2H4y6i4Op622uso0XjjDjyVNjpCJ41urZhnTG
+	jBJqN8TKn4uWPpSlhvbVa8Xl5u4CAHLnD08e+9qq9ojqEM6Pu01KX6IpQ68w+QxfQe2pVFTFrU9
+	OZzpgUbAHQeYZ6x4DD1jZtWXhRjNEwghbiGmjq6ZKMf4AM75xVWH1WH1/WB+IXilMWhNf3N70sy
+	fR7xeWOyDNGEj9CmlOzyAmGJLXvKsj/uF6X62Vq
+X-Google-Smtp-Source: AGHT+IEiaKF9pCkKWh4BbgOuXEKINdPyo/qenFs+0EOn/D/MSNe6hpdAb0zelQRVPMYqozXABSTq8lw3wGvRohll0zs=
+X-Received: by 2002:ad4:4eeb:0:b0:71e:bbb8:9dba with SMTP id
+ 6a1803df08f44-767c5620288mr22748156d6.56.1757663944986; Fri, 12 Sep 2025
+ 00:59:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/memory-failure: Disable soft offline for HugeTLB pages
- by default
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Kyle Meyer <kyle.meyer@hpe.com>, akpm@linux-foundation.org,
- corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org,
- Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz,
- jane.chu@oracle.com, jiaqiyan@google.com, joel.granados@kernel.org,
- laoar.shao@gmail.com, lorenzo.stoakes@oracle.com, mclapinski@google.com,
- mhocko@suse.com, nao.horiguchi@gmail.com, osalvador@suse.de,
- rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
- shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org
-References: <aMGkAI3zKlVsO0S2@hpe.com>
- <749511a8-7c57-4f97-9e49-8ebe8befe9aa@redhat.com>
- <aMMNVA9EXXHYvmKH@agluck-desk3>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aMMNVA9EXXHYvmKH@agluck-desk3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-3-laoar.shao@gmail.com>
+ <CABzRoyZm32HT2fDpSy_PRDxeXZVJD35+9YqRpn9XWix8jG6w8g@mail.gmail.com>
+ <3b1c6388-812f-4702-bd71-33a6373a381a@lucifer.local> <5a2a4b59-9368-4185-bd08-74324eebacb3@linux.dev>
+ <4fba4e8a-a735-4cac-b003-39363583ad19@lucifer.local>
+In-Reply-To: <4fba4e8a-a735-4cac-b003-39363583ad19@lucifer.local>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 12 Sep 2025 15:58:28 +0800
+X-Gm-Features: AS18NWBZ0o-Yi5EczDhcsVitmeJ-1xW5LexZHJbJIlEjf9ralk8ClSHWw7rPZas
+Message-ID: <CALOAHbCzb=sfCzVvJze4Xth1v5YPxfdeNpWGkGALANciPae95A@mail.gmail.com>
+Subject: Re: [PATCH v7 mm-new 02/10] mm: thp: add support for BPF based THP
+ order selection
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Lance Yang <lance.yang@linux.dev>, akpm@linux-foundation.org, david@redhat.com, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
+	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com, 
+	shakeel.butt@linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11.09.25 19:56, Luck, Tony wrote:
-> On Thu, Sep 11, 2025 at 10:46:10AM +0200, David Hildenbrand wrote:
->> On 10.09.25 18:15, Kyle Meyer wrote:
->>> Soft offlining a HugeTLB page reduces the available HugeTLB page pool.
->>> Since HugeTLB pages are preallocated, reducing the available HugeTLB
->>> page pool can cause allocation failures.
->>>
->>> /proc/sys/vm/enable_soft_offline provides a sysctl interface to
->>> disable/enable soft offline:
->>>
->>> 0 - Soft offline is disabled.
->>> 1 - Soft offline is enabled.
->>>
->>> The current sysctl interface does not distinguish between HugeTLB pages
->>> and other page types.
->>>
->>> Disable soft offline for HugeTLB pages by default (1) and extend the
->>> sysctl interface to preserve existing behavior (2):
->>>
->>> 0 - Soft offline is disabled.
->>> 1 - Soft offline is enabled (excluding HugeTLB pages).
->>> 2 - Soft offline is enabled (including HugeTLB pages).
->>>
->>> Update documentation for the sysctl interface, reference the sysctl
->>> interface in the sysfs ABI documentation, and update HugeTLB soft
->>> offline selftests.
->>
->> I'm sure you spotted that the documentation for
->> "/sys/devices/system/memory/soft_offline_pag" resides under "testing".
-> 
-> But that is only one of several places in the kernel that
-> feed into the page offline code.
+On Thu, Sep 11, 2025 at 10:58=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Thu, Sep 11, 2025 at 10:42:26PM +0800, Lance Yang wrote:
+> >
+> >
+> > On 2025/9/11 22:02, Lorenzo Stoakes wrote:
+> > > On Wed, Sep 10, 2025 at 08:42:37PM +0800, Lance Yang wrote:
+> > > > Hey Yafang,
+> > > >
+> > > > On Wed, Sep 10, 2025 at 10:53=E2=80=AFAM Yafang Shao <laoar.shao@gm=
+ail.com> wrote:
+> > > > >
+> > > > > This patch introduces a new BPF struct_ops called bpf_thp_ops for=
+ dynamic
+> > > > > THP tuning. It includes a hook bpf_hook_thp_get_order(), allowing=
+ BPF
+> > > > > programs to influence THP order selection based on factors such a=
+s:
+> > > > > - Workload identity
+> > > > >    For example, workloads running in specific containers or cgrou=
+ps.
+> > > > > - Allocation context
+> > > > >    Whether the allocation occurs during a page fault, khugepaged,=
+ swap or
+> > > > >    other paths.
+> > > > > - VMA's memory advice settings
+> > > > >    MADV_HUGEPAGE or MADV_NOHUGEPAGE
+> > > > > - Memory pressure
+> > > > >    PSI system data or associated cgroup PSI metrics
+> > > > >
+> > > > > The kernel API of this new BPF hook is as follows,
+> > > > >
+> > > > > /**
+> > > > >   * @thp_order_fn_t: Get the suggested THP orders from a BPF prog=
+ram for allocation
+> > > > >   * @vma: vm_area_struct associated with the THP allocation
+> > > > >   * @vma_type: The VMA type, such as BPF_THP_VM_HUGEPAGE if VM_HU=
+GEPAGE is set
+> > > > >   *            BPF_THP_VM_NOHUGEPAGE if VM_NOHUGEPAGE is set, or =
+BPF_THP_VM_NONE if
+> > > > >   *            neither is set.
+> > > > >   * @tva_type: TVA type for current @vma
+> > > > >   * @orders: Bitmask of requested THP orders for this allocation
+> > > > >   *          - PMD-mapped allocation if PMD_ORDER is set
+> > > > >   *          - mTHP allocation otherwise
+> > > > >   *
+> > > > >   * Return: The suggested THP order from the BPF program for allo=
+cation. It will
+> > > > >   *         not exceed the highest requested order in @orders. Re=
+turn -1 to
+> > > > >   *         indicate that the original requested @orders should r=
+emain unchanged.
+> > > > >   */
+> > > > > typedef int thp_order_fn_t(struct vm_area_struct *vma,
+> > > > >                             enum bpf_thp_vma_type vma_type,
+> > > > >                             enum tva_type tva_type,
+> > > > >                             unsigned long orders);
+> > > > >
+> > > > > Only a single BPF program can be attached at any given time, thou=
+gh it can
+> > > > > be dynamically updated to adjust the policy. The implementation s=
+upports
+> > > > > anonymous THP, shmem THP, and mTHP, with future extensions planne=
+d for
+> > > > > file-backed THP.
+> > > > >
+> > > > > This functionality is only active when system-wide THP is configu=
+red to
+> > > > > madvise or always mode. It remains disabled in never mode. Additi=
+onally,
+> > > > > if THP is explicitly disabled for a specific task via prctl(), th=
+is BPF
+> > > > > functionality will also be unavailable for that task.
+> > > > >
+> > > > > This feature requires CONFIG_BPF_GET_THP_ORDER (marked EXPERIMENT=
+AL) to be
+> > > > > enabled. Note that this capability is currently unstable and may =
+undergo
+> > > > > significant changes=E2=80=94including potential removal=E2=80=94i=
+n future kernel versions.
+> > > > >
+> > > > > Suggested-by: David Hildenbrand <david@redhat.com>
+> > > > > Suggested-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > > > > Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> > > > > ---
+> > > > [...]
+> > > > > diff --git a/mm/huge_memory_bpf.c b/mm/huge_memory_bpf.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..525ee22ab598
+> > > > > --- /dev/null
+> > > > > +++ b/mm/huge_memory_bpf.c
+> > > > > @@ -0,0 +1,243 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > +/*
+> > > > > + * BPF-based THP policy management
+> > > > > + *
+> > > > > + * Author: Yafang Shao <laoar.shao@gmail.com>
+> > > > > + */
+> > > > > +
+> > > > > +#include <linux/bpf.h>
+> > > > > +#include <linux/btf.h>
+> > > > > +#include <linux/huge_mm.h>
+> > > > > +#include <linux/khugepaged.h>
+> > > > > +
+> > > > > +enum bpf_thp_vma_type {
+> > > > > +       BPF_THP_VM_NONE =3D 0,
+> > > > > +       BPF_THP_VM_HUGEPAGE,    /* VM_HUGEPAGE */
+> > > > > +       BPF_THP_VM_NOHUGEPAGE,  /* VM_NOHUGEPAGE */
+> > > > > +};
+> > > > > +
+> > > > > +/**
+> > > > > + * @thp_order_fn_t: Get the suggested THP orders from a BPF prog=
+ram for allocation
+> > > > > + * @vma: vm_area_struct associated with the THP allocation
+> > > > > + * @vma_type: The VMA type, such as BPF_THP_VM_HUGEPAGE if VM_HU=
+GEPAGE is set
+> > > > > + *            BPF_THP_VM_NOHUGEPAGE if VM_NOHUGEPAGE is set, or =
+BPF_THP_VM_NONE if
+> > > > > + *            neither is set.
+> > > > > + * @tva_type: TVA type for current @vma
+> > > > > + * @orders: Bitmask of requested THP orders for this allocation
+> > > > > + *          - PMD-mapped allocation if PMD_ORDER is set
+> > > > > + *          - mTHP allocation otherwise
+> > > > > + *
+> > > > > + * Return: The suggested THP order from the BPF program for allo=
+cation. It will
+> > > > > + *         not exceed the highest requested order in @orders. Re=
+turn -1 to
+> > > > > + *         indicate that the original requested @orders should r=
+emain unchanged.
+> > > >
+> > > > A minor documentation nit: the comment says "Return -1 to indicate =
+that the
+> > > > original requested @orders should remain unchanged". It might be sl=
+ightly
+> > > > clearer to say "Return a negative value to fall back to the origina=
+l
+> > > > behavior". This would cover all error codes as well ;)
+> > > >
+> > > > > + */
+> > > > > +typedef int thp_order_fn_t(struct vm_area_struct *vma,
+> > > > > +                          enum bpf_thp_vma_type vma_type,
+> > > > > +                          enum tva_type tva_type,
+> > > > > +                          unsigned long orders);
+> > > >
+> > > > Sorry if I'm missing some context here since I haven't tracked the =
+whole
+> > > > series closely.
+> > > >
+> > > > Regarding the return value for thp_order_fn_t: right now it returns=
+ a
+> > > > single int order. I was thinking, what if we let it return an unsig=
+ned
+> > > > long bitmask of orders instead? This seems like it would be more fl=
+exible
+> > > > down the road, especially if we get more mTHP sizes to choose from.=
+ It
+> > > > would also make the API more consistent, as bpf_hook_thp_get_orders=
+()
+> > > > itself returns an unsigned long ;)
+> > >
+> > > I think that adds confusion - as in how an order might be chosen from
+> > > those. Also we have _received_ a bitmap of available orders - and the=
+ intent
+> > > here is to select _which one we should use_.
+> >
+> > Yep. Makes sense to me ;)
+>
+> Thanks :)
+>
+> >
+> > >
+> > > And this is an experimental feature, behind a flag explicitly labelle=
+d as
+> > > experimental (and thus subject to change) so if we found we needed to=
+ change
+> > > things in the future we can.
+> >
+> > You're right, I didn't pay enough attention to the fact that this is
+> > an experimental feature. So my suggestions were based on a lack of
+> > context ...
+>
+> It's fine, don't worry :) these are sensible suggestions - it to me highl=
+ights
+> that we haven't been clear enough perhaps.
+>
+> >
+> > >
+> > > >
+> > > > Also, for future extensions, it might be a good idea to add a reser=
+ved
+> > > > flags argument to the thp_order_fn_t signature.
+> > >
+> > > We don't need to do anything like this, as we are behind an experimen=
+tal flag
+> > > and in no way guarantee that this will be used this way going forward=
+s.
+> > > >
+> > > > For example thp_order_fn_t(..., unsigned long flags).
+> > > >
+> > > > This would give us aforward-compatible way to add new semantics lat=
+er
+> > > > without breaking the ABI and needing a v2. We could just require it=
+ to be
+> > > > 0 for now.
+> > >
+> > > There is no ABI.
+> > >
+> > > I mean again to emphasise, this is an _experimental_ feature not to b=
+e relied
+> > > upon in production.
+> > >
+> > > >
+> > > > Thanks for the great work!
+> > > > Lance
+> > >
+> > > Perhaps we need to put a 'EXPERIMENTAL_' prefix on the config flag to=
+o to really
+> > > bring this home, as it's perhaps not all that clear :)
+> >
+> > No need for a 'EXPERIMENTAL_' prefix, it was just me missing
+> > the background. Appreciate you clarifying this!
+>
+> Don't worry about it, but also it suggests that we probably need to be
+> ultra-super clear to users in general. So I think an _EXPERIMENTAL suffix=
+ is
+> probably pretty valid here just to _hammer home_ that - hey - we might br=
+eak
+> you! :)
 
-Right, I can see one more call to soft_offline_page() from 
-arch/parisc/kernel/pdt.c.
+I will add it. Thanks for the reminder.
 
-And there is memory_failure_work_func() that I missed.
-
-So agreed that this goes beyond testing.
-
-It caught my attention because you ended up modifying documentation 
-residing in Documentation/ABI/testing/sysfs-memory-page-offline.
-
-Reading 56374430c5dfc that Kyle pointed out is gets clearer.
-
-So the patch motivation/idea makes sense to me.
-
-
-I'll note two things:
-
-(1) The interface design is not really extensible. Imagine if we want to 
-exclude yet another page type.
-
-Can we maybe add a second interface that defines a filter for types?
-
-Alternatively, you could use all the remaining flags as such a filter.
-
-0 - Soft offline is completely disabled.
-1 - Soft offline is enabled except for manually disabled types.
-
-Filter
-
-2 - disable hugetlb.
-
-So value 3 would give you "enable all except hugetlb" etc.
-
-We could add in the future
-
-4 - disable guest_memfd (just some random example)
-
-
-Then you
-
-2) Changing the semantics of the value "1"
-
-IIUC, you are changing the semantics of value "1". It used to mean 
-"SOFT_OFFLINE_ENABLED" now it is "SOFT_OFFLINE_ENABLED_SKIP_HUGETLB", 
-which is a change in behavior.
-
-If that is the case, I don't think that's okay.
-
-
-2) I am not sure about changing the default. That should be an admin/
-    distro decision.
-
--- 
-Cheers
-
-David / dhildenb
-
+--=20
+Regards
+Yafang
