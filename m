@@ -1,157 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1201527CCF2
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 23:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B017283FEB;
+	Fri, 12 Sep 2025 23:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757720136; cv=none; b=DYs1Xl8u56Z6cl3gt4sOJyCfc0fx0feyk9s7L+t5yVzgegyVgVn39c3dgBCIup6AMdAh4DrLWNN1B0JLCbq8rJgviJpgRdAujE6Itln/zMSBaBFUVgZ4QxXJ92+NH6iiS2ZdZSZZtu7RaudOOLoLG4bhXH94BXSvq43LTtgkp7g=
+	t=1757720159; cv=none; b=VqqAF0QtPAJjzeBN2RDJzgmbcuCOXktVsgnMKzAj2uacAISO9h0apllHE00OO/QOeuNO7BzPSp9KlMjYieFX2hxf0Z/qAD/+7OCBHRv4US/fRpczYPGNHl+ZqVsA7SbI0Wt7A7iQnSErvfnEYN17Poi03KHNBk5q5xGE289dY2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757720136; c=relaxed/simple;
-	bh=HPCu1pwVM4Drx10GdaCY7ng58mnQe58dpSzFUAkQI+A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=clhSK8EyZ6/8v/VP5D9K36HWd79DV4zvGWb9Q7JROpA9p+x3P5jPymX9I4PirWPSYLFVRa/XZ6yOtxZxgMuSChMn5MoSrjfhzH8uP5a6zngO4YiSDeD62r498vFGraRRyFMqS3g5P9PogF5M9JXaBUtVX/LTe+cJZTuiaCUDriw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ScTQ65BQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757720159; c=relaxed/simple;
+	bh=0bIBfPWuw5ZM1DgXMXybxVA8D6G9EUTJlY7Lrt4adWc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rzk/t/nJSSI5kj7yvttflMsh0Yf5Dea8sg0R8PnB8mAL29ShbXETlBMRIqz76SHGDBbA3VLERIFW+s2fWE3lrc8cw56XcjuYGNfIyejiliGTQrAX+yi3a2H3olAIl2bHVX2zp2bZLqgJjGG3rsOx06iX30nKTPq9NYdffyinrZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=j1hOEH6s; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ScTQ65BQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757720134;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HPCu1pwVM4Drx10GdaCY7ng58mnQe58dpSzFUAkQI+A=;
-	b=ScTQ65BQwwRj/Z5fI8iKcxH2hBZRQ3XNLOAYgWZr7KYBUWk1c+XwBOS57vv+oQ7l8RaDSG
-	hxJ9w8njRSGtKzTeEl+pm8VNRK92WIVLwX0CApIn/iX9X2kexB2iYembG5C+ERsBrzyMvX
-	4uFh9ZlvxPBbvPG3Z3YDz4LyTQO4gLc=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-191-RIb_3DP4OIa7dYqAL1AABg-1; Fri, 12 Sep 2025 19:35:33 -0400
-X-MC-Unique: RIb_3DP4OIa7dYqAL1AABg-1
-X-Mimecast-MFC-AGG-ID: RIb_3DP4OIa7dYqAL1AABg_1757720132
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7216c46b069so25867747b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 16:35:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757720132; x=1758324932;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HPCu1pwVM4Drx10GdaCY7ng58mnQe58dpSzFUAkQI+A=;
-        b=s4qBDVrsUhzMjmBIeUTQedNflIy+sbi9S3gHq3bzmKhB7D7CNQ+P/rjTIBtRaQH+gP
-         9eHkF+X28HV2p3Yre7PnIX51+MYAYU876VfqImvva2oAkFkL2EaZ9TpnHf9EkkzjF03p
-         tLUTXKVGk8PGrdBS6vjUVtn39KaxLMhf/3lIvRHsfds8QC9w9Es8T8LUmvpAZzUH9lUU
-         A7f0hRCzSWpg2LQokmiBDjWhf600o0zeKjOr5Ic9bUEUT/KPvQCfxb1ahnYJ8A2mSzwf
-         32MFKW6Xk6/2oOwe6/BlV/Vs7nmGOiARB00Hl8TVaA7H5yDdoqLSOwClJ2Zpo/uJdmvz
-         A9bg==
-X-Forwarded-Encrypted: i=1; AJvYcCUvbrfMcOhXM9HGqf04J4NUJe7vCxKv3WCBmes1i/YK7BdOXGSKvkiTctQnBi08zfxEThwM1X6pa48=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbuyTnwDVGOGOadAt4++36rqEFuYIpAQzRR5hi+34Z3RJtd/UA
-	Kox1LLxowfpRB2703vtGQvaaviWHw5sOZ/3Xk5ljQmB/jcUTuCtwC5yH8gIR4F1FYvFSu6A+qDd
-	fGG6HLulEvZIBT/Jn53eGJi7qkEGPyvW0et46LvSfmKwbx/rxmMhpvPz6AxRJRY6+AUPCwER79v
-	S+CG7/5xyxHK0O7EGl2LRYAvYVS3hv+ldrgNYw
-X-Gm-Gg: ASbGncvwFXj/ssge/hsq6Vd/NMaXbHNINBgyCdb0VS4RS86TImXk5mLt0RVuxW+XuGv
-	OxmX1Oz7HYu14HVb8BvD8aW5khwggcbDpmSsA8V4zqPHfAuxBq7igFwN8trJXLYUHSdwJpwNQhC
-	U7fDs1ws4zj6VOfL482LE/oJpLql7DGZY6v+Y=
-X-Received: by 2002:a05:690c:6ac2:b0:729:677e:b7b with SMTP id 00721157ae682-73065fa0c40mr46615367b3.47.1757720132262;
-        Fri, 12 Sep 2025 16:35:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFf6FRXt0puU/GkbiNMmkdOBMh3PmcUJa8ItdRIcV21DzC27xRjlQRyXSqK3+grheHlKb8t0P44+F+NVaC7sWY=
-X-Received: by 2002:a05:690c:6ac2:b0:729:677e:b7b with SMTP id
- 00721157ae682-73065fa0c40mr46614957b3.47.1757720131865; Fri, 12 Sep 2025
- 16:35:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="j1hOEH6s"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757720148; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=BGcA9S5haR9shxP4e1Rj9BiCfMYulsAHb54maNa9apg=;
+	b=j1hOEH6sLugNry5YQdlhte12Xy3NsOtNlS629Zja3oW8gd+VdW1eE5prU/9lBCvOfjWUvCIwNvavX01qrOLP3y4z8+dGZvCzzlCR3hx/yddAnnBGzUDwolwfW4eS4FqmjtYZAuOWDQnu/n1mwvoNHPqPCyYlHvbKmVVbECKWPfk=
+Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0Wns4Zin_1757720146 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sat, 13 Sep 2025 07:35:47 +0800
+Message-ID: <9dc446dd-9a7d-4bd0-8f95-a6121a773cfb@linux.alibaba.com>
+Date: Sat, 13 Sep 2025 07:35:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250912032810.197475-1-npache@redhat.com> <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
- <43f42d9d-f814-4b54-91a6-3073f7c7cedf@redhat.com>
-In-Reply-To: <43f42d9d-f814-4b54-91a6-3073f7c7cedf@redhat.com>
-From: Nico Pache <npache@redhat.com>
-Date: Fri, 12 Sep 2025 17:35:05 -0600
-X-Gm-Features: Ac12FXwW-JyuDr21ldb1iQAOW2JaSV_ia9I1rYO-9C_34jUWMMoQfpgn4vajl84
-Message-ID: <CAA1CXcAenBm4=V1=-bXmruL85MfyqTXu5_-BmzGfOEaQ4z-Tdg@mail.gmail.com>
-Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
-To: David Hildenbrand <david@redhat.com>
-Cc: Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
-	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
-	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
-	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
-	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
-	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
+ CONFIG_BLOCK guard
+To: Joanne Koong <joannelkoong@gmail.com>, "Darrick J. Wong"
+ <djwong@kernel.org>, Christoph Hellwig <hch@infradead.org>
+Cc: brauner@kernel.org, miklos@szeredi.hu, linux-block@vger.kernel.org,
+ gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+ linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-14-joannelkoong@gmail.com>
+ <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
+ <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
+ <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com>
+ <aMK0lC5iwM0GWKHq@infradead.org>
+ <9c104881-f09e-4594-9e41-0b6f75a5308c@linux.alibaba.com>
+ <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
+ <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com>
+ <66971d07-2c1a-4632-bc9e-e0fc0ae2bd04@linux.alibaba.com>
+ <267abd34-2337-4ae3-ae95-5126e9f9b51c@linux.alibaba.com>
+ <CAJnrk1Y31b-Yr03rN8SXPmUA7D6HW8OhnkfFOebn56z57egDOw@mail.gmail.com>
+ <CAJnrk1ZXM-fRKytRFptKNJrdN9pSbKJqXLW80T4UY=RLRKOBKQ@mail.gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <CAJnrk1ZXM-fRKytRFptKNJrdN9pSbKJqXLW80T4UY=RLRKOBKQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 12, 2025 at 7:48=E2=80=AFAM David Hildenbrand <david@redhat.com=
-> wrote:
->
-> On 12.09.25 14:19, Kiryl Shutsemau wrote:
-> > On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
-> >> The following series provides khugepaged with the capability to collap=
-se
-> >> anonymous memory regions to mTHPs.
-> >>
-> >> To achieve this we generalize the khugepaged functions to no longer de=
-pend
-> >> on PMD_ORDER. Then during the PMD scan, we use a bitmap to track indiv=
-idual
-> >> pages that are occupied (!none/zero). After the PMD scan is done, we d=
-o
-> >> binary recursion on the bitmap to find the optimal mTHP sizes for the =
-PMD
-> >> range. The restriction on max_ptes_none is removed during the scan, to=
- make
-> >> sure we account for the whole PMD range. When no mTHP size is enabled,=
- the
-> >> legacy behavior of khugepaged is maintained. max_ptes_none will be sca=
-led
-> >> by the attempted collapse order to determine how full a mTHP must be t=
-o be
-> >> eligible for the collapse to occur. If a mTHP collapse is attempted, b=
-ut
-> >> contains swapped out, or shared pages, we don't perform the collapse. =
-It is
-> >> now also possible to collapse to mTHPs without requiring the PMD THP s=
-ize
-> >> to be enabled.
-> >>
-> >> When enabling (m)THP sizes, if max_ptes_none >=3D HPAGE_PMD_NR/2 (255 =
-on
-> >> 4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 f=
-or
-> >> mTHP collapses to prevent collapse "creep" behavior. This prevents
-> >> constantly promoting mTHPs to the next available size, which would occ=
-ur
-> >> because a collapse introduces more non-zero pages that would satisfy t=
-he
-> >> promotion condition on subsequent scans.
-> >
-> > Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
-> > all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
->
-> BTW, I thought further about this and I agree: if we count zero-filled
-> pages towards none_or_zero one we can avoid the "creep" problem.
->
-> The scanning-for-zero part is rather nasty, though.
-IIRC me and David have discussed this in the past and decided to avoid
-this approach at the moment because it would be complicated and
-"nasty".
->
-> --
-> Cheers
->
-> David / dhildenb
->
+
+
+On 2025/9/13 04:09, Joanne Koong wrote:
+> On Fri, Sep 12, 2025 at 3:56 PM Joanne Koong <joannelkoong@gmail.com> wrote:
+>>
+
+...
+
+>>>>> but I don't see it will happen.
+>>>>>
+>>>>> [1] https://lore.kernel.org/linux-fsdevel/YfivxC9S52FlyKoL@B-P7TQMD6M-0146/
+> 
+> (sorry, just saw this part of the email otherwise I would have
+> included this in the previous message)
+> 
+> Thanks for the link to the thread. My understanding is that the large
+> folio optimizations stuff was added to iomap in July 2023 (afaict from
+> the git history) and iomap is entangled with the block layer but it's
+> becoming more of a generic interface now. Maybe now it makes sense to
+> go through iomap's interface than it did in 2022, but of course David
+> has the most context on this.
+
+Again, I really think iomap callback model is not good stuff especially
+as it becomes a more generic thing, and it seems inflexible compared
+with other interfaces like the page cache (it also has callbacks
+but many of them are just a few entrances of IO flows) or bio kAPIs.
+
+As in the previous example, network filesystems generally don't need
+any L2P logic (in principle, FUSE is more like a network filesystem),
+but they still have to implement those iomap dummy callbacks and
+ignore `iomap->addr`.
+
+
+As for per-block dirty/uptodate tracking, that is just an atomic
+feature to manage sub-folio metadata, but iomap is initially a part
+which is out of XFS, and basically standard flows for disk/pmem fses.
+I really think better generic interfaces are like lego bricks instead,
+therefore filesystems can optionally use any of those atomic features
+instead of just calling in iomap {read,write,writeback} maze-like
+helpers and do different work in the callback hooks (even not all
+filesystems need this).
+
+I've mentioned too in
+https://lore.kernel.org/r/d631c71f-9d0d-405f-862d-b881767b1945@linux.alibaba.com
+https://lore.kernel.org/r/20250905152118.GE1587915@frogsfrogsfrogs
+
+Thanks,
+Gao Xiang
+
+
+
+> 
+> 
+> Thanks,
+> Joanne
+> 
+>>>>>
+>>>>> Thanks,
+>>>>> Gao Xiang
+>>>>
+>>>
 
