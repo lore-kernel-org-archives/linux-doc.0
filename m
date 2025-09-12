@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60772957C2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B617F2FDC2C;
 	Fri, 12 Sep 2025 11:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757677594; cv=none; b=e6GXDuNci4iRZBQsgDIH6fxF1l/+dQnXKmhU66/2lPFhzHXgD9JIOVj7MNQfmVd4n9g0wyou9JsS95WolhZXGkhEXrd7A7ORC7VeqhpdUaEw75T2ZUDfKndFWgqnMmTNvQkjWqBcq/gN9F16pi1xUvDrfUNpm7FDVswqwSKJrr0=
+	t=1757677594; cv=none; b=K+G80qquKWBaHm3hVcyaWDc5A4MY2mpiDV0ccRkmrO5GHIxPv5LOLEJ+eDGhFuGkzPPBrc8pHQIxf7hoBqDxlEIQws6vma4vFh/u3Q2UXfiodeAoG5Fvluu1Tr/xk4HF1Fz7hI9JRHn12tjsjr4IE5nInt8MSgvhh0TYD8hJkto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757677594; c=relaxed/simple;
-	bh=/dLIDswzK4KrvEpdBfQvdI/IqyHPjqk3TcTvIyNvmfo=;
+	bh=jlol1TuhVNcZDXlNqsLBvYWROc27W0iXgTQpgdIUTbU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fuDzh3M2A/aD1BP8vcnVmNzlmxPQP+iyTRReoYh1XG5srJHBM7xHp5WIKUiEojD7DHj4WdoHYNbYoeVExiKCrNanI4amun3SX1OD7aqCuG9cTgz1DUI5s4qTCWKUH3HEFYSYF7rVJ4I1wOGcF9vvkD81qwXni77eiheE0moeSkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R5OMPN1E; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=M+WiODtax09yHuKbbLNIJXPaur7HDjwTs4K8Mb5DhZV0DrzsZADDOcX7jk0fbOp9YX5t93EVFNbKaa0VJzVpZrZCVOYQHF3FK9OTRbCI3artyvd7jA2k9wd4lB0iwqfPQnr29pSkBj0s8MZvD1t8O7xR+vdcXaP8pBTuvDfM0UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uR9vkkSB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R5OMPN1E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65BCEC4CEFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uR9vkkSB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6362FC4CEFB;
 	Fri, 12 Sep 2025 11:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1757677594;
-	bh=/dLIDswzK4KrvEpdBfQvdI/IqyHPjqk3TcTvIyNvmfo=;
+	bh=jlol1TuhVNcZDXlNqsLBvYWROc27W0iXgTQpgdIUTbU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R5OMPN1ERnOeUMs/6FawiCHzvZyV1lvwFU0rJdlxnSKLCaEhu2Ij7XV0c2vGt3WWe
-	 JKd/ChpZ1Y8caFtA9fkFVwFzCOp+Q3Mx3aOFc6hs0GNTT0Pt6iTXl0ccc1vuBvO/Ev
-	 ZjQ3A7Y5aLaV1hrUlAQsE3bfwG2KHWryQqZOs+TasN5GxO+amF4WvQnpzS+Rkoh7uP
-	 3Z6QxiCRhEAFoKmJin9IxTJm9mepOFRGKF+w73fbq7yCor9k6RAfvM/qrSMfffWk2h
-	 zVLLkrGRT6wkSiLTHebOOrmVhpaqFALEzWI5HDMppLpf+lrGcezy4IuFPX0cysPhea
-	 53saI8sMksUCw==
+	b=uR9vkkSBW0yv+66nBxYMC/oEvmbvs19AP6iw3YMHN4kWwrMCZlQarYCAbKnQHoSCG
+	 A7c+a/P9NalKD/Qu9TxrHgc+AYCVAbOvikeTez+36MjYCQcWbCjglulUg+ThNIHWLl
+	 ULzNJRIfbQ95r7CPOq+CV2A/zqrMUyUmV9qjLnLL0Wtfs7Bhaa3UGpFfBmntWq450p
+	 KDWsQ7+amhdNfQSxNWvhbdvGJ8cBsRWSoikVb8Gqq/cpCFXlA82VLZ62K3BgafPXz/
+	 MeHn6d3Uduwlorz6ioWjHpR05Rvg838Mq/mY333htYhXFPWg31LCHsmhsuOyXvubSa
+	 r5wJcK+poDC6w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ux2Ea-00000008RsH-2eZb;
+	id 1ux2Ea-00000008Rs5-2Jfq;
 	Fri, 12 Sep 2025 13:46:32 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 06/18] tools/docs: python_version: drop a debug print
-Date: Fri, 12 Sep 2025 13:46:13 +0200
-Message-ID: <ad6999e249924d0794cdf394f327ce47a17c1e78.1757677427.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 03/18] scripts/jobserver-exec: add a help message
+Date: Fri, 12 Sep 2025 13:46:10 +0200
+Message-ID: <ce2b08ce249411d03a653961360f65767cd68374.1757677427.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1757677427.git.mchehab+huawei@kernel.org>
 References: <cover.1757677427.git.mchehab+huawei@kernel.org>
@@ -52,27 +52,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The version print at the lib was added for debugging purposes.
-Get rid of it.
+Currently, calling it without an argument shows an ugly error
+message. Instead, print a message using pythondoc as description.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/lib/python_version.py | 2 --
- 1 file changed, 2 deletions(-)
+ scripts/jobserver-exec | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
-index 0519d524e547..660bfe7d23fa 100644
---- a/tools/docs/lib/python_version.py
-+++ b/tools/docs/lib/python_version.py
-@@ -109,8 +109,6 @@ class PythonVersion:
-         cur_ver = sys.version_info[:3]
-         if cur_ver >= min_version:
-             ver = PythonVersion.ver_str(cur_ver)
--            print(f"Python version: {ver}")
--
-             return
+diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+index 40a0f0058733..ae23afd344ec 100755
+--- a/scripts/jobserver-exec
++++ b/scripts/jobserver-exec
+@@ -1,6 +1,15 @@
+ #!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0+
  
-         python_ver = PythonVersion.ver_str(cur_ver)
++"""
++Determines how many parallel tasks "make" is expecting, as it is
++not exposed via any special variables, reserves them all, runs a subprocess
++with PARALLELISM environment variable set, and releases the jobs back again.
++
++See:
++    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
++"""
++
+ import os
+ import sys
+ 
+@@ -12,17 +21,12 @@ sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+ from jobserver import JobserverExec                  # pylint: disable=C0415
+ 
+ 
+-"""
+-Determines how many parallel tasks "make" is expecting, as it is
+-not exposed via an special variables, reserves them all, runs a subprocess
+-with PARALLELISM environment variable set, and releases the jobs back again.
+-
+-See:
+-    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
+-"""
+-
+ def main():
+     """Main program"""
++    if len(sys.argv) < 2:
++        name = os.path.basename(__file__)
++        sys.exit("usage: " + name +" command [args ...]\n" + __doc__)
++
+     with JobserverExec() as jobserver:
+         jobserver.run(sys.argv[1:])
+ 
 -- 
 2.51.0
 
