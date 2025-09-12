@@ -1,100 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7424430ACF9;
-	Fri, 12 Sep 2025 16:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242BE32252C;
+	Fri, 12 Sep 2025 17:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757695494; cv=none; b=qk9ybcT+GUaGC4CCSH7Oxg82TzcgH6wBDAv923EuRH+rr+LC2bmspY3FM2CSoGJACtnYohhJHMrkIGGFirk7ccgLwLm1u5l7sGQzfPC/DIGw8LT6VwbC/xLggufOEwmW8FZ2m1wmCjFfJ4SljqOeBJh39wBKTKOViWUPYP5Uew8=
+	t=1757697251; cv=none; b=eqmgPgYk1EjPWPnuvNsF0/peTEow66n7Yak3xyNEmL8P+kqTwUdUKxflEqXnx1V9uLpBa0UUhM8ODR0tZoeMGqVxMPjQczixtqpflH+IWSObZ+dDAuy3NmXfftLWZnmHXcg0w/vI8Bv9aqsNtZhupURYwUlBY64ll2dGdrc9YwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757695494; c=relaxed/simple;
-	bh=T3k8yXx71WmXCOcPeK8TWijLJrnwnPMe6SmbiBr3OtU=;
+	s=arc-20240116; t=1757697251; c=relaxed/simple;
+	bh=pwqpv0OMmuh14dvqJoXmhqMPOebR0cDuIlzyHJCB7FE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XbwxKghsr/bwZMmisJKohZkLCTnQIRdA5RFMp9VtuiHphF5A0Dyrr8hG5HkN1LJqI9vfJF7YI/2n5eqXt5N7NKIObMaYwaR0HoQFIJmfsGN5bwvooupNLDsCQ9pCZKQFU0LbDyLwv5B7tbOD4a/kNeNGEEzXePbGt/DiYoOdGJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TZNkjFMp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tXfNt3y5OUQLJtD1iecRLgHHJZ4fLnwPPDE1CMA2htg3S6jmr6FZWXWIq+etSrRRo9l8ZPzeeBQCZ10GlFdbyc0XGUBpQa0HbWR3bVjwBLxNQjDzTxgrz5U0vf7t4PHwgh2DUmfSt4SeFPgTNiMnX0NJjn1tG1ufMpPy+BY7Chg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9JrERn+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TZNkjFMp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 095D9C4CEF1;
-	Fri, 12 Sep 2025 16:44:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9JrERn+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53DD9C4CEF1;
+	Fri, 12 Sep 2025 17:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757695494;
-	bh=T3k8yXx71WmXCOcPeK8TWijLJrnwnPMe6SmbiBr3OtU=;
+	s=k20201202; t=1757697250;
+	bh=pwqpv0OMmuh14dvqJoXmhqMPOebR0cDuIlzyHJCB7FE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TZNkjFMplEJXcSxt1g922eJbDuHFdtPelJyYXhh+Yt2AuKAX/lTgEtSRnHeht4LnN
-	 PtnVtsYwUw5mzq+D8HreufB1OXMoZT/EQXqJiqcM/uIaPpuVz5DMddIzuz00+2scAd
-	 dmdH0c45mBkpsPeM604mXr9h7GkFVDQP0J2uV27FZzCtjQVf+VD5Zy7F2YypKxsICm
-	 0pvDfnDEW1QtS/WGeL8CW8CbyOWbNEEwTHNPN1A88a11RLp7xVe6EvUBQb14RasyPn
-	 VnznBWomfmKptx6SqPqhaukbxkAwTBGs8LqyIhOJiceINXjw0dsPcWzcXrMq48Q57i
-	 IujrPXbnn4+1Q==
-Date: Fri, 12 Sep 2025 17:44:46 +0100
-From: Simon Horman <horms@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: andrew+netdev@lunn.ch, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, guoxin09@huawei.com,
-	gur.stavi@huawei.com, helgaas@kernel.org, jdamato@fastly.com,
-	kuba@kernel.org, lee@trager.us, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, luosifu@huawei.com,
-	luoyang82@h-partners.com, meny.yossefi@huawei.com,
-	mpe@ellerman.id.au, netdev@vger.kernel.org, pabeni@redhat.com,
-	przemyslaw.kitszel@intel.com, shenchenyang1@hisilicon.com,
-	shijing34@huawei.com, sumang@marvell.com, vadim.fedorenko@linux.dev,
-	wulike1@huawei.com, zhoushuai28@huawei.com,
-	zhuyikai1@h-partners.com
-Subject: Re: [PATCH net-next v05 12/14] hinic3: Add port management
-Message-ID: <20250912164446.GA224143@horms.kernel.org>
-References: <20250911123324.GJ30363@horms.kernel.org>
- <20250911142504.2518-1-gongfan1@huawei.com>
+	b=W9JrERn+KoIxQfx9Yk0iMN3Gomju4XAAwgpdQ2MqGJwl30FZw0g9IcS4YMSSyAzq9
+	 eimaUJjSJFo4d58GUD6bp9JkOpFKojq2tM0WkyPCc2mvTz3XejGtlnO2AzvjQkQOnJ
+	 0z51JO3q7zfPY1JKO5QCa2k0sZlqvZdV7KTX9xg5EVi+0Do7ZjCXnl7LBDjal2fiHt
+	 nKe6ZM7o5Aasih3d/b/BuG8CHqy/W8lUn9B42OhDzOspQUm0sy17LBMh7BeLKOOhkX
+	 A1m2D8dwOnrZDyHlogQdH1NOxF13JK3PujUqc2kQutHyk6ZODhgyydyVOJetYbxbl5
+	 ypKNA6bFCEoTA==
+Date: Fri, 12 Sep 2025 18:14:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v16 2/6] KVM: arm64: Manage GCS access and registers for
+ guests
+Message-ID: <aMRU3zCRpA4Zuj0L@finisterre.sirena.org.uk>
+References: <20250912-arm64-gcs-v16-0-6435e5ec37db@kernel.org>
+ <20250912-arm64-gcs-v16-2-6435e5ec37db@kernel.org>
+ <865xdndgpw.wl-maz@kernel.org>
+ <aMRLYBWfDFiIB7wx@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DpzIhk4kEi/ksl0o"
+Content-Disposition: inline
+In-Reply-To: <aMRLYBWfDFiIB7wx@finisterre.sirena.org.uk>
+X-Cookie: Filmed before a live audience.
+
+
+--DpzIhk4kEi/ksl0o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250911142504.2518-1-gongfan1@huawei.com>
 
-On Thu, Sep 11, 2025 at 10:25:04PM +0800, Fan Gong wrote:
-> On 9/11/2025 8:33 PM, Simon Horman wrote:
-> 
-> > > +	err = hinic3_get_link_status(nic_dev->hwdev, &link_status_up);
-> > > +	if (!err && link_status_up)
-> > > +		netif_carrier_on(netdev);
-> > > +
-> > > +	return 0;
-> > > +
-> > > +err_flush_qps_res:
-> > > +	hinic3_flush_qps_res(nic_dev->hwdev);
-> > > +	/* wait to guarantee that no packets will be sent to host */
-> > > +	msleep(100);
-> > 
-> > I realise that Jakub's feedback on msleep() in his review of v3 was
-> > in a different code path. But I do wonder if there is a better way.
-> 
-> ...
-> 
-> > > +	hinic3_flush_txqs(netdev);
-> > > +	/* wait to guarantee that no packets will be sent to host */
-> > > +	msleep(100);
-> > 
-> > Likewise, here.
-> 
-> Thanks for your review, Simon.
-> 
-> Firstly, The main issue on the code of Jakub's feedback on msleep() is
-> duplicate code function. The msleep() in hinic3_vport_down and
-> hinic3_free_hwdev is repetitive because of our oversight. So we removed
-> msleep() in hinic3_free_hwdev in v04 patch.
-> 
-> Secondly, there is no better way indeed. As our HW bad decision, HW 
-> didn't have an accurate way of checking if rq has been flushed. The
-> only way is to close the func & port . Then we wait for HW to process
-> the pkts and upload them to driver. 
-> The sleep time is determined through our testing. The two calls of
-> msleep() are the same issue.
+On Fri, Sep 12, 2025 at 05:33:39PM +0100, Mark Brown wrote:
+> On Fri, Sep 12, 2025 at 12:59:23PM +0100, Marc Zyngier wrote:
 
-Thanks for the clarification, much appreciated.
+> > Just like the previous version, you're missing the accessors that
+> > would be this table useful. Meaning that the vcpu_read_sys_reg() and
+> > vcpu_write_sys_reg() accessors will fail for all 4 GSC registers.
 
-> Finally, we have received your reviews on other patches and we will
-> fix them soon in the next version.
-> 
+> Just to confirm, this is __vcpu_{read,write}_sysreg()?
+
+Sorry, that should have been __vcpu_{read,write}_sys_reg_{to,from}_cpu()
+*sigh*
+
+--DpzIhk4kEi/ksl0o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjEVNYACgkQJNaLcl1U
+h9C9MAf/ZDTHvq/toZNl1zFIlYCxa5MviqirC4jCkD4bApiu8FXEn37o5QLHvV1a
+TScrRejLtHsbWbAOcXqDXGKodfclNDTwGvxbqbHCwHhYLWbr6p2D1vAa48iYJIhv
+gnKnhDqBNSvx4LrNuFwaUJyPhich4VOvTjmSvJPJU8oCLAdPfTECSghGmFnW0FEG
+LdO+0s95tByeppfr9prmKGg8/ctwQ10rlmfVFavH6fvx7zfpFoVrSMFKpzp6z8Hq
+uqT918mBpk8+wcxaGuheKypl/OQVBGv8OjFpY191RQkSB2PvLelMr2QEG1T6CzeS
+9/DQ8sbVFO1rzwaGCpfVMWJL+EKxkA==
+=YqIz
+-----END PGP SIGNATURE-----
+
+--DpzIhk4kEi/ksl0o--
