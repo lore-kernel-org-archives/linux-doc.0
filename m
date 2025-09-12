@@ -1,112 +1,197 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279182E283E;
-	Fri, 12 Sep 2025 09:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84273285CBB;
+	Fri, 12 Sep 2025 09:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757668856; cv=none; b=Ic9zKI10/ROiYKr3DMFQfx9cSNyyYH8woIJnnW0kuP3Rh9J5eHWTAfAAjIytNhmzqoJkSJNZDg7RMeOGfcSGhPCs8jgwfzS3WgAwr2eVOdNaLppR/20p/AOrfbpBXeZsHE1f+eZHoei+ExjFbxa9EOXQMtgxdxkw47aMpfnCWlw=
+	t=1757668969; cv=none; b=p6I01d89/KGVR1yfxUwi/nKqoR5AjLUPvLEvxtaLJhk+2sL+EDk2QE2JjgTiFz6XUmBOooEHxascrnZwBVsjQfLlzAv536mhclH21pqZV2At1M+NqVNl0m1479TkGqP+WxTEE/8H3cSWR/5dt8O30WjOruoZu/KPLaxhPIcX8GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757668856; c=relaxed/simple;
-	bh=fdWq7jU/r+YPyJLFYj+oQNcMiUGHgVPoVaERQllpVTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5bVjoug3SGISzpoq/G839PPXnxLDSJzmHKBHy8DS00qlDoNu3/gAL+1CeakqLzDpFgeMsmjmf7JCLV3GlG3ToCkV9ZPbLZVXgtDBJurqcdq2jb2n4urdCLRU7XB4tfLt9PBtcqwT+ZoiZzpyWxZnEeqYd/QN9V5r7lhnMj9sCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cNTS213rGzKHNq6;
-	Fri, 12 Sep 2025 17:20:50 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 7CD351A0D2B;
-	Fri, 12 Sep 2025 17:20:50 +0800 (CST)
-Received: from [10.174.179.247] (unknown [10.174.179.247])
-	by APP4 (Coremail) with SMTP id gCh0CgB3wY3t5cNovJT6CA--.44667S3;
-	Fri, 12 Sep 2025 17:20:48 +0800 (CST)
-Message-ID: <028c1184-a114-d814-cf11-ef6d9408502b@huaweicloud.com>
-Date: Fri, 12 Sep 2025 17:20:45 +0800
+	s=arc-20240116; t=1757668969; c=relaxed/simple;
+	bh=44DPusRJnmdStqhj53nuUQKjQaThdwfwfltpNJC6McI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kmQC8fUI5zvuHzr8u7uC4xyqp5JL5TFefJnVAbDkirdQgJvL/fE8rEiBxeOaF1Ae8rNSJoRgT4RzGmhT+s63sgPqBKPpEMH85vHkzKAJIrQw0ErftOR+fowTiJwNUDbejRJ0Berqgl5/sXXc2ZGe+J4nwoR7VhnLBOsCO6wLoXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LszzpEuJ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LszzpEuJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757668967; x=1789204967;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=44DPusRJnmdStqhj53nuUQKjQaThdwfwfltpNJC6McI=;
+  b=LszzpEuJbC0NRbL6ag6+rZX/duVxzB0pp9W7U2WFwG6iO4yBF+3ca+FX
+   g5cfaQ2a6V6yXpONPAMVoYhZMbeFT7FQ14prxIuqL6H5RGleq1Jgr/id5
+   8TBmiIlaEWTw/27JFuGmEMYPMuJJcyRvybLeBauf+iUPZ4ev2/Sut1JWn
+   Y5feex9fa96sNXCeiD4fPsMOzoACnx1A7DOAZAb9vheMxK9GQAx0Q62U7
+   DxcUt1y65fSO3L22Ep6Sgs7MQ05WqMV4lIoF6vRuronn9iyj6ntqvxZtU
+   uam6yKTSZTFvPHQZ65tak5vZtapwE3HOlJxjUj4D+jdrgp6Z5K0Z683ZQ
+   w==;
+X-CSE-ConnectionGUID: MvfLpg1kRMmLDrcnxqKaKw==
+X-CSE-MsgGUID: 0AoXxCIyT7CIy3Wu1a0tqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="77622490"
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="77622490"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 02:22:47 -0700
+X-CSE-ConnectionGUID: wvqQZKD9RIKZXSKb9YFitA==
+X-CSE-MsgGUID: xGpQB1ieSBug0CGsOCfwWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="179140539"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.177])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 02:22:45 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 10/19] tools/docs: sphinx-build-wrapper: add support
+ to run inside venv
+In-Reply-To: <20250912104639.4781b638@foz.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1756969623.git.mchehab+huawei@kernel.org>
+ <2158cc4cf1f9bcf4c191f8031c1fb717cb989f7f.1756969623.git.mchehab+huawei@kernel.org>
+ <b76575eab805884ee5227ae6f1aded505df4ec56@intel.com>
+ <20250912104639.4781b638@foz.lan>
+Date: Fri, 12 Sep 2025 12:22:42 +0300
+Message-ID: <4d7acb77be634212056426aee139496da42dc520@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 1/2] md: prevent adding disks with larger
- logical_block_size to active arrays
-To: Xiao Ni <xni@redhat.com>, linan666@huaweicloud.com
-Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, hare@suse.de,
- martin.petersen@oracle.com, bvanassche@acm.org, filipe.c.maia@gmail.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, yangerkun@huawei.com, yi.zhang@huawei.com
-References: <20250911073144.42160-1-linan666@huaweicloud.com>
- <20250911073144.42160-2-linan666@huaweicloud.com>
- <CALTww2-rbwtJTm+yyX6mar_eybLCbpFoWQWdOM9j4_hgW0=4Hg@mail.gmail.com>
-From: Li Nan <linan666@huaweicloud.com>
-In-Reply-To: <CALTww2-rbwtJTm+yyX6mar_eybLCbpFoWQWdOM9j4_hgW0=4Hg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgB3wY3t5cNovJT6CA--.44667S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7GF4UCr1kWFW3Ary7XrWUArb_yoWktFg_CF
-	4Yywn7Ww1DZwn29a1DKrs29Fn8Gw1xGFyqq348JFW3Wa48JFs5JFnagry2v3Z3J3WkGF9I
-	9rn5XwsYvrZ7CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbqxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
-	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
-	xwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14
-	v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
-	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
-	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
-	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbQV
-	y7UUUUU==
-X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
+Content-Type: text/plain
 
+On Fri, 12 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> Em Wed, 10 Sep 2025 13:51:40 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+>
+>> On Thu, 04 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+>> > Sometimes, it is desired to run Sphinx from a virtual environment.
+>> > Add a command line parameter to automatically build Sphinx from
+>> > such environment.  
+>> 
+>> Why?
+>
+> In my case, to be able to test build with different Sphinx versions.
+> On some distros, only venv works.
 
+I mean why add the complexity of running inside a venv in the wrapper.
 
-在 2025/9/12 11:18, Xiao Ni 写道:
-> On Thu, Sep 11, 2025 at 3:41 PM <linan666@huaweicloud.com> wrote:
->>
->> From: Li Nan <linan122@huawei.com>
->>
->> When adding a disk to a md array, avoid updating the array's
->> logical_block_size to match the new disk. This prevents accidental
->> partition table loss that renders the array unusable.
->>
->> The later patch will introduce a way to configure the array's
->> logical_block_size.
->>
->> The issue was introduced before Linux 2.6.12-rc2.
->>
->> Fixes: d2e45eace8 ("[PATCH] Fix raid "bio too big" failures")
-> 
-> Hi Li Nan
-> 
-> I can't find the commit in
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> 
-> git show d2e45eace8
-> fatal: ambiguous argument 'd2e45eace8': unknown revision or path not
-> in the working tree.
-> Use '--' to separate paths from revisions, like this:
-> 'git <command> [<revision>...] -- [<file>...]'
-> 
-> Regards
-> Xiao
+>> If you want Sphinx from a virtual environment, you enter the
+>> environment, and run the regular build, with sphinx-build from the PATH
+>> that points at the venv.
+>
+> when you do that, ./scripts/spdxcheck.py breaks, affecting checkpatch.
 
-Thank you for your reply.
+Then you could turn the whole argument around, and say spdxcheck.py
+should jump through venv and dependency hoops instead of the docs build.
 
-As mentioned in the commit message, the issue was introduced before Linux
-2.6.12-rc2, and needs to be get it in the history repository.
+The point is, it should be the user's responsibility to deal with the
+environment and the dependencies.
 
-https://kernel.googlesource.com/pub/scm/linux/kernel/git/tglx/history.git
+If they're setting up a virtual environment, and it affects checkpatch,
+then they should also include the spdxcheck.py dependencies in the
+virtual environment.
+
+This feels like reinventing pipx in a Sphinx wrapper.
+
+We should *reduce* the complexity, not increase it.
+
+>> We don't do this kind of extra magic for any other tools, I honestly
+>> don't understand why we'd do this for Sphinx. This just adds complexity
+>> for no good reason.
+>
+>> >
+>> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> > ---
+>> >  tools/docs/sphinx-build-wrapper | 30 +++++++++++++++++++++++++++---
+>> >  1 file changed, 27 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+>> > index ea9f8e17b0bc..cf7b30bc40ff 100755
+>> > --- a/tools/docs/sphinx-build-wrapper
+>> > +++ b/tools/docs/sphinx-build-wrapper
+>> > @@ -63,6 +63,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
+>> >  #
+>> >  #  Some constants
+>> >  #
+>> > +VENV_DEFAULT = "sphinx_latest"
+>> >  MIN_PYTHON_VERSION = PythonVersion("3.7").version
+>> >  PAPER = ["", "a4", "letter"]
+>> >  
+>> > @@ -119,8 +120,9 @@ class SphinxBuilder:
+>> >  
+>> >          return path
+>> >  
+>> > -    def __init__(self, builddir, verbose=False, n_jobs=None):
+>> > +    def __init__(self, builddir, venv=None, verbose=False, n_jobs=None):
+>> >          """Initialize internal variables"""
+>> > +        self.venv = venv
+>> >          self.verbose = None
+>> >  
+>> >          #
+>> > @@ -195,6 +197,21 @@ class SphinxBuilder:
+>> >  
+>> >          self.env = os.environ.copy()
+>> >  
+>> > +        #
+>> > +        # If venv command line argument is specified, run Sphinx from venv
+>> > +        #
+>> > +        if venv:
+>> > +            bin_dir = os.path.join(venv, "bin")
+>> > +            if not os.path.isfile(os.path.join(bin_dir, "activate")):
+>> > +                sys.exit(f"Venv {venv} not found.")
+>> > +
+>> > +            # "activate" virtual env
+>> > +            self.env["PATH"] = bin_dir + ":" + self.env["PATH"]
+>> > +            self.env["VIRTUAL_ENV"] = venv
+>> > +            if "PYTHONHOME" in self.env:
+>> > +                del self.env["PYTHONHOME"]
+>> > +            print(f"Setting venv to {venv}")
+>> > +
+>> >      def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
+>> >          """
+>> >          Executes sphinx-build using current python3 command and setting
+>> > @@ -209,7 +226,10 @@ class SphinxBuilder:
+>> >  
+>> >              cmd = []
+>> >  
+>> > -            cmd.append(sys.executable)
+>> > +            if self.venv:
+>> > +                cmd.append("python")
+>> > +            else:
+>> > +                cmd.append(sys.executable)
+>> >  
+>> >              cmd.append(sphinx_build)
+>> >  
+>> > @@ -533,11 +553,15 @@ def main():
+>> >      parser.add_argument('-j', '--jobs', type=jobs_type,
+>> >                          help="Sets number of jobs to use with sphinx-build")
+>> >  
+>> > +    parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
+>> > +                        default=None,
+>> > +                        help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
+>> > +
+>> >      args = parser.parse_args()
+>> >  
+>> >      PythonVersion.check_python(MIN_PYTHON_VERSION)
+>> >  
+>> > -    builder = SphinxBuilder(builddir=args.builddir,
+>> > +    builder = SphinxBuilder(builddir=args.builddir, venv=args.venv,
+>> >                              verbose=args.verbose, n_jobs=args.jobs)
+>> >  
+>> >      builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,  
+>> 
+>
+>
+>
+> Thanks,
+> Mauro
+>
 
 -- 
-Thanks,
-Nan
-
+Jani Nikula, Intel
