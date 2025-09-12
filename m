@@ -1,170 +1,98 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8F523ABB0
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 08:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24B32D63E2;
+	Fri, 12 Sep 2025 08:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665329; cv=none; b=kbLyArOop3J+7z23S/HnEsJAgNLx8ZQ55BgOpZuP2YeEHUGs9fAT1+Nqc7H7IhqWBbdZQAGobwTO8ZoIk82zDGhpO7c7kZiJ3VxZhdgzOwAkDzIhXXKS+QgsFk+H5+5w1KOtgTD1FG5g08/oZ7xGITXplndqdZ2GjLMnWLz77LU=
+	t=1757665700; cv=none; b=dwSJSfZfUPmH5+Z8w/bQZYIE6PGg6YyuI7u/IaNIQnBn+UHSpcqZ4K793YM9+5ROgsJTy1M8783VDq1NxiWM5wqm+YNx4of2LOPM0qHeHPRuw93ynXEfBaYQJwP55RzxUcjaRCvx69vCOgSbM1yDUDNBpGp3MvxOrMFNEKgJjLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757665329; c=relaxed/simple;
-	bh=E6SE8LLfjS2UCvp6Bidi5IuPPo1KwbyGGavK1DK/Utc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OfX86Y5+dzToI0J5ctzSkmGWr9wiaccPG3o6n+PpdDlYpGXE+I01VCQFBv4Na2eebPLdCfdI1h19cxhIFopThHfWNfAf10R26Xa3kibM2jNqcPOfKIqnrzvPFvwtew7cd6CDIFWmsEXPvQmr0xwI9Q0hzpjxCSDDxPyEKTtGNac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qvWnFw4n; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757665700; c=relaxed/simple;
+	bh=n1EW4vy65nSPoafSwWSgXqad37bTolvO1cf0oGnHTWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kxNbQJF2wDwtSxuWVUAseb7lnVwWHLSOrFbWdCMB/6DqO0U7IeA6GkUTF1dmA3XEufPtSjzRQ8WQr3e6wstBG47pWP8A2cWs7fAG+MsOleaPtzf4MljDSvE+Awelm24UIhYfQwRZiHkEiDAVzn1yOSInzm/stqN3Vx0YNAdB9E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heMrIWKO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qvWnFw4n"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-74382048b8cso1380138a34.3
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 01:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757665327; x=1758270127; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FqmWGb+bqV5HnkceUK4yMUe3ao70v2Hu/Bx0pkeeRhg=;
-        b=qvWnFw4nxnf6x6H3whV0i7y7zZ0146NpfnBRERdtdD9IhL5kxQwsHLff/bLJRNpbjS
-         gkKWZq4YdLiK4Foj36xbhXgf6KiAtRo3ZIYfzKWo8HTvPG0495v5mZgeoXtsXB2AzRlo
-         8dKQrJwp07K2va9dmeKiBtLz184hlOJaDYNuoVT2gzkOs53WQTbZ4y9zxhqwNHcxThh9
-         JsLE+vyADiDVPN8AwkiHxJgxpttYAVHXA/NqZDxxqMxo+Gbp1lIq11lQo2Y2PXAo3aZA
-         nhN7lDHQtJKr26UCcChEYyP6KOM7dVUOxouxvwNEZ3vefgG/BPMpcNq2dTsyvrzLx3Sz
-         l/kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665327; x=1758270127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FqmWGb+bqV5HnkceUK4yMUe3ao70v2Hu/Bx0pkeeRhg=;
-        b=ndQ4EsV49EhCMABYHq/zIHLSljkcipTQdbVOGrN3LfrKrfiqZ8OyXG9J72hWiiGSOc
-         ZsWTT/LB+5BMXr7ncoctOFwGFBwJJyhdKAcfFwdpvji5XTAg5bfbFNh/3GJmsfatzdAo
-         t4rF7+j2DorZH7oJWs1FrcMHlve77ebGa4F+lwddPNR9Q/kqSbYRlBJebwHWEank4bbM
-         uDTr+83iN3x8GkgNicHcftK83Dz0q9Np2BXJSNUPJUGoA46hriNWHCmE0bZ33NqlhozP
-         sFhNAdBKLSTmOcXPsjNSOJTq8lzp1Xp3GrTg6/M9mn+Nq3gLpINjz7GkSu+sSRiVd4VQ
-         zzCg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJmDhJv1TUOqeBBSadDRs8cHRXYQ3BM4WrAIEJgvlaFoMV7QJ2eWAOjcOfKX07XQNYaT+gWD8Z2jw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy11/WxA3O2TuICj56GqlHS3UW/NdBSm2Xm5JGZukD//eUpzQxm
-	+o8WgqHzSA3Z/m1WCmbar2hOplmrHL/y1Aizc5GioyM3WQEIK2tphbDTRQ2aeBqKGqrNoC2KoBk
-	WR4siyocZgfOB+7KPyzDXEl2Q+1eyREbFGapwuk4zQQ==
-X-Gm-Gg: ASbGncsqE0h46CoINeuM7U1TViC97oMJcdJXR3KEmJZ4UADS28QmIYU136Igl73aAFN
-	s/WGm8xNbi8q8ZDcZ9DavkxOKzFGxMU71A2yco7j1fzo+dNRc1WjkrRcbFQ/jkAmr1jNVtNGZ3t
-	x0JvUGrALQI0PFUdZO5qkfsYcTFuhFmvaBqwGSk4RN+8IRlnk+L99OFwlaVOh0Ra1bcpeo0T/i2
-	FyiS2Ps
-X-Google-Smtp-Source: AGHT+IF6KSmtzV3lD8Ye2Smqf1AHbbHzZL7yhMscYVEGZKEmeFM9f9fBRAk0lKMT9A8gz3y+3CIy3hDQkioIiFSlJ2M=
-X-Received: by 2002:a05:6830:6a94:b0:745:9d11:cc87 with SMTP id
- 46e09a7af769-75355ac462dmr1395964a34.35.1757665327140; Fri, 12 Sep 2025
- 01:22:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heMrIWKO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 512A3C4CEF4;
+	Fri, 12 Sep 2025 08:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757665698;
+	bh=n1EW4vy65nSPoafSwWSgXqad37bTolvO1cf0oGnHTWA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=heMrIWKOSv80U/xz5fRNyHaY47UB3AKqXNR30TWBXKEuwFKKAihGB2Ts+rpO5w5Sv
+	 SZolg0L0DOBn9xMMvDTsH+jfmQcn7ju81LlqMHVjQ68zo88sBz+vVDEUGKs4PAy8zs
+	 JZiCbWaKIG1G4cCgexplVHiGWJAbcoANp4oiZ8c8XYe5B/N4UbN9+mIWf525PkgVj1
+	 SFfE1WFslqHwslAkooJ8EpdkYgoN+mJKNBTbNJPPvBWUfkEfEB0uAkP+ESJYUfbvaC
+	 XBUIjzFQcM639J5X/faL1nA5e27Czb9VArnJycIbjAUbK5FqcwNX9F+ltChMSjTTJx
+	 Kqg3QiEnGDVsQ==
+Date: Fri, 12 Sep 2025 10:28:13 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl
+ <aliceryhl@google.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, Trevor Gross <tmgross@umich.edu>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v4 08/19] tools/docs: sphinx-build-wrapper: add a
+ wrapper for sphinx-build
+Message-ID: <20250912102813.6ea711ca@foz.lan>
+In-Reply-To: <87zfb1p0r3.fsf@trenco.lwn.net>
+References: <cover.1756969623.git.mchehab+huawei@kernel.org>
+	<e019f951190a732f9ac0b21bcda7e49af3bd5cbd.1756969623.git.mchehab+huawei@kernel.org>
+	<e13837a0ac46dffe39c600d11fdf33f538bdc9c3@intel.com>
+	<20250910145926.453f5441@foz.lan>
+	<45888ca6c88071c754784495b4ef69460ea67b4f@intel.com>
+	<fuv4p45tvjfdvwu2625s2l2kvcw64p4ohherlwyum3vmogmrfz@yb47nt66xgm6>
+	<87zfb1p0r3.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-0-17f07a942b8d@oss.qualcomm.com>
-In-Reply-To: <20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-0-17f07a942b8d@oss.qualcomm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Fri, 12 Sep 2025 10:21:55 +0200
-X-Gm-Features: Ac12FXxUkHtHNTLgZu3XBq2-UbPsnB-71u1NgRvPtOLVCD8F1behB1r-vwEiHeY
-Message-ID: <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
-Subject: Re: [PATCH v12 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, 
-	Bjorn Andersson <andersson@kernel.org>
-Cc: Sumit Garg <sumit.garg@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu <quic_apurupa@quicinc.com>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kuldeep Singh <quic_kuldsing@quicinc.com>, 
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Em Thu, 11 Sep 2025 07:38:56 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-On Fri, Sep 12, 2025 at 6:07=E2=80=AFAM Amirreza Zarrabi
-<amirreza.zarrabi@oss.qualcomm.com> wrote:
->
-> This patch series introduces a Trusted Execution Environment (TEE)
-> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> and services to run securely. It uses an object-based interface, where
-> each service is an object with sets of operations. Clients can invoke
-> these operations on objects, which can generate results, including other
-> objects. For example, an object can load a TA and return another object
-> that represents the loaded TA, allowing access to its services.
->
-[snip]
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > On Thu, Sep 11, 2025 at 01:23:55PM +0300, Jani Nikula wrote:  
+> >> > 1. SPHINXDIRS. It needs a lot of magic to work, both before running
+> >> >    sphinx-build and after (inside conf.py);  
+> >> 
+> >> Makes you wonder if that's the right solution to the original
+> >> problem. It was added as a kind of hack, and it stuck.  
+> >
+> > The problem is, IMHO, due to the lack of flexibility of sphinx-build:
+> > It should have a way on it to do partial documentation builds.  
+> 
+> A couple of times I have looked into using intersphinx, making each book
+> into an actually separate book.  The thing I always run into is that
+> doing a complete docs build, with working references, would require
+> building everything twice.  This is probably worth another attempt one
+> of these years...
 
-I'm OK with the TEE patches, Sumit and I have reviewed them.
+The big advantage of intersphinx is for PDF and LaTeX output, as
+this is the only way to have cross-references there.
 
-There were some minor conflicts with other patches I have in the pipe
-for this merge window, so this patchset is on top of what I have to
-avoid merge conflicts.
+It is also good for subsystem-specific books (or "sub-"books) like:
 
-However, the firmware patches are for code maintained by Bj=C3=B6rn.
-Bj=C3=B6rn, how would you like to do this? Can I take them via my tree, or
-what do you suggest?
+	- Documentation/admin-guide/media/
+	- Documentation/driver-api/media/
+	- Documentation/userspace-api/media/
 
-It's urgent to get this patchset into linux-next if it's to make it
-for the coming merge window. Ideally, I'd like to send my pull request
-to arm-soc during this week.
+Right now, we create a single book with all those tree, but I would
+prefer to build each of them as separate units, as they are for separated
+audiences, but only if cross-references will be solved in a way that
+html and pdf docs will point to the other books stored at linuxtv.org.
 
-Cheers,
-Jens
+For html, this won't be any different, in practice, from what we have,
+but for PDF and ePub, this would mean smaller books.
 
->
-> ---
-> Amirreza Zarrabi (11):
->       firmware: qcom: tzmem: export shm_bridge create/delete
->       firmware: qcom: scm: add support for object invocation
->       tee: allow a driver to allocate a tee_device without a pool
->       tee: add close_context to TEE driver operation
->       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
->       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
->       tee: increase TEE_MAX_ARG_SIZE to 4096
->       tee: add Qualcomm TEE driver
->       tee: qcom: add primordial object
->       tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
->       Documentation: tee: Add Qualcomm TEE driver
->
->  Documentation/tee/index.rst              |   1 +
->  Documentation/tee/qtee.rst               |  96 ++++
->  MAINTAINERS                              |   7 +
->  drivers/firmware/qcom/qcom_scm.c         | 119 ++++
->  drivers/firmware/qcom/qcom_scm.h         |   7 +
->  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
->  drivers/tee/Kconfig                      |   1 +
->  drivers/tee/Makefile                     |   1 +
->  drivers/tee/qcomtee/Kconfig              |  12 +
->  drivers/tee/qcomtee/Makefile             |   9 +
->  drivers/tee/qcomtee/async.c              | 182 ++++++
->  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++=
-++
->  drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++=
-++++++
->  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
->  drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
->  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
->  drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
->  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
->  drivers/tee/qcomtee/shm.c                | 150 +++++
->  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
->  drivers/tee/tee_core.c                   | 127 ++++-
->  drivers/tee/tee_private.h                |   6 -
->  include/linux/firmware/qcom/qcom_scm.h   |   6 +
->  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
->  include/linux/tee_core.h                 |  54 +-
->  include/linux/tee_drv.h                  |  12 +
->  include/uapi/linux/tee.h                 |  56 +-
->  27 files changed, 4410 insertions(+), 28 deletions(-)
-> ---
-> base-commit: 8b8aefa5a5c7d4a65883e5653cf12f94c0b68dbf
-> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
->
-> Best regards,
-> --
-> Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
->
+Thanks,
+Mauro
