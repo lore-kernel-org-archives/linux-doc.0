@@ -1,133 +1,124 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sinmsgout01.his.huawei.com (sinmsgout01.his.huawei.com [119.8.177.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323456D1A7
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 14:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3D51E32B7;
+	Fri, 12 Sep 2025 14:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.8.177.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757685828; cv=none; b=gLe3SYgyVAC8Uys9VCQ/pbTB/Nn4LFTZJTLzuzDMDzx+SfyUzOyYjppPiRAMQNDR/AVkRnI4wNuL3x6ht1HxL5oLfSr8LteFx97Wxny6w7HsPaEpSCS61y7AaDOYT5gJm9Ja0WT7yS8PiTOG8q97f1BUVoyNnD6czoMAFuu3Fzg=
+	t=1757685949; cv=none; b=c/0jdIaCcfspXdeAswn3FKGDE+WB6RD23J+R55rNjpulWfMSyNapPqkpApbaLAsaAzVneqWjrOHHvg3G9jXkxSpFfStbQ59sF9jbvMpeXa4WyZZiYfM4bvu8hJkUNR9nIcEjvpJ073hi8D9CiHy37NRpXTJVtXS/d0B0X2flcDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757685828; c=relaxed/simple;
-	bh=1I9+Pj5YQSChf3iBDwOVDQ5DkCm9d8fa1LEnpkGTDlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VyT1d7CN2sn0Ya8iOH2nLvfJUuJ0S1TjnkGg5O0xcgX4tRjaEBi9uh1t89+DqeqfOG0aPPYAsy0M3Y9ChHuZ2lGQ7Ne2Mc3h9EIj0KK8+ZkRsqS/RN+MSGNw/Wo279xDMWRPKQnXZxdciK1U/1foTLGNI5Jz1sc8l5X9siMIUiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FDD1fCTe; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757685949; c=relaxed/simple;
+	bh=wPa31C/u/zYnKmpAPD3QOJm/Vnf/aC31z5afXxruVno=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iNQFY4pNmg/RHuRjCjqfeJ0sjSE7+k5euaCdNcAwI1JwlU5lnwRrZRQ/vGEXumDuXFFsW4gr4cbaobU9u5N4VExwXZj3ONo0D08CDu/UU5e5uxCy9CkPuzHLRLebJ8UY586YFpKyoe2PtM2VC0ALmhxXeM42PiICr88zwN2jsnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Q8pLkyYP; arc=none smtp.client-ip=119.8.177.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FDD1fCTe"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b54acc8c96eso683492a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 07:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757685826; x=1758290626; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V1QxBTlE7wBHAWIKlSIVw+tKYZtGp4FqMWgYg6ZMy6M=;
-        b=FDD1fCTe0boeNQMn0OkkSqRGKuFiBhKfXtBambUo4DvrRts4OvHU9pCRWOEzjhcStI
-         xbmOOPlNyw71Fk/BnXI4mE2k5GtA/1e2qYfWWWLFU9QUhi7WdGlZtMEAhjXrSthCqBAI
-         50U8AUTMJMeonlPSJyc+K6qfTBXcqwkYfbmKX0/ekdK7VrERh5R5ysvygHhmbBhNBEkE
-         FBum+0t0IRmmMjzzx3volw4q2NhV/uTIogsKMJUATZ91D6sthep3kS94OjB0nkMuwWrE
-         /vx7BE9rjZv2DXai6D28c9+20oqwAUxseecxziMeG2kKIDhqHDFptyyflDNBRALkkTND
-         mDvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757685826; x=1758290626;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V1QxBTlE7wBHAWIKlSIVw+tKYZtGp4FqMWgYg6ZMy6M=;
-        b=C12cNEHu2Svwc2VZsBshaoJJ8MWGw8xkmKJRM20YkFSOTelknLu3XVK6FAhX23dHvm
-         h8ZWXCaTbtMO3piHotbEl9hn7fiiiOP1A1YQtaz4SM64LdSifgfgVhlxNmuOr1imeYrl
-         t5kNbbP2jA4vPuLB4H953PmpkqOXZLTMl5/T3oOfLo+4SuwO11b5BB55rmxYourVJWOQ
-         CCKR9+6wNWLUoSp4l+3g5f3VClBH+Nvt6+gpFokomB0AVJBOlV10gwa9BFT+1aM/XQWN
-         Td+/gx/c2AlcZGttzeFJrppPmRNmdZAJFFgQ33c9021Pv+2HfdktvOsV59KYjZYReXsf
-         RaKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWa2BB+CkUbcdvUFkHWbIgTMmJlpbTzXaWDYIRg4c3xT24Fpcj3IK2/otqdsLkKZujTdW1Av9Kfduc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjCDHa0XBpaI0kWkcD1EaBcW8cGkiDZLmNKSWZZN4/DUAyuHeI
-	+S/Mi/SckGv5Z1pdJ2QxTz95l1HuiXxjsyLv/wI6MrOGANSXKA9RRxVx
-X-Gm-Gg: ASbGnct0wol9OTswRdujF4jlKUewF0ErETB4Zy53RbSq9TWkNkx1hU9VIJ1sKhARsvJ
-	wfsyv2l3pA2eDCKRz6aEssUjV3aX8MrSIDHqOFNhZTwETUAmc3DIHOyDRnTGUDEhep7vtGjLlCE
-	5hBMNBQiKyM08egjxTHq8t4Xefhqw0j/b1yykYmqfNgNu/Ct4QUTWmv3+u1HzmsfByMhp/DqDPS
-	R7WvEuYFPKptFt5eGYQmggrG0SNTiVuRCPdXklePY40ZU4GiFXPLWATJg3jgzhgAbXO2VHg+CsS
-	2O2UO3nQKyHtGTvPB2SAeXwarzhz6FR/urmd1Vg/m60uaL+k7iSNE+ht46S9N/Kw2wrvs9BcMGx
-	br3MKnjG+yYPA41TzAUwtXCp6IM4r6xC2rp2NMjEn2LrnNwGS8DJIlaFIgVrccNVJbuo6WE32eN
-	PlFeQ=
-X-Google-Smtp-Source: AGHT+IG5X1Gan6zjQjJMTNF/rCRnIvsPNEFCkkjRGBaWPrcJK0WciPjQY9PjPdMsK2clZM3/U1Sepg==
-X-Received: by 2002:a17:902:ccca:b0:25d:f26d:3b9e with SMTP id d9443c01a7336-25df26d3c13mr21633615ad.11.1757685825575;
-        Fri, 12 Sep 2025 07:03:45 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c37293d12sm49743615ad.39.2025.09.12.07.03.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:03:45 -0700 (PDT)
-Message-ID: <f3d142be-3980-4d4e-9d66-c03276694bf9@gmail.com>
-Date: Fri, 12 Sep 2025 23:03:43 +0900
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Q8pLkyYP"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=/DcnQTeZI4YKYnANsuOLP3ExlPyT4WtsTA72OsrRERg=;
+	b=Q8pLkyYP6XMLOWfm0UEEdNgeHC6ZXfaCemitYMnvTcFKWHImQdcBRA4C4p7bQ3TevArIMHvOy
+	jE1m7zqlkBek2L3dbxELIo4lledWmAravBzacMis+yV1DrtVPsFvdSqEIAPlsKjXYy1xmdnf3MF
+	rGA09i4tPOxEglnLUUJj1zE=
+Received: from frasgout.his.huawei.com (unknown [172.18.146.35])
+	by sinmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4cNbK13n41z1P7Gn;
+	Fri, 12 Sep 2025 21:45:09 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cNbJn3zS2z6M53n;
+	Fri, 12 Sep 2025 21:44:57 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 015531402ED;
+	Fri, 12 Sep 2025 21:47:39 +0800 (CST)
+Received: from localhost (10.203.177.15) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 12 Sep
+ 2025 15:47:38 +0200
+Date: Fri, 12 Sep 2025 14:47:36 +0100
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Will Deacon <will@kernel.org>
+CC: Yicong Yang <yangyicong@huawei.com>, <yangyicong@hisilicon.com>,
+	<catalin.marinas@arm.com>, <maz@kernel.org>, <oliver.upton@linux.dev>,
+	<corbet@lwn.net>, <linux-arm-kernel@lists.infradead.org>,
+	<kvmarm@lists.linux.dev>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
+	<yuzenghui@huawei.com>, <shuah@kernel.org>,
+	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <tangchengchang@huawei.com>,
+	<wangzhou1@hisilicon.com>
+Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
+Message-ID: <20250912144736.00007673@huawei.com>
+In-Reply-To: <aMLvtpaCgRqPAU2Z@willie-the-truck>
+References: <20250715081356.12442-1-yangyicong@huawei.com>
+	<20250715081356.12442-6-yangyicong@huawei.com>
+	<aL7Fgx__LeLfbDyU@willie-the-truck>
+	<5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
+	<aMLvtpaCgRqPAU2Z@willie-the-truck>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/19] tools/docs: sphinx-build-wrapper: add a wrapper
- for sphinx-build
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, jani.nikula@linux.intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, tmgross@umich.edu
-References: <20250910153334.0b3e1440@foz.lan>
- <28c45f53-a3ff-428f-ba99-ebb09e0581d3@gmail.com>
- <20250912130420.6c14dbbd@foz.lan>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250912130420.6c14dbbd@foz.lan>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Fri, 12 Sep 2025 13:04:20 +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 12 Sep 2025 19:15:44 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Thu, 11 Sep 2025 16:50:14 +0100
+Will Deacon <will@kernel.org> wrote:
+
+> On Tue, Sep 09, 2025 at 09:48:04AM +0800, Yicong Yang wrote:
+> > On 2025/9/8 20:01, Will Deacon wrote:  
+> > > On Tue, Jul 15, 2025 at 04:13:54PM +0800, Yicong Yang wrote:  
+> > >> diff --git a/Documentation/arch/arm64/elf_hwcaps.rst b/Documentation/arch/arm64/elf_hwcaps.rst
+> > >> index 69d7afe56853..9e6db258ff48 100644
+> > >> --- a/Documentation/arch/arm64/elf_hwcaps.rst
+> > >> +++ b/Documentation/arch/arm64/elf_hwcaps.rst
+> > >> @@ -435,6 +435,12 @@ HWCAP2_SME_SF8DP4
+> > >>  HWCAP2_POE
+> > >>      Functionality implied by ID_AA64MMFR3_EL1.S1POE == 0b0001.
+> > >>  
+> > >> +HWCAP3_LS64
+> > >> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0001.
+> > >> +
+> > >> +HWCAP3_LS64_V
+> > >> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0010.  
+> > > 
+> > > Given that these instructions only work on IMPLEMENTATION DEFINED memory
+> > > locations and aren't guaranteed to generate an abort if used elsewhere,
+> > > how is userspace supposed to know what to do with them?
+> > >   
+> > 
+> > per ARM DDI0487 L.b section C3.2.6,
+> > 
+> >   When the instructions access a memory type that is not one of the following,
+> >   a data abort for unsupported Exclusive or atomic access is generated...  
 > 
->> [-CC: rust people and list]
->>
->> OK, Looks like I have to bite.
->>
->> On Wed, 10 Sep 2025 15:33:34 +0200, Mauro Carvalho Chehab wrote:
->> [...]
->>
->>> The current approach of using LaTeX for PDF is dirty:
->>>
->>> - Sphinx can't produce a LaTeX file from the Kernel trees without
->>>   hundreds of warnings;
->>> - latexmk hides some of them, but even it just one warning is reported,
->>>   the return status is not zero.  
->>
->> This sounds interesting to me.
->> As far I remember, I have never seen such strange results of latexmk
->> under build envs where all the necessary packages are properly installed.
+> That's about the memory _type_. I'm talking about a supported memory type
+> (e.g. writeback cacheable) but when the physical location doesn't support
+> the instruction. That's captured a little later in the same section:
 > 
-> I saw it here on multiple distros including Fedora (which is the one
-> I use on my desktop). Media jenkins CI running on Debian always suffered
-> from such issues, up to the point I started ignoring pdf build results.
+>   | If the target memory location does not support the LD64B or ST64B
+>   | instructions, then one of the following behaviors occurs:
+>   |  * A stage 1 Data Abort, reported using the DFSC code of 0b110101,
+>   |    is generated.
+>   |  * The instruction performs the memory accesses, but the accesses
+>   |    are not single-copy atomic above the byte level
 > 
+> and I think that's a bad interface to expose blindly to userspace solely
+> as a boolean hwcap.
+Hi Will,
 
-So please provide exact steps for me to see such errors.
+Nasty, so now I'm curious. Any thoughts on how to expose what regions it is appropriate
+for?  I can think of various heavy weight options but wondering if there is a simple
+solution.
 
-I don't have any issues after strictly following the suggestions from
-sphinx-pre-install under Fedora.
-
-I even invoked [...]/output/latex/Makefile manually after running
-"make latexdocs" by:
-
-  - cd [...]/output/latex/
-  - make PDFLATEX="latexmk -xelatex" LATEXOPTS="-interaction=batchmode -no-shell-escape" -j6 -O all
-
-, and all the PDFs were built without any issues.
-
-Quite puzzling ...
-
-Or does your Fedora have some Noto CJK variable fonts installed?
-
-Hmm ...
-
-Thanks,
-Akira
+Jonathan
+> 
+> Will
+> 
 
