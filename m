@@ -1,102 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47FE168BD;
-	Fri, 12 Sep 2025 01:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B206282EE;
+	Fri, 12 Sep 2025 01:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757639024; cv=none; b=kYJxhvFM6DawQqlrkCxnpBMB5yebhM3gcMZXMzrQyy4cEHYDc5Z6KnjExdOql6d5/K3Bb8+Zm5iCFqUk9yYj5okVsgrpbd5Lgv4MSd13xcvIkjJ0zklBIs+u0S+EcqzWReRNUHt2MFD4x0QE4G8IIcAGMUc09yj4fwxt3UoxvpU=
+	t=1757639357; cv=none; b=IAHxt01mi7COuNfaZDJLPi+N5MlwHTdKnYvqRFDWBkPO2QIWiTlg13jzGuPSvGB4rmOkrdBrPICTcF+nAduNb7mGIcntRrkXBiB4DUVEwjXe27zRmkJGNpQm5KAAECPMRss48tHX41Z/7k94xNkCRimfqncmOR1/uyj92bCy9o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757639024; c=relaxed/simple;
-	bh=UupyoFE7SnAlsffL4fmvxHr7u5yI/7mpAQ9gZ/SiWEo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=KL1GXl0fqakfE7f0WyysG/iXTiFlie7eqRJrEOwZqkmBjYSjxgaSFRAjQaSPDaDraZMgvx0LOXtXKxjdJBSl69QyaUVAnOdxq6CIGJn7pBiaAt1NWO2QJFelautj0H1dYDceEQ6rvvjpeapCMRt4X7zrRHJiD0IaLS7duU+8VCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=htZH4rWZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757639357; c=relaxed/simple;
+	bh=7RNSYWH/V95aG5VeEFq7f6RO4dc8SRjCr3STvE3PKKI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CwA/HOMvToRE3tzgCsgvc2F7i27x98cZXKXWEOJ61ieMls4yYfovTTHXeINd585XzS+oRHqAzqv06qiRU+PjNmxEG3axg6FcAPA+553dShT13NSSikz5dKykyDYVoeogdIowH1o5HCetemtmdO7fcXnoISSDHMJdNJ/3wQH5lXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ffeX6sAT; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="htZH4rWZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB87C4CEF0;
-	Fri, 12 Sep 2025 01:03:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757639024;
-	bh=UupyoFE7SnAlsffL4fmvxHr7u5yI/7mpAQ9gZ/SiWEo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=htZH4rWZF0hXTnA2KtZ0qwz8xfhw/zUMoL7xbSJLovLmAZm+ScgSRZUNXi/AbEbOW
-	 0nA6QmCTuc4q+lPuxrzV25Ym1FlBnc5Wt0ikuidiLSu7mPC4J9JgLzgD8eBU2JG6u/
-	 e46CjUiQZBl0EdlWn4HphIDg5t1vRWoyFqON9ZYhnzBfxURT/wRv3DkUjHOR9+FwED
-	 yiHSKAhI4xOcbDSOYANFAoGRhmUdjudoBpeRICFg0AtB1q+TFZF3QmIsFjNTdNN8vI
-	 mw7SewA037OQHw5BhEASdJraBdgnKjgoTFEWu91dtSW8PXeNXsY3G6vJ6btV9jqB9W
-	 nlu4ydPbGmLtQ==
-Date: Fri, 12 Sep 2025 10:03:39 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
- Documentation <linux-doc@vger.kernel.org>, Linux Kernel Tracing
- <linux-trace-kernel@vger.kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Tom
- Zanussi <zanussi@kernel.org>
-Subject: Re: [PATCH 4/5] Documentation: trace: histogram-design: Wrap
- introductory note in note:: directive
-Message-Id: <20250912100339.d9456de2783cdc67b01cfec7@kernel.org>
-In-Reply-To: <20250911042527.22573-5-bagasdotme@gmail.com>
-References: <20250911042527.22573-1-bagasdotme@gmail.com>
-	<20250911042527.22573-5-bagasdotme@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ffeX6sAT"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1757639351; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=PLrM4vez4dkjfX4BYt69DTn/OHrFvZ3II7wiWj12+bw=;
+	b=ffeX6sATjw8qPbYZA33ZlFYkjJpeIYDsFZzUhI8sZUI1j9Nf/5uzo7+GUcZNfFYkQFaRubg7Js6JGkCBjfFeia+R/3FllSea2sAW4v4b+XysAbMF2oamwn2N1Xd8VPvqVIjIbM3mY9CNt6mKd/uDWfi1dF6OrWAoLmsvIUPNnk0=
+Received: from 30.180.0.242(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WnoF9lz_1757639349 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 12 Sep 2025 09:09:10 +0800
+Message-ID: <66971d07-2c1a-4632-bc9e-e0fc0ae2bd04@linux.alibaba.com>
+Date: Fri, 12 Sep 2025 09:09:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
+ CONFIG_BLOCK guard
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org,
+ miklos@szeredi.hu, djwong@kernel.org, linux-block@vger.kernel.org,
+ gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+ linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-14-joannelkoong@gmail.com>
+ <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
+ <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
+ <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com>
+ <aMK0lC5iwM0GWKHq@infradead.org>
+ <9c104881-f09e-4594-9e41-0b6f75a5308c@linux.alibaba.com>
+ <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
+ <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com>
+In-Reply-To: <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 11 Sep 2025 11:25:26 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-> Use Sphinx note:: directive for the introductory note at the beginning
-> of docs, instead of aligned-text paragraph that renders as definition
-> list.
+
+On 2025/9/12 08:06, Gao Xiang wrote:
 > 
-
-Looks good change ;)
-
-Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-
-Thank you!
-
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/trace/histogram-design.rst | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
-> index 4faff1669b77bd..ae71b5bf97c6c7 100644
-> --- a/Documentation/trace/histogram-design.rst
-> +++ b/Documentation/trace/histogram-design.rst
-> @@ -11,13 +11,14 @@ histograms work and how the individual pieces map to the data
->  structures used to implement them in trace_events_hist.c and
->  tracing_map.c.
->  
-> -Note: All the ftrace histogram command examples assume the working
-> -      directory is the ftrace /tracing directory. For example::
-> +.. note::
-> +   All the ftrace histogram command examples assume the working
-> +   directory is the ftrace /tracing directory. For example::
->  
->  	# cd /sys/kernel/tracing
->  
-> -Also, the histogram output displayed for those commands will be
-> -generally be truncated - only enough to make the point is displayed.
-> +   Also, the histogram output displayed for those commands will be
-> +   generally be truncated - only enough to make the point is displayed.
->  
->  'hist_debug' trace event files
->  ==============================
-> -- 
-> An old man doll... just what I always wanted! - Clara
+> On 2025/9/12 03:45, Joanne Koong wrote:
+>> On Thu, Sep 11, 2025 at 8:29 AM Gao Xiang <hsiangkao@linux.alibaba.com> wrote:
 > 
+> ...
+> 
+>>> ```
+>>>
+>>> But if FUSE or some other fs later needs to request L2P information
+>>> in their .iomap_begin() and need to send L2P requests to userspace
+>>> daemon to confirm where to get the physical data (maybe somewhat
+>>> like Darrick's work but I don't have extra time to dig into that
+>>> either) rather than just something totally bypass iomap-L2P logic
+>>> as above, then I'm not sure the current `iomap_iter->private` is
+>>> quite seperate to `struct iomap_read_folio_ctx->private`, it seems
+>>
+>> If in the future this case arises, the L2P mapping info is accessible
+>> by the read callback in the current design. `.read_folio_range()`
+>> passes the iomap iter to the filesystem and they can access
+>> iter->private to get the L2P mapping data they need.
+> 
+> The question is what exposes to `iter->private` then, take
+> an example:
+> 
+> ```
+> struct file *file;
+> ```
+> 
+> your .read_folio_range() needs `file->private_data` to get
+> `struct fuse_file` so `file` is kept into
+> `struct iomap_read_folio_ctx`.
+> 
+> If `file->private_data` will be used for `.iomap_begin()`
+> as well, what's your proposal then?
+> 
+> Duplicate the same `file` pointer in both
+> `struct iomap_read_folio_ctx` and `iter->private` context?
+
+It's just an not-so-appropriate example because
+`struct file *` and `struct fuse_file *` are widely used
+in the (buffer/direct) read/write flow but Darrick's work
+doesn't use `file` in .iomap_{begin/end}.
+
+But you may find out `file` pointer is already used for
+both FUSE buffer write and your proposal, e.g.
+
+buffer write:
+  /*
+   * Use iomap so that we can do granular uptodate reads
+   * and granular dirty tracking for large folios.
+   */
+  written = iomap_file_buffered_write(iocb, from,
+                                      &fuse_iomap_ops,
+                                      &fuse_iomap_write_ops,
+                                      file);
 
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+I just try to say if there is a case/feature which needs
+something previously in `struct iomap_read_folio_ctx` to
+be available in .iomap_{begin,end} too, you have to either:
+  - duplicate this in `iter->private` as well;
+  - move this to `iter->private` entirely.
+
+The problem is that both `iter->private` and
+`struct iomap_read_folio_ctx` are filesystem-specific,
+I can only see there is no clear boundary to leave something
+in which one.  It seems just like an artificial choice.
+
+Thanks,
+Gao Xiang
+
+> 
+> 
+>>
+>>> both needs fs-specific extra contexts for the same I/O flow.
+>>>
+>>> I think the reason why `struct iomap_read_folio_ctx->private` is
+>>> introduced is basically previous iomap filesystems are all
+>>> bio-based, and they shares `bio` concept in common but
+>>> `iter->private` was not designed for this usage.
+>>>
+>>> But fuse `struct iomap_read_folio_ctx` and
+>>> `struct fuse_fill_read_data` are too FUSE-specific, I cannot
+>>> see it could be shared by other filesystems in the near future,
+>>> which is much like a single-filesystem specific concept, and
+>>> unlike to `bio` at all.
+>>
+>> Currently fuse is the only non-block-based filesystem using iomap but
+>> I don't see why there wouldn't be more in the future. For example,
+>> while looking at some of the netfs code, a lot of the core
+>> functionality looks the same between that and iomap and I think it
+>> might be a good idea to have netfs in the future use iomap's interface
+>> so that it can get the large folio dirty/uptodate tracking stuff and
+>> any other large folio stuff like more granular writeback stats
+>> accounting for free.
+> 
+> I think you need to ask David on this idea, I've told him to
+> switch fscache to use iomap in 2022 before netfs is fully out [1],
+> but I don't see it will happen.
+> 
+> [1] https://lore.kernel.org/linux-fsdevel/YfivxC9S52FlyKoL@B-P7TQMD6M-0146/
+> 
+> Thanks,
+> Gao Xiang
+
