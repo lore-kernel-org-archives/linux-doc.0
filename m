@@ -1,61 +1,129 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954DB289E30
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 06:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B495828EA56
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 07:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757660025; cv=none; b=ECud1kymq0XUajUaiFhDr/SdCRDSTUyi0ZyK5btKtiS306KIEOO7qi6oaOMpRQJB3palc5CG6YN52OWyWhZWlpLYzUxvQVm4zhe+LGUqo7NRacKRqKRuuqAtT2ReaNfNWUWMYhK1rQ3YksW77EaqAR0ex240EEw+MqVAIvUJ36Q=
+	t=1757661539; cv=none; b=EVZTkP4d87jy90Pj5ur91qk+n3SuGGs+NZFSD0JL9gVcZ5yD+ek5fL+vbnCUe7dMGnJjXuycHWO9+I2RvqeoEqC3ET/sCdPFztfbJYLen9T0OTmA43Lkq6Qibo+7AF9x5R32okmIlTusKMpBvdzs2N57u2toSx+6/alfQpWt0Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757660025; c=relaxed/simple;
-	bh=mPsbodAtPjiJ3OKduxPpYJ0o4XxyNaptVm2EuskVmXc=;
+	s=arc-20240116; t=1757661539; c=relaxed/simple;
+	bh=peTxhAGR3daZzAvmzW9ww+hbnMcaEKjQQIT5Cf0Fs4k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vxf44iirFIqWsYrFPByBdvbzwjnPVFPyI/ge5+JXsCIUV2jYJSwjejXpKNwSiY9q2jE/5k9rgF0sUqhyn02LYM8XDwI3ftsX4SHlDu07PAVFaeotlU5JuVb+jfx4bSCPrKPhmDSF3XFSkRtssDA+IRhesCf7qHW4zbXp6u/Cnu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=e5OMHdDB; arc=none smtp.client-ip=95.215.58.179
+	 In-Reply-To:Content-Type; b=JSgkYTokC3zE8OUeiu6Feudci50MDjwntLGTlZ52//Bzu/Ki3l/lp1e4gWfGG/NS2nk3Q56ekr3kfIvQ5KKGTmN66JCP8Oj8HZyV/c4c1wGSJYuaF/OF6QE4UvLIi4PNu5C1nBROZOihQmdmElsqoV9DgwO47UziFixzQpLiWmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GXD9bTOT; arc=none smtp.client-ip=91.218.175.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="e5OMHdDB"
-Message-ID: <f0426e43-3d3e-4dc4-aa6b-31db8b2a2a53@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GXD9bTOT"
+Message-ID: <e0233785-b3da-4bd5-a37f-cf4704c49744@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757660011;
+	t=1757661524;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mPsbodAtPjiJ3OKduxPpYJ0o4XxyNaptVm2EuskVmXc=;
-	b=e5OMHdDBLdx8/XLMpjj24B/LxKFBdKo3LrNueZMlFYbDu8OplqFkfmJwV8zzUIR5POZ0hR
-	IxFhM4pvm935YDaU//okrX/mNzl+UWlcLNBHvoGnnCuWplR/ckoeYJgZyAd6vhPQspGqHE
-	5sf/MFGwJc+n5FuLIAGL5EdvYp3qtUU=
-Date: Fri, 12 Sep 2025 14:53:24 +0800
+	bh=6iXw6E6rNRdpErP2hR22iowIPCSBgYh4iueuVgcUD50=;
+	b=GXD9bTOTXs/tqINexb/e7Ts6tlvZPk9wT8DJZndnWkzFXfbeLocLwBcr5d+VMxQx5cuipl
+	xHpx2ILkAReuDKrj1PddLk1qOqkSFfQ1I0mHlyaoBzSIAygDNBTZjmO1ngOIeqbCLxG0JV
+	AWFLK4jt2arOa8uFiM694mNfV3qbxRM=
+Date: Fri, 12 Sep 2025 15:18:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/4 v3] Docs/zh_CN: Translate timestamping.rst to
- Simplified Chinese
-To: wang.yaxin@zte.com.cn
-Cc: alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, xu.xin16@zte.com.cn, yang.yang29@zte.com.cn,
- fan.yu9@zte.com.cn, he.peilin@zte.com.cn, tu.qiang35@zte.com.cn,
- qiu.yutan@zte.com.cn
-References: <20250830170157045JsLLov8_im0lUELq88aLu@zte.com.cn>
+Subject: Re: [PATCH v4 1/7] Docs/zh_CN: Translate ubifs.rst to Simplified
+ Chinese
+To: shao.mingyin@zte.com.cn
+Cc: alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, yang.tao172@zte.com.cn,
+ wang.longjie1@zte.com.cn
+References: <20250826190102126qyDear85W7BATchttuUUL@zte.com.cn>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250830170157045JsLLov8_im0lUELq88aLu@zte.com.cn>
+In-Reply-To: <20250826190102126qyDear85W7BATchttuUUL@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
-在 8/30/25 5:01 PM, wang.yaxin@zte.com.cn 写道:
+在 8/26/25 7:01 PM, shao.mingyin@zte.com.cn 写道:
+> From: Shao Mingyin <shao.mingyin@zte.com.cn>
+>
+> translate the "ubifs.rst" into Simplified Chinese.
+>
+> Update to commit 5f5cae9b0e81("Documentation: ubifs: Fix
+> compression idiom")
+>
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+> Signed-off-by: yang tao <yang.tao172@zte.com.cn>
+> ---
+> v3->v4
+> resolve patch damage issues.
+>   .../translations/zh_CN/filesystems/index.rst  |   2 +-
+>   .../translations/zh_CN/filesystems/ubifs.rst  | 114 ++++++++++++++++++
+>   2 files changed, 115 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs.rst
+>
+> diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+> index 9f2a8b003778..6049b599dec8 100644
+> --- a/Documentation/translations/zh_CN/filesystems/index.rst
+> +++ b/Documentation/translations/zh_CN/filesystems/index.rst
+> @@ -26,4 +26,4 @@ Linux Kernel中的文件系统
+>      virtiofs
+>      debugfs
+>      tmpfs
+> -
+> +   ubifs
+> diff --git a/Documentation/translations/zh_CN/filesystems/ubifs.rst b/Documentation/translations/zh_CN/filesystems/ubifs.rst
+> new file mode 100644
+> index 000000000000..16c28bfd6fc3
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/filesystems/ubifs.rst
+> @@ -0,0 +1,114 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +3.2.4 MAC 驱动程序的其他注意事项
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-There is an obvious misalignment here. I'm curious, have you tried building tests?
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/filesystems/ubifs.rst
+> +
+> +:翻译:
+> +
+> +   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
+> +
+> +:校译:
+> +
+> +   - 杨涛 yang tao <yang.tao172@zte.com.cn>
+> +
+> +============
+> +UBI 文件系统
+> +============
+> +
+> +简介
+> +============
+
+Alignment required here.
+
+
+It is noticed that ZTE Email has been translating kernel
+
+documents for a long time, which is highly admirable.
+
+Against this background, I believe most of you are
+
+familiar with translation standards and capable of
+
+reviewing Chinese translations. I hope you can review
+
+each other's work, especially when new members join
+
+in—help them and assist them in getting familiar with
+
+the entire process.
 
 
 Thanks,
