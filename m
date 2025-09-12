@@ -1,93 +1,186 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84283305E09;
-	Fri, 12 Sep 2025 12:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C4A2DC787;
+	Fri, 12 Sep 2025 13:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757681376; cv=none; b=qWGJwjgnQdJ41SJT9ysZr5Ic47wuH1cxfarKcWmnGUnzzWxkArTsaH1JB0YgRU3GjekzbZ3uVFSMm+VLmvbURoLt/poE+6C+Db1/AU5jqYIBzsVUBylXuUzPIVoxY82YxCSZlXOhoPtzDUDLjWbMVXRG/hXfUKFkN9WYNO/5Trg=
+	t=1757682331; cv=none; b=Bbe7MImljA1Hkz/KIfNN6ku0dJTI6d+ggw84/8LG3goeGapylPBH9rBqwDVf3aURjqK2prRVU0evg8yurmOAp/rcqex8l+JHD1+6VZp7pXyTGHZF+JpMLy5Hl8j9taCz0yosCwMwqoAy/qe8UO3Kco1pd9kMVXGRdgmOTN0gVCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757681376; c=relaxed/simple;
-	bh=cJOJH3yU/kwSOFEWL3cknqHk3CDHphTlrhQNFHKX2TQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GDOeZJATOtQa6ya52T+yiHJX1gNyyIzqobMCUkIM37fRL0+52yNT7m6DRxoOYhoQcuP36VoNnhUo/7LGpS884L/wEn4DE4/W/79f+Ki5MrWH9XMu92EMVkWXMrJoJWgq3PqmBQkbPSCQmOrBi2dqDcytAm4gGho2bshN+Ywf9Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0z/kSoo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757682331; c=relaxed/simple;
+	bh=Oj2YhsrlW7/LL2/+FfpL2MDbCW0BhZLRp8bVjxYH3/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sG0Yha6Kx84OCUdLYCI46WvOpphwmhBiZVq1Ea/jzdrjmtSPETGxCVhc1CcbeVs7VZ+upjlrcacLDKAOrCkWHqNs5Rz5xcByvqCCp4P6FYN7asab6p97/SMj/Yi0dRgjuYLBRfcq4VHD0RmqfCKCaH+7xx4s9Yai26Gb+USyIPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QYmYXTzS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0z/kSoo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB3FAC4CEF1;
-	Fri, 12 Sep 2025 12:49:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QYmYXTzS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCDCC4CEF1;
+	Fri, 12 Sep 2025 13:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757681375;
-	bh=cJOJH3yU/kwSOFEWL3cknqHk3CDHphTlrhQNFHKX2TQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V0z/kSooxMApXq2NR67i6CL/A5Mf8HOrK0a2IkGC5YoU1uouX+LEnpoZnf8dKPuoR
-	 oZFaizNtY+yIa/IElaW7FFd+v0Q4mnd3MFXQsED/WA41t05OtpTD9Y/cmO0PRpWgov
-	 OC5ZNQEgfyvKL7yVPc6OjAbenW6IusZ3KVhyDgIxa8aYAuCcDnXH7U7cS7lCnszegu
-	 sIXuN6n6XxxoNdYFqhvC7z723wrdtVJlV8gVC3PqfytoL+AatKrH9DhngrZgHJtUQz
-	 yLlEKCwT2n2B4b32+72FsWoVQ2KruW7f/01kVtW0QOzdZOcfC3ubl66AUQkqMmjHtP
-	 hTpLKb1LZNKuw==
-Date: Fri, 12 Sep 2025 20:49:30 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, brgl@bgdev.pl
-Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
-Message-ID: <aMQW2jUFlx7Iu9U5@tzungbi-laptop>
-References: <20250912081718.3827390-1-tzungbi@kernel.org>
- <2033c6cd-4112-4c8a-a9ef-2ab34f3504b8@kernel.org>
- <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
+	s=k20201202; t=1757682330;
+	bh=Oj2YhsrlW7/LL2/+FfpL2MDbCW0BhZLRp8bVjxYH3/4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QYmYXTzSvoub6ckp1xdpKOdLcSDR/MGN65tzs+mhcDVodcTVq4E0vyN83ehL+5jls
+	 ebOPq+YIRNK8+3qzlOYuHLUMUE+GawtStVvB5HdnTpuQ22W3MW2B3mlKxzDAmBWwy/
+	 1FJAe1Jve27dbaPIBLnrFnxL4ldNsXO/YOdz53BsBfUhceap1kcbGF0zR9X/iooRK+
+	 e5Mj+ZyPjWuKjpM2TzrFWsYtkyBB2VmsSyqjsyY7px1/Q+AJtZLXNMxbk9q6I4rFdP
+	 l33tP7e8dZb7kcc/eFpbFvF9LROABe07SVyr9fIGYJVmEqG2ZSn9gxJocjwm9l2l4T
+	 4mMRrYuK/Xpcw==
+Message-ID: <73c95643-e1eb-461c-b547-931642ec633a@kernel.org>
+Date: Fri, 12 Sep 2025 15:05:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH net-next] tools: ynl: rst: display attribute-set doc
+Content-Language: en-GB, fr-BE
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org>
+ <m2v7lpuv2w.fsf@gmail.com> <a1f55940-7115-4650-835c-2f1138c5eaa4@kernel.org>
+ <m2ecscudyf.fsf@gmail.com>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <m2ecscudyf.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 12, 2025 at 11:24:10AM +0200, Bartosz Golaszewski wrote:
-> On Fri, 12 Sept 2025 at 11:09, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > On 12/09/2025 10:17, Tzung-Bi Shih wrote:
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >
-> > Thanks for the work. Just a note, please start using b4, so above Cc
-> > will be propagated to all patches. Folks above received only the cover
-> > letter...
-
-Thank you for bringing this to my attention.  I wasn't aware of that and
-will ensure this is handled correctly in the future.
-
-> Thanks to Krzysztof for making me aware of this. Could you please Cc
-> my brgl@bgdev.pl address on the next iteration.
-
-Sure, will do.
-
-> I haven't looked into the details yet but the small size of the first
-> patch strikes me as odd. The similar changes I did for GPIO were quite
-> big and they were designed just for a single sub-system.
+On 12/09/2025 13:07, Donald Hunter wrote:
+> Matthieu Baerts <matttbe@kernel.org> writes:
 > 
-> During the talk you reference, after I suggested a library like this,
-> Greg KH can be heard saying: do this for two big subsystems so that
-> you're sure it's a generic solution. Here you're only using it in a
-> single driver which makes me wonder if we can actually use it to
-> improve bigger offenders, like for example I2C, or even replace the
-> custom, SRCU-based solution in GPIO we have now. Have you considered
-> at least doing a PoC in a wider kernel framework?
+>> Hi Donald,
+>>
+>> On 11/09/2025 12:44, Donald Hunter wrote:
+>>> "Matthieu Baerts (NGI0)" <matttbe@kernel.org> writes:
+>>>
+>>>> Some attribute-set have a documentation (doc:), but it was not displayed
+>>>> in the RST / HTML version. Such field can be found in ethtool, netdev,
+>>>> tcp_metrics and team YAML files.
+>>>>
+>>>> Only the 'name' and 'attributes' fields from an 'attribute-set' section
+>>>> were parsed. Now the content of the 'doc' field, if available, is added
+>>>> as a new paragraph before listing each attribute. This is similar to
+>>>> what is done when parsing the 'operations'.
+>>>
+>>> This fix looks good, but exposes the same issue with the team
+>>> attribute-set in team.yaml.
+>>
+>> Good catch! I forgot to check why the output was like that before
+>> sending this patch.
+>>
+>>> The following patch is sufficient to generate output that sphinx doesn't
+>>> mangle:
+>>>
+>>> diff --git a/Documentation/netlink/specs/team.yaml b/Documentation/netlink/specs/team.yaml
+>>> index cf02d47d12a4..fae40835386c 100644
+>>> --- a/Documentation/netlink/specs/team.yaml
+>>> +++ b/Documentation/netlink/specs/team.yaml
+>>> @@ -25,7 +25,7 @@ definitions:
+>>>  attribute-sets:
+>>>    -
+>>>      name: team
+>>> -    doc:
+>>> +    doc: |
+>>>        The team nested layout of get/set msg looks like
+>>>            [TEAM_ATTR_LIST_OPTION]
+>>>                [TEAM_ATTR_ITEM_OPTION]
+>> Yes, that's enough to avoid the mangled output in .rst and .html files.
+>>
+>> Do you plan to send this patch, or do you prefer if I send it? As part
+>> of another series or do you prefer a v2?
+> 
+> Could you add it to a v2 please.
 
-Yes, I'm happy to take this on.
+Sure, will do!
 
-To help me get started, could you please point me to some relevant code
-locations?  Also, could you let me know if any specific physical devices
-will be needed for testing?
+>> Note that a few .yaml files have the doc definition starting at the next
+>> line, but without this '|' at the end. It looks strange to me to have
+>> the string defined at the next line like that. I was thinking about
+>> sending patches containing modifications created by the following
+>> command, but I see that this way of writing the string value is valid in
+>> YAML.
+>>
+>>   $ git grep -l "doc:$" -- Documentation/netlink/specs | \
+>>         xargs sed -i 's/doc:$/doc: |/g'
+>>
+>> Except the one with "team", the other ones don't have their output
+>> mangled. So such modifications are probably not needed for the other ones.
+> 
+> Yeah, those doc: entries look weird to me too. Not sure it's worth
+> fixing them up, given that they are valid. Also worth noting that the
+> two formats that we should encourage are
+> 
+>   doc: >-
+>     Multi line text that will get folded and
+>     stripped, i.e. internal newlines and trailing
+>     newlines will be removed.
+> 
+>   doc: |
+>     Multi line text that will be handled literally
+>     and clipped, i.e. internal newlines and trailing
+>     newline are preserved but additional trailing
+>     newlines get removed.
+> 
+> So if we were to fix up the doc:$ occurrences, then I'd suggest using
+> doc: >-
+
+Good point!
+
+If these entries look weird to you too, I will add one patch adding
+'>-', at least to push people to "properly" declare future scalar strings.
+
+Cheers,
+Matt
+-- 
+Sponsored by the NGI0 Core fund.
+
