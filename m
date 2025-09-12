@@ -1,91 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242BE32252C;
-	Fri, 12 Sep 2025 17:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EC3266B40
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 17:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757697251; cv=none; b=eqmgPgYk1EjPWPnuvNsF0/peTEow66n7Yak3xyNEmL8P+kqTwUdUKxflEqXnx1V9uLpBa0UUhM8ODR0tZoeMGqVxMPjQczixtqpflH+IWSObZ+dDAuy3NmXfftLWZnmHXcg0w/vI8Bv9aqsNtZhupURYwUlBY64ll2dGdrc9YwI=
+	t=1757698250; cv=none; b=YcLE2yJgDjnUirYF9ngrSMq2DHEoowuKSX54iXQVu7g4tHRnYbO8QjxAYk+zCKlFeQEXNJ04tkFvmrTGx42A+X1H/B9MtqkjuQb06SfchT0g7bgKLsEadvsRGmnsTnt3QHJ+M1tD/eHTXlL8Qy7FcowHQj8/xWKqinJmnB1FQNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757697251; c=relaxed/simple;
-	bh=pwqpv0OMmuh14dvqJoXmhqMPOebR0cDuIlzyHJCB7FE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tXfNt3y5OUQLJtD1iecRLgHHJZ4fLnwPPDE1CMA2htg3S6jmr6FZWXWIq+etSrRRo9l8ZPzeeBQCZ10GlFdbyc0XGUBpQa0HbWR3bVjwBLxNQjDzTxgrz5U0vf7t4PHwgh2DUmfSt4SeFPgTNiMnX0NJjn1tG1ufMpPy+BY7Chg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9JrERn+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757698250; c=relaxed/simple;
+	bh=o20p7GmDi8+ZFGPUj4WAT9L80iQUq9XRuj2nEHhmdqI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dz2URNUAbuAkt2M7o0FSuAWdiTHu47p/QmyP79cyD6NcM0NaUW6STKpt0lc/UAqKE35BUBP23CaZ5APxu3rzv9Xr7Dp5h3lYiRZfcD7b3e0Bwe9XTw+MhGkQNTX/gE534enAaP5Y9DbRW4NJBrh8kPyEOHU8jnpSmYlpTPEQekI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5e2Qev9; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9JrERn+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53DD9C4CEF1;
-	Fri, 12 Sep 2025 17:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757697250;
-	bh=pwqpv0OMmuh14dvqJoXmhqMPOebR0cDuIlzyHJCB7FE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W9JrERn+KoIxQfx9Yk0iMN3Gomju4XAAwgpdQ2MqGJwl30FZw0g9IcS4YMSSyAzq9
-	 eimaUJjSJFo4d58GUD6bp9JkOpFKojq2tM0WkyPCc2mvTz3XejGtlnO2AzvjQkQOnJ
-	 0z51JO3q7zfPY1JKO5QCa2k0sZlqvZdV7KTX9xg5EVi+0Do7ZjCXnl7LBDjal2fiHt
-	 nKe6ZM7o5Aasih3d/b/BuG8CHqy/W8lUn9B42OhDzOspQUm0sy17LBMh7BeLKOOhkX
-	 A1m2D8dwOnrZDyHlogQdH1NOxF13JK3PujUqc2kQutHyk6ZODhgyydyVOJetYbxbl5
-	 ypKNA6bFCEoTA==
-Date: Fri, 12 Sep 2025 18:14:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v16 2/6] KVM: arm64: Manage GCS access and registers for
- guests
-Message-ID: <aMRU3zCRpA4Zuj0L@finisterre.sirena.org.uk>
-References: <20250912-arm64-gcs-v16-0-6435e5ec37db@kernel.org>
- <20250912-arm64-gcs-v16-2-6435e5ec37db@kernel.org>
- <865xdndgpw.wl-maz@kernel.org>
- <aMRLYBWfDFiIB7wx@finisterre.sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5e2Qev9"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b340966720so19685451cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 10:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757698246; x=1758303046; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oIIexxQJuuGcppYfGlH23qFT2xQkXBrd7Hq3B7cHXU8=;
+        b=T5e2Qev9f+0vQDmCT/6qKmuwEl9B9YY7nU8UX+l7Rw7BCD13SiFpkEPSQ0CrTV1Tvs
+         FVHYpHiTnu/OZgAcUkFdxpFS92yIf8ulrY9zYqi985Pdk9QifHcUHTHOa1sUotSvzcO3
+         kqem5KiLNCxN3U8xtOTBMjZQnR39wEAYHwdnjg+Kfo/fw8ZB0fzZvwuOkYSmqozUfDpz
+         WzdnBdCmeHl2kmWPTYnl6gcvqVJXBennvPESITsiClyzNLwIlYdpscaBOweJlLylZf9P
+         reI6tfhFDJdw6PYTNcoO9U/f9JXNh+jGi9MbzLQrOQij22jn0F+BhLE/1/Byoj8Ks0fJ
+         XvrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757698246; x=1758303046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oIIexxQJuuGcppYfGlH23qFT2xQkXBrd7Hq3B7cHXU8=;
+        b=RBnOHj0IUCAGmQxI/a0b1Oig4hNbIHeCKxFR35JH6qVavUznBCYemDVDCbnV+ADm15
+         3Y6vVm5xAQYq5yShvl+mFffSEKZsjInIFe2Naynk6Mb920+zm4l8lQTFrwcefNu9Nik1
+         YwrSTkXGvF+ZKRHFVJWyWE2pQ5KAZMGIe57LbeCt01T+M9YWLpGphHD9rxCo3MHwIyxQ
+         u+Oa4ri14dBm3N2eTf3tZfTPytQgMj+EL1/s9OfadD8Fyfnla+lQn5VKF6CpfWZ8Sn6q
+         Gu8KyBYNkSMoBFgDQ1W8LTjixhVEZvaUqz/50YbwjJNC2S3RZ0YomyvZ/AQpChpewqjc
+         PCyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJXCaDnDTcHBix5qeVyms3v49ymZteOHy0Ntlf4KCRCASA0IdFSAnfMJYWmLxRCxEsF6yCyg/3bX8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6dMLDbagAZhLHXkwhz8bzsLWxYqhnWN86K4pHZv6pVlXguhDr
+	SnoFSHbYV/7n1I3irIgGqY9Jh0mEfUtm68kuL80JUs1TEZOUxyYO3TvRNjv1MBTRSoQebaqeqaT
+	JXNehB/w+mQ2Nw30KIEAq4pcNmtj3CgU=
+X-Gm-Gg: ASbGncvYHMaosEKSd/qjIePSqKO4NYzVWQdbTEtE8wkRY+m1SGFkXOwFQfuaENtExN8
+	SOMAGe115dufSAavCuwd7QREdNoEHajmnxWWzrb4KTc0CHkSGSYMQdM06BLFTqOo9kAZHZlEDYV
+	zNbmfB2PIFGgXnxJTPezdcH8FZ/x/ieDwEtP2bXA6nyFpRWaSd15tyjyzRhb8N2NzWWlsYcOyd/
+	cGLuABlDeqiYSLIEdOnnSUPe+I54WmBtTk+Iu8NX9hEj+ccP4o9
+X-Google-Smtp-Source: AGHT+IEcdCSZjZDX72w4oinaB7XT6QqmpJZk3VMxTChZFpoYvtCeUS7bDJlGiyqj98thpHZJTlGF9yw6Sf32KJ6S4V8=
+X-Received: by 2002:a05:622a:5c98:b0:4b2:8ac4:ef93 with SMTP id
+ d75a77b69052e-4b77d0ff805mr50626621cf.78.1757698245900; Fri, 12 Sep 2025
+ 10:30:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DpzIhk4kEi/ksl0o"
-Content-Disposition: inline
-In-Reply-To: <aMRLYBWfDFiIB7wx@finisterre.sirena.org.uk>
-X-Cookie: Filmed before a live audience.
+References: <20250908185122.3199171-1-joannelkoong@gmail.com>
+ <20250908185122.3199171-13-joannelkoong@gmail.com> <aMKzG3NUGsQijvEg@infradead.org>
+In-Reply-To: <aMKzG3NUGsQijvEg@infradead.org>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 12 Sep 2025 13:30:35 -0400
+X-Gm-Features: Ac12FXwnGYyLDAMLNpwS8zmPZj5g0R1lO_gh0yPx8OPOW_t5xNmOKu_QWWNBsIc
+Message-ID: <CAJnrk1Z2JwUKKoaqExh2gPDxtjRbzSPxzHi3YdBWXKvygGuGFA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/16] iomap: add bias for async read requests
+To: Christoph Hellwig <hch@infradead.org>
+Cc: brauner@kernel.org, miklos@szeredi.hu, djwong@kernel.org, 
+	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org, 
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 11, 2025 at 7:31=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
+g> wrote:
+>
+> > +static void __iomap_finish_folio_read(struct folio *folio, size_t off,
+> > +             size_t len, int error, bool update_bitmap)
+> >  {
+> >       struct iomap_folio_state *ifs =3D folio->private;
+> >       bool uptodate =3D !error;
+> > @@ -340,7 +340,7 @@ void iomap_finish_folio_read(struct folio *folio, s=
+ize_t off, size_t len,
+> >               unsigned long flags;
+> >
+> >               spin_lock_irqsave(&ifs->state_lock, flags);
+> > -             if (!error)
+> > +             if (!error && update_bitmap)
+> >                       uptodate =3D ifs_set_range_uptodate(folio, ifs, o=
+ff, len);
+>
+> This code sharing keeps confusing me a bit.  I think it's technically
+> perfectly fine, but not helpful for readability.  We'd solve that by
+> open coding the !update_bitmap case in iomap_read_folio_iter.  Which
+> would also allow to use spin_lock_irq instead of spin_lock_irqsave there
+> as a nice little micro-optimization.  If we'd then also get rid of the
+> error return from ->read_folio_range and always do asynchronous error
+> returns it would be even simpler.
+>
+> Or maybe I just need to live with the magic bitmap update, but the
+> fact that "len" sometimes is an actual length, and sometimes just a
+> counter for read_bytes_pending keeps confusing me
+>
+
+I think you're right, this is probably clearer without trying to share
+the function.
+
+I think maybe we can make this even simpler. Right now we mark the
+bitmap uptodate every time a range is read in but I think instead we
+can just do one bitmap uptodate operation for the entire folio when
+the read has completely finished.  If we do this, then we can make
+"ifs->read_bytes_pending" back to an atomic_t since we don't save one
+atomic operation from doing it through a spinlock anymore (eg what
+commit f45b494e2a "iomap: protect read_bytes_pending with the
+state_lock" optimized). And then this bias thing can just become:
+
+if (ifs) {
+    if (atomic_dec_and_test(&ifs->read_bytes_pending))
+        folio_end_read(folio, !ret);
+    *cur_folio_owned =3D true;
+}
 
 
---DpzIhk4kEi/ksl0o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Sep 12, 2025 at 05:33:39PM +0100, Mark Brown wrote:
-> On Fri, Sep 12, 2025 at 12:59:23PM +0100, Marc Zyngier wrote:
-
-> > Just like the previous version, you're missing the accessors that
-> > would be this table useful. Meaning that the vcpu_read_sys_reg() and
-> > vcpu_write_sys_reg() accessors will fail for all 4 GSC registers.
-
-> Just to confirm, this is __vcpu_{read,write}_sysreg()?
-
-Sorry, that should have been __vcpu_{read,write}_sys_reg_{to,from}_cpu()
-*sigh*
-
---DpzIhk4kEi/ksl0o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjEVNYACgkQJNaLcl1U
-h9C9MAf/ZDTHvq/toZNl1zFIlYCxa5MviqirC4jCkD4bApiu8FXEn37o5QLHvV1a
-TScrRejLtHsbWbAOcXqDXGKodfclNDTwGvxbqbHCwHhYLWbr6p2D1vAa48iYJIhv
-gnKnhDqBNSvx4LrNuFwaUJyPhich4VOvTjmSvJPJU8oCLAdPfTECSghGmFnW0FEG
-LdO+0s95tByeppfr9prmKGg8/ctwQ10rlmfVFavH6fvx7zfpFoVrSMFKpzp6z8Hq
-uqT918mBpk8+wcxaGuheKypl/OQVBGv8OjFpY191RQkSB2PvLelMr2QEG1T6CzeS
-9/DQ8sbVFO1rzwaGCpfVMWJL+EKxkA==
-=YqIz
------END PGP SIGNATURE-----
-
---DpzIhk4kEi/ksl0o--
+Thanks,
+Joanne
