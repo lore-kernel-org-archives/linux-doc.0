@@ -1,227 +1,226 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E524207A
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 04:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41E272E46
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 06:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757651004; cv=none; b=ffcfBVKoFZE9TKF9xqxNj5VNi28CpK7Wv4snvGGFdeI+flYjm+Dwl1R1qCNKsfzNNUFalmGpW35nZBI99T1ko4VxMYvefSvZfps/OGnF4xl0dzwjQ1yT1yyEJ5fkt/HNP3D2veWtrvqIVHU9NJTVW2uUBGguji36E/uv0eg8wNo=
+	t=1757657860; cv=none; b=CrK/G0Kg28OPyXK6rAgookSCRtfX0EH3JTnAhYDxX+bU2j3duzCftzViE/Ql5BgkZu8VevYBaLzKGdi93uJLeylF1IyScTrPCey5ps60OKm5d1P+QDvu0Uq24t89j9OUDhxgxOpdEW6XwH3wq9Y4cyQpmNAUAGmVyy2ygl49Xuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757651004; c=relaxed/simple;
-	bh=zZkkZ9jtVN9zl8MOUiaRZ/AhuJkVluKe+HXlB+7F8d0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IMvLxi1tafpGHkDavwgxfsascwEDU3pkC8Zul+1rF3njivGRdm75MROwfc/9ZPV/YyBFOQRbCmIGS9q8WYaaHtV5ooUaB+os2B+kr5aLyGtESQkdY9RXrIh6pD76mrmEVXetuDdTmRp79U/i5fIp1cLhTmO6seSm6HsVenszXts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLjheuTd; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1757657860; c=relaxed/simple;
+	bh=VCcMt9kSmVuI+oLBO+GMF7hXpwGMEbiCf97/yqR2xPg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eSAjm/lvqnJSgcuKkAclCOdNynFrL2V92DA3wYHG/Zt5C48xnefPoH43YoQZL0tf4jv0FnIh1AkD7BxK0jlr+QXQ3ewxIFS8J0qah2M7WquZzqWh2kJK0qn6YyJ+8Q0dpJDNC8/dPRnL2B3NpSwbvcWUnd4PUdPtiV8e+BHy2KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NhsZ+DSV; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLjheuTd"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-244580523a0so14814925ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 21:23:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NhsZ+DSV"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-76637441569so8920886d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Sep 2025 23:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757651000; x=1758255800; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N6PvSPHugeaR1Sq9Pxzgn3oZJDYqC50hx/s/XnB6afU=;
-        b=kLjheuTdORupPVxkhvb9zLIAdStvRNEUQ0+F5iExvln4+HPQAKvRk2lxM0o9YObx8Y
-         KGdLZNUp4wDRv0uYR9iqnFmGDZdKbElcgFq8UhJwwc397Wby7tUvyxp/rtX838/dplWm
-         KvMrvJgP440JAgPHkkpiPwA4TAw3L36x4mIq/E7fUD/Q05fivqo3MCUsvF1gzomIuDfg
-         7WX+vy+IPlpib2PVkxiReBW73MIWZPPIwFU4X/emqvIFz8hBvgRLHCL/Xknh8nQmFK6x
-         B29sdgS807XDysODEjsDlopUSbfHgjcRpCRzi8Z4NhUj1b68noDKr81lDAmCYHLZK5HY
-         wEuw==
+        d=gmail.com; s=20230601; t=1757657858; x=1758262658; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7WWGyCUuZdV1EHEOEIjgPm/mrQqWEYaNzVIoi/vMBsI=;
+        b=NhsZ+DSV6vJuACJMuoAJydl+77dvS5UjG6qhhapYd40IC6Opbywz70pXU0AeipQHmH
+         59mg5xOSJw46XSIWim5jw+jW+K8YadpVCUIivDfsKBaoMLxn6IMXXtr3gYukeMQEQFR2
+         9OgmlJNYnsrgsXm5PnK1FLcdfJ+jWQ5auhUvLswPS09ZzSXr8LtrtOrkmeVbXK8dJrGh
+         hCtu09VEwUnDeQr+f97qaKt3Ipezfi4GcIEdQtH9B4kN982h5n2NXKUK6XKf7BIcQFZh
+         wFUcpceGglDtCrpxFrvqu6WNQHZX/Vr/G0qZkMNR5XEr5eVdYbrl+4t8qMotd13UmgYp
+         uTSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757651000; x=1758255800;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N6PvSPHugeaR1Sq9Pxzgn3oZJDYqC50hx/s/XnB6afU=;
-        b=QvifrG9+nIvkIWZYnS85nxYK5OjzvpoCcObXE/IhPKp6YsUoIYyZT3jaV+Z3c8Pfmd
-         gRGXiMvYniygzdrgsjG16qxrRqvAvVdQNk7E3xSb58EuAN50wRK3cL6a9Z6l6dTn75fZ
-         zDaTC3eleD/kcN7S/6wIQFQf9MYHdOSG4hUikQ2sugo74HcVUjn/7ghWNYRF1xu5jjuE
-         gs3m7AG5PAT6LfVUOulJOeW68+lgboyq/EG5JeDWJXLmsqKJzrCgVvzg6bLiSnESHxjB
-         mX67sEanQxaMQDIrt0QRu8rDV7RQD8CDxK9zpLwVc9pvxN5kdTWBUt+oINeXLpG0CBXD
-         zHOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQu3hRfPtihu/8He/0U0Qg2qHFu1pJjAsNt0rm5PRc/K7h5w26EHXjVBS/vNH2RQnSfT+tUYJjZIM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywq0eUsSTvBKNIij4LVGaLkKeXgj/2SQ2/47vpo4X/SlN2GFJan
-	Su5V0gZpMsXMtmvX+RDNr4Oaf1uB2QGKxlh3DAfoPiv7brxxeI87O/6a
-X-Gm-Gg: ASbGncvbFdlSsu2snQt9naYWjkj45lYvy5Cd1PNEMQmQ6EufGL9me27yPlthG0OnhJV
-	Zdee08FkZkexAPinHlcmCDHwVYycsjNhI9ySeEHdOgf5pkbJDa2VWqFLqh7Il3GOaKobes1RDhG
-	Zpw3lcwhwK7qYaAOXB7/kE09Dyl/z66ZwbiUaiYuSRYapfu5WY5lhgP4l1OazdRxTNyY6qs+ys7
-	hheAy2fNmjplAfxOWWgArtdeZ37qfy/m9PD30wdfFFjBuCJVJhdGG0ZTUMzRg0qPI9iywz07qTD
-	MIj7BBYUCOPXY0h86DimnSex94lz7FErXC9+PVSvt7izAvK1gAXB4fcHOxbn0/fJDutWSGVoy7Z
-	Gk6ICKR0AbGxQtaoJbQgHzTAcp3kmjoq/xbMu
-X-Google-Smtp-Source: AGHT+IGSxOJrm+Mvz9B8cJ0ttlzyEuGc0X0ipj/MPkzlUoUdDejseGoH8X0VU1oZg8lHeiFEhrUVdA==
-X-Received: by 2002:a17:903:b90:b0:246:4de6:5cc0 with SMTP id d9443c01a7336-25d27c16684mr16832255ad.53.1757651000208;
-        Thu, 11 Sep 2025 21:23:20 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3a84a5ecsm35469935ad.92.2025.09.11.21.23.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 21:23:19 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C2DF541FA3A4; Fri, 12 Sep 2025 11:23:17 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH RESEND net-next] Documentation: ARCnet: Update obsolete contact info
-Date: Fri, 12 Sep 2025 11:22:52 +0700
-Message-ID: <20250912042252.19901-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1757657858; x=1758262658;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7WWGyCUuZdV1EHEOEIjgPm/mrQqWEYaNzVIoi/vMBsI=;
+        b=T1bWZM4olsPsUmIWstqmne6URHerZE2MASQwbzcjZirAzik/He7uh6Up05S7308BUx
+         76epXG2tY30nDqNIa8JHBdYG7ruMhKPtxeXdT8/+RgdrUf8VmXExFq6RVRH71LbZGtB7
+         mpmPC2Eg/YCsvtXB4bCPaO304p34QQha8fHTOapEdpNCLTk3BguON+dHMJ5FE7Iesx7D
+         +8RpgXobvKUmmU4VPbbOFSwFpNAM8YKmAgPW+xE35RXC6sWYJn5N1N9k28sdtI/e+4dp
+         7G3sgiTRL1ZAVlet6qWFLhhDsNgL8+WKac6CNUr6K4sgHFIopc39o8KwAhTOh/T9NlBg
+         PeYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhCjYPaSQZpxeA//SkMPv/SU7QP1BZJ2Db1hdxICcNwW7hgNs9aqQNRqi/Uo12YfV00DGszua0UaA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR6Io64O29tHtqDqNJ7LgG9+FOyQjiuUwiklCEhAmu1BtSiET7
+	iBA5sBOqHcMZrgEmtqYfxt8B7CIj7p+C3uV9QnJZXsCOm9ROyhkMHK9AQxvmfWGcX+SbclTAqGB
+	APzox3wiSnglrspxL0skWuZ+b9J45nMk=
+X-Gm-Gg: ASbGncs0WNKkaJzoCHu11JvhDve//W77Kmjw4YwGnH4kzjN7mepYwGssmU/NRa24mQf
+	jsrpwoJZ1jvXa1J1SDB41gEHbxch4y3YQcCICStdK3fCsP5cKMqBxHesMlJ4lR5V5XNJKIzylwc
+	bWfJdQz2i16LCziIkJVPsFDmUNJsqxFVPgGlDjVLkGKQXxIkjZo3GMYD10YWBGFGbhz7GK30GxX
+	YJyRQkeoZdKJHVs4Hz4sJN+1q32GXIqBYxaHd/r
+X-Google-Smtp-Source: AGHT+IGsdxrMUwO66zyxcaOyDhR09VefUjnvjDaDalrVSZ9mO1oVYWAYO/gDr2tnajPfO/UmfeufsmnzL42cxODCEHE=
+X-Received: by 2002:a05:6214:5194:b0:70d:9291:bdd8 with SMTP id
+ 6a1803df08f44-767bd2867afmr24033286d6.30.1757657857633; Thu, 11 Sep 2025
+ 23:17:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5408; i=bagasdotme@gmail.com; h=from:subject; bh=zZkkZ9jtVN9zl8MOUiaRZ/AhuJkVluKe+HXlB+7F8d0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmHFwhqrrrmfmWSwK7CGq1sIeei0qrrpR2c+3ZzL796e 1LmjkUHOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRj8oM/6ut9syU85nFFzDf 2eLpqR1NDnf/ClXvXMTtuTT9k7FwzGRGhh02qpaL+4IVw6aeZflkLjc599Snac/bti+fV+Jx0nu PLhcA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-5-laoar.shao@gmail.com>
+ <a2c122f5-ab6a-4242-9db8-e5175d5b27b3@lucifer.local>
+In-Reply-To: <a2c122f5-ab6a-4242-9db8-e5175d5b27b3@lucifer.local>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 12 Sep 2025 14:17:01 +0800
+X-Gm-Features: AS18NWAElABe6YxAnTyuKf4eBKqvYfeYRWi6vWam3_rOLjoAUz49-TaObmfWXCg
+Message-ID: <CALOAHbCSudQ9y1UdD4YjuUFGae5bRu8_0bgThJV4WgwLwtcwew@mail.gmail.com>
+Subject: Re: [PATCH v7 mm-new 04/10] mm: thp: enable THP allocation
+ exclusively through khugepaged
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
+	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com, 
+	shakeel.butt@linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ARCnet docs states that inquiries on the subsystem should be emailed to
-Avery Pennarun <apenwarr@worldvisions.ca>, for whom has been in CREDITS
-since the beginning of kernel git history and the subsystem is now
-maintained by Michael Grzeschik since c38f6ac74c9980 ("MAINTAINERS: add
-arcnet and take maintainership"). In addition, there used to be a
-dedicated ARCnet mailing list but its archive at epistolary.org has been
-shut down. ARCnet discussion nowadays take place in netdev list.
+On Thu, Sep 11, 2025 at 11:58=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Wed, Sep 10, 2025 at 10:44:41AM +0800, Yafang Shao wrote:
+> > Currently, THP allocation cannot be restricted to khugepaged alone whil=
+e
+> > being disabled in the page fault path. This limitation exists because
+> > disabling THP allocation during page faults also prevents the execution=
+ of
+> > khugepaged_enter_vma() in that path.
+>
+> This is quite confusing, I see what you mean - you want to be able to dis=
+able
+> page fault THP but not khugepaged THP _at the point of possibly faulting =
+in a
+> THP aligned VMA_.
+>
+> It seems this patch makes khugepaged_enter_vma() unconditional for an ano=
+nymous
+> VMA, rather than depending on the return value specified by
+> thp_vma_allowable_order().
 
-Update contact information.
+The functions thp_vma_allowable_order(TVA_PAGEFAULT) and
+thp_vma_allowable_order(TVA_KHUGEPAGED) are functionally equivalent
+within the page fault handler; they always yield the same result.
+Consequently, their execution order is irrelevant.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/networking/arcnet-hardware.rst | 13 +++---
- Documentation/networking/arcnet.rst          | 48 +++++---------------
- 2 files changed, 17 insertions(+), 44 deletions(-)
+The change reorders these two calls and, in doing so, also moves the
+call to vmf_anon_prepare(vmf). This alters the control flow:
+- before this change:  The logic checked the return value of
+vmf_anon_prepare() between the two thp_vma_allowable_order() calls.
 
-diff --git a/Documentation/networking/arcnet-hardware.rst b/Documentation/networking/arcnet-hardware.rst
-index 3bf7f99cd7bbf0..1e4484d880fe67 100644
---- a/Documentation/networking/arcnet-hardware.rst
-+++ b/Documentation/networking/arcnet-hardware.rst
-@@ -4,6 +4,8 @@
- ARCnet Hardware
- ===============
- 
-+:Author: Avery Pennarun <apenwarr@worldvisions.ca>
-+
- .. note::
- 
-    1) This file is a supplement to arcnet.txt.  Please read that for general
-@@ -13,9 +15,9 @@ ARCnet Hardware
- 
- Because so many people (myself included) seem to have obtained ARCnet cards
- without manuals, this file contains a quick introduction to ARCnet hardware,
--some cabling tips, and a listing of all jumper settings I can find. Please
--e-mail apenwarr@worldvisions.ca with any settings for your particular card,
--or any other information you have!
-+some cabling tips, and a listing of all jumper settings I can find. If you
-+have any settings for your particular card, and/or any other information you
-+have, do not hesistate to :ref:`email to netdev <arcnet-netdev>`.
- 
- 
- Introduction to ARCnet
-@@ -3226,9 +3228,6 @@ Settings for IRQ Selection (Lower Jumper Line)
- Other Cards
- ===========
- 
--I have no information on other models of ARCnet cards at the moment.  Please
--send any and all info to:
--
--	apenwarr@worldvisions.ca
-+I have no information on other models of ARCnet cards at the moment.
- 
- Thanks.
-diff --git a/Documentation/networking/arcnet.rst b/Documentation/networking/arcnet.rst
-index 82fce606c0f0bc..cd43a18ad1494b 100644
---- a/Documentation/networking/arcnet.rst
-+++ b/Documentation/networking/arcnet.rst
-@@ -4,6 +4,8 @@
- ARCnet
- ======
- 
-+:Author: Avery Pennarun <apenwarr@worldvisions.ca>
-+
- .. note::
- 
-    See also arcnet-hardware.txt in this directory for jumper-setting
-@@ -30,18 +32,7 @@ Come on, be a sport!  Send me a success report!
- 
- (hey, that was even better than my original poem... this is getting bad!)
- 
--
--.. warning::
--
--   If you don't e-mail me about your success/failure soon, I may be forced to
--   start SINGING.  And we don't want that, do we?
--
--   (You know, it might be argued that I'm pushing this point a little too much.
--   If you think so, why not flame me in a quick little e-mail?  Please also
--   include the type of card(s) you're using, software, size of network, and
--   whether it's working or not.)
--
--   My e-mail address is: apenwarr@worldvisions.ca
-+----
- 
- These are the ARCnet drivers for Linux.
- 
-@@ -59,23 +50,14 @@ ARCnet 2.10 ALPHA, Tomasz's all-new-and-improved RFC1051 support has been
- included and seems to be working fine!
- 
- 
-+.. _arcnet-netdev:
-+
- Where do I discuss these drivers?
- ---------------------------------
- 
--Tomasz has been so kind as to set up a new and improved mailing list.
--Subscribe by sending a message with the BODY "subscribe linux-arcnet YOUR
--REAL NAME" to listserv@tichy.ch.uj.edu.pl.  Then, to submit messages to the
--list, mail to linux-arcnet@tichy.ch.uj.edu.pl.
--
--There are archives of the mailing list at:
--
--	http://epistolary.org/mailman/listinfo.cgi/arcnet
--
--The people on linux-net@vger.kernel.org (now defunct, replaced by
--netdev@vger.kernel.org) have also been known to be very helpful, especially
--when we're talking about ALPHA Linux kernels that may or may not work right
--in the first place.
--
-+ARCnet discussions take place on netdev. Simply send your email to
-+netdev@vger.kernel.org and make sure to Cc: maintainer listed in
-+"ARCNET NETWORK LAYER" heading of Documentation/process/maintainers.rst.
- 
- Other Drivers and Info
- ----------------------
-@@ -523,17 +505,9 @@ can set up your network then:
- It works: what now?
- -------------------
- 
--Send mail describing your setup, preferably including driver version, kernel
--version, ARCnet card model, CPU type, number of systems on your network, and
--list of software in use to me at the following address:
--
--	apenwarr@worldvisions.ca
--
--I do send (sometimes automated) replies to all messages I receive.  My email
--can be weird (and also usually gets forwarded all over the place along the
--way to me), so if you don't get a reply within a reasonable time, please
--resend.
--
-+Send mail following :ref:`arcnet-netdev`. Describe your setup, preferably
-+including driver version, kernel version, ARCnet card model, CPU type, number
-+of systems on your network, and list of software in use.
- 
- It doesn't work: what now?
- --------------------------
+    thp_vma_allowable_order(TVA_PAGEFAULT);
+    ret =3D vmf_anon_prepare(vmf);
+    if (ret)
+        return ret;
+    thp_vma_allowable_order(TVA_KHUGEPAGED);
 
-base-commit: 2f186dd5585c3afb415df80e52f71af16c9d3655
--- 
-An old man doll... just what I always wanted! - Clara
+ - after this change: The logic now executes both
+thp_vma_allowable_order() calls first and does not check the return
+value of vmf_anon_prepare().
 
+    thp_vma_allowable_order(TVA_KHUGEPAGED);
+    thp_vma_allowable_order(TVA_PAGEFAULT);
+    ret =3D vmf_anon_prepare(vmf); // Return value 'ret' is ignored.
+
+This change is safe because the return value of vmf_anon_prepare() can
+be safely ignored. This function checks for transient system-level
+conditions (e.g., memory pressure, THP availability) that might
+prevent an immediate THP allocation. It does not guarantee that a
+subsequent allocation will succeed.
+
+This behavior is consistent with the policy in hugepage_madvise(),
+where a VMA is queued for khugepaged before a definitive allocation
+check. If the system is under pressure, khugepaged will simply retry
+the allocation at a more opportune time.
+
+>
+> So I think a clearer explanation is:
+>
+>         khugepaged_enter_vma() ultimately invokes any attached BPF functi=
+on with
+>         the TVA_KHUGEPAGED flag set when determining whether or not to en=
+able
+>         khugepaged THP for a freshly faulted in VMA.
+>
+>         Currently, on fault, we invoke this in do_huge_pmd_anonymous_page=
+(), as
+>         invoked by create_huge_pmd() and only when we have already checke=
+d to
+>         see if an allowable TVA_PAGEFAULT order is specified.
+>
+>         Since we might want to disallow THP on fault-in but allow it via
+>         khugepaged, we move things around so we always attempt to enter
+>         khugepaged upon fault.
+
+Thanks for the clarification.
+
+>
+> Having said all this, I'm very confused.
+>
+> Why are we doing this?
+>
+> We only enable khugepaged _early_ when we know we're faulting in a huge P=
+MD
+> here.
+>
+> I guess we do this because, if we are allowed to do the pagefault, maybe
+> something changed that might have previously disallowed khugepaged to run=
+ for
+> the mm.
+>
+> But now we're just checking unconditionally for... no reason?
+
+I have blamed the change history of do_huge_pmd_anonymous_page() but
+was unable to find any rationale for placing khugepaged_enter_vma()
+after the vmf_anon_prepare() check. I therefore believe this ordering
+is likely unintentional.
+
+>
+> if BPF disables page fault but not khugepaged, then surely the mm would a=
+lready
+> be under be khugepaged if it could be?
+
+The behavior you describe applies to the madvise mode, not the always
+mode. To reiterate: the hugepage_madvise() function unconditionally
+adds the memory mm to the khugepaged queue, whereas the page fault
+handler employs conditional logic.
+
+>
+> It's sort of immaterial if we get a pmd_none() that is not-faultable for
+> whatever reason but BPF might say is khugepaged'able, because it'd have a=
+lready
+> set this.
+>
+> This is because if we just map a new VMA, we already let khugepaged have =
+it via
+> khugepaged_enter_vma() in __mmap_new_vma() and in the merge paths.
+>
+> I mean maybe I'm missing something here :)
+>
+> >
+> > With the introduction of BPF, we can now implement THP policies based o=
+n
+> > different TVA types. This patch adjusts the logic to support this new
+> > capability.
+> >
+> > While we could also extend prtcl() to utilize this new policy, such a
+>
+> Typo: prtcl -> prctl
+
+thanks
+
+>
+> > change would require a uAPI modification.
+>
+> Hm, in what respect? PR_SET_THP_DISABLE?
+
+Right, when can extend PR_SET_THP_DISABLE() to support this logic as well.
+
+--=20
+Regards
+Yafang
