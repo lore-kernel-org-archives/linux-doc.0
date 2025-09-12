@@ -1,131 +1,89 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00727EFE3;
-	Fri, 12 Sep 2025 09:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE4828C869;
+	Fri, 12 Sep 2025 09:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757669101; cv=none; b=pn7SlpOXJ+T5MHoCPSjTttvD4Cj3uaUPCNrG8Qcf4hTbdfn1//Yx74YCfQlfjzkCmjOPf1iexa+KhlFARhQKtx3mDCVwni8XV0isdU4pE4cw78mtSjHir+odK9yqtxVbImwdozCl820eS3BWuBzQoEyVug6YSdycsXY1L8LZK9A=
+	t=1757669262; cv=none; b=fy8+pthBzDfgB9KOFIjtvxx6GruCQ8lfjQ2mlx9XCUvWJ+yY7VLNvj7LTuJc2GQ9XchSzf23ru1v7luc116Lhz8zaIzXpvmYKmfB/BL2SMuzfSuZLqlFqz5FtFk9DJbRendKTW3cfS8uOikc6CNVb/xM5vX5ydVS/PEwCtFrtbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757669101; c=relaxed/simple;
-	bh=GmEAPbFMXpczpVM7DQb8d28PRbScKAo5q6THwLy4XlM=;
+	s=arc-20240116; t=1757669262; c=relaxed/simple;
+	bh=720/zIWhAlDuqcsPVNMXqKSTawd7ur0AsR4/E5qvKlw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d2AqHL2w2cUPLiLLEt9f46h7dxrdBaGwfGIRQHiNiBbYZII5OvfAx/VChP7qdLYm9PG8LiJ3bgHkvXDezc2SrDWhvYo9wbZuoN/YVw2dfL87kXVLEpPyGnZCOKtKZvQv8I5BndGdFqFEFSdGlEaJcjOg6y3ooJ0th/AWbdnLeqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=FC5rw6ix; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="FC5rw6ix"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1757669095; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=yeQuxM0fjpmIe4g0xUTHddlrE41HXqCqb25Ih/uw2qU=;
-	b=FC5rw6ixR5LazE+N3z4/dTcrJQMWug331XVyZltsj007wwaIMcbYk1MIz7HngLF0s48iJ7+quRnMaADJDkw5FAgDSKcC/7EV7t1PcFZAU7rVMv77wrKs5veqVYDtymV6+emOeD/vU/Fp/dzr9mc5ojNrdmEOPVrDVkd25W2SiMw=
-Received: from 30.74.144.122(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WnqpgPM_1757669090 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 12 Sep 2025 17:24:52 +0800
-Message-ID: <50305e9f-ad03-4ce9-9ae7-0c657bd87ef0@linux.alibaba.com>
-Date: Fri, 12 Sep 2025 17:24:50 +0800
+	 In-Reply-To:Content-Type; b=Co0HYrRA8H0x+hAQo0qXvz/HwCCD0e6TcfCRPCLZJfXMoOnkhYqZS6kuw3aGB9w/JRxIdlcrerGz769JWzfNcq3hGt/LYcPbMLjfkdJRAcwDNzWNh6FK4FkJa2Fc0fxdjcsxV+L8ykIa6dboRaeEe0127EVd40IzJ+7yzdhtsBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cNTbr21c3zKHNh1;
+	Fri, 12 Sep 2025 17:27:36 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id A21AD1A12CA;
+	Fri, 12 Sep 2025 17:27:36 +0800 (CST)
+Received: from [10.174.179.247] (unknown [10.174.179.247])
+	by APP4 (Coremail) with SMTP id gCh0CgDXIY6H58No+SH7CA--.42419S3;
+	Fri, 12 Sep 2025 17:27:36 +0800 (CST)
+Message-ID: <f2e02c19-98e8-30eb-1965-27b4c50ffeeb@huaweicloud.com>
+Date: Fri, 12 Sep 2025 17:27:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 11/15] khugepaged: introduce collapse_allowable_orders
- helper function
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20250912032810.197475-1-npache@redhat.com>
- <20250912032810.197475-12-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250912032810.197475-12-npache@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 2/2] md: allow configuring logical_block_size
+To: Paul Menzel <pmenzel@molgen.mpg.de>, Li Nan <linan666@huaweicloud.com>
+Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, xni@redhat.com,
+ hare@suse.de, martin.petersen@oracle.com, bvanassche@acm.org,
+ filipe.c.maia@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+ yangerkun@huawei.com, yi.zhang@huawei.com
+References: <20250911073144.42160-1-linan666@huaweicloud.com>
+ <20250911073144.42160-3-linan666@huaweicloud.com>
+ <3759cfba-93a3-4252-99a3-97219e50bdf5@molgen.mpg.de>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <3759cfba-93a3-4252-99a3-97219e50bdf5@molgen.mpg.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDXIY6H58No+SH7CA--.42419S3
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUOo7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
+	Iv6xkF7I0E14v26rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvE
+	ncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I
+	8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0E
+	jII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbI
+	xvr21l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC
+	6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+	C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+	JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+	WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+	CTnIWIevJa73UjIFyTuYvjfUFYFADUUUU
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
 
 
-On 2025/9/12 11:28, Nico Pache wrote:
-> Add collapse_allowable_orders() to generalize THP order eligibility. The
-> function determines which THP orders are permitted based on collapse
-> context (khugepaged vs madv_collapse).
+在 2025/9/11 16:05, Paul Menzel 写道:
+> Dear Nan,
 > 
-> This consolidates collapse configuration logic and provides a clean
-> interface for future mTHP collapse support where the orders may be
-> different.
 > 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-
-LGTM.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-
-> ---
->   mm/khugepaged.c | 15 ++++++++++++---
->   1 file changed, 12 insertions(+), 3 deletions(-)
+> Thank you for your patch. Some minor nits. i’d write logical block size 
+> without underscores in the summary and commit message body, if the variable 
+> is not referenced.
 > 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 5b45ef575446..d224fa97281a 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -485,7 +485,16 @@ static int collapse_max_ptes_none(unsigned int order)
->   	else
->   		max_ptes_none = khugepaged_max_ptes_none;
->   	return max_ptes_none >> (HPAGE_PMD_ORDER - order);
-> +}
-> +
-> +/* Check what orders are allowed based on the vma and collapse type */
-> +static unsigned long collapse_allowable_orders(struct vm_area_struct *vma,
-> +			vm_flags_t vm_flags, bool is_khugepaged)
-> +{
-> +	enum tva_type tva_flags = is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
-> +	unsigned long orders = BIT(HPAGE_PMD_ORDER);
->   
-> +	return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
->   }
->   
->   void khugepaged_enter_vma(struct vm_area_struct *vma,
-> @@ -493,7 +502,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
->   {
->   	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
->   	    hugepage_pmd_enabled()) {
-> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
-> +		if (collapse_allowable_orders(vma, vm_flags, true))
->   			__khugepaged_enter(vma->vm_mm);
->   	}
->   }
-> @@ -2557,7 +2566,7 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, int *result,
->   			progress++;
->   			break;
->   		}
-> -		if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_KHUGEPAGED, PMD_ORDER)) {
-> +		if (!collapse_allowable_orders(vma, vma->vm_flags, true)) {
->   skip:
->   			progress++;
->   			continue;
-> @@ -2865,7 +2874,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->   	BUG_ON(vma->vm_start > start);
->   	BUG_ON(vma->vm_end < end);
->   
-> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_FORCED_COLLAPSE, PMD_ORDER))
-> +	if (!collapse_allowable_orders(vma, vma->vm_flags, false))
->   		return -EINVAL;
->   
->   	cc = kmalloc(sizeof(*cc), GFP_KERNEL);
+
+[...]
+
+Hi Paul,
+
+Thaks for your review. I'll address the points you mentioned in the next
+patch version.
+
+-- 
+Thanks,
+Nan
 
