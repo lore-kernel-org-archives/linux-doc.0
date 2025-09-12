@@ -1,44 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC119301030;
-	Fri, 12 Sep 2025 11:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E6301495;
+	Fri, 12 Sep 2025 11:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757677595; cv=none; b=hZcjYGuAmEgEtspp80zLBZTXstEzP1Pz+ofjPUXIB8uD1mdzTBXxITPc7/PcOwZVxv2F/fVdGmBa0uJcWuyYyLINWvr/bMlwqezv40G4ZGVIgxRPpoJok3yY+TrhJx1l+N/gMGzM9SL8TOntqbBigfX84O1M3QEgjusWm8JUZAQ=
+	t=1757677595; cv=none; b=kIzodU46nglOyT42DSLipsAS1yWgEUG5gBpwmJ09Wav3ur4QYqYIQyXKWJ+W+bTYO12/RtEY/Qizb3JkH3iJ/hDaH4FZQZKLpNVihVxw3QQjTHWm7a7t7YNCfNlbSuF7J/ki0aDkiyF7mTUOYUvRxkJN2sY1WFbAs5jkbs2o5aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757677595; c=relaxed/simple;
-	bh=AiE/HI6OagdGD9ZL2nK8qpA5ue5A1dovU9+3kLCIiqY=;
+	bh=kwUqY4xfv9Reh0wfZ1C2bpBENEEzm7401qvI46JnIXE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mOhulQfGCPFZGQ6edUJz8y5FiObEfdJkJPmVx5DcsyUq8sQ71Pd1Dz9OlhAcXtUcfsS97pcHkq53NNJrQvSKYmI53y5rRkrS8wWc5x/AkwsHM/1hqqt1TqUyqUE1cFE7O219Xiwm31JG/y6YBnXqsirFFtP3dOLuZ/32ntv7mlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MFY047Qc; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=ebRiywNgxhX2mMWyPV6dguSXgwH295sm3aEEstMLo7FCeykPzzzxEL44IjJyfDXmNKW131h5Nuktr2tw0oHRBBImy9DRmQraaQVfeKr/IuZN/uCf+WlAEq52faODqOjDsBCBBbERsGJYrORPATrejMZUqEfHKM0WY8vdvGM0Nl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGlPdM9H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MFY047Qc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 571F8C4CEF1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGlPdM9H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7FDEC19422;
 	Fri, 12 Sep 2025 11:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1757677594;
-	bh=AiE/HI6OagdGD9ZL2nK8qpA5ue5A1dovU9+3kLCIiqY=;
+	bh=kwUqY4xfv9Reh0wfZ1C2bpBENEEzm7401qvI46JnIXE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MFY047QcjNAWaeb9KzSZhh2jrBGTJJUXqEA74xiwQsY2qB6e77zGsySH29A2gBv/X
-	 ufu//Fki0D+BQJJzActgO5i2jgB/QfQsqHGIatYbqxQrkVEeM+7JiRdW5VnH0luYCP
-	 fqeFBVZDjAbarJ5oER69LkbrdQ+pG9grXSl0tjhcBnTGpjc5W31BhKInKUbeEkL61v
-	 nYahO7IjbKt7Wlb4hVg4oobgG/Sth3JrQ8QczbYguX64Uf0lOlhEZTOiQjHKQXYhcX
-	 vmztW2GaGHgfBWsWT3S2H+1kCM3Bi4iGWze5Xf2eltuCNIeZbMSKbVWA1gpyUegnzp
-	 MphOA/8mv2EOw==
+	b=jGlPdM9H/fDPFHCuMMGLoeQUVS0xw4FP4pc5xGnf5UDRkpbHEpgFo4OpKOPnKrin5
+	 MTejDXWwKedH6S/9QO6fIYTNsjR0f637Z+KN9IJ8QH0uHjPsieBVpshJAM29D8tYKa
+	 XlPT624nbb1v1qRRJZKzTa2TenajDZVY+JKSVdWS7LPy6Cv4obHQiDP7wf7AOXzVkY
+	 TUMlid9kWsgPcyW0Zp5o2fLS13Ain3n0sQLTASG6Nlk/y4RhQvJxOP0yYMCsk2wg62
+	 4QTArkTpWxv3vpXGNocuhlT+3I9KF1ITDkOL6/pLZxk605yzd8x34lHQLtcOUNS0bh
+	 v5CCzXf4lJYag==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ux2Ea-00000008Rrx-25wa;
+	id 1ux2Ea-00000008Rt3-407z;
 	Fri, 12 Sep 2025 13:46:32 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <mchehab+huawei@kernel.org>,
+	Benno Lossin <mchehab+huawei@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Danilo Krummrich <mchehab+huawei@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 01/18] scripts/jobserver-exec: move the code to a class
-Date: Fri, 12 Sep 2025 13:46:08 +0200
-Message-ID: <79700002248605fa9ad45ade0165e67b04d457b0.1757677427.git.mchehab+huawei@kernel.org>
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v5 18/18] tools/docs: sphinx-* break documentation bulds on openSUSE
+Date: Fri, 12 Sep 2025 13:46:25 +0200
+Message-ID: <f598a21f5ffc1c0c34376671ca44ebc51a05284b.1757677427.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1757677427.git.mchehab+huawei@kernel.org>
 References: <cover.1757677427.git.mchehab+huawei@kernel.org>
@@ -52,265 +63,157 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Convert the code inside jobserver-exec to a class and
-properly document it.
+Before this patch, building htmldocs on opensuseLEAP works
+fine:
 
-Using a class allows reusing the jobserver logic on other
-scripts.
+    # make htmldocs
+    Available Python versions:
+      /usr/bin/python3.11
 
-While the main code remains unchanged, being compatible with
-Python 2.6 and 3.0+, its coding style now follows a more
-modern standard, having tabs replaced by a 4-spaces
-indent, passing autopep8, black and pylint.
+    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
+    Python 3.6.15 not supported. Changing to /usr/bin/python3.11
+    Using alabaster theme
+    Using Python kernel-doc
 
-The code now allows allows using a pythonic way to
-enter/exit a python code, e.g. it now supports:
+    ...
 
-	with JobserverExec() as jobserver:
-	    jobserver.run(sys.argv[1:])
+As the logic detects that Python 3.6 is too old and recommends
+intalling python311-Sphinx. If installed, documentation builds
+work like a charm.
 
-With the new code, the __exit__() function should ensure
-that the jobserver slot will be closed at the end, even if
-something bad happens somewhere.
+Yet, some develpers complained that running python3.11 instead
+of python3 should not happen. So, let's break the build to make
+them happier:
+
+    $ make htmldocs
+    Python 3.6.15 not supported. Bailing out
+    You could run, instead:
+      /usr/bin/python3.11 tools/docs/sphinx-build-wrapper htmldocs \
+        --sphinxdirs=. --conf=conf.py --builddir=Documentation/output --theme= --css= \
+        --paper=
+
+    Python 3.6.15 not supported. Bailing out
+    make[2]: *** [Documentation/Makefile:76: htmldocs] Error 1
+    make[1]: *** [Makefile:1806: htmldocs] Error 2
+    make: *** [Makefile:248: __sub-make] Error 2
+
+It should be noticed that:
+
+1. after this change, sphinx-pre-install needs to be called
+   by hand:
+
+    $ /usr/bin/python3.11 tools/docs/sphinx-pre-install
+    Detected OS: openSUSE Leap 15.6.
+    Sphinx version: 7.2.6
+
+    All optional dependencies are met.
+    Needed package dependencies are met.
+
+2. sphinx-build-wrapper will auto-detect python3.11 and
+   suggest a way to build the docs using the parameters passed
+   via make variables. In this specific example:
+
+   /usr/bin/python3.11 tools/docs/sphinx-build-wrapper htmldocs --sphinxdirs=. --conf=conf.py --theme= --css= --paper=
+
+3. As this needs to be executed outside docs Makefile, it won't run
+   the validation check scripts nor build Rust documentation if
+   enabled, as the extra scripts are part of the docs Makefile.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/jobserver-exec | 218 ++++++++++++++++++++++++++++-------------
- 1 file changed, 151 insertions(+), 67 deletions(-)
+ tools/docs/lib/python_version.py | 28 ++++++++++++++++++++++++----
+ tools/docs/sphinx-build-wrapper  |  3 ++-
+ tools/docs/sphinx-pre-install    |  3 ++-
+ 3 files changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index 7eca035472d3..b386b1a845de 100755
---- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -1,77 +1,161 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0+
- #
-+# pylint: disable=C0103,C0209
-+#
- # This determines how many parallel tasks "make" is expecting, as it is
- # not exposed via an special variables, reserves them all, runs a subprocess
- # with PARALLELISM environment variable set, and releases the jobs back again.
- #
- # https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
--from __future__ import print_function
--import os, sys, errno
-+
-+"""
-+Interacts with the POSIX jobserver during the Kernel build time.
-+
-+A "normal" jobserver task, like the one initiated by a make subrocess would do:
-+
-+    - open read/write file descriptors to communicate with the job server;
-+    - ask for one slot by calling:
-+        claim = os.read(reader, 1)
-+    - when the job finshes, call:
-+        os.write(writer, b"+")  # os.write(writer, claim)
-+
-+Here, the goal is different: This script aims to get the remaining number
-+of slots available, using all of them to run a command which handle tasks in
-+parallel. To to that, it has a loop that ends only after there are no
-+slots left. It then increments the number by one, in order to allow a
-+call equivalent to make -j$((claim+1)), e.g. having a parent make creating
-+$claim child to do the actual work.
-+
-+The end goal here is to keep the total number of build tasks under the
-+limit established by the initial make -j$n_proc call.
-+"""
-+
-+import errno
-+import os
+diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
+index a9fda2470a26..4fde1b882164 100644
+--- a/tools/docs/lib/python_version.py
++++ b/tools/docs/lib/python_version.py
+@@ -20,9 +20,11 @@ Python version if present.
+ import os
+ import re
  import subprocess
-+import sys
++import shlex
+ import sys
  
--# Extract and prepare jobserver file descriptors from environment.
--claim = 0
--jobs = b""
--try:
--	# Fetch the make environment options.
--	flags = os.environ['MAKEFLAGS']
--
--	# Look for "--jobserver=R,W"
--	# Note that GNU Make has used --jobserver-fds and --jobserver-auth
--	# so this handles all of them.
--	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
--
--	# Parse out R,W file descriptor numbers and set them nonblocking.
--	# If the MAKEFLAGS variable contains multiple instances of the
--	# --jobserver-auth= option, the last one is relevant.
--	fds = opts[-1].split("=", 1)[1]
--
--	# Starting with GNU Make 4.4, named pipes are used for reader and writer.
--	# Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
--	_, _, path = fds.partition('fifo:')
--
--	if path:
--		reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
--		writer = os.open(path, os.O_WRONLY)
--	else:
--		reader, writer = [int(x) for x in fds.split(",", 1)]
--		# Open a private copy of reader to avoid setting nonblocking
--		# on an unexpecting process with the same reader fd.
--		reader = os.open("/proc/self/fd/%d" % (reader),
--				 os.O_RDONLY | os.O_NONBLOCK)
--
--	# Read out as many jobserver slots as possible.
--	while True:
--		try:
--			slot = os.read(reader, 8)
--			jobs += slot
--		except (OSError, IOError) as e:
--			if e.errno == errno.EWOULDBLOCK:
--				# Stop at the end of the jobserver queue.
--				break
--			# If something went wrong, give back the jobs.
--			if len(jobs):
--				os.write(writer, jobs)
--			raise e
--	# Add a bump for our caller's reserveration, since we're just going
--	# to sit here blocked on our child.
--	claim = len(jobs) + 1
--except (KeyError, IndexError, ValueError, OSError, IOError) as e:
--	# Any missing environment strings or bad fds should result in just
--	# not being parallel.
--	pass
--
--# We can only claim parallelism if there was a jobserver (i.e. a top-level
--# "-jN" argument) and there were no other failures. Otherwise leave out the
--# environment variable and let the child figure out what is best.
--if claim > 0:
--	os.environ['PARALLELISM'] = '%d' % (claim)
--
--rc = subprocess.call(sys.argv[1:])
--
--# Return all the reserved slots.
--if len(jobs):
--	os.write(writer, jobs)
--
--sys.exit(rc)
+ from glob import glob
++from textwrap import indent
+ 
+ class PythonVersion:
+     """
+@@ -44,6 +46,25 @@ class PythonVersion:
+         """Returns a version tuple as major.minor.patch"""
+         return ".".join([str(x) for x in version])
+ 
++    @staticmethod
++    def cmd_print(cmd, max_len=80):
++        cmd_line = []
 +
-+class JobserverExec:
-+    """
-+    Claim all slots from make using POSIX Jobserver.
++        for w in cmd:
++            w = shlex.quote(w)
 +
-+    The main methods here are:
-+    - open(): reserves all slots;
-+    - close(): method returns all used slots back to make;
-+    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
-+    """
-+
-+    def __init__(self):
-+        """Initialize internal vars"""
-+        self.claim = 0
-+        self.jobs = b""
-+        self.reader = None
-+        self.writer = None
-+        self.is_open = False
-+
-+    def open(self):
-+        """Reserve all available slots to be claimed later on"""
-+
-+        if self.is_open:
-+            return
-+
-+        try:
-+            # Fetch the make environment options.
-+            flags = os.environ["MAKEFLAGS"]
-+            # Look for "--jobserver=R,W"
-+            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-+            # so this handles all of them.
-+            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-+
-+            # Parse out R,W file descriptor numbers and set them nonblocking.
-+            # If the MAKEFLAGS variable contains multiple instances of the
-+            # --jobserver-auth= option, the last one is relevant.
-+            fds = opts[-1].split("=", 1)[1]
-+
-+            # Starting with GNU Make 4.4, named pipes are used for reader
-+            # and writer.
-+            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
-+            _, _, path = fds.partition("fifo:")
-+
-+            if path:
-+                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-+                self.writer = os.open(path, os.O_WRONLY)
++            if cmd_line:
++                if not max_len or len(cmd_line[-1]) + len(w) < max_len:
++                    cmd_line[-1] += " " + w
++                    continue
++                else:
++                    cmd_line[-1] += " \\"
++                    cmd_line.append(w)
 +            else:
-+                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-+                # Open a private copy of reader to avoid setting nonblocking
-+                # on an unexpecting process with the same reader fd.
-+                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-+                                      os.O_RDONLY | os.O_NONBLOCK)
++                cmd_line.append(w)
 +
-+            # Read out as many jobserver slots as possible
-+            while True:
-+                try:
-+                    slot = os.read(self.reader, 8)
-+                    self.jobs += slot
-+                except (OSError, IOError) as e:
-+                    if e.errno == errno.EWOULDBLOCK:
-+                        # Stop at the end of the jobserver queue.
-+                        break
-+                    # If something went wrong, give back the jobs.
-+                    if self.jobs:
-+                        os.write(self.writer, self.jobs)
-+                    raise e
++        return "\n  ".join(cmd_line)
 +
-+            # Add a bump for our caller's reserveration, since we're just going
-+            # to sit here blocked on our child.
-+            self.claim = len(self.jobs) + 1
-+
-+        except (KeyError, IndexError, ValueError, OSError, IOError):
-+            # Any missing environment strings or bad fds should result in just
-+            # not being parallel.
-+            self.claim = None
-+
-+        self.is_open = True
-+
-+    def close(self):
-+        """Return all reserved slots to Jobserver"""
-+
-+        if not self.is_open:
-+            return
-+
-+        # Return all the reserved slots.
-+        if len(self.jobs):
-+            os.write(self.writer, self.jobs)
-+
-+        self.is_open = False
-+
-+    def __enter__(self):
-+        self.open()
-+        return self
-+
-+    def __exit__(self, exc_type, exc_value, exc_traceback):
-+        self.close()
-+
-+    def run(self, cmd):
-+        """
-+        Run a command setting PARALLELISM env variable to the number of
-+        available job slots (claim) + 1, e.g. it will reserve claim slots
-+        to do the actual build work, plus one to monitor its childs.
-+        """
-+        self.open()             # Ensure that self.claim is set
-+
-+        # We can only claim parallelism if there was a jobserver (i.e. a
-+        # top-level "-jN" argument) and there were no other failures. Otherwise
-+        # leave out the environment variable and let the child figure out what
-+        # is best.
-+        if self.claim:
-+            os.environ["PARALLELISM"] = str(self.claim)
-+
-+        return subprocess.call(cmd)
-+
-+
-+def main():
-+    """Main program"""
-+    with JobserverExec() as jobserver:
-+        jobserver.run(sys.argv[1:])
-+
-+
-+if __name__ == "__main__":
-+    main()
+     def __str__(self):
+         """Returns a version tuple as major.minor.patch from self.version"""
+         return self.ver_str(self.version)
+@@ -130,14 +151,13 @@ class PythonVersion:
+         else:
+             new_python_cmd = None
+ 
+-        if show_alternatives:
++        if show_alternatives and available_versions:
+             print("You could run, instead:")
+             for _, cmd in available_versions:
+                 args = [cmd, script_path] + sys.argv[1:]
+ 
+-                cmd_str = " ".join(args)
+-                print(f"  {cmd_str}")
+-            print()
++                cmd_str = indent(PythonVersion.cmd_print(args), "  ")
++                print(f"{cmd_str}\n")
+ 
+         if bail_out:
+             msg = f"Python {python_ver} not supported. Bailing out"
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 94077b9773d8..c47f723391b9 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -756,7 +756,8 @@ def main():
+ 
+     args = parser.parse_args()
+ 
+-    PythonVersion.check_python(MIN_PYTHON_VERSION)
++    PythonVersion.check_python(MIN_PYTHON_VERSION, show_alternatives=True,
++                               bail_out=True)
+ 
+     builder = SphinxBuilder(builddir=args.builddir, venv=args.venv,
+                             verbose=args.verbose, n_jobs=args.jobs,
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index 663d4e2a3f57..698989584b6a 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -1531,7 +1531,8 @@ def main():
+ 
+     checker = SphinxDependencyChecker(args)
+ 
+-    PythonVersion.check_python(MIN_PYTHON_VERSION)
++    PythonVersion.check_python(MIN_PYTHON_VERSION,
++                               bail_out=True, success_on_error=True)
+     checker.check_needs()
+ 
+ # Call main if not used as module
 -- 
 2.51.0
 
