@@ -1,267 +1,110 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C291B2BF3E2
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 20:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1AF242D9E;
+	Fri, 12 Sep 2025 20:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757707809; cv=none; b=WCRPt54HSKX/lw7zvKFmNSFaI0pe2u3WtlFdPHUn+7IrIRSMC2DRhRHsIw3wddlRuxDMgCRi1JQc1497StEEtNmh1dM70QSD18GCcztOO25jlss6WkPT+HQYMScEojdDXfNJn5WHRKo5oSUjGjLFiNU/e6F0njUzbvRJ5HEjHwc=
+	t=1757710719; cv=none; b=rs+zxA/nNqQJwoPa2CCWw+Hb9tUven3fQZ10ZFmjzxGOizqWF0a9q//RlNYSOrvd4nZ02g1IcgExHHf6EiVR2QwMalogi+BCOP0BQGq+aMSDB/MJKUEhFq2maiw5/pozWYeAw6FXJ9UsGn+oX15FCJZ1zWHHCJ8pJtHE85rTMmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757707809; c=relaxed/simple;
-	bh=J7whkdgtw+r5eOooTlUKSxqksHF4jMLVv76DD83j+Vo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=atkJyKXCxBGCs8A+pUQLr+x0nczUnTk4fpqbFYZuI1R6uDm5d6qtbl+B1zImsB+AY59swYSB+9lnq4/WW6gQ19YNeXY++wRxlhsYzSoOupbpRkqE7h1a0ShTDIeiU5sCwDVdDxoLFnbgWj2i8NHsQrQfOmSTcccIAV0Qt2+lgko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DV6u0Isg; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757710719; c=relaxed/simple;
+	bh=hkPf4NG18cr+svLukm92kqXa86JRyXzWrX2yDcyUf2A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kiJG+Gh0KgHqtEIYUU79wo70Zmw0nAyshej81Ku6aA6g7GYoEsaTL7P9q03nQ5QuXYWlyg34YLPN32LHEO7fCXlbzbjq7iJT9AFsIwwfxBexVrkdSeVn0sRu4z4TeUnfP17fzryDA3Gt20KjeBMysygjS+euVMhBzfFMAs+t4KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GgYY+K7+; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DV6u0Isg"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b5f6ad78e4so23598671cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 13:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757707807; x=1758312607; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kUvk3PQT9iJETVmI+H9Y57Sl5Dee/ugWdBMz2xir9FU=;
-        b=DV6u0IsgVFNPqGtB+m+ojn3dj4gHL2UmDA1mE0/ukBtGUT2Cfz53LgCswjm/9J9/Bj
-         nJwW0gPDkQPJ50F0nGWv6vtV7i95GejKrkoAaCtJrkugobKs5CEAvHFAGOnjb3mlLgg6
-         obLjFQ/wquE5e6jJwUi6yNuZ4QCuIc/HqRsjvgLOnAQVUnKHzlg+mhEpUAvk+KFtyFih
-         rv1wxxdC61fCWVORHBuTOwNSEspRnI6UZFoXRVpOVNsV+9cNCikTrnBv2Ogdv9U5bkKE
-         TxgYH90afG37tIayKuUmsTDbkn3SmjuVZzvjzeHCblj7QyyL4UrASKWMUi7qg9Wo6diu
-         RwJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757707807; x=1758312607;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kUvk3PQT9iJETVmI+H9Y57Sl5Dee/ugWdBMz2xir9FU=;
-        b=RWZ4U+Zv70iY2IBigh+RISTo5glnKVmsuYHq0eA9kbbJrBVGBM6Foo7mlPdAkTssTK
-         mRUnI0UoJ7yC+ZxPXNI6+CSiB7r1+2kQmbAOwPbP2/QlaKn8dRpdsjFBtsPvH099zux4
-         CUKlccAUm8LtIl+VyLrQyF4S9vtVoQRiSipHWhks3329Agf7ib0mU3+jRKY/pgYQvviA
-         DN77SELFwnryREAq184wIS6giW8r7ek3b3FVDFh8GxixQFv1Q3Tw9mHalPmzdOc+7zaM
-         xiwxsrIo3b3qROjehxs1Saese+V6uIGwFrz3ynyMAwiPCzkik+LK53LqVTComiKBniaH
-         qR+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWJnHO2N23+ybxNojCFq2JOoPp5L8Rt6EcsgoaWRXJ2iRV9WKTBNHDNToSZCrd/4RqCxCF0CdUEEgs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyx60B9lYXIs7nKve4bPPJaKAbVpg1dtDbp3J7zj5yfTgq8Nwe2
-	p6X1FpTdDrbXVDV3qJ2y1qtgyJ9wRgDD3sJJkNj4vvbH8syTm1zYFGkhyHTHgWhjOz3UFlADBKi
-	6npAEjFRHl5CikLpfE20VDk9jS3AnyPY=
-X-Gm-Gg: ASbGncsYI/+Du0h8EmEQDg9OaU/2ouoo7OxJfYfZ43odyFXAJAxL6K+rnfNA9+DqASx
-	1mw98bEpB0WSncSDDR5U4kiqYIV+6aN/HHNYoh/wxyhKf+EK0qTZNAZ+rmgN7AcRIF9zviW/rmN
-	3d6Yayupb9bwMqAhmlImLaSWU56mO2A6U79C4rgpI+L2dGGMOpEVomAXRwGI7aH+ixcEHHLBByS
-	SGLpazLFEWhAbujV+UIviKfpYTfqc74u+NZtNyl5yz8FNGDEweybeU8M8/P
-X-Google-Smtp-Source: AGHT+IEWbv39vMnYlQ1SD0ZUhw0yLiTfWxsf26h64ZL6lZSTKK/c4qoFwMSw183eQ+ZBkoMKnWL15JY76Ze4fGknDs4=
-X-Received: by 2002:a05:622a:1805:b0:4b7:5de6:a69 with SMTP id
- d75a77b69052e-4b77d097ca4mr48388851cf.30.1757707806462; Fri, 12 Sep 2025
- 13:10:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GgYY+K7+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=LJHK7dsTB/ThO7Z2EP/SeNUzVk4mffiuK9Sa9a/39e4=; b=GgYY+K7+wiV+MpG4kO15w5qH+k
+	2WDSXuAg5k3G6ic4OnsA5tqxqUWWIkTVHHvl/OF3XUy4DakgAE6fiiA985ifFXW6TT5faR1uLIXG8
+	B6ciUprU+MM+N892Ut5ku3Ln9p15qVGYJX54q5e1j2xxS0sOVSnCx0q5FyYxZFu0RIvJlbPzW4oKL
+	SGU6xNfcRf8rc9vwKjxOUOEgPgVyfma6HNa9LbmE3Dom08imHl4z3AD8eeQr4BnijnnkZZXToFOBH
+	2EgfzN80emdvF98CXoiOicwkmvywStj1NrGJRChqiwg88Fgz9WtqGjF0SYkPl2H70sRRkmCr7NGrG
+	OFTEQkgw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uxAqp-0000000BXIW-2wyb;
+	Fri, 12 Sep 2025 20:58:35 +0000
+Message-ID: <de409ffc-100a-4120-b6b1-f89c59a97530@infradead.org>
+Date: Fri, 12 Sep 2025 13:58:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-14-joannelkoong@gmail.com> <a1529c0f-1f1a-477a-aeeb-a4f108aab26b@linux.alibaba.com>
- <CAJnrk1aCCqoOAgcPUpr+Z09DhJ5BAYoSho5dveGQKB9zincYSQ@mail.gmail.com>
- <0b33ab17-2fc0-438f-95aa-56a1d20edb38@linux.alibaba.com> <aMK0lC5iwM0GWKHq@infradead.org>
- <9c104881-f09e-4594-9e41-0b6f75a5308c@linux.alibaba.com> <CAJnrk1b2_XGfMuK-UAej31TtCAAg5Aq8PFS_36yyGg8NerA97g@mail.gmail.com>
- <6609e444-5210-42aa-b655-8ed8309aae75@linux.alibaba.com> <66971d07-2c1a-4632-bc9e-e0fc0ae2bd04@linux.alibaba.com>
- <267abd34-2337-4ae3-ae95-5126e9f9b51c@linux.alibaba.com> <CAJnrk1Y31b-Yr03rN8SXPmUA7D6HW8OhnkfFOebn56z57egDOw@mail.gmail.com>
-In-Reply-To: <CAJnrk1Y31b-Yr03rN8SXPmUA7D6HW8OhnkfFOebn56z57egDOw@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 12 Sep 2025 16:09:53 -0400
-X-Gm-Features: Ac12FXy-J-VlWsro9NrSIzcDj4rKWuNwCZfBlBwTbl7b7lNj5FofdR9Weg0GYow
-Message-ID: <CAJnrk1ZXM-fRKytRFptKNJrdN9pSbKJqXLW80T4UY=RLRKOBKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/16] iomap: move read/readahead logic out of
- CONFIG_BLOCK guard
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org, miklos@szeredi.hu, 
-	djwong@kernel.org, linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 12, 2025 at 3:56=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Thu, Sep 11, 2025 at 9:11=E2=80=AFPM Gao Xiang <hsiangkao@linux.alibab=
-a.com> wrote:
-> >
-> > On 2025/9/12 09:09, Gao Xiang wrote:
-> > >
-> > >
-> > > On 2025/9/12 08:06, Gao Xiang wrote:
-> > >>
-> > >>
-> > >> On 2025/9/12 03:45, Joanne Koong wrote:
-> > >>> On Thu, Sep 11, 2025 at 8:29=E2=80=AFAM Gao Xiang <hsiangkao@linux.=
-alibaba.com> wrote:
-> > >>
-> > >>>> But if FUSE or some other fs later needs to request L2P informatio=
-n
-> > >>>> in their .iomap_begin() and need to send L2P requests to userspace
-> > >>>> daemon to confirm where to get the physical data (maybe somewhat
-> > >>>> like Darrick's work but I don't have extra time to dig into that
-> > >>>> either) rather than just something totally bypass iomap-L2P logic
-> > >>>> as above, then I'm not sure the current `iomap_iter->private` is
-> > >>>> quite seperate to `struct iomap_read_folio_ctx->private`, it seems
-> > >>>
-> > >>> If in the future this case arises, the L2P mapping info is accessib=
-le
-> > >>> by the read callback in the current design. `.read_folio_range()`
-> > >>> passes the iomap iter to the filesystem and they can access
-> > >>> iter->private to get the L2P mapping data they need.
-> > >>
-> > >> The question is what exposes to `iter->private` then, take
-> > >> an example:
-> > >>
-> > >> ```
-> > >> struct file *file;
-> > >> ```
-> > >>
-> > >> your .read_folio_range() needs `file->private_data` to get
-> > >> `struct fuse_file` so `file` is kept into
-> > >> `struct iomap_read_folio_ctx`.
-> > >>
-> > >> If `file->private_data` will be used for `.iomap_begin()`
-> > >> as well, what's your proposal then?
-> > >>
-> > >> Duplicate the same `file` pointer in both
-> > >> `struct iomap_read_folio_ctx` and `iter->private` context?
-> > >
-> > > It's just an not-so-appropriate example because
-> > > `struct file *` and `struct fuse_file *` are widely used
-> > > in the (buffer/direct) read/write flow but Darrick's work
-> > > doesn't use `file` in .iomap_{begin/end}.
-> > >
-> > > But you may find out `file` pointer is already used for
-> > > both FUSE buffer write and your proposal, e.g.
-> > >
-> > > buffer write:
-> > >   /*
-> > >    * Use iomap so that we can do granular uptodate reads
-> > >    * and granular dirty tracking for large folios.
-> > >    */
-> > >   written =3D iomap_file_buffered_write(iocb, from,
-> > >                                       &fuse_iomap_ops,
-> > >                                       &fuse_iomap_write_ops,
-> > >                                       file);
-> >
-> > And your buffer write per-fs context seems just use
-> > `iter->private` entirely instead to keep `file`.
-> >
->
-> I don=E2=80=99t think the iomap buffered writes interface is good to use =
-as a
-> model. I looked a bit at some of the other iomap file operations and I
-> think we should just pass operation-specific data through an
-> operation-specific context for those too, eg for buffered writes and
-> dio modifying the interface from
->
-> ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter
-> *from, const struct iomap_ops *ops, const struct iomap_write_ops
-> *write_ops, void *private);
-> ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter, const
-> struct iomap_ops *ops, const struct iomap_dio_ops *dops, unsigned int
-> dio_flags, void *private, size_t done_before);
->
-> to something like
->
-> ssize_t iomap_file_buffered_write(const struct iomap_ops *ops, struct
-> iomap_write_folio_ctx *ctx);
-> ssize_t iomap_dio_rw(const struct iomap_ops *ops, struct iomap_dio_ctx *c=
-tx);
->
-> There=E2=80=99s one filesystem besides fuse that uses =E2=80=9Citer->priv=
-ate=E2=80=9D and
-> that=E2=80=99s for xfs zoned inodes (xfs_zoned_buffered_write_iomap_begin=
-()),
-> which passes the  struct xfs_zone_alloc_ctx*  through iter->private,
-> and it's used afaict for tracking block reservations. imo that's what
-> iter->private should be used for, to track the more high level
-> metadata stuff and then the lower-level details that are
-> operation-specific go through the ctx->data fields. That seems the
-> cleanest design to me. I think we should rename the iter->private
-> field to something like "iter->metadata" to make that delineation more
-> clear.  I'm not sure what the iomap maintainers think, but that is my
-> opinion.
->
-> I think if in the future there is a case/feature which needs something
-> previously in one of the operation-specific ctxes, it seems fine to me
-> to have both iter->private and ctx->data point to the same thing.
->
->
-> Thanks,
-> Joanne
->
-> > >
-> > >
-> > > I just try to say if there is a case/feature which needs
-> > > something previously in `struct iomap_read_folio_ctx` to
-> > > be available in .iomap_{begin,end} too, you have to either:
-> > >   - duplicate this in `iter->private` as well;
-> > >   - move this to `iter->private` entirely.
-> > >
-> > > The problem is that both `iter->private` and
-> > > `struct iomap_read_folio_ctx` are filesystem-specific,
-> > > I can only see there is no clear boundary to leave something
-> > > in which one.  It seems just like an artificial choice.
-> > >
-> > > Thanks,
-> > > Gao Xiang
-> > >
-> > >>
-> > >>
-> > >>>
-> > >>>> both needs fs-specific extra contexts for the same I/O flow.
-> > >>>>
-> > >>>> I think the reason why `struct iomap_read_folio_ctx->private` is
-> > >>>> introduced is basically previous iomap filesystems are all
-> > >>>> bio-based, and they shares `bio` concept in common but
-> > >>>> `iter->private` was not designed for this usage.
-> > >>>>
-> > >>>> But fuse `struct iomap_read_folio_ctx` and
-> > >>>> `struct fuse_fill_read_data` are too FUSE-specific, I cannot
-> > >>>> see it could be shared by other filesystems in the near future,
-> > >>>> which is much like a single-filesystem specific concept, and
-> > >>>> unlike to `bio` at all.
-> > >>>
-> > >>> Currently fuse is the only non-block-based filesystem using iomap b=
-ut
-> > >>> I don't see why there wouldn't be more in the future. For example,
-> > >>> while looking at some of the netfs code, a lot of the core
-> > >>> functionality looks the same between that and iomap and I think it
-> > >>> might be a good idea to have netfs in the future use iomap's interf=
-ace
-> > >>> so that it can get the large folio dirty/uptodate tracking stuff an=
-d
-> > >>> any other large folio stuff like more granular writeback stats
-> > >>> accounting for free.
-> > >>
-> > >> I think you need to ask David on this idea, I've told him to
-> > >> switch fscache to use iomap in 2022 before netfs is fully out [1],
-> > >> but I don't see it will happen.
-> > >>
-> > >> [1] https://lore.kernel.org/linux-fsdevel/YfivxC9S52FlyKoL@B-P7TQMD6=
-M-0146/
-
-(sorry, just saw this part of the email otherwise I would have
-included this in the previous message)
-
-Thanks for the link to the thread. My understanding is that the large
-folio optimizations stuff was added to iomap in July 2023 (afaict from
-the git history) and iomap is entangled with the block layer but it's
-becoming more of a generic interface now. Maybe now it makes sense to
-go through iomap's interface than it did in 2022, but of course David
-has the most context on this.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm: Add directive to format code in comment"
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Javier Garcia <rampxxxx@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20250912130649.27623-2-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250912130649.27623-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-Thanks,
-Joanne
 
-> > >>
-> > >> Thanks,
-> > >> Gao Xiang
-> > >
-> >
+On 9/12/25 6:06 AM, Bagas Sanjaya wrote:
+> Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
+> fixes original Sphinx indentation warning as introduced in
+> 471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
+> code-block:: directive. It semantically conflicts with earlier
+> bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+> usage in literal code block") that did the same using double colon
+> syntax instead. These duplicated literal code block directives causes
+> the original warnings not being fixed.
+> 
+> Revert 6cc44e9618f03f to keep things rolling without these warnings.
+> 
+> Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
+> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks!
+
+> ---
+>  drivers/gpu/drm/drm_gpuvm.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index db9b089ef62c85..86853535fb7bd7 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -2432,8 +2432,6 @@ static const struct drm_gpuvm_ops lock_ops = {
+>   *
+>   * The expected usage is::
+>   *
+> - * .. code-block:: c
+> - *
+>   *    vm_bind {
+>   *        struct drm_exec exec;
+>   *
+> 
+> base-commit: 9a3f210737e958c3f45a4ce0d7f1ff330af3965f
+
+-- 
+~Randy
