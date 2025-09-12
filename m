@@ -1,124 +1,135 @@
-Received: from sinmsgout01.his.huawei.com (sinmsgout01.his.huawei.com [119.8.177.36])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3D51E32B7;
-	Fri, 12 Sep 2025 14:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.8.177.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A802F4A;
+	Fri, 12 Sep 2025 14:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757685949; cv=none; b=c/0jdIaCcfspXdeAswn3FKGDE+WB6RD23J+R55rNjpulWfMSyNapPqkpApbaLAsaAzVneqWjrOHHvg3G9jXkxSpFfStbQ59sF9jbvMpeXa4WyZZiYfM4bvu8hJkUNR9nIcEjvpJ073hi8D9CiHy37NRpXTJVtXS/d0B0X2flcDo=
+	t=1757686373; cv=none; b=dUi9nGUiuiVg0UsAE0QF0rYBi+wD5aOdKbDo+3Mb7JHw7s24Is6wbHQOCpvo2NakkIC4bYoIv/BRzQlxF+a6wgglbMnu/d0CEtfzcABfTKB4VFcyLYtUUA9uaByNrauecHWKm8xBNLLrZPSz4UC5CgpUTc4kdewkMJizo15PQnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757685949; c=relaxed/simple;
-	bh=wPa31C/u/zYnKmpAPD3QOJm/Vnf/aC31z5afXxruVno=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iNQFY4pNmg/RHuRjCjqfeJ0sjSE7+k5euaCdNcAwI1JwlU5lnwRrZRQ/vGEXumDuXFFsW4gr4cbaobU9u5N4VExwXZj3ONo0D08CDu/UU5e5uxCy9CkPuzHLRLebJ8UY586YFpKyoe2PtM2VC0ALmhxXeM42PiICr88zwN2jsnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Q8pLkyYP; arc=none smtp.client-ip=119.8.177.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1757686373; c=relaxed/simple;
+	bh=T8cKU7GX1nkbL2NcsD+XuaY1d1XDFVWZOQimj/0jD0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UeWexej/U3EsToHVTDkRQkahdREz/pCnN6MrchPqfiO7tIrpPmRNgSjgDvUS+0GkZJ4cZghAhOvwBZomNj3HXC5jIL78JIIflytXXFUusZcj3vixv9I2Ke4ZDP+Uh2iZCLJEDsMCEnX7o382/W1rg33TSZDAvngLZJTn6MxOSEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=W250Hofs; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Q8pLkyYP"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=/DcnQTeZI4YKYnANsuOLP3ExlPyT4WtsTA72OsrRERg=;
-	b=Q8pLkyYP6XMLOWfm0UEEdNgeHC6ZXfaCemitYMnvTcFKWHImQdcBRA4C4p7bQ3TevArIMHvOy
-	jE1m7zqlkBek2L3dbxELIo4lledWmAravBzacMis+yV1DrtVPsFvdSqEIAPlsKjXYy1xmdnf3MF
-	rGA09i4tPOxEglnLUUJj1zE=
-Received: from frasgout.his.huawei.com (unknown [172.18.146.35])
-	by sinmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4cNbK13n41z1P7Gn;
-	Fri, 12 Sep 2025 21:45:09 +0800 (CST)
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cNbJn3zS2z6M53n;
-	Fri, 12 Sep 2025 21:44:57 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 015531402ED;
-	Fri, 12 Sep 2025 21:47:39 +0800 (CST)
-Received: from localhost (10.203.177.15) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 12 Sep
- 2025 15:47:38 +0200
-Date: Fri, 12 Sep 2025 14:47:36 +0100
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Will Deacon <will@kernel.org>
-CC: Yicong Yang <yangyicong@huawei.com>, <yangyicong@hisilicon.com>,
-	<catalin.marinas@arm.com>, <maz@kernel.org>, <oliver.upton@linux.dev>,
-	<corbet@lwn.net>, <linux-arm-kernel@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
-	<yuzenghui@huawei.com>, <shuah@kernel.org>,
-	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <tangchengchang@huawei.com>,
-	<wangzhou1@hisilicon.com>
-Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
-Message-ID: <20250912144736.00007673@huawei.com>
-In-Reply-To: <aMLvtpaCgRqPAU2Z@willie-the-truck>
-References: <20250715081356.12442-1-yangyicong@huawei.com>
-	<20250715081356.12442-6-yangyicong@huawei.com>
-	<aL7Fgx__LeLfbDyU@willie-the-truck>
-	<5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
-	<aMLvtpaCgRqPAU2Z@willie-the-truck>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="W250Hofs"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D0F8B40E015C;
+	Fri, 12 Sep 2025 14:12:41 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ctliiuI1qv13; Fri, 12 Sep 2025 14:12:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1757686358; bh=tkZAXzfE56Ye+65KcJu3D+78RmJwSGKf5LKjnICPk0A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W250Hofs3CAu2xKR7YwCa+iuLV0a0Hass4IjlijRdWxTDhiQQrX5MMxcjFX/Muc19
+	 L1D9c9Lb04ZjcZf2KbXFQiyCtAZkXdrAvGqG3NsN38YXvViWfFhq3P0qTKJhMAoDtQ
+	 6UGaVchmykQilTK2/QSbuXaV+EiXymkTV0TZvEiQmPcJ9I0YHSQejDJXCwfIbEj6Vm
+	 G82J1yDYKg8aVzqOuciVXFDjtRzsZBjG214DEdiy5w4HRkaQgpbr9bqur9Dn4iIy+G
+	 kUEKLKzCNYgwDfBobGKajNUoiHCg1W0aYCKRpRyJgrKkrptRO3UAkR+8VAi2i/X4dd
+	 OJiTh87FPlwX5ZYud/PEw6fK/bMAFObYM9H8+6ZA0bJgAWhCCE7E2K5ZeCBch71PJ7
+	 ec3fzVkjxAt1hg8ejNy+olL5CCuC7iTcNROQynBJNScdIV1SUCJWANA9rP0ZqSoeV0
+	 fQ4ChX9Ohn7lYM7tj7Csy7+36rXAEKPCnTft1D/juHMPjpnN3GuSelzM6eN2ldRDPQ
+	 10q3tNaz2HGvwBOzQHWUWiiR7DrqZPQL7a9bJUMlBSqtM/i2yS/ATc4iyOplB8BAiX
+	 cGCC0JD2nAMdgH2VtFBFe971EdKWqTPbJYopr/QR5spgvae29gJxJ+ZXY3XQCRzdvH
+	 Hd5DDtPIhAX+N27TiOyX93NY=
+Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C653340E0140;
+	Fri, 12 Sep 2025 14:12:01 +0000 (UTC)
+Date: Fri, 12 Sep 2025 16:11:55 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shiju.jose@huawei.com>
+Cc: "rafael@kernel.org" <rafael@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"rppt@kernel.org" <rppt@kernel.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>,
+	"leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>,
+	"rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>,
+	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
+	"erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>,
+	"gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>,
+	"Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
+	wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Message-ID: <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
+References: <20250902173043.1796-1-shiju.jose@huawei.com>
+ <20250902173043.1796-2-shiju.jose@huawei.com>
+ <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
+ <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
 
-On Thu, 11 Sep 2025 16:50:14 +0100
-Will Deacon <will@kernel.org> wrote:
+On Fri, Sep 12, 2025 at 12:04:57PM +0000, Shiju Jose wrote:
+> >Why is this requirement here?
+> The physical memory address range retrieved here for the NUMA domain is used in the subsequent
+> patch  [PATCH v12 2/2] ras: mem: Add memory ACPI RAS2 driver,
+> 1. to set Requested Address Range(INPUT) field of Table 5.87: Parameter Block Structure for PATROL_SCRUB
+> when send GET_PATROL_PARAMETERS command to the firmware, to get scrub parameters, running status,
+> current scrub rate etc.
+> 2. for the validity check of the user requested memory address range to scrub. 
 
-> On Tue, Sep 09, 2025 at 09:48:04AM +0800, Yicong Yang wrote:
-> > On 2025/9/8 20:01, Will Deacon wrote:  
-> > > On Tue, Jul 15, 2025 at 04:13:54PM +0800, Yicong Yang wrote:  
-> > >> diff --git a/Documentation/arch/arm64/elf_hwcaps.rst b/Documentation/arch/arm64/elf_hwcaps.rst
-> > >> index 69d7afe56853..9e6db258ff48 100644
-> > >> --- a/Documentation/arch/arm64/elf_hwcaps.rst
-> > >> +++ b/Documentation/arch/arm64/elf_hwcaps.rst
-> > >> @@ -435,6 +435,12 @@ HWCAP2_SME_SF8DP4
-> > >>  HWCAP2_POE
-> > >>      Functionality implied by ID_AA64MMFR3_EL1.S1POE == 0b0001.
-> > >>  
-> > >> +HWCAP3_LS64
-> > >> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0001.
-> > >> +
-> > >> +HWCAP3_LS64_V
-> > >> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0010.  
-> > > 
-> > > Given that these instructions only work on IMPLEMENTATION DEFINED memory
-> > > locations and aren't guaranteed to generate an abort if used elsewhere,
-> > > how is userspace supposed to know what to do with them?
-> > >   
-> > 
-> > per ARM DDI0487 L.b section C3.2.6,
-> > 
-> >   When the instructions access a memory type that is not one of the following,
-> >   a data abort for unsupported Exclusive or atomic access is generated...  
-> 
-> That's about the memory _type_. I'm talking about a supported memory type
-> (e.g. writeback cacheable) but when the physical location doesn't support
-> the instruction. That's captured a little later in the same section:
-> 
->   | If the target memory location does not support the LD64B or ST64B
->   | instructions, then one of the following behaviors occurs:
->   |  * A stage 1 Data Abort, reported using the DFSC code of 0b110101,
->   |    is generated.
->   |  * The instruction performs the memory accesses, but the accesses
->   |    are not single-copy atomic above the byte level
-> 
-> and I think that's a bad interface to expose blindly to userspace solely
-> as a boolean hwcap.
-Hi Will,
+Again, why does it have to be *lowest* and *contiguous*?
 
-Nasty, so now I'm curious. Any thoughts on how to expose what regions it is appropriate
-for?  I can think of various heavy weight options but wondering if there is a simple
-solution.
+Your answer doesn't explain that.
 
-Jonathan
-> 
-> Will
-> 
+> Also intended to expose this supported memory address range to the
+> userspace via EDAC scrub control interface, though it is not present now.
 
+Why? To tie ourselves with even more user ABI?!
+
+There better be a good reason and not a better design for what this is trying
+to do.
+
+> >What happens with the aux devices you created successfully here? Unwind?
+> Please see the previous discussions on this were about allowing the successfully created
+> auxiliary devices to exist.
+> https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+There's no discussion here. And nothing answers the question "why" this is ok
+to do this way.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
