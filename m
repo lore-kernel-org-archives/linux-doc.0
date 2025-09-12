@@ -1,158 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7218319867;
-	Fri, 12 Sep 2025 12:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46431CA78
+	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 12:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757678789; cv=none; b=Amfe3XOHzBi1suOJN+SiHSwzekYXIHM/xCEdXLNI/hJH+Y7yyiUaU3TGoR2BV9XhUSBPDAAs6uvP7zTOcsmMB3jw5EwjbWo29UO3ToN6z+FyH19j50RUHOFwX+0U6SuzPRHLkQZrfk2sO36M+J5mLaRs1Uc59AxkuL+IruhY0Sw=
+	t=1757678932; cv=none; b=LGG9GaAL8KZ7KwN3lTtkyMEcp5RpOab2uXVX7ug0W77f3ZcTQ/ulZyT2UnbK4fbjI64qAfXJvKf/ftgqd+S6DqccaLdik1RnjS6BwBTRX9hQm50LxoBhwnBCp2xJZ9yA2ijfLHL4N6p61grVQZc4+MGW2yW5NTJnaxznzWJcyzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757678789; c=relaxed/simple;
-	bh=A8petOVqvEdmsFYA3MjCwiqV/huIzU9ROOZeN0k+x1E=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TLqSgOPHiwCVr1CEkrRJhoNQFTVBblhnLgkopo46yu9+Y/bFG727IBybe8Oxk46w0BryZK05HDmOHLpljL0cCIqhDH+rLVICSfO4b6gFMiTJYFRveWH5nhJX7Rx+1iql3sEOi1BYYjHOKx2WiSIN5V4NXbKlQe6YCjF1yu4Wu8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=atpGPLOR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757678932; c=relaxed/simple;
+	bh=pg2OzxfdDmvV4PZ3/yrEF/ttLXM7KmEXR3GgYwf88oM=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=MVXz2f5PK4/0woB9p6PuI1qptsVDbDKRH2OBuiJ4mxrDmnNFYogj2al2c9SNR9HH8OJHRbCt1oVvqvKSI4Ot3e/D9gYCqtc+oWfvfurXJDkCFpWOj8oD0awwfP7wTxHUcV4bA9lchoJy60eLKfxoLLZnDVJ51fvMhTxD9nFh++4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/oSd1W4; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="atpGPLOR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC493C4CEF1;
-	Fri, 12 Sep 2025 12:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757678789;
-	bh=A8petOVqvEdmsFYA3MjCwiqV/huIzU9ROOZeN0k+x1E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=atpGPLOReo+o5b9Rzv1hFX5OHQtBhIslvrltVKK+XFmeOjKWb7HbOmV/MP2zAljnc
-	 f2268nyZ6gRgMvCP8U8fegkNEy6meOwcHuM7ZLnzHMlKqbsaX7Jl1o/LIVwWLUSBLK
-	 GclVPUTVBeBvDAXJ6RkjFsISQ3Yhi4RD4JqzPGUhzT/5sJR9fXEJQ9ApusaEC9d3oE
-	 haQTNGUKAfDqK+UO3xX0bRFPifFVMTxndB/QM09+/1UJ+HWIjUGQf1/9/301tryJKM
-	 sQpf0S2jyWpYK6KT48esOOoAE7+HJ+GsQ5NmD1P/udDXxVZaBU5qZ3Mt4hUZckmfeS
-	 d8abCAdiA5kWA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1ux2Xq-00000005g5A-3t5W;
-	Fri, 12 Sep 2025 12:06:27 +0000
-Date: Fri, 12 Sep 2025 13:06:26 +0100
-Message-ID: <864it7dge5.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v16 4/6] KVM: arm64: Validate GCS exception lock when emulating ERET
-In-Reply-To: <20250912-arm64-gcs-v16-4-6435e5ec37db@kernel.org>
-References: <20250912-arm64-gcs-v16-0-6435e5ec37db@kernel.org>
-	<20250912-arm64-gcs-v16-4-6435e5ec37db@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/oSd1W4"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so16374805e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 05:08:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757678928; x=1758283728; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z3mBB6R4Rvgptsn0OxjqAYg70NanrEyHXxP0kqh9yyw=;
+        b=j/oSd1W49q5GqUpc4lcLYvy2FpJ6r6ZYirBlz6SCqXtj+q1E4NhrYMAZRt2jCALf3Z
+         aYdOqFTvZZ7W3ga1P0A4UJ4iPdackJG2xm3HJTeoqJnVJ3+xXSFFYLDYJ6rBlWxTyIvS
+         u8CIOf11nkX+DDYBU9a4/FJ7TDYPDJTJ3d5Pjn4MOJcDzWSBjvjp/59HyOerZOkzWRrz
+         P3Yl115aDgI4ZVtknoMN6rAtqJ9Uh9w+3qjzQK3X0WdDAvFPmDmhCLcS/QoXXqXtzi5q
+         EgzhFN7HpA1/iV+GgMS10JQNKzIiXB64Iukc582CTVveKrg/kBbBhvImGFf9zN8MN/JP
+         z0yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757678928; x=1758283728;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z3mBB6R4Rvgptsn0OxjqAYg70NanrEyHXxP0kqh9yyw=;
+        b=uVCSZftLk9bvVuYstDtSSQx/o/gKmuAs9hoE2+iHljlk4MR/otEYQEb7xu0Tw5ERYf
+         vbapz8L8X+ghj19GNPEFU56IF3vxZjhEFxObZDozMO9oJKq275YRXhVpoch4pHMrDjln
+         eFKfrASu4ZM1VhzIEBGvdKJ9ZWO/v9V7I97DXcuUAIJSzNPfZ5sXosNojsaMZsGnDqGc
+         Nvg3Ga7egwvoNYVrVCKQk3y7Ae/d1Z5Yko7ky0AB8pH5m3hgxfdAKT33BwjeyRU/yTwW
+         hKRwsaqkeKFhEbWazkv0/F0ctq7cFjGesmeju/imD3WGokY+5F9t1TFwAXP/p4/25IuC
+         7wKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUf4/1CYNU777mIwuYM7y0Tlaa086vpDdmfgYa6+EyWh18Lgd45XwDQ7/PATcqJU1ZTfGRCN2QD0j0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa3gXrL/5zPuDAEy5loeQjhjytIV14SwLCPji03RhWsYcx7T6k
+	knqgRWtQwhBmWDfsRd4mot+pCom79inEHHBPjhmWYnrPAhV3LsHummrX
+X-Gm-Gg: ASbGncteN66F5jw+oTKKDucL+nW/ugz5HbofNusHKcPtQsWb9HuV/BMWtbwU+ZXS24j
+	18iP0hsSLpvJD4KHOTUBdQZLLqMrFbP8cT3uEsKXwj+2rLkeldWJZTKeH5cgCZ44zuLGjUPgqoQ
+	zGEsZICcsf4Hr2xlyvzpRkm+09GUeF4i+GWRsnGJPHjw+FPv1+RnQVyhYbXz/Bwc0xSjehm9qER
+	d4guUcxrCb+bY1Cmq6mYpfMooKqOGUzk9HFQeDWG8DwTf4GJ3RJawnjODSVos/C4xUXZoIaAGHE
+	eFS5WCXAWF/Zr2y5FL8OZYfMGCh6I3fgd8FzqUvNUpGvdIX91x/pPU2ndDgBgQLfOJRfkiSXVYu
+	ejH4f7WkqJNqO1/pd/HuzV+f6Z9U66BvEdg==
+X-Google-Smtp-Source: AGHT+IGv/35p/W7r3GHx5SA997jhumk8Hh17nHWyXFsjPVhFKF0I3tiZFXsC/nBQd4qsEp3pwnV0nA==
+X-Received: by 2002:a05:600c:548f:b0:45b:8ad2:76c8 with SMTP id 5b1f17b1804b1-45f2125d5cdmr28593575e9.2.1757678927561;
+        Fri, 12 Sep 2025 05:08:47 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:18f9:fa9:c12a:ac60])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e037186e5sm60557925e9.5.2025.09.12.05.08.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 05:08:47 -0700 (PDT)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,  Jakub Kicinski <kuba@kernel.org>,
+  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet
+ <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Simon Horman
+ <horms@kernel.org>,  linux-doc@vger.kernel.org,  netdev@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] tools: ynl: rst: display attribute-set doc
+In-Reply-To: <a1f55940-7115-4650-835c-2f1138c5eaa4@kernel.org>
+Date: Fri, 12 Sep 2025 12:07:04 +0100
+Message-ID: <m2ecscudyf.fsf@gmail.com>
+References: <20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org>
+	<m2v7lpuv2w.fsf@gmail.com>
+	<a1f55940-7115-4650-835c-2f1138c5eaa4@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Fri, 12 Sep 2025 10:25:30 +0100,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> As per DDI0487 R_TYTWB GCS adds an additional case where an illegal
-> exception return can be generated. If all of:
-> 
->  - PSTATE.EXLOCK is 0.
->  - The EL is not being changed by the ERET.
->  - GCSCR_ELx.EXLOCKEN is 1.
-> 
-> are true then the return is illegal. Emulate this behaviour when
-> emulating ERET for nested guests.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/kvm/emulate-nested.c | 40 +++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 39 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
-> index 90cb4b7ae0ff..9b02b85eda64 100644
-> --- a/arch/arm64/kvm/emulate-nested.c
-> +++ b/arch/arm64/kvm/emulate-nested.c
-> @@ -2632,6 +2632,41 @@ bool forward_debug_exception(struct kvm_vcpu *vcpu)
->  	return forward_mdcr_traps(vcpu, MDCR_EL2_TDE);
->  }
->  
-> +/*
-> + * A subset of the pseudocode ELFromSPSR(), validity checks are
-> + * assumed to have been done in code that is not GCS specific.
-> + */
-> +static inline int exlock_el_from_spsr(u64 spsr)
-> +{
-> +	return FIELD_GET(GENMASK(3, 2), spsr);
-> +}
-> +
-> +/* See IllegalExceptionReturn() pseudocode */
-> +static bool kvm_check_illegal_exlock_return(struct kvm_vcpu *vcpu, u64 spsr)
-> +{
-> +	u64 cur_el, target_el;
-> +	u64 gcscr;
-> +
-> +	if (!kvm_has_gcs(vcpu->kvm))
-> +		return false;
-> +
-> +	if (spsr & PSR_EXLOCK_BIT)
-> +		return false;
-> +
-> +	cur_el = exlock_el_from_spsr(vcpu->arch.ctxt.regs.pstate);
-> +	target_el = exlock_el_from_spsr(spsr);
-> +
-> +	if (cur_el != target_el)
-> +		return false;
-> +
-> +	if (vcpu_is_el2(vcpu))
-> +		gcscr = __vcpu_sys_reg(vcpu, GCSCR_EL2);
-> +	else
-> +		gcscr = __vcpu_sys_reg(vcpu, GCSCR_EL1);
+Matthieu Baerts <matttbe@kernel.org> writes:
 
-At the point where we check for an illegal exception return, the state
-is live on the CPU. How does this work? Also, we only handle ERET
-traps for EL2, not EL1.
+> Hi Donald,
+>
+> On 11/09/2025 12:44, Donald Hunter wrote:
+>> "Matthieu Baerts (NGI0)" <matttbe@kernel.org> writes:
+>> 
+>>> Some attribute-set have a documentation (doc:), but it was not displayed
+>>> in the RST / HTML version. Such field can be found in ethtool, netdev,
+>>> tcp_metrics and team YAML files.
+>>>
+>>> Only the 'name' and 'attributes' fields from an 'attribute-set' section
+>>> were parsed. Now the content of the 'doc' field, if available, is added
+>>> as a new paragraph before listing each attribute. This is similar to
+>>> what is done when parsing the 'operations'.
+>> 
+>> This fix looks good, but exposes the same issue with the team
+>> attribute-set in team.yaml.
+>
+> Good catch! I forgot to check why the output was like that before
+> sending this patch.
+>
+>> The following patch is sufficient to generate output that sphinx doesn't
+>> mangle:
+>> 
+>> diff --git a/Documentation/netlink/specs/team.yaml b/Documentation/netlink/specs/team.yaml
+>> index cf02d47d12a4..fae40835386c 100644
+>> --- a/Documentation/netlink/specs/team.yaml
+>> +++ b/Documentation/netlink/specs/team.yaml
+>> @@ -25,7 +25,7 @@ definitions:
+>>  attribute-sets:
+>>    -
+>>      name: team
+>> -    doc:
+>> +    doc: |
+>>        The team nested layout of get/set msg looks like
+>>            [TEAM_ATTR_LIST_OPTION]
+>>                [TEAM_ATTR_ITEM_OPTION]
+> Yes, that's enough to avoid the mangled output in .rst and .html files.
+>
+> Do you plan to send this patch, or do you prefer if I send it? As part
+> of another series or do you prefer a v2?
 
-> +
-> +	return gcscr & GCSCR_ELx_EXLOCKEN;
-> +}
-> +
->  static u64 kvm_check_illegal_exception_return(struct kvm_vcpu *vcpu, u64 spsr)
->  {
->  	u64 mode = spsr & PSR_MODE_MASK;
-> @@ -2642,12 +2677,15 @@ static u64 kvm_check_illegal_exception_return(struct kvm_vcpu *vcpu, u64 spsr)
->  	 * - trying to return to an illegal M value
->  	 * - trying to return to a 32bit EL
->  	 * - trying to return to EL1 with HCR_EL2.TGE set
-> +	 * - GCSCR_ELx.EXLOCKEN is 1 and PSTATE.EXLOCK is 0 when attempting
-> +	 *   to return from ELx the same EL.
->  	 */
->  	if (mode == PSR_MODE_EL3t   || mode == PSR_MODE_EL3h ||
->  	    mode == 0b00001         || (mode & BIT(1))       ||
->  	    (spsr & PSR_MODE32_BIT) ||
->  	    (vcpu_el2_tge_is_set(vcpu) && (mode == PSR_MODE_EL1t ||
-> -					   mode == PSR_MODE_EL1h))) {
-> +					   mode == PSR_MODE_EL1h)) ||
-> +	    kvm_check_illegal_exlock_return(vcpu, spsr)) {
+Could you add it to a v2 please.
 
-This code is simply never reached. Hint: kvm_hyp_handle_eret().
+> Note that a few .yaml files have the doc definition starting at the next
+> line, but without this '|' at the end. It looks strange to me to have
+> the string defined at the next line like that. I was thinking about
+> sending patches containing modifications created by the following
+> command, but I see that this way of writing the string value is valid in
+> YAML.
+>
+>   $ git grep -l "doc:$" -- Documentation/netlink/specs | \
+>         xargs sed -i 's/doc:$/doc: |/g'
+>
+> Except the one with "team", the other ones don't have their output
+> mangled. So such modifications are probably not needed for the other ones.
 
-	M.
+Yeah, those doc: entries look weird to me too. Not sure it's worth
+fixing them up, given that they are valid. Also worth noting that the
+two formats that we should encourage are
 
--- 
-Without deviation from the norm, progress is not possible.
+  doc: >-
+    Multi line text that will get folded and
+    stripped, i.e. internal newlines and trailing
+    newlines will be removed.
+
+  doc: |
+    Multi line text that will be handled literally
+    and clipped, i.e. internal newlines and trailing
+    newline are preserved but additional trailing
+    newlines get removed.
+
+So if we were to fix up the doc:$ occurrences, then I'd suggest using
+doc: >-
+
+Cheers,
+Donald
