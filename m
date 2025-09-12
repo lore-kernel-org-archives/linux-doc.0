@@ -1,49 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E33C15E5D4;
-	Fri, 12 Sep 2025 12:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84283305E09;
+	Fri, 12 Sep 2025 12:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757680459; cv=none; b=WxE8gHTekmnFP8JsHHFE1stuRLvTjILRkjf1dnnRteT55PA5doOsObN84U+Qtza+To6rhaJiBgyl4zQ+gkVX4Cqtl2gAbYLI/J1t6dUq/CeV9BceZ9c+gDTy09G6RU2GmoXXtZo4V5jM6qAi6KWGuA93jcxhY7EeuD/inkhDFSY=
+	t=1757681376; cv=none; b=qWGJwjgnQdJ41SJT9ysZr5Ic47wuH1cxfarKcWmnGUnzzWxkArTsaH1JB0YgRU3GjekzbZ3uVFSMm+VLmvbURoLt/poE+6C+Db1/AU5jqYIBzsVUBylXuUzPIVoxY82YxCSZlXOhoPtzDUDLjWbMVXRG/hXfUKFkN9WYNO/5Trg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757680459; c=relaxed/simple;
-	bh=Tjc4aRuxymCZ05qVsiyWO+INl0NvIFXtmcqG+Mtz0Pw=;
+	s=arc-20240116; t=1757681376; c=relaxed/simple;
+	bh=cJOJH3yU/kwSOFEWL3cknqHk3CDHphTlrhQNFHKX2TQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CyogaJzftVWj6btrRWGQlxI64R7w/uqeknlGPGx7vXHpENMqSPf9Vo0AP/i7p7qs5f0boPQn0uExtkXcble8x1hu+dDMYS6JbmVWX4R37aBokLrBmmp8kBWGvEnjZ19gA5s6NIqkm7BWIPKHpFlJs+d9OIWsUoY2i/JgovsN0OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bi95CEmk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GDOeZJATOtQa6ya52T+yiHJX1gNyyIzqobMCUkIM37fRL0+52yNT7m6DRxoOYhoQcuP36VoNnhUo/7LGpS884L/wEn4DE4/W/79f+Ki5MrWH9XMu92EMVkWXMrJoJWgq3PqmBQkbPSCQmOrBi2dqDcytAm4gGho2bshN+Ywf9Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0z/kSoo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bi95CEmk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88714C4CEF1;
-	Fri, 12 Sep 2025 12:34:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0z/kSoo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB3FAC4CEF1;
+	Fri, 12 Sep 2025 12:49:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757680458;
-	bh=Tjc4aRuxymCZ05qVsiyWO+INl0NvIFXtmcqG+Mtz0Pw=;
+	s=k20201202; t=1757681375;
+	bh=cJOJH3yU/kwSOFEWL3cknqHk3CDHphTlrhQNFHKX2TQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bi95CEmk0eoYHVzLCN/iS98WPmbwI1N+juNar8iZb3wxG3aZRNtHqniXL+qRHnXtb
-	 S8+W8qXaODY3RL7D/BIZnhqocVB7jhGlEQvfz5Rb8Q0nF38ehB2+++t86IvrBZ86JX
-	 Z6Kdld8IIJi9+a2uPHEeFtsZCYHZBYLkr3BjVSqZMqjd5KrvK0UjwiGMDBsQfdkrOs
-	 Tx7HY9l8oicrlNRFNUpU6GqqCHfdnoNWt5ouRFmmuvetb8MVgVDZxsSWICAlOgN4ot
-	 BKUoDWxJzI8erAVkfzOebTBvuIjZQYOpSNeX9PpLeq5vIqkHC6J3gqHAL7w4SRnBUF
-	 crIg9Xf6QLApg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1ux2ym-00000008T70-2e5O;
-	Fri, 12 Sep 2025 14:34:16 +0200
-Date: Fri, 12 Sep 2025 14:34:16 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 10/19] tools/docs: sphinx-build-wrapper: add support
- to run inside venv
-Message-ID: <tarfb5x6kg6s3q3yboep6obfvi4s6ahbj2pkcyvgbyvcwrrfxw@v4pnnpjivwwx>
-References: <cover.1756969623.git.mchehab+huawei@kernel.org>
- <2158cc4cf1f9bcf4c191f8031c1fb717cb989f7f.1756969623.git.mchehab+huawei@kernel.org>
- <b76575eab805884ee5227ae6f1aded505df4ec56@intel.com>
- <20250912104639.4781b638@foz.lan>
- <4d7acb77be634212056426aee139496da42dc520@intel.com>
+	b=V0z/kSooxMApXq2NR67i6CL/A5Mf8HOrK0a2IkGC5YoU1uouX+LEnpoZnf8dKPuoR
+	 oZFaizNtY+yIa/IElaW7FFd+v0Q4mnd3MFXQsED/WA41t05OtpTD9Y/cmO0PRpWgov
+	 OC5ZNQEgfyvKL7yVPc6OjAbenW6IusZ3KVhyDgIxa8aYAuCcDnXH7U7cS7lCnszegu
+	 sIXuN6n6XxxoNdYFqhvC7z723wrdtVJlV8gVC3PqfytoL+AatKrH9DhngrZgHJtUQz
+	 yLlEKCwT2n2B4b32+72FsWoVQ2KruW7f/01kVtW0QOzdZOcfC3ubl66AUQkqMmjHtP
+	 hTpLKb1LZNKuw==
+Date: Fri, 12 Sep 2025 20:49:30 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, brgl@bgdev.pl
+Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
+Message-ID: <aMQW2jUFlx7Iu9U5@tzungbi-laptop>
+References: <20250912081718.3827390-1-tzungbi@kernel.org>
+ <2033c6cd-4112-4c8a-a9ef-2ab34f3504b8@kernel.org>
+ <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,75 +53,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4d7acb77be634212056426aee139496da42dc520@intel.com>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
 
-On Fri, Sep 12, 2025 at 12:22:42PM +0300, Jani Nikula wrote:
-> On Fri, 12 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > Em Wed, 10 Sep 2025 13:51:40 +0300
-> > Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+On Fri, Sep 12, 2025 at 11:24:10AM +0200, Bartosz Golaszewski wrote:
+> On Fri, 12 Sept 2025 at 11:09, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > On 12/09/2025 10:17, Tzung-Bi Shih wrote:
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > >
-> >> On Thu, 04 Sep 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> >> > Sometimes, it is desired to run Sphinx from a virtual environment.
-> >> > Add a command line parameter to automatically build Sphinx from
-> >> > such environment.  
-> >> 
-> >> Why?
-> >
-> > In my case, to be able to test build with different Sphinx versions.
-> > On some distros, only venv works.
+> > Thanks for the work. Just a note, please start using b4, so above Cc
+> > will be propagated to all patches. Folks above received only the cover
+> > letter...
+
+Thank you for bringing this to my attention.  I wasn't aware of that and
+will ensure this is handled correctly in the future.
+
+> Thanks to Krzysztof for making me aware of this. Could you please Cc
+> my brgl@bgdev.pl address on the next iteration.
+
+Sure, will do.
+
+> I haven't looked into the details yet but the small size of the first
+> patch strikes me as odd. The similar changes I did for GPIO were quite
+> big and they were designed just for a single sub-system.
 > 
-> I mean why add the complexity of running inside a venv in the wrapper.
+> During the talk you reference, after I suggested a library like this,
+> Greg KH can be heard saying: do this for two big subsystems so that
+> you're sure it's a generic solution. Here you're only using it in a
+> single driver which makes me wonder if we can actually use it to
+> improve bigger offenders, like for example I2C, or even replace the
+> custom, SRCU-based solution in GPIO we have now. Have you considered
+> at least doing a PoC in a wider kernel framework?
 
-I don't think it venv support is complex.
+Yes, I'm happy to take this on.
 
-> 
-> >> If you want Sphinx from a virtual environment, you enter the
-> >> environment, and run the regular build, with sphinx-build from the PATH
-> >> that points at the venv.
-> >
-> > when you do that, ./scripts/spdxcheck.py breaks, affecting checkpatch.
-> 
-> Then you could turn the whole argument around, and say spdxcheck.py
-> should jump through venv and dependency hoops instead of the docs build.
-
-Neither spdxcheck.py nor checkpatch recommends venv; make docs targets do.
-
-> The point is, it should be the user's responsibility to deal with the
-> environment and the dependencies.
-> 
-> If they're setting up a virtual environment, and it affects checkpatch,
-> then they should also include the spdxcheck.py dependencies in the
-> virtual environment.
-
-They are because we're recommending it.
-
-> This feels like reinventing pipx in a Sphinx wrapper.
-> 
-> We should *reduce* the complexity, not increase it.
-
-Complexity is not the issue: There are several things a the Kernel
-tree that are complex. Here, the entire wrapper script (not counting
-blank lines/comments) is not more than ~300 lines of code, splitted
-on multiple functions. This is not complex.
-
-The big issue is what we have now where docs makefile is full of
-hacks:
-
-    - scripts to workaround issues;
-    - "|| exit" to fix broken latexmk/xelatex error outputs;
-    - "+" to use GNU make parallelism;
-    - complex call macros;
-    - ...
-
-None of those documented.
-
-Liking or not, this series as a whole makes a lot clearer what
-is done to build preparation, Sphinx build and post-build steps
-that are required to produce Kernel docs. Also, almost half of
-it is documentation. IMHO, a lot better from what we have so
-far.
-
--- 
-Thanks,
-Mauro
+To help me get started, could you please point me to some relevant code
+locations?  Also, could you let me know if any specific physical devices
+will be needed for testing?
