@@ -1,148 +1,137 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D293128C9
-	for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 14:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBF130103C;
+	Fri, 12 Sep 2025 14:40:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757687734; cv=none; b=eJuepH6FpssLeNCUks3ry/blHbZi/xK+rHY8jxkA8ynFnmEdwsrWo+0PCsP21EqI4WNxnCKDKqWmzF9+ognauX6N54Iu0Xk+HylMJ06Nk+VtLthevnFqIJpEDyffzprOyrEUEkJe8eRlDEOfS/QJpfoSrrQWqTRZUdxbX/gQlMQ=
+	t=1757688030; cv=none; b=rq/QMyTiz4YDffxS8SCg63SRjoh+HNF+SYbiiVUKP2+wFK+IQZ/WE/aiTfLgJ1v2cUkLjuadbajwaWhZKGBX+6mjvLZ+w08ZUnBcFZlTCJTwar713kgVLoIWHUAetic2ax2dHd5SBvawAtb2+lD53raIzRDiIbkspkd6WqNxTEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757687734; c=relaxed/simple;
-	bh=ZS7rP4uNGEsC6E4oWHILrKqyLsgRXKFtB76mAodhYY8=;
+	s=arc-20240116; t=1757688030; c=relaxed/simple;
+	bh=qWcfKiEFHIZ598lbYhBvGM0q5xt11h5ZPmPynVBL2n0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tHBvL1NwdpViEEVzEIC7uF0LAcrLT2IZyfgYpwPc2kY0ycHlN7na/fBxebvmWudAsuZljSlOwc+RDid7hlD4BmOAYUAPa503rQYBGyqedulmuEbKaACbe2YukmCMslsLXVDcLV/+ffRxH3nvSfMHP1AJBgTlkrzSVh3HkCXEdpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7vmE2K4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bmvf76wOb+caXT4P7tXEpcBNz8vklzmFGl7HGlQy4C1w11CPRP5+Dzy968pAq9nBli9RP8vKYCDwQrii16qYA6uK5zY/boH0yNlXVvXp0WMxmpH5bKkmdXYLBwBrO9CrkEvhtffpkaSTdKP0W7PuwG1CFgQzCpBXvC12dVbv6ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TnzVhIri; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7vmE2K4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3109C4AF09;
-	Fri, 12 Sep 2025 14:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757687733;
-	bh=ZS7rP4uNGEsC6E4oWHILrKqyLsgRXKFtB76mAodhYY8=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TnzVhIri"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD09AC4CEF1;
+	Fri, 12 Sep 2025 14:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1757688030;
+	bh=qWcfKiEFHIZ598lbYhBvGM0q5xt11h5ZPmPynVBL2n0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q7vmE2K4bX8N4hatiQwkjb/A3dnxO6r3RYDHOnmoRcnVH8MSeDYmmQhqTWe0jt4sp
-	 oLLiUuP4twMzEVJQb4D+SIl9qvAcelBWBXY7XiqHwFKHjrdr0wfoPlmj0D24PNgodj
-	 1dM/nmfb8uj3E+I1kkIhH9GoIc5bP3e+saZHcvpSezPCvqxv2TGEhQ5BPeb+yCmI/J
-	 bEnABSTTni9UnToepTcSg0itrqhujlpQrL9bJsbOVyAO8ACm4e3KOH0wivYWDNjABf
-	 EIcsTRlYyIfE0iNaxARye2jNVj08XEHIYxxE5Jnt6pL6CahB4FJaS6UBfOooKIPZ+E
-	 Pq9JMrcWLS+gA==
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfauth.phl.internal (Postfix) with ESMTP id D1459F40067;
-	Fri, 12 Sep 2025 10:35:31 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Fri, 12 Sep 2025 10:35:31 -0400
-X-ME-Sender: <xms:sy_EaIOFVP8TFbUVTr3M1hLM62MVAOKgDByS_aczWYuKrY66etkvQA>
-    <xme:sy_EaMw-CYop6ykTCd7xbwny6NtaPItW2sfRBJsD2AqEeyBakCiyiq9sSD4I2ZrZ8
-    0EOX8rSQyNgOwk0O90>
-X-ME-Received: <xmr:sy_EaNEE_dt9BsbRhcSnetlFx8viyIF2X-cR9O_4RQejA7BzgjEZNxGcPjXMeg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvleeftdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpefmihhrhihlucfu
-    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeehieekueevudehvedtvdffkefhueefhfevtdduheehkedthfdtheejveelueffgeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
-    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
-    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
-    grmhgvpdhnsggprhgtphhtthhopeelkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepuggrvhhiugesrhgvughhrghtrdgtohhmpdhrtghpthhtohepnhhprggthhgvsehrvg
-    guhhgrthdrtghomhdprhgtphhtthhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqthhrrggtvgdqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhmpdhrtghpthhtohep
-    sggrohhlihhnrdifrghngheslhhinhhugidrrghlihgsrggsrgdrtghomhdprhgtphhtth
-    hopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvgdrtghomh
-X-ME-Proxy: <xmx:sy_EaAmxvA8o9_BHxY-OQnobzIiZhPsKsPuNtnqReZ5bOGcvwh474g>
-    <xmx:sy_EaKp3BAE6_gjy-zS7AYs7Bj7CZV5N_FJtGJNQVJ9t5qw1AikzVA>
-    <xmx:sy_EaDLqBIhr9fE2udYB0c4LPnib3YjCh9yEomGSqm0hV0dg8fzlNQ>
-    <xmx:sy_EaAVLrTry_swTdUTik2eWBdy0SXF2Of3dstHY8M8jzbt4H_u2oQ>
-    <xmx:sy_EaIpOoTWlPsROLlgNbu1iSSSKPIivBreFLf3igkQmOpWorIzzL6ol>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Sep 2025 10:35:30 -0400 (EDT)
-Date: Fri, 12 Sep 2025 15:35:28 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, 	ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
- 	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, 	rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, 	akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- 	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
- sunnanyong@huawei.com, 	vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- 	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- 	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, 	jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, 	zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- 	rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- 	lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- 	pfalcato@suse.de
-Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
-Message-ID: <rapl4xr55zv2nq3jh5ulk4wvfyxa2kmbnnb4uram6q43y4cbwn@dv5m52ocyqne>
-References: <20250912032810.197475-1-npache@redhat.com>
- <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
- <43f42d9d-f814-4b54-91a6-3073f7c7cedf@redhat.com>
- <ab8c2e03-53fb-402c-a674-c2c6ab11f54e@redhat.com>
+	b=TnzVhIrimRe0yuqMX3cFWoog5XzeSKyCo2VxmIvUXjEd81Scp1iskSsJe1fkyKFcn
+	 4MA6gJmm7dc8BNAC/EmDnD2AOrqubwBDD+x0T8gyjDmCbpfeCoDJcbhiiXAHeP09Hf
+	 9/m7FIxSt+cmLwKhP4DfpCRC0x7ctV6Mg0a9z5F0=
+Date: Fri, 12 Sep 2025 16:40:27 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
+Message-ID: <2025091237-cortex-carnage-5c34@gregkh>
+References: <20250912081718.3827390-1-tzungbi@kernel.org>
+ <2033c6cd-4112-4c8a-a9ef-2ab34f3504b8@kernel.org>
+ <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
+ <aMQW2jUFlx7Iu9U5@tzungbi-laptop>
+ <20250912132656.GC31682@pendragon.ideasonboard.com>
+ <2025091209-curfew-safari-f6e0@gregkh>
+ <CAMRc=MfdoB50o=3Q2p94o+f7S2Bzr=TAtWWQcDrC5Wf3Q5nqAA@mail.gmail.com>
+ <20250912135916.GF31682@pendragon.ideasonboard.com>
+ <2025091220-private-verse-d979@gregkh>
+ <20250912142646.GI31682@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ab8c2e03-53fb-402c-a674-c2c6ab11f54e@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250912142646.GI31682@pendragon.ideasonboard.com>
 
-On Fri, Sep 12, 2025 at 04:28:09PM +0200, David Hildenbrand wrote:
-> On 12.09.25 15:47, David Hildenbrand wrote:
-> > On 12.09.25 14:19, Kiryl Shutsemau wrote:
-> > > On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
-> > > > The following series provides khugepaged with the capability to collapse
-> > > > anonymous memory regions to mTHPs.
+On Fri, Sep 12, 2025 at 05:26:46PM +0300, Laurent Pinchart wrote:
+> (CC'ing Dan Williams)
+> 
+> On Fri, Sep 12, 2025 at 04:19:53PM +0200, Greg KH wrote:
+> > On Fri, Sep 12, 2025 at 04:59:16PM +0300, Laurent Pinchart wrote:
+> > > On Fri, Sep 12, 2025 at 03:46:27PM +0200, Bartosz Golaszewski wrote:
+> > > > On Fri, Sep 12, 2025 at 3:39 PM Greg Kroah-Hartman wrote:
+> > > > >
+> > > > > I have no objection moving this to the cdev api, BUT given that 'struct
+> > > > > cdev' is embedded everywhere, I don't think it's going to be a simple
+> > > > > task, but rather have to be done one-driver-at-a-time like the patch in
+> > > > > this series does it.
 > > > > 
-> > > > To achieve this we generalize the khugepaged functions to no longer depend
-> > > > on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
-> > > > pages that are occupied (!none/zero). After the PMD scan is done, we do
-> > > > binary recursion on the bitmap to find the optimal mTHP sizes for the PMD
-> > > > range. The restriction on max_ptes_none is removed during the scan, to make
-> > > > sure we account for the whole PMD range. When no mTHP size is enabled, the
-> > > > legacy behavior of khugepaged is maintained. max_ptes_none will be scaled
-> > > > by the attempted collapse order to determine how full a mTHP must be to be
-> > > > eligible for the collapse to occur. If a mTHP collapse is attempted, but
-> > > > contains swapped out, or shared pages, we don't perform the collapse. It is
-> > > > now also possible to collapse to mTHPs without requiring the PMD THP size
-> > > > to be enabled.
-> > > > 
-> > > > When enabling (m)THP sizes, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on
-> > > > 4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 for
-> > > > mTHP collapses to prevent collapse "creep" behavior. This prevents
-> > > > constantly promoting mTHPs to the next available size, which would occur
-> > > > because a collapse introduces more non-zero pages that would satisfy the
-> > > > promotion condition on subsequent scans.
+> > > > I don't think cdev is the right place for this as user-space keeping a
+> > > > reference to a file-descriptor whose "backend" disappeared is not the
+> > > > only possible problem. We can easily create a use-case of a USB I2C
+> > > > expander being used by some in-kernel consumer and then unplugged.
+> > > > This has nothing to do with the character device. I believe the
+> > > > sub-system level is the right place for this and every driver
+> > > > subsystem would have to integrate it separately, taking its various
+> > > > quirks into account.
 > > > 
-> > > Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
-> > > all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
+> > > That's why I mentioned in-kernel users previously. Drivers routinely
+> > > acquire resources provided by other drivers, and having a way to revoke
+> > > those is needed.
+> > > 
+> > > It is a different but related problem compared to userspace racing with
+> > > .remove(). Could we solve both using the same backend concepts ?
+> > > Perhaps, time will tell, and if that works nicely, great. But we still
+> > > have lots of drivers exposing character devices to userspace (usually
+> > > through a subsystem-specific API, drivers that create a cdev manually
+> > > are the minority). That problem is in my opinion more urgent than
+> > > handling the removal of in-kernel resources, because it's more common,
+> > > and is easily triggerable by userspace. The good news is that it should
+> > > also be simpler to solve, we should be able to address the enter/exit
+> > > part entirely in cdev, and limit the changes to drivers in .remove() to
+> > > the strict minimum.
+> > > 
+> > > What I'd like to see is if the proposed implementation of revocable
+> > > resources can be used as a building block to fix the cdev issue. If it
+> > > ca, great, let's solve it then. If it can't, that's still fine, it will
+> > > still be useful for in-kernel resources, even if we need a different
+> > > implementation for cdev.
 > > 
-> > BTW, I thought further about this and I agree: if we count zero-filled
-> > pages towards none_or_zero one we can avoid the "creep" problem.
-> > 
-> > The scanning-for-zero part is rather nasty, though.
+> > Patch 5/5 in this series does just this for a specific use of a cdev in
+> > the driver.  Is that what you are looking for?
 > 
-> Aaand, thinking again from the other direction, this would mean that just
-> because pages became zero after some time that we would no longer collapse
-> because none_or_zero would then be higher. Hm ....
+> Not quite, I would like to see the enter/exit (aka revocable scope if my
+> understanding is correct) being pushed to char_dev.c, as Dan did in [1].
+> I'm fine having to add an extra function call in the .remove() path of
+> drivers, but I'm not fine with having to mark revocable sections
+> manually in drivers. That part belongs to cdev.
 > 
-> How I hate all of this so very very much :)
+> [1] https://lore.kernel.org/r/161117153248.2853729.2452425259045172318.stgit@dwillia2-desk3.amr.corp.intel.com
 
-This is not new. Shrinker has the same problem: it cannot distinguish
-between hot 4k that happened to be zero from the 4k that is there just
-because of we faulted in 2M a time.
+Dan's proposal here is a good start, but the "sleep in cdev_del() until
+the device drains all existing opens" is going to not really work well
+for what we want.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+So sure, make a new cdev api to use this, that's fine, then we will have
+what, 5 different ways to use a cdev?  :)
+
+Seriously, that would be good, then we can work to convert things over,
+but I think overall it will look much the same as what patch 5/5 does
+here.  But details matter, I don't really known for sure...
+
+Either way, I think this patch series stands on its own, it doesn't
+require cdev to implement it, drivers can use it to wrap a cdev if they
+want to.  We have other structures that want to do this type of thing
+today as is proof with the rust implementation for the devm api.
+
+thanks,
+
+greg k-h
