@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408A418A6A5;
-	Fri, 12 Sep 2025 02:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED194E555;
+	Fri, 12 Sep 2025 02:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757643802; cv=none; b=WNQNuycGWGnue5Vj8Tb85tuFrjEzNcga3q0PgrEFoOHFRpTN+891MAhCq2nNk1qDQaCmV+lyWxBd6bOmCRz/az9lALHn1Mec7BRegVsK9BOFKUZZk0V6S6jEi9gy/TetqOfU4IDqYv6rDmtZ0neWchGeNCRXYT4suKkLQzN1Od4=
+	t=1757644483; cv=none; b=hZbc4wywf/6YhKdPXs5LXKY6l65NtvrmV1UXDEy6uV9B3CF24ImS7AJ3lCz90zX/W5yCcoEiXQm/1cit6uQaiZO3ISC2VIiFMDaZndNlBrK5WtqgzJwvjsWuX/6fgXqG8IPjBSO0q353eaZwWCtLcCAda/rQCzSE9g1FGQNk/qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757643802; c=relaxed/simple;
-	bh=tUqTvYvIU9uIKFNgMQ8Bedpbon7O8hJPf6CcTzXeOjU=;
+	s=arc-20240116; t=1757644483; c=relaxed/simple;
+	bh=SwPQNn5pPNWxmJTZxjxdWn5osFkcEVxEdmvE11iK9Ec=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pl6LU2XvCJoBTubLalBaBnt3BJnvbPRA/Y5+q+Hibcq3jY+d5hFNhSb3yIFOQSHTYUBK8hBEzdigZ/P6VSyJ4+Ca+Np2Rj3ViT8gDqdSScWf8n1jE8P6PV4ljeT6TQ4eFHSt3vGr34NVCZWmlADcghzEAbFt4M7uGq8ZR2V3J3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1Y7cY4w; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=PEwe5EdILiatCOJg7ihVXRpNKB3UNv7tsNYVHNDwLCUk6hHO7B8ryCaoUU/743mVmRQ/qOZOTKS5G3/V+y1Kf1yPHlm3tTCF8eZrpHbV4vfWq8yb2M7GVCrvH3szgrTp9/7NIC7QWGLUcKWbT9Es1rF4OH5cRbuKRvZoUuon18s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLD5W5Fm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1Y7cY4w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2393C4CEF0;
-	Fri, 12 Sep 2025 02:23:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLD5W5Fm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A954EC4CEF0;
+	Fri, 12 Sep 2025 02:34:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757643799;
-	bh=tUqTvYvIU9uIKFNgMQ8Bedpbon7O8hJPf6CcTzXeOjU=;
+	s=k20201202; t=1757644482;
+	bh=SwPQNn5pPNWxmJTZxjxdWn5osFkcEVxEdmvE11iK9Ec=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=h1Y7cY4wcyCxRlQNLffXlIE/Xpz4DHqLk6SYraoiZ9YzCKEXVZpQ3eQjrCaxiP7OH
-	 uv4wyuL1vzenbpaXFnFr4rdXKbTk8UwLHPiUElO3dmnsUQ67jJHevXYWbCCBxah0rH
-	 WOynvtg47zOLpyU7qWKErEHJOEHkhrkNUi8GX2WLwCEhyO6Xkxoc4OELYV+odCyBZq
-	 pXC+iPvnTjiFS5FbKfsHFmllK5LNok8xJZjxPTLpESZN8oqx+ih4Kk8oCvpO3ylGtC
-	 OivTCl3o6zqyQ2ETXYUYWIarblD8sERDVEYKm1+EpDVr8jr3Umf2sPUKuZmMVE1d8V
-	 569Zp1zCIsvtg==
-Date: Thu, 11 Sep 2025 19:23:18 -0700
+	b=JLD5W5FmJe2oTeOwZVwNNu8IssffS8Y/ZonRTku80JiMh/bTIm85ulNdHoPD0j9dm
+	 l43OedQc9YNONXHc6Fw7pIuGc67etpd3FgYcuF/wH0PUq7IVFIdHY6Ojd/tKZmW7Dy
+	 xUEEpQnEKo+s+/9wtQpj7nB4OZVUzxhnA++m3L6VZYrTNqlYTUbqTfbA7V3H33+pw0
+	 W0TpwgI7EFha0lwXcYcSFb9UirLrAPwuaWijj9lNTTWER5bJ6+QMp2L83vf8Woi9/T
+	 BAAObKXsDtt5UxgAX1dhpOaeap+J4Z6T4vCisE4bgSxbAzw1nbPtXo+b9rJHX03gmI
+	 +kIhF+vqjBHyw==
+Date: Thu, 11 Sep 2025 19:34:40 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Oleksij Rempel <o.rempel@pengutronix.de>
 Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
@@ -40,12 +40,12 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
  netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
  linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
  <roan@protonic.nl>
-Subject: Re: [PATCH net-next v5 1/5] ethtool: introduce core UAPI and driver
- API for PHY MSE diagnostics
-Message-ID: <20250911192318.0628831f@kernel.org>
-In-Reply-To: <20250908124610.2937939-2-o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next v5 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <20250911193440.1db7c6b4@kernel.org>
+In-Reply-To: <20250908124610.2937939-3-o.rempel@pengutronix.de>
 References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
-	<20250908124610.2937939-2-o.rempel@pengutronix.de>
+	<20250908124610.2937939-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,92 +55,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon,  8 Sep 2025 14:46:06 +0200 Oleksij Rempel wrote:
-> Add the base infrastructure for Mean Square Error (MSE) diagnostics,
-> as proposed by the OPEN Alliance "Advanced diagnostic features for
-> 100BASE-T1 automotive Ethernet PHYs" [1] specification.
-> 
-> The OPEN Alliance spec defines only average MSE and average peak MSE
-> over a fixed number of symbols. However, other PHYs, such as the
-> KSZ9131, additionally expose a worst-peak MSE value latched since the
-> last channel capture. This API accounts for such vendor extensions by
-> adding a distinct capability bit and snapshot field.
-> 
-> Channel-to-pair mapping is normally straightforward, but in some cases
-> (e.g. 100BASE-TX with MDI-X resolution unknown) the mapping is ambiguous.
-> If hardware does not expose MDI-X status, the exact pair cannot be
-> determined. To avoid returning misleading per-channel data in this case,
-> a LINK selector is defined for aggregate MSE measurements.
-> 
-> All investigated devices differ in MSE configuration parameters, such
-> as sample rate, number of analyzed symbols, and scaling factors.
-> For example, the KSZ9131 uses different scaling for MSE and pMSE.
-> To make this visible to userspace, scale limits and timing information
-> are returned via get_mse_config().
-
-But the parameter set is set by the standard? If not we should annotate
-which one is and which isn't.
-
+On Mon,  8 Sep 2025 14:46:07 +0200 Oleksij Rempel wrote:
+> diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+> index 969477f50d84..d69dd3fb534b 100644
+> --- a/Documentation/netlink/specs/ethtool.yaml
+> +++ b/Documentation/netlink/specs/ethtool.yaml
+> @@ -1899,6 +1899,79 @@ attribute-sets:
+>          type: uint
+>          enum: pse-event
+>          doc: List of events reported by the PSE controller
 > +  -
-> +    name: phy-mse-capability
-> +    doc: |
-> +      Bitmask flags for MSE capabilities.
-> +
-> +      These flags are used in the 'supported_caps' field of struct
-> +      phy_mse_config to indicate which measurement capabilities are supported
-> +      by the PHY hardware.
-> +    type: flags
-> +    name-prefix: phy-mse-cap-
-> +    entries:
+> +    name: mse-config
+> +    attr-cnt-name: --ethtool-a-mse-config-cnt
+> +    attributes:
 > +      -
-> +        name: avg
-> +        doc: Average MSE value is supported.
-> +      -
-> +        name: peak
-> +        doc: Current peak MSE value is supported.
-> +      -
-> +        name: worst-peak
-> +        doc: Worst-case peak MSE (latched high-water mark) is supported.
-> +      -
-> +        name: channel-a
-> +        doc: Diagnostics for Channel A are supported.
-> +      -
-> +        name: channel-b
-> +        doc: Diagnostics for Channel B are supported.
-> +      -
-> +        name: channel-c
-> +        doc: Diagnostics for Channel C are supported.
-> +      -
-> +        name: channel-d
-> +        doc: Diagnostics for Channel D are supported.
-> +      -
-> +        name: worst-channel
-> +        doc: |
-> +          Hardware or drivers can identify the single worst-performing channel
-> +          without needing to query each one individually.
-> +      -
-> +        name: link
-> +        doc: |
-> +          Hardware provides only a link-wide aggregate MSE or cannot map
-> +          the measurement to a specific channel/pair. Typical for media where
-> +          the MDI/MDI-X resolution or pair mapping is unknown (e.g. 100BASE-TX).
-
-Should we invert the order here? I think it's more likely we'd
-encounter new statistical measures rather than new channels.
-So channels should go first, and then the measures?
-
-> +  -
-> +    name: phy-mse-channel
-> +    doc: |
-> +      Identifiers for the 'channel' parameter used to select which diagnostic
-> +      data to retrieve.
-> +    type: enum
-> +    name-prefix: phy-mse-channel-
-> +    entries:
-> +      -
-> +        name: a
+> +        name: unspec
+> +        type: unused
 > +        value: 0
 
-Don't enums default to starting from 0?  I think setting value is unnecessary
+Are you actually using this somewhere?
+It's good to not use attr ID 0 in case we encounter an uninitialized
+attr, but there's no need to define a name for it, usually.
+Just skip the entry 0 if you don't need then name.
 
-> +        doc: Request data for channel A.
+> +      -
+> +        name: max-average-mse
+> +        type: u32
+> +      -
+> +        name: max-peak-mse
+> +        type: u32
+> +      -
+> +        name: refresh-rate-ps
+> +        type: u64
+> +      -
+> +        name: num-symbols
+> +        type: u64
+
+type: uint for all these?
+
+> +      -
+> +        name: supported-caps
+> +        type: nest
+> +        nested-attributes: bitset
+> +      -
+> +        name: pad
+> +        type: pad
+
+you shouldn't need it if you use uint
+
+> +  -
+> +    name: mse-snapshot
+> +    attr-cnt-name: --ethtool-a-mse-snapshot-cnt
+> +    attributes:
+> +      -
+> +        name: unspec
+> +        type: unused
+> +        value: 0
+> +      -
+> +        name: channel
+> +        type: u32
+> +        enum: phy-mse-channel
+> +      -
+> +        name: average-mse
+> +        type: u32
+> +      -
+> +        name: peak-mse
+> +        type: u32
+> +      -
+> +        name: worst-peak-mse
+> +        type: u32
+> +  -
+> +    name: mse
+> +    attr-cnt-name: --ethtool-a-mse-cnt
+> +    attributes:
+> +      -
+> +        name: unspec
+> +        type: unused
+> +        value: 0
+> +      -
+> +        name: header
+> +        type: nest
+> +        nested-attributes: header
+> +      -
+> +        name: channel
+> +        type: u32
+
+Please annotate attrs which carry enums and flags with
+
+	enum: $name
+
+> +        enum: phy-mse-channel
+> +      -
+> +        name: config
+> +        type: nest
+> +        nested-attributes: mse-config
+
+config sounds like something we'd be able to change
+Looks like this is more of a capability struct?
+
+> +      -
+> +        name: snapshot
+> +        type: nest
+> +        multi-attr: true
+> +        nested-attributes: mse-snapshot
+
+This multi-attr feels un-netlinky to me.
+You define an enum for IDs which are then carried inside
+snapshot.channel. In netlink IDs should be used as attribute types.
+Why not add an entry here for all snapshot types?
