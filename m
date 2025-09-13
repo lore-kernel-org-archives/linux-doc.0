@@ -1,153 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877A4DDD2;
-	Sat, 13 Sep 2025 12:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC8E2ED14E;
+	Sat, 13 Sep 2025 13:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757768067; cv=none; b=jx/hzB04Qn72EvGg0c5tuZHohfldiy3CQB23F5TwJe1ccOwhhlsba3Gkfa8xDnWfQZQZATM30umo6CxkCuyXwqpdGgFy4rvfZUGrp7YGye0UhufxDwrdfdr9ehxCAO4AallO2/XAlLjdNXkD9D/uIRv8SRJvONw7vo9FGC82NGk=
+	t=1757770214; cv=none; b=YpBkfKiW5oLHaX0zcardxqdL3PFswqDUwVFystCWqaE8+T2vgyMdTykWfdDBSYpx2CKCJ5ei2CGqkd5hilEQmLkT7LGwtSzrI0QAIuCpGnEUHN4Xyqa+hkts9Df+UwGK1CiPTJO6VUfzqTbCb2LUSqd1Be9k33WVdGPvac8oE4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757768067; c=relaxed/simple;
-	bh=5kZch37YLxnV/FLcAbcomFjzaUi7yAZ3rioG5zfcjPA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d4CYMTqgPeuWLwg9WhScPx1cUfUs/vXyFy0dW4vPHGx8FGJPSdE1wKnDwSTvlFl5xjvRcgm4s2BUUsqPt9yeVmTmtqI4ukp2/TVl8UxPjEg9hRgnkZDC3YXJAq820ikJH38Kd0lsVAL0/Bf+tqYjNSHKkd9LcRJ+YCc0meZaV2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+M1I8iM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757770214; c=relaxed/simple;
+	bh=Sk3/Ex3CfjAqmKLrPTL+C3goL3sU1nQzJXY0qb2Z+Cg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=toEMsysCC/zD5JOOVR6ctPOSLnAUCEWgKToq6z/vbEWRcHwmvNaskV7c7UwQpPJCbhVHEc1TX5InkcAMvEOFsL53w5XEZnOWHt5l7lyf8JvtHe34Jd+l02xYQpH4pC3EGCnpvCl4JJysc3lUWqww5studEgLLyoX4IcgK10Mzvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iBqdVuoO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+M1I8iM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73A3C4CEEB;
-	Sat, 13 Sep 2025 12:54:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iBqdVuoO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881C1C4CEEB;
+	Sat, 13 Sep 2025 13:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757768067;
-	bh=5kZch37YLxnV/FLcAbcomFjzaUi7yAZ3rioG5zfcjPA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m+M1I8iMxy7O1gG9pJ8jomsV+kgs7Y/ARiQZwk1/rzpS9Wh4NmxPAZ4sol7h+VODn
-	 YUqMJVR3+AjvceUoX1lprtpFVYED27wBNixgAZbcLlAJN1vJXEZn7QUBEOo5X227vy
-	 NIX2ZnMHO7k9z2gCGF5yToM8MXs1XA70EAHSrzhQcpPbzyHV5QQhj5rtXuvGzmhger
-	 vTGqu1sQ5F2sAxGrTIqeDvY941gDF/ipcgdz/snbIse/fb56FrMFJ6Ykp9CLzy/1c+
-	 jjMhp/jJ9yRNuUlzmHtp2q/wwl+STwWJPWSMnwOFIUkiJw6GN4K4/M1CdPKkFIgZO7
-	 Xhn0oVWLIN0qQ==
-Message-ID: <50d79030-9e45-4890-9fee-c0027caf07c9@kernel.org>
-Date: Sat, 13 Sep 2025 14:54:21 +0200
+	s=k20201202; t=1757770213;
+	bh=Sk3/Ex3CfjAqmKLrPTL+C3goL3sU1nQzJXY0qb2Z+Cg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=iBqdVuoO7/bOibm9/RB0sd7G5l5AuVacAirFyJ7uwU9SCAfCX4pW45HkzqldNTgul
+	 9jaFUTwnAr4NzEv3Zd2Cdiy41OkvZFajqSep59588+Ghn7MhUk19ZWZuqoWkB5k75P
+	 7rFhY/Tpu85W09Iip7VC/+gzUdbz20WlhkXtWNildoJK+RPWiBbpHuvQXEdNGsQl2J
+	 61qa5RpSHUDnhlyjb+IP79rk+pI2prSTsoCMPJFB5A7pXPzgLsq7zCGKyADs1hnHO1
+	 +mtuhNvm5UvwUAPF0tu3IWg+Pd17q3gq81ukQNcSUoNTnSEwH6xCm56fGTsemUMFsT
+	 EANYSrboNg3hw==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net-next v3 0/3] tools: ynl: rst: display attribute-set doc
+Date: Sat, 13 Sep 2025 15:29:50 +0200
+Message-Id: <20250913-net-next-ynl-attr-doc-rst-v3-0-4f06420d87db@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net-next v2 2/3] netlink: specs: team: avoid mangling
- multilines doc
-Content-Language: en-GB, fr-BE
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250912-net-next-ynl-attr-doc-rst-v2-0-c44d36a99992@kernel.org>
- <20250912-net-next-ynl-attr-doc-rst-v2-2-c44d36a99992@kernel.org>
- <20250912123518.7c51313b@kernel.org>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- xsFNBFXj+ekBEADxVr99p2guPcqHFeI/JcFxls6KibzyZD5TQTyfuYlzEp7C7A9swoK5iCvf
- YBNdx5Xl74NLSgx6y/1NiMQGuKeu+2BmtnkiGxBNanfXcnl4L4Lzz+iXBvvbtCbynnnqDDqU
- c7SPFMpMesgpcu1xFt0F6bcxE+0ojRtSCZ5HDElKlHJNYtD1uwY4UYVGWUGCF/+cY1YLmtfb
- WdNb/SFo+Mp0HItfBC12qtDIXYvbfNUGVnA5jXeWMEyYhSNktLnpDL2gBUCsdbkov5VjiOX7
- CRTkX0UgNWRjyFZwThaZADEvAOo12M5uSBk7h07yJ97gqvBtcx45IsJwfUJE4hy8qZqsA62A
- nTRflBvp647IXAiCcwWsEgE5AXKwA3aL6dcpVR17JXJ6nwHHnslVi8WesiqzUI9sbO/hXeXw
- TDSB+YhErbNOxvHqCzZEnGAAFf6ges26fRVyuU119AzO40sjdLV0l6LE7GshddyazWZf0iac
- nEhX9NKxGnuhMu5SXmo2poIQttJuYAvTVUNwQVEx/0yY5xmiuyqvXa+XT7NKJkOZSiAPlNt6
- VffjgOP62S7M9wDShUghN3F7CPOrrRsOHWO/l6I/qJdUMW+MHSFYPfYiFXoLUZyPvNVCYSgs
- 3oQaFhHapq1f345XBtfG3fOYp1K2wTXd4ThFraTLl8PHxCn4ywARAQABzSRNYXR0aGlldSBC
- YWVydHMgPG1hdHR0YmVAa2VybmVsLm9yZz7CwZEEEwEIADsCGwMFCwkIBwIGFQoJCAsCBBYC
- AwECHgECF4AWIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZUDpDAIZAQAKCRD2t4JPQmmgcz33
- EACjROM3nj9FGclR5AlyPUbAq/txEX7E0EFQCDtdLPrjBcLAoaYJIQUV8IDCcPjZMJy2ADp7
- /zSwYba2rE2C9vRgjXZJNt21mySvKnnkPbNQGkNRl3TZAinO1Ddq3fp2c/GmYaW1NWFSfOmw
- MvB5CJaN0UK5l0/drnaA6Hxsu62V5UnpvxWgexqDuo0wfpEeP1PEqMNzyiVPvJ8bJxgM8qoC
- cpXLp1Rq/jq7pbUycY8GeYw2j+FVZJHlhL0w0Zm9CFHThHxRAm1tsIPc+oTorx7haXP+nN0J
- iqBXVAxLK2KxrHtMygim50xk2QpUotWYfZpRRv8dMygEPIB3f1Vi5JMwP4M47NZNdpqVkHrm
- jvcNuLfDgf/vqUvuXs2eA2/BkIHcOuAAbsvreX1WX1rTHmx5ud3OhsWQQRVL2rt+0p1DpROI
- 3Ob8F78W5rKr4HYvjX2Inpy3WahAm7FzUY184OyfPO/2zadKCqg8n01mWA9PXxs84bFEV2mP
- VzC5j6K8U3RNA6cb9bpE5bzXut6T2gxj6j+7TsgMQFhbyH/tZgpDjWvAiPZHb3sV29t8XaOF
- BwzqiI2AEkiWMySiHwCCMsIH9WUH7r7vpwROko89Tk+InpEbiphPjd7qAkyJ+tNIEWd1+MlX
- ZPtOaFLVHhLQ3PLFLkrU3+Yi3tXqpvLE3gO3LM7BTQRV4/npARAA5+u/Sx1n9anIqcgHpA7l
- 5SUCP1e/qF7n5DK8LiM10gYglgY0XHOBi0S7vHppH8hrtpizx+7t5DBdPJgVtR6SilyK0/mp
- 9nWHDhc9rwU3KmHYgFFsnX58eEmZxz2qsIY8juFor5r7kpcM5dRR9aB+HjlOOJJgyDxcJTwM
- 1ey4L/79P72wuXRhMibN14SX6TZzf+/XIOrM6TsULVJEIv1+NdczQbs6pBTpEK/G2apME7vf
- mjTsZU26Ezn+LDMX16lHTmIJi7Hlh7eifCGGM+g/AlDV6aWKFS+sBbwy+YoS0Zc3Yz8zrdbi
- Kzn3kbKd+99//mysSVsHaekQYyVvO0KD2KPKBs1S/ImrBb6XecqxGy/y/3HWHdngGEY2v2IP
- Qox7mAPznyKyXEfG+0rrVseZSEssKmY01IsgwwbmN9ZcqUKYNhjv67WMX7tNwiVbSrGLZoqf
- Xlgw4aAdnIMQyTW8nE6hH/Iwqay4S2str4HZtWwyWLitk7N+e+vxuK5qto4AxtB7VdimvKUs
- x6kQO5F3YWcC3vCXCgPwyV8133+fIR2L81R1L1q3swaEuh95vWj6iskxeNWSTyFAVKYYVskG
- V+OTtB71P1XCnb6AJCW9cKpC25+zxQqD2Zy0dK3u2RuKErajKBa/YWzuSaKAOkneFxG3LJIv
- Hl7iqPF+JDCjB5sAEQEAAcLBXwQYAQIACQUCVeP56QIbDAAKCRD2t4JPQmmgc5VnD/9YgbCr
- HR1FbMbm7td54UrYvZV/i7m3dIQNXK2e+Cbv5PXf19ce3XluaE+wA8D+vnIW5mbAAiojt3Mb
- 6p0WJS3QzbObzHNgAp3zy/L4lXwc6WW5vnpWAzqXFHP8D9PTpqvBALbXqL06smP47JqbyQxj
- Xf7D2rrPeIqbYmVY9da1KzMOVf3gReazYa89zZSdVkMojfWsbq05zwYU+SCWS3NiyF6QghbW
- voxbFwX1i/0xRwJiX9NNbRj1huVKQuS4W7rbWA87TrVQPXUAdkyd7FRYICNW+0gddysIwPoa
- KrLfx3Ba6Rpx0JznbrVOtXlihjl4KV8mtOPjYDY9u+8x412xXnlGl6AC4HLu2F3ECkamY4G6
- UxejX+E6vW6Xe4n7H+rEX5UFgPRdYkS1TA/X3nMen9bouxNsvIJv7C6adZmMHqu/2azX7S7I
- vrxxySzOw9GxjoVTuzWMKWpDGP8n71IFeOot8JuPZtJ8omz+DZel+WCNZMVdVNLPOd5frqOv
- mpz0VhFAlNTjU1Vy0CnuxX3AM51J8dpdNyG0S8rADh6C8AKCDOfUstpq28/6oTaQv7QZdge0
- JY6dglzGKnCi/zsmp2+1w559frz4+IC7j/igvJGX4KDDKUs0mlld8J2u2sBXv7CGxdzQoHaz
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20250912123518.7c51313b@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM5xxWgC/43NTQrCMBAF4KuUWTuSv6bWlfcQF20a22BJJAmhp
+ fTuhoCgG3FgFsPjfbNB0N7oAOdqA6+TCcbZfPBDBWrq7KjRDPkGRlhNWkrQ6ph3ibjaGbsYPQ5
+ OoQ8Re0lrziQXTNSQ+0+v72Yp9hXeNbjlZDIhOr+Wp4mW/A8/UaRI+l41zYlK2ojLQ3ur56PzY
+ 2ET+6TYL4ohQSXEwGXX5mFf1L7vL86BgeIYAQAA
+X-Change-ID: 20250910-net-next-ynl-attr-doc-rst-b61532634245
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jiri Pirko <jiri@resnulli.us>
+Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, 
+ Chuck Lever <chuck.lever@oracle.com>, 
+ Jacob Keller <jacob.e.keller@intel.com>, Florian Westphal <fw@strlen.de>, 
+ Ido Schimmel <idosch@nvidia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1956; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=Sk3/Ex3CfjAqmKLrPTL+C3goL3sU1nQzJXY0qb2Z+Cg=;
+ b=owGbwMvMwCVWo/Th0Gd3rumMp9WSGDKOFt7959x10c3MWaBF51VD36+dWjmmnFWWU09M7jsxy
+ /c+x8vlHaUsDGJcDLJiiizSbZH5M59X8ZZ4+VnAzGFlAhnCwMUpABOZy8rIcK9hUnhoZWGHSr9c
+ 3uqY7GN8fOJ581ge8X62PWcoG3tckpFhc+CUiYmnP91N3NVnP9+tla80ZqnKTJmt4VaP2m76hD9
+ mBwA=
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-Hi Jakub,
+Some attribute-set have a documentation (doc:), but they are not
+displayed in the RST / HTML version. This series adds the missing
+parsing of these 'doc' fields.
 
-Thank you for the reply!
+While at it, it also fixes how the 'doc' fields are declared on multiple
+lines.
 
-On 12/09/2025 21:35, Jakub Kicinski wrote:
-> On Fri, 12 Sep 2025 15:23:00 +0200 Matthieu Baerts (NGI0) wrote:
->> By default, strings defined in YAML at the next line are folded:
->> newlines are replaced by spaces. Here, the newlines are there for a
->> reason, and should be kept in the output.
->>
->> This can be fixed by adding the '|' symbol to use the "literal" style.
->> This issue was introduced by commit 387724cbf415 ("Documentation:
->> netlink: add a YAML spec for team"), but visible in the doc only since
->> the parent commit.
->>
->> Suggested-by: Donald Hunter <donald.hunter@gmail.com>
->> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
->> ---
->>  Documentation/netlink/specs/team.yaml | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/netlink/specs/team.yaml b/Documentation/netlink/specs/team.yaml
->> index cf02d47d12a458aaa7d45875a0a54af0093d80a8..fae40835386c82e934f205219cc5796e284999f1 100644
->> --- a/Documentation/netlink/specs/team.yaml
->> +++ b/Documentation/netlink/specs/team.yaml
->> @@ -25,7 +25,7 @@ definitions:
->>  attribute-sets:
->>    -
->>      name: team
->> -    doc:
->> +    doc: |
->>        The team nested layout of get/set msg looks like
->>            [TEAM_ATTR_LIST_OPTION]
->>                [TEAM_ATTR_ITEM_OPTION]
->>
-> 
-> htmldoc is not super happy :(
-> 
-> Documentation/netlink/specs/team.yaml:21: WARNING: Definition list ends without a blank line; unexpected unindent.
-> Documentation/netlink/specs/team.yaml:21: WARNING: Definition list ends without a blank line; unexpected unindent.
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+Changes in v3:
+- patch 2: avoid warnings reported by the CI (NIPA/Jakub)
+- Link to v2: https://lore.kernel.org/r/20250912-net-next-ynl-attr-doc-rst-v2-0-c44d36a99992@kernel.org
 
-Arf, I looked at the HTML version, I forgot to look for new warnings...
+Changes in v2:
+- patch 2 & 3: new
+- Link to v1: https://lore.kernel.org/r/20250910-net-next-ynl-attr-doc-rst-v1-1-0bbc77816174@kernel.org
 
-> Shooting from the hip -- maybe throwing :: at the end of the first line
-> will make ReST treat the attrs as a block?
+---
+Matthieu Baerts (NGI0) (3):
+      tools: ynl: rst: display attribute-set doc
+      netlink: specs: team: avoid mangling multilines doc
+      netlink: specs: explicitly declare block scalar strings
 
-Indeed, I guess it is better to declare a code block instead of a list.
-I will fix that in the next version.
+ Documentation/netlink/specs/conntrack.yaml    |  2 +-
+ Documentation/netlink/specs/netdev.yaml       | 22 +++++++++++-----------
+ Documentation/netlink/specs/nftables.yaml     |  2 +-
+ Documentation/netlink/specs/nl80211.yaml      |  2 +-
+ Documentation/netlink/specs/ovs_datapath.yaml |  2 +-
+ Documentation/netlink/specs/ovs_flow.yaml     |  2 +-
+ Documentation/netlink/specs/ovs_vport.yaml    |  2 +-
+ Documentation/netlink/specs/rt-addr.yaml      |  2 +-
+ Documentation/netlink/specs/rt-link.yaml      |  2 +-
+ Documentation/netlink/specs/rt-neigh.yaml     |  2 +-
+ Documentation/netlink/specs/rt-route.yaml     |  2 +-
+ Documentation/netlink/specs/rt-rule.yaml      |  2 +-
+ Documentation/netlink/specs/tc.yaml           |  2 +-
+ Documentation/netlink/specs/team.yaml         |  6 ++++--
+ tools/net/ynl/pyynl/lib/doc_generator.py      |  4 ++++
+ 15 files changed, 31 insertions(+), 25 deletions(-)
+---
+base-commit: fc006f5478fcf07d79b35e9dcdc51ecd11a6bf82
+change-id: 20250910-net-next-ynl-attr-doc-rst-b61532634245
 
-Cheers,
-Matt
+Best regards,
 -- 
-Sponsored by the NGI0 Core fund.
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
 
