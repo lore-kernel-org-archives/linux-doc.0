@@ -1,46 +1,46 @@
 Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6C7EAF9;
-	Sat, 13 Sep 2025 17:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B1A11CBA;
+	Sat, 13 Sep 2025 17:38:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757784864; cv=pass; b=uBKkDyD1M8iaaN4SpCSNFO++cqldx6ikalX1WvQY2hnhaTUyoaaLKzO2lMqkoERdx6HIQH2bh3eUg+sOYUWP5+YQihicAJrwQtKYG4Cmu/Zte/wZZ52lVcljjPS9orJKhjNmnw9pFHTwOcB9S4XhHi6KglzeefJtFVXlALH5BPc=
+	t=1757785085; cv=pass; b=NMfjrIHmuFM8B6kyHuJd0uGbGV3oWRkvr1KqeQNRvVucOiCTngUbWQullSZhhwtuTRrIR+gS4yzMAk1mDNfW9XryT6ai6H3gHXU03Y+g0tt890J5xDIztuX/f2Mn5uBdZ3dmQPsJdHpvH0yX2GDxD0Gt/0hPD0xmESmTHi1gi3k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757784864; c=relaxed/simple;
-	bh=GimA55GhBUtSka0KXGQTI8PV1VvmRaA5WdoDN040dOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aKbgxlJuZ8IyMD/W01dX/iHtj1EnUGh2xg8plleg8AmePLmDkWJC+MJKBPm9sfPZBSARZ5zDAIEecD6hI8nMCgF2AOULAjROUKkzWz6bLhNUkHviOKMTIYRBJm1oNL9RpUn1D2U6loTSDe3WUm8JospfbQHZQNeKL98iM5nN53I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=BeTEbU+0; arc=pass smtp.client-ip=157.107.129.37
+	s=arc-20240116; t=1757785085; c=relaxed/simple;
+	bh=dWCb/vnvK0BtdkWp3MFmAB/oC5jsmUMTgwfKeUuN9M0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FqNrw2lZ2BUKRLNSPteWrVQi10M6xH2OcvF2wRksP2JbJe8rHD8KT7uI8U2oAjMKrzCNNnTF5NfsJxcFEblTQkW7TFqLpn0zP24VRe35pu2cE1N/MxjRf2IqHaE/NDEKJCm32+etUD2/4IdcjEEFgbfLwamd3zQXy6ew9g9Hdvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=p0ViBRQa; arc=pass smtp.client-ip=157.107.129.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="BeTEbU+0"
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="p0ViBRQa"
 Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id B4971104A17ED;
-	Sun, 14 Sep 2025 02:34:18 +0900 (JST)
+	by www.redadmin.org (Postfix) with ESMTP id 6EC52107E491D;
+	Sun, 14 Sep 2025 02:38:01 +0900 (JST)
 X-Virus-Scanned: amavis at redadmin.org
 Received: from www.redadmin.org ([127.0.0.1])
  by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 3rczm48LwjkC; Sun, 14 Sep 2025 02:34:15 +0900 (JST)
+ id bFH5I1WReXb6; Sun, 14 Sep 2025 02:37:57 +0900 (JST)
 Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 78ABA10B40B73; Sun, 14 Sep 2025 02:34:15 +0900 (JST)
+	id 1850E10B40B73; Sun, 14 Sep 2025 02:37:57 +0900 (JST)
 Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757784855;
-	cv=none; b=wWvmP5jxZKNXBzoVF3JU5k68JFDd4LinCthVgR+nbeXMoWDRpFX/B1ykUVgi6zPFeaRPsi7XhEHwXnL0m++UUZmZeXjWn2Wce+ajKWZ9IsiQC7JMOYtNJLHJ0d3YDN3TXZ2qC9CmQvWZSDX2/NKbSuJ/ghs9TCLvy5pDavsPEbU=
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757785077;
+	cv=none; b=krwGIjBFcsRPbmWtsuD0CzEb2FggGl48J/m7jiXhJ10t88iJXAg/HOUZQTkIv6d2oKNNPiWSC0QT6EIKJ+bYL78RCzep4hdiC3rjYwjcHDTFwMb9A7PfkrnBrzUCWJUWineogXX+YecHrsRGaQM+6/G45v0VFgYMpDzxKANNahY=
 ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1757784855; c=relaxed/relaxed;
-	bh=GimA55GhBUtSka0KXGQTI8PV1VvmRaA5WdoDN040dOA=;
+	t=1757785077; c=relaxed/relaxed;
+	bh=pB4FLnsJZ/3z3o0EVbQQcG9ZUrnntGwHKSlQlpuIDMM=;
 	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=jfL4wqfqcAs7V2U/2znYz2CAsulYrEDj8IejZHUBp4CAyJfRsxexKTabCplU4F0GSinZynXR1xCAPlUaBVExS+UytWKmR8olifG4BvQq1EOrxiddmhmHN43qWBGy7FlboU5VCvjPVtBsYVLC3O9d5z+3cnxwTi2niozfe1tGeoM=
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=Ncnmt9zW7OmM5mMK5CBhTB2LjFsSbLHHq4TYL0Gth14222djV9aZt3NJl/qv+xbzPnW2G6ZFbNjdDgMi+nOkloG3bp6AGTQBHJVRnhE5qakEMzDctx9L3cuXg6+W2ogV1QdxL0OTtLok1zf/zpl9TXcE6XQTgyX6tJIqNmEmM3k=
 ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 78ABA10B40B73
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 1850E10B40B73
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1757784855;
-	bh=GimA55GhBUtSka0KXGQTI8PV1VvmRaA5WdoDN040dOA=;
+	s=20231208space; t=1757785077;
+	bh=pB4FLnsJZ/3z3o0EVbQQcG9ZUrnntGwHKSlQlpuIDMM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=BeTEbU+0CmPkRd7IruFHfKNdAkDgMR6Mrg6sVnktbkIzdCcQQobTp33MS9z1ZfYVx
-	 enGOifIH7q6cSheJfHFAJfu3ItRZF7BiDBrnsXLdMpc9UZFng3aDo+4gaw4LjKobNa
-	 E25F/chCdb0tjAOMtvg6hi9e3OFZXBrrLux9v7Yk=
+	b=p0ViBRQaZoLfPtweriyKLR2PAyVkhWLYjSL89QLIYpgXPpfW7hxKhF42kKdRRx81r
+	 LAjcBVGfGpqJ/7XlKFTI88r5o1W6AOC5rH+CdjvuSdMvYPXpG+KDsCkxIiqyv0Eghx
+	 5BG2U7sBHBrcQyjd5O/uTA94zdIaAxIt3ZNfkQW0=
 From: Akiyoshi Kurita <weibu@redadmin.org>
 To: platform-driver-x86@vger.kernel.org,
 	mpearson-lenovo@squebb.ca,
@@ -50,9 +50,9 @@ Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	corbet@lwn.net,
 	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] docs: w1: ds2482: fix typo in buses
-Date: Sun, 14 Sep 2025 02:34:13 +0900
-Message-ID: <20250913173413.951378-1-weibu@redadmin.org>
+Subject: [PATCH] docs: wmi: lenovo-wmi-gamezone: fix typo in frequency
+Date: Sun, 14 Sep 2025 02:37:54 +0900
+Message-ID: <20250913173754.951858-1-weibu@redadmin.org>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -62,30 +62,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Correct a spelling mistake in ds2482.rst
-("busses" -> "buses").
+Fix a spelling mistake in lenovo-wmi-gamezone.rst
+("freqency" -> "frequency").
 
 No functional change.
 
 Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
- Documentation/w1/masters/ds2482.rst | 2 +-
+ Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/w1/masters/ds2482.rst b/Documentation/w1/masters=
-/ds2482.rst
-index 17ebe8f660cd..5862024e4b15 100644
---- a/Documentation/w1/masters/ds2482.rst
-+++ b/Documentation/w1/masters/ds2482.rst
-@@ -22,7 +22,7 @@ Description
- -----------
-=20
- The Maxim/Dallas Semiconductor DS2482 is a I2C device that provides
--one (DS2482-100) or eight (DS2482-800) 1-wire busses.
-+one (DS2482-100) or eight (DS2482-800) 1-wire buses.
-=20
-=20
- General Remarks
+diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst b/Documentat=
+ion/wmi/devices/lenovo-wmi-gamezone.rst
+index 997263e51a7d..167548929ac2 100644
+--- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
++++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+@@ -153,7 +153,7 @@ data using the `bmfdec <https://github.com/pali/bmfdec>=
+`_ utility:
+     [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateID;
+     [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
+     [WmiDataId(3), read, Description("Default value.")] uint32 defaultvalu=
+e;
+-    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32 OCOffs=
+etFreq;
++    [WmiDataId(4), read, Description("OC Offset frequency")] uint32 OCOffs=
+etFreq;
+     [WmiDataId(5), read, Description("OC Min offset value.")] uint32 OCMin=
+Offset;
+     [WmiDataId(6), read, Description("OC Max offset value.")] uint32 OCMax=
+Offset;
+     [WmiDataId(7), read, Description("OC Offset Scale.")] uint32 OCOffsetS=
+cale;
 --=20
 2.47.3
 
