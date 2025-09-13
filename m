@@ -1,150 +1,312 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E242B4A04;
-	Sat, 13 Sep 2025 00:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B2C481CD
+	for <linux-doc@vger.kernel.org>; Sat, 13 Sep 2025 00:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757721656; cv=none; b=KzYOIz3ubYU/HEj9OYh3/xZjiVNGTTyiWaDpX1rhxS1mCzTV38DrT4Dxe7Y58wAGD+zWwcjIhfPPLwRWW1vf+PNdWx51DnHclMOluBUinI+7IVMwgVTXfMpqkrq3+HQtOnoNhao+qlVuleIVwGv5Epio+w0ULl/OHxSAyRQTu18=
+	t=1757722719; cv=none; b=lTgNZByA9bT8HKTOjWm9oZScZ3ENj9A2eVg3GNmkp1kIVZrneh0+2G8Tc3mzthe+NZbIqnUwwPpwvXOpNaMQ9H7OXiM1W12lA9K5d+pRWaGAFEkbLpRC/0Iyctz6UgSOfvHXWkPimvJULtPJRPikjWwt7qN9CaoAwNPVCGZTLsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757721656; c=relaxed/simple;
-	bh=vDd0droX2aKcaau/BNTdQdVX/uMVNYwOAjEVk2x/OR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TfDgOw2Yb1UTOHwLUPX5QFNak8LBJs7vl6zdpftWUZUnm+D1WZripg4OIsYxeOE6g1nwspzacG3V/Ap7fdi3ktwkDwt5YCq/vo3vIIof9DmZxs49tok280zwkDpkAs9vnA5+YMyWq/hYe3Z5hQjcd2dMFbdvu3gwKssshCPY0so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z6xa6N1m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757722719; c=relaxed/simple;
+	bh=l4ajafdB1+Zc4Os2K0LLf6LEAhTUjLOoNJPPBfIa9aU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U3vovb61bXgH4rzFWYSSIHDUy1JRvOwXCp5nG+tEU06RHW0sxGb4qCU8wR+uL7ualsgZ9F8Y43kQP7XrK+oH2vl/EBeSc60wNkexcLVW+qjNbNL4uVxBsvlrYN0JzKZLyQonIGfnVrm28Jzj3VbPLcpTyqFio1EJSie0oTCTEIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i7v3NXS1; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z6xa6N1m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3D41C4CEF5;
-	Sat, 13 Sep 2025 00:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757721655;
-	bh=vDd0droX2aKcaau/BNTdQdVX/uMVNYwOAjEVk2x/OR0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Z6xa6N1msn3dWzdap/jTIR6yKJnb3Fq3ylNH5lk/XVgayapDO1QXYB1QNw4GSOTQ3
-	 qxb8IIsz7q09LOLU8DAKpXGZDoFAV1wIUuLtx6yMx/NDO8jdghaDTQ5WR8h/9lZJKy
-	 D7fGRTgsJpbk2MMmmGm8GjsQ0LTlVpcGtxgIqHIdqrg4dxZfSM6ZauLyKJt7S+Ypzc
-	 4hgiUR3niakewJazMQjQGJeLm187U/o08ITsvOKc8S9ZX9NnXWMycFhsPW+cK2y95Z
-	 plnVJVOAD6dU/Ks2tJf98EbgErdD2gxChjy4b3wrlUNTRksqdFBatcggH1c8AAMOTS
-	 GQ6IZr2AUM02Q==
-Date: Fri, 12 Sep 2025 17:00:53 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Kory Maincent
- <kory.maincent@bootlin.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Nishanth Menon <nm@ti.com>,
- kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, UNGLinuxDriver@microchip.com,
- linux-doc@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk
- <roan@protonic.nl>
-Subject: Re: [PATCH net-next v5 2/5] ethtool: netlink: add
- ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
-Message-ID: <20250912170053.24348da3@kernel.org>
-In-Reply-To: <aMPw7kUddvGPJCzx@pengutronix.de>
-References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
-	<20250908124610.2937939-3-o.rempel@pengutronix.de>
-	<20250911193440.1db7c6b4@kernel.org>
-	<aMPw7kUddvGPJCzx@pengutronix.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i7v3NXS1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757722716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l4ajafdB1+Zc4Os2K0LLf6LEAhTUjLOoNJPPBfIa9aU=;
+	b=i7v3NXS1XFOcTPuopeKeBpm8Ln1WzPh4ljgM3kxcGeHI3WHGvQtxTajqT1RC4FhkRaPs5+
+	dIRZTyJvWlc/UkcFzlWU7Qxj8UG1xs0pphFcRk39vztpjO96VQgHYbMf4GNAzR8DKWxOqQ
+	qZy+v+WlVQph1jZoLFTLIVzZiLD3wxs=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-33-8Fzuv4H9MVGM_75HmtqoiQ-1; Fri, 12 Sep 2025 20:18:35 -0400
+X-MC-Unique: 8Fzuv4H9MVGM_75HmtqoiQ-1
+X-Mimecast-MFC-AGG-ID: 8Fzuv4H9MVGM_75HmtqoiQ_1757722715
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-729540b6278so26839477b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Sep 2025 17:18:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757722715; x=1758327515;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l4ajafdB1+Zc4Os2K0LLf6LEAhTUjLOoNJPPBfIa9aU=;
+        b=jH+ibm/FRRZc4d+DGjpxc/7c8Dj52MskVLFTRbkC6pGFrqs7GJEiv6QMh0M4E6Osoy
+         /V3EhU1iWN8adOQ5kQD2DY+Ymds4D2EXv1UGRtu4/Uq58u4QeVs4oUcNMAFELmOCxRWA
+         UcUwDKZstOcpPI2W7lWa9vxbZDyDr8HfJs5IdZbwCWsDdfyGPgV/Lubvy39uM6kroq6J
+         SA03uaKfcDO98MY//0MrIizrCmjEdDrAic0NGyYW//bBdDxMyanV4it62UgDB6b+zgkU
+         XkGCq4+0lseq5m9DvQzowIW5mnQnKULduf1qd+Vdzvjc4qqUyC9uNfBXiwnTad7pcK9Y
+         /Ipg==
+X-Forwarded-Encrypted: i=1; AJvYcCVlIlYNNGshl6Njoj2XmmjfF9tQz7uvSmv1akzt68n1MGc1hmWEmH2LkDQyR8yHTEtIk4oh8Khg5nY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK/EhJagPhS5rN6zqFBYJ2kHPMQDEPFtHfBPw/bhlM9KJNzdkq
+	aytEwDz9KxdvihN6zVBm7U0DMhP9KpDoQEN0kkmU/5igGJkWr8H/XZrpi3RfK04rVfuQ/rTtf97
+	HYmeRZcGnOSuxxEoThspAR0svx/6P53Vc4m7LIY9zhAZxEI8mvaBJTVvz+lrjiuhM2KgQOY8x0K
+	iYbeCxuoVgV8VVwTFmIoZO4e9asHR0K0Ni0uSh
+X-Gm-Gg: ASbGncvPkGrIyuD1UW9iW+RYZhfFU78uL8F+Rxu0k49hNNvNBTPfdgYwoodfzncZM48
+	ZMinFmxOZmtqItV6KNSK0mvuoROHEJtBa7zNqWU6w9LBqXciujGSkWM/x/t0zIJzgoX97fNBYcQ
+	MkKt7PZYIsVfEl4HFOVzsN14mk7ns7W2FpeLU=
+X-Received: by 2002:a05:690c:9688:b0:721:e87c:8c33 with SMTP id 00721157ae682-73064b0d05fmr42485767b3.42.1757722714747;
+        Fri, 12 Sep 2025 17:18:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGbHcwYvFm4L2fdbefOJomRceVwWpbQwHhmonPQcrjsF8ec8coXUMU+h3EdJ4sn6nutD1Tcv7kHs6OwIFQ+2cI=
+X-Received: by 2002:a05:690c:9688:b0:721:e87c:8c33 with SMTP id
+ 00721157ae682-73064b0d05fmr42485567b3.42.1757722714282; Fri, 12 Sep 2025
+ 17:18:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250912032810.197475-1-npache@redhat.com> <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
+ <43f42d9d-f814-4b54-91a6-3073f7c7cedf@redhat.com> <ab8c2e03-53fb-402c-a674-c2c6ab11f54e@redhat.com>
+ <rapl4xr55zv2nq3jh5ulk4wvfyxa2kmbnnb4uram6q43y4cbwn@dv5m52ocyqne>
+ <80c50bf4-27b1-483c-9977-2519369c2630@redhat.com> <7ri4u7uxsv6elyohqiq2w5oxv4yhk2tyniwglfxtiueiyofb3n@l4exlmlf5ty4>
+ <59641180-a0d9-400c-aaeb-0c9e93954bf5@redhat.com> <c5bcecb8-13e7-4db5-849e-2120c69b2af5@lucifer.local>
+ <ed784d6c-6c2a-4e0b-ad2f-e953bf310ce8@redhat.com>
+In-Reply-To: <ed784d6c-6c2a-4e0b-ad2f-e953bf310ce8@redhat.com>
+From: Nico Pache <npache@redhat.com>
+Date: Fri, 12 Sep 2025 18:18:08 -0600
+X-Gm-Features: Ac12FXy0N5FtwbsBO2SqhUxuddBI79Z6-L0KsGN5hICFyqJ2VbVlnALj3j-diZ0
+Message-ID: <CAA1CXcCwsQ4U95jEjvN63+915=8dfoTQboHnWRF=SApUssGMww@mail.gmail.com>
+Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
+To: David Hildenbrand <david@redhat.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
+	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 Sep 2025 12:07:42 +0200 Oleksij Rempel wrote:
-> > > +      -
-> > > +        name: max-average-mse
-> > > +        type: u32
-> > > +      -
-> > > +        name: max-peak-mse
-> > > +        type: u32
-> > > +      -
-> > > +        name: refresh-rate-ps
-> > > +        type: u64
-> > > +      -
-> > > +        name: num-symbols
-> > > +        type: u64  
-> > 
-> > type: uint for all these?  
-> 
-> I would prefer to keep u64 for refresh-rate-ps and num-symbols.
-> 
-> My reasoning comes from comparing the design decisions of today's industrial
-> hardware to the projected needs of upcoming standards like 800 Gbit/s. This
-> analysis shows that future PHYs will require values that exceed the limits of a
-> u32.
+On Fri, Sep 12, 2025 at 11:53=E2=80=AFAM David Hildenbrand <david@redhat.co=
+m> wrote:
+>
+> On 12.09.25 17:51, Lorenzo Stoakes wrote:
+> > On Fri, Sep 12, 2025 at 05:45:26PM +0200, David Hildenbrand wrote:
+> >> On 12.09.25 17:41, Kiryl Shutsemau wrote:
+> >>> On Fri, Sep 12, 2025 at 04:56:47PM +0200, David Hildenbrand wrote:
+> >>>> On 12.09.25 16:35, Kiryl Shutsemau wrote:
+> >>>>> On Fri, Sep 12, 2025 at 04:28:09PM +0200, David Hildenbrand wrote:
+> >>>>>> On 12.09.25 15:47, David Hildenbrand wrote:
+> >>>>>>> On 12.09.25 14:19, Kiryl Shutsemau wrote:
+> >>>>>>>> On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
+> >>>>>>>>> The following series provides khugepaged with the capability to=
+ collapse
+> >>>>>>>>> anonymous memory regions to mTHPs.
+> >>>>>>>>>
+> >>>>>>>>> To achieve this we generalize the khugepaged functions to no lo=
+nger depend
+> >>>>>>>>> on PMD_ORDER. Then during the PMD scan, we use a bitmap to trac=
+k individual
+> >>>>>>>>> pages that are occupied (!none/zero). After the PMD scan is don=
+e, we do
+> >>>>>>>>> binary recursion on the bitmap to find the optimal mTHP sizes f=
+or the PMD
+> >>>>>>>>> range. The restriction on max_ptes_none is removed during the s=
+can, to make
+> >>>>>>>>> sure we account for the whole PMD range. When no mTHP size is e=
+nabled, the
+> >>>>>>>>> legacy behavior of khugepaged is maintained. max_ptes_none will=
+ be scaled
+> >>>>>>>>> by the attempted collapse order to determine how full a mTHP mu=
+st be to be
+> >>>>>>>>> eligible for the collapse to occur. If a mTHP collapse is attem=
+pted, but
+> >>>>>>>>> contains swapped out, or shared pages, we don't perform the col=
+lapse. It is
+> >>>>>>>>> now also possible to collapse to mTHPs without requiring the PM=
+D THP size
+> >>>>>>>>> to be enabled.
+> >>>>>>>>>
+> >>>>>>>>> When enabling (m)THP sizes, if max_ptes_none >=3D HPAGE_PMD_NR/=
+2 (255 on
+> >>>>>>>>> 4K page size), it will be automatically capped to HPAGE_PMD_NR/=
+2 - 1 for
+> >>>>>>>>> mTHP collapses to prevent collapse "creep" behavior. This preve=
+nts
+> >>>>>>>>> constantly promoting mTHPs to the next available size, which wo=
+uld occur
+> >>>>>>>>> because a collapse introduces more non-zero pages that would sa=
+tisfy the
+> >>>>>>>>> promotion condition on subsequent scans.
+> >>>>>>>>
+> >>>>>>>> Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
+> >>>>>>>> all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
+> >>>>>>>
+> >>>>>>> BTW, I thought further about this and I agree: if we count zero-f=
+illed
+> >>>>>>> pages towards none_or_zero one we can avoid the "creep" problem.
+> >>>>>>>
+> >>>>>>> The scanning-for-zero part is rather nasty, though.
+> >>>>>>
+> >>>>>> Aaand, thinking again from the other direction, this would mean th=
+at just
+> >>>>>> because pages became zero after some time that we would no longer =
+collapse
+> >>>>>> because none_or_zero would then be higher. Hm ....
+> >>>>>>
+> >>>>>> How I hate all of this so very very much :)
+> >>>>>
+> >>>>> This is not new. Shrinker has the same problem: it cannot distingui=
+sh
+> >>>>> between hot 4k that happened to be zero from the 4k that is there j=
+ust
+> >>>>> because of we faulted in 2M a time.
+> >>>>
+> >>>> Right. And so far that problem is isolated to the shrinker.
+> >>>>
+> >>>> To me so far "none_or_zero" really meant "will I consume more memory=
+ when
+> >>>> collapsing". That's not true for zero-filled pages, obviously.
+> >>>
+> >>> Well, KSM can reclaim these zero-filled memory until we collapse it.
+> >>
+> >> KSM is used so rarely (for good reasons) that I would never ever build=
+ an
+> >> argument based on its existence :P
+> >>
+> >> But yes: during the very first shrinker discussion I raised that KSM c=
+an do
+> >> the same thing. Obviously that was not good enough.
+> >>
+> >> --
+> >> Cheers
+> >>
+> >> David / dhildenb
+> >>
+> >
+> > With all this stuff said, do we have an actual plan for what we intend =
+to do
+> > _now_?
+>
+> Oh no, no I have to use my brain and it's Friday evening.
+>
+> >
+> > As Nico has implemented a basic solution here that we all seem to agree=
+ is not
+> > what we want.
+> >
+> > Without needing special new hardware or major reworks, what would this =
+parameter
+> > look like?
+> >
+> > What would the heuristics be? What about the eagerness scales?
+> >
+> > I'm but a simple kernel developer,
+>
+> :)
+>
+> and interested in simple pragmatic stuff :)
+> > do you have a plan right now David?
+>
+> Ehm, if you ask me that way ...
+>
+> >
+> > Maybe we can start with something simple like a rough percentage per ea=
+gerness
+> > entry that then gets scaled based on utilisation?
+>
+> ... I think we should probably:
+>
+> 1) Start with something very simple for mTHP that doesn't lock us into an=
+y particular direction.
+>
+> 2) Add an "eagerness" parameter with fixed scale and use that for mTHP as=
+ well
+I think the best design is to map to different max_ptes_none values,
+0-5: 0,32,64,128,255,511
+>
+> 3) Improve that "eagerness" algorithm using a dynamic scale or #whatever
+>
+> 4) Solve world peace and world hunger
+>
+> 5) Connect it all to memory pressure / reclaim / shrinker / heuristics / =
+hw hotness / #whatever
+>
+>
+> I maintain my initial position that just using
+>
+> max_ptes_none =3D=3D 511 -> collapse mTHP always
+> max_ptes_none !=3D 511 -> collapse mTHP only if we all PTEs are non-none/=
+zero
+I think we should implement the eagerness toggle, and map it to
+different max_pte_none values like I described above. This fits nicely
+in the current collapse_max_ptes_none() function.
+If we go with just 0/511 without the eagerness changes, we will be
+removing configurability, only to reintroduce it again. When we can
+leave the configurability from the start.
+>
+> As a starting point is probably simple and best, and likely leaves room f=
+or any
+> changes later.
+>
+>
+> Of course, we could do what Nico is proposing here, as 1) and change it a=
+ll later.
+I dont think this is much different than the eagerness approach; it
+just compresses the max_ptes_none from 0-512 to 0-5/10.
 
-but u64 may or may not also have some alignment expectations, which uint
-explicitly excludes
+I will wait for your RFC for the next version.
 
-> > > +      -
-> > > +        name: header
-> > > +        type: nest
-> > > +        nested-attributes: header
-> > > +      -
-> > > +        name: channel
-> > > +        type: u32  
-> > 
-> > Please annotate attrs which carry enums and flags with
-> > 
-> > 	enum: $name  
-> 
-> Sorry, I can't follow here. What do you mean?
+Does your implementation/thoughts align with what I describe above?
+>
+> It's just when it comes to documenting all that stuff in patch #15 that I=
+ feel like
+> "alright, we shouldn't be doing it longterm like that, so let's not make =
+anybody
+> depend on any weird behavior here by over-domenting it".
+>
+> I mean
+>
+> "
+> +To prevent "creeping" behavior where collapses continuously promote to l=
+arger
+> +orders, if max_ptes_none >=3D HPAGE_PMD_NR/2 (255 on 4K page size), it i=
+s
+> +capped to HPAGE_PMD_NR/2 - 1 for mTHP collapses. This is due to the fact
+> +that introducing more than half of the pages to be non-zero it will alwa=
+ys
+> +satisfy the eligibility check on the next scan and the region will be co=
+llapse.
+> "
+>
+> Is just way, way to detailed.
+>
+> I would just say "The kernel might decide to use a more conservative appr=
+oach
+> when collapsing smaller THPs" etc.
 
-The values carried by this attr are from enum phy-mse-channel right?
-So you should annotate the attribute, this way C will use an enum
-type, and Python will decode the values into a human readable string.
+Sounds good I can make it more ambiguous!
 
-> > > +        enum: phy-mse-channel
-> > > +      -
-> > > +        name: config
-> > > +        type: nest
-> > > +        nested-attributes: mse-config  
-> > 
-> > config sounds like something we'd be able to change
-> > Looks like this is more of a capability struct?  
-> 
-> Yes? mse-config describes haw the measurements in the snapshot should be
-> interpreted.
+Cheers.
+-- Nico
+>
+>
+> Thoughts?
+>
+> --
+> Cheers
+>
+> David / dhildenb
+>
 
-Right. 'capability' is not great either, but as I said 'config' sounds
-like something that's tunable by the user. 
-
-> > > +      -
-> > > +        name: snapshot
-> > > +        type: nest
-> > > +        multi-attr: true
-> > > +        nested-attributes: mse-snapshot  
-> > 
-> > This multi-attr feels un-netlinky to me.
-> > You define an enum for IDs which are then carried inside
-> > snapshot.channel. In netlink IDs should be used as attribute types.
-> > Why not add an entry here for all snapshot types?  
-> 
-> Can you please give me some examples here? I feel under-caffeinated, sorry.
-
-Instead of this attr:
-
-	-
-		name: channel-a
-		type: nest
-		nested-attributes: mse-snapshot	
-	        multi-attr: true
-	-
-		name: channel-b
-		type: nest
-		nested-attributes: mse-snapshot	
-	        multi-attr: true
-...
-	-
-		name: worst-channel
-		type: nest
-		nested-attributes: mse-snapshot	
-	        multi-attr: true
-...
