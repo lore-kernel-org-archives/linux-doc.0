@@ -1,74 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8FE2C0F75;
-	Sat, 13 Sep 2025 09:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327301B5EB5;
+	Sat, 13 Sep 2025 09:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757754435; cv=none; b=dGlSm2c7TPlENppKf0XRJu961fJvc6WwEUr8ExXKo/X9E/ndPH41Ws62GHeL2JhqwAne5mw+HyEAaFJEaUgJaVeMqXIC0lyqf5gEUOTGT2ihM21mZEbzZJ5SyfhEj/maWezw9HOiureGScbOiqTqTiOYZ1F4oGbRk9kZw4JKBI4=
+	t=1757755246; cv=none; b=OLAuot1D40CoUW0HV1QPFaUi5GEXeOrDyfdZFnDpayShB3jAsQD20sU6nxnAA0uWvxQ2n/iPJuBevizEA88z5b3FR0M1qT5Bva+yROuk9wyvAbPC0BBvQxyRcP52DZN7jEG8FXBiRWHe9obXnMpmm2gfzWHpxQtdTTlgVn7cD44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757754435; c=relaxed/simple;
-	bh=cb2Q1hU2BTJSMSERZdg9xxImCo1b0IDRVIFl13zEi7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bgShBX8zzY5WEv9tNO/zLiUau1BcEITNZJSpVArtDPUWGEymSKcBc7V/1NGFKtp8t1VLBYgjfm3J+rvFU9faiTusWbKZMLJJu3b13EJGO4cTi/bBdYVZpmg/uyGRQdG7Ljp/GvReL5uaeSoAimmUJPhNI2TNPROZu5s7Aa23J2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NSbkRV2H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757755246; c=relaxed/simple;
+	bh=VhNgzjWhFHAY0JxD/ASuTUD+uwaVreOCvGCE2RaFaI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aq7xpfIZnPqZaNghYutbvcUhcElYX6FXhWE0vRu1LHn9+CT08pFjmbuF7hCz+gkOMsi5/+B3y9IGL1dLFUqiR4boZitmeWJutD2Q8A1IAN44ZoJmudB58/51K4CNogwm3lJ35XQocXy+Vf35IwnwXuE2thtpvd3Pco4dz6RdCOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1CiecMP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NSbkRV2H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A797AC4CEEB;
-	Sat, 13 Sep 2025 09:07:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1CiecMP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0E1C4CEEB;
+	Sat, 13 Sep 2025 09:20:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757754434;
-	bh=cb2Q1hU2BTJSMSERZdg9xxImCo1b0IDRVIFl13zEi7k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NSbkRV2HmBGKR0IvjNlWBMNvMj2ZwzM+axTyyVP0B1NhK/lPu29kleoUZYZ0kzHE6
-	 iIBLvIEwW1BrD+itZRICi/qMl2r8xilMBWAge74VRMSj4izWj0p87oYKpn4rMlfUaM
-	 DWwYT1YW/7jKzKB805wqGN1AccB+foRDwD4JNeKfK2PaUxdNUHLHTdPZN6WOCs3OLY
-	 /AoWkr4njKga7pyCKxB/j32CHsiUjr0DmLygOuEsa6+h37sc8aMQHT35aW8QDKqEKz
-	 dMA5GDF82bnpzuTGiEDr7R11sFiFMwABTlL/Nq6UfaNM5QHGL7IOLq9DpyslmjYNOf
-	 SDmPuQPPsda1Q==
-Date: Sat, 13 Sep 2025 10:07:10 +0100
-From: Simon Horman <horms@kernel.org>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: Jesse Brandeburg <jbrandeburg@cloudflare.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Hariprasad Kelam <hkelam@marvell.com>,
-	Marcin Szycik <marcin.szycik@linux.intel.com>,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>, netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
-	corbet@lwn.net, Jesse Brandeburg <jesse.brandeburg@intel.com>
-Subject: Re: [PATCH v3 5/5] ice: refactor to use helpers
-Message-ID: <20250913090710.GJ224143@horms.kernel.org>
-References: <20250911-resend-jbrandeb-ice-standard-stats-v3-0-1bcffd157aa5@intel.com>
- <20250911-resend-jbrandeb-ice-standard-stats-v3-5-1bcffd157aa5@intel.com>
+	s=k20201202; t=1757755245;
+	bh=VhNgzjWhFHAY0JxD/ASuTUD+uwaVreOCvGCE2RaFaI4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O1CiecMPE8eFgu/Sd3KKqnFogWYsshlSz9xI54uJMp/XIShlKPDTZTA7m7M9NRwVF
+	 BXzo6HDsGOPlW/30698/zkMXLgsPudEk8ZgCV+etF4E1YfFGl520Gr6DlBon3gbU4f
+	 KvC+iAc/pSFtxV9lg8eTNr5Qa5Dzc+1yAI3nZKyz++uYQed62aICPZAxg051t1hNAH
+	 QR7vrlBymqccnURbj7Zyhp74nNp3kuKm9Jldmab+aFL25EFlCO1EKdQe9r+M+WoZPG
+	 8J1M7xLZQAhNvwvPXFPFVcaiFoC/BXqBd8m5LF1pqsl0QM3KyNTp2LYoHzOVC/eLj6
+	 RgLTe5jnt77dg==
+Message-ID: <3c6ebf82-c3cd-47e7-b8c7-21c767b08722@kernel.org>
+Date: Sat, 13 Sep 2025 11:20:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250911-resend-jbrandeb-ice-standard-stats-v3-5-1bcffd157aa5@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm: Add directive to format code in comment"
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Javier Garcia <rampxxxx@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20250912130649.27623-2-bagasdotme@gmail.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250912130649.27623-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 11, 2025 at 04:40:41PM -0700, Jacob Keller wrote:
-> From: Jesse Brandeburg <jesse.brandeburg@intel.com>
+On 9/12/25 3:06 PM, Bagas Sanjaya wrote:
+> Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
+> fixes original Sphinx indentation warning as introduced in
+> 471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
+> code-block:: directive. It semantically conflicts with earlier
+> bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+> usage in literal code block") that did the same using double colon
+> syntax instead. These duplicated literal code block directives causes
+> the original warnings not being fixed.
 > 
-> Use the ice_netdev_to_pf() helper in more places and remove a bunch of
-> boilerplate code. Not every instance could be replaced due to use of the
-> netdev_priv() output or the vsi variable within a bunch of functions.
+> Revert 6cc44e9618f03f to keep things rolling without these warnings.
 > 
-> Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
-> ---
->  drivers/net/ethernet/intel/ice/ice_ethtool.c   | 48 ++++++++------------------
->  drivers/net/ethernet/intel/ice/ice_flex_pipe.c |  8 ++---
->  drivers/net/ethernet/intel/ice/ice_lag.c       |  3 +-
->  drivers/net/ethernet/intel/ice/ice_main.c      | 10 ++----
->  drivers/net/ethernet/intel/ice/ice_ptp.c       |  6 ++--
->  drivers/net/ethernet/intel/ice/ice_sriov.c     |  3 +-
->  6 files changed, 24 insertions(+), 54 deletions(-)
+> Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
+> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Less is more :)
-
-Reviewed-by: Simon Horman <horms@kernel.org>
-
+Applied to drm-misc-fixes, thanks!
