@@ -1,109 +1,91 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98C11DF759;
-	Sat, 13 Sep 2025 16:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757780268; cv=none; b=pHldtz0OIiIP3vs0Dl9bGqOsC+kpa1unrJMjCs7VgpSh6nXL6d3C4W42HWevQjrekKqAfJ6mmv3XWwOaJoYS8WFFTfPSE7w83s5+vVzhx+qCGHkssBiSEmTRQveI4Kzpd2CbeAdAtlcyRowQkHAXaSAmbOZ8/Rbb+Wbot8a296Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757780268; c=relaxed/simple;
-	bh=zlxQWlkD1ONTYqI34/X3jQ4cO7pVTeDGFdZZ5vZv0no=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zaydm5n4bWH+e/rr4NajhFoCrIbXQBL/WkIJIdtDKRSNIXQTPxV58WRsM0NRZKtglIX3PRw1xPBPukyw5G2gsoEbv4vhT901usAMVRFx3WkJoh9nuUNNKbL/ShMp3Y4xIKPtDYgUxJg+7tNsZZq1gmWmjn76hC/d48sTxacsUz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wNMSHU64; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6C7EAF9;
+	Sat, 13 Sep 2025 17:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757784864; cv=pass; b=uBKkDyD1M8iaaN4SpCSNFO++cqldx6ikalX1WvQY2hnhaTUyoaaLKzO2lMqkoERdx6HIQH2bh3eUg+sOYUWP5+YQihicAJrwQtKYG4Cmu/Zte/wZZ52lVcljjPS9orJKhjNmnw9pFHTwOcB9S4XhHi6KglzeefJtFVXlALH5BPc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757784864; c=relaxed/simple;
+	bh=GimA55GhBUtSka0KXGQTI8PV1VvmRaA5WdoDN040dOA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aKbgxlJuZ8IyMD/W01dX/iHtj1EnUGh2xg8plleg8AmePLmDkWJC+MJKBPm9sfPZBSARZ5zDAIEecD6hI8nMCgF2AOULAjROUKkzWz6bLhNUkHviOKMTIYRBJm1oNL9RpUn1D2U6loTSDe3WUm8JospfbQHZQNeKL98iM5nN53I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=BeTEbU+0; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wNMSHU64"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 39A44A8F;
-	Sat, 13 Sep 2025 18:16:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757780187;
-	bh=zlxQWlkD1ONTYqI34/X3jQ4cO7pVTeDGFdZZ5vZv0no=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wNMSHU64CpeuCvvCv5wDHMMqvq8YnZtlhBlNDH7umSdVM03pjKJNkLiEmGmKbXR0f
-	 hozTd4PfMVTC/NZ3VHtRdX/IlVKIyJYhOc5bf1V1Q0amA6V1gQeFKIb0bRnzW5Tx1c
-	 5fLgSOxIQniI8v9oHeQCem2VmNM3pICUx+SRyhVs=
-Date: Sat, 13 Sep 2025 19:17:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
-Message-ID: <20250913161717.GE4842@pendragon.ideasonboard.com>
-References: <20250912132656.GC31682@pendragon.ideasonboard.com>
- <2025091209-curfew-safari-f6e0@gregkh>
- <CAMRc=MfdoB50o=3Q2p94o+f7S2Bzr=TAtWWQcDrC5Wf3Q5nqAA@mail.gmail.com>
- <20250912135916.GF31682@pendragon.ideasonboard.com>
- <2025091220-private-verse-d979@gregkh>
- <20250912142646.GI31682@pendragon.ideasonboard.com>
- <2025091237-cortex-carnage-5c34@gregkh>
- <CAMRc=Mf76m51VKktGc2K1uT4eacDqhsroRxG2RgtRyhQrhx0WA@mail.gmail.com>
- <20250912145416.GL31682@pendragon.ideasonboard.com>
- <1dc06657-e136-45c2-8012-9199194bfc9b@kernel.org>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="BeTEbU+0"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id B4971104A17ED;
+	Sun, 14 Sep 2025 02:34:18 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 3rczm48LwjkC; Sun, 14 Sep 2025 02:34:15 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 78ABA10B40B73; Sun, 14 Sep 2025 02:34:15 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757784855;
+	cv=none; b=wWvmP5jxZKNXBzoVF3JU5k68JFDd4LinCthVgR+nbeXMoWDRpFX/B1ykUVgi6zPFeaRPsi7XhEHwXnL0m++UUZmZeXjWn2Wce+ajKWZ9IsiQC7JMOYtNJLHJ0d3YDN3TXZ2qC9CmQvWZSDX2/NKbSuJ/ghs9TCLvy5pDavsPEbU=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757784855; c=relaxed/relaxed;
+	bh=GimA55GhBUtSka0KXGQTI8PV1VvmRaA5WdoDN040dOA=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=jfL4wqfqcAs7V2U/2znYz2CAsulYrEDj8IejZHUBp4CAyJfRsxexKTabCplU4F0GSinZynXR1xCAPlUaBVExS+UytWKmR8olifG4BvQq1EOrxiddmhmHN43qWBGy7FlboU5VCvjPVtBsYVLC3O9d5z+3cnxwTi2niozfe1tGeoM=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 78ABA10B40B73
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757784855;
+	bh=GimA55GhBUtSka0KXGQTI8PV1VvmRaA5WdoDN040dOA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BeTEbU+0CmPkRd7IruFHfKNdAkDgMR6Mrg6sVnktbkIzdCcQQobTp33MS9z1ZfYVx
+	 enGOifIH7q6cSheJfHFAJfu3ItRZF7BiDBrnsXLdMpc9UZFng3aDo+4gaw4LjKobNa
+	 E25F/chCdb0tjAOMtvg6hi9e3OFZXBrrLux9v7Yk=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: platform-driver-x86@vger.kernel.org,
+	mpearson-lenovo@squebb.ca,
+	derekjohn.clark@gmail.com,
+	W_Armin@gmx.de
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] docs: w1: ds2482: fix typo in buses
+Date: Sun, 14 Sep 2025 02:34:13 +0900
+Message-ID: <20250913173413.951378-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1dc06657-e136-45c2-8012-9199194bfc9b@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 06:22:48PM +0200, Danilo Krummrich wrote:
-> On 9/12/25 4:54 PM, Laurent Pinchart wrote:
-> > On Fri, Sep 12, 2025 at 04:44:56PM +0200, Bartosz Golaszewski wrote:
-> >> On Fri, Sep 12, 2025 at 4:40 PM Greg Kroah-Hartman wrote:
-> >>> Either way, I think this patch series stands on its own, it doesn't
-> >>> require cdev to implement it, drivers can use it to wrap a cdev if they
-> >>> want to.  We have other structures that want to do this type of thing
-> >>> today as is proof with the rust implementation for the devm api.
-> >>
-> >> Yeah, I'm not against this going upstream. If more development is
-> >> needed for this to be usable in other parts of the kernel, that can be
-> >> done gradually. Literally no subsystem ever was perfect on day 1.
-> > 
-> > To be clear, I'm not against the API being merged for the use cases that
-> > would benefit from it, but I don't want to see drivers using it to
-> > protect from the cdev/unregistration race.
-> 
-> I mean, revocable is really a synchronization primitive in the end that
-> "revokes" access to some resource in a race free way.
-> 
-> So, technically, it probably belongs into lib/.
-> 
-> I think the reason it ended up in drivers/base/ is that one common use case is
-> to revoke a device resource from a driver when the device is unbound from this
-> driver; or in other words devres is an obvious user.
-> 
-> So, I think that any other API (cdev, devres, etc.) should  be built on top of it.
+Correct a spelling mistake in ds2482.rst
+("busses" -> "buses").
 
-No issue with that. I'm sure there are people who have better knowledge
-than me when it comes to implementing the low-level primitive in the
-most efficient way. What I have lots of experience with is the impact of
-API design on drivers, and the API misuse (including through cargo-cult
-programming) this can generate. Let's design the API towards drivers
-correctly.
+No functional change.
 
-> This is also what we do in Rust, Revocable is just a common synchronization
-> primitive and the (only) user it has is currently Devres building on top of it.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ Documentation/w1/masters/ds2482.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-Regards,
+diff --git a/Documentation/w1/masters/ds2482.rst b/Documentation/w1/masters=
+/ds2482.rst
+index 17ebe8f660cd..5862024e4b15 100644
+--- a/Documentation/w1/masters/ds2482.rst
++++ b/Documentation/w1/masters/ds2482.rst
+@@ -22,7 +22,7 @@ Description
+ -----------
+=20
+ The Maxim/Dallas Semiconductor DS2482 is a I2C device that provides
+-one (DS2482-100) or eight (DS2482-800) 1-wire busses.
++one (DS2482-100) or eight (DS2482-800) 1-wire buses.
+=20
+=20
+ General Remarks
+--=20
+2.47.3
 
-Laurent Pinchart
