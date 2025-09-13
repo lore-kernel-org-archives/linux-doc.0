@@ -1,143 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631AE28489B
-	for <linux-doc@vger.kernel.org>; Sat, 13 Sep 2025 10:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621052DC78E
+	for <linux-doc@vger.kernel.org>; Sat, 13 Sep 2025 11:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757760155; cv=none; b=XqgAhthdMMzhbiWTs/q2jnY1IMq0J/Kl4vP9AShBTS/dQsq1Lad5aEWOIoJWw29rYCmsg05nbYcAMGSnoU6cGhFb+pZhUrEXLrED8Gx5fhBzNHVJwV8rY+WVnzBDslrMVZ4MDojRDdoXRIk8iR6pC9BtWjmSG409f9MFA3OQfsI=
+	t=1757761350; cv=none; b=u5wMkwTTFcM9tIG7Vak76xtwfSZyLMEhoMRkNM8P4hBkaaK867mHE6+wR7D4H1ZNFDuVRLqipMT1ljRBv5T3swSra9xg90mAfUJmEcyXo5gTJu/j+Bk1x9wE36V3y3pzn5XKH4btF83owAWZ96u7sueH7u0AMrlFgAvV/VLXPas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757760155; c=relaxed/simple;
-	bh=L03JCd+cgD+GyqaBSJ0aqtVbPF6f1cVxW6JqC5RCO5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B6eI0jK8vZ3MvQHbdrnYi2pHfD6MbJnUfq8A6iKpbX+/NJnbWwEvlueQcI0PvndOXu9O0uT9LaTm9ea4+gfrSyGutHSBaOhItqgj5G9r9k9tfhqgX7CS37SqGmINyXUDW7zz4Oe+kfp5f/TNW+9fsG/w++joZae1u8mFf5U8h6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVXSRu7X; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757761350; c=relaxed/simple;
+	bh=BXHeodyc6oI0LqMSWJ3CeHdCp3CLonWo1Am23e37j80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPvspFmwYH0/64Yh7V4+y38uG+4ujZIi8otqhW2mpOWlnM1B1xZp+G9gbQp9IOEAirRHnsY3ovrMPY8mTldp7H+y4nebzKOEo7+BRrwN8Qw3mhnyCmJh7nTkEb92I2cG5Ae6KfrhkgNt4rIbtNoSzJRFZO3AtcLdNaiufUk3aC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=THdh2vyh; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVXSRu7X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757760153; x=1789296153;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L03JCd+cgD+GyqaBSJ0aqtVbPF6f1cVxW6JqC5RCO5c=;
-  b=iVXSRu7X2be+PoEuzRwg5tIY6oPWQfEZG96gHzEXv0oUE6QPOwXBvLka
-   5maDh/UUcNCcu4yWKylLzw1TwYkpsXwKqqu37sWJ9OsGPBuYUoKyYRtv5
-   lRlsGNrUk9QtMv201iAMUzw3OcXn0+PN2iBEcOqrvU5K/jMNvLXsy9btU
-   NcLf/3Z7larMGG71dbzaD3wkxMb4Fi+W5LUGbV5ES0P8HOVIfq9hTm4lG
-   ntdoCj1F8TwNsQEYCJ8hgkxsVfYSu96OxitJt/OAB0boiwqGda5zou1rK
-   MwnFJPPenjvNc0gEzBzz6cKE+dx+CnzsGcRznbCMlInqFvXUWOOvZlomY
-   w==;
-X-CSE-ConnectionGUID: lfFzEvv9SFuuNhvsEXgtnA==
-X-CSE-MsgGUID: NPHidMtqSiiu8VMeWQAo0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="59787623"
-X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
-   d="scan'208";a="59787623"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 03:42:32 -0700
-X-CSE-ConnectionGUID: lPP2CcwwTQi4hbogBbz6rA==
-X-CSE-MsgGUID: uhHGZ5ctRCW+MMbZpMQu5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
-   d="scan'208";a="178558783"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Sep 2025 03:42:30 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1uxNi8-000000001bH-2lN2;
-	Sat, 13 Sep 2025 10:42:28 +0000
-Date: Sat, 13 Sep 2025 12:41:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [aegl:rdt-aet-v10 61/61] htmldocs:
- Documentation/filesystems/resctrl.rst:526: WARNING: Inline emphasis
- start-string without end-string. [docutils]
-Message-ID: <202509131227.pXo5yK6u-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THdh2vyh"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-77250e45d36so2278497b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 13 Sep 2025 04:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757761349; x=1758366149; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lSHxxUm5MkO+s5BZz5eceu1yg1KflUbRrShjzBDT/G0=;
+        b=THdh2vyh3Jtpg3laeiJ84oORXNH7/VgDJ77kVd6Ugetpn3RAsllx+5kgQ+X+1TMvSy
+         AkZ4j5jr4PDOKVrKlgCWqdabAtbxFcyDjd46vSn4ojicK2lcOxpczQMB95lhfLR5hDV6
+         CySMeL7MPjHZULkL6SD7dk0FxG+zpqbEOmHraI/rtcZH+xPNZYFSd/WpVS31glpuYyrm
+         E60FEN8aLs598rPvXM4j1gcZ1gUS8vHDjV9j3SmPSv0KS66B04p6YMvHkmw02PLCPig2
+         kqvTyDGk51WDe1LQI28sFig1Pm3qcgqodq2EkG/cnrg3sodYFE63vdBBCi+f/r1tVbcG
+         Adgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757761349; x=1758366149;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lSHxxUm5MkO+s5BZz5eceu1yg1KflUbRrShjzBDT/G0=;
+        b=wD2w07PXabGiltVThx9sAnIH+6gmx8xXcfyG6+QS/KIZIzYus7j/1e3MOccG/yIcaV
+         b7vB4SaOsebssHmSaaCnbQPfbFlbq67Dgh9LAUD8njqRZD9lyub8LDgMPj/a+fpdwHb0
+         NrOk0lZiMo4zCf/gG9GBiDtBcaHlftqzG7V0rxNvqC6AdQgMuCvV2+pHfJQgrw/Nxv2B
+         9OqmpeZ3dpUyZO1HZddC8Lk2d/AnVAX6drrhL0n5Fge6xX/8BjscjMG1D392uy9nWh3U
+         LPSN2WJKw4yeMhBzqszcWgKS5jP+96GknMGh5LuH4JODMozANQsUCEwi7USrB9/Ukm9J
+         Wqew==
+X-Forwarded-Encrypted: i=1; AJvYcCXGHph43Match9vnj1Ov3TJ0Bg6HAzOA7iR3Chk0Gcw1kf9/1rO7eKRrteEozxu/1LxaYXq0XhNbGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ5IjR/SJLVBtaU8wnUsS1AT6EKUY9/VpSbG22MfPPPcjw5Ldb
+	Yb612IQHgB2RtyA3ZT7lmB3BF92h8yP3bj+GqdlLkWWDdVZ8j8X8gAPE
+X-Gm-Gg: ASbGnct10myEYUejFE0/IoyK+iYuz5cPO0WezL/QYIiULz/MpVyL2aRHyAFuhZEAKUG
+	8B3PfVs2u3HK8mlA/mvLkqar2Oey7+Ax1oPPVCJ5XfUzdUaQQ4grWLiKDP6HtM3BE6ibagx811g
+	mN+ZgmTcriFZg8MOzjdPysn2RmWmYgXNmI2aRXFPbLDreBjhIcT7n5ASIJn6sMttZxt5OhMA1jb
+	88gMPMqfBcC2cF+h8kRTP+sbojfBzvmt51+uRzbuW1mmeGDgZJqH9WI4wkMW07hC2MihZM9Ri+o
+	sRSIWkKtKP1ypu0sNzoXx8k+DRKx+iOeeAvJG5/UryqR2TmpoZej0++cSB+1pvMGYkcNac0pOO5
+	JpR1ceGIESmNJA2d7VSz60NeGiAwQ5BlTgb9N0HAgNuvWzw==
+X-Google-Smtp-Source: AGHT+IE4JTVtkLqMLoiz8/TSrmFSmKr5Hr/jEFds8tWyqz0lknQdtFDueUAIhY8b3MH0shhwJn12bw==
+X-Received: by 2002:a17:902:e807:b0:252:8cc1:84a3 with SMTP id d9443c01a7336-25d26e484f0mr71857785ad.43.1757761348521;
+        Sat, 13 Sep 2025 04:02:28 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3b305054sm74144345ad.133.2025.09.13.04.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Sep 2025 04:02:27 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 13 Sep 2025 04:02:26 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v2 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+Message-ID: <0ce54816-2f00-4682-8fde-182950c500b9@roeck-us.net>
+References: <20250903-ltc4283-support-v2-0-6bce091510bf@analog.com>
+ <20250903-ltc4283-support-v2-2-6bce091510bf@analog.com>
+ <742fe9b5-bc53-45f2-a5f1-d086a0c9dd1c@roeck-us.net>
+ <0765a0b89779331c62a3f136ef030f7f2f40ea47.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0765a0b89779331c62a3f136ef030f7f2f40ea47.camel@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git rdt-aet-v10
-head:   89f7ddfa06e19e9b7acd666c1ae7e04034bc2636
-commit: 89f7ddfa06e19e9b7acd666c1ae7e04034bc2636 [61/61] x86,fs/resctrl: Update Documentation for package events
-reproduce: (https://download.01.org/0day-ci/archive/20250913/202509131227.pXo5yK6u-lkp@intel.com/reproduce)
+On Fri, Sep 12, 2025 at 03:00:22PM +0100, Nuno Sá wrote:
+...
+> 
+> i2cdump -y -r 0x41-0x79 1 0x15 w
+>      0,8  1,9  2,a  3,b  4,c  5,d  6,e  7,f
+> 40:      b004 0000 b00c a03e a03e a03e 2501
+> 48: 0000 1a03 e07f e07f f07f e07f e07f e07f
+> 50: e07f e07f e07f e07f e07f e07f 0000 0000
+> 58: 0000 7002 7002 7002 b07e b07e b07e a030
+> 60: 9030 a030 0000 0000 802f 1000 1000 f0ff
+> 68: a004 a004 0014 a004 a004 c004 0000 0000
+> 70: 0000 0000 0000 0000 0000 0000 0000 0000
+> 78: 0000 0000
+> 
+Thanks - this should do. Note that I am traveling and will be away from my
+systems until September 25, so I'll only be able to look into this further
+after I am back.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509131227.pXo5yK6u-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   ERROR: Cannot find file ./include/linux/jbd2.h
-   ERROR: Cannot find file ./include/linux/jbd2.h
-   WARNING: No kernel-doc for file ./include/linux/jbd2.h
-   ERROR: Cannot find file ./include/linux/netfs.h
-   WARNING: No kernel-doc for file ./include/linux/netfs.h
->> Documentation/filesystems/resctrl.rst:526: WARNING: Inline emphasis start-string without end-string. [docutils]
-   ERROR: Cannot find file ./include/linux/pipe_fs_i.h
-   ERROR: Cannot find file ./include/linux/pipe_fs_i.h
-   WARNING: No kernel-doc for file ./include/linux/pipe_fs_i.h
-   WARNING: ./drivers/gpu/drm/amd/display/dc/dc.h:254 struct member 'num_rmcm_3dluts' not described in 'mpc_color_caps'
-   ERROR: Cannot find file ./include/linux/backlight.h
-
-
-vim +526 Documentation/filesystems/resctrl.rst
-
-   518	
-   519	"mon_data":
-   520		This contains directories for each monitor domain. One set for
-   521		each instance of an L3 cache, another set for each processor
-   522		package. The L3 cache directories are named "mon_L3_00",
-   523		"mon_L3_01" etc. The package directories "mon_PERF_PKG_00",
-   524		"mon_PERF_PKG_01" etc.
-   525	
- > 526		Within each directory there is one file per event. For
-   527		example the L3 directories may contain "llc_occupancy", "mbm_total_bytes",
-   528		and "mbm_local_bytes". The PERF_PKG directories may contain "core_energy",
-   529		"activity", etc. The info/*/mon_features files provide the full
-   530		list of event/file names.
-   531	
-   532		"core energy" reports a floating point number for the energy (in Joules)
-   533		consumed by cores (registers, arithmetic units, TLB and L1/L2 caches)
-   534		during execution of instructions summed across all logical CPUs on a
-   535		package for the current RMID.
-   536	
-   537		"activity" also reports a floating point value (in Farads).
-   538		This provides an estimate of work done independent of the
-   539		frequency that the CPUs used for execution.
-   540	
-   541		Note that these two counters only measure energy/activity
-   542		in the "core" of the CPU (arithmetic units, TLB, L1 and L2
-   543		caches, etc.). They do not include L3 cache, memory, I/O
-   544		devices etc.
-   545	
-   546		All other events report decimal integer values.
-   547	
-   548		In a MON group these files provide a read out of the current
-   549		value of the event for all tasks in the group. In CTRL_MON groups
-   550		these files provide the sum for all tasks in the CTRL_MON group
-   551		and all tasks in MON groups. Please see example section for more
-   552		details on usage.
-   553	
-   554		On systems with Sub-NUMA Cluster (SNC) enabled there are extra
-   555		directories for each node (located within the "mon_L3_XX" directory
-   556		for the L3 cache they occupy). These are named "mon_sub_L3_YY"
-   557		where "YY" is the node number.
-   558	
-   559		When the 'mbm_event' counter assignment mode is enabled, reading
-   560		an MBM event of a MON group returns 'Unassigned' if no hardware
-   561		counter is assigned to it. For CTRL_MON groups, 'Unassigned' is
-   562		returned if the MBM event does not have an assigned counter in the
-   563		CTRL_MON group nor in any of its associated MON groups.
-   564	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Guenter
