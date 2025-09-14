@@ -1,101 +1,91 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262AD19C560;
-	Sun, 14 Sep 2025 17:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92F8EEAB;
+	Sun, 14 Sep 2025 20:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757869438; cv=none; b=JvOa9hc9dKlliKDGuazv7cqJGQCYSbH2kIP7MfzYs2snav39HrismiVVMXjVEMbaxlnOIa2+KDB3iawjpayM2G/+yjHLAm0HMrYmHeCJ27txKnUB9em+wksH+jaThFpTYgKb7OtNz6bBqxh8OOke1k5V0ELNSTBV8LKsKJ43jjs=
+	t=1757880804; cv=none; b=MyB2Gwyu1BOl0hAoRbOp+7v4Qz6eKsfNO4fR69Z5DlP2Bm2/EpqHpaX3ADhgUCrt8Zt3bOYLuKolTii5c8EvseGYI6Lg65JHlTj/trkkBlr1xmqRYxxl6NO8/w5Lqjl+Gj0yPHZrakntpFwKMFx8fl9oXX9uW4TLrC1fOBDAyIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757869438; c=relaxed/simple;
-	bh=jJD1PLKgscuHcdkTTdVPzDMrJvlY5RFXwvnNuKjZ4yE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u6CrJocBd07Ca9OaNLxoTHcVVTj+ttEyNFgb/pOQAyxgYQYGIKjyVTy3NAxGSODJWVx3NDWw1HX3T135fnSCOGrf5SyZmyIqjHZJaf1H70GPR9ulBN3LRLhp6y8HRt16DQ37KHoJQdUKqT6JuTHuEeoCJv7jcGUOIIhzUSEDmZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SFL4RnNg; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757880804; c=relaxed/simple;
+	bh=S1O2mYg/nuSFWiepEfi3INn1/VxeJMAKyzsDV4vYqvg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=J+jptC/J4YKLwKI3aHT7snFfP84NJQk0HTR18Ww5e2AXCQg3c6guvNc9b3LB3SOubHVnQHwAP6wzn+xnhQlwtRG/xPpZ4PicPNMfgb41hm3EfwS3OTsNwBXv5FciZQTzyw1WObPXMCJhz+FNCsWkcCzc3PW2ZIGvVRKS+Izs6CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=2UPxRGMw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SFL4RnNg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=OZF43+VllNLQUeKcMt+n5So3Zh9+TQrMX0kTZiqDfGU=; b=SFL4RnNgyx5FOPUlz8vOqeslm9
-	RBtlzBvgJ3+XlsQMwsIw634XZNQhXpWnYTLHIqdT8d/X5JtJ/c9hJlLRleiFcXmfs6B58HZcH9TQH
-	3vQZ9X9mLPtpCRjLz0CWZvANzwP1K0wi11cpEVmdFC3v1MDkw5q08KvG+2Q5ccmdo4QuPUHYJUFGt
-	i1Idqos+2SM/JDsS0f75KU1qUx7TvRrhaiAtiujefiOzcaxNXd4lZBP4sipBHAhkJe+3BbYMFahNE
-	bnza4EowvLMmEiL3djoroj+tQdq5Yjl/wkOrNYEA3QoE+MpJHgIElY0GJxOGsEGPBk7bkS5fmqBCt
-	HGHMOLaw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxq8k-00000001tyv-3nAV;
-	Sun, 14 Sep 2025 17:03:50 +0000
-Message-ID: <5214509d-a2e6-4e55-823b-49f2dbfb5971@infradead.org>
-Date: Sun, 14 Sep 2025 10:03:50 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="2UPxRGMw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6D19C4CEF0;
+	Sun, 14 Sep 2025 20:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1757880803;
+	bh=S1O2mYg/nuSFWiepEfi3INn1/VxeJMAKyzsDV4vYqvg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=2UPxRGMw8I/maQZ+HN3ir+gn07zWGBMkkdWTdW2X4OKEgkpUDDbZLiyj3E0pJDtL3
+	 1+D42ZKa/D0blrtutGoeATk6sFzQAtpGrIpNKIWACFz+9+7ensOkK9v2abyA5QnetQ
+	 dB1gPfBNpyMhvJhlFN9WW4x1lQUIWNYqbIuD5q6A=
+Date: Sun, 14 Sep 2025 13:13:21 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, Al
+ Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig
+ <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Andy Shevchenko
+ <andy.shevchenko@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, Julian
+ Stecklina <julian.stecklina@cyberus-technology.de>, Gao Xiang
+ <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, Eric
+ Curtin <ecurtin@redhat.com>, Alexander Graf <graf@amazon.com>, Rob Landley
+ <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>,
+ linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, x86@kernel.org, Ingo Molnar
+ <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, "Theodore Y . Ts'o"
+ <tytso@mit.edu>, linux-acpi@vger.kernel.org, Michal Simek
+ <monstr@monstr.eu>, devicetree@vger.kernel.org, Luis Chamberlain
+ <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, Thorsten Blum
+ <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
+ patches@lists.linux.dev
+Subject: Re: [PATCH RESEND 21/62] init: remove all mentions of
+ root=/dev/ram*
+Message-Id: <20250914131321.df00dfc835be48c10f4cce4b@linux-foundation.org>
+In-Reply-To: <a079375f-38c2-4f38-b2be-57737084fde8@kernel.org>
+References: <20250913003842.41944-1-safinaskar@gmail.com>
+	<20250913003842.41944-22-safinaskar@gmail.com>
+	<a079375f-38c2-4f38-b2be-57737084fde8@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: staging: fix spelling error in
- remoteproc.rst
-To: Taimoor Zaeem <taimoorzaeem@gmail.com>, andersson@kernel.org,
- "corbet@lwn.net" <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi--
+On Sun, 14 Sep 2025 12:06:24 +0200 Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-On 9/14/25 4:46 AM, Taimoor Zaeem wrote:
+> >  Documentation/admin-guide/kernel-parameters.txt          | 3 +--
+> >  Documentation/arch/m68k/kernel-options.rst               | 9 ++-------
+> >  arch/arm/boot/dts/arm/integratorap.dts                   | 2 +-
+> >  arch/arm/boot/dts/arm/integratorcp.dts                   | 2 +-
+> >  arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-cmm.dts     | 2 +-
+> >  .../boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dts    | 2 +-
+> >  .../arm/boot/dts/aspeed/aspeed-bmc-facebook-minipack.dts | 2 +-
+> >  .../arm/boot/dts/aspeed/aspeed-bmc-facebook-wedge100.dts | 2 +-
+> >  arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-wedge40.dts | 2 +-
+> >  arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yamp.dts    | 2 +-
+> >  .../boot/dts/aspeed/ast2600-facebook-netbmc-common.dtsi  | 2 +-
 > 
+> No, don't do that. DTS is always separate.
 
-(pasting email from
-https://lore.kernel.org/linux-doc/CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com/T/#u
-)
-
-From 10321c75f8fc1296775942f13cb3af78fdc8dcc8 Mon Sep 17 00:00:00 2001
-From: Taimoor Zaeem <taimoorzaeem@gmail.com>
-Date: Sun, 14 Sep 2025 16:31:56 +0500
-Subject: [PATCH] Documentation: staging: fix spelling error in remoteproc.rst
-
-Fix typo 'implementors' to 'implementers' in remote processor framework
-documentation.
-
-Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
----
- Documentation/staging/remoteproc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
-index 348ee7e508ac..5c226fa076d6 100644
---- a/Documentation/staging/remoteproc.rst
-+++ b/Documentation/staging/remoteproc.rst
-@@ -104,7 +104,7 @@ Typical usage
- 	rproc_shutdown(my_rproc);
-   }
- 
--API for implementors
-+API for implementers
- ====================
- 
- ::
--- 
-2.51.0
------------------ end of copy/paste --------------------
-
-How do you know that's a typo?
-
-Did you check on the internet to see if both spellings
-are acceptable?
-
-thanks.
--- 
-~Randy
-
+Why can't DTS changes be carried in a different tree?
