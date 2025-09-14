@@ -1,136 +1,221 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC2127461
-	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 01:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4E31FC3
+	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 02:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757811906; cv=none; b=oCZUk+Inx5EWSjhtSE2+rkbdEQLD0GyQrlm1JoLTU1Xa9wltzmUZynlC6TwWesfXBJM/vEcRVbkn7xdLJOXaKddRNY6+1+uhZLFwM8RU3a2uepC9EuF7EdSZU+GuW5C8YD1s/LRL8RQsORj557Iug/d3LvQOUXjKObyiUOz0/Fk=
+	t=1757816430; cv=none; b=tiXn+vljuM8s3lR1LuW4drp8fRc7VHtHnNEvWtGzQqNya7aYXxgadzGace88azAmNNHqexLDNZuqBTGvbI6SY06juHthfIA03fRN4zLoUzRczp3RIwbx561sID8hS4DzP2/eBCLVXZABp/YZoIqPOOrMsE6YALa+CholHZrHlao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757811906; c=relaxed/simple;
-	bh=KwCI67wzBCMSE+sGNwxoXxj0NxENSx9BrFmgM+/HkqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dve2CAmnXhfaqg4PJYxTfrngp0Sy1uK40QAIULTIPcu+LyOeDjP5+y3VmizkLhJlGV8qidhsKe077pAhBy5g5B+lM9yFVtPWQjGgut15FigouJ+umjhfchwHeTyX4cCC2pscfKIECrYtHNOTvj5gMIzau69krwK2WUb1TDslYMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EukDtsiu; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1757816430; c=relaxed/simple;
+	bh=OwJEwqEt78Ndzrx3q0hEfkrL76rC49OFN8MA8xI+XWQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HxrXCWCJrq29AQB0hUSrMClVrkx+5WruM7hQ+1T2EhGTidygDDoeC2tanxfz5Qn9DoB0WC7ldk5auXs98PBm9Gb7NjJ3nLa+PksavR7rpKBEr10UZkVd7I4WfQ3ixCC9QgAKdpwIeg7fkzOq/ufjL/uUhLOS2OlHZoUlm1FYSX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQ3w0joW; arc=none smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EukDtsiu"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-776df11e5d3so516632b3a.1
-        for <linux-doc@vger.kernel.org>; Sat, 13 Sep 2025 18:05:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQ3w0joW"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-776aee67e8dso3298166d6.3
+        for <linux-doc@vger.kernel.org>; Sat, 13 Sep 2025 19:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757811904; x=1758416704; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2H1DEIqxcw9L6IzZmS40PiTXQNGrmQIDZ9w4fzliZPs=;
-        b=EukDtsiu4TYMBENT3Jz1pJqoRCMTLFTnyWsIw+7igIOh4Dhqotm6lW3oio9vk1zhpn
-         7nNtztHfqPin0GgfXi9czeBVNAv8aHYtjutw7KZt1P4gqy3WGdL2L0TgwieGLqQGfbEM
-         1Hwu4dv6MFp0NMEo7KDybWcfOgTse1P8l7HD5sTs7ZpxNkjfW65VFlKujrj419IEMuPI
-         MwHMG5ckatft/Q0OLzAkiateIhnNcWTLggYICuorF2gNADoQ1CK7xmFrQYRMp8OfwJwz
-         chnw3+8nfT7MsnZgl/6L0c4mtCtUHLmV+gIqJrSsJ5AfrhEbb/UGKHHJZxmZgW6MLQiY
-         3rfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757811904; x=1758416704;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1757816428; x=1758421228; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2H1DEIqxcw9L6IzZmS40PiTXQNGrmQIDZ9w4fzliZPs=;
-        b=nqiTCis4Aa48twVANVKbiKWxdnxF0oai1EwXrlMl1FaQLPrT5IQMa0t9lboS2/ORZY
-         JB+nX3p04uc8GolBmjXYN447r0UrOqvokOYrijV4dme1TWRoyZs8MdzWt2UZDHiPngzy
-         iJ0rL4V1aYyAniVcL0YdosNzYpwKrJz9UjT9EGC09xywe0agyE3j8b36DDT2a1ewojHc
-         WOCJEZ4DB9Wq57ZhOBaLP56AB9Zd7z67pTu3uxJOvBVrHvAravhiawGHHX5lfC1mLPMj
-         oP7Kf+1lAxOdHoo48sBjzdLZQw+MxvCxK2wyqOOKGWfwFJ2JhyOwJfhU6ZGA4TVgf0mn
-         DETw==
-X-Forwarded-Encrypted: i=1; AJvYcCWHvUflzybtHpwCgRwMnuBZwI+qh2oFUgenamGRSAhZDVvcYw+gZtlbC+7+gVPoM9mREbSUyR5E/fY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuJidxFeXQ1rUhYjIvGolrdlBrfjWtDv3f//BzNILtvBUSNvkr
-	omHR7EqM8L6utsganypfmJ4YiPO1+rHtdgYypQ1pAzAA8Sf+IE7aCEqi
-X-Gm-Gg: ASbGncv25HpI2wQ6EgeshfQOwdJa5WtIKpqtE/NHl7VOP/FFknPaHN1Zhqv5syocHPh
-	LZDmzCKl8U8Sr5QNEmj28kGhTIN2jE4M4VnszPtLASldhCL56gjfp+hbM1pQHarYhXKJXKZK6Qq
-	uA53j76Yg7QV84CwAgKxW8fY5jji2r4kGF5Bgr53XoUoJK2AxoriitrhPcbraCzKvr/hBbgbOvm
-	0J/4V8u5vFpeS4MEfqZDX1TdZVgQDqDSEWWwC50M1qexjRPTw8tgBRUmHYFiryyQhoB955S8NXk
-	bYOnvwwXepj1jhmGc90+u7ScpgQZTiMj9zM8li69P+cF02OV759ml3x4hTCFwB4eFVB2kWxf5ra
-	GijeDPtetoOOd3i+eeofKmVX6VeCJVCWxSdBfHyperYA=
-X-Google-Smtp-Source: AGHT+IH2JCR/UgWVMA5jNgjyGNIJ90r5/YIM6Tob3LS+1FHup5VN/X2Uo8gbBRUdy3Aa1wBnWJSvCQ==
-X-Received: by 2002:a05:6a00:1806:b0:774:1ef3:78ec with SMTP id d2e1a72fcca58-776120957e2mr8003853b3a.9.1757811903861;
-        Sat, 13 Sep 2025 18:05:03 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:81bf:abc:6590:f690])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b346dasm9531512b3a.68.2025.09.13.18.05.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Sep 2025 18:05:03 -0700 (PDT)
-Date: Sat, 13 Sep 2025 18:05:01 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Jonathan Denose <jdenose@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	Sean O'Brien <seobrien@google.com>, Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [PATCH v3 00/11] HID: Implement haptic touchpad support
-Message-ID: <shsgwirjtyyo53lrczih3x3fracqtbwrlcfbdc6e44eddnglzb@ht7tyyngww2z>
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
- <CAMCVhVOUn-un9N_Bv00RVJ7kAw1O+AHgAHOzSGM6UuMBZVdtYw@mail.gmail.com>
- <vyhhm3x6nfdfw6gbgluq3sjr6bzamhear7nec6xdi5wfxq7wcz@cx2egj4yr5sp>
- <4267074p-78q9-54p9-8q43-2ro1n03259os@xreary.bet>
+        bh=2FLLFKulJIRo/+/A7W+JN2XhQBYj1VMkK/MLnr9PzSo=;
+        b=IQ3w0joW1fkarS2hnpisnEy5L8RoJ6/nUn5mFMedPlOt2NiM0FVRLgw1ooXQJjHsS7
+         0GpA73pdOnvELrpNctEek0ebmx9hXxE57Xs0DX/ctaxkST9tiijenwhAlKz98mHp9zEA
+         eXrOp0CSDx8xEYZL4QVYua3Baaj4ETHPYmnjb9K5/Z8ToQdBF+dJ/0yRdxTq3ZzNwilC
+         vSNnTzodQSz8L1WK56khVpMkDFI7E87OKP4BVZn1S/RZakO+QroasnLsha1Riia/VEer
+         rlt65RJL30uBzDOztM8EaT/B69q06jn9ex0n/OxmYDNOzrm2Ua+qXYZNjo2hiE5+Njxz
+         Ak+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757816428; x=1758421228;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2FLLFKulJIRo/+/A7W+JN2XhQBYj1VMkK/MLnr9PzSo=;
+        b=hpfA5ZwDoOB4HvWRDd7Vww3W/H/+qjizKCQkIfuMDtJ1g80Xb6HB1CINlkr/8gi12Q
+         pdRJKm3BfBLDKopG9ItUDp1pYORvRC8/SnAPFti5WaCRHnXa3nyGYrheg8n3qDcRpnAP
+         tTR5MGNsosd+1CeG80YeHuymijct7gDKhMeE/mARZjSdFV3VUXyDlVWcXx/j3ZBZXGHV
+         yykxT/o7arENRg7dwQlVVWNuxgke3D7bfc2wXIzodiA8gbL3Q5cSeQfEF0LX+L6WFJQP
+         tVFs4EPG7YoyN2wRsW+7gINFVLJHEbUyOcSL3Qs8BUR/YRTs6YlTpcBOHa0tiu8ywk6p
+         kd3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUSmkqRXGRA5Cqa3iU3IDV92h34cL4dMHQSvsUxmYdNFApgTSFuWeDkM6lpKFKE2ulpgH1d+RMJr6I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznKdIikO3iYeEiRTZabtIVQMVJME9CJsz/ICY4TBa3iLqXjKPI
+	uMfTcVbvS2cQcFjdaK2ilcE5e1W6o6+DLo7cr/55oErPSK3oMcxP/KERX04+iggpqyTiu9D45a6
+	F7B+3PJKTeD4R8TcNN8A/U9f3EvwQBtQ=
+X-Gm-Gg: ASbGncvP6cABUwSOUWQb5rArxhjbmossRGAgvlhduDjDMQdd2HwWS4SB7Sc06qEnYlf
+	jK+NFyyVRmbihDCrb3uTUEpmUImCSROnwEvmbQ4FSxrK5gBVg5yCnk36iY1mdyFfGQa73l6Vl7H
+	mMHfAkfAwstUL2553v+EKf+d+BnNbZIkIZMo/LXfVB3NbP60/6fjoKZRAO2l1IZXpsdAW+ZaUeQ
+	onGU1eVnONUhLAox0IjGviGwrsULIFvrcqJSk2n
+X-Google-Smtp-Source: AGHT+IHq6u/4AIG+O1oq71Zy5dzM6cZoHuGdo1nSrFvwbC9QDSx6PwHNBUTam12RFvIzhBOryUKFBBcpe/eyu+MXbrU=
+X-Received: by 2002:ad4:5ced:0:b0:77e:dd3e:a0c9 with SMTP id
+ 6a1803df08f44-77edd3ea3d1mr2130156d6.14.1757816427569; Sat, 13 Sep 2025
+ 19:20:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4267074p-78q9-54p9-8q43-2ro1n03259os@xreary.bet>
+References: <20250910024447.64788-1-laoar.shao@gmail.com> <20250910024447.64788-5-laoar.shao@gmail.com>
+ <a2c122f5-ab6a-4242-9db8-e5175d5b27b3@lucifer.local> <CALOAHbCSudQ9y1UdD4YjuUFGae5bRu8_0bgThJV4WgwLwtcwew@mail.gmail.com>
+ <42226608-bbb1-4d58-9de7-dfbb3a38d064@lucifer.local>
+In-Reply-To: <42226608-bbb1-4d58-9de7-dfbb3a38d064@lucifer.local>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sun, 14 Sep 2025 10:19:51 +0800
+X-Gm-Features: AS18NWBsv--35q_kcFfQDULeKAOuuY0Oif44eGzcMAx_dTI7CPLBxPfXjMJKB3Q
+Message-ID: <CALOAHbAx_Qpt50Knr765Gp63C_ad8m1+kaTFveWkuybhaN3uBw@mail.gmail.com>
+Subject: Re: [PATCH v7 mm-new 04/10] mm: thp: enable THP allocation
+ exclusively through khugepaged
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, hannes@cmpxchg.org, 
+	usamaarif642@gmail.com, gutierrez.asier@huawei-partners.com, 
+	willy@infradead.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	ameryhung@gmail.com, rientjes@google.com, corbet@lwn.net, 21cnbao@gmail.com, 
+	shakeel.butt@linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 05:28:03PM +0200, Jiri Kosina wrote:
-> On Thu, 4 Sep 2025, Benjamin Tissoires wrote:
-> 
-> > > > Angela Czubak (11):
-> > > >       HID: add haptics page defines
-> > > >       Input: add FF_HAPTIC effect type
-> > > >       Input: add INPUT_PROP_HAPTIC_TOUCHPAD
-> > > >       HID: haptic: introduce hid_haptic_device
-> > > >       HID: input: allow mapping of haptic output
-> > > >       HID: haptic: initialize haptic device
-> > > >       HID: input: calculate resolution for pressure
-> > > >       HID: haptic: add functions handling events
-> > > >       Input: MT - add INPUT_MT_TOTAL_FORCE flags
-> > > >       HID: haptic: add hid_haptic_switch_mode
-> > > >       HID: multitouch: add haptic multitouch support
-> > > >
-> > > >  Documentation/input/event-codes.rst    |  14 +
-> > > >  drivers/hid/Kconfig                    |  11 +
-> > > >  drivers/hid/Makefile                   |   1 +
-> > > >  drivers/hid/hid-haptic.c               | 580 +++++++++++++++++++++++++++++++++
-> > > >  drivers/hid/hid-haptic.h               | 127 ++++++++
-> > > >  drivers/hid/hid-input.c                |  18 +-
-> > > >  drivers/hid/hid-multitouch.c           |  47 +++
-> > > >  drivers/input/input-mt.c               |  14 +-
-> > > >  include/linux/hid.h                    |  29 ++
-> > > >  include/linux/input/mt.h               |   1 +
-> > > >  include/uapi/linux/input-event-codes.h |   1 +
-> > > >  include/uapi/linux/input.h             |  22 +-
-> > > >  12 files changed, 858 insertions(+), 7 deletions(-)
-> > > > ---
-> > > > base-commit: 86731a2a651e58953fc949573895f2fa6d456841
-> > > > change-id: 20250625-support-forcepads-0b4f74fd3d0a
-> > > >
-> > > > Best regards,
-> > > > --
-> > > > Jonathan Denose <jdenose@google.com>
-> > > >
-> > > Hi all,
-> > > 
-> > > Please let me know if there is anything else needed from me.
-> > > 
-> > 
-> > Dmitry, I've just re-reviewed and tested this series. I'm fine with it.
-> > Can you give us your ack on the input bits?
-> 
-> Dmitry, did you have time to review the input bits, please?
+On Fri, Sep 12, 2025 at 9:48=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Fri, Sep 12, 2025 at 02:17:01PM +0800, Yafang Shao wrote:
+> > On Thu, Sep 11, 2025 at 11:58=E2=80=AFPM Lorenzo Stoakes
+> > <lorenzo.stoakes@oracle.com> wrote:
+> > >
+> > > On Wed, Sep 10, 2025 at 10:44:41AM +0800, Yafang Shao wrote:
+> > > > Currently, THP allocation cannot be restricted to khugepaged alone =
+while
+> > > > being disabled in the page fault path. This limitation exists becau=
+se
+> > > > disabling THP allocation during page faults also prevents the execu=
+tion of
+> > > > khugepaged_enter_vma() in that path.
+> > >
+> > > This is quite confusing, I see what you mean - you want to be able to=
+ disable
+> > > page fault THP but not khugepaged THP _at the point of possibly fault=
+ing in a
+> > > THP aligned VMA_.
+> > >
+> > > It seems this patch makes khugepaged_enter_vma() unconditional for an=
+ anonymous
+> > > VMA, rather than depending on the return value specified by
+> > > thp_vma_allowable_order().
+> >
+> > The functions thp_vma_allowable_order(TVA_PAGEFAULT) and
+> > thp_vma_allowable_order(TVA_KHUGEPAGED) are functionally equivalent
+> > within the page fault handler; they always yield the same result.
+> > Consequently, their execution order is irrelevant.
+>
+> It seems hard to definitely demonstrate that by checking !in_pf vs not in=
+ this
+> situation :) but it seems broadly true afaict.
+>
+> So they differ only in that one starts khugepaged, the other tries to
+> establish a THP on fault via create_huge_pmd().
 
-Sorry was traveling. I acked the relevant patches, please merge with the
-rest through HID.
+right
 
-Thanks.
+>
+> >
+> > The change reorders these two calls and, in doing so, also moves the
+> > call to vmf_anon_prepare(vmf). This alters the control flow:
+> > - before this change:  The logic checked the return value of
+> > vmf_anon_prepare() between the two thp_vma_allowable_order() calls.
+> >
+> >     thp_vma_allowable_order(TVA_PAGEFAULT);
+> >     ret =3D vmf_anon_prepare(vmf);
+> >     if (ret)
+> >         return ret;
+> >     thp_vma_allowable_order(TVA_KHUGEPAGED);
+>
+> I mean it's also _only if_ the TVA_PAGEFAULT invocation succeeds that the
+> TVA_KHUGEPAGED one happens.
+>
+> >
+> >  - after this change: The logic now executes both
+> > thp_vma_allowable_order() calls first and does not check the return
+> > value of vmf_anon_prepare().
+> >
+> >     thp_vma_allowable_order(TVA_KHUGEPAGED);
+> >     thp_vma_allowable_order(TVA_PAGEFAULT);
+> >     ret =3D vmf_anon_prepare(vmf); // Return value 'ret' is ignored.
+>
+> Hm this is confusing, your code does:
+>
+> +       if (pmd_none(*vmf.pmd)) {
+> +               if (vma_is_anonymous(vma))
+> +                       khugepaged_enter_vma(vma, vm_flags);
+> +               if (thp_vma_allowable_order(vma, vm_flags, TVA_PAGEFAULT,=
+ PMD_ORDER)) {
+> +                       ret =3D create_huge_pmd(&vmf);
+> +                       if (!(ret & VM_FAULT_FALLBACK))
+> +                               return ret;
+> +               }
+>
+> So the ret is absolutely not ignored, but whether it succeeds or not, we =
+still
+> invoke khugepaged_enter_vma().
+>
+> Previously we would not have one this had vmf_anon_prepare() failed in
+> do_huge_pmd_anonymous_page().
+>
+> Which I guess is what you mean?
+>
+> >
+> > This change is safe because the return value of vmf_anon_prepare() can
+> > be safely ignored. This function checks for transient system-level
+> > conditions (e.g., memory pressure, THP availability) that might
+> > prevent an immediate THP allocation. It does not guarantee that a
+> > subsequent allocation will succeed.
+> >
+> > This behavior is consistent with the policy in hugepage_madvise(),
+> > where a VMA is queued for khugepaged before a definitive allocation
+> > check. If the system is under pressure, khugepaged will simply retry
+> > the allocation at a more opportune time.
+>
+> OK. I do note though that the khugepaged being kicked off is at mm_struct=
+ level.
 
--- 
-Dmitry
+The unit of operation for khugepaged is the mm_struct itself. It
+processes the entire mm even when only a single VMA within it is a
+candidate for a THP.
+
+>
+> So us trying to invoke khugepaged on the mm again is about.. something ha=
+ving
+> changed that would previously have prevented us but now doesn't?
+>
+> That is, a product of thp_vma_allowable_order() right?
+>
+> So probably a sysfs change or similar?
+>
+> But I guess it makes sense to hook in BPF whenever this is the case becau=
+se this
+> _could_ be the point at which khugepaged enters the mm, and we want to se=
+lect
+> the allowable order at this time.
+>
+> So on basis of the two checks being effectively equivalent (on assumption=
+ this
+> is always the case) then the change is fairly reasonable.
+
+Yes, that is exactly what I mean.
+
+>
+> Though I would put this information, that the checks are equivalent, in t=
+he
+> commit message so it's really clear.
+
+will add it.
+
+--=20
+Regards
+Yafang
