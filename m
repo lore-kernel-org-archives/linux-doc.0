@@ -1,136 +1,125 @@
-Received: from mail-m15567.qiye.163.com (mail-m15567.qiye.163.com [101.71.155.67])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5C91B85F8
-	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 13:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381901BE871;
+	Sun, 14 Sep 2025 13:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757854942; cv=none; b=FFXgZhXmNaTV1zxzQEl1Ss2ZJQAC6d4g9haSFCLT9eef60bXbdOe84pabKA8scRqJRj7Iu//buemU4IrVMXJiWQnepBNOyXjOldboAhi0amF6/AR8R0OaeL8t69zK7gSzIIn4vYIASlDG8jeCKNNSjriEKWSP2yeNn4u2a3rH+c=
+	t=1757854978; cv=none; b=dDcehig+a79snmTlySJi4kcy6cFSn91p/j9QU7YCiVnb/0NkyROrh0Q0DCs72xTSGs087/uXN7tJBHc7Dsfc/pHzCrzQF5hTikg7MpwygzirCbhIWRIrTuDHoZxpZkBJJpMLVxVWoT43S1Jk9OVgCBH+oAL9DOytmcS/LUocy8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757854942; c=relaxed/simple;
-	bh=EZtCjHL8ws9ObDjDoMVg4O8VbeMgXZgrLqRPjZxPB2E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d8zNXHhO/m24V0cC5fFYAy/ld9nr14jU1I0icZ40FWNmUw3Q9kLn1suQRCMviBpp+fhP2vsVOkcR5HuzOiVi2EPltbbr+oFPdwnT7dwVxSS2RloowrRt/Cv+G+Yv6t1G6sCVYo6Vin9Y7KJx1U/T8wEbAAdygp4PYm1nlyJ/L3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=FECYJ+kL; arc=none smtp.client-ip=101.71.155.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1757854978; c=relaxed/simple;
+	bh=YYDp1ijpwWt09S5HVfnu4kiNUYZD0PpGT+F41GYPadw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=AtzFaIqy5v6F6spUhMDSWDtAVls5ondLd1dJAJp6cfT7IAyfeP76UB8V18YvbHHAWqshAo5NtLzYkSw4RRxsn2PZdbpvEYbrE41EqHM3JDbfDB/IHGr5KXwyFFWv4XKHPAt38zqZgZSL4R5RJaZ5GCfyqyAb/0//2RKorq8uffU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tfN1I3Sx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="FECYJ+kL"
-Received: from localhost.localdomain (unknown [120.246.23.60])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 22b62fc49;
-	Sun, 14 Sep 2025 10:52:11 +0800 (GMT+08:00)
-From: doubled <doubled@leap-io-kernel.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 2/7] docs/zh_CN: Add scsi.rst translation
-Date: Sun, 14 Sep 2025 10:52:03 +0800
-Message-Id: <0032a24782119ea2900fc38dabcb7e58ba627b90.1757686158.git.doubled@leap-io-kernel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1757686158.git.doubled@leap-io-kernel.com>
-References: <cover.1757686158.git.doubled@leap-io-kernel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tfN1I3Sx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC9EC4CEF0;
+	Sun, 14 Sep 2025 13:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757854977;
+	bh=YYDp1ijpwWt09S5HVfnu4kiNUYZD0PpGT+F41GYPadw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tfN1I3SxboPtqg8tVy6FWKrpiKrpPQ9z8Cv44K48WXiEcad4ZNNLZydJ65S/qI29k
+	 EwBkEyHjGDbdx6IiIbX8u+Gc9sh1/7LhYv0KuDenuZg3dAkx920SCHCrx3ejXdB4CZ
+	 kkZv+EZ8tXEH2aLHGTp7G3jfLmgvYXteZnydpp0UsPKMgf3HAzoIv8i/yxHQkoxOSP
+	 75VFXHCUQMfSFW3LEOUGVqLmXvVBvEcw/SnA32l/9OUmQ7vCkJ2ODaCUXeNlxE0Rl4
+	 8f6jp6BUeK9hULpSdxe6NnOO5CuoAwWTcVvlywnTL2AONaQjHYXi1lA376VzJCi5nx
+	 sdvSbzTn6c09A==
+Date: Sun, 14 Sep 2025 22:02:42 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jinchao Wang <wangjinchao600@gmail.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, Mike
+ Rapoport <rppt@kernel.org>, Alexander Potapenko <glider@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel
+ Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Arnaldo
+ Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian
+ Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ "Liang, Kan" <kan.liang@linux.intel.com>, David Hildenbrand
+ <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
+ Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Sami Tolvanen <samitolvanen@google.com>, Miguel
+ Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Rong Xu
+ <xur@google.com>, Naveen N Rao <naveen@kernel.org>, David Kaplan
+ <david.kaplan@amd.com>, Andrii Nakryiko <andrii@kernel.org>, Jinjie Ruan
+ <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-mm@kvack.org, llvm@lists.linux.dev, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry
+ Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 03/21] HWBP: Add modify_wide_hw_breakpoint_local()
+ API
+Message-Id: <20250914220242.1e8dc83e011b9568dd7a5ace@kernel.org>
+In-Reply-To: <6b5e5d3e-5db8-44f2-8dca-42f317be8e0d@infradead.org>
+References: <20250912101145.465708-1-wangjinchao600@gmail.com>
+	<20250912101145.465708-4-wangjinchao600@gmail.com>
+	<6b5e5d3e-5db8-44f2-8dca-42f317be8e0d@infradead.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a994623207f09cckunmff566153890532
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGUxPVkNKQ0oYTkJIHUJDTlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUtVSU9NVUlIVU1LWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=FECYJ+kLGeotKXKx7yDGELdDGsK44VTJ5Kcgi7GjVe6W7UM2sPBwzq25fO07CWhhmLHYxDciP0Zd+NGLhwxAeqUjcZpEtofzWA1fqpzhXgha53Ebeta8jJ79OPPZGykixM6v8zaFi0eCtiTFWzacfYSQTvrBUM/cR4HEIZ75aF9zu1Lqr0/3X+B3Ib4Cqh9Mrpvvcs96UrRhTktU6EsW9nJQyRWipbaiByKqeQs29kPGX0O4SwesAv+/GWyE4vC0KbJleBf6bililER4aA9AJw1JAoSf9Jaggy6nvW+yksaNkfAiCaBpv8K/oCg7sRKzQHGiEhpgYTNzmK4/3uqRaw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=sGG4utjqV/JKX6V1HLP86YN9pOqyaN4SFRPXQBGnMcY=;
-	h=date:mime-version:subject:message-id:from;
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Translate .../scsi/scsi.rst into Chinese.
-Add scsi into .../scsi/index.rst.
+On Fri, 12 Sep 2025 21:13:07 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Update the translation through commit c4e672ac8c49
-("scsi: docs: introduction: Multiple cleanups")
+> 
+> 
+> On 9/12/25 3:11 AM, Jinchao Wang wrote:
+> > +/**
+> > + * modify_wide_hw_breakpoint_local - update breakpoint config for local cpu
+> > + * @bp: the hwbp perf event for this cpu
+> > + * @attr: the new attribute for @bp
+> > + *
+> > + * This does not release and reserve the slot of HWBP, just reuse the current
+> 
+>                                                  of a HWBP; it just reuses
 
-Signed-off-by: doubled <doubled@leap-io-kernel.com>
----
- .../translations/zh_CN/scsi/index.rst         |  4 +-
- .../translations/zh_CN/scsi/scsi.rst          | 48 +++++++++++++++++++
- 2 files changed, 49 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/scsi/scsi.rst
+OK,
 
-diff --git a/Documentation/translations/zh_CN/scsi/index.rst b/Documentation/translations/zh_CN/scsi/index.rst
-index 9126a642e43a..ce3a7741d941 100644
---- a/Documentation/translations/zh_CN/scsi/index.rst
-+++ b/Documentation/translations/zh_CN/scsi/index.rst
-@@ -24,9 +24,7 @@ SCSI子系统
- .. toctree::
-    :maxdepth: 1
- 
--Todolist:
--
--* scsi
-+   scsi
- 
- SCSI驱动接口
- ============
-diff --git a/Documentation/translations/zh_CN/scsi/scsi.rst b/Documentation/translations/zh_CN/scsi/scsi.rst
-new file mode 100644
-index 000000000000..5d6e39c7cbb5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scsi/scsi.rst
-@@ -0,0 +1,48 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scsi/scsi.rst
-+
-+:翻译:
-+
-+ 郝栋栋 doubled <doubled@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+
-+==============
-+SCSI子系统文档
-+==============
-+
-+Linux文档项目（LDP）维护了一份描述Linux内核（lk） 2.4中SCSI
-+子系统的文档。请参考：
-+https://www.tldp.org/HOWTO/SCSI-2.4-HOWTO 。LDP提供单页和
-+多页的HTML版本，以及PostScript与PDF格式的文档。
-+
-+在SCSI子系统中使用模块的注意事项
-+================================
-+Linux内核中的SCSI支持可以根据终端用户的需求以不同的方式模块
-+化。为了理解你的选择，我们首先需要定义一些术语。
-+
-+scsi-core（也被称为“中间层”）包含SCSI支持的核心。没有他你将
-+无法使用任何其他SCSI驱动程序。SCSI核心支持可以是一个模块（
-+scsi_mod.o），也可以编译进内核。如果SCSI核心是一个模块，那么
-+他必须是第一个被加载的SCSI模块，如果你将卸载该模块，那么他必
-+须是最后一个被卸载的模块。实际上，modprobe和rmmod命令将确保
-+SCSI子系统中模块加载与卸载的正确顺序。
-+
-+一旦SCSI核心存在于内核中（无论是编译进内核还是作为模块加载），
-+独立的上层驱动和底层驱动可以按照任意顺序加载。磁盘驱动程序
-+（sd_mod.o）、光盘驱动程序（sr_mod.o）、磁带驱动程序 [1]_
-+（st.o）以及SCSI通用驱动程序（sg.o）代表了上层驱动，用于控制
-+相应的各种设备。例如，你可以加载磁带驱动程序来使用磁带驱动器，
-+然后在不需要该驱动程序时卸载他（并释放相关内存）。
-+
-+底层驱动程序用于支持您所运行硬件平台支持的不同主机卡。这些不同
-+的主机卡通常被称为主机总线适配器（HBAs）。例如，aic7xxx.o驱动
-+程序被用于控制Adaptec所属的所有最新的SCSI控制器。几乎所有的底
-+层驱动都可以被编译为模块或直接编译进内核。
-+
-+.. [1] 磁带驱动程序有一个变种用于控制OnStream磁带设备。其模块
-+	   名称为osst.o 。
+> 
+> and preferable s/cpu/CPU/ in comments.
+
+OK.
+
+Thanks for review!
+
+> 
+> > + * slot on local CPU. So the users must update the other CPUs by themselves.
+> > + * Also, since this does not release/reserve the slot, this can not change the
+> > + * type to incompatible type of the HWBP.
+> > + * Return err if attr is invalid or the cpu fails to update debug register
+> > + * for new @attr.
+> > + */
+> > +#ifdef CONFIG_HAVE_REINSTALL_HW_BREAKPOINT
+> > +int modify_wide_hw_breakpoint_local(struct perf_event *bp,
+> > +				    struct perf_event_attr *attr)
+> > +{
+> 
+> -- 
+> ~Randy
+> 
+
+
 -- 
-2.25.1
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
