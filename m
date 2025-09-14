@@ -1,135 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m15567.qiye.163.com (mail-m15567.qiye.163.com [101.71.155.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FBF2580ED;
-	Sun, 14 Sep 2025 11:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5C91B85F8
+	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 13:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757850989; cv=none; b=gmwVRJY2oqz99KMgtB/7ErvrwcDjqBYYfYCeO87m37dOoVtMzZlhcO0+L5HeXu5HgujCExP4lZgRF4x02FAPP9TdyGQAhmVNL1gESh8kNtr9xRZA3Meh9CEIC9z+hXB/l7xPPTOty62EiuLtQwbrRf+OD8O0hHH5Y8qE+CppbHA=
+	t=1757854942; cv=none; b=FFXgZhXmNaTV1zxzQEl1Ss2ZJQAC6d4g9haSFCLT9eef60bXbdOe84pabKA8scRqJRj7Iu//buemU4IrVMXJiWQnepBNOyXjOldboAhi0amF6/AR8R0OaeL8t69zK7gSzIIn4vYIASlDG8jeCKNNSjriEKWSP2yeNn4u2a3rH+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757850989; c=relaxed/simple;
-	bh=72P1XeE7gCDZuUaE9HGq0KcOlPy2jCWwmfe+8Bijb1Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LcJ8QnyiipowvZ9epvNovAmKiy4CKq5SBO3oOsQbPBB8Qda8zorIOqyo5yA1pUb6QbZLLiRhuNw+fMXoBCBtEGHVK7zk3IzV733CoO7ZpM7+XqjDSE3yuneusEc0zLzXIs1OiY7wSKGcrNtQysH3a2dHBn6A85S6Tsp4MdnxJYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ol+Jb1WD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757854942; c=relaxed/simple;
+	bh=EZtCjHL8ws9ObDjDoMVg4O8VbeMgXZgrLqRPjZxPB2E=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d8zNXHhO/m24V0cC5fFYAy/ld9nr14jU1I0icZ40FWNmUw3Q9kLn1suQRCMviBpp+fhP2vsVOkcR5HuzOiVi2EPltbbr+oFPdwnT7dwVxSS2RloowrRt/Cv+G+Yv6t1G6sCVYo6Vin9Y7KJx1U/T8wEbAAdygp4PYm1nlyJ/L3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=FECYJ+kL; arc=none smtp.client-ip=101.71.155.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ol+Jb1WD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DCCDC4CEF0;
-	Sun, 14 Sep 2025 11:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757850989;
-	bh=72P1XeE7gCDZuUaE9HGq0KcOlPy2jCWwmfe+8Bijb1Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ol+Jb1WDabHGqEYRRuzYJnuUlxI0TPcRedF4LOzhRwy8qt4x/RgCwK7skMLAwSCSh
-	 kZUkFrMXD36Md5U34jeUcfO8IsPsChQea4GO3wSj6dgx8rn0TDd0HQoUGmVtT5Jm7w
-	 4vbO2KEvBayBBL0avTBS1NNFdxwC06aRJ3zBRaFGXdgg59vBDvifFKbvWJV/W8zhJs
-	 h3JFikHNdItKWRo559a/vTFqgiVliY+2fJdgzM8XEPmEB2JiOHbpvs3YlcflCt+R/7
-	 XiqGeb2dS0XeZBx7XaJNdBDxXpg6OqUGJCvXInpFKLUIh1gsjUw2C7plVitmtAaXSt
-	 EMbSMqiD9WL/w==
-Message-ID: <21e78a0c-f1fd-4476-9553-c3890d05b635@kernel.org>
-Date: Sun, 14 Sep 2025 13:56:23 +0200
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="FECYJ+kL"
+Received: from localhost.localdomain (unknown [120.246.23.60])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 22b62fc49;
+	Sun, 14 Sep 2025 10:52:11 +0800 (GMT+08:00)
+From: doubled <doubled@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 2/7] docs/zh_CN: Add scsi.rst translation
+Date: Sun, 14 Sep 2025 10:52:03 +0800
+Message-Id: <0032a24782119ea2900fc38dabcb7e58ba627b90.1757686158.git.doubled@leap-io-kernel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1757686158.git.doubled@leap-io-kernel.com>
+References: <cover.1757686158.git.doubled@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 16/16] dt-bindings: Add Google Kinfo
-To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
- andersson@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
- corbet@lwn.net, david@redhat.com, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-17-eugen.hristev@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250912150855.2901211-17-eugen.hristev@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a994623207f09cckunmff566153890532
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGUxPVkNKQ0oYTkJIHUJDTlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUtVSU9NVUlIVU1LWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=FECYJ+kLGeotKXKx7yDGELdDGsK44VTJ5Kcgi7GjVe6W7UM2sPBwzq25fO07CWhhmLHYxDciP0Zd+NGLhwxAeqUjcZpEtofzWA1fqpzhXgha53Ebeta8jJ79OPPZGykixM6v8zaFi0eCtiTFWzacfYSQTvrBUM/cR4HEIZ75aF9zu1Lqr0/3X+B3Ib4Cqh9Mrpvvcs96UrRhTktU6EsW9nJQyRWipbaiByKqeQs29kPGX0O4SwesAv+/GWyE4vC0KbJleBf6bililER4aA9AJw1JAoSf9Jaggy6nvW+yksaNkfAiCaBpv8K/oCg7sRKzQHGiEhpgYTNzmK4/3uqRaw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=sGG4utjqV/JKX6V1HLP86YN9pOqyaN4SFRPXQBGnMcY=;
+	h=date:mime-version:subject:message-id:from;
 
-On 12/09/2025 17:08, Eugen Hristev wrote:
-> Add documentation for Google Kinfo kmemdump backend driver.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> ---
->  .../bindings/misc/google,kinfo.yaml           | 36 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 37 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/misc/google,kinfo.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/misc/google,kinfo.yaml b/Documentation/devicetree/bindings/misc/google,kinfo.yaml
-> new file mode 100644
-> index 000000000000..b1e4fac43586
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/misc/google,kinfo.yaml
-> @@ -0,0 +1,36 @@
-> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/misc/google,kinfo.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Google Pixel Kinfo debug driver
-> +
-> +maintainers:
-> +  - Eugen Hristev <eugen.hristev@linaro.org>
-> +
-> +description:
-> +  The Google Pixel Kinfo debug driver uses a supplied reserved memory area
-> +  to save debugging information on the running kernel.
+Translate .../scsi/scsi.rst into Chinese.
+Add scsi into .../scsi/index.rst.
 
+Update the translation through commit c4e672ac8c49
+("scsi: docs: introduction: Multiple cleanups")
 
-Bindings should be for hardware, not drivers, so this does not belong to
-DT. It might be a dedicated reserved memory node, though.
+Signed-off-by: doubled <doubled@leap-io-kernel.com>
+---
+ .../translations/zh_CN/scsi/index.rst         |  4 +-
+ .../translations/zh_CN/scsi/scsi.rst          | 48 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/scsi/scsi.rst
 
+diff --git a/Documentation/translations/zh_CN/scsi/index.rst b/Documentation/translations/zh_CN/scsi/index.rst
+index 9126a642e43a..ce3a7741d941 100644
+--- a/Documentation/translations/zh_CN/scsi/index.rst
++++ b/Documentation/translations/zh_CN/scsi/index.rst
+@@ -24,9 +24,7 @@ SCSI子系统
+ .. toctree::
+    :maxdepth: 1
+ 
+-Todolist:
+-
+-* scsi
++   scsi
+ 
+ SCSI驱动接口
+ ============
+diff --git a/Documentation/translations/zh_CN/scsi/scsi.rst b/Documentation/translations/zh_CN/scsi/scsi.rst
+new file mode 100644
+index 000000000000..5d6e39c7cbb5
+--- /dev/null
++++ b/Documentation/translations/zh_CN/scsi/scsi.rst
+@@ -0,0 +1,48 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/scsi/scsi.rst
++
++:翻译:
++
++ 郝栋栋 doubled <doubled@leap-io-kernel.com>
++
++:校译:
++
++
++
++==============
++SCSI子系统文档
++==============
++
++Linux文档项目（LDP）维护了一份描述Linux内核（lk） 2.4中SCSI
++子系统的文档。请参考：
++https://www.tldp.org/HOWTO/SCSI-2.4-HOWTO 。LDP提供单页和
++多页的HTML版本，以及PostScript与PDF格式的文档。
++
++在SCSI子系统中使用模块的注意事项
++================================
++Linux内核中的SCSI支持可以根据终端用户的需求以不同的方式模块
++化。为了理解你的选择，我们首先需要定义一些术语。
++
++scsi-core（也被称为“中间层”）包含SCSI支持的核心。没有他你将
++无法使用任何其他SCSI驱动程序。SCSI核心支持可以是一个模块（
++scsi_mod.o），也可以编译进内核。如果SCSI核心是一个模块，那么
++他必须是第一个被加载的SCSI模块，如果你将卸载该模块，那么他必
++须是最后一个被卸载的模块。实际上，modprobe和rmmod命令将确保
++SCSI子系统中模块加载与卸载的正确顺序。
++
++一旦SCSI核心存在于内核中（无论是编译进内核还是作为模块加载），
++独立的上层驱动和底层驱动可以按照任意顺序加载。磁盘驱动程序
++（sd_mod.o）、光盘驱动程序（sr_mod.o）、磁带驱动程序 [1]_
++（st.o）以及SCSI通用驱动程序（sg.o）代表了上层驱动，用于控制
++相应的各种设备。例如，你可以加载磁带驱动程序来使用磁带驱动器，
++然后在不需要该驱动程序时卸载他（并释放相关内存）。
++
++底层驱动程序用于支持您所运行硬件平台支持的不同主机卡。这些不同
++的主机卡通常被称为主机总线适配器（HBAs）。例如，aic7xxx.o驱动
++程序被用于控制Adaptec所属的所有最新的SCSI控制器。几乎所有的底
++层驱动都可以被编译为模块或直接编译进内核。
++
++.. [1] 磁带驱动程序有一个变种用于控制OnStream磁带设备。其模块
++	   名称为osst.o 。
+-- 
+2.25.1
 
-Best regards,
-Krzysztof
