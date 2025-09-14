@@ -1,107 +1,135 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCA71E5B9E
-	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 11:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FBF2580ED;
+	Sun, 14 Sep 2025 11:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757850424; cv=none; b=Y7Pc2QMH3u11CePCRZE92yhXg/S7PkOCTosMLU7F+SjjyJuG3752s4WcG+ydQ1NYSTyIveBMBe9QhmMsa0lMtCDyPngpxVhWQ+bvhvGZ5yrg2//NRKR/Yw2FM8GulE9T2VihIUFY0NlqO92XPO6o45rLYHOa2jRFkfznS28+o4c=
+	t=1757850989; cv=none; b=gmwVRJY2oqz99KMgtB/7ErvrwcDjqBYYfYCeO87m37dOoVtMzZlhcO0+L5HeXu5HgujCExP4lZgRF4x02FAPP9TdyGQAhmVNL1gESh8kNtr9xRZA3Meh9CEIC9z+hXB/l7xPPTOty62EiuLtQwbrRf+OD8O0hHH5Y8qE+CppbHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757850424; c=relaxed/simple;
-	bh=Vef0/SLB/3XQ2NzY+zZJs5h/v3G/VnhCfqspMhV69LA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CseCd5b57DCs+7WkcVpfSIc3QsWJ6xDoLW1ZLsR4InRFe+1OLFml7vKHEWYv9q+7GraImONnBGuHw6HJYXuYcoMCLh9VNezn6iCz+F2J1dcqLibg14qFXssrMSsYCv94aiOSXSgI4jzBelupigbggxXsEs+7Fs+vbR6ruvjNg8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=agcatVAn; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757850989; c=relaxed/simple;
+	bh=72P1XeE7gCDZuUaE9HGq0KcOlPy2jCWwmfe+8Bijb1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LcJ8QnyiipowvZ9epvNovAmKiy4CKq5SBO3oOsQbPBB8Qda8zorIOqyo5yA1pUb6QbZLLiRhuNw+fMXoBCBtEGHVK7zk3IzV733CoO7ZpM7+XqjDSE3yuneusEc0zLzXIs1OiY7wSKGcrNtQysH3a2dHBn6A85S6Tsp4MdnxJYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ol+Jb1WD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="agcatVAn"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6228de280ccso6628614a12.3
-        for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 04:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757850419; x=1758455219; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KAoKXGVHOziQYjyeD7oskha56VrVUi66sfNUrJXD8k4=;
-        b=agcatVAnr2DMQj9ExoTdHZbf/bBzH9UBWAOJ7x/4V5+1zwD0Ia8zoqJuhOnT36ZYbB
-         u/ZFr5ZRVUuAO1kNP6hZieta9VILbjcfd2glbwjUXo2PMsimLFf4go7kr00rE5lR5Px8
-         MOfdpnKonhmUtOJyDutcI+SukyOYQP3dUqSgE58fFRPCZXjlaDRM5jVfIQtRJIRngFNO
-         KynzczucKuy9ptszw0Z7ZLC9uSMThPHa8uDqrqb8STTP8mbXuBkRKV2rN1KWa2XqCkdy
-         dTroP4BZV0wT6l5IPlLwdS+wQ7UDJ5RMSvKUvNgrXZJ8h5Goq2hY77vWN5SW/HzDIxhM
-         5mww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757850419; x=1758455219;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KAoKXGVHOziQYjyeD7oskha56VrVUi66sfNUrJXD8k4=;
-        b=cFABM4HLmjrOS/chx2FJYBBuZnRugPpED4TMptFTPn4ntzH1GjwvR9YolbtZHSImyT
-         Zpd/Zm6+DE+pIM8UN5HE3sBxGlb8Q0EgmYCzaBmHCQAoBvP0RbgowVj8Qa8t3vGeuPP8
-         gMt59thewyuff3MaAxffjuXBAX0S5d3vp6XH/W+HQNMcDNsF1ks4iL+WSB/Lx4HR0z1+
-         feR0wqE4yuSftR1phdk+CEGKZVwZSA8HkL0MKpH1y7UG3lI3sQsjMLne5XUBRYcPjMPo
-         3bSt4Ju3O2bp2xN+iw+emPlYMjccLmnxgL7vJiI4fdEpb4nOj5e8m7dH5rSRHZdMiDSR
-         1AcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUG/hCxasvKD8x++dUX2aZtIjFv5BjAzxGQ/+g212eedqQjGmgRHrnfKdaBgRrrXIGXHw+V8h2O33E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzK6ST54BuJ3brAYiqINzKEvR5cN1rEhiMw1fLdNCEOf3sP+MN
-	CNdHQ4NqHMBMvYrUKy/mMqpBRaZbxCJeB/6vE4FPlte0URdaIC0g5xLlkwAi7ILUCL44y/vD8oA
-	UH54TBT2nbgSkJwoOraJkZOAvFTXI400=
-X-Gm-Gg: ASbGncss4bbK9WCS5n4LLiUrrv1vm4L8GxtAXVQ8OXYGTIwYIwL01ZQf6JXALaaTay7
-	h+bzRRUvYPPaYjE0lRBSkCA6cHy9QIqmf7+iGyVCuwEH3z0YRJjxa5rgJIjuDJOKIpijfk6B9jU
-	7vSXN6I+BbqjiUbIHIY239hnr8AKBJTowtW6iej9df8cSCsns5XdYSIvpbplaqadGxECUVY+YRG
-	3tOE4sdHp4TKqIb7tD3kjcQ/RkV7cSir32o4co=
-X-Google-Smtp-Source: AGHT+IEpP10MNOWGMBt561kTp0QfX0VTRENIU/XkgHJ2PqAPJHdz1SU6ZSejVF2bFKE2L2lOOhFcEwhrYwvbZwVpnCQ=
-X-Received: by 2002:a05:6402:5109:b0:62f:166e:5ba6 with SMTP id
- 4fb4d7f45d1cf-62f166e68famr3236093a12.37.1757850419147; Sun, 14 Sep 2025
- 04:46:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ol+Jb1WD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DCCDC4CEF0;
+	Sun, 14 Sep 2025 11:56:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757850989;
+	bh=72P1XeE7gCDZuUaE9HGq0KcOlPy2jCWwmfe+8Bijb1Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ol+Jb1WDabHGqEYRRuzYJnuUlxI0TPcRedF4LOzhRwy8qt4x/RgCwK7skMLAwSCSh
+	 kZUkFrMXD36Md5U34jeUcfO8IsPsChQea4GO3wSj6dgx8rn0TDd0HQoUGmVtT5Jm7w
+	 4vbO2KEvBayBBL0avTBS1NNFdxwC06aRJ3zBRaFGXdgg59vBDvifFKbvWJV/W8zhJs
+	 h3JFikHNdItKWRo559a/vTFqgiVliY+2fJdgzM8XEPmEB2JiOHbpvs3YlcflCt+R/7
+	 XiqGeb2dS0XeZBx7XaJNdBDxXpg6OqUGJCvXInpFKLUIh1gsjUw2C7plVitmtAaXSt
+	 EMbSMqiD9WL/w==
+Message-ID: <21e78a0c-f1fd-4476-9553-c3890d05b635@kernel.org>
+Date: Sun, 14 Sep 2025 13:56:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Taimoor Zaeem <taimoorzaeem@gmail.com>
-Date: Sun, 14 Sep 2025 16:46:46 +0500
-X-Gm-Features: AS18NWA5EjUc-m50yG81LE_OKBwsLECpU_sy617z6OLKwThiYyPJI1q_OVGHz8o
-Message-ID: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
-Subject: [PATCH] Documentation: staging: fix spelling error in remoteproc.rst
-To: andersson@kernel.org, "corbet@lwn.net" <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000cd7344063ec17161"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH v3 16/16] dt-bindings: Add Google Kinfo
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
+ andersson@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
+ corbet@lwn.net, david@redhat.com, mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-17-eugen.hristev@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250912150855.2901211-17-eugen.hristev@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---000000000000cd7344063ec17161
-Content-Type: multipart/alternative; boundary="000000000000cd7342063ec1715f"
+On 12/09/2025 17:08, Eugen Hristev wrote:
+> Add documentation for Google Kinfo kmemdump backend driver.
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> ---
+>  .../bindings/misc/google,kinfo.yaml           | 36 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/misc/google,kinfo.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/misc/google,kinfo.yaml b/Documentation/devicetree/bindings/misc/google,kinfo.yaml
+> new file mode 100644
+> index 000000000000..b1e4fac43586
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/misc/google,kinfo.yaml
+> @@ -0,0 +1,36 @@
+> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/misc/google,kinfo.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Google Pixel Kinfo debug driver
+> +
+> +maintainers:
+> +  - Eugen Hristev <eugen.hristev@linaro.org>
+> +
+> +description:
+> +  The Google Pixel Kinfo debug driver uses a supplied reserved memory area
+> +  to save debugging information on the running kernel.
 
---000000000000cd7342063ec1715f
-Content-Type: text/plain; charset="UTF-8"
+
+Bindings should be for hardware, not drivers, so this does not belong to
+DT. It might be a dedicated reserved memory node, though.
 
 
-
---000000000000cd7342063ec1715f
-Content-Type: text/html; charset="UTF-8"
-
-<div dir="ltr"><br></div>
-
---000000000000cd7342063ec1715f--
---000000000000cd7344063ec17161
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-Documentation-staging-fix-spelling-error-in-remotepr.patch"
-Content-Disposition: attachment; 
-	filename="0001-Documentation-staging-fix-spelling-error-in-remotepr.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mfjmmnlu0>
-X-Attachment-Id: f_mfjmmnlu0
-
-RnJvbSAxMDMyMWM3NWY4ZmMxMjk2Nzc1OTQyZjEzY2IzYWY3OGZkYzhkY2M4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBUYWltb29yIFphZWVtIDx0YWltb29yemFlZW1AZ21haWwuY29t
-PgpEYXRlOiBTdW4sIDE0IFNlcCAyMDI1IDE2OjMxOjU2ICswNTAwClN1YmplY3Q6IFtQQVRDSF0g
-RG9jdW1lbnRhdGlvbjogc3RhZ2luZzogZml4IHNwZWxsaW5nIGVycm9yIGluIHJlbW90ZXByb2Mu
-cnN0CgpGaXggdHlwbyAnaW1wbGVtZW50b3JzJyB0byAnaW1wbGVtZW50ZXJzJyBpbiByZW1vdGUg
-cHJvY2Vzc29yIGZyYW1ld29yawpkb2N1bWVudGF0aW9uLgoKU2lnbmVkLW9mZi1ieTogVGFpbW9v
-ciBaYWVlbSA8dGFpbW9vcnphZWVtQGdtYWlsLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL3N0YWdp
-bmcvcmVtb3RlcHJvYy5yc3QgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
-IDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3N0YWdpbmcvcmVtb3Rl
-cHJvYy5yc3QgYi9Eb2N1bWVudGF0aW9uL3N0YWdpbmcvcmVtb3RlcHJvYy5yc3QKaW5kZXggMzQ4
-ZWU3ZTUwOGFjLi41YzIyNmZhMDc2ZDYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vc3RhZ2lu
-Zy9yZW1vdGVwcm9jLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL3N0YWdpbmcvcmVtb3RlcHJvYy5y
-c3QKQEAgLTEwNCw3ICsxMDQsNyBAQCBUeXBpY2FsIHVzYWdlCiAJcnByb2Nfc2h1dGRvd24obXlf
-cnByb2MpOwogICB9CiAKLUFQSSBmb3IgaW1wbGVtZW50b3JzCitBUEkgZm9yIGltcGxlbWVudGVy
-cwogPT09PT09PT09PT09PT09PT09PT0KIAogOjoKLS0gCjIuNTEuMAoK
---000000000000cd7344063ec17161--
+Best regards,
+Krzysztof
