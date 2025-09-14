@@ -1,121 +1,117 @@
-Received: from mail-m93136.xmail.ntesmail.com (mail-m93136.xmail.ntesmail.com [103.126.93.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD692DC775
-	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 08:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.126.93.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91392339A8
+	for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 08:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757838909; cv=none; b=NC1eNhGTnCeq8Q9WSe3A191JLRZOGE4fdvwKwZVzlUanoPvZbsUEy5iuKI55HjQKZDm+BAzddg2VVNE98BttmyyJLN3U5QQ/iy4s9z2QqVm7n8V4k927G3Yg+6ioGqwInxd3dIJuG3YP0KiPwfKRnJgdVIC+r/aD5qRH1QzgU2A=
+	t=1757839228; cv=none; b=OrZbuqwBpVRUMWof13ZW9HkXkqjbFGnasPV7wtv2TMkDw13GYUAHzouqBjzX0jb0uOtGqL6EirW1lHt54XL3I/lejvtEeqiORXIOg569tI8MVYfASLuJKQ2wBMK33CcSIIBzo4GlSW0VDB+q0wAcg5/TnIgtQwIYvFhNORHeGRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757838909; c=relaxed/simple;
-	bh=WxaVqqpKO848mytxE41qsGxnXurBftTNwnQHOj1Vo3k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uTQW0LzmT0RQGTHL2znsyNbvLxtyEOKUSDKI7bNz4u7MVtb9J9TuiZf/fiPc4rE8+JXZzmTfIxeQzkw0rAbE9LlPgDgVAm2k2Q0vk8p9EeJai5AUK6JvppTA17NYN6KEZRkpj268MqWPzBV7B/GchHZ2/aovIet1xTqzHgwtDow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=UVhlmqJU; arc=none smtp.client-ip=103.126.93.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1757839228; c=relaxed/simple;
+	bh=hvqqhKDwn0KttZ7YI/pFa/dPygt7+4qJkMXYteumt+k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oeGAaMWjsdSvl66PTIsTAV2nqONQOnyQ3eB8+doPJ2NggkSDV2quTIQM9hi2eS0B6H/8n2pKI/eoqy+aRCNpt4oKu2avjsI8A3G09itXCSg0cvDPj3ToM8B5mk3lCnCVtnZ6dHm0pp5lDXlfmPIjKSDZYx5tsZq0yQPRNpXNlFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=At8o9FRl; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="UVhlmqJU"
-Received: from localhost.localdomain (unknown [120.246.23.60])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 22b62fc50;
-	Sun, 14 Sep 2025 10:52:16 +0800 (GMT+08:00)
-From: doubled <doubled@leap-io-kernel.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 6/7] docs/zh_CN: Add link_power_management_policy.rst translation
-Date: Sun, 14 Sep 2025 10:52:07 +0800
-Message-Id: <2d9ceae5cdca7330395f90af563def824aa63457.1757686158.git.doubled@leap-io-kernel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1757686158.git.doubled@leap-io-kernel.com>
-References: <cover.1757686158.git.doubled@leap-io-kernel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="At8o9FRl"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b0415e03e25so414182266b.0
+        for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 01:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757839224; x=1758444024; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8jAyzV+acKcWO9q4mFH0eEwR5GYgn/NUD1fgTglKnI=;
+        b=At8o9FRl2eAk38KzuOlRAiZ/cRwD8tV1W6ynXM17DfpuMari9+LTOfGeZAH8Ll7RZm
+         QILe7XZ95daOSh6ypaZoYjMNGQYilv4YuLKN9g9gxQlCanSsGhDeks/+MiXvaoAWlEJb
+         nZxnK8vCC2xVKXcdx6IdYdS5SKyAmN12H+f28GEqLpkJRiRIhYYzARP8HuGpT4wANb7L
+         IDKy2SvqfGAvkv7b+Z/GRb8+E9N5Pwin8T0rsWMml4RGqymhYe2GRrcFrJ1WofniLIWh
+         IwL4DQzg1NpMrMkTIJWxQHADCR6lvNLz3wH/UF+q3pnhpShWnVnZBGI4hokEYk+x+3NX
+         JMTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757839224; x=1758444024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t8jAyzV+acKcWO9q4mFH0eEwR5GYgn/NUD1fgTglKnI=;
+        b=CdLaO4DIWbIy/X7IAoxp0ZIWSvR3T3E2sDx/LkOstXsV+4KMMwe2veROVY9Ihz7CXO
+         lCxm89pxhqyzVBO8zFKdsCflOWey1x3qs4ea4EUee3BgJxBoW733RpiLPeyyEgRYEI1Y
+         2wVnaLZd1pZX7ZuozK5c2ac0t3K7LfgFfSMSkf8nJxejFSnigdGkBm9eNIpjRdccBzc2
+         YkbQ7tVx9iWXkEEK2teuMLyg66+zdkeWPIb20+b8DqvmtMU7ttBeyjfHEssDKwT2EtvM
+         1Y7nMA6zDKFilWTJHZjRoR9MW9fifUa2LHNEl0tuhZPBcAq+7W6SIRRD7rJ7aFvsL4xh
+         Lmeg==
+X-Forwarded-Encrypted: i=1; AJvYcCVBUYgoN3Zeol7H2480r4rYbBWHzUYSdESAN49gaobTMLZQM3A7YaOZo/mX/hlDrte5lHnll9S0ImM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmLbd68q0r203MCvygiQ0q1ydUfMstljnTY3B0iqeX8Jq7n49T
+	kZ9+XrVHmMQwWWRgyN88v4kMSe0GvPm7HPQJQuaqAbNvLuz4MuQ7ZPl+xW2N0h5ThKE=
+X-Gm-Gg: ASbGncs+XOq8o0k0RyB/TPCbKFG4e2PH4aRCP8IKuyTk7aQAW4MLlTa1Eor0xqix4LA
+	MkaQkBRTQjhPe6p3YhOdGWfSk0t43an09X1rwb6OilBwe7z3KB737Y0/Eoe2Xjbe8vxJEQaLvTD
+	pe7Wd02gnozzpjSV0Kh9gqobu6EcF8N8zQIfVYO8QRK5+EDFGl++15GdHytJ7tn/pVCkmAYESGZ
+	Sk17bR5kup5xnEatK1VrH2X/0dIyDJYNNu6Pisros8Fp8AzmHAseh01yp1x51lLldCAwvanuZkV
+	eCPYZBQmoBYoogO5WY85o4OtJjzv+qUN3RnBkyla0luJJ5KVHSLxJFpKaRTfMBehJKOFQ83wVXj
+	4LTH3hdvzZolIJ9964hQ8670TncF4ToVc+lJs4EX4/KUbR8tEoYbhNQ==
+X-Google-Smtp-Source: AGHT+IH5BreF0jNdm1JhmaZYhd36b3wPJHK9s5ZiIRSzQP1rPJTWRUoxQcoEakCnqIxdeYIuh1MxAQ==
+X-Received: by 2002:a17:907:9621:b0:b0e:d477:4972 with SMTP id a640c23a62f3a-b0ed4777388mr94391266b.25.1757839223690;
+        Sun, 14 Sep 2025 01:40:23 -0700 (PDT)
+Received: from puma.museclub.art ([2a00:6020:b3ea:9c00:26e7:b56a:5a2d:1d72])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b32f21a2sm721370466b.83.2025.09.14.01.40.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Sep 2025 01:40:23 -0700 (PDT)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Mohamad Kamal <mohamad.kamal.85@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS WIFI
+Date: Sun, 14 Sep 2025 10:40:10 +0200
+Message-ID: <20250914084019.1108941-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a994623340d09cckunmff56615389055e
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQhkaVhhNHUIeTx5KSh1DSFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUtVSU9NVUlIVU1LWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=UVhlmqJUZQV0nayuP3VlD/DbWwmzmOxsZLYZlowbjSI1VJ1gHsjF9gtlI4r3ARP9zkwQ0M4J1xS79V14VCHr7A61V0ZiBzSkfXfHEHVDrgBfOt+qQRLiOgfo0U35AwCGXgpoX9CtQUCo7biFAVt9YKfbxjFwJBXAHuPEDpVmb+VvYuuSY7U19y0oxOJ+MZeqkaXV2KeF425TG0FK3/BDJOAkTB1bGVPFne1vKD/mp8+3GJlWIIyeTWDh7WMCahcQGkERgrH8BNvpcEBmR+MnU/m0RUz6yiP5mHmwUghVIX3lOrAPmioijWl6UQPHqL1iPIu/ESxeleTf8Y6eHOJXPw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=JNmFsntdrYqMlkydxPfd5WKfs6YahjTZzDee/hPCoBk=;
-	h=date:mime-version:subject:message-id:from;
 
-Translate .../scsi/link_power_management_policy.rst into Chinese.
-Add link_power_management_policy into .../scsi/index.rst.
+From: Mohamad Kamal <mohamad.kamal.85@gmail.com>
 
-Update the translation through commit cbbc70a8cde7
-("scsi: docs: convert link_power_management_policy.txt to ReST")
+Add support for TUF GAMING X670E PLUS WIFI
 
-Signed-off-by: doubled <doubled@leap-io-kernel.com>
+Signed-off-by: Mohamad Kamal <mohamad.kamal.85@gmail.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 ---
- .../translations/zh_CN/scsi/index.rst         |  5 +--
- .../scsi/link_power_management_policy.rst     | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/scsi/link_power_management_policy.rst
+ Documentation/hwmon/asus_ec_sensors.rst | 1 +
+ drivers/hwmon/asus-ec-sensors.c         | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/scsi/index.rst b/Documentation/translations/zh_CN/scsi/index.rst
-index dc56ca279db8..4d83ab431d2c 100644
---- a/Documentation/translations/zh_CN/scsi/index.rst
-+++ b/Documentation/translations/zh_CN/scsi/index.rst
-@@ -42,10 +42,7 @@ SCSI驱动参数
-    :maxdepth: 1
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 836d41373848..4a99b65338bf 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -45,6 +45,7 @@ Supported boards:
+  * ROG ZENITH II EXTREME
+  * ROG ZENITH II EXTREME ALPHA
+  * TUF GAMING X670E PLUS
++ * TUF GAMING X670E PLUS WIFI
  
-    scsi-parameters
--
--Todolist:
--
--* link_power_management_policy
-+   link_power_management_policy
+ Authors:
+     - Eugene Shalygin <eugene.shalygin@gmail.com>
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 3f6d89bcc8a2..dff13132847c 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -795,6 +795,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_zenith_ii_extreme),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("TUF GAMING X670E-PLUS",
+ 					&board_info_tuf_gaming_x670e_plus),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("TUF GAMING X670E-PLUS WIFI",
++					&board_info_tuf_gaming_x670e_plus),
+ 	{},
+ };
  
- SCSI主机适配器驱动
- ==================
-diff --git a/Documentation/translations/zh_CN/scsi/link_power_management_policy.rst b/Documentation/translations/zh_CN/scsi/link_power_management_policy.rst
-new file mode 100644
-index 000000000000..f2ab8fdf4aa8
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scsi/link_power_management_policy.rst
-@@ -0,0 +1,32 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scsi/link_power_management_policy.rst
-+
-+:翻译:
-+
-+ 郝栋栋 doubled <doubled@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+
-+================
-+链路电源管理策略
-+================
-+
-+该参数允许用户设置链路（接口）的电源管理模式。
-+共计三类可选项：
-+
-+=====================   =====================================================
-+选项			作用
-+=====================   =====================================================
-+min_power		指示控制器在可能的情况下尽量使链路处于最低功耗。
-+			这可能会牺牲一定的性能，因为从低功耗状态恢复时会增加延迟。
-+
-+max_performance		通常，这意味着不进行电源管理。指示
-+			控制器优先考虑性能而非电源管理。
-+
-+medium_power		指示控制器在可能的情况下进入较低功耗状态，
-+			而非最低功耗状态，从而改善min_power模式下的延迟。
-+=====================   =====================================================
 -- 
-2.25.1
+2.51.0
 
