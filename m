@@ -1,133 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5365E2DC79E;
-	Sun, 14 Sep 2025 14:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262AD19C560;
+	Sun, 14 Sep 2025 17:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757859069; cv=none; b=ketxIoZBFcdqCz5hlukHO4G4/niGKXF97c8aEbU1UijP4jQO1yeFuXa+Rt9Ryv1d54IkJXklxjF6+ZnTBAR4Yx1SL8Lqd0wSoVf2nYLipcCCPlvKgjXwzNPuCRnQuVCEIFw6Tm8VjTYupcgsWWVvTSoigHa/tFswcIl61FdaNnU=
+	t=1757869438; cv=none; b=JvOa9hc9dKlliKDGuazv7cqJGQCYSbH2kIP7MfzYs2snav39HrismiVVMXjVEMbaxlnOIa2+KDB3iawjpayM2G/+yjHLAm0HMrYmHeCJ27txKnUB9em+wksH+jaThFpTYgKb7OtNz6bBqxh8OOke1k5V0ELNSTBV8LKsKJ43jjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757859069; c=relaxed/simple;
-	bh=m69jGOlntb9/ZRVib7FhJd3yxy+9Df6z1XbbJ40c8VI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IoWwRCCQEr9jXVHfrrTPm4MF750D836Bbbi8Ej+Rm/DUWF6STY12XOS3763sf4OThYdo+cn3QfvhX3kU8x0k3preIYLlECwmIVUVBYTQ9ObLQvfDeM05ZJg0gN4g3sFEuna+ZjbR064QSJSaJgWCO1/MttSWYidmt7B0pDqbAHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=diHKnLdt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757869438; c=relaxed/simple;
+	bh=jJD1PLKgscuHcdkTTdVPzDMrJvlY5RFXwvnNuKjZ4yE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u6CrJocBd07Ca9OaNLxoTHcVVTj+ttEyNFgb/pOQAyxgYQYGIKjyVTy3NAxGSODJWVx3NDWw1HX3T135fnSCOGrf5SyZmyIqjHZJaf1H70GPR9ulBN3LRLhp6y8HRt16DQ37KHoJQdUKqT6JuTHuEeoCJv7jcGUOIIhzUSEDmZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SFL4RnNg; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="diHKnLdt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57760C4CEF0;
-	Sun, 14 Sep 2025 14:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757859068;
-	bh=m69jGOlntb9/ZRVib7FhJd3yxy+9Df6z1XbbJ40c8VI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=diHKnLdtPdYzNPDUbrrZw8v7p5946f9O7we6PoAzqBo+N033LxL6tW8KzS8S+qzjF
-	 JMAWMuhvuUqvLqqnCVTHQR9WLzt115QnuG1hd+rNsbcTjhfnJCw+svqtUM4uAFF+UG
-	 3gimHHGfOCIUkZGj33soecqBB39mwXWbXXlJF3H4Gz6DvfkrMKvMubGXEGiYhuNj7m
-	 BGHyHJW/bU//ceHvI5Guf7ddMesOpCa/EJorZ1lZk6Ht51GLCjbKBtOzO93iw8GuwJ
-	 JF7jiaDaOy8BlRsZxIgHwKxQcemZDH+uuzu9cgyAXrfc5r22wAQPBMhbqIsCr1Xvsp
-	 61m5Br666yKOQ==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH v4 8/8] selftests: ftrace: Add wprobe trigger testcase
-Date: Sun, 14 Sep 2025 23:11:03 +0900
-Message-ID: <175785906300.234168.2360997300021717365.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <175785897434.234168.6798590787777427098.stgit@devnote2>
-References: <175785897434.234168.6798590787777427098.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SFL4RnNg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OZF43+VllNLQUeKcMt+n5So3Zh9+TQrMX0kTZiqDfGU=; b=SFL4RnNgyx5FOPUlz8vOqeslm9
+	RBtlzBvgJ3+XlsQMwsIw634XZNQhXpWnYTLHIqdT8d/X5JtJ/c9hJlLRleiFcXmfs6B58HZcH9TQH
+	3vQZ9X9mLPtpCRjLz0CWZvANzwP1K0wi11cpEVmdFC3v1MDkw5q08KvG+2Q5ccmdo4QuPUHYJUFGt
+	i1Idqos+2SM/JDsS0f75KU1qUx7TvRrhaiAtiujefiOzcaxNXd4lZBP4sipBHAhkJe+3BbYMFahNE
+	bnza4EowvLMmEiL3djoroj+tQdq5Yjl/wkOrNYEA3QoE+MpJHgIElY0GJxOGsEGPBk7bkS5fmqBCt
+	HGHMOLaw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uxq8k-00000001tyv-3nAV;
+	Sun, 14 Sep 2025 17:03:50 +0000
+Message-ID: <5214509d-a2e6-4e55-823b-49f2dbfb5971@infradead.org>
+Date: Sun, 14 Sep 2025 10:03:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: staging: fix spelling error in
+ remoteproc.rst
+To: Taimoor Zaeem <taimoorzaeem@gmail.com>, andersson@kernel.org,
+ "corbet@lwn.net" <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Hi--
 
-Add a testcase for checking wprobe trigger. This sets set_wprobe and
-clear_wprobe triggers on fprobe events to watch dentry access.
-So this depends on both wprobe and fprobe.
+On 9/14/25 4:46 AM, Taimoor Zaeem wrote:
+> 
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+(pasting email from
+https://lore.kernel.org/linux-doc/CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com/T/#u
+)
+
+From 10321c75f8fc1296775942f13cb3af78fdc8dcc8 Mon Sep 17 00:00:00 2001
+From: Taimoor Zaeem <taimoorzaeem@gmail.com>
+Date: Sun, 14 Sep 2025 16:31:56 +0500
+Subject: [PATCH] Documentation: staging: fix spelling error in remoteproc.rst
+
+Fix typo 'implementors' to 'implementers' in remote processor framework
+documentation.
+
+Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
 ---
- Changes in v3:
-  - Newly added.
----
- .../ftrace/test.d/trigger/trigger-wprobe.tc        |   48 ++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+ Documentation/staging/remoteproc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
-new file mode 100644
-index 000000000000..a012f7b92405
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
-@@ -0,0 +1,48 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test wprobe trigger
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README events/sched/sched_process_fork/trigger
-+
-+echo 0 > tracing_on
-+
-+:;: "Add a wprobe event used by trigger" ;:
-+echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
-+
-+:;: "Add events for triggering wprobe" ;:
-+echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-+echo 'f:dentry_kill __dentry_kill dentry=$arg1' >> dynamic_events
-+
-+:;: "Add wprobe triggers" ;:
-+echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
-+cat events/fprobes/truncate/trigger | grep ^set_wprobe
-+cat events/fprobes/dentry_kill/trigger | grep ^clear_wprobe
-+
-+:;: "Ensure wprobe is still disabled" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Enable events for triggers" ;:
-+echo 1 >> events/fprobes/truncate/enable
-+echo 1 >> events/fprobes/dentry_kill/enable
-+
-+:;: "Start test workload" ;:
-+echo 1 >> tracing_on
-+
-+echo aaa > /tmp/hoge
-+echo bbb > /tmp/hoge
-+echo ccc > /tmp/hoge
-+rm /tmp/hoge
-+
-+:;: "Check trace results" ;:
-+cat trace | grep watch
-+
-+:;: "Ensure wprobe becomes disabled again" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Remove wprobe triggers" ;:
-+echo '!set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo '!clear_wprobe:watch' >> events/fprobes/dentry_kill/trigger
-+! grep ^set_wprobe events/fprobes/truncate/trigger
-+! grep ^clear_wprobe events/fprobes/dentry_kill/trigger
-+
-+exit 0
-\ No newline at end of file
+diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
+index 348ee7e508ac..5c226fa076d6 100644
+--- a/Documentation/staging/remoteproc.rst
++++ b/Documentation/staging/remoteproc.rst
+@@ -104,7 +104,7 @@ Typical usage
+ 	rproc_shutdown(my_rproc);
+   }
+ 
+-API for implementors
++API for implementers
+ ====================
+ 
+ ::
+-- 
+2.51.0
+----------------- end of copy/paste --------------------
+
+How do you know that's a typo?
+
+Did you check on the internet to see if both spellings
+are acceptable?
+
+thanks.
+-- 
+~Randy
 
