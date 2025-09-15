@@ -1,83 +1,72 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C819628314A;
-	Mon, 15 Sep 2025 19:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A291FDA61
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 19:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757964557; cv=none; b=gGZSo426IxdvYWnoGv0ttMjuZXfj6DwBZLb7RzFC7m2KoeLfsnfYgQLduFttd3xSGeubbXI38H0dky+Jbx3cKuLbgqe1gyLALYI+SKs7LS6nHrD2BHpWqhoehJ+UsL8uG63xERqBVdxZyiyuTTLu5Yyjrtj+TQtB7m8wQW48ZBA=
+	t=1757964916; cv=none; b=Gy81uoxuZGJn6pkArMv1mP4XAfnziIndtot9i/ZEjRudTAIzfFE70HNUsMlGOxbOKtW/0umYtt0k/Lx8B8Gm4EbQudlLg/JKFqwUkfp4qosPVvuOG7Z5k8XjY1+BEDMG2+iRcxgeGnECBo9CITONAzb+2+qXw7oz6vTIca0A/z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757964557; c=relaxed/simple;
-	bh=W+5vxPZXQflnKrX9eGh5fWsCigAJNqd3stTJWQmEEi0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T2+HvYq8oYM5zc5NskzPWT/gQthLc7FdzwujUtrE+2ePJN6KjkdHnDA/2CxJbJIT7U5vKJ5E8wASCd760+/YCdKlhehq8uIC7QDldVmVGYh5t5KXP6WqFGLFnwgkWBa3TlwBNampjS2H1vX78oKHdUhdvoEoTlQT2nEXrZ17UMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WFhWm1/g; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757964916; c=relaxed/simple;
+	bh=qsrCux5uG5F+vFPb3AdHz26bygDHOMWX00ODfHuapU8=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=R/WVuc3Cvm+25fr7MXkyzzQMXeeCtDk/z7HLm7s65HR7ov3P4P1KkjUFY7Jxz0QOURf5QZWD3aa1+QuHcyO1bUthsfXJXNUXiTnCt+Xthg8f/rzub+MkJtrek3ySRHLmK2XXAMPqDhxwvDlRDgVMDiva2DGn1ZkXCMortUPgXvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VAFTReJ8; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WFhWm1/g"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ZbQp6a6Zj/MsZULZi4Bi7x/UTatlCEOy3h1PtigaPRU=; b=WFhWm1/gMVCa86Z7w19EVIu7JH
-	I9OBrJxo/xqGxBa24IYE2MHatDqU56lhTVaRFcftVBwzkLaQzr44Ne06H1o/wsHZWOLDcfHsGatx9
-	Ke2zfUT+VE7kV8xIbbU7NFtetOONtzVIzyEg15w7OC9j2qrhUcZQrmjeePk9kXOgL1TyxSG4Lpy3R
-	y1H7hFEmecYEB0snDyhYiAtr+I1vMv+6GK8PVvNHZddGBe7dJiwOMPk0ZrXZZUUGJqSnzEhBhMHUh
-	5VsuMXHvYXwB7ogSVVAsO+Qe6L2jBU0he1BNCvOm0wb6fHCkIzBiWKC8CT+lRqjZavFgjiNcgUqOu
-	pi3N2jRA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyEsw-00000005VZR-2VpN;
-	Mon, 15 Sep 2025 19:29:10 +0000
-Message-ID: <c85881bd-a159-4bb3-9615-b87ce4ab0575@infradead.org>
-Date: Mon, 15 Sep 2025 12:29:10 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VAFTReJ8"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757964912;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qsrCux5uG5F+vFPb3AdHz26bygDHOMWX00ODfHuapU8=;
+	b=VAFTReJ8dXyhRYmYyshNH34mb0cJQbWurGthvuslr3xAIwpo3yrMks1U0LP/WoKltzil2u
+	nLTAlnj2sp+BRvd7ytYwhnSficd4bTwjCKasfmiO4LpnXdwP5//0jfoJnxpJUDh+X2aoKi
+	LnrAlcV3EkTjVEd+4c898mq/NNkKjyQ=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
 Subject: Re: [PATCH] docs: maintainer: Fix capitalization
-To: Thorsten Blum <thorsten.blum@linux.dev>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Thorsten Blum <thorsten.blum@linux.dev>
+In-Reply-To: <c85881bd-a159-4bb3-9615-b87ce4ab0575@infradead.org>
+Date: Mon, 15 Sep 2025 21:35:00 +0200
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E32E7460-02E4-4E85-8482-E91D3FD12253@linux.dev>
 References: <20250915192235.2414746-2-thorsten.blum@linux.dev>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250915192235.2414746-2-thorsten.blum@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <c85881bd-a159-4bb3-9615-b87ce4ab0575@infradead.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+Hi Randy,
 
-On 9/15/25 12:22 PM, Thorsten Blum wrote:
-> The sentence starts at the previous line: s/Indicate/indicate/
+On 15. Sep 2025, at 21:29, Randy Dunlap wrote:
+> On 9/15/25 12:22 PM, Thorsten Blum wrote:
+>> The sentence starts at the previous line: s/Indicate/indicate/
+>=20
+> Are you sure?
+> ISTM that the entire line is a "sub-heading".
 
-Are you sure?
-ISTM that the entire line is a "sub-heading".
+Hm maybe, but then the layout/rendering on the web is very confusing:
 
-> 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->  Documentation/maintainer/maintainer-entry-profile.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index cda5d691e967..f411a0d10fad 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -68,7 +68,7 @@ wait for the next -rc. At a minimum:
->    submissions should appear before -rc5.
->  
->  - Last -rc to merge features: Deadline for merge decisions
-> -  Indicate to contributors the point at which an as yet un-applied patch
-> +  indicate to contributors the point at which an as yet un-applied patch
->    set will need to wait for the NEXT+1 merge window. Of course there is no
->    obligation to ever accept any given patchset, but if the review has not
->    concluded by this point the expectation is the contributor should wait and
+=
+https://docs.kernel.org/maintainer/maintainer-entry-profile.html#key-cycle=
+-dates
 
--- 
-~Randy
+How would that be fixed?
+
+Thanks,
+Thorsten
 
