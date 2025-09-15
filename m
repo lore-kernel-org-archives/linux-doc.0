@@ -1,37 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0C826AF3;
-	Mon, 15 Sep 2025 22:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A582C236D;
+	Mon, 15 Sep 2025 22:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757975641; cv=none; b=ggzaCs2g+BBgOwfXHo0H0Ahk9ekp4OzzOH2E2jq2r4pfMEtuqGcnVusB+hcTjo0Ia0kYoCGySKcvmtwsirnlmWAm+rBvbd9zPErhAWGxMATZL3VyRD+iUfhmQo9B3y4rS8WsHEhzZfj9o8h2JxlAxsbMKAOMav8X622ar/KaF+w=
+	t=1757975952; cv=none; b=IG71b3uc4hyc908tuM4whW5u1qXhbc7RIGCizXTfiYTE37qOrKT9tcvp5Exw2BbeO8sqRGibUYmAxBNypqTom7zV7A/Ksg7B9PKDjUVkxFq7bQ7Bua6ZtLn5SFqlf9N3M7SqyiaepZwvUForGUZZ+GhgBES44j3ODhyYsmIxvzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757975641; c=relaxed/simple;
-	bh=4+j2ZwWw69a6PbffrzDHOXf9cpL/Ee1LRIVy4txUtZ8=;
+	s=arc-20240116; t=1757975952; c=relaxed/simple;
+	bh=BfYxjkEzZZCLOYG+UFuReQwEDFeE8IVlt+mRJjbmVrA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AXknMsBFmzENX0ed6wVYVy8LP1ZptrrJPhjoh/E/tAjJpWPXAbO6zopyPxLFUUfMz1VfbhHQdnVIkh/YCdb4AWKWPA71xm2eQaxVso0kZ4ZCwd5pt3stZuISvKrGyFXLKV14W3THidUZgpvk3uTUuE9oRUJ6NbtRCmBxt18wtMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kQiGC45J; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=HZY1oyqMo+MI3e9aKJBA7QAPWsb0bzG4rcQJmqcpSChrUckqv1JLRYusfqcsCbODJNSyoMmGs1LKc2e8NSOE/DwwgNypGbbFu7bLXucMVYD9PGxtPlmBbkxBKfPXXKFts/j9UFx8gAfi8qb2F6dFt0keuxqXxtar2jueISiCu/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=W8GTES4x; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kQiGC45J"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3671140AF9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="W8GTES4x"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 74BCB40B03
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757975633; bh=QmIdxnQAy5/6n2wVzqJZbhh0D7EAUnPeuQk7BYKKuBs=;
+	t=1757975950; bh=4Nh9YPajpzLkLNtov0lA1KMD/BkPyBkqgsXpZ3McHVM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kQiGC45Jj4zPN3+SDKLUz3VE3xbiYaBZRjcUA9tF1yR1GqYAb3CKdNtYUtLK7sssH
-	 Y5O2dwB2bA/MZbXT7enkg010ih9TiqQRob4Lw3UgL4dNdZ83mZPUrxod4e9kfQwz+9
-	 WT/x9g907sMya8UD3Yt2pzMhZ+7sJMVB9pfPiZXFKebC5IJ+r8PPOVlp/K29nSO/hs
-	 ZMkjS7BAXCdpcE7UJIpK/UaAoZKl5QRbycKgJGdVUaXw0irVjUGv2pT0nwHI/Kp1dT
-	 C+y8oYX9tK6kOl3WWl2/ZMk6OT7i9utbmvst4UPNMTacnIa/miHarEwYgmjhz3utMA
-	 k6aFf/Y8k/STw==
+	b=W8GTES4xWoBx2OrfPfrQJu3grT8gHU5iYD5t+TK2UoDH598lLADT30pTACZmhGNBK
+	 GShI0VMfHp0OQIIYCBOI7lHYhdFP47VA+mjQ4j7Ew27oe5rWOqYyPW/cLmGaXcXghu
+	 d9RUr918h66cM2CcVCTdv8NoqjzJSRPXs7zDy6rw0urFrrZioFw7yCNSvxqhUWlXp7
+	 +Au/Ib+tYcIjZtYSC3URmsA1wWemVHTfoeW9cBs59RPuY84G712tfAsQYi4l72mi6/
+	 jmGFOq2DNKOP1yGtIeDyVXECig2whGbJPtL0VHIHp1lx6ZL9cyhVewbCg7znloPx2J
+	 Xp1QtPGoXjAJg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3671140AF9;
-	Mon, 15 Sep 2025 22:33:53 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 74BCB40B03;
+	Mon, 15 Sep 2025 22:39:10 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Gabriele Paoloni <gpaoloni@redhat.com>, shuah@kernel.org,
  linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -39,85 +39,95 @@ To: Gabriele Paoloni <gpaoloni@redhat.com>, shuah@kernel.org,
 Cc: linux-mm@kvack.org, safety-architecture@lists.elisa.tech,
  acarmina@redhat.com, kstewart@linuxfoundation.org, chuckwolber@gmail.com,
  Gabriele Paoloni <gpaoloni@redhat.com>
-Subject: Re: [RFC v2 PATCH 1/3] Documentation: add guidelines for writing
- testable code specifications
-In-Reply-To: <20250910170000.6475-2-gpaoloni@redhat.com>
+Subject: Re: [RFC v2 PATCH 2/3] /dev/mem: Add initial documentation of
+ memory_open() and mem_fops
+In-Reply-To: <20250910170000.6475-3-gpaoloni@redhat.com>
 References: <20250910170000.6475-1-gpaoloni@redhat.com>
- <20250910170000.6475-2-gpaoloni@redhat.com>
-Date: Mon, 15 Sep 2025 16:33:52 -0600
-Message-ID: <878qifgxbj.fsf@trenco.lwn.net>
+ <20250910170000.6475-3-gpaoloni@redhat.com>
+Date: Mon, 15 Sep 2025 16:39:09 -0600
+Message-ID: <874it3gx2q.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
 Gabriele Paoloni <gpaoloni@redhat.com> writes:
 
-[Taking a quick look...]
+> This patch proposes initial kernel-doc documentation for memory_open()
+> and most of the functions in the mem_fops structure.
+> The format used for the specifications follows the guidelines
+> defined in Documentation/doc-guide/code-specifications.rst
 
-> The Documentation/doc-guide/kernel-doc.rst chapter describes
-> how to document the code using the kernel-doc format, however
-> it does not specify the criteria to be followed for writing
-> testable specifications; i.e. specifications that can be used
-> to for the semantic description of low level requirements.
->
-> This patch adds a guideline that defines criteria to formally
-> describe developers=E2=80=99 intent at the function and subfunction
-> level in the form of testable expectations.
->
+I'll repeat my obnoxious question from the first patch: what does that
+buy for us?
+
 > Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
-> Signed-off-by: Chuck Wolber <chuckwolber@gmail.com>
-> Signed-off-by: Kate Stewart <kstewart@linuxfoundation.org>
 > ---
->  .../doc-guide/code-specifications.rst         | 208 ++++++++++++++++++
->  Documentation/doc-guide/index.rst             |   1 +
->  2 files changed, 209 insertions(+)
->  create mode 100644 Documentation/doc-guide/code-specifications.rst
+>  drivers/char/mem.c | 231 +++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 225 insertions(+), 6 deletions(-)
 >
-> diff --git a/Documentation/doc-guide/code-specifications.rst b/Documentat=
-ion/doc-guide/code-specifications.rst
-> new file mode 100644
-> index 000000000000..dee1b4f089e1
-> --- /dev/null
-> +++ b/Documentation/doc-guide/code-specifications.rst
-> @@ -0,0 +1,208 @@
-> +.. title:: How-to write testable code specifications
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +How-to write testable code specifications
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Introduction
-> +------------
-> +The Documentation/doc-guide/kernel-doc.rst chapter describes how to docu=
-ment the code using the kernel-doc format, however it does not specify the =
-criteria to be followed for writing testable specifications; i.e. specifica=
-tions that can be used to for the semantic description of low level require=
-ments.
+> diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+> index 48839958b0b1..e69c164e9465 100644
+> --- a/drivers/char/mem.c
+> +++ b/drivers/char/mem.c
+> @@ -75,9 +75,54 @@ static inline bool should_stop_iteration(void)
+>  	return signal_pending(current);
+>  }
+>  
+> -/*
+> - * This funcion reads the *physical* memory. The f_pos points directly to the
+> - * memory location.
+> +/**
+> + * read_mem - read from physical memory (/dev/mem).
+> + * @file: struct file associated with /dev/mem.
+> + * @buf: user-space buffer to copy data to.
+> + * @count: number of bytes to read.
+> + * @ppos: pointer to the current file position, representing the physical
+> + *        address to read from.
+> + *
+> + * This function checks if the requested physical memory range is valid
+> + * and accessible by the user, then it copies data to the input
+> + * user-space buffer up to the requested number of bytes.
+> + *
+> + * Function's expectations:
+> + *
+> + * 1. This function shall check if the value pointed by ppos exceeds the
+> + *    maximum addressable physical address;
+> + *
+> + * 2. This function shall check if the physical address range to be read
+> + *    is valid (i.e. it falls within a memory block and if it can be mapped
+> + *    to the kernel address space);
+> + *
+> + * 3. For each memory page falling in the requested physical range
+> + *    [ppos, ppos + count - 1]:
+> + *   3.1. this function shall check if user space access is allowed (if
+> + *        config STRICT_DEVMEM is not set, access is always granted);
+> + *
+> + *   3.2. if access is allowed, the memory content from the page range falling
+> + *        within the requested physical range shall be copied to the user space
+> + *        buffer;
+> + *
+> + *   3.3. zeros shall be copied to the user space buffer (for the page range
+> + *        falling within the requested physical range):
+> + *     3.3.1. if access to the memory page is restricted or,
+> + *     3.2.2. if the current page is page 0 on HW architectures where page 0 is
+> + *            not mapped.
+> + *
+> + * 4. The file position '*ppos' shall be advanced by the number of bytes
+> + *    successfully copied to user space (including zeros).
 
-Please, for any future versions, stick to the 80-column limit; this is
-especially important for text files that you want humans to read.
+My kneejerk first reaction is: you are repeating the code of the
+function in a different language.  If we are not convinced that the code
+is correct, how can we be more confident that this set of specifications
+is correct?  And again, what will consume this text?  How does going
+through this effort get us to a better kernel?
 
-As a nit, you don't need to start by saying what other documents don't
-do, just describe the purpose of *this* document.
-
-More substantially ... I got a way into this document before realizing
-that you were describing an addition to the format of kerneldoc
-comments.  That would be good to make clear from the outset.
-
-What I still don't really understand is what is the *purpose* of this
-formalized text?  What will be consuming it?  You're asking for a fair
-amount of effort to write and maintain these descriptions; what's in it
-for the people who do that work?
-
-How does an author determine whether the specifications they have
-written are correct, both gramatically and semantically?
+Despite having been to a couple of your talks, I'm not fully
+understanding how this comes together; people who haven't been to the
+talks are not going to have an easier time getting the full picture.
 
 Thanks,
 
