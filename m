@@ -1,94 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961362F3C2B
-	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 09:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B671D27B6
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 09:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757928174; cv=none; b=ECTaj00sKSnU6FijDNCWw8JTNo8xm/w8oWgK7S+o00B7zl9oWzrW/G2XpPzoJ2huZ0XGsiWGwHuqmi+QldFv8dT1Cf2/IFkQKRQQQxq934kRSrnFae9DW/ECQPlXCCs/0MZxETr9epP5Oia1ABtcRv2Hmv0yjhGHfvld1p1GSUU=
+	t=1757928704; cv=none; b=pUDv7wrcO7LImVYQRloB+wQNyBIRnhhYSU39HdjVBXFeunJ6eJgWprCXLNKDsgeAdKgUgeUaIC5EAY8e1mJI/5Xpm/3eUNvXZXjJP7m72YADh2Z33ms7hn7mLTg+bxzPPZAgGFbliSq4vEvtIKIKDGEf5vPg3yptMxbHz89Z3WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757928174; c=relaxed/simple;
-	bh=FCX12NufR9hPAdv0bFmisNfhDgNG0TsC9/KUddJvsbE=;
+	s=arc-20240116; t=1757928704; c=relaxed/simple;
+	bh=OGXyjUvYK5vmnEp5jqa+n3SQ1w1v/lwJlIt5A/daJNU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BiPLXBw642Q3/aPBvYULhOUencPXd5lEkTddAa+MNBl3/TylVyQVa3YKz97Bt2XQxgzB9NwMe6pkEFS4GYDwzfMTxehNuItCFXiCsPZDrD5B1hGeBr6bN9oU4Tg5KcHL7XR9ltemdwRqUCWptTVMqf+GoL6vi7OzXdViVsQ5hmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ddgSRp7M; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ddgSRp7M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26423C4AF0B;
-	Mon, 15 Sep 2025 09:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757928174;
-	bh=FCX12NufR9hPAdv0bFmisNfhDgNG0TsC9/KUddJvsbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ddgSRp7MYQO0PpKvVULa2Y7Ou8Joa17mmVxhWUcMVEDONwpA8MWRiT4Hu5UvXEcrM
-	 6CeRaGFVa4NTj2lUUlocQshU8G3QuxvtRW/Dg++Rb20pRpJvplQCG2WyBXlsIP8Bll
-	 ZN5EkQEpXyvr6lVHTMo9fWGvwM96xCRvFebVXCXJGfxYtXUXtUExCFFzHJJlFMB3k/
-	 Gkq+g2/UbkB9WuoBab4Qs3a0h6oJeN4umrx1Sti+y0Z2fYYX9d6xhWsY2Cc4lCyQOo
-	 T/oUKV2GUNiafRHnWNbiDXDVddmL8KboT7k1luCw7g2CK2DbQrUPhQLP85KCQIHCbZ
-	 fAuOk95uYQakQ==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 13730F40066;
-	Mon, 15 Sep 2025 05:22:52 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 15 Sep 2025 05:22:52 -0400
-X-ME-Sender: <xms:69rHaBEX8--NaKtOgfLpSSuCjoFscA_2YIgMsHF3PGXj1EtIfRYaWw>
-    <xme:69rHaDIYeI73CF1n7bboa4cVBQZbVHe1P3ojx3I6sHIjMNlMvzCaBhwDUFNUm4yaN
-    tmmcjcYN4kziDFTCm4>
-X-ME-Received: <xmr:69rHaFYX-ZyG29VFQwNq94hT6b5G8BzVzbLRmPu9xup814c3hZWTP0evMIcgEg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefjeefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgestheksfdttddtjeenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepvddufeetkedvheektdefhfefjeeujeejtdejuedufefhveekkeeffeetvedvffek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepleekpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehnphgrtghhvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepuggrvhhiugesrh
-    gvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhhmsehkvhgrtghkrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehlihhnuhigqdhtrhgrtggvqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomhdprhgtphhtthho
-    pegsrgholhhinhdrfigrnhhgsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpdhrtghpth
-    htoheplhhorhgvnhiiohdrshhtohgrkhgvshesohhrrggtlhgvrdgtohhm
-X-ME-Proxy: <xmx:69rHaHM0oXzGFzFz42IznQZHvLOHMYiGmso2AUhXWSNDW_O5pFLnfw>
-    <xmx:69rHaMfhqVLAknOGODhFLpQwFOo_AQMuJWX8dj6UvWfCONKobg_CPw>
-    <xmx:69rHaHaTtizXT2uzWD6RFr1F4J5BVSYYgURP90lEWJl9LsVZMX_Abg>
-    <xmx:69rHaKes1mC3bPXTYnlir4bDw_7k6oIQL1DTQwkJ2kH2EriG7CYw8A>
-    <xmx:7NrHaDf4P7T48R-9rl0wnfVssBgbK2dhFa8Q6nKwUgx3ByHykSNyjkIe>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Sep 2025 05:22:51 -0400 (EDT)
-Date: Mon, 15 Sep 2025 10:22:48 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
- 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, 	ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
- 	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, 	rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, 	akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- 	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
- sunnanyong@huawei.com, 	vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- 	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- 	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, 	jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, 	zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- 	rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- 	lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- 	pfalcato@suse.de
-Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
-Message-ID: <enrgrocqajwu5d3x34voghja7pbvau45oobxgabawrly44ld4u@ahch3xn6rtq5>
-References: <20250912032810.197475-1-npache@redhat.com>
- <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
- <d0e81c75-ad63-4e37-9948-3ae89bc94334@redhat.com>
- <CAA1CXcA+pb5KvEnJJqdf1eSjaFiBZ82MRB+KDmyhj3DbiQqOxg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzWL1nDlMt40/xmD8qXxfasHZkKUpLGxnY0yGM3A+ZBGbqFJj8LqHhPrgipynaAetIpHcBe2LKUd/8v78/+Gp2YG8cXifnS560K4sjZsywPSWLvjM4fWspzofbb4IXdFB7RADhRyyXIJuONdnW2qX5vt4a2V6CTZZl1NWts//VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uy5Xz-0000Vh-8o; Mon, 15 Sep 2025 11:30:55 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uy5Xw-001Och-13;
+	Mon, 15 Sep 2025 11:30:52 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uy5Xw-009L6r-0X;
+	Mon, 15 Sep 2025 11:30:52 +0200
+Date: Mon, 15 Sep 2025 11:30:52 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v5 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <aMfczCuRf0bm2GgQ@pengutronix.de>
+References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
+ <20250908124610.2937939-3-o.rempel@pengutronix.de>
+ <20250911193440.1db7c6b4@kernel.org>
+ <aMPw7kUddvGPJCzx@pengutronix.de>
+ <20250912170053.24348da3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,60 +61,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA1CXcA+pb5KvEnJJqdf1eSjaFiBZ82MRB+KDmyhj3DbiQqOxg@mail.gmail.com>
+In-Reply-To: <20250912170053.24348da3@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Fri, Sep 12, 2025 at 05:31:51PM -0600, Nico Pache wrote:
-> On Fri, Sep 12, 2025 at 6:25 AM David Hildenbrand <david@redhat.com> wrote:
-> >
-> > On 12.09.25 14:19, Kiryl Shutsemau wrote:
-> > > On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
-> > >> The following series provides khugepaged with the capability to collapse
-> > >> anonymous memory regions to mTHPs.
-> > >>
-> > >> To achieve this we generalize the khugepaged functions to no longer depend
-> > >> on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
-> > >> pages that are occupied (!none/zero). After the PMD scan is done, we do
-> > >> binary recursion on the bitmap to find the optimal mTHP sizes for the PMD
-> > >> range. The restriction on max_ptes_none is removed during the scan, to make
-> > >> sure we account for the whole PMD range. When no mTHP size is enabled, the
-> > >> legacy behavior of khugepaged is maintained. max_ptes_none will be scaled
-> > >> by the attempted collapse order to determine how full a mTHP must be to be
-> > >> eligible for the collapse to occur. If a mTHP collapse is attempted, but
-> > >> contains swapped out, or shared pages, we don't perform the collapse. It is
-> > >> now also possible to collapse to mTHPs without requiring the PMD THP size
-> > >> to be enabled.
-> > >>
-> > >> When enabling (m)THP sizes, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on
-> > >> 4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 for
-> > >> mTHP collapses to prevent collapse "creep" behavior. This prevents
-> > >> constantly promoting mTHPs to the next available size, which would occur
-> > >> because a collapse introduces more non-zero pages that would satisfy the
-> > >> promotion condition on subsequent scans.
-> > >
-> > > Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
-> > > all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
-> > >
-> >
-> > I am all for not adding any more ugliness on top of all the ugliness we
-> > added in the past.
-> >
-> > I will soon propose deprecating that parameter in favor of something
-> > that makes a bit more sense.
-> >
-> > In essence, we'll likely have an "eagerness" parameter that ranges from
-> > 0 to 10. 10 is essentially "always collapse" and 0 "never collapse if
-> > not all is populated".
-> Hi David,
+On Fri, Sep 12, 2025 at 05:00:53PM -0700, Jakub Kicinski wrote:
+> On Fri, 12 Sep 2025 12:07:42 +0200 Oleksij Rempel wrote:
+> > > > +      -
+> > > > +        name: max-average-mse
+> > > > +        type: u32
+> > > > +      -
+> > > > +        name: max-peak-mse
+> > > > +        type: u32
+> > > > +      -
+> > > > +        name: refresh-rate-ps
+> > > > +        type: u64
+> > > > +      -
+> > > > +        name: num-symbols
+> > > > +        type: u64  
+> > > 
+> > > type: uint for all these?  
+> > 
+> > I would prefer to keep u64 for refresh-rate-ps and num-symbols.
+> > 
+> > My reasoning comes from comparing the design decisions of today's industrial
+> > hardware to the projected needs of upcoming standards like 800 Gbit/s. This
+> > analysis shows that future PHYs will require values that exceed the limits of a
+> > u32.
 > 
-> Do you have any reason for 0-10, I'm guessing these will map to
-> different max_ptes_none values.
-> I suggest 0-5, mapping to 0,32,64,128,255,511
+> but u64 may or may not also have some alignment expectations, which uint
+> explicitly excludes
 
-That's too x86-64 specific.
-
-And the whole idea is not to map to directly, but give kernel wiggle
-room to play.
+just to confirm - if we declare an attribute as type: uint in the YAML
+spec, the kernel side can still use nla_put_u64() to send a 64-bit
+value, correct? My understanding is that uint is a flexible integer
+type, so userspace decoders will accept both 4-byte and 8-byte encodings
+transparently.
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
