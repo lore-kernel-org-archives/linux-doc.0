@@ -1,247 +1,127 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5942EA461
-	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 08:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891C2EA73C
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 08:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757923700; cv=none; b=FwCBH3lXt8SyXRYWNL1WRkyBKhJEs0US1hKN7MWQDrUYAQ6vFjUfhcChd9Ac+m8nsQPLMfJYlnzI0KU5nodBxoChQGRxawjIhLiuHXzsuqBGqM24KzPw1tb/e/9WtQvpxKPx9fudTL6zRwduiFNNKKu2W1WSAMuyI61K/A3vGtQ=
+	t=1757924305; cv=none; b=fKMa3TGVkVBi5D2Gt+OWk7kMVeuaGuyUG+gBjmLFbZq8DpqpsWJ3XrN+QOZPGPmnxdpfzsmI0TJvhd0FhpCZsmjbcpPOdJaaryFcZi5w5cgY/ot7sF2GIlKb81AbiZHXOKsYy303LanS4GThYvaZmsbMdgWxkWb3WLnDvUKxsQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757923700; c=relaxed/simple;
-	bh=nZCLcCQFq2IJeLgrRSkd8ZecKWJX4Xujz9WUpsDZapw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C8cxpPwqUYqMT2usuk4YPsIQBb/UwYT75zLYqpL5Q0HQMj0fFSJLjP8F67MLtFhSIMr6mZQmLMtvvT+0nwdh43WqIbybG/EXzekn7ZC+fzwiZQnJz+bsPFdbLKYr5nr8UNorZkjI0en++vrCodeyfRFo2732m+8q+z+2CFrWYZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hjLnS2zz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q/9Yk1kt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hjLnS2zz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q/9Yk1kt; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1757924305; c=relaxed/simple;
+	bh=GHrc0yQIb9KLUpWhvQ29IYnGW02UxYT9eFseO4jZP4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g43u+Ngmc/QuD0/hHHBxeIj20oXrfoC21FQFoMek4yiLf7PTlbwb9tDGdGJryOReyiGCi6Tl+RcekPn5rLxjXB6ZIYjU+bKPPKshF7t2l4A+XL+y4Cca4punN75W7T+A0ye9jed3Fwtb/mCtdMCiPMjycTscKaRC2nb+DoLN0l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YgmUThlR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hjLnS2zz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q/9Yk1kt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hjLnS2zz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q/9Yk1kt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YgmUThlR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757924303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PqEIjCNSum5pekZp097c2PmEi/H7x+xWDTcPJJSAOCs=;
+	b=YgmUThlRCZQtleY85BoY+DXVUJsR1mM9FBWSJ4kfBLyVS3aK1AhMQHRtNE60RfskY+hmzR
+	+jE4yAtDbdo7PUsEamiES+rPoarA4fvss5onuBDNqS1xJGvM0NthPxCgwWP3XjpJBnXD2Q
+	aw9zsSdTMmO5mX+679KxSySzvLF/rtA=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-227-kt0tbXspMEeJwx-LqWhRtA-1; Mon,
+ 15 Sep 2025 04:18:18 -0400
+X-MC-Unique: kt0tbXspMEeJwx-LqWhRtA-1
+X-Mimecast-MFC-AGG-ID: kt0tbXspMEeJwx-LqWhRtA_1757924297
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6DCDC1F7EC;
-	Mon, 15 Sep 2025 08:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757923695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
-	b=hjLnS2zzvGcP8PolHl3YSpvI7jZpoAP9UqQwgB7BMv34Nszqgzt623JQT+rg0ZaSoIbrPv
-	fKgFDaKFB4qIthsasZvBJRmJivWe4SsGYjlQFfs0WL/HvmEak4j7F2PBumb1oNTKYvoggb
-	yxkh2aXMFGmVp0EGRkF0cQ/tK99P0Y8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757923695;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
-	b=q/9Yk1ktZiQ5A2FORrPczJdkCTESVMZSyteeSr70fKEyR3UXvkjtNvKLt2yLKW484yN9Yo
-	v1Qf6OExZ5G1o9DQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757923695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
-	b=hjLnS2zzvGcP8PolHl3YSpvI7jZpoAP9UqQwgB7BMv34Nszqgzt623JQT+rg0ZaSoIbrPv
-	fKgFDaKFB4qIthsasZvBJRmJivWe4SsGYjlQFfs0WL/HvmEak4j7F2PBumb1oNTKYvoggb
-	yxkh2aXMFGmVp0EGRkF0cQ/tK99P0Y8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757923695;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
-	b=q/9Yk1ktZiQ5A2FORrPczJdkCTESVMZSyteeSr70fKEyR3UXvkjtNvKLt2yLKW484yN9Yo
-	v1Qf6OExZ5G1o9DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDAEE1368D;
-	Mon, 15 Sep 2025 08:08:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aQOgOG7Jx2ggYQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 15 Sep 2025 08:08:14 +0000
-Date: Mon, 15 Sep 2025 10:08:14 +0200
-Message-ID: <877by0p28h.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cryolitia PukNgae <cryolitia@uniontech.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Kexy Biscuit <kexybiscuit@aosc.io>,
-	Nie Cheng <niecheng1@uniontech.com>,
-	Zhan Jun <zhanjun@uniontech.com>,
-	Feng Yuan <fengyuan@uniontech.com>,
-	qaqland <anguoli@uniontech.com>,
-	kernel@uniontech.com
-Subject: Re: [PATCH v2 0/3] ALSA: usb-audio: add module param device_quirk_flags
-In-Reply-To: <408B48A84E5811C4+555ae002-5b34-4f90-9452-a3458a11f10f@uniontech.com>
-References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
-	<87a52zr9kq.wl-tiwai@suse.de>
-	<408B48A84E5811C4+555ae002-5b34-4f90-9452-a3458a11f10f@uniontech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 79347180045C;
+	Mon, 15 Sep 2025 08:18:16 +0000 (UTC)
+Received: from [10.45.226.64] (unknown [10.45.226.64])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7F89419560A2;
+	Mon, 15 Sep 2025 08:18:05 +0000 (UTC)
+Message-ID: <4bd1847b-00b6-42a6-8391-aba08aeb3721@redhat.com>
+Date: Mon, 15 Sep 2025 10:18:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-
-On Mon, 15 Sep 2025 09:43:05 +0200,
-Cryolitia PukNgae wrote:
-> 
-> 
-> 
-> On 12/09/2025 23.09, Takashi Iwai wrote:
-> > On Fri, 12 Sep 2025 08:48:57 +0200,
-> > Cryolitia PukNgae via B4 Relay wrote:
-> >>
-> >> As an implementation of what has been discussed previously[1].
-> >>
-> >>> An open question is whether we may want yet a new module option or
-> >>> rather extend the existing quirk option to accept the strings
-> >>> instead.  Basically, when the given argument has a colon, it's a new
-> >>> syntax.  If it's only a number, it's an old syntax, and parse like
-> >>> before.  But, I'm open for either way (a new option or extend the
-> >>> existing one).
-> >>
-> >> I would like to add a new param. The existed param
-> >> `static unsigned int quirk_flags[SNDRV_CARDS]` seems to related to
-> >> some sequence the card probed. To be honest, I havn't fully understood
-> >> it. And it seems hard to improve it while keeping compatibility.
-> >>
-> >> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
-> >>
-> >> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-> >> ---
-> >> Changes in v2:
-> >> - Cleaned up some internal rebase confusion, sorry for that
-> >> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
-> >>
-> >> ---
-> >> Cryolitia PukNgae (3):
-> >>       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
-> >>       ALSA: usb-audio: add module param device_quirk_flags
-> >>       ALSA: doc: add docs about device_device_quirk_flags in snd-usb-audio
-> > 
-> > Well, what I had in mind is something like:
-> > 
-> > --- a/sound/usb/card.c
-> > +++ b/sound/usb/card.c
-> > @@ -73,7 +73,7 @@ static bool lowlatency = true;
-> >  static char *quirk_alias[SNDRV_CARDS];
-> >  static char *delayed_register[SNDRV_CARDS];
-> >  static bool implicit_fb[SNDRV_CARDS];
-> > -static unsigned int quirk_flags[SNDRV_CARDS];
-> > +static char *quirk_flags[SNDRV_CARDS];
-> >  
-> >  bool snd_usb_use_vmalloc = true;
-> >  bool snd_usb_skip_validation;
-> > @@ -103,8 +103,8 @@ module_param_array(delayed_register, charp, NULL, 0444);
-> >  MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
-> >  module_param_array(implicit_fb, bool, NULL, 0444);
-> >  MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
-> > -module_param_array(quirk_flags, uint, NULL, 0444);
-> > -MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
-> > +module_param_array(quirk_flags, charp, NULL, 0444);
-> > +MODULE_PARM_DESC(quirk_flags, "Driver quirk overrides.");
-> >  module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
-> >  MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
-> >  module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
-> > @@ -692,6 +692,22 @@ static void usb_audio_make_longname(struct usb_device *dev,
-> >  	}
-> >  }
-> >  
-> > +static void set_quirk_flags(struct snd_usb_audio *chip, int idx)
-> > +{
-> > +	int i;
-> > +
-> > +	/* old style option found: the position-based integer value */
-> > +	if (quirk_flags[idx] &&
-> > +	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags))
-> > +		return;
-> > +
-> > +	/* take the default quirk from the quirk table */
-> > +	snd_usb_init_quirk_flags(chip);
-> > +	/* add or correct quirk bits from options */
-> > +	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++)
-> > +		snd_usb_apply_quirk_option(chip, quirk_flags[i]);
-> > +}
-> > +
-> >  /*
-> >   * create a chip instance and set its names.
-> >   */
-> > @@ -750,10 +766,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
-> >  	INIT_LIST_HEAD(&chip->midi_v2_list);
-> >  	INIT_LIST_HEAD(&chip->mixer_list);
-> >  
-> > -	if (quirk_flags[idx])
-> > -		chip->quirk_flags = quirk_flags[idx];
-> > -	else
-> > -		snd_usb_init_quirk_flags(chip);
-> > +	set_quirk_flags(chip, idx);
-> >  
-> >  	card->private_free = snd_usb_audio_free;
-> >  
-> > .... and snd_usb_apply_quirk_option() adds or corrects the quirk bits
-> > based on the string value if it matches with the probed device.
-> > This function will be similar like your parser.
-> > 
-> > In that way, the old quirk_flags options work as-is, while you can use
-> > a new style by passing values with "X:Y:Z" style.
-> > 
-> 
-> Thanks for your review. To be honest, I haven't understand how
-> `static unsigned int quirk_flags[SNDRV_CARDS]` works. e.g., based on the
-> current array form, how to pass a flag, and what does the index of the
-> array means.
-> 
-> Could you please explain it for me. thx.
-
-That option works just like other options of the card arrays -- each
-value is passed sequentially to the device of the given probe slot.
-That is, the first probed device takes quirk_flags[0], the second
-probed device takes quirk_flats[1], and so on.
-Admittedly, although this works fine for the static probe
-configuration like PCI devices or such, it's not ideal with
-USB-audio.  So the new format is requested.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>
+References: <20250909091532.11790-1-ivecera@redhat.com>
+ <20250909091532.11790-4-ivecera@redhat.com>
+ <20250914144549.2c8d7453@kernel.org>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <20250914144549.2c8d7453@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
 
-Takashi
+
+On 14. 09. 25 11:45 odp., Jakub Kicinski wrote:
+> On Tue,  9 Sep 2025 11:15:30 +0200 Ivan Vecera wrote:
+>> +	/* Fetch image name and size from input */
+>> +	strscpy(buf, *psrc, min(sizeof(buf), *psize));
+>> +	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
+>> +	if (!rc) {
+>> +		/* No more data */
+>> +		return 0;
+>> +	} else if (rc == 1 || count > U32_MAX / sizeof(u32)) {
+>> +		ZL3073X_FW_ERR_MSG(extack, "invalid component size");
+>> +		return -EINVAL;
+>> +	}
+>> +	*psrc += pos;
+>> +	*psize -= pos;
+> 
+> Still worried about pos not being bounds checked.
+> Admin can crash the kernel with invalid FW file.
+> 
+> 	if (pos > *psize)
+> 		/* error */
+
+This cannot happen...
+
+1) strscpy(buf, *psrc, min(sizeof(buf, *psize)) ensures that the string
+    will be zero padded and strlen(buf) will be less than *psize
+
+2) sscanf(buf, "%15s %u %n", name, &count, &pos) scans for string with
+    max length of 15, one or more whitespace(s), number and one or more
+    whitespaces(s). And reports number of parsed arguments. Note that
+    the %n does not increase the count returned.
+
+So... if:
+1) buf is empty then sscanf returns 0 and /* No more data */ code path
+    is executed
+2) buf contains only string (1st argument) OR string and non-numeric
+    2nd argument then the sscanf returns 1 and 'invalid component size'
+    is executed
+3) buf contains string (1st arg) and numeric 2nd arg then the sscanf
+    returns 2 and the 2nd arg is stored into 'count' and number of
+    consumed characters into 'pos'
+4) if 'count' > (U32_MAX / 4) then 'invalid component size' path is
+    executed
+
+> Also what if sscanf() return 2? pos is uninitialized?
+
+If the sscanf() returns 2 then pos is initialized, in other words
+'pos' is initialized and less then *psize if the 'count' is correctly
+parsed as the numeric value.
+
+Thanks,
+Ivan
+
