@@ -1,350 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95661319861;
-	Mon, 15 Sep 2025 13:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F60631AF0A
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 13:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757943714; cv=none; b=XuCvSwdvzWzKNNdMRTjhQpj0s7pftsF5EqHPyED1dGRTuln9JytzfSZv77w1tkAfd0jPPyokNXLjbbbKHmC1d3k6Akon+WN7HNkRLV/dH6VYinwbDIaZnAuTLf9k0D40AtSNsCV4JxZOwCiM3tNHV5Ys7zB6n04czTx6vaUdtgI=
+	t=1757943848; cv=none; b=i14zCfoo00tzAef4fM6GpmqT3bcPor8vpm+IabXbZiUhO5ZRPzOAD/xXfumndxDcf5LecCxDiSnxxICS19kPE0c4zrRxWNXrMd+f9ffeSRWUrUKDwhzJ0cqTU/GGvy9P6xPp/7dl+KPAN2UXXq4XxJvF4dPWLBZSozzpUVwzUt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757943714; c=relaxed/simple;
-	bh=/FBsuX29rP3B1mQGOZwFM/E0aCWgQ6T7919UXwVwHPo=;
+	s=arc-20240116; t=1757943848; c=relaxed/simple;
+	bh=eWsE6lXzcWArDuZ2O6Ifm6kkXdfeCZmZ5u1H0M37k40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DLXteMf58RbhjlhZYFRIRk0/YwIKsqoFeMS6nUQh6Enb/xGwO+ELhkwBIBFDZXbcaUFY3pjZPUzbr6TzyznIF34qnTeMSiL4IjyMzvGK9a0GSfhEpBoRSo6tsKca5kKbRlZQYTjtjzsNieBtwmbYoJ4S7SHID1Rdnblmu1DHXGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/nlIZIQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UkXYmEUFJfCR8wVb4fvO3ag1LVFRC2Z8oDVJH4Z99bBLDOct+qQH0upknqBq9Ug3++IT3rix1a8OVKfQHnCVNd0vOfl9q7dEIvsROd1ox7Udi3iUH6jgU9bXXJuMr0qXmbbTodqJ05eCyYGcVWpWUclE1wjLkSVeG+VZVsnwgv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=hImU0ZhL; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/nlIZIQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25E3AC4CEF1;
-	Mon, 15 Sep 2025 13:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757943714;
-	bh=/FBsuX29rP3B1mQGOZwFM/E0aCWgQ6T7919UXwVwHPo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k/nlIZIQDuYDFgQDDeyp0LiE7e5HYlXzcaOrEUteISbpIvcr72Heu2O4S5UHlvBRJ
-	 V94bkH/QUQIpMQu8OLVoMJiaB65aRr0okbIoAGq3zuSID37oUy1ZuEC0HDGRD9NC3n
-	 Of6oq6m7p4/KUykxuOEc32u71EMtHKF7QmUhTWjgSQ2WeCRizi0VgCNqklhAjgFBDk
-	 PKhgRk77hG88jStKJe2jmv3dcu+NP0DEAzITkh+yEXuM22zXCib44rVq0D9SkHd8DS
-	 yVuyJjaiC+T8sQsmH8aeLG0ZGsgiJTSgfWQgxwIcG3YEFj7SZLXOX3eVsIb+F+zSYF
-	 BdjjmKGPDbovA==
-Date: Mon, 15 Sep 2025 15:41:49 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Jonathan Denose <jdenose@google.com>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
-	Sean O'Brien <seobrien@google.com>
-Subject: Re: [PATCH v3 00/11] HID: Implement haptic touchpad support
-Message-ID: <or4jrgyufc7zleigrgik2xblyi7tm2wmq47wqs46mo7y4b4wqn@74mvzg3v5v6i>
-References: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="hImU0ZhL"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8287fa098e8so150198185a.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 06:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1757943845; x=1758548645; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=q6oMWOUjEhTHaIkKCNJfxWZcVknSr0QJ4euJbdXpCDU=;
+        b=hImU0ZhLMM4O1/+INHZf+yWIT5wCoYldrmt04hNyQcsIMvvgy6ffpXM5uAJFP6xmmV
+         rX+wUhUq9rLgbb749tAs3fk1lbcIBd3d26HWWsAvwWE603wjqKrN7SuSbSTAANYqagjo
+         ZF1kYZN0T/LxRFV8o/8gYTtOIa6z1TLdUbvFvqUGtHYfaoHy7rEst8yqT4Gu6uoD6XJG
+         kx+H9T9OI4Teuhap3QTMZldKpbjE3L8V/DZpFvxK76U/aqwBJ9DOVbl9/gZWhjMluvFy
+         D+Qau1gwCGvVyECD8g6hxXBq0PA2QLCNxUgiVuk11UUF012hfC6i6LyisOevWllmprej
+         M27g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757943845; x=1758548645;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q6oMWOUjEhTHaIkKCNJfxWZcVknSr0QJ4euJbdXpCDU=;
+        b=WaFu/okjx6RKAuxphOueNtiFWr2p1XoDKoKFh7ZyVyARTH/U0ebqZ3z+cV8tc40nxZ
+         l4dqpJXs0uC9nO27wC5GIxBmrFfvlbk1SAZwXZM11ChhhSwayO7prY6buyyytZEGNY4l
+         MEB8mLItFjQx9PXfuYvTdEReW8w0SNeYhPGALX4oymlGC6FRC26d6B3dGhTgQkQN6cVG
+         rtTBe+CsXYoemxyxUJaCZU5LE4S2oxOxnJNQNtoxFhulbtBezHjiGZ04ldGWwWcMGmmF
+         xUPuhekvDprZnyOCpG0xrbcLqWif994MHhIDfvtQCsYVa5G9MupSUz8baw2Co7DL3n6r
+         oe/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVIsjhs9DsKzbZ+pUMeRql/ene6VtrYp3HtYBujW9J24Q9BbApZHgMe2esGhoWg/0hrj6KPxnA6LDQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznjOq9q5lsuTBeWhX1kuCc6Qf/r7b8Q+tHRUXkNJtUfV+sqB2o
+	KA4+hYNNIZkyIKmQEurz6RKNUgtfg9IzXordZ8bCtlaUqGM3Bp565fDcswfwJecR/zo=
+X-Gm-Gg: ASbGncuOl+6fv42E5OJYDC4nqI8AYI7KdNQP3cLjhfsw+6Bzvmdix/6t6eoLSuVXpIM
+	MgMDg3cLJCfU8R2Xr6RyKasRbkKzu+//Kys55f479NqijUgKxzn5HSuE6woowFEZ9iZg3xAyZNZ
+	zdKqBRvYdq5kGSfp3hjDThVuSPSOhlGdo6kR7X6TMl55rjKB42eeum3Obq0NUpMi7G6lizO8cLv
+	xHTZhQ/aP7vJWK2KQS1aqVDea8Tn2R0l0c8KQ+gHps/Wn0NvvqiBxQLaT4Wyr0LWj+vcoyjgX0m
+	YoQph1h6BcaXMt0f1gK4LDOlA8btgcVtmRv5hAqhAOGY1rpyEB7If+31tWV6lxvzNACGMucm/1/
+	Zrb0ffhZwpeejoM3iUDndbpioxbpeAhbzqK4dHV/rjBg=
+X-Google-Smtp-Source: AGHT+IEpx1kLk3BJgZa+W6SfvekSSLAHkh6bU7VHRFGYegEO0mCkS/PzSHlaHZMWsZNyeolqd/d0Qw==
+X-Received: by 2002:a05:620a:394f:b0:827:d7c3:cde8 with SMTP id af79cd13be357-827d7c3cf5cmr771847485a.57.1757943844439;
+        Mon, 15 Sep 2025 06:44:04 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:929a:4aff:fe16:c778])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-77f44157463sm25210606d6.2.2025.09.15.06.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 06:44:03 -0700 (PDT)
+Date: Mon, 15 Sep 2025 09:43:59 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Nico Pache <npache@redhat.com>,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+	baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+	sunnanyong@huawei.com, vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+	jglisse@google.com, surenb@google.com, zokeefe@google.com,
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org,
+	hughd@google.com, richard.weiyang@gmail.com, lance.yang@linux.dev,
+	vbabka@suse.cz, rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
+Message-ID: <20250915134359.GA827803@cmpxchg.org>
+References: <20250912032810.197475-1-npache@redhat.com>
+ <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
+ <d0e81c75-ad63-4e37-9948-3ae89bc94334@redhat.com>
+ <20250912133701.GA802874@cmpxchg.org>
+ <da251159-b39f-467b-a4e3-676aa761c0e8@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250818-support-forcepads-v3-0-e4f9ab0add84@google.com>
+In-Reply-To: <da251159-b39f-467b-a4e3-676aa761c0e8@redhat.com>
 
-On Aug 18 2025, Jonathan Denose wrote:
-> Hello,
+On Fri, Sep 12, 2025 at 03:46:36PM +0200, David Hildenbrand wrote:
+> On 12.09.25 15:37, Johannes Weiner wrote:
+> > On Fri, Sep 12, 2025 at 02:25:31PM +0200, David Hildenbrand wrote:
+> >> On 12.09.25 14:19, Kiryl Shutsemau wrote:
+> >>> On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
+> >>>> The following series provides khugepaged with the capability to collapse
+> >>>> anonymous memory regions to mTHPs.
+> >>>>
+> >>>> To achieve this we generalize the khugepaged functions to no longer depend
+> >>>> on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
+> >>>> pages that are occupied (!none/zero). After the PMD scan is done, we do
+> >>>> binary recursion on the bitmap to find the optimal mTHP sizes for the PMD
+> >>>> range. The restriction on max_ptes_none is removed during the scan, to make
+> >>>> sure we account for the whole PMD range. When no mTHP size is enabled, the
+> >>>> legacy behavior of khugepaged is maintained. max_ptes_none will be scaled
+> >>>> by the attempted collapse order to determine how full a mTHP must be to be
+> >>>> eligible for the collapse to occur. If a mTHP collapse is attempted, but
+> >>>> contains swapped out, or shared pages, we don't perform the collapse. It is
+> >>>> now also possible to collapse to mTHPs without requiring the PMD THP size
+> >>>> to be enabled.
+> >>>>
+> >>>> When enabling (m)THP sizes, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on
+> >>>> 4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 for
+> >>>> mTHP collapses to prevent collapse "creep" behavior. This prevents
+> >>>> constantly promoting mTHPs to the next available size, which would occur
+> >>>> because a collapse introduces more non-zero pages that would satisfy the
+> >>>> promotion condition on subsequent scans.
+> >>>
+> >>> Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
+> >>> all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
+> >>>
+> >>
+> >> I am all for not adding any more ugliness on top of all the ugliness we
+> >> added in the past.
+> >>
+> >> I will soon propose deprecating that parameter in favor of something
+> >> that makes a bit more sense.
+> >>
+> >> In essence, we'll likely have an "eagerness" parameter that ranges from
+> >> 0 to 10. 10 is essentially "always collapse" and 0 "never collapse if
+> >> not all is populated".
+> >>
+> >> In between we will have more flexibility on how to set these values.
+> >>
+> >> Likely 9 will be around 50% to not even motivate the user to set
+> >> something that does not make sense (creep).
+> > 
+> > One observation we've had from production experiments is that the
+> > optimal number here isn't static. If you have plenty of memory, then
+> > even very sparse THPs are beneficial.
 > 
-> This is an updated implementation of the interface for controlling haptic
-> touchpads.
+> Exactly.
 > 
-> Below is an updated design proposal for the userspace and HID interfaces,
-> modified from what one of my colleagues submitted in 2019 [0].
-> 
-> We would appreciate any feedback you might have.
-> 
+> And willy suggested something like "eagerness" similar to "swapinness" 
+> that gives us more flexibility when implementing it, including 
+> dynamically adjusting the values in the future.
 
-Applied to hid/hid.git (for-6.18/haptic), thanks!
+I think we talked past each other a bit here. The point I was trying
+to make is that the optimal behavior depends on the pressure situation
+inside the kernel; it's fundamentally not something userspace can make
+informed choices about.
 
-[01/11] HID: add haptics page defines
-        https://git.kernel.org/hid/hid/c/5e0ae59159e3
-[02/11] Input: add FF_HAPTIC effect type
-        https://git.kernel.org/hid/hid/c/08a72a220e96
-[03/11] Input: add INPUT_PROP_HAPTIC_TOUCHPAD
-        https://git.kernel.org/hid/hid/c/7075ae4ac9db
-[04/11] HID: haptic: introduce hid_haptic_device
-        https://git.kernel.org/hid/hid/c/b44779d44f71
-[05/11] HID: input: allow mapping of haptic output
-        https://git.kernel.org/hid/hid/c/7a56e7b211e5
-[06/11] HID: haptic: initialize haptic device
-        https://git.kernel.org/hid/hid/c/344ff3584957
-[07/11] HID: input: calculate resolution for pressure
-        https://git.kernel.org/hid/hid/c/7657bf0b7cfb
-[08/11] HID: haptic: add functions handling events
-        https://git.kernel.org/hid/hid/c/a77efca3aa85
-[09/11] Input: MT - add INPUT_MT_TOTAL_FORCE flags
-        https://git.kernel.org/hid/hid/c/4e584ac73788
-[10/11] HID: haptic: add hid_haptic_switch_mode
-        https://git.kernel.org/hid/hid/c/ff66b8eebbab
-[11/11] HID: multitouch: add haptic multitouch support
-        https://git.kernel.org/hid/hid/c/8d0bf7908b5a
+So for max_ptes_none, the approach is basically: try a few settings
+and see which one performs best. Okay, not great. But wouldn't that be
+the same for an eagerness setting? What would be the mental model for
+the user when configuring this? If it's the same empirical approach,
+then the new knob would seem like a lateral move.
 
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
+It would also be difficult to change the implementation without
+risking regressions once production systems are tuned to the old
+behavior.
 
+> > An extreme example: if all your THPs have 2/512 pages populated,
+> > that's still cutting TLB pressure in half!
+> 
+> IIRC, you create more pressure on the huge entries, where you might have 
+> less TLB entries :) But yes, there can be cases where it is beneficial, 
+> if there is absolutely no memory pressure.
 
-> Thank you,
-> 
-> Jonathan Denose
-> Chromium OS Team
-> 
-> Background
-> ==========
-> 
-> There are multiple independent projects to develop a touchpad with force sensors
-> and haptic actuators, instead of a traditional button.  These haptic touchpads
-> have several advantages and potential uses; they allow clicking across the
-> entire touchpad surface, adjusting the force requirement for clicks, haptic
-> feedback initiated by UI, etc. Supporting these features will potentially
-> require two new communication channels at the kernel level:
-> * Control of haptic motor by the host
-> * Force sensor data from device to host
-> 
-> This document includes two related proposals:
-> 1. HID design proposal, that hardware makers would need to implement
-> 2. Kernel design proposal
-> 
-> Objective
-> ==========
-> 
-> Develop a standard protocol to allow userspace applications to communicate with
-> haptic touchpads, and minimize duplicated code and effort.
-> 
-> Requirements:
-> 1. Support UI-initiated haptic feedback.
-> 2. Allow userspace to control when button press and button release haptic
->    effects are triggered. (Useful when detecting a false click, changing force
->    thresholds, or sending context-dependent effects).
-> 3. Reveal force sensor readings to userspace applications.
-> 4. Only allow OS-controlled haptic feedback for those systems which support it.
-> 
-> Proposal
-> ========
-> 
-> In order to minimize duplicated effort, we propose standardized haptic touchpad
-> support in the linux kernel.
-> 
-> HID API
-> -------
-> 
-> Modes
-> .....
-> 
-> The haptic touchpad should be able to operate under two different modes.
-> 
-> 1. Device-controlled mode
-> 
-> The haptic touchpad should start up in "device-controlled mode"
-> (HID_HAPTIC_MODE_DEVICE), meaning it acts as a normal touchpad. This means it
-> should perform the press and release haptic feedback autonomously at predefined
-> force thresholds, and send the appropriate BTN_* events.
-> 
-> 2. Host-controlled mode
-> 
-> Once the touchpad has been confirmed as supporting haptics (described in more
-> detail in the the "Click and release control" section below), the device should
-> enter "host-controlled mode" (HID_HAPTIC_MODE_HOST). In this mode userspace
-> should take control. From here, userspace will take control over
-> press/release haptic feedback, relying on the effects sent by the kernel.
-> 
-> Multitouch
-> ..........
-> 
-> The HID API for multitouch reports should follow the Microsoft precision
-> touchpad spec [1], with the following changes:
-> * A tip pressure field [2] should be used to report the force. The physical unit
->   Type (Newtons or grams), exponent, and limits should be reported in the
->   report descriptor for the force field.
-> * The device will always report the button state according to its predefined
->   force thresholds, even when not in device-controlled mode.
-> * The device must expose a "simple haptic controller" logical collection
->   alongside the touchpad collection.
-> 
-> Haptic control
-> ..............
-> 
-> The HID protocol described in HUTRR63[3] must be used.
-> 
-> The following waveforms should be supported:
-> 
-> | WAVEFORMNONE             | Implicit waveforms required by protocol           |
-> | WAVEFORMSTOP             |                                                   |
-> | ------------------------ | ------------------------------------------------- |
-> | WAVEFORMPRESS            | To be used to simulate button press. In device-   |
-> |                          | controlled mode, it will also be used to simulate |
-> |                          | button release.                                   |
-> | ------------------------ | ------------------------------------------------- |
-> | WAVEFORMRELEASE          | To be used to simulate button release.            |
-> 
-> All waveforms will have an associated duration; continuous waveforms will be
-> ignored by the kernel.
-> 
-> Triggers & Mode switching
-> .........................
-> 
-> The “auto trigger waveform” should be set to WAVEFORM_PRESS by default, and the
-> button from the touchpad collection should be set as the “auto trigger
-> associated control”.
-> 
-> The kernel can trigger the different modes in the following ways:
-> * Device-controlled mode can be enabled by setting the “auto trigger waveform” to
->   WAVEFORM_PRESS.
-> * Host-controlled mode can be enabled by setting the "auto trigger waveform" to
->   WAVEFORM_STOP.
-> 
-> The device must also support manual triggering. If intensity modification for
-> waveforms is supported by the device, the intensity control should be included
-> in the manual trigger output report. This allows modification of the intensity
-> on a per-waveform basis. Retriggering does not need to be supported by the
-> device.
-> 
-> Userspace API
-> -------------
-> 
-> Multitouch protocol
-> ...................
-> 
-> ABS_MT_PRESSURE will be used to report force. The resolution of ABS_MT_PRESSURE
-> should also be defined and reported in force units of grams or Newtons.
-> ABS_PRESSURE should be reported as the total force applied to the touchpad.
-> When the kernel is in host-controlled mode, it should always forward the button
-> press and release events to userspace.
-> 
-> Use Force Feedback protocol to request pre-defined effects
-> ..........................................................
-> 
-> The force feedback protocol [4] should be used to control predefined effects.
-> 
-> Typical use of the force feedback protocol requires loading effects to the
-> driver by describing the output waveform, and then requesting those effects
-> using an ID provided by the driver. However, for haptic touchpads we do not want
-> to describe the output waveform explicitly, but use a set of predefined effects,
-> which are identified by HID usage.
-> 
-> The force feedback protocol will need to be extended to allow requests for HID
-> haptic effects. This requires a new feedback effect type:
-> 
-> /**
->  * struct ff_haptic_effect
->  * @hid_usage: hid_usage according to Haptics page (WAVEFORM_CLICK, etc.)
->  * @vendor_id: the waveform vendor ID if hid_usage is in the vendor-defined
->  * range
->  * @vendor_id: the vendor waveform page if hid_usage is in the vendor-defined
->  * range
->  * @intensity: strength of the effect
->  * @repeat_count: number of times to retrigger effect
->  * @retrigger_period: time before effect is retriggered (in ms)
->  */
-> struct ff_haptic_effect {
->         __u16 hid_usage;
->         __u16 vendor_id;
->         __u8  vendor_waveform_page;
->         __s16 intensity;
->         __u16 repeat_count;
->         __u16 retrigger_period;
-> }
-> 
-> Since the standard waveform id namespace does not overlap with the vendor
-> waveform id namespace, the vendor id and page can be ignored for standard
-> waveforms.
-> 
-> Click and release control
-> .........................
-> 
-> Haptic functionality shall be gated behind the HID_MULTITOUCH_HAPTIC kernel
-> configuration option, and this kernel configuration option should only be
-> enabled if userspace will support haptic capabilities. Haptic functionality will
-> only be initialized and used if HID_MULTITOUCH_HAPTIC is enabled, and if the
-> following conditions have been met:
-> * ABS_MT_PRESSURE is defined and reporting force units of Newtons or grams.
-> * The device supports haptic effects according to the hid protocol defined in
->   HUTRR63 [3].
-> These checks will happen when the driver probes and initializes the multitouch
-> device.
-> 
-> In the case when the kernel configuration option has been set and the device
-> reports pressure and haptic effects as defined above, the kernel will initialize
-> the haptic device and configure the haptic driver to signal that the touchpad is
-> haptic-compatible. To signal to userspace that the touchpad is haptic-compatible
-> the kernel will mark INPUT_PROP_HAPTIC_TOUCHPAD.
-> 
-> With userspace willing and able to take control, the kernel will signal to the
-> device to exit device-controlled mode once a WAVEFORMPRESS or WAVEFORMRELEASE
-> event is uploaded. From here, userspace will take control over press/release
-> haptic feedback, relying on the effects sent by the kernel.
-> 
-> In all other cases, the driver will take no action to enable haptic
-> functionality.
-> 
-> Summary of normal use-case
-> 1. The kernel waits for userspace to upload WAVEFORMPRESS or
->    WAVEFORMRELEASE.
-> 2. Userspace determines when a click has been performed based on its own
->    criteria and tells the touchpad to perform a haptic effect.
-> 3. When userspace erases the WAVEFORMPRESS or WAVEFORMRELEASE effect, signal the
->    device to return to device-controlled mode.
-> 
-> [0]: https://www.spinics.net/lists/linux-input/msg60938.html
-> [1]: https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchpad-devices
-> [2]: Usage ID 0x30 of HID usage table 0x0D. See chapter 16:
->      https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
-> [3]: https://www.usb.org/sites/default/files/hutrr63b_-_haptics_page_redline_0.pdf
-> [4]: https://www.kernel.org/doc/html/v4.20/input/ff.html
-> 
-> Signed-off-by: Jonathan Denose <jdenose@google.com>
-> ---
-> Changes in v3:
-> - Change CONFIG_HID_HAPTIC from bool to tristate
-> - Fix devm_kzalloc calls in hid-multitouch.c to use correct device
-> - Minor comment cleanup + grammar fix
-> - Link to v2: https://lore.kernel.org/r/20250818-support-forcepads-v2-0-ca2546e319d5@google.com
-> 
-> Changes in v2:
-> - Rename FF_HID and ff_hid_effect to FF_HAPTIC and ff_haptic_effect
-> - Add more detail to CONFIG_HID_HAPTIC config option description
-> - Remove CONFIG_MULTITOUCH_HAPTIC config option
-> - Utilize devm api in hid-multitouch haptic functions
-> - Link to v1: https://lore.kernel.org/all/20250714-support-forcepads-v1-0-71c7c05748c9@google.com
-> 
-> ---
-> Angela Czubak (11):
->       HID: add haptics page defines
->       Input: add FF_HAPTIC effect type
->       Input: add INPUT_PROP_HAPTIC_TOUCHPAD
->       HID: haptic: introduce hid_haptic_device
->       HID: input: allow mapping of haptic output
->       HID: haptic: initialize haptic device
->       HID: input: calculate resolution for pressure
->       HID: haptic: add functions handling events
->       Input: MT - add INPUT_MT_TOTAL_FORCE flags
->       HID: haptic: add hid_haptic_switch_mode
->       HID: multitouch: add haptic multitouch support
-> 
->  Documentation/input/event-codes.rst    |  14 +
->  drivers/hid/Kconfig                    |  11 +
->  drivers/hid/Makefile                   |   1 +
->  drivers/hid/hid-haptic.c               | 580 +++++++++++++++++++++++++++++++++
->  drivers/hid/hid-haptic.h               | 127 ++++++++
->  drivers/hid/hid-input.c                |  18 +-
->  drivers/hid/hid-multitouch.c           |  47 +++
->  drivers/input/input-mt.c               |  14 +-
->  include/linux/hid.h                    |  29 ++
->  include/linux/input/mt.h               |   1 +
->  include/uapi/linux/input-event-codes.h |   1 +
->  include/uapi/linux/input.h             |  22 +-
->  12 files changed, 858 insertions(+), 7 deletions(-)
-> ---
-> base-commit: 86731a2a651e58953fc949573895f2fa6d456841
-> change-id: 20250625-support-forcepads-0b4f74fd3d0a
-> 
-> Best regards,
-> -- 
-> Jonathan Denose <jdenose@google.com>
-> 
+Ha, the TLB topology is a whole other can of worms.
+
+We've tried deploying THP on older systems with separate TLB entries
+for different page sizes and gave up. It's a nightmare to configure
+and very easy to do worse than base pages.
+
+The kernel itself is using a mix of page sizes for the identity
+mapping. You basically have to complement the userspace page size
+distribution in such a way that you don't compete over the wrong
+entries at runtime. It's just stupid. I'm honestly not sure this is
+realistically solvable.
+
+So we're deploying THP only on newer AMD machines where TLB entries
+are shared.
+
+For split TLBs, we're sticking with hugetlb and trial-and-error.
+
+Please don't build CPUs this way.
