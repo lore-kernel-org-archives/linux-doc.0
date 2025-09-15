@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459EF2C0F7E
-	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 10:52:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B0D2D77E4
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 10:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757933533; cv=none; b=u3hfGvHQgi4u3Fkx3vD6DwOwUKxyWDl14XBo6a4H+lg7i/23iCvjFes7gCPR7IqZscZsb+0ThyQSSE+fwkRunLanS24EHjia9VbAT10dCNAPR7nAc66arXXNqUFmMkXiuzQr5JAQ4Aj6kuyiWFvgRfFMpe0/mowfX+PvrItsPpQ=
+	t=1757933581; cv=none; b=enV3/Hx9vzbcErdAGoAOmxHOSGhadG5bzfePIpDpEJkCvpuqBUeBE/ZjyVYFIy5R+M6PDkh2RQLKrciTkUJ9J5Q4Ihf4OHPKMUGLuBqY4nXobADl5fXKrHqVMyd16HweNxvhDYsgm7CFIqttUiT2C938UYJEdGpREbBIQL2IUYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757933533; c=relaxed/simple;
-	bh=9da40AdvZdeBpw0p+kGjXsHMpuVPRTbtzi5VS/Lehnc=;
+	s=arc-20240116; t=1757933581; c=relaxed/simple;
+	bh=fwueeVGR5at5ZPKlNfPQrcptZrM5BYvw+DiVCPc4ScM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cRszH05mVUKsFB/gG/KTZYPvNKNbbnRlSoQTkAiN06sBf8iB5x2J9VVmfpDmKLoMKa5CcmsB6NjR/UZtFak728utF9t9xHSwVBC4cUfVnJT7KCvn70dloIc/fWM47t8W9OFBIgUwS1gqGqRxJtOYIA45xZSQS4/6d6MmbJzrNf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FlUpPkTI; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=iwyCpmtYlifVO/Uydraee+1HboRKmZTv93HWV6yQ5dU3CV8XUmLWasGLXalDssxoiE1bfvWlj3IGzkfEfhu+9MbzFE1RHBiga2miP7+f+nyVmxHQmc62r90TpbUwAtLsvsRnZbvtPzf8l5M1JIGmvjth1qqbK2NXsBtvlbr8XpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YJhGjXZX; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FlUpPkTI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YJhGjXZX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757933530;
+	s=mimecast20190719; t=1757933579;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TONx73D+/O/+grOG688JC7bheYa2eKKJEwalopCuMqM=;
-	b=FlUpPkTIoWF7lyhqntglPHi3A8p8mgXmgz0Urml3tXQVx3co0FPcDThucj28qqqypN+ACt
-	ojd0Ty3uXufcZB3y1v1TE96dQPNXFnL/gOGmGOetAlVxA7uHqimkcWJivliTejuXTWmrP1
-	/5qjjG0H+vnXQIgQkpxRT6eNMZc8zm0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=8IZ/fCnKmY0nl3IaYCWlZU5tdy+pNMKr/indmXUVlYc=;
+	b=YJhGjXZXENepyrrqS9RrWHDqd1ayykIfblwYDZUoqX+ARL0Jb8Xw4Mz56k7FpO+8f58rL+
+	vW34nmb2Zjeh2Crsn6KBKZ7ESdOCvLKiOOFsKg+qEYyxWHCh99zegNrtWqMH9eLd5rUWKY
+	7BLkbxDJ6I459K3/H0zyZrWVCVzyYSY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-uBupO_qJOSmYDZovH4i-EQ-1; Mon, 15 Sep 2025 06:52:08 -0400
-X-MC-Unique: uBupO_qJOSmYDZovH4i-EQ-1
-X-Mimecast-MFC-AGG-ID: uBupO_qJOSmYDZovH4i-EQ_1757933528
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3df9f185b82so1533875f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 03:52:08 -0700 (PDT)
+ us-mta-374-iTAHWEAUM4-ixbwFF7a_2A-1; Mon, 15 Sep 2025 06:52:58 -0400
+X-MC-Unique: iTAHWEAUM4-ixbwFF7a_2A-1
+X-Mimecast-MFC-AGG-ID: iTAHWEAUM4-ixbwFF7a_2A_1757933577
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3e95627b120so880474f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 03:52:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757933528; x=1758538328;
+        d=1e100.net; s=20230601; t=1757933577; x=1758538377;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TONx73D+/O/+grOG688JC7bheYa2eKKJEwalopCuMqM=;
-        b=bcveC5eYuL6rETY55nLh2Mho/rWC0ZYfQIHT8bBy5ZhtQ7DNlrIQZoKFIvbmsqMwa4
-         3uB8fD60/Fc4L0wtLydNMd2111lTtV6j4uPfEgd7cUH176EEPr7EL/tGiJl7zKpUpZZp
-         l5ndqrpZW8OpitdXkIy3tVBZ7gy6E3JpvahPkWQyv9JCgqhG8wwDGZ08Wx35M/NnjHgP
-         RlrVhy/74VKWheHSPguUDVdIknDUmoDCnJRdMerRhHUEKGh/fNp1a6Weq/dk4xW/Sbb3
-         0qQjX5AqIXPsGwk9w1vGXrBJCJvV673ENt8evEkOi+yYZwW1KP40yqzBer01iEJ394SP
-         dzfg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5BrIXtO3P6gzU0+yuW++Wwvi45ZjfDAJjfKuCLDwwXvErBq51fiV6c/rU8jYYiqnNis7QqDa8YG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyblihncoWfoce9ciBzSZpQIvax7cX3oHU1qL4VYOW1LSqZEpkx
-	jJpjdRSXsw6v+n8MgF7XOz2Nl7wE+5hwQMHmLX0V5xfYk0Qg1VQDWmP/Y6wW3K+pC9bGKPJfyku
-	tdjLNLtv1cLE3ZvxbmA23qTSqA3Y6yuHf1tyDee7Vep2cQUGZSk8/lzJIjYbIbg==
-X-Gm-Gg: ASbGnctGuaztlba34JpBDCuvBG9HK2eRosWsaEGNl96FqiMMOi5EKFyoViMxv4BBdG8
-	Ek0z2vlbUIchy/X+S/nq3juau/xFH4w/1Iq8X3zg/iFl/juRv9hz023HnXy56csJ8YopKFW1e5Q
-	om+MW4RVCFFWdUrgj/s3Xxb4x5NTmMR1ZRM/d6YyynMjW0TKk+6I9DAebso3yuWDNXDBJB9gKwW
-	i8QzuKDRIfb3eBFPPSaw4CiC1Ss9RybRjLVquSRqzKpwVE4EcJfKjpTbXHeFKTWA4qSTeZ6NzkN
-	bPXnTsQj+1usBUT3WdXPu6MTwlRdV5272sobBKw0PY2gzmRESpKhf2WB2i4HAqmurq1sumBRCmw
-	bCvgiEkPQFsvPjKt4iz5c5XT6ko2f+TplhPGz0c3pi6NAtUYJBxTrmalq3/R1ok8P8Bo=
-X-Received: by 2002:a05:6000:250f:b0:3e7:4719:a024 with SMTP id ffacd0b85a97d-3e7657c4d2amr8864743f8f.18.1757933527525;
-        Mon, 15 Sep 2025 03:52:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKEYyRZhPxbJ806hEEJtd+E4ByVirEH/UnddaSRMoVIfYw9s7hf4KJQcASmhrnW92egs5mLA==
-X-Received: by 2002:a05:6000:250f:b0:3e7:4719:a024 with SMTP id ffacd0b85a97d-3e7657c4d2amr8864705f8f.18.1757933526990;
-        Mon, 15 Sep 2025 03:52:06 -0700 (PDT)
+        bh=8IZ/fCnKmY0nl3IaYCWlZU5tdy+pNMKr/indmXUVlYc=;
+        b=EMDvC+n35rs/RWOxXoGQv6hVwuH6x4ZDjFwKgJm6HirbUxsdoouMYLsOQqpYyBnrus
+         2SWcNAKclTAZDnK+9cJ0m4KRePXJXhVjX4dj2P5KZwKixxR9vkA1WXrqeW3gOM+3Yd+q
+         kcGINuTc9inRwCbBUCi1GsX+uz693bv1fbYskM8DUEaHFldn6TIhUFVh+uZhzboyL/L7
+         Ljz12QkUkkBu4Di1lfLYzJM0lLldVv5h40V+UC1DeQ8xHhpmlq+R/xLzn2QlJDQ4+NgI
+         jXLbrNZWNC8Zzmil9xPNd/ceZqprVY+oy9laYRx6rR/mhZ8ANNe866MafmnccA7QwVNo
+         BnVA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWssvBRy85DHAC8SLxn1icW1Sk2irxPL7ahsVYoaaoXPJg5/X1jYTFvdJf5Ti7EMG1JjyN/QhFQJA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzw0BsUd+qGKpl7PBe98KkM86Dt5Ea0v7+fGn3w9WQFJezDCcbo
+	SNv6XQzJnfj1QTTNo48hHC8lqBBwxNt3i0G9ovjOLQNb3lmvLrgK+2VX1UDwvX87TkHT4HmpJIt
+	xarwte/iLSP+twlmHKG4hwPotbOZEojCGJfIcPLZ+MAP/KInnpyBPb2ovz4kudQ==
+X-Gm-Gg: ASbGncvmWo3klaJ6lmx/v0FnQLUyP76xvFA5qgSR9hUavuj+pbcDD2G0M7GTsppNEzR
+	xwwNQxBTZdPDRotoioN8CCDSFNCeAgpaZ2XQ5KmuVfGZzH23OOfxaFO3UQFDvujJcVj67e4Eo+t
+	anq+ho3us6Uay9k+w7FGoN93t9kFPQpXCIye5rEfD53qT0TsEOSA2w7PXLxf9yWFYdinFepaxQu
+	jvmLwJhmlpxrBQo+a12h7L6Ez1OHqnCEzK0uFE/K5RfJ0Ep01/xuLGpQiPkDSjk3AKdakK5RYJJ
+	xlzVGxkI/insTCbSqNdNgZZ6UVT8QDXVEgMXHBFabrJpYG7TL1v96EzNHNjFIKlz4WMhY9+n83w
+	76Nz34pa1PAm8fsBF5C0hk4M/6D50IHIXKaVYVLMzhOjgfqsZIjLYJwEdPmpbhbQzNHM=
+X-Received: by 2002:a05:6000:2407:b0:3e3:24c3:6d71 with SMTP id ffacd0b85a97d-3e76559415fmr9014783f8f.1.1757933576773;
+        Mon, 15 Sep 2025 03:52:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHbeCuXCM3MacBpQLLM64+/8kob0b8h05x9uuPuWhG7w3KYsjV9dZCY9Huw5igh7RtX93+uBQ==
+X-Received: by 2002:a05:6000:2407:b0:3e3:24c3:6d71 with SMTP id ffacd0b85a97d-3e76559415fmr9014762f8f.1.1757933576342;
+        Mon, 15 Sep 2025 03:52:56 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f18:f900:e0ae:65d5:8bf8:8cfd? (p200300d82f18f900e0ae65d58bf88cfd.dip0.t-ipconnect.de. [2003:d8:2f18:f900:e0ae:65d5:8bf8:8cfd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7cde81491sm11735126f8f.42.2025.09.15.03.52.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0156b0a8sm175910915e9.3.2025.09.15.03.52.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Sep 2025 03:52:06 -0700 (PDT)
-Message-ID: <ae9d88e2-bab9-49fc-a459-d7b9a8fe9351@redhat.com>
-Date: Mon, 15 Sep 2025 12:52:03 +0200
+        Mon, 15 Sep 2025 03:52:55 -0700 (PDT)
+Message-ID: <de3f5502-ef81-4f44-96a9-995e512301a3@redhat.com>
+Date: Mon, 15 Sep 2025 12:52:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -101,7 +101,10 @@ References: <20250912032810.197475-1-npache@redhat.com>
  <CAA1CXcA+pb5KvEnJJqdf1eSjaFiBZ82MRB+KDmyhj3DbiQqOxg@mail.gmail.com>
  <enrgrocqajwu5d3x34voghja7pbvau45oobxgabawrly44ld4u@ahch3xn6rtq5>
  <cd8e7f1c-a563-4ae9-a0fb-b0d04a4c35b4@redhat.com>
- <155c821d-402c-4627-a723-6f8c88a2f65c@lucifer.local>
+ <2c5328ee-fb6e-45cf-a151-868cc8e7ff97@lucifer.local>
+ <4508810d-7645-4f57-a0c5-2ee9f44206fc@lucifer.local>
+ <34754ca4-fced-4a3c-8ff8-c00967d487de@redhat.com>
+ <92352257-5be4-4aaa-b97f-c4e879ac6959@lucifer.local>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -148,35 +151,39 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <155c821d-402c-4627-a723-6f8c88a2f65c@lucifer.local>
+In-Reply-To: <92352257-5be4-4aaa-b97f-c4e879ac6959@lucifer.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 15.09.25 12:43, Lorenzo Stoakes wrote:
-> On Mon, Sep 15, 2025 at 12:22:07PM +0200, David Hildenbrand wrote:
+On 15.09.25 12:48, Lorenzo Stoakes wrote:
+> On Mon, Sep 15, 2025 at 12:44:34PM +0200, David Hildenbrand wrote:
+>>>>> Mapping that to actual THP sizes (#pages in a thp) on an arch will be easy.
+>>>>
+>>>> And at different mTHP levels too right?
+>>>>
+>>>
+>>> Another point here, since we have to keep:
+>>>
+>>> /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+>>>
+>>> Around, and users will try to set values there, presumably we will now add:
+>>>
+>>> /sys/kernel/mm/transparent_hugepage/khugepaged/eagerness
+>>>
+>>> How will we map <-> the two tunables?
 >>
->> 0 -> ~100% used (~0% none)
->> 1 -> ~50% used (~50% none)
->> 2 -> ~25% used (~75% none)
->> 3 -> ~12.5% used (~87.5% none)
->> 4 -> ~11.25% used (~88,75% none)
->> ...
->> 10 -> ~0% used (~100% none)
+>> Well, the easy case if someone updates eagerness, then we simply et it to
+>> whatever magic value we compute and document.
+>>
+>> The other direction is more problematic, likely we'll simply warn and do
+>> something reasonable (map it to whatever eagerness scale is closest or
+>> simply indicate it as "-1" -- user intervened or sth like that)
 > 
-> Oh and shouldn't this be inverted?
-> 
-> 0 eagerness = we eat up all none PTE entries? Isn't that pretty eager? :P
-> 10 eagerness = we aren't eager to eat up none PTE entries at all?
-> 
-> Or am I being dumb here?
+> I don't love the idea of a -1 situation, as that's going to create some
+> confusion.
 
-Good question.
-
-For swappiness it's: 0 -> no swap (conservative)
-
-So intuitively I assumed: 0 -> no pte_none (conservative)
-
-You're the native speaker, so you tell me :)
+swapiness also has a "max" parameter, so we could just say "override" /" 
+disabled" / whatever?
 
 -- 
 Cheers
