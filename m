@@ -1,118 +1,160 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D727A30AAB8
-	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 12:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AAF830B51F;
+	Mon, 15 Sep 2025 12:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757938865; cv=none; b=X0zkRnErYyBBHFwl//SbgOFQ2zPI4lxVgv8OBRdt2mUBoQzk0g6el3c04L9PNL//CvxBd7Nky8Rrjkac045f7C1ZsA1irA77eIVZFzFlGDKeGxrYysjAzg6e1SCKOYrwhnK96b+/TB6cQ2LWXJ1pz5COVgpX3tUniFLsVM/Gs0Y=
+	t=1757938870; cv=none; b=GIXZDI/MV8KhplyL9JcTQHvGCNVeoSl7dRmZKsUH+ZRE1M911qg2eE9naJW74jYJZXIf8F0SS0ScGDxWJwPd3+dbnX94GYYiPcvmLSCHXNpJnWLKHghOsCEcDhLsoH5jmNSbzVzhLCJrI0TebDJltBbp6GCDNe3yZ8m1ycerxgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757938865; c=relaxed/simple;
-	bh=dRXGhWojN/zmxVhLhhV7UBCFaTwMPK23OlCcE6/vJA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SE1LEmwhmW7WbPWu5dqmbU/FUvsxJxqoH4/ZxkILlSDsVFCxzktI8WfK2gEUrF0yNY5Fb+7z9pVuJU6Rxr1S1qlBYZk2jLnPcsLKSe+z7cfF+gY2aKaMQoO7Np7rcNXMkEaTxQVAmvxo3Q7+dm9CE6LcU0Lc4L4rf1wBK+dlkdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=A0svqQWY; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="A0svqQWY"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3df726ecff3so2250183f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 05:21:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1757938862; x=1758543662; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dRXGhWojN/zmxVhLhhV7UBCFaTwMPK23OlCcE6/vJA0=;
-        b=A0svqQWYY98nAXTi9kuDSTEPPipJjudbrmhCo2ftEGwGqaqCr9QiYUsuHjrBfWrfAD
-         +Uan2JVN+pog/3GfkAhB5tvG2HWwNGSS2DkT+/bqXwcrzDh4oAPFcltxjeShd9BzrxE9
-         dCLq9atUMYZHGakoVjG59DEO8Y4YRX7d37eV4KQ+LctVHUnIB0lcVEiUaMF5s1So/P7z
-         sTY7dXsQaHTYiNUmB5pSr5F7vpRbJ9MWO7XDcYMrAnt1sW6etYKyPuT+fGRKs57wfj0O
-         8vQuNXDUnvTWxiPeO8Fr32Y4BCpfD1AZmeXRehOH9CqysvfDylpp5FfWZN3YcJWIFso0
-         eD1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757938862; x=1758543662;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dRXGhWojN/zmxVhLhhV7UBCFaTwMPK23OlCcE6/vJA0=;
-        b=hqZYAtJNitRurXWAGUdzC9txkrR9Pdo2VqW8ojCXzxeX4mQrSJSaTecHloiRO3eceo
-         NQFEdrFiL5eMJ8N2E6iMQKJ1ken5dtXEU8yc5UjPOoOVHk4VX6+JTI6Ah6JVRq+aaWSM
-         GQyPbUiLFfPkAqQIBIQ4Gz0rM3AMtkmXIi2RDJpnA6QC+HwQFJUzgmeud7SVg0UGQN1S
-         yNrWOTT0aivK4Rav4JD6oLQLU8bjkIkm+ahw6d96yQKg4kuJIHTnrhEr/vePXkaddZgE
-         ndYEVrZqR8J6RHUCotgYRjo07DIZj95kPlf6j8gCDNJqbIB5+CtZHAkpJC3C3EgPMs17
-         /w0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVVGneHmxYnnjdB7IscARewSJMEsffViNT/XVUVfm4bee8wIdMqHsDoJTtNvcoh+Kab9ieBDgBZlww=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLR7FH6G6yqXzmYPY8ai/1/b0VdxDZZbdKJnTIsMpgWTMM3Pw8
-	S1XWHeGflItU+e+YptadQWTEbGtBq6fjNegyyPruBdZvxPtUZFyoGmpP1HpH+Q0bfyQ=
-X-Gm-Gg: ASbGncuaaEsRxXkqzJmY9lPBBmwat5iBQ/05iqevvTRCarVUakmqYqsjDvUuqMm6g4I
-	EYHWnK5A/YEeQOdiUkjL1caHSLns/4lj0b2aF1DZLNIXKVzoZ2hbh4YezYM3zInXZfLUdRjp5AL
-	zm2Y+jqslFHx+GuYQFXUANEWzXSpHJStVoIdqGrXSs9SSSU2VHGZ7cNxy+p2shnkY01G47xVDaG
-	YTl3TmTT7mQz470atq8SBHC4ZG9FuMOr0yziCHLhGJ+ubKR9BM3Q75PjXWbl6kP87RtqIByfIUB
-	PORgpPUuaD6ovKEHTedomwlKMpgRJ6eahlRNedaYpVg+5WpR18S86LX2sGxaSvWRNViiy+Xabyj
-	KOMi7O4ffdG9WgOEIu/vZhffh
-X-Google-Smtp-Source: AGHT+IHZxjPiVftQFFSVsD2VxpuAkBezLqcbHM5N6FMX7Nja48uVvgnW5IZJk5T4dZviTmbAHvCxyQ==
-X-Received: by 2002:a5d:64c3:0:b0:3d1:42dc:c710 with SMTP id ffacd0b85a97d-3e76579317emr9382433f8f.16.1757938862113;
-        Mon, 15 Sep 2025 05:21:02 -0700 (PDT)
-Received: from blackbook2 ([84.19.86.74])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e96dee54d8sm7498070f8f.12.2025.09.15.05.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 05:21:01 -0700 (PDT)
-Date: Mon, 15 Sep 2025 14:20:59 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Linux cgroups <cgroups@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Andrea Righi <arighi@nvidia.com>, Johannes Bechberger <me@mostlynerdless.de>, 
-	Changwoo Min <changwoo@igalia.com>, Shashank Balaji <shashank.mahadasyam@sony.com>, 
-	Ingo Molnar <mingo@kernel.org>, Jake Rice <jake@jakerice.dev>, Cengiz Can <cengiz@kernel.wtf>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 2/4] Documentation: cgroup-v2: Add section numbers
-Message-ID: <duppgeomaflt6fbymdk5443glmw7d3bgli2yu7gx6awb7q2dhn@syjq5mmia6pb>
-References: <20250915081942.25077-1-bagasdotme@gmail.com>
- <20250915081942.25077-3-bagasdotme@gmail.com>
+	s=arc-20240116; t=1757938870; c=relaxed/simple;
+	bh=uNIo1cAabwzE9IPA0cfQV0YWz9JkTnjDxgf5F6VCJ0o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ST3BFVkuDDpi3M07sO9zvuTAvLD4G9v0owzy1midstyjC2+8BrVoycHlrywweoUZXc5l/igXNdtIutpRhMJYou2iG/o/qB7wdRLSw0pm73TZl/FxWGWo8KGl1gKW5qz5OyL4/yT4KUcAZ2JD3u6i0qwEJHZGitGdNFN/fEVnAuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4cQNZf0vcmz9syy;
+	Mon, 15 Sep 2025 13:48:10 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 94pnKAlpBYHg; Mon, 15 Sep 2025 13:48:10 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4cQNZd5CrVz9syw;
+	Mon, 15 Sep 2025 13:48:09 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 7E35C8B766;
+	Mon, 15 Sep 2025 13:48:09 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id uLBCpzlqUS-U; Mon, 15 Sep 2025 13:48:09 +0200 (CEST)
+Received: from [10.25.207.160] (unknown [10.25.207.160])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id DC6128B763;
+	Mon, 15 Sep 2025 13:48:08 +0200 (CEST)
+Message-ID: <fe3aea1c-24eb-49f4-9ce3-8f132d8814be@csgroup.eu>
+Date: Mon, 15 Sep 2025 13:48:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ml2yrs6lektswjhv"
-Content-Disposition: inline
-In-Reply-To: <20250915081942.25077-3-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 05/62] init: remove "ramdisk_start" command line
+ parameter, which controls starting block number of initrd
+To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Aleksa Sarai <cyphar@cyphar.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>,
+ Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>,
+ Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org, x86@kernel.org,
+ Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org,
+ initramfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-ext4@vger.kernel.org, "Theodore Y . Ts'o" <tytso@mit.edu>,
+ linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+ devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+ Kees Cook <kees@kernel.org>, Thorsten Blum <thorsten.blum@linux.dev>,
+ Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
+References: <20250913003842.41944-1-safinaskar@gmail.com>
+ <20250913003842.41944-6-safinaskar@gmail.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Language: fr-FR
+In-Reply-To: <20250913003842.41944-6-safinaskar@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Have a simpler subject,
+
+Le 13/09/2025 à 02:37, Askar Safin a écrit :
+> [Vous ne recevez pas souvent de courriers de safinaskar@gmail.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> This is preparation for initrd removal
+
+and make a more interesting message.
 
 
---ml2yrs6lektswjhv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v2 2/4] Documentation: cgroup-v2: Add section numbers
-MIME-Version: 1.0
+For me it would make more sense to remove ramdisk_start and ramdisk_size 
+at the same time.
 
-On Mon, Sep 15, 2025 at 03:19:25PM +0700, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> Add section numbers, following the numbering scheme in the manual
-> toctree. Note that sectnum:: directive cannot be used as it also
-> numbers the docs title.
+Christophe
 
-Erm, so in addition to keeping manual ToC in sync, we'd also need to
-maintain the section numbers manually?
+> 
+> Signed-off-by: Askar Safin <safinaskar@gmail.com>
+> ---
+>   Documentation/admin-guide/blockdev/ramdisk.rst  | 3 +--
+>   Documentation/admin-guide/kernel-parameters.txt | 2 --
+>   init/do_mounts_rd.c                             | 7 -------
+>   3 files changed, 1 insertion(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/blockdev/ramdisk.rst b/Documentation/admin-guide/blockdev/ramdisk.rst
+> index 9ce6101e8dd9..e57c61108dbc 100644
+> --- a/Documentation/admin-guide/blockdev/ramdisk.rst
+> +++ b/Documentation/admin-guide/blockdev/ramdisk.rst
+> @@ -74,12 +74,11 @@ arch/x86/boot/Makefile.
+> 
+>   Some of the kernel command line boot options that may apply here are::
+> 
+> -  ramdisk_start=N
+>     ramdisk_size=M
+> 
+>   If you make a boot disk that has LILO, then for the above, you would use::
+> 
+> -       append = "ramdisk_start=N ramdisk_size=M"
+> +       append = "ramdisk_size=M"
+> 
+>   4) An Example of Creating a Compressed RAM Disk
+>   -----------------------------------------------
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f940c1184912..07e8878f1e13 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5285,8 +5285,6 @@
+>          ramdisk_size=   [RAM] Sizes of RAM disks in kilobytes
+>                          See Documentation/admin-guide/blockdev/ramdisk.rst.
+> 
+> -       ramdisk_start=  [RAM] RAM disk image start address
+> -
+>          random.trust_cpu=off
+>                          [KNL,EARLY] Disable trusting the use of the CPU's
+>                          random number generator (if available) to
+> diff --git a/init/do_mounts_rd.c b/init/do_mounts_rd.c
+> index 8e0a774a9c6f..864fa88d9f89 100644
+> --- a/init/do_mounts_rd.c
+> +++ b/init/do_mounts_rd.c
+> @@ -17,13 +17,6 @@
+>   static struct file *in_file, *out_file;
+>   static loff_t in_pos, out_pos;
+> 
+> -static int __init ramdisk_start_setup(char *str)
+> -{
+> -       /* will be removed in next commit */
+> -       return 1;
+> -}
+> -__setup("ramdisk_start=", ramdisk_start_setup);
+> -
+>   static int __init crd_load(decompress_fn deco);
+> 
+>   /*
+> --
+> 2.47.2
+> 
+> 
 
-What about dropping the numbers from manual ToC and sections? (If manual
-ToC is to be preserved.)
-
-Thanks,
-Michal
-
---ml2yrs6lektswjhv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaMgEqBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AgBMAEA5FwahNfScmcGEHeTMPg/
-fK1406QYr3ODWMP8GdbwXk8A/3ZGZNF3X3LOGQ4Okk40J612ukJscIDXRv9sFEbP
-V8UC
-=5Zpi
------END PGP SIGNATURE-----
-
---ml2yrs6lektswjhv--
