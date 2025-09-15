@@ -1,134 +1,323 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A582C236D;
-	Mon, 15 Sep 2025 22:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7D71A38F9
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 23:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757975952; cv=none; b=IG71b3uc4hyc908tuM4whW5u1qXhbc7RIGCizXTfiYTE37qOrKT9tcvp5Exw2BbeO8sqRGibUYmAxBNypqTom7zV7A/Ksg7B9PKDjUVkxFq7bQ7Bua6ZtLn5SFqlf9N3M7SqyiaepZwvUForGUZZ+GhgBES44j3ODhyYsmIxvzA=
+	t=1757978365; cv=none; b=EMOfJrvZjWjo8ahlphHsRR6MwAZyUbFYVEKIztKkyEp0kskk0OqcEJkyxS9kzY+um6ssuD+/mGlD4kriQ60EY8Ije8/E6M+GX3NI2KBZFmYewzVozr2/08V1aSVY2rJBeiwffs+jPfVN1ugR9V2NfZFbaMViHWgklJeecus2dlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757975952; c=relaxed/simple;
-	bh=BfYxjkEzZZCLOYG+UFuReQwEDFeE8IVlt+mRJjbmVrA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HZY1oyqMo+MI3e9aKJBA7QAPWsb0bzG4rcQJmqcpSChrUckqv1JLRYusfqcsCbODJNSyoMmGs1LKc2e8NSOE/DwwgNypGbbFu7bLXucMVYD9PGxtPlmBbkxBKfPXXKFts/j9UFx8gAfi8qb2F6dFt0keuxqXxtar2jueISiCu/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=W8GTES4x; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1757978365; c=relaxed/simple;
+	bh=7Wjc99W3NLUfRTyDEP4Hem6iVkB4fRMTE4lwOp/Og/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VR6zyJ3I63RQ3DG5rpYPkksH3drbE0xAoQfKqRoEgH2brOxoM+U++e05mlvYFk4wQ4g8uB1ZuKTNZsSacIBkfwRL48jxl9PJHljmwIt/orQzbEaI0ckSYOOVZwwoIxipCKQwx659vsRHzvvUn+4N3sJM69As7msqTes/C+MQZws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X65+GmY0; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="W8GTES4x"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 74BCB40B03
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1757975950; bh=4Nh9YPajpzLkLNtov0lA1KMD/BkPyBkqgsXpZ3McHVM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=W8GTES4xWoBx2OrfPfrQJu3grT8gHU5iYD5t+TK2UoDH598lLADT30pTACZmhGNBK
-	 GShI0VMfHp0OQIIYCBOI7lHYhdFP47VA+mjQ4j7Ew27oe5rWOqYyPW/cLmGaXcXghu
-	 d9RUr918h66cM2CcVCTdv8NoqjzJSRPXs7zDy6rw0urFrrZioFw7yCNSvxqhUWlXp7
-	 +Au/Ib+tYcIjZtYSC3URmsA1wWemVHTfoeW9cBs59RPuY84G712tfAsQYi4l72mi6/
-	 jmGFOq2DNKOP1yGtIeDyVXECig2whGbJPtL0VHIHp1lx6ZL9cyhVewbCg7znloPx2J
-	 Xp1QtPGoXjAJg==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 74BCB40B03;
-	Mon, 15 Sep 2025 22:39:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Gabriele Paoloni <gpaoloni@redhat.com>, shuah@kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, gregkh@linuxfoundation.org
-Cc: linux-mm@kvack.org, safety-architecture@lists.elisa.tech,
- acarmina@redhat.com, kstewart@linuxfoundation.org, chuckwolber@gmail.com,
- Gabriele Paoloni <gpaoloni@redhat.com>
-Subject: Re: [RFC v2 PATCH 2/3] /dev/mem: Add initial documentation of
- memory_open() and mem_fops
-In-Reply-To: <20250910170000.6475-3-gpaoloni@redhat.com>
-References: <20250910170000.6475-1-gpaoloni@redhat.com>
- <20250910170000.6475-3-gpaoloni@redhat.com>
-Date: Mon, 15 Sep 2025 16:39:09 -0600
-Message-ID: <874it3gx2q.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X65+GmY0"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4c3d8bd21eso3089700a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 16:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757978363; x=1758583163; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zCsmv9Ju7v7klfvgYsrq2lr0zsNh+zDgxdjn6Hp3g5I=;
+        b=X65+GmY0wglqHn0DFcqZ7YFqbdEYaJZkNHQ1Sufg/cGXADlKPdjp6oMviUPoL6BWQ6
+         sedUcKgNHwBOcDZ5bDhR0bPcW4KQfloCY7EksbP+9DNWNitXMhZyfO2qmbwCXHIwoypM
+         UWr2Gt5zlCyQLY9QGSCa78gc4DdFUf0CGHd+KHqf/Acn1XaUTSnU4QdwLa9PU9JXaeOq
+         DbFQaEjDBlv93XKAB6gOFX1hR9QE07LmSuQx0IP0mgvmBS1q6Ql3l47Ts0aSk0sdED64
+         +CkIFYt2ZNms281K69ZZyvCdwlAHB6zjKYNE3LbhZMmiKdpziIl0aYf0bcGjj/pgmGfo
+         IMLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757978363; x=1758583163;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zCsmv9Ju7v7klfvgYsrq2lr0zsNh+zDgxdjn6Hp3g5I=;
+        b=h0SBMM5gqVvGVisdYVVl1QYWcssMvPD6hy/BbQpa1qJvJfFm/LDZODEhqDII7YEB8+
+         QjNQlboxl61MeH9Z3PSgjCu5Hf/kZe9Z9SGmZOw4gCbBhhIUuqutCMIVrQUoa0maD8yj
+         CcKd+dvP2oRtCjayJXExLkOcXwJ3na6tyVgC09OM8HDdUXKKdGQEU0e5KPmYSpyhA/9g
+         WWC3rY8tNQf3oWBrr2kLV7f1QTjL1sfmmVUCiOL4hC8fDih/h7qvIQN3bv1930JHWgqu
+         4jb599ORDTGs1D6CdkQoau7aU6FYnWDHBPyAYOh5QfRoE1Zsdxyv78969ynU8Q7Kpnlr
+         hTvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWcuTe25tBRgs8QnVLEmxcxoKRdh0xgBeScrKBAOjquiSfJO3+6XImJ+oExZbkGGVwOFYvu8/WsXXs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3XjsmGJ5IYwGqRf/THSutrhEekWSbZp1icOPp5uAXuHDJU4SF
+	ayY/piMuxkTYffJHwxrDJCqg57GJO0Z7hBgpnleDZxH+AefRfQWij9x7
+X-Gm-Gg: ASbGncuLFE0+ynykvo1PM0fk2evMMm/TL+60w263torjEHDwSqzQlAVZu3GZlQV18dc
+	4XFQupNfzkUH8s2uJ0uF9/Sjo97ZA+JCiQ6LsEh3kCRQscmTdhBNvF4c4+9X7B0HBxVFOpwnm8S
+	Fvkk9qAjihFF1RRp7u/pqr7bZYWLgaVisI4lrcgWEUVZ50t6xs5swt1+xoj8p9BXfVLYYOMemxT
+	FYnStNXBKoahgHW8uMNAjj71c9CbtJVzVXjqdaDwZA1fLPRTKEmRUVzp8kJFx+IfF2VfjVvCJ31
+	YYRdRl4yS7qZjvzLrV9ZmH89/8hGEmMrVhzBngLoSDrP1R3OS+nm6V80b3p4tyj5qWVD6rLI1/E
+	wOnSxuzcQiVZBlVxFKyTbkX6KTLXWtzeSoRpF
+X-Google-Smtp-Source: AGHT+IE5YJ8MN5ScIcUChT1bZd0Hud5a/TzVlzam3JreiTLsv0IECLjtSBnjYNCi9aLpKux4FkFDPw==
+X-Received: by 2002:a17:903:248:b0:249:2360:6af2 with SMTP id d9443c01a7336-25d24baff8emr187682985ad.16.1757978362982;
+        Mon, 15 Sep 2025 16:19:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607a47acasm14325237b3a.38.2025.09.15.16.19.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 16:19:22 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id D7DDF420A809; Tue, 16 Sep 2025 06:19:14 +0700 (WIB)
+Date: Tue, 16 Sep 2025 06:19:13 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	linux-cxl@vger.kernel.org
+Cc: Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ALOK TIWARI <alok.a.tiwari@oracle.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Gregory Price <gourry@gourry.net>,
+	Robert Richter <rrichter@amd.com>
+Subject: Re: [PATCH v6] cxl: docs/driver-api/conventions resolve conflicts
+ between CFMWS, Low memory Holes, Decoders
+Message-ID: <aMie8YrZJw-qmPDk@archie.me>
+References: <20250915145810.16872-1-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3thlJ7Uhf4hkMntH"
+Content-Disposition: inline
+In-Reply-To: <20250915145810.16872-1-fabio.m.de.francesco@linux.intel.com>
 
-Gabriele Paoloni <gpaoloni@redhat.com> writes:
 
-> This patch proposes initial kernel-doc documentation for memory_open()
-> and most of the functions in the mem_fops structure.
-> The format used for the specifications follows the guidelines
-> defined in Documentation/doc-guide/code-specifications.rst
+--3thlJ7Uhf4hkMntH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll repeat my obnoxious question from the first patch: what does that
-buy for us?
+On Mon, Sep 15, 2025 at 04:57:20PM +0200, Fabio M. De Francesco wrote:
+> diff --git a/Documentation/driver-api/cxl/conventions.rst b/Documentation=
+/driver-api/cxl/conventions.rst
+> index da347a81a237..6bce7c614fff 100644
+> --- a/Documentation/driver-api/cxl/conventions.rst
+> +++ b/Documentation/driver-api/cxl/conventions.rst
+> @@ -45,3 +45,138 @@ Detailed Description of the Change
+>  ----------------------------------
+> =20
+>  <Propose spec language that corrects the conflict.>
+> +
+> +
+> +Resolve conflict between CFMWS, Platform Memory Holes, and Endpoint Deco=
+ders
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +Document
+> +--------
+> +
+> +CXL Revision 3.2, Version 1.0
+> +
+> +License
+> +-------
+> +
+> +SPDX-License Identifier: CC-BY-4.0
+> +
+> +Creator/Contributors
+> +--------------------
+> +
+> +- Fabio M. De Francesco, Intel
+> +- Dan J. Williams, Intel
+> +- Mahesh Natu, Intel
+> +
+> +Summary of the Change
+> +---------------------
+> +
+> +According to the current Compute Express Link (CXL) Specifications (Revi=
+sion
+> +3.2, Version 1.0), the CXL Fixed Memory Window Structure (CFMWS) describ=
+es zero
+> +or more Host Physical Address (HPA) windows associated with each CXL Host
+> +Bridge. Each window represents a contiguous HPA range that may be interl=
+eaved
+> +across one or more targets, including CXL Host Bridges.  Each window has=
+ a set
+> +of restrictions that govern its usage. It is the Operating System-direct=
+ed
+> +configuration and Power Management (OSPM) responsibility to utilize each=
+ window
+> +for the specified use.
+> +
+> +Table 9-22 of the current CXL Specifications states that the Window Size=
+ field
+> +contains the total number of consecutive bytes of HPA this window descri=
+bes.
+> +This value must be a multiple of the Number of Interleave Ways (NIW) * 2=
+56 MB.
+> +
+> +Platform Firmware (BIOS) might reserve physical addresses below 4 GB whe=
+re a
+> +memory gap such as the Low Memory Hole for PCIe MMIO may exist. In such =
+cases,
+> +the CFMWS Range Size may not adhere to the NIW * 256 MB rule.
+> +
+> +The HPA represents the actual physical memory address space that the CXL=
+ devices
+> +can decode and respond to, while the System Physical Address (SPA), a re=
+lated
+> +but distinct concept, represents the system-visible address space that u=
+sers can
+> +direct transaction to and so it excludes reserved regions.
+> +
+> +BIOS publishes CFMWS to communicate the active SPA ranges that, on platf=
+orms
+> +with LMH's, map to a strict subset of the HPA. The SPA range trims out t=
+he hole,
+> +resulting in lost capacity in the Endpoints with no SPA to map to that p=
+art of
+> +the HPA range that intersects the hole.
+> +
+> +E.g, an x86 platform with two CFMWS and an LMH starting at 2 GB::
+> +
+> + +--------+------------+-------------------+------------------+---------=
+----------+------+
+> + | Window | CFMWS Base |    CFMWS Size     | HDM Decoder Base |  HDM Dec=
+oder Size | Ways |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D+
+> + |  =E2=80=810    |   0 GB     |       2 GB        |      0 GB        | =
+      3 GB        |  12  |
+> + +--------+------------+-------------------+------------------+---------=
+----------+------+
+> + |  =E2=80=811    |   4 GB     | NIW*256MB Aligned |      4 GB        | =
+NIW*256MB Aligned |  12  |
+> + +--------+------------+-------------------+------------------+---------=
+----------+------+
 
-> Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
-> ---
->  drivers/char/mem.c | 231 +++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 225 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/char/mem.c b/drivers/char/mem.c
-> index 48839958b0b1..e69c164e9465 100644
-> --- a/drivers/char/mem.c
-> +++ b/drivers/char/mem.c
-> @@ -75,9 +75,54 @@ static inline bool should_stop_iteration(void)
->  	return signal_pending(current);
->  }
->  
-> -/*
-> - * This funcion reads the *physical* memory. The f_pos points directly to the
-> - * memory location.
-> +/**
-> + * read_mem - read from physical memory (/dev/mem).
-> + * @file: struct file associated with /dev/mem.
-> + * @buf: user-space buffer to copy data to.
-> + * @count: number of bytes to read.
-> + * @ppos: pointer to the current file position, representing the physical
-> + *        address to read from.
-> + *
-> + * This function checks if the requested physical memory range is valid
-> + * and accessible by the user, then it copies data to the input
-> + * user-space buffer up to the requested number of bytes.
-> + *
-> + * Function's expectations:
-> + *
-> + * 1. This function shall check if the value pointed by ppos exceeds the
-> + *    maximum addressable physical address;
-> + *
-> + * 2. This function shall check if the physical address range to be read
-> + *    is valid (i.e. it falls within a memory block and if it can be mapped
-> + *    to the kernel address space);
-> + *
-> + * 3. For each memory page falling in the requested physical range
-> + *    [ppos, ppos + count - 1]:
-> + *   3.1. this function shall check if user space access is allowed (if
-> + *        config STRICT_DEVMEM is not set, access is always granted);
-> + *
-> + *   3.2. if access is allowed, the memory content from the page range falling
-> + *        within the requested physical range shall be copied to the user space
-> + *        buffer;
-> + *
-> + *   3.3. zeros shall be copied to the user space buffer (for the page range
-> + *        falling within the requested physical range):
-> + *     3.3.1. if access to the memory page is restricted or,
-> + *     3.2.2. if the current page is page 0 on HW architectures where page 0 is
-> + *            not mapped.
-> + *
-> + * 4. The file position '*ppos' shall be advanced by the number of bytes
-> + *    successfully copied to user space (including zeros).
+Nit: You can remove double colon marker so that the table will be parsed
+as such.
 
-My kneejerk first reaction is: you are repeating the code of the
-function in a different language.  If we are not convinced that the code
-is correct, how can we be more confident that this set of specifications
-is correct?  And again, what will consume this text?  How does going
-through this effort get us to a better kernel?
+> +
+> +HDM decoder base and HDM decoder size represent all the 12 Endpoint Deco=
+ders of
+> +a 12 ways region and all the intermediate Switch Decoders.  They are con=
+figured
+> +by the BIOS according to the NIW * 256MB rule, resulting in a HPA range =
+size of
+> +3GB. Instead, the CFMWS Base and CFMWS Size are used to configure the Ro=
+ot
+> +Decoder HPA range that results smaller (2GB) than that of the Switch and
+> +Endpoint Decoders in the hierarchy (3GB).
+> +
+> +This creates 2 issues which lead to a failure to construct a region:
+> +
+> +1) A mismatch in region size between root and any HDM decoder. The root =
+decoders
+> +   will always be smaller due to the trim.
+> +
+> +2) The trim causes the root decoder to violate the (NIW * 256MB) rule.
+> +
+> +This change allows a region with a base address of 0GB to bypass these c=
+hecks to
+> +allow for region creation with the trimmed root decoder address range.
+> +
+> +This change does not allow for any other arbitrary region to violate the=
+se
+> +checks - it is intended exclusively to enable x86 platforms which map CX=
+L memory
+> +under 4GB.
+> +
+> +Despite the HDM decoders covering the PCIE hole HPA region, it is expect=
+ed that
+> +the platform will never route address accesses to the CXL complex becaus=
+e the
+> +root decoder only covers the trimmed region (which excludes this).  This=
+ is
+> +outside the ability of Linux to enforce.
+> +
+> +On the example platform, only the first 2GB will be potentially usable, =
+but
+> +Linux, aiming to adhere to the current specifications, fails to construct
+> +Regions and attach Endpoint and intermediate Switch Decoders to them.
+> +
+> +There are several points of failure that due to the expectation that the=
+ Root
+> +Decoder HPA size, that is equal to the CFMWS from which it is configured=
+, has
+> +to be greater or equal to the matching Switch and Endpoint HDM Decoders.
+> +
+> +In order to succeed with construction and attachment, Linux must constru=
+ct a
+> +Region with Root Decoder HPA range size, and then attach to that all the
+> +intermediate Switch Decoders and Endpoint Decoders that belong to the hi=
+erarchy
+> +regardless of their range sizes.
+> +
+> +Benefits of the Change
+> +----------------------
+> +
+> +Without the change, the OSPM wouldn't match intermediate Switch and Endp=
+oint
+> +Decoders with Root Decoders configured with CFMWS HPA sizes that don't a=
+lign
+> +with the NIW * 256MB constraint, and so it leads to lost memdev capacity.
+> +
+> +This change allows the OSPM to construct Regions and attach intermediate=
+ Switch
+> +and Endpoint Decoders to them, so that the addressable part of the memory
+> +devices total capacity is made available to the users.
+> +
+> +References
+> +----------
+> +
+> +Compute Express Link Specification Revision 3.2, Version 1.0
+> +<https://www.computeexpresslink.org/>
+> +
+> +Detailed Description of the Change
+> +----------------------------------
+> +
+> +The description of the Window Size field in table 9-22 needs to account =
+for
+> +platforms with Low Memory Holes, where SPA ranges might be subsets of the
+> +endpoints HPA. Therefore, it has to be changed to the following:
+> +
+> +"The total number of consecutive bytes of HPA this window represents. Th=
+is value
+> +shall be a multiple of NIW * 256 MB.
+> +
+> +On platforms that reserve physical addresses below 4 GB, such as the Low=
+ Memory
+> +Hole for PCIe MMIO on x86, an instance of CFMWS whose Base HPA range is =
+0 might
+> +have a size that doesn't align with the NIW * 256 MB constraint.
+> +
+> +Note that the matching intermediate Switch Decoders and the Endpoint Dec=
+oders
+> +HPA range sizes must still align to the above-mentioned rule, but the me=
+mory
+> +capacity that exceeds the CFMWS window size won't be accessible.".
 
-Despite having been to a couple of your talks, I'm not fully
-understanding how this comes together; people who haven't been to the
-talks are not going to have an easier time getting the full picture.
+The rest LGTM.
 
-Thanks,
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-jon
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--3thlJ7Uhf4hkMntH
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMie7AAKCRD2uYlJVVFO
+o5UdAQChT9cpIu727LYaQN4Hia5cXDeQEnPK8jW23zEJ5VKiuAEAp0NgBZELdrOY
+rATzi4Tu9xu5M1l8NV6cggN35VIUXgI=
+=nR49
+-----END PGP SIGNATURE-----
+
+--3thlJ7Uhf4hkMntH--
