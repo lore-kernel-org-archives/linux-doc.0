@@ -1,185 +1,388 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CF7189F3B;
-	Mon, 15 Sep 2025 00:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D2314AD0D
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 00:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757895926; cv=none; b=IrHysMw8ru1lQgye9rRt+hE/r0ucFHPdz1rR+xKTvWA2inr3v/Z3WgsmfP+JNqiA8FDy1Jcbw7QE2ZYJszy+3Z9D2DnyulHFYK5ZL+ml6mRVV5/ZFy7yHGbFLI4ScMDlumyLEfNRK6HtAqt5b8lvsmb8pTUYDEKrBPUNjnGxB4U=
+	t=1757896422; cv=none; b=r/mZAXtC35bIhSSx9staAFcPv4AHXgsSTAREueetyWkB96uKUpo6zEtizut5prIhgwpOLRGXyVBMTJTzbf54okIZr081GAG1d30xfuub+W6QjuQ1LZcbNW0aT4Iwr+p4ZsTLRYDv4LCoyRX77S0gkJH953abG2muK7YyX0oXigY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757895926; c=relaxed/simple;
-	bh=zEoptxqfKZSCEk17+Y0MDsXZEX03H+Xf2g82b3gPamU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZhIr16kwvo/lIpYPiwwmAa9SPXMZcX8BEeaMl4m0f1mnaj9vAZXFLl6v0WNF86VEfYmcoYEwtJsXe56v8H8bdn2z/tPj0kUlXMoNTXL0xaHSYxUU34qYYhbWiHRXU4wZJqjaho8W9/UHNiUZVgG9YDDCbHIrXI2eyNz3Wmr3eOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C4Vr9g9t; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1757896422; c=relaxed/simple;
+	bh=qX866UujfUMh2usMLlxwIilBS63If5k/x+YqGp7Ezlg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cFekWIETX9j2OG5Kk9yg+tmZqi/jNjQf8nnZRvwuMLUuWB9y4iZWgVqPmnSQLZZVRpk0G/2AR73JaXH5VLDJWlxTaXuzggsVA5qdFs7NEJi2d6k4RKO8Cu4vvup4N0oqAtHJUO6V+B1yst7h8Q6NXuAy2pUlfiJjXP0u2JT4DMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aZ2q0fls; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C4Vr9g9t"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=u8zMQpdMOqIdURPi9uNy67Biru0axdnayB3aNUPVnFg=; b=C4Vr9g9tXs0Oc6zzKbFOONNmS8
-	eSq7F7barvctskieUIp02HEyGQ5xs95vT4cQdN8GL8v8pFooUt4jO90o9jRdZN2qTWgLbANdIQHVg
-	7yWqDbMse/xbhrClylogg0mkrBD+sfMojfAxlRUKqoUYxmVvZQhc49T5CYv+u4+BMbsZw1Mmn9hDt
-	QLFtLpVkchQJYQzd33HRUXm7OQC2+puMAgjlu+FJx10HXRXGHMPK1PZazbc18iKT52RKB5O5dIz3G
-	2tUV2HN5Ickg8XzW7+WYHGD4fWqQpAyB7ji5nbaGvb6R+RwmoHRSuvx8XxoDlqQJBsrG8uFyWfaTs
-	iVhfy0+w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxx20-00000002PjJ-0sg7;
-	Mon, 15 Sep 2025 00:25:20 +0000
-Message-ID: <fadb37f2-543a-4c4c-9cde-5ee7928edbe4@infradead.org>
-Date: Sun, 14 Sep 2025 17:25:19 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aZ2q0fls"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757896417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tv+FE1ET0lfCXvwziye6Xvvm89/ScdWxbdg0BcdCwCo=;
+	b=aZ2q0flsJvPNskz9UAVnzbCjl6jXhpTjpHMmr0D1CTgsEnqRtRuOUL1lMbetSp+aXWdD0P
+	KxjEq1BJi+9lpoRu0b4+84Ou3RsngmIR6QWDHwlhsxJL3mvjT3BMpuNBFyTgFkfpZJ6zd6
+	EgBg/zFHN4hjUcpu9yxRq8CcMKeBbyY=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-GLeDrOQxOmqf4t9jhMOpww-1; Sun, 14 Sep 2025 20:33:34 -0400
+X-MC-Unique: GLeDrOQxOmqf4t9jhMOpww-1
+X-Mimecast-MFC-AGG-ID: GLeDrOQxOmqf4t9jhMOpww_1757896412
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-351786ce56aso9515751fa.2
+        for <linux-doc@vger.kernel.org>; Sun, 14 Sep 2025 17:33:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757896412; x=1758501212;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Tv+FE1ET0lfCXvwziye6Xvvm89/ScdWxbdg0BcdCwCo=;
+        b=gZcYzNY0Fjca9R/andeWsYEtvfmZLDsBqxDNuJotpxv7bGBnxCnUCMWQSc1p+NYRhk
+         rWOtJCfRqZpi3ViAOnWz2wZcqqNV0rrylPBe7IOABDhQUkXr/n6o3vUm8IdkYarccOZO
+         MDJ7OfySV/i0Eme45XXMs/i0ym5gWqfmV22gAhXzhUDbi3MAjAhVQbj/m6827OJ4EoDs
+         qy1q4xd4eOiNPRDqLezZ3uHBRDAhA9xDiynYiTXeVQBPNIBA4ymVzufXh6YCE6mhK5je
+         JfTJoegsG80qZL+7Pq/zoocrsl3lt/9AmnWMtGKo184EOl1feX6ZgSEmtWxSGvgW4Lrz
+         w1AA==
+X-Forwarded-Encrypted: i=1; AJvYcCXsZo7WYZDt5n3S93gUOhqrDp6BUrNLnHLVeSy0NEoBEtCqw5LutjFlSQUzft/yF3Fr33EEhwuvZDY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlD2YcdVJRAQgUlKIRbHvqGHXCXz23Ko+5zZ5gR0sNcRtQGKs6
+	gUxcGz/lB91SV85RoAPreCGB0r47y8WBkBiWA3eb3N+a8ps6RtC70zRvN8XxLZLjQXg5u/Jpgvb
+	a6ZX+NOBtTAyM54j6UrypZGZwsYpfG0cNBkuCrFO3keR746p+Y6QcjD9tK9kZJtBvAiVsTuLd2c
+	L6kzLuz5vkMJpRR9gazM9tC0H8Fsly557kMiS1
+X-Gm-Gg: ASbGnctKoJTzYLpK8SAmhZQbGGKw9dtCqJa0bAJthTdn/4lXTnEEyTkVaAvZUpLMxZv
+	X0w4ANdDzE2v40eKMlE5JVkoVSd6/nC09sCF3HkZ2sTzZRHiCx3P+JPVMwkXWnw50HdbOhpRVoY
+	3mW0b0ltcxa/9OifhM4+hciw==
+X-Received: by 2002:a2e:b896:0:b0:336:c9be:c164 with SMTP id 38308e7fff4ca-35142005a54mr27467021fa.45.1757896412012;
+        Sun, 14 Sep 2025 17:33:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVnaSGGnxdMenpLu3BklRoJfQQPbVd0XWiLR9QTKgfTXftVxHek4IfsLABN9rRGDhnKvLs6cdjV7cWkqQjYgc=
+X-Received: by 2002:a2e:b896:0:b0:336:c9be:c164 with SMTP id
+ 38308e7fff4ca-35142005a54mr27466951fa.45.1757896411539; Sun, 14 Sep 2025
+ 17:33:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/8] tracing: wprobe: Add wprobe event trigger
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@kernel.org>, x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-perf-users@vger.kernel.org
-References: <175785897434.234168.6798590787777427098.stgit@devnote2>
- <175785903073.234168.11080771050255081365.stgit@devnote2>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <175785903073.234168.11080771050255081365.stgit@devnote2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250911073144.42160-1-linan666@huaweicloud.com> <20250911073144.42160-3-linan666@huaweicloud.com>
+In-Reply-To: <20250911073144.42160-3-linan666@huaweicloud.com>
+From: Xiao Ni <xni@redhat.com>
+Date: Mon, 15 Sep 2025 08:33:19 +0800
+X-Gm-Features: Ac12FXyJvz4WK5MtepX0dPCC6SxTee8sxOJ3sSRvi18-vjhbqHXWFJesarJOrpY
+Message-ID: <CALTww2_z7UGXJ+ppYXrkAY8bpVrV9O3z0VfoaTOZtmX1-DXiZA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] md: allow configuring logical_block_size
+To: linan666@huaweicloud.com
+Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, linan122@huawei.com, 
+	hare@suse.de, martin.petersen@oracle.com, bvanassche@acm.org, 
+	filipe.c.maia@gmail.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, 
+	yangerkun@huawei.com, yi.zhang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Nan
 
+On Thu, Sep 11, 2025 at 3:41=E2=80=AFPM <linan666@huaweicloud.com> wrote:
+>
+> From: Li Nan <linan122@huawei.com>
+>
+> Previously, raid array used the maximum logical_block_size (LBS) of
+> all member disks. Adding a larger LBS during disk at runtime could
+> unexpectedly increase RAID's LBS, risking corruption of existing
+> partitions.
 
-On 9/14/25 7:10 AM, Masami Hiramatsu (Google) wrote:
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> Add wprobe event trigger to set and clear the watch event dynamically.
-> This allows us to set an watchpoint on a given local variables and
-> a slab object instead of static objects.
-> 
-> The trigger syntax is below;
+Could you describe more about the problem? It's better to give some
+test steps that can be used to reproduce this problem.
+>
+> Simply restricting larger-LBS disks is inflexible. In some scenarios,
+> only disks with 512 LBS are available currently, but later, disks with
+> 4k LBS may be added to the array.
+>
+> Making LBS configurable is the best way to solve this scenario.
+> After this patch, the raid will:
+>   - stores LBS in disk metadata.
+>   - add a read-write sysfs 'mdX/logical_block_size'.
+>
+> Future mdadm should support setting LBS via metadata field during RAID
+> creation and the new sysfs. Though the kernel allows runtime LBS changes,
+> users should avoid modifying it after creating partitions or filesystems
+> to prevent compatibility issues.
 
-                        below:
-(just a nit :)
+Because it only allows setting when creating an array. Can this be
+done automatically in kernel space?
 
-> 
->   - set_wprobe:WPROBE:FIELD[+OFFSET] [if FILTER]
->   - clear_wprobe:WPROBE[:FIELD[+OFFSET]] [if FILTER]
-> 
-> set_wprobe sets the address pointed by FIELD[+offset] to the WPROBE
-> event. The FIELD is the field name of trigger event.
-> clear_wprobe clears the watch address of WPROBE event. If the FIELD
-> option is specified, it clears only if the current watch address is
-> same as the given FIELD[+OFFSET] value.
-> 
-> The set_wprobe trigger do not change type and length. That should be
-
-                         does                             should be done
-?
-
-> set when a new wprobe is created.
-> 
-> Also, the WPROBE event must be disabled when setting the new trigger
-> and it will be busy afterwards. Recommended usage is to add a new
-> wprobe at NULL address and keep disabled.
-> 
-> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Best Regards
+Xiao
+>
+> Note that many RAID paths rely on PAGE_SIZE alignment, including for
+> metadata I/O. A logical_block_size larger than PAGE_SIZE will result in
+> metadata reads/writes failures. So this config should be prevented.
+>
+> Only 1.x meta supports configurable logical_block_size. 0.90 meta init
+> all fields to default at auto-detect. Supporting 0.90 would require more
+> extensive changes and no such use case has been observed.
+>
+> Signed-off-by: Li Nan <linan122@huawei.com>
 > ---
->  Changes in v3:
->   - Add FIELD option support for clear_wprobe and update document.
->   - Fix to unregister/free event_trigger_data on file correctly.
->   - Fix syntax comments.
->  Changes in v2:
->   - Getting local cpu perf_event from trace_wprobe directly.
->   - Remove trace_wprobe_local_perf() because it is conditionally unused.
->   - Make CONFIG_WPROBE_TRIGGERS a hidden config.
-> ---
->  Documentation/trace/wprobetrace.rst |   88 +++++++
->  include/linux/trace_events.h        |    1 
->  kernel/trace/Kconfig                |   10 +
->  kernel/trace/trace_wprobe.c         |  430 +++++++++++++++++++++++++++++++++++
->  4 files changed, 529 insertions(+)
-> 
-> diff --git a/Documentation/trace/wprobetrace.rst b/Documentation/trace/wprobetrace.rst
-> index 9774f57e2947..a1812a8ac491 100644
-> --- a/Documentation/trace/wprobetrace.rst
-> +++ b/Documentation/trace/wprobetrace.rst
-> @@ -67,3 +67,91 @@ Here is an example to add a wprobe event on a variable `jiffies`.
->             <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
->  
->  You can see the code which writes to `jiffies` is `do_timer()`.
+>  Documentation/admin-guide/md.rst |  7 +++
+>  drivers/md/md.h                  |  1 +
+>  include/uapi/linux/raid/md_p.h   |  3 +-
+>  drivers/md/md-linear.c           |  1 +
+>  drivers/md/md.c                  | 75 ++++++++++++++++++++++++++++++++
+>  drivers/md/raid0.c               |  1 +
+>  drivers/md/raid1.c               |  1 +
+>  drivers/md/raid10.c              |  1 +
+>  drivers/md/raid5.c               |  1 +
+>  9 files changed, 90 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide=
+/md.rst
+> index 1c2eacc94758..f5c81fad034a 100644
+> --- a/Documentation/admin-guide/md.rst
+> +++ b/Documentation/admin-guide/md.rst
+> @@ -238,6 +238,13 @@ All md devices contain:
+>       the number of devices in a raid4/5/6, or to support external
+>       metadata formats which mandate such clipping.
+>
+> +  logical_block_size
+> +     Configures the array's logical block size in bytes. This attribute
+> +     is only supported for RAID1, RAID5, RAID10 with 1.x meta. The value
+> +     should be written before starting the array. The final array LBS
+> +     will use the max value between this configuration and all rdev's LB=
+S.
+> +     Note that LBS cannot exceed PAGE_SIZE.
 > +
-> +Combination with trigger action
-> +-------------------------------
-> +The event trigger action can extend the utilization of this wprobe.
+>    reshape_position
+>       This is either ``none`` or a sector number within the devices of
+>       the array where ``reshape`` is up to.  If this is set, the three
+> diff --git a/drivers/md/md.h b/drivers/md/md.h
+> index afb25f727409..b0147b98c8d3 100644
+> --- a/drivers/md/md.h
+> +++ b/drivers/md/md.h
+> @@ -432,6 +432,7 @@ struct mddev {
+>         sector_t                        array_sectors; /* exported array =
+size */
+>         int                             external_size; /* size managed
+>                                                         * externally */
+> +       unsigned int                    logical_block_size;
+>         __u64                           events;
+>         /* If the last 'event' was simply a clean->dirty transition, and
+>          * we didn't write it to the spares, then it is safe and simple
+> diff --git a/include/uapi/linux/raid/md_p.h b/include/uapi/linux/raid/md_=
+p.h
+> index ac74133a4768..310068bb2a1d 100644
+> --- a/include/uapi/linux/raid/md_p.h
+> +++ b/include/uapi/linux/raid/md_p.h
+> @@ -291,7 +291,8 @@ struct mdp_superblock_1 {
+>         __le64  resync_offset;  /* data before this offset (from data_off=
+set) known to be in sync */
+>         __le32  sb_csum;        /* checksum up to devs[max_dev] */
+>         __le32  max_dev;        /* size of devs[] array to consider */
+> -       __u8    pad3[64-32];    /* set to 0 when writing */
+> +       __le32  logical_block_size;     /* same as q->limits->logical_blo=
+ck_size */
+> +       __u8    pad3[64-36];    /* set to 0 when writing */
+>
+>         /* device state information. Indexed by dev_number.
+>          * 2 bytes per device
+> diff --git a/drivers/md/md-linear.c b/drivers/md/md-linear.c
+> index 5d9b08115375..da8babb8da59 100644
+> --- a/drivers/md/md-linear.c
+> +++ b/drivers/md/md-linear.c
+> @@ -72,6 +72,7 @@ static int linear_set_limits(struct mddev *mddev)
+>
+>         md_init_stacking_limits(&lim);
+>         lim.max_hw_sectors =3D mddev->chunk_sectors;
+> +       lim.logical_block_size =3D mddev->logical_block_size;
+>         lim.max_write_zeroes_sectors =3D mddev->chunk_sectors;
+>         lim.io_min =3D mddev->chunk_sectors << 9;
+>         err =3D mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRIT=
+Y);
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index 40f56183c744..e0184942c8ec 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -1963,6 +1963,7 @@ static int super_1_validate(struct mddev *mddev, st=
+ruct md_rdev *freshest, struc
+>                 mddev->layout =3D le32_to_cpu(sb->layout);
+>                 mddev->raid_disks =3D le32_to_cpu(sb->raid_disks);
+>                 mddev->dev_sectors =3D le64_to_cpu(sb->size);
+> +               mddev->logical_block_size =3D le32_to_cpu(sb->logical_blo=
+ck_size);
+>                 mddev->events =3D ev1;
+>                 mddev->bitmap_info.offset =3D 0;
+>                 mddev->bitmap_info.space =3D 0;
+> @@ -2172,6 +2173,7 @@ static void super_1_sync(struct mddev *mddev, struc=
+t md_rdev *rdev)
+>         sb->chunksize =3D cpu_to_le32(mddev->chunk_sectors);
+>         sb->level =3D cpu_to_le32(mddev->level);
+>         sb->layout =3D cpu_to_le32(mddev->layout);
+> +       sb->logical_block_size =3D cpu_to_le32(mddev->logical_block_size)=
+;
+>         if (test_bit(FailFast, &rdev->flags))
+>                 sb->devflags |=3D FailFast1;
+>         else
+> @@ -5900,6 +5902,66 @@ static struct md_sysfs_entry md_serialize_policy =
+=3D
+>  __ATTR(serialize_policy, S_IRUGO | S_IWUSR, serialize_policy_show,
+>         serialize_policy_store);
+>
+> +static int mddev_set_logical_block_size(struct mddev *mddev,
+> +                               unsigned int lbs)
+> +{
+> +       int err =3D 0;
+> +       struct queue_limits lim;
 > +
-> +- set_wprobe:WPEVENT:FIELD[+|-ADJUST]
-> +- clear_wprobe:WPEVENT[:FIELD[+|-]ADJUST]
+> +       if (queue_logical_block_size(mddev->gendisk->queue) >=3D lbs) {
+> +               pr_err("%s: incompatible logical_block_size %u, can not s=
+et\n",
+> +                      mdname(mddev), lbs);
+> +               return -EINVAL;
+> +       }
 > +
-> +Set these triggers to the target event, then the WPROBE event will be
-> +setup to trace the memory access at FIELD[+|-ADJUST] address.
-> +When clear_wprobe is hit, if FIELD is NOT specified, the WPEVENT is
-> +forcibly cleared. If FIELD[[+|-]ADJUST] is set, it clears WPEVENT only
-> +if its watching address is the same as the FIELD[[+|-]ADJUST] value.
+> +       lim =3D queue_limits_start_update(mddev->gendisk->queue);
+> +       lim.logical_block_size =3D lbs;
+> +       pr_info("%s: logical_block_size is changed, data may be lost\n",
+> +               mdname(mddev));
+> +       err =3D queue_limits_commit_update(mddev->gendisk->queue, &lim);
+> +       if (err)
+> +               return err;
 > +
-> +Notes:
-> +The set_wprobe trigger do not change type and length. That should be
-                          does not                          should be done
-
-
-> +set when a new wprobe is created.
+> +       mddev->logical_block_size =3D lbs;
+> +       return 0;
+> +}
 > +
-> +The WPROBE event must be disabled when setting the new trigger
-> +and it will be busy afterwards. Recommended usage is to add a new
-> +wprobe at NULL address and keep disabled.
+> +static ssize_t
+> +lbs_show(struct mddev *mddev, char *page)
+> +{
+> +       return sprintf(page, "%u\n", mddev->logical_block_size);
+> +}
 > +
+> +static ssize_t
+> +lbs_store(struct mddev *mddev, const char *buf, size_t len)
+> +{
+> +       unsigned int lbs;
+> +       int err =3D -EBUSY;
 > +
-> +For example, trace the first 8 byte of the dentry data structure passed
-
-                                  bytes
-
-> +to do_truncate() until it is deleted by __dentry_kill().
-> +(Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+> +       /* Only 1.x meta supports configurable LBS */
+> +       if (mddev->major_version =3D=3D 0)
+> +               return -EINVAL;
 > +
-> +  # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
-
-Just using '>' here is OK?
-
+> +       if (mddev->pers)
+> +               return -EBUSY;
 > +
-> +  # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-> +  # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+> +       err =3D kstrtouint(buf, 10, &lbs);
+> +       if (err < 0)
+> +               return -EINVAL;
 > +
-> +  # echo 'f:dentry_kill __dentry_kill dentry=$arg1' >> dynamic_events
-> +  # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
+> +       err =3D mddev_lock(mddev);
+> +       if (err)
+> +               goto unlock;
 > +
-> +  # echo 1 >> events/fprobes/truncate/enable
-> +  # echo 1 >> events/fprobes/dentry_kill/enable
+> +       err =3D mddev_set_logical_block_size(mddev, lbs);
 > +
-> +  # echo aaa > /tmp/hoge
-> +  # echo bbb > /tmp/hoge
-> +  # echo ccc > /tmp/hoge
-> +  # rm /tmp/hoge
+> +unlock:
+> +       mddev_unlock(mddev);
+> +       return err ?: len;
+> +}
 > +
-> +Then, the trace data will show;
-
-Usually that should be:      show:
-
-but in .rst it might need to be    show::
-
-I don't know. Haven't tested it.
-
-
--- 
-~Randy
+> +static struct md_sysfs_entry md_logical_block_size =3D
+> +__ATTR(logical_block_size, S_IRUGO|S_IWUSR, lbs_show, lbs_store);
+>
+>  static struct attribute *md_default_attrs[] =3D {
+>         &md_level.attr,
+> @@ -5933,6 +5995,7 @@ static struct attribute *md_redundancy_attrs[] =3D =
+{
+>         &md_scan_mode.attr,
+>         &md_last_scan_mode.attr,
+>         &md_mismatches.attr,
+> +       &md_logical_block_size.attr,
+>         &md_sync_min.attr,
+>         &md_sync_max.attr,
+>         &md_sync_io_depth.attr,
+> @@ -6052,6 +6115,17 @@ int mddev_stack_rdev_limits(struct mddev *mddev, s=
+truct queue_limits *lim,
+>                         return -EINVAL;
+>         }
+>
+> +       /*
+> +        * Before RAID adding folio support, the logical_block_size
+> +        * should be smaller than the page size.
+> +        */
+> +       if (lim->logical_block_size > PAGE_SIZE) {
+> +               pr_err("%s: logical_block_size must not larger than PAGE_=
+SIZE\n",
+> +                       mdname(mddev));
+> +               return -EINVAL;
+> +       }
+> +       mddev->logical_block_size =3D lim->logical_block_size;
+> +
+>         return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(mddev_stack_rdev_limits);
+> @@ -6690,6 +6764,7 @@ static void md_clean(struct mddev *mddev)
+>         mddev->chunk_sectors =3D 0;
+>         mddev->ctime =3D mddev->utime =3D 0;
+>         mddev->layout =3D 0;
+> +       mddev->logical_block_size =3D 0;
+>         mddev->max_disks =3D 0;
+>         mddev->events =3D 0;
+>         mddev->can_decrease_events =3D 0;
+> diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
+> index f1d8811a542a..705889a09fc1 100644
+> --- a/drivers/md/raid0.c
+> +++ b/drivers/md/raid0.c
+> @@ -382,6 +382,7 @@ static int raid0_set_limits(struct mddev *mddev)
+>         md_init_stacking_limits(&lim);
+>         lim.max_hw_sectors =3D mddev->chunk_sectors;
+>         lim.max_write_zeroes_sectors =3D mddev->chunk_sectors;
+> +       lim.logical_block_size =3D mddev->logical_block_size;
+>         lim.io_min =3D mddev->chunk_sectors << 9;
+>         lim.io_opt =3D lim.io_min * mddev->raid_disks;
+>         lim.chunk_sectors =3D mddev->chunk_sectors;
+> diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
+> index d0f6afd2f988..de0c843067dc 100644
+> --- a/drivers/md/raid1.c
+> +++ b/drivers/md/raid1.c
+> @@ -3223,6 +3223,7 @@ static int raid1_set_limits(struct mddev *mddev)
+>
+>         md_init_stacking_limits(&lim);
+>         lim.max_write_zeroes_sectors =3D 0;
+> +       lim.logical_block_size =3D mddev->logical_block_size;
+>         lim.features |=3D BLK_FEAT_ATOMIC_WRITES;
+>         err =3D mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRIT=
+Y);
+>         if (err)
+> diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
+> index c3cfbb0347e7..68c8148386b0 100644
+> --- a/drivers/md/raid10.c
+> +++ b/drivers/md/raid10.c
+> @@ -4005,6 +4005,7 @@ static int raid10_set_queue_limits(struct mddev *md=
+dev)
+>
+>         md_init_stacking_limits(&lim);
+>         lim.max_write_zeroes_sectors =3D 0;
+> +       lim.logical_block_size =3D mddev->logical_block_size;
+>         lim.io_min =3D mddev->chunk_sectors << 9;
+>         lim.chunk_sectors =3D mddev->chunk_sectors;
+>         lim.io_opt =3D lim.io_min * raid10_nr_stripes(conf);
+> diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
+> index c32ffd9cffce..ff0daa22df65 100644
+> --- a/drivers/md/raid5.c
+> +++ b/drivers/md/raid5.c
+> @@ -7747,6 +7747,7 @@ static int raid5_set_limits(struct mddev *mddev)
+>         stripe =3D roundup_pow_of_two(data_disks * (mddev->chunk_sectors =
+<< 9));
+>
+>         md_init_stacking_limits(&lim);
+> +       lim.logical_block_size =3D mddev->logical_block_size;
+>         lim.io_min =3D mddev->chunk_sectors << 9;
+>         lim.io_opt =3D lim.io_min * (conf->raid_disks - conf->max_degrade=
+d);
+>         lim.features |=3D BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE;
+> --
+> 2.39.2
+>
 
