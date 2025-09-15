@@ -1,268 +1,258 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011029.outbound.protection.outlook.com [40.93.194.29])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E7B314A8E;
-	Mon, 15 Sep 2025 14:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757946867; cv=fail; b=ZSgIBlZao6Fsmd10M/TeTkmsyt5F/v1nPYyr0F66G3hNen4NL3OuXB3pBV2Ihsqhu+WFptImUXZbF09JDhQ7vzkMIgENT7QMxMhqBri1kxfz0YTQWosZQOMx9b2yazHLOngopf9IlV5oactKgFgQQg+eID92d12EVxoVci45ICg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757946867; c=relaxed/simple;
-	bh=p/VZON1NvfsTPde7pO7AHEoThUNWOp+t4sTO8PHmT6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=dnVyTwzTjZeUe1F114hOibDXgVHNtPxMTasBUd5xW/EmQBsEc+0R6dmqcthStH/RE5K79aGLEO369YHRIIhEYsad23LDQAKKf2ArBPeEUWOQUrta366egYdZEt9HEacDsAEZjn0iCx2zvB1bNp9utguAh/Qu2DUplteTpy39Oew=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BgSdNvPI; arc=fail smtp.client-ip=40.93.194.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F233472D
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 14:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757947547; cv=none; b=OglSOS6jNHwTmmdxhve01It/0N6jYIM2RVlgoLIVT7uUaqvMDUUF5ipz2BFwtRPZKGi4B4o6fYWhRUN9H99M4vwtAdbPEtZwO6TE3LtsUtcmja9HEan+ZkLQuXnmxn3TnM1HZAAegA7yiNBpB6qrPSE+5bXagJem0AnrhXXpSTc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757947547; c=relaxed/simple;
+	bh=3j6vMIwJeQcve7TptqubRQhXa+2fHqJxceZ6ouOq3oc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kWq8IJWEhZxKVuGoO/8u8MeoMhSOYT21vYe+C+o8vQIxCsi5d3ltfz+Zc5iXZJUZ5qTbX7U1Qmqn00Mf+OGvE/xtzyOKt+AjP273fFWvt4cgmkQPhnqe5nL8j8aF3cC/XtZQ4zciVaRY1pWxegwJbolkUq+9jeNVWKL04Kd5UWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AMK+jeAz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BgSdNvPI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w/q1kqg7d7ctFBI/zK9lLnqh8AjDLmCNsuY5LQOet/RvaSn4blhi2b7gt3jNR8telINzeNVD5Q64QY5Hp+3o6QTVfu5K7x2y52jdT+eiqeA/ieRTpPOgFSpxwOjqioztXZGQ9EVRC3SMuRb03fn/d6hPpkABnNQ5ChGJfgu52dsOc5gXc76VcTeT9XQ48sl+cEB1b3CJG0kSOq7FSFLZTjyREvvWJlDnPu5B6BC7xqPGiCDoC6QEogZ0jKsOZ2/jcPoBrwPC3z6w85SvriUtO5FvKoojs8oqjhO4q0CJHGxZR5ycjdN3qBh2ioRJ0tvHPnKb7/GS+tH3WMkFrhc7UA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w2OLPJGQr7Z+rVWzl8laX+IkMurJZ2I4ncppuXQbRPY=;
- b=KhqKhJ/3Cde1vw4E30jBiU46PfZ02BAj7ciN1A2+XwueIqb4ls4ZsZLqX8XVtUP0EsuCD+1Ztwko3YyWggx3n7sl20hjpXv0c1Y++oLcfwIEQvFuFlDrsuFi6iJr5bMXpaZ1LxflgC4OA8YP8ocuMJ/B70fUZKxSNWU0/vVHx+sc9+5UHxLrDL44oTYWfebT8W83vdisqtqRpImtsmjRFoPXX1TSUSmU92/jALVRNsK2Mi83LB87uTw8qPe5qT5tYeQ9rfyU0pBzaf31KmhoEVtz3PHrPFEsRy1awYfkndoAwL4cOX/ek3kBDFiflOXeEwh7zIoCtK+KTNFtdzMK0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w2OLPJGQr7Z+rVWzl8laX+IkMurJZ2I4ncppuXQbRPY=;
- b=BgSdNvPIN7Dtg7t4BYb6qqLQ2Dz1h7alCFqsxGx2ef8kgSI48cPDlEDn+AFW3SDDGrOMJbQtcjIyPieRsxmbITgisfoTWm7gSsidLNk5hqaASkd0jQ8bJO0iJc+CnXsHQ6cJO2OmqKA0pSulkvPJJKE9IWWjBNCgrkwRkVsjthl4cmwMSx6IW1mn7IwSnKGSPwtieGk2iT53BPNDJB9I2TsYdXGmaj/Mhk5LVoaMhjOcYyAFNK8L+BXEP95Pwb2lYTGSbgQN52Z7jxu2IlLOfowUN6LVoIGQ/xvjWXaqrIYL26b45zaNApGh3o6mHwTenSWSM7Ye67VVWPbcHkGTHw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
- by MW4PR12MB7213.namprd12.prod.outlook.com (2603:10b6:303:22a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Mon, 15 Sep
- 2025 14:34:18 +0000
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9115.020; Mon, 15 Sep 2025
- 14:34:17 +0000
-Date: Mon, 15 Sep 2025 11:34:14 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@redhat.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Dave Martin <Dave.Martin@arm.com>,
-	James Morse <james.morse@arm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-	ntfs3@lists.linux.dev, kexec@lists.infradead.org,
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 08/16] mm: add ability to take further action in
- vm_area_desc
-Message-ID: <20250915143414.GJ1024672@nvidia.com>
-References: <cover.1757534913.git.lorenzo.stoakes@oracle.com>
- <d85cc08dd7c5f0a4d5a3c5a5a1b75556461392a1.1757534913.git.lorenzo.stoakes@oracle.com>
- <20250915121112.GC1024672@nvidia.com>
- <77bbbfe8-871f-4bb3-ae8d-84dd328a1f7c@lucifer.local>
- <20250915124259.GF1024672@nvidia.com>
- <5be340e8-353a-4cde-8770-136a515f326a@lucifer.local>
- <20250915131142.GI1024672@nvidia.com>
- <c9c576db-a8d6-4a69-a7f6-2de4ab11390b@lucifer.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9c576db-a8d6-4a69-a7f6-2de4ab11390b@lucifer.local>
-X-ClientProxiedBy: BYAPR01CA0022.prod.exchangelabs.com (2603:10b6:a02:80::35)
- To PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AMK+jeAz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757947545;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=k9+ng43GZrr5Qkg95oHRInTl4xTsXzKo4GlGm+qBoPA=;
+	b=AMK+jeAzDnnF/JTD5rYTQBofrLj1+c/sBF2UcbFKPU9xF0qghYPzMIvrK42Zd8YUmeL5Fu
+	rLu/bx8uoeJBMafDE2q5MO8Sf57n8DIds0FHscHYdGHBr4auWiaJ4xSmpF3R84bN2LxhEZ
+	ySgJC7tg+NuXsIZ1EpSkAdrUMXVgPSc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-WQGjdPArP2yNvCRzcyFHig-1; Mon, 15 Sep 2025 10:45:38 -0400
+X-MC-Unique: WQGjdPArP2yNvCRzcyFHig-1
+X-Mimecast-MFC-AGG-ID: WQGjdPArP2yNvCRzcyFHig_1757947538
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3ebbbd9a430so402038f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 07:45:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757947537; x=1758552337;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k9+ng43GZrr5Qkg95oHRInTl4xTsXzKo4GlGm+qBoPA=;
+        b=aVB9hTXpUO7ej9fjKOWJxC46bfZk6iK7kKxV/pTXkKnN+Qla6LjR3RRSdlJhZmmh0o
+         sRdT2MOd9cLmW0p4lZQ2Hgz1m7VkREmcM1LX8nSjGG/mjHhfFCtwR1e1hKfCIuA0+Trm
+         cVPOBgKEQVP2+w1zhSPmn7nJBMskrLVKIEz0Ok6FuSPG2BS5GzX48j6mAxZBEv49VlY0
+         3HCwpKK/Jy7rFS9MabnAkjyMlXvq1MKuBUNPZxKkh/Mj2nC/v51KOAwqYLtoKNX5Z1Ja
+         eQKV258x76pNsVFEGG5p4333jUsVfnBAPfWXgxPn1zYihd4Lu0+kiQMUdeUBPW6iSGir
+         9vgA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYi8l0YeaPa03T6oy7W5o3H5im2ax9NrjKRQ1w0XimUkMFCUzkrdbdcdff7A3xo6fOboByh0bkw5A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyF4s/S6v+Oeq28TFPKfRqhIBKaVSqlsDAgVsylIhzm9BU9ln5Z
+	Kwx2/tSQPb3eYepSnxCJJzJroE6MQXMuXmOsz1eyucEDKllS3Agvx8QzInID01AuWLzFlkDu2Xt
+	C5DLgii2DaP5gQFE2xFP19yo5H1brrUpJDVDtXR8CNrpQeU6An6+V9LnsXBakGj1l8b8EOw==
+X-Gm-Gg: ASbGncsEj8ItmPTOWOjzitxgpRlqByTA/1MaDEsYPCznV+XMDGE1vShHZtGz38YEcfe
+	AlN3aRkL5NQI6TyJxwh6VsQt/WK2RfdHIhXokP2UFg/5J5fILTJGo/M74Zk1UXW+9YkdiueuHaT
+	d8zYVivzmHVfRwe58tVZhFTahtw7jxaUljH1ECfU+5AhdgVCIG2wcF9afKHQdklkOWZjupXsu8m
+	4r4/gxkK4XQnL7u2LUUGuAMJHORJ27s96OfLhkyqY5U+XAw9ChDIPxXqwKKAIReBjk+eXBRK/PX
+	FX2OVgbOG0mb1PQK2MISfb7ZTULTmy/S9+bn7hrJbWNZlkgO1Bj4skk2/UxKXtWIDLQ0wUtH7Km
+	M263nrT/AjwIUMT2q8HH2l67nMvQrUQMoOv9eUgnS2Jzij2QxYJzYCSgHbffLXasbOiU=
+X-Received: by 2002:a5d:64c9:0:b0:3e9:3647:bafa with SMTP id ffacd0b85a97d-3e93647f92emr5719806f8f.50.1757947537372;
+        Mon, 15 Sep 2025 07:45:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhLsrr/RZZtntJiFPX2y+LT0MCpNqUQa46XkZ2QwZosSN4wOsCpUs0G9aaerck781Zkpkdig==
+X-Received: by 2002:a5d:64c9:0:b0:3e9:3647:bafa with SMTP id ffacd0b85a97d-3e93647f92emr5719778f8f.50.1757947536808;
+        Mon, 15 Sep 2025 07:45:36 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f18:f900:e0ae:65d5:8bf8:8cfd? (p200300d82f18f900e0ae65d58bf88cfd.dip0.t-ipconnect.de. [2003:d8:2f18:f900:e0ae:65d5:8bf8:8cfd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0372aea2sm187201655e9.7.2025.09.15.07.45.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Sep 2025 07:45:36 -0700 (PDT)
+Message-ID: <83f256b6-60cf-40b7-813b-302968eeb234@redhat.com>
+Date: Mon, 15 Sep 2025 16:45:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|MW4PR12MB7213:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2eb574c-df41-4d7d-a0bb-08ddf464f360
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?J0fgzA3EZhDGT7KbfP8CmsywsIxKJJVvO2ZE9bGNw3Q/f2nhzl/evKYMDZ0K?=
- =?us-ascii?Q?5oDGq400RO1n/B4DIouUv+J4gk9rvdKMyDNUqnkctgYHpW99au5EiX6svH+Z?=
- =?us-ascii?Q?X6uwd6GedpE8y1sOxbU4hG5Nv/g+p59WJ6Ran3+HbKtLMqVEvwtyHprkup0G?=
- =?us-ascii?Q?L4hH4SsCITv12/C9g4PdZhsmAji95/qjColkRsM2hUZNcKBHMxfkkj89ofJI?=
- =?us-ascii?Q?BAk8wTkiUWz4TF4cm55a5WkPz65eU3JmNfiGqHm7Ie6iODS9oIXhdZZxlG5u?=
- =?us-ascii?Q?aYiIQi5B3oNBG7KqLH3mvUN+6lljkbkRS8+VyFSq6BD96wW/pz2bNEHtEByS?=
- =?us-ascii?Q?2IUJ3Y/0/TImRFH8gikcmCD/y27a4gt0lMV45CdXbEKblstTG/X5LDzCWans?=
- =?us-ascii?Q?/F8uJzs9ufYM78XE5d5boAE7SKf6XNnfhKbecpT2W26Vt3a6alHZa5ICx5E4?=
- =?us-ascii?Q?xzHyQOE2gfDOnsPUxAfWAxNvBC0o7MtC+IYvUH0FyYL9KAJbnHRbstlZB7cr?=
- =?us-ascii?Q?Jjs7YZDDkI/xNfdMJvrmmHt/o86+FQnST283wiqbSfX3dRkDRgTCQ9Xl0M63?=
- =?us-ascii?Q?PRMDFEKDk2tvjR2mz9DGcnazhNvWeKbCM5LKImHz5JlTI5xSZJtFMn5+m4El?=
- =?us-ascii?Q?7sIx5mEr1Bpobz0gG+uLmHdKKcb2JkZu7oiSxb4/n78KO66FM2lPOU8CJtWF?=
- =?us-ascii?Q?wDS7Q8mJcbnjDqK3xQIXrzcYOPD8O7WIuwYqAqgviK6xgvALVHqx75G1Few8?=
- =?us-ascii?Q?rQiqCbGcx2dkLpq/qe3fYjLOpK/6b4NzPiOhY26QfAff45JG6G28UfKYAMcW?=
- =?us-ascii?Q?8l7A13LMzBYtjaDC0YpLPjSz+lsxZTSGl8iewfhhfNhGfBHVdA21zCE5vnhT?=
- =?us-ascii?Q?Ljm9CHsLmRxWdomaXeAdsx6pWOWhDSZyjuKWEF12MF90x4T+P+wtO+OZ7IlR?=
- =?us-ascii?Q?ZaMe7qbwpQRUQwhUMgmd6ErDjx6w03zI1csGM4yprl48xZzNtbBH35bK+yzi?=
- =?us-ascii?Q?MQjh4qyyNFbJEp17TeB7iDsHAGf235EeH7s4Fo5gMA6Xzl9gotrzBmcfeoWI?=
- =?us-ascii?Q?d4BcoqdWbK7T5ni2GcLxr3sRrGgFHwtKDEFlsQcBAKRjxxzgvBKAg0GJYcHY?=
- =?us-ascii?Q?fgseRh15/pzRbUEbkrFuXIskr0rf46kEKCd3Wqum46yrLhS4YDYrxx0vKtKk?=
- =?us-ascii?Q?8D5KLnBbMg5wS509/16GtdXZU3zrajZQSVUyk1yTa88QfhiymthLKulNK6YP?=
- =?us-ascii?Q?nKHC2Rv888t6e9cDLWt1WyeYxvVRV1JS/McPEaM8Lt0yzmmFblaYJdga139e?=
- =?us-ascii?Q?9mHbKduwb3Ro7ZZG5+9eN4XyKZAjYhQTWX6M21UWOe71yCDc6cSfNkZ4qz/4?=
- =?us-ascii?Q?lqmhEBGn49dYQWg66wddSl1nQ2l3Iv5HYESMjyWRUW7dKyNWzL7h2cmM5Vyi?=
- =?us-ascii?Q?KQeg+Aew84U=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/3WCFB0Gi/gwIic4Rv8tIjZqRx6Q/sGGJ5Qm6p67L9OhcuF316JvcdNoB0Zv?=
- =?us-ascii?Q?C4rLP8tZo0Jhy8UwiUyPDPS7BnokeqAXJ/PRnjNP3+hX1qeo6sCD9FC3CpM2?=
- =?us-ascii?Q?lP0SbNpOWvv3F4+X0wGNvsgm9WloWB4XWrgLMV9mtdLZyYcWG+duAsKP8wFI?=
- =?us-ascii?Q?dEc/3gdTdbNS9kqicJkAs3lDbeRg+rg5NIzKbIdCyJgGqHoVoSKMjr8rWx9h?=
- =?us-ascii?Q?savJcpcNanRKORwcB9+U96gwqpPNn7ctMESLs0RRkrwN/ALoV2pKy4XsUb0f?=
- =?us-ascii?Q?T4Xk91N/HsF4dfymJrT4PyRyMCB7IaGvkBJO+x83RAKTcpV+nZSrJSu8y1Xu?=
- =?us-ascii?Q?oA34OR2fZvbJav/qyShK+/wD0wD3Rox6c216DButK3DWll7puwEJQBX2UHBm?=
- =?us-ascii?Q?xy1kulgBJNXrO9w6r5hIh5xbnjN3zmv0g2i3TaIAr0a0RlUawSmHmR6Y4hoN?=
- =?us-ascii?Q?g1enrb0Gd2w8L5ZIP7RXCyQl+yExNJPY3P5/QsiXEsFBx5W7qpCP9y3LJ6CI?=
- =?us-ascii?Q?O2ftPOJfJfEPE6ncAOlz+d9ngPfbjh4+GxkKQr3J7Em4DBnfrJL/c5zY1LPf?=
- =?us-ascii?Q?wstDSaLl6ZK7aD+Qe4obdZqaznmxQ7AQ26BfYny7Z2pCD7eKqJE9V8+1y7jo?=
- =?us-ascii?Q?Cy2X7f7Pe2sm/ZXZpXICyNwkI7bXGFqEUmsLiPL7BWWsyRaL4Bf8pMJh6UDj?=
- =?us-ascii?Q?AU8XvlcclK81GLsEsoZhuA4KeU4cFYOwOg9o9U2Y1IuK+Rfjts1f/c92dE3f?=
- =?us-ascii?Q?d+oUeiwc3iveRXZ4sm9Fl0lZ1KnG+iP2N75Ii6pfm/fA1OIJ4JsLBjdCRdcG?=
- =?us-ascii?Q?tlkz8EweM9xQAeMIKRakoGxS2exPncZ6UU7dwPgOKQoSQ6r6Y7IEBh5tCbsr?=
- =?us-ascii?Q?OVxfiRdOfUpoRjdjF/6SJzNHzixxcULmWxRV8f9xWVaGlazPw1MCSWs+a8tx?=
- =?us-ascii?Q?C8utKH/bDXbwFMPDzOtIASwW8grrNTjCe5ipBnPeZAB6+cY2SG+UHwAVD84b?=
- =?us-ascii?Q?XuGxXURuPgV6GP3wsTBB5USxJWh39uQwlNiaSxpq4nIecECuWz6UoOlfwJ/Y?=
- =?us-ascii?Q?1uCAkNFM4T01plaUWjz5dyVTn6Uj9FlOSOBPfgcAeLOLXQVbiSOAq63qnwsB?=
- =?us-ascii?Q?oN5O2V+T2MRIG7mC1v6i/s0fytTnG1Pn5fhbiHWexGPUvwTbVlmbD36rAH2u?=
- =?us-ascii?Q?wm0dzulxmi5et3HAL8onV1W53DQgx6+ZXQmHL5Edzlu50Co6Jeim89hRgIcz?=
- =?us-ascii?Q?heZwAjVS+ewdGlAPwMNE12Ar1BV3lgNM72AUEdUQpQ3X4aTVgzY7wiDgfbJi?=
- =?us-ascii?Q?L1mUfEZZ7CXQ0NjiB827RFrbkh0cS5LhQoby/BjaqVACOluDAyqqfUrNAUQK?=
- =?us-ascii?Q?xIJpxn5F510cl3gnQlF13EGu1jv8pEf+z6kx5FTo73xPnFax/j/DqCVgwg66?=
- =?us-ascii?Q?IVIRidoFiaTrNbC03o8TnbL8GRQG/z9nG0KBfPLmWSCnnFRsHiH8/G91GYwX?=
- =?us-ascii?Q?TAg71dOv4QB9gZO9cHVntZSZaY110H3x5jEgMhes/qNmJNULMOUuvkh/CFBS?=
- =?us-ascii?Q?yMQ0+MSGOlIIItLUz6RTrAm+k+dvHmwygFweqt2B?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2eb574c-df41-4d7d-a0bb-08ddf464f360
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 14:34:17.5723
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nuekJOcIltSv64PXnhJ9nduz2Ux8IGU0sDYcCkCUw4OJvfDQhyOvEIyOeWPaznQR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7213
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Nico Pache <npache@redhat.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org,
+ hughd@google.com, richard.weiyang@gmail.com, lance.yang@linux.dev,
+ vbabka@suse.cz, rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+References: <20250912032810.197475-1-npache@redhat.com>
+ <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
+ <d0e81c75-ad63-4e37-9948-3ae89bc94334@redhat.com>
+ <20250912133701.GA802874@cmpxchg.org>
+ <da251159-b39f-467b-a4e3-676aa761c0e8@redhat.com>
+ <20250915134359.GA827803@cmpxchg.org>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20250915134359.GA827803@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 15, 2025 at 02:51:52PM +0100, Lorenzo Stoakes wrote:
-> > vmcore is a true MIXEDMAP, it isn't doing two actions. These mixedmap
-> > helpers just aren't good for what mixedmap needs.. Mixed map need a
-> > list of physical pfns with a bit indicating if they are "special" or
-> > not. If you do it with a callback or a kmalloc allocation it doesn't
-> > matter.
+On 15.09.25 15:43, Johannes Weiner wrote:
+> On Fri, Sep 12, 2025 at 03:46:36PM +0200, David Hildenbrand wrote:
+>> On 12.09.25 15:37, Johannes Weiner wrote:
+>>> On Fri, Sep 12, 2025 at 02:25:31PM +0200, David Hildenbrand wrote:
+>>>> On 12.09.25 14:19, Kiryl Shutsemau wrote:
+>>>>> On Thu, Sep 11, 2025 at 09:27:55PM -0600, Nico Pache wrote:
+>>>>>> The following series provides khugepaged with the capability to collapse
+>>>>>> anonymous memory regions to mTHPs.
+>>>>>>
+>>>>>> To achieve this we generalize the khugepaged functions to no longer depend
+>>>>>> on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
+>>>>>> pages that are occupied (!none/zero). After the PMD scan is done, we do
+>>>>>> binary recursion on the bitmap to find the optimal mTHP sizes for the PMD
+>>>>>> range. The restriction on max_ptes_none is removed during the scan, to make
+>>>>>> sure we account for the whole PMD range. When no mTHP size is enabled, the
+>>>>>> legacy behavior of khugepaged is maintained. max_ptes_none will be scaled
+>>>>>> by the attempted collapse order to determine how full a mTHP must be to be
+>>>>>> eligible for the collapse to occur. If a mTHP collapse is attempted, but
+>>>>>> contains swapped out, or shared pages, we don't perform the collapse. It is
+>>>>>> now also possible to collapse to mTHPs without requiring the PMD THP size
+>>>>>> to be enabled.
+>>>>>>
+>>>>>> When enabling (m)THP sizes, if max_ptes_none >= HPAGE_PMD_NR/2 (255 on
+>>>>>> 4K page size), it will be automatically capped to HPAGE_PMD_NR/2 - 1 for
+>>>>>> mTHP collapses to prevent collapse "creep" behavior. This prevents
+>>>>>> constantly promoting mTHPs to the next available size, which would occur
+>>>>>> because a collapse introduces more non-zero pages that would satisfy the
+>>>>>> promotion condition on subsequent scans.
+>>>>>
+>>>>> Hm. Maybe instead of capping at HPAGE_PMD_NR/2 - 1 we can count
+>>>>> all-zeros 4k as none_or_zero? It mirrors the logic of shrinker.
+>>>>>
+>>>>
+>>>> I am all for not adding any more ugliness on top of all the ugliness we
+>>>> added in the past.
+>>>>
+>>>> I will soon propose deprecating that parameter in favor of something
+>>>> that makes a bit more sense.
+>>>>
+>>>> In essence, we'll likely have an "eagerness" parameter that ranges from
+>>>> 0 to 10. 10 is essentially "always collapse" and 0 "never collapse if
+>>>> not all is populated".
+>>>>
+>>>> In between we will have more flexibility on how to set these values.
+>>>>
+>>>> Likely 9 will be around 50% to not even motivate the user to set
+>>>> something that does not make sense (creep).
+>>>
+>>> One observation we've had from production experiments is that the
+>>> optimal number here isn't static. If you have plenty of memory, then
+>>> even very sparse THPs are beneficial.
+>>
+>> Exactly.
+>>
+>> And willy suggested something like "eagerness" similar to "swapinness"
+>> that gives us more flexibility when implementing it, including
+>> dynamically adjusting the values in the future.
 > 
-> Well it's a mix of actions to accomodate PFNs and normal pages as
-> implemented via a custom hook that can invoke each.
+> I think we talked past each other a bit here. The point I was trying
+> to make is that the optimal behavior depends on the pressure situation
+> inside the kernel; it's fundamentally not something userspace can make
+> informed choices about.
 
-No it's not a mix of actions. The mixedmap helpers are just
-wrong for actual mixedmap usage:
+I don't think the "no tunable at all" approach solely based on pressure 
+will be workable in the foreseeable future.
 
-+static inline void mmap_action_remap(struct mmap_action *action,
-+		unsigned long addr, unsigned long pfn, unsigned long size,
-+		pgprot_t pgprot)
-+
-+static inline void mmap_action_mixedmap(struct mmap_action *action,
-+		unsigned long addr, unsigned long pfn, unsigned long num_pages)
+Collapsing 2 pages to 2 MiB THP all over the system just to split it 
+immediately again is not something particularly helpful.
 
-Mixed map is a list of PFNs and a flag if the PFN is special or
-not. That's what makes mixed map different from the other mapping
-cases.
+So long term I assume the eagerness will work together with memory 
+pressure and probably some other inputs.
 
-One action per VMA, and mixed map is handled by supporting the above
-lis tin some way.
-
-> > I think this series should drop the mixedmem stuff, it is the most
-> > complicated action type. A vmalloc_user action is better for kcov.
 > 
-> Fine, I mean if we could find a way to explicitly just give a list of stuff
-> to map that'd be _great_ vs. having a custom hook.
+> So for max_ptes_none, the approach is basically: try a few settings
+> and see which one performs best. Okay, not great. But wouldn't that be
+> the same for an eagerness setting? What would be the mental model for
+> the user when configuring this? If it's the same empirical approach,
+> then the new knob would seem like a lateral move.
 
-You already proposed to allocate memory to hold an array, I suggested
-to have a per-range callback. Either could work as an API for
-mixedmap.
+Consider it a replacement for something that is oddly PMD specific and 
+requires you to punch in magical values (e.g., 511 on x86, 2047 on arm64 
+64k).
 
-> So maybe I should drop the vmalloc_user() bits too and make this a
-> remap-only change...
+Initially I thought about just using a percentage/scale of (m)THP but 
+Willy argued that something more abstract gives us more wiggle room.
 
-Sure
- 
-> But I don't want to tackle _all_ remap cases here.
+Yes, for some workloads you will likely still have to fine tune 
+parameters (honestly, I don't think many companies besides Meta are 
+doing that), but the idea is to evolve it over time to something that is 
+smarter than punching in magic values into an obscure interface.
 
-Due 4-5 or something to show the API is working. Things like my remark
-to have a better helper that does whole-vma only should show up more
-clearly with a few more conversions.
-
-It is generally a good idea when doing these reworks to look across
-all the use cases patterns and try to simplify them. This is why a
-series per pattern is a good idea because you are saying you found a
-pattern, and here are N examples of the pattern to prove it.
-
-Eg if a huge number of drivers are just mmaping a linear range of
-memory with a fixed pgoff then a helper to support exactly that
-pattern with minimal driver code should be developed.
-
-Like below, apparently vmalloc_user() is already a pattern and already
-has a simplifying safe helper.
-
-> Anyway maybe if I simplify there's still a shot at this landing in time...
-
-Simplify is always good to help things get merged :)
- 
-> > Eg there are not that many places calling vmalloc_user(), a single
-> > series could convert alot of them.
-> >
-> > If you did it this way we'd discover that there are already
-> > helpers for vmalloc_user():
-> >
-> > 	return remap_vmalloc_range(vma, mdev_state->memblk, 0);
-> >
-> > And kcov looks buggy to not be using it already. The above gets the
-> > VMA type right and doesn't force mixedmap :)
 > 
-> Right, I mean maybe.
+> It would also be difficult to change the implementation without
+> risking regressions once production systems are tuned to the old
+> behavior.
 
-Maybe send out a single patch to change kcov to remap_vmalloc_range()
-for this cycle? Answer the maybe?
+Companies like Meta that do such a level of fine-tuning probably use the 
+old nasty interface because they know exactly what they are doing.
 
-Jason
+That is a corner case, though.
+
+-- 
+Cheers
+
+David / dhildenb
+
