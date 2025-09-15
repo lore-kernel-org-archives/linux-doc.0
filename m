@@ -1,127 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891C2EA73C
-	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 08:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3522135B8
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 08:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757924305; cv=none; b=fKMa3TGVkVBi5D2Gt+OWk7kMVeuaGuyUG+gBjmLFbZq8DpqpsWJ3XrN+QOZPGPmnxdpfzsmI0TJvhd0FhpCZsmjbcpPOdJaaryFcZi5w5cgY/ot7sF2GIlKb81AbiZHXOKsYy303LanS4GThYvaZmsbMdgWxkWb3WLnDvUKxsQ0=
+	t=1757924395; cv=none; b=Qlku6m87XxZm0Qa8gtcUCXxB/vBQSUG3QQZYB5b2p1wv9Q77AvDUjOzqamjaOKGIdpnDwcFAmX7BJYmVamfr4G1cGLr4biNwftX+mg3WyYewlUZYoNUU0l8TxtHYR+46HuOWlmEhM92mBG/nCOSNEwkEKeVGZd9uZ7qEOEpubdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757924305; c=relaxed/simple;
-	bh=GHrc0yQIb9KLUpWhvQ29IYnGW02UxYT9eFseO4jZP4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g43u+Ngmc/QuD0/hHHBxeIj20oXrfoC21FQFoMek4yiLf7PTlbwb9tDGdGJryOReyiGCi6Tl+RcekPn5rLxjXB6ZIYjU+bKPPKshF7t2l4A+XL+y4Cca4punN75W7T+A0ye9jed3Fwtb/mCtdMCiPMjycTscKaRC2nb+DoLN0l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YgmUThlR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757924395; c=relaxed/simple;
+	bh=O5TzWQRsjEv8JKIDSJLdJ+Kvy4sUN0wvFs2GST702kM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cqEUN1MILe8dWJKpuAzQNczfKvYaF50Pje0kuWT1z0/UnovwTWnwCmCF+bvHHaoLCYA7KHMJ2nC8OSOD1eUCEcFvHBzoDkhiRQu4ckz46PSH4yE/rWVkj8dMn8hOaNg+uQPUjrvjFRRQ6k9VY7b8+esqyMYGGNOarmNUsEV/kBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bXw4xYBf; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YgmUThlR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757924303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PqEIjCNSum5pekZp097c2PmEi/H7x+xWDTcPJJSAOCs=;
-	b=YgmUThlRCZQtleY85BoY+DXVUJsR1mM9FBWSJ4kfBLyVS3aK1AhMQHRtNE60RfskY+hmzR
-	+jE4yAtDbdo7PUsEamiES+rPoarA4fvss5onuBDNqS1xJGvM0NthPxCgwWP3XjpJBnXD2Q
-	aw9zsSdTMmO5mX+679KxSySzvLF/rtA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-227-kt0tbXspMEeJwx-LqWhRtA-1; Mon,
- 15 Sep 2025 04:18:18 -0400
-X-MC-Unique: kt0tbXspMEeJwx-LqWhRtA-1
-X-Mimecast-MFC-AGG-ID: kt0tbXspMEeJwx-LqWhRtA_1757924297
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 79347180045C;
-	Mon, 15 Sep 2025 08:18:16 +0000 (UTC)
-Received: from [10.45.226.64] (unknown [10.45.226.64])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7F89419560A2;
-	Mon, 15 Sep 2025 08:18:05 +0000 (UTC)
-Message-ID: <4bd1847b-00b6-42a6-8391-aba08aeb3721@redhat.com>
-Date: Mon, 15 Sep 2025 10:18:03 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bXw4xYBf"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-261682fdfceso11634035ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 01:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757924393; x=1758529193; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kakxwi//8SzfIvzvUSsEPVgomvLdvBUASbNmOuXZzxE=;
+        b=bXw4xYBf7McgAasCsc3Y08FaH2wh3bU9y8Ubrps3cxLpn90+MmzbE8I6iiv2Wcmfyc
+         Jnc4MKxQUbuDbI+ElzXsDGnFlI1FehRnus41iPjqKMJj5tuo/3fLGeFvrZObpDVsbZEc
+         +4vnqhhxllFEygSAVX9nAB+SLZWmhO6hncHk4L1U8hrheWV/+Mkk2eC5vb4Q6n7vnyOi
+         Yttq8tmuEqNswlIDLJLG3+j8ea1L9KW5AbNkht9XicTxMeBWj8JK+RciOdCSY82W17Z3
+         PBPE/EJEXsFVEKiHjh9LKjMF+IjEfOdvMpINHXTDSA4KDXAcP+TwnLfRgvoyAbtX5k7i
+         OAig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757924393; x=1758529193;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Kakxwi//8SzfIvzvUSsEPVgomvLdvBUASbNmOuXZzxE=;
+        b=uSEGaGXnNaHEDs40zB9moY0H4yBGpJWswZqFm5jcH80VBREyqyGtoSF4pHv6NDOMiO
+         /VL6QQPhSETYUxjIrCLNxpcbkTd3YWsLCnxlPx4SdOCcvVRA885mN3nDkEDZYYcY66Uf
+         CcItJg8Z4aGsy0RXM0Dlea9vERxuewCCdV19CNPUcsju9bvDFDAyEREY0g/2QjtxLb7/
+         9R4msOHQr4tmPjvKpnGPPuOTrutHeJ7Hg5xj1sPuKEbN18bN7KP5RygYeLOp13RtmWBP
+         WEOEj/Ed4UoJHu14ajj/B7RWceJUF8H/PbxJRgcjBqdAYhgPBZfxRGIm9fUsHiMWvsMh
+         RabA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSG0ED6Qtx82tLQ2E5gy3CDxB8g/FpuEYH+GHzRIRQfxHUQjkdZ9Yt4Wz8mCVbJgYlzKiwzQljlFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWB2qryEfMuNU5hvIhO0LY2WvmYkAp4OopBmwFhYUQ3uqRkg4J
+	c9qk1EUW+M3KN7RdUfOMAsjuV3J+sCiBIi81px/GIERVLcbOTJpr/pE7
+X-Gm-Gg: ASbGncvIx7xBld7mJwKxplMfscmtM/TbT/rwqJLfcbWeQeAdXXEVvWIvF6Uco0JRrHv
+	XiP10afIeRvfSk0z2Etuy1bOK1And0qqfCLGmOybngjpwN40it4xognlOPQw36YUiPuvjdufwBZ
+	ENraAWnHwSRBlHCKh+ZDvo3TDyrp3JvKwabB4GIOEDLOpBTykChfrsGh/Xd6702tp2hC4LBo/2J
+	hqYs0iBrkl+r71gXQT5DsSxh1/h+HeXZysOURLG9sUtfcR5cVDJdfnX5nz7yYiY7tNPiGpAHoUl
+	OYeeQLoYUmt9gp2hMiLazfYgeJ4mI079PQWydrZvCGVBR3er1AmlpxVYowrP32II7C8n5O/7g4Z
+	sFif6v51FNU8ieBauJiWzbPnsyL639XdorRa0
+X-Google-Smtp-Source: AGHT+IFQnlqIzoj1P0X3a6pvEQtKDxaNB7MGTaFu8Uz8McK1JQLbeu4oAqY2HFHlJngpkIUw++hIWg==
+X-Received: by 2002:a17:902:ef46:b0:246:571:4b51 with SMTP id d9443c01a7336-25d2da1100dmr134202265ad.29.1757924393301;
+        Mon, 15 Sep 2025 01:19:53 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-260e10401ebsm64245835ad.91.2025.09.15.01.19.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 01:19:52 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5B06D422722D; Mon, 15 Sep 2025 15:19:49 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux cgroups <cgroups@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	"Bagas Sanjaya" <bagasdotme@gmail.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrea Righi <arighi@nvidia.com>,
+	Johannes Bechberger <me@mostlynerdless.de>,
+	Changwoo Min <changwoo@igalia.com>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Jake Rice <jake@jakerice.dev>,
+	Cengiz Can <cengiz@kernel.wtf>,
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>
+Subject: [PATCH v2 4/4] Documentation: cgroup-v2: Sync manual toctree
+Date: Mon, 15 Sep 2025 15:19:27 +0700
+Message-ID: <20250915081942.25077-5-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250915081942.25077-1-bagasdotme@gmail.com>
+References: <20250915081942.25077-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 3/5] dpll: zl3073x: Add firmware loading
- functionality
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
- Petr Oros <poros@redhat.com>
-References: <20250909091532.11790-1-ivecera@redhat.com>
- <20250909091532.11790-4-ivecera@redhat.com>
- <20250914144549.2c8d7453@kernel.org>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20250914144549.2c8d7453@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2048; i=bagasdotme@gmail.com; h=from:subject; bh=O5TzWQRsjEv8JKIDSJLdJ+Kvy4sUN0wvFs2GST702kM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBnHT+dNzr35+hTb2j2Vrtaej/tba0S5q+cKeDsJFDzWE UiJSXDqKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwETuijL8z6/52ZyvoS0pMDOs dMYC88duKq0XrEXe7NFdzW/9PuCXLsM/xdmFOreOf/0Z4i669LZgB4eK0dpPqZdLtuv9n1evevc KFwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Sync manually-written toctree with actual list of sections in the
+automatically-generated counterpart.
 
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-On 14. 09. 25 11:45 odp., Jakub Kicinski wrote:
-> On Tue,  9 Sep 2025 11:15:30 +0200 Ivan Vecera wrote:
->> +	/* Fetch image name and size from input */
->> +	strscpy(buf, *psrc, min(sizeof(buf), *psize));
->> +	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
->> +	if (!rc) {
->> +		/* No more data */
->> +		return 0;
->> +	} else if (rc == 1 || count > U32_MAX / sizeof(u32)) {
->> +		ZL3073X_FW_ERR_MSG(extack, "invalid component size");
->> +		return -EINVAL;
->> +	}
->> +	*psrc += pos;
->> +	*psize -= pos;
-> 
-> Still worried about pos not being bounds checked.
-> Admin can crash the kernel with invalid FW file.
-> 
-> 	if (pos > *psize)
-> 		/* error */
-
-This cannot happen...
-
-1) strscpy(buf, *psrc, min(sizeof(buf, *psize)) ensures that the string
-    will be zero padded and strlen(buf) will be less than *psize
-
-2) sscanf(buf, "%15s %u %n", name, &count, &pos) scans for string with
-    max length of 15, one or more whitespace(s), number and one or more
-    whitespaces(s). And reports number of parsed arguments. Note that
-    the %n does not increase the count returned.
-
-So... if:
-1) buf is empty then sscanf returns 0 and /* No more data */ code path
-    is executed
-2) buf contains only string (1st argument) OR string and non-numeric
-    2nd argument then the sscanf returns 1 and 'invalid component size'
-    is executed
-3) buf contains string (1st arg) and numeric 2nd arg then the sscanf
-    returns 2 and the 2nd arg is stored into 'count' and number of
-    consumed characters into 'pos'
-4) if 'count' > (U32_MAX / 4) then 'invalid component size' path is
-    executed
-
-> Also what if sscanf() return 2? pos is uninitialized?
-
-If the sscanf() returns 2 then pos is initialized, in other words
-'pos' is initialized and less then *psize if the 'count' is correctly
-parsed as the numeric value.
-
-Thanks,
-Ivan
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 4bad0a18c243f3..47c7cd45eb05de 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -17,6 +17,9 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+ 
+ .. CONTENTS
+ 
++   [Whenever any new section is added to this document, please also add
++    an entry here.]
++
+    1. Introduction
+      1.1. Terminology
+      1.2. What is cgroup?
+@@ -27,9 +30,10 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+        2.2.2. Threads
+      2.3. [Un]populated Notification
+      2.4. Controlling Controllers
+-       2.4.1. Enabling and Disabling
+-       2.4.2. Top-down Constraint
+-       2.4.3. No Internal Process Constraint
++       2.4.1. Availability
++       2.4.2. Enabling and Disabling
++       2.4.3. Top-down Constraint
++       2.4.4. No Internal Process Constraint
+      2.5. Delegation
+        2.5.1. Model of Delegation
+        2.5.2. Delegation Containment
+@@ -63,14 +67,15 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+        5.4.1. PID Interface Files
+      5.5. Cpuset
+        5.5.1. Cpuset Interface Files
+-     5.6. Device
++     5.6. Device Controller
+      5.7. RDMA
+        5.7.1. RDMA Interface Files
+      5.8. DMEM
++       5.8.1. DMEM Interface Files
+      5.9. HugeTLB
+        5.9.1. HugeTLB Interface Files
+      5.10. Misc
+-       5.10.1 Miscellaneous cgroup Interface Files
++       5.10.1 Misc Interface Files
+        5.10.2 Migration and Ownership
+      5.11. Others
+        5.11.1. perf_event
+-- 
+An old man doll... just what I always wanted! - Clara
 
