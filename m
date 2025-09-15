@@ -1,152 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82AC1D555;
-	Mon, 15 Sep 2025 14:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A211EFFB2;
+	Mon, 15 Sep 2025 14:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757945134; cv=none; b=LPmkOfZo3uHtZ27OjSk90aQ6GBrZTkjZpo+0Z4d1rkyd1gYEFsxra6bDeJT2tdEo3Q0Y0SZsen/506ozZXjGzYcH4FYa+qB1rzy1EFB00xXx/WHOxm5d2EAzyrAGkOY9+EOEYmGtQh41lTQxp0suZyC1s1xjgPU0ggRyhbI+Vl4=
+	t=1757945562; cv=none; b=j3PjgsbRkD+2F8WdAPWoVuwHsLREIVQdxS7LY5J3tcx3ACZNMV3f78PmFpahYCISQ27uQtr/Q6kQJm40S01C8vvyA9bPYa7QYnraAbmNTX2lsRFY4euj98QB/JbI0/InBoQVkLKF9hrqxgbr0zp0t31Dij5mTVdpG5JWxR4NnTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757945134; c=relaxed/simple;
-	bh=GGWTXMnsvErJb2h3pKbkZRJqvllX1YeT8+dWpSMY+/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HkjFBkQ40asBKgjIIyTTQlFeNIYwEpyO5UfNMWofg5FnzNJtHBYMLKjA0ELfdOwScgEblalP60QzUS+dy0O5eJ/pYaL3F/WO50R9ayRw4BMwU7MDM8reDvGSvvHIlrLkZf1O92XpISFY7khc+484Ow1fPZO4JDvys+3296n7rLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJgoLG9Y; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJgoLG9Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C8C5C4CEF1;
-	Mon, 15 Sep 2025 14:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757945134;
-	bh=GGWTXMnsvErJb2h3pKbkZRJqvllX1YeT8+dWpSMY+/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PJgoLG9YCmgt/nfsqCliDQBcjNMtYABcybsaMDTjh1bl0ymbH+apjITS/WVMSd6H2
-	 FCgmQMGvGYGol8RvvSRn1LlT9ZY25PrmEzQP2JGgm01OAGhRp0si+U79SmkWDvGjqe
-	 rlSHNu9d5JHHeV4bpGBBzPcVP4r9OUQQ6JJk9LQZUxQQ6nuVA9Ty3Fq3j4rbPPvOD0
-	 AhjaEG2rrSs5t/GbahnkGV5qFCyER11d2F9HXc/ZICObO5842j0Osm7GpRL+otdRvP
-	 csfLk4s5J75pR85kMulqQ+uYAMDoPoHO1g0ojJ6fEOcs08cO6M2eUfp9FH9uNpQkvs
-	 j+IfO+Wrica8w==
-Date: Mon, 15 Sep 2025 09:05:31 -0500
-From: Bjorn Andersson <andersson@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, 
-	Sumit Garg <sumit.garg@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu <quic_apurupa@quicinc.com>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kuldeep Singh <quic_kuldsing@quicinc.com>, 
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v12 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-Message-ID: <mir6lhkj456ra3i6w7def4rrtzw663f66l66cz4s3gxxvueeqk@ils2hjklbp4y>
-References: <20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-0-17f07a942b8d@oss.qualcomm.com>
- <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
+	s=arc-20240116; t=1757945562; c=relaxed/simple;
+	bh=pely3GkUQwXOKKBzwSg+6fn1D+r0VoUlId07Lgyo29I=;
+	h=Message-ID:In-Reply-To:References:From:Date:Subject:MIME-Version:
+	 Content-Type:To:Cc; b=B5a5gNYVwKOS4XgDI8/RVgMytbFlz1VgalSpwio3m8uJRYqy0r2Z13AgtG/cJET6q7WmyvPFy3mq/Cr8ZR2bGgA+Hk16UxKP6G4NwZMZw2MM9x2FiWx9fmN258GKJlCl1b5Y4nnomoMA8Mfu4k0Eyzx1yrGmEjV17zhqf2vpfB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by mailout1.hostsharing.net (Postfix) with UTF8SMTPS id 6B5D518C4D;
+	Mon, 15 Sep 2025 16:06:15 +0200 (CEST)
+Received: from localhost (unknown [89.246.108.87])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by h08.hostsharing.net (Postfix) with UTF8SMTPSA id 4060F6034321;
+	Mon, 15 Sep 2025 16:06:15 +0200 (CEST)
+X-Mailbox-Line: From ed3c3385499775fcc25f1ee66f395e212919f94a Mon Sep 17 00:00:00 2001
+Message-ID: <ed3c3385499775fcc25f1ee66f395e212919f94a.1757942121.git.lukas@wunner.de>
+In-Reply-To: <cover.1757942121.git.lukas@wunner.de>
+References: <cover.1757942121.git.lukas@wunner.de>
+From: Lukas Wunner <lukas@wunner.de>
+Date: Mon, 15 Sep 2025 15:50:02 +0200
+Subject: [PATCH v2 2/4] Documentation: PCI: Sync error recovery doc with code
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Terry Bowman <terry.bowman@amd.com>, Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>, Niklas Schnelle <schnelle@linux.ibm.com>, Linas Vepstas <linasvepstas@gmail.com>, "Mahesh J Salgaonkar" <mahesh@linux.ibm.com>, "Oliver OHalloran" <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, Brian Norris <briannorris@chromium.org>
 
-On Fri, Sep 12, 2025 at 10:21:55AM +0200, Jens Wiklander wrote:
-> Hi,
-> 
-> On Fri, Sep 12, 2025 at 6:07 AM Amirreza Zarrabi
-> <amirreza.zarrabi@oss.qualcomm.com> wrote:
-> >
-> > This patch series introduces a Trusted Execution Environment (TEE)
-> > driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> > and services to run securely. It uses an object-based interface, where
-> > each service is an object with sets of operations. Clients can invoke
-> > these operations on objects, which can generate results, including other
-> > objects. For example, an object can load a TA and return another object
-> > that represents the loaded TA, allowing access to its services.
-> >
-> [snip]
-> 
-> I'm OK with the TEE patches, Sumit and I have reviewed them.
-> 
+Amend the documentation on PCI error recovery to fix minor inaccuracies
+vis-à-vis the actual code:
 
-Happy to hear that.
+* The documentation claims that a missing ->resume() or ->mmio_enabled()
+  callback always leads to recovery through reset.  But none of the
+  implementations do this (pcie_do_recovery(), eeh_handle_normal_event(),
+  zpci_event_do_error_state_clear()).
 
-> There were some minor conflicts with other patches I have in the pipe
-> for this merge window, so this patchset is on top of what I have to
-> avoid merge conflicts.
-> 
-> However, the firmware patches are for code maintained by Björn.
-> Björn, how would you like to do this? Can I take them via my tree, or
-> what do you suggest?
-> 
+  Drop the claim to align the documentation with the code.
 
-Please pull:
+* The documentation does not list PCI_ERS_RESULT_RECOVERED as a valid
+  return value from ->error_detected().  But none of the implementations
+  forbid this and some drivers are returning it, e.g.:
+  drivers/bus/mhi/host/pci_generic.c
+  drivers/infiniband/hw/hfi1/pcie.c
 
-https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git 20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-2-17f07a942b8d@oss.qualcomm.com
+  Further down in the documentation it is implied that the return value is
+  in fact allowed:
+  "The platform will call the resume() callback on all affected device
+  drivers if all drivers on the segment have returned
+  PCI_ERS_RESULT_RECOVERED from one of the 3 previous callbacks."
 
-Regards,
-Bjorn
+  The "3 previous callbacks" being ->error_detected(), ->mmio_enabled()
+  and ->slot_reset().
 
-> It's urgent to get this patchset into linux-next if it's to make it
-> for the coming merge window. Ideally, I'd like to send my pull request
-> to arm-soc during this week.
-> 
-> Cheers,
-> Jens
-> 
-> >
-> > ---
-> > Amirreza Zarrabi (11):
-> >       firmware: qcom: tzmem: export shm_bridge create/delete
-> >       firmware: qcom: scm: add support for object invocation
-> >       tee: allow a driver to allocate a tee_device without a pool
-> >       tee: add close_context to TEE driver operation
-> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
-> >       tee: increase TEE_MAX_ARG_SIZE to 4096
-> >       tee: add Qualcomm TEE driver
-> >       tee: qcom: add primordial object
-> >       tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
-> >       Documentation: tee: Add Qualcomm TEE driver
-> >
-> >  Documentation/tee/index.rst              |   1 +
-> >  Documentation/tee/qtee.rst               |  96 ++++
-> >  MAINTAINERS                              |   7 +
-> >  drivers/firmware/qcom/qcom_scm.c         | 119 ++++
-> >  drivers/firmware/qcom/qcom_scm.h         |   7 +
-> >  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
-> >  drivers/tee/Kconfig                      |   1 +
-> >  drivers/tee/Makefile                     |   1 +
-> >  drivers/tee/qcomtee/Kconfig              |  12 +
-> >  drivers/tee/qcomtee/Makefile             |   9 +
-> >  drivers/tee/qcomtee/async.c              | 182 ++++++
-> >  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
-> >  drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++++++++
-> >  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
-> >  drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
-> >  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
-> >  drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
-> >  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
-> >  drivers/tee/qcomtee/shm.c                | 150 +++++
-> >  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
-> >  drivers/tee/tee_core.c                   | 127 ++++-
-> >  drivers/tee/tee_private.h                |   6 -
-> >  include/linux/firmware/qcom/qcom_scm.h   |   6 +
-> >  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
-> >  include/linux/tee_core.h                 |  54 +-
-> >  include/linux/tee_drv.h                  |  12 +
-> >  include/uapi/linux/tee.h                 |  56 +-
-> >  27 files changed, 4410 insertions(+), 28 deletions(-)
-> > ---
-> > base-commit: 8b8aefa5a5c7d4a65883e5653cf12f94c0b68dbf
-> > change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
-> >
-> > Best regards,
-> > --
-> > Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> >
+  Add it to the valid return values for consistency.
+
+Signed-off-by: Lukas Wunner <lukas@wunner.de>
+Reviewed-by: Brian Norris <briannorris@chromium.org>
+---
+ Documentation/PCI/pci-error-recovery.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
+index 42e1e78353f3..d5c661baa87f 100644
+--- a/Documentation/PCI/pci-error-recovery.rst
++++ b/Documentation/PCI/pci-error-recovery.rst
+@@ -108,8 +108,8 @@ A driver does not have to implement all of these callbacks; however,
+ if it implements any, it must implement error_detected(). If a callback
+ is not implemented, the corresponding feature is considered unsupported.
+ For example, if mmio_enabled() and resume() aren't there, then it
+-is assumed that the driver is not doing any direct recovery and requires
+-a slot reset.  Typically a driver will want to know about
++is assumed that the driver does not need these callbacks
++for recovery.  Typically a driver will want to know about
+ a slot_reset().
+ 
+ The actual steps taken by a platform to recover from a PCI error
+@@ -141,6 +141,9 @@ shouldn't do any new IOs. Called in task context. This is sort of a
+ All drivers participating in this system must implement this call.
+ The driver must return one of the following result codes:
+ 
++  - PCI_ERS_RESULT_RECOVERED
++      Driver returns this if it thinks the device is usable despite
++      the error and does not need further intervention.
+   - PCI_ERS_RESULT_CAN_RECOVER
+       Driver returns this if it thinks it might be able to recover
+       the HW by just banging IOs or if it wants to be given
+-- 
+2.51.0
+
