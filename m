@@ -1,81 +1,73 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E217A2FF177
-	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 11:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A00241691
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 11:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757936700; cv=none; b=GW9ZRXZntSEDIvPfd6f84xJiPeGp4GWeD17uuneARmhdsmIRmx9Jmlq4fl0lzOXVHMdGc09eDYSi1VwDpkVjYdPzCLBL81V73jfZHLCcGh36wte1LYjXrNL0qK9KP8xb2cLJ+qM6i3GCUAkD0WTSTTGdpXI7cQoeN2J71u+VuGg=
+	t=1757936750; cv=none; b=MI5WHI3Yq5PX8cbVseC8SdYJW+bjxwDcZwLdMT+8aYzydN5SB3/zpXYrRhu84Dx5TvdFaJkLwI6Ckjh9SeVyEvIBsPrNQYikZtCjk7JfWDcjQkLCMEraTRGDxR/sDavixip4ATw3+N5Jxtf1LkZs1kTbHI+vrMLRcWNaXsNy76E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757936700; c=relaxed/simple;
-	bh=5yf8nV3xrpBaS1AHZN+XpcTcJZ0krDefwOIcmJml3Kc=;
+	s=arc-20240116; t=1757936750; c=relaxed/simple;
+	bh=UpQ/kxG95xnFQz5rlrXuv79Yt7TcBnt2uUAyoU32Xyo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RVUqI6Bb1vCg8wUBSqy8+GskN9xossdmceqm6i0MMdNm8QlZu9/6SJxxTsvq32FkCSxca8Mu1mQJ3XEjMRI5Nyt7Rn4qOXSyuN5uHhNUixVTVswu9HClu+aEWyt7oekK6cx5E7cey+/BqPeCO4ZgaK/xhQx79BK/vTG1NXrjoFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kKV3asQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tt2qUBSu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dteWhLgs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gw8fxY46; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 In-Reply-To:Content-Type; b=SI5xw8Zc5g4RYldq2TXwLQvw/dCvOMFKCVt/dYcd3VPae4bDMXReTvj5Wxje/h/fjfZ/MANZLSdydvtVvBtuxQVxam4btIpWeubRUcMngCl/RzB3T+ZVsdG0aHIllJx968Zz//CdHsgNco4on+R3BdV1EGPrydwHOM+a8P9qJ8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PO9Eef93; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kKV3asQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tt2qUBSu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dteWhLgs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gw8fxY46"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DC3243372C;
-	Mon, 15 Sep 2025 11:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757936696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PO9Eef93"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757936746;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=kKV3asQ+LtgRXgQgFmsbfPtQR3ipSxZ+4N6C1pcsfpvXhO3dc5IciV7O57Xv6j+x1dpbNA
-	5DhOgfMyn+holsds4tqnkmT+hrhuB7NWhGZV9Aj+1y5bBLZDgljYQ0F78nNhyL00Wds4Nl
-	14t58TTrvF5vBaEhyWHTF+PD5NmGCxE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757936696;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=Tt2qUBSucstfMiHKFJ+ySPPi/im3XoTl7XfQbPBnIRsSjAEZ6NBcGjHd2GzZRtwy3GkHJA
-	WQB4CJYFXUTr6ABQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dteWhLgs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gw8fxY46
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757936695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=dteWhLgsoXDBt1yizUoUOdeCZW7IYxG9QMM0dCMopC8wAcIzol4780DQSp73AevmFGMdef
-	UK2uHwq92eknXxeNii9l6Rjqcyl2GaJUTjcbcrwChnAmuLY7U8c0UBXD2A303cEVwqqFpQ
-	JyCY3YinymXFcAQwujjlHPOTV1OpI7k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757936695;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=Gw8fxY46SRz/l4wHNJJ0ir6m9NdJubtKo4jQwylyfZ3PztOGM1+7wTMjm3Th32WT1isETe
-	E22T4yn9lUzwl6AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A14A1368D;
-	Mon, 15 Sep 2025 11:44:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q1dbFDf8x2j5KgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 15 Sep 2025 11:44:55 +0000
-Message-ID: <68e45231-8344-447d-95cc-4b95a13df353@suse.de>
-Date: Mon, 15 Sep 2025 13:44:54 +0200
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=+Ng7yCw1wP5MZtSwh7Wi4NlfzosbrOaxU97IITYT9yU=;
+	b=PO9Eef93l6e7At5hMF2Z8nkLDG+u8uIMXmkT3rwQtddr2TBj1bEcT8aYAo6/CBt1SC2l+3
+	CmHTNXSB0+m/BAJLJY5LVtyDEOZxmmKl2sBY8v8pxFWO01WGQA3C+jC/Cv7duKPGChnYmi
+	AaBE8wXurVDkigjSRxc7NdfiEyNvGfs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-522--yHKUWQ4Mb-gnx976POeQA-1; Mon, 15 Sep 2025 07:45:45 -0400
+X-MC-Unique: -yHKUWQ4Mb-gnx976POeQA-1
+X-Mimecast-MFC-AGG-ID: -yHKUWQ4Mb-gnx976POeQA_1757936744
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45b467f5173so27775625e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 04:45:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757936744; x=1758541544;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+Ng7yCw1wP5MZtSwh7Wi4NlfzosbrOaxU97IITYT9yU=;
+        b=EsSrkzdx/4ki+ydFtSy0hZbGF+AwVY9mnv0tePdDoBTGVaY2fDxnervaaqlSew+srl
+         3EOj92/fJvK2qZIYh0C0QXh2wgi0RCvnxO5YcHerjUOKPMfzWsdAHjb9cq2MU8MKZ44m
+         OdmEPXK01AjPC0MqsFThVq53z5SUsmFXhnvuAWdzaiz0bCVhLq3cT2fz9zoPHRxCSqDs
+         jHus+Vb5DemguO3j1I/A1B8i5o/chkzlC7G9epzH6VgeD0VqOscN3Sl87hs6HY+fTiPj
+         8pbr/Fcq5lwb8CmaiNHskZsCZVIBx2Qx0yS/yHcZPGJOENbKeiMlIZgm7MPZEsPzGUpU
+         U4YA==
+X-Forwarded-Encrypted: i=1; AJvYcCWeyMfBvuAhUbNBuocKsouLT3rCyXUpYRBc6iRCySCDfAXc943B/28vQn49pIUJCoKhwujxSkdl9xg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmUKqYSLUbtiuaMvSJ9QaF7Vw1z0FZURmUdS2cxRcDZ1aub+0I
+	UdLsBS7NkdYeheEiJKRv+rY7xGwneiiEmWG9T96WHwbtM+l2BH/CA4gEDazYCKy96GTPpetdfKL
+	TW2/dE95wpT4XrCNXS9WHQJCCNwN55N0wKVMP7ym3D4mmQlfG2RXjwBALE6GYlQ==
+X-Gm-Gg: ASbGncv/SYKFSBb6QZLkjRco7WumOUVTcgP25V8fCN3oefUXEInjDgwD/cn+fzrHIhy
+	3JJKqFX2ewGMICSnyGt5thfbxiYJ3sfwbiWLMklyJq0yX9AUsHnF7QMulk/JdFOorZBLpr2EWZM
+	+Hn1CJBS9uTt2TwPyslBTCYarAewPHdc8hkf/ZOl6IY7IqoTeH2LXtHiSAi0O3RWn5+ChMQ0WHj
+	Fy4quDtkenPx4mSL1wp8/JxJ9Dr4BwpJAkgypjpzqJesAmMXZDEb4vh/sb+d4/R/t4HPN/KFCPo
+	WyZHgMj7w80HuKeEhfhgClFdW7Gye2Vacf4woQXTmQIxz3lnpEUKpIfdHxX3nvRYCfsEwglxGyf
+	V3Lp/zb6MB+YotBphNHn52Z1WhzsqJjdM4CI8ZFyN8AualefCtustT5p+VUxmXq0+F4Q=
+X-Received: by 2002:a7b:c04b:0:b0:45b:81b4:1917 with SMTP id 5b1f17b1804b1-45f211d5d6fmr95730635e9.10.1757936743686;
+        Mon, 15 Sep 2025 04:45:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHWeQtRmvajOk6PjvNrrZnGwcCmKaM8guZ/XD7rSJpezG2pi0yt91kJg016WDbZLNw0/ir1A==
+X-Received: by 2002:a7b:c04b:0:b0:45b:81b4:1917 with SMTP id 5b1f17b1804b1-45f211d5d6fmr95729955e9.10.1757936743224;
+        Mon, 15 Sep 2025 04:45:43 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f18:f900:e0ae:65d5:8bf8:8cfd? (p200300d82f18f900e0ae65d58bf88cfd.dip0.t-ipconnect.de. [2003:d8:2f18:f900:e0ae:65d5:8bf8:8cfd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017c0643sm172762125e9.23.2025.09.15.04.45.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Sep 2025 04:45:42 -0700 (PDT)
+Message-ID: <6ec80746-2945-485f-930e-8cc34446f9e3@redhat.com>
+Date: Mon, 15 Sep 2025 13:45:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,145 +75,174 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] nvme-tcp: Support receiving KeyUpdate requests
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
+Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Nico Pache <npache@redhat.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org,
+ peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+ sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+ catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+ dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+ lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
+ pfalcato@suse.de
+References: <d0e81c75-ad63-4e37-9948-3ae89bc94334@redhat.com>
+ <CAA1CXcA+pb5KvEnJJqdf1eSjaFiBZ82MRB+KDmyhj3DbiQqOxg@mail.gmail.com>
+ <enrgrocqajwu5d3x34voghja7pbvau45oobxgabawrly44ld4u@ahch3xn6rtq5>
+ <cd8e7f1c-a563-4ae9-a0fb-b0d04a4c35b4@redhat.com>
+ <155c821d-402c-4627-a723-6f8c88a2f65c@lucifer.local>
+ <ae9d88e2-bab9-49fc-a459-d7b9a8fe9351@redhat.com>
+ <ff4b6935-fd13-478e-9187-219fb612aac3@lucifer.local>
+ <e450009a-56c9-4820-bd0c-da1d782d3962@redhat.com>
+ <2757fb07-78bf-4a39-8c60-8ca8be200994@lucifer.local>
+ <a48c8d89-da30-4a7d-96f6-e5e17757b818@redhat.com>
+ <e0580a44-2afc-4f3e-8d3e-d4fe9b2eeb21@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250905024659.811386-1-alistair.francis@wdc.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <e0580a44-2afc-4f3e-8d3e-d4fe9b2eeb21@lucifer.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: DC3243372C
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ietf.org:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
-X-Spam-Score: -4.51
+Content-Transfer-Encoding: 7bit
 
-On 9/5/25 04:46, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
+On 15.09.25 13:35, Lorenzo Stoakes wrote:
+> On Mon, Sep 15, 2025 at 01:29:22PM +0200, David Hildenbrand wrote:
+>> On 15.09.25 13:23, Lorenzo Stoakes wrote:
+>>> On Mon, Sep 15, 2025 at 01:14:32PM +0200, David Hildenbrand wrote:
+>>>> On 15.09.25 13:02, Lorenzo Stoakes wrote:
+>>>>> On Mon, Sep 15, 2025 at 12:52:03PM +0200, David Hildenbrand wrote:
+>>>>>> On 15.09.25 12:43, Lorenzo Stoakes wrote:
+>>>>>>> On Mon, Sep 15, 2025 at 12:22:07PM +0200, David Hildenbrand wrote:
+>>>>>>>>
+>>>>>>>> 0 -> ~100% used (~0% none)
+>>>>>>>> 1 -> ~50% used (~50% none)
+>>>>>>>> 2 -> ~25% used (~75% none)
+>>>>>>>> 3 -> ~12.5% used (~87.5% none)
+>>>>>>>> 4 -> ~11.25% used (~88,75% none)
+>>>>>>>> ...
+>>>>>>>> 10 -> ~0% used (~100% none)
+>>>>>>>
+>>>>>>> Oh and shouldn't this be inverted?
+>>>>>>>
+>>>>>>> 0 eagerness = we eat up all none PTE entries? Isn't that pretty eager? :P
+>>>>>>> 10 eagerness = we aren't eager to eat up none PTE entries at all?
+>>>>>>>
+>>>>>>> Or am I being dumb here?
+>>>>>>
+>>>>>> Good question.
+>>>>>>
+>>>>>> For swappiness it's: 0 -> no swap (conservative)
+>>>>>>
+>>>>>> So intuitively I assumed: 0 -> no pte_none (conservative)
+>>>>>>
+>>>>>> You're the native speaker, so you tell me :)
+>>>>>
+>>>>> To me this is about 'eagerness to consume empty PTE entries' so 10 is more
+>>>>> eager, 0 is not eager at all, i.e. inversion of what you suggest :)
+>>>>
+>>>> Just so we are on the same page: it is about "eagerness to collapse", right?
+>>>>
+>>>> Wouldn't a 0 mean "I am not eager, I will not waste any memory, I am very
+>>>> careful and bail out on any pte_none" vs. 10 meaning "I am very eager, I
+>>>> will collapse no matter what I find in the page table, waste as much memory
+>>>> as I want"?
+>>>
+>>> Yeah, this is my understanding of your scale, or is my understanding also
+>>> inverted? :)
+>>>
+>>> Right now it's:
+>>>
+>>> eagerness max_ptes_none
+>>>
+>>> 0 -> 511
+>>> ...
+>>> 10 -> 0
+>>>
+>>> Right?
+>>
+>> Just so we are on the same page, this is what I had:
+>>
+>> 0 -> ~100% used (~0% none)
+>>
+>> So "0" -> 0 pte_none or 512 used.
+>>
+>> (note the used vs. none)
 > 
-> The TLS 1.3 specification allows the TLS client or server to send a
-> KeyUpdate. This is generally used when the sequence is about to
-> overflow or after a certain amount of bytes have been encrypted.
+> OK right so we're talking about the same thing, I guess?
 > 
-> The TLS spec doesn't mandate the conditions though, so a KeyUpdate
-> can be sent by the TLS client or server at any time. This includes
-> when running NVMe-OF over a TLS 1.3 connection.
+> I was confused partly becuase of the scale, becuase weren't people setting
+> this parameter to low values in practice?
 > 
-> As such Linux should be able to handle a KeyUpdate event, as the
-> other NVMe side could initiate a KeyUpdate.
+> And now we make it so we have equivalent of:
 > 
-> Upcoming WD NVMe-TCP hardware controllers implement TLS support
-> and send KeyUpdate requests.
-> 
-> This series builds on top of the existing TLS EKEYEXPIRED work,
-> which already detects a KeyUpdate request. We can now pass that
-> information up to the NVMe layer (target and host) and then pass
-> it up to userspace.
-> 
-> Userspace (ktls-utils) will need to save the connection state
-> in the keyring during the initial handshake. The kernel then
-> provides the key serial back to userspace when handling a
-> KeyUpdate. Userspace can use this to restore the connection
-> information and then update the keys, this final process
-> is similar to the initial handshake.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> 
-> v2:
->   - Change "key-serial" to "session-id"
->   - Fix reported build failures
->   - Drop tls_clear_err() function
->   - Stop keep alive timer during KeyUpdate
->   - Drop handshake message decoding in the NVMe layer
-> 
-> Alistair Francis (7):
->    net/handshake: Store the key serial number on completion
->    net/handshake: Make handshake_req_cancel public
->    net/handshake: Expose handshake_sk_destruct_req publically
->    nvmet: Expose nvmet_stop_keep_alive_timer publically
->    net/handshake: Support KeyUpdate message types
->    nvme-tcp: Support KeyUpdate
->    nvmet-tcp: Support KeyUpdate
-> 
->   Documentation/netlink/specs/handshake.yaml |  19 +++-
->   Documentation/networking/tls-handshake.rst |   4 +-
->   drivers/nvme/host/tcp.c                    |  88 +++++++++++++++--
->   drivers/nvme/target/core.c                 |   1 +
->   drivers/nvme/target/tcp.c                  | 104 +++++++++++++++++++--
->   include/net/handshake.h                    |  17 +++-
->   include/uapi/linux/handshake.h             |  14 +++
->   net/handshake/genl.c                       |   5 +-
->   net/handshake/handshake.h                  |   1 -
->   net/handshake/request.c                    |  18 ++++
->   net/handshake/tlshd.c                      |  46 +++++++--
->   net/sunrpc/svcsock.c                       |   3 +-
->   net/sunrpc/xprtsock.c                      |   3 +-
->   13 files changed, 289 insertions(+), 34 deletions(-)
-> 
+> 0 -> 0
+> 1 -> 256
+> 2 -> 384
 
-Hey Alistair,
-thanks for doing this. While the patchset itself looks okay-ish, there
-are some general ideas/concerns for it:
+Ah, there is the problem, that's not what I had in mind.
 
-- I have posted a patch for replacing the current 'read_sock()'
-interface with a recvmsg() base workflow. That should give us
-access to the 'real' control message, so it would be good if you
-could fold it in.
-- Olga has send a patchset fixing a security issue with control
-messages; the gist is that the network code expects a 'kvec' based
-msg buffer when receiving a control message. So essentially one
-has to receive a message _without_ a control buffer, check for
-MSG_CTRUNC, and then read the control message via kvec.
-Can you ensure that your patchset follows these guidelines?
-- There is no method to trigger a KeyUpdate, making it really hard
-to test this feature (eg by writin a blktest for it). Ideally we
-should be able to trigger it from both directions, but having just
-one (eg on the target side) should be enough for starters.
-A possible interface would be to implement write support to the
-'tls_key' debugfs attribute; when writing the same key ID as
-the one currently in use the KeyUpdate mechanism could be started.
+0 -> ~100% used (~0% none)
+...
+8 -> ~87,5% used (~12.5% none)
+9 -> ~75% used (~25% none)
+9 -> ~50% used (~50% none)
+10 -> ~0% used (~100% none)
 
-But thanks for doing the work!
+Hopefully I didn't mess it up again.
 
-Cheers,
-
-Hannes
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Cheers
+
+David / dhildenb
+
