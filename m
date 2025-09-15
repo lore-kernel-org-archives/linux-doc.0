@@ -1,83 +1,41 @@
-Received: from frog.ash.relay.mailchannels.net (frog.ash.relay.mailchannels.net [23.83.222.63])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559662D052;
-	Mon, 15 Sep 2025 21:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.222.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757971009; cv=pass; b=b/khlKAqJLhdlvZaKPcymaT45GVyAdNFYIxiFikF8y0CLsZlofDOuFi1u6Fi10JA6ROeFPjiXazQoIDcZ0QA+8LkOVAi7dNOsPyJqezk3gsqSWba5gL8RwA0bepLHwqDbGZkZCiP/V3Rn69J/Utya03BiWyz0eEYzF27smsQk+w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757971009; c=relaxed/simple;
-	bh=XM3XKQ5jJB/NRmfxGIRymJW83Dn38opP9h7KE9Mh1Fk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5514A4F9;
+	Mon, 15 Sep 2025 21:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757973275; cv=none; b=iXBiE4Ct70BTrIyuRTaO1GvI0+nGo7QV5P1sW8O3Zo6SvRDhRlEkA1ifeAWS5uu5p7asiC4Q2Gn6dTPcRtRQh6pq/qBdsOg2Yg8DaIpIUvkKinwBea/XMUeeqFwOP1omn2yW4q/uFOzkk1riJYH2dKj4B3f3c3uvbpEzaYyVqdU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757973275; c=relaxed/simple;
+	bh=n48jciww2X0fn0vaR7T+mpGEYCvSTNzQI6VrrkWGUHc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ETMs+Y2Y75aVyqsIFn8yoIGQD0xN1GAzyuVX+3HIXDjCO55/4UaaR8kcSJCj7Jt5y2iLDuSMccxSjgObl6QZgivn6gPtsWERLaemrHN7xX+L9/Mc3745lBjEnmon79FRj4agASAo7+7WxEDy/X3YUqgKcUXlTSvEJzTiWwHKU24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=hn99im0l; arc=pass smtp.client-ip=23.83.222.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+	 In-Reply-To:Content-Type; b=rZ32zsqT6721ouia47ApxI94QGEelm7puNiptLmLJT2YeBJO2EmUTRSE3VvD8Es1VGX0VR1xgZB/J4DdC81A5SPZ5KlpuL0gmjyBXbUZiBGc99gpKX8Eb3eQi4E2uUh8XtZR3abBbyx95cHrbYnkOqr6eg6L0+r+R5kjDxuh8Fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=eD9ze4Q6; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="hn99im0l"
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 968258E2BE4;
-	Mon, 15 Sep 2025 21:05:20 +0000 (UTC)
-Received: from pdx1-sub0-mail-a312.dreamhost.com (trex-blue-3.trex.outbound.svc.cluster.local [100.106.207.148])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 7F7018E2C1F;
-	Mon, 15 Sep 2025 21:05:19 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1757970320; a=rsa-sha256;
-	cv=none;
-	b=FvgXqYHopx4Eg97mRKI8YTgJvrM5uX3hCyA3PstNG3tElSt5C8Mkh16K26ulc4hSsVKTwm
-	jS2iRuOvoFtVg23iLmldnlytqHxYeolaJsyfj8H9DSakx31ClyoFyXVp7iwZ2teQvFuGpD
-	7saB7Wb4g9tAoqQmvsAu+UkcIlhVWTJzOhYRfUz/BaC08DNcuaaQQ9As8b8ykz1bHx7Qk4
-	TBDIHtaaxH15dWAfQpWNrqJJMfgLr/Vh4+3miXzPpdfAMtZz9JhTu8o8DhIj9xhKVHKRwa
-	bwWqLubQ4kcKxK/2hf/oaDh9DMbl/qSfr7Eus3yNXxVfu+spuLPfBiaIS0ertg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1757970320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=uCpj1HrCG/lIFPmsjCJyYsttI0Vr58GFZK2WKDkB6bM=;
-	b=TrnkHhqm0Tp2Y/WSmzMAHR5Hhj24mtPtbQYmBJGsRakDWzg0mrJuBQoW9Qkjf7BGvzNNiH
-	2H1V/J8m98raC3dPissEKtvzgOQ/Hk71uVhQ6kj9WsCG0K4v6raNCVOsjB2cVm10SC7pnX
-	WxSZlPhsLyt7jNTRP69EAqO62VJJbdbVWYt/YK0l1PbM6GNyoiMvREWQ3rw4KysPytNuVO
-	2/ZnkG/pktV9GKqEbQ9+gUEw2tbIV0YT43iSdJj78GsI/5MaQ7x6n5ojdu79KkG9JBYmK8
-	GwXKzdwJN0Mu44sDWX8K+r6sdW0U/yb7L1RpJBIrkhHihenS55Fk4oEdNruPqA==
-ARC-Authentication-Results: i=1;
-	rspamd-76d5d85dd7-gchpr;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Shade-Trouble: 5607b4e4499028f3_1757970320441_1498479094
-X-MC-Loop-Signature: 1757970320441:4276322646
-X-MC-Ingress-Time: 1757970320441
-Received: from pdx1-sub0-mail-a312.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.106.207.148 (trex/7.1.3);
-	Mon, 15 Sep 2025 21:05:20 +0000
-Received: from [192.168.88.7] (unknown [209.81.127.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a312.dreamhost.com (Postfix) with ESMTPSA id 4cQcxR2ZPnzFr;
-	Mon, 15 Sep 2025 14:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1757970319;
-	bh=uCpj1HrCG/lIFPmsjCJyYsttI0Vr58GFZK2WKDkB6bM=;
-	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=hn99im0llKSPW8E4jU23jnYGHjKkBB42PZKG9Y5nexC8X6GV18Ye+xjEO0dI68API
-	 P0iIc1uUspgFQAEvTZJLAiGacD/gPQaqYVm1QWE0N/6QokQnP06W1bW8XwSoYhszK+
-	 lhn3ZJav0Djh8uCO1T1JTFZ2nxRyoQNIwSBLc+tBT4L5AJvvFnEk/puQX4fjV81Sze
-	 CQbiCBjHhliP+rleng7xNOeK8VpGNGP6Px4E+lL1g37CD4cYE8Qe9KRdlQRN3asHoO
-	 TI/V5yxrsCSuRB+QTSU/G3DsOoX+FIakqvSZS3fVzb5U3KSBT5DjgaaVyyrqpLaA73
-	 VR4ur/x6Wjb7g==
-Message-ID: <8f595eec-e85e-4c1f-acb0-5069a01c1012@landley.net>
-Date: Mon, 15 Sep 2025 16:05:14 -0500
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="eD9ze4Q6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1757973267; x=1758578067; i=w_armin@gmx.de;
+	bh=E6hgzD5Pj/WlFlOBbRw7Y6W8q2wyU02oCUPJafOdY+o=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=eD9ze4Q6xR3ty69l8mQBqPnD4DCfXeXXtTWeTcIUsPdq/wKY6Vz48a/ZxBSmLUS9
+	 AbxJHpNhO5jjGEfrnJxlwt2zuU9bUbcshjmd3MP+Up425sBfjnM/EbFeENjoC+cgM
+	 iJlBqBIaCUeeaVhGMhsA5NIDXqW6OSmWHmBVMfvXdEAduLcmn+yBX8M6nc/T48tRq
+	 Bcb9NZBq6QmKQZEPDDHPTqVu3iRYLjkh7kCTcu18ZdzX8QfWrULcjTQuvM0nOHXWm
+	 ZPHl4CmNn51W0ih55dRa8yByYwaKP5Dzu98qak9OCPkOez/It68gbGeMvZqwSF3tP
+	 sCI73PMPpebQpU/WEw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4hvb-1uIAfF3jDb-015RoQ; Mon, 15
+ Sep 2025 23:54:27 +0200
+Message-ID: <cfd7977e-d612-4e08-a68a-65fed8e164b6@gmx.de>
+Date: Mon, 15 Sep 2025 23:54:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,183 +43,164 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 17/62] doc: modernize
- Documentation/filesystems/ramfs-rootfs-initramfs.rst
-To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Aleksa Sarai <cyphar@cyphar.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>,
- Alexander Graf <graf@amazon.com>, Lennart Poettering <mzxreary@0pointer.de>,
- linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, x86@kernel.org, Ingo Molnar
- <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
- "Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org,
- Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
- Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
- patches@lists.linux.dev
-References: <20250913003842.41944-1-safinaskar@gmail.com>
- <20250913003842.41944-18-safinaskar@gmail.com>
+Subject: Re: [PATCH] Documentation/wmi: Fix Typo in lenovo-wmi-gamezone
+To: Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: rakuram <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+References: <20250817170644.5855-1-rakuram.e96@gmail.com>
+ <31b895a4-edd0-4ce5-a20a-7d0fb67e9721@app.fastmail.com>
+ <444b64a7-631e-4acf-d2c8-2f0acd379d61@linux.intel.com>
+ <4d218ba7-71ba-4dfe-9a6f-a1997345c35a@app.fastmail.com>
 Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <20250913003842.41944-18-safinaskar@gmail.com>
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <4d218ba7-71ba-4dfe-9a6f-a1997345c35a@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:K5DiFh4BcFNZ2fXX030eACasbxJBIdVF2QKAQt4aEhqpEG+Fmx4
+ Vvs8dkbUTh65FVYl+hhLQshvt0ndbWyEa85H/9tRqNl+NTH4o0CpBeXL06y5C7AidtqYUjG
+ JuHXyM3PwuV7zF6ZmCaWHbt9dTXmZdeuV0Eg2cMOZnBohB1YdFlAf08ZkgYQN5RSz/LOEak
+ eKHw8db81B18kIUfniaXw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Mx8nyuxMykw=;vFnl63moYclMmgVi9ryqVAALbcG
+ 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
+ zRuOoeXsmmF4cvyegXPWPDTAs8PuONGw==
 
-On 9/12/25 19:37, Askar Safin wrote:
-> Update it to reflect initrd removal.
-> 
-> Also I specified that error reports should
-> go to linux-doc@vger.kernel.org , because
-> Rob Landley said that he keeps getting
-> reports about this document and is unable
-> to fix them
+Am 15.09.25 um 20:23 schrieb Mark Pearson:
 
-Do you think emailing a list I could forward stuff to will improve matters?
+> Hi Ilpo,
+>
+> On Mon, Sep 15, 2025, at 6:32 AM, Ilpo J=C3=A4rvinen wrote:
+>> On Wed, 20 Aug 2025, Mark Pearson wrote:
+>>> On Sun, Aug 17, 2025, at 1:06 PM, rakuram wrote:
+>>>> Fixed the below typo error
+>>>>
+>>>> freqency =3D=3D> frequency
+>>>> in Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>>>
+>>>> Signed-off-by: rakuram <rakuram.e96@gmail.com>
+>>>> ---
+>>>>   Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>>> b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>>> index 997263e51a7d..22040250a97d 100644
+>>>> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>>> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>>> @@ -153,7 +153,7 @@ data using the `bmfdec
+>>>> <https://github.com/pali/bmfdec>`_ utility:
+>>>>       [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateI=
+D;
+>>>>       [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
+>>>>       [WmiDataId(3), read, Description("Default value.")] uint32
+>>>> defaultvalue;
+>>>> -    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32
+>>>> OCOffsetFreq;
+>>>> +    [WmiDataId(4), read, Description("OC Offset frequency.")] uint32
+>>>> OCOffsetFreq;
+>>>>       [WmiDataId(5), read, Description("OC Min offset value.")] uint3=
+2
+>>>> OCMinOffset;
+>>>>       [WmiDataId(6), read, Description("OC Max offset value.")] uint3=
+2
+>>>> OCMaxOffset;
+>>>>       [WmiDataId(7), read, Description("OC Offset Scale.")] uint32
+>>>> OCOffsetScale;
+>>>> --=20
+>>>> 2.43.0
+>>> Looks good to me.
+>>> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+>> Hi,
+>>
+>> Isn't the typo in the original interface as well? I'm not very keen in
+>> accepting this kind of patches as this part is not really user
+>> documentation to begin with.
+>>
+> I haven't had a chance to double check - but it's kinda bad that we had =
+that typo in the original implementation to be honest. I can ask to get th=
+at fixed, but it will likely take a long time for something minor.
+> I defer to you on the preference for kernel documentation - I suspect we=
+'ll get a bunch of these though (part of the 'getting started to contribut=
+ing to the kernel' is always typos and documentation right?).
+>
+> Mark
 
-I find the community an elaborate bureaucracy unresponsive to hobbyists. 
-Documentation/process/submitting-patches.rst being a 934 line document 
-with a bibliography, plus a 24 step checklist not counting the a) b) c) 
-subsections are just symptoms. The real problem is following those is 
-not sufficient to navigate said bureaucracy.
+I agree, the typo is inside the WMI MOF definition which is included insid=
+e the documentation for future developers. Since this MOF definition shoul=
+d
+match the actual MOF definition reported by the ACPI firmware, i suggest t=
+hat we ignore any spelling mistakes inside those.
 
->   What is ramfs?
->   --------------
->   
-> @@ -101,9 +103,9 @@ archive is extracted into it, the kernel will fall through to the older code
->   to locate and mount a root partition, then exec some variant of /sbin/init
->   out of that.
->   
-> -All this differs from the old initrd in several ways:
-> +All this differs from the old initrd (removed in 2025) in several ways:
+Thanks,
+Armin Wolf
 
-Why keep the section when you removed the old mechanism? You took away 
-their choices, you don't need to sell them on it.
-
-(Unless you're trying to sell them on using a current linux kernel 
-rather than 2.6 or bsd or qnx or something. But if they _do_ remove 32 
-bit support, or stick a rust dependency in the base build, I suspect 
-that ship has sailed...)
-
-> -  - The old initrd was always a separate file, while the initramfs archive is
-> +  - The old initrd was always a separate file, while the initramfs archive can be
->       linked into the linux kernel image.  (The directory ``linux-*/usr`` is
->       devoted to generating this archive during the build.)
->   
-> @@ -137,7 +139,7 @@ Populating initramfs:
->   
->   The 2.6 kernel build process always creates a gzipped cpio format initramfs
->   archive and links it into the resulting kernel binary.  By default, this
-> -archive is empty (consuming 134 bytes on x86).
-> +archive is nearly empty (consuming 134 bytes on x86).
-
-Those two lines you just touched contradict each other.
-
-For historical reference, commit c33df4eaaf41 in 2007 added a second 
-codepath to special case NOT having an initramfs, for some reason. 
-That's how static linked cpio in the kernel image and external initrd= 
-loaded cpio from the bootloader wound up having different behavior.
-
-The init/noinitramfs.c file does init/mkdir("/dev") and 
-init_mknod("/dev/console") because calling the syscall_blah() functions 
-directly was considered icky so they created gratuitous wrappers to do 
-it for you instead, because that's cleaner somehow. (Presumably the same 
-logic as C++ having get and set methods that perform a simple assignment 
-and return a value. Because YOU can't be trusted to touch MY code.)
-
-Note that ONLY init/noinitramfs.c creates /dev/console. You'd THINK the 
-logical thing to do would be to detect failure of the filp_open() in 
-console_on_rootfs() and do the mkdir/mknod there and retry (since that's 
-__init code too), but no...
-
-My VERY vague recollection from back in the dark ages is if you didn't 
-specify any INITRAMFS_SOURCE in kconfig then gen_init_cpio got called 
-with no arguments and spit out a "usage" section that got interpreted as 
-scripts/gen_initramfs_list.sh output, back when the plumbing ignored 
-lines it didn't understand but there was an "example: a simple 
-initramfs" section in the usage with "dir /dev" and "nod /dev/console" 
-lines that created a cpio archive with /dev/console in it which would 
-get statically linked in as a "default", and code reached out and used 
-this because it was there without understanding WHY it was there. So it 
-initially worked by coincidence, and rather than make it explicit they 
-went "two codepaths, half the testing!" and thus...
-
-Anyway, that's why the 130+ byte archive was there. It wasn't actually 
-empty, even when initramfs was disabled.
-
-One of the "cleanups that didn't actually fix it" was 
-https://github.com/mpe/linux-fullhistory/commit/2bd3a997befc if you want 
-to dig into the history yourself. I wrote my docs in 2005 and that was 
-2010 so "somewhere in there"...
-
-> -If the kernel has initrd support enabled, an external cpio.gz archive can also
-> -be passed into a 2.6 kernel in place of an initrd.  In this case, the kernel
-> -will autodetect the type (initramfs, not initrd) and extract the external cpio
-> +If the kernel has CONFIG_BLK_DEV_INITRD enabled, an external cpio.gz archive can also
-
-You renamed that symbol, then even you use the old name here.
-
-> +be passed into a 2.6 kernel.  In this case, the kernel will extract the external cpio
->   archive into rootfs before trying to run /init.
->   
-> -This has the memory efficiency advantages of initramfs (no ramdisk block
-> -device) but the separate packaging of initrd (which is nice if you have
-> +This is nice if you have
->   non-GPL code you'd like to run from initramfs, without conflating it with
-> -the GPL licensed Linux kernel binary).
-> +the GPL licensed Linux kernel binary.
-
-IANAL: Whether or not this qualifies as "mere aggregation" had yet to go 
-to court last I heard.
-
-Which is basically why 
-https://hackmd.io/@starnight/Load_Firmware_Files_Later_in_Linux_Kernel 
-was so screwed up in the first place: the logical thing to do would be 
-put the firmware in a static initramfs and have the module 
-initialization happen after initramfs was populated... BUT LICENSING! We 
-must have a much more complicated implementation because license. I 
-believe I suggested passing said initramfs in via the initrd mechanism 
-so it remains a separate file until boot time, and was ignored. *shrug* 
-The usual...
-
->   It can also be used to supplement the kernel's built-in initramfs image.  The
->   files in the external archive will overwrite any conflicting files in
-> @@ -278,7 +278,7 @@ User Mode Linux, like so::
->     EOF
->     gcc -static hello.c -o init
->     echo init | cpio -o -H newc | gzip > test.cpio.gz
-> -  # Testing external initramfs using the initrd loading mechanism.
-> +  # Testing external initramfs.
-
-Does grub not still call it "initrd"?
-
->     qemu -kernel /boot/vmlinuz -initrd test.cpio.gz /dev/zero
-
-A) they added -hda so you don't have to give it a dummy /dev/zero anymore.
-
-B) there's no longer a "qemu" defaulting to the current architecture, 
-you have to explicitly specify qemu-system-blah unless you create the 
-symlink yourself by hand. This was considered an "improvement" by IBM 
-bureaucrats. (Not a regression, a "feature". Oh well...)
-
-C) to be honest I'd just point people at mkroot for examples these days, 
-but I'm biased. (It smells like me.)
-
-Rob
