@@ -1,71 +1,224 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAA122A4EE;
-	Mon, 15 Sep 2025 16:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE302773F2
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 16:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757952354; cv=none; b=qY5IZP0Pfj9YA8CkqFAbYjKj8meHs6h7A0thWRIaPHcWJk6L/JTaEfweV2y4tj9iR1e/20T0eo1ErhSKxo+F6p3ujJlw4ZxHEfVVUr+3WKs2YWEqwyu6guz1yEmLgLZvagcVKAtuTnCA7PblFbcTcpoGFq4pVgt2PYxlCxMbqUw=
+	t=1757953903; cv=none; b=JwLsU2s211/nXlx3/InrFzbYDQeHDY4IaxUvAazaarSbn+UqxQ3d5bQwkX/4gbG9UPVpl439zvFxNwmq84WViSnvBcQoknkVJG7koEt5Jy7ZBgPe8IMmQ3si0qiCLmdkm71A3iYV1uLl8Bt8zA/4ksvp1Ck8om0BzGC8PnUhONk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757952354; c=relaxed/simple;
-	bh=lp5o+OtvyP7RyOuio/+1UKRQHuPTE6Vn/E49AJ+zUjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IF4MLnsct/wsWxJSA1NVFKAJlhvxjcvo9iSAkLcoC6HOdfWxusSbp18myQ1Ec/IWp63zelUsPF8LB7aq9NNT0kzvA8y06RxvDtm/SAT0DHbNLdaf6NKQ7sbwi+3D6XTfz9X/PoNgBshFOrHyRFdS00o3GbuWGs2f5xIg4E8SRqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hPilNql7; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1757953903; c=relaxed/simple;
+	bh=YL2r0/deajtc33mo5VHnH0EW0hOU2juwCR4OtwxmmK0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S3cKoap0MYg9HZoyJqd55b8p3mKSWtYZCx0Qv2aOgIM9U3jQTnnNYWYA8/TZqsDwkcVMp/YyxO2ppaCCVquaS/2qy6G9qxx5LEuWAFKs/AZJpRWfpQgNTbyB+9oZjBFTlCxjA/2Fy+jMIAccO+4YtrMeffMqvHcSC3Y/0RklMCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b=C1UAtHVj; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hPilNql7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=jlL1Cb+6MbYk1+h/WWLBuvRphciTXyLJKToQ9qNYACs=; b=hPilNql7Z+bwv0+tcn+S3Z8K7y
-	vMPcpAm9tPZc57twzHBhmvJkgVuJZqYQqxQpQ4Da94KFDCQitH6JA2DYJ0Wb0Hu+EwRkOP1Kc9niB
-	WlSP9+rrQqCZl6bVh1ug7UjXvfO26Tcw4iRkzDp6gAOy0/QYdtiQpAyZ6GZ55yxrpYYCyK/AD5Qri
-	0iFbEBtmm/MnzKN8cZ+NUkYuqD2UcQbTwuDqXu622buEB3Dk0pjykWx08coOGzPFQ6rHE1+1eYfJ1
-	+VNUIiNPhLrg1b2HwEhMPaV1XpK/htmySUBFzzjwuWrcNT+vQHdw2R/taVhL3/qm7C+48Q0+wl6EY
-	dUA+Gbqg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyBiC-000000053IM-1diC;
-	Mon, 15 Sep 2025 16:05:52 +0000
-Date: Mon, 15 Sep 2025 09:05:52 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org,
-	miklos@szeredi.hu, djwong@kernel.org, hsiangkao@linux.alibaba.com,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 12/16] iomap: add bias for async read requests
-Message-ID: <aMg5YJRZMefvUKy8@infradead.org>
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-13-joannelkoong@gmail.com>
- <aMKzG3NUGsQijvEg@infradead.org>
- <CAJnrk1Z2JwUKKoaqExh2gPDxtjRbzSPxzHi3YdBWXKvygGuGFA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b="C1UAtHVj"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-33730e1cda7so42220201fa.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 09:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umich.edu; s=google-2016-06-03; t=1757953899; x=1758558699; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Jt1+UfETZdYDXjYgLzR6vo2AiP+w48VdZv8wawn+0M=;
+        b=C1UAtHVjXQ32+jBbLa36XXI7+MSF3RZQaWI9XckVGc2NP3ZJOtU920x1Q0yWbkaBin
+         wExOKJYQp/FG0h8xm/wSileZHH8oOmM1ve7SABx8eXCKIiJVELFpZZ9COg1TrqRm4//X
+         Vx8Bl6DM2HWhPmKBAm8ZJssXRrzp4neseiay18iADMLNdNDafFnKG132aA+14MFnDmEu
+         4Fu7thvt7KZLso//O9nBLhgFHjQHMS1zYuQTR0EpTI5/nLmkap09P72A9kjsFSMLdlp7
+         65o7Be1c9csBaAMhS8oHVPH9cbgeaAdn3Ahv1noQNLaG/lFFLKefNVcPLbRsFPhxQDeK
+         Jfow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757953899; x=1758558699;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6Jt1+UfETZdYDXjYgLzR6vo2AiP+w48VdZv8wawn+0M=;
+        b=iPHbZk5zw2k1hDqpheaVBrBAbEUl9bVRNayXVPJb6qadhdzSBMm7UonA/WPNq1Af/F
+         /s4nIlU7L9OnVZv8WoqAD531t31gHB54fAev36Hkke4k4IkwrjsdfvNft8sV+Lbpl9rO
+         OEZxAsjFHRFNbHcHUPfQo2o9yTcfNpIpO/SRSE6FvenVmMAsebMzwSnyZOaShFOdncIn
+         Fn0XIRmuiALg5iHqvZHOFsu++VufiObULpW4yAQqYTnBQiajJkJby5Flg/0US05B0K+n
+         h3BSKRgIXVuhWIKQDw2x5u9C/PBLJc9iwbrwSoEyo+7vnMUnTcU4UOndxDqMrvcdGKRw
+         jIvw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGLbD1TdCA2Yx4jSE60syofpL6PhLHEaQvD4fpGFo7gV3lRK7xEokfwFu9M+ebFvjoS4coCK0Wuug=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpsSt8UAfkCwTmvhZmDrEggMUC8M/VAm4nZPcEv1YiIdx/ZEln
+	FYnQgsD51C9FDcPzHROy2kHz/rGcxGThM4PpEeBPHpM+yQ3nZrGJF8qHFqGxDjKgI7XLvgdq4hR
+	SGVtamXOQoF7U99jnv/v8uVGDtw2tdyU=
+X-Gm-Gg: ASbGncsh2/iRuaV+VEjimAVylGrSlhjbS8YHtGtb3HY5i29IGVE9Cq1PeJpTzYbyAS0
+	4Jo72qfo+SCXKMEgWHU3+U8a9CPU3feSn5y/A1dP/bOU86iYW8Rw6ofUfVk9r7wbjS5tWNgB+M4
+	OFiYK4EoAlUBZbcRXUQMI9o6st5p3UBpqPp2rprZ2pL8ucHROifMCAgA4Vyboilbflaxp8CTsdc
+	vC5Ca9plYbB0PGc4JXFdr59sxrPrFNrfK8kSNZ+LBkvBUpf4Kk=
+X-Google-Smtp-Source: AGHT+IHtnSmph/h0KC4z9f50Q+6BzwUwJ7iaIGmhibPS8jP1Axx85iUNHkIBK0jPFftttcjbVKygL9roo+c760YHvw4=
+X-Received: by 2002:a05:651c:23d2:20b0:337:f597:60e8 with SMTP id
+ 38308e7fff4ca-3513e8e00d8mr31239581fa.32.1757953898612; Mon, 15 Sep 2025
+ 09:31:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJnrk1Z2JwUKKoaqExh2gPDxtjRbzSPxzHi3YdBWXKvygGuGFA@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20250905024659.811386-1-alistair.francis@wdc.com> <68e45231-8344-447d-95cc-4b95a13df353@suse.de>
+In-Reply-To: <68e45231-8344-447d-95cc-4b95a13df353@suse.de>
+From: Olga Kornievskaia <aglo@umich.edu>
+Date: Mon, 15 Sep 2025 12:31:26 -0400
+X-Gm-Features: AS18NWAUnzqMw0mf78fw1HcxM7rJw20nnCVSUeVV84heV6QHUZw_m51aGBmhNP8
+Message-ID: <CAN-5tyFpuEieD8x83vFGgHy8KZBCsAsm7LiZmzpc6OpWPHVFgA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] nvme-tcp: Support receiving KeyUpdate requests
+To: Hannes Reinecke <hare@suse.de>, alistair23@gmail.com
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 01:30:35PM -0400, Joanne Koong wrote:
-> I think you're right, this is probably clearer without trying to share
-> the function.
-> 
-> I think maybe we can make this even simpler. Right now we mark the
-> bitmap uptodate every time a range is read in but I think instead we
-> can just do one bitmap uptodate operation for the entire folio when
-> the read has completely finished.  If we do this, then we can make
-> "ifs->read_bytes_pending" back to an atomic_t since we don't save one
-> atomic operation from doing it through a spinlock anymore (eg what
-> commit f45b494e2a "iomap: protect read_bytes_pending with the
-> state_lock" optimized). And then this bias thing can just become:
+On Mon, Sep 15, 2025 at 7:46=E2=80=AFAM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 9/5/25 04:46, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > The TLS 1.3 specification allows the TLS client or server to send a
+> > KeyUpdate. This is generally used when the sequence is about to
+> > overflow or after a certain amount of bytes have been encrypted.
+> >
+> > The TLS spec doesn't mandate the conditions though, so a KeyUpdate
+> > can be sent by the TLS client or server at any time. This includes
+> > when running NVMe-OF over a TLS 1.3 connection.
+> >
+> > As such Linux should be able to handle a KeyUpdate event, as the
+> > other NVMe side could initiate a KeyUpdate.
+> >
+> > Upcoming WD NVMe-TCP hardware controllers implement TLS support
+> > and send KeyUpdate requests.
+> >
+> > This series builds on top of the existing TLS EKEYEXPIRED work,
+> > which already detects a KeyUpdate request. We can now pass that
+> > information up to the NVMe layer (target and host) and then pass
+> > it up to userspace.
+> >
+> > Userspace (ktls-utils) will need to save the connection state
+> > in the keyring during the initial handshake. The kernel then
+> > provides the key serial back to userspace when handling a
+> > KeyUpdate. Userspace can use this to restore the connection
+> > information and then update the keys, this final process
+> > is similar to the initial handshake.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> >
+> > v2:
+> >   - Change "key-serial" to "session-id"
+> >   - Fix reported build failures
+> >   - Drop tls_clear_err() function
+> >   - Stop keep alive timer during KeyUpdate
+> >   - Drop handshake message decoding in the NVMe layer
+> >
+> > Alistair Francis (7):
+> >    net/handshake: Store the key serial number on completion
+> >    net/handshake: Make handshake_req_cancel public
+> >    net/handshake: Expose handshake_sk_destruct_req publically
+> >    nvmet: Expose nvmet_stop_keep_alive_timer publically
+> >    net/handshake: Support KeyUpdate message types
+> >    nvme-tcp: Support KeyUpdate
+> >    nvmet-tcp: Support KeyUpdate
+> >
+> >   Documentation/netlink/specs/handshake.yaml |  19 +++-
+> >   Documentation/networking/tls-handshake.rst |   4 +-
+> >   drivers/nvme/host/tcp.c                    |  88 +++++++++++++++--
+> >   drivers/nvme/target/core.c                 |   1 +
+> >   drivers/nvme/target/tcp.c                  | 104 +++++++++++++++++++-=
+-
+> >   include/net/handshake.h                    |  17 +++-
+> >   include/uapi/linux/handshake.h             |  14 +++
+> >   net/handshake/genl.c                       |   5 +-
+> >   net/handshake/handshake.h                  |   1 -
+> >   net/handshake/request.c                    |  18 ++++
+> >   net/handshake/tlshd.c                      |  46 +++++++--
+> >   net/sunrpc/svcsock.c                       |   3 +-
+> >   net/sunrpc/xprtsock.c                      |   3 +-
+> >   13 files changed, 289 insertions(+), 34 deletions(-)
+> >
+>
+> Hey Alistair,
+> thanks for doing this. While the patchset itself looks okay-ish, there
+> are some general ideas/concerns for it:
+>
+> - I have posted a patch for replacing the current 'read_sock()'
+> interface with a recvmsg() base workflow. That should give us
+> access to the 'real' control message, so it would be good if you
+> could fold it in.
+> - Olga has send a patchset fixing a security issue with control
+> messages; the gist is that the network code expects a 'kvec' based
+> msg buffer when receiving a control message. So essentially one
+> has to receive a message _without_ a control buffer, check for
+> MSG_CTRUNC, and then read the control message via kvec.
+> Can you ensure that your patchset follows these guidelines?
+> - There is no method to trigger a KeyUpdate, making it really hard
+> to test this feature (eg by writin a blktest for it). Ideally we
+> should be able to trigger it from both directions, but having just
+> one (eg on the target side) should be enough for starters.
+> A possible interface would be to implement write support to the
+> 'tls_key' debugfs attribute; when writing the same key ID as
+> the one currently in use the KeyUpdate mechanism could be started.
+>
+> But thanks for doing the work!
 
-That's a really good idea, and also gets us closer to the write side.
+Hi Alistart,
 
+I would like to pingy-pack on this message and ask a few questions as
+I'm a bit confused about this implemenation.
+
+NFS is also interested in being able to handle KeyUpdate functionality
+of TLS and having NvME doing it serves as an example. But the general
+approach confuses me.
+
+All messages go thru a TLS (kernel) layer portion of sock_recvmsg
+(kernel_recvmsg). When the TLS kernel layer detects that it's
+non-TLS-data payload, it does various things depending on whether or
+not control buffer was set up prior to the call to sock_recvmsg.
+KeyUpdate message is a type of HANDSHAKE message and thus non-TLS-data
+payload. While I was doing my changes to NvME code I noticed that
+there are multiple places NvME (target) calls into kernel_recvmsg()
+and thus those places would need to handle receiving non-TLS-data
+payloads. Previously there was a TLS alert which is non-data but now
+there is Handshake (specifically Keyupdate, but not others).
+
+I guess where I'm going is I don't see how NvMe is connecting
+receiving KeyUpdate (ie, identifying that it received specifically
+that and not other handshake type) and its handling of KeyUpdate from
+kernel_recvmsg the when NvME is just normally receiving data.
+
+This patch series reads to me as it is expecting KeyUpdate to be a
+part of the Handshake process (ie., there is a patch to "cancel" an
+ongoing handshake, there is an upcall to tlshd with the KeyUpdate?).
+This doesn't make sense to me. KeyUpdate, while a type of Handshake
+message, is not done during the handshake -- it is done after sending
+the Finished message which concludes the handshake flow (and
+involvement of tlshd) and can happen at any time during normal TLS
+encrypted message exchange after the handshake. Here's a snippet from
+the TLS spec:
+
+The KeyUpdate handshake message is used to indicate that the sender
+   is updating its sending cryptographic keys.  This message can be sent
+   by either peer after it has sent a Finished message.  Implementations
+   that receive a KeyUpdate message prior to receiving a Finished
+   message MUST terminate the connection with an "unexpected_message"
+   alert.
+
+
+
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>
