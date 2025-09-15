@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A004479EA;
-	Mon, 15 Sep 2025 01:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB0122B8A9;
+	Mon, 15 Sep 2025 01:58:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757901492; cv=none; b=PDier6NtU9bjOA88mouOJAyt5KFqTm8xviGMiruuvlaHRh2GkoYXQJ2AU1snEAhboD/vmBxEOsk1pfBu8rf8wbJgK8Nj3T0No2h18BqLKeRnPNhKHppLaEIPdbQD9sR6ql6t/aIcZd0xRAuywcJ91LKowUrrHvVU6uSnWMufMSM=
+	t=1757901497; cv=none; b=U9VmuBT3uPbKdJESgYbMK/32O7I/JUiphL7ep1BpoA52WKxJPVSBcWO5mBHqtvkJI2pNBJsBZDMsmbFx6+YifDmTmQfYxLG/xotw+QB3dgIQvzWW1AnqdF0hv++OyhTJ3om0nfMlDVo1tSBy+9JYXUN9SO5qyZfWM0qdmQnI2tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757901492; c=relaxed/simple;
-	bh=BjDfoABSgABBExqvsCQseg6eKUcYV/UHjDVy9HDbnTM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rqk+WrfTqJ0j8qHDh4HFCOuO0Sie/NQscJc1GUOZzem+svaR2jvQOf+IkF4WqdB54Nq5fJrzkOWiTpj2Bm6Q3WLzrZd/HnqdeXsWgiyTqVl/5MJaFLX95ZUHInYgNuuL+yH027WXUSnYrUBtmjf3jU1fDqlYAYS5Tj958nmTGDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p0AJjbBG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757901497; c=relaxed/simple;
+	bh=3+9qSsAlg4qC3YbAA//ENyr9S8mCKrCXEpzivdstPoU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=uxwoz8ZiNCH/l6IRNA8IKORNagjsMyFTNzzwjkKLgCa/LNfyI4jwMfaBQJHK3ND4PtsA1bSTHCaX3q5IwMz2JWr5Awa8mChBiZRD0u8Xy+gPPsT6o7i4a4KZU0/WRNWQQzidfMzaTVgQIgTNjhuJtvpxvaDyvn/Pz/Ws9oxcWto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXHmoBRO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p0AJjbBG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C49C4CEF0;
-	Mon, 15 Sep 2025 01:58:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXHmoBRO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 602C0C4CEF5;
+	Mon, 15 Sep 2025 01:58:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757901492;
-	bh=BjDfoABSgABBExqvsCQseg6eKUcYV/UHjDVy9HDbnTM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=p0AJjbBGFPG749zf9wQYkZKmgBX19ks09WgebMp/0+Hpb55ugQuzAomtLitCmJ5Yy
-	 dTzRVHUoQv3y+CT4Ivr5dw8PWQ03uYMJQLa3ZDbtLg3UQutyzvgsH3WNMMM48TwMxA
-	 mGrqqKHI64s8s2OKPM+2FCF/DAmEyMa6FAPlt5b3C7ub6dLLIpIBlcH9ESwtPyi3NG
-	 TjVCW17Fp+EiqKDtKJUptMA09kckNx/v4hIQXu+QXE/uEd9ApAih+UqwF3E4HAoYuT
-	 QVvgaSFzYrIrwRCMGfY6ilG+tToxHmEnqUjYKh/V9KlASxr9DRtAH91puGizygcwSM
-	 K6MLyBvtOWwIg==
+	s=k20201202; t=1757901496;
+	bh=3+9qSsAlg4qC3YbAA//ENyr9S8mCKrCXEpzivdstPoU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DXHmoBROJvMUvju390O3mU1he2Ful7Ud2Rx4qCKVAXCT2HixYfZFUBVk5mP8DWBK0
+	 dPD6lB7bseP7avTwOdWTmAHf9tIPRRzV0NA725P9X3wnzFqQ/m2ykRBJDHYah1V71x
+	 dWLQ2MWIqxE9Ybeu8yttGKAf5eYZKh3rPHT+70mI4EnN/1xag2HAjL2tsTYt+H/9YX
+	 wk2psPIYwXKb8etxdZ2DJFGgF7+PH6woObe2ym2A4J2AT6axT+Qo+TXZdEi4bli60r
+	 kv8bv5n0Mfk5kCF3gDPT7dtQqW45b9BoryfbsCvplZxtTZK7GbNRa6CIONumtJeKji
+	 cHOCrjNcNxMIQ==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -41,10 +42,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 0/6] mm/damon: misc fixups and improvements for 6.18
-Date: Sun, 14 Sep 2025 18:58:01 -0700
-Message-Id: <20250915015807.101505-1-sj@kernel.org>
+Subject: [PATCH 4/6] Docs/mm/damon/maintainer-profile: update community meetup for reservation requirements
+Date: Sun, 14 Sep 2025 18:58:05 -0700
+Message-Id: <20250915015807.101505-5-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250915015807.101505-1-sj@kernel.org>
+References: <20250915015807.101505-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,50 +56,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Misc fixes and improvements for DAMON that are not critical and
-therefore aims to be merged into Linux 6.18-rc1.
+DAMON community meetup was having two different kinds of meetups:
+reservation required ones and unrequired ones.  Now the reservation
+unrequested one is gone, but the documentation on the maintainer-profile
+is not updated.  Update.
 
-The first patch improves DAMON's age counting for nr_accesses zero
-to/from non-zero changes.
-
-The second patch fixes an initial DAMOS apply interval delay issue that
-is not realistic but still could happen on an odd setup.
-
-The third patch fixes wrongly written code that doesn't cause any real
-problem but could make code review confusing.
-
-The fourth and the fifth patches update DAMON community meetup
-description and DAMON user-space tool example command for DAMOS usage,
-respectively.
-
-Finally, the sixth patch updates MAINTAINERS section name for DAMON to
-just DAMON.
-
-Changes from RFC
-(https://lore.kernel.org/20250909034353.7064-1-sj@kernel.org)
-- The RFC was only for the first patch
-- Rebase and wordsmith the first patch
-- Add a few misc fixes and improvements for 6.18 to the series
-
-SeongJae Park (6):
-  mm/damon/core: reset age if nr_accesses changes between non-zero and
-    zero
-  mm/damon/core: set effective quota on first charge window
-  mm/damon/lru_sort: use param_ctx correctly
-  Docs/mm/damon/maintainer-profile: update community meetup for
-    reservation requirements
-  Docs/admin-guide/mm/damon/start: add --target_pid to DAMOS example
-    command
-  MAINTAINERS: rename DAMON section
-
- Documentation/admin-guide/mm/damon/start.rst  |  2 +-
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
  Documentation/mm/damon/maintainer-profile.rst | 17 ++++++-----------
- MAINTAINERS                                   |  2 +-
- mm/damon/core.c                               |  7 ++++++-
- mm/damon/lru_sort.c                           |  2 +-
- 5 files changed, 15 insertions(+), 15 deletions(-)
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-
-base-commit: d245e17d619ea0336d50b0a6c914f5701d1b0e53
+diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
+index 5cd07905a193..58a3fb3c5762 100644
+--- a/Documentation/mm/damon/maintainer-profile.rst
++++ b/Documentation/mm/damon/maintainer-profile.rst
+@@ -89,18 +89,13 @@ the maintainer.
+ Community meetup
+ ----------------
+ 
+-DAMON community is maintaining two bi-weekly meetup series for community
+-members who prefer synchronous conversations over mails.
++DAMON community has a bi-weekly meetup series for members who prefer
++synchronous conversations over mails.  It is for discussions on specific topics
++between a group of members including the maintainer.  The maintainer shares the
++available time slots, and attendees should reserve one of those at least 24
++hours before the time slot, by reaching out to the maintainer.
+ 
+-The first one is for any discussion between every community member.  No
+-reservation is needed.
+-
+-The seconds one is for discussions on specific topics between restricted
+-members including the maintainer.  The maintainer shares the available time
+-slots, and attendees should reserve one of those at least 24 hours before the
+-time slot, by reaching out to the maintainer.
+-
+-Schedules and available reservation time slots are available at the Google `doc
++Schedules and reservation status are available at the Google `doc
+ <https://docs.google.com/document/d/1v43Kcj3ly4CYqmAkMaZzLiM2GEnWfgdGbZAH3mi2vpM/edit?usp=sharing>`_.
+ There is also a public Google `calendar
+ <https://calendar.google.com/calendar/u/0?cid=ZDIwOTA4YTMxNjc2MDQ3NTIyMmUzYTM5ZmQyM2U4NDA0ZGIwZjBiYmJlZGQxNDM0MmY4ZTRjOTE0NjdhZDRiY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t>`_
 -- 
 2.39.5
