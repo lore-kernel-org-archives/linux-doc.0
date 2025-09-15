@@ -1,293 +1,354 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD472080C8;
-	Mon, 15 Sep 2025 17:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757955908; cv=fail; b=MCswoOZCwlEGRjZ0W2sOe2sMnMuk/dIXUuhEKgxg+9PNP5wXxLpfOcl3t9uIT4lbx4368jBcceJdb6u/t/bBOnRGMU6pvLQuyPFTUAz38cgDzKOvOkbcfIbs8YwNtixvQXQ+fjdAKV9nL6vi1x2CX6JB9WTeuDG9zSj4QYBb/6w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757955908; c=relaxed/simple;
-	bh=YYPaZypjXf3qByJ+LKoiVVb9R2e6NekpAthPZCIJLyQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PO5n9XkvRbRKVomKeIQ8IUBmZGEZtk7rk2Hb1M7y3L/v1g6MEL4gzLRS7xrXD0sbwZCgE28x+86X0MC5S2IqH+Pt4U8Vl7ASdj1bZ7vbz952jhADfglORRo41epy938psoAnQusuEs1Ev187bF6RqGZGcQMuLC3GKZ5qctlHAkI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEuipUee; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC130242D78
+	for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 17:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757956036; cv=none; b=Ca/J+anVcfBJ1v2eIuwHsJ+C+zVvqAwRtB+nDySwtbeMlnHe/WgLWOYKhD6bJJMigNLPB6FO/mtMh9PyBOQi2gHU4CpTHe/bZaf2WKH0qRvSgtadRCLYLtmX9e2IU6PfWN+5elnblCUYnph4hqf7PzTFvOkgdP5xMnJr+ESBvVE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757956036; c=relaxed/simple;
+	bh=dJwjUPn034iFwJen1qZi+xOnmiXvVUMA6OruI/pptho=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eVrvcDJO0vGsYWQLn11iaI6dwZZJPte6NWzLcQ8Fw7/XQ2m8Xfn5bYoRDUce4kjCVJ2hPx6dFKSXbYeSmGuUfZuzgnUTcTkiyoPfEwHp1tb8T/dBlCsD038+Uy81UsGZhypHIzvjXxm947wgFaHLvIBo3IAhzIvCJudqQrErH2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=J4VSKv87; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEuipUee"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757955907; x=1789491907;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=YYPaZypjXf3qByJ+LKoiVVb9R2e6NekpAthPZCIJLyQ=;
-  b=OEuipUeeYHrpoleuiSxCXVYzq0L4O7q8WccB+iA9sNF0ZKCUV6RIZ6eH
-   UmeM+Uleg4TmrbP6EKXZvseNEyOCTv7sj5Dc6wAEoWTzAM5BS3LArYzuZ
-   47SdC775JNxNKEz+E1Mug59AjMtIa4SXPIxzkS7oC5WnhuZlyP/hdy+nN
-   HLALZ0VGagWp2MTM6xxuv8P8P4QVoQ3Mbxn7dLFx3X0K2s3Elk7tJnjAH
-   hrKFxQeQ/kCB4H9AXbWIpcW4P9FeRmmI03jzA9qO8iUMEQPhZfka6T5ty
-   GTJl/OMUmCcNU3dwptWIRN2F3G4MCGbk1fYpZ+5hCk1ELudQDrnNxLH4D
-   Q==;
-X-CSE-ConnectionGUID: OXG4RM6HTjCIxRTD2NN/7g==
-X-CSE-MsgGUID: Z2bT08yCQHWTBQclfjyG7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="62853977"
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="62853977"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 10:05:05 -0700
-X-CSE-ConnectionGUID: TNv6z3SbRQG4wdqwKlnnmw==
-X-CSE-MsgGUID: 7I1xWa1UTSev0rldURMGHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="175094701"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 10:05:04 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 15 Sep 2025 10:05:03 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 15 Sep 2025 10:05:03 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.71) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 15 Sep 2025 10:05:02 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LHQ+M+dzs1uQDFXOX7AAGLXM0w0aaYyvadL+sx9HDhKvDLROkwItnm9mogqRwpBv4BC4nG2dxAxBrL7Fq1Yi9AgTh0/eXoi5GIxvWD7tYEp33gVg2TEccIKy12/VeGyBDwhRTkDhPKt9wPQQlX2zvpfGrvM6dmr99dIJNUshqkdxKLf60VL3ek2hD9sCyLFdADU1TUH4J3R657cPaR9PdNpMjO1A+TYHNsndLoLhlRYck3iEo5D23f8yhTqaQW8hrxh+NJazl30Syuxr9GV8uvv3IqI71hmGEpcmZtpLY8hV2D65Nu7Ju6k8ORM+Y44Xl0alSooT+gWsx6TkmTk1VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WLmkSb/5Ky/zgmIEirYXEVVW36LIrdBtsC2Pso4hxR4=;
- b=ChUDs9XMGHneHYcK15g/sEfEn/Atn8FP5TAroQUKUBzhHVErY68OMMts0jSDpGw12ZmzEbRDB+lfGWEnwU2KKpTU/0YZTHMSHRTc/cFF5IXWJqtdWh3Os6GCzN4cmjR+9Ti86sYJr9BiLqbTrsxtTMLdarNzL4GszbFMgsS7ecEZLS3my2yHzXjTDG8lCPkYFGoFWH359lT6PPQTJCnSeU4VNbyWlp+89J+skDpyy69QjyxB+0JPWWzLqU+nZ4OR9igXeG1Fr+5+6M+jYzxGjovisSAObMn1YCkZKoTMDAl+x7zjio20YS3tbUYVGaktRchUMI7qj1ycAutsbeTcsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DS7PR11MB8805.namprd11.prod.outlook.com (2603:10b6:8:254::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Mon, 15 Sep
- 2025 17:04:58 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9115.020; Mon, 15 Sep 2025
- 17:04:58 +0000
-Date: Mon, 15 Sep 2025 12:04:53 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-CC: <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Christian
- =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, "=?utf-8?Q?Micha=C5=82?=
- Winiarski" <michal.winiarski@intel.com>, Alex Deucher
-	<alexander.deucher@amd.com>, <amd-gfx@lists.freedesktop.org>, David Airlie
-	<airlied@gmail.com>, <dri-devel@lists.freedesktop.org>,
-	<intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
-	<joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
-	?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	"Michael J . Ruhl" <mjruhl@habana.ai>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/11] PCI: Resizable BAR improvements
-Message-ID: <wqukxnxni2dbpdhri3cbvlrzsefgdanesgskzmxi5sauvsirsl@xor663jw2cdw>
-References: <20250915091358.9203-1-ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250915091358.9203-1-ilpo.jarvinen@linux.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0071.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::16) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="J4VSKv87"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 79677C8F1F9;
+	Mon, 15 Sep 2025 17:06:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C74166063F;
+	Mon, 15 Sep 2025 17:07:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C693D102F2B11;
+	Mon, 15 Sep 2025 19:07:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757956029; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=MP2NOP/U31hvh9wbH1Enlv9gdxa7zblBpEyR64wWxPQ=;
+	b=J4VSKv87tXb27+pOJ7xuaddXR1kPia3PMxdTAQgAL4Tu7gWPTdLAA3w+RkOpnkyFrIc4+3
+	CdCUUhEWVLpVxgDhOKdObSMXcPiHombNWM2I00sVyy3XcucSZJ7kwPzvCZk0j7yxqPd0oI
+	eHm9HKhizvBk/6+KH89v1jVHWxa5UdPh/d93AguyjRSgsVeCedLXSgFZ8Xw4bd9qYVs00w
+	RdWlvyPLQ34SQnMD5euV0AMrxAYDXi3LqOTyCmkUELyzvXrtbqYXfhUgDqOyTFpmeEz0fv
+	lfgmH/2vbA9ek4NXB5FvyFvaHcktRCoPE6KIBn29VLjDLIjDhunClm1r2zb36A==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Mon, 15 Sep 2025 19:06:27 +0200
+Subject: [PATCH net-next v3 2/5] net: pse-pd: pd692x0: Separate
+ configuration parsing from hardware setup
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS7PR11MB8805:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75239d60-9000-4494-64b2-08ddf479ffd3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?vGNjZM28kr6V8JI11y4MvKGGBOdfTgmV6gl3EW7UOJAKYTwTiQkKsV5ykz?=
- =?iso-8859-1?Q?5lG/RIaMDTbXM/7iveYuNd9H9c5LgdHr8g6H9eGKv9MUo2ZCsCk5CVoOee?=
- =?iso-8859-1?Q?+KLlt7I9kh+aufMnUHbR0rDlBa7u0gx2apeErSCw4wyQHaCtxbJpVx4Wvq?=
- =?iso-8859-1?Q?GDw3WZqXHiU6R2EjAMd0goO2G0yG/7Zs3SrsJc+8XJ9vK9XC+PJQ0ieVo6?=
- =?iso-8859-1?Q?GDC6KDcv5SzM7Au71IkSxVWARoysEc75VyBKIiAEyHNUwPyWqOClEHGD1f?=
- =?iso-8859-1?Q?QnV/glostv/xAxP4MQHww0rQJTdhEIADvit53gjLfzE4v2GK7hZy41Eop1?=
- =?iso-8859-1?Q?BwidtMAq0VxdqaEBv0uBdV0GeeUtHHLSV5AZl5Ce1plA1kL3m72D65xj6p?=
- =?iso-8859-1?Q?QsOxaKs/BZOX91e7vilpAd+KqarrzhtG+EO389bEw2Ei0ds9xQjE4V6Pdp?=
- =?iso-8859-1?Q?8vxPcQMzfv/qdbD5nKtLBf0IO05AUWHem0HDge+K//H/cyT4dI4E9iOQQ9?=
- =?iso-8859-1?Q?aFWzSxZXdFwHOrx542mWmRQfE7tQay3/r/Y3/HbMGH+fbtwbMiSAG4BT4C?=
- =?iso-8859-1?Q?K4w0di0NmxDp4ATYvHu8D8Y1VGmAsxRug015EVniA7L9BGRX3v5I2FYL9/?=
- =?iso-8859-1?Q?1p4ei8jfEvT0UhrjV1unL/laMwGL8XC3LILmcPFyOwdl+8wuyZbLM3wMr6?=
- =?iso-8859-1?Q?2L+vF7hEEWz6vvQyQIsFKmTTgCj3L+E23hTiWEPKY9HtLsutSl1D42/HH6?=
- =?iso-8859-1?Q?j3D21OMKahBTdcgiC6gxX3h5TLn2CTHR4pnupdQjBPgpIyM72FRNpiL/0b?=
- =?iso-8859-1?Q?gPHKs24ZtkdJfYbU4Cyv0vri2vmkyXzldu4l8F2GlXeq1R8EXLEVHqHTee?=
- =?iso-8859-1?Q?6MloO+dEEE5M8MiI4kp02d+wHRFPEymeQ4wWybJSZJcRtaozkgKvjK9N9N?=
- =?iso-8859-1?Q?Z5cwdvZNPe7OmGg+Eb9WZnbFjw0qLt7RSVvMdguLThQ2Lwe/ZgojYSDwmk?=
- =?iso-8859-1?Q?JGS4zu/2VoXESniESVuICyaONL3bKstnaz4+EANH1OeSL7wTbuSO+FfMY+?=
- =?iso-8859-1?Q?nF7f3Tdx0r245bXwntW5s3zmPnDHqAszRIYFWIXRyokS+AP6nPN58KFy4+?=
- =?iso-8859-1?Q?WF+8WvfkFPsQIXi9Dba8jUIe02NysroYszw6SnMYVCfIkKnhh3foLi+Gel?=
- =?iso-8859-1?Q?8mZahW581sFC7hgaQLZtGv729KE0oHHFGP1/MUcYLDj+/WvvZwVE2qDrkD?=
- =?iso-8859-1?Q?6ebD3P/G532pyFgXzsV9OQP42DRBRCpRER38Tt906elJklgxoV8ZIScVDJ?=
- =?iso-8859-1?Q?V/KapgUBnapHllrmVjcmtrv1LBe7gTYoXPB2590WeQXcvXbNXZeYDlntmx?=
- =?iso-8859-1?Q?6VABHcyq1dF+CSf5fKp5vy4Nfzn6qSgxIDYQ0dCpeatxmE/OPBlxB7tkQI?=
- =?iso-8859-1?Q?r84mPdw0mmnvvUfmeiXID/6ZWZj0QwhvFwRDd4kgwvCN3GbBvNOxfi9lVu?=
- =?iso-8859-1?Q?s=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?FXCviziYuhehGS/3hFYtW3r+HiP8Z66uio2ofNm4S0hcZ0oRzfrFAjzv4u?=
- =?iso-8859-1?Q?+OBtgx8SFDXGsbbPWQcEgkFve4N2ISRT4SZtSeS/JeBBxvLzYNbRf/7gOl?=
- =?iso-8859-1?Q?mNuNdR0RJn3y+hY+oZCXpgyuqH6N85aSKKHUqKfSM8KOGu24vN57vZr/zc?=
- =?iso-8859-1?Q?GzEbJ2vzFkTAIJl56lLu9Y/zCxoaEqQBZr3cVFyUk7RDCnngvzrIlSsGZb?=
- =?iso-8859-1?Q?jgbVOMT2vmsi3h8iNV0CR4wuzvU4xoCNqYrn8oy8K9ifW+UInMBaD3S7eq?=
- =?iso-8859-1?Q?oqc9bPb1GwO9/TDgsfDny5upJpmnaeBjwR5AGC/MaFGU38Rxu1Rhi9WKl3?=
- =?iso-8859-1?Q?ekAAZocb+WXDWt3uDdXqU0VwH+kqlKxsmEgbSNum1BBOIrgZqiICsNvsrw?=
- =?iso-8859-1?Q?6TNdJzsmVM7jI+hFQpN9Z288eiAa/7gYM9BGSloK8y4iMD5TWV7mhRpD8h?=
- =?iso-8859-1?Q?iNjTNVjRU8Ow4Yr7aDGpYNV32RiWn16Aa4DWofgduIaNufR+QkUkGpCu2A?=
- =?iso-8859-1?Q?pqVcGArcHy0j3yA6HLxUBHZ6UKqSQTG15UxGh2853ekSV3Jf4cRKU78OKN?=
- =?iso-8859-1?Q?BbmJ1qg7rc5CWEH54es2lEORzvf06arq8wgpY8rox7nsr31GoxAetk1FB2?=
- =?iso-8859-1?Q?P8DJ8KWokX1xMM7NC/jtNXtYa9TUOKuPRcrSJ+QMvt/23PHwrDB83lKmR4?=
- =?iso-8859-1?Q?HQQLWCoPiSQf4SiEpMCOTbA+bCFPhvquggB476yDsbWbt5fj/vw591rfw7?=
- =?iso-8859-1?Q?SGPx324TqzAmXZJ3tgf7dartcpvyX+9DeG47J44Bc/iS4EOU7eFlgLHxZa?=
- =?iso-8859-1?Q?aMWwg4nOAeMFC3rriXffRDByfI4Zz50zjFrcCwqe6icUKndE9uXVTsNL9y?=
- =?iso-8859-1?Q?ZAHZu1+Y5frjTuo+glIA5C6gl0Cy3oWC6P73yf3h3VFwPItyXHE07umRIb?=
- =?iso-8859-1?Q?OkVHmUXtU2W9T+1yANYXDRicSgekrv9qz5UGwOZZ+f4wLGdLOTI5liRdBZ?=
- =?iso-8859-1?Q?+MwgzBZlCHnFD6s8jjNmSt4LkopHcKPmJe0DQS5nQ3nyN0jjeJgk9Aa7x+?=
- =?iso-8859-1?Q?aQyOjotOrzpEFYxfSrbKo9gMIBUepVYyllziwppCSzgbDI1nfykB/Fk+Ou?=
- =?iso-8859-1?Q?i41oOoTvZRkW7zcfkuBZes7+b+2VHmtKbGL/sCcdELjRefU12FEkOqmIa1?=
- =?iso-8859-1?Q?jDj+uTVxf++VRoM8hz9ewhjRpyhgVcw4VlL0pX+U5ajD3q2PgkKNlNvvg1?=
- =?iso-8859-1?Q?3AxugZBZt2fDUDcmNflZ2XcOjmJ09msy7o5OZGsnQ8q9hggUSVIn9vsDIB?=
- =?iso-8859-1?Q?Vgo7xW9QdTnZ62RMWOMCy86UqKgxBD0J1FVPIItG3/mkc70hhmiy0XGEAW?=
- =?iso-8859-1?Q?Hdwyf0U1L46G61BRAvDQIyK9X4QbOz4bstOf+ij1r9RmJt42fdTfVf5rnb?=
- =?iso-8859-1?Q?KV+cZ07MewRCJO8YD3FjYT46ZYZ+gtgNmnYT94NzO47vn8r3AS2mwVylOP?=
- =?iso-8859-1?Q?cE5x8S6V8HzC9pBlmu00pvlAwlW8h1LyHbGn5uRNJjUP9BTadVXojJipK3?=
- =?iso-8859-1?Q?5WZX6XSErKdM8ZaDlANBvFBPjoFvUgaR8agBJexGzc9yFOf7/Un3hcdTUf?=
- =?iso-8859-1?Q?zHJGeAuNiC57CGx4aGYtXq1idmTJhz8UEINyzjvFiA828inlqeIYOQug?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75239d60-9000-4494-64b2-08ddf479ffd3
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 17:04:58.4007
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YpbCg1oYSXht8JUcr/fWXHvf0xEIdpCKAyRl814ifbydikPJI0K7nN6SHfuC5II9NRJ/hGIkPvcTvshJFFQKRMbM+Jd6ZNWwHyF51q8faZo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8805
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250915-feature_poe_permanent_conf-v3-2-78871151088b@bootlin.com>
+References: <20250915-feature_poe_permanent_conf-v3-0-78871151088b@bootlin.com>
+In-Reply-To: <20250915-feature_poe_permanent_conf-v3-0-78871151088b@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>
+Cc: kernel@pengutronix.de, Dent Project <dentproject@linuxfoundation.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Sep 15, 2025 at 12:13:47PM +0300, Ilpo Järvinen wrote:
->pci.c has been used as catch everything that doesn't fits elsewhere
->within PCI core and thus resizable BAR code has been placed there as
->well. Move Resizable BAR related code to a newly introduced rebar.c to
->reduce size of pci.c. After move, there are no pci_rebar_*() calls from
->pci.c indicating this is indeed well-defined subset of PCI core.
->
->Endpoint drivers perform Resizable BAR related operations which could
->well be performed by PCI core to simplify driver-side code. This
->series adds a few new API functions to that effect and converts the
->drivers to use the new APIs (in separate patches).
->
->While at it, also convert BAR sizes bitmask to u64 as PCIe spec already
->specifies more sizes than what will fit u32 to make the API typing more
->future-proof. The extra sizes beyond 128TB are not added at this point.
->
->These are based on pci/main plus a simple "adapter" patch to add the
->include for xe_vram_types.h that was added by a commit in drm-tip.
->Hopefully that is enough to avoid the within context conflict with
->BAR_SIZE_SHIFT removal to let the xe CI tests to be run for this
->series.
->
->There are two minor conflicts with the work in pci/resource but I'm
->hesitant to base this on top of it as this is otherwise entirely
->independent (and would likely prevent GPU CI tests as well). If we end
->up having to pull the bridge window select changes, there should be no
->reason why this does have to become collateral damage (so my
->suggestion, if this is good to go in this cycle, to take this into a
->separate branch than pci/resource and deal with those small conflicts
->while merging into pci/next).
->
->I've tested sysfs resize, i915, and xe BAR resizing functionality. In
->the case of xe, I did small hack patch as its resize is anyway broken
->as is because BAR0 pins the bridge window so resizing BAR2 fails. My
->hack caused other problems further down the road (likely because BAR0
->is in use by the driver so releasing it messed assumptions xe driver
->has) but the BAR resize itself was working which was all I was
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-is the hack you mention here to release all BARs before attempting the
-resize?
+Cache the port matrix configuration in driver private data to enable
+PSE controller reconfiguration. This refactoring separates device tree
+parsing from hardware configuration application, allowing settings to be
+reapplied without reparsing the device tree.
 
->interested to know. I'm not planning to pursue fixing the pinning
->problem within xe driver because the core changes to consider maximum
->size of the resizable BARs should take care of the main problem by
->different means.
+This prepares for upcoming permanent configuration support where cached
+settings can be restored after device resets or firmware updates.
 
-I'd actually like to pursue that myself as that could be propagated to
-stable since we do have some resize errors in xe with BMG that I wasn't
-understanding. It's likely due to xe_mmio_probe_early() taking a hold of
-BAR0 and not expecting it to be moved. We could either remap if we have
-have to resize or just move the resize logic early on.
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ drivers/net/pse-pd/pd692x0.c | 115 ++++++++++++++++++++++++++++---------------
+ 1 file changed, 76 insertions(+), 39 deletions(-)
 
-thanks
-Lucas De Marchi
+diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
+index 055e925c853ef..782b1abf94cb1 100644
+--- a/drivers/net/pse-pd/pd692x0.c
++++ b/drivers/net/pse-pd/pd692x0.c
+@@ -85,6 +85,11 @@ enum {
+ 	PD692X0_MSG_CNT
+ };
+ 
++struct pd692x0_matrix {
++	u8 hw_port_a;
++	u8 hw_port_b;
++};
++
+ struct pd692x0_priv {
+ 	struct i2c_client *client;
+ 	struct pse_controller_dev pcdev;
+@@ -101,6 +106,8 @@ struct pd692x0_priv {
+ 	enum ethtool_c33_pse_admin_state admin_state[PD692X0_MAX_PIS];
+ 	struct regulator_dev *manager_reg[PD692X0_MAX_MANAGERS];
+ 	int manager_pw_budget[PD692X0_MAX_MANAGERS];
++	int nmanagers;
++	struct pd692x0_matrix *port_matrix;
+ };
+ 
+ /* Template list of communication messages. The non-null bytes defined here
+@@ -809,11 +816,6 @@ struct pd692x0_manager {
+ 	int nports;
+ };
+ 
+-struct pd692x0_matrix {
+-	u8 hw_port_a;
+-	u8 hw_port_b;
+-};
+-
+ static int
+ pd692x0_of_get_ports_manager(struct pd692x0_priv *priv,
+ 			     struct pd692x0_manager *manager,
+@@ -903,7 +905,8 @@ pd692x0_of_get_managers(struct pd692x0_priv *priv,
+ 	}
+ 
+ 	of_node_put(managers_node);
+-	return nmanagers;
++	priv->nmanagers = nmanagers;
++	return 0;
+ 
+ out:
+ 	for (i = 0; i < nmanagers; i++) {
+@@ -963,8 +966,7 @@ pd692x0_register_manager_regulator(struct device *dev, char *reg_name,
+ 
+ static int
+ pd692x0_register_managers_regulator(struct pd692x0_priv *priv,
+-				    const struct pd692x0_manager *manager,
+-				    int nmanagers)
++				    const struct pd692x0_manager *manager)
+ {
+ 	struct device *dev = &priv->client->dev;
+ 	size_t reg_name_len;
+@@ -975,7 +977,7 @@ pd692x0_register_managers_regulator(struct pd692x0_priv *priv,
+ 	 */
+ 	reg_name_len = strlen(dev_name(dev)) + 23;
+ 
+-	for (i = 0; i < nmanagers; i++) {
++	for (i = 0; i < priv->nmanagers; i++) {
+ 		static const char * const regulators[] = { "vaux5", "vaux3p3" };
+ 		struct regulator_dev *rdev;
+ 		char *reg_name;
+@@ -1008,10 +1010,14 @@ pd692x0_register_managers_regulator(struct pd692x0_priv *priv,
+ }
+ 
+ static int
+-pd692x0_conf_manager_power_budget(struct pd692x0_priv *priv, int id, int pw)
++pd692x0_conf_manager_power_budget(struct pd692x0_priv *priv, int id)
+ {
+ 	struct pd692x0_msg msg, buf;
+-	int ret, pw_mW = pw / 1000;
++	int ret, pw_mW;
++
++	pw_mW = priv->manager_pw_budget[id] / 1000;
++	if (!pw_mW)
++		return 0;
+ 
+ 	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_POWER_BANK];
+ 	msg.data[0] = id;
+@@ -1032,11 +1038,11 @@ pd692x0_conf_manager_power_budget(struct pd692x0_priv *priv, int id, int pw)
+ }
+ 
+ static int
+-pd692x0_configure_managers(struct pd692x0_priv *priv, int nmanagers)
++pd692x0_req_managers_pw_budget(struct pd692x0_priv *priv)
+ {
+ 	int i, ret;
+ 
+-	for (i = 0; i < nmanagers; i++) {
++	for (i = 0; i < priv->nmanagers; i++) {
+ 		struct regulator *supply = priv->manager_reg[i]->supply;
+ 		int pw_budget;
+ 
+@@ -1053,7 +1059,18 @@ pd692x0_configure_managers(struct pd692x0_priv *priv, int nmanagers)
+ 			return ret;
+ 
+ 		priv->manager_pw_budget[i] = pw_budget;
+-		ret = pd692x0_conf_manager_power_budget(priv, i, pw_budget);
++	}
++
++	return 0;
++}
++
++static int
++pd692x0_configure_managers(struct pd692x0_priv *priv)
++{
++	int i, ret;
++
++	for (i = 0; i < priv->nmanagers; i++) {
++		ret = pd692x0_conf_manager_power_budget(priv, i);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+@@ -1101,10 +1118,9 @@ pd692x0_set_port_matrix(const struct pse_pi_pairset *pairset,
+ 
+ static int
+ pd692x0_set_ports_matrix(struct pd692x0_priv *priv,
+-			 const struct pd692x0_manager *manager,
+-			 int nmanagers,
+-			 struct pd692x0_matrix port_matrix[PD692X0_MAX_PIS])
++			 const struct pd692x0_manager *manager)
+ {
++	struct pd692x0_matrix *port_matrix = priv->port_matrix;
+ 	struct pse_controller_dev *pcdev = &priv->pcdev;
+ 	int i, ret;
+ 
+@@ -1117,7 +1133,7 @@ pd692x0_set_ports_matrix(struct pd692x0_priv *priv,
+ 	/* Update with values for every PSE PIs */
+ 	for (i = 0; i < pcdev->nr_lines; i++) {
+ 		ret = pd692x0_set_port_matrix(&pcdev->pi[i].pairset[0],
+-					      manager, nmanagers,
++					      manager, priv->nmanagers,
+ 					      &port_matrix[i]);
+ 		if (ret) {
+ 			dev_err(&priv->client->dev,
+@@ -1126,7 +1142,7 @@ pd692x0_set_ports_matrix(struct pd692x0_priv *priv,
+ 		}
+ 
+ 		ret = pd692x0_set_port_matrix(&pcdev->pi[i].pairset[1],
+-					      manager, nmanagers,
++					      manager, priv->nmanagers,
+ 					      &port_matrix[i]);
+ 		if (ret) {
+ 			dev_err(&priv->client->dev,
+@@ -1139,9 +1155,9 @@ pd692x0_set_ports_matrix(struct pd692x0_priv *priv,
+ }
+ 
+ static int
+-pd692x0_write_ports_matrix(struct pd692x0_priv *priv,
+-			   const struct pd692x0_matrix port_matrix[PD692X0_MAX_PIS])
++pd692x0_write_ports_matrix(struct pd692x0_priv *priv)
+ {
++	struct pd692x0_matrix *port_matrix = priv->port_matrix;
+ 	struct pd692x0_msg msg, buf;
+ 	int ret, i;
+ 
+@@ -1166,13 +1182,32 @@ pd692x0_write_ports_matrix(struct pd692x0_priv *priv,
+ 	return 0;
+ }
+ 
++static int pd692x0_hw_conf_init(struct pd692x0_priv *priv)
++{
++	int ret;
++
++	/* Is PD692x0 ready to be configured? */
++	if (priv->fw_state != PD692X0_FW_OK &&
++	    priv->fw_state != PD692X0_FW_COMPLETE)
++		return 0;
++
++	ret = pd692x0_configure_managers(priv);
++	if (ret)
++		return ret;
++
++	ret = pd692x0_write_ports_matrix(priv);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ static void pd692x0_of_put_managers(struct pd692x0_priv *priv,
+-				    struct pd692x0_manager *manager,
+-				    int nmanagers)
++				    struct pd692x0_manager *manager)
+ {
+ 	int i, j;
+ 
+-	for (i = 0; i < nmanagers; i++) {
++	for (i = 0; i < priv->nmanagers; i++) {
+ 		for (j = 0; j < manager[i].nports; j++)
+ 			of_node_put(manager[i].port_node[j]);
+ 		of_node_put(manager[i].node);
+@@ -1201,48 +1236,50 @@ static void pd692x0_managers_free_pw_budget(struct pd692x0_priv *priv)
+ static int pd692x0_setup_pi_matrix(struct pse_controller_dev *pcdev)
+ {
+ 	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
+-	struct pd692x0_matrix port_matrix[PD692X0_MAX_PIS];
++	struct pd692x0_matrix *port_matrix;
+ 	struct pd692x0_manager *manager;
+-	int ret, nmanagers;
+-
+-	/* Should we flash the port matrix */
+-	if (priv->fw_state != PD692X0_FW_OK &&
+-	    priv->fw_state != PD692X0_FW_COMPLETE)
+-		return 0;
++	int ret;
+ 
+ 	manager = kcalloc(PD692X0_MAX_MANAGERS, sizeof(*manager), GFP_KERNEL);
+ 	if (!manager)
+ 		return -ENOMEM;
+ 
++	port_matrix = devm_kcalloc(&priv->client->dev, PD692X0_MAX_PIS,
++				   sizeof(*port_matrix), GFP_KERNEL);
++	if (!port_matrix) {
++		ret = -ENOMEM;
++		goto err_free_manager;
++	}
++	priv->port_matrix = port_matrix;
++
+ 	ret = pd692x0_of_get_managers(priv, manager);
+ 	if (ret < 0)
+ 		goto err_free_manager;
+ 
+-	nmanagers = ret;
+-	ret = pd692x0_register_managers_regulator(priv, manager, nmanagers);
++	ret = pd692x0_register_managers_regulator(priv, manager);
+ 	if (ret)
+ 		goto err_of_managers;
+ 
+-	ret = pd692x0_configure_managers(priv, nmanagers);
++	ret = pd692x0_req_managers_pw_budget(priv);
+ 	if (ret)
+ 		goto err_of_managers;
+ 
+-	ret = pd692x0_set_ports_matrix(priv, manager, nmanagers, port_matrix);
++	ret = pd692x0_set_ports_matrix(priv, manager);
+ 	if (ret)
+ 		goto err_managers_req_pw;
+ 
+-	ret = pd692x0_write_ports_matrix(priv, port_matrix);
++	ret = pd692x0_hw_conf_init(priv);
+ 	if (ret)
+ 		goto err_managers_req_pw;
+ 
+-	pd692x0_of_put_managers(priv, manager, nmanagers);
++	pd692x0_of_put_managers(priv, manager);
+ 	kfree(manager);
+ 	return 0;
+ 
+ err_managers_req_pw:
+ 	pd692x0_managers_free_pw_budget(priv);
+ err_of_managers:
+-	pd692x0_of_put_managers(priv, manager, nmanagers);
++	pd692x0_of_put_managers(priv, manager);
+ err_free_manager:
+ 	kfree(manager);
+ 	return ret;
+@@ -1647,7 +1684,7 @@ static enum fw_upload_err pd692x0_fw_poll_complete(struct fw_upload *fwl)
+ 		return FW_UPLOAD_ERR_FW_INVALID;
+ 	}
+ 
+-	ret = pd692x0_setup_pi_matrix(&priv->pcdev);
++	ret = pd692x0_hw_conf_init(priv);
+ 	if (ret < 0) {
+ 		dev_err(&client->dev, "Error configuring ports matrix (%pe)\n",
+ 			ERR_PTR(ret));
 
->
->Some parts of this are to be used by the resizable BAR changes into the
->resource fitting/assingment logic but these seem to stand on their own
->so sending these out now to reduce the size of the other patch series.
->
->v2:
->- Kerneldoc:
->  - Improve formatting of errno returns
->  - Open "ctrl" -> "control"
->  - Removed mislead "bit" words (when referring to BAR size)
->  - Rewrote pci_rebar_get_possible_sizes() kernel doc to not claim the
->    returned bitmask is defined in PCIe spec as the capability bits now
->    span across two registers in the spec and are not continuous (we
->    don't support the second block of bits yet, but this API is expected
->    to return the bits without the hole so it will not be matching with
->    the spec layout).
->- Dropped superfluous zero check from pci_rebar_size_supported()
->- Small improvement to changelog of patch 7
->
->Ilpo Järvinen (11):
->  PCI: Move Resizable BAR code into rebar.c
->  PCI: Cleanup pci_rebar_bytes_to_size() and move into rebar.c
->  PCI: Move pci_rebar_size_to_bytes() and export it
->  PCI: Improve Resizable BAR functions kernel doc
->  PCI: Add pci_rebar_size_supported() helper
->  drm/i915/gt: Use pci_rebar_size_supported()
->  drm/xe/vram: Use PCI rebar helpers in resize_vram_bar()
->  PCI: Add pci_rebar_get_max_size()
->  drm/xe/vram: Use pci_rebar_get_max_size()
->  drm/amdgpu: Use pci_rebar_get_max_size()
->  PCI: Convert BAR sizes bitmasks to u64
->
-> Documentation/driver-api/pci/pci.rst        |   3 +
-> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |   8 +-
-> drivers/gpu/drm/i915/gt/intel_region_lmem.c |  10 +-
-> drivers/gpu/drm/xe/xe_vram.c                |  32 +-
-> drivers/pci/Makefile                        |   2 +-
-> drivers/pci/iov.c                           |   9 +-
-> drivers/pci/pci-sysfs.c                     |   2 +-
-> drivers/pci/pci.c                           | 145 ---------
-> drivers/pci/pci.h                           |   5 +-
-> drivers/pci/rebar.c                         | 314 ++++++++++++++++++++
-> drivers/pci/setup-res.c                     |  78 -----
-> include/linux/pci.h                         |  15 +-
-> 12 files changed, 350 insertions(+), 273 deletions(-)
-> create mode 100644 drivers/pci/rebar.c
->
->
->base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
->prerequisite-patch-id: 35bd3cd7a60ff7d887450a7fdde73b055a76ae24
->-- 
->2.39.5
->
+-- 
+2.43.0
+
