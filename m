@@ -1,308 +1,268 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34A926E173;
-	Mon, 15 Sep 2025 10:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757933890; cv=none; b=S422ZKk1sUcUrkzlGG/YVUYWen3fAgq8W3iY/0uXhGS408twTs7ANLkSybznWK/FtgeEdflosi5NBwyEVLWnjfzEVbehJcz0ks9sBt+WU897KXtUSE1UvpVbsATHkOsb31YSsk5rfr0lBvryA6yoI1JnZAU9VuyRSRxztX5rxt0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757933890; c=relaxed/simple;
-	bh=UMjiqQGGASpETzIQzNIVWDM+E7z66liCCjZ/iIlYQP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tHKfn5u44ZFBMLDSzSYeIx/XlpjcZ8p59ii+6OmpcQ+GnJ9tB2xTDXvrM4KeA0BQeRPl8iE0SfdjX6UsuJmTs1O/TIN10AfwFA1SO48y/wBOc1S9FihKmbbNfQxW1sxmGHTEPkXFatsr4OJYy+yLPLK5U+LlyMfKQs47LPxGaco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjCwXYbH; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190FB2FDC20;
+	Mon, 15 Sep 2025 11:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757934013; cv=fail; b=Ur3izn5PIdoSHFq/ANejuuDxo/DcPgL2aCEE4brn9joNnqoCe4Q3cwZQTOv1E5AgGZ4rRDxmMS+7eMbqSW9kFHrRgE1yfKDUvLPjFss2VtmYkJkKbciHquxY3RcNTvIZsF1tpfJDyCJLR++FC9mQEeGypSM6+CRLOmQ2mXzRh5k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757934013; c=relaxed/simple;
+	bh=uyYIrjKETP/7JT0nAZj61h3NdodRFyu0QZvawuVtIm8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=lA7QEHXSziCiPqnK+XGbjroYepwUH14FzOSnCzznaU0d7MkfLdQCtiO3SnM026m7qf9ebG7p+9OVpbrriiytS6yCquKtCzCvot3xRXrSmZgM4oe+PMtGlhfZrUDbflUw0XBNhikmdKSZXN/qd6gw35HqfqqKM5OfsSItCJQmL5k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=CGD2GTGB; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=dPMstmPZ; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjCwXYbH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6ABC4CEF1;
-	Mon, 15 Sep 2025 10:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757933890;
-	bh=UMjiqQGGASpETzIQzNIVWDM+E7z66liCCjZ/iIlYQP4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mjCwXYbHyg32bLezmVTYiM7e8AWhNhKhTEAxDAc2o3+Y7Dcxa4ahiaDUsFeeVqiWc
-	 w/pa3B4t+JfLR9jL0VPDFMDRk7AdPcCGjIkTA8EmRdd6+7eayJ01UVoleef20/HcwG
-	 mdMEOM9SP+LSNme/UxprK2xXOJKwxIvCZpc7M0Br6SjtAEMK/qvIFhZ0BMUPNhrTn9
-	 MGpnoZHQS7IFAZCbkyCd+sjdiMV9+BTmc2U0k6Pr66mDllg9gRPVvHfB48mBB/C3ew
-	 eOi9qUVFbFehISCbIom0bQHVhBCYMDCeEbppcf4Xo5clZuZGNtUzfLEceGTOLavkD2
-	 brr8o7GFeqU+g==
-Date: Mon, 15 Sep 2025 12:58:05 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, jani.nikula@linux.intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, tmgross@umich.edu
-Subject: Re: [PATCH v4 08/19] tools/docs: sphinx-build-wrapper: add a
- wrapper for sphinx-build
-Message-ID: <20250915125805.25b48d09@foz.lan>
-In-Reply-To: <aa2aa8d2-f7f1-4f04-a9b0-f08160f9ea81@gmail.com>
-References: <20250910153334.0b3e1440@foz.lan>
-	<28c45f53-a3ff-428f-ba99-ebb09e0581d3@gmail.com>
-	<20250912130420.6c14dbbd@foz.lan>
-	<f3d142be-3980-4d4e-9d66-c03276694bf9@gmail.com>
-	<6hhhn5go2yb7ecdrqtuti23i6pfgckqbdk5nhuhn2ijrhmvvmw@awswbm3tvmwp>
-	<aa2aa8d2-f7f1-4f04-a9b0-f08160f9ea81@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CGD2GTGB";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="dPMstmPZ"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FAtp9A022652;
+	Mon, 15 Sep 2025 10:59:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=uyYIrjKETP/7JT0nAZ
+	j61h3NdodRFyu0QZvawuVtIm8=; b=CGD2GTGBhMrqFuXVhZc41k9GE6GSZTGa0D
+	IRwQl0xmt4Uq3d4jg1O9JwZjc6SzcPIMu0qy383xQi1OGc+jF1JoVDCBmbwTBh2u
+	xfcoJPlJ1bjOrNVUsSHERMBv82HzH9z4tAFEFHadum0EIpiLtBbVwEXoGtRgXtSm
+	QQdNBXocGe2jdDgFDtmeXFjktCQoDSmwSHZJ94JPVmBWNsW0OZQYnrUB0ABVab03
+	VLIWFyk7WkoawkqII8kFK2PjMvfxC5LEObAA3sVMSqyRdyvtyDRyxgcwPapNMWWN
+	Cwh2+GRrJF27htAtgiXyVcVdOMt7UJJjFptKEoArASt3pYc+3qyQ==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 494yhd25aj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 15 Sep 2025 10:59:33 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58FAXbdS015444;
+	Mon, 15 Sep 2025 10:59:32 GMT
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012022.outbound.protection.outlook.com [40.107.200.22])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 494y2av9xe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 15 Sep 2025 10:59:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JgYzo973ebRqktxQ4+opEdFGh4a/VNCtzGcIjUmsxsan5f5beaIysj1If6HDoO4orkGqcuFBytlHMLb/3EGclnACU2Dpl66Nxlo63vHeS1W8GuXqo+zwFAy7dvQbwOig5qNCPdMmXGoSL5EkBiQJ64HB0zIWMDkH1homgqLIIegZ25qlZv0mNeVQBV93/hpeQJbDg8W3IGNuISDHxlQvtW7xcsX4+rHMlykhJlJLKyJF9/e0c+zLO8rZEao5a/qri6xAFu1hZ/05qbyjE6ZVuInBfOF9Tj5QTpEH+XG+bjkO8IqDT1ZQl7Ep6OtMWkt8VMn8RewtJUXgvBLtS47BDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uyYIrjKETP/7JT0nAZj61h3NdodRFyu0QZvawuVtIm8=;
+ b=LnvhR1FjG4+UNCXv+DoGh+EhdPokYVskz0LBwL3rzG+egFtHm0MyNYp1Zikgv/Oz3Quuu3iEVUMCWnpvTZEopU2DO2z0eYr7Wgth01lo6DyQ4+j4GYjrM+KkWJhqpYVU008G4SvVJKp4vSkHGqOaNd3gm4ztN1PfQY6Xk4YTUUZQdmE6z4Kuk0eX7GicPkEQEEo4RMQ4IE3KRgaT5z96+SdxPwmp4lQ1wFkKCl2HsAvV/mak2zMwY/tgmcsNXSOXDJ4k/TuMyKAdyNRFFjfo3tdnaPz0AIYUShW0HAAA+/4J/9SxEyuvMF/NsXWMhIST8h6bCvp12kyyx+xy2/50OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uyYIrjKETP/7JT0nAZj61h3NdodRFyu0QZvawuVtIm8=;
+ b=dPMstmPZVFlc17xQ3sllMb5rNJu0nFqV6m6qggoQmAdeQ+jHTUTAwt3qKzDFQybUBExAvKEzY0KEa6hAdKs8VJ/kodhEq9avEV/IwCwK11PKja82mqGD46fZaNdHjXOZeT9lhkPyqavF0D7tZm5M8nlGoMw3josx7Cszgv4IagU=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by DS0PR10MB8031.namprd10.prod.outlook.com (2603:10b6:8:200::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Mon, 15 Sep
+ 2025 10:59:28 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9115.020; Mon, 15 Sep 2025
+ 10:59:28 +0000
+Date: Mon, 15 Sep 2025 11:59:26 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Nico Pache <npache@redhat.com>,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+        ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net,
+        rostedt@goodmis.org, mhiramat@kernel.org,
+        mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+        baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+        wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+        sunnanyong@huawei.com, vishal.moola@gmail.com,
+        thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+        aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
+        catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
+        dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+        jglisse@google.com, surenb@google.com, zokeefe@google.com,
+        hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+        rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+        lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
+        jannh@google.com, pfalcato@suse.de
+Subject: Re: [PATCH v11 00/15] khugepaged: mTHP support
+Message-ID: <5099d9fe-4a07-4acd-95c8-782ffc74df37@lucifer.local>
+References: <ppzgohmkll7dbf2aiwhw7f4spf6kxjtwwe3djkx26pwy4ekrnd@mgeantq5sn2z>
+ <d0e81c75-ad63-4e37-9948-3ae89bc94334@redhat.com>
+ <CAA1CXcA+pb5KvEnJJqdf1eSjaFiBZ82MRB+KDmyhj3DbiQqOxg@mail.gmail.com>
+ <enrgrocqajwu5d3x34voghja7pbvau45oobxgabawrly44ld4u@ahch3xn6rtq5>
+ <cd8e7f1c-a563-4ae9-a0fb-b0d04a4c35b4@redhat.com>
+ <2c5328ee-fb6e-45cf-a151-868cc8e7ff97@lucifer.local>
+ <4508810d-7645-4f57-a0c5-2ee9f44206fc@lucifer.local>
+ <34754ca4-fced-4a3c-8ff8-c00967d487de@redhat.com>
+ <92352257-5be4-4aaa-b97f-c4e879ac6959@lucifer.local>
+ <de3f5502-ef81-4f44-96a9-995e512301a3@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <de3f5502-ef81-4f44-96a9-995e512301a3@redhat.com>
+X-ClientProxiedBy: LO4P123CA0180.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18a::23) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DS0PR10MB8031:EE_
+X-MS-Office365-Filtering-Correlation-Id: 909b9bed-adc8-4834-cecd-08ddf446f0f5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ZW7IF1aUaP6nH1/y3agyc+xbREq3AnnWCTzmV+w6pfW+xG6D7M+OUvtZuRIq?=
+ =?us-ascii?Q?z5/tSq7bVjlEltflREWzoDdo98+I/D2tiLQTvoP+kOr8yWTcxPhWFuNu0M1U?=
+ =?us-ascii?Q?gTZqCGqLfzAKPprC72Q7wlch+eW3Rc6HxwMCO96eJMZHXN3Z6491NVo3ppKX?=
+ =?us-ascii?Q?LDup3mzq4qoe0FiW+YuKRyw2JG8Gu8DOST9FkWMue4YdXF4zLeMkLQRTiqeu?=
+ =?us-ascii?Q?1y+MIt7INpZxMffpPSvaIVFppgeO09z502ZokdLqKkICdErslcGPWutiQQfT?=
+ =?us-ascii?Q?b7AxyJIWSRzUCSw8DQEe+ycqclt43SlSYmJ+m2FbrmnK2M4RIwdWqt/gQZtR?=
+ =?us-ascii?Q?Oi22mGYkWtlBLN2svAnvwzEiEgSRAhoq1MANwc5kNs9yOCAT3XxAxY1X4iHk?=
+ =?us-ascii?Q?9fAufI2JUQWUY0DJOgbCRKpEu5yhx+Eh7YcW3e5VNVlVEoAziNCLkTZSxCxs?=
+ =?us-ascii?Q?H7KF1cScZNLapxGIMf7tN9YdVNLmQA6nHYjH2KJsTIV1gCIh7U7MRJKxNX9R?=
+ =?us-ascii?Q?dUBtXbjmsJi9KUZcnzajfuUEgmXcT8n5SxFhFCnCNoehhT/L9455k6Zjl3DN?=
+ =?us-ascii?Q?Pq2o+mLtfEOhbphw9wr1dc1z0pMALZVNZbjIB5TqP1tEPRODIhebQhqfMxXU?=
+ =?us-ascii?Q?S/uwCcHSHgQbkTfjc1pUai2DKMcG5kERAtGNw5HgiURXpK25+7pP7yBc69cU?=
+ =?us-ascii?Q?mUNiAdv1rd8pjUmuy084tdUhUdAConKIme0/rx4Nl683DFF7N0S/fcZD7HBc?=
+ =?us-ascii?Q?5RMrZfbDtFGY0gkMZe5nSI+mNXIM6ty/ykS8DUw/W/lDNAiw0x3rVUVpRaP7?=
+ =?us-ascii?Q?20TMs3qdtlHmrjdKp/QKQ/TcxTok+nakA7iJcCv9UVQK+3h8GN7uvsUxuvQd?=
+ =?us-ascii?Q?j4xqAZ+hcjTBy8ZdbBOC8gaMqhbT2yBFnJxUm755C5gIETZENY/q97esTDoI?=
+ =?us-ascii?Q?SdjmC9YCRQuGX5fsa9X/MbBIiyaaiDtAY2fDpCtaUp0vrPzyHRK4l3+6thCw?=
+ =?us-ascii?Q?4tJQG7lWgPI3miwI/93raQG0vPCuCug2VvJTtlvwGJVfSup2RyqjYlLxp5f/?=
+ =?us-ascii?Q?NmDU6IXg3sJPeJp8tH6+y6AxKd3o5zgLccnHq0+41vC9dYBXzYqfDr0eR5hs?=
+ =?us-ascii?Q?tr/tk2OypvQN/i75cJtaFLQ1Oov6592+H7zVX6O9w3/ZjbpRtcO+yqWtqpl5?=
+ =?us-ascii?Q?5BwwAlIQYEO98DNmS0LAmTFHbzx+2fYvAXmfs3pZlwLqSrDLpElBJ9r/B8ms?=
+ =?us-ascii?Q?eNAIQXtxoQmPHujf2nonNSwpL1O68G/dZupi7uV8zrGD5UyCOoiWDPkWHvat?=
+ =?us-ascii?Q?3ZlxXheEU76uEtvB/GCZ1lIXnGJYIw5soJXAcPE+NGoi9eF2ucr+BOQSm30O?=
+ =?us-ascii?Q?GPylczyGoJeHesZn8+j+8UeJzy/bGh9z5ZW8EW0GMOsd83eRGq60TZAy7fsb?=
+ =?us-ascii?Q?BbnW5AAAHL0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gOFsIPE4mBzybOGAQ8xzkd2i+p2OpTp0ho7/3SZv3Gm9JCzMziLS6CzQOzCX?=
+ =?us-ascii?Q?4HFLd8IrltSQGHMHaOb20G8e5o/LyrPPmEs7NZrZY88X0wPieymLvKuVmWv7?=
+ =?us-ascii?Q?qXcMjU93FBrSlK8cQfNaRW18Kyw+Bbb1fall1/mK/FkvXH59IyXEvytfCV/c?=
+ =?us-ascii?Q?K89USXS6xWbC2S50u30lyc2CrgnUQmCz6GkJ9J4EpE6eWkwWFzSXb9WnN+Ze?=
+ =?us-ascii?Q?hBgfKQb+6wTbvCoP1qZRdmnXXRXTWLyLNAA/Q69v2K7TdUb05QUekobCgJLw?=
+ =?us-ascii?Q?rGiYu8+RJ/EoOv/n12/hV0VERJmShpgQSgGvCYVjhhHADwONtZ3KAqnkf7rT?=
+ =?us-ascii?Q?lEvktRtoQilVNDGusvKSA1vSggja2QqXTy094DBjmdzoYAB0dxw99iWdIM6t?=
+ =?us-ascii?Q?rzdxf5zbsn2+/EYAtyxaDxdaeLbCUJd8dR8TvN7JKmuvsbQ3iKXdcbCIKS4a?=
+ =?us-ascii?Q?spqMo4Q9s65yBOYzqE9n+cFbg8IA4CyX2VifZj6wbRH70W+w/sr3pubcpV4g?=
+ =?us-ascii?Q?qaVC5mCh65FoXelH9Uy69nq49DtWKsXr8mMGv3zOoA054NEi1QnXePehsFxZ?=
+ =?us-ascii?Q?gqHxgc2Solt169UR3UD2+3v6jM2sVvMCCK3XWENdSseqMqkC7AET4dIsaMC7?=
+ =?us-ascii?Q?ZJfjRJtQK/UepNbrPk/G6Zzxe3h9QBcG7+m7xQancrnxFRXzo/1iha74uAoL?=
+ =?us-ascii?Q?BL2mWnQKfeUEbNWOWtFcFg7iY2EVy1+LB+pw0tE/0en2piWj1amWo6Ne5dGC?=
+ =?us-ascii?Q?pxKgj48iONu/6/BUz+SUs9x/xxf8VDSL1pOUGKvjTbm4OGwtkZQrznbOudVK?=
+ =?us-ascii?Q?bMgtA7f1wvhRsPMf6w3u0coZ1eCDBjxhl3hC65Ocvs0otlh/oaTUa3KwURBO?=
+ =?us-ascii?Q?Nw3OAU/OdRBr0cWK9Ayc5U2Zc+l3szp4PsMNUl1KeaMmlp2+7M+H569ygPaW?=
+ =?us-ascii?Q?/5fzLZ2NT6HOGMET8tET5haCwmRcKact8DB/bX9hxBDLv8ae+mhselUaTblt?=
+ =?us-ascii?Q?dr4vZaHU168Xq9Fz4XbdYK1NqycaEclcirCHubErSsF7nMY/Istl58sHa1B3?=
+ =?us-ascii?Q?SKKjF/3eV/wFOp6TJ5aVeQiI/NOhqLLsBOSg8f9Q8IjmJW1T8SvJ1uclwwu0?=
+ =?us-ascii?Q?oVTC8qtPlb2o1v9T5PZMLBZe8OIF4goYbQDcgzLj73tsF9C+E8kLf4KPHcnh?=
+ =?us-ascii?Q?9sRq/ZXmZp+CIkLbFYCDYhmtOe8lUMKVchhwl6Hp6EUumJWW//mCho0oFS/x?=
+ =?us-ascii?Q?rlsgJC/6+O93qlMToUdnEzR0Ro+Pkk2t9kCd5uAoHq53IwqwgKBJvMygzbuI?=
+ =?us-ascii?Q?CTpQ4iWrdveJup8yyQFLm7a8mLrHEsUcmOn6Od39WCWF9VerovSV2pRtQSPp?=
+ =?us-ascii?Q?7OlMLdCQkwkuKo5b7Bqoga3HGdHUylFhw8tIQVmh3ZHDBFGjCLmK+NOaouYP?=
+ =?us-ascii?Q?/u5US+nI0ATa+RjF8bVkFDfDBHayEgV7W3YbochOPidqmAxYb7UxRWdYG5vf?=
+ =?us-ascii?Q?tQLH9Qa1Z+pdI196snbaYci8NbeoCLuyLxzPw2iviPJkbwGbAlUg1hO5b2lL?=
+ =?us-ascii?Q?8nPBg/8tI9QlC+PMH9NjanfzJjRxXs9YJHE+tiynqnH6mu7eHNNHy9kEwd+X?=
+ =?us-ascii?Q?fQ=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	4epkh5ojiO0vZD6F1w4htS6oM4UHB7IcDVwwGI5VpM2DbmXhMTi/PKRoFwAMF8rtGVP8xEL7bxLKNoAlQ10KIvWoxE1h1db9JjlsecnbeDm4971adnTRkHw4LnXjLQg5VozUuK5uxWkI5fo6J8fO2A5Fc2ROzHCMnUpJpGTRlWyk2mTj1DFHYr/JseWtfTaNmRsPwEP4CIP6m75kPQjANQf3ICEUwnS8ohtXqP0SW5v3McGOWdUTfKsnFbaAsb6Ht7vkgG0Mgh+olt5N4Gd/nCSPUaANT6zOtBugF3rf6eAHaRHO7/4x8jp7r3LiCctF/KmPr7NAhoahYMx0cbGUBy62+FqOLHv003JcJFuhyIK6DbmPKL0ayCA+jijsHh6l3OGjMEB4scrYiTybyZZ4TsOBLZPLxKAZuOxt0FycA7pMw3lnuKA/UBLSzKCJBLnBBDzCpNUPXGj/twFd6IadeIGI2s14nSfkGZxk75tjgddk7v5HI30wru5UheSoR2ghV9VxrfVzImf5GegxbpjsaTjZP6VdflvlzaenBIBk+9FLRs+G+yfkBrE7gGBlto5Hc2r23zv7Rx5yerROFxkI3EmmmBWs98PyjbUkQQU9Qmw=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 909b9bed-adc8-4834-cecd-08ddf446f0f5
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 10:59:28.4838
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NAzAdW5v6Lc5s4WEy55qbyUO3uEi+N2UhW/fIGJc5OG8Fkpplg6qyutr6rFL/LlLJgX9aEUnpiRjHtDYsJXdQRXx1b0wjxIsVHwGqFdCbv4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB8031
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-15_04,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 spamscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2509150103
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxOCBTYWx0ZWRfX5NgXGxC02N2s
+ JzrKWGRlcQjOX7RSNy/L9D6eEkNDo+yzIDwgdxsgxX8/s1267FDED04mdHcE3qLE54+x7pxKVGT
+ UBR0V101fYjwtc8Uyx7Ef2FXnb+pCsY9a0QHizsfeXWf3uYkiMshUhvqhSdRHAF2VUepwpSmoiH
+ OMQBcyNY0Kz6T6ESHt2xCstYm+6sWT6b3HGTznBAhODpiHXs/kXiAmv+BGEETIDw8VXQ4Ys6jRG
+ W023XZFVpF340kz7bNAWmTPxZyyfKz9Xef47XfhOZuzVPijxcGBfo13kDQCeQQ+z7c+C9NBmh+3
+ lmCAC5VLVenZEk3uZ74DEr4e7IXyDfZA/Wj/sHUUe6CU8kejr7rz4SEwnwnuCopOZVbMvH8l/bJ
+ jOtRpAFSbOaIKxFfgHfR8F6JHUpQsQ==
+X-Proofpoint-ORIG-GUID: XtKYwKlq5q6Tlh_KVffr4i1b8sb-N5aO
+X-Authority-Analysis: v=2.4 cv=YKafyQGx c=1 sm=1 tr=0 ts=68c7f195 b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=wEbG5rfdL9Owz04-svUA:9
+ a=CjuIK1q_8ugA:10 cc=ntf awl=host:12084
+X-Proofpoint-GUID: XtKYwKlq5q6Tlh_KVffr4i1b8sb-N5aO
 
-Em Mon, 15 Sep 2025 17:27:17 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
-
-> On Fri, 12 Sep 2025 16:50:36 +0200, Mauro Carvalho Chehab wrote:
-> > On Fri, Sep 12, 2025 at 11:03:43PM +0900, Akira Yokosawa wrote:  
-> >> On Fri, 12 Sep 2025 13:04:20 +0200, Mauro Carvalho Chehab wrote:  
-> [...]
-> 
-> >>> I saw it here on multiple distros including Fedora (which is the one
-> >>> I use on my desktop). Media jenkins CI running on Debian always suffered
-> >>> from such issues, up to the point I started ignoring pdf build results.
-> >>>  
-> >>
-> >> So please provide exact steps for me to see such errors.  
+On Mon, Sep 15, 2025 at 12:52:53PM +0200, David Hildenbrand wrote:
+> On 15.09.25 12:48, Lorenzo Stoakes wrote:
+> > On Mon, Sep 15, 2025 at 12:44:34PM +0200, David Hildenbrand wrote:
+> > > > > > Mapping that to actual THP sizes (#pages in a thp) on an arch will be easy.
+> > > > >
+> > > > > And at different mTHP levels too right?
+> > > > >
+> > > >
+> > > > Another point here, since we have to keep:
+> > > >
+> > > > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+> > > >
+> > > > Around, and users will try to set values there, presumably we will now add:
+> > > >
+> > > > /sys/kernel/mm/transparent_hugepage/khugepaged/eagerness
+> > > >
+> > > > How will we map <-> the two tunables?
+> > >
+> > > Well, the easy case if someone updates eagerness, then we simply et it to
+> > > whatever magic value we compute and document.
+> > >
+> > > The other direction is more problematic, likely we'll simply warn and do
+> > > something reasonable (map it to whatever eagerness scale is closest or
+> > > simply indicate it as "-1" -- user intervened or sth like that)
 > >
-> > Sorry, but I don't have enough time to try reproducing it again
-> > (plus, I'm ran out of disk space on my /var partition forcing me to
-> > reclaim the space used by my test containers).  
-> 
-> There is no urgency on my side.  Please take your time.
-> 
-> >  
-> >>
-> >> I don't have any issues after strictly following the suggestions from
-> >> sphinx-pre-install under Fedora.
-> >>
-> >> I even invoked [...]/output/latex/Makefile manually after running
-> >> "make latexdocs" by:
-> >>
-> >>   - cd [...]/output/latex/
-> >>   - make PDFLATEX="latexmk -xelatex" LATEXOPTS="-interaction=batchmode -no-shell-escape" -j6 -O all
-> >>
-> >> , and all the PDFs were built without any issues.
-> >>
-> >> Quite puzzling ...
-> >>
-> >> Or does your Fedora have some Noto CJK variable fonts installed?  
-> >
-> > On my main desktop, yes, that's the case: it currently has some
-> > Noto CJK fonts installed. I wasn't aware about such issues
-> > with Fedora until today, when I noticed your check script.
-> >  
-> 
-> Good. That should be a step forward, I guess.
-> 
-> I know you have repeatedly said it is not the purpose of this series
-> to fix those issues in your images, but I have an impression that it is
-> closely related to testing sphinx-pre-install, and the objective of this
-> series is to make the testing/debugging of sphinx-pre-install easier for
-> you.
+> > I don't love the idea of a -1 situation, as that's going to create some
+> > confusion.
+>
+> swapiness also has a "max" parameter, so we could just say "override" /"
+> disabled" / whatever?
 
-No, that's not the case. Yes, it helped me to test the script, but the
-goal here is completely unrelated, and it actually solves a problem
-I suffered a lot with CI jobs: I do want to know as soon as possible
-when a patch to media breaks uAPI and/or kAPI books. I had a CI job
-running to test such cases here:
+I don't love the user being able to override this though, let's just nuke their
+ability to set this pleeeease.
 
-	https://builder.linuxtv.org/view/Kernel/job/media.git_drivers_build/
+Because if they can override it, then we have to do some deeply nasty scaling
+for mTHP again.
 
-and on other pipelines, but I had to disable and/or ignore PDF builds,
-with ended culminating with that "|| exit" line on docs makefile, as
-this was causing CI to always report errors, even when PDF was successfully
-built.
+Would really prefer us to only accept 0/511 + warn on anything else.
 
-For such purpose, having a reliable SUCCESS return code when the docs
-are built is a must.
+We could put the warning in a cycle before we land the change also + just take
+Nico's current version for now.
 
-> But, at least for me, the behavior you want for "pdfdocs" is not
-> ideal for regular testing of .rst and kernel-doc changes in kernel
-> source side.  I want "make pdfdocs" to give up earlier rather than later.
-> It should leave relevant info near the bottom of terminal log.
+So that way people are aware it's coming...
 
-For me, the most important data is what documents broke between
-two builds. That's why at the end I want to have the failed docs.
+(Could also put in docs ofc)
 
-Yet, I guess we can have a solution that may be satisfying what
-you want and what I want: only print success when V=1. When V=1,
-it can just print the failed ones at the end.
+>
+> --
+> Cheers
+>
+> David / dhildenb
+>
 
-> Now, here are my responses to your arguments:
-> 
-> > In any case, this changeset fix it on several ways:
-> > 
-> > - A failure while building one pdf doesn't prevent building other
-> >   files. With make, it may stop before building them all (if we drop
-> >   the "|| exit");  
-> 
-> Didn't you mean "(if we keep the "|| exit"); ???
-> 
-> If you drop the "|| exit", which will cause false-negatives.
-> And you are going to test every PDFs at the final stage of pdfdocs
-> to catch such false-positives.
-> 
-> Sounds like a plan.
-
-No, it doesn't.
-
-Dropping it causes false-positives. That's the root cause why we
-had to add it in the first place. Try looking at latexmk and xelatex
-man pages: there are no descriptions about what they're supposed
-to return, and, on practical experiments, return code == 0 doesn't mean
-that all PDF builds worked. It means something else.
-
-Heh, looking at latexmk, besides the "explicit" codes it has, it seems
-it just returns whatever xelatex returns.
-
-Also, if you see, for instance:
-	https://math.nist.gov/~BMiller/LaTeXML/manual/errorcodes/
-
-Latex has 3 types of errors:
-	Warnings
-	Errors
-	Fatals
-
-Only "Fatals" are certain to cause PDF build failures. "Errors"
-can be a lot of things and they usually are OK during Sphinx build,
-as they're usually minor visual glitches.
-
-I'm yet to find a document clearly describing what it returns
-for each case, but I'm pretty sure trusting on xelatex return
-code is the wrong thing to do: this never worked.
-
-> > - It prints a summary reporting what PDF files were actually built,
-> >   so it is easy for the developer to know what broke (and it is
-> >   also easily parsed by a CI);
-> > - The return code is zero only if all docs were built.  
-> 
-> I agree this is an improvement, but if we get rid of the loop construct
-> in the Makefile, we can forget about said false-negatives, can't we? 
-
-No. See above.
-
-> How about something like the following approach?
-> 
-> Let's think of SPHINXDIRS="admin-guide core-api driver-api userspace-api"
-> 
-> In this case "make latexdocs" will generate
-> 
->     output/admin-guide/latex/
->     output/core-api/latex/
->     output/driver-api/latex/
->     output/userspace-api/latex/
-> 
-> They will have identical boiler-plate files latex builder would emit,
-> and subdir-specific files such as:
-> 
->     output/admin-guide/latex/admin-guide.tex
->                              c3-isp.dot
->                              c3-isp.pdf
->                              c3-isp.svg
->                              conn-states-8.dot
->                              conn-states-8.pdf
->                              conn-states-8.svg
->                              disk-states-8.dot
->                              disk-states-8.pdf
->                              disk-states-8.svg
->                              ...
->     output/core-api/latex/core-api.tex
->     output/driver-api/latex/driver-api.tex
->                             DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.dot
->                             DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.pdf
->                             DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.svg
->                             DOT-289c17ebc0291f90ccaf431961707504464a78d4.dot
->                             DOT-289c17ebc0291f90ccaf431961707504464a78d4.pdf
->                             DOT-289c17ebc0291f90ccaf431961707504464a78d4.svg
->                             ...
->     output/userspace-api/latex/userspace-api.tex
->                                DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.dot
->                                DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.pdf
->                                DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.svg
->                                DOT-289c17ebc0291f90ccaf431961707504464a78d4.dot
->                                DOT-289c17ebc0291f90ccaf431961707504464a78d4.pdf
->                                DOT-289c17ebc0291f90ccaf431961707504464a78d4.svg
->                                ...
->                           
-> 
-> At a pre-processing stage of pdfdocs, you create output/latex/ and
-> symlink subdir-specific files needed for latexmk/xelatex into there.
-> (Copying them should work too.)
-> 
->     output/latex/admin-guide.tex --> ../admin-guide/latex/
->                  c3-isp.pdf      --> ../admin-guide/latex/
->                  conn-states-8.pdf --> ../admin-guide/latex/
->                  disk-states-8.pdf --> ../admin-guide/latex/
->                  ...
->                  core-api.tex --> ../core-api/latex/
->                  driver-api.tex --> ../driver-api/latex/
->                  DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.pdf --> ../driver-api/latex/
->                  DOT-289c17ebc0291f90ccaf431961707504464a78d4.pdf --> ../driver-api/latex/
->                  ...
->                  userspace-api.tex --> ../userspace-api/
->                  DOT-1e98886fceca6e25a115532f5efebb44c09dc98b.pdf --> ../userspace-api/latex/
->                  DOT-289c17ebc0291f90ccaf431961707504464a78d4.pdf --> ../userspace-api/latex/
->                  ...
-> 
-> The latexmk stage would now be identical to the SPHINXDIRS="." case,
-> meaning it won't need the loop in the recipe.
-> Furthermore, post-processing would be almost the same as the default
-> case.
-
-This won't work, as we may have "duplicated" non-identical names, like:
-
-	SPHIHXDIRS="userspace-api/media Documentation/driver-api/media/"
-
-both will produce media.tex files, with completely different contents.
-
-> As a bonus, "make -j -O" will work as the same as full pdfdocs build.
-
-This series doesn't break "make O=output_dir -j".
-
-> If you are interested, I think I can prepare a PoC patch, probably
-> after v6.18-rc1.
-> 
-> If your sphinx-build-wrapper's latexdocs stage can be adjusted so that
-> said pre-processing of pdfdocs can be made unnecessary, that would be
-> even better.
-
-It can be adjusted to whatever we want, provided that we find a
-solution that works fine. It is a lot easier to do such kind
-of changes in Python than in Makefile. At the plus side, adding
-documentation to each step of the build process is easier.
-
-IMHO, long term solution is to change SPHINXDIRS into something
-like:
-
-	make O=doc_build SPHINXTITLE="Media docs" SPHINXDIRS="admin-guide/media userspace-api/media driver-api/media/"
-
-would create something similar to this(*):
-
-	doc_build/sphindirs/
-		|
-		+--> index.rst
-		+--> admin-guide -> {srcdir}/Documentation/admin-guide/media/
-		+--> usespace-api -> {srcdir}/Documentation/admin-guide/media/
-		\--> driver-api -> {srcdir}/Documentation/admin-guide/media/
-
-And then build, without any loops, using doc_build/sphindirs/ as
-the sphinx-build sourcedir.
-
-The problem of such approach is to avoid cross-references using
-:doc:.
-
-(*) this is oversimplified: it probably needs to copy
-    files, as Sphinx blocks symlinks like that. Also,
-    the actual linkname may be different - all we need
-    there is an unique name.
-
-In any case, before we start looking into ways to avoid
-SPHINXDIRS loop, IMO we'll be best served once we merge this
-series and have the entire hacks on a single file without
-depending on 4 independent scripts and relying on "|| exit"
-hacks.
-
-Thanks,
-Mauro
+Cheers, Lorenzo
