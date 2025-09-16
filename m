@@ -1,96 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7368331BC9F;
-	Tue, 16 Sep 2025 21:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAAB31BC9F;
+	Tue, 16 Sep 2025 21:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758057377; cv=none; b=WV6E2l5r99DyAJtcCGWVob54BVy/IoW6jPrFVtThn9WHV0g1UGeb0TOYYhhk9quBRJHHwv+PFZhpeEmWUzJbWjorSoehBN7YcgW9CTvpQlcVkkegBpH50pzayt4RiiyPGKZuSFjaqYqm2k7uximXDgMFe6J5GluN1FXaqve6x8A=
+	t=1758057398; cv=none; b=XNaaZWWpC00iAH1eHtBeWn71jGK5FpJGIBbLM+/ldg4ZyhdGLYMUUQrrB+65xj/mCmjBg5Z9wCsthp3WOZBtNjmUZ/RoYxXtHicdqA5q8flf81uzZoVC3zrPyq086wun+hVgAKan13g2xmJ0nZReR2cnO9VjqMCnG1csXkHeSPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758057377; c=relaxed/simple;
-	bh=kBpRtBbR+gU+md5yBa0FD4QWFI0+TqFLBQcEyMNvqzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hoDIOVny1uXt2FqPkjSxyqhUkEFNq997NzwDgDE9bCsQHbmTwuumSi2sfUsNXlgaBv1+G3VBcarV3RIDSOeWFOYg941sFxbgiiQrEymnedeKx5hUMJ4zpTHqJXmk802FXxBTL3BJrkYZBjPvjZn33WWfrfd9lU6XB0Veew27LQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKyomrt1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758057398; c=relaxed/simple;
+	bh=DTBneYKEQ1LXUX1rMxvyffo49ndM+WKAW2jsCAZP/J0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XqKXNIn73Mh+IHmOl8F5Msj2uYjpkLTkkM2D8i9tcGe+LgFq7WwMENCEk4YK8IAL8SHqWpXX92Uk5mibugpRZV0l2c1J6yR1o2nF09Yj+p99s2PNUvHhpK48Uaj9JLLkyWMoNv/PdZEgZUFTrqMXnTfykfmO+PdRm2fAU5ouiSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=V22XGrXJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CqWJ884f; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKyomrt1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C74C4CEEB;
-	Tue, 16 Sep 2025 21:16:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758057377;
-	bh=kBpRtBbR+gU+md5yBa0FD4QWFI0+TqFLBQcEyMNvqzY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NKyomrt1JRvKIxDsoHZ5RjY7ESCGT5FkYIOKfsYA4OxM5cGB5broh7qIsKFDXA3eo
-	 AE5NDwCZNf90YmdbD0W9Y6iSAl8rTD/TKsstIg+6Dss8rUOUfWLLx0lpZ7gh+FxlK/
-	 7V9+1b4Fq8c36CoWdHwmGFC58wLFyxuG3KfZ6bBXr2xKrtU8UaAC00+VEAJ6OtPHx1
-	 g2pF7d0aJ3aTxk7YIVenmL+hz6Ue9Tz+jSUkKPVnJN/kfDBTjEP4Xx2MHKU8jGljmn
-	 mxrSZIId+RAtBN753bs3jROu32b16taWBY7WzbXgLC4Qr+UGr4QQ86ljNlWVB7FSF4
-	 A9w+xY1gPqgXg==
-Date: Tue, 16 Sep 2025 22:16:11 +0100
-From: Will Deacon <will@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] kselftest/arm64: Add lsfe to the hwcaps test
-Message-ID: <aMnTm59nrA5lBxN5@willie-the-truck>
-References: <20250818-arm64-lsfe-v3-0-af6f4d66eb39@kernel.org>
- <20250818-arm64-lsfe-v3-3-af6f4d66eb39@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V22XGrXJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CqWJ884f"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1758057395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cdBjosARmBSEo7aiSHM+dIdoMHfCZY2WlWe0Fb0A5eI=;
+	b=V22XGrXJlCZ5AQ9pe37LMtlOlaa5uG8osxrLsqv/+DC/Jbi/gaOpvLPA0WMtTQxFy0AUdp
+	ocZJsSczCxILdgsmO4GMKTUFDP0xpwY6AtIXURDTCI7YBHO2vUnZPIuwtJw2bNKQ43jRR/
+	SrnGkYVy74kqALkz23Q9mSMTMN61R3tuGvD3/VSh+ybJMd55BYszvtovTcZU3B8sWL/oxK
+	m7Yx3U3wdB0a8EHseRTc6f9n1GflXL/nu61iIYkP98BgbC6HF97j1UXSi1XiE2URbMvERJ
+	DzKL9myXEOmPWxsz4yNEbIW3+Ka6Elq8rzhi9TN1pUtrkyuBilYL6aLIOL/JOQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1758057395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cdBjosARmBSEo7aiSHM+dIdoMHfCZY2WlWe0Fb0A5eI=;
+	b=CqWJ884fvJ8/FWHJRwkFwD617d0BLRtMBNrP3oVIvDrTlG1B/A3pQgDgnF+3bJQdmfDYNc
+	0I7SSpqMR6U7YOCg==
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+ mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
+In-Reply-To: <87cy7q9k8y.ffs@tglx>
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
+Date: Tue, 16 Sep 2025 23:16:34 +0200
+Message-ID: <87a52u9jyl.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250818-arm64-lsfe-v3-3-af6f4d66eb39@kernel.org>
+Content-Type: text/plain
 
-On Mon, Aug 18, 2025 at 08:21:20PM +0100, Mark Brown wrote:
-> This feature has no traps associated with it so the SIGILL is not reliable.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  tools/testing/selftests/arm64/abi/hwcap.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/arm64/abi/hwcap.c b/tools/testing/selftests/arm64/abi/hwcap.c
-> index 002ec38a8bbb..941890f69df6 100644
-> --- a/tools/testing/selftests/arm64/abi/hwcap.c
-> +++ b/tools/testing/selftests/arm64/abi/hwcap.c
-> @@ -17,6 +17,8 @@
->  #include <asm/sigcontext.h>
->  #include <asm/unistd.h>
->  
-> +#include <linux/auxvec.h>
-> +
->  #include "../../kselftest.h"
->  
->  #define TESTS_PER_HWCAP 3
-> @@ -169,6 +171,18 @@ static void lse128_sigill(void)
->  		     : "cc", "memory");
->  }
->  
-> +static void lsfe_sigill(void)
-> +{
-> +	float __attribute__ ((aligned (16))) mem = 0;
-> +	register float *memp asm ("x0") = &mem;
-> +
-> +	/* LDFADD H0, H0, [X0] */
-> +	asm volatile(".inst 0x7c200000"
-> +		     : "+r" (memp)
+On Tue, Sep 16 2025 at 23:10, Thomas Gleixner wrote:
+> On Fri, Sep 12 2025 at 18:08, Eugen Hristev wrote:
+>> nr_irqs is required for debugging the kernel, and needs to be
+>> accessible for kmemdump into vmcoreinfo.
+>
+> That's a patently bad idea.
+>
+> Care to grep how many instances of 'nr_irqs' variables are in the
+> kernel?
+>
+> That name is way too generic to be made global.
 
-Doesn't this corrupt H0 without the compiler knowing? It's probably
-easier to use STFADD.
+Aside of that there is _ZERO_ justification to expose variables globaly,
+which have been made file local with a lot of effort in the past.
 
-> +		     :
-> +		     : "cc", "memory");
+I pointed you to a solution for that and just because David does not
+like it means that it's acceptable to fiddle in subsystems and expose
+their carefully localized variables.
 
-Why do you need the "cc" clobber?
+Thanks
 
-Will
+        tglx
