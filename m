@@ -1,98 +1,127 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE1D2D063D;
-	Tue, 16 Sep 2025 23:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758065297; cv=none; b=u3uMOv9mQlwGyyHVUoNYjOvWyMlrAEwO1qmde89oi/w5P+YL4AGkc33dT8zAwLUajwc1l6sbfZyXwvSy4KEI72/cZHZ+6F8SERXvaJv09W3k8DYRjAYCSNyat0JLN4q2181SIMrBxSeH/MCKB+waeksordz8r4G6MvKmmf2lvME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758065297; c=relaxed/simple;
-	bh=bp0dQY/0IPohE9yH9P88bhJPT6HidUKVWN9nWSJ7paE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N4VtFD/Q6AF/MRYjn5Yl8LHcj3vI64tqP/AvRV6oXePqN1suHctSkf7gj7wyiWo7vjRtDvhiNsYHR1J3jKhnXcqRhPY6wUAcqW6QCMduSFPJMicHiTIVQ97zbCYS/ilSoxKSf/Vy0K52OEGn/Owub8beVH/F3G2+87DeMV4X6rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qN3YWDGt; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D481F4701;
+	Tue, 16 Sep 2025 23:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758065986; cv=pass; b=tE/7gNqdDxwSz0ZOYnY9zj6d5foFgDgviBBSKaF2nixnHqj4O+Eell3pZ42TOUmClYSuAI/sR1nrumqG/dwSmvvjTAQ98shwulJKfvS020WXEn8G4AP8lroIxTFQNLHsJc3ba/VUk116nzS6UMfmvAceKstkBsuaxmNLRkkNKgs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758065986; c=relaxed/simple;
+	bh=PFsoJQKsPOMTHBjFZPpV9hcgwDa9sL0vhxEZilWRMgo=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=YOa7hlvMrijBaT1bJ4XUEufJx21/cxEBVpZN7+8tkVC4HhNF+1XXRTYT4xWcA0pWETWqwKOwPrWYoD7kvPS/pC8XSr2MMSF5aJUiLThv5MPEztEQHaW7nEdDeL5TUsW77t9cw8OXskt+nCAIyi10+NyVOQ02ZQXE7KMG76GZk30=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=oz5GUvGS; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qN3YWDGt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=sIPj1eQ9/W7gYEmefz7ujrw8Xu1tovQ+cRdB3u84UiY=; b=qN3YWDGtD4wXOI+qhcTNG4wXnA
-	TI3pFfRRpa0iiBzXMBa0eUQYnclocPHpyaKGAeFpRCb/uxS4G96+dccUQggCNZSH4OGdHYosL47Ha
-	awzmBqvEbt6pNJnfrhv5SRf3NejUibMm4ErEYhBK2ZKyD6Ay0UYkDsO0VgEhFjx2+uZCG/VkKnBWn
-	NBdY7Suv1jsxOLcnvRqfXqN9+vkdPFwPQCH+ICV01aDh4fp3jJkTJlUZzZ9B8tMcCuxhtd0F4agFb
-	03+DdXq7IHWVh66JseIlLgzIwRx7LXGufAVk2/uf+EP8F52oKcxNnxwTxIJSQ5ayvb/Vbq0nlJyEc
-	wN6auWIw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyf5p-00000009YEq-0rlk;
-	Tue, 16 Sep 2025 23:28:13 +0000
-Message-ID: <3f5997c7-4387-4b26-8a98-b2a1acc3f82c@infradead.org>
-Date: Tue, 16 Sep 2025 16:28:12 -0700
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="oz5GUvGS"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 92B6E10A40A15;
+	Wed, 17 Sep 2025 08:39:34 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id X-ez8NUZDHzX; Wed, 17 Sep 2025 08:39:30 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id 05504109D55C5;
+	Wed, 17 Sep 2025 08:39:30 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 05504109D55C5
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758065970;
+	cv=none; b=bjCczSjfmxObxUTNgqjEpei+4R0BahKXFWqYiHqPxtg3P09QX/Dhcu+4vKFUle226yrGfD0UBJlLanxyqroq+L7UkaZtRoXUmjzEk3zFyA3ub5Us7tD8eC8wjMkusBxin5KkXNbWLYrKEaw4vA1rglDmnFZOzGOSXW1CoEbdHJk=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1758065970; c=relaxed/relaxed;
+	bh=3rQK+DBBPyMcARL0z/kIhvopLlplPjKFYeDcfVSaDYQ=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=TuddA/DzD2XRk7S/9SVAFkU72zvEdct+WWLb0lmzbRpO0FgPFcFfue2pPrtOwmsCdC/SDDeNlRsEkD4XvkdpwMSVAycT7SWbcR4NY1zziAPRfc7sMwqW2sSwsxouxfMF9qjV1/agxCzjEVjp9BJVydI54LEVu/G5az0RG9F2BaY=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 05504109D55C5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1758065970;
+	bh=3rQK+DBBPyMcARL0z/kIhvopLlplPjKFYeDcfVSaDYQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oz5GUvGSH/48oSZeUxsnrbB8+YuPEXKeqxhuRJLfbh821RcFQesENUjaJBThqmtAs
+	 NvRDuX46a5Tlraa3jCPWB6ahyiOJLNxtrB+gRb0wxarker8pDdMW/AprzkdFtVAAr2
+	 5YXf9pIv3XwW3l0YeuM7fpT3XWmnhqzls4g3jVR4=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: maintainer: Fix ambiguous subheading formatting
-To: Thorsten Blum <thorsten.blum@linux.dev>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+Date: Wed, 17 Sep 2025 08:39:29 +0900
+From: weibu@redadmin.org
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20250916222944.2547948-2-thorsten.blum@linux.dev>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250916222944.2547948-2-thorsten.blum@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] docs: wmi: lenovo-wmi-gamezone: fix typo in frequency
+In-Reply-To: <877bxyfkw7.fsf@trenco.lwn.net>
+References: <20250913173845.951982-1-weibu@redadmin.org>
+ <877bxyfkw7.fsf@trenco.lwn.net>
+Message-ID: <a88c47e98139a6264670879407fb09a3@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Jon,
 
+You’re right — that block is a verbatim MOF listing decoded by bmfdec, 
+and the misspelling comes from the vendor-provided Description string. 
+So this isn’t an editing error in the docs.
 
-On 9/16/25 3:29 PM, Thorsten Blum wrote:
-> Add a newline after both subheadings to avoid any ambiguous formatting,
-> especially in htmldocs. Without the newline, subheadings are rendered as
-> part of the following paragraphs, which can be confusing to read.
+I’ll drop this patch. If it helps future readers, I can send a follow-up 
+that adds a short note saying the MOF listing is verbatim and typos are 
+preserved.
+
+Thanks for the careful review!
+
+Akiyoshi
+
+2025-09-17 00:59 に Jonathan Corbet さんは書きました:
+> Akiyoshi Kurita <weibu@redadmin.org> writes:
 > 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
-> Changes in v2:
-> - Fix subheading formatting with newlines as suggested by Randy
-> - Link to v1: https://lore.kernel.org/r/20250915192235.2414746-2-thorsten.blum@linux.dev/
-> ---
->  Documentation/maintainer/maintainer-entry-profile.rst | 2 ++
->  1 file changed, 2 insertions(+)
+>> Fix a spelling mistake in lenovo-wmi-gamezone.rst
+>> ("freqency" -> "frequency").
+>> 
+>> No functional change.
+>> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
+>>  Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst 
+>> b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>> index 997263e51a7d..167548929ac2 100644
+>> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>> @@ -153,7 +153,7 @@ data using the `bmfdec 
+>> <https://github.com/pali/bmfdec>`_ utility:
+>>      [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateID;
+>>      [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
+>>      [WmiDataId(3), read, Description("Default value.")] uint32 
+>> defaultvalue;
+>> -    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32 
+>> OCOffsetFreq;
+>> +    [WmiDataId(4), read, Description("OC Offset frequency")] uint32 
+>> OCOffsetFreq;
+>>      [WmiDataId(5), read, Description("OC Min offset value.")] uint32 
+>> OCMinOffset;
 > 
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index cda5d691e967..d36dd892a78a 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -59,6 +59,7 @@ week) that patches might be considered for merging and when patches need to
->  wait for the next -rc. At a minimum:
->  
->  - Last -rc for new feature submissions:
-> +
->    New feature submissions targeting the next merge window should have
->    their first posting for consideration before this point. Patches that
->    are submitted after this point should be clear that they are targeting
-> @@ -68,6 +69,7 @@ wait for the next -rc. At a minimum:
->    submissions should appear before -rc5.
->  
->  - Last -rc to merge features: Deadline for merge decisions
-> +
->    Indicate to contributors the point at which an as yet un-applied patch
->    set will need to wait for the NEXT+1 merge window. Of course there is no
->    obligation to ever accept any given patchset, but if the review has not
-
--- 
-~Randy
+> I don't have the device in question and can't test this ... but the 
+> text
+> in question has the appearance of being literal output from the bmfdec
+> utility.  Do we know that this is some sort of editing error rather 
+> than
+> an accurate reflection of what the tool prints?
+> 
+> Thanks,
+> 
+> jon
