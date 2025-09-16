@@ -1,65 +1,75 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1252922DFBA;
-	Tue, 16 Sep 2025 15:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4304E18FDBE;
+	Tue, 16 Sep 2025 15:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758037658; cv=none; b=ae4qxd1GVvoOdy6svXMvjmbUf7148yIZqrx2ZGzdqOFlYVtfN7K7IZH6QcVsAbk2aAUGulLxUrXbI+cCn3BNSz47RyjjzGfIdCFMrKqv+PBWd4qdQRv//s5ICsnaMnUyxDHaRgEYJXJfcQqXJ5ZrXd2ak5fg8l/wPahmALIr75Y=
+	t=1758038104; cv=none; b=HOKG/kGHW1qCG6KjO9S53CZ8Lgfkn7t5C4jXQJQ2mpvrfRo/3ZyFFh6rdNctwHH7MYyHSUNdra9nlpCO81Drzn5rYAIome6xt/sk6z0+ibQmn7zPYBOAnRkX0yD9z0GhWI2A4Wvr22f5iflE5deJu44PSgHB5QunOK/40p4/bmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758037658; c=relaxed/simple;
-	bh=vQ9B2iUnNZwG8Jf0xXqhxgu2CFfLj3gTrzREA6RdRxE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ALJkIzwhws0mF6iSGZFwk8bNxc8HIkcwayGwWSiD1TbAnKkFxE05aa0nxIsKuR62sDGM9i/jnivSPpaUEMDLQ7Q26+arLAxTKQD+rW0hsJdSuCvhM9/ec+4KquqByjTdmflbx0YBZ/V36+iog6S6VVD0oU49Qzd17y6/XIXd1us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YHdRnjIS; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1758038104; c=relaxed/simple;
+	bh=CXYoSgaS63Y+/tc9C0ims5v3zXKHr5QTlAy7T/0nUAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=MtcmJWJW/GYCbSNN6pUsqlXf248IYRClcd38JN2KsFdPpFUcMvQ7/2r0DzzmZyHkR0WImWztAP4ydo3hg3FMZ0POXemALOv15tjA9pk3PARBFP2WPpSOXCyR219NOj6gwyvXELuMhfeAvJ2iytpJgRMZ/LO1V/35aght9cmJ19U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RG7kRAD2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YHdRnjIS"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3658E40AFB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1758037656; bh=gbdugd49qh7DwyvYegacQ+jlw4svGsINKMwBxGYinG0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YHdRnjISGGDUB6h/RB933iVB5TA4QeJQ22EZT3o0DZUr5Hg65FxAzWpgT2d/zKaUb
-	 6WHH5LJ+Vf7Tc86evXQKGWj4zLXQ8B4lP2FO1hTJibmM0rpdEjcAjtqFB2ruKIoQlH
-	 WCRHo/T+J2JkxP3bKz2waSEmHeYPtqpLAzkXzSlE7TYzg3eHveOv+Svno7GifCwtAI
-	 vWuFR6RAeIcuen/spY0Y1HMR5uYf3YZtpM8CapkjOhQ6Hg1mMb80DFkZg9rNilHFLw
-	 FaM3266QtlDJKN1CRkL1yMsgtY0K4OarMiASE/a/R/3MIGcF+QfdqLCjb5MWsWCes/
-	 CgXqWj6lYjWqA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3658E40AFB;
-	Tue, 16 Sep 2025 15:47:36 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/21] Split sphinx call logic from docs Makefile
-In-Reply-To: <cover.1758018030.git.mchehab+huawei@kernel.org>
-References: <cover.1758018030.git.mchehab+huawei@kernel.org>
-Date: Tue, 16 Sep 2025 09:47:35 -0600
-Message-ID: <87frcmflgo.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RG7kRAD2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE2DC4CEEB;
+	Tue, 16 Sep 2025 15:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758038103;
+	bh=CXYoSgaS63Y+/tc9C0ims5v3zXKHr5QTlAy7T/0nUAg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=RG7kRAD2GJpzmsl/wG1YZ7hRD2r3vD8Br+jFsGVErbdEbb8BAozNa2ksZfx+apq6+
+	 BW6ORKblBpSyrTNrw8LeV0oIlabHKfaq/4JEFd7goi9vPSq6MYTd56tN1gMldIpn0N
+	 4vkLAwAK0nafaOQjWqSMKqWiwYjf4WHQMv8Sxxs6XPqymU4FjazCM+Uhbdl9LLtgCY
+	 jAWTMGi+VRCykLD3OP/wVd+hwIx09ub9b6eMxxZyU33HYijgmytgKLd8MzmgXq2tuc
+	 fCd0/olnaY7Ac/+ujskMpBW8KqvF8XABsRPFliHispKm/bqd6Oh/5I5wfEeP9w1SYp
+	 c3eABWjikpTng==
+Date: Tue, 16 Sep 2025 10:55:02 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Terry Bowman <terry.bowman@amd.com>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+	Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Linas Vepstas <linasvepstas@gmail.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH v2 0/4] Documentation: PCI: Update error recovery docs
+Message-ID: <20250916155502.GA1801539@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1757942121.git.lukas@wunner.de>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Mon, Sep 15, 2025 at 03:50:00PM +0200, Lukas Wunner wrote:
+> Fix deviations between the code and the documentation on
+> PCIe Advanced Error Reporting.  Add minor clarifications
+> and make a few small cleanups.
+> 
+> Changes v1 -> v2:
+> * In all patches, change subject prefix to "Documentation: PCI: ".
+> * In patch [3/4], mention s390 alongside powerpc (Niklas).
+> 
+> Link to v1:
+> https://lore.kernel.org/all/cover.1756451884.git.lukas@wunner.de/
+> 
+> Lukas Wunner (4):
+>   Documentation: PCI: Sync AER doc with code
+>   Documentation: PCI: Sync error recovery doc with code
+>   Documentation: PCI: Amend error recovery doc with DPC/AER specifics
+>   Documentation: PCI: Tidy error recovery doc's PCIe nomenclature
+> 
+>  Documentation/PCI/pci-error-recovery.rst | 43 ++++++++++---
+>  Documentation/PCI/pcieaer-howto.rst      | 81 +++++++++++-------------
+>  2 files changed, 72 insertions(+), 52 deletions(-)
 
-> Hi Jon,
->
-> This series should probably be called:
->
->     "Move the trick-or-treat build hacks accumulated over time
->      into a single place and document them."
-
-This one doesn't apply - it looks like the same encoding problems with
-the translation changes...?
-
-jon
+Applied to pci/aer for v6.18, thanks, everybody!
