@@ -1,116 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E7E1891AB;
-	Tue, 16 Sep 2025 09:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mx9.didiglobal.com (mx9.didiglobal.com [111.202.70.124])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 2CFB913D521;
+	Tue, 16 Sep 2025 09:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758013824; cv=none; b=MDSiFIvW2atwqNyzGWw7044W7WEG0lUlYWdHgQ/hJTs0yScqf+1NsFQT271R45vn3ornTH2a/mZtF2ztW4M0iq+DHLqpKLx0dG6mky0khqTzwc/uEtkx1+LTS6xCMTxuXY4tDn40qxxNcQ/1hbNwvlRHpNNe0cMWvcR5BgRdKhI=
+	t=1758014164; cv=none; b=V9qiT2fOhOur55oYZ5IIp8t9ZzkPs1RU072S6jGtPG0snEUll4iZvi+qxSKTB0jgioYMZ/TQ3OJZlwQWOlK3rET8jM7Io2w+joQOxo5zeM9ZuMjpPxtCoEKfaW14VAbaAS6yZpg4E7hnhbNG6Cw2/DqXFMngvecwbKgrIf7Qt/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758013824; c=relaxed/simple;
-	bh=kuJAKoB9pXWwUKKACzc17S2FgoaepkoZ3hJBpHeLLDg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=pJ0gBV+7R+7yZXoQ0es7MIx6OT/Giz/YYKQqW0/Vpcz9DGzAh7YI4AiMM+dmDL7IHKwuIjuCcGiteu2VCqPNPnIE4wX7lgBxL7fniGJZurUxIFRzRZhfwbaRcgGPVUj6kxoPsjql5n8wbfPnHOIc2pmIhlNBscX5WABAxsUbtgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDSoRoCx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758014164; c=relaxed/simple;
+	bh=vE0FUyT5oH1hcr2hQGwiIk13m1P6obpxXLjw7VqLXqU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:Content-Type:
+	 MIME-Version; b=O5GyFbmcKH7AJk3Tg0lS49t7aB2y2qs6/5wNK9+Ft4LBQd8MEw6IqJPpBchIJBPc9Tn/1q1fRyflJxqXvXbPPUFwuBzl7jg/FLymhNqC8Mo4cMw7Nr47yVxXWL5qSBtw56EuIHlZEVbgouPz3qTk/dNWv0A9L0DgPm0NF+A+EMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b=WHVn/UDh; arc=none smtp.client-ip=111.202.70.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDSoRoCx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B68C4CEEB;
-	Tue, 16 Sep 2025 09:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758013823;
-	bh=kuJAKoB9pXWwUKKACzc17S2FgoaepkoZ3hJBpHeLLDg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=QDSoRoCxBfKcnd1tAo4tGRMdxCoWeBCzzg9AZE5qxKAEFgApoUDbETYnbOoSnX08/
-	 tLEVkKXrb0mB7ikPTGcKpxBiH3I67vqHOGM2EpFAp1yRpF08giwcEssnbpChK8mj6c
-	 RXMw3ZRm8IDGnUDiRoPsuG4GIwM12GEQc5Z6eGGnvhb44vTcaWYdyUU++24VdRfPya
-	 iTJRDi8nLBntLKGGeSabDPnCRBZH3S55d8JVgXMvYyS0K/I2kPSp7IuiIbA9F+tq0g
-	 CY4KY0v9n5yv3P5n7X2mB0tWA/ccyAzTgqDeRo7PFcrkZ0GENfmpVdzsHenVXO3yi5
-	 UwsZ/WGKOaLTg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33CCE39D0C1A;
-	Tue, 16 Sep 2025 09:10:26 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=didiglobal.com header.i=@didiglobal.com header.b="WHVn/UDh"
+Received: from mail.didiglobal.com (unknown [10.79.65.20])
+	by mx9.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 2DD8E1867FB8B3;
+	Tue, 16 Sep 2025 17:11:16 +0800 (CST)
+Received: from BJ02-ACTMBX-01.didichuxing.com (10.79.65.19) by
+ BJ02-ACTMBX-02.didichuxing.com (10.79.65.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Tue, 16 Sep 2025 17:12:39 +0800
+Received: from BJ02-ACTMBX-01.didichuxing.com ([fe80::3bf1:97df:b93f:7b9a]) by
+ BJ02-ACTMBX-01.didichuxing.com ([fe80::3bf1:97df:b93f:7b9a%7]) with mapi id
+ 15.02.1748.010; Tue, 16 Sep 2025 17:12:39 +0800
+X-MD-Sfrom: tiozhang@didiglobal.com
+X-MD-SrcIP: 10.79.65.20
+From: =?utf-8?B?5byg5YWD54CaIFRpbyBaaGFuZw==?= <tiozhang@didiglobal.com>
+To: "wang.yaxin@zte.com.cn" <wang.yaxin@zte.com.cn>, "peterz@infradead.org"
+	<peterz@infradead.org>
+CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"fan.yu9@zte.com.cn" <fan.yu9@zte.com.cn>, "corbet@lwn.net" <corbet@lwn.net>,
+	"bsingharora@gmail.com" <bsingharora@gmail.com>, "yang.yang29@zte.com.cn"
+	<yang.yang29@zte.com.cn>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"peterz@infradead.org" <peterz@infradead.org>, "juri.lelli@redhat.com"
+	<juri.lelli@redhat.com>, "vincent.guittot@linaro.org"
+	<vincent.guittot@linaro.org>, "dietmar.eggemann@arm.com"
+	<dietmar.eggemann@arm.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
+	<mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
+	"jiang.kun2@zte.com.cn" <jiang.kun2@zte.com.cn>, "xu.xin16@zte.com.cn"
+	<xu.xin16@zte.com.cn>, "zyhtheonly@gmail.com" <zyhtheonly@gmail.com>,
+	"zyhtheonly@yeah.net" <zyhtheonly@yeah.net>
+Subject: Re: [PATCH v3] delayaccy/sched: add SOFTIRQ delay
+Thread-Topic: [PATCH v3] delayaccy/sched: add SOFTIRQ delay
+Thread-Index: AQHcF/3osvkJybP17kqnkBalFYy+0LR6ONoAgBtrQgA=
+Date: Tue, 16 Sep 2025 09:12:39 +0000
+Message-ID: <C126DFBF-863E-46AB-BD62-A9E720B3E68F@didiglobal.com>
+In-Reply-To: <20250830142944929e1M6lffs_PwvPfl7J-R1g@zte.com.cn>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
 Content-Type: text/plain; charset="utf-8"
+Content-ID: <13F1C55F83C8894A97D7ADE59C983E49@didichuxing.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v06 00/14] net: hinic3: Add a driver for Huawei
- 3rd
- gen NIC - sw and hw initialization
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175801382500.673413.8933950320451913033.git-patchwork-notify@kernel.org>
-Date: Tue, 16 Sep 2025 09:10:25 +0000
-References: <cover.1757653621.git.zhuyikai1@h-partners.com>
-In-Reply-To: <cover.1757653621.git.zhuyikai1@h-partners.com>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: zhuyikai1@h-partners.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, andrew+netdev@lunn.ch,
- linux-doc@vger.kernel.org, corbet@lwn.net, helgaas@kernel.org,
- luosifu@huawei.com, guoxin09@huawei.com, shenchenyang1@hisilicon.com,
- zhoushuai28@huawei.com, wulike1@huawei.com, shijing34@huawei.com,
- luoyang82@h-partners.com, meny.yossefi@huawei.com, gur.stavi@huawei.com,
- lee@trager.us, mpe@ellerman.id.au, vadim.fedorenko@linux.dev,
- sumang@marvell.com, przemyslaw.kitszel@intel.com, jdamato@fastly.com,
- christophe.jaillet@wanadoo.fr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
+	s=2025; t=1758013881;
+	bh=vE0FUyT5oH1hcr2hQGwiIk13m1P6obpxXLjw7VqLXqU=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=WHVn/UDh+SVnJhTusjLUM5qeR7XNSQfqd7OVT4DiXtEcLHXs6FhO/75fzMvnqXDeZ
+	 Tb/FkVNiAxB5Vd08Xai+AdevqWi4611W2jV56YTt5u0d5sf6JMAAzZzo6OMzySIZBv
+	 XA8CdvAVnpk4RsY2uGfjfyVH74JcJo362jzuXZl4=
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Fri, 12 Sep 2025 14:28:17 +0800 you wrote:
-> This is [3/3] part of hinic3 Ethernet driver initial submission.
-> With this patch hinic3 becomes a functional Ethernet driver.
-> 
-> The driver parts contained in this patch:
-> Memory allocation and initialization of the driver structures.
-> Management interfaces initialization.
-> HW capabilities probing, initialization and setup using management
-> interfaces.
-> Net device open/stop implementation and data queues initialization.
-> Register VID:DID in PCI id_table.
-> Fix netif_queue_set_napi usage.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v06,01/14] hinic3: HW initialization
-    https://git.kernel.org/netdev/net-next/c/cdb096c41b7d
-  - [net-next,v06,02/14] hinic3: HW management interfaces
-    https://git.kernel.org/netdev/net-next/c/8a1c655f55c8
-  - [net-next,v06,03/14] hinic3: HW common function initialization
-    https://git.kernel.org/netdev/net-next/c/069e42485e53
-  - [net-next,v06,04/14] hinic3: HW capability initialization
-    https://git.kernel.org/netdev/net-next/c/a0543a79359e
-  - [net-next,v06,05/14] hinic3: Command Queue flush interfaces
-    https://git.kernel.org/netdev/net-next/c/b92e6c734db8
-  - [net-next,v06,06/14] hinic3: Nic_io initialization
-    https://git.kernel.org/netdev/net-next/c/8133788d023f
-  - [net-next,v06,07/14] hinic3: Queue pair endianness improvements
-    https://git.kernel.org/netdev/net-next/c/6b822b658aaf
-  - [net-next,v06,08/14] hinic3: Queue pair resource initialization
-    https://git.kernel.org/netdev/net-next/c/73f37a7e1993
-  - [net-next,v06,09/14] hinic3: Queue pair context initialization
-    https://git.kernel.org/netdev/net-next/c/97dcb914a25b
-  - [net-next,v06,10/14] hinic3: Tx & Rx configuration
-    https://git.kernel.org/netdev/net-next/c/b83bb584bc97
-  - [net-next,v06,11/14] hinic3: Add Rss function
-    https://git.kernel.org/netdev/net-next/c/1f3838b84a63
-  - [net-next,v06,12/14] hinic3: Add port management
-    https://git.kernel.org/netdev/net-next/c/45f97ae93de2
-  - [net-next,v06,13/14] hinic3: Fix missing napi->dev in netif_queue_set_napi
-    https://git.kernel.org/netdev/net-next/c/4404f6af8108
-  - [net-next,v06,14/14] hinic3: Fix code style (Missing a blank line before return)
-    https://git.kernel.org/netdev/net-next/c/d5aeec592154
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+DQo+PkludHJvIFNPRlRJUlEgZGVsYXksIHNvIHdlIGNhbiBzZXBhcmF0ZSBzb2Z0aXJxIGFzIFNP
+RlRJUlEgZGVsYXkNCj4+YW5kIGhhcmRpcnEgYXMge0lSUSAtIFNPRlRJUlF9IGRlbGF5Lg0KPj4N
+Cj4+QSB0eXBpY2FsIHNjZW5hcmlvIGlzIHdoZW4gdGFza3MgZGVsYXllZCBieSBuZXR3b3JrLA0K
+Pj5pZiB0aGV5IGRlbGF5ZWQgYnkgcnggbmV0IHBhY2tldHMsIGkuZSwgbmV0X3J4X2FjdGlvbigp
+LA0KPj5TT0ZUSVJRIGRlbGF5IGlzIGFsbW9zdCBzYW1lIGFzIElSUSBkZWxheTsNCj4+aWYgdGhl
+eSBkZWxheWVkIGJ5LCBlLmcsIGJhZCBkcml2ZXIgb3IgYnJva2VuIGhhcmR3YXJlLA0KPj5TT0ZU
+SVJRIGRlbGF5IGlzIGFsbW9zdCAwIHdoaWxlIElSUSBkZWxheSByZW1haW5zIGJpZy4NCj4+DQo+
+PkV4YW1wbGVzIHRvb2wgdXNhZ2UgY291bGQgYmUgZm91bmQgaW4NCj4+RG9jdW1lbnRhdGlvbi9h
+Y2NvdW50aW5nL2RlbGF5LWFjY291bnRpbmcucnN0DQo+Pg0KPj5TaWduZWQtb2ZmLWJ5OiBUaW8g
+WmhhbmcgPHRpb3poYW5nQGRpZGlnbG9iYWwuY29tIDxtYWlsdG86dGlvemhhbmdAZGlkaWdsb2Jh
+bC5jb20+Pg0KDQoNCj5SZXZpZXdlZC1ieTogV2FuZyBZYXhpbiA8d2FuZy55YXhpbkB6dGUuY29t
+LmNuIDxtYWlsdG86d2FuZy55YXhpbkB6dGUuY29tLmNuPj4NCg0KDQo+VGhhbmtzDQo+WWF4aW4N
+Cg0KSGkgUGV0ZXIsDQoNCkdlbnRsZSBwaW5nLiBXb25kZXJpbmcgaWYgeW91IGhhdmUgYW55IGZ1
+cnRoZXIgY29tbWVudHM/DQoNClRoYW5rcyBmb3IgeW91ciB0aW1lLg0KDQpCZXN0LA0KVGlvIFpo
+YW5nDQoNCg==
