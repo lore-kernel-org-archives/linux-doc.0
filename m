@@ -1,115 +1,83 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABDE1C5F23
-	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 01:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5961F542E;
+	Tue, 16 Sep 2025 01:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757984728; cv=none; b=lBtIg2U04xq9mo5OeAbNHFdH83ujH19UAoXqvb6OZwVDn9C0a1QtFd2GkDMFXOP/q5PjqlWs3bFwAJhuaw3arcVgN94HeGNj3EySs2FGBOGazNo1zMpPPK9bhiwtGfYOSkVlQUbVMEBYoX3hB33StFtXLzxxNMDwzmaOpWDiLFA=
+	t=1757986815; cv=none; b=gAb4bpeZ5haa7YFpa4b9rcfOZUDwII3nOOgm38vKkcJBX9/1U2kqegVL5r0MUhwLs1MFr5nWoBk9UHfQ2BhPvWzqAjiSv83CWawZ9tRTMDrWPzzsF6HdMlM/hy+xHKNNitF7v4lSctl+LgOp/QjZNI+ujOANICedk/216GYV9J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757984728; c=relaxed/simple;
-	bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SfitUdFPu+H2skQ7qybvigddpcJ+sJAQX/QpQMo0lSKn1NvczV33UspmFQafLwdpA65tU3UK05uwnfzx8PsTyZi3GuEo/sFviZZOmWPrgVcWe7/8iqvEHSyVzcUYOldd9ATfva4Rmq4+GWtSF6XC8eg0c1Tv0Wwh9QdUXB1x7ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0I/Xm2a; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757986815; c=relaxed/simple;
+	bh=XEkpR8NWRQZ1eWEHnM8hYiYezDkGF/Zxa6o+qN2kpZg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=ek/YsrHFbxPPTqwzeCJM2OojOMILmH9Ph8hTzO6Cjacofvj28Zj5gGxxEOCk8S8ZfZ5CSIZMdGYKvVKJ2DbkzAvgmLUr4N177okbqA9CroKbo+cWZ72M6Ig12e3orbBu+kjf8F4qB6VU4sm6qahJJRAv7C0WWZIxXe1Gnezqfzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdSjEaxG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0I/Xm2a"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-ea3f0d9150eso1951868276.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 18:05:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757984724; x=1758589524; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
-        b=T0I/Xm2a26Pz9ueMVGxxM+8PBoBl72rLmCzNxbz1k+Zf7VAgqOZWtMXsxpbWUBL8J8
-         jPG2qCslo6GuL8OE/CdATF314calnEw7vxx91ORh8INwPj72HtzWCItEMHgqlS1BGB4L
-         AnggdLmhtN6PrPfYWJw6oIkc2HOZ6SuTst0SQp47zn7zXDjLJdQBMyL/dFLz8br5otKI
-         8dlCMxoRBNvoekrOuCctZSU/9APTEadss2NF0KJzW0tKMoYDIAsZq+yHkaxGVYfE6o2t
-         SJT7LsbW215Aa9TuYPrX1VwOTxvlChId8n3HZzda/uwuRnZUTB37Ib6PO7vzKl/LFvlj
-         okaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757984724; x=1758589524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d4rwn8y0vRJNvu8C079VdIgUQlj+kBjL5HuZ7smgp/E=;
-        b=cxuy7D2dpaUa4sbYmUdTdlWiOVW7o7hysDve//jjW8LwrOGrfUsLM1wi0J3tVeIsfI
-         UUcFXNM5T+8AOvlUBuS0E1+R1nYlRT0YBjPbI26EF3IQgTjzxfBbOE08fTngv5zBdUp+
-         0y8Vk074+eMBWf85g61ArHikFC8PcqZsXNw3X+Ro7GhXYdjrm6b7x/EmkHk+PtP8sVUt
-         r7mSLPLkDybSgc2tHcId818I4TyfJE6rZTsntlev7eACLPx+UaN5719VIHWhlSoQaxjq
-         HBlmCGzdVEU1ROnak43ISPO/TVPUt0oS14TI3EzO35qRZVBbHIZ09wq4pqToZp/ORbnQ
-         f8IA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCqo8+tWKidGex6pwODZTt13RKNe6p4o7ox2RoPmCEBlrchzdpd/1V47iuOHuMsyaFtFi4lw/OPLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfrneCBI0xgBF4EJpa4bZhsvND7XPzghmoTTIc6Zu9tq+1jPFs
-	rUIY3w0CjIQdnm2pALU8ptYjKG6g9Rj6hm4RPjrrOLzTfMwb4McZYkng8iB5/AzMvP/RD+RsyAZ
-	DAn7pNSmwntAVu4kzcd4Y/3PQ9sV7beI=
-X-Gm-Gg: ASbGncuonVyCTkbdX+xk3FNbY5pyTL5IGBRy29IFimeAsy8bLA10BAXUvZiixHc/4Uv
-	1TpZauy22EEirSu+Tkq7EwFM89n2+ZPGlkmFf9I5PYMZRuqR8Gg+ySYU9wZqsKOoO1pF64LA5IW
-	rS8ducEdcS+WHPhbHRq4Bw2Ee8RAB5icq+cyB6MuVYr+0lJ5P9bN/4UfZSxyovUp896L4T1eZ/7
-	Rt5zJqMfLBE0taj/g==
-X-Google-Smtp-Source: AGHT+IFaJEo1gVHkPCEaCD3vWYjtreYFiQ2WOrRU9CIpbMyg97OVJtr/v3uxdpG+fiXE68E0IfjXLuECnr1bsw09sPQ=
-X-Received: by 2002:a05:6902:2b02:b0:e98:9926:e5ca with SMTP id
- 3f1490d57ef6-ea3d9a6c911mr10729577276.36.1757984723469; Mon, 15 Sep 2025
- 18:05:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdSjEaxG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B54C4CEF1;
+	Tue, 16 Sep 2025 01:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757986814;
+	bh=XEkpR8NWRQZ1eWEHnM8hYiYezDkGF/Zxa6o+qN2kpZg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=SdSjEaxGaLSLA1gG8WFngzR0Os6PDV02sI70IHhG5he4Ws+E4VBxm0Uo8UqjXiOog
+	 XHXk+4FMpBJqbTsOEoeWVGM9Qsi2Gd+QdGfoWnxOZhhjxTxSnzFr/+OSUFtIyYgNuk
+	 dGLH7RYVOfylunbwvXw1pZt2GtqNewfN6OGCqmr+odBhoqTKWOAZ4WiO14xR2jt9oa
+	 CKfJ7+doivHCKENnseF5HKeoW4Tqa+E4H1FpVghKgBOxXyAgf85O8zSmzGtZJ6D/2Y
+	 +vvsjTrEeQiFo8foWhPRF7NZtBuPUYYQRlSALvI/YB6qWzCFsKe5VPKzKxteZATRBp
+	 FYdSFfFPGeBQQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE00039D0C17;
+	Tue, 16 Sep 2025 01:40:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250913003842.41944-1-safinaskar@gmail.com> <20250915-modebranche-marken-fc832a25e05d@brauner>
-In-Reply-To: <20250915-modebranche-marken-fc832a25e05d@brauner>
-From: Askar Safin <safinaskar@gmail.com>
-Date: Tue, 16 Sep 2025 04:04:47 +0300
-X-Gm-Features: Ac12FXwuxsP2xoupllcCoDiRw8q2uuerrvP566PgC2Qr6qfMP36Zqdrto9P8zEU
-Message-ID: <CAPnZJGAjfpHZn_VzU3ry9ZV6OUS0RN2iWos153_oM_PhVbMgVg@mail.gmail.com>
-Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
-	Rob Landley <rob@landley.net>, Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, x86@kernel.org, 
-	Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	"Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>, 
-	devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/3] tools: ynl: rst: display attribute-set
+ doc
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175798681550.561918.14633148960106754244.git-patchwork-notify@kernel.org>
+Date: Tue, 16 Sep 2025 01:40:15 +0000
+References: <20250913-net-next-ynl-attr-doc-rst-v3-0-4f06420d87db@kernel.org>
+In-Reply-To: <20250913-net-next-ynl-attr-doc-rst-v3-0-4f06420d87db@kernel.org>
+To: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+Cc: corbet@lwn.net, donald.hunter@gmail.com, kuba@kernel.org,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, jiri@resnulli.us, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, chuck.lever@oracle.com,
+ jacob.e.keller@intel.com, fw@strlen.de, idosch@nvidia.com
 
-On Mon, Sep 15, 2025 at 4:34=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
-> Split it up into multiple patch series. Send a first series that
-> focusses only on removing the generic infrastructure keeping it as
-> contained as possible. Only do non-generic cleanups that are absolutely
-> essential for the removal. Then the cleanups can go in separate series
-> later.
+Hello:
 
-Ok, I will do this.
-I will send a minimal patchset with arch/ changes kept to absolute minimum
-or even absent. Nearly all of the changes will be in init/ and docs.
-Hopefully it will pass via the VFS tree.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-If it gets to kernel release, I will consider sending more patchsets.
+On Sat, 13 Sep 2025 15:29:50 +0200 you wrote:
+> Some attribute-set have a documentation (doc:), but they are not
+> displayed in the RST / HTML version. This series adds the missing
+> parsing of these 'doc' fields.
+> 
+> While at it, it also fixes how the 'doc' fields are declared on multiple
+> lines.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v3,1/3] tools: ynl: rst: display attribute-set doc
+    https://git.kernel.org/netdev/net-next/c/a51126424f75
+  - [net-next,v3,2/3] netlink: specs: team: avoid mangling multilines doc
+    https://git.kernel.org/netdev/net-next/c/515c0ead788f
+  - [net-next,v3,3/3] netlink: specs: explicitly declare block scalar strings
+    https://git.kernel.org/netdev/net-next/c/12e74931ee97
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---=20
-Askar Safin
