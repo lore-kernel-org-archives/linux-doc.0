@@ -1,83 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5961F542E;
-	Tue, 16 Sep 2025 01:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305C5221DB6
+	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 01:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757986815; cv=none; b=gAb4bpeZ5haa7YFpa4b9rcfOZUDwII3nOOgm38vKkcJBX9/1U2kqegVL5r0MUhwLs1MFr5nWoBk9UHfQ2BhPvWzqAjiSv83CWawZ9tRTMDrWPzzsF6HdMlM/hy+xHKNNitF7v4lSctl+LgOp/QjZNI+ujOANICedk/216GYV9J8=
+	t=1757987337; cv=none; b=YdDMF2Xu+imPZiGkQxqTZ0xhuYcIPFQqxZPPxLRt5XR3iHnz8qlR9tHIGDzd2AlAiAcxgCMHTV64ITx48vFWe8pwWhBy9xQ2JE53iWlAVqJnNrwV0VJ9cX1rIK+wAkV6DYHhOhP+WlJofflWReZuENelwQXnqbvkek7NolbiWTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757986815; c=relaxed/simple;
-	bh=XEkpR8NWRQZ1eWEHnM8hYiYezDkGF/Zxa6o+qN2kpZg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ek/YsrHFbxPPTqwzeCJM2OojOMILmH9Ph8hTzO6Cjacofvj28Zj5gGxxEOCk8S8ZfZ5CSIZMdGYKvVKJ2DbkzAvgmLUr4N177okbqA9CroKbo+cWZ72M6Ig12e3orbBu+kjf8F4qB6VU4sm6qahJJRAv7C0WWZIxXe1Gnezqfzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdSjEaxG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757987337; c=relaxed/simple;
+	bh=ixp1vRoqVO/aQuZyYy6zFP7jfZFHYTqyHd5Z6tSU/S0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KdWDJiuy4aNUf7QGzrOxRcSOhvftyVTMvnbc1MSaJ24FXE6ir+9n34TwgMO95xJbAtK8gVSoldVtSQFpZIpDTr7N7glpFSlw+qvDQFLz8ZsWRmeFd1JTnLGQf9HXmYGGzZ84Psx0aDJH9fIgJeaG+zLyJWQWTmqi3BfXkr16lJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JGzWjT6J; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdSjEaxG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B54C4CEF1;
-	Tue, 16 Sep 2025 01:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757986814;
-	bh=XEkpR8NWRQZ1eWEHnM8hYiYezDkGF/Zxa6o+qN2kpZg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=SdSjEaxGaLSLA1gG8WFngzR0Os6PDV02sI70IHhG5he4Ws+E4VBxm0Uo8UqjXiOog
-	 XHXk+4FMpBJqbTsOEoeWVGM9Qsi2Gd+QdGfoWnxOZhhjxTxSnzFr/+OSUFtIyYgNuk
-	 dGLH7RYVOfylunbwvXw1pZt2GtqNewfN6OGCqmr+odBhoqTKWOAZ4WiO14xR2jt9oa
-	 CKfJ7+doivHCKENnseF5HKeoW4Tqa+E4H1FpVghKgBOxXyAgf85O8zSmzGtZJ6D/2Y
-	 +vvsjTrEeQiFo8foWhPRF7NZtBuPUYYQRlSALvI/YB6qWzCFsKe5VPKzKxteZATRBp
-	 FYdSFfFPGeBQQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE00039D0C17;
-	Tue, 16 Sep 2025 01:40:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JGzWjT6J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757987333;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UM/63QbNRNL2CWSzKhJPtVEvJogEqqs3VcsifJT7nZg=;
+	b=JGzWjT6JFY44F9HuG73zfC+XVXSpyEZnpQCAqiavnVJaex4OmR07wPNEUXLEBK3aPPNASb
+	DTaTB1gZFE+DJer/o51vsb0HNic3DYvivGyJhMpU+pMvEA5BzK1/RIXnL5VmsY2pUK7A4X
+	JJbm37DGkbr6iy5wEYEwqu+Km41BUrY=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-25-1EAkxeFpOHemvbLS1y5nng-1; Mon, 15 Sep 2025 21:48:51 -0400
+X-MC-Unique: 1EAkxeFpOHemvbLS1y5nng-1
+X-Mimecast-MFC-AGG-ID: 1EAkxeFpOHemvbLS1y5nng_1757987330
+Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-55f6b2b56f0so2403385e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 18:48:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757987330; x=1758592130;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UM/63QbNRNL2CWSzKhJPtVEvJogEqqs3VcsifJT7nZg=;
+        b=VNQK8AluQMDXx2IHRVeNb47Zc6mFrecMuPnOq/ypmFsUVMEMfGOs2zBt+9dR2TGAT3
+         iZcoOwojlX/IPKNWqxryxZ09DVLGQM2IwOCzOTUModtIv+oeYePJVGjdSnV+v/q2/T1G
+         0MnSi6DCjfp6U23WwMQf6U7NyQYftJznjU7ZG1r/qCd8ZkOSOkFMcGGaqIxh4U1D+TLb
+         F8sbzmag6oCVjPCI9T9W7dkyrjTeQQeqD2E3IWXJgo5MFPoy/X9eXFCnmx2qaNXYRDB3
+         kJkY6tubzp3wTk6IiOx3jglxBM294z6nwa+RY9ls15c/SKJIo7sJIkNwAxhbKneGxTcB
+         bSog==
+X-Forwarded-Encrypted: i=1; AJvYcCXJByKPSFOK+ZSHMWA0Bo0xW4vvpPZ9QofIe9k0Fgy1M9K4jH2rRgxyHr0+zmVAhiXBCXsi5yXopnQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW/ab0dxpHygRgrwzJgFHj3YdG37clG7IBfJmI9bqt0IQQHMQ0
+	DdQnw5takFGILSxHiDYP0MfbSxtL9JFA4lW2QU5c94XCKwZksEPCZev6KMoDXVjAxKsBVeUoYLY
+	nbshvM7pb1FFy2PbirYnXLerDGyklcssRyZmRHnmkNx2/KYbMmqOmDxVUwx+vPsGqGaeEo+Q6nI
+	48xeW88eXR3LsImCVAwA3GaF4YdX8g2X5ki1iE
+X-Gm-Gg: ASbGncsmtv2d1loM36Y/3GmXopToV9pMH6CbSp+aLtHLlAt1QfJ4rr5DFiil7DIMh6i
+	Kl8Js0ZV53QdjobHOVkRZCD200d1UEM9xE6o/73cFHKe2S/aIqgbozUtoUYiKfslGREN710McUc
+	H2wLDGS/rQTutQL8eELdeFBA==
+X-Received: by 2002:a05:6512:3f21:b0:563:d896:2d14 with SMTP id 2adb3069b0e04-5704f7a3535mr4252951e87.36.1757987330048;
+        Mon, 15 Sep 2025 18:48:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGi0qyrJSXhatUAjAN5GaSbgChEfkulnz/zBRoEI09ayrVbCpTRhDlFRFU2ScIQdlOHU/dANXpgiKsiuT/Fm5k=
+X-Received: by 2002:a05:6512:3f21:b0:563:d896:2d14 with SMTP id
+ 2adb3069b0e04-5704f7a3535mr4252904e87.36.1757987329545; Mon, 15 Sep 2025
+ 18:48:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v3 0/3] tools: ynl: rst: display attribute-set
- doc
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175798681550.561918.14633148960106754244.git-patchwork-notify@kernel.org>
-Date: Tue, 16 Sep 2025 01:40:15 +0000
-References: <20250913-net-next-ynl-attr-doc-rst-v3-0-4f06420d87db@kernel.org>
-In-Reply-To: <20250913-net-next-ynl-attr-doc-rst-v3-0-4f06420d87db@kernel.org>
-To: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-Cc: corbet@lwn.net, donald.hunter@gmail.com, kuba@kernel.org,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- horms@kernel.org, jiri@resnulli.us, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, chuck.lever@oracle.com,
- jacob.e.keller@intel.com, fw@strlen.de, idosch@nvidia.com
+References: <20250912223937.3735076-1-safinaskar@zohomail.com>
+In-Reply-To: <20250912223937.3735076-1-safinaskar@zohomail.com>
+From: Dave Young <dyoung@redhat.com>
+Date: Tue, 16 Sep 2025 09:48:40 +0800
+X-Gm-Features: AS18NWBkCHbtMZDfiuZiXnfW8KzozFHrUJlGejiASEzNumvZVB8NmHoE7UrrQwg
+Message-ID: <CALu+AoRt5wEgx-=S263CReDf8FmLWwjs8dF9cX4_jFcMUkuujQ@mail.gmail.com>
+Subject: Re: [PATCH 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
+	Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
+	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>, 
+	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>, 
+	Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, x86@kernel.org, 
+	Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	"Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>, 
+	devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+Hi,
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+On Sat, 13 Sept 2025 at 06:42, Askar Safin <safinaskar@zohomail.com> wrote:
+>
+> Intro
+> ====
+> This patchset removes classic initrd (initial RAM disk) support,
+> which was deprecated in 2020.
+> Initramfs still stays, and RAM disk itself (brd) still stays, too.
 
-On Sat, 13 Sep 2025 15:29:50 +0200 you wrote:
-> Some attribute-set have a documentation (doc:), but they are not
-> displayed in the RST / HTML version. This series adds the missing
-> parsing of these 'doc' fields.
-> 
-> While at it, it also fixes how the 'doc' fields are declared on multiple
-> lines.
-> 
-> [...]
+There is one initrd use case in my mind, it can be extended to co-work
+with overlayfs as a kernel built-in solution for initrd(compressed fs
+image)+overlayfs.   Currently we can use compressed fs images
+(squashfs or erofs) within initramfs,  and kernel loop mount together
+with overlayfs, this works fine but extra pre-mount phase is needed.
 
-Here is the summary with links:
-  - [net-next,v3,1/3] tools: ynl: rst: display attribute-set doc
-    https://git.kernel.org/netdev/net-next/c/a51126424f75
-  - [net-next,v3,2/3] netlink: specs: team: avoid mangling multilines doc
-    https://git.kernel.org/netdev/net-next/c/515c0ead788f
-  - [net-next,v3,3/3] netlink: specs: explicitly declare block scalar strings
-    https://git.kernel.org/netdev/net-next/c/12e74931ee97
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Thanks
+Dave
 
