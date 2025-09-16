@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988FF3043A0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00E43043B8;
 	Tue, 16 Sep 2025 10:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758018215; cv=none; b=lX5vYq4tMmqUg1+ZbmKSeeaH6MCh3gPlznbrQtY8X4OvzAFq5ZvShXVTchEgjFxs5pu6U1E8wO1jDyOIiK9w4lBbrx3McAuftIZ2zgt0gEvGOd3fqipqmeYrq+CnmTJEkr5mMDwNimcewh/iTgywBxvlgtAwBPWuRcSQDDXRC+E=
+	t=1758018215; cv=none; b=hAWrKCxfeka5gErkFcgw3FLU7Sd9DKVv8KuwuwUlHAhJGMjRMMmwdLE4XFvTKGURxm8iV7RUaUF+hj2nXbFI0F/l5dGtBwHR0aEY63swEXsFMM4eFsF3w6CDmUFN5GeMXPeF2aR06YYEeWeYIs2CkaR6YEd5kwnUZx2IwC7EyzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758018215; c=relaxed/simple;
-	bh=RnTLGaGUuMOKF6PxxwxnFcuRL48slw9WnQakpfhYXJ0=;
+	bh=IedbeYwhGQo/8+db2YoLieE5Rt2kNjiHQ4pk5A+mit8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=p75PoDl5BKmlHoY6lfVb7+JrWs9ixlJ358wHsjhK8yMbB9/C65ETys2bJ9eo+H1zGUlgcEoeygseKnx0RdeBd3sWFx/ZyclMVJNJPaUAb3/xuSNnOnkgz6jzwrO7LdQuMlARXPoiLZSBsLLEgKXquSS5IxKp5sebHzNDxua9EoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SC4KmK2I; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=gK6/neX68NXjWa8bjHDMTwGiQsoOxgeFkXfnyfFhyM5YReL3VRprULJm4Xy58Q7yAccdroDqTUruyB8X73wWiTg7yXA+HaBgAz8OTvZV1AwfVlDXmTF4Kl/YtgUU1KEvooNez6Miwn8nkEGJ1YLXs/NCgKhlMuAOoooFQWJ6jBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=shYzsQ8x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SC4KmK2I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19730C4CEFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="shYzsQ8x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E53C4CEFC;
 	Tue, 16 Sep 2025 10:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758018215;
-	bh=RnTLGaGUuMOKF6PxxwxnFcuRL48slw9WnQakpfhYXJ0=;
+	bh=IedbeYwhGQo/8+db2YoLieE5Rt2kNjiHQ4pk5A+mit8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SC4KmK2I795/j1+jDJfK5wuxs0GidfwPVcr7hgPkwXQr9gqEURS4sWG8x13/44Qoe
-	 +Q51w6VQghA+GXbzD2Q3KlXvItZShdSKNrFk5J0eqqk+0qOeKtBqfR5/s9bPcuQCoV
-	 Q4esKb9+mwDz0DQfqehqEN05Qn0KqAUOATusB6o/7p/vE/o1jKxerKo79+z3Cexfzy
-	 uBSInv3bGJCgC3BeuZeKTTJ15Oo+pQk19k9m2GtxrE9/LrfVGmc3s2/vDgO3X1Q6Gv
-	 kwlTtDmBW5tZ8FV9kg04QJwLCZCzeV2ikYR8dVn+mCLfshnFEI+Y30NeaBFQJ/Vw0T
-	 znWKsxwxFr7vA==
+	b=shYzsQ8xouvLC1n6giYdpcusnEFM9/JqIjxZG0ctsxc/FyhJLkMLISucUFS+fjfwa
+	 XLe+i9XJG+ZVxdq9+x89JbrrKKpUjQb+OOZdIGbfOh7zpsfZDOZBE3rlD6IWKIR2Mj
+	 GBvCbmzxbyMhlGWjOl5zuyRw5bjXR4KiYVR5fADtR32CdJ+OtJ6gwTvoBN0KLDCld4
+	 jItQoLPX/gqRHZbYsUy4qcuVj1R2CmNPVCqe4eZ65MUF3mtut6fnL4FwuqHbnJB6f6
+	 SYQursWs9ut20DHy2nV8VNkgasbG/AxZQopJRZ0DCQSVavS5AyD2bsqfe7y5Qt6YRL
+	 5lyP+QX48WgJA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uySqS-0000000BBOd-2jK4;
+	id 1uySqS-0000000BBOm-2yTP;
 	Tue, 16 Sep 2025 12:23:32 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 02/21] scripts/jobserver-exec: move its class to the lib directory
-Date: Tue, 16 Sep 2025 12:22:38 +0200
-Message-ID: <d3401a49c732bf1337d39c9053a08de361aa973c.1758018030.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 04/21] scripts: check-variable-fonts.sh: convert to Python
+Date: Tue, 16 Sep 2025 12:22:40 +0200
+Message-ID: <8a77212d5459eac2a98db442691930425a2cbefd.1758018030.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758018030.git.mchehab+huawei@kernel.org>
 References: <cover.1758018030.git.mchehab+huawei@kernel.org>
@@ -52,342 +52,155 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-To make it easier to be re-used, move the JobserverExec class
-to the library directory.
+This script handle errors when trying to build translations
+with make pdfdocs.
+
+As part of our cleanup work to remove hacks from docs Makefile,
+convert this to python, preparing it to be part of a library
+to be called by sphinx-build-wrapper.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/jobserver-exec   | 152 +++------------------------------------
- scripts/lib/jobserver.py | 149 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 160 insertions(+), 141 deletions(-)
- create mode 100755 scripts/lib/jobserver.py
+ MAINTAINERS                                   |   2 +-
+ ...iable-fonts.sh => check-variable-fonts.py} | 104 +++++++++++++-----
+ 2 files changed, 78 insertions(+), 28 deletions(-)
+ rename scripts/{check-variable-fonts.sh => check-variable-fonts.py} (61%)
 
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index b386b1a845de..40a0f0058733 100755
---- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -1,155 +1,25 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0+
--#
--# pylint: disable=C0103,C0209
--#
--# This determines how many parallel tasks "make" is expecting, as it is
--# not exposed via an special variables, reserves them all, runs a subprocess
--# with PARALLELISM environment variable set, and releases the jobs back again.
--#
--# https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
- 
--"""
--Interacts with the POSIX jobserver during the Kernel build time.
--
--A "normal" jobserver task, like the one initiated by a make subrocess would do:
--
--    - open read/write file descriptors to communicate with the job server;
--    - ask for one slot by calling:
--        claim = os.read(reader, 1)
--    - when the job finshes, call:
--        os.write(writer, b"+")  # os.write(writer, claim)
--
--Here, the goal is different: This script aims to get the remaining number
--of slots available, using all of them to run a command which handle tasks in
--parallel. To to that, it has a loop that ends only after there are no
--slots left. It then increments the number by one, in order to allow a
--call equivalent to make -j$((claim+1)), e.g. having a parent make creating
--$claim child to do the actual work.
--
--The end goal here is to keep the total number of build tasks under the
--limit established by the initial make -j$n_proc call.
--"""
--
--import errno
- import os
--import subprocess
- import sys
- 
-+LIB_DIR = "lib"
-+SRC_DIR = os.path.dirname(os.path.realpath(__file__))
- 
--class JobserverExec:
--    """
--    Claim all slots from make using POSIX Jobserver.
-+sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
- 
--    The main methods here are:
--    - open(): reserves all slots;
--    - close(): method returns all used slots back to make;
--    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
--    """
-+from jobserver import JobserverExec                  # pylint: disable=C0415
- 
--    def __init__(self):
--        """Initialize internal vars"""
--        self.claim = 0
--        self.jobs = b""
--        self.reader = None
--        self.writer = None
--        self.is_open = False
- 
--    def open(self):
--        """Reserve all available slots to be claimed later on"""
--
--        if self.is_open:
--            return
--
--        try:
--            # Fetch the make environment options.
--            flags = os.environ["MAKEFLAGS"]
--            # Look for "--jobserver=R,W"
--            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
--            # so this handles all of them.
--            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
--
--            # Parse out R,W file descriptor numbers and set them nonblocking.
--            # If the MAKEFLAGS variable contains multiple instances of the
--            # --jobserver-auth= option, the last one is relevant.
--            fds = opts[-1].split("=", 1)[1]
--
--            # Starting with GNU Make 4.4, named pipes are used for reader
--            # and writer.
--            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
--            _, _, path = fds.partition("fifo:")
--
--            if path:
--                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
--                self.writer = os.open(path, os.O_WRONLY)
--            else:
--                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
--                # Open a private copy of reader to avoid setting nonblocking
--                # on an unexpecting process with the same reader fd.
--                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
--                                      os.O_RDONLY | os.O_NONBLOCK)
--
--            # Read out as many jobserver slots as possible
--            while True:
--                try:
--                    slot = os.read(self.reader, 8)
--                    self.jobs += slot
--                except (OSError, IOError) as e:
--                    if e.errno == errno.EWOULDBLOCK:
--                        # Stop at the end of the jobserver queue.
--                        break
--                    # If something went wrong, give back the jobs.
--                    if self.jobs:
--                        os.write(self.writer, self.jobs)
--                    raise e
--
--            # Add a bump for our caller's reserveration, since we're just going
--            # to sit here blocked on our child.
--            self.claim = len(self.jobs) + 1
--
--        except (KeyError, IndexError, ValueError, OSError, IOError):
--            # Any missing environment strings or bad fds should result in just
--            # not being parallel.
--            self.claim = None
--
--        self.is_open = True
--
--    def close(self):
--        """Return all reserved slots to Jobserver"""
--
--        if not self.is_open:
--            return
--
--        # Return all the reserved slots.
--        if len(self.jobs):
--            os.write(self.writer, self.jobs)
--
--        self.is_open = False
--
--    def __enter__(self):
--        self.open()
--        return self
--
--    def __exit__(self, exc_type, exc_value, exc_traceback):
--        self.close()
--
--    def run(self, cmd):
--        """
--        Run a command setting PARALLELISM env variable to the number of
--        available job slots (claim) + 1, e.g. it will reserve claim slots
--        to do the actual build work, plus one to monitor its childs.
--        """
--        self.open()             # Ensure that self.claim is set
--
--        # We can only claim parallelism if there was a jobserver (i.e. a
--        # top-level "-jN" argument) and there were no other failures. Otherwise
--        # leave out the environment variable and let the child figure out what
--        # is best.
--        if self.claim:
--            os.environ["PARALLELISM"] = str(self.claim)
--
--        return subprocess.call(cmd)
-+"""
-+Determines how many parallel tasks "make" is expecting, as it is
-+not exposed via an special variables, reserves them all, runs a subprocess
-+with PARALLELISM environment variable set, and releases the jobs back again.
- 
-+See:
-+    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
-+"""
- 
- def main():
-     """Main program"""
-diff --git a/scripts/lib/jobserver.py b/scripts/lib/jobserver.py
-new file mode 100755
-index 000000000000..98d8b0ff0c89
---- /dev/null
-+++ b/scripts/lib/jobserver.py
-@@ -0,0 +1,149 @@
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef87548b8f88..88d8f7435e6d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7301,7 +7301,7 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/check-variable-fonts.sh
++F:	scripts/check-variable-fonts.py
+ F:	scripts/checktransupdate.py
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/get_abi.py
+diff --git a/scripts/check-variable-fonts.sh b/scripts/check-variable-fonts.py
+similarity index 61%
+rename from scripts/check-variable-fonts.sh
+rename to scripts/check-variable-fonts.py
+index ce63f0acea5f..71b88b680a73 100755
+--- a/scripts/check-variable-fonts.sh
++++ b/scripts/check-variable-fonts.py
+@@ -1,7 +1,9 @@
+-#!/bin/sh
 +#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0+
+ # SPDX-License-Identifier: GPL-2.0-only
+ # Copyright (C) Akira Yokosawa, 2024
+ #
++# Ported to Python by (c) Mauro Carvalho Chehab, 2025
 +#
-+# pylint: disable=C0103,C0209
-+#
-+#
-+
-+"""
-+Interacts with the POSIX jobserver during the Kernel build time.
-+
-+A "normal" jobserver task, like the one initiated by a make subrocess would do:
-+
-+    - open read/write file descriptors to communicate with the job server;
-+    - ask for one slot by calling:
-+        claim = os.read(reader, 1)
-+    - when the job finshes, call:
-+        os.write(writer, b"+")  # os.write(writer, claim)
-+
-+Here, the goal is different: This script aims to get the remaining number
-+of slots available, using all of them to run a command which handle tasks in
-+parallel. To to that, it has a loop that ends only after there are no
-+slots left. It then increments the number by one, in order to allow a
-+call equivalent to make -j$((claim+1)), e.g. having a parent make creating
-+$claim child to do the actual work.
-+
-+The end goal here is to keep the total number of build tasks under the
-+limit established by the initial make -j$n_proc call.
-+
-+See:
-+    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
-+"""
-+
-+import errno
+ # For "make pdfdocs", reports of build errors of translations.pdf started
+ # arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
+ # tumbleweed have started deploying variable-font [3] format of "Noto CJK"
+@@ -87,29 +89,77 @@
+ #     Denylisting should be less invasive, as it is effective only while
+ #     XeLaTeX runs in "make pdfdocs".
+ 
+-# Default per-user fontconfig path (overridden by env variable)
+-: ${FONTS_CONF_DENY_VF:=$HOME/deny-vf}
+-
+-export XDG_CONFIG_HOME=${FONTS_CONF_DENY_VF}
+-
+-notocjkvffonts=`fc-list : file family variable | \
+-		grep 'variable=True' | \
+-		grep -E -e 'Noto (Sans|Sans Mono|Serif) CJK' | \
+-		sed -e 's/^/    /' -e 's/: Noto S.*$//' | sort | uniq`
+-
+-if [ "x$notocjkvffonts" != "x" ] ; then
+-	echo '============================================================================='
+-	echo 'XeTeX is confused by "variable font" files listed below:'
+-	echo "$notocjkvffonts"
+-	echo
+-	echo 'For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.'
+-	echo 'Or, CJK pages can be skipped by uninstalling texlive-xecjk.'
+-	echo
+-	echo 'For more info on denylisting, other options, and variable font, see header'
+-	echo 'comments of scripts/check-variable-fonts.sh.'
+-	echo '============================================================================='
+-fi
+-
+-# As this script is invoked from Makefile's error path, always error exit
+-# regardless of whether any variable font is discovered or not.
+-exit 1
 +import os
++import re
 +import subprocess
 +import sys
++import textwrap
 +
-+class JobserverExec:
++class LatexFontChecker:
 +    """
-+    Claim all slots from make using POSIX Jobserver.
-+
-+    The main methods here are:
-+    - open(): reserves all slots;
-+    - close(): method returns all used slots back to make;
-+    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
++    Detect problems with CJK variable fonts that affect PDF builds for
++    translations.
 +    """
 +
 +    def __init__(self):
-+        """Initialize internal vars"""
-+        self.claim = 0
-+        self.jobs = b""
-+        self.reader = None
-+        self.writer = None
-+        self.is_open = False
++        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
 +
-+    def open(self):
-+        """Reserve all available slots to be claimed later on"""
++        self.environ = os.environ.copy()
++        self.environ['XDG_CONFIG_HOMEF'] = os.path.expanduser(deny_vf)
 +
-+        if self.is_open:
-+            return
++        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
 +
++    def get_noto_cjk_vf_fonts(self):
++        """Get Noto CJK fonts"""
++
++        cjk_fonts = set()
++        cmd = ["fc-list", ":", "file", "family", "variable"]
 +        try:
-+            # Fetch the make environment options.
-+            flags = os.environ["MAKEFLAGS"]
-+            # Look for "--jobserver=R,W"
-+            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-+            # so this handles all of them.
-+            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
++            result = subprocess.run(cmd,stdout=subprocess.PIPE,
++                                    stderr=subprocess.PIPE,
++                                    universal_newlines=True,
++                                    env=self.environ,
++                                    check=True)
 +
-+            # Parse out R,W file descriptor numbers and set them nonblocking.
-+            # If the MAKEFLAGS variable contains multiple instances of the
-+            # --jobserver-auth= option, the last one is relevant.
-+            fds = opts[-1].split("=", 1)[1]
++        except subprocess.CalledProcessError as exc:
++            sys.exit(f"Error running fc-list: {repr(exc)}")
 +
-+            # Starting with GNU Make 4.4, named pipes are used for reader
-+            # and writer.
-+            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
-+            _, _, path = fds.partition("fifo:")
++        for line in result.stdout.splitlines():
++            if 'variable=True' not in line:
++                continue
 +
-+            if path:
-+                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-+                self.writer = os.open(path, os.O_WRONLY)
-+            else:
-+                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-+                # Open a private copy of reader to avoid setting nonblocking
-+                # on an unexpecting process with the same reader fd.
-+                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-+                                      os.O_RDONLY | os.O_NONBLOCK)
++            match = self.re_cjk.search(line)
++            if match:
++                cjk_fonts.add(match.group(1))
 +
-+            # Read out as many jobserver slots as possible
-+            while True:
-+                try:
-+                    slot = os.read(self.reader, 8)
-+                    self.jobs += slot
-+                except (OSError, IOError) as e:
-+                    if e.errno == errno.EWOULDBLOCK:
-+                        # Stop at the end of the jobserver queue.
-+                        break
-+                    # If something went wrong, give back the jobs.
-+                    if self.jobs:
-+                        os.write(self.writer, self.jobs)
-+                    raise e
++        return sorted(cjk_fonts)
 +
-+            # Add a bump for our caller's reserveration, since we're just going
-+            # to sit here blocked on our child.
-+            self.claim = len(self.jobs) + 1
++    def check(self):
++        """Check for problems with CJK fonts"""
 +
-+        except (KeyError, IndexError, ValueError, OSError, IOError):
-+            # Any missing environment strings or bad fds should result in just
-+            # not being parallel.
-+            self.claim = None
++        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
++        if not fonts:
++            return None
 +
-+        self.is_open = True
++        rel_file = os.path.relpath(__file__, os.getcwd())
 +
-+    def close(self):
-+        """Return all reserved slots to Jobserver"""
++        msg = "=" * 77 + "\n"
++        msg += 'XeTeX is confused by "variable font" files listed below:\n'
++        msg += fonts + "\n"
++        msg += textwrap.dedent(f"""
++                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
++                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
 +
-+        if not self.is_open:
-+            return
++                For more info on denylisting, other options, and variable font, see header
++                comments of {rel_file}.
++            """)
++        msg += "=" * 77
 +
-+        # Return all the reserved slots.
-+        if len(self.jobs):
-+            os.write(self.writer, self.jobs)
++        return msg
 +
-+        self.is_open = False
++if __name__ == "__main__":
++    msg = LatexFontChecker().check()
++    if msg:
++        print(msg)
 +
-+    def __enter__(self):
-+        self.open()
-+        return self
-+
-+    def __exit__(self, exc_type, exc_value, exc_traceback):
-+        self.close()
-+
-+    def run(self, cmd, *args, **pwargs):
-+        """
-+        Run a command setting PARALLELISM env variable to the number of
-+        available job slots (claim) + 1, e.g. it will reserve claim slots
-+        to do the actual build work, plus one to monitor its childs.
-+        """
-+        self.open()             # Ensure that self.claim is set
-+
-+        # We can only claim parallelism if there was a jobserver (i.e. a
-+        # top-level "-jN" argument) and there were no other failures. Otherwise
-+        # leave out the environment variable and let the child figure out what
-+        # is best.
-+        if self.claim:
-+            os.environ["PARALLELISM"] = str(self.claim)
-+
-+        return subprocess.call(cmd, *args, **pwargs)
++    sys.exit(1)
 -- 
 2.51.0
 
