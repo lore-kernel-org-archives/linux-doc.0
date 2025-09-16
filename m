@@ -1,116 +1,154 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B514B2DE70B
-	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 05:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBD32C15BC
+	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 05:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758001350; cv=none; b=LAd50BVDzRb4GmFQfaV4Rwg4TQsGYPP0tc1qWceF4p6ALGLzMeQMMEcatbN2A1W++TIqqkDo8VWNNJPlotbrS+W6mMl7/H2nqpd0/jiMFIUZkkgaLUw9YbPWMCsIzfG0cVaUNa4P5x20+irQQkMi9WXHfeGxs5rb5c1OEioDjSY=
+	t=1758001743; cv=none; b=laytawyZv+uCiH9w2YDare0WK458ormKerJzq/vZvSBKSmBbbjhoUY1S3tEFUY/XR4OZuYDWykttowF0WN7PRtKAXsiJCL5OIDcqX7eVytjkOdokWCyIAA05hVf7jDl2QqBSPAu31hT6nkA1eeoKxhwHzRJgtr+17/kqgypjUws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758001350; c=relaxed/simple;
-	bh=GCQf+fSlRoXWlrGzxejOS59aSKVCoeuvh+mZuQCTo+Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RaGi4foO53RoMa1RX5AyAT2iO48dxq0EBvCUCHcTEI/IhmwzwzTJxpcKbZjCM15nqF+MKwgBJnh/fod6ir6Naopf3CFzm/WsrkpkksSW5HoySUd9GFkq5HCCAOeGT8R0ah77Lw7jusBFl3TMmtCP1wFurHEEMNPisVoZLBhRO1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SM/fyGzH; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758001743; c=relaxed/simple;
+	bh=aablpwZgkDY2HF/H36K+OQMk4Kq3szZsC1rhL0md7XU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=KZALKVN004MFnqwhZsHkP2qM7y6lsfO6ddd5r1GPedJ4GIC+bRx+wlrnp2XHyw3UlorKRa842yjCQO/I4cQNhiKddtnIpCz5L1vBQQolH1CeRcEcRYqMnhz2ZPquvFfTzMsBRwnWQez4UHEEQS2JeyK9WkmF0Ki9AxD2sWR3jYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vyE6eyT0; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SM/fyGzH"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b54a74f9150so3369449a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 22:42:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vyE6eyT0"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45e03730f83so22756535e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Sep 2025 22:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758001348; x=1758606148; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1758001740; x=1758606540; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5JEHaZ9jq/KrcjOhCPcE4D4fEK4s5Ukw4ZA9TW8oNXo=;
-        b=SM/fyGzHXgmiYo8u4kQIBGF1zOunDjnHlB0OV1kto4pyb22PEh3TdeSjIBESE6lGGu
-         KmtDez5WmcpwM6PL44HzTq7GcvBZNShAxgKpT+/siSPbxmH+AmF+mX9B9hoeKmHL9kKQ
-         rjCEn6OSXkvHWCZoqnq/U8gCy3inXT8GkRB02vrMPMIYnwnYpvpuhICILA66JAmjiDxV
-         AS8nwuAIEeKnHJBJh14O4J2dusk/UJ9Osy1lf/UlQWz+ohe/xw58zdrEP4m3mvwjaiF1
-         O6fNHfNGGY1jLuJBGzMLAN/p7qKvLphEaSlnWYaHKzv6mzPe18QLm6/W+7w/ggC+Hy7c
-         Vd8Q==
+        bh=2+Ij4gEe2LcS6vPzM/CR57NuWgzn7Jx8huZwedt8Tqc=;
+        b=vyE6eyT0MwN2srMR7la91gruLAHsfDKkC/uqT2y7dnzmpxT4aBrJvFBUXFuRjrlkhg
+         BJMlS1SEf/CJiuAYvoagzi0bw1l+08ehlBDgdoabYAvuN1iRY2J89XjLcEsNGDN9k0ac
+         aOjZLNk1nYz+PjPOearTnT8jGsO9sWDnccM5RosHcGGE4ns9SCCi+jtQ9uqyS6IjwXRQ
+         kXgTpCZ7C8UbjDFqTDMIU4WYwJNH2K4wzKvVh/FMpDu56Bloqs0h6jObhVfoUPcDQBJ0
+         KI8LDEN3FYm5wE6p822OY7ocAFzSOHDGxrmu7nsNAA2pA6lnpeVond2gJ0vTGVm/MMaI
+         ak/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758001348; x=1758606148;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5JEHaZ9jq/KrcjOhCPcE4D4fEK4s5Ukw4ZA9TW8oNXo=;
-        b=JOQw3vRw5mK0f5MmG9QAztNh6ru95QNBUG9tTcCIk3iPNjt0ZI4jdEwpFZpSSxjw5m
-         uwUAkh4dWjjz9Avhdw2+/3Fx1g96hx4oPN3BdtRYSmXTFAsTXfcSwXDkDNpdhg4GkkXK
-         DhIVaRhX7meUmGZtEVjj14LC+ZIgPisz1To64oOXUuzJiuNiTuaxjkEC8OvQqeH/eGrC
-         4wmqFeIg/QvoCKYaegEzl6fstHYUkrB+lru7k5kmohMEjyY5qt1sFCQRcsFNaH1bKS+z
-         Tlb+t31Nb3/FFs139klawSnKldJ/ibKrm2XIq3CwcBNM3CIlbEwMvTXCQUXYqXG9BBM2
-         8gMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdmdcSNxVs6+dJ+xuHO5gcD/nncISwF/RHCnP3dFFgMUmHm5Y5fUvxVsqVFL4U+izX7s2x/wyKKXI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjHpa0rDc5rftH2A0cfpJM4Sv0FWhQLbuf8vArySx+h4C72iWP
-	kdgpk6fkUIdNyuq2hwoWMKmWmK5N8DfHtKgOVh/naxYXy9+xH4spt7UW
-X-Gm-Gg: ASbGncuMUKhJQijtdck7dT4tDcVVvaPvuWfT7aGUfPM8/JWVDAjsegLjWYgj8vEE2wH
-	e5hAkjRdnaSKMyp3tf7b888vfN5k5HA8diwfDqWr7zV4hBt4unUNTMxIg8OeeuUgYN8oGfrWot1
-	gXgfmwxsr3p6d3aBr/hlAU6D0AgyN7Bw1bVRS8QQbzXiJaFKC0QJiS7yvr9bamVBNzjrdfy7zUF
-	pYN88YJtNZMHNCeylOzl0zdmok0nmRJB5oaMe1uWiUCP15H8Xvxmj3ZywA8WEyRUacdT1khfb90
-	u8GVIfj8OxGHd5N1hSfLknqOx6GYM0RKvRLAOgSWEY+75s7n5ArNFg1sYhtJSX51nl2VztxuWsF
-	F+uJmjCizJYbv4RAjvh3l75gKCw==
-X-Google-Smtp-Source: AGHT+IH2awkKQxguyzU/uwVtBqGOg3ZGaTcFUil9iVYCCLUicJLX7MvepKfcuJU+DXVC/gjlgfE9Zg==
-X-Received: by 2002:a05:6a20:14a4:b0:262:1611:6528 with SMTP id adf61e73a8af0-2621611681cmr9714164637.29.1758001347998;
-        Mon, 15 Sep 2025 22:42:27 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32df315f9dfsm11822877a91.21.2025.09.15.22.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 22:42:26 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 97AF54227237; Tue, 16 Sep 2025 12:42:19 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Tracing <linux-trace-kernel@vger.kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tom Zanussi <zanussi@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2 5/5] Documentation: trace: histogram: Convert ftrace docs cross-reference
-Date: Tue, 16 Sep 2025 12:42:03 +0700
-Message-ID: <20250916054202.582074-7-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250916054202.582074-2-bagasdotme@gmail.com>
-References: <20250916054202.582074-2-bagasdotme@gmail.com>
+        d=1e100.net; s=20230601; t=1758001740; x=1758606540;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2+Ij4gEe2LcS6vPzM/CR57NuWgzn7Jx8huZwedt8Tqc=;
+        b=o48AtyoDUGo9I9PikSWgCeIrbI69xBHT8YgkPScfVXFzgVtF3l8ibR0R3GjDrSC0aX
+         9Fz3P4eCLzLSw8aBE68KirEFDA+Cb7JQhh6p+uPVpnfywEYpVPtp4RN5m3k5282yIyNu
+         /FgAynQNyQdbUzbCj3VGLCqXRcIUjcaQoZXOJc8W8KBT00L+GRhMaIQesQRwtcPfsRjw
+         zMgX3mX+cBH+M9DKzqozEu9wfZnPPbREv9UvNtfX4Kg1YRH+0cZTqZxNJiVpv6dFrE+D
+         Rzx5UNvukb218WN4acaF/HnqfHFAG7llDLldW7ccYMZW/cxU979KufW1lNyogp/P5z9J
+         C3Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCUlz+NdURfVgtCn16zqSIDITiabT1FQgdUnCTc0970PKP4G3zMgx1MXqU4Ok3nL6rRx0XrjzRVdrjQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywk+25l+pejDjDq7v0mOoPyL8DMn1k1I5ABvTncjhstDKuEF1WX
+	Ei5fWSMo56mhrGxii6rvwrDMgHl7u0OmDmglRKG8OjPh55vmIekQUs7bv/fkMl7Gjxw=
+X-Gm-Gg: ASbGncsLe9W6G+uR4RIrTT8iTUUlBT0/cjb4y5DMC261S8vYKjjRQasKa61/yQWeyq/
+	+5eFdUWIS//FLFY/g/+1iRB9qomU2/rXM5XKJmxuGe5B2rRyA83DZPCu5AlAgYGwMvpaBbaTstX
+	ik8cVbZKBFhnJmNmwMKiiMXOCWN9DvZbA1kyE0UedEyl83nuGoXRmFU8TUropMGiF3KQSXTbAD7
+	L2jVPYbEArs+TXDmuM2hvZeImUxH2RRCx1D2e8tIV9a7q97LhJqykzgKRqIoF9dDw9xoN11CDkn
+	ba+06+0dvolm6YfY96gnEKZoehwpl1YQAApZIfp3I5DrCICQek7HAkCPG+iUCAJyDivU1QYer6c
+	lDZjcocgImVOP7bNZEYRx92h0ImmSirrEy90zwuwEwKR+2SOIMZKOG7ZqFKww2UjLIzZK
+X-Google-Smtp-Source: AGHT+IF7x+pGpXf85Vy38ChqF7Pkim2OKEyjFcqs8YYGtgVmrGA1ZIZ90uccF0N4NZf54XR53W2Dfw==
+X-Received: by 2002:a05:6000:3113:b0:3e2:ac0:8c55 with SMTP id ffacd0b85a97d-3e765a3e423mr13059397f8f.55.1758001740531;
+        Mon, 15 Sep 2025 22:49:00 -0700 (PDT)
+Received: from localhost (054722ac.skybroadband.com. [5.71.34.172])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e760786ceasm20896593f8f.16.2025.09.15.22.48.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Sep 2025 22:48:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1144; i=bagasdotme@gmail.com; h=from:subject; bh=GCQf+fSlRoXWlrGzxejOS59aSKVCoeuvh+mZuQCTo+Y=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBknfpizHYkUTnk/IZ7D/nWJo3ycU5jjTR1Oo+W3/Tp9z j8UXlTUUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIsYMDI8rDyau8S8y1QvPens nXDVtwE2C3yYpl3XeLa3RdbnqPM1hv8FL6a/O23a1cgSsatpmhBnYYbvEf1Eb7f1mX+0951auIQ dAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 16 Sep 2025 06:48:59 +0100
+Message-Id: <DCTZLTRX455M.95MSJULLX6VC@linaro.org>
+Cc: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <tglx@linutronix.de>, <andersson@kernel.org>,
+ <pmladek@suse.com>, <rdunlap@infradead.org>, <corbet@lwn.net>,
+ <david@redhat.com>, <mhocko@suse.com>, <tudor.ambarus@linaro.org>,
+ <mukesh.ojha@oss.qualcomm.com>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-hardening@vger.kernel.org>, <jonechou@google.com>,
+ <rostedt@goodmis.org>, <linux-doc@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [RFC][PATCH v3 15/16] kmemdump: Add Kinfo backend driver
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Eugen Hristev" <eugen.hristev@linaro.org>
+X-Mailer: aerc 0.20.0
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-16-eugen.hristev@linaro.org>
+In-Reply-To: <20250912150855.2901211-16-eugen.hristev@linaro.org>
 
-In brief "Extended error information" section, details on error
-condition is referred to ftrace docs, which is written in :file:
-directive instead of a proper cross-reference. Convert it.
+On Fri Sep 12, 2025 at 4:08 PM BST, Eugen Hristev wrote:
 
-Reviewed-by: Tom Zanussi <zanussi@kernel.org>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/trace/histogram.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[..]
 
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index d158dadaa42447..340bcb5099e7a4 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -209,8 +209,8 @@ Documentation written by Tom Zanussi
- 
-   For some error conditions encountered when invoking a hist trigger
-   command, extended error information is available via the
--  tracing/error_log file.  See Error Conditions in
--  :file:`Documentation/trace/ftrace.rst` for details.
-+  tracing/error_log file.  See "Error conditions" section in
-+  Documentation/trace/ftrace.rst for details.
- 
- 2.3. 'hist' trigger examples
- ----------------------------
--- 
-An old man doll... just what I always wanted! - Clara
+> --- /dev/null
+> +++ b/mm/kmemdump/kinfo.c
+> @@ -0,0 +1,293 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *
+> + * Copyright 2002 Rusty Russell <rusty@rustcorp.com.au> IBM Corporation
+> + * Copyright 2021 Google LLC
+> + * Copyright 2025 Linaro Ltd. Eugen Hristev <eugen.hristev@linaro.org>
+> + */
+> +#include <linux/platform_device.h>
+> +#include <linux/kallsyms.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/kmemdump.h>
+> +#include <linux/module.h>
+> +#include <linux/utsname.h>
 
+Could you please check if the headers are sorted here
+and in all other patches in this series?
+
+Also module.h is duplicated.
+
+[..]
+
+> +static int build_info_set(const char *str, const struct kernel_param *kp=
+)
+> +{
+> +	struct kernel_all_info *all_info =3D kinfo->all_info_addr;
+
+here ^^
+
+> +	size_t build_info_size;
+> +
+> +	if (kinfo->all_info_addr =3D=3D 0 || kinfo->all_info_size =3D=3D 0)
+> +		return -ENAVAIL;
+> +
+> +	all_info =3D (struct kernel_all_info *)kinfo->all_info_addr;
+
+Maybe assignment of all_info on declaration in the beginning of this functi=
+on
+is not needed then?
+
+> +	build_info_size =3D sizeof(all_info->info.build_info);
+> +
+> +	memcpy(&all_info->info.build_info, str, min(build_info_size - 1,
+> +						    strlen(str)));
+> +	update_kernel_all_info(all_info);
+> +
+> +	if (strlen(str) > build_info_size) {
+> +		pr_warn("%s: Build info buffer (len: %zd) can't hold entire string '%s=
+'\n",
+> +			__func__, build_info_size, str);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	return 0;
+> +}
+
+[...]
+
+Best regards,
+Alexey
