@@ -1,127 +1,170 @@
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D481F4701;
-	Tue, 16 Sep 2025 23:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758065986; cv=pass; b=tE/7gNqdDxwSz0ZOYnY9zj6d5foFgDgviBBSKaF2nixnHqj4O+Eell3pZ42TOUmClYSuAI/sR1nrumqG/dwSmvvjTAQ98shwulJKfvS020WXEn8G4AP8lroIxTFQNLHsJc3ba/VUk116nzS6UMfmvAceKstkBsuaxmNLRkkNKgs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758065986; c=relaxed/simple;
-	bh=PFsoJQKsPOMTHBjFZPpV9hcgwDa9sL0vhxEZilWRMgo=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=YOa7hlvMrijBaT1bJ4XUEufJx21/cxEBVpZN7+8tkVC4HhNF+1XXRTYT4xWcA0pWETWqwKOwPrWYoD7kvPS/pC8XSr2MMSF5aJUiLThv5MPEztEQHaW7nEdDeL5TUsW77t9cw8OXskt+nCAIyi10+NyVOQ02ZQXE7KMG76GZk30=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=oz5GUvGS; arc=pass smtp.client-ip=157.107.129.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD6829B775
+	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 23:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758066629; cv=none; b=CNJAiIfgNnxSpcP/usnqPQqqm4SKaChpC81Wqi4rk/qWZ4efJWMh+m+HfH/iTRZAA4OhsOM9TTEHcvFTQELFVjJ9M89BylMJmSWnjMlSOPUWRxWisAMP40dvAGZowIUr+FpGXJ37jyKnAiHa+JHA1juSRtlC73n5nVe82+MOlH0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758066629; c=relaxed/simple;
+	bh=CQ5wphbbGZcfCMXuoQRLWmySU/l3Bjz51Ra1IpJNCvY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tNllXFmczdq4oivH3tjh+RsMgpyYkPRiYk0zOA3D+KgyQd0gabjqqqnJRNXNV+yop3qjtHfcBktqxYWoa8RXg9gxY5nKcyMVhlPQCB9cRoDkMmDBRgGkxHr0YLXUzGcAunj0MWqzlc/grBqKSKnWwMSE1N7dKVgH2MAxcR1JtDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CGxiiRXh; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="oz5GUvGS"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 92B6E10A40A15;
-	Wed, 17 Sep 2025 08:39:34 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id X-ez8NUZDHzX; Wed, 17 Sep 2025 08:39:30 +0900 (JST)
-Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: weibu@redadmin.org)
-	by www.redadmin.org (Postfix) with ESMTPSA id 05504109D55C5;
-	Wed, 17 Sep 2025 08:39:30 +0900 (JST)
-DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 05504109D55C5
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758065970;
-	cv=none; b=bjCczSjfmxObxUTNgqjEpei+4R0BahKXFWqYiHqPxtg3P09QX/Dhcu+4vKFUle226yrGfD0UBJlLanxyqroq+L7UkaZtRoXUmjzEk3zFyA3ub5Us7tD8eC8wjMkusBxin5KkXNbWLYrKEaw4vA1rglDmnFZOzGOSXW1CoEbdHJk=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758065970; c=relaxed/relaxed;
-	bh=3rQK+DBBPyMcARL0z/kIhvopLlplPjKFYeDcfVSaDYQ=;
-	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding; b=TuddA/DzD2XRk7S/9SVAFkU72zvEdct+WWLb0lmzbRpO0FgPFcFfue2pPrtOwmsCdC/SDDeNlRsEkD4XvkdpwMSVAycT7SWbcR4NY1zziAPRfc7sMwqW2sSwsxouxfMF9qjV1/agxCzjEVjp9BJVydI54LEVu/G5az0RG9F2BaY=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 05504109D55C5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758065970;
-	bh=3rQK+DBBPyMcARL0z/kIhvopLlplPjKFYeDcfVSaDYQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oz5GUvGSH/48oSZeUxsnrbB8+YuPEXKeqxhuRJLfbh821RcFQesENUjaJBThqmtAs
-	 NvRDuX46a5Tlraa3jCPWB6ahyiOJLNxtrB+gRb0wxarker8pDdMW/AprzkdFtVAAr2
-	 5YXf9pIv3XwW3l0YeuM7fpT3XWmnhqzls4g3jVR4=
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CGxiiRXh"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7724df82cabso6307205b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 16:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758066627; x=1758671427; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G2XC7y/IzrA5p9pqqTQ6NCyVnT17Dbt6lJEyhnZFvco=;
+        b=CGxiiRXhhQbLN1TWA3EJCOITo0mLPi7KyyoukjYixoCVscn4rw6u+6d62nOr+zw9kF
+         sVJkxdKjYezSY/N9JgBjRruA/V0tMAY0Ini131+NP88i2nEZWJvROivYnN3e7W1tAv5H
+         /w/fAcahuFlmCL8aAtwspi78EAopIRSltfE7jQ1aJZxOOflXZyvT5cB66VyOOtUO5WgQ
+         J5BU/jmAEjTixDWw98ymvjXov/23LPyGJbNi/F/cubhL0vyL9ZTOMnk42U5BdmQ/4YXP
+         dSdq4SobNzqSHk2uGYzFU6aVmRDJfClToLPQkg9jRvfY9M3toPo0w21WpRH6NQ8xJpuG
+         VoOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758066627; x=1758671427;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G2XC7y/IzrA5p9pqqTQ6NCyVnT17Dbt6lJEyhnZFvco=;
+        b=a87hlQDkTQ2nYG68RxYo0wOHl9scIFmFOt/xHsjCxzxUhg657u+nQUPyLMfoy6UeDf
+         zr7qzmlF4I6LGTEifa31Wj444G+ibZqBKLMOBzSkSyiOiyaUat88ydqGkAzdc185eMo0
+         RlMVkTbCUPBatx7XrIvEImrO+5dH1i8+ohUTzIHa8v97ltRq0F0by2ijoMyfspSaIFL3
+         cAo2KnL8I8znb+1vTMizKmHPui1lKDcEhN9GxjjWZoAqyzRGOed05eggG2vJG4fyQLQv
+         oXjA6VoKkavYl2g5/MYVy/RZe8qLI8BPa20QfNhFi0oyNTTf4ITO7ZjWviK6s0JsQKkT
+         Of2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWH6+szUM4Q0SrRquh/3bnOjca/MY54dvendjg2DosJtFLru54KOk6k5Xonm0M/MnUrjkwUAG1j3AA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4njKQHmXpnRa+W27FUFHsGRVRPJTyOF9GwcSfudKkW+M+s+Nl
+	FugKzAqSJN3vSSZzsv8aemzPHDRorjTNJ4uok6mXhz/ttKhUvxGlrL/BPfBBYg==
+X-Gm-Gg: ASbGncvTtEmMnl6J8sfTCXkeBmX2TSyb4wZts4hUCa78DQYWH1mgDzhw2oXYpb90tLa
+	E4Bwfm3xaQc4a8WI0z0PS07PLTBjAFcxbWvQnJN1j3d4/n2Amj016BA6LAgMAPnML+AsexQioJl
+	lDS27kBXvaacf0SVhNLSMu2n5IkcVmYD+W/hneYI5t+tNAeoudBDD3KV7VTKbkx5SFIZiTrwCk+
+	s9JFKcZTCqIMTigxkU5LGJ2wbev5XeF/FaYVF4JLFqc/lAiwWIg3rWZ5YGHugh67OHjkrDT5dKh
+	lFK0/hWiEnwDhyUj9LkxcfpxXiGt001rwBgZZElCl6MPUJOACy8fZn++bG8ST5E97Ku53hAwVfl
+	BEZtxdca9LjRQm3OWAd8fuGijbn1vr0moGRVqd4NkyupGGcHUfA==
+X-Google-Smtp-Source: AGHT+IHSPtu69tEnk4g5Qtsth9ma9q3bZ2PkuxzPvt3qU0RNuqbxMRBJv8Z6Mkpxy+Me1JPZLjg6EA==
+X-Received: by 2002:a05:6a20:158a:b0:262:af30:e5c with SMTP id adf61e73a8af0-27aa3088778mr66517637.26.1758066626695;
+        Tue, 16 Sep 2025 16:50:26 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:5c::])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a399081dsm15358684a12.43.2025.09.16.16.50.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 16:50:26 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: brauner@kernel.org,
+	miklos@szeredi.hu
+Cc: hch@infradead.org,
+	djwong@kernel.org,
+	hsiangkao@linux.alibaba.com,
+	linux-block@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	kernel-team@meta.com,
+	linux-xfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 00/15] fuse: use iomap for buffered reads + readahead
+Date: Tue, 16 Sep 2025 16:44:10 -0700
+Message-ID: <20250916234425.1274735-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 17 Sep 2025 08:39:29 +0900
-From: weibu@redadmin.org
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: wmi: lenovo-wmi-gamezone: fix typo in frequency
-In-Reply-To: <877bxyfkw7.fsf@trenco.lwn.net>
-References: <20250913173845.951982-1-weibu@redadmin.org>
- <877bxyfkw7.fsf@trenco.lwn.net>
-Message-ID: <a88c47e98139a6264670879407fb09a3@redadmin.org>
-X-Sender: weibu@redadmin.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Jon,
+This series adds fuse iomap support for buffered reads and readahead.
+This is needed so that granular uptodate tracking can be used in fuse when
+large folios are enabled so that only the non-uptodate portions of the folio
+need to be read in instead of having to read in the entire folio. It also is
+needed in order to turn on large folios for servers that use the writeback
+cache since otherwise there is a race condition that may lead to data
+corruption if there is a partial write, then a read and the read happens
+before the write has undergone writeback, since otherwise the folio will not
+be marked uptodate from the partial write so the read will read in the entire
+folio from disk, which will overwrite the partial write.
 
-You’re right — that block is a verbatim MOF listing decoded by bmfdec, 
-and the misspelling comes from the vendor-provided Description string. 
-So this isn’t an editing error in the docs.
+This is on top of commit 1228c548bb98 ("Merge branch 'vfs-6.18.writeback' into
+vfs.all") in Christian's vfs.all tree.
 
-I’ll drop this patch. If it helps future readers, I can send a follow-up 
-that adds a short note saying the MOF listing is verbatim and typos are 
-preserved.
+This series was run through fstests on fuse passthrough_hp with an
+out-of kernel patch enabling fuse large folios.
 
-Thanks for the careful review!
+This patchset does not enable large folios on fuse yet. That will be part
+of a different patchset.
 
-Akiyoshi
+Thanks,
+Joanne
 
-2025-09-17 00:59 に Jonathan Corbet さんは書きました:
-> Akiyoshi Kurita <weibu@redadmin.org> writes:
-> 
->> Fix a spelling mistake in lenovo-wmi-gamezone.rst
->> ("freqency" -> "frequency").
->> 
->> No functional change.
->> 
->> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
->> ---
->>  Documentation/wmi/devices/lenovo-wmi-gamezone.rst | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst 
->> b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> index 997263e51a7d..167548929ac2 100644
->> --- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->> @@ -153,7 +153,7 @@ data using the `bmfdec 
->> <https://github.com/pali/bmfdec>`_ utility:
->>      [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateID;
->>      [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
->>      [WmiDataId(3), read, Description("Default value.")] uint32 
->> defaultvalue;
->> -    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32 
->> OCOffsetFreq;
->> +    [WmiDataId(4), read, Description("OC Offset frequency")] uint32 
->> OCOffsetFreq;
->>      [WmiDataId(5), read, Description("OC Min offset value.")] uint32 
->> OCMinOffset;
-> 
-> I don't have the device in question and can't test this ... but the 
-> text
-> in question has the appearance of being literal output from the bmfdec
-> utility.  Do we know that this is some sort of editing error rather 
-> than
-> an accurate reflection of what the tool prints?
-> 
-> Thanks,
-> 
-> jon
+Changelog
+---------
+v2:
+https://lore.kernel.org/linux-fsdevel/20250908185122.3199171-1-joannelkoong@gmail.com/
+v2 -> v3:
+* Incorporate Christoph's feedback
+- Change naming to iomap_bio_* instead of iomap_xxx_bio
+- Take his patch for moving bio logic into its own file (patch 11)
+- Make ->read_folio_range interface not need pos arg (patch 9)
+- Make ->submit_read return void (patch 9)
+- Merge cur_folio_in_bio rename w/ tracking folio_owned internally (patch 7)
+- Drop patch propagating error and replace with void return (patch 12)
+- Make bias code better to read (patch 10)
+* Add WARN_ON_ONCE check in iteration refactoring (patch 4)
+* Rename ->read_submit to ->submit_read (patch 9)
+
+v1:
+https://lore.kernel.org/linux-fsdevel/20250829235627.4053234-1-joannelkoong@gmail.com/
+v1 -> v2:
+* Don't pass in caller-provided arg through iter->private, pass it through
+  ctx->private instead (Darrick & Christoph)
+* Separate 'bias' for ifs->read_bytes_pending into separate patch (Christoph)
+* Rework read/readahead interface to take in struct iomap_read_folio_ctx
+  (Christoph)
+* Add patch for removing fuse fc->blkbits workaround, now that Miklos's tree
+  has been merged into Christian's
+
+Joanne Koong (15):
+  iomap: move bio read logic into helper function
+  iomap: move read/readahead bio submission logic into helper function
+  iomap: store read/readahead bio generically
+  iomap: iterate over entire folio in iomap_readpage_iter()
+  iomap: rename iomap_readpage_iter() to iomap_read_folio_iter()
+  iomap: rename iomap_readpage_ctx struct to iomap_read_folio_ctx
+  iomap: track read/readahead folio ownership internally
+  iomap: add public start/finish folio read helpers
+  iomap: add caller-provided callbacks for read and readahead
+  iomap: add bias for async read requests
+  iomap: move buffered io bio logic into new file
+  iomap: make iomap_read_folio() a void return
+  fuse: use iomap for read_folio
+  fuse: use iomap for readahead
+  fuse: remove fc->blkbits workaround for partial writes
+
+ .../filesystems/iomap/operations.rst          |  45 +++
+ block/fops.c                                  |   5 +-
+ fs/erofs/data.c                               |   5 +-
+ fs/fuse/dir.c                                 |   2 +-
+ fs/fuse/file.c                                | 289 +++++++++++-------
+ fs/fuse/fuse_i.h                              |   8 -
+ fs/fuse/inode.c                               |  13 +-
+ fs/gfs2/aops.c                                |   6 +-
+ fs/iomap/Makefile                             |   3 +-
+ fs/iomap/bio.c                                |  90 ++++++
+ fs/iomap/buffered-io.c                        | 273 ++++++++---------
+ fs/iomap/internal.h                           |  12 +
+ fs/xfs/xfs_aops.c                             |   5 +-
+ fs/zonefs/file.c                              |   5 +-
+ include/linux/iomap.h                         |  65 +++-
+ 15 files changed, 530 insertions(+), 296 deletions(-)
+ create mode 100644 fs/iomap/bio.c
+
+-- 
+2.47.3
+
