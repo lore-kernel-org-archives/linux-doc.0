@@ -1,91 +1,110 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3D2DC78E;
-	Tue, 16 Sep 2025 03:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027CD26A09B
+	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 04:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757993868; cv=none; b=ku3G4aFkvjDPtid6eZLE1KuwwaX5d49iFVaUypYaKb+bzfrLlgT5VthXpLCYwcbuz/j+j9EBWd+pdeuywW2+Dqj6qVIXzZSThFK+KwAQOOBop6l0eSa3u0SJpGHkR6oYYg23izb3wowWZ314a3N0TAeWQor85TYzI4B4y13PiR8=
+	t=1757998611; cv=none; b=nRb2Iq7+LkEW+4MdrrN0wBw+jN61B3SANznu/F359m6yjCr523GFDHKR8O+lj88FfWKlDbpthJmbZQVParrBGshD4Aie5P5U6yIxRUnR0BCDQuTDqSZHKwHwP/iBsudE7ML2HBWGwO6Xi/ARLLE7Ak+epTU8hes9pt+LVGjz1Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757993868; c=relaxed/simple;
-	bh=DnwM+DNIezG6uRTSjV7Xuwxap01opZOQvveqLeHwhSI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H1cpGHKoQ0gZWkkVWmh66FHDLcFDyGly6ni3KpsZHUaJ1LzNtCGwnNcEfeRgmo7XGpaXXcBU94T/v8trxbQznXgk1NQxdUIpUOmVeMi2kKpsEHzfC38g5Ko6kF/Iwvx9JtRDlvwftVReTNJZVvRmM/Xr8aqBWY8ms3ccRZjlVJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BHxiUCsG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BHxiUCsG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=SHXVcB+MgSUzgb/L1IQrcZLOr0QNwhlIqJqUrwYWeO4=; b=BHxiUCsGkhz9h2MCiKe/6rfi4f
-	9ocEA7IgI0qGOI7u5kbNalRUV4ikPE/99AD4hKAhlb5QLuANIxMulKo4J5u917QHU7s9mCYocHOpH
-	4LG5mCXMusxDSV/A6f6y+Sw3E5L6yVfO54TkYu64UTI7iUwpvfCZr8i5gz09StGOk4WggGvflHmvb
-	VSdksX9CVv0S3ExapoAEsognAW3OyrXRrcBRvz4w18xymYkT+dSezDpNdvRgEbqjUBroCPb3PkCwF
-	lA7ghjKyot10FNHgK+pWOrKnkwfLycZZ/l4gOblCUc4C9KlgDjZo0hpvts78+r2vHqYdtBJ+tuTnH
-	7kHBPNyA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyMVh-00000006bqf-2j4o;
-	Tue, 16 Sep 2025 03:37:41 +0000
-Message-ID: <6a2f324d-5be3-48d4-a787-2c3bc76a56ad@infradead.org>
-Date: Mon, 15 Sep 2025 20:37:40 -0700
+	s=arc-20240116; t=1757998611; c=relaxed/simple;
+	bh=cEellUF89w42MfPZvNg0Pwo5l35x4ka2ztq8ivbFbok=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jZ58Bce688QLaag7DSpHz8xvtd8VBJfm8l2RJJh2npyFoobKu9T66OEAJ1RXMsRTY86FUku4zqnKaqhSrw9lMH6BMst/AfGFD5Q/BHW8vUEyno5rFN11vtlT2XgMU85X98/7Z1aGuiU+oB85t8O48ann4+kY1NQRA23dyF9MepM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uyNju-00054e-FR; Tue, 16 Sep 2025 06:56:26 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uyNjr-001Wy3-0D;
+	Tue, 16 Sep 2025 06:56:23 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uyNjq-00BRnc-2p;
+	Tue, 16 Sep 2025 06:56:22 +0200
+Date: Tue, 16 Sep 2025 06:56:22 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nishanth Menon <nm@ti.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
+	Michal Kubecek <mkubecek@suse.cz>, Roan van Dijk <roan@protonic.nl>
+Subject: Re: [PATCH net-next v5 2/5] ethtool: netlink: add
+ ETHTOOL_MSG_MSE_GET and wire up PHY MSE access
+Message-ID: <aMjt9iVcNWYf0opD@pengutronix.de>
+References: <20250908124610.2937939-1-o.rempel@pengutronix.de>
+ <20250908124610.2937939-3-o.rempel@pengutronix.de>
+ <20250911193440.1db7c6b4@kernel.org>
+ <aMPw7kUddvGPJCzx@pengutronix.de>
+ <20250912170053.24348da3@kernel.org>
+ <aMfczCuRf0bm2GgQ@pengutronix.de>
+ <20250915080720.17646515@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: maintainer: Fix capitalization
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>
-References: <20250915192235.2414746-2-thorsten.blum@linux.dev>
- <c85881bd-a159-4bb3-9615-b87ce4ab0575@infradead.org>
- <E32E7460-02E4-4E85-8482-E91D3FD12253@linux.dev>
- <8a9b2f36-963a-4d10-9aa1-10f8dcb4bc31@infradead.org>
- <DBCAF005-F4C6-44D2-8DB3-71B002501770@linux.dev>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <DBCAF005-F4C6-44D2-8DB3-71B002501770@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250915080720.17646515@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-
-
-On 9/15/25 1:06 PM, Thorsten Blum wrote:
-> On 15. Sep 2025, at 21:43, Randy Dunlap wrote:
->> On 9/15/25 12:35 PM, Thorsten Blum wrote:
->>>
->>> On 15. Sep 2025, at 21:29, Randy Dunlap wrote:
->>>> On 9/15/25 12:22 PM, Thorsten Blum wrote:
->>>>> The sentence starts at the previous line: s/Indicate/indicate/
->>>>
->>>> Are you sure?
->>>> ISTM that the entire line is a "sub-heading".
->>
->> After I sent this I saw that I should have added that it's ambiguous
->> and needs some formatting help, so I'm not surprised to see this:
->>
->>> Hm maybe, but then the layout/rendering on the web is very confusing:
->>>
->>> https://docs.kernel.org/maintainer/maintainer-entry-profile.html#key-cycle-dates
+On Mon, Sep 15, 2025 at 08:07:20AM -0700, Jakub Kicinski wrote:
+> On Mon, 15 Sep 2025 11:30:52 +0200 Oleksij Rempel wrote:
+> > On Fri, Sep 12, 2025 at 05:00:53PM -0700, Jakub Kicinski wrote:
+> > > On Fri, 12 Sep 2025 12:07:42 +0200 Oleksij Rempel wrote:  
+> > > > I would prefer to keep u64 for refresh-rate-ps and num-symbols.
+> > > > 
+> > > > My reasoning comes from comparing the design decisions of today's industrial
+> > > > hardware to the projected needs of upcoming standards like 800 Gbit/s. This
+> > > > analysis shows that future PHYs will require values that exceed the limits of a
+> > > > u32.  
+> > > 
+> > > but u64 may or may not also have some alignment expectations, which uint
+> > > explicitly excludes  
+> > 
+> > just to confirm - if we declare an attribute as type: uint in the YAML
+> > spec, the kernel side can still use nla_put_u64() to send a 64-bit
+> > value, correct? My understanding is that uint is a flexible integer
+> > type, so userspace decoders will accept both 4-byte and 8-byte encodings
+> > transparently.
 > 
-> I think the entire line is meant to be a sub-heading. If it were a
-> single sentence, it should be either "Deadline ... indicates" or
-> "Deadlines ... indicate", but not "Deadline ... indicate".
-> 
-> Maybe the author of 4699c504e603 (cc Dan Williams) can confirm this?
+> Theoretically, and yes. But why would you use put_u64 and not
+> put_uint() ?
 
-I think all that is needed is a blank line after each of these sub-headings.
-That makes the html output readable and more understandable.
-Would you submit that patch, Thorsten?
+rater.. rater.. rater.. (sound of rusty gears slowly moving)
 
-thanks.
+Right, I was thinking of uint as u32. But in NLA, NLA_UINT is handled
+like NLA_U64, so the max is U64_MAX. That clears it up, thanks!
+
+Best Regards,
+Oleksij
 -- 
-~Randy
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
