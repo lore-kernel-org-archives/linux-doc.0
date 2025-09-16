@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FEDE571;
-	Tue, 16 Sep 2025 03:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1F6264F81;
+	Tue, 16 Sep 2025 03:23:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757993026; cv=none; b=XqQdN2ae70E4lHupCetLZ9oh0Fx0JmdWIBQoH53L01YB1rx5WFh2f5YAwIW/rGhbci59ZXy1LJB0i40ZBk6TsRtIL5fIBI+SKf7F8sOYdljuGtAfXgD/H1uYBpQgnRZBDbGd3HJjleOp3G2S19OJmw+h1AJHCxJBHIeFA0R1HPo=
+	t=1757993030; cv=none; b=b+zFFmjbrIQHS8un/EnTUxsaj643fK3KUOaYwTCKT78X6va9IPXb6GpCxGNlgqSCzuEu6kgNzBKBMz3uVe8UF/a2iY+J8gOItgB5FYNTG1qj9MQ2Sbxn/eeAdP6DD0E1xeEU9ByLdngkmaaQ6arnM8L+kQUQnfmGRr+hZofNUrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757993026; c=relaxed/simple;
-	bh=4jBYgC3B4Dhd303wNeVwtug9xXIozvpiLACdj/mfJYQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=n/Mbruted249aofeK7M1IyIjNTLxVovPJi/W6XrSOb/C8KmH6V0IfBJS2WTBx2r4nhQjMkIEDuka6Gkrsi7dHzbbVI46yTMBudGqwbl1oEICWOcXn7sdnzQEgOcQeh3Om99NwX+RJBklbb9yPZRK+npND3wVZdrjPGdUgKEGk+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULJFTSLE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757993030; c=relaxed/simple;
+	bh=fXqWEV0uteJHKreZswJU4z83HZDt1wWX0HDZmnnr9U4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iK36bKORD+kU52rY+zeNK1by3AK6sTPEUO358uDkn9wE5QVuffTKSKWqO3PEUkooHNthuMitckjeNRUJL2b5Bf2L04mja2JCS7N5lGcgVrr1PXo/E6aSG9Dc2BHZMLXiRQDwMcix7zp8k91SRDcpP5u4AynXsTK3RG9wbppkXeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSNOpY9E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULJFTSLE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03CAC4CEEB;
-	Tue, 16 Sep 2025 03:23:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSNOpY9E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23500C4CEEB;
+	Tue, 16 Sep 2025 03:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757993026;
-	bh=4jBYgC3B4Dhd303wNeVwtug9xXIozvpiLACdj/mfJYQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ULJFTSLEjhLTnYaJ8VomtdHFO0MK/5GOkZ22GgT+1bTFxtoBt8+GSa5nq8l+JSY1f
-	 2Y0nDf2wb4/7+ttj3lRbssKPjo1MyXHGF6inHxMejvMLrP3n68iBYHREs7X8G7V1lm
-	 giNsIqwwFwaan3hOhWzCB4mcR7KcQcrr1gbTrrXRImM3lBqj8zTPva1CSisUxEvZcs
-	 OuaEHZ0w6ex5GE50uPoNp7Jc4lHxS7dtNYdI+H14S62t31ACopua7aXA0HeOCFxyoM
-	 CjYlfVciNMpRRP7LEVbC461b4yb1YyeKbGHkZAUuKIB3+tkJglb3ilx64ZhE/QwyPp
-	 o8S6g+oqUbS6g==
+	s=k20201202; t=1757993030;
+	bh=fXqWEV0uteJHKreZswJU4z83HZDt1wWX0HDZmnnr9U4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SSNOpY9En5PPKq7BhuMKnwmUct9FEB3c3U9+vRojAfOn47R+RmnvF7BBhxGnHm3M6
+	 QttjWrxfpS97VzY3lvc2OXbS1yru2YRvRVW/vcsGwjJTJ5tAj+i82l0nixlApj76Lm
+	 YgVkkKG7+zqe5Px/8m13jmks+aXCx6B/uQK/w5hPpPyjfM1HpK23UymTXuzC8L/QPE
+	 2ok+KdSBaaFcFEmQc62CohdRT+hMjCpWw+zV9Rcvz4AlEE1CGm4kaoh/t2nDxEdMTx
+	 CvDBOpXCsMTib7J/LXO8r+LBE5kfHIg8eldRgn5mHxMwK4R+SJAWoXIhxqdNgnIezT
+	 5QQV3Vbfzr2Uw==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -40,11 +41,14 @@ Cc: SeongJae Park <sj@kernel.org>,
 	kernel-team@meta.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v2 0/5] mm/damon: misc fixups and improvements for 6.18
-Date: Mon, 15 Sep 2025 20:23:34 -0700
-Message-Id: <20250916032339.115817-1-sj@kernel.org>
+	linux-mm@kvack.org,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: [PATCH v2 3/5] Docs/mm/damon/maintainer-profile: update community meetup for reservation requirements
+Date: Mon, 15 Sep 2025 20:23:37 -0700
+Message-Id: <20250916032339.115817-4-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250916032339.115817-1-sj@kernel.org>
+References: <20250916032339.115817-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,53 +57,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Misc fixes and improvements for DAMON that are not critical and
-therefore aims to be merged into Linux 6.18-rc1.
+DAMON community meetup was having two different kinds of meetups:
+reservation required ones and unrequired ones.  Now the reservation
+unrequested one is gone, but the documentation on the maintainer-profile
+is not updated.  Update.
 
-The first patch improves DAMON's age counting for nr_accesses zero
-to/from non-zero changes.
-
-The second patch fixes an initial DAMOS apply interval delay issue that
-is not realistic but still could happen on an odd setup.
-
-The third and the fourth patches update DAMON community meetup
-description and DAMON user-space tool example command for DAMOS usage,
-respectively.
-
-Finally, the fifth patch updates MAINTAINERS section name for DAMON to
-just DAMON.
-
-Changes from v1
-(https://lore.kernel.org/20250915015807.101505-1-sj@kernel.org)
-- Separate [1] damon_attrs param_ctx usage as a hotfix patch
-- Make nr_accesses reset condition easy to read
-- Collect Joshua's Reviewed-by tags
-
-Changes from RFC
-(https://lore.kernel.org/20250909034353.7064-1-sj@kernel.org)
-- The RFC was only for the first patch
-- Rebase and wordsmith the first patch
-- Add a few misc fixes and improvements for 6.18 to the series
-
-[1] https://lore.kernel.org/20250916031549.115326-1-sj@kernel.org
-
-SeongJae Park (5):
-  mm/damon/core: reset age if nr_accesses changes between non-zero and
-    zero
-  mm/damon/core: set effective quota on first charge window
-  Docs/mm/damon/maintainer-profile: update community meetup for
-    reservation requirements
-  Docs/admin-guide/mm/damon/start: add --target_pid to DAMOS example
-    command
-  MAINTAINERS: rename DAMON section
-
- Documentation/admin-guide/mm/damon/start.rst  |  2 +-
+Signed-off-by: SeongJae Park <sj@kernel.org>
+Reviewed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+---
  Documentation/mm/damon/maintainer-profile.rst | 17 ++++++-----------
- MAINTAINERS                                   |  2 +-
- mm/damon/core.c                               |  6 +++++-
- 4 files changed, 13 insertions(+), 14 deletions(-)
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-
-base-commit: 4178fb3b4a5145053746caab556b1c5f5538bf3f
+diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
+index 5cd07905a193..58a3fb3c5762 100644
+--- a/Documentation/mm/damon/maintainer-profile.rst
++++ b/Documentation/mm/damon/maintainer-profile.rst
+@@ -89,18 +89,13 @@ the maintainer.
+ Community meetup
+ ----------------
+ 
+-DAMON community is maintaining two bi-weekly meetup series for community
+-members who prefer synchronous conversations over mails.
++DAMON community has a bi-weekly meetup series for members who prefer
++synchronous conversations over mails.  It is for discussions on specific topics
++between a group of members including the maintainer.  The maintainer shares the
++available time slots, and attendees should reserve one of those at least 24
++hours before the time slot, by reaching out to the maintainer.
+ 
+-The first one is for any discussion between every community member.  No
+-reservation is needed.
+-
+-The seconds one is for discussions on specific topics between restricted
+-members including the maintainer.  The maintainer shares the available time
+-slots, and attendees should reserve one of those at least 24 hours before the
+-time slot, by reaching out to the maintainer.
+-
+-Schedules and available reservation time slots are available at the Google `doc
++Schedules and reservation status are available at the Google `doc
+ <https://docs.google.com/document/d/1v43Kcj3ly4CYqmAkMaZzLiM2GEnWfgdGbZAH3mi2vpM/edit?usp=sharing>`_.
+ There is also a public Google `calendar
+ <https://calendar.google.com/calendar/u/0?cid=ZDIwOTA4YTMxNjc2MDQ3NTIyMmUzYTM5ZmQyM2U4NDA0ZGIwZjBiYmJlZGQxNDM0MmY4ZTRjOTE0NjdhZDRiY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t>`_
 -- 
 2.39.5
