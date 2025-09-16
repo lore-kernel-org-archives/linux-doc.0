@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AFD306D4A;
-	Tue, 16 Sep 2025 10:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382E23074AC;
+	Tue, 16 Sep 2025 10:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758018219; cv=none; b=jp/BIBf0UzT/3t9kBxHfyA7vz/c1/n2Oeb+vE0MTmYqQxxOOYIkJZ0IRsTIPLBYMB4UCJVtpObCLMtBViJ+9lKHKHXHkXqKHyH33sUIDFAKlCmJSfYVomG77NWCC5nk3DHRTFnV9b6xDjJr7Se6rVBpHiQhTiWOi/lr/4Cq5t/M=
+	t=1758018219; cv=none; b=uQ06tAaOyk0IMQKj2sENsocITUsaHKxjKVULZKShQjWtkdOgsiz+RFchK8LcSk5/FY3hM70lhXS3NWMQVV5UXPIDCpJJFHV8m3z5ErJmkWvRL6DSBKU5i56nfltcEYgbVQESjaaaGPyKr3c0DQn2CgMUOKuX7deUI/2QUprMfMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758018219; c=relaxed/simple;
-	bh=EC9zNFD3K6ZCtBCNddP12wyzv5HLm4GWdUQophs5958=;
+	bh=bnuRSZ5VgKW9EMMlXkntotHnx/AGBzkicE3rznCRcFo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bh/RPxpfBMfjjZ9fQGiRKWVUMk+t+QqUhSeUFL16ZMcw2KfHZTIPGG6O+IKjPhdxbY7//gAagzlfy1WTf7aSF7O6huOkZ7eyrs6BTJ7wmvAhLkG5x9AC6rQqHQLMOiHDYXMdoMSA5UsUcN+Wm0fXFSWvA117/bWJ2+jgU8XJZ/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uMzy4O0L; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=CL4SvJHTeqRXQ8ZSSu6hxOFnYV9Ujr//3K33DNevpYlaTa3ewUK5cbSnTgcct68ssrM0v3zKWbm3fgpmketln9U6HbcB25fiJs8mXenwclDTF8d1WJrvCLbYubiQB0VXnPm/E73gOom4YreuMLImZUskBaCe+SNvqGlfNpRGkpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRb5xgl7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uMzy4O0L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 428FEC4CEFA;
-	Tue, 16 Sep 2025 10:23:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRb5xgl7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C258C4CEFC;
+	Tue, 16 Sep 2025 10:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758018218;
-	bh=EC9zNFD3K6ZCtBCNddP12wyzv5HLm4GWdUQophs5958=;
+	s=k20201202; t=1758018219;
+	bh=bnuRSZ5VgKW9EMMlXkntotHnx/AGBzkicE3rznCRcFo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uMzy4O0L1yVPLdu4MquivMGtSoHcfvz023aW8ayZU9hkIYtlXEy+P79pxmztDnXHq
-	 lNhyAxmkMD5OrF2hmx890yhuVMQN2Psq1bIQD342ZMQ90Q620zmDf2s9wU7IQ5gtKy
-	 cdOZEMLU/8W9snPsQgWfXfYnte9zYMWIJKKOBzdrzNuC9i8owCxctygLfo226Tx1t/
-	 fRKINUUsCuW07LTYLkofJLobZSD2huZ6Z6BCVxI8fiM0Zemutis8oEuAQ7VAGDUhDg
-	 698IndreeaY5+4rSYhRyn7VibGk6AQ8U8Mops0D7IQIqup67zYhUysErtqJy5XwjaZ
-	 Vjg6a7qW9bXUg==
+	b=jRb5xgl7PPXB7EK9MnwOf50HWPqF+ocDRYlkoxRCNngylzFiMF9qxFcSEl7IlK4KM
+	 xBJJpM614AGPB5eOK82A3H9GXAbo5pUGG8+DomfsJ7lDOmK8HtSJW5x0fGlEaQbANP
+	 fjoYXOSvXgXrrU9XI67Yv+FFupqUI4pwlOSDTaoxlXvugDd0uU6OLes/ekhFKFxGw5
+	 eT/AzIgIIPcRci7mVxHinPJ0scPUCXwFzKYq+yZPZl68Xz23AnHBCn+XMpQ313Hp2F
+	 6SO7vdrVXmAbtKZ9SlUvRTRSgJR4mkcQkQjiDprV/0dp7Kwtw2dp024CV7e30UpwIM
+	 ozCVBbbtMGd5A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uySqT-0000000BBPv-0qyv;
+	id 1uySqT-0000000BBQA-1IE7;
 	Tue, 16 Sep 2025 12:23:33 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,227 +36,109 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 18/21] tools: kernel-doc: add a see also section at man pages
-Date: Tue, 16 Sep 2025 12:22:54 +0200
-Message-ID: <057a16ff473f2f91267b5969f66d6618f2562221.1758018030.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 21/21] tools/docs: sphinx-build-wrapper: add support to run inside venv
+Date: Tue, 16 Sep 2025 12:22:57 +0200
+Message-ID: <da30965e88d5b3ec6a69414b6d19546ee7f0e24a.1758018030.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758018030.git.mchehab+huawei@kernel.org>
 References: <cover.1758018030.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While cross-references are complex, as related ones can be on
-different files, we can at least correlate the ones that belong
-to the same file, adding a SEE ALSO section for them.
-
-The result is not bad. See for instance:
-
-	$ tools/docs/sphinx-build-wrapper --sphinxdirs driver-api/media -- mandocs
-	$ man Documentation/output/driver-api/man/edac_pci_add_device.9
-
-	edac_pci_add_device(9)  Kernel Hacker's Manual  edac_pci_add_device(9)
-
-	NAME
-	       edac_pci_add_device  - Insert the 'edac_dev' structure into the
-	       edac_pci global list and create sysfs entries  associated  with
-	       edac_pci structure.
-
-	SYNOPSIS
-	       int  edac_pci_add_device  (struct  edac_pci_ctl_info *pci , int
-	       edac_idx );
-
-	ARGUMENTS
-	       pci         pointer to the edac_device structure to be added to
-	                   the list
-
-	       edac_idx    A unique numeric identifier to be assigned to the
-
-	RETURN
-	       0 on Success, or an error code on failure
-
-	SEE ALSO
-	       edac_pci_alloc_ctl_info(9),          edac_pci_free_ctl_info(9),
-	       edac_pci_alloc_index(9),  edac_pci_del_device(9), edac_pci_cre\u2010
-	       ate_generic_ctl(9),            edac_pci_release_generic_ctl(9),
-	       edac_pci_create_sysfs(9), edac_pci_remove_sysfs(9)
-
-	August 2025               edac_pci_add_device   edac_pci_add_device(9)
+Sometimes, it is desired to run Sphinx from a virtual environment.
+Add a command line parameter to automatically build Sphinx from
+such environment.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/lib/kdoc/kdoc_files.py  |  5 +-
- scripts/lib/kdoc/kdoc_output.py | 84 +++++++++++++++++++++++++++++++--
- 2 files changed, 83 insertions(+), 6 deletions(-)
+ tools/docs/sphinx-build-wrapper | 33 ++++++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index 9e09b45b02fa..061c033f32da 100644
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -275,7 +275,10 @@ class KernelFiles():
-                 self.config.log.warning("No kernel-doc for file %s", fname)
-                 continue
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 90ad0b22b472..b611dbe250f9 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -69,6 +69,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
+ #
+ #  Some constants
+ #
++VENV_DEFAULT = "sphinx_latest"
+ MIN_PYTHON_VERSION = PythonVersion("3.7").version
+ PAPER = ["", "a4", "letter"]
  
--            for arg in self.results[fname]:
-+            symbols = self.results[fname]
-+            self.out_style.set_symbols(symbols)
-+
-+            for arg in symbols:
-                 m = self.out_msg(fname, arg.name, arg)
+@@ -179,8 +180,10 @@ class SphinxBuilder:
+         if not verbose:
+             self.sphinxopts += ["-q"]
  
-                 if m is None:
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index ea8914537ba0..1eca9a918558 100644
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -215,6 +215,9 @@ class OutputFormat:
+-    def __init__(self, builddir, verbose=False, n_jobs=None, interactive=None):
++    def __init__(self, builddir, venv=None, verbose=False, n_jobs=None,
++                 interactive=None):
+         """Initialize internal variables"""
++        self.venv = venv
+         self.verbose = None
  
-     # Virtual methods to be overridden by inherited classes
-     # At the base class, those do nothing.
-+    def set_symbols(self, symbols):
-+        """Get a list of all symbols from kernel_doc"""
-+
-     def out_doc(self, fname, name, args):
-         """Outputs a DOC block"""
+         #
+@@ -230,6 +233,21 @@ class SphinxBuilder:
  
-@@ -577,6 +580,7 @@ class ManFormat(OutputFormat):
+         self.get_sphinx_extra_opts(n_jobs)
  
-         super().__init__()
-         self.modulename = modulename
-+        self.symbols = []
- 
-         dt = None
-         tstamp = os.environ.get("KBUILD_BUILD_TIMESTAMP")
-@@ -593,6 +597,68 @@ class ManFormat(OutputFormat):
- 
-         self.man_date = dt.strftime("%B %Y")
- 
-+    def arg_name(self, args, name):
-+        """
-+        Return the name that will be used for the man page.
++        #
++        # If venv command line argument is specified, run Sphinx from venv
++        #
++        if venv:
++            bin_dir = os.path.join(venv, "bin")
++            if not os.path.isfile(os.path.join(bin_dir, "activate")):
++                sys.exit(f"Venv {venv} not found.")
 +
-+        As we may have the same name on different namespaces,
-+        prepend the data type for all types except functions and typedefs.
++            # "activate" virtual env
++            self.env["PATH"] = bin_dir + ":" + self.env["PATH"]
++            self.env["VIRTUAL_ENV"] = venv
++            if "PYTHONHOME" in self.env:
++                del self.env["PYTHONHOME"]
++            print(f"Setting venv to {venv}")
 +
-+        The doc section is special: it uses the modulename.
-+        """
-+
-+        dtype = args.type
-+
-+        if dtype == "doc":
-+            return self.modulename
-+
-+        if dtype in ["function", "typedef"]:
-+            return name
-+
-+        return f"{dtype} {name}"
-+
-+    def set_symbols(self, symbols):
-+        """
-+        Get a list of all symbols from kernel_doc.
-+
-+        Man pages will uses it to add a SEE ALSO section with other
-+        symbols at the same file.
-+        """
-+        self.symbols = symbols
-+
-+    def out_tail(self, fname, name, args):
-+        """Adds a tail for all man pages"""
-+
-+        # SEE ALSO section
-+        if len(self.symbols) >= 2:
-+            cur_name = self.arg_name(args, name)
-+
-+            self.data += f'.SH "SEE ALSO"' + "\n.PP\n"
-+            related = []
-+            for arg in self.symbols:
-+                out_name = self.arg_name(arg, arg.name)
-+
-+                if cur_name == out_name:
-+                    continue
-+
-+                related.append(f"\\fB{out_name}\\fR(9)")
-+
-+            self.data += ",\n".join(related) + "\n"
-+
-+        # TODO: does it make sense to add other sections? Maybe
-+        # REPORTING ISSUES? LICENSE?
-+
-+    def msg(self, fname, name, args):
-+        """
-+        Handles a single entry from kernel-doc parser.
-+
-+        Add a tail at the end of man pages output.
-+        """
-+        super().msg(fname, name, args)
-+        self.out_tail(fname, name, args)
-+
-+        return self.data
-+
-     def output_highlight(self, block):
+     def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
          """
-         Outputs a C symbol that may require being highlighted with
-@@ -618,7 +684,9 @@ class ManFormat(OutputFormat):
-         if not self.check_doc(name, args):
-             return
+         Executes sphinx-build using current python3 command.
+@@ -264,7 +282,12 @@ class SphinxBuilder:
+             if self.n_jobs:
+                 n_jobs = str(self.n_jobs)
  
--        self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
+-            cmd = [sys.executable, sphinx_build]
++            if self.venv:
++                cmd = ["python"]
++            else:
++                cmd = [sys.executable,]
 +
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
++            cmd += [sphinx_build]
+             cmd += [f"-j{n_jobs}"]
+             cmd += self.sphinxopts
+             cmd += build_args
+@@ -748,12 +771,16 @@ def main():
+     parser.add_argument('-i', '--interactive', action='store_true',
+                         help="Change latex default to run in interactive mode")
  
-         for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
-@@ -627,7 +695,9 @@ class ManFormat(OutputFormat):
-     def out_function(self, fname, name, args):
-         """output function in man"""
- 
--        self.data += f'.TH "{name}" 9 "{name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
++    parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
++                        default=None,
++                        help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
 +
-+        self.data += f'.TH "{name}" 9 "{out_name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
+     args = parser.parse_args()
  
-         self.data += ".SH NAME\n"
-         self.data += f"{name} \\- {args['purpose']}\n"
-@@ -671,7 +741,9 @@ class ManFormat(OutputFormat):
-             self.output_highlight(text)
+     PythonVersion.check_python(MIN_PYTHON_VERSION, show_alternatives=True,
+                                bail_out=True)
  
-     def out_enum(self, fname, name, args):
--        self.data += f'.TH "{self.modulename}" 9 "enum {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+-    builder = SphinxBuilder(builddir=args.builddir,
++    builder = SphinxBuilder(builddir=args.builddir, venv=args.venv,
+                             verbose=args.verbose, n_jobs=args.jobs,
+                             interactive=args.interactive)
  
-         self.data += ".SH NAME\n"
-         self.data += f"enum {name} \\- {args['purpose']}\n"
-@@ -703,8 +775,9 @@ class ManFormat(OutputFormat):
-     def out_typedef(self, fname, name, args):
-         module = self.modulename
-         purpose = args.get('purpose')
-+        out_name = self.arg_name(args, name)
- 
--        self.data += f'.TH "{module}" 9 "{name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"typedef {name} \\- {purpose}\n"
-@@ -717,8 +790,9 @@ class ManFormat(OutputFormat):
-         module = self.modulename
-         purpose = args.get('purpose')
-         definition = args.get('definition')
-+        out_name = self.arg_name(args, name)
- 
--        self.data += f'.TH "{module}" 9 "{args.type} {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{args.type} {name} \\- {purpose}\n"
 -- 
 2.51.0
 
