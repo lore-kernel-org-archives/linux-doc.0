@@ -1,83 +1,99 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAAB31BC9F;
-	Tue, 16 Sep 2025 21:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E0A2882C5;
+	Tue, 16 Sep 2025 21:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758057398; cv=none; b=XNaaZWWpC00iAH1eHtBeWn71jGK5FpJGIBbLM+/ldg4ZyhdGLYMUUQrrB+65xj/mCmjBg5Z9wCsthp3WOZBtNjmUZ/RoYxXtHicdqA5q8flf81uzZoVC3zrPyq086wun+hVgAKan13g2xmJ0nZReR2cnO9VjqMCnG1csXkHeSPU=
+	t=1758057843; cv=none; b=o5Z7d0IKvTljyLNRfbntuPu6cQkeHCx0y6TNduC+dgqq6nHTtqyN6K9W7BrqRt3wDy43fbfZzG26+W7HC/1Dlh64PVLQ01TYuVohRqf248ftpSa9a9cq5b9TBeaVlFKF+7M2R+kqvOr/D6RWtVonlfzBtXh4d8ZTvBt4SIQfZ1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758057398; c=relaxed/simple;
-	bh=DTBneYKEQ1LXUX1rMxvyffo49ndM+WKAW2jsCAZP/J0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XqKXNIn73Mh+IHmOl8F5Msj2uYjpkLTkkM2D8i9tcGe+LgFq7WwMENCEk4YK8IAL8SHqWpXX92Uk5mibugpRZV0l2c1J6yR1o2nF09Yj+p99s2PNUvHhpK48Uaj9JLLkyWMoNv/PdZEgZUFTrqMXnTfykfmO+PdRm2fAU5ouiSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=V22XGrXJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CqWJ884f; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1758057843; c=relaxed/simple;
+	bh=Bsn4ypPMfuiV5NKNpmlXvY24AALUkCPIKhmhGYho/EQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7bTQR8J6BmnfYl9xtVYnqRzRVieQ3MrRQPvA4NOCSHJDDOMskGEMleqzzKbDcCbJqDev0zfLf6IhUNM6F9bZoxwLbJUjZP0E3y3bXr4C8m6+E8pa9yabvcqghC5AZYStCCHjnG1PKtfiWQ/smsGlMDyAEKelycd1Ukqsv638S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qyml6Vna; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V22XGrXJ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CqWJ884f"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1758057395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cdBjosARmBSEo7aiSHM+dIdoMHfCZY2WlWe0Fb0A5eI=;
-	b=V22XGrXJlCZ5AQ9pe37LMtlOlaa5uG8osxrLsqv/+DC/Jbi/gaOpvLPA0WMtTQxFy0AUdp
-	ocZJsSczCxILdgsmO4GMKTUFDP0xpwY6AtIXURDTCI7YBHO2vUnZPIuwtJw2bNKQ43jRR/
-	SrnGkYVy74kqALkz23Q9mSMTMN61R3tuGvD3/VSh+ybJMd55BYszvtovTcZU3B8sWL/oxK
-	m7Yx3U3wdB0a8EHseRTc6f9n1GflXL/nu61iIYkP98BgbC6HF97j1UXSi1XiE2URbMvERJ
-	DzKL9myXEOmPWxsz4yNEbIW3+Ka6Elq8rzhi9TN1pUtrkyuBilYL6aLIOL/JOQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1758057395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cdBjosARmBSEo7aiSHM+dIdoMHfCZY2WlWe0Fb0A5eI=;
-	b=CqWJ884fvJ8/FWHJRwkFwD617d0BLRtMBNrP3oVIvDrTlG1B/A3pQgDgnF+3bJQdmfDYNc
-	0I7SSpqMR6U7YOCg==
-To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
- mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Eugen Hristev <eugen.hristev@linaro.org>
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-In-Reply-To: <87cy7q9k8y.ffs@tglx>
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
-Date: Tue, 16 Sep 2025 23:16:34 +0200
-Message-ID: <87a52u9jyl.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qyml6Vna"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA7D9C4CEEB;
+	Tue, 16 Sep 2025 21:23:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758057842;
+	bh=Bsn4ypPMfuiV5NKNpmlXvY24AALUkCPIKhmhGYho/EQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qyml6Vna2GlmWkaHpV2CzqTk/TiBPjZFisqocFlAqeSVjcfs9QIL2KzoA2KrY5pth
+	 b7MhxxY7U5YhZNnxStCjrINja9Rv8OsCLHAjxZEYv5tOw0bmp30+g9oKjw02QZIG+6
+	 mkHMJpbEAVYH3laODVT6tYnMxROLMQDMQ252ByfrlVf/HnMeJqzvTO9vXw7TDhY9bn
+	 rQo5KY91IqevgCelioj87QElpShoX32TVqKGe5FU68bOYlLZm/o2FzLy19YpqJWfaW
+	 OXGbe76phmRsRCy/t3kTfprp4UeQQd6ea5WaxuMFsTEZ2SdWulXiPZH852bB7Mj7KU
+	 Yu5AuBqGksktg==
+Date: Tue, 16 Sep 2025 22:23:54 +0100
+From: Will Deacon <will@kernel.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+	dvyukov@google.com, vincenzo.frascino@arm.com, corbet@lwn.net,
+	catalin.marinas@arm.com, akpm@linux-foundation.org,
+	scott@os.amperecomputing.com, jhubbard@nvidia.com,
+	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
+	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
+	james.morse@arm.com, ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+	yang@os.amperecomputing.com, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v7 1/2] kasan/hw-tags: introduce kasan.write_only option
+Message-ID: <aMnVarvAvQuJCWXy@willie-the-truck>
+References: <20250903150020.1131840-1-yeoreum.yun@arm.com>
+ <20250903150020.1131840-2-yeoreum.yun@arm.com>
+ <aMm69C3IGuDHF248@willie-the-truck>
+ <aMnGUr9zeutyPpAg@e129823.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aMnGUr9zeutyPpAg@e129823.arm.com>
 
-On Tue, Sep 16 2025 at 23:10, Thomas Gleixner wrote:
-> On Fri, Sep 12 2025 at 18:08, Eugen Hristev wrote:
->> nr_irqs is required for debugging the kernel, and needs to be
->> accessible for kmemdump into vmcoreinfo.
->
-> That's a patently bad idea.
->
-> Care to grep how many instances of 'nr_irqs' variables are in the
-> kernel?
->
-> That name is way too generic to be made global.
+On Tue, Sep 16, 2025 at 09:19:30PM +0100, Yeoreum Yun wrote:
+> > On Wed, Sep 03, 2025 at 04:00:19PM +0100, Yeoreum Yun wrote:
+> > > +	switch (kasan_arg_write_only) {
+> > > +	case KASAN_ARG_WRITE_ONLY_DEFAULT:
+> > > +		/* Default is specified by kasan_flag_write_only definition. */
+> > > +		break;
+> > > +	case KASAN_ARG_WRITE_ONLY_OFF:
+> > > +		kasan_flag_write_only = false;
+> > > +		break;
+> > > +	case KASAN_ARG_WRITE_ONLY_ON:
+> > > +		kasan_flag_write_only = true;
+> > > +		break;
+> > > +	}
+> > > +
+> > >  	kasan_init_tags();
+> >
+> > I'm probably missing something here, but why have 'enum
+> > kasan_arg_write_only' at all? What stops you from setting
+> > 'kasan_flag_write_only' directly from early_kasan_flag_write_only()?
+> >
+> > This all looks weirdly over-engineered, as though 'kasan_flag_write_only'
+> > is expected to be statically initialised to something other than 'false'.
+> 
+> For the conherent pattern for other options.
+> Since other options manage arg value and internal state separately,
+> I just followed former ancestor.
 
-Aside of that there is _ZERO_ justification to expose variables globaly,
-which have been made file local with a lot of effort in the past.
+I'm not sure it's the best option to blindly follow the existing code
+here. To pick another kasan "mode" at random, 'kasan_flag_vmalloc' is
+initialised differently depending on CONFIG_KASAN_VMALLOC and so
+allowing for the default value to differ based on the kernel
+configuration makes sense.
 
-I pointed you to a solution for that and just because David does not
-like it means that it's acceptable to fiddle in subsystems and expose
-their carefully localized variables.
+But that doesn't apply here.
 
-Thanks
+I'd recommend starting simple and just having the 'flag', especially as
+you already made a small mistake because of mixing up the 'flag' with
+the 'arg'.
 
-        tglx
+Will
