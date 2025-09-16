@@ -1,139 +1,802 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from s1.jo-so.de (s1.jo-so.de [37.221.195.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4610D2D641D
-	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 18:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A313747F;
+	Tue, 16 Sep 2025 18:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.221.195.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758046628; cv=none; b=MZTr/pO1fCCQK1+VvCbnXAbB0v4yW8nhjNuXpC4uO0Kwstgz7esk37im8S/BOBwQ7nOBOKDZeyoZ5XGUGc0g57XvBPwtqxpao6YsT2twfupM26PQ6jiKFXxUD5gLle8qK76anPcEQ3tEjVxRSS0mVfr3e00UYqnXRSbZR/WHEa0=
+	t=1758048203; cv=none; b=MUe6WWtLRl24KOOzmnbEgdBklioL8ocr8J/ICQI9hyTnGUmAXujJWUjTtBDJig7yuGYCEw1X+etN8igaAdTGnR4DRxaBkgaDSED7jO57/K2duVmBjrGiew5IfqwZE7lchfTg4Zf6sfjXXbnH8Y1sCOsHb5Ya5OdYLNHobjCjRWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758046628; c=relaxed/simple;
-	bh=MVPzMTONaBJT5N+hHaYmRy0C3P3AER6E6H5SQzBvo3E=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=WjrG1iX/jM8RH3eGtJITb93RQ5U63YxR4QmjgKe72zV1i15a6N7HKIuNTTKT3yLvN8Noht9Qx8q9Il+TgC4F0th/OHXXWr6MuLgGOPzU2tBBZaL9VcZuv/TkuTrqA6vUVGNqHLfD0QCwd/AR0iSBinCWDRnbvhfqAwBWvy3nVWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ix1q3Hq3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ix1q3Hq3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758046626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HiJbWUk9iK3Va6WQUOfyxO/yZVMoTNTnNrKsRMOKeVQ=;
-	b=ix1q3Hq3cglxgBFdGtZsrExevc/93QcbZRYkA8FR6Rj1CGa/A1FhlzpWp68FFDQWoSMzjh
-	btYKyvdbiYKF+/JLslMzwJJrxaeLhn3f3ExhhQ9GYbKPgWIiGvQ9ke8y2hhhMNjBo/n8Oj
-	LceEq1Qpa06LoNcochnmD6ieg9d9eMo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-670-VhcOdW8nMNyFkiPihCGveQ-1; Tue, 16 Sep 2025 14:16:59 -0400
-X-MC-Unique: VhcOdW8nMNyFkiPihCGveQ-1
-X-Mimecast-MFC-AGG-ID: VhcOdW8nMNyFkiPihCGveQ_1758046619
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-b07cc3f115aso143642966b.3
-        for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 11:16:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758046619; x=1758651419;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HiJbWUk9iK3Va6WQUOfyxO/yZVMoTNTnNrKsRMOKeVQ=;
-        b=s/udvWQrRgh4B/cM6mr2K1y2wZEni1eKabIHRDCd8cXSth1vJHUXhdNPpnN8NVtQ5Q
-         iZeAtx/oiQ2nq7SRZvSKOGskEyWSMC8rryOgQ+HM8ggsrbzMmG/nzt/I7X/0ckQpQMg1
-         z8ZwSsvZ4qm1ATnECdh0zsgICg0QnypVjO3J0b2Z0XnqCbYnIU4cl+Y+71wU+mYxZ0wR
-         eo7FwqpRvJSorWUa30ZqK4+L/P0yy67MuGz/IZWr1Z2U+Kjc8bFGPeWI/WRcTIqGS8KY
-         si5ZXrF+2EfC37V0FSa+3BzG1CxpODN1tFFDk8DGjGT7lwrBLBHieQZlCdRlm3K/FDoy
-         NX5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWmHiot5w0wqtT1YOax6sxTLqHTrFZDYS94S20Zi2LEqLYfsfUcqVe4SEEjl4vPs+gw7dmp4VS83iM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvKIb0O/7QLHoXFWP6U8PjAqHBV0UvXj75ZNccbHefmMKImBoX
-	HWeIwe5lKzOsT5lYx7DBrTt9Mt1jctUWLQq/YEghD5j50cjV55OYOVLoDGJHGcFN8CXukyncnHb
-	1bILzDy7s7bMJ57JEayEjwX98tuI9rx4fWLD5uZBfP1E5xeb9ISleR6JjSEL3FA==
-X-Gm-Gg: ASbGncuLhY0TucwnHUV8F3oDt2YvQgqlpAcs19IjC1/wGc/kJyh7rxcBV9nmwPHiieF
-	bI7pvNbUvzuuDW6SfpS/iLyiX8KJrpYXu36MZsu0mpgTorZxl7vZ80AiLPuLFyDfNbzfB0nbZgp
-	5uroBpGWTjF0KMoRGir7jeLX+k0bpHBvMX4cEcOH+zhaBpUpkq/Ru32YwkK2Io2g7OC4yQiNbV5
-	yo6J9eiGF5X2mVy5y6avYfOWYjwB9d/OB8KfPobTwwllnHn1vwngJ2lmR0aFkiNGGkfNnUuzz1c
-	XIIDM9apTb6Pn3f3x6qLNt0dq+MIxytOKOotsLlpzH+6k7NG
-X-Received: by 2002:a17:906:dc91:b0:b04:37ca:77e7 with SMTP id a640c23a62f3a-b07c365da98mr1673684366b.44.1758046618705;
-        Tue, 16 Sep 2025 11:16:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHIt2e9AJy51nO/jH/HTJfy0/9Ihn7bnnuR/FCs8J9Z85sjlp5JxyE81WyYIgw5qXRrUm+sBA==
-X-Received: by 2002:a17:906:dc91:b0:b04:37ca:77e7 with SMTP id a640c23a62f3a-b07c365da98mr1673681666b.44.1758046618304;
-        Tue, 16 Sep 2025 11:16:58 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([2a00:e580:bf11:1:ad04:3f07:f046:aa35])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b3347b6fsm1217873466b.111.2025.09.16.11.16.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Sep 2025 11:16:57 -0700 (PDT)
-Date: Tue, 16 Sep 2025 20:16:57 +0200
-From: Ivan Vecera <ivecera@redhat.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: netdev@vger.kernel.org, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net-next_v2=5D_dpll=3A_zl3073x=3A_Allow?=
- =?US-ASCII?Q?_to_use_custom_phase_measure_averaging_factor?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <20250915164641.0131f7ed@kernel.org>
-References: <20250911072302.527024-1-ivecera@redhat.com> <20250915164641.0131f7ed@kernel.org>
-Message-ID: <FA93EFB9-954B-421E-97B2-AE9E0A0A4216@redhat.com>
+	s=arc-20240116; t=1758048203; c=relaxed/simple;
+	bh=x8/s9p65KvVbq871vZXt6mQCgfo6dYl4V4VkDPobTzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTn5S947DdlOyi8S8+ZiOw2FV3n0OKhpeoQ/Tu+KKAUp8luVEkvpyUHb/SHD9lbHB4D+i1wP6QcCc1SYVJTTQhokM4j6Pg6Fm54jWYSMockfcmfHCPt/VD0OblZ1e7yKyFvYF7gvkgcfON3JyhDS6tcMKWMMSmMJPTHQJct9HG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jo-so.de; spf=pass smtp.mailfrom=jo-so.de; arc=none smtp.client-ip=37.221.195.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jo-so.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jo-so.de
+Received: from mail-relay (helo=jo-so.de)
+	by s1.jo-so.de with local-bsmtp (Exim 4.98.2)
+	(envelope-from <joerg@jo-so.de>)
+	id 1uyadZ-00000001Ua7-0cAn;
+	Tue, 16 Sep 2025 20:42:45 +0200
+Received: from joerg by zenbook.jo-so.de with local (Exim 4.98.2)
+	(envelope-from <joerg@jo-so.de>)
+	id 1uyadY-000000027FP-26zW;
+	Tue, 16 Sep 2025 20:42:44 +0200
+Date: Tue, 16 Sep 2025 20:42:44 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg@jo-so.de>
+To: Dong Yibo <dong100@mucse.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, 
+	gur.stavi@huawei.com, maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, 
+	lee@trager.us, gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be, 
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com, alexanderduyck@fb.com, 
+	richardcochran@gmail.com, kees@kernel.org, gustavoars@kernel.org, rdunlap@infradead.org, 
+	vadim.fedorenko@linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v12 3/5] net: rnpgbe: Add basic mbx ops support
+Message-ID: <7d4olrtuyagvcma5sspca6urmkjotkjtthbbekkeqltnd6mgq6@pn4smgsdaf4c>
+OpenPGP: id=7D2C9A23D1AEA375; url=https://jo-so.de/pgp-key.txt;
+ preference=signencrypt
+References: <20250916112952.26032-1-dong100@mucse.com>
+ <20250916112952.26032-4-dong100@mucse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="bsa6xqb7tdis7btv"
+Content-Disposition: inline
+In-Reply-To: <20250916112952.26032-4-dong100@mucse.com>
+
+
+--bsa6xqb7tdis7btv
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH net-next v12 3/5] net: rnpgbe: Add basic mbx ops support
+MIME-Version: 1.0
 
+Hi,
 
+only some minor suggestions.
 
-On September 16, 2025 1:46:41 AM GMT+02:00, Jakub Kicinski <kuba@kernel=2E=
-org> wrote:
->cc: Arkadiusz
->
->On Thu, 11 Sep 2025 09:23:01 +0200 Ivan Vecera wrote:
->> The DPLL phase measurement block uses an exponential moving average,
->> calculated using the following equation:
->>=20
->>                        2^N - 1                1
->> curr_avg =3D prev_avg * --------- + new_val * -----
->>                          2^N                 2^N
->>=20
->> Where curr_avg is phase offset reported by the firmware to the driver,
->> prev_avg is previous averaged value and new_val is currently measured
->> value for particular reference=2E
->>=20
->> New measurements are taken approximately 40 Hz or at the frequency of
->> the reference (whichever is lower)=2E
->>=20
->> The driver currently uses the averaging factor N=3D2 which prioritizes
->> a fast response time to track dynamic changes in the phase=2E But for
->> applications requiring a very stable and precise reading of the average
->> phase offset, and where rapid changes are not expected, a higher factor
->> would be appropriate=2E
->>=20
->> Add devlink device parameter phase_offset_avg_factor to allow a user
->> set tune the averaging factor via devlink interface=2E
->
->Is averaging phase offset normal for DPLL devices?
+Dong Yibo schrieb am Di 16. Sep, 19:29 (+0800):
+> Add fundamental mailbox (MBX) communication operations between PF
+> (Physical Function) and firmware for n500/n210 chips
+>=20
+> Signed-off-by: Dong Yibo <dong100@mucse.com>
+> ---
+>  drivers/net/ethernet/mucse/rnpgbe/Makefile    |   4 +-
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h    |  25 ++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_chip.c   |  70 +++
+>  drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h |   7 +
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_main.c   |   5 +
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c    | 420 ++++++++++++++++++
+>  .../net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h    |  20 +
+>  7 files changed, 550 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+>  create mode 100644 drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+>=20
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/Makefile b/drivers/net/eth=
+ernet/mucse/rnpgbe/Makefile
+> index 9df536f0d04c..5fc878ada4b1 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/Makefile
+> @@ -5,4 +5,6 @@
+>  #
+> =20
+>  obj-$(CONFIG_MGBE) +=3D rnpgbe.o
+> -rnpgbe-objs :=3D rnpgbe_main.o
+> +rnpgbe-objs :=3D rnpgbe_main.o\
+> +	       rnpgbe_chip.o\
+> +	       rnpgbe_mbx.o
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h b/drivers/net/eth=
+ernet/mucse/rnpgbe/rnpgbe.h
+> index 3b122dd508ce..7450bfc5ee98 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe.h
+> @@ -4,13 +4,36 @@
+>  #ifndef _RNPGBE_H
+>  #define _RNPGBE_H
+> =20
+> +#include <linux/types.h>
+> +
+>  enum rnpgbe_boards {
+>  	board_n500,
+>  	board_n210
+>  };
+> =20
+> +struct mucse_mbx_stats {
+> +	u32 msgs_tx; /* Number of messages sent from PF to fw */
+> +	u32 msgs_rx; /* Number of messages received from fw to PF */
+> +	u32 acks; /* Number of ACKs received from firmware */
+> +	u32 reqs; /* Number of requests sent to firmware */
+> +};
+> +
+> +struct mucse_mbx_info {
+> +	struct mucse_mbx_stats stats;
+> +	u32 timeout_us;
+> +	u32 delay_us;
+> +	u16 fw_req;
+> +	u16 fw_ack;
+> +	/* fw <--> pf mbx */
+> +	u32 fwpf_shm_base;
+> +	u32 pf2fw_mbx_ctrl;
+> +	u32 fwpf_mbx_mask;
+> +	u32 fwpf_ctrl_base;
+> +};
+> +
+>  struct mucse_hw {
+>  	void __iomem *hw_addr;
+> +	struct mucse_mbx_info mbx;
+>  };
+> =20
+>  struct mucse {
+> @@ -19,6 +42,8 @@ struct mucse {
+>  	struct mucse_hw hw;
+>  };
+> =20
+> +int rnpgbe_init_hw(struct mucse_hw *hw, int board_type);
+> +
+>  /* Device IDs */
+>  #define PCI_VENDOR_ID_MUCSE 0x8848
+>  #define PCI_DEVICE_ID_N500_QUAD_PORT 0x8308
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c b/drivers/ne=
+t/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> new file mode 100644
+> index 000000000000..86f1c75796b0
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_chip.c
+> @@ -0,0 +1,70 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> +
+> +#include <linux/errno.h>
+> +
+> +#include "rnpgbe.h"
+> +#include "rnpgbe_hw.h"
+> +#include "rnpgbe_mbx.h"
+> +
+> +/**
+> + * rnpgbe_init_n500 - Setup n500 hw info
+> + * @hw: hw information structure
+> + *
+> + * rnpgbe_init_n500 initializes all private
+> + * structure for n500
+> + **/
+> +static void rnpgbe_init_n500(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +
+> +	mbx->fwpf_ctrl_base =3D MUCSE_N500_FWPF_CTRL_BASE;
+> +	mbx->fwpf_shm_base =3D MUCSE_N500_FWPF_SHM_BASE;
+> +}
+> +
+> +/**
+> + * rnpgbe_init_n210 - Setup n210 hw info
+> + * @hw: hw information structure
+> + *
+> + * rnpgbe_init_n210 initializes all private
+> + * structure for n210
+> + **/
+> +static void rnpgbe_init_n210(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +
+> +	mbx->fwpf_ctrl_base =3D MUCSE_N210_FWPF_CTRL_BASE;
+> +	mbx->fwpf_shm_base =3D MUCSE_N210_FWPF_SHM_BASE;
+> +}
+> +
+> +/**
+> + * rnpgbe_init_hw - Setup hw info according to board_type
+> + * @hw: hw information structure
+> + * @board_type: board type
+> + *
+> + * rnpgbe_init_hw initializes all hw data
+> + *
+> + * Return: 0 on success, negative errno on failure
 
-I don't know=2E=2E=2E I expect that DPLL chips support phase offset
-measurement but probably implementation specific=2E
+Maybe say that -EINVAL is the only error returned.
 
->If it is we should probably add this to the official API=2E
+> + **/
+> +int rnpgbe_init_hw(struct mucse_hw *hw, int board_type)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +
+> +	mbx->pf2fw_mbx_ctrl =3D MUCSE_GBE_PFFW_MBX_CTRL_OFFSET;
+> +	mbx->fwpf_mbx_mask =3D MUCSE_GBE_FWPF_MBX_MASK_OFFSET;
+> +
+> +	switch (board_type) {
+> +	case board_n500:
+> +		rnpgbe_init_n500(hw);
+> +		break;
+> +	case board_n210:
+> +		rnpgbe_init_n210(hw);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	/* init_params with mbx base */
+> +	mucse_init_mbx_params_pf(hw);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h b/drivers/net/=
+ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> index 3a779806e8be..aad4cb2f4164 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_hw.h
+> @@ -4,5 +4,12 @@
+>  #ifndef _RNPGBE_HW_H
+>  #define _RNPGBE_HW_H
+> =20
+> +#define MUCSE_N500_FWPF_CTRL_BASE 0x28b00
+> +#define MUCSE_N500_FWPF_SHM_BASE 0x2d000
+> +#define MUCSE_GBE_PFFW_MBX_CTRL_OFFSET 0x5500
+> +#define MUCSE_GBE_FWPF_MBX_MASK_OFFSET 0x5700
+> +#define MUCSE_N210_FWPF_CTRL_BASE 0x29400
+> +#define MUCSE_N210_FWPF_SHM_BASE 0x2d900
+> +
+>  #define RNPGBE_MAX_QUEUES 8
+>  #endif /* _RNPGBE_HW_H */
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c b/drivers/ne=
+t/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> index 0afe39621661..c6cfb54f7c59 100644
+> --- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_main.c
+> @@ -68,6 +68,11 @@ static int rnpgbe_add_adapter(struct pci_dev *pdev,
+>  	}
+> =20
+>  	hw->hw_addr =3D hw_addr;
+> +	err =3D rnpgbe_init_hw(hw, board_type);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Init hw err %d\n", err);
+> +		goto err_free_net;
+> +	}
+> =20
+>  	return 0;
+> =20
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c b/drivers/net=
+/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> new file mode 100644
+> index 000000000000..7501a55c3134
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.c
+> @@ -0,0 +1,420 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright(c) 2022 - 2025 Mucse Corporation. */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/iopoll.h>
+> +
+> +#include "rnpgbe_mbx.h"
+> +
+> +/**
+> + * mbx_data_rd32 - Reads reg with base mbx->fwpf_shm_base
+> + * @mbx: pointer to the MBX structure
+> + * @reg: register offset
+> + *
+> + * Return: register value
+> + **/
+> +static u32 mbx_data_rd32(struct mucse_mbx_info *mbx, u32 reg)
+> +{
+> +	struct mucse_hw *hw =3D container_of(mbx, struct mucse_hw, mbx);
+> +
+> +	return readl(hw->hw_addr + mbx->fwpf_shm_base + reg);
+> +}
+> +
+> +/**
+> + * mbx_data_wr32 - Writes value to reg with base mbx->fwpf_shm_base
+> + * @mbx: pointer to the MBX structure
+> + * @reg: register offset
+> + * @value: value to be written
+> + *
+> + **/
+> +static void mbx_data_wr32(struct mucse_mbx_info *mbx, u32 reg, u32 value)
+> +{
+> +	struct mucse_hw *hw =3D container_of(mbx, struct mucse_hw, mbx);
+> +
+> +	writel(value, hw->hw_addr + mbx->fwpf_shm_base + reg);
+> +}
+> +
+> +/**
+> + * mbx_ctrl_rd32 - Reads reg with base mbx->fwpf_ctrl_base
+> + * @mbx: pointer to the MBX structure
+> + * @reg: register offset
+> + *
+> + * Return: register value
+> + **/
+> +static u32 mbx_ctrl_rd32(struct mucse_mbx_info *mbx, u32 reg)
+> +{
+> +	struct mucse_hw *hw =3D container_of(mbx, struct mucse_hw, mbx);
+> +
+> +	return readl(hw->hw_addr + mbx->fwpf_ctrl_base + reg);
+> +}
+> +
+> +/**
+> + * mbx_ctrl_wr32 - Writes value to reg with base mbx->fwpf_ctrl_base
+> + * @mbx: pointer to the MBX structure
+> + * @reg: register offset
+> + * @value: value to be written
+> + *
+> + **/
+> +static void mbx_ctrl_wr32(struct mucse_mbx_info *mbx, u32 reg, u32 value)
+> +{
+> +	struct mucse_hw *hw =3D container_of(mbx, struct mucse_hw, mbx);
+> +
+> +	writel(value, hw->hw_addr + mbx->fwpf_ctrl_base + reg);
+> +}
+> +
+> +/**
+> + * mucse_mbx_get_lock_pf - Write ctrl and read back lock status
+> + * @hw: pointer to the HW structure
+> + *
+> + * Return: register value after write
+> + **/
+> +static u32 mucse_mbx_get_lock_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u32 reg =3D MUCSE_MBX_PF2FW_CTRL(mbx);
+> +
+> +	mbx_ctrl_wr32(mbx, reg, MUCSE_MBX_PFU);
+> +
+> +	return mbx_ctrl_rd32(mbx, reg);
+> +}
+> +
+> +/**
+> + * mucse_obtain_mbx_lock_pf - Obtain mailbox lock
+> + * @hw: pointer to the HW structure
+> + *
+> + * Pair with mucse_release_mbx_lock_pf()
+> + * This function maybe used in an irq handler.
+> + *
+> + * Return: 0 on success, negative errno on failure
+> + **/
+> +static int mucse_obtain_mbx_lock_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u32 val;
+> +
+> +	return read_poll_timeout_atomic(mucse_mbx_get_lock_pf,
+> +					val, val & MUCSE_MBX_PFU,
+> +					mbx->delay_us,
+> +					mbx->timeout_us,
+> +					false, hw);
+> +}
+> +
+> +/**
+> + * mucse_release_mbx_lock_pf - Release mailbox lock
+> + * @hw: pointer to the HW structure
+> + * @req: send a request or not
+> + *
+> + * Pair with mucse_obtain_mbx_lock_pf():
+> + * - Releases the mailbox lock by clearing MUCSE_MBX_PFU bit
+> + * - Simultaneously sends the request by setting MUCSE_MBX_REQ bit
+> + *   if req is true
+> + * (Both bits are in the same mailbox control register,
+> + * so operations are combined)
+> + **/
+> +static void mucse_release_mbx_lock_pf(struct mucse_hw *hw, bool req)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u32 reg =3D MUCSE_MBX_PF2FW_CTRL(mbx);
+> +
+> +	if (req)
+> +		mbx_ctrl_wr32(mbx, reg, MUCSE_MBX_REQ);
+> +	else
+> +		mbx_ctrl_wr32(mbx, reg, 0);
 
-The problem in case of this Microchip DPLL devices is that this
-parameter is per ASIC=2E It is common for all DPLL channels
-(devices) inside the chip=2E That's why I chose devlink=2E
+Maybe combine this to:
 
->If it isn't we should probably default to smallest possible history?
+mbx_ctrl_wr32(mbx, reg, req ? MUCSE_MBX_REQ : 0);
 
-Do you mean the default value?
+or also inlining reg:
 
-Ivan 
+mbx_ctrl_wr32(mbx, MUCSE_MBX_PF2FW_CTRL(mbx), req ? MUCSE_MBX_REQ : 0);
 
+> +}
+> +
+> +/**
+> + * mucse_mbx_get_fwreq - Read fw req from reg
+> + * @mbx: pointer to the mbx structure
+> + *
+> + * Return: the fwreq value
+> + **/
+> +static u16 mucse_mbx_get_fwreq(struct mucse_mbx_info *mbx)
+> +{
+> +	u32 val =3D mbx_data_rd32(mbx, MUCSE_MBX_FW2PF_CNT);
+> +
+> +	return FIELD_GET(GENMASK_U32(15, 0), val);
+> +}
+> +
+> +/**
+> + * mucse_mbx_inc_pf_ack - Increase ack
+> + * @hw: pointer to the HW structure
+> + *
+> + * mucse_mbx_inc_pf_ack reads pf_ack from hw, then writes
+> + * new value back after increase
+> + **/
+> +static void mucse_mbx_inc_pf_ack(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u16 ack;
+> +	u32 val;
+> +
+> +	val =3D mbx_data_rd32(mbx, MUCSE_MBX_PF2FW_CNT);
+> +	ack =3D FIELD_GET(GENMASK_U32(31, 16), val);
+> +	ack++;
+> +	val &=3D ~GENMASK_U32(31, 16);
+> +	val |=3D FIELD_PREP(GENMASK_U32(31, 16), ack);
+> +	mbx_data_wr32(mbx, MUCSE_MBX_PF2FW_CNT, val);
+> +	hw->mbx.stats.msgs_rx++;
+> +}
+> +
+> +/**
+> + * mucse_read_mbx_pf - Read a message from the mailbox
+> + * @hw: pointer to the HW structure
+> + * @msg: the message buffer
+> + * @size: length of buffer
+> + *
+> + * mucse_read_mbx_pf copies a message from the mbx buffer to the caller's
+> + * memory buffer. The presumption is that the caller knows that there was
+> + * a message due to a fw request so no polling for message is needed.
+> + *
+> + * Return: 0 on success, negative errno on failure
+> + **/
+> +static int mucse_read_mbx_pf(struct mucse_hw *hw, u32 *msg, u16 size)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	int size_in_words =3D size / 4;
+
+* Make this `const int` or I'm in favour of inlining, because it's used only
+  once.
+
+* Maybe `size / sizeof(*msg)` makes it more clearly where the 4 is coming
+  from.
+
+> +	int ret;
+> +	int i;
+
+Because this variable is only used in the for-loop, I would narrow its scope
+and write `for (int i =3D 0;`
+
+> +
+> +	ret =3D mucse_obtain_mbx_lock_pf(hw);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i =3D 0; i < size_in_words; i++)
+> +		msg[i] =3D mbx_data_rd32(mbx, MUCSE_MBX_FWPF_SHM + 4 * i);
+> +	/* Hw needs write data_reg at last */
+> +	mbx_data_wr32(mbx, MUCSE_MBX_FWPF_SHM, 0);
+> +	/* flush reqs as we have read this request data */
+> +	hw->mbx.fw_req =3D mucse_mbx_get_fwreq(mbx);
+> +	mucse_mbx_inc_pf_ack(hw);
+> +	mucse_release_mbx_lock_pf(hw, false);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * mucse_check_for_msg_pf - Check to see if the fw has sent mail
+> + * @hw: pointer to the HW structure
+> + *
+> + * Return: 0 if the fw has set the Status bit or else -EIO
+> + **/
+> +static int mucse_check_for_msg_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u16 fw_req;
+> +
+> +	fw_req =3D mucse_mbx_get_fwreq(mbx);
+> +	/* chip's register is reset to 0 when rc send reset
+> +	 * mbx command. This causes 'fw_req !=3D hw->mbx.fw_req'
+> +	 * be TRUE before fw really reply. Driver must wait fw reset
+> +	 * done reply before using chip, we must check no-zero.
+> +	 **/
+
+If I get this right, fw_req =3D=3D 0 means that the request was send, but
+nothing returned so far. Would not be -EAGAIN a better return value in this
+case?
+
+And fw_req =3D=3D hw->mbx.fw_req means that we've got the old fw_req again =
+which
+means there was an error (-EIO).
+
+> +	if (fw_req !=3D 0 && fw_req !=3D hw->mbx.fw_req) {
+> +		hw->mbx.stats.reqs++;
+> +		return 0;
+> +	}
+> +
+> +	return -EIO;
+
+Only a suggestion: Might it be clearer to flip the cases and handle the if
+as error case and continue with the success case?
+
+if (fw_req =3D=3D 0 || fw_req =3D=3D hw->mbx.fw_req)
+	return -EIO;
+
+hw->mbx.stats.reqs++;
+return 0;
+
+> +}
+> +
+> +/**
+> + * mucse_poll_for_msg - Wait for message notification
+> + * @hw: pointer to the HW structure
+> + *
+> + * Return: 0 on success, negative errno on failure
+> + **/
+> +static int mucse_poll_for_msg(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	int val;
+> +
+> +	return read_poll_timeout(mucse_check_for_msg_pf,
+> +				 val, !val, mbx->delay_us,
+> +				 mbx->timeout_us,
+> +				 false, hw);
+> +}
+> +
+> +/**
+> + * mucse_poll_and_read_mbx - Wait for message notification and receive m=
+essage
+> + * @hw: pointer to the HW structure
+> + * @msg: the message buffer
+> + * @size: length of buffer
+> + *
+> + * Return: 0 if it successfully received a message notification and
+> + * copied it into the receive buffer, negative errno on failure
+> + **/
+> +int mucse_poll_and_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
+> +{
+> +	int ret;
+> +
+> +	ret =3D mucse_poll_for_msg(hw);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return mucse_read_mbx_pf(hw, msg, size);
+> +}
+> +
+> +/**
+> + * mucse_mbx_get_fwack - Read fw ack from reg
+> + * @mbx: pointer to the MBX structure
+> + *
+> + * Return: the fwack value
+> + **/
+> +static u16 mucse_mbx_get_fwack(struct mucse_mbx_info *mbx)
+> +{
+> +	u32 val =3D mbx_data_rd32(mbx, MUCSE_MBX_FW2PF_CNT);
+> +
+> +	return FIELD_GET(GENMASK_U32(31, 16), val);
+> +}
+> +
+> +/**
+> + * mucse_mbx_inc_pf_req - Increase req
+> + * @hw: pointer to the HW structure
+> + *
+> + * mucse_mbx_inc_pf_req reads pf_req from hw, then writes
+> + * new value back after increase
+> + **/
+> +static void mucse_mbx_inc_pf_req(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u16 req;
+> +	u32 val;
+> +
+> +	val =3D mbx_data_rd32(mbx, MUCSE_MBX_PF2FW_CNT);
+> +	req =3D FIELD_GET(GENMASK_U32(15, 0), val);
+
+Why not assign the values in the declaration like done with mbx?
+
+> +	req++;
+> +	val &=3D ~GENMASK_U32(15, 0);
+> +	val |=3D FIELD_PREP(GENMASK_U32(15, 0), req);
+> +	mbx_data_wr32(mbx, MUCSE_MBX_PF2FW_CNT, val);
+> +	hw->mbx.stats.msgs_tx++;
+> +}
+> +
+> +/**
+> + * mucse_write_mbx_pf - Place a message in the mailbox
+> + * @hw: pointer to the HW structure
+> + * @msg: the message buffer
+> + * @size: length of buffer
+> + *
+> + * Return: 0 if it successfully copied message into the buffer
+
+=2E.. "otherwise the error from obtaining the lock" or something better.
+
+> + **/
+> +static int mucse_write_mbx_pf(struct mucse_hw *hw, u32 *msg, u16 size)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	int size_in_words =3D size / 4;
+> +	int ret;
+> +	int i;
+> +
+> +	ret =3D mucse_obtain_mbx_lock_pf(hw);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i =3D 0; i < size_in_words; i++)
+> +		mbx_data_wr32(mbx, MUCSE_MBX_FWPF_SHM + i * 4, msg[i]);
+> +
+> +	/* flush acks as we are overwriting the message buffer */
+> +	hw->mbx.fw_ack =3D mucse_mbx_get_fwack(mbx);
+> +	mucse_mbx_inc_pf_req(hw);
+> +	mucse_release_mbx_lock_pf(hw, true);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * mucse_check_for_ack_pf - Check to see if the fw has ACKed
+> + * @hw: pointer to the HW structure
+> + *
+> + * Return: 0 if the fw has set the Status bit or else -EIO
+> + **/
+> +static int mucse_check_for_ack_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u16 fw_ack;
+> +
+> +	fw_ack =3D mucse_mbx_get_fwack(mbx);
+> +	/* chip's register is reset to 0 when rc send reset
+> +	 * mbx command. This causes 'fw_ack !=3D hw->mbx.fw_ack'
+> +	 * be TRUE before fw really reply. Driver must wait fw reset
+> +	 * done reply before using chip, we must check no-zero.
+> +	 **/
+> +	if (fw_ack !=3D 0 && fw_ack !=3D hw->mbx.fw_ack) {
+> +		hw->mbx.stats.acks++;
+> +		return 0;
+> +	}
+> +
+> +	return -EIO;
+> +}
+> +
+> +/**
+> + * mucse_poll_for_ack - Wait for message acknowledgment
+> + * @hw: pointer to the HW structure
+> + *
+> + * Return: 0 if it successfully received a message acknowledgment,
+> + * else negative errno
+> + **/
+> +static int mucse_poll_for_ack(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	int val;
+> +
+> +	return read_poll_timeout(mucse_check_for_ack_pf,
+> +				 val, !val, mbx->delay_us,
+> +				 mbx->timeout_us,
+> +				 false, hw);
+> +}
+> +
+> +/**
+> + * mucse_write_and_wait_ack_mbx - Write a message to the mailbox, wait f=
+or ack
+> + * @hw: pointer to the HW structure
+> + * @msg: the message buffer
+> + * @size: length of buffer
+> + *
+> + * Return: 0 if it successfully copied message into the buffer and
+> + * received an ack to that message within delay * timeout_cnt period
+> + **/
+> +int mucse_write_and_wait_ack_mbx(struct mucse_hw *hw, u32 *msg, u16 size)
+> +{
+> +	int ret;
+> +
+> +	ret =3D mucse_write_mbx_pf(hw, msg, size);
+
+If I see it right, this function is the only user of mucse_write_mbx_pf.
+
+> +	if (ret)
+> +		return ret;
+> +	return mucse_poll_for_ack(hw);
+
+The same here?
+
+> +}
+> +
+> +/**
+> + * mucse_mbx_reset - Reset mbx info, sync info from regs
+> + * @hw: pointer to the HW structure
+> + *
+> + * mucse_mbx_reset resets all mbx variables to default.
+> + **/
+> +static void mucse_mbx_reset(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +	u32 val;
+> +
+> +	val =3D mbx_data_rd32(mbx, MUCSE_MBX_FW2PF_CNT);
+
+Because val is assigned only once, you could make it `const u32 val =3D ...`
+
+> +	hw->mbx.fw_req =3D FIELD_GET(GENMASK_U32(15, 0), val);
+> +	hw->mbx.fw_ack =3D FIELD_GET(GENMASK_U32(31, 16), val);
+> +	mbx_ctrl_wr32(mbx, MUCSE_MBX_PF2FW_CTRL(mbx), 0);
+> +	mbx_ctrl_wr32(mbx, MUCSE_MBX_FWPF_MASK(mbx), GENMASK_U32(31, 16));
+> +}
+> +
+> +/**
+> + * mucse_init_mbx_params_pf - Set initial values for pf mailbox
+> + * @hw: pointer to the HW structure
+> + *
+> + * Initializes the hw->mbx struct to correct values for pf mailbox
+> + */
+> +void mucse_init_mbx_params_pf(struct mucse_hw *hw)
+> +{
+> +	struct mucse_mbx_info *mbx =3D &hw->mbx;
+> +
+> +	mbx->delay_us =3D 100;
+> +	mbx->timeout_us =3D 4 * USEC_PER_SEC;
+> +	mbx->stats.msgs_tx =3D 0;
+> +	mbx->stats.msgs_rx =3D 0;
+> +	mbx->stats.reqs =3D 0;
+> +	mbx->stats.acks =3D 0;
+> +	mucse_mbx_reset(hw);
+
+Is mucse_init_mbx_params_pf the only user of mucse_mbx_reset? If so, the
+function should inlined.
+
+> +}
+> diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h b/drivers/net=
+/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+> new file mode 100644
+> index 000000000000..eac99f13b6ff
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_mbx.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright(c) 2020 - 2025 Mucse Corporation. */
+> +
+> +#ifndef _RNPGBE_MBX_H
+> +#define _RNPGBE_MBX_H
+> +
+> +#include "rnpgbe.h"
+> +
+> +#define MUCSE_MBX_FW2PF_CNT 0
+> +#define MUCSE_MBX_PF2FW_CNT 4
+> +#define MUCSE_MBX_FWPF_SHM 8
+
+Are these constants used by other c files or should they be private to
+rnpgbe_mbx.c?
+
+> +#define MUCSE_MBX_PF2FW_CTRL(mbx) ((mbx)->pf2fw_mbx_ctrl)
+> +#define MUCSE_MBX_FWPF_MASK(mbx) ((mbx)->fwpf_mbx_mask)
+> +#define MUCSE_MBX_REQ BIT(0) /* Request a req to mailbox */
+> +#define MUCSE_MBX_PFU BIT(3) /* PF owns the mailbox buffer */
+> +
+> +int mucse_write_and_wait_ack_mbx(struct mucse_hw *hw, u32 *msg, u16 size=
+);
+> +void mucse_init_mbx_params_pf(struct mucse_hw *hw);
+> +int mucse_poll_and_read_mbx(struct mucse_hw *hw, u32 *msg, u16 size);
+> +#endif /* _RNPGBE_MBX_H */
+> --=20
+> 2.25.1
+>=20
+>=20
+
+--=20
+=E2=80=9CPerl=E2=80=94the only language that looks the same
+ before and after RSA encryption.=E2=80=9D           (Keith Bostic)
+
+--bsa6xqb7tdis7btv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABEIAB0WIQS1pYxd0T/67YejVyF9LJoj0a6jdQUCaMmvogAKCRB9LJoj0a6j
+deEiAP9STFP5I/NZpXa1iOufvfaKgzCZVeWfMmXaDFz+qNwEwQD9HHW2Wlsy6RF6
+3DpeQ8+XhzakIzeCotRtpvonLqp8rEU=
+=Zo+L
+-----END PGP SIGNATURE-----
+
+--bsa6xqb7tdis7btv--
