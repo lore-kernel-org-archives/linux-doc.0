@@ -1,229 +1,185 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12532265CAB;
-	Tue, 16 Sep 2025 07:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4372E8DF5
+	for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 07:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758007753; cv=none; b=BCN4rB9btZAIKYzSTWF4K9jfGcIPQCf7q8TPC+dE/JA45awBScNIayOf4n//LRuXdZ14WWG5wKaJiaxa2EKR/Ro59FRRFzmTstONWlz6lafIbqukssRetd8mIxEIdQ6ehiNBNeGBaU6sWBKuSNLhb9niL9MplbFFG1hPxJd3ZPE=
+	t=1758007972; cv=none; b=d54We6dymUwKsZ5LB+Z9DTLzIO+k+1cv5/lvy1Fp1ZKM40BSWnNP03sWm2vk7bnMwBQd4p+Incx4+9XSl6+AKHoNYfqfK1ALxiZHRhs0uf9qFi6wy4fbWW6N8+2Jq9eWFHFwHUgoKqGtgnFdMIEcpOQ2q0dmA6DLXVCg7H1xBRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758007753; c=relaxed/simple;
-	bh=SLE/KpkX4ILZbIgU7Mq9dOECZQvnarmgylJgJY+pbz0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=F+xvhXd+UibKxif/tUpwEjz8w6fg5Jc5Suz7TNWbLGZfxZt1tMvMEUFExmczpkNNoQky5tlJWCw7DFwkgUt3uZIh1af75sty1HcFGsJ0XXnLGaEkclRoOBwcQLKQ2zD7qyZO4D7ut0gpR9yTG+3hC4RkippIOAUoAQlH9ZJq3EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wolber.net; spf=pass smtp.mailfrom=wolber.net; dkim=pass (2048-bit key) header.d=wolber.net header.i=@wolber.net header.b=DMEj0aja; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nBon4aOM; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wolber.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolber.net
+	s=arc-20240116; t=1758007972; c=relaxed/simple;
+	bh=N9FJ77KjbInqACHNXJGNItslR4IJ1lfdL0wiP4soTAQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LIqWZQW2aCH27w2Eb0G8z1kDdO9uXAgKqFQ1igPEqRj0lxop1g4yiiw6tRn7a17NIBNfDXn0C4INggdZU6HgxMe8NnuLYG9syeVS78XEt4Zk/a2pmvhGM0KpCLM7QQpCiyWxIWi7Am4f+YoZrRj+HC1Kb7zZZBLQ61SolltAvJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2Qa4Ijn; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wolber.net header.i=@wolber.net header.b="DMEj0aja";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nBon4aOM"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 283BC140026A;
-	Tue, 16 Sep 2025 03:29:10 -0400 (EDT)
-Received: from phl-imap-03 ([10.202.2.93])
-  by phl-compute-02.internal (MEProxy); Tue, 16 Sep 2025 03:29:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolber.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1758007750;
-	 x=1758094150; bh=0dG0DMsEGkyA0BzrklEyus+igoCRBk/3dmQ9mxYJ0v8=; b=
-	DMEj0aja9nt1pRxz2uOZdbZ0O6VlvxQ9UVj1Hab40BG30flvr/K5R5l3h1lDl/2S
-	Mw5eJBwdhZqrdYAMgaO7IXiSbD/Mp1yhLrwEaQ0C1FV/E9Ko/e/dLE2jkdUE41Ir
-	Krqg/AgPnhWjAH5CEnwjLOOq9GD0vsf6Mz9Wv2dk7xWv0EZ5v7u5Q+aOjOOm4CWT
-	J6kgvQ/KZjYwtC1vCo8Be5UrxcCA1/6wJGNGp7wmkL70SEo2xqXVjISUhUTD2YQ/
-	B04hf76elxyBcsiL1P1BqZwnWakUHPf6eysgQ03hlRzcwv6izTXLR6miM2O7aCOV
-	8FpTysctmorHnvKqFokJ9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758007750; x=
-	1758094150; bh=0dG0DMsEGkyA0BzrklEyus+igoCRBk/3dmQ9mxYJ0v8=; b=n
-	Bon4aOM29Sk8Ta7RAanKX5YYuWFgARybA+fUnCDE8+lEQx0kisCoIF+HuXiTkzYP
-	xvgkPknqhMDSkqkCCc94W78F0j+MWUZmU+luuuZgMnDebYOQybkttFMNTRvGEiMk
-	tCl91JqyMZOw4Mjq1gsuicyw3eyX+DL7KUxTIRExokwVdvsJ2bYvazZXdOc14XQW
-	gj4zf5ae7CyO07kKqXRjFCkOXelU8KzyS/xf0b0VjgCKn6dWwijkmyNEe0J0JGit
-	ny2JD1nR1GFXLIIRJLEHYp6LnZHTy+OPtb089KDIaFnx+IVN5DR9p7qoWKSool83
-	riMmEDqGzhSka5ge9Vdhg==
-X-ME-Sender: <xms:xRHJaFKOxFkC4WXPNMFI-v83qD2O7hoYPCItKIFMizGM2BMYtE4MTg>
-    <xme:xRHJaBJhHGizG_gS2dWWzyzZKTBBpEGIIPCwV4yZ3OshaCp0sWciftMSOrXiDWQDp
-    iSwKKENboTJHJ7_5w4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefleeljecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggfgtgffkfevuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfvehhuhgt
-    khcuhgholhgsvghrfdcuoegthhhutghkseifohhlsggvrhdrnhgvtheqnecuggftrfgrth
-    htvghrnhepgefhieelvdfgvedvfffgudehueeukefgfeefhfeiudejieevheekgffhtddt
-    udetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptg
-    hhuhgtkhesfiholhgsvghrrdhnvghtpdhnsggprhgtphhtthhopedugedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtoheptghhuhgtkhifohhlsggvrhesghhmrghilhdrtghomh
-    dprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrdhorhhgpdhrtghpthhtohep
-    shhhuhgrhheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhhmsehkvh
-    grtghkrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhi
-    ohhnrdhorhhgpdhrtghpthhtohepkhhsthgvfigrrhhtsehlihhnuhigfhhouhhnuggrth
-    hiohhnrdhorhhgpdhrtghpthhtohepshgrfhgvthihqdgrrhgthhhithgvtghtuhhrvges
-    lhhishhtshdrvghlihhsrgdrthgvtghhpdhrtghpthhtoheptghorhgsvghtsehlfihnrd
-    hnvghtpdhrtghpthhtoheprggtrghrmhhinhgrsehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:xRHJaHfmI42uPyXLmOkj0hO0DDvl5OpK8gQI-KvQBuQSt4nluqtQPg>
-    <xmx:xRHJaJCq0q1vz7Z1Txvn0ukmu8tOwILxUPFjS-2iFoBxw4SK-LdcDw>
-    <xmx:xRHJaG8jF4Bm9oHjY2s0DzoBflD93LK7Bvssugr7qlMUxnNQbVhGmg>
-    <xmx:xRHJaFrVLtTwanWydR6KUlFMXH2HHTpid37-2MUvB31jZHHLiYEO0g>
-    <xmx:xhHJaJ5qhSGMfkUkz8LX3TuX1rrq44XZf-Uq3pL5HrBDoKq7C_LBGddB>
-Feedback-ID: i5cf64821:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9D64C18E0069; Tue, 16 Sep 2025 03:29:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2Qa4Ijn"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b4fb8d3a2dbso3637595a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 00:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758007970; x=1758612770; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0qd6DcxlmgvS9aQ39BofpAaJyzv4vGOwbyL9YtDUN+E=;
+        b=m2Qa4Ijn2mxy8enfCvmeaMmg9GFqbOHxXc3MuIU/4bMbexqAKgaZbnX9tSKVw18hk+
+         8gfSxH9ZaJyXKZbMMvdo0LlR07vf7W8fzD8k7gF1JvChlyPHO/AtrWTj6bjWNdck05U7
+         7J870ZLkA6DnxAvjl0VcxPLC0OktYncMk2CHJlcGVJaUvo4mDi0zhuPa+DQ5H+Ry7L1X
+         MZOApOBQMuIm8zart8vdAEQz7CFR39hwkU5iFSDXIhZWVVuCEqFzkPnAidiuP2Mjjwb7
+         KCniv3rHwEu7i57aG1Tc22Oj3aQb9sChE0iywl2qPlDVCOQlFUaf0TGtWsOVAtW7ZZd0
+         mmIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758007970; x=1758612770;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0qd6DcxlmgvS9aQ39BofpAaJyzv4vGOwbyL9YtDUN+E=;
+        b=CaJbg6OLIEkSlMk81WJKMxTyKgGucqwWEDuA5ge1P443LHI+wsh3mKrbsZzH+tW6pQ
+         gju3rIDxZ6LzfkVjHPIFPJ11jwD4j+czA87TFMGe9N7LegVCxxgSywVZHEl5741Iuooe
+         dUFG3HuSt8do4UAP65keUL6Iku+fWCEhkaUSB7nFEWtXQr49oIThwTyRxhJ/O0ZGgVtL
+         FTqdNGUt7A38Fq95CixhP8mHiJL+F2Gc+lrXsKFOtRS0Of4cMLgTQmL14nXC1oE+vi0H
+         Nv9/CtM+6T/rKfy+hmln/sW+TUKBga097ExKUqfA1s0nFquobydL6BOERzrhkU6wm0QE
+         bqIg==
+X-Forwarded-Encrypted: i=1; AJvYcCXmfKR/E82rY8xZQwRBqredGkom2zr7lXy7BzkdqWLUeC3IRDnrXIDWKl86UrqpeIO5EGivSJnDCP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy1KFCHxqAQzxMpNH55nWXaxMpfAzdLFbLei9N4HRGworfO9AS
+	G8/QOKXP8tIHgRz1pcc9wzfySPnFc9X9lXhY1P4ERpQ8cA9ZK8+8jFVg
+X-Gm-Gg: ASbGncuvmObPgYr4/KzYjVSjTt16WuVOkySCT8bud9RWhkkw17/aA9VHrFTyAvlp4Aw
+	V5qMgPbNhIxUTZ4U0n2xqyY7FdrbKsY/lrbffA+A99xYLXWtv5nXJiRC9XJeP1/EKcii0yf0Ew/
+	rvJkIul4nlDUDhqw0v73z6cXrqrZp2eH2RgNZPnC1hCpgRIChyJ5IbwpKaV7Ji2bAleIRv5Q8fo
+	rWPeS98kS7znAkdjmfpBad3gAvm+ntz/GVfGkxacjtJge4wFy6DqJbKb4PtHaBRMTvRNrh423Uf
+	byXTSJeDPJofhNSLnYcpXCFi7F+jQcfpKpJEPO7BpzuFLnAFCyNfkg84MR4fs4Uid3W+0gm9w9k
+	7fUKwLZWHUWZLBkH3O8/8ARPxEw==
+X-Google-Smtp-Source: AGHT+IHlbmq3NUjDyNUWNQ8tAOhUsvQKoh9Ue8wE7ppuENj9P3s/gzDN/spStNwgHsIAuFNeDLKPCw==
+X-Received: by 2002:a17:902:d552:b0:260:df70:f753 with SMTP id d9443c01a7336-260df70fbdcmr155594815ad.38.1758007969606;
+        Tue, 16 Sep 2025 00:32:49 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2651d2df15esm62519565ad.45.2025.09.16.00.32.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 00:32:48 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id C3A3D420A809; Tue, 16 Sep 2025 14:32:46 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux EFI <linux-efi@vger.kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Hugo Osvaldo Barrera <hugo@whynothugo.nl>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2] Documentation/x86: explain LINUX_EFI_INITRD_MEDIA_GUID
+Date: Tue, 16 Sep 2025 14:32:44 +0700
+Message-ID: <20250916073244.590483-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Sep 2025 07:29:08 +0000
-Message-Id: <DCU1QIJH8II0.17CHTYNIW9WSK@wolber.net>
-Cc: <linux-mm@kvack.org>, <safety-architecture@lists.elisa.tech>,
- <acarmina@redhat.com>, <kstewart@linuxfoundation.org>,
- <chuckwolber@gmail.com>, <chuck@wolber.net>, <rostedt@goodmis.org>
-Subject: Re: [RFC v2 PATCH 2/3] /dev/mem: Add initial documentation of
- memory_open() and mem_fops
-From: "Chuck Wolber" <chuck@wolber.net>
-To: "Jonathan Corbet" <corbet@lwn.net>, "Gabriele Paoloni"
- <gpaoloni@redhat.com>, <shuah@kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0
-References: <20250910170000.6475-1-gpaoloni@redhat.com>
- <20250910170000.6475-3-gpaoloni@redhat.com> <874it3gx2q.fsf@trenco.lwn.net>
-In-Reply-To: <874it3gx2q.fsf@trenco.lwn.net>
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4501; i=bagasdotme@gmail.com; h=from:subject; bh=aM5ZPpX4fqugAwD2VJ1FrGnAK405eAtLfQy6ZZ52Yw0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBknhWZFd3WWtGtoM9yXDbww+3fr66cpFqfUHhvJL1B4b 7c0WJi/o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABOZvIThn/Jabq7HecJ/DS5a xCfKC2cIWgRuZtcsXP5+/05pNakER0aGxudvNxw2E3l3m+NU+fddXTwvq9hfbvN+dO2vn9LuFda FDAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Mon Sep 15, 2025 at 10:39 PM UTC, Jonathan Corbet wrote:
-> Gabriele Paoloni <gpaoloni@redhat.com> writes:
->
->> This patch proposes initial kernel-doc documentation for memory_open() a=
-nd
->> most of the functions in the mem_fops structure.  The format used for th=
-e
->> specifications follows the guidelines defined in
->> Documentation/doc-guide/code-specifications.rst
->
-> I'll repeat my obnoxious question from the first patch: what does that bu=
-y
-> for us?
+From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
 
-Fair question, and definitely not obnoxious.
+Since the Handover Protocol was deprecated, the recommended approach is
+to provide an initrd using a UEFI boot service with the
+LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+approach has been no more than an admonition with a link to an existing
+implementation.
 
-It might help to reframe this a bit. The idea is to take an engineering
-technique from one domain and apply it with modifications to another. The
-relevant terms of art are "forward engineering" and "reverse engineering".
+Provide a short explanation of this functionality, to ease future
+implementations without having to reverse engineer existing ones.
 
+Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+[Bagas: Don't use :ref: link to EFI stub documentation and refer to
+OVMF/edk2 implementation]
+Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [1]:
 
-> My kneejerk first reaction is: you are repeating the code of the function=
- in
-> a different language.
+  * Apply wording suggestion (Ard)
+  * Replace candyboot reference with OVMF (Ard)
+  * Invert patch subject prefix
 
-No disagreement on that perception. We have more work to do when it comes t=
-o
-communicating the idea, as well as developing a better implementation.
+[1]: https://lore.kernel.org/linux-doc/20250910015738.14848-2-bagasdotme@gmail.com/
 
-The design of the Linux kernel is emergent and, in the present state, all f=
-orms
-of testing are an (educated) guess at the intended design. We can demonstra=
-te
-this by picking a random bit of code from the kernel and assigning ourselve=
-s
-the task of writing a test for it.
+ Documentation/admin-guide/efi-stub.rst |  3 ++
+ Documentation/arch/x86/boot.rst        | 38 ++++++++++++++++++++------
+ 2 files changed, 33 insertions(+), 8 deletions(-)
 
-Are you certain that your test accurately reflects the true design intent? =
-You
-can read the code and test what you see. But that does not mean that your t=
-est
-is valid against the intent in someone else's head.
+diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+index 090f3a185e1897..f8e7407698bd2a 100644
+--- a/Documentation/admin-guide/efi-stub.rst
++++ b/Documentation/admin-guide/efi-stub.rst
+@@ -79,6 +79,9 @@ because the image we're executing is interpreted by the EFI shell,
+ which understands relative paths, whereas the rest of the command line
+ is passed to bzImage.efi.
+ 
++.. hint::
++   It is also possible to provide an initrd using a Linux-specific UEFI
++   protocol at boot time. See :ref:`pe-coff-entry-point` for details.
+ 
+ The "dtb=" option
+ -----------------
+diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+index 77e6163288db08..32eea3d2807e1c 100644
+--- a/Documentation/arch/x86/boot.rst
++++ b/Documentation/arch/x86/boot.rst
+@@ -1431,12 +1431,34 @@ The boot loader *must* fill out the following fields in bp::
+ All other fields should be zero.
+ 
+ .. note::
+-     The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+-     entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+-     loading protocol (refer to [0] for an example of the bootloader side of
+-     this), which removes the need for any knowledge on the part of the EFI
+-     bootloader regarding the internal representation of boot_params or any
+-     requirements/limitations regarding the placement of the command line
+-     and ramdisk in memory, or the placement of the kernel image itself.
++   The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
++   entry point described below.
+ 
+-[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _pe-coff-entry-point:
++
++PE/COFF entry point
++===================
++
++When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
++regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
++implementation details.
++
++The stub loader can request the initrd via a UEFI protocol. For this to work,
++the firmware or bootloader needs to register a handle which carries
++implementations of the ``EFI_LOAD_FILE2`` protocol and the device path
++protocol exposing the ``LINUX_EFI_INITRD_MEDIA_GUID`` vendor media device path.
++In this case, a kernel booting via the EFI stub will invoke
++``LoadFile2::LoadFile()`` method on the registered protocol to instruct the
++firmware to load the initrd into a memory location chosen by the kernel/EFI
++stub.
++
++This approach removes the need for any knowledge on the part of the EFI
++bootloader regarding the internal representation of boot_params or any
++requirements/limitations regarding the placement of the command line and
++ramdisk in memory, or the placement of the kernel image itself.
++
++For sample implementations, refer to `the original u-boot implementation`_ or
++`the OVMF implementation`_.
++
++.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _the OVMF implementation: https://github.com/tianocore/edk2/blob/1780373897f12c25075f8883e073144506441168/OvmfPkg/LinuxInitrdDynamicShellCommand/LinuxInitrdDynamicShellCommand.c
 
-Music instructors see this whenever their students play the right notes but
-clearly do not yet "feel" the music. The difference is noticeable even by
-casual listeners.
-
-
-> If we are not convinced that the code is correct, how can we be more
-> confident that this set of specifications is correct?
-
-We have no reason to be independently convinced of either. When we describe
-this as importing a technique into a new domain, your question is an exampl=
-e of
-some of the concessions that have to be made.
-
-The Linux kernel is not a forward engineered system. Therefore it is not
-possible to develop code and test from the same seed. Our only option is to
-reverse engineer that seed to the best of our abilities.
-
-At that point we have a few options.
-
-Ideally, the original developer can weigh in and validate that our
-interpretation is correct. This has the effect of "simulating" a forward
-engineering scenario, because a test can be created from the validated seed=
- (I
-am trying valiantly to avoid using the word kernel).
-
-Absent the original developer's validation, we have the option of simply
-asserting the specification. This is equivalent to the way testing is done
-today, except a test can be equally opaque with respect to what design it i=
-s
-attempting to validate.
-
-In either case, if a test is developed against the specification, even an
-initially incorrect specification, we have the ability to bring code,
-specification, and test into alignment over time.
-
-
-> And again, what will consume this text?
-
-Humans are the consumer. But to be clear - a machine readable template is g=
-oing
-to be required in the long run to ensure that code and specification remain
-aligned. Our intentent was to avoid confusing things with templates, and
-introduce them once we have made headway on the points you have brought up.
-
-It is probably also worth mentioning, we have already had an "a-ha" moment =
-from
-one kernel maintainer. I believe the words were something to the effect of,
-"this is great, I used to have to relearn that code every time I touch it".
-
-
-> How does going through this effort get us to a better kernel?
-
-I am hoping some of the above planted the seed to answer this one. Code mus=
-t
-be correct in two ways, it must be valid and it must be verified.
-
-Valid means - the code is doing the right thing.
-Verified means - the code is doing the thing right.
-
-If code and test accurately reflect the same idea, then we can alleviate
-maintainers of a large portion of the verification burden. Validation is in=
- the
-"hearts and minds" of the users, so that burden never goes away.
-
-
-> Despite having been to a couple of your talks, I'm not fully understandin=
-g
-> how this comes together; people who haven't been to the talks are not goi=
-ng
-> to have an easier time getting the full picture.
-
-I agree. And thank you very much for attending those talks and engaging wit=
-h
-us. It truly means a lot.
-
-I have submitted a refereed talk to this year's Pumbers conference that is
-intended to go over these points in detail. My colleague (not on this threa=
-d)
-has also submitted a refereed talk on best practices for developing these
-specifications. His name is Matthew Whitehead and he is a recognized expert=
- in
-that area.
-
-..Ch:W..
+base-commit: f44a29784f685804d9970cfb0d3439c9e30981d7
+-- 
+An old man doll... just what I always wanted! - Clara
 
