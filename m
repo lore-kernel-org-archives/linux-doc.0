@@ -1,75 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4304E18FDBE;
-	Tue, 16 Sep 2025 15:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE049371E8D;
+	Tue, 16 Sep 2025 15:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758038104; cv=none; b=HOKG/kGHW1qCG6KjO9S53CZ8Lgfkn7t5C4jXQJQ2mpvrfRo/3ZyFFh6rdNctwHH7MYyHSUNdra9nlpCO81Drzn5rYAIome6xt/sk6z0+ibQmn7zPYBOAnRkX0yD9z0GhWI2A4Wvr22f5iflE5deJu44PSgHB5QunOK/40p4/bmA=
+	t=1758038176; cv=none; b=MoyRXKiZ/wNAKxDIyFI5iXGt39y2D7oBJ8CCSyLojo3O1oFengCA+CnO5nIYfifxTxMgEKvW6nKPrD+lEVDvR0y+vhYEa+6h4G9v3+izMICtgxorelgp+GwUqWRe8W8Bc45ujE2jEyALFIKlwnt3IlgNVIAkDARISXWKL9NQ7WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758038104; c=relaxed/simple;
-	bh=CXYoSgaS63Y+/tc9C0ims5v3zXKHr5QTlAy7T/0nUAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MtcmJWJW/GYCbSNN6pUsqlXf248IYRClcd38JN2KsFdPpFUcMvQ7/2r0DzzmZyHkR0WImWztAP4ydo3hg3FMZ0POXemALOv15tjA9pk3PARBFP2WPpSOXCyR219NOj6gwyvXELuMhfeAvJ2iytpJgRMZ/LO1V/35aght9cmJ19U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RG7kRAD2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758038176; c=relaxed/simple;
+	bh=wTJvJj6eRWdAYGjzYG9t3lToK4EhOXbyRLNUZQvHDHo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kgvT3WOxOxCryr/ZvjglAdFQQHeh0dyPV687xZDqq5rhyZCYIpEvestAMdaT7EpRwlvcjCzAy069du4S7xpiLPK4hK9mzw46cbaumz6R/1GOk5pYxw022bOD22McaqWvEFDbcZQ3IaByV5JH1Km02e5Bh/OB5Q3M3a4dngpP3vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=i4T0pmca; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RG7kRAD2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE2DC4CEEB;
-	Tue, 16 Sep 2025 15:55:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758038103;
-	bh=CXYoSgaS63Y+/tc9C0ims5v3zXKHr5QTlAy7T/0nUAg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=RG7kRAD2GJpzmsl/wG1YZ7hRD2r3vD8Br+jFsGVErbdEbb8BAozNa2ksZfx+apq6+
-	 BW6ORKblBpSyrTNrw8LeV0oIlabHKfaq/4JEFd7goi9vPSq6MYTd56tN1gMldIpn0N
-	 4vkLAwAK0nafaOQjWqSMKqWiwYjf4WHQMv8Sxxs6XPqymU4FjazCM+Uhbdl9LLtgCY
-	 jAWTMGi+VRCykLD3OP/wVd+hwIx09ub9b6eMxxZyU33HYijgmytgKLd8MzmgXq2tuc
-	 fCd0/olnaY7Ac/+ujskMpBW8KqvF8XABsRPFliHispKm/bqd6Oh/5I5wfEeP9w1SYp
-	 c3eABWjikpTng==
-Date: Tue, 16 Sep 2025 10:55:02 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Terry Bowman <terry.bowman@amd.com>,
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-	Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Linas Vepstas <linasvepstas@gmail.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH v2 0/4] Documentation: PCI: Update error recovery docs
-Message-ID: <20250916155502.GA1801539@bhelgaas>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="i4T0pmca"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8F58840ADA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758038172; bh=GNHipi3gqWjiz9s6uaIWvAOuFHTUfXew1Fob6o15eC8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=i4T0pmca4X/i+thMId7o+uDdMshe2mNRNvC3ZOmwcWzRCL9xdat83Ub2OvoHslzb7
+	 5j/cEt2hBRDCBy4NtRUjyFXKfwtKQAY7+dtPit2qSV8u2A/o10LsQdLOFRxT/2P1bT
+	 1Zs+2ls84dPcY115coSq3dIRPdW70nPoBSM6ql8cjvoeOM2UXKruIOjGOvg3237JQU
+	 5F8UxmaPSDkWa8hByQZ2o+iG4UKQ2+hdBvzWlipsBj3Ee/uF0zS/8q/5NE10vkYRhr
+	 /mfGczc8JPWnXukSgt0vSygfybpNDjlGYnjB3qKtytfT61/M+wUyY7dJis90te16sl
+	 KgHMSzdzehNqg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8F58840ADA;
+	Tue, 16 Sep 2025 15:56:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Taimoor Zaeem <taimoorzaeem@gmail.com>, andersson@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: staging: fix spelling error in
+ remoteproc.rst
+In-Reply-To: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
+References: <CANQcFN1s_iM8p5tYNz3Q_WyZki6Aw9_3HyoKwyoCVA9JeqG0eA@mail.gmail.com>
+Date: Tue, 16 Sep 2025 09:56:11 -0600
+Message-ID: <87bjnafl2c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1757942121.git.lukas@wunner.de>
+Content-Type: text/plain
 
-On Mon, Sep 15, 2025 at 03:50:00PM +0200, Lukas Wunner wrote:
-> Fix deviations between the code and the documentation on
-> PCIe Advanced Error Reporting.  Add minor clarifications
-> and make a few small cleanups.
-> 
-> Changes v1 -> v2:
-> * In all patches, change subject prefix to "Documentation: PCI: ".
-> * In patch [3/4], mention s390 alongside powerpc (Niklas).
-> 
-> Link to v1:
-> https://lore.kernel.org/all/cover.1756451884.git.lukas@wunner.de/
-> 
-> Lukas Wunner (4):
->   Documentation: PCI: Sync AER doc with code
->   Documentation: PCI: Sync error recovery doc with code
->   Documentation: PCI: Amend error recovery doc with DPC/AER specifics
->   Documentation: PCI: Tidy error recovery doc's PCIe nomenclature
-> 
->  Documentation/PCI/pci-error-recovery.rst | 43 ++++++++++---
->  Documentation/PCI/pcieaer-howto.rst      | 81 +++++++++++-------------
->  2 files changed, 72 insertions(+), 52 deletions(-)
+Taimoor Zaeem <taimoorzaeem@gmail.com> writes:
 
-Applied to pci/aer for v6.18, thanks, everybody!
+> From 10321c75f8fc1296775942f13cb3af78fdc8dcc8 Mon Sep 17 00:00:00 2001
+> From: Taimoor Zaeem <taimoorzaeem@gmail.com>
+> Date: Sun, 14 Sep 2025 16:31:56 +0500
+> Subject: [PATCH] Documentation: staging: fix spelling error in remoteproc.rst
+>
+> Fix typo 'implementors' to 'implementers' in remote processor framework
+> documentation.
+>
+> Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
+> ---
+>  Documentation/staging/remoteproc.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
+> index 348ee7e508ac..5c226fa076d6 100644
+> --- a/Documentation/staging/remoteproc.rst
+> +++ b/Documentation/staging/remoteproc.rst
+> @@ -104,7 +104,7 @@ Typical usage
+>  	rproc_shutdown(my_rproc);
+>    }
+>  
+> -API for implementors
+> +API for implementers
+>  ====================
+
+Applied, thanks.
+
+jon
