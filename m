@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE513054D0;
-	Tue, 16 Sep 2025 10:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8B4305E02;
+	Tue, 16 Sep 2025 10:23:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758018216; cv=none; b=fV4Fl+HyXW4CKpVgEiJv1mz6osB+K4Dkl1B22aSknjdmXvJSghT3qNZtGttdY6XU9y4KR+8SUMPZTpPaVawc9bUUwUA+nDw5K3+CEAH2CwElg/tuvWn4TQVZbHngH0YE1Vtwava5d7yYiAvCLcPbPrn0Xj8dsc9Ty8S7Xi606Zk=
+	t=1758018217; cv=none; b=eQOh6ItycxxuXyeJSI7DKSveLnt7LRX1OB7tSTlABwdzWwjW58gfZfzP5eWFwBJekkFGr34FWn5eZxv1fAblg789DFqY4mdQ74GZLUnXvA+2hpEghxcU+MZsYrpiIV7u/xbl1xWBf6hWfEU7UEuImfnwNLsG2sicYksWMd4Ig/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758018216; c=relaxed/simple;
-	bh=GdJwj3d3TAyo2Nn7d6rWe+07TNA7IyqQabnELNUF9QU=;
+	s=arc-20240116; t=1758018217; c=relaxed/simple;
+	bh=ZLbhSMLrYrG412X2oMrDythT1CiWtmLDdQQNSbEgmmI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qpaGZ2/24jvYHDsvr+YhAGPhUpbZ8XdEe2CD2Yrmloub5yKKbMeoOJpzXoQLSEXgCCj9UP7Bq1VLbp+WylQ//f9SXb7z8us62I8POz2IgiJUk+c/aetOIFEF8k8skP8qMfxw3GUL/EHWJqofXqMswws0xDdY/vQxnv9F8vzHBWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdXTWZVX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=nO7PIZxSzd3PDi225m2AFyi+F3jMs+NOChp7hb0cog7kpP9lRU1UqGv35A2fdrn+YJvCzCIxYpP+E7dd8iLbns3mSEeKSLDDWGfGTVUiubN9z3BelRIZs7dzZ/tLdTSsOlOuueS0Ni038Ce2l7Z32iYZg/fMB5OHNTu2p30F7nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhjnCceF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdXTWZVX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFBDC4CEFA;
-	Tue, 16 Sep 2025 10:23:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhjnCceF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011F0C4CEEB;
+	Tue, 16 Sep 2025 10:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758018216;
-	bh=GdJwj3d3TAyo2Nn7d6rWe+07TNA7IyqQabnELNUF9QU=;
+	s=k20201202; t=1758018217;
+	bh=ZLbhSMLrYrG412X2oMrDythT1CiWtmLDdQQNSbEgmmI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tdXTWZVXn4IA8B3LHhsOqvsu+hTRHNpgxGX4Kf0CAZL+AKj71kFyedsGf6DSVe8gn
-	 eAv4pEO3uZAoAtRJheTqh9e1e/m5HBzxEBKqoY2vmejrmuUwenQNW8zoJdJ958te33
-	 2t8jQ/4S/x3tawvi5ytciQYWa/C29csfZMZCVbkxoBqBYb2Sdz2q/THojiXJ/3tH/5
-	 x/u8XrJai8q9GkQrwa06X3K9SdFC5rasMhmDUrLV8OxgQ5m39Y5x/PnvE0aOC9fwpk
-	 68t36MRhkKiZLNLSmBIanKJV0qpjXCBfCi3ShVrKrPzBf2zVAK4vhwsL8r/WduG/1g
-	 HKDTlvMi3F/SA==
+	b=UhjnCceFpMzXpVvAm9Ux6ai6aRBg0TYg4WetY+vUWVCo9JpBpdJEoGbUVStlmRJkf
+	 ONAgN07eM6YyczEgFF+aYjeNJIz5am/H2IrQbhUkmTxrGM27m5VwXWiSxjEG8p3+Yd
+	 Ly1dglR52gl6RpXGVRNo128osXINfKb3ZJPPQ1a6L4uug12zMEqpUlvPiVuzE8U8qm
+	 jx1e5TUhUKIBBBETnTrAG2MKRBe0di98aHcQzgukXcRhkTaAMSBUmYe8pt9UBYDwg7
+	 wW93JaZ1utJmYTSZndBNrInRGfEFaKynKKSfKI0FOQmqsjYS1pA6ItjsqnlgaEJ/cW
+	 +ISglh8r0U4bA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uySqS-0000000BBPC-3hvV;
+	id 1uySqS-0000000BBPM-40Rk;
 	Tue, 16 Sep 2025 12:23:32 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 09/21] tools/docs: python_version: allow check for alternatives and bail out
-Date: Tue, 16 Sep 2025 12:22:45 +0200
-Message-ID: <aa3d5b0d4ea2a0e137116e4ec086677766e90bad.1758018030.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 11/21] docs: parallel-wrapper.sh: remove script
+Date: Tue, 16 Sep 2025 12:22:47 +0200
+Message-ID: <f17f59f65ed7109021ad1e2443ebf2be292c4f72.1758018030.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758018030.git.mchehab+huawei@kernel.org>
 References: <cover.1758018030.git.mchehab+huawei@kernel.org>
@@ -52,97 +52,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The caller script may not want an automatic execution of the new
-version. Add two parameters to allow showing alternatives and to
-bail out if version is incompatible.
+The only usage of this script was docs Makefile. Now that
+it is using the new sphinx-build-wrapper, which has inside
+the code from parallel-wrapper.sh, we can drop this script.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/lib/python_version.py | 43 ++++++++++++++++++++++++++------
- 1 file changed, 35 insertions(+), 8 deletions(-)
+ Documentation/sphinx/parallel-wrapper.sh | 33 ------------------------
+ 1 file changed, 33 deletions(-)
+ delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
 
-diff --git a/tools/docs/lib/python_version.py b/tools/docs/lib/python_version.py
-index 660bfe7d23fa..a9fda2470a26 100644
---- a/tools/docs/lib/python_version.py
-+++ b/tools/docs/lib/python_version.py
-@@ -85,10 +85,12 @@ class PythonVersion:
-         may need to update it one day, hopefully on a distant future.
-         """
-         patterns = [
--            "python3.[0-9]",
-             "python3.[0-9][0-9]",
-+            "python3.[0-9]",
-         ]
- 
-+        python_cmd = []
-+
-         # Seek for a python binary newer than min_version
-         for path in os.getenv("PATH", "").split(":"):
-             for pattern in patterns:
-@@ -96,12 +98,13 @@ class PythonVersion:
-                     if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
-                         version = PythonVersion.get_python_version(cmd)
-                         if version >= min_version:
--                            return cmd
-+                            python_cmd.append((version, cmd))
- 
--        return None
-+        return sorted(python_cmd, reverse=True)
- 
-     @staticmethod
--    def check_python(min_version):
-+    def check_python(min_version, show_alternatives=False, bail_out=False,
-+                     success_on_error=False):
-         """
-         Check if the current python binary satisfies our minimal requirement
-         for Sphinx build. If not, re-run with a newer version if found.
-@@ -113,18 +116,42 @@ class PythonVersion:
- 
-         python_ver = PythonVersion.ver_str(cur_ver)
- 
--        new_python_cmd = PythonVersion.find_python(min_version)
--        if not new_python_cmd:
-+        available_versions = PythonVersion.find_python(min_version)
-+        if not available_versions:
-             print(f"ERROR: Python version {python_ver} is not spported anymore\n")
-             print("       Can't find a new version. This script may fail")
-             return
- 
--        # Restart script using the newer version
-         script_path = os.path.abspath(sys.argv[0])
--        args = [new_python_cmd, script_path] + sys.argv[1:]
-+
-+        # Check possible alternatives
-+        if available_versions:
-+            new_python_cmd = available_versions[0][1]
-+        else:
-+            new_python_cmd = None
-+
-+        if show_alternatives:
-+            print("You could run, instead:")
-+            for _, cmd in available_versions:
-+                args = [cmd, script_path] + sys.argv[1:]
-+
-+                cmd_str = " ".join(args)
-+                print(f"  {cmd_str}")
-+            print()
-+
-+        if bail_out:
-+            msg = f"Python {python_ver} not supported. Bailing out"
-+            if success_on_error:
-+                print(msg, file=sys.stderr)
-+                sys.exit(0)
-+            else:
-+                sys.exit(msg)
- 
-         print(f"Python {python_ver} not supported. Changing to {new_python_cmd}")
- 
-+        # Restart script using the newer version
-+        args = [new_python_cmd, script_path] + sys.argv[1:]
-+
-         try:
-             os.execv(new_python_cmd, args)
-         except OSError as e:
+diff --git a/Documentation/sphinx/parallel-wrapper.sh b/Documentation/sphinx/parallel-wrapper.sh
+deleted file mode 100644
+index e54c44ce117d..000000000000
+--- a/Documentation/sphinx/parallel-wrapper.sh
++++ /dev/null
+@@ -1,33 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0+
+-#
+-# Figure out if we should follow a specific parallelism from the make
+-# environment (as exported by scripts/jobserver-exec), or fall back to
+-# the "auto" parallelism when "-jN" is not specified at the top-level
+-# "make" invocation.
+-
+-sphinx="$1"
+-shift || true
+-
+-parallel="$PARALLELISM"
+-if [ -z "$parallel" ] ; then
+-	# If no parallelism is specified at the top-level make, then
+-	# fall back to the expected "-jauto" mode that the "htmldocs"
+-	# target has had.
+-	auto=$(perl -e 'open IN,"'"$sphinx"' --version 2>&1 |";
+-			while (<IN>) {
+-				if (m/([\d\.]+)/) {
+-					print "auto" if ($1 >= "1.7")
+-				}
+-			}
+-			close IN')
+-	if [ -n "$auto" ] ; then
+-		parallel="$auto"
+-	fi
+-fi
+-# Only if some parallelism has been determined do we add the -jN option.
+-if [ -n "$parallel" ] ; then
+-	parallel="-j$parallel"
+-fi
+-
+-exec "$sphinx" $parallel "$@"
 -- 
 2.51.0
 
