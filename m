@@ -1,155 +1,207 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959B52857F0
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D780B1EF363;
+	Wed, 17 Sep 2025 14:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758119174; cv=none; b=US5wtAxXk64qkdp3K5HgROV+t+sZwzDFuNBxG9At0v1HiHiB7J2YrfRYNoBMcm0g1moWVGaSpdSdbIlaueBvqTgNu2CqUexXHYIB2ejNnagAZO+cg2QvqPin7hBwoqItQMfiCMccVxjoBlDKv8As6vzygRQ3v5Mkm139u+bptlM=
+	t=1758119905; cv=none; b=JTLUFwA4DIDUs/TWlZ5pRJ4AZqHX9QU3ny4oPeIPy48pvUE6/Y+T9OZqJspiNaLbu+SuaPxiFzK7XucPsVYUnMnikp8Q26q4/z+OVSTmHDE/65jwYNxpNxHFAn5Dw02IlFg4Gjmi8kPyZTZZCvaKO6Enq5QBVrIsi2BS6jxk1Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758119174; c=relaxed/simple;
-	bh=JZxC59+l0K5DkGdV5aRYQYUWp1YC5ovZfqzD3FPsuz8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9GD+ab1IPKjMFPTKTHl/77Y1Ekcoa2ZTJQ8Kwh1jEw8/NXpz2bJqNVGHRHB0/fIQtjX9UvDJ647KEOi13jbJL+sa2mtR8s9wCzV8dsl2ZITAp6fEP4C+k11KvpLZgzHs+lnlzJCr9LfH0BjSn635oXu3pRCjqKTlBjlz8Pov9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wMacfxa6; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758119905; c=relaxed/simple;
+	bh=JUOAYdT860eucBNczbVANNdcaqnUWi74UuVf01tr4rg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=SSX6ByS14W4zqz4HGRebNWtx7JXvcZr6Kf1ZIuPKR5oVBDdFp5jyjP2nEoqyJ2Fc8thikYBw9JEK2d4t5LwsOHW+ecGQ6UHxA2Lmf8E4YJzrJZOypYxAmq8YQX41Upt7Y3FdTeoeHZvmzfENJAcYw+gh8LX/vGUrtKw6dSFhCVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edYel4cY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wMacfxa6"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b07d4d24d09so555580566b.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 07:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758119171; x=1758723971; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=10t2Z6sgnABIAwDZkTB26QdFfX0ldYEILJpBIALC4NU=;
-        b=wMacfxa64V+hZqJdlMnXg2iSd8LdTVPmi5yXWNYYsPUQc/J8+hrz4DoD5nrQhJ42fn
-         lqYPw4FMS30yNrWWuIwJIIfpA35RmuASBsHIvLBSzdg20DpRwJU7UuxQdqsfZZ/myoN2
-         BgmpKgzbgIR9kuV8egT9fW7/uShJv18fYzfI5NdxS/JAzWA7HSLDoVYVOjt1/v+LZHOP
-         73H2hVA/lfUhzCm3SsnPH1BFNGNc5ii4yvJvXJunecjrn419i291yAPce4q3nT6ClaCZ
-         ZMWGweox/NDihX+XLcQlPvFDH8S2PZNE5jw3jJYdSH+c1b3qisNVF4MkZ9md+bo3CF72
-         4TXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758119171; x=1758723971;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=10t2Z6sgnABIAwDZkTB26QdFfX0ldYEILJpBIALC4NU=;
-        b=LDU6ChWXvn7imEvl8zJGSggk0wI7WS6rReEfLgmjFBldxb3cKQRQDchiWNIMIhlJna
-         Hit1CE1NDpeMvopGRvw7g+pj+8AzyrKc+dmVgeV9L5+7xwIWDmrJ4DcmeO9pIeP2u8oX
-         U+A2ex3Q/ZE4PrSYCbxrxdDeZrggrbfpWCvlAt1JUqmB0ixl/cJlgsPia60j2F84/N3X
-         hqCFtYcA/YWy3xEf6koWPmG/TMU2OiinFLdA6LeaMEbpgm0eX8Yixctb36no6TaZn07d
-         1rfOJiH1poz4d3OxHcq5nEx8883YOtybSrkyReEhg1X9BxLBRvYa614jEjHrFp5G4ixg
-         ev8g==
-X-Forwarded-Encrypted: i=1; AJvYcCW/h7YBgN/SXxDNmxZETv6ieaNlnYBgS1mxVAf3M+G2QT76aqLFaWz/cvJybFd8Q6NtkfpGmQ/tY7E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuS/+xiE1UGX0lCk4258KbjJfgScgbXRhRY4KF8uqL4j+cyzWB
-	cZy3o5+9FmSzsXJc6xsPxtqq5Q1QswPJm5HaN0kpa2UKHfmuFLfnb8qP2EFagx3RDs8=
-X-Gm-Gg: ASbGncuv3rJVnZorZcqhurccHVhdjtwJV6aqWmkRsuIwVhPeZ7CAAZvrY1SRUhIO1xA
-	sy7ir2xQxWYZOYE4gku11Cydbv7bfNobFxzVlE9/4SyEgpPIyx1+PR7tOxdDxRfrxYNSvEw1DWD
-	3bVAluZyOntYG5EKwnDBnuIgVVWz6p7c7r1p2KPdqTopYZFLVJBWBZsfTHUTD6UiN3IqrwdYITB
-	trpDBoA/yiSXNJ4cq4FEvnUeT2tOduB07iVvni635I9VTxujJVbk+v7dpTpTJ7tWB8M0Exjx1Uw
-	tfID/jQtveeBUe5qKTYWqgvA1T+sxAr0xxsOm5+dLXP7bVcU7rvNMClynme5Cb44AktHSU+8tnL
-	8OMfov/FDWzRcbjhVEo39yEspi4cEiHUwfdGFekXfu/k=
-X-Google-Smtp-Source: AGHT+IEaxm2Ezs6X9pAGeZTfGiDeZKKFcv9jYxAWmPiRXScidoOV/iqJhV2uKVKOhqCyY8zfonbwMA==
-X-Received: by 2002:a17:907:970e:b0:afe:c2e7:3705 with SMTP id a640c23a62f3a-b1bb2d0f4fdmr263147466b.22.1758119170855;
-        Wed, 17 Sep 2025 07:26:10 -0700 (PDT)
-Received: from [172.20.10.3] ([109.166.135.151])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b3347b90sm1356906866b.109.2025.09.17.07.26.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 07:26:10 -0700 (PDT)
-Message-ID: <b8a0586e-a79a-4e14-87d8-ee156436d1b0@linaro.org>
-Date: Wed, 17 Sep 2025 17:26:08 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edYel4cY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8FFC4CEE7;
+	Wed, 17 Sep 2025 14:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758119904;
+	bh=JUOAYdT860eucBNczbVANNdcaqnUWi74UuVf01tr4rg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=edYel4cYDGAgEtEFofgM90xqvX8MYZTmQlkOdEznPSp7tEbYOqf/of3DfJhpGFICg
+	 AG2Ff/WETrM1UAfpQuyACeE72peP8+fDkK2DNo+rrTRSIFpbnpVKe5WBSj7nyRcUd5
+	 aTwAlm3s0evW7WcGqHWDKxNh8GDXze/2+qrCTMZk3jz5NtSKMa4I1Zscjxd+ZUl/bT
+	 mkjn6kOKYXqlXxWyzZrz8xZxFgrgREGamJ3rGUIZtGztnAg8QAZSVfa01OldMfBXgH
+	 md6Pf911vriZEDztQUjb5jL9J6wVxZT4L3654czOdOToJJQorQBEiPw9y96bc3bKgG
+	 W5GLADbztm9Zw==
+Date: Wed, 17 Sep 2025 23:38:18 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+ Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v4 1/8] tracing: wprobe: Add watchpoint probe event
+ based on hardware breakpoint
+Message-Id: <20250917233818.71678d0164a6fc2d11fa6e38@kernel.org>
+In-Reply-To: <014136d2-8599-4a1f-ab8e-c5be4f522e5a@infradead.org>
+References: <175785897434.234168.6798590787777427098.stgit@devnote2>
+	<175785898586.234168.14883193853242691280.stgit@devnote2>
+	<014136d2-8599-4a1f-ab8e-c5be4f522e5a@infradead.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Thomas Gleixner <tglx@linutronix.de>, David Hildenbrand
- <david@redhat.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
-From: Eugen Hristev <eugen.hristev@linaro.org>
-Content-Language: en-US
-In-Reply-To: <87v7lh891c.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+Hi Randy,
 
+On Sun, 14 Sep 2025 17:14:37 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
+> > +  w:[GRP/][EVENT] SPEC [FETCHARGS]                       : Probe on data access
+> > +
+> > + GRP            : Group name for wprobe. If omitted, use "wprobes" for it.
+> > + EVENT          : Event name for wprobe. If omitted, an event name is
+> > +                  generated based on the address or symbol.
+> > + SPEC           : Breakpoint specification.
+> > +                  [r|w|rw]@<ADDRESS|SYMBOL[+|-OFFS]>[:LENGTH]
+> > +
+> > +   r|w|rw       : Access type, r for read, w for write, and rw for both.
+> > +                  Use rw if omitted.
+> 
+> 		     Default is rw if omitted.
 
-On 9/17/25 17:10, Thomas Gleixner wrote:
-> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
->> On 17.09.25 07:43, Eugen Hristev wrote:
->>> On 9/17/25 00:16, Thomas Gleixner wrote:
->>>> I pointed you to a solution for that and just because David does not
->>>> like it means that it's acceptable to fiddle in subsystems and expose
->>>> their carefully localized variables.
->>
->> It would have been great if we could have had that discussion in the 
->> previous thread.
-> 
-> Sorry. I was busy with other stuff and did not pay attention to that
-> discussion.
-> 
->> Some other subsystem wants to have access to this information. I agree 
->> that exposing these variables as r/w globally is not ideal.
-> 
-> It's a nono in this case. We had bugs (long ago) where people fiddled
-> with this stuff (I assume accidentally for my mental sanity sake) and
-> caused really nasty to debug issues. C is a horrible language to
-> encapsulate stuff properly as we all know.
-> 
->> I raised the alternative of exposing areas or other information through 
->> simple helper functions that kmemdump can just use to compose whatever 
->> it needs to compose.
->>
->> Do we really need that .section thingy?
-> 
-> The section thing is simple and straight forward as it just puts the
-> annotated stuff into the section along with size and id and I definitely
-> find that more palatable, than sprinkling random functions all over the
-> place to register stuff.
-
-+1 from my side.
+OK.
 
 > 
-> Sure, you can achieve the same thing with an accessor function. In case
-> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
+> > +   ADDRESS      : Address to trace (hexadecimal).
+> > +   SYMBOL       : Symbol name to trace.
+> > +   LENGTH       : Length of the data to trace in bytes. (1, 2, 4, or 8)
+> > +
+> > + FETCHARGS      : Arguments. Each probe can have up to 128 args.
+> > +  $addr         : Fetch the accessing address.
+> > +  @ADDR         : Fetch memory at ADDR (ADDR should be in kernel)
+> > +  @SYM[+|-offs] : Fetch memory at SYM +|- offs (SYM should be a data symbol)
+> > +  +|-[u]OFFS(FETCHARG) : Fetch memory at FETCHARG +|- OFFS address.(\*1)(\*2)
+> > +  \IMM          : Store an immediate value to the argument.
+> > +  NAME=FETCHARG : Set NAME as the argument name of FETCHARG.
+> > +  FETCHARG:TYPE : Set TYPE as the type of FETCHARG. Currently, basic types
+> > +                  (u8/u16/u32/u64/s8/s16/s32/s64), hexadecimal types
+> > +                  (x8/x16/x32/x64), "char", "string", "ustring", "symbol", "symstr"
+> > +                  and bitfield are supported.
+> > +
+> > +  (\*1) this is useful for fetching a field of data structures.
+> > +  (\*2) "u" means user-space dereference.
+> > +
+> > +For the details of TYPE, see :ref:`kprobetrace documentation <kprobetrace_types>`.
+> > +
+> > +Usage examples
+> > +--------------
+> > +Here is an example to add a wprobe event on a variable `jiffies`.
+> > +::
+> > +
+> > +  # echo 'w:my_jiffies w@jiffies' >> dynamic_events
+> > +  # cat dynamic_events
+> > +  w:wprobes/my_jiffies w@jiffies
+> > +  # echo 1 > events/wprobes/enable
+> > +  # cat trace | head
 
-Not really. I cannot use this accessory function because it returns the
-<value> of nr_irqs. To have this working with a debug tool, I need to
-dump the actual memory where nr_irqs reside. This is because any debug
-tool will not call any function or code, rather look in the dump where
-is the variable to find its value. And nr_irqs is not in the coredump
-image if it's not registered itself into kmemdump.
-So to make it work, the accessory would have to return a pointer to
-nr_irqs. Which is wrong. Returning a pointer to a static, outside of the
-subsystem, is not right from my point of view.
+Note, I also found this is not head, but combined with tail,
+e.g. `cat trace | head -n 15 | tail -n 5`
 
-> do not expose the information already for real functional reasons adding
-> such helpers just for this coredump muck is really worse than having a
-> clearly descriptive and obvious annotation which results in the section
-> build.
+> > +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> > +  #              | |         |   |||||     |         |
+> > +           <idle>-0       [000] d.Z1.  717.026259: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+> > +           <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+> > +
+> > +You can see the code which writes to `jiffies` is `do_timer()`.
 > 
-> The charm of sections is that they don't neither extra code nor stubs or
-> ifdeffery when a certain subsystem is disabled and therefore no
-> information available.
+> I'm having trouble getting from tick_do_update_jiffies64+0xbe/0x130,
+> which I expect is
+> 	jiffies_64 += ticks;
+> in that function, over to do_timer(), which also updates jiffies_64,
+> but is not called by tick_do_update_jiffies64(). AFAICT, there are
+> no calls to do_timer() in the file (kernel/time/tick-sched.c).
 > 
-> I'm not insisting on sections, but having a table of 2k instead of
-> hundred functions, stubs and whatever is definitely a win to me.
-> 
-> Thanks,
-> 
->         tglx
+> Can you explain, please?
 
+Hmm, in my code base
+
+static void tick_do_update_jiffies64(ktime_t now)
+{
+	...
+	} else {
+		last_jiffies_update = ktime_add_ns(last_jiffies_update,
+						   TICK_NSEC);
+	}
+
+	/* Advance jiffies to complete the 'jiffies_seq' protected job */
+	jiffies_64 += ticks;
+
+	...
+
+So this function seems correctly update the jiffies_64.
+If you ask about where it comes from, I can also enable stacktrace on
+that event. (echo 1 >> options/stacktrace)
+
+             cat-124     [005] d.Z1.   537.689753: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+             cat-124     [005] d.Z1.   537.689762: <stack trace>
+ => tick_do_update_jiffies64
+ => tick_nohz_handler
+ => __hrtimer_run_queues
+ => hrtimer_interrupt
+ => __sysvec_apic_timer_interrupt
+ => sysvec_apic_timer_interrupt
+ => asm_sysvec_apic_timer_interrupt
+
+So it came from hrtimer_interrupt().
+
+> 
+> 
+> 
+> > diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+> > index d2c79da81e4f..dd8919386425 100644
+> > --- a/kernel/trace/Kconfig
+> > +++ b/kernel/trace/Kconfig
+> > @@ -807,6 +807,20 @@ config EPROBE_EVENTS
+> >  	  convert the type of an event field. For example, turn an
+> >  	  address into a string.
+> >  
+> > +config WPROBE_EVENTS
+> > +	bool "Enable wprobe-based dynamic events"
+> > +	depends on TRACING
+> > +	depends on HAVE_HW_BREAKPOINT
+> > +	select PROBE_EVENTS
+> > +	select DYNAMIC_EVENTS
+> > +	default y
+> 
+> Wny default y?
+
+No big reason. This is just a dynamic event and unless the super user
+adds this event this does not work on the system. I can make it N so
+developer can enable it when builds their kernel.
+
+Thank you,
+
+> 
+> > +	help
+> > +	  This allows the user to add watchpoint tracing events based on
+> > +	  hardware breakpoints on the fly via the ftrace interface.
+> > +
+> > +	  Those events can be inserted wherever hardware breakpoints can be
+> > +	  set, and record various register and memory values.
+> > +
+> >  config BPF_EVENTS
+> >  	depends on BPF_SYSCALL
+> >  	depends on (KPROBE_EVENTS || UPROBE_EVENTS) && PERF_EVENTS
+> 
+> 
+> thanks.
+> -- 
+> ~Randy
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
