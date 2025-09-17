@@ -1,161 +1,140 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44F72C3257
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 10:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E002DAFA5;
+	Wed, 17 Sep 2025 11:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758106633; cv=none; b=ZqZ84BqtBpTClrRv+BJZ3e0sIRps6ncJvPyFpBKK9uKAWIjint8fi8ptqXEdY7yFxubojXCHok4zWk+9jfloI2wr9LN/icd9Lje4UtnKluOALmWX81FlcIhcUrf5kStvyrt1bhbNhbLqcEVwbY/XhqQX5I1BiKD3EaCPzO0/RDA=
+	t=1758107175; cv=none; b=W3ytlmWshnfH9h0We00xQryL8hDgUP++7ZlBuYK6RBDIFoc4DzS0VFNCZR3cZ9WmkbjzWIOTM7+FZYLejA+ykAQst4ZvdDxLoqmjlhKo990A9PQbODHzpQKLJuctpx199F0zDxULmWSHe7VSYc8d2Q+LCYh/eSd12ABnGJOw5uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758106633; c=relaxed/simple;
-	bh=QmYrtoWSI1kIy/nJzwXJBLHjj0jj0mabKB7oxUIrXJo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ry0Q+ddgX+5z0biZAqsOrRy9dZtCxNhLYquDWwo1MkvvZqLRLfeZBTVJEFE6Ao9PjTZRs1Elr0ZJ6lasqdo4HS/8y0b1mJGH6myz0Ak3x2qwhbXgvNF7H84H+WHrNa0SIG3OPkPOt5yUIVMXswfroMzZfP6Frey4x0PWgcvAtaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bR4sv73W; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bR4sv73W"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-afcb7322da8so507321066b.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 03:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758106630; x=1758711430; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xwxczvPwBg4Uyzbb2S+36YkOcrWK5ImeOLTlbGUhTaE=;
-        b=bR4sv73WBSutzyYADCMWCKSwFt1P57YfHqnR1MydAW8WaNykJzFMzOfFGrvFobjOQp
-         HK8ItEw9x7mY+J6gsJfg4iH03IWix8hiGxV71Zy28mosp/9WTR5ZrVy3pqrYsjmHJ2op
-         0/d4kHw+N6IaT7y2g/6qBn+bxaCgJOy6HA9uoBWMZgEkTN973Vs9B2dxiw2vyfPRDcVn
-         5adZ8zg/519JEotfO7FEFQlZDHEL8RccuGSYcAhIvUu8g2EoDQ2uMHw0OBBYf+6QrHpR
-         3sW04nWDsXcZfj0f59XSsgKQCJTWyNZqe8KBS7/CCQtp9SJweJxThm9FN17Me/Y2IF/V
-         OjtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758106630; x=1758711430;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xwxczvPwBg4Uyzbb2S+36YkOcrWK5ImeOLTlbGUhTaE=;
-        b=XebwTLKAna/2PDukYJl4v8BDZxoc9pqXroQb/+dOP/6OngjYZqSrC/XwzYAdgjmHa3
-         SsRkZsJ0bVeiqGLf7zNrbMwdMvxqm0jFbiptf1IHDJS7T3ZH6oOXeS+haNQMUSebJ7Sp
-         O7xrPxNu8tV5Lj8pZ02jPUk2HV/LSmgMvRl/HtQ4oi/1BtgwlCoforNFIPTT82ultrpW
-         2P/o4MQYFOFNfUXZyF7AzhT6JMzwPBC0ySJF89ttdX5IYsKqoehL3QQ2z/B/8A2SGsq7
-         rtgqCWJ3QBJGBbPFt4Qoqfr7Gc9XNp9qk7d840NkDhXKThmuNBl11Hybk5mVZWP+5BlJ
-         hdBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyAb8lXBjewHvni7a7k9cc4JaGLwSQVebFzUURs5XlZoJTS5MRvUG5lJIbAu6rdl/Hq62MJlSfH5g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuMoG6Z0xh5uJT89ev0gRQk2OooIiVGszKDFx7KzdAkJjUq0n/
-	i5uAegAgSJqdagzvkVI1T+6EcPGIA1dQz4CHoXOIe4ACGcVxdHgc225vXkd39Bcj76RgTjwv6GW
-	p/fweRi1U7lBnI3Q+EzHcRqn360r+0C4=
-X-Gm-Gg: ASbGnct0IxvcMoFlqxMUVRw4P5pJPqpdvrwfZ5wyYQM/HSrFIPdvzgOo0teSTLBky1A
-	Lgeqz93komWXuIhatww3hRC/hwizo0AtOEHyVvHIjSd0YzldtLBCau6TR7ccKWclP3H/liXPq+i
-	hb5Jc0QAF0E9547uQl9lFi0/WBnlVPLKexkartXGeKmuHuR3WpmU4XOSocdjMtQjn3yZolozWAB
-	RwOsy5ddu2gAcN8ajevRJnqbOH2+GAml2Z7Tw==
-X-Google-Smtp-Source: AGHT+IFRxj/9mtl/X+fIrakzsiy5Ocq5giy1UUqC3+OR/MDKcOd65B6+Mg4kPuXc5cy2Khkk6gzSVw2BB+E/UtAWaGo=
-X-Received: by 2002:a17:907:3cc9:b0:b12:162:8347 with SMTP id
- a640c23a62f3a-b1bb2d0f441mr214182466b.16.1758106630039; Wed, 17 Sep 2025
- 03:57:10 -0700 (PDT)
+	s=arc-20240116; t=1758107175; c=relaxed/simple;
+	bh=qUsp7FIwmTAFssINAeQmhTm8DdUAGD6ER7hbOPzidRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ogkwLOfNX+zcEWKguJjecK8Dp882f/obZBxGrN37iu1KY89tIC+jVVPlU5KDhlAIDKrkcpkllh6xhfq4MFgYws/PMSgLcvebXS5eTl10uC4Az6Gw4XmGR9ffw1JK0xFZv85DaMrxB1WR00AchCgxeVWjRWl4RvWV3pziL+lQEJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpgz16t1758107143tfd4595b3
+X-QQ-Originating-IP: KyjLbqrSwWDsBL167vTWTlsLOGuQf/XO+VF1mGtMYgQ=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 17 Sep 2025 19:05:41 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 14013483781731506798
+Date: Wed, 17 Sep 2025 19:05:40 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org, joerg@jo-so.de,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v12 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <D7EC5E8B6F6E685E+20250917110540.GA91482@nic-Precision-5820-Tower>
+References: <20250916112952.26032-1-dong100@mucse.com>
+ <20250916112952.26032-5-dong100@mucse.com>
+ <3058c061-3a17-4077-8d4e-c91ad72b3831@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <20250905024659.811386-7-alistair.francis@wdc.com> <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
- <CAKmqyKM6_Fp9rc5Fz0qCsNq7yCGGb-o66XhycJez2nzcEs5GmA@mail.gmail.com> <e168255c-82a0-4b9a-b155-cb90e6162870@suse.de>
-In-Reply-To: <e168255c-82a0-4b9a-b155-cb90e6162870@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 17 Sep 2025 20:56:42 +1000
-X-Gm-Features: AS18NWCp6hE9_gHHY9RNWcNThlN_Ck6Xfvl_Pbkl6uhBvEylonTEL18YHTqIeJc
-Message-ID: <CAKmqyKMLP7hOi4FNhBET9XfoNZv4MZ3OsSRA0=B42C3+Q7P1jA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] nvme-tcp: Support KeyUpdate
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3058c061-3a17-4077-8d4e-c91ad72b3831@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MnvGtZwO7LbyrzQzy3gSHZpndqqwTFAD5/Ae+NgTmFBU3bMcwjYbP9X4
+	JygP+AELsD9LsI6vEN5nT9Sn+Jx33MzhoY5CycW1lXPnpPquSXTtb1fiDRyWRK3hbIYkEcs
+	TpEHel0XMPaNIzv91OfktmfkF8v6L0prtnbgl5uEiIq4b7gyGT59Q2oDaqFVDP6oIHePRtP
+	3Z02o4hmjgAjWrPDJ/eirNyr2/0e/IyXA+KDqY8xtsTzhLwIkFPy/4y+rrs79AvnAh9KXkl
+	07mw0+FoHAkiRrGk4iVx120LnNUG6JL+k7nq3hJ8AVmGVbvX/JwTlXU8NfpoJ2AtkbCoNC5
+	TF5aA91iewsjDKkaOOo4Ywzb1gHitCxuSEU45M9l8W1al+46F5xxk04pDdrIT7Qs4XYqaE4
+	fsmwuKgZKGa85Auy00JK2CQ3FUYo6vvYeM5u4Gj1LgrgJdOJu+NxOPofjK/xzyuc28WMIfH
+	5ssTzCFEW/ZGePPkamaWB5yc/+2yp/wMvNL2V8P2RPmIKP+lFtI/xX8PhVHYaIkvRrvIbHD
+	53GrWF81/VW8JMnjSklS7xDFB8afGeJVe0Qv0knuaTm96O4EU50Fe8yd/NkxG/ixZbCsPs6
+	NRVJZEtxbETljjMujNrK5J4Qu0vzTu41C4WLb4JNQa0VETovxx5ECpsvqdNPrB76EdmPSqS
+	GS5APoy7YAww9vsyw2r3buItsteWzZXkgU93wnEe/ofZK/j5DITAQ9x92EqIRIh9bc8x6U5
+	hw0Vya09oIBVxMdll0WGciNwcwwPA5DzPaRTc1NODP6TL6sz9KD9Z3Bfg39+zx/vokSDnZU
+	TPz53oN19CF1Kwai2+7N2gmL2ne5OHj2l/LcvPfLs/J8k6BrsqqqVuW8nA4mJdJMtJSTAWh
+	1QqiLCvaSKZWU04D5I9BhuArYln3eWezSFKxJLH/GdbSBYHenHbXkMpsMT5l3p0GHTtv60L
+	oe8PND9S7Bz0oJ6AaUWpwoHm2Xh6AO7ZNZjxdMHoD2z+xI/hLV0566KNU50uy37SvfAOOfE
+	qnzlWp0teWx8xpDy52
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-RECHKSPAM: 0
 
-On Wed, Sep 17, 2025 at 8:12=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 9/17/25 05:14, Alistair Francis wrote:
-> > On Tue, Sep 16, 2025 at 11:04=E2=80=AFPM Hannes Reinecke <hare@suse.de>=
- wrote:
-> >>
-> [ .. ]
-> >> Oh bugger. Seems like gnutls is generating the KeyUpdate message
-> >> itself, and we have to wait for that.
-> >
-> > Yes, we have gnutls generate the message.
-> >
-> >> So much for KeyUpdate being transparent without having to stop I/O...
-> >>
-> >> Can't we fix gnutls to make sending the KeyUpdate message and changing
-> >> the IV parameters an atomic operation? That would be a far better
-> >
-> > I'm not sure I follow.
-> >
-> > ktls-utils will first restore the gnutls session. Then have gnutls
-> > trigger a KeyUpdate.gnutls will send a KeyUpdate and then tell the
-> > kernel the new keys. The kernel cannot send or encrypt any data after
-> > the KeyUpdate has been sent until the keys are updated.
-> >
-> > I don't see how we could make it an atomic operation. We have to stop
-> > the traffic between sending a KeyUpdate and updating the keys.
-> > Otherwise we will send invalid data.
-> >
-> Fully agree with that.
-> But thing is, the KeyUpdate message is a unidirectional thing.
-> Host A initiating a KeyUpdate must only change the _sender_ side
-> keys after sending a KeyUpdate message to host B; the receiver
-> side keys on host A can only be update once it received the
-> corresponding KeyUpdate from host B. If both keys on host A
-> are modified at the same time we cannot receive the KeyUpdate
-> message from host B as that will be encoded with the old
-> keys ...
+On Wed, Sep 17, 2025 at 11:45:31AM +0100, Vadim Fedorenko wrote:
+> On 16/09/2025 12:29, Dong Yibo wrote:
+> > Add fundamental firmware (FW) communication operations via PF-FW
+> > mailbox, including:
+> > - FW sync (via HW info query with retries)
+> > - HW reset (post FW command to reset hardware)
+> > - MAC address retrieval (request FW for port-specific MAC)
+> > - Power management (powerup/powerdown notification to FW)
+> > 
+> > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> 
+> Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+> 
+> small nits below
+> 
+> 
+> > +static void build_get_hw_info_req(struct mbx_fw_cmd_req *req)
+> > +{
+> > +	req->flags = 0;
+> > +	req->opcode = cpu_to_le16(GET_HW_INFO);
+> > +	req->datalen = cpu_to_le16(MUCSE_MBX_REQ_HDR_LEN);
+> > +	req->reply_lo = 0;
+> > +	req->reply_hi = 0;
+> > +}
+> 
+> All these build*() functions re-init flags and reply to 0, but all
+> mbx_fw_cmd_req are zero-inited on the stack. Might be better clean
+> things assignments, but no strong opinion because the code is explicit
+> 
+> If you will think of refactoring this part, it might be a good idea to
+> avoid build*() functions at all and do proper initialization of
+> mbx_fw_cmd_req in callers?
+> 
+> > +
+> > +/**
+> > + * mucse_mbx_get_info - Get hw info from fw
+> > + * @hw: pointer to the HW structure
+> > + *
+> > + * mucse_mbx_get_info tries to get hw info from hw.
+> > + *
+> > + * Return: 0 on success, negative errno on failure
+> > + **/
+> > +static int mucse_mbx_get_info(struct mucse_hw *hw)
+> > +{
+> > +	struct mbx_fw_cmd_reply reply = {};
+> > +	struct mbx_fw_cmd_req req = {};
+> 
+> something like:
+> 
+> struct mbx_fw_cmd_req req =
+> 	{
+> 	  .opcode = cpu_to_le16(GET_HW_INFO),
+> 	  .datalen = cpu_to_le16(MUCSE_MBX_REQ_HDR_LEN),
+> 	}
+> 
+> 
+> 
 
-Correct
+That's a good idea! That makes the code more compact.
+I think I should update this as your suggestion.
 
->
-> I wonder how that can be modeled in gnutls; I only see
-> gnutls_session_key_update() which apparently will update both
-> keys at once.
+Regarding adding your "Reviewed-by" tag in the next version:
+Would it be acceptable to include it when I submit the updated patch (with
+the initialization logic adjusted), or should I wait for your further
+review of the modified code first?
 
-gnutls_session_key_update() only updates our keys [1]. You can use the
-GNUTLS_KU_PEER flag to set `request_update` to update all keys.
+Thanks for your feedback.
 
-> Which would fit perfectly for host B receiving the initial KeyUpdate,
-> (and is probably the reason why you did that side first :-)
-> but what to do for host A?
-
-Patch has been sent and reviewed, just hasn't been merged yet:
-
-https://gitlab.com/gnutls/gnutls/-/merge_requests/1965
-
->
-> Looking at the code gnutls seem to expect to read the handshake
-> message from the socket, but that message is already processed by
-> the in-kernel TLS socket.
-> So either we need to patch gnutls or push a fake handshake
-> message onto the socket for gnutls to read. Bah.
-
-Correct, patch is pending (see above)
-
-1: https://gitlab.com/gnutls/gnutls/-/blob/master/lib/tls13/key_update.c#L2=
-45
-
-Alistair
-
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
