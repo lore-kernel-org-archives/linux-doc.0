@@ -1,329 +1,193 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E5D299949
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 03:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09F1266B52;
+	Wed, 17 Sep 2025 03:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758078884; cv=none; b=paidLTSIwu8fXc2dTeaC3wmA91e5pO6GUebPq46c5iTNDa5VQjKiN9hfjqaXsQZC5aSpHVpIOLoooO2gvpZpJQ//NE5tiKiLiamn6qxk6z2TxrElFJgxx5n2ukKKMpMFK2Q0VX5iksQY+H9Thvam8eVC17uWGww6XNikWecQrMQ=
+	t=1758081102; cv=none; b=dgVgqK9HJVfD/aHtR7hapGiPa48nmn++Ub12VHptXAH1W45uC2u0RUxyNr+rTEfO4EhotU6gesvSRI/UGKvh1UH/a8Xr4RwVugPDKxy9c9XdaBU8GyLTSNiLUMNAMQbB9T1kqg0njHZvvFpfSJznHayJUbVkuZHDg3dyImVeY+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758078884; c=relaxed/simple;
-	bh=Z/MSIFiN82eflkb7jv68WI+DTQ0JCLDeojkD3HLHZ4M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PQp1uvgY9iFuq8xH6SVbwAGMvVc7cMRahp1y4OguI+H2aHtP43lbq5lGSuLpa/+62vXNRDWs5/pYnObqU5OoyNJcpLw/AWnfimGZjaLxApQn6/M4fAQOVHfYa+hhe+Due8u3+2B/w5jPvHOFAReRpiJVQe0eR1J4Jtq/FYSbluI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d92xco4P; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d92xco4P"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-62f0702ef0dso904145a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Sep 2025 20:14:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758078881; x=1758683681; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yYl9wW4dk4XbYzxIkLSJ4emAt8SgHCFiMbI64aRDGy8=;
-        b=d92xco4PqzBJcT5W/akKi+kMVu0J+lJA0lcepVZenhFJ15zhGProolxMpydYVoyaCx
-         KdQ7lgRWyAH3MsQ4EB6qQ9hfo5B3g1NPbH+uexCxLlEYO0uANbEYKdgxDs98ZFHvdVrG
-         KSHo9EXFX0NkUY6P1qNgMBU3SdIAi6icfSoAIH1gBwPFuZjcpATsIdr+1alklQjr3/y8
-         zfHHYSeEMlBwetLg8/1n1p25s3Gq4KEb5kPiz8sCnTtuKpc6Wf3MsXKP8XgGVqb7SODh
-         gAV28lDB0Wug44ArjSwpWHSfgZLRjAmZhGuoSBMSv0PJaoGvWXEhTxM9FJACG9lmePRE
-         pE2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758078881; x=1758683681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yYl9wW4dk4XbYzxIkLSJ4emAt8SgHCFiMbI64aRDGy8=;
-        b=XcuenA2+9oZEJEHWbT0/y2wyZD/mEpJZjNp6p6kWYbIA6Rv1GHi5zkHiLm98m7kJab
-         ERGzQolk9b0gp1G99bnVi4Me55Hl2B8ErRdJXxKaDnutuz3hyZHdfwHUfkQCXwetpuoe
-         Bja7j84t9g/Xd2E2HyAA6MMrHfR/pmvjd5M6lJXTMIssGdtMTqPj99XJV0iEfYs3Lw7p
-         xuuuOKQ/Z90U66GpVNBfECVGcucY/9Dq5JrgwlyF6Bbeect4pj+/t6iqN+hXpy0T3A/J
-         DbOjuOFcnMcdpST4O0uQ8ic2wjqmqc+yTonRKO1MO/x6lVuBloTtZboMGWqNrJoZlxqM
-         PIbw==
-X-Forwarded-Encrypted: i=1; AJvYcCWlTFJKrK++jru7LuyCMs617Ss4VaoAwMGMlrjHkYStxZvkmDifbVC8Gzz6Fsb0JHDFkMQYebjd+5w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbKbWZcud/sZ+zyh6PbcNABx90rC0B2U324xlLGXReuC4R12Mc
-	BN8uGvdDw8lrqQP1IwiwomwNzMEYO3UmfKeZ7O0MS1bqx19cI/Cpgt5kLqO0wTvSyz0cF5rFZPw
-	JEyC/zmmoXdIH3nyDtew/mbFL7eIRy84=
-X-Gm-Gg: ASbGncvzFi37htFLxyvzXT0jRdgw+xF8/9+eaNnDEKQKOwWAZtKqn7GZxBi8yKMs1Wo
-	84ytwAY5mH7KvaoSCqMkKC00hZdPWLfK961jQ43MaSpwaA6BF5D4/GvE5r/YHX+1/FkxTP4nGh1
-	TnLlrbIHbGSZLe7DwQOlxNJny64lAuev0Zpe3+i51BV+0oHPfSGUdD5IKlFgJQCg1ylTpnJCaNg
-	7X0CUTj/L7AHYLRSMwwYRmAVFUjCgu1N4ZZYQ==
-X-Google-Smtp-Source: AGHT+IGVGuR+PydNlyGT48zzkbhH6Jd/ETlW5flAIwO7dAryEXYAeMrXHZg9Ogqnyr7/1kVi1ExQPAkq73fN5EIrd0Y=
-X-Received: by 2002:a17:907:da8:b0:afe:159:14b1 with SMTP id
- a640c23a62f3a-b1be49d7750mr65729166b.9.1758078880465; Tue, 16 Sep 2025
- 20:14:40 -0700 (PDT)
+	s=arc-20240116; t=1758081102; c=relaxed/simple;
+	bh=u7c+r//wgKuoq5mfIPiqxIeI+U7gJ7weyS82CWY8jL0=;
+	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=HPQhl/8EF20cAX30TJL9DqiaiFvSkCo7hHnV6eZmM5lJY5cco0lN/mRvzIXvV1dDBW9OOjw5soLXKmMI64/vjycY+R51jiyjLajy30jaIAjoaqhhl2+8eWll+fEUBWnRrDd+IJbKsmAw9if8Z4qUzdDmu0IeWw1uPvpVEzYyDgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4cRPqw6FCQz24j6S;
+	Wed, 17 Sep 2025 11:48:12 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 032081401F4;
+	Wed, 17 Sep 2025 11:51:37 +0800 (CST)
+Received: from kwepemq200018.china.huawei.com (7.202.195.108) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 17 Sep 2025 11:51:22 +0800
+Received: from [10.67.121.177] (10.67.121.177) by
+ kwepemq200018.china.huawei.com (7.202.195.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 17 Sep 2025 11:51:21 +0800
+CC: <yangyicong@hisilicon.com>, Will Deacon <will@kernel.org>, "Jonathan
+ Cameron" <jonathan.cameron@huawei.com>, <maz@kernel.org>,
+	<oliver.upton@linux.dev>, <corbet@lwn.net>,
+	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
+	<shuah@kernel.org>, <shameerali.kolothum.thodi@huawei.com>,
+	<linuxarm@huawei.com>, <prime.zeng@hisilicon.com>, <xuwei5@huawei.com>,
+	<tangchengchang@huawei.com>, <wangzhou1@hisilicon.com>
+Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20250715081356.12442-1-yangyicong@huawei.com>
+ <20250715081356.12442-6-yangyicong@huawei.com>
+ <aL7Fgx__LeLfbDyU@willie-the-truck>
+ <5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
+ <aMLvtpaCgRqPAU2Z@willie-the-truck> <20250912144736.00007673@huawei.com>
+ <666e3588-2e42-2275-f9ec-94ba0954bdc6@huawei.com> <aMl6u7xTDLhrZmqK@arm.com>
+From: Yicong Yang <yangyicong@huawei.com>
+Message-ID: <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
+Date: Wed, 17 Sep 2025 11:51:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <20250905024659.811386-7-alistair.francis@wdc.com> <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
-In-Reply-To: <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 17 Sep 2025 13:14:14 +1000
-X-Gm-Features: AS18NWDcMpm1G2mFqhUogMiikl4B2cDYrd9t5Pbx1ZhvlPjk4QLZp7NlJuRUoZU
-Message-ID: <CAKmqyKM6_Fp9rc5Fz0qCsNq7yCGGb-o66XhycJez2nzcEs5GmA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] nvme-tcp: Support KeyUpdate
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aMl6u7xTDLhrZmqK@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemq200018.china.huawei.com (7.202.195.108)
 
-On Tue, Sep 16, 2025 at 11:04=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
-te:
->
-> On 9/5/25 04:46, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
-s
-> > on an KeyUpdate event.
-> >
-> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> > allow the NVMe layer to process the KeyUpdate request and forward the
-> > request to userspace. Userspace must then update the key to keep the
-> > connection alive.
-> >
-> > This patch allows us to handle the NVMe target sending a KeyUpdate
-> > request without aborting the connection. At this time we don't support
-> > initiating a KeyUpdate.
-> >
-> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v2:
-> >   - Don't change the state
-> >   - Use a helper function for KeyUpdates
-> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
-> >   - Remove command message using recvmsg
-> >
-> >   drivers/nvme/host/tcp.c | 73 +++++++++++++++++++++++++++++++++++++++-=
--
-> >   1 file changed, 70 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 776047a71436..b6449effc2ac 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
-> >       bool                    tls_enabled;
-> >       u32                     rcv_crc;
-> >       u32                     snd_crc;
-> > +     key_serial_t            user_session_id;
-> >       __le32                  exp_ddgst;
-> >       __le32                  recv_ddgst;
-> >       struct completion       tls_complete;
-> > @@ -210,6 +211,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nct=
-rl,
-> >                             struct nvme_tcp_queue *queue,
-> >                             key_serial_t pskid,
-> >                             handshake_key_update_type keyupdate);
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue);
-> >
-> >   static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctr=
-l)
-> >   {
-> > @@ -393,6 +395,14 @@ static inline void nvme_tcp_send_all(struct nvme_t=
-cp_queue *queue)
-> >       do {
-> >               ret =3D nvme_tcp_try_send(queue);
-> >       } while (ret > 0);
-> > +
-> > +     if (ret =3D=3D -EKEYEXPIRED) {
-> > +             update_tls_keys(queue);
-> > +
-> > +             do {
-> > +                     ret =3D nvme_tcp_try_send(queue);
-> > +             } while (ret > 0);
-> > +     }
-> >   }
-> >
-> >   static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *=
-queue)
-> > @@ -1347,6 +1357,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queu=
-e *queue)
-> >   done:
-> >       if (ret =3D=3D -EAGAIN) {
-> >               ret =3D 0;
-> > +     } else if (ret =3D=3D -EKEYEXPIRED) {
-> > +             goto out;
-> >       } else if (ret < 0) {
-> >               dev_err(queue->ctrl->ctrl.device,
-> >                       "failed to send request %d\n", ret);
-> > @@ -1371,9 +1383,56 @@ static int nvme_tcp_try_recv(struct nvme_tcp_que=
-ue *queue)
-> >       queue->nr_cqe =3D 0;
-> >       consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb=
-);
-> >       release_sock(sk);
-> > +
-> > +     /* If we received EINVAL from read_sock then it generally means t=
-he
-> > +      * other side sent a command message. So let's try to clear it fr=
-om
-> > +      * our queue with a recvmsg, otherwise we get stuck in an infinit=
-e
-> > +      * loop.
-> > +      */
-> > +     if (consumed =3D=3D -EINVAL) {
-> > +             char cbuf[CMSG_LEN(sizeof(char))] =3D {};
-> > +             struct msghdr msg =3D { .msg_flags =3D MSG_DONTWAIT };
-> > +             struct bio_vec bvec;
-> > +
-> > +             bvec_set_virt(&bvec, (void *)cbuf, sizeof(cbuf));
-> > +             iov_iter_bvec(&msg.msg_iter, ITER_DEST, &bvec, 1, sizeof(=
-cbuf));
-> > +
-> > +             msg.msg_control =3D cbuf;
-> > +             msg.msg_controllen =3D sizeof(cbuf);
-> > +
-> > +             consumed =3D sock_recvmsg(sock, &msg, msg.msg_flags);
-> > +     }
-> > +
-> >       return consumed =3D=3D -EAGAIN ? 0 : consumed;
-> >   }
-> >
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> > +{
-> > +     int qid =3D nvme_tcp_queue_id(queue);
-> > +     int ret;
-> > +
-> > +     dev_dbg(queue->ctrl->ctrl.device,
-> > +             "updating key for queue %d\n", qid);
-> > +
-> > +     cancel_work(&queue->io_work);
-> > +     handshake_req_cancel(queue->sock->sk);
-> > +     handshake_sk_destruct_req(queue->sock->sk);
-> > +
-> Careful here. The RFC fully expects to have several KeyUpdate requests
-> pending (eg if both sides decide so initiate a KeyUpdate at the same
-> time). And cancelling a handshake request would cause tlshd/gnutls
-> to lose track of the generation counter and generate an invalid
-> traffic secret.
-> I would just let it rip and don't bother with other handshake
-> requests.
+On 2025/9/16 22:56, Catalin Marinas wrote:
+> On Mon, Sep 15, 2025 at 04:29:25PM +0800, Yicong Yang wrote:
+>> On 2025/9/12 21:47, Jonathan Cameron wrote:
+>>> On Thu, 11 Sep 2025 16:50:14 +0100
+>>> Will Deacon <will@kernel.org> wrote:
+>>>> On Tue, Sep 09, 2025 at 09:48:04AM +0800, Yicong Yang wrote:
+>>>>> per ARM DDI0487 L.b section C3.2.6,
+>>>>>
+>>>>>   When the instructions access a memory type that is not one of the following,
+>>>>>   a data abort for unsupported Exclusive or atomic access is generated...  
+>>>>
+>>>> That's about the memory _type_. I'm talking about a supported memory type
+>>>> (e.g. writeback cacheable) but when the physical location doesn't support
+>>>> the instruction. That's captured a little later in the same section:
+>>>>
+>>>>   | If the target memory location does not support the LD64B or ST64B
+>>>>   | instructions, then one of the following behaviors occurs:
+>>>>   |  * A stage 1 Data Abort, reported using the DFSC code of 0b110101,
+>>>>   |    is generated.
+>>>>   |  * The instruction performs the memory accesses, but the accesses
+>>>>   |    are not single-copy atomic above the byte level
+> 
+> Is this a new addition to the L.b release of the ARM ARM? Maybe it was
+> there before in some other form (or a different place). At least it
+> doesn't say "unpredictable".
+> 
 
-Unfortunately that doesn't work as future calls to
-`handshake_req_hash_add()` will fail.
+i think it's new in L.b. didn't find this is mentioned in K.a either.
 
-I now think that's a bug in `handshake_complete()` and I have a better
-fix in the next version.
+>>>> and I think that's a bad interface to expose blindly to userspace solely
+>>>> as a boolean hwcap.
+>>>
+>>> Nasty, so now I'm curious. Any thoughts on how to expose what regions it is appropriate
+>>> for?  I can think of various heavy weight options but wondering if there is a simple
+>>> solution.
+>>
+>> in my understanding the hwcap only describes the capabilities of the CPU but not
+>> the whole system. the users should make sure the function works as expected if the
+>> CPU supports it and they're going to use it. specifically the LS64 is intended for
+>> device memory only, so the user should take responsibility of using it on supported
+>> memory.
+> 
+> We have other cases like MTE where we avoid exposing the HWCAP to user
+> if we know the memory system does not support MTE, though we intercepted
+> this early and asked the (micro)architects to tie the CPU ID field to
+> what the system supports.
+> 
 
->
-> > +     nvme_stop_keep_alive(&(queue->ctrl->ctrl));
-> > +     flush_work(&(queue->ctrl->ctrl).async_event_work);
-> > +
-> Oh bugger. Seems like gnutls is generating the KeyUpdate message
-> itself, and we have to wait for that.
+but we lack the same identification mechanism as CPU for the memory system, so it's just a
+restriction for the hardware vendor that if certain feature is not supported for the whole
+system (SoC) then do not advertise it in the CPU's ID field. otherwise i think we're currently
+doing in the manner that if capability mismatch or cannot work as expected together then a
+errata/workaround is used to disable the feature or add some workaround on this certain
+platform.
 
-Yes, we have gnutls generate the message.
+this is also the case for LS64 but a bit more complex, since it involves the completer outside
+the SoC (the device) and could be a hotplug one (PCIe). from the SoC part we can restrict to
+advertise the feature only if it's fully supported (what we've already done on our hardware).
 
-> So much for KeyUpdate being transparent without having to stop I/O...
->
-> Can't we fix gnutls to make sending the KeyUpdate message and changing
-> the IV parameters an atomic operation? That would be a far better
+>> may raise the similar question if use other atomic instructions (e.g. LSE) on the
+>> memory does not support atomicity. find this restriction in ARM DDI0487 L.b section B2.2.6
+>>
+>>   Some system implementations might not support atomic instructions for all regions of the
+>>   memory
+> 
+> With exclusives or atomics, we require that the general purpose (system)
+> RAM supports the feature, otherwise Linux won't work properly (I don't
+> think we specifically documented this but it would be fairly obvious
+> when the kernel doesn't boot or user-space randomly crashes).
+> 
 
-I'm not sure I follow.
+yes the spec requires general purpose memory to support atomicity.
 
-ktls-utils will first restore the gnutls session. Then have gnutls
-trigger a KeyUpdate.gnutls will send a KeyUpdate and then tell the
-kernel the new keys. The kernel cannot send or encrypt any data after
-the KeyUpdate has been sent until the keys are updated.
+  The architecture only requires that Conventional memory that is mapped in this way supports
+  this functionality
 
-I don't see how we could make it an atomic operation. We have to stop
-the traffic between sending a KeyUpdate and updating the keys.
-Otherwise we will send invalid data.
+otherwise users should have knowledge whether the target memory agent support atomicity.
 
-> interface, as then we would not need to stop I/O and the handshake
-> process could run fully asynchronous to normal I/O...
->
-> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> > +                              queue, queue->ctrl->ctrl.tls_pskid,
-> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> > +
-> > +     if (ret < 0) {
-> > +             dev_err(queue->ctrl->ctrl.device,
-> > +                     "failed to update the keys %d\n", ret);
-> > +             nvme_tcp_fail_request(queue->request);
-> > +             nvme_tcp_done_send_req(queue);
-> > +     }
-> > +}
-> > +
-> >   static void nvme_tcp_io_work(struct work_struct *w)
-> >   {
-> >       struct nvme_tcp_queue *queue =3D
-> > @@ -1389,15 +1448,21 @@ static void nvme_tcp_io_work(struct work_struct=
- *w)
-> >                       mutex_unlock(&queue->send_mutex);
-> >                       if (result > 0)
-> >                               pending =3D true;
-> > -                     else if (unlikely(result < 0))
-> > +                     else if (unlikely(result < 0)) {
-> > +                             if (result =3D=3D -EKEYEXPIRED)
-> > +                                     update_tls_keys(queue);
->
-> How exactly can we get -EKEYEXPIRED when _sending_?
+>> and if perform atomic instruction on unsupported memory it's allowed to implement as
+>>
+>>   * The instruction generates a synchronous External abort.
+>>   * The instruction generates a System Error interrupt.
+>>   * The instruction generates an IMPLEMENTATION DEFINED MMU fault reported using the Data
+>>     Abort Fault status code of ESR_ELx.DFSC = 110101.
+>>   * The instruction is treated as a NOP.
+>>   * The instructions are performed, but there is no guarantee that the memory accesses were
+>>     performed atomically in regard to other agents that access memory. In this case, the
+>>     instruction might also generate a System Error interrupt.
+>>
+>> if instruction performed without generate a SEI in the last implementation, it's quite similar
+>> to the condition of LS64.
+> 
+> The difference is that we don't support Linux on such systems.
+> 
+> Arguably, the use of LD/ST64B* is fairly specialised and won't be used
+> on the general purpose RAM and by random applications. It needs a device
+> driver to create the NC/Device mapping and specific programs/libraries
+> to access it. I'm not sure the LS64 properties are guaranteed by the
+> device alone or the device together with the interconnect. I suspect the
+> latter and neither the kernel driver nor user space can tell. In the
+> best case, you get a fault and realise the system doesn't work as
+> expected. Worse is the non-atomicity with potentially silent corruption.
+> 
 
-Good point. You can't with this current patch set. I have patches on
-top of this that will generate a KeyUpate as part of the send
-operation, which I plan to submit after this series.
+will be the latter one, both interconnect and the target device need to
+support it. but I think the driver developer (kernel driver or userspace
+driver) must have knowledge about the support status, otherwise they
+should not use it.
 
-So this is a bit of prep work to setup the NVMe layer to handle
-sending and receiving KeyUpdate requests. I can drop this change from
-the series if that's prefered?
+for general purpose ram currently we have fault mechenism to avoid ld/st64b
+usage (there's maybe an exception if FEAT_LS64WB is supported, which is
+introduced in the latest feature list but no spec describe it and allows
+perform ld/st64b on memory with write-back attribute. but currently I have
+no details about this feature from any public documents)
 
-> To my understanding that would have required userspace to intercept
-> here trying (or even sending) a KeyUpdate message, right?
+> So, to Will's point, the HWCAP is not sufficient for user space to make
+> an informed decision on whether it can safely use the LS64 instructions.
+> Can a (generic) device driver tell or do we need additional information
+> in firmware tables to advertise the correct behaviour?
+> 
 
-Not necessarily. The TLS layer can trigger a KeyUpdate independent of
-userspace. This would happen for example if the sequence count was
-about to overflow, which is what I use in my testing. Userspace has no
-idea of the current sequence number, so it can't be involved. The
-kernel will need to start the KeyUpdate send if the rec_seq is about
-to overflow.
+my thoughts is that the driver developer should have known whether their
+device support it or not if going to use this. the information in the
+firmware table should be fine for platform devices, but cannot describe
+information for hotpluggable ones like PCIe endpoint devices which may
+not be listed in a firmware table.
 
-> So really not something we should see during normal operation.
-> As mentioned in my previous mail we should rather code the
-> KeyUpdate process itself here, too.
-> Namely: Trigger the KeyUpdate via userspace (eg by writing into the
-> tls_key attribute for the controller), and then have the kernel side
-> to call out into tlshd to initiate the KeyUpdate 'handshake'.
+thanks.
 
-Yeah, I agree about exposing a way for userspace to trigger an update.
-That would only be for testing though, as in normal operation
-userspace has no insight into the current connection state. In a
-production system the kernel TLS layer will need to initiate a
-KeyUpdate.
-
-> That way we have identical flow of control for both the sending
-> and receiving side.
->
-> Incidentally: the RFC has some notion about 'request_update' setting
-> in the KeyUpdate message. Is that something we have to care about at
-> this level?
-
-It is something we will need to care about. At this stage it isn't
-supported as it adds a little bit of complexity, but I should be able
-to extend the current approach to support a request_update.
-
-Alistair
-
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
