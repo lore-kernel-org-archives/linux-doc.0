@@ -1,69 +1,73 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010008.outbound.protection.outlook.com [40.93.198.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ABE33AE9E;
-	Wed, 17 Sep 2025 15:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758123626; cv=fail; b=W263uUCakbWsm4LKImu4qgv2hyBerEKisv3wcIImXHulTlUDweTZANX+RI/RHFiHbVVAzPqzNwyJNcWSqx/qDSO4SHtk6KuY5C3oYAe5Y/Ra0ut4P1oNWPhnbFS+sNaYlNPwGwbyMYbOwJn44CM7gaSqCK5ZH06EQ6bpJTYtSgY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758123626; c=relaxed/simple;
-	bh=rrGZqxqGqEtqgHUn85T3gl41DMveUblGWDnw7AyK120=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=O3UXQlpUfjG60k4Qk+QlwTOanAOzlxGEPRniXt4S/YVRCpuaMqQsfuhXVdwZwJ89lomyOrBbd/+6X3p8jlhaKEzHz17vCTMUTT97pvppUGIvo8nDw27cQUFy+7xC+XX9kPszdzBrO+weG8kMfnkVPwbZYeXasgubcDbm3vGQaj4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eBExI8L9; arc=fail smtp.client-ip=40.93.198.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F392733BB0D
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 15:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758123881; cv=none; b=Hn6lGZBiFCGvn2AOsvPV4gM7Kgzjh+BT+2Aq0TPd7MipZ4YaSV5HfPwJNpPS9P666DyQRGYO96nhOewJ6S33vBcP/3xlkTPI6pIxdI31/6/417Y7YoAx2bpZ37mjOmOLI0vmI9vdxToNk8fTURpbUJX/p6w/bcKo3OSya5iopdg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758123881; c=relaxed/simple;
+	bh=z4tCoDZQOuh4LECbalwkAqS2zlkXL9yErxewejGxnWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q9Od1DHqsnYKxJ7rcoTD3zvF2BRjX60oUdetew2zV0XKFOZzLqMH4FFopVBJv+Sq1wmdHxYdJppFLGvt6oSmiR1wMGO6yHNi6keDz8Vd/+Z9D43S72jcZ4cuTNVsQDPhJWb5AlSAaC7P8BXzIWd+o51uAlwwUd23hKBW0BxDlNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f8Wb/j7S; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eBExI8L9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kktV4wlAcKOkGcsU2YdV21XzZ4+1OLagN18rMuJ63XK+44JfByVci/aEYBemmxKaa6tbm44vtLCBsObY4KfcONSS9CcX9H0WxFYhFY3aMpXuOT9v8o3G+tokRWcqqiQQk6FxE8OuuzlaRau7bel+70hdSNr3y4g3NG6OJFXfzJJIiMOFnc8VF/p6fIMkzzixaazP/GUx1HJzz1SOlkhqITfr7wmusI1M3CIaCpcttED+QOfpC9nedvbCSG8IlCWBIszDrMkmcvG0B0AFC8aDia4EOjwaudcHYKGBLkKvtq7BvbQmJ/eGc2WznhFwF6I+KUdWHF8Mnyar2Kj7TMMJmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VWY9LMhIXpHRew7oh7WR1H2/o0DaeuP34aAjI7fNEw4=;
- b=KgqIkAlVflV+ZucsN5wXsFitWFZvwL/aRbx0m4mgEV+Q2ux4IlMsKa/ZcOJrEZ8twtvtFGIhQ9ALXdpJz8PAeZIX8F0jtUc60ptOW3Y3EZLniIxQBeA6F+5ICXhYNKJbk8doovDBATWI/K9t/85ESEJhkpN2pokCdwr3i1I2YEFS4k4RVhOC0M63uwSfAX5ARdwaRl0Ne7mHZWLHLQbK1olS4FqLhMDbHSuOrtOdRZrei/NjPbcxWDJTWuTms6iqx2X6YV9YYAA5oY7r88+vYIkQ4VIIlg/YjSgF9XXqMtE+XSLp+6KlvS/B73r7AfAMNkRuxHezjBPbgQRkbbIrNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VWY9LMhIXpHRew7oh7WR1H2/o0DaeuP34aAjI7fNEw4=;
- b=eBExI8L9FhumwSGkvuj1uVzj+9iq8PnzUwucoonNSF9unjRVxp8MqRU0EOfA/EVJEkRiJK7hZrUXHjF2tbPq9UuI57sfQ0qfXIXEHUI6+Flb9Q9I8Sebr5OC2+vJZfY2/RDZtgjht9x4c8QbFU7+O9KRYv5UASC+qQ14PAjzE8k=
-Received: from SN6PR2101CA0016.namprd21.prod.outlook.com
- (2603:10b6:805:106::26) by PH7PR12MB8054.namprd12.prod.outlook.com
- (2603:10b6:510:27f::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Wed, 17 Sep
- 2025 15:40:19 +0000
-Received: from SA2PEPF00003F61.namprd04.prod.outlook.com
- (2603:10b6:805:106:cafe::a2) by SN6PR2101CA0016.outlook.office365.com
- (2603:10b6:805:106::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.3 via Frontend Transport; Wed,
- 17 Sep 2025 15:40:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SA2PEPF00003F61.mail.protection.outlook.com (10.167.248.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Wed, 17 Sep 2025 15:40:18 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 17 Sep
- 2025 08:40:18 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 17 Sep
- 2025 08:40:18 -0700
-Received: from [10.252.198.192] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Wed, 17 Sep 2025 08:40:14 -0700
-Message-ID: <00d97fad-f67a-47c4-a829-fb7295dc6d19@amd.com>
-Date: Wed, 17 Sep 2025 21:10:08 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f8Wb/j7S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758123878;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NYmqILMx1xlw2m4tQW0RBlUiktKctlRRDbbC0EtpRGc=;
+	b=f8Wb/j7SVcEGvwOVStevZ5yDYutH1PwMhvliH3m4iZCjcMNHYhPZw7WN1XT5RAx7+/mchZ
+	pOJ4dy8QkEgEKiAJyHjwUUTPiwUvlchOL1y09vMAnfF9zfdKPNrW9K1KcTtT/W/ej3s03X
+	ZAnMpZE7RrbkBoJSYeXRH87ONqk6+Ks=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-eez0cxJwNNusJEegNh9-Lg-1; Wed, 17 Sep 2025 11:44:35 -0400
+X-MC-Unique: eez0cxJwNNusJEegNh9-Lg-1
+X-Mimecast-MFC-AGG-ID: eez0cxJwNNusJEegNh9-Lg_1758123874
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45cb604427fso43436975e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 08:44:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758123874; x=1758728674;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NYmqILMx1xlw2m4tQW0RBlUiktKctlRRDbbC0EtpRGc=;
+        b=aeqLQUHZ0wjpVG/Ht/dAwPly2RoVCnixF5jCMuH3+AD5uPu4rZGAv40FvOB29EKJMi
+         tsuynX+nJxRLSLVbfKg9TRNJyS6DM8kP7e46tFy+ktERyP0P4+iG0+ybJ9mMhz/HTesL
+         iHXlqaLcyCI5MxFkBZyEBEcegT7KIKb1hcnXuEb0nLAiE6iUrJwlVgrXU4qk47DHqM2k
+         Q1zrB+2XGunL2nrz6y34kj6kjrjP2fnLSO/R5R3FHtUvIOk3uahD3mmOwk6Rc2Fhtecj
+         C04ScczAOFedLGZPFyi1QQ6EoAFCxZ4u5nGc7+BjfQ9lqoKRhpSJ1V5BvXVBuqpdjkcS
+         MmkA==
+X-Forwarded-Encrypted: i=1; AJvYcCW84onbR5rmty8IlxzcTOiWptmc3GR86RR6pU+sE2q6GOMtYf+J9KLmWOhkLa2dG4igHvhFp7ob2AU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxInscwAsO1yUPM5C/WPpJXHTKDYKicDKInxNR+l6G5k1mwHmWN
+	7c41DuOH+viTN1qBIQzYjNULegt89abK1mbvnrPZzaLE9wXRTUO5MadYmsBDWLzEhoz+8dfIH7c
+	NuLGY8YTWjyuuQ+ChDl43t4a0/zFNBcNbDLMhFZCzPiMxGAW2++zG7QL81wsWMw==
+X-Gm-Gg: ASbGncvtWeCmQHt6DExSpTLdIy0VOI63P2e/dL1FCirBvY8uNYWIDK9Cc9a2Xm2Z7xm
+	2Z/FpZ/AVM/jtPeiqbcZ3FdtzHNA2YgjW10q5mJL3hf4KP85pZfBWXgy+ApJsyLdETrxnIkk80y
+	T6HNx5Teds/bYtLPfB3TKnRdzny6lJidPwtXzDvwF4yBjR+Gpi8BSY94nIfQtEsEO9JP8hcosb2
+	31Mmmi5UjRmZSH7RTuiCuOgInKUm5t94hmrk1w1DbKZTOSbgbk5Is01GxzPsyc5i76mNt7+N5bY
+	hSjkszRsbFNemB5aBlC8mWBGGw7CWApKlZ5ayOBI8UEXC2QP5QpitnbrD+aI/v7sOBPhV/eQZch
+	6B92+9PWFsZtbgiqJS4S2oPkSyHRsVmCwrfXRHN5+t0TNq5yeyH4pp9Pc3cuGA0yi
+X-Received: by 2002:a05:600c:548f:b0:45f:2c7c:c1ed with SMTP id 5b1f17b1804b1-46201f8b0f7mr24718485e9.2.1758123874109;
+        Wed, 17 Sep 2025 08:44:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH8g1ZaRN7oJUXl7N8nfBOuCnjfDBEtxRyVeyDn4nu6ScGXDtKea6BR0IkCAuJ/wYcffRSBqQ==
+X-Received: by 2002:a05:600c:548f:b0:45f:2c7c:c1ed with SMTP id 5b1f17b1804b1-46201f8b0f7mr24718205e9.2.1758123873544;
+        Wed, 17 Sep 2025 08:44:33 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-462c17c9347sm10474045e9.0.2025.09.17.08.44.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 08:44:32 -0700 (PDT)
+Message-ID: <b532ab38-37a3-46d0-8a14-d7395421130d@redhat.com>
+Date: Wed, 17 Sep 2025 17:44:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,119 +75,187 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/12] x86/cpufeatures: Add CPUID feature bit for VIBS
- in SVM/SEV guests
-To: Nikunj A Dadhania <nikunj@amd.com>
-CC: <seanjc@google.com>, <pbonzini@redhat.com>, <bp@alien8.de>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <mizhang@google.com>,
-	<thomas.lendacky@amd.com>, <ravi.bangoria@amd.com>, <Sandipan.Das@amd.com>,
-	<kvm@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20250901051656.209083-1-manali.shukla@amd.com>
- <20250901052304.209199-1-manali.shukla@amd.com> <85v7lq31hd.fsf@amd.com>
+Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
+To: Eugen Hristev <eugen.hristev@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
+ <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
+ <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
+ <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
+ <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
+ <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com>
+ <10540b3e-09ca-403d-bc20-b9412a7fe28a@linaro.org>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Manali Shukla <manali.shukla@amd.com>
-In-Reply-To: <85v7lq31hd.fsf@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <10540b3e-09ca-403d-bc20-b9412a7fe28a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F61:EE_|PH7PR12MB8054:EE_
-X-MS-Office365-Filtering-Correlation-Id: d57783b6-a77f-4488-afbe-08ddf6008167
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WEtCSEZ6ZXI3YmF0ZWZGQXlMbnI2UGlIY2ZlaWE4UlIvNk1ZMFF1MmIxSGFq?=
- =?utf-8?B?Q2sxa29uUmdqMVZYRkdldnVhQWVtKzN2NVhRR0FEUm5LTWptbWZJZWJ2Qm9L?=
- =?utf-8?B?bWNCVjQ3dG01a3JXTUJ1d1k2cElrVFJrOXZjN3RIUWYzL1FUUDMrR24xenk0?=
- =?utf-8?B?bjlreTlGeUdleThJK1poQ2xWRHlzYWxOZExtTUhpVGNYS3pVaXhwQzUrWXFM?=
- =?utf-8?B?VXhnWTM5TzFzU3U5d0YyRldKYlBhWUY4UWdycHRQaWZ2UFJDMGt6MHlSMFc3?=
- =?utf-8?B?Wm5zZUd2b1A5dk1PUzV6eWVBSUZXdk5Ma2JCMVBaRXNHcnZNa0k5bFBjeG8w?=
- =?utf-8?B?eE9FWVFlSFBPejk3ZkFXSWxXbmRMZiswd082alpUY0Q0d1R0ZXlpakNyam9X?=
- =?utf-8?B?cVFhdzhvZDR4M3lqTmkyZk1GUUI2b0JnM3BFMmQ2Ym5hN01oSFdrd1MrSTVP?=
- =?utf-8?B?V0c2SnRFa3JCZlB2YjJBK0dDUVQ5N1Yvd3NqYzd2OFpCRUlNNURPd1lQMmpS?=
- =?utf-8?B?Y3YrckVOZ3AxQWNyVE5ZTElSbVBYYjF6N09vdXM4MUNDRXhYS2liem5tUVhD?=
- =?utf-8?B?VmlBclpEVk01ZTNNUEhNUUFpL3JyNTNxZStkY2FTVmUrSENieUExb2ljWVB3?=
- =?utf-8?B?a1VES2d0UDlleklXNmdXWjlmTU9PNzFaY3dadHV2UWxseFFObnJqNjBqRzEv?=
- =?utf-8?B?NFNZUVM5SXRuSTBuNW1RTG1VVFg0RHVoQkVsbWsrVmpWT0EwaFloYUNEY2Fl?=
- =?utf-8?B?SUxxakw2bnZ4d3Bvb1FsZHFUdlBvTWZBM3h1dUNPRFpjdldqa3M4eUEwK1pq?=
- =?utf-8?B?YzJvLys2UTVza3p3VWlOZC8wR29Vdmd4amlCK3hvZkNHYklWeXNZYnhsV0Q0?=
- =?utf-8?B?RXNuNEJsUFMwaVJQbGxlcWpiYjlXQ2NkcjJBTkFVakFKRHM2UWhDWUs1dnJi?=
- =?utf-8?B?TFFPTm1LS09SYXZSTitUNFIvbTh2YVhjSXhZY0hhN292c3JIRTBNL0xrb0xx?=
- =?utf-8?B?R2VRVHI3WWUwMnVDbGdLYkpicVErc2VZRG05NEg2TUFtWEF6N2JPME1hQTdL?=
- =?utf-8?B?SnlMekNNcjc3YlJZcWl4K3BHait3aG1vNllQTjRYR3laeURwcEtjUUhOc00y?=
- =?utf-8?B?WkJjK2dxRnFKSitKanFOUkoxOTc1ZFVwL2NBTGZhWnQ2NG9Fd0hqYUlHcTVH?=
- =?utf-8?B?bG5VSzYySi9meFJ5M2luUWJ5TUtwSHhXczlITzVuaW1jRVlHZHMwMzIveVQ4?=
- =?utf-8?B?a09IcUNIUlAvK1o1bkwzc3RINlo4MmdyWjF0T2hXdVJWK2xPVy9QcUVETmVU?=
- =?utf-8?B?eXgwMnBrQTgrSGhUbkNoVVk1a1FSOHE3Rk9ZMThNNU0yZ3FZMzB5VHNNYm5V?=
- =?utf-8?B?RHBPMmtDR0tOdTBDNGF0R3BKSk9YY3ZZZExtQ2ZyL28rVmdxSnVDYnVlb2FZ?=
- =?utf-8?B?dUJpczBtZ1ZCblpIVllsbHFkVWUxeHFNWnNmUnRUVVM2cVhWSXBWRmovazJB?=
- =?utf-8?B?OC9uUStKU251MUgxUzZjQXZhaWZkd291aEdhc2diUk5Ic1BmcUlYVVp1TlYr?=
- =?utf-8?B?K1ZCOVlaRXNZbDY4Vy9jUmRZT01GQkJQT3k5YmFPaVJWaG44VXA4UnpVakJO?=
- =?utf-8?B?T1RwdStaUVd0dS9yM1ErSkpTTVFxZlhMSnlzNkNwNHV2OTErcUpEVk1vcVR4?=
- =?utf-8?B?QmNWb0dxTkJUcU8zcWJxVnBNcHRhUWkwV0x1U01ySVJuT2ZNZjczOFJPUGVn?=
- =?utf-8?B?RzcxVXUyelQ0UC9wMzJldDhZdXhEWExLUTVKNVVoRHNCRGczWkRaVlJYNHph?=
- =?utf-8?B?ajg1NnMyYW85UGw4WnE2NU9reXgzdVJJV0ZNeW1IaFFXWmZHaXMwSUhMNEox?=
- =?utf-8?B?SXdDQ0YrRjk5d2dybHYwVFRWb0NRV1BwNVp2NWJwN1gyd2Z3ZG5vZ0tYYjV6?=
- =?utf-8?B?eWN6U2pVWm9VNzIxby9lVDYrZlhLVXVqREdDZ0VKLzZZTmJZbmVoV0FCVnk4?=
- =?utf-8?B?d2JjWm9DVllyTnFiWFljUkl0OWQvc2F3QkxlSTJzdjN2UGc2VEtQMjdSZ3N2?=
- =?utf-8?Q?UV9Mo4?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 15:40:18.7613
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d57783b6-a77f-4488-afbe-08ddf6008167
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003F61.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8054
 
-On 9/10/2025 6:31 PM, Nikunj A Dadhania wrote:
-> Manali Shukla <manali.shukla@amd.com> writes:
+On 17.09.25 17:32, Eugen Hristev wrote:
 > 
->> From: Santosh Shukla <santosh.shukla@amd.com>
->>
->> The virtualized IBS (VIBS) feature allows the guest to collect IBS
->> samples without exiting the guest.
->>
->> Presence of the VIBS feature is indicated via CPUID function
->> 0x8000000A_EDX[26].
->>
->> Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
->> Signed-off-by: Manali Shukla <manali.shukla@amd.com>
->> ---
->>  arch/x86/include/asm/cpufeatures.h | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
->> index 0dd44cbf7196..3c31dea00671 100644
->> --- a/arch/x86/include/asm/cpufeatures.h
->> +++ b/arch/x86/include/asm/cpufeatures.h
->> @@ -379,6 +379,7 @@
->>  #define X86_FEATURE_V_SPEC_CTRL		(15*32+20) /* "v_spec_ctrl" Virtual SPEC_CTRL */
->>  #define X86_FEATURE_VNMI		(15*32+25) /* "vnmi" Virtual NMI */
->>  #define X86_FEATURE_EXTLVT		(15*32+27) /* Extended Local vector Table */
->> +#define X86_FEATURE_VIBS		(15*32+26) /* Virtual IBS */
 > 
-> Please move before EXTLVT to maintain bit position order
+> On 9/17/25 18:18, David Hildenbrand wrote:
+>> On 17.09.25 17:02, Eugen Hristev wrote:
+>>>
+>>>
+>>> On 9/17/25 17:46, David Hildenbrand wrote:
+>>>> On 17.09.25 16:10, Thomas Gleixner wrote:
+>>>>> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
+>>>>>> On 17.09.25 07:43, Eugen Hristev wrote:
+>>>>>>> On 9/17/25 00:16, Thomas Gleixner wrote:
+>>>>>>>> I pointed you to a solution for that and just because David does not
+>>>>>>>> like it means that it's acceptable to fiddle in subsystems and expose
+>>>>>>>> their carefully localized variables.
+>>>>>>
+>>>>>> It would have been great if we could have had that discussion in the
+>>>>>> previous thread.
+>>>>>
+>>>>> Sorry. I was busy with other stuff and did not pay attention to that
+>>>>> discussion.
+>>>>
+>>>> I understand, I'm busy with too much stuff such that sometimes it might
+>>>> be good to interrupt me earlier: "David, nooo, you're all wrong"
+>>>>
+>>>>>
+>>>>>> Some other subsystem wants to have access to this information. I agree
+>>>>>> that exposing these variables as r/w globally is not ideal.
+>>>>>
+>>>>> It's a nono in this case. We had bugs (long ago) where people fiddled
+>>>>> with this stuff (I assume accidentally for my mental sanity sake) and
+>>>>> caused really nasty to debug issues. C is a horrible language to
+>>>>> encapsulate stuff properly as we all know.
+>>>>
+>>>> Yeah, there is this ACCESS_PRIVATE stuff but it only works with structs
+>>>> and relies on sparse IIRC.
+>>>>
+>>>>>
+>>>>>> I raised the alternative of exposing areas or other information through
+>>>>>> simple helper functions that kmemdump can just use to compose whatever
+>>>>>> it needs to compose.
+>>>>>>
+>>>>>> Do we really need that .section thingy?
+>>>>>
+>>>>> The section thing is simple and straight forward as it just puts the
+>>>>> annotated stuff into the section along with size and id and I definitely
+>>>>> find that more palatable, than sprinkling random functions all over the
+>>>>> place to register stuff.
+>>>>>
+>>>>> Sure, you can achieve the same thing with an accessor function. In case
+>>>>> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
+>>>>
+>>>> Right, the challenge really is that we want the memory range covered by
+>>>> that address, otherwise it would be easy.
+>>>>
+>>>>> do not expose the information already for real functional reasons adding
+>>>>> such helpers just for this coredump muck is really worse than having a
+>>>>> clearly descriptive and obvious annotation which results in the section
+>>>>> build.
+>>>>
+>>>> Yeah, I'm mostly unhappy about the "#include <linux/kmemdump.h>" stuff.
+>>>>
+>>>> Guess it would all feel less "kmemdump" specific if we would just have a
+>>>> generic way to tag/describe certain physical memory areas and kmemdump
+>>>> would simply make use of that.
+>>>
+>>> The idea was to make "kmemdump" exactly this generic way to tag/describe
+>>> the memory.
+>>
+>> That's probably where I got lost, after reading the cover letter
+>> assuming that this is primarily to program kmemdump backends, which I
+>> understood to just special hw/firmware areas, whereby kinfo acts as a
+>> filter.
 > 
-> Regards,
-> Nikunj
+> If there is a mechanism to tag all this memory, or regions, into a
+> specific section, what we would do with it next ?
+> It would have a purpose to be parsed and reused by different drivers,
+> that would be able to actually use it.
+> So there has a to be some kind of middleman, that holds onto this list
+> of regions, manages it (unique id, add/remove), and allows certain
+> drivers to use it.
 
-Ack, will fix it up in V3.
+Right, just someone that maintains the list and possibly allows 
+traversing the list and possibly getting notifications on add/remove.
 
--Manali
+> Now it would be interesting to have different kind of drivers connect to
+> it (or backends how I called them).
+> One of these programs an internal table for the firmware to use.
+> Another , writes information into a dedicated reserved-memory for the
+> bootloader to use on the next soft reboot (memory preserved).
+> I called this middleman kmemdump. But it can be named differently, and
+> it can reside in different places in the kernel.
+> But what I would like to avoid is to just tag all this memory and have
+> any kind of driver connect to the table. That works, but it's quite
+> loose on having control over the table. E.g. no kmemdump, tag all the
+> memory to sections, and have specific drivers (that would reside where?)
+> walk it.
+
+Yeah, you want just some simple "registry" with traversal+notification.
 
 > 
->>  #define X86_FEATURE_SVME_ADDR_CHK	(15*32+28) /* SVME addr check */
->>  #define X86_FEATURE_BUS_LOCK_THRESHOLD	(15*32+29) /* Bus lock threshold */
->>  #define X86_FEATURE_IDLE_HLT		(15*32+30) /* IDLE HLT intercept */
->> -- 
->> 2.43.0
+>>
+>>> If we would call it differently , simply dump , would it be better ?
+>>> e.g. include linux/dump.h
+>>> and then DUMP(var, size) ?
+>>>
+>>> could we call it maybe MARK ? or TAG ?
+>>> TAG_MEM(area, size)
+
+Just because I thought about it again, "named memory" could be an 
+alternative to "tagged memory".
+
+-- 
+Cheers
+
+David / dhildenb
 
