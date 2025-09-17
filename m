@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADE031A7ED;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4B831A7EE;
 	Wed, 17 Sep 2025 12:15:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111355; cv=none; b=E9giHM9dWDew0BfWgFh/k1JSeglfHpxZ7fKJb07TmiWa6mJXLkrn6tolF2lunIkpc/DmE304HtXkQCW3IAgwX2iQW5FmUvsCWJ0w6M9fWdInG8zin41c9qw4RFigD+Znr10ctxuUoxWoiDArMOZp8IigRZu24soFwOjxV0vgWoI=
+	t=1758111355; cv=none; b=ksnt/+2YaANtJhh6kDyoRSEfVKY320NOCtH9d73QCX9D5f2bj4YQz/O0CxAPkl4KCDaKyThVKTDFfnhWT2+Yr9ubjdRigYo9ytoDGhB6e/U7rNwmdBCL7uKQ3KhDh5tyuteEg15PBL0cm6FRz8LAnfKzR9Conh0f5bootaFYh90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758111355; c=relaxed/simple;
-	bh=4Yu1gA5/uZ+OPBNEREkXam+9wN35SUbcDazI/2U7I9g=;
+	bh=5h0Y2l0VICf3uSdAhL346MOGEeZeAoHZKXVIcjeYSFk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Mu6vw0fzqI4adn3a1ygVAQ70feZCRVATfuvFMKSsCSSuNGt8jwfmEORdK7d50bJGgU3V4oQCCgRa7X7vOeJEf8aThk3jUHANK3vO82HxSh2Z+CYH7QbKH4SRqlLkkKRQtkH2pOUHmmOKuY88YSpzSkKlDsjszwDq8iqKuE31ETU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuSPDP2u; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=DNonKc8OuCR337vSk4mUOpS7PQiy0M6K0REW9Bw9ggUVtU7t9bsCfIWUAHANb++DeOWsPChAGBwOnsFHAAD0LdWp8bl/CZHbigg+lmo84SWqR2qnfm3DWbcLb0UK79zSsm9+0tAdXZGADA2e62rB0NeWnUKfrWQ202G/ZKSBH8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3KQxy18; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DuSPDP2u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35ABBC4CEF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3KQxy18"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DA34C4CEFC;
 	Wed, 17 Sep 2025 12:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758111355;
-	bh=4Yu1gA5/uZ+OPBNEREkXam+9wN35SUbcDazI/2U7I9g=;
+	bh=5h0Y2l0VICf3uSdAhL346MOGEeZeAoHZKXVIcjeYSFk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DuSPDP2uz1S6Ah3lzir9ox5agDWER2+Br02ozMoLiMMv0o29AKGdXrioJo1zAQunT
-	 dmByOx7XFTteRsralZHWyujQwCtDF/NjbAOwi+B/7MVQM2NCoawVK6ZuzSSqESW15+
-	 jmfINvCB36t7CZCRNCe63Jf/exL08BYsI0LhLGZe4ZdVBKGOVtHL/zMoGi2qW0sf99
-	 KxlqYAakLN1ZbRSE5C2TBvYK3vlcXXhLaTr+aaAeVd1xnFhP5zPdPfgkn+z9VmdsUp
-	 7aqxUTJdAxVL+PXB/JIUPd8d2EXdu28gfwSc5vLO0jIg2jklhb4jG6lsFI++eNIDwy
-	 yaDR32QMRIGJQ==
+	b=R3KQxy18stTFku7K5UzoFyBSpJmbElGYMZjjhl7ncGUbf1p/K6TAiSYrpLYpxBFAs
+	 ySYpHUQDNHeyapWE6lpDiq8VVS1eWtIf9oGC5hy9yLrV5NZXJ9cNQXO1/VTIhSUCk8
+	 HJVFaLTWLjTQ9SP01TnmMx5lQxe6/cqwpzHG6QpPCsqBcO74zU3RnVEiAeUDjSxj0l
+	 kxDj1tbZf/h+1MDCDICfy31cFX9qUEPfiMOWgRcQXknCFtSsGOwzciEQ4Ilk+qymQU
+	 e8u+ZLyVBdKtGWUbETOzQ8Jk65EEElOF0g0ZtBG123/xjMDHJVlLb3C0+2h8kkOMMy
+	 y/Sc6L+ax6kbQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGeW-2XQS;
+	id 1uyr4h-0000000CGei-2tcX;
 	Wed, 17 Sep 2025 14:15:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 21/24] scripts: kdoc_parser.py: warn about Python version only once
-Date: Wed, 17 Sep 2025 14:15:15 +0200
-Message-ID: <a11ee33610e007e081db15f8eceb6a6e58d9b48d.1758111077.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 24/24] tools/docs: sphinx-build-wrapper: add support to run inside venv
+Date: Wed, 17 Sep 2025 14:15:18 +0200
+Message-ID: <8372cc28d0f91a133da98c5cb8b005c3dbffdc23.1758111077.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
 References: <cover.1758111077.git.mchehab+huawei@kernel.org>
@@ -52,57 +52,93 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-When running kernel-doc over multiple documents, it emits
-one error message per file with is not what we want:
-
-	$ python3.6 scripts/kernel-doc.py . --none
-	...
-	Warning: ./include/trace/events/swiotlb.h:0 Python 3.7 or later is required for correct results
-	Warning: ./include/trace/events/iommu.h:0 Python 3.7 or later is required for correct results
-	Warning: ./include/trace/events/sock.h:0 Python 3.7 or later is required for correct results
-	...
-
-Change the logic to warn it only once at the library:
-
-	$ python3.6 scripts/kernel-doc.py . --none
-	Warning: Python 3.7 or later is required for correct results
-	Warning: ./include/cxl/features.h:0 Python 3.7 or later is required for correct results
-
-When running from command line, it warns twice, but that sounds
-ok.
+Sometimes, it is desired to run Sphinx from a virtual environment.
+Add a command line parameter to automatically build Sphinx from
+such environment.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/lib/kdoc/kdoc_parser.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tools/docs/sphinx-build-wrapper | 33 ++++++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-index a560546c1867..574972e1f741 100644
---- a/scripts/lib/kdoc/kdoc_parser.py
-+++ b/scripts/lib/kdoc/kdoc_parser.py
-@@ -314,6 +314,7 @@ class KernelEntry:
-             self.section = SECTION_DEFAULT
-             self._contents = []
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 103b0044bb0b..6ed3d58ec277 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -69,6 +69,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
+ #
+ #  Some constants
+ #
++VENV_DEFAULT = "sphinx_latest"
+ MIN_PYTHON_VERSION = PythonVersion("3.7").version
+ PAPER = ["", "a4", "letter"]
  
-+python_warning = False
+@@ -171,8 +172,10 @@ class SphinxBuilder:
+         if not verbose:
+             self.sphinxopts += ["-q"]
  
- class KernelDoc:
-     """
-@@ -347,9 +348,13 @@ class KernelDoc:
-         # We need Python 3.7 for its "dicts remember the insertion
-         # order" guarantee
+-    def __init__(self, builddir, verbose=False, n_jobs=None, interactive=None):
++    def __init__(self, builddir, venv=None, verbose=False, n_jobs=None,
++                 interactive=None):
+         """Initialize internal variables"""
++        self.venv = venv
+         self.verbose = None
+ 
          #
--        if sys.version_info.major == 3 and sys.version_info.minor < 7:
-+        global python_warning
-+        if (not python_warning and
-+            sys.version_info.major == 3 and sys.version_info.minor < 7):
-+
-             self.emit_msg(0,
-                           'Python 3.7 or later is required for correct results')
-+            python_warning = True
+@@ -220,6 +223,21 @@ class SphinxBuilder:
  
-     def emit_msg(self, ln, msg, warning=True):
-         """Emit a message"""
+         self.get_sphinx_extra_opts(n_jobs)
+ 
++        #
++        # If venv command line argument is specified, run Sphinx from venv
++        #
++        if venv:
++            bin_dir = os.path.join(venv, "bin")
++            if not os.path.isfile(os.path.join(bin_dir, "activate")):
++                sys.exit(f"Venv {venv} not found.")
++
++            # "activate" virtual env
++            self.env["PATH"] = bin_dir + ":" + self.env["PATH"]
++            self.env["VIRTUAL_ENV"] = venv
++            if "PYTHONHOME" in self.env:
++                del self.env["PYTHONHOME"]
++            print(f"Setting venv to {venv}")
++
+     def run_sphinx(self, sphinx_build, build_args, *args, **pwargs):
+         """
+         Executes sphinx-build using current python3 command.
+@@ -254,7 +272,12 @@ class SphinxBuilder:
+             if self.n_jobs:
+                 n_jobs = str(self.n_jobs)
+ 
+-            cmd = [sys.executable, sphinx_build]
++            if self.venv:
++                cmd = ["python"]
++            else:
++                cmd = [sys.executable,]
++
++            cmd += [sphinx_build]
+             cmd += [f"-j{n_jobs}"]
+             cmd += self.sphinxopts
+             cmd += build_args
+@@ -772,12 +795,16 @@ def main():
+     parser.add_argument('-i', '--interactive', action='store_true',
+                         help="Change latex default to run in interactive mode")
+ 
++    parser.add_argument("-V", "--venv", nargs='?', const=f'{VENV_DEFAULT}',
++                        default=None,
++                        help=f'If used, run Sphinx from a venv dir (default dir: {VENV_DEFAULT})')
++
+     args = parser.parse_args()
+ 
+     PythonVersion.check_python(MIN_PYTHON_VERSION, show_alternatives=True,
+                                bail_out=True)
+ 
+-    builder = SphinxBuilder(builddir=args.builddir,
++    builder = SphinxBuilder(builddir=args.builddir, venv=args.venv,
+                             verbose=args.verbose, n_jobs=args.jobs,
+                             interactive=args.interactive)
+ 
 -- 
 2.51.0
 
