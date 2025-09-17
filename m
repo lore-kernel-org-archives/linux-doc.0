@@ -1,120 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B37027EFFA;
-	Wed, 17 Sep 2025 08:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C62225390
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 09:31:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758098903; cv=none; b=kPw5VQSOYw6kBulhB0mVPiFx95dky318gPdn+GeeVrEQcXnXgU35Dvl6ssMtNKft/QDFkMUhUZjRwoyGeIu9l2aM1hKkP8KerytWMXmW0nZcBtTqFldm/dih0WMaXl6jWdGdt+y/+GdzNY/OD9xYb4PJSi4cqGL4vWMRvcISeHw=
+	t=1758101478; cv=none; b=QNtlWgNtE1vfej+tf1xUv01BHSjK2TzIC3EJxSswOdBn4uPNqWq/Sc69q0+EWA55CpjxLAnZduPH1Z0NC8ua2qkQgDETjB5Umfcina256Bi9WEjBpIIHWPtoMvmxeATmYqHqWgQbs6O2ZHP8/ygrThup/8pbG0ufwdL5bKDkZa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758098903; c=relaxed/simple;
-	bh=iwfyvsXvjemSs8NGZTUJivWchTPlegpRIGmh6EEMldc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cyvKrbOhyclCIGkiv+NG0gVS6ijRvkqWPVoT/71jo4jvOroMekgiMSxJ/UoZ2XkmjdRAPQZIuiKPm9Y3iztlsQoB+YBMQfUpFuMZiTUNi0Qbr6YHcCYWCghESht8TXGzqHFkk7EKB+Hhjd9wgheh1exeJe9ZBri6iV+JREH4uZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B82kULZG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758101478; c=relaxed/simple;
+	bh=HwnIzq5v+BGCO/6Uhary+9iSdgxz864kepa7zMnx7Ts=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lDRFQSXWELan2h1vyrWTD3EnuuOIJuRd1RY4WLg2zkNCC0zXrFDYRQENb+jUZqraAOgt0onJpw0o11uxw6y3TENPTZArAh4rby2lA+/tHGjni8k+vgAidi9LAixFco+JCioWOeu3ERZt+PEyWgPv/kbV/NbErtdicEC8dSh322o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efU4Sbx7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B82kULZG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D79C4CEF7;
-	Wed, 17 Sep 2025 08:48:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efU4Sbx7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC60DC4CEFF
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 09:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758098903;
-	bh=iwfyvsXvjemSs8NGZTUJivWchTPlegpRIGmh6EEMldc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B82kULZGMIivsbQvojRzNVID3EXweoN8jE8E/p7tNM0zV1wTYROnzd89QDB6D0Heu
-	 G62wFozrAPZ5bGabQwdXANwbb39xen/voiu0sJmtHernEd38yjMYnOMDX9Hsq39Tpr
-	 zsHIbwlVFXjHFFpTblrEo5SvE9sxqxJB8nrRgR0+BsNFcCFCK8Y15YRDbK+tNwsAu+
-	 qyHZxhpOu2OkPkj70lHwemPBW33zpomBHUQhgOpIfW6EHBNAuGwZaqYht65pHeUDJd
-	 e4gujxuHguCTss6ZObciVT5/GT2H6/ez/Kp5t4qkUxcvGAuIWaQ9oui942BE4pCgb6
-	 8QLgf1YmBENCw==
-Date: Wed, 17 Sep 2025 10:48:18 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 04/21] scripts: check-variable-fonts.sh: convert to
- Python
-Message-ID: <20250917104818.62862b48@foz.lan>
-In-Reply-To: <52932ede-eb04-4275-a051-952bc2859cf6@gmail.com>
-References: <8a77212d5459eac2a98db442691930425a2cbefd.1758018030.git.mchehab+huawei@kernel.org>
-	<52932ede-eb04-4275-a051-952bc2859cf6@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1758101477;
+	bh=HwnIzq5v+BGCO/6Uhary+9iSdgxz864kepa7zMnx7Ts=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=efU4Sbx7pCycUuAmCsp51D4vHkkvWIo9UyM22cktOJN6E1+fsLUPiVG1G519f7GUG
+	 FawWzFfX59D/LHvLzM8ItaPGJBtOkmq7/KX7OX6DKjUwqHpy5YXTw0789mrpJ9Ufbi
+	 cXl686qbjm8LPainEwAdAOJJE0AhUK+teHyO4jCNySyY58cqs9oLddGofD4g+cGFlP
+	 R5C8pBoiZ3mQzZRALEOuknXoPIz5O6QUEFwiJml06duV+QrGEzyAckS6zb5UdIBavD
+	 w0vQMbD/sQWkAjjX8xkrlHt+ZZ8p8wXAB5CiqeVWNsFa2nwCDvqIKmDC8LgJMdVXsJ
+	 y6Skl44TK7FsA==
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3e9c5faa858so3651996f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 02:31:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWhggHtEi+vn/Klmf6NfPIvAuHKxrqPgxURzDbMrZuFv9A8whWVl2U/rP+8KupWABPGRV8N+lnblL8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+G6R4iVsBTp/2f+HoHH4trH9KIFC7RTUABQlSlmw6xfAm2I+h
+	83KzL5+FMvfp1r/1qzUfqgiUfMQAiHTfjECm+zZC+loZBx7BKMBhQ/q9ZWHQlqXFyVK9xWenL18
+	TC/vC9sPglD6VQQ3EnbsbW99HoUOUj5ThU7AuKOQ6
+X-Google-Smtp-Source: AGHT+IEXq4eS531qPurqJ5IF5MFTa9SzJb8qOJtpthJUucdpEsqKMLImSP74fNaAkhLbL3bHNkiGPdVRu2KVVh17F1Q=
+X-Received: by 2002:a05:6000:430d:b0:3ec:ce37:3a6a with SMTP id
+ ffacd0b85a97d-3ecdf9c87ffmr1560072f8f.22.1758101476074; Wed, 17 Sep 2025
+ 02:31:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CACKMdfmZo0520HqP_4tBDd5UVf8UY7r5CycjbGQu+8tcGge99g@mail.gmail.com>
+In-Reply-To: <CACKMdfmZo0520HqP_4tBDd5UVf8UY7r5CycjbGQu+8tcGge99g@mail.gmail.com>
+From: KP Singh <kpsingh@kernel.org>
+Date: Wed, 17 Sep 2025 11:31:05 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ7X2uU=c7Qd+LUKnQbzSMyypnUu_WCMZ=8eX6ThXn_L6g@mail.gmail.com>
+X-Gm-Features: AS18NWCDVA5YUNKBkEenaDlgPT611slznX6SIVfes4lnYrXJwR92eRNJ5aSHDdI
+Message-ID: <CACYkzJ7X2uU=c7Qd+LUKnQbzSMyypnUu_WCMZ=8eX6ThXn_L6g@mail.gmail.com>
+Subject: Re: [PATCH v2] docs/bpf: clarify ret handling in LSM BPF programs
+To: Ariel Silver <arielsilver77@gmail.com>
+Cc: bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mattbobrowski@google.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, sdf@fomichev.me, haoluo@google.com, 
+	jolsa@kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Wed, 17 Sep 2025 10:09:05 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Thu, Sep 11, 2025 at 12:52=E2=80=AFPM Ariel Silver <arielsilver77@gmail.=
+com> wrote:
+>
+> v2: Fixed trailing whitespace (reported by checkpatch.pl)
+>
+> Docs currently suggest that all attached BPF LSM programs always run
+> and that ret simply carries the previous return code. In reality,
+> execution stops as soon as one program returns non-zero. This is
+> because call_int_hook() breaks out of the loop when RC !=3D 0, so later
+> programs are not executed.
+>
+> Signed-off-by: arielsilver77@gmail.com <arielsilver77@gmail.com>
+> ---
+>  Documentation/bpf/prog_lsm.rst | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/bpf/prog_lsm.rst b/Documentation/bpf/prog_lsm.=
+rst
+> index ad2be02f3..92bfb64c2 100644
+> --- a/Documentation/bpf/prog_lsm.rst
+> +++ b/Documentation/bpf/prog_lsm.rst
+> @@ -66,21 +66,17 @@ example:
+>
+>     SEC("lsm/file_mprotect")
+>     int BPF_PROG(mprotect_audit, struct vm_area_struct *vma,
+> -            unsigned long reqprot, unsigned long prot, int ret)
+> +            unsigned long reqprot, unsigned long prot)
+>     {
+> -       /* ret is the return value from the previous BPF program
+> -        * or 0 if it's the first hook.
+> -        */
+> -       if (ret !=3D 0)
+> -           return ret;
+> -
 
-> On Tue, 16 Sep 2025 12:22:40 +0200, Mauro Carvalho Chehab wrote:
-> > This script handle errors when trying to build translations
-> > with make pdfdocs.
-> > 
-> > As part of our cleanup work to remove hacks from docs Makefile,
-> > convert this to python, preparing it to be part of a library
-> > to be called by sphinx-build-wrapper.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> I could apply up to 05/21 of v6 and did some quick tests under
-> Fedora (where Noto CJK VF fonts are installed).
-> 
-> At 3/21, "./scripts/check-variable-fonts.sh" doesn't say a word.
-> 
-> At 4/21, "./scripts/check-variable-fonts.py" complains:
+This is correct as of today, the return value is checked implicitly by
+the generated trampoline and the next program in the chain is only
+called if this is zero as BPF LSM programs use the modify return
+trampoline:
 
-I got a little bit confused with the above. I guess you picked the
-wrong patch numbers, but yeah, there is a bisect issue, caused by
-the part reorder I did moving this change to happen before adding
-the script. Basically, I updated docs Makefile the wrong way.
+in invoke_bpf_mod_ret:
 
-Thanks for pointing it!
+/* mod_ret prog stored return value into [rbp - 8]. Emit:
+* if (*(u64 *)(rbp - 8) !=3D 0)
+* goto do_fexit;
+*/
+/* cmp QWORD PTR [rbp - 0x8], 0x0 */
+EMIT4(0x48, 0x83, 0x7d, 0xf8); EMIT1(0x00);
 
-For v7 I'll ensure that all patches will properly print the suggestions
-from the script.
-
-> =============================================================================
-> XeTeX is confused by "variable font" files listed below:
->     /usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc
->     /usr/share/fonts/google-noto-sans-mono-cjk-vf-fonts/NotoSansMonoCJK-VF.ttc
->     /usr/share/fonts/google-noto-serif-cjk-vf-fonts/NotoSerifCJK-VF.ttc
-> 
-> For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
-> Or, CJK pages can be skipped by uninstalling texlive-xecjk.
-> 
-> For more info on denylisting, other options, and variable font, see header
-> comments of scripts/check-variable-fonts.py.
-> =============================================================================
-> 
-> Of course, I have followed the suggestions in the header comments.
-
-I didn't try to follow the suggestions to solve the issue on Fedora yet.
-It is on my todo list to test it.
-
-The new script has an exact copy of the instructions of the previous one.
-
-So, up to patch 09/21 from this series, there won't be any change at
-doc build, except for the script conversion and some code cleanups
-and reordering.
-
-Patch 09/21 moves the env logic of FONTS_CONF_DENY_VF to the wrapper.
-So, in thesis, fixing it before-after the series shouldn't have any
-impact (I didn't test yet. Will do on my next respin). Btw, we should
-probably document it at make help.
-
-If the instructions from the header is wrong, we need to update it
-on a separate patch series.
-
-> So I have to NAK on 4/21.
-> 
-> Regards,
-> Akira
-> 
-
-
-
-Thanks,
-Mauro
+Acked-by: KP Singh <kpsingh@kernel.org>
