@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069C42459E1
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 19:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8A22459E1
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 19:05:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758135843; cv=none; b=BweVK2OuSn7gDKUf6QXpzewom2Nqmt57Ma3Stpu8KxnIykJHHCuU93k9ODNNGUcOwfXWTRPSblmBkWDkYqAedd5cbbOhIvs/8NKwBQSJmIADW4ZKroLCraEDScB+07rlWbe13511mzb5YTlG/IL9fIBVexR3cs6EizG/VJe5/38=
+	t=1758135954; cv=none; b=hNyq+r3xFOeRZeHkUIu6BOZDD4tPhUrlRMLXYnAiCdmAviTVE2MXcgiAUZcj71zFKDIT/l2SRma4D+yjt7CsQt2RMYK3w3vQoTk0uCUseqDUMVOXw/QuPST0M0vSYs7Ui/UuvrSAf1CwIrF3pFhEH5B5m8Dy4qlNoYfs149+1PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758135843; c=relaxed/simple;
-	bh=uHriSmtS7Lxm0GPG+EDQP+ngN4Ody8EIz+QPxFS4Sww=;
+	s=arc-20240116; t=1758135954; c=relaxed/simple;
+	bh=4r3OnglhmQv5f95g1m3EPAqqkjghukFweMHUd+HyG0k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ILkQMb5E9aVClGwp5dj4Q6QQWVrRsEnY8Fdak9iuSki/soM8bm1VJe4Yypzh/df8Hd7IWbTmDhZQvlXpfJaR/nZLnEsfcBfU1MHTE7uo5BDotj1jYbOoHdCqg3Xkckaik83HU6CH8H8I3Si9mn+wmswSa4hHHS20f+jifEd+75M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ASKVHwHx; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=QpU7eKYUnSmLVyMgArC91V2Zx83558xPsVpIk6p4W4c+geY0FIXs224DCQCRUFqIsMaNoOuuxl6y56lLGCmRl2cTQGbGMIt7RyJmJCVDwNPZdD8RMEYkojK3HNxPuDR0pmaR13g9NV1EQOjSAr7mmdmya3QCGkdb3XbA6F3g6f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G1RiB5ql; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ASKVHwHx"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G1RiB5ql"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758135841;
+	s=mimecast20190719; t=1758135951;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aHCH0VCzsWU4m239VlHHtfDVtMJrBZLoOpM6kxyrkrM=;
-	b=ASKVHwHxNGvqqkGJnQbZc2JSjFo8K5U2Onl36Ox1HNpHLTgeqBb0BSqG6UnTropA1wEnp0
-	d4Gpc409RLcCIpt0BjA6I9zwoioxIW5DTOzpn+g/wbIVFwWwHc/9fccYmOqyMVcrwaB95w
-	msrQCUHVqd3NkRWiyk8o9rjLFLg2jiw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=iYdTqhfdz9F3OSmNWg0L2Bcl9ZF1XfZz244Dszls6io=;
+	b=G1RiB5qlvpnPm6CnS1p3/Xs5XNpJEOAaEhdCFOl6Hfj4bLQ7nRD8r7+zwF3WudFJseFC1Q
+	sAv9F3/zvCkngIkJ6QTIEItfCz5Bu564U8MZQ63JS24oTwZhvW6cBGSA7evrjpJrxL9FsI
+	y5t47PTIieTv10idDoIaei/kKAg9HCM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-iC1QmScONiSQLWWTAj8yyg-1; Wed, 17 Sep 2025 15:03:59 -0400
-X-MC-Unique: iC1QmScONiSQLWWTAj8yyg-1
-X-Mimecast-MFC-AGG-ID: iC1QmScONiSQLWWTAj8yyg_1758135839
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4612d068c47so684125e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 12:03:59 -0700 (PDT)
+ us-mta-459-fatmDwzcPFmT8YoBVxcL3Q-1; Wed, 17 Sep 2025 15:05:50 -0400
+X-MC-Unique: fatmDwzcPFmT8YoBVxcL3Q-1
+X-Mimecast-MFC-AGG-ID: fatmDwzcPFmT8YoBVxcL3Q_1758135949
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3df19a545c2so25628f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 12:05:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758135839; x=1758740639;
+        d=1e100.net; s=20230601; t=1758135949; x=1758740749;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aHCH0VCzsWU4m239VlHHtfDVtMJrBZLoOpM6kxyrkrM=;
-        b=SUyB6TgHmzlAM+pbfDOm1UnOeNnAgZdPTkRYhAOcywVCQ+SFouSDQEz6nl4HgVtTCq
-         rHbrPL7Etz069jzvRUuFG/Ui41SqNK+Li+LsFmtOtPvfP2Z0AOIdhMKv6Yv81alTTk2W
-         RdWm8gdCy/4U+zPtmEbbr8gFD8V8iQ1gEicl/HyIDFkfR5Ll8wHrBTCOTisL6E3YUMzP
-         33iSE9H7r5HstgOypX4tNWGagjCrcUk87NMn/KBtEKGf4WiZKXcHnfDSQ+MYlga8Abwi
-         mgxy6bQjM0dHHgKW4eO/klGm3DszgXrqg9ZJa8fCVUBDYygkXBaF8E7eS2oLbYIGdapG
-         BySA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUglQ+NKoXuw/vXAm5UsqbHqjBk8Q8gOupq6TTCddu0j/9yWO+rVkvapkcqo0SeGOxeiINBcjv7bs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywj7sp2vdexeCc+L0C8h1akddk6LJei4VM0LHPczJ9okXS48PeX
-	2tckiVKWEFZNdjKS5tby0NbiiZITAnm75TUAx7i17nq/+OXb1/aHD5FpGddz8kXDBSHoIWmQedQ
-	NHeGwXMp+1hjaXHs81wcCC8eFi4xww/mZ+9tGhgWWjl5Lgtp4AWRrVUcJ1w9/+g==
-X-Gm-Gg: ASbGncsAGG9gxKo+dMmRFm+NSxsmGhkA2OXGSFdsCw0nBKnikgXa6JrzPWPCsCPGxvx
-	68et2gV9UlRfNOr+BlXis06OvCA5R+LBcV7xpseP7TJb7wJaBUJcknNbiHGdG77vRiB+gD8o2VC
-	E4BqCKp9eFSHRW4LW3UvNBvxt1Ry/XFJfcwytShpqkZbzJAWUVDwpp40JO7iKLYNiMcFjEAsvVu
-	6ReIdxH9gbk61oSCbgd5MiCQZuKvXhfjfMExXs8haZdDUabG+KCLgoHjgfJI8vkncUk2Uu2tbun
-	Xv0sXrPF4j3Muw4O+v83QXnONKQCZYNrbBtHKrJ7QI5Xl0j+R4aKOsTXrSVF9IOtJrdiP8dX8s/
-	xi8jrnOGV/Vt4ahSuCHPXI2iVyTr9+YrfVlQe7LP3xU2/fz5hEb4y3R7Yh6KvV0cB
-X-Received: by 2002:a05:6000:200c:b0:3ec:d789:b35e with SMTP id ffacd0b85a97d-3ecdf9f3e2bmr2220754f8f.8.1758135838659;
-        Wed, 17 Sep 2025 12:03:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHH1jtQqXfA5qQMVLv888l0a3c36h370u+0P0yyGL+jfEOy01vR98KIIIx9Ov3RHgb7jlDtug==
-X-Received: by 2002:a05:6000:200c:b0:3ec:d789:b35e with SMTP id ffacd0b85a97d-3ecdf9f3e2bmr2220727f8f.8.1758135838182;
-        Wed, 17 Sep 2025 12:03:58 -0700 (PDT)
+        bh=iYdTqhfdz9F3OSmNWg0L2Bcl9ZF1XfZz244Dszls6io=;
+        b=Xzl5Lm4IS33EkUcOfzmZlyC4HWdgCFHqTQiFs2xBuRk4yQkU2gahiIuG/wwn4kKi+B
+         sTHzmTn0zVHvlz09zovA64tPILL+zJ5Oa6DjJIUGQKxB77jwYEnYjekMD7Wz2Qhyfe+Z
+         lN2RmZTs/aLM6dechu+ElvTk4q8Ee+mAYNglYMgWoH7TItwvEKQw4riFJ9CuaK8xAAxf
+         xO0QQJMhsVdWRYn/KvnIchejya2SJvkLVvJgfPXaPmK8Y9DZRMGudZ+eOr673jAOmzfF
+         Cg6IxPFqFrUMydQi1c074AFv5ob60I/fJkZeESw4wAovc/vXkIMXL63kEmwTK63o+3YH
+         TpPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXQPBuXBg+oOcmDSrUCSlUzlYTbbx+xSpOnsNo/ANW+QA5fx7Qujw+YFgV+nXY+Oksx24sieS++odI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbJceLdOrl9V/oPNMsLvJxtZ9O2k+pcyNjKR6FFlwmvWttxblB
+	hr0Q9OLsHvA/mGMmp3pYDBa3NWcyDKrTX/W9yfL28BKPUmH6ySsgbt5gi3spsiz21Aejlc4Svic
+	CCNOA91j6wz6Et6ESWkgNBnDG22gMnib6UyQXhCXf2b0e3B/R+gJorK3epMmgUA==
+X-Gm-Gg: ASbGnctPt96/tinohkR8ra3YqeXGHDcs+K+8g8yYXr8/jFzqpcTd67JuENpxVd6/KaD
+	UE8aPr9u8LgjZofC96Cq8dWkmVgKRxpwCmyDCJi3Brxk3u2vwc0SRcmZBJBiBs+hre0NCz/hidq
+	WOYyG8yZ63++0PS8FMGBIaIaVqRvFOUHF0hK9/zPo/MRwdglRIfTwCvImczwHJVs9H7HoJKDPse
+	bz8GdNkAGsESNABGLkj5Tcg5CsUACroVcVM648j9fw1aYDxWVWVyIyXi4avSsxFJbEtnVCHm6+R
+	i2sLFXU29mIIvaVKZDlM/7cn4ShGKok2oGzrzMwCxZ/Ca+g3WXMap238pOMFqeKtG9D6wn7i9VU
+	kkPyzIiODCPcEBwB7lJPqflF/BAPd4mS323PhtS0JuwCjlatx6c/2sONI0l7psVYK
+X-Received: by 2002:a5d:64c8:0:b0:3ea:e0fd:290b with SMTP id ffacd0b85a97d-3ecdfa0d2f1mr3067876f8f.40.1758135948722;
+        Wed, 17 Sep 2025 12:05:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHkB9K5+m3ks5tDl26fGtwUBcSZFKAuJY0U4QfQl4kZMxsZJ5NivU//n+3kzLJsG+tBhuQWwg==
+X-Received: by 2002:a5d:64c8:0:b0:3ea:e0fd:290b with SMTP id ffacd0b85a97d-3ecdfa0d2f1mr3067845f8f.40.1758135948270;
+        Wed, 17 Sep 2025 12:05:48 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee073f3d68sm446010f8f.10.2025.09.17.12.03.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee07412111sm453030f8f.28.2025.09.17.12.05.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 12:03:56 -0700 (PDT)
-Message-ID: <f8d3c2d4-8399-4169-8527-3c87922f2ef1@redhat.com>
-Date: Wed, 17 Sep 2025 21:03:55 +0200
+        Wed, 17 Sep 2025 12:05:47 -0700 (PDT)
+Message-ID: <cd71fac2-bb9d-4e84-a074-2b695654e655@redhat.com>
+Date: Wed, 17 Sep 2025 21:05:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,22 +75,23 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Thomas Gleixner <tglx@linutronix.de>,
- Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
- <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
- <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
- <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com> <87segk9az5.ffs@tglx>
+Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+To: Kyle Meyer <kyle.meyer@hpe.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, akpm@linux-foundation.org,
+ corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org, tony.luck@intel.com,
+ jane.chu@oracle.com, jiaqiyan@google.com, Liam.Howlett@oracle.com,
+ bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
+ laoar.shao@gmail.com, lorenzo.stoakes@oracle.com, mclapinski@google.com,
+ mhocko@suse.com, nao.horiguchi@gmail.com, osalvador@suse.de,
+ rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
+ shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
+ linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org
+References: <aMiu_Uku6Y5ZbuhM@hpe.com>
+ <a99eb11f-a7ac-48a3-a671-c5f0f6b5b491@arm.com>
+ <8c3188da-7078-4099-973a-1d0d74db2720@redhat.com> <aMsDJ3EU1zVJ00cX@hpe.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -137,156 +138,70 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <87segk9az5.ffs@tglx>
+In-Reply-To: <aMsDJ3EU1zVJ00cX@hpe.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-> 
->>> this would go to a separate section called .tagged_memory.
-> 
-> That'd be confusing vs. actual memory tags, no?
-
-Yeah, I came to the conclusion just after an upstream call we just had 
-about that topic (bi-weekly MM alignment session).
-
-I'm open for any suggestions that make it more generic. My first 
-instinct was "named memory regions".
-
->   
->> Maybe just "tagged_memory.h" or sth. like that? I'm bad at naming, so I
->> would let others make better suggestions.
-> 
-> inspect.h :)
-> 
-> I'm going to use 'inspect' as prefix for the thoughts below, but that's
-> obviously subject to s/inspect/$BETTERNAME/g :)
-> 
->>> Then anyone can walk through the section and collect the data.
->>>
->>> I am just coming up with ideas here.
->>> Could it be even part of mm.h instead of having a new header perhaps ?
->>> Then we won't need to include one more.
+On 17.09.25 20:51, Kyle Meyer wrote:
+> On Wed, Sep 17, 2025 at 09:02:55AM +0200, David Hildenbrand wrote:
 >>
->> I don't really have something against a new include, just not one that
->> sounded like a very specific subsystem, not something more generic.
+>>>> +
+>>>> +	0 - Enable soft offline
+>>>> +	1 - Disable soft offline for HugeTLB pages
+>>>> +
+>>>> +Supported values::
+>>>> +
+>>>> +	0 - Soft offline is disabled
+>>>> +	1 - Soft offline is enabled
+>>>> +	3 - Soft offline is enabled (disabled for HugeTLB pages)
+>>>
+>>> This looks very adhoc even though existing behavior is preserved.
+>>>
+>>> - Are HugeTLB pages the only page types to be considered ?
+>>> - How the remaining bits here are going to be used later ?
+>>>
+>>
+>> What I proposed (that could be better documented here) is that all other
+>> bits except the first one will be a disable mask when bit 0 is set.
+>>
+>> 2 - ... but yet disabled for hugetlb
+>> 4 - ... but yet disabled for $WHATEVER
+>> 8 - ... but yet disabled for $WHATEVERELSE
+>>
+>>> Also without a bit-wise usage roadmap, is not changing a procfs
+>>> interface (ABI) bit problematic ?
+>>
+>> For now we failed setting it to values that are neither 0 or 1, IIUC
+>> set_enable_soft_offline() correctly?
 > 
-> Right. We really don't want to have five different mechanisms for five
-> infrastructures which all allow to inspect kernel memory (life or
-> dead) in one way or the other. The difference between them is mostly:
+> Yes, -EINVAL will be returned.
 > 
->     - Which subset of the information they expose for inspection
+>> So there should not be any problem, or which scenario do you have in mind?
 > 
->     - The actual exposure mechanism: crash dump, firmware storage,
->       run-time snapshots in a filesystem, ....
+> Here's an alternative approach.
 > 
-> Having one shared core infrastructure to expose data to those mechanisms
-> makes everyones life simpler.
+> Do not modify the existing sysctl parameter:
 > 
-> That obviously needs to collect the superset of data, but that's just a
-> bit more memory consumed. That's arguably significantly smaller than
-> supporting a zoo of mechanisms to register data for different
-> infrastructures.
+> /proc/sys/vm/enable_soft_offline
 > 
-> I'm quite sure that at least a substantial amount of the required
-> information can be collected at compile time in special section
-> tables. The rest can be collected in runtime tables, which have the same
-> format as the compile time section tables to avoid separate parsers.
+> 0 - Soft offline is disabled
+> 1 - Soft offline is enabled
 > 
-> Let me just float some ideas here, how that might look like. It might be
-> completely inpractical, but then it might be at least fodder for
-> thoughts.
+> Instead, introduce a new sysctl parameter:
+> 
+> /proc/sys/vm/enable_soft_offline_hugetlb
+> 
+> 0 - Soft offline is disabled for HugeTLB pages
+> 1 - Soft offline is enabled for HugeTLB pages
+> 
+> and note in documentation that this setting only takes effect if
+> enable_soft_offline is enabled.
+> 
+> Anshuman (and David), would you prefer this?
 
-Thanks a bunch for writing all that down!
-
-> 
-> As this is specific for the compiled kernel version you can define an
-> extensible struct format for the table.
-> 
-> struct inspect_entry {
-> 	unsigned long	properties;
->          unsigned int	type;
->          unsigned int	id;
->          const char	name[$MAX_NAME_LEN];
-> 	unsigned long	address;
->          unsigned long	length;
->          ....
-> };
-> 
-> @type
->         refers either to a table with type information, which describes
->         the struct in some way or just generate a detached compile time
->         description.
-> 
-> @id
->         a unique id created at compile time or via registration at
->         runtime. Might not be required
-
-We discussed that maybe one would want some kind of a "class" 
-description. For example we might have to register one pgdat area per 
-node. Giving each one a unique name might be impractical / unreasonable.
-
-Still, someone would want to select / filter out all entries of the same 
-"class".
-
-Just a thought.
-
-> 
-> @name:
->         Name of the memory region. That might go into a separate table
->         which is referenced by @id, but that's up for debate.
-
-Jup.
-
-> 
-> @address:
-> @length:
->         obvious :)
-> 
-> ...
->          Whatever a particular consumer might require
-> 
-> @properties:
-> 
->          A "bitfield", which allows to mark this entry as (in)valid for a
->          particular consumer.
-> 
->          That obviously requires to modify these properties when the
->          requirements of a consumer change, new consumers arrive or new
->          producers are added, but I think it's easier to do that at the
->          producer side than maintaining filters on all consumer ends
->          forever.
-
-Question would be if that is not up to a consumer to decide ("allowlist" 
-/ filter) by class or id, stored elsewhere.
-
-> 
-> Though I might be wrong as usual. IOW this needs some thoughts. :)
-> 
-> The interesting engineering challenge with such a scheme is to come up
-> with a annotation mechanism which is extensible.
-> 
->       Runtime is trivial as it just needs to fill in the new field in the
->       datastructure and all other runtime users have that zero
->       initialized automatically, if you get the mechanism correct in the
->       first place. Think in templates :)
-> 
->       Compile time is a bit more effort, but that should be solvable with
->       key/value pairs.
-> 
->       Don't even waste a thought about creating the final tables and
->       sections in macro magic. All the annotation macros have to do is to
->       emit the pairs in a structured way into discardable sections.
-> 
->       Those section are then converted in post processing into the actual
->       section table formats and added to the kernel image. Not a
->       spectacular new concept. The kernel build does this already today.
-> 
->       Just keep the compile time annotation macro magic simple and
->       stupid. It can waste 10k per entry at compile time and then let
->       postprocessing worry about downsizing and consolidation. Nothing to
->       see here :)
-
-Sounds interesting!
+Hmm, at least I don't particularly like that. For each new exception we 
+would create a new file, and the file has weird semantics such that it 
+has no meaning when enable_soft_offline=0.
 
 -- 
 Cheers
