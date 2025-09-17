@@ -1,73 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED5732E75D
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D709E36D
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758120774; cv=none; b=HehMvI7mjDt+3JMa0FFkgEhEpY1Z9RD1DFzDwqLI5OiwKRx9xK66w9Rj+zvq5hTWpfRL4+IvlwC4Nl71Kt24Rl0rPUraclBx2RwA8uKdaAZXG74Q7SKiaO/FbdovIlVY2T9Tf/SVsI0dTM3yjvGVsoxZCDm5t6WqArMzfdrEzn8=
+	t=1758120961; cv=none; b=kzhM83TGqzVmfbb4no2k/KTaKdKHQYrOdsRFZeu3yftP5GhDY3sitT9OxRQ0kzyMFopTbVJeblwWu0WNu9eGkELW/J7912XLw3CjO/yceJ1MJlwJULC8d6rh1ClKOdTNd+xoGaEVo3MwocodknkghTsWYGeCQs4dNtbVzmQHdgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758120774; c=relaxed/simple;
-	bh=5epPT/yF5ySKt5yJiiDB0pyPwiJwOtudKK0nsTblkcQ=;
+	s=arc-20240116; t=1758120961; c=relaxed/simple;
+	bh=UP76scATbO9HP2meL4acIXvgkNwIkTFTRgcCRmL7uC8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KjLiMs+3LsSnCMdMT0xcB82Oh48GazxkbXfhtQmAFR0QdSO6jxq+BLKQ0S7fHnJq2GTlMlwlKwUkkC6dw6NgV+AuV6yDaWmBrbW2hnC/Usw2bRcEnlWm+e7aP+MRoMPmZ53FD36TsgxM/VsGoRNcDYc/+SbnnbrocN+xAzphZtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S6Dkz3LX; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=K6UZXunATguOhZ54O4nhv2zbyU9jzZqn0haVYwV/zIR2evQe+D0LIW6/i2PGmP4vfH//h0X8AcOMt48AeUkX7qH7RFEHdHqJY2TETZpMYVFS7IWvw0JndHiGpezo8jq5XCur+e4SUkYSfzpdGNcCP5clVKQ89VPy/50MoiYskrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G40QxjCx; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S6Dkz3LX"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G40QxjCx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758120770;
+	s=mimecast20190719; t=1758120958;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gDs3CUgjimStalCZ6Y06kSWDcmRW5MkZeDVBa3itpks=;
-	b=S6Dkz3LXgmThNV1KGKLbxrk8dDCTr/qYg30mv9vyF3qAZhCYeqcQExUSqaFyszHisV5rAN
-	76gOws2XJXaTQG3daBAMlMzHJfO3NXGCCMp+S4b5f+VS8U3pJO1SBhNM8S0kj2IkQqJjNl
-	CGci2eNzc5W8i3OO1Izzu28xKjcC468=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-280-1myvTVv3PP2T-_dCFfy7-Q-1; Wed, 17 Sep 2025 10:52:49 -0400
-X-MC-Unique: 1myvTVv3PP2T-_dCFfy7-Q-1
-X-Mimecast-MFC-AGG-ID: 1myvTVv3PP2T-_dCFfy7-Q_1758120768
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3eb8e43d556so443549f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 07:52:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758120767; x=1758725567;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gDs3CUgjimStalCZ6Y06kSWDcmRW5MkZeDVBa3itpks=;
-        b=VXnWhe708VXnmjqiVOjkvgR1tTROvjt36+095htPR7wgs1MLRQtlXDzeeMPDWjGUbP
-         wYgC/cq6mBTNt6oVMtlsByKQ5/snkZIp4wXjCTRMWskcSApDaXPUU1rJafOcAgkQUrKr
-         pbR9HCCSUXoQwvulkoIp3aNcBM+HHa4nVugiKdLKyNs1hTADeq65lPMiaLkpWWqVCfiw
-         9INCjkSQGd4lfcCIoFjuPjlFz7eXrU1Jf15nrCunaPkYQnlbmiz3JREvQEmFkYaAtfin
-         c45Y7lHgVV9IrwqQeE7QOR9LI97Nw4ko98X2tWfFcSn/vEatyHFdZf48C1qkxsL6TH/v
-         zm/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVgzMF8Lp806qLt0jGz5VwWd6oG1nZ/5Njt7pYjbKPgefVnD7cUMhPya+frwwpez+W1vX/1G5wneSI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS//EKpaRUG/fo0lTqS5OJOC5upflqBuQhiiVfibu/Kk650ixD
-	ihFWR1ZfzMm0vx6wXuC9t9SIZSq9e61T78WBvB2h3QPuFid5IOJviqNn0o/+QatQDJKWUQXO0E9
-	TcjPID/NMKLr9jIyUbNa+jhxWFVIGq3awsuc/2o+N5jwk4sgRkwLXxVhxb0UOPQ==
-X-Gm-Gg: ASbGncsNJthPQLp9/rXuxZRrc3G77tmP/WMsV7xqvwMPOO40zMcInFf4iW9sV+9G+4h
-	vUEW0YpVSwtVONRw0iZ8VwyurPsEvIXLCWDHgwr7MTu1iwi+sIlDYmGjFuIEjDBRemDQBLOVYGd
-	9BMjEGCMO7saBHADaZacYXojoLDNgUmAifpR7U1RIW9noEWJyEtkLx4ZfpqlyU4Anwjb+4Xu2Cy
-	2ytczjl4qsVZCUJKY9s+DmQoeZsn4e/Jx0hVkjD/j+P8gug4qc3WFGYtix3PrZY32xUm7OZwzzn
-	zNd3ab0vGXP36pvM02Q2LBgsPB04n/l+QA2p+KcwMOxymLQRxqwQheTLLapa0anXgEf5yXq9uQL
-	W+fgGnNZgeHg07vW9gtZTTvTDQKDe7l7i7dN7F2o7VD6v/tepV4mE0FrcDxfi8O/k
-X-Received: by 2002:a5d:584d:0:b0:3ea:d634:1493 with SMTP id ffacd0b85a97d-3ec9d70e1aemr6331365f8f.3.1758120767165;
-        Wed, 17 Sep 2025 07:52:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHCVwA2whdJvJ6k0SNSXVgRVBCXXeS7K5H+4SZxMmaPtCI7Uv2obWcxbuvE8IbcU5jjC+Gugg==
-X-Received: by 2002:a5d:584d:0:b0:3ea:d634:1493 with SMTP id ffacd0b85a97d-3ec9d70e1aemr6331269f8f.3.1758120766367;
-        Wed, 17 Sep 2025 07:52:46 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4613f3c69d5sm39701795e9.24.2025.09.17.07.52.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 07:52:45 -0700 (PDT)
-Message-ID: <e30627e5-f30f-4494-934c-58e4a427a476@redhat.com>
-Date: Wed, 17 Sep 2025 16:52:40 +0200
+	 in-reply-to:in-reply-to:references:references;
+	bh=RzA0JqEbh6Ep4K/N7TZ19/EGTrYogIbnJlv3097QrVg=;
+	b=G40QxjCxZnwjs3jAwW1KkzV0N8Mny5su2N5lhKj2rfkYxvKxOrkrLEU6lgEK2Aadlrdi50
+	lWQ9O8SHBCpurF/JNlN/8Rxrj0whPcblkhHN8B5pqtdQCWgLKOIdnLfXnq/3jg6DgEVM8+
+	GtE4hXIRG2hWanDuiFS7NBrlpr3k7pc=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-364-rPE8zZhBOa6amsebACejWw-1; Wed,
+ 17 Sep 2025 10:55:55 -0400
+X-MC-Unique: rPE8zZhBOa6amsebACejWw-1
+X-Mimecast-MFC-AGG-ID: rPE8zZhBOa6amsebACejWw_1758120952
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CFAD11956048;
+	Wed, 17 Sep 2025 14:55:51 +0000 (UTC)
+Received: from [10.45.225.133] (unknown [10.45.225.133])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A26D8300018D;
+	Wed, 17 Sep 2025 14:55:47 +0000 (UTC)
+Message-ID: <2ee83405-fd42-4a70-8a5f-f6f34b0b8731@redhat.com>
+Date: Wed, 17 Sep 2025 16:55:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,246 +51,104 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/11] filemap: Pass address_space mapping to
- ->free_folio()
-To: Hugh Dickins <hughd@google.com>, "Roy, Patrick" <roypat@amazon.co.uk>
-Cc: "Thomson, Jack" <jackabt@amazon.co.uk>,
- "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
- "Cali, Marco" <xmarcalx@amazon.co.uk>,
- "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
- Elliot Berman <quic_eberman@quicinc.com>,
- "willy@infradead.org" <willy@infradead.org>, "corbet@lwn.net"
- <corbet@lwn.net>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "maz@kernel.org" <maz@kernel.org>,
- "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
- "joey.gouly@arm.com" <joey.gouly@arm.com>,
- "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
- "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>,
- "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
- "kernel@xen0n.name" <kernel@xen0n.name>,
- "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "alex@ghiti.fr" <alex@ghiti.fr>,
- "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
- "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
- "hca@linux.ibm.com" <hca@linux.ibm.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>,
- "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
- "svens@linux.ibm.com" <svens@linux.ibm.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "luto@kernel.org" <luto@kernel.org>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "trondmy@kernel.org" <trondmy@kernel.org>, "anna@kernel.org"
- <anna@kernel.org>, "hubcap@omnibond.com" <hubcap@omnibond.com>,
- "martin@omnibond.com" <martin@omnibond.com>,
- "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
- "brauner@kernel.org" <brauner@kernel.org>, "jack@suse.cz" <jack@suse.cz>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
- "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
- "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
- "surenb@google.com" <surenb@google.com>, "mhocko@suse.com"
- <mhocko@suse.com>, "ast@kernel.org" <ast@kernel.org>,
- "daniel@iogearbox.net" <daniel@iogearbox.net>,
- "andrii@kernel.org" <andrii@kernel.org>,
- "martin.lau@linux.dev" <martin.lau@linux.dev>,
- "eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org"
- <song@kernel.org>, "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
- "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
- "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
- <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
- "jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
- "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
- <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
- "axelrasmussen@google.com" <axelrasmussen@google.com>,
- "yuanchu@google.com" <yuanchu@google.com>,
- "weixugc@google.com" <weixugc@google.com>,
- "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
- "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
- "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
- "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
- <seanjc@google.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
- "devel@lists.orangefs.org" <devel@lists.orangefs.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-References: <20250912091708.17502-1-roypat@amazon.co.uk>
- <20250912091708.17502-2-roypat@amazon.co.uk>
- <7c2677e1-daf7-3b49-0a04-1efdf451379a@google.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase
+ measure averaging factor
+To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250911072302.527024-1-ivecera@redhat.com>
+ <20250915164641.0131f7ed@kernel.org>
+ <SA1PR11MB844643902755174B7D7E9B3F9B17A@SA1PR11MB8446.namprd11.prod.outlook.com>
+ <c60779d6-938d-4adc-a264-2d78fb3c5947@redhat.com>
+ <SJ2PR11MB845273963D6C04DCDB222FF19B17A@SJ2PR11MB8452.namprd11.prod.outlook.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZoEEwEIAEQCGwMCF4ACGQEFCwkIBwICIgIG
- FQoJCAsCBBYCAwECHgcWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaJzangUJJlgIpAAKCRBN
- 3hD3AP+DWhAxD/9wcL0A+2rtaAmutaKTfxhTP0b4AAp1r/eLxjrbfbCCmh4pqzBhmSX/4z11
- opn2KqcOsueRF1t2ENLOWzQu3Roiny2HOU7DajqB4dm1BVMaXQya5ae2ghzlJN9SIoopTWlR
- 0Af3hPj5E2PYvQhlcqeoehKlBo9rROJv/rjmr2x0yOM8qeTroH/ZzNlCtJ56AsE6Tvl+r7cW
- 3x7/Jq5WvWeudKrhFh7/yQ7eRvHCjd9bBrZTlgAfiHmX9AnCCPRPpNGNedV9Yty2Jnxhfmbv
- Pw37LA/jef8zlCDyUh2KCU1xVEOWqg15o1RtTyGV1nXV2O/mfuQJud5vIgzBvHhypc3p6VZJ
- lEf8YmT+Ol5P7SfCs5/uGdWUYQEMqOlg6w9R4Pe8d+mk8KGvfE9/zTwGg0nRgKqlQXrWRERv
- cuEwQbridlPAoQHrFWtwpgYMXx2TaZ3sihcIPo9uU5eBs0rf4mOERY75SK+Ekayv2ucTfjxr
- Kf014py2aoRJHuvy85ee/zIyLmve5hngZTTe3Wg3TInT9UTFzTPhItam6dZ1xqdTGHZYGU0O
- otRHcwLGt470grdiob6PfVTXoHlBvkWRadMhSuG4RORCDpq89vu5QralFNIf3EysNohoFy2A
- LYg2/D53xbU/aa4DDzBb5b1Rkg/udO1gZocVQWrDh6I2K3+cCs7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <7c2677e1-daf7-3b49-0a04-1efdf451379a@google.com>
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <SJ2PR11MB845273963D6C04DCDB222FF19B17A@SJ2PR11MB8452.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On 16.09.25 08:23, Hugh Dickins wrote:
-> On Fri, 12 Sep 2025, Roy, Patrick wrote:
-> 
->> From: Elliot Berman <quic_eberman@quicinc.com>
+On 17. 09. 25 3:10 odp., Kubalewski, Arkadiusz wrote:
+>> From: Ivan Vecera <ivecera@redhat.com>
+>> Sent: Wednesday, September 17, 2025 2:18 PM
 >>
->> When guest_memfd removes memory from the host kernel's direct map,
->> direct map entries must be restored before the memory is freed again. To
->> do so, ->free_folio() needs to know whether a gmem folio was direct map
->> removed in the first place though. While possible to keep track of this
->> information on each individual folio (e.g. via page flags), direct map
->> removal is an all-or-nothing property of the entire guest_memfd, so it
->> is less error prone to just check the flag stored in the gmem inode's
->> private data.  However, by the time ->free_folio() is called,
->> folio->mapping might be cleared. To still allow access to the address
->> space from which the folio was just removed, pass it in as an additional
->> argument to ->free_folio, as the mapping is well-known to all callers.
+>> On 17. 09. 25 1:26 odp., Kubalewski, Arkadiusz wrote:
+>>>> From: Jakub Kicinski <kuba@kernel.org>
+>>>> Sent: Tuesday, September 16, 2025 1:47 AM
+>>>>
+>>>> cc: Arkadiusz
+>>>>
+>>>> On Thu, 11 Sep 2025 09:23:01 +0200 Ivan Vecera wrote:
+>>>>> The DPLL phase measurement block uses an exponential moving average,
+>>>>> calculated using the following equation:
+>>>>>
+>>>>>                          2^N - 1                1
+>>>>> curr_avg = prev_avg * --------- + new_val * -----
+>>>>>                            2^N                 2^N
+>>>>>
+>>>>> Where curr_avg is phase offset reported by the firmware to the driver,
+>>>>> prev_avg is previous averaged value and new_val is currently measured
+>>>>> value for particular reference.
+>>>>>
+>>>>> New measurements are taken approximately 40 Hz or at the frequency of
+>>>>> the reference (whichever is lower).
+>>>>>
+>>>>> The driver currently uses the averaging factor N=2 which prioritizes
+>>>>> a fast response time to track dynamic changes in the phase. But for
+>>>>> applications requiring a very stable and precise reading of the average
+>>>>> phase offset, and where rapid changes are not expected, a higher factor
+>>>>> would be appropriate.
+>>>>>
+>>>>> Add devlink device parameter phase_offset_avg_factor to allow a user
+>>>>> set tune the averaging factor via devlink interface.
+>>>>
+>>>> Is averaging phase offset normal for DPLL devices?
+>>>> If it is we should probably add this to the official API.
+>>>> If it isn't we should probably default to smallest possible history?
+>>>>
+>>>
+>>> AFAIK, our phase offset measurement uses similar mechanics, but the
+>>> algorithm
+>>> is embedded in the DPLL device FW and currently not user controlled.
+>>> Although it might happen that one day we would also provide such knob,
+>>> if useful for users, no plans for it now.
+>>>   From this perspective I would rather see it in dpll api, especially
+>>> this relates to the phase measurement which is already there, the value
+>>> being shared by multiple dpll devices seems HW related, but also seem not
+>>> a
+>>> problem, as long as a change would notify each device it relates with.
 >>
->> Link: https://lore.kernel.org/all/15f665b4-2d33-41ca-ac50-fafe24ade32f@redhat.com/
->> Suggested-by: David Hildenbrand <david@redhat.com>
->> Acked-by: David Hildenbrand <david@redhat.com>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> [patrick: rewrite shortlog for new usecase]
->> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
->> ---
->>   Documentation/filesystems/locking.rst |  2 +-
->>   fs/nfs/dir.c                          | 11 ++++++-----
->>   fs/orangefs/inode.c                   |  3 ++-
->>   include/linux/fs.h                    |  2 +-
->>   mm/filemap.c                          |  9 +++++----
->>   mm/secretmem.c                        |  3 ++-
->>   mm/vmscan.c                           |  4 ++--
->>   virt/kvm/guest_memfd.c                |  3 ++-
->>   8 files changed, 21 insertions(+), 16 deletions(-)
+>> What if the averaging is implemented in different HW differently? As I
+>> mentioned the Microchip HW uses exponential moving average but
+>> a different HW can do it differently.
 >>
->> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
->> index aa287ccdac2f..74c97287ec40 100644
->> --- a/Documentation/filesystems/locking.rst
->> +++ b/Documentation/filesystems/locking.rst
->> @@ -262,7 +262,7 @@ prototypes::
->>   	sector_t (*bmap)(struct address_space *, sector_t);
->>   	void (*invalidate_folio) (struct folio *, size_t start, size_t len);
->>   	bool (*release_folio)(struct folio *, gfp_t);
->> -	void (*free_folio)(struct folio *);
->> +	void (*free_folio)(struct address_space *, struct folio *);
->>   	int (*direct_IO)(struct kiocb *, struct iov_iter *iter);
->>   	int (*migrate_folio)(struct address_space *, struct folio *dst,
->>   			struct folio *src, enum migrate_mode);
 > 
-> Beware, that is against the intent of free_folio().
+> Yeah good point, in that case we would also need enumerate those, and the new
+> HW would have to extend the uAPI to let the user know which method is used?
+> Different methods could require different parameters?
+> But for your current case only one attribute would be enough?
+> Or maybe better to provide those together like:
+> DPLL_A_PHASE_MEASUREMENT_EMA_N
+> Then different method would have own attributes/params?
 > 
-> Since its 2.6.37 origin in 6072d13c4293 ("Call the filesystem back
-> whenever a page is removed from the page cache"), freepage() or
-> free_folio() has intentionally NOT taken a struct address_space *mapping,
-> because that structure may already be freed by the time free_folio() is
-> called, if the last folio holding it has now been freed.
-
-Thanks for noticing that Hugh, very good point!
-
+> Next question if a HW could have multiple of those methods available and
+> controlled, in which case we shall also have in mind a plan for a
+> "turned-off" value for further extensions?
 > 
-> Maybe something has changed since then, or maybe it happens to be safe
-> just in the context in which you want to use it; but it is against the
-> principle of free_folio().  (Maybe an rcu_read_lock() could be added
-> in __remove_mapping() to make it safe nowadays? maybe not welcome.)
+> Thank you!
+> Arkadiusz
 
-Let me dig into the callers:
+Jiri, Vadim,
+any comments / opinions?
 
-
-1) filemap_free_folio()
-
-filemap_free_folio() looks up the callback through 
-mapping->a_ops->free_folio. Nothing happens in-between that lookup and 
-the callback so we should be good.
-
-
-2) replace_page_cache_folio()
-
-replace_page_cache_folio() similarly looks up the callback through
-mapping->a_ops->free_folio. We do some operations afterwards, but 
-essentially store the new folio in the page cache and remove the old one.
-
-The only caller is fuse_try_move_folio(), and IIUC both folios are 
-locked, preventing concurrent truncation and the mapping going away.
-
-
-3) __remove_mapping()
-
-__remove_mapping() also looks up the callback through 
-mapping->a_ops->free_folio.
-
-Before we call free_folio() we remove the folio from the pagecache 
-(__filemap_remove_folio) to then drop locks and call free_folio().
-
-We're only holding the folio lock at that point.
-
-So yes I agree, truncate_inode_pages_final() could be racing with
-__remove_mapping().c That's probably exactly what the docs describe 
-regarding reclaim.
-
-
-rcu_read_lock() should indeed work, or some other mechanism that keeps 
-truncate_inode_pages_final() from succeeding in this racy situation.
-
-Alternatively I guess we would have to use another callback.
-
--- 
-Cheers
-
-David / dhildenb
+Thanks,
+Ivan
 
