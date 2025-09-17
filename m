@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A2B371EAF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0C2372893;
 	Wed, 17 Sep 2025 12:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111356; cv=none; b=NqOlXbF4z1MRMjRHNCmVTRiZZknVM6fOJIumKgYAQVFBc9+SYGg5DW4vNq/Fq8tRbXj2/530LDsDKL/A12098KVnYlE+AHOo8S09VA2utggvi8fpE6c8GFL+UQH4dPOxTh2Au1V+xTfu/luWjKqSvJfw9i+1b+LBNIkCr4nVsYQ=
+	t=1758111357; cv=none; b=OAy1qdkJMtXt68EF6IDt4uD3hYSjGVNZFc5F/b7PZAd7Ah6b1YIg2KwP4DYJ7UIi5fEzpofOcZt2aufDyXRNFx5NDXDN4ZskcRGhKINqcEF2KrwphtEIM4TJxGyTa89UkO924BmdOyszVYGYmUgn5NHjdI1ZISeNPnSod7XRhbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111356; c=relaxed/simple;
-	bh=bNOmw1tzFH8Sl7kR3p+wUYP6U5+a6FHYIcsXQNkIydI=;
+	s=arc-20240116; t=1758111357; c=relaxed/simple;
+	bh=k6YcbtXwsJKesw6XBa4evKMXBMHtuUFMe++T/iQChqE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZIIUVOznDP3RT/8RWO7Y3mWRq9m8vvmtS1BidvMI0Hw5QJcNFoCC7Ac4R66VybQCEKfr9jZ7zTMb+YW46SKbl3gMu1O2FsSbvSSRCpnUZPkMFCBMbW//0pXpNYwshKYC4y75rwcog0bD6ZvTGlIejJgespJvRlvVgKVqBXFK+rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jbPoNrMK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=saqmNJjtDOT6H7kPErYbTxw6iUjsxF2IJgQTQg9ICimIeKgIubbrozdkJodTit7Z/abE9v8WNDJ6gkNAo6ol4VhaNa2iH5EEn6TlPFNwjmfzhYG5mY33AJ3lgUmdQI9guL3z9SIHdvK38Ju1nmL7Shx3TRFE0j9/MuLMUJIovkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CcqaPjO5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jbPoNrMK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83037C19422;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CcqaPjO5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8338C4CEFB;
 	Wed, 17 Sep 2025 12:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758111356;
-	bh=bNOmw1tzFH8Sl7kR3p+wUYP6U5+a6FHYIcsXQNkIydI=;
+	bh=k6YcbtXwsJKesw6XBa4evKMXBMHtuUFMe++T/iQChqE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jbPoNrMKn1gSfxlY36zJAHXYIUfCUJDeVVvWAhIFQYCrdjO7KBRubv7DJqBODQG6x
-	 ifnvCcTkAaO3Gh2aPLIkWOFQ7pP8auVp/KiVU+T5E7w/tUKR6Wo3bMbcuevEsw/0uP
-	 JU5C6QGDrTOJFlKxIVUhm3dqQyiBpLSUs99w/xVKAQncuGGpZyrdgCNNgG3f55uxYq
-	 8P01LwaLHH8ZdulLmXcBUXdvGiUaZKpPuHNFbiDcQMBt2UPMOeOaDRFoc6MUCbl7R2
-	 2rMGJbyZoDksWXhvV602xkLmLb7DpPFXUtV5EG4t6BvJVoHlcCzZ8656m0/97Xocue
-	 OAYa+3vfkcN+g==
+	b=CcqaPjO5d13YqyrnTLHuAHXUsgGfZqF+/MIN+tJYABEREFfiexjUsj6fK/pAk2B/4
+	 Tjqp6GGJlwIEJnDnn4cDf1HhDY99CluKDx0s6gkfKJPXzG4c1/+uzOZWQbB5XLzjeN
+	 DfNb/cf2k3oWAkN+V3e5WNBRg3vHwPxdfSH6SF5ZMe0BoTN+S1VwptcuKciry0tfMo
+	 X9Doezmkjn+TES6E0TilslNbX1JF7a0W2Ryn+87UJv5dvN0YfwKHfLlXpoRetox1O5
+	 kUXbBna6vT6iU6cUYZJpPiZqeBFr4lLuJYhbOrWI+KxhYW+OP+4tvXDTO53S8Utqvd
+	 KkroKx5+Mwh7g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGeS-2Q88;
+	id 1uyr4h-0000000CGeK-2BSi;
 	Wed, 17 Sep 2025 14:15:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 20/24] tools: kernel-doc: add a see also section at man pages
-Date: Wed, 17 Sep 2025 14:15:14 +0200
-Message-ID: <c16fa58194eb2a2d165f4a8f591754523fde3391.1758111077.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 18/24] tools/docs: sphinx-build-wrapper: Fix output for duplicated names
+Date: Wed, 17 Sep 2025 14:15:12 +0200
+Message-ID: <66cef4f4600ec0252044cefd7117ed873438f337.1758111077.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
 References: <cover.1758111077.git.mchehab+huawei@kernel.org>
@@ -49,215 +49,103 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While cross-references are complex, as related ones can be on
-different files, we can at least correlate the ones that belong
-to the same file, adding a SEE ALSO section for them.
+When SPHINXDIRS is used, basename may be identical for different
+files. If this happens, the summary and error detection won't be
+accurate.
 
-The result is not bad. See for instance:
+Fix it by using relative names from builddir.
 
-	$ tools/docs/sphinx-build-wrapper --sphinxdirs driver-api/media -- mandocs
-	$ man Documentation/output/driver-api/man/edac_pci_add_device.9
+While here, don't duplicate names. Report, instead:
 
-	edac_pci_add_device(9)  Kernel Hacker's Manual  edac_pci_add_device(9)
+- SUCCESS
+    output PDF file was built
+- FAILED
+    latexmk/xelatex didn't build any PDF output
+- FAILED: no .tex files were generated
+    Sphinx didn't build any tex file for SPHINXDIRS directories
+- FAILED ({python exception})
+    When a concurrent.futures is catched. Usually indicates an
+    internal error at the build logic.
 
-	NAME
-	       edac_pci_add_device  - Insert the 'edac_dev' structure into the
-	       edac_pci global list and create sysfs entries  associated  with
-	       edac_pci structure.
+With that, building multiple dirs with the same name is reported
+properly:
 
-	SYNOPSIS
-	       int  edac_pci_add_device  (struct  edac_pci_ctl_info *pci , int
-	       edac_idx );
+    $ make V=1 SPHINXDIRS="admin-guide/media driver-api/media userspace-api/media" pdfdocs
 
-	ARGUMENTS
-	       pci         pointer to the edac_device structure to be added to
-	                   the list
+    Summary
+    =======
+    admin-guide/media/pdf/media.pdf  : SUCCESS
+    driver-api/media/pdf/media.pdf   : SUCCESS
+    userspace-api/media/pdf/media.pdf: SUCCESS
 
-	       edac_idx    A unique numeric identifier to be assigned to the
-
-	RETURN
-	       0 on Success, or an error code on failure
-
-	SEE ALSO
-	       edac_pci_alloc_ctl_info(9),          edac_pci_free_ctl_info(9),
-	       edac_pci_alloc_index(9),  edac_pci_del_device(9), edac_pci_cre‐
-	       ate_generic_ctl(9),            edac_pci_release_generic_ctl(9),
-	       edac_pci_create_sysfs(9), edac_pci_remove_sysfs(9)
-
-	August 2025               edac_pci_add_device   edac_pci_add_device(9)
+And if at least one of them fails, return code will be 1.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/lib/kdoc/kdoc_files.py  |  5 +-
- scripts/lib/kdoc/kdoc_output.py | 84 +++++++++++++++++++++++++++++++--
- 2 files changed, 83 insertions(+), 6 deletions(-)
+ tools/docs/sphinx-build-wrapper | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index 9e09b45b02fa..061c033f32da 100644
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -275,7 +275,10 @@ class KernelFiles():
-                 self.config.log.warning("No kernel-doc for file %s", fname)
-                 continue
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 6c2580303e8e..8d1f77c4a880 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -329,9 +329,6 @@ class SphinxBuilder:
+                     continue
  
--            for arg in self.results[fname]:
-+            symbols = self.results[fname]
-+            self.out_style.set_symbols(symbols)
-+
-+            for arg in symbols:
-                 m = self.out_msg(fname, arg.name, arg)
+                 name = name[:-len(tex_suffix)]
+-
+-                max_len = max(max_len, len(name))
+-
+                 has_tex = True
  
-                 if m is None:
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index ea8914537ba0..1eca9a918558 100644
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -215,6 +215,9 @@ class OutputFormat:
+                 future = executor.submit(self.build_pdf_file, latex_cmd,
+@@ -343,34 +340,35 @@ class SphinxBuilder:
  
-     # Virtual methods to be overridden by inherited classes
-     # At the base class, those do nothing.
-+    def set_symbols(self, symbols):
-+        """Get a list of all symbols from kernel_doc"""
-+
-     def out_doc(self, fname, name, args):
-         """Outputs a DOC block"""
+                 pdf_name = name + ".pdf"
+                 pdf_from = os.path.join(from_dir, pdf_name)
++                pdf_to = os.path.join(pdf_dir, pdf_name)
++                out_name = os.path.relpath(pdf_to, self.builddir)
++                max_len = max(max_len, len(out_name))
  
-@@ -577,6 +580,7 @@ class ManFormat(OutputFormat):
+                 try:
+                     success = future.result()
  
-         super().__init__()
-         self.modulename = modulename
-+        self.symbols = []
+                     if success and os.path.exists(pdf_from):
+-                        pdf_to = os.path.join(pdf_dir, pdf_name)
+-
+                         os.rename(pdf_from, pdf_to)
  
-         dt = None
-         tstamp = os.environ.get("KBUILD_BUILD_TIMESTAMP")
-@@ -593,6 +597,68 @@ class ManFormat(OutputFormat):
+                         #
+                         # if verbose, get the name of built PDF file
+                         #
+                         if self.verbose:
+-                           builds[name] = os.path.relpath(pdf_to, self.builddir)
++                           builds[out_name] = "SUCCESS"
+                     else:
+-                        builds[name] = "FAILED"
++                        builds[out_name] = "FAILED"
+                         build_failed = True
+                 except futures.Error as e:
+-                    builds[name] = f"FAILED ({repr(e)})"
++                    builds[out_name] = f"FAILED ({repr(e)})"
+                     build_failed = True
  
-         self.man_date = dt.strftime("%B %Y")
+         #
+         # Handle case where no .tex files were found
+         #
+         if not has_tex:
+-            name = "Sphinx LaTeX builder"
+-            max_len = max(max_len, len(name))
+-            builds[name] = "FAILED (no .tex file was generated)"
++            out_name = "LaTeX files"
++            max_len = max(max_len, len(out_name))
++            builds[out_name] = "FAILED: no .tex files were generated"
+             build_failed = True
  
-+    def arg_name(self, args, name):
-+        """
-+        Return the name that will be used for the man page.
-+
-+        As we may have the same name on different namespaces,
-+        prepend the data type for all types except functions and typedefs.
-+
-+        The doc section is special: it uses the modulename.
-+        """
-+
-+        dtype = args.type
-+
-+        if dtype == "doc":
-+            return self.modulename
-+
-+        if dtype in ["function", "typedef"]:
-+            return name
-+
-+        return f"{dtype} {name}"
-+
-+    def set_symbols(self, symbols):
-+        """
-+        Get a list of all symbols from kernel_doc.
-+
-+        Man pages will uses it to add a SEE ALSO section with other
-+        symbols at the same file.
-+        """
-+        self.symbols = symbols
-+
-+    def out_tail(self, fname, name, args):
-+        """Adds a tail for all man pages"""
-+
-+        # SEE ALSO section
-+        if len(self.symbols) >= 2:
-+            cur_name = self.arg_name(args, name)
-+
-+            self.data += f'.SH "SEE ALSO"' + "\n.PP\n"
-+            related = []
-+            for arg in self.symbols:
-+                out_name = self.arg_name(arg, arg.name)
-+
-+                if cur_name == out_name:
-+                    continue
-+
-+                related.append(f"\\fB{out_name}\\fR(9)")
-+
-+            self.data += ",\n".join(related) + "\n"
-+
-+        # TODO: does it make sense to add other sections? Maybe
-+        # REPORTING ISSUES? LICENSE?
-+
-+    def msg(self, fname, name, args):
-+        """
-+        Handles a single entry from kernel-doc parser.
-+
-+        Add a tail at the end of man pages output.
-+        """
-+        super().msg(fname, name, args)
-+        self.out_tail(fname, name, args)
-+
-+        return self.data
-+
-     def output_highlight(self, block):
-         """
-         Outputs a C symbol that may require being highlighted with
-@@ -618,7 +684,9 @@ class ManFormat(OutputFormat):
-         if not self.check_doc(name, args):
-             return
- 
--        self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
-@@ -627,7 +695,9 @@ class ManFormat(OutputFormat):
-     def out_function(self, fname, name, args):
-         """output function in man"""
- 
--        self.data += f'.TH "{name}" 9 "{name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{name}" 9 "{out_name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{name} \\- {args['purpose']}\n"
-@@ -671,7 +741,9 @@ class ManFormat(OutputFormat):
-             self.output_highlight(text)
- 
-     def out_enum(self, fname, name, args):
--        self.data += f'.TH "{self.modulename}" 9 "enum {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"enum {name} \\- {args['purpose']}\n"
-@@ -703,8 +775,9 @@ class ManFormat(OutputFormat):
-     def out_typedef(self, fname, name, args):
-         module = self.modulename
-         purpose = args.get('purpose')
-+        out_name = self.arg_name(args, name)
- 
--        self.data += f'.TH "{module}" 9 "{name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"typedef {name} \\- {purpose}\n"
-@@ -717,8 +790,9 @@ class ManFormat(OutputFormat):
-         module = self.modulename
-         purpose = args.get('purpose')
-         definition = args.get('definition')
-+        out_name = self.arg_name(args, name)
- 
--        self.data += f'.TH "{module}" 9 "{args.type} {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{args.type} {name} \\- {purpose}\n"
+         return builds, build_failed, max_len
 -- 
 2.51.0
 
