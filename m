@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBE9333164;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DA0334CD3;
 	Wed, 17 Sep 2025 12:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111362; cv=none; b=JCbzqb5JyDu0Or9zaMgpGLvYalQ9+uYLHggSXUBepU7BNfTmD4qgTz5z50qyWXodMX+zUL69H30TVQSqpAI1h1GB2CnLWZWex+JW20T80w227zt630wtPPTniBy/tIEj9WXF7dHrFrepiS7K+iSKqz8FMLdyOUkpFlbQ1rL3LCI=
+	t=1758111363; cv=none; b=dymNeMn6ALd4yQtmjSP3meIrNGQUslmmQdSzZ8K3g4t0Ln6KNho2GcMCeJeIlmNWtGc73kE9KWvSxG6C+Wi4YZiPKsbVnt3inefNa7O9EyQH3dBOJxHrA9Yj2maK1PaMaxCkjWWGwAlVEGQwbi/5plu9a/RKDI73rQJ1it9u+OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111362; c=relaxed/simple;
-	bh=AH2lL83LG/MCK6GW00LCQjiXUczLYQf3wfFtphqsZ6o=;
+	s=arc-20240116; t=1758111363; c=relaxed/simple;
+	bh=2lAZ64n7wyH76UFbNF5vqE4iJt8/QZ2U45Bxr8ZIkP8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Oek5Dfd/gaGEA3gnhw/RJ6G7I+lgLu8JtabptyFVOXs0aFTjB5IXYSPm+byqlO2dpOMqsXllARzjfKmuiQNP2+D0D3BBmpSCBwKjh7D+RYBBPU0p3K+g3c/u+c/irXHKjzwPVa1oMQ0qctDs0gugo/knJ/22EFFZL2SbU5iWEbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g/KWGQ9N; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UKK7EHjT0cCvb87UIF/erAs8lhTOK4KxZC2Vd7rTJ6l2eRB/qbI2fw5LoTVjBN52WUt6VEmjBPXrN7+1Q4X4qwS1LdwBMby0GFEkO9z+aD9wpzmUy/c3aAzia6SBmVLVSct2Di9GjaLr92hHP6ROyS13BEJc56/hS+rVrVX0pa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cX1c/wht; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g/KWGQ9N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0866C4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cX1c/wht"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC563C4CEF0;
 	Wed, 17 Sep 2025 12:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758111361;
-	bh=AH2lL83LG/MCK6GW00LCQjiXUczLYQf3wfFtphqsZ6o=;
+	bh=2lAZ64n7wyH76UFbNF5vqE4iJt8/QZ2U45Bxr8ZIkP8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g/KWGQ9NcAN9v6oSebFVQKvDDRIiCgXAx6UF6meul7UkQKm+T+GMXz/fcPpnfd+Dw
-	 bv+uihK7Jay6uSkXK1NgkVjYHHFzglgEiQhe7ooDET7L1Ct+vIM7zS9zDip4yOBrr6
-	 75JUNuKBr/v5oPmRdBqRr5IlRuUsPqIX1EFgQ2EuQUQDR1zQR8fR3U2+taYEo3TWAe
-	 kfisWtscV1pa9rbQlzxVxsNBP3Qvv45qWYq7UPRlvqyDA8W4HPBLI6LMtj46T/EzNk
-	 YG14mBPj9CLHQmsJwZllP+9iMA3dlXvswT5T+Que0ru4dkd0/3T8rOwj80BXXNO4k2
-	 WxIdqzCe6wQ7Q==
+	b=cX1c/whtUh0tqFNSiZEgU0+iXz1XQ0YfduYvVcuS0TYM9ADz3Z4CkBzpFIu6qIe4G
+	 74gBV9m5aMge/3FI8NM4fZH19DOC2yBo+SIj94wZaVDxzIIMicMUQHmDzZmwAdBBNL
+	 rhN7OY+AMvqLM8Df276Qpen450W63uNayTJbkW2I8LjQU+guLO/qQ6qazYsFd2yhxQ
+	 AxBc9vulqO5xvmwro92teOorEOx6ezoY9MOx5v+n3Y0qbcQtUSkhQte+tj5EeMkdkj
+	 QLY3D0YsumkFp352nz3XWc9dXsOvAq90ZwX0VSseUBHsLxjbI+oLjx/wVQj42TFCym
+	 HOp5ZFPQrIOLQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGdg-12aY;
+	id 1uyr4h-0000000CGdQ-0aiz;
 	Wed, 17 Sep 2025 14:15:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 08/24] tools/docs: sphinx-pre-install: drop a debug print
-Date: Wed, 17 Sep 2025 14:15:02 +0200
-Message-ID: <4c7375298ce9aa1f15e0be42cc7e6fa7e8a54c1c.1758111077.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 04/24] scripts: check-variable-fonts.sh: convert to Python
+Date: Wed, 17 Sep 2025 14:14:58 +0200
+Message-ID: <d2f8d87f5aeed34027f976418246e08c4019c0ab.1758111077.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
 References: <cover.1758111077.git.mchehab+huawei@kernel.org>
@@ -52,26 +52,169 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The version print at the lib was added for debugging purposes.
-Get rid of it.
+This script handle errors when trying to build translations
+with make pdfdocs.
+
+As part of our cleanup work to remove hacks from docs Makefile,
+convert this to python, preparing it to be part of a library
+to be called by sphinx-build-wrapper.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-pre-install | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/Makefile                        |   2 +-
+ MAINTAINERS                                   |   2 +-
+ ...iable-fonts.sh => check-variable-fonts.py} | 104 +++++++++++++-----
+ 3 files changed, 79 insertions(+), 29 deletions(-)
+ rename scripts/{check-variable-fonts.sh => check-variable-fonts.py} (61%)
 
-diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
-index 954ed3dc0645..fa12e01fc7fe 100755
---- a/tools/docs/sphinx-pre-install
-+++ b/tools/docs/sphinx-pre-install
-@@ -285,7 +285,6 @@ class AncillaryMethods:
-         cur_ver = sys.version_info[:3]
-         if cur_ver >= MIN_PYTHON_VERSION:
-             ver = ver_str(cur_ver)
--            print(f"Python version: {ver}")
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 5c20c68be89a..d5e436435eab 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -146,7 +146,7 @@ pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+ pdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), \
+-	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
++	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/scripts/check-variable-fonts.py || exit; \
+ 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+ 	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+ 	)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef87548b8f88..88d8f7435e6d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7301,7 +7301,7 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/check-variable-fonts.sh
++F:	scripts/check-variable-fonts.py
+ F:	scripts/checktransupdate.py
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/get_abi.py
+diff --git a/scripts/check-variable-fonts.sh b/scripts/check-variable-fonts.py
+similarity index 61%
+rename from scripts/check-variable-fonts.sh
+rename to scripts/check-variable-fonts.py
+index ce63f0acea5f..71b88b680a73 100755
+--- a/scripts/check-variable-fonts.sh
++++ b/scripts/check-variable-fonts.py
+@@ -1,7 +1,9 @@
+-#!/bin/sh
++#!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0-only
+ # Copyright (C) Akira Yokosawa, 2024
+ #
++# Ported to Python by (c) Mauro Carvalho Chehab, 2025
++#
+ # For "make pdfdocs", reports of build errors of translations.pdf started
+ # arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
+ # tumbleweed have started deploying variable-font [3] format of "Noto CJK"
+@@ -87,29 +89,77 @@
+ #     Denylisting should be less invasive, as it is effective only while
+ #     XeLaTeX runs in "make pdfdocs".
  
-             # This could be useful for debugging purposes
-             if SphinxDependencyChecker.which("docutils"):
+-# Default per-user fontconfig path (overridden by env variable)
+-: ${FONTS_CONF_DENY_VF:=$HOME/deny-vf}
+-
+-export XDG_CONFIG_HOME=${FONTS_CONF_DENY_VF}
+-
+-notocjkvffonts=`fc-list : file family variable | \
+-		grep 'variable=True' | \
+-		grep -E -e 'Noto (Sans|Sans Mono|Serif) CJK' | \
+-		sed -e 's/^/    /' -e 's/: Noto S.*$//' | sort | uniq`
+-
+-if [ "x$notocjkvffonts" != "x" ] ; then
+-	echo '============================================================================='
+-	echo 'XeTeX is confused by "variable font" files listed below:'
+-	echo "$notocjkvffonts"
+-	echo
+-	echo 'For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.'
+-	echo 'Or, CJK pages can be skipped by uninstalling texlive-xecjk.'
+-	echo
+-	echo 'For more info on denylisting, other options, and variable font, see header'
+-	echo 'comments of scripts/check-variable-fonts.sh.'
+-	echo '============================================================================='
+-fi
+-
+-# As this script is invoked from Makefile's error path, always error exit
+-# regardless of whether any variable font is discovered or not.
+-exit 1
++import os
++import re
++import subprocess
++import sys
++import textwrap
++
++class LatexFontChecker:
++    """
++    Detect problems with CJK variable fonts that affect PDF builds for
++    translations.
++    """
++
++    def __init__(self):
++        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
++
++        self.environ = os.environ.copy()
++        self.environ['XDG_CONFIG_HOMEF'] = os.path.expanduser(deny_vf)
++
++        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
++
++    def get_noto_cjk_vf_fonts(self):
++        """Get Noto CJK fonts"""
++
++        cjk_fonts = set()
++        cmd = ["fc-list", ":", "file", "family", "variable"]
++        try:
++            result = subprocess.run(cmd,stdout=subprocess.PIPE,
++                                    stderr=subprocess.PIPE,
++                                    universal_newlines=True,
++                                    env=self.environ,
++                                    check=True)
++
++        except subprocess.CalledProcessError as exc:
++            sys.exit(f"Error running fc-list: {repr(exc)}")
++
++        for line in result.stdout.splitlines():
++            if 'variable=True' not in line:
++                continue
++
++            match = self.re_cjk.search(line)
++            if match:
++                cjk_fonts.add(match.group(1))
++
++        return sorted(cjk_fonts)
++
++    def check(self):
++        """Check for problems with CJK fonts"""
++
++        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
++        if not fonts:
++            return None
++
++        rel_file = os.path.relpath(__file__, os.getcwd())
++
++        msg = "=" * 77 + "\n"
++        msg += 'XeTeX is confused by "variable font" files listed below:\n'
++        msg += fonts + "\n"
++        msg += textwrap.dedent(f"""
++                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
++                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
++
++                For more info on denylisting, other options, and variable font, see header
++                comments of {rel_file}.
++            """)
++        msg += "=" * 77
++
++        return msg
++
++if __name__ == "__main__":
++    msg = LatexFontChecker().check()
++    if msg:
++        print(msg)
++
++    sys.exit(1)
 -- 
 2.51.0
 
