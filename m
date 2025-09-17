@@ -1,117 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1D72989BA;
-	Wed, 17 Sep 2025 14:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959B52857F0
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758118848; cv=none; b=jmux0/ygx0SwuaULxwOXGgFeds16S77N0RUNfM6KsPui01EhT//OaAJoiQ++u83/UC/ENBv0OyDlf9vLYUuV7uYJMG9xAcW5oh4XHRvODlXQ/P7NaWtIny3d3RrxhM8biuhBhkW92ZXvpCfOyv2jdb82DfKTHh1qEbgBkueDI7k=
+	t=1758119174; cv=none; b=US5wtAxXk64qkdp3K5HgROV+t+sZwzDFuNBxG9At0v1HiHiB7J2YrfRYNoBMcm0g1moWVGaSpdSdbIlaueBvqTgNu2CqUexXHYIB2ejNnagAZO+cg2QvqPin7hBwoqItQMfiCMccVxjoBlDKv8As6vzygRQ3v5Mkm139u+bptlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758118848; c=relaxed/simple;
-	bh=J3hGGqALZBptlOxjdyNyo6ooQkzjz28ZGDkX7ijL+js=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q3j4XvFgoEK1+1hxNdqZToBpwdk9FeJWuxh3TNvl47R+vWwTXkMOJHvOfoMXxoPyJ++waXNxcNEaqQE5gr2K2edg9ccrmFnXehyPITlOIkiDM+xFPHPhtHbgFhQYUM5DyWSdHUpcE+9tQVEb2B51GXq0dB7nXKvauktW9zaxfhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BFC0C4CEE7;
-	Wed, 17 Sep 2025 14:20:44 +0000 (UTC)
-Date: Wed, 17 Sep 2025 15:20:42 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Yicong Yang <yangyicong@huawei.com>
-Cc: yangyicong@hisilicon.com, Will Deacon <will@kernel.org>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>, maz@kernel.org,
-	oliver.upton@linux.dev, corbet@lwn.net,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	shuah@kernel.org, shameerali.kolothum.thodi@huawei.com,
-	linuxarm@huawei.com, prime.zeng@hisilicon.com, xuwei5@huawei.com,
-	tangchengchang@huawei.com, wangzhou1@hisilicon.com
-Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
-Message-ID: <aMrDuieMX9WL4jkB@arm.com>
-References: <20250715081356.12442-1-yangyicong@huawei.com>
- <20250715081356.12442-6-yangyicong@huawei.com>
- <aL7Fgx__LeLfbDyU@willie-the-truck>
- <5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
- <aMLvtpaCgRqPAU2Z@willie-the-truck>
- <20250912144736.00007673@huawei.com>
- <666e3588-2e42-2275-f9ec-94ba0954bdc6@huawei.com>
- <aMl6u7xTDLhrZmqK@arm.com>
- <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
+	s=arc-20240116; t=1758119174; c=relaxed/simple;
+	bh=JZxC59+l0K5DkGdV5aRYQYUWp1YC5ovZfqzD3FPsuz8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p9GD+ab1IPKjMFPTKTHl/77Y1Ekcoa2ZTJQ8Kwh1jEw8/NXpz2bJqNVGHRHB0/fIQtjX9UvDJ647KEOi13jbJL+sa2mtR8s9wCzV8dsl2ZITAp6fEP4C+k11KvpLZgzHs+lnlzJCr9LfH0BjSn635oXu3pRCjqKTlBjlz8Pov9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wMacfxa6; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wMacfxa6"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b07d4d24d09so555580566b.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 07:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758119171; x=1758723971; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=10t2Z6sgnABIAwDZkTB26QdFfX0ldYEILJpBIALC4NU=;
+        b=wMacfxa64V+hZqJdlMnXg2iSd8LdTVPmi5yXWNYYsPUQc/J8+hrz4DoD5nrQhJ42fn
+         lqYPw4FMS30yNrWWuIwJIIfpA35RmuASBsHIvLBSzdg20DpRwJU7UuxQdqsfZZ/myoN2
+         BgmpKgzbgIR9kuV8egT9fW7/uShJv18fYzfI5NdxS/JAzWA7HSLDoVYVOjt1/v+LZHOP
+         73H2hVA/lfUhzCm3SsnPH1BFNGNc5ii4yvJvXJunecjrn419i291yAPce4q3nT6ClaCZ
+         ZMWGweox/NDihX+XLcQlPvFDH8S2PZNE5jw3jJYdSH+c1b3qisNVF4MkZ9md+bo3CF72
+         4TXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758119171; x=1758723971;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=10t2Z6sgnABIAwDZkTB26QdFfX0ldYEILJpBIALC4NU=;
+        b=LDU6ChWXvn7imEvl8zJGSggk0wI7WS6rReEfLgmjFBldxb3cKQRQDchiWNIMIhlJna
+         Hit1CE1NDpeMvopGRvw7g+pj+8AzyrKc+dmVgeV9L5+7xwIWDmrJ4DcmeO9pIeP2u8oX
+         U+A2ex3Q/ZE4PrSYCbxrxdDeZrggrbfpWCvlAt1JUqmB0ixl/cJlgsPia60j2F84/N3X
+         hqCFtYcA/YWy3xEf6koWPmG/TMU2OiinFLdA6LeaMEbpgm0eX8Yixctb36no6TaZn07d
+         1rfOJiH1poz4d3OxHcq5nEx8883YOtybSrkyReEhg1X9BxLBRvYa614jEjHrFp5G4ixg
+         ev8g==
+X-Forwarded-Encrypted: i=1; AJvYcCW/h7YBgN/SXxDNmxZETv6ieaNlnYBgS1mxVAf3M+G2QT76aqLFaWz/cvJybFd8Q6NtkfpGmQ/tY7E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuS/+xiE1UGX0lCk4258KbjJfgScgbXRhRY4KF8uqL4j+cyzWB
+	cZy3o5+9FmSzsXJc6xsPxtqq5Q1QswPJm5HaN0kpa2UKHfmuFLfnb8qP2EFagx3RDs8=
+X-Gm-Gg: ASbGncuv3rJVnZorZcqhurccHVhdjtwJV6aqWmkRsuIwVhPeZ7CAAZvrY1SRUhIO1xA
+	sy7ir2xQxWYZOYE4gku11Cydbv7bfNobFxzVlE9/4SyEgpPIyx1+PR7tOxdDxRfrxYNSvEw1DWD
+	3bVAluZyOntYG5EKwnDBnuIgVVWz6p7c7r1p2KPdqTopYZFLVJBWBZsfTHUTD6UiN3IqrwdYITB
+	trpDBoA/yiSXNJ4cq4FEvnUeT2tOduB07iVvni635I9VTxujJVbk+v7dpTpTJ7tWB8M0Exjx1Uw
+	tfID/jQtveeBUe5qKTYWqgvA1T+sxAr0xxsOm5+dLXP7bVcU7rvNMClynme5Cb44AktHSU+8tnL
+	8OMfov/FDWzRcbjhVEo39yEspi4cEiHUwfdGFekXfu/k=
+X-Google-Smtp-Source: AGHT+IEaxm2Ezs6X9pAGeZTfGiDeZKKFcv9jYxAWmPiRXScidoOV/iqJhV2uKVKOhqCyY8zfonbwMA==
+X-Received: by 2002:a17:907:970e:b0:afe:c2e7:3705 with SMTP id a640c23a62f3a-b1bb2d0f4fdmr263147466b.22.1758119170855;
+        Wed, 17 Sep 2025 07:26:10 -0700 (PDT)
+Received: from [172.20.10.3] ([109.166.135.151])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b3347b90sm1356906866b.109.2025.09.17.07.26.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 07:26:10 -0700 (PDT)
+Message-ID: <b8a0586e-a79a-4e14-87d8-ee156436d1b0@linaro.org>
+Date: Wed, 17 Sep 2025 17:26:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
+To: Thomas Gleixner <tglx@linutronix.de>, David Hildenbrand
+ <david@redhat.com>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
+ <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
+ <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
+From: Eugen Hristev <eugen.hristev@linaro.org>
+Content-Language: en-US
+In-Reply-To: <87v7lh891c.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 17, 2025 at 11:51:20AM +0800, Yicong Yang wrote:
-> On 2025/9/16 22:56, Catalin Marinas wrote:
-> > On Mon, Sep 15, 2025 at 04:29:25PM +0800, Yicong Yang wrote:
-> >> in my understanding the hwcap only describes the capabilities of the CPU but not
-> >> the whole system. the users should make sure the function works as expected if the
-> >> CPU supports it and they're going to use it. specifically the LS64 is intended for
-> >> device memory only, so the user should take responsibility of using it on supported
-> >> memory.
-> > 
-> > We have other cases like MTE where we avoid exposing the HWCAP to user
-> > if we know the memory system does not support MTE, though we intercepted
-> > this early and asked the (micro)architects to tie the CPU ID field to
-> > what the system supports.
+
+
+On 9/17/25 17:10, Thomas Gleixner wrote:
+> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
+>> On 17.09.25 07:43, Eugen Hristev wrote:
+>>> On 9/17/25 00:16, Thomas Gleixner wrote:
+>>>> I pointed you to a solution for that and just because David does not
+>>>> like it means that it's acceptable to fiddle in subsystems and expose
+>>>> their carefully localized variables.
+>>
+>> It would have been great if we could have had that discussion in the 
+>> previous thread.
 > 
-> but we lack the same identification mechanism as CPU for the memory system, so it's just a
-> restriction for the hardware vendor that if certain feature is not supported for the whole
-> system (SoC) then do not advertise it in the CPU's ID field. otherwise i think we're currently
-> doing in the manner that if capability mismatch or cannot work as expected together then a
-> errata/workaround is used to disable the feature or add some workaround on this certain
-> platform.
+> Sorry. I was busy with other stuff and did not pay attention to that
+> discussion.
 > 
-> this is also the case for LS64 but a bit more complex, since it involves the completer outside
-> the SoC (the device) and could be a hotplug one (PCIe). from the SoC part we can restrict to
-> advertise the feature only if it's fully supported (what we've already done on our hardware).
-
-That's good to know. Hopefully other vendors do the same.
-
-I think the ARM ARM would benefit from a note here that the system
-designers should not advertise this if the interconnect does not support
-it. I can raise this internally.
-
-> > Arguably, the use of LD/ST64B* is fairly specialised and won't be used
-> > on the general purpose RAM and by random applications. It needs a device
-> > driver to create the NC/Device mapping and specific programs/libraries
-> > to access it. I'm not sure the LS64 properties are guaranteed by the
-> > device alone or the device together with the interconnect. I suspect the
-> > latter and neither the kernel driver nor user space can tell. In the
-> > best case, you get a fault and realise the system doesn't work as
-> > expected. Worse is the non-atomicity with potentially silent corruption.
+>> Some other subsystem wants to have access to this information. I agree 
+>> that exposing these variables as r/w globally is not ideal.
 > 
-> will be the latter one, both interconnect and the target device need to
-> support it. but I think the driver developer (kernel driver or userspace
-> driver) must have knowledge about the support status, otherwise they
-> should not use it.
-[...]
-> my thoughts is that the driver developer should have known whether their
-> device support it or not if going to use this. the information in the
-> firmware table should be fine for platform devices, but cannot describe
-> information for hotpluggable ones like PCIe endpoint devices which may
-> not be listed in a firmware table.
+> It's a nono in this case. We had bugs (long ago) where people fiddled
+> with this stuff (I assume accidentally for my mental sanity sake) and
+> caused really nasty to debug issues. C is a horrible language to
+> encapsulate stuff properly as we all know.
+> 
+>> I raised the alternative of exposing areas or other information through 
+>> simple helper functions that kmemdump can just use to compose whatever 
+>> it needs to compose.
+>>
+>> Do we really need that .section thingy?
+> 
+> The section thing is simple and straight forward as it just puts the
+> annotated stuff into the section along with size and id and I definitely
+> find that more palatable, than sprinkling random functions all over the
+> place to register stuff.
 
-There's a risk of such instructions ending up in more generic
-copy_to/from_io implementations but it's not much we can do other than
-not enabling the feature at all.
++1 from my side.
 
-So, I think a HWCAP bit is useful but we need (a) clarification that the
-CPUID field won't be set if the system doesn't support it and (b)
-document the Linux bit that it's a per-device capability even if the
-CPU/system supports it (the HWCAP is only a prerequisite to be able to
-use the instructions; the driver can fall back to non-atomic ops, maybe
-with a DGH if it helps performance).
+> 
+> Sure, you can achieve the same thing with an accessor function. In case
+> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
 
-An alternative would have been for the kernel driver to communicate to
-the user that the device supports the 64-byte atomic accesses but I'm
-not aware of any fairly generic way to do this.
+Not really. I cannot use this accessory function because it returns the
+<value> of nr_irqs. To have this working with a debug tool, I need to
+dump the actual memory where nr_irqs reside. This is because any debug
+tool will not call any function or code, rather look in the dump where
+is the variable to find its value. And nr_irqs is not in the coredump
+image if it's not registered itself into kmemdump.
+So to make it work, the accessory would have to return a pointer to
+nr_irqs. Which is wrong. Returning a pointer to a static, outside of the
+subsystem, is not right from my point of view.
 
--- 
-Catalin
+> do not expose the information already for real functional reasons adding
+> such helpers just for this coredump muck is really worse than having a
+> clearly descriptive and obvious annotation which results in the section
+> build.
+> 
+> The charm of sections is that they don't neither extra code nor stubs or
+> ifdeffery when a certain subsystem is disabled and therefore no
+> information available.
+> 
+> I'm not insisting on sections, but having a table of 2k instead of
+> hundred functions, stubs and whatever is definitely a win to me.
+> 
+> Thanks,
+> 
+>         tglx
+
