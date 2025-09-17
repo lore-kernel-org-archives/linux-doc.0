@@ -1,207 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D780B1EF363;
-	Wed, 17 Sep 2025 14:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF6D2E9EC3
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758119905; cv=none; b=JTLUFwA4DIDUs/TWlZ5pRJ4AZqHX9QU3ny4oPeIPy48pvUE6/Y+T9OZqJspiNaLbu+SuaPxiFzK7XucPsVYUnMnikp8Q26q4/z+OVSTmHDE/65jwYNxpNxHFAn5Dw02IlFg4Gjmi8kPyZTZZCvaKO6Enq5QBVrIsi2BS6jxk1Rk=
+	t=1758120411; cv=none; b=kUPrOLGJjXMsAIT8o0uyK0pev2Uf0UiJenOAeiV/o3O6iTdzcF+jNZo9IsBBEAVWIsh+PmB0R5BCnsOseYY3UOD8FwTvLGKJ7tzNxqHsyJpe11DBRBLSc7RioryoedGV/GHB0d3RTl6Ot+Xr5Ex7mVBAegJ7SJn5SNG6+SLCrbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758119905; c=relaxed/simple;
-	bh=JUOAYdT860eucBNczbVANNdcaqnUWi74UuVf01tr4rg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=SSX6ByS14W4zqz4HGRebNWtx7JXvcZr6Kf1ZIuPKR5oVBDdFp5jyjP2nEoqyJ2Fc8thikYBw9JEK2d4t5LwsOHW+ecGQ6UHxA2Lmf8E4YJzrJZOypYxAmq8YQX41Upt7Y3FdTeoeHZvmzfENJAcYw+gh8LX/vGUrtKw6dSFhCVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edYel4cY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758120411; c=relaxed/simple;
+	bh=2lwqeabpS4Qb/h6rApISah5NsygIIWv9QS8376+S61s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=daIovojI/HSXuZa9dSiPzevLYROiatWqC+3uR33MoKo3e3QPNtg6biCGgXGaPvb0Z9ts9tM7OIQ9EbfNO8Nu74L4LWXsYoV5pPIOnj8EWitym480W2MrBNwv2RE4tYxeSzEpQFEiTX5/PBEScMtAWIWwn9PHoEMzUlVwgFZx2YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cuge4Jht; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edYel4cY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8FFC4CEE7;
-	Wed, 17 Sep 2025 14:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758119904;
-	bh=JUOAYdT860eucBNczbVANNdcaqnUWi74UuVf01tr4rg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=edYel4cYDGAgEtEFofgM90xqvX8MYZTmQlkOdEznPSp7tEbYOqf/of3DfJhpGFICg
-	 AG2Ff/WETrM1UAfpQuyACeE72peP8+fDkK2DNo+rrTRSIFpbnpVKe5WBSj7nyRcUd5
-	 aTwAlm3s0evW7WcGqHWDKxNh8GDXze/2+qrCTMZk3jz5NtSKMa4I1Zscjxd+ZUl/bT
-	 mkjn6kOKYXqlXxWyzZrz8xZxFgrgREGamJ3rGUIZtGztnAg8QAZSVfa01OldMfBXgH
-	 md6Pf911vriZEDztQUjb5jL9J6wVxZT4L3654czOdOToJJQorQBEiPw9y96bc3bKgG
-	 W5GLADbztm9Zw==
-Date: Wed, 17 Sep 2025 23:38:18 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v4 1/8] tracing: wprobe: Add watchpoint probe event
- based on hardware breakpoint
-Message-Id: <20250917233818.71678d0164a6fc2d11fa6e38@kernel.org>
-In-Reply-To: <014136d2-8599-4a1f-ab8e-c5be4f522e5a@infradead.org>
-References: <175785897434.234168.6798590787777427098.stgit@devnote2>
-	<175785898586.234168.14883193853242691280.stgit@devnote2>
-	<014136d2-8599-4a1f-ab8e-c5be4f522e5a@infradead.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cuge4Jht"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758120408;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ovZ8mJqkmoqvvz8O8MVpBxVpu4t3oTHY8vOE+XFxYc0=;
+	b=Cuge4JhtO1yMWelYdt+JfqTqQcSpd0gMcxkhFRO2hm1DRasUVL/OET1QIu8ncbRtKWnjz5
+	nBWrzMIt1kt6tOWZD8pr5M2JPp4LHOt4wgZFEqT4hKsECb4ClawkyfiLQz1DsZPxiCkcFE
+	EF/ZqVvR8JncI4HjdxbF2PQai+BB6rc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-637-cPiw2Nz9NCOzLhP7WH_NCg-1; Wed, 17 Sep 2025 10:46:47 -0400
+X-MC-Unique: cPiw2Nz9NCOzLhP7WH_NCg-1
+X-Mimecast-MFC-AGG-ID: cPiw2Nz9NCOzLhP7WH_NCg_1758120406
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b990eb77cso8086465e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 07:46:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758120406; x=1758725206;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ovZ8mJqkmoqvvz8O8MVpBxVpu4t3oTHY8vOE+XFxYc0=;
+        b=M6ZG9eqNd1rbIeVW9Quh7N0SQ2rbKqyPfASgLO2d+3NdpV/V7Q/SqyZSxHwAF4QC5h
+         v9YrEkt8LeIiXz35yFGpq+o9FlHa1YmTG9XbMi86lHwrqpgEhoehqOVdnfgzwWQACgSw
+         2comvutZV3LWHRJIcuNF+qpDJIyhvx3S5hE1a/xWifU273stE8P5ysAMoOX6egGcPr2l
+         ekCmrhwReH4kV1LA601qk47hCijeO+dJdmuagUGkJ7iX4NGgrh/U3CPZQE+MNVeYIH8V
+         30NBxk61lkbiEC+BcaCG6pUTj/NwOWrr48Zre0+giLisM1093pUfe7Jy+eoJ2sB78HmY
+         8w3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVXOZTPL7p8rl+NCFguLYGBClHmvTvs8barWb8m55J4s+Z4Ueb2D8jDaTZIZmHqM/s/hXmDOKAp6jY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0ipj+7VB98vmj1WWNymiWedByh2Rszu23ppwTpo+pec/UKyvd
+	TUL2j1kw4UqruOGynOlR3yh4diT/9CzwUCy3Uewbkh3u6w6ZOGWbcqlyZKrpesALaQkkcYlu6ZA
+	04QZgrSvwlN1UmaDOxOSQciZwl+8ARFxPe+TDJT0QZtB5pmjaql9bN1AeEPYJsQ==
+X-Gm-Gg: ASbGncsJNCrT/h7XFHHpJTaoIHIlsJ0IWy+T4mxkyNcyF22RC5uwy40T2CakITyNHcm
+	btrwE9eYbsFfyN9CPvkOYAL1KPyKM1VGDfJHIYKMHnkFFdCdujAJGBwqjqcUXwYyfl+zBNxRZPl
+	rrsNGkRBpFhwMctEYBa7s6jikYgEy8408+8jyDlVKHCq2fG7/K4gsZs7oR3r/+nfqGasNJ1GFXB
+	0Y4drPHBJuAqzmi8nii3PPLtJW+YPmJ3fpa7HXfC/P/VJq1NAmgf4EK1/agcX4TW/QZ+hOkPqBm
+	K5VHikkjWJQ2L1TxOKix8Fqm2LlfBPQ8ugC2g5du/ejoq17zqVkpeE4a623Lhpls8bZU1WEUi5r
+	nZBdddO04coZgPB0Rh9O4j2Ee+FUXrekuLGcifXmMhTiNul7nqp0t5LI5rnohF1Fx
+X-Received: by 2002:a05:600c:4888:b0:459:d577:bd24 with SMTP id 5b1f17b1804b1-45f32d0869fmr46709565e9.7.1758120405796;
+        Wed, 17 Sep 2025 07:46:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG/Ufl1M6AshTZE+vFOVXEwIa1YoUqQ1InS/YuHHadh0wrsGDimF+1HMnmk4PGp9MwHqliWqQ==
+X-Received: by 2002:a05:600c:4888:b0:459:d577:bd24 with SMTP id 5b1f17b1804b1-45f32d0869fmr46709295e9.7.1758120405326;
+        Wed, 17 Sep 2025 07:46:45 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f325a32f6sm40132415e9.2.2025.09.17.07.46.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 07:46:44 -0700 (PDT)
+Message-ID: <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
+Date: Wed, 17 Sep 2025 16:46:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
+To: Thomas Gleixner <tglx@linutronix.de>,
+ Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
+ <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
+ <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <87v7lh891c.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Randy,
-
-On Sun, 14 Sep 2025 17:14:37 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
-> > +  w:[GRP/][EVENT] SPEC [FETCHARGS]                       : Probe on data access
-> > +
-> > + GRP            : Group name for wprobe. If omitted, use "wprobes" for it.
-> > + EVENT          : Event name for wprobe. If omitted, an event name is
-> > +                  generated based on the address or symbol.
-> > + SPEC           : Breakpoint specification.
-> > +                  [r|w|rw]@<ADDRESS|SYMBOL[+|-OFFS]>[:LENGTH]
-> > +
-> > +   r|w|rw       : Access type, r for read, w for write, and rw for both.
-> > +                  Use rw if omitted.
+On 17.09.25 16:10, Thomas Gleixner wrote:
+> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
+>> On 17.09.25 07:43, Eugen Hristev wrote:
+>>> On 9/17/25 00:16, Thomas Gleixner wrote:
+>>>> I pointed you to a solution for that and just because David does not
+>>>> like it means that it's acceptable to fiddle in subsystems and expose
+>>>> their carefully localized variables.
+>>
+>> It would have been great if we could have had that discussion in the
+>> previous thread.
 > 
-> 		     Default is rw if omitted.
+> Sorry. I was busy with other stuff and did not pay attention to that
+> discussion.
 
-OK.
+I understand, I'm busy with too much stuff such that sometimes it might 
+be good to interrupt me earlier: "David, nooo, you're all wrong"
 
 > 
-> > +   ADDRESS      : Address to trace (hexadecimal).
-> > +   SYMBOL       : Symbol name to trace.
-> > +   LENGTH       : Length of the data to trace in bytes. (1, 2, 4, or 8)
-> > +
-> > + FETCHARGS      : Arguments. Each probe can have up to 128 args.
-> > +  $addr         : Fetch the accessing address.
-> > +  @ADDR         : Fetch memory at ADDR (ADDR should be in kernel)
-> > +  @SYM[+|-offs] : Fetch memory at SYM +|- offs (SYM should be a data symbol)
-> > +  +|-[u]OFFS(FETCHARG) : Fetch memory at FETCHARG +|- OFFS address.(\*1)(\*2)
-> > +  \IMM          : Store an immediate value to the argument.
-> > +  NAME=FETCHARG : Set NAME as the argument name of FETCHARG.
-> > +  FETCHARG:TYPE : Set TYPE as the type of FETCHARG. Currently, basic types
-> > +                  (u8/u16/u32/u64/s8/s16/s32/s64), hexadecimal types
-> > +                  (x8/x16/x32/x64), "char", "string", "ustring", "symbol", "symstr"
-> > +                  and bitfield are supported.
-> > +
-> > +  (\*1) this is useful for fetching a field of data structures.
-> > +  (\*2) "u" means user-space dereference.
-> > +
-> > +For the details of TYPE, see :ref:`kprobetrace documentation <kprobetrace_types>`.
-> > +
-> > +Usage examples
-> > +--------------
-> > +Here is an example to add a wprobe event on a variable `jiffies`.
-> > +::
-> > +
-> > +  # echo 'w:my_jiffies w@jiffies' >> dynamic_events
-> > +  # cat dynamic_events
-> > +  w:wprobes/my_jiffies w@jiffies
-> > +  # echo 1 > events/wprobes/enable
-> > +  # cat trace | head
-
-Note, I also found this is not head, but combined with tail,
-e.g. `cat trace | head -n 15 | tail -n 5`
-
-> > +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-> > +  #              | |         |   |||||     |         |
-> > +           <idle>-0       [000] d.Z1.  717.026259: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
-> > +           <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
-> > +
-> > +You can see the code which writes to `jiffies` is `do_timer()`.
+>> Some other subsystem wants to have access to this information. I agree
+>> that exposing these variables as r/w globally is not ideal.
 > 
-> I'm having trouble getting from tick_do_update_jiffies64+0xbe/0x130,
-> which I expect is
-> 	jiffies_64 += ticks;
-> in that function, over to do_timer(), which also updates jiffies_64,
-> but is not called by tick_do_update_jiffies64(). AFAICT, there are
-> no calls to do_timer() in the file (kernel/time/tick-sched.c).
-> 
-> Can you explain, please?
+> It's a nono in this case. We had bugs (long ago) where people fiddled
+> with this stuff (I assume accidentally for my mental sanity sake) and
+> caused really nasty to debug issues. C is a horrible language to
+> encapsulate stuff properly as we all know.
 
-Hmm, in my code base
-
-static void tick_do_update_jiffies64(ktime_t now)
-{
-	...
-	} else {
-		last_jiffies_update = ktime_add_ns(last_jiffies_update,
-						   TICK_NSEC);
-	}
-
-	/* Advance jiffies to complete the 'jiffies_seq' protected job */
-	jiffies_64 += ticks;
-
-	...
-
-So this function seems correctly update the jiffies_64.
-If you ask about where it comes from, I can also enable stacktrace on
-that event. (echo 1 >> options/stacktrace)
-
-             cat-124     [005] d.Z1.   537.689753: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
-             cat-124     [005] d.Z1.   537.689762: <stack trace>
- => tick_do_update_jiffies64
- => tick_nohz_handler
- => __hrtimer_run_queues
- => hrtimer_interrupt
- => __sysvec_apic_timer_interrupt
- => sysvec_apic_timer_interrupt
- => asm_sysvec_apic_timer_interrupt
-
-So it came from hrtimer_interrupt().
+Yeah, there is this ACCESS_PRIVATE stuff but it only works with structs 
+and relies on sparse IIRC.
 
 > 
+>> I raised the alternative of exposing areas or other information through
+>> simple helper functions that kmemdump can just use to compose whatever
+>> it needs to compose.
+>>
+>> Do we really need that .section thingy?
 > 
+> The section thing is simple and straight forward as it just puts the
+> annotated stuff into the section along with size and id and I definitely
+> find that more palatable, than sprinkling random functions all over the
+> place to register stuff.
 > 
-> > diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-> > index d2c79da81e4f..dd8919386425 100644
-> > --- a/kernel/trace/Kconfig
-> > +++ b/kernel/trace/Kconfig
-> > @@ -807,6 +807,20 @@ config EPROBE_EVENTS
-> >  	  convert the type of an event field. For example, turn an
-> >  	  address into a string.
-> >  
-> > +config WPROBE_EVENTS
-> > +	bool "Enable wprobe-based dynamic events"
-> > +	depends on TRACING
-> > +	depends on HAVE_HW_BREAKPOINT
-> > +	select PROBE_EVENTS
-> > +	select DYNAMIC_EVENTS
-> > +	default y
-> 
-> Wny default y?
+> Sure, you can achieve the same thing with an accessor function. In case
+> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
 
-No big reason. This is just a dynamic event and unless the super user
-adds this event this does not work on the system. I can make it N so
-developer can enable it when builds their kernel.
+Right, the challenge really is that we want the memory range covered by 
+that address, otherwise it would be easy.
 
-Thank you,
+> do not expose the information already for real functional reasons adding
+> such helpers just for this coredump muck is really worse than having a
+> clearly descriptive and obvious annotation which results in the section
+> build.
+
+Yeah, I'm mostly unhappy about the "#include <linux/kmemdump.h>" stuff.
+
+Guess it would all feel less "kmemdump" specific if we would just have a 
+generic way to tag/describe certain physical memory areas and kmemdump 
+would simply make use of that.
+
+For example, wondering if it could come in handy to have an ordinary 
+vmcoreinfo header contain this information as well?
+
+Case in point, right now we do in crash_save_vmcoreinfo_init()
+
+	VMCOREINFO_SYMBOL_ARRAY(mem_section);
+	VMCOREINFO_LENGTH(mem_section, NR_SECTION_ROOTS);
+	VMCOREINFO_STRUCT_SIZE(mem_section);
+
+And in kmemdump code we do
+
+	kmemdump_register_id(KMEMDUMP_ID_COREIMAGE_mem_section,
+			     (void *)&mem_section, sizeof(mem_section));
+
+I guess both cases actually describe roughly the same information: An 
+area with a given name.
+
+Note 1: Wondering if sizeof(mem_section) is actually correct in the 
+kmemdump case
+
+Note 2: Wondering if kmemdump would also want the struct size, not just 
+the area length.
+
+(memblock alloc wrappers are a separate discussion)
 
 > 
-> > +	help
-> > +	  This allows the user to add watchpoint tracing events based on
-> > +	  hardware breakpoints on the fly via the ftrace interface.
-> > +
-> > +	  Those events can be inserted wherever hardware breakpoints can be
-> > +	  set, and record various register and memory values.
-> > +
-> >  config BPF_EVENTS
-> >  	depends on BPF_SYSCALL
-> >  	depends on (KPROBE_EVENTS || UPROBE_EVENTS) && PERF_EVENTS
-> 
-> 
-> thanks.
-> -- 
-> ~Randy
-> 
+> The charm of sections is that they don't neither extra code nor stubs or
+> ifdeffery when a certain subsystem is disabled and therefore no
+> information available.
 
+Extra code is a very good point.
+
+> 
+> I'm not insisting on sections, but having a table of 2k instead of
+> hundred functions, stubs and whatever is definitely a win to me.
+
+So far it looks like it's not that many, but of course, the question 
+would be how it evolves.
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cheers
+
+David / dhildenb
+
