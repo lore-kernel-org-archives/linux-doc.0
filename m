@@ -1,90 +1,78 @@
-Received: from forward102a.mail.yandex.net (forward102a.mail.yandex.net [178.154.239.85])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7006F2FF154;
-	Wed, 17 Sep 2025 17:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478D1C84C0;
+	Wed, 17 Sep 2025 17:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758130672; cv=none; b=G37rjTFiTFFCoZWukyiCzApUbOsjuq96z02sGuYbzm+xIgir0evQvz9eR8FvOqemBE4CVYLIkgI6L4Iztcjp2ADYrIKoenZDrJnis6Sdlan2Bfs2gd8Fh4XWTsKzgfVxYCMqh3yCQ679cZRfsysAFCubm2Fjg7MLMkm0WqvImXg=
+	t=1758131905; cv=none; b=ZXcUrpssm+B3r8SbE8yYQiP4dwnGBl3oYdLbwY12hCQF0C+rgW6RFxnQSkOAR8m9VYWBAmpjcsL1CXit7OST0g1cSiVr7TxgqGrM0ijMxxm2crcPjjQ0h1sY9+iijzKBwfE5e+YiLpwCusnfj4kpfNzsXBWj0MGnZobU3F3H5Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758130672; c=relaxed/simple;
-	bh=tfk4fqPBXMxRIaTR8JVHfpkSvMMR2GkGexE4r9khsXw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JQ20S7iRSASY0dEqpHn3XKtUwlds/dJ1e5Q1nehGUkC+5aeBe28siHkAG51MlZefO41Twd/dN9Cd1f+Rv8xu2eHpDvAAoQTU1ISbfl52qamlcgu1sfYmTR6x/C8ejb2oG0OUuu17Y//4RUaS9mFmhF+ZvKF4dx0z9dVFObsBYFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=AGUQp+yT; arc=none smtp.client-ip=178.154.239.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	s=arc-20240116; t=1758131905; c=relaxed/simple;
+	bh=6zMlqvkkJUxPR+2hCntCFeaA3Ngj3U6itSCfgav3eEY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ERx5V9Fwb0VL/W0jGpTMrwbmUs0k0tXKZEUXHM2SbxBQeWOibwqNELnp7pwT20wTsqdzFZNfd96KhZY4GYbOSr5iGaKIVk6BoqOpa9/fQNOP+Z/dg/dV0D7spO+PwxP1RM0lYo0gJeBdfkx8nDQKrKjPn+n9/T2c2e5Rc03NINA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ST1KfL37; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="AGUQp+yT"
-Received: from mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1d:3d8d:0:640:b127:0])
-	by forward102a.mail.yandex.net (Yandex) with ESMTPS id BE8D8C0066;
-	Wed, 17 Sep 2025 20:37:40 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id QbVY4BEMvqM0-PhpswjxX;
-	Wed, 17 Sep 2025 20:37:39 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=mail; t=1758130660;
-	bh=hjZ+juQ9tvN1nhjSWM62sYVPVXM0kUendq49dvZ0/Qg=;
-	h=Cc:Message-ID:References:Date:In-Reply-To:Subject:To:From;
-	b=AGUQp+yTQXYDPj34IzXXOyUNDxkWGRTVJ3V57yiw2alNANnK+VLYJKSFyA1YXkqph
-	 k8/PJa1yLxafhJja+scOEMTrCDDwnTYbkpPp6ckM+e7P+FTiDKs6zdwU1hBvNaI2HI
-	 oEVk9vrYk1eXa+xePloHXE97xWaaoQ6Pqd4/Dn70=
-Authentication-Results: mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: linux-kernel@vger.kernel.org
-Cc: apw@canonical.com,
-	joe@perches.com,
-	dwaipayanray1@gmail.com,
-	lukas.bulwahn@gmail.com,
-	corbet@lwn.net,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Subject: [PATCH v2 1/2] checkpatch: detect unhandled placeholders in cover letters
-Date: Wed, 17 Sep 2025 20:37:24 +0300
-Message-ID: <20250917173725.22547-2-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250917173725.22547-1-work@onurozkan.dev>
-References: <20250917173725.22547-1-work@onurozkan.dev>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ST1KfL37"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=4sg0pwVlDI3PlcEWg3BqiWrpfnSRU0MPr0hgbDjPw6w=; b=ST1KfL37z8LSxRSVV7aGFKe8Z9
+	u2ZfkpoxZX0BcWKZNcx6GOPpjZwYIB/ijc7R9rMKCezRU7vYQZSHesfNQuvqzzDRDnQoT/vsjpOtn
+	FhGLzQdSUzYoJ1H1dBn0Vl3blJwnwaX6a8aHl/ONmnuWqRv1WAR+aLAQvf6w2IPcMJpI07Bo+fsVY
+	UsG0cA7voaF7RMUFkdf/tY5BTr/10CY+zxBKKhgTSGtM/gHixBteOuTEofuJ05ckY7Sqfr36beljR
+	I8aGbN5mwE+13QVhKPlYZl1KP9R/V26NlEwdxPsvjFCrAsZU+9y0JWa8eqVFO4PhH1DRidVpjeKnG
+	4c5yfdXw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uywQ6-0000000DlSR-48eJ;
+	Wed, 17 Sep 2025 17:58:19 +0000
+Message-ID: <9c459c3f-7a7b-42d6-8a4c-66ade94e1029@infradead.org>
+Date: Wed, 17 Sep 2025 10:58:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] ALSA: doc: add docs about
+ device_device_quirk_flags in snd-usb-audio
+To: cryolitia@uniontech.com, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>
+Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>,
+ Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>,
+ kernel@uniontech.com, linux-modules@vger.kernel.org
+References: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
+ <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Adds a new check PLACEHOLDER_USE to detect unhandled placeholders.
-This prevents sending patch series with incomplete patches (mostly
-in cover letters) containing auto generated subject or blurb lines.
 
-These placeholders can be seen on mailing lists. With this change,
-checkpatch will emit an error when such text is found.
 
-Signed-off-by: Onur Özkan <work@onurozkan.dev>
----
- scripts/checkpatch.pl | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 9/17/25 5:46 AM, Cryolitia PukNgae via B4 Relay wrote:
+> @@ -2344,8 +2386,8 @@ report it to the upstream.
+>  NB: ``quirk_alias`` option is provided only for testing / development.
+>  If you want to have a proper support, contact to upstream for
+>  adding the matching quirk in the driver code statically.
+> -Ditto for ``quirk_flags``.  If a device is known to require specific
+> -workarounds, please report to the upstream.
+> +Ditto for ``quirk_flags``.  If a device
+> +is known to require specific workarounds, please report to the upstream.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index e722dd6fa8ef..965faee71935 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3340,6 +3340,13 @@ sub process {
- 			}
- 		}
- 
-+# Check for auto-generated unhandled placeholder text (mostly for cover letters)
-+		if (($in_commit_log || $in_header_lines) &&
-+		    $rawline =~ /(?:SUBJECT|BLURB) HERE/) {
-+			ERROR("PLACEHOLDER_USE",
-+			      "Placeholder text detected\n" . $herecurr);
-+		}
-+
- # Check for git id commit length and improperly formed commit descriptions
- # A correctly formed commit description is:
- #    commit <SHA-1 hash length 12+ chars> ("Complete commit subject")
+What is the purpose of this change?
+
 -- 
-2.51.0
+~Randy
 
