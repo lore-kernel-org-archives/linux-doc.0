@@ -1,115 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD2F3728B6;
-	Wed, 17 Sep 2025 12:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF043233EB
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 12:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111366; cv=none; b=TyNdT0louXDpvCPGRIrLlkzjVoxQ4Dz98c3YnnThihkXLyrOX0jQHqqoghaAwt9IYkde5XJJAbendzAbkAOFm0p12tEcso3rAwQd2o21/POEZ+Op5oWpI/XNbOyL/sU4Kxmqm6daw7QDt22CeiD1agz0nhsQtbnYdIigjCS9qWU=
+	t=1758111513; cv=none; b=b79WZWoK6Jzp36cPXZ49ghVnxvKzstxev4Idv3aQ0UyLTfzckMhN+cCHF0Uhh+W0xXvlhoog77KSAzBP+ENgUTFfVsZQq9vfTHIuSL2/Df54toTrnWGXO8of76vCijaPlxPS+4zrTSMBnaoxoAlA16euDbL5+JujFGX1KvpFl9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111366; c=relaxed/simple;
-	bh=A/mf0CcSEJehu2LuWr/6DS5gyCiq40ED/oENXVKsyyU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hPhqCjbRO/XsY6SQmoA5Om/DcaOQi1UcJC89fnV9+XStPQhzxXdCPyW+PoxROSyBHWaKuKXq1GPePWYa592CEGoD9/h6EVsFrjD5rwwhURMRwfRrHYKnG+D3UGyKWcB9CRqIgwdqVcbLz3OWd/8MILOktCMY45ldXHqQYJEifvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pX5OBAUP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758111513; c=relaxed/simple;
+	bh=Fu6VJL0MenpK/PD9UnrT8AK9a4ClFtuRJz79IysQBbY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YTadciDUCA8GN6e0LSxwlvjZBLvRwL6aDw+/mzw0SuAqy8up7LFoDyKiXCsfntAY0IPWsGkWkEjN8Qz2e3CD4bC9xoXFCE7s/xgirMPQEM+lk+hjCZN5Iq250V+7K8VnLK75ECD4zuKdN50Iy6mY84Djtla34AeA5yuYhl1kT1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GaGQhrWZ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pX5OBAUP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2998C4CEF7;
-	Wed, 17 Sep 2025 12:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758111365;
-	bh=A/mf0CcSEJehu2LuWr/6DS5gyCiq40ED/oENXVKsyyU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pX5OBAUPlIkX5kaDxF1ugGX2UqYv04/liVXoIYRCjCya45IS43F20lZ3JljqXq4in
-	 DjaaO4dgSKVnauKWctItiPHSbJloFfwkwdc3PbTzcDjSwjlAsUw5tsnemGIUvQZybT
-	 ulVgD0394hbwlysJAdWIgWpkPtlMLdjLyPz0fbhFK8w0ZggPYIcUZIImSIjAtRqd1m
-	 KyPeYdBAalAOSvNoLpCQwDWdpbbmxoPxUWTrlZ+CFUduEIIamgWNqhqN/09Iqp1z5a
-	 W1BnHE7saKCRaUcDqfCrGO+UFcgpPFXdr9DJCC5fcYQ5VsjuRxC4uMmmuqYPn3gKzi
-	 bFzV5Kq0ziF7A==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGdY-0ogy;
-	Wed, 17 Sep 2025 14:15:51 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 06/24] check-variable-fonts.py: add a helper to display instructions
-Date: Wed, 17 Sep 2025 14:15:00 +0200
-Message-ID: <32f8ebfaf2062dda9c23ac9744b66e782ea989eb.1758111077.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
-References: <cover.1758111077.git.mchehab+huawei@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GaGQhrWZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758111510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WHUsCtApx+pxExGjQp0qwPu/9kvqAUJMxOY2ilcMotc=;
+	b=GaGQhrWZ0TkHYAOOe+mRDI40vjcYjZfm7erK5+2fYFJuLuhrA8YUu1ixZGj+WSl8gGEvpW
+	1p++OLlz9OCiVt5dQHCENNm5CkTlK2ylzmt4ktg7hoLqRjEr1Tg4squyAP6TPfle3bFblQ
+	fvoMpEr2NzVPeaYCXKgWeB8SYQusOgY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-159-hsrNCk_4Nw-FpNyMYA7TAw-1; Wed,
+ 17 Sep 2025 08:18:25 -0400
+X-MC-Unique: hsrNCk_4Nw-FpNyMYA7TAw-1
+X-Mimecast-MFC-AGG-ID: hsrNCk_4Nw-FpNyMYA7TAw_1758111503
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CBB5C1800378;
+	Wed, 17 Sep 2025 12:18:22 +0000 (UTC)
+Received: from [10.45.225.133] (unknown [10.45.225.133])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2A1B6195608E;
+	Wed, 17 Sep 2025 12:18:17 +0000 (UTC)
+Message-ID: <c60779d6-938d-4adc-a264-2d78fb3c5947@redhat.com>
+Date: Wed, 17 Sep 2025 14:18:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase
+ measure averaging factor
+To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250911072302.527024-1-ivecera@redhat.com>
+ <20250915164641.0131f7ed@kernel.org>
+ <SA1PR11MB844643902755174B7D7E9B3F9B17A@SA1PR11MB8446.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <SA1PR11MB844643902755174B7D7E9B3F9B17A@SA1PR11MB8446.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Use lib docstring to output the comments via --help/-h. With
-that, update the default instructions to recomment it instead
-of asking the user to read the source code.
+On 17. 09. 25 1:26 odp., Kubalewski, Arkadiusz wrote:
+>> From: Jakub Kicinski <kuba@kernel.org>
+>> Sent: Tuesday, September 16, 2025 1:47 AM
+>>
+>> cc: Arkadiusz
+>>
+>> On Thu, 11 Sep 2025 09:23:01 +0200 Ivan Vecera wrote:
+>>> The DPLL phase measurement block uses an exponential moving average,
+>>> calculated using the following equation:
+>>>
+>>>                         2^N - 1                1
+>>> curr_avg = prev_avg * --------- + new_val * -----
+>>>                           2^N                 2^N
+>>>
+>>> Where curr_avg is phase offset reported by the firmware to the driver,
+>>> prev_avg is previous averaged value and new_val is currently measured
+>>> value for particular reference.
+>>>
+>>> New measurements are taken approximately 40 Hz or at the frequency of
+>>> the reference (whichever is lower).
+>>>
+>>> The driver currently uses the averaging factor N=2 which prioritizes
+>>> a fast response time to track dynamic changes in the phase. But for
+>>> applications requiring a very stable and precise reading of the average
+>>> phase offset, and where rapid changes are not expected, a higher factor
+>>> would be appropriate.
+>>>
+>>> Add devlink device parameter phase_offset_avg_factor to allow a user
+>>> set tune the averaging factor via devlink interface.
+>>
+>> Is averaging phase offset normal for DPLL devices?
+>> If it is we should probably add this to the official API.
+>> If it isn't we should probably default to smallest possible history?
+>>
+> 
+> AFAIK, our phase offset measurement uses similar mechanics, but the algorithm
+> is embedded in the DPLL device FW and currently not user controlled.
+> Although it might happen that one day we would also provide such knob,
+> if useful for users, no plans for it now.
+>  From this perspective I would rather see it in dpll api, especially
+> this relates to the phase measurement which is already there, the value
+> being shared by multiple dpll devices seems HW related, but also seem not a
+> problem, as long as a change would notify each device it relates with.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/docs/check-variable-fonts.py | 7 +++++++
- tools/docs/lib/latex_fonts.py      | 8 ++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
+What if the averaging is implemented in different HW differently? As I
+mentioned the Microchip HW uses exponential moving average but
+a different HW can do it differently.
 
-diff --git a/tools/docs/check-variable-fonts.py b/tools/docs/check-variable-fonts.py
-index 79b28f0f7d85..ae274e7fbbb7 100755
---- a/tools/docs/check-variable-fonts.py
-+++ b/tools/docs/check-variable-fonts.py
-@@ -12,10 +12,17 @@ Detect problematic Noto CJK variable fonts.
- or more details, see lib/latex_fonts.py.
- """
- 
-+import argparse
- import sys
- 
- from lib.latex_fonts import LatexFontChecker
- 
-+checker = LatexFontChecker()
-+
-+parser=argparse.ArgumentParser(description=checker.description(),
-+                               formatter_class=argparse.RawTextHelpFormatter)
-+_=parser.parse_args()
-+
- msg = LatexFontChecker().check()
- if msg:
-     print(msg)
-diff --git a/tools/docs/lib/latex_fonts.py b/tools/docs/lib/latex_fonts.py
-index e03412e3947e..0a3ad4995e79 100755
---- a/tools/docs/lib/latex_fonts.py
-+++ b/tools/docs/lib/latex_fonts.py
-@@ -113,6 +113,9 @@ class LatexFontChecker:
- 
-         self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
- 
-+    def description(self):
-+        return __doc__
-+
-     def get_noto_cjk_vf_fonts(self):
-         """Get Noto CJK fonts"""
- 
-@@ -154,8 +157,9 @@ class LatexFontChecker:
-                 For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
-                 Or, CJK pages can be skipped by uninstalling texlive-xecjk.
- 
--                For more info on denylisting, other options, and variable font, see header
--                comments of {rel_file}.
-+                For more info on denylisting, other options, and variable font, run:
-+
-+                    tools/docs/check-variable-fonts.py -h
-             """)
-         msg += "=" * 77
- 
--- 
-2.51.0
+> Does frequency offset measurement for EEC DPLL would also use the same value?
+
+Nope, this only affects phase offset measurement. AFAIK there is no such
+tuning knob for FFO or frequency measurement in general...
+Is it correct Prathosh?
+
+Thanks,
+Ivan
 
