@@ -1,103 +1,110 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E27D2FBDFF;
-	Wed, 17 Sep 2025 12:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B0330CB29;
+	Wed, 17 Sep 2025 12:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758113200; cv=none; b=j7zddEcEvPsiZYNe1Rmd6XGi4pynmxUwBhdMaRIJvJOcBRHrboXiW+JQBrNYqOQrtooz8ZTbgiUUEouQHLwBTQcIwwKiwzNPQmEKFtt9zzD3dO39B2bVMnD0buMxmPwi5P5xQupzFI1I2mkVJGePVE0QFmbHFlDwqo5szf7oHls=
+	t=1758113202; cv=none; b=fPtjU42OWuc4m1fuFjDPG9I3SEOKwvvne+I6VK2k2nsAfbe2y8eyS+LgrMsCUbVVksBYGmy/dddCKUpk5QcyQaZPDBAygEKNDXceRWfskZGnwlXeskwj+1T2zozufT89PYvtjm54ldtoITQP5jwHuoxJeTwgLrNWKyfJ6jWWPSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758113200; c=relaxed/simple;
-	bh=aFTk21/Z1yevUz4SRaZ4PgphBX8nO20Tu1tx5Yqizxs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=MZgybgJJg3AxW7bVNxFTcj41MlpnEjM99hcNP8tJ1+LN5hrPvRxmNpnDiqOrRf2HQ2UyD77mEJq+20is2Nx5wJPH4VRRyalKfpGcWyXPK6ETWjHtLB7HAvZRD66NGqSvlFf6ypkJK2QwN/+B2wgUz5q/zevM9rIY5OYu2shKKtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.2.205] (p5b13a163.dip0.t-ipconnect.de [91.19.161.99])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 4C3F76028F34A;
-	Wed, 17 Sep 2025 14:45:48 +0200 (CEST)
-Message-ID: <f80effb4-0c91-416f-a7cb-4c9a7055fa13@molgen.mpg.de>
-Date: Wed, 17 Sep 2025 14:45:47 +0200
+	s=arc-20240116; t=1758113202; c=relaxed/simple;
+	bh=7MnLSLDqHSKYhr2jX7InTUROcDbNmLJmoidtzjDWx/Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=evJ7JL2y5UR0JF02doxXbk1G1o3uhVsFJYYQUjUzuh2A2Z1P9itp9SZkm97bebrnkkthHLHRqIUUb40NNsnurqDC/MJpgbZxC+rHLgnNaMOQqZjr+UfTJZqLkHO/2VEy/IHpcphJx2YJd4ZpTd1ZrlT9MwM8lIrUSZXNfxvFJkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F0ojVKrK; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F0ojVKrK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CAACC4CEF5;
+	Wed, 17 Sep 2025 12:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758113202;
+	bh=7MnLSLDqHSKYhr2jX7InTUROcDbNmLJmoidtzjDWx/Y=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=F0ojVKrKOnPWcR+XtLMCbDgyUWV0lYqodR68zPcaIHNEVImKNX1Yi9ayxCky4GKmT
+	 blJXTppvwvKZfvD0iCDEyT4s50GeBbfyKuKu3+Up9xe7ek7Q23CPBbfn0vdOuBzxdE
+	 LoP0wpzPt6wxtIlmBY7DB1OLOPIgzaXvh5U6MGbzkA9Tr0PRxbRPbPa6hRPHrvMTBR
+	 1nIjLYbsQKcKsJtWX2nyQZ8kznKxBIFJK1gP/73eI2EBP5Ip7GybS473gQo6V+ImBD
+	 HBhvAid2LAbPZmyJRGn3YsgC7cM7Ls8FVsbdaYKhweSHmIlwL3ZkcWpyS7QcHhfJwC
+	 eWI+Vx9vXLwVQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A27ECAC599;
+	Wed, 17 Sep 2025 12:46:42 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Subject: [PATCH v3 0/4] ALSA: usb-audio: add module param
+ device_quirk_flags
+Date: Wed, 17 Sep 2025 20:46:39 +0800
+Message-Id: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v4 1/5] net: docs: add missing
- features that can have stats
-To: Jacob Keller <jacob.e.keller@intel.com>
-References: <20250916-resend-jbrandeb-ice-standard-stats-v4-0-ec198614c738@intel.com>
- <20250916-resend-jbrandeb-ice-standard-stats-v4-1-ec198614c738@intel.com>
-Content-Language: en-US
-Cc: Jesse Brandeburg <jbrandeburg@cloudflare.com>,
- Jakub Kicinski <kuba@kernel.org>, Hariprasad Kelam <hkelam@marvell.com>,
- Simon Horman <horms@kernel.org>,
- Marcin Szycik <marcin.szycik@linux.intel.com>,
- Rahul Rameshbabu <rrameshbabu@nvidia.com>, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org, corbet@lwn.net
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20250916-resend-jbrandeb-ice-standard-stats-v4-1-ec198614c738@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK+tymgC/22NzQ7CIBAGX8XsWQxs/cOT72E80GWxHAQDLdE0f
+ Xdpoxfjcb7szI6QOXnOcFqNkLj47GOo0KxXQJ0JNxbeVgaUuJNaSZHjEKwwWtFxTxpta6DePhI
+ 7/1w6l2vlzuc+pteSLWpevwX8FIoSUhBpclY7tFKdh1B/90zdhuId5krBvyZWUyo2jcWDdtv21
+ 5ym6Q1dSKVy2AAAAA==
+X-Change-ID: 20250910-sound-a91c86c92dba
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>
+Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
+ Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
+ kernel@uniontech.com, linux-modules@vger.kernel.org, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>, Takashi Iwai <tiwai@suse.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758113201; l=1478;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=7MnLSLDqHSKYhr2jX7InTUROcDbNmLJmoidtzjDWx/Y=;
+ b=bUZz6m0RyNBnrBWVKttV3rveS6EnR5uIcNuAeRDLbzShnesdSz83xo4+h794BdwW3KEfFZ/zB
+ Nb9sfgD1EaeCCLsjV22bJrgO36xplueTaGSFIWQ3re/0Mv7pXtEhcMA
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-Dear Jacob, dear Jesse,
+As an implementation of what has been discussed previously[1].
 
+1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
 
-Thank you for your patch.
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+---
+Changes in v3:
+- Instead of a new param, improve the existed one.
+- Link to v2: https://lore.kernel.org/r/20250912-sound-v2-0-01ea3d279f4b@uniontech.com
 
-Am 16.09.25 um 21:14 schrieb Jacob Keller:
-> From: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> 
-> While trying to figure out ethtool -I | --include-statistics, I noticed
-> some docs got missed when implementing commit 0e9c127729be ("ethtool:
-> add interface to read Tx hardware timestamping statistics").
-> 
-> Fix up the docs to match the kernel code, and while there, sort them in
-> alphabetical order.
+Changes in v2:
+- Cleaned up some internal rebase confusion, sorry for that
+- Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
 
-So, ETHTOOL_MSG_LINKSTATE_GET and ETHTOOL_MSG_TSINFO_GET were missing.
+---
+Cryolitia PukNgae (4):
+      ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
+      param: export param_array related functions
+      ALSA: usb-audio: add module param device_quirk_flags
+      ALSA: doc: add docs about device_device_quirk_flags in snd-usb-audio
 
-> Cc: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-> Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
-> Reviewed-by: Simon Horman <horms@kernel.org>
-> Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
-> ---
->   Documentation/networking/statistics.rst | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/networking/statistics.rst b/Documentation/networking/statistics.rst
-> index 518284e287b0..66b0ef941457 100644
-> --- a/Documentation/networking/statistics.rst
-> +++ b/Documentation/networking/statistics.rst
-> @@ -184,9 +184,11 @@ Protocol-related statistics can be requested in get commands by setting
->   the `ETHTOOL_FLAG_STATS` flag in `ETHTOOL_A_HEADER_FLAGS`. Currently
->   statistics are supported in the following commands:
->   
-> -  - `ETHTOOL_MSG_PAUSE_GET`
->     - `ETHTOOL_MSG_FEC_GET`
-> +  - `ETHTOOL_MSG_LINKSTATE_GET`
->     - `ETHTOOL_MSG_MM_GET`
-> +  - `ETHTOOL_MSG_PAUSE_GET`
-> +  - `ETHTOOL_MSG_TSINFO_GET`
->   
->   debugfs
->   -------
-> 
+ Documentation/sound/alsa-configuration.rst | 112 ++++++++++++------
+ include/linux/moduleparam.h                |   3 +
+ kernel/params.c                            |   9 +-
+ sound/usb/card.c                           | 177 +++++++++++++++++++++++++++--
+ sound/usb/quirks.c                         | 123 +++++++++++++++++++-
+ sound/usb/quirks.h                         |   5 +
+ sound/usb/usbaudio.h                       |  15 +++
+ 7 files changed, 394 insertions(+), 50 deletions(-)
+---
+base-commit: 4c421c40c8b30ab7aae1edc7f7e294fcd33fc186
+change-id: 20250910-sound-a91c86c92dba
 
-Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Best regards,
+-- 
+Cryolitia PukNgae <cryolitia@uniontech.com>
 
-
-Kind regards,
-
-Paul
 
