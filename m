@@ -1,71 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA923294FF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A2B371EAF;
 	Wed, 17 Sep 2025 12:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111356; cv=none; b=L+H5/ZSswmRu/Szce6NncBbePMwFm4k9vlLz9Bpk2AVkr+kCLkttv5bZo12sn0sBmZOUkT8uWhdc4u1rhmM6oSfqzSOhMwAYsE+uAQzBsFW7QZparUVsN7WXN331r+yOk6nWjd0BOLns9B+lz8pBC2H+BK684yFYHqHUaRHwbjM=
+	t=1758111356; cv=none; b=NqOlXbF4z1MRMjRHNCmVTRiZZknVM6fOJIumKgYAQVFBc9+SYGg5DW4vNq/Fq8tRbXj2/530LDsDKL/A12098KVnYlE+AHOo8S09VA2utggvi8fpE6c8GFL+UQH4dPOxTh2Au1V+xTfu/luWjKqSvJfw9i+1b+LBNIkCr4nVsYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758111356; c=relaxed/simple;
-	bh=SEWjTVgTPTyI58PpxkWEaIBkTnLO24vi9jcL4Xx4sSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FI++9LPzK0fSA++/6kVdyhlqeO463tfTH6/Ntr/Fj45ojuodzCYxW5TVoG8KQ8m9BiG6MClZnWI+I38bJjwRtAMArl4OQedzNW7cF2ctRRoElQs/5s+EkZJ7rtJ0/S7LG/vuqptWBYiN1TY8RDr4kUoDqpOp6ulDV04vVAW7wrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/4062Zg; arc=none smtp.client-ip=10.30.226.201
+	bh=bNOmw1tzFH8Sl7kR3p+wUYP6U5+a6FHYIcsXQNkIydI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZIIUVOznDP3RT/8RWO7Y3mWRq9m8vvmtS1BidvMI0Hw5QJcNFoCC7Ac4R66VybQCEKfr9jZ7zTMb+YW46SKbl3gMu1O2FsSbvSSRCpnUZPkMFCBMbW//0pXpNYwshKYC4y75rwcog0bD6ZvTGlIejJgespJvRlvVgKVqBXFK+rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jbPoNrMK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/4062Zg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1769EC4CEF0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jbPoNrMK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83037C19422;
 	Wed, 17 Sep 2025 12:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758111356;
-	bh=SEWjTVgTPTyI58PpxkWEaIBkTnLO24vi9jcL4Xx4sSY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=l/4062ZgM+t3GawVXiU97kma1PUlFyK8l5G/JHh9RQdFExWAxwyFiYtOOOdKqdqSC
-	 he7B4QZgPqbEdMG730zNaRkbTa0Q5GmNXY2AtVfgRlnjlu1UYRrT7JhSDC7GwLET0a
-	 zc2Ift4Cf0xtNheo3QJr5y3TBhzSs4+Ps69llN8Is9FJ5NPfxTml+wFIL2jlcKmEqQ
-	 16BB/34Vz6YBh8qOmCTRiRI7tWxu/WWs3Z0UrwDo1ForECDwdx2BHEtkg5GuX53ib8
-	 QfSWPWLDJAYEyRHBTiYD2pCUYCXT34Y8T7GQ206IS4NnMEZQ5O9ockliGUC8GEc3vY
-	 115o1g7XcS01w==
+	bh=bNOmw1tzFH8Sl7kR3p+wUYP6U5+a6FHYIcsXQNkIydI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jbPoNrMKn1gSfxlY36zJAHXYIUfCUJDeVVvWAhIFQYCrdjO7KBRubv7DJqBODQG6x
+	 ifnvCcTkAaO3Gh2aPLIkWOFQ7pP8auVp/KiVU+T5E7w/tUKR6Wo3bMbcuevEsw/0uP
+	 JU5C6QGDrTOJFlKxIVUhm3dqQyiBpLSUs99w/xVKAQncuGGpZyrdgCNNgG3f55uxYq
+	 8P01LwaLHH8ZdulLmXcBUXdvGiUaZKpPuHNFbiDcQMBt2UPMOeOaDRFoc6MUCbl7R2
+	 2rMGJbyZoDksWXhvV602xkLmLb7DpPFXUtV5EG4t6BvJVoHlcCzZ8656m0/97Xocue
+	 OAYa+3vfkcN+g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGdB-08RW;
+	id 1uyr4h-0000000CGeS-2Q88;
 	Wed, 17 Sep 2025 14:15:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Alex Shi <mchehab+huawei@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <mchehab+huawei@kernel.org>,
-	Benno Lossin <mchehab+huawei@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Danilo Krummrich <mchehab+huawei@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Gary Guo <gary@garyguo.net>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <mchehab+huawei@kernel.org>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Nathan Chancellor <mchehab+huawei@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v7 00/24] Split sphinx call logic from docs Makefile
-Date: Wed, 17 Sep 2025 14:14:54 +0200
-Message-ID: <cover.1758111077.git.mchehab+huawei@kernel.org>
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 20/24] tools: kernel-doc: add a see also section at man pages
+Date: Wed, 17 Sep 2025 14:15:14 +0200
+Message-ID: <c16fa58194eb2a2d165f4a8f591754523fde3391.1758111077.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
+References: <cover.1758111077.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,218 +53,211 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+While cross-references are complex, as related ones can be on
+different files, we can at least correlate the ones that belong
+to the same file, adding a SEE ALSO section for them.
 
-This series should probably be called:
+The result is not bad. See for instance:
 
-    "Move the trick-or-treat build hacks accumulated over time
-     into a single place and document them."
+	$ tools/docs/sphinx-build-wrapper --sphinxdirs driver-api/media -- mandocs
+	$ man Documentation/output/driver-api/man/edac_pci_add_device.9
 
-as this reflects its main goal. As such:
+	edac_pci_add_device(9)  Kernel Hacker's Manual  edac_pci_add_device(9)
 
-- it places the jobserver logic on a library;
-- it removes sphinx/parallel-wrapper.sh;
-- the code now properly implements a jobserver-aware logic
-  to do the parallelism when called via GNU make, failing back to
-  "-j" when there's  no jobserver;
-- converts check-variable-fonts.sh to Python and uses it via
-  function call;
-- drops an extra script to generate man pages, adding a makefile
-  target for it;
-- ensures that return code is 0 when PDF successfully builds;
-- about half of the script is comments and documentation.
+	NAME
+	       edac_pci_add_device  - Insert the 'edac_dev' structure into the
+	       edac_pci global list and create sysfs entries  associated  with
+	       edac_pci structure.
 
-I tried to do my best to document all tricks that are inside the
-script. This way, the docs build steps is now documented.
+	SYNOPSIS
+	       int  edac_pci_add_device  (struct  edac_pci_ctl_info *pci , int
+	       edac_idx );
 
-It should be noticed that it is out of the scope of this series
-to change the implementation. Surely the process can be improved,
-but first let's consolidate and document everything on a single
-place.
+	ARGUMENTS
+	       pci         pointer to the edac_device structure to be added to
+	                   the list
 
-Such script was written in a way that it can be called either
-directly or via a Makefile. Running outside Makefile is
-interesting specially when debug is needed. The command line
-interface replaces the need of having lots of env vars before
-calling sphinx-build:
+	       edac_idx    A unique numeric identifier to be assigned to the
 
-    $ ./tools/docs/sphinx-build-wrapper --help
-    usage: sphinx-build-wrapper [-h]
-           [--sphinxdirs SPHINXDIRS [SPHINXDIRS ...]] [--conf CONF]
-           [--builddir BUILDDIR] [--theme THEME] [--css CSS] [--paper {,a4,letter}] [-v]
-           [-j JOBS] [-i] [-V [VENV]]
-           {cleandocs,linkcheckdocs,htmldocs,epubdocs,texinfodocs,infodocs,mandocs,latexdocs,pdfdocs,xmldocs}
+	RETURN
+	       0 on Success, or an error code on failure
 
-    Kernel documentation builder
+	SEE ALSO
+	       edac_pci_alloc_ctl_info(9),          edac_pci_free_ctl_info(9),
+	       edac_pci_alloc_index(9),  edac_pci_del_device(9), edac_pci_cre‐
+	       ate_generic_ctl(9),            edac_pci_release_generic_ctl(9),
+	       edac_pci_create_sysfs(9), edac_pci_remove_sysfs(9)
 
-    positional arguments:
-      {cleandocs,linkcheckdocs,htmldocs,epubdocs,texinfodocs,infodocs,mandocs,latexdocs,pdfdocs,xmldocs}
-                            Documentation target to build
+	August 2025               edac_pci_add_device   edac_pci_add_device(9)
 
-    options:
-      -h, --help            show this help message and exit
-      --sphinxdirs SPHINXDIRS [SPHINXDIRS ...]
-                            Specific directories to build
-      --conf CONF           Sphinx configuration file
-      --builddir BUILDDIR   Sphinx configuration file
-      --theme THEME         Sphinx theme to use
-      --css CSS             Custom CSS file for HTML/EPUB
-      --paper {,a4,letter}  Paper size for LaTeX/PDF output
-      -v, --verbose         place build in verbose mode
-      -j, --jobs JOBS       Sets number of jobs to use with sphinx-build
-      -i, --interactive     Change latex default to run in interactive mode
-      -V, --venv [VENV]     If used, run Sphinx from a venv dir (default dir: sphinx_latest)
-
-the only mandatory argument is the target, which is identical with
-"make" targets.
-
-The call inside Makefile doesn't use the last four arguments. They're
-there to help identifying problems at the build:
-
-    -v makes the output verbose;
-    -j helps to test parallelism;
-    -i runs latexmk in interactive mode, allowing to debug PDF
-       build issues;
-    -V is useful when testing it with different venvs.
-
-When used with GNU make (or some other make which implements jobserver),
-a call like:
-
-    make -j <targets> htmldocs
-
-will make the wrapper to automatically use POSIX jobserver to claim 
-the number of available job slots, calling sphinx-build with a
-"-j" parameter reflecting it. ON such case, the default can be
-overriden via SPHINXDIRS argument.
-
-Visiable changes when compared with the old behavior:
-
-When V=0, the only visible difference is that:
-- pdfdocs target now returns 0 on success, 1 on failures.
-  This addresses an issue over the current process where we
-  it always return success even on failures;
-- it will now print the name of PDF files that failed to build,
-  if any.
-
-In verbose mode, sphinx-build-wrapper and sphinx-build command lines
-are now displayed.
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
+ scripts/lib/kdoc/kdoc_files.py  |  5 +-
+ scripts/lib/kdoc/kdoc_output.py | 84 +++++++++++++++++++++++++++++++--
+ 2 files changed, 83 insertions(+), 6 deletions(-)
 
-v7:
-- added a --help option to ./tools/docs/check-variable-fonts.py;
-- document FONTS_CONF_DENY_VF=;
-- moved the python_version changes to be earlier in the series,
-  before moving it to a separate library, as suggested by Jani;
-- added a --rustdoc to the wrapper, cleaning up Makefile
-  even further;
-- solved some problems related to DENY_VF logic.
-
-v6:
-- On success, PDF output is identical as before when V=0;
-- when V=1 is used, PDF output will print a build summary,
-  as on v5;
-- solved a problem when multiple PDF files have the same
-  basename but are located on different directories;
-- merged a patch series converting check-variable-fonts.sh
-  to Python. Its logic is now called directly without running
-  a subprocess.
-- venv patch moved to the end.
-
-v5:
-- merged comments with the script;
-- placed n_jobs on a separate function;
-- nitpick: dropped a for loop used instead of list append.
-
-v4:
-- updated references for sphinx-pre-install after its rename;
-- added some extra patches to add more options to python_version,
-  allowing it to bail out and suggest alternatives;
-- added a patch at the end to explicitly break doc builds when
-  python3 points to python3.6 or older.
-
-v3:
-- rebased on the top of docs-next;
-- added two patches to build man files that were on a separate
-  patch series.
-
-v2:
-- there's no generic exception handler anymore;
-- it moves sphinx-pre-install to tools/docs;
-- the logic which ensures a minimal Python version got moved
-  to a library, which is now used by both pre-install and wrapper;
-- The first wrapper (05/13) doesn't contain comments (except for
-  shebang and SPDX). The goal is to help showing the size increase
-  when moving from Makefile to Python. Some file increase is
-  unavoidable, as Makefile is more compact: no includes, multple
-  statements per line, no argparse, etc;
-- The second patch adds docstrings and comments. It has almost
-  the same size of the code itself;
-- I moved the venv logic to a third wrapper patch;
-- I fixed an issue at the paraller build logic;
-- There are no generic except blocks anymore.
-
-Mauro Carvalho Chehab (24):
-  scripts/jobserver-exec: move the code to a class
-  scripts/jobserver-exec: move its class to the lib directory
-  scripts/jobserver-exec: add a help message
-  scripts: check-variable-fonts.sh: convert to Python
-  tools/docs: check-variable-fonts.py: split into a lib and an exec file
-  check-variable-fonts.py: add a helper to display instructions
-  scripts: sphinx-pre-install: move it to tools/docs
-  tools/docs: sphinx-pre-install: drop a debug print
-  tools/docs: sphinx-pre-install: allow check for alternatives and bail
-    out
-  tools/docs: python_version: move version check from sphinx-pre-install
-  tools/docs: sphinx-build-wrapper: add a wrapper for sphinx-build
-  docs: parallel-wrapper.sh: remove script
-  docs: Makefile: document latex/PDF PAPER= parameter
-  docs: Makefile: document FONTS_CONF_DENY_VF= parameter
-  tools/docs: sphinx-build-wrapper: add an argument for LaTeX
-    interactive mode
-  tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
-  tools/docs,scripts: sphinx-*: prevent sphinx-build crashes
-  tools/docs: sphinx-build-wrapper: Fix output for duplicated names
-  docs: add support to build manpages from kerneldoc output
-  tools: kernel-doc: add a see also section at man pages
-  scripts: kdoc_parser.py: warn about Python version only once
-  tools/docs: sphinx-build-wrapper: move rust doc builder to wrapper
-  tools/docs: sphinx-* break documentation bulds on openSUSE
-  tools/docs: sphinx-build-wrapper: add support to run inside venv
-
- Documentation/Makefile                        | 144 +---
- Documentation/doc-guide/kernel-doc.rst        |  29 +-
- Documentation/doc-guide/sphinx.rst            |   4 +-
- Documentation/sphinx/kerneldoc-preamble.sty   |   2 +-
- Documentation/sphinx/parallel-wrapper.sh      |  33 -
- .../translations/it_IT/doc-guide/sphinx.rst   |   4 +-
- .../translations/zh_CN/doc-guide/sphinx.rst   |   4 +-
- Documentation/translations/zh_CN/how-to.rst   |   2 +-
- MAINTAINERS                                   |   4 +-
- Makefile                                      |   2 +-
- scripts/check-variable-fonts.sh               | 115 ---
- scripts/jobserver-exec                        |  88 +-
- scripts/lib/jobserver.py                      | 149 ++++
- scripts/lib/kdoc/kdoc_files.py                |   5 +-
- scripts/lib/kdoc/kdoc_output.py               |  84 +-
- scripts/lib/kdoc/kdoc_parser.py               |   7 +-
- scripts/split-man.pl                          |  28 -
- tools/docs/check-variable-fonts.py            |  30 +
- tools/docs/lib/latex_fonts.py                 | 166 ++++
- tools/docs/lib/python_version.py              | 178 ++++
- tools/docs/sphinx-build-wrapper               | 816 ++++++++++++++++++
- {scripts => tools/docs}/sphinx-pre-install    | 135 +--
- 22 files changed, 1536 insertions(+), 493 deletions(-)
- delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
- delete mode 100755 scripts/check-variable-fonts.sh
- create mode 100755 scripts/lib/jobserver.py
- delete mode 100755 scripts/split-man.pl
- create mode 100755 tools/docs/check-variable-fonts.py
- create mode 100755 tools/docs/lib/latex_fonts.py
- create mode 100644 tools/docs/lib/python_version.py
- create mode 100755 tools/docs/sphinx-build-wrapper
- rename {scripts => tools/docs}/sphinx-pre-install (93%)
-
+diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
+index 9e09b45b02fa..061c033f32da 100644
+--- a/scripts/lib/kdoc/kdoc_files.py
++++ b/scripts/lib/kdoc/kdoc_files.py
+@@ -275,7 +275,10 @@ class KernelFiles():
+                 self.config.log.warning("No kernel-doc for file %s", fname)
+                 continue
+ 
+-            for arg in self.results[fname]:
++            symbols = self.results[fname]
++            self.out_style.set_symbols(symbols)
++
++            for arg in symbols:
+                 m = self.out_msg(fname, arg.name, arg)
+ 
+                 if m is None:
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index ea8914537ba0..1eca9a918558 100644
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -215,6 +215,9 @@ class OutputFormat:
+ 
+     # Virtual methods to be overridden by inherited classes
+     # At the base class, those do nothing.
++    def set_symbols(self, symbols):
++        """Get a list of all symbols from kernel_doc"""
++
+     def out_doc(self, fname, name, args):
+         """Outputs a DOC block"""
+ 
+@@ -577,6 +580,7 @@ class ManFormat(OutputFormat):
+ 
+         super().__init__()
+         self.modulename = modulename
++        self.symbols = []
+ 
+         dt = None
+         tstamp = os.environ.get("KBUILD_BUILD_TIMESTAMP")
+@@ -593,6 +597,68 @@ class ManFormat(OutputFormat):
+ 
+         self.man_date = dt.strftime("%B %Y")
+ 
++    def arg_name(self, args, name):
++        """
++        Return the name that will be used for the man page.
++
++        As we may have the same name on different namespaces,
++        prepend the data type for all types except functions and typedefs.
++
++        The doc section is special: it uses the modulename.
++        """
++
++        dtype = args.type
++
++        if dtype == "doc":
++            return self.modulename
++
++        if dtype in ["function", "typedef"]:
++            return name
++
++        return f"{dtype} {name}"
++
++    def set_symbols(self, symbols):
++        """
++        Get a list of all symbols from kernel_doc.
++
++        Man pages will uses it to add a SEE ALSO section with other
++        symbols at the same file.
++        """
++        self.symbols = symbols
++
++    def out_tail(self, fname, name, args):
++        """Adds a tail for all man pages"""
++
++        # SEE ALSO section
++        if len(self.symbols) >= 2:
++            cur_name = self.arg_name(args, name)
++
++            self.data += f'.SH "SEE ALSO"' + "\n.PP\n"
++            related = []
++            for arg in self.symbols:
++                out_name = self.arg_name(arg, arg.name)
++
++                if cur_name == out_name:
++                    continue
++
++                related.append(f"\\fB{out_name}\\fR(9)")
++
++            self.data += ",\n".join(related) + "\n"
++
++        # TODO: does it make sense to add other sections? Maybe
++        # REPORTING ISSUES? LICENSE?
++
++    def msg(self, fname, name, args):
++        """
++        Handles a single entry from kernel-doc parser.
++
++        Add a tail at the end of man pages output.
++        """
++        super().msg(fname, name, args)
++        self.out_tail(fname, name, args)
++
++        return self.data
++
+     def output_highlight(self, block):
+         """
+         Outputs a C symbol that may require being highlighted with
+@@ -618,7 +684,9 @@ class ManFormat(OutputFormat):
+         if not self.check_doc(name, args):
+             return
+ 
+-        self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
++        out_name = self.arg_name(args, name)
++
++        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+ 
+         for section, text in args.sections.items():
+             self.data += f'.SH "{section}"' + "\n"
+@@ -627,7 +695,9 @@ class ManFormat(OutputFormat):
+     def out_function(self, fname, name, args):
+         """output function in man"""
+ 
+-        self.data += f'.TH "{name}" 9 "{name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
++        out_name = self.arg_name(args, name)
++
++        self.data += f'.TH "{name}" 9 "{out_name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"{name} \\- {args['purpose']}\n"
+@@ -671,7 +741,9 @@ class ManFormat(OutputFormat):
+             self.output_highlight(text)
+ 
+     def out_enum(self, fname, name, args):
+-        self.data += f'.TH "{self.modulename}" 9 "enum {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
++        out_name = self.arg_name(args, name)
++
++        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"enum {name} \\- {args['purpose']}\n"
+@@ -703,8 +775,9 @@ class ManFormat(OutputFormat):
+     def out_typedef(self, fname, name, args):
+         module = self.modulename
+         purpose = args.get('purpose')
++        out_name = self.arg_name(args, name)
+ 
+-        self.data += f'.TH "{module}" 9 "{name}" "{self.man_date}" "API Manual" LINUX' + "\n"
++        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"typedef {name} \\- {purpose}\n"
+@@ -717,8 +790,9 @@ class ManFormat(OutputFormat):
+         module = self.modulename
+         purpose = args.get('purpose')
+         definition = args.get('definition')
++        out_name = self.arg_name(args, name)
+ 
+-        self.data += f'.TH "{module}" 9 "{args.type} {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
++        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"{args.type} {name} \\- {purpose}\n"
 -- 
 2.51.0
 
