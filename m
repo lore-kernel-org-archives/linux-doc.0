@@ -1,128 +1,104 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CE627A900
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 22:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAEB2D46B7;
+	Wed, 17 Sep 2025 22:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758147356; cv=none; b=aUgjrfYu5QWMuHaUTjYsU4NZw24C+X87KY3jeMCrgEHWPaxpE3gS+TVqQKCpJXxGLbfabu+v/xiayTdAJcewkEzcoFbR645oE8bzQ4o7skMHVRQu+3qDeT8xhShoJz+hlEijPYzzkUxMhI2aQu/I9NNVEOlvIFSEENnKCr/RGoI=
+	t=1758148975; cv=none; b=I5yEx6xi+FU6Cav99318J+qbF/03BpJgYpdb6EwXwCmAVlDiukkSt9WaEBGv98mYNccO+jGVnngYBbPeFt5DTHdLc7uZCZ/3SIC7vFyUf7LKFYgmW6v7etHA4Xl7gVvfsyLgChQWIBRZrutoJ5kehq4u/Yyr99b0YFVxk6A6JtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758147356; c=relaxed/simple;
-	bh=Kd9UGKeQ1gYpGY/Nhf4uQCQ+fFAnl1+Ce2pz+iw3ShI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N48UBG0R8jOQPRYDP4Zxs7DzGGdv74Q2C9ZQdDhvAhN5nL3q25ZRqq6qtqPEA+lZaLn1/4hFhCYwdRmeJZLzeULqKE1U07aF2wOd0E/xXN4E/prr/S3AY/ajiKQDnBGuILrkNzY7N+A31/4Jswydao9nd/1JkSeS0HOVpbIb7Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BQpR0Z7q; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1758148975; c=relaxed/simple;
+	bh=1fYjV9I/mts9hAv/Oa99SQdbOQ5xxivRisDGmyAWMSM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=tdQH70f33XDxN3ZL/eG1Be+XGIE9NNFXR0jNEmlNgAxyV9CSh9rCOClDDnZGODtq4dR47I7VOi6Zug6A2hNRVG4nqRTxl0lj6xTsJ8pTxAvXi4/9XcpQ2F+1/5YAEuq3CZBuRr2eNaQN2THy8Jml5JlNJd22faBL9uN748vX9ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLKzgBEF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BQpR0Z7q"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45f30011eceso12865e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 15:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1758147353; x=1758752153; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1p4ncEV/0Oe5T32Jx5hlprtEOLrd/1ewkvxiGL3vw0c=;
-        b=BQpR0Z7qp1dbuQ0hwtjW+YEh67E4ir9mX8LKgw3ZtqZxOQyR0zMR1VGvczXhk8NXPB
-         bFKEGEEIacBv27NmS+oUUdGFR21akiwXj1j937IGHrsW8L1QLJNm/J343Y9iJZ1HF8vH
-         lFB/Y++NgNCVx+IclVLmef0aButZMoFmvbMVP0VMB0Xr5AAbFnjxqC37M9HyzJfJ5twB
-         50b/3UHcAenuwa10gaSfWnA5KXyKLN9WoLD9GrijgZRVplpCrsRHISADc0Hmr0a97uMW
-         dc0dmdUkt6e/pwsqh3xGJeeGlqbyLHjXfvzwfbRTDa3IIoh4Eo89dqhN3x/NQWgu62GK
-         wZuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758147353; x=1758752153;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1p4ncEV/0Oe5T32Jx5hlprtEOLrd/1ewkvxiGL3vw0c=;
-        b=qo9jarLy6ovWr/lzzhDbifIWyaIqBYkjxtM1U6+oBL3KQuPETQnw/gOlAWH9BGcE7l
-         sm7bMoLZG1dOqDg2E7jdccqTA1B8XSTsDXN1YmHUII8B437zwJoCS6Zx3IFjY7qiCriw
-         FJperThaDRW56AOhcObSxMkrIrzR0ubwLvtfLo1PdMxMr4a1VoAEBHGggHTid9panJFB
-         jDo4CYMaKNG2jLLQM5XYwnlrkv+1XXC39ZayuJSSNahVNe93VzFJU7B66X+Bfg4Rh8kW
-         DUztHjx7j2guDSybHegs2ZzRp6SXFsEMFtZt5SJSIG6sN4WIQy2ZjIFDEdvfAOWFtWw/
-         rdeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyT9INgCY6xVtMiOGaf6YWvAprL/e4QHy1AmSKqcSLGdbazSJU+YJEgkTpg6QLlOS06I8zttlIrs8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG1+5vAHG0Tf8OTd6CMgF2zq8E9Sc4tFzlkLnekBNg805WNn2D
-	t3bPV25fys7STkznXXdlNJU7EyX6aG09kjfqu58bJWzCyXGdLRJyxXcNTI9tLARnYOOZBhGddGs
-	deLjv58blj1QW5Yiv7QLKdrpcn3I8MCOH0EqyX7nc
-X-Gm-Gg: ASbGncvvcDanAtHaALBKM8xH5W3h2tzH6Iii03Dx3Wl5EDKAgrMdrO0KmDVs2cDT2ib
-	IM6wtjKXpHHFSeaq6+hVIjvKckrzw7H5keVxH4PstJVdLnXvxW3RCO0GMfo+UN7VXGAB1eXOT6D
-	RVbs51Aq1ZmqocND5qZFAZQ7RwkqUfJMfKhW3eENrN6vZja8rPQ6daUjm6dnkHUTm9M0JgtULnS
-	Ja4ne3P7B0JWCmc7E8ZQaaC/mrPWiH6iuNw8yCGgw4VpeCTNoHt5tsDP9arW2M=
-X-Google-Smtp-Source: AGHT+IETa168RMgXYCyuMbREDGOaHVmJadjLDpn2kmhrTSuNtoIw5sYpaUJCBGdkIQavpq6g1JLeI6FZ1TdA3bdskYU=
-X-Received: by 2002:a05:600c:3f0e:b0:45f:2e6d:c9ee with SMTP id
- 5b1f17b1804b1-4615364d0efmr2582795e9.6.1758147352822; Wed, 17 Sep 2025
- 15:15:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLKzgBEF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4AFC4CEE7;
+	Wed, 17 Sep 2025 22:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758148975;
+	bh=1fYjV9I/mts9hAv/Oa99SQdbOQ5xxivRisDGmyAWMSM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NLKzgBEFZ4Zyy9Vu1S7pJNy1W+OOx1we/8MNJZgHs6vBIFDyDpOBQABwtI+sS+NZt
+	 JUzwocZAwa0giR4M3UmUQl5QebDUywpZNjbPrlCAa+G25DYnbqE7BWksR17SbBhdYO
+	 8lVwzxofNTv3Sjuo8tfh0Vvg0F619jva3aw1GZDMYVyq/J96VRXQtzhJhfitKZ3TUh
+	 V8XNJGkDqD6JTHTzIWVceN4U03pUaFKIKmuvumkvctHeXe9SGootBsdYrbh01HboQH
+	 XSB2KOOwq/l+umVioi+qMSK3drlwHEvRE9zQPASM9vO0/fhPZIOjcxKhg3JXe3Vi30
+	 cLP1XXeAtlmoQ==
+Date: Thu, 18 Sep 2025 07:42:48 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+ Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v4 1/8] tracing: wprobe: Add watchpoint probe event
+ based on hardware breakpoint
+Message-Id: <20250918074248.09cc039bd81ad7ffe2b4b09f@kernel.org>
+In-Reply-To: <f8d432e0-e220-4857-8d4e-427332ce837a@infradead.org>
+References: <175785897434.234168.6798590787777427098.stgit@devnote2>
+	<175785898586.234168.14883193853242691280.stgit@devnote2>
+	<014136d2-8599-4a1f-ab8e-c5be4f522e5a@infradead.org>
+	<20250917233818.71678d0164a6fc2d11fa6e38@kernel.org>
+	<f8d432e0-e220-4857-8d4e-427332ce837a@infradead.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <aMiu_Uku6Y5ZbuhM@hpe.com> <a99eb11f-a7ac-48a3-a671-c5f0f6b5b491@arm.com>
- <8c3188da-7078-4099-973a-1d0d74db2720@redhat.com> <aMsDJ3EU1zVJ00cX@hpe.com>
- <cd71fac2-bb9d-4e84-a074-2b695654e655@redhat.com> <CACw3F52p45t3iSZPjx_Lq9kBn1ZGTDZsxk+iQ-xFA1zdvdqqrw@mail.gmail.com>
- <aMsR4Tr9ov1pfucC@agluck-desk3> <aMsqdesM1ImJp1yt@hpe.com>
-In-Reply-To: <aMsqdesM1ImJp1yt@hpe.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Wed, 17 Sep 2025 15:15:41 -0700
-X-Gm-Features: AS18NWB0Be2bZgwB40bum70rJy1DrSew59KlnBWueOxwtEk5FxFH7XCa5Jb7Kdo
-Message-ID: <CACw3F51w=HfA1no7BqpaKX4ta+O6KAwp8NnRMdePc7wFW1yQmA@mail.gmail.com>
-Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-To: Kyle Meyer <kyle.meyer@hpe.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, David Hildenbrand <david@redhat.com>, 
-	Anshuman Khandual <anshuman.khandual@arm.com>, akpm@linux-foundation.org, corbet@lwn.net, 
-	linmiaohe@huawei.com, shuah@kernel.org, jane.chu@oracle.com, 
-	Liam.Howlett@oracle.com, bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz, 
-	joel.granados@kernel.org, laoar.shao@gmail.com, lorenzo.stoakes@oracle.com, 
-	mclapinski@google.com, mhocko@suse.com, nao.horiguchi@gmail.com, 
-	osalvador@suse.de, rafael.j.wysocki@intel.com, rppt@kernel.org, 
-	russ.anderson@hpe.com, shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz, 
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 17, 2025 at 2:39=E2=80=AFPM Kyle Meyer <kyle.meyer@hpe.com> wro=
-te:
->
-> On Wed, Sep 17, 2025 at 12:54:09PM -0700, Luck, Tony wrote:
-> > On Wed, Sep 17, 2025 at 12:32:47PM -0700, Jiaqi Yan wrote:
-> > > +1. Given /proc/sys/vm/enable_soft_offline is extensible, I would
-> > > prefer a compact userspace API.
-> > >
-> > > > would create a new file, and the file has weird semantics such that=
- it
-> > > > has no meaning when enable_soft_offline=3D0.
-> >
-> > So the expand the bitmask idea from earlier in this thread?
-> >
-> > Bit0  0 =3D soft offline disabled. 1 =3D Enabled (but see other bits)
-> > Bit1  0 =3D allow offline of 4K pages, 1 =3D suppress 4K offline
-> > Bit2  0 =3D allow offline of hugetlb, 1 =3D suppress hugetlb offline
-> > Bit3  0 =3D allow breakup of transparent huge pages to just offline 4K,=
- 1 =3D suppress transparent breakup
-> > Bit4+ Reserved for suppressing other page types we invent in the future
-> >
-> > Values 0 and 1 keep their original meaning.
-> >
-> > Value 5 means: offline 4K, keep hugetlb, breakup transparent huge pages=
-.
->
-> Do you happen to have any use cases or reasoning for why someone might wa=
-nt
-> to disable soft offline for 4K pages or transparent huge pages? I'd like =
-to
-> understand the motivation for adding the extra bits.
+On Wed, 17 Sep 2025 10:13:36 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Not sure if making sense, but something I can think of are: one may
-really not want performance impact as THP will be split, THP and 4K
-pages will be migrated, and even wildly willing to defragment with 4K
-pages with corrected errors?
+> 
+> 
+> On 9/17/25 7:38 AM, Masami Hiramatsu (Google) wrote:
+> >> +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> >> +  #              | |         |   |||||     |         |
+> >> +           <idle>-0       [000] d.Z1.  717.026259: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+> >> +           <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+> >> +
+> >> +You can see the code which writes to `jiffies` is `do_timer()`.
+> > I'm having trouble getting from tick_do_update_jiffies64+0xbe/0x130,
+> > which I expect is
+> > 	jiffies_64 += ticks;
+> > in that function, over to do_timer(), which also updates jiffies_64,
+> > but is not called by tick_do_update_jiffies64(). AFAICT, there are
+> > no calls to do_timer() in the file (kernel/time/tick-sched.c).
+> > 
+> > Can you explain, please?
+> 
+> Let me try this again.
+> 
+> I understand the stack (call) trace/dump and your explanation, but
+> then your next comment says:
+> 
+> +You can see the code which writes to `jiffies` is `do_timer()`.
+> 
+> Does that need to be corrected?
 
->
-> Thanks,
-> Kyle Meyer
+Oops! sorry I missed that. Let me fix that.
+
+Thank you for catching!
+
+Thanks,
+
+> 
+> thanks.
+> -- 
+> ~Randy
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
