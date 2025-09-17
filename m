@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF98F2FBDE8;
-	Wed, 17 Sep 2025 12:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBE9333164;
+	Wed, 17 Sep 2025 12:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111358; cv=none; b=dreLXmktjuCZ+7ZslDe3hXcXN4UfYst6tp07N+k20ABKDad7KNg1sNVBaIqJvxNuAhzShHqV1p2CMA9AF2F7B7G9OdFhzcCsSgzGB/4PnlRr7gSP9XUIvzQt7j4wuAkh4WhWMA2jvyBADN8t0mNOsv+kGhb2/1TM6LHXvnDYl20=
+	t=1758111362; cv=none; b=JCbzqb5JyDu0Or9zaMgpGLvYalQ9+uYLHggSXUBepU7BNfTmD4qgTz5z50qyWXodMX+zUL69H30TVQSqpAI1h1GB2CnLWZWex+JW20T80w227zt630wtPPTniBy/tIEj9WXF7dHrFrepiS7K+iSKqz8FMLdyOUkpFlbQ1rL3LCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111358; c=relaxed/simple;
-	bh=PUUaTyw8rlc0Hc2z+x0BdPRC+RKe/Sri73mjZjht+w8=;
+	s=arc-20240116; t=1758111362; c=relaxed/simple;
+	bh=AH2lL83LG/MCK6GW00LCQjiXUczLYQf3wfFtphqsZ6o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=buHOeact7041/VkGo4Cwv/+/NB/OBbaTue8XGMD5EY0US7KRZCB5iDhdY4EYn8dzvNSIFg8o1Cp1vf/ikONCgZkSlqFaB5oD/d+XQAwFGgOkK5Xcm/PqpuURb1aYFpA3oH1vosPuR4V2CM+D/GYezFLRADyzCtbOaNP0vFRdVQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQFj/nqS; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Oek5Dfd/gaGEA3gnhw/RJ6G7I+lgLu8JtabptyFVOXs0aFTjB5IXYSPm+byqlO2dpOMqsXllARzjfKmuiQNP2+D0D3BBmpSCBwKjh7D+RYBBPU0p3K+g3c/u+c/irXHKjzwPVa1oMQ0qctDs0gugo/knJ/22EFFZL2SbU5iWEbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g/KWGQ9N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQFj/nqS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BBEDC4CEF5;
-	Wed, 17 Sep 2025 12:15:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g/KWGQ9N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0866C4CEF7;
+	Wed, 17 Sep 2025 12:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758111358;
-	bh=PUUaTyw8rlc0Hc2z+x0BdPRC+RKe/Sri73mjZjht+w8=;
+	s=k20201202; t=1758111361;
+	bh=AH2lL83LG/MCK6GW00LCQjiXUczLYQf3wfFtphqsZ6o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aQFj/nqSwFzfj++u4XcOZwP5aN8k6g6yaU9dLkvDKnoAq204Qy5szO+u/j+Nn1fzo
-	 njTPyCogL1XTpEPZxKn0q3GeNmSc0t2mGtFzfYLb0qCxBTshOzQOS0h1vAMF3kpqGI
-	 D+YKuq8Iq/p41aLdmkDd342nP1ceAZ63bwK9fwmEb+DJPc0nhThiKlj/Mz/8maLgqZ
-	 CsYC8iwp/8WcRC4/3DJki7c9ez3EcGKraK7aO/hYtsbsv/BYYRzCIGkysQwuACXfbb
-	 m5n+lJcqN6jobKmnYZMe84PAbBqPFjk/NGBpsK7Jxu6qAHqV0ybJlUfkGqWLK6jfJx
-	 ns26zxHzece1g==
+	b=g/KWGQ9NcAN9v6oSebFVQKvDDRIiCgXAx6UF6meul7UkQKm+T+GMXz/fcPpnfd+Dw
+	 bv+uihK7Jay6uSkXK1NgkVjYHHFzglgEiQhe7ooDET7L1Ct+vIM7zS9zDip4yOBrr6
+	 75JUNuKBr/v5oPmRdBqRr5IlRuUsPqIX1EFgQ2EuQUQDR1zQR8fR3U2+taYEo3TWAe
+	 kfisWtscV1pa9rbQlzxVxsNBP3Qvv45qWYq7UPRlvqyDA8W4HPBLI6LMtj46T/EzNk
+	 YG14mBPj9CLHQmsJwZllP+9iMA3dlXvswT5T+Que0ru4dkd0/3T8rOwj80BXXNO4k2
+	 WxIdqzCe6wQ7Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGe8-1qN7;
+	id 1uyr4h-0000000CGdg-12aY;
 	Wed, 17 Sep 2025 14:15:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 15/24] tools/docs: sphinx-build-wrapper: add an argument for LaTeX interactive mode
-Date: Wed, 17 Sep 2025 14:15:09 +0200
-Message-ID: <48d17b80c88d5f54ed63713fa2410f75ef15bc58.1758111077.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 08/24] tools/docs: sphinx-pre-install: drop a debug print
+Date: Wed, 17 Sep 2025 14:15:02 +0200
+Message-ID: <4c7375298ce9aa1f15e0be42cc7e6fa7e8a54c1c.1758111077.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
 References: <cover.1758111077.git.mchehab+huawei@kernel.org>
@@ -52,75 +52,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-By default, we use LaTeX batch mode to build docs. This way, when
-an error happens, the build fails. This is good for normal builds,
-but when debugging problems with pdf generation, the best is to
-use interactive mode.
-
-We already support it via LATEXOPTS, but having a command line
-argument makes it easier:
-
-Interactive mode:
-	./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs peci -v -i
-	...
-	Running 'xelatex --no-pdf  -no-pdf -recorder  ".../Documentation/output/peci/latex/peci.tex"'
-	...
-
-Default batch mode:
-        ./scripts/sphinx-build-wrapper pdfdocs --sphinxdirs peci -v
-	...
-	Running 'xelatex --no-pdf  -no-pdf -interaction=batchmode -no-shell-escape -recorder  ".../Documentation/output/peci/latex/peci.tex"'
-	...
+The version print at the lib was added for debugging purposes.
+Get rid of it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ tools/docs/sphinx-pre-install | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index c57c732b879c..50761f125bc9 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -173,7 +173,7 @@ class SphinxBuilder:
-         if not verbose:
-             self.sphinxopts += ["-q"]
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index 954ed3dc0645..fa12e01fc7fe 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -285,7 +285,6 @@ class AncillaryMethods:
+         cur_ver = sys.version_info[:3]
+         if cur_ver >= MIN_PYTHON_VERSION:
+             ver = ver_str(cur_ver)
+-            print(f"Python version: {ver}")
  
--    def __init__(self, builddir, verbose=False, n_jobs=None):
-+    def __init__(self, builddir, verbose=False, n_jobs=None, interactive=None):
-         """Initialize internal variables"""
-         self.verbose = None
- 
-@@ -183,7 +183,11 @@ class SphinxBuilder:
-         self.kernelversion = os.environ.get("KERNELVERSION", "unknown")
-         self.kernelrelease = os.environ.get("KERNELRELEASE", "unknown")
-         self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
--        self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
-+
-+        if not interactive:
-+            self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
-+        else:
-+            self.latexopts = os.environ.get("LATEXOPTS", "")
- 
-         if not verbose:
-             verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
-@@ -584,12 +588,16 @@ def main():
-     parser.add_argument('-j', '--jobs', type=jobs_type,
-                         help="Sets number of jobs to use with sphinx-build")
- 
-+    parser.add_argument('-i', '--interactive', action='store_true',
-+                        help="Change latex default to run in interactive mode")
-+
-     args = parser.parse_args()
- 
-     PythonVersion.check_python(MIN_PYTHON_VERSION)
- 
-     builder = SphinxBuilder(builddir=args.builddir,
--                            verbose=args.verbose, n_jobs=args.jobs)
-+                            verbose=args.verbose, n_jobs=args.jobs,
-+                            interactive=args.interactive)
- 
-     builder.build(args.target, sphinxdirs=args.sphinxdirs, conf=args.conf,
-                   theme=args.theme, css=args.css, paper=args.paper,
+             # This could be useful for debugging purposes
+             if SphinxDependencyChecker.which("docutils"):
 -- 
 2.51.0
 
