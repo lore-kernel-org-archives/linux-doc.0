@@ -1,252 +1,193 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CBC2F3C08
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 15:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A881333AB7
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 15:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758122341; cv=none; b=MP8iEDw84Xwe10eIqPQsSG1sZcxuH4NPExe9/OHVyDST97LFl7zMts3UZS3j6FIIvg81Jv3tbwchLi+c49nipMWSNi00O4erFmZVcLrH1KkOM64LKADMDJgZxWJUihwvwUMWMm20794hVdklSU0RiX03ZurZjkh3UUAtiJI4u3I=
+	t=1758122702; cv=none; b=RUBJqkhJDXecS5+V8nMxpfI9tpaVxfU3Cf9eBiVoR4GDJpT/u1osUoFC2xy5ABgP/6OG62RsVaSioEmwlOoNgSoxQ2yhufz3aGNKbCzGj82Xz69KIh4zCQftSJ8aCLHaEtLD3aIP/rCiNg9y5UBxrw3uefZaJl1gCdqXNoptT/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758122341; c=relaxed/simple;
-	bh=7jPZ96BclSCEIxwrjZ4n9aZB42Mvnx+aGDoeaEHGo3E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pLK+yTWr9+oXLAmhyrIbL+HuhgEEKhRijBDMmnVoLB1m2xIhTW9HxpuVK3GFDbiVldhAQmA1Vahu4NK2VqdpOIidts6I007Q7kqnjHmV1PliwQbMLK4Ve5i9tLhGii4KV0V29x7GUyvzr8U0qQVZwTzdQ8Gy3F0zoMQqjG5IUZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WfX4KE76; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1758122702; c=relaxed/simple;
+	bh=le3rR+Y/6+X3RB7WTCbO7Z1Cx/tQDdq7HqEHt580Kts=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mZ4jDrPUTthmu4V6Vm466gT2858rkfuuN4JWugvF3AzjHe/ndEXZXkIYr56TNiXL50N1kIThwvG5DoUP1KNqE+96/CxdVYFC+oAvlCIWlfZWSZ8pBSUcRD4sE61JaOmXtcaLhWdwSKA1weTpeuQhv5kVnP7YyF7TsKb/tQ/Hu6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UecDoJdN; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WfX4KE76"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UecDoJdN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758122338;
+	s=mimecast20190719; t=1758122699;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Hy7kdzIRoahwzaXq+ZGvnPXEqK5VVBRIst3tKW3Ibxs=;
-	b=WfX4KE76zKuM5i2NUQrJiTpMmqfGB0/QRkGZ4jAveYCTh7XhIk+ebvPO3zcPefYIMjbdFs
-	IeP4Ra/1FZQ+7NFOPGJf4/dZYsWK2T478PrT0WUOkU5z5xkKjsGJO4UCEDQ/A8uaj107Fo
-	KauyGMtfNLr9y2s9HyRPl7PtKXqQXIU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	 in-reply-to:in-reply-to:references:references;
+	bh=nOCE7GBioLoeEPVZjsvaFHh39u6q73Q5ex3kMGocTYI=;
+	b=UecDoJdNPzzHKwmqpU8hn10PEscwt1wWNUC/BWxE4CBcXQYHduBKQh1RWGJf8+YXvalAbK
+	Bz4FR7B+tMgdv38jtC7PrYfNNIDJeC8vQiFi/bCKm64ESDaSg5h9xKRIo6pqLPffdRFQbO
+	mutaJ5J74Vn4hRhmkueoNdupaolmFE0=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-359-ZQeKY3MPNqeL2N6cMsyt_g-1; Wed, 17 Sep 2025 11:18:57 -0400
-X-MC-Unique: ZQeKY3MPNqeL2N6cMsyt_g-1
-X-Mimecast-MFC-AGG-ID: ZQeKY3MPNqeL2N6cMsyt_g_1758122336
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45b990eb77cso8437435e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 08:18:57 -0700 (PDT)
+ us-mta-387-Oxmu0i8LO3CDn8NLO066vQ-1; Wed, 17 Sep 2025 11:24:58 -0400
+X-MC-Unique: Oxmu0i8LO3CDn8NLO066vQ-1
+X-Mimecast-MFC-AGG-ID: Oxmu0i8LO3CDn8NLO066vQ_1758122698
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b5eb7b2c05so154782981cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 08:24:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758122336; x=1758727136;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hy7kdzIRoahwzaXq+ZGvnPXEqK5VVBRIst3tKW3Ibxs=;
-        b=bcWPc2kVkIxXdhRyYKlgYGqGGctpKmxugEcCcGcZj/bcV/pUA9gRMgVyd9m77S57QF
-         a3403waEpDqkr5h5+YaZMWrvXX0k4aCJjwcRfW8tpZIPia5RXRTsy6PmZQgkIk+TcR2L
-         NhhJLwRr1qhTD8iOC/tFJsb0K90rJJXWnyoYjhe7H50B4YZ4oJi6uUEDO3SWKTelkn7g
-         yCtBm0J0GYYRhepq4a50y7uNQ1yvfHAVKwLbAcDVZ9EBMEe4fcbfH6rTohuf1kiMSMgT
-         GcZgdgm2sQ0VuXDBooAE9Di/bdHcep4XbUgH7fARnklaqcdXx2lxVwsW+XeNjXlcFsy9
-         kqJA==
-X-Forwarded-Encrypted: i=1; AJvYcCU17zxB4vQHHvh4Bpt8fUi4MXonSP+qtGC/LyXL3a9vyQLBcH7OTRCIxkpcsMmKtPD85IpmcL3ySH8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwX2U8JNHb3VTBaFjdflLHnFhkgd8O2CVU3jHd1Mpd3u6bUK2J+
-	gBUmPnHXje3xt2s/RLT9X88Rk8XpUkAlhzBpeKt9zOrO09Fwr054If+V1RG6EG17y4hUnoECtJI
-	7VqK+ELJPwPF23boHP2r17j8PEdReIuf+DalEmg5kxwMYpG0iLkCPzRl/PytuVw==
-X-Gm-Gg: ASbGnct/t/xoBC8vTBmNBgCRceoWUQu5gOk8b+D4oL7yKHppnc99MdzITgHE+nrOmaU
-	jGjJoLbq0nECKtMivp5CrswHXrC1mKZkZ6qGi2ilvX9nDjCB+HRPzppKWeJwJuPp8KUC4iKXnfV
-	OFCyI4W1L0CawzSFSzaFSmhF0eD/VN3YO6PguIcX354834Itdn+IAncq9cwXBs4gLl5O1lMoyBA
-	f1GI9a7ateI1vx67dBVjJglCWowihv7CA2ui8Hb+JSVgxyavI5fI762RuagxdKTl+FwL5ETmc2O
-	dRSxv0B8/YRqOLFNufRRhDWt1HEicU9+l9g9z58kFJDyojMAOZaRMpfbIqFAURyhsuNJMjHPvLd
-	LFzKLT3PRupLGgM8jOFlcSD7CkA1Mu1MWylyIbh9KdZrHg1jTWtfvg0aCVmJplEho
-X-Received: by 2002:a05:600c:c0c2:b0:45d:e201:1603 with SMTP id 5b1f17b1804b1-45ffbb87d0fmr44806005e9.15.1758122335870;
-        Wed, 17 Sep 2025 08:18:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZJXZpzuRjgrByrwR+JkhhVX9lJLsNt0iPyJ6yeH+tCAOWNZvmbwXLVLzskDHw5XXeFtjkaQ==
-X-Received: by 2002:a05:600c:c0c2:b0:45d:e201:1603 with SMTP id 5b1f17b1804b1-45ffbb87d0fmr44805575e9.15.1758122335350;
-        Wed, 17 Sep 2025 08:18:55 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f3211e8c7sm40537455e9.3.2025.09.17.08.18.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 08:18:52 -0700 (PDT)
-Message-ID: <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com>
-Date: Wed, 17 Sep 2025 17:18:50 +0200
+        d=1e100.net; s=20230601; t=1758122698; x=1758727498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nOCE7GBioLoeEPVZjsvaFHh39u6q73Q5ex3kMGocTYI=;
+        b=poDTK2JR+J8GGw7/6YNBTK0OqOfc6fzc1GuFd236TdE2eyVpEhhE5TBULX2CTyUtpc
+         TTJ2f7K7o31wUuq+rHRju5qC4TxNDpWOncPfSZShfh/uG0BeSvW0m5vHLDKNpU059FhO
+         q+HvwOgNQ0MxjhyLdcMXHboz9/zv29wisH0FM3Uynlvsogc1cnwjZpw0EFS9ZDZE9c01
+         84JDVNatehFMznlizWWKtGWWG27qLCct8QwDfR6FKn1hoR5mlv3PthDZCaInBF71Ht7n
+         PZp29uGZL1dKeHOu8MJR6GY4ZEu+r48toYXxXSUp4cD+WZrG/VfY0J8WYAIuloTEly4f
+         O9mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVj6GC+BklTiWJT6ZjWZQTNOb8IEV6rdjTxNjiYPemxYIJ7uVvHkOp4/ePQJvOilWZGXI4wRBSUeZ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmdPqi6vNLb45gdNXIhk45VqaxTTLLB02FEavpxMHTtUDHM8AD
+	cVvkodLHuarPwOkHfonjI7NiGfiIFvclby+YUWrXQHZscTAtkHY2cHpr2R198Y0j6aJUb9PFs4j
+	t+I52+E5Va6GxgT8iGVAu7Hcjzpb3S3K0+JVpoPVJKvO3kpPYWGM+ZN0Rt9Vu5F9T60DmyRzowd
+	FL6WUliD8Nv2vgCJ0+02FTRmBsLBrGF+CifX2F
+X-Gm-Gg: ASbGncskuSLXrO7Zqkw7fU8hr3mXAJkE9ML947I2Ul2D9R3xpng4P3CAEb3OvEgtpuq
+	geSrI6N368cLDFaW7hGVwFoW2i6MN5ZL9rLTVyAKo0negchUbmXBwjiJk7AD6s0W6W3Hg7VHshQ
+	2VzT9Jvvk8jOOElKxNYLPm/Om6dJJOq7vI66cJ+O478aPQ0Zxk6H7TjA==
+X-Received: by 2002:a05:622a:1e15:b0:4b4:8f2c:ba40 with SMTP id d75a77b69052e-4ba6a5db701mr19915901cf.43.1758122697457;
+        Wed, 17 Sep 2025 08:24:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFGX/u0/DWoQ2j8jO01gOLX81vhmFXebVct9qpuqQjgpv8prCPbkq0kI6Uh7cjMspWrlS3R3UWH++SHXByzydM=
+X-Received: by 2002:a05:622a:1e15:b0:4b4:8f2c:ba40 with SMTP id
+ d75a77b69052e-4ba6a5db701mr19915641cf.43.1758122697037; Wed, 17 Sep 2025
+ 08:24:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Eugen Hristev <eugen.hristev@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
- <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
- <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZoEEwEIAEQCGwMCF4ACGQEFCwkIBwICIgIG
- FQoJCAsCBBYCAwECHgcWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaJzangUJJlgIpAAKCRBN
- 3hD3AP+DWhAxD/9wcL0A+2rtaAmutaKTfxhTP0b4AAp1r/eLxjrbfbCCmh4pqzBhmSX/4z11
- opn2KqcOsueRF1t2ENLOWzQu3Roiny2HOU7DajqB4dm1BVMaXQya5ae2ghzlJN9SIoopTWlR
- 0Af3hPj5E2PYvQhlcqeoehKlBo9rROJv/rjmr2x0yOM8qeTroH/ZzNlCtJ56AsE6Tvl+r7cW
- 3x7/Jq5WvWeudKrhFh7/yQ7eRvHCjd9bBrZTlgAfiHmX9AnCCPRPpNGNedV9Yty2Jnxhfmbv
- Pw37LA/jef8zlCDyUh2KCU1xVEOWqg15o1RtTyGV1nXV2O/mfuQJud5vIgzBvHhypc3p6VZJ
- lEf8YmT+Ol5P7SfCs5/uGdWUYQEMqOlg6w9R4Pe8d+mk8KGvfE9/zTwGg0nRgKqlQXrWRERv
- cuEwQbridlPAoQHrFWtwpgYMXx2TaZ3sihcIPo9uU5eBs0rf4mOERY75SK+Ekayv2ucTfjxr
- Kf014py2aoRJHuvy85ee/zIyLmve5hngZTTe3Wg3TInT9UTFzTPhItam6dZ1xqdTGHZYGU0O
- otRHcwLGt470grdiob6PfVTXoHlBvkWRadMhSuG4RORCDpq89vu5QralFNIf3EysNohoFy2A
- LYg2/D53xbU/aa4DDzBb5b1Rkg/udO1gZocVQWrDh6I2K3+cCs7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250910170000.6475-1-gpaoloni@redhat.com> <20250910170000.6475-2-gpaoloni@redhat.com>
+ <878qifgxbj.fsf@trenco.lwn.net>
+In-Reply-To: <878qifgxbj.fsf@trenco.lwn.net>
+From: Gabriele Paoloni <gpaoloni@redhat.com>
+Date: Wed, 17 Sep 2025 17:24:45 +0200
+X-Gm-Features: AS18NWDoDDpQpUCvPoMLIIOoLe9NuL6mhF4S2DmGBGnkJMhA8eLTTv_JNTSuMdM
+Message-ID: <CA+wEVJZreV0zpaNT70_FjuWwEujppsP4ZW_miqdRSfcHyXWrmQ@mail.gmail.com>
+Subject: Re: [RFC v2 PATCH 1/3] Documentation: add guidelines for writing
+ testable code specifications
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: shuah@kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	gregkh@linuxfoundation.org, linux-mm@kvack.org, 
+	safety-architecture@lists.elisa.tech, acarmina@redhat.com, 
+	kstewart@linuxfoundation.org, chuckwolber@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 17.09.25 17:02, Eugen Hristev wrote:
-> 
-> 
-> On 9/17/25 17:46, David Hildenbrand wrote:
->> On 17.09.25 16:10, Thomas Gleixner wrote:
->>> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
->>>> On 17.09.25 07:43, Eugen Hristev wrote:
->>>>> On 9/17/25 00:16, Thomas Gleixner wrote:
->>>>>> I pointed you to a solution for that and just because David does not
->>>>>> like it means that it's acceptable to fiddle in subsystems and expose
->>>>>> their carefully localized variables.
->>>>
->>>> It would have been great if we could have had that discussion in the
->>>> previous thread.
->>>
->>> Sorry. I was busy with other stuff and did not pay attention to that
->>> discussion.
->>
->> I understand, I'm busy with too much stuff such that sometimes it might
->> be good to interrupt me earlier: "David, nooo, you're all wrong"
->>
->>>
->>>> Some other subsystem wants to have access to this information. I agree
->>>> that exposing these variables as r/w globally is not ideal.
->>>
->>> It's a nono in this case. We had bugs (long ago) where people fiddled
->>> with this stuff (I assume accidentally for my mental sanity sake) and
->>> caused really nasty to debug issues. C is a horrible language to
->>> encapsulate stuff properly as we all know.
->>
->> Yeah, there is this ACCESS_PRIVATE stuff but it only works with structs
->> and relies on sparse IIRC.
->>
->>>
->>>> I raised the alternative of exposing areas or other information through
->>>> simple helper functions that kmemdump can just use to compose whatever
->>>> it needs to compose.
->>>>
->>>> Do we really need that .section thingy?
->>>
->>> The section thing is simple and straight forward as it just puts the
->>> annotated stuff into the section along with size and id and I definitely
->>> find that more palatable, than sprinkling random functions all over the
->>> place to register stuff.
->>>
->>> Sure, you can achieve the same thing with an accessor function. In case
->>> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
->>
->> Right, the challenge really is that we want the memory range covered by
->> that address, otherwise it would be easy.
->>
->>> do not expose the information already for real functional reasons adding
->>> such helpers just for this coredump muck is really worse than having a
->>> clearly descriptive and obvious annotation which results in the section
->>> build.
->>
->> Yeah, I'm mostly unhappy about the "#include <linux/kmemdump.h>" stuff.
->>
->> Guess it would all feel less "kmemdump" specific if we would just have a
->> generic way to tag/describe certain physical memory areas and kmemdump
->> would simply make use of that.
-> 
-> The idea was to make "kmemdump" exactly this generic way to tag/describe
-> the memory.
+Hi Jonathan
 
-That's probably where I got lost, after reading the cover letter 
-assuming that this is primarily to program kmemdump backends, which I 
-understood to just special hw/firmware areas, whereby kinfo acts as a 
-filter.
+Many thanks for your review
 
-> If we would call it differently , simply dump , would it be better ?
-> e.g. include linux/dump.h
-> and then DUMP(var, size) ?
-> 
-> could we call it maybe MARK ? or TAG ?
-> TAG_MEM(area, size)
+On Tue, Sep 16, 2025 at 12:34=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> w=
+rote:
+>
+> Gabriele Paoloni <gpaoloni@redhat.com> writes:
+>
+> [Taking a quick look...]
+>
+> > The Documentation/doc-guide/kernel-doc.rst chapter describes
+> > how to document the code using the kernel-doc format, however
+> > it does not specify the criteria to be followed for writing
+> > testable specifications; i.e. specifications that can be used
+> > to for the semantic description of low level requirements.
+> >
+> > This patch adds a guideline that defines criteria to formally
+> > describe developers=E2=80=99 intent at the function and subfunction
+> > level in the form of testable expectations.
+> >
+> > Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
+> > Signed-off-by: Chuck Wolber <chuckwolber@gmail.com>
+> > Signed-off-by: Kate Stewart <kstewart@linuxfoundation.org>
+> > ---
+> >  .../doc-guide/code-specifications.rst         | 208 ++++++++++++++++++
+> >  Documentation/doc-guide/index.rst             |   1 +
+> >  2 files changed, 209 insertions(+)
+> >  create mode 100644 Documentation/doc-guide/code-specifications.rst
+> >
+> > diff --git a/Documentation/doc-guide/code-specifications.rst b/Document=
+ation/doc-guide/code-specifications.rst
+> > new file mode 100644
+> > index 000000000000..dee1b4f089e1
+> > --- /dev/null
+> > +++ b/Documentation/doc-guide/code-specifications.rst
+> > @@ -0,0 +1,208 @@
+> > +.. title:: How-to write testable code specifications
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +How-to write testable code specifications
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Introduction
+> > +------------
+> > +The Documentation/doc-guide/kernel-doc.rst chapter describes how to do=
+cument the code using the kernel-doc format, however it does not specify th=
+e criteria to be followed for writing testable specifications; i.e. specifi=
+cations that can be used to for the semantic description of low level requi=
+rements.
+>
+> Please, for any future versions, stick to the 80-column limit; this is
+> especially important for text files that you want humans to read.
 
-I'm wondering whether there could be any other user for this kind of 
-information.
+Thanks I will stick to 80 chars for future submissions
 
-Like R/O access in a debug kernel to these areas, exporting the 
-ranges/names + easy read access to content through debugfs or something.
+>
+> As a nit, you don't need to start by saying what other documents don't
+> do, just describe the purpose of *this* document.
 
-Guess that partially falls under the "dump" category.
+Yes, my goal was to explain the purpose of this doc, however, re-reading
+this intro I realize that it uses a negative tone, that is not good.
+I will rephrase explaining the it expands on top of kernel-doc.rst
+to further specify the expectations from the code and the assumptions
+to correctly use it.
 
-Including that information in a vmcore info would probably allow to 
-quickly extract some information even without the debug symbols around 
-(I run into that every now and then).
+>
+> More substantially ... I got a way into this document before realizing
+> that you were describing an addition to the format of kerneldoc
+> comments.  That would be good to make clear from the outset.
+>
+> What I still don't really understand is what is the *purpose* of this
+> formalized text?  What will be consuming it?  You're asking for a fair
+> amount of effort to write and maintain these descriptions; what's in it
+> for the people who do that work?
 
-> 
-> this would go to a separate section called .tagged_memory.
-> 
+The goal is to clearly define what the code is expected to do and how
+to correctly invoke it so that:
+1) A user of the code does not wrongly invoke it
+2) A developer or a maintainer can check if code changes are compliant
+    with such expectations (maybe he did wrong changes or the expectations
+    need to change)
+3) A tester can verify if test cases are correct WRT such expectations and
+    complete
 
-Maybe just "tagged_memory.h" or sth. like that? I'm bad at naming, so I 
-would let others make better suggestions.
+>
+> How does an author determine whether the specifications they have
+> written are correct, both gramatically and semantically?
 
-> Then anyone can walk through the section and collect the data.
-> 
-> I am just coming up with ideas here.
-> Could it be even part of mm.h instead of having a new header perhaps ?
-> Then we won't need to include one more.
+For grammatical purpose, probably an automated check could be
+implemented, for semantic aspects the first level of verification comes
+from the community and maintainer review process, whereas the second
+level of verification come from selftests that should be written according
+to the expectations from the code and should trace to them (as in the
+example in patch 3)
 
-I don't really have something against a new include, just not one that 
-sounded like a very specific subsystem, not something more generic.
+Thanks
+Gab
 
--- 
-Cheers
-
-David / dhildenb
+>
+> Thanks,
+>
+> jon
+>
 
