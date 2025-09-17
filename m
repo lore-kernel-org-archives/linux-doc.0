@@ -1,261 +1,165 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F392733BB0D
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 15:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5D834BA3E;
+	Wed, 17 Sep 2025 16:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758123881; cv=none; b=Hn6lGZBiFCGvn2AOsvPV4gM7Kgzjh+BT+2Aq0TPd7MipZ4YaSV5HfPwJNpPS9P666DyQRGYO96nhOewJ6S33vBcP/3xlkTPI6pIxdI31/6/417Y7YoAx2bpZ37mjOmOLI0vmI9vdxToNk8fTURpbUJX/p6w/bcKo3OSya5iopdg=
+	t=1758126234; cv=none; b=LumSA0dK2Q/LAXPAAsKOtvSnbJMlPaF4ztaBtFhAhys3O0vQZwAlHYShTRY5y524qGjEMOPlG8q2bPfjtwk+/BHNEljrbpoYlaxyCytYogpekX5bOLmEfxMlWlPLHWLdCtkwe5/8K0JwaP+LUIuoR+ZogFoKoXWVG18lGTUVjX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758123881; c=relaxed/simple;
-	bh=z4tCoDZQOuh4LECbalwkAqS2zlkXL9yErxewejGxnWE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q9Od1DHqsnYKxJ7rcoTD3zvF2BRjX60oUdetew2zV0XKFOZzLqMH4FFopVBJv+Sq1wmdHxYdJppFLGvt6oSmiR1wMGO6yHNi6keDz8Vd/+Z9D43S72jcZ4cuTNVsQDPhJWb5AlSAaC7P8BXzIWd+o51uAlwwUd23hKBW0BxDlNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f8Wb/j7S; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758126234; c=relaxed/simple;
+	bh=MAGJlZYD5VHMXkhfifP540QxU+HaAx7++Od8cOIArlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RIPN3bZempmjrmuMmMoKwB9lHyvyqs05/CbfXVDNrEqdLUgulEmcvJ9np7RUCUWH2McmznbaIgj8z1LNyh4CUTuXRtkGVeB5ewPl9He6XbcoZMfxB+R4cTglNnpSQCcEVJVHVKgSRZ1flzAS7syZdJgKhQnEJODiOXgMfpJKKP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=b1QHgXi5; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f8Wb/j7S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758123878;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=NYmqILMx1xlw2m4tQW0RBlUiktKctlRRDbbC0EtpRGc=;
-	b=f8Wb/j7SVcEGvwOVStevZ5yDYutH1PwMhvliH3m4iZCjcMNHYhPZw7WN1XT5RAx7+/mchZ
-	pOJ4dy8QkEgEKiAJyHjwUUTPiwUvlchOL1y09vMAnfF9zfdKPNrW9K1KcTtT/W/ej3s03X
-	ZAnMpZE7RrbkBoJSYeXRH87ONqk6+Ks=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-54-eez0cxJwNNusJEegNh9-Lg-1; Wed, 17 Sep 2025 11:44:35 -0400
-X-MC-Unique: eez0cxJwNNusJEegNh9-Lg-1
-X-Mimecast-MFC-AGG-ID: eez0cxJwNNusJEegNh9-Lg_1758123874
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45cb604427fso43436975e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 08:44:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758123874; x=1758728674;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NYmqILMx1xlw2m4tQW0RBlUiktKctlRRDbbC0EtpRGc=;
-        b=aeqLQUHZ0wjpVG/Ht/dAwPly2RoVCnixF5jCMuH3+AD5uPu4rZGAv40FvOB29EKJMi
-         tsuynX+nJxRLSLVbfKg9TRNJyS6DM8kP7e46tFy+ktERyP0P4+iG0+ybJ9mMhz/HTesL
-         iHXlqaLcyCI5MxFkBZyEBEcegT7KIKb1hcnXuEb0nLAiE6iUrJwlVgrXU4qk47DHqM2k
-         Q1zrB+2XGunL2nrz6y34kj6kjrjP2fnLSO/R5R3FHtUvIOk3uahD3mmOwk6Rc2Fhtecj
-         C04ScczAOFedLGZPFyi1QQ6EoAFCxZ4u5nGc7+BjfQ9lqoKRhpSJ1V5BvXVBuqpdjkcS
-         MmkA==
-X-Forwarded-Encrypted: i=1; AJvYcCW84onbR5rmty8IlxzcTOiWptmc3GR86RR6pU+sE2q6GOMtYf+J9KLmWOhkLa2dG4igHvhFp7ob2AU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxInscwAsO1yUPM5C/WPpJXHTKDYKicDKInxNR+l6G5k1mwHmWN
-	7c41DuOH+viTN1qBIQzYjNULegt89abK1mbvnrPZzaLE9wXRTUO5MadYmsBDWLzEhoz+8dfIH7c
-	NuLGY8YTWjyuuQ+ChDl43t4a0/zFNBcNbDLMhFZCzPiMxGAW2++zG7QL81wsWMw==
-X-Gm-Gg: ASbGncvtWeCmQHt6DExSpTLdIy0VOI63P2e/dL1FCirBvY8uNYWIDK9Cc9a2Xm2Z7xm
-	2Z/FpZ/AVM/jtPeiqbcZ3FdtzHNA2YgjW10q5mJL3hf4KP85pZfBWXgy+ApJsyLdETrxnIkk80y
-	T6HNx5Teds/bYtLPfB3TKnRdzny6lJidPwtXzDvwF4yBjR+Gpi8BSY94nIfQtEsEO9JP8hcosb2
-	31Mmmi5UjRmZSH7RTuiCuOgInKUm5t94hmrk1w1DbKZTOSbgbk5Is01GxzPsyc5i76mNt7+N5bY
-	hSjkszRsbFNemB5aBlC8mWBGGw7CWApKlZ5ayOBI8UEXC2QP5QpitnbrD+aI/v7sOBPhV/eQZch
-	6B92+9PWFsZtbgiqJS4S2oPkSyHRsVmCwrfXRHN5+t0TNq5yeyH4pp9Pc3cuGA0yi
-X-Received: by 2002:a05:600c:548f:b0:45f:2c7c:c1ed with SMTP id 5b1f17b1804b1-46201f8b0f7mr24718485e9.2.1758123874109;
-        Wed, 17 Sep 2025 08:44:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH8g1ZaRN7oJUXl7N8nfBOuCnjfDBEtxRyVeyDn4nu6ScGXDtKea6BR0IkCAuJ/wYcffRSBqQ==
-X-Received: by 2002:a05:600c:548f:b0:45f:2c7c:c1ed with SMTP id 5b1f17b1804b1-46201f8b0f7mr24718205e9.2.1758123873544;
-        Wed, 17 Sep 2025 08:44:33 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-462c17c9347sm10474045e9.0.2025.09.17.08.44.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 08:44:32 -0700 (PDT)
-Message-ID: <b532ab38-37a3-46d0-8a14-d7395421130d@redhat.com>
-Date: Wed, 17 Sep 2025 17:44:31 +0200
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="b1QHgXi5"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5202540E0176;
+	Wed, 17 Sep 2025 16:23:41 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id DLmdsVukSGBV; Wed, 17 Sep 2025 16:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1758126214; bh=Vbpx2/EQFsv68Z8YLJv2Q1LEaliBfPp1phTF0OcPHX4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b1QHgXi59hwSfoy/WamP+UQar5Wx6lMdvI5x0AupjorX7gJryB3gf2+K6ZycJND6B
+	 ftTs2l1lBif0obM6nPca0chtIDKQNY8tfU+oQ2k/SRockCWgVHwXJ0KT6e9YkZun4M
+	 q+GYLCBBBiQPmjyaJWGQSmnQooPfV/o+g+48GazhYZdLNNBvbSUkob4f5QYkWrDAs5
+	 zWgnD3SaaPlrz4rOiC2wgXnewphWzWobY9qKNbEq+3sn8ib1WVGrA5/0bzSmFmEbbp
+	 39U5h8sn8FdaagJSt3/hrtHG7bj/8uxAAlaggpx/1DRrBTMxDUIhmM13sIxsrcohPy
+	 tM+MAYVzHt1GS5HEbIIwlk6uYw6gnxzc0fgtW7rRoJ5LHJTjFG2OZw4KAHJE+dD+ZZ
+	 3W74juSmASbbzditF1Vj11hs4ZBqzyfG/pah5LUIdJXo7dKb9BPwabCo5Dx8HG9RkR
+	 0rQrei2zIC5XOxwdSHxygp9+DZ7OKsw3Lw2j0KGdk4g3X1jfTUmnuWQrKmXatG/7+o
+	 UsoR1nXfdVvf2LnP03zPb61sKAH9yvdHjTVTE+Sprw3wNpRHTZ7F5YgZstvF83JD0K
+	 YreUQHA0D5EZVU2uj8S/ubzOgUZ9jc7VdcG0iFQCi3Nrmj14Zvq2yrbaoJOL3WZpRP
+	 O3kuWMdPuVyQPTIlgGzImDq4=
+Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 5666140E019E;
+	Wed, 17 Sep 2025 16:22:59 +0000 (UTC)
+Date: Wed, 17 Sep 2025 18:22:53 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shiju.jose@huawei.com>
+Cc: "rafael@kernel.org" <rafael@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"rppt@kernel.org" <rppt@kernel.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>,
+	"rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>,
+	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
+	"erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>,
+	"gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>,
+	"Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
+	wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Message-ID: <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
+References: <20250902173043.1796-1-shiju.jose@huawei.com>
+ <20250902173043.1796-2-shiju.jose@huawei.com>
+ <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
+ <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
+ <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
+ <9433067c142b45d583eb96587b929878@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Eugen Hristev <eugen.hristev@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
- <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
- <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
- <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com>
- <10540b3e-09ca-403d-bc20-b9412a7fe28a@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <10540b3e-09ca-403d-bc20-b9412a7fe28a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9433067c142b45d583eb96587b929878@huawei.com>
 
-On 17.09.25 17:32, Eugen Hristev wrote:
+On Mon, Sep 15, 2025 at 11:50:16AM +0000, Shiju Jose wrote:
+> This has been added as suggested by Jonathan considering the interleaved NUMA node.
+> Link to the related discussion in V11:
+> https://lore.kernel.org/all/20250821100655.00003942@huawei.com/#t
+
+Sorry, this doesn't work this way.
+
+If something in the code is being done which is not obvious and trivial, then
+the reason for it is written down in a prominent place so that it is clear to
+people.
+
+Not pointing to a discussion or some funky place on the web where someone
+might've said something.
+
+Your patch submission should contain that info and not have reviewers ask for
+it.
+
+> | node 0 | node 1 | node 0 |   PA address map.
+> Can you give your suggestion what we should do about it?
+
+I don't know what the problem is to begin with...
+
+> I think Option (2) seems better?  If so, can the EDAC scrub interface  be
+> updated to include attributes for publishing the supported PA range for the
+> memory device to scrub?
+
+The memory ranges should already be available somewhere in the NUMA/mm code or
+so and for starters, we should start a scrub for all ranges and do the
+single-range only when there really is a good reason for it.
+
+Also, you don't have to expose any ranges to userspace in order to start
+a scrub activity - you can simply start the scrub in the affected range
+automatically.
+
+Like I preached the last time, your aim should be to make as much of the
+variables that control the scrub automatic and not expose everything to
+userspace so that some userspace tool decides. The tool should simply start
+the scrub and the kernel should DTRT.
+
+> This returns error on the first failure.
 > 
+> What if there was a success before? Does that aux_device need to be removed?
 > 
-> On 9/17/25 18:18, David Hildenbrand wrote:
->> On 17.09.25 17:02, Eugen Hristev wrote:
->>>
->>>
->>> On 9/17/25 17:46, David Hildenbrand wrote:
->>>> On 17.09.25 16:10, Thomas Gleixner wrote:
->>>>> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
->>>>>> On 17.09.25 07:43, Eugen Hristev wrote:
->>>>>>> On 9/17/25 00:16, Thomas Gleixner wrote:
->>>>>>>> I pointed you to a solution for that and just because David does not
->>>>>>>> like it means that it's acceptable to fiddle in subsystems and expose
->>>>>>>> their carefully localized variables.
->>>>>>
->>>>>> It would have been great if we could have had that discussion in the
->>>>>> previous thread.
->>>>>
->>>>> Sorry. I was busy with other stuff and did not pay attention to that
->>>>> discussion.
->>>>
->>>> I understand, I'm busy with too much stuff such that sometimes it might
->>>> be good to interrupt me earlier: "David, nooo, you're all wrong"
->>>>
->>>>>
->>>>>> Some other subsystem wants to have access to this information. I agree
->>>>>> that exposing these variables as r/w globally is not ideal.
->>>>>
->>>>> It's a nono in this case. We had bugs (long ago) where people fiddled
->>>>> with this stuff (I assume accidentally for my mental sanity sake) and
->>>>> caused really nasty to debug issues. C is a horrible language to
->>>>> encapsulate stuff properly as we all know.
->>>>
->>>> Yeah, there is this ACCESS_PRIVATE stuff but it only works with structs
->>>> and relies on sparse IIRC.
->>>>
->>>>>
->>>>>> I raised the alternative of exposing areas or other information through
->>>>>> simple helper functions that kmemdump can just use to compose whatever
->>>>>> it needs to compose.
->>>>>>
->>>>>> Do we really need that .section thingy?
->>>>>
->>>>> The section thing is simple and straight forward as it just puts the
->>>>> annotated stuff into the section along with size and id and I definitely
->>>>> find that more palatable, than sprinkling random functions all over the
->>>>> place to register stuff.
->>>>>
->>>>> Sure, you can achieve the same thing with an accessor function. In case
->>>>> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
->>>>
->>>> Right, the challenge really is that we want the memory range covered by
->>>> that address, otherwise it would be easy.
->>>>
->>>>> do not expose the information already for real functional reasons adding
->>>>> such helpers just for this coredump muck is really worse than having a
->>>>> clearly descriptive and obvious annotation which results in the section
->>>>> build.
->>>>
->>>> Yeah, I'm mostly unhappy about the "#include <linux/kmemdump.h>" stuff.
->>>>
->>>> Guess it would all feel less "kmemdump" specific if we would just have a
->>>> generic way to tag/describe certain physical memory areas and kmemdump
->>>> would simply make use of that.
->>>
->>> The idea was to make "kmemdump" exactly this generic way to tag/describe
->>> the memory.
->>
->> That's probably where I got lost, after reading the cover letter
->> assuming that this is primarily to program kmemdump backends, which I
->> understood to just special hw/firmware areas, whereby kinfo acts as a
->> filter.
+> If not, then why return failure at all? Why not just try to add all devices? Some may fail and some may succeed.
+> ============================= 
 > 
-> If there is a mechanism to tag all this memory, or regions, into a
-> specific section, what we would do with it next ?
-> It would have a purpose to be parsed and reused by different drivers,
-> that would be able to actually use it.
-> So there has a to be some kind of middleman, that holds onto this list
-> of regions, manages it (unique id, add/remove), and allows certain
-> drivers to use it.
+> We thought second option is a better because a successfully added aux dev for a memory device and corresponding
+> EDAC interface continue exist and support the scrub/a memory feature. 
+> We do not mind doing stop on a failure adding an aux_device and free previously crated aux devices, though
+> it may require some additional dynamically allocated memory space to store the successfully created aux devices
+> so that free them on a failure later. Hope that is acceptable?
 
-Right, just someone that maintains the list and possibly allows 
-traversing the list and possibly getting notifications on add/remove.
+So how are you going to present to people a subset of devices loaded? And what
+is the point at all? 
 
-> Now it would be interesting to have different kind of drivers connect to
-> it (or backends how I called them).
-> One of these programs an internal table for the firmware to use.
-> Another , writes information into a dedicated reserved-memory for the
-> bootloader to use on the next soft reboot (memory preserved).
-> I called this middleman kmemdump. But it can be named differently, and
-> it can reside in different places in the kernel.
-> But what I would like to avoid is to just tag all this memory and have
-> any kind of driver connect to the table. That works, but it's quite
-> loose on having control over the table. E.g. no kmemdump, tag all the
-> memory to sections, and have specific drivers (that would reside where?)
-> walk it.
-
-Yeah, you want just some simple "registry" with traversal+notification.
-
-> 
->>
->>> If we would call it differently , simply dump , would it be better ?
->>> e.g. include linux/dump.h
->>> and then DUMP(var, size) ?
->>>
->>> could we call it maybe MARK ? or TAG ?
->>> TAG_MEM(area, size)
-
-Just because I thought about it again, "named memory" could be an 
-alternative to "tagged memory".
+Is there a valid use case where you can use only a subset of the devices to
+even try to support such nonsense?
 
 -- 
-Cheers
+Regards/Gruss,
+    Boris.
 
-David / dhildenb
-
+https://people.kernel.org/tglx/notes-about-netiquette
