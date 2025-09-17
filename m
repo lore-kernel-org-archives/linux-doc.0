@@ -1,157 +1,161 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FA2224B01
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 10:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44F72C3257
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 10:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758106168; cv=none; b=BHpsBipWMyBgat2hP8W7gur+TOhBHKUnj04Pdjj5JcNbupU0FS17ZippTvU2PX+bzhLBJVaa6fWdnt+OuGXG7jVvPgOJ+gCTqIXOTSziSDONoFZUoTJI54AMbKKzIhoig1c90nv5m8M1hKQ8DkLS1Wqn+4AzrlXgSt1+oZ7gPCk=
+	t=1758106633; cv=none; b=ZqZ84BqtBpTClrRv+BJZ3e0sIRps6ncJvPyFpBKK9uKAWIjint8fi8ptqXEdY7yFxubojXCHok4zWk+9jfloI2wr9LN/icd9Lje4UtnKluOALmWX81FlcIhcUrf5kStvyrt1bhbNhbLqcEVwbY/XhqQX5I1BiKD3EaCPzO0/RDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758106168; c=relaxed/simple;
-	bh=Lv8lsxmw1T40EYS0DvJKScoRYDPLYB5fZTCwKGxV9KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dsQxiZj47smmithZtl29Dj32iNRBK7tW2khhA+xyney5mQMbbZQf/T5TmESqOqG+1A1lDAYLPi51dZH/8Rzss8bf682q/8B26iAapG3BisQNa7kL0E4h2IXFgYH+mJZ/JbOyIc+wO/nfHuhxoVl3d4W0wQXHFPqrSRGOfvhUT5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=niTkxtcE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7sXTFmdj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vHfdZFUB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ysCFvFtO; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758106633; c=relaxed/simple;
+	bh=QmYrtoWSI1kIy/nJzwXJBLHjj0jj0mabKB7oxUIrXJo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ry0Q+ddgX+5z0biZAqsOrRy9dZtCxNhLYquDWwo1MkvvZqLRLfeZBTVJEFE6Ao9PjTZRs1Elr0ZJ6lasqdo4HS/8y0b1mJGH6myz0Ak3x2qwhbXgvNF7H84H+WHrNa0SIG3OPkPOt5yUIVMXswfroMzZfP6Frey4x0PWgcvAtaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bR4sv73W; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="niTkxtcE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7sXTFmdj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vHfdZFUB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ysCFvFtO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EFB432225C;
-	Wed, 17 Sep 2025 10:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758106164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u8t6SHPjmQz0qqNQrQ8pFqlRTGyimMO7f4zNnyjDmnw=;
-	b=niTkxtcEsWHMLusW2uhOMmiQ+Zfat7dgrfB4F9HpeVv6d6//vidrvTnU/aJ4FYqBUF6/31
-	S8xdorf8fnri1Yz4VUshF2jJ8nD3YR9xyA5krXG5aE2bhuBHqd5dn3msDcKISdnCbwA/zG
-	3PnSCfyh+pAV2PK+IzaNWAQWDSAuWLw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758106164;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u8t6SHPjmQz0qqNQrQ8pFqlRTGyimMO7f4zNnyjDmnw=;
-	b=7sXTFmdjfBvPh9vPl+957gltmt72YVjGoLfmTjzZc9/62+QYrp3JFMXUWd+wQo8Bl2PL++
-	hD8DSBFfFKYnHNBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758106163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u8t6SHPjmQz0qqNQrQ8pFqlRTGyimMO7f4zNnyjDmnw=;
-	b=vHfdZFUBkQ+UKwx3ExzaOVaVfdytoF5pIPVJR8dzyBegHfGTA/i4xWB3CXo4LAWANrTple
-	GNzn6QM/qXSIiJuBT1bPSSxDRI13GV/Z0g0hLuxGiGFPI77KlcFQIUxMl4kbDbNuMRySEO
-	GuPcB2gc8dypv5uYz9RaDAFC1IdMfDk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758106163;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u8t6SHPjmQz0qqNQrQ8pFqlRTGyimMO7f4zNnyjDmnw=;
-	b=ysCFvFtOC2J5k6ktL7EscaU0B5pQropJLEepc80lv0no7M6FC6O6ldyLix+zd/a0PHVk/b
-	HHBgqHjVk6P7FDAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66CFE1368D;
-	Wed, 17 Sep 2025 10:49:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 50PgFTCSymh8PQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 17 Sep 2025 10:49:20 +0000
-Date: Wed, 17 Sep 2025 11:49:18 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, 
-	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Jann Horn <jannh@google.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
-	kexec@lists.infradead.org, kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>, 
-	iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v3 05/13] mm/vma: rename __mmap_prepare() function to
- avoid confusion
-Message-ID: <jokgdkyv4ca4sb7nl2wjkzxclhzhaee4p4luwj546tsdbylfei@laplfpugf3of>
-References: <cover.1758031792.git.lorenzo.stoakes@oracle.com>
- <3063484588ffc8a74cca35e1f0c16f6f3d458259.1758031792.git.lorenzo.stoakes@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bR4sv73W"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-afcb7322da8so507321066b.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 03:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758106630; x=1758711430; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xwxczvPwBg4Uyzbb2S+36YkOcrWK5ImeOLTlbGUhTaE=;
+        b=bR4sv73WBSutzyYADCMWCKSwFt1P57YfHqnR1MydAW8WaNykJzFMzOfFGrvFobjOQp
+         HK8ItEw9x7mY+J6gsJfg4iH03IWix8hiGxV71Zy28mosp/9WTR5ZrVy3pqrYsjmHJ2op
+         0/d4kHw+N6IaT7y2g/6qBn+bxaCgJOy6HA9uoBWMZgEkTN973Vs9B2dxiw2vyfPRDcVn
+         5adZ8zg/519JEotfO7FEFQlZDHEL8RccuGSYcAhIvUu8g2EoDQ2uMHw0OBBYf+6QrHpR
+         3sW04nWDsXcZfj0f59XSsgKQCJTWyNZqe8KBS7/CCQtp9SJweJxThm9FN17Me/Y2IF/V
+         OjtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758106630; x=1758711430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xwxczvPwBg4Uyzbb2S+36YkOcrWK5ImeOLTlbGUhTaE=;
+        b=XebwTLKAna/2PDukYJl4v8BDZxoc9pqXroQb/+dOP/6OngjYZqSrC/XwzYAdgjmHa3
+         SsRkZsJ0bVeiqGLf7zNrbMwdMvxqm0jFbiptf1IHDJS7T3ZH6oOXeS+haNQMUSebJ7Sp
+         O7xrPxNu8tV5Lj8pZ02jPUk2HV/LSmgMvRl/HtQ4oi/1BtgwlCoforNFIPTT82ultrpW
+         2P/o4MQYFOFNfUXZyF7AzhT6JMzwPBC0ySJF89ttdX5IYsKqoehL3QQ2z/B/8A2SGsq7
+         rtgqCWJ3QBJGBbPFt4Qoqfr7Gc9XNp9qk7d840NkDhXKThmuNBl11Hybk5mVZWP+5BlJ
+         hdBA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyAb8lXBjewHvni7a7k9cc4JaGLwSQVebFzUURs5XlZoJTS5MRvUG5lJIbAu6rdl/Hq62MJlSfH5g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuMoG6Z0xh5uJT89ev0gRQk2OooIiVGszKDFx7KzdAkJjUq0n/
+	i5uAegAgSJqdagzvkVI1T+6EcPGIA1dQz4CHoXOIe4ACGcVxdHgc225vXkd39Bcj76RgTjwv6GW
+	p/fweRi1U7lBnI3Q+EzHcRqn360r+0C4=
+X-Gm-Gg: ASbGnct0IxvcMoFlqxMUVRw4P5pJPqpdvrwfZ5wyYQM/HSrFIPdvzgOo0teSTLBky1A
+	Lgeqz93komWXuIhatww3hRC/hwizo0AtOEHyVvHIjSd0YzldtLBCau6TR7ccKWclP3H/liXPq+i
+	hb5Jc0QAF0E9547uQl9lFi0/WBnlVPLKexkartXGeKmuHuR3WpmU4XOSocdjMtQjn3yZolozWAB
+	RwOsy5ddu2gAcN8ajevRJnqbOH2+GAml2Z7Tw==
+X-Google-Smtp-Source: AGHT+IFRxj/9mtl/X+fIrakzsiy5Ocq5giy1UUqC3+OR/MDKcOd65B6+Mg4kPuXc5cy2Khkk6gzSVw2BB+E/UtAWaGo=
+X-Received: by 2002:a17:907:3cc9:b0:b12:162:8347 with SMTP id
+ a640c23a62f3a-b1bb2d0f441mr214182466b.16.1758106630039; Wed, 17 Sep 2025
+ 03:57:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3063484588ffc8a74cca35e1f0c16f6f3d458259.1758031792.git.lorenzo.stoakes@oracle.com>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,infradead.org,kernel.org,alpha.franken.de,linux.ibm.com,davemloft.net,gaisler.com,arndb.de,linuxfoundation.org,intel.com,fluxnic.net,linux.dev,suse.de,redhat.com,paragon-software.com,arm.com,zeniv.linux.org.uk,suse.cz,oracle.com,google.com,suse.com,linux.alibaba.com,gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,lists.infradead.org,googlegroups.com,nvidia.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[62];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,oracle.com:email,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
+References: <20250905024659.811386-1-alistair.francis@wdc.com>
+ <20250905024659.811386-7-alistair.francis@wdc.com> <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
+ <CAKmqyKM6_Fp9rc5Fz0qCsNq7yCGGb-o66XhycJez2nzcEs5GmA@mail.gmail.com> <e168255c-82a0-4b9a-b155-cb90e6162870@suse.de>
+In-Reply-To: <e168255c-82a0-4b9a-b155-cb90e6162870@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 17 Sep 2025 20:56:42 +1000
+X-Gm-Features: AS18NWCp6hE9_gHHY9RNWcNThlN_Ck6Xfvl_Pbkl6uhBvEylonTEL18YHTqIeJc
+Message-ID: <CAKmqyKMLP7hOi4FNhBET9XfoNZv4MZ3OsSRA0=B42C3+Q7P1jA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 16, 2025 at 03:11:51PM +0100, Lorenzo Stoakes wrote:
-> Now we have the f_op->mmap_prepare() hook, having a static function called
-> __mmap_prepare() that has nothing to do with it is confusing, so rename
-> the function to __mmap_setup().
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+On Wed, Sep 17, 2025 at 8:12=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 9/17/25 05:14, Alistair Francis wrote:
+> > On Tue, Sep 16, 2025 at 11:04=E2=80=AFPM Hannes Reinecke <hare@suse.de>=
+ wrote:
+> >>
+> [ .. ]
+> >> Oh bugger. Seems like gnutls is generating the KeyUpdate message
+> >> itself, and we have to wait for that.
+> >
+> > Yes, we have gnutls generate the message.
+> >
+> >> So much for KeyUpdate being transparent without having to stop I/O...
+> >>
+> >> Can't we fix gnutls to make sending the KeyUpdate message and changing
+> >> the IV parameters an atomic operation? That would be a far better
+> >
+> > I'm not sure I follow.
+> >
+> > ktls-utils will first restore the gnutls session. Then have gnutls
+> > trigger a KeyUpdate.gnutls will send a KeyUpdate and then tell the
+> > kernel the new keys. The kernel cannot send or encrypt any data after
+> > the KeyUpdate has been sent until the keys are updated.
+> >
+> > I don't see how we could make it an atomic operation. We have to stop
+> > the traffic between sending a KeyUpdate and updating the keys.
+> > Otherwise we will send invalid data.
+> >
+> Fully agree with that.
+> But thing is, the KeyUpdate message is a unidirectional thing.
+> Host A initiating a KeyUpdate must only change the _sender_ side
+> keys after sending a KeyUpdate message to host B; the receiver
+> side keys on host A can only be update once it received the
+> corresponding KeyUpdate from host B. If both keys on host A
+> are modified at the same time we cannot receive the KeyUpdate
+> message from host B as that will be encoded with the old
+> keys ...
 
-I would love to bikeshed on the new name (maybe something more descriptive?),
-but I don't really mind.
+Correct
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+>
+> I wonder how that can be modeled in gnutls; I only see
+> gnutls_session_key_update() which apparently will update both
+> keys at once.
 
--- 
-Pedro
+gnutls_session_key_update() only updates our keys [1]. You can use the
+GNUTLS_KU_PEER flag to set `request_update` to update all keys.
+
+> Which would fit perfectly for host B receiving the initial KeyUpdate,
+> (and is probably the reason why you did that side first :-)
+> but what to do for host A?
+
+Patch has been sent and reviewed, just hasn't been merged yet:
+
+https://gitlab.com/gnutls/gnutls/-/merge_requests/1965
+
+>
+> Looking at the code gnutls seem to expect to read the handshake
+> message from the socket, but that message is already processed by
+> the in-kernel TLS socket.
+> So either we need to patch gnutls or push a fake handshake
+> message onto the socket for gnutls to read. Bah.
+
+Correct, patch is pending (see above)
+
+1: https://gitlab.com/gnutls/gnutls/-/blob/master/lib/tls13/key_update.c#L2=
+45
+
+Alistair
+
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
