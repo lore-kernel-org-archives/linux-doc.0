@@ -1,470 +1,293 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D9734F481;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA923294FF;
 	Wed, 17 Sep 2025 12:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111356; cv=none; b=d/3/zRPra3CSdO+8OOEzotw1/QGx3lTZAASf+Wlm698K9oWxlYRBunQGCjV46+/NnDRh/CbkFXtsbqJnHIu2qYU/dPOu7xEtJh+v5W3FPlVkB9XP1uAkIq8XQ/oCpVmBwgKxGOOIn7QxJ+FnsxJXkfRDuXs66WCkkrhopKziN1o=
+	t=1758111356; cv=none; b=L+H5/ZSswmRu/Szce6NncBbePMwFm4k9vlLz9Bpk2AVkr+kCLkttv5bZo12sn0sBmZOUkT8uWhdc4u1rhmM6oSfqzSOhMwAYsE+uAQzBsFW7QZparUVsN7WXN331r+yOk6nWjd0BOLns9B+lz8pBC2H+BK684yFYHqHUaRHwbjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758111356; c=relaxed/simple;
-	bh=NmlkZhJdqEVCzp/MdJNPQBv63GpQxSHusELMOU7NpKE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S2dMlJtv+vyTc6hOORBrT1X9tIX5V2xoyJZr0p45vO9wab7Ie0CvejLEFCrO6W5giTtI/mAHmJwdvgth1+wbxMC3vQrLTihUkazzb/CubbBdTc72hcP8mCwnKcHi62hAH650XlwpMrAOTJj/Ofj2yGoWjb116NhhrrHAV+8u8og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sjA5RzFs; arc=none smtp.client-ip=10.30.226.201
+	bh=SEWjTVgTPTyI58PpxkWEaIBkTnLO24vi9jcL4Xx4sSY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FI++9LPzK0fSA++/6kVdyhlqeO463tfTH6/Ntr/Fj45ojuodzCYxW5TVoG8KQ8m9BiG6MClZnWI+I38bJjwRtAMArl4OQedzNW7cF2ctRRoElQs/5s+EkZJ7rtJ0/S7LG/vuqptWBYiN1TY8RDr4kUoDqpOp6ulDV04vVAW7wrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/4062Zg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sjA5RzFs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 273CDC4CEF7;
-	Wed, 17 Sep 2025 12:15:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/4062Zg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1769EC4CEF0;
+	Wed, 17 Sep 2025 12:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758111356;
-	bh=NmlkZhJdqEVCzp/MdJNPQBv63GpQxSHusELMOU7NpKE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sjA5RzFs1V+vTse9leKlB/Bpcp3V/o6sqjut72HxLh29RQLP6u8DHhyjestFLi7J0
-	 I1LItvcLhWovvBuFtNyLQQmlIYsZoctCmq+C16Dl047Yt53HqOO799HhmVmxgMIsA2
-	 Aj4IDEzVmGGguoksUuLKKBfnvJChuoSP/pTqB2mFT/2LNADDEbEVz2Ls+wTkXEjpFv
-	 pzejf/Hhp5FK9Zf4aRbBby0ASd47Dhp8JblMehaGBcbj9snPwEvfINLXrLPngMof0F
-	 VRqqjVF89lA4UP23RzW/eAI7DbuS+c1SvYW61K+SB4BKopyD6uOS/C47lPPkV3Z+4a
-	 8q2hOIexb5wtg==
+	bh=SEWjTVgTPTyI58PpxkWEaIBkTnLO24vi9jcL4Xx4sSY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=l/4062ZgM+t3GawVXiU97kma1PUlFyK8l5G/JHh9RQdFExWAxwyFiYtOOOdKqdqSC
+	 he7B4QZgPqbEdMG730zNaRkbTa0Q5GmNXY2AtVfgRlnjlu1UYRrT7JhSDC7GwLET0a
+	 zc2Ift4Cf0xtNheo3QJr5y3TBhzSs4+Ps69llN8Is9FJ5NPfxTml+wFIL2jlcKmEqQ
+	 16BB/34Vz6YBh8qOmCTRiRI7tWxu/WWs3Z0UrwDo1ForECDwdx2BHEtkg5GuX53ib8
+	 QfSWPWLDJAYEyRHBTiYD2pCUYCXT34Y8T7GQ206IS4NnMEZQ5O9ockliGUC8GEc3vY
+	 115o1g7XcS01w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGdU-0hxP;
+	id 1uyr4h-0000000CGdB-08RW;
 	Wed, 17 Sep 2025 14:15:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 05/24] tools/docs: check-variable-fonts.py: split into a lib and an exec file
-Date: Wed, 17 Sep 2025 14:14:59 +0200
-Message-ID: <1905cdc59d36213c6e0ab8c5e2a3b02250e8053f.1758111077.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Alex Shi <mchehab+huawei@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <mchehab+huawei@kernel.org>,
+	Benno Lossin <mchehab+huawei@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Danilo Krummrich <mchehab+huawei@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Gary Guo <gary@garyguo.net>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <mchehab+huawei@kernel.org>,
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Nathan Chancellor <mchehab+huawei@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v7 00/24] Split sphinx call logic from docs Makefile
+Date: Wed, 17 Sep 2025 14:14:54 +0200
+Message-ID: <cover.1758111077.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
-References: <cover.1758111077.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As we'll be using the actual code inside sphinx-build-wrapper,
-split the library from the executable, placing the exec at
-the new place we've been using:
+Hi Jon,
 
-	tools/docs
+This series should probably be called:
 
-No functional changes.
+    "Move the trick-or-treat build hacks accumulated over time
+     into a single place and document them."
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+as this reflects its main goal. As such:
+
+- it places the jobserver logic on a library;
+- it removes sphinx/parallel-wrapper.sh;
+- the code now properly implements a jobserver-aware logic
+  to do the parallelism when called via GNU make, failing back to
+  "-j" when there's  no jobserver;
+- converts check-variable-fonts.sh to Python and uses it via
+  function call;
+- drops an extra script to generate man pages, adding a makefile
+  target for it;
+- ensures that return code is 0 when PDF successfully builds;
+- about half of the script is comments and documentation.
+
+I tried to do my best to document all tricks that are inside the
+script. This way, the docs build steps is now documented.
+
+It should be noticed that it is out of the scope of this series
+to change the implementation. Surely the process can be improved,
+but first let's consolidate and document everything on a single
+place.
+
+Such script was written in a way that it can be called either
+directly or via a Makefile. Running outside Makefile is
+interesting specially when debug is needed. The command line
+interface replaces the need of having lots of env vars before
+calling sphinx-build:
+
+    $ ./tools/docs/sphinx-build-wrapper --help
+    usage: sphinx-build-wrapper [-h]
+           [--sphinxdirs SPHINXDIRS [SPHINXDIRS ...]] [--conf CONF]
+           [--builddir BUILDDIR] [--theme THEME] [--css CSS] [--paper {,a4,letter}] [-v]
+           [-j JOBS] [-i] [-V [VENV]]
+           {cleandocs,linkcheckdocs,htmldocs,epubdocs,texinfodocs,infodocs,mandocs,latexdocs,pdfdocs,xmldocs}
+
+    Kernel documentation builder
+
+    positional arguments:
+      {cleandocs,linkcheckdocs,htmldocs,epubdocs,texinfodocs,infodocs,mandocs,latexdocs,pdfdocs,xmldocs}
+                            Documentation target to build
+
+    options:
+      -h, --help            show this help message and exit
+      --sphinxdirs SPHINXDIRS [SPHINXDIRS ...]
+                            Specific directories to build
+      --conf CONF           Sphinx configuration file
+      --builddir BUILDDIR   Sphinx configuration file
+      --theme THEME         Sphinx theme to use
+      --css CSS             Custom CSS file for HTML/EPUB
+      --paper {,a4,letter}  Paper size for LaTeX/PDF output
+      -v, --verbose         place build in verbose mode
+      -j, --jobs JOBS       Sets number of jobs to use with sphinx-build
+      -i, --interactive     Change latex default to run in interactive mode
+      -V, --venv [VENV]     If used, run Sphinx from a venv dir (default dir: sphinx_latest)
+
+the only mandatory argument is the target, which is identical with
+"make" targets.
+
+The call inside Makefile doesn't use the last four arguments. They're
+there to help identifying problems at the build:
+
+    -v makes the output verbose;
+    -j helps to test parallelism;
+    -i runs latexmk in interactive mode, allowing to debug PDF
+       build issues;
+    -V is useful when testing it with different venvs.
+
+When used with GNU make (or some other make which implements jobserver),
+a call like:
+
+    make -j <targets> htmldocs
+
+will make the wrapper to automatically use POSIX jobserver to claim 
+the number of available job slots, calling sphinx-build with a
+"-j" parameter reflecting it. ON such case, the default can be
+overriden via SPHINXDIRS argument.
+
+Visiable changes when compared with the old behavior:
+
+When V=0, the only visible difference is that:
+- pdfdocs target now returns 0 on success, 1 on failures.
+  This addresses an issue over the current process where we
+  it always return success even on failures;
+- it will now print the name of PDF files that failed to build,
+  if any.
+
+In verbose mode, sphinx-build-wrapper and sphinx-build command lines
+are now displayed.
+
 ---
- Documentation/Makefile             |   2 +-
- MAINTAINERS                        |   1 -
- scripts/check-variable-fonts.py    | 165 -----------------------------
- tools/docs/check-variable-fonts.py |  23 ++++
- tools/docs/lib/latex_fonts.py      | 162 ++++++++++++++++++++++++++++
- 5 files changed, 186 insertions(+), 167 deletions(-)
- delete mode 100755 scripts/check-variable-fonts.py
+
+v7:
+- added a --help option to ./tools/docs/check-variable-fonts.py;
+- document FONTS_CONF_DENY_VF=;
+- moved the python_version changes to be earlier in the series,
+  before moving it to a separate library, as suggested by Jani;
+- added a --rustdoc to the wrapper, cleaning up Makefile
+  even further;
+- solved some problems related to DENY_VF logic.
+
+v6:
+- On success, PDF output is identical as before when V=0;
+- when V=1 is used, PDF output will print a build summary,
+  as on v5;
+- solved a problem when multiple PDF files have the same
+  basename but are located on different directories;
+- merged a patch series converting check-variable-fonts.sh
+  to Python. Its logic is now called directly without running
+  a subprocess.
+- venv patch moved to the end.
+
+v5:
+- merged comments with the script;
+- placed n_jobs on a separate function;
+- nitpick: dropped a for loop used instead of list append.
+
+v4:
+- updated references for sphinx-pre-install after its rename;
+- added some extra patches to add more options to python_version,
+  allowing it to bail out and suggest alternatives;
+- added a patch at the end to explicitly break doc builds when
+  python3 points to python3.6 or older.
+
+v3:
+- rebased on the top of docs-next;
+- added two patches to build man files that were on a separate
+  patch series.
+
+v2:
+- there's no generic exception handler anymore;
+- it moves sphinx-pre-install to tools/docs;
+- the logic which ensures a minimal Python version got moved
+  to a library, which is now used by both pre-install and wrapper;
+- The first wrapper (05/13) doesn't contain comments (except for
+  shebang and SPDX). The goal is to help showing the size increase
+  when moving from Makefile to Python. Some file increase is
+  unavoidable, as Makefile is more compact: no includes, multple
+  statements per line, no argparse, etc;
+- The second patch adds docstrings and comments. It has almost
+  the same size of the code itself;
+- I moved the venv logic to a third wrapper patch;
+- I fixed an issue at the paraller build logic;
+- There are no generic except blocks anymore.
+
+Mauro Carvalho Chehab (24):
+  scripts/jobserver-exec: move the code to a class
+  scripts/jobserver-exec: move its class to the lib directory
+  scripts/jobserver-exec: add a help message
+  scripts: check-variable-fonts.sh: convert to Python
+  tools/docs: check-variable-fonts.py: split into a lib and an exec file
+  check-variable-fonts.py: add a helper to display instructions
+  scripts: sphinx-pre-install: move it to tools/docs
+  tools/docs: sphinx-pre-install: drop a debug print
+  tools/docs: sphinx-pre-install: allow check for alternatives and bail
+    out
+  tools/docs: python_version: move version check from sphinx-pre-install
+  tools/docs: sphinx-build-wrapper: add a wrapper for sphinx-build
+  docs: parallel-wrapper.sh: remove script
+  docs: Makefile: document latex/PDF PAPER= parameter
+  docs: Makefile: document FONTS_CONF_DENY_VF= parameter
+  tools/docs: sphinx-build-wrapper: add an argument for LaTeX
+    interactive mode
+  tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
+  tools/docs,scripts: sphinx-*: prevent sphinx-build crashes
+  tools/docs: sphinx-build-wrapper: Fix output for duplicated names
+  docs: add support to build manpages from kerneldoc output
+  tools: kernel-doc: add a see also section at man pages
+  scripts: kdoc_parser.py: warn about Python version only once
+  tools/docs: sphinx-build-wrapper: move rust doc builder to wrapper
+  tools/docs: sphinx-* break documentation bulds on openSUSE
+  tools/docs: sphinx-build-wrapper: add support to run inside venv
+
+ Documentation/Makefile                        | 144 +---
+ Documentation/doc-guide/kernel-doc.rst        |  29 +-
+ Documentation/doc-guide/sphinx.rst            |   4 +-
+ Documentation/sphinx/kerneldoc-preamble.sty   |   2 +-
+ Documentation/sphinx/parallel-wrapper.sh      |  33 -
+ .../translations/it_IT/doc-guide/sphinx.rst   |   4 +-
+ .../translations/zh_CN/doc-guide/sphinx.rst   |   4 +-
+ Documentation/translations/zh_CN/how-to.rst   |   2 +-
+ MAINTAINERS                                   |   4 +-
+ Makefile                                      |   2 +-
+ scripts/check-variable-fonts.sh               | 115 ---
+ scripts/jobserver-exec                        |  88 +-
+ scripts/lib/jobserver.py                      | 149 ++++
+ scripts/lib/kdoc/kdoc_files.py                |   5 +-
+ scripts/lib/kdoc/kdoc_output.py               |  84 +-
+ scripts/lib/kdoc/kdoc_parser.py               |   7 +-
+ scripts/split-man.pl                          |  28 -
+ tools/docs/check-variable-fonts.py            |  30 +
+ tools/docs/lib/latex_fonts.py                 | 166 ++++
+ tools/docs/lib/python_version.py              | 178 ++++
+ tools/docs/sphinx-build-wrapper               | 816 ++++++++++++++++++
+ {scripts => tools/docs}/sphinx-pre-install    | 135 +--
+ 22 files changed, 1536 insertions(+), 493 deletions(-)
+ delete mode 100644 Documentation/sphinx/parallel-wrapper.sh
+ delete mode 100755 scripts/check-variable-fonts.sh
+ create mode 100755 scripts/lib/jobserver.py
+ delete mode 100755 scripts/split-man.pl
  create mode 100755 tools/docs/check-variable-fonts.py
  create mode 100755 tools/docs/lib/latex_fonts.py
+ create mode 100644 tools/docs/lib/python_version.py
+ create mode 100755 tools/docs/sphinx-build-wrapper
+ rename {scripts => tools/docs}/sphinx-pre-install (93%)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index d5e436435eab..6e11d0593742 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -146,7 +146,7 @@ pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
- pdfdocs: latexdocs
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	$(foreach var,$(SPHINXDIRS), \
--	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/scripts/check-variable-fonts.py || exit; \
-+	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/tools/docs/check-variable-fonts.py || exit; \
- 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
- 	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
- 	)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 88d8f7435e6d..76dd823bfcc4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7301,7 +7301,6 @@ S:	Maintained
- P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
--F:	scripts/check-variable-fonts.py
- F:	scripts/checktransupdate.py
- F:	scripts/documentation-file-ref-check
- F:	scripts/get_abi.py
-diff --git a/scripts/check-variable-fonts.py b/scripts/check-variable-fonts.py
-deleted file mode 100755
-index 71b88b680a73..000000000000
---- a/scripts/check-variable-fonts.py
-+++ /dev/null
-@@ -1,165 +0,0 @@
--#!/usr/bin/env python3
--# SPDX-License-Identifier: GPL-2.0-only
--# Copyright (C) Akira Yokosawa, 2024
--#
--# Ported to Python by (c) Mauro Carvalho Chehab, 2025
--#
--# For "make pdfdocs", reports of build errors of translations.pdf started
--# arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
--# tumbleweed have started deploying variable-font [3] format of "Noto CJK"
--# fonts [4, 5].  For PDF, a LaTeX package named xeCJK is used for CJK
--# (Chinese, Japanese, Korean) pages.  xeCJK requires XeLaTeX/XeTeX, which
--# does not (and likely never will) understand variable fonts for historical
--# reasons.
--#
--# The build error happens even when both of variable- and non-variable-format
--# fonts are found on the build system.  To make matters worse, Fedora enlists
--# variable "Noto CJK" fonts in the requirements of langpacks-ja, -ko, -zh_CN,
--# -zh_TW, etc.  Hence developers who have interest in CJK pages are more
--# likely to encounter the build errors.
--#
--# This script is invoked from the error path of "make pdfdocs" and emits
--# suggestions if variable-font files of "Noto CJK" fonts are in the list of
--# fonts accessible from XeTeX.
--#
--# References:
--# [1]: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
--# [2]: https://lore.kernel.org/r/1708585803.600323099@f111.i.mail.ru/
--# [3]: https://en.wikipedia.org/wiki/Variable_font
--# [4]: https://fedoraproject.org/wiki/Changes/Noto_CJK_Variable_Fonts
--# [5]: https://build.opensuse.org/request/show/1157217
--#
--#===========================================================================
--# Workarounds for building translations.pdf
--#===========================================================================
--#
--# * Denylist "variable font" Noto CJK fonts.
--#   - Create $HOME/deny-vf/fontconfig/fonts.conf from template below, with
--#     tweaks if necessary.  Remove leading "# ".
--#   - Path of fontconfig/fonts.conf can be overridden by setting an env
--#     variable FONTS_CONF_DENY_VF.
--#
--#     * Template:
--# -----------------------------------------------------------------
--# <?xml version="1.0"?>
--# <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
--# <fontconfig>
--# <!--
--#   Ignore variable-font glob (not to break xetex)
--# -->
--#     <selectfont>
--#         <rejectfont>
--#             <!--
--#                 for Fedora
--#             -->
--#             <glob>/usr/share/fonts/google-noto-*-cjk-vf-fonts</glob>
--#             <!--
--#                 for openSUSE tumbleweed
--#             -->
--#             <glob>/usr/share/fonts/truetype/Noto*CJK*-VF.otf</glob>
--#         </rejectfont>
--#     </selectfont>
--# </fontconfig>
--# -----------------------------------------------------------------
--#
--#     The denylisting is activated for "make pdfdocs".
--#
--# * For skipping CJK pages in PDF
--#   - Uninstall texlive-xecjk.
--#     Denylisting is not needed in this case.
--#
--# * For printing CJK pages in PDF
--#   - Need non-variable "Noto CJK" fonts.
--#     * Fedora
--#       - google-noto-sans-cjk-fonts
--#       - google-noto-serif-cjk-fonts
--#     * openSUSE tumbleweed
--#       - Non-variable "Noto CJK" fonts are not available as distro packages
--#         as of April, 2024.  Fetch a set of font files from upstream Noto
--#         CJK Font released at:
--#           https://github.com/notofonts/noto-cjk/tree/main/Sans#super-otc
--#         and at:
--#           https://github.com/notofonts/noto-cjk/tree/main/Serif#super-otc
--#         , then uncompress and deploy them.
--#       - Remember to update fontconfig cache by running fc-cache.
--#
--# !!! Caution !!!
--#     Uninstalling "variable font" packages can be dangerous.
--#     They might be depended upon by other packages important for your work.
--#     Denylisting should be less invasive, as it is effective only while
--#     XeLaTeX runs in "make pdfdocs".
--
--import os
--import re
--import subprocess
--import sys
--import textwrap
--
--class LatexFontChecker:
--    """
--    Detect problems with CJK variable fonts that affect PDF builds for
--    translations.
--    """
--
--    def __init__(self):
--        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
--
--        self.environ = os.environ.copy()
--        self.environ['XDG_CONFIG_HOMEF'] = os.path.expanduser(deny_vf)
--
--        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
--
--    def get_noto_cjk_vf_fonts(self):
--        """Get Noto CJK fonts"""
--
--        cjk_fonts = set()
--        cmd = ["fc-list", ":", "file", "family", "variable"]
--        try:
--            result = subprocess.run(cmd,stdout=subprocess.PIPE,
--                                    stderr=subprocess.PIPE,
--                                    universal_newlines=True,
--                                    env=self.environ,
--                                    check=True)
--
--        except subprocess.CalledProcessError as exc:
--            sys.exit(f"Error running fc-list: {repr(exc)}")
--
--        for line in result.stdout.splitlines():
--            if 'variable=True' not in line:
--                continue
--
--            match = self.re_cjk.search(line)
--            if match:
--                cjk_fonts.add(match.group(1))
--
--        return sorted(cjk_fonts)
--
--    def check(self):
--        """Check for problems with CJK fonts"""
--
--        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
--        if not fonts:
--            return None
--
--        rel_file = os.path.relpath(__file__, os.getcwd())
--
--        msg = "=" * 77 + "\n"
--        msg += 'XeTeX is confused by "variable font" files listed below:\n'
--        msg += fonts + "\n"
--        msg += textwrap.dedent(f"""
--                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
--                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
--
--                For more info on denylisting, other options, and variable font, see header
--                comments of {rel_file}.
--            """)
--        msg += "=" * 77
--
--        return msg
--
--if __name__ == "__main__":
--    msg = LatexFontChecker().check()
--    if msg:
--        print(msg)
--
--    sys.exit(1)
-diff --git a/tools/docs/check-variable-fonts.py b/tools/docs/check-variable-fonts.py
-new file mode 100755
-index 000000000000..79b28f0f7d85
---- /dev/null
-+++ b/tools/docs/check-variable-fonts.py
-@@ -0,0 +1,23 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0-only
-+# Copyright (C) Akira Yokosawa, 2024
-+#
-+# Ported to Python by (c) Mauro Carvalho Chehab, 2025
-+#
-+# pylint: disable=C0103
-+
-+"""
-+Detect problematic Noto CJK variable fonts.
-+
-+or more details, see lib/latex_fonts.py.
-+"""
-+
-+import sys
-+
-+from lib.latex_fonts import LatexFontChecker
-+
-+msg = LatexFontChecker().check()
-+if msg:
-+    print(msg)
-+
-+sys.exit(1)
-diff --git a/tools/docs/lib/latex_fonts.py b/tools/docs/lib/latex_fonts.py
-new file mode 100755
-index 000000000000..e03412e3947e
---- /dev/null
-+++ b/tools/docs/lib/latex_fonts.py
-@@ -0,0 +1,162 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0-only
-+# Copyright (C) Akira Yokosawa, 2024
-+#
-+# Ported to Python by (c) Mauro Carvalho Chehab, 2025
-+
-+"""
-+Detect problematic Noto CJK variable fonts.
-+
-+For "make pdfdocs", reports of build errors of translations.pdf started
-+arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
-+tumbleweed have started deploying variable-font [3] format of "Noto CJK"
-+fonts [4, 5].  For PDF, a LaTeX package named xeCJK is used for CJK
-+(Chinese, Japanese, Korean) pages.  xeCJK requires XeLaTeX/XeTeX, which
-+does not (and likely never will) understand variable fonts for historical
-+reasons.
-+
-+The build error happens even when both of variable- and non-variable-format
-+fonts are found on the build system.  To make matters worse, Fedora enlists
-+variable "Noto CJK" fonts in the requirements of langpacks-ja, -ko, -zh_CN,
-+-zh_TW, etc.  Hence developers who have interest in CJK pages are more
-+likely to encounter the build errors.
-+
-+This script is invoked from the error path of "make pdfdocs" and emits
-+suggestions if variable-font files of "Noto CJK" fonts are in the list of
-+fonts accessible from XeTeX.
-+
-+References:
-+[1]: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
-+[2]: https://lore.kernel.org/r/1708585803.600323099@f111.i.mail.ru/
-+[3]: https://en.wikipedia.org/wiki/Variable_font
-+[4]: https://fedoraproject.org/wiki/Changes/Noto_CJK_Variable_Fonts
-+[5]: https://build.opensuse.org/request/show/1157217
-+
-+#===========================================================================
-+Workarounds for building translations.pdf
-+#===========================================================================
-+
-+* Denylist "variable font" Noto CJK fonts.
-+  - Create $HOME/deny-vf/fontconfig/fonts.conf from template below, with
-+    tweaks if necessary.  Remove leading "".
-+  - Path of fontconfig/fonts.conf can be overridden by setting an env
-+    variable FONTS_CONF_DENY_VF.
-+
-+    * Template:
-+-----------------------------------------------------------------
-+<?xml version="1.0"?>
-+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-+<fontconfig>
-+<!--
-+  Ignore variable-font glob (not to break xetex)
-+-->
-+    <selectfont>
-+        <rejectfont>
-+            <!--
-+                for Fedora
-+            -->
-+            <glob>/usr/share/fonts/google-noto-*-cjk-vf-fonts</glob>
-+            <!--
-+                for openSUSE tumbleweed
-+            -->
-+            <glob>/usr/share/fonts/truetype/Noto*CJK*-VF.otf</glob>
-+        </rejectfont>
-+    </selectfont>
-+</fontconfig>
-+-----------------------------------------------------------------
-+
-+    The denylisting is activated for "make pdfdocs".
-+
-+* For skipping CJK pages in PDF
-+  - Uninstall texlive-xecjk.
-+    Denylisting is not needed in this case.
-+
-+* For printing CJK pages in PDF
-+  - Need non-variable "Noto CJK" fonts.
-+    * Fedora
-+      - google-noto-sans-cjk-fonts
-+      - google-noto-serif-cjk-fonts
-+    * openSUSE tumbleweed
-+      - Non-variable "Noto CJK" fonts are not available as distro packages
-+        as of April, 2024.  Fetch a set of font files from upstream Noto
-+        CJK Font released at:
-+          https://github.com/notofonts/noto-cjk/tree/main/Sans#super-otc
-+        and at:
-+          https://github.com/notofonts/noto-cjk/tree/main/Serif#super-otc
-+        , then uncompress and deploy them.
-+      - Remember to update fontconfig cache by running fc-cache.
-+
-+!!! Caution !!!
-+    Uninstalling "variable font" packages can be dangerous.
-+    They might be depended upon by other packages important for your work.
-+    Denylisting should be less invasive, as it is effective only while
-+    XeLaTeX runs in "make pdfdocs".
-+"""
-+
-+import os
-+import re
-+import subprocess
-+import textwrap
-+import sys
-+
-+class LatexFontChecker:
-+    """
-+    Detect problems with CJK variable fonts that affect PDF builds for
-+    translations.
-+    """
-+
-+    def __init__(self):
-+        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
-+
-+        self.environ = os.environ.copy()
-+        self.environ['XDG_CONFIG_HOMEF'] = os.path.expanduser(deny_vf)
-+
-+        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
-+
-+    def get_noto_cjk_vf_fonts(self):
-+        """Get Noto CJK fonts"""
-+
-+        cjk_fonts = set()
-+        cmd = ["fc-list", ":", "file", "family", "variable"]
-+        try:
-+            result = subprocess.run(cmd,stdout=subprocess.PIPE,
-+                                    stderr=subprocess.PIPE,
-+                                    universal_newlines=True,
-+                                    env=self.environ,
-+                                    check=True)
-+
-+        except subprocess.CalledProcessError as exc:
-+            sys.exit(f"Error running fc-list: {repr(exc)}")
-+
-+        for line in result.stdout.splitlines():
-+            if 'variable=True' not in line:
-+                continue
-+
-+            match = self.re_cjk.search(line)
-+            if match:
-+                cjk_fonts.add(match.group(1))
-+
-+        return sorted(cjk_fonts)
-+
-+    def check(self):
-+        """Check for problems with CJK fonts"""
-+
-+        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
-+        if not fonts:
-+            return None
-+
-+        rel_file = os.path.relpath(__file__, os.getcwd())
-+
-+        msg = "=" * 77 + "\n"
-+        msg += 'XeTeX is confused by "variable font" files listed below:\n'
-+        msg += fonts + "\n"
-+        msg += textwrap.dedent(f"""
-+                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
-+                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
-+
-+                For more info on denylisting, other options, and variable font, see header
-+                comments of {rel_file}.
-+            """)
-+        msg += "=" * 77
-+
-+        return msg
 -- 
 2.51.0
 
