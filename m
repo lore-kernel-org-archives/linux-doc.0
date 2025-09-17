@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF6D2E9EC3
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED5732E75D
+	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 14:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758120411; cv=none; b=kUPrOLGJjXMsAIT8o0uyK0pev2Uf0UiJenOAeiV/o3O6iTdzcF+jNZo9IsBBEAVWIsh+PmB0R5BCnsOseYY3UOD8FwTvLGKJ7tzNxqHsyJpe11DBRBLSc7RioryoedGV/GHB0d3RTl6Ot+Xr5Ex7mVBAegJ7SJn5SNG6+SLCrbs=
+	t=1758120774; cv=none; b=HehMvI7mjDt+3JMa0FFkgEhEpY1Z9RD1DFzDwqLI5OiwKRx9xK66w9Rj+zvq5hTWpfRL4+IvlwC4Nl71Kt24Rl0rPUraclBx2RwA8uKdaAZXG74Q7SKiaO/FbdovIlVY2T9Tf/SVsI0dTM3yjvGVsoxZCDm5t6WqArMzfdrEzn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758120411; c=relaxed/simple;
-	bh=2lwqeabpS4Qb/h6rApISah5NsygIIWv9QS8376+S61s=;
+	s=arc-20240116; t=1758120774; c=relaxed/simple;
+	bh=5epPT/yF5ySKt5yJiiDB0pyPwiJwOtudKK0nsTblkcQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=daIovojI/HSXuZa9dSiPzevLYROiatWqC+3uR33MoKo3e3QPNtg6biCGgXGaPvb0Z9ts9tM7OIQ9EbfNO8Nu74L4LWXsYoV5pPIOnj8EWitym480W2MrBNwv2RE4tYxeSzEpQFEiTX5/PBEScMtAWIWwn9PHoEMzUlVwgFZx2YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cuge4Jht; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=KjLiMs+3LsSnCMdMT0xcB82Oh48GazxkbXfhtQmAFR0QdSO6jxq+BLKQ0S7fHnJq2GTlMlwlKwUkkC6dw6NgV+AuV6yDaWmBrbW2hnC/Usw2bRcEnlWm+e7aP+MRoMPmZ53FD36TsgxM/VsGoRNcDYc/+SbnnbrocN+xAzphZtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S6Dkz3LX; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cuge4Jht"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S6Dkz3LX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758120408;
+	s=mimecast20190719; t=1758120770;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ovZ8mJqkmoqvvz8O8MVpBxVpu4t3oTHY8vOE+XFxYc0=;
-	b=Cuge4JhtO1yMWelYdt+JfqTqQcSpd0gMcxkhFRO2hm1DRasUVL/OET1QIu8ncbRtKWnjz5
-	nBWrzMIt1kt6tOWZD8pr5M2JPp4LHOt4wgZFEqT4hKsECb4ClawkyfiLQz1DsZPxiCkcFE
-	EF/ZqVvR8JncI4HjdxbF2PQai+BB6rc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=gDs3CUgjimStalCZ6Y06kSWDcmRW5MkZeDVBa3itpks=;
+	b=S6Dkz3LXgmThNV1KGKLbxrk8dDCTr/qYg30mv9vyF3qAZhCYeqcQExUSqaFyszHisV5rAN
+	76gOws2XJXaTQG3daBAMlMzHJfO3NXGCCMp+S4b5f+VS8U3pJO1SBhNM8S0kj2IkQqJjNl
+	CGci2eNzc5W8i3OO1Izzu28xKjcC468=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-637-cPiw2Nz9NCOzLhP7WH_NCg-1; Wed, 17 Sep 2025 10:46:47 -0400
-X-MC-Unique: cPiw2Nz9NCOzLhP7WH_NCg-1
-X-Mimecast-MFC-AGG-ID: cPiw2Nz9NCOzLhP7WH_NCg_1758120406
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b990eb77cso8086465e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 07:46:46 -0700 (PDT)
+ us-mta-280-1myvTVv3PP2T-_dCFfy7-Q-1; Wed, 17 Sep 2025 10:52:49 -0400
+X-MC-Unique: 1myvTVv3PP2T-_dCFfy7-Q-1
+X-Mimecast-MFC-AGG-ID: 1myvTVv3PP2T-_dCFfy7-Q_1758120768
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3eb8e43d556so443549f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 07:52:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758120406; x=1758725206;
+        d=1e100.net; s=20230601; t=1758120767; x=1758725567;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ovZ8mJqkmoqvvz8O8MVpBxVpu4t3oTHY8vOE+XFxYc0=;
-        b=M6ZG9eqNd1rbIeVW9Quh7N0SQ2rbKqyPfASgLO2d+3NdpV/V7Q/SqyZSxHwAF4QC5h
-         v9YrEkt8LeIiXz35yFGpq+o9FlHa1YmTG9XbMi86lHwrqpgEhoehqOVdnfgzwWQACgSw
-         2comvutZV3LWHRJIcuNF+qpDJIyhvx3S5hE1a/xWifU273stE8P5ysAMoOX6egGcPr2l
-         ekCmrhwReH4kV1LA601qk47hCijeO+dJdmuagUGkJ7iX4NGgrh/U3CPZQE+MNVeYIH8V
-         30NBxk61lkbiEC+BcaCG6pUTj/NwOWrr48Zre0+giLisM1093pUfe7Jy+eoJ2sB78HmY
-         8w3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVXOZTPL7p8rl+NCFguLYGBClHmvTvs8barWb8m55J4s+Z4Ueb2D8jDaTZIZmHqM/s/hXmDOKAp6jY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0ipj+7VB98vmj1WWNymiWedByh2Rszu23ppwTpo+pec/UKyvd
-	TUL2j1kw4UqruOGynOlR3yh4diT/9CzwUCy3Uewbkh3u6w6ZOGWbcqlyZKrpesALaQkkcYlu6ZA
-	04QZgrSvwlN1UmaDOxOSQciZwl+8ARFxPe+TDJT0QZtB5pmjaql9bN1AeEPYJsQ==
-X-Gm-Gg: ASbGncsJNCrT/h7XFHHpJTaoIHIlsJ0IWy+T4mxkyNcyF22RC5uwy40T2CakITyNHcm
-	btrwE9eYbsFfyN9CPvkOYAL1KPyKM1VGDfJHIYKMHnkFFdCdujAJGBwqjqcUXwYyfl+zBNxRZPl
-	rrsNGkRBpFhwMctEYBa7s6jikYgEy8408+8jyDlVKHCq2fG7/K4gsZs7oR3r/+nfqGasNJ1GFXB
-	0Y4drPHBJuAqzmi8nii3PPLtJW+YPmJ3fpa7HXfC/P/VJq1NAmgf4EK1/agcX4TW/QZ+hOkPqBm
-	K5VHikkjWJQ2L1TxOKix8Fqm2LlfBPQ8ugC2g5du/ejoq17zqVkpeE4a623Lhpls8bZU1WEUi5r
-	nZBdddO04coZgPB0Rh9O4j2Ee+FUXrekuLGcifXmMhTiNul7nqp0t5LI5rnohF1Fx
-X-Received: by 2002:a05:600c:4888:b0:459:d577:bd24 with SMTP id 5b1f17b1804b1-45f32d0869fmr46709565e9.7.1758120405796;
-        Wed, 17 Sep 2025 07:46:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG/Ufl1M6AshTZE+vFOVXEwIa1YoUqQ1InS/YuHHadh0wrsGDimF+1HMnmk4PGp9MwHqliWqQ==
-X-Received: by 2002:a05:600c:4888:b0:459:d577:bd24 with SMTP id 5b1f17b1804b1-45f32d0869fmr46709295e9.7.1758120405326;
-        Wed, 17 Sep 2025 07:46:45 -0700 (PDT)
+        bh=gDs3CUgjimStalCZ6Y06kSWDcmRW5MkZeDVBa3itpks=;
+        b=VXnWhe708VXnmjqiVOjkvgR1tTROvjt36+095htPR7wgs1MLRQtlXDzeeMPDWjGUbP
+         wYgC/cq6mBTNt6oVMtlsByKQ5/snkZIp4wXjCTRMWskcSApDaXPUU1rJafOcAgkQUrKr
+         pbR9HCCSUXoQwvulkoIp3aNcBM+HHa4nVugiKdLKyNs1hTADeq65lPMiaLkpWWqVCfiw
+         9INCjkSQGd4lfcCIoFjuPjlFz7eXrU1Jf15nrCunaPkYQnlbmiz3JREvQEmFkYaAtfin
+         c45Y7lHgVV9IrwqQeE7QOR9LI97Nw4ko98X2tWfFcSn/vEatyHFdZf48C1qkxsL6TH/v
+         zm/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVgzMF8Lp806qLt0jGz5VwWd6oG1nZ/5Njt7pYjbKPgefVnD7cUMhPya+frwwpez+W1vX/1G5wneSI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS//EKpaRUG/fo0lTqS5OJOC5upflqBuQhiiVfibu/Kk650ixD
+	ihFWR1ZfzMm0vx6wXuC9t9SIZSq9e61T78WBvB2h3QPuFid5IOJviqNn0o/+QatQDJKWUQXO0E9
+	TcjPID/NMKLr9jIyUbNa+jhxWFVIGq3awsuc/2o+N5jwk4sgRkwLXxVhxb0UOPQ==
+X-Gm-Gg: ASbGncsNJthPQLp9/rXuxZRrc3G77tmP/WMsV7xqvwMPOO40zMcInFf4iW9sV+9G+4h
+	vUEW0YpVSwtVONRw0iZ8VwyurPsEvIXLCWDHgwr7MTu1iwi+sIlDYmGjFuIEjDBRemDQBLOVYGd
+	9BMjEGCMO7saBHADaZacYXojoLDNgUmAifpR7U1RIW9noEWJyEtkLx4ZfpqlyU4Anwjb+4Xu2Cy
+	2ytczjl4qsVZCUJKY9s+DmQoeZsn4e/Jx0hVkjD/j+P8gug4qc3WFGYtix3PrZY32xUm7OZwzzn
+	zNd3ab0vGXP36pvM02Q2LBgsPB04n/l+QA2p+KcwMOxymLQRxqwQheTLLapa0anXgEf5yXq9uQL
+	W+fgGnNZgeHg07vW9gtZTTvTDQKDe7l7i7dN7F2o7VD6v/tepV4mE0FrcDxfi8O/k
+X-Received: by 2002:a5d:584d:0:b0:3ea:d634:1493 with SMTP id ffacd0b85a97d-3ec9d70e1aemr6331365f8f.3.1758120767165;
+        Wed, 17 Sep 2025 07:52:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCVwA2whdJvJ6k0SNSXVgRVBCXXeS7K5H+4SZxMmaPtCI7Uv2obWcxbuvE8IbcU5jjC+Gugg==
+X-Received: by 2002:a5d:584d:0:b0:3ea:d634:1493 with SMTP id ffacd0b85a97d-3ec9d70e1aemr6331269f8f.3.1758120766367;
+        Wed, 17 Sep 2025 07:52:46 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f325a32f6sm40132415e9.2.2025.09.17.07.46.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4613f3c69d5sm39701795e9.24.2025.09.17.07.52.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 07:46:44 -0700 (PDT)
-Message-ID: <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
-Date: Wed, 17 Sep 2025 16:46:43 +0200
+        Wed, 17 Sep 2025 07:52:45 -0700 (PDT)
+Message-ID: <e30627e5-f30f-4494-934c-58e4a427a476@redhat.com>
+Date: Wed, 17 Sep 2025 16:52:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,19 +75,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Thomas Gleixner <tglx@linutronix.de>,
- Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
+Subject: Re: [PATCH v6 01/11] filemap: Pass address_space mapping to
+ ->free_folio()
+To: Hugh Dickins <hughd@google.com>, "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "Thomson, Jack" <jackabt@amazon.co.uk>,
+ "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+ "Cali, Marco" <xmarcalx@amazon.co.uk>,
+ "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
+ Elliot Berman <quic_eberman@quicinc.com>,
+ "willy@infradead.org" <willy@infradead.org>, "corbet@lwn.net"
+ <corbet@lwn.net>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "maz@kernel.org" <maz@kernel.org>,
+ "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>,
+ "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+ "kernel@xen0n.name" <kernel@xen0n.name>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "alex@ghiti.fr" <alex@ghiti.fr>,
+ "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+ "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
+ "hca@linux.ibm.com" <hca@linux.ibm.com>,
+ "gor@linux.ibm.com" <gor@linux.ibm.com>,
+ "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
+ "svens@linux.ibm.com" <svens@linux.ibm.com>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "trondmy@kernel.org" <trondmy@kernel.org>, "anna@kernel.org"
+ <anna@kernel.org>, "hubcap@omnibond.com" <hubcap@omnibond.com>,
+ "martin@omnibond.com" <martin@omnibond.com>,
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+ "brauner@kernel.org" <brauner@kernel.org>, "jack@suse.cz" <jack@suse.cz>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+ "surenb@google.com" <surenb@google.com>, "mhocko@suse.com"
+ <mhocko@suse.com>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "andrii@kernel.org" <andrii@kernel.org>,
+ "martin.lau@linux.dev" <martin.lau@linux.dev>,
+ "eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org"
+ <song@kernel.org>, "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+ "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+ <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
+ "jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
+ <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+ "axelrasmussen@google.com" <axelrasmussen@google.com>,
+ "yuanchu@google.com" <yuanchu@google.com>,
+ "weixugc@google.com" <weixugc@google.com>,
+ "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+ "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+ "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
+ "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+ "devel@lists.orangefs.org" <devel@lists.orangefs.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+References: <20250912091708.17502-1-roypat@amazon.co.uk>
+ <20250912091708.17502-2-roypat@amazon.co.uk>
+ <7c2677e1-daf7-3b49-0a04-1efdf451379a@google.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -134,106 +205,113 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <87v7lh891c.ffs@tglx>
+In-Reply-To: <7c2677e1-daf7-3b49-0a04-1efdf451379a@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17.09.25 16:10, Thomas Gleixner wrote:
-> On Wed, Sep 17 2025 at 09:16, David Hildenbrand wrote:
->> On 17.09.25 07:43, Eugen Hristev wrote:
->>> On 9/17/25 00:16, Thomas Gleixner wrote:
->>>> I pointed you to a solution for that and just because David does not
->>>> like it means that it's acceptable to fiddle in subsystems and expose
->>>> their carefully localized variables.
+On 16.09.25 08:23, Hugh Dickins wrote:
+> On Fri, 12 Sep 2025, Roy, Patrick wrote:
+> 
+>> From: Elliot Berman <quic_eberman@quicinc.com>
 >>
->> It would have been great if we could have had that discussion in the
->> previous thread.
-> 
-> Sorry. I was busy with other stuff and did not pay attention to that
-> discussion.
-
-I understand, I'm busy with too much stuff such that sometimes it might 
-be good to interrupt me earlier: "David, nooo, you're all wrong"
-
-> 
->> Some other subsystem wants to have access to this information. I agree
->> that exposing these variables as r/w globally is not ideal.
-> 
-> It's a nono in this case. We had bugs (long ago) where people fiddled
-> with this stuff (I assume accidentally for my mental sanity sake) and
-> caused really nasty to debug issues. C is a horrible language to
-> encapsulate stuff properly as we all know.
-
-Yeah, there is this ACCESS_PRIVATE stuff but it only works with structs 
-and relies on sparse IIRC.
-
-> 
->> I raised the alternative of exposing areas or other information through
->> simple helper functions that kmemdump can just use to compose whatever
->> it needs to compose.
+>> When guest_memfd removes memory from the host kernel's direct map,
+>> direct map entries must be restored before the memory is freed again. To
+>> do so, ->free_folio() needs to know whether a gmem folio was direct map
+>> removed in the first place though. While possible to keep track of this
+>> information on each individual folio (e.g. via page flags), direct map
+>> removal is an all-or-nothing property of the entire guest_memfd, so it
+>> is less error prone to just check the flag stored in the gmem inode's
+>> private data.  However, by the time ->free_folio() is called,
+>> folio->mapping might be cleared. To still allow access to the address
+>> space from which the folio was just removed, pass it in as an additional
+>> argument to ->free_folio, as the mapping is well-known to all callers.
 >>
->> Do we really need that .section thingy?
+>> Link: https://lore.kernel.org/all/15f665b4-2d33-41ca-ac50-fafe24ade32f@redhat.com/
+>> Suggested-by: David Hildenbrand <david@redhat.com>
+>> Acked-by: David Hildenbrand <david@redhat.com>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>> [patrick: rewrite shortlog for new usecase]
+>> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+>> ---
+>>   Documentation/filesystems/locking.rst |  2 +-
+>>   fs/nfs/dir.c                          | 11 ++++++-----
+>>   fs/orangefs/inode.c                   |  3 ++-
+>>   include/linux/fs.h                    |  2 +-
+>>   mm/filemap.c                          |  9 +++++----
+>>   mm/secretmem.c                        |  3 ++-
+>>   mm/vmscan.c                           |  4 ++--
+>>   virt/kvm/guest_memfd.c                |  3 ++-
+>>   8 files changed, 21 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
+>> index aa287ccdac2f..74c97287ec40 100644
+>> --- a/Documentation/filesystems/locking.rst
+>> +++ b/Documentation/filesystems/locking.rst
+>> @@ -262,7 +262,7 @@ prototypes::
+>>   	sector_t (*bmap)(struct address_space *, sector_t);
+>>   	void (*invalidate_folio) (struct folio *, size_t start, size_t len);
+>>   	bool (*release_folio)(struct folio *, gfp_t);
+>> -	void (*free_folio)(struct folio *);
+>> +	void (*free_folio)(struct address_space *, struct folio *);
+>>   	int (*direct_IO)(struct kiocb *, struct iov_iter *iter);
+>>   	int (*migrate_folio)(struct address_space *, struct folio *dst,
+>>   			struct folio *src, enum migrate_mode);
 > 
-> The section thing is simple and straight forward as it just puts the
-> annotated stuff into the section along with size and id and I definitely
-> find that more palatable, than sprinkling random functions all over the
-> place to register stuff.
+> Beware, that is against the intent of free_folio().
 > 
-> Sure, you can achieve the same thing with an accessor function. In case
-> of nr_irqs there is already one: irq_get_nr_irqs(), but for places which
+> Since its 2.6.37 origin in 6072d13c4293 ("Call the filesystem back
+> whenever a page is removed from the page cache"), freepage() or
+> free_folio() has intentionally NOT taken a struct address_space *mapping,
+> because that structure may already be freed by the time free_folio() is
+> called, if the last folio holding it has now been freed.
 
-Right, the challenge really is that we want the memory range covered by 
-that address, otherwise it would be easy.
-
-> do not expose the information already for real functional reasons adding
-> such helpers just for this coredump muck is really worse than having a
-> clearly descriptive and obvious annotation which results in the section
-> build.
-
-Yeah, I'm mostly unhappy about the "#include <linux/kmemdump.h>" stuff.
-
-Guess it would all feel less "kmemdump" specific if we would just have a 
-generic way to tag/describe certain physical memory areas and kmemdump 
-would simply make use of that.
-
-For example, wondering if it could come in handy to have an ordinary 
-vmcoreinfo header contain this information as well?
-
-Case in point, right now we do in crash_save_vmcoreinfo_init()
-
-	VMCOREINFO_SYMBOL_ARRAY(mem_section);
-	VMCOREINFO_LENGTH(mem_section, NR_SECTION_ROOTS);
-	VMCOREINFO_STRUCT_SIZE(mem_section);
-
-And in kmemdump code we do
-
-	kmemdump_register_id(KMEMDUMP_ID_COREIMAGE_mem_section,
-			     (void *)&mem_section, sizeof(mem_section));
-
-I guess both cases actually describe roughly the same information: An 
-area with a given name.
-
-Note 1: Wondering if sizeof(mem_section) is actually correct in the 
-kmemdump case
-
-Note 2: Wondering if kmemdump would also want the struct size, not just 
-the area length.
-
-(memblock alloc wrappers are a separate discussion)
+Thanks for noticing that Hugh, very good point!
 
 > 
-> The charm of sections is that they don't neither extra code nor stubs or
-> ifdeffery when a certain subsystem is disabled and therefore no
-> information available.
+> Maybe something has changed since then, or maybe it happens to be safe
+> just in the context in which you want to use it; but it is against the
+> principle of free_folio().  (Maybe an rcu_read_lock() could be added
+> in __remove_mapping() to make it safe nowadays? maybe not welcome.)
 
-Extra code is a very good point.
+Let me dig into the callers:
 
-> 
-> I'm not insisting on sections, but having a table of 2k instead of
-> hundred functions, stubs and whatever is definitely a win to me.
 
-So far it looks like it's not that many, but of course, the question 
-would be how it evolves.
+1) filemap_free_folio()
+
+filemap_free_folio() looks up the callback through 
+mapping->a_ops->free_folio. Nothing happens in-between that lookup and 
+the callback so we should be good.
+
+
+2) replace_page_cache_folio()
+
+replace_page_cache_folio() similarly looks up the callback through
+mapping->a_ops->free_folio. We do some operations afterwards, but 
+essentially store the new folio in the page cache and remove the old one.
+
+The only caller is fuse_try_move_folio(), and IIUC both folios are 
+locked, preventing concurrent truncation and the mapping going away.
+
+
+3) __remove_mapping()
+
+__remove_mapping() also looks up the callback through 
+mapping->a_ops->free_folio.
+
+Before we call free_folio() we remove the folio from the pagecache 
+(__filemap_remove_folio) to then drop locks and call free_folio().
+
+We're only holding the folio lock at that point.
+
+So yes I agree, truncate_inode_pages_final() could be racing with
+__remove_mapping().c That's probably exactly what the docs describe 
+regarding reclaim.
+
+
+rcu_read_lock() should indeed work, or some other mechanism that keeps 
+truncate_inode_pages_final() from succeeding in this racy situation.
+
+Alternatively I guess we would have to use another callback.
 
 -- 
 Cheers
