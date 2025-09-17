@@ -1,199 +1,305 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181C9263F34;
-	Wed, 17 Sep 2025 04:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCC5249F9;
+	Wed, 17 Sep 2025 04:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758081660; cv=none; b=DAMz1xOnEkEr7r5TAmL/UjXGGqULOswKKMYoVWIzL+e+uwHoGbHkfGdsYE53hzWHp04BMXvKIr12FfW9HGrerfa0SuZxVum3bVYNw/o9NW2F+GA/sdoo53LGZRPJgEBcMNACPHW1SH1w2b0JPEvtJ/4LmKpvvENeoF4WQ0emSao=
+	t=1758083100; cv=none; b=YNFl9iPC6cDalx8w2hpXo1C10Q9pvxGIbqeHbICO4qnA6dHe1G02isQk00C6csqz3cXNHrOju6Z3OE37gt4TsPJDvQHNEIJpV1Ng5dGQQgqGnM5Fp1+cEqDJLpcszUvqJHJAdakxJR41Y1jp4Unh/wGVIZfrkTX83FqVCBHXNwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758081660; c=relaxed/simple;
-	bh=E+vg+p+zLhuxWHfCrPbQKHJN8kzS3UQqdYSutjkxwcM=;
-	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=d89dX6tY4/l/HZyrYiApypOXiFmQyS88o8KO32/qvDxZAVkFugWZueSWW3jdnMIP+9dwuwErtKVRfvNMZ8T4+DNDKw+awq//TnVUqBDFi/8hGHo0NnSymlsqSNxex+EwQN7ST7lB8j3cMq0v5to5Zc1eID1eqYVZdrA/HixpjCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4cRQ1F5VTGzRkQj;
-	Wed, 17 Sep 2025 11:56:17 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 537AA1402E9;
-	Wed, 17 Sep 2025 12:00:55 +0800 (CST)
-Received: from kwepemq200018.china.huawei.com (7.202.195.108) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 17 Sep 2025 12:00:55 +0800
-Received: from [10.67.121.177] (10.67.121.177) by
- kwepemq200018.china.huawei.com (7.202.195.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 17 Sep 2025 12:00:53 +0800
-CC: <yangyicong@hisilicon.com>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>, <maz@kernel.org>, <oliver.upton@linux.dev>,
-	<corbet@lwn.net>, <linux-arm-kernel@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
-	<yuzenghui@huawei.com>, <shuah@kernel.org>,
-	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>, <tangchengchang@huawei.com>,
-	<wangzhou1@hisilicon.com>
-Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-References: <20250715081356.12442-1-yangyicong@huawei.com>
- <20250715081356.12442-6-yangyicong@huawei.com>
- <aL7Fgx__LeLfbDyU@willie-the-truck>
- <5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
- <aMLvtpaCgRqPAU2Z@willie-the-truck> <20250912144736.00007673@huawei.com>
- <666e3588-2e42-2275-f9ec-94ba0954bdc6@huawei.com> <aMl6u7xTDLhrZmqK@arm.com>
- <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
-From: Yicong Yang <yangyicong@huawei.com>
-Message-ID: <b63740fb-1f24-649c-4f18-46e4ffe5a41f@huawei.com>
-Date: Wed, 17 Sep 2025 12:00:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+	s=arc-20240116; t=1758083100; c=relaxed/simple;
+	bh=ad1Ll8EQd3ZeNF+4/uYDbsQos4r5PVOfSSlKyv8nlIc=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=rF9m1bqz/O2vE2Lt+KFFb3Lpz3zYoJR9d7uSvQIcIrI1JnE+gX1ella7mW0Jf45k9wWrpQJa6WVlT3orjMhX+d0daaPmw8ifiSBefKiR50sIdpdk82CAZYzwylQecePQak2NfAcgpz5L5u3ckr4MZun+1DP80hurh9w4gbdy/4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cRQfD2bm6z59ys6;
+	Wed, 17 Sep 2025 12:24:52 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 58H4Oigu039306;
+	Wed, 17 Sep 2025 12:24:44 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Wed, 17 Sep 2025 12:24:46 +0800 (CST)
+Date: Wed, 17 Sep 2025 12:24:46 +0800 (CST)
+X-Zmail-TransId: 2afb68ca380e2a4-11716
+X-Mailer: Zmail v1.0
+Message-ID: <202509171224460946llOiB6KmdOqZU3PyTvqs@zte.com.cn>
+In-Reply-To: <20250917115057635tlnrFBfUcn1C1pBCZ02gN@zte.com.cn>
+References: 20250917115057635tlnrFBfUcn1C1pBCZ02gN@zte.com.cn
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemq200018.china.huawei.com (7.202.195.108)
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <shao.mingyin@zte.com.cn>
+Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
+        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
+        <wang.longjie1@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHY1IDUvN10gRG9jcy96aF9DTjogVHJhbnNsYXRlIGdmczItZ2xvY2tzLnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 58H4Oigu039306
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.133 unknown Wed, 17 Sep 2025 12:24:52 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68CA3814.000/4cRQfD2bm6z59ys6
 
-On 2025/9/17 11:51, Yicong Yang wrote:
-> On 2025/9/16 22:56, Catalin Marinas wrote:
->> On Mon, Sep 15, 2025 at 04:29:25PM +0800, Yicong Yang wrote:
->>> On 2025/9/12 21:47, Jonathan Cameron wrote:
->>>> On Thu, 11 Sep 2025 16:50:14 +0100
->>>> Will Deacon <will@kernel.org> wrote:
->>>>> On Tue, Sep 09, 2025 at 09:48:04AM +0800, Yicong Yang wrote:
->>>>>> per ARM DDI0487 L.b section C3.2.6,
->>>>>>
->>>>>>   When the instructions access a memory type that is not one of the following,
->>>>>>   a data abort for unsupported Exclusive or atomic access is generated...  
->>>>>
->>>>> That's about the memory _type_. I'm talking about a supported memory type
->>>>> (e.g. writeback cacheable) but when the physical location doesn't support
->>>>> the instruction. That's captured a little later in the same section:
->>>>>
->>>>>   | If the target memory location does not support the LD64B or ST64B
->>>>>   | instructions, then one of the following behaviors occurs:
->>>>>   |  * A stage 1 Data Abort, reported using the DFSC code of 0b110101,
->>>>>   |    is generated.
->>>>>   |  * The instruction performs the memory accesses, but the accesses
->>>>>   |    are not single-copy atomic above the byte level
->>
->> Is this a new addition to the L.b release of the ARM ARM? Maybe it was
->> there before in some other form (or a different place). At least it
->> doesn't say "unpredictable".
->>
-> 
-> i think it's new in L.b. didn't find this is mentioned in K.a either.
-> 
->>>>> and I think that's a bad interface to expose blindly to userspace solely
->>>>> as a boolean hwcap.
->>>>
->>>> Nasty, so now I'm curious. Any thoughts on how to expose what regions it is appropriate
->>>> for?  I can think of various heavy weight options but wondering if there is a simple
->>>> solution.
->>>
->>> in my understanding the hwcap only describes the capabilities of the CPU but not
->>> the whole system. the users should make sure the function works as expected if the
->>> CPU supports it and they're going to use it. specifically the LS64 is intended for
->>> device memory only, so the user should take responsibility of using it on supported
->>> memory.
->>
->> We have other cases like MTE where we avoid exposing the HWCAP to user
->> if we know the memory system does not support MTE, though we intercepted
->> this early and asked the (micro)architects to tie the CPU ID field to
->> what the system supports.
->>
-> 
-> but we lack the same identification mechanism as CPU for the memory system, so it's just a
-> restriction for the hardware vendor that if certain feature is not supported for the whole
-> system (SoC) then do not advertise it in the CPU's ID field. otherwise i think we're currently
-> doing in the manner that if capability mismatch or cannot work as expected together then a
-> errata/workaround is used to disable the feature or add some workaround on this certain
-> platform.
-> 
-> this is also the case for LS64 but a bit more complex, since it involves the completer outside
-> the SoC (the device) and could be a hotplug one (PCIe). from the SoC part we can restrict to
-> advertise the feature only if it's fully supported (what we've already done on our hardware).
-> 
->>> may raise the similar question if use other atomic instructions (e.g. LSE) on the
->>> memory does not support atomicity. find this restriction in ARM DDI0487 L.b section B2.2.6
->>>
->>>   Some system implementations might not support atomic instructions for all regions of the
->>>   memory
->>
->> With exclusives or atomics, we require that the general purpose (system)
->> RAM supports the feature, otherwise Linux won't work properly (I don't
->> think we specifically documented this but it would be fairly obvious
->> when the kernel doesn't boot or user-space randomly crashes).
->>
-> 
-> yes the spec requires general purpose memory to support atomicity.
-> 
->   The architecture only requires that Conventional memory that is mapped in this way supports
->   this functionality
-> 
-> otherwise users should have knowledge whether the target memory agent support atomicity.
-> 
->>> and if perform atomic instruction on unsupported memory it's allowed to implement as
->>>
->>>   * The instruction generates a synchronous External abort.
->>>   * The instruction generates a System Error interrupt.
->>>   * The instruction generates an IMPLEMENTATION DEFINED MMU fault reported using the Data
->>>     Abort Fault status code of ESR_ELx.DFSC = 110101.
->>>   * The instruction is treated as a NOP.
->>>   * The instructions are performed, but there is no guarantee that the memory accesses were
->>>     performed atomically in regard to other agents that access memory. In this case, the
->>>     instruction might also generate a System Error interrupt.
->>>
->>> if instruction performed without generate a SEI in the last implementation, it's quite similar
->>> to the condition of LS64.
->>
->> The difference is that we don't support Linux on such systems.
->>
->> Arguably, the use of LD/ST64B* is fairly specialised and won't be used
->> on the general purpose RAM and by random applications. It needs a device
->> driver to create the NC/Device mapping and specific programs/libraries
->> to access it. I'm not sure the LS64 properties are guaranteed by the
->> device alone or the device together with the interconnect. I suspect the
->> latter and neither the kernel driver nor user space can tell. In the
->> best case, you get a fault and realise the system doesn't work as
->> expected. Worse is the non-atomicity with potentially silent corruption.
->>
-> 
-> will be the latter one, both interconnect and the target device need to
-> support it. but I think the driver developer (kernel driver or userspace
-> driver) must have knowledge about the support status, otherwise they
-> should not use it.
-> 
-> for general purpose ram currently we have fault mechenism to avoid ld/st64b
-> usage (there's maybe an exception if FEAT_LS64WB is supported, which is
-> introduced in the latest feature list but no spec describe it and allows
-> perform ld/st64b on memory with write-back attribute. but currently I have
-> no details about this feature from any public documents)
-> 
->> So, to Will's point, the HWCAP is not sufficient for user space to make
->> an informed decision on whether it can safely use the LS64 instructions.
->> Can a (generic) device driver tell or do we need additional information
->> in firmware tables to advertise the correct behaviour?
->>
-> 
-> my thoughts is that the driver developer should have known whether their
-> device support it or not if going to use this. the information in the
-> firmware table should be fine for platform devices, but cannot describe
-> information for hotpluggable ones like PCIe endpoint devices which may
-> not be listed in a firmware table.
-> 
+From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-another option is that we drop the advertisement from the hwcap and cpuinfo
-and let user retrieve the CPU suppport from the ID reg directly or from the
-dmesg. does it make sense?
+translate the "gfs2-glocks.rst" into Simplified Chinese.
 
-thanks.
+Update to commit 713f8834389f("gfs2: Get rid of emote_ok
+checks")
+
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+Signed-off-by: yang tao <yang.tao172@zte.com.cn>
+---
+v4->v5
+fix some format issues.
+ .../zh_CN/filesystems/gfs2-glocks.rst         | 211 ++++++++++++++++++
+ .../translations/zh_CN/filesystems/index.rst  |   1 +
+ 2 files changed, 212 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+
+diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+new file mode 100644
+index 000000000000..951176c7af9b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+@@ -0,0 +1,211 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/filesystems/gfs2-glocks.rst
++
++:翻译:
++
++   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
++
++:校译:
++
++   - 杨涛 yang tao <yang.tao172@zte.com.cn>
++
++==================
++Glock 内部加锁规则
++==================
++
++本文档阐述 glock 状态机内部运作的基本原理。每个 glock（即
++fs/gfs2/incore.h 中的 struct gfs2_glock）包含两把主要的内部锁：
++
++ 1. 自旋锁（gl_lockref.lock）：用于保护内部状态（如
++    gl_state、gl_target）和持有者列表（gl_holders）
++ 2. 非阻塞的位锁（GLF_LOCK）：用于防止其他线程同时调用
++    DLM 等操作。若某线程获取此锁，则在释放时必须调用
++    run_queue（通常通过工作队列），以确保所有待处理任务
++    得以完成。
++
++gl_holders 列表包含与该 glock 关联的所有排队锁请求（不
++仅是持有者）。若存在已持有的锁，它们将位于列表开头的连
++续条目中。锁的授予严格遵循排队顺序。
++
++glock 层用户可请求三种锁状态：共享（SH）、延迟（DF）和
++排他（EX）。它们对应以下 DLM 锁模式：
++
++==========	====== =====================================================
++Glock 模式       DLM    锁模式
++==========	====== =====================================================
++    UN          IV/NL  未加锁（无关联的 DLM 锁）或 NL
++    SH          PR     受保护读（Protected read）
++    DF          CW     并发写（Concurrent write）
++    EX          EX     排他（Exclusive）
++==========	====== =====================================================
++
++因此，DF 本质上是一种与“常规”共享锁模式（SH）互斥的共
++享模式。在 GFS2 中，DF 模式专用于直接 I/O 操作。Glock
++本质上是锁加缓存管理例程的组合，其缓存规则如下：
++
++==========      ==============   ==========   ==========   ==============
++Glock 模式      缓存元数据       缓存数据      脏数据        脏元数据
++==========      ==============   ==========   ==========   ==============
++    UN               否            否           否            否
++    DF               是            否           否            否
++    SH               是            是           否            否
++    EX               是            是           是            是
++==========      ==============   ==========   ==========   ==============
++
++这些规则通过为每种 glock 定义的操作函数实现。并非所有
++glock 类型都使用全部的模式，例如仅 inode glock 使用 DF 模
++式。
++
++glock 操作函数及类型常量说明表：
++
++==============     ========================================================
++字段                用途
++==============     ========================================================
++go_sync            远程状态变更前调用（如同步脏数据）
++go_xmote_bh        远程状态变更后调用（如刷新缓存）
++go_inval           远程状态变更需使缓存失效时调用
++go_instantiate     获取 glock 时调用
++go_held            每次获取 glock 持有者时调用
++go_dump            为 debugfs 文件打印对象内容，或出错时将 glock 转储至日志
++go_callback        若 DLM 发送回调以释放此锁时调用
++go_unlocked        当 glock 解锁时调用（dlm_unlock()）
++go_type            glock 类型，``LM_TYPE_*``
++go_flags           若 glock 关联地址空间，则设置GLOF_ASPACE 标志
++==============     ========================================================
++
++每种锁的最短持有时间是指在远程锁授予后忽略远程降级请求
++的时间段。此举旨在防止锁在集群节点间持续弹跳而无实质进
++展的情况，此现象常见于多节点写入的共享内存映射文件。通
++过延迟响应远程回调的降级操作，为用户空间程序争取页面取
++消映射前的处理时间。
++
++未来计划将 glock 的 "EX" 模式设为本地共享，使本地锁通
++过 i_mutex 实现而非 glock。
++
++glock 操作函数的加锁规则：
++
++==============   ======================    =============================
++操作              GLF_LOCK 位锁持有          gl_lockref.lock 自旋锁持有
++==============   ======================    =============================
++go_sync              是                         否
++go_xmote_bh          是                         否
++go_inval             是                         否
++go_instantiate       否                         否
++go_held              否                         否
++go_dump              有时                       是
++go_callback          有时（N/A）                 是
++go_unlocked          是                         否
++==============   ======================    =============================
++
++.. Note::
++
++   若入口处持有锁则操作期间不得释放位锁或自旋锁。
++   go_dump 和 do_demote_ok 严禁阻塞。
++   仅当 glock 状态指示其缓存最新数据时才会调用 go_dump。
++
++GFS2 内部的 glock 加锁顺序：
++
++ 1. i_rwsem（如需要）
++ 2. 重命名 glock（仅用于重命名）
++ 3. Inode glock
++    （父级优先于子级，同级 inode 按锁编号排序）
++ 4. Rgrp glock（用于（反）分配操作）
++ 5. 事务 glock（通过 gfs2_trans_begin，非读操作）
++ 6. i_rw_mutex（如需要）
++ 7. 页锁（始终最后，至关重要！）
++
++每个 inode 对应两把 glock：一把管理 inode 本身（加锁顺
++序如上），另一把（称为 iopen glock）结合 inode 的
++i_nlink 字段决定 inode 生命周期。inode 加锁基于单个
++inode，rgrp 加锁基于单个 rgrp。通常优先获取本地锁再获
++取集群锁。
++
++Glock 统计
++----------
++
++统计分为两类：超级块相关统计和单个 glock 相关统计。超级
++块统计按每 CPU 执行以减少收集开销，并进一步按 glock 类
++型细分。所有时间单位为纳秒。
++
++超级块和 glock 统计收集相同信息。超级块时序统计为 glock
++时序统计提供默认值，使新建 glock 具有合理的初始值。每个
++glock 的计数器在创建时初始化为零，当 glock 从内存移除时
++统计丢失。
++
++统计包含三组均值/方差对及两个计数器。均值/方差对为平滑
++指数估计，算法与网络代码中的往返时间计算类似（参见《
++TCP/IP详解 卷1》第21.3节及《卷2》第25.10节）。与 TCP/IP
++案例不同，此处均值/方差未缩放且单位为整数纳秒。
++
++三组均值/方差对测量以下内容：
++
++ 1. DLM 锁时间（非阻塞请求）
++ 2. DLM 锁时间（阻塞请求）
++ 3. 请求间隔时间（指向 DLM）
++
++非阻塞请求指无论目标 DLM 锁处于何种状态均能立即完成的请求。
++当前满足条件的请求包括：(a)锁当前状态为互斥（如锁降级）、
++(b)请求状态为空置或解锁（同样如锁降级）、或(c)设置"try lock"
++标志的请求。其余锁请求均属阻塞请求。
++
++两个计数器分别统计：
++ 1. 锁请求总数（决定均值/方差计算的数据量）
++ 2. glock 代码顶层的持有者排队数（通常远大于 DLM 锁请求数）
++
++为什么收集这些统计数据？我们需深入分析时序参数的动因如下：
++
++1. 更精准设置 glock "最短持有时间"
++2. 快速识别性能问题
++3. 改进资源组分配算法（基于锁等待时间而非盲目 "try lock"）
++
++因平滑更新的特性，采样量的阶跃变化需经 8 次采样（方差需
++4 次）才能完全体现，解析结果时需审慎考虑。
++
++通过锁请求完成时间和 glock 平均锁请求间隔时间，可计算节
++点使用 glock 时长与集群共享时长的占比，对设置锁最短持有
++时间至关重要。
++
++我们已采取严谨措施，力求精准测量目标量值。任何测量系统均
++存在误差，但我期望当前方案已达到合理精度极限。
++
++超级块状态统计路径::
++
++    /sys/kernel/debug/gfs2/<fsname>/sbstats
++
++Glock 状态统计路径::
++
++    /sys/kernel/debug/gfs2/<fsname>/glstats
++
++（假设 debugfs 挂载于 /sys/kernel/debug，且 <fsname> 替
++换为对应 GFS2 文件系统名）
++
++输出缩写说明：
++
++=========  ============================================
++srtt       非阻塞 DLM 请求的平滑往返时间
++srttvar    srtt 的方差估计
++srttb      （潜在）阻塞 DLM 请求的平滑往返时间
++srttvarb   srttb 的方差估计
++sirt       DLM 请求的平滑请求间隔时间
++sirtvar    sirt 的方差估计
++dlm        DLM 请求数（glstats 文件中的 dcnt）
++queue      排队的 glock 请求数（glstats 文件中的 qcnt）
++=========  ============================================
++
++sbstats文件按glock类型（每种类型8行）和CPU核心（每CPU一列）
++记录统计数据集。glstats文件则为每个glock提供统计集，其格式
++与glocks文件类似，但所有时序统计量均采用均值/方差格式存储。
++
++gfs2_glock_lock_time 跟踪点实时输出目标 glock 的当前统计
++值，并附带每次接收到的dlm响应附加信息：
++
++======   ============
++status   DLM 请求状态
++flags    DLM 请求标志
++tdiff    该请求的耗时
++======   ============
++
++（其余字段同上表）
+diff --git a/Documentation/translations/zh_CN/filesystems/index.rst b/Documentation/translations/zh_CN/filesystems/index.rst
+index 7051fd9d94f3..4a670f6cc080 100644
+--- a/Documentation/translations/zh_CN/filesystems/index.rst
++++ b/Documentation/translations/zh_CN/filesystems/index.rst
+@@ -30,3 +30,4 @@ Linux Kernel中的文件系统
+    ubifs-authentication
+    gfs2
+    gfs2-uevents
++   gfs2-glocks
+-- 
+2.27.0
