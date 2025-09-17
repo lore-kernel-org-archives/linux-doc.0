@@ -1,49 +1,28 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF043233EB
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 12:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E27D2FBDFF;
+	Wed, 17 Sep 2025 12:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111513; cv=none; b=b79WZWoK6Jzp36cPXZ49ghVnxvKzstxev4Idv3aQ0UyLTfzckMhN+cCHF0Uhh+W0xXvlhoog77KSAzBP+ENgUTFfVsZQq9vfTHIuSL2/Df54toTrnWGXO8of76vCijaPlxPS+4zrTSMBnaoxoAlA16euDbL5+JujFGX1KvpFl9k=
+	t=1758113200; cv=none; b=j7zddEcEvPsiZYNe1Rmd6XGi4pynmxUwBhdMaRIJvJOcBRHrboXiW+JQBrNYqOQrtooz8ZTbgiUUEouQHLwBTQcIwwKiwzNPQmEKFtt9zzD3dO39B2bVMnD0buMxmPwi5P5xQupzFI1I2mkVJGePVE0QFmbHFlDwqo5szf7oHls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111513; c=relaxed/simple;
-	bh=Fu6VJL0MenpK/PD9UnrT8AK9a4ClFtuRJz79IysQBbY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YTadciDUCA8GN6e0LSxwlvjZBLvRwL6aDw+/mzw0SuAqy8up7LFoDyKiXCsfntAY0IPWsGkWkEjN8Qz2e3CD4bC9xoXFCE7s/xgirMPQEM+lk+hjCZN5Iq250V+7K8VnLK75ECD4zuKdN50Iy6mY84Djtla34AeA5yuYhl1kT1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GaGQhrWZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GaGQhrWZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758111510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WHUsCtApx+pxExGjQp0qwPu/9kvqAUJMxOY2ilcMotc=;
-	b=GaGQhrWZ0TkHYAOOe+mRDI40vjcYjZfm7erK5+2fYFJuLuhrA8YUu1ixZGj+WSl8gGEvpW
-	1p++OLlz9OCiVt5dQHCENNm5CkTlK2ylzmt4ktg7hoLqRjEr1Tg4squyAP6TPfle3bFblQ
-	fvoMpEr2NzVPeaYCXKgWeB8SYQusOgY=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-159-hsrNCk_4Nw-FpNyMYA7TAw-1; Wed,
- 17 Sep 2025 08:18:25 -0400
-X-MC-Unique: hsrNCk_4Nw-FpNyMYA7TAw-1
-X-Mimecast-MFC-AGG-ID: hsrNCk_4Nw-FpNyMYA7TAw_1758111503
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	s=arc-20240116; t=1758113200; c=relaxed/simple;
+	bh=aFTk21/Z1yevUz4SRaZ4PgphBX8nO20Tu1tx5Yqizxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=MZgybgJJg3AxW7bVNxFTcj41MlpnEjM99hcNP8tJ1+LN5hrPvRxmNpnDiqOrRf2HQ2UyD77mEJq+20is2Nx5wJPH4VRRyalKfpGcWyXPK6ETWjHtLB7HAvZRD66NGqSvlFf6ypkJK2QwN/+B2wgUz5q/zevM9rIY5OYu2shKKtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.2.205] (p5b13a163.dip0.t-ipconnect.de [91.19.161.99])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CBB5C1800378;
-	Wed, 17 Sep 2025 12:18:22 +0000 (UTC)
-Received: from [10.45.225.133] (unknown [10.45.225.133])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2A1B6195608E;
-	Wed, 17 Sep 2025 12:18:17 +0000 (UTC)
-Message-ID: <c60779d6-938d-4adc-a264-2d78fb3c5947@redhat.com>
-Date: Wed, 17 Sep 2025 14:18:16 +0200
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 4C3F76028F34A;
+	Wed, 17 Sep 2025 14:45:48 +0200 (CEST)
+Message-ID: <f80effb4-0c91-416f-a7cb-4c9a7055fa13@molgen.mpg.de>
+Date: Wed, 17 Sep 2025 14:45:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,82 +30,74 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase
- measure averaging factor
-To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20250911072302.527024-1-ivecera@redhat.com>
- <20250915164641.0131f7ed@kernel.org>
- <SA1PR11MB844643902755174B7D7E9B3F9B17A@SA1PR11MB8446.namprd11.prod.outlook.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v4 1/5] net: docs: add missing
+ features that can have stats
+To: Jacob Keller <jacob.e.keller@intel.com>
+References: <20250916-resend-jbrandeb-ice-standard-stats-v4-0-ec198614c738@intel.com>
+ <20250916-resend-jbrandeb-ice-standard-stats-v4-1-ec198614c738@intel.com>
 Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <SA1PR11MB844643902755174B7D7E9B3F9B17A@SA1PR11MB8446.namprd11.prod.outlook.com>
+Cc: Jesse Brandeburg <jbrandeburg@cloudflare.com>,
+ Jakub Kicinski <kuba@kernel.org>, Hariprasad Kelam <hkelam@marvell.com>,
+ Simon Horman <horms@kernel.org>,
+ Marcin Szycik <marcin.szycik@linux.intel.com>,
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>, netdev@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org, corbet@lwn.net
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20250916-resend-jbrandeb-ice-standard-stats-v4-1-ec198614c738@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 17. 09. 25 1:26 odp., Kubalewski, Arkadiusz wrote:
->> From: Jakub Kicinski <kuba@kernel.org>
->> Sent: Tuesday, September 16, 2025 1:47 AM
->>
->> cc: Arkadiusz
->>
->> On Thu, 11 Sep 2025 09:23:01 +0200 Ivan Vecera wrote:
->>> The DPLL phase measurement block uses an exponential moving average,
->>> calculated using the following equation:
->>>
->>>                         2^N - 1                1
->>> curr_avg = prev_avg * --------- + new_val * -----
->>>                           2^N                 2^N
->>>
->>> Where curr_avg is phase offset reported by the firmware to the driver,
->>> prev_avg is previous averaged value and new_val is currently measured
->>> value for particular reference.
->>>
->>> New measurements are taken approximately 40 Hz or at the frequency of
->>> the reference (whichever is lower).
->>>
->>> The driver currently uses the averaging factor N=2 which prioritizes
->>> a fast response time to track dynamic changes in the phase. But for
->>> applications requiring a very stable and precise reading of the average
->>> phase offset, and where rapid changes are not expected, a higher factor
->>> would be appropriate.
->>>
->>> Add devlink device parameter phase_offset_avg_factor to allow a user
->>> set tune the averaging factor via devlink interface.
->>
->> Is averaging phase offset normal for DPLL devices?
->> If it is we should probably add this to the official API.
->> If it isn't we should probably default to smallest possible history?
->>
+Dear Jacob, dear Jesse,
+
+
+Thank you for your patch.
+
+Am 16.09.25 um 21:14 schrieb Jacob Keller:
+> From: Jesse Brandeburg <jesse.brandeburg@intel.com>
 > 
-> AFAIK, our phase offset measurement uses similar mechanics, but the algorithm
-> is embedded in the DPLL device FW and currently not user controlled.
-> Although it might happen that one day we would also provide such knob,
-> if useful for users, no plans for it now.
->  From this perspective I would rather see it in dpll api, especially
-> this relates to the phase measurement which is already there, the value
-> being shared by multiple dpll devices seems HW related, but also seem not a
-> problem, as long as a change would notify each device it relates with.
+> While trying to figure out ethtool -I | --include-statistics, I noticed
+> some docs got missed when implementing commit 0e9c127729be ("ethtool:
+> add interface to read Tx hardware timestamping statistics").
+> 
+> Fix up the docs to match the kernel code, and while there, sort them in
+> alphabetical order.
 
-What if the averaging is implemented in different HW differently? As I
-mentioned the Microchip HW uses exponential moving average but
-a different HW can do it differently.
+So, ETHTOOL_MSG_LINKSTATE_GET and ETHTOOL_MSG_TSINFO_GET were missing.
 
-> Does frequency offset measurement for EEC DPLL would also use the same value?
+> Cc: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+> Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+> Reviewed-by: Simon Horman <horms@kernel.org>
+> Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+> ---
+>   Documentation/networking/statistics.rst | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/networking/statistics.rst b/Documentation/networking/statistics.rst
+> index 518284e287b0..66b0ef941457 100644
+> --- a/Documentation/networking/statistics.rst
+> +++ b/Documentation/networking/statistics.rst
+> @@ -184,9 +184,11 @@ Protocol-related statistics can be requested in get commands by setting
+>   the `ETHTOOL_FLAG_STATS` flag in `ETHTOOL_A_HEADER_FLAGS`. Currently
+>   statistics are supported in the following commands:
+>   
+> -  - `ETHTOOL_MSG_PAUSE_GET`
+>     - `ETHTOOL_MSG_FEC_GET`
+> +  - `ETHTOOL_MSG_LINKSTATE_GET`
+>     - `ETHTOOL_MSG_MM_GET`
+> +  - `ETHTOOL_MSG_PAUSE_GET`
+> +  - `ETHTOOL_MSG_TSINFO_GET`
+>   
+>   debugfs
+>   -------
+> 
 
-Nope, this only affects phase offset measurement. AFAIK there is no such
-tuning knob for FFO or frequency measurement in general...
-Is it correct Prathosh?
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
 
-Thanks,
-Ivan
+
+Kind regards,
+
+Paul
 
