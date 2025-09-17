@@ -1,100 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DD032BBED;
-	Wed, 17 Sep 2025 12:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383AD225761;
+	Wed, 17 Sep 2025 12:15:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111236; cv=none; b=ophFblMDLLihnBIK7UOr+pGy2N0+9n/evaBaYL+vw7oJtmgfm/lCQGXswCirMESXhIGZglISDWY6c/UpmsWuDj/O8AMu96BXrLS+s0Wht8a6sp4TdMklQS2NghsS3ZHCSRnGDMZf3ugMZo9ROBVW0V30XZoiw6zey0pZDPYdSn0=
+	t=1758111354; cv=none; b=UvZUy3S22wI1lTOTMz9+8qRhOX+FvC3Ul5vfKqLGHXtfvcnGrJVZhJKdRGoKa9S1cXGsLI97GfUfbPvBTpYtlgwMDZsz0i8r2OWpeSx+TT7Xzif742tPXrnG8LiCFw/BS3WEX5Air2V872Wk8P2Ah0Yic3ee8DW+xT8ugiACzz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111236; c=relaxed/simple;
-	bh=LqRWtS1sP7B5lAKG4NiZ4OwXKCQ+4DM+sFwKGhKBCRM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rZp+q2YGVVX4UpzeVtv5gwikpNJzKua/GyMp3BCEygrCU4INN4FmoI732MdhYo0Q1yhpUfzo1+OqlvJSwGqTLbbxxPS9/AUdCsuWniDS5L8bNqL+YQvoDA7qThPPiJYskE0rStKoVK0nIOhYC57lKgrfIhx/xT5bwlR5VuFtrqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=anfGVJbO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758111354; c=relaxed/simple;
+	bh=0ypUcNGg9z6BJTKB3g3MJi0xHG6c16cyioz2ve+I/iQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jG8X3Z12zASABTIzSS4hxEGLviZK38E1q+Lj1GHY7ixRDB3/DqC2BIeQ1+8M+2ws/144ab1l8GjfoQSarwo3f4dPTLpcmCOImawAiZ+6cVd1E7SKvi5Y/Q36wl60XcmR9M/GxFL2iwa72mWlYAaTmmVXkp2qHLbAQ4zVkUcBjPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aScCu71n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="anfGVJbO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81EBC4CEF0;
-	Wed, 17 Sep 2025 12:13:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aScCu71n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BACD4C4CEF0;
+	Wed, 17 Sep 2025 12:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758111236;
-	bh=LqRWtS1sP7B5lAKG4NiZ4OwXKCQ+4DM+sFwKGhKBCRM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=anfGVJbOjccq4Um5w31gTeSe2q+k1mtc9hK52Rk/DnnU3iR7mJKWHevRLTD9q2bA+
-	 y3AkCLwlN+iVJf06RPZKbyAM/90+HsIZX+qa3+P9+39WWaOV+ctXR6vPRwZG1rxWRQ
-	 cE/gB6y1bFQzGBB1YGgGLOsdztotDEGSjTxMqDGhoE7JaG+e0/H1IaOBWpQds7O29n
-	 AKQ/ifGr1FIdGpMfo3t99pj98NdLTK1mflMPcL1BVWzd9v/KK8W0M3pc1TS6JePV3l
-	 lbScKLDL3b0kEYwlVx6tx5nxRDHvS3zNt/MFPLv3Q+s3JXCO0CNAdTri9RGuibpLwB
-	 N5QXp0J4te1Pg==
-Date: Wed, 17 Sep 2025 14:13:38 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Asuna Yang <spriteovo@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Han Gao <rabenda.cn@gmail.com>, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2] RISC-V: re-enable gcc + rust builds
-Message-ID: <aMql8oB4GuU87lie@levanger>
-References: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
- <20250910-harmless-bamboo-ebc94758fdad@spud>
+	s=k20201202; t=1758111353;
+	bh=0ypUcNGg9z6BJTKB3g3MJi0xHG6c16cyioz2ve+I/iQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aScCu71ns3Q4t5aSDMqAS61P2Jmg7w5LIqvl22+yxOhR/qrCd+WCxU4rs0g14VNfV
+	 4Zv2JpekEbA32D3DjQuU6LrmDZRaVnu0MbCIlRzvVRPHet66jIhePEwi/c9Ud5hATv
+	 aJRRuBvzV2VZ4ZJh1WErRTL3RiizRf6j4ylhc0NLWW+kA3qY+QmjCdSNE0WKHtCeVK
+	 JoG+5DG/k3TFazCHbLX+5m+WrYIuBBSyMZSHRXIrCHoMdN1v/7cYAVgucTfDlcfDdV
+	 +CuV7J9dmnUKEXWcpo0hIEjJH/vKQmIZi2hQH8oLQ1NAkvF0/AN6gh50vKGXqYIc8f
+	 SZO6dsEIZlLsA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uyr4h-0000000CGe0-1cDV;
+	Wed, 17 Sep 2025 14:15:51 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 13/24] docs: Makefile: document latex/PDF PAPER= parameter
+Date: Wed, 17 Sep 2025 14:15:07 +0200
+Message-ID: <4ed5c9fbb30c67c0325a278a687c9bbe11d29c16.1758111077.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
+References: <cover.1758111077.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910-harmless-bamboo-ebc94758fdad@spud>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Wed, Sep 10, 2025 at 03:27:19PM +0100, Conor Dooley wrote:
-> On Tue, Sep 09, 2025 at 06:53:11PM +0200, Asuna Yang wrote:
-> > Commit 33549fcf37ec ("RISC-V: disallow gcc + rust builds") disabled GCC
-> > + Rust builds for RISC-V due to differences in extension handling
-> > compared to LLVM.
-> > 
-> > Add a Kconfig symbol to indicate the version of libclang used by Rust
-> > bindgen and add conditions for the availability of libclang to the
-> > RISC-V extension Kconfig symbols that depend on the cc-option function.
-> > 
-> > For Zicsr/Zifencei special handling, since LLVM/Clang always enables
-> > these two extensions, either don't pass them to -march, or pass them
-> > explicitly and Rust bindgen libclang must recognize them.
-> > 
-> > Clang does not support -mno-riscv-attribute flag, filter it out to
-> > resolve error: unknown argument: '-mno-riscv-attribute'.
-> > 
-> > Define BINDGEN_TARGET_riscv to pass the target triplet to Rust bindgen
-> > libclang for RISC-V to resolve error: unsupported argument 'medany' to
-> > option '-mcmodel=' for target 'unknown'. Improve to output a clearer
-> > error message if the target triplet is undefined for Rust bindgen
-> > libclang.
-> > 
-> > Update the documentation, GCC + Rust builds are now supported.
-> > 
-> > ---
-> 
-> FWIW, this --- breaks git, and anything after this line (including your
-> signoff) is lost when the patch is applied.
+While the build system supports this for a long time, this was
+never documented. Add a documentation for it.
 
-FTR, there is good documentation about '---' in patch mails:
-https://docs.kernel.org/process/submitting-patches.html#commentary
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Kind regards,
-Nicolas
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 380284026c13..a52b311cdadc 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -124,4 +124,6 @@ dochelp:
+ 	@echo
+ 	@echo  '  make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.'
+ 	@echo
++	@echo  '  make PAPER={a4|letter} Specifies the paper size used for LaTeX/PDF output.'
++	@echo
+ 	@echo  '  Default location for the generated documents is Documentation/output'
+-- 
+2.51.0
+
