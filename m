@@ -1,249 +1,134 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF48369988
-	for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 11:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCE820E03F;
+	Wed, 17 Sep 2025 11:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758108747; cv=none; b=By8XOACyU5XuCbKT0oLjWIncQTaZCWo31IbSv1/6cWWqiVgZEOHhz14zFNVA/S3b8xP/hkewkGnG7wlL5Xf/MFCxxwug9sjRDyJNaaAGrnUHT574I90/CoV3lpKKHeIfI8fOWJ1zT5LwONEo9YGLM9PKOJ8FIjyPdU+GD+df0ao=
+	t=1758109575; cv=none; b=N+wYAHEw1p1g1+odNFHOmQK4VgH+BP34kSA4tariNwpoI50nZRfCt+ef/2dQwKe3/CafcRS5zjCd4BMsqo/D1nNBAH9H91ixxSkW7VEodvcnOpI+Yxk3iAbcbZy+ckjc41O3PRHq+bxXunef8bHQ5bxERjU/JmDWtMj4ckBU1D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758108747; c=relaxed/simple;
-	bh=3LlU8D5Tj8BOKkc9McIo8H1J7S9pib7vCnIKwhUAK1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6Je9Qi8RaTk5WuYo3YnDvdQJ4ic0S9nFfEn/X3MUriBVgEc0aiSLXw7kI5VPzHOlPzZe+QjB2J0aCx81mmoh5J28JTrgVywYAAhBHPGpvGyrY/l7q/5cN+HVw9LSlyC7ywa2Rsg9mLNhongWEGrkEoVXU/F8f1K7TRGiVkDw+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fxQsuJDb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MQ0cdVXu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fxQsuJDb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MQ0cdVXu; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758109575; c=relaxed/simple;
+	bh=GE1ZvajMjR1jpdcyQ23SFnVuz3QmYfCASBO13hwms0Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VEFe8TkLGPiV3YPVwaYYI9L0gEUYM336U/YFilgfBMO3NN8NdlWsl2pOouTfIVpuBrDMazOvE1V7lZG061tvdeeQqieDWFVYlndh9py9ZUAtQEoatzPNR7eC3IAuxGglNIbPtE+pgqtNPjYukBm9tz5lsrvgR1+wL1J71FQzANU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=c31U7ebF; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fxQsuJDb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MQ0cdVXu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fxQsuJDb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MQ0cdVXu"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 99E6921D3E;
-	Wed, 17 Sep 2025 11:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758108739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Ap5mPSoqW5VngVWaJTgyJfGx7MJPhwio1kMAlldw6U=;
-	b=fxQsuJDbFPJ+Aq2i2N1EojNI/Hd1bpt5cNweVpv6AUqFIxUOJbm2qY66huYbwL8Tm3GUz5
-	SwH8SBvGIvkqn12PaatbE30ebxk6Fodkbs4w5BuVb54khNk0vMRWP/YIASKCUV0kXQR0cJ
-	CDZdoO2GTvamVOJk2LCTJZWR9rZcfqg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758108739;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Ap5mPSoqW5VngVWaJTgyJfGx7MJPhwio1kMAlldw6U=;
-	b=MQ0cdVXu/Fgwg2bcVUOI0ttAv/c4z/ykaLMQuBWxTsaAFW5ZdcGVoWzN/qQnuXyDWnG4qD
-	lXTBNkGr95Rj2EDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758108739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Ap5mPSoqW5VngVWaJTgyJfGx7MJPhwio1kMAlldw6U=;
-	b=fxQsuJDbFPJ+Aq2i2N1EojNI/Hd1bpt5cNweVpv6AUqFIxUOJbm2qY66huYbwL8Tm3GUz5
-	SwH8SBvGIvkqn12PaatbE30ebxk6Fodkbs4w5BuVb54khNk0vMRWP/YIASKCUV0kXQR0cJ
-	CDZdoO2GTvamVOJk2LCTJZWR9rZcfqg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758108739;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Ap5mPSoqW5VngVWaJTgyJfGx7MJPhwio1kMAlldw6U=;
-	b=MQ0cdVXu/Fgwg2bcVUOI0ttAv/c4z/ykaLMQuBWxTsaAFW5ZdcGVoWzN/qQnuXyDWnG4qD
-	lXTBNkGr95Rj2EDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 202B113A92;
-	Wed, 17 Sep 2025 11:32:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GSeHBECcymi0TAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 17 Sep 2025 11:32:16 +0000
-Date: Wed, 17 Sep 2025 12:32:10 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, 
-	Guo Ren <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
-	James Morse <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Jann Horn <jannh@google.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-csky@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
-	kexec@lists.infradead.org, kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>, 
-	iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v3 08/13] mm: add ability to take further action in
- vm_area_desc
-Message-ID: <wabzfghapygwy3fzexbplmasrdzttt3nsgpmoj4kr6g7ldstkg@tthpx7de6tqk>
-References: <cover.1758031792.git.lorenzo.stoakes@oracle.com>
- <9171f81e64fcb94243703aa9a7da822b5f2ff302.1758031792.git.lorenzo.stoakes@oracle.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="c31U7ebF"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58HBj7G91597639;
+	Wed, 17 Sep 2025 06:45:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758109507;
+	bh=CESIdT/b5vC34F/eerVXaRdloEbeJeSQadVRXpn30xo=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=c31U7ebFlqU6kZuPjeR3YrLRk3pu22idBxlSh8Qez5VPn+A9Pd896Vfs9dUFchjaq
+	 WQwPgC5USgoJu/BmU6RwfRFBd+IXgVYn/3y/Td1AAmKwptbKrDi3dYpM36blp2qNPj
+	 QyUxKkARwRsEFJiJufjePXpCFZiDDPIr7n+JX6Ro=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58HBj6CM2312628
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 17 Sep 2025 06:45:06 -0500
+Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 17
+ Sep 2025 06:45:06 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE213.ent.ti.com
+ (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 17 Sep 2025 06:45:06 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58HBivYL2975345;
+	Wed, 17 Sep 2025 06:44:58 -0500
+Message-ID: <7cd06f8f-bd74-429d-bf2c-71858178950a@ti.com>
+Date: Wed, 17 Sep 2025 17:14:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9171f81e64fcb94243703aa9a7da822b5f2ff302.1758031792.git.lorenzo.stoakes@oracle.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,infradead.org,kernel.org,alpha.franken.de,linux.ibm.com,davemloft.net,gaisler.com,arndb.de,linuxfoundation.org,intel.com,fluxnic.net,linux.dev,suse.de,redhat.com,paragon-software.com,arm.com,zeniv.linux.org.uk,suse.cz,oracle.com,google.com,suse.com,linux.alibaba.com,gmail.com,vger.kernel.org,lists.linux.dev,kvack.org,lists.infradead.org,googlegroups.com,nvidia.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[62];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.30
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 0/7] Add RPMSG Ethernet Driver
+To: Andrew Davis <afd@ti.com>, "David S. Miller" <davem@davemloft.net>,
+        Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra
+	<vigneshr@ti.com>,
+        Tero Kristo <kristo@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        Mengyuan Lou
+	<mengyuanlou@net-swift.com>,
+        Lei Wei <quic_leiwei@quicinc.com>, Xin Guo
+	<guoxin09@huawei.com>,
+        Michael Ellerman <mpe@ellerman.id.au>, Fan Gong
+	<gongfan1@huawei.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Parthiban
+ Veerasooran <Parthiban.Veerasooran@microchip.com>,
+        Lukas Bulwahn
+	<lukas.bulwahn@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>
+References: <20250911113612.2598643-1-danishanwar@ti.com>
+ <8a20160e-1528-4d0e-9347-0561fc3426b4@ti.com>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <8a20160e-1528-4d0e-9347-0561fc3426b4@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Tue, Sep 16, 2025 at 03:11:54PM +0100, Lorenzo Stoakes wrote:
-> Some drivers/filesystems need to perform additional tasks after the VMA is
-> set up.  This is typically in the form of pre-population.
-> 
-> The forms of pre-population most likely to be performed are a PFN remap
-> or the insertion of normal folios and PFNs into a mixed map.
-> 
-> We start by implementing the PFN remap functionality, ensuring that we
-> perform the appropriate actions at the appropriate time - that is setting
-> flags at the point of .mmap_prepare, and performing the actual remap at the
-> point at which the VMA is fully established.
-> 
-> This prevents the driver from doing anything too crazy with a VMA at any
-> stage, and we retain complete control over how the mm functionality is
-> applied.
-> 
-> Unfortunately callers still do often require some kind of custom action,
-> so we add an optional success/error _hook to allow the caller to do
-> something after the action has succeeded or failed.
+Hi Andrew,
 
-Do we have any idea for rules regarding ->mmap_prepare() and ->*_hook()?
-It feels spooky to e.g grab locks in mmap_prepare, and hold them across core
-mmap(). And I guess it might be needed?
-
+On 11/09/25 9:34 pm, Andrew Davis wrote:
+> On 9/11/25 6:36 AM, MD Danish Anwar wrote:
+>> This patch series introduces the RPMSG Ethernet driver, which provides a
+>> virtual Ethernet interface for communication between a host processor and
+>> a remote processor using the RPMSG framework. The driver enables
+>> Ethernet-like packet transmission and reception over shared memory,
+>> facilitating inter-core communication in systems with heterogeneous
+>> processors.
+>>
 > 
-> This is done at the point when the VMA has already been established, so
-> the harm that can be done is limited.
+> This is neat and all but I have to ask: why? What does this provide
+> that couldn't be done with normal RPMSG messages? Or from a userspace
+> TAP/TUN driver on top of RPMSG?
 > 
-> The error hook can be used to filter errors if necessary.
+
+This is different from RPMSG because here I am not using RPMSG to do the
+actual TX / RX. RPMSG is only used to share information (tx / rx
+offsets, buffer size, etc) between driver and firmware. The TX / RX
+happens in the shared memory. This implementation uses a shared memory
+circular buffer with head/tail pointers for efficient data passing
+without copies between cores.
+
+> This also feels like some odd layering, as RPMSG sits on virtio, and
+> we have virtio-net, couldn't we have a firmware just expose that (or
+> would the firmware be vhost-net..)?
 > 
-> If any error arises on these final actions, we simply unmap the VMA
-> altogether.
+
+PMSG sits on virtio, and we do have virtio-net but I am not trying to do
+ethernet communication over RPMSG. RPMSG is only used to exchange
+information between cores regarding the shared memory where the actual
+ethernet communication happens.
+
+> Andrew
 > 
-> Also update the stacked filesystem compatibility layer to utilise the
-> action behaviour, and update the VMA tests accordingly.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-<snip>
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 31b27086586d..aa1e2003f366 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -775,6 +775,49 @@ struct pfnmap_track_ctx {
->  };
->  #endif
->  
-> +/* What action should be taken after an .mmap_prepare call is complete? */
-> +enum mmap_action_type {
-> +	MMAP_NOTHING,		/* Mapping is complete, no further action. */
-> +	MMAP_REMAP_PFN,		/* Remap PFN range. */
-> +};
-> +
-> +/*
-> + * Describes an action an mmap_prepare hook can instruct to be taken to complete
-> + * the mapping of a VMA. Specified in vm_area_desc.
-> + */
-> +struct mmap_action {
-> +	union {
-> +		/* Remap range. */
-> +		struct {
-> +			unsigned long start;
-> +			unsigned long start_pfn;
-> +			unsigned long size;
-> +			pgprot_t pgprot;
-> +			bool is_io_remap;
-> +		} remap;
-> +	};
-> +	enum mmap_action_type type;
-> +
-> +	/*
-> +	 * If specified, this hook is invoked after the selected action has been
-> +	 * successfully completed. Note that the VMA write lock still held.
-> +	 *
-> +	 * The absolute minimum ought to be done here.
-> +	 *
-> +	 * Returns 0 on success, or an error code.
-> +	 */
-> +	int (*success_hook)(const struct vm_area_struct *vma);
-> +
-> +	/*
-> +	 * If specified, this hook is invoked when an error occurred when
-> +	 * attempting the selection action.
-> +	 *
-> +	 * The hook can return an error code in order to filter the error, but
-> +	 * it is not valid to clear the error here.
-> +	 */
-> +	int (*error_hook)(int err);
-
-Do we need two hooks? It might be more ergonomic to simply have a:
-
-	int (*finish)(int err);
-
-
-	int random_driver_finish(int err)
-	{
-		if (err)
-			pr_err("ahhhhhhhhh\n");
-		mutex_unlock(&big_lock);
-		return err;
-	}
-
-It's also unclear to me if/why we need the capability to switch error codes,
-but I might've missed some discussion on this.
 
 
 -- 
-Pedro
+Thanks and Regards,
+Danish
+
