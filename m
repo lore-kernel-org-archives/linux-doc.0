@@ -1,579 +1,261 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E70333AB3;
-	Wed, 17 Sep 2025 13:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758114027; cv=none; b=O1dbzGyC9sv0CYF2f6puksLqWnYOADPMDxbR2TReKndlwh5qQFMVHn0vl7V7ls34JMRhoSa08cmxSY7WtXqFnLw1ztUZjX72flNbu5ZGGN0OzTivWJysps7Q1yCIulRmcU+LY2OPNSCaVz40taKL4yOjKDWd82TEPr04w63kPeE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758114027; c=relaxed/simple;
-	bh=2yKGs0PVzLg3qQGCXuxUQSYho466dRx1tPvvARiZqSc=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=g7kTRn3KizIFjNK0Pe/thMDL2Fkoe60jRMU11t6XhFR+MG1iIVs5qcExpJxDlRrkFD3+qcN3/aS17+Q1XqrBcBVhJqv0u4m0qjk5o8JfuyGNBScPH5KhcyEKvr0LwnnWbmdUxtOu0/4PiQuEAm+Aqj9LDypFwXLjZvyzkmTufT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B73Orcfv; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F5E33C75F;
+	Wed, 17 Sep 2025 13:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758114646; cv=fail; b=Io8wV0ICwmUBS9cHmIQ/A98veCUb+CEJSM7LCupP5myd+7GpgbNNoCdTPogjPzyF6np7hF3J828c5Sr0A7OCP/vv5E/07X3BZRjlygfn3E7UpLc3VOSSYxSnj8gDWXNEDYrMm74lrQO8Qle5W444CJvQeHr+Ch0MFwC1NzeTmiE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758114646; c=relaxed/simple;
+	bh=Ask4qQsDcC4AA9+ryb9eX/3wdMSrtMatOyTXEhq36mQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=t2zS9Ct+9j76ykIOVl87dOTgkFCdrmFvIg4X+q9vsWYU1CCPbx7JP55usQAHm0q5/BwO562Z7rJyXGJ46oVKUjWhcKQNFUr00GtfNeHyNJRwowk6258VOhw8MJjNrtrUAIA+IE9IZGHkmftwakY7GtaRSuso61gYKRQW6UxHgR0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqf4wrQZ; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B73Orcfv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqf4wrQZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758114026; x=1789650026;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=2yKGs0PVzLg3qQGCXuxUQSYho466dRx1tPvvARiZqSc=;
-  b=B73OrcfvVPUHEyRXREu0Xbu5SLioFTOEkK+pLV/awSGLfb6NWNEeZrNr
-   Ng438HxDfpMj+0J7kHy5yBG8EDZGglSi/0yLi4OVzINehwHLhULufI5c6
-   k3Xz2xeOvytpnDPcwviMrwi7NRuefpti8p4OcmrnlcuSIdUBFj+XKDdGw
-   sOLsBFvfGWk5ihoHQqZAYH89YsQowTa1LGbRYE9qzQPXkw71bGCFccf6L
-   2bOARI5lrh9OJqK/MekRdUeBCrq0/rGG4MtVgt54+W1Edpsa6WhtX2h3c
-   98hdu1me0lbMNTaWG8GYkDtwGH6LEpnRx4kQwjXJ5mZmb51j2ggEXF0Yl
-   A==;
-X-CSE-ConnectionGUID: rNGxFhruSQSCugn7+wXvBQ==
-X-CSE-MsgGUID: SrPxZ4B8Rn2SPXl7+gTnxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="71045916"
+  t=1758114645; x=1789650645;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Ask4qQsDcC4AA9+ryb9eX/3wdMSrtMatOyTXEhq36mQ=;
+  b=gqf4wrQZZHxtrU88H8nRvUzlXKxtm5wgavuvKrUXZGBFnNyyxgHYJ6IP
+   g5eOxrkq0Zglc3yEzDzSh5Z95AkJkmRvbsQ6Fyn/2dqED75c0QWPvqfwu
+   nQCLQZCxx2x97Zrbse8JrDvfXjv0MrVGUd0Wv9lR1Lt7XuC1CW8eHhCGU
+   dUWF9yI70yhWbybmhTV1f7gqTc9l0CkJ5Q1AhpexCLgZ9p9ZxgxxSATV4
+   s08Mgzj8nrensOgh7i+aEvd0ytAonZ8aRGRUUHwaVxc8ysVw66DuTmFN7
+   Nh5mSi7YbzNYt9RGIm/zN48tICHpWRAH+scjNZmsRNlbSQzedbsBFa8FO
+   w==;
+X-CSE-ConnectionGUID: JiirprjPTDK6NHnUX9xsIw==
+X-CSE-MsgGUID: UR8AV/ELTceLXmSoL54OaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="59640094"
 X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208,223";a="71045916"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 06:00:25 -0700
-X-CSE-ConnectionGUID: wqBSL0cpQwChrQvG9cG0/Q==
-X-CSE-MsgGUID: RYfeRSafTX+BsmmDmjtmdw==
+   d="scan'208";a="59640094"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 06:10:42 -0700
+X-CSE-ConnectionGUID: kHpRtGXMSsWdWGPncay8IA==
+X-CSE-MsgGUID: KpsxF2cAT9aHTj4o1XUhug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208,223";a="206021646"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.87])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 06:00:14 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 17 Sep 2025 16:00:10 +0300 (EEST)
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
-    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
-    =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
-    =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>, 
-    Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
-    David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
-    intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-    Jani Nikula <jani.nikula@linux.intel.com>, 
-    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-    Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
-    Tvrtko Ursulin <tursulin@ursulin.net>, 
-    ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-    "Michael J . Ruhl" <mjruhl@habana.ai>, LKML <linux-kernel@vger.kernel.org>, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] PCI: Resizable BAR improvements
-In-Reply-To: <fl6tx5ztvttg7txmz2ps7oyd745wg3lwcp3h7esmvnyg26n44y@owo2ojiu2mov>
-Message-ID: <f1ba313f-74c2-ae63-ac80-4a35e53477b4@linux.intel.com>
-References: <20250915091358.9203-1-ilpo.jarvinen@linux.intel.com> <wqukxnxni2dbpdhri3cbvlrzsefgdanesgskzmxi5sauvsirsl@xor663jw2cdw> <fafda2a3-fc63-ce97-d22b-803f771a4d19@linux.intel.com> <fl6tx5ztvttg7txmz2ps7oyd745wg3lwcp3h7esmvnyg26n44y@owo2ojiu2mov>
+   d="scan'208";a="180375124"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 06:10:41 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 17 Sep 2025 06:10:40 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Wed, 17 Sep 2025 06:10:40 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.19) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 17 Sep 2025 06:10:39 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=isobBqJotHesilbOFkTc42Ox3UHH6MjpeWDQv3FIKtjlnxBKlQmJnKtmlQ43pZtAk9I2M2Uqna14bwatyFtvmxvYX3t2N020kxSsOhGIb8gIMCSIQr2JgbOfmNdpYuNZJ1PExlbFM3JvLkLmENl8bJtseNTD964gxHVcPs0Pb+wq754jgU7cmzrWgO4MvlBmUhLRjDqKkCaEw8ci1ikqFzQjwmoq86LI942rznvLQX1oGtb6oPv22fTd6xrxgxZQSmZg5jXt7R3X165aipUk+u46hjnbk09HGpk0tBlcZIKBR9jRNBYo4zxqU7bo4fq611tSWv1/hRlUegAxh0Zwsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ask4qQsDcC4AA9+ryb9eX/3wdMSrtMatOyTXEhq36mQ=;
+ b=Aexhi/8yZoRpky57b9M8ZueKA6LD2ekPXbcfjjzAdvmfUyq9mYu54znvckBeIYlV+7RDEVJfZbFMtnksUj+8a3kez7BXBI+oVTcmEXMdbqtDM/0x2//5etVKNx2rEUbMYyDXnCbDu7Eq/C5rziG7iA+Xa+yyQGXf6fjzzqXjZD4HqiqOendquzk6thnz+8ATkr8peh7bWvDFtfkU6N6PNh+a3AeuNMQjWAq2mUJ0bckY0o4PWvHeguMvh99gvCptDkRL6NKLGMeRR2Jg7jx2+0VFBJreIOWBPCTWjuXgiHDi5x3GtqtdVFUAboi/wtzYMD6z2AzmIPpOecBfdi4ItQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ2PR11MB8452.namprd11.prod.outlook.com (2603:10b6:a03:574::22)
+ by MN0PR11MB6253.namprd11.prod.outlook.com (2603:10b6:208:3c6::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Wed, 17 Sep
+ 2025 13:10:35 +0000
+Received: from SJ2PR11MB8452.namprd11.prod.outlook.com
+ ([fe80::d200:bfac:918a:1a38]) by SJ2PR11MB8452.namprd11.prod.outlook.com
+ ([fe80::d200:bfac:918a:1a38%4]) with mapi id 15.20.9137.012; Wed, 17 Sep 2025
+ 13:10:34 +0000
+From: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To: "Vecera, Ivan" <ivecera@redhat.com>, Jakub Kicinski <kuba@kernel.org>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, Prathosh Satish
+	<Prathosh.Satish@microchip.com>, Jiri Pirko <jiri@resnulli.us>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Paolo
+ Abeni" <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open
+ list <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase
+ measure averaging factor
+Thread-Topic: [PATCH net-next v2] dpll: zl3073x: Allow to use custom phase
+ measure averaging factor
+Thread-Index: AQHcIuz7gBZiqN/7qUGqrdM7g65j8bSU8B6AgAJJoICAABqyAIAAAN0w
+Date: Wed, 17 Sep 2025 13:10:34 +0000
+Message-ID: <SJ2PR11MB845273963D6C04DCDB222FF19B17A@SJ2PR11MB8452.namprd11.prod.outlook.com>
+References: <20250911072302.527024-1-ivecera@redhat.com>
+ <20250915164641.0131f7ed@kernel.org>
+ <SA1PR11MB844643902755174B7D7E9B3F9B17A@SA1PR11MB8446.namprd11.prod.outlook.com>
+ <c60779d6-938d-4adc-a264-2d78fb3c5947@redhat.com>
+In-Reply-To: <c60779d6-938d-4adc-a264-2d78fb3c5947@redhat.com>
+Accept-Language: pl-PL, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB8452:EE_|MN0PR11MB6253:EE_
+x-ms-office365-filtering-correlation-id: 707b0d6a-5d57-4fb4-1d95-08ddf5eb9687
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700021;
+x-microsoft-antispam-message-info: =?utf-8?B?SU5GNmtLcU00cHpYS0lxOEZ6c0tBR002RjQrMHJHSHNsNDFaNTUrOTV1enRp?=
+ =?utf-8?B?YXZBRmJlQS9hbGc0eEZNY2dXaytRd3hYZTZrRTFNK0ZISjViMUxNVUpNTE0x?=
+ =?utf-8?B?ZlRNL1RvUXJZdGltaWZmcytXOTZrUUh3OEdIZXpPRTFFOElrUEJTd2VzdG1a?=
+ =?utf-8?B?d2tjNUFuZThpVDdRL3ZEVzFQaDAvdlRla3hGV3N4dmVQMTRvYWR5bG0vNWpk?=
+ =?utf-8?B?VXN2bnZEclpCeFJhd29SRGNKN0FyQURpR0NQRDJUbGoyRG81QlRHV2FFeVBu?=
+ =?utf-8?B?UnVYdE96VFJGQ1pkKzBLelB5N0cvUFdjZzVaUnY3YnVnZitKcHB3V0dENlFE?=
+ =?utf-8?B?T2hqSTJvQlNyUGQvOFExekN2VnFYNHBlSEM5RHFPd1lHV2k1SEdGL3ZnMnJ0?=
+ =?utf-8?B?R3o4YWswRzNqcUJMd21XSWJoeTI4N3YzNHhYYys4QkljWE1xK0pvZUFtU09r?=
+ =?utf-8?B?ZW1Oa1pvT2Vyc1NwaVNWSURaZTVkeDA0bEtJb0JwK3BWVVFqUTVZK0ZocnFM?=
+ =?utf-8?B?SC9OY2JHeDJoY0l3N1orOW9hOC9xNmlSV1VzRHhUZEZPVGU3b3BBNXF6TTFa?=
+ =?utf-8?B?dGx4YkNxVkFKNTBYUisvOXJleHBWaDlPUHJXcXdLNnNwL0FSclE3dXJWVGRD?=
+ =?utf-8?B?Sm9OaEpMUEFJOHNQTnhPdVROMWV1b0liZ1piSFl5dTZJMi9Bc0JqT0hCNGhE?=
+ =?utf-8?B?M1poNTlJRHR0eXFCVGdONWtFNjNncVMxSVEza2lQRERwam44anR6NURrdjlC?=
+ =?utf-8?B?OWsrMnJwQ3RNQndYVjVqOG93T2U5NVBGRlJVbmppZSs2VnQza1NyUFJ4ckdy?=
+ =?utf-8?B?Lys2dVdqNGZqK0lvU0ZLY1hlUUdXN3U3U2JHbUh0dWkvMDRlRFcySE5aSEd4?=
+ =?utf-8?B?VXdVckVVaHFNYkZTQ1R5cy9XVzAxNkZVUVRiK2lGSmxXYVFKOXhySHlLVjNu?=
+ =?utf-8?B?NXVCeUk2TUk4T2NDN3Q2ekpZZUowNXBEYjk5ODczRzA2UnUybVFpckdBU05z?=
+ =?utf-8?B?THlHZEdWS2QzTGwxeEQ5ejQ3OGRjQzhJa01FSXJNNzFNd2t1MUdjS01RZkNu?=
+ =?utf-8?B?VkN0M3AxallHbU1jbkNpYndlT3dVTG5ndGN5MVNtZ2dtWnBZeFh4L09mZ0ZF?=
+ =?utf-8?B?TnowM2R2QlpRMTYweklpT292c1lhNmZtbUFhMlpLZEdzb0p6M1pZcnBFcnZ5?=
+ =?utf-8?B?N2NnWDVHcGFydDAvQXVDdEd1YjZEcnllOXNHOHNGNU5oQ2k3MHZJTCtrK3lV?=
+ =?utf-8?B?cStJS3BRd0JuR3hodXlZQ3Z4dEcrZXpraURmbm8raS93SWEvRlpwYUprT0lV?=
+ =?utf-8?B?aTAyMjJtMmt6OURKcStlSVFuQm8zcGFUbTlIT1o1cjJ5ZTRKR3NUaVZLL3pT?=
+ =?utf-8?B?ZnJmNXJQRUFZZjJhbkJZbTBRd3R3T0JodGtuRjlQMi9iMzZWbXR4N0phaVQw?=
+ =?utf-8?B?VnVydFpiazFDcDl5REZNeC9kMnBSakM0c0J3eTRRcVVwS0dGRS9BMGl6MmlH?=
+ =?utf-8?B?VW9Xa3cyNWgzUzV0R1V2R0pKdm1HVjlzYjU5bGl5dE1FYnRyU1E5MHR0U0JV?=
+ =?utf-8?B?alM4NzVGNXUvLzV1d05pKzdENHFqM3JpRCsxNlJ4UVRKZ0JXb2FJYUszbWFC?=
+ =?utf-8?B?WURBdnJiQVZIRjE3dGtxcDdaQmx4TUIwTDNtNFdpUU1GTVdZTnBDa21kYSt1?=
+ =?utf-8?B?eWJaQU9rS1N0THZKWmdGOVREVlMxblFybVBndmh4Y0JVYzg2S1g3TUw4ajQy?=
+ =?utf-8?B?YzcwQnZ1L1NBSmI1QkdrYTRNVDJRb1NmaG1LNTh3RFZMeWl4cHhhQk5ZTW5V?=
+ =?utf-8?B?bS9qNlBTRUEveEtIQm1QQVJRc1BxVEtJaEx5aGhhd3J2VFNwYnduSHpBM3pE?=
+ =?utf-8?B?RzUzVWRCc1BjdGt1UWhMdDM5Z2VFTWlSWUova0lNVm1oZjRuNnZQS3BiOTdh?=
+ =?utf-8?B?OHd1c2NPZm5BMm9La0Y3d25vOTI4L3QybFF2aVF0cTZjSnVDdTdxVWh0NkNU?=
+ =?utf-8?B?U3pMMStjMnNnPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8452.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N3hoUXpPMDNkcGtrOGRVUXNCbHVSV3RDY2Nxc08rVkl5NjlXeEdqWndkdVpF?=
+ =?utf-8?B?bVlBdENUVmdBT28yTFJMeDJ0T1ZyczBnanFpeUJJVi9CUFVaMmxHQmJKMlhU?=
+ =?utf-8?B?R2xCYXUvR2V0dUtUbW9rUllwTW5NamFWeTRXSmdRcjJTSUxEOW5yS1Uwc25P?=
+ =?utf-8?B?VzZHT042YzVzc09ERkZ6VnFXL3RNOUZ1OEJUTityUkRNZXR0djB3djdBQ3Bk?=
+ =?utf-8?B?R3FEejUxR1lmODRLUEVWMHRNckthMkpRWmVPWmMyOFRZdmlMZXpJK3NlMVlE?=
+ =?utf-8?B?TEFnTWVNdnc4MzRRdVJZOGxyWmp6YVE1a1B3T1BwNWFBL0tlWUFzZzFMZzhq?=
+ =?utf-8?B?WkkwdGpzR05VV2xTUGVJYi9oMGNLdFhrTjdoSGpuV1hJcmVyamhFcGFxSWNa?=
+ =?utf-8?B?QkZBd3VqTmdrTXpWc2swSU1hbm5FcCtkeGVBZWpheTRFWUdIZzNzV2FVRmhT?=
+ =?utf-8?B?QWl4b1BWTElGM0Rka0h5bWE2WWM4YTF4d1dxdkQ5VkZwbDk3YzJXN0JrZ1dh?=
+ =?utf-8?B?dlFpWnQ0eTJZMVpQTTZxRy9Va1h2QVBGbWt6NVc0eGZWVjJHUkQvMWhtOWNE?=
+ =?utf-8?B?ckk5aDFsKzBGWnVZZmJqQmlBV3IvVzNrU2VJQnFKRmtlN3lvMk1HN0JGMmEv?=
+ =?utf-8?B?dE1qZWw3dGFkN0ZoMHBER296SldGZHBCQnRjVzVNRlBqNis1eVVGcjhieVUw?=
+ =?utf-8?B?UWQ2Wk0rK2k2VVptc01CbUxLTmswemsxR2FLYXBBY2tEa29XK2dMQVZacGlG?=
+ =?utf-8?B?aHhpWDFEci9XdEYwZXdqRjZubVhiZ2pUZlQxT1RQLytHNWx2RGpwMzg3dVl0?=
+ =?utf-8?B?TEl5bjdIQ3ZORlM5bitrdnlyV1hSWnhmakxiTGpaOVlFN3llUmZkZFRtV1B2?=
+ =?utf-8?B?RHZKSHptN0RSbWkwcU9KdFVFckxjc3lHRHNLTFk5eXcrOE1YOWMvY0NpTVlz?=
+ =?utf-8?B?Q0lpMUo0TUxwc3Z0MmR1b3pBWXBuTWdYL0hOZXk4eGc5Q0J3cEY0OHZPNnlk?=
+ =?utf-8?B?b0tETVFnT0JzYXNIM3pxMC9zcXU0bGQ4dC9FbTVUTVJYcjluRHBQNUc2T054?=
+ =?utf-8?B?bWNvQ0ZtUVArSStqT1BzeGd1aFRlTXQzYlQ3SDcxT1Q5RGlDcU9zWkRiRmtU?=
+ =?utf-8?B?OHprVnhWMnRoWEVnUHVUT0V0NWtxaU51T084L0M1M2pNR1J6dU82Q1AveVFl?=
+ =?utf-8?B?Ylc4cUdyY2RKa1RhRjY0b1h6dFhRZnIrUkFWNTB6WC9SNXNsQzZsaks5alRB?=
+ =?utf-8?B?clJNQXdWK1ppTDRVWmxoWnRjSXkrMElmY0tYdVc4WEFGSWp5aGFkSVlYTjJo?=
+ =?utf-8?B?bW5VMlpnWW1MZHJRY2NjUEI2NWQ4eGpuMzlMSTNNaGJjbFpqcElrNDNIampq?=
+ =?utf-8?B?ZmRvblZaVklyZHRsV3RqYXlpdEFZVHZMWS9WcU93RzR3QkJmN0xtb3ppcHAx?=
+ =?utf-8?B?anJRMWQyU2U3d2tvS3ZBMFRDWVhMV2Z1aVBVS2pONTArdGVBRkVXbWNUeFBD?=
+ =?utf-8?B?MCtsQkJXUmhSOVd0d3JaRms5YjUxdVlJRk54bGRXVmViNHZHVHRkNGZNSjRl?=
+ =?utf-8?B?U1FuWnNzeEJ1VW1QTUIyN2RnL0d1SUwwQzllcHJpWWlxNXRPditCN3czbzFY?=
+ =?utf-8?B?bHJESTlWSU5TQUdiaG5rdEY4bzcvSmFBbmJ5bTEyWm5nMFZjSkxQOGZRaDFp?=
+ =?utf-8?B?akw1ZXd5TlZGeDkxMnE3dTRTWEp1MklGaDZ1cUJQV0o1Yk92WGc0bE5uclU2?=
+ =?utf-8?B?ZkR3NCtEem93WTJuSGhxUUpMbVllOWlIWlN3cEFSejM4Q083MVVPYmVwZ01m?=
+ =?utf-8?B?QkV4bndVRTh6ZDgyZnVtVnMrcHFVSGkrY2VTM3hlRFlkL3F6M3lxa1NIL1Ir?=
+ =?utf-8?B?aTd0R0haRU54R2RUSU1sYWFPY2s2SlZ6by85MzMxTXM0MVZMOWxQeGRHK1JV?=
+ =?utf-8?B?SnU5RFhtYzB5c2ViZ1BvcUc3ZjhCTG1RbTRJejZXc2xheElqT0FycVRwd2F3?=
+ =?utf-8?B?VjU1b3BtZFNiRUZXbDdrRjZRc09Hc3pBU09pSEYrOVJ1RUZEOWVkejV3TFFq?=
+ =?utf-8?B?M2F4bE1TMGkrVHVRQndyZHVML2tlWWpDV0dmdm5VcUhqalJjYlJHR2Fqckl4?=
+ =?utf-8?B?a2hra3VML2NPbWhrWGVqT2k0NkxEYzZYSEFUZWxFV1RRYXp0UHJUM3pwbk5X?=
+ =?utf-8?B?QUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-161591600-1758110677=:1127"
-Content-ID: <02627e65-0efe-af44-e3e3-bb98aa69c8a6@linux.intel.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8452.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 707b0d6a-5d57-4fb4-1d95-08ddf5eb9687
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2025 13:10:34.7681
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m0N1sUh3SSUZG4Q3UNgGDW5TUiLIQZBZV6g7AfVawx7Kdgl3UCNpQZn3D/lhlcmB+Z0Nrr2OAr+TAToIqVOEhiqG7xLLO9qs35GTtoAA6rM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6253
+X-OriginatorOrg: intel.com
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-161591600-1758110677=:1127
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <0ff851c3-bc92-a369-3277-d7c205779207@linux.intel.com>
-
-On Tue, 16 Sep 2025, Lucas De Marchi wrote:
-
-> On Mon, Sep 15, 2025 at 08:24:06PM +0300, Ilpo J=E4rvinen wrote:
-> > On Mon, 15 Sep 2025, Lucas De Marchi wrote:
-> >=20
-> > > On Mon, Sep 15, 2025 at 12:13:47PM +0300, Ilpo J=E4rvinen wrote:
-> > > > pci.c has been used as catch everything that doesn't fits elsewhere
-> > > > within PCI core and thus resizable BAR code has been placed there a=
-s
-> > > > well. Move Resizable BAR related code to a newly introduced rebar.c=
- to
-> > > > reduce size of pci.c. After move, there are no pci_rebar_*() calls =
-from
-> > > > pci.c indicating this is indeed well-defined subset of PCI core.
-> > > >
-> > > > Endpoint drivers perform Resizable BAR related operations which cou=
-ld
-> > > > well be performed by PCI core to simplify driver-side code. This
-> > > > series adds a few new API functions to that effect and converts the
-> > > > drivers to use the new APIs (in separate patches).
-> > > >
-> > > > While at it, also convert BAR sizes bitmask to u64 as PCIe spec alr=
-eady
-> > > > specifies more sizes than what will fit u32 to make the API typing =
-more
-> > > > future-proof. The extra sizes beyond 128TB are not added at this po=
-int.
-> > > >
-> > > > These are based on pci/main plus a simple "adapter" patch to add th=
-e
-> > > > include for xe_vram_types.h that was added by a commit in drm-tip.
-> > > > Hopefully that is enough to avoid the within context conflict with
-> > > > BAR_SIZE_SHIFT removal to let the xe CI tests to be run for this
-> > > > series.
-> > > >
-> > > > There are two minor conflicts with the work in pci/resource but I'm
-> > > > hesitant to base this on top of it as this is otherwise entirely
-> > > > independent (and would likely prevent GPU CI tests as well). If we =
-end
-> > > > up having to pull the bridge window select changes, there should be=
- no
-> > > > reason why this does have to become collateral damage (so my
-> > > > suggestion, if this is good to go in this cycle, to take this into =
-a
-> > > > separate branch than pci/resource and deal with those small conflic=
-ts
-> > > > while merging into pci/next).
-> > > >
-> > > > I've tested sysfs resize, i915, and xe BAR resizing functionality. =
-In
-> > > > the case of xe, I did small hack patch as its resize is anyway brok=
-en
-> > > > as is because BAR0 pins the bridge window so resizing BAR2 fails. M=
-y
-> > > > hack caused other problems further down the road (likely because BA=
-R0
-> > > > is in use by the driver so releasing it messed assumptions xe drive=
-r
-> > > > has) but the BAR resize itself was working which was all I was
-> > >=20
-> > > is the hack you mention here to release all BARs before attempting th=
-e
-> > > resize?
-> >=20
-> > Yes, the patch added release of BAR0 prior to resize. The existing xe c=
-ode
-> > in _resize_bar() already releases BAR2.
-> >=20
-> > During resize, if the first loop in pbus_reassign_bridge_resources()
-> > (called from pci_resize_resource()) finds the bridge window closest to =
-the
-> > endpoint still has a child, it results in having empty saved list becau=
-se
-> > all upstream bridge windows will then have a child as well.
-> >=20
-> > Empty saved list is checked after the loop and
-> > pbus_reassign_bridge_resources() returns -ENOENT without even trying to
-> > assign the resources. The error is returned even if the actual bridge
-> > window size is large enough to fit the resized resource.
-> >=20
-> > The logic in pci_resize_resource() and pbus_reassign_bridge_resources()
-> > need some other improvements besides that problem, but I likely won't
-> > have time to look at that until completing the fitting algorithm change=
-s.
-> > I'd actually want to add pci_release_and_resize_resource() which would
-> > take care of releasing all the resources of the device (obviously drive=
-r
-> > must have its hands off all those BARs when it calls that function). Wi=
-th
-> > the current pci_resize_resource() API, handling the restore of BARs in
-> > case of failure is not as robust as I'd like to make it.
-> >=20
-> > > > interested to know. I'm not planning to pursue fixing the pinning
-> > > > problem within xe driver because the core changes to consider maxim=
-um
-> > > > size of the resizable BARs should take care of the main problem by
-> > > > different means.
-> > >=20
-> > > I'd actually like to pursue that myself as that could be propagated t=
-o
-> > > stable since we do have some resize errors in xe with BMG that I wasn=
-'t
-> > > understanding. It's likely due to xe_mmio_probe_early() taking a hold=
- of
-> > > BAR0 and not expecting it to be moved. We could either remap if we ha=
-ve
-> > > have to resize or just move the resize logic early on.
-> >=20
-> > Great. If you have any questions when it comes to the PCI core side cod=
-e,
-> > please let me know.
->=20
-> I moved the resize to happen before anything else in xe. However when
-> testing I noticed a scenario failing without involving the driver.
-> With and without this series I still have the same pass/failure
-> scenarios:
->=20
-> Tests executed with a BMG. Just after boot, BAR2 is 16GB.
->=20
-> 1) If I resize it via sysfs to 8GB and then load the driver, it resizes
-> it back. Resize from sysfs works too. No change in behavior.
-
-It's expected that resizing smaller size -> back to the original works=20
-through sysfs because the upstream window pins won't prevent reacquiring=20
-the same or less space.
-
-But the way resize is called from current xe code, sizing even to a=20
-smaller size fails because BAR0 pins the closest upstream window,=20
-resulting in -ENOENT as explained above. I don't see fixing this on core=20
-side as priority because I plan to rework the resizing code anyway and=20
-resizing to a smaller size doesn't seem overly useful use case.
-
-> 2) If I do "remove the bridge via sysfs and rescan the bus"[1], it fails =
-to
-> resize (either automatically, on rescan, via sysfs, or loading the xe
-> driver). It just stays at 256M.
-
-This is because the larger resource sizes are only calculated on the=20
-actual resize call which occurs after the bridge windows were already=20
-sized on rescan to the smaller size. At that point, the critical bridge=20
-windows are already pinned in place and thus cannot be relocated to free=20
-area I assume there would be somewhere within 4000000000-7fffffffff.
-
-> The only thing that brings it back is a reboot. /proc/iomem shows this:
->=20
-> 4000000000-7fffffffff : PCI Bus 0000:00
->   4000000000-44007fffff : PCI Bus 0000:01
->     4000000000-4017ffffff : PCI Bus 0000:02
->       4000000000-400fffffff : PCI Bus 0000:03    <<<< BMG
->         4000000000-400fffffff : 0000:03:00.0
-
->       4010000000-40100fffff : PCI Bus 0000:04
-
-This pins 0000:01:00.0's window in place. And also prevents enlarging the=
-=20
-siblings.
-
-It would possible, though, to release it and still use sysfs to perform=20
-resize on 0000:03:00.0 as removing 0000:04:00.0 doesn't require removing=20
-0000:03:00.0. But...
-
->     4018000000-40187fffff : 0000:01:00.0
-
-=2E..This resource pins 0000:00:01.0's window in place. AFAIK, it cannot be=
-=20
-released other than by removing 0000:01:00.0 which results in removing=20
-0000:03:00.0 as well, thus making it impossible to perform the BAR resize=
-=20
-for 0000:03:00.0 through sysfs anymore. Catch-22.
-
-Could you test if the attached quirk patch helps. Maybe it could be=20
-considered as the interim solution until the bridge sizing logic becomes=20
-aware of the resizable BARs. To use a quirk to do this feels hacky to me,=
-=20
-but then it's hard to point out any real downsides with that approach=20
-(other than having to quirk it).
-
-You'll still need to manually release 0000:04:00.0 but the BAR0 on the=20
-switch should be gone thanks to the quirk. When both of the window pins=20
-are gone, I think the resize through sysfs should work.
-
-> And dmesg shows this for the rescan:
->=20
-> [ 1673.189737] pci 0000:01:00.0: [8086:e2ff] type 01 class 0x060400 PCIe
-> Switch Upstream Port
-> [ 1673.189794] pci 0000:01:00.0: BAR 0 [mem 0x00000000-0x007fffff 64bit p=
-ref]
-> [ 1673.189808] pci 0000:01:00.0: PCI bridge to [bus 00]
-> [ 1673.189824] pci 0000:01:00.0:   bridge window [io  0x0000-0x0fff]
-> [ 1673.189834] pci 0000:01:00.0:   bridge window [mem 0x00000000-0x000fff=
-ff]
-> [ 1673.189856] pci 0000:01:00.0:   bridge window [mem 0x00000000-0x000fff=
-ff
-> 64bit pref]
-> [ 1673.189878] pci 0000:01:00.0: Max Payload Size set to 256 (was 128, ma=
-x
-> 256)
-> [ 1673.190164] pci 0000:01:00.0: PME# supported from D0 D3hot D3cold
-> [ 1673.193531] pci 0000:01:00.0: Adding to iommu group 16
-> [ 1673.196997] pcieport 0000:00:01.0: ASPM: current common clock configur=
-ation
-> is inconsistent, reconfiguring
-> [ 1673.197061] pci 0000:01:00.0: bridge configuration invalid ([bus 00-00=
-]),
-> reconfiguring
-> [ 1673.197421] pci 0000:02:01.0: [8086:e2f0] type 01 class 0x060400 PCIe
-> Switch Downstream Port
-> [ 1673.197452] pci 0000:02:01.0: PCI bridge to [bus 00]
-> [ 1673.197463] pci 0000:02:01.0:   bridge window [io  0x0000-0x0fff]
-> [ 1673.197468] pci 0000:02:01.0:   bridge window [mem 0x00000000-0x000fff=
-ff]
-> [ 1673.197482] pci 0000:02:01.0:   bridge window [mem 0x00000000-0x000fff=
-ff
-> 64bit pref]
-> [ 1673.197497] pci 0000:02:01.0: Max Payload Size set to 256 (was 128, ma=
-x
-> 256)
-> [ 1673.197503] pci 0000:02:01.0: enabling Extended Tags
-> [ 1673.197660] pci 0000:02:01.0: PME# supported from D0 D3hot D3cold
-> [ 1673.198411] pci 0000:02:01.0: Adding to iommu group 17
-> [ 1673.200258] pci 0000:02:02.0: [8086:e2f1] type 01 class 0x060400 PCIe
-> Switch Downstream Port
-> [ 1673.200289] pci 0000:02:02.0: PCI bridge to [bus 00]
-> [ 1673.200299] pci 0000:02:02.0:   bridge window [io  0x0000-0x0fff]
-> [ 1673.200304] pci 0000:02:02.0:   bridge window [mem 0x00000000-0x000fff=
-ff]
-> [ 1673.200317] pci 0000:02:02.0:   bridge window [mem 0x00000000-0x000fff=
-ff
-> 64bit pref]
-> [ 1673.200333] pci 0000:02:02.0: Max Payload Size set to 256 (was 128, ma=
-x
-> 256)
-> [ 1673.200337] pci 0000:02:02.0: enabling Extended Tags
-> [ 1673.200470] pci 0000:02:02.0: PME# supported from D0 D3hot D3cold
-> [ 1673.201059] pci 0000:02:02.0: Adding to iommu group 18
-> [ 1673.202761] pci 0000:01:00.0: PCI bridge to [bus 02-04]
-> [ 1673.202774] pci 0000:02:01.0: bridge configuration invalid ([bus 00-00=
-]),
-> reconfiguring
-> [ 1673.202782] pci 0000:02:02.0: bridge configuration invalid ([bus 00-00=
-]),
-> reconfiguring
-> [ 1673.203024] pci 0000:03:00.0: [8086:e221] type 00 class 0x030000 PCIe
-> Endpoint
-> [ 1673.203060] pci 0000:03:00.0: BAR 0 [mem 0x00000000-0x00ffffff 64bit]
-> [ 1673.203064] pci 0000:03:00.0: BAR 2 [mem 0x00000000-0x0fffffff 64bit p=
-ref]
-> [ 1673.203069] pci 0000:03:00.0: ROM [mem 0x00000000-0x001fffff pref]
-> [ 1673.203077] pci 0000:03:00.0: Max Payload Size set to 256 (was 128, ma=
-x
-> 256)
-> [ 1673.203209] pci 0000:03:00.0: PME# supported from D0 D3hot
-> [ 1673.203770] pci 0000:03:00.0: Adding to iommu group 19
-> [ 1673.205451] pci 0000:03:00.0: vgaarb: setting as boot VGA device
-> [ 1673.205454] pci 0000:03:00.0: vgaarb: bridge control possible
-> [ 1673.205455] pci 0000:03:00.0: vgaarb: VGA device added:
-> decodes=3Dio+mem,owns=3Dnone,locks=3Dnone
-> [ 1673.205534] pci 0000:02:01.0: PCI bridge to [bus 03-04]
-> [ 1673.205543] pci_bus 0000:03: busn_res: [bus 03-04] end is updated to 0=
-3
-> [ 1673.205787] pci 0000:04:00.0: [8086:e2f7] type 00 class 0x040300 PCIe
-> Endpoint
-> [ 1673.205848] pci 0000:04:00.0: BAR 0 [mem 0x00000000-0x00003fff 64bit]
-> [ 1673.205867] pci 0000:04:00.0: Max Payload Size set to 256 (was 128, ma=
-x
-> 256)
-> [ 1673.205872] pci 0000:04:00.0: enabling Extended Tags
-> [ 1673.206012] pci 0000:04:00.0: PME# supported from D3hot D3cold
-> [ 1673.206528] pci 0000:04:00.0: Adding to iommu group 20
-> [ 1673.208271] pci 0000:02:02.0: PCI bridge to [bus 04]
-> [ 1673.208284] pci_bus 0000:04: busn_res: [bus 04] end is updated to 04
-> [ 1673.208291] pci_bus 0000:02: busn_res: [bus 02-04] end is updated to 0=
-4
-> [ 1673.232003] pcieport 0000:00:01.0: Assigned bridge window [mem
-> 0x83000000-0x840fffff] to [bus 01-04] cannot fit 0x2000000 required for
-> 0000:02:01.0 bridging to [bus 03]
-> [ 1673.232009] pci 0000:02:01.0: bridge window [mem 0x00000000-0x000fffff=
-] to
-> [bus 03] requires relaxed alignment rules
-> [ 1673.232016] pci 0000:02:01.0: bridge window [mem 0x01000000-0x01ffffff=
-] to
-> [bus 03] add_size 200000 add_align 1000000
-> [ 1673.232020] pcieport 0000:00:01.0: Assigned bridge window [mem
-> 0x83000000-0x840fffff] to [bus 01-04] cannot fit 0x1800000 required for
-> 0000:01:00.0 bridging to [bus 02-04]
-> [ 1673.232025] pci 0000:01:00.0: bridge window [mem 0x00000000-0x000fffff=
-] to
-> [bus 02-04] requires relaxed alignment rules
-> [ 1673.232027] pcieport 0000:00:01.0: Assigned bridge window [mem
-> 0x83000000-0x840fffff] to [bus 01-04] cannot fit 0x2000000 required for
-> 0000:01:00.0 bridging to [bus 02-04]
-> [ 1673.232031] pci 0000:01:00.0: bridge window [mem 0x00000000-0x000fffff=
-] to
-> [bus 02-04] requires relaxed alignment rules
-> [ 1673.232036] pci 0000:01:00.0: bridge window [mem 0x01000000-0x020fffff=
-] to
-> [bus 02-04] add_size 200000 add_align 1000000
-> [ 1673.232077] pci 0000:01:00.0: bridge window [mem 0x4000000000-0x4017ff=
-ffff
-> 64bit pref]: assigned
-> [ 1673.232080] pci 0000:01:00.0: bridge window [mem size 0x01300000]: can=
-'t
-> assign; no space
-> [ 1673.232082] pci 0000:01:00.0: bridge window [mem size 0x01300000]: fai=
-led
-> to assign
-> [ 1673.232090] pci 0000:01:00.0: BAR 0 [mem 0x4018000000-0x40187fffff 64b=
-it
-> pref]: assigned
-> [ 1673.232103] pci 0000:01:00.0: bridge window [io  0x8000-0x9fff]: assig=
-ned
-> [ 1673.232129] pci 0000:01:00.0: bridge window [mem 0x83000000-0x840fffff=
-]:
-> assigned
-> [ 1673.232131] pci 0000:01:00.0: bridge window [mem 0x83000000-0x840fffff=
-]:
-> failed to expand by 0x200000
-> [ 1673.232136] pci 0000:01:00.0: bridge window [mem 0x83000000-0x840fffff=
-]:
-> failed to add optional 200000
-> [ 1673.232192] pci 0000:02:01.0: bridge window [mem 0x4000000000-0x400fff=
-ffff
-> 64bit pref]: assigned
-> [ 1673.232196] pci 0000:02:01.0: bridge window [mem 0x83000000-0x83ffffff=
-]:
-> assigned
-> [ 1673.232200] pci 0000:02:02.0: bridge window [mem 0x84000000-0x840fffff=
-]:
-> assigned
-> [ 1673.232202] pci 0000:02:02.0: bridge window [mem 0x4010000000-0x40100f=
-ffff
-> 64bit pref]: assigned
-> [ 1673.232204] pci 0000:02:01.0: bridge window [io  0x8000-0x8fff]: assig=
-ned
-> [ 1673.232206] pci 0000:02:02.0: bridge window [io  0x9000-0x9fff]: assig=
-ned
-> [ 1673.232241] pci 0000:03:00.0: BAR 2 [mem 0x4000000000-0x400fffffff 64b=
-it
-> pref]: assigned
-> [ 1673.232250] pci 0000:03:00.0: BAR 0 [mem 0x83000000-0x83ffffff 64bit]:
-> assigned
-> [ 1673.232259] pci 0000:03:00.0: ROM [mem size 0x00200000 pref]: can't as=
-sign;
-> no space
-> [ 1673.232261] pci 0000:03:00.0: ROM [mem size 0x00200000 pref]: failed t=
-o
-> assign
-> [ 1673.232272] pci 0000:03:00.0: BAR 2 [mem 0x4000000000-0x400fffffff 64b=
-it
-> pref]: assigned
-> [ 1673.232280] pci 0000:03:00.0: BAR 0 [mem 0x83000000-0x83ffffff 64bit]:
-> assigned
-> [ 1673.232289] pci 0000:03:00.0: ROM [mem size 0x00200000 pref]: can't as=
-sign;
-> no space
-> [ 1673.232291] pci 0000:03:00.0: ROM [mem size 0x00200000 pref]: failed t=
-o
-> assign
-> [ 1673.232302] pci 0000:02:01.0: PCI bridge to [bus 03]
-> [ 1673.232304] pci 0000:02:01.0:   bridge window [io  0x8000-0x8fff]
-> [ 1673.232309] pci 0000:02:01.0:   bridge window [mem 0x83000000-0x83ffff=
-ff]
-> [ 1673.232313] pci 0000:02:01.0:   bridge window [mem
-> 0x4000000000-0x400fffffff 64bit pref]
-> [ 1673.232321] pci 0000:04:00.0: BAR 0 [mem 0x84000000-0x84003fff 64bit]:
-> assigned
-> [ 1673.232336] pci 0000:02:02.0: PCI bridge to [bus 04]
-> [ 1673.232339] pci 0000:02:02.0:   bridge window [io  0x9000-0x9fff]
-> [ 1673.232345] pci 0000:02:02.0:   bridge window [mem 0x84000000-0x840fff=
-ff]
-> [ 1673.232349] pci 0000:02:02.0:   bridge window [mem
-> 0x4010000000-0x40100fffff 64bit pref]
-> [ 1673.232356] pci 0000:01:00.0: PCI bridge to [bus 02-04]
-> [ 1673.232359] pci 0000:01:00.0:   bridge window [io  0x8000-0x9fff]
-> [ 1673.232363] pci 0000:01:00.0:   bridge window [mem 0x83000000-0x840fff=
-ff]
-> [ 1673.232366] pci 0000:01:00.0:   bridge window [mem
-> 0x4000000000-0x4017ffffff 64bit pref]
-> [ 1673.232471] pcieport 0000:01:00.0: enabling device (0000 -> 0003)
-> [ 1673.233508] pcieport 0000:02:01.0: enabling device (0000 -> 0003)
-> [ 1673.233692] pcieport 0000:02:02.0: enabling device (0000 -> 0003)
->=20
-> # echo 9 > /sys/bus/pci/devices/0000\:03\:00.0/resource2_resize -bash: ec=
-ho:
-> write error: No space left on device
->=20
->=20
-> [1] # echo 1 > /sys/bus/pci/devices/0000\:01\:00.0/remove
->     # echo 0 > /sys/bus/pci/drivers_autoprobe
->     # echo 1 > /sys/bus/pci/rescan
->=20
->=20
-> I can share the xe patch so you check if it at least fixes it in your
-> test scenario.
-
-Ah, one thing I didn't remember mention is that in my case the BAR is=20
-already at its maximum size, so to test the resize is working, I made
-the target size smaller, not larger. (I understand this might not be very=
-=20
-helpful in your case but I was only interested that resize code still=20
-works after this series).
-
---=20
- i.
---8323328-161591600-1758110677=:1127
-Content-Type: text/x-diff; name=0001-PCI-Release-BAR0-of-an-integrated-bridge-to-allow-GP.patch
-Content-Transfer-Encoding: BASE64
-Content-ID: <106de70e-1c2b-f200-e68a-aa5052505f4b@linux.intel.com>
-Content-Description: 
-Content-Disposition: attachment; filename=0001-PCI-Release-BAR0-of-an-integrated-bridge-to-allow-GP.patch
-
-RnJvbSA5NDhhNDlmMDFkZjU0YjM0MzU4NjExMzhhMGVhZTg1YmIyYzNmMWYz
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KRnJvbTogPT9VVEYtOD9xP0ls
-cG89MjBKPUMzPUE0cnZpbmVuPz0gPGlscG8uamFydmluZW5AbGludXguaW50
-ZWwuY29tPg0KRGF0ZTogV2VkLCAxNyBTZXAgMjAyNSAxNToyNDo1MyArMDMw
-MA0KU3ViamVjdDogW1BBVENIIDEvMV0gUENJOiBSZWxlYXNlIEJBUjAgb2Yg
-YW4gaW50ZWdyYXRlZCBicmlkZ2UgdG8gYWxsb3cgR1BVDQogQkFSIHJlc2l6
-ZQ0KTUlNRS1WZXJzaW9uOiAxLjANCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFp
-bjsgY2hhcnNldD1VVEYtOA0KQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzog
-OGJpdA0KDQpSZXNpemluZyBCQVIgdG8gYSBsYXJnZXIgc2l6ZSBoYXMgdG8g
-cmVsZWFzZSB1cHN0cmVhbSBicmlkZ2Ugd2luZG93cyBpbg0Kb3JkZXIgbWFr
-ZSB0aGUgYnJpZGdlIHdpbmRvd3MgbGFyZ2VyIGFzIHdlbGwgKGFuZCB0byBw
-b3RlbnRpYWwgcmVsb2NhdGUNCnRoZW0gaW50byBhIGxhcmdlciBmcmVlIGJs
-b2NrIHdpdGhpbiBpb21lbSBzcGFjZSkuIFNvbWUgR1BVcyBoYXZlIGFuDQpp
-bnRlZ3JhdGVkIFBDSSBzd2l0Y2ggdGhhdCBoYXMgQkFSMC4gVGhlIHJlc291
-cmNlIGFsbG9jYXRpb24gYXNzaWducw0Kc3BhY2UgZm9yIHRoYXQgQkFSMCBh
-cyBpdCBkb2VzIGZvciBhbnkgcmVzb3VyY2UuDQoNCkFuIGV4dHJhIHJlc291
-cmNlIG9uIGEgYnJpZGdlIHdpbGwgcGluIGl0cyB1cHN0cmVhbSBicmlkZ2Ug
-d2luZG93IGluDQpwbGFjZSB3aGljaCBwcmV2ZW50cyBCQVIgcmVzaXplIGZv
-ciBhbnl0aGluZyBiZW5lYXRoIHRoYXQgYnJpZGdlLg0KDQpOb3RoaW5nIGlu
-IHRoZSBwY2llcG9ydCBkcml2ZXIgcHJvdmlkZWQgYnkgUENJIGNvcmUsIHdo
-aWNoIHR5cGljYWxseSBpcw0KdGhlIGRyaXZlciBib3VuZCB0byB0aGVzZSBi
-cmlkZ2VzLCByZXF1aXJlcyB0aGF0IEJBUjAuIEJlY2F1c2Ugb2YgdGhhdCwN
-CnJlbGVhc2luZyB0aGUgZXh0cmEgQkFSIGRvZXMgbm90IHNlZW0gdG8gaGF2
-ZSBub3RhYmxlIGRvd25zaWRlcyBidXQNCmNvbWVzIHdpdGggYSBjbGVhciB1
-cHNpZGUuDQoNClRoZXJlZm9yZSwgcmVsZWFzZSBCQVIwIG9mIHN1Y2ggc3dp
-dGNoZXMgdXNpbmcgYSBxdWlyayBhbmQgY2xlYXIgaXRzDQpmbGFncyB0byBw
-cmV2ZW50IGFueSBuZXcgaW52b2NhdGlvbiBvZiB0aGUgcmVzb3VyY2UgYXNz
-aWdubWVudA0KYWxnb3JpdGhtIGZyb20gYXNzaWduaW5nIHRoZSByZXNvdXJj
-ZSBhZ2Fpbi4NCg0KRHVlIHRvIG90aGVyIHNpYmxpbmdzIHdpdGhpbiB0aGUg
-UENJIGhpZXJhcmNoeSBvZiBhbGwgdGhlIGRldmljZXMNCmludGVncmF0ZWQg
-aW50byB0aGUgR1BVLCBzb21lIG90aGVyIGRldmljZXMgbWF5IHN0aWxsIGhh
-dmUgdG8gYmUNCm1hbnVhbGx5IHJlbW92ZWQgYmVmb3JlIHRoZSByZXNpemUg
-aXMgZnJlZSBvZiBhbnkgYnJpZGdlIHdpbmRvdyBwaW5zLg0KU3VjaCBzaWJs
-aW5ncyBjYW4gYmUgcmVsZWFzZWQgdGhyb3VnaCBzeXNmcyB0byB1bnBpbiB3
-aW5kb3dzIHdoaWxlDQpsZWF2aW5nIGFjY2VzcyB0byBHUFUncyBzeXNmcyBl
-bnRyaWVzIHJlcXVpcmVkIGZvciBpbml0aWF0aW5nIHRoZQ0KcmVzaXplIG9w
-ZXJhdGlvbiwgd2hlcmVhcyByZW1vdmluZyB0aGUgdG9wbW9zdCBicmlkZ2Ug
-dGhpcyBxdWlyaw0KdGFyZ2V0cyB3b3VsZCByZXN1bHQgaW4gcmVtb3Zpbmcg
-dGhlIEdQVSBkZXZpY2UgYXMgd2VsbCBzbyBubyBtYW51YWwNCndvcmthcm91
-bmQgZm9yIHRoaXMgcHJvYmxlbSBleGlzdHMuDQoNClJlcG9ydGVkLWJ5OiBM
-dWNhcyBEZSBNYXJjaGkgPGx1Y2FzLmRlbWFyY2hpQGludGVsLmNvbT4NCkxp
-bms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXBjaS9mbDZ0eDV6
-dHZ0dGc3dHhtejJwczdveWQ3NDV3ZzNsd2NwM2g3ZXNtdm55ZzI2bjQ0eUBv
-d28yb2ppdTJtb3YvDQpTaWduZWQtb2ZmLWJ5OiBJbHBvIErDpHJ2aW5lbiA8
-aWxwby5qYXJ2aW5lbkBsaW51eC5pbnRlbC5jb20+DQotLS0NCg0KVGhpcyBm
-ZWVscyBxdWl0ZSBoYWNreSB0byBtZSBhbmQgSSdtIHdvcmtpbmcgdG93YXJk
-cyBhIGJldHRlciBzb2x1dGlvbg0Kd2hpY2ggaXMgdG8gY29uc2lkZXIgUmVz
-aXphYmxlIEJBUiBtYXhpbXVtIHNpemUgdGhlIHJlc291cmNlIGZpdHRpbmcN
-CmFsZ29yaXRobS4gQnV0IHRoZW4sIEkgZG9uJ3QgZXhwZWN0IHRoZSBiZXR0
-ZXIgc29sdXRpb24gdG8gYmUgc29tZXRoaW5nDQp3ZSB3YW50IHRvIHB1c2gg
-aW50byBzdGFibGUgZHVlIHRvIGV4dHJlbWVseSBpbnZhc2l2ZSBkZXBlbmRl
-bmNpZXMuIFNvDQptYXliZSBjb25zaWRlciB0aGlzIGFuIGludGVyaW0vbGVn
-YWN5IHNvbHV0aW9uIHRvIHRoZSByZXNpemluZyBwcm9ibGVtDQphbmQgcmVt
-b3ZlIGl0IG9uY2UgdGhlIGFsZ29yaXRobWljIGFwcHJvYWNoIHdvcmtzIChv
-ciBtb3JlIHByZWNpc2VseQ0KcmV0YWluIGl0IG9ubHkgaW4gdGhlIG9sZCBr
-ZXJuZWwgdmVyc2lvbnMpLg0KLS0tDQogZHJpdmVycy9wY2kvcXVpcmtzLmMg
-fCAyMCArKysrKysrKysrKysrKysrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCAy
-MCBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3BjaS9x
-dWlya3MuYyBiL2RyaXZlcnMvcGNpL3F1aXJrcy5jDQppbmRleCBkOTczMzVh
-NDAxOTMuLjk4YTRmMGExMjg1YiAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvcGNp
-L3F1aXJrcy5jDQorKysgYi9kcml2ZXJzL3BjaS9xdWlya3MuYw0KQEAgLTYz
-MzgsMyArNjMzOCwyMyBAQCBzdGF0aWMgdm9pZCBwY2lfbWFza19yZXBsYXlf
-dGltZXJfdGltZW91dChzdHJ1Y3QgcGNpX2RldiAqcGRldikNCiBERUNMQVJF
-X1BDSV9GSVhVUF9GSU5BTChQQ0lfVkVORE9SX0lEX0dMSSwgMHg5NzUwLCBw
-Y2lfbWFza19yZXBsYXlfdGltZXJfdGltZW91dCk7DQogREVDTEFSRV9QQ0lf
-RklYVVBfRklOQUwoUENJX1ZFTkRPUl9JRF9HTEksIDB4OTc1NSwgcGNpX21h
-c2tfcmVwbGF5X3RpbWVyX3RpbWVvdXQpOw0KICNlbmRpZg0KKw0KKy8qDQor
-ICogUENJIHN3aXRjaGVzIGludGVncmF0ZWQgaW50byBzb21lIEdQVXMgaGF2
-ZSBCQVIwIHRoYXQgcHJldmVudHMgcmVzaXppbmcNCisgKiB0aGUgQkFScyBv
-ZiB0aGUgR1BVIGRldmljZSBkdWUgdG8gdGhhdCBicmlkZ2UgQkFSMCBwaW5u
-aW5nIHRoZSBicmlkZ2UNCisgKiB3aW5kb3cgaXQncyB1bmRlciBpbiBwbGFj
-ZS4gTm90aGluZyBpbiBwY2llcG9ydCByZXF1aXJlcyB0aGF0IEJBUjAuDQor
-ICoNCisgKiBSZWxlYXNlIGFuZCBkaXNhYmxlIEJBUjAgcGVybWFuZW50bHkg
-YnkgY2xlYXJpbmcgaXRzIGZsYWdzIHRvIHByZXZlbnQNCisgKiBhbnl0aGlu
-ZyBmcm9tIGFzc2lnbmluZyBpdCBhZ2Fpbi4NCisgKi8NCitzdGF0aWMgdm9p
-ZCBwY2lfcmVsZWFzZV9iYXIwKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQ0KK3sN
-CisJc3RydWN0IHJlc291cmNlICpyZXMgPSBwY2lfcmVzb3VyY2VfbihwZGV2
-LCAwKTsNCisNCisJaWYgKCFyZXMtPnBhcmVudCkNCisJCXJldHVybjsNCisN
-CisJcGNpX3JlbGVhc2VfcmVzb3VyY2UocGRldiwgMCk7DQorCXJlcy0+Zmxh
-Z3MgPSAwOw0KK30NCitERUNMQVJFX1BDSV9GSVhVUF9FTkFCTEUoUENJX1ZF
-TkRPUl9JRF9JTlRFTCwgMHhlMmZmLCBwY2lfcmVsZWFzZV9iYXIwKTsNCg0K
-YmFzZS1jb21taXQ6IDhmNWFlMzBkNjlkNzU0M2VlZTBkNzAwODNkYWY0ZGU4
-ZmUxNWQ1ODUNCi0tIA0KMi4zOS41DQoNCg==
-
---8323328-161591600-1758110677=:1127--
+PkZyb206IEl2YW4gVmVjZXJhIDxpdmVjZXJhQHJlZGhhdC5jb20+DQo+U2VudDogV2VkbmVzZGF5
+LCBTZXB0ZW1iZXIgMTcsIDIwMjUgMjoxOCBQTQ0KPg0KPk9uIDE3LiAwOS4gMjUgMToyNiBvZHAu
+LCBLdWJhbGV3c2tpLCBBcmthZGl1c3ogd3JvdGU6DQo+Pj4gRnJvbTogSmFrdWIgS2ljaW5za2kg
+PGt1YmFAa2VybmVsLm9yZz4NCj4+PiBTZW50OiBUdWVzZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMjUg
+MTo0NyBBTQ0KPj4+DQo+Pj4gY2M6IEFya2FkaXVzeg0KPj4+DQo+Pj4gT24gVGh1LCAxMSBTZXAg
+MjAyNSAwOToyMzowMSArMDIwMCBJdmFuIFZlY2VyYSB3cm90ZToNCj4+Pj4gVGhlIERQTEwgcGhh
+c2UgbWVhc3VyZW1lbnQgYmxvY2sgdXNlcyBhbiBleHBvbmVudGlhbCBtb3ZpbmcgYXZlcmFnZSwN
+Cj4+Pj4gY2FsY3VsYXRlZCB1c2luZyB0aGUgZm9sbG93aW5nIGVxdWF0aW9uOg0KPj4+Pg0KPj4+
+PiAgICAgICAgICAgICAgICAgICAgICAgICAyXk4gLSAxICAgICAgICAgICAgICAgIDENCj4+Pj4g
+Y3Vycl9hdmcgPSBwcmV2X2F2ZyAqIC0tLS0tLS0tLSArIG5ld192YWwgKiAtLS0tLQ0KPj4+PiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIDJeTiAgICAgICAgICAgICAgICAgMl5ODQo+Pj4+DQo+
+Pj4+IFdoZXJlIGN1cnJfYXZnIGlzIHBoYXNlIG9mZnNldCByZXBvcnRlZCBieSB0aGUgZmlybXdh
+cmUgdG8gdGhlIGRyaXZlciwNCj4+Pj4gcHJldl9hdmcgaXMgcHJldmlvdXMgYXZlcmFnZWQgdmFs
+dWUgYW5kIG5ld192YWwgaXMgY3VycmVudGx5IG1lYXN1cmVkDQo+Pj4+IHZhbHVlIGZvciBwYXJ0
+aWN1bGFyIHJlZmVyZW5jZS4NCj4+Pj4NCj4+Pj4gTmV3IG1lYXN1cmVtZW50cyBhcmUgdGFrZW4g
+YXBwcm94aW1hdGVseSA0MCBIeiBvciBhdCB0aGUgZnJlcXVlbmN5IG9mDQo+Pj4+IHRoZSByZWZl
+cmVuY2UgKHdoaWNoZXZlciBpcyBsb3dlcikuDQo+Pj4+DQo+Pj4+IFRoZSBkcml2ZXIgY3VycmVu
+dGx5IHVzZXMgdGhlIGF2ZXJhZ2luZyBmYWN0b3IgTj0yIHdoaWNoIHByaW9yaXRpemVzDQo+Pj4+
+IGEgZmFzdCByZXNwb25zZSB0aW1lIHRvIHRyYWNrIGR5bmFtaWMgY2hhbmdlcyBpbiB0aGUgcGhh
+c2UuIEJ1dCBmb3INCj4+Pj4gYXBwbGljYXRpb25zIHJlcXVpcmluZyBhIHZlcnkgc3RhYmxlIGFu
+ZCBwcmVjaXNlIHJlYWRpbmcgb2YgdGhlIGF2ZXJhZ2UNCj4+Pj4gcGhhc2Ugb2Zmc2V0LCBhbmQg
+d2hlcmUgcmFwaWQgY2hhbmdlcyBhcmUgbm90IGV4cGVjdGVkLCBhIGhpZ2hlciBmYWN0b3INCj4+
+Pj4gd291bGQgYmUgYXBwcm9wcmlhdGUuDQo+Pj4+DQo+Pj4+IEFkZCBkZXZsaW5rIGRldmljZSBw
+YXJhbWV0ZXIgcGhhc2Vfb2Zmc2V0X2F2Z19mYWN0b3IgdG8gYWxsb3cgYSB1c2VyDQo+Pj4+IHNl
+dCB0dW5lIHRoZSBhdmVyYWdpbmcgZmFjdG9yIHZpYSBkZXZsaW5rIGludGVyZmFjZS4NCj4+Pg0K
+Pj4+IElzIGF2ZXJhZ2luZyBwaGFzZSBvZmZzZXQgbm9ybWFsIGZvciBEUExMIGRldmljZXM/DQo+
+Pj4gSWYgaXQgaXMgd2Ugc2hvdWxkIHByb2JhYmx5IGFkZCB0aGlzIHRvIHRoZSBvZmZpY2lhbCBB
+UEkuDQo+Pj4gSWYgaXQgaXNuJ3Qgd2Ugc2hvdWxkIHByb2JhYmx5IGRlZmF1bHQgdG8gc21hbGxl
+c3QgcG9zc2libGUgaGlzdG9yeT8NCj4+Pg0KPj4NCj4+IEFGQUlLLCBvdXIgcGhhc2Ugb2Zmc2V0
+IG1lYXN1cmVtZW50IHVzZXMgc2ltaWxhciBtZWNoYW5pY3MsIGJ1dCB0aGUNCj4+YWxnb3JpdGht
+DQo+PiBpcyBlbWJlZGRlZCBpbiB0aGUgRFBMTCBkZXZpY2UgRlcgYW5kIGN1cnJlbnRseSBub3Qg
+dXNlciBjb250cm9sbGVkLg0KPj4gQWx0aG91Z2ggaXQgbWlnaHQgaGFwcGVuIHRoYXQgb25lIGRh
+eSB3ZSB3b3VsZCBhbHNvIHByb3ZpZGUgc3VjaCBrbm9iLA0KPj4gaWYgdXNlZnVsIGZvciB1c2Vy
+cywgbm8gcGxhbnMgZm9yIGl0IG5vdy4NCj4+ICBGcm9tIHRoaXMgcGVyc3BlY3RpdmUgSSB3b3Vs
+ZCByYXRoZXIgc2VlIGl0IGluIGRwbGwgYXBpLCBlc3BlY2lhbGx5DQo+PiB0aGlzIHJlbGF0ZXMg
+dG8gdGhlIHBoYXNlIG1lYXN1cmVtZW50IHdoaWNoIGlzIGFscmVhZHkgdGhlcmUsIHRoZSB2YWx1
+ZQ0KPj4gYmVpbmcgc2hhcmVkIGJ5IG11bHRpcGxlIGRwbGwgZGV2aWNlcyBzZWVtcyBIVyByZWxh
+dGVkLCBidXQgYWxzbyBzZWVtIG5vdA0KPj5hDQo+PiBwcm9ibGVtLCBhcyBsb25nIGFzIGEgY2hh
+bmdlIHdvdWxkIG5vdGlmeSBlYWNoIGRldmljZSBpdCByZWxhdGVzIHdpdGguDQo+DQo+V2hhdCBp
+ZiB0aGUgYXZlcmFnaW5nIGlzIGltcGxlbWVudGVkIGluIGRpZmZlcmVudCBIVyBkaWZmZXJlbnRs
+eT8gQXMgSQ0KPm1lbnRpb25lZCB0aGUgTWljcm9jaGlwIEhXIHVzZXMgZXhwb25lbnRpYWwgbW92
+aW5nIGF2ZXJhZ2UgYnV0DQo+YSBkaWZmZXJlbnQgSFcgY2FuIGRvIGl0IGRpZmZlcmVudGx5Lg0K
+Pg0KDQpZZWFoIGdvb2QgcG9pbnQsIGluIHRoYXQgY2FzZSB3ZSB3b3VsZCBhbHNvIG5lZWQgZW51
+bWVyYXRlIHRob3NlLCBhbmQgdGhlIG5ldw0KSFcgd291bGQgaGF2ZSB0byBleHRlbmQgdGhlIHVB
+UEkgdG8gbGV0IHRoZSB1c2VyIGtub3cgd2hpY2ggbWV0aG9kIGlzIHVzZWQ/DQpEaWZmZXJlbnQg
+bWV0aG9kcyBjb3VsZCByZXF1aXJlIGRpZmZlcmVudCBwYXJhbWV0ZXJzPw0KQnV0IGZvciB5b3Vy
+IGN1cnJlbnQgY2FzZSBvbmx5IG9uZSBhdHRyaWJ1dGUgd291bGQgYmUgZW5vdWdoPw0KT3IgbWF5
+YmUgYmV0dGVyIHRvIHByb3ZpZGUgdGhvc2UgdG9nZXRoZXIgbGlrZToNCkRQTExfQV9QSEFTRV9N
+RUFTVVJFTUVOVF9FTUFfTg0KVGhlbiBkaWZmZXJlbnQgbWV0aG9kIHdvdWxkIGhhdmUgb3duIGF0
+dHJpYnV0ZXMvcGFyYW1zPw0KDQpOZXh0IHF1ZXN0aW9uIGlmIGEgSFcgY291bGQgaGF2ZSBtdWx0
+aXBsZSBvZiB0aG9zZSBtZXRob2RzIGF2YWlsYWJsZSBhbmQNCmNvbnRyb2xsZWQsIGluIHdoaWNo
+IGNhc2Ugd2Ugc2hhbGwgYWxzbyBoYXZlIGluIG1pbmQgYSBwbGFuIGZvciBhDQoidHVybmVkLW9m
+ZiIgdmFsdWUgZm9yIGZ1cnRoZXIgZXh0ZW5zaW9ucz8NCg0KVGhhbmsgeW91IQ0KQXJrYWRpdXN6
+DQoNCj4+IERvZXMgZnJlcXVlbmN5IG9mZnNldCBtZWFzdXJlbWVudCBmb3IgRUVDIERQTEwgd291
+bGQgYWxzbyB1c2UgdGhlIHNhbWUNCj4+dmFsdWU/DQo+DQo+Tm9wZSwgdGhpcyBvbmx5IGFmZmVj
+dHMgcGhhc2Ugb2Zmc2V0IG1lYXN1cmVtZW50LiBBRkFJSyB0aGVyZSBpcyBubyBzdWNoDQo+dHVu
+aW5nIGtub2IgZm9yIEZGTyBvciBmcmVxdWVuY3kgbWVhc3VyZW1lbnQgaW4gZ2VuZXJhbC4uLg0K
+PklzIGl0IGNvcnJlY3QgUHJhdGhvc2g/DQo+DQo+VGhhbmtzLA0KPkl2YW4NCg0K
