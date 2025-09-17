@@ -1,210 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64732DAFA2;
-	Wed, 17 Sep 2025 14:14:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1D72989BA;
+	Wed, 17 Sep 2025 14:20:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758118493; cv=none; b=gn/VFT+gopqEHxRZl50FFvhKzYDN+WTtlVqr9oiNM3W6iWQDGVqvcyH49YJGaFQ6WPaeertVaYtlpfIZW8taf2U/2JVXbuk3s/WiTMHQdjQBl/s7er22e0pYDoD6ELBtBFDduNLBrruCfeH5ciOSKL8g0vLATlGHUbw13bFQUb8=
+	t=1758118848; cv=none; b=jmux0/ygx0SwuaULxwOXGgFeds16S77N0RUNfM6KsPui01EhT//OaAJoiQ++u83/UC/ENBv0OyDlf9vLYUuV7uYJMG9xAcW5oh4XHRvODlXQ/P7NaWtIny3d3RrxhM8biuhBhkW92ZXvpCfOyv2jdb82DfKTHh1qEbgBkueDI7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758118493; c=relaxed/simple;
-	bh=SYBZyU3y6PssYgKC8Xcv0Pcmj91XU5r/G3PYMmPrA7M=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=cXVPIHQ72bmffwHXTyN42T/fl6M6/gXgojrsl1m2VHhaCoya/UCOepQ3BEiLfyV9nsyQkJuZ0knTotu2JM3vAEn+FHeAXetc92ZFxhKoUxkiZYxo49xk6j+skWBdQxtePkgGi3uA4xqWI/6Qz1tjd9Z+jbjLGWK1bIAktkiI39w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbWy3rTc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbWy3rTc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A71F9C4CEF5;
-	Wed, 17 Sep 2025 14:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758118492;
-	bh=SYBZyU3y6PssYgKC8Xcv0Pcmj91XU5r/G3PYMmPrA7M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kbWy3rTcFfNWdTtWf3G0kn49VE1k7f+lU/C8PK4M6fjQelFRiFAziF/+Xr8+DTamf
-	 8u6Jdm8nYpqrUJTb95O292jWd+jhivf19IwAwtlYR1Sf5xDsUnhy7mBQ0F9PRf3r/B
-	 jynB4hGEfCDrq00t3FUJoSdrLQ2jz1F0ZMNi79+wvH26yrpVDV3cY1CAKSZqsy7kOh
-	 wK2oBzrFsG0JwznNR+Z9ZJitoEmxdOFFYpYftxD3qcFId3wUXNB9Wcjoa2kwfoBOC/
-	 A80cl8/m8uazfZA3/Au40z7bP6SxeLycczxm+H4+qCyrrsExUXPTq0bxbaY05+4Bs7
-	 hAi2zjQqHgXbA==
-Date: Wed, 17 Sep 2025 23:14:46 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v4 5/8] tracing: wprobe: Add wprobe event trigger
-Message-Id: <20250917231446.670b2c9cac245c81b268b5b2@kernel.org>
-In-Reply-To: <fadb37f2-543a-4c4c-9cde-5ee7928edbe4@infradead.org>
-References: <175785897434.234168.6798590787777427098.stgit@devnote2>
-	<175785903073.234168.11080771050255081365.stgit@devnote2>
-	<fadb37f2-543a-4c4c-9cde-5ee7928edbe4@infradead.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1758118848; c=relaxed/simple;
+	bh=J3hGGqALZBptlOxjdyNyo6ooQkzjz28ZGDkX7ijL+js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3j4XvFgoEK1+1hxNdqZToBpwdk9FeJWuxh3TNvl47R+vWwTXkMOJHvOfoMXxoPyJ++waXNxcNEaqQE5gr2K2edg9ccrmFnXehyPITlOIkiDM+xFPHPhtHbgFhQYUM5DyWSdHUpcE+9tQVEb2B51GXq0dB7nXKvauktW9zaxfhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BFC0C4CEE7;
+	Wed, 17 Sep 2025 14:20:44 +0000 (UTC)
+Date: Wed, 17 Sep 2025 15:20:42 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Yicong Yang <yangyicong@huawei.com>
+Cc: yangyicong@hisilicon.com, Will Deacon <will@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>, maz@kernel.org,
+	oliver.upton@linux.dev, corbet@lwn.net,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+	shuah@kernel.org, shameerali.kolothum.thodi@huawei.com,
+	linuxarm@huawei.com, prime.zeng@hisilicon.com, xuwei5@huawei.com,
+	tangchengchang@huawei.com, wangzhou1@hisilicon.com
+Subject: Re: [PATCH v4 5/7] arm64: Add support for FEAT_{LS64, LS64_V}
+Message-ID: <aMrDuieMX9WL4jkB@arm.com>
+References: <20250715081356.12442-1-yangyicong@huawei.com>
+ <20250715081356.12442-6-yangyicong@huawei.com>
+ <aL7Fgx__LeLfbDyU@willie-the-truck>
+ <5d2ba565-715b-9b17-951b-f805dde5988b@huawei.com>
+ <aMLvtpaCgRqPAU2Z@willie-the-truck>
+ <20250912144736.00007673@huawei.com>
+ <666e3588-2e42-2275-f9ec-94ba0954bdc6@huawei.com>
+ <aMl6u7xTDLhrZmqK@arm.com>
+ <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0dfe5781-7ca7-7d9f-b099-b20da5e10a1b@huawei.com>
 
-Hi Randy,
-
-On Sun, 14 Sep 2025 17:25:19 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> 
-> 
-> On 9/14/25 7:10 AM, Masami Hiramatsu (Google) wrote:
-> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Wed, Sep 17, 2025 at 11:51:20AM +0800, Yicong Yang wrote:
+> On 2025/9/16 22:56, Catalin Marinas wrote:
+> > On Mon, Sep 15, 2025 at 04:29:25PM +0800, Yicong Yang wrote:
+> >> in my understanding the hwcap only describes the capabilities of the CPU but not
+> >> the whole system. the users should make sure the function works as expected if the
+> >> CPU supports it and they're going to use it. specifically the LS64 is intended for
+> >> device memory only, so the user should take responsibility of using it on supported
+> >> memory.
 > > 
-> > Add wprobe event trigger to set and clear the watch event dynamically.
-> > This allows us to set an watchpoint on a given local variables and
-> > a slab object instead of static objects.
-> > 
-> > The trigger syntax is below;
+> > We have other cases like MTE where we avoid exposing the HWCAP to user
+> > if we know the memory system does not support MTE, though we intercepted
+> > this early and asked the (micro)architects to tie the CPU ID field to
+> > what the system supports.
 > 
->                         below:
-> (just a nit :)
+> but we lack the same identification mechanism as CPU for the memory system, so it's just a
+> restriction for the hardware vendor that if certain feature is not supported for the whole
+> system (SoC) then do not advertise it in the CPU's ID field. otherwise i think we're currently
+> doing in the manner that if capability mismatch or cannot work as expected together then a
+> errata/workaround is used to disable the feature or add some workaround on this certain
+> platform.
+> 
+> this is also the case for LS64 but a bit more complex, since it involves the completer outside
+> the SoC (the device) and could be a hotplug one (PCIe). from the SoC part we can restrict to
+> advertise the feature only if it's fully supported (what we've already done on our hardware).
 
-OK.
+That's good to know. Hopefully other vendors do the same.
 
-> 
-> > 
-> >   - set_wprobe:WPROBE:FIELD[+OFFSET] [if FILTER]
-> >   - clear_wprobe:WPROBE[:FIELD[+OFFSET]] [if FILTER]
-> > 
-> > set_wprobe sets the address pointed by FIELD[+offset] to the WPROBE
-> > event. The FIELD is the field name of trigger event.
-> > clear_wprobe clears the watch address of WPROBE event. If the FIELD
-> > option is specified, it clears only if the current watch address is
-> > same as the given FIELD[+OFFSET] value.
-> > 
-> > The set_wprobe trigger do not change type and length. That should be
-> 
->                          does                             should be done
-> ?
+I think the ARM ARM would benefit from a note here that the system
+designers should not advertise this if the interconnect does not support
+it. I can raise this internally.
 
-OK.
+> > Arguably, the use of LD/ST64B* is fairly specialised and won't be used
+> > on the general purpose RAM and by random applications. It needs a device
+> > driver to create the NC/Device mapping and specific programs/libraries
+> > to access it. I'm not sure the LS64 properties are guaranteed by the
+> > device alone or the device together with the interconnect. I suspect the
+> > latter and neither the kernel driver nor user space can tell. In the
+> > best case, you get a fault and realise the system doesn't work as
+> > expected. Worse is the non-atomicity with potentially silent corruption.
+> 
+> will be the latter one, both interconnect and the target device need to
+> support it. but I think the driver developer (kernel driver or userspace
+> driver) must have knowledge about the support status, otherwise they
+> should not use it.
+[...]
+> my thoughts is that the driver developer should have known whether their
+> device support it or not if going to use this. the information in the
+> firmware table should be fine for platform devices, but cannot describe
+> information for hotpluggable ones like PCIe endpoint devices which may
+> not be listed in a firmware table.
 
-> 
-> > set when a new wprobe is created.
-> > 
-> > Also, the WPROBE event must be disabled when setting the new trigger
-> > and it will be busy afterwards. Recommended usage is to add a new
-> > wprobe at NULL address and keep disabled.
-> > 
-> > Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > ---
-> >  Changes in v3:
-> >   - Add FIELD option support for clear_wprobe and update document.
-> >   - Fix to unregister/free event_trigger_data on file correctly.
-> >   - Fix syntax comments.
-> >  Changes in v2:
-> >   - Getting local cpu perf_event from trace_wprobe directly.
-> >   - Remove trace_wprobe_local_perf() because it is conditionally unused.
-> >   - Make CONFIG_WPROBE_TRIGGERS a hidden config.
-> > ---
-> >  Documentation/trace/wprobetrace.rst |   88 +++++++
-> >  include/linux/trace_events.h        |    1 
-> >  kernel/trace/Kconfig                |   10 +
-> >  kernel/trace/trace_wprobe.c         |  430 +++++++++++++++++++++++++++++++++++
-> >  4 files changed, 529 insertions(+)
-> > 
-> > diff --git a/Documentation/trace/wprobetrace.rst b/Documentation/trace/wprobetrace.rst
-> > index 9774f57e2947..a1812a8ac491 100644
-> > --- a/Documentation/trace/wprobetrace.rst
-> > +++ b/Documentation/trace/wprobetrace.rst
-> > @@ -67,3 +67,91 @@ Here is an example to add a wprobe event on a variable `jiffies`.
-> >             <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
-> >  
-> >  You can see the code which writes to `jiffies` is `do_timer()`.
-> > +
-> > +Combination with trigger action
-> > +-------------------------------
-> > +The event trigger action can extend the utilization of this wprobe.
-> > +
-> > +- set_wprobe:WPEVENT:FIELD[+|-ADJUST]
-> > +- clear_wprobe:WPEVENT[:FIELD[+|-]ADJUST]
-> > +
-> > +Set these triggers to the target event, then the WPROBE event will be
-> > +setup to trace the memory access at FIELD[+|-ADJUST] address.
-> > +When clear_wprobe is hit, if FIELD is NOT specified, the WPEVENT is
-> > +forcibly cleared. If FIELD[[+|-]ADJUST] is set, it clears WPEVENT only
-> > +if its watching address is the same as the FIELD[[+|-]ADJUST] value.
-> > +
-> > +Notes:
-> > +The set_wprobe trigger do not change type and length. That should be
->                           does not                          should be done
+There's a risk of such instructions ending up in more generic
+copy_to/from_io implementations but it's not much we can do other than
+not enabling the feature at all.
 
-OK.
+So, I think a HWCAP bit is useful but we need (a) clarification that the
+CPUID field won't be set if the system doesn't support it and (b)
+document the Linux bit that it's a per-device capability even if the
+CPU/system supports it (the HWCAP is only a prerequisite to be able to
+use the instructions; the driver can fall back to non-atomic ops, maybe
+with a DGH if it helps performance).
 
-> 
-> 
-> > +set when a new wprobe is created.
-> > +
-> > +The WPROBE event must be disabled when setting the new trigger
-> > +and it will be busy afterwards. Recommended usage is to add a new
-> > +wprobe at NULL address and keep disabled.
-> > +
-> > +
-> > +For example, trace the first 8 byte of the dentry data structure passed
-> 
->                                   bytes
-
-OK
-
-> 
-> > +to do_truncate() until it is deleted by __dentry_kill().
-> > +(Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
-> > +
-> > +  # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
-> 
-> Just using '>' here is OK?
-
-Yes, until this, no probe hooks do_truncate, so it should not kick any
-events. But maybe it is better to use '>>' to avoid confusing.
-
-> 
-> > +
-> > +  # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-> > +  # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-> > +
-> > +  # echo 'f:dentry_kill __dentry_kill dentry=$arg1' >> dynamic_events
-> > +  # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
-> > +
-> > +  # echo 1 >> events/fprobes/truncate/enable
-> > +  # echo 1 >> events/fprobes/dentry_kill/enable
-> > +
-> > +  # echo aaa > /tmp/hoge
-> > +  # echo bbb > /tmp/hoge
-> > +  # echo ccc > /tmp/hoge
-> > +  # rm /tmp/hoge
-> > +
-> > +Then, the trace data will show;
-> 
-> Usually that should be:      show:
-> 
-> but in .rst it might need to be    show::
-
-Ah,, yes, that's right. I missed that.
-
-Thank you!
-
-> 
-> I don't know. Haven't tested it.
-> 
-> 
-> -- 
-> ~Randy
-> 
-
+An alternative would have been for the kernel driver to communicate to
+the user that the device supports the 64-byte atomic accesses but I'm
+not aware of any fairly generic way to do this.
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Catalin
