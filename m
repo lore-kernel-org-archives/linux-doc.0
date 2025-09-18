@@ -1,66 +1,66 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBDA17E0
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADE12EC0A3
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758225051; cv=none; b=qhwPuS/ZF9C/XfyKPsLBWVZUl4NQArFdXBo7fLWKpshNHtEt7JMFMpF9X8dZme/awySZ7y/hLTUCmiLGeAdxe+hUklP6kPZ04+f6I3pF6r5M1dmCDNXOJdANIBR1bm1sYmvnITh+meBiuGw6+M8w1oA8XN0ObYFDNgRCI4UknNs=
+	t=1758225088; cv=none; b=t7Wdlx5mbrHXc4LL6EIg/uXsQYjrKeqKC4cmItHKsViRKuJFHngSaty+rRXaVWAQyLFBLEvZG5vArr5X0qoYtnZGtst7b0ffglf3nppPnHiRCwvKT0COJuyXNPHgOAUGL8q11d3pjUo9lFGRpk8OFFgQIlZW/7ET0NnCWdYXpqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758225051; c=relaxed/simple;
-	bh=HHO9BAc/GcPnikXW7sVULetVQkeYVPNZhR0BOkGedsc=;
+	s=arc-20240116; t=1758225088; c=relaxed/simple;
+	bh=+vCpNQP3gmwChNJcUCWInLDRRa5HHP5yLhQ1psOMqTk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CKhjaRZrbFYXrk2k0P0R0OFYpYvXnr64CPVVFyDvQpJqpPYnQBOm7vS3q89FYnZdcnlsqm4bceP3TYoSObVIWHR0nwdSd9hXmcZhZIwY+Yw0+lYV/fAMyfjLKCfHUZJ9wcpZs+uimUM/O5RoQQ1G5fOoggLsUHTqVEAYy25L2VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eva9AvEv; arc=none smtp.client-ip=209.85.160.48
+	 In-Reply-To:Content-Type; b=NMNDOr6aXOpabqgVnZrDaeMRUW9uBK2A4czRazdttrsnZ0M905hPxYPWru83c6tRgbV+LUFbqY/nVtrwYn0gd15MAxkRi2Cz5GLnH/VbkBXaw/Pi4a8PGEHwgwYMcb6tzRJZwkS5h67MOsfj6ipRa+8DO7A8hju8iAn1DyBaDdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=uhTVDOEL; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eva9AvEv"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-330d1565844so831400fac.1
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:50:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uhTVDOEL"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6219e33ba2dso670824eaf.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758225047; x=1758829847; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758225086; x=1758829886; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=d/njUCFRX0+Zez5Vbxzl7crkS7bqMoDfnLtzR1RdZo4=;
-        b=eva9AvEvBIFnQI8mWist/SQpcXqkGSpmqlwiCGWUgrvC4NXsjyvmI+ZFzEMNAUwTq9
-         Xlur5BY5bjZtazgcym+P40KEYcEJrtZ23S4os3mJ8rWiWYu4w8w1vqd9pPBO0is9vmzj
-         5j7ck9vwCdwU0u1QaBk/dxCCTxPtxcbJI+lLlXeikpwczgj0KpWDOSt2+XoNZky0i/Br
-         aDj81b7GQbsHgW4QUu3E4q5Hwlr7bv2v7DR+nYMAD624yPFgyCie/t4/iq0qH1JS1X4q
-         FdJo4bh1TnEa+PShp5gj9DHaMnrcrARpaOIZ7MnhmpJ1QwUH9ta6VQMK6jSJppOks/5q
-         hQtw==
+        bh=Ycb6BrVm3o3tgecg3NZ2b8GKaDVhR9xxtrfWCgsW3GI=;
+        b=uhTVDOEL13vWSEZ+PHy9Gpzci9lgihjB94UiPff8m4ZgUOMFrr5L0r7eMZae+JHgHm
+         Owmm7nu1rKxAgMtXT101hm6pTxVpL64qQObvWJ99wzS4ysBmGGu2ke+o4aeGLmDtWL0w
+         6EoPS660WndQ4blKQujTf/FNMPzqsAk9sg+ZLKWUx0lDp3YinE1ajinBxjC4hCgY+dW5
+         V6IqF7Ncryaafpgc6WTcdHN0PLvzp98GYFOW7TeQW3jORpjR1K3baX5NNbMULS1y56Ac
+         fPMEm52zXPcIb5saHVoZbTll7zFao4S0n7n+T6jgjEacSeQqUe7Z/k14iE/sOgv8D2lv
+         sRqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758225047; x=1758829847;
+        d=1e100.net; s=20230601; t=1758225086; x=1758829886;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d/njUCFRX0+Zez5Vbxzl7crkS7bqMoDfnLtzR1RdZo4=;
-        b=w4adeemsaWsyzoQR/iTCy9nsWNZ4O5k+LAv9DaRFpcZlv8ufRNTfN7x9ovHQtvjhPo
-         LeFcQQLDGuphJ7/XRiria3Kcze8Notit9T277wXtr5S9Z0Ra/8ypBprNlaug477EFwgv
-         gEyOnoQn8esRrb+PDQvORLAl/ixC9DwvAozy1RQPqL/iTTpL5KNO3VMdW3N5urvR7uGs
-         FUWCeUSFaG3Kgk814mTtN2411Y2OED6nd3xBSiZEnZzZ11QZ0W5FRCMKn0GYMNAmv0SJ
-         I4yRintnI6yd0grL3bOQwSL+/F++HluUc9E6x1SjBwONPN7L3xPgi82n1QIHpuXKie5o
-         rx2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX0ftoEx8PYuvMym4ulpYncISN2kGPz0rUZFjmAwAa2+agpjbRkLEPm+aXBgCmGhS4PXnhcxhg9M9Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtsmW7hOW69/WFfk22RF9se2xTIloVoF3Ak4c/qRNNiUnOCFYw
-	sr0IMXxH6lpVXpoJWClJQZxhi8uDrFZWrCMpamX0xd4V2RYTGiW/bQYN4xVpcUxdRJ8=
-X-Gm-Gg: ASbGncuVFBv5wNLU/w+1D7xTDdCCLOIOZ9a/ImejnNINNMapPQbeyBFbcMeYMOVLfll
-	XaB4k6wwUGK04TYaPo0T4eZVd874WosK2kIhgQUpOI62joZu/tqZ2W7KwbuMKnzFqZ+wZ8axDyj
-	rS2xcEeYlCxZAFYOIRApB92t/k9i8/MAqJXuOTW53bcc5hjfn12NuPaGuF28k8iU5FaSQNzwFdl
-	WFTewaL/K3ZW/OSzqXhvbpuNoqrtuKipo9MMY//oRAge7hqER9y7+bqkJRL0joG8MM6vXz0NJmD
-	8L7dGVB4HsLlSJZoaEZhMZEEVbdPXDVNB1MmJuLFmNOOY+gPA8q4dYGBpXBlAdfKLJIzGMoNp+1
-	nF/pmbQA7ifmdB7RalPzCQHaVZpZ1qgOvZuXQWcTRbsFGfgVfIs67BFgvBwHvAJ9Be9WduugjYq
-	66gyyKxQhRy4DKoYeVATdCHdFxOH2g
-X-Google-Smtp-Source: AGHT+IEHVxGf2yhLB3b35LtxkKozvBgxsFWLkSjfMAnEfJuFnLKkmmbeQcAg1qXyYA+/yqoKPs96RA==
-X-Received: by 2002:a05:6870:9f81:b0:315:bb13:5709 with SMTP id 586e51a60fabf-33bb4965597mr508926fac.47.1758225046732;
-        Thu, 18 Sep 2025 12:50:46 -0700 (PDT)
+        bh=Ycb6BrVm3o3tgecg3NZ2b8GKaDVhR9xxtrfWCgsW3GI=;
+        b=Np8yqCO+GqY4aSMsBVc4uC2+723mdRtYMT732Q91CKi2Ns7Pt4CkWAu7jmIseCO+FG
+         TQ3xrEF0LCNbk8J4K2xIyLxgH95t8IR4DrQebRH9VJ20hBu3v85Wxt/SVdSCmsbFQm/B
+         fToLIlq3UIDm16ccmOS9/UD1bBPNnogNbV5SyS8F20jRgjqmDQ2z8n77PRxQ7wn4pzAF
+         arpUetXEeuLoDE8kk7kK/AFQ78hM0IKCU4bCg68+/Mf09RuNib/Z5EgKjPgoy0Tdc48V
+         0MOEwUsptW4Aq+4bxpAhFFC6fOed7dA5wmdann8oJA6Okh7sigHEquc+Hq2KfbRaXexP
+         Ud6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXvHhH7VZJiQdelB4GL6tV+IMOEHjhY1hu+5v8SPu6cpZFCNs64IAe/Fk/Vwmqklgd2o/gOOSEyIU8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVIOmejHe/j61LcchKnZvPalMOQfmeJ+yyPRs/ePo6DE6N7q6S
+	Ji0/S/RdSzvypZyyJ3TnYt/b9xJJKzsBglV+bicbLLXOWaFouv5b8SSMfDRAK31cokA=
+X-Gm-Gg: ASbGncvIeGJoUcjHTEXh7nHj3JZ+ftNT/IPB5hvrMc4r91rnmfFiNifvpTIiE2zBsT+
+	AJiKIPCFgzGDdTxhzYKemJhQVlyB/o82zUqtDRcHr/vQylPSC8o1f/m/u4aBGmdgC/ir5sLGsm5
+	WXofjxu35itlRJhG095F/2Svm6kBn2OmPxp6K3Eqvr5UdLFVFQoA6xWrhT/lfuZapWnf8a+Z9z/
+	HahJ9VZxFToq3Gz7VVmCcbBnQgZ3L+CifUOyBr+ypxPAygnSz+rHRwB16Wml0XYY2KUCvI9WHm8
+	t0t3N3xfNOUvT7mhqoGrkKyhzgpoNzsF6PT/8i5JU6pS02K2WJJYz2IT75ADBNAZOi3Cq8u901o
+	RQTUYUfJZyuidVw4FWlSAW7zW608RXnNZN6PswPLCdVUcQ1RBHZQ1mJVFidZ2SsQ1w5esRDniuw
+	/BKG6oyMa3e4Xe4jy/GWTNzN2uJ90g
+X-Google-Smtp-Source: AGHT+IH4gnu5ZviVz4ulNiX2L97wXpeu2HQYjfDnnt0qWqu/Pap+ivM2yq37UDqW5VBY04FXNOqo9w==
+X-Received: by 2002:a05:6870:8088:b0:315:60a6:c28f with SMTP id 586e51a60fabf-33bb3aa16afmr568561fac.3.1758225085748;
+        Thu, 18 Sep 2025 12:51:25 -0700 (PDT)
 Received: from ?IPV6:2600:8803:e7e4:1d00:55b7:b662:4c5b:a28e? ([2600:8803:e7e4:1d00:55b7:b662:4c5b:a28e])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-336e5a2ab2esm1789178fac.17.2025.09.18.12.50.45
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-336e3af73f5sm1892886fac.6.2025.09.18.12.51.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 12:50:46 -0700 (PDT)
-Message-ID: <62989891-e166-419b-b6ab-cf1eca781b32@baylibre.com>
-Date: Thu, 18 Sep 2025 14:50:45 -0500
+        Thu, 18 Sep 2025 12:51:25 -0700 (PDT)
+Message-ID: <46575acd-9e7b-4462-989b-d74de4d86311@baylibre.com>
+Date: Thu, 18 Sep 2025 14:51:24 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/8] Documentation: iio: ad4030: Add double PWM SPI
- offload doc
+Subject: Re: [PATCH v2 4/8] dt-bindings: iio: adc: adi,ad4030: Add PWM
 To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
  devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
@@ -77,81 +76,20 @@ Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
  eblanc@baylibre.com, andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, corbet@lwn.net, marcelo.schmitt1@gmail.com
 References: <cover.1758214628.git.marcelo.schmitt@analog.com>
- <4f3b1c516f8148e0b7e1c430bb184a2db12ade3c.1758214628.git.marcelo.schmitt@analog.com>
+ <7a1a68a33769c69967bcffbbf7a0bdfec69516ed.1758214628.git.marcelo.schmitt@analog.com>
 Content-Language: en-US
 From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <4f3b1c516f8148e0b7e1c430bb184a2db12ade3c.1758214628.git.marcelo.schmitt@analog.com>
+In-Reply-To: <7a1a68a33769c69967bcffbbf7a0bdfec69516ed.1758214628.git.marcelo.schmitt@analog.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Could use docs: instead of Documentation: in the subject to
-make it a bit shorter. Seems common enough.
-
 On 9/18/25 12:38 PM, Marcelo Schmitt wrote:
-> Document double PWM setup SPI offload wiring schema.
+> In setups designed for high speed data rate capture, a PWM is used to
+> generate the CNV signal that issues data captures from the ADC. Document
+> the use of a PWM for AD4030 and similar devices.
 > 
 > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
 > ---
-> Change log v1 -> v2
-> - Swapped PWM numbering.
-> - Expanded double PWM description and capture zone description.
-> 
->  Documentation/iio/ad4030.rst | 35 +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad4030.rst b/Documentation/iio/ad4030.rst
-> index b57424b650a8..9501d3fee9bb 100644
-> --- a/Documentation/iio/ad4030.rst
-> +++ b/Documentation/iio/ad4030.rst
-> @@ -92,6 +92,41 @@ Interleaved mode
->  In this mode, both channels conversion results are bit interleaved one SDO line.
->  As such the wiring is the same as `One lane mode`_.
->  
-> +SPI offload wiring
-> +^^^^^^^^^^^^^^^^^^
-> +
-> +.. code-block::
-> +
-> +    +-------------+         +-------------+
-> +    |         CNV |<-----+--| GPIO        |
-> +    |             |      +--| PWM0        |
-> +    |             |         |             |
-> +    |             |      +--| PWM1        |
-> +    |             |      |  +-------------+
-> +    |             |      +->| TRIGGER     |
-> +    |          CS |<--------| CS          |
-> +    |             |         |             |
-> +    |     ADC     |         |     SPI     |
-> +    |             |         |             |
-> +    |         SDI |<--------| SDO         |
-> +    |         SDO |-------->| SDI         |
-> +    |        SCLK |<--------| SCLK        |
-> +    +-------------+         +-------------+
-> +
-> +In this mode, both the ``cnv-gpios`` and a ``pwms`` properties are required.
-> +The ``pwms`` property specifies the PWM that is connected to the ADC CNV pin.
-> +The SPI offload will have a ``trigger-sources`` property to indicate the SPI
-> +offload (PWM) trigger source. For AD4030 and similar ADCs, there are two
-> +possible data transfer zones for sample N. One of them (zone 1) starts after the
-> +data conversion for sample N is complete while the other one (zone 2) starts 9.8
-> +nanoseconds after the rising edge of CNV for sample N + 1.
-> +
-> +The configuration depicted in the above ASCII art is intended to perform data
-
-Could say "diagram" instead of "ASCII art" if you want to be more formal.
-
-> +transfer in zone 2. To achieve high sample rates while meeting ADC timing
-> +requirements, an offset is added between the rising edges of PWM0 and PWM1 to
-> +delay the SPI transfer until 9.8 nanoseconds after CNV rising edge. This
-> +requires a specialized PWM controller that can provide such an offset.
-> +
-
-Could add a link to the HDL project as an example of such hardware.
-
->  SPI Clock mode
->  --------------
->  
-
-Good enough as it is.
 
 Reviewed-by: David Lechner <dlechner@baylibre.com>
+
