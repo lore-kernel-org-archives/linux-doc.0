@@ -1,135 +1,88 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376692F361F;
-	Thu, 18 Sep 2025 08:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24B8D29E11E;
+	Thu, 18 Sep 2025 08:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758182852; cv=none; b=m6jZnZCg88CjR4tJRhE7YmJEGKizC8o2gxroyNfkOakc7wWd+bsEoMQw9SmCNmOmKNSGt1FunyuBNzQF663peIN/fIw0svHPr0kK2npKNQbtMF3/w5XWWBZP1veshVCHZWpqRvSeVSf1D/1VvundzqxiTqjIoKxcb/X4HhCXU/g=
+	t=1758183352; cv=none; b=ic9fUgUoOYKouB5wU2BtLtJ91/G4IZvZhkSDNPCQfKdR6TeK4cfJ1QRIv2/OMSte6SRizX6qnodeRJ9zqnDdcZTgGCFrwmEcigapToe2mHmCjpGAZ568QVWWtZAxiSI8QBq9p3X8VcGQw9D7ciovEvBGG6JSoA2dTO0HNCqm4WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758182852; c=relaxed/simple;
-	bh=5C/zUI2mvijNoFYMZi0qP58OmtRj986jYrloLiokaF8=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=JRsk8ctjpwc9t4AQuTbd+tgAYIzCApcbC1/NwXculRpffdkPn0cRKFx1ZpnASEz8/qk9w20YYzH7wO/gcrPbkvbsEM9LBy+ZbZymzRF1hp3E7rEk8jG+VlaRgn4WPTx2SuIF5MNgjxSjxDav8WpJaCVuk45Nb2duydzA4ExQksk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cS7Xb45HWz5BNRd;
-	Thu, 18 Sep 2025 16:07:27 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl2.zte.com.cn with SMTP id 58I86xx7044585;
-	Thu, 18 Sep 2025 16:06:59 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 18 Sep 2025 16:07:01 +0800 (CST)
-Date: Thu, 18 Sep 2025 16:07:01 +0800 (CST)
-X-Zmail-TransId: 2afc68cbbda5867-c352e
-X-Mailer: Zmail v1.0
-Message-ID: <20250918160701503LAL5d3yUvPccri9n1foeC@zte.com.cn>
-In-Reply-To: <CAJy-AmnK2fFJeoRzUXp7tME6HVYeGJreuXLSecnQLAr=SNzE5w@mail.gmail.com>
-References: CAJy-Amk5UTE2HN_Pcd5kbvCsa247CZ9sSMNX==itXeJkWuj-NQ@mail.gmail.com,20250917110956338Wld0_KzYq21PXolbufuNn@zte.com.cn,CAJy-AmnK2fFJeoRzUXp7tME6HVYeGJreuXLSecnQLAr=SNzE5w@mail.gmail.com
+	s=arc-20240116; t=1758183352; c=relaxed/simple;
+	bh=lSAJttjP0UeL7hTVbrBaA1PbIrkGMzcauuCWdfzEWGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wlz0oDAqN4j6WT+jAf9g1t5VynNGWaUTU1OX23Hn+mhzDcx1bvHuTKsV+cRMH+o4ka8lq7Xh6a/C5Qdj2QFcsoww13+apb73weLXsMgvIVxJ0oJ56hwi2vonDnnPtMnKQRpuYAqGH7tfLRmexfFvnah3r64+7OXKjWIyi0XMAUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3ABA11A32;
+	Thu, 18 Sep 2025 01:15:42 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 161433F673;
+	Thu, 18 Sep 2025 01:15:50 -0700 (PDT)
+Date: Thu, 18 Sep 2025 09:15:48 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: James Clark <james.clark@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v6 00/12] perf: arm_spe: Armv8.8 SPE features
+Message-ID: <20250918081548.GQ12516@e132581.arm.com>
+References: <20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org>
+ <20250808123913.GD3420125@e132581.arm.com>
+ <aMruzdTu74rZ0RZ9@x1>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <seakeel@gmail.com>
-Cc: <alexs@kernel.org>, <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>,
-        <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
-        <xu.xin16@zte.com.cn>, <yang.tao172@zte.com.cn>,
-        <wang.longjie1@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NCAwLzddIERvY3MvemhfQ046IFRyYW5zbGF0ZSBmaWxlc3lzdGVtcyBkb2NzIHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 58I86xx7044585
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 18 Sep 2025 16:07:27 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68CBBDBF.000/4cS7Xb45HWz5BNRd
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aMruzdTu74rZ0RZ9@x1>
 
->> >Applied! Thanks!
->> >Alex
->> >
->> Hi Alex
->>
->> Thank you for your review!
->>
->> Previously, Yanteng gave a review suggestion.
->>
->> https://lore.kernel.org/all/e0233785-b3da-4bd5-a37f-cf4704c49744@linux.dev/
->>
->> Additionally, I also noticed that the header of this
->> patch lacks a fixed format.
->>
->> https://lore.kernel.org/all/20250826190719682yrVrd5e1DHRXx0-XjI19Y@zte.com.cn/
->>
->> I am preparing to send a new version to fix the above issue.
->
->Good. I have picked v4 on
->https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/log/?h=docs-next,
->could you do me a favor to send a fix base the branch?
->
->Thanks
-I have sent 3 fix patch.
+On Wed, Sep 17, 2025 at 02:24:29PM -0300, Arnaldo Carvalho de Melo wrote:
+> On Fri, Aug 08, 2025 at 01:39:13PM +0100, Leo Yan wrote:
+> > On Fri, Aug 08, 2025 at 12:22:57PM +0100, James Clark wrote:
+> > > Support 3 new SPE features: FEAT_SPEv1p4 filters, FEAT_SPE_EFT extended
+> > > filtering, and SPE_FEAT_FDS data source filtering. The features are
+> > > independent can be applied separately:
+> > > 
+> > >   * Prerequisite sysreg changes - patch 1
+> > >   * FEAT_SPEv1p4 - patches 2 - 3
+> > >   * FEAT_SPE_EFT - patch 4
+> > >   * FEAT_SPE_FDS - patches 5 - 9
+> > >   * FEAT_SPE_FDS Perf tool changes - patches 10 - 12
+> > > 
+> > > The first two features will work with old Perfs but a Perf change to
+> > > parse the new config4 is required for the last feature.
+> > 
+> > I tested FEAT_SPE_EFT (xxx_filter_mask), inv_data_src_filter
+> > and inv_event_filter, all of them work as expected.
+> > 
+> > Tested-by: Leo Yan <leo.yan@arm.com>
+> 
+> Please let me know when I can merge the tools/perf bits.
 
-1.
-https://lore.kernel.org/all/20250918151349743KS4zJHQOoG-yPHSeAY3dv@zte.com.cn/
-2.
-https://lore.kernel.org/all/20250918143643417OPRH_RjCXkCa3aCtQEX3Y@zte.com.cn/
-3.
-https://lore.kernel.org/all/202509181556503857h2V0skOmjONfEzUrZ-ok@zte.com.cn/
+Thanks for bringing up this, Arnaldo!
 
-Thanks.
+Just remind, James sent the latest series is v8 [1] couple weeks ago,
+and I confirmed v8 can apply clearly on the latest mainline kernel.
+We need kernel maintainers' review so can move forward.
 
-Mingyin
->
->>
->> Thanks,
->>
->> Mingyin
->> ><shao.mingyin@zte.com.cn> 于2025年8月26日周二 19:12写道：
->> >>
->> >> From: Shao Mingyin <shao.mingyin@zte.com.cn>
->> >>
->> >> translate the filesystems docs into Simplified Chinese.
->> >> v3->v4
->> >> resolve patch damage issues.
->> >>
->> >> Shao Mingyin (5):
->> >> Docs/zh_CN: Translate ubifs.rst to Simplified Chinese
->> >> Docs/zh_CN: Translate ubifs-authentication.rst to Simplified Chinese
->> >> Docs/zh_CN: Translate gfs2.rst to Simplified Chinese
->> >> Docs/zh_CN: Translate gfs2-uevents.rst to Simplified Chinese
->> >> Docs/zh_CN: Translate gfs2-glocks.rst to Simplified Chinese
->> >>
->> >> Wang Longjie (2):
->> >> Docs/zh_CN: Translate dnotify.rst to Simplified Chinese
->> >> Docs/zh_CN: Translate inotify.rst to Simplified Chinese
->> >>
->> >>  .../zh_CN/filesystems/dnotify.rst             |  67 ++++
->> >>  .../zh_CN/filesystems/gfs2-glocks.rst         | 199 ++++++++++
->> >>  .../zh_CN/filesystems/gfs2-uevents.rst        |  97 +++++
->> >>  .../translations/zh_CN/filesystems/gfs2.rst   |  57 +++
->> >>  .../translations/zh_CN/filesystems/index.rst  |  17 +-
->> >>  .../zh_CN/filesystems/inotify.rst             |  80 ++++
->> >>  .../filesystems/ubifs-authentication.rst      | 354 ++++++++++++++++++
->> >>  .../translations/zh_CN/filesystems/ubifs.rst  | 114 ++++++
->> >>  8 files changed, 984 insertions(+), 1 deletion(-)
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/dnotify.rst
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/gfs2.rst
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/inotify.rst
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
->> >>  create mode 100644 Documentation/translations/zh_CN/filesystems/ubifs..rst
+Thanks,
+Leo
+
+[1] https://lore.kernel.org/linux-arm-kernel/20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org/
