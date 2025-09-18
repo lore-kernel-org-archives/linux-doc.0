@@ -1,64 +1,164 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F61255E27;
-	Thu, 18 Sep 2025 17:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D490258EE9;
+	Thu, 18 Sep 2025 17:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758215133; cv=none; b=GLB3uFgEVDBakFKqw8d2HkS/N6H3MA+S7OdSajM1OfcJODLUFxvusuU4A+tpYYxGeu9B0LQmv9srXIuJf6VKygocj38O9Uq54m22mCzovTJMWuMZz0t3iX6GiKkT1IoyULt8GKCxtOw1jB39Fn7XojvwbrqBzYsxEOLtMzcPsIo=
+	t=1758216807; cv=none; b=AdB401xzp0yTAOf1tHqHni0HiNA+zK55tlVzfyqg+nDyQeBgwu8ud7KlGusA7MpcZU8JH32hXkao8jH2e4QObolIeoVn3n2fEjKxiX3PW4CzSH081TZXLC92zB5S5/xO7mPdEdP9QjGRDifuW40ALppKHAhp7OLIfQWnEsHzyA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758215133; c=relaxed/simple;
-	bh=X/POsIVTv8eNpfgINUCFzeDvZfWq0I5UrNuXSk5IxQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZnHFl2+MNGl7itLT8q6t7JoSFSw3D5T6YsajU7Os3UJ2nldOW7rFVD3NPQzCaIvQ7RBOXx+J3ho0iIpdW75QoRMvCrLK1NcNZ41WEgJjA/X16A+2nJ2KHpSprINiHpKiqRrad33KlHpOiofpqksbG54CU+lMXtHMwby9FxrrVUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 048B85830E;
-	Thu, 18 Sep 2025 17:05:22 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id D4E073F;
-	Thu, 18 Sep 2025 17:05:20 +0000 (UTC)
-Date: Thu, 18 Sep 2025 13:05:19 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1758216807; c=relaxed/simple;
+	bh=o5Mi5RTVZPdLCZiio2GuBYItztE9raPW/ws7HtV0wuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X4yvyDa+xjvHyPIRSRtfMvQvfdBRVzfJj9XVcEezL2roTf25uQO1L7RyCPdexFZrYLdHWBh8nEJvu7ssjd9YguddxhgbdAOfABn91J76FmRODuW4kh7XcxPBoVawTT/g7ZAd+b4Bn97/SaecvTiVMumwp53yqTtJmLtySKlkTOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWpvUTCn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWpvUTCn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA31EC4CEE7;
+	Thu, 18 Sep 2025 17:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758216805;
+	bh=o5Mi5RTVZPdLCZiio2GuBYItztE9raPW/ws7HtV0wuo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TWpvUTCnUin5ZWvmLL9oVblUw6/pVt/Ezs3LZt3OguqkkYoAKQ4tdfCdGgTcv4a7I
+	 fvPcPFck8GiQQ6k/B3DyRvHrI+7o+XAChY7I4GZOk6kBa2bC36uFDriPP0HsSRqFA2
+	 KjjYhOKzgiiWxyX3BlnzEn9ByXnXuv1KGZdyh+CXniMI+PVi1vzMF4uFeAyCvQyAzs
+	 +swMynGhtsVI8IrVBlate8WzbqQbUCi71q71xdcUShYWF6U9jmr4lXWjfuOH0BaLua
+	 nEOddxlE4L8Nt/kJPcgLv/6nKRLPVgEmSg7mK+67aoc/Ztt60nYWqeupFiWkXe/yn7
+	 urpT5p3gKOUyA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uzIVX-0000000D09x-329n;
+	Thu, 18 Sep 2025 19:33:23 +0200
+Date: Thu, 18 Sep 2025 19:33:23 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Tracing
- <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Tom Zanussi <zanussi@kernel.org>
-Subject: Re: [PATCH v2 0/5] Histogram docs formatting cleanup
-Message-ID: <20250918130519.06294a16@batman.local.home>
-In-Reply-To: <871po390m7.fsf@trenco.lwn.net>
-References: <20250916054202.582074-2-bagasdotme@gmail.com>
-	<871po390m7.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 01/24] scripts/jobserver-exec: move the code to a class
+Message-ID: <t565x25o3gftbwzekhx6uanmxbkfdeqyydhkulwru5uszbw5wd@d7edoparssgv>
+References: <cover.1758196090.git.mchehab+huawei@kernel.org>
+ <4749921b75d4e0bd85a25d4d94aa2c940fad084e.1758196090.git.mchehab+huawei@kernel.org>
+ <87segj7l5r.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 5jfb1czsre9tiux7xn8rq9sjan85h513
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: D4E073F
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19fs3V881gWiGm8PDl6FigPUw9X2RlD9Ow=
-X-HE-Tag: 1758215120-677576
-X-HE-Meta: U2FsdGVkX18qAq/L8Rsa+fhxL5hEE9MCOF613M9C6KOdcg+eh7NXkpJcD1Dz53GMS8IF3nhmmD1hxfuBTtmNImt6BAxJBwTMieg2gmp8nvXSXivLKgogERpDuyH/EEbdA3b24vGEmb9fIdyBPINn6H2PPWRT6XJmvJnMLMHkO5N4+0Q2wSCc3bl68yIS/NO0U9k+GJPjTtkcL8Rv7/+g8RcM7sZzvz5jDlmZPsnzIqZ3SSMj4qxlIMBuHejwrZarBeWlgDgusWwAU1sxfOw12NLus9RwfazT1WMrTR7LlE5pooYrrW2SLSo5gd23CHLa7srK5+1MjyPBg899rmuXVo+Ep4pHuv2glM0l+jqTJ8+OGfFuh7RjwqFfckBX/dB6npzCj3vpHA+g5RFxHY75ErCtQ1dmB41LvZa0SbhSahkm7u5kJfG60dLMXEZ2hllf2uwzaURgjpq64AzLZY7ECA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87segj7l5r.fsf@trenco.lwn.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, 18 Sep 2025 10:38:56 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+On Thu, Sep 18, 2025 at 10:58:08AM -0600, Jonathan Corbet wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > +class JobserverExec:
+> > +    """
+> > +    Claim all slots from make using POSIX Jobserver.
+> > +
+> > +    The main methods here are:
+> > +    - open(): reserves all slots;
+> > +    - close(): method returns all used slots back to make;
+> > +    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
+> > +    """
+> > +
+> > +    def __init__(self):
+> > +        """Initialize internal vars"""
+> > +        self.claim = 0
+> > +        self.jobs = b""
+> > +        self.reader = None
+> > +        self.writer = None
+> > +        self.is_open = False
+> > +
+> > +    def open(self):
+> > +        """Reserve all available slots to be claimed later on"""
+> > +
+> > +        if self.is_open:
+> > +            return
+> > +
+> > +        try:
+> > +            # Fetch the make environment options.
+> > +            flags = os.environ["MAKEFLAGS"]
+> > +            # Look for "--jobserver=R,W"
+> > +            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
+> > +            # so this handles all of them.
+> > +            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
+> > +
+> > +            # Parse out R,W file descriptor numbers and set them nonblocking.
+> > +            # If the MAKEFLAGS variable contains multiple instances of the
+> > +            # --jobserver-auth= option, the last one is relevant.
+> > +            fds = opts[-1].split("=", 1)[1]
+> > +
+> > +            # Starting with GNU Make 4.4, named pipes are used for reader
+> > +            # and writer.
+> > +            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
+> > +            _, _, path = fds.partition("fifo:")
+> > +
+> > +            if path:
+> > +                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
+> > +                self.writer = os.open(path, os.O_WRONLY)
+> > +            else:
+> > +                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
+> > +                # Open a private copy of reader to avoid setting nonblocking
+> > +                # on an unexpecting process with the same reader fd.
+> > +                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
+> > +                                      os.O_RDONLY | os.O_NONBLOCK)
+> > +
+> > +            # Read out as many jobserver slots as possible
+> > +            while True:
+> > +                try:
+> > +                    slot = os.read(self.reader, 8)
+> > +                    self.jobs += slot
+> > +                except (OSError, IOError) as e:
+> > +                    if e.errno == errno.EWOULDBLOCK:
+> > +                        # Stop at the end of the jobserver queue.
+> > +                        break
+> > +                    # If something went wrong, give back the jobs.
+> > +                    if self.jobs:
+> > +                        os.write(self.writer, self.jobs)
+> > +                    raise e
+> > +
+> > +            # Add a bump for our caller's reserveration, since we're just going
+> > +            # to sit here blocked on our child.
+> > +            self.claim = len(self.jobs) + 1
+> > +
+> > +        except (KeyError, IndexError, ValueError, OSError, IOError):
+> > +            # Any missing environment strings or bad fds should result in just
+> > +            # not being parallel.
+> > +            self.claim = None
+> 
+> Sigh ... this kind of massive try/except block is one of the best ways
+> I've found in Python to hide bugs - and Python has a few of those.  I
+> realize this is existing code, this is not the place to fix it, but I
+> would like to clean that up at some point.
 
-> Steve, will you pick these up, or should I grab them?
+Agreed: this class deserves some cleanup.
 
-Can you take them?
+While working here, I considered doing more changes, but I refrained
+myself. As you pointed, this is not the right series to do large
+changes. Also, this is used not only for documentation build but also
+inside scripts/Makefile.vmlinux_o. A major change there could affect
+vmlinux generation.
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Btw, besides Python cleanups, IMHO jobserver class could benefit
+on having a maximum value for claim (which could even be 1). I was
+also tempted to add a jobserver-aware subprocess.call here.
 
-Thanks!
+That's said, doing a risk analysis, if it fails to properly read
+jobserver pipes, the except logic will set claim to None, which:
 
--- Steve
+- for documentation: will use "-jauto";
+- for vmlinux generation: will probably use a single job when
+  building vmlinux. If target dependencies are correct, this
+  should not cause build failures.
+
+On my tests, I didn't get any such exception for doc build. I
+wrote a small testbench to check if jobserver was handling claim
+the right way. Before/after the changes, the behavior remained
+the same, and caim was always initialized when running via make.
+
+-- 
+Thanks,
+Mauro
