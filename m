@@ -1,84 +1,114 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A466238C07;
-	Thu, 18 Sep 2025 14:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EB52D0C9A
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 14:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758206294; cv=none; b=MtNqVgeDTlrUv5NI50sPGBmGyaRlGeiJnaUhb1qQvNTMJZ+16WLCmDpggR4q7t/M5BMcgbRRSef3QgvbuIZPtqHc+1C5GUzMMVz5aamF7gudfizBJWnw/NvPCTICiZ/0RjcvioPdlgC9ksNHpg/IvCQ/vaSVleBj4qTlRQEJqrQ=
+	t=1758206861; cv=none; b=a2C5/MvyRrJXs188bwtDV52RSHry872aM/B3G0KRnB1TpZy67YHPTwBAjcy1SP1iJInt/cTK7MCv3ZrxcrcLkvTt3mzzgTZLLvn/WUSbdwDz3Q+MLXXJgJyg7o33mAF7GNsKl/BFMuI2BtsRqRqG1CEBj5+SzE6f46PmHO4YSTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758206294; c=relaxed/simple;
-	bh=ErYq1TN2gNxHsdO/CoNyrv+xOAeKq1mQd5/OAeURC+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l2KD7KnK4Dk4CHlPTPjE5k7CdZl/5FAzBe439um9Uc48dYr1BY5i+t9YX2RaAz6xTRYK9OoVS7Pp+KB1E4aditCJBGIcVuGcpj4H685DwAtJo2EA42nfppScfLwxHygLt+xDchABxG8VRiYgeoTfE6kfzye+CeX/r2jbZFyoJ1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 95E65227A88; Thu, 18 Sep 2025 16:38:05 +0200 (CEST)
-Date: Thu, 18 Sep 2025 16:38:05 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Marco Elver <elver@google.com>
-Cc: Christoph Hellwig <hch@lst.de>, Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Bill Wendling <morbo@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
-	rcu@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and
- Locking-Analysis
-Message-ID: <20250918143805.GA31797@lst.de>
-References: <20250918140451.1289454-1-elver@google.com> <20250918141511.GA30263@lst.de> <CANpmjNN8Vx5p+0xZAjHA4s6HaGaEdMf_u1c1jiOf=ZKqYYz9Nw@mail.gmail.com>
+	s=arc-20240116; t=1758206861; c=relaxed/simple;
+	bh=bp6ZfJ0qmcI9UpGfhH4hd2SDVX5ketoj669JKK5M7cs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RaYKDcaSeHC9k+7af3l7boDwBUT8QDd38yyEan0mqEVAoMidyvIN07//1sqUq/JLjseAod2uVNgCs9LbHFvkD5Q7tN7dV9FUyxOuHxMlbDvRQ2zUc12KT87He0J0rgY5NgRr4nJUidaMdYefpLV9P21nAoqZiZovM4/XW4H9weA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHE1KfcP; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHE1KfcP"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-578985fe017so180448e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 07:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758206858; x=1758811658; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UZUVA/eN8y4jUWH55g8+vAZUWm6iD5IWuaZ9B1DTE0Y=;
+        b=gHE1KfcPEabveVF7P4S9usDMQEfoiJj4C6YJ1Iwp6aCNGk06Ma3GlTj+YKulEk2oWQ
+         TP9pg5jjyYN6OxQpnxpQW+ZuhKfk09uNGPT8425PzjzDrzwWQfO7IVENO78ZRVuUywe4
+         QrroVyGNH6mIZ1VlvwsSN9nOzDKU6FN4ff5DQdtW+FnQ1ckMyfH6ZRfJOV1zF3dScYpB
+         03dnWRNVOJcSWrYEK8ZlO76QR/rXjrve2NPGapOvc+oL8MgADSaItybnEhlWLoT55+pf
+         qYbgIh1s6hUgOQFxoeqoxtf0cXEXPASLouCcZjodFbz4c62Xg1jZ0eFOMJbg8ZV+PfBh
+         pYww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758206858; x=1758811658;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UZUVA/eN8y4jUWH55g8+vAZUWm6iD5IWuaZ9B1DTE0Y=;
+        b=atwQwwzgXmzgvUJSM73lswlABTKDGxwoWcjtxiyLbiqSgNprp8Qg7wvqOyGmh8JG7U
+         eHRfQ2e6koe5npXrfEd7QkraDfxySeHeNFicNXQiVnp+/uNv7Roa7nYceHYSPii+8hVk
+         DQLAQjbHfM0/zmYOi4DYgTY8gOK28sjBBBNbKkyk0PbklSRauq8QRooX7WacC1oyeUyx
+         YfqsADVbgL9Al2Jf3kPa5nL+IeewyYkLSnweim/p4pp6NnQJsABQ/PYhgS9mw4xNiF9I
+         w9MN5zpvt+F/0cb+GJgUfYDIw8ztVl9MXd7e1jfjM9OOL8VnEzBP7vz5JzKTAHaT5xLE
+         32Mw==
+X-Forwarded-Encrypted: i=1; AJvYcCXfElMWXW6ciFtB8aCjEelCgambcYsloMNd4KyLjkGclW5VCPy7RtaeOtjvgdLZ3Tbm92OYBcFt3ok=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztYdo0431yGXtVDPlIwouf9GE0QPErvd3KuhY/kUbd2Oe+jSLb
+	YUiQn4CoKKj+FjTwonNJLT3vPOHWlMUOexwZi7x+LItLhsvSB2iFWmCC
+X-Gm-Gg: ASbGncuYFfryXbHK6NsHurWFDW84dnOlGiX1Rjon1BPp1iIZxGNLvy3QJNUCEi1wzIj
+	umOaLgMKqJjrN9lKCn8iGdktSVgCYCC0tzjgI2yWjpwEN4Rqh3pMZzK1JZMCzcbxtzFSRVGt9vB
+	QGXRWvvSe64ik8sZE5+H/9pPz8jjI+bxVXn7jhPTxXWMUriWzQiDC2fhqaPKiOQo5rijDA2/f0j
+	PKgKWtTLZl1aH4buLfumYAbyql9WV/LwLus/5u1OnaFZNRvVWFyWBFnVGzOrt2dT0AGzyf0Fiq9
+	XQgVfWZTWDtRSxiMxx2NICrg1aJHShSrzsXGW8BgfTVfEfdvJboq1zZN6EhAeTFLztzDp7jh9sW
+	zgsLqlhd3KSRF0rLFpYLGuBqYEW4r6jgarg2ddzWoP0Yj08g=
+X-Google-Smtp-Source: AGHT+IHtJnmg7xLHWlbfBgfrch0goPM4i92u7CS5SbTFZ6QT2H9sZ6KAdWepbZ79ubW13IVKUYf9fw==
+X-Received: by 2002:a2e:b8c5:0:b0:336:7747:72e with SMTP id 38308e7fff4ca-35f66df191emr9476411fa.3.1758206857314;
+        Thu, 18 Sep 2025 07:47:37 -0700 (PDT)
+Received: from [10.214.35.248] ([80.93.240.68])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-361a2f7ebcesm6234871fa.29.2025.09.18.07.47.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 07:47:36 -0700 (PDT)
+Message-ID: <dcd0c9be-5a52-480e-8447-ebb0a028edec@gmail.com>
+Date: Thu, 18 Sep 2025 16:47:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNN8Vx5p+0xZAjHA4s6HaGaEdMf_u1c1jiOf=ZKqYYz9Nw@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/2] kasan/hw-tags: introduce kasan.write_only option
+To: Yeoreum Yun <yeoreum.yun@arm.com>, glider@google.com,
+ andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+ corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+ akpm@linux-foundation.org, scott@os.amperecomputing.com,
+ jhubbard@nvidia.com, pankaj.gupta@amd.com, leitao@debian.org,
+ kaleshsingh@google.com, maz@kernel.org, broonie@kernel.org,
+ oliver.upton@linux.dev, james.morse@arm.com, ardb@kernel.org,
+ hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+ yang@os.amperecomputing.com
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+References: <20250916222755.466009-1-yeoreum.yun@arm.com>
+ <20250916222755.466009-2-yeoreum.yun@arm.com>
+Content-Language: en-US
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+In-Reply-To: <20250916222755.466009-2-yeoreum.yun@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 18, 2025 at 04:30:55PM +0200, Marco Elver wrote:
-> Not officially, but I can try to build something to share if you prefer.
-> Or a script that automatically pulls and builds clang for you - I have
-> this old script I just updated to the above commit:
-> https://gist.github.com/melver/fe8a5fd9e43e21fab569ee24fc9c6072
-> Does that help?
 
-Just kicked it off, I'll see how long this will take on my laptop.
-At least the error checking that tells me about dependencies and work
-that needs to be done before starting the build is nice so that I
-hopefully don't have to restart the build too often.
+
+On 9/17/25 12:27 AM, Yeoreum Yun wrote:
+> Since Armv8.9, FEATURE_MTE_STORE_ONLY feature is introduced to restrict
+> raise of tag check fault on store operation only.
+> Introduce KASAN write only mode based on this feature.
+> 
+> KASAN write only mode restricts KASAN checks operation for write only and
+> omits the checks for fetch/read operations when accessing memory.
+> So it might be used not only debugging enviroment but also normal
+> enviroment to check memory safty.
+> 
+> This features can be controlled with "kasan.write_only" arguments.
+> When "kasan.write_only=on", KASAN checks write operation only otherwise
+> KASAN checks all operations.
+> 
+> This changes the MTE_STORE_ONLY feature as BOOT_CPU_FEATURE like
+> ARM64_MTE_ASYMM so that makes it initialise in kasan_init_hw_tags()
+> with other function together.
+> 
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+
+Reviewed-by: Andrey Ryabinin <ryabinin.a.a@gmail.com>
