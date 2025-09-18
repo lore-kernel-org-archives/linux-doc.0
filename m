@@ -1,156 +1,110 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3AF2222B4
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 21:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EC61DF996;
+	Thu, 18 Sep 2025 21:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758232393; cv=none; b=OMQLMS1+hwGQERKOzsEaDGAa1+eP/bO6a6vvqxX2cbFhIX49PzOtzH90/6E9PQVHJVjw9mpPi4kdA2xIg4kE/r0IVlxmvBJ3SbWr+FahT2ibmVHPjDF529/oycRlLCNJn4GAxc9yDMTnJW3JlnMzyEQ9udZbVc0O5x0m0kWfKMg=
+	t=1758232555; cv=none; b=n2mUJsFl05T6HgTogxLErfgPKYL3S5u16cqzOkrkFDiWmdQzn3MHKi+aVvg0YEjh+5ZAybengUAwTNjmTQyVjmbqQepzSqbUhmmMa7/N/UHf24buJfOCdl4D/CMx1zQo4570AvPDfWckan+0VI6un1sYI+sPVKduoIzdzZ3+pwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758232393; c=relaxed/simple;
-	bh=OBdCMGeWv7G/tkOmZiDbcUQKLH/CnWF06gVEbnVu89c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oZLP3WzvTbxr56TiM3LxEW1l0TWvoGkS1g/IdQmVa0W9CvxVEb22g9xL8Xgl4G2IUZwq2aPbbFONaJ5W65fh2F+Hy0TeZnOOw9huzZkbGwbk/nptdwsDERExoT4ippW/YTGL62WIatyeOIerr6UMmCssf9rm6AyGIqQUySnZzV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=EAa0YF35; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1758232555; c=relaxed/simple;
+	bh=3r3FJF7tnBqo8I2mbRhnltq1o3PtuTvWzSRtwmeefYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/jN/f2M9xqeXoKSa/Bw6MQejf7GM9j25HrFz+KSJEcBzEvZgW9JEQMTJoaBZWkKY37aRFzEmprOz1r98Kd2nGXoGvmkFYI2PVpCYXIQ5mmDCL2yh/W6fTisRC5nwsCC63iVLRh/cET5w40DGqLR1p/M08Ss2e4dZjKC9ComnUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XiKU6bg7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="EAa0YF35"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5688ac2f39dso1797005e87.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 14:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1758232389; x=1758837189; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mLiszfQw8YctXWgw7Rv1CzeIAYsEhv/enJDimwborHo=;
-        b=EAa0YF35X3B4dhLliCr6+gjlm1egWOy2/cSxo2UqBQym8ac0RaWsXy3prghYtXgUYs
-         aYkKqOYXl6YQ2H/Xozv/dnpZap8dDSgllR2vzh3cj89DeP3xF3iwKw3I6DSmo/U0hAX2
-         V3IS8s3NJ5FEJ+LkJlXVWWQTIXoxTkk6aHiBs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758232389; x=1758837189;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mLiszfQw8YctXWgw7Rv1CzeIAYsEhv/enJDimwborHo=;
-        b=L2TnODy/32Qrrz05211/+6VC0OIc0t1bAdVNRFBOgJelAkkVsPnEF2cpfHcw+naZdg
-         LCosFrvThYpvnfRVlsqYHlYiXtG8T4fjuoAL9xtpTbjF9FF6Xlhyd6sKGOwOE/sIlUPS
-         rLLgHO00JFHer4pmmWKo4aBYKVzbL+somt6J3f9RwhTSNXoF7RPOGoBBny8QOKFz+MGE
-         1Cb8XfnziC5teEhb/H96AKdwG182i5Dd+mO3ezkN4rPcIFqvIlFaJhUJyadutcmgMhqd
-         flm7WS1yr1Jzga9016oLhAdvO+3yEuZWWsv7CaVJhRTYPnv64BH6JE49pzL2T6TvkIA0
-         xygA==
-X-Forwarded-Encrypted: i=1; AJvYcCU34nCCCC2ljHiIjTFIXUcPb5kjPcYVpcn5ozMn8K4BO/SMorz98s9iKcFM6AWjtjyCnrkh8SfAbko=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/Z6kB9XO+np/5qGov1Gw+6JA5Ta/jdu4arp260WYMTqVU9jlp
-	foutYghfwxarpHg8xbai4ldkK8RjLAxNJ6t2/Vk79GbamYSUEEJsfMgGQQpYT/XlYPdc94R6E/z
-	wJW0oRJ0qsw==
-X-Gm-Gg: ASbGncukl0UeJYB3sbUY6WhhBp0fm//tFV1PmH5s7TXjsrSV4PL20/H/cha3NhFG/GS
-	Tnl3hdmg5RSo7kVd0uOtVMKpR7lgH2K0Mmnlj8sCWb1GjvnvHdCzPbgkcZafQ5QkRyeo8EwPJLQ
-	PGBERht1nE+KSjs7BabSXVzOBGLsMaIsvRsDMUm2PQEGHyR3moUDMVLit33rmUEyVovYasGzSov
-	OBUfHrBtveeEME38/R7CgPUVReDnpEFpEdy9oa5FRK+nsc5CefUWllFqJX//3m3ysOllHJPT1X4
-	b8v7nSpB3BKMxTT2SS3rhCdeGhCGyh3+aYljpAAsL7vNE23L9TZa0BMmFPWmdnjTV7AHFJVZ8vb
-	KJ4ykTwdbI3VF5WjqD5snSvDBs9RopRgdJyibYkfoxFG+tAqe8hIyAHH9P/nL+6NiyAU/AvzrsL
-	Tk+/ellHherz8mi+c=
-X-Google-Smtp-Source: AGHT+IE6v5jn2PsNEuKSH2dro4AnzY+at3OpRDqqjaslVgKTuYGmK5hcq//R0ycKekKGq2AQph7CZw==
-X-Received: by 2002:a05:6512:6713:b0:57a:3d7e:7275 with SMTP id 2adb3069b0e04-57a3d7e762emr10267e87.36.1758232388401;
-        Thu, 18 Sep 2025 14:53:08 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-578a65070d2sm943679e87.37.2025.09.18.14.53.07
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 14:53:08 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55f7039aa1eso1637450e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 14:53:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXibi0IBNBHHzhD9WrbaylHRP3khc88XqZHt+OQjW1WvcgQBhZULeIxTQ42jsUcVY5z35hvDX1vOAo=@vger.kernel.org
-X-Received: by 2002:a17:906:dc89:b0:b0f:a22a:4c30 with SMTP id
- a640c23a62f3a-b24f5685fdemr62738866b.47.1758232077501; Thu, 18 Sep 2025
- 14:47:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XiKU6bg7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7EF1C4CEF0;
+	Thu, 18 Sep 2025 21:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758232554;
+	bh=3r3FJF7tnBqo8I2mbRhnltq1o3PtuTvWzSRtwmeefYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XiKU6bg7X20yegJPpWnF4ekbCfkYDOIdWyKV5OmwYG9piT9R4V3DMxTlYKG7xKH26
+	 1bgDh2mZIOfcFvmOazRvjs/j/DjJsjtrrQAQymImbYjEivVkOA1z81aonB0VLT8CcZ
+	 7qgSvVeSfCg9/UGyfC1KMTUfYEiGdcmrsuxnKw4+tOTcBijxkbkGIpgv9f1irTq7ED
+	 lz6ltXV67VBElWTKb5K0gbQhcOWXtwKzh5BUF2QHDGhceCaM0kYDcghD3O01+6w3pg
+	 2+5doHmtHbvK2iVFMgpMqrifVDWx4f6XMZB0rssdZGi+L1unEuqBrk6GqzuwP4nd+q
+	 TvoEA+X7OAWjQ==
+Date: Thu, 18 Sep 2025 14:55:54 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
+	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	kernel-team@meta.com, linux-xfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 12/15] iomap: make iomap_read_folio() a void return
+Message-ID: <20250918215554.GX1587915@frogsfrogsfrogs>
+References: <20250916234425.1274735-1-joannelkoong@gmail.com>
+ <20250916234425.1274735-13-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918140451.1289454-1-elver@google.com> <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
- <aMx4-B_WAtX2aiKx@elver.google.com>
-In-Reply-To: <aMx4-B_WAtX2aiKx@elver.google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 18 Sep 2025 14:47:41 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
-X-Gm-Features: AS18NWBxHuMwwtU-EoNbPFA3uJ1YRJkAKqdurj12n-PWNJgH6ecKwZ8QZrX3P28
-Message-ID: <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250916234425.1274735-13-joannelkoong@gmail.com>
 
-On Thu, 18 Sept 2025 at 14:26, Marco Elver <elver@google.com> wrote:
->
-> Fair points. "Context Analysis" makes sense, but it makes the thing
-> (e.g. lock) used to establish that context a little awkward to refer to
-> -- see half-baked attempt at reworking the documentation below.
+On Tue, Sep 16, 2025 at 04:44:22PM -0700, Joanne Koong wrote:
+> No errors are propagated in iomap_read_folio(). Change
+> iomap_read_folio() to a void return to make this clearer to callers.
+> 
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-Yeah, I agree that some of that reads more than a bit oddly.
+Yesssssss
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-I wonder if we could talk about "context analysis", but then when
-discussing what is *held* for a particular context, call that a
-"context token" or something like that?
+--D
 
-But I don't mind your "Context guard" notion either. I'm not loving
-it, but it's not offensive to me either.
-
-Then the language would be feel fairly straightforward,
-
-Eg:
-
-> +Context analysis is a way to specify permissibility of operations to depend on
-> +contexts being held (or not held).
-
-That "contexts being held" sounds odd, but talking about "context
-markers", or "context tokens" would seem natural.
-
-An alternative would be to not talk about markers / tokens / guards at
-all, but simply about a context being *active*.
-
-IOW, instead of wording it like this:
-
-> +The set of contexts that are actually held by a given thread at a given point
-> +in program execution is a run-time concept.
-
-that talks about "being held", you could just state it in the sense of
-the "set of contexts being active", and that immediately reads fairly
-naturally, doesn't it?
-
-Because a context is a *state* you are in, it's not something you hold on to.
-
-The tokens - or whatever - would be only some internal implementation
-detail of how the compiler keeps track of which state is active, not
-the conceptual idea itself.
-
-So you name states, and you have functions to mark those context
-states as being entered or exited, but you don't really even have to
-talk about "holding" anything.
-
-No?
-
-               Linus
+> ---
+>  fs/iomap/buffered-io.c | 9 +--------
+>  include/linux/iomap.h  | 2 +-
+>  2 files changed, 2 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index 72258b0109ec..be535bd3aeca 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -450,7 +450,7 @@ static int iomap_read_folio_iter(struct iomap_iter *iter,
+>  	return ret;
+>  }
+>  
+> -int iomap_read_folio(const struct iomap_ops *ops,
+> +void iomap_read_folio(const struct iomap_ops *ops,
+>  		struct iomap_read_folio_ctx *ctx)
+>  {
+>  	struct folio *folio = ctx->cur_folio;
+> @@ -477,13 +477,6 @@ int iomap_read_folio(const struct iomap_ops *ops,
+>  
+>  	if (!cur_folio_owned)
+>  		folio_unlock(folio);
+> -
+> -	/*
+> -	 * Just like mpage_readahead and block_read_full_folio, we always
+> -	 * return 0 and just set the folio error flag on errors.  This
+> -	 * should be cleaned up throughout the stack eventually.
+> -	 */
+> -	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(iomap_read_folio);
+>  
+> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> index 4a168ebb40f5..fa55ec611fff 100644
+> --- a/include/linux/iomap.h
+> +++ b/include/linux/iomap.h
+> @@ -340,7 +340,7 @@ static inline bool iomap_want_unshare_iter(const struct iomap_iter *iter)
+>  ssize_t iomap_file_buffered_write(struct kiocb *iocb, struct iov_iter *from,
+>  		const struct iomap_ops *ops,
+>  		const struct iomap_write_ops *write_ops, void *private);
+> -int iomap_read_folio(const struct iomap_ops *ops,
+> +void iomap_read_folio(const struct iomap_ops *ops,
+>  		struct iomap_read_folio_ctx *ctx);
+>  void iomap_readahead(const struct iomap_ops *ops,
+>  		struct iomap_read_folio_ctx *ctx);
+> -- 
+> 2.47.3
+> 
+> 
