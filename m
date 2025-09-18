@@ -1,147 +1,159 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2721E23B616
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 15:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED7230FC35
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 15:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758210522; cv=none; b=LUiGDG+0AnotQ/fDfyGRyh5fSoGQeMiDozZB8mNj1vF675Hlruu8pF+LDIlfOBL/s+BVTj5pp5glQPJBXXgim9U2E6oeglbTNXQkeuX3dtLtH8iBLv8D6MDTPX8urB1ra4m4kqmnvdTORbEh4hrdsJ58K9RbG9t2gRcoqjOJ9iw=
+	t=1758210524; cv=none; b=dkUOBCyUQIJ++Jp2Pdu+5MItwkNb6Wyl8Ae2Hu/P26G5Z92+vLmxXgOfTimo5shJcVghtQ+N+6cKcCXhml01jEHQ42ZJvQrcOmPmLEeU7X/itUqco2AK7M8+UfhesQwE2Eqw4lwgUz+BP1yYSzdhB4PKa5JoisyHkcE7D6F9L4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758210522; c=relaxed/simple;
-	bh=3fuPAHF2wqUzCF+Ih+V96s2Pa8BfHBVrf909ozzJYxs=;
+	s=arc-20240116; t=1758210524; c=relaxed/simple;
+	bh=bCfTUdZSKE/5xKZe/8DKJsQNVTMwQpu6YamEXF4M22g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iXe0IaSVURIvi4B17lGVddLRKKebGqp5YdfZblnJTdoTn1Chh5PxiKs7hG/9iBXWsu5FgltetAAuPd8kgN9gwx5ua3kFz77d4xSxBAiZYjqtOZs9Uhe0HNP1gTtjOdHKg/M67Zb4DehyDgsQTIVD2CJABQkslyiJt9Rt/c0zwKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eAOavc2C; arc=none smtp.client-ip=209.85.161.49
+	 To:Cc:Content-Type; b=fSZDt2B4ajm83EIlcgw4+bECauDv7FTPEPsPOdu/GunL7sYyu5AaVE/PFy1sRS8REwJ6mIWhOnHgv1JiUUh08vS3lor75ulwHKj2iHlPGZhTrG2X+AGM3flNOjUtaSZARabdPO3GkioDGar7obAQBUyOYKNXCVwSYSkHX0u4j0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G+XB7tk1; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eAOavc2C"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-621a3c43df3so507096eaf.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 08:48:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G+XB7tk1"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45f2f894632so83885e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 08:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1758210520; x=1758815320; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1758210521; x=1758815321; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3fuPAHF2wqUzCF+Ih+V96s2Pa8BfHBVrf909ozzJYxs=;
-        b=eAOavc2CN3hKS95ih6fHrGk7HQYI14S9OGRboWaVhlIeSO+Siqxx6vtu4Fl75VShUA
-         LFUlJB0hQTDvqMb+/ypW9RfbOVQcZ7S+pncqwJ2jtRXaSJOq4a2SIf5XLmgBS2y8+6Kk
-         dxiFvkxUZt2A+13w0SonMvcT3N653WVBTXiCV/FHeN4/5ZrKJpSMujE7gFlWJVS3Xxy+
-         qOvEnthHP6wMEhDH9I1y2nXWSnFvZb0rlGAE8VBoDEjch1ROO0nbPsNP+dIN5F/86Jox
-         lfV2dgUthYT4i3k2/kSAQ338iJ0Lq+E7ZO+ysx+GVp+mALPXS/0U0YhCDCbeJDc7N1UE
-         +6/Q==
+        bh=0rx16FrktF4Q4jtrgrrHA5a6Ai0Ce3s0txUm84e73Hw=;
+        b=G+XB7tk1ftPiL5CvwfE+NVRrWzxdK9U1rm/GGn+dCaITmvXAb/GSfWHgk5VGBnfuwI
+         uwXrTDjolpMwb/z450MNxhnz1lmckI6e85q0Oa3UjR2CVfdum8UW3xLMBBkMtc/2WrH/
+         xGZBm39hL2VaT/Wb8O2uKBGFX2iykjJ3StNSY+DVOI2fjRQoQG5SXFgnDa97FzMDUGls
+         R2TVCAAo6GkKI1/omstMzH5h5aFYorEfxO7GvpB1sGU/6gLeazib+xpk7oIiqzTeSoTy
+         9JAY9vfhxJWtl3gK6lSYJiHJfDMgUL3jteXObWGtLY22te8stW4JgfT360cSaVrtpqHH
+         p1Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758210520; x=1758815320;
+        d=1e100.net; s=20230601; t=1758210521; x=1758815321;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3fuPAHF2wqUzCF+Ih+V96s2Pa8BfHBVrf909ozzJYxs=;
-        b=e6ThnPpY5z/zxe1roLrPWhVrzDPtG1rdjdWuD7Duey0fDuxNMuRp03ELaRSVv+32Hz
-         U/AoCwl83KKgcVh+XTXtBaG9ps0yCmL3G8yUTNETGzfsOk5PAaQaBvC4Jmr3FmNnhE4E
-         o5sLDWf/if9JSwJq7nOXgsnoIADzxRT0spGqOifbRsebVcz2OpJvqpRdKC2BHdQb0w1H
-         iyzUebi2av31zyyF8z8MsHpbPa4qKy97oQRNvjocodCEqVu+ccp9uXf0BLt/+QCGRi06
-         HDwhllCPpE5FjJ+OioYm9yLBmbo7pqNBg/gRd63mcvQYUBZOawIcb8fV5IYfxNN1B0t1
-         im2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUJxr3xkd//sHCgC7PthF+EAw4DWuDblrzOQkVxRm+yPtl5EDdiAauoinMP8UUjK0PtIb70AQ9UZAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTzzwvM1nNRwanDjrUM3PgCS4TXBUJfmDIpv1WTzHGEl9/8+6t
-	XcVDA6Mcy4wAyVb8UeiO1DyQOXayo0Mwk/UGaaZ1uGU5rghenaA15Pi12qi12ibp6NjC8BldZ5e
-	GpmQQKyEQBl23T2xJORj8j7P+JSV78FdiWIGwGnQj
-X-Gm-Gg: ASbGnctj3Fd7B1mcPL6aDa5LmKAwAGo6OUgAUdkdXkhTkPrddrb6hXSs8/9okZ/q2Pe
-	v214pzCSIrlzTA7Z5KEAY4HgiKM7FyMKRjSYYQTa4+Ekt8l6AqzKPpiOite08BSEAI6m8NbZzMo
-	3JDibWcIfPNAU6JWSSrsDO4fFYMGdqJoIhv7WtRRRFoP19cbClAM/KSapTIxNKHtXQCkDQaJASl
-	NfpBgKLE4bDWU3q2mhTKq6dejbOlCiDL3+JA7gnUgKq+Ug7tb2Xt/QbyxMDpog=
-X-Google-Smtp-Source: AGHT+IGZQIGtkvyQ7wUbXbPktQnaEGHmteV66ZUVON5NljKX83ZF9JtYWo+pN7TerpN49zbUut8goBymhFyWExBBTaQ=
-X-Received: by 2002:a05:6820:c006:b0:624:abae:b650 with SMTP id
- 006d021491bc7-624abaeb894mr2040726eaf.0.1758210519920; Thu, 18 Sep 2025
- 08:48:39 -0700 (PDT)
+        bh=0rx16FrktF4Q4jtrgrrHA5a6Ai0Ce3s0txUm84e73Hw=;
+        b=pF1flrOC0fGPiRqGtDZRtqJV/0zkMu3N5usI9E3/IAYwFqhjuRBJSxuOk9v6vXWZmv
+         FywPaxLj97IzKuOuxIpXjSzWtEcu3MIqP86B34Y8olw81CpaLtfCxDZgeys7aSZWXyLs
+         ox3IZo0AG9GKsZxgD4j7IfiOY0ngzNH31ST8rCUIqn4gn6HNMN0t1dmuNd/59ikXBFnb
+         9XhoQKq944gKvEh7Nn6zY+mI8PqBjdPN7HkwvJLVrpc8+tEm3ong79BmKSZttDOZLuC6
+         gMQXO+Wcq3trAUOZaGjJhPhlpHHtTAQlMAMmjr5FrL6i2HfaXLaOx47TulalJmjj7ypu
+         7UJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSuFhmaK/9iKMX7XsTtkW4pkYDNlPMHtknlD4agbM8ScVl4jpGqNTbJSBFmX1Liv3i8lGc9m2kh0M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeDfyX7cHJvTbSPZ2CWiPDDhqq7vDFBy8Pd7d1qb///PaEIKO9
+	Vhfb8OrSxF849/4PbIa0b0doXJWwoxPqytTO0wbI7Sd8FgzRja2Ox0GK5mzWzSTaGQn44cZ5Ooj
+	LChw59V6SbsKEtFCjv1VcweH2Ka5XviSd4t6c1cQz
+X-Gm-Gg: ASbGncvdIlyB5C+FLPjuIVpUHkZWHwguw9k19DnzU7r6tcbg9jpYWKcjxUNGUBUp2z5
+	shoJg9qFnf4uSV/AKA2j+cfExaubj/2QA3hLXDJyri7vHzGn8GpgSlNRdHTYLtOceQd++byfnD6
+	ZS/NnGkcEmf/OEz/sgYB5NVKNncfsGEP0aE28tGAfIEJBj4AzEzAhpICP4s+aljl+N+MRKos9v0
+	XxTKQwubyeWXQUmkBSNfy0eDkF0LpsF1Viz0lfPnu2ciNEe+lZz3F3ShVmoZEVxcg==
+X-Google-Smtp-Source: AGHT+IEn14QDHuxEiqb1VXaCf6P34UADIYCw+R0AK6s/lF2DWM9aPjYC73nNm/t1rUXn6RFFu321KBvFpJntXFLW+cw=
+X-Received: by 2002:a05:600c:8a09:10b0:45f:2940:d194 with SMTP id
+ 5b1f17b1804b1-4614faff8e6mr2807655e9.2.1758210520602; Thu, 18 Sep 2025
+ 08:48:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250916234425.1274735-1-joannelkoong@gmail.com>
- <68ca71bd.050a0220.2ff435.04fc.GAE@google.com> <CAJnrk1YKPWkaBXe7D2mftN2DMEBqFow80reUGE=2_U8oVFc1tQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1YKPWkaBXe7D2mftN2DMEBqFow80reUGE=2_U8oVFc1tQ@mail.gmail.com>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Thu, 18 Sep 2025 17:48:28 +0200
-X-Gm-Features: AS18NWAU9uKKLdv_CQUnITI5tezk67S_wzRhWyVluYMjy37dGuE_05c1-3Y9NYc
-Message-ID: <CANp29Y5Y8iO+UbKHtDEc=0d+76WxbWJK1asLaux++_n+Pr+d5g@mail.gmail.com>
-Subject: Re: [syzbot ci] Re: fuse: use iomap for buffered reads + readahead
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: syzbot ci <syzbot+ci9b5a486340e6bcdf@syzkaller.appspotmail.com>, 
-	syzbot <syzkaller@googlegroups.com>, brauner@kernel.org, djwong@kernel.org, 
-	gfs2@lists.linux.dev, hch@infradead.org, hch@lst.de, 
-	hsiangkao@linux.alibaba.com, kernel-team@meta.com, 
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, miklos@szeredi.hu, 
-	syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+References: <aMiu_Uku6Y5ZbuhM@hpe.com> <20250915201618.7d9d294a6b22e0f71540884b@linux-foundation.org>
+ <aMkOCmGBhZKhKPrI@hpe.com> <SJ1PR11MB60831F028E2FEB6B5A3390D9FC14A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aMmlhPghbpnlCZ09@hpe.com> <SJ1PR11MB60833884799B6AA2BC18ECE7FC14A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <LV4PR11MB9513A6EFA88B082E554CB8D6EB17A@LV4PR11MB9513.namprd11.prod.outlook.com>
+ <aMsE9XjWKEYTIQyV@hpe.com> <1211fd9a-93e6-4ebe-a80d-083601138b70@linux.alibaba.com>
+In-Reply-To: <1211fd9a-93e6-4ebe-a80d-083601138b70@linux.alibaba.com>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Thu, 18 Sep 2025 08:48:29 -0700
+X-Gm-Features: AS18NWCH3-wHHtOkOjDEZ08ReQ721l4iWXSb56ihFpAN8Dh9hynFjggen97xtxQ
+Message-ID: <CACw3F53=9+rSdUt7yqTz=GineyRxJf1FBgXQ4omYvFkwFDqZQA@mail.gmail.com>
+Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+To: Shuai Xue <xueshuai@linux.alibaba.com>
+Cc: Kyle Meyer <kyle.meyer@hpe.com>, "Fan, Shawn" <shawn.fan@intel.com>, 
+	"Luck, Tony" <tony.luck@intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"corbet@lwn.net" <corbet@lwn.net>, "david@redhat.com" <david@redhat.com>, 
+	"linmiaohe@huawei.com" <linmiaohe@huawei.com>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"jane.chu@oracle.com" <jane.chu@oracle.com>, "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, 
+	"bp@alien8.de" <bp@alien8.de>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>, "jack@suse.cz" <jack@suse.cz>, 
+	"joel.granados@kernel.org" <joel.granados@kernel.org>, "laoar.shao@gmail.com" <laoar.shao@gmail.com>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"mclapinski@google.com" <mclapinski@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, "osalvador@suse.de" <osalvador@suse.de>, 
+	"Wysocki, Rafael J" <rafael.j.wysocki@intel.com>, "rppt@kernel.org" <rppt@kernel.org>, 
+	"Anderson, Russ" <russ.anderson@hpe.com>, "surenb@google.com" <surenb@google.com>, 
+	"vbabka@suse.cz" <vbabka@suse.cz>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Joanne,
-
-On Wed, Sep 17, 2025 at 9:59=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
+On Thu, Sep 18, 2025 at 1:34=E2=80=AFAM Shuai Xue <xueshuai@linux.alibaba.c=
+om> wrote:
 >
-> On Wed, Sep 17, 2025 at 1:37=E2=80=AFAM syzbot ci
-> <syzbot+ci9b5a486340e6bcdf@syzkaller.appspotmail.com> wrote:
+>
+>
+> =E5=9C=A8 2025/9/18 02:59, Kyle Meyer =E5=86=99=E9=81=93:
+> > On Wed, Sep 17, 2025 at 06:35:14AM +0000, Fan, Shawn wrote:
+> >>>> My original patch for this just skipped the GHES->offline process
+> >>>> for huge pages. But I wasn't aware of the sysctl control. That provi=
+des
+> >>>> a better solution.
+> >>>
+> >>> Tony, does that mean you're OK with using the existing sysctl interfa=
+ce? If
+> >>> so, I'll just send a separate patch to update the sysfs-memory-page-o=
+ffline
+> >>> documentation and drop the rest.
+> >>
+> >> Kyle,
+> >>
+> >> It depends on which camp the external customer that reported this
+> >> falls into:
+> >>
+> >> 1) "I'm OK disabling all soft offline requests".
+> >>
+> >> or the:
+> >>
+> >> 2) "I'd like 4K pages to still go offline if the BIOS asks, just not a=
+ny huge pages".
+> >>
+> >> Shawn: Can you please find out?
+> >>
+> >>
+> >> -> Prefer the 2nd option,  "4K pages still go offline if the BIOS asks=
+, just not any huge pages."
 > >
-> > syzbot ci has tested the following series
+> > OK, thank you.
 > >
-> > [v3] fuse: use iomap for buffered reads + readahead
-> > https://lore.kernel.org/all/20250916234425.1274735-1-joannelkoong@gmail=
-.com
-> > * [PATCH v3 01/15] iomap: move bio read logic into helper function
-> > * [PATCH v3 02/15] iomap: move read/readahead bio submission logic into=
- helper function
-> > * [PATCH v3 03/15] iomap: store read/readahead bio generically
-> > * [PATCH v3 04/15] iomap: iterate over entire folio in iomap_readpage_i=
-ter()
-> > * [PATCH v3 05/15] iomap: rename iomap_readpage_iter() to iomap_read_fo=
-lio_iter()
-> > * [PATCH v3 06/15] iomap: rename iomap_readpage_ctx struct to iomap_rea=
-d_folio_ctx
-> > * [PATCH v3 07/15] iomap: track read/readahead folio ownership internal=
-ly
-> > * [PATCH v3 08/15] iomap: add public start/finish folio read helpers
-> > * [PATCH v3 09/15] iomap: add caller-provided callbacks for read and re=
-adahead
-> > * [PATCH v3 10/15] iomap: add bias for async read requests
-> > * [PATCH v3 11/15] iomap: move buffered io bio logic into new file
-> > * [PATCH v3 12/15] iomap: make iomap_read_folio() a void return
-> > * [PATCH v3 13/15] fuse: use iomap for read_folio
-> > * [PATCH v3 14/15] fuse: use iomap for readahead
-> > * [PATCH v3 15/15] fuse: remove fc->blkbits workaround for partial writ=
-es
+> > Does that mean they want to avoid offlining transparent huge pages as w=
+ell?
 > >
-> > and found the following issues:
-> > * WARNING in iomap_iter_advance
-> > * WARNING in iomap_readahead
-> > * kernel BUG in folio_end_read
-> >
-> > Full report is available here:
-> > https://ci.syzbot.org/series/6845596a-1ec9-4396-b9c4-48bddc606bef
-> >
-> > ***
-> >
-> Thanks. Do you get run on every patchset that is sent upstream or is
-> it random? Trying to figure out if this means v2 is right and i just
-> messed up v3 or if you just didn't run on v2.
+> > Thanks,
+> > Kyle Meyer
+>
+>
+> Hi, Shawn,
+>
+> As memory access is typically interleaved between channels. When the
+> per-rank threshold is exceeded, soft-offlining the last accessed address
+> seems unreasonable - regardless of whether it's a 4KB page or a huge
+> page. The error accumulation happens at the rank level, but the action
+> is taken on a specific page that happened to trigger the threshold,
+> which doesn't address the underlying issue.
 
-The intent is to run on every patchset, but since the system is
-currently still in the experimental state, some of the series are
-skipped due to various reasons. E.g. syzbot tried to process v2, but
-failed to find the kernel tree to which the series applies without
-problems: https://ci.syzbot.org/series/7085b21e-ae1e-4bf9-b486-24a82ea9b37d
-
-In the original email, there are links to the C reproducers, so these
-can be used locally to determine if v1/v2 were affected.
-
---=20
-Aleksandr
+Does it mean the soft offline action taken by the kernel is almost
+useless from hw's PoV? Or, the current signals/info about the
+corrected errors kernel get from firmware are insufficient to make the
+kernel do anything meaningful?
 
 >
-> Thanks,
-> Joanne
+> I prefer the first option that disabling all soft offline requests from
+> GHES driver.
 >
+> Thanks.
+> Shuai
