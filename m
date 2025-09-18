@@ -1,96 +1,70 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284092D63FF;
-	Thu, 18 Sep 2025 20:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E321CCEE0
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 20:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758227833; cv=none; b=tiDxDeFl/yy+KmiA8Wh9a7c7KJjQOt1TSdLZiZ0sxvaLJ3TJtOSDCqrFR5RFK2gDMYzZuHnVNYOpgfxObY4KLN+tS2dY7dvYb8UsqbzMeTpH9j7EKRAcd+VAqH+Aqhgtsni1o/Z05QEsr8unXo4B0DskdfveUXSQ7ElG3iL1FjQ=
+	t=1758229055; cv=none; b=Jq00ltTZ8iRE7n2nAFFSpWxeeIelsb1zapI66mLcnveDBm9+NH+CtSDtpTSK21ZoRGpeMu8+/vyX0uvJkTN2lzjXDXg7MfOhsuOJzB3FHULr4Eou/EZL9xwu7sAgp5COqdZ6cmkjuYjK3r6yHleD+yp1djOTyWoRvCB2iV4J77w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758227833; c=relaxed/simple;
-	bh=K4mBwSrBNcKyhAm8gbEHryo4PTBkpR7Q30/ZWeXHl1I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=V+UIXSbqTa16v04yCupiVXIUlIwsc1ePqF6QmiyG1QlhxnYlV7zG1a+Of9PDn8PfFKsuVjbBS2iSaDn56T2YZ3TD3VvKJbywK/2IgFPA9IfvAB5Ef8Ns/heq8pFizo9ZmRtJ7vwL8JmIuwVhJi8N/80y5Fk4fIrxoxxHAuuoyVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 8E6D31604ED;
-	Thu, 18 Sep 2025 20:37:01 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 9D9BE6000D;
-	Thu, 18 Sep 2025 20:36:44 +0000 (UTC)
-Message-ID: <13389786a2a121c21a6f4940b4acf09fad53a3d9.camel@perches.com>
-Subject: Re: [PATCH v3 05/35] checkpatch: Warn about capability_unsafe()
- without comment
-From: Joe Perches <joe@perches.com>
-To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will
- Deacon <will@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck	
- <luc.vanoostenryck@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
- Alexander Potapenko	 <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Bart Van Assche	 <bvanassche@acm.org>, Bill Wendling <morbo@google.com>,
- Christoph Hellwig	 <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, Eric
- Dumazet	 <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, Ian Rogers	 <irogers@google.com>, Jann Horn
- <jannh@google.com>, Joel Fernandes	 <joelagnelf@nvidia.com>, Jonathan
- Corbet <corbet@lwn.net>, Josh Triplett	 <josh@joshtriplett.org>, Justin
- Stitt <justinstitt@google.com>, Kees Cook	 <kees@kernel.org>, Kentaro
- Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn	 <lukas.bulwahn@gmail.com>,
- Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan
- Chancellor	 <nathan@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa	 <penguin-kernel@I-love.SAKURA.ne.jp>, Thomas Gleixner
- <tglx@linutronix.de>,  Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki
- <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Date: Thu, 18 Sep 2025 13:36:43 -0700
-In-Reply-To: <20250918140451.1289454-6-elver@google.com>
-References: <20250918140451.1289454-1-elver@google.com>
-	 <20250918140451.1289454-6-elver@google.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1758229055; c=relaxed/simple;
+	bh=13VJs7I563zMXcilTJ5ZSbYvZTg0GMtcoQCa3/06YfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQQSrHcn6kOVI8tJvOLZdWh82zri4kiqsTtbqwMEHaj1SZjT055u8nD3kNEQmf8FKskLzF+Dy15S4hZto3nUOWIXzLjQu/ITF44q0hn/WFIhz/t1+YLqCe1yXqa6ZJwofVPbNfNLI9racDAvBpmD5efAFWl/+lxYrt7Y3MHXV8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hMwX8QrH; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hMwX8QrH"
+Date: Thu, 18 Sep 2025 13:57:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758229041;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YboiNlJLrHuwno2dTNAWyyWHcEmx4DdrrYbhMW2x15E=;
+	b=hMwX8QrH4fVXAwsA6C23vCpsbnXMcPQ5RT3fH0rwp8436N2NIRDg5prPa4eJl3ts0ENGgl
+	OnHiTWmb+Yba4LKkFNqLIietZ8lHLPmXh1JuiGOPdIJtj14t/ToyD4SSZmqzMts2ATW2cN
+	q31pKLvfhA9Rnm/xi0Hw7bSQ3xPvRAA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] KVM: arm64: Expose FEAT_LSFE to guests
+Message-ID: <aMxyKbnVjS35YuQi@linux.dev>
+References: <20250918-arm64-lsfe-v4-0-0abc712101c7@kernel.org>
+ <20250918-arm64-lsfe-v4-1-0abc712101c7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 9D9BE6000D
-X-Stat-Signature: py53mcfac346e64tk9rcf8ugswnwrn9n
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+Psz6mclmN7I07c5jPtb/CcemQyIEeoMA=
-X-HE-Tag: 1758227804-881299
-X-HE-Meta: U2FsdGVkX1+3ZResTrAAf9g9L6dJTCgmeXzyM4kYyOanBXCbxLPKLUzexU279fp4Uk1s32nIlGL7ALFntG4iQsakleJTeVRQim4oreS1teDe2c1v+Yr3chddZziKPoDc++AISXJQPhyq2w3G+YXN9VlSwrMnsmWf2JBDP+6EKscCwfkdUqEPS2c1jIOhGC9JFL5oLKZVp7yaxDYTVOVvcxJD81BMXbf5A4qGtQvLNkMWZnMoJtyHKmlojlv7i6K2T4g5I4c9AZ5UYsKsHO+RYQ2ZU++uSS7Q3j7El4OW8jbzA/Y7Pj1Sh8vbE9tWV5T5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250918-arm64-lsfe-v4-1-0abc712101c7@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 2025-09-18 at 15:59 +0200, Marco Elver wrote:
-> Warn about applications of capability_unsafe() without a comment, to
-> encourage documenting the reasoning behind why it was deemed safe.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -6717,6 +6717,14 @@ sub process {
->  			}
->  		}
-> =20
-> +# check for capability_unsafe without a comment.
-> +		if ($line =3D~ /\bcapability_unsafe\b/) {
-> +			if (!ctx_has_comment($first_line, $linenr)) {
-> +				WARN("CAPABILITY_UNSAFE",
-> +				     "capability_unsafe without comment\n" . $herecurr);
+On Thu, Sep 18, 2025 at 08:42:06PM +0100, Mark Brown wrote:
+> FEAT_LSFE (Large System Float Extension), providing atomic floating point
+> memory operations, is optional from v9.5. This feature adds no new
+> architectural state, expose the relevant ID register field to guests so
+> they can discover it.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-while most of these are using the same multi-line style
-I'd prefer combining and reducing indentation
+We also need a test in set_id_regs.c selftest for the writability of
+this new feature field.
 
-		if ($line =3D~ /\bcapability_unsafe\b/ &&
-		    !ctx_has_comment($first_line, $linenr)) {
-			WARN(etc...
+Otherwise:
+
+Reviewed-by: Oliver Upton <oliver.upton@linux.dev>
+
+Thanks,
+Oliver
