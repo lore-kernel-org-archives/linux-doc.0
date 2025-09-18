@@ -1,205 +1,157 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C2B2BD04
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBDA17E0
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758224827; cv=none; b=L3YQdO2Tum3B1d9Jp2NK+HTM6IQ2rVKY+Yml+vGPzN/bUqdHGE1b4OUtj3lda/qQxybH4qbdoSvafSFrXVq+2TJOwFTNauXdTrY9U+d11iIMsw6mGqf1iezOYa3nq5Ov4kdqe0gSDZwMvfYeCVBVCUEzjcomnXu6VilwV56+NMk=
+	t=1758225051; cv=none; b=qhwPuS/ZF9C/XfyKPsLBWVZUl4NQArFdXBo7fLWKpshNHtEt7JMFMpF9X8dZme/awySZ7y/hLTUCmiLGeAdxe+hUklP6kPZ04+f6I3pF6r5M1dmCDNXOJdANIBR1bm1sYmvnITh+meBiuGw6+M8w1oA8XN0ObYFDNgRCI4UknNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758224827; c=relaxed/simple;
-	bh=JURX/TaKnyaqFdI7pmEWFXVzqASX8RS1pLZIi8kSx/A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gU8meWXdlZcwm5ZEHkuGs2Zqiiss1nueZnhrqxFiiYrg4+4wdjwJO73a8PpoR7mi8EWSNHQw02OwEOTvG9Vo4/7V6J9CWSfJ2A37EnQwuS0lpmpnO3pcH7OpiTd5BNut7aa3SKEvkxcQq5gwAya7koeccdXd7K1HU3UVPXXjiD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=oUvgxHX4; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1758225051; c=relaxed/simple;
+	bh=HHO9BAc/GcPnikXW7sVULetVQkeYVPNZhR0BOkGedsc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CKhjaRZrbFYXrk2k0P0R0OFYpYvXnr64CPVVFyDvQpJqpPYnQBOm7vS3q89FYnZdcnlsqm4bceP3TYoSObVIWHR0nwdSd9hXmcZhZIwY+Yw0+lYV/fAMyfjLKCfHUZJ9wcpZs+uimUM/O5RoQQ1G5fOoggLsUHTqVEAYy25L2VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eva9AvEv; arc=none smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="oUvgxHX4"
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58IEpiMR2943542;
-	Thu, 18 Sep 2025 12:46:16 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=BNnQo0sMp5meQ8eMdhpYCpDIuJZVf4B2s9e5frOewII=; b=oUvgxHX4Zvag
-	QvZfvT5qsSg7XUUNcEKSGHGxSpk1x6xVdjCczVBB0sDEs21e34wV0jIolvVbNYkN
-	jTgvyrHUUYwV+lo6u++rCkGbO2ffVmXnU9nQyCKh24yMCSSEvr42Bh75J9IwX/o6
-	ZAMcfYDTc7pK2dypZ8HhlzYDN64uYjUg4u+fxTFlpDoC/odFQWOZTvcKC4A4hp68
-	PF1Pcn5X6fKmq6NSA1PbQHzCAk0OWb7eyHWUkOL09qiC+8w9o8+rBip4NJAIBH08
-	tXqKtlvjXykOV5OBQ6V2VEvoNjk8ciX51kX75Dg+301sFyrxCmy9z2VXMMG5QHsq
-	FEXUxCTt9w==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 498m7fjkq1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 18 Sep 2025 12:46:16 -0700 (PDT)
-Received: from devbig091.ldc1.facebook.com (2620:10d:c0a8:1b::30) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Thu, 18 Sep 2025 19:46:14 +0000
-From: Chris Mason <clm@meta.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
-        "Thomas
- Bogendoerfer" <tsbogend@alpha.franken.de>,
-        Heiko Carstens
-	<hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev
-	<agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "David S . Miller"
-	<davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann
-	<arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Dan
- Williams" <dan.j.williams@intel.com>,
-        Vishal Verma
-	<vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre
-	<nico@fluxnic.net>,
-        "Muchun Song" <muchun.song@linux.dev>,
-        Oscar Salvador
-	<osalvador@suse.de>,
-        "David Hildenbrand" <david@redhat.com>,
-        Konstantin
- Komarov <almaz.alexandrovich@paragon-software.com>,
-        Baoquan He
-	<bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young
-	<dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre
-	<reinette.chatre@intel.com>,
-        "Dave Martin" <Dave.Martin@arm.com>,
-        James Morse
-	<james.morse@arm.com>,
-        "Alexander Viro" <viro@zeniv.linux.org.uk>,
-        Christian
- Brauner <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
-        "Liam R . Howlett"
-	<Liam.Howlett@oracle.com>,
-        "Vlastimil Babka" <vbabka@suse.cz>, Mike Rapoport
-	<rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Michal Hocko
-	<mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
-        Baolin Wang
-	<baolin.wang@linux.alibaba.com>,
-        "Uladzislau Rezki" <urezki@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Andrey Konovalov"
-	<andreyknvl@gmail.com>,
-        Jann Horn <jannh@google.com>, Pedro Falcato
-	<pfalcato@suse.de>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-csky@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-s390@vger.kernel.org>,
-        <sparclinux@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-        <linux-cxl@vger.kernel.org>, <linux-mm@kvack.org>,
-        <ntfs3@lists.linux.dev>, <kexec@lists.infradead.org>,
-        <kasan-dev@googlegroups.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 16/16] kcov: update kcov to use mmap_prepare
-Date: Thu, 18 Sep 2025 12:45:38 -0700
-Message-ID: <20250918194556.3814405-1-clm@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <5b1ab8ef7065093884fc9af15364b48c0a02599a.1757534913.git.lorenzo.stoakes@oracle.com>
-References:
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eva9AvEv"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-330d1565844so831400fac.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758225047; x=1758829847; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=d/njUCFRX0+Zez5Vbxzl7crkS7bqMoDfnLtzR1RdZo4=;
+        b=eva9AvEvBIFnQI8mWist/SQpcXqkGSpmqlwiCGWUgrvC4NXsjyvmI+ZFzEMNAUwTq9
+         Xlur5BY5bjZtazgcym+P40KEYcEJrtZ23S4os3mJ8rWiWYu4w8w1vqd9pPBO0is9vmzj
+         5j7ck9vwCdwU0u1QaBk/dxCCTxPtxcbJI+lLlXeikpwczgj0KpWDOSt2+XoNZky0i/Br
+         aDj81b7GQbsHgW4QUu3E4q5Hwlr7bv2v7DR+nYMAD624yPFgyCie/t4/iq0qH1JS1X4q
+         FdJo4bh1TnEa+PShp5gj9DHaMnrcrARpaOIZ7MnhmpJ1QwUH9ta6VQMK6jSJppOks/5q
+         hQtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758225047; x=1758829847;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/njUCFRX0+Zez5Vbxzl7crkS7bqMoDfnLtzR1RdZo4=;
+        b=w4adeemsaWsyzoQR/iTCy9nsWNZ4O5k+LAv9DaRFpcZlv8ufRNTfN7x9ovHQtvjhPo
+         LeFcQQLDGuphJ7/XRiria3Kcze8Notit9T277wXtr5S9Z0Ra/8ypBprNlaug477EFwgv
+         gEyOnoQn8esRrb+PDQvORLAl/ixC9DwvAozy1RQPqL/iTTpL5KNO3VMdW3N5urvR7uGs
+         FUWCeUSFaG3Kgk814mTtN2411Y2OED6nd3xBSiZEnZzZ11QZ0W5FRCMKn0GYMNAmv0SJ
+         I4yRintnI6yd0grL3bOQwSL+/F++HluUc9E6x1SjBwONPN7L3xPgi82n1QIHpuXKie5o
+         rx2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX0ftoEx8PYuvMym4ulpYncISN2kGPz0rUZFjmAwAa2+agpjbRkLEPm+aXBgCmGhS4PXnhcxhg9M9Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtsmW7hOW69/WFfk22RF9se2xTIloVoF3Ak4c/qRNNiUnOCFYw
+	sr0IMXxH6lpVXpoJWClJQZxhi8uDrFZWrCMpamX0xd4V2RYTGiW/bQYN4xVpcUxdRJ8=
+X-Gm-Gg: ASbGncuVFBv5wNLU/w+1D7xTDdCCLOIOZ9a/ImejnNINNMapPQbeyBFbcMeYMOVLfll
+	XaB4k6wwUGK04TYaPo0T4eZVd874WosK2kIhgQUpOI62joZu/tqZ2W7KwbuMKnzFqZ+wZ8axDyj
+	rS2xcEeYlCxZAFYOIRApB92t/k9i8/MAqJXuOTW53bcc5hjfn12NuPaGuF28k8iU5FaSQNzwFdl
+	WFTewaL/K3ZW/OSzqXhvbpuNoqrtuKipo9MMY//oRAge7hqER9y7+bqkJRL0joG8MM6vXz0NJmD
+	8L7dGVB4HsLlSJZoaEZhMZEEVbdPXDVNB1MmJuLFmNOOY+gPA8q4dYGBpXBlAdfKLJIzGMoNp+1
+	nF/pmbQA7ifmdB7RalPzCQHaVZpZ1qgOvZuXQWcTRbsFGfgVfIs67BFgvBwHvAJ9Be9WduugjYq
+	66gyyKxQhRy4DKoYeVATdCHdFxOH2g
+X-Google-Smtp-Source: AGHT+IEHVxGf2yhLB3b35LtxkKozvBgxsFWLkSjfMAnEfJuFnLKkmmbeQcAg1qXyYA+/yqoKPs96RA==
+X-Received: by 2002:a05:6870:9f81:b0:315:bb13:5709 with SMTP id 586e51a60fabf-33bb4965597mr508926fac.47.1758225046732;
+        Thu, 18 Sep 2025 12:50:46 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:55b7:b662:4c5b:a28e? ([2600:8803:e7e4:1d00:55b7:b662:4c5b:a28e])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-336e5a2ab2esm1789178fac.17.2025.09.18.12.50.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 12:50:46 -0700 (PDT)
+Message-ID: <62989891-e166-419b-b6ab-cf1eca781b32@baylibre.com>
+Date: Thu, 18 Sep 2025 14:50:45 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: -nb3wVnAtqomihwZ5BzjAk2px7ex6dUi
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDE3NiBTYWx0ZWRfX4Y8q+OJtcR0W
- +oYOau8ot7ilGTzu5PMGr/c3x1bedT9B3gqOZHC7hM/Xi6+uaY0+lHxn/Ka9lE213kL68CII/7K
- z3B5d+3wpbiSc/ygeHsIhiWDxHAwN+fGFwFsRE7UhGTUUvWkFkY05ELfd3kxwScqvazqt9rbonW
- bOXl1lczG5Z9G+teTpxDti5TNxhuajRiwYF0JOVA2rBw9NRviqGPh4HP+n9iXtIIMtm1GoToIaT
- Hu39ICr9dMFPAjamuD3EgvUaHLFY/4+APB4u9SBfeGw7HWZlMuLwY/AgydoBSK6opKQCrvQOWH5
- 3JASKIaygraugixdHv8cWWJX9wRaKGzhstUShrgPXa9rw8BJZv52JiSljT0Adk=
-X-Authority-Analysis: v=2.4 cv=G6AcE8k5 c=1 sm=1 tr=0 ts=68cc6188 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=yJojWOMRYYMA:10 a=yPCof4ZbAAAA:8 a=auZRGODfdbgPxNsHCnAA:9
-X-Proofpoint-GUID: -nb3wVnAtqomihwZ5BzjAk2px7ex6dUi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-18_02,2025-09-18_02,2025-03-28_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/8] Documentation: iio: ad4030: Add double PWM SPI
+ offload doc
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
+ eblanc@baylibre.com, andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, corbet@lwn.net, marcelo.schmitt1@gmail.com
+References: <cover.1758214628.git.marcelo.schmitt@analog.com>
+ <4f3b1c516f8148e0b7e1c430bb184a2db12ade3c.1758214628.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <4f3b1c516f8148e0b7e1c430bb184a2db12ade3c.1758214628.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 10 Sep 2025 21:22:11 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+Could use docs: instead of Documentation: in the subject to
+make it a bit shorter. Seems common enough.
 
-> We can use the mmap insert pages functionality provided for use in
-> mmap_prepare to insert the kcov pages as required.
+On 9/18/25 12:38 PM, Marcelo Schmitt wrote:
+> Document double PWM setup SPI offload wiring schema.
 > 
-> This does necessitate an allocation, but since it's in the mmap path this
-> doesn't seem egregious. The allocation/freeing of the pages array is
-> handled automatically by vma_desc_set_mixedmap_pages() and the mapping
-> logic.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
 > ---
->  kernel/kcov.c | 42 ++++++++++++++++++++++++++----------------
->  1 file changed, 26 insertions(+), 16 deletions(-)
+> Change log v1 -> v2
+> - Swapped PWM numbering.
+> - Expanded double PWM description and capture zone description.
 > 
-> diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 1d85597057e1..2bcf403e5f6f 100644
-> --- a/kernel/kcov.c
-> +++ b/kernel/kcov.c
-> @@ -484,31 +484,41 @@ void kcov_task_exit(struct task_struct *t)
->  	kcov_put(kcov);
->  }
+>  Documentation/iio/ad4030.rst | 35 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/Documentation/iio/ad4030.rst b/Documentation/iio/ad4030.rst
+> index b57424b650a8..9501d3fee9bb 100644
+> --- a/Documentation/iio/ad4030.rst
+> +++ b/Documentation/iio/ad4030.rst
+> @@ -92,6 +92,41 @@ Interleaved mode
+>  In this mode, both channels conversion results are bit interleaved one SDO line.
+>  As such the wiring is the same as `One lane mode`_.
 >  
-> -static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
-> +static int kcov_mmap_error(int err)
-> +{
-> +	pr_warn_once("kcov: vm_insert_page() failed\n");
-> +	return err;
-> +}
+> +SPI offload wiring
+> +^^^^^^^^^^^^^^^^^^
 > +
-> +static int kcov_mmap_prepare(struct vm_area_desc *desc)
->  {
->  	int res = 0;
-> -	struct kcov *kcov = vma->vm_file->private_data;
-> -	unsigned long size, off;
-> -	struct page *page;
-> +	struct kcov *kcov = desc->file->private_data;
-> +	unsigned long size, nr_pages, i;
-> +	struct page **pages;
->  	unsigned long flags;
+> +.. code-block::
+> +
+> +    +-------------+         +-------------+
+> +    |         CNV |<-----+--| GPIO        |
+> +    |             |      +--| PWM0        |
+> +    |             |         |             |
+> +    |             |      +--| PWM1        |
+> +    |             |      |  +-------------+
+> +    |             |      +->| TRIGGER     |
+> +    |          CS |<--------| CS          |
+> +    |             |         |             |
+> +    |     ADC     |         |     SPI     |
+> +    |             |         |             |
+> +    |         SDI |<--------| SDO         |
+> +    |         SDO |-------->| SDI         |
+> +    |        SCLK |<--------| SCLK        |
+> +    +-------------+         +-------------+
+> +
+> +In this mode, both the ``cnv-gpios`` and a ``pwms`` properties are required.
+> +The ``pwms`` property specifies the PWM that is connected to the ADC CNV pin.
+> +The SPI offload will have a ``trigger-sources`` property to indicate the SPI
+> +offload (PWM) trigger source. For AD4030 and similar ADCs, there are two
+> +possible data transfer zones for sample N. One of them (zone 1) starts after the
+> +data conversion for sample N is complete while the other one (zone 2) starts 9.8
+> +nanoseconds after the rising edge of CNV for sample N + 1.
+> +
+> +The configuration depicted in the above ASCII art is intended to perform data
+
+Could say "diagram" instead of "ASCII art" if you want to be more formal.
+
+> +transfer in zone 2. To achieve high sample rates while meeting ADC timing
+> +requirements, an offset is added between the rising edges of PWM0 and PWM1 to
+> +delay the SPI transfer until 9.8 nanoseconds after CNV rising edge. This
+> +requires a specialized PWM controller that can provide such an offset.
+> +
+
+Could add a link to the HDL project as an example of such hardware.
+
+>  SPI Clock mode
+>  --------------
 >  
->  	spin_lock_irqsave(&kcov->lock, flags);
->  	size = kcov->size * sizeof(unsigned long);
-> -	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
-> -	    vma->vm_end - vma->vm_start != size) {
-> +	if (kcov->area == NULL || desc->pgoff != 0 ||
-> +	    vma_desc_size(desc) != size) {
->  		res = -EINVAL;
->  		goto exit;
->  	}
->  	spin_unlock_irqrestore(&kcov->lock, flags);
-> -	vm_flags_set(vma, VM_DONTEXPAND);
-> -	for (off = 0; off < size; off += PAGE_SIZE) {
-> -		page = vmalloc_to_page(kcov->area + off);
-> -		res = vm_insert_page(vma, vma->vm_start + off, page);
-> -		if (res) {
-> -			pr_warn_once("kcov: vm_insert_page() failed\n");
-> -			return res;
-> -		}
-> -	}
-> +
-> +	desc->vm_flags |= VM_DONTEXPAND;
-> +	nr_pages = size >> PAGE_SHIFT;
-> +
-> +	pages = mmap_action_mixedmap_pages(&desc->action, desc->start,
-> +					   nr_pages);
 
-Hi Lorenzo,
+Good enough as it is.
 
-Not sure if it belongs here before the EINVAL tests, but it looks like
-kcov->size doesn't have any page alignment.  I think size could be
-4000 bytes other unaligned values, so nr_pages should round up.
-
--chris
+Reviewed-by: David Lechner <dlechner@baylibre.com>
