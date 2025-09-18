@@ -1,424 +1,442 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187B1230BCC;
-	Thu, 18 Sep 2025 13:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C64220F2A
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 14:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758203907; cv=none; b=l89ytteulXf0mpJfUN385oNNUCpZKLbr1NgI5KiAAgMgNbBIRosROw1MsRRqnbYv40vqlB2LLE29qZTvIjJM3E3q/0/1eBt7Qn5o/V3qxP+rK9hCUUlsBTgEHalyF4rXhIrqLdN6patL1+/ZQcOqr1cUCrXTdMXEMQKujIm3XMY=
+	t=1758204332; cv=none; b=CEYnLbfZdaNXhyAKrsDfezUFkOvjOuej4pzPLgL1TXkhkW8h2gS0RfZHX7FG/hTIMsfizxqsIxy4P9ORr0WZFsLK1LbWflDgpqM7igUsB+jdm1TgT83V3JD/AisMpDjftI7uwsXD16UoQdEVLHBr9SG6epiNFXQ+o5QLvOSOQgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758203907; c=relaxed/simple;
-	bh=qoMSLquhGsUEeYosZZieHvZQCyLrteuZ8g3vPImGhK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SeCvfKzcSy43I8gmzU1CAk9juMmbYhJOCM11wzl21iD2EFXMRBsF0+crOo/qF6cHqKud+4GNUYZPkIL0ceovN86/ucQH667PfYITB/ns0uj98Hlcp/1wM03zVGede0oeWIYONRfhNBfGUq5stmJkcV2r6AWkSEUhTNll34WMfLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMiwcRYP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758204332; c=relaxed/simple;
+	bh=jvD6EbLu6C+1usQPR8tlA6aJATIG8Vj8v16gqqXIbxQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tDbMvZhfQ3JLD3WZKoZ2b91JGieV2nFu/gjCKx6faWFbX0f+ecSdJugZYm+3yC8sfradSScbCehs8LKQhfA57aXvOf1DFMwUs8SUFbRJawlIS8Kk37eMaVxITHCBLjb+S6majZysXKvXMeNaMjjHwrlxNI+tjvrDHroIaw0qZ5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FrOGpPeh; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMiwcRYP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67425C4CEEB;
-	Thu, 18 Sep 2025 13:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758203906;
-	bh=qoMSLquhGsUEeYosZZieHvZQCyLrteuZ8g3vPImGhK0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VMiwcRYPJw1RVYyBAKkzB7ws62wlezGI7sZko4yjOZdrZnZHZxVoECxIQZazdWZKr
-	 qGyNPT9qUyF2nDolW8+O9c9leed6AW2aXyauZfE1UwzmFs3CVtCeNc8ENVzn5OX7L9
-	 0jjeDL3klhIujvd3Dzgt3fJQbbmBV+fxtjhkmTXKelnbguevKUVDikqPKF8hWyoJBM
-	 6Mb/8rlU3oeCA5jsSFF+/hpRUcs6DM1SF6e7/aHP8Rlf+4IzfN+fBRj87/J9yQrkX5
-	 tYWomdg9EmjOyHe3HyK7xAku+SyUPexZwGv4PK3kRZNLHb0PJesVH7hNqzFfojp9sy
-	 Qa6k9YrTJLtFg==
-Date: Thu, 18 Sep 2025 15:58:22 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Jani Nikula
- <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v7 11/24] tools/docs: sphinx-build-wrapper: add a
- wrapper for sphinx-build
-Message-ID: <20250918155822.69548064@foz.lan>
-In-Reply-To: <5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com>
-References: <cover.1758111077.git.mchehab+huawei@kernel.org>
-	<820f986c9b61637e5af6708a014e36d70740bcb7.1758111077.git.mchehab+huawei@kernel.org>
-	<5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FrOGpPeh"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3eb536ac039so782763f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 07:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1758204327; x=1758809127; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wxDWT9Jhe5/U9R8flrhyT53CUNqFwMWNSIwpcA9ZCHg=;
+        b=FrOGpPehSdf8EPA9O8jFjvH7oBHRCYP0bWtZ7uRVh7HtxvnbbI/kejSxCP2Rs7ET0g
+         3SbOf3vrvId+VKmpFldbbA1cv9Dv4+fuZroHQRaLWCDyzY2c9aWLntq8bd0YjOvAgM3z
+         3jqL2tzWIvKKP3YYyO1zWIFBeHeFXF7Ki2FfwkEne36UoMzoa8ZzB9r4P5PFZiDVMv8V
+         8odX3PURcN9fF2WVX3C/uPw4EVWasAhiw8QpFC8k+kskeoGwBf9qHM3qI0VQwbag1hV5
+         YWPzXK1dKW3mZc+Jqid1A2c+XOEduVxTAC47DpZUL0gIbOyLEXMtwl4e/rRe+31cODyl
+         KBkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758204327; x=1758809127;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wxDWT9Jhe5/U9R8flrhyT53CUNqFwMWNSIwpcA9ZCHg=;
+        b=oNgoeCrxtgksya0gPK0gEG0zyTBvVcM8e2SpyjY2D0NT7rF6UJdGozGgegVGxy1O8c
+         9od2X3wOsaGip83LyRsjaFRXlyf5eXxWOrvSh4VG15ugHXgtSW6pgerz2e5716sfqLQ/
+         Bh0aYqSYPGDXeOgli1UCYg5TJ8SB1qstAVq/tLsoYsNqVqAjB9KONqB/YAJU5Tr0o8Jj
+         CiM3vDprtsSbc8x56Ft8LlveSe14Nbzf0ZbIobQZJR9PBUpMikf8m1qCeZLcfnSpZxCN
+         3sh09tQIq3C/knpkWvk6LUfRjcSJEkCyK1SnrqWza1gI8pLtNY7FrzVYRhRWDrhGUavv
+         P9WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTCHTw4BJkACfEqKdh+g7Mmowo/yAZ6nKwGruRUAU8+p06qwtJCrLm6Tjfw45RFlivZQkQqbl6BPg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPiaBoDHSCHR/cV5jZO33z7f5N+2vUpqhfh/oVQBYVpJpZKprZ
+	Le0DVC5rZ7fd0ehsrLNUklFZ+/bDW7HylrjOSQrVAE3IO3iWWgaCZHPsVVgMi0kWJZCVcZUf5de
+	xTQ==
+X-Google-Smtp-Source: AGHT+IFy9SVTK9lkhhDe0k4MlUcY+fM8F7qwF5+lA1VEUPlhPe12zIpwiGbwOtlWJNddLkgwJGEEi7ziYQ==
+X-Received: from wrbcc12.prod.google.com ([2002:a5d:5c0c:0:b0:3ec:e0b7:7699])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2483:b0:3cd:ef83:a9a1
+ with SMTP id ffacd0b85a97d-3ecdf9c2666mr5663097f8f.20.1758204326802; Thu, 18
+ Sep 2025 07:05:26 -0700 (PDT)
+Date: Thu, 18 Sep 2025 15:59:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
+Message-ID: <20250918140451.1289454-1-elver@google.com>
+Subject: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+From: Marco Elver <elver@google.com>
+To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Em Thu, 18 Sep 2025 21:07:10 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Capability analysis is a C language extension, which enables statically
+checking that user-definable "capabilities" are acquired and released where
+required. An obvious application is lock-safety checking for the kernel's
+various synchronization primitives (each of which represents a "capability"),
+and checking that locking rules are not violated.
 
-> [+CC: Jani, -CC: rust people and list]
-> 
-> Hi, (just got v8, but sending anyway ...)
-> 
-> Now that I could actually apply v7 of the series, here is a
-> (not-so-much knee-jerk) reaction to this change.
-> Please see below.
-> 
-> On Wed, 17 Sep 2025 14:15:05 +0200, Mauro Carvalho Chehab wrote:
-> > There are too much magic inside docs Makefile to properly run
-> > sphinx-build. Create an ancillary script that contains all
-> > kernel-related sphinx-build call logic currently at Makefile.
-> > 
-> > Such script is designed to work both as an standalone command
-> > and as part of a Makefile. As such, it properly handles POSIX
-> > jobserver used by GNU make.
-> > 
-> > On a side note, there was a line number increase due to the
-> > conversion (ignoring comments) is:
-> > 
-> >  Documentation/Makefile          |  131 +++----------
-> >  tools/docs/sphinx-build-wrapper |  293 +++++++++++++++++++++++++++++++
-> >  2 files changed, 323 insertions(+), 101 deletions(-)
-> > 
-> > Comments and descriptions adds:
-> >  tools/docs/sphinx-build-wrapper | 261 +++++++++++++++++++++++++++++++-
-> > 
-> > So, about half of the script are comments/descriptions.
-> > 
-> > This is because some things are more verbosed on Python and because
-> > it requires reading env vars from Makefile. Besides it, this script
-> > has some extra features that don't exist at the Makefile:
-> > 
-> > - It can be called directly from command line;
-> > - It properly return PDF build errors.
-> > 
-> > When running the script alone, it will only take handle sphinx-build
-> > targets. On other words, it won't runn make rustdoc after building
-> > htmlfiles, nor it will run the extra check scripts.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/Makefile          | 129 ++-----
-> >  tools/docs/sphinx-build-wrapper | 599 ++++++++++++++++++++++++++++++++
-> >  2 files changed, 627 insertions(+), 101 deletions(-)
-> >  create mode 100755 tools/docs/sphinx-build-wrapper
-> > 
-> > diff --git a/Documentation/Makefile b/Documentation/Makefile
-> > index fd6399c79fab..380284026c13 100644
-> > --- a/Documentation/Makefile
-> > +++ b/Documentation/Makefile  
-> [...]
-> 
-> > +# Common documentation targets
-> > +infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> > +	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> > +	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
-> > +		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
-> > +		--builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
-> > +		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
-> >    
-> [...]
-> > +# Special handling for pdfdocs
-> > +ifneq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
-> > +pdfdocs:
-> > +	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
-> > +	@echo "  SKIP    Sphinx $@ target."
-> >  endif  
-> [...]
-> 
-> > +	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> > +	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
-> > +		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
-> > +		--builddir="$(BUILDDIR)" \
-> > +		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
-> >  # If Rust support is available and .config exists, add rustdoc generated contents.
-> >  # If there are any, the errors from this make rustdoc will be displayed but
-> >  # won't stop the execution of htmldocs
-> > @@ -118,49 +85,6 @@ ifeq ($(CONFIG_RUST),y)
-> >  endif
-> >  endif
-> >    
-> [...]
-> 
-> > -
-> > -latexdocs:
-> > -	@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> > -	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
-> > -
-> > -ifeq ($(HAVE_PDFLATEX),0)
-> > -
-> > -pdfdocs:
-> > -	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
-> > -	@echo "  SKIP    Sphinx $@ target."
-> > -
-> > -else # HAVE_PDFLATEX
-> > -
-> > -pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
-> > -pdfdocs: latexdocs  
-> 
-> So, this is removing explicit dependency from pdfdocs to latexdocs.
+Clang originally called the feature "Thread Safety Analysis" [1], with
+some terminology still using the thread-safety-analysis-only names. This
+was later changed and the feature became more flexible, gaining the
+ability to define custom "capabilities". Its foundations can be found in
+"capability systems" [2], used to specify the permissibility of
+operations to depend on some capability being held (or not held).
 
-No, this doesn't change it. See, pdfdocs is now a target. The logic
-inside the wrapper will first build latexdocs with:
+Because the feature is not just able to express capabilities related to
+synchronization primitives, the naming chosen for the kernel departs
+from Clang's initial "Thread Safety" nomenclature and refers to the
+feature as "Capability Analysis" to avoid confusion. The implementation
+still makes references to the older terminology in some places, such as
+`-Wthread-safety` being the warning enabled option that also still
+appears in diagnostic messages.
 
-                try:
-                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
-                except (OSError, ValueError, subprocess.SubprocessError) as e:
-                    sys.exit(f"Build failed: {repr(e)}")
+Enabling capability analysis can be seen as enabling a dialect of Linux
+C with a Capability System.
 
-...
+Additional details can be found in the added kernel-doc documentation.
+An LWN article covered v2 of the series: https://lwn.net/Articles/1012990/
 
-        if target == "pdfdocs":
-            self.handle_pdf(output_dirs, deny_vf)
-        elif target == "infodocs":
-            self.handle_info(output_dirs)
+ [1] https://clang.llvm.org/docs/ThreadSafetyAnalysis.html
+ [2] https://www.cs.cornell.edu/talc/papers/capabilities.pdf
 
-e.g if build fails (SubprocessError), it will report it and won't build
-pdf.
+=== Development Approach ===
 
-> Although it is rare, there is a small chance where Sphinx latex builder
-> crashes and can't complete generating all the necessary files (.tex, .sty).
+Prior art exists in the form of Sparse's context tracking. Locking
+annotations on functions exist, so the concept of analyzing locking rules
+is not foreign to the kernel's codebase.
 
-There is also another possibility, not currently covered:
+However, Clang's analysis is more complete vs. Sparse's, with the
+typical trade-offs in static analysis: improved completeness is
+sacrificed for more possible false positives or additional annotations
+required by the programmer. Numerous options exist to disable or opt out
+certain code from analysis.
 
-	SPHINXDIRS="non_existing_dir"
+This series initially aimed to retain compatibility with Sparse, which
+can provide tree-wide analysis of a subset of the capability analysis
+introduced, but it was later decided to drop Sparse compatibility. For
+the most part, the new (and old) keywords used for annotations remain
+the same, and many of the pre-existing annotations remain valid.
 
-if non_existing_dir is not at latex_documents, this may silently
-succeed. The new logic detect this as well, producing a warning
-that sphinx-build didn't produce any LaTeX .tex files. See at
-handle_pdf() method:
+One big question is how to enable this feature, given we end up with a
+new dialect of C -- 2 approaches have been considered:
 
-        #
-        # Handle case where no .tex files were found
-        #
-        if not has_tex:
-            out_name = "LaTeX files"
-            max_len = max(max_len, len(out_name))
-            builds[out_name] = "FAILED: no .tex files were generated"
-            build_failed = True
+  A. Tree-wide all-or-nothing approach. This approach requires tree-wide
+     changes, adding annotations or selective opt-outs. Making additional
+     primitives capability-enabled increases churn, esp. where maintainers
+     are unaware of the feature's existence and how to use it.
 
-> 
-> In such cases, I want "make pdfdocs" to give up immediately and not to
-> try to run $(PDFLATEX) at all.
+Because we can't change the programming language (even if from one C
+dialect to another) of the kernel overnight, a different approach might
+cause less friction.
 
-The doc Makefile has this:
+  B. A selective, incremental, and much less intrusive approach.
+     Maintainers of subsystems opt in their modules or directories into
+     "capability analysis" (via Makefile):
+  
+       CAPABILITY_ANALYSIS_foo.o := y	# foo.o only
+       CAPABILITY_ANALYSIS := y  	# all TUs
+  
+     Most (eventually all) synchronization primitives and more
+     capabilities (including ones that could track "irq disabled",
+     "preemption" disabled, etc.) could be supported.
 
-	# Special handling for pdfdocs
-	ifneq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
-	pdfdocs:
-	        $(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
-	        @echo "  SKIP    Sphinx $@ target."
-	endif
+The approach taken by this series is B. This ensures that only
+subsystems where maintainers are willing to deal with any warnings are
+opted-in. Introducing the feature can be done incrementally, without
+large tree-wide changes and adding numerous opt-outs and annotations to
+the majority of code.
 
-	endif # HAVE_SPHINX
+  Note: Bart Van Assche concurrently worked on enabling -Wthread-safety:
+  https://lore.kernel.org/all/20250206175114.1974171-1-bvanassche@acm.org/
+  Bart's work has shown what it might take to go with approach A
+  (tree-wide, restricted to 'mutex' usage). This has shown that the
+  analysis finds real issues when applied to enough subsystems!  We hope
+  this serves as motivation to eventually enable the analysis in as many
+  subsystems as possible, particularly subsystems that are not as easily
+  tested by CI systems and test robots.
 
-so, in thesis, it should get such condition early.
+=== Initial Uses ===
 
-> It looks like "./tools/docs/sphinx-build-wrapper pdfdocs" doesn't give up
-> at the latexdocs stage in such cases with default SPHINXDIRS="." and
-> continues to run $(PDFLATEX) anyway.
+With this initial series, the following synchronization primitives are
+supported: `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`,
+`seqlock_t`, `bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`,
+`local_lock_t`, `ww_mutex`.
 
-If you run the script by hand and xelatex is not installed, it will
-build *.tex files, failing only at .pdf output. I don't think this is
-a problem, although it would be easy to add a logic there to verify
-if PDFDOCS is there:
+To demonstrate use of the feature on real kernel code, the series also
+enables capability analysis for the following subsystems:
 
-        self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
-	if not os.path.exists(self.pdflatex) or not os.access(self.pdflatex, os.X_OK):
-		sys.exit(f"Error: {self.pdflatex} doesn't exist or it is not executable")
-	
-But IMHO this is overkill.
+	* kernel/kcov
+	* kernel/kcsan
+	* kernel/sched/
+	* lib/rhashtable
+	* lib/stackdepot
+	* mm/kfence
+	* security/tomoyo
+    	* crypto/
 
-> As a matter of fact, recent linux-next does exhibit such crashes in the
-> latexdocs stage:
-> 
-> As of next-20250917, running:
->     make cleandocs: make pdfdocs" will end up in this way:
-> 
-> --------------------------------------------------------------
-> [...]
-> Markup is unsupported in LaTeX!
-> 
-> Versions
-> ========
-> 
-> [...]
-> 
-> Last Messages
-> =============
-> 
->         filesystems/xfs/xfs-delayed-logging-design
->         filesystems/xfs/xfs-maintainer-entry-profile
->         filesystems/xfs/xfs-self-describing-metadata
->         filesystems/xfs/xfs-online-fsck-design
->        filesystems/zonefs
-> 
->     resolving references...
->     processing filesystems.tex: done
->     writing...
->     failed
-> 
-> Loaded Extensions
-> =================
-> 
-> [...]
-> 
-> Traceback
-> =========
-> 
->       File "/[...]/sphinx-8.2.3/lib/python3.12/site-packages/sphinx/writers/latex.py", line 1152, in visit_table
->         raise UnsupportedError(
->     sphinx.writers.latex.UnsupportedError: filesystems/f2fs:: longtable does not support nesting a table.
+The initial benefits are static detection of violations of locking
+rules. As more capabilities are added, we would see more static checking
+beyond what regular C can provide, all while remaining easy (read quick)
+to use via the Clang compiler.
 
-Here, xelatex exists and was installed. This sounds to be due to some
-change at fs2fs.rst file. Probably it is using a nested table, e.g.
-a Sphinx table with a table inside it.
+  Note: The kernel already provides dynamic analysis tools Lockdep and
+  KCSAN for lock-safety checking and data-race detection respectively.
+  Unlike those, Clang's capability analysis is a compile-time static
+  analysis with no runtime impact. The static analysis complements
+  existing dynamic analysis tools, as it may catch some issues before
+  even getting into a running kernel, but is *not* a replacement for
+  whole-kernel testing with the dynamic analysis tools enabled!
 
-We had to do some changes on media to avoid that, as this indeed
-breaks PDF generation.
+=== Appendix ===
 
-> [...]
-> 
-> make[2]: *** [Documentation/Makefile:138: latexdocs] Error 2
-> make[1]: *** [/home/akira/git/linux/Makefile:1805: pdfdocs] Error 2
-> make: *** [Makefile:248: __sub-make] Error 2
-> --------------------------------------------------------------
-> 
-> If you merge your v7 series into linux-next and resolve confilcts properly,
-> running the same:
-> 
->     make cleandocs; make pdfdocs
-> 
-> will end in this way:
-> 
-> Error: Can't build 45 PDF file(s): pdf/RCU.pdf, pdf/admin-guide.pdf, pdf/locking.pdf, pdf/dev-tools.pdf, pdf/process.pdf, pdf/core-api.pdf, pdf/mm.pdf, pdf/virt.pdf, pdf/block.pdf, pdf/sound.pdf, pdf/kernel-hacking.pdf, pdf/networking.pdf, pdf/infiniband.pdf, pdf/leds.pdf, pdf/maintainer.pdf, pdf/crypto.pdf, pdf/fb.pdf, pdf/accounting.pdf, pdf/livepatch.pdf, pdf/nvme.pdf, pdf/hid.pdf, pdf/isdn.pdf, pdf/trace.pdf, pdf/i2c.pdf, pdf/fault-injection.pdf, pdf/netlabel.pdf, pdf/staging.pdf, pdf/timers.pdf, pdf/firmware-guide.pdf, pdf/hwmon.pdf, pdf/scheduler.pdf, pdf/tools.pdf, pdf/watchdog.pdf, pdf/mhi.pdf, pdf/power.pdf, pdf/devicetree.pdf, pdf/arch.pdf, pdf/spi.pdf, pdf/userspace-api.pdf, pdf/translations.pdf, pdf/fpga.pdf, pdf/cpu-freq.pdf, pdf/security.pdf, pdf/bpf.pdf, pdf/pcmcia.pdf
+A Clang version that supports `-Wthread-safety-pointer` and the new
+alias-analysis of capability pointers is required (from this version
+onwards):
 
-It sounds that subprocess call is missing check=True. This should
-likely fix it:
+	https://github.com/llvm/llvm-project/commit/b4c98fcbe1504841203e610c351a3227f36c92a4 [3]
 
-                try:
--                    self.run_sphinx(sphinxbuild, build_args, env=self.env) 
-+                    self.run_sphinx(sphinxbuild, build_args, env=self.env, check=True)
-                except (OSError, ValueError, subprocess.SubprocessError) as e:
-                    sys.exit(f"Build failed: {repr(e)}")
+This series is also available at this Git tree:
 
-without check=True, subprocess.call won't return an exception, but
-instead will place the return code at the function return logic.
+	https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=cap-analysis/dev
 
+=== Changelog ===
 
-> As you might have already noticed, GNU Make provides useful and convinenent
-> command options readily availabe.  Some of those I often use include:
-...
-> There are abundunt of other helpful options for various situations.
-> 
-> Your change of pdfdocs recipe would deprive me of those flexible options
-> of GNU Make. 
-...
-> Honestly speaking, I just trunt the history proven tool much more than your
-> re-implementation.  I'm sure I would miss that make--sub-make chain if your
-> sphinx-build-wrapper were employed in pdfdocs target.
+v3:
 
-As explained, the build process we have is very complex, with lots of
-exceptions and 4 separate scripts. We really need to have a consolidated
-logic with everything on it and properly documented.
+  - Bump min. Clang version to 22+ (unreleased), which now supports:
 
-That's said, if you need to support your own particular scenario in
-a way that you want to solve only with Makefile rules, you can easily
-create your own Makefile.akira file with:
+	* re-entrancy via __attribute__((reentrant_capability));
+	* basic form of capability alias analysis [3] - which is the
+	  biggest improvement since v2.
 
-	pdfdocs:
-		+make -C Documentation latexdocs
-		+make -C Documentation/output/latex pdf
+    This was the result of conclusions from this discussion:
+    https://lore.kernel.org/all/CANpmjNPquO=W1JAh1FNQb8pMQjgeZAKCPQUAd7qUg=5pjJ6x=Q@mail.gmail.com/
 
-and whatever other specific rules you might want, but this doesn't
-sound a valid reason to keep a very polluted badly documented Makefile,
-where nobody knows exactly anymore why each part of it are there...
+  - Rename __asserts_cap/__assert_cap to __assumes_cap/__assume_cap.
 
-Heh, just on the discussions of this changeset, experienced
-developers including me forgot that:
+  - Switch to DECLARE_LOCK_GUARD_1_ATTRS().
 
-- _SPHINXDIRS is just a helper var for make help;
-- the "|| exit" is there to bypass latex broken warnings;
-- the media uapi builds (before -next) were missing a "+";
-- there was an extra script called only when pdfdocs fail;
-- it is hard to notice that make htmldocs actually ends with
-	make rustdoc
+  - Add __acquire_ret and __acquire_shared_ret helper macros - can be
+    used to define function-like macros that return objects which
+    contains a held capabilities. Works now because of capability alias
+    analysis.
 
-> As I said above, the behavior you wants can be achieved by using a couple
-> of options to GNU Make. (Give or take the "|| exit;" case.)
-> I'm more inclined to continue using existing approach.
-> 
-> In summary, this is my suggestion for the development for the v6.19 (not v6.18)
-> merge window.
+  - Add capability_unsafe_alias() helper, where the analysis rightfully
+    points out we're doing strange things with aliases but we don't
+    care.
 
-Merging for 6.19 is OK to me. Maybe the best would be if Jon could merge v8
-on a separate branch, to be merged after the merge window. We may then
-send incremental patches against it containing fixes and improvements.
+  - Support multi-argument attributes.
 
-Keeping rebasing/resubmitting a /24 patches (and increasing) series every
-time sounds a waste of everybody's time: if we agree with the general 
-concept, we can submit things incrementally from now on.
+  - Enable for kernel/sched/{core,fair}.c, kernel/kcsan.
+  - Drop drivers/tty changes (revisit later).
 
-> 1) Using sphinx-build-wrapper in (*}docs targets other than pdfdocs is the way
->    to go.
-> 
-> 2) pdfdocs should be a different target that depends on latexdocs.
-> 
-> 3) Preserve the make--sub-make chain in the pdfdocs recipe. (for easy access
->    to GNU Make's options)
-> 
-> 4) sphinx-build-wrapper has own its rights to cover pdfdocs.  I don't care
->    how it behaves when it is directly called for pdfdocs.
+v2: https://lore.kernel.org/all/20250304092417.2873893-1-elver@google.com/
 
-I think that splitting latex and pdf on two separate targets is not
-a good idea for the normal usecase: most of the time, people just want
-the final target and don't care what intermediate steps were needed to
-build the output. 
+  - Remove Sparse context tracking support - after the introduction of
+    Clang support, so that backports can skip removal of Sparse support.
 
--
+  - Remove __cond_lock() function-like helper.
 
-Yet, perhaps we may implement either a "pdf-only" target that would
-skip first step (sphinx-build) going directly to second step. Or maybe
-implement on a more generic way, with something similar to:
+  - ww_mutex support.
 
-	DOC_STEP=1|2
+  - -Wthread-safety-addressof was reworked and committed in upstream
+    Clang as -Wthread-safety-pointer.
 
-or:
-	SPINXBUILD=0|1
+  - Make __cond_acquires() and __cond_acquires_shared() take abstract
+    value, since compiler only cares about zero and non-zero.
 
-To allow select what build step will be used or to skip sphinx-build
-call.
+  - Rename __var_guarded_by to simply __guarded_by. Initially the idea
+    was to be explicit about if the variable itself or the pointed-to
+    data is guarded, but in the long-term, making this shorter might be
+    better.
 
-> 5) Build summary as the final message from "make pdfdocs" is a good idea and
->    it should be doable in the Makefile recipe in a different manner.
+  - Likewise rename __ref_guarded_by to __pt_guarded_by.
 
-Right now, summary is shown V=1, but we can add a way to control the
-output directly.
+  - Introduce common header warning suppressions - this is a better
+    solution than guarding header inclusions with disable_ +
+    enable_capability_analysis(). Header suppressions are disabled when
+    selecting CONFIG_WARN_CAPABILITY_ANALYSIS_ALL=y. This bumps the
+    minimum Clang version required to 20+.
 
-> 6) The issue Mauro calls "false positive" (the "|| exit;" pattern in Makefile's
->    loop) might be a desired behavior, but it should be possible to add a knob
->    to suppress it in the Makefile.
+  - Make the data_race() macro imply disabled capability analysis.
+    Writing capability_unsafe(data_race(..)) is unnecessarily verbose
+    and data_race() on its own already indicates something subtly unsafe
+    is happening.  This change was made after analysis of a finding in
+    security/tomoyo.
 
-Not against adding it. IMHO such scenario could be implemented
-directly as an option to the wrapper when called from command line, 
-instead of yet-another-env var, but I won't object either way.
+  - Enable analysis in the following subsystems as additional examples
+    of larger subsystem. Where it was obvious, the __guarded_by
+    attribute was added to lock-guarded variables to improve coverage.
 
-> 
-> Mauro, how does this "compromize" sound to you?
+    	* drivers/tty
+	* security/tomoyo
+    	* crypto/
 
-Yes. See my comments above.
+RFC v1: https://lore.kernel.org/lkml/20250206181711.1902989-1-elver@google.com
 
-> 
-> Regards,
-> Akira
-> 
-> > -	@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> > -	$(foreach var,$(SPHINXDIRS), \
-> > -	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/tools/docs/check-variable-fonts.py || exit; \
-> > -	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
-> > -	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
-> > -	)
-> > -  
-> [...]
-> 
+Marco Elver (35):
+  compiler_types: Move lock checking attributes to
+    compiler-capability-analysis.h
+  compiler-capability-analysis: Add infrastructure for Clang's
+    capability analysis
+  compiler-capability-analysis: Add test stub
+  Documentation: Add documentation for Compiler-Based Capability
+    Analysis
+  checkpatch: Warn about capability_unsafe() without comment
+  cleanup: Basic compatibility with capability analysis
+  lockdep: Annotate lockdep assertions for capability analysis
+  locking/rwlock, spinlock: Support Clang's capability analysis
+  compiler-capability-analysis: Change __cond_acquires to take return
+    value
+  locking/mutex: Support Clang's capability analysis
+  locking/seqlock: Support Clang's capability analysis
+  bit_spinlock: Include missing <asm/processor.h>
+  bit_spinlock: Support Clang's capability analysis
+  rcu: Support Clang's capability analysis
+  srcu: Support Clang's capability analysis
+  kref: Add capability-analysis annotations
+  locking/rwsem: Support Clang's capability analysis
+  locking/local_lock: Include missing headers
+  locking/local_lock: Support Clang's capability analysis
+  locking/ww_mutex: Support Clang's capability analysis
+  debugfs: Make debugfs_cancellation a capability struct
+  compiler-capability-analysis: Remove Sparse support
+  compiler-capability-analysis: Remove __cond_lock() function-like
+    helper
+  compiler-capability-analysis: Introduce header suppressions
+  compiler: Let data_race() imply disabled capability analysis
+  MAINTAINERS: Add entry for Capability Analysis
+  kfence: Enable capability analysis
+  kcov: Enable capability analysis
+  kcsan: Enable capability analysis
+  stackdepot: Enable capability analysis
+  rhashtable: Enable capability analysis
+  printk: Move locking annotation to printk.c
+  security/tomoyo: Enable capability analysis
+  crypto: Enable capability analysis
+  sched: Enable capability analysis for core.c and fair.c
 
+ .../dev-tools/capability-analysis.rst         | 148 +++++
+ Documentation/dev-tools/index.rst             |   1 +
+ Documentation/dev-tools/sparse.rst            |  19 -
+ Documentation/mm/process_addrs.rst            |   6 +-
+ MAINTAINERS                                   |  11 +
+ Makefile                                      |   1 +
+ crypto/Makefile                               |   2 +
+ crypto/acompress.c                            |   6 +-
+ crypto/algapi.c                               |   2 +
+ crypto/api.c                                  |   1 +
+ crypto/crypto_engine.c                        |   2 +-
+ crypto/drbg.c                                 |   5 +
+ crypto/internal.h                             |   2 +-
+ crypto/proc.c                                 |   3 +
+ crypto/scompress.c                            |  24 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    |   4 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.h    |   6 +-
+ .../intel/iwlwifi/pcie/gen1_2/internal.h      |   5 +-
+ .../intel/iwlwifi/pcie/gen1_2/trans.c         |   4 +-
+ fs/dlm/lock.c                                 |   2 +-
+ include/crypto/internal/acompress.h           |   7 +-
+ include/crypto/internal/engine.h              |   2 +-
+ include/linux/bit_spinlock.h                  |  24 +-
+ include/linux/cleanup.h                       |  17 +
+ include/linux/compiler-capability-analysis.h  | 423 +++++++++++++
+ include/linux/compiler.h                      |   2 +
+ include/linux/compiler_types.h                |  18 +-
+ include/linux/console.h                       |   4 +-
+ include/linux/debugfs.h                       |  12 +-
+ include/linux/kref.h                          |   2 +
+ include/linux/list_bl.h                       |   2 +
+ include/linux/local_lock.h                    |  45 +-
+ include/linux/local_lock_internal.h           |  73 ++-
+ include/linux/lockdep.h                       |  12 +-
+ include/linux/mm.h                            |  33 +-
+ include/linux/mutex.h                         |  35 +-
+ include/linux/mutex_types.h                   |   4 +-
+ include/linux/rcupdate.h                      |  86 +--
+ include/linux/refcount.h                      |   6 +-
+ include/linux/rhashtable.h                    |  14 +-
+ include/linux/rwlock.h                        |  22 +-
+ include/linux/rwlock_api_smp.h                |  43 +-
+ include/linux/rwlock_rt.h                     |  44 +-
+ include/linux/rwlock_types.h                  |  10 +-
+ include/linux/rwsem.h                         |  66 +-
+ include/linux/sched.h                         |   6 +-
+ include/linux/sched/signal.h                  |  16 +-
+ include/linux/sched/task.h                    |   5 +-
+ include/linux/sched/wake_q.h                  |   3 +
+ include/linux/seqlock.h                       |  24 +
+ include/linux/seqlock_types.h                 |   5 +-
+ include/linux/spinlock.h                      |  89 ++-
+ include/linux/spinlock_api_smp.h              |  34 +-
+ include/linux/spinlock_api_up.h               | 112 +++-
+ include/linux/spinlock_rt.h                   |  37 +-
+ include/linux/spinlock_types.h                |  10 +-
+ include/linux/spinlock_types_raw.h            |   5 +-
+ include/linux/srcu.h                          |  60 +-
+ include/linux/srcutiny.h                      |   4 +
+ include/linux/srcutree.h                      |   6 +-
+ include/linux/ww_mutex.h                      |  22 +-
+ kernel/Makefile                               |   2 +
+ kernel/kcov.c                                 |  36 +-
+ kernel/kcsan/Makefile                         |   2 +
+ kernel/kcsan/report.c                         |  11 +-
+ kernel/printk/printk.c                        |   2 +
+ kernel/sched/Makefile                         |   3 +
+ kernel/sched/core.c                           |  89 ++-
+ kernel/sched/fair.c                           |   9 +-
+ kernel/sched/sched.h                          | 110 +++-
+ kernel/signal.c                               |   4 +-
+ kernel/time/posix-timers.c                    |  13 +-
+ lib/Kconfig.debug                             |  45 ++
+ lib/Makefile                                  |   6 +
+ lib/dec_and_lock.c                            |   8 +-
+ lib/rhashtable.c                              |   5 +-
+ lib/stackdepot.c                              |  20 +-
+ lib/test_capability-analysis.c                | 596 ++++++++++++++++++
+ mm/kfence/Makefile                            |   2 +
+ mm/kfence/core.c                              |  20 +-
+ mm/kfence/kfence.h                            |  14 +-
+ mm/kfence/report.c                            |   4 +-
+ mm/memory.c                                   |   4 +-
+ mm/pgtable-generic.c                          |  19 +-
+ net/ipv4/tcp_sigpool.c                        |   2 +-
+ scripts/Makefile.capability-analysis          |  11 +
+ scripts/Makefile.lib                          |  10 +
+ scripts/capability-analysis-suppression.txt   |  33 +
+ scripts/checkpatch.pl                         |   8 +
+ security/tomoyo/Makefile                      |   2 +
+ security/tomoyo/common.c                      |  52 +-
+ security/tomoyo/common.h                      |  77 +--
+ security/tomoyo/domain.c                      |   1 +
+ security/tomoyo/environ.c                     |   1 +
+ security/tomoyo/file.c                        |   5 +
+ security/tomoyo/gc.c                          |  28 +-
+ security/tomoyo/mount.c                       |   2 +
+ security/tomoyo/network.c                     |   3 +
+ tools/include/linux/compiler_types.h          |   2 -
+ 99 files changed, 2370 insertions(+), 589 deletions(-)
+ create mode 100644 Documentation/dev-tools/capability-analysis.rst
+ create mode 100644 include/linux/compiler-capability-analysis.h
+ create mode 100644 lib/test_capability-analysis.c
+ create mode 100644 scripts/Makefile.capability-analysis
+ create mode 100644 scripts/capability-analysis-suppression.txt
 
+-- 
+2.51.0.384.g4c02a37b29-goog
 
-Thanks,
-Mauro
