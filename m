@@ -1,89 +1,90 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9E82DCF61;
-	Thu, 18 Sep 2025 06:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.142.27])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F58014286;
+	Thu, 18 Sep 2025 06:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.142.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758177807; cv=none; b=KqwfKBmVcOZJg+Sq5h8DgB+VYwL+6d1YDH/HBUJCYvArvUgViXONrw8rbDIS7sjem7HpCxdYegIiNZ3gqa8b7qYwj0aWFh75ahNKF7PuZMQk+I25PxRJkzahxmKu068f4r93UbsaAXvKtTVqC6DgaOLpEYtn7f739kWx9labAXU=
+	t=1758178148; cv=none; b=aPdAh0xOEoMYku9VLoZdrQJIq02gVfBjThymTfOLt4f2wX4+CXs7vApIEl+qNy2fAvCgFFUd4Ld7Ykd3aLhJlMZl+rBUcovYLWGkQgyYyF/+4endXVcRS9UkjjdqWTll/jtU+Fd6+o+/cXWXYrFnUG8wSZVHSG72F7fAnsCNMUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758177807; c=relaxed/simple;
-	bh=qTDbXGe3FZ7G4725CPcVc9qujyatZM6FxncFkb2Uuxc=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=DxkjTJsf9dq0v4cdGg8HffPkIS546sFXypr04ZQkVdDnK/BcJAooBhcT3U2UD6K9i2vhiP+vlIlCPyybOtwi+7cRpjHntpQbFnnKdnk5EU417Z1AMYaPyEdBhhLyVp+J8Eu7MIfTivmLmRIwhcsFgNDQmTiLMg6eqrinL7TBDSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cS5gY1W10z4xPT1;
-	Thu, 18 Sep 2025 14:43:21 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl2.zte.com.cn with SMTP id 58I6h32H097429;
-	Thu, 18 Sep 2025 14:43:03 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 18 Sep 2025 14:43:05 +0800 (CST)
-Date: Thu, 18 Sep 2025 14:43:05 +0800 (CST)
-X-Zmail-TransId: 2afb68cba9f935c-400a6
-X-Mailer: Zmail v1.0
-Message-ID: <20250918144305326x9mQuLPvqgyLm4WTJvZ9I@zte.com.cn>
+	s=arc-20240116; t=1758178148; c=relaxed/simple;
+	bh=iN07TlijF7X0XxRjt3t1RcNAfh6X8YuurUaWn0yXl3k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uTcgf5G5WOO1QVi49fTMFa9WHeGAIFwm3WwAEd6n4twsh5A4hQwDcU4P4MMBGZ7gMYJQbSHiGRHl68Xv4rs/H5jcO0q5b8xzV3tLL1OSBbd8TxSfLp7n1ia/fdlAnr7eZmvAPBpgzKW5GsIMyXXl0SKn1rahgNEB8YLmzF8rAQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.76.142.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrACHjqYpq8tomTZ7AA--.36831S2;
+	Thu, 18 Sep 2025 14:48:09 +0800 (CST)
+Received: from [10.12.170.88] (unknown [10.12.170.88])
+	by gateway (Coremail) with SMTP id _____wDHX1Mnq8tons6nAg--.6346S2;
+	Thu, 18 Sep 2025 14:48:08 +0800 (CST)
+Message-ID: <5631b0e1-03e4-43a2-9586-77bb20690520@hust.edu.cn>
+Date: Thu, 18 Sep 2025 14:48:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <alexs@kernel.org>
-Cc: <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <yang.tao172@zte.com.cn>, <shao.mingyin@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBEb2NzL3poX0NOOiBhZGQgZml4ZWQgZm9ybWF0IGZvciB0aGUgaGVhZGVyIG9mwqBnZnMyLWdsb2Nrcy5yc3Q=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 58I6h32H097429
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 18 Sep 2025 14:43:21 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68CBAA09.002/4cS5gY1W10z4xPT1
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Docs/zh_CN: align title underline for ubifs.rst
+To: shao.mingyin@zte.com.cn, alexs@kernel.org
+Cc: si.yanteng@linux.dev, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn,
+ yang.tao172@zte.com.cn
+References: <20250918143643417OPRH_RjCXkCa3aCtQEX3Y@zte.com.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20250918143643417OPRH_RjCXkCa3aCtQEX3Y@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrACHjqYpq8tomTZ7AA--.36831S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoWrur4UZFW5ZF13Ary8Cr1kGrg_yoWDAFg_A3
+	s7Xa1vvF4UZryIqFn5JF15Xr17AFWS9348XFsFyFykAw1UWFWDXa4DX3s5uaykZr47ury3
+	Ww4kZr9YgF1aqjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbkxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
+	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
+	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7IU0X_-JUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-From: shaomingyin <shao.mingyin@zte.com.cn>
 
-add fixed format for the header of gfs2-glocks.rst
+On 9/18/25 2:36 PM, shao.mingyin@zte.com.cn wrote:
+> From: shaomingyin <shao.mingyin@zte.com.cn>
+>
+> align title underline for ubifs.rst
+>
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
- .../translations/zh_CN/filesystems/gfs2-glocks.rst   | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
-index 7f094c5781ad..a9c5f8810d20 100644
---- a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
-+++ b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
-@@ -1,5 +1,17 @@
- .. SPDX-License-Identifier: GPL-2.0
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
 
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/filesystems/gfs2-glocks.rst
-+
-+:翻译:
-+
-+ 邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
-+
-+:校译:
-+
-+ - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+
- ==================
- Glock 内部加锁规则
- ==================
--- 
-2.27.0
+
+> ---
+>   Documentation/translations/zh_CN/filesystems/ubifs.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/filesystems/ubifs.rst b/Documentation/translations/zh_CN/filesystems/ubifs.rst
+> index 16c28bfd6fc3..2491c059ec25 100644
+> --- a/Documentation/translations/zh_CN/filesystems/ubifs.rst
+> +++ b/Documentation/translations/zh_CN/filesystems/ubifs.rst
+> @@ -17,7 +17,7 @@ UBI 文件系统
+>   ============
+>
+>   简介
+> -============
+> +====
+>
+>   UBIFS 文件系统全称为 UBI 文件系统（UBI File System）。UBI 代表无序块镜
+>   像（Unsorted Block Images）。UBIFS 是一种闪存文件系统，这意味着它专为闪
+
