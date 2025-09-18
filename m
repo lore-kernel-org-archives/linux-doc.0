@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F772D9491;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739EA2FBDFD;
 	Thu, 18 Sep 2025 11:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758196506; cv=none; b=kFxtgmHTzvGmRLWxmX9jP+miFpqCpUPKO89/aqoj7n7RmidBisWbXtkWfF8uaWYQo8HIsNdtM5/IRWp6kLIvGRuc+JtV2hvxFxbM5RBxU/ywduL1xcYyDoPEt+bqKJe3Y+slXbNS3CVA4xFNHrdGl9LSXem92RXgSjVgbr7cOnI=
+	t=1758196506; cv=none; b=jkXN/+hk8mwqtgysZfV7P/EbZwU7XG0mrycfXtwkrckGkGg22CUkXcugG1zl3AeoTPFClM9kNlbuqDmyXMLgJN1Y4Q4WcJPtUrLWAtfrtrsHK+ns5aVUe2/WyItJwUQyz+CFOjIOajeIKyGirP7z1vtTcNnPB6LlGlwPvW53yd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758196506; c=relaxed/simple;
-	bh=wgeju9sHn9sGYAdF8T8ePAcnZc8uoFBBK8ROWiPi7/c=;
+	bh=AH2lL83LG/MCK6GW00LCQjiXUczLYQf3wfFtphqsZ6o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QGxokk+E1P6X//Dxt2HN7Hil6G0ZF2c2/O8WzBabQqeXlRP17oVZ/hDUMVP7q/ZOaJfbGejCgLRKgoSNo5FfjXYXC5rbjclSXSP0SVkC69cYLfhnkRhCwzmmdJEsJEcABD7rW/TdNyAzrIjNyHcr3XUU0CP27dtIBjewEJ9ah3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vDOJiC6P; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=M1zmmvLGp23VpKbkW1EmfLhb4ed94P/IrQ8s78c7/pAY34dd1rgmEdSdp5KT4dSElT1SKC/pnNpUV/H3s3XzkO0XkyyZjDKzpYS2jLETleN5ipxnZhMrq9ubicQ1hAI3tIbeYHJ1rk0Azb5TaNZzOb/z+czgSnauBaRCcwAaT6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFy9/200; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vDOJiC6P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 278BBC113D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFy9/200"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B45AC4CEFF;
 	Thu, 18 Sep 2025 11:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758196506;
-	bh=wgeju9sHn9sGYAdF8T8ePAcnZc8uoFBBK8ROWiPi7/c=;
+	bh=AH2lL83LG/MCK6GW00LCQjiXUczLYQf3wfFtphqsZ6o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vDOJiC6PXNj3WVhh5kDe4ugwRU8W2+eEU5jldQybysSRGT9rwucc5/9mDc1hmCZ8J
-	 Au0BWA0WaL4UcySjQlu6Igm+FfGFWrrMpRRbasYJMecy7fXaAZ5PiGj8zy7nf2dX2r
-	 QoimRqwjjbXwVvKCV03k4fFmWXCsQW4NinwkhHow6T69uGtnRrPg+xSTZeoaSMFD3R
-	 +o53E1jyjlQSXjnMkF+h1uYMSl64NOKqtqvjwi8GMP9pNlbSHsbL7oqqy72qwHCSAw
-	 HutSkUDrDZiA/Yj4oMHLbjVxJ13LGqasPFRbP1Lqs21+8RI5rqP60lGXuzuexN+LKq
-	 In8U0jSN909Ug==
+	b=oFy9/2009MSF9lVwB/c4IGmRbx5k6u06iBl+gT4pj/Y5KLN7agcfAl8aEcWFEkJy9
+	 sIx1LBjcoaNWMJiHZyIevKcOJj6WyvYN7Oy2mGcrl56bkNzr9idPsBM36a5jLfZnbe
+	 rxRzS8rf+wKTAz1HwnRtdCoeR73H8kWvgRVsDfLFI0NnDYygil1C50yxkC70kp9P73
+	 1JJbNZ/0rQ0kte8O4qpuQ13nKOkqW3WkPhjZUaCtiVxqU7kXi7JRDgg+Rr7uDnhUW0
+	 vnJhrZuAeZYc4S8vh/8+6V6jjPgnZIBiuL/w+h2RnkvQ50p7VXVUCKa467TDeNCDdD
+	 tvtjSOYPtFDug==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uzDE7-0000000CrnA-3fLb;
+	id 1uzDE7-0000000CroN-3vuf;
 	Thu, 18 Sep 2025 13:55:03 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 06/24] check-variable-fonts.py: add a helper to display instructions
-Date: Thu, 18 Sep 2025 13:54:40 +0200
-Message-ID: <577162cf4e07de74c4a783f16e3404f0040e5e0a.1758196090.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v8 08/24] tools/docs: sphinx-pre-install: drop a debug print
+Date: Thu, 18 Sep 2025 13:54:42 +0200
+Message-ID: <27f76a4df2b80c38d277d58a92c85c614544e013.1758196090.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
 References: <cover.1758196090.git.mchehab+huawei@kernel.org>
@@ -52,80 +52,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Use lib docstring to output the comments via --help/-h. With
-that, update the default instructions to recomment it instead
-of asking the user to read the source code.
+The version print at the lib was added for debugging purposes.
+Get rid of it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/check-variable-fonts.py | 12 +++++++++++-
- tools/docs/lib/latex_fonts.py      | 13 +++++++++----
- 2 files changed, 20 insertions(+), 5 deletions(-)
+ tools/docs/sphinx-pre-install | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tools/docs/check-variable-fonts.py b/tools/docs/check-variable-fonts.py
-index 79b28f0f7d85..c0997d6861dc 100755
---- a/tools/docs/check-variable-fonts.py
-+++ b/tools/docs/check-variable-fonts.py
-@@ -12,11 +12,21 @@ Detect problematic Noto CJK variable fonts.
- or more details, see lib/latex_fonts.py.
- """
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index 954ed3dc0645..fa12e01fc7fe 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -285,7 +285,6 @@ class AncillaryMethods:
+         cur_ver = sys.version_info[:3]
+         if cur_ver >= MIN_PYTHON_VERSION:
+             ver = ver_str(cur_ver)
+-            print(f"Python version: {ver}")
  
-+import argparse
- import sys
- 
- from lib.latex_fonts import LatexFontChecker
- 
--msg = LatexFontChecker().check()
-+checker = LatexFontChecker()
-+
-+parser=argparse.ArgumentParser(description=checker.description(),
-+                               formatter_class=argparse.RawTextHelpFormatter)
-+parser.add_argument("--deny-vf",
-+                    help="XDG_CONFIG_HOME dir containing fontconfig/fonts.conf file")
-+
-+args=parser.parse_args()
-+
-+msg = LatexFontChecker(args.deny_vf).check()
- if msg:
-     print(msg)
- 
-diff --git a/tools/docs/lib/latex_fonts.py b/tools/docs/lib/latex_fonts.py
-index 81358a70f320..29317f8006ea 100755
---- a/tools/docs/lib/latex_fonts.py
-+++ b/tools/docs/lib/latex_fonts.py
-@@ -105,14 +105,18 @@ class LatexFontChecker:
-     translations.
-     """
- 
--    def __init__(self):
--        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
-+    def __init__(self, deny_vf=None):
-+        if not deny_vf:
-+            deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
- 
-         self.environ = os.environ.copy()
-         self.environ['XDG_CONFIG_HOME'] = os.path.expanduser(deny_vf)
- 
-         self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
- 
-+    def description(self):
-+        return __doc__
-+
-     def get_noto_cjk_vf_fonts(self):
-         """Get Noto CJK fonts"""
- 
-@@ -154,8 +158,9 @@ class LatexFontChecker:
-                 For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
-                 Or, CJK pages can be skipped by uninstalling texlive-xecjk.
- 
--                For more info on denylisting, other options, and variable font, see header
--                comments of {rel_file}.
-+                For more info on denylisting, other options, and variable font, run:
-+
-+                    tools/docs/check-variable-fonts.py -h
-             """)
-         msg += "=" * 77
- 
+             # This could be useful for debugging purposes
+             if SphinxDependencyChecker.which("docutils"):
 -- 
 2.51.0
 
