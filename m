@@ -1,268 +1,100 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9417C34BA5A
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 00:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF681922FD;
+	Thu, 18 Sep 2025 01:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758156744; cv=none; b=HNM2SoCm/ISHiDC0IwJ4upeV97g1A51vn+fsyeT/m1/1CKH9ZhvN9cIiT0dW9zFKA7SVPlXfuvbf4yckhhcYLoHxrnivxcNJ6I1W3GzxlUXwvIL+YNLeFcK3L3xG61GsrQl9VMCVBdLpaD1yNiRlKWOtYb+Dhi3Kk8c8/XwHWSo=
+	t=1758159618; cv=none; b=j/lIBzgIDzMTljwKTzZYB7rwm0cTocU29kZAPWIz4MiT9OI4Rtf7DFq4sNJflhDbU/q3ZwzkKJ/ykz2VhvIgohZkRC5ZGVmv3JX+zlA6A+7vhMh4r7BEFOS3DvdqIEYEFd4g7wwK6viIH/7pR/DEmFD14EMlVI6dzU0chS4B44c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758156744; c=relaxed/simple;
-	bh=jXrD0GXja0Lm3Lw3thdNtsHfNVThEO7c5zpe5BVTGFQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=A8q7rqJtqoHd6l6RG2GBRq765Y6s5Q2FoBboaYK3T3lk8R/8LXIYHNDKPp8CNCum9mfy8syKW+ouHytQSHLMsbSXB2vpMlGRf7OzjLZdc9qrxx15v+3d4hInyIZv4oLacqM8y9NJkeyBAC+x8RPb96eQNtPvD+eY3xVK4rW4LuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YCkaMBJj; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758159618; c=relaxed/simple;
+	bh=TrU7RfUYr9JD6ui4vjRDy4Ys0CVm0kceHpIIercU4QY=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Os+IU2vPBlEGvYn74fRb1g9S5AEZrf0/o2RjwB6H5jSwcXopvY3V+Wl2e5WKQDmGMuDvA+Q8N+1pDnMkLM4lWJqZ0zvJvth3QeR/maSZ389TVYMklKq0oMSNE7pM2no4FDUnvmJAuRPVvyFbyLz03bc48cFA0m2E7xLeaQ7lH7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLwy2+s8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YCkaMBJj"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7704f3c46ceso404746b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Sep 2025 17:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758156742; x=1758761542; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Yxv7uLRKATc0Q07our50qKqXbkjD8v5tzWWZDxiVATo=;
-        b=YCkaMBJj5IZp/KaQBfXIKMeTQRJ6QULPr1uwZuFKc8SwTfG+A1k0R6K7TPxRGaD1of
-         eUJ3A7LDeCsCq0wxkUUpPAki4d4+VqWlImS/NX1rWIXTLhVTQ8n1MzPq5gqEQIHpTZ3a
-         krjt2Ty2aOlEfXVOhBYi3wWHFdxJYhfcVOfwU0mm0Bd97qJv4SBq1rU9m2zM7zXat7Ei
-         Y7GTpiqZsLkGBx6QQ86dzo+CJx8sI+9O+S6gNl3sMkLfVtgM7kSwR++tpQCAhQLaAfAS
-         MY3B3bJCk+CwFayjjoH+z1gfGJOGFoZ9YqEfIWaj0WxZw4NiSXyIPaM/RhnGcvJSNY8d
-         IrUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758156742; x=1758761542;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yxv7uLRKATc0Q07our50qKqXbkjD8v5tzWWZDxiVATo=;
-        b=MaTj+OaPAU2n6E07sW+chdseaXQSP0/UIxFEvwH+BKWnoIfBUB9cfNHLAzPnJzfbj/
-         AeKEm2ZimK2u8zWyn4WHZLNbwImgMLEv0GBLSEfLndvI3rOc33o9rX05zJ70KDnr1fzT
-         LhYPA+SOg3tTg0NzlOItjjDWfyMxtPOuaCVRO92t2404v0nylCDVv1/SqKYjkk9Ia7WY
-         /YBvI2FhU9jeQacROL9pYlRBHD1fjqhUtjYH5WChswr9DHXta0aqnxqz/Dit1k/wXkgu
-         YsWwAg1Con/9L7Nk3Hl98X+goo77uLDhwSCh92wDvT8J8ZLELDlGgJaaiGxTTRGI7pj5
-         oVyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1wKMJC+dx1xGshdOGLjjLuw90KUg3oDlt2LmMjn9C1Ba6cqWQO9mI9PeRgOrBiQAlSnf81UF1JwU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh+mwgjD3Qt/5y4uZB71yRqiFXkftgIWMnFhPPaWMJIPA+hp7m
-	4qZ4EmopKKQW/z4QCv/XSuj7zP0Rlwddc5GuHCHOXh9f3OKqVU6YUEi0
-X-Gm-Gg: ASbGnctbaotPwJqyYXm/l//mP1hs7l1h2cx4wEMHlMUanRPMI7AOLTr73z0suPMJOxH
-	kxcYC76ekqq/XX5usRUGhzDGX7+mtuJU/sKy3TDtw2+ca9TU2GqmXpMKyIKoD70oSjNO1OBG/Qb
-	Iljq9cfAhVllI7zYpUtYY1WPOPTKOBu0FRcEYNXIVLc5wt6YFOx605drjhHU+encV7K9XXSuM/h
-	d6IMNFJdymSHfFeHGEMMLOXaBVOcHdgHn2V86A9Hh5Xh936O5J5ma7WxAt1WMZVYJ4nxW46Emmg
-	iygFnUtKxhQ67Ajo2ULjOd0KQ4Ixbr+FD4mGWTDQJ7nKvptSTbfOcjSNYyFABXwx3YTm29c+6in
-	r7vqbbGUm3CW1ZEE6l+n3hhY8Oobzf5tSoB9Dm1hoTglzGZ0b6PifUsEC
-X-Google-Smtp-Source: AGHT+IGXmmHPEnY6H6+5F3iPmqIk0vAxTrpXRFEvnkjQcLB0Mhgn7u+aK1yYyWHFr/7bekRJ625OwA==
-X-Received: by 2002:a05:6a00:2d9d:b0:772:4d52:ce5a with SMTP id d2e1a72fcca58-77bf926aa20mr4335425b3a.26.1758156741707;
-        Wed, 17 Sep 2025 17:52:21 -0700 (PDT)
-Received: from [192.168.0.69] ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77cfe66916csm594713b3a.51.2025.09.17.17.52.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Sep 2025 17:52:21 -0700 (PDT)
-Message-ID: <05dc7efdb45363358825ff3782d3006ef9c6cea4.camel@gmail.com>
-Subject: Re: [PATCH v3] net/tls: support maximum record size limit
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: Sabrina Dubroca <sd@queasysnail.net>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, 	horms@kernel.org, corbet@lwn.net,
- john.fastabend@gmail.com, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	alistair.francis@wdc.com, dlemoal@kernel.org
-Date: Thu, 18 Sep 2025 10:52:14 +1000
-In-Reply-To: <aLgVCGbq0b6PJXbY@krikkit>
-References: <20250903014756.247106-2-wilfred.opensource@gmail.com>
-	 <aLgVCGbq0b6PJXbY@krikkit>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLwy2+s8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9BBC4CEE7;
+	Thu, 18 Sep 2025 01:40:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758159617;
+	bh=TrU7RfUYr9JD6ui4vjRDy4Ys0CVm0kceHpIIercU4QY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=JLwy2+s82zqjN4ShMOXEvugvHpejzous9IQjb+0WKIR3iC+KkrKWR7wvJD4FaooJn
+	 ln780t1Yt9GQIs5o+aAiR0aWbEz2b3lQ9c7Qe5BIQGIQ4h1BN85tBP6FHF5QLTaKPN
+	 EMoMvp05r0U7Wsc7maXxfIvRlc1TdrlhIu3TTOezES394SBJo7guBUCmFbDbvR+i0N
+	 OrIQCvsyqRrXol0dGu1HX5EVoNsj5IGsp9cT46zDIFnQNyOVXFOnNNMvTVa75Oz91Q
+	 7lPCsA2TJReRu7K5l/pM0ooqPBq0ZbP6imD/jjuN2hzg7S79fOqFuHjaTPqKhyjoA/
+	 0N7iN2Kv75XEw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33C5739D0C28;
+	Thu, 18 Sep 2025 01:40:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next V2 00/10] net/mlx5e: Use multiple doorbells
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <175815961800.2217978.13039702853348998554.git-patchwork-notify@kernel.org>
+Date: Thu, 18 Sep 2025 01:40:18 +0000
+References: <1758031904-634231-1-git-send-email-tariqt@nvidia.com>
+In-Reply-To: <1758031904-634231-1-git-send-email-tariqt@nvidia.com>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, jiri@resnulli.us, corbet@lwn.net,
+ leon@kernel.org, jgg@ziepe.ca, saeedm@nvidia.com, mbloch@nvidia.com,
+ ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org,
+ john.fastabend@gmail.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ bpf@vger.kernel.org, gal@nvidia.com, cratiu@nvidia.com, dtatulea@nvidia.com,
+ jiri@nvidia.com, jgg@nvidia.com
 
-Hey Sabrina,
+Hello:
 
-Sorry for the delay in getting back to this! Responded inline.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On Wed, 2025-09-03 at 12:14 +0200, Sabrina Dubroca wrote:
-> note: since this is a new feature, the subject prefix should be
-> "[PATCH net-next vN]" (ie add "net-next", the target tree for "new
-> feature" changes)
->=20
-> 2025-09-03, 11:47:57 +1000, Wilfred Mallawa wrote:
-> > diff --git a/Documentation/networking/tls.rst
-> > b/Documentation/networking/tls.rst
-> > index 36cc7afc2527..0232df902320 100644
-> > --- a/Documentation/networking/tls.rst
-> > +++ b/Documentation/networking/tls.rst
-> > @@ -280,6 +280,13 @@ If the record decrypted turns out to had been
-> > padded or is not a data
-> > =C2=A0record it will be decrypted again into a kernel buffer without
-> > zero copy.
-> > =C2=A0Such events are counted in the ``TlsDecryptRetry`` statistic.
-> > =C2=A0
-> > +TLS_TX_RECORD_SIZE_LIM
-> > +~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +During a TLS handshake, an endpoint may use the record size limit
-> > extension
-> > +to specify a maximum record size. This allows enforcing the
-> > specified record
-> > +size limit, such that outgoing records do not exceed the limit
-> > specified.
->=20
-> Maybe worth adding a reference to the RFC that defines this
-> extension?
-> I'm not sure if that would be helpful to readers of this doc or not.
-Good idea, I'll add that in.
->=20
->=20
-> > diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-> > index a3ccb3135e51..94237c97f062 100644
-> > --- a/net/tls/tls_main.c
-> > +++ b/net/tls/tls_main.c
+On Tue, 16 Sep 2025 17:11:34 +0300 you wrote:
+> Hi,
+> 
+> This series by Cosmin adds multiple doorbells usage in mlx5e driver.
+> See detailed description by Cosmin below [1].
+> 
+> Find V1 here:
+> https://lore.kernel.org/all/1757499891-596641-1-git-send-email-tariqt@nvidia.com/
+> 
 > [...]
-> > @@ -1022,6 +1075,7 @@ static int tls_init(struct sock *sk)
-> > =C2=A0
-> > =C2=A0	ctx->tx_conf =3D TLS_BASE;
-> > =C2=A0	ctx->rx_conf =3D TLS_BASE;
-> > +	ctx->tx_record_size_limit =3D TLS_MAX_PAYLOAD_SIZE;
-> > =C2=A0	update_sk_prot(sk, ctx);
-> > =C2=A0out:
-> > =C2=A0	write_unlock_bh(&sk->sk_callback_lock);
-> > @@ -1065,7 +1119,7 @@ static u16 tls_user_config(struct tls_context
-> > *ctx, bool tx)
-> > =C2=A0
-> > =C2=A0static int tls_get_info(struct sock *sk, struct sk_buff *skb, boo=
-l
-> > net_admin)
-> > =C2=A0{
-> > -	u16 version, cipher_type;
-> > +	u16 version, cipher_type, tx_record_size_limit;
-> > =C2=A0	struct tls_context *ctx;
-> > =C2=A0	struct nlattr *start;
-> > =C2=A0	int err;
-> > @@ -1110,7 +1164,13 @@ static int tls_get_info(struct sock *sk,
-> > struct sk_buff *skb, bool net_admin)
-> > =C2=A0		if (err)
-> > =C2=A0			goto nla_failure;
-> > =C2=A0	}
-> > -
-> > +	tx_record_size_limit =3D ctx->tx_record_size_limit;
-> > +	if (tx_record_size_limit) {
->=20
-> You probably meant to update that to:
->=20
-> =C2=A0=C2=A0=C2=A0 tx_record_size_limit !=3D TLS_MAX_PAYLOAD_SIZE
->=20
-> Otherwise, now that the default is TLS_MAX_PAYLOAD_SIZE, it will
-> always be exported - which is not wrong either. So I'd either update
-> the conditional so that the attribute is only exported for non-
-> default
-> sizes (like in v2), or drop the if() and always export it.
->=20
-Yeah, that makes sense I'll drop the If() so that it's always exported
-then.
-> > +		err =3D nla_put_u16(skb,
-> > TLS_INFO_TX_RECORD_SIZE_LIM,
-> > +				=C2=A0 tx_record_size_limit);
-> > +		if (err)
-> > +			goto nla_failure;
-> > +	}
->=20
-> [...]
-> > diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-> > index bac65d0d4e3e..28fb796573d1 100644
-> > --- a/net/tls/tls_sw.c
-> > +++ b/net/tls/tls_sw.c
-> > @@ -1079,7 +1079,7 @@ static int tls_sw_sendmsg_locked(struct sock
-> > *sk, struct msghdr *msg,
-> > =C2=A0		orig_size =3D msg_pl->sg.size;
-> > =C2=A0		full_record =3D false;
-> > =C2=A0		try_to_copy =3D msg_data_left(msg);
-> > -		record_room =3D TLS_MAX_PAYLOAD_SIZE - msg_pl-
-> > >sg.size;
-> > +		record_room =3D tls_ctx->tx_record_size_limit -
-> > msg_pl->sg.size;
->=20
-> If we entered tls_sw_sendmsg_locked with an existing open record,
-> this
-> could end up being negative and confuse the rest of the code.
->=20
-> =C2=A0=C2=A0=C2=A0 send(MSG_MORE) returns with an open record of length l=
-en1
-> =C2=A0=C2=A0=C2=A0 setsockopt(TLS_INFO_TX_RECORD_SIZE_LIM, limit < len1)
-> =C2=A0=C2=A0=C2=A0 send() -> record_room < 0
->=20
->=20
-> Possibly not a problem with a "well-behaved" userspace, but we can't
-> rely on that.
-Good catch! what if we don't allow tx_record_size_limit to be set if
-there's a pending open record. This should avoid userspace from atleast
-causing the record_room < 0 if we somehow end up there.
 
-So for example:
+Here is the summary with links:
+  - [net-next,V2,01/10] net/mlx5: Fix typo of MLX5_EQ_DOORBEL_OFFSET
+    https://git.kernel.org/netdev/net-next/c/917449e7c3cd
+  - [net-next,V2,02/10] net/mlx5: Remove unused 'offset' field from mlx5_sq_bfreg
+    https://git.kernel.org/netdev/net-next/c/05dfe654b593
+  - [net-next,V2,03/10] net/mlx5e: Remove unused 'xsk' param of mlx5e_build_xdpsq_param
+    https://git.kernel.org/netdev/net-next/c/913d28f8a71c
+  - [net-next,V2,04/10] net/mlx5: Store the global doorbell in mlx5_priv
+    https://git.kernel.org/netdev/net-next/c/aa4595d0ada6
+  - [net-next,V2,05/10] net/mlx5e: Prepare for using multiple TX doorbells
+    https://git.kernel.org/netdev/net-next/c/673d7ab7563e
+  - [net-next,V2,06/10] net/mlx5e: Prepare for using different CQ doorbells
+    https://git.kernel.org/netdev/net-next/c/a315b723e87b
+  - [net-next,V2,07/10] net/mlx5e: Use multiple TX doorbells
+    https://git.kernel.org/netdev/net-next/c/71fb4832d50b
+  - [net-next,V2,08/10] net/mlx5e: Use multiple CQ doorbells
+    https://git.kernel.org/netdev/net-next/c/325db9c6f69b
+  - [net-next,V2,09/10] devlink: Add a 'num_doorbells' driverinit param
+    https://git.kernel.org/netdev/net-next/c/6bdcb735fec6
+  - [net-next,V2,10/10] net/mlx5e: Use the 'num_doorbells' devlink param
+    https://git.kernel.org/netdev/net-next/c/11bbcfb7668c
 
-diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-index 7c0367dc5d40..34bb6690016c 100644
---- a/net/tls/tls_main.c
-+++ b/net/tls/tls_main.c
-@@ -841,20 +841,27 @@ static int
-do_tls_setsockopt_tx_record_size(struct sock *sk, sockptr_t optval,
-                                            unsigned int optlen)
- {
-        struct tls_context *ctx =3D tls_get_ctx(sk);
-+       struct tls_sw_context_tx *sw_ctx =3D tls_sw_ctx_tx(ctx);
-        u16 value;
-=20
-+       if (sw_ctx->open_rec)
-+               return -EBUSY;
-...
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-And to your follow up response:
 
-```
-> I suspect it's not a problem in practice because of what the TLS
-> exchange between the peers setting up this extension looks like? (ie,
-> there should never be an open record at this stage - unless userspace
-> delays doing this setsockopt after getting the message from the peer,
-> but then maybe we can call that a buggy userspace)
-```
-
-Yeah, record size limit extension occurs during a handshake
-(Client/ServerHello). AFAIK, all of that is handled in tlshd/GnuTLS. We
-shouldn't have any open records here at this point. For user-space
-context, this is what support for record size limit looks like [1] in
-tlshd.
-
-If for whatever reason, as you mentioned, userspace decides to set it
-later, change above could mitigate it for the open record case? I don't
-think we need to try to fix things (or even can for records already
-submitted to TCP) in the kernel.
-
-[1]
-WIP:https://github.com/twilfredo/ktls-utils/commit/73cb755acb4589ba31e4c42e=
-f6b16cf5efdf3892
->=20
->=20
-> Pushing out the pending "too big" record at the time we set
-> tx_record_size_limit would likely make the peer close the connection
-> (because it's already told us to limit our TX size), so I guess we'd
-> have to split the pending record into tx_record_size_limit chunks
-> before we start processing the new message (either directly at
-> setsockopt(TLS_INFO_TX_RECORD_SIZE_LIM) time, or the next send/etc
-> call). The final push during socket closing, and maybe some more
-> codepaths that deal with ctx->open_rec, would also have to do that.
->=20
-> I think additional selftests for
-> =C2=A0=C2=A0=C2=A0 send(MSG_MORE), TLS_INFO_TX_RECORD_SIZE_LIM, send
-> and
-> =C2=A0=C2=A0=C2=A0 send(MSG_MORE), TLS_INFO_TX_RECORD_SIZE_LIM, close
-> verifying the received record sizes would make sense, since it's a
-> bit
-> tricky to get that right.
-Yeah I agree, I will work on that. Thanks for the feedback!
-
-Regards,
-Wilfred
