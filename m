@@ -1,108 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40D03128C3;
-	Thu, 18 Sep 2025 16:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3C43191BC;
+	Thu, 18 Sep 2025 16:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758213810; cv=none; b=KLPIRxkZAk6gGlgYWgw6tj5dLd+wNwc7gj84b389g5HAcu+HvDFLP0ultMYHJ9/ax6PbAs8WfmAMnYKyQPeQqZZvpIr47PSx94wYk1QZPhgRmXSF1PSUYPW8U3wSG4Q/DmkceLQyqXhTzg6P3jCfgUa4blgYropap1Dv0bz/mSo=
+	t=1758213833; cv=none; b=gGWwoiPAw8wrJNdy/Vq+1boPTuPYn3RMviut2OhxFcfTTg1/2xwO+qmXmpWbTCdmirFFSl/5vIpWcpthU5sDxHQAAJmo8n/wUrqwgPlJZToFDnBtH/Fb+rZgFxL02Y39wS8GkTdoCxX8VqVFSEh+vR8m+vSSqt/TydurW8t9HH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758213810; c=relaxed/simple;
-	bh=h9r87sKSL8lye2f7s8CYcNKEjCq+sl5T4kGt0qLKA3k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IA4texkxCurgrt91f2hV7DGyo6YVFkuh2/S2n3VMuwwWHlLH0ek6XQDm/+PTDcaDfVgkr31toMAS0etGGkT9fYXXdYQmtu3bdFLmXzrB7mIJbk/YlL0d2u3K85hCwa19R9oeAYPMODrQ/nBPcMezVJWxvHSr6aYmceoQ2f8eZ2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcLwB/3c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758213833; c=relaxed/simple;
+	bh=/xKQ/jon4u5G1U0AXf3Ei3GiDnF6IHalikvqBwlvbJs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hIuDwNBltVt6ytoy9NrLLi6qMA79uI5Kw/Avk+GmNXa9N14QzXBGJwYa8NwEUzH0r8w0IrhcCvO+2P+p+UBKk6avWHuF71Zf1vvTXH7dQF0BBVStVkFt39fkVnWgHbuZFBxKYQJii0XglITY0ev+j4MrOhBRsTto9NW6cmcsEEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=skAot3YM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcLwB/3c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD63C4CEE7;
-	Thu, 18 Sep 2025 16:43:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758213810;
-	bh=h9r87sKSL8lye2f7s8CYcNKEjCq+sl5T4kGt0qLKA3k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OcLwB/3cK+Hq+E9fTHI2F7AqsGyYBmhJhVW+2ehxX2i9V5DZrqNfhwfCZjvaGOjbl
-	 rX2srpTymZHXqt3zFrM4lr5DXNUo2WDVcH/pxM+k3Cw2zZQ7cT/aUSHIhqHsVD+ZE2
-	 JcmwQRAkRTF1/7p7pVl8Et614GC2LXL/f9IdRyOg1HqOE0x11DS2MNuIBW6G6Bg900
-	 CBIW888sSRlyjQuskjphNYG5eD3tBVZmC/SFVp/BRJ8+DdqECfhaVw9Som8m/+SYL9
-	 eqORwm725/v2zzuTh2sOxoKf0D9Zysp/61f4NTK7l6aR+NF49JWgs84aZuLeuk/Z/v
-	 3GIAyc8byUKlg==
-From: Will Deacon <will@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Leo Yan <leo.yan@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	James Clark <james.clark@linaro.org>
-Cc: kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v8 00/12] perf: arm_spe: Armv8.8 SPE features
-Date: Thu, 18 Sep 2025 17:43:08 +0100
-Message-Id: <175820142456.3469431.6863967464115578024.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org>
-References: <20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="skAot3YM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A0E4E406FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758213830; bh=okc8cPe2ZWbxfmOUNi5nG+59TfojPQ0/kotl+uzMIx4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=skAot3YMbvaiZa04MZfLYUQLW0PCAhwuSWuoXyO2sFGU7wgEptywDrQ7m4cCgVghX
+	 5LR8C0EO7gbcAlQTNnGQZvtcZXrpZ77zp6qbCHzWknWW2Ky8MDtvyZdQJdp5S60SGs
+	 3n/t4u+CrQ9yveIFet2KmuZ/bBfC72/5KtV+tlr0C9wPqbfZyEVezcdkt11oude8t0
+	 sRJqeqdNVkmOTs8HD88fKmxpz+dzMDYMLBmYM/Mby9blshRxbXJaeW2qys7CTpQvmg
+	 Gi8skg2ZVMFjqeimW2bhdjMeAOK16meWZgviUXyrxShz4UmN9dpILXsJ5K/SROYs66
+	 2l4ZeDgZHnwkQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A0E4E406FA;
+	Thu, 18 Sep 2025 16:43:50 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Marneni PoornaChandu <poornachandumarneni@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alexandre.belloni@bootlin.com, corey@minyard.net,
+ sakari.ailus@linux.intel.com, mchehab@kernel.org,
+ linux-i3c@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
+ linux-media@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, Marneni
+ PoornaChandu <Poornachandumarneni@gmail.com>
+Subject: Re: [PATCH] docs: driver-api: fix spelling of "buses".
+In-Reply-To: <20250917220430.5815-1-Poornachandumarneni@gmail.com>
+References: <20250917220430.5815-1-Poornachandumarneni@gmail.com>
+Date: Thu, 18 Sep 2025 10:43:49 -0600
+Message-ID: <87wm5v7ltm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, 01 Sep 2025 13:40:29 +0100, James Clark wrote:
-> Support 3 new SPE features: FEAT_SPEv1p4 filters, FEAT_SPE_EFT extended
-> filtering, and SPE_FEAT_FDS data source filtering. The features are
-> independent can be applied separately:
-> 
->   * Prerequisite sysreg changes - patch 1
->   * FEAT_SPEv1p4 - patches 2 - 3
->   * FEAT_SPE_EFT - patch 4
->   * FEAT_SPE_FDS - patches 5 - 9
->   * FEAT_SPE_FDS Perf tool changes - patches 10 - 12
-> 
-> [...]
+Marneni PoornaChandu <poornachandumarneni@gmail.com> writes:
 
-I took the first 6 patches but 7 and 8 still need maintainer acks before
-I can pick up 9 as well.
+> Replace incorrect plural form "busses" with "buses" in
+> multiple documentation files under "Documentation/driver-api".
+>
+> Signed-off-by: Marneni PoornaChandu <Poornachandumarneni@gmail.com>
+> ---
+>  Documentation/driver-api/device-io.rst             | 4 ++--
+>  Documentation/driver-api/driver-model/overview.rst | 2 +-
+>  Documentation/driver-api/driver-model/platform.rst | 2 +-
+>  Documentation/driver-api/eisa.rst                  | 6 +++---
+>  Documentation/driver-api/i3c/protocol.rst          | 4 ++--
+>  Documentation/driver-api/ipmi.rst                  | 4 ++--
+>  Documentation/driver-api/media/tx-rx.rst           | 4 ++--
+>  Documentation/driver-api/nvdimm/nvdimm.rst         | 2 +-
+>  Documentation/driver-api/pm/devices.rst            | 4 ++--
+>  Documentation/driver-api/scsi.rst                  | 4 ++--
+>  Documentation/driver-api/spi.rst                   | 2 +-
+>  Documentation/driver-api/usb/hotplug.rst           | 2 +-
+>  Documentation/driver-api/usb/usb.rst               | 4 ++--
+>  13 files changed, 22 insertions(+), 22 deletions(-)
 
-Applied to will (for-next/perf), thanks!
+"Busses" is considered to be a legitimate spelling as well.  I have gone
+ahead and applied this in the hope that it will reduce the temptation
+for others to "fix" it, but this kind of change in general is a sort of
+churn that does not really help the kernel project.  Thanks for working
+to improve our documentation, but I do hope that you will find more
+useful improvements going forward.
 
-[01/12] arm64: sysreg: Add new PMSFCR_EL1 fields and PMSDSFR_EL1 register
-        https://git.kernel.org/will/c/a7005ff2d0a5
-[02/12] perf: arm_spe: Support FEAT_SPEv1p4 filters
-        https://git.kernel.org/will/c/b4401403afb9
-[03/12] perf: arm_spe: Expose event filter
-        https://git.kernel.org/will/c/51b9f16697cd
-[04/12] perf: arm_spe: Add support for FEAT_SPE_EFT extended filtering
-        https://git.kernel.org/will/c/dad9603c5ea3
-[05/12] arm64/boot: Factor out a macro to check SPE version
-        https://git.kernel.org/will/c/510a8fa49dc1
-[06/12] arm64/boot: Enable EL2 requirements for SPE_FEAT_FDS
-        https://git.kernel.org/will/c/00d7a1af5ab5
+Thanks,
 
-Cheers,
--- 
-Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+jon
