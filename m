@@ -1,120 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB722E7BAA;
-	Thu, 18 Sep 2025 19:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C2B2BD04
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758224674; cv=none; b=cLd4aZI86xvSep6U9bXfFWb/DSWnj5R/NX9A36MdiyFsV3ArL7LUOUA1FCfeJfbZBzEIqMFNjb9dxncvYWMRYWW8nAOtiXetT2kmV2kUsIFuuPyDE2WI9scBxu9qcBAMVvnH01NkekkgBt7XHaz0/UtryoHG42DG/by2SMnQQdc=
+	t=1758224827; cv=none; b=L3YQdO2Tum3B1d9Jp2NK+HTM6IQ2rVKY+Yml+vGPzN/bUqdHGE1b4OUtj3lda/qQxybH4qbdoSvafSFrXVq+2TJOwFTNauXdTrY9U+d11iIMsw6mGqf1iezOYa3nq5Ov4kdqe0gSDZwMvfYeCVBVCUEzjcomnXu6VilwV56+NMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758224674; c=relaxed/simple;
-	bh=UMBZVNHnp7TR0KnOMakwtyW6HfF9SvkIdo+R8of+svU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HHg26Z5pLfKEId/qN7Z07XzCZuhQY7Occ8BGeizlVvi2wTJmiqdwQBB8m0GV2ZeuNNWK7ebCO5vGyWsbiocv7ZX/9JcQ1fz4Oerbp63T8OEfZ0HLrV9xpydcd8c5PpsWQKXgprLB05iYI3rEYY79mgv388vmvjP6bXqdmk5hOnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUqtbVT+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758224827; c=relaxed/simple;
+	bh=JURX/TaKnyaqFdI7pmEWFXVzqASX8RS1pLZIi8kSx/A=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gU8meWXdlZcwm5ZEHkuGs2Zqiiss1nueZnhrqxFiiYrg4+4wdjwJO73a8PpoR7mi8EWSNHQw02OwEOTvG9Vo4/7V6J9CWSfJ2A37EnQwuS0lpmpnO3pcH7OpiTd5BNut7aa3SKEvkxcQq5gwAya7koeccdXd7K1HU3UVPXXjiD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=oUvgxHX4; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUqtbVT+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FCDFC4CEFA;
-	Thu, 18 Sep 2025 19:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758224673;
-	bh=UMBZVNHnp7TR0KnOMakwtyW6HfF9SvkIdo+R8of+svU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bUqtbVT+0haYvdTHb6blpWAGsyWfD6JaY7UKgBi4jOSopmDbJZHeCxFoFu+/fht0G
-	 N6gsaEeuXYxUNx19h3M20zlrQSQvN/OOpS7UNh+0vG8Atrw4GeFRl23UBOHHnD0OPN
-	 sQwQu96Xbick4kY2JWoZuAwyghOmjSAmasf/n/qttCnRE/bjEqTF8y+Bz4ODB2N9C8
-	 cf2einhRiGSWw5T0zRs9DOHxZkYqbWMyGqGFegKcqdGEBgQyjSYzcJcDgfXQnVdRt/
-	 HoYZmNvUfikhEe256UpFX4Y98kGQpyREMS0OqFmDyQuV64M0UU9+aiDL3PQGBwyc0o
-	 cezmwQxnZIilg==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 18 Sep 2025 20:42:07 +0100
-Subject: [PATCH v4 2/2] kselftest/arm64: Add lsfe to the hwcaps test
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="oUvgxHX4"
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58IEpiMR2943542;
+	Thu, 18 Sep 2025 12:46:16 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=BNnQo0sMp5meQ8eMdhpYCpDIuJZVf4B2s9e5frOewII=; b=oUvgxHX4Zvag
+	QvZfvT5qsSg7XUUNcEKSGHGxSpk1x6xVdjCczVBB0sDEs21e34wV0jIolvVbNYkN
+	jTgvyrHUUYwV+lo6u++rCkGbO2ffVmXnU9nQyCKh24yMCSSEvr42Bh75J9IwX/o6
+	ZAMcfYDTc7pK2dypZ8HhlzYDN64uYjUg4u+fxTFlpDoC/odFQWOZTvcKC4A4hp68
+	PF1Pcn5X6fKmq6NSA1PbQHzCAk0OWb7eyHWUkOL09qiC+8w9o8+rBip4NJAIBH08
+	tXqKtlvjXykOV5OBQ6V2VEvoNjk8ciX51kX75Dg+301sFyrxCmy9z2VXMMG5QHsq
+	FEXUxCTt9w==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 498m7fjkq1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 18 Sep 2025 12:46:16 -0700 (PDT)
+Received: from devbig091.ldc1.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Thu, 18 Sep 2025 19:46:14 +0000
+From: Chris Mason <clm@meta.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
+        "Thomas
+ Bogendoerfer" <tsbogend@alpha.franken.de>,
+        Heiko Carstens
+	<hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+	<agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        "David S . Miller"
+	<davem@davemloft.net>,
+        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann
+	<arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Dan
+ Williams" <dan.j.williams@intel.com>,
+        Vishal Verma
+	<vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre
+	<nico@fluxnic.net>,
+        "Muchun Song" <muchun.song@linux.dev>,
+        Oscar Salvador
+	<osalvador@suse.de>,
+        "David Hildenbrand" <david@redhat.com>,
+        Konstantin
+ Komarov <almaz.alexandrovich@paragon-software.com>,
+        Baoquan He
+	<bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young
+	<dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
+        Reinette Chatre
+	<reinette.chatre@intel.com>,
+        "Dave Martin" <Dave.Martin@arm.com>,
+        James Morse
+	<james.morse@arm.com>,
+        "Alexander Viro" <viro@zeniv.linux.org.uk>,
+        Christian
+ Brauner <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+        "Liam R . Howlett"
+	<Liam.Howlett@oracle.com>,
+        "Vlastimil Babka" <vbabka@suse.cz>, Mike Rapoport
+	<rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Michal Hocko
+	<mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+        Baolin Wang
+	<baolin.wang@linux.alibaba.com>,
+        "Uladzislau Rezki" <urezki@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Andrey Konovalov"
+	<andreyknvl@gmail.com>,
+        Jann Horn <jannh@google.com>, Pedro Falcato
+	<pfalcato@suse.de>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-csky@vger.kernel.org>,
+        <linux-mips@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+        <sparclinux@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+        <linux-cxl@vger.kernel.org>, <linux-mm@kvack.org>,
+        <ntfs3@lists.linux.dev>, <kexec@lists.infradead.org>,
+        <kasan-dev@googlegroups.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 16/16] kcov: update kcov to use mmap_prepare
+Date: Thu, 18 Sep 2025 12:45:38 -0700
+Message-ID: <20250918194556.3814405-1-clm@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <5b1ab8ef7065093884fc9af15364b48c0a02599a.1757534913.git.lorenzo.stoakes@oracle.com>
+References:
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250918-arm64-lsfe-v4-2-0abc712101c7@kernel.org>
-References: <20250918-arm64-lsfe-v4-0-0abc712101c7@kernel.org>
-In-Reply-To: <20250918-arm64-lsfe-v4-0-0abc712101c7@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-56183
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1389; i=broonie@kernel.org;
- h=from:subject:message-id; bh=UMBZVNHnp7TR0KnOMakwtyW6HfF9SvkIdo+R8of+svU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBozGEYpaN8KxqpqbIpix7Q/eUM4BVEie2c349je
- H2Lt7wGNx2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaMxhGAAKCRAk1otyXVSH
- 0Ok9B/4v32pVhq4xEn2WtqPBqKENxP6kucAsLZtwxf5iwOSrCiG9KVi/6YaIAC1kx/sjTIVaD9L
- mKEAYyfwg5c8BxtzTnuaHiK0R5mccV5TOEWPCLDMGeYsCfAVxI+uVBIUJ2Mbg7tyxUylzzmbwg6
- 8Vn7mCxnstbDXzMVPy5OS73MNdRuJjzIsVe1dmV9cd1Fa/1eOBriDvdJYymtpApHcWiI5N0u5fJ
- m+NBZORlDiLa9d86fk+c7KVVLr5ahog42FmW/pYrdJHXOkWKbtFlyrW0SuXfcxYsmX53b4Fa4iU
- JF8LnIEBKNjJysOhlR0xW4jvKcBXNGNJdual7Un8QJbbKubP
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: -nb3wVnAtqomihwZ5BzjAk2px7ex6dUi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDE3NiBTYWx0ZWRfX4Y8q+OJtcR0W
+ +oYOau8ot7ilGTzu5PMGr/c3x1bedT9B3gqOZHC7hM/Xi6+uaY0+lHxn/Ka9lE213kL68CII/7K
+ z3B5d+3wpbiSc/ygeHsIhiWDxHAwN+fGFwFsRE7UhGTUUvWkFkY05ELfd3kxwScqvazqt9rbonW
+ bOXl1lczG5Z9G+teTpxDti5TNxhuajRiwYF0JOVA2rBw9NRviqGPh4HP+n9iXtIIMtm1GoToIaT
+ Hu39ICr9dMFPAjamuD3EgvUaHLFY/4+APB4u9SBfeGw7HWZlMuLwY/AgydoBSK6opKQCrvQOWH5
+ 3JASKIaygraugixdHv8cWWJX9wRaKGzhstUShrgPXa9rw8BJZv52JiSljT0Adk=
+X-Authority-Analysis: v=2.4 cv=G6AcE8k5 c=1 sm=1 tr=0 ts=68cc6188 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=yJojWOMRYYMA:10 a=yPCof4ZbAAAA:8 a=auZRGODfdbgPxNsHCnAA:9
+X-Proofpoint-GUID: -nb3wVnAtqomihwZ5BzjAk2px7ex6dUi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-18_02,2025-09-18_02,2025-03-28_01
 
-This feature has no traps associated with it so the SIGILL is not reliable.
+On Wed, 10 Sep 2025 21:22:11 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/arm64/abi/hwcap.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+> We can use the mmap insert pages functionality provided for use in
+> mmap_prepare to insert the kcov pages as required.
+> 
+> This does necessitate an allocation, but since it's in the mmap path this
+> doesn't seem egregious. The allocation/freeing of the pages array is
+> handled automatically by vma_desc_set_mixedmap_pages() and the mapping
+> logic.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> ---
+>  kernel/kcov.c | 42 ++++++++++++++++++++++++++----------------
+>  1 file changed, 26 insertions(+), 16 deletions(-)
+> 
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 1d85597057e1..2bcf403e5f6f 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -484,31 +484,41 @@ void kcov_task_exit(struct task_struct *t)
+>  	kcov_put(kcov);
+>  }
+>  
+> -static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+> +static int kcov_mmap_error(int err)
+> +{
+> +	pr_warn_once("kcov: vm_insert_page() failed\n");
+> +	return err;
+> +}
+> +
+> +static int kcov_mmap_prepare(struct vm_area_desc *desc)
+>  {
+>  	int res = 0;
+> -	struct kcov *kcov = vma->vm_file->private_data;
+> -	unsigned long size, off;
+> -	struct page *page;
+> +	struct kcov *kcov = desc->file->private_data;
+> +	unsigned long size, nr_pages, i;
+> +	struct page **pages;
+>  	unsigned long flags;
+>  
+>  	spin_lock_irqsave(&kcov->lock, flags);
+>  	size = kcov->size * sizeof(unsigned long);
+> -	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
+> -	    vma->vm_end - vma->vm_start != size) {
+> +	if (kcov->area == NULL || desc->pgoff != 0 ||
+> +	    vma_desc_size(desc) != size) {
+>  		res = -EINVAL;
+>  		goto exit;
+>  	}
+>  	spin_unlock_irqrestore(&kcov->lock, flags);
+> -	vm_flags_set(vma, VM_DONTEXPAND);
+> -	for (off = 0; off < size; off += PAGE_SIZE) {
+> -		page = vmalloc_to_page(kcov->area + off);
+> -		res = vm_insert_page(vma, vma->vm_start + off, page);
+> -		if (res) {
+> -			pr_warn_once("kcov: vm_insert_page() failed\n");
+> -			return res;
+> -		}
+> -	}
+> +
+> +	desc->vm_flags |= VM_DONTEXPAND;
+> +	nr_pages = size >> PAGE_SHIFT;
+> +
+> +	pages = mmap_action_mixedmap_pages(&desc->action, desc->start,
+> +					   nr_pages);
 
-diff --git a/tools/testing/selftests/arm64/abi/hwcap.c b/tools/testing/selftests/arm64/abi/hwcap.c
-index 002ec38a8bbb..0f9a64932481 100644
---- a/tools/testing/selftests/arm64/abi/hwcap.c
-+++ b/tools/testing/selftests/arm64/abi/hwcap.c
-@@ -17,6 +17,8 @@
- #include <asm/sigcontext.h>
- #include <asm/unistd.h>
- 
-+#include <linux/auxvec.h>
-+
- #include "../../kselftest.h"
- 
- #define TESTS_PER_HWCAP 3
-@@ -169,6 +171,18 @@ static void lse128_sigill(void)
- 		     : "cc", "memory");
- }
- 
-+static void lsfe_sigill(void)
-+{
-+	float __attribute__ ((aligned (16))) mem;
-+	register float *memp asm ("x0") = &mem;
-+
-+	/* STFADD H0, [X0] */
-+	asm volatile(".inst 0x7c20801f"
-+		     : "+r" (memp)
-+		     :
-+		     : "memory");
-+}
-+
- static void lut_sigill(void)
- {
- 	/* LUTI2 V0.16B, { V0.16B }, V[0] */
-@@ -762,6 +776,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "lse128",
- 		.sigill_fn = lse128_sigill,
- 	},
-+	{
-+		.name = "LSFE",
-+		.at_hwcap = AT_HWCAP3,
-+		.hwcap_bit = HWCAP3_LSFE,
-+		.cpuinfo = "lsfe",
-+		.sigill_fn = lsfe_sigill,
-+	},
- 	{
- 		.name = "LUT",
- 		.at_hwcap = AT_HWCAP2,
+Hi Lorenzo,
 
--- 
-2.47.2
+Not sure if it belongs here before the EINVAL tests, but it looks like
+kcov->size doesn't have any page alignment.  I think size could be
+4000 bytes other unaligned values, so nr_pages should round up.
 
+-chris
