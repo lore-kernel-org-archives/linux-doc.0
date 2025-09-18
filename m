@@ -1,210 +1,98 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011022.outbound.protection.outlook.com [52.101.57.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFD82E8DF3;
-	Thu, 18 Sep 2025 07:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758179686; cv=fail; b=Dfy71L+27iPFqx1XAFcOhO64hEQ9aSXNbSqTdUmtpFxF1BKVD1AXHkMMR6jfERBFOiGO+BQlyHIU9NMkNZLrcem8JjpRK2Vnlw1tpI9TTyqr2hXQEI7ROQWvcsMnMq9ciFL68mUQTA3Zf6n1UGe2j3yblzrG4h4pKvcM48rBdGI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758179686; c=relaxed/simple;
-	bh=/Kj+KEG2b6G8dFIiy3s63r0rb+mNNKXLUxKea6xP1Bk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ihq58yv9wW/zZiS9NN+Z104xcGJW1jqc2FO4R5NzP0f7bCnRnOuvP48EGlOhHnDoxOnxh66GvSkbJvqquxwypnNGIfM6+wXi4WUiqPWRfh+eeRqmrgAu2SuJIYVec44AxXzrM1Akz2MZfgr9pxHxGnDwyjFmq6yOX21i+ON8MdA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fzfJ4KOg; arc=fail smtp.client-ip=52.101.57.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fzfJ4KOg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TZyTdvJl5QNdxYApHhrcvb0FQIx5Qrtt1E/rkJFq+wI0/dM8HQelJnvXx2ywGi5NW3rNKT1z5UCLB4WOkIraIeQpF4QrHKAsfnf2mRUki2xlzSEC6yDkfiGLuUA7QcDUu8BJwT4PiMVdrlvMmXp6sVAKAdgBZ1z2XE2wuoA3wPyP3mylCfYrVBQcEOPkBAoyf0Ou3vOdh4ueX8QngbMLlUTdZhvexvqYWzVrXBTXu8jVDcsvHqA8ais2gq4THdrXRjzH2Hk4X8WBDm6Ln8Y2GknpQXffkITxQv92Rj+0sILpJm+UCaBK6L+S4rU9lwi+3GEducAinXu+syASsoIkQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x4MtyDq6dS59ST2okzzqBe5iJiCtvdh54l8lEv0tbP8=;
- b=QXOAt4fwC/y2x62yoo1Z2TbjenriB03IRl+DAu6I6SEWkOokaUeoRd9VrHozn+E5OamrMGVJYzvi0Cf+xOMn4vcFEQBUHNGqttRlgIrGSFN9YMBzCHrViRMAs+z2ad5D4Z+P0C6cSkukb1ZlAY9dCS6gfDiyjPk5WfHKBQrT79zrJ/uUYfofQFpANxYr1zSKp+nHGLvAjg1iFLu+4LgRt9Z+5RB752fahOinvOgHPWxq0zxPKRT5XpQ5mquGRrFaF2IEyzigbyUeKMm8ZceCVGaLvD2D69esHS+9Ld9D5G8vwj8v+d79miz9e2LBWF7+XhujymcSOtMvVqdKXY/SeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x4MtyDq6dS59ST2okzzqBe5iJiCtvdh54l8lEv0tbP8=;
- b=fzfJ4KOgdIerObBabkALvvvp9wZgkrJYSrcUvgt2HhaH8X14qVX2sjDb5kiXehSFV7/E1tfYOhiJnnqwCHk4Z2Uj+L5Zhj+iWTUc27IVnr0TOQsaNamuywAqPnMuxSsGvLqHfmWVUABGBQQ6bpM9+oK8XFS//W6HuoRzJv8JLTymKT71HkBaiaJT9yZqCpFjAGDZ8BRiObQf43OGBMKGTZ8bKMSmwxAygC3LbzfXn7kBG1UVdTFkKrw3fIceWjCYiYQuIwdEUPcl3hkDs02GIFHicq7EWcXtvTEad4oKx4LZk75TkB6HFthCtJFI6xH9fwTIpfnQyRi0VWz91hGmnA==
-Received: from BYAPR08CA0044.namprd08.prod.outlook.com (2603:10b6:a03:117::21)
- by BY5PR12MB4051.namprd12.prod.outlook.com (2603:10b6:a03:20c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
- 2025 07:14:39 +0000
-Received: from SJ1PEPF000023DA.namprd21.prod.outlook.com
- (2603:10b6:a03:117:cafe::a3) by BYAPR08CA0044.outlook.office365.com
- (2603:10b6:a03:117::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.14 via Frontend Transport; Thu,
- 18 Sep 2025 07:14:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SJ1PEPF000023DA.mail.protection.outlook.com (10.167.244.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.0 via Frontend Transport; Thu, 18 Sep 2025 07:14:39 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 18 Sep
- 2025 00:14:30 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 18 Sep 2025 00:14:30 -0700
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.126.190.180)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 18 Sep 2025 00:14:29 -0700
-Date: Thu, 18 Sep 2025 00:14:27 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
-	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
-	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
- Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
-	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v5 01/15] genpt: Generic Page Table base API
-Message-ID: <aMuxUzvxQLvouG3c@Asurada-Nvidia>
-References: <0-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
- <1-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
- <aMDzLC9nV47Xvud9@nvidia.com>
- <20250915155152.GC1057776@nvidia.com>
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7C1C2D9EDD;
+	Thu, 18 Sep 2025 07:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758180119; cv=none; b=j2vx9XolF7qv4Bgj4Zl4t3s+XxUNRxk1bxYd1d5ftNhzbuurDMI2rAtXLQze2dZbT1TUyXmvSJ2pEhuPTwDgNogfGdAPj0gOZOIN1YcYOWFZQ2cAvX39PxTWR6nXLBHBCtKPDI32VDU2NEQOC5VeE7RB4oYxUhJpTbSVirZA8ZA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758180119; c=relaxed/simple;
+	bh=MH24jopaLTynYFV4jBncSoge4J5PU9ToQ4hV8M70tOE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O5dX67GnNwPcOtC3V9zuXm5dSVPq8zYAQKSl3feVpedQYvVtua67ujPa1Oua6q82+MhDmoTjSRznejKLm8165I8z3ivDthXMmOd+WoBCt5tPQRPVHcarSp+IKLLnQqgBokZGwwdsPT3mhJ1nl1vEuuDNIfHZPZOCTMhD6MN1LC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=129.150.39.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrAAXgGfwsstoxEh7AA--.10965S2;
+	Thu, 18 Sep 2025 15:21:20 +0800 (CST)
+Received: from [10.12.170.88] (unknown [10.12.170.88])
+	by gateway (Coremail) with SMTP id _____wD38RHusstorX2OAA--.23859S2;
+	Thu, 18 Sep 2025 15:21:19 +0800 (CST)
+Message-ID: <68f89d58-ebc5-429a-a4f4-707a361450f4@hust.edu.cn>
+Date: Thu, 18 Sep 2025 15:21:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250915155152.GC1057776@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023DA:EE_|BY5PR12MB4051:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c53628a-ab0c-4a7e-5a61-08ddf6830843
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?vSSWt2suZ1Mj5FkGl3qX6tmZsz5s1RjW8uIP2Zs0FIGW2Yn99kBqcmIyFWNg?=
- =?us-ascii?Q?kEd+5b/JKGjW3S61X22nmIEPxuGb49izocK3mA8NEu7TNMNuSSXw/CUilauK?=
- =?us-ascii?Q?vUwN045Lbgxsv09dXXkVW2wDLTOPeXjyJVC4YcyO6DYec3hd4+x1bhnrhXbs?=
- =?us-ascii?Q?qXM7ra2BCb/QPxOfnNRXdrSsxi0tbpB5S1fihKlG/ibLrd86l1S+pg8WqTuG?=
- =?us-ascii?Q?id15AzokiYmOVjByb0Wc9yTGuU/kgU7ULZAE2Sy/SjvwcE0cbvuCYP9xBgkO?=
- =?us-ascii?Q?XOTbzkNOBTMHRTPxvQPZcK9H7mI6eL7CpCEouW3Sd407+ao+LeviicyPJM3B?=
- =?us-ascii?Q?w0AxatO5NW2yhnvwEgCWnIhiUQk60UlMSFzevWCrka1mXgG8U0Omnav1TIb0?=
- =?us-ascii?Q?SMCfPuhPA/fHpZJQoo7YrKw9AzLgUFKbiwWlHhjtn3/9HUEHJCAIewXNDRH+?=
- =?us-ascii?Q?0zMW/xSl8y36jXogt05Bao7czizOBmnEgNDZTIiwvRnAaInIEjh8T2J/AQqf?=
- =?us-ascii?Q?DgRA0uSALFqX8gTQjdB7f7g/082Tl5RBSY7Q1gm5//YuJIp9ObDUehBJQL8Y?=
- =?us-ascii?Q?5zh8TSGr/bmhpKg5oBcsYOAy1vlXRU3UR6q1uNQpm8oVvp3wlw6YtHhmnQGa?=
- =?us-ascii?Q?rtcc11i3jr9Gx4lcTBSkI/j0AT6Nxor0s+vrvKh1hhrFyvlt7C+8mNpMY5rZ?=
- =?us-ascii?Q?rFxqxJpc8YoJvO+JUOMNt+Cqpp9N5cbqtodRaLYN3sZT9OV+bSu18hgz2Pdp?=
- =?us-ascii?Q?TeduPtYPpFdpeD2bjuEFTzD+kQn02RURnwDi1/aytyEQ7p9WWpvmrPuReIxc?=
- =?us-ascii?Q?TZ6gLm9z5tET3e0q+tPgVPdOMzQh/nr0IZZ6HKr2k/huOsb1ki6hvA6BFoZc?=
- =?us-ascii?Q?7lNvwG7tRhWGgzhx9DiDEZ1kvz5JHgmCvydvAo+xB2NdDR2c3wJbeQ19x88g?=
- =?us-ascii?Q?4kRxkZ/d5zu22zOlMxy3W+yqh/9GXeMV/y++IJbY19JXyOg5RtGJSUTe34is?=
- =?us-ascii?Q?sLpy00V3n8UwGldPTMUl5+LFkMg7wp22mPfrIIKk5D3Lr9iS9m+XjQjqyncE?=
- =?us-ascii?Q?vkQOW6Eo4gRFDMv4kEfJGcuIAa0+xPQRvWJ8zMGdt9HY+bKdS+6uNUgOMvvf?=
- =?us-ascii?Q?moN+Wwus0mj4N3xkOtW0F9qi9ID1yhbjF/BU7J8g+p4gwjEduakHDhApyso8?=
- =?us-ascii?Q?1/StsX0PzXhfX5EcIP8eAcrvMQrRXS03JjblnoPqVnNoUatY8Ej4K97Sin33?=
- =?us-ascii?Q?r3R1olD3s9Jv1SUA8dmWW6jA5Q4uhm7Z3+FcGPgAvyraInEj5UZsmrreicOs?=
- =?us-ascii?Q?Xk6kLVQgDjAvMt1chigHYgb9//RGhl2KWb0ykflMw1koN336YI84VAuhsBg5?=
- =?us-ascii?Q?GYls/HwwE6ipMkYpTpWAVr2O3ptF8wNblahhVEJwB6OyN8BS2HX5HOSafvjA?=
- =?us-ascii?Q?ykQ66ad1sHVE5ppyAFxW3pfuQwiQfam4W1CJHI+S6tx4k39UClLu7sTj481H?=
- =?us-ascii?Q?F2Uf3/nmQoEZbjnx5y9fLWFmGKYYWTSQH9BL?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 07:14:39.5926
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c53628a-ab0c-4a7e-5a61-08ddf6830843
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023DA.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4051
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Docs/zh_CN: add fixed format for the header of
+ gfs2-glocks.rst
+To: shao.mingyin@zte.com.cn, alexs@kernel.org
+Cc: si.yanteng@linux.dev, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn,
+ yang.tao172@zte.com.cn
+References: <20250918151349743KS4zJHQOoG-yPHSeAY3dv@zte.com.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20250918151349743KS4zJHQOoG-yPHSeAY3dv@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAAXgGfwsstoxEh7AA--.10965S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoWrKr43GF1kWFWkAryUAw45trb_yoWktFg_A3
+	yfXFWUAws0qF1IqFy8CFnYvr97ArW3Kr18XFsYyFyDA3WDKaykJFykXw18ZFyrGFWavr9x
+	Ca95uryrXa47WjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbkxYjsxI4VW7JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j6rxdM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x
+	8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y
+	6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+	C2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7xRR6pB7UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Mon, Sep 15, 2025 at 12:51:52PM -0300, Jason Gunthorpe wrote:
-> On Tue, Sep 09, 2025 at 08:40:28PM -0700, Nicolin Chen wrote:
-> How aboutL:
-> 
->  *  level
->  *     Level 0 is always a table of only leaves with no futher table pointers.
->  *     Increasing levels increase the size of the table items. The least
->  *     significant VA bits used to index page tables are used to index the Level
->  *     0 table.
 
-Yea, this is clearer.
+On 9/18/25 3:13 PM, shao.mingyin@zte.com.cn wrote:
+> From: shaomingyin <shao.mingyin@zte.com.cn>
+>
+> add fixed format for the header of gfs2-glocks.rst
+>
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+> v2:
+> remove the "-" for only one proofreader
+>   .../translations/zh_CN/filesystems/gfs2-glocks.rst   | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+>
+> diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+> index 7f094c5781ad..abfd2f2f94e9 100644
+> --- a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+> +++ b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+> @@ -1,5 +1,17 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/filesystems/gfs2-glocks.rst
+> +
+> +:翻译:
+> +
+> + 邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
+> +
+> +:校译:
+> +
+> + 杨涛 yang tao <yang.tao172@zte.com.cn>
+> +
+>   ==================
+>   Glock 内部加锁规则
+>   ==================
 
-> > > + *  item
-> > > + *     A single position in a table
-> > > + *  entry
-> > > + *     A single logical element in a table. If contiguous pages are not
-> > > + *     supported then item and entry are the same thing, otherwise entry refers
-> > > + *     to the all the items that comprise a single contiguous translation.
-> > 
-> > So, an "entry" is a group of "items" if contiguous pages (huge
-> > page?) are supported. 
-> 
-> Yes
-> 
-> > Then, the "entry" sounds like a physical (v.s. "logical") table
-> > entry, e.g. a PTE that we usually say?
-> 
-> I choose entry because it is related to PTE and in most cases you want
-> to work on the entries. The replication of entry to item is somewhat
-> hidden.
-> 
-> From a HW perspective the TLB should be loading entries.
-
-In that case, "entry" should be a single "physical" element v.s.
-"logical", right? Because that's what HW/TLB physically loads.
-
-> > > +#if !IS_ENABLED(CONFIG_GENERIC_ATOMIC64)
-> > > +static inline bool pt_table_install64(struct pt_state *pts, u64 table_entry)
-> > > +{
-> > > +	u64 *entryp = pt_cur_table(pts, u64) + pts->index;
-> > > +	u64 old_entry = pts->entry;
-> > > +	bool ret;
-> > > +
-> > > +	/*
-> > > +	 * Ensure the zero'd table content itself is visible before its PTE can
-> > > +	 * be. release is a NOP on !SMP, but the HW is still doing an acquire.
-> > > +	 */
-> > > +	if (!IS_ENABLED(CONFIG_SMP))
-> > > +		dma_wmb();
-> > 
-> > Mind elaborating why SMP doesn't need this?
-> 
-> The command says the "relase is a NOP" it means this:
-> 
-> 	ret = try_cmpxchg64_release(entryp, &old_entry, table_entry);
-> 
-> On SMP release does an actual release, on UP it doesn't have a
-> barrier.
-
-I see. I found that on !SMP, smp_mb() is barrier() v.s. mb(). I
-suppose that differs between a compiler one and hardware one.
-
-Thanks
-Nicolin
