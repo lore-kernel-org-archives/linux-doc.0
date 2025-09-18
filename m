@@ -1,289 +1,209 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91532FFF9E;
-	Thu, 18 Sep 2025 09:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758186917; cv=fail; b=dhUcAV5EYITeKelKDcP8rp+B/gtxlfutCMcNRWtq4ouFuvfzLBgWeJjVw3g0ML3kBB4xBfvx+mfE1eJTFIkbkLon/Rwfaozt0wYwzZerKT6oIYpPRTZvUftNFqk6M4f9EsPP+RJGLWzCOWeZ2ESBclRMPpv9KnxPqfqezVXQuwo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758186917; c=relaxed/simple;
-	bh=CC63guqyzOSCNyv7Jtk4SifFkhsXAT+iOLP2M+AbVdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Rj1rvN5cec0xrR0YJicF8Zr2tUDHR8SyPxbBkd7rCeygONlDo9nGXEf//FK/heZO/g+kfwVOShwZP38XIQb8jlhRfmOo8V82ttqeNpCoZdXtxhDLeeaNcBX8/nNZLbVpMU6X3rYLfCSMVU80Qmm7BUXNgN9lAHtW92rYTSuVVNs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Y52N4+uY; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=TIMLsb6W; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A1F2F9DB2;
+	Thu, 18 Sep 2025 09:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758187475; cv=none; b=kNcV93E6Oi81kbpiI8Sp7NemDSQJAozua6ner4x9TpqZgjrVWw1X6M6hwGs6hgVf0ElliboJRvZrOwYRVZstrGvp9iKZUz5H5yXMi71tx4v/ozvWJHwOSXSCDo3ErQH9n7OWdpsZs7Omz6qjywRT9d+Ilt5f6liNwpIx2ntOWBo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758187475; c=relaxed/simple;
+	bh=AfD1lGXGhBJ72syghpA4tAQn0Om1/q15shkj744ZzgI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WRNRcZXNnRKgDH1EC1M/kU+gW4Qrv17UakdTp026LEPNJEGfc3WGRqvsdLrpF07o5ev9ucWgRwj6ibTkrw1e/fXRB0MAlladK4/P9LCM/9DAmCMM5HIl7DcK+57V+8Lycv4MZS9KyAHDuIzczWvj1Sl+x4G/MB2bZZ+SPMbk28M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zi232eHB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Y52N4+uY";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="TIMLsb6W"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58I7gjFP019426;
-	Thu, 18 Sep 2025 09:14:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=1ZWnQKPBXFipVJycdc
-	86MGYCQplUmlHAEcateV9m3K4=; b=Y52N4+uYcSPdNWm3+cE8QcZme36w962UaF
-	KymZHicEky/9NEIx+HRDsBdWdFnAHR2XRTIJ9fqygnaOosHEg2yhB4+2IrAI44E+
-	W8NG/8VnUjnPZisR0gQN4AYGKnEYsskmgo1Fy8nPqhTq/GUlMiU3pqv9RrBtsFIS
-	HgI+RR/O7hTXvHxsgLLnr5KA8qLm+7bkNn90UwnF23Iihr+UIG2sG+bpycFGBvTh
-	2WCo6L+GM1TdcbB3qOCVms7G+XDcLm3SAI/Qk42HFFvUmVDGOr/yUzwxc761ht+G
-	txbKdFu+Cv+yPTev/2rVkVIMXmDcuqLEL0+9JOYLYa8cDPPV+MQA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 497fx6k2gv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Sep 2025 09:14:30 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58I7Y9K2028755;
-	Thu, 18 Sep 2025 09:14:29 GMT
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010023.outbound.protection.outlook.com [52.101.56.23])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 494y2euku4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Sep 2025 09:14:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kufxMYRMJmKNvxBF6/gKsBVWCzw7W6vBmb2xrNC3TdJRZKzmwCnVCHXDdVQQSfGB9uCgUA+Y2GUd39z8b6FjQIEMOofRl2XyqgHgja60DvVIPGfrGBshhgHv9O7C9CQIntLO8IUHsooUqUhd7SuHGu3RU/+iYiLOs4syJksedyRI38Tn3VS56Kb4ihGKSewGyVrIzqCRxI7uwlVgON+A1j6uyo5SxPzPxRnBasvTBhxRWTCjpcu9U6U4NU90sR7SBecY7prIZOwYNA7NrF/Z7uz7cSB/e2GLB3B7K6T4IXa3kGorLTxp0Oy7y6RGDVtCWC11Psd9NuXv/go2YIEPUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1ZWnQKPBXFipVJycdc86MGYCQplUmlHAEcateV9m3K4=;
- b=BaBoG3jDSts7LPL/D2lE79cjr3hFfmXqV7kJYmWmCZMVQJCN5hRturlmKWUm4aEXOUndxNZdHrlQX7FCcHXaYGk34udflAYQJOX+EzVVmikvcRh0DgVSRF4g+pwiOmYVzv3up1ZQLEdEQZBYJx4eV83kCJumaumDvkInGnKZA3edHq1NUw5d1oQjmR5wwS8CpnHgt4wKkxubpqyHgDXdWJpwY/ajZSP1G+2bNt5AjEEUaJd1OTD+/pOy7PEXzhXIk9rEi4lvJe4/ErWQnCGPCUOgrw7CCY1hyCnL0lmDdwcR1Ywgm9plQR/j5HZmrKgiUutc1qo0K12F4tVNMoyc1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ZWnQKPBXFipVJycdc86MGYCQplUmlHAEcateV9m3K4=;
- b=TIMLsb6WkE+3mC/ROo8ajTs6LEzNOLamfueOzt2QlzSKfYqMgUvlXTjk5XAQQP4+ok8WuOZtOUmJDFBC3dQZhX5oJbdlhA1jTGp+b2HFFCcRAJtsPamVzm1XVYPG6htA1C90FL86YnmYIHrH0E559AjYjE+NYf2IV/c8Pb4LHrc=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by DM4PR10MB5991.namprd10.prod.outlook.com (2603:10b6:8:b0::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
- 2025 09:14:25 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%2]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
- 09:14:25 +0000
-Date: Thu, 18 Sep 2025 10:14:23 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>,
-        Guo Ren <guoren@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-        ntfs3@lists.linux.dev, kexec@lists.infradead.org,
-        kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
-        iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v4 09/14] mm: add ability to take further action in
- vm_area_desc
-Message-ID: <20f1c97d-b958-474c-b3a1-8ea9a177e096@lucifer.local>
-References: <cover.1758135681.git.lorenzo.stoakes@oracle.com>
- <777c55010d2c94cc90913eb5aaeb703e912f99e0.1758135681.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <777c55010d2c94cc90913eb5aaeb703e912f99e0.1758135681.git.lorenzo.stoakes@oracle.com>
-X-ClientProxiedBy: LO4P123CA0456.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::11) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zi232eHB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 272A9C4CEF0;
+	Thu, 18 Sep 2025 09:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758187475;
+	bh=AfD1lGXGhBJ72syghpA4tAQn0Om1/q15shkj744ZzgI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=Zi232eHBJL/77M/MsFI38Er8c6rcyACQDDObvhBui9YBsE0y0RYyNxGKDPt95NP0p
+	 5inzEXn+hTk12Ja9IPrNDjGzVczdBOwekT7QwCdHxFNX/xKLUtyddr0RI5gOIF9zov
+	 PX0lZqgYJjyYxvWzys9V+rFQAeJLdJ5fBv0XQFv377kjxYGoRG78PHvrxjHNo4A5Rn
+	 R7ELpdUqYe8fcnweFv9cw0VUqXR25Hg46bmtRz7GEB7n15YVqY3pBf7Z82ZPbgJ3HZ
+	 7F8h7bmlTq/z2lI0q/fx2vSs5suCj91ILRvD+WIza8s2OidObWrd//jvMmYJdtlYBk
+	 Wj/nLJbwFYDyQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E21CAC5A8;
+	Thu, 18 Sep 2025 09:24:35 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Date: Thu, 18 Sep 2025 17:24:30 +0800
+Subject: [PATCH v4 1/5] ALSA: usb-audio: add two-way convert between name
+ and bit for QUIRK_FLAG_*
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DM4PR10MB5991:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e61236d-661a-4d75-6977-08ddf693c36a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?v2AdNP/olnugc10JNQJ0Cv5Ygb+NrabsIxLX2RWSLH6MH5bE7sRGmH7tfBQ3?=
- =?us-ascii?Q?GXzDvmLZz7VugxevlpeXFVqrNCV6XRtxu8A3a5dVCarEFP8wkBvvfo6z4G2t?=
- =?us-ascii?Q?xnObd/PCdS+llHiHgrb3vXL+2lhimjitWB0yxA42TodoEjbLIW4nFy42XYpP?=
- =?us-ascii?Q?EC9usY4s6YHwpUSqkrnnG9VoODbSxjIvZLsn4v3jA96P9FhkiaJWsgaa5RdS?=
- =?us-ascii?Q?pcLFrJNiFz3Dt+1t4dEKDZ4YlABXKSZzULqvzbuKSGiNI6WEJ1kyv2CLtr1Y?=
- =?us-ascii?Q?bOerX95gKpgSFlL4cXiBjk4DAOIDUe847BirfbO5IkJ48pDMB0/G1fiOG20o?=
- =?us-ascii?Q?9a83I22gvRQ77LjQVqBl8ikVSYEzaSepcmkz0gHeuT/lGXBlT5SjbpheI0rW?=
- =?us-ascii?Q?jBvQjwxfZGLZkkoRbhzp47FslXXxpoBp08P1DX6g0C8czbbUuMDJaAdsP+9C?=
- =?us-ascii?Q?yVFaGAeukMrmruVBjIkxAIg4qwT2lCHBz4lHjj6j1dgqwP9qmLskVuTk3p2b?=
- =?us-ascii?Q?Kz63jcNdcQBuyH1aVrSP25gdw//8Kquyqy9ol+w1Fa5RPPH9DIle9dY5r0k8?=
- =?us-ascii?Q?qxyWY4T2JXVP86niJsl3C9/WUTzpI/arjj+TAeTqN0Abn98knZQqXqFinQfH?=
- =?us-ascii?Q?QCm/w1/iGeJAhc32m0iUO0qgpVRDW3C5qfRYfFwk3ezvk+FD0D8EuHg69jGo?=
- =?us-ascii?Q?SBKa2hWZnJhJHo7nP5pKbVBcoX4QxlmgoDygkEaBMWyqJKsujkLlU1vVQS2b?=
- =?us-ascii?Q?6wZJ0C1EgM/DDA5Yv//XSPa4zF4XRXOKgSQv3CliUGoevFiSN/sZkqgGeu7R?=
- =?us-ascii?Q?HeRUZYLgIZSOKcuJU7XUYhp3xFLyrVVTPUSgiK+E6evee+7lsTNYV5cr5uGT?=
- =?us-ascii?Q?Cwcgitd4kSpqoUV/YhD3dpE/NHAdbFQC11tLQiC4xvHFBzfRRdrb2bwTrOm3?=
- =?us-ascii?Q?V9QwR7O6nhKXqvrkTJg+E0e7368Q0CpZ0uQxUoWkQ8NYjyMzxexZNrIhZlyN?=
- =?us-ascii?Q?t1ZxgZ8IMZnwrwAKAJKUKtnUAND4uIJgmx5GhYZFJbEzABe1uT0xfz6ykt+o?=
- =?us-ascii?Q?iaRPgezlVkAdI2TJjHDTunqM+0NMYE4w2kqYL7b5fGOwArmwd2nU5Nrhn4Wa?=
- =?us-ascii?Q?4kjJzPXTJkCVGB1ifCK62atbApyQijiyvTG9nYVboAwSRBEhmGbo6O7c0JNl?=
- =?us-ascii?Q?wC3YvMSL0aL3KUCNXUKSbdcRZWnblQVP+XEWCkjgiNAv0/zyR7N7PjOqnhm6?=
- =?us-ascii?Q?1Z3BC6Zi3H0KBWKvmFNkzPpAjVqAQkU+Bxvur3WecCEWwKs1sjTvzEAnGKua?=
- =?us-ascii?Q?KvHu4/1UE8jBwJjeS6bQsLSNIoPRiJaMv7Cf9fy0Rv9Xxek9xLfoTrlOITxa?=
- =?us-ascii?Q?SF2CEsI36fbey2UyAfowZY4E/BmkhUOGOoxXQ4p0HDUeHPjDog=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XgmqFs4iailYvekmQzq65cMjCKFz/qU29Ez9iHty+aRKlI5wSs7oej9jWTnD?=
- =?us-ascii?Q?uzDFmx86O4orU1X8kn0Rct7PfUqkw6HKJ2C/z/9lUrLpAK1yXS89BkQ2gGCd?=
- =?us-ascii?Q?2S2VOhxKJCIsB6Jb8g7CWeIp6aflc2ByUF9X5HOsUxMeQNYl0ng4NEbsRsZP?=
- =?us-ascii?Q?jZ9nAlQ/p+GOSmCBKkB6FEXKftxAsC/EYNzhJ1CZlXymDRlPeDoKxsOCIWzs?=
- =?us-ascii?Q?/YViGcIdhk+Lc2haoxqMqkqUFwPBy+wcJTp6LYxmxP8Qdo3lX2ewT2VVXscp?=
- =?us-ascii?Q?ML3xSoNVJWvTo4A4J5Jmq8OsUN85WjEpcFi9oRKocJgRMeu1THBaEDI7HHW9?=
- =?us-ascii?Q?9NQRPcqwaA7ZxGenZL4sfjT3DXHRNOsOTJeU+mo2CYdFsjbVW+4SAb4YTLbl?=
- =?us-ascii?Q?5LPe7j8uT0OtJYB6iwTjnZTlnsWVLpgYheBT9LOEd5G35iAA7AJiQgA3vHW4?=
- =?us-ascii?Q?pkkhPPNgq6R7c4JLxUUwH9U1eDyLtUIaoml2LhvfGXEsZEvnUe4mPEELMPhP?=
- =?us-ascii?Q?k//nJHD1Ntt6eu+A13/FYNYYJPn/EbkwuKJQ5L2Nq4McgMoJmtJn7Qk2s2Zg?=
- =?us-ascii?Q?rveQf/Iu1ctvI2J9Lj3S+c3VKwaAm8zECHjF13qROPnNzZIjb6LjPbXkNAtx?=
- =?us-ascii?Q?hALkTM0xQjvQ1ASydavuu6Ey0f9rIiL9GWU0HVexEKj9DgaMZvHNHvnKxoDW?=
- =?us-ascii?Q?AyMqDvaWpTqJzy+7uZx9YAu3UFztdQUjJ+ekevK1rj6Mczr+wn6YLRHdNdF4?=
- =?us-ascii?Q?pn1DdmloejVFuQoqxkuvcRDTRf9n+Yuceis2SvSG+XOXgvJq/7omrQ9yrG5A?=
- =?us-ascii?Q?8RgWU3WA0Ic0ox9Q+Ya9dGD2Spj8ftGu6tLO53EBK9a3HtrlYWqYCL50gI1S?=
- =?us-ascii?Q?TqH3+goP36g0iXw9jlGKxp4/+Y3HkKRZCI9JOiOTuTytBF779AB6HUCB++RK?=
- =?us-ascii?Q?DqowB0XtDaEnVgw+zJ/7c21H/QDKoV/244fE9n+vZ6kwSpML/hnF3/efM4ef?=
- =?us-ascii?Q?f5iq5cC7yYOfT+7GA62kT8f+QC2M2LYaWwFu8S/uoei84NGN4T9/d/0RXhFt?=
- =?us-ascii?Q?YnjM+JK1DOPJC8enVQzqUUGEOlLqFmSvtyAvb89LwNRq/udhVtKQq+oRiABn?=
- =?us-ascii?Q?vLey5tZKdEMMnco6d2oiS2nQlCVWKpXJvprfq56DgxbPTK5Faq17ujOHL4TD?=
- =?us-ascii?Q?xb8D69cUObDimGu4iUwV6/pYrjFaIN0BMQY+kvURjuaUxuZtwsj6G+JnmRdX?=
- =?us-ascii?Q?jo82e/GHKRdmBmXha3Fe9/uEsDjVUMkzRf+68Q3eDidqAVM/ejFw4R0kKbSH?=
- =?us-ascii?Q?tM7d/i/XYTMZfGPYvARaIj900UQ0LIOj3xu7wFVei1ionOfg+TWh8qApJ85R?=
- =?us-ascii?Q?b36DiOIW0a8woB+bMaY5MXU2IFhnPjKfPK0zlQ0Q1bWoDC4M3wXTEu6hVhp3?=
- =?us-ascii?Q?3FtrnjWKIw2xtAA1IfrKB7yfzdjGCimdatl8J+8vlwvcjnTb0cgqt/XwkLuf?=
- =?us-ascii?Q?sq7TW0vKNCgXhwGQwLlGUhyMZne/J+xMYmiafnqdJE6qh5/cpKnXuTph1XN/?=
- =?us-ascii?Q?INM+k8D4/bTNpXol0SHRsPVNdG1XHY2I/LWQmigAZuPmzi6Zv2kqdyWNdQla?=
- =?us-ascii?Q?bg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	YWEgk+Xl3TYMx85Sva0GQjUkoPyWQCA1+I/HyXbWEj4znv/ZKRVlw0Ap3g+6Gc+lJ2Z1XKIjEZrKWtGf/h3G4Yjm7IrcPx8x+18xS8t62+G4NNtRMiSZdvyN0mGaH1XrCq4cKXkMAkZh39ySThKkCE+HEpqGQb+Baiz+Pxets5CtTPb28BOAFroQ8BwSebRYARkwXn7OEDXJctbOTmQ2U78AoI7jDbJZ4gdN26wUb72KIsw4uUz1jJARucrZosZFDQrLvVYoKycRfc1ViqPovj5amTrQaaSiDYFyacdcVS6HFQzevIyTkN9vvk5F39mdjUr5xncRbpuLYTwMrZQLW6LwiB1XPWELxEqsVbxgmwvDs72MbydTWNthBi91a/7ZY/KXnwZ0rNzQMICr7x2MyKXTDsTs+IhZnJWQc6xyw+DzihtTw5sITWKDfAgbiua6sKSVmOzsXIbMbGtRy+iis23QSOPsASHGCqXTfLwMs4qOiKIVwK9mW/AT1Or1nVB7ngEJD3PEBHZ3UMNl4vIbgjGCdupsRqx1yb3mAse8LtogeLIu1IBNnnTTQ4gGyoFQNUQKaJCie9Ghj8y3weQ0yPZe4x9S2ld2j5mT2bVX3/s=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e61236d-661a-4d75-6977-08ddf693c36a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 09:14:25.6266
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Twf7tp0S2QDNWlaAvzlH2yhH63u6wkCjGYc8QnrChh87qHQR5LzmcAZR52lBLv/kZ61qS6hoxK1BPRlXdcIN/mxYVQ88xsD5p7ShxILXj7w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5991
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-17_01,2025-09-18_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 phishscore=0
- bulkscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509180084
-X-Authority-Analysis: v=2.4 cv=TqbmhCXh c=1 sm=1 tr=0 ts=68cbcd76 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=6GBqCms67bi5QGnjy7EA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: c1VH1OHWlz4HvKONPPdaIt_DmfqJboZ5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX8p36igjenQnU
- 0nDIDwy3IcEG7R0q/8rVlHsf4/QBzw8fBM+ufq+TpQuvO3xo0Cs3Nx5cbqBo+w0jaFLASQ2N5/N
- eez9ZMuCJrbPcp0ps6lh0Y22H6+5/G/Ufj8GZXng/dl7aIVQCg4iXmW9yAkUWtKmgbtJ3xuFK68
- ZppSAlr/xEFE65bu9Yl1py81r52hBfaGVMzVkO1b0bTcWFH1Ih068sWvisOcjFjWWge5ZBNAMkV
- mKhHcyCY8DMO5CL8AiARrp/kqJhLKjgQj1E14qzB6mKY7zYha3NZmF10COuFZW6lTIN5TdOSQk1
- 6Fq76N4FraFf1IJb6JBFj7mNE3qtlTeF3LxE72al2HCWc6Xvv39dCSdxVhtToiy///6ZMXmiZEm
- zfL+8jzx
-X-Proofpoint-ORIG-GUID: c1VH1OHWlz4HvKONPPdaIt_DmfqJboZ5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250918-sound-v4-1-82cf8123d61c@uniontech.com>
+References: <20250918-sound-v4-0-82cf8123d61c@uniontech.com>
+In-Reply-To: <20250918-sound-v4-0-82cf8123d61c@uniontech.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>
+Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
+ Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
+ kernel@uniontech.com, linux-modules@vger.kernel.org, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758187473; l=4063;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=/BXquMWJMNiFdz+nh5s6GogPhAqR6jecE2iPTQLfG8w=;
+ b=NG/5R3jQX8kpdaMuykUIawwyLiNFHUTU0wCQTg5C2J+0eFQApormifbECybPieuDu+7oVQmNZ
+ xItgiMQhCVhAdGaLUEtc7sRFrEn0rbeUlRsBWE6PlpIymkC1ay9La8P
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-Hi Andrew,
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Finally could you apply the below, which has us return an error in case of
-somebody implementing a buggy nommu action.
+Also improve debug logs for applied quirks
 
-I also include a fix for the VMA unit tests where an enum declare was not
-correctly propagated.
-
-Cheers, Lorenzo
-
-----8<----
-From 17c8037bc3bfd5cdd52369dc6140d0fbbd03480d Mon Sep 17 00:00:00 2001
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Date: Thu, 18 Sep 2025 08:08:31 +0100
-Subject: [PATCH] fixup: return error on broken path, update vma_internal.h
-
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 ---
- mm/util.c                        | 6 ++++--
- tools/testing/vma/vma_internal.h | 1 +
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ sound/usb/quirks.c   | 82 +++++++++++++++++++++++++++++++++++++++++++++++++---
+ sound/usb/quirks.h   |  3 ++
+ sound/usb/usbaudio.h |  1 +
+ 3 files changed, 82 insertions(+), 4 deletions(-)
 
-diff --git a/mm/util.c b/mm/util.c
-index 0c1c68285675..30ed284bb819 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -1385,17 +1385,19 @@ EXPORT_SYMBOL(mmap_action_prepare);
- int mmap_action_complete(struct mmap_action *action,
- 			struct vm_area_struct *vma)
- {
-+	int err = 0;
-+
- 	switch (action->type) {
- 	case MMAP_NOTHING:
- 		break;
- 	case MMAP_REMAP_PFN:
- 	case MMAP_IO_REMAP_PFN:
- 		WARN_ON_ONCE(1); /* nommu cannot handle this. */
--
-+		err = -EINVAL;
- 		break;
- 	}
-
--	return mmap_action_finish(action, vma, /* err = */0);
-+	return mmap_action_finish(action, vma, err);
- }
- EXPORT_SYMBOL(mmap_action_complete);
- #endif
-diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma_internal.h
-index 22ed38e8714e..d5028e5e905b 100644
---- a/tools/testing/vma/vma_internal.h
-+++ b/tools/testing/vma/vma_internal.h
-@@ -279,6 +279,7 @@ struct vm_area_struct;
- enum mmap_action_type {
- 	MMAP_NOTHING,		/* Mapping is complete, no further action. */
- 	MMAP_REMAP_PFN,		/* Remap PFN range. */
-+	MMAP_IO_REMAP_PFN,	/* I/O remap PFN range. */
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index d736a4750356597bfb0f9d5ab01cdaeaac0f907c..94854f352b1702b491e1bf3c8b769f7088e03976 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2446,6 +2446,62 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	{} /* terminator */
  };
+ 
++static const char *const snd_usb_audio_quirk_flag_names[] = {
++	"get_sample_rate",
++	"share_media_device",
++	"align_transfer",
++	"tx_length",
++	"playback_first",
++	"skip_clock_selector",
++	"ignore_clock_source",
++	"itf_usb_dsd_dac",
++	"ctl_msg_delay",
++	"ctl_msg_delay_1m",
++	"ctl_msg_delay_5m",
++	"iface_delay",
++	"validate_rates",
++	"disable_autosuspend",
++	"ignore_ctl_error",
++	"dsd_raw",
++	"set_iface_first",
++	"generic_implicit_fb",
++	"skip_implicit_fb",
++	"iface_skip_close",
++	"force_iface_reset",
++	"fixed_rate",
++	"mic_res_16",
++	"mic_res_384",
++	"mixer_playback_min_mute",
++	"mixer_capture_min_mute",
++	NULL
++};
++
++const char *snd_usb_quirk_flag_find_name(unsigned long index)
++{
++	if (index >= ARRAY_SIZE(snd_usb_audio_quirk_flag_names))
++		return NULL;
++
++	return snd_usb_audio_quirk_flag_names[index];
++}
++
++u32 snd_usb_quirk_flags_from_name(char *name)
++{
++	u32 flag = 0;
++	u32 i;
++
++	if (!name || !*name)
++		return 0;
++
++	for (i = 0; snd_usb_audio_quirk_flag_names[i]; i++) {
++		if (strcmp(name, snd_usb_audio_quirk_flag_names[i]) == 0) {
++			flag = (1U << i);
++			break;
++		}
++	}
++
++	return flag;
++}
++
+ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip)
+ {
+ 	const struct usb_audio_quirk_flags_table *p;
+@@ -2454,10 +2510,28 @@ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip)
+ 		if (chip->usb_id == p->id ||
+ 		    (!USB_ID_PRODUCT(p->id) &&
+ 		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
+-			usb_audio_dbg(chip,
+-				      "Set quirk_flags 0x%x for device %04x:%04x\n",
+-				      p->flags, USB_ID_VENDOR(chip->usb_id),
+-				      USB_ID_PRODUCT(chip->usb_id));
++			unsigned long flags = p->flags;
++			unsigned long bit;
++
++			for_each_set_bit(bit, &flags,
++					 BYTES_TO_BITS(sizeof(p->flags))) {
++				const char *name =
++					snd_usb_audio_quirk_flag_names[bit];
++
++				if (name)
++					usb_audio_dbg(chip,
++						      "Set quirk flag %s for device %04x:%04x\n",
++						      name,
++						      USB_ID_VENDOR(chip->usb_id),
++						      USB_ID_PRODUCT(chip->usb_id));
++				else
++					usb_audio_warn(chip,
++						       "Set unknown quirk flag 0x%lx for device %04x:%04x\n",
++						       bit,
++						       USB_ID_VENDOR(chip->usb_id),
++						       USB_ID_PRODUCT(chip->usb_id));
++			}
++
+ 			chip->quirk_flags |= p->flags;
+ 			return;
+ 		}
+diff --git a/sound/usb/quirks.h b/sound/usb/quirks.h
+index f9bfd5ac7bab01717de3a76227482a128bf73165..bd5baf2b193a1985f3a0e52bf4a77ca741364769 100644
+--- a/sound/usb/quirks.h
++++ b/sound/usb/quirks.h
+@@ -50,4 +50,7 @@ void snd_usb_audioformat_attributes_quirk(struct snd_usb_audio *chip,
+ 
+ void snd_usb_init_quirk_flags(struct snd_usb_audio *chip);
+ 
++const char *snd_usb_quirk_flag_find_name(unsigned long flag);
++u32 snd_usb_quirk_flags_from_name(char *name);
++
+ #endif /* __USBAUDIO_QUIRKS_H */
+diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
+index 30b5102e3caed01eeb86d0075c41338104c58950..0a22cb4a02344b2dcf4009c560a759f2da25ca67 100644
+--- a/sound/usb/usbaudio.h
++++ b/sound/usb/usbaudio.h
+@@ -252,5 +252,6 @@ extern bool snd_usb_skip_validation;
+ #define QUIRK_FLAG_MIC_RES_384		(1U << 23)
+ #define QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE	(1U << 24)
+ #define QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE	(1U << 25)
++/* Please also edit snd_usb_audio_quirk_flag_names */
+ 
+ #endif /* __USBAUDIO_H */
 
- /*
---
+-- 
 2.51.0
+
+
