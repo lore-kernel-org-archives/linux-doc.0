@@ -1,105 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A472D9EDD;
-	Thu, 18 Sep 2025 07:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C16E2E9EDD;
+	Thu, 18 Sep 2025 07:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758179423; cv=none; b=HbAOe/8LftTh4oFn3sZ5Ja5c6D5BNpp6+ZvDpF8d2S1ivXQbbktTU/be5LaOI+Q/bdXT5RMRtuPYaC5/WYy80hVni8l0Ms+SOIw3irXklf8GqM3X/xfjuVgPclFLjLZQ2RQIUgVTj2YQ5wX4KOuGb65xT0Na2BNP9e+iAKbBQf4=
+	t=1758179662; cv=none; b=gYVeVKovamSBprNHjXYBfdrxbCrgcJZwY9a0wkAgpKjQ9agX3qg8Niue361+u91iBppguBfBQ1GKEekQuePXUjjE10Mzl1mXqPTgKJ48H0+RvNNeVv4ztdZ3C/ffVsR6wii+8OcJtE/Q8cBNT+MTB2G577d0GJLo/1WhYmN1TYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758179423; c=relaxed/simple;
-	bh=LiZ93zvkp46r1toaeBlfPU0LVdOnahqMwxuP9qT0VbE=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=VOjWaT/4HFlTRvVpJM8ewHjwq182xxmjlHJ3D/PkDJR5Y5whC1cPHQwAsMgkCpiDu1ncczoLlf/0hu+hsAi3N6r2JvQBp6Rk2tYl0qIz9VvqZ9hOkZPnKKt6qtOR/1u9FWCKd+8/J1BqKm6jNxXZZSYojomP7Wjudz2Pxqzn53s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EAcRJFa3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EAcRJFa3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CAD7C4CEE7;
-	Thu, 18 Sep 2025 07:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758179423;
-	bh=LiZ93zvkp46r1toaeBlfPU0LVdOnahqMwxuP9qT0VbE=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=EAcRJFa3bQoSQApRP9ELx2FiJsWkDJnzr89P3MBFar0LWXpefnMRpWvSWwUQVY/5Z
-	 c41KamhzcbsKSFtQRb69l7QY1dJeaOdmnjsO96MuYYPZsWWfr+aouZcqxCUzMjGFAI
-	 6aGntNq0J/uGCseQNtzCb9v6XCQyjhDuW/LPGLz2dW080uXwdwf7iP9bYn0cd6hY4t
-	 lvXgT3ZDEUID/BSuqviQtWiFpAT1FdtQaISvweU7RE4QoU7shSe4x3f0XBMBbQhUwR
-	 eiF0MSS1mfLoZIfDVnx9Fv6eeOTOFSVMgazX6+w2EfgkWy6MtFEtm3xwQba9Xd1xYC
-	 X8eAhKZ4e7ykQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADF5739D0C28;
-	Thu, 18 Sep 2025 07:10:24 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1758179662; c=relaxed/simple;
+	bh=H8+TQ8fpOavRr+SUvGo2D54Zmln8r2srjkYbcoSpEpM=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=fCciyJf+eRZwJ3EhaFO0YKQ756ekt4I2vviGQ2ODKNsDaQki1LvxOFxc6L3rUI5Quih3+/TsxcJn23Clg9MIMBder7riKa+kkKL+1NPuCGdZj6ct8EmvjFYAlJ6dmrClyaGeg1WLhbnaFTN1wKr9fVEazIye8Lt2L5wSMPmzzpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4cS6M43qpsz5PM3V;
+	Thu, 18 Sep 2025 15:14:08 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 58I7DlLb032075;
+	Thu, 18 Sep 2025 15:13:47 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Thu, 18 Sep 2025 15:13:49 +0800 (CST)
+Date: Thu, 18 Sep 2025 15:13:49 +0800 (CST)
+X-Zmail-TransId: 2afa68cbb12d399-8809b
+X-Mailer: Zmail v1.0
+Message-ID: <20250918151349743KS4zJHQOoG-yPHSeAY3dv@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v19 net-next 00/10] AccECN protocol patch series
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175817942351.2297937.1388609037846556434.git-patchwork-notify@kernel.org>
-Date: Thu, 18 Sep 2025 07:10:23 +0000
-References: <20250916082434.100722-1-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20250916082434.100722-1-chia-yu.chang@nokia-bell-labs.com>
-To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-Cc: pabeni@redhat.com, edumazet@google.com, linux-doc@vger.kernel.org,
- corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com,
- bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com,
- jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org,
- xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net,
- andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net,
- liuhangbin@gmail.com, shuah@kernel.org, linux-kselftest@vger.kernel.org,
- ij@kernel.org, ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <alexs@kernel.org>
+Cc: <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <yang.tao172@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYyXSBEb2NzL3poX0NOOiBhZGQgZml4ZWQgZm9ybWF0IGZvciB0aGUgaGVhZGVyIG9mwqBnZnMyLWdsb2Nrcy5yc3Q=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 58I7DlLb032075
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Thu, 18 Sep 2025 15:14:08 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68CBB140.002/4cS6M43qpsz5PM3V
 
-Hello:
+From: shaomingyin <shao.mingyin@zte.com.cn>
 
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+add fixed format for the header of gfs2-glocks.rst
 
-On Tue, 16 Sep 2025 10:24:24 +0200 you wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> 
-> Hello,
-> 
-> Please find the v19 AccECN protocol patch series, which covers the core
-> functionality of Accurate ECN, AccECN negotiation, AccECN TCP options,
-> and AccECN failure handling. The Accurate ECN draft can be found in
-> https://datatracker.ietf.org/doc/html/draft-ietf-tcpm-accurate-ecn-28, and it
-> will be RFC9768.
-> 
-> [...]
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+---
+v2:
+remove the "-" for only one proofreader
+ .../translations/zh_CN/filesystems/gfs2-glocks.rst   | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Here is the summary with links:
-  - [v19,net-next,01/10] tcp: AccECN core
-    https://git.kernel.org/netdev/net-next/c/542a495cbaa6
-  - [v19,net-next,02/10] tcp: accecn: AccECN negotiation
-    https://git.kernel.org/netdev/net-next/c/3cae34274c79
-  - [v19,net-next,03/10] tcp: accecn: add AccECN rx byte counters
-    https://git.kernel.org/netdev/net-next/c/9a0112774455
-  - [v19,net-next,04/10] tcp: accecn: AccECN needs to know delivered bytes
-    https://git.kernel.org/netdev/net-next/c/a92543d59762
-  - [v19,net-next,05/10] tcp: sack option handling improvements
-    https://git.kernel.org/netdev/net-next/c/77a4fdf43c5e
-  - [v19,net-next,06/10] tcp: accecn: AccECN option
-    https://git.kernel.org/netdev/net-next/c/b5e74132dfbe
-  - [v19,net-next,07/10] tcp: accecn: AccECN option send control
-    https://git.kernel.org/netdev/net-next/c/aa55a7dde7ec
-  - [v19,net-next,08/10] tcp: accecn: AccECN option failure handling
-    https://git.kernel.org/netdev/net-next/c/b40671b5ee58
-  - [v19,net-next,09/10] tcp: accecn: AccECN option ceb/cep and ACE field multi-wrap heuristics
-    https://git.kernel.org/netdev/net-next/c/fe2cddc648f0
-  - [v19,net-next,10/10] tcp: accecn: try to fit AccECN option with SACK
-    https://git.kernel.org/netdev/net-next/c/e7e9da850a46
+diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+index 7f094c5781ad..abfd2f2f94e9 100644
+--- a/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
++++ b/Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst
+@@ -1,5 +1,17 @@
+ .. SPDX-License-Identifier: GPL-2.0
 
-You are awesome, thank you!
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/filesystems/gfs2-glocks.rst
++
++:翻译:
++
++ 邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
++
++:校译:
++
++ 杨涛 yang tao <yang.tao172@zte.com.cn>
++
+ ==================
+ Glock 内部加锁规则
+ ==================
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+2.27.0
