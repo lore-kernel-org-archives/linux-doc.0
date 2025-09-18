@@ -1,205 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01E12222B4;
-	Thu, 18 Sep 2025 21:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3AF2222B4
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 21:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758232194; cv=none; b=NGPYyWImdW84hrts3hXNW1oZcGwmNScxKUt8sldoWU8/sIhCAAvJrbWjRA9mHy0HEOagda3gEVpkhFukANP32khw6bkzOWvU/JEo9loZQzqygsChujcMwtK4NimIiP9XZUQtrON8NywY7niCPbj5hlqA2Tp7RUwkeD75JkCghKo=
+	t=1758232393; cv=none; b=OMQLMS1+hwGQERKOzsEaDGAa1+eP/bO6a6vvqxX2cbFhIX49PzOtzH90/6E9PQVHJVjw9mpPi4kdA2xIg4kE/r0IVlxmvBJ3SbWr+FahT2ibmVHPjDF529/oycRlLCNJn4GAxc9yDMTnJW3JlnMzyEQ9udZbVc0O5x0m0kWfKMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758232194; c=relaxed/simple;
-	bh=glShEqxOWep0q0rclDTHuTdTRTdRHX98mDamAkIO2Cg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bY4iv35V7ZQqggZ6pqUR06ik9/662vBFkh7MqiMLwTJvcNHD/2BgaV4kbNqAdSAiqwNmIBzzwxY/S55Dw0rJ0ytUZEnV+q8hTfi5JN6yGiv1pqc0ZMAi7kUuUQRNN4+cAhv9IGjvFhy5NRPdcUq7JATdlh3E+OKHP5eWwIb9eQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKLuR1fO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758232393; c=relaxed/simple;
+	bh=OBdCMGeWv7G/tkOmZiDbcUQKLH/CnWF06gVEbnVu89c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oZLP3WzvTbxr56TiM3LxEW1l0TWvoGkS1g/IdQmVa0W9CvxVEb22g9xL8Xgl4G2IUZwq2aPbbFONaJ5W65fh2F+Hy0TeZnOOw9huzZkbGwbk/nptdwsDERExoT4ippW/YTGL62WIatyeOIerr6UMmCssf9rm6AyGIqQUySnZzV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=EAa0YF35; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKLuR1fO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A8DBC4CEF0;
-	Thu, 18 Sep 2025 21:49:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758232194;
-	bh=glShEqxOWep0q0rclDTHuTdTRTdRHX98mDamAkIO2Cg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YKLuR1fO4moofkTJbuFylpeuBFvut+BZ+YejZKnNg9RJsirm6MdO9jvUXLuzGgHjh
-	 QJNbKq2cH41bRgbXCux4TNryQ7rNbz5X8IxOFzmxzekrTtSernPBDbITTKDF4Twqnt
-	 jQU5wFclzIM7jSErdv5tk/S0K/T2FDcipsvg7LIeG3X1F/mzosBGGH/ZBti7d5p1Jj
-	 xkxr6Pn8tIuVn+Zr1TOOz3AxoUWRgemTkp6XppVSSQfSqN/ulO66fZy7pZ9Of0zvb6
-	 D0cKtwxLLMmpbPT4OZhqDo4Xr0jsb4L6Ulb8U2uZPghFfuCP75v4kTT0ihKEdUFMg2
-	 S2ePQfv9EHySg==
-Date: Thu, 18 Sep 2025 14:49:53 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: brauner@kernel.org, miklos@szeredi.hu, hch@infradead.org,
-	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 07/15] iomap: track read/readahead folio ownership
- internally
-Message-ID: <20250918214953.GW1587915@frogsfrogsfrogs>
-References: <20250916234425.1274735-1-joannelkoong@gmail.com>
- <20250916234425.1274735-8-joannelkoong@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="EAa0YF35"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5688ac2f39dso1797005e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 14:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1758232389; x=1758837189; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mLiszfQw8YctXWgw7Rv1CzeIAYsEhv/enJDimwborHo=;
+        b=EAa0YF35X3B4dhLliCr6+gjlm1egWOy2/cSxo2UqBQym8ac0RaWsXy3prghYtXgUYs
+         aYkKqOYXl6YQ2H/Xozv/dnpZap8dDSgllR2vzh3cj89DeP3xF3iwKw3I6DSmo/U0hAX2
+         V3IS8s3NJ5FEJ+LkJlXVWWQTIXoxTkk6aHiBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758232389; x=1758837189;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mLiszfQw8YctXWgw7Rv1CzeIAYsEhv/enJDimwborHo=;
+        b=L2TnODy/32Qrrz05211/+6VC0OIc0t1bAdVNRFBOgJelAkkVsPnEF2cpfHcw+naZdg
+         LCosFrvThYpvnfRVlsqYHlYiXtG8T4fjuoAL9xtpTbjF9FF6Xlhyd6sKGOwOE/sIlUPS
+         rLLgHO00JFHer4pmmWKo4aBYKVzbL+somt6J3f9RwhTSNXoF7RPOGoBBny8QOKFz+MGE
+         1Cb8XfnziC5teEhb/H96AKdwG182i5Dd+mO3ezkN4rPcIFqvIlFaJhUJyadutcmgMhqd
+         flm7WS1yr1Jzga9016oLhAdvO+3yEuZWWsv7CaVJhRTYPnv64BH6JE49pzL2T6TvkIA0
+         xygA==
+X-Forwarded-Encrypted: i=1; AJvYcCU34nCCCC2ljHiIjTFIXUcPb5kjPcYVpcn5ozMn8K4BO/SMorz98s9iKcFM6AWjtjyCnrkh8SfAbko=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/Z6kB9XO+np/5qGov1Gw+6JA5Ta/jdu4arp260WYMTqVU9jlp
+	foutYghfwxarpHg8xbai4ldkK8RjLAxNJ6t2/Vk79GbamYSUEEJsfMgGQQpYT/XlYPdc94R6E/z
+	wJW0oRJ0qsw==
+X-Gm-Gg: ASbGncukl0UeJYB3sbUY6WhhBp0fm//tFV1PmH5s7TXjsrSV4PL20/H/cha3NhFG/GS
+	Tnl3hdmg5RSo7kVd0uOtVMKpR7lgH2K0Mmnlj8sCWb1GjvnvHdCzPbgkcZafQ5QkRyeo8EwPJLQ
+	PGBERht1nE+KSjs7BabSXVzOBGLsMaIsvRsDMUm2PQEGHyR3moUDMVLit33rmUEyVovYasGzSov
+	OBUfHrBtveeEME38/R7CgPUVReDnpEFpEdy9oa5FRK+nsc5CefUWllFqJX//3m3ysOllHJPT1X4
+	b8v7nSpB3BKMxTT2SS3rhCdeGhCGyh3+aYljpAAsL7vNE23L9TZa0BMmFPWmdnjTV7AHFJVZ8vb
+	KJ4ykTwdbI3VF5WjqD5snSvDBs9RopRgdJyibYkfoxFG+tAqe8hIyAHH9P/nL+6NiyAU/AvzrsL
+	Tk+/ellHherz8mi+c=
+X-Google-Smtp-Source: AGHT+IE6v5jn2PsNEuKSH2dro4AnzY+at3OpRDqqjaslVgKTuYGmK5hcq//R0ycKekKGq2AQph7CZw==
+X-Received: by 2002:a05:6512:6713:b0:57a:3d7e:7275 with SMTP id 2adb3069b0e04-57a3d7e762emr10267e87.36.1758232388401;
+        Thu, 18 Sep 2025 14:53:08 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-578a65070d2sm943679e87.37.2025.09.18.14.53.07
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 14:53:08 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55f7039aa1eso1637450e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 14:53:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXibi0IBNBHHzhD9WrbaylHRP3khc88XqZHt+OQjW1WvcgQBhZULeIxTQ42jsUcVY5z35hvDX1vOAo=@vger.kernel.org
+X-Received: by 2002:a17:906:dc89:b0:b0f:a22a:4c30 with SMTP id
+ a640c23a62f3a-b24f5685fdemr62738866b.47.1758232077501; Thu, 18 Sep 2025
+ 14:47:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250916234425.1274735-8-joannelkoong@gmail.com>
+References: <20250918140451.1289454-1-elver@google.com> <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+ <aMx4-B_WAtX2aiKx@elver.google.com>
+In-Reply-To: <aMx4-B_WAtX2aiKx@elver.google.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 18 Sep 2025 14:47:41 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
+X-Gm-Features: AS18NWBxHuMwwtU-EoNbPFA3uJ1YRJkAKqdurj12n-PWNJgH6ecKwZ8QZrX3P28
+Message-ID: <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 16, 2025 at 04:44:17PM -0700, Joanne Koong wrote:
-> The purpose of "struct iomap_read_folio_ctx->cur_folio_in_bio" is to
-> track folio ownership to know who is responsible for unlocking it.
-> Rename "cur_folio_in_bio" to "cur_folio_owned" to better reflect this
-> purpose and so that this can be generically used later on by filesystems
-> that are not block-based.
+On Thu, 18 Sept 2025 at 14:26, Marco Elver <elver@google.com> wrote:
+>
+> Fair points. "Context Analysis" makes sense, but it makes the thing
+> (e.g. lock) used to establish that context a little awkward to refer to
+> -- see half-baked attempt at reworking the documentation below.
 
-Hrmm, well if this is becoming a private variable, then I'd shorten it
-to "folio_owned" since it's not really in the ctx/cur anymore, but I
-might be bikeshedding now. :)
+Yeah, I agree that some of that reads more than a bit oddly.
 
-> Since "struct iomap_read_folio_ctx" will be made a public interface
-> later on when read/readahead takes in caller-provided callbacks, track
-> the folio ownership state internally instead of exposing it in "struct
-> iomap_read_folio_ctx" to make the interface simpler for end users.
-> 
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/iomap/buffered-io.c | 34 +++++++++++++++++++++++-----------
->  1 file changed, 23 insertions(+), 11 deletions(-)
-> 
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 6c5a631848b7..587bbdbd24bc 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -352,7 +352,6 @@ static void iomap_read_end_io(struct bio *bio)
->  
->  struct iomap_read_folio_ctx {
->  	struct folio		*cur_folio;
-> -	bool			cur_folio_in_bio;
->  	void			*read_ctx;
->  	struct readahead_control *rac;
->  };
-> @@ -376,7 +375,6 @@ static void iomap_bio_read_folio_range(const struct iomap_iter *iter,
->  	sector_t sector;
->  	struct bio *bio = ctx->read_ctx;
->  
-> -	ctx->cur_folio_in_bio = true;
->  	if (ifs) {
->  		spin_lock_irq(&ifs->state_lock);
->  		ifs->read_bytes_pending += plen;
-> @@ -413,7 +411,7 @@ static void iomap_bio_read_folio_range(const struct iomap_iter *iter,
->  }
->  
->  static int iomap_read_folio_iter(struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx, bool *cur_folio_owned)
->  {
->  	const struct iomap *iomap = &iter->iomap;
->  	loff_t pos = iter->pos;
-> @@ -450,6 +448,7 @@ static int iomap_read_folio_iter(struct iomap_iter *iter,
->  			folio_zero_range(folio, poff, plen);
->  			iomap_set_range_uptodate(folio, poff, plen);
->  		} else {
-> +			*cur_folio_owned = true;
->  			iomap_bio_read_folio_range(iter, ctx, pos, plen);
->  		}
->  
-> @@ -472,16 +471,22 @@ int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops)
->  	struct iomap_read_folio_ctx ctx = {
->  		.cur_folio	= folio,
->  	};
-> +	/*
-> +	 * If an external IO helper takes ownership of the folio, it is
-> +	 * responsible for unlocking it when the read completes.
+I wonder if we could talk about "context analysis", but then when
+discussing what is *held* for a particular context, call that a
+"context token" or something like that?
 
-Not sure what "external" means here -- I think for your project it means
-a custom folio read method supplied by a filesystem, but for the exist
-code (xfs submitting unaltered bios), that part is still mostly internal
-to iomap.
+But I don't mind your "Context guard" notion either. I'm not loving
+it, but it's not offensive to me either.
 
-If we were *only* refactoring code I would suggest s/external/async/
-because that's what the bio code does, but a filesystem supplying its
-own folio read function could very well fill the folio synchronously and
-it'd still have to unlock the folio.
+Then the language would be feel fairly straightforward,
 
-Maybe just get rid of the word external?  The rest of the code changes
-look fine to me.
+Eg:
 
---D
+> +Context analysis is a way to specify permissibility of operations to depend on
+> +contexts being held (or not held).
 
-> +	 */
-> +	bool cur_folio_owned = false;
->  	int ret;
->  
->  	trace_iomap_readpage(iter.inode, 1);
->  
->  	while ((ret = iomap_iter(&iter, ops)) > 0)
-> -		iter.status = iomap_read_folio_iter(&iter, &ctx);
-> +		iter.status = iomap_read_folio_iter(&iter, &ctx,
-> +				&cur_folio_owned);
->  
->  	iomap_bio_submit_read(&ctx);
->  
-> -	if (!ctx.cur_folio_in_bio)
-> +	if (!cur_folio_owned)
->  		folio_unlock(folio);
->  
->  	/*
-> @@ -494,12 +499,13 @@ int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops)
->  EXPORT_SYMBOL_GPL(iomap_read_folio);
->  
->  static int iomap_readahead_iter(struct iomap_iter *iter,
-> -		struct iomap_read_folio_ctx *ctx)
-> +		struct iomap_read_folio_ctx *ctx,
-> +		bool *cur_folio_owned)
->  {
->  	int ret;
->  
->  	while (iomap_length(iter)) {
-> -		if (ctx->cur_folio && !ctx->cur_folio_in_bio)
-> +		if (ctx->cur_folio && !*cur_folio_owned)
->  			folio_unlock(ctx->cur_folio);
->  		ctx->cur_folio = readahead_folio(ctx->rac);
->  		/*
-> @@ -508,8 +514,8 @@ static int iomap_readahead_iter(struct iomap_iter *iter,
->  		 */
->  		if (WARN_ON_ONCE(!ctx->cur_folio))
->  			return -EINVAL;
-> -		ctx->cur_folio_in_bio = false;
-> -		ret = iomap_read_folio_iter(iter, ctx);
-> +		*cur_folio_owned = false;
-> +		ret = iomap_read_folio_iter(iter, ctx, cur_folio_owned);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -542,15 +548,21 @@ void iomap_readahead(struct readahead_control *rac, const struct iomap_ops *ops)
->  	struct iomap_read_folio_ctx ctx = {
->  		.rac	= rac,
->  	};
-> +	/*
-> +	 * If an external IO helper takes ownership of the folio, it is
-> +	 * responsible for unlocking it when the read completes.
-> +	 */
-> +	bool cur_folio_owned = false;
->  
->  	trace_iomap_readahead(rac->mapping->host, readahead_count(rac));
->  
->  	while (iomap_iter(&iter, ops) > 0)
-> -		iter.status = iomap_readahead_iter(&iter, &ctx);
-> +		iter.status = iomap_readahead_iter(&iter, &ctx,
-> +					&cur_folio_owned);
->  
->  	iomap_bio_submit_read(&ctx);
->  
-> -	if (ctx.cur_folio && !ctx.cur_folio_in_bio)
-> +	if (ctx.cur_folio && !cur_folio_owned)
->  		folio_unlock(ctx.cur_folio);
->  }
->  EXPORT_SYMBOL_GPL(iomap_readahead);
-> -- 
-> 2.47.3
-> 
-> 
+That "contexts being held" sounds odd, but talking about "context
+markers", or "context tokens" would seem natural.
+
+An alternative would be to not talk about markers / tokens / guards at
+all, but simply about a context being *active*.
+
+IOW, instead of wording it like this:
+
+> +The set of contexts that are actually held by a given thread at a given point
+> +in program execution is a run-time concept.
+
+that talks about "being held", you could just state it in the sense of
+the "set of contexts being active", and that immediately reads fairly
+naturally, doesn't it?
+
+Because a context is a *state* you are in, it's not something you hold on to.
+
+The tokens - or whatever - would be only some internal implementation
+detail of how the compiler keeps track of which state is active, not
+the conceptual idea itself.
+
+So you name states, and you have functions to mark those context
+states as being entered or exited, but you don't really even have to
+talk about "holding" anything.
+
+No?
+
+               Linus
