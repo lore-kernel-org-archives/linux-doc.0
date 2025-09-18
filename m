@@ -1,95 +1,146 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADE12EC0A3
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E622ECE8C
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758225088; cv=none; b=t7Wdlx5mbrHXc4LL6EIg/uXsQYjrKeqKC4cmItHKsViRKuJFHngSaty+rRXaVWAQyLFBLEvZG5vArr5X0qoYtnZGtst7b0ffglf3nppPnHiRCwvKT0COJuyXNPHgOAUGL8q11d3pjUo9lFGRpk8OFFgQIlZW/7ET0NnCWdYXpqs=
+	t=1758225500; cv=none; b=sQz7pIayykkzXnS0MBDIwuSHf6+Yk4GDah8Y7pOqHeByvwoY5JEBiMftjRYw0ZfOmE8rug+utnkoY9YT0e1B4OJP3AwzcUxI7eA87dJostWuLUiFC9oKBpUg6GbPiq2J1VlrsB9tASuvaaw8FTCiWdDNbCJhlGYhn1vB3Ce6AKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758225088; c=relaxed/simple;
-	bh=+vCpNQP3gmwChNJcUCWInLDRRa5HHP5yLhQ1psOMqTk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NMNDOr6aXOpabqgVnZrDaeMRUW9uBK2A4czRazdttrsnZ0M905hPxYPWru83c6tRgbV+LUFbqY/nVtrwYn0gd15MAxkRi2Cz5GLnH/VbkBXaw/Pi4a8PGEHwgwYMcb6tzRJZwkS5h67MOsfj6ipRa+8DO7A8hju8iAn1DyBaDdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=uhTVDOEL; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1758225500; c=relaxed/simple;
+	bh=hrTKVKMuOKbLilzSA+VEl+XSSF0VIocT2KvCzkuRjcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=f1t2Uut8X0vjHihrfCxVizQx3oAuiXtbEMNuxUGbeTeANElP+n+8kVqPaX5vSXPNhpixLZ4XTUGM7jyyz80nSDh/C9k9foNUqACygyJ6Y5+tUQ1/Mk7uUAwRPZVV5Q5FTUWQYFvTUFJFp4p801sMMc1U4qqh7Ec9drnq0SsFgxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hNlT1dRM; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uhTVDOEL"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6219e33ba2dso670824eaf.1
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:51:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hNlT1dRM"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b0e7bc49263so238070066b.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758225086; x=1758829886; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ycb6BrVm3o3tgecg3NZ2b8GKaDVhR9xxtrfWCgsW3GI=;
-        b=uhTVDOEL13vWSEZ+PHy9Gpzci9lgihjB94UiPff8m4ZgUOMFrr5L0r7eMZae+JHgHm
-         Owmm7nu1rKxAgMtXT101hm6pTxVpL64qQObvWJ99wzS4ysBmGGu2ke+o4aeGLmDtWL0w
-         6EoPS660WndQ4blKQujTf/FNMPzqsAk9sg+ZLKWUx0lDp3YinE1ajinBxjC4hCgY+dW5
-         V6IqF7Ncryaafpgc6WTcdHN0PLvzp98GYFOW7TeQW3jORpjR1K3baX5NNbMULS1y56Ac
-         fPMEm52zXPcIb5saHVoZbTll7zFao4S0n7n+T6jgjEacSeQqUe7Z/k14iE/sOgv8D2lv
-         sRqg==
+        d=gmail.com; s=20230601; t=1758225496; x=1758830296; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9McvDjxp1cOQ8m8DQ7zr8KAOkClRv+R613f7KwPZqLk=;
+        b=hNlT1dRMFhV3nNEO8OCPXfEiZjy7HadMXu4vRgp3Ipj8QW/pTjkxFRxYZEa69pe80J
+         R5WZR6uBlmeIbF+VQhBUi3wnRJuDxh3ZSYPm2HtEzHdmYgYFzaLOTkBNZpxqwUsXFCi5
+         xh48TC/I8mOWxP2I4D6qthvi1wAkVJadHw9+Q6aETqCdcS+tzshGNcO1qODnTVXpUxR3
+         DzGuLf7FRf7YNLECrqzb9ayMBLdTqRvBk0ivmzKueGmRkmu1GRq1Uqn5Uc0kg8EqXgPJ
+         5wCj9Urjk2M3jfgX+oYXsBuDx3I+zNM2GW5fMn6rB/kk6qlx/ZV55XBxceRxo80pIEfP
+         n68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758225086; x=1758829886;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ycb6BrVm3o3tgecg3NZ2b8GKaDVhR9xxtrfWCgsW3GI=;
-        b=Np8yqCO+GqY4aSMsBVc4uC2+723mdRtYMT732Q91CKi2Ns7Pt4CkWAu7jmIseCO+FG
-         TQ3xrEF0LCNbk8J4K2xIyLxgH95t8IR4DrQebRH9VJ20hBu3v85Wxt/SVdSCmsbFQm/B
-         fToLIlq3UIDm16ccmOS9/UD1bBPNnogNbV5SyS8F20jRgjqmDQ2z8n77PRxQ7wn4pzAF
-         arpUetXEeuLoDE8kk7kK/AFQ78hM0IKCU4bCg68+/Mf09RuNib/Z5EgKjPgoy0Tdc48V
-         0MOEwUsptW4Aq+4bxpAhFFC6fOed7dA5wmdann8oJA6Okh7sigHEquc+Hq2KfbRaXexP
-         Ud6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXvHhH7VZJiQdelB4GL6tV+IMOEHjhY1hu+5v8SPu6cpZFCNs64IAe/Fk/Vwmqklgd2o/gOOSEyIU8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVIOmejHe/j61LcchKnZvPalMOQfmeJ+yyPRs/ePo6DE6N7q6S
-	Ji0/S/RdSzvypZyyJ3TnYt/b9xJJKzsBglV+bicbLLXOWaFouv5b8SSMfDRAK31cokA=
-X-Gm-Gg: ASbGncvIeGJoUcjHTEXh7nHj3JZ+ftNT/IPB5hvrMc4r91rnmfFiNifvpTIiE2zBsT+
-	AJiKIPCFgzGDdTxhzYKemJhQVlyB/o82zUqtDRcHr/vQylPSC8o1f/m/u4aBGmdgC/ir5sLGsm5
-	WXofjxu35itlRJhG095F/2Svm6kBn2OmPxp6K3Eqvr5UdLFVFQoA6xWrhT/lfuZapWnf8a+Z9z/
-	HahJ9VZxFToq3Gz7VVmCcbBnQgZ3L+CifUOyBr+ypxPAygnSz+rHRwB16Wml0XYY2KUCvI9WHm8
-	t0t3N3xfNOUvT7mhqoGrkKyhzgpoNzsF6PT/8i5JU6pS02K2WJJYz2IT75ADBNAZOi3Cq8u901o
-	RQTUYUfJZyuidVw4FWlSAW7zW608RXnNZN6PswPLCdVUcQ1RBHZQ1mJVFidZ2SsQ1w5esRDniuw
-	/BKG6oyMa3e4Xe4jy/GWTNzN2uJ90g
-X-Google-Smtp-Source: AGHT+IH4gnu5ZviVz4ulNiX2L97wXpeu2HQYjfDnnt0qWqu/Pap+ivM2yq37UDqW5VBY04FXNOqo9w==
-X-Received: by 2002:a05:6870:8088:b0:315:60a6:c28f with SMTP id 586e51a60fabf-33bb3aa16afmr568561fac.3.1758225085748;
-        Thu, 18 Sep 2025 12:51:25 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:55b7:b662:4c5b:a28e? ([2600:8803:e7e4:1d00:55b7:b662:4c5b:a28e])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-336e3af73f5sm1892886fac.6.2025.09.18.12.51.24
+        d=1e100.net; s=20230601; t=1758225496; x=1758830296;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9McvDjxp1cOQ8m8DQ7zr8KAOkClRv+R613f7KwPZqLk=;
+        b=SKhqdkWoaJwHJLcn04V6FlTiasARJOlHGQM2/tyVmYgsoFg0p8sLikEbIKM+gO1CBu
+         exu6tST1uLovIQ1WVCqTpGHRPtaL8S1/BXdDksDlYvyn7TGpAGZEnTNk1i7xgff3RGW1
+         QkD+YwaPi/JsB08FNLYlaegy88x3XuJpnUQTkLWowU8UGeKLBdEzZt1FV0nV3ophsTOL
+         41ooBWEO4QIGyOw3UW7iPJv3c+GpmQjIhXY4tIlLRTa+GL9hlsEnba9MEoS7Aa46TsTm
+         kSIOpxRqY4/czcJWSplSQMF4zitl5qXuCZSSajo0VytZ/CoxqVF2HLXZSO+VuKwmSsCO
+         9wWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQx3Un3+f+kLJ1f6uXnHFWquxUxqo7/cqFYZNLVbUCLxlisN1zHASDQ31AGg6LshnWsPZYDblsn7A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfrhdOTDSWotm4XEHs/1xMEb7UB8UXNY3FTejfiZ0/+QsOYZN4
+	h23Eeh6+6Ik9YeItMazLCuKMbcmyJh3t7ZWep0XRHvw8gJlVhb+NEgu9
+X-Gm-Gg: ASbGnctG/JIBIc8JqZq6vJVLqWLlxg693iQI/wK91hGEmaQXsIrrdcsNVM7q4kR+ZeB
+	hGfTmu7XPixxh28r6A3G4NPdc8T44Fk6odMCffCj/lSJhvRhdlJ6Y4ddwyxeHgcj7U1PG9TWOjW
+	c1C/6jAI94Ph8oZw34Epg/wSgrNDitTAA+VhqJtkwtuX2shacL32RgkJV0PR31MczvkaZkWyN+q
+	HpeDdTiOR0KYlzcqgd7s5XALJ98V4X3+IkB1NDz0xVlbYFj4xKNPXevJNu423k1509akznC7//i
+	Yvk+wukFtPB6lxis8od3KIaoASE64Q4r5H9BS9snoR8T0vkRDwyremJuwSa3MuDMFt2JcPl59Sw
+	mOAx5chyNl1KyPlMzorwNDoUsySC9fmWKuglv0w==
+X-Google-Smtp-Source: AGHT+IH2NBu6L+bASXNqg9sJUcZ42MFCB2aqzEFiqoDEW6um54A4CtHcJnO37auTgFbi6nwycKDm8A==
+X-Received: by 2002:a17:907:a089:b0:b19:969a:86 with SMTP id a640c23a62f3a-b24f35aa177mr45885966b.37.1758225496090;
+        Thu, 18 Sep 2025 12:58:16 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b1fd1101c44sm264530466b.82.2025.09.18.12.58.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 12:51:25 -0700 (PDT)
-Message-ID: <46575acd-9e7b-4462-989b-d74de4d86311@baylibre.com>
-Date: Thu, 18 Sep 2025 14:51:24 -0500
+        Thu, 18 Sep 2025 12:58:15 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: nschichan@freebox.fr
+Cc: akpm@linux-foundation.org,
+	andy.shevchenko@gmail.com,
+	axboe@kernel.dk,
+	brauner@kernel.org,
+	cyphar@cyphar.com,
+	devicetree@vger.kernel.org,
+	ecurtin@redhat.com,
+	email2tema@gmail.com,
+	graf@amazon.com,
+	gregkh@linuxfoundation.org,
+	hca@linux.ibm.com,
+	hch@lst.de,
+	hsiangkao@linux.alibaba.com,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	julian.stecklina@cyberus-technology.de,
+	kees@kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev,
+	mcgrof@kernel.org,
+	mingo@redhat.com,
+	monstr@monstr.eu,
+	mzxreary@0pointer.de,
+	patches@lists.linux.dev,
+	rob@landley.net,
+	safinaskar@gmail.com,
+	sparclinux@vger.kernel.org,
+	thomas.weissschuh@linutronix.de,
+	thorsten.blum@linux.dev,
+	torvalds@linux-foundation.org,
+	tytso@mit.edu,
+	viro@zeniv.linux.org.uk,
+	x86@kernel.org
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+Date: Thu, 18 Sep 2025 22:58:06 +0300
+Message-ID: <20250918195806.6337-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250918152830.438554-1-nschichan@freebox.fr>
+References: <20250918152830.438554-1-nschichan@freebox.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] dt-bindings: iio: adc: adi,ad4030: Add PWM
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
- eblanc@baylibre.com, andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, corbet@lwn.net, marcelo.schmitt1@gmail.com
-References: <cover.1758214628.git.marcelo.schmitt@analog.com>
- <7a1a68a33769c69967bcffbbf7a0bdfec69516ed.1758214628.git.marcelo.schmitt@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <7a1a68a33769c69967bcffbbf7a0bdfec69516ed.1758214628.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/18/25 12:38 PM, Marcelo Schmitt wrote:
-> In setups designed for high speed data rate capture, a PWM is used to
-> generate the CNV signal that issues data captures from the ADC. Document
-> the use of a PWM for AD4030 and similar devices.
-> 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
+> When booting with root=/dev/ram0 in the kernel commandline,
+> handle_initrd() where the deprecation message resides is never called,
+> which is rather unfortunate (init/do_mounts_initrd.c):
 
-Reviewed-by: David Lechner <dlechner@baylibre.com>
+Yes, this is unfortunate.
 
+I personally still think that initrd should be removed.
+
+I suggest using workaround I described in cover letter.
+
+Also, for unknown reasons I didn't get your letter in my inbox.
+(Not even in spam folder.) I ocasionally found it on lore.kernel.org .
+
+-- 
+Askar Safin
