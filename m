@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756252FFF9F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEAE30171F;
 	Thu, 18 Sep 2025 11:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758196506; cv=none; b=sRfR67IaxnkhaUkMtHwOTW4qZAlS3Few9jwCw+f2zDSvEN+D0FkDZbnUXyLUwC82RL4kT8ZOhPAVCiMTAfPDUg2XFKAAOpRGIrov64R+U2bLPxFpxqb+Erg4LSEOhsTg6mI6wZ+aMYJ95OYOaQgFmrZJ0W2RS0u8YeDP0UQ0Qso=
+	t=1758196506; cv=none; b=B7IWOl8NSQQ0pb6aWe7/fd7UBFyGUzhQ1lQzxF5xI/3iyGqxusm5ObfWa8vS45Po0trGcJFDRoxc+PwzMgnPl3RiIsu8hGg+lLCCVs8eOhojAp9VNwh8vKRba2Q+ky82JcucDn9T13y51ouN52PgvTevqPA+q1FVlr8Gq3rImwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758196506; c=relaxed/simple;
-	bh=tyTIqAnvcS4UX09dEZuAJBcwACv9raN6toXoVwiSVjI=;
+	bh=+6TvP4G2cDhLKPN/soKTsxtFrnu65L1eQKi7+8h+GhI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qOwvyPOMfvNcekvT9g/UO4sI4z1E1nz3EemQlwrIGyP9jcJUsRVqcqRuSmWDAfvruQkH0yGSiJX+r5LL1P9MY/ElZ8fuRPpqyJVUrUkKlijipstypFCKwjkKxQ2E2ZDlKSsIARAcT20RnDSDP0TjSHjEorWPHP4JfFls37Ihst4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oE6DtlyD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=tghorNZS5TtsYa2uqb39c7xEaZZ1yqfOvXxbmZ+AXYywOFjH+rKgOAyQ/Eh1veB0bXXEHsJzTKglMNq6gB4Zx5uPtTXx8/BXfOc+zqXWYMT3i06wK/4X7JYxLJ9sT7B6AUf6i6AL5FD3NAqSh2RLtDzcbsLGu6gfPNZ3hQb27Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QP/GE0vO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oE6DtlyD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07FCEC113CF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QP/GE0vO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B4FCC4CEFD;
 	Thu, 18 Sep 2025 11:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758196506;
-	bh=tyTIqAnvcS4UX09dEZuAJBcwACv9raN6toXoVwiSVjI=;
+	bh=+6TvP4G2cDhLKPN/soKTsxtFrnu65L1eQKi7+8h+GhI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oE6DtlyDuV/9azvaFjPIzDpvIYqE7tsYg7vpK7Lo+oRDvHkCF8YuIOG/TvEeeLF7E
-	 mcUHsjDzVpQbEjAOV95jHC3+D7H/BY1jIri4xyn4X9UCCmryFTvxebfWGOaY5Fisvm
-	 4VvRn2Q3df/6eepLMS4X4i73eGmAjvFR29MhauFJoQ23p8hJ6x1xEARemQNw59xUJj
-	 +K5sDMEIRwTuZxcM/lS1wQwLmSK+b3V8/PMejwkkyV9fxBQWH1ywf9Cuq2ccUeREAy
-	 RvROogsOKUB1DW0sneHNkRBg/CBrsXW7PRs1RAB98bqg+Gd3F3kmRnQ+YcN9EAFZAo
-	 0RME5DVWqBPSg==
+	b=QP/GE0vO33UptbFtdEio/BtO+A2ZJhZRr1H9NpwYJCL6AmTlzSN2Ual6rBgY+LOug
+	 HnhDIKof1ZN9d9RERzKsLVDOUwotjPuaFUMfLTnnsQdktDQW1hdSfmGrfuQVynjSqE
+	 SCsFqq04O7QMhOtzyK5t16Mctlz+uWRQvxAYG/xkw7afjeRRPdVgZtdTJD3aenx3Eo
+	 Y0SWhPt5r2HR2UYWDIE6qme+43m9MbM9W76jyfWcMedeejjCRKLbGZ0SfxTOHDayuf
+	 bKOZ+fVCJd/o0NdvlxhnLFmsTdPV/SkYiGOe5R6yGRHPFaRrn8IjA0rr7wGZrpMRDJ
+	 YWYep7WWyOA6w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uzDE7-0000000Crna-3mTB;
+	id 1uzDE7-0000000CrpA-45Pe;
 	Thu, 18 Sep 2025 13:55:03 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,15 +36,10 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Alex Shi <mchehab+huawei@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 07/24] scripts: sphinx-pre-install: move it to tools/docs
-Date: Thu, 18 Sep 2025 13:54:41 +0200
-Message-ID: <5e2c40d3aebfd67b7ac7817f548bd1fa4ff661a8.1758196090.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v8 09/24] tools/docs: sphinx-pre-install: allow check for alternatives and bail out
+Date: Thu, 18 Sep 2025 13:54:43 +0200
+Message-ID: <19777bc710bf901ffbb0ad0f1bb57b18fc01b163.1758196090.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
 References: <cover.1758196090.git.mchehab+huawei@kernel.org>
@@ -54,208 +49,117 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As we're reorganizing the place where doc scripts are located,
-move this one to tools/docs.
-
-No functional changes.
+The caller script may not want an automatic execution of the new
+version. Add two parameters to allow showing alternatives and to
+bail out if version is incompatible.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/Makefile                             | 14 +++++++-------
- Documentation/doc-guide/sphinx.rst                 |  4 ++--
- Documentation/sphinx/kerneldoc-preamble.sty        |  2 +-
- .../translations/it_IT/doc-guide/sphinx.rst        |  4 ++--
- .../translations/zh_CN/doc-guide/sphinx.rst        |  4 ++--
- Documentation/translations/zh_CN/how-to.rst        |  2 +-
- MAINTAINERS                                        |  3 +--
- {scripts => tools/docs}/sphinx-pre-install         |  0
- 8 files changed, 16 insertions(+), 17 deletions(-)
- rename {scripts => tools/docs}/sphinx-pre-install (100%)
+ tools/docs/sphinx-pre-install | 48 +++++++++++++++++++++++++++--------
+ 1 file changed, 38 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 6e11d0593742..fd6399c79fab 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -46,7 +46,7 @@ ifeq ($(HAVE_SPHINX),0)
- .DEFAULT:
- 	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
- 	@echo
--	@$(srctree)/scripts/sphinx-pre-install
-+	@$(srctree)/tools/docs/sphinx-pre-install
- 	@echo "  SKIP    Sphinx $@ target."
+diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+index fa12e01fc7fe..895220c6d4f8 100755
+--- a/tools/docs/sphinx-pre-install
++++ b/tools/docs/sphinx-pre-install
+@@ -254,7 +254,7 @@ class AncillaryMethods:
+         return (0, 0, 0)
  
- else # HAVE_SPHINX
-@@ -105,7 +105,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	fi
+     @staticmethod
+-    def find_python():
++    def find_python(min_version):
+         """
+         Detect if are out there any python 3.xy version newer than the
+         current one.
+@@ -263,21 +263,25 @@ class AncillaryMethods:
+         may need to update it one day, hopefully on a distant future.
+         """
+         patterns = [
+-            "python3.[0-9]",
+             "python3.[0-9][0-9]",
++            "python3.[0-9]",
+         ]
  
- htmldocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+         # Seek for a python binary newer than MIN_PYTHON_VERSION
++        python_cmd = []
+         for path in os.getenv("PATH", "").split(":"):
+             for pattern in patterns:
+                 for cmd in glob(os.path.join(path, pattern)):
+                     if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
+                         version = SphinxDependencyChecker.get_python_version(cmd)
+-                        if version >= MIN_PYTHON_VERSION:
+-                            return cmd
++                        if version >= min_version:
++                            python_cmd.append((version, cmd))
++
++        return sorted(python_cmd, reverse=True)
  
- # If Rust support is available and .config exists, add rustdoc generated contents.
-@@ -119,7 +119,7 @@ endif
- endif
+     @staticmethod
+-    def check_python():
++    def check_python(min_version, show_alternatives=False, bail_out=False,
++                     success_on_error=False):
+         """
+         Check if the current python binary satisfies our minimal requirement
+         for Sphinx build. If not, re-run with a newer version if found.
+@@ -301,18 +305,42 @@ class AncillaryMethods:
  
- texinfodocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
+         python_ver = ver_str(cur_ver)
  
- # Note: the 'info' Make target is generated by sphinx itself when
-@@ -131,7 +131,7 @@ linkcheckdocs:
- 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+-        new_python_cmd = SphinxDependencyChecker.find_python()
+-        if not new_python_cmd:
++        available_versions = SphinxDependencyChecker.find_python(min_version)
++        if not available_versions:
+             print(f"ERROR: Python version {python_ver} is not spported anymore\n")
+             print("       Can't find a new version. This script may fail")
+             return
  
- latexdocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+-        # Restart script using the newer version
+         script_path = os.path.abspath(sys.argv[0])
+-        args = [new_python_cmd, script_path] + sys.argv[1:]
++
++        # Check possible alternatives
++        if available_versions:
++            new_python_cmd = available_versions[0][1]
++        else:
++            new_python_cmd = None
++
++        if show_alternatives:
++            print("You could run, instead:")
++            for _, cmd in available_versions:
++                args = [cmd, script_path] + sys.argv[1:]
++
++                cmd_str = " ".join(args)
++                print(f"  {cmd_str}")
++            print()
++
++        if bail_out:
++            msg = f"Python {python_ver} not supported. Bailing out"
++            if success_on_error:
++                print(msg, file=sys.stderr)
++                sys.exit(0)
++            else:
++                sys.exit(msg)
  
- ifeq ($(HAVE_PDFLATEX),0)
-@@ -144,7 +144,7 @@ else # HAVE_PDFLATEX
+         print(f"Python {python_ver} not supported. Changing to {new_python_cmd}")
  
- pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
- pdfdocs: latexdocs
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	$(foreach var,$(SPHINXDIRS), \
- 	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/tools/docs/check-variable-fonts.py || exit; \
- 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
-@@ -154,11 +154,11 @@ pdfdocs: latexdocs
- endif # HAVE_PDFLATEX
++        # Restart script using the newer version
++        args = [new_python_cmd, script_path] + sys.argv[1:]
++
+         try:
+             os.execv(new_python_cmd, args)
+         except OSError as e:
+@@ -1612,7 +1640,7 @@ def main():
  
- epubdocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+     checker = SphinxDependencyChecker(args)
  
- xmldocs:
--	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
+-    checker.check_python()
++    checker.check_python(MIN_PYTHON_VERSION)
+     checker.check_needs()
  
- endif # HAVE_SPHINX
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 607589592bfb..932f68c53075 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -106,7 +106,7 @@ There's a script that automatically checks for Sphinx dependencies. If it can
- recognize your distribution, it will also give a hint about the install
- command line options for your distro::
- 
--	$ ./scripts/sphinx-pre-install
-+	$ ./tools/docs/sphinx-pre-install
- 	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
- 	Warning: better to also install "texlive-luatex85".
- 	You should run:
-@@ -116,7 +116,7 @@ command line options for your distro::
- 		. sphinx_2.4.4/bin/activate
- 		pip install -r Documentation/sphinx/requirements.txt
- 
--	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+	Can't build as 1 mandatory dependency is missing at ./tools/docs/sphinx-pre-install line 468.
- 
- By default, it checks all the requirements for both html and PDF, including
- the requirements for images, math expressions and LaTeX build, and assumes
-diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
-index 5d68395539fe..16d9ff46fdf6 100644
---- a/Documentation/sphinx/kerneldoc-preamble.sty
-+++ b/Documentation/sphinx/kerneldoc-preamble.sty
-@@ -220,7 +220,7 @@
- 	    If you want them, please install non-variable ``Noto Sans CJK''
- 	    font families along with the texlive-xecjk package by following
- 	    instructions from
--	    \sphinxcode{./scripts/sphinx-pre-install}.
-+	    \sphinxcode{./tools/docs/sphinx-pre-install}.
- 	    Having optional non-variable ``Noto Serif CJK'' font families will
- 	    improve the looks of those translations.
- 	\end{sphinxadmonition}}
-diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-index 1f513bc33618..a5c5d935febf 100644
---- a/Documentation/translations/it_IT/doc-guide/sphinx.rst
-+++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-@@ -109,7 +109,7 @@ Sphinx. Se lo script riesce a riconoscere la vostra distribuzione, allora
- sarà in grado di darvi dei suggerimenti su come procedere per completare
- l'installazione::
- 
--	$ ./scripts/sphinx-pre-install
-+	$ ./tools/docs/sphinx-pre-install
- 	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
- 	Warning: better to also install "texlive-luatex85".
- 	You should run:
-@@ -119,7 +119,7 @@ l'installazione::
- 		. sphinx_2.4.4/bin/activate
- 		pip install -r Documentation/sphinx/requirements.txt
- 
--	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+	Can't build as 1 mandatory dependency is missing at ./tools/docs/sphinx-pre-install line 468.
- 
- L'impostazione predefinita prevede il controllo dei requisiti per la generazione
- di documenti html e PDF, includendo anche il supporto per le immagini, le
-diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-index 23eac67fbc30..3375c6f3a811 100644
---- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-@@ -84,7 +84,7 @@ PDF和LaTeX构建
- 这有一个脚本可以自动检查Sphinx依赖项。如果它认得您的发行版，还会提示您所用发行
- 版的安装命令::
- 
--	$ ./scripts/sphinx-pre-install
-+	$ ./tools/docs/sphinx-pre-install
- 	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
- 	Warning: better to also install "texlive-luatex85".
- 	You should run:
-@@ -94,7 +94,7 @@ PDF和LaTeX构建
- 		. sphinx_2.4.4/bin/activate
- 		pip install -r Documentation/sphinx/requirements.txt
- 
--	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+	Can't build as 1 mandatory dependency is missing at ./tools/docs/sphinx-pre-install line 468.
- 
- 默认情况下，它会检查html和PDF的所有依赖项，包括图像、数学表达式和LaTeX构建的
- 需求，并假设将使用虚拟Python环境。html构建所需的依赖项被认为是必需的，其他依
-diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index ddd99c0f9b4d..714664fec308 100644
---- a/Documentation/translations/zh_CN/how-to.rst
-+++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -64,7 +64,7 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
- ::
- 
- 	cd linux
--	./scripts/sphinx-pre-install
-+	./tools/docs/sphinx-pre-install
- 
- 以 Fedora 为例，它的输出是这样的::
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 76dd823bfcc4..16a5d6ab627d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7309,7 +7309,6 @@ F:	scripts/lib/abi/*
- F:	scripts/lib/kdoc/*
- F:	tools/docs/*
- F:	tools/net/ynl/pyynl/lib/doc_generator.py
--F:	scripts/sphinx-pre-install
- X:	Documentation/ABI/
- X:	Documentation/admin-guide/media/
- X:	Documentation/devicetree/
-@@ -7344,7 +7343,7 @@ L:	linux-doc@vger.kernel.org
- S:	Maintained
- F:	Documentation/sphinx/parse-headers.pl
- F:	scripts/documentation-file-ref-check
--F:	scripts/sphinx-pre-install
-+F:	tools/docs/sphinx-pre-install
- 
- DOCUMENTATION/ITALIAN
- M:	Federico Vaga <federico.vaga@vaga.pv.it>
-diff --git a/scripts/sphinx-pre-install b/tools/docs/sphinx-pre-install
-similarity index 100%
-rename from scripts/sphinx-pre-install
-rename to tools/docs/sphinx-pre-install
+ # Call main if not used as module
 -- 
 2.51.0
 
