@@ -1,187 +1,424 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4DD21CC63
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 13:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187B1230BCC;
+	Thu, 18 Sep 2025 13:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758203632; cv=none; b=tNCl5JfAgr/D0yV175Ov0IAW1b4PxZ9pmVoXSPpS3LlnbsfTIPT5d8U5l3IIMfr2/eQPIQoyTCQkHOavJ68dNzz01mld2h3G1jSiHv9343TsqZ5PfMWRV/1k9QsPHf/FTVDKw5mIkErPJ4Jq4osj7Ms4nLMTctUxekQihd7Mzk0=
+	t=1758203907; cv=none; b=l89ytteulXf0mpJfUN385oNNUCpZKLbr1NgI5KiAAgMgNbBIRosROw1MsRRqnbYv40vqlB2LLE29qZTvIjJM3E3q/0/1eBt7Qn5o/V3qxP+rK9hCUUlsBTgEHalyF4rXhIrqLdN6patL1+/ZQcOqr1cUCrXTdMXEMQKujIm3XMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758203632; c=relaxed/simple;
-	bh=W8d+rtW76hd2LNkPX2+QJLDJy6PBL5cszIE1g/3/9FI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MShGIE7zib7ePgmhP1dvKj/W0MaqEqwNjAAYEXHn0VKP39x3tPb1K81aX0DC8s13+BMyZackRrPh9i8hO+Ppvuij97I6Ni/kMhedXYF57Cfpz/ADk0MiPI+ZZ2GAb8Dr36HDJhft2jUQjYXPH9q4m2dCs894Olvz89Icra60kto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cfQMeVPw; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758203907; c=relaxed/simple;
+	bh=qoMSLquhGsUEeYosZZieHvZQCyLrteuZ8g3vPImGhK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SeCvfKzcSy43I8gmzU1CAk9juMmbYhJOCM11wzl21iD2EFXMRBsF0+crOo/qF6cHqKud+4GNUYZPkIL0ceovN86/ucQH667PfYITB/ns0uj98Hlcp/1wM03zVGede0oeWIYONRfhNBfGUq5stmJkcV2r6AWkSEUhTNll34WMfLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMiwcRYP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cfQMeVPw"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b07ba1c3df4so179936866b.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 06:53:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758203628; x=1758808428; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=j7efdXg49cd0dO4HNsPgED93u6J0FRsteNdyMBWuRc0=;
-        b=cfQMeVPwhlYmpXtRfT5BYz/T64TCrvFJH32cIptJYbfQCQtwjQsSKaALeXPvk33VpH
-         arNXDWeQtAB702/agV1Yb32LnvTiUtMqTik2TaYQiQXOKm/pXZfcgDMDgXTbX3k+8A0y
-         OaRPcDv3acaWTtrxzqWfSR7KIQ/pWUhzTwypH+zeKkK5pzI7Zjt4xFlqjNNLgyFIMmRT
-         40MWju1htAXyxrvY9WduasEk6HQQXXrUbFxklSW+ghU45OQefJky7Yl77X2GMM7RIDRD
-         b6hxehcLvwJwR1QDj0FxPKio+SUWdBrDk8SxtjjdvS9IxiLeQCsa5koecQdC1qlQah4D
-         ywig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758203628; x=1758808428;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j7efdXg49cd0dO4HNsPgED93u6J0FRsteNdyMBWuRc0=;
-        b=xFhsNGOAnIhgbOp82bYo8DIxspK7qHSQQZ9cXKCovFgE9gJv0iS9k6c6+jhQ5MEOBb
-         vPWwJOHNKib6wC25QEPlCmwfuLL8c09VEyeWZhe0chBkguF6H0QyKz9NP/YfarCBhGVT
-         1FpTKtfyp9nQkTULxKcnkzSoKbpJUIJBlQGEnPk7JKVQNDV9UUBW4NEHUQAhAWnCSSlX
-         A9sEDw6PIvlq570WkNqls8xWdkXkiOJJyWe1cAcAk6x1be/6fYGRidb7iZ4BV6KrG4xJ
-         HO73kRtWGy77rK4Pd4crPlVGx9Q4NkCxf1Uhpw9nwD1oLXp9q+IOv21IiuPkXVrGql+5
-         YOVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrQmJwBTs37D+7kL0T2hwnsI+IeIq52hj4vOYtiba0KqFY5CNTuY4SvCRkbNV0EVQ9O8xJiQnoVA8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmUjLcT672dveCefXpkgI9hgHNNOmkzeZVDDe2iaygTPlKY21v
-	IxOjMY/0HPvQmGQK5uAAkndVteyzH8wfR0wu+0Yi4DuXAEba/qvqOue5LHZGk8JngFI=
-X-Gm-Gg: ASbGnctiEr6ucByR4dtcc7KZQMn2tAINftMnzdijI0g/cBhnD4fsu5tvKea3kwkcjdn
-	ZaKZMGhAHrhaTfNU5kI6yFm79G3OmcqP/8H+kqoYgi69axb1Bev7P1a/H5qeb6JNVBGwTIckwaX
-	h8SQDNcexEQF9AIvNnkIm/nAdnvOrwn341k9U1znq/H1NIsWwjH8+jT++YwoDhxJJrDWetl20hf
-	soPGU+kEVH+Yjl5Yjjcs+zKdlnroi0bnO1zaqu7FfpGbLxsD3mt3kjWp3hThseD+sl90DXZDGxV
-	pxkloXl+1lBSLT6Eo7TTJA2d4khe5avtCae1IBpBdNBnZVXp4rlcc2AeUnwv1/4Q+FL0wLEm9SD
-	uH6QsQKWfru1lg3PwzrWVB14O2iOVKdoa88P0EgU/IoP1M3omMDw=
-X-Google-Smtp-Source: AGHT+IHnDWpjM1umgSyHsR6OREF3QxVVNfm6x8W+jII5XcXDsJKZeNe+EM7x++buErDbKkF9QmRQfw==
-X-Received: by 2002:a17:907:7e93:b0:b02:a093:eac9 with SMTP id a640c23a62f3a-b1bc1169518mr637192866b.53.1758203628349;
-        Thu, 18 Sep 2025 06:53:48 -0700 (PDT)
-Received: from [172.20.10.3] ([109.166.131.237])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b1fc5f44bbcsm203026466b.5.2025.09.18.06.53.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 06:53:47 -0700 (PDT)
-Message-ID: <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
-Date: Thu, 18 Sep 2025 16:53:45 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMiwcRYP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67425C4CEEB;
+	Thu, 18 Sep 2025 13:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758203906;
+	bh=qoMSLquhGsUEeYosZZieHvZQCyLrteuZ8g3vPImGhK0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VMiwcRYPJw1RVYyBAKkzB7ws62wlezGI7sZko4yjOZdrZnZHZxVoECxIQZazdWZKr
+	 qGyNPT9qUyF2nDolW8+O9c9leed6AW2aXyauZfE1UwzmFs3CVtCeNc8ENVzn5OX7L9
+	 0jjeDL3klhIujvd3Dzgt3fJQbbmBV+fxtjhkmTXKelnbguevKUVDikqPKF8hWyoJBM
+	 6Mb/8rlU3oeCA5jsSFF+/hpRUcs6DM1SF6e7/aHP8Rlf+4IzfN+fBRj87/J9yQrkX5
+	 tYWomdg9EmjOyHe3HyK7xAku+SyUPexZwGv4PK3kRZNLHb0PJesVH7hNqzFfojp9sy
+	 Qa6k9YrTJLtFg==
+Date: Thu, 18 Sep 2025 15:58:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Jani Nikula
+ <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v7 11/24] tools/docs: sphinx-build-wrapper: add a
+ wrapper for sphinx-build
+Message-ID: <20250918155822.69548064@foz.lan>
+In-Reply-To: <5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com>
+References: <cover.1758111077.git.mchehab+huawei@kernel.org>
+	<820f986c9b61637e5af6708a014e36d70740bcb7.1758111077.git.mchehab+huawei@kernel.org>
+	<5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Thomas Gleixner <tglx@linutronix.de>, David Hildenbrand
- <david@redhat.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
- <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
- <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
- <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com> <87segk9az5.ffs@tglx>
- <f8d3c2d4-8399-4169-8527-3c87922f2ef1@redhat.com> <87jz1w88zq.ffs@tglx>
-From: Eugen Hristev <eugen.hristev@linaro.org>
-Content-Language: en-US
-In-Reply-To: <87jz1w88zq.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+Em Thu, 18 Sep 2025 21:07:10 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+> [+CC: Jani, -CC: rust people and list]
+> 
+> Hi, (just got v8, but sending anyway ...)
+> 
+> Now that I could actually apply v7 of the series, here is a
+> (not-so-much knee-jerk) reaction to this change.
+> Please see below.
+> 
+> On Wed, 17 Sep 2025 14:15:05 +0200, Mauro Carvalho Chehab wrote:
+> > There are too much magic inside docs Makefile to properly run
+> > sphinx-build. Create an ancillary script that contains all
+> > kernel-related sphinx-build call logic currently at Makefile.
+> > 
+> > Such script is designed to work both as an standalone command
+> > and as part of a Makefile. As such, it properly handles POSIX
+> > jobserver used by GNU make.
+> > 
+> > On a side note, there was a line number increase due to the
+> > conversion (ignoring comments) is:
+> > 
+> >  Documentation/Makefile          |  131 +++----------
+> >  tools/docs/sphinx-build-wrapper |  293 +++++++++++++++++++++++++++++++
+> >  2 files changed, 323 insertions(+), 101 deletions(-)
+> > 
+> > Comments and descriptions adds:
+> >  tools/docs/sphinx-build-wrapper | 261 +++++++++++++++++++++++++++++++-
+> > 
+> > So, about half of the script are comments/descriptions.
+> > 
+> > This is because some things are more verbosed on Python and because
+> > it requires reading env vars from Makefile. Besides it, this script
+> > has some extra features that don't exist at the Makefile:
+> > 
+> > - It can be called directly from command line;
+> > - It properly return PDF build errors.
+> > 
+> > When running the script alone, it will only take handle sphinx-build
+> > targets. On other words, it won't runn make rustdoc after building
+> > htmlfiles, nor it will run the extra check scripts.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/Makefile          | 129 ++-----
+> >  tools/docs/sphinx-build-wrapper | 599 ++++++++++++++++++++++++++++++++
+> >  2 files changed, 627 insertions(+), 101 deletions(-)
+> >  create mode 100755 tools/docs/sphinx-build-wrapper
+> > 
+> > diff --git a/Documentation/Makefile b/Documentation/Makefile
+> > index fd6399c79fab..380284026c13 100644
+> > --- a/Documentation/Makefile
+> > +++ b/Documentation/Makefile  
+> [...]
+> 
+> > +# Common documentation targets
+> > +infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+> > +	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+> > +	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+> > +		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
+> > +		--builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
+> > +		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
+> >    
+> [...]
+> > +# Special handling for pdfdocs
+> > +ifneq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
+> > +pdfdocs:
+> > +	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+> > +	@echo "  SKIP    Sphinx $@ target."
+> >  endif  
+> [...]
+> 
+> > +	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+> > +	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+> > +		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
+> > +		--builddir="$(BUILDDIR)" \
+> > +		--theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
+> >  # If Rust support is available and .config exists, add rustdoc generated contents.
+> >  # If there are any, the errors from this make rustdoc will be displayed but
+> >  # won't stop the execution of htmldocs
+> > @@ -118,49 +85,6 @@ ifeq ($(CONFIG_RUST),y)
+> >  endif
+> >  endif
+> >    
+> [...]
+> 
+> > -
+> > -latexdocs:
+> > -	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+> > -	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+> > -
+> > -ifeq ($(HAVE_PDFLATEX),0)
+> > -
+> > -pdfdocs:
+> > -	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+> > -	@echo "  SKIP    Sphinx $@ target."
+> > -
+> > -else # HAVE_PDFLATEX
+> > -
+> > -pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+> > -pdfdocs: latexdocs  
+> 
+> So, this is removing explicit dependency from pdfdocs to latexdocs.
+
+No, this doesn't change it. See, pdfdocs is now a target. The logic
+inside the wrapper will first build latexdocs with:
+
+                try:
+                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
+                except (OSError, ValueError, subprocess.SubprocessError) as e:
+                    sys.exit(f"Build failed: {repr(e)}")
+
+...
+
+        if target == "pdfdocs":
+            self.handle_pdf(output_dirs, deny_vf)
+        elif target == "infodocs":
+            self.handle_info(output_dirs)
+
+e.g if build fails (SubprocessError), it will report it and won't build
+pdf.
+
+> Although it is rare, there is a small chance where Sphinx latex builder
+> crashes and can't complete generating all the necessary files (.tex, .sty).
+
+There is also another possibility, not currently covered:
+
+	SPHINXDIRS="non_existing_dir"
+
+if non_existing_dir is not at latex_documents, this may silently
+succeed. The new logic detect this as well, producing a warning
+that sphinx-build didn't produce any LaTeX .tex files. See at
+handle_pdf() method:
+
+        #
+        # Handle case where no .tex files were found
+        #
+        if not has_tex:
+            out_name = "LaTeX files"
+            max_len = max(max_len, len(out_name))
+            builds[out_name] = "FAILED: no .tex files were generated"
+            build_failed = True
+
+> 
+> In such cases, I want "make pdfdocs" to give up immediately and not to
+> try to run $(PDFLATEX) at all.
+
+The doc Makefile has this:
+
+	# Special handling for pdfdocs
+	ifneq ($(shell which $(PDFLATEX) >/dev/null 2>&1; echo $$?),0)
+	pdfdocs:
+	        $(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+	        @echo "  SKIP    Sphinx $@ target."
+	endif
+
+	endif # HAVE_SPHINX
+
+so, in thesis, it should get such condition early.
+
+> It looks like "./tools/docs/sphinx-build-wrapper pdfdocs" doesn't give up
+> at the latexdocs stage in such cases with default SPHINXDIRS="." and
+> continues to run $(PDFLATEX) anyway.
+
+If you run the script by hand and xelatex is not installed, it will
+build *.tex files, failing only at .pdf output. I don't think this is
+a problem, although it would be easy to add a logic there to verify
+if PDFDOCS is there:
+
+        self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
+	if not os.path.exists(self.pdflatex) or not os.access(self.pdflatex, os.X_OK):
+		sys.exit(f"Error: {self.pdflatex} doesn't exist or it is not executable")
+	
+But IMHO this is overkill.
+
+> As a matter of fact, recent linux-next does exhibit such crashes in the
+> latexdocs stage:
+> 
+> As of next-20250917, running:
+>     make cleandocs: make pdfdocs" will end up in this way:
+> 
+> --------------------------------------------------------------
+> [...]
+> Markup is unsupported in LaTeX!
+> 
+> Versions
+> ========
+> 
+> [...]
+> 
+> Last Messages
+> =============
+> 
+>         filesystems/xfs/xfs-delayed-logging-design
+>         filesystems/xfs/xfs-maintainer-entry-profile
+>         filesystems/xfs/xfs-self-describing-metadata
+>         filesystems/xfs/xfs-online-fsck-design
+>        filesystems/zonefs
+> 
+>     resolving references...
+>     processing filesystems.tex: done
+>     writing...
+>     failed
+> 
+> Loaded Extensions
+> =================
+> 
+> [...]
+> 
+> Traceback
+> =========
+> 
+>       File "/[...]/sphinx-8.2.3/lib/python3.12/site-packages/sphinx/writers/latex.py", line 1152, in visit_table
+>         raise UnsupportedError(
+>     sphinx.writers.latex.UnsupportedError: filesystems/f2fs:: longtable does not support nesting a table.
+
+Here, xelatex exists and was installed. This sounds to be due to some
+change at fs2fs.rst file. Probably it is using a nested table, e.g.
+a Sphinx table with a table inside it.
+
+We had to do some changes on media to avoid that, as this indeed
+breaks PDF generation.
+
+> [...]
+> 
+> make[2]: *** [Documentation/Makefile:138: latexdocs] Error 2
+> make[1]: *** [/home/akira/git/linux/Makefile:1805: pdfdocs] Error 2
+> make: *** [Makefile:248: __sub-make] Error 2
+> --------------------------------------------------------------
+> 
+> If you merge your v7 series into linux-next and resolve confilcts properly,
+> running the same:
+> 
+>     make cleandocs; make pdfdocs
+> 
+> will end in this way:
+> 
+> Error: Can't build 45 PDF file(s): pdf/RCU.pdf, pdf/admin-guide.pdf, pdf/locking.pdf, pdf/dev-tools.pdf, pdf/process.pdf, pdf/core-api.pdf, pdf/mm.pdf, pdf/virt.pdf, pdf/block.pdf, pdf/sound.pdf, pdf/kernel-hacking.pdf, pdf/networking.pdf, pdf/infiniband.pdf, pdf/leds.pdf, pdf/maintainer.pdf, pdf/crypto.pdf, pdf/fb.pdf, pdf/accounting.pdf, pdf/livepatch.pdf, pdf/nvme.pdf, pdf/hid.pdf, pdf/isdn.pdf, pdf/trace.pdf, pdf/i2c.pdf, pdf/fault-injection.pdf, pdf/netlabel.pdf, pdf/staging.pdf, pdf/timers.pdf, pdf/firmware-guide.pdf, pdf/hwmon.pdf, pdf/scheduler.pdf, pdf/tools.pdf, pdf/watchdog.pdf, pdf/mhi.pdf, pdf/power.pdf, pdf/devicetree.pdf, pdf/arch.pdf, pdf/spi.pdf, pdf/userspace-api.pdf, pdf/translations.pdf, pdf/fpga.pdf, pdf/cpu-freq.pdf, pdf/security.pdf, pdf/bpf.pdf, pdf/pcmcia.pdf
+
+It sounds that subprocess call is missing check=True. This should
+likely fix it:
+
+                try:
+-                    self.run_sphinx(sphinxbuild, build_args, env=self.env) 
++                    self.run_sphinx(sphinxbuild, build_args, env=self.env, check=True)
+                except (OSError, ValueError, subprocess.SubprocessError) as e:
+                    sys.exit(f"Build failed: {repr(e)}")
+
+without check=True, subprocess.call won't return an exception, but
+instead will place the return code at the function return logic.
 
 
-On 9/18/25 11:23, Thomas Gleixner wrote:
-> On Wed, Sep 17 2025 at 21:03, David Hildenbrand wrote:
->>> As this is specific for the compiled kernel version you can define an
->>> extensible struct format for the table.
->>>
->>> struct inspect_entry {
->>> 	unsigned long	properties;
->>>          unsigned int	type;
->>>          unsigned int	id;
->>>          const char	name[$MAX_NAME_LEN];
->>> 	unsigned long	address;
->>>          unsigned long	length;
->>>          ....
->>> };
->>>
->>> @type
->>>         refers either to a table with type information, which describes
->>>         the struct in some way or just generate a detached compile time
->>>         description.
->>>
->>> @id
->>>         a unique id created at compile time or via registration at
->>>         runtime. Might not be required
->>
->> We discussed that maybe one would want some kind of a "class" 
->> description. For example we might have to register one pgdat area per 
->> node. Giving each one a unique name might be impractical / unreasonable.
->>
->> Still, someone would want to select / filter out all entries of the same 
->> "class".
->>
->> Just a thought.
+> As you might have already noticed, GNU Make provides useful and convinenent
+> command options readily availabe.  Some of those I often use include:
+...
+> There are abundunt of other helpful options for various situations.
 > 
-> Right. As I said this was mostly a insta brain dump to start a
-> discussion. Seems it worked :)
+> Your change of pdfdocs recipe would deprive me of those flexible options
+> of GNU Make. 
+...
+> Honestly speaking, I just trunt the history proven tool much more than your
+> re-implementation.  I'm sure I would miss that make--sub-make chain if your
+> sphinx-build-wrapper were employed in pdfdocs target.
+
+As explained, the build process we have is very complex, with lots of
+exceptions and 4 separate scripts. We really need to have a consolidated
+logic with everything on it and properly documented.
+
+That's said, if you need to support your own particular scenario in
+a way that you want to solve only with Makefile rules, you can easily
+create your own Makefile.akira file with:
+
+	pdfdocs:
+		+make -C Documentation latexdocs
+		+make -C Documentation/output/latex pdf
+
+and whatever other specific rules you might want, but this doesn't
+sound a valid reason to keep a very polluted badly documented Makefile,
+where nobody knows exactly anymore why each part of it are there...
+
+Heh, just on the discussions of this changeset, experienced
+developers including me forgot that:
+
+- _SPHINXDIRS is just a helper var for make help;
+- the "|| exit" is there to bypass latex broken warnings;
+- the media uapi builds (before -next) were missing a "+";
+- there was an extra script called only when pdfdocs fail;
+- it is hard to notice that make htmldocs actually ends with
+	make rustdoc
+
+> As I said above, the behavior you wants can be achieved by using a couple
+> of options to GNU Make. (Give or take the "|| exit;" case.)
+> I'm more inclined to continue using existing approach.
 > 
->>> @properties:
->>>
->>>          A "bitfield", which allows to mark this entry as (in)valid for a
->>>          particular consumer.
->>>
->>>          That obviously requires to modify these properties when the
->>>          requirements of a consumer change, new consumers arrive or new
->>>          producers are added, but I think it's easier to do that at the
->>>          producer side than maintaining filters on all consumer ends
->>>          forever.
->>
->> Question would be if that is not up to a consumer to decide ("allowlist" 
->> / filter) by class or id, stored elsewhere.
+> In summary, this is my suggestion for the development for the v6.19 (not v6.18)
+> merge window.
+
+Merging for 6.19 is OK to me. Maybe the best would be if Jon could merge v8
+on a separate branch, to be merged after the merge window. We may then
+send incremental patches against it containing fixes and improvements.
+
+Keeping rebasing/resubmitting a /24 patches (and increasing) series every
+time sounds a waste of everybody's time: if we agree with the general 
+concept, we can submit things incrementally from now on.
+
+> 1) Using sphinx-build-wrapper in (*}docs targets other than pdfdocs is the way
+>    to go.
 > 
-> Yes, I looked at it the wrong way round. We should leave the filtering
-> to the consumers. If you use allow lists, then a newly introduced class
-> won't be automatically exposed everywhere.
+> 2) pdfdocs should be a different target that depends on latexdocs.
 > 
-> Thanks,
+> 3) Preserve the make--sub-make chain in the pdfdocs recipe. (for easy access
+>    to GNU Make's options)
 > 
->         tglx
+> 4) sphinx-build-wrapper has own its rights to cover pdfdocs.  I don't care
+>    how it behaves when it is directly called for pdfdocs.
+
+I think that splitting latex and pdf on two separate targets is not
+a good idea for the normal usecase: most of the time, people just want
+the final target and don't care what intermediate steps were needed to
+build the output. 
+
+-
+
+Yet, perhaps we may implement either a "pdf-only" target that would
+skip first step (sphinx-build) going directly to second step. Or maybe
+implement on a more generic way, with something similar to:
+
+	DOC_STEP=1|2
+
+or:
+	SPINXBUILD=0|1
+
+To allow select what build step will be used or to skip sphinx-build
+call.
+
+> 5) Build summary as the final message from "make pdfdocs" is a good idea and
+>    it should be doable in the Makefile recipe in a different manner.
+
+Right now, summary is shown V=1, but we can add a way to control the
+output directly.
+
+> 6) The issue Mauro calls "false positive" (the "|| exit;" pattern in Makefile's
+>    loop) might be a desired behavior, but it should be possible to add a knob
+>    to suppress it in the Makefile.
+
+Not against adding it. IMHO such scenario could be implemented
+directly as an option to the wrapper when called from command line, 
+instead of yet-another-env var, but I won't object either way.
+
+> 
+> Mauro, how does this "compromize" sound to you?
+
+Yes. See my comments above.
+
+> 
+> Regards,
+> Akira
+> 
+> > -	@$(srctree)/tools/docs/sphinx-pre-install --version-check
+> > -	$(foreach var,$(SPHINXDIRS), \
+> > -	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/tools/docs/check-variable-fonts.py || exit; \
+> > -	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+> > -	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+> > -	)
+> > -  
+> [...]
+> 
 
 
-So, one direction to follow from this discussion is to have the
-inspection entry and inspection table for all these entries.
-Now, one burning question open for debate, is, should this reside into mm ?
-mm/inspect.h would have to define the inspection entry struct, and some
-macros to help everyone add an inspection entry.
-E.g. INSPECTION_ENTRY(my ptr, my size);
-and this would be used all over the kernel wherever folks want to
-register something.
-Now the second part is, where to keep all the inspection drivers ?
-Would it make sense to have mm/inspection/inspection_helpers.h which
-would keep the table start/end, some macros to traverse the tables, and
-this would be included by the inspection drivers.
-inspection drivers would then probe via any mechanism, and tap into the
-inspection table.
-I am thinking that my model with a single backend can be enhanced by
-allowing any inspection driver to access it. And further on, each
-inspection driver would register a notifier to be called when an entry
-is being created or not. This would mean N possible drivers connected to
-the table at the same time. ( if that would make sense...)
-Would it make sense for pstore to have an inspection driver that would
-be connected here to get different kinds of stuff ?
-Would it make sense to have some debugfs driver that would just expose
-to user space different regions ? Perhaps something similar with
-/proc/kcore but not the whole kernel memory rather only the exposed
-inspection entries.
-Now, for the dynamic memory, e.g. memblock_alloc and friends ,
-would it be interesting to have a flag e.g. MEMBLOCK_INSPECT, that would
-be used when calling it, and in the background, this would request an
-inspection_entry being created ? Or it makes more sense to call some
-function like inspect_register as a different call directly at the
-allocation point ?
 
-Feel free to throw your opinion at each of the above.
-Thanks for helping out !
+Thanks,
+Mauro
