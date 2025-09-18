@@ -1,104 +1,220 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E18283153;
-	Thu, 18 Sep 2025 11:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2129E221F29;
+	Thu, 18 Sep 2025 11:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758196122; cv=none; b=R8JWPB+jj1+QdzsKsvwuirGUb/E+eI2Lr4wT40jHvop05juDvgta/H/PCUwBnLq7wDzBnZ5K5UJduOiAd1Gn7TTl1+xHsi7gEXfqLaJtHMjT0xAoxGosciMx4Rf102IKtWyib7J3vdUlfYZYZewDJKCFMSJ8a+TEfTL6hzj8j3g=
+	t=1758196506; cv=none; b=PhD8AOCHW8MjDEebM9Jz9Sph+wwsZ5rXilDP9CExAZXnvs4lwh/+v7FRyIq3tODTT1RZrvvLp3h8D7WtiG0njTbkw0Wpgq4hCZCCPo1OP11gSHAqOAN/jVKMY+VzKOHMOFkunPPF7a13GFGlfBxydtFTjVAGIM+PgwZoKYgsaio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758196122; c=relaxed/simple;
-	bh=/GS2pi0BPhylD1m4PDk3EtPIv0KWtd8YNZ8MMg1pVkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ucwx74BIePSj9CjenmF0Lumr+h/uHdxiirmLnnZIKJvkzi1HED7+eRSsM+pyg8LLpFkJaC4JTBNNagf65xP91GNlgeJ4EWj3Wz6Mv31wRwUXjaecJgYcZqr9jP/D8Ppi2Q71Rs4khUnX1fPc2qegEk5+zkmTZrbc8Nw+OMYp1YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afUQKMJe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758196506; c=relaxed/simple;
+	bh=fJpsAtJ92MxZvD5oc+zobQhN2JKwDEF9zPLyP1fCyLQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=b9nY3aIQyG4cPDMExpsS+DGZ/Im6gKanU3o62HOJrnwqLgqCESq7gTfITcR7Er5MKSLhs4LXgLjaVNtTmMNcsK8Yawc3r3zBTqLQJanyOCM7b06XGtEftNCcgG3kFmPUQcK1YkJEQLsaba9dMaw2Q+VSkc7I1UM/HKFKzJ1k1xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MxHhn/GM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afUQKMJe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E8F7C4CEE7;
-	Thu, 18 Sep 2025 11:48:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MxHhn/GM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B832EC4AF09;
+	Thu, 18 Sep 2025 11:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758196121;
-	bh=/GS2pi0BPhylD1m4PDk3EtPIv0KWtd8YNZ8MMg1pVkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=afUQKMJe3SZLc6Bp48RNJW9wskTebguMeMhbdotT0nsxBGAcS1HoUw2x2+voUrCUL
-	 2hmNJ3tq26QDYQ84qBCcX6kBuH1IWQVDajTU+S1GAcHxBIy6wfV+ZCCqJSWdUta9RR
-	 Ge0px/b+idBZT2BMlCVCTw9myHppianrLaXtnHTbgEhSlFag2bxRGqmaCmWB8f8uLX
-	 Mh0srkBkFOp+1sbDwS80Ugnpk3zV6kQqaj6gcCkTNGk272pV/NsoBrJKsPsGHGqZCR
-	 P/GSwyvyLSip48Wh6Elz+LqNSRlTBZrGtsiwI7o8JMUlXiwZNoddrbJfa4CuSXJz9w
-	 iPf1DTrWIe2qA==
-Date: Thu, 18 Sep 2025 12:48:35 +0100
-From: Will Deacon <will@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	David Spickett <david.spickett@arm.com>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Luis Machado <luis.machado.foss@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/5] arm64/sme: Support disabling streaming mode via
- ptrace on SME only systems
-Message-ID: <aMvxkzg_LT4C4Quh@willie-the-truck>
-References: <20250820-arm64-sme-ptrace-sme-only-v1-0-f7c22b2871f8@kernel.org>
- <20250820-arm64-sme-ptrace-sme-only-v1-3-f7c22b2871f8@kernel.org>
+	s=k20201202; t=1758196505;
+	bh=fJpsAtJ92MxZvD5oc+zobQhN2JKwDEF9zPLyP1fCyLQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MxHhn/GMdKawhvKBilWREK7SzxI9E/gmHlQ5j0punTXANvW5i2dAMFgVSlCwKEDI4
+	 D3OpMA1rrVqwG+w5+98l7VYi/PBOTjH2vunSMsNrMaK2UfVVLOV/yyhO+ViQm7Gjhq
+	 E2LA8RYfkojG07Dhw/+Rnof/7yraKMyWfep0ir5VyDh+X/WdtixRwZgyE5pN1Jf+SV
+	 FRlheAdgCymEAwPmf6YvgG0+HNMekeoiv1plvCNESVTf3dVd7Ib2qtpsf4qSi148SF
+	 mrnDjW15k+DV+wAMJibKb9gTTweanZucv6X1S8pBMEDkma1M/al8kn8waLgKp0V5bI
+	 tMOG8QDRzhXDA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uzDE7-0000000Crlw-3QCk;
+	Thu, 18 Sep 2025 13:55:03 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v8 04/24] scripts: check-variable-fonts.sh: convert to Python
+Date: Thu, 18 Sep 2025 13:54:38 +0200
+Message-ID: <d438fb01d2c00e2c2b4ac16f999d9a8ce848251b.1758196090.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
+References: <cover.1758196090.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-arm64-sme-ptrace-sme-only-v1-3-f7c22b2871f8@kernel.org>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Wed, Aug 20, 2025 at 07:29:05PM +0100, Mark Brown wrote:
-> Currently it is not possible to disable streaming mode via ptrace on SME
-> only systems, the interface for doing this is to write via NT_ARM_SVE but
-> such writes will be rejected on a system without SVE support. Enable this
-> functionality by allowing userspace to write SVE_PT_REGS_FPSIMD format data
-> via NT_ARM_SVE with the vector length set to 0 on SME only systems. Such
-> writes currently error since we require that a vector length is specified
-> which should minimise the risk that existing software is relying on current
-> behaviour.
-> 
-> Reads are not supported since I am not aware of any use case for this and
-> there is some risk that an existing userspace application may be confused if
-> it reads NT_ARM_SVE on a system without SVE. Existing kernels will return
-> FPSIMD formatted register state from NT_ARM_SVE if full SVE state is not
-> stored, for example if the task has not used SVE. Returning a vector length
-> of 0 would create a risk that software would try to do things like allocate
-> space for register state with zero sizes, while returning a vector length of
-> 128 bits would look like SVE is supported. It seems safer to just not make
-> the changes to add read support.
-> 
-> It remains possible for userspace to detect a SME only system via the ptrace
-> interface only since reads of NT_ARM_SSVE and NT_ARM_ZA will succeed while
-> reads of NT_ARM_SVE will fail. Read/write access to the FPSIMD registers in
-> non-streaming mode is available via REGSET_FPR.
-> 
-> sve_set_common() already avoids allocating SVE storage when doing a FPSIMD
-> formatted write and allocating SME storage when doing a NT_ARM_SVE write so
-> we change the function to validate the new case and skip setting a vector
-> length for it.
-> 
-> The aim is to make a minimally invasive change, no operation that would
-> previously have succeeded will be affected, and we use a previously
-> defined interface in new circumstances rather than define completely new
-> ABI.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/arch/arm64/sve.rst |  5 +++++
->  arch/arm64/kernel/ptrace.c       | 40 +++++++++++++++++++++++++++++++++-------
->  2 files changed, 38 insertions(+), 7 deletions(-)
+This script handle errors when trying to build translations
+with make pdfdocs.
 
-It would be good to have an Ack from the userspace side (GDB?) so that
-we know that the minimal ABI change you're proposing is sufficient.
+As part of our cleanup work to remove hacks from docs Makefile,
+convert this to python, preparing it to be part of a library
+to be called by sphinx-build-wrapper.
 
-In the meantime, I'll pick up the first two selftests as they are
-independent of this part.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/Makefile                        |   2 +-
+ MAINTAINERS                                   |   2 +-
+ ...iable-fonts.sh => check-variable-fonts.py} | 104 +++++++++++++-----
+ 3 files changed, 79 insertions(+), 29 deletions(-)
+ rename scripts/{check-variable-fonts.sh => check-variable-fonts.py} (61%)
 
-Will
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 5c20c68be89a..d5e436435eab 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -146,7 +146,7 @@ pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+ pdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), \
+-	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
++	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/scripts/check-variable-fonts.py || exit; \
+ 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+ 	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+ 	)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef87548b8f88..88d8f7435e6d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7301,7 +7301,7 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/check-variable-fonts.sh
++F:	scripts/check-variable-fonts.py
+ F:	scripts/checktransupdate.py
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/get_abi.py
+diff --git a/scripts/check-variable-fonts.sh b/scripts/check-variable-fonts.py
+similarity index 61%
+rename from scripts/check-variable-fonts.sh
+rename to scripts/check-variable-fonts.py
+index ce63f0acea5f..8be1c0f39588 100755
+--- a/scripts/check-variable-fonts.sh
++++ b/scripts/check-variable-fonts.py
+@@ -1,7 +1,9 @@
+-#!/bin/sh
++#!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0-only
+ # Copyright (C) Akira Yokosawa, 2024
+ #
++# Ported to Python by (c) Mauro Carvalho Chehab, 2025
++#
+ # For "make pdfdocs", reports of build errors of translations.pdf started
+ # arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
+ # tumbleweed have started deploying variable-font [3] format of "Noto CJK"
+@@ -87,29 +89,77 @@
+ #     Denylisting should be less invasive, as it is effective only while
+ #     XeLaTeX runs in "make pdfdocs".
+ 
+-# Default per-user fontconfig path (overridden by env variable)
+-: ${FONTS_CONF_DENY_VF:=$HOME/deny-vf}
+-
+-export XDG_CONFIG_HOME=${FONTS_CONF_DENY_VF}
+-
+-notocjkvffonts=`fc-list : file family variable | \
+-		grep 'variable=True' | \
+-		grep -E -e 'Noto (Sans|Sans Mono|Serif) CJK' | \
+-		sed -e 's/^/    /' -e 's/: Noto S.*$//' | sort | uniq`
+-
+-if [ "x$notocjkvffonts" != "x" ] ; then
+-	echo '============================================================================='
+-	echo 'XeTeX is confused by "variable font" files listed below:'
+-	echo "$notocjkvffonts"
+-	echo
+-	echo 'For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.'
+-	echo 'Or, CJK pages can be skipped by uninstalling texlive-xecjk.'
+-	echo
+-	echo 'For more info on denylisting, other options, and variable font, see header'
+-	echo 'comments of scripts/check-variable-fonts.sh.'
+-	echo '============================================================================='
+-fi
+-
+-# As this script is invoked from Makefile's error path, always error exit
+-# regardless of whether any variable font is discovered or not.
+-exit 1
++import os
++import re
++import subprocess
++import sys
++import textwrap
++
++class LatexFontChecker:
++    """
++    Detect problems with CJK variable fonts that affect PDF builds for
++    translations.
++    """
++
++    def __init__(self):
++        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
++
++        self.environ = os.environ.copy()
++        self.environ['XDG_CONFIG_HOME'] = os.path.expanduser(deny_vf)
++
++        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
++
++    def get_noto_cjk_vf_fonts(self):
++        """Get Noto CJK fonts"""
++
++        cjk_fonts = set()
++        cmd = ["fc-list", ":", "file", "family", "variable"]
++        try:
++            result = subprocess.run(cmd,stdout=subprocess.PIPE,
++                                    stderr=subprocess.PIPE,
++                                    universal_newlines=True,
++                                    env=self.environ,
++                                    check=True)
++
++        except subprocess.CalledProcessError as exc:
++            sys.exit(f"Error running fc-list: {repr(exc)}")
++
++        for line in result.stdout.splitlines():
++            if 'variable=True' not in line:
++                continue
++
++            match = self.re_cjk.search(line)
++            if match:
++                cjk_fonts.add(match.group(1))
++
++        return sorted(cjk_fonts)
++
++    def check(self):
++        """Check for problems with CJK fonts"""
++
++        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
++        if not fonts:
++            return None
++
++        rel_file = os.path.relpath(__file__, os.getcwd())
++
++        msg = "=" * 77 + "\n"
++        msg += 'XeTeX is confused by "variable font" files listed below:\n'
++        msg += fonts + "\n"
++        msg += textwrap.dedent(f"""
++                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
++                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
++
++                For more info on denylisting, other options, and variable font, see header
++                comments of {rel_file}.
++            """)
++        msg += "=" * 77
++
++        return msg
++
++if __name__ == "__main__":
++    msg = LatexFontChecker().check()
++    if msg:
++        print(msg)
++
++    sys.exit(1)
+-- 
+2.51.0
+
