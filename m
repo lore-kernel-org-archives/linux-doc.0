@@ -1,37 +1,66 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864B71643B;
-	Thu, 18 Sep 2025 18:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C9715853B
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 19:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758221011; cv=none; b=V2lpnQ7pZ2YJ6aZYzE2p48494Urtcoocy0fRqoAPTnZX2IvMzN+sQngTIfWzNeYj3k17F621raY7dFU7EO5R7nqJwv1AmZ38DP1INnQi0BzuyeJBAa/ZSKxSpRQRNKH91Sy1cPvr3citZSc1Za++qm84KDSB0AIZU/VVYqm1usU=
+	t=1758222041; cv=none; b=TJHSdtMJJcxw5MFKnFz1XC62uX/Q/zzZYySHKsK9YHOlqPMQx+0ISCmkT0xFgcuHQtbuOplTUw0/tZmZPGbmOb2KomLA0nMZA08fw41vDAt3qOUxemHjDU5Jdo72XQ+m+JS+IIh438IYX9D9JBYe6j05Y0SzCbeN+G1T7nvV06A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758221011; c=relaxed/simple;
-	bh=lOi4oPKaTPDoudyEXtbkS6QEa07mzTiiZ91A7/9u70E=;
+	s=arc-20240116; t=1758222041; c=relaxed/simple;
+	bh=HOevOAElbfm0pTHT9baxa1QqEU8P+OIv4XnrqiZD+Fo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VhpKb2c7Nw2G19Ov2pBdS9/rB4ga6jjKK9ePJDt/bLmSxXHQBH/vs1ZDGDg+8c52qE6+Vw/FEGZ6zzgxzm8SOAc31NFQj9l6WiZFAGJIWWGJeNty8208xk93Oy/aP9Y5DscqY+9GgRYj1Bskw+LEpUUg+ea5pVtGDqyaCsjS6TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O9EVDpf5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=gmPh4hBX91h/InJHuEms4kavNR2FaCpKiftbIc42jAvXQOfs3aPCxXPy0pFF3wqNTdbuWlW+iSOyiTLlofWXmeNQvt6LuNtqxpvyh3htQ9h2XPEgroiH7QzcvTiAc4xdRA52LqoydNYLcHkE6wkfk8Ki0au2CVwZ8drlFkjd4sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iUuFyE6w; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O9EVDpf5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=liLJhgZknOFrb3ADlwKcsc/J07rUAwg/dZtDpx06Vic=; b=O9EVDpf5g7zgd/J126cLkxpokq
-	67CZ2pUYtUpJvmRk+WYzJi4DRPy27TOexm3lqamKDUh9IAlUGC03Lo2+0dFCanLLcxE4Mq1PqYmfD
-	zsG861c8Yr5xX5D52wzOhnO9imrDSEtHEzBeBr7ShxCDXCN7KUWzGlLz5OtEM/SgQI+7R701O6suA
-	cqJ61q2nppVq1TNR9wmWEcUpWFM/p7f1YIhX+ZAp278XRRDKeWyKepe8MLKNd1KkIFXmrisE/qJNF
-	AeU2q6OwccURPflquwzeQOYrJnhz8Z3QCRMH4kKvxK1qifV6WvifJnGULJgOXEDIPW+XnTMdlRxk4
-	KPFtZ1jw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzJbK-00000000t2F-3Pb9;
-	Thu, 18 Sep 2025 18:43:26 +0000
-Message-ID: <be6e146b-3429-4264-bf04-2ea15957f010@infradead.org>
-Date: Thu, 18 Sep 2025 11:43:25 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iUuFyE6w"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3d9e0a6aa4aso93541f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758222038; x=1758826838; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F+i9iHMrfZSNqoivyx67SGEamkAUPDlF91tqODtRDok=;
+        b=iUuFyE6wQpITd806RzbjYJpfbzG+s9O4cnwLcJ16c9xhlE5766j4rz338LBjo1wF2X
+         sEB947XBhIYWJcW0h2ArYbhmbp5+GQGXcvJnwePu/+mYx64RJ4VMoPrcgAZ9FrrCjMuj
+         yvORaqvN2tJvST7k5GFHwOhTaIocEsqn4AhZ+P2+3T7Qs1YXdqVEaGs21YO6NLyKZB3Q
+         rQa7TqEWRdBqRRsNnzRpyPWZVBoVdvlZKI4yCnJCKDh/2aBLg8X5PWdUxekpx1pvY+1O
+         WRgOKl+94Ol2DumtSoYqTLXyGZe/p4Fw2Wb4QLnj2m8lGSAQxoxxu9WVO7ihP+1RIgA2
+         zFFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758222038; x=1758826838;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F+i9iHMrfZSNqoivyx67SGEamkAUPDlF91tqODtRDok=;
+        b=avxRTV9OZCSgh7v5T6UxVm0cv3DGHDGt51QqVq1vW+D2lA4E7Kv7altTFxl2Hm1u2S
+         hmDJ4qXv6Ho1XmxRYFff9zaX+KCxtQza6oPA9DTb75Y1aL54dQ6cdtGcIcirFSq6/QmA
+         bzVDXsnMnlmVXOkFbPBF3u8u9zksWLjSTGi6g99wk+TsoM2K9kXnB4B6OND+4ThtUQ6b
+         C06rQcJBR93vFT3FG3kp68/VQKIgH9NqO33+dNm/brgDKVn+v1XcAWByaxpKzK7OKUts
+         RodSPjnMr3vxLAqaPyXlSyjV0HKjPV9Vzpja/njPy0n4PrdhyM4SIspNQS2Du0WQ8+zJ
+         5W9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUoci6asEW3kUMu3vkbV+txVbooxubzHJzlIKzFGU0P7fH9gKRXCSXkXIJDZSXc4XVGgtzgMK9dYQY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK6uOB6JFCzZYJ98y09PySBC/d8ZWCcpIZ4hI/OahczZc7EwnR
+	VU1+YbI4Foe8/H0t4DLDD/kegVZEP+WScv0FNCZ8bWaTS01Sjba2J4i9
+X-Gm-Gg: ASbGncsoR7Iln+UwPcVoTbtYw27PMr75wYYIe+jpjg2xNNRbn0BtmG4hMBAN1hC9IGl
+	OKqFx38UrOd/6WjJ7VrGUZizH4La4IXai7726rFPNT50bzXIIL13g8w9b1+pqlI5RpZW5brlNi5
+	x+FslyeMVw5WcOK2jYXtAar/qQgFMC9LdiozoWZczRPP4ZGT5l9CaFSD+oqCCxbvkgvSAO+L4yV
+	VUBMREtoVS+OSrgM5VT7+zGMXM/TpeTa1bGBM/J/TRsfq6YnUoiBRx+hs0C+PVa6gl8F/9mde2x
+	IfKybm+XAmkiZd+WUClc6Ul/CzDJaDdLyiC3zvD90GaQB64X8CrtUQQwOKavE+Bju+h4HlFSMch
+	jdqw2+9fF46VM7ot8S9wpdlMFBBpuIcH47mc6XUtAq2YXgXTkMktLjfra+wqQI/viKh3gF/2CO6
+	Nfs7LUhKel
+X-Google-Smtp-Source: AGHT+IEufi4ClRY4a9e7yea8huaXiy4yZ519x4gYdFB4Nd6ggMP2w+e76/E+j0H8SZ+HE/JV9NrWKw==
+X-Received: by 2002:a5d:5f95:0:b0:3e9:559c:13f6 with SMTP id ffacd0b85a97d-3ee81959333mr151172f8f.2.1758222037501;
+        Thu, 18 Sep 2025 12:00:37 -0700 (PDT)
+Received: from [192.168.0.18] (cable-94-189-151-62.dynamic.sbb.rs. [94.189.151.62])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee073f5387sm4558160f8f.1.2025.09.18.12.00.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 12:00:37 -0700 (PDT)
+Message-ID: <893401bc-4754-4c67-a82a-0c49c8e7f447@gmail.com>
+Date: Thu, 18 Sep 2025 21:00:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,78 +68,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Eugen Hristev <eugen.hristev@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>, David Hildenbrand <david@redhat.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, andersson@kernel.org, pmladek@suse.com, corbet@lwn.net,
- mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
- <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
- <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
- <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com> <87segk9az5.ffs@tglx>
- <f8d3c2d4-8399-4169-8527-3c87922f2ef1@redhat.com> <87jz1w88zq.ffs@tglx>
- <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
+Subject: Re: [PATCH v3 6/7] mm/memblock: Use KSTATE instead of kho to preserve
+ preserved_mem_table
+To: Jason Gunthorpe <jgg@nvidia.com>, Andrey Ryabinin <arbn@yandex-team.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+ Mike Rapoport <rppt@kernel.org>, James Gowans <jgowans@amazon.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Baoquan He
+ <bhe@redhat.com>, kexec@lists.infradead.org,
+ Pratyush Yadav <ptyadav@amazon.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ David Rientjes <rientjes@google.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Changyuan Lyu <changyuanl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Chris Li <chrisl@kernel.org>,
+ Ashish.Kalra@amd.com, William Tu <witu@nvidia.com>,
+ David Matlack <dmatlack@google.com>
+References: <20250909201446.13138-1-arbn@yandex-team.com>
+ <20250909201446.13138-7-arbn@yandex-team.com>
+ <20250915114707.GB1024672@nvidia.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+In-Reply-To: <20250915114707.GB1024672@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 9/18/25 6:53 AM, Eugen Hristev wrote:
+On 9/15/25 1:47 PM, Jason Gunthorpe wrote:
+> On Tue, Sep 09, 2025 at 10:14:41PM +0200, Andrey Ryabinin wrote:
+>> +static int kstate_preserve_phys(struct kstate_stream *stream, void *obj,
+>> +				const struct kstate_field *field)
+>> +{
+>> +	struct reserve_mem_table *map = obj;
+>> +
+>> +	return kho_preserve_phys(map->start, map->size);
+>> +}
+>> +
+>> +struct kstate_description kstate_reserve_mem = {
+>> +	.name = "reserved_mem",
+>> +	.id = KSTATE_RESERVED_MEM_ID,
+>> +	.fields = (const struct kstate_field[]) {
+>> +		KSTATE_BASE_TYPE(name, struct reserve_mem_table,
+>> +				char[RESERVE_MEM_NAME_SIZE]),
+>> +		KSTATE_BASE_TYPE(start, struct reserve_mem_table, phys_addr_t),
+>> +		KSTATE_BASE_TYPE(size, struct reserve_mem_table, phys_addr_t),
+>> +		{
+>> +			.name = "phys_range",
+>> +			.flags = KS_CUSTOM,
+>> +			.save = kstate_preserve_phys,
+>> +		},
+>> +		KSTATE_END_OF_LIST(),
+>> +	},
+>> +};
+>>  
+>>  static int __init reserve_mem_init(void)
+>>  {
+>>  	int err;
+>> +	int i;
+>>  
+>>  	if (!kho_is_enabled() || !reserved_mem_count)
+>>  		return 0;
+>>  
+>> +	for (i = 0; i < reserved_mem_count; i++) {
+>> +		struct reserve_mem_table *map = &reserved_mem_table[i];
+>>  
+>> +		err = kstate_register(&kstate_reserve_mem,
+>> +				map, crc32(~0, map->name, RESERVE_MEM_NAME_SIZE));
+>> +		if (err)
+>> +			goto out;
+>>  	}
 > 
+> As I've said to the other proposals, this doesn't seem to be bringing
+> that much value compared to just using a normal struct:
+
+We expect to have many such ABI maps across the kernel.
+These maps will share common elements - simple types, folios, and preserved
+regions.
+
+With the approach you're suggesting, we'd need to re-implement the same
+preserve/unpreserve/recover logic, error handling, and unwind code for
+every individual ABI map. That quickly becomes repetitive and error-prone.
+
+By contrast, KSTATE centralizes this logic. It avoids duplicating code
+and lets us express the preservation details declaratively instead
+of re-implementing them per struct.
+
+
+> 	for (i = 0; i < reserved_mem_count; i++) {
+> 		struct reserve_mem_table *map = &reserved_mem_table[i];
+> 		struct khoser_reserve_mem_table abi_map = {.name = map->name. .start = map->start, .size = map->size};
 > 
-> So, one direction to follow from this discussion is to have the
-> inspection entry and inspection table for all these entries.
-> Now, one burning question open for debate, is, should this reside into mm ?
-> mm/inspect.h would have to define the inspection entry struct, and some
-> macros to help everyone add an inspection entry.
-> E.g. INSPECTION_ENTRY(my ptr, my size);
-> and this would be used all over the kernel wherever folks want to
-> register something.
-> Now the second part is, where to keep all the inspection drivers ?
-> Would it make sense to have mm/inspection/inspection_helpers.h which
-> would keep the table start/end, some macros to traverse the tables, and
-> this would be included by the inspection drivers.
-> inspection drivers would then probe via any mechanism, and tap into the
-> inspection table.
+> 		err = kho_preserve_phys(map->start, map->size);
+> 		if (err)
+> 		    return err; // Should unwind the other preservations!
+> 		
+> 		luo_preserve_key(luo_obj, map->name, &abi_map, sizeof(abi_map), VERSION_0);
 
-Surely someone wants to inspect more than mm/ variables.
-I prefer kernel/inspect/ etc.
 
-> I am thinking that my model with a single backend can be enhanced by
-> allowing any inspection driver to access it. And further on, each
-> inspection driver would register a notifier to be called when an entry
-> is being created or not. This would mean N possible drivers connected to
-> the table at the same time. ( if that would make sense...)
-> Would it make sense for pstore to have an inspection driver that would
-> be connected here to get different kinds of stuff ?
-> Would it make sense to have some debugfs driver that would just expose
-> to user space different regions ? Perhaps something similar with
-> /proc/kcore but not the whole kernel memory rather only the exposed
-> inspection entries.
-> Now, for the dynamic memory, e.g. memblock_alloc and friends ,
-> would it be interesting to have a flag e.g. MEMBLOCK_INSPECT, that would
-> be used when calling it, and in the background, this would request an
-> inspection_entry being created ? Or it makes more sense to call some
-> function like inspect_register as a different call directly at the
-> allocation point ?
-> 
-> Feel free to throw your opinion at each of the above.
-> Thanks for helping out !
+On the versioning side:
+With this approach, introducing a new ABI version (say, abi_map_v1)
+would require us to maintain restore logic for each supported version,
+and carefully handle upgrades between them.
 
-In general I like the way that this is going.
-Thanks to all of you for this discussion.
-
--- 
-~Randy
+With KSTATE, versioning is built in. For example, adding a new field can
+simply be expressed as:
+ 	KSTATE_BASE_TYPE_V(new_field, struct reserve_mem_table, int, 1);
+This way, the framework handles compatibility, and we don’t need to manually
+write version-specific restore paths for each ABI map.
 
