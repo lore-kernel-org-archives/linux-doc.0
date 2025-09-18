@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A70A30596E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532E9305E08;
 	Thu, 18 Sep 2025 11:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758196507; cv=none; b=dtWLwE2AumcfVcxY3eAFsecyQVBvFnVcz7F+xEMaUVnmkPuS94YJEjHHP2DcdoXwoQ+l3kdxC5F2W2TWDPYyzNO/IH7IA2Z4NvdQVMiCM+De8XFR5nLkInty+i3coXLCRP2rcW8y6S/2pTY2C6imVbPwe3EKERLPILelZ29bMck=
+	t=1758196507; cv=none; b=KPnDfIYtSVr11BeR8VrGG6JpU6SdG2r7a6KRgh/XRY518YY2Ng9wyZWjWK/dmj55lyUPJr1Vkmd4GioEgCVymUVqg+NFyvBaKiA/BRNkCYDIcHPonGxXaldVgWy9awa8v68aBYKQ88ajXklFc6rQZXb54L0lWF7PBRnrasE+lXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758196507; c=relaxed/simple;
-	bh=bNOmw1tzFH8Sl7kR3p+wUYP6U5+a6FHYIcsXQNkIydI=;
+	bh=4Yu1gA5/uZ+OPBNEREkXam+9wN35SUbcDazI/2U7I9g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MZ8TqfOqjihsbOFvZDzDOdGJGX6hJxWiGjAEd7ucuVmsgTLeBjDt9uENEzNQRBVhsYbfNpqOfqNvFYnl4h5XpUy5GaZB/YZAwjYF35BnAxKOWLcl7Yjjg2vd1SiAKFhrvpULSYv088h0WalK61FwIOerVBI5m8hw5mldoMkHtZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xh5Kw9Bz; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=qahrFpndzZUsQE7vkSUWu+vMCM9lLsNXhKsGbJafq57ZCuGZSu9M9SRLRhJ5rp+jTKC1pDhO6cVxyI/WAXgxYjXwtRCS+rufE/zU7dfCspv6DndRgP4ltSKYHxu8kMAEf8M0/YDP4jTfhEQFcztAY1vzxIzGzL8FCO54P6Hgft0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=quE5BdD1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xh5Kw9Bz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08AB6C4CEEB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="quE5BdD1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A7DC4CEFD;
 	Thu, 18 Sep 2025 11:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758196507;
-	bh=bNOmw1tzFH8Sl7kR3p+wUYP6U5+a6FHYIcsXQNkIydI=;
+	bh=4Yu1gA5/uZ+OPBNEREkXam+9wN35SUbcDazI/2U7I9g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xh5Kw9BzPzpIE/0dFJ/i0tZQOf1qY1IFX6jqsh4+EwCAFk0jnYib7pPSBp5Br1MlP
-	 CVrR0iROfUKhBnMUWvatnGJ5RnGhca74WXFllzlDORFeBE+1acKNYEz5OUqYr257JT
-	 Owf/tB3QLmKNClke128wkIpjki3Yty5rIBkAKEMwQ4GzSmrfcClAFH/YWi+qjVQVoJ
-	 p/0WxcyNdf26YaG6zNaeLSGSwR9mnU25i6dvIkVHh8UQ1sIQ1klBCZXtXlgTD7Q3KW
-	 1rqolE+PPu6Gouydk4aHahT47a9UsvOIzNWFHAbSQXmVQKKhddDwnan0Q+YNM/SGB3
-	 cRdXHYhmNu7Vw==
+	b=quE5BdD1RvB/1PFWlnVLrgB3LtNghauPk5RqZOdlhWs3TfKznk5lR7KK65kso/aKz
+	 7I/jmClNvTT55OtMiKQNVwjrNLrm6FgiaztDkGvL1UtPq33zS4j0idnRm/LpQGMFHa
+	 fOYqRlJ6cWs1DLbjbBtVHTpZiERIjtLQN9VbLkTef/7nw36FikiJQYDAVNtQEK2nml
+	 jrKib3SQaJ+zc+UkeU6doqis7KEQvPLNs/vLubjq8I/zf+UYEgVY8sgQZ0NiZW0aB7
+	 NYSfIR4WKm/bzXX1QYMhpgeVjGXI9oJTNZ6BC1wzlAAHehSFRbrDFPg1TPLZR5H6yS
+	 vWrSc+hZrI2AA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uzDE8-0000000CrtU-1WcV;
+	id 1uzDE8-0000000CrtZ-1fyX;
 	Thu, 18 Sep 2025 13:55:04 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 20/24] tools: kernel-doc: add a see also section at man pages
-Date: Thu, 18 Sep 2025 13:54:54 +0200
-Message-ID: <fba25efb41eadad17a54e6275a6191173d702f00.1758196090.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v8 21/24] scripts: kdoc_parser.py: warn about Python version only once
+Date: Thu, 18 Sep 2025 13:54:55 +0200
+Message-ID: <68e54cf8b1201d1f683aad9bc710a99421910356.1758196090.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
 References: <cover.1758196090.git.mchehab+huawei@kernel.org>
@@ -49,215 +49,60 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While cross-references are complex, as related ones can be on
-different files, we can at least correlate the ones that belong
-to the same file, adding a SEE ALSO section for them.
+When running kernel-doc over multiple documents, it emits
+one error message per file with is not what we want:
 
-The result is not bad. See for instance:
+	$ python3.6 scripts/kernel-doc.py . --none
+	...
+	Warning: ./include/trace/events/swiotlb.h:0 Python 3.7 or later is required for correct results
+	Warning: ./include/trace/events/iommu.h:0 Python 3.7 or later is required for correct results
+	Warning: ./include/trace/events/sock.h:0 Python 3.7 or later is required for correct results
+	...
 
-	$ tools/docs/sphinx-build-wrapper --sphinxdirs driver-api/media -- mandocs
-	$ man Documentation/output/driver-api/man/edac_pci_add_device.9
+Change the logic to warn it only once at the library:
 
-	edac_pci_add_device(9)  Kernel Hacker's Manual  edac_pci_add_device(9)
+	$ python3.6 scripts/kernel-doc.py . --none
+	Warning: Python 3.7 or later is required for correct results
+	Warning: ./include/cxl/features.h:0 Python 3.7 or later is required for correct results
 
-	NAME
-	       edac_pci_add_device  - Insert the 'edac_dev' structure into the
-	       edac_pci global list and create sysfs entries  associated  with
-	       edac_pci structure.
-
-	SYNOPSIS
-	       int  edac_pci_add_device  (struct  edac_pci_ctl_info *pci , int
-	       edac_idx );
-
-	ARGUMENTS
-	       pci         pointer to the edac_device structure to be added to
-	                   the list
-
-	       edac_idx    A unique numeric identifier to be assigned to the
-
-	RETURN
-	       0 on Success, or an error code on failure
-
-	SEE ALSO
-	       edac_pci_alloc_ctl_info(9),          edac_pci_free_ctl_info(9),
-	       edac_pci_alloc_index(9),  edac_pci_del_device(9), edac_pci_cre‐
-	       ate_generic_ctl(9),            edac_pci_release_generic_ctl(9),
-	       edac_pci_create_sysfs(9), edac_pci_remove_sysfs(9)
-
-	August 2025               edac_pci_add_device   edac_pci_add_device(9)
+When running from command line, it warns twice, but that sounds
+ok.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/lib/kdoc/kdoc_files.py  |  5 +-
- scripts/lib/kdoc/kdoc_output.py | 84 +++++++++++++++++++++++++++++++--
- 2 files changed, 83 insertions(+), 6 deletions(-)
+ scripts/lib/kdoc/kdoc_parser.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index 9e09b45b02fa..061c033f32da 100644
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -275,7 +275,10 @@ class KernelFiles():
-                 self.config.log.warning("No kernel-doc for file %s", fname)
-                 continue
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index a560546c1867..574972e1f741 100644
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -314,6 +314,7 @@ class KernelEntry:
+             self.section = SECTION_DEFAULT
+             self._contents = []
  
--            for arg in self.results[fname]:
-+            symbols = self.results[fname]
-+            self.out_style.set_symbols(symbols)
-+
-+            for arg in symbols:
-                 m = self.out_msg(fname, arg.name, arg)
++python_warning = False
  
-                 if m is None:
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index ea8914537ba0..1eca9a918558 100644
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -215,6 +215,9 @@ class OutputFormat:
+ class KernelDoc:
+     """
+@@ -347,9 +348,13 @@ class KernelDoc:
+         # We need Python 3.7 for its "dicts remember the insertion
+         # order" guarantee
+         #
+-        if sys.version_info.major == 3 and sys.version_info.minor < 7:
++        global python_warning
++        if (not python_warning and
++            sys.version_info.major == 3 and sys.version_info.minor < 7):
++
+             self.emit_msg(0,
+                           'Python 3.7 or later is required for correct results')
++            python_warning = True
  
-     # Virtual methods to be overridden by inherited classes
-     # At the base class, those do nothing.
-+    def set_symbols(self, symbols):
-+        """Get a list of all symbols from kernel_doc"""
-+
-     def out_doc(self, fname, name, args):
-         """Outputs a DOC block"""
- 
-@@ -577,6 +580,7 @@ class ManFormat(OutputFormat):
- 
-         super().__init__()
-         self.modulename = modulename
-+        self.symbols = []
- 
-         dt = None
-         tstamp = os.environ.get("KBUILD_BUILD_TIMESTAMP")
-@@ -593,6 +597,68 @@ class ManFormat(OutputFormat):
- 
-         self.man_date = dt.strftime("%B %Y")
- 
-+    def arg_name(self, args, name):
-+        """
-+        Return the name that will be used for the man page.
-+
-+        As we may have the same name on different namespaces,
-+        prepend the data type for all types except functions and typedefs.
-+
-+        The doc section is special: it uses the modulename.
-+        """
-+
-+        dtype = args.type
-+
-+        if dtype == "doc":
-+            return self.modulename
-+
-+        if dtype in ["function", "typedef"]:
-+            return name
-+
-+        return f"{dtype} {name}"
-+
-+    def set_symbols(self, symbols):
-+        """
-+        Get a list of all symbols from kernel_doc.
-+
-+        Man pages will uses it to add a SEE ALSO section with other
-+        symbols at the same file.
-+        """
-+        self.symbols = symbols
-+
-+    def out_tail(self, fname, name, args):
-+        """Adds a tail for all man pages"""
-+
-+        # SEE ALSO section
-+        if len(self.symbols) >= 2:
-+            cur_name = self.arg_name(args, name)
-+
-+            self.data += f'.SH "SEE ALSO"' + "\n.PP\n"
-+            related = []
-+            for arg in self.symbols:
-+                out_name = self.arg_name(arg, arg.name)
-+
-+                if cur_name == out_name:
-+                    continue
-+
-+                related.append(f"\\fB{out_name}\\fR(9)")
-+
-+            self.data += ",\n".join(related) + "\n"
-+
-+        # TODO: does it make sense to add other sections? Maybe
-+        # REPORTING ISSUES? LICENSE?
-+
-+    def msg(self, fname, name, args):
-+        """
-+        Handles a single entry from kernel-doc parser.
-+
-+        Add a tail at the end of man pages output.
-+        """
-+        super().msg(fname, name, args)
-+        self.out_tail(fname, name, args)
-+
-+        return self.data
-+
-     def output_highlight(self, block):
-         """
-         Outputs a C symbol that may require being highlighted with
-@@ -618,7 +684,9 @@ class ManFormat(OutputFormat):
-         if not self.check_doc(name, args):
-             return
- 
--        self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
-@@ -627,7 +695,9 @@ class ManFormat(OutputFormat):
-     def out_function(self, fname, name, args):
-         """output function in man"""
- 
--        self.data += f'.TH "{name}" 9 "{name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{name}" 9 "{out_name}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{name} \\- {args['purpose']}\n"
-@@ -671,7 +741,9 @@ class ManFormat(OutputFormat):
-             self.output_highlight(text)
- 
-     def out_enum(self, fname, name, args):
--        self.data += f'.TH "{self.modulename}" 9 "enum {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        out_name = self.arg_name(args, name)
-+
-+        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"enum {name} \\- {args['purpose']}\n"
-@@ -703,8 +775,9 @@ class ManFormat(OutputFormat):
-     def out_typedef(self, fname, name, args):
-         module = self.modulename
-         purpose = args.get('purpose')
-+        out_name = self.arg_name(args, name)
- 
--        self.data += f'.TH "{module}" 9 "{name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"typedef {name} \\- {purpose}\n"
-@@ -717,8 +790,9 @@ class ManFormat(OutputFormat):
-         module = self.modulename
-         purpose = args.get('purpose')
-         definition = args.get('definition')
-+        out_name = self.arg_name(args, name)
- 
--        self.data += f'.TH "{module}" 9 "{args.type} {name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-+        self.data += f'.TH "{module}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{args.type} {name} \\- {purpose}\n"
+     def emit_msg(self, ln, msg, warning=True):
+         """Emit a message"""
 -- 
 2.51.0
 
