@@ -1,131 +1,82 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA3B2EA154;
-	Thu, 18 Sep 2025 07:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35BB221265;
+	Thu, 18 Sep 2025 08:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758182257; cv=none; b=UUbRPNLk1yhQJbg9DWjnj3YihW1a5T/cpiSJwEWNSnGKPW5tRD6ETcwtC9kwKY4p2bNFUSjXP4LYul2FceWz5LvNvs8PaT0xgXEK7JNncQtp5oXX7WlOoOAOy7mnatGDRrwZ042EfA/YY9X/seu3XUR3d9hBGh80VhjHrEtvrTs=
+	t=1758182701; cv=none; b=h57X2CYwq41gnAkd28GOxpi58zmn+x7IdjLGjqJJ+GK9oAAisUqxFlXxJDz1iaE8uIHlJ7QDtUOC24FNJYcP0lHXAT8rIHYKDD9RUEItMK5pBbXpl1ggrYaqvSJwpRgHiMEaV1sD2vHc3eN1MwqdOrnkRrOONBdKLDCv5y7m4VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758182257; c=relaxed/simple;
-	bh=vKSOnufrF3bx+U6wur8L0pEWCkbcstxIhREck14B3p4=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=CkAa4UikEDE4TVqE4OPl/oi1ArT5NbHMczM3LJrhdNQ10KXz/Hu7mgm7x3DSDPazp7M4Tie4q4WDEauoQmE28V2dHK2FDhgTqWrRDE1Hgd2zD69aYzsYv0jukN7ifz6BhqEUOPjw4coFV4F4YO3gg/rA1NKJ2kdUr2B6T7QUBOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4cS7K44970z4xPSf;
-	Thu, 18 Sep 2025 15:57:28 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl2.zte.com.cn with SMTP id 58I7umf9025173;
-	Thu, 18 Sep 2025 15:56:48 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 18 Sep 2025 15:56:50 +0800 (CST)
-Date: Thu, 18 Sep 2025 15:56:50 +0800 (CST)
-X-Zmail-TransId: 2af968cbbb42b6c-d881e
-X-Mailer: Zmail v1.0
-Message-ID: <202509181556503857h2V0skOmjONfEzUrZ-ok@zte.com.cn>
+	s=arc-20240116; t=1758182701; c=relaxed/simple;
+	bh=E9qm+Sxn0Q/YmM7Ik3UwApGlTfQ+ELCuukT5Rsf7PJs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HOb9GVktRVceWPKxTfTr5QBQar97fss57zqAcv7DMMUNEb4dgxZHF1IpHhNdagyhbZwO9OnBwa+rCFGQy8jcenLg2Qx2vpH95Rznn7JZXF/vEfz/+13SoOreRCDj3o2dbN1+K5+mKL/ZixgsaXV1yj7uE7UauzCRMc5DQdlus6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=XDnrHYkw; arc=none smtp.client-ip=220.197.32.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="XDnrHYkw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=mj
+	Q3QJ+Fs+nA/I8gfkukX+TgwxN0n2N2A3SiOVEoz44=; b=XDnrHYkwIPBth38kbn
+	ujyBOMIbjr7ninLZ20/Nlc0gZb09CmWR/RMGUVTI2vZPr9WKHyhBwB6/1nernSNJ
+	um9I3ER2LrKTMn0+sYSZ5ziKC4HVpLyrFa9kBkulbiVRl89P91rNsApcxKjO2g+a
+	Eg96YqKXGCaXbEclg9izj7R5Q=
+Received: from mps-HP-EliteBook-840-G3.monolithicpower.com (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id Ms8vCgCHnwPzvMtoRFLLBA--.60510S2;
+	Thu, 18 Sep 2025 16:04:04 +0800 (CST)
+From: wenswang@yeah.net
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Wensheng Wang <wenswang@yeah.net>
+Subject: [PATCH v2 0/2] hwmon: Add support for MPS mp2925 and mp2929 chip
+Date: Thu, 18 Sep 2025 16:03:49 +0800
+Message-Id: <20250918080349.1154140-1-wenswang@yeah.net>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <alexs@kernel.org>
-Cc: <si.yanteng@linux.dev>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <yang.tao172@zte.com.cn>, <shao.mingyin@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBEb2NzL3poX0NOOiBmaXggdGhlIGZvcm1hdCBvZiBwcm9vZnJlYWRlcg==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 58I7umf9025173
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.133 unknown Thu, 18 Sep 2025 15:57:28 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 68CBBB68.001/4cS7K44970z4xPSf
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Ms8vCgCHnwPzvMtoRFLLBA--.60510S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Jry7tr17Kw4UGFWkCr1fXrb_yoW3XFbEkr
+	4Iga9Fvr1UJFs3WayDCr1rXryUGr4YgFy7G3W3tFZ8ZayaqrnxXrykZw17ta4UGrW7CF17
+	uFW8A393AF17KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbYFAPUUUUU==
+X-CM-SenderInfo: 5zhq24xdqjq5hhdkh0dhw/1tbiIRR5HmjLvPRY1wAA32
 
-From: shaomingyin <shao.mingyin@zte.com.cn>
+From: Wensheng Wang <wenswang@yeah.net>
 
-fix the format of proofreader for
-Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
-Documentation/translations/zh_CN/filesystems/gfs2.rst
-Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
-Documentation/translations/zh_CN/filesystems/ubifs.rst
+Add mp2925,mp292 driver in hwmon and add dt-bindings for them.
 
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
- Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst | 2 +-
- Documentation/translations/zh_CN/filesystems/gfs2.rst         | 4 ++--
- .../translations/zh_CN/filesystems/ubifs-authentication.rst   | 2 +-
- Documentation/translations/zh_CN/filesystems/ubifs.rst        | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+V1 -> V2:
+    1. add Krzysztof's Acked-by
+    2. pass 0 for i2c_device_id and of_device_id struct
 
-diff --git a/Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst b/Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
-index f5c3337ae9f9..3975c4544118 100644
---- a/Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
-+++ b/Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst
-@@ -10,7 +10,7 @@
+Wensheng Wang (2):
+  dt-bindings: hwmon: Add MPS mp2925 and mp2929
+  hwmon: add MP2925 and MP2929 driver
 
- :校译:
+ .../devicetree/bindings/trivial-devices.yaml  |   4 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/mp2925.rst                | 151 +++++++++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/mp2925.c                  | 312 ++++++++++++++++++
+ 7 files changed, 485 insertions(+)
+ create mode 100644 Documentation/hwmon/mp2925.rst
+ create mode 100644 drivers/hwmon/pmbus/mp2925.c
 
--   - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+   杨涛 yang tao <yang.tao172@zte.com.cn>
-
- ===============
- uevents 与 GFS2
-diff --git a/Documentation/translations/zh_CN/filesystems/gfs2.rst b/Documentation/translations/zh_CN/filesystems/gfs2.rst
-index 301a6af257b1..ffa62b12b019 100644
---- a/Documentation/translations/zh_CN/filesystems/gfs2.rst
-+++ b/Documentation/translations/zh_CN/filesystems/gfs2.rst
-@@ -6,11 +6,11 @@
-
- :翻译:
-
-- 邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
-+   邵明寅 Shao Mingyin <shao.mingyin@zte.com.cn>
-
- :校译:
-
-- - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+   杨涛 yang tao <yang.tao172@zte.com.cn>
-
- =====================================
- 全局文件系统 2 (Global File System 2)
-diff --git a/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst b/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
-index aebd6a8e4b7c..0e7cf7707e26 100644
---- a/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
-+++ b/Documentation/translations/zh_CN/filesystems/ubifs-authentication.rst
-@@ -10,7 +10,7 @@
-
- :校译:
-
--   - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+   杨涛 yang tao <yang.tao172@zte.com.cn>
-
- =============
- UBIFS认证支持
-diff --git a/Documentation/translations/zh_CN/filesystems/ubifs.rst b/Documentation/translations/zh_CN/filesystems/ubifs.rst
-index 16c28bfd6fc3..51b7366446f8 100644
---- a/Documentation/translations/zh_CN/filesystems/ubifs.rst
-+++ b/Documentation/translations/zh_CN/filesystems/ubifs.rst
-@@ -10,7 +10,7 @@
-
- :校译:
-
--   - 杨涛 yang tao <yang.tao172@zte.com.cn>
-+   杨涛 yang tao <yang.tao172@zte.com.cn>
-
- ============
- UBI 文件系统
 -- 
-2.27.0
+2.25.1
+
