@@ -1,62 +1,99 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013060.outbound.protection.outlook.com [52.101.83.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C0DF59;
-	Thu, 18 Sep 2025 16:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758212008; cv=none; b=HrjQ1HVtE0edd/lHatUZS4R51DabCeEZbHfeRHgs5Yx1FmRUyPqV9TIJcgESKpIlhuHE0RJUG2lBNSkxXGl/qNVbyvO2Pwe+/xxZTxIoCkvS3inEIbu1qF/AylwroJVRjw2ZvtNR/wleT9D1gA9xqn853pQ3z2BDZo0ZQ4T50Qo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758212008; c=relaxed/simple;
-	bh=RkkHYldHqxfCy+eO9kZc2Nu88Vb/p3AF9OgOx7ZCEAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NNqs8aIlnoX7xicHSXDduoCGWQTGQpyMhhph/j9lqeCAuRHf7I4ARqkb20t9rHcAEZodMyCHqer4Gf895xODVTRqARdGbFHjwBmhs0nwM+e6CwyI2FITbhYSmseWdN9K1ifml9lGHAO08vM5T/c4A9VBHJqP/L9ck8ktQYvRGaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 0D508118E89;
-	Thu, 18 Sep 2025 16:13:21 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 2846618;
-	Thu, 18 Sep 2025 16:13:08 +0000 (UTC)
-Date: Thu, 18 Sep 2025 12:14:16 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Ian Rogers <irogers@google.com>, Marco Elver <elver@google.com>, Peter
- Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, Ingo
- Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko
- <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Bill Wendling
- <morbo@google.com>, Christoph Hellwig <hch@lst.de>, Dmitry Vyukov
- <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, Frederic
- Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>,
- Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>,
- Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, Kentaro
- Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Tetsuo Handa
- <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>,
- Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman
- Long <longman@redhat.com>, kasan-dev@googlegroups.com,
- linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-security-module@vger.kernel.org,
- linux-sparse@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v3 02/35] compiler-capability-analysis: Add
- infrastructure for Clang's capability analysis
-Message-ID: <20250918121416.19a8041e@gandalf.local.home>
-In-Reply-To: <1ca90ba0-7bdc-43d1-af12-bba73dd3234a@acm.org>
-References: <20250918140451.1289454-1-elver@google.com>
-	<20250918140451.1289454-3-elver@google.com>
-	<CAP-5=fUfbMAKrLC_z04o9r0kGZ02tpHfv8cOecQAQaYPx44awA@mail.gmail.com>
-	<1ca90ba0-7bdc-43d1-af12-bba73dd3234a@acm.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D6E312836;
+	Thu, 18 Sep 2025 16:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758212502; cv=fail; b=aIALtu5qMeN49IUN3dcZN1jxwAeTFzub+42G+yxENub9RuiIUN9t9XX1fAUb6px9Cc7DjDeOXNtbkog75GiKR0IInU43ZcYBdqHYFnRPuk6MM6icaM8GhFQPeZmTZZkYq0xZCBKjQWDci2Etawck/8B5ADSZnD5ixKXCC+CiP7s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758212502; c=relaxed/simple;
+	bh=VxEvj2noUBZZ3VLVLhObYr+XwHtnWlwRBEaKarmbvnU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hYOZHeFTASMxSMTI3XrfIB+MH68dmaDN3eTZAhLg1UcRo7od8IRPZUGkap5BP0wpx2jnJojTeikTIYZEeSBxjeoADyYZ0Zql2OzEAvLLt8qZWDqOQ+FRvgVLB0nupNCreFILG1cyiRx+FpkUDh+SNF9iw3JRTHdFw92ZDdwSdSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=L/MI4hPj; arc=fail smtp.client-ip=52.101.83.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="L/MI4hPj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UoJ01TUgqIlwBxmAluHaNKNQk+MTKp/BC3IKsDEkhxZia+gzQ0g5x7KrsQkyOkUCmBGvnpVHwDnbAbcMOumDmgGntXAJl9iFC7QP1sAp/J1ssohQ2Wm5gaQ0RE2SZ9oICHs5911tqTp1uLY9YDXq74goBHHg9O+3pI3HJ8Vg5Cp+HyRpYSLaBxuXClG66cdwGAa1+5va+b2vDd+uOAfQgdTuUuW0C2jEaKaZHWS4qoQhijii+QtlufA1wZpcKtetvVC3ye7BQYCKqVF8ZRApWxo57A4THKx5KgEJ3gE1fuF7NmvzAHu14m9zAxKW0YtvXvgE6vUquOTGLWqwMq1Xqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y697nvhJ3awJ0wOZdYsic+UlfgJM1iAIkamvrbSgEvM=;
+ b=rcljBqaFEM5JItc4EEUlnvSR4eJ4L69CwF25n3yZemqIw8KeG9zdI918l2JxgasJbJZwGH2zTNxSrA4KwwOGWWY7oQwjkmGQ0KDfw5FzLo9S4XUfdtKB4qGRJf9iW6EjOusF4pW5kMLr/ktp+xE8diDFYbsUdTzKADvbNxJw120ZxQ8w3CM4D1MVq570ieElOUtNe1blWA5n8TRQ9hlMTiw2ALbwjO36G2wYfbCjrIZBI58Vj/xUdCNFFLndBE6QHLqH8KhZ7hnoSn/sWqlsgiGCvMy0KVGE5RgU2GzE58qqFIYwzW4voCj7gJ4ns2EKsNCoSuSEOk+/jsU+Eo+92w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 131.228.2.240) smtp.rcpttodomain=amazon.com
+ smtp.mailfrom=nokia-bell-labs.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=nokia-bell-labs.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y697nvhJ3awJ0wOZdYsic+UlfgJM1iAIkamvrbSgEvM=;
+ b=L/MI4hPj6+wQRtG1whkQyb5KIe7EEU9itkhIYRQ0flwA7QmjHGPlCDuj8EOV7nLWGvgDKKRX4lX2ZR8eoX0A7yKtQHP/doC/3AoZS7qLqSuauwI1Cw5HE49ycMryNm0D/RBiUZ4Oy5QRiF+K9Dzr9Zt4b6L+ptIOmk4Ks16gQ703vWnN/r1XkhkPIJ7F23FqJVFtsS/HZAJbUH1fndabiZGPwepWyIt54sTemIRhN+SQ2HHsd2YBRso2bp8355Zmx62XhQ9FF8vTUW6DSQTgF7gwZQrubAq7vRt9mUw52d9DcyfhFptfJaFMNn5w4eWZ4XSChEfZN2zfFSCAlIteLA==
+Received: from DB9PR05CA0002.eurprd05.prod.outlook.com (2603:10a6:10:1da::7)
+ by PA1PR07MB11096.eurprd07.prod.outlook.com (2603:10a6:102:501::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
+ 2025 16:21:37 +0000
+Received: from DB3PEPF0000885D.eurprd02.prod.outlook.com
+ (2603:10a6:10:1da:cafe::1b) by DB9PR05CA0002.outlook.office365.com
+ (2603:10a6:10:1da::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.13 via Frontend Transport; Thu,
+ 18 Sep 2025 16:21:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.2.240)
+ smtp.mailfrom=nokia-bell-labs.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nokia-bell-labs.com;
+Received-SPF: Pass (protection.outlook.com: domain of nokia-bell-labs.com
+ designates 131.228.2.240 as permitted sender)
+ receiver=protection.outlook.com; client-ip=131.228.2.240;
+ helo=fihe3nok0735.emea.nsn-net.net; pr=C
+Received: from fihe3nok0735.emea.nsn-net.net (131.228.2.240) by
+ DB3PEPF0000885D.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.12
+ via Frontend Transport; Thu, 18 Sep 2025 16:21:37 +0000
+Received: from sarah.nbl.nsn-rdnet.net (sarah.nbl.nsn-rdnet.net [10.0.73.150])
+	by fihe3nok0735.emea.nsn-net.net (Postfix) with ESMTP id CFCC220107;
+	Thu, 18 Sep 2025 19:21:35 +0300 (EEST)
+From: chia-yu.chang@nokia-bell-labs.com
+To: pabeni@redhat.com,
+	edumazet@google.com,
+	linux-doc@vger.kernel.org,
+	corbet@lwn.net,
+	horms@kernel.org,
+	dsahern@kernel.org,
+	kuniyu@amazon.com,
+	bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	dave.taht@gmail.com,
+	jhs@mojatatu.com,
+	kuba@kernel.org,
+	stephen@networkplumber.org,
+	xiyou.wangcong@gmail.com,
+	jiri@resnulli.us,
+	davem@davemloft.net,
+	andrew+netdev@lunn.ch,
+	donald.hunter@gmail.com,
+	ast@fiberby.net,
+	liuhangbin@gmail.com,
+	shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	ij@kernel.org,
+	ncardwell@google.com,
+	koen.de_schepper@nokia-bell-labs.com,
+	g.white@cablelabs.com,
+	ingemar.s.johansson@ericsson.com,
+	mirja.kuehlewind@ericsson.com,
+	cheshire@apple.com,
+	rs.ietf@gmx.at,
+	Jason_Livingood@comcast.com,
+	vidhi_goel@apple.com
+Cc: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+Subject: [PATCH v2 net-next 00/14] AccECN protocol case handling series
+Date: Thu, 18 Sep 2025 18:21:19 +0200
+Message-Id: <20250918162133.111922-1-chia-yu.chang@nokia-bell-labs.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,52 +101,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 2846618
-X-Stat-Signature: jk37s4n4y1abypzz3ibjma6i8hwh3dpi
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX187tFXsL5Le7f+OEdXPb8EfevPMdYJjxao=
-X-HE-Tag: 1758211988-794253
-X-HE-Meta: U2FsdGVkX19m1tAn22PHk3kX2Wk2POBgAZFzgAQIMCx/TzKCFJHSRgy7lqGNU4t4JpUf2LxrofFc8Ml/SzvQUemqI2s/M2eVv2TcCTTofn0gFGf1qiKnggle2+rBi9jozqgLP+w5zmTzD8j5BYGNETdC7HYpSCmlxzgRl1HmUDgT6vBPRbNQKlew/GiSPntamWI4BN+3BQMlrQzHKrw2Hd44nH0TJbDzGUvq4EnHN5l77wWkx8yamYKm0wF/UonjU1auAq1+e+AHgLIMHgDBTy/q+l9/HvzB2gWDjclvwsnGTS+Jv2LDmjZbgWOiLNXP1sp9TafIX1LTwyRs55KIsTFDvD2gur62c5R5bpv6t02yJBvS9Pt6FACmEbxkfSaUp1nLcDU5Q19B7Ha8v33a91ClwZlXoj1UYYAtqvo6OkbX+GZwbhQ0RoFfAYIW3JVWEzxWKbCA0qFysRVjwJOtsFC2FqAYNCgDAkEhxNFg1LQ=
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PEPF0000885D:EE_|PA1PR07MB11096:EE_
+X-MS-Office365-Filtering-Correlation-Id: 575ca6f8-8501-4526-cf90-08ddf6cf712f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ODVlSkRFSGtBZFRrTXoyR2VVTDMxTGF0RmJxM1R3L2tNZmpNakI2MnhMQ0Js?=
+ =?utf-8?B?QW43aWpzR0p3b3M1Uk14RE4xTUlZbFFxb3Zsc1puQ3U0dXdLZTYwTHNLVTRh?=
+ =?utf-8?B?L25SRkRKZ2JJOHBrOTI5Q3o3Nmk2Q1h5bEtkYWRldkc1VWVuQmVtd0tSL3ZU?=
+ =?utf-8?B?OCswRFJmRnlnMnFyYjVYWGJ4a0t3aTVydkxKb0trMFZML2RUWDBYc2xvT1I0?=
+ =?utf-8?B?QmhnNEh1RWdxaFhXcEs4eHZLNFpZYlUvMVdUYjdiSkFoYXl6UzFPZjk1eDVQ?=
+ =?utf-8?B?c3lOd1IwcFFEam05eHF3OS9sK1dwOFc5T2hIemorTmpIdlBSQkwvVXlKeURh?=
+ =?utf-8?B?Y1d0R21YN0c4dHJlTmtvOVlnVkdKZ1kvbUt5VDdtTng3TFVNU29NSzhiWDRx?=
+ =?utf-8?B?cCtJc0tKdHNNY0k1c3hraXkyMFNEL0krM1hYNzRlVTRrVUl3ZGp3bjhEMGgy?=
+ =?utf-8?B?Nk1MS3pWdzBiSmpPQVdhMGU5TW5HMmdGUTZlSG03QkdMV0gyM3FvdEx1TTEy?=
+ =?utf-8?B?ZG5YMXNsRzYrWEhFczJKSEdYMkp2K3BiSkpIZUhEa055VUgvTVFUcGxJZmQw?=
+ =?utf-8?B?UElvTEwyZXkrZjFCczhtbGFMdnlhdnhHK0dKUGMyTHBzUmYvMEpxMkl5Sm9D?=
+ =?utf-8?B?aDQrTjdjazl0d0V1R2dFWi81N2RrV0JOWnJBWlRoNGdWSjJpQjVNeTYyTE1m?=
+ =?utf-8?B?MFVxakkyOVIyN1o4cDJJNXFMVC9US2JjOHRCRXFDR3ljbHJ6ZzRTRlFrMkZk?=
+ =?utf-8?B?QjZzbG1PQjRkbVY1SDdNUzN0NW45UlloeFltNzlsYmF1cllNS3hZVEtkd29V?=
+ =?utf-8?B?QjNuN1FIeXZJaFhDVHkrZlRwQXo1QlgxS1lNSm8wOU0zM3JTWjYvckZQOS9x?=
+ =?utf-8?B?SHZNU0dwTjd5cEdXS3RTK2NPVkZCVmFEdldZNnorcFBoRlhDYVJ0djhEOFdJ?=
+ =?utf-8?B?b1RGTm1Wd3VCMDVEUzEybjRYeWk1OEFVVktQVzBHRWZsNlFna0ZGSXFMeTNn?=
+ =?utf-8?B?YmgyRXdpSFJvUVg0N1A5MVhJTXNDZHhWWHhaMER2L1l0WkQ4K1Z0eDdZeVlH?=
+ =?utf-8?B?d3BsVGc5S0UxSGlCeDlDZksyTVdqWHlNSXpHOHpoYm94SEY3Vkk2MkpyUi96?=
+ =?utf-8?B?ZW9OSmJEWEdqQklMdC9TRmhubVZiNXUva3BPajZJYTlMYW1VZWViUytEdXNE?=
+ =?utf-8?B?SHFpcU1aMEhLOERHTUo2aXRYRGdONU95ZkhTWlo2MTdLOUVJeTdWUFhZUEJH?=
+ =?utf-8?B?SndhbGFGbDRHK0FDcVlkcHhNWVdZRXI0YWFjamQ1SGpYMXJ4Vjdna3NqVWZ3?=
+ =?utf-8?B?NmNIeEk3ZklOSkJLQVNIa1NRWHRyRVlnSHQzTTF6Wm5QU296UUNTWk1TS1U1?=
+ =?utf-8?B?SUN4U05GLys5Y2gwSUxtSlVpVTlVYTNCV1l2ZDVjL3d2SkZUd25mcVFkZkNO?=
+ =?utf-8?B?NkRsdEYrb3ArVkFhVnVMZFd0S2ZDSU82WmhmUzIrdm9GMEpYYm1jNGxtZDJ3?=
+ =?utf-8?B?VE4rOURmMU11K2FLWUcwNzA2SHpUZ2svMCtoZ3NMR0dkb3FhTXNXemlXUWZh?=
+ =?utf-8?B?a3E5aExUTFFzeWU4VE1jVmtTTmNIaGx4TzcvaW8wTnZXUWEzWVZLYVE1eUJE?=
+ =?utf-8?B?dk5CdUthVmdONXcwTE5vanRIcEJjSTRjQ2I3V05QbEYvbVl6KzB6dFhRdkxG?=
+ =?utf-8?B?L2tpeno0bDU2U1AyQXZXaWk2Mmc1NE1YRzQvVkJlcXhuTnMzc3dTZ1NKSEI1?=
+ =?utf-8?B?QkdQa0tzeTNYdTFBdkhRaFlsc3Z1a21pd1A3TTBic2NtOG1aTnZjc09pMzFo?=
+ =?utf-8?B?OXkvTm5Jbmh4aFNHSUlUbzhZcDhPMGpqeXZBRTFvaVFhUzZybmxTbEpJblU0?=
+ =?utf-8?B?UEhIaTJRZ2hXNHVvTGlHN3l4NTI0UWtZbmk1UTQrVm8vcXlaczBab2Q4dVpX?=
+ =?utf-8?B?R0RGbXUxZDB3RzRYWk9sNmhyd0liT2hYTWFQWU9sanQ3WTNSOXFTWnRDM2xG?=
+ =?utf-8?B?ZS9BQ2ZSMXZNV01ndkZVUmpwNnYzVUpnZUFUZDI1R2M4RXBjMHlFcVJNcW5w?=
+ =?utf-8?B?clF2a1hLMFN3MFJYVEd2Kzk0SCtiQ1h5eldJUT09?=
+X-Forefront-Antispam-Report:
+	CIP:131.228.2.240;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0735.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: nokia-bell-labs.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 16:21:37.3307
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 575ca6f8-8501-4526-cf90-08ddf6cf712f
+X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.240];Helo=[fihe3nok0735.emea.nsn-net.net]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DB3PEPF0000885D.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR07MB11096
 
-On Thu, 18 Sep 2025 09:03:17 -0700
-Bart Van Assche <bvanassche@acm.org> wrote:
+From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 
-> On 9/18/25 8:58 AM, Ian Rogers wrote:
-> > On Thu, Sep 18, 2025 at 7:05=E2=80=AFAM Marco Elver <elver@google.com> =
-wrote: =20
-> >> +config WARN_CAPABILITY_ANALYSIS
-> >> +       bool "Compiler capability-analysis warnings"
-> >> +       depends on CC_IS_CLANG && CLANG_VERSION >=3D 220000
-> >> +       # Branch profiling re-defines "if", which messes with the comp=
-iler's
-> >> +       # ability to analyze __cond_acquires(..), resulting in false p=
-ositives.
-> >> +       depends on !TRACE_BRANCH_PROFILING =20
-> >=20
-> > Err, wow! What and huh, and why? Crikes. I'm amazed you found such an
-> > option exists. I must be very naive to have never heard of it and now
-> > I wonder if it is needed and load bearing? =20
->=20
-> (+Steven)
->=20
-> This is an old option. I think this commit introduced it:
->=20
-> commit 52f232cb720a7babb752849cbc2cab2d24021209
-> Author: Steven Rostedt <rostedt@goodmis.org>
-> Date:   Wed Nov 12 00:14:40 2008 -0500
->=20
->      tracing: likely/unlikely branch annotation tracer
->=20
+Hello,
 
-I still use it every year (enable it during December for a few weeks on my
-workstation and server) and post the results publicly. When I get time, I
-try to fix (add / remove) likely/unlikely statements. Unfortunately, I
-haven't had time to look deeper at them.
+Plesae find the v2 AccECN case handling patch series, which covers
+several excpetional case handling of Accurate ECN spec (RFC9768),
+adds new identifiers to be used by CC modules, adds ecn_delta into
+rate_sample, and keeps the ACE counter for computation, etc.
 
- https://rostedt.org/branches/current/
+This patch series is part of the full AccECN patch series, which is available at
+https://github.com/L4STeam/linux-net-next/commits/upstream_l4steam/
 
-This year I missed December and ended up running it in January instead.
+Best regards,
+Chia-Yu
 
--- Steve
+---
+Chia-Yu Chang (11):
+  tcp: L4S ECT(1) identifier and NEEDS_ACCECN for CC modules
+  tcp: disable RFC3168 fallback identifier for CC modules
+  tcp: accecn: handle unexpected AccECN negotiation feedback
+  tcp: accecn: retransmit downgraded SYN in AccECN negotiation
+  tcp: move increment of num_retrans
+  tcp: accecn: retransmit SYN/ACK without AccECN option or non-AccECN
+    SYN/ACK
+  tcp: accecn: unset ECT if receive or send ACE=0 in AccECN negotiaion
+  tcp: accecn: fallback outgoing half link to non-AccECN
+  tcp: accecn: verify ACE counter in 1st ACK after AccECN negotiation
+  tcp: accecn: stop sending AccECN opt when loss ACK w/ option
+  tcp: accecn: enable AccECN
+
+Ilpo Järvinen (3):
+  tcp: try to avoid safer when ACKs are thinned
+  gro: flushing when CWR is set negatively affects AccECN
+  tcp: accecn: Add ece_delta to rate_sample
+
+ .../networking/net_cachelines/tcp_sock.rst    |  1 +
+ include/linux/tcp.h                           |  4 +-
+ include/net/inet_ecn.h                        | 20 +++-
+ include/net/tcp.h                             | 30 +++++-
+ include/net/tcp_ecn.h                         | 85 ++++++++++++-----
+ net/ipv4/sysctl_net_ipv4.c                    |  2 +-
+ net/ipv4/tcp.c                                |  2 +
+ net/ipv4/tcp_cong.c                           |  9 +-
+ net/ipv4/tcp_input.c                          | 91 +++++++++++++------
+ net/ipv4/tcp_minisocks.c                      | 40 +++++---
+ net/ipv4/tcp_offload.c                        |  3 +-
+ net/ipv4/tcp_output.c                         | 38 +++++---
+ 12 files changed, 239 insertions(+), 86 deletions(-)
+
+-- 
+2.34.1
+
