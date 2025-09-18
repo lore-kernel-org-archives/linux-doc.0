@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4F62C0263;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6338D2D7DD0;
 	Thu, 18 Sep 2025 11:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758196506; cv=none; b=JRe0jHLLIZDG7Ps7ShpKvgOqsN/++DuO4vJ4eQr+AOWILiWr6Jo8PesR1dzs+GOl6nCzHtqrT2Aamp+vcjeA/+1vwcchdRRzZjmQajYoYIOZmIMExBhSw4TD4CxV5WqvOzBSQiKIlHBRtTih6y9MU2zvsYI7kQKBHvS/ZSTcR1g=
+	t=1758196506; cv=none; b=ZC5vOfhOjMA4Jj3dG+pl2MWHDavInfpl0HEciBwx+tytsvg99Tf3EKxUMlu1ASHvjmsnC7h1P99wGn7xuUaQSBKg4UEqBLjKcGvEQd1aMUDVw9Zm0CBAveK4dfOAgFovqNEW5w9SHvXLVj4fvtaObWe4NlAwIHEDvAmxISNYch8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758196506; c=relaxed/simple;
-	bh=kdzw8bKSlWfCx7XdnNlorMPC4frNn6vVlI1VZc7nnA8=;
+	bh=tvVO87MptHKvNiX/IGd4PofEFJGIlaeoGyYFXrabYqQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bTVsTMQX94W+EzuJHatyXqDQKwLB8kHxsSP/FIxsTxYCjHRekaD+BabhQn7GItPv0UG0POI9650WrWE33VhMk7ViU0Va6vTPuvusw3w2h/weHfsGu5LW09D2S5WXgwZP98ZbDTrbmyOrYUWVUV3h+6b0Qv5edvq93nMRoRFrjzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dD+ZNBhg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=lXFHG9FkjmaxTIz+FKgyPPbv1oMjdp4DVZ6gyzufKMzUWnPC4sadDJIfwp7sUlcPshZASjsv1YmGupylGSNw/qdQvXmf7ZRLbVnx7gosNr+iQnjCNy0vExasSdn8cTHwGjP7zI/5EU3t5n/l/bVquPxw9kGHYeuXnXqyKggVb0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMwVlBV0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dD+ZNBhg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3703C4CEFA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMwVlBV0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5A56C4CEFB;
 	Thu, 18 Sep 2025 11:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758196505;
-	bh=kdzw8bKSlWfCx7XdnNlorMPC4frNn6vVlI1VZc7nnA8=;
+	s=k20201202; t=1758196506;
+	bh=tvVO87MptHKvNiX/IGd4PofEFJGIlaeoGyYFXrabYqQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dD+ZNBhgmWBrLWtfUrNXdI9FreVY0CT4sXq2iwN8gLuoDcxxFT/17yB+kIzG2W1yT
-	 lSkpLMal3mY78+jprUi2oyPc2Av5irsZlGSWwIqM0LEWtrsepj1ixPrni2oEqBw6iB
-	 3LE4uvVWzNTLAuS/sZ3uJjtyXWAbjMmXh1x8PL5lE9qMYoCfUjmDrMhfpc3gNL8XtH
-	 IEOX3PJIJW0no2UDr7R0imdm20KcePDuUgU6w9ovy+BczMzS/Nc5v9UwMtoOPp6ohU
-	 CgOtzqwpLep0YB6GqwKkFLNB4rwOQnTLyDeN7tO+PHBd+U3bn61w4ibKDJh6OWETmb
-	 UwsQ753DFugEQ==
+	b=DMwVlBV0JytDQkmxXr8C4eBYUNO+JgS1qrNmRAqXFcrfgcRRz9/qlRvzFWLxC+SSv
+	 EqulEdI+Z1sXePYrfzDFsW2tQAzPxpw45RYJGgmvPLbQvR6XOb9J9UJIVtC66qrCGU
+	 1SCd+Glz2qRqt/8WRLErnJY5/9LHB/YBcGrIzDydcgj4+89q2Zq0MlfOYwa2VeX8kn
+	 /6wwcvUbFI3BLq5ChLZdVzYsVK2fhEmFD04qzSCZ1LrxFdMqbaVdHNyWxan2Ami0AN
+	 d4T1WhfKYPs6V/njjMxvm7igezyiDgdyvpWvBFjTOf7zDwSi3eQQv5SULVJQNiSQT5
+	 tf9VOLZnLhWqg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uzDE7-0000000Crkv-3CUx;
+	id 1uzDE7-0000000CrmZ-3YTj;
 	Thu, 18 Sep 2025 13:55:03 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 02/24] scripts/jobserver-exec: move its class to the lib directory
-Date: Thu, 18 Sep 2025 13:54:36 +0200
-Message-ID: <6be7b161b6c005a9807162ebfd239af6a4e6fa47.1758196090.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v8 05/24] tools/docs: check-variable-fonts.py: split into a lib and an exec file
+Date: Thu, 18 Sep 2025 13:54:39 +0200
+Message-ID: <8adbc22df1d43b1c5a673799d2333cc429ffe9fc.1758196090.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
 References: <cover.1758196090.git.mchehab+huawei@kernel.org>
@@ -52,342 +52,419 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-To make it easier to be re-used, move the JobserverExec class
-to the library directory.
+As we'll be using the actual code inside sphinx-build-wrapper,
+split the library from the executable, placing the exec at
+the new place we've been using:
+
+	tools/docs
+
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/jobserver-exec   | 152 +++------------------------------------
- scripts/lib/jobserver.py | 149 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 160 insertions(+), 141 deletions(-)
- create mode 100755 scripts/lib/jobserver.py
+ Documentation/Makefile             |   2 +-
+ MAINTAINERS                        |   1 -
+ scripts/check-variable-fonts.py    | 165 -----------------------------
+ tools/docs/check-variable-fonts.py |  23 ++++
+ tools/docs/lib/latex_fonts.py      | 162 ++++++++++++++++++++++++++++
+ 5 files changed, 186 insertions(+), 167 deletions(-)
+ delete mode 100755 scripts/check-variable-fonts.py
+ create mode 100755 tools/docs/check-variable-fonts.py
+ create mode 100755 tools/docs/lib/latex_fonts.py
 
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index 897c0cca9e6e..40a0f0058733 100755
---- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -1,155 +1,25 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index d5e436435eab..6e11d0593742 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -146,7 +146,7 @@ pdfdocs: DENY_VF = XDG_CONFIG_HOME=$(FONTS_CONF_DENY_VF)
+ pdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), \
+-	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/scripts/check-variable-fonts.py || exit; \
++	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" $(DENY_VF) -C $(BUILDDIR)/$(var)/latex || $(PYTHON3) $(srctree)/tools/docs/check-variable-fonts.py || exit; \
+ 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+ 	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+ 	)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 88d8f7435e6d..76dd823bfcc4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7301,7 +7301,6 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/check-variable-fonts.py
+ F:	scripts/checktransupdate.py
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/get_abi.py
+diff --git a/scripts/check-variable-fonts.py b/scripts/check-variable-fonts.py
+deleted file mode 100755
+index 8be1c0f39588..000000000000
+--- a/scripts/check-variable-fonts.py
++++ /dev/null
+@@ -1,165 +0,0 @@
+-#!/usr/bin/env python3
+-# SPDX-License-Identifier: GPL-2.0-only
+-# Copyright (C) Akira Yokosawa, 2024
 -#
--# pylint: disable=C0103,C0209
+-# Ported to Python by (c) Mauro Carvalho Chehab, 2025
 -#
--# This determines how many parallel tasks "make" is expecting, as it is
--# not exposed via an special variables, reserves them all, runs a subprocess
--# with PARALLELISM environment variable set, and releases the jobs back again.
+-# For "make pdfdocs", reports of build errors of translations.pdf started
+-# arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
+-# tumbleweed have started deploying variable-font [3] format of "Noto CJK"
+-# fonts [4, 5].  For PDF, a LaTeX package named xeCJK is used for CJK
+-# (Chinese, Japanese, Korean) pages.  xeCJK requires XeLaTeX/XeTeX, which
+-# does not (and likely never will) understand variable fonts for historical
+-# reasons.
 -#
--# https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
- 
--"""
--Interacts with the POSIX jobserver during the Kernel build time.
+-# The build error happens even when both of variable- and non-variable-format
+-# fonts are found on the build system.  To make matters worse, Fedora enlists
+-# variable "Noto CJK" fonts in the requirements of langpacks-ja, -ko, -zh_CN,
+-# -zh_TW, etc.  Hence developers who have interest in CJK pages are more
+-# likely to encounter the build errors.
+-#
+-# This script is invoked from the error path of "make pdfdocs" and emits
+-# suggestions if variable-font files of "Noto CJK" fonts are in the list of
+-# fonts accessible from XeTeX.
+-#
+-# References:
+-# [1]: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
+-# [2]: https://lore.kernel.org/r/1708585803.600323099@f111.i.mail.ru/
+-# [3]: https://en.wikipedia.org/wiki/Variable_font
+-# [4]: https://fedoraproject.org/wiki/Changes/Noto_CJK_Variable_Fonts
+-# [5]: https://build.opensuse.org/request/show/1157217
+-#
+-#===========================================================================
+-# Workarounds for building translations.pdf
+-#===========================================================================
+-#
+-# * Denylist "variable font" Noto CJK fonts.
+-#   - Create $HOME/deny-vf/fontconfig/fonts.conf from template below, with
+-#     tweaks if necessary.  Remove leading "# ".
+-#   - Path of fontconfig/fonts.conf can be overridden by setting an env
+-#     variable FONTS_CONF_DENY_VF.
+-#
+-#     * Template:
+-# -----------------------------------------------------------------
+-# <?xml version="1.0"?>
+-# <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+-# <fontconfig>
+-# <!--
+-#   Ignore variable-font glob (not to break xetex)
+-# -->
+-#     <selectfont>
+-#         <rejectfont>
+-#             <!--
+-#                 for Fedora
+-#             -->
+-#             <glob>/usr/share/fonts/google-noto-*-cjk-vf-fonts</glob>
+-#             <!--
+-#                 for openSUSE tumbleweed
+-#             -->
+-#             <glob>/usr/share/fonts/truetype/Noto*CJK*-VF.otf</glob>
+-#         </rejectfont>
+-#     </selectfont>
+-# </fontconfig>
+-# -----------------------------------------------------------------
+-#
+-#     The denylisting is activated for "make pdfdocs".
+-#
+-# * For skipping CJK pages in PDF
+-#   - Uninstall texlive-xecjk.
+-#     Denylisting is not needed in this case.
+-#
+-# * For printing CJK pages in PDF
+-#   - Need non-variable "Noto CJK" fonts.
+-#     * Fedora
+-#       - google-noto-sans-cjk-fonts
+-#       - google-noto-serif-cjk-fonts
+-#     * openSUSE tumbleweed
+-#       - Non-variable "Noto CJK" fonts are not available as distro packages
+-#         as of April, 2024.  Fetch a set of font files from upstream Noto
+-#         CJK Font released at:
+-#           https://github.com/notofonts/noto-cjk/tree/main/Sans#super-otc
+-#         and at:
+-#           https://github.com/notofonts/noto-cjk/tree/main/Serif#super-otc
+-#         , then uncompress and deploy them.
+-#       - Remember to update fontconfig cache by running fc-cache.
+-#
+-# !!! Caution !!!
+-#     Uninstalling "variable font" packages can be dangerous.
+-#     They might be depended upon by other packages important for your work.
+-#     Denylisting should be less invasive, as it is effective only while
+-#     XeLaTeX runs in "make pdfdocs".
 -
--A "normal" jobserver task, like the one initiated by a make subrocess would do:
--
--    - open read/write file descriptors to communicate with the job server;
--    - ask for one slot by calling:
--        claim = os.read(reader, 1)
--    - when the job finshes, call:
--        os.write(writer, b"+")  # os.write(writer, claim)
--
--Here, the goal is different: This script aims to get the remaining number
--of slots available, using all of them to run a command which handle tasks in
--parallel. To to that, it has a loop that ends only after there are no
--slots left. It then increments the number by one, in order to allow a
--call equivalent to make -j$((claim+1)), e.g. having a parent make creating
--$claim child to do the actual work.
--
--The end goal here is to keep the total number of build tasks under the
--limit established by the initial make -j$n_proc call.
--"""
--
--import errno
- import os
+-import os
+-import re
 -import subprocess
- import sys
- 
-+LIB_DIR = "lib"
-+SRC_DIR = os.path.dirname(os.path.realpath(__file__))
- 
--class JobserverExec:
+-import sys
+-import textwrap
+-
+-class LatexFontChecker:
 -    """
--    Claim all slots from make using POSIX Jobserver.
-+sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
- 
--    The main methods here are:
--    - open(): reserves all slots;
--    - close(): method returns all used slots back to make;
--    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
+-    Detect problems with CJK variable fonts that affect PDF builds for
+-    translations.
 -    """
-+from jobserver import JobserverExec                  # pylint: disable=C0415
- 
+-
 -    def __init__(self):
--        """Initialize internal vars"""
--        self.claim = 0
--        self.jobs = b""
--        self.reader = None
--        self.writer = None
--        self.is_open = False
- 
--    def open(self):
--        """Reserve all available slots to be claimed later on"""
+-        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
 -
--        if self.is_open:
--            return
+-        self.environ = os.environ.copy()
+-        self.environ['XDG_CONFIG_HOME'] = os.path.expanduser(deny_vf)
 -
+-        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
+-
+-    def get_noto_cjk_vf_fonts(self):
+-        """Get Noto CJK fonts"""
+-
+-        cjk_fonts = set()
+-        cmd = ["fc-list", ":", "file", "family", "variable"]
 -        try:
--            # Fetch the make environment options.
--            flags = os.environ["MAKEFLAGS"]
--            # Look for "--jobserver=R,W"
--            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
--            # so this handles all of them.
--            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
+-            result = subprocess.run(cmd,stdout=subprocess.PIPE,
+-                                    stderr=subprocess.PIPE,
+-                                    universal_newlines=True,
+-                                    env=self.environ,
+-                                    check=True)
 -
--            # Parse out R,W file descriptor numbers and set them nonblocking.
--            # If the MAKEFLAGS variable contains multiple instances of the
--            # --jobserver-auth= option, the last one is relevant.
--            fds = opts[-1].split("=", 1)[1]
+-        except subprocess.CalledProcessError as exc:
+-            sys.exit(f"Error running fc-list: {repr(exc)}")
 -
--            # Starting with GNU Make 4.4, named pipes are used for reader
--            # and writer.
--            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
--            _, _, path = fds.partition("fifo:")
+-        for line in result.stdout.splitlines():
+-            if 'variable=True' not in line:
+-                continue
 -
--            if path:
--                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
--                self.writer = os.open(path, os.O_WRONLY)
--            else:
--                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
--                # Open a private copy of reader to avoid setting nonblocking
--                # on an unexpecting process with the same reader fd.
--                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
--                                      os.O_RDONLY | os.O_NONBLOCK)
+-            match = self.re_cjk.search(line)
+-            if match:
+-                cjk_fonts.add(match.group(1))
 -
--            # Read out as many jobserver slots as possible
--            while True:
--                try:
--                    slot = os.read(self.reader, 8)
--                    self.jobs += slot
--                except (OSError, IOError) as e:
--                    if e.errno == errno.EWOULDBLOCK:
--                        # Stop at the end of the jobserver queue.
--                        break
--                    # If something went wrong, give back the jobs.
--                    if self.jobs:
--                        os.write(self.writer, self.jobs)
--                    raise e
+-        return sorted(cjk_fonts)
 -
--            # Add a bump for our caller's reserveration, since we're just going
--            # to sit here blocked on our child.
--            self.claim = len(self.jobs) + 1
+-    def check(self):
+-        """Check for problems with CJK fonts"""
 -
--        except (KeyError, IndexError, ValueError, OSError, IOError):
--            # Any missing environment strings or bad fds should result in just
--            # not being parallel.
--            self.claim = None
+-        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
+-        if not fonts:
+-            return None
 -
--        self.is_open = True
+-        rel_file = os.path.relpath(__file__, os.getcwd())
 -
--    def close(self):
--        """Return all reserved slots to Jobserver"""
+-        msg = "=" * 77 + "\n"
+-        msg += 'XeTeX is confused by "variable font" files listed below:\n'
+-        msg += fonts + "\n"
+-        msg += textwrap.dedent(f"""
+-                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
+-                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
 -
--        if not self.is_open:
--            return
+-                For more info on denylisting, other options, and variable font, see header
+-                comments of {rel_file}.
+-            """)
+-        msg += "=" * 77
 -
--        # Return all the reserved slots.
--        if len(self.jobs):
--            os.write(self.writer, self.jobs)
+-        return msg
 -
--        self.is_open = False
+-if __name__ == "__main__":
+-    msg = LatexFontChecker().check()
+-    if msg:
+-        print(msg)
 -
--    def __enter__(self):
--        self.open()
--        return self
--
--    def __exit__(self, exc_type, exc_value, exc_traceback):
--        self.close()
--
--    def run(self, cmd):
--        """
--        Run a command setting PARALLELISM env variable to the number of
--        available job slots (claim) + 1, e.g. it will reserve claim slots
--        to do the actual build work, plus one to monitor its children.
--        """
--        self.open()             # Ensure that self.claim is set
--
--        # We can only claim parallelism if there was a jobserver (i.e. a
--        # top-level "-jN" argument) and there were no other failures. Otherwise
--        # leave out the environment variable and let the child figure out what
--        # is best.
--        if self.claim:
--            os.environ["PARALLELISM"] = str(self.claim)
--
--        return subprocess.call(cmd)
-+"""
-+Determines how many parallel tasks "make" is expecting, as it is
-+not exposed via an special variables, reserves them all, runs a subprocess
-+with PARALLELISM environment variable set, and releases the jobs back again.
- 
-+See:
-+    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
-+"""
- 
- def main():
-     """Main program"""
-diff --git a/scripts/lib/jobserver.py b/scripts/lib/jobserver.py
+-    sys.exit(1)
+diff --git a/tools/docs/check-variable-fonts.py b/tools/docs/check-variable-fonts.py
 new file mode 100755
-index 000000000000..a24f30ef4fa8
+index 000000000000..79b28f0f7d85
 --- /dev/null
-+++ b/scripts/lib/jobserver.py
-@@ -0,0 +1,149 @@
++++ b/tools/docs/check-variable-fonts.py
+@@ -0,0 +1,23 @@
 +#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0+
++# SPDX-License-Identifier: GPL-2.0-only
++# Copyright (C) Akira Yokosawa, 2024
 +#
-+# pylint: disable=C0103,C0209
++# Ported to Python by (c) Mauro Carvalho Chehab, 2025
 +#
-+#
++# pylint: disable=C0103
 +
 +"""
-+Interacts with the POSIX jobserver during the Kernel build time.
++Detect problematic Noto CJK variable fonts.
 +
-+A "normal" jobserver task, like the one initiated by a make subrocess would do:
-+
-+    - open read/write file descriptors to communicate with the job server;
-+    - ask for one slot by calling:
-+        claim = os.read(reader, 1)
-+    - when the job finshes, call:
-+        os.write(writer, b"+")  # os.write(writer, claim)
-+
-+Here, the goal is different: This script aims to get the remaining number
-+of slots available, using all of them to run a command which handle tasks in
-+parallel. To to that, it has a loop that ends only after there are no
-+slots left. It then increments the number by one, in order to allow a
-+call equivalent to make -j$((claim+1)), e.g. having a parent make creating
-+$claim child to do the actual work.
-+
-+The end goal here is to keep the total number of build tasks under the
-+limit established by the initial make -j$n_proc call.
-+
-+See:
-+    https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
++or more details, see lib/latex_fonts.py.
 +"""
 +
-+import errno
-+import os
-+import subprocess
 +import sys
 +
-+class JobserverExec:
-+    """
-+    Claim all slots from make using POSIX Jobserver.
++from lib.latex_fonts import LatexFontChecker
 +
-+    The main methods here are:
-+    - open(): reserves all slots;
-+    - close(): method returns all used slots back to make;
-+    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
++msg = LatexFontChecker().check()
++if msg:
++    print(msg)
++
++sys.exit(1)
+diff --git a/tools/docs/lib/latex_fonts.py b/tools/docs/lib/latex_fonts.py
+new file mode 100755
+index 000000000000..81358a70f320
+--- /dev/null
++++ b/tools/docs/lib/latex_fonts.py
+@@ -0,0 +1,162 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0-only
++# Copyright (C) Akira Yokosawa, 2024
++#
++# Ported to Python by (c) Mauro Carvalho Chehab, 2025
++
++"""
++Detect problematic Noto CJK variable fonts.
++
++For "make pdfdocs", reports of build errors of translations.pdf started
++arriving early 2024 [1, 2].  It turned out that Fedora and openSUSE
++tumbleweed have started deploying variable-font [3] format of "Noto CJK"
++fonts [4, 5].  For PDF, a LaTeX package named xeCJK is used for CJK
++(Chinese, Japanese, Korean) pages.  xeCJK requires XeLaTeX/XeTeX, which
++does not (and likely never will) understand variable fonts for historical
++reasons.
++
++The build error happens even when both of variable- and non-variable-format
++fonts are found on the build system.  To make matters worse, Fedora enlists
++variable "Noto CJK" fonts in the requirements of langpacks-ja, -ko, -zh_CN,
++-zh_TW, etc.  Hence developers who have interest in CJK pages are more
++likely to encounter the build errors.
++
++This script is invoked from the error path of "make pdfdocs" and emits
++suggestions if variable-font files of "Noto CJK" fonts are in the list of
++fonts accessible from XeTeX.
++
++References:
++[1]: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
++[2]: https://lore.kernel.org/r/1708585803.600323099@f111.i.mail.ru/
++[3]: https://en.wikipedia.org/wiki/Variable_font
++[4]: https://fedoraproject.org/wiki/Changes/Noto_CJK_Variable_Fonts
++[5]: https://build.opensuse.org/request/show/1157217
++
++#===========================================================================
++Workarounds for building translations.pdf
++#===========================================================================
++
++* Denylist "variable font" Noto CJK fonts.
++  - Create $HOME/deny-vf/fontconfig/fonts.conf from template below, with
++    tweaks if necessary.  Remove leading "".
++  - Path of fontconfig/fonts.conf can be overridden by setting an env
++    variable FONTS_CONF_DENY_VF.
++
++    * Template:
++-----------------------------------------------------------------
++<?xml version="1.0"?>
++<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
++<fontconfig>
++<!--
++  Ignore variable-font glob (not to break xetex)
++-->
++    <selectfont>
++        <rejectfont>
++            <!--
++                for Fedora
++            -->
++            <glob>/usr/share/fonts/google-noto-*-cjk-vf-fonts</glob>
++            <!--
++                for openSUSE tumbleweed
++            -->
++            <glob>/usr/share/fonts/truetype/Noto*CJK*-VF.otf</glob>
++        </rejectfont>
++    </selectfont>
++</fontconfig>
++-----------------------------------------------------------------
++
++    The denylisting is activated for "make pdfdocs".
++
++* For skipping CJK pages in PDF
++  - Uninstall texlive-xecjk.
++    Denylisting is not needed in this case.
++
++* For printing CJK pages in PDF
++  - Need non-variable "Noto CJK" fonts.
++    * Fedora
++      - google-noto-sans-cjk-fonts
++      - google-noto-serif-cjk-fonts
++    * openSUSE tumbleweed
++      - Non-variable "Noto CJK" fonts are not available as distro packages
++        as of April, 2024.  Fetch a set of font files from upstream Noto
++        CJK Font released at:
++          https://github.com/notofonts/noto-cjk/tree/main/Sans#super-otc
++        and at:
++          https://github.com/notofonts/noto-cjk/tree/main/Serif#super-otc
++        , then uncompress and deploy them.
++      - Remember to update fontconfig cache by running fc-cache.
++
++!!! Caution !!!
++    Uninstalling "variable font" packages can be dangerous.
++    They might be depended upon by other packages important for your work.
++    Denylisting should be less invasive, as it is effective only while
++    XeLaTeX runs in "make pdfdocs".
++"""
++
++import os
++import re
++import subprocess
++import textwrap
++import sys
++
++class LatexFontChecker:
++    """
++    Detect problems with CJK variable fonts that affect PDF builds for
++    translations.
 +    """
 +
 +    def __init__(self):
-+        """Initialize internal vars"""
-+        self.claim = 0
-+        self.jobs = b""
-+        self.reader = None
-+        self.writer = None
-+        self.is_open = False
++        deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
 +
-+    def open(self):
-+        """Reserve all available slots to be claimed later on"""
++        self.environ = os.environ.copy()
++        self.environ['XDG_CONFIG_HOME'] = os.path.expanduser(deny_vf)
 +
-+        if self.is_open:
-+            return
++        self.re_cjk = re.compile(r"([^:]+):\s*Noto\s+(Sans|Sans Mono|Serif) CJK")
 +
++    def get_noto_cjk_vf_fonts(self):
++        """Get Noto CJK fonts"""
++
++        cjk_fonts = set()
++        cmd = ["fc-list", ":", "file", "family", "variable"]
 +        try:
-+            # Fetch the make environment options.
-+            flags = os.environ["MAKEFLAGS"]
-+            # Look for "--jobserver=R,W"
-+            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-+            # so this handles all of them.
-+            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
++            result = subprocess.run(cmd,stdout=subprocess.PIPE,
++                                    stderr=subprocess.PIPE,
++                                    universal_newlines=True,
++                                    env=self.environ,
++                                    check=True)
 +
-+            # Parse out R,W file descriptor numbers and set them nonblocking.
-+            # If the MAKEFLAGS variable contains multiple instances of the
-+            # --jobserver-auth= option, the last one is relevant.
-+            fds = opts[-1].split("=", 1)[1]
++        except subprocess.CalledProcessError as exc:
++            sys.exit(f"Error running fc-list: {repr(exc)}")
 +
-+            # Starting with GNU Make 4.4, named pipes are used for reader
-+            # and writer.
-+            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
-+            _, _, path = fds.partition("fifo:")
++        for line in result.stdout.splitlines():
++            if 'variable=True' not in line:
++                continue
 +
-+            if path:
-+                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-+                self.writer = os.open(path, os.O_WRONLY)
-+            else:
-+                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-+                # Open a private copy of reader to avoid setting nonblocking
-+                # on an unexpecting process with the same reader fd.
-+                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-+                                      os.O_RDONLY | os.O_NONBLOCK)
++            match = self.re_cjk.search(line)
++            if match:
++                cjk_fonts.add(match.group(1))
 +
-+            # Read out as many jobserver slots as possible
-+            while True:
-+                try:
-+                    slot = os.read(self.reader, 8)
-+                    self.jobs += slot
-+                except (OSError, IOError) as e:
-+                    if e.errno == errno.EWOULDBLOCK:
-+                        # Stop at the end of the jobserver queue.
-+                        break
-+                    # If something went wrong, give back the jobs.
-+                    if self.jobs:
-+                        os.write(self.writer, self.jobs)
-+                    raise e
++        return sorted(cjk_fonts)
 +
-+            # Add a bump for our caller's reserveration, since we're just going
-+            # to sit here blocked on our child.
-+            self.claim = len(self.jobs) + 1
++    def check(self):
++        """Check for problems with CJK fonts"""
 +
-+        except (KeyError, IndexError, ValueError, OSError, IOError):
-+            # Any missing environment strings or bad fds should result in just
-+            # not being parallel.
-+            self.claim = None
++        fonts = textwrap.indent("\n".join(self.get_noto_cjk_vf_fonts()), "    ")
++        if not fonts:
++            return None
 +
-+        self.is_open = True
++        rel_file = os.path.relpath(__file__, os.getcwd())
 +
-+    def close(self):
-+        """Return all reserved slots to Jobserver"""
++        msg = "=" * 77 + "\n"
++        msg += 'XeTeX is confused by "variable font" files listed below:\n'
++        msg += fonts + "\n"
++        msg += textwrap.dedent(f"""
++                For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
++                Or, CJK pages can be skipped by uninstalling texlive-xecjk.
 +
-+        if not self.is_open:
-+            return
++                For more info on denylisting, other options, and variable font, see header
++                comments of {rel_file}.
++            """)
++        msg += "=" * 77
 +
-+        # Return all the reserved slots.
-+        if len(self.jobs):
-+            os.write(self.writer, self.jobs)
-+
-+        self.is_open = False
-+
-+    def __enter__(self):
-+        self.open()
-+        return self
-+
-+    def __exit__(self, exc_type, exc_value, exc_traceback):
-+        self.close()
-+
-+    def run(self, cmd, *args, **pwargs):
-+        """
-+        Run a command setting PARALLELISM env variable to the number of
-+        available job slots (claim) + 1, e.g. it will reserve claim slots
-+        to do the actual build work, plus one to monitor its children.
-+        """
-+        self.open()             # Ensure that self.claim is set
-+
-+        # We can only claim parallelism if there was a jobserver (i.e. a
-+        # top-level "-jN" argument) and there were no other failures. Otherwise
-+        # leave out the environment variable and let the child figure out what
-+        # is best.
-+        if self.claim:
-+            os.environ["PARALLELISM"] = str(self.claim)
-+
-+        return subprocess.call(cmd, *args, **pwargs)
++        return msg
 -- 
 2.51.0
 
