@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F063054F2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF54305955;
 	Thu, 18 Sep 2025 11:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758196507; cv=none; b=IimwAlycsc05dfsya3rlCsj1sq4ebTAYS+woUMRl7enMTJgfc+XjHZXdWpgyHgGSJxRE/1gwrQ+6G1GxB4RLI26wM8o5VG2UZU/LKpVGmwzrSy1Isu9vK6a97JsCiVOF7FJJNSChqROUFBkfK5o6EAs1vNmJFpQoo5SCVQgZu5g=
+	t=1758196507; cv=none; b=tvhCcZktByqP3XV2tepaM3Dr5BxFO/uWsqIQybUq/1+b3D6z6CSIVO2w8qZKm0VVZPVJERexRLFIwJWhRd4tV7hoj14OWGLgdDzHp924Fhd2fJ9yA+XcpcuuS+cWT9k3mXbqFX/uM0LON1rcgMbI4qFYpJXbPcgyGZHxBoOjFtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758196507; c=relaxed/simple;
-	bh=Pbt/uH3/UgM6ew/nk/FSpaBLbop272L8YPcfdZN28/U=;
+	bh=KDZQ/WnN5vw7Bl6a4chb+TcehefEfRpozxecUjS1tVU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d5fldqk/zAiXcHp8smtcnuG1U4KLU+UDV0pcDmztRAuShNrQwPm4zmKlfW6hRd53wAZkHw33dmWLA4G2/YagW4VRyrEyFctpZHcuPDsW7cuG/lQ1w0MGg++LuxwJ/4aluTWL/J3I+TbSB4bMUAzT6hLJYsE4cr77+cWW+iM5cfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VCN/EBrQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=i5kVBjgG3ZAb19KLWIPcLB8RaFDw5yJoscvTI6p2uW/GiekAxhGgRxz6vlbX0Ym9ZDrKoTdVS/LIxupbIGhsen9UNlnJPkpBGSeJa+yxhxD/lr3/tSsz0PA+fQgjnS8sp0Ouyn1fWDJBWq+jgwmn+ZkPEAYOMe7mFPbtQf6+/Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UIoAbqlu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCN/EBrQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8733C4CEFA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UIoAbqlu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD548C113D0;
 	Thu, 18 Sep 2025 11:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758196507;
-	bh=Pbt/uH3/UgM6ew/nk/FSpaBLbop272L8YPcfdZN28/U=;
+	bh=KDZQ/WnN5vw7Bl6a4chb+TcehefEfRpozxecUjS1tVU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VCN/EBrQDn6/Kf6UB8bd2F88BB2hhstUfQuGwcRNSMtPDIs6hI2m6i1bzLPrS3JRZ
-	 xYyU/9vriz7ihSBkxHm51NeUchj6EjfBz2rFtUTYI5G3EwFUYubwz+9dfqqax+97Gn
-	 WF15ORnSBY5aXUn34YN0agU1CWB5CibPLpAydbioTLDsZRUIvYx9aHbQ7pVr9fKScM
-	 3OZXSpTd3Z3PAKPWbLzEo57kPytlB5ElZVrF6p3A8Miuev2Sb7BZ/yRfhSP3ixhUFl
-	 MkC8gZg6sfMKAMO3b4l9JJhKtFY+rkZXIc4jgMBfM8KNWeHPHkt2qLUdBKH7CgYQzl
-	 aPLeqFJ8tGQzA==
+	b=UIoAbqlur3zL/fLLqxQ568kKmQRSMV0renDu3v0Q/HE2qYKFVPWeus2WrH6ui7qR7
+	 5A5OKoMvYVoj0Bn8skXKMS2fJcj6n+PSQwn+LuZoQLEGDkJjr4hFP3SqflD8lR8u6x
+	 ycBgA/L81zlMYNPq08gthrsbCx0xy3w0Tb6vSUFyoZh4m+C7tVnuYiNkyuf5MukhO7
+	 veKohplinc9hRH53of3B6zQg4uBimuriwmKq6gkNAPgqdtUHWu32xSytafZmQuActV
+	 sf4Itd8T+HyCF2Pr2cm/BN8C0BRqlkpkMlTE8zHOKpDm71WPzfi3NtaQ18tF5JXISn
+	 YHN9ZAer0eimw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uzDE8-0000000CrtA-0vo7;
+	id 1uzDE8-0000000CrtP-1Nkx;
 	Thu, 18 Sep 2025 13:55:04 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,10 +36,19 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Akira Yokosawa" <akiyks@gmail.com>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Masahiro Yamada <mchehab+huawei@kernel.org>,
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Nathan Chancellor <mchehab+huawei@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 16/24] tools/docs: sphinx-build-wrapper: allow building PDF files in parallel
-Date: Thu, 18 Sep 2025 13:54:50 +0200
-Message-ID: <42eef319f9af6f9feb12bcd74ca6392c8119929d.1758196090.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v8 19/24] docs: add support to build manpages from kerneldoc output
+Date: Thu, 18 Sep 2025 13:54:53 +0200
+Message-ID: <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758196090.git.mchehab+huawei@kernel.org>
 References: <cover.1758196090.git.mchehab+huawei@kernel.org>
@@ -52,298 +61,258 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Use POSIX jobserver when available or -j<number> to run PDF
-builds in parallel, restoring pdf build performance. Yet,
-running it when debugging troubles is a bad idea, so, when
-calling directly via command line, except if "-j" is splicitly
-requested, it will serialize the build.
+Generating man files currently requires running a separate
+script. The target also doesn't appear at the docs Makefile.
 
-With such change, a PDF doc builds now takes around 5 minutes
-on a Ryzen 9 machine with 32 cpu threads:
-
-	# Explicitly paralelize both Sphinx and LaTeX pdf builds
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs -j 33
-
-	real	5m17.901s
-	user	15m1.499s
-	sys	2m31.482s
-
-	# Use POSIX jobserver to paralelize both sphinx-build and LaTeX
-	$ make cleandocs; time make pdfdocs
-
-	real	5m22.369s
-	user	15m9.076s
-	sys	2m31.419s
-
-	# Serializes PDF build, while keeping Sphinx parallelized.
-	# it is equivalent of passing -jauto via command line
-	$ make cleandocs; time scripts/sphinx-build-wrapper pdfdocs
-
-	real	11m20.901s
-	user	13m2.910s
-	sys	1m44.553s
+Add support for mandocs at the Makefile, adding the build
+logic inside sphinx-build-wrapper, updating documentation
+and dropping the ancillary script.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper | 218 +++++++++++++++++++++++---------
- 1 file changed, 156 insertions(+), 62 deletions(-)
+ Documentation/Makefile                 |  3 +-
+ Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
+ Makefile                               |  2 +-
+ scripts/split-man.pl                   | 28 ---------
+ tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
+ 5 files changed, 95 insertions(+), 48 deletions(-)
+ delete mode 100755 scripts/split-man.pl
 
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 05397b9d844d..aa42b2cb7030 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
+ else # HAVE_SPHINX
+ 
+ # Common documentation targets
+-infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
++mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+ 	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+ 	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+ 		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
+@@ -104,6 +104,7 @@ dochelp:
+ 	@echo  '  htmldocs        - HTML'
+ 	@echo  '  texinfodocs     - Texinfo'
+ 	@echo  '  infodocs        - Info'
++	@echo  '  mandocs         - Man pages'
+ 	@echo  '  latexdocs       - LaTeX'
+ 	@echo  '  pdfdocs         - PDF'
+ 	@echo  '  epubdocs        - EPUB'
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index af9697e60165..4370cc8fbcf5 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -579,20 +579,23 @@ source.
+ How to use kernel-doc to generate man pages
+ -------------------------------------------
+ 
+-If you just want to use kernel-doc to generate man pages you can do this
+-from the kernel git tree::
++To generate man pages for all files that contain kernel-doc markups, run::
+ 
+-  $ scripts/kernel-doc -man \
+-    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+-    | scripts/split-man.pl /tmp/man
++  $ make mandocs
+ 
+-Some older versions of git do not support some of the variants of syntax for
+-path exclusion.  One of the following commands may work for those versions::
++Or calling ``script-build-wrapper`` directly::
+ 
+-  $ scripts/kernel-doc -man \
+-    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+-    | scripts/split-man.pl /tmp/man
++  $ ./tools/docs/sphinx-build-wrapper mandocs
+ 
+-  $ scripts/kernel-doc -man \
+-    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
+-    | scripts/split-man.pl /tmp/man
++The output will be at ``/man`` directory inside the output directory
++(by default: ``Documentation/output``).
++
++Optionally, it is possible to generate a partial set of man pages by
++using SPHINXDIRS:
++
++  $ make SPHINXDIRS=driver-api/media mandocs
++
++.. note::
++
++   When SPHINXDIRS={subdir} is used, it will only generate man pages for
++   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
+diff --git a/Makefile b/Makefile
+index 6bfe776bf3c5..9bd44afeda26 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+ DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+-	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
++	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS):
+ 	$(Q)$(MAKE) $(build)=Documentation $@
+diff --git a/scripts/split-man.pl b/scripts/split-man.pl
+deleted file mode 100755
+index 96bd99dc977a..000000000000
+--- a/scripts/split-man.pl
++++ /dev/null
+@@ -1,28 +0,0 @@
+-#!/usr/bin/env perl
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+-#
+-# Produce manpages from kernel-doc.
+-# See Documentation/doc-guide/kernel-doc.rst for instructions
+-
+-if ($#ARGV < 0) {
+-   die "where do I put the results?\n";
+-}
+-
+-mkdir $ARGV[0],0777;
+-$state = 0;
+-while (<STDIN>) {
+-    if (/^\.TH \"[^\"]*\" 9 \"([^\"]*)\"/) {
+-	if ($state == 1) { close OUT }
+-	$state = 1;
+-	$fn = "$ARGV[0]/$1.9";
+-	print STDERR "Creating $fn\n";
+-	open OUT, ">$fn" or die "can't open $fn: $!\n";
+-	print OUT $_;
+-    } elsif ($state != 0) {
+-	print OUT $_;
+-    }
+-}
+-
+-close OUT;
 diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 50761f125bc9..0fe21b343e7a 100755
+index 8d1f77c4a880..7a6eb41837e6 100755
 --- a/tools/docs/sphinx-build-wrapper
 +++ b/tools/docs/sphinx-build-wrapper
-@@ -51,6 +51,8 @@ import shutil
+@@ -47,12 +47,14 @@ the newer version.
+ import argparse
+ import locale
+ import os
++import re
+ import shlex
+ import shutil
  import subprocess
  import sys
  
-+from concurrent import futures
-+
+ from concurrent import futures
++from glob import glob
+ 
  from lib.python_version import PythonVersion
  from lib.latex_fonts import LatexFontChecker
+@@ -77,6 +79,7 @@ TARGETS = {
+     "epubdocs":      { "builder": "epub",    "out_dir": "epub" },
+     "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },
+     "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },
++    "mandocs":       { "builder": "man",     "out_dir": "man" },
+     "latexdocs":     { "builder": "latex",   "out_dir": "latex" },
+     "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },
+     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
+@@ -503,6 +506,71 @@ class SphinxBuilder:
+             except subprocess.CalledProcessError as e:
+                 sys.exit(f"Error generating info docs: {e}")
  
-@@ -291,6 +293,87 @@ class SphinxBuilder:
-         except (OSError, IOError) as e:
-             print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
- 
-+    def build_pdf_file(self, latex_cmd, from_dir, path):
-+        """Builds a single pdf file using latex_cmd"""
++    def handle_man(self, kerneldoc, docs_dir, src_dir, output_dir):
++        """
++        Create man pages from kernel-doc output
++        """
++
++        re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
++        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
++
++        if docs_dir == src_dir:
++            #
++            # Pick the entire set of kernel-doc markups from the entire tree
++            #
++            kdoc_files = set([self.srctree])
++        else:
++            kdoc_files = set()
++
++            for fname in glob(os.path.join(src_dir, "**"), recursive=True):
++                if os.path.isfile(fname) and fname.endswith(".rst"):
++                    with open(fname, "r", encoding="utf-8") as in_fp:
++                        data = in_fp.read()
++
++                    for line in data.split("\n"):
++                        match = re_kernel_doc.match(line)
++                        if match:
++                            if os.path.isfile(match.group(1)):
++                                kdoc_files.add(match.group(1))
++
++        if not kdoc_files:
++                sys.exit(f"Directory {src_dir} doesn't contain kernel-doc tags")
++
++        cmd = [ kerneldoc, "-m" ] + sorted(kdoc_files)
 +        try:
-+            subprocess.run(latex_cmd + [path],
-+                            cwd=from_dir, check=True, env=self.env)
++            if self.verbose:
++                print(" ".join(cmd))
 +
-+            return True
-+        except subprocess.CalledProcessError:
-+            return False
++            result = subprocess.run(cmd, stdout=subprocess.PIPE, text= True)
 +
-+    def pdf_parallel_build(self, tex_suffix, latex_cmd, tex_files, n_jobs):
-+        """Build PDF files in parallel if possible"""
-+        builds = {}
-+        build_failed = False
-+        max_len = 0
-+        has_tex = False
++            if result.returncode:
++                print(f"Warning: kernel-doc returned {result.returncode} warnings")
 +
-+        #
-+        # LaTeX PDF error code is almost useless for us:
-+        # any warning makes it non-zero. For kernel doc builds it always return
-+        # non-zero even when build succeeds. So, let's do the best next thing:
-+        # Ignore build errors. At the end, check if all PDF files were built,
-+        # printing a summary with the built ones and returning 0 if all of
-+        # them were actually built.
-+        #
-+        with futures.ThreadPoolExecutor(max_workers=n_jobs) as executor:
-+            jobs = {}
++        except (OSError, ValueError, subprocess.SubprocessError) as e:
++            sys.exit(f"Failed to create man pages for {src_dir}: {repr(e)}")
 +
-+            for from_dir, pdf_dir, entry in tex_files:
-+                name = entry.name
-+
-+                if not name.endswith(tex_suffix):
++        fp = None
++        try:
++            for line in result.stdout.split("\n"):
++                match = re_man.match(line)
++                if not match:
++                    if fp:
++                        fp.write(line + '\n')
 +                    continue
 +
-+                name = name[:-len(tex_suffix)]
++                if fp:
++                    fp.close()
 +
-+                max_len = max(max_len, len(name))
++                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
 +
-+                has_tex = True
++                if self.verbose:
++                    print(f"Creating {fname}")
++                fp = open(fname, "w", encoding="utf-8")
++                fp.write(line + '\n')
++        finally:
++            if fp:
++                fp.close()
 +
-+                future = executor.submit(self.build_pdf_file, latex_cmd,
-+                                         from_dir, entry.path)
-+                jobs[future] = (from_dir, pdf_dir, name)
-+
-+            for future in futures.as_completed(jobs):
-+                from_dir, pdf_dir, name = jobs[future]
-+
-+                pdf_name = name + ".pdf"
-+                pdf_from = os.path.join(from_dir, pdf_name)
-+
-+                try:
-+                    success = future.result()
-+
-+                    if success and os.path.exists(pdf_from):
-+                        pdf_to = os.path.join(pdf_dir, pdf_name)
-+
-+                        os.rename(pdf_from, pdf_to)
-+
-+                        #
-+                        # if verbose, get the name of built PDF file
-+                        #
-+                        if self.verbose:
-+                           builds[name] = os.path.relpath(pdf_to, self.builddir)
-+                    else:
-+                        builds[name] = "FAILED"
-+                        build_failed = True
-+                except futures.Error as e:
-+                    builds[name] = f"FAILED ({repr(e)})"
-+                    build_failed = True
-+
-+        #
-+        # Handle case where no .tex files were found
-+        #
-+        if not has_tex:
-+            name = "Sphinx LaTeX builder"
-+            max_len = max(max_len, len(name))
-+            builds[name] = "FAILED (no .tex file was generated)"
-+            build_failed = True
-+
-+        return builds, build_failed, max_len
-+
-     def handle_pdf(self, output_dirs, deny_vf):
-         """
-         Extra steps for PDF output.
-@@ -301,6 +384,8 @@ class SphinxBuilder:
-         """
-         builds = {}
-         max_len = 0
-+        tex_suffix = ".tex"
-+        tex_files = []
- 
+     def cleandocs(self, builder):           # pylint: disable=W0613
+         """Remove documentation output directory"""
+         shutil.rmtree(self.builddir, ignore_errors=True)
+@@ -531,7 +599,7 @@ class SphinxBuilder:
+         # Other targets require sphinx-build, so check if it exists
          #
-         # Since early 2024, Fedora and openSUSE tumbleweed have started
-@@ -327,74 +412,83 @@ class SphinxBuilder:
+         sphinxbuild = shutil.which(self.sphinxbuild, path=self.env["PATH"])
+-        if not sphinxbuild:
++        if not sphinxbuild and target != "mandocs":
+             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
  
-             latex_cmd.extend(shlex.split(self.latexopts))
+         if builder == "latex":
+@@ -619,10 +687,13 @@ class SphinxBuilder:
+                 output_dir,
+             ]
  
--            tex_suffix = ".tex"
--
--            #
--            # Process each .tex file
--            #
--
--            has_tex = False
--            build_failed = False
-+            # Get a list of tex files to process
-             with os.scandir(from_dir) as it:
-                 for entry in it:
--                    if not entry.name.endswith(tex_suffix):
--                        continue
--
--                    name = entry.name[:-len(tex_suffix)]
--                    has_tex = True
--
--                    #
--                    # LaTeX PDF error code is almost useless for us:
--                    # any warning makes it non-zero. For kernel doc builds it
--                    # always return non-zero even when build succeeds.
--                    # So, let's do the best next thing: check if all PDF
--                    # files were built. If they're, print a summary and
--                    # return 0 at the end of this function
--                    #
--                    try:
--                        subprocess.run(latex_cmd + [entry.path],
--                                       cwd=from_dir, check=True, env=self.env)
--                    except subprocess.CalledProcessError:
--                        pass
--
--                    pdf_name = name + ".pdf"
--                    pdf_from = os.path.join(from_dir, pdf_name)
--                    pdf_to = os.path.join(pdf_dir, pdf_name)
--
--                    if os.path.exists(pdf_from):
--                        os.rename(pdf_from, pdf_to)
--                        builds[name] = os.path.relpath(pdf_to, self.builddir)
--                    else:
--                        builds[name] = "FAILED"
--                        build_failed = True
--
--                    name = entry.name.removesuffix(".tex")
--                    max_len = max(max_len, len(name))
--
--            if not has_tex:
--                name = os.path.basename(from_dir)
--                max_len = max(max_len, len(name))
--                builds[name] = "FAILED (no .tex)"
--                build_failed = True
--
--        msg = "Summary"
--        msg += "\n" + "=" * len(msg)
--        print()
--        print(msg)
--
--        for pdf_name, pdf_file in builds.items():
--            print(f"{pdf_name:<{max_len}}: {pdf_file}")
--
--        print()
--
--        if build_failed:
-+                    if entry.name.endswith(tex_suffix):
-+                        tex_files.append((from_dir, pdf_dir, entry))
-+
-+        #
-+        # When using make, this won't be used, as the number of jobs comes
-+        # from POSIX jobserver. So, this covers the case where build comes
-+        # from command line. On such case, serialize by default, except if
-+        # the user explicitly sets the number of jobs.
-+        #
-+        n_jobs = 1
-+
-+        # n_jobs is either an integer or "auto". Only use it if it is a number
-+        if self.n_jobs:
-+            try:
-+                n_jobs = int(self.n_jobs)
-+            except ValueError:
-+                pass
-+
-+        #
-+        # When using make, jobserver.claim is the number of jobs that were
-+        # used with "-j" and that aren't used by other make targets
-+        #
-+        with JobserverExec() as jobserver:
-+            n_jobs = 1
-+
-+            #
-+            # Handle the case when a parameter is passed via command line,
-+            # using it as default, if jobserver doesn't claim anything
-+            #
-+            if self.n_jobs:
+-            try:
+-                self.run_sphinx(sphinxbuild, build_args, env=self.env)
+-            except (OSError, ValueError, subprocess.SubprocessError) as e:
+-                sys.exit(f"Build failed: {repr(e)}")
++            if target == "mandocs":
++                self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)
++            else:
 +                try:
-+                    n_jobs = int(self.n_jobs)
-+                except ValueError:
-+                    pass
-+
-+            if jobserver.claim:
-+                n_jobs = jobserver.claim
-+
-+            builds, build_failed, max_len = self.pdf_parallel_build(tex_suffix,
-+                                                                    latex_cmd,
-+                                                                    tex_files,
-+                                                                    n_jobs)
-+
-+        #
-+        # In verbose mode, print a summary with the build results per file.
-+        # Otherwise, print a single line with all failures, if any.
-+        # On both cases, return code 1 indicates build failures,
-+        #
-+        if self.verbose:
-+            msg = "Summary"
-+            msg += "\n" + "=" * len(msg)
-+            print()
-+            print(msg)
-+
-+            for pdf_name, pdf_file in builds.items():
-+                print(f"{pdf_name:<{max_len}}: {pdf_file}")
-+
-+            print()
-+            if build_failed:
-+                msg = LatexFontChecker().check()
-+                if msg:
-+                    print(msg)
-+
-+                sys.exit("Error: not all PDF files were created.")
-+
-+        elif build_failed:
-+            n_failures = len(builds)
-+            failures = ", ".join(builds.keys())
-+
-             msg = LatexFontChecker().check()
-             if msg:
-                 print(msg)
++                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
++                except (OSError, ValueError, subprocess.SubprocessError) as e:
++                    sys.exit(f"Build failed: {repr(e)}")
  
--            sys.exit("PDF build failed: not all PDF files were created.")
--        else:
--            print("All PDF files were built.")
-+            sys.exit(f"Error: Can't build {n_failures} PDF file(s): {failures}")
- 
-     def handle_info(self, output_dirs):
-         """
+             #
+             # Ensure that each html/epub output will have needed static files
 -- 
 2.51.0
 
