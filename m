@@ -1,50 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A41D23C507;
-	Thu, 18 Sep 2025 16:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E3823C507;
+	Thu, 18 Sep 2025 16:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758213457; cv=none; b=f5GHPNNLLUlZnZ0EonDC0sQ4ywxk+JSH13Fu3Zfvn7h40SsELYpJZog8iOYnWyheU9S4JqRW7DgCOiASJLdhjvgBkPvFONwIP9MWKH1IS/MWTMmFPK8CerxKoCKYUX+dw4+3D0TP4Z14l+zCTGZGx2ULgy1gK0wLT12EPD3ELvg=
+	t=1758213539; cv=none; b=sOUnHoh7xwsPvVuz0jzwPH1V89EWkhVVI3MsYQFR5RZZ16sAjG52rA5A5fUlCRmMWT8XjOysgcs1IhsNHqKQwC/sFcfQyqRBOBrJEj2LAaUDrQzkDD7MZS9V8E3sZbycW0AtM37MfJ9uE3vzJvdxTWcYDxaZrwDtWCB3eJibp+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758213457; c=relaxed/simple;
-	bh=IrcnXMaTqy1N+7c8LcrUly8rrgilMMAu8XxmYF2RPGE=;
+	s=arc-20240116; t=1758213539; c=relaxed/simple;
+	bh=FzcnQmFwWSl79PucrIiQL6L3Ze5ushUKfXe59SIUxSg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Thz2oko7s/ZwHWZ2942vF4F1FPv/v0IVHsg5TmBv1A+vsux+gR1igpb1QslpVwGR+dSZvdSu9hS6vJLRWTgfmN4jsQIWx4l5CQTigoKxXR3rUd/qdTKEMF+qcJtyvF0hBdckaXBqSIuy1FfAMkRJ6yxnVQHg8hYQccnG1NTagy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UZe0w0rR; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=prrRhPBRWV1t3L3WMtnJx4dKzCqNmbZxMTZ8MfabGT3CRBJzSYr6RgHxms61LK+zDIjLcm+FcFyZM2dBSrOXoKd18x70iMNW4TkGlABXmCty5ryA7k0G5UMFs++SzxAOuxDw2zlJP8i6cmRX4IvbmgGlfuZ0u3nyWTwKZ7ofO5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qHzo6o5s; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UZe0w0rR"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9B9A7406FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qHzo6o5s"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7AF37406FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1758213452; bh=L9szdGSNdMCYHon3m7+1Z2PiMa4HJ7fzR+DoUw4hOfo=;
+	t=1758213537; bh=1JEp5haqo9wo88r9+2hZ88gOsmInrwX/d+0huy3uhMA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UZe0w0rR//C5WKDhbukAj2qlgSg/rU56cO6rvaiGFwP/uT4FFlW8UIVV/9YBsuYrg
-	 5qk5dKpWfcpfSP3CTQ7q7r/mVnt508nGlFlPTnXeeft3vcXX18CRLsofzDHkdyIQ2m
-	 OywnBGNUlK776a614F3K35+7kyV2Ly/D69LgMOUMiEzPnUNjgOfCa443W93Tkhv9zf
-	 5I5xDIbRmZPhDefm3NJNGyGtOkOJJkG/fN8sdUyj5RzMYWanwS3lh5COBrg+QW0s7D
-	 b39J0Bp/AEwKCzKst8Hw1fstBf/fYJ1kanIsvCTr18qmXs3liZPQbDjYns8VrC8vbr
-	 Gr24tuugLYGXA==
+	b=qHzo6o5sSrPZ6QOgs6dZrowVOAj77f0rP/LCNElwjtm5qvUaI6UrPjjvnvkI2KZz2
+	 yqSHs8iOvvNGjxEN16GU4FJo0t9SyEltmfG7riHhm6vkwOLbu6a24H1XA2RV8Yg4PN
+	 0Dm3oWHWF6sI/2at5G2DNeHBkJ0JGMfrsWYFJJ24u7Va/b7jy8wd8/LcGeTCq73Bei
+	 N7vsbF5SChatFqzzODYMLhN8IK76VJHf0Fnq6agdP6Mv8CwYQrZrw/qzt3sTCFVyJb
+	 87kTytbEg+f1AYRtdBMI0W4lqFcJ1Kf5GAweyxkfz3oKQQ9MMLejSDz02xVQAWhSW4
+	 OzcRpUK1cIRdg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9B9A7406FA;
-	Thu, 18 Sep 2025 16:37:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7AF37406FA;
+	Thu, 18 Sep 2025 16:38:57 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
  <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Framebuffer
- <linux-fbdev@vger.kernel.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>
-Cc: Helge Deller <deller@gmx.de>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH 0/3] Documentation: fbcon: formatting cleanup and
- improvements
-In-Reply-To: <20250909063744.30053-1-bagasdotme@gmail.com>
-References: <20250909063744.30053-1-bagasdotme@gmail.com>
-Date: Thu, 18 Sep 2025 10:37:31 -0600
-Message-ID: <875xdf90ok.fsf@trenco.lwn.net>
+ <linux-doc@vger.kernel.org>, Linux Kernel Tracing
+ <linux-trace-kernel@vger.kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Tom Zanussi <zanussi@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2 0/5] Histogram docs formatting cleanup
+In-Reply-To: <20250916054202.582074-2-bagasdotme@gmail.com>
+References: <20250916054202.582074-2-bagasdotme@gmail.com>
+Date: Thu, 18 Sep 2025 10:38:56 -0600
+Message-ID: <871po390m7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,23 +57,34 @@ Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
 > Hi,
 >
-> Here are reST formatting cleanup and improvements for fbcon documentation.
-> The shortlog below should be self-explanatory.
->
-> This series is based on docs-next tree.
+> Here's a formatting assortment for trace histogram docs. The shortlog
+> below should be self-explanatory.
 >
 > Enjoy!
 >
-> Bagas Sanjaya (3):
->   Documentation: fbcon: Add boot options and attach/detach/unload
->     section headings
->   Documentation: fbcon: Reindent 8th step of attach/detach/unload
->   Documentation: fbcon: Use admonition directives
+> Changes since v1 [1]:
 >
->  Documentation/fb/fbcon.rst | 42 ++++++++++++++++++++++----------------
->  1 file changed, 24 insertions(+), 18 deletions(-)
+>   * Apply review tags (Masami, Tom)
+>   * Reword patch description for ftrace cross-reference link (Masami, [5/5])
+>
+> [1]: https://lore.kernel.org/linux-doc/20250911042527.22573-1-bagasdotme@gmail.com/
+>
+> Bagas Sanjaya (5):
+>   Documentation: trace: histogram: Fix histogram trigger subsection
+>     number order
+>   Documentation: trace: histogram-design: Trim trailing vertices in
+>     diagram explanation text
+>   Documentation: trace: historgram-design: Separate sched_waking
+>     histogram section heading and the following diagram
+>   Documentation: trace: histogram-design: Wrap introductory note in
+>     note:: directive
+>   Documentation: trace: histogram: Convert ftrace docs cross-reference
+>
+>  Documentation/trace/histogram-design.rst | 151 ++++++++++++-----------
+>  Documentation/trace/histogram.rst        |  38 +++---
+>  2 files changed, 96 insertions(+), 93 deletions(-)
 
-It looks like nobody has picked these up yet, so I've applied them.
+Steve, will you pick these up, or should I grab them?
 
 Thanks,
 
