@@ -1,482 +1,577 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CBB226CF7
-	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CF3283FD0
+	for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 12:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758198948; cv=none; b=CbsmwJf2z/J7CniKi6aKxcQIkhr/I7fHlS5OROurxlvCL5yce+md+knFQX8/lnaJVxiEyRt+ej5GYLRrrGyonQuV5uyfq4GrJWG6FdE/Xh9UXw+0/7gR21mfnhuNWgf/veivCNGfdGX1VVPbBJgmkpjp8Z9LDZ/Mn0FbnmwUApc=
+	t=1758200226; cv=none; b=u8b5o+SI56PFlV8PgR2/cnszxpzAG2nAYM79IGN0/4cCNMvX338Tw49Pm+CJZbpNpsUdMrYvXEgh0UdmLI/Yasoyiq661rbT4F/gnnzvQj8AtocKljv9x6/Rh7iaONly/WK1G73doZCVwBB9HSaTLsvugtDNWimMJDm7qh2QgQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758198948; c=relaxed/simple;
-	bh=h/HXhP7klOwX6TydVKe170aB8zM451tL2x+lcawcaIE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DoSuAuKaB8UdYQYVG4j0BuuU6rslmv6D6uEGIdTq7olsDbsLSLMg4iLwpw3kfqYJuQL1DOtiYIy9BPHKiPQwzcxEH/yLQ8PtvxmbZekpwC6YXoIWbPrldgq2hIqUVEUlpB/m5fhHzhvb33fb7YZxxveW8Qj640aExFpy6EcwlZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XwMTNc+v; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1758200226; c=relaxed/simple;
+	bh=AGZxpanNbeSGg8TEUkFLHpvDrnXyAfiOj9DAn/KIL5o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RjdKZ+HCZg3VkVP51w9y5CHs85O3O30hbLwKL/X7KOhNLEY2EO1tZ5yw9zj/k0TP66vCIC/l1DbIsAVJi93avTaYVZyx6GL2D11mx745pnbPLBvJBszlCckYlN5MkxxG9+LjnZEoOn+adptpzIiQw1LkkwQCwWdBUEe/zqVQwDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XhO4mXgs; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XwMTNc+v"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XhO4mXgs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758198944;
+	s=mimecast20190719; t=1758200222;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9fPOqRrWErRNXgx9jQhyKu8CTHDnoT1HNO+bn6HbkYs=;
-	b=XwMTNc+vVky7TBeaTnTPHwf1HoUoudpGKeWnotJca6qsnOg9vdJuZXWU9JZFO85oNbFIdN
-	KAL1IqD2KHgWZRMuuEgNo5PGuVwOPXbT0foiBPgeJtxKKSTo7vRkzlx8urTH+JFsPGrUrj
-	u0Wr3Qq0yIjnz0ho4AdHfEVmutoWm54=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	 in-reply-to:in-reply-to:references:references;
+	bh=+G2G57brjzP7fDd4p7BLblfGFZKtja/hQGAuJj/LSS4=;
+	b=XhO4mXgs2phEXmTn8dwsAiCNyUe9lzjB74pT4XPfL4qpHKuvt66/QHroNMoEj5XtWfVN/o
+	h9JSc3xiB4jqwXv/vItEc0OSHMvfPbWHAcjBN17pYxrMhsKJvWaUufYzBxGJ6bwpQ0+ZJH
+	Wu1R0XIi+6KRiw5PsUz/E4TAJLrnW+I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-TX6x-3mOOIeBn4oeibpBlg-1; Thu, 18 Sep 2025 08:35:42 -0400
-X-MC-Unique: TX6x-3mOOIeBn4oeibpBlg-1
-X-Mimecast-MFC-AGG-ID: TX6x-3mOOIeBn4oeibpBlg_1758198942
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-45b9a856d58so6455635e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 05:35:42 -0700 (PDT)
+ us-mta-210-sHVnL641Pqyaxj9r6-seQw-1; Thu, 18 Sep 2025 08:57:00 -0400
+X-MC-Unique: sHVnL641Pqyaxj9r6-seQw-1
+X-Mimecast-MFC-AGG-ID: sHVnL641Pqyaxj9r6-seQw_1758200220
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45f29eb22f8so4736205e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 05:57:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758198941; x=1758803741;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9fPOqRrWErRNXgx9jQhyKu8CTHDnoT1HNO+bn6HbkYs=;
-        b=hcSQhgiOEqmIGGK/BFRot3WtUUjDlD3U947SqIyu2vD19xKb2KrqF2KkcP3zLuOk2G
-         z5VcUyyjkQbBP25IuM0UXcSg28iKrIVXdXyPf1V0JSsiWv6xcDq3PeJrawmjWyVsc5FX
-         snx6ZIlLAdNYT11khpDT0xYYgJA5IMgvFVUw12NFA04WPRmYAgTmN0dk+p3pl3dhxjLH
-         TwyrJu4OKkLFUgh4I8eYQd2xoZbzIUhpYJFLxW3Cm9SesgLPSagWugCRLmNiK6CNRuAd
-         cwsHbtCwpaMRLUuG0FS4i5hjSycA+ILTTYqGVQgkXO9QMkWNh/AGYBO3DetUDbVXvqhl
-         oKtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUnuABBpjbns41f7sdNNH2CmicRCvIpQDQx5pAvyEU8n1qL/sSIiTGqSTd/S/MG+5DnoKxIKxZYAc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsXFr50xZZ1HNocY6/9TzT6wdjk6LrfCD+EehDb7FEhnbq5d5L
-	/aiVV20KZT73SLRjjE/POMhe/tGtqfe8HUWf+piKssOPJ839UfUf/7KeoOBTNT8W4c9GRSRCIg+
-	8pKvF+uSYhD9MTlJgSluJzl2fH3aIyycVF7q1Ah5SpaYf0LvU7sc3H5TRdIzMdg==
-X-Gm-Gg: ASbGncs/qGBRGRweYMOTbSWNnzcBFXcY32RR0LnRFoIlXDplAd0bK77OfyEtYiMfhLh
-	zm1IC8BXNmevjxw36VJnsPwpByo0uyWtA9/FqsDdHcmC2DSWQpN8Iskn2P7f+OGHODtjTK9Vngm
-	syzNZBIP06TKqlyLvZMWOJkL2WSrd0J0kYwuQ+2bJbYPMoAw+NzNOSYecgA5Lb4Dcao7pV8OSZZ
-	RZYujNzrNymFjZE1HzdkLFI8ASqotQUtuxh9gr+Yxpe7loVW2SpfgA39iP71IV6dlryPgM5O3Wn
-	mXt2INuT4U9Nsn/pl/5jkWfYhdc9hAJzGcOBsyRCWNStCqYJfScQXrVpmf0PvL/H4RnCgRDVab+
-	bNFKazX40HazOKnFxeegsHC+mY5D7xxIMau89i30+ZtTORxlnbQT4s8VrKCM125DGNk79
-X-Received: by 2002:a05:600c:138f:b0:45b:9291:320d with SMTP id 5b1f17b1804b1-462074c5377mr59066045e9.31.1758198941451;
-        Thu, 18 Sep 2025 05:35:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGPaI9QmkViVyBCCFVaWi7mKUCW0KTXwDLc6aLw2Gmcx8zAIrUoT+gxaEdwZUyOavJWTU9zQg==
-X-Received: by 2002:a05:600c:138f:b0:45b:9291:320d with SMTP id 5b1f17b1804b1-462074c5377mr59065725e9.31.1758198940873;
-        Thu, 18 Sep 2025 05:35:40 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f07:dd00:ca9c:199e:d2b6:9099? (p200300d82f07dd00ca9c199ed2b69099.dip0.t-ipconnect.de. [2003:d8:2f07:dd00:ca9c:199e:d2b6:9099])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f64ad1b0sm46011235e9.21.2025.09.18.05.35.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 05:35:39 -0700 (PDT)
-Message-ID: <ebedc478-7519-4e30-854e-f6616a7647b0@redhat.com>
-Date: Thu, 18 Sep 2025 14:35:32 +0200
+        d=1e100.net; s=20230601; t=1758200219; x=1758805019;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+G2G57brjzP7fDd4p7BLblfGFZKtja/hQGAuJj/LSS4=;
+        b=Uu4W0CvJkjc6syI8WU4EGLAI0Q9fIz0dUBMFOjdSa8Kp17sqEdqY4bVzGIa0l6K0TC
+         wAVLlNZrrA1hDoU28x7kN6JlhMcQFXZsCf/RHKuKra7RTybmKcTmIXlaVZ2SguuDX+sH
+         TOscwUf3cVOgPs6ZfcevWo1BGFzfcEfKqPbXLfDVe9w2vkaDEkchDH5WE1oE8P8QavG7
+         sjKsDlQxa6C7/AVnvMnQdXgRywVHdXeyGKAN9y46P5A8nlFU54ay+F1IW4p7iunkaiEY
+         GnN92PA3NQ8eYjNVdA7+Dh+ZX2YHCaEjH2Y/46lR6mbJfjsn0eugszHWdDb2tcOrxZVy
+         N0JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXMQEzwoDVD5a167i3mzoMzj70J2UduAiFWRV4IyEQdbPQde/WRssklKI3oDD7L5frfwWvfWnsqgHo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUe6qEX4MkLMPtMP9PdNkmbTjgpCK4EYG0GecBGoWP/aRyYP8s
+	LgBUILqLiM1RbSUoupzjeLGZuln2298ux6h7hFXCesqFFbqP4YCVCA2KTH8Q73gghpPkJB9/a++
+	BpwavdhgkICoDEdNiUq9FVtFW46Vmr5l5zgQSUq+srKKbCtg0hBEpl+R3kR1MRA==
+X-Gm-Gg: ASbGnctXJdcYQ0kv6yvt4gCVq4hpyJJXDxCbNUp77IRhzGqjbXoTLpjmZP55OAM84PU
+	hr76hPhZxeRuA+F9BC+Shx7RDPdMfdUFNGUrgEkwd3yTk+ykuaIWDiJXCuNLHeaK/ONQ45GXVzw
+	4xpvOJwgmPRl/V1/Ue9JlzDC5jQ17q5iO09JTbIOxLgRuXiQ45Xf+7R4uKK+FCYUzG4JefGGzQ0
+	EWM8vzF0qBq282lPv2D0uY1lcGgA6JY/mDAqw8wPJprXkzG2Tsn9ogRLJtLppR699ccEhpOh1f+
+	ec7BHi+s0ooeh0OVRnfKtu2AGS+eGo+p+7358Xh9KiArNvWuxmHYpapkWBbXUtEaoQ==
+X-Received: by 2002:a05:600c:3111:b0:45d:d287:d339 with SMTP id 5b1f17b1804b1-4620683f1e4mr59189775e9.25.1758200219385;
+        Thu, 18 Sep 2025 05:56:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHkjK8q6HLD65Yus/JNEtTpozWmfN8QjegT7AxCur8s6bhv3ZQXE6JS3HRhX04njJnsE1ESUA==
+X-Received: by 2002:a05:600c:3111:b0:45d:d287:d339 with SMTP id 5b1f17b1804b1-4620683f1e4mr59189255e9.25.1758200218756;
+        Thu, 18 Sep 2025 05:56:58 -0700 (PDT)
+Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4613e849a41sm80188655e9.20.2025.09.18.05.56.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 05:56:58 -0700 (PDT)
+Message-ID: <898dba7fa238b633a5b69700016605022d38172b.camel@redhat.com>
+Subject: Re: [PATCH v2] drm/sched: Extend and update documentation
+From: Philipp Stanner <pstanner@redhat.com>
+To: Philipp Stanner <phasta@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Christian
+ =?ISO-8859-1?Q?K=F6nig?=
+	 <christian.koenig@amd.com>
+Date: Thu, 18 Sep 2025 14:56:57 +0200
+In-Reply-To: <20250902111209.64082-2-phasta@kernel.org>
+References: <20250902111209.64082-2-phasta@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] mm: remap unused subpages to shared zeropage when
- splitting isolated thp
-To: Lance Yang <lance.yang@linux.dev>
-Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "usamaarif642@gmail.com" <usamaarif642@gmail.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "yuzhao@google.com" <yuzhao@google.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- =?UTF-8?B?QW5kcmV3IFlhbmcgKOaliuaZuuW8tyk=?= <Andrew.Yang@mediatek.com>,
- "npache@redhat.com" <npache@redhat.com>, "rppt@kernel.org"
- <rppt@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
- "kernel-team@meta.com" <kernel-team@meta.com>,
- "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
- "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
- "cerasuolodomenico@gmail.com" <cerasuolodomenico@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ryncsn@gmail.com" <ryncsn@gmail.com>, "surenb@google.com"
- <surenb@google.com>, "riel@surriel.com" <riel@surriel.com>,
- "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
- =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?=
- <chinwen.chang@mediatek.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- =?UTF-8?B?Q2FzcGVyIExpICjmnY7kuK3mpq4p?= <casper.li@mediatek.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "baohua@kernel.org" <baohua@kernel.org>,
- "kaleshsingh@google.com" <kaleshsingh@google.com>,
- "zhais@google.com" <zhais@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20240830100438.3623486-1-usamaarif642@gmail.com>
- <20240830100438.3623486-3-usamaarif642@gmail.com>
- <a7944523fcc3634607691c35311a5d59d1a3f8d4.camel@mediatek.com>
- <434c092b-0f19-47bf-a5fa-ea5b4b36c35e@redhat.com>
- <CABzRoyYWQMFTGYgfC7N=cWMnL_+5Y05=jrMhFjBf1aKOGxzq5g@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CABzRoyYWQMFTGYgfC7N=cWMnL_+5Y05=jrMhFjBf1aKOGxzq5g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 18.09.25 14:22, Lance Yang wrote:
-> On Thu, Sep 18, 2025 at 5:21 PM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 18.09.25 10:53, Qun-wei Lin (林群崴) wrote:
->>> On Fri, 2024-08-30 at 11:03 +0100, Usama Arif wrote:
->>>> From: Yu Zhao <yuzhao@google.com>
->>>>
->>>> Here being unused means containing only zeros and inaccessible to
->>>> userspace. When splitting an isolated thp under reclaim or migration,
->>>> the unused subpages can be mapped to the shared zeropage, hence
->>>> saving
->>>> memory. This is particularly helpful when the internal
->>>> fragmentation of a thp is high, i.e. it has many untouched subpages.
->>>>
->>>> This is also a prerequisite for THP low utilization shrinker which
->>>> will
->>>> be introduced in later patches, where underutilized THPs are split,
->>>> and
->>>> the zero-filled pages are freed saving memory.
->>>>
->>>> Signed-off-by: Yu Zhao <yuzhao@google.com>
->>>> Tested-by: Shuang Zhai <zhais@google.com>
->>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->>>> ---
->>>>    include/linux/rmap.h |  7 ++++-
->>>>    mm/huge_memory.c     |  8 ++---
->>>>    mm/migrate.c         | 72 ++++++++++++++++++++++++++++++++++++++----
->>>> --
->>>>    mm/migrate_device.c  |  4 +--
->>>>    4 files changed, 75 insertions(+), 16 deletions(-)
->>>>
->>>> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
->>>> index 91b5935e8485..d5e93e44322e 100644
->>>> --- a/include/linux/rmap.h
->>>> +++ b/include/linux/rmap.h
->>>> @@ -745,7 +745,12 @@ int folio_mkclean(struct folio *);
->>>>    int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages,
->>>> pgoff_t pgoff,
->>>>                     struct vm_area_struct *vma);
->>>>
->>>> -void remove_migration_ptes(struct folio *src, struct folio *dst,
->>>> bool locked);
->>>> +enum rmp_flags {
->>>> +    RMP_LOCKED              = 1 << 0,
->>>> +    RMP_USE_SHARED_ZEROPAGE = 1 << 1,
->>>> +};
->>>> +
->>>> +void remove_migration_ptes(struct folio *src, struct folio *dst, int
->>>> flags);
->>>>
->>>>    /*
->>>>     * rmap_walk_control: To control rmap traversing for specific needs
->>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>>> index 0c48806ccb9a..af60684e7c70 100644
->>>> --- a/mm/huge_memory.c
->>>> +++ b/mm/huge_memory.c
->>>> @@ -3020,7 +3020,7 @@ bool unmap_huge_pmd_locked(struct
->>>> vm_area_struct *vma, unsigned long addr,
->>>>       return false;
->>>>    }
->>>>
->>>> -static void remap_page(struct folio *folio, unsigned long nr)
->>>> +static void remap_page(struct folio *folio, unsigned long nr, int
->>>> flags)
->>>>    {
->>>>       int i = 0;
->>>>
->>>> @@ -3028,7 +3028,7 @@ static void remap_page(struct folio *folio,
->>>> unsigned long nr)
->>>>       if (!folio_test_anon(folio))
->>>>               return;
->>>>       for (;;) {
->>>> -            remove_migration_ptes(folio, folio, true);
->>>> +            remove_migration_ptes(folio, folio, RMP_LOCKED |
->>>> flags);
->>>>               i += folio_nr_pages(folio);
->>>>               if (i >= nr)
->>>>                       break;
->>>> @@ -3240,7 +3240,7 @@ static void __split_huge_page(struct page
->>>> *page, struct list_head *list,
->>>>
->>>>       if (nr_dropped)
->>>>               shmem_uncharge(folio->mapping->host, nr_dropped);
->>>> -    remap_page(folio, nr);
->>>> +    remap_page(folio, nr, PageAnon(head) ?
->>>> RMP_USE_SHARED_ZEROPAGE : 0);
->>>>
->>>>       /*
->>>>        * set page to its compound_head when split to non order-0
->>>> pages, so
->>>> @@ -3542,7 +3542,7 @@ int split_huge_page_to_list_to_order(struct
->>>> page *page, struct list_head *list,
->>>>               if (mapping)
->>>>                       xas_unlock(&xas);
->>>>               local_irq_enable();
->>>> -            remap_page(folio, folio_nr_pages(folio));
->>>> +            remap_page(folio, folio_nr_pages(folio), 0);
->>>>               ret = -EAGAIN;
->>>>       }
->>>>
->>>> diff --git a/mm/migrate.c b/mm/migrate.c
->>>> index 6f9c62c746be..d039863e014b 100644
->>>> --- a/mm/migrate.c
->>>> +++ b/mm/migrate.c
->>>> @@ -204,13 +204,57 @@ bool isolate_folio_to_list(struct folio *folio,
->>>> struct list_head *list)
->>>>       return true;
->>>>    }
->>>>
->>>> +static bool try_to_map_unused_to_zeropage(struct
->>>> page_vma_mapped_walk *pvmw,
->>>> +                                      struct folio *folio,
->>>> +                                      unsigned long idx)
->>>> +{
->>>> +    struct page *page = folio_page(folio, idx);
->>>> +    bool contains_data;
->>>> +    pte_t newpte;
->>>> +    void *addr;
->>>> +
->>>> +    VM_BUG_ON_PAGE(PageCompound(page), page);
->>>> +    VM_BUG_ON_PAGE(!PageAnon(page), page);
->>>> +    VM_BUG_ON_PAGE(!PageLocked(page), page);
->>>> +    VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
->>>> +
->>>> +    if (folio_test_mlocked(folio) || (pvmw->vma->vm_flags &
->>>> VM_LOCKED) ||
->>>> +        mm_forbids_zeropage(pvmw->vma->vm_mm))
->>>> +            return false;
->>>> +
->>>> +    /*
->>>> +     * The pmd entry mapping the old thp was flushed and the pte
->>>> mapping
->>>> +     * this subpage has been non present. If the subpage is only
->>>> zero-filled
->>>> +     * then map it to the shared zeropage.
->>>> +     */
->>>> +    addr = kmap_local_page(page);
->>>> +    contains_data = memchr_inv(addr, 0, PAGE_SIZE);
->>>> +    kunmap_local(addr);
->>>> +
->>>> +    if (contains_data)
->>>> +            return false;
->>>> +
->>>> +    newpte = pte_mkspecial(pfn_pte(my_zero_pfn(pvmw->address),
->>>> +                                    pvmw->vma->vm_page_prot));
->>>> +    set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte,
->>>> newpte);
->>>> +
->>>> +    dec_mm_counter(pvmw->vma->vm_mm, mm_counter(folio));
->>>> +    return true;
->>>> +}
->>>> +
->>>> +struct rmap_walk_arg {
->>>> +    struct folio *folio;
->>>> +    bool map_unused_to_zeropage;
->>>> +};
->>>> +
->>>>    /*
->>>>     * Restore a potential migration pte to a working pte entry
->>>>     */
->>>>    static bool remove_migration_pte(struct folio *folio,
->>>> -            struct vm_area_struct *vma, unsigned long addr, void
->>>> *old)
->>>> +            struct vm_area_struct *vma, unsigned long addr, void
->>>> *arg)
->>>>    {
->>>> -    DEFINE_FOLIO_VMA_WALK(pvmw, old, vma, addr, PVMW_SYNC |
->>>> PVMW_MIGRATION);
->>>> +    struct rmap_walk_arg *rmap_walk_arg = arg;
->>>> +    DEFINE_FOLIO_VMA_WALK(pvmw, rmap_walk_arg->folio, vma, addr,
->>>> PVMW_SYNC | PVMW_MIGRATION);
->>>>
->>>>       while (page_vma_mapped_walk(&pvmw)) {
->>>>               rmap_t rmap_flags = RMAP_NONE;
->>>> @@ -234,6 +278,9 @@ static bool remove_migration_pte(struct folio
->>>> *folio,
->>>>                       continue;
->>>>               }
->>>>    #endif
->>>> +            if (rmap_walk_arg->map_unused_to_zeropage &&
->>>> +                try_to_map_unused_to_zeropage(&pvmw, folio,
->>>> idx))
->>>> +                    continue;
->>>>
->>>>               folio_get(folio);
->>>>               pte = mk_pte(new, READ_ONCE(vma->vm_page_prot));
->>>> @@ -312,14 +359,21 @@ static bool remove_migration_pte(struct folio
->>>> *folio,
->>>>     * Get rid of all migration entries and replace them by
->>>>     * references to the indicated page.
->>>>     */
->>>> -void remove_migration_ptes(struct folio *src, struct folio *dst,
->>>> bool locked)
->>>> +void remove_migration_ptes(struct folio *src, struct folio *dst, int
->>>> flags)
->>>>    {
->>>> +    struct rmap_walk_arg rmap_walk_arg = {
->>>> +            .folio = src,
->>>> +            .map_unused_to_zeropage = flags &
->>>> RMP_USE_SHARED_ZEROPAGE,
->>>> +    };
->>>> +
->>>>       struct rmap_walk_control rwc = {
->>>>               .rmap_one = remove_migration_pte,
->>>> -            .arg = src,
->>>> +            .arg = &rmap_walk_arg,
->>>>       };
->>>>
->>>> -    if (locked)
->>>> +    VM_BUG_ON_FOLIO((flags & RMP_USE_SHARED_ZEROPAGE) && (src !=
->>>> dst), src);
->>>> +
->>>> +    if (flags & RMP_LOCKED)
->>>>               rmap_walk_locked(dst, &rwc);
->>>>       else
->>>>               rmap_walk(dst, &rwc);
->>>> @@ -934,7 +988,7 @@ static int writeout(struct address_space
->>>> *mapping, struct folio *folio)
->>>>        * At this point we know that the migration attempt cannot
->>>>        * be successful.
->>>>        */
->>>> -    remove_migration_ptes(folio, folio, false);
->>>> +    remove_migration_ptes(folio, folio, 0);
->>>>
->>>>       rc = mapping->a_ops->writepage(&folio->page, &wbc);
->>>>
->>>> @@ -1098,7 +1152,7 @@ static void migrate_folio_undo_src(struct folio
->>>> *src,
->>>>                                  struct list_head *ret)
->>>>    {
->>>>       if (page_was_mapped)
->>>> -            remove_migration_ptes(src, src, false);
->>>> +            remove_migration_ptes(src, src, 0);
->>>>       /* Drop an anon_vma reference if we took one */
->>>>       if (anon_vma)
->>>>               put_anon_vma(anon_vma);
->>>> @@ -1336,7 +1390,7 @@ static int migrate_folio_move(free_folio_t
->>>> put_new_folio, unsigned long private,
->>>>               lru_add_drain();
->>>>
->>>>       if (old_page_state & PAGE_WAS_MAPPED)
->>>> -            remove_migration_ptes(src, dst, false);
->>>> +            remove_migration_ptes(src, dst, 0);
->>>>
->>>>    out_unlock_both:
->>>>       folio_unlock(dst);
->>>> @@ -1474,7 +1528,7 @@ static int unmap_and_move_huge_page(new_folio_t
->>>> get_new_folio,
->>>>
->>>>       if (page_was_mapped)
->>>>               remove_migration_ptes(src,
->>>> -                    rc == MIGRATEPAGE_SUCCESS ? dst : src,
->>>> false);
->>>> +                    rc == MIGRATEPAGE_SUCCESS ? dst : src, 0);
->>>>
->>>>    unlock_put_anon:
->>>>       folio_unlock(dst);
->>>> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
->>>> index 8d687de88a03..9cf26592ac93 100644
->>>> --- a/mm/migrate_device.c
->>>> +++ b/mm/migrate_device.c
->>>> @@ -424,7 +424,7 @@ static unsigned long
->>>> migrate_device_unmap(unsigned long *src_pfns,
->>>>                       continue;
->>>>
->>>>               folio = page_folio(page);
->>>> -            remove_migration_ptes(folio, folio, false);
->>>> +            remove_migration_ptes(folio, folio, 0);
->>>>
->>>>               src_pfns[i] = 0;
->>>>               folio_unlock(folio);
->>>> @@ -840,7 +840,7 @@ void migrate_device_finalize(unsigned long
->>>> *src_pfns,
->>>>                       dst = src;
->>>>               }
->>>>
->>>> -            remove_migration_ptes(src, dst, false);
->>>> +            remove_migration_ptes(src, dst, 0);
->>>>               folio_unlock(src);
->>>>
->>>>               if (folio_is_zone_device(src))
->>>
->>> Hi,
->>>
->>> This patch has been in the mainline for some time, but we recently
->>> discovered an issue when both mTHP and MTE (Memory Tagging Extension)
->>> are enabled.
->>>
->>> It seems that remapping to the same zeropage might causes MTE tag
->>> mismatches, since MTE tags are associated with physical addresses.
->>
->> Does this only trigger when the VMA has mte enabled? Maybe we'll have to
->> bail out if we detect that mte is enabled.
-> 
-> It seems RISC-V also has a similar feature (RISCV_ISA_SUPM) that uses
-> the same prctl(PR_{GET,SET}_TAGGED_ADDR_CTRL) API.
-> 
-> config RISCV_ISA_SUPM
->          bool "Supm extension for userspace pointer masking"
->          depends on 64BIT
->          default y
->          help
->            Add support for pointer masking in userspace (Supm) when the
->            underlying hardware extension (Smnpm or Ssnpm) is detected at boot.
-> 
->            If this option is disabled, userspace will be unable to use
->            the prctl(PR_{SET,GET}_TAGGED_ADDR_CTRL) API.
-> 
-> I wonder if we should disable the THP shrinker for such architectures that
+On Tue, 2025-09-02 at 13:12 +0200, Philipp Stanner wrote:
+> From: Philipp Stanner <pstanner@redhat.com>
+>=20
+> The various objects and their memory lifetime used by the GPU scheduler
+> are currently not fully documented.
+>=20
+> Add documentation describing the scheduler's objects. Improve the
+> general documentation at a few other places.
+>=20
+> Co-developed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+> Changes in v2:
+> =C2=A0 - Rephrase drm_sched_fence docu to make it clearer why drivers wou=
+ld
+> =C2=A0=C2=A0=C2=A0 care about it.
 
-I think where possible we really only want to identify problematic 
-(tagged) pages and skip them. And we should either look into fixing KSM 
-as well or finding out why KSM is not affected.
+Ping.
+Someone should review this :)
 
--- 
-Cheers
+P.
 
-David / dhildenb
+> ---
+> =C2=A0Documentation/gpu/drm-mm.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 36 ++++
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 229 ++++++++++++++++++++++=
+---
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
+> =C2=A03 files changed, 239 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index d55751cad67c..95ee95fd987a 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -556,12 +556,48 @@ Overview
+> =C2=A0.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> =C2=A0=C2=A0=C2=A0 :doc: Overview
+> =C2=A0
+> +Job Object
+> +----------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +=C2=A0=C2=A0 :doc: Job Object
+> +
+> +Entity Object
+> +-------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +=C2=A0=C2=A0 :doc: Entity Object
+> +
+> +Hardware Fence Object
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +=C2=A0=C2=A0 :doc: Hardware Fence Object
+> +
+> +Scheduler Fence Object
+> +----------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +=C2=A0=C2=A0 :doc: Scheduler Fence Object
+> +
+> +Scheduler and Run Queue Objects
+> +-------------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +=C2=A0=C2=A0 :doc: Scheduler and Run Queue Objects
+> +
+> =C2=A0Flow Control
+> =C2=A0------------
+> =C2=A0
+> =C2=A0.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> =C2=A0=C2=A0=C2=A0 :doc: Flow Control
+> =C2=A0
+> +Error and Timeout handling
+> +--------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+> +=C2=A0=C2=A0 :doc: Error and Timeout handling
+> +
+> =C2=A0Scheduler Function References
+> =C2=A0-----------------------------
+> =C2=A0
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 46119aacb809..ec8165fa9ac3 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -24,48 +24,221 @@
+> =C2=A0/**
+> =C2=A0 * DOC: Overview
+> =C2=A0 *
+> - * The GPU scheduler provides entities which allow userspace to push job=
+s
+> - * into software queues which are then scheduled on a hardware run queue=
+.
+> - * The software queues have a priority among them. The scheduler selects=
+ the entities
+> - * from the run queue using a FIFO. The scheduler provides dependency ha=
+ndling
+> - * features among jobs. The driver is supposed to provide callback funct=
+ions for
+> - * backend operations to the scheduler like submitting a job to hardware=
+ run queue,
+> - * returning the dependencies of a job etc.
+> + * The GPU scheduler is shared infrastructure intended to help drivers m=
+anaging
+> + * command submission to their hardware.
+> =C2=A0 *
+> - * The organisation of the scheduler is the following:
+> + * To do so, it offers a set of scheduling facilities that interact with=
+ the
+> + * driver through callbacks which the latter can register.
+> =C2=A0 *
+> - * 1. Each hw run queue has one scheduler
+> - * 2. Each scheduler has multiple run queues with different priorities
+> - *=C2=A0=C2=A0=C2=A0 (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
+> - * 3. Each scheduler run queue has a queue of entities to schedule
+> - * 4. Entities themselves maintain a queue of jobs that will be schedule=
+d on
+> - *=C2=A0=C2=A0=C2=A0 the hardware.
+> + * In particular, the scheduler takes care of:
+> + *=C2=A0=C2=A0 - Ordering command submissions
+> + *=C2=A0=C2=A0 - Signalling dma_fences, e.g., for finished commands
+> + *=C2=A0=C2=A0 - Taking dependencies between command submissions into ac=
+count
+> + *=C2=A0=C2=A0 - Handling timeouts for command submissions
+> =C2=A0 *
+> - * The jobs in an entity are always scheduled in the order in which they=
+ were pushed.
+> + * All callbacks the driver needs to implement are restricted by dma_fen=
+ce
+> + * signaling rules to guarantee deadlock free forward progress. This esp=
+ecially
+> + * means that for normal operation no memory can be allocated in a callb=
+ack.
+> + * All memory which is needed for pushing the job to the hardware must b=
+e
+> + * allocated before arming a job. It also means that no locks can be tak=
+en
+> + * under which memory might be allocated.
+> =C2=A0 *
+> - * Note that once a job was taken from the entities queue and pushed to =
+the
+> - * hardware, i.e. the pending queue, the entity must not be referenced a=
+nymore
+> - * through the jobs entity pointer.
+> + * Optional memory, for example for device core dumping or debugging, *m=
+ust* be
+> + * allocated with GFP_NOWAIT and appropriate error handling if that allo=
+cation
+> + * fails. GFP_ATOMIC should only be used if absolutely necessary since d=
+ipping
+> + * into the special atomic reserves is usually not justified for a GPU d=
+river.
+> + *
+> + * Note especially the following about the scheduler's historic backgrou=
+nd that
+> + * lead to sort of a double role it plays today:
+> + *
+> + * In classic setups N ("hardware scheduling") entities share one schedu=
+ler,
+> + * and the scheduler decides which job to pick from which entity and mov=
+e it to
+> + * the hardware ring next (that is: "scheduling").
+> + *
+> + * Many (especially newer) GPUs, however, can have an almost arbitrary n=
+umber
+> + * of hardware rings and it's a firmware scheduler which actually decide=
+s which
+> + * job will run next. In such setups, the GPU scheduler is still used (e=
+.g., in
+> + * Nouveau) but does not "schedule" jobs in the classical sense anymore.=
+ It
+> + * merely serves to queue and dequeue jobs and resolve dependencies. In =
+such a
+> + * scenario, it is recommended to have one scheduler per entity.
+> + */
+> +
+> +/**
+> + * DOC: Job Object
+> + *
+> + * The base job object (&struct drm_sched_job) contains submission depen=
+dencies
+> + * in the form of &struct dma_fence objects. Drivers can also implement =
+an
+> + * optional prepare_job callback which returns additional dependencies a=
+s
+> + * dma_fence objects. It's important to note that this callback can't al=
+locate
+> + * memory or grab locks under which memory is allocated.
+> + *
+> + * Drivers should use this as base class for an object which contains th=
+e
+> + * necessary state to push the command submission to the hardware.
+> + *
+> + * The lifetime of the job object needs to last at least from submitting=
+ it to
+> + * the scheduler (through drm_sched_job_arm()) until the scheduler has i=
+nvoked
+> + * &struct drm_sched_backend_ops.free_job and, thereby, has indicated th=
+at it
+> + * does not need the job anymore. Drivers can of course keep their job o=
+bject
+> + * alive for longer than that, but that's outside of the scope of the sc=
+heduler
+> + * component.
+> + *
+> + * Job initialization is split into two stages:
+> + *=C2=A0=C2=A0 1. drm_sched_job_init() which serves for basic preparatio=
+n of a job.
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Drivers don't have to be mindful of thi=
+s function's consequences and
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 its effects can be reverted through drm=
+_sched_job_cleanup().
+> + *=C2=A0=C2=A0 2. drm_sched_job_arm() which irrevokably arms a job for e=
+xecution. This
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initializes the job's fences and the jo=
+b has to be submitted with
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_push_job(). Once drm_s=
+ched_job_arm() has been called,
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the job structure has to be valid until=
+ the scheduler invoked
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_backend_ops.free_job().
+> + *
+> + * It's important to note that after arming a job drivers must follow th=
+e
+> + * dma_fence rules and can't easily allocate memory or takes locks under=
+ which
+> + * memory is allocated.
+> + */
+> +
+> +/**
+> + * DOC: Entity Object
+> + *
+> + * The entity object (&struct drm_sched_entity) is a container for jobs =
+which
+> + * should execute sequentially. Drivers should create an entity for each
+> + * individual context they maintain for command submissions which can ru=
+n in
+> + * parallel.
+> + *
+> + * The lifetime of the entity *should not* exceed the lifetime of the
+> + * userspace process it was created for and drivers should call the
+> + * drm_sched_entity_flush() function from their file_operations.flush()
+> + * callback. It is possible that an entity object is not alive anymore
+> + * while jobs previously fetched from it are still running on the hardwa=
+re.
+> + *
+> + * This is done because all results of a command submission should becom=
+e
+> + * visible externally even after a process exits. This is normal POSIX
+> + * behavior for I/O operations.
+> + *
+> + * The problem with this approach is that GPU submissions contain execut=
+able
+> + * shaders enabling processes to evade their termination by offloading w=
+ork to
+> + * the GPU. So when a process is terminated with a SIGKILL the entity ob=
+ject
+> + * makes sure that jobs are freed without running them while still maint=
+aining
+> + * correct sequential order for signaling fences.
+> + *
+> + * All entities associated with a scheduler have to be torn down before =
+that
+> + * scheduler.
+> + */
+> +
+> +/**
+> + * DOC: Hardware Fence Object
+> + *
+> + * The hardware fence object is a dma_fence provided by the driver throu=
+gh
+> + * &struct drm_sched_backend_ops.run_job. The driver signals this fence =
+once the
+> + * hardware has completed the associated job.
+> + *
+> + * Drivers need to make sure that the normal dma_fence semantics are fol=
+lowed
+> + * for this object. It's important to note that the memory for this obje=
+ct can
+> + * *not* be allocated in &struct drm_sched_backend_ops.run_job since tha=
+t would
+> + * violate the requirements for the dma_fence implementation. The schedu=
+ler
+> + * maintains a timeout handler which triggers if this fence doesn't sign=
+al
+> + * within a configurable amount of time.
+> + *
+> + * The lifetime of this object follows dma_fence refcounting rules. The
+> + * scheduler takes ownership of the reference returned by the driver and
+> + * drops it when it's not needed any more.
+> + *
+> + * See &struct drm_sched_backend_ops.run_job for precise refcounting rul=
+es.
+> + */
+> +
+> +/**
+> + * DOC: Scheduler Fence Object
+> + *
+> + * The scheduler fence object (&struct drm_sched_fence) encapsulates the=
+ whole
+> + * time from pushing the job into the scheduler until the hardware has f=
+inished
+> + * processing it. It is managed by the scheduler. The implementation pro=
+vides
+> + * dma_fence interfaces for signaling both scheduling of a command submi=
+ssion
+> + * as well as finishing of processing. &struct drm_sched_fence.finished =
+is the
+> + * fence typically used to synchronize userspace, e.g., in a &struct drm=
+_syncobj.
+> + *
+> + * The lifetime of this object also follows normal dma_fence refcounting=
+ rules.
+> + */
+> +
+> +/**
+> + * DOC: Scheduler and Run Queue Objects
+> + *
+> + * The scheduler object itself (&struct drm_gpu_scheduler) does the actu=
+al
+> + * scheduling: it picks the next entity to run a job from and pushes tha=
+t job
+> + * onto the hardware. Both FIFO and RR selection algorithms are supporte=
+d, with
+> + * FIFO being the default and the recommended one.
+> + *
+> + * The lifetime of the scheduler is managed by the driver using it. Befo=
+re
+> + * destroying the scheduler the driver must ensure that all hardware pro=
+cessing
+> + * involving this scheduler object has finished by calling for example
+> + * disable_irq(). It is *not* sufficient to wait for the hardware fence =
+here
+> + * since this doesn't guarantee that all callback processing has finishe=
+d.
+> + *
+> + * The run queue object (&struct drm_sched_rq) is a container for entiti=
+es of a
+> + * certain priority level. This object is internally managed by the sche=
+duler
+> + * and drivers must not touch it directly. The lifetime of a run queue i=
+s bound
+> + * to the scheduler's lifetime.
+> + *
+> + * All entities associated with a scheduler must be torn down before it.=
+ Drivers
+> + * should implement &struct drm_sched_backend_ops.cancel_job to avoid pe=
+nding
+> + * jobs (those that were pulled from an entity into the scheduler, but h=
+ave not
+> + * been completed by the hardware yet) from leaking.
+> =C2=A0 */
+> =C2=A0
+> =C2=A0/**
+> =C2=A0 * DOC: Flow Control
+> =C2=A0 *
+> =C2=A0 * The DRM GPU scheduler provides a flow control mechanism to regul=
+ate the rate
+> - * in which the jobs fetched from scheduler entities are executed.
+> + * at which jobs fetched from scheduler entities are executed.
+> =C2=A0 *
+> - * In this context the &drm_gpu_scheduler keeps track of a driver specif=
+ied
+> - * credit limit representing the capacity of this scheduler and a credit=
+ count;
+> - * every &drm_sched_job carries a driver specified number of credits.
+> + * In this context the &struct drm_gpu_scheduler keeps track of a driver
+> + * specified credit limit representing the capacity of this scheduler an=
+d a
+> + * credit count; every &struct drm_sched_job carries a driver-specified =
+number
+> + * of credits.
+> =C2=A0 *
+> - * Once a job is executed (but not yet finished), the job's credits cont=
+ribute
+> - * to the scheduler's credit count until the job is finished. If by exec=
+uting
+> - * one more job the scheduler's credit count would exceed the scheduler'=
+s
+> - * credit limit, the job won't be executed. Instead, the scheduler will =
+wait
+> - * until the credit count has decreased enough to not overflow its credi=
+t limit.
+> - * This implies waiting for previously executed jobs.
+> + * Once a job is being executed, the job's credits contribute to the
+> + * scheduler's credit count until the job is finished. If by executing o=
+ne more
+> + * job the scheduler's credit count would exceed the scheduler's credit =
+limit,
+> + * the job won't be executed. Instead, the scheduler will wait until the=
+ credit
+> + * count has decreased enough to not overflow its credit limit. This imp=
+lies
+> + * waiting for previously executed jobs.
+> =C2=A0 */
+> =C2=A0
+> +/**
+> + * DOC: Error and Timeout handling
+> + *
+> + * Errors are signaled by using dma_fence_set_error() on the hardware fe=
+nce
+> + * object before signaling it with dma_fence_signal(). Errors are then b=
+ubbled
+> + * up from the hardware fence to the scheduler fence.
+> + *
+> + * The entity allows querying errors on the last run submission using th=
+e
+> + * drm_sched_entity_error() function which can be used to cancel queued
+> + * submissions in &struct drm_sched_backend_ops.run_job as well as preve=
+nting
+> + * pushing further ones into the entity in the driver's submission funct=
+ion.
+> + *
+> + * When the hardware fence doesn't signal within a configurable amount o=
+f time
+> + * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver s=
+hould
+> + * then follow the procedure described in that callback's documentation.
+> + *
+> + * (TODO: The timeout handler should probably switch to using the hardwa=
+re
+> + * fence as parameter instead of the job. Otherwise the handling will al=
+ways
+> + * race between timing out and signaling the fence).
+> + *
+> + * The scheduler also used to provided functionality for re-submitting j=
+obs
+> + * and, thereby, replaced the hardware fence during reset handling. This
+> + * functionality is now deprecated. This has proven to be fundamentally =
+racy
+> + * and not compatible with dma_fence rules and shouldn't be used in new =
+code.
+> + *
+> + * Additionally, there is the function drm_sched_increase_karma() which =
+tries
+> + * to find the entity which submitted a job and increases its 'karma' at=
+omic
+> + * variable to prevent resubmitting jobs from this entity. This has quit=
+e some
+> + * overhead and resubmitting jobs is now marked as deprecated. Thus, usi=
+ng this
+> + * function is discouraged.
+> + *
+> + * Drivers can still recreate the GPU state in case it should be lost du=
+ring
+> + * timeout handling *if* they can guarantee that forward progress will b=
+e made
+> + * and this doesn't cause another timeout. But this is strongly hardware
+> + * specific and out of the scope of the general GPU scheduler.
+> + */
+> =C2=A0#include <linux/export.h>
+> =C2=A0#include <linux/wait.h>
+> =C2=A0#include <linux/sched.h>
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 323a505e6e6a..0f0687b7ae9c 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
+> =C2=A0	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+> =C2=A0
+> =C2=A0	/**
+> -	 * @timedout_job: Called when a job has taken too long to execute,
+> -	 * to trigger GPU recovery.
+> +	 * @timedout_job: Called when a hardware fence didn't signal within a
+> +	 * configurable amount of time. Triggers GPU recovery.
+> =C2=A0	 *
+> =C2=A0	 * @sched_job: The job that has timed out
+> =C2=A0	 *
+> @@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
+> =C2=A0	 * that timeout handlers are executed sequentially.
+> =C2=A0	 *
+> =C2=A0	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_=
+stat
+> -	 *
+> =C2=A0	 */
+> =C2=A0	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sche=
+d_job);
+> =C2=A0
 
