@@ -1,137 +1,64 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1831B25484B;
-	Thu, 18 Sep 2025 16:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F61255E27;
+	Thu, 18 Sep 2025 17:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758214691; cv=none; b=u3L2ax/kvCUOfxOE5VIn8QbfZCrqrNVb7ncpVnOR9vhxBoIDfxbfAHNAdbNFyXzscIihOM/q6VXur9ElhtJ3VavYahro61HneHZ4eWGxyHXyfcoRpk3LiDNqMfdsBm9Gzkmvfj5n5TAepSWko3ERL5Det+oT9W1/q2yjfZ4IcAw=
+	t=1758215133; cv=none; b=GLB3uFgEVDBakFKqw8d2HkS/N6H3MA+S7OdSajM1OfcJODLUFxvusuU4A+tpYYxGeu9B0LQmv9srXIuJf6VKygocj38O9Uq54m22mCzovTJMWuMZz0t3iX6GiKkT1IoyULt8GKCxtOw1jB39Fn7XojvwbrqBzYsxEOLtMzcPsIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758214691; c=relaxed/simple;
-	bh=YLt+tjtyC2ecTThBQ+2PebW/E52xZClKt6CEmqDT5+Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=d4J/MLiyvx8ECEMb9PeGWflsAHUhSYyoXEF5k+oZHlea2mnfbvvLaxc6tScTw1gD0sutfc55oMB0i7RbF2UVbnDvYcmL/loNsHLmhnLMTTxq2k7NniWTZcdYBtOS66H2zQW8zizvnrflHerr0PWIw5cwEfIHQTr1O0zD+gGQlkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=s0llzcGT; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="s0llzcGT"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4BFA6406FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1758214689; bh=qQYZzRJxBw7EljE7CebDwpEwBK75h9CzuR9gLWwgYZo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=s0llzcGT7Co2nEUOVFx5xMLfX5SxOydtRpzpwbJhCYmKcoudXcLiVf9P1TYrWm24g
-	 lhgMQoB+kFHBJzWMBJ0fBF3+3Ug+wrZIKylv1sq83iZIXIiLkmbtj4vf3QtTZnW7kj
-	 v9RTLg9u+Ou93ZM3DfSn4YyVQl3UcgU99T4mW0y3EN4Zd4It2VpkbgtlM1fUb4ewVO
-	 TXi+FpXd7Px/gF0dehadXI76acTRamiefckQY5+7x7xqUIojHqfCN91i5Jfrs9g9dz
-	 nxcIt3DuCW/7nqKg3A3N6w+yZFfkQ11DM7h/iYfG1U+tsAJRWyTOFGZnwXms/q07Re
-	 CJgkjHhyP/FmQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4BFA6406FA;
-	Thu, 18 Sep 2025 16:58:09 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa
- <akiyks@gmail.com>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 01/24] scripts/jobserver-exec: move the code to a class
-In-Reply-To: <4749921b75d4e0bd85a25d4d94aa2c940fad084e.1758196090.git.mchehab+huawei@kernel.org>
-References: <cover.1758196090.git.mchehab+huawei@kernel.org>
- <4749921b75d4e0bd85a25d4d94aa2c940fad084e.1758196090.git.mchehab+huawei@kernel.org>
-Date: Thu, 18 Sep 2025 10:58:08 -0600
-Message-ID: <87segj7l5r.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1758215133; c=relaxed/simple;
+	bh=X/POsIVTv8eNpfgINUCFzeDvZfWq0I5UrNuXSk5IxQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZnHFl2+MNGl7itLT8q6t7JoSFSw3D5T6YsajU7Os3UJ2nldOW7rFVD3NPQzCaIvQ7RBOXx+J3ho0iIpdW75QoRMvCrLK1NcNZ41WEgJjA/X16A+2nJ2KHpSprINiHpKiqRrad33KlHpOiofpqksbG54CU+lMXtHMwby9FxrrVUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 048B85830E;
+	Thu, 18 Sep 2025 17:05:22 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id D4E073F;
+	Thu, 18 Sep 2025 17:05:20 +0000 (UTC)
+Date: Thu, 18 Sep 2025 13:05:19 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Tracing
+ <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Tom Zanussi <zanussi@kernel.org>
+Subject: Re: [PATCH v2 0/5] Histogram docs formatting cleanup
+Message-ID: <20250918130519.06294a16@batman.local.home>
+In-Reply-To: <871po390m7.fsf@trenco.lwn.net>
+References: <20250916054202.582074-2-bagasdotme@gmail.com>
+	<871po390m7.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 5jfb1czsre9tiux7xn8rq9sjan85h513
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: D4E073F
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19fs3V881gWiGm8PDl6FigPUw9X2RlD9Ow=
+X-HE-Tag: 1758215120-677576
+X-HE-Meta: U2FsdGVkX18qAq/L8Rsa+fhxL5hEE9MCOF613M9C6KOdcg+eh7NXkpJcD1Dz53GMS8IF3nhmmD1hxfuBTtmNImt6BAxJBwTMieg2gmp8nvXSXivLKgogERpDuyH/EEbdA3b24vGEmb9fIdyBPINn6H2PPWRT6XJmvJnMLMHkO5N4+0Q2wSCc3bl68yIS/NO0U9k+GJPjTtkcL8Rv7/+g8RcM7sZzvz5jDlmZPsnzIqZ3SSMj4qxlIMBuHejwrZarBeWlgDgusWwAU1sxfOw12NLus9RwfazT1WMrTR7LlE5pooYrrW2SLSo5gd23CHLa7srK5+1MjyPBg899rmuXVo+Ep4pHuv2glM0l+jqTJ8+OGfFuh7RjwqFfckBX/dB6npzCj3vpHA+g5RFxHY75ErCtQ1dmB41LvZa0SbhSahkm7u5kJfG60dLMXEZ2hllf2uwzaURgjpq64AzLZY7ECA==
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Thu, 18 Sep 2025 10:38:56 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> +class JobserverExec:
-> +    """
-> +    Claim all slots from make using POSIX Jobserver.
-> +
-> +    The main methods here are:
-> +    - open(): reserves all slots;
-> +    - close(): method returns all used slots back to make;
-> +    - run(): executes a command setting PARALLELISM=<available slots jobs + 1>
-> +    """
-> +
-> +    def __init__(self):
-> +        """Initialize internal vars"""
-> +        self.claim = 0
-> +        self.jobs = b""
-> +        self.reader = None
-> +        self.writer = None
-> +        self.is_open = False
-> +
-> +    def open(self):
-> +        """Reserve all available slots to be claimed later on"""
-> +
-> +        if self.is_open:
-> +            return
-> +
-> +        try:
-> +            # Fetch the make environment options.
-> +            flags = os.environ["MAKEFLAGS"]
-> +            # Look for "--jobserver=R,W"
-> +            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-> +            # so this handles all of them.
-> +            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-> +
-> +            # Parse out R,W file descriptor numbers and set them nonblocking.
-> +            # If the MAKEFLAGS variable contains multiple instances of the
-> +            # --jobserver-auth= option, the last one is relevant.
-> +            fds = opts[-1].split("=", 1)[1]
-> +
-> +            # Starting with GNU Make 4.4, named pipes are used for reader
-> +            # and writer.
-> +            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
-> +            _, _, path = fds.partition("fifo:")
-> +
-> +            if path:
-> +                self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-> +                self.writer = os.open(path, os.O_WRONLY)
-> +            else:
-> +                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-> +                # Open a private copy of reader to avoid setting nonblocking
-> +                # on an unexpecting process with the same reader fd.
-> +                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-> +                                      os.O_RDONLY | os.O_NONBLOCK)
-> +
-> +            # Read out as many jobserver slots as possible
-> +            while True:
-> +                try:
-> +                    slot = os.read(self.reader, 8)
-> +                    self.jobs += slot
-> +                except (OSError, IOError) as e:
-> +                    if e.errno == errno.EWOULDBLOCK:
-> +                        # Stop at the end of the jobserver queue.
-> +                        break
-> +                    # If something went wrong, give back the jobs.
-> +                    if self.jobs:
-> +                        os.write(self.writer, self.jobs)
-> +                    raise e
-> +
-> +            # Add a bump for our caller's reserveration, since we're just going
-> +            # to sit here blocked on our child.
-> +            self.claim = len(self.jobs) + 1
-> +
-> +        except (KeyError, IndexError, ValueError, OSError, IOError):
-> +            # Any missing environment strings or bad fds should result in just
-> +            # not being parallel.
-> +            self.claim = None
+> Steve, will you pick these up, or should I grab them?
 
-Sigh ... this kind of massive try/except block is one of the best ways
-I've found in Python to hide bugs - and Python has a few of those.  I
-realize this is existing code, this is not the place to fix it, but I
-would like to clean that up at some point.
+Can you take them?
 
-jon
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+Thanks!
+
+-- Steve
