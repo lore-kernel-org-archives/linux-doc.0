@@ -1,179 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD2E2F1FDC;
-	Thu, 18 Sep 2025 08:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550D52F8BD2;
+	Thu, 18 Sep 2025 08:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758183882; cv=none; b=pGyI7PMNYfGybdozTnfC8+yU9YUCQv6e4XGA4XyMmxuBdbDV00W/8RztWDBJIR+xz5Hb7DemLFCz2lWXOg92TaNbRG9e5j3uavjCmT5m+0uR/FLHgsCAOGYlQhb8cUtmONGds83RTKQS2w9WqCyo4LfIdtNpcwgs5hSmb8F3Vrc=
+	t=1758184453; cv=none; b=DMaf32GSbO27flT/3acj9/8l8S7lyQqX1IKtBqjw6urljvK/vwUyazqk+oDp57oGorVkpj1S96B4FxP4Hqzn1ncaM1tN6hBSNtMIxSy0OqULWZ+2/o8aswMBetHZzxQa9f5bXl/5Byy4ytG3TabXPoMJ884xflXcu+6Rh5QCevA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758183882; c=relaxed/simple;
-	bh=nr4NWLVlw/K5BK59dcgOAF7rOQHWbDbROkErLKcolIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jn/gHxdj7nIUW5SgqYmFoPfPU/3Q4xyZFNtH9T2HNiJxbiSe7I+2LcItiCz/L2QCCNih4cPgYULM3+2HzNzPwNhK8grAiQhZfmfJyWfht1wD+zRRZ+VR5y1328gbqv6njPFOqCSDuHzb8FbTXr0KhDQ4dbJ38i3If+V9EaDpYeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H35qUX0n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758184453; c=relaxed/simple;
+	bh=YUyJj+AOLpQZ16qQcLa96qh1A9RBn/gEjHPtLkjTIFY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z4OPLVDun7BBava3Zt5BBY7Wen4P8yWiaQqvkwU98a/C2zH6wAwRe5eQGIb9noMi0L7OPr3di5aPXdhrHjcwKYFfPqEwIfCzB3mlQCdk9MVokHTGHiDY+2biRC2RofMQ8+8Zj0iIo9CkCFxg2w8Evot+z8DvIPIUPhF9j1eVRFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=NAzFNn9G; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H35qUX0n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6DE0C4CEE7;
-	Thu, 18 Sep 2025 08:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758183882;
-	bh=nr4NWLVlw/K5BK59dcgOAF7rOQHWbDbROkErLKcolIg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=H35qUX0nnVNeRdkJ3J3gjRuCRR/erGHvGGAFFQ4BSEDvI090nCV3XF9l6bwkzdEk3
-	 C00t4swSUs4+md3tmoSIymPaUhTHE+u6bEv6hEazVKDnqEUt0mUY2vGDOPgSyneFfg
-	 kV8hne+wkFUvAo/pXNu6qAJh2jTi2gHsoTyyNM5avthukYYeUKmb/RUT3QAlBz6GNj
-	 8Vry7KDNMh7XlfmNm7lRAybzgi5ydcflZL12cS1ooBAQ6pTR2Uxs9fuhtWfjwlKrT+
-	 RbwVeptRvlUZyfi1Y6A137CbeT5vtKmwO/kmzuDsAf1cd/hXgM4B4J9lmTK0AKNud1
-	 BL29rc+AYWOOg==
-Date: Thu, 18 Sep 2025 10:24:37 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v6 10/21] tools/docs: sphinx-build-wrapper: add a
- wrapper for sphinx-build
-Message-ID: <20250918102437.3a9c770b@foz.lan>
-In-Reply-To: <ed4eeee3-4e95-4bf4-b19f-cf7d38d8a1ea@gmail.com>
-References: <4d4dc78a4e29f2478fd1c1a746378dc61a090ca3.1758018030.git.mchehab+huawei@kernel.org>
-	<1d454604-288d-4185-8567-836e06b3cbea@gmail.com>
-	<875xdhazcq.fsf@trenco.lwn.net>
-	<ed4eeee3-4e95-4bf4-b19f-cf7d38d8a1ea@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="NAzFNn9G"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1758184447; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=iHPyCqwaIE53kfvtOqEjL6h4xRme2WCE41tGRMbg4OA=;
+	b=NAzFNn9GOVJAkfAMVdrcB07/dc9Ms6BXy74/eleljuE18J5xeCe+MSNCWI7mIBMNSKnAqNLzjwLm6kSAz8lYe1mcIwN/wPqqqWp2scY/NlMqRt6OvyP2fdTyiQYDDC+xHtbgB7ivv075GdoONkKJHKPWItxHsyJUsKpC8Jrumlc=
+Received: from 30.246.178.33(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WoFHDqY_1758184444 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 18 Sep 2025 16:34:05 +0800
+Message-ID: <1211fd9a-93e6-4ebe-a80d-083601138b70@linux.alibaba.com>
+Date: Thu, 18 Sep 2025 16:34:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+To: Kyle Meyer <kyle.meyer@hpe.com>, "Fan, Shawn" <shawn.fan@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, "corbet@lwn.net"
+ <corbet@lwn.net>, "david@redhat.com" <david@redhat.com>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
+ "shuah@kernel.org" <shuah@kernel.org>,
+ "jane.chu@oracle.com" <jane.chu@oracle.com>,
+ "jiaqiyan@google.com" <jiaqiyan@google.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "bp@alien8.de" <bp@alien8.de>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+ "jack@suse.cz" <jack@suse.cz>,
+ "joel.granados@kernel.org" <joel.granados@kernel.org>,
+ "laoar.shao@gmail.com" <laoar.shao@gmail.com>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "mclapinski@google.com" <mclapinski@google.com>,
+ "mhocko@suse.com" <mhocko@suse.com>,
+ "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+ "osalvador@suse.de" <osalvador@suse.de>,
+ "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
+ "rppt@kernel.org" <rppt@kernel.org>, "Anderson, Russ"
+ <russ.anderson@hpe.com>, "surenb@google.com" <surenb@google.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <aMiu_Uku6Y5ZbuhM@hpe.com>
+ <20250915201618.7d9d294a6b22e0f71540884b@linux-foundation.org>
+ <aMkOCmGBhZKhKPrI@hpe.com>
+ <SJ1PR11MB60831F028E2FEB6B5A3390D9FC14A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aMmlhPghbpnlCZ09@hpe.com>
+ <SJ1PR11MB60833884799B6AA2BC18ECE7FC14A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <LV4PR11MB9513A6EFA88B082E554CB8D6EB17A@LV4PR11MB9513.namprd11.prod.outlook.com>
+ <aMsE9XjWKEYTIQyV@hpe.com>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <aMsE9XjWKEYTIQyV@hpe.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Em Thu, 18 Sep 2025 08:43:19 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> Hi Jon,
+
+在 2025/9/18 02:59, Kyle Meyer 写道:
+> On Wed, Sep 17, 2025 at 06:35:14AM +0000, Fan, Shawn wrote:
+>>>> My original patch for this just skipped the GHES->offline process
+>>>> for huge pages. But I wasn't aware of the sysctl control. That provides
+>>>> a better solution.
+>>>
+>>> Tony, does that mean you're OK with using the existing sysctl interface? If
+>>> so, I'll just send a separate patch to update the sysfs-memory-page-offline
+>>> documentation and drop the rest.
+>>
+>> Kyle,
+>>
+>> It depends on which camp the external customer that reported this
+>> falls into:
+>>
+>> 1) "I'm OK disabling all soft offline requests".
+>>
+>> or the:
+>>
+>> 2) "I'd like 4K pages to still go offline if the BIOS asks, just not any huge pages".
+>>
+>> Shawn: Can you please find out?
+>>
+>>
+>> -> Prefer the 2nd option,  "4K pages still go offline if the BIOS asks, just not any huge pages."
 > 
-> Jonathan Corbet wrote:
-> > Akira Yokosawa <akiyks@gmail.com> writes:
-> >   
-> >> Wait!  In the cover-letter, you said:
-> >>
-> >>     It should be noticed that it is out of the scope of this series
-> >>     to change the implementation. Surely the process can be improved,
-> >>     but first let's consolidate and document everything on a single
-> >>     place.
-> >>
-> >> Removing current restriction on SPHINXDIRS does look inconsistent with
-> >> your own words to me.
-> >>
-> >> So, I guess I have to NAK 06/21 as well.  
-> > 
-> > Is there an actual problem with this change that we need to know about?
-> > I am not quite understanding the objection here.  
+> OK, thank you.
 > 
-> As Mauro has pointed out, and as I could not apply v6 series, I failed
-> to look at the whole patch.
+> Does that mean they want to avoid offlining transparent huge pages as well?
 > 
-> My knee jerk reaction came from the fact that, for example,
-> 
->     make SPHINXDIRS=translations/zh_CN pdfdocs
-> 
-> won't build.  This is because I didn't know such a sub-directory is
-> allowed (despite what "make dochelp" says) in SPHINXDIRS.
-
-The build system does support it, provided that the directory has
-an index.rst file (not all subdirs have)...
-
-> 
-> At the time I made "improvements in CJK font configs", I embedded
-> hacky ".. raw:: latex     \kerneldocCJKoff" and others in:
-> 
->      Documentations/index.rst
->                    /*/index.rst
-
-... and that ".. raw:: " entries don't depend on previous .rst files.
-
-> , assuming all of those latex macros would appear in translations.tex
-> in the right order.
-> 
-> I admit it was not ideal, but I could not, and still can not, come up
-> with a more robust approach.
-
-For LaTeX build, ".. raw:: " entries can be unavoidable, but you could
-place it either:
-
-- at conf.py if they're global;
-- on each rst file (that's what we do on media);
-- in the case of translations, for the languages that require CJK.
-
-Grepping it:
-
-	$ git grep kerneldocCJK Documentation/translations/
-	Documentation/translations/index.rst:   \kerneldocCJKoff
-	Documentation/translations/it_IT/index.rst:     \kerneldocCJKoff
-	Documentation/translations/ja_JP/index.rst:     \kerneldocCJKon
-	Documentation/translations/ko_KR/index.rst:     \kerneldocCJKon
-	Documentation/translations/ko_KR/process/howto.rst:     \kerneldocCJKoff
-	Documentation/translations/ko_KR/process/howto.rst:     \kerneldocCJKon
-	Documentation/translations/sp_SP/index.rst:     \kerneldocCJKoff
-	Documentation/translations/zh_CN/index.rst:     \kerneldocCJKon
-	Documentation/translations/zh_TW/index.rst:     \kerneldocCJKon
-
-Indeed it assumes that translations/index.rst will be the last one,
-as it is needed to disable \kerneldocCJKoff.
-
-What I would do is move \kerneldocCJK to each book, e.g.:
-
-   zh_CN/index:	will have a \kerneldocCJK{on/off} pair;
-   zh_TW/index:	will have a \kerneldocCJK{on/off} pair;
-   it_IT/index: won't use it, as it doesn't need CJK fonts;
-   ko_KR/index:	will have a \kerneldocCJK{on/off} pair;
-   ja_JP/index:	will have a \kerneldocCJK{on/off} pair;
-   sp_SP/index:	will have a \kerneldocCJK{on/off} pair;
-   process/index: won't use it, as everything there is in English;
-
-This would likely allow creating each translation on separate books
-like:
-
-	make SPHINXDIRS="translations/zh_CN translations/ko_KR ..." pdfdocs
-
-Heh, the audience for each language is completely different, so
-merging them altogether is actually weird. This doesn't matter 
-much for html output, but for all other outputs, ideally each
-translation should be a separate book.
-
-With the current Makefile-hacky-based-approach, supporting separate
-build books would be very complex, but with a wrapper containing the
-entire building logic, it doesn't sound hard to add support in the
-future to build translations as separate entities.=
-
-Heh, when we added Sphinx support, we have a single Documentation
-directory, but now we have multiple ones:
-
-	$ find . -name Documentation
-	./tools/bpf/bpftool/Documentation
-	./tools/perf/Documentation
-	./tools/memory-model/Documentation
-	./tools/lib/perf/Documentation
-	./tools/objtool/Documentation
-	./tools/build/Documentation
-	./Documentation
-	./drivers/staging/most/Documentation
-	./drivers/staging/greybus/Documentation
-	./drivers/staging/iio/Documentation
-
-Considering that, and considering the some of the above books can
-be in ReST format, it doesn't sound too complex to add a --docdir
-parameter at sphinx-build-wrapper and do things like:
-
-	./tools/docs/sphinx-build-wrapper --docdir Documentation/translations/zh_CN htmldocs
-	./tools/docs/sphinx-build-wrapper --docdir Documentation/translations/zh_TW epubdocs
-	./tools/docs/sphinx-build-wrapper --docdir ./tools/bpf/bpftool/Documentation mandocs
-
-On such scenario, we likely need intersphinx, as translation books contain lots of
-references pointing to the English one.
+> Thanks,
+> Kyle Meyer
 
 
-Thanks,
-Mauro
+Hi, Shawn,
+
+As memory access is typically interleaved between channels. When the
+per-rank threshold is exceeded, soft-offlining the last accessed address
+seems unreasonable - regardless of whether it's a 4KB page or a huge
+page. The error accumulation happens at the rank level, but the action
+is taken on a specific page that happened to trigger the threshold,
+which doesn't address the underlying issue.
+
+I prefer the first option that disabling all soft offline requests from
+GHES driver.
+
+Thanks.
+Shuai
