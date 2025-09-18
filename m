@@ -1,127 +1,179 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550D52F8BD2;
-	Thu, 18 Sep 2025 08:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2082F9DAF;
+	Thu, 18 Sep 2025 08:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758184453; cv=none; b=DMaf32GSbO27flT/3acj9/8l8S7lyQqX1IKtBqjw6urljvK/vwUyazqk+oDp57oGorVkpj1S96B4FxP4Hqzn1ncaM1tN6hBSNtMIxSy0OqULWZ+2/o8aswMBetHZzxQa9f5bXl/5Byy4ytG3TabXPoMJ884xflXcu+6Rh5QCevA=
+	t=1758185493; cv=none; b=NbfrIoFBR7RJmHLMnif9i5jk87PRuthA9Xe09wfdL9kEeCkvFaa94346z7VpmNFCMSnKgbf7NVH3ERfHWhbZyKfYQWWQGwmSIi52dy/gM6mtlIOuSE3xWOVxhnxs2aYvrnyJxea5l07g/T8J/Z7tQivIdtxpgfMsmvV52+u2UOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758184453; c=relaxed/simple;
-	bh=YUyJj+AOLpQZ16qQcLa96qh1A9RBn/gEjHPtLkjTIFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z4OPLVDun7BBava3Zt5BBY7Wen4P8yWiaQqvkwU98a/C2zH6wAwRe5eQGIb9noMi0L7OPr3di5aPXdhrHjcwKYFfPqEwIfCzB3mlQCdk9MVokHTGHiDY+2biRC2RofMQ8+8Zj0iIo9CkCFxg2w8Evot+z8DvIPIUPhF9j1eVRFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=NAzFNn9G; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1758185493; c=relaxed/simple;
+	bh=/03h3jsMxljIVekEltK1ygHyCyhWTpzD816qiyEvgvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J2RvN3n/Lwi6DcbLsjQOv8dZxqAhfXmBgceQ04+hKddtQs8BQakHmn8LwTxleABCyFh6jTMkk0bnAxJX5cuwizz0hqHyb0TiLanpbRzhXDDGgay7NftYqo8P+MjMIdi0NDM7bUrh46PC3nXoAd1H02OAzLX4SNKv04narBdBkcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tAThHaqV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="NAzFNn9G"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1758184447; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=iHPyCqwaIE53kfvtOqEjL6h4xRme2WCE41tGRMbg4OA=;
-	b=NAzFNn9GOVJAkfAMVdrcB07/dc9Ms6BXy74/eleljuE18J5xeCe+MSNCWI7mIBMNSKnAqNLzjwLm6kSAz8lYe1mcIwN/wPqqqWp2scY/NlMqRt6OvyP2fdTyiQYDDC+xHtbgB7ivv075GdoONkKJHKPWItxHsyJUsKpC8Jrumlc=
-Received: from 30.246.178.33(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WoFHDqY_1758184444 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 18 Sep 2025 16:34:05 +0800
-Message-ID: <1211fd9a-93e6-4ebe-a80d-083601138b70@linux.alibaba.com>
-Date: Thu, 18 Sep 2025 16:34:03 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tAThHaqV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02D4C4CEF1;
+	Thu, 18 Sep 2025 08:51:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758185493;
+	bh=/03h3jsMxljIVekEltK1ygHyCyhWTpzD816qiyEvgvA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tAThHaqVjK7RI8qOisp5Pyo0TGAfrdls7mAPINus76LrtU7OHcA/jChZSjx38rnwz
+	 Z4d6ry615h6/6ZeoPFk/S8QJurPxRs12RQUPYM2MIrc1mzq0utETqnj4dWHbwShvrk
+	 ZwgN722g4YWxcOF3nIneX+FkatxYWt+4HF9VCG9TGlVnDWdsMCUSpJhVHXpJk1btls
+	 GhBdzYtypbKfGrrTzYoJyshHHRWX43EB52UJ9fm+4sLxeeKwCF4a5Wwfn116aHO+T0
+	 KvqTk8Zgm1pt4T0CXfBID2K4ml/EAKB/14giWVR7AcXebtvDv0i1lZbmKlfTdfeGXi
+	 Zrh1MK5hm3tmg==
+Date: Thu, 18 Sep 2025 10:51:28 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 04/21] scripts: check-variable-fonts.sh: convert to
+ Python
+Message-ID: <20250918105124.3728661a@foz.lan>
+In-Reply-To: <eaab7ba4-f23c-4c33-b9d1-faae73c136a4@gmail.com>
+References: <8a77212d5459eac2a98db442691930425a2cbefd.1758018030.git.mchehab+huawei@kernel.org>
+	<52932ede-eb04-4275-a051-952bc2859cf6@gmail.com>
+	<20250917104818.62862b48@foz.lan>
+	<eaab7ba4-f23c-4c33-b9d1-faae73c136a4@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-To: Kyle Meyer <kyle.meyer@hpe.com>, "Fan, Shawn" <shawn.fan@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, "corbet@lwn.net"
- <corbet@lwn.net>, "david@redhat.com" <david@redhat.com>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "jane.chu@oracle.com" <jane.chu@oracle.com>,
- "jiaqiyan@google.com" <jiaqiyan@google.com>,
- "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
- "bp@alien8.de" <bp@alien8.de>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
- "jack@suse.cz" <jack@suse.cz>,
- "joel.granados@kernel.org" <joel.granados@kernel.org>,
- "laoar.shao@gmail.com" <laoar.shao@gmail.com>,
- "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
- "mclapinski@google.com" <mclapinski@google.com>,
- "mhocko@suse.com" <mhocko@suse.com>,
- "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
- "osalvador@suse.de" <osalvador@suse.de>,
- "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
- "rppt@kernel.org" <rppt@kernel.org>, "Anderson, Russ"
- <russ.anderson@hpe.com>, "surenb@google.com" <surenb@google.com>,
- "vbabka@suse.cz" <vbabka@suse.cz>,
- "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>
-References: <aMiu_Uku6Y5ZbuhM@hpe.com>
- <20250915201618.7d9d294a6b22e0f71540884b@linux-foundation.org>
- <aMkOCmGBhZKhKPrI@hpe.com>
- <SJ1PR11MB60831F028E2FEB6B5A3390D9FC14A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <aMmlhPghbpnlCZ09@hpe.com>
- <SJ1PR11MB60833884799B6AA2BC18ECE7FC14A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <LV4PR11MB9513A6EFA88B082E554CB8D6EB17A@LV4PR11MB9513.namprd11.prod.outlook.com>
- <aMsE9XjWKEYTIQyV@hpe.com>
-From: Shuai Xue <xueshuai@linux.alibaba.com>
-In-Reply-To: <aMsE9XjWKEYTIQyV@hpe.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Thu, 18 Sep 2025 08:22:44 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-
-在 2025/9/18 02:59, Kyle Meyer 写道:
-> On Wed, Sep 17, 2025 at 06:35:14AM +0000, Fan, Shawn wrote:
->>>> My original patch for this just skipped the GHES->offline process
->>>> for huge pages. But I wasn't aware of the sysctl control. That provides
->>>> a better solution.
->>>
->>> Tony, does that mean you're OK with using the existing sysctl interface? If
->>> so, I'll just send a separate patch to update the sysfs-memory-page-offline
->>> documentation and drop the rest.
->>
->> Kyle,
->>
->> It depends on which camp the external customer that reported this
->> falls into:
->>
->> 1) "I'm OK disabling all soft offline requests".
->>
->> or the:
->>
->> 2) "I'd like 4K pages to still go offline if the BIOS asks, just not any huge pages".
->>
->> Shawn: Can you please find out?
->>
->>
->> -> Prefer the 2nd option,  "4K pages still go offline if the BIOS asks, just not any huge pages."
+> Hi,
 > 
-> OK, thank you.
+> On Wed, 17 Sep 2025 10:48:18 +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 17 Sep 2025 10:09:05 +0900
+> > Akira Yokosawa <akiyks@gmail.com> escreveu:
+> >   
+> >> On Tue, 16 Sep 2025 12:22:40 +0200, Mauro Carvalho Chehab wrote:  
+> >>> This script handle errors when trying to build translations
+> >>> with make pdfdocs.
+> >>>
+> >>> As part of our cleanup work to remove hacks from docs Makefile,
+> >>> convert this to python, preparing it to be part of a library
+> >>> to be called by sphinx-build-wrapper.
+> >>>
+> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> >>
+> >> I could apply up to 05/21 of v6 and did some quick tests under
+> >> Fedora (where Noto CJK VF fonts are installed).
+> >>
+> >> At 3/21, "./scripts/check-variable-fonts.sh" doesn't say a word.
+> >>
+> >> At 4/21, "./scripts/check-variable-fonts.py" complains:  
+> > 
+> > I got a little bit confused with the above. I guess you picked the
+> > wrong patch numbers, but yeah, there is a bisect issue, caused by
+> > the part reorder I did moving this change to happen before adding
+> > the script. Basically, I updated docs Makefile the wrong way.
+> > 
+> > Thanks for pointing it!
+> > 
+> > For v7 I'll ensure that all patches will properly print the suggestions
+> > from the script.
+> >   
+> >> =============================================================================
+> >> XeTeX is confused by "variable font" files listed below:
+> >>     /usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc
+> >>     /usr/share/fonts/google-noto-sans-mono-cjk-vf-fonts/NotoSansMonoCJK-VF.ttc
+> >>     /usr/share/fonts/google-noto-serif-cjk-vf-fonts/NotoSerifCJK-VF.ttc
+> >>
+> >> For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
+> >> Or, CJK pages can be skipped by uninstalling texlive-xecjk.
+> >>
+> >> For more info on denylisting, other options, and variable font, see header
+> >> comments of scripts/check-variable-fonts.py.
+> >> =============================================================================
+> >>
+> >> Of course, I have followed the suggestions in the header comments.  
+> > 
+> > I didn't try to follow the suggestions to solve the issue on Fedora yet.
+> > It is on my todo list to test it.
+> > 
+> > The new script has an exact copy of the instructions of the previous one.
+> > 
+> > So, up to patch 09/21 from this series, there won't be any change at
+> > doc build, except for the script conversion and some code cleanups
+> > and reordering.
+> > 
+> > Patch 09/21 moves the env logic of FONTS_CONF_DENY_VF to the wrapper.
+> > So, in thesis, fixing it before-after the series shouldn't have any
+> > impact (I didn't test yet. Will do on my next respin). Btw, we should
+> > probably document it at make help.
+> > 
+> > If the instructions from the header is wrong, we need to update it
+> > on a separate patch series.
+> >   
 > 
-> Does that mean they want to avoid offlining transparent huge pages as well?
+> I have tested v7.
 > 
-> Thanks,
-> Kyle Meyer
+> With v7 fully applied, it is now possible to build translations.pdf on
+> Fedora.  Nice!
+> 
+> HOWEVER, running
+> 
+>     ./tools/docs/check-variable-fonts.py
+> 
+> still complains.  I'm not sure but there might be some minor issue (typo?)
+> in the translation from .sh into .py ???
+> 
+> So I have to keep the NAK on v7's 7/24 ("scripts: check-variable-fonts.sh:
+> convert to Python") for the moment.
+> 
+> Please run the script under a terminal session and see what happens ...
 
+Yeah, there was a typo there. I fixed it for the next respin.
 
-Hi, Shawn,
+To better allow running it manually, I'm adding to the tool a new command
+line argument:
 
-As memory access is typically interleaved between channels. When the
-per-rank threshold is exceeded, soft-offlining the last accessed address
-seems unreasonable - regardless of whether it's a 4KB page or a huge
-page. The error accumulation happens at the rank level, but the action
-is taken on a specific page that happened to trigger the threshold,
-which doesn't address the underlying issue.
+	$ tools/docs/check-variable-fonts.py -h
+	...
+	options:
+	  -h, --help         show this help message and exit
+	  --deny-vf DENY_VF  XDG_CONFIG_HOME dir containing fontconfig/fonts.conf file
 
-I prefer the first option that disabling all soft offline requests from
-GHES driver.
+And changed the class __init__ logic to optionally use it:
 
-Thanks.
-Shuai
+    def __init__(self, deny_vf=None):
+        if not deny_vf:
+            deny_vf = os.environ.get('FONTS_CONF_DENY_VF', "~/deny-vf")
+
+This way, it will keep using FONTS_CONF_DENY_VF (defaulting to ~/deny-vf),
+yet allowing it to be overriden via command line:
+
+	$ tools/docs/check-variable-fonts.py
+	<no output>
+
+	$ tools/docs/check-variable-fonts.py --deny-vf ~/deny-vf/
+	<no output>
+
+	$ tools/docs/check-variable-fonts.py --deny-vf ~/dont-deny-vf/
+	=============================================================================
+	XeTeX is confused by "variable font" files listed below:
+	    /usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc
+	    /usr/share/fonts/google-noto-sans-mono-cjk-vf-fonts/NotoSansMonoCJK-VF.ttc
+	    /usr/share/fonts/google-noto-serif-cjk-vf-fonts/NotoSerifCJK-VF.ttc
+	
+	For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.
+	Or, CJK pages can be skipped by uninstalling texlive-xecjk.
+	
+	For more info on denylisting, other options, and variable font, run:
+	
+	    tools/docs/check-variable-fonts.py -h
+	=============================================================================
+
+Thanks,
+Mauro
