@@ -1,127 +1,134 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC51A3178
-	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 06:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1D02C029C
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 07:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758262385; cv=none; b=KjSLj+AczrNhRQ2BWzee6oFjcMXm8fNX7SalJ9BkvphSU3sq6su8gg3Bgo0YJJGENduABRQ9Fk6Dq85RIvQHQLD+2nw0/oK+vpi6unlEYIyqUT3c6skNpF3b8nf/dE3eAR5pBx8N9uO6Xmgzt2+l1R59mSMJJLSr1KOWWvqkItw=
+	t=1758265567; cv=none; b=EUavoDY/W/3AvdbdmqhJIOYzOBs0lBYoqXespMo79pxT8+SPT35atZcjNV1FJ9mtgBGENFsIUYPpsewSL70rRgNSbcT8052tzhAglDbHQqQdOlrnyaVu9ssYjGVpN5zIe/YiOoEQh9AR1Cy94JrAj7gTanOExyBD53IuP5KYGzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758262385; c=relaxed/simple;
-	bh=QaU0XZrFsINteJt0IIMDvEMBnerjNmnmQy4PXU2LX/E=;
+	s=arc-20240116; t=1758265567; c=relaxed/simple;
+	bh=ItZKaGQl9It/js9gzPNXCsAEXczA+CYbzua9BHh+ovk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGcKDIkCbuCXiXfJNnRIKm7paM9BXdwEfQCGdQUeAfz2YTMtT0Qggo1jtggHtIs3b7dz37sxheQi2kWnUvHsiWPEHDak4b9IM3uKVM97T9H3gDTvFtM2FVGgFFMxu1D3CL/Ymlw73OEyLDf41dONdIVbFDURLfJfqnWKvdgE+dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QpMXdrC2; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFxppYKBVuaqrFjNOM1Z/tfl49iSEwJY31yTktCq56jdEuwpi/pwfViLuPEwbl+z0yvrM3beBTYQZf9kImjl3UvURSI/mK65HtF/4AzAr+nw2e8UuhEyvfJXUAmxBAIdx2rTu116JZ5nYHVAZVLxG93hPd9Iwo8wtttM3AenUEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hCKo2pF/; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QpMXdrC2"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2445806df50so14781095ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 23:13:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hCKo2pF/"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3ee12332f3dso1432884f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 00:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758262384; x=1758867184; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QaU0XZrFsINteJt0IIMDvEMBnerjNmnmQy4PXU2LX/E=;
-        b=QpMXdrC25/0ld1j/5QNBgRE+YuuqHy5fapd4SXRjsQ5R70ZKw3W6AnOyBIQGLhPzHo
-         2A9UNgCJeeiNiJluVYyiu6VGASblAxdpzryTbFtFLrslMqTrdb2av1qnONgcazarmCdT
-         f/KrR+o/2xr0kfuo6ZusfFta8M6p0l8J2d+nOls+J6NuwdcG3t2vnN9TzM+HodxjwMAb
-         WHwb9Ddt09wsKiDvjWBNLEsDQCSqmcZYFENhSWlk2x+wk/ztErbey/ivB1a4JahfpgMT
-         vLNzuqnlg3DeCkHM8BUTHyftTGrsxhhyb5E+TRXvT+hBj3lmNT+WEeXCJeDoJOxgunUE
-         yLeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758262384; x=1758867184;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1758265564; x=1758870364; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QaU0XZrFsINteJt0IIMDvEMBnerjNmnmQy4PXU2LX/E=;
-        b=kqDGmTjwXrlSxs3N38MvUNzLePrqsAWAborzQO0r5HMVqrl4y6gmLyLHyZ75LN3NHw
-         VSmrH6Zy5PkDeNiwyom9fBQu62IcOV/UBgy6gcEyS0egyfGI+Ma62tjRTYJJfF8pwxfX
-         zIgRSXkEAxC6jCVumXXv1GyRPk6tFCooVNS0b7lMRog0bn3VWX1KfOH0wxo0IAqOy0Rn
-         smU6a8PR1iFpORA1QIhuDKXdM7nxJHwKCGeXMt5DZauLeTZgMSK9zjVczHaHcqQbDUnJ
-         3yoPVt3Vo/10OIokL0G3Vo6c8/3WbwH8cpQ6TZ07y0U0YQFANSvj0Hqbwqg3FMJPPVzu
-         NfPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWI5CQS5FuS84n1IXWcpSc2y/PtsdwBkn1V1vgYmm6feXhNo3SS19bh5g0qdqNbESFOxkE88niBCJw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVQfC6qwnGaTMFJ4xfVqY5K+CjCO1KHTqpaZgoGH0FUcXU+grZ
-	0kZrkD2VBhxKOEY7SPe21kJeD6cZ3YY3De3Ylyj1gOfKjMfsWw+JUnV5
-X-Gm-Gg: ASbGncuIMXyeLtVQpFp8L6/BxXpnc+SJXnYEtPQ1SH+U/NBPjAuaXhVRqdUFUF9i4DR
-	4XMDRhgZngiUK1hd20b+HNsdnOppSPwl4Uv6OnnpdSCL/85tPaQM4LIiAT1zLiZ82j+4G7BNhtW
-	j/bODJA+fUTOW+vawrLvdBRFP29z3ewjuQluWAvhruXORri2M6bAtlCCCGu+I2zXNP96ZxlU2gO
-	l5O6+F8LEYeiDTzAwPcGcfFR770zNVpnQ1+JMtsWPUhO5h8lDD8WrnC1asBNynOFWmDCjttjezj
-	3AT/GR8TF+FwtlAs6Zp8sqRfEoy/a2TNblZtxz9BeQuHhTlgClOOOY4LwWHEJOx0eC3gKm+Zv2i
-	7wrCM6pL48fPR4Hr1LWIYDymdFuR0+Z+2
-X-Google-Smtp-Source: AGHT+IH1zlcrCsnnWY05Td89Szx91jOSar9oJ32+Ot2pPsbfIjo96otYgzFoT3ZIJABk2eJTuUWEZw==
-X-Received: by 2002:a17:903:3850:b0:269:936c:88da with SMTP id d9443c01a7336-269ba53910bmr30423905ad.41.1758262383441;
-        Thu, 18 Sep 2025 23:13:03 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b5524c329e6sm368477a12.42.2025.09.18.23.13.01
+        bh=/Klo+L3KBBL4ssbFZ2YOqJt7BcxJ8M+dYCfYzeUYYBY=;
+        b=hCKo2pF/F78auKEP48toZ9iiNufcpa9c36bPf4P6fwtH1zaEBgaQ/RUiLIQk92rhWc
+         B1LgQpeOqlgQlCfm8iif2jUa154KDKMvYQlSys5NZtt+K1jFjuxbzMGsfZi6gawxzMjn
+         PH1A3hFkQbnoa61/vfXUDV3CSh6jvceVmBuMfBRP49NRPxq7AcTmj8PJJt5FMoY07PFM
+         f45k7CojLt6eIQlQbuDN/fIh6vTw8m23VBVFZPh7tGbrilgmVh+/LguX/Dq/QoxcwGQt
+         4CRU8KcVWlbcPIAhwDzT0GR2qRk3ORkC5h6ualYsffvKdotgOB88M7c91H+ryPIHp9Um
+         Nvcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758265564; x=1758870364;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/Klo+L3KBBL4ssbFZ2YOqJt7BcxJ8M+dYCfYzeUYYBY=;
+        b=QT7MF360y74LV45JnYu6Qx5qZ8+bEmo8b9fC3FCIfb+WAqTwF6P4NsksAVH/3BppXn
+         cSxGqiNFMBlzGGkY2MvpOJSCwK57FruNvWZU7xxHJJ7tzG66s4HNBut2tMzCBYsmEdZC
+         70aVl5gOpa0FO8iIoe8p20zSVqqa/kFMLZCxP6Xh6FJOMWTmvbnpDw1iFyNXUEnMdiKC
+         H0y57hCaCkQ+LxhomKleXYdKYQFcI9mcM8AeVP2BiFM0NBF+TPT73D3EvwrRcf9ArUcd
+         IIu1d5iFqbpyDyq/2i34hFFsZTs3azoDzKdDsL/eGseL6qCUVa+ZSDFEgMezuOi43D3H
+         ZnXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWv9pl2IIVagzYMXNzp58cxdPIgbEU0u5+BkSE1+nfZgRCIlTpzrSehLUKmOQvRuUDcfXEz211N/FA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4zmxv1ng6hbGr+9IH+ZnhKOA8J26INqtlr2OxKEmoFdwaueV0
+	5MJTF3Nv5Zmvl2BxHktFlZfLAQW9oBZ+L/edW1IPatF7qnJ3C9dUbWbByrSWjLTGOQ==
+X-Gm-Gg: ASbGnctwAAvTOJeQIJWheWQOz9ipsqhAnwF1beJMcZIKiD2kaBvjOpldukes+yyXOHk
+	ejm2125oB9NLqh/lGZV47PqXxhpRRbjSvGDpItEt8c+erVMBFkQrfHF9Yh3ozreO+neIkwbi24C
+	ZF1Fny6eRSIB7iQFeNyTv1Is71QxxvB4bXVahBP1zTw70bYj6RCAxVWjsAL54ovCre5GwX6fAob
+	YRikDZbFluDYsg62HCuwSsfgwBmQlSGYx1kldplF2tIrAx4JI5k6Y2fvCqf2+sMhM9XcMjUk9JC
+	4LuiPhm+ECnghl2EKsL/30le08YaTsrafEAqD6vXrwX2giPIeBfoei5M9V9dSsAZ4r6DtfQfc4q
+	ShWU+9sRWuvqvAgD/pRIDuIdjwiIsM3UPmCvggJ0rWvIEh3LYDWTygaOrHhg=
+X-Google-Smtp-Source: AGHT+IHPi1pgPaxjy0qFYAQQyA+9c6RpQAFZf3vA/UzVRkHTrs+JR5MqjC9zARfGu5kWXbLyHGkoeg==
+X-Received: by 2002:a05:6000:2c0b:b0:3ea:6680:8fcd with SMTP id ffacd0b85a97d-3ee7c925245mr1570227f8f.13.1758265563176;
+        Fri, 19 Sep 2025 00:06:03 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:2834:9:1f7a:8520:7568:dac6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee0fbf1d35sm7200088f8f.55.2025.09.19.00.06.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 23:13:02 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 32DDE4227234; Fri, 19 Sep 2025 13:13:00 +0700 (WIB)
-Date: Fri, 19 Sep 2025 13:12:59 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux cgroups <cgroups@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Andrea Righi <arighi@nvidia.com>,
-	Johannes Bechberger <me@mostlynerdless.de>,
-	Changwoo Min <changwoo@igalia.com>,
-	Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Ingo Molnar <mingo@kernel.org>, Jake Rice <jake@jakerice.dev>,
-	Cengiz Can <cengiz@kernel.wtf>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 4/4] Documentation: cgroup-v2: Sync manual toctree
-Message-ID: <aMz0a_7_8AfpwoWT@archie.me>
-References: <20250915081942.25077-1-bagasdotme@gmail.com>
- <20250915081942.25077-5-bagasdotme@gmail.com>
- <aMwtI44JEXFuNPA5@slm.duckdns.org>
+        Fri, 19 Sep 2025 00:06:02 -0700 (PDT)
+Date: Fri, 19 Sep 2025 09:05:54 +0200
+From: Marco Elver <elver@google.com>
+To: syzbot ci <syzbot+ciac51bb7578ba7c59@syzkaller.appspotmail.com>
+Cc: arnd@arndb.de, boqun.feng@gmail.com, bvanassche@acm.org, corbet@lwn.net,
+	davem@davemloft.net, dvyukov@google.com, edumazet@google.com,
+	frederic@kernel.org, glider@google.com, gregkh@linuxfoundation.org,
+	hch@lst.de, herbert@gondor.apana.org.au, irogers@google.com,
+	jannh@google.com, joelagnelf@nvidia.com, josh@joshtriplett.org,
+	justinstitt@google.com, kasan-dev@googlegroups.com, kees@kernel.org,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
+	longman@redhat.com, luc.vanoostenryck@gmail.com,
+	lukas.bulwahn@gmail.com, mark.rutland@arm.com,
+	mathieu.desnoyers@efficios.com, mingo@kernel.org, mingo@redhat.com,
+	morbo@google.com, nathan@kernel.org, neeraj.upadhyay@kernel.org,
+	nick.desaulniers@gmail.com, ojeda@kernel.org, paulmck@kernel.org,
+	penguin-kernel@i-love.sakura.ne.jp, peterz@infradead.org,
+	rcu@vger.kernel.org, rostedt@goodmis.org, takedakn@nttdata.co.jp,
+	tglx@linutronix.de, tgraf@suug.ch, urezki@gmail.com,
+	will@kernel.org, syzbot@lists.linux.dev,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot ci] Re: Compiler-Based Capability- and Locking-Analysis
+Message-ID: <aM0A0p4-3lwLeAWF@elver.google.com>
+References: <20250918140451.1289454-1-elver@google.com>
+ <68cc6067.a00a0220.37dadf.0003.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ifSAKz44nzz4QM1K"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aMwtI44JEXFuNPA5@slm.duckdns.org>
+In-Reply-To: <68cc6067.a00a0220.37dadf.0003.GAE@google.com>
+User-Agent: Mutt/2.2.13 (2024-03-09)
+
+On Thu, Sep 18, 2025 at 12:41PM -0700, syzbot ci wrote:
+> syzbot ci has tested the following series
+> 
+> [v3] Compiler-Based Capability- and Locking-Analysis
+[...]
+> and found the following issue:
+> general protection fault in validate_page_before_insert
+> 
+> Full report is available here:
+> https://ci.syzbot.org/series/81182522-74c0-4494-bcf8-976133df7dc7
+> 
+> ***
+> 
+> general protection fault in validate_page_before_insert
+
+Thanks, syzbot ci!
+
+I messed up the type when moving kcov->area access inside the critical
+section. This is the fix:
 
 
---ifSAKz44nzz4QM1K
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    fixup! kcov: Enable capability analysis
 
-On Thu, Sep 18, 2025 at 06:02:43AM -1000, Tejun Heo wrote:
-> Hello,
->=20
-> On Mon, Sep 15, 2025 at 03:19:27PM +0700, Bagas Sanjaya wrote:
-> > Sync manually-written toctree with actual list of sections in the
-> > automatically-generated counterpart.
-> >=20
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->=20
-> This doesn't apply to cgroup/for-6.18. Can you please respin?
-
-OK, thanks! I'll do that in v4.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---ifSAKz44nzz4QM1K
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMz0ZwAKCRD2uYlJVVFO
-o3x8AQCm6hbm1X92Lu/K21794EnjnfNjcuWONZ8nr0ikKMbNsAD+OVrnNOuylGrN
-CZEmONzzDLJ8o4kT0W8HNPNzsJBArQM=
-=WWlA
------END PGP SIGNATURE-----
-
---ifSAKz44nzz4QM1K--
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index 1897c8ca6209..e81e3c0d01c6 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -497,7 +497,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+ 	unsigned long size, off;
+ 	struct page *page;
+ 	unsigned long flags;
+-	unsigned long *area;
++	void *area;
+ 
+ 	spin_lock_irqsave(&kcov->lock, flags);
+ 	size = kcov->size * sizeof(unsigned long);
