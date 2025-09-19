@@ -1,198 +1,150 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D53824167B
-	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 00:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7E9635;
+	Fri, 19 Sep 2025 01:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758242228; cv=none; b=ex8vte9MSZ38mI1kFI1AR0LFgzjxlJSDBiawuJZsvW/euT5lOddgJzH3Z/Menw2JkELPgmpeJhEdGvens3s8mehDS49JV/WLuyVxRm/5gVli5niHCLxuZMHIQj/W5E7M5QPYky+JEUb2JzGvq35TNjNj349axv0fGh73nYxJul8=
+	t=1758244691; cv=none; b=sEc6qpHza6Su8J/shrRwI7iJfWy3go7lK+G7H4u2bNuTv5LUVjm+jMYpeUaWCt0U/WSRkHlml/ZB/Yk4IymnlxLCX0NoXfYmyZqtqsZYFB8CHNvySvt6Nhp3vzi9y3dGGt7QGRhyNldWvS+i9YkZq5YSnLlJIQan9Xx3nyeX8GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758242228; c=relaxed/simple;
-	bh=G2Hu4yMRkujPDb60hG3BM8GKc4qdmUGfbLLUukXTBW8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ORIXi8mB0h3tVujnwEZcfXJIIPGldYAK5WLkkYI8plICup87rn0/I2FBEcf6QoIlOLzyAjju/Yz8PyUeFg2vy+Bo7o2N2vDWSQNRPwA+1xCpUfSWHOjUYSUGwmk4QixhQ+a2OgUMK8+sji1Qmh3+eC5zvJz2AGaSROINgbsbqdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nb7vXwj3; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nb7vXwj3"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-267f0fe72a1so9845725ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 17:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758242226; x=1758847026; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F0dTovYaKB4gfJ0CY/rrU0WVNio86cuPsjO5eFpelmI=;
-        b=nb7vXwj3dKP9n8Fd9XP3IB8Yz/53A/rXh1EPYZpjuQiBPwDAqpvx1OqAmt+E8LGbpJ
-         5cJnftrciK0deOHqRuvWbXxwB5jZiShjH3QDmiTdrZEn6nBs5/rc194R2GfsZSsErS/m
-         Y77Z6RKsEhDVgXsRRnvqorls0RcXomeA9OIPpdACaWikd9oG2XavoP29TxgUmmSZBSb7
-         VDQVyYQUFUab578aXzbeM6PiriZAfWCjsf9+otLz/jRyRmqxPy17IEh7or2Hs8+/czOd
-         o9Wj5e9D6cGM0RV173nb/3lYuat63LHGtdaA3pYgWfmE4N8a1ikwcwSLTpRe2wyE6KkL
-         9K9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758242226; x=1758847026;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F0dTovYaKB4gfJ0CY/rrU0WVNio86cuPsjO5eFpelmI=;
-        b=io94ZklFL7c8GzrHwAzI5nnCSFqYpG8/NJH/aJzwP5KdzQZ2KnkNxCqbt97La2QOZT
-         Gy5esTGgqIRvF9zWHVky6r5nP1snw+A9OnWlHqeBQ+zZi5l5dwn4q/F6c2z61dlfDkFJ
-         VI1N8m0th9w2dAtnUAxTta0JubPpSLLIzHszXiMhW7+3E4++swlkTyLjQlqKDfHB4Krm
-         wue9a4adTBZ5BVMV0DKW+KXm2WdyIiGbG7nh5NUpmosN9Rj2G+pGJN9eVRqhQyuny27o
-         NbIW0n98kN9GcvmDDIvZDV028CRgyHi74h1BTKrq9+vfPCL49c0+ejkVbjX0nhprlXjK
-         ipWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLPycAvtQDNlwA3+8gRKqKASx0cjlyYuhts5cAZDqOm9T4OadfLZY3zIw8QdEMe0Adi1XosYsRYyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyvyzzcq5ATIuKPOVA5GR0R3OTgqcZ/+T5aNek2qc0olNXC3UpB
-	qE5VZCJy2SxeYeFX/23yHEPX+qWVNlokfmW4juKReSa0vtcW9ugTeTsI
-X-Gm-Gg: ASbGncuOobj3Gf59gc5Gy6Y2q4dz5JyUck7grSFEW6b2AIkg9ih9NKR16Pxu/+9+e6D
-	Nt7vQ1IBOjoTmg3IYUZsnaFY9rMvWXup3S7BLs3wTn7pIEketndSxmv0dBAKSJlzZ54t9yBkCDw
-	tDWLdWURrM3SX60zZNLnhuXf/X+USs4l7kvghzXp4IYWIYoHXdnuzhoyCFOUhh0m2azY3Wb1ejY
-	yVak7C/Vrm+x4+GBGwdQV+WQ8GKxHlmHccvxXQVwQTrxwDna404tyYj14FQkPUwFo3FPsnhrYDu
-	KxgFLvWgDzNw/oNppe4tQf2gSVgS97VTpGHodf+tmGGGyRDp1dPWgDYGB5V1vTNKhjQpH0pKUXC
-	eryY79ylj8CR9wfyb0T+80w==
-X-Google-Smtp-Source: AGHT+IEi681zBzTSG9Ssyj4xkWOW3OUSPbm/eC1b/ybWYhB5MYLrxE49bm1sZeX5rT7wDfvU6s02qg==
-X-Received: by 2002:a17:903:1a27:b0:264:70e9:dcb1 with SMTP id d9443c01a7336-269ba5464c0mr18768295ad.56.1758242225932;
-        Thu, 18 Sep 2025 17:37:05 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32eaa46da99sm4203712a91.1.2025.09.18.17.37.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 17:37:03 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 64A8D4227239; Fri, 19 Sep 2025 07:37:00 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Framebuffer <linux-fbdev@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Helge Deller <deller@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Bernie Thompson <bernie@plugable.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Arvind Sankar <nivedita@alum.mit.edu>
-Subject: [PATCH 3/3] Documentation: fb: Split toctree
-Date: Fri, 19 Sep 2025 07:36:40 +0700
-Message-ID: <20250919003640.14867-4-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250919003640.14867-1-bagasdotme@gmail.com>
-References: <20250919003640.14867-1-bagasdotme@gmail.com>
+	s=arc-20240116; t=1758244691; c=relaxed/simple;
+	bh=KfIMDG1uhk7mdManaKAb7Xl0e41w4jmdmNJOvYjMtmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vhff6p4+0A1JgOm7jVvlRjvtjHUrmDid/5u1PBNQX4KU0wdd9t626LuWEeZEkr1p7cOuvEWC+iBN5P2anxlxEJZqE7YHG/yUVdYxaf9oM2uSV7Ex+ZDLhu5vWQeS4D14OXM+bMNIE8jKkIG97Gqc66xCD5z214ZV2XKhcrg4bmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com; spf=pass smtp.mailfrom=mucse.com; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mucse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mucse.com
+X-QQ-mid: esmtpgz14t1758244656t34bd8618
+X-QQ-Originating-IP: 98o6iFAarl7VbsuD0/5ogEYv6yQqe2Fnbu8FQliCn4s=
+Received: from localhost ( [203.174.112.180])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 19 Sep 2025 09:17:33 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11517621768531048136
+Date: Fri, 19 Sep 2025 09:17:33 +0800
+From: Yibo Dong <dong100@mucse.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, gur.stavi@huawei.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
+	gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
+	Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
+	alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
+	gustavoars@kernel.org, rdunlap@infradead.org, joerg@jo-so.de,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v12 4/5] net: rnpgbe: Add basic mbx_fw support
+Message-ID: <3E609187B0C91716+20250919011733.GA174153@nic-Precision-5820-Tower>
+References: <20250916112952.26032-1-dong100@mucse.com>
+ <20250916112952.26032-5-dong100@mucse.com>
+ <3058c061-3a17-4077-8d4e-c91ad72b3831@linux.dev>
+ <D7EC5E8B6F6E685E+20250917110540.GA91482@nic-Precision-5820-Tower>
+ <fb8f876a-c2e5-49b0-bc64-bdf18ecd1ce4@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1785; i=bagasdotme@gmail.com; h=from:subject; bh=G2Hu4yMRkujPDb60hG3BM8GKc4qdmUGfbLLUukXTBW8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlnlrSr3Zj+wsvph7LOdPl4pzZmxqII9c1r8pdlhSvbH akoj3DvKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwESK3BgZGvYccrr55/DPTTMC FyRdqDO54N+3dn0HX/7cwzsu/mPklmb4H32l8YTDnhfPQubOiPBesWBT9v6n/psdXoaI/eL/X8e kxQ4A
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fb8f876a-c2e5-49b0-bc64-bdf18ecd1ce4@linux.dev>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:mucse.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OF6/1i2Al/nJzNgnnrzdpHialpMuzFFg1E0Mt0PxzLZcwzoBP3UhvWtC
+	aDGBwL72GcWN1OtQkNmsua+D6kYeO1g4ZXxaR5ZFniJVSGjOCR7/HQnfqZeDQH4VcLzBGx8
+	eWMv6HkK2hox7eBurez0ZkBlhtIWNSmORd1gblgjkGGMMsEhrqtgTTL/Wt751ZkgvN+mGf4
+	StKhZ9fNs//IwuzCnk3H8Nf3AmZGOrxD0zplZ6Nlc5WCUASXSEHPxm+ohKyoqiwr+PN0rnG
+	J0KdTdWdJ2E7yQ42KK05uW0OsbamrnJapigbJ6lcSpNHY3FbqxdsakmDgq58kC/WeN0Lrwj
+	zTshZpbZRe8/E04zBkJVW5j8kYDiSaNERUVDXJfHxMi//Pn/ivBdUZKlJD9kOOV548E/9Td
+	1V+xlCiq+uZsfIM4iejRPbDmuQ1x9ABCkGPefz9uGXN4KNJqZ9rfKXgiBDNzU0zSf6jiRTk
+	sRIL7x9rr6TKa+lzPHnb47LQ+SaN1E8zjdhsQo7BJDsLmPWkfhMw+f3WEIEoRop6kbW+9Hp
+	thzZFKy0BM7UIiR9irk6vnwKlUrnwwjqBIosVPEtG0HXpMqKMV/0Vwl7D9FfGsbwa2zkYkO
+	IZkjEWmvyMhujj1cshNFub7wgXnQl0vLwkrXuQYYHX2qm3+3dG7gcRu6szUbzJzmxJ9cuOC
+	ajp/8nG3PIblhYIpSvxHN9y2lsnxdnbkLPNRuNdY0rxrxM++Fyl8r9lCxQdWmUdcqvd91NY
+	KW/Aay6ML60I5nzRylq7y6qH0wML9MlR/FuYcObG2EIaMS9IOnjJJe9T4KzGnObDhlB9TsU
+	kdlJ1bIttAnNQdDAJNY2KWnTaZ/kMtWxNlNZ51sBznN77km/R+B2Au6MrBQh8JsNXd6ZdVI
+	yXdj8QbwwbAazLkkdIBZEm2O9wmO28l8TDNGL80Odnt0U2eCbbNrVrkXWvGcKM3v80A+FUF
+	tR0E2Rhgc7y8nmtzT07vteSgST3WYGwM7iCszN54Mq70Y9/+v61/nwVvt
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-Framebuffer docs toctree consists of driver-independent docs
-(e.g. API docs) and driver-specific docs. The latter has much
-more entries.
+On Wed, Sep 17, 2025 at 03:02:13PM +0100, Vadim Fedorenko wrote:
+> On 17/09/2025 12:05, Yibo Dong wrote:
+> > On Wed, Sep 17, 2025 at 11:45:31AM +0100, Vadim Fedorenko wrote:
+> > > On 16/09/2025 12:29, Dong Yibo wrote:
+> > > > Add fundamental firmware (FW) communication operations via PF-FW
+> > > > mailbox, including:
+> > > > - FW sync (via HW info query with retries)
+> > > > - HW reset (post FW command to reset hardware)
+> > > > - MAC address retrieval (request FW for port-specific MAC)
+> > > > - Power management (powerup/powerdown notification to FW)
+> > > > 
+> > > > Signed-off-by: Dong Yibo <dong100@mucse.com>
+> > > 
+> > > Reviewed-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+> > > 
+> > > small nits below
+> > > 
+> > > 
+> > > > +static void build_get_hw_info_req(struct mbx_fw_cmd_req *req)
+> > > > +{
+> > > > +	req->flags = 0;
+> > > > +	req->opcode = cpu_to_le16(GET_HW_INFO);
+> > > > +	req->datalen = cpu_to_le16(MUCSE_MBX_REQ_HDR_LEN);
+> > > > +	req->reply_lo = 0;
+> > > > +	req->reply_hi = 0;
+> > > > +}
+> > > 
+> > > All these build*() functions re-init flags and reply to 0, but all
+> > > mbx_fw_cmd_req are zero-inited on the stack. Might be better clean
+> > > things assignments, but no strong opinion because the code is explicit
+> > > 
+> > > If you will think of refactoring this part, it might be a good idea to
+> > > avoid build*() functions at all and do proper initialization of
+> > > mbx_fw_cmd_req in callers?
+> > > 
+> > > > +
+> > > > +/**
+> > > > + * mucse_mbx_get_info - Get hw info from fw
+> > > > + * @hw: pointer to the HW structure
+> > > > + *
+> > > > + * mucse_mbx_get_info tries to get hw info from hw.
+> > > > + *
+> > > > + * Return: 0 on success, negative errno on failure
+> > > > + **/
+> > > > +static int mucse_mbx_get_info(struct mucse_hw *hw)
+> > > > +{
+> > > > +	struct mbx_fw_cmd_reply reply = {};
+> > > > +	struct mbx_fw_cmd_req req = {};
+> > > 
+> > > something like:
+> > > 
+> > > struct mbx_fw_cmd_req req =
+> > > 	{
+> > > 	  .opcode = cpu_to_le16(GET_HW_INFO),
+> > > 	  .datalen = cpu_to_le16(MUCSE_MBX_REQ_HDR_LEN),
+> > > 	}
+> > > 
+> > > 
+> > > 
+> > 
+> > That's a good idea! That makes the code more compact.
+> > I think I should update this as your suggestion.
+> > 
+> > Regarding adding your "Reviewed-by" tag in the next version:
+> > Would it be acceptable to include it when I submit the updated patch (with
+> > the initialization logic adjusted), or should I wait for your further
+> > review of the modified code first?
+> 
+> If you will submit another version with this refactoring, I'll better do
+> another review.
+> 
 
-Group the docs into separate toctrees.
+I see, I will submit another version later, with this refactoring.
+Looking forward to your next review.
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/fb/index.rst | 80 +++++++++++++++++++++-----------------
- 1 file changed, 45 insertions(+), 35 deletions(-)
-
-diff --git a/Documentation/fb/index.rst b/Documentation/fb/index.rst
-index 33e3c49f885695..e2f7488b6e2e42 100644
---- a/Documentation/fb/index.rst
-+++ b/Documentation/fb/index.rst
-@@ -4,42 +4,52 @@
- Frame Buffer
- ============
- 
--.. toctree::
--    :maxdepth: 1
-+General information
-+===================
- 
--    api
--    arkfb
--    aty128fb
--    cirrusfb
--    cmap_xfbdev
--    deferred_io
--    efifb
--    ep93xx-fb
--    fbcon
--    framebuffer
--    gxfb
--    intel810
--    internals
--    lxfb
--    matroxfb
--    metronomefb
--    modedb
--    pvr2fb
--    pxafb
--    s3fb
--    sa1100fb
--    sh7760fb
--    sisfb
--    sm501
--    sm712fb
--    sstfb
--    tgafb
--    tridentfb
--    udlfb
--    uvesafb
--    vesafb
--    viafb
--    vt8623fb
-+.. toctree::
-+   :maxdepth: 1
-+
-+   api
-+   cmap_xfbdev
-+   deferred_io
-+   fbcon
-+   framebuffer
-+   internals
-+   modedb
-+
-+Driver documentation
-+====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   arkfb
-+   aty128fb
-+   cirrusfb
-+   efifb
-+   ep93xx-fb
-+   gxfb
-+   intel810
-+   lxfb
-+   matroxfb
-+   metronomefb
-+   pvr2fb
-+   pxafb
-+   s3fb
-+   sa1100fb
-+   sh7760fb
-+   sisfb
-+   sm501
-+   sm712fb
-+   sstfb
-+   tgafb
-+   tridentfb
-+   udlfb
-+   uvesafb
-+   vesafb
-+   viafb
-+   vt8623fb
- 
- .. only::  subproject and html
- 
--- 
-An old man doll... just what I always wanted! - Clara
+Thanks for your feedback.
 
