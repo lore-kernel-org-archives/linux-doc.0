@@ -1,152 +1,153 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2F52D2481
-	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 07:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E262D23BF
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 07:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758267534; cv=none; b=N8i/qJCryynYe92gJLmzDG6UKmpCxHLvh1rkDx+NaKzrnJZYWrDjsMcXYU8Q3NdrYb/tDY02FIdkCmt9AGCdO3K0cCScWqIwiR+KmPCrGa2WlINsGp2KpZTAh9BkrL+/EtDUm11DNaFkZHvuqq+vUUQSRM9P3rGJelcz6Jdx9U4=
+	t=1758267866; cv=none; b=cUkfuC0mBS74Wqp7MmWY4TmaWb3bcXvxJAHkbxkCzmn0iiDkwCKdPnYsDIoN6owh58LRYNF8H28x4ULfzEKlS0A0xWdyM3Igk1StfJJAwiPmw/n87tVtM+jqs5LpWOsbsP7VNPc9UGylEVvJYRU7JQG4W1lQUP811iQIwViVNN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758267534; c=relaxed/simple;
-	bh=c191XMGekjwyT0k1fIaZ95ZvPfNZBLAH+N5NWD52kwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T4qr4I/5xrnHeCJOoge3FThyM69Iru3yHz6l7f6lxskKtO2rvPenvDTQbt/9huLdAkOzAL5EzYA+uiI5RsrVmIxp9QUhF408Xu4mdnmmIVsSjdhbVcLL+by5E0/H8/GR6LRTZbjAuFdaGKc0Y3t7dfpdrurbKURJ5KF1O5XkbHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PjIU41OU; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1758267866; c=relaxed/simple;
+	bh=IhMTJiJ4XXzfEup7tgi8CaAZbkD8B3NYlGyzeBPgaEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hu35UItSu8Eyiw/RVRP0WObNIHUUhkP5GGuovlum4+WUngGYW1RsJpgTczbm8eg/8+Dz15MWGl8j0emehPtZ0xHo+rLaz5kHMupMkOnGEDAZGrZNIRSnGHTUk886MZC367Vgb9gGEPlNxsr+q5+2E5Xf/G1rWzCJL2ASCSVmiJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c5HjLSNh; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PjIU41OU"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-77db1bcf4d3so1172909b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 00:38:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5HjLSNh"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-77d24db67e0so1442519b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 00:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1758267532; x=1758872332; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K/wZtJxRjsPgsFT1TZQP06vJqUDEl57iCFv88CuZkP4=;
-        b=PjIU41OUYpa5GM79iBUbErnojyglssB59mxt+pnqxe5xNSugTp3XzUbZtTRDhYY+mj
-         AFI4vSoldVpgCaoKhmnNBmrfsSWD9hi6PyJoWW3iPsCWpqA8u+0yN7coz4mTvEw9XJoF
-         S9Cz5vQoYeanUxpS89cLVdS4OLWRDtmQrrFBHhZlWY6Z6anmELda6AMSniGIBt38AhA/
-         WSDWti9dtcR5Lx1U+UWp2MsPJ4rWRC1A/7Me5ySF1XNqOdHPUYri6ZAsMwxjHJQENOV1
-         BzYDpD95J4TUq9jA1Jg8DbEYdeENlJSgIGNO4xtE0TqTE+zAoBk0vu73X/uMlOGdbO/v
-         UlAQ==
+        d=gmail.com; s=20230601; t=1758267863; x=1758872663; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vG6qO1K3AuWLLhPwZRw6q+QLLXM0+ngTx3cqIJZ5HaU=;
+        b=c5HjLSNh2+8ayP5RUxN6bbgwDydzJ6Zcw5KHojtOiCpL8qdE2/4vo48tbCA5nV3pVa
+         UqTmBYZ1jm/XagRwKex1MZjyPc7Oh4tZOhFlNhhQNd3Slo8WoHJp6CCSlrRbFCn+Z8M7
+         d1juCVnKzlHXl1Pou8pqUabvIbMGvE7DWCF+rM9ODC6VHBVuX1pqBFRzh5Wps3dVmQOd
+         Q/NLSMAeHehNtcnK0rR49a+DZTOeJK78jPZ7hxmrO85Hf7PKsDwRsh6GPo4Q7n3kXEa9
+         PteNRR+TlbydXcjk4XNBVOL+ls2zVh9yl+SW7SR4K6v47cBz62VSSJGvTxfjJT+34tpO
+         KMqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758267532; x=1758872332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K/wZtJxRjsPgsFT1TZQP06vJqUDEl57iCFv88CuZkP4=;
-        b=R6wiBw1pCEn7XZeX30wB9iSCxGl7abcALZxZGgJ2m+ympJxUrv8lWGVj9iyDmPheBV
-         vVaVTJxLMvCPgcavkfjIrh4XBhHff03zbG8xkhFzJJhZOee2ijs6YCusNt47OPWMLHs0
-         MVwEpUTNMfCaQRJtu6Tg38FVs7VurXBWiCF32fBvbU9fJ6JlO+m6OYHfGQMVX2N1Ub7n
-         7ePpv1GgbilMscGATVIq08mNtQ1uPbFGvzl79Z3HsvKq+r6kTd891SPktSfMDqinFAjj
-         91qrmjun0YwBpYJ+DnCw95athyOqvGwKnFxqrT7lECAIaBiAakOlEcNWZDDtoueUn/Mt
-         oQlw==
-X-Forwarded-Encrypted: i=1; AJvYcCVa9X/iPHvGLFp40wm1S1TXgqme9d6yfxZjQJThG+lz0el6XJl/+cKBBZg84VlEXmI0c9oD0sVMLzg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWCDZJ63zja/nS/3NvM347DnsZ+SmIzd0F/rol77PL/LWbxwuv
-	SoEiJQhIxsyQYGz/q2FehBtYV/pt0h9Da3xzajFCNZf9J3RY6kv9U0X+kc8JmuzaBdk=
-X-Gm-Gg: ASbGnctn3jdpQiFHcHQlYVPUCvJ2E+/qMIPdcyDX6gZWGkFrU78wrgDm42s5k/K3dLe
-	LHAkZG6jxzVKAgiw5VoHUytccCUoO6Csp6VkPvUU+0tCWnpWptYBUK/mMjvHjQtcYSK3SK4YNEJ
-	KsJlWnYmkzKP9vu5WXH3s7qx1qRRnxx0luzQ/o/C6fvfXApD7dYueFr1WJrxZfkwmRhWYxAVXYC
-	hzrbg0CqjTbmSt9umlWcth+h6W1N/cvuDEh/v87ey5RMXLZv23F78f8aTQAwep+w2JBBbBQJcjp
-	9Eeu2kGYlt1ZAIoQRrkbCEOSWMwOs/Ve2/fkkj+XDGnoaYWbrayqXa9MusDUlKT+eRa3NKVP3kf
-	Uz/+IuVjY8M7W4f9Pdyf2svEsw8XRJHmLWmJiv8vL4qGOCoSA6tD2aZH1eRxQI+wKkKDwFHPYQx
-	LVXI9PLKEJCuu/4PfAzDG+Gc9FCwf2wJsVQuNmBXgKww==
-X-Google-Smtp-Source: AGHT+IH+4QZdIMI6dt1vIbAhIv1otTpdn3Cuf58RfGKyqc29IOHSadIrxg84hnYxuSAKEAjnTACHLA==
-X-Received: by 2002:a05:6a20:244e:b0:24d:d206:6992 with SMTP id adf61e73a8af0-29260d81077mr3369360637.22.1758267532201;
-        Fri, 19 Sep 2025 00:38:52 -0700 (PDT)
-Received: from J9GPGXL7NT.bytedance.net ([61.213.176.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b550fd7ebc7sm2679096a12.19.2025.09.19.00.38.42
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 19 Sep 2025 00:38:52 -0700 (PDT)
-From: Xu Lu <luxu.kernel@bytedance.com>
-To: corbet@lwn.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	will@kernel.org,
-	peterz@infradead.org,
-	boqun.feng@gmail.com,
-	mark.rutland@arm.com,
-	parri.andrea@gmail.com,
-	ajones@ventanamicro.com,
-	brs@rivosinc.com,
-	anup@brainfault.org,
-	atish.patra@linux.dev,
-	pbonzini@redhat.com,
-	shuah@kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	apw@canonical.com,
-	joe@perches.com,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org,
-	Xu Lu <luxu.kernel@bytedance.com>
-Subject: [PATCH v3 8/8] KVM: riscv: selftests: Add Zalasr extensions to get-reg-list test
-Date: Fri, 19 Sep 2025 15:37:14 +0800
-Message-ID: <20250919073714.83063-9-luxu.kernel@bytedance.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250919073714.83063-1-luxu.kernel@bytedance.com>
-References: <20250919073714.83063-1-luxu.kernel@bytedance.com>
+        d=1e100.net; s=20230601; t=1758267863; x=1758872663;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vG6qO1K3AuWLLhPwZRw6q+QLLXM0+ngTx3cqIJZ5HaU=;
+        b=uGoOnz9fYnLDQzsZsyICQPqlcyOxFuKHjek7ABYX4cCB9PQK3oGRKmhtZP4iNq6+JD
+         7m58KIYqcbbrU6e/T5aZ5lu8S3CiSm+J/B6UsGuiqa+TuECsIU99pOt/OX37qYZeNf8+
+         ZBfOxPtdEKqW89bxOhXfNsXWGLCeNdtK9RErg2Deuxts2DRvcJOWcP391Idtx2Rz4fT3
+         tvwTfF+9UQpYsmypk951r4Ri8ZcB/GRWwXyR2+wXY6NyCx5CJqcKsJwE7Wzr7mgPGoUG
+         oJwIwXCDpoGiuPfdcr/yaU7RCzAxDFpZmDsZuTA72/gNJGjgEGp+mzQeJQ7ExD+bl8Kl
+         Wx3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWAj9UUdw9rqmpOU9w0vxjKhosCk5IMQ+gB1RDcBA0Sp3gRDnJ+ZOpPL0QLL1svy0cLTIbwDA0QWyc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS1oyqlcdlQFX1rj1JYYO1Q/Bu0Y+LF+ufITjveqhm943i7mdu
+	DX0htPrMzkaGz9AL3UR4zsPUMuWVqhmhOEO6w7qoBXqCQoQ4E6PlEERW
+X-Gm-Gg: ASbGncs2NrsLKVHROV/UoYzS08FuLVSYtGWGK9Bqoal8kycIg+yDT06rN7CI1JjEiGz
+	gYLtfrw9HgyI3Fgl+d6VY4MUtyZ9gO5pl9WYyWbOoRvNyS4Y+R7rX5ewRPSZKwhKhjSU+PI2SzP
+	2Zvl+kHA6N1JZxouV6sauvJdmKxY+dOXAfPhYaElKFsiXhcTlsOfJCgblJeVP51VhR05INs/HSI
+	dEVzFhat/laZjpbjHHlj/9nP4g5L94EezwgQoy1uks9+1uBnrT4Ra8IuoNbtS5sr6z0hePg6c8Z
+	3UA/qNgVk9Gl5wqWXFLa5FEEKfXbYvmkuxBEHTrtXzQ4c+OLR88y+9Z/WKPM/edhQIHK3ysXGxW
+	pD3CjvqJHANTlhaIfG63jEg==
+X-Google-Smtp-Source: AGHT+IG7//NOvD5yGr1fblFVOLOt+MkTcSVkQIY/16xdMDZU5QmWOY3ASNrTOB7GIZkvpjGRj4IkTQ==
+X-Received: by 2002:a05:6a20:1593:b0:262:9451:c648 with SMTP id adf61e73a8af0-2926f1d63camr4103807637.37.1758267863350;
+        Fri, 19 Sep 2025 00:44:23 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54ff42f744sm4212333a12.45.2025.09.19.00.44.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 00:44:22 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id C7CB24227235; Fri, 19 Sep 2025 14:44:15 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux cgroups <cgroups@vger.kernel.org>
+Cc: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v4] Documentation: cgroup-v2: Sync manual toctree
+Date: Fri, 19 Sep 2025 14:43:48 +0700
+Message-ID: <20250919074347.33465-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2475; i=bagasdotme@gmail.com; h=from:subject; bh=IhMTJiJ4XXzfEup7tgi8CaAZbkD8B3NYlGyzeBPgaEQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBlnOdOC1jzMNv5z5HL9wX9v3RU+dT7Z7sDLkrawUp/Bw laygW9DRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACay1oiRYX9Lw/dd0T8texvz gh/NeKyQrsSoYvMweIb5MYOis9/3FzAyfInRFQ8OdZlSJ3KYpc7FeO1Gm4ynC7b2lhiEhd5ZWHC GDQA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-The KVM RISC-V allows Zalasr extensions for Guest/VM so add these
-extensions to get-reg-list test.
+Manually-arranged toctree comment in cgroup v2 documentation is a rather
+out-of-sync with actual contents: a few sections are missing and/or
+named differently.
 
-Signed-off-by: Xu Lu <luxu.kernel@bytedance.com>
+Sync the toctree.
+
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes since v3 [1]:
 
-diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-index a0b7dabb50406..3020e37f621ba 100644
---- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-@@ -65,6 +65,7 @@ bool filter_reg(__u64 reg)
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZAAMO:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZABHA:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZACAS:
-+	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZALASR:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZALRSC:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZAWRS:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZBA:
-@@ -517,6 +518,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg_off)
- 		KVM_ISA_EXT_ARR(ZAAMO),
- 		KVM_ISA_EXT_ARR(ZABHA),
- 		KVM_ISA_EXT_ARR(ZACAS),
-+		KVM_ISA_EXT_ARR(ZALASR),
- 		KVM_ISA_EXT_ARR(ZALRSC),
- 		KVM_ISA_EXT_ARR(ZAWRS),
- 		KVM_ISA_EXT_ARR(ZBA),
-@@ -1112,6 +1114,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(svvptc, SVVPTC);
- KVM_ISA_EXT_SIMPLE_CONFIG(zaamo, ZAAMO);
- KVM_ISA_EXT_SIMPLE_CONFIG(zabha, ZABHA);
- KVM_ISA_EXT_SIMPLE_CONFIG(zacas, ZACAS);
-+KVM_ISA_EXT_SIMPLE_CONFIG(zalasr, ZALASR);
- KVM_ISA_EXT_SIMPLE_CONFIG(zalrsc, ZALRSC);
- KVM_ISA_EXT_SIMPLE_CONFIG(zawrs, ZAWRS);
- KVM_ISA_EXT_SIMPLE_CONFIG(zba, ZBA);
-@@ -1187,6 +1190,7 @@ struct vcpu_reg_list *vcpu_configs[] = {
- 	&config_zabha,
- 	&config_zacas,
- 	&config_zalrsc,
-+	&config_zalasr,
- 	&config_zawrs,
- 	&config_zba,
- 	&config_zbb,
+  * Keep the manual toctree and sync it instead (the same approach in v2 [2])
+    (Tejun)
+
+[1]: https://lore.kernel.org/linux-doc/20250918074048.18563-2-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/20250915081942.25077-5-bagasdotme@gmail.com/
+
+ Documentation/admin-guide/cgroup-v2.rst | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index a1e3d431974c20..0e6c67ac585a08 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -15,6 +15,9 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+ 
+ .. CONTENTS
+ 
++   [Whenever any new section is added to this document, please also add
++    an entry here.]
++
+    1. Introduction
+      1-1. Terminology
+      1-2. What is cgroup?
+@@ -25,9 +28,10 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+        2-2-2. Threads
+      2-3. [Un]populated Notification
+      2-4. Controlling Controllers
+-       2-4-1. Enabling and Disabling
+-       2-4-2. Top-down Constraint
+-       2-4-3. No Internal Process Constraint
++       2-4-1. Availability
++       2-4-2. Enabling and Disabling
++       2-4-3. Top-down Constraint
++       2-4-4. No Internal Process Constraint
+      2-5. Delegation
+        2-5-1. Model of Delegation
+        2-5-2. Delegation Containment
+@@ -61,14 +65,15 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+        5-4-1. PID Interface Files
+      5-5. Cpuset
+        5.5-1. Cpuset Interface Files
+-     5-6. Device
++     5-6. Device controller
+      5-7. RDMA
+        5-7-1. RDMA Interface Files
+      5-8. DMEM
++       5-8-1. DMEM Interface Files
+      5-9. HugeTLB
+        5.9-1. HugeTLB Interface Files
+      5-10. Misc
+-       5.10-1 Miscellaneous cgroup Interface Files
++       5.10-1 Misc Interface Files
+        5.10-2 Migration and Ownership
+      5-11. Others
+        5-11-1. perf_event
+
+base-commit: 1f783f733450f72725c0040a2b3075614fa0fb5c
 -- 
-2.20.1
+An old man doll... just what I always wanted! - Clara
 
