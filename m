@@ -1,138 +1,275 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DE830E820
-	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 12:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29ACB1C862F
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 12:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758283948; cv=none; b=DH0iDNMUUM1uW7UYdqWeSdo2bTO9JlCgCupd4HaAK24TKBccarrilq1rb+1bGrNyvw2uZgAXDWkEgTgeJRlFyj22Kw0Zo/LSqHUItu1xr5an6pnafVLFK8GPYUU5IzH3O11XjWaQdGqGFY7Gg6txCevUTnR5+29Pm6yRin+SbTs=
+	t=1758284380; cv=none; b=dQlkX82rYxMDSFw5nZ6TqWsUJPeVn+jomGk8pydNqW0bk0NwhgSxpnSJeTehdP1NGgKoETJm+hXMtS5OnZVzKy5OizOPhBh7Q1J836YIAMObh8onYGZbfQDkHEx0o+yMNoY0FiHhiYBC2+zsqfUurRCtEPYaSajUKuY4dGTustY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758283948; c=relaxed/simple;
-	bh=40LHT+10W2MVoOVX/TuobAQ0nf6X5e/oMpwW9iNer2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NsB3cT2JS+GWSUk0EATXzmCNfCoVW6aMQeQp+LpXsKqziQV8ijvHdS96Cn1BsI8riZzSOoWFw96Lundaie4hcpswaFF+3U9Ne6IfzVNtuHRLjNmhK5JjC74IxAARoWJqRHumW3BJhgzR0/n2YXZQVU8SLq5ngq6r4j4MpSj1+F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=i3L5hTO+; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1758284380; c=relaxed/simple;
+	bh=hf7NKzLS4BnCn/O+EvjoyL1AysgO5lFY0VtrqCTMw08=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MgmPP2mQ8sbas9Q/3LMoKv5dVgtq613tlEXFHeyS+eS4OR1XZWS5IVNVmpMUx9zckgsF7amekB74zcZLLXHruK28yr3UEZk6b9KAKCoW2yKjnE3jl+A4GEAMaWZ3xHQ5+yyeb8flviOpZv/BzCGyc+82UYvyDsyhppVF0xDdvO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=M5wUJJhG; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="i3L5hTO+"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b54c707374fso1422849a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 05:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1758283946; x=1758888746; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t2HMMNKqDgzt194tG8vLKUMKuY47t2DmDtqHxNeA0cA=;
-        b=i3L5hTO+OK0u16+FMy8g/o/GtRBwoIAWTx+0t5TyjL2n1ZnFuFaSg+ag/W0sq9Ods6
-         7ZROy0ix55Pwfo5EWpUQQsd+hFmWAfnKKcK2d4iwGwOOzwbZgJr7enaZNgsAmta3ApYR
-         cVP9Q0rLGKcLmiPm6aXPABjzh2uiFLsit79pAP+6hEOykLypQz6UfZl+fcyaArJvBRjQ
-         rddxlzns+YXwp/e59lBVfjTf5bnDzjCWAY87bGQCwlx4qnYPiXOW4zxUIbeHJTXT5A8F
-         iUvpEvozC2b9xMJh5Skr2rDn9ColV4103N2r5m7huefr4L2LtR1fjd3qN3ttXo1sUs9T
-         9Aqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758283946; x=1758888746;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t2HMMNKqDgzt194tG8vLKUMKuY47t2DmDtqHxNeA0cA=;
-        b=MMniif1xkIabUiae+qXTGgriLHb0i0oNNs5kCP2S98GU5Akt1J786NHpaxD1Sib7zy
-         BiEpt12Pw8mYNlQvagRiqTGZJ5/8/MYqH2q9KRonojUyFRRpXZc8UIDGmWTmaIdq6b8u
-         ntYvAtmFaxpZTrjUgztyS52k2jMC9ngeuMmk8rnnOB23BqVPLLXdM9X0PCiBv1SF+5VQ
-         cc5v3WElCQv2Qlfvm/Ajg4XxiILOGZIqZl/2jgBt0bd/6KoL6/2xI4SY4jeybmxuOoyS
-         n4MLy5hLwUpZ2utcdN7eTfW9kR73eb0Nkp2gfNVp4dbB7aH2YNjh0o6Cmband892yYhe
-         /clQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+rxMzyyRPF3UTDSJXGbtmDRbs8KzFpz74kk5IT2sAPZnrCr0XpVOw+PZ2ok1t8+B7v9lUMeqQ7DI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw2Mi2ph5i2UuGdrntkeXMR4j/afUBNq5qWpNs89ZaY+Jreudf
-	Iw0ooe5O3x/j4tRoh0dmCcyUi/xso9on5e2fEIokVvSfasd6+qp7L2BIHiYpcM/UdVTIxdJdi0E
-	X/YAT8BNam0nY6W2hqTa+GJr487mcBmEgen9rNSCQDg==
-X-Gm-Gg: ASbGnctyvqBKKQ4VPSERly5syiS6BeyyZSbm3ytk2iIuWrjEnTxkT1/DupZ3W697vsH
-	esy/o+qTpnjT7Jn7X5TSBEy+77zVaGDx8p4yNjHZ1QGrC8kMi9fguRazjUZ4ffIHBn8UN1GZDWy
-	oU3reK5tY+yD6V5Yx9lY76norTOMb1b3u4DCaK686Nv4H/QngxUDcbp0SL/zmeu/QCSRuUWwBcL
-	z4qFSv0ExZ5vQo3i9z8Nmv2Ck8/Tw1+1gCH4YJGgZIbVQYCVocp
-X-Google-Smtp-Source: AGHT+IGm4y1poVxGUSiB4FXU7penSJROWpZ9IBJ4RsACGtjYuoj82wxnXamn8PKPxeWN3xAf3wDL9CKqcfW9WQHchPw=
-X-Received: by 2002:a17:90a:d40d:b0:32e:3f93:69f5 with SMTP id
- 98e67ed59e1d1-3309836a969mr3636748a91.26.1758283945619; Fri, 19 Sep 2025
- 05:12:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="M5wUJJhG"
+Message-ID: <9395a9ca-d865-42d7-9ea1-8e693e4e38e0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758284374;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EiVKkL22YbljXIkdVcER9mqBNCLAbO3Otj7ELKVqmVE=;
+	b=M5wUJJhGOKGalv8K65cSpDEtiAkwo7VxeOJE3XDf7FsY3sXohsexAOis/J4GO681ypJuJ7
+	ZhDFcFD2GZhk7ws4vP0mQDNRFfEFOunPk2f12QPiFu5iraacdY/1DdY5A7jTeqrCyb5fxR
+	82ubdEbzh3Ym39f3zPHEqae0+2V302w=
+Date: Fri, 19 Sep 2025 20:19:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250919073714.83063-1-luxu.kernel@bytedance.com>
- <aM0qlTNPiaQRY2Nv@andrea> <CAPYmKFsP+=S56Cj2XT0DjdvBT_SY84moM4LVeqxHTVWbtq4EVw@mail.gmail.com>
- <CAPYmKFsV_ZPifJBtvPOdqM6_Mzhac9A4-PH9zt8TirOqAwKGhw@mail.gmail.com> <aM05J6FU0xG3SBzR@andrea>
-In-Reply-To: <aM05J6FU0xG3SBzR@andrea>
-From: Xu Lu <luxu.kernel@bytedance.com>
-Date: Fri, 19 Sep 2025 20:12:14 +0800
-X-Gm-Features: AS18NWC1LrBbaCsNeBFlqUXUWaqY8b6JknWKL06v5j39bQDtG4KDuo4wYFErj1E
-Message-ID: <CAPYmKFunbrughXdG9Fpum6bxHVu9jmjQdgLVSJ_JA9z+GDsZbA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v3 0/8] riscv: Add Zalasr ISA extension support
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
-	alex@ghiti.fr, will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com, 
-	mark.rutland@arm.com, ajones@ventanamicro.com, brs@rivosinc.com, 
-	anup@brainfault.org, atish.patra@linux.dev, pbonzini@redhat.com, 
-	shuah@kernel.org, devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, apw@canonical.com, joe@perches.com, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/6] mm: remap unused subpages to shared zeropage when
+ splitting isolated thp
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+To: David Hildenbrand <david@redhat.com>
+Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "usamaarif642@gmail.com" <usamaarif642@gmail.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "yuzhao@google.com" <yuzhao@google.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ =?UTF-8?B?QW5kcmV3IFlhbmcgKOaliuaZuuW8tyk=?= <Andrew.Yang@mediatek.com>,
+ "npache@redhat.com" <npache@redhat.com>, "rppt@kernel.org"
+ <rppt@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
+ "kernel-team@meta.com" <kernel-team@meta.com>,
+ "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+ "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+ "cerasuolodomenico@gmail.com" <cerasuolodomenico@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "ryncsn@gmail.com" <ryncsn@gmail.com>, "surenb@google.com"
+ <surenb@google.com>, "riel@surriel.com" <riel@surriel.com>,
+ "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
+ =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?=
+ <chinwen.chang@mediatek.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ =?UTF-8?B?Q2FzcGVyIExpICjmnY7kuK3mpq4p?= <casper.li@mediatek.com>,
+ "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "baohua@kernel.org" <baohua@kernel.org>,
+ "kaleshsingh@google.com" <kaleshsingh@google.com>,
+ "zhais@google.com" <zhais@google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20240830100438.3623486-1-usamaarif642@gmail.com>
+ <20240830100438.3623486-3-usamaarif642@gmail.com>
+ <a7944523fcc3634607691c35311a5d59d1a3f8d4.camel@mediatek.com>
+ <434c092b-0f19-47bf-a5fa-ea5b4b36c35e@redhat.com>
+ <CABzRoyYWQMFTGYgfC7N=cWMnL_+5Y05=jrMhFjBf1aKOGxzq5g@mail.gmail.com>
+ <ebedc478-7519-4e30-854e-f6616a7647b0@redhat.com>
+ <120445c8-7250-42e0-ad6a-978020c8fad3@linux.dev>
+ <9d2c3e3e-439d-4695-b7c9-21fa52f48ced@redhat.com>
+ <4cf41cd5-e93a-412b-b209-4180bd2d4015@linux.dev>
+ <dfb303b9-151b-49ec-b7ef-691c71bd5385@linux.dev>
+In-Reply-To: <dfb303b9-151b-49ec-b7ef-691c71bd5385@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Sep 19, 2025 at 7:06=E2=80=AFPM Andrea Parri <parri.andrea@gmail.co=
-m> wrote:
->
-> > > > (not a review, just looking at this diff stat) is changing the fast=
-path
-> > > >
-> > > >   read_unlock()
-> > > >   read_lock()
-> > > >
-> > > > from something like
-> > > >
-> > > >   fence rw,w
-> > > >   amodadd.w
-> > > >   amoadd.w
-> > > >   fence r,rw
-> > > >
-> > > > to
-> > > >
-> > > >   fence rw,rw
-> > > >   amoadd.w
-> > > >   amoadd.w
-> > > >   fence rw,rw
-> > > >
-> > > > no matter Zalasr or !Zalasr.  Similarly for other atomic operations=
- with
-> > > > release or acquire semantics.  I guess the change was not intention=
-al?
-> > > > If it was intentional, it should be properly mentioned in the chang=
-elog.
-> > >
-> > > Sorry about that. It is intended. The atomic operation before
-> > > __atomic_acquire_fence or operation after __atomic_release_fence can
-> > > be just a single ld or sd instruction instead of amocas or amoswap. I=
-n
-> > > such cases, when the store release operation becomes 'sd.rl', the
-> > > __atomic_acquire_fence via 'fence r, rw' can not ensure FENCE.TSO
-> > > anymore. Thus I replace it with 'fence rw, rw'.
->
-> But you could apply similar changes you performed for xchg & cmpxchg: use
-> .AQ and .RL for other atomic RMW operations as well, no?  AFAICS, that is
-> what arm64 actually does in arch/arm64/include/asm/atomic_{ll_sc,lse}.h .
+Hey David,
 
-I see. I will study the implementation of ARM and refine my patch. Thanks a=
- lot.
+I believe I've found the exact reason why KSM skips MTE-tagged pages ;p
 
-Best regards,
-Xu Lu
+> 
+> 
+> On 2025/9/19 16:14, Lance Yang wrote:
+>>
+>>
+>> On 2025/9/19 15:55, David Hildenbrand wrote:
+>>>>> I think where possible we really only want to identify problematic
+>>>>> (tagged) pages and skip them. And we should either look into fixing 
+>>>>> KSM
+>>>>> as well or finding out why KSM is not affected.
+>>>>
+>>>> Yeah. Seems like we could introduce a new helper,
+>>>> folio_test_mte_tagged(struct
+>>>> folio *folio). By default, it would return false, and architectures 
+>>>> like
+>>>> arm64
+>>>> can override it.
+>>>
+>>> If we add a new helper it should instead express the semantics that 
+>>> we cannot deduplicate.
+>>
+>> Agreed.
+>>
+>>>
+>>> For THP, I recall that only some pages might be tagged. So likely we 
+>>> want to check per page.
+>>
+>> Yes, a per-page check would be simpler.
+>>
+>>>
+>>>>
+>>>> Looking at the code, the PG_mte_tagged flag is not set for regular THP.
+>>>
+>>> I think it's supported for THP per page. Only for hugetlb we tag the 
+>>> whole thing through the head page instead of individual pages.
+>>
+>> Right. That's exactly what I meant.
+>>
+>>>
+>>>> The MTE
+>>>> status actually comes from the VM_MTE flag in the VMA that maps it.
+>>>>
+>>>
+>>> During the rmap walk we could check the VMA flag, but there would be 
+>>> no way to just stop the THP shrinker scanning this page early.
+>>>
+>>>> static inline bool folio_test_hugetlb_mte_tagged(struct folio *folio)
+>>>> {
+>>>>     bool ret = test_bit(PG_mte_tagged, &folio->flags.f);
+>>>>
+>>>>     VM_WARN_ON_ONCE(!folio_test_hugetlb(folio));
+>>>>
+>>>>     /*
+>>>>      * If the folio is tagged, ensure ordering with a likely subsequent
+>>>>      * read of the tags.
+>>>>      */
+>>>>     if (ret)
+>>>>         smp_rmb();
+>>>>     return ret;
+>>>> }
+>>>>
+>>>> static inline bool page_mte_tagged(struct page *page)
+>>>> {
+>>>>     bool ret = test_bit(PG_mte_tagged, &page->flags.f);
+>>>>
+>>>>     VM_WARN_ON_ONCE(folio_test_hugetlb(page_folio(page)));
+>>>>
+>>>>     /*
+>>>>      * If the page is tagged, ensure ordering with a likely subsequent
+>>>>      * read of the tags.
+>>>>      */
+>>>>     if (ret)
+>>>>         smp_rmb();
+>>>>     return ret;
+>>>> }
+>>>>
+>>>> contpte_set_ptes()
+>>>>     __set_ptes()
+>>>>         __set_ptes_anysz()
+>>>>             __sync_cache_and_tags()
+>>>>                 mte_sync_tags()
+>>>>                     set_page_mte_tagged()
+>>>>
+>>>> Then, having the THP shrinker skip any folios that are identified as
+>>>> MTE-tagged.
+>>>
+>>> Likely we should just do something like (maybe we want better naming)
+>>>
+>>> #ifndef page_is_mergable
+>>> #define page_is_mergable(page) (true)
+>>> #endif
+>>
+>>
+>> Maybe something like page_is_optimizable()? Just a thought ;p
+>>
+>>>
+>>> And for arm64 have it be
+>>>
+>>> #define page_is_mergable(page) (!page_mte_tagged(page))
+>>>
+>>>
+>>> And then do
+>>>
+>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>>> index 1f0813b956436..1cac9093918d6 100644
+>>> --- a/mm/huge_memory.c
+>>> +++ b/mm/huge_memory.c
+>>> @@ -4251,7 +4251,8 @@ static bool thp_underused(struct folio *folio)
+>>>
+>>>          for (i = 0; i < folio_nr_pages(folio); i++) {
+>>>                  kaddr = kmap_local_folio(folio, i * PAGE_SIZE);
+>>> -               if (!memchr_inv(kaddr, 0, PAGE_SIZE)) {
+>>> +               if (page_is_mergable(folio_page(folio, i)) &&
+>>> +                   !memchr_inv(kaddr, 0, PAGE_SIZE)) {
+>>>                          num_zero_pages++;
+>>>                          if (num_zero_pages > 
+>>> khugepaged_max_ptes_none) {
+>>>                                  kunmap_local(kaddr);
+>>> diff --git a/mm/migrate.c b/mm/migrate.c
+>>> index 946253c398072..476a9a9091bd3 100644
+>>> --- a/mm/migrate.c
+>>> +++ b/mm/migrate.c
+>>> @@ -306,6 +306,8 @@ static bool try_to_map_unused_to_zeropage(struct 
+>>> page_vma_mapped_walk *pvmw,
+>>>
+>>>          if (PageCompound(page))
+>>>                  return false;
+>>> +       if (!page_is_mergable(page))
+>>> +               return false;
+>>>          VM_BUG_ON_PAGE(!PageAnon(page), page);
+>>>          VM_BUG_ON_PAGE(!PageLocked(page), page);
+>>>          VM_BUG_ON_PAGE(pte_present(ptep_get(pvmw->pte)), page);
+>>
+>> Looks good to me!
+>>
+>>>
+>>>
+>>> For KSM, similarly just bail out early. But still wondering if this 
+>>> is already checked
+>>> somehow for KSM.
+>>
+>> +1 I'm looking for a machine to test it on.
+> 
+> Interestingly, it seems KSM is already skipping MTE-tagged pages. My test,
+> running on a v6.8.0 kernel inside QEMU (with MTE enabled), shows no merging
+> activity for those pages ...
 
->
->   Andrea
->
->
-> > This is also the common implementation on other architectures who use
-> > aq/rl instructions like ARM. And you certainly already knew it~
+KSM's call to pages_identical() ultimately leads to memcmp_pages(). The
+arm64 implementation of memcmp_pages() in arch/arm64/kernel/mte.c contains
+a specific check that prevents merging in this case.
+
+try_to_merge_one_page()
+	-> pages_identical()
+		-> !memcmp_pages() Fails!
+		-> replace_page()
+
+
+int memcmp_pages(struct page *page1, struct page *page2)
+{
+	char *addr1, *addr2;
+	int ret;
+
+	addr1 = page_address(page1);
+	addr2 = page_address(page2);
+	ret = memcmp(addr1, addr2, PAGE_SIZE);
+
+	if (!system_supports_mte() || ret)
+		return ret;
+
+	/*
+	 * If the page content is identical but at least one of the pages is
+	 * tagged, return non-zero to avoid KSM merging. If only one of the
+	 * pages is tagged, __set_ptes() may zero or change the tags of the
+	 * other page via mte_sync_tags().
+	 */
+	if (page_mte_tagged(page1) || page_mte_tagged(page2))
+		return addr1 != addr2;
+
+	return ret;
+}
+
+IIUC, if either page is MTE-tagged, memcmp_pages() intentionally returns
+a non-zero value, which in turn causes pages_identical() to return false.
+
+Cheers,
+Lance
