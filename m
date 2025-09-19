@@ -1,81 +1,134 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.143.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5032ECD31
-	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 08:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E18C2E7162;
+	Fri, 19 Sep 2025 08:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.143.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758270052; cv=none; b=e64zEz+u+u4SRTqYBHQTd3uLkT/fTlq0+JGAWpkHe1R1743ctZq1sad+lx8YRhgJjRf0iD0ZSreb0lNdsavSJFffzBTJZFEgT22F5uygI8XQtqoeyy+aAuAyU+pyQBhBJSM8Y9gcSqkwnmZC+TFARKe5iveqzScLTCv80MiDaTA=
+	t=1758270351; cv=none; b=pzNCbm45+PrHHvXdCFLLFnGPBS+qiBHUKcDOEQNuJnhlke3Qr1m6yeDcHBp9xHWTBls9+7bQ/uIrRVmycRhlhzGG6rKI673ooJaeBxTy9l3ZSM0cpBP60cTmu2sTRkidQVWxqOg4SG8PeDg5TNpobns4eBLY7heLNMXDrBe5Ywg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758270052; c=relaxed/simple;
-	bh=GaAEOJUBSs7/R8jcmLMB5on3qoKNx/P1PDDgM+sP5d4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AwEiY8zHOMLA/c0/RHO9WX62dr9YNPEeu3vCNthZ9DqCIuT7NO74727u7oNwolEDj91ucSH0rAfqLfX4sHWCbeXzhSHmwAtbEQ7kNRFmBh2/Bh5dhGzCIGtUFSWv258IdIEjGiuhma3aE7m94zNb+wGH2WQHGDCHXiUwnLcObg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R5avNr0n; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758270351; c=relaxed/simple;
+	bh=BA/sRPI6jXhN56RrqZT1cQZlEyECp3Dmd4VItUSB6n0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YlXmsKi2K8wMgEtKqjoYjuwlSGCJhc/mShEkmF5a6OSYblZkECYpJXr9YgI8egJAnesCcrdNDA58cJ+Uy7zxHXeZLPQOjIDgGmS6+McQJQk1brOAPsFsk+Y1subXYk96ufxlldfhCQxiZ2dUHgx+V6pIiIrJu21i1r25vaafxj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=rY5hIkwm; arc=none smtp.client-ip=63.178.143.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R5avNr0n"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3f0134ccc0cso309488f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 01:20:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="rY5hIkwm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758270047; x=1758874847; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wb94D18hSsXWJ7F2TXnNYlId72SDQ/7eblVagEPMzbQ=;
-        b=R5avNr0ndzNBt1DdvsqepmYcLG3c7f3OXE9D6MqVfbMTsADxD/GvcIFt8T7dDqS4UY
-         uMsHyRgq8Dj4d1J3165IOxx6/QVODFEPJZnZFfrRaXnKQxFENMj5JtQTHnzpT2Y6HpuY
-         f9Vg1g97ctSCqRXWSqHekQAWMmRmsD78a9CKyh7Y5iGTtHdynclCa1rak+URIwslQX56
-         XEbn6P0+VZPMERMbKLhQ6GDExQIdB2ki3RIrnd0ND6/p2iXLWsdDE6NRCS4CXrTZwiv5
-         VATErNv3FA8qct7/wn1BcNov/fPZWJN2R1YO1P1+6iJrKgJK03AW/zH5FDOYDzJSkoJs
-         e8+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758270047; x=1758874847;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wb94D18hSsXWJ7F2TXnNYlId72SDQ/7eblVagEPMzbQ=;
-        b=KxFGVLVf837QyU6iqZ/gUGdWeMcr6sY/aBSq1TL8iEsX0oI+nmuvWTWcEp8JFQRQLL
-         EuR3Pq4bjIJwKNg4VY1RyIoVId7gd1+K1VAOJKpY+LtIQeHrA8XiYtwIjfvSOiXhL+fC
-         qfLiyhwtod+iCus4WXKEiEBex0loLxUUy5ukOFINdsL8k7WTKBr6x5z55+B7kLYTHcx9
-         2tpXt6u8kLxr16dbH6EePPVFDdXfrK8MtYnKyO1vnAbTyWZ2sHYcQJiAM8cdLazjIB/6
-         QGgYR+RjYw8Bi151cUDDaasEs00icI/uTOa6xrVYvi0qx8csebqzoGE39YjksiUeTUqJ
-         F2UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWELDa/PeVZ/jmNN765HGBF4K3er2ZEGzcMFzUDcUca4zJUPKCUn80YEpCoIrpXf/2n3kcXSRPcd1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiM4Ue5AbzT+fFf2mnmbwe8Xee2HawxAqyr6ZxFDNILY7LCQGh
-	/skjfRcNHUpbKVKFcRjGfFVHBHlo4tVAgx2bPFozeTnF9YOe2hzSwbyS
-X-Gm-Gg: ASbGncsEgi39drmy5Wr4sbEdELsYMH5Uc6E1ONH5sVV876sXbbLNo2QaZl+QEqLDado
-	LDYwlRbfQK2Y8Yuf+5Lf288BR1LF3+4eTovZDfDKtfdNcMSVlLs5RFWa4fpPZEuzsL9me/ACovB
-	nuz5P2dVWYA1+uS5obg2jBgRb6pwinmwpvLnkbPVmPAs2F+U7j8J4jk8MwDcTEWJHXLX79S5PE9
-	KC1vAs5EkPrdrulZorIzEMUfI4WS9QWIY1UkcZFQOMFGBpg1KjUwKTetNtLv915O2QagA+PbflU
-	NxlMyJutKWdrg5F0o/pudfKhHsHtGMK8cjtUUqD669Y4tMge+F/iDB2XpQrr/6pzJ8G9omIHepo
-	i2cTQzTq+jqFu+CHSDD2DbAs=
-X-Google-Smtp-Source: AGHT+IFyOExK87AfAvjWDGvDSoq+NT8om6uxBRxxbDCUibZztPO9r9SlmPqF1EGal1nDLuftywehTw==
-X-Received: by 2002:a05:6000:4210:b0:3da:e7d7:f1e0 with SMTP id ffacd0b85a97d-3ee7e6c0f4dmr1795731f8f.27.1758270047008;
-        Fri, 19 Sep 2025 01:20:47 -0700 (PDT)
-Received: from [10.5.0.2] ([45.94.208.147])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f0aac271sm73431205e9.3.2025.09.19.01.20.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 01:20:46 -0700 (PDT)
-Message-ID: <caefbbe3c01883acec34499877bf6e3d13d56c16.camel@gmail.com>
-Subject: Re: [PATCH v2 6/8] iio: adc: ad4030: Add SPI offload support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- 	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-spi@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com, 
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
- robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	marcelo.schmitt1@gmail.com, Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-  Trevor Gamblin <tgamblin@baylibre.com>, Axel Haslam <ahaslam@baylibre.com>
-Date: Fri, 19 Sep 2025 09:21:12 +0100
-In-Reply-To: <da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
-References: <cover.1758214628.git.marcelo.schmitt@analog.com>
-	 <da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset="UTF-8"
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazoncorp2; t=1758270349; x=1789806349;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=GFL7BzHqZtJ+hf0GoLUZhF6DxwKb7xJe9EgTIEodTbE=;
+  b=rY5hIkwmnf28yDoZF+O4efBCPae4e34Ds0qa2E7C+9AHflfREUlaSuCa
+   yQKaIGSUHPCrR9hYqSnr6CsUAwNmZ+UUn3lRZoSu54dSrsdd6/kOOz7FZ
+   t3t12Xo7lKTDBPokRitIYYcXcmO8Uc8mrEc3W25R1sOYe8jKft1rU8+3b
+   lwVPA0KDgXIDrPkUzId2mju68+9mYOwJ8OYoFZfwIQQmP5ZFMbqQoVa5X
+   um/wc1fkX87nnCrX/Pw3S8u280AjfXxFq5uoHJayqfzsdgaKNiJI6jkRa
+   qc3KSAIK4rGTNU+MGS/pUrG7T2tylJZUlHGPGn2b5CvwYVMMx92Zs3yuv
+   w==;
+X-CSE-ConnectionGUID: IsZxf8f8SjWiNUjgDVp6Og==
+X-CSE-MsgGUID: xwNyaF2SS7eyXLTiQsdIFQ==
+X-IronPort-AV: E=Sophos;i="6.18,277,1751241600"; 
+   d="scan'208";a="2255186"
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 08:25:37 +0000
+Received: from EX19MTAEUA001.ant.amazon.com [54.240.197.233:22673]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.0.240:2525] with esmtp (Farcaster)
+ id 99b608d7-c465-47ba-b3fb-c53cc7a3b236; Fri, 19 Sep 2025 08:25:37 +0000 (UTC)
+X-Farcaster-Flow-ID: 99b608d7-c465-47ba-b3fb-c53cc7a3b236
+Received: from EX19D015EUB003.ant.amazon.com (10.252.51.113) by
+ EX19MTAEUA001.ant.amazon.com (10.252.50.192) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Fri, 19 Sep 2025 08:25:36 +0000
+Received: from EX19D015EUB004.ant.amazon.com (10.252.51.13) by
+ EX19D015EUB003.ant.amazon.com (10.252.51.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Fri, 19 Sep 2025 08:25:36 +0000
+Received: from EX19D015EUB004.ant.amazon.com ([fe80::2dc9:7aa9:9cd3:fc8a]) by
+ EX19D015EUB004.ant.amazon.com ([fe80::2dc9:7aa9:9cd3:fc8a%3]) with mapi id
+ 15.02.2562.020; Fri, 19 Sep 2025 08:25:36 +0000
+From: "Roy, Patrick" <roypat@amazon.co.uk>
+To: "rppt@kernel.org" <rppt@kernel.org>
+CC: "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "alex@ghiti.fr"
+	<alex@ghiti.fr>, "andrii@kernel.org" <andrii@kernel.org>, "anna@kernel.org"
+	<anna@kernel.org>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"ast@kernel.org" <ast@kernel.org>, "axelrasmussen@google.com"
+	<axelrasmussen@google.com>, "borntraeger@linux.ibm.com"
+	<borntraeger@linux.ibm.com>, "bp@alien8.de" <bp@alien8.de>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "brauner@kernel.org"
+	<brauner@kernel.org>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"chenhuacai@kernel.org" <chenhuacai@kernel.org>, "corbet@lwn.net"
+	<corbet@lwn.net>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"david@redhat.com" <david@redhat.com>, "derekmn@amazon.co.uk"
+	<derekmn@amazon.co.uk>, "devel@lists.orangefs.org"
+	<devel@lists.orangefs.org>, "eddyz87@gmail.com" <eddyz87@gmail.com>,
+	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
+	"gor@linux.ibm.com" <gor@linux.ibm.com>, "hannes@cmpxchg.org"
+	<hannes@cmpxchg.org>, "haoluo@google.com" <haoluo@google.com>,
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, "hpa@zytor.com" <hpa@zytor.com>,
+	"hubcap@omnibond.com" <hubcap@omnibond.com>, "jack@suse.cz" <jack@suse.cz>,
+	"Thomson, Jack" <jackabt@amazon.co.uk>, "jannh@google.com"
+	<jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
+	<jhubbard@nvidia.com>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "jolsa@kernel.org"
+	<jolsa@kernel.org>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+	"kernel@xen0n.name" <kernel@xen0n.name>, "kpsingh@kernel.org"
+	<kpsingh@kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "luto@kernel.org"
+	<luto@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>,
+	"martin@omnibond.com" <martin@omnibond.com>, "maz@kernel.org"
+	<maz@kernel.org>, "mhocko@suse.com" <mhocko@suse.com>, "mingo@redhat.com"
+	<mingo@redhat.com>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>, "paul.walmsley@sifive.com"
+	<paul.walmsley@sifive.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"peterx@redhat.com" <peterx@redhat.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "pfalcato@suse.de" <pfalcato@suse.de>, "Roy, Patrick"
+	<roypat@amazon.co.uk>, "sdf@fomichev.me" <sdf@fomichev.me>,
+	"seanjc@google.com" <seanjc@google.com>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "shuah@kernel.org" <shuah@kernel.org>,
+	"song@kernel.org" <song@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "svens@linux.ibm.com"
+	<svens@linux.ibm.com>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"trondmy@kernel.org" <trondmy@kernel.org>, "vbabka@suse.cz" <vbabka@suse.cz>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "weixugc@google.com"
+	<weixugc@google.com>, "will@kernel.org" <will@kernel.org>,
+	"willy@infradead.org" <willy@infradead.org>, "x86@kernel.org"
+	<x86@kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>,
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, "yuanchu@google.com"
+	<yuanchu@google.com>, "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH v6 05/11] KVM: guest_memfd: Add flag to remove from direct
+ map
+Thread-Topic: [PATCH v6 05/11] KVM: guest_memfd: Add flag to remove from
+ direct map
+Thread-Index: AQHcKT757eD2hLtXdESX+jHFR62e2Q==
+Date: Fri, 19 Sep 2025 08:25:36 +0000
+Message-ID: <20250919082534.17376-1-roypat@amazon.co.uk>
+References: <aMZyacbUEM7HErM1@kernel.org>
+In-Reply-To: <aMZyacbUEM7HErM1@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,913 +136,249 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Thu, 2025-09-18 at 14:39 -0300, Marcelo Schmitt wrote:
-> AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> samples per second (MSPS). Not all SPI controllers are able to achieve su=
-ch
-> high throughputs and even when the controller is fast enough to run
-> transfers at the required speed, it may be costly to the CPU to handle
-> transfer data at such high sample rates. Add SPI offload support for AD40=
-30
-> and similar ADCs to enable data capture at maximum sample rates.
->=20
-> Co-developed-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Co-developed-by: Nuno Sa <nuno.sa@analog.com>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
-> Most of the code for SPI offload support is based on work from Sergiu
-> Cuciurean,
-> Nuno Sa, Axel Haslam, and Trevor Gamblin. Thus, this patch comes with man=
-y
-> co-developed-by tags. I also draw inspiration from other drivers supporti=
-ng
-> SPI
-> offload, many of them written by David Lechner.
-
-As far as I'm concerned, you can drop me (and I guess Sergiu) of the list. =
-The
-support I added was for the legacy offload support we had in ADI tree which=
- was
-very different from what we have today. Ditto for the PWM waveform API. So =
-I
-don't think it makes sense for me to take credit for this one :)
-
-- Nuno S=C3=A1
->=20
-> Change log v1 -> v2
-> - Dropped all clock-modes and DDR related stuff for now as those will req=
-uire
-> =C2=A0 further changes to the SPI subsystem or to SPI controller drivers.
-> - Update the modes register with proper output data mode bits when sample
-> =C2=A0 averaging (oversampling_ratio) is set.
-> - Lock on device state mutex before updating oversampling and sampling
-> frequency.
-> - Made sampling_frequency shared by all channels.
-> - Better checking the requested sampling frequency is valid.
-> - Adjusted to SPI offload data capture preparation and stop procedures.
-> - Error out if try to get/set sampling frequency without offload trigger.
-> - Depend on PWM so build always succeed.
-> - Drop unmatched/unbalanced call to iio_device_release_direct().
-> - No longer shadowing error codes.
->=20
-> Suggestions to v1 that I did not comply to:
-> [SPI]
-> > I would be tempted to put the loop check here [in drivers/spi/spi-offlo=
-ad-
-> > trigger-pwm.c]:
-> >=20
-> > 	offload_offset_ns =3D periodic->offset_ns;
-> >=20
-> > 	do {
-> > 		wf.offset_ns =3D offload_offset_ns;
-> > 		ret =3D pwm_round_waveform_might_sleep(st->pwm, &wf);
-> > 		if (ret)
-> > 			return ret;
-> > 		offload_offset_ns +=3D 10;
-> >=20
-> > 	} while (wf.offset_ns < periodic->offset_ns);
-> >=20
-> > 	wf.duty_offset_ns =3D periodic->offset_ns;
-> >=20
-> > instead of in the ADC driver so that all future callers don't have to
-> > repeat this.
->=20
-> Not sure implementing the PWM trigger phase approximation/rounding/setup
-> within
-> spi-offload-trigger-pwm is actually desirable. The PWM phase
-> approximation/rounding/setup done in AD4030 iterates over the configurati=
-on of
-> a
-> second PWM (the PWM connected to the CNV pin). I haven't seen any other d=
-evice
-> that would use such double PWM setup schema so pushing an additional argu=
-ment
-> to
-> spi_offload_trigger_pwm_validate() doesn't seem worth it.
->=20
-> [IIO]
-> > Why using slower speed for offload?
-> Looks like it's the same max speed for both register access and data samp=
-le.
-> So, just reusing the existing define for the max transfer speed.
->=20
-> =C2=A0drivers/iio/adc/Kconfig=C2=A0 |=C2=A0=C2=A0 3 +
-> =C2=A0drivers/iio/adc/ad4030.c | 485 +++++++++++++++++++++++++++++++++++-=
----
-> =C2=A02 files changed, 445 insertions(+), 43 deletions(-)
->=20
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index 58a14e6833f6..2a44fcaccf54 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -60,8 +60,11 @@ config AD4030
-> =C2=A0	tristate "Analog Devices AD4030 ADC Driver"
-> =C2=A0	depends on SPI
-> =C2=A0	depends on GPIOLIB
-> +	depends on PWM
-> =C2=A0	select REGMAP
-> =C2=A0	select IIO_BUFFER
-> +	select IIO_BUFFER_DMA
-> +	select IIO_BUFFER_DMAENGINE
-> =C2=A0	select IIO_TRIGGERED_BUFFER
-> =C2=A0	help
-> =C2=A0	=C2=A0 Say yes here to build support for Analog Devices AD4030 and=
- AD4630
-> high speed
-> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-> index aa0e27321869..52805c779934 100644
-> --- a/drivers/iio/adc/ad4030.c
-> +++ b/drivers/iio/adc/ad4030.c
-> @@ -14,15 +14,25 @@
-> =C2=A0 */
-> =C2=A0
-> =C2=A0#include <linux/bitfield.h>
-> +#include <linux/cleanup.h>
-> =C2=A0#include <linux/clk.h>
-> +#include <linux/dmaengine.h>
-> +#include <linux/iio/buffer-dmaengine.h>
-> =C2=A0#include <linux/iio/iio.h>
-> =C2=A0#include <linux/iio/trigger_consumer.h>
-> =C2=A0#include <linux/iio/triggered_buffer.h>
-> +#include <linux/limits.h>
-> +#include <linux/log2.h>
-> +#include <linux/math64.h>
-> +#include <linux/minmax.h>
-> +#include <linux/pwm.h>
-> =C2=A0#include <linux/regmap.h>
-> =C2=A0#include <linux/regulator/consumer.h>
-> +#include <linux/spi/offload/consumer.h>
-> =C2=A0#include <linux/spi/spi.h>
-> =C2=A0#include <linux/unaligned.h>
-> =C2=A0#include <linux/units.h>
-> +#include <linux/types.h>
-> =C2=A0
-> =C2=A0#define AD4030_REG_INTERFACE_CONFIG_A			0x00
-> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 AD4030_REG_INTERFACE_CONFIG_A_SW_RE=
-SET	(BIT(0) | BIT(7))
-> @@ -111,6 +121,8 @@
-> =C2=A0#define AD4632_TCYC_NS			2000
-> =C2=A0#define AD4632_TCYC_ADJUSTED_NS		(AD4632_TCYC_NS -
-> AD4030_TCNVL_NS)
-> =C2=A0#define AD4030_TRESET_COM_DELAY_MS	750
-> +/* Datasheet says 9.8ns, so use the closest integer value */
-> +#define AD4030_TQUIET_CNV_DELAY_NS	10
-> =C2=A0
-> =C2=A0enum ad4030_out_mode {
-> =C2=A0	AD4030_OUT_DATA_MD_DIFF,
-> @@ -136,11 +148,13 @@ struct ad4030_chip_info {
-> =C2=A0	const char *name;
-> =C2=A0	const unsigned long *available_masks;
-> =C2=A0	const struct iio_chan_spec channels[AD4030_MAX_IIO_CHANNEL_NB];
-> +	const struct iio_chan_spec
-> offload_channels[AD4030_MAX_IIO_CHANNEL_NB];
-> =C2=A0	u8 grade;
-> =C2=A0	u8 precision_bits;
-> =C2=A0	/* Number of hardware channels */
-> =C2=A0	int num_voltage_inputs;
-> =C2=A0	unsigned int tcyc_ns;
-> +	unsigned int max_sample_rate_hz;
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct ad4030_state {
-> @@ -153,6 +167,15 @@ struct ad4030_state {
-> =C2=A0	int offset_avail[3];
-> =C2=A0	unsigned int avg_log2;
-> =C2=A0	enum ad4030_out_mode mode;
-> +	struct mutex lock; /* Protect read-modify-write and multi write
-> sequences */
-> +	/* Offload sampling */
-> +	struct spi_transfer offload_xfer;
-> +	struct spi_message offload_msg;
-> +	struct spi_offload *offload;
-> +	struct spi_offload_trigger *offload_trigger;
-> +	struct spi_offload_trigger_config offload_trigger_config;
-> +	struct pwm_device *cnv_trigger;
-> +	struct pwm_waveform cnv_wf;
-> =C2=A0
-> =C2=A0	/*
-> =C2=A0	 * DMA (thus cache coherency maintenance) requires the transfer
-> buffers
-> @@ -209,8 +232,9 @@ struct ad4030_state {
-> =C2=A0 * - voltage0-voltage1
-> =C2=A0 * - voltage2-voltage3
-> =C2=A0 */
-> -#define AD4030_CHAN_DIFF(_idx, _scan_type) {				\
-> +#define __AD4030_CHAN_DIFF(_idx, _scan_type, _offload) {		\
-> =C2=A0	.info_mask_shared_by_all =3D					\
-> +		(_offload ? BIT(IIO_CHAN_INFO_SAMP_FREQ) : 0)
-> |		\
-> =C2=A0		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),			\
-> =C2=A0	.info_mask_shared_by_all_available =3D				\
-> =C2=A0		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),			\
-> @@ -232,6 +256,12 @@ struct ad4030_state {
-> =C2=A0	.num_ext_scan_type =3D ARRAY_SIZE(_scan_type),			\
-> =C2=A0}
-> =C2=A0
-> +#define AD4030_CHAN_DIFF(_idx, _scan_type)				\
-> +	__AD4030_CHAN_DIFF(_idx, _scan_type, 0)
-> +
-> +#define AD4030_OFFLOAD_CHAN_DIFF(_idx, _scan_type)			\
-> +	__AD4030_CHAN_DIFF(_idx, _scan_type, 1)
-> +
-> =C2=A0static const int ad4030_average_modes[] =3D {
-> =C2=A0	BIT(0),					/* No
-> averaging/oversampling */
-> =C2=A0	BIT(1), BIT(2), BIT(3), BIT(4),		/* 2 to 16 */
-> @@ -240,6 +270,11 @@ static const int ad4030_average_modes[] =3D {
-> =C2=A0	BIT(13), BIT(14), BIT(15), BIT(16),	/* 8192 to 65536 */
-> =C2=A0};
-> =C2=A0
-> +static const struct spi_offload_config ad4030_offload_config =3D {
-> +	.capability_flags =3D SPI_OFFLOAD_CAP_TRIGGER |
-> +			=C2=A0=C2=A0=C2=A0 SPI_OFFLOAD_CAP_RX_STREAM_DMA,
-> +};
-> +
-> =C2=A0static int ad4030_enter_config_mode(struct ad4030_state *st)
-> =C2=A0{
-> =C2=A0	st->tx_data[0] =3D AD4030_REG_ACCESS;
-> @@ -453,6 +488,106 @@ static int ad4030_get_chan_calibbias(struct iio_dev
-> *indio_dev,
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> +static void ad4030_get_sampling_freq(struct ad4030_state *st, int *freq)
-> +{
-> +	struct spi_offload_trigger_config *config =3D &st-
-> >offload_trigger_config;
-> +
-> +	/*
-> +	 * Conversion data is fetched from the device when the offload
-> transfer
-> +	 * is triggered. Thus, provide the SPI offload trigger frequency as
-> the
-> +	 * sampling frequency.
-> +	 */
-> +	*freq =3D config->periodic.frequency_hz;
-> +}
-> +
-> +static int __ad4030_set_sampling_freq(struct ad4030_state *st,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int freq, unsigned int
-> avg_log2)
-> +{
-> +	struct spi_offload_trigger_config *config =3D &st-
-> >offload_trigger_config;
-> +	struct pwm_waveform cnv_wf =3D { };
-> +	u64 target =3D AD4030_TCNVH_NS;
-> +	u64 offload_period_ns;
-> +	u64 offload_offset_ns;
-> +	int ret;
-> +
-> +	/*
-> +	 * When averaging/oversampling over N samples, we fire the offload
-> +	 * trigger once at every N pulses of the CNV signal. Conversely, the
-> CNV
-> +	 * signal needs to be N times faster than the offload trigger. Take
-> that
-> +	 * into account to correctly re-evaluate both the PWM waveform
-> connected
-> +	 * to CNV and the SPI offload trigger.
-> +	 */
-> +	if (st->mode =3D=3D AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
-> +		freq <<=3D avg_log2;
-> +
-> +	cnv_wf.period_length_ns =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, freq);
-> +	/*
-> +	 * The datasheet lists a minimum time of 9.8 ns, but no maximum. If
-> the
-> +	 * rounded PWM's value is less than 10, increase the target value by
-> 10
-> +	 * and attempt to round the waveform again, until the value is at
-> least
-> +	 * 10 ns. Use a separate variable to represent the target in case the
-> +	 * rounding is severe enough to keep putting the first few results
-> under
-> +	 * the minimum 10ns condition checked by the while loop.
-> +	 */
-> +	do {
-> +		cnv_wf.duty_length_ns =3D target;
-> +		ret =3D pwm_round_waveform_might_sleep(st->cnv_trigger,
-> &cnv_wf);
-> +		if (ret)
-> +			return ret;
-> +		target +=3D AD4030_TCNVH_NS;
-> +	} while (cnv_wf.duty_length_ns < AD4030_TCNVH_NS);
-> +
-> +	if (!in_range(cnv_wf.period_length_ns, AD4030_TCYC_NS, INT_MAX))
-> +		return -EINVAL;
-> +
-> +	offload_period_ns =3D cnv_wf.period_length_ns;
-> +	if (st->mode =3D=3D AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
-> +		offload_period_ns <<=3D avg_log2;
-> +
-> +	config->periodic.frequency_hz =3D=C2=A0 DIV_ROUND_UP_ULL(NSEC_PER_SEC,
-> +							=C2=A0 offload_period_ns);
-> +
-> +	/*
-> +	 * The hardware does the capture on zone 2 (when SPI trigger PWM
-> +	 * is used). This means that the SPI trigger signal should happen at
-> +	 * tsync + tquiet_con_delay being tsync the conversion signal period
-> +	 * and tquiet_con_delay 9.8ns. Hence set the PWM phase accordingly.
-> +	 *
-> +	 * The PWM waveform API only supports nanosecond resolution right
-> now,
-> +	 * so round this setting to the closest available value.
-> +	 */
-> +	offload_offset_ns =3D AD4030_TQUIET_CNV_DELAY_NS;
-> +	do {
-> +		config->periodic.offset_ns =3D offload_offset_ns;
-> +		ret =3D spi_offload_trigger_validate(st->offload_trigger,
-> config);
-> +		if (ret)
-> +			return ret;
-> +		offload_offset_ns +=3D AD4030_TQUIET_CNV_DELAY_NS;
-> +	} while (config->periodic.offset_ns < AD4030_TQUIET_CNV_DELAY_NS);
-> +
-> +	st->cnv_wf =3D cnv_wf;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ad4030_set_sampling_freq(struct iio_dev *indio_dev, int freq)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +
-> +	/*
-> +	 * We have no control over the sampling frequency without SPI offload
-> +	 * triggering.
-> +	 */
-> +	if (!st->offload_trigger)
-> +		return -ENODEV;
-> +
-> +	if (!in_range(freq, 1, st->chip->max_sample_rate_hz))
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&st->lock);
-> +	return __ad4030_set_sampling_freq(st, freq, st->avg_log2);
-> +}
-> +
-> =C2=A0static int ad4030_set_chan_calibscale(struct iio_dev *indio_dev,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_chan_spec const *chan=
-,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int gain_int,
-> @@ -507,27 +642,6 @@ static int ad4030_set_chan_calibbias(struct iio_dev
-> *indio_dev,
-> =C2=A0				 st->tx_data, AD4030_REG_OFFSET_BYTES_NB);
-> =C2=A0}
-> =C2=A0
-> -static int ad4030_set_avg_frame_len(struct iio_dev *dev, int avg_val)
-> -{
-> -	struct ad4030_state *st =3D iio_priv(dev);
-> -	unsigned int avg_log2 =3D ilog2(avg_val);
-> -	unsigned int last_avg_idx =3D ARRAY_SIZE(ad4030_average_modes) - 1;
-> -	int ret;
-> -
-> -	if (avg_val < 0 || avg_val > ad4030_average_modes[last_avg_idx])
-> -		return -EINVAL;
-> -
-> -	ret =3D regmap_write(st->regmap, AD4030_REG_AVG,
-> -			=C2=A0=C2=A0 AD4030_REG_AVG_MASK_AVG_SYNC |
-> -			=C2=A0=C2=A0 FIELD_PREP(AD4030_REG_AVG_MASK_AVG_VAL,
-> avg_log2));
-> -	if (ret)
-> -		return ret;
-> -
-> -	st->avg_log2 =3D avg_log2;
-> -
-> -	return 0;
-> -}
-> -
-> =C2=A0static bool ad4030_is_common_byte_asked(struct ad4030_state *st,
-> =C2=A0					unsigned int mask)
-> =C2=A0{
-> @@ -536,11 +650,10 @@ static bool ad4030_is_common_byte_asked(struct
-> ad4030_state *st,
-> =C2=A0		AD4030_DUAL_COMMON_BYTE_CHANNELS_MASK);
-> =C2=A0}
-> =C2=A0
-> -static int ad4030_set_mode(struct iio_dev *indio_dev, unsigned long mask=
-)
-> +static int ad4030_set_mode(struct ad4030_state *st, unsigned long mask,
-> +			=C2=A0=C2=A0 unsigned int avg_log2)
-> =C2=A0{
-> -	struct ad4030_state *st =3D iio_priv(indio_dev);
-> -
-> -	if (st->avg_log2 > 0) {
-> +	if (avg_log2 > 0) {
-> =C2=A0		st->mode =3D AD4030_OUT_DATA_MD_30_AVERAGED_DIFF;
-> =C2=A0	} else if (ad4030_is_common_byte_asked(st, mask)) {
-> =C2=A0		switch (st->chip->precision_bits) {
-> @@ -564,6 +677,50 @@ static int ad4030_set_mode(struct iio_dev *indio_dev=
-,
-> unsigned long mask)
-> =C2=A0				=C2=A0 st->mode);
-> =C2=A0}
-> =C2=A0
-> +static int ad4030_set_avg_frame_len(struct iio_dev *dev, unsigned long m=
-ask,
-> int avg_val)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(dev);
-> +	unsigned int avg_log2 =3D ilog2(avg_val);
-> +	unsigned int last_avg_idx =3D ARRAY_SIZE(ad4030_average_modes) - 1;
-> +	int freq;
-> +	int ret;
-> +
-> +	if (avg_val < 0 || avg_val > ad4030_average_modes[last_avg_idx])
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&st->lock);
-> +	ret =3D ad4030_set_mode(st, mask, avg_log2);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (st->offload_trigger) {
-> +		/*
-> +		 * The sample averaging and sampling frequency configurations
-> +		 * are mutually dependent one from another. That's because
-> the
-> +		 * effective data sample rate is fCNV / 2^N, where N is the
-> +		 * number of samples being averaged.
-> +		 *
-> +		 * When SPI offload is supported and we have control over the
-> +		 * sample rate, the conversion start signal (CNV) and the SPI
-> +		 * offload trigger frequencies must be re-evaluated so data
-> is
-> +		 * fetched only after 'avg_val' conversions.
-> +		 */
-> +		ad4030_get_sampling_freq(st, &freq);
-> +		ret =3D __ad4030_set_sampling_freq(st, freq, avg_log2);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	ret =3D regmap_write(st->regmap, AD4030_REG_AVG,
-> +			=C2=A0=C2=A0 AD4030_REG_AVG_MASK_AVG_SYNC |
-> +			=C2=A0=C2=A0 FIELD_PREP(AD4030_REG_AVG_MASK_AVG_VAL,
-> avg_log2));
-> +	if (ret)
-> +		return ret;
-> +
-> +	st->avg_log2 =3D avg_log2;
-> +	return 0;
-> +}
-> +
-> =C2=A0/*
-> =C2=A0 * Descramble 2 32bits numbers out of a 64bits. The bits are interl=
-eaved:
-> =C2=A0 * 1 bit for first number, 1 bit for the second, and so on...
-> @@ -672,7 +829,7 @@ static int ad4030_single_conversion(struct iio_dev
-> *indio_dev,
-> =C2=A0	struct ad4030_state *st =3D iio_priv(indio_dev);
-> =C2=A0	int ret;
-> =C2=A0
-> -	ret =3D ad4030_set_mode(indio_dev, BIT(chan->scan_index));
-> +	ret =3D ad4030_set_mode(st, BIT(chan->scan_index), st->avg_log2);
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> @@ -769,6 +926,13 @@ static int ad4030_read_raw_dispatch(struct iio_dev
-> *indio_dev,
-> =C2=A0		*val =3D BIT(st->avg_log2);
-> =C2=A0		return IIO_VAL_INT;
-> =C2=A0
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		if (!st->offload_trigger)
-> +			return -ENODEV;
-> +
-> +		ad4030_get_sampling_freq(st, val);
-> +		return IIO_VAL_INT;
-> +
-> =C2=A0	default:
-> =C2=A0		return -EINVAL;
-> =C2=A0	}
-> @@ -807,7 +971,10 @@ static int ad4030_write_raw_dispatch(struct iio_dev
-> *indio_dev,
-> =C2=A0		return ad4030_set_chan_calibbias(indio_dev, chan, val);
-> =C2=A0
-> =C2=A0	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
-> -		return ad4030_set_avg_frame_len(indio_dev, val);
-> +		return ad4030_set_avg_frame_len(indio_dev, BIT(chan-
-> >scan_index), val);
-> +
-> +	case IIO_CHAN_INFO_SAMP_FREQ:
-> +		return ad4030_set_sampling_freq(indio_dev, val);
-> =C2=A0
-> =C2=A0	default:
-> =C2=A0		return -EINVAL;
-> @@ -869,7 +1036,9 @@ static int ad4030_get_current_scan_type(const struct
-> iio_dev *indio_dev,
-> =C2=A0static int ad4030_update_scan_mode(struct iio_dev *indio_dev,
-> =C2=A0				=C2=A0=C2=A0 const unsigned long *scan_mask)
-> =C2=A0{
-> -	return ad4030_set_mode(indio_dev, *scan_mask);
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +
-> +	return ad4030_set_mode(st, *scan_mask, st->avg_log2);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static const struct iio_info ad4030_iio_info =3D {
-> @@ -898,6 +1067,88 @@ static const struct iio_buffer_setup_ops
-> ad4030_buffer_setup_ops =3D {
-> =C2=A0	.validate_scan_mask =3D ad4030_validate_scan_mask,
-> =C2=A0};
-> =C2=A0
-> +static void ad4030_prepare_offload_msg(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +	u8 offload_bpw;
-> +
-> +	if (st->mode =3D=3D AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
-> +		offload_bpw =3D 32;
-> +	else
-> +		offload_bpw =3D st->chip->precision_bits;
-> +
-> +	st->offload_xfer.speed_hz =3D AD4030_SPI_MAX_REG_XFER_SPEED;
-> +	st->offload_xfer.bits_per_word =3D roundup_pow_of_two(offload_bpw);
-> +	st->offload_xfer.len =3D spi_bpw_to_bytes(offload_bpw);
-> +	st->offload_xfer.offload_flags =3D SPI_OFFLOAD_XFER_RX_STREAM;
-> +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer,
-> 1);
-> +}
-> +
-> +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	ret =3D regmap_write(st->regmap, AD4030_REG_EXIT_CFG_MODE, BIT(0));
-> +	if (ret)
-> +		return ret;
-> +
-> +	ad4030_prepare_offload_msg(indio_dev);
-> +	st->offload_msg.offload =3D st->offload;
-> +	ret =3D spi_optimize_message(st->spi, &st->offload_msg);
-> +	if (ret)
-> +		goto out_reset_mode;
-> +
-> +	ret =3D pwm_set_waveform_might_sleep(st->cnv_trigger, &st->cnv_wf,
-> false);
-> +	if (ret)
-> +		goto out_unoptimize;
-> +
-> +	ret =3D spi_offload_trigger_enable(st->offload, st->offload_trigger,
-> +					 &st->offload_trigger_config);
-> +	if (ret)
-> +		goto out_pwm_disable;
-> +
-> +	return 0;
-> +
-> +out_pwm_disable:
-> +	pwm_disable(st->cnv_trigger);
-> +out_unoptimize:
-> +	spi_unoptimize_message(&st->offload_msg);
-> +out_reset_mode:
-> +	/* reenter register configuration mode */
-> +	ret =3D ad4030_enter_config_mode(st);
-> +	if (ret)
-> +		dev_err(&st->spi->dev,
-> +			"couldn't reenter register configuration mode\n");
-> +	return ret;
-> +}
-> +
-> +static int ad4030_offload_buffer_predisable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	spi_offload_trigger_disable(st->offload, st->offload_trigger);
-> +
-> +	pwm_disable(st->cnv_trigger);
-> +
-> +	spi_unoptimize_message(&st->offload_msg);
-> +
-> +	/* reenter register configuration mode */
-> +	ret =3D ad4030_enter_config_mode(st);
-> +	if (ret)
-> +		dev_err(&st->spi->dev,
-> +			"couldn't reenter register configuration mode\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct iio_buffer_setup_ops ad4030_offload_buffer_setup_ops=
- =3D {
-> +	.postenable =3D &ad4030_offload_buffer_postenable,
-> +	.predisable =3D &ad4030_offload_buffer_predisable,
-> +	.validate_scan_mask =3D ad4030_validate_scan_mask,
-> +};
-> +
-> =C2=A0static int ad4030_regulators_get(struct ad4030_state *st)
-> =C2=A0{
-> =C2=A0	struct device *dev =3D &st->spi->dev;
-> @@ -967,6 +1218,24 @@ static int ad4030_detect_chip_info(const struct
-> ad4030_state *st)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +static int ad4030_pwm_get(struct ad4030_state *st)
-> +{
-> +	struct device *dev =3D &st->spi->dev;
-> +
-> +	st->cnv_trigger =3D devm_pwm_get(dev, NULL);
-> +	if (IS_ERR(st->cnv_trigger))
-> +		return dev_err_probe(dev, PTR_ERR(st->cnv_trigger),
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get CNV PWM\n");
-> +
-> +	/*
-> +	 * Preemptively disable the PWM, since we only want to enable it with
-> +	 * the buffer.
-> +	 */
-> +	pwm_disable(st->cnv_trigger);
-> +
-> +	return 0;
-> +}
-> +
-> =C2=A0static int ad4030_config(struct ad4030_state *st)
-> =C2=A0{
-> =C2=A0	int ret;
-> @@ -994,6 +1263,31 @@ static int ad4030_config(struct ad4030_state *st)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +static int ad4030_spi_offload_setup(struct iio_dev *indio_dev,
-> +				=C2=A0=C2=A0=C2=A0 struct ad4030_state *st)
-> +{
-> +	struct device *dev =3D &st->spi->dev;
-> +	struct dma_chan *rx_dma;
-> +
-> +	indio_dev->setup_ops =3D &ad4030_offload_buffer_setup_ops;
-> +
-> +	st->offload_trigger =3D devm_spi_offload_trigger_get(dev, st->offload,
-> +							=C2=A0=C2=A0
-> SPI_OFFLOAD_TRIGGER_PERIODIC);
-> +	if (IS_ERR(st->offload_trigger))
-> +		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 "failed to get offload trigger\n");
-> +
-> +	st->offload_trigger_config.type =3D SPI_OFFLOAD_TRIGGER_PERIODIC;
-> +
-> +	rx_dma =3D devm_spi_offload_rx_stream_request_dma_chan(dev, st-
-> >offload);
-> +	if (IS_ERR(rx_dma))
-> +		return dev_err_probe(dev, PTR_ERR(rx_dma),
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 "failed to get offload RX DMA\n");
-> +
-> +	return devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev,
-> rx_dma,
-> +							=C2=A0=C2=A0
-> IIO_BUFFER_DIRECTION_IN);
-> +}
-> +
-> =C2=A0static int ad4030_probe(struct spi_device *spi)
-> =C2=A0{
-> =C2=A0	struct device *dev =3D &spi->dev;
-> @@ -1018,6 +1312,10 @@ static int ad4030_probe(struct spi_device *spi)
-> =C2=A0	if (!st->chip)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> +	ret =3D devm_mutex_init(dev, &st->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> =C2=A0	ret =3D ad4030_regulators_get(st);
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> @@ -1045,24 +1343,57 @@ static int ad4030_probe(struct spi_device *spi)
-> =C2=A0		return dev_err_probe(dev, PTR_ERR(st->cnv_gpio),
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get cnv gpio\n");
-> =C2=A0
-> -	/*
-> -	 * One hardware channel is split in two software channels when using
-> -	 * common byte mode. Add one more channel for the timestamp.
-> -	 */
-> -	indio_dev->num_channels =3D 2 * st->chip->num_voltage_inputs + 1;
-> =C2=A0	indio_dev->name =3D st->chip->name;
-> =C2=A0	indio_dev->modes =3D INDIO_DIRECT_MODE;
-> =C2=A0	indio_dev->info =3D &ad4030_iio_info;
-> -	indio_dev->channels =3D st->chip->channels;
-> -	indio_dev->available_scan_masks =3D st->chip->available_masks;
-> =C2=A0
-> -	ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
-> -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio_pollfunc_store_time,
-> -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ad4030_trigger_handler,
-> -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &ad4030_buffer_setup_ops);
-> -	if (ret)
-> -		return dev_err_probe(dev, ret,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to setup triggered buffer\n");
-> +	st->offload =3D devm_spi_offload_get(dev, spi, &ad4030_offload_config);
-> +	ret =3D PTR_ERR_OR_ZERO(st->offload);
-> +	if (ret && ret !=3D -ENODEV)
-> +		return dev_err_probe(dev, ret, "failed to get offload\n");
-> +
-> +	/* Fall back to low speed usage when no SPI offload is available. */
-> +	if (ret =3D=3D -ENODEV) {
-> +		/*
-> +		 * One hardware channel is split in two software channels
-> when
-> +		 * using common byte mode. Add one more channel for the
-> timestamp.
-> +		 */
-> +		indio_dev->num_channels =3D 2 * st->chip->num_voltage_inputs +
-> 1;
-> +		indio_dev->channels =3D st->chip->channels;
-> +		indio_dev->available_scan_masks =3D st->chip->available_masks;
-> +
-> +		ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> iio_pollfunc_store_time,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ad4030_trigger_handler,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> &ad4030_buffer_setup_ops);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to setup triggered
-> buffer\n");
-> +	} else {
-> +		/*
-> +		 * One hardware channel is split in two software channels
-> when
-> +		 * using common byte mode. Offloaded SPI transfers can't
-> support
-> +		 * software timestamp so no additional timestamp channel is
-> added.
-> +		 */
-> +		indio_dev->num_channels =3D 2 * st->chip->num_voltage_inputs;
-> +		indio_dev->channels =3D st->chip->offload_channels;
-> +		indio_dev->available_scan_masks =3D st->chip->available_masks;
-> +		ret =3D ad4030_spi_offload_setup(indio_dev, st);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to setup SPI
-> offload\n");
-> +
-> +		ret =3D ad4030_pwm_get(st);
-> +		if (ret)
-> +			return dev_err_probe(&spi->dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get PWM: %d\n", ret);
-> +
-> +		ret =3D __ad4030_set_sampling_freq(st, st->chip-
-> >max_sample_rate_hz,
-> +						 st->avg_log2);
-> +		if (ret)
-> +			return dev_err_probe(&spi->dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to set offload samp
-> freq\n");
-> +	}
-> =C2=A0
-> =C2=A0	return devm_iio_device_register(dev, indio_dev);
-> =C2=A0}
-> @@ -1100,6 +1431,23 @@ static const struct iio_scan_type
-> ad4030_24_scan_types[] =3D {
-> =C2=A0	},
-> =C2=A0};
-> =C2=A0
-> +static const struct iio_scan_type ad4030_24_offload_scan_types[] =3D {
-> +	[AD4030_SCAN_TYPE_NORMAL] =3D {
-> +		.sign =3D 's',
-> +		.storagebits =3D 32,
-> +		.realbits =3D 24,
-> +		.shift =3D 0,
-> +		.endianness =3D IIO_CPU,
-> +	},
-> +	[AD4030_SCAN_TYPE_AVG] =3D {
-> +		.sign =3D 's',
-> +		.storagebits =3D 32,
-> +		.realbits =3D 30,
-> +		.shift =3D 2,
-> +		.endianness =3D IIO_CPU,
-> +	},
-> +};
-> +
-> =C2=A0static const struct iio_scan_type ad4030_16_scan_types[] =3D {
-> =C2=A0	[AD4030_SCAN_TYPE_NORMAL] =3D {
-> =C2=A0		.sign =3D 's',
-> @@ -1117,6 +1465,23 @@ static const struct iio_scan_type
-> ad4030_16_scan_types[] =3D {
-> =C2=A0	}
-> =C2=A0};
-> =C2=A0
-> +static const struct iio_scan_type ad4030_16_offload_scan_types[] =3D {
-> +	[AD4030_SCAN_TYPE_NORMAL] =3D {
-> +		.sign =3D 's',
-> +		.storagebits =3D 32,
-> +		.realbits =3D 16,
-> +		.shift =3D 0,
-> +		.endianness =3D IIO_CPU,
-> +	},
-> +	[AD4030_SCAN_TYPE_AVG] =3D {
-> +		.sign =3D 's',
-> +		.storagebits =3D 32,
-> +		.realbits =3D 30,
-> +		.shift =3D 2,
-> +		.endianness =3D IIO_CPU,
-> +	},
-> +};
-> +
-> =C2=A0static const struct ad4030_chip_info ad4030_24_chip_info =3D {
-> =C2=A0	.name =3D "ad4030-24",
-> =C2=A0	.available_masks =3D ad4030_channel_masks,
-> @@ -1125,10 +1490,15 @@ static const struct ad4030_chip_info
-> ad4030_24_chip_info =3D {
-> =C2=A0		AD4030_CHAN_CMO(1, 0),
-> =C2=A0		IIO_CHAN_SOFT_TIMESTAMP(2),
-> =C2=A0	},
-> +	.offload_channels =3D {
-> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
-> +		AD4030_CHAN_CMO(1, 0),
-> +	},
-> =C2=A0	.grade =3D AD4030_REG_CHIP_GRADE_AD4030_24_GRADE,
-> =C2=A0	.precision_bits =3D 24,
-> =C2=A0	.num_voltage_inputs =3D 1,
-> =C2=A0	.tcyc_ns =3D AD4030_TCYC_ADJUSTED_NS,
-> +	.max_sample_rate_hz =3D 2 * HZ_PER_MHZ,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static const struct ad4030_chip_info ad4630_16_chip_info =3D {
-> @@ -1141,10 +1511,17 @@ static const struct ad4030_chip_info
-> ad4630_16_chip_info =3D {
-> =C2=A0		AD4030_CHAN_CMO(3, 1),
-> =C2=A0		IIO_CHAN_SOFT_TIMESTAMP(4),
-> =C2=A0	},
-> +	.offload_channels =3D {
-> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_16_offload_scan_types),
-> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_16_offload_scan_types),
-> +		AD4030_CHAN_CMO(2, 0),
-> +		AD4030_CHAN_CMO(3, 1),
-> +	},
-> =C2=A0	.grade =3D AD4030_REG_CHIP_GRADE_AD4630_16_GRADE,
-> =C2=A0	.precision_bits =3D 16,
-> =C2=A0	.num_voltage_inputs =3D 2,
-> =C2=A0	.tcyc_ns =3D AD4030_TCYC_ADJUSTED_NS,
-> +	.max_sample_rate_hz =3D 2 * HZ_PER_MHZ,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static const struct ad4030_chip_info ad4630_24_chip_info =3D {
-> @@ -1157,10 +1534,17 @@ static const struct ad4030_chip_info
-> ad4630_24_chip_info =3D {
-> =C2=A0		AD4030_CHAN_CMO(3, 1),
-> =C2=A0		IIO_CHAN_SOFT_TIMESTAMP(4),
-> =C2=A0	},
-> +	.offload_channels =3D {
-> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
-> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_24_offload_scan_types),
-> +		AD4030_CHAN_CMO(2, 0),
-> +		AD4030_CHAN_CMO(3, 1),
-> +	},
-> =C2=A0	.grade =3D AD4030_REG_CHIP_GRADE_AD4630_24_GRADE,
-> =C2=A0	.precision_bits =3D 24,
-> =C2=A0	.num_voltage_inputs =3D 2,
-> =C2=A0	.tcyc_ns =3D AD4030_TCYC_ADJUSTED_NS,
-> +	.max_sample_rate_hz =3D 2 * HZ_PER_MHZ,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static const struct ad4030_chip_info ad4632_16_chip_info =3D {
-> @@ -1173,10 +1557,17 @@ static const struct ad4030_chip_info
-> ad4632_16_chip_info =3D {
-> =C2=A0		AD4030_CHAN_CMO(3, 1),
-> =C2=A0		IIO_CHAN_SOFT_TIMESTAMP(4),
-> =C2=A0	},
-> +	.offload_channels =3D {
-> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_16_offload_scan_types),
-> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_16_offload_scan_types),
-> +		AD4030_CHAN_CMO(2, 0),
-> +		AD4030_CHAN_CMO(3, 1),
-> +	},
-> =C2=A0	.grade =3D AD4030_REG_CHIP_GRADE_AD4632_16_GRADE,
-> =C2=A0	.precision_bits =3D 16,
-> =C2=A0	.num_voltage_inputs =3D 2,
-> =C2=A0	.tcyc_ns =3D AD4632_TCYC_ADJUSTED_NS,
-> +	.max_sample_rate_hz =3D 500 * HZ_PER_KHZ,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static const struct ad4030_chip_info ad4632_24_chip_info =3D {
-> @@ -1189,10 +1580,17 @@ static const struct ad4030_chip_info
-> ad4632_24_chip_info =3D {
-> =C2=A0		AD4030_CHAN_CMO(3, 1),
-> =C2=A0		IIO_CHAN_SOFT_TIMESTAMP(4),
-> =C2=A0	},
-> +	.offload_channels =3D {
-> +		AD4030_OFFLOAD_CHAN_DIFF(0, ad4030_24_offload_scan_types),
-> +		AD4030_OFFLOAD_CHAN_DIFF(1, ad4030_24_offload_scan_types),
-> +		AD4030_CHAN_CMO(2, 0),
-> +		AD4030_CHAN_CMO(3, 1),
-> +	},
-> =C2=A0	.grade =3D AD4030_REG_CHIP_GRADE_AD4632_24_GRADE,
-> =C2=A0	.precision_bits =3D 24,
-> =C2=A0	.num_voltage_inputs =3D 2,
-> =C2=A0	.tcyc_ns =3D AD4632_TCYC_ADJUSTED_NS,
-> +	.max_sample_rate_hz =3D 500 * HZ_PER_KHZ,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static const struct spi_device_id ad4030_id_table[] =3D {
-> @@ -1228,3 +1626,4 @@ module_spi_driver(ad4030_driver);
-> =C2=A0MODULE_AUTHOR("Esteban Blanc <eblanc@baylibre.com>");
-> =C2=A0MODULE_DESCRIPTION("Analog Devices AD4630 ADC family driver");
-> =C2=A0MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS("IIO_DMAENGINE_BUFFER");
+Hi Mike,=0A=
+=0A=
+...=0A=
+=0A=
+>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/=
+kvm_host.h=0A=
+>> index 2f2394cce24e..0bfd8e5fd9de 100644=0A=
+>> --- a/arch/arm64/include/asm/kvm_host.h=0A=
+>> +++ b/arch/arm64/include/asm/kvm_host.h=0A=
+>> @@ -19,6 +19,7 @@=0A=
+>>  #include <linux/maple_tree.h>=0A=
+>>  #include <linux/percpu.h>=0A=
+>>  #include <linux/psci.h>=0A=
+>> +#include <linux/set_memory.h>=0A=
+>>  #include <asm/arch_gicv3.h>=0A=
+>>  #include <asm/barrier.h>=0A=
+>>  #include <asm/cpufeature.h>=0A=
+>> @@ -1706,5 +1707,16 @@ void compute_fgu(struct kvm *kvm, enum fgt_group_=
+id fgt);=0A=
+>>  void get_reg_fixed_bits(struct kvm *kvm, enum vcpu_sysreg reg, u64 *res=
+0, u64 *res1);=0A=
+>>  void check_feature_map(void);=0A=
+>>=0A=
+>> +#ifdef CONFIG_KVM_GUEST_MEMFD=0A=
+>> +static inline bool kvm_arch_gmem_supports_no_direct_map(void)=0A=
+>> +{=0A=
+>> +     /*=0A=
+>> +      * Without FWB, direct map access is needed in kvm_pgtable_stage2_=
+map(),=0A=
+>> +      * as it calls dcache_clean_inval_poc().=0A=
+>> +      */=0A=
+>> +     return can_set_direct_map() && cpus_have_final_cap(ARM64_HAS_STAGE=
+2_FWB);=0A=
+>> +}=0A=
+>> +#define kvm_arch_gmem_supports_no_direct_map kvm_arch_gmem_supports_no_=
+direct_map=0A=
+>> +#endif /* CONFIG_KVM_GUEST_MEMFD */=0A=
+>>=0A=
+>>  #endif /* __ARM64_KVM_HOST_H__ */=0A=
+>> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h=0A=
+>> index 1d0585616aa3..a9468bce55f2 100644=0A=
+>> --- a/include/linux/kvm_host.h=0A=
+>> +++ b/include/linux/kvm_host.h=0A=
+>> @@ -36,6 +36,7 @@=0A=
+>>  #include <linux/rbtree.h>=0A=
+>>  #include <linux/xarray.h>=0A=
+>>  #include <asm/signal.h>=0A=
+>> +#include <linux/set_memory.h>=0A=
+> =0A=
+> The set_memory APIs are not used in the header, no need to include it her=
+e.=0A=
+> =0A=
+=0A=
+Ack!=0A=
+=0A=
+>>  #include <linux/kvm.h>=0A=
+>>  #include <linux/kvm_para.h>=0A=
+>> @@ -731,6 +732,12 @@ static inline bool kvm_arch_has_private_mem(struct =
+kvm *kvm)=0A=
+>>  bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);=0A=
+>>  #endif=0A=
+>>=0A=
+>> +#ifdef CONFIG_KVM_GUEST_MEMFD=0A=
+>> +#ifndef kvm_arch_gmem_supports_no_direct_map=0A=
+>> +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map=0A=
+>> +#endif=0A=
+>> +#endif /* CONFIG_KVM_GUEST_MEMFD */=0A=
+>> +=0A=
+>>  #ifndef kvm_arch_has_readonly_mem=0A=
+>>  static inline bool kvm_arch_has_readonly_mem(struct kvm *kvm)=0A=
+>>  {=0A=
+>> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h=0A=
+>> index 6efa98a57ec1..33c8e8946019 100644=0A=
+>> --- a/include/uapi/linux/kvm.h=0A=
+>> +++ b/include/uapi/linux/kvm.h=0A=
+>> @@ -963,6 +963,7 @@ struct kvm_enable_cap {=0A=
+>>  #define KVM_CAP_RISCV_MP_STATE_RESET 242=0A=
+>>  #define KVM_CAP_ARM_CACHEABLE_PFNMAP_SUPPORTED 243=0A=
+>>  #define KVM_CAP_GUEST_MEMFD_MMAP 244=0A=
+>> +#define KVM_CAP_GUEST_MEMFD_NO_DIRECT_MAP 245=0A=
+>>=0A=
+>>  struct kvm_irq_routing_irqchip {=0A=
+>>       __u32 irqchip;=0A=
+>> @@ -1600,6 +1601,7 @@ struct kvm_memory_attributes {=0A=
+>>=0A=
+>>  #define KVM_CREATE_GUEST_MEMFD       _IOWR(KVMIO,  0xd4, struct kvm_cre=
+ate_guest_memfd)=0A=
+>>  #define GUEST_MEMFD_FLAG_MMAP        (1ULL << 0)=0A=
+>> +#define GUEST_MEMFD_FLAG_NO_DIRECT_MAP (1ULL << 1)=0A=
+>>=0A=
+>>  struct kvm_create_guest_memfd {=0A=
+>>       __u64 size;=0A=
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c=0A=
+>> index 81028984ff89..3c64099fc98a 100644=0A=
+>> --- a/virt/kvm/guest_memfd.c=0A=
+>> +++ b/virt/kvm/guest_memfd.c=0A=
+>> @@ -4,6 +4,7 @@=0A=
+>>  #include <linux/kvm_host.h>=0A=
+>>  #include <linux/pagemap.h>=0A=
+>>  #include <linux/anon_inodes.h>=0A=
+>> +#include <linux/set_memory.h>=0A=
+>>=0A=
+>>  #include "kvm_mm.h"=0A=
+>>=0A=
+>> @@ -42,9 +43,24 @@ static int __kvm_gmem_prepare_folio(struct kvm *kvm, =
+struct kvm_memory_slot *slo=0A=
+>>       return 0;=0A=
+>>  }=0A=
+>>=0A=
+>> -static inline void kvm_gmem_mark_prepared(struct folio *folio)=0A=
+>> +static bool kvm_gmem_test_no_direct_map(struct inode *inode)=0A=
+>>  {=0A=
+>> -     folio_mark_uptodate(folio);=0A=
+>> +     return ((unsigned long) inode->i_private) & GUEST_MEMFD_FLAG_NO_DI=
+RECT_MAP;=0A=
+>> +}=0A=
+>> +=0A=
+>> +static inline int kvm_gmem_mark_prepared(struct folio *folio)=0A=
+>> +{=0A=
+>> +     struct inode *inode =3D folio_inode(folio);=0A=
+>> +     int r =3D 0;=0A=
+>> +=0A=
+>> +     if (kvm_gmem_test_no_direct_map(inode))=0A=
+>> +             r =3D set_direct_map_valid_noflush(folio_page(folio, 0), f=
+olio_nr_pages(folio),=0A=
+>> +                                              false);=0A=
+>> +=0A=
+>> +     if (!r)=0A=
+>> +             folio_mark_uptodate(folio);=0A=
+>> +=0A=
+>> +     return r;=0A=
+>>  }=0A=
+>>=0A=
+>>  /*=0A=
+>> @@ -82,7 +98,7 @@ static int kvm_gmem_prepare_folio(struct kvm *kvm, str=
+uct kvm_memory_slot *slot,=0A=
+>>       index =3D ALIGN_DOWN(index, 1 << folio_order(folio));=0A=
+>>       r =3D __kvm_gmem_prepare_folio(kvm, slot, index, folio);=0A=
+>>       if (!r)=0A=
+>> -             kvm_gmem_mark_prepared(folio);=0A=
+>> +             r =3D kvm_gmem_mark_prepared(folio);=0A=
+> =0A=
+> If this fails, shouldn't we undo __kvm_gmem_prepare_folio()?=0A=
+>=0A=
+=0A=
+Yes, good point. I'm not sure if we can undo preparation (its only used=0A=
+by AMD-SEV right now, for passing off the page to the CoCo context). But=0A=
+not undoing it means that guest_memfd will consider the page unprepared,=0A=
+and zero it again the next time it's accesses, which will cause a=0A=
+machine check because the page has already been passed off to the=0A=
+confidential world.=0A=
+=0A=
+We talked about this in the guest_memfd upstream call yesterday, and=0A=
+decided that in addition to this problem, we want to separate=0A=
+preparedness tracking from direct map removal state tracking anyway (and=0A=
+move preparedness tracking outside of guest_memfd into the arch specific=0A=
+code). And if direct map state and preparedness are separate bits, then=0A=
+we can accurately record the state of "preparation worked but direct map=0A=
+removal failed".=0A=
+=0A=
+>>=0A=
+>>       return r;=0A=
+>>  }=0A=
+>> @@ -344,8 +360,15 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struc=
+t vm_fault *vmf)=0A=
+>>       }=0A=
+>>=0A=
+>>       if (!folio_test_uptodate(folio)) {=0A=
+>> +             int err =3D 0;=0A=
+>> +=0A=
+>>               clear_highpage(folio_page(folio, 0));=0A=
+>> -             kvm_gmem_mark_prepared(folio);=0A=
+>> +             err =3D kvm_gmem_mark_prepared(folio);=0A=
+>> +=0A=
+>> +             if (err) {=0A=
+>> +                     ret =3D vmf_error(err);=0A=
+>> +                     goto out_folio;=0A=
+>> +             }=0A=
+>>       }=0A=
+>>=0A=
+>>       vmf->page =3D folio_file_page(folio, vmf->pgoff);=0A=
+>> @@ -436,6 +459,16 @@ static void kvm_gmem_free_folio(struct address_spac=
+e *mapping,=0A=
+>>       kvm_pfn_t pfn =3D page_to_pfn(page);=0A=
+>>       int order =3D folio_order(folio);=0A=
+>>=0A=
+>> +     /*=0A=
+>> +      * Direct map restoration cannot fail, as the only error condition=
+=0A=
+>> +      * for direct map manipulation is failure to allocate page tables=
+=0A=
+>> +      * when splitting huge pages, but this split would have already=0A=
+>> +      * happened in set_direct_map_invalid_noflush() in kvm_gmem_mark_p=
+repared().=0A=
+>> +      * Thus set_direct_map_valid_noflush() here only updates prot bits=
+.=0A=
+>> +      */=0A=
+>> +     if (kvm_gmem_test_no_direct_map(mapping->host))=0A=
+>> +             set_direct_map_valid_noflush(page, folio_nr_pages(folio), =
+true);=0A=
+>> +=0A=
+>>       kvm_arch_gmem_invalidate(pfn, pfn + (1ul << order));=0A=
+>>  }=0A=
+>>=0A=
+>> @@ -500,6 +533,9 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t=
+ size, u64 flags)=0A=
+>>       /* Unmovable mappings are supposed to be marked unevictable as wel=
+l. */=0A=
+>>       WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));=0A=
+>>=0A=
+>> +     if (flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP)=0A=
+>> +             mapping_set_no_direct_map(inode->i_mapping);=0A=
+>> +=0A=
+>>       kvm_get_kvm(kvm);=0A=
+>>       gmem->kvm =3D kvm;=0A=
+>>       xa_init(&gmem->bindings);=0A=
+>> @@ -524,6 +560,9 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_crea=
+te_guest_memfd *args)=0A=
+>>       if (kvm_arch_supports_gmem_mmap(kvm))=0A=
+>>               valid_flags |=3D GUEST_MEMFD_FLAG_MMAP;=0A=
+>>=0A=
+>> +     if (kvm_arch_gmem_supports_no_direct_map())=0A=
+>> +             valid_flags |=3D GUEST_MEMFD_FLAG_NO_DIRECT_MAP;=0A=
+>> +=0A=
+>>       if (flags & ~valid_flags)=0A=
+>>               return -EINVAL;=0A=
+>>=0A=
+>> @@ -768,7 +807,7 @@ long kvm_gmem_populate(struct kvm *kvm, gfn_t start_=
+gfn, void __user *src, long=0A=
+>>               p =3D src ? src + i * PAGE_SIZE : NULL;=0A=
+>>               ret =3D post_populate(kvm, gfn, pfn, p, max_order, opaque)=
+;=0A=
+>>               if (!ret)=0A=
+>> -                     kvm_gmem_mark_prepared(folio);=0A=
+>> +                     ret =3D kvm_gmem_mark_prepared(folio);=0A=
+>>=0A=
+>>  put_folio_and_exit:=0A=
+>>               folio_put(folio);=0A=
+...=0A=
+=0A=
+>=0A=
+> Sincerely yours,=0A=
+> Mike.=0A=
+Best, =0A=
+Patrick=0A=
+=0A=
