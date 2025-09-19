@@ -1,143 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BB03148D7;
-	Fri, 19 Sep 2025 15:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6399318136
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 15:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758294893; cv=none; b=Ra0MF0e+RA7SYkM+WkYlB9+ngXrDdVCLU4YSbWxsVvZaPLjndl+7NDwogt4mXIfwgdMykKcU8zSu5v0bYsuN8miWA/mzhMRQfgP0JoBcr9T4xMb0+mwAOpLF6Hf9bGoe5fv0vokXh5uvLypqc6g1BlGPHSS6DqzAcMyrjo8sCFs=
+	t=1758295504; cv=none; b=RRMzTRf831rrRfsLMrWQW1wZ+9MtndDJ+zt0P+4YXzemmSd9eJhmhR6ArXBms4IeviHcqzJDbikZvVKeeKbhQQOl4n1PuPhv1xUgqzDa73szPl99H7Hs7n2Py3ZSaLjpPoUKmqJgKyB5DOxbgmV0e+CxTqrDtxI9DeWVPJAgwfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758294893; c=relaxed/simple;
-	bh=NNpcBJB4jVrgHcageJLDdkxE2rXZt7r2rrDsKSC+D9I=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=heQzel7A5h5fiVP3dufdJDE2HrutfUFYulz+2MU643RUGqoqOW2kDq4LUXUhGsTOJXvqT68fBqu8iDV3b81AnCYpJtXpBCNVGKMA8kdyR7spmcNjmEX2BEm3PM9lQ15ro444SW5/JZp+3iYf68S2yR9VoTwwyaBIfpki1P3PoeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eg4JKZQO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758295504; c=relaxed/simple;
+	bh=tIBWHHOOKfm2qL1G0oNEg1lQ/EY8RTTkm2B9w+25Bvk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pbMqiDluawR510nIjqOzUl+duz286VrRh/qg4d2NbGYTN7XoyAA/MH0s6wXQ83J6MqEYv0QRy65aIuH237PTH9h1yRRHH8TaWjFt2kvwMVUIAStfwcqwc3OCyVCZbp9xxqLrr3S4o7JqGZMUaShQleGOpXpBaGVznDSh48unku4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=xbo3W1UF; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eg4JKZQO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D2CAC4CEF0;
-	Fri, 19 Sep 2025 15:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758294893;
-	bh=NNpcBJB4jVrgHcageJLDdkxE2rXZt7r2rrDsKSC+D9I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Eg4JKZQOCeE8iQvdN+xzthu0malVpcqAn0K+LiPgASso6UWuMIahP8/vuL5Db7Emp
-	 KPSeSEMTwefKp+sQCDJi0DuCii2L1du0M3dAWHrgaJBt4zPfAXrHYyy67gvjIjERRz
-	 tj1rbbnelqbucGoG7/6yVqjB8Rgx8QIdB/xvn2AsXqqgFPKb9kg3+oR9+Yeavhd5V2
-	 pvW8A0RgP4ZeMdERb6nPXfzTdfn0ROHkrp37kn3VWetHLFALyiOLxnVEjQG3XQgldV
-	 XYK7lQ+cv/HgUX+q39HLhNdPzpidVAOswo0VJCb2577KR+MbrZ16P1IzVmVt6qJi0E
-	 YTmssBMmAHYDw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1uzcp0-00000007oto-3G9H;
-	Fri, 19 Sep 2025 15:14:50 +0000
-Date: Fri, 19 Sep 2025 16:14:49 +0100
-Message-ID: <87zfaqxymu.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v8 06/29] KVM: arm64: Introduce non-UNDEF FGT control
-In-Reply-To: <20250902-kvm-arm64-sme-v8-6-2cb2199c656c@kernel.org>
-References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
-	<20250902-kvm-arm64-sme-v8-6-2cb2199c656c@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="xbo3W1UF"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-577dd4c1e84so2840536e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 08:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758295500; x=1758900300; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
+        b=xbo3W1UFpKFkZ1p3cmir9bHExoubmn+zN65uKZIOYM/VNr4k3So7pYfDI6mX/D9Xs7
+         tKrFxrKGsa1OUV4/BaJm81tBW61J4ZGYYxqxZFHL+2WJXFRTEp/mhXDIaLf+cQRcgUXe
+         AYqPNZvLbxLN1AyYo7ig5n8eVxO+iPi1huE+4hW6lV7MZkf7YHIdjHXfXdto2VLmATJZ
+         knqRg3MYiebrHRGL5TV4krfrv3EaVDwqo3YKPYYlEuRSeFOsywbR4G16hcwfzRVUvkmK
+         +8rrea1TuR59LvTS19HlGLqGt+kLHJ+F5+322OVOV6/84SIcgYqHnsi5cc3ulWFd4ja5
+         pnpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758295500; x=1758900300;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EztjVQ+y07YMfegmHOd0VyK62XkODMWu0LdNE29WAS0=;
+        b=DoGQwpll4aSfVAevARbRsdPf/oc4L1RppXpOpENUxC9n7niX8jq17Gqvlvg16FYTe+
+         9PC3PxdQuiSROMGNBPA8jvpOVa60/x4j5SjNWdNZoi/PEClg7Brix5Dgd4hav4M12WtZ
+         LWOuoyDsEWfunb6uGnT5uBKGWqfXJVuh694dzUBD9BNx6u9PJC2vzaGwEcnNwLVXym/C
+         rSb0LfPonjUZ6UF9G52AFvOY0rqb2APXf2HlD7MqSeCGPNhggTF3zRrgCMWZCJ+ate4W
+         qI2/dAkNNkIlkN94VAWPSUi1wCkmLXPSVERtoRA+2UhqZ/Q/dGecoKoMCHPRi4J9qSFw
+         6E7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUdHC9CL+VpX+CPpgrMxzjW0rryBa17WOMji1i1WIzmVNidvvBaj7JGQWeY+N0iEpRtjeew0El/+KY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvIiZlIPobt3z5+BD3jML6p5jhZmUagKxtE9PlUI/N/GE2H98o
+	2G4LgI1pyPOBICrTpGovq9qPKThFkK0lTpjNd45byAZwK6swDChx+TcuhDetEeAZPPJNvC0EYGX
+	bTKZIuulzVHr50dbVTmoBZ1NtEFYpgfBsWvrQHir1/Q==
+X-Gm-Gg: ASbGnctfOCb8sycgmSehEAV/C/eU3Q8WjfSw+r5gZbufB3nmr+dV3f3PjTXLfKxhmPx
+	HDIu+RQQuI+u1x/sox919KeAWP1LOSwwVLvGDavkisevcL9zpq5tzmcTD8v6NlL9ythVHTxIt23
+	eUA6/tnN4Jpzc1cNnDwHs3paIv/73/g+gG7XJ5NeTy66I9iG5CKj6LiEsl23ALUqc1zK46PKrkf
+	VrdjvpmYxMx6Eo=
+X-Google-Smtp-Source: AGHT+IHin4gQus9SrkFEog2pTedfunr2Ers950l0f82oxrEtfjemfexmsAorW/Dsqdjvay/GpFMt6pfW/hwC+qBHF14=
+X-Received: by 2002:a05:6512:2c0b:b0:571:b70b:7dbf with SMTP id
+ 2adb3069b0e04-579e2507c81mr1455897e87.17.1758295499599; Fri, 19 Sep 2025
+ 08:24:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, Dave.Martin@arm.com, tabba@google.com, mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, peter.maydell@linaro.org, eric.auger@redhat.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
+In-Reply-To: <20250918195806.6337-1-safinaskar@gmail.com>
+From: Nicolas Schichan <nschichan@freebox.fr>
+Date: Fri, 19 Sep 2025 17:24:48 +0200
+X-Gm-Features: AS18NWBwMqIXE_dMXDlT0ngUIReSbekPPTszWv5gIfg03bAEg3Id33JL3Yqjedw
+Message-ID: <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@gmail.com>
+Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
+	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
+	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
+	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
+	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
+	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
+	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
+	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
+	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
+	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
+	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
+	x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 02 Sep 2025 12:36:09 +0100,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> We have support for determining a set of fine grained traps to enable for
-> the guest which is tied to the support for injecting UNDEFs for undefined
-> features. This means that we can't use the mechanism for system registers
-> which should be present but need emulation, such as SMPRI_EL1 which should
-> be accessible when SME is present but if SME priority support is absent
-> SMPRI_EL1.Priority should be RAZ.
-> 
-> Add an additional set of fine grained traps fgt, mirroring the existing fgu
-> array. We use the same format where we always set the bit for the trap in
-> the array as for FGU. This makes it clear what is being explicitly managed
-> and keeps the code consistent.
-> 
-> We do not convert the handling of ARM_WORKAROUND_AMPERE_ACO3_CPU_38 to this
-> mechanism since this only enables a write trap and when implementing the
-> existing UNDEF that we would share the read and write trap enablement (this
-> being the overwhelmingly common case).
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/kvm_host.h       | 6 ++++++
->  arch/arm64/kvm/hyp/include/hyp/switch.h | 7 ++++---
->  2 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 2f2394cce24e..b501c2880ba2 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -302,6 +302,12 @@ struct kvm_arch {
->  	 */
->  	u64 fgu[__NR_FGT_GROUP_IDS__];
->  
-> +	/*
-> +	 * Additional FGTs to enable for the guests, eg. for emulated
-> +	 * registers,
-> +	 */
-> +	u64 fgt[__NR_FGT_GROUP_IDS__];
-> +
+Hello,
 
-Conceptually, this serves the same role as the existing control
-registers (HCR_EL2, HCRX_EL2, MDCR_EL2), which are obviously
-per-vcpu. So having this on a per-VM basis doesn't really work,
-because we definitely don't expect this to be uniform (see
-20250917203125.283116-3-oliver.upton@linux.dev for an example of why
-this is not the case).
+> > When booting with root=/dev/ram0 in the kernel commandline,
+> > handle_initrd() where the deprecation message resides is never called,
+> > which is rather unfortunate (init/do_mounts_initrd.c):
 
-FGUs are uniform, because when something doesn't exist on a vcpu, it
-doesn't exist on *any* vcpu. Non-FGU use of FGTs, however, has to be
-more flexible because that's part of the emulation, and is actually
-pretty rare that we want to trap something at all times, on all vcpus.
+> Yes, this is unfortunate.
+>
+> I personally still think that initrd should be removed.
 
-For the same reason, conflating the R and W registers doesn't work
-either. For the above example, I want to be able to trap write
-accesses to MDSCR_EL1, and not reads, just like the Ampere
-brain-damage.
+Considering that the deprecation message didn't get displayed in some
+configurations, maybe it's a bit early at the very least.
 
-So please make this per-vcpu, decouple R and W FGTs, and convert the
-Ampere horror to this scheme.
+> I suggest using workaround I described in cover letter.
 
-Thanks,
+I'm not too keen on having an initramfs just to loop-mount
+/sys/firmware/initrd, after all current kernels are able to handle the
+use case just fine.
 
-	M.
+It looks like there is a lot of code calling into specific filesystems
+so that the initrd code can guess the size of the file system before
+copying into /dev/ram0, and I believe this is what causes the main
+gripe against initrd today. What is wrong with just copying
+/initrd.image using its actual size into /dev/ram0 instead of guessing
+it with the help of filesystem specific code ?
+
+> Also, for unknown reasons I didn't get your letter in my inbox.
+> (Not even in spam folder.) I ocasionally found it on lore.kernel.org .
+
+Sorry about that, When I used git-send-email yesterday to reply, the
+SMTP server I used wasn't authenticated to google, so all gmail
+recipients were dropped. Hopefully this work better today.
+
+Regards,
 
 -- 
-Jazz isn't dead. It just smells funny.
+Nicolas Schichan
