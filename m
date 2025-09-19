@@ -1,146 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164B72110;
-	Thu, 18 Sep 2025 23:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3F62AE99
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 00:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758238788; cv=none; b=USPaO8KixrsyQkzx6+c6JQzIL/LkzDIlkCQHYrWSbxywe6/XB2lX6zUXzIY8YOAlIBhji0Q6LrbFVtLW6HADErnrbJbsZOBG5HfFkes00pFbGC9BFnliCfBTc9porh6JXWsCNtmXFAH1MA9PjQlsvFR40gBEhj79lj6MiVDu7aE=
+	t=1758240674; cv=none; b=lJ+wvgdSvjDt8UG2MMvH24aVQRM5PkvMvlpyKyQTZC6q8vFCd0ze4NAvqZUIY87LfKG0kZ6g7wMTPWK4SZZbhqNrmu2BRQiArNWj2HDtaSwTWauOXPWkxoxd0xhrx8svZ66txjy4QJDRqOSQ8Fxzv85pMsR9xzHIfIGTgAMPEeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758238788; c=relaxed/simple;
-	bh=cmVR3VrPLrmlzgJIOYLioMOVCguB/rlBS4ynnyUtnkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P0zGCCCPJbiDTpJd5PDklCmYxZNvOqO356U3pRbyhsnCD0Cdm3Kf0NL0BTKSJ/hLp4YlrNHfmJlCu5Gtzd9VOmydIiCuInC39ROGemstx8GE3VZrMpd9IaJ++LBqsWC2arleBmAnAoaLn300TFdS/f6agllK2x23BYT4YRgV7CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cyFwobFE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758240674; c=relaxed/simple;
+	bh=5kZbjwa/6BVoxn5wegMROAiVV9lXMCurcroc08yFVco=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jnfi0fc7ixq90DWxRr5sjOQ3nsnLQZhmKMvNfx32Fl98sNVW1UADhe+pU++xKz1R85LCmtbY11E2zWygPsIwHV6gfknfc351knwQU4EgX4XTsLjbSMnRqqCOjLCM1EuMn4KZ0QSRPO+ZHXoZIFoqdItmQBFz5OXT3oUwICPG0oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eL8KQv8P; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cyFwobFE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DEEC4CEE7;
-	Thu, 18 Sep 2025 23:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758238786;
-	bh=cmVR3VrPLrmlzgJIOYLioMOVCguB/rlBS4ynnyUtnkY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cyFwobFElPn17T8yOchnWssn4j7WFHf3ck/9Wziz0dP/JWFT1O4c3k4cOzE174eeC
-	 bpLJ8E6MA9w+ssrR95bajkZO/4vz/2y9mlkvI2g59DL7jnfF9tvdw7UbUzC3YiDjPq
-	 20Ki3WJ79dEMs3+GK+KId88Bctlx0aOaDxsbC8z5LYJMkys1dkS4m2LpikG4IlIYQ2
-	 TtbqIUMwwjePkhKgtJpiPPsvhxpqcAckRlTFa4OhXE9bfICqqIJUVbuGFmd5RpXEh/
-	 JCkhr+/fdGipcwz0gqUvrRYsuOrT74EHXrpLTWSB/m6p+NfMBexC5ZUx6Tv6PpOkiN
-	 12ATXtK0k4Npg==
-Date: Fri, 19 Sep 2025 01:39:42 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v8 00/24] Split sphinx call logic from docs Makefile
-Message-ID: <20250919013942.030544ed@foz.lan>
-In-Reply-To: <878qib7dy6.fsf@trenco.lwn.net>
-References: <cover.1758196090.git.mchehab+huawei@kernel.org>
-	<87ldmb7iuo.fsf@trenco.lwn.net>
-	<20250918212304.0efa2847@foz.lan>
-	<878qib7dy6.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eL8KQv8P"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3304def7909so1504023a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Sep 2025 17:11:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1758240672; x=1758845472; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WDq+VavY2pE4pyHZXsVu7LM0OhcCfDkB6zYweV3fNcw=;
+        b=eL8KQv8Pstu8SY7UNwZbUO08qZHz+zeR7DquqpSOJDAHBtzGIC6g+cleyHShEfubb6
+         pucUJRKpSR3mBhJFG7YBfaXDLSy4Qi5NQUZ5Ku6GjJjKW1A78e23OBBwtFOH+avA+S1p
+         6aydHGj/mTV5nIEXt49JmK+zjQ5vEDsTJCvQVuBFJWhqrmtFk6u7r5O2yFOTYXI3+SJv
+         lOPjOstzBuZ3wDNDn6y5bAPpuluaRhikHKAF8gjDWl+l4he0fNOnJBboFGzn7Qw2W8Oo
+         LFdELRU493AOlsY9+oVqsartGnLOOiKQ+4y40Dqt2ZC3kDsYs0lUYQXnLr80qFRjWg3J
+         xIgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758240672; x=1758845472;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WDq+VavY2pE4pyHZXsVu7LM0OhcCfDkB6zYweV3fNcw=;
+        b=UYP5WlwEQ7lKhhDf9Ggx0Rtc9yfloy4E2+6qmsClZLN/jfDVmRY7jukYr/NRopiGYL
+         5dFJ87jQUOGcY/sTUSWy+WRnWlZk+YmQkrdAKvrxv3AMCiuuaCnbajbQjwIWLR6CtcSi
+         E0YmDtEoiECfRDmFKe7JT7v4INKCuBejDFBIxGAJ+kqiaz+wWaukcDWcDb+XrZUJ4IBY
+         z9T221UFXiBAzmLlQmDoxlWaeVQjq5CeBwW0yfbtvyulD62YZQG3DS3B7/JFvBekt6OG
+         lYVrDpPtVtci8eCstRBr5nQNRI+TqH58M9TjednGBNPdV0Q5hMxpPk/hAOXZEGu1RPSC
+         6/7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXkPDbvg+X5zAVi3ByP6GPdXmUsJRonsP6Px9909hulcNKCKvH+qqBJ8LhhAm/fFYogPlQBOpUMjGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV4jPPU932PbJxfwSzN9lJqo2zWoJYT69wMOo86ZIyHtfEdoFh
+	IjMYkXRQl1GjLF1UpY3XgYSHhHi66fV555DKDzfKcWuGhNpVC6Ax7A7hyMoUP9e+eOZK0rwRyKG
+	flwQy7g==
+X-Google-Smtp-Source: AGHT+IH/rnw53WJfJ7eWmpB7rOT94jvdcHNYPMI0N+5Kli3XKXZCk6CSFlJKKvZxXUFlpHPnz2Wr4v6yW/M=
+X-Received: from pjbpl18.prod.google.com ([2002:a17:90b:2692:b0:330:6bbd:f57f])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:da8b:b0:32e:3552:8c79
+ with SMTP id 98e67ed59e1d1-33098369dcdmr1600058a91.29.1758240672393; Thu, 18
+ Sep 2025 17:11:12 -0700 (PDT)
+Date: Thu, 18 Sep 2025 17:10:48 -0700
+In-Reply-To: <cover.1755721927.git.ashish.kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <cover.1755721927.git.ashish.kalra@amd.com>
+X-Mailer: git-send-email 2.51.0.470.ga7dc726c21-goog
+Message-ID: <175824019789.1343495.7167726134042080248.b4-ty@google.com>
+Subject: Re: [PATCH v9 0/2] Add SEV-SNP CipherTextHiding feature support
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, corbet@lwn.net, pbonzini@redhat.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	thomas.lendacky@amd.com, herbert@gondor.apana.org, 
+	Ashish Kalra <Ashish.Kalra@amd.com>
+Cc: akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org, 
+	michael.roth@amd.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-Em Thu, 18 Sep 2025 13:33:53 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Wed, 20 Aug 2025 20:49:45 +0000, Ashish Kalra wrote:
+> From: Ashish Kalra <ashish.kalra@amd.com>
 > 
-> >> I haven't
-> >> had the time to figure it out.  
-> >
-> > I don't remember anymore what "subproject" really means inside
-> > ".. only::", block, but I guess it is meant to be used when one
-> > passes SPHINXDIRS.  
+> Ciphertext hiding prevents host accesses from reading the ciphertext
+> of SNP guest private memory. Instead of reading ciphertext, the host
+> will see constant default values (0xff).
 > 
-> I found myself in a similar position...  it is set in
-> Documentation/sphinx/load_config.py, it seems a certain Mauro added that
-> in 2019 :) 
+> The SEV ASID space is split into SEV and SEV-ES/SNP ASID ranges.
+> Enabling ciphertext hiding further splits the SEV-ES/SEV-SNP ASID space
+> into separate ASID ranges for SEV-ES and SEV-SNP guests.
+> 
+> [...]
 
-LOL!
+Applied to kvm-x86 ciphertext, with doc and comment fixups.  Thanks!
 
-> Since then, it has seemingly been cargo-culted all over the
-> place; I wonder if we really need it.
+[1/2] KVM: SEV: Introduce new min,max sev_es and sev_snp asid variables
+      https://github.com/kvm-x86/linux/commit/d7fc7d9833f6
+[2/2] KVM: SEV: Add SEV-SNP CipherTextHiding support
+      https://github.com/kvm-x86/linux/commit/6c7c620585c6
 
-It looks to me that it have been ages since last touched load_config.py,
-as it is hard to remember about its dirty secrets.... Maybe it is part
-of some traumatic experiences that we shared ;-)
-
-Anyway, looking at:
-	a84d9e899683 ("docs: load_config.py: avoid needing a conf.py just due to LaTeX docs")
-
-and seeking for what we had before, you might noticed that, in the
-early days, someone called Jonathan wrote patches for instance, adding
-core-api docs, including this one:
-	
-	commit 22917b992d3713157e759f23a5a090687d004331
-	Author: Jonathan Corbet <corbet@lwn.net>
-	Date:   Wed Nov 16 16:07:02 2016 -0700
-
-	    docs: Add more manuals to the PDF build
-    
-	    There were a few manuals that weren't being built in PDF format, but
-	    there's no reason not to...
-    
-	    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-	diff --git a/Documentation/core-api/conf.py b/Documentation/core-api/conf.py
-	index fed87ab7f486..db1f7659f3da 100644
-	--- a/Documentation/core-api/conf.py
-	+++ b/Documentation/core-api/conf.py
-	@@ -3,3 +3,8 @@
-	 project = "Core-API Documentation"
- 
-	 tags.add("subproject")
-	+
-	+latex_documents = [
-	+    ('index', 'core-api.tex', project,
-	+     'The kernel development community', 'manual'),
-	+]
-
-there you can see that our mistic "subproject" tag was already present :-D
-
-What happens is that, before a84d9e899683, for every single book we
-wanted to build via SPHINXDIRS, a conf.py file was required. 
-
-The actual logic is a way more complex than that, but what it does is
-similar to (untested):
-
-    #
-    # namespace comes from conf.py: loadConfig(globals())
-    #
-    def loadConfig(namespace):
-	if os.path.basename(os.getcwd()) != "Documentation":
-		config = namespace.copy()
-	        config['tags'].add("subproject")
-	        namespace.update(config)
-
-(it also has some logic there for latex_documents)
-
-On other words:
-
-- subproject exists only on Documentation subdirs. It is basically
-  used to tell *.rst files that SPHINXDIRS=<subdirs>
-
-- its goal is to run genindex when SPHINXDIRS is used to build
-  html documentation.
-
-And that explains why when rust is built, it has a duplicated indexes:
-neither the current docs Makefile nor sphinx-build-wrapper should be
-manually adding "-t subproject".
-
--
-
-That's said, as part of our doc build cleanups, IMHO we should add on
-our todo to drop load_config.py, adding the missing bits on conf.py
-while properly documenting it.
-
-Thanks,
-Mauro
+--
+https://github.com/kvm-x86/linux/tree/next
