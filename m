@@ -1,292 +1,216 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F57221FC4
-	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 12:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B9B1C84CB
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 12:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758285880; cv=none; b=oTl33wXKuwV+JPxk7qLEY4H4P+rp/bqx7xhI/DUU5d7quLUj/4cZ24qWtw8P6YaiKKabvITklles3+B0VOhAYXuPB7Vpbu9Z05zAHmgX8darrUcsYdebOh7E/xIN8XxxwjyBdNrjWwN9xbac1Xhd+JqygkV7u+9Y7DDrfUcGRUc=
+	t=1758286073; cv=none; b=je1pTDJWXLh4tRUx2n429H98tVsNg6D0LzSYpXn9lzCZTnEf574S7qnSs1mvgN2+DlhL7g8bfFoPUy1E4GgkrfqouwxYnxX8w7NR1NuvCtqTIPy+bEhFk70eieAz32+AMH5MyrhrbCj7hIYJ1DZ2f6yk2kFuf6mvDBsVV4cDTMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758285880; c=relaxed/simple;
-	bh=4zaepox5Hs5bVUeEVwxEIy4rEKLHCXVp5vMKLdlb96M=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RYOG68clKzmfpdsdsuKhZcR0NU7IKATIGqmiOxGv6g9rgxAPpyH3f661D/Pv7/NIwy53ooV0GjYCzu3ZRyGVgYgk5OUrIhB2ipUJsGPkvS7kHbJCx3USFmVn4VCIUjS28wPA8Yp+zv0uSgzb1/v8UzH7qRP2FmyYQy4eAtthJco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=idiqMF/F; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1758286073; c=relaxed/simple;
+	bh=iNxcvG6B7+iDbjP3eeNJDrtINQljCA+BpTp4TS4X6DU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ju4Ql192my0QGgUqVh4KBXR9vP7ErxC7AgcprcqXo/TzR26wd/Euw91wD8vsY68YoKCLxUWeoPfdjZRqBsqo0U53EKQdsSbrQLFhgUq/iQhcgn4izWNYRWW7w70GFsNuP/iBwJywgvUoOBdYBUzHzMjBVsTi6RmaWiX0qovs96M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y/UF8xXE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S7iKHHi3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xaPwq3kP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zMw0MRkS; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="idiqMF/F"
-Message-ID: <4a67a5d5-6043-4ba4-b1ca-2b0a800aafb9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758285864;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y/UF8xXE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S7iKHHi3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xaPwq3kP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zMw0MRkS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 180AB1F7D9;
+	Fri, 19 Sep 2025 12:47:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758286063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K1FLwkYOUVkwrrVHc9TlgJl3FE5qVq/cdte4SWXZgzE=;
-	b=idiqMF/F2cFWSTzPsNc74ZZn7KDQsa3YohzP4Jr+GT0ZYco72PslC9P64P6ffs4UyHiL5R
-	cPdWj06/LPQlVQ58Bra+5toAm06sdHVL169F5MrpE1e1ELcoUy0DJelJsqoT/eE5OLhmX2
-	Cr554tR1sW2TjiYYyApiVxIMGu06lps=
-Date: Fri, 19 Sep 2025 20:44:14 +0800
+	bh=zBiZKKxnPHMmQmNm1unV7jDvvhBaThzW9jKejI52qTw=;
+	b=Y/UF8xXETeEW83Q/DgOSsD4SL6rV31h793/tzfWVyU+8wIRjIESz27y4H2iawXnRsfNGwL
+	1QDvv3o+juw69LEPQuwz68RG0AgAbohGtTmybiMU5rBE/WlZkwSZf/Oe73360lwEUGYk0P
+	lRF5jUtMAN90UZFppKhVlclxGi2o4p0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758286063;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zBiZKKxnPHMmQmNm1unV7jDvvhBaThzW9jKejI52qTw=;
+	b=S7iKHHi3fvDdgUJqgQ03ZxOCsEHB0mF053q7Xdg90YwAmpCWSkl0EuWfr2IQddu9qe7mTd
+	vEmLUIjvWiMViVDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758286062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zBiZKKxnPHMmQmNm1unV7jDvvhBaThzW9jKejI52qTw=;
+	b=xaPwq3kPsMCYqrbS0e8aGYzqdDFV4lykmBS3wI4Pl0eZhMo8EHtNpkvq3ZJPKzHpOdmyMr
+	iVWiOWfWF2fDj0M8QVkBeUxiZlfHMTrgudG9hRfiYe3CwS/Vn6Gk9j1srycw2bWMjxOzhY
+	1KEQfZSIXiyB/xbLDdeA+HD8OqG3eCA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758286062;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zBiZKKxnPHMmQmNm1unV7jDvvhBaThzW9jKejI52qTw=;
+	b=zMw0MRkS572Pe/PFWODVhBKpHki+CvqRQE2P7Whd8ihEjdM9ZTurjMPknIijvBTQQxRrI7
+	8zRnJXXcL7/IySAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 648DE13A78;
+	Fri, 19 Sep 2025 12:47:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qGfzFe1QzWgJAwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 19 Sep 2025 12:47:41 +0000
+Date: Fri, 19 Sep 2025 14:47:40 +0200
+Message-ID: <87qzw28v83.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Feng Yuan <fengyuan@uniontech.com>,
+	qaqland <anguoli@uniontech.com>,
+	kernel@uniontech.com,
+	linux-modules@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH v4 3/5] ALSA: usb-audio: improve module param quirk_flags
+In-Reply-To: <20250918-sound-v4-3-82cf8123d61c@uniontech.com>
+References: <20250918-sound-v4-0-82cf8123d61c@uniontech.com>
+	<20250918-sound-v4-3-82cf8123d61c@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v5 2/6] mm: remap unused subpages to shared zeropage when
- splitting isolated thp
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-To: David Hildenbrand <david@redhat.com>
-Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "usamaarif642@gmail.com" <usamaarif642@gmail.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "yuzhao@google.com" <yuzhao@google.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- =?UTF-8?B?QW5kcmV3IFlhbmcgKOaliuaZuuW8tyk=?= <Andrew.Yang@mediatek.com>,
- "npache@redhat.com" <npache@redhat.com>, "rppt@kernel.org"
- <rppt@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
- "kernel-team@meta.com" <kernel-team@meta.com>,
- "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
- "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
- "cerasuolodomenico@gmail.com" <cerasuolodomenico@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ryncsn@gmail.com" <ryncsn@gmail.com>, "surenb@google.com"
- <surenb@google.com>, "riel@surriel.com" <riel@surriel.com>,
- "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
- =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?=
- <chinwen.chang@mediatek.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- =?UTF-8?B?Q2FzcGVyIExpICjmnY7kuK3mpq4p?= <casper.li@mediatek.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "baohua@kernel.org" <baohua@kernel.org>,
- "kaleshsingh@google.com" <kaleshsingh@google.com>,
- "zhais@google.com" <zhais@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20240830100438.3623486-1-usamaarif642@gmail.com>
- <20240830100438.3623486-3-usamaarif642@gmail.com>
- <a7944523fcc3634607691c35311a5d59d1a3f8d4.camel@mediatek.com>
- <434c092b-0f19-47bf-a5fa-ea5b4b36c35e@redhat.com>
- <CABzRoyYWQMFTGYgfC7N=cWMnL_+5Y05=jrMhFjBf1aKOGxzq5g@mail.gmail.com>
- <ebedc478-7519-4e30-854e-f6616a7647b0@redhat.com>
- <120445c8-7250-42e0-ad6a-978020c8fad3@linux.dev>
- <9d2c3e3e-439d-4695-b7c9-21fa52f48ced@redhat.com>
- <4cf41cd5-e93a-412b-b209-4180bd2d4015@linux.dev>
- <dfb303b9-151b-49ec-b7ef-691c71bd5385@linux.dev>
- <9395a9ca-d865-42d7-9ea1-8e693e4e38e0@linux.dev>
-In-Reply-To: <9395a9ca-d865-42d7-9ea1-8e693e4e38e0@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,uniontech.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
+
+On Thu, 18 Sep 2025 11:24:32 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
+> 
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
+> 
+> For apply and unapply quirk flags more flexibly though param
+> 
+> Co-developed-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+> ---
+>  sound/usb/card.c     |   9 ++--
+>  sound/usb/quirks.c   | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+>  sound/usb/quirks.h   |   3 +-
+>  sound/usb/usbaudio.h |   3 ++
+>  4 files changed, 126 insertions(+), 8 deletions(-)
+> 
+> diff --git a/sound/usb/card.c b/sound/usb/card.c
+> index 0265206a8e8cf31133e8463c98fe0497d8ace89e..5837677effa1787ef9d7d02714c3ae43b1a8bc79 100644
+> --- a/sound/usb/card.c
+> +++ b/sound/usb/card.c
+> @@ -73,8 +73,8 @@ static bool lowlatency = true;
+>  static char *quirk_alias[SNDRV_CARDS];
+>  static char *delayed_register[SNDRV_CARDS];
+>  static bool implicit_fb[SNDRV_CARDS];
+> -static unsigned int quirk_flags[SNDRV_CARDS];
+>  
+> +char *quirk_flags[SNDRV_CARDS];
+
+My preference is to keep this static, but pass the string value to a
+function.  That is, define snd_usb_init_quirk_flags() in main.c:
+
+static void snd_usb_init_quirk_flags(struct snd_usb_audio *chip, int indx)
+{
+	/* old style option found: the position-based integer value */
+	if (quirk_flags[idx] &&
+	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags)) {
+		usb_audio_dbg(chip,
+			      "Set quirk flags 0x%x from param based on position %d for device %04x:%04x\n",
+			      chip->quirk_flags, idx,
+			      USB_ID_VENDOR(chip->usb_id),
+			      USB_ID_PRODUCT(chip->usb_id));
+		return;
+	}
+
+	/* take the default quirk from the quirk table */
+	snd_usb_init_quirk_flags_table(chip);
+
+	/* add or correct quirk bits from options */
+	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++) {
+		char *val __free(kfree) = NULL;
+
+		if (!quirk_flags[i] || !*quirk_flags[i])
+			continue;
+		
+		val = kstrdup(quirk_flags[i], GFP_KERNEL);
+		if (!val)
+			return;
+
+		snd_usb_parse_quirk_string(chip, val);
+	}
+}
+	
+static int snd_usb_audio_create(....)
+{
+	....
+	snd_usb_init_quirk_flags(chip, idx);
+	....
+}
+
+The function snd_usb_parse_quirk_string() is defined in quirks.c,
+
+void snd_usb_parse_quirk_string(struct snd_usb_audio *chip, char *val)
+{
+	for (p = val; p && *p;) {
+		/* Each entry consists of VID:PID:flags */
+		field = strsep(&p, ":");
+		if (!field)
+			break;
+		.....
+	}
+}
 
 
+thanks,
 
-On 2025/9/19 20:19, Lance Yang wrote:
-> Hey David,
-> 
-> I believe I've found the exact reason why KSM skips MTE-tagged pages ;p
-> 
->>
->>
->> On 2025/9/19 16:14, Lance Yang wrote:
->>>
->>>
->>> On 2025/9/19 15:55, David Hildenbrand wrote:
->>>>>> I think where possible we really only want to identify problematic
->>>>>> (tagged) pages and skip them. And we should either look into 
->>>>>> fixing KSM
->>>>>> as well or finding out why KSM is not affected.
->>>>>
->>>>> Yeah. Seems like we could introduce a new helper,
->>>>> folio_test_mte_tagged(struct
->>>>> folio *folio). By default, it would return false, and architectures 
->>>>> like
->>>>> arm64
->>>>> can override it.
->>>>
->>>> If we add a new helper it should instead express the semantics that 
->>>> we cannot deduplicate.
->>>
->>> Agreed.
->>>
->>>>
->>>> For THP, I recall that only some pages might be tagged. So likely we 
->>>> want to check per page.
->>>
->>> Yes, a per-page check would be simpler.
->>>
->>>>
->>>>>
->>>>> Looking at the code, the PG_mte_tagged flag is not set for regular 
->>>>> THP.
->>>>
->>>> I think it's supported for THP per page. Only for hugetlb we tag the 
->>>> whole thing through the head page instead of individual pages.
->>>
->>> Right. That's exactly what I meant.
->>>
->>>>
->>>>> The MTE
->>>>> status actually comes from the VM_MTE flag in the VMA that maps it.
->>>>>
->>>>
->>>> During the rmap walk we could check the VMA flag, but there would be 
->>>> no way to just stop the THP shrinker scanning this page early.
->>>>
->>>>> static inline bool folio_test_hugetlb_mte_tagged(struct folio *folio)
->>>>> {
->>>>>     bool ret = test_bit(PG_mte_tagged, &folio->flags.f);
->>>>>
->>>>>     VM_WARN_ON_ONCE(!folio_test_hugetlb(folio));
->>>>>
->>>>>     /*
->>>>>      * If the folio is tagged, ensure ordering with a likely 
->>>>> subsequent
->>>>>      * read of the tags.
->>>>>      */
->>>>>     if (ret)
->>>>>         smp_rmb();
->>>>>     return ret;
->>>>> }
->>>>>
->>>>> static inline bool page_mte_tagged(struct page *page)
->>>>> {
->>>>>     bool ret = test_bit(PG_mte_tagged, &page->flags.f);
->>>>>
->>>>>     VM_WARN_ON_ONCE(folio_test_hugetlb(page_folio(page)));
->>>>>
->>>>>     /*
->>>>>      * If the page is tagged, ensure ordering with a likely subsequent
->>>>>      * read of the tags.
->>>>>      */
->>>>>     if (ret)
->>>>>         smp_rmb();
->>>>>     return ret;
->>>>> }
->>>>>
->>>>> contpte_set_ptes()
->>>>>     __set_ptes()
->>>>>         __set_ptes_anysz()
->>>>>             __sync_cache_and_tags()
->>>>>                 mte_sync_tags()
->>>>>                     set_page_mte_tagged()
->>>>>
->>>>> Then, having the THP shrinker skip any folios that are identified as
->>>>> MTE-tagged.
->>>>
->>>> Likely we should just do something like (maybe we want better naming)
->>>>
->>>> #ifndef page_is_mergable
->>>> #define page_is_mergable(page) (true)
->>>> #endif
->>>
->>>
->>> Maybe something like page_is_optimizable()? Just a thought ;p
->>>
->>>>
->>>> And for arm64 have it be
->>>>
->>>> #define page_is_mergable(page) (!page_mte_tagged(page))
->>>>
->>>>
->>>> And then do
->>>>
->>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>>> index 1f0813b956436..1cac9093918d6 100644
->>>> --- a/mm/huge_memory.c
->>>> +++ b/mm/huge_memory.c
->>>> @@ -4251,7 +4251,8 @@ static bool thp_underused(struct folio *folio)
->>>>
->>>>          for (i = 0; i < folio_nr_pages(folio); i++) {
->>>>                  kaddr = kmap_local_folio(folio, i * PAGE_SIZE);
->>>> -               if (!memchr_inv(kaddr, 0, PAGE_SIZE)) {
->>>> +               if (page_is_mergable(folio_page(folio, i)) &&
->>>> +                   !memchr_inv(kaddr, 0, PAGE_SIZE)) {
->>>>                          num_zero_pages++;
->>>>                          if (num_zero_pages > 
->>>> khugepaged_max_ptes_none) {
->>>>                                  kunmap_local(kaddr);
->>>> diff --git a/mm/migrate.c b/mm/migrate.c
->>>> index 946253c398072..476a9a9091bd3 100644
->>>> --- a/mm/migrate.c
->>>> +++ b/mm/migrate.c
->>>> @@ -306,6 +306,8 @@ static bool try_to_map_unused_to_zeropage(struct 
->>>> page_vma_mapped_walk *pvmw,
->>>>
->>>>          if (PageCompound(page))
->>>>                  return false;
->>>> +       if (!page_is_mergable(page))
->>>> +               return false;
->>>>          VM_BUG_ON_PAGE(!PageAnon(page), page);
->>>>          VM_BUG_ON_PAGE(!PageLocked(page), page);
->>>>          VM_BUG_ON_PAGE(pte_present(ptep_get(pvmw->pte)), page);
->>>
->>> Looks good to me!
->>>
->>>>
->>>>
->>>> For KSM, similarly just bail out early. But still wondering if this 
->>>> is already checked
->>>> somehow for KSM.
->>>
->>> +1 I'm looking for a machine to test it on.
->>
->> Interestingly, it seems KSM is already skipping MTE-tagged pages. My 
->> test,
->> running on a v6.8.0 kernel inside QEMU (with MTE enabled), shows no 
->> merging
->> activity for those pages ...
-> 
-> KSM's call to pages_identical() ultimately leads to memcmp_pages(). The
-> arm64 implementation of memcmp_pages() in arch/arm64/kernel/mte.c contains
-> a specific check that prevents merging in this case.
-> 
-> try_to_merge_one_page()
->      -> pages_identical()
->          -> !memcmp_pages() Fails!
->          -> replace_page()
-
-Forgot to add:
-
-memcmp_pages() is also called in other KSM paths, such as
-stable_tree_search(), stable_tree_insert(), and
-unstable_tree_search_insert(), effectively blocking MTE-tagged
-pages from entering either of KSM's trees.
-
-> 
-> 
-> int memcmp_pages(struct page *page1, struct page *page2)
-> {
->      char *addr1, *addr2;
->      int ret;
-> 
->      addr1 = page_address(page1);
->      addr2 = page_address(page2);
->      ret = memcmp(addr1, addr2, PAGE_SIZE);
-> 
->      if (!system_supports_mte() || ret)
->          return ret;
-> 
->      /*
->       * If the page content is identical but at least one of the pages is
->       * tagged, return non-zero to avoid KSM merging. If only one of the
->       * pages is tagged, __set_ptes() may zero or change the tags of the
->       * other page via mte_sync_tags().
->       */
->      if (page_mte_tagged(page1) || page_mte_tagged(page2))
->          return addr1 != addr2;
-> 
->      return ret;
-> }
-> 
-> IIUC, if either page is MTE-tagged, memcmp_pages() intentionally returns
-> a non-zero value, which in turn causes pages_identical() to return false.
-> 
-> Cheers,
-> Lance
-
+Takashi
