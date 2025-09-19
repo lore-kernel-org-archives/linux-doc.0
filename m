@@ -1,98 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADA72F83BA;
-	Fri, 19 Sep 2025 13:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478E2FE56B;
+	Fri, 19 Sep 2025 14:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758288609; cv=none; b=di9JvXDE9MSHUPRFWbk2kdch4EF5ntf9DD5s086i1hatHKBp+y5wsJqNS0oobuOXcJiFeq5x8l1hlzeQ0Xijygtc8/qmLVWk/E2RdX3bk8RigHINWfDlXnxK0pCyELhnkgc5rPlRjnf1uvpxwfR64FxI4VdpeMlERKN20FuGgCw=
+	t=1758290901; cv=none; b=YQIIZ7n7nYmnvarCYHUvG8czj7M0Vsud6ppuT1IIfKIAZG3rxmoBUZmwdOSJ9bC0XGyx/qAJe8vG7qRryHK+u0vYK7iRAkNnY8qEJVJnESkJaLuSXpVThc123yuEQ25krp2f5+Do9x3qqBwB9bdNB0tXvv+0l0Q+BgIcIVNGCYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758288609; c=relaxed/simple;
-	bh=LUp0Tnx3fiLxfm7kQ6s7noGa/CaWiOokB9OgbwxfWS8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KcG1PMb8FAX3nTE2cX51OM5wvTYihT2Trg6TOwGo0IJK6T0wxPdNHkgq7Mf4fyvfhTIxpoP6mVc0wby0PP4KizEZn1waapHM7xBMbqUMFv32N+vVONha2cic65sALmfwl6LVm6u4dUw5iVLYSEMkAh3eu/MMFDAxrp/mwDcwCYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BT8lHOM3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BT8lHOM3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AB7C4CEF0;
-	Fri, 19 Sep 2025 13:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758288608;
-	bh=LUp0Tnx3fiLxfm7kQ6s7noGa/CaWiOokB9OgbwxfWS8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BT8lHOM3I4bB2m5+2+AEpLV7ee9YuEzThzZXU6Nggv6cs/ik2l0a6NeAxgI5XY4ZJ
-	 7/q2l6us8LuJSJT/ACJx+H5P69sAjiqpb2jUKpA9KvEtb4oFX/Ezmm3FJtxiFvBDrY
-	 TGo9hy+HjXz4csvOmIoJIPj/k8xXb9/j4oMmzOhfBY/RLy+a8P1P/ksEJln733vEXe
-	 GMHcHxgoZny42Rhb6ZWoSJ34oDwK6t05WwbU5PUM7TkLLW4w1vCRYpKtHxNyo53Nsz
-	 dNgVpgEzhPO3itr9+pwUe2P4LOPpt+R367ejuRgezbzFJJbOGtxatPh1jqyUXDHYxR
-	 3dNPdP1ULihEg==
-Received: from 82-132-233-255.dab.02.net ([82.132.233.255] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1uzbBd-00000007muj-41hV;
-	Fri, 19 Sep 2025 13:30:06 +0000
-Date: Fri, 19 Sep 2025 14:29:59 +0100
-Message-ID: <87348izi20.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
+	s=arc-20240116; t=1758290901; c=relaxed/simple;
+	bh=NUPh0JtwrHiUi7p6EEg2cxsqqXnH3TPGQmlGZJXCRYA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g8xt6yAVl6ZemyHdBe/xI3dYblYQu+qpECPFJdDPmcwT1n1zRmMYzr4shzyNAAGwQgCHT4qFAD4UhH1qQCCUXVXf1WzrVpxHmxz30WuaTe7g5lni97jd9k6O80jvQTMyeSU7bBk0vwTMto5vn3LJD+M0GiShfci98QrxmwwA2zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BBAB368AA6; Fri, 19 Sep 2025 16:08:03 +0200 (CEST)
+Date: Fri, 19 Sep 2025 16:08:03 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Leo Yan <leo.yan@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v8 07/12] KVM: arm64: Add trap configs for PMSDSFR_EL1
-In-Reply-To: <20250901-james-perf-feat_spe_eft-v8-7-2e2738f24559@linaro.org>
-References: <20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org>
-	<20250901-james-perf-feat_spe_eft-v8-7-2e2738f24559@linaro.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Bill Wendling <morbo@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
+	rcu@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and
+ Locking-Analysis
+Message-ID: <20250919140803.GA23745@lst.de>
+References: <20250918140451.1289454-1-elver@google.com> <20250918141511.GA30263@lst.de> <20250918174555.GA3366400@ax162>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 82.132.233.255
-X-SA-Exim-Rcpt-To: james.clark@linaro.org, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, peterz@infradead.org, mingo@redhat.com, acme@kernel.org, namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, leo.yan@arm.com, anshuman.khandual@arm.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250918174555.GA3366400@ax162>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, 01 Sep 2025 13:40:36 +0100,
-James Clark <james.clark@linaro.org> wrote:
+On Thu, Sep 18, 2025 at 10:45:55AM -0700, Nathan Chancellor wrote:
+> On Thu, Sep 18, 2025 at 04:15:11PM +0200, Christoph Hellwig wrote:
+> > On Thu, Sep 18, 2025 at 03:59:11PM +0200, Marco Elver wrote:
+> > > A Clang version that supports `-Wthread-safety-pointer` and the new
+> > > alias-analysis of capability pointers is required (from this version
+> > > onwards):
+> > > 
+> > > 	https://github.com/llvm/llvm-project/commit/b4c98fcbe1504841203e610c351a3227f36c92a4 [3]
+> > 
+> > There's no chance to make say x86 pre-built binaries for that available?
 > 
-> SPE data source filtering (SPE_FEAT_FDS) adds a new register
-> PMSDSFR_EL1, add the trap configs for it. PMSNEVFR_EL1 was also missing
-> its VNCR offset so add it along with PMSDSFR_EL1.
-> 
-> Tested-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> I can use my existing kernel.org LLVM [1] build infrastructure to
+> generate prebuilt x86 binaries. Just give me a bit to build and upload
+> them. You may not be the only developer or maintainer who may want to
+> play with this.
 
-Given that this is completely independent of this series, and that KVM
-is already aware of FEAT_SPE_FSD (if only to make sure the registers
-actively UNDEF), I'll take it into the KVM tree directly.
+That did work, thanks.
 
-	M.
+I started to play around with that.  For the nvme code adding the
+annotations was very simply, and I also started adding trivial
+__guarded_by which instantly found issues.
 
--- 
-Jazz isn't dead. It just smells funny.
+For XFS it was a lot more work and I still see tons of compiler
+warnings, which I'm not entirely sure how to address.  Right now I
+see three major classes:
+
+1) locks held over loop iterations like:
+
+fs/xfs/xfs_extent_busy.c:573:26: warning: expecting spinlock 'xfs_group_hold(busyp->group)..xg_busy_extents->eb_lock' to be held at start of each loop [-Wthread-safety-analysis]
+  573 |                 struct xfs_group        *xg = xfs_group_hold(busyp->group);
+      |                                               ^
+fs/xfs/xfs_extent_busy.c:577:3: note: spinlock acquired here
+  577 |                 spin_lock(&eb->eb_lock);
+      |                 ^
+
+This is perfectly find code and needs some annotations, but I can't find
+any good example.
+
+2) Locks on returned objects, which can be NULL.  I.e., something
+like crossover of __acquire_ret and __cond_acquires
+
+3) Wrappers that take multiple locks conditionally
+
+We have helpers that take different locks in the same object based on the
+arguments like xfs_ilock() or those that take the same lock and a variable
+number of objects like xfs_dqlockn based on input and sorting.  The
+first are just historic and we might want to kill them, but the
+sorting of objects to acquire locks in order thing is a pattern in
+various places including the VFS, so we'll need some way to annotate it.
