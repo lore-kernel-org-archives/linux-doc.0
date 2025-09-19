@@ -1,89 +1,207 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1190313E30;
-	Fri, 19 Sep 2025 15:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDAA26056E;
+	Fri, 19 Sep 2025 15:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758294259; cv=none; b=HbJJN1e4FAWDVuPVGmtsjHeBKze2uc38mQEZjDdULlKvcg27QIWgSFyDmNLc9wE8xG+9B5vqIABHmApgpb0L79GPilybwax/I3pgiZMCV6uyyJrCAYiBTwfhgzzQ2nuUgS2QOfDdCZggbLFPQTW6AhUOmVYlw1HJughU9z18zCg=
+	t=1758294607; cv=none; b=C54rPyDEriSrVo6DAOT07jZr0vUN2867Pk696HovJVnZ5wrEl91auBvlq8ktZCFH19+QFehJSWXSBZU2BglE1t3hJHfbmKBslyOZgqt7MQnnwPl7/rrvduZN9zyZ2P2KgaLOyzEGOFSc6+vlx6GGxD4pywsZISd6aUZPxitI66Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758294259; c=relaxed/simple;
-	bh=42isF/WZsmBh5ZmpcnOp7XXD2OgHyQsMKCD1TyuRvOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VN2/+oin6ofIldrpAiYtGYcPdcwVv17KAAB1x9vKXxfMye6NXwdieJg23jCYoGhvt0lD9Sirnj5DDZDw4gtU0llwVAizZwKIkPrYwKSTJj0XqcMMJ/ocvfcwSf0i920n+lLALAQP2hR/XEmWIQ8WiHxVkfiUOjWiEsA48U9z650=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xE58bSsG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1758294607; c=relaxed/simple;
+	bh=d+U0ApuT0lf/mrZa1eeHe/NYSYYBWpqLUfCWZxik1qo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ua3GAzgjk6utpK2G25r+L5RDrKZy1jxZxylsTt6jCzjfD419gCbX4vo3mxLVAPC9FuFZYEZf/w0N8+BWEv3272uXab3KKLEB2xvSYTlM4gfW8DVFwpi0L/kVtvO7LQL7K1vow7e7r9mVACdnUs52g0jWO1rp+TNIeaI1uNHKfzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJhtR63y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xE58bSsG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Ci6GUzt/zBUPg8YgjcIKFzIGceTJiYQmoDw0F7XTobs=; b=xE58bSsGEbJk8MPAMD2lNBwyCj
-	6iZDmXZHma806PABiz8+4MZk6xBVmBkKSUKOwwfbK0ZW9i6LG426urRxZlRNnhY10U3rOXkAcNtDi
-	AnQslLXWyOblSLTibCbCBDIdT843nD8KmiyaqkmSbCSkHfIf+NtOCQcuLSf20gUL/5vCE1TNo8qqS
-	Mj0jufB8Upbl+JOjMcvKD8I0RT+1Mve9xDgfwXEIhde+lBkSDWYFu676ISkAOFj0DAPZZJ1SMZHxh
-	nZ4qTK4qwLekk3aqpg4TqBAkSM9X8M4W8dJhuIGyhg+dNTAstEzapteJc9jV5iGN2VjgpqYY51pwx
-	O/l+KiBg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzcel-00000003G5z-2STi;
-	Fri, 19 Sep 2025 15:04:15 +0000
-Date: Fri, 19 Sep 2025 08:04:15 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org,
-	miklos@szeredi.hu, djwong@kernel.org, hsiangkao@linux.alibaba.com,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 12/16] iomap: add bias for async read requests
-Message-ID: <aM1w77aJZrQPq8Hw@infradead.org>
-References: <20250908185122.3199171-1-joannelkoong@gmail.com>
- <20250908185122.3199171-13-joannelkoong@gmail.com>
- <aMKzG3NUGsQijvEg@infradead.org>
- <CAJnrk1Z2JwUKKoaqExh2gPDxtjRbzSPxzHi3YdBWXKvygGuGFA@mail.gmail.com>
- <CAJnrk1YmxMbT-z9SLxrnrEwagLeyT=bDMzaONYAO6VgQyFHJOQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJhtR63y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC892C4CEF1;
+	Fri, 19 Sep 2025 15:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758294606;
+	bh=d+U0ApuT0lf/mrZa1eeHe/NYSYYBWpqLUfCWZxik1qo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KJhtR63y5aBBJtlNEYa7aFVNz5ZUik882lUfttax+hZUvKKZrzo3YrBuVJuMc5IvI
+	 /7BswJhphrLLIrAtxlpY6vZ5t4+ikjscLYiyq9jZQr4nRqa/feUUP2apH6m7u5JPUp
+	 tEIzDG+pKWs8ZgHPJxXYQyT+Y8xbuwOploYKwueNk58mtt7NgCifcqTok1wZzz8rqP
+	 Byi7DAhgVqz4hAmnIgZaRsXE96a9QHBtfzdYDBMHzwZ6cDdtO+kaHs8DR3Tzeod0Uv
+	 0zjyNt9i+4loo/rhDHxJ2uQ7ledThZOaJ989opQbth6TfmvWfy+j43MkPdPnssfv1Z
+	 MqqfGtgoQWV4Q==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uzckO-0000000443h-3Wpo;
+	Fri, 19 Sep 2025 17:10:04 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	Kees Cook <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] docs: conf.py: get rid of load_config.py
+Date: Fri, 19 Sep 2025 17:10:00 +0200
+Message-ID: <65ce87136d8f4a74e88e956a3a5bc3ba9a528be4.1758294450.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1758294450.git.mchehab+huawei@kernel.org>
+References: <cover.1758294450.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJnrk1YmxMbT-z9SLxrnrEwagLeyT=bDMzaONYAO6VgQyFHJOQ@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Tue, Sep 16, 2025 at 12:14:05PM -0700, Joanne Koong wrote:
-> > I think you're right, this is probably clearer without trying to share
-> > the function.
-> >
-> > I think maybe we can make this even simpler. Right now we mark the
-> > bitmap uptodate every time a range is read in but I think instead we
-> > can just do one bitmap uptodate operation for the entire folio when
-> > the read has completely finished.  If we do this, then we can make
-> > "ifs->read_bytes_pending" back to an atomic_t since we don't save one
-> > atomic operation from doing it through a spinlock anymore (eg what
-> > commit f45b494e2a "iomap: protect read_bytes_pending with the
-> > state_lock" optimized). And then this bias thing can just become:
-> >
-> > if (ifs) {
-> >     if (atomic_dec_and_test(&ifs->read_bytes_pending))
-> >         folio_end_read(folio, !ret);
-> >     *cur_folio_owned = true;
-> > }
-> >
-> 
-> This idea doesn't work unfortunately because reading in a range might fail.
+The code here was meant to handle 3 functions:
+1. allow having a separate conf.py file, per subdir;
+2. generate a list of latex documents.
+3. set "subproject" tag if SPHINXDIRS points to a subdir.
 
-As in the asynchronous read generats an error, but finishes faster
-than the submitting context calling the atomic_dec_and_test here?
+We don't have (1) anymore, and (3) is now properly handled
+entirely inside conf.py.
 
-Yes, that is possible, although rare.  But having a way to pass
-that information on somehow.  PG_uptodate/folio uptodate would make
-sense for that, but right now we expect folio_end_read to set that.
-And I fail to understand the logic folio_end_read - it should clear
-the locked bit and add the updatodate one, but I have no idea how
-it makes that happen.
+So, only (3) is still needed, and this is a single-line change
+at conf.py.
+
+So, drop it, moving the remaining code to conf.py.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/Makefile              |  4 --
+ Documentation/conf.py               | 15 +++-----
+ Documentation/sphinx/load_config.py | 60 -----------------------------
+ 3 files changed, 5 insertions(+), 74 deletions(-)
+ delete mode 100644 Documentation/sphinx/load_config.py
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 6ccd5db1dcbd..9663e7a31feb 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -24,7 +24,6 @@ SPHINXDIRS    = .
+ DOCS_THEME    =
+ DOCS_CSS      =
+ RUSTDOC       =
+-SPHINX_CONF   = conf.py
+ PAPER         =
+ BUILDDIR      = $(obj)/output
+ PDFLATEX      = xelatex
+@@ -108,9 +107,6 @@ dochelp:
+ 	@echo  '  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2'
+ 	@echo  '  valid values for SPHINXDIRS are: $(_SPHINXDIRS)'
+ 	@echo
+-	@echo  '  make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build'
+-	@echo  '  configuration. This is e.g. useful to build with nit-picking config.'
+-	@echo
+ 	@echo  '  make DOCS_THEME={sphinx-theme} selects a different Sphinx theme.'
+ 	@echo
+ 	@echo  '  make DOCS_CSS={a .css file} adds a DOCS_CSS override file for html/epub output.'
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 574896cca198..1ea2ae5c6276 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -18,8 +18,6 @@ import sphinx
+ # documentation root, use os.path.abspath to make it absolute, like shown here.
+ sys.path.insert(0, os.path.abspath("sphinx"))
+ 
+-from load_config import loadConfig               # pylint: disable=C0413,E0401
+-
+ # Minimal supported version
+ needs_sphinx = "3.4.3"
+ 
+@@ -93,8 +91,12 @@ def config_init(app, config):
+     # LaTeX and PDF output require a list of documents with are dependent
+     # of the app.srcdir. Add them here
+ 
+-    # When SPHINXDIRS is used, we just need to get index.rst, if it exists
++    # Handle the case where SPHINXDIRS is used
+     if not os.path.samefile(doctree, app.srcdir):
++        # Add a tag to mark that the build is actually a subproject
++        tags.add("subproject")
++
++        # get index.rst, if it exists
+         doc = os.path.basename(app.srcdir)
+         fname = "index"
+         if os.path.exists(os.path.join(app.srcdir, fname + ".rst")):
+@@ -583,13 +585,6 @@ pdf_documents = [
+ kerneldoc_bin = "../scripts/kernel-doc.py"
+ kerneldoc_srctree = ".."
+ 
+-# ------------------------------------------------------------------------------
+-# Since loadConfig overwrites settings from the global namespace, it has to be
+-# the last statement in the conf.py file
+-# ------------------------------------------------------------------------------
+-loadConfig(globals())
+-
+-
+ def setup(app):
+     """Patterns need to be updated at init time on older Sphinx versions"""
+ 
+diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
+deleted file mode 100644
+index 1afb0c97f06b..000000000000
+--- a/Documentation/sphinx/load_config.py
++++ /dev/null
+@@ -1,60 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-# SPDX-License-Identifier: GPL-2.0
+-# pylint: disable=R0903, C0330, R0914, R0912, E0401
+-
+-import os
+-import sys
+-from sphinx.util.osutil import fs_encoding
+-
+-# ------------------------------------------------------------------------------
+-def loadConfig(namespace):
+-# ------------------------------------------------------------------------------
+-
+-    """Load an additional configuration file into *namespace*.
+-
+-    The name of the configuration file is taken from the environment
+-    ``SPHINX_CONF``. The external configuration file extends (or overwrites) the
+-    configuration values from the origin ``conf.py``.  With this you are able to
+-    maintain *build themes*.  """
+-
+-    config_file = os.environ.get("SPHINX_CONF", None)
+-    if (config_file is not None
+-        and os.path.normpath(namespace["__file__"]) != os.path.normpath(config_file) ):
+-        config_file = os.path.abspath(config_file)
+-
+-        # Let's avoid one conf.py file just due to latex_documents
+-        start = config_file.find('Documentation/')
+-        if start >= 0:
+-            start = config_file.find('/', start + 1)
+-
+-        end = config_file.rfind('/')
+-        if start >= 0 and end > 0:
+-            dir = config_file[start + 1:end]
+-
+-            print("source directory: %s" % dir)
+-            new_latex_docs = []
+-            latex_documents = namespace['latex_documents']
+-
+-            for l in latex_documents:
+-                if l[0].find(dir + '/') == 0:
+-                    has = True
+-                    fn = l[0][len(dir) + 1:]
+-                    new_latex_docs.append((fn, l[1], l[2], l[3], l[4]))
+-                    break
+-
+-            namespace['latex_documents'] = new_latex_docs
+-
+-        # If there is an extra conf.py file, load it
+-        if os.path.isfile(config_file):
+-            sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
+-            config = namespace.copy()
+-            config['__file__'] = config_file
+-            with open(config_file, 'rb') as f:
+-                code = compile(f.read(), fs_encoding, 'exec')
+-                exec(code, config)
+-            del config['__file__']
+-            namespace.update(config)
+-        else:
+-            config = namespace.copy()
+-            config['tags'].add("subproject")
+-            namespace.update(config)
+-- 
+2.51.0
 
