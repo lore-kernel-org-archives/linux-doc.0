@@ -1,274 +1,167 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011002.outbound.protection.outlook.com [52.101.52.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737BB1D54D8;
-	Fri, 19 Sep 2025 21:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758315953; cv=fail; b=Q+cSpxZ4kc0+RX3tgRRsuwfDMlrJySCrlLbZXLhfKVhbX9MDjoO+a96O+wUfALE61LltvxrbsWt/1ruG4YeGY3dqsWMY/wBbogTbGEcM9tuvPchwONLDwnHNeJ/9TL1XmvW3u8cVoGJ26VcyKtwnphYVuOFtLgdyy0Xt+gtsQxI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758315953; c=relaxed/simple;
-	bh=afQSqaDujHl//Z+bu31cJ5z12S2YumDgNYzTEhsIJm0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kNPB3SIv2enuijXSf7gPBiRrhf3LikjNHxeAbwNpa45e4nI9oDMdIQH0Qaeg1eA/z2KjAzk4+PeH0HTpxmYsd9ZkkNp2yhJ2usv+1dp8kuIaWe6Srn/60Jmx3Jkdm+Wql5Uv2sor5/817ZkXmwgYAfild6B/uMdxNMAWHOLC1dA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4Nh1KrAN; arc=fail smtp.client-ip=52.101.52.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7282025DAF0
+	for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 21:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758316285; cv=none; b=q5+jz7Qp+9GzZ50JF7IUR204rDBZC+2i+O4+2SywQZ+yOFtn6lcHGBuIGLoRM3waagJbH7GzPcMklgd2jXfXJREBoM9bi3hFRuZupHcvfzP4KdLe6eTgdqpgDlQEhck5jTZaFuE4317w5n3VlnKd692MTDby37/nxSrh6wChUew=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758316285; c=relaxed/simple;
+	bh=G5ZTT0/2dA6G2tttpKgcyUVjFhq8OBnLoSkHTTYjaCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KD+hDzaNfI1EBOAR/cDEeJW5rKzM+5ijhvs9XM24DMG7qRKQ1GuTmR1n2f9rQaChkCTez+Ze8z+9rp7MFi8+Ccv7oQ27jbEZwiJ4wJq+Qb1iAr8pNgLfK8Bqlk553C+F2Zv3dMBJChIbLy5XUhqSvzGV0k35tkvucVQrHMSTfls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcK/X7nf; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4Nh1KrAN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yamAmFupBhZbxYOkzyfUzJK/co/bO7ksa7yDFa/JwK2sn9XXKVIMRJCriJzj62NzrCdT73P2YVdo7lmr4az3Z4XcQXomaWNw8n0vbu2OpV4rAhiXZlPXesFRDwLn9c++Qa9neiL/2hn7gMbxmg56pDwps6VFNuaHqxKXBhL3oO2kgt1uhvnpNAym/uZwTp3Qgbc8wqAXJugpO6ZTrB/RthqxOGxBZC1UhO02eexkqueA7ThgkGUv7qg16BlFEMmi+j6Cohu83Jhj4/GGXSl/nHEiW6sJcs1XTgPW+ZJ4Wl+BgBt/wH9r//0RjvH09vQNWykqII1LFY0/APsAfJUiVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S8uMS2kxILjRnn0ksvveorukheqJM6rSmgzAYMhg5UM=;
- b=dWcieUsK8W5+XXBp+E6bue3mzFkMOw42kSSM92mfp6ABo1iG/y322vu9bPavdAu1cijupnZ97vMBwfIVLOdplPk8EWVWgK6Ih8VwGJS9zujl/6p13jN/buvNF9BLnXkJaldOwwZIf0lXdtN4hcXVqGNgaumSHUlr8NzDUuJtrePLqgUScbKxlBN3Nf0+1RgAHuuQOFXaM7bDUdz7K/5pjFoawd3LP1wusttYRcXMKQRowW5DwL7BqajgTD5+RXSod00qV3ju7EdD5+Oy2Pg2Rs/9H7mrsEijYeB7G/5lU3io21gRNaPoDrw7ei2XKvtIbB76WEosN02swtwfZ7xoTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S8uMS2kxILjRnn0ksvveorukheqJM6rSmgzAYMhg5UM=;
- b=4Nh1KrANDhnswShoLuNO1BYxSLV3XahvSEG92/MZcb5RGJPhYC+pDfwjMg7qYzRbtqsqqOuZUeIWmhgFJYzwZmEAGb5XpQBlEUNCKcJPiHjU/ZOBq0/PEYZNOhVdksA0esHzI8g3NVuTG4d2l0T9pxT6AZuDzed2/4E57xjWbGg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by LV3PR12MB9096.namprd12.prod.outlook.com
- (2603:10b6:408:198::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.14; Fri, 19 Sep
- 2025 21:05:48 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::8d61:56ca:a8ea:b2eb]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::8d61:56ca:a8ea:b2eb%8]) with mapi id 15.20.9115.018; Fri, 19 Sep 2025
- 21:05:48 +0000
-Message-ID: <fe8138c4-e9a0-4df7-988b-f31d75201280@amd.com>
-Date: Fri, 19 Sep 2025 16:05:42 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/10] fs/resctrl: Update bit_usage to reflect io_alloc
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, kas@kernel.org,
- rick.p.edgecombe@intel.com, akpm@linux-foundation.org, paulmck@kernel.org,
- pmladek@suse.com, pawan.kumar.gupta@linux.intel.com, rostedt@goodmis.org,
- kees@kernel.org, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
- thomas.lendacky@amd.com, manali.shukla@amd.com, perry.yuan@amd.com,
- sohil.mehta@intel.com, xin@zytor.com, peterz@infradead.org,
- mario.limonciello@amd.com, gautham.shenoy@amd.com, nikunj@amd.com,
- dapeng1.mi@linux.intel.com, ak@linux.intel.com, chang.seok.bae@intel.com,
- ebiggers@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org
-References: <cover.1756851697.git.babu.moger@amd.com>
- <549a772b83461fb4cb7b6e8dabc60724cbe96ad0.1756851697.git.babu.moger@amd.com>
- <79b2d040-a3e6-40db-b545-bb07d42c8c29@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <79b2d040-a3e6-40db-b545-bb07d42c8c29@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1PR03CA0023.namprd03.prod.outlook.com
- (2603:10b6:806:2d3::28) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcK/X7nf"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-77da29413acso2485785b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Sep 2025 14:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758316283; x=1758921083; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zFD2PiGcX7JoCeN4pUYUathAXqzYxKQBC02xv/EkTPU=;
+        b=bcK/X7nfY8Xd4ZED9wwZgphkp8AxTLwPqYqkTiDciDH8g6T2EMRCzwHaxmv2/ySE+U
+         tck9XxMyPZu5WmtwFWeVIppt2j5bDmma0cfwSitExWQTbo6QXa0CNN6Y1BS4nb8a53Tu
+         ZlXyLSSAI3mqDOqs7B3HbgZAc0gqC9Cr1v+TlQKlX58Sim7iLMSNsVBye8aqS96BuDRQ
+         ZZmGP7SMViHZ1vXCfK/cwNj2Jc8WNMBnLi96aG28ikbeN/DOJhLRqW7dm4CByxmDS8jK
+         vSbnd37clSNy/MyI1n1C3Gu057gizkT58S3KnqahHKH+rskIlANIF+gz0nqRdapNo8Zx
+         qSAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758316283; x=1758921083;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zFD2PiGcX7JoCeN4pUYUathAXqzYxKQBC02xv/EkTPU=;
+        b=bNLkn5UHIjCG9DkrLUFrwT5NPSLZtvcaKxSb1v0BsYC+m/aR4kVk6KgT1gcJ+tAi9B
+         qACJVB2aXWy8pX7LQ0nwI6WNxfrra9OitBF45FulnommStHDrJeoCo4oAVlHqFSxl7nl
+         JYG6wbGivHpdTdAtTRkFfPhWG00FqPMGqKkr1a++DpA0vsSOT7nbvadsZV65HSSdXhqt
+         7lBvwQ7xKBtHWS/kRNpuQux/V+wo5+skEOP5UEwqETP20gOyIy2m38JGTfau4Ue/jE0M
+         YluFJPjehzPS0MhY5h2RlQ/FPfiBaeEKHLPo0+J3IFzuna03rfO3X6G/rYg9z7NiPqpZ
+         GqZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUs2V7D4rWzPCy3pWZKcBOr+vvuBljUO3sLfcYjAAhBh1deykXaDwZKRTOsjx8lJocU2DuSTiZs98Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8Ga94OPC0EHhNhMDrZanTJJXFkcLuFzA0Ve8Rs0XjHnPDwcme
+	/DvWJaruiSRv/XsGdJQa8ofew+/st+vMVO6IoJnQiZ9Q8YmyGZR8rx9H
+X-Gm-Gg: ASbGncvkk4mBGvHD4cyDyAQgzU3z0Cd+xQ43RAahCNgcKlavgyF7M5yUkSjXWb5rcep
+	afyua0iFKgKQZBlIW9a0qWLU6PxhfBt5fJEEJPC7ov8GymPpz+FrbnVFUZysOYrE1MXOhpHIotf
+	GeXXLULqK3SKR/A7GpTg4p6qXTWzrjSTidH92/CEuWWaiodUD3vRFXEm8WPxXAYmUYh59wTaofw
+	qNw325mTLtImdFtc+MR1UARpA0skFasA2Ut7AckphGLaYBrbCrYa8caLuFP/lA5bxjM1mvxXqDb
+	2iLLoPFgMCKzF0Kpfwqpyq4XccImnY58NeOqX58r0qzsAo41apsc5UTnthnkkDBVkgl3M8vPheJ
+	g6JE0rRx4SagZ3rx0iXg3Y/fVIySRqbk=
+X-Google-Smtp-Source: AGHT+IFuIiW4juUqRqMj5seaAf5fiJdyitd63hqZHOD9nE/8E7rUafQl57TENToxffffGCpntb7bcw==
+X-Received: by 2002:a05:6a00:17a6:b0:776:20e7:d6f6 with SMTP id d2e1a72fcca58-77e4eac2ac7mr5701354b3a.22.1758316282737;
+        Fri, 19 Sep 2025 14:11:22 -0700 (PDT)
+Received: from localhost ([2804:30c:b65:6a00:ceaa:2ed0:e81e:8f51])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-77cfec3f379sm6089705b3a.74.2025.09.19.14.11.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 14:11:22 -0700 (PDT)
+Date: Fri, 19 Sep 2025 18:12:05 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net
+Subject: Re: [PATCH v2 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
+ and ADAQ4224
+Message-ID: <aM3HJY0GWJmP8-do@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1758214628.git.marcelo.schmitt@analog.com>
+ <2d6bca62056e1254f91b45f70f4ba4614e659c1c.1758214628.git.marcelo.schmitt@analog.com>
+ <20250919-unsure-mounted-0fc49ce72216@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|LV3PR12MB9096:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9de24b84-4ee8-42e2-3822-08ddf7c04eae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NWlyYzVQb2Y1REVUSU9kRzh4VlJZRDNZbUl6T2p0RHVLaFFvVW5aVUllSEdx?=
- =?utf-8?B?UDdnc2YxTmllay9mbEo4VzhXVXgyS3RmUklUK3dBanpINTVPYTVMWUJPdUlM?=
- =?utf-8?B?UG53Z0dqR2dhVjVvR3QwMDR2TXZpdVlnSkdIZGZhUmZvNUxnMVhCamIxK1dk?=
- =?utf-8?B?NGZETG45bmFnNFNjNHhNU3VjMGEwMkV5QXpXS3JtdGgzbnArTnpBdEdGUE5x?=
- =?utf-8?B?eS80Z3ZnSVFiM1Z0WnMzTmlMKzVmUUh4K1pRSTVlU2Jld2RjMmszcHBxaXFJ?=
- =?utf-8?B?WjZTWWVVNmhoNDloeUxsWU44aFE0N3hEZXpOUFI5dUdrL2hQbzk5Y205OUll?=
- =?utf-8?B?T29QQWtsdWZLK1Zpbm9oeUszU0o2MU51YllpQ0NBakNzaVp4RXZKWTlqdlB5?=
- =?utf-8?B?bFBQc2Z4OGt2NWw5dmNrdVo3aWREOFE2QWwweUttNWNHb2lWSWoxSXJHVGN5?=
- =?utf-8?B?ckJFUGw0KzY2cmNhenluWXRZT0Q0VGwrZkNMOXZhUU9XSmxvdlc3cmY4TlB6?=
- =?utf-8?B?NTlQS0lxSGwrRTdHeXVQdnpVV01EZit1RitNUXNIZHBMWlJMTkdGY0ZOOHor?=
- =?utf-8?B?TlhHVElIbTlQa0lnYVRTTFJnUjc4L2xFeUZ4SGF0UDdCdHE2cHViQ0ZPZDRr?=
- =?utf-8?B?QVFqQUxpeE5hZ1R1d0M4RmIwZU12aDJVcXpHMDBwTEJaZ0kySUh3U29ndTkv?=
- =?utf-8?B?bk10alhqbm9Oa2NMR3RpTFRkVFFncTdvVWRkdGJqMVlNYTVVVXJMamorZ2w5?=
- =?utf-8?B?Z0lXS09EVTdrOHQzeHZsUHVraXd5ZjJsV1VQeTg2UkRUcnpYbXZvcGNZc3kw?=
- =?utf-8?B?ZkpvSXN5SS9LUmhzYTRnM0hCNzJIOVEwaHhTMWpBQ2xUN0ZjLzBNNnJiTHpq?=
- =?utf-8?B?UjIrRjEvNzJjbU1pWWhUUkViV0NRLzl3dzJrUGU3b0I0bkRVYTVmRDZIeitj?=
- =?utf-8?B?YUg5eTN6Vk9mditLSGsvQVluWDhLY2VFTy9nLzlOSmdsMVBCM3VkT3ZTa2pP?=
- =?utf-8?B?MFd6Uk1FUEpab21BVC8zL0tuVWVTWlhrY3VYYUpQYm0reC9QMTBVTmUwU09W?=
- =?utf-8?B?M3orWWEyZzhyazkzU09Pald5UnZiVjRUQ01WQWFMSThpOXZNeHBQUWcrTWNk?=
- =?utf-8?B?KzdzTTJuRjBVRE1aNE9hbHNqdm9sV1VQRDdYL2hTd2RydjY5aXRFU1g1WG00?=
- =?utf-8?B?dllZQWxMVGwvS1hPUnZjOXFSb1JxdEE3RGhqSnBoNjRxSG94cEx5RzZVbitv?=
- =?utf-8?B?L1p5czErRmE4YXU1RS9sQ2NQZHlDVGFPQ1NhVytDd2FaOEJ3dENMTTFxT0lQ?=
- =?utf-8?B?TVJuRmVMQzIyVVBPQmw3cEZSWC9iNU1tVHlyWjFtWHZxTHN2d3ZiUWh4Qktj?=
- =?utf-8?B?Q3hhZ1RaWmdEcS9kcXZicjY0KytCeWwxdDY5OTFyYXUxNXB0eTRMNVZkM1dE?=
- =?utf-8?B?UEx4NXZCVWkwTTlRbVR5bVFDVXhCZTVtNEZPMkVmZE54V3ZJcVJuaWdsRGN6?=
- =?utf-8?B?NlRYVWdtMnVZZXM0dVZCVG0xR0V2cldlaUg5b1ptSndFT2lxNnNac0dXZnhE?=
- =?utf-8?B?TWd2bnp1OEVaVDlkSzNyVThvS2RweHRkcUJ3SEFQdWgvdEQ0OEIwNTFyaERF?=
- =?utf-8?B?V2N4alBXb2l3M3IvYmJuVkVyaHNKYUh2Z1RuMTVVSUhaYjlWdjZLU3dFZWRX?=
- =?utf-8?B?OTZaM3kyam44cGxYMnNMMk9JcnlxYkxUMXYzMTJISkRLS1o5N3lmZXlzT3hD?=
- =?utf-8?B?dlRoK0FJQjBvYzEwK1Q4amcrcVVFQWNkR1ZMb3hMa3Q2dk04elAwQ0NrdmlN?=
- =?utf-8?B?MTlaTFkwOU1laHFsYU5UUmVzSFpEYzF0VnhpWGNINjdCZkZkaFg0bFNUdkcz?=
- =?utf-8?B?M1hUbko3c24wL3lEYW9lenlMTCtOeDMyMHRLV3FlbU9leWtqN2EvMkNSbDVi?=
- =?utf-8?B?eUpVUHVHSnU4SDVlb052SEhwaWJNL0NodFFzSm1taEJleWQ5ZGo3Qk9zS0lj?=
- =?utf-8?B?TEVYSEEydG1BPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QS9mZWVjc3R6cXhXWjVxR1k0NnY5NUxsbDNFUG1XRGtCZ3duMzZ3aGJqL2RO?=
- =?utf-8?B?bVRhVy94WmZpMXIrek1IcjhxbFU4WDhKMkJQUFlpSys3NXRCbWw4TXFVRjJ5?=
- =?utf-8?B?bXl3NWg0RTdjeWpKMlZ6NHkrU3dCdWFoc0xVcXhWcmlmUHFDVmdySS9CTkFi?=
- =?utf-8?B?WFMwSkswVUlSWlMyV2gra0djSDlxb2UvR1E2eFIyNDB6TlA0QW1HY2kxYlBa?=
- =?utf-8?B?Z212enlwbWN5bTY4T21kT2l6L0JHa01PZnFQZWRyNnVoUU1OcUxHVEVHaWJG?=
- =?utf-8?B?cGhPRk45Nkk1RVoydlozMysvaENqTHdnenFORmM2NjNMWVg3Z3dIRWp2OHJZ?=
- =?utf-8?B?b1BFTi9LSHg1WCs1djN3blkyUjJORDlCd1ZiU2ZtUWVpRnRndHJZYlRLWm9N?=
- =?utf-8?B?L1lLRzAxYkNKYmFwaTU2Z3h2bVIrbS9NZzFSQUlNNVdXVUlkZVJ2c2VjcElL?=
- =?utf-8?B?ZDRleVdlaTVZTHdyTXRGQ01UY2d3VnFOVkdmU0hCS0xmb09RWHhXRWR4RHpB?=
- =?utf-8?B?NjBnWUw1RDBKaDZ6Tms2L0VHTkFlY3RnWXN1SkxGQ3NXdFBGYVRZRkRQM1lo?=
- =?utf-8?B?a2ZaSFVEd1ZueEFqS05jUzc3SzZOVHVRUEx3cDFlYzdBcWEvYUc4WXlaaFJD?=
- =?utf-8?B?S0Y0Mk5Ea2gzaFI4aFVKSytxb3pZcXcvMXAyYnhxWVF1cUlqKy93K0dIZ3Rn?=
- =?utf-8?B?UU1scHltVmpUNlhoTlByRmFBK1J4Tk1OTUI5VzdVOXNtK1JleVVCYS81N0hJ?=
- =?utf-8?B?OUIzV0JaRE82bi9JUHdCNVM1Z2xJRm5vM2pzeUl2L1NZMGdrV01pSGtoSVJi?=
- =?utf-8?B?ZjN3WHljN3B1ekFjZ2cyNnlEb2xBQWIwWEtsR3FTTFdhYmE4b1BMc3hrendk?=
- =?utf-8?B?LzlVS3V2ZWNWTGZpT2M1RlZ4TkdMb1krWWxJc1BwZlNWK0J6c2xYaUxlRnZO?=
- =?utf-8?B?Q3RjR2JuejBxQmV1dG1VL3lsZFI2SmxyelY1NjhVUFFSdnB4RXNnY1NuNzhU?=
- =?utf-8?B?akQ3aHpVenVqRVd4WS9PMlVORkFKTk5uN09xcVQwTEdjQjRtN0dyMjYxNlVM?=
- =?utf-8?B?QXBLK3hVUGhhZVNmU1B0SWdIVXl2cW9qMFE3d2JOZTNuaDZFbkRacHRLa25V?=
- =?utf-8?B?emcyYUUvOW5Tdnh0MGhDcjVvd3ltYkNZSXR5aU9xelN6bkdmU20vQ1hOS1Vo?=
- =?utf-8?B?TER3RlI0WW5NVE91aTB4Z3VlcnRoUW55TTRtT0VtOWsvUTI0WnZHR0xiRStn?=
- =?utf-8?B?bEswR2RqUmpnNmpYN20yYktsWjkwaGtVcUpvSTdTM0w2REd0RUNqT1Zrc1Zi?=
- =?utf-8?B?ajY2eFpEcldYdVcrcm5qTkE4S0VYeEtLMnZUMVVSVzhKQUl1ZjdYbGV5NDhI?=
- =?utf-8?B?RDNhOUtrZGtOclR3RXpSZVZLdTBBU0d6blhWZ1JSUVd6WGRXK0RSMGdhWmlt?=
- =?utf-8?B?UDhWbnB1NVQ0c1N3bXBKM1dmalB2bktIR1hUbjJudVNrS3Vwc3FzY1lLZk9k?=
- =?utf-8?B?VmxCSkpXd0hSQXQvVzVlV2lxcm0xUi9qbU5TZERIaXNEcFF4cGd4Y1kvVGhI?=
- =?utf-8?B?WjNMVG0ycFh6Q1FKNTFKZHNCVUYwZlR6ekpoL25xUVE0S2FxRExZUmpDQ0ZV?=
- =?utf-8?B?NCtwUGNLNEl5aTl4RmxxSytRd3p1aUJQamZ0WGJVTmljZC9JbDIzdTNNS0Vm?=
- =?utf-8?B?QzZ6SGVoYnBJdEwrVlNnTFpTVUMzK3A3TGRMZjFra1Z4dUFIS2V5ZzFFeXg2?=
- =?utf-8?B?cVZzL0pPb0RKZ0VIcE02M1oxMU9GZDVtQ1kzcjJIMVVQNStsQU1GNmdZV1h3?=
- =?utf-8?B?ZjIrZlJxeFhHeEZ0QkJnamdHNzhBVURjYkgwcGlsYTdtc1hwUnVMMEhOcUZn?=
- =?utf-8?B?YW91Mk9scXhJU2RvWU5zeFIwMW5FZ280M1ZuZ01FNlJXM3YxcWplWEMreTVl?=
- =?utf-8?B?MEpWZHNWUjFwUEppTlF2ZllPOGUxc01zNGlEQUd4TFhrZ2UweGZxUVJFVTRx?=
- =?utf-8?B?aWdjNTI0WkJQd3dtbzBncXZjcWFHanRDSWloekZUOFNOdDF1RU91ODY5OVEz?=
- =?utf-8?B?R3FnQ1lwOEx4TnVVbzRTL2dYTXQzbDlndmIrZW8wdmJEOXEydmhtZmNMNGE3?=
- =?utf-8?Q?o+toAwqL5Qol80CknUs72/RSU?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9de24b84-4ee8-42e2-3822-08ddf7c04eae
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 21:05:48.4064
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G8Lzew8N/MH0zVoI8ApXWj4LhN2WI5IBFrXNwY4J+hUH2Qn5ogy02qqHj4yTo0Xk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9096
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250919-unsure-mounted-0fc49ce72216@spud>
 
-Hi Reinette,
+On 09/19, Conor Dooley wrote:
+> On Thu, Sep 18, 2025 at 02:39:29PM -0300, Marcelo Schmitt wrote:
+> > ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices have a
+> > PGA (programmable gain amplifier) that scales the input signal prior to it
+> > reaching the ADC inputs. The PGA is controlled through a couple of pins (A0
+> > and A1) that set one of four possible signal gain configurations.
+> > 
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > ---
+> > Change log v1 -> v2
+> > - Use pattern to specify devices that require gain related properties.
+> > - Disallow gain related properties for devices that don't come with embedded PGA.
+> > - Documented VDDH and VDD_FDA supplies for ADAQ4216 and ADAQ4224.
+> > - Updated PGA gain constants.
+> > 
+> >  .../bindings/iio/adc/adi,ad4030.yaml          | 65 +++++++++++++++++--
+> >  1 file changed, 60 insertions(+), 5 deletions(-)
+> > 
+...
+> >  
+> > +  pga-gpios:
+> > +    description:
+> > +      A0 and A1 pins for gain selection. For devices that have PGA configuration
+> > +      input pins, pga-gpios should be defined if adi,gain-milli is absent.
+> > +    minItems: 2
+> > +    maxItems: 2
+> > +
+> > +  adi,pga-value:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> How come this is "value" rather than "gain"?
 
-On 9/18/2025 1:08 AM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 9/2/25 3:41 PM, Babu Moger wrote:
->> When the io_alloc feature is enabled, a portion of the cache can be
->> configured for shared use between hardware and software.
-> 
-> (repetitive)
-> 
->>
->> Update bit_usage representation to reflect the io_alloc configuration.
->> Revise the documentation for "shareable_bits" and "bit_usage" to reflect
->> the impact of io_alloc feature.
-> 
-> Attempt at new version, please feel free to improve:
-> 
-> 	The "shareable_bits" and "bit_usage" resctrl files associated with cache
-> 	resources give insight into how instances of a cache is used.
->                                                                                  
-> 	Update the annotated capacity bitmasks displayed by "bit_usage" to include the
-> 	cache portions allocated for I/O via the "io_alloc" feature. "shareable_bits" is
-> 	a global bitmask of shareable cache with I/O and can thus not present the
-> 	per-domain I/O allocations possible with the "io_alloc" feature. Revise the
-> 	"shareable_bits" documentation to direct users to "bit_usage" for accurate
-> 	cache usage information.
-> 
+Because, for this one, I drew inspiration from ad7191 bindings [1] in the hopes
+of avoiding creating new properties or using discontinued/deprecated
+nomenclature [2].
 
-Looks good. Thanks
+The thing is, we now have ADC chips coming with PGA circuitry in front of ADC
+inputs. Those PGAs are usually set/configured through hardware connections
+(e.g. dedicated GPIOs or pin-strapped) and have been described in dt-bindings.
+Though, since these added PGAs don't follow a pattern with respect to the
+provided gain, different properties began to appear. ad7380 and ad4000 use
+adi,gain-milli to describe PGA gain [3, 4], ad7191 uses adi,pga-value and,
+more recently, adaq7768-1 has been proposed with adi,aaf-gain-bp [5].
+adaq7768-1 is arguably a slightly different case since the signal gain stems
+from an anti-aliasing filter, but it nevertheless results in signal attenuation
+much like some PGAs.
 
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> ...
-> 
->> ---
->>   Documentation/filesystems/resctrl.rst | 35 ++++++++++++++++-----------
->>   fs/resctrl/ctrlmondata.c              |  2 +-
->>   fs/resctrl/internal.h                 |  2 ++
->>   fs/resctrl/rdtgroup.c                 | 21 ++++++++++++++--
->>   4 files changed, 43 insertions(+), 17 deletions(-)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index 7e3eda324de5..72ea6f3f36bc 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -90,12 +90,19 @@ related to allocation:
->>   		must be set when writing a mask.
->>   
->>   "shareable_bits":
->> -		Bitmask of shareable resource with other executing
->> -		entities (e.g. I/O). User can use this when
->> -		setting up exclusive cache partitions. Note that
->> -		some platforms support devices that have their
->> -		own settings for cache use which can over-ride
->> -		these bits.
->> +		Bitmask of shareable resource with other executing entities
->> +		(e.g. I/O). Applies to all instances of this resource. User
->> +		can use this when setting up exclusive cache partitions.
->> +		Note that some platforms support devices that have their
->> +		own settings for cache use which can over-ride these bits.
->> +
->> +		When "io_alloc" is enabled, a portion of each cache instance can
->> +		be configured for shared use between hardware and software.
->> +		"bit_usage" should be used to see which portions of each cache
->> +		instance is configured for hardware use via "io_alloc" feature
->> +		because every cache instance can have its "io_alloc" bitmask
->> +		configured independently via io_alloc_cbm.
-> 
-> io_alloc_cbm -> "io_alloc_cbm" (to consistently place names of resctrl files in quotes)
+I personally like the -milli (or even -permille) nomenclature because 4 digits
+have been more than enough to describe the gains (at least so far). Though, I
+acknowledge the base points suffix (-bp) which is documented in
+property-units.yaml [6]. The only thing I don't like much about -bp for
+describing PGA gain is that PGA gains are often described in terms of unitless
+scale factors, while bp implies the value to be described as a percent.
 
-Sure.
-
-> 
->> +
->>   "bit_usage":
->>   		Annotated capacity bitmasks showing how all
->>   		instances of the resource are used. The legend is:
->> @@ -109,16 +116,16 @@ related to allocation:
->>   			"H":
->>   			      Corresponding region is used by hardware only
->>   			      but available for software use. If a resource
->> -			      has bits set in "shareable_bits" but not all
->> -			      of these bits appear in the resource groups'
->> -			      schematas then the bits appearing in
->> -			      "shareable_bits" but no resource group will
->> -			      be marked as "H".
->> +			      has bits set in "shareable_bits" or "io_alloc_cbm"
->> +			      but not all of these bits appear in the resource
->> +			      groups' schematas then the bits appearing in
-> 
-> I understand that you are just copying this but "schemata" is plural of "schema". Since you
-> are copying this text, could you please fix "schematas" to be "schemata" while doing so?
-
-Sure.
-
-Thanks
-Babu
+Anyways, whatever property name is chosen, it will probably be better settle to
+something rather than arguing about property names each time a new ADC comes
+with an integrated PGA.
 
 
+[1] Documentation/devicetree/bindings/iio/adc/adi,ad7191.yaml
+[2] https://lore.kernel.org/linux-iio/510f6efb-ada3-4848-ac8e-16fa5d1b5284@kernel.org/
+[3] Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+[4] Documentation/devicetree/bindings/iio/adc/adi,ad4000.yaml
+[5] https://lore.kernel.org/linux-iio/46842d4cf2c1149bd64188f94c60ce5e4f3b2beb.1757001160.git.Jonathan.Santos@analog.com/
+[6] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
+
+> 
+> > +    description: |
+> > +      Should be present if PGA control inputs are pin-strapped. The values
+> > +      specify the gain per mille. For example, 333 means the input signal is
+> > +      scaled by a 0.333 factor (i.e. attenuated to one third of it's original
+> > +      magnitude). Possible values:
+> > +      Gain 333 (A1=0, A0=0)
+> > +      Gain 555 (A1=0, A0=1)
+> > +      Gain 2222 (A1=1, A0=0)
+> > +      Gain 6666 (A1=1, A0=1)
+> > +      If defined, pga-gpios must be absent.
+> > +    enum: [333, 555, 2222, 6666]
+> > +
+
+Thanks,
+Marcelo
