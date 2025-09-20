@@ -1,509 +1,321 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD141E2858;
-	Sat, 20 Sep 2025 14:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9579B46B5;
+	Sat, 20 Sep 2025 15:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758379938; cv=none; b=nOqhxQgGJsATa3CtW25nW4D3YjQvuk2jGiNph8zsH6FIowHAV/rC+1aVGSODaZsQs9Xu2KnBd6hn2Pu50U3B4SXm9SirkiTL+kcTlKtd37ZjVOIoMahNX9wZR+9iGVI0b7h45mNPh8ph8wgw4tZFIJ+YqBZlyqGMBzTaO81De+M=
+	t=1758381737; cv=none; b=tBBzJfeW6nE3Kk2/yBBF2oi0kBcWvKQnFk+R6sosjdjpGFaZfYvv9TEK8ScJY7S0LZoQ4W7WMMkxL54hcj5nXmYFHQ/MMMxsU9u6W1ZIRNit7zJ/hwEDchdo5s6GmHckcFY8ck9yu3x+tyWmBnCy4iupPJjSsxsx9eytR/D2duU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758379938; c=relaxed/simple;
-	bh=UUc100DiH5QSCSSktpUYXl2/8ztlxI58qE2abR1pwAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pPRB/KlMb+d2jBDluAjbnxwW7ZkEgOQuVLs6SJ9bQLolIxC8jIiUObDdGwvXgbANzhtqGIFYzdFaycMKinfk9k6pVbI5QaMTW1V7lTr4dreNoNyZfYXZn6Y8d63zaiLYMbYIIZFK3wR4J390tc1vN5maloxJqnqWU9BJzoePiTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBVyzSzL; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758381737; c=relaxed/simple;
+	bh=y/05L68HFhCOdUFay00Is5k7QAARtGz8H6f7Wjc5d0A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bY4jUnOqpIRCAnBtFYEA7tCS3g8gaGQpqbJnolQW3ahNIgSxqxxOlzcg0GCK+7IwKytykIlFDoPa7e6tLCwkTMu7JtoUdTVY5b4bxI0D142DBc8lNm6tI4elsaAwfT0PzaRVSSz26VNvz7y4fjBYDgtgbrYNcFM1F31dqcVR48w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z63LQ3N7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBVyzSzL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758379935; x=1789915935;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UUc100DiH5QSCSSktpUYXl2/8ztlxI58qE2abR1pwAo=;
-  b=EBVyzSzL7OZRvlfpLWzjc40ZRm9vd52VSOXmR6w0ArUMAz5ra9vaxIt2
-   XOVU1Ub8pB2kjuawM0Mygyv3yPHAnKmLKkrhNjHI5IKzzYSNI4IEXlC1z
-   lzFmijzFzJdjW5J+5hOv1YJuSiGI1tSChS1+3z4O3mQGVIX72Cr0+8jQ3
-   5/ggXotsLOPrRkWZDgT9Rgif0I3BRzFRr7eg941TjLgj+PvqO0+ADRcVV
-   dGqw6Bd5MzjtSGNbBhL8foxUuV1tc0cKZHUvUQPsr850lBDcOHCrGrKp6
-   VnaDwugKDI3W2yDH4eNqJiF9VzojOwzWPILpfHjrlqUsy2VPRNaz8sCIB
-   w==;
-X-CSE-ConnectionGUID: RffmTo3YQ+KHBLQ99tb99g==
-X-CSE-MsgGUID: hgL6a3/WStaSlGrAjKHSuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11559"; a="64342008"
-X-IronPort-AV: E=Sophos;i="6.18,281,1751266800"; 
-   d="scan'208";a="64342008"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 07:52:13 -0700
-X-CSE-ConnectionGUID: 6OvbacEKTU2c8vyfRuSxaQ==
-X-CSE-MsgGUID: 1lrjLAWUTZmK37vpom/sQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,281,1751266800"; 
-   d="scan'208";a="181236519"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Sep 2025 07:52:08 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uzywX-0005ON-01;
-	Sat, 20 Sep 2025 14:52:05 +0000
-Date: Sat, 20 Sep 2025 22:52:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xu Lu <luxu.kernel@bytedance.com>, corbet@lwn.net, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
-	will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com,
-	mark.rutland@arm.com, parri.andrea@gmail.com,
-	ajones@ventanamicro.com, brs@rivosinc.com, anup@brainfault.org,
-	atish.patra@linux.dev, pbonzini@redhat.com, shuah@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, apw@canonical.com, joe@perches.com,
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
-	Xu Lu <luxu.kernel@bytedance.com>
-Subject: Re: [PATCH v3 6/8] riscv: Apply acquire/release semantics to
- arch_xchg/arch_cmpxchg operations
-Message-ID: <202509202249.rOR3GJbT-lkp@intel.com>
-References: <20250919073714.83063-7-luxu.kernel@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z63LQ3N7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A8FC4CEEB;
+	Sat, 20 Sep 2025 15:22:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758381737;
+	bh=y/05L68HFhCOdUFay00Is5k7QAARtGz8H6f7Wjc5d0A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Z63LQ3N7sarjtILGsqWAAL8g6tlVDm5UozVdPE5jJfFeho9gw0hAGI/MkcUwDieVk
+	 PNEG1rcp+rE3mXHKIWl4V9LoOrn2mRY1iNo/gtJ/Q5ousbPOWMrUH2JNWdM0mHRUCj
+	 Qa48O9qcHOhZT9QiZmvFefDvvjXXy6lxyQfswgHbxaH+GO97JomAXSbOLhcfub/P68
+	 QyEFNW58RYxutkccekHcCu4i90aXCL2dR3ebKQGNCivYJA15gKZCBOVFdob0QCAjnC
+	 G8OsDIhkoVSLuh+mL8gSlp1gbux+a9CWJmv2GN9SooZuiNcVDHVecqv6GtkAFvNW/p
+	 P3kdJORcIBYiQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uzzPi-00000004iMX-3SC8;
+	Sat, 20 Sep 2025 17:22:14 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	Kees Cook <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: remove cdomain.py
+Date: Sat, 20 Sep 2025 17:22:09 +0200
+Message-ID: <3b86d236c64af17924e4cfedbbfb8bc60059802f.1758381727.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250919073714.83063-7-luxu.kernel@bytedance.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Xu,
+This is not used anymore, as it was a logic we had to support
+pre Sphinx 3.x, as shown at:
 
-kernel test robot noticed the following build errors:
+    afde706afde2 ("Make the docs build "work" with Sphinx 3.x")
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on kvm/queue kvm/next linus/master v6.17-rc6]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Remove it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Lu/riscv-add-ISA-extension-parsing-for-Zalasr/20250919-154304
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250919073714.83063-7-luxu.kernel%40bytedance.com
-patch subject: [PATCH v3 6/8] riscv: Apply acquire/release semantics to arch_xchg/arch_cmpxchg operations
-config: riscv-randconfig-002-20250920 (https://download.01.org/0day-ci/archive/20250920/202509202249.rOR3GJbT-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509202249.rOR3GJbT-lkp@intel.com/reproduce)
+Fixes: b26717852db7 ("docs: conf.py: drop backward support for old Sphinx versions")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/cdomain.py | 247 --------------------------------
+ 1 file changed, 247 deletions(-)
+ delete mode 100644 Documentation/sphinx/cdomain.py
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509202249.rOR3GJbT-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from lib/objpool.c:3:
->> include/linux/objpool.h:156:7: error: invalid .org offset '1528' (at offset '1532')
-     156 |                 if (try_cmpxchg_release(&slot->head, &head, head + 1))
-         |                     ^
-   include/linux/atomic/atomic-instrumented.h:4899:2: note: expanded from macro 'try_cmpxchg_release'
-    4899 |         raw_try_cmpxchg_release(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:228:9: note: expanded from macro 'raw_try_cmpxchg_release'
-     228 |         ___r = raw_cmpxchg_release((_ptr), ___o, (_new)); \
-         |                ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   In file included from lib/objpool.c:3:
->> include/linux/objpool.h:156:7: error: invalid .org offset '1528' (at offset '1532')
-     156 |                 if (try_cmpxchg_release(&slot->head, &head, head + 1))
-         |                     ^
-   include/linux/atomic/atomic-instrumented.h:4899:2: note: expanded from macro 'try_cmpxchg_release'
-    4899 |         raw_try_cmpxchg_release(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:228:9: note: expanded from macro 'raw_try_cmpxchg_release'
-     228 |         ___r = raw_cmpxchg_release((_ptr), ___o, (_new)); \
-         |                ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   2 errors generated.
---
->> lib/generic-radix-tree.c:53:12: error: invalid .org offset '1850' (at offset '1854')
-      53 |                 if ((v = cmpxchg_release(&radix->root, r, new_root)) == r) {
-         |                          ^
-   include/linux/atomic/atomic-instrumented.h:4803:2: note: expanded from macro 'cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   lib/generic-radix-tree.c:74:14: error: invalid .org offset '1862' (at offset '1866')
-      74 |                         if (!(n = cmpxchg_release(p, NULL, new_node)))
-         |                                   ^
-   include/linux/atomic/atomic-instrumented.h:4803:2: note: expanded from macro 'cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
->> lib/generic-radix-tree.c:53:12: error: invalid .org offset '1850' (at offset '1854')
-      53 |                 if ((v = cmpxchg_release(&radix->root, r, new_root)) == r) {
-         |                          ^
-   include/linux/atomic/atomic-instrumented.h:4803:2: note: expanded from macro 'cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   lib/generic-radix-tree.c:74:14: error: invalid .org offset '1862' (at offset '1866')
-      74 |                         if (!(n = cmpxchg_release(p, NULL, new_node)))
-         |                                   ^
-   include/linux/atomic/atomic-instrumented.h:4803:2: note: expanded from macro 'cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   4 errors generated.
---
-   In file included from lib/refcount.c:6:
-   In file included from include/linux/mutex.h:17:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
-   In file included from include/linux/cpumask.h:14:
-   In file included from include/linux/atomic.h:80:
->> include/linux/atomic/atomic-arch-fallback.h:2083:9: error: invalid .org offset '528' (at offset '532')
-    2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-         |                ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   arch/riscv/include/asm/cmpxchg.h:238:3: note: expanded from macro '_arch_cmpxchg'
-     238 |                 __arch_cmpxchg(".w" lr_sfx, ".w" sc_sfx, ".w" cas_sfx,  \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   In file included from lib/refcount.c:6:
-   In file included from include/linux/mutex.h:17:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
-   In file included from include/linux/cpumask.h:14:
-   In file included from include/linux/atomic.h:80:
-   include/linux/atomic/atomic-arch-fallback.h:2083:9: error: invalid .org offset '540' (at offset '544')
-    2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-         |                ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   arch/riscv/include/asm/cmpxchg.h:238:3: note: expanded from macro '_arch_cmpxchg'
-     238 |                 __arch_cmpxchg(".w" lr_sfx, ".w" sc_sfx, ".w" cas_sfx,  \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   In file included from lib/refcount.c:6:
-   In file included from include/linux/mutex.h:17:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
-   In file included from include/linux/cpumask.h:14:
-   In file included from include/linux/atomic.h:80:
->> include/linux/atomic/atomic-arch-fallback.h:2083:9: error: invalid .org offset '528' (at offset '532')
-    2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-         |                ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   arch/riscv/include/asm/cmpxchg.h:238:3: note: expanded from macro '_arch_cmpxchg'
-     238 |                 __arch_cmpxchg(".w" lr_sfx, ".w" sc_sfx, ".w" cas_sfx,  \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   In file included from lib/refcount.c:6:
-   In file included from include/linux/mutex.h:17:
-   In file included from include/linux/lockdep.h:14:
-   In file included from include/linux/smp.h:13:
-   In file included from include/linux/cpumask.h:14:
-   In file included from include/linux/atomic.h:80:
-   include/linux/atomic/atomic-arch-fallback.h:2083:9: error: invalid .org offset '540' (at offset '544')
-    2083 |         return raw_cmpxchg_release(&v->counter, old, new);
-         |                ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   arch/riscv/include/asm/cmpxchg.h:238:3: note: expanded from macro '_arch_cmpxchg'
-     238 |                 __arch_cmpxchg(".w" lr_sfx, ".w" sc_sfx, ".w" cas_sfx,  \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   4 errors generated.
---
->> fs/overlayfs/file.c:147:10: error: invalid .org offset '3640' (at offset '3644')
-     147 |                         old = cmpxchg_release(&of->upperfile, NULL, upperfile);
-         |                               ^
-   include/linux/atomic/atomic-instrumented.h:4803:2: note: expanded from macro 'cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
->> fs/overlayfs/file.c:147:10: error: invalid .org offset '3640' (at offset '3644')
-     147 |                         old = cmpxchg_release(&of->upperfile, NULL, upperfile);
-         |                               ^
-   include/linux/atomic/atomic-instrumented.h:4803:2: note: expanded from macro 'cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^
-   include/linux/atomic/atomic-arch-fallback.h:77:29: note: expanded from macro 'raw_cmpxchg_release'
-      77 | #define raw_cmpxchg_release arch_cmpxchg_release
-         |                             ^
-   arch/riscv/include/asm/cmpxchg.h:265:2: note: expanded from macro 'arch_cmpxchg_release'
-     265 |         _arch_cmpxchg((ptr), (o), (n),                                  \
-         |         ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/alternative-macros.h:104:2: note: expanded from macro '_ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:94:2: note: expanded from macro '__ALTERNATIVE_CFG'
-      94 |         ALT_NEW_CONTENT(vendor_id, patch_id, enable, new_c)
-         |         ^
-   arch/riscv/include/asm/alternative-macros.h:81:3: note: expanded from macro 'ALT_NEW_CONTENT'
-      81 |         ".org   . - (887b - 886b) + (889b - 888b)\n"                    \
-         |          ^
-   <inline asm>:27:6: note: instantiated into assembly here
-      27 | .org    . - (887b - 886b) + (889b - 888b)
-         |         ^
-   2 errors generated.
-..
-
-
-vim +156 include/linux/objpool.h
-
-b4edb8d2d4647a wuqiang.matt    2023-10-17  100  
-b4edb8d2d4647a wuqiang.matt    2023-10-17  101  /**
-b4edb8d2d4647a wuqiang.matt    2023-10-17  102   * objpool_init() - initialize objpool and pre-allocated objects
-b4edb8d2d4647a wuqiang.matt    2023-10-17  103   * @pool:    the object pool to be initialized, declared by caller
-b4edb8d2d4647a wuqiang.matt    2023-10-17  104   * @nr_objs: total objects to be pre-allocated by this object pool
-b4edb8d2d4647a wuqiang.matt    2023-10-17  105   * @object_size: size of an object (should be > 0)
-b4edb8d2d4647a wuqiang.matt    2023-10-17  106   * @gfp:     flags for memory allocation (via kmalloc or vmalloc)
-b4edb8d2d4647a wuqiang.matt    2023-10-17  107   * @context: user context for object initialization callback
-b4edb8d2d4647a wuqiang.matt    2023-10-17  108   * @objinit: object initialization callback for extra setup
-b4edb8d2d4647a wuqiang.matt    2023-10-17  109   * @release: cleanup callback for extra cleanup task
-b4edb8d2d4647a wuqiang.matt    2023-10-17  110   *
-b4edb8d2d4647a wuqiang.matt    2023-10-17  111   * return value: 0 for success, otherwise error code
-b4edb8d2d4647a wuqiang.matt    2023-10-17  112   *
-b4edb8d2d4647a wuqiang.matt    2023-10-17  113   * All pre-allocated objects are to be zeroed after memory allocation.
-b4edb8d2d4647a wuqiang.matt    2023-10-17  114   * Caller could do extra initialization in objinit callback. objinit()
-b4edb8d2d4647a wuqiang.matt    2023-10-17  115   * will be called just after slot allocation and called only once for
-b4edb8d2d4647a wuqiang.matt    2023-10-17  116   * each object. After that the objpool won't touch any content of the
-b4edb8d2d4647a wuqiang.matt    2023-10-17  117   * objects. It's caller's duty to perform reinitialization after each
-b4edb8d2d4647a wuqiang.matt    2023-10-17  118   * pop (object allocation) or do clearance before each push (object
-b4edb8d2d4647a wuqiang.matt    2023-10-17  119   * reclamation).
-b4edb8d2d4647a wuqiang.matt    2023-10-17  120   */
-b4edb8d2d4647a wuqiang.matt    2023-10-17  121  int objpool_init(struct objpool_head *pool, int nr_objs, int object_size,
-b4edb8d2d4647a wuqiang.matt    2023-10-17  122  		 gfp_t gfp, void *context, objpool_init_obj_cb objinit,
-b4edb8d2d4647a wuqiang.matt    2023-10-17  123  		 objpool_fini_cb release);
-b4edb8d2d4647a wuqiang.matt    2023-10-17  124  
-a3b00f10da808b Andrii Nakryiko 2024-04-24  125  /* try to retrieve object from slot */
-a3b00f10da808b Andrii Nakryiko 2024-04-24  126  static inline void *__objpool_try_get_slot(struct objpool_head *pool, int cpu)
-a3b00f10da808b Andrii Nakryiko 2024-04-24  127  {
-a3b00f10da808b Andrii Nakryiko 2024-04-24  128  	struct objpool_slot *slot = pool->cpu_slots[cpu];
-a3b00f10da808b Andrii Nakryiko 2024-04-24  129  	/* load head snapshot, other cpus may change it */
-a3b00f10da808b Andrii Nakryiko 2024-04-24  130  	uint32_t head = smp_load_acquire(&slot->head);
-a3b00f10da808b Andrii Nakryiko 2024-04-24  131  
-a3b00f10da808b Andrii Nakryiko 2024-04-24  132  	while (head != READ_ONCE(slot->last)) {
-a3b00f10da808b Andrii Nakryiko 2024-04-24  133  		void *obj;
-a3b00f10da808b Andrii Nakryiko 2024-04-24  134  
-a3b00f10da808b Andrii Nakryiko 2024-04-24  135  		/*
-a3b00f10da808b Andrii Nakryiko 2024-04-24  136  		 * data visibility of 'last' and 'head' could be out of
-a3b00f10da808b Andrii Nakryiko 2024-04-24  137  		 * order since memory updating of 'last' and 'head' are
-a3b00f10da808b Andrii Nakryiko 2024-04-24  138  		 * performed in push() and pop() independently
-a3b00f10da808b Andrii Nakryiko 2024-04-24  139  		 *
-a3b00f10da808b Andrii Nakryiko 2024-04-24  140  		 * before any retrieving attempts, pop() must guarantee
-a3b00f10da808b Andrii Nakryiko 2024-04-24  141  		 * 'last' is behind 'head', that is to say, there must
-a3b00f10da808b Andrii Nakryiko 2024-04-24  142  		 * be available objects in slot, which could be ensured
-a3b00f10da808b Andrii Nakryiko 2024-04-24  143  		 * by condition 'last != head && last - head <= nr_objs'
-a3b00f10da808b Andrii Nakryiko 2024-04-24  144  		 * that is equivalent to 'last - head - 1 < nr_objs' as
-a3b00f10da808b Andrii Nakryiko 2024-04-24  145  		 * 'last' and 'head' are both unsigned int32
-a3b00f10da808b Andrii Nakryiko 2024-04-24  146  		 */
-a3b00f10da808b Andrii Nakryiko 2024-04-24  147  		if (READ_ONCE(slot->last) - head - 1 >= pool->nr_objs) {
-a3b00f10da808b Andrii Nakryiko 2024-04-24  148  			head = READ_ONCE(slot->head);
-a3b00f10da808b Andrii Nakryiko 2024-04-24  149  			continue;
-a3b00f10da808b Andrii Nakryiko 2024-04-24  150  		}
-a3b00f10da808b Andrii Nakryiko 2024-04-24  151  
-a3b00f10da808b Andrii Nakryiko 2024-04-24  152  		/* obj must be retrieved before moving forward head */
-a3b00f10da808b Andrii Nakryiko 2024-04-24  153  		obj = READ_ONCE(slot->entries[head & slot->mask]);
-a3b00f10da808b Andrii Nakryiko 2024-04-24  154  
-a3b00f10da808b Andrii Nakryiko 2024-04-24  155  		/* move head forward to mark it's consumption */
-a3b00f10da808b Andrii Nakryiko 2024-04-24 @156  		if (try_cmpxchg_release(&slot->head, &head, head + 1))
-a3b00f10da808b Andrii Nakryiko 2024-04-24  157  			return obj;
-a3b00f10da808b Andrii Nakryiko 2024-04-24  158  	}
-a3b00f10da808b Andrii Nakryiko 2024-04-24  159  
-a3b00f10da808b Andrii Nakryiko 2024-04-24  160  	return NULL;
-a3b00f10da808b Andrii Nakryiko 2024-04-24  161  }
-a3b00f10da808b Andrii Nakryiko 2024-04-24  162  
-
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+deleted file mode 100644
+index 3dc285dc70f5..000000000000
+--- a/Documentation/sphinx/cdomain.py
++++ /dev/null
+@@ -1,247 +0,0 @@
+-# -*- coding: utf-8; mode: python -*-
+-# SPDX-License-Identifier: GPL-2.0
+-# pylint: disable=W0141,C0113,C0103,C0325
+-"""
+-    cdomain
+-    ~~~~~~~
+-
+-    Replacement for the sphinx c-domain.
+-
+-    :copyright:  Copyright (C) 2016  Markus Heiser
+-    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
+-
+-    List of customizations:
+-
+-    * Moved the *duplicate C object description* warnings for function
+-      declarations in the nitpicky mode. See Sphinx documentation for
+-      the config values for ``nitpick`` and ``nitpick_ignore``.
+-
+-    * Add option 'name' to the "c:function:" directive.  With option 'name' the
+-      ref-name of a function can be modified. E.g.::
+-
+-          .. c:function:: int ioctl( int fd, int request )
+-             :name: VIDIOC_LOG_STATUS
+-
+-      The func-name (e.g. ioctl) remains in the output but the ref-name changed
+-      from 'ioctl' to 'VIDIOC_LOG_STATUS'. The function is referenced by::
+-
+-          * :c:func:`VIDIOC_LOG_STATUS` or
+-          * :any:`VIDIOC_LOG_STATUS` (``:any:`` needs sphinx 1.3)
+-
+-     * Handle signatures of function-like macros well. Don't try to deduce
+-       arguments types of function-like macros.
+-
+-"""
+-
+-from docutils import nodes
+-from docutils.parsers.rst import directives
+-
+-import sphinx
+-from sphinx import addnodes
+-from sphinx.domains.c import c_funcptr_sig_re, c_sig_re
+-from sphinx.domains.c import CObject as Base_CObject
+-from sphinx.domains.c import CDomain as Base_CDomain
+-from itertools import chain
+-import re
+-
+-__version__  = '1.1'
+-
+-# Namespace to be prepended to the full name
+-namespace = None
+-
+-#
+-# Handle trivial newer c domain tags that are part of Sphinx 3.1 c domain tags
+-# - Store the namespace if ".. c:namespace::" tag is found
+-#
+-RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
+-
+-def markup_namespace(match):
+-    global namespace
+-
+-    namespace = match.group(1)
+-
+-    return ""
+-
+-#
+-# Handle c:macro for function-style declaration
+-#
+-RE_macro = re.compile(r'^\s*..\s*c:macro::\s*(\S+)\s+(\S.*)\s*$')
+-def markup_macro(match):
+-    return ".. c:function:: " + match.group(1) + ' ' + match.group(2)
+-
+-#
+-# Handle newer c domain tags that are evaluated as .. c:type: for
+-# backward-compatibility with Sphinx < 3.0
+-#
+-RE_ctype = re.compile(r'^\s*..\s*c:(struct|union|enum|enumerator|alias)::\s*(.*)$')
+-
+-def markup_ctype(match):
+-    return ".. c:type:: " + match.group(2)
+-
+-#
+-# Handle newer c domain tags that are evaluated as :c:type: for
+-# backward-compatibility with Sphinx < 3.0
+-#
+-RE_ctype_refs = re.compile(r':c:(var|struct|union|enum|enumerator)::`([^\`]+)`')
+-def markup_ctype_refs(match):
+-    return ":c:type:`" + match.group(2) + '`'
+-
+-#
+-# Simply convert :c:expr: and :c:texpr: into a literal block.
+-#
+-RE_expr = re.compile(r':c:(expr|texpr):`([^\`]+)`')
+-def markup_c_expr(match):
+-    return '\\ ``' + match.group(2) + '``\\ '
+-
+-#
+-# Parse Sphinx 3.x C markups, replacing them by backward-compatible ones
+-#
+-def c_markups(app, docname, source):
+-    result = ""
+-    markup_func = {
+-        RE_namespace: markup_namespace,
+-        RE_expr: markup_c_expr,
+-        RE_macro: markup_macro,
+-        RE_ctype: markup_ctype,
+-        RE_ctype_refs: markup_ctype_refs,
+-    }
+-
+-    lines = iter(source[0].splitlines(True))
+-    for n in lines:
+-        match_iterators = [regex.finditer(n) for regex in markup_func]
+-        matches = sorted(chain(*match_iterators), key=lambda m: m.start())
+-        for m in matches:
+-            n = n[:m.start()] + markup_func[m.re](m) + n[m.end():]
+-
+-        result = result + n
+-
+-    source[0] = result
+-
+-#
+-# Now implements support for the cdomain namespacing logic
+-#
+-
+-def setup(app):
+-
+-    # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
+-    app.connect('source-read', c_markups)
+-    app.add_domain(CDomain, override=True)
+-
+-    return dict(
+-        version = __version__,
+-        parallel_read_safe = True,
+-        parallel_write_safe = True
+-    )
+-
+-class CObject(Base_CObject):
+-
+-    """
+-    Description of a C language object.
+-    """
+-    option_spec = {
+-        "name" : directives.unchanged
+-    }
+-
+-    def handle_func_like_macro(self, sig, signode):
+-        """Handles signatures of function-like macros.
+-
+-        If the objtype is 'function' and the signature ``sig`` is a
+-        function-like macro, the name of the macro is returned. Otherwise
+-        ``False`` is returned.  """
+-
+-        global namespace
+-
+-        if not self.objtype == 'function':
+-            return False
+-
+-        m = c_funcptr_sig_re.match(sig)
+-        if m is None:
+-            m = c_sig_re.match(sig)
+-            if m is None:
+-                raise ValueError('no match')
+-
+-        rettype, fullname, arglist, _const = m.groups()
+-        arglist = arglist.strip()
+-        if rettype or not arglist:
+-            return False
+-
+-        arglist = arglist.replace('`', '').replace('\\ ', '') # remove markup
+-        arglist = [a.strip() for a in arglist.split(",")]
+-
+-        # has the first argument a type?
+-        if len(arglist[0].split(" ")) > 1:
+-            return False
+-
+-        # This is a function-like macro, its arguments are typeless!
+-        signode  += addnodes.desc_name(fullname, fullname)
+-        paramlist = addnodes.desc_parameterlist()
+-        signode  += paramlist
+-
+-        for argname in arglist:
+-            param = addnodes.desc_parameter('', '', noemph=True)
+-            # separate by non-breaking space in the output
+-            param += nodes.emphasis(argname, argname)
+-            paramlist += param
+-
+-        if namespace:
+-            fullname = namespace + "." + fullname
+-
+-        return fullname
+-
+-    def handle_signature(self, sig, signode):
+-        """Transform a C signature into RST nodes."""
+-
+-        global namespace
+-
+-        fullname = self.handle_func_like_macro(sig, signode)
+-        if not fullname:
+-            fullname = super(CObject, self).handle_signature(sig, signode)
+-
+-        if "name" in self.options:
+-            if self.objtype == 'function':
+-                fullname = self.options["name"]
+-            else:
+-                # FIXME: handle :name: value of other declaration types?
+-                pass
+-        else:
+-            if namespace:
+-                fullname = namespace + "." + fullname
+-
+-        return fullname
+-
+-    def add_target_and_index(self, name, sig, signode):
+-        # for C API items we add a prefix since names are usually not qualified
+-        # by a module name and so easily clash with e.g. section titles
+-        targetname = 'c.' + name
+-        if targetname not in self.state.document.ids:
+-            signode['names'].append(targetname)
+-            signode['ids'].append(targetname)
+-            signode['first'] = (not self.names)
+-            self.state.document.note_explicit_target(signode)
+-            inv = self.env.domaindata['c']['objects']
+-            if (name in inv and self.env.config.nitpicky):
+-                if self.objtype == 'function':
+-                    if ('c:func', name) not in self.env.config.nitpick_ignore:
+-                        self.state_machine.reporter.warning(
+-                            'duplicate C object description of %s, ' % name +
+-                            'other instance in ' + self.env.doc2path(inv[name][0]),
+-                            line=self.lineno)
+-            inv[name] = (self.env.docname, self.objtype)
+-
+-        indextext = self.get_index_text(name)
+-        if indextext:
+-            self.indexnode['entries'].append(
+-                    ('single', indextext, targetname, '', None))
+-
+-class CDomain(Base_CDomain):
+-
+-    """C language domain."""
+-    name = 'c'
+-    label = 'C'
+-    directives = {
+-        'function': CObject,
+-        'member':   CObject,
+-        'macro':    CObject,
+-        'type':     CObject,
+-        'var':      CObject,
+-    }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
