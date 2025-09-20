@@ -1,104 +1,136 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FEF1FE471;
-	Sat, 20 Sep 2025 09:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758362261; cv=pass; b=NvYNHJDL0kUM784Fgy4EHy+PJ8n3judz00dyztfM/6krZ9nqHkByDlCbziUZmh9A0+fn44i5n+J1vEB54aWXwAJpyD+GP3GGUot1FUVxGYiPDdKuvdNxOfJLNB+oe9S24UJ9+CV1T9RZnPf6casO0R/1KQsXkOtCBTRvbyb7RAE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758362261; c=relaxed/simple;
-	bh=vg7j/N6KXr4IxoEWjbu3712EZQFLFn7MEqAtw/QHWNg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l8tRiZL9rV3b77Coys8OU/bCsVFD5gIOSNifg7V05PdfhfhFlud/SO4+O9adCphbIPrfLiOUFgbIxjGe4vyjpZktdIrUQ46HPsRTg7rBJR6OWsSTzpjzjw3ecj6PWBkhO/CjYvjkkpppyTOuaoKyxZC3K6tH4DoozoWzbCAHQeY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yukuai.org.cn; spf=pass smtp.mailfrom=yukuai.org.cn; dkim=pass (1024-bit key) header.d=yukuai.org.cn header.i=hailan@yukuai.org.cn header.b=Z//h7M5s; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yukuai.org.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yukuai.org.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20ADA2F618F
+	for <linux-doc@vger.kernel.org>; Sat, 20 Sep 2025 10:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758363845; cv=none; b=OLzmV5J+GCfnmVAqz8mDH1y9aO6BtlF7wVsw5IxportwnsJNi70HarP3RmFpWfi699bv/pRRiAFSg0FXLbn14EmxfOS1ompGMxP/C59PotwhEn2mNR2GpmgCDUii9x2I1iwydSY2/zgRwgdmDFZArInBxBUDFHK5btPA3lmUURc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758363845; c=relaxed/simple;
+	bh=8iXqxhSdAkakZE+dXKkGUnoGkkyheEh1y2QTTcyyR7s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BMoKKpTWEg9/iT+50hipLb+QgyZRARRV/0aElqV5lh4jRJdYxUe+FGC1sJFscrKcwE1AFO9zGsDPLA1ax+8PMkIFh1BW3RZy+J96Ad/eeR02ndN+9feR8VPoNokbQCU4UUg3gcGyZD6eXY5pgZm6ANUvrJ6OrtYWUY2HJ8gXdVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2gQBCBgx; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yukuai.org.cn header.i=hailan@yukuai.org.cn header.b="Z//h7M5s"
-ARC-Seal: i=1; a=rsa-sha256; t=1758362109; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VatK7+SEVKjEtmqc7MOpL6d+S3QQhRrPMjcgLO0s5qxHMuhv4/sTZt+gDzaGzDRnx+p4/iQG3+NXG+uVXr2rdEEyvbTebMXEDEEEoZh3NWfL9WzHTU2t2U5SGJJxblHWr62IeaRklfqFHs98yYxmESaS2jIfpR1pAEBP2tRAPig=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1758362109; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=SAqzt1Sj3XOdOFgz+QpclQltJ2gaRbdazDpGE9LVmuM=; 
-	b=dSAaOqq5B0gTUZSyI85rVOaB2pNEaMoKaXQe8IHubn6Qd5Z2YEEa2elMM9BToVJwlWS0tyL/Qd/X/BatVapFEbp2HoDUboTFOcxZh5LLHRv4ugAaaE6wjJhvzU2e/y+dHQZDE+iHd84ZC2grenVHLjflAkzQZUQBDx9juDYjsIU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yukuai.org.cn;
-	spf=pass  smtp.mailfrom=hailan@yukuai.org.cn;
-	dmarc=pass header.from=<hailan@yukuai.org.cn>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758362109;
-	s=zmail; d=yukuai.org.cn; i=hailan@yukuai.org.cn;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=SAqzt1Sj3XOdOFgz+QpclQltJ2gaRbdazDpGE9LVmuM=;
-	b=Z//h7M5sDMkueGzkmFWZNS6Be/oZXBpgjrvm8GrCRVmlmmMUQSws2dhn7Zp6HmpD
-	MUjUnZZe6oK+nJQkYTruwaHe50aOkyUsiXx5JgpPDMjMmRGFPQjjw8VKmaUR4j3BUmb
-	EMNQxiGFDBxWtXdznb80r6hjxRbwnSZISBl2edmo=
-Received: by mx.zohomail.com with SMTPS id 1758362107098827.5660583693088;
-	Sat, 20 Sep 2025 02:55:07 -0700 (PDT)
-Message-ID: <bbde2bbd-e2d0-4d6d-aee2-0c454519627e@yukuai.org.cn>
-Date: Sat, 20 Sep 2025 17:55:02 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2gQBCBgx"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-77796ad4c13so1909071b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 20 Sep 2025 03:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1758363841; x=1758968641; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+hZhQHzO6iaBCv+wcIWwJCdyKEWcJ4Nfwc3KoJ0ZPEA=;
+        b=2gQBCBgxMSwu5AB2o+jkFTBAcijwtXwzg/RdQCHcsKaXBDvcjJBEtjbb59L9NQTMqW
+         +4KIoKH6AO8wRCb7goV1WcVnX2N2bcart2Omvg/Kqm5KFBOobRJPJ8NNA6IQL7vL7etK
+         BYgjhcThGprquHWXLLxvVznTq7aGbIgT+UYS4wYtPiTtDM9ZW4SvF4keMPfUj/rDgRR6
+         G+rtl7LYgu6D0JAiBtafGsEhSvUpGD9b0htdsLGQC9f5yY8ovG7vfPsPq6bUdBfh4tNY
+         Y9xn2nze+Ia56cqt94zGvidFt/2kHe0e1AZJfrEWx+hqBpvT41kMu6y121sexUc3sJl0
+         JBTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758363841; x=1758968641;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+hZhQHzO6iaBCv+wcIWwJCdyKEWcJ4Nfwc3KoJ0ZPEA=;
+        b=HwtlnRX1U5tj56l5gUE4uLEsa9Kq2lVTSdaA5xajN/U2EWIPxvVntdFv7sEIBw4rJb
+         1eMhm3MMrxtqC/pw+s3nIBuaT9vOpqgKMJKHPjEBsTADJkfUDL6pHjkdXbvGWEdnpZt3
+         JtX4b49j7/z1kGO3udY5MYaQAkKrEUGJhXyGbWKk8nlaqyRjDs7JzQb3J+i7tkMnlI/i
+         rFnmfXC3zNv9fZWYZmGHkeWrqPI86HrnzQXnqmpTbkp9Ec8kkeothv1FX4iDQ49kpPB9
+         n8XWrB5Fkmm+sQPx8BtQyFI1lKCFKaNu9RQBDPo3P9Hs2fDXUyCTj/mVoXWkZ8QODma+
+         C0cA==
+X-Forwarded-Encrypted: i=1; AJvYcCWbgwo3Eag6BZvGCI1Hk0pDesl69X0DKlB9C0m69m/KWrQBm9hKGNVR67Sq0YCpdWz8liEkhZ0sZ+U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPEbq8VeoBqizg0vygODgdgQL2QpU++Zz8bz6wcQdQxD7w34K4
+	krLGkVcBvlp92++M3Kk/hFXpsrtpzGyAmKd7tAH5yKDjTx1HGUrx5WgVJCNI7rur8KdrdW7rii+
+	epbXg6cKJPs0AxWCKB2N6jnb/5etpZj3lcl+Y/r11
+X-Gm-Gg: ASbGncvtmAbpl43CMFYE+95QNXxHeEkkHpzJ6LS4fhJ6oY7WJ5nPnxhqygTpicrhJ8C
+	ifLemxQH6nF0ikjgn7ACJ1E5TmKlhOc5WkYy4pNLRmvIT8Vtd0Sg/DWxZGVK8nVDSuZW++vTsEX
+	RcKWYiQ3pAr+D4UogUQ1OQVePG6GxoQifrSB1b/I91BXN8LBiE3uXOE8TbW6QNt0NBgHCdRBukZ
+	NNp2qDzSEbS9K3h7pfQ9W0ssVq6siKAG8f5Kg==
+X-Google-Smtp-Source: AGHT+IF1hPc3B6dX8ioPYAwTkyAHDxIYYc2DoRTSnEgCHR4nACV75/Lf01kjKhlKCzTUMHiS0p59fc36fJvtYjO83jE=
+X-Received: by 2002:a05:6a20:914d:b0:27b:dcba:a8f3 with SMTP id
+ adf61e73a8af0-2925f76be25mr8434118637.15.1758363841077; Sat, 20 Sep 2025
+ 03:24:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] md: prevent adding disks with larger
- logical_block_size to active arrays
-To: linan666@huaweicloud.com, corbet@lwn.net, song@kernel.org,
- yukuai3@huawei.com, linan122@huawei.com, hare@suse.de, xni@redhat.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-raid@vger.kernel.org, martin.petersen@oracle.com,
- yangerkun@huawei.com, yi.zhang@huawei.com
-References: <20250918115759.334067-1-linan666@huaweicloud.com>
- <20250918115759.334067-2-linan666@huaweicloud.com>
-From: Yu Kuai <hailan@yukuai.org.cn>
-In-Reply-To: <20250918115759.334067-2-linan666@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20250918140451.1289454-1-elver@google.com> <20250918141511.GA30263@lst.de>
+ <20250918174555.GA3366400@ax162> <20250919140803.GA23745@lst.de>
+In-Reply-To: <20250919140803.GA23745@lst.de>
+From: Marco Elver <elver@google.com>
+Date: Sat, 20 Sep 2025 12:23:24 +0200
+X-Gm-Features: AS18NWAyC50-QQYD_wTUETPBlkphWLV8M7F-miEs8DZ-lOTnj5WEfB5uYr0Ax6s
+Message-ID: <CANpmjNO2b_3Q56kFLN3fAwxj0=pQo0K4CjwMJ9_gHj4c3bVVsg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+To: Christoph Hellwig <hch@lst.de>
+Cc: Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-在 2025/9/18 19:57, linan666@huaweicloud.com 写道:
+On Fri, 19 Sept 2025 at 16:08, Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Thu, Sep 18, 2025 at 10:45:55AM -0700, Nathan Chancellor wrote:
+> > On Thu, Sep 18, 2025 at 04:15:11PM +0200, Christoph Hellwig wrote:
+> > > On Thu, Sep 18, 2025 at 03:59:11PM +0200, Marco Elver wrote:
+> > > > A Clang version that supports `-Wthread-safety-pointer` and the new
+> > > > alias-analysis of capability pointers is required (from this version
+> > > > onwards):
+> > > >
+> > > >   https://github.com/llvm/llvm-project/commit/b4c98fcbe1504841203e610c351a3227f36c92a4 [3]
+> > >
+> > > There's no chance to make say x86 pre-built binaries for that available?
+> >
+> > I can use my existing kernel.org LLVM [1] build infrastructure to
+> > generate prebuilt x86 binaries. Just give me a bit to build and upload
+> > them. You may not be the only developer or maintainer who may want to
+> > play with this.
+>
+> That did work, thanks.
+>
+> I started to play around with that.  For the nvme code adding the
+> annotations was very simply, and I also started adding trivial
+> __guarded_by which instantly found issues.
+>
+> For XFS it was a lot more work and I still see tons of compiler
+> warnings, which I'm not entirely sure how to address.  Right now I
+> see three major classes:
+>
+> 1) locks held over loop iterations like:
+>
+> fs/xfs/xfs_extent_busy.c:573:26: warning: expecting spinlock 'xfs_group_hold(busyp->group)..xg_busy_extents->eb_lock' to be held at start of each loop [-Wthread-safety-analysis]
+>   573 |                 struct xfs_group        *xg = xfs_group_hold(busyp->group);
+>       |                                               ^
+> fs/xfs/xfs_extent_busy.c:577:3: note: spinlock acquired here
+>   577 |                 spin_lock(&eb->eb_lock);
+>       |                 ^
+>
+> This is perfectly find code and needs some annotations, but I can't find
+> any good example.
 
-> From: Li Nan <linan122@huawei.com>
->
-> When adding a disk to a md array, avoid updating the array's
-> logical_block_size to match the new disk. This prevents accidental
-> partition table loss that renders the array unusable.
->
-> The later patch will introduce a way to configure the array's
-> logical_block_size.
->
-> The issue was introduced before Linux 2.6.12-rc2.
->
-> Fixes: d2e45eace8 ("[PATCH] Fix raid "bio too big" failures")
-> Signed-off-by: Li Nan <linan122@huawei.com>
-> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> ---
->   drivers/md/md.c | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/md/md.c b/drivers/md/md.c
-> index a77c59527d4c..40f56183c744 100644
-> --- a/drivers/md/md.c
-> +++ b/drivers/md/md.c
-> @@ -6064,6 +6064,13 @@ int mddev_stack_new_rdev(struct mddev *mddev, struct md_rdev *rdev)
->   	if (mddev_is_dm(mddev))
->   		return 0;
->   
-> +	if (queue_logical_block_size(rdev->bdev->bd_disk->queue) >
-> +	    queue_logical_block_size(mddev->gendisk->queue)) {
-> +		pr_err("%s: incompatible logical_block_size, can not add\n",
-> +		       mdname(mddev));
-> +		return -EINVAL;
-> +	}
-> +
->   	lim = queue_limits_start_update(mddev->gendisk->queue);
->   	queue_limits_stack_bdev(&lim, rdev->bdev, rdev->data_offset,
->   				mddev->gendisk->disk_name);
-
-Apply patch 1/2 to md-6.18
-Thanks
-
+This is an interesting one, and might be a bug in the alias analysis I
+recently implemented in Clang. I'll try to figure out a fix.
