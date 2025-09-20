@@ -1,194 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E335D515;
-	Sat, 20 Sep 2025 09:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758361383; cv=none; b=ZniHNelF9v4OCjQ+6LNTSd4tCh7ecVkrC/xNy7qOL3QJjZZn0twueTH0bdt+Orgj3SCOpp6/kSuEjO2bY3ShugJb7PWjZgoSHR7kYdrCI34qKgquotz84cCZGiv5yVjCi/kuGSuFEMPKouCLyOD1h44wNQ4wa8xu36AEF3ZJe1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758361383; c=relaxed/simple;
-	bh=8XEGRu8PQcCsAGb5Pu649yAmmLV43sxK7OgP8RaqHIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ExB4rrWA2HS8ePpqscNKksUjmFypuse6dgHdGguJbAvj7jLfjecJJV/9C6/aqX5avbK6htSXpoa0toYCRm+TyT+XN5HgKN88IH7Nkmy09pOL1QS69kZFIB80P8AQfltw3zDcEDEPXF3+t0c63csuVqVTKjBOdOs2Ns3FKMqlDmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/bFJ6Dc; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FEF1FE471;
+	Sat, 20 Sep 2025 09:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758362261; cv=pass; b=NvYNHJDL0kUM784Fgy4EHy+PJ8n3judz00dyztfM/6krZ9nqHkByDlCbziUZmh9A0+fn44i5n+J1vEB54aWXwAJpyD+GP3GGUot1FUVxGYiPDdKuvdNxOfJLNB+oe9S24UJ9+CV1T9RZnPf6casO0R/1KQsXkOtCBTRvbyb7RAE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758362261; c=relaxed/simple;
+	bh=vg7j/N6KXr4IxoEWjbu3712EZQFLFn7MEqAtw/QHWNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l8tRiZL9rV3b77Coys8OU/bCsVFD5gIOSNifg7V05PdfhfhFlud/SO4+O9adCphbIPrfLiOUFgbIxjGe4vyjpZktdIrUQ46HPsRTg7rBJR6OWsSTzpjzjw3ecj6PWBkhO/CjYvjkkpppyTOuaoKyxZC3K6tH4DoozoWzbCAHQeY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yukuai.org.cn; spf=pass smtp.mailfrom=yukuai.org.cn; dkim=pass (1024-bit key) header.d=yukuai.org.cn header.i=hailan@yukuai.org.cn header.b=Z//h7M5s; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yukuai.org.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yukuai.org.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/bFJ6Dc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704A8C4CEEB;
-	Sat, 20 Sep 2025 09:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758361383;
-	bh=8XEGRu8PQcCsAGb5Pu649yAmmLV43sxK7OgP8RaqHIo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=p/bFJ6DcZg6XnjoiQxOLyqkj1KqVKcdbFhcyehayJCuNqEEQagXjhb62HCUuaoYzu
-	 /K+TPoFR8bgv1ki7hrjPd3sEwHE89MYuziUK8Ix28FYKSLnx3n5PbC/jx0nsFhKBoB
-	 hSSdxxmfwGoKXNY5hj3tStgrUgft6jj4GNEf5SLQUbOZJvr4LiTDgJgIdPhMFa/tvR
-	 rIg6cJkdgS8D9qJhxWGBXoDIcW6NBcsuoPHT/H8Z4Yppp4+YM2eDo2iSHyALfYqWEc
-	 9r8hcFsSefToKgky4mm2hLmcmy5PEJP4WkwkEsj7tyNWwRPHki26ISDh8B3V12ioqv
-	 La3FwOFmoEoxA==
-Date: Sat, 20 Sep 2025 10:42:51 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-spi@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <michael.hennerich@analog.com>,
- <nuno.sa@analog.com>, <eblanc@baylibre.com>, <dlechner@baylibre.com>,
- <andy@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>,
- Sergiu Cuciurean <sergiu.cuciurean@analog.com>, Trevor Gamblin
- <tgamblin@baylibre.com>, Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH v2 6/8] iio: adc: ad4030: Add SPI offload support
-Message-ID: <20250920104251.3f7dcbb2@jic23-huawei>
-In-Reply-To: <da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
-References: <cover.1758214628.git.marcelo.schmitt@analog.com>
-	<da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=yukuai.org.cn header.i=hailan@yukuai.org.cn header.b="Z//h7M5s"
+ARC-Seal: i=1; a=rsa-sha256; t=1758362109; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VatK7+SEVKjEtmqc7MOpL6d+S3QQhRrPMjcgLO0s5qxHMuhv4/sTZt+gDzaGzDRnx+p4/iQG3+NXG+uVXr2rdEEyvbTebMXEDEEEoZh3NWfL9WzHTU2t2U5SGJJxblHWr62IeaRklfqFHs98yYxmESaS2jIfpR1pAEBP2tRAPig=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1758362109; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=SAqzt1Sj3XOdOFgz+QpclQltJ2gaRbdazDpGE9LVmuM=; 
+	b=dSAaOqq5B0gTUZSyI85rVOaB2pNEaMoKaXQe8IHubn6Qd5Z2YEEa2elMM9BToVJwlWS0tyL/Qd/X/BatVapFEbp2HoDUboTFOcxZh5LLHRv4ugAaaE6wjJhvzU2e/y+dHQZDE+iHd84ZC2grenVHLjflAkzQZUQBDx9juDYjsIU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=yukuai.org.cn;
+	spf=pass  smtp.mailfrom=hailan@yukuai.org.cn;
+	dmarc=pass header.from=<hailan@yukuai.org.cn>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758362109;
+	s=zmail; d=yukuai.org.cn; i=hailan@yukuai.org.cn;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=SAqzt1Sj3XOdOFgz+QpclQltJ2gaRbdazDpGE9LVmuM=;
+	b=Z//h7M5sDMkueGzkmFWZNS6Be/oZXBpgjrvm8GrCRVmlmmMUQSws2dhn7Zp6HmpD
+	MUjUnZZe6oK+nJQkYTruwaHe50aOkyUsiXx5JgpPDMjMmRGFPQjjw8VKmaUR4j3BUmb
+	EMNQxiGFDBxWtXdznb80r6hjxRbwnSZISBl2edmo=
+Received: by mx.zohomail.com with SMTPS id 1758362107098827.5660583693088;
+	Sat, 20 Sep 2025 02:55:07 -0700 (PDT)
+Message-ID: <bbde2bbd-e2d0-4d6d-aee2-0c454519627e@yukuai.org.cn>
+Date: Sat, 20 Sep 2025 17:55:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] md: prevent adding disks with larger
+ logical_block_size to active arrays
+To: linan666@huaweicloud.com, corbet@lwn.net, song@kernel.org,
+ yukuai3@huawei.com, linan122@huawei.com, hare@suse.de, xni@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, martin.petersen@oracle.com,
+ yangerkun@huawei.com, yi.zhang@huawei.com
+References: <20250918115759.334067-1-linan666@huaweicloud.com>
+ <20250918115759.334067-2-linan666@huaweicloud.com>
+From: Yu Kuai <hailan@yukuai.org.cn>
+In-Reply-To: <20250918115759.334067-2-linan666@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Thu, 18 Sep 2025 14:39:10 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+在 2025/9/18 19:57, linan666@huaweicloud.com 写道:
 
-> AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> samples per second (MSPS). Not all SPI controllers are able to achieve such
-> high throughputs and even when the controller is fast enough to run
-> transfers at the required speed, it may be costly to the CPU to handle
-> transfer data at such high sample rates. Add SPI offload support for AD4030
-> and similar ADCs to enable data capture at maximum sample rates.
-> 
-> Co-developed-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Signed-off-by: Sergiu Cuciurean <sergiu.cuciurean@analog.com>
-> Co-developed-by: Nuno Sa <nuno.sa@analog.com>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> From: Li Nan <linan122@huawei.com>
+>
+> When adding a disk to a md array, avoid updating the array's
+> logical_block_size to match the new disk. This prevents accidental
+> partition table loss that renders the array unusable.
+>
+> The later patch will introduce a way to configure the array's
+> logical_block_size.
+>
+> The issue was introduced before Linux 2.6.12-rc2.
+>
+> Fixes: d2e45eace8 ("[PATCH] Fix raid "bio too big" failures")
+> Signed-off-by: Li Nan <linan122@huawei.com>
+> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 > ---
-> Most of the code for SPI offload support is based on work from Sergiu Cuciurean,
-> Nuno Sa, Axel Haslam, and Trevor Gamblin. Thus, this patch comes with many
-> co-developed-by tags. I also draw inspiration from other drivers supporting SPI
-> offload, many of them written by David Lechner.
-> 
-> Change log v1 -> v2
-> - Dropped all clock-modes and DDR related stuff for now as those will require
->   further changes to the SPI subsystem or to SPI controller drivers.
-> - Update the modes register with proper output data mode bits when sample
->   averaging (oversampling_ratio) is set.
-> - Lock on device state mutex before updating oversampling and sampling frequency.
-> - Made sampling_frequency shared by all channels.
-> - Better checking the requested sampling frequency is valid.
-> - Adjusted to SPI offload data capture preparation and stop procedures.
-> - Error out if try to get/set sampling frequency without offload trigger.
-> - Depend on PWM so build always succeed.
-> - Drop unmatched/unbalanced call to iio_device_release_direct().
-> - No longer shadowing error codes.
-> 
-> Suggestions to v1 that I did not comply to:
-> [SPI]
-> > I would be tempted to put the loop check here [in drivers/spi/spi-offload-trigger-pwm.c]:
-> > 
-> > 	offload_offset_ns = periodic->offset_ns;
-> > 
-> > 	do {
-> > 		wf.offset_ns = offload_offset_ns;
-> > 		ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
-> > 		if (ret)
-> > 			return ret;
-> > 		offload_offset_ns += 10;
-> > 
-> > 	} while (wf.offset_ns < periodic->offset_ns);
-> > 
-> > 	wf.duty_offset_ns = periodic->offset_ns;
-> > 
-> > instead of in the ADC driver so that all future callers don't have to
-> > repeat this.  
-> 
-> Not sure implementing the PWM trigger phase approximation/rounding/setup within
-> spi-offload-trigger-pwm is actually desirable. The PWM phase
-> approximation/rounding/setup done in AD4030 iterates over the configuration of a
-> second PWM (the PWM connected to the CNV pin). I haven't seen any other device
-> that would use such double PWM setup schema so pushing an additional argument to
-> spi_offload_trigger_pwm_validate() doesn't seem worth it.
-> 
-> [IIO]
-> > Why using slower speed for offload?  
-> Looks like it's the same max speed for both register access and data sample.
-> So, just reusing the existing define for the max transfer speed.
-> 
->  drivers/iio/adc/Kconfig  |   3 +
->  drivers/iio/adc/ad4030.c | 485 +++++++++++++++++++++++++++++++++++----
->  2 files changed, 445 insertions(+), 43 deletions(-)
-Hi Marcelo
-
-Just one thing I noticed today.  If nothing else comes up I can fix that
-up whilst applying.  However, this will benefit from review from others
-+ the IIO tree is effectively closed for this cycle so we have lots of time
-to tidy up any remaining stuff.
-
-Thanks,
-
-Jonathan
- 
-> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
-> index aa0e27321869..52805c779934 100644
-> --- a/drivers/iio/adc/ad4030.c
-> +++ b/drivers/iio/adc/ad4030.c
-
-> +static int ad4030_offload_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4030_state *st = iio_priv(indio_dev);
-> +	int ret;
+>   drivers/md/md.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/md/md.c b/drivers/md/md.c
+> index a77c59527d4c..40f56183c744 100644
+> --- a/drivers/md/md.c
+> +++ b/drivers/md/md.c
+> @@ -6064,6 +6064,13 @@ int mddev_stack_new_rdev(struct mddev *mddev, struct md_rdev *rdev)
+>   	if (mddev_is_dm(mddev))
+>   		return 0;
+>   
+> +	if (queue_logical_block_size(rdev->bdev->bd_disk->queue) >
+> +	    queue_logical_block_size(mddev->gendisk->queue)) {
+> +		pr_err("%s: incompatible logical_block_size, can not add\n",
+> +		       mdname(mddev));
+> +		return -EINVAL;
+> +	}
 > +
-> +	ret = regmap_write(st->regmap, AD4030_REG_EXIT_CFG_MODE, BIT(0));
-> +	if (ret)
-> +		return ret;
-> +
-> +	ad4030_prepare_offload_msg(indio_dev);
-> +	st->offload_msg.offload = st->offload;
-> +	ret = spi_optimize_message(st->spi, &st->offload_msg);
-> +	if (ret)
-> +		goto out_reset_mode;
-> +
-> +	ret = pwm_set_waveform_might_sleep(st->cnv_trigger, &st->cnv_wf, false);
-> +	if (ret)
-> +		goto out_unoptimize;
-> +
-> +	ret = spi_offload_trigger_enable(st->offload, st->offload_trigger,
-> +					 &st->offload_trigger_config);
-> +	if (ret)
-> +		goto out_pwm_disable;
-> +
-> +	return 0;
-> +
-> +out_pwm_disable:
-> +	pwm_disable(st->cnv_trigger);
-> +out_unoptimize:
-> +	spi_unoptimize_message(&st->offload_msg);
-> +out_reset_mode:
-> +	/* reenter register configuration mode */
-> +	ret = ad4030_enter_config_mode(st);
+>   	lim = queue_limits_start_update(mddev->gendisk->queue);
+>   	queue_limits_stack_bdev(&lim, rdev->bdev, rdev->data_offset,
+>   				mddev->gendisk->disk_name);
 
-This blows away the original error.  I'd do something like
-	if (ad40303_enter_config_mode(st))
-		dev_err(...)
-
-	return ret;
-so we preserve whatever went wrong first.
-
-
-> +	if (ret)
-> +		dev_err(&st->spi->dev,
-> +			"couldn't reenter register configuration mode\n");
-> +	return ret;
-> +}
-
-
+Apply patch 1/2 to md-6.18
+Thanks
 
