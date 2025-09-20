@@ -1,144 +1,106 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A5D170826
-	for <linux-doc@vger.kernel.org>; Sat, 20 Sep 2025 12:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8BD80C02
+	for <linux-doc@vger.kernel.org>; Sat, 20 Sep 2025 14:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758372332; cv=none; b=PuXKbWl3fTGZOPZZE+yeblUKGfvPp9Kl6TEVqnli7DvTBieOcgQNRQduKFNFP9yyEg06Ndm6agNZ0D0CEwKHr3QZZmLmR9ydjb3iaKAIdp26Sv32ZIqudrpZpnn40odCmJiX4cSCH+J53sQ7MnJHXVfIQYm/lPR1R0N9QQuu5Ek=
+	t=1758379390; cv=none; b=FHkiKwSbqL+cbVr3Ffkz98G+l7KKgUDOcpDHvC3P2xGIxvQ7Rwf7g5T64TFtd5/P4dwY44zd5ZcZAXfdXYd4Swm14w1+smNgqRK2fzRKdt/9+jjCSs8l2FKN7L+IhZ/T7iL4kbbkEG1haimriC/UNHR1jEuP6iLB45p5GnxFT5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758372332; c=relaxed/simple;
-	bh=B2pdUGVo1hxX37az6KU5TDG01liBl6FvTa355/7VdK4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u3cukmuDEuI4lAQl8jj21xsFjAH7F9ajL3pBt1IXW/IBitlSriemNMSB/8i5/6WasiyBdezYhsPT9eii6cHw8PQFowQhAXP8Js2DK5cFF4S63CQGQ5zWscEyq5SfoBLpskQsI2Yk6Sp6sVuPVi4T6xGNVJJVodgQsRdDaZcrlUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UBkC6o/x; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1758379390; c=relaxed/simple;
+	bh=reGQ0DWfCnnIVp/Nxw5dBkwic445/96e5CXDstaYNKA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nMX93KQRUzNwLGT8hvESRw+JMaAQWS9wlKo9cTelvU7Xd0b/G59G9AzZBK49HfC5FzlurraYpaSKoWuuH4V76Yx2vMOSdYb9Q4WMW/D/TMUCd2iEF34R0U+Onwcc53jTEENElf6kxzmHqta2auC9Tjw040kc+PT0ZKfr4gzOiyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3SQ+H65M; arc=none smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UBkC6o/x"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-26f0c5455e2so5521695ad.3
-        for <linux-doc@vger.kernel.org>; Sat, 20 Sep 2025 05:45:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3SQ+H65M"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-750b77699b4so2263962a34.2
+        for <linux-doc@vger.kernel.org>; Sat, 20 Sep 2025 07:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1758372329; x=1758977129; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=P2Xt5dxImFQDNB+zIOSzEq8xo9rsZmb+jmetH2dJjzs=;
-        b=UBkC6o/xEMnutMrAvFhSCg3+/b6YUIt/IIkPi91Mmf1EIvbALnnziFHl6XT5dCqGoE
-         TYPO4w1IlqTbNzNMbFJY0x102FE/zza2OmJxDWZO1w7/4wjpDO2YTtgA0F9ZdWKRi3js
-         ek81yuj96OBUi8jYkJ4am8Uwqa48PbVWopzu+1dtQVRWQ/r/tQoMoSRQWz3CaRDDxg/w
-         75f6+kHr0G9puDEv6susKk4BqCdbwZ0pqz9Q6y+Rjdp581BxYQNFLdFEbjSY+9T35MHo
-         l8u6wlNQ6aRwmt9kHXjXwyn77wAYbyP9U5G+guw9UXIA5s15y4rNOOWGrgGSnUohpTtd
-         CZIA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758379387; x=1758984187; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/zr1FxzQeV23WAfXkGwnch/VhAJlzRpqociU7pEguSA=;
+        b=3SQ+H65Mq7lmz1B5VG20x9Lq90j5XOP0m6A9igV9aIJktsX2S+XYfV8k40KiAfLXLI
+         F4ynoVa80m9k1y+BFmkiBJDY++D1LOfVFsYh3SiDi2s09tmRoBKfgBoMC6JfNkaGNF6g
+         zONNJcYhNQyRJjAz2SwfU+05xp9sLB3vkt6VNsYhrWP2jrdiotxv0kgfqXtz9iDTggUd
+         wQgl5Hu1BHqzbKCvtsyEVkAY+zxaavsHVzrSRCKKOcw19LIHHJP5kqTH6EECU+ylMHAI
+         5CNuh8Bi6BvwUP/cTwXTw5mtEd+v1sRXJxAbC12HV2/RjkkMVFh7Ef8GhLYhSjwLFk8A
+         YDLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758372329; x=1758977129;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P2Xt5dxImFQDNB+zIOSzEq8xo9rsZmb+jmetH2dJjzs=;
-        b=CXXZjusaBOJcrXPqbtUzh5B7pNd08zzVEtPXargQ8eNA4TZvQ6HoYEVtnYSXoNXLZT
-         esrlWyHj8MVziXbOlTM0rT6b9z6q7dbGzcK1l0RFX3qPmd53zX/zCt68/wTdU2Umo4Vj
-         lg5b6ievMCSL820UJNhn6XcZdD8tI9AOGB6Xmv6FVpJLk4Ip9Gdar51M00hWUVzRX0dP
-         Y0gf65kj+qekN0fvIvfEsJvfRgIbpJotwxc8WWx1bZbZQpSfOpvOHOhXYIEtdi7WitlP
-         hnZOdtLkNKSYFkGj0T+x41AJdIXYYDBwNEzuE3isK587rWy3pViPOB5GlmX3UpxiB6nC
-         S0qA==
-X-Forwarded-Encrypted: i=1; AJvYcCXn/jQo/mcN+t+FLb4QNgbu4EcNhS25KHxCbF/MK8GCFlRgVeA7lRrocthfrg+tr3eh2ewpQezYOn8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJQUGT7ApRTtlbIRqbwZFHDdizhHuFA/nO1qsYnsLxvzdETevt
-	xceP03xx4UlchqIHRgp8gSyOCPU1ii+xh2wisiiWqRpiXhS1xM2Gs2UuprMN7JOB6ghI5SDIHOU
-	XMbubJ94ad9La8wujM3ExQ6/gYPAiE58lDtOI+hjb
-X-Gm-Gg: ASbGncs1bdnFvvsZkWR+AUEYS5ghYwKpmupZen+DnPWYG0lIu+iu1qLhO1AOj6Y2ni7
-	E/cBZ1tIxli1b0jyVJ6Jm3R689l1U9DnqJgLrVfn5W7QV0vPrtGGxFYSvoecjh4crbJEn6EJIUP
-	fzUCFGz82HE8kx/cVZE+VKFPU2KmZHd5tlvbD25v/+N2ZdXfL334kTsw6QFe3eAe2KQAhVj+sjH
-	xiOGC2B0kOu9HYTi7jPYLFYew8UJ4AL+flvGAHg8n4OAkBp
-X-Google-Smtp-Source: AGHT+IGp/N/ayplQqKKBxnGs6WOfyKUH/iITNGJNC3m56lH0ddprjnIe5eKw57ece8B9TDbj2UEYyt+VdKNzNYtu5ro=
-X-Received: by 2002:a17:902:ccc9:b0:267:b2fc:8a2 with SMTP id
- d9443c01a7336-269ba46f141mr83309515ad.23.1758372328847; Sat, 20 Sep 2025
- 05:45:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758379387; x=1758984187;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/zr1FxzQeV23WAfXkGwnch/VhAJlzRpqociU7pEguSA=;
+        b=wG370WRhGIdX8cytOf4M5uWN99FUSSBOPuljWz2J550pWg1OihUSxn3Ea+zM7FH5Dg
+         0kSuow6x2QJlLzJydxgvCc4kl3L+gJwHyCtr0tW/N7MOpQ7We8IwpqdyXG6hX/oF3mvy
+         1Q/0gWPmO6Ya0L9wBsqJnqXvOWbEbm+x8mIHcYdayIk84S6n9hriWTPbJSKJYJmnHPB5
+         HzPxfrfQ6bQVHWUPhX7W5OlhjNYAmgr41Y6g6sSx1wpOkHivKrNDNil5I5QXnLS2nJGz
+         V9xDEU39o5yvyrRLTm4NAqPz79Ns6ebJjF4NvXt6jS5+DxnzqrbscaCMufltzC8MFynR
+         be4g==
+X-Forwarded-Encrypted: i=1; AJvYcCV8o2WK5WfVmh46wTF1f/UVwOZLndv2P4M1euqe76YEGXWPvtCf/u0xURohsD9OvJZ0a8lb7uIKPIo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOPjQlIhSvd3RK3+g+FcQ8A9QMido74Vh16TZEx5cyztreCdT0
+	IBqjWbfdKnVWkh8Dq4xmMzD+ElSrVOlLysnYO9JeuEAV7KLFxlPDukUiXwoGu05sK64=
+X-Gm-Gg: ASbGncuhFx6HF116bDMvN0DyqUwmlcgv6dNiJNewZz8tNW7dQ+0AElwMjxtaVuo2A4d
+	xBLU26si+5Yb0/0LNIOvvpZ8OdfkLpyhkZXOGY5hxlvyWnb+5+VuMfa9Tkw4kZ/sjhZl5KUGmLU
+	SupemT9B41u78Manw/zDHVSw0Nt42kikgLvqDfW+H8oU0BMUViD22m5EJsCVfg/h9LMjM4Quf6W
+	mOW8qr/nuDCQVNwoVdPd1n2O84efndXMt1z5Y8p3FQ+WDWomlSIRCcaajhpx60Kx8xhC8Avsi1I
+	FuadRD8nTnUH8bVTHXF8qCS1LzUFzeSv/qFLaccdLKD3oBKrT1SEaXIZxXe6LT5a8rODKA4UNwa
+	Yj+OCAGeMpEEjMJS3ypYCb3Smw/EfvEPIHQn+FZnFJNGfbRR987Z69NoU0PleY3FX+b3MFFWCjF
+	s=
+X-Google-Smtp-Source: AGHT+IFRMjIdQHCqLYdQqsM4bOgBkQvcyRd2wt9TOxoiyYemPs4kzShqexKQOBSerVYHshLpIqXW1Q==
+X-Received: by 2002:a05:6830:6606:b0:750:69c2:365f with SMTP id 46e09a7af769-76f6e58bc30mr4230967a34.4.1758379387269;
+        Sat, 20 Sep 2025 07:43:07 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:14ea:b68a:f92c:93c4? ([2600:8803:e7e4:1d00:14ea:b68a:f92c:93c4])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-625dbca6014sm2701941eaf.25.2025.09.20.07.43.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Sep 2025 07:43:05 -0700 (PDT)
+Message-ID: <7021b57f-bad0-425d-a7a1-3a613a408a42@baylibre.com>
+Date: Sat, 20 Sep 2025 09:43:04 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918140451.1289454-1-elver@google.com> <20250918141511.GA30263@lst.de>
- <20250918174555.GA3366400@ax162> <20250919140803.GA23745@lst.de> <CANpmjNO2b_3Q56kFLN3fAwxj0=pQo0K4CjwMJ9_gHj4c3bVVsg@mail.gmail.com>
-In-Reply-To: <CANpmjNO2b_3Q56kFLN3fAwxj0=pQo0K4CjwMJ9_gHj4c3bVVsg@mail.gmail.com>
-From: Marco Elver <elver@google.com>
-Date: Sat, 20 Sep 2025 14:44:52 +0200
-X-Gm-Features: AS18NWBli1y9TeOySCtz0PRORw8H0Rr8apw4LW7wblD60qoNXqS9BvtJEM0Stlo
-Message-ID: <CANpmjNNkRQmt1Ea-EsSOVcA94kPqH_WntdT-NGnTjRocT25tFA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
-To: Christoph Hellwig <hch@lst.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/8] iio: adc: ad4030: Add SPI offload support
+To: Jonathan Cameron <jic23@kernel.org>,
+ Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, michael.hennerich@analog.com,
+ nuno.sa@analog.com, eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ marcelo.schmitt1@gmail.com, Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+ Trevor Gamblin <tgamblin@baylibre.com>, Axel Haslam <ahaslam@baylibre.com>
+References: <cover.1758214628.git.marcelo.schmitt@analog.com>
+ <da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
+ <20250920104251.3f7dcbb2@jic23-huawei>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20250920104251.3f7dcbb2@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 20 Sept 2025 at 12:23, Marco Elver <elver@google.com> wrote:
->
-> On Fri, 19 Sept 2025 at 16:08, Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Thu, Sep 18, 2025 at 10:45:55AM -0700, Nathan Chancellor wrote:
-> > > On Thu, Sep 18, 2025 at 04:15:11PM +0200, Christoph Hellwig wrote:
-> > > > On Thu, Sep 18, 2025 at 03:59:11PM +0200, Marco Elver wrote:
-> > > > > A Clang version that supports `-Wthread-safety-pointer` and the new
-> > > > > alias-analysis of capability pointers is required (from this version
-> > > > > onwards):
-> > > > >
-> > > > >   https://github.com/llvm/llvm-project/commit/b4c98fcbe1504841203e610c351a3227f36c92a4 [3]
-> > > >
-> > > > There's no chance to make say x86 pre-built binaries for that available?
-> > >
-> > > I can use my existing kernel.org LLVM [1] build infrastructure to
-> > > generate prebuilt x86 binaries. Just give me a bit to build and upload
-> > > them. You may not be the only developer or maintainer who may want to
-> > > play with this.
-> >
-> > That did work, thanks.
-> >
-> > I started to play around with that.  For the nvme code adding the
-> > annotations was very simply, and I also started adding trivial
-> > __guarded_by which instantly found issues.
-> >
-> > For XFS it was a lot more work and I still see tons of compiler
-> > warnings, which I'm not entirely sure how to address.  Right now I
-> > see three major classes:
-> >
-> > 1) locks held over loop iterations like:
-> >
-> > fs/xfs/xfs_extent_busy.c:573:26: warning: expecting spinlock 'xfs_group_hold(busyp->group)..xg_busy_extents->eb_lock' to be held at start of each loop [-Wthread-safety-analysis]
-> >   573 |                 struct xfs_group        *xg = xfs_group_hold(busyp->group);
-> >       |                                               ^
-> > fs/xfs/xfs_extent_busy.c:577:3: note: spinlock acquired here
-> >   577 |                 spin_lock(&eb->eb_lock);
-> >       |                 ^
-> >
-> > This is perfectly find code and needs some annotations, but I can't find
-> > any good example.
->
-> This is an interesting one, and might be a bug in the alias analysis I
-> recently implemented in Clang. I'll try to figure out a fix.
+On 9/20/25 4:42 AM, Jonathan Cameron wrote:
+> On Thu, 18 Sep 2025 14:39:10 -0300
+> Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+> 
 
-This fixes the problem: https://github.com/llvm/llvm-project/pull/159921
+...
 
-I guess I have to update the base Clang commit hash for v4 again. :-)
+> 
+> Just one thing I noticed today.  If nothing else comes up I can fix that
+> up whilst applying.  However, this will benefit from review from others
+> + the IIO tree is effectively closed for this cycle so we have lots of time
+> to tidy up any remaining stuff.
+> 
+FYI, I have some comments on this patch I am working on but will be some
+time next week before I send it since I would also like to actually test
+this since I have the hardware.
 
-And thanks for testing!
