@@ -1,105 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC7126D4EB;
-	Sat, 20 Sep 2025 09:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8257D1C01;
+	Sat, 20 Sep 2025 09:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758361009; cv=none; b=IAmeSB4e89qAbc2eyg5GcGBpb4g2WoCGvdGdAwmPPr9CJkh4pbpyZsZJ7SC3oldYUrOLFkj1+lGAV6DCV+uEB+v3PUjGsng1SNrjVyV+9MPMO04ZP5qmwuv043g5OkNrSsA0+8PWw2+KEhtdlmZEjSYgiJaXiJLZlSp+OJMACSc=
+	t=1758361234; cv=none; b=HAUPid0CUvcB6CDxrVlq2F0PS412YRRO0oL86HiIaOZyWmBtbFsEazd6jV4/XlpTidLyCAbi5GcGGr+7nc88Lw21iJyIKZbx5lnKPJdIMwYp0f+5B4tREvE9oBfHnMFaXHKhRjk6qtHmvWMAKBNuelMZQ8YqICp7wm70uye3sJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758361009; c=relaxed/simple;
-	bh=ioK/g2FFEI+gdbItPz3WVvnNTK2pU8RZwhRi41dmYSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dwetq6ry+TEm24oiQYfn48hVJuwYLPkPTwZl18UWBuCdOnfy4R5yFHdStLHbc5ZOYZd8VCI5NbELOkqYNFGGMnVI37PHquGWMvvb3WZ43GEMFj3M2rreLsEHsVoAhM0easa3kBZmsx0uRfZKxtxNjVvq87R+QGKfCyfE+rGDUl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLOtVyj4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758361234; c=relaxed/simple;
+	bh=xbzwfMN6e7C5zCCSQEnr3hE5fyzJlmvNXk+6zgDub/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OEpynEvJUm4xR7aBjbQiIhdLt/VukY6BQ01C0OwovMnTbJOV2mkmyL7HdPJ+ZapLHQT8/m/25orXxeC0wSl/PpqeVloHtdlRa3sp4VxZ11OmBGGNUL3dkEeDQj6rnUL5IKtR+rzCpTnbiYV4p0vm6nl5DtrW97WtqdNxBvO8dmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sI9E94AN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLOtVyj4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD725C4CEEB;
-	Sat, 20 Sep 2025 09:36:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sI9E94AN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 523C1C4CEEB;
+	Sat, 20 Sep 2025 09:40:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758361008;
-	bh=ioK/g2FFEI+gdbItPz3WVvnNTK2pU8RZwhRi41dmYSw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BLOtVyj4wCwPDI9nzN5gZAFdCantdboLMD41sk+sTEBfYmAgliAgLIP5omhFSaPw3
-	 zAzfqSoJWhtSdOd2Mg4Ez7wjbNcrkgaVPkVS1SjyJfeJkMH31Ne5hJcmqxmynsJSXr
-	 PISlfdyReDXEMNtwpBhCOLbx+E0f2LIS5PyctHBpYXsncZj5PTr6k+YHkUTWrQeWmV
-	 tDyWMQynUGVFeNAXzJM3bNVje1eA3/fq4ktPGIQpF2nAcukUaTImiYjNAwmoS4Gj9b
-	 q4u8dmsiX8ZNqE8k3lRM+VesUA4oHs1H9Aq4NIh+Ubsxvx6vGZwO6ZUKpLdQUQdXN5
-	 jzfyR3DfpNSxg==
-Date: Sat, 20 Sep 2025 11:36:44 +0200
+	s=k20201202; t=1758361234;
+	bh=xbzwfMN6e7C5zCCSQEnr3hE5fyzJlmvNXk+6zgDub/Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sI9E94ANlerxsRVoSHoPiD6vbFA1UNCKOiEwSukXrr4+DF4eJr0Sey7ox3YSEjkIo
+	 cNcuJ2WtbhJVxUDBFwFmiyYo7hCH1iwMf+soczf0w7GOb/zC55AVLqRWhq8AaRBZRT
+	 iTmblIR0t7TVgKf2jjWMWU9R1GRtUB76vDmXZ5bTWkPGp3dMXrrriES1YRA4SMfCPF
+	 SoA3R5QxRQU+iLYtMUJGwCMoQ4qaSwgYU/toOJfQImtnbZ7Umxh8O326Gj4xHRAIjF
+	 jWH+ZKNhwQQ3i4GUmk9NsEOh+BHX/hWemItL735zBExIs3TjW8UfuXGAYFOvmzFgKA
+	 RGsmvKXhFCaqQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uzu52-00000004Z2s-1N2x;
+	Sat, 20 Sep 2025 11:40:32 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: conf.py: get rid of load_config.py
-Message-ID: <20250920113644.67194409@foz.lan>
-In-Reply-To: <87plbmqg0f.fsf@trenco.lwn.net>
-References: <cover.1758294450.git.mchehab+huawei@kernel.org>
-	<65ce87136d8f4a74e88e956a3a5bc3ba9a528be4.1758294450.git.mchehab+huawei@kernel.org>
-	<87plbmqg0f.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/3] tools/docs: sphinx-build-wrapper: handle sphinx-build errors
+Date: Sat, 20 Sep 2025 11:40:24 +0200
+Message-ID: <b7e152291fadd91694cbb6b086caefa4b6470fdd.1758361087.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1758361087.git.mchehab+huawei@kernel.org>
+References: <cover.1758361087.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Em Fri, 19 Sep 2025 15:38:56 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+If sphinx-build returns an error, exit the script.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > The code here was meant to handle 3 functions:
-> > 1. allow having a separate conf.py file, per subdir;
-> > 2. generate a list of latex documents.
-> > 3. set "subproject" tag if SPHINXDIRS points to a subdir.
-> >
-> > We don't have (1) anymore, and (3) is now properly handled
-> > entirely inside conf.py.
-> >
-> > So, only (3) is still needed, and this is a single-line change
-> > at conf.py.
-> >
-> > So, drop it, moving the remaining code to conf.py.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/Makefile              |  4 --
-> >  Documentation/conf.py               | 15 +++-----
-> >  Documentation/sphinx/load_config.py | 60 -----------------------------
-> >  3 files changed, 5 insertions(+), 74 deletions(-)
-> >  delete mode 100644 Documentation/sphinx/load_config.py
-> >
-> > diff --git a/Documentation/Makefile b/Documentation/Makefile
-> > index 6ccd5db1dcbd..9663e7a31feb 100644
-> > --- a/Documentation/Makefile
-> > +++ b/Documentation/Makefile
-> > @@ -24,7 +24,6 @@ SPHINXDIRS    = .
-> >  DOCS_THEME    =
-> >  DOCS_CSS      =
-> >  RUSTDOC       =
-> > -SPHINX_CONF   = conf.py
-> >  PAPER         =
-> >  BUILDDIR      = $(obj)/output
-> >  PDFLATEX      = xelatex
-> > @@ -108,9 +107,6 @@ dochelp:
-> >  	@echo  '  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2'
-> >  	@echo  '  valid values for SPHINXDIRS are: $(_SPHINXDIRS)'
-> >  	@echo
-> > -	@echo  '  make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build'
-> > -	@echo  '  configuration. This is e.g. useful to build with nit-picking config.'
-> > -	@echo
-> >  	@echo  '  make DOCS_THEME={sphinx-theme} selects a different Sphinx theme.'  
-> 
-> So probably I'm a little slow today, but this confuses me.  Even after
-> this change, the makefile still uses SPHINX_CONF, so I'm not sure how it
-> is supposed to be set?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ tools/docs/sphinx-build-wrapper | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Heh, incomplete patch, sorry for that. I'll send a v2 of this series.
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 6ed3d58ec277..b7e97c10d7dc 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -275,7 +275,7 @@ class SphinxBuilder:
+             if self.venv:
+                 cmd = ["python"]
+             else:
+-                cmd = [sys.executable,]
++                cmd = [sys.executable]
+ 
+             cmd += [sphinx_build]
+             cmd += [f"-j{n_jobs}"]
+@@ -718,7 +718,12 @@ class SphinxBuilder:
+                 self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)
+             else:
+                 try:
+-                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
++                    result = self.run_sphinx(sphinxbuild, build_args,
++                                             env=self.env)
++
++                    if result:
++                        sys.exit(f"Build failed: return code: {result}")
++
+                 except (OSError, ValueError, subprocess.SubprocessError) as e:
+                     sys.exit(f"Build failed: {repr(e)}")
+ 
+-- 
+2.51.0
 
-
-Thanks,
-Mauro
