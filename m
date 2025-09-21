@@ -1,86 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CA5413B284;
-	Sun, 21 Sep 2025 11:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323951C68F;
+	Sun, 21 Sep 2025 14:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758454605; cv=none; b=V6qPtUNd+xEFKXZ9O+QZlz3EKW1q2iJtRsJpH4Ngg2mkhdiUx5kHqDTRfHv14HD19ooz7CU28ouRsfreS2XhguZOdj07dTZVLLMFiVfv0cxzKrViNveETXJJ9IKEv7lLSJmWXNmkLTig9aYlrcWaO6DQvTyL+kfrCBM2G+wQ0Gc=
+	t=1758463417; cv=none; b=LiM6v5V/+LJbr3tICdHoiabNykygIfRWu9xJrGYvfbMuGm1owzybUglcd8OO3xYXps4nBNzqyHaWd8TjFi3LXHn9YG2lhctAHsqJbqesJLP1MCvfeZLIvANRnH8WnuLfv1wAODu1r6RdLeCfTR0wM3hKP06WpMJEpX0pZz9lJnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758454605; c=relaxed/simple;
-	bh=EbZ3OCi/hMLuq+oBfBAnd/ax0RrvhbAfY4A9GdOgyeA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ihAqJ8Ykl6k3HB3OVrowOEJf2IlXDmN/HEHOSQ5yVpluHP3mo4ccAPvDc/G1ubY5moerQIU8Ceu87rX/tVmTzK5RizWBv9GR1lwncEVzCiYo9MTDY03O0pz9FZCxyBbNVmiTCZbW6z2YLXq0C0eXajP1KxSv1e82HAwL91nSR8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E54B1516;
-	Sun, 21 Sep 2025 04:36:35 -0700 (PDT)
-Received: from [10.163.39.139] (unknown [10.163.39.139])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8DCA3F673;
-	Sun, 21 Sep 2025 04:36:34 -0700 (PDT)
-Message-ID: <4d2e8686-8810-4901-8483-9b5eb040d489@arm.com>
-Date: Sun, 21 Sep 2025 17:06:31 +0530
+	s=arc-20240116; t=1758463417; c=relaxed/simple;
+	bh=/ryM44dSDWZAbOYmTiCvJFqpYdHDseT8yHVKoA9VGgg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MqEJ4ghWgLXOvgFIY2wJyhOns3ZfFvxzNG5UrcG+MgcjhRXyZK6UEXgYRQ6NZ2X0qxnPEpTD2YlUAlWMehG58CP4AWtoGmVDbBXeahY7NVrvClPuvEcRUb0yuL7Nj45+mBm3zWriWjyA+BODNt1lnUFguKySDKnQbfWFo99t6mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lanomZds; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lanomZds"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B4AFA406FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758463406; bh=tFnIFRKzhn1Gdeyl0+OHlzn0K6d55yD5DNCw+J5LtJo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lanomZdsqjVjj3UN0DVcTBWCS0rkLr4HHV1o7lAO7UrjavQ8hOMKrWVha0Xp19Imk
+	 AkjIuXz/yTi0g85gr7T9Uz0gD0scgZCnW3jesc3RVMZsQ8dS1lsp8gL4Mi3LvZKwlr
+	 vqWIEz37/fsXhIplja7k6iqHEh+eIUYOTETsKPqzKxv8X2WMg/+nRneYI0MAGT7Tmi
+	 y0V07CMLk6KuvOmcqpEn2SiCSRrcP05Zup1y8jar8XhPHjINj4+v1LZxaDElQaCuty
+	 zNtotvNlm/NsRCj3sXEqNP3weUCCl34tzplC9GgYIIvivszmv6XDPv/6gx6MI1Oiog
+	 loDgtCXxJtz+A==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B4AFA406FA;
+	Sun, 21 Sep 2025 14:03:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Re: linux-next: Tree for Sep 19 (make htmldocs problem)
+In-Reply-To: <883df949-0281-4a39-8745-bcdcce3a5594@infradead.org>
+References: <aM1xVa_SX3_QFU_q@sirena.org.uk>
+ <883df949-0281-4a39-8745-bcdcce3a5594@infradead.org>
+Date: Sun, 21 Sep 2025 08:03:25 -0600
+Message-ID: <87ldm7c382.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-To: "Luck, Tony" <tony.luck@intel.com>, Jiaqi Yan <jiaqiyan@google.com>
-Cc: David Hildenbrand <david@redhat.com>, Kyle Meyer <kyle.meyer@hpe.com>,
- akpm@linux-foundation.org, corbet@lwn.net, linmiaohe@huawei.com,
- shuah@kernel.org, jane.chu@oracle.com, Liam.Howlett@oracle.com,
- bp@alien8.de, hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
- laoar.shao@gmail.com, lorenzo.stoakes@oracle.com, mclapinski@google.com,
- mhocko@suse.com, nao.horiguchi@gmail.com, osalvador@suse.de,
- rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
- shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org
-References: <aMiu_Uku6Y5ZbuhM@hpe.com>
- <a99eb11f-a7ac-48a3-a671-c5f0f6b5b491@arm.com>
- <8c3188da-7078-4099-973a-1d0d74db2720@redhat.com> <aMsDJ3EU1zVJ00cX@hpe.com>
- <cd71fac2-bb9d-4e84-a074-2b695654e655@redhat.com>
- <CACw3F52p45t3iSZPjx_Lq9kBn1ZGTDZsxk+iQ-xFA1zdvdqqrw@mail.gmail.com>
- <aMsR4Tr9ov1pfucC@agluck-desk3>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <aMsR4Tr9ov1pfucC@agluck-desk3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Mauro, have you seen this ... any ideas ... ?  Randy, what can you say
+about the environment you're running when you hit this problem?
 
+(It doesn't reproduce here).
 
-On 18/09/25 1:24 AM, Luck, Tony wrote:
-> On Wed, Sep 17, 2025 at 12:32:47PM -0700, Jiaqi Yan wrote:
->> +1. Given /proc/sys/vm/enable_soft_offline is extensible, I would
->> prefer a compact userspace API.
->>
->>> would create a new file, and the file has weird semantics such that it
->>> has no meaning when enable_soft_offline=0.
-> 
-> So the expand the bitmask idea from earlier in this thread?
-> 
-> Bit0	0 = soft offline disabled. 1 = Enabled (but see other bits)
-> Bit1	0 = allow offline of 4K pages, 1 = suppress 4K offline
-> Bit2	0 = allow offline of hugetlb, 1 = suppress hugetlb offline
-> Bit3	0 = allow breakup of transparent huge pages to just offline 4K, 1 = suppress transparent breakup
-> Bit4+	Reserved for suppressing other page types we invent in the future
-> 
-> Values 0 and 1 keep their original meaning.
-> 
-> Value 5 means: offline 4K, keep hugetlb, breakup transparent huge pages.
+jon
 
-This disable bitmask (but when generally enabled via bit[0] = 1) method
-seems much better. But I am not sure about page size being a valid page
-type classification though. Just to start with, defining first two bits
-in this bitmask should be good enough, which will atleast help document
-and validate this new interface properly.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Bit1	0 = allow offline of hugetlb, 1 = suppress hugetlb offline
-Bit2	0 = allow breakup of transparent huge pages to just offline base pages, 1 = suppress transparent breakup
-Bit3+	Reserved for suppressing other page types we invent in the future
+> Hi,
+>
+> On 9/19/25 8:05 AM, Mark Brown wrote:
+>
+> With today's linux-next, when I do 'make O=DOC1 htmldocs', I get:
+>
+> make[1]: Entering directory '/home/rdunlap/lnx/repo/linux-next/DOC1'
+> ../Documentation/Makefile:71: warning: overriding recipe for target 'pdfdocs'
+> ../Documentation/Makefile:62: warning: ignoring old recipe for target 'pdfdocs'
+>   File "/usr/bin/sphinx-build", line 1
+>     ELF
+> SyntaxError: source code cannot contain null bytes
+> make[1]: Leaving directory '/home/rdunlap/lnx/repo/linux-next/DOC1'
+>
+> where the "ELF" line contains some binary bytes that are not shown
+> via copy/paste. Here they are in hex in case that might help:
+>
+> 7f 45 4c 46 02 01 01 0a              .ELF....
+>
+>
+> I don't see what is causing this, so I am using the previous day's
+> linux-next for Documentation testing etc...
+>
+> Any ideas/suggestions appreciated.
+>
+> -- 
+> ~Randy
