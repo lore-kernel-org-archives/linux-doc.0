@@ -1,198 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ABF245005;
-	Sun, 21 Sep 2025 22:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38651245005
+	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 22:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758493207; cv=none; b=WFrjYfmcEVm21toD7uZf31l5EddlrSG5ZLNS0RKI5+iCiZsVTQfueaaE5Ta5QpsZfmcHdesFVbWQjJI+lgo/FGCtj4KswC8GZq1U3tVCebJny2ltESehaOJC21NhhRFQ9bdUuCjdlEFGj6qH4y2xlkbPbi/OTrvsvNxvV61dIoI=
+	t=1758493289; cv=none; b=Fkg+o+bm6c+QVTJJAR73ljyvrHECv89IdfaNn1AroWQ4MOuN53MEzxDPBNKmtn/CAd/km/cmGBHRupu0eZawSQM5m43ufxLkAXZ3uVFwCkz7d3ZPvSBVnp7KqNYTsQ5EZLQvajy/wtjMb2mTtLRIPsVcjGHOcXYu6jc9Me53smA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758493207; c=relaxed/simple;
-	bh=ohrGSsoJD2pXLw3dHvbPso3wSwhHsr1KLrjzFnujEyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JK4Ai/pr+sB3GWD9pxJMSDVfYfdPyS4voencULoTwJfBx2LZjBPFzS+xOVQnlcVpjbRhXxFwv4MYAh3y43kJPQlbzuhtd+llwxvHR9MRdzhRZH9IomEe/v3FRtaVER7EDjVk/9ii4G8bgIVnBfDzjNACZF74AvN4yvWZUyEK4AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klkS5BiK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758493289; c=relaxed/simple;
+	bh=6oei0aWXFhVRzFAC+ZsItJg6xnA+dZu9f+eLcagd27c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TxUsQ5ORQJ06rKJI79Xqx21dKfdRTR/LNbGnoyRLUY5/BAOncMunJ3zJqcQLCGR4CazinKSkU3mgR/zmMDszzeMVjYN9QwiLtdymsIxq/ykQLxRtlPaCQgTQK7KLKP+l6ky4SexRQMP/zDivgOIICx0Zeg7hwfdZULapwOAP8Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PYp+qLmQ; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klkS5BiK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190E5C4CEE7;
-	Sun, 21 Sep 2025 22:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758493207;
-	bh=ohrGSsoJD2pXLw3dHvbPso3wSwhHsr1KLrjzFnujEyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=klkS5BiKXKehUPAXHeNrKpPJlS/IB4rQx1BTBWBONOiRMFFI1Vm0f4YzHVejMpcUt
-	 4/WnwO3dLNHFn9lzlnfrdfhu8zoJxi/Y+6NnAGazIG264d7hpcwE3A10A34FnuIbsI
-	 hzpKmiLv49J6iuelBxgFI/9JVHjPMtUmgIfvKYUgbnJP1txRQb01+L51sSUoxrp9s3
-	 4BQwfUGFyYSedhEItnb5RMVRrxTQXxk7KQelzCKJGg2lhCf6SxPGFv8xotL8R4nUmp
-	 xSdYilPcaQIykVRjtl/0fYETGqz15Sa1psHYzbf38ftcLjoPt8oH0Uvmz2dbrOswoJ
-	 dlKflNlBdaVNg==
-Date: Sun, 21 Sep 2025 23:20:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Subject: Re: [PATCH v2 7/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
- and ADAQ4224
-Message-ID: <20250921-unadvised-uninjured-cdd7a6e6f326@spud>
-References: <cover.1758214628.git.marcelo.schmitt@analog.com>
- <2d6bca62056e1254f91b45f70f4ba4614e659c1c.1758214628.git.marcelo.schmitt@analog.com>
- <20250919-unsure-mounted-0fc49ce72216@spud>
- <aM3HJY0GWJmP8-do@debian-BULLSEYE-live-builder-AMD64>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PYp+qLmQ"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4c88e79866aso4256331cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 15:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1758493287; x=1759098087; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PHLyAWNRRvZ698aiszn9fxUOIJUP3t6BL2WpPwYPRag=;
+        b=PYp+qLmQxDpcmaKJAmXMNT4GUpKlnhY6sJMKA98L5JO9raId4BOtZqe4WvAc8WA1zg
+         tPLT7hLlrHPZWi7qcn9VILdX7yuKmgioYSnnb6UVNzkerEruUta/TsokQD6GY3314ZLk
+         PpFK6/80wRa8dfWftRO3ku1Ayr/N3gSR1QeuLFUNLW0QEChYKfSRh4UDtSAy10HGjtFx
+         8U15lT76FdDnIJqfvDxXx+5aBa/a2jzoc8JBxh6ggMbtcG3XqkYEGyRbJPYeEXA9ae9d
+         mW9rrKbYxoZ2k9LtHic6v7oeBw3FTSwXE8PjL8G/hukziGsKDx+P5tU46dvcVEIuNl1J
+         bDHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758493287; x=1759098087;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PHLyAWNRRvZ698aiszn9fxUOIJUP3t6BL2WpPwYPRag=;
+        b=g2zT/q6udKpIpUYCvyPBN69zXyFwsySJ6jO/zBwGunmX6BATHTzaE/ZvCzAlsNcAqt
+         52zkEVRl5yhRSMIqWCn43K/AQayCJPYOWWqoi2nx317HUhLPVVn5RFWM5cKpX8LHEJYS
+         6LsOf/r6JUwv4H9A2HDu2jSSTE6oI6bYpJnqkQzGeZ7rn/sWVHQDd7GVcziwQf2XRxDu
+         eY1ZhlxWxCv0ajCHTCNFIEHaP0lNhcoO5IwyHC1kIqWJrXR7P20dSPlc9r6GnK378AYC
+         0XNTP0wIgEE3gt0t073igHqf4nGl3Z7XW8XyVopf8tGrTcbsgAUTlitkUmVhzheFAuoH
+         Sp3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUEDJ+dSf7gOZDQMEGNIHhVV/zgr4wqxQl1pwDnva8GBGSXpeqAzDkzQ2LDyVzPxXy8nPawfnFT6fE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwipAZ8B+/Qdj1BzbjdwDO6wN/ByhA1NIQp7cWZX5zY3yl+y7f2
+	mgGPHk8CCkYl17ymVeDwrcayv6dfjkBstD8/MVGxEwJ/M6xOr4eHMEvCHw1h9OndmSzWzHWn4d1
+	GXZbVA0HIM1wADzT0uNyDcj0pzdPlqAfLikkM3KGaMQ==
+X-Gm-Gg: ASbGncuchI+JRNkm5kXcVY9BNA+/GrMVoRjMiNa7crrK1imaAAkXkJuX8d5It8BIZVb
+	f4kF2wMg6ho0A3WnEfjg5YLJujNUSAgMbhZddHWJcf7khJ4PM2xtDpL+sT+RaxomI78FYtVG2WJ
+	kBPfvxZT7IP0FvWE3PNEHPfloqHIKwt41vLX/B790QNJPLW1Xxousata9tyno+lh7R0DNgZ6kS9
+	59SUZw=
+X-Google-Smtp-Source: AGHT+IF9Bd/LCK7h6/iC83qqAy9wLiFHaZDvz7ruwA4mtaZ7EwXHPx8srwbwmVkArl3yVoSLBLTkv5dGYhCDZ5ZrJps=
+X-Received: by 2002:a05:622a:4c06:b0:4ca:10bd:bae5 with SMTP id
+ d75a77b69052e-4ca10bdc5dfmr21648151cf.81.1758493287147; Sun, 21 Sep 2025
+ 15:21:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hSQNaCplevA2/Gki"
-Content-Disposition: inline
-In-Reply-To: <aM3HJY0GWJmP8-do@debian-BULLSEYE-live-builder-AMD64>
-
-
---hSQNaCplevA2/Gki
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
+ <20250807014442.3829950-8-pasha.tatashin@soleen.com> <20250814132233.GB802098@nvidia.com>
+ <aJ756q-wWJV37fMm@kernel.org> <20250818135509.GK802098@nvidia.com>
+In-Reply-To: <20250818135509.GK802098@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sun, 21 Sep 2025 18:20:50 -0400
+X-Gm-Features: AS18NWCcd-5oq0uHFf03h4LWbprCKHRBHh45SwiCRQil-ZYQKwKcHW5Zv6e3HKA
+Message-ID: <CA+CK2bDc+-R=EuGM2pU=Phq8Ui-8xsDm0ppH6yjNR0U_o4TMHg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/30] kho: add interfaces to unpreserve folios and
+ physical memory ranges
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Mike Rapoport <rppt@kernel.org>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, changyuanl@google.com, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 19, 2025 at 06:12:05PM -0300, Marcelo Schmitt wrote:
-> On 09/19, Conor Dooley wrote:
-> > On Thu, Sep 18, 2025 at 02:39:29PM -0300, Marcelo Schmitt wrote:
-> > > ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices =
-have a
-> > > PGA (programmable gain amplifier) that scales the input signal prior =
-to it
-> > > reaching the ADC inputs. The PGA is controlled through a couple of pi=
-ns (A0
-> > > and A1) that set one of four possible signal gain configurations.
-> > >=20
-> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > > ---
-> > > Change log v1 -> v2
-> > > - Use pattern to specify devices that require gain related properties.
-> > > - Disallow gain related properties for devices that don't come with e=
-mbedded PGA.
-> > > - Documented VDDH and VDD_FDA supplies for ADAQ4216 and ADAQ4224.
-> > > - Updated PGA gain constants.
-> > >=20
-> > >  .../bindings/iio/adc/adi,ad4030.yaml          | 65 +++++++++++++++++=
---
-> > >  1 file changed, 60 insertions(+), 5 deletions(-)
-> > >=20
-> ...
-> > > =20
-> > > +  pga-gpios:
-> > > +    description:
-> > > +      A0 and A1 pins for gain selection. For devices that have PGA c=
-onfiguration
-> > > +      input pins, pga-gpios should be defined if adi,gain-milli is a=
-bsent.
-> > > +    minItems: 2
-> > > +    maxItems: 2
-> > > +
-> > > +  adi,pga-value:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >=20
-> > How come this is "value" rather than "gain"?
->=20
-> Because, for this one, I drew inspiration from ad7191 bindings [1] in the=
- hopes
-> of avoiding creating new properties or using discontinued/deprecated
-> nomenclature [2].
->=20
-> The thing is, we now have ADC chips coming with PGA circuitry in front of=
- ADC
-> inputs. Those PGAs are usually set/configured through hardware connections
-> (e.g. dedicated GPIOs or pin-strapped) and have been described in dt-bind=
-ings.
-> Though, since these added PGAs don't follow a pattern with respect to the
-> provided gain, different properties began to appear. ad7380 and ad4000 use
-> adi,gain-milli to describe PGA gain [3, 4], ad7191 uses adi,pga-value and,
-> more recently, adaq7768-1 has been proposed with adi,aaf-gain-bp [5].
-> adaq7768-1 is arguably a slightly different case since the signal gain st=
-ems
-> from an anti-aliasing filter, but it nevertheless results in signal atten=
-uation
-> much like some PGAs.
->=20
-> I personally like the -milli (or even -permille) nomenclature because 4 d=
-igits
-> have been more than enough to describe the gains (at least so far). Thoug=
-h, I
-> acknowledge the base points suffix (-bp) which is documented in
-> property-units.yaml [6]. The only thing I don't like much about -bp for
-> describing PGA gain is that PGA gains are often described in terms of uni=
-tless
-> scale factors, while bp implies the value to be described as a percent.
->=20
-> Anyways, whatever property name is chosen, it will probably be better set=
-tle to
-> something rather than arguing about property names each time a new ADC co=
-mes
-> with an integrated PGA.
+On Mon, Aug 18, 2025 at 9:55=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
+>
+> On Fri, Aug 15, 2025 at 12:12:10PM +0300, Mike Rapoport wrote:
+> > > Which is perhaps another comment, if this __get_free_pages() is going
+> > > to be a common pattern (and I guess it will be) then the API should b=
+e
+> > > streamlined alot more:
+> > >
+> > >  void *kho_alloc_preserved_memory(gfp, size);
+> > >  void kho_free_preserved_memory(void *);
+> >
+> > This looks backwards to me. KHO should not deal with memory allocation,
+> > it's responsibility to preserve/restore memory objects it supports.
+>
+> Then maybe those are luo_ helpers
+>
+> But having users open code __get_free_pages() and convert to/from
+> struct page, phys, etc is not a great idea.
 
-If PGA gains are common, then ye it would make sense to have a standard
-property. I guess one of the problems with doing so is that there isn't
-a standard/common binding for adcs themselves, so without making one
-it'd involve reviewers pushing people to the standard one. I suppose the
-current adc.yaml could be made into adc-channel.yaml and adc.yaml
-repurposed. I bet there are more properties than just PGA gain that
-could go there.
+I added:
 
-My personal objection to "pga-value" is that it doesn't communicate by
-itself what aspect of the pga it actually controls. I don't really care
-what "unit" qualifier is used that much or if one is used at all. That's
-more of a thing for yourself and other IIO developers to handle.
+void *luo_contig_alloc_preserve(size_t size);
+void luo_contig_free_unpreserve(void *mem, size_t size);
 
-Part of me is bothered though that all these gains are not in dB! But
-I'd imagine there are not really any ADCs where the registers don't
-deal in unitless gain and using dB would be nothing more than an
-additional headache for software developers.
+Allocate contiguous, zeroed, and preserved memory.
 
-> [1] Documentation/devicetree/bindings/iio/adc/adi,ad7191.yaml
-> [2] https://lore.kernel.org/linux-iio/510f6efb-ada3-4848-ac8e-16fa5d1b528=
-4@kernel.org/
-> [3] Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> [4] Documentation/devicetree/bindings/iio/adc/adi,ad4000.yaml
-> [5] https://lore.kernel.org/linux-iio/46842d4cf2c1149bd64188f94c60ce5e4f3=
-b2beb.1757001160.git.Jonathan.Santos@analog.com/
-> [6] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schema=
-s/property-units.yaml
->=20
-> >=20
-> > > +    description: |
-> > > +      Should be present if PGA control inputs are pin-strapped. The =
-values
-> > > +      specify the gain per mille. For example, 333 means the input s=
-ignal is
-> > > +      scaled by a 0.333 factor (i.e. attenuated to one third of it's=
- original
-> > > +      magnitude). Possible values:
-> > > +      Gain 333 (A1=3D0, A0=3D0)
-> > > +      Gain 555 (A1=3D0, A0=3D1)
-> > > +      Gain 2222 (A1=3D1, A0=3D0)
-> > > +      Gain 6666 (A1=3D1, A0=3D1)
-> > > +      If defined, pga-gpios must be absent.
-> > > +    enum: [333, 555, 2222, 6666]
-> > > +
->=20
-> Thanks,
-> Marcelo
-
---hSQNaCplevA2/Gki
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNB6EQAKCRB4tDGHoIJi
-0ilzAQD2Iqg4901qxI3yFrx6NIi8tPC9QjJO/FSlcqncYqajAAEAqXP3Wvz61V3F
-20RIlKmMYE8C2BfOaHUS1GlFKGmwAQc=
-=IipO
------END PGP SIGNATURE-----
-
---hSQNaCplevA2/Gki--
+Pasha
