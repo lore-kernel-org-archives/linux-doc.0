@@ -1,67 +1,109 @@
-Received: from cdmsr2.hinet.net (210-65-1-144.hinet-ip.hinet.net [210.65.1.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39830433B3
-	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 04:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.65.1.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F6913AA2F
+	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 07:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758429112; cv=none; b=mX3lMv9Y9kAlF1SZFKo+p1HWrouKB+SKBtPCRnGNkH4NcWYxeLkLQg3kprI/3BYGkry0KAPwxFWETJ3XB5mw5r5murUUkFMCu56W/RbEoEavUiQtmgBSYQRBO6oPuNsa2vvseQyXnIeGsIlCGn9iC8j/kEyZbvsqAiwL1v2RI/E=
+	t=1758439566; cv=none; b=aVHjguEadVhrn/cR7stfuN1R/+bu4gYob+Pz6EkZeP9yfnSD4PV3Khjshl2cYR0clVLN92DYqQkzAwajPI/5a7IAPIqIgKR4j40FQtJhrSCVsqaN7XOhA0qZJQNfRnHMPKSj0sNYMe3/2grbfCxprzHvU8/97nopi2ax5n33lcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758429112; c=relaxed/simple;
-	bh=plcqq2DvXYkjzDxZO3TACzWk1K1BYwcZr+Qu7LRPo5A=;
-	h=From:To:Subject:Message-ID:Date:MIME-Version:Content-Type; b=t2IsPM8j3+uLA0yI5nIF9bXjHZOI4XnQDbVMnP2DsW1GlD5Miu2mIEEqVPbKksXH8cxbAZz0M4laIi/77D5TIv3Vk+64rvg30KNN4+qxVF97wP32btxrLoBdzaPr6w+EtjmwqY7GRjWlx3CsgWcS8YGObTQ3R77FvhIhxHbr7sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ms29.hinet.net; spf=pass smtp.mailfrom=ms29.hinet.net; dkim=pass (1024-bit key) header.d=ms29.hinet.net header.i=@ms29.hinet.net header.b=HwOUD1Cq; arc=none smtp.client-ip=210.65.1.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ms29.hinet.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ms29.hinet.net
+	s=arc-20240116; t=1758439566; c=relaxed/simple;
+	bh=1Xr3JrWFHoKtG/qOsyJchC0HBoSRsVqX4jRi/R6ITAc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=c35LtMBILvGPcHLRjO24s9nrbtvEruma8qXj47NE74AeAjZLEZzY8Hp1/UZHLJOTy68P0mTbvWuFSPyIbytcD0ADt/MFGOqb8vSjx7RRTcVyQ2hBAMicLASTMZQGzAn0yGmLDvA9Ahx+jVAlPMsZu0qckdpBtzm8tIFJmmGv1T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lx68B+KZ; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ms29.hinet.net header.i=@ms29.hinet.net header.b="HwOUD1Cq"
-Received: from cmsr5.hinet.net ([10.199.216.84])
-	by cdmsr2.hinet.net (8.15.2/8.15.2) with ESMTPS id 58L4VkG4196540
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
-	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 12:31:48 +0800
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=ms29.hinet.net;
-	s=default; t=1758429108; bh=jsrCQst/YC3OGEye7w9T06hmfXA=;
-	h=From:To:Subject:Date;
-	b=HwOUD1Cq8Iin/h4zj83KQ6gw+2l5D291JKYieokf+zVMOe/8AgcUKKac/i5AIITz1
-	 l5zUq1RVxdZhzQg3bbi17zz+QWJ6HjL2KrqfBd345IiS5Humh07bgreqi4rgKdTPL0
-	 2mYQJaIICYbtJzrpyjN9BGqoqAkcMY0B6bCN+j/I=
-Received: from [127.0.0.1] (36-239-124-102.dynamic-ip.hinet.net [36.239.124.102])
-	by cmsr5.hinet.net (8.15.2/8.15.2) with ESMTPS id 58L4Nd2C703088
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
-	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 12:25:46 +0800
-From: "Info - Albinayah 303" <Linux-doc@ms29.hinet.net>
-To: linux-doc@vger.kernel.org
-Reply-To: "Info - Albinayah." <europe-sales@albinayah-group.com>
-Subject: =?UTF-8?B?TmV3IFNlcHRlbWJlciBPcmRlci4gNDc3MjcgU3VuZGF5LCBTZXB0ZW1iZXIgMjEsIDIwMjUgYXQgMDY6MjU6NDQgQU0=?=
-Message-ID: <e03c6b13-d497-011b-d54f-abe235a44798@ms29.hinet.net>
-Content-Transfer-Encoding: 7bit
-Date: Sun, 21 Sep 2025 04:25:45 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lx68B+KZ"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-32eb76b9039so3856981a91.1
+        for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 00:26:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758439564; x=1759044364; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DzPJJ4C+1gdSVSV5lr2OGKZl84sAhTLo5fDPxBHfyQ4=;
+        b=Lx68B+KZt34OgwcxcwDgK+K4QLHQx88AET0ydzyZ3XWdpcKDWbYbpXTdLZJ9dvnYxK
+         hvEoimLcoZdfBfxc7MzWhEE7BmyIVaP+ZohYM4R3wf7qashB3i+HgyzDh2nq4pCmSb7w
+         Mupgqgb1vZDkY1y2F+FOsgZI8h/2PH98H14/KHWEcV02C0wDNc8bc9uQ2ofC8ZKL22K4
+         MaB2Mk6t9VWYA2fEQEMKx08ekuiDlNPduXGYKGpOMVZ1dfcpFWTx2Nroklwz7+L5w/u4
+         OzDLycvy2OEaRHYwf1k2hrt6iIfH0b8/agOXwP/OnekuE7CjVtQLNQejmwxUP5wCU+nm
+         3mBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758439564; x=1759044364;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DzPJJ4C+1gdSVSV5lr2OGKZl84sAhTLo5fDPxBHfyQ4=;
+        b=XBq2jH80+42H3pEqiDN3uBxgeqEjNP5FO7Sxg7ddayhTOgHBQR2G/wwzYKoOKekNyX
+         hhhNcRqY4De0/QWcldvhqy9+HY7svvoYuxSnRVJ27ukgPwFJ3aYsUPZa9fVfQ0+9jLfw
+         3CKVC03m7+a4iAG212hA13k6GE4BvhGgwMes5hWYISryAqlGiW7wUImxXgZb6S+oM1qh
+         s9fqkcJLuNtom4SkD8VbCV9Uc+mfYsL4jTRRQTPLcEAgSqyU/TgEuXXIUxwzCSCfhTaU
+         HSm5mnezzo5s5ZzVMK1C8w9gqxK0YtsKCvFvaNhEhA8+y1xPPOgNZ9RYxyPFT7Jpww05
+         OEHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVePzaYfHakfzMlz1ssB7rirXVITBZUWvaoWxDG9YaAyNFCA7pSdG6lfZiQDtS8ImZ93pcP1xG4uBY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMGfrg43YArii8I0clVHsG1m5pSReLKVMnG+1x393vqwGOi69a
+	KQYawH1Zujhd+99AZxvQn/16HYVoGKUvUqZSLOlpmv3P8fh3nh+N2xSd
+X-Gm-Gg: ASbGnctImiE2sFhfc0SXvUj41q63+8DPofoJKTbO/lGWSVJ4PygJpyvS1G5BlrfX6XJ
+	KLdLUpUK/wUmJcXPX+iJnUH94ZADLSf9O9Sc0HUARvmKihGNgyYUztyPY/OZVNVpD2Z+ElQzeSm
+	J4YNY0YbZRQs7gLKC+z2LCJ/ERCSNHiwL3V5JssdmemJkOF4ogFCiUYa9YMZz5Apk8xPPJN5G4a
+	C0MZ/+BEuHGVpo7k6vg9/YFgXoNitrMghHgbXR2rBtgYhIRoAAmrSaLZpfYTdwwTc0xAxNV/pcU
+	9ozXtDQFEiHL3MSKOTH51VSQkWUjoJaRF145IcLv6RYgofKgy955iNiLhhR1tTXwwUyigLI0TZD
+	lGb9cNClXU3f2fvgD7GNYuGEXCNmA9SNUENnzuodTanN3Lmxw81n+QsN93IK6n0oVaVdI+oAFh/
+	FmXxo=
+X-Google-Smtp-Source: AGHT+IGVxT7YUVc9MtD/F23iM2RAG0MM5u+85RCOVRYncSMGma9y2NUwgDaSJpqNO0S3iAg/Af0DOQ==
+X-Received: by 2002:a17:90a:d605:b0:32b:6eed:d203 with SMTP id 98e67ed59e1d1-33098245aa1mr12015185a91.24.1758439564368;
+        Sun, 21 Sep 2025 00:26:04 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-330607b22bbsm9677242a91.15.2025.09.21.00.26.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Sep 2025 00:26:03 -0700 (PDT)
+Message-ID: <c3b9de17-7cd8-4968-9872-cbe2607a7143@gmail.com>
+Date: Sun, 21 Sep 2025 16:26:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-X-HiNet-Brightmail: Spam
-X-CMAE-Score: 100
-X-CMAE-Analysis: v=2.4 cv=X8PxK3Te c=0 sm=1 tr=0 ts=68cf7e4b
-	p=OrFXhexWvejrBOeqCD4A:9 a=uOCXUd7ZQqfqfYBohqtHNA==:117 a=IkcTkHD0fZMA:10
-	a=5KLPUuaC_9wA:10
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: dev-tools/lkmm: Fix typo of missing file extension
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Linux-doc,
+Commit 1e9ddbb2cd34 ("docs: Pull LKMM documentation into dev-tools book")
+failed to add a file extension in lkmm/docs/herd-representation.rst for
+referencing its plane-text counterpart.
 
-Please provide a quote for your products:
+Fix it.
 
-Include:
-1.Pricing (per unit)
-2.Delivery cost & timeline
-3.Quote expiry date
+Fixes: 1e9ddbb2cd34 ("docs: Pull LKMM documentation into dev-tools book")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202509192138.fx3H6NzG-lkp@intel.com/
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/dev-tools/lkmm/docs/herd-representation.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Deadline: September
+diff --git a/Documentation/dev-tools/lkmm/docs/herd-representation.rst b/Documentation/dev-tools/lkmm/docs/herd-representation.rst
+index ebf4a2181cd7..f7b41f286eb9 100644
+--- a/Documentation/dev-tools/lkmm/docs/herd-representation.rst
++++ b/Documentation/dev-tools/lkmm/docs/herd-representation.rst
+@@ -3,7 +3,7 @@
+ herd-representation
+ -------------------
+ 
+-Literal include of ``tools/memory-model/Documentation/herd-representation``.
++Literal include of ``tools/memory-model/Documentation/herd-representation.txt``.
+ 
+ ------------------------------------------------------------------
+ 
 
-Thanks!
+base-commit: b8874ea3d0fdb2c48b2261bb3b46c84908fa67bb
+-- 
+2.43.0
 
-Kamal Prasad
-
-Albinayah Trading
