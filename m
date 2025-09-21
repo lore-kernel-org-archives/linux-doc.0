@@ -1,63 +1,63 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5718137C52
-	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 18:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C285119CC37
+	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 18:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758479950; cv=none; b=npMaw7GcJe2j3G9mnMLazTplcVSTvA+QcpqNFKZ6/vB6OR8Eos/JZRkDuyN9a2SRL7ZQf9sqko5zaarf6jTjqljjvxzKvAl/1jbPhvIgatfXXquz8+uw1/T5MGjdtM/EfR4c9f3OFi1BlmivUY/xds90ibCKackZF/qJTg01puk=
+	t=1758480001; cv=none; b=IALVanvACevBsn8lkVJblE8gsAE90KuyN9Ahlru5/9Xwyba/ZnMext8VvtxmuStBmXCTvscQvfAh6RvOFuqU0UMknkTUjtxpZ1B/XNNcocs++9dozwe0eRY4PRs+Pg8yLgQs0t7q4PmrrFumjZKzeEB4t0rqwS2dHtDQx1gK3zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758479950; c=relaxed/simple;
-	bh=LdcCRqz3KtQXSXoTHb+8mA2gEpy9f2TJgfnQhNHNteA=;
+	s=arc-20240116; t=1758480001; c=relaxed/simple;
+	bh=GXW9MbqWA3jLNU9CtKF7MwkNis6w9KLGzmXQONCs8K4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lA2mJ7HUD3+29picsaD429MJk6gVejeGFo9lMdKKLfK5CyMc+47o5v1yIBcoMszEqwDkkve9Po+uWzjARHwnNO49xIylpfDUpVsVu8PN5EGE0vqjoB7DuM7phEtept7o7CkZa8FeHUIhQSLIRGmeeXGyiP71yU2/KCGmdsIhvdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vfg2YKrH; arc=none smtp.client-ip=209.85.215.172
+	 MIME-Version; b=QUGTT5D0SV3Q7sr7T3BN4/R5UPZ7GWCGCNQOVyb2Xj8TjxSN7JOcqjuIB6wt9o0ridNJ412OO20K+WjLypj2TS7dYh9PPwF1MaQaQXs6QICVV/aDhmNsLuRN9i21sKQ4MfTcM8ooyu5J0rwbZgEnmqrBO6Mr/bMQZoxTVVAtDjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fD1FWs1R; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vfg2YKrH"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b54a74f9150so2723832a12.0
-        for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 11:39:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fD1FWs1R"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2570bf6058aso49414495ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 11:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758479948; x=1759084748; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758479999; x=1759084799; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hq6jXGXLG3JigntJa3VtN4WdTvDP+hByOjJ1Pi4yPUY=;
-        b=Vfg2YKrHaVbn+0gOmc+C4h7ftRMzmYRT7Q5eaFoE4eAEuaKszB2UTVKK8tVRaWDXT7
-         hk7dQ65KvpC1x2pD8HDH45bD30YdIcXwMkAD3mzMHlXoGWU6TYGMtAbM90YmLT7GzFpo
-         033tFrgOYrHx7O9nTWaSREyCDsTyaafm2we5psQxuCKkBJlBw5E1hSN2v4IuiFeATEES
-         Q8gjlM7ToqHt9PgXiQDWN/iqKXnT2djEriPmxU5XC1BPuzmmZSU6nfleDHjSlD3YeHLM
-         gSXzj6L5t7QBYYAAig//zNrtPWdKPdKAtnt7HHcOM5+Uf4Snv4x564JeCrOFcwf0fXtt
-         PE+Q==
+        bh=VoB7cKQN4+UN4qFZ4riutgjHBwdWBXWlGksmHEe4AKI=;
+        b=fD1FWs1RoYb4ZrtewnsI42ZaxwrS/7ddD4gBE9N62c8ycvqHQrAEXI/M6hBsjzCM6/
+         P6yhQAuQy93Wc8iXoo+VBxhJubWWQhKV3RxT8GavV3QYENXcMczR+FADX5a4p3Y6c6Mx
+         AfywTbr8JZ5GCw67IUEDQcMB/hKspqh9wyv0OMpJXbZgiPX47gVoydmkdlTCW/pz8gqc
+         Mu+/3pInbZBwVkdt7igyXzUKhMYfCc+jOyK+iFld7fHMWpZoLUvPxT3xQE5A0Px1Q8yN
+         KJftHGBq++NNRsFyTktl/wbPpJajTU/20WqMK5OPMp87hSSVAIIVuuOsqfmgnERMiXFp
+         l9Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758479948; x=1759084748;
+        d=1e100.net; s=20230601; t=1758479999; x=1759084799;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hq6jXGXLG3JigntJa3VtN4WdTvDP+hByOjJ1Pi4yPUY=;
-        b=g8MFM04TNwXJXUUjOrBz1TZEwI2MfcTr+Wrv2QT8WxsPALlVu0yX72Ptf9dFhN/Q0E
-         Crg8jV7r6Tb3WeCCs2clpwfPTwDPYULiKloMD8IoBWjtrON84XEUHKNP45TQsuoE4b+w
-         skWQNwH/sO7Zdl1pgkwq1ANjpmSZe2T3eXI8x9kYsyQpzP2SBG22dY7M8zNVB+6Rt8R3
-         1a7SH6GQCEQXo14S2+NC/+1RRc/HxtQyxQjIqTvLh2jIz7ZF2beEs+WlijtWh6vXVzka
-         QJm0yY5tsofdUaxiZn1SgjKzjXVZrGZTtq3jM0IIWpUS8Ilhcj3DWVRh2XHOy7Y5kWF3
-         x+Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTEAS1NKeKAWyYKucmRJcVHxCJC8FsgkzM2ZgJ4aS/zTYJP+TJpJLcDGAFhh/aF6oetRWL6iaiFMY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuK9CYsGBcqIAiT26wS8kuPi5keN8R6WeoDu0vVTvIxKoAS8+r
-	EzzHpTm9vvswm0shezAP8Tao/tEigfMeRAlnLJMyJK70ptMALwecqclo
-X-Gm-Gg: ASbGncvuMHZEwFTdUzX2WZWJ6Ob8U5gEhJRy1SD0ZeUnZrTjB7aOs3ZgN9Z35H56JE8
-	2D3scOhW0u1JcDzaiavD7Z4maV1EZmm10Rc+1DwwalP6mCcQxhJAnO/ucDdtda30hTnbMFyOS2M
-	U8i/cvgYyO52pAgu4lB7xeSeduPQemWsDzLrlzA8KRhnn9bfsVKp7U+Cx9LdqVUyzGeOEDtDWK1
-	SqEKIvO6O4cY8Y81Dvc5EZQjD6gSH0Txz8CCz1ppeIibF9GXMbg2qY4JPBt+5yKrDEMtaP1qVP9
-	EK5XjxhfSmj2PQmXzygoROhrqCS4pmnYt2PiKdXP5+t6pb319xH+FPpzvIHafAAz5IkwEbcIy9k
-	P13rZB4VH0EYeCzZfgA==
-X-Google-Smtp-Source: AGHT+IG/tBXYTLYsn0XwDsfXDr3GxHXFm/OCmsG97SH6xg+8qlRPLcBgWhtCsUeNNJUVJ4KN1b1Ujw==
-X-Received: by 2002:a17:903:2347:b0:270:b1f7:2e5e with SMTP id d9443c01a7336-270b1f730b2mr82568485ad.22.1758479948106;
-        Sun, 21 Sep 2025 11:39:08 -0700 (PDT)
+        bh=VoB7cKQN4+UN4qFZ4riutgjHBwdWBXWlGksmHEe4AKI=;
+        b=YMLGSHhOwfwifxXK7aYiN6oaVLxW44A+EtvFXHwiqCMaNpeDW0h9+dxJGOeohIPeWc
+         FdTI2jKGWDou+811uvS5jmCfCfVB1Pdw1eGhzR0dzjeWnSR5/qvccK5asmXsRO9Vxt5b
+         6s8AkX1m6k3uuljsbfsDitrm8tW5xqTfj/ehN60QfLJGU0eoKPKGrWpbqli6jPPJGN5p
+         a4YOj/i5D6EhR8TBlNgXmk+2+4jXnIwVV5DZ1SrVqWLbagilgtE1qHQcLwxLub5b4ZfK
+         WEh+XVaAy8ZqdRaFRO6EbxDM8fPiVCyeg3JPBxM1vGzWOkjT4M6TzUEgzEetASHNhH58
+         aMvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXUFEFJaVd6pVHO2/C8eEyWjSaBDDZfQj+4wCz3mjnejKCPgfGbRlJivWZgiozshnlQfC9r6cYhREE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywb2CL432xBFVMwiqf16q/XNrDvZVkAE3RGhnjZJM00gge7Y5XL
+	RmPn1023Ft/6JzOujLjn8yPCS2d5BYliFu+8Fykub19VaWY39X+4xQhh
+X-Gm-Gg: ASbGncvbHSN/uRa62sjQGpaG8J9YoEB89KTjfv5Q5DahpPnW7zoKBaK80IY3GG7Gy9b
+	ssxcexETDUEnBwDpg6IzWnRXi6czEerPStLNcJ0hEHjWyJWq8PSeZ8Sb5mulZgT79GNtWlDSwkj
+	1DaYD0c5sUYk3fJINnbeNbgTO7AvCahyh1m+EohYveoRy/KM+vzx51gWyqBr/R9qe1LtmFTDFHQ
+	IWCXFgGcsbyfOFdOyEflIJRU0JgiZp+iB6xfERj3YRwsI1j1j+hf5p0GvL79+p8ZG6cuUDk/7SS
+	/ev8aPSfgXpTbpghFGx8mK/MrutQmE6wv9Dh6EUkB+enHM02jk5em56WRiyO+Et2jpneoMU3euP
+	PIl1e+Qk/IfLKQIB9AA==
+X-Google-Smtp-Source: AGHT+IGHyO6EN3VS1Dx3b+5swr3ajzqvhmea+cALQsD7c13Q589dV7pWvt5n7lRWNnlqSlv2oFO2+g==
+X-Received: by 2002:a17:902:fc4b:b0:26f:7db2:3e1e with SMTP id d9443c01a7336-26f7db2410cmr91789895ad.47.1758479999035;
+        Sun, 21 Sep 2025 11:39:59 -0700 (PDT)
 Received: from fedora ([45.116.149.13])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802dfcbesm111053795ad.88.2025.09.21.11.39.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802dfcbesm111053795ad.88.2025.09.21.11.39.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 11:39:07 -0700 (PDT)
+        Sun, 21 Sep 2025 11:39:58 -0700 (PDT)
 From: rtapadia730@gmail.com
 To: neil.armstrong@linaro.org,
 	maarten.lankhorst@linux.intel.com
@@ -71,9 +71,9 @@ Cc: mripard@kernel.org,
 	linux-doc@vger.kernel.org,
 	corbet@lwn.net,
 	Rajeev Tapadia <rtapadia730@gmail.com>
-Subject: [PATCH 2/4] drm/mipi-dsi: remove deprecated write_seq macro and chatty helper
-Date: Mon, 22 Sep 2025 00:07:20 +0530
-Message-ID: <20250921183720.237761-4-rtapadia730@gmail.com>
+Subject: [PATCH 3/4] drm/mipi-dsi: remove deprecated mipi_dsi_dcs_write_buffer_chatty
+Date: Mon, 22 Sep 2025 00:07:22 +0530
+Message-ID: <20250921183720.237761-6-rtapadia730@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250921183720.237761-2-rtapadia730@gmail.com>
 References: <20250921183720.237761-2-rtapadia730@gmail.com>
@@ -87,113 +87,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Rajeev Tapadia <rtapadia730@gmail.com>
 
-The mipi_dsi_generic_write_seq() macro is non-intuitive because it
-returns out of the caller on error, leading to subtle bugs in panel
-drivers. Similarly, mipi_dsi_generic_write_chatty() is redundant.
-
-Both are removed in favour of mipi_dsi_generic_write_multi(), which
-provides proper error accumulation for multiple DSI writes and is safer
-for panel drivers.
+The mipi_dsi_dcs_write_buffer_chatty() helper is redundant and
+non-intuitive. It has been removed in favour of
+mipi_dsi_dcs_write_buffer_multi(), which handles multiple DSI writes with
+proper error accumulation.
 
 Signed-off-by: Rajeev Tapadia <rtapadia730@gmail.com>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 32 +++-----------------------------
- include/drm/drm_mipi_dsi.h     | 23 -----------------------
- 2 files changed, 3 insertions(+), 52 deletions(-)
+ drivers/gpu/drm/drm_mipi_dsi.c | 32 ++------------------------------
+ include/drm/drm_mipi_dsi.h     |  2 --
+ 2 files changed, 2 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 3a9b3278a6e3..bc847ab5c822 100644
+index bc847ab5c822..c2fcc219cb58 100644
 --- a/drivers/gpu/drm/drm_mipi_dsi.c
 +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -773,42 +773,16 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
- EXPORT_SYMBOL(mipi_dsi_generic_write);
+@@ -926,40 +926,12 @@ ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+ EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer);
  
  /**
-- * mipi_dsi_generic_write_chatty() - mipi_dsi_generic_write() w/ an error log
+- * mipi_dsi_dcs_write_buffer_chatty - mipi_dsi_dcs_write_buffer() w/ an error log
 - * @dsi: DSI peripheral device
-+ * mipi_dsi_generic_write_multi()
-+ * @ctx: Context for multiple DSI transactions
-  * @payload: buffer containing the payload
-  * @size: size of payload buffer
-  *
-  * Like mipi_dsi_generic_write() but includes a dev_err()
+- * @data: buffer containing data to be transmitted
+- * @len: size of transmission buffer
+- *
+- * Like mipi_dsi_dcs_write_buffer() but includes a dev_err()
 - * call for you and returns 0 upon success, not the number of bytes sent.
-+ * call for you.
-  *
-  * Return: 0 on success or a negative error code on failure.
-  */
--int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
--				  const void *payload, size_t size)
+- *
+- * Return: 0 on success or a negative error code on failure.
+- */
+-int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+-				     const void *data, size_t len)
 -{
 -	struct device *dev = &dsi->dev;
 -	ssize_t ret;
 -
--	ret = mipi_dsi_generic_write(dsi, payload, size);
+-	ret = mipi_dsi_dcs_write_buffer(dsi, data, len);
 -	if (ret < 0) {
--		dev_err(dev, "sending generic data %*ph failed: %zd\n",
--			(int)size, payload, ret);
+-		dev_err(dev, "sending dcs data %*ph failed: %zd\n",
+-			(int)len, data, ret);
 -		return ret;
 -	}
 -
 -	return 0;
 -}
--EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
+-EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_chatty);
 -
 -/**
-- * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/ accum_err
-- * @ctx: Context for multiple DSI transactions
-- * @payload: buffer containing the payload
-- * @size: size of payload buffer
-- *
-- * Like mipi_dsi_generic_write_chatty() but deals with errors in a way that
-- * makes it convenient to make several calls in a row.
-- */
- void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
- 				  const void *payload, size_t size)
- {
+- * mipi_dsi_dcs_write_buffer_multi - mipi_dsi_dcs_write_buffer_chatty() w/ accum_err
++ * mipi_dsi_dcs_write_buffer_multi - mipi_dsi_dcs_write_buffer() w/ accum_err
+  * @ctx: Context for multiple DSI transactions
+  * @data: buffer containing data to be transmitted
+  * @len: size of transmission buffer
+  *
+- * Like mipi_dsi_dcs_write_buffer_chatty() but deals with errors in a way that
++ * Like mipi_dsi_dcs_write_buffer() but deals with errors in a way that
+  * makes it convenient to make several calls in a row.
+  */
+ void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
 diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 57a869a6f6e8..e4d26ed7a62a 100644
+index e4d26ed7a62a..cda981a41bc6 100644
 --- a/include/drm/drm_mipi_dsi.h
 +++ b/include/drm/drm_mipi_dsi.h
-@@ -288,8 +288,6 @@ void mipi_dsi_picture_parameter_set_multi(struct mipi_dsi_multi_context *ctx,
+@@ -326,8 +326,6 @@ enum mipi_dsi_dcs_tear_mode {
  
- ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
- 			       size_t size);
--int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
--				  const void *payload, size_t size);
- void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
- 				  const void *payload, size_t size);
- ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
-@@ -382,27 +380,6 @@ void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
- 					  u16 scanline);
- void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi_multi_context *ctx);
- 
--/**
-- * mipi_dsi_generic_write_seq - transmit data using a generic write packet
-- *
-- * This macro will print errors for you and will RETURN FROM THE CALLING
-- * FUNCTION (yes this is non-intuitive) upon error.
-- *
-- * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
-- * Please replace calls of it with mipi_dsi_generic_write_seq_multi().
-- *
-- * @dsi: DSI peripheral device
-- * @seq: buffer containing the payload
-- */
--#define mipi_dsi_generic_write_seq(dsi, seq...)                                \
--	do {                                                                   \
--		static const u8 d[] = { seq };                                 \
--		int ret;                                                       \
--		ret = mipi_dsi_generic_write_chatty(dsi, d, ARRAY_SIZE(d));    \
--		if (ret < 0)                                                   \
--			return ret;                                            \
--	} while (0)
--
- /**
-  * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
-  *
+ ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+ 				  const void *data, size_t len);
+-int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+-				     const void *data, size_t len);
+ void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
+ 				     const void *data, size_t len);
+ ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
 -- 
 2.51.0
 
-
-Test message
+Test patch
