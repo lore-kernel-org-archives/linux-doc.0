@@ -1,113 +1,149 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479A51805E;
-	Sun, 21 Sep 2025 15:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF2719CC37
+	for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 18:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758470359; cv=none; b=C6Pr2DLF1WQJ/Tx3LadF/GSuiGcJ3TGFBK1WuaOrpdhTmt9IszjKGmxIbOTaTOjm0/iNeeF4twDLGLHi5/R6CfbVRLWsU6RqV4J9ngZhgY6i+b88ptWZ5PgE/j8WygVRYsfrcyjywOm3KcZZ0kZ4LrP7MdKT/wpDXBIAabSpCo8=
+	t=1758479909; cv=none; b=V7VznlX9hdpsshZ4E8EVUqrOQ3YTAxbZMvtSxl8H/4R7J4TaHJkm5tZBYSRKSXPtpD24KXWi0ah0UsYqxqROgtbsSXU+i+dk/pq2IDS5YLEvhbKOnZBA4cn51vgXsKTTOrU7XPXvc3n18C9R/PAlvqHV3Tt4Hq62yhNurdMlW0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758470359; c=relaxed/simple;
-	bh=11qZ9aFAHDFeQ0eQMn9CS9VjItomiLbllwL4kMpclYw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q9vZMYojCn3yTvvMGJovG1fDyV4zvHYQqlTKI396dTLSeGBlDaTH0NKMtKm8EBlr0e1H0KxsAR02ExCIO7oB5++FR+qXGpjDLJJyP3OsaBlSF41PJaTmlKR9MktI0SlFvplLeTCS3uODjH00s7WCXiJvk6OHYe9jWk2UYQBxQPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Qtw1G+Gy; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1758479909; c=relaxed/simple;
+	bh=1dTtzDC6tZE567amj3+s+yhSP+wPAp0a8+47DgV7k8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vnu/mPwAftfI4HoUrJyXkxCTeYEytfn6AQI7gn/uCIXzgdL67CJap9Df+RsG2cmtMpaAAbnTfvlYdbZcymGT5kjMOjo5Ip5WAzQ5ls8JR0LwvIB/fX6bh8jB9o2K+IPXQ45MI9iosIeN7QXKIc/mHzksmLevNRRy7Ku14INdqFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqAlOYID; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qtw1G+Gy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=jHoyjBvhAGg/Exwr9rKBh+K7Gl2CKnyGlrrCZ8zULpk=; b=Qtw1G+GyzrPmkEUSdUhj5KiGj7
-	MvuwAesLz193S09/mYZp1JZkyHs3cJKYcfbRHiqN2qWFhwmX0A0Y3WxzITRfHibPLMGKAillIlku0
-	WEyI28B2m+tcijN+MOY8kHnONYF+FP8psx9saLnWJyY4XaAv2VgD+SH7CNHOvS9El0xC5e25Nzg8F
-	7EH4k7nwPnro3CQvqqjs/kyCp5YD6tfrLfY1qle2icEUpeNa/q4TdqFKqxM7xgDU2g8UubGeYD4LZ
-	ACXERXFwQ+zroGJ3/ohDGnlM9CscUY61EciazMi1bX2GaNi55WW8+QQP9QVQNsClJAbfsl9KORals
-	uubB8pxw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0MT6-00000007ghs-34Lc;
-	Sun, 21 Sep 2025 15:59:16 +0000
-Message-ID: <e2112be7-ba68-43d1-92ba-98adfb869a95@infradead.org>
-Date: Sun, 21 Sep 2025 08:59:16 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqAlOYID"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-268107d8662so38929385ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 21 Sep 2025 11:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758479908; x=1759084708; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FG8Bt7npKalhz1su7W/I5V9S/1CafpuEGaa5DL+2Qi0=;
+        b=PqAlOYID7AAaB8eh5BKe3kI67+nj0k49XsBlf0bEztj809nbEcDa+hMTgb2LbZ55w3
+         XswIoZ4JnBqZBMk+dl+ZZjUBB3AImK16EyiA3SW+2/mADFYo/Ar7VJPOk0fU6pubJcqx
+         YyHUk45Ky708RpB36UdrnrWZFLwMdFO5VBRc+/mEaLeuKdlcQsq/+0pk78F6g0iDImNB
+         GozMxsnPS1Y79lfOLOY8rgV85O7TCP5gY2MipeRUOrhUtf4u6rcBVCR3fzlBl0VbfF76
+         0XbLlzgvyqpC48H5V+Jh5amy3X74zs1iIVNpRwRLIkjzZ1t9S8VruFcQlWBXP2HHuvQW
+         hJFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758479908; x=1759084708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FG8Bt7npKalhz1su7W/I5V9S/1CafpuEGaa5DL+2Qi0=;
+        b=YjGM8NqunmMI3tI67DOHneYuoVj7d+1qlsCVf7i3UeYXROof6UiJzxeZVwTp37jQOW
+         Wv3TJevHKLZSrNLS6+GZn5WWxqq1dh622bm24Bf+G3ARYqvZ2Pk5/pN+w2Oeizu5P59z
+         K/RPnN0ea+L6uR0mFs3u66swuRII9LQmHYCzHOrQpm1pfxewDcQuLFV8a8SMqY1Rjd+R
+         0L/zJe+fon0OHwk5PINxim92bG6EN+ewBdfSIZL11Chh5w9xeEIKgbcNFve5Al1WwGzZ
+         2K3H4YLbB0z3J4s8rmwT9CYz8wSA2iBsTWuAEpiJ7pU3m00fdF30nVj07uUQq17k8iG+
+         36LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIgaHZ2M8th5nBHU0ADfangoGMHqChQR6EPj9F5XymnpBQtxYHODmAyHK1Mnmj4quNBXT0bF1iJZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6p8Tcv4Q/rONvS6loEtUF+gn4uOSlqcLKlMS96MD7nbPo+9jS
+	Xd+fHyxnbDNb0AHObdRd2bMbZWfubO3NVAzG/budKoSV40sMEdfYjhcG
+X-Gm-Gg: ASbGncvNmPliQ8SAfuzBy3t1eqKCfGR3j8wUKRiuzqUVbrr2rveEP68i3uqrImk7GBv
+	Ee0re59vMSw8H2s7E189QNrEWrs1cKxuk/ZtrIC8GopkzTiwMItNW9mwlMapZeiBpwKJz+zIPCl
+	c/A8O4VRuTbpLwkSd0djzW2y/Iy33InqcOI8FxnUjX5rLnBOIYh4ddFSmnjlalTNjFSAvtP1qYC
+	M4egy8418+Ib5jxXQnbZ8SMk1+9VSxGkFHBLma4ezF6lJaPDNB/+Jsbalqm+tBdliCaMjDmTCzm
+	3ye98Hfrug13Gn3/3Qwm+pg6jwF5Gk37EM3hY2uX4TAU/WfLHprbL6g9i6Z/3yuwk4WupaSgrK/
+	bUOOgaeOoTPGoINt9LQ==
+X-Google-Smtp-Source: AGHT+IGVujox0fyaNT3MucK6Cw+loJTsxMamdU8PPqz9OPA70Qfq4hxxfxRZjg3jA0wAYGw/vNjnww==
+X-Received: by 2002:a17:903:183:b0:268:1623:f8ce with SMTP id d9443c01a7336-269ba40dccdmr118789165ad.10.1758479907783;
+        Sun, 21 Sep 2025 11:38:27 -0700 (PDT)
+Received: from fedora ([45.116.149.13])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802dfcbesm111053795ad.88.2025.09.21.11.38.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 11:38:27 -0700 (PDT)
+From: rtapadia730@gmail.com
+To: neil.armstrong@linaro.org,
+	maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	jessica.zhang@oss.qualcomm.com,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	corbet@lwn.net,
+	Rajeev Tapadia <rtapadia730@gmail.com>
+Subject: [PATCH 1/4] drm/panel/lpm102a188a: Switch to mipi_dsi_generic_write_seq_multi()
+Date: Mon, 22 Sep 2025 00:07:18 +0530
+Message-ID: <20250921183720.237761-2-rtapadia730@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: Tree for Sep 19 (make htmldocs problem)
-To: Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <aM1xVa_SX3_QFU_q@sirena.org.uk>
- <883df949-0281-4a39-8745-bcdcce3a5594@infradead.org>
- <87ldm7c382.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87ldm7c382.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Rajeev Tapadia <rtapadia730@gmail.com>
 
+Replace deprecated mipi_dsi_generic_write_seq() calls with
+mipi_dsi_generic_write_seq_multi(). This avoids hidden early returns
+and matches the direction of other panel drivers.
 
-On 9/21/25 7:03 AM, Jonathan Corbet wrote:
-> Mauro, have you seen this ... any ideas ... ?  Randy, what can you say
-> about the environment you're running when you hit this problem?
-> 
-> (It doesn't reproduce here).
-> 
+No functional change intended.
 
-openSUSE/tumbleweed current.
+Signed-off-by: Rajeev Tapadia <rtapadia730@gmail.com>
+---
 
-Python version: 3.13.7
-Docutils version: 0.21.2
-Using alabaster theme
-Using Python kernel-doc
-sphinx-build 8.2.3
+Question for reviewers:
+In this patch, I switched to using mipi_dsi_generic_write_seq_multi().
+Currently, if both link1 and link2 return errors, only one error is
+reported via accum_err. How should this ideally be handled? Should we
+report the first error, the last, or combine them somehow?
 
-lrwxrwxrwx 1 root root 4 Sep 11 01:42 /usr/bin/sphinx-build -> alts*
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-$ file  /usr/bin/alts
-/usr/bin/alts: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 4.3.0, BuildID[sha1]=17681640c9985eb36ae6d9eca0f08159509386c4, stripped
-
-
-> 
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
->> Hi,
->>
->> On 9/19/25 8:05 AM, Mark Brown wrote:
->>
->> With today's linux-next, when I do 'make O=DOC1 htmldocs', I get:
->>
->> make[1]: Entering directory '/home/rdunlap/lnx/repo/linux-next/DOC1'
->> ../Documentation/Makefile:71: warning: overriding recipe for target 'pdfdocs'
->> ../Documentation/Makefile:62: warning: ignoring old recipe for target 'pdfdocs'
->>   File "/usr/bin/sphinx-build", line 1
->>     ELF
->> SyntaxError: source code cannot contain null bytes
->> make[1]: Leaving directory '/home/rdunlap/lnx/repo/linux-next/DOC1'
->>
->> where the "ELF" line contains some binary bytes that are not shown
->> via copy/paste. Here they are in hex in case that might help:
->>
->> 7f 45 4c 46 02 01 01 0a              .ELF....
->>
->>
->> I don't see what is causing this, so I am using the previous day's
->> linux-next for Documentation testing etc...
->>
->> Any ideas/suggestions appreciated.
->>
->> -- 
->> ~Randy
-
+diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+index 5f897e143758..982cb61849a0 100644
+--- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
++++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+@@ -162,27 +162,34 @@ static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
+ static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+ {
+ 	/* Clear the manufacturer command access protection */
+-	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
++	struct mipi_dsi_multi_context dsi_ctx1 = {.dsi = jdi->link1};
++	struct mipi_dsi_multi_context dsi_ctx2 = {.dsi = jdi->link2};
++
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_CMD_ACS_PROT,
+ 				   MCS_CMD_ACS_PROT_OFF);
+-	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_CMD_ACS_PROT,
+ 				   MCS_CMD_ACS_PROT_OFF);
+ 	/*
+ 	 * Change the VGH/VGL divide rations to move the noise generated by the
+ 	 * TCONN. This should hopefully avoid interaction with the backlight
+ 	 * controller.
+ 	 */
+-	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_PWR_CTRL_FUNC,
+ 				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+ 				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+ 				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+ 				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+ 
+-	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
++	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_PWR_CTRL_FUNC,
+ 				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
+ 				   MCS_PWR_CTRL_PARAM1_DEFAULT,
+ 				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
+ 				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+ 
++	if (dsi_ctx1.accum_err < 0)
++		return dsi_ctx1.accum_err;
++	if (dsi_ctx2.accum_err < 0)
++		return dsi_ctx2.accum_err;
+ 	return 0;
+ }
+ 
 -- 
-~Randy
+2.51.0
 
