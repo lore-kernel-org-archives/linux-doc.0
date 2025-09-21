@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A98F29B8E5;
-	Sat, 20 Sep 2025 20:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E722F4A;
+	Sun, 21 Sep 2025 00:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758399632; cv=none; b=bYGhpmqVmQCJGM1PtIRpmm6lclua5aBwhB0eR4UYmYTAS+RtcM1uSZeAjoKNysiMk5hbYlAuTDs2vVDSB9qR/H4faQZX5hO+PXdTTi3mXikwjEeM7WOoRRD/JsSffVgEK820F/SNIE1Um3QLvawUq4fAoQrODwNvPzgoKjzbsrg=
+	t=1758413880; cv=none; b=BM1LNmJcgK49s6s4E3KokLJQKkkm+MINrZS6rSIuYBU4JgpMOcRe2f16gyWfUKJ1oJOe7q5jagftrKXzZN7NCjaxhsXXKAwpei6Drxolvv4M+aHxOWXqZ1Yc0HjDESK8Hepbp2TENWwhWCXdCFXGmGr/kyhGPTrYy/oYhQNO1wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758399632; c=relaxed/simple;
-	bh=PrSgpY47sfnficXYN8oj/GmgrBXrsudNXvXWDE5hZYs=;
+	s=arc-20240116; t=1758413880; c=relaxed/simple;
+	bh=LJu7bWI7bi776pLKP2h3f6v2o/uN8gKM7T4wCk9yYd0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H4r9+dpuhShmMUq2ukzAeQrXAnRUgI82USrBFO1uHHrC8EBxsluCS9QLFfBZUc0ZZSuvqWWIksTxLjqRYcHsvXvw5LRCMO/6ia+Xq2eEf30YgmH8EwPhJKahM+KMv+XOTS1HpWdgUETUlaIYVWHrhogIKdNbEooB5hEczeEUVgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KK8vn5Fn; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=SaXkkOZ6ymYW5e5C4iQLIbpwjkhybP1PieaaZq2xKtuC2EjLDeQzYYG0zCiqPW5YKJIDvgKTLxOfUaLrCstW1losTyUAT1Jb0niMy961P5Z1P7XWKG//VuIHpUl/H3nWNZ9KFl+0zi8ekmw8KQ88CBm3fNzkIg9me03GDiqv/YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hnNfO0SU; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KK8vn5Fn"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hnNfO0SU"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/+m3RkTbBF370RPh39k49YAhXk/9orK5dqFtFgNaebA=; b=KK8vn5Fn8nbrgKl+DIWBV389Kc
-	yasVuU1NY22WY1UzMh+baXLsn3kCG1WNSel2AvTJPu/TIEdcAUigZl1mGkmZChDdJrRCspO/eFaSo
-	zqEVzCYn0ZwqWbArl4HdGJd6egTfb87MhTPNz9+NSdc2dcRxEXt6cOoPGzk0LH1WMsWLPwFJNCt1n
-	dR+KS2wDwF9Eq6SdOFwlhUJYbP+1+QOWfW/0d129n9ZBuQGWJWRDHMuo1Rj3glsuVXWaNl7jzoOEJ
-	fFDITLDw5q0zUYkXZ+27eWROA/dXj4//kfXCbcH7CjIRSQUQ+ttBLoMcV7wN+hCZ4LyxsYR2XmXn2
-	tW/9U56A==;
+	bh=SoG7Bheeo1ZuenR2+gEAL/c/uKVjDyCX5DenDPBYO+k=; b=hnNfO0SUdAZth2+TmeIU2DaDvH
+	bX9C8l0jv5e61N/tsNeVYL6T7LVBqCOiZcnGX7Gzj4X8k5K+YRyfBtXjh9gFHpOX39seIn9lTSfPi
+	DcbRIB3ZdatkufI1AD7QHtoMVsjYeiCrG1woEDAcaBgeQCCYO+rVhjx/PV142VMR3pM70kVDrOojP
+	MlbghUQIlPVnYIP0DIAVSFJ7XohbKKGxJcjWkbqbuPK4Hwa2DwVQQENLFSRj+SakBenb3vYA6OXz1
+	IacRjxncJl3DsseyjHDHqJm8SA6faoxDtlhttDYmfMuDr+0CIAMeI8/IuEMNzjGDxm4R5M9AWxp+x
+	ZpTskQkA==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v044J-00000005sNx-390v;
-	Sat, 20 Sep 2025 20:20:27 +0000
-Message-ID: <982d4494-c91b-4b7f-9e3e-858f5ceed067@infradead.org>
-Date: Sat, 20 Sep 2025 13:20:26 -0700
+	id 1v07m8-000000067PF-2Us6;
+	Sun, 21 Sep 2025 00:17:56 +0000
+Message-ID: <883df949-0281-4a39-8745-bcdcce3a5594@infradead.org>
+Date: Sat, 20 Sep 2025 17:17:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,47 +39,43 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Associative arrays documentation formatting cleanups
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
- Markus Heiser <markus.heiser@darmarit.de>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Silvio Fricke <silvio.fricke@gmail.com>
-References: <20250920024227.19474-2-bagasdotme@gmail.com>
+Subject: Re: linux-next: Tree for Sep 19 (make htmldocs problem)
+To: Mark Brown <broonie@kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <aM1xVa_SX3_QFU_q@sirena.org.uk>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250920024227.19474-2-bagasdotme@gmail.com>
+In-Reply-To: <aM1xVa_SX3_QFU_q@sirena.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi,
+
+On 9/19/25 8:05 AM, Mark Brown wrote:
+
+With today's linux-next, when I do 'make O=DOC1 htmldocs', I get:
+
+make[1]: Entering directory '/home/rdunlap/lnx/repo/linux-next/DOC1'
+../Documentation/Makefile:71: warning: overriding recipe for target 'pdfdocs'
+../Documentation/Makefile:62: warning: ignoring old recipe for target 'pdfdocs'
+  File "/usr/bin/sphinx-build", line 1
+    ELF
+SyntaxError: source code cannot contain null bytes
+make[1]: Leaving directory '/home/rdunlap/lnx/repo/linux-next/DOC1'
+
+where the "ELF" line contains some binary bytes that are not shown
+via copy/paste. Here they are in hex in case that might help:
+
+7f 45 4c 46 02 01 01 0a              .ELF....
 
 
-On 9/19/25 7:42 PM, Bagas Sanjaya wrote:
-> Hi,
-> 
-> Here's two-patch formatting cleanup series for generic associative array
-> implementation docs. The shortlog below should be self-explanatory.
-> 
-> Enjoy!
-> 
-> Bagas Sanjaya (2):
->   Documentation: assoc_array: Indent function explanation text
->   Documentation: assoc_array: Format internal tree layout tables
-> 
->  Documentation/core-api/assoc_array.rst | 196 +++++++++++++------------
->  1 file changed, 103 insertions(+), 93 deletions(-)
-> 
-> 
-> base-commit: 348011753d99b146c190aae262ee361d03cb0c5e
+I don't see what is causing this, so I am using the previous day's
+linux-next for Documentation testing etc...
 
-for both patches:
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+Any ideas/suggestions appreciated.
 
 -- 
 ~Randy
+
