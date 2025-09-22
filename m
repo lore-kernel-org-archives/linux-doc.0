@@ -1,179 +1,115 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D28E2F1FE5
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4AD2F7AA1
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758526960; cv=none; b=smEDqhFN6C6iooGBYJGUw5sv6squQYV5bmf2u4zgE3qNzP3jTq8h7kEMrDDVLY3YMrSuGHng9QwBY+KdUlG76S+0KccaMORgvsjgQBCugMc0NBnGpuMpNc7RRA82N0CeoWna1oijqbunSVjN7hiddCui/Ipxu3L/hI99HEqQDHQ=
+	t=1758527681; cv=none; b=WwiFVoHbK4IGm/2ScWh5dWK8Uv8qoA0oMjmOuWwQThGmto0LyKisKUOTF3kZ+rxTBqbBfzs/wSGctZ30sq58cz70jdT5Tsaei2XHAPBFuSdgk9tcKjqbR1xJ/F9AIr5hC/5xb3Og9qK05UcBskDDVg8aFTpooYhs6PbfaMlDu3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758526960; c=relaxed/simple;
-	bh=5gMuXlLFD1XuG3/tnXO1PQbMJhaTShGwHuvU9eBdkWs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FfoSFPT9xykHKo3lXHVQR6bMUNAxANJYx0jpKu/TrhQ75YOzqWix9dtUDtbuLJFDfSMzAiCiU49lDILWAKW3JPy5Xr1upAw1CTO6zJBqygMX0iY9SjhRsxA0yKhKQVeb18DDozHA5hj/EBQvAhYY8MSI8xYai0eKi2U7Gmcj3D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dJ0RdmRR; arc=none smtp.client-ip=209.85.210.170
+	s=arc-20240116; t=1758527681; c=relaxed/simple;
+	bh=wHhXbBUv8sLtLk6ZtdozUkZSGPHqvYUTRhRTVOMPPw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=liN/ePV5wjrvCHzCzD1ukmEKCsy7K8UYBxD4Wr0e8HrQ26y1nSZLARgAThVoIP6HzfBGyPnSxkP2goeCLnZH/Lv9zCG3uKw47Fiv7wC35bNZii93EVRacPn5WTgFsaMdmyzWre08TQ4vHylgxwlmaaJ9gfWBu/L72hge8U1dNes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B53g+eii; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJ0RdmRR"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so3997710b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 00:42:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B53g+eii"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2445824dc27so43155695ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 00:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758526958; x=1759131758; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j4Phf+K1gS9MFRb7NZEcpfy0Bk/WQT2x+jx3wjjf1Yc=;
-        b=dJ0RdmRRLjHvd4Yg9fvQvCEaefhH4gBc9ck4uC/i1LZyCgNWbEGsOxX8aLtvdqCllM
-         Qk8++2PuzRfE6UP9KC3oLEk1/L+pWVGytqEvnhluh1k6kNFURFEsUtkLFQI1mNQUHjjr
-         pY9S+tVTPLUZ2zCv/rZ5bKmEerEZRqMaSoz2Omlvaqw9kVTEGN8W6EK5dggz95Kn6Oel
-         k+VeaU5LrWZkh3f3Ci/7GI/pdMr/e3Y7Rr3GQz8LwAXvlrbDPMSIuqMSVjj4lhoYeQrY
-         XAdPikz0mW77E0fFUYyn4oyvupOyu0ciyvnhrxp28j0K9JvVTxnreOUiimfS3a+tJKBR
-         /v3A==
+        d=gmail.com; s=20230601; t=1758527679; x=1759132479; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wHhXbBUv8sLtLk6ZtdozUkZSGPHqvYUTRhRTVOMPPw4=;
+        b=B53g+eiiTb5GDiKWZd/72tvC2vLjAUOqGrQYYHn2hP6zqCOPWTErNP9eJU1q4+a/Qt
+         nL2Vs9X5i9mVdn1Pyxy8caliAFbGYzbaF7JFqNAg1lNiOr3b5sq3uBRtzxY4DtbA2Nge
+         lZPVjDf9YW9iKP6TBSRl3pKL4xYTUIju3wH9Pb7IAagjLzpGzB9R/deQZsblrDLnw4tZ
+         48iOLBZlT6ZK+DwHPH8ZRpmUFCzPRzbAqu5ux2Cn6gw6LAUdDKHFSXtE/h3lkJosoJwr
+         LkRD09lFr9kXwu453ADEQaTiKiuozO6aJpudEqSfRiUnSk1qUAxKi8t2ptYTix8/TUBx
+         bpPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758526958; x=1759131758;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j4Phf+K1gS9MFRb7NZEcpfy0Bk/WQT2x+jx3wjjf1Yc=;
-        b=szY12xcnY7nVvdKLksxheiZb4sxDKmALhhcdVw2WBJwKgOlbuzArj4Kr5SJRxVHxiz
-         mgmXEWH6oqLKGNNE/u0nKIi1mkl1kgWeDxS1MPW+H2Hyz1H68JMcKq+zYfm5wuw4YrS4
-         DZuPkEcvx4gqAbuEe/jUea1TLG9muYEmeuGNkI7rwCyH1zcXdnTgz/W4JEIROVL3du3r
-         Wt6SLaBAtEmN6smiBlej+6HZTenPjnhB22gaeuXBK/FW2f2rA7aMREyd9SrAyHbBBXD6
-         VNNoh5LRrgAIy/2X5sAYPTF7Q/P5MA7a9WvvETQqd59AuzIq2D38VSU0WW6OzOjkE0Kr
-         2kOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXKGjaHMRnCvjr4a0KBiwo49Ih2TfmeNWv/qTUT/RsQozho0nYFPxIHxz/eGgMaGKUXaKIJNZ4MAcc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH0D+tTkaPfzBL0b3dOwvO/9qO1nKPD/ZhenIsO2SXImoHwAiy
-	vcGheMaXyZZEGH67NiVZ6wWIXU8JFgFFItsuUpuzgUmt/dN3A1HPYpWz
-X-Gm-Gg: ASbGncuUIXEZzzQtsVFSqDFyXOlZtmJWPpm4ecY6ON2ndRoiHWJ4BwcQ6O0OUrm4WWl
-	zqv74YMehXTz2LB5dLbc9Ezjw/tuzr5Y7XJG9o0qVXMUHsvhxtfjhDsIvV9l9fnxSAZqAW5lj8E
-	MmmcDCoEqK8YjWJaQZpBqfO5pMh681VPaZL4yWcbvBtelqhsi6QuY1QxYKztQ4CqwQG4DoBqsTo
-	X4YGrOInD//QQKgagqHtfygKu/RcDCUFUHD+YWTrB0zRzlJzq5jmyNPhxRvYprgzv7gDUVFG9R9
-	fwco1Y6Sn/Zc3HpL7GtMbExCxTJeoWwjlTkG0sDJo1OSt5SmTHVRYLUlgfsk9DfOT8h7aqiESnA
-	brNFu5T5M80hiiT28KW9ugg==
-X-Google-Smtp-Source: AGHT+IEj02pN0u0thRutHEIw7lMcFftbuQpwqlog/mxIBSHur0AW7esbFKRuvCsc5NQu009kGxpKIA==
-X-Received: by 2002:a05:6a20:734c:b0:262:d265:a51 with SMTP id adf61e73a8af0-2925c55fdacmr16155109637.18.1758526958069;
-        Mon, 22 Sep 2025 00:42:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758527679; x=1759132479;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wHhXbBUv8sLtLk6ZtdozUkZSGPHqvYUTRhRTVOMPPw4=;
+        b=wwN4nXNib9OUoXcfFp8/bUjDZQzDn3cMAV6lVcFZfO7tGT6VYoZ1V7WsH6F/pngqxs
+         R5/aqP4A11U5hkv6jqr0v0lSu56X6W7T3eMe1eofnDRe57sKgxWyxvWesRDVicBkecu2
+         eg6eJNxwgefkT5YHkz6mB/2kn8KXbl5ydohlivSY6GpQ84K6d4BCdTEbZPKd+Mdk6zHq
+         WO564/ofHOZXl+gksg8wAupO79A5L4i9vLjDCAHsOwwhnotLxEMOong6W6EeGxGQbBPH
+         1hC+FEs1Ey4xsxfEe7AdwTOLL3cUZ+SQz1/kt0L3KZimFIbw4khVFxH+1dd6YT1hQdui
+         81lQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVaRk9ueocyCtMIEcZC3HrSFzbSW8/INepoacfZ7flYyd97NSxoF1ouR1eVi2cKjRY3bkUoabHAKLI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXysfyP8poAakToSW4m9+tDQ2vK0dzyuZPqPv0lB8ERLAxA3gC
+	f7VlOt/YsIj78aybplujo5C6SLTXUMFJ8ddFQ48sY1XmpAb7RqHA/EXk
+X-Gm-Gg: ASbGncva57jt2bp0xx+USdM5H35oM/O8lgzfDzy7uDl2iwY3aavq/72jzH4DOnwQuES
+	TkmR8HODLghM12iTKmd7FSrI3pBHFVZVSPTL1YvuPyUeh9fYnU3tqzjuiLbkfE1sAYGk5OfWiei
+	NnnzLcUruq7Sy17rd3H3/AT9CHh77wvW8XZUUutV3j5NCCAJOHSVfUHTBhsZlywlv+v6CpxrFfa
+	XszYwmR2IXIFRN3pRTqIfM6oLlWRIPRiPDFgmtCUKKxcCOz6AL3v4/JIUdjVHecJfbgP6fE5XTl
+	sGT0HSvbmTcuoFFwg/2/F1AqdrAc9AX2+v9zoUbP/e534Zdjc/rSmeZr0bk/zH+nJ7EUpwb6+Dv
+	PQG8LTI5Ss4m59fJ1HDswfA==
+X-Google-Smtp-Source: AGHT+IHz3wNSWldGNXV3xlynWhX7Cr9eYZtSb12u2x27WnJQYglboQKton+MwFy1y4rS6oR/rbqndg==
+X-Received: by 2002:a17:903:3846:b0:267:c984:8d9f with SMTP id d9443c01a7336-269ba45919fmr182012075ad.24.1758527678869;
+        Mon, 22 Sep 2025 00:54:38 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b551d050414sm8109090a12.38.2025.09.22.00.42.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26e2046788dsm71684115ad.72.2025.09.22.00.54.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 00:42:37 -0700 (PDT)
+        Mon, 22 Sep 2025 00:54:37 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 057FB4220596; Mon, 22 Sep 2025 14:42:34 +0700 (WIB)
+	id D26144220596; Mon, 22 Sep 2025 14:54:30 +0700 (WIB)
+Date: Mon, 22 Sep 2025 14:54:30 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux KVM <kvm@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Dante Strock <dantestrock@hotmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2] Documentation: process: Arbitrarily bump kernel major version number
-Date: Mon, 22 Sep 2025 14:42:19 +0700
-Message-ID: <20250922074219.26241-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Wanpeng Li <wanpengli@tencent.com>
+Subject: Re: [PATCH] KVM: x86: Fix hypercalls docs section number order
+Message-ID: <aNEAtqQXyrXUPPLc@archie.me>
+References: <20250909003952.10314-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4885; i=bagasdotme@gmail.com; h=from:subject; bh=5gMuXlLFD1XuG3/tnXO1PQbMJhaTShGwHuvU9eBdkWs=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX/vplL98iZtB7ZH7j6QCJv6e8mf25tzy8FHUxX0/R3 L99Tt7tjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzE3pbhn1k77zetLexL1GsS S9hDg5bHrExoWfOYZcetDZkx5wXDFzD8z7mhYG9ooVHe/0FX8k/3/rfrDvdrpQeEcnyYt3BS9Vk eVgA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6Hw9PxwxK+FTyenQ"
+Content-Disposition: inline
+In-Reply-To: <20250909003952.10314-1-bagasdotme@gmail.com>
 
-The big picture section of 2.Process.rst currently hardcodes major
-version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
-docs up to date"). As it can get outdated when it is actually
-incremented (the recent is 6 and will be 7 in the near future),
-arbitrarily bump it to 9, giving a headroom for a decade.
 
-Note that the version number examples are kept to illustrate the
-numbering scheme.
+--6Hw9PxwxK+FTyenQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v1 [1]:
+On Tue, Sep 09, 2025 at 07:39:52AM +0700, Bagas Sanjaya wrote:
+> Commit 4180bf1b655a79 ("KVM: X86: Implement "send IPI" hypercall")
+> documents KVM_HC_SEND_IPI hypercall, yet its section number duplicates
+> KVM_HC_CLOCK_PAIRING one (which both are 6th). Fix the numbering order
+> so that the former should be 7th.
 
-  * Arbitrarily bump major number rather than replacing it with placeholder
-    (Jon)
-  * Apply proofreading corrections (Randy)
+Paolo, Sean, would you like to apply this patch on KVM tree or let Jon
+handle it through docs-next?
 
-[1]: https://lore.kernel.org/linux-doc/20250913015147.9544-1-bagasdotme@gmail.com/
+Thanks.
 
- Documentation/process/2.Process.rst | 40 ++++++++++++-----------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
-
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index ef3b116492df08..bbd955d91df0cd 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -13,24 +13,18 @@ how the process works is required in order to be an effective part of it.
- The big picture
- ---------------
- 
--The kernel developers use a loosely time-based release process, with a new
--major kernel release happening every two or three months.  The recent
--release history looks like this:
-+The Linux kernel uses a loosely time-based, rolling release development model.
-+A new major kernel release (9.x) [1]_ happens every two or three months, which
-+comes with new features, internal API changes, and more. A typical release
-+can contain about 13,000 changesets with changes to several hundred thousand
-+lines of code. Recent releases, along with their dates, can be found at
-+`Wikipedia <https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_.
- 
--	======  =================
--	5.0	March 3, 2019
--	5.1	May 5, 2019
--	5.2	July 7, 2019
--	5.3	September 15, 2019
--	5.4	November 24, 2019
--	5.5	January 6, 2020
--	======  =================
--
--Every 5.x release is a major kernel release with new features, internal
--API changes, and more.  A typical release can contain about 13,000
--changesets with changes to several hundred thousand lines of code.  5.x is
--the leading edge of Linux kernel development; the kernel uses a
--rolling development model which is continually integrating major changes.
-+.. [1] Strictly speaking, the Linux kernel does not use semantic versioning
-+       number scheme, but rather the 9.x pair identifies major release
-+       version as a whole number. For each release, x is incremented,
-+       but 9 is incremented only if x is deemed large enough (e.g.
-+       Linux 5.0 is released following Linux 4.20).
- 
- A relatively straightforward discipline is followed with regard to the
- merging of patches for each release.  At the beginning of each development
-@@ -48,9 +42,9 @@ detail later on).
- 
- The merge window lasts for approximately two weeks.  At the end of this
- time, Linus Torvalds will declare that the window is closed and release the
--first of the "rc" kernels.  For the kernel which is destined to be 5.6,
-+first of the "rc" kernels.  For the kernel which is destined to be 9.x,
- for example, the release which happens at the end of the merge window will
--be called 5.6-rc1.  The -rc1 release is the signal that the time to
-+be called 9.x-rc1.  The -rc1 release is the signal that the time to
- merge new features has passed, and that the time to stabilize the next
- kernel has begun.
- 
-@@ -99,13 +93,13 @@ release is made.  In the real world, this kind of perfection is hard to
- achieve; there are just too many variables in a project of this size.
- There comes a point where delaying the final release just makes the problem
- worse; the pile of changes waiting for the next merge window will grow
--larger, creating even more regressions the next time around.  So most 5.x
--kernels go out with a handful of known regressions though, hopefully, none
--of them are serious.
-+larger, creating even more regressions the next time around.  So most kernels
-+go out with a handful of known regressions, though, hopefully, none of them
-+are serious.
- 
- Once a stable release is made, its ongoing maintenance is passed off to the
- "stable team," currently Greg Kroah-Hartman. The stable team will release
--occasional updates to the stable release using the 5.x.y numbering scheme.
-+occasional updates to the stable release using the 9.x.y numbering scheme.
- To be considered for an update release, a patch must (1) fix a significant
- bug, and (2) already be merged into the mainline for the next development
- kernel. Kernels will typically receive stable updates for a little more
-
-base-commit: 348011753d99b146c190aae262ee361d03cb0c5e
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--6Hw9PxwxK+FTyenQ
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaNEAtgAKCRD2uYlJVVFO
+o3wKAQCS3n6Xj/tW8RTpqqfFhRw/RaeX1a+0H1vnroXuIBgyAgD/d3RMhZPFm9JN
+FhRV0MeuKVEwYkg2livKKUt+Jgs+lgY=
+=b9qT
+-----END PGP SIGNATURE-----
+
+--6Hw9PxwxK+FTyenQ--
