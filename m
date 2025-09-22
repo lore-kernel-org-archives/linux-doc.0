@@ -1,80 +1,83 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CDD19C569
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 14:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CCB19B5B1;
+	Mon, 22 Sep 2025 14:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758550069; cv=none; b=tGtUcqgRO0F7MdVrQPVIWL2Mig/F53P/cBragsnDZayO60uZft11NDCbasEFyDO8hPBJ3+SxGA+PlfALirMXPHjT0o1pbP3tgcI2i8If1+WUDZk5q81LLKfUkZbYSBaWTvF1URetspLV049G0XR1IuMe4B+VTCS2mAglv3mMZQ0=
+	t=1758550069; cv=none; b=VhQbmRuhyinxN6QoXIBn2dQZpVzf0mvkRGMbOimsm1bvA1dnpzpdzvCa1wVLK445b4MYY6e6lVS6Q7SqEViICehATC7oSP9f/A1HcRDSgmskOX2zCLdaIQV/C3p+5t8DeYgz06HPyQWEToI1ingqPIOgPmkxF1i2uBNv+Nvc4tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758550069; c=relaxed/simple;
-	bh=tyVaKuWfBFWx5BCJG3YHH2FqroIs/me67hugzU/cs1E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=RcKlywORLW+4814ry/venCR8SG4mGud/wgC+02oHa8MrCysGKxar7KqF3x7bLXTLOLaGWRFNj2OymXQwobleG7vWvZX4Nn6PgCgfMQeoLTMfgTu6yiwvRIyWTe5Qm7nvOPFyyA/aHwB8oQS0Jc8onTET8n6XQobMPReAGsWAdu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IqInX6e7; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	bh=BPPSz6hzNxw/BkOQj3BI4PluIp4XPrI/5Q/keFRiJao=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nn84MM4KZRX8faQKX5q7oELg24z5PLuxs7OF7+x8IrcnSV3cwgNZqYgOcbqTINamiDwboORV65/NoC3qWpzj+44lhu5Qs0XiOUUt73F3KgwomfCv67ewY6sGaODGiX/MJinwO2FSZYyDRH37hgDzsVRCwcW47bpGsVgkOPO5vx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cHpxZmbi; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IqInX6e7"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-77f3feba79cso1370654b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1758550067; x=1759154867; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3dmlNt4jLc1yhAOfhdIXu4MYWVCnFVgG6lvtlLOwUWU=;
-        b=IqInX6e7CChcpmarSsZ+sKol2IkJJ7uyTnHJjiJ0CpoLIlCcupUSjso5/cjtMhLyhC
-         ECzNHtdeMbbKRl6Zr9DwWgS17Ejnw06Cvv/vdjV7UHrdTOSnFSJzSpEy6yagBPbsVkmV
-         TrYu3lFv98JOrVideQPhDPeLZO/Q6UZvcfh3qLQUr5zV9CMtiURVwKX7X56X8Ef1T31B
-         Wmyflvt9iNdXElT15lvw/M+F3HOe5zd8PrXpgM5evygzVBzbf6r661ngyCYCTrAUosWb
-         24tzmJg1tovehKMRLKzPlh81gzNjJYjqSf7gDOnvFyJRGuw+0Lm9ncxmad4uZH8fnt0I
-         YsiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758550067; x=1759154867;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3dmlNt4jLc1yhAOfhdIXu4MYWVCnFVgG6lvtlLOwUWU=;
-        b=xEIG51t45JVw2TSRKMYJ+AouMqxIvLVFV9Bnhpbn4Gxgus6eA197R7fax3oHriamtK
-         i5Xl3xmXgDskVgrco8DU+cnMcLRmBNzJALtkziT24ytD0Qnh9OoTLpW7PQib8OTa3AkM
-         ohqtqCsOZFPLeQfZdx37Yw6JoQaGM7NPbHE5N/7Rx8rmnbq550ym+DTn9vlhiBi7Q7us
-         6m2kq6IWkiuqxMqVXK3eJlBRVbq3TyKUs8rHvjlpzTDrU92VAbf7SygMaVnJX1EBmnb6
-         4DWphA1EghTNnJqO4N6qur9LA/f42iTJsrkwTuKphoLw0Huu2/aJZ9D6R9vUitCLKBJH
-         bwSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSE0y4/anXlJNz8DSWzNcckWyyrK6pWqtDv88oXUDdM2qsWiPbknVUCCz2vQlEjYmzJVU/oxTvv0s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtuPrSG17ECVsC7Pk+2g80GSm6D+h9nMcvf9Tl+8g2cE0Vda5a
-	CKWJnIedp68dO1Lrz2H5ZQF2wowXNlUPojIUUStnQAjssbIMvmnUlLZ3SxfQI9ocjsZpWVgeJkA
-	xgwG45Q==
-X-Google-Smtp-Source: AGHT+IEQgl2gi//t5TMBNwdIo1/6h8UVZtuDwgvBJmY3sChy40TPMSAvclGNeiDctfhD/fxxvR5QJK4JDjI=
-X-Received: from pfbei54.prod.google.com ([2002:a05:6a00:80f6:b0:77f:4904:b672])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1907:b0:771:fdd9:efa0
- with SMTP id d2e1a72fcca58-77e4e5c5576mr13905425b3a.15.1758550066926; Mon, 22
- Sep 2025 07:07:46 -0700 (PDT)
-Date: Mon, 22 Sep 2025 07:07:43 -0700
-In-Reply-To: <aNEAtqQXyrXUPPLc@archie.me>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cHpxZmbi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 205F640B14
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758550061; bh=wrAKOb4Dg8BoryMsjaOuNWjedqWrjt9a2y1SFMZMrPk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cHpxZmbi1aAcGM80yOEoIa7Q9NnjdwGu0/ooI4yLoFhwAad94UPyUEYhFLsqsK41r
+	 j3TgFTzSbxC5OCLHg/Cb4CPGj4LlPTCiCc8kOUjaI8xouz8FUsFZZ60srJfX9Dz8G4
+	 8O97E0XyIJWMBi2qBMZjDtrnKMMfPyw9sbYFMPkWMpREY4qb2BJ8V5LFPfFInulrUA
+	 0DZ40liVLS0M63af1JPomG1YFBJGW7rtfTt8EIX2nT/g1oPzQyO/fmAmQyrLZJ0oYi
+	 +jSRCprP9C91D1c3ms/hNF1HPJA+X8xhvsmmj/bQ/xpZaUgKRECuSkVAQ76vGoj0Bk
+	 oWH2usq+io/Dw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 205F640B14;
+	Mon, 22 Sep 2025 14:07:41 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel
+ major version number
+In-Reply-To: <ff092ff5-8ee1-4e91-b7f7-e5beb1d6d759@gmail.com>
+References: <20250922074219.26241-1-bagasdotme@gmail.com>
+ <87h5wu8x7o.fsf@trenco.lwn.net>
+ <ff092ff5-8ee1-4e91-b7f7-e5beb1d6d759@gmail.com>
+Date: Mon, 22 Sep 2025 08:07:40 -0600
+Message-ID: <87cy7i8tsj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250909003952.10314-1-bagasdotme@gmail.com> <aNEAtqQXyrXUPPLc@archie.me>
-Message-ID: <aNFYL2Os3rbfMbh6@google.com>
-Subject: Re: [PATCH] KVM: x86: Fix hypercalls docs section number order
-From: Sean Christopherson <seanjc@google.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux KVM <kvm@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Wanpeng Li <wanpengli@tencent.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Mon, Sep 22, 2025, Bagas Sanjaya wrote:
-> On Tue, Sep 09, 2025 at 07:39:52AM +0700, Bagas Sanjaya wrote:
-> > Commit 4180bf1b655a79 ("KVM: X86: Implement "send IPI" hypercall")
-> > documents KVM_HC_SEND_IPI hypercall, yet its section number duplicates
-> > KVM_HC_CLOCK_PAIRING one (which both are 6th). Fix the numbering order
-> > so that the former should be 7th.
-> 
-> Paolo, Sean, would you like to apply this patch on KVM tree or let Jon
-> handle it through docs-next?
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-I'll take it.
+> On 9/22/25 19:53, Jonathan Corbet wrote:
+>> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+>> 
+>>> The big picture section of 2.Process.rst currently hardcodes major
+>>> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
+>>> docs up to date"). As it can get outdated when it is actually
+>>> incremented (the recent is 6 and will be 7 in the near future),
+>>> arbitrarily bump it to 9, giving a headroom for a decade.
+>>>
+>>> Note that the version number examples are kept to illustrate the
+>>> numbering scheme.
+>>>
+>>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> 
+>> Just FYI, I've pretty much shut docs down for the upcoming merge window.
+>> I'm probably not the only one.
+>> 
+>
+> So it is slated for 6.19 then?
+
+If it's not in docs-next (or some other subsystem tree) now then yes, it
+will wait another cycle.  We are at -rc7, after all.
+
+jon
