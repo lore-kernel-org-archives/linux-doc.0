@@ -1,318 +1,134 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A58215198;
-	Mon, 22 Sep 2025 16:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1076930DD37;
+	Mon, 22 Sep 2025 16:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758557001; cv=none; b=KxbMtOUlOYo5gc8H49LZ6/eKquIyBIKYApR5hLfJ7sK2PoTLshN+VvpUPmttgMUnXhD2QBrUsO6AYL2v/ZQdUvXZE7XkJEaaMSXxFT1oAykUVl/S0OXlwgsKhwUYFDxtNGJc0Cz5IX/rbRGcweMQrtd5G74YpGxUphYXqqKe5rI=
+	t=1758558033; cv=none; b=L6v27tSTgsYAozCGtXnZq9fxOXXJ6K8Nz3fxI0SHSxqcfhAjA+hXW+vDXt9fmd4sIIw8sjwgKfDOGldjkHe5wtvnVq2GsAKsIswI2IKw5H2ad4g88wLysKwVeGTWRpoelEIk9GYNnCqkXP9FkZP/xjtIgdPhE9xKzvWmA0WYz/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758557001; c=relaxed/simple;
-	bh=cnE2mwrNJ9hoxH+WQXBdIFiMpTlVahWsPFo8dQBv8sA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WKGv9cXYe4cdjWrOzUAQWqTKQM0yrKwVAhhmh0Mo1o61IfbJelv7AqcyOUVjRLiRkjhMZV/kuzIHacwg1LUKIrzf9NxIdPEjeKLTkz/SCMQ/QpJJJLc2dkbCAPMCZg8PZkSzpPcEduEvxw2g3KCb4yNbu5Ctzfxo3iwD2BksH5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=DnVplL8a; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1758558033; c=relaxed/simple;
+	bh=Be4GevQkmF/nFmdQN6+ONfubwu/F5kbrYP4ewlUZlXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YHUoIfapOnyX8QKcyUScrTbbjR73UgkkBi9ItODpibURoe6FeK96z+I6XO129tt+GCkmWM/MUY2qxaalEYGXExW91fKV98lTSkc9eb8DGnPlR13CJq/dfSzfUFjMN7odSbsgp0Swq0Hu4t8VUwiXVl/cp0SfT/HRcPRRbOgWgbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KdLt3BPy; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="DnVplL8a"
-Received: from [192.168.42.116] (p5de45015.dip0.t-ipconnect.de [93.228.80.21])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 541E62FC0050;
-	Mon, 22 Sep 2025 18:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1758556995;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GmS3kAdNmYpXo6m851GNpsQc+Nc4IEuVvFsLrRqTcfs=;
-	b=DnVplL8aBpInNAqF+YAA7+L5BYD7+qh4+XaxVUhRCorymDV6NOMrKtDlcVw0wm1HH1TPp+
-	Ht+XSNhKfO/Xeid0atWl6/J+Uft7tZwu0ectvWsQOVwDrSM267R5ezLBrh0h6TG7ko/UVl
-	npmuVx0aArqtF7J36T5Z1uWImDKeo88=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <2273f725-aab4-47a6-bccf-22c1789f5e02@tuxedocomputers.com>
-Date: Mon, 22 Sep 2025 18:03:15 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KdLt3BPy"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3DF8F1A0F08;
+	Mon, 22 Sep 2025 16:20:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 111CE60635;
+	Mon, 22 Sep 2025 16:20:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 66EEE102F193E;
+	Mon, 22 Sep 2025 18:20:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1758558027; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=u/5Oa4oSVwwK58CYuiN5FtTp13SFKt17H/vR6qsflCQ=;
+	b=KdLt3BPy4PPPNqmCpLPibifuqjV5FPeD0cBX2voEwmizA1QmtL20rgI0pk8JotVuVlC9ip
+	Ov53SUeg1HnoEY4Zp1pKqGWgFGCv5UxLS0rxM8x2UWxBtnslr+GvHYBkih5UMcWzlN6wbD
+	4vC3qpwJYPg95RR1lFzM07GJHyDt9tggZV+sIpglXNoN8SVO0/pvskRiq1utZ9EGAWFmeD
+	KOfBKRP/eh2KL6LfojppLod1KjszwKsEZYLRcdVuYtAVy2V5PWeDmbiBwK+exRRhQxuVwe
+	voRsEmabOC9vWIVqJUGKNgfFpiNd+llXGcqklnQju+nakoNXPz736re0eUmx1Q==
+Date: Mon, 22 Sep 2025 18:20:02 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jiri Pirko
+ <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
+ kernel@pengutronix.de, Dent Project <dentproject@linuxfoundation.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Luka Perkov <luka.perkov@sartura.hr>, Robert Marko
+ <robert.marko@sartura.hr>, Sridhar Rao <srao@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 0/5] net: pse-pd: pd692x0: Add permanent
+ configuration management support
+Message-ID: <20250922182002.6948586f@kmaincent-XPS-13-7390>
+In-Reply-To: <20250917141912.314ea89b@kernel.org>
+References: <20250915-feature_poe_permanent_conf-v3-0-78871151088b@bootlin.com>
+	<20250916165440.3d4e498a@kernel.org>
+	<20250917114655.6ed579eb@kmaincent-XPS-13-7390>
+	<20250917141912.314ea89b@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] platform/x86: Add Uniwill laptop driver
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
- hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net, cs@tuxedo.de,
- ggo@tuxedocomputers.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
- alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org, lee@kernel.org,
- pobrn@protonmail.com
-References: <20250831192708.9654-1-W_Armin@gmx.de>
- <20250831192708.9654-2-W_Armin@gmx.de>
- <cf5b6334-7558-4115-92e4-28b4b531490a@tuxedocomputers.com>
- <8400b8c2-5ee6-47db-889a-e3224010357d@gmx.de>
- <8cffb232-052a-4eff-84ea-af6254b837f9@tuxedocomputers.com>
- <cb7d0111-927f-40fe-b0f7-73e3a5136746@tuxedocomputers.com>
- <2e38c9e1-ef5d-4344-ab12-4f4305040422@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <2e38c9e1-ef5d-4344-ab12-4f4305040422@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hello Jakub,
 
-Am 18.09.25 um 23:25 schrieb Armin Wolf:
-> Am 09.09.25 um 21:13 schrieb Werner Sembach:
->
->>
->> Am 09.09.25 um 11:18 schrieb Werner Sembach:
->>> Hi,
->>>
->>> Am 08.09.25 um 18:29 schrieb Armin Wolf:
->>>>>> +static ssize_t fn_lock_show(struct device *dev, struct device_attribute 
->>>>>> *attr, char *buf)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = regmap_read(data->regmap, EC_ADDR_BIOS_OEM, &value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return sysfs_emit(buf, "%s\n", str_enable_disable(value & 
->>>>>> FN_LOCK_STATUS));
->>>>>> +}
->>>>>> +
->>>>>> +static DEVICE_ATTR_RW(fn_lock);
->>>>>
->>>>> The fn_lock register value does not automatically get updated by pressing 
->>>>> the fn+esc key (unlicke the super_key_lock), so the driver needs to do 
->>>>> that manually.
->>>>>
->>>>> Another posibility is: uniwill sometimes have a "config" and an 
->>>>> "immediate" value for a setting, waybe we have the config value here (and 
->>>>> have the immediate value for the super_key_lock)
->>>>>
->>>>> Also I realized: The value here is preserved on hot, but not on cold 
->>>>> reboots, maybe this should be initialized by the driver for consistency?
->>>>>
->>>> fn_lock should not change when the users presses Fn + ESC, instead this 
->>>> setting controls whether the EC will enter Fn lock mode when the user presses
->>>> this key combination.
->>>
->>> At least on my device Fn + ESC does toggle the Fn lock regardless of this 
->>> setting. How I love these Uniwill inconsistencies ...
->>>
->>> I talked with Christoffer and he said that the "Intel Project" line from 
->>> Uniwill does behave differently at multiple locations
->>>
->>> If the devices really behave differently we have the first mutually 
->>> exclusive feature here: FN Lock Enable vs FN Lock Toggle
->>
->> Thinking about how to name this to make it consistent and clear by name only 
->> what is happening, my idea would be:
->>
->> - fn_lock_toggle_enable (for the behavior on your device)
->>
->> - fn_lock_enable (for the behavior on my devices)
->>
->> - super_key_toggle_enable (for the behavior on your device)
->>
->> - super_key_enable (for the behavior on my devices)
->>
->> - touchpad_toggle_enable (for the behavior on your device)
->>
->> There is no touchpad_enable as this is handled by userspace.
->>
-> OK, i will rename the sysfs attributes accordingly. However i suggest that 
-> support for the other sysfs attributes
-> be added in a separate patch series, as i want to get this one merged as soon 
-> as possible.
-ack
->
-> Could you test the next revision of this patch series on your device as  the  
-> other testers sometimes take a lot of time to respond?
-ofc, but only the hwmon and keyboard part apply to our devices
->
->>>
->>>> Additionally, some models seem to allow users to change those settings 
->>>> inside the BIOS itself, so i am against overwriting the
->>>> boot configuration when loading the driver.
->>> That's probably what's sets the value on cold boot.
->>>>>> +static ssize_t super_key_lock_show(struct device *dev, struct 
->>>>>> device_attribute *attr, char *buf)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = regmap_read(data->regmap, EC_ADDR_SWITCH_STATUS, &value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return sysfs_emit(buf, "%s\n", str_enable_disable(!(value & 
->>>>>> SUPER_KEY_LOCK_STATUS)));
->>>>>> +}
->>>>>> +
->>>>>> +static DEVICE_ATTR_RW(super_key_lock);
->>>>>
->>>>> I did not know what "super_key_lock" was supposed to mean at first, a more 
->>>>> fitting name would be super_key_enable imho.
->>>>>
->>>>> Cold vs hot reboot volatility not tested, but wouldn't hurt to initialize 
->>>>> imho as i don't trust uniwill to be consistent in this point across 
->>>>> multiple device generations.
->>>>>
->>>> This sysfs attribute controls whether or not the super key can be locked 
->>>> using a key combination i forgot about. Initializing those settings
->>>> is something best done by userspace, i suggest to use a udev rule for that.
->>>
->>> No again, at least on the devices i have here: the key combination is fn+f9, 
->>> but not present on all devides (the fn functions get shifted quite around on 
->>> different uniwill devices anyway)
->>>
->>> The combination still works when this is set to disable and just sets it to 
->>> enable.
->>>
->>>>
->>>>>> +
->>>>>> +static ssize_t touchpad_toggle_store(struct device *dev, struct 
->>>>>> device_attribute *attr,
->>>>>> +                     const char *buf, size_t count)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = sysfs_match_string(uniwill_enable_disable_strings, buf);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    if (ret)
->>>>>> +        value = 0;
->>>>>> +    else
->>>>>> +        value = TOUCHPAD_TOGGLE_OFF;
->>>>>> +
->>>>>> +    ret = regmap_update_bits(data->regmap, EC_ADDR_OEM_4, 
->>>>>> TOUCHPAD_TOGGLE_OFF, value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return count;
->>>>>> +}
->>>>>> +
->>>>>> +static ssize_t touchpad_toggle_show(struct device *dev, struct 
->>>>>> device_attribute *attr, char *buf)
->>>>>> +{
->>>>>> +    struct uniwill_data *data = dev_get_drvdata(dev);
->>>>>> +    unsigned int value;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    ret = regmap_read(data->regmap, EC_ADDR_OEM_4, &value);
->>>>>> +    if (ret < 0)
->>>>>> +        return ret;
->>>>>> +
->>>>>> +    return sysfs_emit(buf, "%s\n", str_enable_disable(!(value & 
->>>>>> TOUCHPAD_TOGGLE_OFF)));
->>>>>> +}
->>>>>> +
->>>>>> +static DEVICE_ATTR_RW(touchpad_toggle);
->>>>> What exactly does this do? Seems like a noop on my testing devices. Also 
->>>>> is touchpad disable not already handled by userspace?
->>>>
->>>> This settings controls whether or not the user can disable the internal 
->>>> touchpad using a specific key combination.
->>>
->>> Ok, this function seems to be not present on non Intel project devices from 
->>> Uniwill. Here the touchpad toggle just sends a key combination (Super + 
->>> Control + KEY_ZENKAKUHANKAKU or F24 depending on kernel version) and lets 
->>> userspace handle the rest.
->>>
->>> Never mind then.
->>>
->>>>>> +static const struct hwmon_ops uniwill_ops = {
->>>>>> +    .visible = 0444,
->>>>>> +    .read = uniwill_read,
->>>>>> +    .read_string = uniwill_read_string,
->>>>>> +};
->>>>>
->>>>> .visible should hide gpu temp sensor on devices that don't have a dgpu and 
->>>>> therefore not gpu temp sensor (the value is stuck at 0 on these devices)
->>>>>
->>>>> also the number of fan might also not always be exactly 2
->>>>>
->>>> I see, i will introduce separate feature flags for each sensor.
->>> thanks
->>>>>> +static int __init uniwill_init(void)
->>>>>> +{
->>>>>> +    const struct dmi_system_id *id;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    id = dmi_first_match(uniwill_dmi_table);
->>>>>> +    if (!id) {
->>>>>> +        if (!force)
->>>>>> +            return -ENODEV;
->>>>>> +
->>>>>> +        /* Assume that the device supports all features */
->>>>>> +        supported_features = UINT_MAX;
->>>>>
->>>>> in the future there might be mutually exclusive feature (for example when 
->>>>> Uniwil repurposes EC registers)
->>>>>
->>>>> my suggestion would be to have a "force_supported_features" in addition 
->>>>> that overwrites the supported_features list (also for devices that are in 
->>>>> the list)
->>>>>
->>>>> so something like:
->>>>>
->>>>> if (!id && !force)
->>>>>
->>>>>     return -ENODEV
->>>>>
->>>>> if (force)
->>>>>
->>>>>     supported_features = force_supported_features
->>>>>
->>>>> else
->>>>>
->>>>>     supported_features = (uintptr_t)id->driver_data;
->>>>>
->>>> Interesting idea, but i would prefer to keep the individual feature bit 
->>>> definitions private. Because of this i suggest we
->>>> look into this idea once we actually encounter such a situation where we 
->>>> have conflicting feature bits.
->>>
->>> Then maybe just have all the features as separate module parameters?
->>>
->>> On this note: Maybe also do the FN Key handling based on a feature bit? Not 
->>> that i see a particular reason why you wouldn't want to have it, but for 
->>> consistency and debugging reasons (and also if sometimes ins the future an 
->>> incompatibility arises here because Uniwill repurposed a wmi event or 
->>> something).
->>>
->>> Just thinking out loud.
->>>
-> I suggest that we implement the handling around those additional feature bits 
-> inside a separate patch series.
+On Wed, 17 Sep 2025 14:19:12 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-ack
+> On Wed, 17 Sep 2025 11:46:55 +0200 Kory Maincent wrote:
+> > > On Mon, 15 Sep 2025 19:06:25 +0200 Kory Maincent wrote:   =20
+>  [...] =20
+> > >=20
+> > > I'm still unclear on the technical justification for this.
+> > > "There's a tool in another project which does it this way"
+> > > is not usually sufficient upstream. For better or worse we
+> > > like to re-implement things from first principles.
+> > >=20
+> > > Could you succinctly explain why "saving config" can't be implemented
+> > > by some user space dumping out ethtool configuration, saving it under
+> > > /etc, and using that config after reboot. A'la iptables-save /
+> > > iptables-restore?   =20
+> >=20
+> > I think the only reason to save the config in the NVM instead of the
+> > userspace is to improve boot time. As Oleksij described: =20
+> > > I can confirm a field case from industrial/medical gear. Closed syste=
+m,
+> > > several modules on SPE, PoDL for power. Requirement: power the PDs as
+> > > early as possible, even before Linux. The box boots faster if power-up
+> > > and Linux init run in parallel. In this setup the power-on state is
+> > > pre-designed by the product team and should not be changed by Linux at
+> > > runtime.   =20
+> >=20
+> > He told me that he also had added support for switches in Barebox for t=
+he
+> > same reason, the boot time. I don't know if it is a reasonable reason to
+> > add it in Linux. =20
+>=20
+> Right, subjectively I focused on the last sentence of Oleksij's reply.
+> I vote we leave it out for now.
 
-working on my patch series here: 
-https://gitlab.com/tuxedocomputers/development/packages/linux/-/tree/tuxedo-drivers_upstream_wip 
-will send it separately after this got merged
+I would like to restart the discussion as I have one more argument besides =
+the
+boot time optimization coming from Luka Perkov in CC.
 
->
-> Thanks,
-> Armin Wolf
->
->>>>
->>>> Thanks,
->>>> Armin Wolf
->>>
->>> Best regards,
->>>
->>> Werner
->>>
+According to him, not having this feature supported also brings an issue ac=
+ross
+reboot:
+"When a network switch reboots, any devices receiving Power over
+Ethernet (PoE) from that switch will lose power unless the PoE
+configuration is persisted across the reboot cycle. This creates a
+significant operational impact: WiFi access points and other
+PoE-powered devices will experience an unplanned hard power loss,
+forcing them offline without any opportunity for graceful shutdown.
+
+The critical issue is not the impact on the switch itself, but rather
+the cascading effect on all dependent infrastructure. Without
+kernel-level persistence of PoE settings, a simple switch reboot
+(whether for maintenance, updates, or recovery) forces all connected
+PoE devices into an abrupt power cycle. This results in extended
+downtime as these devices must complete their full boot sequence once
+power is restored, rather than remaining operational throughout the
+switch's reboot process."
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
