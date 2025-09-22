@@ -1,83 +1,149 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CCB19B5B1;
-	Mon, 22 Sep 2025 14:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB3A1F8AC8
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 14:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758550069; cv=none; b=VhQbmRuhyinxN6QoXIBn2dQZpVzf0mvkRGMbOimsm1bvA1dnpzpdzvCa1wVLK445b4MYY6e6lVS6Q7SqEViICehATC7oSP9f/A1HcRDSgmskOX2zCLdaIQV/C3p+5t8DeYgz06HPyQWEToI1ingqPIOgPmkxF1i2uBNv+Nvc4tU=
+	t=1758551351; cv=none; b=N7yT5q+eALAcHU+KEmRFFto20DASTLshCJ86jF6IwJsAbkEbmSUe0yWmIdGcowks5RS7dWEIKU8yNCczdZLvzx+CcjLskmluFo0M3UPb8td3pOBgLcBFIw+Exg1QcME443RR1yMCSKHbK3xz9smmjM9GzGSuHbl1MdhRpAxayLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758550069; c=relaxed/simple;
-	bh=BPPSz6hzNxw/BkOQj3BI4PluIp4XPrI/5Q/keFRiJao=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nn84MM4KZRX8faQKX5q7oELg24z5PLuxs7OF7+x8IrcnSV3cwgNZqYgOcbqTINamiDwboORV65/NoC3qWpzj+44lhu5Qs0XiOUUt73F3KgwomfCv67ewY6sGaODGiX/MJinwO2FSZYyDRH37hgDzsVRCwcW47bpGsVgkOPO5vx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cHpxZmbi; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1758551351; c=relaxed/simple;
+	bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KdX7rbLzNZUYZVkNiKvbh7EIMQ2Ae1/+NqHc28lzmTEViFXEGrErJOHzyKMflki4kqkZ/2C/tIdqgUktsmMrSHDXmimI9wN3xFnMBa7zz+9EeSiqr/3HO0b5kReBUcIJM0nzGqI9YKHBTS2frk54CyR59znzGUuJgh+tH5V4eDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=T5tm19TQ; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cHpxZmbi"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 205F640B14
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1758550061; bh=wrAKOb4Dg8BoryMsjaOuNWjedqWrjt9a2y1SFMZMrPk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cHpxZmbi1aAcGM80yOEoIa7Q9NnjdwGu0/ooI4yLoFhwAad94UPyUEYhFLsqsK41r
-	 j3TgFTzSbxC5OCLHg/Cb4CPGj4LlPTCiCc8kOUjaI8xouz8FUsFZZ60srJfX9Dz8G4
-	 8O97E0XyIJWMBi2qBMZjDtrnKMMfPyw9sbYFMPkWMpREY4qb2BJ8V5LFPfFInulrUA
-	 0DZ40liVLS0M63af1JPomG1YFBJGW7rtfTt8EIX2nT/g1oPzQyO/fmAmQyrLZJ0oYi
-	 +jSRCprP9C91D1c3ms/hNF1HPJA+X8xhvsmmj/bQ/xpZaUgKRECuSkVAQ76vGoj0Bk
-	 oWH2usq+io/Dw==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 205F640B14;
-	Mon, 22 Sep 2025 14:07:41 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Workflows
- <workflows@vger.kernel.org>
-Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel
- major version number
-In-Reply-To: <ff092ff5-8ee1-4e91-b7f7-e5beb1d6d759@gmail.com>
-References: <20250922074219.26241-1-bagasdotme@gmail.com>
- <87h5wu8x7o.fsf@trenco.lwn.net>
- <ff092ff5-8ee1-4e91-b7f7-e5beb1d6d759@gmail.com>
-Date: Mon, 22 Sep 2025 08:07:40 -0600
-Message-ID: <87cy7i8tsj.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="T5tm19TQ"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-57cfe6656dcso1483989e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1758551345; x=1759156145; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+        b=T5tm19TQZikqjHqoMR54+Q7+U/JgAbrwxCDjAEr+j4BV3oKJ1vYACVblsq/0dgQB3O
+         xzcE44eyHkSt3+1/LwS8iG05NDQybwpGXmErJGsX7qf1JoHnxQE/QJKsAyQCq5BZ8yUL
+         fZfsv/oGGtZ7K0RaFe8fFXZtm3jS4C5jkLwGskUTTKy01oseY4elZgmJ1wcia/Nwx29N
+         /akdQTqyJ1yRSFcBAOKV1BSGnn1RLnJEPHIfsiagl3HTh7OEmakPzgo3DZkunVSmL2Xx
+         hH2z75SXfyBjFg0mXpIzvJjI6rXfLJCfOxCsk/r78caU8Q500JO1XsPO5Zy2dD22Jb+z
+         2rDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758551345; x=1759156145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zds9c11i5EPuC+LW5E2qVk5slu7nHVv1cCYASY1uK64=;
+        b=IcHmYfqFqXo/a/e2Y/OkSLSHQ8fARUd35iXYLOHt9CBttg/fnC15BgwZFYd/zvbrM/
+         bQ2kEcieKvH0nAOQ1pToOdGmxZAlQXcbLJx1afkqDC3URhyvIVBVHmA+jdMcZse5+H9a
+         2UR5g/nmK8NhwiFH/4jJQAnQsI0G2XghNpUD8h1TbVlj1+HshhQRxPHQnQscrdJuNgwO
+         iqWnlLQQdVNGWYgq3vzPeojqhQyj0SpeCTYRvElxnGaQ5JsA0M8aVhCCuLGAJe0NKtD8
+         +ePCu0vp62x52RudjaY70KHv3ssVs8ae4hroS6rlyB40mCVzdQMq/MxaxO+g3wJLY+ej
+         ejHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVAiDe+gcW3b+4tFfjayKnbTWkz+8QkpRoyse2bQ65IKQfxUdIH0Wlnb0gq0qzj6pb+9cuzCOec6dU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRGXhDK3WU23CRlpMP5JGVhkSPToLqi2rJfI+xlciuywPCY+nU
+	ID31w7/kck38A6n1J+kjvsJXXQMUtauZzh9JUsjR5TA7IRy9NJtLijwHbqFddvt62jKcAvFdyzk
+	sy7gu5WY1+E0PiYNur/+CDAkJk48Msbs1yBzZwhS/Pg==
+X-Gm-Gg: ASbGncsbw7bu6ZJOJqhqeGVOKvO9GqOKc1ZrGxUxr9I00dsNY47hWmRHSQOMVK7UAo/
+	lMIdmjDDn8xgiBsnE0iCAWylBdxUzx2uG8RygzRDvQ0YKf73Mq7Hw3oYpuh9ZOVF9MySeoqoF7C
+	P3jMnZ0RgTUGxf6cyrbwSlBCZLtWyyJhLUU4XuaNj0zWMVE7+uElFF3NkhmUaQUEiUEgLsavflO
+	cDLbC0+MQH+N+Y=
+X-Google-Smtp-Source: AGHT+IF9Kx0YHTgWZximr8IphichwJGTQ/wmiFKfxBKU7xEPIwY53K1eZ5EsUZqb+vcW1xAllqgOcQU2VEEacURTmEE=
+X-Received: by 2002:a05:6512:4389:b0:57b:478b:d8a6 with SMTP id
+ 2adb3069b0e04-57b478be162mr3313173e87.35.1758551344116; Mon, 22 Sep 2025
+ 07:29:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250918152830.438554-1-nschichan@freebox.fr> <20250918195806.6337-1-safinaskar@gmail.com>
+ <CAHNNwZAzecVcJXZmycX063-=p-M5jVkfStfgYVKJruOFo7y9zg@mail.gmail.com> <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
+In-Reply-To: <CAPnZJGDwETQVVURezSRxZB8ZAwBETQ5fwbXyeMpfDLuLW4rVdg@mail.gmail.com>
+From: Nicolas Schichan <nschichan@freebox.fr>
+Date: Mon, 22 Sep 2025 16:28:52 +0200
+X-Gm-Features: AS18NWBjmNA3KBj8cPrgwDAVm5OX9a5odWP7LbRlHvhoE96nP3yo2_PGoZ1JbG8
+Message-ID: <CAHNNwZC7gC7zaZGiSBhobSAb4m2O1BuoZ4r=SQBF-tCQyuAPvw@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Askar Safin <safinaskar@gmail.com>
+Cc: akpm@linux-foundation.org, andy.shevchenko@gmail.com, axboe@kernel.dk, 
+	brauner@kernel.org, cyphar@cyphar.com, devicetree@vger.kernel.org, 
+	ecurtin@redhat.com, email2tema@gmail.com, graf@amazon.com, 
+	gregkh@linuxfoundation.org, hca@linux.ibm.com, hch@lst.de, 
+	hsiangkao@linux.alibaba.com, initramfs@vger.kernel.org, jack@suse.cz, 
+	julian.stecklina@cyberus-technology.de, kees@kernel.org, 
+	linux-acpi@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, mcgrof@kernel.org, 
+	mingo@redhat.com, monstr@monstr.eu, mzxreary@0pointer.de, 
+	patches@lists.linux.dev, rob@landley.net, sparclinux@vger.kernel.org, 
+	thomas.weissschuh@linutronix.de, thorsten.blum@linux.dev, 
+	torvalds@linux-foundation.org, tytso@mit.edu, viro@zeniv.linux.org.uk, 
+	x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+[resending to the lists and Cc, sorry I initially replied only to Askar]
 
-> On 9/22/25 19:53, Jonathan Corbet wrote:
->> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->> 
->>> The big picture section of 2.Process.rst currently hardcodes major
->>> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
->>> docs up to date"). As it can get outdated when it is actually
->>> incremented (the recent is 6 and will be 7 in the near future),
->>> arbitrarily bump it to 9, giving a headroom for a decade.
->>>
->>> Note that the version number examples are kept to illustrate the
->>> numbering scheme.
->>>
->>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->> 
->> Just FYI, I've pretty much shut docs down for the upcoming merge window.
->> I'm probably not the only one.
->> 
+On Sat, Sep 20, 2025 at 5:55=E2=80=AFAM Askar Safin <safinaskar@gmail.com> =
+wrote:
+> On Fri, Sep 19, 2025 at 6:25=E2=80=AFPM Nicolas Schichan <nschichan@freeb=
+ox.fr> wrote:
+> > Considering that the deprecation message didn't get displayed in some
+> > configurations, maybe it's a bit early at the very least.
 >
-> So it is slated for 6.19 then?
+> I changed my opinion.
+> Breaking users, who did not see a deprecation message at all,
+> is unfair.
+> I will send a patchset soon, which will remove initrd codepath,
+> which currently contains deprecation notice. And I will put
+> deprecation notice to
+> other codepath.
 
-If it's not in docs-next (or some other subsystem tree) now then yes, it
-will wait another cycle.  We are at -rc7, after all.
+Thanks
 
-jon
+> Then in September 2026 I will fully remove initrd.
+
+Is there a way to find some kind of middle ground here ?
+
+I'm lead to believe that the main issue with the current code is that
+it needs to parse the superblocks of the ramdisk image in order to get
+the amount to data to copy into /dev/ram0.
+
+It looks like it is partly because of the ramdisk_start=3D kernel
+command line parameter which looks to be a remnant of the time it was
+possible to boot on floppy disk on x86.
+
+This kernel command line allows to look for a rootfs image at an
+offset into the initrd data.
+
+If we assume now that the rootfs image data starts at the beginning of
+the initrd image and is the only part of the initrd image this would
+indeed remove a lot of complexity.
+
+Maybe it would be possible to remove the identify_ramdisk_image()
+function and just copy the actual size of /initrd.image into
+/dev/ram0. This would allow any file system to be used in an initrd
+image (no just romfs, cramfs, minixfs, ext2fs and squashfs), and this
+would simplify the code in init/do_mounts_rd.c greatly, with just the
+function rd_load_image() and nr_blocks() remaining in this file.
+
+I can send a patch for that but first I need to sort out my SMTP
+issues from the other day.
+
+Regards,
+
+--=20
+Nicolas Schichan
