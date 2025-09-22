@@ -1,226 +1,275 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2B42F4A03
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 22:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758580411; cv=none; b=XpCeVuagT7KUL4nDAE0HO7VvTCsYFOUA0FKsgC5IuXoIgX0GwgxqWXgrApJBjUnkgvQJ5ixXx7+neiRWS1BgE+lc8WZiWf4+EhFAvQyLzvPDSmXU29KvoZHEWYDsZvmdcpVowG+qFCQA13+guWQJhLolYNXcmtRcI958jI0oTe8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758580411; c=relaxed/simple;
-	bh=9gUnRWW1xSW7v428HK8QOTPfOJyiCrOBtECJftbi3nM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mWMrKymrw3VmHFCiWU8UTCvrTGqRzWkS98gY3OO3UmRSkNfiQ1Kg75/CPTLNOz9smC62AhZSTUl2BxA/w/GRDS9onH0rXx8dcbU8nS1jpx0a6QrZvImup1JVOcqGDgoIKrR3GMssgFu6LpRlg/Us+kzHZP+1tl2leEuM7n7rexc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VGkB4bt6; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41B74A0C;
+	Mon, 22 Sep 2025 22:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758580997; cv=fail; b=BDGMVwH3UillA9KoSEeVacUZsQ0tF0qz26QbAXqvuOYjYEonGAhKDcDtAOBHpxM47/RXfHeVD+2mcP1AAikWeIdVJfQgCC6PQUro0TDzpVBbvjvWDsEVvAT9/V/6D/dAFl9WzKqhJtQGaQJU5SdXE4L2F1U3smWGQTNupJ7nGnc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758580997; c=relaxed/simple;
+	bh=XOK7/TKZGqDjudAjntMETEXwsgZl7ItMyT+htGHO5nc=;
+	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
+	 Content-Type:MIME-Version; b=WlJEUGSP8tpRl3S+B3162q0UwbOjXP5twQkPdDW6oSmyWTYsxvKc2RMyiXBemSxLxzwMxA1ECrrH6MOmInRnhCCfeUw26E3Ok704qSAe88pJE9jfgymyE/BkkuGCkNP50nt9OBrMdK4eO55CeBkfn4HeGkDmzAhCA9sVxbtO62c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SYWqZpHM; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGkB4bt6"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-84c7f4d4ad8so94175285a.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 15:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758580407; x=1759185207; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tYsm3gMuZ6zP5BwF7VSAmryD1NVeBQnXrzftMRUOM78=;
-        b=VGkB4bt6fwlT+rLFgq6zfTZ4Anb2xkb3iZ4i6emZzxhqOeNvAhwV19ORGowL+uWkER
-         6lwJLevFjnLc4dR/RdHEdsvQEz9BpbIlUeIjro2sd+U7sE6rr5gZHE6pVhFeh9gr/ak1
-         HgHA4MRua+PM49qcZ20TgdKYMqWfh/VRODq5DeA3tICR/IhU1dYRFN/VtZTjo4ku3O7B
-         z6LSCb0FsnOyIrrVxG8wvWpFjgc2dyNXyzFl45/hGFe6Kv5+8LBzZYgipEFSfyKTQyek
-         P+TyI6VlG3DNrLj9x43xy0JLB8j1m4dZGWGuP1SUUxfFW/IF9ZEDXxebhx7vjqNguDjB
-         EtNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758580407; x=1759185207;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tYsm3gMuZ6zP5BwF7VSAmryD1NVeBQnXrzftMRUOM78=;
-        b=RRuf91WelzVq+1FM3RRGESephKR2+DjbWjOEnCGcqnLsrZxVVarekVuJFnKfVffm7f
-         R5A8BURCwD5zAG6jkAGvEvfAisyRlBoaqr78rms2TsVYg+qmrMxsC48taScC4DlECCJH
-         CJcVZrKY7ercRyXE18zcmZr51DvyNPJuCWc7P7Xt/j1rrNAyyRqvyweB8qRCCmEI7sGd
-         OoJCshREYr1Bka1rZIqZy9uW7vVzsnwk1AexLjyePZQX0wA1yQ5lniBDDfu9u437X+94
-         76zzG727gFr0kgzbD2DEmTyeFvYTxUTkQ7kRWbhPNt+h0qbi3GCVCRUFlAAKm5+7KoWS
-         Il7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUEEbZqF0wlBEVTx3217Z5/iZsIKbEiJwcrecNVXIn2gY46AYjjmaCfqT5s1KIWbrwTxZEZDXnOXo0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxPm7gERGeKmr3+Is0ZL2/OugLph+tDfeTvZaABXCeBFKVFAIf
-	U51PbN9mDMmjD+xdFgA8QsjAkj2uMKyoEoc0OnE7O0wpptpHiFqmGW5cTqnN6wrWfRHlXL9kSST
-	ZfFSrGNH5/5oduXKvy1+tCO1lpRnU/Zw=
-X-Gm-Gg: ASbGncunfuUXGU0zZVh25eUL2LrRmcbBIisg9Gx4duXYRP7PeVeQBzHfvmbmlfpqiYh
-	tRE7kpsQFthmqFG5XeqiJS6lKAbQIiFtdvtLVBf2a9v7dokrns3jkxzk/JMLLX0mWC242QtB1lP
-	1oWZLabhSm5LOICE18rrR02zngVHomfv95LZhLOqhBYiSrXzpk3v3HnCljeC/b6+AuEGx4pyorD
-	31keCiMeQmBg19LJkhYboIhsHSLFTR2nMD1GTpGZCf84XNbdd4=
-X-Google-Smtp-Source: AGHT+IF59spwoCjoNevIOS6EB4EogkJR/RYbcHdd3SU92QEm1R4zLwhxuNE22b2ZQB4jX2aAaCOjGDoVHvUFM8Uxyuo=
-X-Received: by 2002:a05:622a:5490:b0:4b5:e856:2b6 with SMTP id
- d75a77b69052e-4d368a7f582mr6104971cf.27.1758580406619; Mon, 22 Sep 2025
- 15:33:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SYWqZpHM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758580996; x=1790116996;
+  h=from:date:to:cc:message-id:in-reply-to:references:
+   subject:content-transfer-encoding:mime-version;
+  bh=XOK7/TKZGqDjudAjntMETEXwsgZl7ItMyT+htGHO5nc=;
+  b=SYWqZpHM2Tl1KKAGT2aKbAWB5wFTOL00kBcfMz+1H7F9eHePtWZU+ENX
+   5B5sR8qBKL+5UGVimGyWcIvqiIxeG7LULsopiF3S6UlSFM/9eMQ/W5oJ4
+   +zJQJexLb84Tg4FX70LgA+cAJ9WHVHfvuAtpEqCRdIXDaGiuO11RtIY35
+   DA3WhqOEzjFtFChXAQEBa7rG/5jFM9lx/akdHpP9dRp6tcKc7X8YQP0H/
+   M2fMUwAOUAcdAKQ0vvddsHqQ4GjSwyKsZK1gqIIZrVUQ+enfCWBV9TRlc
+   uXgddJ8T3iiYEUDEw1M4awfIQX4V/5m7ohFyc+GTgK7twzWCx2MmbmrPE
+   g==;
+X-CSE-ConnectionGUID: GZa8aYJ0TY+TRGKe5Hy2QQ==
+X-CSE-MsgGUID: rAOAeOiKS4isIi7eH3FCKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="72277895"
+X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
+   d="scan'208";a="72277895"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 15:43:15 -0700
+X-CSE-ConnectionGUID: xlapRg6MSF+9234QuDz+Og==
+X-CSE-MsgGUID: RwQTgOckT0mTZhv3IDFztQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
+   d="scan'208";a="176521943"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 15:43:15 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 22 Sep 2025 15:43:14 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Mon, 22 Sep 2025 15:43:14 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.51) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 22 Sep 2025 15:43:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sWxUfXlRtNUuPO/pCPrjh8qdOwshFX+kyVC0imXS85luwBexRFYh3kXHMdYbW3xwP6x/PT1U6DIEYq1YAtW+QW8zmdR2sCOHETZklTt5VCZ6BbZKvLMyjIABu30a56obj6KRyh5CvaKwxiCJF94ETzPPCk5YSuvg0DJARIG2nK9ic32E81an2HEyEDvtNezQvHzF2XO5vokkANyQq9SUdJoHB+jymwWomYiDtP5jt/L/V3zcv/9uK0j/R1tsdZ4sciCOtjeLgJHM0QC04b9+L3KaiiXA0i972rQVBiSi/jYs4+F4xr1/DbvAC2hNBUcd8McztBvjtkveHhKEKgMm0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JaqLhpE3P9+RkmLW3BsxTqcqlbPdGAf+h6TfU3qURdc=;
+ b=qSv48VEq/7sz7GC490rzcYTYhRLMY0ttCVju5yoc3vh1guBeL0kAVAnEDQjnAY6v2Ttv6looVOfmFJd31YD9Tfbv4CrTthnRKjyjHKEnNOXCPBsx1wYI+cHgmcuPVijEBCzGnZciwOm3Nm3GSfYmnt1lp3yK8Mae0Xlg/b1Kb7NbEedPi1Ig9t0IUsthWf9DLSbBZuOq30ZJpBB1pNd3/gBCHQjO9RnJUjKgIjaxNe9LaMT2axPHVcUhY36s0kuluDGbQRNkduGw60/Lz/aROcTu1OPL3SEbCQJiBy7Cq3hZ5wQFDKrq9bjsf8k6NpjORO/o+kNfnvGyOLLrV6MhCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by BL3PR11MB6483.namprd11.prod.outlook.com (2603:10b6:208:3be::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
+ 2025 22:43:10 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%2]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 22:43:10 +0000
+From: <dan.j.williams@intel.com>
+Date: Mon, 22 Sep 2025 15:43:08 -0700
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Danilo Krummrich
+	<dakr@kernel.org>
+CC: Bartosz Golaszewski <brgl@bgdev.pl>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Tzung-Bi Shih <tzungbi@kernel.org>, "Bartosz
+ Golaszewski" <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski
+	<krzk@kernel.org>, Benson Leung <bleung@chromium.org>, "Rafael J . Wysocki"
+	<rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<shuah@kernel.org>, Dawid Niedzwiecki <dawidn@google.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<chrome-platform@lists.linux.dev>, <linux-kselftest@vger.kernel.org>,
+	"Wolfram Sang" <wsa+renesas@sang-engineering.com>, Dan Williams
+	<dan.j.williams@intel.com>
+Message-ID: <68d1d0fc5ef09_1c79100e@dwillia2-mobl4.notmuch>
+In-Reply-To: <20250913161717.GE4842@pendragon.ideasonboard.com>
+References: <20250912132656.GC31682@pendragon.ideasonboard.com>
+ <2025091209-curfew-safari-f6e0@gregkh>
+ <CAMRc=MfdoB50o=3Q2p94o+f7S2Bzr=TAtWWQcDrC5Wf3Q5nqAA@mail.gmail.com>
+ <20250912135916.GF31682@pendragon.ideasonboard.com>
+ <2025091220-private-verse-d979@gregkh>
+ <20250912142646.GI31682@pendragon.ideasonboard.com>
+ <2025091237-cortex-carnage-5c34@gregkh>
+ <CAMRc=Mf76m51VKktGc2K1uT4eacDqhsroRxG2RgtRyhQrhx0WA@mail.gmail.com>
+ <20250912145416.GL31682@pendragon.ideasonboard.com>
+ <1dc06657-e136-45c2-8012-9199194bfc9b@kernel.org>
+ <20250913161717.GE4842@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BY3PR04CA0022.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::27) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250916234425.1274735-1-joannelkoong@gmail.com> <20250916234425.1274735-5-joannelkoong@gmail.com>
-In-Reply-To: <20250916234425.1274735-5-joannelkoong@gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 22 Sep 2025 15:33:15 -0700
-X-Gm-Features: AS18NWANWqkKm48EgUYQpSCL1ismSoNPpJ2JmzDLzkmpUdQ92ZSUKuvOZrXN2QY
-Message-ID: <CAJnrk1btMBosbCsvfG+jCJCoqQ8zrkjSrqhqp8XSSLU=Es64FQ@mail.gmail.com>
-Subject: Re: [PATCH v3 04/15] iomap: iterate over entire folio in iomap_readpage_iter()
-To: brauner@kernel.org, miklos@szeredi.hu
-Cc: hch@infradead.org, djwong@kernel.org, hsiangkao@linux.alibaba.com, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|BL3PR11MB6483:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16e6f985-03d2-47df-f23e-08ddfa2967f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TVBneXU3V3AzdndmU3VMZjBqbW5iTEorWUt4aHY0SmY4a2RYQmwwM2pBeXdB?=
+ =?utf-8?B?Vmkvd3F6T3JhbCtjRzFtTSs0d3Zwd1B5NlV2ZmJldUgvWnQ5dXhvYk12YWpU?=
+ =?utf-8?B?dUpxcU5DSlpWQVk4YXNNNE9DTTh0VGhZd3ZzMm4rQTFvdkxpVHFVRXQ2NFNq?=
+ =?utf-8?B?NEhHQ3hSYWNpRjRFMWlNaXdPWWxCSHNiUWhIcEEvWE9LajU3S002U3VyWlIw?=
+ =?utf-8?B?eFphTHFJNGxPTTk0TnNJakRXQ3JhSStDeFd5aTBjR1U2cEdKWWFtdnYwU0la?=
+ =?utf-8?B?RWNCWk5iM0RUSXNSbVUrRVQwOVREN3pHZFFZYVRTL0dlNmVaZ094bm0xby80?=
+ =?utf-8?B?UHJaeFlhMjltbWNtUHV2bzZpOXN3SUIzZVFwSGJEdHd0T0RlK29BUVRpWGRC?=
+ =?utf-8?B?ZkpWajJlVkwwZzE4MkNXeWM4aXBxT3lQQXF3aHIvNFJjdlBSNktnREJNS1VW?=
+ =?utf-8?B?bXZHc04xKzNVZHRqWk1JSjltZXYzU3ZadWc0V2ROVmlkeGRmNms5eVFIeFpX?=
+ =?utf-8?B?d2lVS2hKNTJHUUdMRER5NTQ3VHdaRnhmb2lmMVl1Y09UbmNDZXRHNjJIOEI4?=
+ =?utf-8?B?QnIzVDdrQkZMaFdScVNJMVhBeFpaeDFicVB2TW9kRmttVk02R0U0Z0dJMUph?=
+ =?utf-8?B?RWM2QUtPU0VnWmdia2QvT1FpdEM1SHZ6SWhEZVhueng1RDdTT3Boa0dlSk9y?=
+ =?utf-8?B?TW55N2dVd1FyU2k5WWpvVSsrZUhveGtRdW0wc3BXcWJvSTFsVktjNnVHM24w?=
+ =?utf-8?B?Mi8xZ1FKekE4bHcxZW5YTWNIZDhzcDNPc2Y4aVUzUGFMelcwbFNneHFoVWt6?=
+ =?utf-8?B?QzJGT0w5eGlSUXAwTjJpcVlycHk2S3k4VW9ZaWJHWkhqNlc0QWNqT1Z4N3Z1?=
+ =?utf-8?B?Vkx2TWl0UldyNU1hVkxiL2FKS3RDdWxDanlYcm5ZQllyTUtGalZJOUZTZThk?=
+ =?utf-8?B?M3I1Rkx3MDZBbFp4cEZVcEU4bmlDdSt2by9sQkxrc1lzd0IwdEFKaUs3cll3?=
+ =?utf-8?B?Ny9tUzBBWlpPVm9iUnpidjJpcW0zQ1FoWVRCbllvUXpoOHlLbHRrUUhPZVh2?=
+ =?utf-8?B?dnE5MGNrdDVYZzRITXFGNE9OaEZyMnJuUDF5OXJERzZwbUdjTFZQdTBqUTRi?=
+ =?utf-8?B?REhqR1FCa0o2VXNGRXUyelRxQ2VTM211YU9peFJnMll6VGN3b2JEM2ZLakhB?=
+ =?utf-8?B?TmFYdCtlcXhubDlJa1YyOXRyNUtHQnd4U1IrcjJQNzBGd0IybGVzcjNUcWg4?=
+ =?utf-8?B?THVieGZFbGpWMWNtdnNWZ2JENzE2TlZtNFNra08rNnI4VDAvMElhN2VWOFFQ?=
+ =?utf-8?B?YzcrYmxMejRwYjNMN0Q1K3hrTm4yU1Fjc3hJcmVXVVhhU1RIc29wazA1eWV5?=
+ =?utf-8?B?MGlvM1grMjNMTG41U0t4ZGlWMGJyV0tsTjUzOFZnMGFyWE5SN0tIYXA0WCt0?=
+ =?utf-8?B?NHhEMk1BTHNrRGZzeHQvOEcxVWVGMWVYRDFBZnJRREJodVpKaWxLVVVEeWll?=
+ =?utf-8?B?RGk3aHEzbVA3OGJhbTRIem9qQWNuQzd1RS9wSlhnMWVVV3psRStwaitOR3pX?=
+ =?utf-8?B?ZlZ3bkEzcTY1VnFFSUp6TkM1VzFrTmQ4dnBaRGMwTC85OTNqK0ZSdWJKOEoz?=
+ =?utf-8?B?Y3JYTHhzMzUyS0JsdE92bWs1YzhMclV5QUY4ZWFVUzRxdkNEU0tPMGs3K1pC?=
+ =?utf-8?B?SE9Ib3ZSOGRMT3d1bUxScXRmMmhpY3IrVU1MMzBSUmJPUmtRV3MrOXVndk9o?=
+ =?utf-8?B?N1VXUDFKWjZid0N0d2REMzVJVldHeGpyTUxaN2pvWW42T2RkZlVkUVhnRGw4?=
+ =?utf-8?B?YjZRR2p1NHRaZk11NkdOWFJnWnRLajlydzROby9kaTJhWGY5NHRONCtDK1p1?=
+ =?utf-8?Q?+4sAaFBo3aOYp?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1pyMlByZVFjSEUzM1F0UjZseFJtT28xZmhWZjZQby9NUWFqZjc2TENtaFBQ?=
+ =?utf-8?B?T2NzcUVVMjNFNnR1N2llRDBhV1k0cFVCYlc4dnhpN0Q2ZG8weDBUUU1qUU02?=
+ =?utf-8?B?aDdIWjBkSUJDSnNrSDdGSDVtUDRnWFhaY0liYmI5WlRmcDJJSlZaUjQ2Si9W?=
+ =?utf-8?B?WGs3RlFESWRrelF3Nlp3Y2ZYRk0wSGx2TXhYcmJlK3A3VDVJSFRJUEltREZK?=
+ =?utf-8?B?MU05ekx6VkJycjl6OTZxWkYyeWVqRzVXZE1kbzVtNTRpQXozN1hYdTdyaEVt?=
+ =?utf-8?B?cmxqOXlRd3ZXaVJFQWVYWmJHUWY5VDZWV3g0anJPK3lrOER2ZXV4U1BDOU5K?=
+ =?utf-8?B?REl5S0U4bVBPOHJDcXltenZxZFM0ZnlYZWlOcHZWbzVjOXN3WlhWU0Z5V3JT?=
+ =?utf-8?B?WjlqU2htdkYwbWhMdHV6QjlNNG1RYXI5VGE5S3RTS1ZIMmZEOEdka1krdVVV?=
+ =?utf-8?B?K2d3ZUFmOENaQzhKTjh4dGx2QUZLcWxmb3BPZnlIRHNaWEt0S0R2NUNqTHFa?=
+ =?utf-8?B?c2xLRzRDb2JSdVZ0UG9TSEZ3eXZkTHo2WWZSR2pCRXg3c1QvcTl6cGUwNklv?=
+ =?utf-8?B?RktqYnljTlJWVEYwMVZzNWgrazRBaFNLc1ovSHRUbE9USGJ4SUdIVjZ4ak9C?=
+ =?utf-8?B?SnRCZmRySDN4OXZ3eFhJeCsybnJiK21DRnRnTzUzSGxvVGZoeHR4NVgvRWRl?=
+ =?utf-8?B?eUViaW5rU3UxMDkyRDdNM3R5VkMyU0N6djdzVFUvOEt0MjVKd3QyZGxteS8y?=
+ =?utf-8?B?cytZMmM0dkhkbEgxcHJwUWFuYThpSWw5QjV2dGo1dXliOFNWLzNVQzFjejBF?=
+ =?utf-8?B?cVJtTG9FNURGQ3VxVVlGcmxCQitVbDk4dkp4QlQ2d1BvaDh3eitqNjl2UEdq?=
+ =?utf-8?B?aHBzR1dKdVNJNzJjNTRzTzdPNHYwWUxsaWFJRTFRcitETGM2SVNOZzh1TDNV?=
+ =?utf-8?B?YTh2NVFTaWhMRjJuek8yK1Z5eHJaemdGQ1BHZDFCdzRKb1NFdk1Tamw4S0tU?=
+ =?utf-8?B?ZXB6dlduQzBEWUwzMkhkSlJOM2RtV051RCtHVEIyay9rM01GQis4ZnNPN2d3?=
+ =?utf-8?B?VktpOGQwVTlkcUpEeDQ4QkIza1FlZEdqSUI1WUNBSGdNcDlzaXRlYWNlSW1Q?=
+ =?utf-8?B?b0NFMFU0ejh5VWhUNVBzU0NrZktxUEtzdXZuMTVCeDJvN1FTZFMvc3lxQWY4?=
+ =?utf-8?B?NnRraEVDbUVNeEVvK0FWWDlSMm85aFM0bW9SRlNvNjBkK1BIWWtDeGtWYUVM?=
+ =?utf-8?B?WXA0NEYrb0dmT0tYVGJUR2NqUUl2RXAxejJ6aFZ5dUxRS3Vtb052Q2JVT1VJ?=
+ =?utf-8?B?dWNrb3VjNzNUVEI0d3RlYUZocmRqSHdxN2pGMnUySmRWYnhWOGt3dVh2d2dN?=
+ =?utf-8?B?NHI4VUlWY2xJdFdiSW1xSkdCVm1Lcm9TSlJ5Q0xvTW11N2VBekxMcW5OMS94?=
+ =?utf-8?B?VWNma1NZM3Uvb1dEcS82SXkrdnZNMkdaRkxUTStONXhuc2VaQlRhMkhJQXZl?=
+ =?utf-8?B?Y0FoenpSbGR3REZ5QWFsNHp3ZlBzVnpvQytuSUxEV1RGeVRxdUFTSTgyaTR5?=
+ =?utf-8?B?QnUyTGFmMmJZdWlyMWpjc25lYlN2Y2VVdXhUUDJ5cGc2U2pmeGZFWjVKRk5B?=
+ =?utf-8?B?dEJXV0x3RVBESkhlUWNVdlJwVEtYVWpPYjJybWc5Ri9JN2dydFhVOFdZZ2ZL?=
+ =?utf-8?B?aWhCWGl3Q3FlQkFNQXJvd2UydWRtd0o1V2xoOHpkU3g1S1NuUGFxL0hDSHJu?=
+ =?utf-8?B?K3FTTzFRL1VyYVRHOU9LVm5WQkhPTDNaODJWZENIZ0F2cGZITE0xV1k0Zm9L?=
+ =?utf-8?B?UUNEenNLbmJKRklzUlZTdVg1aGZTQkc0cXlmaE82U3lqSXU3V2JYNkE2T0lU?=
+ =?utf-8?B?M3NsR0NycytsdDU5dy9QZlcxVEVKbmlwZkt4UzBXTzdCME9BZ0lZWHduSWZL?=
+ =?utf-8?B?cXB4eWc5WmdZYWtRazdWdzdybHpmNVU2SnZPNUpzdTQrem92Wld6MXBKNE5W?=
+ =?utf-8?B?SEsrWUkxYnpCS1ZYelVBWkgvTFJKcnRaNmlJemU5SldNWlRsTm1mNS9Bc2V5?=
+ =?utf-8?B?dFAxblZCRWJPdnNmYWxuTzB2NkFGUU1UdUNxenFEMzVWZjgvRHRXL1NkajNk?=
+ =?utf-8?B?WFNTLzFNWTZQZ0F3QzBKZHQxaW9ERml5dHlwaGRRbmNpK3VSdmV1T1RGQ2NX?=
+ =?utf-8?B?WkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16e6f985-03d2-47df-f23e-08ddfa2967f9
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 22:43:10.3742
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lz35rwg9tn/TiDbLrVqIzqb1c66i57mAHr+BSSTEN7dleegZg/O+njLqZ73i0cXMbLk7YuPlEUaHRFgYXVLDi25/XLzLJOXWC9EYWV+55GQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6483
+X-OriginatorOrg: intel.com
 
-On Tue, Sep 16, 2025 at 4:50=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> Iterate over all non-uptodate ranges in a single call to
-> iomap_readpage_iter() instead of leaving the partial folio iteration to
-> the caller.
->
-> This will be useful for supporting caller-provided async folio read
-> callbacks (added in later commit) because that will require tracking
-> when the first and last async read request for a folio is sent, in order
-> to prevent premature read completion of the folio.
->
-> This additionally makes the iomap_readahead_iter() logic a bit simpler.
->
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/iomap/buffered-io.c | 69 ++++++++++++++++++++----------------------
->  1 file changed, 32 insertions(+), 37 deletions(-)
->
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 2a1709e0757b..0c4ba2a63490 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -420,6 +420,7 @@ static int iomap_readpage_iter(struct iomap_iter *ite=
-r,
->         loff_t length =3D iomap_length(iter);
->         struct folio *folio =3D ctx->cur_folio;
->         size_t poff, plen;
-> +       loff_t count;
->         int ret;
->
->         if (iomap->type =3D=3D IOMAP_INLINE) {
-> @@ -431,39 +432,33 @@ static int iomap_readpage_iter(struct iomap_iter *i=
-ter,
->
->         /* zero post-eof blocks as the page may be mapped */
->         ifs_alloc(iter->inode, folio, iter->flags);
-> -       iomap_adjust_read_range(iter->inode, folio, &pos, length, &poff, =
-&plen);
-> -       if (plen =3D=3D 0)
-> -               goto done;
->
-> -       if (iomap_block_needs_zeroing(iter, pos)) {
-> -               folio_zero_range(folio, poff, plen);
-> -               iomap_set_range_uptodate(folio, poff, plen);
-> -       } else {
-> -               iomap_bio_read_folio_range(iter, ctx, pos, plen);
-> -       }
-> +       length =3D min_t(loff_t, length,
-> +                       folio_size(folio) - offset_in_folio(folio, pos));
-> +       while (length) {
-> +               iomap_adjust_read_range(iter->inode, folio, &pos, length,=
- &poff,
-> +                               &plen);
->
-> -done:
-> -       /*
-> -        * Move the caller beyond our range so that it keeps making progr=
-ess.
-> -        * For that, we have to include any leading non-uptodate ranges, =
-but
-> -        * we can skip trailing ones as they will be handled in the next
-> -        * iteration.
-> -        */
-> -       length =3D pos - iter->pos + plen;
-> -       return iomap_iter_advance(iter, &length);
-> -}
-> +               count =3D pos - iter->pos + plen;
-> +               if (WARN_ON_ONCE(count > length))
-> +                       return -EIO;
->
-> -static int iomap_read_folio_iter(struct iomap_iter *iter,
-> -               struct iomap_readpage_ctx *ctx)
-> -{
-> -       int ret;
-> +               if (plen =3D=3D 0)
-> +                       return iomap_iter_advance(iter, &count);
->
-> -       while (iomap_length(iter)) {
-> -               ret =3D iomap_readpage_iter(iter, ctx);
-> +               if (iomap_block_needs_zeroing(iter, pos)) {
-> +                       folio_zero_range(folio, poff, plen);
-> +                       iomap_set_range_uptodate(folio, poff, plen);
-> +               } else {
-> +                       iomap_bio_read_folio_range(iter, ctx, pos, plen);
-> +               }
-> +
-> +               length -=3D count;
-> +               ret =3D iomap_iter_advance(iter, &count);
->                 if (ret)
->                         return ret;
-> +               pos =3D iter->pos;
->         }
-> -
->         return 0;
->  }
->
-> @@ -482,7 +477,7 @@ int iomap_read_folio(struct folio *folio, const struc=
-t iomap_ops *ops)
->         trace_iomap_readpage(iter.inode, 1);
->
->         while ((ret =3D iomap_iter(&iter, ops)) > 0)
-> -               iter.status =3D iomap_read_folio_iter(&iter, &ctx);
-> +               iter.status =3D iomap_readpage_iter(&iter, &ctx);
->
->         iomap_bio_submit_read(&ctx);
->
-> @@ -504,16 +499,16 @@ static int iomap_readahead_iter(struct iomap_iter *=
-iter,
->         int ret;
->
->         while (iomap_length(iter)) {
-> -               if (ctx->cur_folio &&
-> -                   offset_in_folio(ctx->cur_folio, iter->pos) =3D=3D 0) =
-{
-> -                       if (!ctx->cur_folio_in_bio)
-> -                               folio_unlock(ctx->cur_folio);
-> -                       ctx->cur_folio =3D NULL;
-> -               }
-> -               if (!ctx->cur_folio) {
-> -                       ctx->cur_folio =3D readahead_folio(ctx->rac);
-> -                       ctx->cur_folio_in_bio =3D false;
-> -               }
-> +               if (ctx->cur_folio && !ctx->cur_folio_in_bio)
-> +                       folio_unlock(ctx->cur_folio);
-> +               ctx->cur_folio =3D readahead_folio(ctx->rac);
+Laurent Pinchart wrote:
+> On Fri, Sep 12, 2025 at 06:22:48PM +0200, Danilo Krummrich wrote:
+> > On 9/12/25 4:54 PM, Laurent Pinchart wrote:
+> > > On Fri, Sep 12, 2025 at 04:44:56PM +0200, Bartosz Golaszewski wrote:
+> > >> On Fri, Sep 12, 2025 at 4:40=E2=80=AFPM Greg Kroah-Hartman wrote:
+> > >>> Either way, I think this patch series stands on its own, it doesn't
+> > >>> require cdev to implement it, drivers can use it to wrap a cdev if =
+they
+> > >>> want to.  We have other structures that want to do this type of thi=
+ng
+> > >>> today as is proof with the rust implementation for the devm api.
+> > >>
+> > >> Yeah, I'm not against this going upstream. If more development is
+> > >> needed for this to be usable in other parts of the kernel, that can =
+be
+> > >> done gradually. Literally no subsystem ever was perfect on day 1.
+> > >=20
+> > > To be clear, I'm not against the API being merged for the use cases t=
+hat
+> > > would benefit from it, but I don't want to see drivers using it to
+> > > protect from the cdev/unregistration race.
+> >=20
+> > I mean, revocable is really a synchronization primitive in the end that
+> > "revokes" access to some resource in a race free way.
+> >=20
+> > So, technically, it probably belongs into lib/.
+> >=20
+> > I think the reason it ended up in drivers/base/ is that one common use =
+case is
+> > to revoke a device resource from a driver when the device is unbound fr=
+om this
+> > driver; or in other words devres is an obvious user.
+> >=20
+> > So, I think that any other API (cdev, devres, etc.) should  be built on=
+ top of it.
+>=20
+> No issue with that. I'm sure there are people who have better knowledge
+> than me when it comes to implementing the low-level primitive in the
+> most efficient way. What I have lots of experience with is the impact of
+> API design on drivers, and the API misuse (including through cargo-cult
+> programming) this can generate. Let's design the API towards drivers
+> correctly.
 
-Unfortunately, this logic simplification here doesn't work. It still
-needs to check "offset_in_folio() =3D=3D 0" because the iomap mapping may
-only map in part of the folio, in which case the next round of
-iomap_iter() should still operate on the same folio. I'll make this
-change in v4.
+Note that I dropped the "managed_fops" [1] effort, targeted for use for
+CXL, in favor of simply this in the CXL ioctl device shutdown path:
 
-> +               /*
-> +                * We should never in practice hit this case since the it=
-er
-> +                * length matches the readahead length.
-> +                */
-> +               if (WARN_ON_ONCE(!ctx->cur_folio))
-> +                       return -EINVAL;
-> +               ctx->cur_folio_in_bio =3D false;
->                 ret =3D iomap_readpage_iter(iter, ctx);
->                 if (ret)
->                         return ret;
-> --
-> 2.47.3
->
+        cdev_device_del(&cxlmd->cdev, &cxlmd->dev);
+        scoped_guard(rwsem_write, &cxl_memdev_rwsem)
+		cxlmd->cxlds =3D NULL;
+        put_device(&cxlmd->dev);
+
+Pair that with:
+
+        guard(rwsem_read)(&cxl_memdev_rwsem);
+        cxlds =3D cxlmd->cxlds;
+        if (cxlds)
+                return __cxl_memdev_ioctl(cxlmd, cmd, arg);
+	return -ENXIO;
+
+...on the ioctl invocation side.
+
+This "revocable" mechanism looks useful for other inter-driver resource
+sharing, but not for the well known issues with cdev. For cdev and the
+design pattern of "shutdown the ioctl path on a core-subsystem device
+object that is also a chardev", just use cdev_device_add() with an
+rwsem.
+
+[1]: http://lore.kernel.org/all/CAPcyv4h74NjqcuUjv4zFKHAxio_bV0bngLoxP=3DAC=
+w=3DJvMfq-UA@mail.gmail.com=
