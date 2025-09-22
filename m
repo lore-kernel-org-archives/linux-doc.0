@@ -1,113 +1,186 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F90B25D1E6;
-	Mon, 22 Sep 2025 08:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758528920; cv=pass; b=kEGtRyr02LrtKsLSrG4WpJGTULwiHVfbN/OAm9Mu43ZEmF30+XENpT/93hkFfgblyBhZ68i7vjwHqJR2ibW28oF0JS10qCaFWk8yYeVAHt+gzyxBPC8ipJojvx2M1V7BqlAfThXFG9zklqy2uYUlKE7v23u8Y/dYQVRR+jYF4S4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758528920; c=relaxed/simple;
-	bh=hVyKfbOvMIS+Z2BtByrXURm/o+WKQHysqSr/Qh9nN8Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=etUN8X/lK0QbmYucqPHmC6WobVjKdHBGRFDw4ZhXmOOCHozDmMTtjt7jJ6FeH6qO/oNqw3wfl+wbObfLKxCSECE8/o4uceLOeJ7jkT32fTqQXjhdoRIsKgYsLNGLlye4EnEe1g3TM5eQB1PsvonfhVlI3Vv6lKYW1sj4v5ceKOA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=FUKSHOBP; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C69A18A6A5
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 08:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758529214; cv=none; b=EuKLU/N5+rFCtUu/qBEMeuYx9dkawmrr/zC+0dPrF3VuenKjYfUIgEr1axpWy9wM4NK5xosQmVRkU2Yxt1nx8CsHAOG35bvZQIG5U0XfLatpfRUIH8gsR+1dNx/9L2dT5dtupsRZJKcKwfKPS4zPTpNfQH//ptWG0SdtGPpKKHs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758529214; c=relaxed/simple;
+	bh=k7LHQaAqQB2O6eeT+FSaJv37gsGqHstNS+KGeKBNKnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rO1VVGiK+eOA5hZxOOmM4bOlmFvBAq6ia00fHSADHMNbqE27TW0Oukag0md1IYzmpcTmIlGLehDeIg5iTXGkl7Gzg/6lMBolKFjry1RDCMSNkmbjISwqGUammwtoVtoCyFgOcCN2BqwmBZ7DwEEiN2gehl/5qZs4Xs3DLalOaPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkZMndsS; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="FUKSHOBP"
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cVbWc67GQz49QG5;
-	Mon, 22 Sep 2025 11:15:08 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1758528910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Oa1+u/rSXZ2NnLW3G4hQDJz9GKJpQQQU1oY/bd0Ns/s=;
-	b=FUKSHOBPT/5Khqi1Ou7FuOrukCRp9nge98Q2pgHW9GHkd7H1BD/fi9e2Z3abJpfDYE/M4t
-	Fhvv+vA1ENmQbFGwHNJDydrb32Ti7xYKeK/xnAYK/pRXrvNzHyGubrDmBi4Dk2ZzrwdDXg
-	gHrgSXJ0v9d1LZjO1uYGz8DPtf5NAd6ZvMBOG8YEn1sgN+A7QJL99O/32YLecylH7D5Odu
-	NrBFpev9N5/5KE40+LrYIVfU2/Mrs+Vb3VpuoVWcYePU2rYxG4fAD49AcqA8JEa48oE5SI
-	QbKf6WP+b9YKPGOp+u0VTjL60zgFu+yTj4zli9CeujNXiHQ6sK+QVEjssPlg1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1758528910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Oa1+u/rSXZ2NnLW3G4hQDJz9GKJpQQQU1oY/bd0Ns/s=;
-	b=mpXAp37H56k+cot584MrFfNtijzDUrEASg4YmcAfGcgzD/1iqoahP81X6NUpCr4Ht7byk4
-	nSYFgCS9ORHQg0gTvKAqHm+rEQ7m+JDbETFVzMzwECACDHbHkBBKptLGrTeuICgCxKM3QD
-	A0ff5Uc4ht1dNin8kwiJ7Gpy9mw1Pqrc7gyz5ui59gOjgMyZLtNd747fAD8xULXC0uxstL
-	/Lxnj9lPkfHJyhXpUNBmJb3ZKUp4dl17bGtMli+KyZJyNv6N2zk/ZmAxhZh5Bw7/J7Foey
-	x0z8rPh2E8An/Q+WzCzBon8PkzOhJ7NlaSUo6tt2srd5JKHV4fPyLYgq+DSH1w==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1758528910; a=rsa-sha256;
-	cv=none;
-	b=tvR5iCiPgDiljgxrQvf4zlLi9ZcOB39vfwMCuuio73x3l7AAZy4vuohuz5YoZsrrMNieZF
-	yVv26c8j/9us+q41cP7SF40Ph2Ycx0/dFfMUrl0l0pL8PSYbQ7XlVggYdg9qWeUrfJyO0w
-	cVSLgsoItIgzIBa4IiXSD1WGHtjSRGdKJV10pVsDFQBSjNAKYX7eYD5bF7TkyXoYQJ939Z
-	p2mMrRkZstCA/78qHtNK0ONqYh0uoh5lETxaSRvzME22zwNngNPjSZtyh6TQuHBFu7ak0m
-	W7Fk0jZwZOlQ3Wpe2Uw7xS8QNUlAB7NiUOqAUkhP7EsPxOWue+Jylx6yhIr66A==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 27E4F634C97;
-	Mon, 22 Sep 2025 11:15:08 +0300 (EEST)
-Date: Mon, 22 Sep 2025 11:15:07 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] multicommiters model documentation
-Message-ID: <aNEFi4e5szfbJu4X@valkosipuli.retiisi.eu>
-References: <cover.1756807237.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkZMndsS"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2680cf68265so30232745ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 01:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758529212; x=1759134012; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQpw+mpVAsvBdtQIBEFkOZLcYioW8i+5zjuZhWL6i4g=;
+        b=lkZMndsSGYOcwpwLi/mmNIY6je3qpux2J2MH/0aAf4zqTiF5EAE+xNEhOkmgd/oIJf
+         qLZeeItiDGVlq3XxgzYtHDMKY0kiEOgOVzk9APPfw89aSXlDi915QFwONqt/1wYe5Rf7
+         +nuftGDlEtFWUQzGU3F9IaGYzWN6sBBSlZkH0OSqxYT4RoFgyauTYTDH9+QQHLOzQByM
+         UcGBUxg3Yoc5L43kQ/fb3xgFhmI7HdJDnaFr5nJo8/ufgVO0taIqpgoflG+ZnylIpLj+
+         5KAK9PcNUT6Uh9qGZb77l/Jcxplc9sNLoYQCmS3wtyIRpOP1hxXstWuvl4oXKwbVu9ZW
+         M/Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758529212; x=1759134012;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YQpw+mpVAsvBdtQIBEFkOZLcYioW8i+5zjuZhWL6i4g=;
+        b=r29O4JBlVtSIPY0um5cik7bYSCXqS/bpuKN3kxAdGXTN6j0LhW+8WW3f2WOwSX499W
+         +MdbILDSn2ndfXtKf1mybmbAxZtl8ewUm1k722XTJ8OpOuI4Q1HnGUGykJaYvpfEk/0j
+         NnsC2Lw2H9SCXWAe64LE7Gu5+CmbRIbvusV3waTrOTJjDr4zXeYDJr0DkfF3Id+53pso
+         HCbSJbpkot0q3z+8L8MJ3n2xfuk/KxgLHe+ac/n41WJVQ5zTnIa22FqHkUz8clAtjIF8
+         YATzg1IHrDmwmCeDJSSOLW0c5rmfo5GHNPK0ng0mG6hZjnGucldewSe3yZ7WZr56wXsz
+         kb+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUgiMu0CkYZedYnCf1OvnQZ9h4wotxsVlC5B4Sp4EXLO5pANMc0Uo4MRdp9k89D8QTyFRAg5NXMarI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxotpNd5tzXLRugb4RaZ/JBV5tuF4A/FDYGHnSb9LbxNLiKRwJL
+	rZTjRw7g/VIJvQmxiC0ty8+upSqH+KDRIDwMp7VFBO1JW3cu6m5wLvUV
+X-Gm-Gg: ASbGnctCvpQBYxWr30taUjI9X0Dy8OfY0CTLvHUB/eGQaOFG0aZfk1Wll9yMjD6gVag
+	FxzpCBHmzceGdJKC/Qts7goKVxb+GlXuxX/23e6Ulp+ZhFAiwQAC+a+yndOddkYNlOd+dDB6nif
+	7FI9954aa8oPOACab7k6x+4AHcU9joDggkCKQyY2A6LEzwuL341ypEAbtoGmGuTa93HSHo2lcsN
+	BLBDCqR/yuM9hN39VWqQisTJE79VwuHNNd8o5+zz/5bLEMMCDitK0pPnE61Rezre7iiEoZnxXjn
+	VqdnO3Mil5aeVIh62VQIrHx4xe8VIJS/lE/MI2c8pzVK+PzbyVcI3YSS79r0wAJT1ZtEuIHkKTo
+	xghUE1oyi54avXfFnUGngeQ==
+X-Google-Smtp-Source: AGHT+IF2a3PSxs2bxKScnwskkO0GAHaWv2ekgx1ekGZgO5VTfxyWgSGB0bcGAJEx/TYLb/Yjr6JF4g==
+X-Received: by 2002:a17:902:ecd1:b0:267:af07:6528 with SMTP id d9443c01a7336-269ba50848bmr151819735ad.35.1758529211786;
+        Mon, 22 Sep 2025 01:20:11 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26b59d6538bsm89333815ad.82.2025.09.22.01.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 01:20:11 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 35184423FA7F; Mon, 22 Sep 2025 15:20:08 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux EFI <linux-efi@vger.kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Hugo Osvaldo Barrera <hugo@whynothugo.nl>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2 RESEND] Documentation/x86: explain LINUX_EFI_INITRD_MEDIA_GUID
+Date: Mon, 22 Sep 2025 15:19:56 +0700
+Message-ID: <20250922081956.29481-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1756807237.git.mchehab+huawei@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4566; i=bagasdotme@gmail.com; h=from:subject; bh=XSbt357ND7lSdI4W7HqeiIfehFqa8m3jg5LexXIM9g4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX2Xw7rHJ2FrQUHFvKUnW+6v45zwNFxzevU85leH6l6 kg7p3B/RykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZSn8vwP56tO15i+tynK3Qq mpSKBC//OdER+FK6i9Nhkb3dLGcvb4Z/lub3pon+vWxY/eyO547JnuHHNS1ZhcV+PD7zXZ6DzzS EFwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi Mauro,
+From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
 
-On Tue, Sep 02, 2025 at 12:02:17PM +0200, Mauro Carvalho Chehab wrote:
-> This is a respin over the latest discussions with regards to the media
-> multicommitters model.
-> 
-> On this version, some texts were improved after Sakari's review.
-> 
-> Mauro Carvalho Chehab (5):
->   docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
->   MAINTAINERS: fix a couple issues at media input infrastructure
->   docs: media: update maintainer-entry-profile for multi-committers
->   docs: media: document media multi-committers rules and process
->   docs: media: profile: make it clearer about maintainership duties
-> 
->  Documentation/driver-api/media/index.rst      |   1 +
->  .../media/maintainer-entry-profile.rst        | 263 ++++++++++++----
->  .../driver-api/media/media-committer.rst      | 280 ++++++++++++++++++
->  .../process/maintainer-pgp-guide.rst          |   2 +
->  MAINTAINERS                                   |   3 +-
->  5 files changed, 497 insertions(+), 52 deletions(-)
->  create mode 100644 Documentation/driver-api/media/media-committer.rst
+Since the Handover Protocol was deprecated, the recommended approach is
+to provide an initrd using a UEFI boot service with the
+LINUX_EFI_INITRD_MEDIA_GUID device path. Documentation for the new
+approach has been no more than an admonition with a link to an existing
+implementation.
 
-Thank you for updating the set, it looks good to me.
+Provide a short explanation of this functionality, to ease future
+implementations without having to reverse engineer existing ones.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Link: https://lore.kernel.org/r/20250428131206.8656-2-hugo@whynothugo.nl
+[Bagas: Don't use :ref: link to EFI stub documentation and refer to
+OVMF/edk2 implementation]
+Co-developed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [1]:
 
+  * Apply wording suggestion (Ard)
+  * Replace candyboot reference with OVMF (Ard)
+  * Invert patch subject prefix
+
+[1]: https://lore.kernel.org/linux-doc/20250910015738.14848-2-bagasdotme@gmail.com/
+
+ Documentation/admin-guide/efi-stub.rst |  3 ++
+ Documentation/arch/x86/boot.rst        | 38 ++++++++++++++++++++------
+ 2 files changed, 33 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+index 090f3a185e1897..f8e7407698bd2a 100644
+--- a/Documentation/admin-guide/efi-stub.rst
++++ b/Documentation/admin-guide/efi-stub.rst
+@@ -79,6 +79,9 @@ because the image we're executing is interpreted by the EFI shell,
+ which understands relative paths, whereas the rest of the command line
+ is passed to bzImage.efi.
+ 
++.. hint::
++   It is also possible to provide an initrd using a Linux-specific UEFI
++   protocol at boot time. See :ref:`pe-coff-entry-point` for details.
+ 
+ The "dtb=" option
+ -----------------
+diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+index 77e6163288db08..32eea3d2807e1c 100644
+--- a/Documentation/arch/x86/boot.rst
++++ b/Documentation/arch/x86/boot.rst
+@@ -1431,12 +1431,34 @@ The boot loader *must* fill out the following fields in bp::
+ All other fields should be zero.
+ 
+ .. note::
+-     The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
+-     entry point, combined with the LINUX_EFI_INITRD_MEDIA_GUID based initrd
+-     loading protocol (refer to [0] for an example of the bootloader side of
+-     this), which removes the need for any knowledge on the part of the EFI
+-     bootloader regarding the internal representation of boot_params or any
+-     requirements/limitations regarding the placement of the command line
+-     and ramdisk in memory, or the placement of the kernel image itself.
++   The EFI Handover Protocol is deprecated in favour of the ordinary PE/COFF
++   entry point described below.
+ 
+-[0] https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _pe-coff-entry-point:
++
++PE/COFF entry point
++===================
++
++When compiled with ``CONFIG_EFI_STUB=y``, the kernel can be executed as a
++regular PE/COFF binary. See Documentation/admin-guide/efi-stub.rst for
++implementation details.
++
++The stub loader can request the initrd via a UEFI protocol. For this to work,
++the firmware or bootloader needs to register a handle which carries
++implementations of the ``EFI_LOAD_FILE2`` protocol and the device path
++protocol exposing the ``LINUX_EFI_INITRD_MEDIA_GUID`` vendor media device path.
++In this case, a kernel booting via the EFI stub will invoke
++``LoadFile2::LoadFile()`` method on the registered protocol to instruct the
++firmware to load the initrd into a memory location chosen by the kernel/EFI
++stub.
++
++This approach removes the need for any knowledge on the part of the EFI
++bootloader regarding the internal representation of boot_params or any
++requirements/limitations regarding the placement of the command line and
++ramdisk in memory, or the placement of the kernel image itself.
++
++For sample implementations, refer to `the original u-boot implementation`_ or
++`the OVMF implementation`_.
++
++.. _the original u-boot implementation: https://github.com/u-boot/u-boot/commit/ec80b4735a593961fe701cc3a5d717d4739b0fd0
++.. _the OVMF implementation: https://github.com/tianocore/edk2/blob/1780373897f12c25075f8883e073144506441168/OvmfPkg/LinuxInitrdDynamicShellCommand/LinuxInitrdDynamicShellCommand.c
+
+base-commit: 348011753d99b146c190aae262ee361d03cb0c5e
+prerequisite-patch-id: 1cff30305281c1f018f9e5dbd95f0c6a2d1db116
 -- 
-Kind regards,
+An old man doll... just what I always wanted! - Clara
 
-Sakari Ailus
