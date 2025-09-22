@@ -1,107 +1,99 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4000B192B66
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 16:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBC931329B;
+	Mon, 22 Sep 2025 17:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758559804; cv=none; b=NqUrwdbOhc+2CbxUdRzngMjAdrBye71JuFEwKQTdms/j5pKu1vWfHWAgBAmuzf0mUHWQHRh3kxtOwthDR+qHF7lh96mTf3U9xNF0L4F0zY6GvFudpVcJSofYB1pRpCto0kgNrjEtgEPU9qUUOzO9dVF+CMHu1nnxTEnMXWubOgA=
+	t=1758561108; cv=none; b=twFB3jIehBJALsA6EwPBl5OKqG3DoJD8+K5H2bwT5WAvPwMIZqTRSgmEWUYb05uRDZL4KCvseMz58ZYIrcVXTUyrLKOlmHWyERDncnk9zY+AMqn74j4YCPQewC9H98q43M9DLVbaCdI2FttKKS7vCpjPLF6NHAizSq3xB8hEfIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758559804; c=relaxed/simple;
-	bh=m9/XGEHINrVzPTUGiEZBd4c6Fi+tGqA4JccCjRyRcuU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hSRN2I9D61NJGzW3Z50Z4S+u9B6ShiLlWaQTvpibXGAesXG/n3b3nJwqE1xjoFItnMnOEjxpBTi8gXtBd9crIso0Wqlcth8Wm5eoLO14o1yhna/ZPxygPXpHoPFyvrR7hRNakZ1KJKORP3GL84j9pPQnihjKL7GzPFpUSwFY6fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RFejKAtP; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RFejKAtP"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ca7a71adcbso10505551cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 09:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758559802; x=1759164602; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WA+alynuVVEEPnntcyqcLLSauhQLoM8gOAgbz++kC00=;
-        b=RFejKAtP74up0mb6zIBo/ztzZ+Sf2255tgJnRZKBv6pqR/bH128weEJfGas/TXV/TZ
-         9VEqSf+YbClXEI6WiXooTNJbGCXE6u69aSZ6fFDB+NJAHH/iXXUw81QlAs3nMCxgifOb
-         m2I+HzjucroSBR1eF8GxhI/vfpwitPSi2XX759NDy0WTS0UecXOTEx/OZ0q6HIZQstz8
-         zafcoOd3ah8UHBlSpvZZRSjZfvieU52eCiHotHgOlF2AIq6WSb9HkuxeOrfSuoXsvYwi
-         h0Giq5fnu5RjVNjrlFAtYL+9Q38eilZ6EABhXmAHZ5g0BncUcXhVA0RRigGZ5A7WmMhK
-         r21Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758559802; x=1759164602;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WA+alynuVVEEPnntcyqcLLSauhQLoM8gOAgbz++kC00=;
-        b=YIqtLtBoNu4w6vrl11JrFcFEnfzS7bXNvGDs+eKDCS5cB0S2LWDPhl/dZgKHS+UjyU
-         f7bNIKNiYpNbmr03lL3gkk1W4qAF0UZ436rc5kzY55E05JhFRMxaJ9BRuJKpdSEYv/TQ
-         RYAOLm03KXslPQ3VrNFzKFHdzcDOMBHHsd+CjTroSTAnaQpXiKYTwBykjb+5NVrcheqo
-         Dvw0hcPZe70Xt4gE0lkaiBqqSokiUSlnp/RCESPBLeINTptC+TH72zp1gZ21pOCEogJa
-         xM5623eYgNgkeHFLMCVczxc49TtzVOM90hbVy27imQ1l1yYPbvBJ3oGs8+7H2E6y6RT7
-         iFvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVgH/uZsiyc8VE55rTPhjpAfgD0mgH8rUq4iVkq6FPjvXLDwLzn1kqXfgz9WZtsucssilAp3NyBW4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEpQmu2JrnR/33hyTMCxJ9icWfw+BszHyNZ+xftg1eE52K7QB6
-	1pe8cYfGuBnq6VaXLbWFOJvIyXcAjwPscWiXDGOXU2KbhAzhPI/2BpXZkOj302FgaPgoRkUNsYu
-	j0XsitEaHaJDEcU+Y2/23acQcm/JEYFU=
-X-Gm-Gg: ASbGncub9bBY1pS/Yk26PqqzUbc+eAvGtopgu5khlpYRj2HOhFr5vCmp+rsLosIQ0fv
-	frw9HO+xnJ0foTEvdD+oQKItSC0K6hgdPjKlxjJesb0CyGBMlcuGFZGlJUwk064m2VKUYk7zir1
-	4KTVOYFzI5l+xirn78HEFRuQ9xstaRwdy5LfPrSDov1pD2zdW4v/HIk6ip609GMvYtNIYyzmxJe
-	YopEkbyGTXxHZP0dxieehftpz+Q+NlnTxBwuPT3
-X-Google-Smtp-Source: AGHT+IE2GJniwx2CuhW63kr8BKynTNE4Xt9Ay1AkqcPL9FzvjlWdOzfghumDj+pZeJOeKep2YblFDfteGq4gqyUOwfY=
-X-Received: by 2002:a05:622a:653:b0:4b7:a62c:3747 with SMTP id
- d75a77b69052e-4c07151d134mr177156361cf.46.1758559801973; Mon, 22 Sep 2025
- 09:50:01 -0700 (PDT)
+	s=arc-20240116; t=1758561108; c=relaxed/simple;
+	bh=Bj75Vx85XbPqZ/5PV/l+4NF+GOXzs9jU1MZVBigLThQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lqq+sE8Vf7Ji/nZiiTy/YK5AwSmKxusX9yo1gUc5P9RXaRmXYWzZySispIBv/q1nvfB7tRaKUAFpKcnAQWmLyhpnY9cbXNSsDnqwDIwsSRPwRlAdGOlDrR8ar8YWfHcxqQVX9WNUukmXdVqtfHK5nViGV9s4bFall77zuVlMTCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 11211227AAF; Mon, 22 Sep 2025 19:11:37 +0200 (CEST)
+Date: Mon, 22 Sep 2025 19:11:36 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Marco Elver <elver@google.com>
+Cc: Christoph Hellwig <hch@lst.de>, Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Bill Wendling <morbo@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
+	rcu@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and
+ Locking-Analysis
+Message-ID: <20250922171136.GA12668@lst.de>
+References: <20250918140451.1289454-1-elver@google.com> <20250918141511.GA30263@lst.de> <20250918174555.GA3366400@ax162> <20250919140803.GA23745@lst.de> <20250919140954.GA24160@lst.de> <aNEX46WJh2IWhVUc@elver.google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250829235627.4053234-1-joannelkoong@gmail.com>
- <20250829235627.4053234-6-joannelkoong@gmail.com> <aLktHFhtV_4seMDN@infradead.org>
- <aLoA6nkQKGqG04pW@casper.infradead.org>
-In-Reply-To: <aLoA6nkQKGqG04pW@casper.infradead.org>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 22 Sep 2025 09:49:50 -0700
-X-Gm-Features: AS18NWCYGl8IVCOH-hPpOfmVBaFG3jn-gUPUQCOuCGVD2SlbTPYRIsrQjTCDT5g
-Message-ID: <CAJnrk1ZxQt0RmYnoi3bcDCLn1=Zgk9uJEcFNMH59ZXV7T6c2Fg@mail.gmail.com>
-Subject: Re: [PATCH v1 05/16] iomap: propagate iomap_read_folio() error to caller
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org, miklos@szeredi.hu, 
-	djwong@kernel.org, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aNEX46WJh2IWhVUc@elver.google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, Sep 4, 2025 at 2:13=E2=80=AFPM Matthew Wilcox <willy@infradead.org>=
- wrote:
->
-> On Wed, Sep 03, 2025 at 11:09:32PM -0700, Christoph Hellwig wrote:
-> > On Fri, Aug 29, 2025 at 04:56:16PM -0700, Joanne Koong wrote:
-> > > Propagate any error encountered in iomap_read_folio() back up to its
-> > > caller (otherwise a default -EIO will be passed up by
-> > > filemap_read_folio() to callers). This is standard behavior for how
-> > > other filesystems handle their ->read_folio() errors as well.
-> >
-> > Is it?  As far as I remember we, or willy in particular has been
-> > trying to kill this error return - it isn't very hepful when the
-> > actually interesting real errors only happen on async completion
-> > anyway.
->
-> I killed the error return from ->readahead (formerly readpages).
-> By definition, nobody is interested in the error of readahead
-> since nobody asked for the data in those pages.
->
-> I designed an error reporting mechanism a while back that allowed the
-> errno to propagate from completion context to whoever was waiting
-> on the folio(s) that were part of a read request.  I can dig that
-> patchset up again if there's interest.
+On Mon, Sep 22, 2025 at 11:33:23AM +0200, Marco Elver wrote:
+> I gave this a try, and with the below patch and the Clang fix [1],
+> fs/xfs compiles cleanly. I think the fundamental limitation are the
+> conditional locking wrappers. I suspect it's possible to do better than
+> disabling the analysis here, by overapproximating the lock set taken
+> (like you did elsewhere), so that at least the callers are checked, but
+> when I tried it showed lots of callers need annotating as well, so I
+> gave up at that point. Still, it might be better than no checking at
+> all.
 
-Could you describe a bit how your design works?
+I guess this at least allows us to work with the analysis, even if it 
+drops coverage for one of the most important locks.  I guess you also
+have CONFIG_XFS_QUOTA disabled as that would lead to similar warnings,
+and also currently has the lock the object on return if it's not a
+NULL return case?  I now have a local series to remove that instance,
+but I've seen that pattern elsewhere in the kernel code.
 
-Thanks,
-Joanne
->
+Besides the conditional locking these two also do another thing that
+is nasty to the analysis, the locked state can be attached to a
+transaction and unlocked at transaction commit.  Not sure how to best
+model that.
+
+> [1] https://github.com/llvm/llvm-project/pull/159921
+
+Thanks for all the work!
+
