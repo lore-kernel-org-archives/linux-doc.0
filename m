@@ -1,137 +1,74 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C98C238C07
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 12:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578B53081C1;
+	Mon, 22 Sep 2025 12:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758544929; cv=none; b=EBsmenaZjUoK7Ybpz4Eif0muJs1skIgR8M5LSzFIUYyhCoz1pedN+zp4l4CfrhhQBj3KuAe4xqwrs38uoq8zSq9h752YeH2WUL+9WLNXZIcl+ptRq4v0DzpswBuYUn9wu5LDpjZ7ek9fI76KRLwZDxKDCij62tGUuUDwPEG0ff8=
+	t=1758545632; cv=none; b=nrscvOHRml06Kh8wi2jzS0eyKpnSsxLEd8nNDqrwI5INTY7ctIAX9p7OUzLBtZ97YZVhjRmr/5SVzeC3ZBQZidBv4wElAYlkRuBA3betN64kAbWjFhub2awgc1Rt89uP+wkgYnUEBgMUiIjc5CZK4TVqR3vEf+/Y/sKHolY9cnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758544929; c=relaxed/simple;
-	bh=1Z/FIrvKbz7+7KzkAOkAw8QtjVUi2Kn58A3/jKJj3TA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pztBjAXplhBWVNX+dyhiXYJUkGbjtjhVc/0NPwNrfuh00gSBz8Zh7PY3h9C3xpb9NUhPUOGNNOK8TS5X81GQeT8BnU+JNio4QaVXbSswy0Q7mrFgAsz3QnmYyGyANSq6SvXVc9ymxBmjYazGwtDlZ9IX8HrIptRbDn+ITRshJ1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elboACVj; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758545632; c=relaxed/simple;
+	bh=LfoJQ8S0OE5Gm+JpV4NFrZ6MM77Y90rkMiXBOjFpSV4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=T61/GjcaGpE34AyOMx0LiKjCKqJlE/EZJ2UfyPLLhL35nifaGA2gY3tUs7ds8SvHfZghT8prCckjSWeC9H44RD44woYLNGID2aC9elvccx6mCJxwOCqr9LEW+EvC0Yi7RofcKjtp8JnqCuh2HQUU9U62H9cgnBurcwtycNOTFLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Csm8zjyF; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elboACVj"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-77f32d99a97so854545b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 05:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758544927; x=1759149727; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLN+Eh1NQwEjC26VvFwkCS0AGaveETF0mZj2seOGw3U=;
-        b=elboACVjG3ERGMEQyn/F/LD2fkjahXgRw2T9SibZwHkV1BfkANqQbA3vmC2qZovPGt
-         rfLLC5PP77C739aCnPMkyBn2iZ/CVw2uUXDPCnp1XtbaClFeR388Yp9Xi9UJzB92KNju
-         tQZB81dwJ6Kw1+7fnerFDy+l4uEteVxJm8b2m0BrLxUYFKVE457ysEoFxTpu3fM/j3hj
-         lMjuXxw0S25ZE5AhqzQnmqV9/OE3IOsCkhF4KIcaAdy3cM0Wwtdt+X6+/RWJwQzs2ggp
-         L3Uy9Ajf/yeMftPLrn7UP67OYOY5wmrcS5au90mwrsaBaz4xcx3xg/3S+EUfvgxmEjGa
-         W9Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758544927; x=1759149727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gLN+Eh1NQwEjC26VvFwkCS0AGaveETF0mZj2seOGw3U=;
-        b=KUguyly06EFlxev8V6OnDmGoDUmwNgoOuwybdRpSmuu3lYpC7CFxIgZ2SkYoI0RgIt
-         hRdKdi4G+HuAJ6UKoGZuLy28W6lB7YuWz30HV+DM2An+3u5ba8L0e8Zf7FS3FRDW4Lww
-         4rofN5sgLnB4dWrQvLhdw36/pqDE6g1VSe8mP47LqeIFx00c0shzF5S+gmxxUuZKQmfy
-         rqVENK1GMDEH0tzvR9XgsdzNKJ390FGrV9El6fHODBaiMhayDHo7tmiIOghnBKgETyxJ
-         6UHYz1fwO3++99J96OPOAzRTQmKZ+tCQIn1ckpQHz3Ihj5yfeE6qW8L2yh7ninHPvu7J
-         FGig==
-X-Forwarded-Encrypted: i=1; AJvYcCWV2sjNaJjnJNonYpIFHndTdd+JPsK4m/8HdXnj70a+lSMXPfVxp0KHWlFNntT09sg7TlXjrdVzXng=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFD7kRWWoajGKzrMqHwifos7q8jSrk/6VAsNUB5lbsp0pldZZL
-	QXSobmGBe5nfjYgxSIv/ZIOnz0C+Nogj/asGSsHkQ6jBWooWOxzP1W5n
-X-Gm-Gg: ASbGnctGjRsI5N7hE2iD078382CIN3O6RfcQ4PWTzdZTugN2JsTZxXhaKdO2InFmu8i
-	Shiz7lkAzTYwqXCpFCR0pBRFWk21R1/7z5ztGOwwiakp8oSHJgFiVKUmXLdx02g0flmdhOnS1VF
-	3vwcezm4Uku47sgiOTqEqh2KCN1ObOLsh3xNJefJ/z+cNmRxS778r2FbuZbQfYf9gkGgu2sqHLi
-	lsZDPPxo4UnterpDIAGYoLa6ogNIQSFTORbT63Dxrd439n23YM7vuYYWjF1Svlg+I1gZw+/oVUz
-	afAN7uPeA3aSds7f8BhSeQPvkmxCVI42L3mXUeXgp2pbVnxvLTDo/dTp/VT+I5T+w2xwlmeU1TC
-	cmSOmEGht7eKackuDK7ECORMB7Co0M1mq
-X-Google-Smtp-Source: AGHT+IEZLp81YiMoMr4WJAQZOMI4sY+pLzRlLOa2OPN7d+0DTygMiaREKyXTG4t3hhVgfLTO4tewwg==
-X-Received: by 2002:a05:6a20:1584:b0:24e:5de0:1661 with SMTP id adf61e73a8af0-2925a79e6a7mr16414061637.11.1758544926906;
-        Mon, 22 Sep 2025 05:42:06 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f2f76f87dsm3956723b3a.48.2025.09.22.05.42.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 05:42:06 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 431F34220596; Mon, 22 Sep 2025 19:42:04 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux AFS <linux-afs@lists.infradead.org>
-Cc: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next RESEND] Documentation: rxrpc: Demote three sections
-Date: Mon, 22 Sep 2025 19:41:37 +0700
-Message-ID: <20250922124137.5266-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Csm8zjyF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 432B3406FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1758545628; bh=LfoJQ8S0OE5Gm+JpV4NFrZ6MM77Y90rkMiXBOjFpSV4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Csm8zjyFSoEVN6aoDpsECH6QrfIsz6YXB3jPBegIYDypWaIfKLGoCTWXSz+mKio+D
+	 nK7hLzfPdgVBAvzuv8696U0fSi6e1J2vOnWV95vtFtOEKX/k0ON2pqUB5MjRzKeugG
+	 fJuHQpDzKhttt1zNiQa2HHoWnUcQpGRK7vCuR0DU+ZNBHeh8vV/BLhXYNKfXOV8vfD
+	 1eB4QDnmnSfp73U58+FkzrdiNJOaoldReoMpBtaTKyE1FaFZhqlcEGGWpau2QQAHvk
+	 KOpmDCijepaU7hpqjru6S6393TaVV11q+7wJZ85iQxj0WlnxaBqv/pR0cG2UfOPJmZ
+	 5xEuY86MVrQvg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 432B3406FB;
+	Mon, 22 Sep 2025 12:53:48 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux Kernel Workflows
+ <workflows@vger.kernel.org>
+Cc: Dante Strock <dantestrock@hotmail.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel
+ major version number
+In-Reply-To: <20250922074219.26241-1-bagasdotme@gmail.com>
+References: <20250922074219.26241-1-bagasdotme@gmail.com>
+Date: Mon, 22 Sep 2025 06:53:47 -0600
+Message-ID: <87h5wu8x7o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; i=bagasdotme@gmail.com; h=from:subject; bh=1Z/FIrvKbz7+7KzkAOkAw8QtjVUi2Kn58A3/jKJj3TA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkXnf4lORUeDLplmjbL5F1+i9Sy///zDxvV8JpxHHGoM 1L9/kGio5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5sYPhfxHLKpebfW8myr1q 6k9e/FFswoeKQHavp/0v/OczM6UpbGRkeNs59d6uA945b/fbrfp60NtHvXvL9vAGgVNTfLjylvh 68gMA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Three sections ("Socket Options", "Security", and "Example Client Usage")
-use title headings, which increase number of entries in the networking
-docs toctree by three, and also make the rest of sections headed under
-"Example Client Usage".
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Demote these sections back to section headings.
+> The big picture section of 2.Process.rst currently hardcodes major
+> version number to 5 since fb0e0ffe7fc8e0 ("Documentation: bring process
+> docs up to date"). As it can get outdated when it is actually
+> incremented (the recent is 6 and will be 7 in the near future),
+> arbitrarily bump it to 9, giving a headroom for a decade.
+>
+> Note that the version number examples are kept to illustrate the
+> numbering scheme.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/networking/rxrpc.rst | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Just FYI, I've pretty much shut docs down for the upcoming merge window.
+I'm probably not the only one.
 
-diff --git a/Documentation/networking/rxrpc.rst b/Documentation/networking/rxrpc.rst
-index d63e3e27dd06be..8926dab8e2e60d 100644
---- a/Documentation/networking/rxrpc.rst
-+++ b/Documentation/networking/rxrpc.rst
-@@ -437,8 +437,7 @@ message type supported.  At run time this can be queried by means of the
- RXRPC_SUPPORTED_CMSG socket option (see below).
- 
- 
--==============
--SOCKET OPTIONS
-+Socket Options
- ==============
- 
- AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
-@@ -495,8 +494,7 @@ AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
-      the highest control message type supported.
- 
- 
--========
--SECURITY
-+Security
- ========
- 
- Currently, only the kerberos 4 equivalent protocol has been implemented
-@@ -540,8 +538,7 @@ be found at:
- 	http://people.redhat.com/~dhowells/rxrpc/listen.c
- 
- 
--====================
--EXAMPLE CLIENT USAGE
-+Example Client Usage
- ====================
- 
- A client would issue an operation by:
--- 
-An old man doll... just what I always wanted! - Clara
+Thanks,
 
+jon
