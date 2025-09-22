@@ -1,59 +1,59 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560F22D6E69
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 14:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6302D660B
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 14:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758552929; cv=none; b=RL4IFTowaih/1MW5Jv8PkRPkGnL1NHSCc8wOViSjh87LUOyDe58q1+YdhSD/mICu2wjaKKg/K9jA5/1VakEfAaFDlKMDE+pgzbrgLFA5MyCr0xrxzHMOtZNbBlXpGAMnODZ+WM7ulRb0yi5ExbRyM+Vw1ANa1IEJbl3ZG+Cf31c=
+	t=1758553099; cv=none; b=ijkTvv+amu147uhFB+GcltRh+MAnud3sOAnCfmAqugWy3WiRs33kxhqWaB+H7AQjx6XfDbWqWsbc+V5gicGEXPnHIjaJxSuqWBwh3FA4AiuVDEPvc70TLp20C5+F8t8yQB0qx8XdQcKWlLzpsmImxNy56w/pV/HKwBxtBWzxsE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758552929; c=relaxed/simple;
-	bh=TvVveR+eoaL9wv+8XBbQic5VEQu2ToLre/5kbgHOc30=;
+	s=arc-20240116; t=1758553099; c=relaxed/simple;
+	bh=bk/uSOBhjlLpezuJ67nR7iyn8eOOajtcOPPkD+iN/3c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H7ppRViD2QCCnOAh1ORSGVUWB7kodBUVhIObD9RtshXhi4Hg5XGyEBjD/3ggKTBsbRHBbfDFwhKI5f82JbWmpZXkxXP0X4KuvkJQxrJMKmTwAguyy3Mihb1QoJapsh0Lo5Y4lkBLrgJ8HuTjKDxOryOVsLkHZgDDRHKj34tbnYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=D6phggC7; arc=none smtp.client-ip=209.85.160.177
+	 To:Cc:Content-Type; b=iuvZLlojGJSsuXsGC/Ss/IwCzbo67g9T7ZwgYanIGw8Syp2haDhwG8skEYir8n3zksPPfz9IdGmidetAaljPG0ax29LwCdHIVV9PsE1IPvw3G5ZBtES1O7M5LT3+iFk0e8i5K7yMu4SQ1RXRS4xetN/R+KHhu1H9fPXIgwL2nHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ZukVEC2T; arc=none smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="D6phggC7"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ca7a71adcbso9188501cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:55:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ZukVEC2T"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4d01b367f7bso8190261cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758552927; x=1759157727; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1758553097; x=1759157897; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TvVveR+eoaL9wv+8XBbQic5VEQu2ToLre/5kbgHOc30=;
-        b=D6phggC75WT2Fe3DKiGdsn21CO4wh6ZCJgmbJXXaXQzGSycVC3nWY/7BcPwC75GYJr
-         l7jcIhtFXYUfeyVpFRUYGt/Gq20k55t6C9kAmV/kHC3bFJOp6Hei2rXr9vGgECuCxfvC
-         zYcEGmixn8wp8Jj2SM5yPbc/x6GAOcwN0tgvzXXU1OvWHFqtanYssKdUHt9wGInm6JTu
-         88EURAfdEY7wvWm8TA7nksLsohle4MUeOqTfEbLuX0TA3wx8Olo3tHwVnbMne+6EQ9N4
-         hoQp6WvvLNq+Pit3VOK9GvSAfE25HSQSLO0XrDOSN9hd5RN9nw1Nvcnbs9cwPVzs31wl
-         v11g==
+        bh=eFVWZlAioBD8f+qAHkBJ/aidH/GZeFQvA+qClIUvAWI=;
+        b=ZukVEC2TBHAzXAq1pJ57A+FQBf77prwd0uZpcCm7CiP1eyDs3Vm3KRA1I9PFOqLsH2
+         2wPq27j3F3bQuCq5fUt9llx7sjeF0BMZUBWAY8ZQEmyf/liW3pqzv1IOYnT9I2ZBoEPX
+         pswDF/EeI1DbHR/d3UeGJ2PgS1punXOeZhNwsrLv47atcgf9gqpDOTzDmtehGDYkw2O6
+         20nmty0XcDB2YOvGe5MubykrS2Z4b+3MQBtcpKezm3apfn5w0CtFyp8/Pgnr3vWniMoD
+         3szXovJtaP+6UTxvOsxqJmuft80jXG7XKzWwC/W5XaiDnCL1Ah13iLj6JoyKmexoszIY
+         dDqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758552927; x=1759157727;
+        d=1e100.net; s=20230601; t=1758553097; x=1759157897;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TvVveR+eoaL9wv+8XBbQic5VEQu2ToLre/5kbgHOc30=;
-        b=ARVtnakh7fy87anUzuD9faLQYTBKgH4NhMulDIYaMyC4XHzlBOeXzmdDIGYZO83rwt
-         LjLawDmXDRW0abOA92mLgDETL2wd+EashoZbnMqQcBz0giDip2aSdJd+SA+qG+kxyF/T
-         SWpHa3bBGbr6Rzw3akCK7K0nc46mqyhnp5p8nCkt3k3/+s0sdp+M/kuUlMdsgkNbv8/y
-         6CSreLqhUaZndNhiP/96rHUNwNsdevcv5m5JYAaTa9CTMwwZ3Xhv9XKTEkrM11ZCoRcA
-         h9ZDsklNgqUePsmYJo+Cr6Mrf/d9z0x924ObGhLlw6lYgUvOQUJwd8e3QdLn2wvChW2P
-         38og==
-X-Forwarded-Encrypted: i=1; AJvYcCX9+7DO1CBqwJM4DsxkWeVWEkSill/0TuWrmwj9tSWeVLNJ4dAY1NBCKyTpnu1X+/VRcSm9frZyMtQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6M1il1ysLBnUs46tDvPBIjvXz1O89tvZJqTLWSme29KJvjupA
-	KRIPrzfaZb+erYjXksZfEfFk/n7iXoeCtapYQcQ3tmdSX9tdZZmh7iSos0BYK1Bch5LJu7Q/iTL
-	1NGPN6aTJBA7Nj3rKV9ym6KIaH8+kmPAKRq512fZFDg==
-X-Gm-Gg: ASbGncvnPLKj7jxDsaLqwQfE9VN4H4R5nkQ8iQC0ZMBXbg8Mw74jFSJwetKi2HmlpWd
-	NRjPix4AkocwBzylUVsH7LIsCguuBjWlSKqVSVUVi1UH6iVIctwVX9G8H34F1B98IBSWDnxYuy1
-	+NqtjJ4r/4uBHTmARvaL0iixuosaBi2B4XDzvJXYzBUbpMhuFgpORmEj2+CgPRhzzfYkjBBCDue
-	iGwjwA22UW/lb0=
-X-Google-Smtp-Source: AGHT+IH/maFhVZagCabAuRpSyzOdLh5RhCtxYHTL9INMkCpwFUrFYMQXEcKIhCuCFYP9Ni4pPChjhYdVr/+VltB6kGE=
-X-Received: by 2002:ac8:5f0c:0:b0:4cb:713b:6f08 with SMTP id
- d75a77b69052e-4cb713b74cbmr35760601cf.34.1758552927041; Mon, 22 Sep 2025
- 07:55:27 -0700 (PDT)
+        bh=eFVWZlAioBD8f+qAHkBJ/aidH/GZeFQvA+qClIUvAWI=;
+        b=DkY8j+fn6bqIO12jAAPeyRlG6sRFBSwgj9hTr9AUVC0cCuRibEwzD5nFDMSIo6RmeW
+         xJZb1OrepLgJeVADuUnOpMKAq1s+YTXrtwn53YrNSpBwlP3ZLt0AmPwQzbgrgB6ExsHD
+         U8bPSgFyMKBvRX0Z5QUJn71tep/uRURzkJvwNwPbVT0kmKyTZciDCzKoCe3auzcJSLRQ
+         LKiWo8CoRDrT5hZK0kYp6ScD2EnyxKQFpD+WViNtbR3V7vEOFaefxInm6yNE1kfFXiJg
+         FCpaMvJPfc4mF4lw9tbKLHUDK7RkISuPCGxxOC2QTXtCVmZa0n4ynMY5GNRWt/EnPQkN
+         lNiw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuzBemMz4ir/9wU1kK6EGed2SkU5Ef/4bfCRUQX3qGL96FXavB8RHQZMbUoHAvPcaGIhBYTTueVtI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiE82Yekmg/1sSv97g6Z6oY0aTzR0PfZYi5nl8XXU+P8arb5UN
+	XzHpEYYbfiMm3BQPBEdmqP/7Y2fo50VXJUW/Dq3ITNVV1wEGK7uO21jEiuKAPHwaetH/2T5oCK2
+	nekmojefX+U40Z68N5wkXsfpQIMPcEqqxczb3szKq4g==
+X-Gm-Gg: ASbGncvWtCRzWjVmZ7d+UQazK9wh/nrax1rZ0e7t6tR5TxdzHIWoAi6LgSteexF2FMX
+	3F62ANgGZvbpJAlA2K4w+4vMcH0F8jS7YDTHfeJ+q6o9vxvfIRRr6lEyrYSrmJIPfxIUafTsBzk
+	pL/bGitRpzQeJFQKw1eDOvQb9Mc8nDqMll7sNzV9lwXH1TynlXr/bmdx+y1Nt7ULlBSCWKjH7CV
+	qXd
+X-Google-Smtp-Source: AGHT+IFB/CQ+Stx8wqmihXNU+u019GIyHx6IROg0+AJtIcKFDHMuxhnTyNrT+0blnUsLunK7sMerRGUSSQ0zeNBJCw8=
+X-Received: by 2002:a05:622a:1aa0:b0:4b5:d70a:2245 with SMTP id
+ d75a77b69052e-4c073ab0d34mr174036401cf.77.1758553096737; Mon, 22 Sep 2025
+ 07:58:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,65 +61,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-10-pasha.tatashin@soleen.com> <aLK3trXYYYIUaV4Q@kernel.org>
-In-Reply-To: <aLK3trXYYYIUaV4Q@kernel.org>
+ <20250807014442.3829950-9-pasha.tatashin@soleen.com> <20250814133009.GC802098@nvidia.com>
+In-Reply-To: <20250814133009.GC802098@nvidia.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 10:54:47 -0400
-X-Gm-Features: AS18NWDwJiLL1FUZIWpx1NLSWLJKu-G0z1HFpnmPi4SdOFce-N6qgysbpZBTW0s
-Message-ID: <CA+CK2bAC_X2ONEaT7XYVwjB=fdN897JnmVnt5f+UELbuKR+-0g@mail.gmail.com>
-Subject: Re: [PATCH v3 09/30] liveupdate: kho: move to kernel/liveupdate
-To: Mike Rapoport <rppt@kernel.org>
+Date: Mon, 22 Sep 2025 10:57:39 -0400
+X-Gm-Features: AS18NWDigaezp8KdbFsh6YfrVI9s8S_j72gr5tDnCBaGxghJTTvfOltyGvHBbhQ
+Message-ID: <CA+CK2bDDo7xVxFd=-vkkXuUyStj9ShmURmGNPkMyJvi96KrV7Q@mail.gmail.com>
+Subject: Re: [PATCH v3 08/30] kho: don't unpreserve memory during abort
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, dmatlack@google.com, rientjes@google.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, 
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com, 
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org, 
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev, 
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com, 
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org, 
-	dan.j.williams@intel.com, david@redhat.com, joel.granados@kernel.org, 
-	rostedt@goodmis.org, anna.schumaker@oracle.com, song@kernel.org, 
-	zhangguopeng@kylinos.cn, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
 	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
 	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
 	leonro@nvidia.com, witu@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 30, 2025 at 4:35=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
+On Thu, Aug 14, 2025 at 9:30=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
 >
-> On Thu, Aug 07, 2025 at 01:44:15AM +0000, Pasha Tatashin wrote:
-> > Move KHO to kernel/liveupdate/ in preparation of placing all Live Updat=
-e
-> > core kernel related files to the same place.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> >
-> > ---
-> > diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-> > new file mode 100644
-> > index 000000000000..72cf7a8e6739
-> > --- /dev/null
-> > +++ b/kernel/liveupdate/Makefile
-> > @@ -0,0 +1,7 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Makefile for the linux kernel.
+> On Thu, Aug 07, 2025 at 01:44:14AM +0000, Pasha Tatashin wrote:
+> >  static int __kho_abort(void)
+> >  {
+> > -     int err =3D 0;
+> > -     unsigned long order;
+> > -     struct kho_mem_phys *physxa;
+> > -
+> > -     xa_for_each(&kho_out.track.orders, order, physxa) {
+> > -             struct kho_mem_phys_bits *bits;
+> > -             unsigned long phys;
+> > -
+> > -             xa_for_each(&physxa->phys_bits, phys, bits)
+> > -                     kfree(bits);
+> > -
+> > -             xa_destroy(&physxa->phys_bits);
+> > -             kfree(physxa);
+> > -     }
+> > -     xa_destroy(&kho_out.track.orders);
 >
-> Nit: this line does not provide much, let's drop it
+> Now nothing ever cleans this up :\
 
-Done.
+It is solved with stateless KHO. The current implementation is broken,
+dropping everything in abort should never happen for stuff that was
+independently preserved.
 
-Thank you,
+> Are you sure the issue isn't in the caller that it shouldn't be
+> calling kho abort until all the other stuff is cleaned up first?
+>
+> I feel like this is another case of absuing globals gives an unclear
+> lifecycle model.
+
+Yes. But, we have a fix for that.
+
 Pasha
