@@ -1,65 +1,65 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BB62FF15A
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 10:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D98303A0A
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 10:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758537399; cv=none; b=dtWlVeFHdZP1DMqU+8TyQTO4Acek9Ty2fmRnEcQI9FslGcLSO7ZSmvc5jEKSzn7ZZUyM/dEPA8rgsE4cjiB9Kt34iCCcetu0XiX1SAQPoFndlalaOtnT3R3suaoobTsr+y+HGviZToG8LJfcP+31287TtjAt0LjSVUrnUSHxG+4=
+	t=1758537400; cv=none; b=MaIoJDgd7WlM4XKHFk8kdex72FHZ+xTcUo20u7Az2yTQyJ6xReBu5zrL8wwYf3hRgwH5zFmRM3rRHeiKySrQt8IoywKRWn1Vy2g/3m7LC9Mc+2WgbrhJYVbkOaGIPKZqBOwUWAncy2vSTWOneh/IlmqEDf4xGIPlOWrjH+wo43c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758537399; c=relaxed/simple;
-	bh=0YwIDNcM8Gu6DduxYzaPysxCd6Y3vQAF9cqA61KQ8WU=;
+	s=arc-20240116; t=1758537400; c=relaxed/simple;
+	bh=5AEGBnus0Qpin8vE8E3VJOLKJlPJziaZtjsBzVOmbM0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xx8h8EkgyWg0y/e+rUafauJGDJX6PwvupDXlLJjYJikWz/IXUv+v1fnH414Pvj11fF05xrWZyVgvzc9hgDkrPesIpZVMFHUd4NVrXXo4hCq3YZI0BZXo4F93k4vChva/wRgVcslWLOovxKFKPbFJrvwfgPUmKK82Z+Hixdni7Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZ8dhDOa; arc=none smtp.client-ip=209.85.210.173
+	 MIME-Version; b=feBih/3Odc7AKz+ypPCYxjkqTc0YngdcTsjtCUt7xbTKwXldc02CTaQHeb0CHT9e4/MjvcwsnL63/xxQ6Z3D9ULWCb2V16r0gG1cffn+2a/WXLSJoyXfa352BoLz+DVdJhPNheeOlpp74HABQLoA9jcL0bOm2+PWRpO/XUMbkBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuJ5Lt2I; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZ8dhDOa"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-77f2a62e44dso1668488b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 03:36:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuJ5Lt2I"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7704f3c46ceso3817002b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 03:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758537397; x=1759142197; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758537398; x=1759142198; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W+9n632otRhZijt2C+vVcISfhaawIfWAEGIOaCRnvcg=;
-        b=mZ8dhDOaq22B8poapwaBJm5HHg4Th5d5mTW5fUJYZvW9bOj91V1kPBuLJmY1UpkxVW
-         ZqhFO7cKnNEZm3lmB7DbFqo9IPIDM5jcukPm452Z1PFYu7DrZPpjcpeLFA3cFfsbkSxD
-         QSut333Rnx1HgNINlUVVA8sfXmSsJPFtpIXcw8SEcfUf8lVq7Rr2Phb7ctHd2/qA8xU9
-         1SR8/rnUHfnxsrgekgkq/wHf5RYWLJZEMUH2YDjcl2dgaMAK2BxCTlIs5P5ZxI/kZAEq
-         JuxZ2jb2VblYlBPgT5xcPrtu1TJ7zF7cAaI+qwtYGvL77NNd+g69LQ4SaJiNQ9aj5A/G
-         vCfw==
+        bh=Ja79xQC+jV0B6iDYhE4odk4g+YamsPvZ5MHaPQIPNoM=;
+        b=UuJ5Lt2IwdFIRIIDzk3CWDnBddOWy6cicXVnmx+fWYcf9BZ5r5rs2FHI8wJr89DXnW
+         EsLdGivCuqd7fZcmVSHr7o5BXw2Ibrz89AtMX6LDq/BTjvaR4hmPGgqCfVddcsp5nJTA
+         VzMPD5Qk97zPqapOj7s/m0BtrhcroHyJ8prO4C1qfxPiMbaQYG1/XvHZhvyPl1iEgoPF
+         1hcMR1FTFkPU0wMBSrqIJufwYo6a/YyqBUDx9xnkz2g/mQni83oqRxVUHhtRPrKnEYwa
+         Nwf7EIQ4Bx3crXYh7Io6uy/cVa554+ASjBqA1/iS3ydGlUSzhDuaBn8TMOUusGQ6j7Ve
+         t4/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758537397; x=1759142197;
+        d=1e100.net; s=20230601; t=1758537398; x=1759142198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W+9n632otRhZijt2C+vVcISfhaawIfWAEGIOaCRnvcg=;
-        b=vwyrPp5j442RC9dGmV+mk9bGFO6JeB3/WlBtEE9w/XJ3N5bybGWcI9x+6FHhhPfadr
-         jPXuNo+f3timDbiAfjRHuin6nUjGsaX1P1gkRjtzoDkjlNyepgHo6sH24L5uJ2u7N6iF
-         N6BmFWPtF/+DMs6iR9+73+d+E7fvtcQVVXxB+ugN7s1qHVd1kZGEWuG1OPY6n5A9xmhv
-         1Wz7dc9F3ANKFr9YuS4bfrTsm2yHyKU9LqjIAgvADFkEFeYxZpempWTpyawfj4MuJD29
-         YcK2SkdwAqn4KT3hLHgihFWEmn0coFT2PyBJwrUF5cjmcMHrWZD70s7ZVy2NSOWEs6Ku
-         jGSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXR1SSEzfxroiO+duB/TIYJVgLmuaQXIxplVUV/y4oddr9LgaifOnSnftlhPkltbJHbnx5xWUByH1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYegZSRY1S2MKq/42PFOHLOrBec9GE4VLtuIwLHhW8ud8q/7sj
-	x2pOahqwOeWrnxAXyGULZJfKlRMjoqtyKbX2Z/5XRda5JMhVWJyn/yT5
-X-Gm-Gg: ASbGnctL4qzk1I2NT0g+fy7WiPZ3fH+FS996nFEeVRBpeSf83+sjhJ2KD0v6MkrsLab
-	1dBnzn2yxKPYe8KzzqY1aPB29ZV3v22F8T6mM+xh+/ZgwWAWu0qvY7PXIrslp7hqQrSWBNsJa2p
-	Iv9k4vxHcGaMvsxLSb0XkSytF5hLmR3QiBRpZCPhmwwCc+ZOYp09ySPx/EMqo5ejTpMKk3SA+41
-	8oll7fCo7KuR5YRYZ3woOAyJjfyw8eTOgBIOySxpJlI0gWbDSQWtZvoerzwhskGp9qRBjnbNqKp
-	1EquJ2KHqHX5CFJqRnVerdDL3Iu4aJBCIcSRVDcDgmWAzY5qoF23t4pVNGIRQPeAiDRy3En/6gk
-	oMASCpe37Xs/YyD1Dz1DWZg==
-X-Google-Smtp-Source: AGHT+IG7ZxvvTr2SI8V/6MXjM0DofGqWRIdjLfLiO24Xsu1dt/6bTU0M6VuI2CCXGER50ApZGb8/7w==
-X-Received: by 2002:a17:903:3846:b0:24c:82ad:a4ef with SMTP id d9443c01a7336-269ba511744mr183795435ad.32.1758537397151;
+        bh=Ja79xQC+jV0B6iDYhE4odk4g+YamsPvZ5MHaPQIPNoM=;
+        b=gJZWTUbZBwguDu2NNVNmPUmquW/DXGGlD78dtROdfiqOMbYp2AWDDVjZHqf9WD1xCq
+         2tQDobGkUW5Tdf0QCSwhuLD/DmZK+WWiSWnW+EAW0IdEIdgfQoulEjqyvoImI+B+6GyS
+         E5Xeo0nf10uO9tvPdj7NYhLHoaiZg4qz27vGG4a6CT08z01DKzthGISZ2Qm3zwr9DeyD
+         AqVQFCYujwpJNO/9+RanQRaD9awXF2IF15R7DNUVjux+a+HF/+6XJ3yqbilgSeOjxndA
+         4BBDgRQvg6blP2QfFaJuLlUaLr4MDIC9RcIx6TMNzsbCijDeCyd5GI34SLwxWyPP4t4y
+         RL2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUYqHTIB9uDsc1liCezV0Cbd/radMjHHYe4J8F8fDuAGzYTsl4QTKG8Xmvha2ScscutDgikQCCE+jE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGyUU9q8mlr3KkYTGTFUC9OGPeiSEeMj0mwq9pvD3BicKP11Q8
+	k/20TYHilTn7vaoAuyb+hUy7KXTH+DPVTbciDDyp5Y+tVxxcmBYJ1smR
+X-Gm-Gg: ASbGncv7N4lq8zDe3pU8sS9yN/236zIdPE+h2p+GajtFHLQw6eD3at9P3WixrebtSfx
+	GPX2hvt5pDcE9Y+8usUj7qN7eQXVcjDXJ0I6htUYaBuV3kWcWwonv+3A0SeiSaS6YYQUsRVHfMl
+	JDu/L8ksJ7+5MrXpC7RgBuNG9YCGPp/HoO8aLv8iCXI9VCdS4o/L8YO20eao/0sCNj9Q4NQ/mTF
+	WPN30aKMFwoQ1I+TSBfng31JJF2yMIH+SgBcdQ5TVW+abFXzQw6o96O+jK7yaNhLpZ/Ln+H9215
+	Jf4pTKqQrhG/chp+wpHecFYqscSTm/BaQaCTfI/rtaqpFpGJwFmDRuYe3FH8ehPXuF85d/ksj4H
+	U/cmqY+HXnlfwmI0BCl8TRA==
+X-Google-Smtp-Source: AGHT+IFjbk1Ge/dq+0OQP8qlAA9psarcE8O7P0zDwLh4eJYft0zHWrPMxSR3ke/HuW5RGmagj5p9LA==
+X-Received: by 2002:a05:6a20:6325:b0:2b5:769f:254a with SMTP id adf61e73a8af0-2b5769f2904mr3892589637.6.1758537397559;
         Mon, 22 Sep 2025 03:36:37 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269800541adsm129353965ad.4.2025.09.22.03.36.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f43b6f6afsm1391686b3a.65.2025.09.22.03.36.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 22 Sep 2025 03:36:36 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id B5F5741A2EDF; Mon, 22 Sep 2025 17:36:34 +0700 (WIB)
+	id 8D31D4266764; Mon, 22 Sep 2025 17:36:34 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,9 +75,9 @@ Cc: Helge Deller <deller@gmx.de>,
 	Ard Biesheuvel <ardb@kernel.org>,
 	Arvind Sankar <nivedita@alum.mit.edu>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2 3/3] Documentation: fb: Split toctree
-Date: Mon, 22 Sep 2025 17:36:16 +0700
-Message-ID: <20250922103615.42925-5-bagasdotme@gmail.com>
+Subject: [PATCH v2 1/3] Documentation: fb: ep93xx: Demote section headings
+Date: Mon, 22 Sep 2025 17:36:14 +0700
+Message-ID: <20250922103615.42925-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250922103615.42925-2-bagasdotme@gmail.com>
 References: <20250922103615.42925-2-bagasdotme@gmail.com>
@@ -87,114 +87,55 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1885; i=bagasdotme@gmail.com; h=from:subject; bh=0YwIDNcM8Gu6DduxYzaPysxCd6Y3vQAF9cqA61KQ8WU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX1QIVnK5u3dp4tidRuGuf881Jk7v7zsfWPt73O/Ri9 apqG541HaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIhGeMDI8SoxyYZS6dTnK7 etq6N3aKr5lKZ/RF5kOyy5Y+F496ac/w372CuVbCyfvaFfFrDydEXvnpY/faY8al8qv7FeKi+oO esgEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1404; i=bagasdotme@gmail.com; h=from:subject; bh=5AEGBnus0Qpin8vE8E3VJOLKJlPJziaZtjsBzVOmbM0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX1QLfr+8rFNv9puHYSc34IO/K7k2cE549Xpo+tULlQ 0oDe3JeRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACbiGsnwz9w0YcmvlaXnjLN1 9yqKHxcS3Hx0B8+XW6usP5+SLeKd/Ifhf9INZrngmfMshXZ+kV68wfn1zFd6m9ZkZ1ZZHT3xm0V 7AwMA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Framebuffer docs toctree consists of driver-independent docs
-(e.g. API docs) and driver-specific docs. The latter has much
-more entries.
-
-Group the docs into separate toctrees.
+Section headings are formatted the same as title heading, thus
+increasing number of entries in framebuffer toctree. Demote them.
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/fb/index.rst | 80 +++++++++++++++++++++-----------------
- 1 file changed, 45 insertions(+), 35 deletions(-)
+ Documentation/fb/ep93xx-fb.rst | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/Documentation/fb/index.rst b/Documentation/fb/index.rst
-index 33e3c49f885695..e2f7488b6e2e42 100644
---- a/Documentation/fb/index.rst
-+++ b/Documentation/fb/index.rst
-@@ -4,42 +4,52 @@
- Frame Buffer
- ============
+diff --git a/Documentation/fb/ep93xx-fb.rst b/Documentation/fb/ep93xx-fb.rst
+index 1dd67f4688c751..93b3494f530979 100644
+--- a/Documentation/fb/ep93xx-fb.rst
++++ b/Documentation/fb/ep93xx-fb.rst
+@@ -41,7 +41,6 @@ your board initialisation function::
  
--.. toctree::
--    :maxdepth: 1
-+General information
-+===================
+ 	ep93xx_register_fb(&some_board_fb_info);
  
--    api
--    arkfb
--    aty128fb
--    cirrusfb
--    cmap_xfbdev
--    deferred_io
--    efifb
--    ep93xx-fb
--    fbcon
--    framebuffer
--    gxfb
--    intel810
--    internals
--    lxfb
--    matroxfb
--    metronomefb
--    modedb
--    pvr2fb
--    pxafb
--    s3fb
--    sa1100fb
--    sh7760fb
--    sisfb
--    sm501
--    sm712fb
--    sstfb
--    tgafb
--    tridentfb
--    udlfb
--    uvesafb
--    vesafb
--    viafb
--    vt8623fb
-+.. toctree::
-+   :maxdepth: 1
-+
-+   api
-+   cmap_xfbdev
-+   deferred_io
-+   fbcon
-+   framebuffer
-+   internals
-+   modedb
-+
-+Driver documentation
-+====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   arkfb
-+   aty128fb
-+   cirrusfb
-+   efifb
-+   ep93xx-fb
-+   gxfb
-+   intel810
-+   lxfb
-+   matroxfb
-+   metronomefb
-+   pvr2fb
-+   pxafb
-+   s3fb
-+   sa1100fb
-+   sh7760fb
-+   sisfb
-+   sm501
-+   sm712fb
-+   sstfb
-+   tgafb
-+   tridentfb
-+   udlfb
-+   uvesafb
-+   vesafb
-+   viafb
-+   vt8623fb
+-=====================
+ Video Attribute Flags
+ =====================
  
- .. only::  subproject and html
+@@ -79,7 +78,6 @@ EP93XXFB_USE_SDCSN2		Use SDCSn[2] for the framebuffer.
+ EP93XXFB_USE_SDCSN3		Use SDCSn[3] for the framebuffer.
+ =============================== ======================================
+ 
+-==================
+ Platform callbacks
+ ==================
+ 
+@@ -101,7 +99,6 @@ obtained as follows::
+ 		/* Board specific framebuffer setup */
+ 	}
+ 
+-======================
+ Setting the video mode
+ ======================
+ 
+@@ -119,7 +116,6 @@ set when the module is installed::
+ 
+ 	modprobe ep93xx-fb video=320x240
+ 
+-==============
+ Screenpage bug
+ ==============
  
 -- 
 An old man doll... just what I always wanted! - Clara
