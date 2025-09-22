@@ -1,59 +1,59 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6302D660B
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 14:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D627A281370
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 15:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758553099; cv=none; b=ijkTvv+amu147uhFB+GcltRh+MAnud3sOAnCfmAqugWy3WiRs33kxhqWaB+H7AQjx6XfDbWqWsbc+V5gicGEXPnHIjaJxSuqWBwh3FA4AiuVDEPvc70TLp20C5+F8t8yQB0qx8XdQcKWlLzpsmImxNy56w/pV/HKwBxtBWzxsE0=
+	t=1758553257; cv=none; b=ZwANObMEZHjsQqIfjRlAvBE3stSt/XzZWUKwDmVXMIIJBabd2Rv9Ofl48uHDoYFBPmHIKA5vCA2zzau6VP2zbe0ohDRBBWvTEwbjIwKCEqm74ozCRV5D2za8N/bERk/JaFV4s4yqhVbhVOqsLv56oqby0cCLXwzYZFWa6yA61xM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758553099; c=relaxed/simple;
-	bh=bk/uSOBhjlLpezuJ67nR7iyn8eOOajtcOPPkD+iN/3c=;
+	s=arc-20240116; t=1758553257; c=relaxed/simple;
+	bh=kh9XvYd3EybefvfxgcE5HYVIHxtLjRtv+CBZJd9A8sI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iuvZLlojGJSsuXsGC/Ss/IwCzbo67g9T7ZwgYanIGw8Syp2haDhwG8skEYir8n3zksPPfz9IdGmidetAaljPG0ax29LwCdHIVV9PsE1IPvw3G5ZBtES1O7M5LT3+iFk0e8i5K7yMu4SQ1RXRS4xetN/R+KHhu1H9fPXIgwL2nHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ZukVEC2T; arc=none smtp.client-ip=209.85.160.169
+	 To:Cc:Content-Type; b=iVM1Hmit82T/8hm15JkhM4GVe8HOKzIlwn8lYJIVB5g48lkpOxYgHQuFYbdYin7tKAdqYg9pdelaXqOkrsbE0CcDGyviDP7l42BgRiEfFoGDC7/7I2NONozcC02IR5AidQSUB6q7GEhp2gACP0EkbJVOuEnAIoKq2hdgzfHFKgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=BN15DxHz; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ZukVEC2T"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4d01b367f7bso8190261cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 07:58:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="BN15DxHz"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b5f7fe502dso24250691cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 08:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758553097; x=1759157897; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1758553255; x=1759158055; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eFVWZlAioBD8f+qAHkBJ/aidH/GZeFQvA+qClIUvAWI=;
-        b=ZukVEC2TBHAzXAq1pJ57A+FQBf77prwd0uZpcCm7CiP1eyDs3Vm3KRA1I9PFOqLsH2
-         2wPq27j3F3bQuCq5fUt9llx7sjeF0BMZUBWAY8ZQEmyf/liW3pqzv1IOYnT9I2ZBoEPX
-         pswDF/EeI1DbHR/d3UeGJ2PgS1punXOeZhNwsrLv47atcgf9gqpDOTzDmtehGDYkw2O6
-         20nmty0XcDB2YOvGe5MubykrS2Z4b+3MQBtcpKezm3apfn5w0CtFyp8/Pgnr3vWniMoD
-         3szXovJtaP+6UTxvOsxqJmuft80jXG7XKzWwC/W5XaiDnCL1Ah13iLj6JoyKmexoszIY
-         dDqQ==
+        bh=7f6Q5jc1vTYxMw5O1/g4HFLF7Ms2PoeIAA4LcbVkCRg=;
+        b=BN15DxHzbcgH3jO2lx3ZL1eCb8snynPgNtQx8dzHAO+PLekKUG+Q9KEOCCMnFiDQYh
+         N5mwqMCoE62l0XZqEqyjVLe3ngKNivgB84tVGyp4fxKVCEiTww47ujjzS2q6VxJWbVZJ
+         YrC0HYW87Gc+GIuUIh7xPkARpETh08/IWzeEse4gI+r+x4561Q8TcRsF4srRMnZz6F4F
+         PsBvAJCv1mhNof7LM0wRErHT10VivDHJRtkdioWQGQenI0/dZnuUqBU9G+6AQveQhhvN
+         7sM0g4g+36M2useltsF9iAE8CD5yA/1jojShv84pTeMnD6qW1cjt5pG1a2fzFUNnoePT
+         +b3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758553097; x=1759157897;
+        d=1e100.net; s=20230601; t=1758553255; x=1759158055;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eFVWZlAioBD8f+qAHkBJ/aidH/GZeFQvA+qClIUvAWI=;
-        b=DkY8j+fn6bqIO12jAAPeyRlG6sRFBSwgj9hTr9AUVC0cCuRibEwzD5nFDMSIo6RmeW
-         xJZb1OrepLgJeVADuUnOpMKAq1s+YTXrtwn53YrNSpBwlP3ZLt0AmPwQzbgrgB6ExsHD
-         U8bPSgFyMKBvRX0Z5QUJn71tep/uRURzkJvwNwPbVT0kmKyTZciDCzKoCe3auzcJSLRQ
-         LKiWo8CoRDrT5hZK0kYp6ScD2EnyxKQFpD+WViNtbR3V7vEOFaefxInm6yNE1kfFXiJg
-         FCpaMvJPfc4mF4lw9tbKLHUDK7RkISuPCGxxOC2QTXtCVmZa0n4ynMY5GNRWt/EnPQkN
-         lNiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVuzBemMz4ir/9wU1kK6EGed2SkU5Ef/4bfCRUQX3qGL96FXavB8RHQZMbUoHAvPcaGIhBYTTueVtI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiE82Yekmg/1sSv97g6Z6oY0aTzR0PfZYi5nl8XXU+P8arb5UN
-	XzHpEYYbfiMm3BQPBEdmqP/7Y2fo50VXJUW/Dq3ITNVV1wEGK7uO21jEiuKAPHwaetH/2T5oCK2
-	nekmojefX+U40Z68N5wkXsfpQIMPcEqqxczb3szKq4g==
-X-Gm-Gg: ASbGncvWtCRzWjVmZ7d+UQazK9wh/nrax1rZ0e7t6tR5TxdzHIWoAi6LgSteexF2FMX
-	3F62ANgGZvbpJAlA2K4w+4vMcH0F8jS7YDTHfeJ+q6o9vxvfIRRr6lEyrYSrmJIPfxIUafTsBzk
-	pL/bGitRpzQeJFQKw1eDOvQb9Mc8nDqMll7sNzV9lwXH1TynlXr/bmdx+y1Nt7ULlBSCWKjH7CV
-	qXd
-X-Google-Smtp-Source: AGHT+IFB/CQ+Stx8wqmihXNU+u019GIyHx6IROg0+AJtIcKFDHMuxhnTyNrT+0blnUsLunK7sMerRGUSSQ0zeNBJCw8=
-X-Received: by 2002:a05:622a:1aa0:b0:4b5:d70a:2245 with SMTP id
- d75a77b69052e-4c073ab0d34mr174036401cf.77.1758553096737; Mon, 22 Sep 2025
- 07:58:16 -0700 (PDT)
+        bh=7f6Q5jc1vTYxMw5O1/g4HFLF7Ms2PoeIAA4LcbVkCRg=;
+        b=LozI80K3eRAku4ZmudUmAqHyfVCU/OILKJqFo5kUQptWIiyzE9Oz2/vEbOsfAuaSP6
+         c+3zyQwvDpIo3s8j2/CYlY/Ojpt3ZNCOx4GcD+pwzg/ncYFjEGjf+AxJEsGDuzyi8Xaf
+         9jv5KLpn/dnaRZqcZOQkoetF8IrAKn9zhnHJvheqnGmRW5e9vkjvs2nLT7oM7qu8LUoQ
+         iQzYOzhMOKLlHs4dRKAEPfP+GdtE4vUeXU/Hpg3rA/pBcYdiiTQNFKW/r4LgNoTRuJvm
+         KrVQ//P5KWoq299a0PbhqnT5GQvqDUR334RXNU0lwEipL4xg/z99pRo/Gc2pZdI8U5Hx
+         6CnA==
+X-Forwarded-Encrypted: i=1; AJvYcCUF4UnFd7YPn2SOwSyUVIy31bvqk65uATNrQcBMuZYEn4bGUcx2XRWvtAs9M6PoDkY/UAKoqJAi1mM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyX9sHyRRVvNs9fXAIWD2WXnyzroq+cxPodAspyNP1Hfh3xj74x
+	80yPGrT1uwntVvCPtAhltTTDoAObJahQM5+xsLjmb3fXVTQKDOn/frGgqKuu8Zj5uDyagWJNZxJ
+	x/3U8+EHdTg0KWhaPs0GrwGJvEyFgdTXQajvcA1IslQ==
+X-Gm-Gg: ASbGncvfMJhEY9w8F0ZnpkGy3umBh/oRXgF0uAAXTkGb9zFJ2ypuHd8kjqUXuz9gyCs
+	JPaAKO+Q7ZBLo0pA9SG//JNqxsOIFWIQwh0Pl1/lZzixe5CRMa+kbYXpkP4nMmsaVZJDECoJloR
+	5viSC1njZPtobJGT9hobG0KyJ9sj8hMMsh4W1gHdeh3bqT6UYTLubKOKMInbqjphCrKgKjvVOah
+	1zhQJmxPpBUpX8=
+X-Google-Smtp-Source: AGHT+IFODvetLMEI4TglsorFs5/g17pXRnsZ1YySfP9UyB8TJrkLIBj/0y5AS2xiVpb0YAgRS6Chp+Ecl7/RH4sOKKQ=
+X-Received: by 2002:a05:622a:19a7:b0:4b5:781c:8831 with SMTP id
+ d75a77b69052e-4c07482541fmr145941741cf.71.1758553254248; Mon, 22 Sep 2025
+ 08:00:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,13 +61,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-9-pasha.tatashin@soleen.com> <20250814133009.GC802098@nvidia.com>
-In-Reply-To: <20250814133009.GC802098@nvidia.com>
+ <20250807014442.3829950-11-pasha.tatashin@soleen.com> <20250814133151.GD802098@nvidia.com>
+In-Reply-To: <20250814133151.GD802098@nvidia.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 10:57:39 -0400
-X-Gm-Features: AS18NWDigaezp8KdbFsh6YfrVI9s8S_j72gr5tDnCBaGxghJTTvfOltyGvHBbhQ
-Message-ID: <CA+CK2bDDo7xVxFd=-vkkXuUyStj9ShmURmGNPkMyJvi96KrV7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 08/30] kho: don't unpreserve memory during abort
+Date: Mon, 22 Sep 2025 11:00:17 -0400
+X-Gm-Features: AS18NWDWvCmwoZ0UUnsayOxFgu1ddJVOr-n1U4qHAgmRCSllAUpUXvWhJbPgaAE
+Message-ID: <CA+CK2bALMGy8eYpYdsQSJXsCWrusKA0UJfBfv1fbfW-=tYds7g@mail.gmail.com>
+Subject: Re: [PATCH v3 10/30] liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
@@ -96,40 +96,30 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 14, 2025 at 9:30=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+On Thu, Aug 14, 2025 at 9:32=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
 ote:
 >
-> On Thu, Aug 07, 2025 at 01:44:14AM +0000, Pasha Tatashin wrote:
-> >  static int __kho_abort(void)
-> >  {
-> > -     int err =3D 0;
-> > -     unsigned long order;
-> > -     struct kho_mem_phys *physxa;
-> > -
-> > -     xa_for_each(&kho_out.track.orders, order, physxa) {
-> > -             struct kho_mem_phys_bits *bits;
-> > -             unsigned long phys;
-> > -
-> > -             xa_for_each(&physxa->phys_bits, phys, bits)
-> > -                     kfree(bits);
-> > -
-> > -             xa_destroy(&physxa->phys_bits);
-> > -             kfree(physxa);
-> > -     }
-> > -     xa_destroy(&kho_out.track.orders);
+> On Thu, Aug 07, 2025 at 01:44:16AM +0000, Pasha Tatashin wrote:
+> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > @@ -383,6 +383,8 @@ Code  Seq#    Include File                         =
+                    Comments
+> >  0xB8  01-02  uapi/misc/mrvl_cn10k_dpi.h                               =
+ Marvell CN10K DPI driver
+> >  0xB8  all    uapi/linux/mshv.h                                        =
+ Microsoft Hyper-V /dev/mshv driver
+> >                                                                        =
+ <mailto:linux-hyperv@vger.kernel.org>
+> > +0xBA  all    uapi/linux/liveupdate.h                                  =
+ Pasha Tatashin
+> > +                                                                      =
+ <mailto:pasha.tatashin@soleen.com>
 >
-> Now nothing ever cleans this up :\
+> Let's not be greedy ;) Just take 00-0F for the moment
 
-It is solved with stateless KHO. The current implementation is broken,
-dropping everything in abort should never happen for stuff that was
-independently preserved.
-
-> Are you sure the issue isn't in the caller that it shouldn't be
-> calling kho abort until all the other stuff is cleaned up first?
->
-> I feel like this is another case of absuing globals gives an unclear
-> lifecycle model.
-
-Yes. But, we have a fix for that.
+Done.
 
 Pasha
+
+>
+> Jason
