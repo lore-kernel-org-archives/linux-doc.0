@@ -1,181 +1,164 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC7E2FC008;
-	Mon, 22 Sep 2025 11:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05646304BB7;
+	Mon, 22 Sep 2025 11:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758538805; cv=none; b=d639zfflEgvHIk6dn3SpSthOXW3z1agLvsoC1e7sPOhlsjfzkk6CGl0jEdd+9BHv1QfdR50loaa7lWbPJXqwuLGBRe8PlIighFjg0G4wTLqRbJSs4EhSkgUmQKT3U3mwTvuY+WsBK2DCvhGLyOIXtkKWj3xwyg9UXNINVZOTg5M=
+	t=1758540496; cv=none; b=K9N5o6zsnw8L90xjEm8jweq9+XJXqaNRbljB40E3xzvMB5SGClo/zmFp3YCk+fQhK5z3pbaiKaF/FZgJT3B8ZouH1cBKDTswX9gjtk1lYulO7LVZ+oCHrgJvE0fVMoWI0GstLwvzIyRKy99zLimAtvzauQWAVy7ey+tutXoQVm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758538805; c=relaxed/simple;
-	bh=3o+03UvtuKo6XVZQs/hIKg2h5/JAcBwZytDhnqiwhVk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dhXwJyGGlsDLVoAWn8ICAkJKQCQPF7LLhltDCKz4q8bnykI0U2qe7BFVS7Ep5r0I2Cf3GXZTsGIO93Br2SVI0dM6ZGm8yKxfGIoyuPdHgKQO5zlPHSY/xkLecNbjupG1e8RXjH3gEtV1kbkpDK+pouqXCIIIgDn7U93sj4uFHBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=F46rgG33; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1758540496; c=relaxed/simple;
+	bh=PjXZqimCvxE+X4M4BbjWwHEk7oJMd1v2hyiYUkthPLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dWeNj9SmqRZgDId58RRssJVYEu/CwZ7WNGqXWEIHy95PIu1yD5Q8xKkppSe2R0qeUIILru61bA66h/jc8yrxUnSgHiAJcwgXlymwzp39js4wlsB71LNlEQmQiD0q9tyHASe6CcmDQet9lJ3QFGIsqrpwwxQBrQQ8AJ8MsvJYyMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gsO6AwWR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="F46rgG33"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58MAxEfY1220947;
-	Mon, 22 Sep 2025 05:59:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1758538754;
-	bh=a07Jje9wgJS411V9TAYdRp6D/A+/X9TQdr2317tN+Jw=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=F46rgG33jswHneyWPfRr/B1Vx1kkSi1ndlwOdFNTX32Yo1+g/s5Ajpx5MLqsODlr0
-	 xODnXVWbWqk1mH6HqDUaRJIsdtR7jIhu4CjeMGjgK5kjcwRLQUhBGbZ1pyHqTY/lMa
-	 5SnfW3adXlc+VhXuLyozljYOsgJuLtdkllo6Qyls=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58MAxE2B251090
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 22 Sep 2025 05:59:14 -0500
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 22
- Sep 2025 05:59:13 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 22 Sep 2025 05:59:13 -0500
-Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58MAx5q52656697;
-	Mon, 22 Sep 2025 05:59:06 -0500
-Message-ID: <4f6af874-ca9c-48d5-a812-9fd42226ac5c@ti.com>
-Date: Mon, 22 Sep 2025 16:29:05 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gsO6AwWR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF507C4CEF7;
+	Mon, 22 Sep 2025 11:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758540495;
+	bh=PjXZqimCvxE+X4M4BbjWwHEk7oJMd1v2hyiYUkthPLg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gsO6AwWRbeQ96US1koibocRGT37Q9qcS/ERgwRNoPprTihsI5whzZezaG9Y91Tisl
+	 R6QMtXIMgjj+dbJKgQ+XFMbN+epEk1LLFKPgcAoXWC4RHsu+36n3FuHa12UrfcjxDh
+	 iZxrlnkjjn+HjC0vlA9N3/xzrLpzFiBMjtjhNHcItfoGEWI3J6gzBLdzJbk6smvY+t
+	 Tv5bfijZTqi/M6k2kWuCW+hkKckz8FADz2MwGVYbO1pM3/XkmXU47SEJ/gNtRF+Ooe
+	 HKr3Ad1KpW6fKcf2oAUZuzWM5leYuspxEhTjhPeUSlyQkWE3QIfHeGIKaiSSArqzxA
+	 es2OXax4g22Vw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1v0eiL-00000005vOp-3NiQ;
+	Mon, 22 Sep 2025 13:28:13 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Jonathan Corbet" <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2 1/3] tools/docs: sphinx-build-wrapper: fix compat with recent Tumbleweed
+Date: Mon, 22 Sep 2025 13:27:38 +0200
+Message-ID: <8917f862e0b8484c68408c274129c9f37a7aefb4.1758539031.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1758539031.git.mchehab+huawei@kernel.org>
+References: <cover.1758539031.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 0/7] Add RPMSG Ethernet Driver
-To: Andrew Davis <afd@ti.com>, "David S. Miller" <davem@davemloft.net>,
-        Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra
-	<vigneshr@ti.com>,
-        Tero Kristo <kristo@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        Mengyuan Lou
-	<mengyuanlou@net-swift.com>,
-        Lei Wei <quic_leiwei@quicinc.com>, Xin Guo
-	<guoxin09@huawei.com>,
-        Michael Ellerman <mpe@ellerman.id.au>, Fan Gong
-	<gongfan1@huawei.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Parthiban
- Veerasooran <Parthiban.Veerasooran@microchip.com>,
-        Lukas Bulwahn
-	<lukas.bulwahn@redhat.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>
-References: <20250911113612.2598643-1-danishanwar@ti.com>
- <8a20160e-1528-4d0e-9347-0561fc3426b4@ti.com>
- <7cd06f8f-bd74-429d-bf2c-71858178950a@ti.com>
- <65a98655-68a1-4bf9-b139-c4172f48dad4@ti.com>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <65a98655-68a1-4bf9-b139-c4172f48dad4@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Andrew
+On recent versions of openSUSE Tumbleweed, sphinx-buildis is no longer
+a Python script, but something else. Such change is due to how
+it now handles alternatives:
 
-On 17/09/25 10:07 pm, Andrew Davis wrote:
-> On 9/17/25 6:44 AM, MD Danish Anwar wrote:
->> Hi Andrew,
->>
->> On 11/09/25 9:34 pm, Andrew Davis wrote:
->>> On 9/11/25 6:36 AM, MD Danish Anwar wrote:
->>>> This patch series introduces the RPMSG Ethernet driver, which
->>>> provides a
->>>> virtual Ethernet interface for communication between a host
->>>> processor and
->>>> a remote processor using the RPMSG framework. The driver enables
->>>> Ethernet-like packet transmission and reception over shared memory,
->>>> facilitating inter-core communication in systems with heterogeneous
->>>> processors.
->>>>
->>>
->>> This is neat and all but I have to ask: why? What does this provide
->>> that couldn't be done with normal RPMSG messages? Or from a userspace
->>> TAP/TUN driver on top of RPMSG?
->>>
->>
->> This is different from RPMSG because here I am not using RPMSG to do the
->> actual TX / RX. RPMSG is only used to share information (tx / rx
->> offsets, buffer size, etc) between driver and firmware. The TX / RX
->> happens in the shared memory. This implementation uses a shared memory
-> 
-> This is how RPMSG is supposed to be used, it is meant for small messages
-> and signaling, bulk data should be send out-of-band. We have examples
-> specifically showing how this should be done when using RPMSG[0], and our
-> RPMSG backed frameworks do the same (like DSP audio[1] and OpenVX[2]).
-> 
->> circular buffer with head/tail pointers for efficient data passing
->> without copies between cores.
->>
->>> This also feels like some odd layering, as RPMSG sits on virtio, and
->>> we have virtio-net, couldn't we have a firmware just expose that (or
->>> would the firmware be vhost-net..)?
->>>
->>
->> PMSG sits on virtio, and we do have virtio-net but I am not trying to do
->> ethernet communication over RPMSG. RPMSG is only used to exchange
->> information between cores regarding the shared memory where the actual
->> ethernet communication happens.
->>
-> 
-> Again nothing new here, virtio-net does control plane work though a
-> message channel but the data plane is done using fast shared memory
-> vqueues with vhost-net[3]. Using RPMSG would just be an extra unneeded
-> middle layer and cause you to re-implement what is already done with
-> virtio-net/vhost-net.
-> 
+    https://en.opensuse.org/openSUSE:Migrating_to_libalternatives_with_alts
 
-virtio-net provides a solution for virtual ethernet interface in a
-virtualized environment. Our use-case here is traffic tunneling between
-heterogeneous processors in a non virtualized environment such as TI's
-AM64x that has Cortex A53 and Cortex R5 where Linux runs on A53 and a
-flavour of RTOS on R5(FreeRTOS) and the ethernet controller is managed
-by R5 and needs to pass some low priority data to A53. The data plane is
-over the shared memory while the control plane is over RPMsg end point
-channel.
+The most common approach that distros use for alternatives is via
+symlinks:
 
-We had aligned with Andrew L [1] and the ask was to create a generic
-Linux Ethernet driver that can be used for heterogeneous system. Similar
-to rpmsg_tty.c. It was suggested to create a new rpmsg_eth.c driver that
-can be used for this purpose.
+    lrwxrwxrwx 1 root root 22 out 31  2024 /usr/bin/java -> /etc/alternatives/java
+    lrwxrwxrwx 1 root root 37 mar  5  2025 /etc/alternatives/java -> /usr/lib/jvm/java-21-openjdk/bin/java
 
-Here I have implemented what was suggested in [1]
+With such approach, one can sun the script with either:
 
-[1]
-https://lore.kernel.org/all/8f5d2448-bfd7-48a5-be12-fb16cdc4de79@lunn.ch/
+    <sphinx>
+    python3 <script>
 
-> Andrew
-> 
-> [0] https://git.ti.com/cgit/rpmsg/rpmsg_char_zerocopy
-> [1] https://github.com/TexasInstruments/rpmsg-dma
-> [2] https://github.com/TexasInstruments/tiovx
-> [3] https://www.redhat.com/en/blog/deep-dive-virtio-networking-and-
-> vhost-net
-> 
+However, openSUSE's implementation uses an ELF binary (/usr/bin/alts),
+which breaks the latter format.
 
+It is needed to allow users to specify the Python version to be
+used while building docs, as some distros like Leap 15.x are
+shipped with:
 
+- older, unsupported python3/python3-sphinx packages;
+- more modern python3xx/python3xx-sphinx packages that work
+  properly.
+
+On such distros, building docs require running make with:
+
+    make PYTHON3=python3.11 htmldocs
+
+Heh, even on more moderen distros where python3-sphinx
+is supported, one may still want to use a newer package,
+for instance, due to performance issues, as:
+
+    - with Python < 3.11, kernel-doc is 3 times slower;
+    - while building htmldocs with Python 3.13/Sphinx 8.x
+      takes about 3 minutes on a modern machine, using
+      Sphinx < 8.0 can take up to 16 minutes to build docs
+      (7.x are the worse ones and require lots of RAM).
+
+So, even with not too old distros, one still may want to use
+for instance PYTHON3=python3.11.
+
+To acommodate using PYTHON3 without breaking on Tumbleweed,
+add a workaround that will only use:
+
+    $(PYTHON3) sphinx-build
+
+if PYTHON3 env var is not default.
+
+While here, drop the special check for venv, as, with venv,
+we can just call sphinx-build directly without any extra
+checks.
+
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Link: https://lore.kernel.org/all/883df949-0281-4a39-8745-bcdcce3a5594@infradead.org/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ tools/docs/sphinx-build-wrapper | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index bd8e2ed746e7..98c4db5b7c47 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -185,6 +185,19 @@ class SphinxBuilder:
+         self.kernelrelease = os.environ.get("KERNELRELEASE", "unknown")
+         self.pdflatex = os.environ.get("PDFLATEX", "xelatex")
+ 
++        #
++        # Kernel main Makefile defines a PYTHON3 variable whose default is
++        # "python3". When set to a different value, it allows running a
++        # diferent version than the default official python3 package.
++        # Several distros package python3xx-sphinx packages with newer
++        # versions of Python and sphinx-build.
++        #
++        # Honor such variable different than default
++        #
++        self.python = os.environ.get("PYTHON3")
++        if self.python == "python3":
++            self.python = None
++
+         if not interactive:
+             self.latexopts = os.environ.get("LATEXOPTS", "-interaction=batchmode -no-shell-escape")
+         else:
+@@ -272,10 +285,16 @@ class SphinxBuilder:
+             if self.n_jobs:
+                 n_jobs = str(self.n_jobs)
+ 
+-            if self.venv:
+-                cmd = ["python"]
++            #
++            # We can't simply call python3 sphinx-build, as OpenSUSE
++            # Tumbleweed uses an ELF binary file (/usr/bin/alts) to switch
++            # between different versions of sphinx-build. So, only call it
++            # prepending "python3.xx" when PYTHON3 variable is not default.
++            #
++            if self.python:
++                cmd = [self.python]
+             else:
+-                cmd = [sys.executable]
++                cmd = []
+ 
+             cmd += [sphinx_build]
+             cmd += [f"-j{n_jobs}"]
 -- 
-Thanks and Regards,
-Danish
+2.51.0
 
