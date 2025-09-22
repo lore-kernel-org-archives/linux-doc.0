@@ -1,147 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FB927B516;
-	Mon, 22 Sep 2025 12:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAD93054C7
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 12:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758543815; cv=none; b=SfEIeitR4+QoSoGgVIVIvfGyBW5roQdfcHRbOygfUU3J0/d8IeT8gF7DuIa5gPEy76PHOuJ/VlNZxBqQsrgyY47LwSBbeOQyz1UiGjJHLE98ntyWZT5iXik1zzIl530nj/6fAPsjkPgRV08DDF3XBMDzx1YxQI7KkMxgPJ2W2lY=
+	t=1758544459; cv=none; b=m3ekG+I2Meej8ZmW02AeQ/AoAAklY2JpY5SXzVe6Lb1yXHs0C4JL8HGz7E5jnAdLH2lBNROBTfaghtKb+qErKYsg3DwCeO7IImbK3WX+DxD8o2qVgwrb+S6ntfPmC1JS2mOhuNkPGpy8jbFEsM5KYharZsJ/jLp3bp5m1u9umLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758543815; c=relaxed/simple;
-	bh=hQOEH2/WkuCSldegZsmsmHaiQ4zSV6xULfl4GRnZw9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IJ469cIdTLFd/zQI5jn9VV+cUh6A69x17HaC3//1E8ls39T1Ub0gemS2l8PiYasxObkEFbA20bW4712z2f26asRgC6S/OaEjDkYQib2zzuivIYvqJbYjVYPx6zMU4sW6Kgs2LdyeUZ/AqpqbyFKzFcN1V8VGumCif1ljytzFS48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqIN8KiB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758544459; c=relaxed/simple;
+	bh=vbd/dIVFJeMuDWZGTwJ4IGGTJIynPy2T9UsNctLcg+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BXNuWVBx6HmdYzIMCbRrnk6uvyFrKiiARsGSOQ7p97bs2bncMABRs6uX/jaS0SVpWorgPH7RKBG9xWFsQ73eEYXixcGdhMy5XtYQE9XF8w8vkGlrIz2yEe7bw9hDrWFTPqMr5HNDQc5iF1vOy7NiVuTyoujeE7lyIjdI9xztO9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkq+RnKT; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqIN8KiB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5391C4CEF0;
-	Mon, 22 Sep 2025 12:23:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758543814;
-	bh=hQOEH2/WkuCSldegZsmsmHaiQ4zSV6xULfl4GRnZw9o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UqIN8KiBC222WP9aNAwoXUBk6nmDWcjQu3ZfKj6Zzk/cAhZECmjn1QYW73aFji3GO
-	 nMswLzDScPh1emi6zJIu+JCMYD51GNlZZyDpKXJaREeKza0Vl6+UBEWuVXC88idA/g
-	 mgkOXnGEcP4taevow2+Hh/zNmcKDfS/hO4TrZB+5t7ldp1pHbW1rgL6rW4A94ECSlB
-	 zUCyDNIaXlXyXP4q285HoJsW7nXDVsa4ogRK5Kp6YoTDE9FUs0PDspS/erLhogyxHF
-	 NDPJofDsKUxWfMmnx7L7WHpeMQWQxa8kumadP6guVTgRgzgOmspF+9QkmcAZy2m5cb
-	 VXVKkNCzNUUkg==
-Date: Mon, 22 Sep 2025 14:23:30 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 0/1] sphinx-build-wrapper: add support for skipping
- sphinx-build
-Message-ID: <20250922142330.7a654919@foz.lan>
-In-Reply-To: <f31c2169-cd0e-438a-9e59-d6ebd8eaea6e@gmail.com>
-References: <cover.1758444913.git.mchehab+huawei@kernel.org>
-	<f31c2169-cd0e-438a-9e59-d6ebd8eaea6e@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkq+RnKT"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77f41f819ebso536658b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 05:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758544458; x=1759149258; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V7N/A/nDdO81iETqklo4zlY9UTRGuYMbbXYZaKO6LOQ=;
+        b=nkq+RnKTOX1QmxxtADvxvCnTCHZgGC3811KoxN9P+SI4O3VqEoFXndehbJLEysxtsW
+         0sRGXlCprFdcJNLLqZb2vDlw9S7q6SJcrBMugM+oCINdELZYG/yUYG5KZ2hY4h2JniVL
+         ZLloidt+MuZI4y9xHQkiNG+kl+RshIS8MMORc+ZWMzW1JaQW0WrEDlfUgB3p4O+zhwjZ
+         0i6GMnwUwRW39of/TGxzNa7y8SmqQq/zvc2jdQ21Y/VDFdHxXOLYgVTWRpRQzVtC7/91
+         pgXkukd9RtKJcHRiI53qnTmig13KuKBRlx50gTcWh+dgDI7P2rfqRDgS0R+k2li+yjS6
+         56Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758544458; x=1759149258;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V7N/A/nDdO81iETqklo4zlY9UTRGuYMbbXYZaKO6LOQ=;
+        b=b+cHtblq/7+fUqwdQcs62yu3FYt599ovfa1oAmL21CoVMPy8XbdjQo1SolZ/TpG8Fk
+         2lRezGlrxdYALxEG36Open3Nv2+Q5ihtSOQre6zmrfBFteC3YJcyIApkhkQguAJ4PTW/
+         yqJqqQ1cpYWPh4s+biSgkH+RfLAJts3YqxVY58T4eni9YXTm+vEUA+/6hFBvHbHBrn4a
+         fqOJ5YUNjFvRWKm6K2CffgNc5YpBrxQi94Gpu8KDyt6GxZPJX3Nq1TAxtXFbIQmWui5S
+         1KMmqO7Jq4KfwrYU++4L0Yr33HWzbSGtW/POxuFsdLsBYJcsKDQo9lz+9kpyraHLdksq
+         1l4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXRDmKX0Q4YX00Z91/qUcSnc31N3Vx80w/wsEvx4N3rrD20QkpsmGL0exVcvailCidUbyMcoVio6Zc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/N0NctqtBgug2BpweZLkXVyFtgmqY4bNdRIK+B7vf3lrzemHz
+	IoPoJnupd4J8LtWpSwVgKkw/2Lk6+j9hp2hPoGPx3tsgCGm5IcsI5Igm
+X-Gm-Gg: ASbGncsN7sHVZvZQ9KAlrm8Ib7Kc7MEuBD0jCWcASOuG+BWnGri4cx84TbYIfL7UBJr
+	LN1zBYp19JwktpBhKaMMtIHsFH+H2MlFXA19TbV0+oo1a4D15UXs3XIPFHjWZ0W0ZZH4KLnSIrM
+	A6xcZiIjitqh+eIq/FDAOBgGTVvTOy4fUz8sNBjCdGjrvgYgmnPBZf87YyGyJsM1QGupYcindbm
+	v7PBCSbPPBEu1JV3A6DtE/zAFKtU9mthnoKIEqjxX3T0344FdWdaPk4khnRhRcdoNbxjH2RGG2t
+	+hao7YAgPwELbIKu8kRL45D9lzGGO2yCHR2wUy2ZWXn5ZAdadHsqFjNIBJxZoMRsQ0HkZi5o3V9
+	KGGcuhy7DB4fUbeINyQnLQg==
+X-Google-Smtp-Source: AGHT+IHdWuuU//PjNYXcYLakegZtFFcQb6zpKh1LJyLgmx6iYUCqAqcadaDUiwNWxci1/ojb7D6lFg==
+X-Received: by 2002:a05:6a00:3c91:b0:776:1f45:9044 with SMTP id d2e1a72fcca58-77e49f0742fmr14342835b3a.0.1758544457581;
+        Mon, 22 Sep 2025 05:34:17 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f363ed5a0sm3251366b3a.41.2025.09.22.05.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 05:34:16 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 606834220596; Mon, 22 Sep 2025 19:34:13 +0700 (WIB)
+Date: Mon, 22 Sep 2025 19:34:13 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.og>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux AFS <linux-afs@lists.infradead.org>
+Cc: David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: Re: [PATCH net-next] Documentation: rxrpc: Demote three sections
+Message-ID: <aNFCRVGajxlZjjxa@archie.me>
+References: <20250922100253.39130-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250922100253.39130-1-bagasdotme@gmail.com>
 
-Em Mon, 22 Sep 2025 20:30:40 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
-
-> On Sun, 21 Sep 2025 11:13:24 +0200, Mauro Carvalho Chehab wrote:
-> > Hi Jon,
-> > 
-> > This patch adds support for not running sphinx-build at the wrapper
-> > tool. It was requested by Akira, who wanted to be able to ignore
-> > Sphinx errors during latex build and still try to build PDF.  
+On Mon, Sep 22, 2025 at 05:02:53PM +0700, Bagas Sanjaya wrote:
+> Three sections ("Socket Options", "Security", and "Example Client Usage")
+> use title headings, which increase number of entries in the networking
+> docs toctree by three, and also make the rest of sections headed under
+> "Example Client Usage".
 > 
-> Thank you for trying to figure out my intention.
-> However, you failed to see the point.
-> 
-> > 
-> > This patch is against docs/build-script and applies after the 3 patch
-> > series I sent yesterday:
-> > 
-> >     https://lore.kernel.org/linux-doc/cover.1758361087.git.mchehab+huawei@kernel.org/
-> > 
-> > 
-> > While Akira's original intention is to have pdfdocs target depend on
-> > latexdocs, IMO, this is overkill, as probably only Akira and a couple
-> > of other developers might want to have such behavior.  
-> 
-> I think it is only you who don't want such behavior.
+> Demote these sections back to section headings.
 
-Whom else wants to use "make -i" to skip failed latexdocs build and
-still do pdf builds? For what reason?
+Oops, I misspelled LKML address. I'll resend shortly.
 
-> > See, after all changes, the makefile rule for *all* doc build targets
-> > is simple:
-> > 
-> >         $(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
-> >         +$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
-> >                 --sphinxdirs="$(SPHINXDIRS)" $(RUSTDOC) \
-> >                 --builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
-> >                 --theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
-> > 
-> > After applying patch 1 from this series, it is really easy to replicate 
-> > "make -i" by writing a small script that does:
-> > 
-> > 	tools/docs/sphinx-pre-install --version-check	
-> > 	tools/docs/sphinx-build-wrapper latexdocs || echo "LaTeX build failed, but we'll try build PDF anyway"
-> > 	tools/docs/sphinx-build-wrapper -s pdfdocs
-> >   
-> 
-> Hello?
-> 
-> You are the one who is changing the way "make pdfdocs" behaves.
+Thanks.
 
-It doesn't change. if latex is not built, it won't try to build
-PDF files, just like before.
-
-See, for almost all targets, docs build is a two-step procedure. That
-includes htmldocs as well, as it requires a post-build step to copy
-css and static files. Right now, the logic is hidden inside complex
-make macros.
-
-The new logic place the target-dependent extra steps on separate functions
-which are now properly documented, executing them only if the first
-step works.
-
-With the "-s" parameter, one can skip the first step, running only
-the second one.
-
-> All I want is to restore the current behavior, without any need to
-> use such an ad-hoc script.
-
-Huh?
-
-You said you want to be able to do just the reverse: to ignore
-failures at latex build ("make -i").  If you want to have exactly
-the same behavior, you don't need anything.
-
-> Sorry, but I think I have to NAK this.
-> 
-> Furthermore, your "cleanup" is obfuscating the very fact that "pdfdocs"
-> needs a successful "latexdocs" stage.
-> 
-> I believe Documentation/Makefile is the right place to describe it.
-
-If you want to propose such change, be my guest. As I said, *I* won't propose
-it, as IMO it is a bad idea, but if you want, feel free to submit a patch 
-after this one similar to:
-
-	-htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-	+htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs linkcheckdocs:
-	+
-	+pdfdocs: latexdocs
-	+        +$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ -s \
-	+                --sphinxdirs="$(SPHINXDIRS)" \
-	+                --builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
-	+                --paper=$(PAPER)
-
-and let's discuss its pros/cons in separate.
-
-Thanks,
-Mauro
+-- 
+pw-bot: changes-requested
