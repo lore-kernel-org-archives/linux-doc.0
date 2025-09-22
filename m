@@ -1,138 +1,342 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC2A24167A
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 10:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946F310F1
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 10:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758535390; cv=none; b=LxTUMEi7dr/kyon3Z2coH2f4JNBTaU4EnVhS8TLqILTVoo9dUwwkzjGoDgO2THq/hmdnjPJDVoZJMREsnCMvyhNTMqpMAQTxnT6dw7mQeuw6nXn/FPfQk91c3tq9MhY0+dE+OG6CPruZHc0SJbBAjavXWXh+umDf2aDIRsw4Uco=
+	t=1758536518; cv=none; b=kWboO1wHODxf5le3PSweqaZUV6KUJaf1ukjSMSflpCOOWglg3PoCUkBQtSh2ddTs/RhIQDcdJ9CAejU6OoKJAfRv0Ab/+cuL0p3iGHJJuEU6bVgKbPs6fjqpd6eSzi194hFYeIvcNKwfxfBSNp9qlmGgjNSK0TMWhMtm9BmfsiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758535390; c=relaxed/simple;
-	bh=1Z/FIrvKbz7+7KzkAOkAw8QtjVUi2Kn58A3/jKJj3TA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mMSbjc9Q7hMpAHKl1Gmc7xLefZv5yj/cMUscl4KjydOmH2Dk1vCfBJ/WrShxQ49o0QDXTRP9miKlHYe7VD31NPbKl2nBR06k6IfKtSMYy9Shp37ioDlRPgkICSzVRLh0mhbXyUDYSiF74hN3WfLRmcxXO4aR1kZGFeTVjULvLX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEnRLZPO; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1758536518; c=relaxed/simple;
+	bh=6D3C4NKcjggk2Xj5Rl9Vb2TSMCHcURlQFKxeVhEQcuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XLoPDDZTLCD26mC+ZiAIAD33Y+7+VfD2uffAGXPl9rkM9H4ziQ8gMskMiFcm5dBdE5UZfV8tSgndNLmERv7maIoQ4r0fDAHQZ1X66JwkUmU3srcau/SbJWyA5J24izPSVLak6XMHaYVeDY1SCYe4k9HyEaEXytd509OfYLNZHTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUhJ99K2; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEnRLZPO"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b5512bffbfaso3661542a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 03:03:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUhJ99K2"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-32e74ae0306so3787162a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 03:21:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758535388; x=1759140188; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLN+Eh1NQwEjC26VvFwkCS0AGaveETF0mZj2seOGw3U=;
-        b=FEnRLZPO3ZttIlJA5PIRijJIUesqOeqtyAcSbd/uRMbgs5VecyOJnreLC/ioKfQyg8
-         okfMpOrm7QUmdNHvDpv8G6V9j+k1Tj19NtWBcgEDspapWxUahUthiRpCWukGgNkwo/lU
-         jWaKGB74meRoEI7bnHpWpJ3x4ozlONWYbC8vmSQY4bIUlV7MYS48+CghpzLjSaZBIDAS
-         xLERbMghCnG2w9QVn2ZelArOV/upBLhBed8XakyMfa05GN4OQMOwCDEJphYqKtMNt2+x
-         kVOd8K0w10x/HYTAoyrJ6yajCI0M4XCzSQdh39TIFMoPgl0f1rR2qfIyYJNR+tRAcCo2
-         gBdg==
+        d=gmail.com; s=20230601; t=1758536516; x=1759141316; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qgzrsKFjkdOHqZq8z9KJvQRmwrFpRxJTot1VKAx98R8=;
+        b=gUhJ99K2IWUdDoDvDch/f5l5v/Re1hL9lVEyXOpcyUQI1CaFNRJAKyDXZWjinY4J36
+         R6IG1409IzxniMGslrxWay4iljD1hCPPI/InnVNx8rkUx5wNAhy5W915HbNwfrCzBggC
+         VbfKK066rZL3L3GT5PgenjRLb9/wai7ClurYaTkyjrUPxM9e53DbBThmh+qriZ3Pt3o1
+         26+8bfqSF48X42FXsqdt08k5qkLwxOhHwEtPmeexdE0JvYWjdD9jg3tpfScI1bb9JVNo
+         88LM7RaNcjkKABNMyD+Eq2/X/owfHL1I1ZJE+/O/ZcZUEPOGgw6b7eJRQniQCWMG97uJ
+         0fuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758535388; x=1759140188;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gLN+Eh1NQwEjC26VvFwkCS0AGaveETF0mZj2seOGw3U=;
-        b=lmuJ615PT/HfwRLLv+r57HvHTdYWcuBYIjz92GOZjFlr/cSZ2DQjAmbHpQCCWRxS8o
-         JqPydfQ4N15MSqPUpe9TsSpPYk+BMIW9dW9l0n9o/pre4tcCIMMLUHHEnchbkdNPbb1P
-         wpbCTJVHdqV2UUuL0BC3ox8Kh63nxAvpJzJjlrNVtJXsQOboI5sUwb4wS+km1Z3S6zkc
-         jmNrutG6MngNN5iL5s6foo4zs6JAEtHWlvOCI/DNCKmnYY1Q0OATs3xOIZO8x+9SQIp8
-         LPoOgH+zsEhus39KAB6ahmZa4hnKwZhBxU0LN7AZ7Xn5TI16WYVT3ifsuFoUTZyX66T+
-         eJtA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6ubJFo4c6+zbkECTf86qvZbDcjtyNF4dK4GMPc5DbIAKhhCCmk9VRiADW9FHRz3AmWDHhWI+XBhU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFIZT5HQcEmp9icc1BEvBpDLD1CCebyxxtc5GOj4g3P7ptQtk1
-	g8SdQS//xJ7PvxoLxxoCc1d1//rz6Q8AyXhZ0g/rEsWBEtBlwnAfeMT4
-X-Gm-Gg: ASbGncuSEbfsRG3m4o+GT7O+4ybKnaMsb+89VG1b7a3Sp/tIABR5r/DKNsO1VSa5jL8
-	tGn0lqcIijtOHjdIL0Q9scUb4IWrmwsLwuu0Y2F0Eevs71g5b63EoURwZCdtQwUQKypa+11VjrQ
-	N6DRbLa5ON+sB0JK5cyUAjvbIyIOU+KNBR7KdiON9d84DZoGK+c02/CM7yG7R4qbV8uPrlYjHYl
-	ke2v6A8RBGhBsP97Y2HFW2F3x08TthJB5HThSTlvGo9TmvD3nzIzG9EFhisOWVmLycfXDP7JfI5
-	2aScyBjXzO1woZonPoHtigN9qQBOjb6NteN+2ML8ydzF07fp1zkBOQck/znw+iBaYGs31eXfifI
-	FGRTEAM0+OCoBuPtlfluqjw==
-X-Google-Smtp-Source: AGHT+IGtm0n1I4e8NG5ZtmJGclD2BCxq19uF73e1qqljRkz9OTvu4KTJehS7N7z6k+2ok3CFb7xF+w==
-X-Received: by 2002:a17:903:3d0b:b0:270:ea84:324a with SMTP id d9443c01a7336-270ea843533mr122257575ad.38.1758535387676;
-        Mon, 22 Sep 2025 03:03:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758536516; x=1759141316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qgzrsKFjkdOHqZq8z9KJvQRmwrFpRxJTot1VKAx98R8=;
+        b=sZbi93pNpMeapUBqWZJCSikhgzVdkJvtAFq5L1Lgd0G5mF9XhSqw2odCLz066Q1ts7
+         f1eJQG2AmsAwSoBXzjHEBADUE726kfnd0din1xQUMAoxpomaLn8NtoyjjiPGvdo3PE1p
+         XgnqKnPeZMQuWoi36pIZ9/sCkbgB5CSZ/CvB1SoDw89nMNR/J81vbZNnPWXj9hZgqkVF
+         x/ZTVPqJ9KrylP/H8y0lWeQIT3maJlIKa6QGpBLVvMrIvcAfK7VS5zL/0WK+VRDCLo8r
+         o6pFlySzX86kPeBw6lziTpnNlFEWWxyPMXw9Lp8xKxLB3paB2YRxl4ixxCRjoR9sE03J
+         iX/A==
+X-Forwarded-Encrypted: i=1; AJvYcCW3iWb7k5ET81HUWurHwe+6h7LUTKB2HxtwMUSytVO+ABWU668dp1MNJOUZZRRfnmrxS5SnULS6T/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6LkpA9KqnKtfu3dQt+EFz9ZJSWT/eNDowBGskloTSvv5rFTmd
+	f69KZzk0G3ahDMPBRxsYHmeDtzFSvQqvJoh7SxmWtie3VwRUcXGt/ekk
+X-Gm-Gg: ASbGnctTsJea+ZhYJ0OVRb0+dET8QnfuzVuh/W/ZMvIdG+ITgWIZTR27TS2/+H7E0zw
+	bstqtf4yDcuEiQuhW+4WfX/B30vvmNNqeApE85ALszQc1ZF8H/tiX6Z+1bTlfM4tRqbGFuHIMIh
+	/4kaQLyponXFaysWXu6wtEFfviqcluGgb9KbEyEAIz1/McIeRATztiE43RQV6sl7/b8Ul795DAf
+	o+DL8rtp5BF1qAnhzE0FJHofm4x5+5rJ1hQxFDoCfmK7GColuZSD0eqsoSu5Cl6td6LfCCxK/Cy
+	p4Od7oVCuS8jEt14K3d1IytpdZX05wSJiK/1KJWgy3CQUezt1co7DrpF76M7dTMjiWSkVMCpcx1
+	cmJZOXwUREBPA+WVCg9iwwHQtQ+SEB7Xa
+X-Google-Smtp-Source: AGHT+IFKvuB8nQ7chq/pZQMYgIgXJUcMFLs1cyYqPT9bIL5ygOY6/yTLZdyMi8zHSlQUMW4v/IZp4A==
+X-Received: by 2002:a17:90a:e509:b0:32e:dcc6:cd3f with SMTP id 98e67ed59e1d1-3305c6d8db1mr15617472a91.14.1758536515713;
+        Mon, 22 Sep 2025 03:21:55 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2699ae52db1sm116728775ad.43.2025.09.22.03.03.06
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77e70c06ba1sm9402454b3a.67.2025.09.22.03.21.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 03:03:07 -0700 (PDT)
+        Mon, 22 Sep 2025 03:21:54 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 599B14220596; Mon, 22 Sep 2025 17:03:02 +0700 (WIB)
+	id 98E2B423FA7F; Mon, 22 Sep 2025 17:21:52 +0700 (WIB)
+Date: Mon, 22 Sep 2025 17:21:52 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.og>,
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux AFS <linux-afs@lists.infradead.org>
-Cc: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH net-next] Documentation: rxrpc: Demote three sections
-Date: Mon, 22 Sep 2025 17:02:53 +0700
-Message-ID: <20250922100253.39130-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	Linux Framebuffer <linux-fbdev@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Helge Deller <deller@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Bernie Thompson <bernie@plugable.com>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Arvind Sankar <nivedita@alum.mit.edu>
+Subject: Re: [PATCH 2/3] Documentation: fb: Retitle driver docs
+Message-ID: <aNEjQEY5J5DBTF8P@archie.me>
+References: <20250919003640.14867-1-bagasdotme@gmail.com>
+ <20250919003640.14867-3-bagasdotme@gmail.com>
+ <222d551c-fb01-4a8c-9b83-daef019b6795@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; i=bagasdotme@gmail.com; h=from:subject; bh=1Z/FIrvKbz7+7KzkAOkAw8QtjVUi2Kn58A3/jKJj3TA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkX5XSSnAoPBt0yTZtl8i6/RWrZ///5h41qeM04jjjUG al+/yDRUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgImYMDL8FWDcVHxIw2Ltxley dzby/pHQUZ/xLHbZnOBlRgYKu/TmpjEyLPK+qX45y6dB2Xn9waX3/5i4Wt49pT9fXjR72f6Oc5Y PWAE=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pyPpSPV0lzt8YzEF"
+Content-Disposition: inline
+In-Reply-To: <222d551c-fb01-4a8c-9b83-daef019b6795@infradead.org>
 
-Three sections ("Socket Options", "Security", and "Example Client Usage")
-use title headings, which increase number of entries in the networking
-docs toctree by three, and also make the rest of sections headed under
-"Example Client Usage".
 
-Demote these sections back to section headings.
+--pyPpSPV0lzt8YzEF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/networking/rxrpc.rst | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+On Sat, Sep 20, 2025 at 09:08:57PM -0700, Randy Dunlap wrote:
+> > diff --git a/Documentation/fb/aty128fb.rst b/Documentation/fb/aty128fb.=
+rst
+> > index 3f107718f933fc..0da8070a552165 100644
+> > --- a/Documentation/fb/aty128fb.rst
+> > +++ b/Documentation/fb/aty128fb.rst
+> > @@ -1,8 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is aty128fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/matroxfb]
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +aty128fb - ATI Rage128 framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for a graphic framebuffer for ATI Rage128 based devic=
+es
+> >  on Intel and PPC boxes.
+> > diff --git a/Documentation/fb/efifb.rst b/Documentation/fb/efifb.rst
+> > index 6badff64756f49..3d4aab406dee0a 100644
+> > --- a/Documentation/fb/efifb.rst
+> > +++ b/Documentation/fb/efifb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is efifb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +efifb - Generic EFI platform driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a generic EFI platform driver for systems with UEFI firmware. =
+The
+> >  system must be booted via the EFI stub for this to be usable. efifb su=
+pports
+> > diff --git a/Documentation/fb/gxfb.rst b/Documentation/fb/gxfb.rst
+> > index 5738709bccbbf3..3fda485606bdc1 100644
+> > --- a/Documentation/fb/gxfb.rst
+> > +++ b/Documentation/fb/gxfb.rst
+> > @@ -1,8 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is gxfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/aty128fb]
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +gxfb - AMD Geode GX2 framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a graphics framebuffer driver for AMD Geode GX2 based processo=
+rs.
+> > =20
+> > diff --git a/Documentation/fb/lxfb.rst b/Documentation/fb/lxfb.rst
+> > index 863e6b98fbae55..0a176ab376e30e 100644
+> > --- a/Documentation/fb/lxfb.rst
+> > +++ b/Documentation/fb/lxfb.rst
+> > @@ -1,9 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is lxfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/aty128fb]
+> > -
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +lxfb - AMD Geode LX framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a graphics framebuffer driver for AMD Geode LX based processor=
+s.
+> > =20
+> > diff --git a/Documentation/fb/matroxfb.rst b/Documentation/fb/matroxfb.=
+rst
+> > index 6158c49c857148..34cafaa00bab19 100644
+> > --- a/Documentation/fb/matroxfb.rst
+> > +++ b/Documentation/fb/matroxfb.rst
+> > @@ -1,9 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is matroxfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB. Thanks go to Gerd Knorr]
+> > -
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +matroxfb driver for Matrox devices
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Add a '-' after matroxfb
+>=20
+> > =20
+> >  This is a driver for a graphic framebuffer for Matrox devices on
+> >  Alpha, Intel and PPC boxes.
+> > diff --git a/Documentation/fb/pvr2fb.rst b/Documentation/fb/pvr2fb.rst
+> > index fcf2c21c8fcfeb..315ce085a5855b 100644
+> > --- a/Documentation/fb/pvr2fb.rst
+> > +++ b/Documentation/fb/pvr2fb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is pvr2fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +pvr2fb - PowerVR 2 graphics frame buffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for PowerVR 2 based graphics frame buffers, such as t=
+he
+> >  one found in the Dreamcast.
+> > diff --git a/Documentation/fb/sa1100fb.rst b/Documentation/fb/sa1100fb.=
+rst
+> > index 67e2650e017d12..c5ca019b361a94 100644
+> > --- a/Documentation/fb/sa1100fb.rst
+> > +++ b/Documentation/fb/sa1100fb.rst
+> > @@ -1,9 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is sa1100fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -
+> > -.. [This file is cloned from VesaFB/matroxfb]
+> > -
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > +sa1100fb - SA-1100 LCD graphic framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > =20
+> >  This is a driver for a graphic framebuffer for the SA-1100 LCD
+> >  controller.
+> > diff --git a/Documentation/fb/sisfb.rst b/Documentation/fb/sisfb.rst
+> > index 8f4e502ea12ea7..9982f5ee05601b 100644
+> > --- a/Documentation/fb/sisfb.rst
+> > +++ b/Documentation/fb/sisfb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is sisfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +sisfb - SiS framebuffer device driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  sisfb is a framebuffer device driver for SiS (Silicon Integrated Syste=
+ms)
+> >  graphics chips. Supported are:
+> > diff --git a/Documentation/fb/sm712fb.rst b/Documentation/fb/sm712fb.rst
+> > index 8e000f80b5bc6d..abbc6efae25f46 100644
+> > --- a/Documentation/fb/sm712fb.rst
+> > +++ b/Documentation/fb/sm712fb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is sm712fb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +sm712fb - Silicon Motion SM712 graphics framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a graphics framebuffer driver for Silicon Motion SM712 based p=
+rocessors.
+> > =20
+> > diff --git a/Documentation/fb/tgafb.rst b/Documentation/fb/tgafb.rst
+> > index 0c50d2134aa433..f0944da1ea5ef1 100644
+> > --- a/Documentation/fb/tgafb.rst
+> > +++ b/Documentation/fb/tgafb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is tgafb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +tgafb - TGA graphics framebuffer driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for DECChip 21030 based graphics framebuffers, a.k.a.=
+ TGA
+> >  cards, which are usually found in older Digital Alpha systems. The
+> > diff --git a/Documentation/fb/udlfb.rst b/Documentation/fb/udlfb.rst
+> > index 99cfbb7a192238..9e75ac6b07c36a 100644
+> > --- a/Documentation/fb/udlfb.rst
+> > +++ b/Documentation/fb/udlfb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is udlfb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +udlfb - DisplayLink USB 2.0 driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> >  This is a driver for DisplayLink USB 2.0 era graphics chips.
+> > =20
+> > diff --git a/Documentation/fb/vesafb.rst b/Documentation/fb/vesafb.rst
+> > index f890a4f5623b45..5ffb35efd4538a 100644
+> > --- a/Documentation/fb/vesafb.rst
+> > +++ b/Documentation/fb/vesafb.rst
+> > @@ -1,6 +1,6 @@
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -What is vesafb?
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Generic graphic framebuffer driver (vesafb)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> vesafb - Generic graphic framebuffer driver
+>=20
 
-diff --git a/Documentation/networking/rxrpc.rst b/Documentation/networking/rxrpc.rst
-index d63e3e27dd06be..8926dab8e2e60d 100644
---- a/Documentation/networking/rxrpc.rst
-+++ b/Documentation/networking/rxrpc.rst
-@@ -437,8 +437,7 @@ message type supported.  At run time this can be queried by means of the
- RXRPC_SUPPORTED_CMSG socket option (see below).
- 
- 
--==============
--SOCKET OPTIONS
-+Socket Options
- ==============
- 
- AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
-@@ -495,8 +494,7 @@ AF_RXRPC sockets support a few socket options at the SOL_RXRPC level:
-      the highest control message type supported.
- 
- 
--========
--SECURITY
-+Security
- ========
- 
- Currently, only the kerberos 4 equivalent protocol has been implemented
-@@ -540,8 +538,7 @@ be found at:
- 	http://people.redhat.com/~dhowells/rxrpc/listen.c
- 
- 
--====================
--EXAMPLE CLIENT USAGE
-+Example Client Usage
- ====================
- 
- A client would issue an operation by:
--- 
+I'll apply your suggestions in v2.
+
+Thanks.
+
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--pyPpSPV0lzt8YzEF
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaNEjPAAKCRD2uYlJVVFO
+o0xBAPsF+0ID1n8HvR0EkLu/NKqM0MGLm6ptctFnkIuLD3On3wD2KyiCl8y52YFV
+tV983e3Znmh0verqBnsd7h+R1jzQAA==
+=h3sz
+-----END PGP SIGNATURE-----
+
+--pyPpSPV0lzt8YzEF--
