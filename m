@@ -1,147 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC909315D46;
-	Mon, 22 Sep 2025 18:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE552EAB64;
+	Mon, 22 Sep 2025 18:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758566165; cv=none; b=ci887V1wrtPxt1gVzGqxHkY5v9ym33DYq1cJTcGgneZskXs8jr3oa3B2AOz6rxkeg6cRpbrjNO7VN8G3ZOQJNHZy15YynkdLgyB//0SyBBLNTIpMqZJRhGuzEHAudBrbnxHAYOeMWzii1oftP37LRj/Go23OAt/fjwJ2GLSL1CE=
+	t=1758566546; cv=none; b=hn1cTduJ9yNO9MEtK0iBhtTa5YVSb5Vldzen5XDNZp9hIJXRV9zWprAewkC20TNDahUW6HpoSs/PKU1mw/ad3uLtDg/u9gE3/Dd5k6NIJPmz3qhOjp2LQWsSo1Cb0KM2/eW6HOBPsALWRqTJRbJn8L+5ej9eFHZU95rwZyD9Agw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758566165; c=relaxed/simple;
-	bh=2cJWyVyj/GX3tOPewGqEX910nRTlTV+vvZm81KH82aE=;
+	s=arc-20240116; t=1758566546; c=relaxed/simple;
+	bh=LFi7dYKBKTvG2oV8Z6wbJ4mWYQQ6Q/9z03yXwShvB/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5ttdwfFnjNWVvu1reDGUnvuvrv7NYcpEAj7QhCCO+ZxtfISs6lWT+8AYBqkG7TbIW8MiLU7SZqP1MD9F+PjhcLTL2cl0HyWwyEtNUk3WPZrQVwEhAS5JhNW0YE1DIZcuZewTsu4bygVNoOO4vnXVf3wK1Jd28QxZkDzHw8bLnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Rq8DOSPV; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQHCcd5yz4LVJ/vB6UEOuS6YkMpgOGEUDEpRjHMt5wMnhIVDdNbW+R0iZlJIKr3xRRdxJghVdyhZcX/rCcV7DJ/aeWrBBENnXjTgNQW/4i+d/qhP8oxYhJeZr/7iQpy2McmPIEPu3iDgkfGW47LXrZJYTy7Nqr+qE71ancWPqYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Q2WB09Mj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rq8DOSPV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E24C0C4CEF5;
-	Mon, 22 Sep 2025 18:36:02 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Q2WB09Mj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67398C4CEF5;
+	Mon, 22 Sep 2025 18:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1758566163;
-	bh=2cJWyVyj/GX3tOPewGqEX910nRTlTV+vvZm81KH82aE=;
+	s=korg; t=1758566545;
+	bh=LFi7dYKBKTvG2oV8Z6wbJ4mWYQQ6Q/9z03yXwShvB/s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rq8DOSPViLcz6EEOWINWJHoOxVzI7qiZeO5lm1nz5oFG3NLFO5KgCjQAs4JV8AEpl
-	 MG93z+Q4kXzQvTOb6GEmAupmbWLcnYujpSAwu3RyAzzUsBiXiKaYtvBazT1qYM2K8o
-	 23BL4TZk03pTUUSqjILZbM15UVN2peTMwPLU4NTI=
-Date: Mon, 22 Sep 2025 20:36:01 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nam Tran <trannamatk@gmail.com>
-Cc: lee@kernel.org, pavel@kernel.org, rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v14 0/4] leds: add new LED driver for TI LP5812
-Message-ID: <2025092259-stranger-affecting-1c75@gregkh>
-References: <2025091113-mournful-smirk-8e03@gregkh>
- <20250922181341.10761-1-trannamatk@gmail.com>
+	b=Q2WB09MjOIeFjuZ0pkhw8IJQYG/kYamJPVfzRCDirUOKv3JM/v7fetjZrDHw+/9Ee
+	 hylyP4D2I/qFtNuT36XjZPf0bBPwX+qu1JyNT3u1eXjGcAngp5jPlka/Oz0qLmG1FX
+	 hiejDNRyA9CuThNk6MXI3Tr6hTglDlf2Jg7+4Sn8=
+Date: Mon, 22 Sep 2025 20:42:23 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
+Message-ID: <2025092228-pope-barge-0aa3@gregkh>
+References: <aMQW2jUFlx7Iu9U5@tzungbi-laptop>
+ <20250912132656.GC31682@pendragon.ideasonboard.com>
+ <2025091209-curfew-safari-f6e0@gregkh>
+ <CAMRc=MfdoB50o=3Q2p94o+f7S2Bzr=TAtWWQcDrC5Wf3Q5nqAA@mail.gmail.com>
+ <20250912135916.GF31682@pendragon.ideasonboard.com>
+ <2025091220-private-verse-d979@gregkh>
+ <20250912142646.GI31682@pendragon.ideasonboard.com>
+ <20250922151040.GA2546062@nvidia.com>
+ <DCZG9N3QIRNP.1HUDPVL61FZVR@kernel.org>
+ <20250922174010.GC1391379@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250922181341.10761-1-trannamatk@gmail.com>
+In-Reply-To: <20250922174010.GC1391379@nvidia.com>
 
-On Tue, Sep 23, 2025 at 01:13:41AM +0700, Nam Tran wrote:
-> On Thu, 11 Sep 2025, Greg KH wrote:
+On Mon, Sep 22, 2025 at 02:40:10PM -0300, Jason Gunthorpe wrote:
+> On Mon, Sep 22, 2025 at 05:55:43PM +0200, Danilo Krummrich wrote:
+> > I fully agree with that, in C there is indeed no value of a revocable type when
+> > subsystems can guarantee "sane unregistration semantics".
 > 
-> > On Sun, Sep 07, 2025 at 11:09:40PM +0700, Nam Tran wrote:
-> > > This patch series adds initial support for the TI LP5812,
-> > > a 4x3 matrix RGB LED driver with autonomous engine control.
-> > > This version provides a minimal, clean implementation focused
-> > > on core functionality only. The goal is to upstream a solid
-> > > foundation, with the expectation that additional features can
-> > > be added incrementally in future patches.
-> > > 
-> > > The driver integrates with the LED multicolor framework and
-> > > supports a set of basic sysfs interfaces for LED control and
-> > > chip management.
-> > > 
-> > > Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> > 
-> > The sysfs api is really odd here.  WHy not do the same thing as this
-> > other controller recently submitted does:
-> > 	https://lore.kernel.org/r/20250911-v6-14-topic-ti-lp5860-v3-0-390738ef9d71@pengutronix.de
+> Indeed, I agree with your message. If I look at the ec_cros presented
+> here, there is no reason for any revocable. In fact it already seems
+> like an abuse of the idea.
 > 
-> Thank you for the feedback!
-> I agree that consistency is important, and I've reviewed the patch you referenced.
+> The cros_ec.c spawns a MFD with a platform_device of "cros-ec-chardev"
+> that is alreay properly lifetime controlled - the platform is already
+> removed during the remove of the cros_ec.c.
 > 
-> I also checked the LP5860 datasheet and noticed that its driver exposes sysfs entries
-> for configuring registers like `R_current_set`, `G_current_set`, and `B_current_set`.
-> Similarly, the LP5812 requires register-level configuration for operation.
+> So, there is no need for a revocable that spans two drivers like this!
+
+It's a very common pattern, you have a struct device, and a userspace
+access, and need to "split" them apart, as you say below.  This logic
+here handles that pattern.
+
+See the many talks about this in the past at Plumbers and other
+conferences, this isn't a new thing, and it isn't quite as simple as I
+think you are making it out to be to solve.
+
+> The bug is that cros_ec_chardev.c doesn't implement itself correctly
+> and doesn't have a well designed remove() for something that creates a
+> char dev. This issue should be entirely handled within
+> cros_ec_chardev.c and not leak out to other files.
 > 
-> In my driver, I've implemented the following sysfs attributes:
-> - '/sys/bus/i2c/devices/.../lp5812_chip_setup/dev_config' - Configures drive mode and
-> scan order (Dev_Config_1 and Dev_Config_2 registers).
-> - '/sys/bus/i2c/devices/.../lp5812_chip_setup/sw_reset' - Triggers a software reset of
-> the device (Reset register).
-> - '/sys/bus/i2c/devices/.../lp5812_chip_setup/fault_clear' - Clears fault status
-> (Fault_Clear register).
-> - '/sys/class/leds/led_<id>/activate' - Activate or deactivate the specified LED channel
-> in runtime (led_en_1, led_en_2 registers).
-> - '/sys/class/leds/led_<id>/led_current' - To change DC/PWM current level of each led
-> (Manual_DC_xx and Manual_PWM_xx registers).
-> - '/sys/class/leds/led_<id>/max_current' - To show max current setting (Dev_Config_0 register).
-> - '/sys/class/leds/led_<id>/lod_lsd' - To read lod, lsd status of each LED
-> (LOD_Status_0, LOD_Status_1, LSD_Status_0, LSD_Status_1 registers).
+> 1) Using a miscdevice means loosing out on any refcount managed
+> memory. When using a file you need some per-device memory that lives
+> for as long as all files are open. So don't use miscdev, the better
+> pattern is:
 > 
-> These attributes map directly to LP5812 registers. I’ve kept the interface minimal and
-> focused only on essential functionality needed to operate the device.
+> struct chardev_data {
+> 	struct device dev;
+> 	struct cdev cdev;
+
+Woah, no, that is totally wrong.
+
+> Now you get to have a struct device linked refcount and a free
+> function. The file can savely hold onto a chardev_data for its
+> lifetime.
+
+You have 2 different reference counts for the same structure.  A bug
+that should never be done (yes, it's done a lot in the kernel, it's
+wrong.)
+
+And really, let's not abuse cdev anymore than it currently is please.
+There's a reason that miscdevice returns just a pointer.  Right now cdev
+can be used in 3-4 different ways, let's not come up with another way to
+abuse that api :)
+
+> 2) Add locking so the file can exist after the driver is removed:
 > 
-> If any of these attributes seem unconventional or redundant, I’d appreciate clarification
-> so I can revise accordingly.
+> struct chardev_data {
+> [..]
+> 	struct rw_semaphore sem;
+> 	struct cros_ec_dev *ec_dev;
+> };
 > 
-> > but better yet, why does this need to be a kernel driver at all?  Why
-> > can't you just control this directly from userspace with a program
-> > there?
+> Refcount the chardev_data::dev in the file operations open/release,
+> refer to it via the private_data.
 > 
-> LP5812 is controlled via I2C, and its register map is non-trivial. Moving control to userspace
-> would require users to manually handle I2C transactions and understand the register layout,
-> which is error-prone and not user-friendly.
-
-So you write it once in a library, or in a userspace program, and it is
-done.  Don't expose these low-level things in a custom api that could be
-done in userspace instead.
-
-> Moreover, the driver integrates with the LED multicolor framework, allowing standardized control
-> via existing userspace tools. This abstraction is difficult to achieve reliably from userspace alone.
-
-But this is a custom api for the leds, not like any other one out there.
-So how would it integrate with anything else?
-
-> > For USB, we generally do not allow these types of crazy apis to be added
-> > to the kernel when controlling the device can be done from userspace.  I
-> > think the same thing can happen here too, right?
+> 3) At the start of every fop take the sem and check the ec_dev:
 > 
-> USB devices benefit from standardized descriptors and interfaces, which reduce the need for custom
-> sysfs APIs. In contrast, LP5812 has no such standard interface, and some customization is necessary.
+> ACQUIRE(rwsem_read, ecdev_sem)(&data->sem);
+> if (ACQUIRE_ERR(ecdev_sem) || !data->ec_dev)
+>    return -ENODEV;
+> 
+> 4) After unregistering the cdev, but before destroying the device take
+> the write side of the rwsem and NULL ec_dev.
+> 
+> 5) Purge all the devm usage from cros_ec_chardev, the only allocation
+> is refcounted instead.
+> 
+> Simple. No need for any synchronize_srcu() for such a simple
+> non-performance oriented driver.
 
-Many USB devices do not benifit from that at all, you directly control
-them from userspace using vendor-specific apis.  Just like this device,
-nothing different just because it is an i2c device.
+There is no performance issue here, but there is lifetime rule logic
+here that I really really do not want to have to "open code" for every
+user.  revokable gives this to us in a simple way that we can "know" is
+being used correctly.
 
-> I’m open to improving the sysfs interface or moving parts to another method if that’s more appropriate.
-> Please let me know which specific changes you’d recommend.
+And again, you can't have a single structure with two reference counts,
+that's not allowed :)
 
-sysfs really doesn't seem to be the correct api here, you are making a
-custom one just for this one device that is not shared by any other one,
-so userspace has to write custom code to control it.  So why not just
-write one program, in userspace, to handle it all at once, instead of 2?
+> Yes, this can be made better, there is a bit too much boilerplate, but
+> revocable is not the way for cros_ec.
 
-> For completeness, I considered these methods:
-> - sysfs: Recommended and standard for LED drivers.
-> - i2c-tools: Not recommended, intended for development/debug only.
-> - ioctl: Not recommended for new LED drivers.
-> - debugfs: For debugging only.
-> - Direct I2C register access: Requires users to know the register map and protocol.
-
-A library will handle the i2c direct register access.  Again, do not
-make custom sysfs apis if at all possible.
-
-thanks,
+I strongly disagree, sorry.
 
 greg k-h
