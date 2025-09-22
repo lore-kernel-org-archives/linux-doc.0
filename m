@@ -1,125 +1,211 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D627A281370
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 15:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CACB2239E7D;
+	Mon, 22 Sep 2025 15:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758553257; cv=none; b=ZwANObMEZHjsQqIfjRlAvBE3stSt/XzZWUKwDmVXMIIJBabd2Rv9Ofl48uHDoYFBPmHIKA5vCA2zzau6VP2zbe0ohDRBBWvTEwbjIwKCEqm74ozCRV5D2za8N/bERk/JaFV4s4yqhVbhVOqsLv56oqby0cCLXwzYZFWa6yA61xM=
+	t=1758553487; cv=none; b=MimKFvkoktWRxyxrWMhP2jAMXKRiheu11Zq/VnJ63a8ciuuGmG5jPqsgH03fwf1tRNHBxljQsETpH4IeFl+6gphPOysFiXKBPiCS+Tf9pcTKm5fvnI/vykRJSb3JSPSqu97FeNkD/oieYtqHU6Q874IzSUyuoH1j0paCd/aYWiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758553257; c=relaxed/simple;
-	bh=kh9XvYd3EybefvfxgcE5HYVIHxtLjRtv+CBZJd9A8sI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iVM1Hmit82T/8hm15JkhM4GVe8HOKzIlwn8lYJIVB5g48lkpOxYgHQuFYbdYin7tKAdqYg9pdelaXqOkrsbE0CcDGyviDP7l42BgRiEfFoGDC7/7I2NONozcC02IR5AidQSUB6q7GEhp2gACP0EkbJVOuEnAIoKq2hdgzfHFKgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=BN15DxHz; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="BN15DxHz"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b5f7fe502dso24250691cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 08:00:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758553255; x=1759158055; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7f6Q5jc1vTYxMw5O1/g4HFLF7Ms2PoeIAA4LcbVkCRg=;
-        b=BN15DxHzbcgH3jO2lx3ZL1eCb8snynPgNtQx8dzHAO+PLekKUG+Q9KEOCCMnFiDQYh
-         N5mwqMCoE62l0XZqEqyjVLe3ngKNivgB84tVGyp4fxKVCEiTww47ujjzS2q6VxJWbVZJ
-         YrC0HYW87Gc+GIuUIh7xPkARpETh08/IWzeEse4gI+r+x4561Q8TcRsF4srRMnZz6F4F
-         PsBvAJCv1mhNof7LM0wRErHT10VivDHJRtkdioWQGQenI0/dZnuUqBU9G+6AQveQhhvN
-         7sM0g4g+36M2useltsF9iAE8CD5yA/1jojShv84pTeMnD6qW1cjt5pG1a2fzFUNnoePT
-         +b3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758553255; x=1759158055;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7f6Q5jc1vTYxMw5O1/g4HFLF7Ms2PoeIAA4LcbVkCRg=;
-        b=LozI80K3eRAku4ZmudUmAqHyfVCU/OILKJqFo5kUQptWIiyzE9Oz2/vEbOsfAuaSP6
-         c+3zyQwvDpIo3s8j2/CYlY/Ojpt3ZNCOx4GcD+pwzg/ncYFjEGjf+AxJEsGDuzyi8Xaf
-         9jv5KLpn/dnaRZqcZOQkoetF8IrAKn9zhnHJvheqnGmRW5e9vkjvs2nLT7oM7qu8LUoQ
-         iQzYOzhMOKLlHs4dRKAEPfP+GdtE4vUeXU/Hpg3rA/pBcYdiiTQNFKW/r4LgNoTRuJvm
-         KrVQ//P5KWoq299a0PbhqnT5GQvqDUR334RXNU0lwEipL4xg/z99pRo/Gc2pZdI8U5Hx
-         6CnA==
-X-Forwarded-Encrypted: i=1; AJvYcCUF4UnFd7YPn2SOwSyUVIy31bvqk65uATNrQcBMuZYEn4bGUcx2XRWvtAs9M6PoDkY/UAKoqJAi1mM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyX9sHyRRVvNs9fXAIWD2WXnyzroq+cxPodAspyNP1Hfh3xj74x
-	80yPGrT1uwntVvCPtAhltTTDoAObJahQM5+xsLjmb3fXVTQKDOn/frGgqKuu8Zj5uDyagWJNZxJ
-	x/3U8+EHdTg0KWhaPs0GrwGJvEyFgdTXQajvcA1IslQ==
-X-Gm-Gg: ASbGncvfMJhEY9w8F0ZnpkGy3umBh/oRXgF0uAAXTkGb9zFJ2ypuHd8kjqUXuz9gyCs
-	JPaAKO+Q7ZBLo0pA9SG//JNqxsOIFWIQwh0Pl1/lZzixe5CRMa+kbYXpkP4nMmsaVZJDECoJloR
-	5viSC1njZPtobJGT9hobG0KyJ9sj8hMMsh4W1gHdeh3bqT6UYTLubKOKMInbqjphCrKgKjvVOah
-	1zhQJmxPpBUpX8=
-X-Google-Smtp-Source: AGHT+IFODvetLMEI4TglsorFs5/g17pXRnsZ1YySfP9UyB8TJrkLIBj/0y5AS2xiVpb0YAgRS6Chp+Ecl7/RH4sOKKQ=
-X-Received: by 2002:a05:622a:19a7:b0:4b5:781c:8831 with SMTP id
- d75a77b69052e-4c07482541fmr145941741cf.71.1758553254248; Mon, 22 Sep 2025
- 08:00:54 -0700 (PDT)
+	s=arc-20240116; t=1758553487; c=relaxed/simple;
+	bh=VHqb5zKXQ+H2McsuxQOLqgRi0ku93dXWkqPZiYSomtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bBVMC6qyoqnbk7IQQU66mVNBe98NSEYnnPstHtmiNZeVfTiCHEPGhizyrw6OObquv/T+9TWj4R40ZKT+54UqodN+3W5Z9gAObhEJy7ZZ7I3jKU6oY1dG72CCvwhLc7E2p1RRIGtVWPASbiWGBUXsrnDO2mnhMaiHAo207C77IxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7DD11424;
+	Mon, 22 Sep 2025 08:04:36 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C14143F694;
+	Mon, 22 Sep 2025 08:04:42 -0700 (PDT)
+Date: Mon, 22 Sep 2025 16:04:40 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: linux-kernel@vger.kernel.org
+Cc: Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+Message-ID: <aNFliMZTTUiXyZzd@e133380.arm.com>
+References: <20250902162507.18520-1-Dave.Martin@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-11-pasha.tatashin@soleen.com> <20250814133151.GD802098@nvidia.com>
-In-Reply-To: <20250814133151.GD802098@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 11:00:17 -0400
-X-Gm-Features: AS18NWDWvCmwoZ0UUnsayOxFgu1ddJVOr-n1U4qHAgmRCSllAUpUXvWhJbPgaAE
-Message-ID: <CA+CK2bALMGy8eYpYdsQSJXsCWrusKA0UJfBfv1fbfW-=tYds7g@mail.gmail.com>
-Subject: Re: [PATCH v3 10/30] liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902162507.18520-1-Dave.Martin@arm.com>
 
-On Thu, Aug 14, 2025 at 9:32=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Thu, Aug 07, 2025 at 01:44:16AM +0000, Pasha Tatashin wrote:
-> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > @@ -383,6 +383,8 @@ Code  Seq#    Include File                         =
-                    Comments
-> >  0xB8  01-02  uapi/misc/mrvl_cn10k_dpi.h                               =
- Marvell CN10K DPI driver
-> >  0xB8  all    uapi/linux/mshv.h                                        =
- Microsoft Hyper-V /dev/mshv driver
-> >                                                                        =
- <mailto:linux-hyperv@vger.kernel.org>
-> > +0xBA  all    uapi/linux/liveupdate.h                                  =
- Pasha Tatashin
-> > +                                                                      =
- <mailto:pasha.tatashin@soleen.com>
->
-> Let's not be greedy ;) Just take 00-0F for the moment
+Hi again,
 
-Done.
+On Fri, Sep 12, 2025 at 03:19:04PM -0700, Reinette Chatre wrote:
 
-Pasha
+[...]
 
->
-> Jason
+> > Clamping to bw_min and bw_max still feels generic: leave it in the core
+> > code, for now.
+> 
+> Sounds like MPAM may be ready to start the schema parsing discussion again?
+> I understand that MPAM has a few more ways to describe memory bandwidth as
+> well as cache portion partitioning. Previously ([1] [2]) James mused about exposing
+> schema format to user space, which seems like a good idea for new schema.
+
+On this topic, specifically:
+
+
+My own ideas in this area are a little different, though I agree with
+the general idea.
+
+Bitmap controls are distinct from numeric values, but for numbers, I'm
+not sure that distinguishing percentages from other values is required,
+since this is really just a specific case of a linear scale.
+
+I imagined a generic numeric schema, described by a set of files like
+the following in a schema's info directory:
+
+	min: minimum value, e.g., 1
+	max: maximum value, e.g., 1023
+	scale: value that corresponds to one unit
+	unit: quantified base unit, e.g., "100pc", "64MBps"
+	map: mapping function name
+
+If s is the value written in a schemata entry and p is the
+corresponding physical amount of resource, then
+
+	min <= s <= max
+
+and
+
+	p = map(s / scale) * unit
+
+One reason why I prefer this scaling scheme over the floating-point
+approach is that it can be exact (at least for currently known
+platforms), and it doesn't require a new floating-point parser/
+formatter to be written for this one thing in the kernel (which I
+suspect is likely to be error-prone and poorly defined around
+subtleties such as rounding behaviour).
+
+"map" anticipates non-linear ramps, but this is only really here as a
+forwards compatibility get-out.  For now, this might just be set to
+"none", meaning the identity mapping (i.e., a no-op).  This may shadow
+the existing the "delay_linear" parameter, but with more general
+applicabillity if we need it.
+
+
+The idea is that userspace reads the info files and then does the
+appropriate conversions itself.  This might or might not be seen as a
+burden, but would give exact control over the hardware configuration
+with a generic interface, with possibly greater precision than the
+existing schemata allow (when the hardware supports it), and without
+having to second-guess the rounding that the kernel may or may not do
+on the values.
+
+For RDT MBA, we might have
+
+	min: 10
+	max: 100
+	scale: 100
+	unit: 100pc
+	map: none
+
+The schemata entry
+
+	MB: 0=10, 1=100
+
+would allocate the minimum possible bandwidth to domain 0, and 100%
+bandwidth to domain 1.
+
+
+For AMD SMBA, we might have:
+
+	min: 1
+	max: 100
+	scale: 8
+	unit: 1GBps
+
+(if I've understood this correctly from resctrl.rst.)
+
+
+For MPAM MBW_MAX with, say, 6 bits of resolution, we might have:
+
+	min: 1
+	max: 64
+	scale: 64
+	unit: 100pc
+	map: none
+
+The schemata entry
+
+	MB: 0=1,1=64
+
+would allocate the minimum possible bandwidth to domain 0, and 100%
+bandwidth to domain 1.  This would probably need to be a new schema,
+since we already have "MB" mimicking x86.
+
+Exposing the hardware scale in this way would give userspace precise
+control (including in sub-1% increments on capable hardware), without
+having to second-guess the way the kernel will round the values.
+
+
+> Is this something MPAM is still considering? For example, the minimum
+> and maximum ranges that can be specified, is this something you already
+> have some ideas for? Have you perhaps considered Tony's RFD [3] that includes
+> discussion on how to handle min/max ranges for bandwidth? 
+
+This seems to be a different thing.  I think James had some thoughts on
+this already -- I haven't checked on his current idea, but one option
+would be simply to expose this as two distinct schemata, say MB_MIN,
+MB_MAX.
+
+There's a question of how to cope with multiple different schemata
+entries that shadow each other (i.e., control the same hardware
+resource).
+
+
+Would something like the following work?  A read from schemata might
+produce something like this:
+
+MB: 0=50, 1=50
+# MB_HW: 0=32, 1=32
+# MB_MIN: 0=31, 1=31
+# MB_MAX: 0=32, 1=32
+
+(Where MB_HW is the MPAM schema with 6-bit resolution that I
+illustrated above, and MB_MIN and MB_MAX are similar schemata for the
+specific MIN and MAX controls in the hardware.)
+
+Userspace that does not understand the new entries would need to ignore
+the commented lines, but can otherwise safely alter and write back the
+schemata with the expected results.  The kernel would in turn ignore
+the commented lines on write.  The commented lines are meaningful but
+"inactive": they describe the current hardware configuration on read,
+but (unless explicitly uncommented) won't change anything on write.
+
+Software that understands the new entries can uncomment the conflicting
+entries and write them back instead of (or in addition to) the
+conflicting entries.  For example, userspace might write the following:
+
+MB_MIN: 0=16, 1=16
+MB_MAX: 0=32, 1=32
+
+Which might then read back as follows:
+
+MB: 0=50, 1=50
+# MB_HW: 0=32, 1=32
+# MB_MIN: 0=16, 1=16
+# MB_MAX: 0=32, 1=32
+
+
+I haven't tried to develop this idea further, for now.
+
+I'd be interested in people's thoughts on it, though.
+
+Cheers
+---Dave
