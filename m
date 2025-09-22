@@ -1,151 +1,100 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0C0248F66
-	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 21:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7092C187
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 22:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758576232; cv=none; b=BiiP8cBXQSj2iQX0GzeG5ZoSi/Ad4yUoqbyoDm0J2jBYHkNaBVV8GDFixGJZJJjP4aN8pxqad05+v8jEyzpJmpTWNCMnrMmUCWc/dEWQQhSVfG4P6MgeUYy56BBvupQf2h+w1VfBuXIahw+gPhMcfe4ZR2jaDOG36bXvG3B4ANU=
+	t=1758579832; cv=none; b=NhPdR2dr+WyLAsU9udapn4WXW+LIyyORDycMURAZ+QXce+tkrFeSUpS0AWJT6+Mm/o3kyWAlFYWQVm1JbJuquXB4KoC9Z1FuUc+HrutYm8Nq5Q5qlwrs7FsoNHVmpbRum6n1zJ6i7C9GVe6NlFkkvbMUzaWr+IlPARNBO6VUNgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758576232; c=relaxed/simple;
-	bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=akkAfMWZdCBmcS11cOAdMmSCqgfEk0407jEfuYs0cKVP/NqLZvLBNUHOriYm4OrCik+SsIFIWo0AU4UFyYQrxFy35yh1Y8bAgV8k/xAZ80yxLE1c9dsmJXiDERORq/or72dEJbR3NvXDXlmMCuVWxQEHdHduNLJmqr4Sf4Co9ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=T/Vtd92I; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1758579832; c=relaxed/simple;
+	bh=Sxgi+qzzqkTw3Plt5ecLA21mEANLQWQfDdkvQU9u55o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IZqF7p9v7C/QHc+hpUmqlWHILfKd9ep7gJznadZOOiGpCk/fYAXk9pKNLQJIqRFEoq7qbaC4UQDvi8pYTVC7tEAjHmEt0F2rRB6mSCCKMKL02rTqFcjBu2HxFzFO+XlGdPQAJl7q75jtNXZAHMU/iHiS988RwV5XXZ+zeeJOLd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xy8Cy55T; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="T/Vtd92I"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-84ac859df55so170162185a.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 14:23:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xy8Cy55T"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b55562f3130so804003a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 15:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1758576230; x=1759181030; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
-        b=T/Vtd92ImvDYSXIrPnoZe4VK+x2sKXdithErwv6alIQc1stg4Z0VVyqc/BIUJX2yGE
-         GjOaD5A3kjQG3q8oEHw0DP1pI68TAyG86fHqQEaawC9zbcQwdua5GHzKwT0/GSUVXNyi
-         8ToWfVRd4vr51ZguvI/lYolG5gFKsY3heSiIwnozDgsvCg8SPaXTbG7lKaXV1h4FaSbP
-         1dmRZti4j6XKvF2RDhEX1iMvNsFYpYqBJkl0qG9qDzArl97maU1Awy6BSZiyF/dDO3zb
-         bOaB95Pb3nBZg5b81co5oANDcjHUfGYP0FojsQS2lLAAmFF9XnbRwaejWOeQsK1SBoAy
-         oC1A==
+        d=gmail.com; s=20230601; t=1758579830; x=1759184630; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MRsFo/EuRH2UoqiV9syGz1Dqlotoo0X01FdBzIc3c+E=;
+        b=Xy8Cy55T8c4uGVKoNiPCsJBzJVGGJx7JY05Bsuf4yajr48ORgpH50OELV02eCt7tXa
+         tSKvdIImAaqzKpXE5IReM4iElZuNLRLkrnTNcoUZHQEq+F+Hi+Qy+jH15NEtTzQOjJPQ
+         RyC0ZBA7MBZPEX7KjWF4uIJ/ad4TLLStV3F27F6Umg6JH3SIS94NRKfneae/2dgKg4Fy
+         jK92DAohVolsA/JUxQsA6TjbGqqT7HhxGKS0gb62yxR7NuJuSgiqPHsqUfkR8hiyBSz5
+         0pzW76TmwtaAaxwiqf+foB2o5LCHNIzGvLyguxZ6wlSc1XkUykMGgGTnHt36B0r0jM64
+         H2Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758576230; x=1759181030;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2lnFxC2hCuopFwp+eEpKVut/RzTPbk9nhoGROWJ2SSw=;
-        b=rAb5ZDVavydctkjkiaTEtLsipHX3fBeODwAMpU7sAaViY2E/UhdfzAbk2AvZY7i05l
-         0noIotldpwnXa0ag+utDUWn3TqcYkPOcwebOvBsFNVNKCRayYW7ntFf6BUkFdrrjpRj6
-         FhFR21T3vD4/DCqEzorIuXXFZfhrlJXWbjCsMXNqiHzty44fSHyDargNsGOcWD7KzTbT
-         bCuoOuPsrks6j9mgBxwhZoEOcYmni5WLWLyzR00Zx37zss1qXk3b3127T4svwwa3bR2e
-         GGydNZO4h5Cx5/GN7CM1jOfqeoCKQ3AdMBz01QvTfUCfsmRHXq2J2Ei2SytzFqA/Ciur
-         Z17Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWot2yTUDPIPWm0Sqpo2YEDruK6w5hQnsy0IGIqWzgWWaDU4AzQyZPk6Y54YROMqZNFBW0n+FerRkM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzog0TBiK5bw66+V/7YykFClpk4ehjPgn8W+WxCHOUxKbzoTY9l
-	giNQbGod1KSY0AH8Cf0+J7tA6YcTKaVrCuvfY6oNG05Dbvy934iXtAf0wduanyS/CO/K8TElkIm
-	hfFgogf3PQ1XmcplZHCihcNDrH6ULgiFVvAqKzqKQ6A==
-X-Gm-Gg: ASbGncvApVehX4RghaqxgonkFzsvUdZubgRDGLEmxf8ecmlAZ8jdQipApGrKh3jhZpE
-	8jpU8lEtqWp59aDIbYMXqCmK43QTTOliGYpDb4CmttCmSq/feGmRQ3ujQ548ffhn6BEgAXZRzaA
-	syHz55D6T1e6oBc5iEs00PlkwrvAnNUjie9uQpACCouJtCdevPkSN5It7rj37GuIezRSJ48GrOl
-	4I1
-X-Google-Smtp-Source: AGHT+IGQ9mQPiN/GEI3fU0tJWSP0koWA24hj8YVPEmzR9zP1Ams6poNzbT8y3Id+rBzzR1NASM7cdvLBk2yOzooAwSM=
-X-Received: by 2002:a05:620a:4724:b0:815:630d:2cbd with SMTP id
- af79cd13be357-8516aedb8cfmr51934685a.34.1758576230071; Mon, 22 Sep 2025
- 14:23:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758579830; x=1759184630;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MRsFo/EuRH2UoqiV9syGz1Dqlotoo0X01FdBzIc3c+E=;
+        b=fGnqbPXjEfP3yTUqf9nmhm9TP3EX6o9AkGL62pMbwxeX+r1gR/FQDVHw38m0Tjp13/
+         Cqa70dTp+YB8rM9VIcaxeWaErYTapTr0PZ5z19Ml0gBAt2rDFWjJpWEItUtfFD6yTeoE
+         xbepktE26m6sOhCOKeHC9qEk7bExJ8tjZatG5Wyl+Uvm8GoS71pnermi23371u/lyX5n
+         C4I0zOpm/EvdJqxB2TIXwD4v5gqlLxqxkHe72ZUuH/Bm4HY20+/wU8PMCGGhr1FARSXA
+         PuwjKZbvs3AnZEooZ00vTHdZ6lE/e8spX7wyaiCHMCp63UMXiEwx/G1K1d0M3sy7e9on
+         Y0Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCXBzL2ykA7nOeLbPwNFAs+awFRDfYmpKzulUwpWCLaM16HihVZrmLC/2N08ykb0uRmHHLIlDYW+71w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGby2V6H3EHmBrFD7RvmLj1fke/0sI8G5XI181DQqEhxvvtU6G
+	aHCuuHwW5GDEAnnWT4Gqa1NTc4yCGc99xBDa72806ZA2B53Hmgxz4FxK
+X-Gm-Gg: ASbGncsa79iUzHLpsnPqm6IuOPclMaJ5SyNR42XMn8fRN3Ct7dA3fLdCPqQL8fFraAp
+	zq5DanlHJvof0aGMIpleS4VV7URetPbqFwoyVdYRA4b8pMKYgVOGbXCIJ9KCrEtHIwyUPsYFVbs
+	36hdNfEPw+MHHr6RMa5U+lKuvPYiXA1zsBIuU9C62HTXvuadIQSdeGREox4OmmcArme9l6LdG7H
+	wr0564xLGfDUj0ItcQSEueOqUZ6hNpnql/9zH9OqTQ8bg9Se/05feWVbWJBoQIYLxsJLmVrMncs
+	d16ZkPYWcGfr07SCY4B19CmB6e7qvWbmwQw9O24kfsG7iFx88k9FMGMl+6SFJqw7KKJTpvD7YTL
+	9w23mPmDLP/I55K3UWVjmD8J+jLFx8/Ci4f6qRt68
+X-Google-Smtp-Source: AGHT+IE8ZDXe+4AoRHXjewJQ1kqq5SzJmZMgTWVHsKxdYcEj7QnvITb3KlBf7Gm4ryAb+XA979ghqQ==
+X-Received: by 2002:a17:902:ecc4:b0:24c:7b94:2f53 with SMTP id d9443c01a7336-27cc09e3ff4mr5390975ad.6.1758579830332;
+        Mon, 22 Sep 2025 15:23:50 -0700 (PDT)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269802e00b3sm141736545ad.90.2025.09.22.15.23.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Sep 2025 15:23:49 -0700 (PDT)
+Message-ID: <8beb54ba-4b88-43db-8e12-7a7f85c9a9da@gmail.com>
+Date: Tue, 23 Sep 2025 05:23:45 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250807014442.3829950-1-pasha.tatashin@soleen.com>
- <20250807014442.3829950-18-pasha.tatashin@soleen.com> <mafs07byoye0q.fsf@kernel.org>
-In-Reply-To: <mafs07byoye0q.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 22 Sep 2025 17:23:11 -0400
-X-Gm-Features: AS18NWDQlfdhKL59fadbKNdAGgk8Zbp4-SjH2QD1Po4tMMREBwUluD3-7f8OR8s
-Message-ID: <CA+CK2bD_-xwwUBnF4TBCBuX33uL6+V_1nN=0Q8_NXwhubTc8yA@mail.gmail.com>
-Subject: Re: [PATCH v3 17/30] liveupdate: luo_files: luo_ioctl: Unregister all
- FDs on device close
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, changyuanl@google.com, 
-	rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: process: Arbitrarily bump kernel major
+ version number
+To: Jonathan Corbet <corbet@lwn.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>
+Cc: Dante Strock <dantestrock@hotmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20250922074219.26241-1-bagasdotme@gmail.com>
+ <87h5wu8x7o.fsf@trenco.lwn.net>
+ <ff092ff5-8ee1-4e91-b7f7-e5beb1d6d759@gmail.com>
+ <87cy7i8tsj.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87cy7i8tsj.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 27, 2025 at 11:34=E2=80=AFAM Pratyush Yadav <pratyush@kernel.or=
-g> wrote:
->
-> Hi Pasha,
->
-> On Thu, Aug 07 2025, Pasha Tatashin wrote:
->
-> > Currently, a file descriptor registered for preservation via the remain=
-s
-> > globally registered with LUO until it is explicitly unregistered. This
-> > creates a potential for resource leaks into the next kernel if the
-> > userspace agent crashes or exits without proper cleanup before a live
-> > update is fully initiated.
-> >
-> > This patch ties the lifetime of FD preservation requests to the lifetim=
-e
-> > of the open file descriptor for /dev/liveupdate, creating an implicit
-> > "session".
-> >
-> > When the /dev/liveupdate file descriptor is closed (either explicitly
-> > via close() or implicitly on process exit/crash), the .release
-> > handler, luo_release(), is now called. This handler invokes the new
-> > function luo_unregister_all_files(), which iterates through all FDs
-> > that were preserved through that session and unregisters them.
->
-> Why special case files here? Shouldn't you undo all the serialization
-> done for all the subsystems?
+On 9/22/25 21:07, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> So it is slated for 6.19 then?
+> 
+> If it's not in docs-next (or some other subsystem tree) now then yes, it
+> will wait another cycle.  We are at -rc7, after all.
+> 
 
-Good point, subsystems should also be cancelled, and system should be
-brought back to normal state. However, with session support, we will
-be dropping only FDs that belong to a specific session when its FD is
-closed, or all FDs+subsystems when closing /dev/liveupdate.
+OK, thanks!
 
-> Anyway, this is buggy. I found this when testing the memfd patches. If
-> you preserve a memfd and close the /dev/liveupdate FD before reboot,
-> luo_unregister_all_files() calls the cancel callback, which calls
-> kho_unpreserve_folio(). But kho_unpreserve_folio() fails because KHO is
-> still in finalized state. This doesn't happen when cancelling explicitly
-> because luo_cancel() calls kho_abort().
-
-Yes, KHO still has its states, that break the LUO logic. I think,
-there is going to be some limitations until "stateless" kho patches
-land.
-
-> I think you should just make the release go through the cancel flow,
-> since the operation is essentially a cancel anyway. There are subtle
-> differences here though, since the release might be called before
-> prepare, so we need to be careful of that.
-
-Makes sense.
-
-Thank you,
-Pasha
+-- 
+An old man doll... just what I always wanted! - Clara
