@@ -1,134 +1,107 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1076930DD37;
-	Mon, 22 Sep 2025 16:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4000B192B66
+	for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 16:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758558033; cv=none; b=L6v27tSTgsYAozCGtXnZq9fxOXXJ6K8Nz3fxI0SHSxqcfhAjA+hXW+vDXt9fmd4sIIw8sjwgKfDOGldjkHe5wtvnVq2GsAKsIswI2IKw5H2ad4g88wLysKwVeGTWRpoelEIk9GYNnCqkXP9FkZP/xjtIgdPhE9xKzvWmA0WYz/w=
+	t=1758559804; cv=none; b=NqUrwdbOhc+2CbxUdRzngMjAdrBye71JuFEwKQTdms/j5pKu1vWfHWAgBAmuzf0mUHWQHRh3kxtOwthDR+qHF7lh96mTf3U9xNF0L4F0zY6GvFudpVcJSofYB1pRpCto0kgNrjEtgEPU9qUUOzO9dVF+CMHu1nnxTEnMXWubOgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758558033; c=relaxed/simple;
-	bh=Be4GevQkmF/nFmdQN6+ONfubwu/F5kbrYP4ewlUZlXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YHUoIfapOnyX8QKcyUScrTbbjR73UgkkBi9ItODpibURoe6FeK96z+I6XO129tt+GCkmWM/MUY2qxaalEYGXExW91fKV98lTSkc9eb8DGnPlR13CJq/dfSzfUFjMN7odSbsgp0Swq0Hu4t8VUwiXVl/cp0SfT/HRcPRRbOgWgbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KdLt3BPy; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1758559804; c=relaxed/simple;
+	bh=m9/XGEHINrVzPTUGiEZBd4c6Fi+tGqA4JccCjRyRcuU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hSRN2I9D61NJGzW3Z50Z4S+u9B6ShiLlWaQTvpibXGAesXG/n3b3nJwqE1xjoFItnMnOEjxpBTi8gXtBd9crIso0Wqlcth8Wm5eoLO14o1yhna/ZPxygPXpHoPFyvrR7hRNakZ1KJKORP3GL84j9pPQnihjKL7GzPFpUSwFY6fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RFejKAtP; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KdLt3BPy"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 3DF8F1A0F08;
-	Mon, 22 Sep 2025 16:20:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 111CE60635;
-	Mon, 22 Sep 2025 16:20:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 66EEE102F193E;
-	Mon, 22 Sep 2025 18:20:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758558027; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=u/5Oa4oSVwwK58CYuiN5FtTp13SFKt17H/vR6qsflCQ=;
-	b=KdLt3BPy4PPPNqmCpLPibifuqjV5FPeD0cBX2voEwmizA1QmtL20rgI0pk8JotVuVlC9ip
-	Ov53SUeg1HnoEY4Zp1pKqGWgFGCv5UxLS0rxM8x2UWxBtnslr+GvHYBkih5UMcWzlN6wbD
-	4vC3qpwJYPg95RR1lFzM07GJHyDt9tggZV+sIpglXNoN8SVO0/pvskRiq1utZ9EGAWFmeD
-	KOfBKRP/eh2KL6LfojppLod1KjszwKsEZYLRcdVuYtAVy2V5PWeDmbiBwK+exRRhQxuVwe
-	voRsEmabOC9vWIVqJUGKNgfFpiNd+llXGcqklnQju+nakoNXPz736re0eUmx1Q==
-Date: Mon, 22 Sep 2025 18:20:02 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jiri Pirko
- <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
- kernel@pengutronix.de, Dent Project <dentproject@linuxfoundation.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Luka Perkov <luka.perkov@sartura.hr>, Robert Marko
- <robert.marko@sartura.hr>, Sridhar Rao <srao@linuxfoundation.org>
-Subject: Re: [PATCH net-next v3 0/5] net: pse-pd: pd692x0: Add permanent
- configuration management support
-Message-ID: <20250922182002.6948586f@kmaincent-XPS-13-7390>
-In-Reply-To: <20250917141912.314ea89b@kernel.org>
-References: <20250915-feature_poe_permanent_conf-v3-0-78871151088b@bootlin.com>
-	<20250916165440.3d4e498a@kernel.org>
-	<20250917114655.6ed579eb@kmaincent-XPS-13-7390>
-	<20250917141912.314ea89b@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RFejKAtP"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ca7a71adcbso10505551cf.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 09:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758559802; x=1759164602; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WA+alynuVVEEPnntcyqcLLSauhQLoM8gOAgbz++kC00=;
+        b=RFejKAtP74up0mb6zIBo/ztzZ+Sf2255tgJnRZKBv6pqR/bH128weEJfGas/TXV/TZ
+         9VEqSf+YbClXEI6WiXooTNJbGCXE6u69aSZ6fFDB+NJAHH/iXXUw81QlAs3nMCxgifOb
+         m2I+HzjucroSBR1eF8GxhI/vfpwitPSi2XX759NDy0WTS0UecXOTEx/OZ0q6HIZQstz8
+         zafcoOd3ah8UHBlSpvZZRSjZfvieU52eCiHotHgOlF2AIq6WSb9HkuxeOrfSuoXsvYwi
+         h0Giq5fnu5RjVNjrlFAtYL+9Q38eilZ6EABhXmAHZ5g0BncUcXhVA0RRigGZ5A7WmMhK
+         r21Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758559802; x=1759164602;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WA+alynuVVEEPnntcyqcLLSauhQLoM8gOAgbz++kC00=;
+        b=YIqtLtBoNu4w6vrl11JrFcFEnfzS7bXNvGDs+eKDCS5cB0S2LWDPhl/dZgKHS+UjyU
+         f7bNIKNiYpNbmr03lL3gkk1W4qAF0UZ436rc5kzY55E05JhFRMxaJ9BRuJKpdSEYv/TQ
+         RYAOLm03KXslPQ3VrNFzKFHdzcDOMBHHsd+CjTroSTAnaQpXiKYTwBykjb+5NVrcheqo
+         Dvw0hcPZe70Xt4gE0lkaiBqqSokiUSlnp/RCESPBLeINTptC+TH72zp1gZ21pOCEogJa
+         xM5623eYgNgkeHFLMCVczxc49TtzVOM90hbVy27imQ1l1yYPbvBJ3oGs8+7H2E6y6RT7
+         iFvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVgH/uZsiyc8VE55rTPhjpAfgD0mgH8rUq4iVkq6FPjvXLDwLzn1kqXfgz9WZtsucssilAp3NyBW4A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEpQmu2JrnR/33hyTMCxJ9icWfw+BszHyNZ+xftg1eE52K7QB6
+	1pe8cYfGuBnq6VaXLbWFOJvIyXcAjwPscWiXDGOXU2KbhAzhPI/2BpXZkOj302FgaPgoRkUNsYu
+	j0XsitEaHaJDEcU+Y2/23acQcm/JEYFU=
+X-Gm-Gg: ASbGncub9bBY1pS/Yk26PqqzUbc+eAvGtopgu5khlpYRj2HOhFr5vCmp+rsLosIQ0fv
+	frw9HO+xnJ0foTEvdD+oQKItSC0K6hgdPjKlxjJesb0CyGBMlcuGFZGlJUwk064m2VKUYk7zir1
+	4KTVOYFzI5l+xirn78HEFRuQ9xstaRwdy5LfPrSDov1pD2zdW4v/HIk6ip609GMvYtNIYyzmxJe
+	YopEkbyGTXxHZP0dxieehftpz+Q+NlnTxBwuPT3
+X-Google-Smtp-Source: AGHT+IE2GJniwx2CuhW63kr8BKynTNE4Xt9Ay1AkqcPL9FzvjlWdOzfghumDj+pZeJOeKep2YblFDfteGq4gqyUOwfY=
+X-Received: by 2002:a05:622a:653:b0:4b7:a62c:3747 with SMTP id
+ d75a77b69052e-4c07151d134mr177156361cf.46.1758559801973; Mon, 22 Sep 2025
+ 09:50:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250829235627.4053234-1-joannelkoong@gmail.com>
+ <20250829235627.4053234-6-joannelkoong@gmail.com> <aLktHFhtV_4seMDN@infradead.org>
+ <aLoA6nkQKGqG04pW@casper.infradead.org>
+In-Reply-To: <aLoA6nkQKGqG04pW@casper.infradead.org>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 22 Sep 2025 09:49:50 -0700
+X-Gm-Features: AS18NWCYGl8IVCOH-hPpOfmVBaFG3jn-gUPUQCOuCGVD2SlbTPYRIsrQjTCDT5g
+Message-ID: <CAJnrk1ZxQt0RmYnoi3bcDCLn1=Zgk9uJEcFNMH59ZXV7T6c2Fg@mail.gmail.com>
+Subject: Re: [PATCH v1 05/16] iomap: propagate iomap_read_folio() error to caller
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org, miklos@szeredi.hu, 
+	djwong@kernel.org, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Jakub,
+On Thu, Sep 4, 2025 at 2:13=E2=80=AFPM Matthew Wilcox <willy@infradead.org>=
+ wrote:
+>
+> On Wed, Sep 03, 2025 at 11:09:32PM -0700, Christoph Hellwig wrote:
+> > On Fri, Aug 29, 2025 at 04:56:16PM -0700, Joanne Koong wrote:
+> > > Propagate any error encountered in iomap_read_folio() back up to its
+> > > caller (otherwise a default -EIO will be passed up by
+> > > filemap_read_folio() to callers). This is standard behavior for how
+> > > other filesystems handle their ->read_folio() errors as well.
+> >
+> > Is it?  As far as I remember we, or willy in particular has been
+> > trying to kill this error return - it isn't very hepful when the
+> > actually interesting real errors only happen on async completion
+> > anyway.
+>
+> I killed the error return from ->readahead (formerly readpages).
+> By definition, nobody is interested in the error of readahead
+> since nobody asked for the data in those pages.
+>
+> I designed an error reporting mechanism a while back that allowed the
+> errno to propagate from completion context to whoever was waiting
+> on the folio(s) that were part of a read request.  I can dig that
+> patchset up again if there's interest.
 
-On Wed, 17 Sep 2025 14:19:12 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+Could you describe a bit how your design works?
 
-> On Wed, 17 Sep 2025 11:46:55 +0200 Kory Maincent wrote:
-> > > On Mon, 15 Sep 2025 19:06:25 +0200 Kory Maincent wrote:   =20
->  [...] =20
-> > >=20
-> > > I'm still unclear on the technical justification for this.
-> > > "There's a tool in another project which does it this way"
-> > > is not usually sufficient upstream. For better or worse we
-> > > like to re-implement things from first principles.
-> > >=20
-> > > Could you succinctly explain why "saving config" can't be implemented
-> > > by some user space dumping out ethtool configuration, saving it under
-> > > /etc, and using that config after reboot. A'la iptables-save /
-> > > iptables-restore?   =20
-> >=20
-> > I think the only reason to save the config in the NVM instead of the
-> > userspace is to improve boot time. As Oleksij described: =20
-> > > I can confirm a field case from industrial/medical gear. Closed syste=
-m,
-> > > several modules on SPE, PoDL for power. Requirement: power the PDs as
-> > > early as possible, even before Linux. The box boots faster if power-up
-> > > and Linux init run in parallel. In this setup the power-on state is
-> > > pre-designed by the product team and should not be changed by Linux at
-> > > runtime.   =20
-> >=20
-> > He told me that he also had added support for switches in Barebox for t=
-he
-> > same reason, the boot time. I don't know if it is a reasonable reason to
-> > add it in Linux. =20
->=20
-> Right, subjectively I focused on the last sentence of Oleksij's reply.
-> I vote we leave it out for now.
-
-I would like to restart the discussion as I have one more argument besides =
-the
-boot time optimization coming from Luka Perkov in CC.
-
-According to him, not having this feature supported also brings an issue ac=
-ross
-reboot:
-"When a network switch reboots, any devices receiving Power over
-Ethernet (PoE) from that switch will lose power unless the PoE
-configuration is persisted across the reboot cycle. This creates a
-significant operational impact: WiFi access points and other
-PoE-powered devices will experience an unplanned hard power loss,
-forcing them offline without any opportunity for graceful shutdown.
-
-The critical issue is not the impact on the switch itself, but rather
-the cascading effect on all dependent infrastructure. Without
-kernel-level persistence of PoE settings, a simple switch reboot
-(whether for maintenance, updates, or recovery) forces all connected
-PoE devices into an abrupt power cycle. This results in extended
-downtime as these devices must complete their full boot sequence once
-power is restored, rather than remaining operational throughout the
-switch's reboot process."
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks,
+Joanne
+>
