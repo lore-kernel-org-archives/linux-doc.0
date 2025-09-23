@@ -1,121 +1,103 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mx0a-002bf204.pphosted.com (mx0a-002bf204.pphosted.com [205.220.160.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B161F31E888
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 09:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622A82AD13;
+	Tue, 23 Sep 2025 09:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.160.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758618312; cv=none; b=fD9Gook0TPkQk8uAJ9xWP1nVLfiRC2S24W4oqB0Iv9gqttaOjftppZ2N8d6z++/RtxLvOOLMEWuxBhIxSgdF1v5aQkITb+EF0y/JqwRPmx0vNDZjIg14366+6P/kbh7KNF+4NlJBd7SwxWO4rsPbvvAaQyS+GNEuXgYacCRIrfY=
+	t=1758619897; cv=none; b=e+puyIv1cZon4hlgkt26ZO3QpUBx9zUgsPUWhszlZ9n6K/9peVMsyjBSwyQw7cBXPMSfV28xHHckqqsZKbDCgWtXhsv27FWqF5GDYixqIh2n5LNJ2QzFuqdJh3yYS98G8u3lFtQX9fhuei8//tHjFERqQb/xaGFC4Lr8hbyQL28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758618312; c=relaxed/simple;
-	bh=Hfg0snLcgfFu5drLfEucVNQPyA7ydLPTcft7R/VdprU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gFjywXgbMX6AL7iSYNHg5nKMMYOEeh1yaNy9cDnaqj5zXlgrZC4/OoKhTyYADaEfz79omIO1bIUlnmJPq8x3PPRjDi1QcTyT7zapb0p11jc31L1Zaruk78ZcY5oOoINgZ9qTUjFOpa6bRMFwPAMuydl/mq86s4aBD2lxoHtsiew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NhHdJAC5; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1758619897; c=relaxed/simple;
+	bh=SK08o5jMmktq+j12ohAFj5YUuAH+hnUns+Ln37TmV7g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZGznxoJ9M5oOaNVLq8dw0+qmr/KQefa+qvRslgAiNHR8gt6D8pMbnZCugZxQz0oVcFqUMGhIH8MNEzlF6D252uWsju7TcNbat4LY84rOoztSJGnEccOb2LAPMd/FFGZyBoH5QnTejJGDa4Sc/P7DW0GUGCZlXpOFdn0CrzfNEcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com; spf=pass smtp.mailfrom=monolithicpower.com; dkim=pass (2048-bit key) header.d=monolithicpower.com header.i=@monolithicpower.com header.b=ZsxxleZj; arc=none smtp.client-ip=205.220.160.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monolithicpower.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NhHdJAC5"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9DD151A0EC3;
-	Tue, 23 Sep 2025 09:05:07 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6829760690;
-	Tue, 23 Sep 2025 09:05:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 03226102F191C;
-	Tue, 23 Sep 2025 11:04:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758618306; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=QZg1/K8eQxDZg+ZHRMpx/uJpEdtJih4Wqz5DwLkTAs4=;
-	b=NhHdJAC5RIm/LtUIxmzXVoIFWuHVZ0tCPbKn0pTjLUJe6pbxoDHnFssRCVVJazDIyoeslC
-	9lJRS98MgiaLeEunfg/4U0rnpt8ZpQdifGbVj+RvPGY0g+dJPllOevjlony+90kaQyBDM8
-	BeAlnh+2Xwqz8l72iUmqF54fXOJq6/erK8tCqnowJE8Pix7ciruZWqDOhDhbcPYZ61rvWR
-	mCPCmPTd+RQ9oyYTx7r+ckw1nXbGChoo4phJ5TqYCP9IzJ+zE3usD6l0oUWB13JrxhtFGw
-	D74d7zj4fQOxVrtJhgxJSATe+vf2hPaOSyTvPNbVULi8fgTtvj3fo2Z74BMumg==
-Date: Tue, 23 Sep 2025 11:04:51 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jiri Pirko
- <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
- kernel@pengutronix.de, Dent Project <dentproject@linuxfoundation.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Luka Perkov <luka.perkov@sartura.hr>, Robert Marko
- <robert.marko@sartura.hr>, Sridhar Rao <srao@linuxfoundation.org>
-Subject: Re: [PATCH net-next v3 0/5] net: pse-pd: pd692x0: Add permanent
- configuration management support
-Message-ID: <20250923110451.6d402a79@kmaincent-XPS-13-7390>
-In-Reply-To: <20250922110220.4909e58b@kernel.org>
-References: <20250915-feature_poe_permanent_conf-v3-0-78871151088b@bootlin.com>
-	<20250916165440.3d4e498a@kernel.org>
-	<20250917114655.6ed579eb@kmaincent-XPS-13-7390>
-	<20250917141912.314ea89b@kernel.org>
-	<20250922182002.6948586f@kmaincent-XPS-13-7390>
-	<20250922110220.4909e58b@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=monolithicpower.com header.i=@monolithicpower.com header.b="ZsxxleZj"
+Received: from pps.filterd (m0207524.ppops.net [127.0.0.1])
+	by mx0a-002bf204.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58N58bjg1331671;
+	Tue, 23 Sep 2025 02:09:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	monolithicpower.com; h=cc:content-transfer-encoding:content-type
+	:date:from:message-id:mime-version:subject:to; s=pps1; bh=5BrRan
+	ophlTOQzk7isMVjv+0gTzaWx6yYsZFutNEAL8=; b=ZsxxleZjVnndc4L5LAke36
+	Cx6srhDcEx8y57x57VVsDC3Zt4xHPP2l7AtYw6qpQ0v3WI1/AbEB8WqnIYT/EjrQ
+	x9UMFjKkX3zRTNTLrOeKQOf7l8wE7F7PGwV2ZySkvydU4Lo28V6NroObHkVtIosw
+	f/jz1PePQ3W492BVOrinuA4U4louFSW+/pQdRRe9G7AkwLjYdI1h7wZC39xpN2kP
+	qRVDyFwom29QLAbwzpRFW6rhbMh8HYnS6o2Put/rinTFYGJUizt/nkREsia6F/uH
+	UT58IU3uIiYUA8qGQYYObVW+B20LqBMiRB3H9mWu+jn2jkHYHGzkWVyz3Dpnq7vQ
+	==
+Received: from webmail.monolithicpower.com (mps-vpn.monolithicpower.com [12.33.0.20] (may be forged))
+	by mx0a-002bf204.pphosted.com (PPS) with ESMTPS id 499qpnhh6q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 23 Sep 2025 02:09:52 -0700 (PDT)
+Received: from CD-MSH04.monolithicpower.com (10.10.70.213) by
+ mps-mslbn03.monolithicpower.com (10.10.10.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.6; Tue, 23 Sep 2025 02:09:43 -0700
+Received: from HZ-200L-YUWANG.monolithicpower.com (10.10.86.73) by
+ CD-MSH04.monolithicpower.com (10.10.70.213) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Tue, 23 Sep 2025 17:09:38 +0800
+From: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+To: <Yuxi.Wang@monolithicpower.com>, <corbet@lwn.net>, <linux@roeck-us.net>,
+        <jdelvare@suse.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>
+CC: <wyx137120466@gmail.com>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Subject: [PATCH 0/2] hwmon: Add support for MPS mp5998 chip
+Date: Tue, 23 Sep 2025 17:09:23 +0800
+Message-ID: <20250923090926.619-1-Yuxi.Wang@monolithicpower.com>
+X-Mailer: git-send-email 2.44.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CD-MSLBN02.monolithicpower.com (192.168.86.32) To
+ CD-MSH04.monolithicpower.com (10.10.70.213)
+X-Proofpoint-GUID: ZQdgEHx8RNMO6yTs-B9PunW3UMzSt3j4
+X-Authority-Analysis: v=2.4 cv=S8jZwJsP c=1 sm=1 tr=0 ts=68d263e0 cx=c_pps
+ a=Zb4R73zfuCEKbQz3U9Wi8g==:117 a=Zb4R73zfuCEKbQz3U9Wi8g==:17
+ a=Mn2HaNVs01YA:10 a=yJojWOMRYYMA:10 a=gs3WAU5GOovDNR7Q-woA:9
+X-Proofpoint-ORIG-GUID: ZQdgEHx8RNMO6yTs-B9PunW3UMzSt3j4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDA4NCBTYWx0ZWRfX16krY/DMJZn3
+ MKdet8FyfAgfqlj+LSjv1o/oCrpv4oZlHObH3ML+HRcrRkF17F9VGIqYsezx2srgljxxo6gqges
+ W+DA/YcqHxtglTfTtsQAzSNATIl0TLpW5mj7Ye/OaXqV+IiY7hADEwkfY9ctMCxEdum/lDg6eLq
+ XWz8fQC0L9wFoeNSki/Tn2DvICbsBSnlvJW3tsclO4B2TGUshHmotoc03CB6q0F/dQy1jW0d+b7
+ hAVZPtfSqZ9JXzOQ92LRpDmne0Vb8MFvZ5npppmT/7Q7YvJr8Ea85LWcYMlxQJh6BzWWNIRxvQM
+ oEj37Rdl3g84wzDoWZGP+hNb9yi5x6fipUyGUwdaKncpkt3ZiNW5lX1sQQKAw4=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011 priorityscore=1501 suspectscore=0 malwarescore=0
+ phishscore=0 spamscore=0 impostorscore=0 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2507300000 definitions=firstrun
 
-On Mon, 22 Sep 2025 11:02:20 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+Add mp5998 driver in hwmon and add dt-binding for it.
 
-> On Mon, 22 Sep 2025 18:20:02 +0200 Kory Maincent wrote:
->  [...] =20
-> > >=20
-> > > Right, subjectively I focused on the last sentence of Oleksij's reply.
-> > > I vote we leave it out for now.   =20
-> >=20
-> > I would like to restart the discussion as I have one more argument besi=
-des
-> > the boot time optimization coming from Luka Perkov in CC.
-> >=20
-> > According to him, not having this feature supported also brings an issue
-> > across reboot:
-> > "When a network switch reboots, any devices receiving Power over
-> > Ethernet (PoE) from that switch will lose power unless the PoE
-> > configuration is persisted across the reboot cycle. This creates a
-> > significant operational impact: WiFi access points and other
-> > PoE-powered devices will experience an unplanned hard power loss,
-> > forcing them offline without any opportunity for graceful shutdown.
-> >=20
-> > The critical issue is not the impact on the switch itself, but rather
-> > the cascading effect on all dependent infrastructure. Without
-> > kernel-level persistence of PoE settings, a simple switch reboot
-> > (whether for maintenance, updates, or recovery) forces all connected
-> > PoE devices into an abrupt power cycle. This results in extended
-> > downtime as these devices must complete their full boot sequence once
-> > power is restored, rather than remaining operational throughout the
-> > switch's reboot process." =20
->=20
-> Any sort of hot reset that maintains the pre-existing configuration=20
-> and doesn't issue resets is orthogonal to storing the configuration
-> into the flash.
+Yuxi Wang (2):
+  dt-bindings: hwmon: Add MPS mp5998
+  hwmon: add mp5998 driver
 
-Indeed if the switch reboot and the PSE lose its power supply, the devices =
-will
-in any cases face a power loss. While if the PSE does not lose its power the
-configuration won't be reset whether there is a permanent configuration or
-not. We just need to detect during the boot if the port matrix has already
-been flashed to not reconfigure all the ports. =20
-This argument is indeed not relevant.
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/mp5998.rst                |  92 ++++++++++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/mp5998.c                  | 162 ++++++++++++++++++
+ 7 files changed, 274 insertions(+)
+ create mode 100644 Documentation/hwmon/mp5998.rst
+ create mode 100644 drivers/hwmon/pmbus/mp5998.c
 
-Luka any other arguments in favor of permanent configuration support?
+-- 
+2.39.2
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
