@@ -1,94 +1,85 @@
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2917926E717;
-	Tue, 23 Sep 2025 07:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ACE31197E;
+	Tue, 23 Sep 2025 07:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758611026; cv=none; b=nmVmrF4Cqn33RB50z8gFn0BJMjtYVR2V9xK7ZyhW7K7UhXCkz12qq2Kz5i25H0UWbdOOpSXHOlsGRtKn5q2RsFKAw3vwy1dMvbQ4EtNLiLWvJzW1qW5+qkcFTmH4t/AOMbBESFBTompWZ/FNYOICvemUPMdD74O24KK7/JFBGG0=
+	t=1758612397; cv=none; b=fXeq4HCez6ZUq2qBpGzEBHywzBgibDFbnUuX83nFThEM37C50k0yhkQ7d80kaGwn7LlpJWaoZ5EjRfVB66tTozf8KeAKR5UIXWMr5vEG7AumOL6/fuz/YNYBvp5oICnYaDqGDI6eya0p7CvR4f+vNpY524uLa6R1wKMPWQw3Ml0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758611026; c=relaxed/simple;
-	bh=e9Vg2dzIeDuuObcmwsRBRncNjaaipGCZqDw3uwGilp8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=uohSoXYebzpAge9yt2YUrR46NjX3kjjnu8C+bO6Fo0Q/ttZHxEyrfuoxkR3wq81ecEMMVWmYOQk9e+QZPyJ+8A9PayERKMdJPzWMMFbLAh0uwqxSbjWciA8PT6q7lpcl1jHwoFccPaXNX0x1qp6LkQ/8xXk4P08CqljyNLi1NnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: "paulmck@kernel.org" <paulmck@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>, "corbet@lwn.net"
-	<corbet@lwn.net>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"mingo@kernel.org" <mingo@kernel.org>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
-	"pauld@redhat.com" <pauld@redhat.com>, "joel.granados@kernel.org"
-	<joel.granados@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbPz8/P10gUmU6IFtQQVRDSF1bUkZD?=
- =?utf-8?B?XSBodW5nX3Rhc2s6IFN1cHBvcnQgdG8gcGFuaWMgd2hlbiB0aGUgbWF4aW11?=
- =?utf-8?Q?m_number_of_hung_task_warnings_is_reached?=
-Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFs/Pz8/XSBSZTogW1BBVENIXVtSRkNdIGh1?=
- =?utf-8?B?bmdfdGFzazogU3VwcG9ydCB0byBwYW5pYyB3aGVuIHRoZSBtYXhpbXVtIG51?=
- =?utf-8?Q?mber_of_hung_task_warnings_is_reached?=
-Thread-Index: AQHcLDttVizJ2u6zwEeKMgiwnSexq7SfmowAgACJIFD//51tAIAAlYrw
-Date: Tue, 23 Sep 2025 07:01:47 +0000
-Message-ID: <b37376c5ed0141e5a370bf4e73c33751@baidu.com>
-References: <20250923033740.2696-1-lirongqing@baidu.com>
- <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
- <f11f4dd1983f4073a8008112e55f92f8@baidu.com>
- <36db2f10-ebbe-4ecd-b27f-e02d9e1569c2@paulmck-laptop>
-In-Reply-To: <36db2f10-ebbe-4ecd-b27f-e02d9e1569c2@paulmck-laptop>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1758612397; c=relaxed/simple;
+	bh=+70wkNx63x1jEVS7yy2WObjX8BK5ItnxD8o/AI8hzfk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GoIO9TT9I7MuBkorByPy4vj77JwAvL2c+vVW7GyKd/ENi1f+4N6bvr7mw/LQb1+CJl/gai0nmOSUJDWGUAAUpiH6iI5LrPX0P6d5+bqvlr281iber9ImSMU8ZJqlgVkvYPHd8/2TTbWlKZ5V2W4mSxQH5OGlF1ExEGyjN+6HpGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4cWBK006Hwz24hy2;
+	Tue, 23 Sep 2025 15:23:00 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0FCA21A0188;
+	Tue, 23 Sep 2025 15:26:32 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.55) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 23 Sep 2025 15:26:30 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: <dan.carpenter@linaro.org>
+CC: <andrew+netdev@lunn.ch>, <christophe.jaillet@wanadoo.fr>,
+	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+	<gongfan1@huawei.com>, <guoxin09@huawei.com>, <gur.stavi@huawei.com>,
+	<helgaas@kernel.org>, <horms@kernel.org>, <jdamato@fastly.com>,
+	<kuba@kernel.org>, <lee@trager.us>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<luoyang82@h-partners.com>, <meny.yossefi@huawei.com>, <mpe@ellerman.id.au>,
+	<netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<przemyslaw.kitszel@intel.com>, <shenchenyang1@hisilicon.com>,
+	<shijing34@huawei.com>, <sumang@marvell.com>, <vadim.fedorenko@linux.dev>,
+	<wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v06 08/14] hinic3: Queue pair resource initialization
+Date: Tue, 23 Sep 2025 15:26:05 +0800
+Message-ID: <20250923072606.1178-1-gongfan1@huawei.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <aMu3E-wTfK-B18id@stanley.mountain>
+References: <aMu3E-wTfK-B18id@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-FEAS-Client-IP: 172.31.50.45
-X-FE-Policy-ID: 52:10:53:SYSTEM
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-PiBUaGVyZSBhcmUgdGhlIHBhbmljX29uX3JjdV9zdGFsbCBhbmQgbWF4X3JjdV9zdGFsbF90b19w
-YW5pYyBzeXNjdGxzLCB3aGljaA0KPiB0b2dldGhlciBhbGxvdyB5b3UgdG8gcGFuaWMgYWZ0ZXIg
-KHNheSkgdGhyZWUgUkNVIENQVSBzdGFsbCB3YXJuaW5ncy4NCj4gRG9lcyB0aG9zZSBkbyB3aGF0
-IHlvdSBuZWVkPw0KPiANCj4gCQkJCQkJCVRoYW54LCBQYXVsDQo+IA0KDQoNCmluc3BpcmVkIGJ5
-IGRmZTU2NDA0NWM2NTNkICIocmN1OiBQYW5pYyBhZnRlciBmaXhlZCBudW1iZXIgb2Ygc3RhbGxz
-KSIsIGFkZCBhIG5ldyBrbm9kIGZvciBodW5nIHRhc2ssIGhvdyBhYm91dD8NCg0KDQpkaWZmIC0t
-Z2l0IGEva2VybmVsL2h1bmdfdGFzay5jIGIva2VybmVsL2h1bmdfdGFzay5jDQppbmRleCA4NzA4
-YTEyLi5iOTM1OTJkIDEwMDY0NA0KLS0tIGEva2VybmVsL2h1bmdfdGFzay5jDQorKysgYi9rZXJu
-ZWwvaHVuZ190YXNrLmMNCkBAIC04Myw2ICs4Myw4IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgX19y
-ZWFkX21vc3RseSBzeXNjdGxfaHVuZ190YXNrX2FsbF9jcHVfYmFja3RyYWNlOw0KIHN0YXRpYyB1
-bnNpZ25lZCBpbnQgX19yZWFkX21vc3RseSBzeXNjdGxfaHVuZ190YXNrX3BhbmljID0NCiAgICAg
-ICAgSVNfRU5BQkxFRChDT05GSUdfQk9PVFBBUkFNX0hVTkdfVEFTS19QQU5JQyk7DQoNCitzdGF0
-aWMgdW5zaWduZWQgaW50IF9fcmVhZF9tb3N0bHkgc3lzY3RsX2h1bmdfdGFza19wYW5pY19jb3Vu
-dDsNCisNCiBzdGF0aWMgaW50DQogaHVuZ190YXNrX3BhbmljKHN0cnVjdCBub3RpZmllcl9ibG9j
-ayAqdGhpcywgdW5zaWduZWQgbG9uZyBldmVudCwgdm9pZCAqcHRyKQ0KIHsNCkBAIC0yMTksNyAr
-MjIxLDkgQEAgc3RhdGljIHZvaWQgY2hlY2tfaHVuZ190YXNrKHN0cnVjdCB0YXNrX3N0cnVjdCAq
-dCwgdW5zaWduZWQgbG9uZyB0aW1lb3V0KQ0KDQogICAgICAgIHRyYWNlX3NjaGVkX3Byb2Nlc3Nf
-aGFuZyh0KTsNCg0KLSAgICAgICBpZiAoc3lzY3RsX2h1bmdfdGFza19wYW5pYykgew0KKyAgICAg
-ICBpZiAoc3lzY3RsX2h1bmdfdGFza19wYW5pYyB8fA0KKyAgICAgICAgICAgICAgIChzeXNjdGxf
-aHVuZ190YXNrX3BhbmljX2NvdW50ICYmDQorICAgICAgICAgICAgICAgIChzeXNjdGxfaHVuZ190
-YXNrX2RldGVjdF9jb3VudCA+IHN5c2N0bF9odW5nX3Rhc2tfcGFuaWNfY291bnQpKSkgew0KICAg
-ICAgICAgICAgICAgIGNvbnNvbGVfdmVyYm9zZSgpOw0KICAgICAgICAgICAgICAgIGh1bmdfdGFz
-a19zaG93X2xvY2sgPSB0cnVlOw0KICAgICAgICAgICAgICAgIGh1bmdfdGFza19jYWxsX3Bhbmlj
-ID0gdHJ1ZTsNCkBAIC0zODgsNiArMzkyLDE0IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY3RsX3Rh
-YmxlIGh1bmdfdGFza19zeXNjdGxzW10gPSB7DQogICAgICAgICAgICAgICAgLmV4dHJhMiAgICAg
-ICAgID0gU1lTQ1RMX09ORSwNCiAgICAgICAgfSwNCiAgICAgICAgew0KKyAgICAgICAgICAgICAg
-IC5wcm9jbmFtZSAgICAgICA9ICJodW5nX3Rhc2tfcGFuaWNfY291bnQiLA0KKyAgICAgICAgICAg
-ICAgIC5kYXRhICAgICAgICAgICA9ICZzeXNjdGxfaHVuZ190YXNrX3BhbmljX2NvdW50LA0KKyAg
-ICAgICAgICAgICAgIC5tYXhsZW4gICAgICAgICA9IHNpemVvZihpbnQpLA0KKyAgICAgICAgICAg
-ICAgIC5tb2RlICAgICAgICAgICA9IDA2NDQsDQorICAgICAgICAgICAgICAgLnByb2NfaGFuZGxl
-ciAgID0gcHJvY19kb2ludHZlY19taW5tYXgsDQorICAgICAgICAgICAgICAgLmV4dHJhMSAgICAg
-ICAgID0gU1lTQ1RMX1pFUk8sDQorICAgICAgIH0sDQorICAgICAgIHsNCiAgICAgICAgICAgICAg
-ICAucHJvY25hbWUgICAgICAgPSAiaHVuZ190YXNrX2NoZWNrX2NvdW50IiwNCiAgICAgICAgICAg
-ICAgICAuZGF0YSAgICAgICAgICAgPSAmc3lzY3RsX2h1bmdfdGFza19jaGVja19jb3VudCwNCiAg
-ICAgICAgICAgICAgICAubWF4bGVuICAgICAgICAgPSBzaXplb2YoaW50KSwNCg==
+On 9/18/2025 3:38 PM, Dan Carpenter wrote:
+
+> On Fri, Sep 12, 2025 at 02:28:25PM +0800, Fan Gong wrote:
+>> @@ -102,6 +127,41 @@ static u32 hinic3_rx_fill_buffers(struct hinic3_rxq *rxq)
+>>  	return i;
+>>  }
+>>  
+>> +static u32 hinic3_alloc_rx_buffers(struct hinic3_dyna_rxq_res *rqres,
+>> +				   u32 rq_depth, u16 buf_len)
+>> +{
+>> +	u32 free_wqebbs = rq_depth - 1;
+>
+> Why is there this "- 1" here.  Why do we not allocate the last page so
+> it's 1 page for each rq_depth?
+>
+> regards,
+> dan carpenter
+>
+
+Thanks for your comment. Sorry for replying so late.
+
+This is queue design. PI means the next queue place that can be filled.
+When PI equals to CI in HW, it means the queue is full.
+"hinic3_alloc_rx_buffers" is to replenish rx buffer. Then driver informs
+HW that there are new idle wqe HW can use instead of informing that the
+queue is full. Although driver can allocate page of depth quantity(e.g.
+depth is 1024, CI is equals to 0, we allocate 1024, then PI is also equals
+to zero), driver allocates for one less to avoid triggering the "full"
+situation mentioned above.
