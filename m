@@ -1,251 +1,342 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B7F25F994
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 14:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C183D263C91
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 15:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758638448; cv=none; b=nQ4PtoOMvz9TKqsgPPHcT7seAxqmyu8dpColTBP65fGs3r5FoMi3qrSsOyUx+q4rPBv3mcgb2AVHGk5tS5soGn+zHNhdfOjWi5LfgYKqwj7CdsR9FoeekJ9zuQc6Y98ZWMsHZr5ZV913D5hE5hy4/Qb/NY3Gcf+Kl/roJc1p74c=
+	t=1758641209; cv=none; b=gT4tv7z/Qkv1RyJELYlU4ZsAEC+jyw2dOSQB3ZJrR3nxg9ks/8LHyW/7w0zpkhseTWM+pVjbOnUZ9gIFGl+T+moBiqcraSkBQLgogZkPaieNiYRKY0sZOwToJLvbknXmDURpihcFAa84aWA7Kf0eNT78y3gG3Khg2fBWOamXh8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758638448; c=relaxed/simple;
-	bh=D3UgrSosq/MOSn8K9Aaz+rOUHHRaOZ0z2hzHPegpLO8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=D1nTA4cVkW4QhTYn3vSYOI64IqhQga+cRWO8757OjwyYmDlpbQFpQcgC8KxjWZQOIduysLjEgkiNHZ4x+mo8kbtnvwAmBglCeiWUo1CmdhYy69cVfiOsf0EBQxPq6K7gAKFRpvxWgIjO4TrT/b0urLJ+FewPVeYjwgzMDH+i184=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GagzWDa4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758641209; c=relaxed/simple;
+	bh=kaKJnwuEkzZmdkmDiRMNrFo/E/FqZSWxp73K52uXOY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lwo2K69H4j8XHiBm1jcMB56yvYegWI9T8CwP4ST8Rxhcfyszcw3eHtAkafd99++tngtxB5VZYRxD6PLxDkuvgCAcwN3VirMMgT2sD0KdW58PUGvvvJEE2kPk10eR6wdy5AgqKl6QN9YMskL4+y5aGcjjgVaBOQh1AgblhR+Ps3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F0hRix8m; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GagzWDa4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758638445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D+erhI99JOuUzOc3CsexcHwDM2IOmUBQdfJnBT87dGw=;
-	b=GagzWDa4/hVCM7LsDCdg+EjKuxbtMYSWSXj2ZxDCHquTAhuh0j6ug7TsY9uMhEbfhMVKcC
-	f6Zf/oVTEsic3yCkqt9ksnKIK0EqU5nV2SavtocNXNX24eUVdU0HcaYiI3xdXVnj5nsyrK
-	peGq64JWtuxpY1H3sOCFfToYdL/cZOM=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-542-1Si9il8dPxudMkcEMH2XrA-1; Tue, 23 Sep 2025 10:40:25 -0400
-X-MC-Unique: 1Si9il8dPxudMkcEMH2XrA-1
-X-Mimecast-MFC-AGG-ID: 1Si9il8dPxudMkcEMH2XrA_1758638425
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-81312a26ea3so1320117685a.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 07:40:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F0hRix8m"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b5565f0488bso428948a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 08:26:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758641207; x=1759246007; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JtLLJPUyvnbUDs0ep8FNq7qhKgC6O8fsZCUGkck74jg=;
+        b=F0hRix8mFCj6SdW1bsK0MYkDJ6uVqvYPFTfuXpDL/BkBO65CVxogfh3bcd82yrF0NR
+         5jOavuRK0DrYIxsYBb7ecqsjnOwUvWUfzcIwA0KDAapXjammQFN9ZTOn40Mfzwb4snQX
+         z0an61zzuUpyMJKOPq44t5cgw4y7zlHuGkZK8ZwHZFnHQmB90vAqo9dhX5BXAL2aqI0q
+         KC9EDm/Xx8iQdVcGxJqunfaMd1N++hTdQuxO8Y2OqqOqc821iCO+uvfo2edBKMJlyNIY
+         GzCy7JcJ8nhmNBZPPMlkigDNJnwPsF3Ep146Sa9ZQkN1wjD2mrDVoUXq4bwhbDD+vzZS
+         BHTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758638425; x=1759243225;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D+erhI99JOuUzOc3CsexcHwDM2IOmUBQdfJnBT87dGw=;
-        b=cd+H+QhQwdr8I7aIX4g26dpxEK2QevyVCMLrMQF/E1pj0sxJMzb2wMZ+az2p3QRIJn
-         Fd060EZfYQwNWc3j8Y3Ehq6m/GQV82jkAftmf+S2b+ves2ADu0YEjUGx5mGddRZ9v+Kb
-         YWpUuYya1Igt2cBDerw8pzbfkrdm4ZlaRSSjXjPuRWqZxyle3dZZHqjL15ttn8BaLZjK
-         o7aOspT9JJBME6FiErESMzZ14Dcljd1syhsLVGDV08SFN4rNgLy/In2MQY8uwdEIrblS
-         LuuWVLloH49KLAF3kNoWg1oveCTi+ZP1+goacFZCd4X9VDmgcKDkgy5rgEo39UCVDZdA
-         qOwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUds8/+pvwq5XFKmuCYsABeF8wMqOO0Pi4QTMklmUcNqMqx5n5UKbLSKof4jQnYTrfE2Lp5lazNUg0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylDtRkjG//O4dY2OYTdHug6cqjgvpy3gmyT/SHO/PN2RfnpqL3
-	E0AmZ8Eqb3sHHNrB8ELuMi26qUp0tgA3azkSCZOgTeaLW9OBdTjK9W1I5+HW8SgKGlbxklS6UOH
-	EWCdHKcNzHn6O3lR0qecBzUoJgFmGpSv7HME9wN+RNdSSnm4x+ZgWWd2Fc1uXxw==
-X-Gm-Gg: ASbGncuNOoT1tSty5tJNxhpyLZi2mBelqZhWYBlaEE0snQCCbvEauIk9RbWcIbP9PZb
-	zQX/nPIWqKB3+Z+SH/Ho74+y6rOzaaVnTKoILe1G/E6pTrdWcWSNQWX7y+gESZ9OC3KtfrxEYn0
-	Lo9Y8dF3Pa04VEkITdnaOKO2TJ8b+MhwFtlSWvv9R92A/uA7zoq6x7ZrRbfFV4KISvXe5s9PCkc
-	gNM4lq7oOXU1jPp1FHKX+LrOaWtzqwYYHcGC8Hn/d1l0NPv0Zm1szx25h777+79bdHPx848Fcd1
-	p8M6iZOVb8VQ6lTTfUlHwm6QRn9QB8KRnlcXFAnyeQqnQLlKooaiLs57L4aZbW0gfBQtDVX1J+k
-	TyztZ4tGk2FDF2g5EcJdptg2iZjaG5VLAunfoYb4=
-X-Received: by 2002:a05:620a:d8a:b0:812:c6e3:6663 with SMTP id af79cd13be357-8516ba5c35emr303166085a.34.1758638424947;
-        Tue, 23 Sep 2025 07:40:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7D73wHsfmP93/Sd0Q4FqlIqORkx+fAcKsqHGCJ9Fpb8lMOLSJtCsdrIjyP8S4cVr0zCMXug==
-X-Received: by 2002:a05:620a:d8a:b0:812:c6e3:6663 with SMTP id af79cd13be357-8516ba5c35emr303161285a.34.1758638424314;
-        Tue, 23 Sep 2025 07:40:24 -0700 (PDT)
-Received: from [10.175.117.224] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-84f2f6f3c25sm230272985a.49.2025.09.23.07.40.21
+        d=1e100.net; s=20230601; t=1758641207; x=1759246007;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JtLLJPUyvnbUDs0ep8FNq7qhKgC6O8fsZCUGkck74jg=;
+        b=TIcCFkplQZQd2P/j7aK/xImrEXoZlsUNylcw8Z2a1SxQ5mrxx+5X+fTg4vVbVOz86q
+         uZbQkgEV5NnLSDNe2JlvZMqW9uFRjF50EnsXQJQmFcHfJO9KCRY9tR2uPOie/UENM16P
+         U3Xf6m5F2roB7NWwEt4qOF3tkO3P3csP8JJLcQQgEG6k9Hy7DuFj2PLuU+S/hjUHePNb
+         HLIvrtXarPH4tKNz3ratC8az6GqkB6x+MWgkoyVJngF5uuHxDTo6nuYPnmTB6FpRHIAw
+         s9jzVHa93dhZOth5mIqj9exGSuRDdMhlO9g+qAoMPhZKi8cxRWbsH819lfoUk1N0WQd6
+         ileg==
+X-Forwarded-Encrypted: i=1; AJvYcCUuSurHR/kocjgBOBROFy8pq3KV/uE6wHvuUCEeRzdzDnS9Uph5rlmXWWF5BvZboAIM/87iyvmMv24=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+Mwv0+ptv4vkP4kTkZCqo+Rm0KE1SXue6yir2a3fLWIqT0yZ2
+	KvYQ07j+fZ4/CmljF3VZmhT4XXP6L2aqHvjWp+MznXj90whjdMysP8VXaNLU28rtuUo=
+X-Gm-Gg: ASbGncu4tyC7HZhDh9jqPTJPkgOznDfNkJQvjqz+r8JLNGMF/L5HldH6yHfzu7p6EJr
+	E5iB8v8KEPF1bfbcc/zDMuDZpeqRmlJPJM3kB1Zg1cprxy5nWyl2koGk1/98pm2RVrAl/jmhGzm
+	8r08pBgRlNvdMysKwELjhiKh99/v9zYrsEfyrsuApjdZzyNHfmkVOLB0NdX8amK9D845ZEvlA0w
+	iRIfGlwVTs/qEKiFPMHMKs2KQXoJcZXVuc1elfqECsP5I5pcmCR44gvcHiRXsDIwhE4nHVUiZUZ
+	shNU+U+mROhgbXm1uNE02zHJ2/r7Eb5jhxFccGM1xeL5h4USJslkP74GIqpYBRAPjeP0iNrMINn
+	JRMx6RtPkBEYJ8MbLyVmDCYidcXqfpAv54st5yHykvw==
+X-Google-Smtp-Source: AGHT+IF3IQzctelwt6QED/lVfPI8J15a2FqB0oJ/xmEvDqfE+VEGFk89FOsvI3j+XpDLzUaWQAhfXA==
+X-Received: by 2002:a17:903:1590:b0:26b:7a8b:32cc with SMTP id d9443c01a7336-27cc3d05a95mr38529245ad.17.1758641206875;
+        Tue, 23 Sep 2025 08:26:46 -0700 (PDT)
+Received: from localhost ([2804:30c:b65:6a00:ceaa:2ed0:e81e:8f51])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-27a9eecd148sm49330535ad.122.2025.09.23.08.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 07:40:23 -0700 (PDT)
-From: Brian Masney <bmasney@redhat.com>
-Date: Tue, 23 Sep 2025 10:39:31 -0400
-Subject: [PATCH RFC v4 12/12] clk: test: update divider kunit tests for v1
- and v2 rate negotiation
+        Tue, 23 Sep 2025 08:26:45 -0700 (PDT)
+Date: Tue, 23 Sep 2025 12:27:33 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Axel Haslam <ahaslam@baylibre.com>
+Subject: Re: [PATCH v2 6/8] iio: adc: ad4030: Add SPI offload support
+Message-ID: <aNK8ZZu74mK0_ygB@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1758214628.git.marcelo.schmitt@analog.com>
+ <da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
+ <30659b16-290d-4ae5-a644-214c106bbe87@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250923-clk-tests-docs-v4-12-9205cb3d3cba@redhat.com>
-References: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
-In-Reply-To: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Brian Masney <bmasney@redhat.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6302; i=bmasney@redhat.com;
- s=20250903; h=from:subject:message-id;
- bh=D3UgrSosq/MOSn8K9Aaz+rOUHHRaOZ0z2hzHPegpLO8=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDIubTRcsnyrxlvJRTGXHzxVa+Dbvcaj9kidJs+JwOKF6
- 1/P33TxXkcpC4MYF4OsmCLLklyjgojUVbb37miywMxhZQIZwsDFKQATSTZm+O8bY5OYtenwxQfR
- EVErn77OOchw21lN/b5hqIljzKEw7hiGvzLlRe1WapwMGucS/LR6hc7F9K5R9e+csvHi7b7F4Te
- NWAE=
-X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
- fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30659b16-290d-4ae5-a644-214c106bbe87@baylibre.com>
 
-Update the divider kunit tests to verify that the v1 and v2 rate
-negotiation logic is working as expected.
+Hi David, thanks for the insightful review.
 
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
- drivers/clk/clk_test.c | 77 ++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 59 insertions(+), 18 deletions(-)
+On 09/22, David Lechner wrote:
+> On 9/18/25 12:39 PM, Marcelo Schmitt wrote:
+> > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
+> > samples per second (MSPS). Not all SPI controllers are able to achieve such
+> > high throughputs and even when the controller is fast enough to run
+> > transfers at the required speed, it may be costly to the CPU to handle
+> > transfer data at such high sample rates. Add SPI offload support for AD4030
+> > and similar ADCs to enable data capture at maximum sample rates.
+> 
+> I tried testing this with AD4630-24 but didn't have luck in actually
+> capturing data. I'm 100% sure the problem is with the FPGA. And the
+> evaluation board doesn't have any place to attach a logic analyzer for
+> debugging. That means that I wasn't able to reliabably test this code
+> yet. But I don't expect my problems to be solved any time soon, so I
+> don't want to let that hold up progress. I would have really liked to
+> have been able to see the actual timings over the wire to make sure
+> we got all of that correct.
+> 
+Even if you hook up probes to the SPI lines, you might not be able to logic
+analyze the transfers at frequencies like 100 MHz or even at 80 MHz unless you
+have a very fast logic analyzer or oscilloscope. To debug these signals we
+usually change the HDL verilog to add ILA debug cores to record the signals on
+the FPGA. I'll see if I can get or build the project with those ILA cores set.
+Another thing is getting the correct combination of HDL + device tree because
+we have a few possible HDL build configurations (for number of lanes, clock mode,
+DDR/DTR, and capture zone) and the device tree must be coherent with what runs
+on the FPGA. I'll send you some of boot files I was using during my tests.
 
-diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
-index 7c4d1a50a7dd0bfb66e021ba314a9a9709813d97..87af60d0782274c9faacf7729ed95bf04dfd4860 100644
---- a/drivers/clk/clk_test.c
-+++ b/drivers/clk/clk_test.c
-@@ -763,6 +763,7 @@ static int clk_rate_change_sibling_div_div_test_init(struct kunit *test)
- 	test->priv = ctx;
- 
- 	ctx->parent.hw.init = CLK_HW_INIT_NO_PARENT("parent", &clk_dummy_rate_ops, 0);
-+	ctx->parent.negotiate_step_size = 1 * HZ_PER_MHZ;
- 	ctx->parent.rate = 24 * HZ_PER_MHZ;
- 	ret = clk_hw_register_kunit(test, NULL, &ctx->parent.hw);
- 	if (ret)
-@@ -793,6 +794,20 @@ static int clk_rate_change_sibling_div_div_test_init(struct kunit *test)
- 	return 0;
- }
- 
-+static int clk_rate_change_sibling_div_div_v1_test_init(struct kunit *test)
-+{
-+	clk_enable_v1_rate_negotiation();
-+
-+	return clk_rate_change_sibling_div_div_test_init(test);
-+}
-+
-+static int clk_rate_change_sibling_div_div_v2_test_init(struct kunit *test)
-+{
-+	clk_enable_v2_rate_negotiation();
-+
-+	return clk_rate_change_sibling_div_div_test_init(test);
-+}
-+
- static void clk_rate_change_sibling_div_div_test_exit(struct kunit *test)
- {
- 	struct clk_rate_change_sibling_div_div_context *ctx = test->priv;
-@@ -833,16 +848,21 @@ static void clk_test_rate_change_sibling_div_div_2(struct kunit *test)
- 	struct clk_rate_change_sibling_div_div_context *ctx = test->priv;
- 	int ret;
- 
--	kunit_skip(test, "This needs to be fixed in the core.");
--
- 	ret = clk_set_rate(ctx->child1_clk, 48 * HZ_PER_MHZ);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->parent_clk), 48 * HZ_PER_MHZ);
- 	KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child1_clk), 48 * HZ_PER_MHZ);
- 	KUNIT_EXPECT_EQ(test, ctx->child1.div, 1);
--	KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 24 * HZ_PER_MHZ);
--	KUNIT_EXPECT_EQ(test, ctx->child2.div, 2);
-+
-+	if (clk_use_v2_rate_negotiation(ctx->child1_clk)) {
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 24 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, ctx->child2.div, 2);
-+	} else {
-+		// Legacy behavior in v1 logic where sibling clks are expectedly changed.
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 48 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, ctx->child2.div, 1);
-+	}
- }
- 
- /*
-@@ -856,19 +876,26 @@ static void clk_test_rate_change_sibling_div_div_3(struct kunit *test)
- 	struct clk_rate_change_sibling_div_div_context *ctx = test->priv;
- 	int ret;
- 
--	kunit_skip(test, "This needs to be fixed in the core.");
--
- 	ret = clk_set_rate(ctx->child1_clk, 32 * HZ_PER_MHZ);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	ret = clk_set_rate(ctx->child2_clk, 48 * HZ_PER_MHZ);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
--	KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->parent_clk), 96 * HZ_PER_MHZ);
--	KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child1_clk), 32 * HZ_PER_MHZ);
--	KUNIT_EXPECT_EQ(test, ctx->child1.div, 3);
--	KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 48 * HZ_PER_MHZ);
--	KUNIT_EXPECT_EQ(test, ctx->child2.div, 2);
-+	if (clk_use_v2_rate_negotiation(ctx->child1_clk)) {
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->parent_clk), 96 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child1_clk), 32 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, ctx->child1.div, 3);
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 48 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, ctx->child2.div, 2);
-+	} else {
-+		// Legacy behavior in v1 logic where sibling clks are expectedly changed.
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->parent_clk), 48 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child1_clk), 48 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, ctx->child1.div, 1);
-+		KUNIT_EXPECT_EQ(test, clk_get_rate(ctx->child2_clk), 48 * HZ_PER_MHZ);
-+		KUNIT_EXPECT_EQ(test, ctx->child2.div, 1);
-+	}
- }
- 
- static struct kunit_case clk_rate_change_sibling_div_div_cases[] = {
-@@ -879,13 +906,25 @@ static struct kunit_case clk_rate_change_sibling_div_div_cases[] = {
- };
- 
- /*
-- * Test suite that creates a parent with two divider-only children, and
-- * ensures that changing the rate of one child does not affect the rate
-- * of the other child.
-+ * Test suite with v1 rate negotiation logic that creates a parent with two
-+ * divider-only children, and ensures that changing the rate of one child
-+ * does not affect the rate of the other child.
-+ */
-+static struct kunit_suite clk_rate_change_sibling_div_div_v1_test_suite = {
-+	.name = "clk-rate-change-sibling-div-div-v1",
-+	.init = clk_rate_change_sibling_div_div_v1_test_init,
-+	.exit = clk_rate_change_sibling_div_div_test_exit,
-+	.test_cases = clk_rate_change_sibling_div_div_cases,
-+};
-+
-+/*
-+ * Test suite with v2 rate negotiation logic that creates a parent with two
-+ * divider-only children, and ensures that changing the rate of one child
-+ * does not affect the rate of the other child.
-  */
--static struct kunit_suite clk_rate_change_sibling_div_div_test_suite = {
--	.name = "clk-rate-change-sibling-div-div",
--	.init = clk_rate_change_sibling_div_div_test_init,
-+static struct kunit_suite clk_rate_change_sibling_div_div_v2_test_suite = {
-+	.name = "clk-rate-change-sibling-div-div-v2",
-+	.init = clk_rate_change_sibling_div_div_v2_test_init,
- 	.exit = clk_rate_change_sibling_div_div_test_exit,
- 	.test_cases = clk_rate_change_sibling_div_div_cases,
- };
-@@ -4017,7 +4056,8 @@ kunit_test_suites(
- 	&clk_leaf_mux_set_rate_parent_test_suite,
- 	&clk_test_suite,
- 	&clk_multiple_parents_mux_test_suite,
--	&clk_rate_change_sibling_div_div_test_suite,
-+	&clk_rate_change_sibling_div_div_v1_test_suite,
-+	&clk_rate_change_sibling_div_div_v2_test_suite,
- 	&clk_rate_change_sibling_test_suite,
- 	&clk_mux_no_reparent_test_suite,
- 	&clk_mux_notifier_test_suite,
-@@ -4033,4 +4073,5 @@ kunit_test_suites(
- 	&clk_uncached_test_suite,
- );
- MODULE_DESCRIPTION("Kunit tests for clk framework");
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
- MODULE_LICENSE("GPL v2");
+> > ---
+...
+> > [IIO]
+> >> Why using slower speed for offload?
+> > Looks like it's the same max speed for both register access and data sample.
+> > So, just reusing the existing define for the max transfer speed.
+> 
+> I don't follow. The "REG" in AD4030_SPI_MAX_REG_XFER_SPEED stands for
+> "register". The actual max speed for reading sample data should be coming
+> from the devicetree since it is faster and depends on the wiring and VIO
+> voltage. It could be as much as 102 MHz.
+> 
+I have finally I noticed the SPI compatible mode timings. Sure, will adapt to
+use faster sample rate when possible.
 
--- 
-2.51.0
 
+> Unrelated to this series, I still think 80 MHz is faster that it needs
+> to be for AD4030_SPI_MAX_REG_XFER_SPEED. It is fine to do them slower,
+> e.g. at 10 MHz to reduce the risk of errors and also makes it easier to
+> debug using a logic analyzer.
+
+Sure, will do that.
+
+> 
+> > 
+> >  drivers/iio/adc/Kconfig  |   3 +
+> >  drivers/iio/adc/ad4030.c | 485 +++++++++++++++++++++++++++++++++++----
+> >  2 files changed, 445 insertions(+), 43 deletions(-)
+> > 
+> > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> > index 58a14e6833f6..2a44fcaccf54 100644
+...
+> > +	cnv_wf.period_length_ns = DIV_ROUND_CLOSEST(NSEC_PER_SEC, freq);
+> > +	/*
+> > +	 * The datasheet lists a minimum time of 9.8 ns, but no maximum. If the
+> > +	 * rounded PWM's value is less than 10, increase the target value by 10
+> > +	 * and attempt to round the waveform again, until the value is at least
+> > +	 * 10 ns. Use a separate variable to represent the target in case the
+> > +	 * rounding is severe enough to keep putting the first few results under
+> > +	 * the minimum 10ns condition checked by the while loop.
+> > +	 */
+> > +	do {
+> > +		cnv_wf.duty_length_ns = target;
+> > +		ret = pwm_round_waveform_might_sleep(st->cnv_trigger, &cnv_wf);
+> > +		if (ret)
+> > +			return ret;
+> > +		target += AD4030_TCNVH_NS;
+> > +	} while (cnv_wf.duty_length_ns < AD4030_TCNVH_NS);
+> > +
+> > +	if (!in_range(cnv_wf.period_length_ns, AD4030_TCYC_NS, INT_MAX))
+> > +		return -EINVAL;
+> 
+> I hit this error during testing with the default max_sample_rate_hz assigned
+> in probe. We could have a loop for this too to try to get the closest valid
+> period rather than erroring if the exact value isn't available.
+> 
+Yes, this makes sense. Though, looping to try to get a suitable period wouldn't
+potentially also change the duty_length we settled above?
+
+> > +
+> > +	offload_period_ns = cnv_wf.period_length_ns;
+> > +	if (st->mode == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
+> 
+...
+> > +static int ad4030_set_sampling_freq(struct iio_dev *indio_dev, int freq)
+> > +{
+> > +	struct ad4030_state *st = iio_priv(indio_dev);
+> > +
+> > +	/*
+> > +	 * We have no control over the sampling frequency without SPI offload
+> > +	 * triggering.
+> > +	 */
+> > +	if (!st->offload_trigger)
+> > +		return -ENODEV;
+> > +
+> > +	if (!in_range(freq, 1, st->chip->max_sample_rate_hz))
+> > +		return -EINVAL;
+> > +
+> > +	guard(mutex)(&st->lock);
+> 
+> Why not iio_device_claim_direct() instead of a new lock? We wouldn't
+> want to change the sampling frequency during a buffered read anyway.
+> This driver already uses iio_device_claim_direct() to protect other
+> register access.
+
+The new lock is to protect concurrent updates of the oversampling and sampling
+frequency. Since, oversampling and the sampling frequency properties are
+mutually dependent one from another, a simultaneous write to those attributes
+could lead to an invalid oversamp + samp freq configuration.
+
+> 
+> > +	return __ad4030_set_sampling_freq(st, freq, st->avg_log2);
+> > +}
+> > +
+...
+> > +static void ad4030_prepare_offload_msg(struct iio_dev *indio_dev)
+> > +{
+> > +	struct ad4030_state *st = iio_priv(indio_dev);
+> > +	u8 offload_bpw;
+> > +
+> > +	if (st->mode == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
+> > +		offload_bpw = 32;
+> > +	else
+> > +		offload_bpw = st->chip->precision_bits;
+> > +
+> 
+> > +	st->offload_xfer.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED;
+> 
+> As mentioned at the beginning, drop this line and let it use the max
+> speed from the devicetree.
+> 
+> > +	st->offload_xfer.bits_per_word = roundup_pow_of_two(offload_bpw);
+> 
+> Why roundup_pow_of_two()? The SPI controller can do 24 bits per word.
+> And if we are reading both a 24-bit value and the common mode voltage,
+> this would cause both to be read in 1 word.
+> 
+> Speaking of which, I think this will need a possible second xfer with
+> bpw=8 if we want to read the common mode voltage.
+> 
+> Or, if the intention was to not allow it, we need different scan masks.
+> But I don't see a reason why we could not allow it.
+> 
+Nothing says we couldn't support offloading transfers with
+differential + common-mode data, at least in theory. So, I didn't felt like it
+should be prevented. Though, offloading differential + common-mode data is
+a configuration I couldn't really test with ADAQ4216 because the HDL is ... peculiar.
+
+
+> Or, if this is making a assumptions about extra hardware being present
+> to move bits around between reading them over the SPI bus and pushing the
+> values to DMA, then there should be some comments about that. More on that
+> below.
+> 
+> > +	st->offload_xfer.len = spi_bpw_to_bytes(offload_bpw);
+> > +	st->offload_xfer.offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
+> > +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer, 1);
+> > +}
+> > +
+...
+> > +static int ad4030_spi_offload_setup(struct iio_dev *indio_dev,
+> > +				    struct ad4030_state *st)
+> > +{
+> > +	struct device *dev = &st->spi->dev;
+> > +	struct dma_chan *rx_dma;
+> > +
+> > +	indio_dev->setup_ops = &ad4030_offload_buffer_setup_ops;
+> > +
+> > +	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
+> > +							   SPI_OFFLOAD_TRIGGER_PERIODIC);
+> > +	if (IS_ERR(st->offload_trigger))
+> > +		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
+> > +				     "failed to get offload trigger\n");
+> > +
+> > +	st->offload_trigger_config.type = SPI_OFFLOAD_TRIGGER_PERIODIC;
+> 
+> If we want to be really strict/generic here, we should not be allowing
+> chips with num_voltage_inputs == 2 and a single SPI bus/deserializer (i.e.
+> channel data is interleaved). In this case, extra hardware is required
+> to do the de-interleaving (i.e. the spi_axis_reorder IP block).
+
+By channel data is interleaved you mean data from both channels going out on
+SDO0 (LANE_MD == 0b11)? In that case, yes, I think so. Only the ADC driver would
+know about data being interleaved and it would not be able to descramble it when
+data gets pushed up through DMA.
+
+> 
+> We could take the easy way out and just always assume that is there.
+> In that case, we should makes some comments here about such assumptions.
+> 
+> Or we could actually describe it properly in the devicetree and check
+> for that here. This came up during the discussions when I was upstreaming
+> SPI offload support. It would look something like this...
+> 
+> In the devicetree, instead of having the DMA connected to the SPI controller,
+> we now have a separate IP block with it's own node between them.
+> 
+> /* spi_axis_reorder IP block */
+> reorder: offload-stream-sink@4000000 {
+> 	compatible = "adi,axi-spi-reorder";
+> 	reg = <0x4000000 0x1000>;
+> 	clocks = <&spi_clk>;
+> 	dmas = <&adc_dma>;
+> };
+> 
+> spi@5000000 {
+> 	compatible = "adi,axi-spi-engine-1.00.a
+> 	reg = <0x4000000 0x1000>;
+> 	clocks = <&clkc 15>, <&spi_clk>;
+> 	clock-name "s_axi_aclk", "spi_clk";
+> 
+> 	trigger-sources = <&pwm_trigger>;
+> 	offload-streams = <&reorder>;
+> 	offload-stream-names = "offload0-rx";
+> 
+> 	...
+> };
+> 
+> Then here in the driver, we would need a different (non-existing)
+> API to get the DMA from this offload-stream rather than calling
+> devm_spi_offload_rx_stream_request_dma_chan(). Or extend the SPI
+> controller to handle that.
+> 
+> Or 3rd option: If easy way is not acceptable and "right way" is too much
+> work, we could just return error here for num_voltage_inputs == 2 until
+> we add support for SPI controllers with two buses/deserializers.
+> 
+3rd option sounds more reasonable for the moment.
+I think this might, alternatively, be supported as something associated with
+spi-rx/tx-bus-width dt property. The question we seem to be trying to answer is,
+how data coming from a multi-line bus is expected to be delivered?
+
+
+> > +
+> > +	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
+> > +	if (IS_ERR(rx_dma))
+> > +		return dev_err_probe(dev, PTR_ERR(rx_dma),
+> > +				     "failed to get offload RX DMA\n");
+> > +
+> > +	return devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
+> > +							   IIO_BUFFER_DIRECTION_IN);
+> > +}
+> > +
+
+Thanks,
+Marcelo
