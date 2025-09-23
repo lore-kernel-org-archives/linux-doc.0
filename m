@@ -1,94 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA731A238C;
-	Tue, 23 Sep 2025 19:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26BF309F12;
+	Tue, 23 Sep 2025 21:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758656968; cv=none; b=uuKYpqOPB+gMwo7j50EgroWVs2YAhiEwbHSFUREg3e32oT2t0BrkpjUMv6E/fBz3qjP9e6eNOsQVtz0wEphoPz/tTQRUa4Zp+ke/na1xBj6dZnFEXmhhr+82+F1IM6Y4xJL+MgbuASJDjXoszLRG7147UTC9psKI8boph2bAFJo=
+	t=1758662228; cv=none; b=PVHlDbqMvJZj0ItQGaDgQ+uqwAiaN64FgKa0TKo2KsUWa2H51pg71vABtbhN+1kN6tIMgUVHEXfFvrGsaKyMLj6R7wCeKjaPq6PPL2chUT1rkMLDKYfwnDgSjSnx2JxM3xpFTmcreDIP41Edm73mi0YdfiMxMB2A1ZcqHJeTt3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758656968; c=relaxed/simple;
-	bh=7gv2WzZ+nMC2bdsHIbBsKOEQPNt5h99Cw1wDY0M9npo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WEmNC3iy9+3bX40MeouekeAX3QwOEgeb9KdjiK0A5906Uq+MV+r94y9K6Y0LXEA8q9DH3eiEax9HAxXye3Qt1E3xv9XkCAr3EhvD+yea707Y6NVigqw0aD5FQpV8TTQ36qKLxsOZrNa0KfBiyWkWQUttCIjNYSJ0YA5MHHaRuv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PvIaGTqH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758662228; c=relaxed/simple;
+	bh=9maMwx7/tfxHiKFTD825WGlX9Scv4cfcxvOcT74ZDTg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Pi0DfaJdRl5ndPhT9JZmFJDPc3iVs+8tFZuMJf37jiy6ALr6yMWpKMuN4fNUflp9U2An4pEBQR4Ya4B6fV5NrhXYbo2O3OujraoYOp4x4/LMAHnDdEvBxr79LruOlqifo+gnrVFcTyU5xX+LkTg8gqJ73cpF+YT4kzPUAms4Hrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YQt4yJD4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PvIaGTqH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C0DAC4CEF5;
-	Tue, 23 Sep 2025 19:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758656966;
-	bh=7gv2WzZ+nMC2bdsHIbBsKOEQPNt5h99Cw1wDY0M9npo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PvIaGTqHdNU7Q1p9iQCyi7SI8rzgs+Fd2F62Wvt4e7U9M5ZbQ8qxnT0LiSPe4PKVR
-	 gehyR0Rm0ghRXneZ4tzjafcgpCRITUKyHFvb6JN4O9cuxWgjIBHK2hM2MF5Y/HqnMX
-	 n3nuIsdb1r2D9GFRjzSab+/uI7K6xmpOdsNRSsCVySBQ9n2ybIX4gsztX3PGvijcvT
-	 Sp/fUhAnCreO1LjGnNn/IXq6su5QDyv6TUFvnwV57AFOt5ZY8qGMFKUOL3RBXFtVX+
-	 bbjgLfFkLzJt+rxjoewVtxndm0w4xC2WwbySLCvFHwFbb5zcONvgE0SDuPCi7+lbEf
-	 evcKd6295D9ag==
-Date: Tue, 23 Sep 2025 12:49:15 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Christoph Hellwig <hch@lst.de>, Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Bill Wendling <morbo@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
-	rcu@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
-Message-ID: <20250923194915.GA2127565@ax162>
-References: <20250918140451.1289454-1-elver@google.com>
- <20250918141511.GA30263@lst.de>
- <20250918174555.GA3366400@ax162>
- <20250919140803.GA23745@lst.de>
- <20250919140954.GA24160@lst.de>
- <aNEX46WJh2IWhVUc@elver.google.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YQt4yJD4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CB1C4CEF5;
+	Tue, 23 Sep 2025 21:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1758662227;
+	bh=9maMwx7/tfxHiKFTD825WGlX9Scv4cfcxvOcT74ZDTg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YQt4yJD4LLyMB/AA7fhRdzHKMMyKrYX7tPYO7bcgLcaYZEMTEEDS+V/u87paR8mvk
+	 vaZ6Hf5HJhiz4iN6UcpLvuzXo0K/kulYjPZuGmcFLhgj45aLOuctbBJIR6+SoLAoCq
+	 q1aNHSIO3K1aKeAi1QD+S0yrDrsK77/N3Jf/bOOk=
+Date: Tue, 23 Sep 2025 14:17:04 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Sumanth Korikkar <sumanthk@linux.ibm.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Jonathan Corbet
+ <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, Guo Ren
+ <guoren@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
+ "David S . Miller" <davem@davemloft.net>, Andreas Larsson
+ <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Nicolas Pitre <nico@fluxnic.net>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@redhat.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Baoquan He
+ <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, Dave Young
+ <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>, Reinette Chatre
+ <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, James Morse
+ <james.morse@arm.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+ ntfs3@lists.linux.dev, kexec@lists.infradead.org,
+ kasan-dev@googlegroups.com, Jason Gunthorpe <jgg@nvidia.com>,
+ iommu@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v4 11/14] mm/hugetlbfs: update hugetlbfs to use
+ mmap_prepare
+Message-Id: <20250923141704.90fba5bdf8c790e0496e6ac1@linux-foundation.org>
+In-Reply-To: <aNKJ6b7kmT_u0A4c@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+References: <cover.1758135681.git.lorenzo.stoakes@oracle.com>
+	<e5532a0aff1991a1b5435dcb358b7d35abc80f3b.1758135681.git.lorenzo.stoakes@oracle.com>
+	<aNKJ6b7kmT_u0A4c@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aNEX46WJh2IWhVUc@elver.google.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 22, 2025 at 11:33:23AM +0200, Marco Elver wrote:
-> [1] https://github.com/llvm/llvm-project/pull/159921
+On Tue, 23 Sep 2025 13:52:09 +0200 Sumanth Korikkar <sumanthk@linux.ibm.com> wrote:
 
-Now that this is merged, I have pushed an updated snapshot for x86_64:
+> > --- a/fs/hugetlbfs/inode.c
+> > +++ b/fs/hugetlbfs/inode.c
+> > @@ -96,8 +96,15 @@ static const struct fs_parameter_spec hugetlb_fs_parameters[] = {
+> >  #define PGOFF_LOFFT_MAX \
+> >  	(((1UL << (PAGE_SHIFT + 1)) - 1) <<  (BITS_PER_LONG - (PAGE_SHIFT + 1)))
+> >  
+> > -static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
+> > +static int hugetlb_file_mmap_prepare_success(const struct vm_area_struct *vma)
+> >  {
+> > +	/* Unfortunate we have to reassign vma->vm_private_data. */
+> > +	return hugetlb_vma_lock_alloc((struct vm_area_struct *)vma);
+> > +}
+> 
+> Hi Lorenzo,
+> 
+> The following tests causes the kernel to enter a blocked state,
+> suggesting an issue related to locking order. I was able to reproduce
+> this behavior in certain test runs.
 
-https://mirrors.edge.kernel.org/pub/tools/llvm/files/prerelease/llvm-22.0.0-ca2e8fc928ad103f46ca9f827e147c43db3a5c47-20250923-185804-x86_64.tar.xz
-
-Cheers,
-Nathan
+Thanks.  I pulled this series out of mm.git's mm-stable branch, put it
+back into mm-unstable.
