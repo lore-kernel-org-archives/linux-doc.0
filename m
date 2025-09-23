@@ -1,100 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D5E2D838E;
-	Tue, 23 Sep 2025 18:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772B62FB084;
+	Tue, 23 Sep 2025 18:58:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758652458; cv=none; b=Z4HG8H73y5lZ4XO4wSeAkWAEXzOaM2k1uClxpWsE5calYXKj7QC+HDAnICZg89Z4GwnZJttRnp4wOIgy/3OsX8n1081ld0CnvK1YH6RG5phDxrC6+hea0/1dIGmAWp0n+umVXiZ88hpIXrFlWopEHfCLTu7MZ/M5/D6dWEnuxbU=
+	t=1758653880; cv=none; b=QJYw+Z2fA2fk4U4vkNpAOtuZqn38KbXXZ+DuraVfQetbfX16cO7K26WO/chy5WHLSyvFRI/oq6FSMnhm2CxWJLQTUPY4IyUqGXHooCYl553XJAsEnVfwBKphaXRP0eiNK5JAcSAKmf6FQOoM2F+q/aMWe8cbmYrW5XlMO/drYlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758652458; c=relaxed/simple;
-	bh=xYnQBipMi65qEiSh/mIQtqgoJkO09SWwbYjysGBw+Pk=;
+	s=arc-20240116; t=1758653880; c=relaxed/simple;
+	bh=DMHlHDxZJq8826pkA7imh+9YBvoNxSHcfIJNuXObSqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mY2m02S/TIJlh5vwKSpztL96EBr2qziHyDc5oC5Rbq6XonFjSr/Cf0HBdSspvLWinTEgMKph4OO3T6SN2/dNjfBD3xiYQUaJLMIQeSj/MPX0gqZP4VMeDpqZQZigbSinISDo1YRz+Pkh3Ou2MFQXKRGNt0/5NDxq7zPZD23pjx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iRt43h3D; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C4dpL8OayRMc2gBrHTUAmaFf9lB13g23PUUrudvLHKBzr3unzo6WDtqY5oANZakeCGaQ2xMKFi64+iuAarTZpLeABXxKklQQuS+vZUEpyV2g3ySVfBfvnKdgO8y/bTrUu164bZY4NDT9NEHdS2xTC8cOKLchw0zZDVCcd7onwXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRXOFNzr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iRt43h3D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD45EC4CEF5;
-	Tue, 23 Sep 2025 18:34:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRXOFNzr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5461C4CEF5;
+	Tue, 23 Sep 2025 18:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758652457;
-	bh=xYnQBipMi65qEiSh/mIQtqgoJkO09SWwbYjysGBw+Pk=;
+	s=k20201202; t=1758653880;
+	bh=DMHlHDxZJq8826pkA7imh+9YBvoNxSHcfIJNuXObSqc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iRt43h3Du9yRwlveGENSYwFjy0+Owb56rb7DsE6ylLjFN5A2W4xAcAyoCGzBfesJh
-	 oJ33V1MJPeMQG+NQJYn4pek0jnz7JihuPvszNiS28i8q6Y1MgJUL4vnzJ+dBN9rfu9
-	 4nOb7wCzUx4NIfg/87HV7cO1Z4wjWNmnAVDUGsW9o9mvsuh303W4jc6+AFH8SEAUZD
-	 O4li8Jz+MRJ6glbG8iKp41wdwvmNoMjK+++dag4glRyCRN2jAzImeZPtKBRv3LX5D5
-	 QLvSS7GZdqlNQiCs4BCyayPozdEj7MXdbAfCb9wNaBRHmSR6nIlZP1sc0d7QrsQ6Er
-	 iiR0TpFUbYzzw==
-Date: Tue, 23 Sep 2025 11:34:17 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>, brauner@kernel.org,
-	miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 05/16] iomap: propagate iomap_read_folio() error to
- caller
-Message-ID: <20250923183417.GE1587915@frogsfrogsfrogs>
-References: <20250829235627.4053234-1-joannelkoong@gmail.com>
- <20250829235627.4053234-6-joannelkoong@gmail.com>
- <aLktHFhtV_4seMDN@infradead.org>
- <aLoA6nkQKGqG04pW@casper.infradead.org>
- <CAJnrk1ZxQt0RmYnoi3bcDCLn1=Zgk9uJEcFNMH59ZXV7T6c2Fg@mail.gmail.com>
+	b=eRXOFNzrp5N0Q4F+50z5N7duXWW1Q7xJlSU1/9K0Fvrf3z2qc80HPuZFAWztjz2Ga
+	 WGjQj65UzeIZDEvGX3Um782irxwgJ/RmrQ7wLBlHmUuUtXArhk6JVOPZXVeFcKfbVF
+	 auZCfj72yv5OgMT4wPSxF+a0thmmnsRBsk0Oy9ru5stRk3LMUNGIq0mcpxJ26Ibu5o
+	 mWBnE4OKS6yKmdpOCbnikMK1VYaEDwIxPvcbZq4MGHyzu/sX03S4ahLkq+BR0rTQdY
+	 6qYd5GXMsXXTLWhLj9eAoDO7WrfHQbIvDJXt2c0Xx6YP8bT82YJYDyYc/Cp2+RJhJ4
+	 a/c9Wotu9t2Sg==
+Date: Tue, 23 Sep 2025 19:57:55 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+Cc: corbet@lwn.net, linux@roeck-us.net, jdelvare@suse.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, wyx137120466@gmail.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add MPS mp5998
+Message-ID: <20250923-hydrant-donator-fa075f9a31b1@spud>
+References: <20250923090926.619-1-Yuxi.Wang@monolithicpower.com>
+ <20250923090926.619-2-Yuxi.Wang@monolithicpower.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mby3ndUEBZNACaRs"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZxQt0RmYnoi3bcDCLn1=Zgk9uJEcFNMH59ZXV7T6c2Fg@mail.gmail.com>
+In-Reply-To: <20250923090926.619-2-Yuxi.Wang@monolithicpower.com>
 
-On Mon, Sep 22, 2025 at 09:49:50AM -0700, Joanne Koong wrote:
-> On Thu, Sep 4, 2025 at 2:13 PM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > On Wed, Sep 03, 2025 at 11:09:32PM -0700, Christoph Hellwig wrote:
-> > > On Fri, Aug 29, 2025 at 04:56:16PM -0700, Joanne Koong wrote:
-> > > > Propagate any error encountered in iomap_read_folio() back up to its
-> > > > caller (otherwise a default -EIO will be passed up by
-> > > > filemap_read_folio() to callers). This is standard behavior for how
-> > > > other filesystems handle their ->read_folio() errors as well.
-> > >
-> > > Is it?  As far as I remember we, or willy in particular has been
-> > > trying to kill this error return - it isn't very hepful when the
-> > > actually interesting real errors only happen on async completion
-> > > anyway.
-> >
-> > I killed the error return from ->readahead (formerly readpages).
-> > By definition, nobody is interested in the error of readahead
-> > since nobody asked for the data in those pages.
-> >
-> > I designed an error reporting mechanism a while back that allowed the
-> > errno to propagate from completion context to whoever was waiting
-> > on the folio(s) that were part of a read request.  I can dig that
-> > patchset up again if there's interest.
-> 
-> Could you describe a bit how your design works?
 
-I'm not really sure how you'd propagate specific errnos to callers, so
-I'm also curious to hear about this.  The least inefficient (and most
-gross) way I can think of would be to save read(ahead) errnos in the
-mapping or the folio (or maybe the ifs) and have the callers access
-that?
+--mby3ndUEBZNACaRs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I wrote a somewhat similar thing as part of the autonomous self healing
-XFS project:
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?h=health-monitoring&id=32cade9599ad951720804379381abb68575356b6
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Obviously the events bubble up to a daemon, not necessarily the caller
-who's waiting on the folio.
+--mby3ndUEBZNACaRs
+Content-Type: application/pgp-signature; name="signature.asc"
 
---D
+-----BEGIN PGP SIGNATURE-----
 
-> Thanks,
-> Joanne
-> >
-> 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNLtswAKCRB4tDGHoIJi
+0sxnAPwJpa3kcsqUQv1xptuuHfh4u0wq8sEjxbb3cZ05crJyHAEAuNvKAau/ArEG
+8yOFrBFWCoRudNFCi2mGIXfmzwUM2As=
+=18a5
+-----END PGP SIGNATURE-----
+
+--mby3ndUEBZNACaRs--
