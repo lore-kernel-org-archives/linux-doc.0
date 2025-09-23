@@ -1,151 +1,118 @@
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BB830EF63;
-	Tue, 23 Sep 2025 06:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.143.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98241263F3C;
+	Tue, 23 Sep 2025 06:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.50.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758607509; cv=none; b=U4eeePs9s6ywRPyX/TUljcP0r92/L4aAIyjclLWLtPvOXeE9GljIA+AXvqvhrD5+ye3upHen+BgJT+AjMUmv9bI8WevIsGU/LZVp/A03FC5/E+dMlKR5/8YonsinpkH4EFFkE3+xtLQXvd79fI9aM+Xl57VDrZu7IA2kNirJN+Q=
+	t=1758608231; cv=none; b=D+4yksZDKMBD7ng4qC4cK6G7x0C4c5+yQnE0Exzzfjb+3NPYN2gXlJqHOc+g6hpLz5inYfIq0BX1c3WZMhstyFQfjn6KMIUshf9EADCkjTjPAOdQu0KHlfdxavQTh82dzq88IrPdBFqTxUQCOLgZn/aIs9mhLlxOsPokZmBZQEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758607509; c=relaxed/simple;
-	bh=/1aLw+Dq5VzlXZZVaqPTIVHF296yMXfsCOzTYBTv6ic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7R+7QMCYj+2PNBHk7qOliBCOGNHUTpGh/zxtwOB/WwKe8xdXHb9EhmOqfujXyL6EmnJY4HA/L29fFgpXJS3K40ACoNYzZ82rrJeQ4mFDBy+oizND+HtTn1Np5RognmReqvPLGughYrLdZa03+PqRFZ0t2FNHQHu6g1+aOENXtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=Dk+a+gvO; arc=none smtp.client-ip=148.163.143.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="Dk+a+gvO"
-Received: from pps.filterd (m0134425.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N52mPd002159;
-	Tue, 23 Sep 2025 06:03:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps0720; bh=Ysy44PRCh+/6wV2z+Ca/XezLJJ
-	6mu2BnXGwORvH9Dd4=; b=Dk+a+gvOqKbwRKGH3FWybXgsxrqXr1BZ1JKFr0W974
-	/CSXr1RqrpMiOlbigY36ncNFyRVAuz8eFYNzCDN6uh+vhVujq21rkPbXPmRyRUtd
-	CjXJyX5Dj+8PNpKae+cGn9xYhD9KWYmV7a2JLVCY7DgRnBBesNvWlz/vVRJnYXWr
-	mzLrpCxuhGfHDU6Gc8sqEphT+DujFMSEeVrkuMLfiPVr4/hbEaduEcu0YaO9ltGD
-	nY/6xX01dTUYb8VODhtkXXTezQ9rRBW2swIQBO8i3jBv3xCwJ22WDd8K+97H1zll
-	r0OI0Fg+9X4DSI79leSDIIl1c03U7LzcDNHGfR7mGXwQ==
-Received: from p1lg14878.it.hpe.com (p1lg14878.it.hpe.com [16.230.97.204])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 499njsvuu6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Sep 2025 06:03:57 +0000 (GMT)
-Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by p1lg14878.it.hpe.com (Postfix) with ESMTPS id EF4A212E97;
-	Tue, 23 Sep 2025 06:03:54 +0000 (UTC)
-Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTPS id 1E7D4800464;
-	Tue, 23 Sep 2025 06:03:50 +0000 (UTC)
-Date: Tue, 23 Sep 2025 01:03:46 -0500
-From: Kyle Meyer <kyle.meyer@hpe.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Jiaqi Yan <jiaqiyan@google.com>,
-        David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
-        corbet@lwn.net, linmiaohe@huawei.com, shuah@kernel.org,
-        jane.chu@oracle.com, Liam.Howlett@oracle.com, bp@alien8.de,
-        hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
-        laoar.shao@gmail.com, lorenzo.stoakes@oracle.com,
-        mclapinski@google.com, mhocko@suse.com, nao.horiguchi@gmail.com,
-        osalvador@suse.de, rafael.j.wysocki@intel.com, rppt@kernel.org,
-        russ.anderson@hpe.com, shawn.fan@intel.com, surenb@google.com,
-        vbabka@suse.cz, linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-Message-ID: <aNI4QgvyoSrP9-K4@hpe.com>
-References: <aMiu_Uku6Y5ZbuhM@hpe.com>
- <a99eb11f-a7ac-48a3-a671-c5f0f6b5b491@arm.com>
- <8c3188da-7078-4099-973a-1d0d74db2720@redhat.com>
- <aMsDJ3EU1zVJ00cX@hpe.com>
- <cd71fac2-bb9d-4e84-a074-2b695654e655@redhat.com>
- <CACw3F52p45t3iSZPjx_Lq9kBn1ZGTDZsxk+iQ-xFA1zdvdqqrw@mail.gmail.com>
- <aMsR4Tr9ov1pfucC@agluck-desk3>
- <4d2e8686-8810-4901-8483-9b5eb040d489@arm.com>
+	s=arc-20240116; t=1758608231; c=relaxed/simple;
+	bh=/k0HI1awLxSRUCHOMjkfcY4oglNEQnEO/vNe46Cbdqg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=EFeCrdgrDVn+QkNbrBH7ywxDxeqz8T3buaqMfwH2Lo3q8xpd+dHCZfosBaAORU+5tCPSHbmVaDArR4JZRjnzDjYaLbxFGRWVIWc/sv+vr9evSaBVlsi+7VMbLiHKhnKRZju0nWWI99IGfvbuZG7hTBKm0/XzfhYjQksHICAP6gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=220.181.50.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: "Li,Rongqing" <lirongqing@baidu.com>
+To: "paulmck@kernel.org" <paulmck@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>, "corbet@lwn.net"
+	<corbet@lwn.net>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
+	"mhiramat@kernel.org" <mhiramat@kernel.org>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"mingo@kernel.org" <mingo@kernel.org>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+	"pauld@redhat.com" <pauld@redhat.com>, "joel.granados@kernel.org"
+	<joel.granados@kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbPz8/P10gUmU6IFtQQVRDSF1bUkZD?=
+ =?utf-8?B?XSBodW5nX3Rhc2s6IFN1cHBvcnQgdG8gcGFuaWMgd2hlbiB0aGUgbWF4aW11?=
+ =?utf-8?Q?m_number_of_hung_task_warnings_is_reached?=
+Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFs/Pz8/XSBSZTogW1BBVENIXVtSRkNdIGh1?=
+ =?utf-8?B?bmdfdGFzazogU3VwcG9ydCB0byBwYW5pYyB3aGVuIHRoZSBtYXhpbXVtIG51?=
+ =?utf-8?Q?mber_of_hung_task_warnings_is_reached?=
+Thread-Index: AQHcLDttVizJ2u6zwEeKMgiwnSexq7SfmowAgACJIFD//51tAIAAiErQ
+Date: Tue, 23 Sep 2025 06:16:03 +0000
+Message-ID: <d334c33bc11243cd9ab31ebe8e4310ca@baidu.com>
+References: <20250923033740.2696-1-lirongqing@baidu.com>
+ <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
+ <f11f4dd1983f4073a8008112e55f92f8@baidu.com>
+ <36db2f10-ebbe-4ecd-b27f-e02d9e1569c2@paulmck-laptop>
+In-Reply-To: <36db2f10-ebbe-4ecd-b27f-e02d9e1569c2@paulmck-laptop>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4d2e8686-8810-4901-8483-9b5eb040d489@arm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDA0MyBTYWx0ZWRfXzcE78KgCk5qI
- +8m7uiJiXKq3Bjdp0HM5+DG3CMW1LZlOucsOc7oyEMwy9uExNSuJEm2t+SnHJWgGFL4+kFni3IY
- m/IKGCleRms7RDbsa0JfH/5/3M2HOXc0VT7mfhDUxdHpS67UZ58s9fkz3Qo0OVjTn0BShG6FEFB
- sraZTw8JtCUO1SOJPj90ij26Abws8eWBhWElzWWmtdQlfOul03NcxKtESHxsXUOHG3bY728UYDx
- /v0lsrN2sS/UldafeoxcuNA7dOhXJm4AmlBRVCqwDSfbJBnRXnDwEdMucZym2sEzDwi5d8PRtS1
- aYkdvN11k7xcHo9XFQco7Z7co2gA0AcV8hl380giL/mxCSIBlmdTXf+1GMbNri9gFzC6xwtAni5
- Y3Pd1c61
-X-Proofpoint-GUID: aW_AMqUIMxBuviqCOxNsJj0xPx3M-AnV
-X-Proofpoint-ORIG-GUID: aW_AMqUIMxBuviqCOxNsJj0xPx3M-AnV
-X-Authority-Analysis: v=2.4 cv=A6FsP7WG c=1 sm=1 tr=0 ts=68d2384d cx=c_pps
- a=UObrlqRbTUrrdMEdGJ+KZA==:117 a=UObrlqRbTUrrdMEdGJ+KZA==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=QQnSzdILfhi0SjpbxKgA:9
- a=CjuIK1q_8ugA:10
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0
- bulkscore=0 impostorscore=0 phishscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509200043
+X-FEAS-Client-IP: 172.31.50.48
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-On Sun, Sep 21, 2025 at 05:06:31PM +0530, Anshuman Khandual wrote:
-> 
-> 
-> On 18/09/25 1:24 AM, Luck, Tony wrote:
-> > On Wed, Sep 17, 2025 at 12:32:47PM -0700, Jiaqi Yan wrote:
-> >> +1. Given /proc/sys/vm/enable_soft_offline is extensible, I would
-> >> prefer a compact userspace API.
-> >>
-> >>> would create a new file, and the file has weird semantics such that it
-> >>> has no meaning when enable_soft_offline=0.
-> > 
-> > So the expand the bitmask idea from earlier in this thread?
-> > 
-> > Bit0	0 = soft offline disabled. 1 = Enabled (but see other bits)
-> > Bit1	0 = allow offline of 4K pages, 1 = suppress 4K offline
-> > Bit2	0 = allow offline of hugetlb, 1 = suppress hugetlb offline
-> > Bit3	0 = allow breakup of transparent huge pages to just offline 4K, 1 = suppress transparent breakup
-> > Bit4+	Reserved for suppressing other page types we invent in the future
-> > 
-> > Values 0 and 1 keep their original meaning.
-> > 
-> > Value 5 means: offline 4K, keep hugetlb, breakup transparent huge pages.
-> 
-> This disable bitmask (but when generally enabled via bit[0] = 1) method
-> seems much better. But I am not sure about page size being a valid page
-> type classification though. Just to start with, defining first two bits
-> in this bitmask should be good enough, which will atleast help document
-> and validate this new interface properly.
-> 
-> Bit1	0 = allow offline of hugetlb, 1 = suppress hugetlb offline
-> Bit2	0 = allow breakup of transparent huge pages to just offline base pages, 1 = suppress transparent breakup
-> Bit3+	Reserved for suppressing other page types we invent in the future
-
-The current patch is already applied to mm-git and supports the following bits:
-
-    0 - Enable soft offline
-    1 - Disable soft offline for HugeTLB pages
-
-https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-new&id=9ae6eefa4b6bd3c3e7ef417a6507dce4b55101b4
-
-Are any immediate changes needed?
-
-Support for additional page types, such as transparent huge pages, can be added
-later as needed.
-
-Thanks,
-Kyle Meyer
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGF1bCBFLiBNY0tlbm5l
+eSA8cGF1bG1ja0BrZXJuZWwub3JnPg0KPiBTZW50OiAyMDI15bm0OeaciDIz5pelIDE0OjA0DQo+
+IFRvOiBMaSxSb25ncWluZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+IENjOiBBbmRyZXcgTW9y
+dG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPjsgY29yYmV0QGx3bi5uZXQ7DQo+IGxhbmNl
+LnlhbmdAbGludXguZGV2OyBtaGlyYW1hdEBrZXJuZWwub3JnOw0KPiBwYXdhbi5rdW1hci5ndXB0
+YUBsaW51eC5pbnRlbC5jb207IG1pbmdvQGtlcm5lbC5vcmc7DQo+IGRhdmUuaGFuc2VuQGxpbnV4
+LmludGVsLmNvbTsgcm9zdGVkdEBnb29kbWlzLm9yZzsga2Vlc0BrZXJuZWwub3JnOw0KPiBhcm5k
+QGFybmRiLmRlOyBmZW5nLnRhbmdAbGludXguYWxpYmFiYS5jb207IHBhdWxkQHJlZGhhdC5jb207
+DQo+IGpvZWwuZ3JhbmFkb3NAa2VybmVsLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsN
+Cj4gbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBb5aSW6YOo6YKu5Lu2
+XSBSZTogWz8/Pz9dIFJlOiBbUEFUQ0hdW1JGQ10gaHVuZ190YXNrOiBTdXBwb3J0IHRvIHBhbmlj
+DQo+IHdoZW4gdGhlIG1heGltdW0gbnVtYmVyIG9mIGh1bmcgdGFzayB3YXJuaW5ncyBpcyByZWFj
+aGVkDQo+IA0KPiBPbiBUdWUsIFNlcCAyMywgMjAyNSBhdCAwNDowMDowM0FNICswMDAwLCBMaSxS
+b25ncWluZyB3cm90ZToNCj4gPg0KPiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
+LQ0KPiA+ID4gRnJvbTogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4N
+Cj4gPiA+IFNlbnQ6IDIwMjXlubQ55pyIMjPml6UgMTE6NDYNCj4gPiA+IFRvOiBMaSxSb25ncWlu
+ZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+ID4gPiBDYzogY29yYmV0QGx3bi5uZXQ7IGxhbmNl
+LnlhbmdAbGludXguZGV2OyBtaGlyYW1hdEBrZXJuZWwub3JnOw0KPiA+ID4gcGF1bG1ja0BrZXJu
+ZWwub3JnOyBwYXdhbi5rdW1hci5ndXB0YUBsaW51eC5pbnRlbC5jb207DQo+ID4gPiBtaW5nb0Br
+ZXJuZWwub3JnOyBkYXZlLmhhbnNlbkBsaW51eC5pbnRlbC5jb207IHJvc3RlZHRAZ29vZG1pcy5v
+cmc7DQo+ID4gPiBrZWVzQGtlcm5lbC5vcmc7IGFybmRAYXJuZGIuZGU7IGZlbmcudGFuZ0BsaW51
+eC5hbGliYWJhLmNvbTsNCj4gPiA+IHBhdWxkQHJlZGhhdC5jb207IGpvZWwuZ3JhbmFkb3NAa2Vy
+bmVsLm9yZzsNCj4gPiA+IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2
+Z2VyLmtlcm5lbC5vcmcNCj4gPiA+IFN1YmplY3Q6IFs/Pz8/XSBSZTogW1BBVENIXVtSRkNdIGh1
+bmdfdGFzazogU3VwcG9ydCB0byBwYW5pYyB3aGVuDQo+ID4gPiB0aGUgbWF4aW11bSBudW1iZXIg
+b2YgaHVuZyB0YXNrIHdhcm5pbmdzIGlzIHJlYWNoZWQNCj4gPiA+DQo+ID4gPiBPbiBUdWUsIDIz
+IFNlcCAyMDI1IDExOjM3OjQwICswODAwIGxpcm9uZ3FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29t
+Pg0KPiB3cm90ZToNCj4gPiA+DQo+ID4gPiA+IEN1cnJlbnRseSB0aGUgaHVuZyB0YXNrIGRldGVj
+dG9yIGNhbiBlaXRoZXIgcGFuaWMgaW1tZWRpYXRlbHkgb3INCj4gPiA+ID4gY29udGludWUgb3Bl
+cmF0aW9uIHdoZW4gaHVuZyB0YXNrcyBhcmUgZGV0ZWN0ZWQuIEhvd2V2ZXIsIHRoZXJlDQo+ID4g
+PiA+IGFyZSBzY2VuYXJpb3Mgd2hlcmUgd2Ugd2FudCBhIG1vcmUgYmFsYW5jZWQgYXBwcm9hY2g6
+DQo+ID4gPiA+DQo+ID4gPiA+IC0gV2UgZG9uJ3Qgd2FudCB0aGUgc3lzdGVtIHRvIHBhbmljIGlt
+bWVkaWF0ZWx5IHdoZW4gYSBmZXcgaHVuZyB0YXNrcw0KPiA+ID4gPiAgIGFyZSBkZXRlY3RlZCwg
+YXMgdGhlIHN5c3RlbSBtYXkgYmUgYWJsZSB0byByZWNvdmVyDQo+ID4gPiA+IC0gQW5kIHdlIGFs
+c28gZG9uJ3Qgd2FudCB0aGUgc3lzdGVtIHRvIHN0YWxsIGluZGVmaW5pdGVseSB3aXRoIG11bHRp
+cGxlDQo+ID4gPiA+ICAgaHVuZyB0YXNrcw0KPiA+ID4gPg0KPiA+ID4gPiBUaGlzIGNvbW1pdCBp
+bnRyb2R1Y2VzIGEgbmV3IG1vZGUgKHZhbHVlIDIpIGZvciB0aGUgaHVuZyB0YXNrIHBhbmljDQo+
+IGJlaGF2aW9yLg0KPiA+ID4gPiBXaGVuIHNldCB0byAyLCB0aGUgc3lzdGVtIHdpbGwgcGFuaWMg
+b25seSBhZnRlciB0aGUgbWF4aW11bSBudW1iZXINCj4gPiA+ID4gb2YgaHVuZyB0YXNrIHdhcm5p
+bmdzIChodW5nX3Rhc2tfd2FybmluZ3MpIGhhcyBiZWVuIHJlYWNoZWQuDQo+ID4gPiA+DQo+ID4g
+PiA+IFRoaXMgcHJvdmlkZXMgYSBtaWRkbGUgZ3JvdW5kIGJldHdlZW4gaW1tZWRpYXRlIHBhbmlj
+IGFuZA0KPiA+ID4gPiBwb3RlbnRpYWxseSBpbmZpbml0ZSBzdGFsbCwgYWxsb3dpbmcgZm9yIGF1
+dG9tYXRlZCB2bWNvcmUNCj4gPiA+ID4gZ2VuZXJhdGlvbiBhZnRlciBhIHJlYXNvbmFibGUNCj4g
+PiA+DQo+ID4gPiBJIGFzc3VtZSB0aGUgc2FtZSBhcmd1bWVudCBhcHBsaWVzIHRvIHRoZSBOTUkg
+d2F0Y2hkb2csIHRvIHRoZQ0KPiA+ID4gc29mdGxvY2t1cCBkZXRlY3RvciBhbmQgdG8gdGhlIFJD
+VSBzdGFsbCBkZXRlY3Rvcj8NCj4gPg0KPiA+IFRydWUsIGVzcGVjaWFsIFJDVSBzdGFsbCBkZXRl
+Y3Rvcg0KPiANCj4gVGhlcmUgYXJlIHRoZSBwYW5pY19vbl9yY3Vfc3RhbGwgYW5kIG1heF9yY3Vf
+c3RhbGxfdG9fcGFuaWMgc3lzY3Rscywgd2hpY2gNCj4gdG9nZXRoZXIgYWxsb3cgeW91IHRvIHBh
+bmljIGFmdGVyIChzYXkpIHRocmVlIFJDVSBDUFUgc3RhbGwgd2FybmluZ3MuDQo+IERvZXMgdGhv
+c2UgZG8gd2hhdCB5b3UgbmVlZD8NCg0KDQoNClllcywgdGhpcyBpcyB3aGF0IEkgbmVlZC4gUkNV
+IGhhcyBiZWVuIGltcGxlbWVudGVkLg0KDQpUaGFua3MNCg0KDQotTGkNCg0KPiANCj4gCQkJCQkJ
+CVRoYW54LCBQYXVsDQo+IA0KPiA+ID4gQSBnZW5lcmFsIGZyYW1ld29yayB0byBoYW5kbGUgYWxs
+IG9mIHRoZXNlIG1pZ2h0IGJlIGJldHRlci4gIEJ1dCB3aHkNCj4gPiA+IGRvIGl0IGluIGtlcm5l
+bCBhdCBhbGw/ICBXaGF0IGFib3V0IGEgdXNlcnNwYWNlIGRldGVjdG9yIHdoaWNoDQo+ID4gPiBw
+YXJzZXMga2VybmVsIGxvZ3MgKG9yIG5ldyBwcm9jZnMgY291bnRlcnMpIGFuZCBtYWtlcyBzdWNo
+IGRlY2lzaW9ucz8NCj4gPg0KPiA+DQo+ID4gQnkgbGV2ZXJhZ2luZyBleGlzdGluZyBrZXJuZWwg
+bWVjaGFuaXNtcywgaW1wbGVtZW50YXRpb24gaW4ga2VybmVsIGlzDQo+ID4gdmVyeSBzaW1wbGUg
+YW5kIHJlbGlhYmxlLCBJIHRoaW5rDQo+ID4NCj4gPiBUaGFua3MNCj4gPg0KPiA+IC1MaQ0KPiA+
+DQo=
