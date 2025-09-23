@@ -1,72 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC47320A22
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 09:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541693AC15
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 09:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758619978; cv=none; b=V6qIS+ul9/51mwwgmBwVUpaJhj69is94p2EsLrpRAsL9fWuaGeOSC0YyGG7H/z3YTUikkjI6bDBqhm2k3GeI5PNbuXXDahnvy+IngmTDmqqOKj64HyV8PbxGa5C3XYPMnlr+PVol55UYjW9nIz32yHfms7ENKd79J3EKQZZCYPY=
+	t=1758620872; cv=none; b=chLU94a2cPIStNhqmCFuejVZlPL7A+enS/TE8B3V5AbC4oI2vkRJZNdoMhB0gAmyMmMV7AvXq6q4vPJ87nyYrGhlKQQsfF2tPdpMI3dhvdvDVbBZHlfSzL4H3FzAo+P6+2UvwQ/MIX82tv7SRiZySFmk+q4ihBns9qUM83HD0Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758619978; c=relaxed/simple;
-	bh=tPB7raWfWGID9fR86FpK1VHZrKtm3duV7JMnG1ZKvQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=m/3y5SbtS9HoGglssPZmct1Ly9Mlr6QmG8xz1u2bIlCMXRznrIK19RmCf+Hjc2Z1bD4IlsWCp5Cm0UkLBv7YREkvFU6AAj+bv0W52pfuyjvgtC4esEPaAcRH8bsDcGcEqGQogtODjRkvQC/nN5WrWGh1s8SLrEKhjyVB+JhXjxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HnIUXBqy; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1758620872; c=relaxed/simple;
+	bh=6NephiHlDDWZjUDgQSNZd+O1MAHNoJ8Zj4QSD6tMBlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kJADc0X+95Fupcv45tdTOj98b7b0IpJHK+8BOCEfyPPosKcDl0LLh88SbVRDvtNYQp00aDF89LbQhUTdmezIV6kyvUejOeLJs6xYOCcx+LgZOXb5c21jypF17SYvsIkbjjNiu+/rM4r4el7Rj+kFKsFgAmtHVr2EJ/YMXVcZhSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XNokWGAa; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HnIUXBqy"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XNokWGAa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758619976;
+	s=mimecast20190719; t=1758620870;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2nfMQGoI76BBPiGl3YfZGIEopu0bozaW6TiCupIKqWQ=;
-	b=HnIUXBqyxN4jEEX0aJFxefExF/9j8QGEGhLw1284a9sd/MufOBaY0cruUNW0280aLH/IHq
-	h3jVzP36s8xxMZk7D6Kq3OpdRkUCB32lEYpR8sALBhkjehxeI5yyVNT0a0SR2m4M8M/9Ld
-	AJC4YJ6hojJCJ+7w2WwNvaOKMNyxYrI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=X3zbNBHZeX4u7pe1g8MFTz/QKax3NsVn23uV23hW5+U=;
+	b=XNokWGAaoUAJ/P1KyfRmVDV9bYGvfZPQj8Tyxr+FQeu1D2+7tCn9c4gQHonAxN8SJUNv6g
+	aKMcjOicXB2t85XbCFW4cPxhH2U06WqjQAm1SLsnZjIclY67JM+FW82xak4WU7Z+09j2Go
+	CIGRSE5IOib5NKtjMhbw2jyEbgT2ZIg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-330-HD3ScaxTPNGuKQZJiQkqug-1; Tue, 23 Sep 2025 05:32:51 -0400
-X-MC-Unique: HD3ScaxTPNGuKQZJiQkqug-1
-X-Mimecast-MFC-AGG-ID: HD3ScaxTPNGuKQZJiQkqug_1758619970
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-46b303f6c9cso19824455e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 02:32:51 -0700 (PDT)
+ us-mta-471-CuqprsOeNiSvalUxwv4lDA-1; Tue, 23 Sep 2025 05:47:49 -0400
+X-MC-Unique: CuqprsOeNiSvalUxwv4lDA-1
+X-Mimecast-MFC-AGG-ID: CuqprsOeNiSvalUxwv4lDA_1758620868
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45cb604427fso29687155e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 02:47:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758619970; x=1759224770;
+        d=1e100.net; s=20230601; t=1758620868; x=1759225668;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2nfMQGoI76BBPiGl3YfZGIEopu0bozaW6TiCupIKqWQ=;
-        b=NZIzr4XWqhWVnEj4BMeK3ESCobPfXKeK6jsqKZYpcfAx8lU9Hcjq3ZpmtqAlbMDIOl
-         Wr8hV35GRhespHjIbEjJ8N2zWwo8IgQQqViVedICWSlZ2UV3BEbzoUA3uXKpO/7NGMNB
-         YxT6GBOyOplQf6Hg85vi9aP21r68nkRIohdzIxzHJU15Km/Hh7OTGKBReSdgNUcZSWOj
-         64y3Yz2ULxIY+gkECCstHxIfa5ZJ5XBTC14FL4ytQhCSi6ofwmLp0yTO7XgDwAr61FQL
-         hX4N+y6j/FsVjeVqGiqtnoYSifLuebItLZ0MpmGl309zzrnKzAJysJQkalQus+rMtqzF
-         dt7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUwnlfb3MZf32TCGueDXKphub9usuHNUGyJmjx7ynrTyapO9HX2bIgekJj29egBMMczLxVTFU0X9xg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxz7Ox3sdPjf6rRemGbH5/P7/gCCLfj/7Kj0E90QisRzvKLUNl5
-	xNHq91VqGECNvOiM0HtdCr01xLTxqJghNXPPv+y+wCKGRgTzsTyezE/jJNMVVwa5cDUDqrf/LHC
-	jWlzqoJkeleaVV0VKjNeKePyp7PgbSr9LJ3AmBalU4w3qCeCAesMhI3b+YTyiZA==
-X-Gm-Gg: ASbGncsnRiFANHz0d7AT6l8grh+ZTM6RWlK6wMGQIAiOIp4z3bfawNfCY43IVwTtcPg
-	WOU+Zf6EfRYolE+oeK96Z5rBJ4Epdlq3ZehlNm9cB8YJBDEsamDKZJN6erUpX7GihXu4Ldz68eS
-	4El8Uh975/1GfVx3Fh1wm+XWevM3k/TfZlEMsqV0rOcjAZVQK6J/1ftI/YU3ANHg3b0NjmfJW4Y
-	eHPyoCe1mZsmjfTOPQJBKEs+DzoeJT91DB0PK/DGE3bWY3yDOWawq/9qoAj/ZFH8mCZwooSdacE
-	H4VYTYzm6QDPL4oIWYtdXKAgTdcRLxYsLqVaI9dzrsoycsrPaWbV+XdMT+MeBhM2nF8x9CHNKKC
-	qAWC72WIQ7bvs
-X-Received: by 2002:a05:600c:1390:b0:45f:2c89:a873 with SMTP id 5b1f17b1804b1-46e1dac904dmr18754175e9.35.1758619970377;
-        Tue, 23 Sep 2025 02:32:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHRjW0E8LgYXwe/Hd1Mr/o19iMfwq8X3jZyBkMmVWt+MhwqmWqz4pvjlLgA+mFsqOcaCMAy4g==
-X-Received: by 2002:a05:600c:1390:b0:45f:2c89:a873 with SMTP id 5b1f17b1804b1-46e1dac904dmr18753925e9.35.1758619969994;
-        Tue, 23 Sep 2025 02:32:49 -0700 (PDT)
+        bh=X3zbNBHZeX4u7pe1g8MFTz/QKax3NsVn23uV23hW5+U=;
+        b=aEY7hELXk6kyoUnaLcV1ri+RkbLSdePK2oMy8Tstdov+wdmfkCyqXb9COjjK9gqZkb
+         CDNrKrR4wI4VF5GqkznG104LMC6nedPF8VmYFjbCIPe3FzUsz4lRjfRDOd9ekotAM6ic
+         8KtXgHF3JB+1l/0Wk/G9BikXq/frshm3kHf8LR+hNZzsjBpPE1dzMrv9CCuVM7VaeaoM
+         8af+6JpB4DY6Xu7lnS8YfIRQLMKPW94A4zFOcXCnR170xegw6sBHuGfyWhrTQw918HcO
+         UBCSod0FW7qoSrtpZ12MQNXshdqDwegXqcQI9GiLu2GqWHgyS0SqAxu2Xsxy7qJJrQfR
+         ZFRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXfQNp745aZC7l307F0wwqX3jESA4DpYMCsif8Xj19PMFlTrNa892u7QSxkQh0jf5wfqK3oxn0qCCQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxV0xcia+0Lr7QbqmKk2KOsHzOLIrnM6Fc0Y5LTm2jc9RKl84nP
+	1/jHBNsmusXhwUqONnudQlmiT9wc2/XecpCDcf2zYe7HRgltGeTWDo7uUn2uu3SKWPOs4f0vEuH
+	1ifCjU2ghbDxs2AQi/8IjBu8eoWZuqqYMFetOENVZz8MSd1OvbGWUJ0J9HmIXPw==
+X-Gm-Gg: ASbGncsfJsHZ9qcL9vTkt9jIH55gqvRBSW+PAuJfKpG/qggLNpnotfXdvZa6Xbk+JxF
+	jRXQyx0AU1bVgjQs8fotTZJVJh9FYstDJObcllJH5stBXtYPGKwQl5TONvdP6bCoaaJaArbU/me
+	8Zu7yMggyXcGtwMPofd/Dl+9/+ozHZ7sUXQT68izYWoUW/S13fqsRSvCSwJ0ZyZvE/1A/PraY5K
+	1GDIMqKZbELG786hEo3tf6Jep34YGdFiy1wxoIFgpID1Tm1KdXs/GvzXdb9xsrwEChZS3DwdhLD
+	xTZ5KrRUM8debXuxqq7BaUpM2qUw6NaV3pmgz6rJdOw8w9ewV6txgbq5OXQZ/FZ9RD23BgMkot9
+	Cdi1f57/jPoTx
+X-Received: by 2002:a05:600c:4692:b0:45d:d609:1199 with SMTP id 5b1f17b1804b1-46e1dac9639mr18916335e9.30.1758620867701;
+        Tue, 23 Sep 2025 02:47:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEejj73xYyvJhtG+80Oo+hw9FL95RSTSMEQ7BHTRfIVzB184Xe9dwz7Q3l23RiwZ/8pTX9Nhw==
+X-Received: by 2002:a05:600c:4692:b0:45d:d609:1199 with SMTP id 5b1f17b1804b1-46e1dac9639mr18915955e9.30.1758620867259;
+        Tue, 23 Sep 2025 02:47:47 -0700 (PDT)
 Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f64ad30csm271970905e9.23.2025.09.23.02.32.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee106fd0edsm22603388f8f.53.2025.09.23.02.47.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Sep 2025 02:32:49 -0700 (PDT)
-Message-ID: <edfffc1e-a737-4074-98b1-6a2d60f50051@redhat.com>
-Date: Tue, 23 Sep 2025 11:32:47 +0200
+        Tue, 23 Sep 2025 02:47:46 -0700 (PDT)
+Message-ID: <161c09cc-9982-4046-9aa0-d0ec194daba0@redhat.com>
+Date: Tue, 23 Sep 2025 11:47:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,8 +74,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 net-next 01/14] tcp: try to avoid safer when ACKs are
- thinned
+Subject: Re: [PATCH v2 net-next 03/14] tcp: accecn: Add ece_delta to
+ rate_sample
 To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
  linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
  dsahern@kernel.org, kuniyu@amazon.com, bpf@vger.kernel.org,
@@ -88,40 +88,25 @@ To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com,
  g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
  mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
  Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Cc: Olivier Tilmans <olivier.tilmans@nokia.com>
 References: <20250918162133.111922-1-chia-yu.chang@nokia-bell-labs.com>
- <20250918162133.111922-2-chia-yu.chang@nokia-bell-labs.com>
+ <20250918162133.111922-4-chia-yu.chang@nokia-bell-labs.com>
 Content-Language: en-US
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250918162133.111922-2-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20250918162133.111922-4-chia-yu.chang@nokia-bell-labs.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 9/18/25 6:21 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-> index 9fdc6ce25eb1..0b25bf03ae6a 100644
-> --- a/net/ipv4/tcp_input.c
-> +++ b/net/ipv4/tcp_input.c
-> @@ -488,6 +488,10 @@ static void tcp_count_delivered(struct tcp_sock *tp, u32 delivered,
->  		tcp_count_delivered_ce(tp, delivered);
->  }
->  
-> +#define PKTS_ACKED_WEIGHT	6
-> +#define PKTS_ACKED_PREC		6
-> +#define ACK_COMP_THRESH		4
-> +
->  /* Returns the ECN CE delta */
->  static u32 __tcp_accecn_process(struct sock *sk, const struct sk_buff *skb,
->  				u32 delivered_pkts, u32 delivered_bytes,
-> @@ -507,6 +511,19 @@ static u32 __tcp_accecn_process(struct sock *sk, const struct sk_buff *skb,
->  	opt_deltas_valid = tcp_accecn_process_option(tp, skb,
->  						     delivered_bytes, flag);
->  
-> +	if (delivered_pkts) {
-> +		if (!tp->pkts_acked_ewma) {
-> +			tp->pkts_acked_ewma = delivered_pkts << PKTS_ACKED_PREC;
+> From: Ilpo Järvinen <ij@kernel.org>
+> 
+> Include echoed CE count into rate_sample. Replace local ecn_count
+> variable with it.
 
-Can the above statement overflow pkts_acked_ewma in exceptional cases?
-Do that need and additional min_t(u32, <init val>, 0xFFFFU)?
+Why? skimming over the next few patches it's not clear to me which is
+the goal here.
 
-/P
+Expanding the commit message would help, thanks!
+
+Paolo
 
