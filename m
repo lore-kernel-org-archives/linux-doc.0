@@ -1,147 +1,88 @@
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E638720C47C;
-	Tue, 23 Sep 2025 03:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011E51ACEDF
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 03:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758599648; cv=none; b=rxHEFXcpx+HQEQfgxfGr/nZ7yvkeeCG9g/DS5BbSROSs+CMjLDdTMlxb6AoQhjK8CxR9De2YqNzWYHDfBW1CuOtNlJpc4O4RKbkLEVLgnAJoHwx2LbIYEjb+V89bgj763QQOgF8RLF34JwYwFIfC4j5b0NSSPFEfAl1RKF+RZyE=
+	t=1758599984; cv=none; b=a/T8MQSt4JLGdLcjsr05U+UyaBMOh7vrTrj0DnhcnNi0isOpIV310sD9fT80pZqiD2qK7Pbc9LzcIqiexY8CpkQyerqfLyZwIvG5YWCFpk4SDlc2DhGCRI8xgAF6V+Ndgtw9wwpmEFTpyFt7HBxGJ3MXz7Y74uVx0XBOtf2/I/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758599648; c=relaxed/simple;
-	bh=Zg3FPoSHnAv2PObrg/i19fiiMx4nTL23ooT1KVwjkss=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GyvVcmrgkwtavki/i3+MOS5KGofkzlgo9ouOYFro8gFrXBJK2xb0OAkzI/YbKfWX0dlb7SZiRxHBiYTRprenaomzm7KcXsedUE/h57wZMJFPa4VkZaysQIkcIzPlZ6NZP1P9fn1qYzAG5SM3vGetWwkrnduSWdaqlmQiTRgfGHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
-From: lirongqing <lirongqing@baidu.com>
-To: <corbet@lwn.net>, <akpm@linux-foundation.org>, <lance.yang@linux.dev>,
-	<mhiramat@kernel.org>, <paulmck@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <mingo@kernel.org>,
-	<dave.hansen@linux.intel.com>, <rostedt@goodmis.org>, <kees@kernel.org>,
-	<arnd@arndb.de>, <lirongqing@baidu.com>, <feng.tang@linux.alibaba.com>,
-	<pauld@redhat.com>, <joel.granados@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH][RFC] hung_task: Support to panic when the maximum number of hung task warnings is reached
-Date: Tue, 23 Sep 2025 11:37:40 +0800
-Message-ID: <20250923033740.2696-1-lirongqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1758599984; c=relaxed/simple;
+	bh=stufo5VaflHTD5Dch8msOtonFZ5qNNcz+IiyCZiyGe0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nO0iABuQF6HHD12R0ZJQXfAaOmaLDINGTc9f41VQFSeO+0rvvhI5Wr8lc57vnF8xQaGT54U4CBrLL0M78TYv5W9fD5VozEhEkw2WZpxz+1iVRj4ot6zwy4jNayWpoLZJrBfrMn044bgUAGGnRZqcLKELHXdZCcIDdBBjrm8NKaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Drjoyeyh; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Drjoyeyh"
+Message-ID: <9067a88d-f5df-4d6e-b3b3-2e266ebcf3d0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758599979;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wBb7AifhcOJYVqzVR28gnq9RZ3Lo8WspOuJNKw0BLWU=;
+	b=DrjoyeyhpJzeaP9BvJa1Zj2N6qGxchqojKau7q5f6FSO7Y9Y42GNjix0LLb8EKXzkP9Hp5
+	NhJ/rTh7jV2hX0Rn++ixLA1iJSV46Yd9q7zVJVj3r0ocBnWP/ACAWDN8iLL5PU08UTxM0F
+	JBwmOYsd4uAYrhHjwp04CMtS+uDAd44=
+Date: Tue, 23 Sep 2025 11:59:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: bjhj-exc12.internal.baidu.com (172.31.3.22) To
- bjkjy-exc3.internal.baidu.com (172.31.50.47)
-X-FEAS-Client-IP: 172.31.50.47
-X-FE-Policy-ID: 52:10:53:SYSTEM
+Subject: Re: [PATCH][RFC] hung_task: Support to panic when the maximum number
+ of hung task warnings is reached
+Content-Language: en-US
+To: lirongqing <lirongqing@baidu.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: corbet@lwn.net, mhiramat@kernel.org, paulmck@kernel.org,
+ pawan.kumar.gupta@linux.intel.com, mingo@kernel.org,
+ dave.hansen@linux.intel.com, rostedt@goodmis.org, kees@kernel.org,
+ arnd@arndb.de, feng.tang@linux.alibaba.com, pauld@redhat.com,
+ joel.granados@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250923033740.2696-1-lirongqing@baidu.com>
+ <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Li RongQing <lirongqing@baidu.com>
 
-Currently the hung task detector can either panic immediately or continue
-operation when hung tasks are detected. However, there are scenarios
-where we want a more balanced approach:
 
-- We don't want the system to panic immediately when a few hung tasks
-  are detected, as the system may be able to recover
-- And we also don't want the system to stall indefinitely with multiple
-  hung tasks
+On 2025/9/23 11:45, Andrew Morton wrote:
+> On Tue, 23 Sep 2025 11:37:40 +0800 lirongqing <lirongqing@baidu.com> wrote:
+> 
+>> Currently the hung task detector can either panic immediately or continue
+>> operation when hung tasks are detected. However, there are scenarios
+>> where we want a more balanced approach:
+>>
+>> - We don't want the system to panic immediately when a few hung tasks
+>>    are detected, as the system may be able to recover
+>> - And we also don't want the system to stall indefinitely with multiple
+>>    hung tasks
+>>
+>> This commit introduces a new mode (value 2) for the hung task panic behavior.
+>> When set to 2, the system will panic only after the maximum number of hung
+>> task warnings (hung_task_warnings) has been reached.
+>>
+>> This provides a middle ground between immediate panic and potentially
+>> infinite stall, allowing for automated vmcore generation after a reasonable
+> 
+> I assume the same argument applies to the NMI watchdog, to the
+> softlockup detector and to the RCU stall detector?
+> 
+> A general framework to handle all of these might be better.  But why do
+> it in kernel at all?  What about a userspace detector which parses
+> kernel logs (or new procfs counters) and makes such decisions?
 
-This commit introduces a new mode (value 2) for the hung task panic behavior.
-When set to 2, the system will panic only after the maximum number of hung
-task warnings (hung_task_warnings) has been reached.
++1. I agree that a userspace detector seems more appropriate for this.
 
-This provides a middle ground between immediate panic and potentially
-infinite stall, allowing for automated vmcore generation after a reasonable
-number of hung task incidents.
-
-Signed-off-by: Li RongQing <lirongqing@baidu.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 15 ++++++++-------
- Documentation/admin-guide/sysctl/kernel.rst     |  1 +
- kernel/hung_task.c                              |  5 +++--
- lib/Kconfig.debug                               |  4 ++--
- 4 files changed, 14 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5a7a83c..f2a9876 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1993,13 +1993,14 @@
- 
- 	hung_task_panic=
- 			[KNL] Should the hung task detector generate panics.
--			Format: 0 | 1
--
--			A value of 1 instructs the kernel to panic when a
--			hung task is detected. The default value is controlled
--			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
--			option. The value selected by this boot parameter can
--			be changed later by the kernel.hung_task_panic sysctl.
-+			Format: 0 | 1 | 2
-+
-+			A value of 1 instructs the kernel to panic when a hung task is detected.
-+			A value of 2 instructs the kernel to panic when hung_task_warnings is
-+			decreased to 0.  The default value is controlled by the
-+			CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time option. The value selected
-+			by this boot parameter can be changed later by the kernel.hung_task_panic
-+			sysctl.
- 
- 	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
- 				terminal devices. Valid values: 0..8
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 8b49eab..6f77241 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -403,6 +403,7 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
- = =================================================
- 0 Continue operation. This is the default behavior.
- 1 Panic immediately.
-+2 Panic when hung_task_warnings is decreased to 0.
- = =================================================
- 
- 
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index 8708a12..b052ec7 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -219,7 +219,8 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
- 
- 	trace_sched_process_hang(t);
- 
--	if (sysctl_hung_task_panic) {
-+	if ((sysctl_hung_task_panic == 1) ||
-+		(!sysctl_hung_task_warnings && sysctl_hung_task_panic == 2)) {
- 		console_verbose();
- 		hung_task_show_lock = true;
- 		hung_task_call_panic = true;
-@@ -385,7 +386,7 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.extra2		= SYSCTL_TWO,
- 	},
- 	{
- 		.procname	= "hung_task_check_count",
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index dc0e0c6..e7cf166 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1264,10 +1264,10 @@ config DEFAULT_HUNG_TASK_TIMEOUT
- 	  Keeping the default should be fine in most cases.
- 
- config BOOTPARAM_HUNG_TASK_PANIC
--	bool "Panic (Reboot) On Hung Tasks"
-+	int "Panic (Reboot) On Hung Tasks"
- 	depends on DETECT_HUNG_TASK
- 	help
--	  Say Y here to enable the kernel to panic on "hung tasks",
-+	  Say 1|2 here to enable the kernel to panic on "hung tasks",
- 	  which are bugs that cause the kernel to leave a task stuck
- 	  in uninterruptible "D" state.
- 
--- 
-2.9.4
-
+We already have the hung_task_detect_count counter, so a userspace
+detector could easily use that to implement custom policies ;)
