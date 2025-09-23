@@ -1,71 +1,352 @@
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AF612B94;
-	Tue, 23 Sep 2025 05:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7E830DD24
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 05:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758605047; cv=none; b=l7E8tbKQoiId51R/Qe+zsqxTNkptmdFTpyk9RznGcM03xsMs5Y3VfGn9RzGkFbVErOt63/SzpnmaIU3hv3FXAONe3MkP23DCQdWTo6DO/fWRLFk1D562sf9PVcVc/Ez7H3GqbnsuDUV6b24oNKl7yFNaU5+i+pXtmskRV40ZAOU=
+	t=1758605548; cv=none; b=O9S6tq8HLupDT1Q8E9SNaKJ4azbs8GkX7QUJHcRhI/i6Aje8ANDV6fipkMcebwb89rMMEJ3ndeoSdPHdiwNNuScfNJOQgk3hDVaFi0dJDLHDlJMSI7Z6DlE0PnN1rZ0iMdwID9fSIy3tc7kgp7UvBPPPZ0GbjnvjRSbhbp4Wtfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758605047; c=relaxed/simple;
-	bh=qEzlyB/M0Z+ObK6m9xMEn0iiJcBKWhuxCTfs3ZrVWLE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HYJVSpv8pTv6LYzAc88N4MEnzuvCxr7qtYy4NuTsIFaxogNsbLyG9ew7XxpuJFyYWMx5GpXt2xOLesqyZTt0Blbbf8jJr60GhX0bAbU231YQjb6uNKA7mc5Rp+KHw1dMBwJHCQfK0B0pgkE393N+CJWCkAYa4YpmDM/fKvE1y3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: Lance Yang <lance.yang@linux.dev>, Andrew Morton
-	<akpm@linux-foundation.org>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "mhiramat@kernel.org"
-	<mhiramat@kernel.org>, "paulmck@kernel.org" <paulmck@kernel.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"mingo@kernel.org" <mingo@kernel.org>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
-	"pauld@redhat.com" <pauld@redhat.com>, "joel.granados@kernel.org"
-	<joel.granados@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdW1JGQ10gaHVuZ190YXNr?=
- =?utf-8?B?OiBTdXBwb3J0IHRvIHBhbmljIHdoZW4gdGhlIG1heGltdW0gbnVtYmVyIG9m?=
- =?utf-8?Q?_hung_task_warnings_is_reached?=
-Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF1bUkZDXSBodW5nX3Rhc2s6IFN1?=
- =?utf-8?B?cHBvcnQgdG8gcGFuaWMgd2hlbiB0aGUgbWF4aW11bSBudW1iZXIgb2YgaHVu?=
- =?utf-8?Q?g_task_warnings_is_reached?=
-Thread-Index: AQHcLD6SwU5buVCi00+LlNrVaU6G67SgOukw
-Date: Tue, 23 Sep 2025 05:22:23 +0000
-Message-ID: <bbdc2b5c2b374ed1801113148a72d83c@baidu.com>
-References: <20250923033740.2696-1-lirongqing@baidu.com>
- <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
- <9067a88d-f5df-4d6e-b3b3-2e266ebcf3d0@linux.dev>
-In-Reply-To: <9067a88d-f5df-4d6e-b3b3-2e266ebcf3d0@linux.dev>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1758605548; c=relaxed/simple;
+	bh=mnKcp7QXxh6FnhPzW++fPEZKuAGmKS+/1ruQEK19RmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mJ0ocyh1WzjjMXCiygCX+cvnyWfZm0asYlbyB6/bAB+cz6uZbo9t921f3jSDy1JtSzaPbRPL56JzvNgXI1U5MvV/4pLz17uSUhmNCLX9EDzBYh/JCAjz4QDxsFFbRSfEClVG1t27nlC2AWb0rbwkbM763F0+cqjMqJrPxPB/SHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RVGWkvjC; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RVGWkvjC"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-77f198bd8eeso1785648b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Sep 2025 22:32:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758605545; x=1759210345; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oTklLBIdudKNwwxYF9mQAs76GUakpHn9P9mG7j3zuzg=;
+        b=RVGWkvjCxVdCtCafKt9oVcyW45tNSHSRePOvkSZqbHIoAqE2CxpDjb4Cl67ccmg8e3
+         ga+uKKMM3LcOKD/CmIJoFsAGaSTZ9OtQ54R80G2Sf5o3PvxqakKZRl4GEe8a38ooHdWk
+         O9XA+iLhPr0klyt6gF6FbcoFQN5GdtZUIMpC+CWYcS8+GGJC8Po69tzzqRfPyfYV9S+U
+         s+aEhhGNzabMG92LtPqQmt0AgCf/qdkJfPUMmKIivWLaxfGNyVgnYPQDmfVyY8YbBGSV
+         pA4w9KFNoTUuTgcFqyu2LimKANnf0miWr8C7/dCtVoHkIB1f2XYnQ9EWwDCcy2JnvFlz
+         AVvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758605545; x=1759210345;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oTklLBIdudKNwwxYF9mQAs76GUakpHn9P9mG7j3zuzg=;
+        b=OgsCFbbVWIFSm3oCMjxKIuLf5II94GdnGvJM8QcB8leCREf9PtWovZ4X2RyzKo31/J
+         L1z4e6i0DCXr4uszzNYKO2KVCEtOH6BHMAsJCfudrzF5H1UQbRRpLqhQIcbjA2/cVqur
+         MiSEOUh+9PFOTGDIM7sxvrdwlpDfrECUbfAuAvfB8eZ2I/PQJUJJdU8NwrqaSE4l5dHy
+         kXwxr1n7VbHEtHrugEKQ1M/9+zPXa99Q9Gtwy9FcHyY8JMXxIaCrPubP4HBo5PEzbQqj
+         5KTDbJCU/1YBX2KgdmvYFmmgmyTiruOAzaDRKtB2sI9NaPsn5ns909zuLVrZylRr9i10
+         2CRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2D2DdNDsvmnMgVB1oqEFEgIBiPfS9uHajLOCxEjtQM5Mg+P+dqonChbbmXHubuNYWc1xJ/XjVUL0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzn9bx40Bbxx8aQcj7qIdC0gNB4UBl88ZvC1orGX6zuIXnAKawr
+	TZnL1eQf8pZ8Sj8bixwLOSdcyU9nkSf5ALkA+4/oSqig74T5Ob7xufF9
+X-Gm-Gg: ASbGnctomayMU2Yd09ivm6Z5KhnvQ5sayMJoaXp8u0NDCpN+SxzPEcqBxDPBqdU2r99
+	+GAsA4u3BRAgx1YDdnAfwSTHWlxs50RMLscvWhY5/vIxeHCeFYIwinpBtsK//x+oyYKq8yzE5eT
+	eY8noaPpxypylmTOXlmOZAopdC8vDrh4p6T0C0RtzX4jfUuJZeifq6EiJhBNal84j5BgNFZH+u5
+	q0gByqrrYlsxFVHjtz08NOke4j6ADXQcLjHaa8E1pz038b+ZtowMfK2h7nhT/w09/gyevl312Io
+	MthoaJASHh3g5BFrVpmBNUJxaHWzG/QQMPzM0eeLHrkGmIYCD/vE+iHvPSGgE52XY6Y6DedmAYU
+	l7T/7ESQgnh8YkGQpRz5+OXfqk0A=
+X-Google-Smtp-Source: AGHT+IFKfTeQjGIZYPJam1yQHsQYLdr0b0NGYWFWmj2DgS7W8LankDE7NUzKW6ZHDusY1dexOnf3Lg==
+X-Received: by 2002:a05:6a00:3d08:b0:77f:2d4e:674e with SMTP id d2e1a72fcca58-77f53b07ec4mr1309126b3a.30.1758605545295;
+        Mon, 22 Sep 2025 22:32:25 -0700 (PDT)
+Received: from fedora ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f1550f70asm9639446b3a.13.2025.09.22.22.32.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 22:32:24 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	john.fastabend@gmail.com,
+	sd@queasysnail.net,
+	shuah@kernel.org,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH v4 1/2] net/tls: support maximum record size limit
+Date: Tue, 23 Sep 2025 15:32:06 +1000
+Message-ID: <20250923053207.113938-1-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-FEAS-Client-IP: 172.31.50.46
-X-FE-Policy-ID: 52:10:53:SYSTEM
+Content-Transfer-Encoding: 8bit
 
-PiA+IEkgYXNzdW1lIHRoZSBzYW1lIGFyZ3VtZW50IGFwcGxpZXMgdG8gdGhlIE5NSSB3YXRjaGRv
-ZywgdG8gdGhlDQo+ID4gc29mdGxvY2t1cCBkZXRlY3RvciBhbmQgdG8gdGhlIFJDVSBzdGFsbCBk
-ZXRlY3Rvcj8NCj4gPg0KPiA+IEEgZ2VuZXJhbCBmcmFtZXdvcmsgdG8gaGFuZGxlIGFsbCBvZiB0
-aGVzZSBtaWdodCBiZSBiZXR0ZXIuICBCdXQgd2h5DQo+ID4gZG8gaXQgaW4ga2VybmVsIGF0IGFs
-bD8gIFdoYXQgYWJvdXQgYSB1c2Vyc3BhY2UgZGV0ZWN0b3Igd2hpY2ggcGFyc2VzDQo+ID4ga2Vy
-bmVsIGxvZ3MgKG9yIG5ldyBwcm9jZnMgY291bnRlcnMpIGFuZCBtYWtlcyBzdWNoIGRlY2lzaW9u
-cz8NCj4gDQo+ICsxLiBJIGFncmVlIHRoYXQgYSB1c2Vyc3BhY2UgZGV0ZWN0b3Igc2VlbXMgbW9y
-ZSBhcHByb3ByaWF0ZSBmb3IgdGhpcy4NCj4gDQoNCkkgdGhpbmsgdGhlIHVzZXItc3BhY2UgbWF5
-YmUgZmxleGliaWxpdHksIGJ1dCBpbmN1cnMgcmVsYXRpdmVseSBoaWdoZXIgb3ZlcmhlYWQgYW5k
-IGlzIGxlc3MgcmVsaWFibGUuIFdoZW4gdGhlIHN5c3RlbSBoYW5ncywgdGhpcyB0YXNrIG1heSBo
-YXZlIGFscmVhZHkgaHVuZyBhcyB3ZWxsLg0KDQoNCj4gV2UgYWxyZWFkeSBoYXZlIHRoZSBodW5n
-X3Rhc2tfZGV0ZWN0X2NvdW50IGNvdW50ZXIsIHNvIGEgdXNlcnNwYWNlIGRldGVjdG9yDQo+IGNv
-dWxkIGVhc2lseSB1c2UgdGhhdCB0byBpbXBsZW1lbnQgY3VzdG9tIHBvbGljaWVzIDspDQo=
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+
+During a handshake, an endpoint may specify a maximum record size limit.
+Currently, the kernel defaults to TLS_MAX_PAYLOAD_SIZE (16KB) for the
+maximum record size. Meaning that, the outgoing records from the kernel
+can exceed a lower size negotiated during the handshake. In such a case,
+the TLS endpoint must send a fatal "record_overflow" alert [1], and
+thus the record is discarded.
+
+Upcoming Western Digital NVMe-TCP hardware controllers implement TLS
+support. For these devices, supporting TLS record size negotiation is
+necessary because the maximum TLS record size supported by the controller
+is less than the default 16KB currently used by the kernel.
+
+This patch adds support for retrieving the negotiated record size limit
+during a handshake, and enforcing it at the TLS layer such that outgoing
+records are no larger than the size negotiated. This patch depends on
+the respective userspace support in tlshd and GnuTLS [2].
+
+[1] https://www.rfc-editor.org/rfc/rfc8449
+[2] https://gitlab.com/gnutls/gnutls/-/merge_requests/2005
+
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+Changes V3 -> V4:
+    * Added record_size_limit RFC reference to documentation
+    * Always export the record size limit in tls_get_info()
+    * Disallow user space to change the record_size_limit from under us
+      if an open record is pending.
+    * Added record_size_limit minimum size check as per RFC
+    * Allow space for the ContentType byte for TLS 1.3. The expected
+      behaviour is that userspace directly uses the negotiated
+      record_size_limit, kernel will limit the plaintext buffer size
+      appropirately.
+    * New patch to add self-tests.
+---
+ Documentation/networking/tls.rst | 12 +++++
+ include/net/tls.h                |  5 +++
+ include/uapi/linux/tls.h         |  2 +
+ net/tls/tls_device.c             |  2 +-
+ net/tls/tls_main.c               | 75 ++++++++++++++++++++++++++++++++
+ net/tls/tls_sw.c                 |  2 +-
+ 6 files changed, 96 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+index 36cc7afc2527..d24bf8911bb8 100644
+--- a/Documentation/networking/tls.rst
++++ b/Documentation/networking/tls.rst
+@@ -280,6 +280,18 @@ If the record decrypted turns out to had been padded or is not a data
+ record it will be decrypted again into a kernel buffer without zero copy.
+ Such events are counted in the ``TlsDecryptRetry`` statistic.
+ 
++TLS_TX_RECORD_SIZE_LIM
++~~~~~~~~~~~~~~~~~~~~~~
++
++Sets the maximum size for the plaintext of a protected record.
++
++The provided value should correspond to the limit negotiated during the TLS
++handshake via the `record_size_limit` extension (RFC 8449)[1]. When this
++option is set, the kernel enforces this limit on all transmitted TLS records,
++ensuring no plaintext fragment exceeds the specified size.
++
++[1] https://datatracker.ietf.org/doc/html/rfc8449
++
+ Statistics
+ ==========
+ 
+diff --git a/include/net/tls.h b/include/net/tls.h
+index 857340338b69..32f053770ec4 100644
+--- a/include/net/tls.h
++++ b/include/net/tls.h
+@@ -53,6 +53,8 @@ struct tls_rec;
+ 
+ /* Maximum data size carried in a TLS record */
+ #define TLS_MAX_PAYLOAD_SIZE		((size_t)1 << 14)
++/* Minimum record size limit as per RFC8449 */
++#define TLS_MIN_RECORD_SIZE_LIM		((size_t)1 << 6)
+ 
+ #define TLS_HEADER_SIZE			5
+ #define TLS_NONCE_OFFSET		TLS_HEADER_SIZE
+@@ -226,6 +228,9 @@ struct tls_context {
+ 	u8 rx_conf:3;
+ 	u8 zerocopy_sendfile:1;
+ 	u8 rx_no_pad:1;
++	u16 tx_record_size_limit; /* Max plaintext fragment size. For TLS 1.3,
++				   * this excludes the ContentType.
++				   */
+ 
+ 	int (*push_pending_record)(struct sock *sk, int flags);
+ 	void (*sk_write_space)(struct sock *sk);
+diff --git a/include/uapi/linux/tls.h b/include/uapi/linux/tls.h
+index b66a800389cc..3add266d5916 100644
+--- a/include/uapi/linux/tls.h
++++ b/include/uapi/linux/tls.h
+@@ -41,6 +41,7 @@
+ #define TLS_RX			2	/* Set receive parameters */
+ #define TLS_TX_ZEROCOPY_RO	3	/* TX zerocopy (only sendfile now) */
+ #define TLS_RX_EXPECT_NO_PAD	4	/* Attempt opportunistic zero-copy */
++#define TLS_TX_RECORD_SIZE_LIM	5	/* Maximum record size */
+ 
+ /* Supported versions */
+ #define TLS_VERSION_MINOR(ver)	((ver) & 0xFF)
+@@ -194,6 +195,7 @@ enum {
+ 	TLS_INFO_RXCONF,
+ 	TLS_INFO_ZC_RO_TX,
+ 	TLS_INFO_RX_NO_PAD,
++	TLS_INFO_TX_RECORD_SIZE_LIM,
+ 	__TLS_INFO_MAX,
+ };
+ #define TLS_INFO_MAX (__TLS_INFO_MAX - 1)
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index f672a62a9a52..bf16ceb41dde 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -459,7 +459,7 @@ static int tls_push_data(struct sock *sk,
+ 	/* TLS_HEADER_SIZE is not counted as part of the TLS record, and
+ 	 * we need to leave room for an authentication tag.
+ 	 */
+-	max_open_record_len = TLS_MAX_PAYLOAD_SIZE +
++	max_open_record_len = tls_ctx->tx_record_size_limit +
+ 			      prot->prepend_size;
+ 	do {
+ 		rc = tls_do_allocation(sk, ctx, pfrag, prot->prepend_size);
+diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
+index a3ccb3135e51..09883d9c6c96 100644
+--- a/net/tls/tls_main.c
++++ b/net/tls/tls_main.c
+@@ -544,6 +544,31 @@ static int do_tls_getsockopt_no_pad(struct sock *sk, char __user *optval,
+ 	return 0;
+ }
+ 
++static int do_tls_getsockopt_tx_record_size(struct sock *sk, char __user *optval,
++					    int __user *optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	int len;
++	/* TLS 1.3: Record length contains ContentType */
++	u16 record_size_limit = ctx->prot_info.version == TLS_1_3_VERSION ?
++				ctx->tx_record_size_limit + 1 :
++				ctx->tx_record_size_limit;
++
++	if (get_user(len, optlen))
++		return -EFAULT;
++
++	if (len < sizeof(record_size_limit))
++		return -EINVAL;
++
++	if (put_user(sizeof(record_size_limit), optlen))
++		return -EFAULT;
++
++	if (copy_to_user(optval, &record_size_limit, sizeof(record_size_limit)))
++		return -EFAULT;
++
++	return 0;
++}
++
+ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 			     char __user *optval, int __user *optlen)
+ {
+@@ -563,6 +588,9 @@ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 	case TLS_RX_EXPECT_NO_PAD:
+ 		rc = do_tls_getsockopt_no_pad(sk, optval, optlen);
+ 		break;
++	case TLS_TX_RECORD_SIZE_LIM:
++		rc = do_tls_getsockopt_tx_record_size(sk, optval, optlen);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -812,6 +840,43 @@ static int do_tls_setsockopt_no_pad(struct sock *sk, sockptr_t optval,
+ 	return rc;
+ }
+ 
++static int do_tls_setsockopt_tx_record_size(struct sock *sk, sockptr_t optval,
++					    unsigned int optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	struct tls_sw_context_tx *sw_ctx = tls_sw_ctx_tx(ctx);
++	u16 value;
++
++	if (sw_ctx->open_rec)
++		return -EBUSY;
++
++	if (sockptr_is_null(optval) || optlen != sizeof(value))
++		return -EINVAL;
++
++	if (copy_from_sockptr(&value, optval, sizeof(value)))
++		return -EFAULT;
++
++	if (value < TLS_MIN_RECORD_SIZE_LIM)
++		return -EINVAL;
++
++	if (ctx->prot_info.version == TLS_1_2_VERSION &&
++	    value > TLS_MAX_PAYLOAD_SIZE)
++		return -EINVAL;
++
++	if (ctx->prot_info.version == TLS_1_3_VERSION &&
++	    value - 1 > TLS_MAX_PAYLOAD_SIZE)
++		return -EINVAL;
++
++	/*
++	 * For TLS 1.3: 'value' includes one byte for the appended ContentType.
++	 * Adjust the kernel's internal plaintext limit accordingly.
++	 */
++	ctx->tx_record_size_limit = ctx->prot_info.version == TLS_1_3_VERSION ?
++				    value - 1 : value;
++
++	return 0;
++}
++
+ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 			     unsigned int optlen)
+ {
+@@ -833,6 +898,9 @@ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 	case TLS_RX_EXPECT_NO_PAD:
+ 		rc = do_tls_setsockopt_no_pad(sk, optval, optlen);
+ 		break;
++	case TLS_TX_RECORD_SIZE_LIM:
++		rc = do_tls_setsockopt_tx_record_size(sk, optval, optlen);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -1022,6 +1090,7 @@ static int tls_init(struct sock *sk)
+ 
+ 	ctx->tx_conf = TLS_BASE;
+ 	ctx->rx_conf = TLS_BASE;
++	ctx->tx_record_size_limit = TLS_MAX_PAYLOAD_SIZE;
+ 	update_sk_prot(sk, ctx);
+ out:
+ 	write_unlock_bh(&sk->sk_callback_lock);
+@@ -1111,6 +1180,11 @@ static int tls_get_info(struct sock *sk, struct sk_buff *skb, bool net_admin)
+ 			goto nla_failure;
+ 	}
+ 
++	err = nla_put_u16(skb, TLS_INFO_TX_RECORD_SIZE_LIM,
++			  ctx->tx_record_size_limit);
++	if (err)
++		goto nla_failure;
++
+ 	rcu_read_unlock();
+ 	nla_nest_end(skb, start);
+ 	return 0;
+@@ -1132,6 +1206,7 @@ static size_t tls_get_info_size(const struct sock *sk, bool net_admin)
+ 		nla_total_size(sizeof(u16)) +	/* TLS_INFO_TXCONF */
+ 		nla_total_size(0) +		/* TLS_INFO_ZC_RO_TX */
+ 		nla_total_size(0) +		/* TLS_INFO_RX_NO_PAD */
++		nla_total_size(sizeof(u16)) +   /* TLS_INFO_TX_RECORD_SIZE_LIM */
+ 		0;
+ 
+ 	return size;
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index bac65d0d4e3e..28fb796573d1 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -1079,7 +1079,7 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+ 		orig_size = msg_pl->sg.size;
+ 		full_record = false;
+ 		try_to_copy = msg_data_left(msg);
+-		record_room = TLS_MAX_PAYLOAD_SIZE - msg_pl->sg.size;
++		record_room = tls_ctx->tx_record_size_limit - msg_pl->sg.size;
+ 		if (try_to_copy >= record_room) {
+ 			try_to_copy = record_room;
+ 			full_record = true;
+-- 
+2.51.0
+
