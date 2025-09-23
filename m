@@ -1,342 +1,106 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C183D263C91
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 15:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C021A23B9
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 15:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758641209; cv=none; b=gT4tv7z/Qkv1RyJELYlU4ZsAEC+jyw2dOSQB3ZJrR3nxg9ks/8LHyW/7w0zpkhseTWM+pVjbOnUZ9gIFGl+T+moBiqcraSkBQLgogZkPaieNiYRKY0sZOwToJLvbknXmDURpihcFAa84aWA7Kf0eNT78y3gG3Khg2fBWOamXh8A=
+	t=1758641981; cv=none; b=baR/xdOfFZqtIMF6X9u0WMNdxN7wZ0aRuIisbtrU40Ml0nio6YFIM7SwWhwld06mVYVgsG2ZDugcBYqoSmiPU2ifnENEZtpE94N3VuxUwboEYpvFccHYXTy/wdgvViUfXpCU3rJlxB7nYhORx7+Szn8P4TpbgQv60jMA15Hx+gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758641209; c=relaxed/simple;
-	bh=kaKJnwuEkzZmdkmDiRMNrFo/E/FqZSWxp73K52uXOY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lwo2K69H4j8XHiBm1jcMB56yvYegWI9T8CwP4ST8Rxhcfyszcw3eHtAkafd99++tngtxB5VZYRxD6PLxDkuvgCAcwN3VirMMgT2sD0KdW58PUGvvvJEE2kPk10eR6wdy5AgqKl6QN9YMskL4+y5aGcjjgVaBOQh1AgblhR+Ps3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F0hRix8m; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758641981; c=relaxed/simple;
+	bh=leaYlnpusCp0sviLQ30QGe0J2gUEvF7RJCcVhGVbZ14=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LjhhlVyQgAIoDWk/voNi6RZdG3iA56mt3DkP031DpJXwXqdg2S95CiNAX6dBL3rUtlmFM3ZD92YYOCDGmzTshMkT9ybmdRMej9C1oLl/TsAJX79IYw7P36+7lkhKwDb0Y5UlNi5zH8VmPUWBilQ7OJdx/H9iRCC8LT7yLUz3NVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=XFBsSAOS; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F0hRix8m"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b5565f0488bso428948a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 08:26:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="XFBsSAOS"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b5eee40cc0so56142511cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 08:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758641207; x=1759246007; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JtLLJPUyvnbUDs0ep8FNq7qhKgC6O8fsZCUGkck74jg=;
-        b=F0hRix8mFCj6SdW1bsK0MYkDJ6uVqvYPFTfuXpDL/BkBO65CVxogfh3bcd82yrF0NR
-         5jOavuRK0DrYIxsYBb7ecqsjnOwUvWUfzcIwA0KDAapXjammQFN9ZTOn40Mfzwb4snQX
-         z0an61zzuUpyMJKOPq44t5cgw4y7zlHuGkZK8ZwHZFnHQmB90vAqo9dhX5BXAL2aqI0q
-         KC9EDm/Xx8iQdVcGxJqunfaMd1N++hTdQuxO8Y2OqqOqc821iCO+uvfo2edBKMJlyNIY
-         GzCy7JcJ8nhmNBZPPMlkigDNJnwPsF3Ep146Sa9ZQkN1wjD2mrDVoUXq4bwhbDD+vzZS
-         BHTQ==
+        d=szeredi.hu; s=google; t=1758641979; x=1759246779; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DZbdjr9165OSR3oEX8S38orQ1XZpFhmOJaG/L+oMydw=;
+        b=XFBsSAOSkNNBCgIHM/jKfQNGj4uSj9EQlt0cFgJHkFOyOKC7kmCDBKNJMj2KeN6n5y
+         v0HP1/T1smZv3jtMbwDhmrogOyQV4/yerCIowlzcsLDu251YPlVtiAaqBbOETPWQ8Mbt
+         Ua9/zrGmL9NHQRBwrwVHf9qE05S6H3Sh2DFCs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758641207; x=1759246007;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JtLLJPUyvnbUDs0ep8FNq7qhKgC6O8fsZCUGkck74jg=;
-        b=TIcCFkplQZQd2P/j7aK/xImrEXoZlsUNylcw8Z2a1SxQ5mrxx+5X+fTg4vVbVOz86q
-         uZbQkgEV5NnLSDNe2JlvZMqW9uFRjF50EnsXQJQmFcHfJO9KCRY9tR2uPOie/UENM16P
-         U3Xf6m5F2roB7NWwEt4qOF3tkO3P3csP8JJLcQQgEG6k9Hy7DuFj2PLuU+S/hjUHePNb
-         HLIvrtXarPH4tKNz3ratC8az6GqkB6x+MWgkoyVJngF5uuHxDTo6nuYPnmTB6FpRHIAw
-         s9jzVHa93dhZOth5mIqj9exGSuRDdMhlO9g+qAoMPhZKi8cxRWbsH819lfoUk1N0WQd6
-         ileg==
-X-Forwarded-Encrypted: i=1; AJvYcCUuSurHR/kocjgBOBROFy8pq3KV/uE6wHvuUCEeRzdzDnS9Uph5rlmXWWF5BvZboAIM/87iyvmMv24=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+Mwv0+ptv4vkP4kTkZCqo+Rm0KE1SXue6yir2a3fLWIqT0yZ2
-	KvYQ07j+fZ4/CmljF3VZmhT4XXP6L2aqHvjWp+MznXj90whjdMysP8VXaNLU28rtuUo=
-X-Gm-Gg: ASbGncu4tyC7HZhDh9jqPTJPkgOznDfNkJQvjqz+r8JLNGMF/L5HldH6yHfzu7p6EJr
-	E5iB8v8KEPF1bfbcc/zDMuDZpeqRmlJPJM3kB1Zg1cprxy5nWyl2koGk1/98pm2RVrAl/jmhGzm
-	8r08pBgRlNvdMysKwELjhiKh99/v9zYrsEfyrsuApjdZzyNHfmkVOLB0NdX8amK9D845ZEvlA0w
-	iRIfGlwVTs/qEKiFPMHMKs2KQXoJcZXVuc1elfqECsP5I5pcmCR44gvcHiRXsDIwhE4nHVUiZUZ
-	shNU+U+mROhgbXm1uNE02zHJ2/r7Eb5jhxFccGM1xeL5h4USJslkP74GIqpYBRAPjeP0iNrMINn
-	JRMx6RtPkBEYJ8MbLyVmDCYidcXqfpAv54st5yHykvw==
-X-Google-Smtp-Source: AGHT+IF3IQzctelwt6QED/lVfPI8J15a2FqB0oJ/xmEvDqfE+VEGFk89FOsvI3j+XpDLzUaWQAhfXA==
-X-Received: by 2002:a17:903:1590:b0:26b:7a8b:32cc with SMTP id d9443c01a7336-27cc3d05a95mr38529245ad.17.1758641206875;
-        Tue, 23 Sep 2025 08:26:46 -0700 (PDT)
-Received: from localhost ([2804:30c:b65:6a00:ceaa:2ed0:e81e:8f51])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-27a9eecd148sm49330535ad.122.2025.09.23.08.26.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 08:26:45 -0700 (PDT)
-Date: Tue, 23 Sep 2025 12:27:33 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH v2 6/8] iio: adc: ad4030: Add SPI offload support
-Message-ID: <aNK8ZZu74mK0_ygB@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1758214628.git.marcelo.schmitt@analog.com>
- <da55c0ed6fe895dc84e79c8b64e5923a4851e58f.1758214628.git.marcelo.schmitt@analog.com>
- <30659b16-290d-4ae5-a644-214c106bbe87@baylibre.com>
+        d=1e100.net; s=20230601; t=1758641979; x=1759246779;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DZbdjr9165OSR3oEX8S38orQ1XZpFhmOJaG/L+oMydw=;
+        b=reUZXqFhLsVVra/El+V2/Xy5+mQESLHOdkDSRL9T7QpGHnuptT0YKCxHBzmycxcHF/
+         M0fKcAy+5Tk4V/uB+33wjTYori6Zp1RBL+9Dg3mzLQogw1fG7VloqYj4J4wkxZVcKP2g
+         c7KyNHLH5vCYr5V5d/h4J9vB2oCFvaPhfssu6fRpaPThrmOIcCKMKFL5b3FGLiqOwMZ5
+         Cwlxb37o5Q6jNGY85Zjmg+3CcShG9SmfZPjbm7LhOZ3L1nvm/95Ndiw3F1BM/zaGsOSO
+         Ox4wynbqW4P8RgUpR/1X2CRfWcZcijtA3i9FAMT/xKMHuRqkjq/NG2HQ21FC/7ZOrQLR
+         yg0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGzis3MS4xw7PTvTxrTsP+/zmRCR9HV+GUA4galdw2j0md5j7RNjuNknu0mgOOvur+9aeBBkqWqs4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3Mx5oJXtGCIa03MwbHa0MZnpeHp8lU9f6HU0Sb9n3cmSmp8C4
+	RoQxXdaHgdbgur8XS+z8ETUnzT61qDWHNrvsF9rrHuPLJy4tyHNXJRGns5KMZaDzDvDfr6kCUIk
+	kaP9Y1Cu/XnPFI3jCbWjVNNTXfvRhnHf+oYX+daBQLQ==
+X-Gm-Gg: ASbGncv2ATL92stqdAa+xoB95YBY53yVcJHrLJ3nzoQpokU9H7CyPFOpy9mVtLcXOZE
+	nyfY4pi+C3vyp1nOVsygsJMh15UZaiIYTx2v5jmSheeqSI6KgTcyFNqSMIILuf/FVuZy2xwlXKa
+	AcTzf2zDQ7Ve50g1QXgE9ge0Bbf4opiJL9EipN4YI2iuDcrSXRn0ph3B/1pzxN8PAbZs9POWzEV
+	21nyYskpJ7I6uZeLM8JAYK0AAPclN9pxWJ7iczPnVU0xvbRfqBnM743pbNWlSaMtNHE/qKar/LB
+	r2pE+Dc=
+X-Google-Smtp-Source: AGHT+IGspaeUy0TVQz+LKc1fihw58Q7yPvQbyT2d42SL63rUJcZogQsEDyrgJGDuBFJvNYzyLCvEvUn0X00pmc3DhAA=
+X-Received: by 2002:a05:622a:1b13:b0:4ba:c079:b0d8 with SMTP id
+ d75a77b69052e-4d367081860mr29707731cf.17.1758641978539; Tue, 23 Sep 2025
+ 08:39:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <30659b16-290d-4ae5-a644-214c106bbe87@baylibre.com>
+References: <20250923002353.2961514-1-joannelkoong@gmail.com> <20250923002353.2961514-14-joannelkoong@gmail.com>
+In-Reply-To: <20250923002353.2961514-14-joannelkoong@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 23 Sep 2025 17:39:13 +0200
+X-Gm-Features: AS18NWD8_t8WUM8mJa_Wrlt8XR1hgYkR6Ub6lG20YNejgtDUqRhxsnnPFLDpPVI
+Message-ID: <CAJfpegsBRg6hozmZ1-kfYaOTjn3HYcYMJrGVE_z-gtqXWbT_=w@mail.gmail.com>
+Subject: Re: [PATCH v4 13/15] fuse: use iomap for read_folio
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, djwong@kernel.org, hch@infradead.org, 
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, hsiangkao@linux.alibaba.com, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi David, thanks for the insightful review.
+On Tue, 23 Sept 2025 at 02:34, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-On 09/22, David Lechner wrote:
-> On 9/18/25 12:39 PM, Marcelo Schmitt wrote:
-> > AD4030 and similar ADCs can capture data at sample rates up to 2 mega
-> > samples per second (MSPS). Not all SPI controllers are able to achieve such
-> > high throughputs and even when the controller is fast enough to run
-> > transfers at the required speed, it may be costly to the CPU to handle
-> > transfer data at such high sample rates. Add SPI offload support for AD4030
-> > and similar ADCs to enable data capture at maximum sample rates.
-> 
-> I tried testing this with AD4630-24 but didn't have luck in actually
-> capturing data. I'm 100% sure the problem is with the FPGA. And the
-> evaluation board doesn't have any place to attach a logic analyzer for
-> debugging. That means that I wasn't able to reliabably test this code
-> yet. But I don't expect my problems to be solved any time soon, so I
-> don't want to let that hold up progress. I would have really liked to
-> have been able to see the actual timings over the wire to make sure
-> we got all of that correct.
-> 
-Even if you hook up probes to the SPI lines, you might not be able to logic
-analyze the transfers at frequencies like 100 MHz or even at 80 MHz unless you
-have a very fast logic analyzer or oscilloscope. To debug these signals we
-usually change the HDL verilog to add ILA debug cores to record the signals on
-the FPGA. I'll see if I can get or build the project with those ILA cores set.
-Another thing is getting the correct combination of HDL + device tree because
-we have a few possible HDL build configurations (for number of lanes, clock mode,
-DDR/DTR, and capture zone) and the device tree must be coherent with what runs
-on the FPGA. I'll send you some of boot files I was using during my tests.
+>  static int fuse_read_folio(struct file *file, struct folio *folio)
+>  {
+>         struct inode *inode = folio->mapping->host;
+> -       int err;
+> +       struct fuse_fill_read_data data = {
+> +               .file = file,
+> +       };
+> +       struct iomap_read_folio_ctx ctx = {
+> +               .cur_folio = folio,
+> +               .ops = &fuse_iomap_read_ops,
+> +               .read_ctx = &data,
+>
+> -       err = -EIO;
+> -       if (fuse_is_bad(inode))
+> -               goto out;
+> +       };
+>
+> -       err = fuse_do_readfolio(file, folio, 0, folio_size(folio));
+> -       if (!err)
+> -               folio_mark_uptodate(folio);
+> +       if (fuse_is_bad(inode)) {
+> +               folio_unlock(folio);
+> +               return -EIO;
+> +       }
+>
+> +       iomap_read_folio(&fuse_iomap_ops, &ctx);
 
-> > ---
-...
-> > [IIO]
-> >> Why using slower speed for offload?
-> > Looks like it's the same max speed for both register access and data sample.
-> > So, just reusing the existing define for the max transfer speed.
-> 
-> I don't follow. The "REG" in AD4030_SPI_MAX_REG_XFER_SPEED stands for
-> "register". The actual max speed for reading sample data should be coming
-> from the devicetree since it is faster and depends on the wiring and VIO
-> voltage. It could be as much as 102 MHz.
-> 
-I have finally I noticed the SPI compatible mode timings. Sure, will adapt to
-use faster sample rate when possible.
-
-
-> Unrelated to this series, I still think 80 MHz is faster that it needs
-> to be for AD4030_SPI_MAX_REG_XFER_SPEED. It is fine to do them slower,
-> e.g. at 10 MHz to reduce the risk of errors and also makes it easier to
-> debug using a logic analyzer.
-
-Sure, will do that.
-
-> 
-> > 
-> >  drivers/iio/adc/Kconfig  |   3 +
-> >  drivers/iio/adc/ad4030.c | 485 +++++++++++++++++++++++++++++++++++----
-> >  2 files changed, 445 insertions(+), 43 deletions(-)
-> > 
-> > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> > index 58a14e6833f6..2a44fcaccf54 100644
-...
-> > +	cnv_wf.period_length_ns = DIV_ROUND_CLOSEST(NSEC_PER_SEC, freq);
-> > +	/*
-> > +	 * The datasheet lists a minimum time of 9.8 ns, but no maximum. If the
-> > +	 * rounded PWM's value is less than 10, increase the target value by 10
-> > +	 * and attempt to round the waveform again, until the value is at least
-> > +	 * 10 ns. Use a separate variable to represent the target in case the
-> > +	 * rounding is severe enough to keep putting the first few results under
-> > +	 * the minimum 10ns condition checked by the while loop.
-> > +	 */
-> > +	do {
-> > +		cnv_wf.duty_length_ns = target;
-> > +		ret = pwm_round_waveform_might_sleep(st->cnv_trigger, &cnv_wf);
-> > +		if (ret)
-> > +			return ret;
-> > +		target += AD4030_TCNVH_NS;
-> > +	} while (cnv_wf.duty_length_ns < AD4030_TCNVH_NS);
-> > +
-> > +	if (!in_range(cnv_wf.period_length_ns, AD4030_TCYC_NS, INT_MAX))
-> > +		return -EINVAL;
-> 
-> I hit this error during testing with the default max_sample_rate_hz assigned
-> in probe. We could have a loop for this too to try to get the closest valid
-> period rather than erroring if the exact value isn't available.
-> 
-Yes, this makes sense. Though, looping to try to get a suitable period wouldn't
-potentially also change the duty_length we settled above?
-
-> > +
-> > +	offload_period_ns = cnv_wf.period_length_ns;
-> > +	if (st->mode == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
-> 
-...
-> > +static int ad4030_set_sampling_freq(struct iio_dev *indio_dev, int freq)
-> > +{
-> > +	struct ad4030_state *st = iio_priv(indio_dev);
-> > +
-> > +	/*
-> > +	 * We have no control over the sampling frequency without SPI offload
-> > +	 * triggering.
-> > +	 */
-> > +	if (!st->offload_trigger)
-> > +		return -ENODEV;
-> > +
-> > +	if (!in_range(freq, 1, st->chip->max_sample_rate_hz))
-> > +		return -EINVAL;
-> > +
-> > +	guard(mutex)(&st->lock);
-> 
-> Why not iio_device_claim_direct() instead of a new lock? We wouldn't
-> want to change the sampling frequency during a buffered read anyway.
-> This driver already uses iio_device_claim_direct() to protect other
-> register access.
-
-The new lock is to protect concurrent updates of the oversampling and sampling
-frequency. Since, oversampling and the sampling frequency properties are
-mutually dependent one from another, a simultaneous write to those attributes
-could lead to an invalid oversamp + samp freq configuration.
-
-> 
-> > +	return __ad4030_set_sampling_freq(st, freq, st->avg_log2);
-> > +}
-> > +
-...
-> > +static void ad4030_prepare_offload_msg(struct iio_dev *indio_dev)
-> > +{
-> > +	struct ad4030_state *st = iio_priv(indio_dev);
-> > +	u8 offload_bpw;
-> > +
-> > +	if (st->mode == AD4030_OUT_DATA_MD_30_AVERAGED_DIFF)
-> > +		offload_bpw = 32;
-> > +	else
-> > +		offload_bpw = st->chip->precision_bits;
-> > +
-> 
-> > +	st->offload_xfer.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED;
-> 
-> As mentioned at the beginning, drop this line and let it use the max
-> speed from the devicetree.
-> 
-> > +	st->offload_xfer.bits_per_word = roundup_pow_of_two(offload_bpw);
-> 
-> Why roundup_pow_of_two()? The SPI controller can do 24 bits per word.
-> And if we are reading both a 24-bit value and the common mode voltage,
-> this would cause both to be read in 1 word.
-> 
-> Speaking of which, I think this will need a possible second xfer with
-> bpw=8 if we want to read the common mode voltage.
-> 
-> Or, if the intention was to not allow it, we need different scan masks.
-> But I don't see a reason why we could not allow it.
-> 
-Nothing says we couldn't support offloading transfers with
-differential + common-mode data, at least in theory. So, I didn't felt like it
-should be prevented. Though, offloading differential + common-mode data is
-a configuration I couldn't really test with ADAQ4216 because the HDL is ... peculiar.
-
-
-> Or, if this is making a assumptions about extra hardware being present
-> to move bits around between reading them over the SPI bus and pushing the
-> values to DMA, then there should be some comments about that. More on that
-> below.
-> 
-> > +	st->offload_xfer.len = spi_bpw_to_bytes(offload_bpw);
-> > +	st->offload_xfer.offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-> > +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer, 1);
-> > +}
-> > +
-...
-> > +static int ad4030_spi_offload_setup(struct iio_dev *indio_dev,
-> > +				    struct ad4030_state *st)
-> > +{
-> > +	struct device *dev = &st->spi->dev;
-> > +	struct dma_chan *rx_dma;
-> > +
-> > +	indio_dev->setup_ops = &ad4030_offload_buffer_setup_ops;
-> > +
-> > +	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
-> > +							   SPI_OFFLOAD_TRIGGER_PERIODIC);
-> > +	if (IS_ERR(st->offload_trigger))
-> > +		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-> > +				     "failed to get offload trigger\n");
-> > +
-> > +	st->offload_trigger_config.type = SPI_OFFLOAD_TRIGGER_PERIODIC;
-> 
-> If we want to be really strict/generic here, we should not be allowing
-> chips with num_voltage_inputs == 2 and a single SPI bus/deserializer (i.e.
-> channel data is interleaved). In this case, extra hardware is required
-> to do the de-interleaving (i.e. the spi_axis_reorder IP block).
-
-By channel data is interleaved you mean data from both channels going out on
-SDO0 (LANE_MD == 0b11)? In that case, yes, I think so. Only the ADC driver would
-know about data being interleaved and it would not be able to descramble it when
-data gets pushed up through DMA.
-
-> 
-> We could take the easy way out and just always assume that is there.
-> In that case, we should makes some comments here about such assumptions.
-> 
-> Or we could actually describe it properly in the devicetree and check
-> for that here. This came up during the discussions when I was upstreaming
-> SPI offload support. It would look something like this...
-> 
-> In the devicetree, instead of having the DMA connected to the SPI controller,
-> we now have a separate IP block with it's own node between them.
-> 
-> /* spi_axis_reorder IP block */
-> reorder: offload-stream-sink@4000000 {
-> 	compatible = "adi,axi-spi-reorder";
-> 	reg = <0x4000000 0x1000>;
-> 	clocks = <&spi_clk>;
-> 	dmas = <&adc_dma>;
-> };
-> 
-> spi@5000000 {
-> 	compatible = "adi,axi-spi-engine-1.00.a
-> 	reg = <0x4000000 0x1000>;
-> 	clocks = <&clkc 15>, <&spi_clk>;
-> 	clock-name "s_axi_aclk", "spi_clk";
-> 
-> 	trigger-sources = <&pwm_trigger>;
-> 	offload-streams = <&reorder>;
-> 	offload-stream-names = "offload0-rx";
-> 
-> 	...
-> };
-> 
-> Then here in the driver, we would need a different (non-existing)
-> API to get the DMA from this offload-stream rather than calling
-> devm_spi_offload_rx_stream_request_dma_chan(). Or extend the SPI
-> controller to handle that.
-> 
-> Or 3rd option: If easy way is not acceptable and "right way" is too much
-> work, we could just return error here for num_voltage_inputs == 2 until
-> we add support for SPI controllers with two buses/deserializers.
-> 
-3rd option sounds more reasonable for the moment.
-I think this might, alternatively, be supported as something associated with
-spi-rx/tx-bus-width dt property. The question we seem to be trying to answer is,
-how data coming from a multi-line bus is expected to be delivered?
-
-
-> > +
-> > +	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
-> > +	if (IS_ERR(rx_dma))
-> > +		return dev_err_probe(dev, PTR_ERR(rx_dma),
-> > +				     "failed to get offload RX DMA\n");
-> > +
-> > +	return devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
-> > +							   IIO_BUFFER_DIRECTION_IN);
-> > +}
-> > +
+Why is the return value ignored?
 
 Thanks,
-Marcelo
+Miklos
