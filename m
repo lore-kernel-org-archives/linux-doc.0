@@ -1,90 +1,123 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE947464
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 05:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF5C266584;
+	Tue, 23 Sep 2025 06:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758606932; cv=none; b=U+lTedvzRmfsV64XoUPl4kRoyaDhOpj4Ydcsqr94XLqBlso54Sk7MeKPebHRABn4GCDhxr89y8XZXU79MUN9N6uwJg61YBD3bzaoV3qjtr+HCDTI9WH2W57LEdgYAYifb3+JRQO2VGzQs6Pp3ugEwspwqdi/z8aWRuPh2kXmvrM=
+	t=1758607435; cv=none; b=FPsUqXGaor5OK9KnBUZDvDjElAnUKtf/CNnguyB4BQL0M1OKBtdzNIJtS9hOAmiiJNknCnIZ+fnDV/QJJYyK0bQJNWnFOoG4tvCBZQNXmjfLtrvmPRe7CVqiHLjo4uXbB4POM5rcUQQfvak2VIAJBj7sbRAV0OwJAPoyKaLo0bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758606932; c=relaxed/simple;
-	bh=SoPfLk2DSDCpNsQZD7sbEkXBsstIKZ4MGHGrubKHjys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H275caPr/qSjOjEZHVsiKwcM1XzEf6dxvoIXqF2Attukp5/gfCnJapVLO8WalprrACLvyh8q8WZs6Aio7fucpPELnHgHjR0lNsBHFqVj6j96+aVgwdWq772uiqDui+K0m5uxyYgrM2Nf9MYdR9If3/jqDbbUrjtucypoB8qGqsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C4K0JJSU; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1758607435; c=relaxed/simple;
+	bh=Akpi3WyvrbZk+0Kn3cw3wKYlEF+zREUQ7cH8FLZet9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ndTlZpnyiupVzgwKhUF9i+zi2BiUUeuRGR/lFIihCsCQpTp23h1C5HgDIHavio30vaEXhVjdExMXxRnQL1WqSrFOlqxGXUq3M2havUrkGYWL5xW8N0yWTsXZ6I77JDP3EJ9pGy+sDCzMV04W+4798mGSnZIppaXI8Uqp18TrhMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C4e14nSs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C4K0JJSU"
-Message-ID: <06facb7b-7d1b-44fd-b530-9a5300db7d4c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758606928;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rd86CekFRCCLc7IBqjmg6J/oTeL60UxfJLHsCJAGs00=;
-	b=C4K0JJSUHWCq0hAzivX+hcOLVF4wlwo4/iqy3zE+J6pY0R+ciKmC5ahYEi5jpwEPjwMkTi
-	qpDlrasjAE5P52wQQq3+gso0M6eHh9ykW/hK21DVHxg2pCOM+orvHdpqot3z4IyUJF4hR2
-	iHvCzobMFHR+0NdSezo3S4XFy/eqUN8=
-Date: Tue, 23 Sep 2025 13:55:20 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C4e14nSs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C25DC4CEF7;
+	Tue, 23 Sep 2025 06:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758607434;
+	bh=Akpi3WyvrbZk+0Kn3cw3wKYlEF+zREUQ7cH8FLZet9M=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=C4e14nSsgXMKMJmh2tQoiD0av/KbiujxLDhRy1NQTa1sprOvlL9OFQVdb3LiRg8ei
+	 S2F8U3wzlvlVjF4bbmy5k4yunZb1WLtfGG9E9AA/Cvr9wFISZcDOsuzMGwbVIRkD1e
+	 sKmUoikiDzaX+14IBU1yBtkZh04O+HguECvzst4IUxE0xd2qFISUljBqKDJbqU1GO4
+	 rL9ihOROdwu9ooL+HwU+ovL8gbTo94s7vmaX27fAmL9++dY618HRgacHDEQ6Uc5wtv
+	 zF7b+pebUXyyfdyL2OY2oPybfmtG9xXWcJCIjl+9N+tMJlf0E+BRAqxvISWCrIp/2I
+	 S2H4Z0LQ1mkRw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 377CCCE1395; Mon, 22 Sep 2025 23:03:52 -0700 (PDT)
+Date: Mon, 22 Sep 2025 23:03:52 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: "Li,Rongqing" <lirongqing@baidu.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"lance.yang@linux.dev" <lance.yang@linux.dev>,
+	"mhiramat@kernel.org" <mhiramat@kernel.org>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"mingo@kernel.org" <mingo@kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"kees@kernel.org" <kees@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>,
+	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+	"pauld@redhat.com" <pauld@redhat.com>,
+	"joel.granados@kernel.org" <joel.granados@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [????] Re: [PATCH][RFC] hung_task: Support to panic when the
+ maximum number of hung task warnings is reached
+Message-ID: <36db2f10-ebbe-4ecd-b27f-e02d9e1569c2@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20250923033740.2696-1-lirongqing@baidu.com>
+ <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
+ <f11f4dd1983f4073a8008112e55f92f8@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: =?UTF-8?B?UmU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdW1JGQ10gaHVuZ190?=
- =?UTF-8?Q?ask=3A_Support_to_panic_when_the_maximum_number_of_hung_task_warn?=
- =?UTF-8?Q?ings_is_reached?=
-Content-Language: en-US
-To: "Li,Rongqing" <lirongqing@baidu.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: "corbet@lwn.net" <corbet@lwn.net>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>,
- "paulmck@kernel.org" <paulmck@kernel.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "mingo@kernel.org" <mingo@kernel.org>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "pauld@redhat.com" <pauld@redhat.com>,
- "joel.granados@kernel.org" <joel.granados@kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250923033740.2696-1-lirongqing@baidu.com>
- <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
- <9067a88d-f5df-4d6e-b3b3-2e266ebcf3d0@linux.dev>
- <bbdc2b5c2b374ed1801113148a72d83c@baidu.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <bbdc2b5c2b374ed1801113148a72d83c@baidu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f11f4dd1983f4073a8008112e55f92f8@baidu.com>
 
-
-
-On 2025/9/23 13:22, Li,Rongqing wrote:
->>> I assume the same argument applies to the NMI watchdog, to the
->>> softlockup detector and to the RCU stall detector?
->>>
->>> A general framework to handle all of these might be better.  But why
->>> do it in kernel at all?  What about a userspace detector which parses
->>> kernel logs (or new procfs counters) and makes such decisions?
->>
->> +1. I agree that a userspace detector seems more appropriate for this.
->>
-> 
-> I think the user-space maybe flexibility, but incurs relatively higher overhead and is less reliable. When the system hangs, this task may have already hung as well.
-
-Emmm... if the system is so degraded that a userspace monitor cannot get
-scheduled, it's very likely that khungtaskd itself is also struggling to
-run, right?
-
+On Tue, Sep 23, 2025 at 04:00:03AM +0000, Li,Rongqing wrote:
 > 
 > 
->> We already have the hung_task_detect_count counter, so a userspace detector
->> could easily use that to implement custom policies ;)
+> > -----Original Message-----
+> > From: Andrew Morton <akpm@linux-foundation.org>
+> > Sent: 2025年9月23日 11:46
+> > To: Li,Rongqing <lirongqing@baidu.com>
+> > Cc: corbet@lwn.net; lance.yang@linux.dev; mhiramat@kernel.org;
+> > paulmck@kernel.org; pawan.kumar.gupta@linux.intel.com; mingo@kernel.org;
+> > dave.hansen@linux.intel.com; rostedt@goodmis.org; kees@kernel.org;
+> > arnd@arndb.de; feng.tang@linux.alibaba.com; pauld@redhat.com;
+> > joel.granados@kernel.org; linux-doc@vger.kernel.org;
+> > linux-kernel@vger.kernel.org
+> > Subject: [????] Re: [PATCH][RFC] hung_task: Support to panic when the
+> > maximum number of hung task warnings is reached
+> > 
+> > On Tue, 23 Sep 2025 11:37:40 +0800 lirongqing <lirongqing@baidu.com> wrote:
+> > 
+> > > Currently the hung task detector can either panic immediately or
+> > > continue operation when hung tasks are detected. However, there are
+> > > scenarios where we want a more balanced approach:
+> > >
+> > > - We don't want the system to panic immediately when a few hung tasks
+> > >   are detected, as the system may be able to recover
+> > > - And we also don't want the system to stall indefinitely with multiple
+> > >   hung tasks
+> > >
+> > > This commit introduces a new mode (value 2) for the hung task panic behavior.
+> > > When set to 2, the system will panic only after the maximum number of
+> > > hung task warnings (hung_task_warnings) has been reached.
+> > >
+> > > This provides a middle ground between immediate panic and potentially
+> > > infinite stall, allowing for automated vmcore generation after a
+> > > reasonable
+> > 
+> > I assume the same argument applies to the NMI watchdog, to the softlockup
+> > detector and to the RCU stall detector?
+> 
+> True, especial RCU stall detector
 
+There are the panic_on_rcu_stall and max_rcu_stall_to_panic sysctls, which
+together allow you to panic after (say) three RCU CPU stall warnings.
+Does those do what you need?
+
+							Thanx, Paul
+
+> > A general framework to handle all of these might be better.  But why do it in
+> > kernel at all?  What about a userspace detector which parses kernel logs (or
+> > new procfs counters) and makes such decisions?
+> 
+> 
+> By leveraging existing kernel mechanisms, implementation in kernel is very simple and reliable, I think
+> 
+> Thanks
+> 
+> -Li
+> 
