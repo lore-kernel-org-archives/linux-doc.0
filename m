@@ -1,137 +1,104 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9142DFA2B
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 17:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14671D5146;
+	Tue, 23 Sep 2025 18:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758650117; cv=none; b=hmFgkK/iM+Qe+TA2sPnmJcnTAc1Xg8+nFDPQtCTCNlE//QgwulNU0biHVpxTIi5gGKbefth/T+/fOysvylZ7QwF3hEGEYnH/dFsWjvdaO/OYvnKNXA/xYIyCjp7xrscN9RFwUXYUaMJib+tw1Nfk/jP96RZC7AL7veaKhqetL0E=
+	t=1758652259; cv=none; b=WZJqfUUL2IakVq+4oL4LUaP67BH94FZXZrValhIKrGP/4gHDzVrySWuwAfabyvZ+4djvXIeJAUP2aqvxltqq5xPLqAlC/7qXR/ZDUkvjdCYkQiSszxXH2mhbrdw4hTeOEOjQyFJvVvw4HCikcdaVAZcSqS5bGtUvelyAupXukyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758650117; c=relaxed/simple;
-	bh=Z2C+Zr9rO4Hy0wmre+SBKLxQGtpKfYh9uDkWGglQ+E0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sk7ZU532wL3vfF3C7xVXa2WDIhv4EN08q8xRmxfBHk2lOdHGogsD+1ZbbpqRrwudOy/GmOo1D4DFVXzKCGXdU+wmHYUdXIFnuw9lgA/GTq9yFlYuGbNJaSLSbLh/xgRuDNNLrOEZrjwzk1FH0foHZuDOYFKXgfK+SMUGuflb2Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iBS1BtH2; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758652259; c=relaxed/simple;
+	bh=gxKH7wZVbZJUgsdcRmV6yXRnCWQ9TqZ9bpedLe1yt7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uVrFjialsgDG3tOimC/Btv70vsr7w9/2R83f4nqsInRSs4SXZWtaxGCpaHQ8vNJhXlEbazZGXaozHXLQxUMBtguJ3r+haVBUAgFuds+F0DCCBsYgzhdYHUYUaN2CBYA3EsZ83IhH25ctSe4ypkQDyig9QR2eYU3CRYY9i+n5zb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4ZXIaWM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iBS1BtH2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758650113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ctyVGN3kd42WN2TVq7DlGowdyVegERHybspGJtbOnv8=;
-	b=iBS1BtH2xfWE5MdDvS5Rou8q+9r4ArQbjg9ipxLtp4WH1Z+Er0TNk1C9s6z8fUn7DEd6UM
-	mm/mqwLp6ooy+DBMaif+p56t8a48t1Z2S48lL/Pf/4fwIGhurg7qDLKmLWtHHgg5r7Ei0b
-	SQ8PU5TEv5muLQqr3oaPRU8cGVH+dxY=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-594-imjkDBftNHmoayfGJ6Yakw-1; Tue,
- 23 Sep 2025 13:55:11 -0400
-X-MC-Unique: imjkDBftNHmoayfGJ6Yakw-1
-X-Mimecast-MFC-AGG-ID: imjkDBftNHmoayfGJ6Yakw_1758650110
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 46F921800578;
-	Tue, 23 Sep 2025 17:55:09 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.81.189])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AEEE53000198;
-	Tue, 23 Sep 2025 17:55:04 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4ZXIaWM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB030C4CEF5;
+	Tue, 23 Sep 2025 18:30:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758652259;
+	bh=gxKH7wZVbZJUgsdcRmV6yXRnCWQ9TqZ9bpedLe1yt7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S4ZXIaWM41Ablw/mVVeAaJkiSYgUA1XjiTWt5LSH4qwLIacOxMZE3jScnz0xix1Wv
+	 SAp5BLuT2R2dCAYXxRdOCtJez17N/cBe9kv8+xOmcpzYoZ/UpcFkDX5GmNuOLJGCFV
+	 Bcs4RLVyhjVQyFhRGAbe1bDHxUFJbKgGu/3vW1Mt1BkujhZ/XZn25PIvUn5jT3S9nw
+	 YVX4n2lhWFpC/hhBuXD/s3h9/tXRxQArUIgc5V0sUKhDNiOC8ABgtjM7Q3+LQGe+ys
+	 cSfhtq2Jd52bcQy4LLrP2uqO++/e9zs0F7UgxrbinfFgheCfADXwZVzyKQ2yU+i53A
+	 XGP2nnt2Bp5Ig==
+Date: Tue, 23 Sep 2025 12:30:55 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nico Pache <npache@redhat.com>,
-	Phil Auld <pauld@redhat.com>,
-	John Coleman <jocolema@redhat.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH 2/2] fs/proc: Show the content of task->user_cpus_ptr in /proc/<pid>/status
-Date: Tue, 23 Sep 2025 13:54:47 -0400
-Message-ID: <20250923175447.116782-2-longman@redhat.com>
-In-Reply-To: <20250923175447.116782-1-longman@redhat.com>
-References: <20250923175447.116782-1-longman@redhat.com>
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <aNLnXwAJveHIqfz0@kbusch-mbp>
+References: <CGME20250909132821eucas1p1051ce9e0270ddbf520e105c913fa8db6@eucas1p1.samsung.com>
+ <cover.1757423202.git.leonro@nvidia.com>
+ <0db9bce5-40df-4cf5-85ab-f032c67d5c71@samsung.com>
+ <20250912090327.GU341237@unreal>
+ <aM1_9cS_LGl4GFC5@kbusch-mbp>
+ <20250920155352.GH10800@unreal>
+ <aM9LH6WSeOPGeleY@kbusch-mbp>
+ <20250923170936.GA2614310@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923170936.GA2614310@nvidia.com>
 
-The task->user_cpus_ptr was introduced by commit b90ca8badbd1 ("sched:
-Introduce task_struct::user_cpus_ptr to track requested affinity") to
-keep track of user-requested CPU affinity. With commit da019032819a
-("sched: Enforce user requested affinity"), user_cpus_ptr will
-persistently affect how cpus_allowed will be set. So it makes sense to
-enable users to see the presence of a previously set user_cpus_ptr so
-they can do something about it without getting a surprise.
+On Tue, Sep 23, 2025 at 02:09:36PM -0300, Jason Gunthorpe wrote:
+> On Sat, Sep 20, 2025 at 06:47:27PM -0600, Keith Busch wrote:
+> > 
+> > One other thing to note, this was runing on arm64 platform using smmu
+> > configured with 64k pages. If your iommu granule is 4k instead, we
+> > wouldn't use the blk_dma_map_direct path.
+> 
+> I spent some time looking to see if I could guess what this is and
+> came up empty. It seems most likely we are leaking a dma mapping
+> tracking somehow? The DMA API side is pretty simple here though..
 
-Add new "Cpus_user" and "Cpus_user_list" fields to /proc/<pid>/status
-output via task_cpus_allowed() as the presence of user_cpus_ptr will
-affect the cpus_allowed cpumask.
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/filesystems/proc.rst | 2 ++
- fs/proc/array.c                    | 9 +++++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2971551b7235..fb9e7753010c 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -311,6 +311,8 @@ It's slow but very precise.
-  SpeculationIndirectBranch   indirect branch speculation mode
-  Cpus_allowed                mask of CPUs on which this process may run
-  Cpus_allowed_list           Same as previous, but in "list format"
-+ Cpus_user                   mask of user requested CPUs from sched_setaffinity(2)
-+ Cpus_user_list              Same as previous, but in "list format"
-  Mems_allowed                mask of memory nodes allowed to this process
-  Mems_allowed_list           Same as previous, but in "list format"
-  voluntary_ctxt_switches     number of voluntary context switches
-diff --git a/fs/proc/array.c b/fs/proc/array.c
-index d6a0369caa93..30ceab935e13 100644
---- a/fs/proc/array.c
-+++ b/fs/proc/array.c
-@@ -405,10 +405,19 @@ static inline void task_context_switch_counts(struct seq_file *m,
+Yeah, nothing stood out to me here either.
  
- static void task_cpus_allowed(struct seq_file *m, struct task_struct *task)
- {
-+	cpumask_t *user_cpus = task->user_cpus_ptr;
-+
- 	seq_printf(m, "Cpus_allowed:\t%*pb\n",
- 		   cpumask_pr_args(&task->cpus_mask));
- 	seq_printf(m, "Cpus_allowed_list:\t%*pbl\n",
- 		   cpumask_pr_args(&task->cpus_mask));
-+
-+	if (user_cpus) {
-+		seq_printf(m, "Cpus_user:\t%*pb\n", cpumask_pr_args(user_cpus));
-+		seq_printf(m, "Cpus_user_list:\t%*pbl\n", cpumask_pr_args(user_cpus));
-+	} else {
-+		seq_puts(m, "Cpus_user:\nCpus_user_list:\n");
-+	}
- }
- 
- static inline void task_core_dumping(struct seq_file *m, struct task_struct *task)
--- 
-2.51.0
+> Not sure the 64k/4k itself is a cause, but triggering the non-iova
+> flow is probably the issue.
+> 
+> Can you check the output of this debugfs:
 
+I don't have a system in this state at the moment, so we checked
+previous logs on machines running older kernels. It's extermely
+uncommon, but this error was happening prior to this series, so I don't
+think this introduced any new problem here. I'll keeping looking, but I
+don't think we'll make much progress if I can't find a more reliable
+reproducer.
+
+Thanks!
