@@ -1,145 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D591D798E;
-	Tue, 23 Sep 2025 01:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E0EAD24;
+	Tue, 23 Sep 2025 03:45:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758590297; cv=none; b=GNi5ZQ79DYNr6q6kmrOLIQHuoC1bfhRABPtjWL1b6aoLhawVAJOin3omCAEM7wx2yzy+oVVB/q7GxevNJQ+Jxu7l24bG/30AP/RdWwcsxrPzI5XV2kVuRCptK1k9nfmyEHT9hCcs4ZHTj4XWH4D9GGWswwf6F0DAtTWb+RQz86s=
+	t=1758599156; cv=none; b=mOmrxM9Np6u4j71F1drS39qEn3EjxBwPCrKSi8r8fMyLKL+aE+K9A0Zg3WbgGHk8PE7wXQGKxKIfK4+xhtLW4R0YmXQ0i+uDdM5IQEjGdLmt1Of+1Oh8JZODIkqQbJMqaar4+fELKLIG/Q9F2vtcl3dLpfZPbqIFwkmWzNKlwAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758590297; c=relaxed/simple;
-	bh=yWrgfH6o6tBojpygb/3hwUZPMazgwgCEKyJzb90YtAg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lpoyQcRAMFo/Qu/zvHQVOshE5m7Cye9rFscJJlgBR6MAfAgF9k6sRtLembTkedTuyhALugWuxkZH7UJhphf2I78V80q66SLc5k+UkfGHlJuIGadYO/YdZAIUb0AovrFcT8x9V8g7sbkcHQ3ylCnrGsifWn0zwRbLtoWoJh6QCS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKZGvtEC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758599156; c=relaxed/simple;
+	bh=4FYnE6UjEl+v9tCA7afKFOyTcsRenwoUA1DIPv4FPs8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=ApJ+L8i/CqN536OmSuOKBqWOWM2sz6Uu4IJJjG+QGmhfN56IvqoImbOzxJ7kKbzX3NhX82ZzZ2eKaVIT3kkTD0Tt3XnhPn8SNVfGB8tyShUySQTKvC0HZdXlG/w2cDMEEn9wa0zbuWb5IHjO+Ymwlz4mPC50zcyYzGGAVtFm8gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=2eWY/Ege; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKZGvtEC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 510D4C4CEF0;
-	Tue, 23 Sep 2025 01:18:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758590296;
-	bh=yWrgfH6o6tBojpygb/3hwUZPMazgwgCEKyJzb90YtAg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UKZGvtECgMz333UnPKEQKvTJc3iuycFS/3PpSOaVp/zNr60F7bywnA4nIdc2YmrCa
-	 5LULhTFJsVfuuvGwyKZfN8hulyl3gwr4/NSTdoWf/W2aJTiSEivCs+ViQCkXspF2w1
-	 8bjmqx7i/QLOjJQO31bA1HTzfi768lMz8CafthFsiWW7ytzUSXTOypfocXnsJFF1OC
-	 ErXxERsnYge+aWE+K5Pox+Tu90aFIsyKQMYygK3pj3WTZb14z7XbcdJ65zqf2dvshh
-	 eqIM6UP+aogJTLxY6P7whl1DCmAgJeoPtgRHvvgmhJTSMRpw6KkjsUEroF8dTDWj4A
-	 l/z+ns0CCVCag==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH v5 8/8] selftests: ftrace: Add wprobe trigger testcase
-Date: Tue, 23 Sep 2025 10:18:09 +0900
-Message-ID: <175859028948.374439.13079482023691271097.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <175859019940.374439.7398451124225791618.stgit@devnote2>
-References: <175859019940.374439.7398451124225791618.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="2eWY/Ege"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CFEFC113CF;
+	Tue, 23 Sep 2025 03:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1758599155;
+	bh=4FYnE6UjEl+v9tCA7afKFOyTcsRenwoUA1DIPv4FPs8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=2eWY/EgeNLsi8dWjVN+k0XHxDXaKIdXUVxnnZSTQB2Ufa3eF/B74Fp/MbKLA1AX5c
+	 IGagOOyZ5yR5zXBoLVxIYQSZedi2soVTFR4VAzOvyaFPkx1uX06AHDRjTM6TiT75wC
+	 5tLLq1AOQFJBnA/ShfqZPr9dp40j49zLmsHnNQAo=
+Date: Mon, 22 Sep 2025 20:45:54 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: lirongqing <lirongqing@baidu.com>
+Cc: <corbet@lwn.net>, <lance.yang@linux.dev>, <mhiramat@kernel.org>,
+ <paulmck@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
+ <mingo@kernel.org>, <dave.hansen@linux.intel.com>, <rostedt@goodmis.org>,
+ <kees@kernel.org>, <arnd@arndb.de>, <feng.tang@linux.alibaba.com>,
+ <pauld@redhat.com>, <joel.granados@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH][RFC] hung_task: Support to panic when the maximum
+ number of hung task warnings is reached
+Message-Id: <20250922204554.55dd890090b0f56ad10a61f5@linux-foundation.org>
+In-Reply-To: <20250923033740.2696-1-lirongqing@baidu.com>
+References: <20250923033740.2696-1-lirongqing@baidu.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Tue, 23 Sep 2025 11:37:40 +0800 lirongqing <lirongqing@baidu.com> wrote:
 
-Add a testcase for checking wprobe trigger. This sets set_wprobe and
-clear_wprobe triggers on fprobe events to watch dentry access.
-So this depends on both wprobe and fprobe.
+> Currently the hung task detector can either panic immediately or continue
+> operation when hung tasks are detected. However, there are scenarios
+> where we want a more balanced approach:
+> 
+> - We don't want the system to panic immediately when a few hung tasks
+>   are detected, as the system may be able to recover
+> - And we also don't want the system to stall indefinitely with multiple
+>   hung tasks
+> 
+> This commit introduces a new mode (value 2) for the hung task panic behavior.
+> When set to 2, the system will panic only after the maximum number of hung
+> task warnings (hung_task_warnings) has been reached.
+> 
+> This provides a middle ground between immediate panic and potentially
+> infinite stall, allowing for automated vmcore generation after a reasonable
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
- Changes in v5:
-  - Enable CONFIG_WPROBE_TRIGGERS in the config for ftrace test.
- Changes in v3:
-  - Newly added.
----
- tools/testing/selftests/ftrace/config              |    1 
- .../ftrace/test.d/trigger/trigger-wprobe.tc        |   48 ++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+I assume the same argument applies to the NMI watchdog, to the
+softlockup detector and to the RCU stall detector?
 
-diff --git a/tools/testing/selftests/ftrace/config b/tools/testing/selftests/ftrace/config
-index d2f503722020..ecdee77f360f 100644
---- a/tools/testing/selftests/ftrace/config
-+++ b/tools/testing/selftests/ftrace/config
-@@ -28,3 +28,4 @@ CONFIG_TRACER_SNAPSHOT=y
- CONFIG_UPROBES=y
- CONFIG_UPROBE_EVENTS=y
- CONFIG_WPROBE_EVENTS=y
-+CONFIG_WPROBE_TRIGGERS=y
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
-new file mode 100644
-index 000000000000..a012f7b92405
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
-@@ -0,0 +1,48 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test wprobe trigger
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README events/sched/sched_process_fork/trigger
-+
-+echo 0 > tracing_on
-+
-+:;: "Add a wprobe event used by trigger" ;:
-+echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
-+
-+:;: "Add events for triggering wprobe" ;:
-+echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-+echo 'f:dentry_kill __dentry_kill dentry=$arg1' >> dynamic_events
-+
-+:;: "Add wprobe triggers" ;:
-+echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
-+cat events/fprobes/truncate/trigger | grep ^set_wprobe
-+cat events/fprobes/dentry_kill/trigger | grep ^clear_wprobe
-+
-+:;: "Ensure wprobe is still disabled" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Enable events for triggers" ;:
-+echo 1 >> events/fprobes/truncate/enable
-+echo 1 >> events/fprobes/dentry_kill/enable
-+
-+:;: "Start test workload" ;:
-+echo 1 >> tracing_on
-+
-+echo aaa > /tmp/hoge
-+echo bbb > /tmp/hoge
-+echo ccc > /tmp/hoge
-+rm /tmp/hoge
-+
-+:;: "Check trace results" ;:
-+cat trace | grep watch
-+
-+:;: "Ensure wprobe becomes disabled again" ;:
-+cat events/wprobes/watch/enable | grep 0
-+
-+:;: "Remove wprobe triggers" ;:
-+echo '!set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
-+echo '!clear_wprobe:watch' >> events/fprobes/dentry_kill/trigger
-+! grep ^set_wprobe events/fprobes/truncate/trigger
-+! grep ^clear_wprobe events/fprobes/dentry_kill/trigger
-+
-+exit 0
-\ No newline at end of file
+A general framework to handle all of these might be better.  But why do
+it in kernel at all?  What about a userspace detector which parses
+kernel logs (or new procfs counters) and makes such decisions?
 
