@@ -1,72 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15ED3191BD;
-	Tue, 23 Sep 2025 08:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B161F31E888
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 09:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758616450; cv=none; b=XK+OSXV0Q3zLMuflhm67YjaegmtgM1IJmM6tNfFOSZKHjhwU3zw10+pLznCTZ3UXdKEhr2StTVPTeCj32bjBqahs5XDGA61c61b9zFnrTQi2iYMRc0TFV7gaBHOTytA54ghHK+MSmKDLVoCPs2jtn4OrHjcrTGj3JslfV4J6aQM=
+	t=1758618312; cv=none; b=fD9Gook0TPkQk8uAJ9xWP1nVLfiRC2S24W4oqB0Iv9gqttaOjftppZ2N8d6z++/RtxLvOOLMEWuxBhIxSgdF1v5aQkITb+EF0y/JqwRPmx0vNDZjIg14366+6P/kbh7KNF+4NlJBd7SwxWO4rsPbvvAaQyS+GNEuXgYacCRIrfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758616450; c=relaxed/simple;
-	bh=9+vLcO8ESWufQ4GrLTo49CyYtV2hVVePvmbQggCLtHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jXIYsZkR47rud0humS3jDGpfintLfMzzCAxLBWxrv39ew2RIqHtxyqUgdQu19CKkT4a9TY2M20phEI69tadY9hr02P3OHx5jquqCZ2hRK0DbeZmut7dM8+zgzmkeC8uzCxqhK+fQLmHxAoF6iUz7Vkex9WulfWp4X9toRn1TlX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H9pFyYXU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758618312; c=relaxed/simple;
+	bh=Hfg0snLcgfFu5drLfEucVNQPyA7ydLPTcft7R/VdprU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gFjywXgbMX6AL7iSYNHg5nKMMYOEeh1yaNy9cDnaqj5zXlgrZC4/OoKhTyYADaEfz79omIO1bIUlnmJPq8x3PPRjDi1QcTyT7zapb0p11jc31L1Zaruk78ZcY5oOoINgZ9qTUjFOpa6bRMFwPAMuydl/mq86s4aBD2lxoHtsiew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NhHdJAC5; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H9pFyYXU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD77C4CEF5;
-	Tue, 23 Sep 2025 08:34:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758616450;
-	bh=9+vLcO8ESWufQ4GrLTo49CyYtV2hVVePvmbQggCLtHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H9pFyYXUPRLvq1d2G3N1CVYu95xNSoUl6HBpq5K1cZ8JoRof0mpK+uDiNCF3Lgblg
-	 YiMN/J0arDpEfmSNqVgVqBTIU8j/TYHv9AtvOsxkHPa5TuaeyyVgtQ/oL1jTIeKVRv
-	 zvNx0aOOB0+i4mKo42wPX43UAHh0Ku4gPQMTxBvq6xLSJ/e3VhW+L277331k45BmSj
-	 IsEEWYSyh9bD63d0RpkN5FqT9zHtk3qT7bv56eUNOydyo1jWwqmkPxayoFHPuMtSBl
-	 jqKvSQ/7hcuVuoktQaZEJHGPC229XCr+O7rBvxuzS5uxzgAQZOWuRj1P3ZNKqvRXJj
-	 WElY3JdEfPdCA==
-Date: Tue, 23 Sep 2025 09:34:06 +0100
-From: Simon Horman <horms@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux AFS <linux-afs@lists.infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH net-next RESEND] Documentation: rxrpc: Demote three
- sections
-Message-ID: <20250923083406.GD836419@horms.kernel.org>
-References: <20250922124137.5266-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NhHdJAC5"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 9DD151A0EC3;
+	Tue, 23 Sep 2025 09:05:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6829760690;
+	Tue, 23 Sep 2025 09:05:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 03226102F191C;
+	Tue, 23 Sep 2025 11:04:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1758618306; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=QZg1/K8eQxDZg+ZHRMpx/uJpEdtJih4Wqz5DwLkTAs4=;
+	b=NhHdJAC5RIm/LtUIxmzXVoIFWuHVZ0tCPbKn0pTjLUJe6pbxoDHnFssRCVVJazDIyoeslC
+	9lJRS98MgiaLeEunfg/4U0rnpt8ZpQdifGbVj+RvPGY0g+dJPllOevjlony+90kaQyBDM8
+	BeAlnh+2Xwqz8l72iUmqF54fXOJq6/erK8tCqnowJE8Pix7ciruZWqDOhDhbcPYZ61rvWR
+	mCPCmPTd+RQ9oyYTx7r+ckw1nXbGChoo4phJ5TqYCP9IzJ+zE3usD6l0oUWB13JrxhtFGw
+	D74d7zj4fQOxVrtJhgxJSATe+vf2hPaOSyTvPNbVULi8fgTtvj3fo2Z74BMumg==
+Date: Tue, 23 Sep 2025 11:04:51 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jiri Pirko
+ <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
+ kernel@pengutronix.de, Dent Project <dentproject@linuxfoundation.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Luka Perkov <luka.perkov@sartura.hr>, Robert Marko
+ <robert.marko@sartura.hr>, Sridhar Rao <srao@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 0/5] net: pse-pd: pd692x0: Add permanent
+ configuration management support
+Message-ID: <20250923110451.6d402a79@kmaincent-XPS-13-7390>
+In-Reply-To: <20250922110220.4909e58b@kernel.org>
+References: <20250915-feature_poe_permanent_conf-v3-0-78871151088b@bootlin.com>
+	<20250916165440.3d4e498a@kernel.org>
+	<20250917114655.6ed579eb@kmaincent-XPS-13-7390>
+	<20250917141912.314ea89b@kernel.org>
+	<20250922182002.6948586f@kmaincent-XPS-13-7390>
+	<20250922110220.4909e58b@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250922124137.5266-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Sep 22, 2025 at 07:41:37PM +0700, Bagas Sanjaya wrote:
-> Three sections ("Socket Options", "Security", and "Example Client Usage")
-> use title headings, which increase number of entries in the networking
-> docs toctree by three, and also make the rest of sections headed under
-> "Example Client Usage".
-> 
-> Demote these sections back to section headings.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On Mon, 22 Sep 2025 11:02:20 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Thanks,
+> On Mon, 22 Sep 2025 18:20:02 +0200 Kory Maincent wrote:
+>  [...] =20
+> > >=20
+> > > Right, subjectively I focused on the last sentence of Oleksij's reply.
+> > > I vote we leave it out for now.   =20
+> >=20
+> > I would like to restart the discussion as I have one more argument besi=
+des
+> > the boot time optimization coming from Luka Perkov in CC.
+> >=20
+> > According to him, not having this feature supported also brings an issue
+> > across reboot:
+> > "When a network switch reboots, any devices receiving Power over
+> > Ethernet (PoE) from that switch will lose power unless the PoE
+> > configuration is persisted across the reboot cycle. This creates a
+> > significant operational impact: WiFi access points and other
+> > PoE-powered devices will experience an unplanned hard power loss,
+> > forcing them offline without any opportunity for graceful shutdown.
+> >=20
+> > The critical issue is not the impact on the switch itself, but rather
+> > the cascading effect on all dependent infrastructure. Without
+> > kernel-level persistence of PoE settings, a simple switch reboot
+> > (whether for maintenance, updates, or recovery) forces all connected
+> > PoE devices into an abrupt power cycle. This results in extended
+> > downtime as these devices must complete their full boot sequence once
+> > power is restored, rather than remaining operational throughout the
+> > switch's reboot process." =20
+>=20
+> Any sort of hot reset that maintains the pre-existing configuration=20
+> and doesn't issue resets is orthogonal to storing the configuration
+> into the flash.
 
-I looked at the output of make htmldocs in a browser. I agree that both
-the entries in index.html and the header arrangement in rxrpc.html make
-more sense with this change.
+Indeed if the switch reboot and the PSE lose its power supply, the devices =
+will
+in any cases face a power loss. While if the PSE does not lose its power the
+configuration won't be reset whether there is a permanent configuration or
+not. We just need to detect during the boot if the port matrix has already
+been flashed to not reconfigure all the ports. =20
+This argument is indeed not relevant.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Luka any other arguments in favor of permanent configuration support?
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
