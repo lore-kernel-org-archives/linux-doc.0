@@ -1,74 +1,74 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5B32E3B0D
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 14:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D776B2E54A2
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 14:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758638412; cv=none; b=Q4Otc1Ap/mEFtwX/+cPJRRNBe4uoTCthHmLS+YUTVV17t+e6/xqq4dfL43Pm1xj4oNpmJ7g8v3X9SDdlEEGoNHN05+R6lPTGKXEu/Au+s6VzEjqMucOvr7uB3br1iJAE1u8gigFZfo3jNYWFrZNUcLrcUVHC7PJJGtPsfX87m2A=
+	t=1758638415; cv=none; b=kGgTm8JCl3yEzWCckuQ3TOV3Ymx9Pt3GY4EWfyVH15qOokYXvya3QHWur/3OU/VYQ+LG8sTaVHn90y5KMB24wmF82jMWikzSvuF6w7vCf4pbA2/o/KiphbWfMshIRazRiHaDvTh5AAaXowVlRUVcMI50UzdcwZSOTU/kT4E3dng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758638412; c=relaxed/simple;
-	bh=pFcsx99BIvhSJs9EZjHposR2YHdvSFZidHEyknZiq+Y=;
+	s=arc-20240116; t=1758638415; c=relaxed/simple;
+	bh=yAsWE58IkjsKCLEl/DPZcoJASm8AUAsFuoIvwC4HaqM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fjiU+kLFK72D9UIIu/0hG2xWYyqsTCNEzWR1Nb4Zh20m/yi6fN4WdPrsOZSu0UC7t47WvtNvspZrgEHKWCm0qqF12j5NobtKfo2KG2BHy9rDQOVdbXsVzqtZqN8iUByi0gF/dqHlBigUlJWB/mCj2lCHUGxTTRBZFdoKBjHceZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q9ujMzrJ; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=YMHc8/8aXl4TTK43Tkby43lC0d/OI5fHN+CyXqtDpmINiboZlRFOGoIWRFKGqJyrN3YluoE5oyLoSvZQTApXrihgJlrj7l2Q+UeY1xewyTWHZOJa3YguUD+SKHhLFCL8FcZAZ0X4FeZCkeb75t64BMu1z0BtTBRPaYl4RRQs4V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fojaQM/3; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q9ujMzrJ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fojaQM/3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758638410;
+	s=mimecast20190719; t=1758638412;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A9GRgIWzFYj7dDBWP7AZSAac6SnS5DXh5UVkU8dbhRY=;
-	b=Q9ujMzrJ0fD1+e2lUrwkwKUyU8gqKuEYJwtOkrznL5bxdRV9OvajxgP4vevRXVozled/d8
-	5Vo5nzQS6YrC/peIxE2IEV+yLaaMqnEWhP7Z4FNylSfPmskMZPDFaZBWvp7vvcC/fYxBdy
-	MAxR9eFipoGzb8jpKDIcK4MOAe1CQ8g=
+	bh=IGMWuqBzhBNfmX/zEHWn5ay04MO78lPZtspT3NW2/jI=;
+	b=fojaQM/3RzoxxnXfWFe49C36/FnSNpYucaNTs4f6poyXrFmbQ8QBLRdgSwaddRtX3qIv6K
+	AnitUVHgFlUpTUdbWOdI/e59JD+G0dfwbbYU2uNxGtwHPXwwxTPwQU2/E4RLtJm0LztfZ8
+	RFAtwry8SbsyOSstn4rFpbd05x+6B1s=
 Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
  [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-GMbX1NNKOemi5DHfXZ45QQ-1; Tue, 23 Sep 2025 10:40:04 -0400
-X-MC-Unique: GMbX1NNKOemi5DHfXZ45QQ-1
-X-Mimecast-MFC-AGG-ID: GMbX1NNKOemi5DHfXZ45QQ_1758638404
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-83622c273f1so662506385a.2
-        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 07:40:04 -0700 (PDT)
+ us-mta-465-fzSJpjPtM_GbG0SwYUTZxw-1; Tue, 23 Sep 2025 10:40:10 -0400
+X-MC-Unique: fzSJpjPtM_GbG0SwYUTZxw-1
+X-Mimecast-MFC-AGG-ID: fzSJpjPtM_GbG0SwYUTZxw_1758638410
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8502939d0f6so250958785a.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 07:40:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758638404; x=1759243204;
+        d=1e100.net; s=20230601; t=1758638410; x=1759243210;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A9GRgIWzFYj7dDBWP7AZSAac6SnS5DXh5UVkU8dbhRY=;
-        b=M+ktiwOiEX6xUcpbD6ZyO326vWeG/qra77tpvGqO9KL/sV0pZrBen54OaI4Zn/9qO/
-         FaC6Q7q+hHaHHgmuyCJoc7cP4E8W03w3CqOwK2NaaXxN6BjlqWuVoy7f2ZWumBmqMfwg
-         KSw92dWQ60SXve9bdj0Cark0vMc0LuNPrgDu5BeQt5NKXFQjSt/pqrJhOpft5CApt+yu
-         N7zJc7ZsGdvgMFWkvCHN3OWm/ru3EktCJwWvBqSqpAjQvEL9sNiJWtefx0HGAojmOx9m
-         wEa+vvTDAZbyUW6XpGdNRBmTSO5vI7L/My182lft8GqWEudEq1HomGPZ0K4zr1b1gg6o
-         ef0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXBYz/DwKOCN7p7cnOgvu9gt2jcUP+3GmmQyA3R13PQRgFpBtcL6/mA/prQYveJdognhU7HYeQtSLU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFgEjV0OjJNnjbHmbsxd7tAj5cu0HetIKbE9cAEOgmCSY3mlww
-	iemheOyP87hjeilbNUN2/saoUb55qLtRBsi9ytLWh+gBj+Z7H2OMPOf+yfw3CcHLJ8FZ6pz4KIA
-	7b2mSqChp9+DydJREp2zM2cgArhm6fbqyRRd7o0Kii/x41aNO+dzS12UQmZhc5g==
-X-Gm-Gg: ASbGncsONEbUDUEpr2kidA/GFHYNPQb7jpzkPD8Pjoxhd9W3J/QLgoPsm+e7IgSFOhG
-	OsrTAPeYroxNTrnf/6mQq2iAFZIr2P7qGlZVDoh35aMkP5wMizr5Q/L3zQwHsXB5JBHahKI9jJ9
-	X1zs97qLYKa4qyHDcXY2hkXwD3FB0W92DVdwHhx1fYUD9Cw8XiHoa0YhSxkcdNsdpZgiGWsoggp
-	cAAQVyeeydg4/hrHwurlhVC6m+c4Q2C3c/+LSI3ZPHQIWELze+mj65I7AUHFq9i3qfstiFV+vwR
-	mOr4AFm0jXxuAY8EMKn8kXDEupw+FLpgTf3S88GmW8Y+VIrIRTDgQBJIUimBpr/oODnyHrfRLi8
-	vaJ96w27lX2OM/1pqYjExIhXqZEMzL5gtWOlrmNY=
-X-Received: by 2002:a05:620a:2893:b0:849:a372:24dd with SMTP id af79cd13be357-851724be79cmr315043385a.58.1758638404305;
-        Tue, 23 Sep 2025 07:40:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGB1IVa4PYBoaIhw9LnlRHxc9bCRkENFx/qDelC+j1q0D87GHSENwmL4JOuTI63o0roDkoNIA==
-X-Received: by 2002:a05:620a:2893:b0:849:a372:24dd with SMTP id af79cd13be357-851724be79cmr315038985a.58.1758638403658;
-        Tue, 23 Sep 2025 07:40:03 -0700 (PDT)
+        bh=IGMWuqBzhBNfmX/zEHWn5ay04MO78lPZtspT3NW2/jI=;
+        b=j9CkapGyCHWSBppd1ocG0smIMAjpOuSwQWz9m6WZl4jJz3yxHTip5/V8lF5emEapfl
+         hnZRQHYDGAGlrC/BtzRSliQbXWfjeBhvAOALlVqINEFrfBevz/CVJ/Z2YBj12yqX6Lxb
+         LKOTyj8dpk0/pnUKG06kjWE0pLsldbLL9ErLxuZnZprTI8GA3TttB9BS0sUxHF+DUHD6
+         enNqmSGr9PhVDI7XGsjuQHtD0+SNtUgJH11wyDn855e233BnARXpDfTRbE1zEr7SZe5o
+         G4hQnMIfAzSSadZv62cMWMTXBHTxooOWB8x6B4ZQtEjFRa/T414jGswck4xdP2/W5+0y
+         wrVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxJZXEXh5cSlt/3QhiNU+dZ+rjpkTHShczURTW+RAnz2CQ2xZdnbrSMeeyiPEpyj+EugSRZFgWT7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4yUhk4lJ8AV7hSVLzKBHBUv4v8Ph6Kzr36Z/3RZkauTvBK9LS
+	b4hJH+lD24tp4541rJWU5s9JXRJHCbR7/ClDXXIw/ICvMzxdys16j7bS11hf05in+DH15wDlKxI
+	NZf8V5PMMkjz1lTZSf7ec5uBXwkT2v4LFr2th2t9dDhHk5oOJuurCAjEIClzzQA==
+X-Gm-Gg: ASbGnctnwO6HgQIBx1K2dBNfjutK1C/JlVscXgo/vmEqALQCQsD8vBT2176PUTkqwNx
+	UOFZYwq5Ma+KV7OUpkmJlch+xzAVHeIIEL4r5HAKGwxGRAKFAyJ85JiHoc/L1bkGl28URB61hye
+	FOLDmTKHeKwUo5/OBtKBRcuXZjYwWjh/trSCydAp05gQr5GgvAvPAq+hEfrchIjRfTbp6yKdU36
+	ux3fMlyULvkK+yGvZcTniIrz3kJQO29C8q6pZQJF7YTrDjeQNSlFVtGceJXBi4N4TowSZarp7WK
+	YaisSUIzNXTDBRXSw7Jw0u8YV9PrN5HLq74ebEfRVWGkButUBV3iVb5ctuhEPblOnOZKlvbaz0M
+	2XtzKzrw0qE/xugXfwjTdoUTaqa/LDUbLYdl9n8s=
+X-Received: by 2002:a05:620a:5dd0:b0:854:d17b:27dd with SMTP id af79cd13be357-854d17b2bf4mr77507485a.40.1758638410156;
+        Tue, 23 Sep 2025 07:40:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+fyJ54UA/mPzWWxl9qvSXtQD04gMoGv1VTxXaLInAlQY+mfo1Pg0oNEkRJMY6/YiNVKGOcQ==
+X-Received: by 2002:a05:620a:5dd0:b0:854:d17b:27dd with SMTP id af79cd13be357-854d17b2bf4mr77503185a.40.1758638409310;
+        Tue, 23 Sep 2025 07:40:09 -0700 (PDT)
 Received: from [10.175.117.224] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-84f2f6f3c25sm230272985a.49.2025.09.23.07.40.01
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-84f2f6f3c25sm230272985a.49.2025.09.23.07.40.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 07:40:02 -0700 (PDT)
+        Tue, 23 Sep 2025 07:40:08 -0700 (PDT)
 From: Brian Masney <bmasney@redhat.com>
-Date: Tue, 23 Sep 2025 10:39:24 -0400
-Subject: [PATCH RFC v4 05/12] clk: test: introduce clk_dummy_gate for a
- mock gate
+Date: Tue, 23 Sep 2025 10:39:26 -0400
+Subject: [PATCH RFC v4 07/12] clk: test: introduce helper to create a mock
+ mux
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250923-clk-tests-docs-v4-5-9205cb3d3cba@redhat.com>
+Message-Id: <20250923-clk-tests-docs-v4-7-9205cb3d3cba@redhat.com>
 References: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
 In-Reply-To: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -86,69 +86,239 @@ To: Michael Turquette <mturquette@baylibre.com>,
 Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1504; i=bmasney@redhat.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7421; i=bmasney@redhat.com;
  s=20250903; h=from:subject:message-id;
- bh=pFcsx99BIvhSJs9EZjHposR2YHdvSFZidHEyknZiq+Y=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDIubdRX8HNayV7rWPh6F3dtv+xR1zDb26FZK3vvbOiy5
- ouTnGjRUcrCIMbFICumyLIk16ggInWV7b07miwwc1iZQIYwcHEKwEQ0vzIyTIn91u717/Zus7S2
- 9FulzUv5fcQYC75fvT1beMV/32UFGYwMT80s0+27gvmuVftwXFXeGnz7dO2XbI8p/hqTtpfO31T
- PAAA=
+ bh=yAsWE58IkjsKCLEl/DPZcoJASm8AUAsFuoIvwC4HaqM=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDIubTR4saX+p8yLXOFiU15Rs5qbF6/+EnYvczhh1jal1
+ LhduH5SRykLgxgXg6yYIsuSXKOCiNRVtvfuaLLAzGFlAhnCwMUpABNZcZPhf/XLULP4maF7J2ox
+ dUY3lEatcUuyDLxzeoH21KtBveu0Yhn+cH7cyuoremXm4sk6k3ftCeIwu84ksOpqgyPP8s9H91i
+ 6MgIA
 X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
  fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 
-This is used to mock up a gate in the clk kunit tests.
+Introduce a helper to create a mock mux to reduce code duplication.
+This also changes it so that the relevant clk_hws are registered with
+the kunit framework.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/clk_test.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ drivers/clk/clk_test.c | 141 ++++++++++++++++++-------------------------------
+ 1 file changed, 52 insertions(+), 89 deletions(-)
 
 diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
-index 1aca266f9922beb7d81124c07d21b2a3d700dc5c..e798ee0591b5db6a7728eda20dcab167245a9834 100644
+index 5fb908a8c764f3c3d2c744022bd61e6307c890c2..a330de8bd8dc2cdda558d364a3c6d87a26791c8d 100644
 --- a/drivers/clk/clk_test.c
 +++ b/drivers/clk/clk_test.c
-@@ -181,6 +181,40 @@ static const struct clk_ops clk_dummy_div_ops = {
- 	.set_rate = clk_dummy_div_set_rate,
+@@ -538,45 +538,64 @@ static struct kunit_suite clk_uncached_test_suite = {
+ 	.test_cases = clk_uncached_test_cases,
  };
  
-+struct clk_dummy_gate {
-+	struct clk_hw hw;
-+	bool enabled;
-+};
-+
-+static int clk_dummy_gate_enable(struct clk_hw *hw)
+-static int
+-clk_multiple_parents_mux_test_init(struct kunit *test)
+-{
+-	struct clk_multiple_parent_ctx *ctx;
+-	const char *parents[2] = { "parent-0", "parent-1"};
++static int clk_init_multiple_parent_ctx(struct kunit *test,
++					struct clk_multiple_parent_ctx *ctx,
++					const char *parent0_name,
++					unsigned long parent0_rate,
++					const char *parent1_name,
++					unsigned long parent1_rate,
++					const char *mux_name, int mux_flags,
++					const struct clk_ops *mux_ops)
 +{
-+	struct clk_dummy_gate *gate = container_of(hw, struct clk_dummy_gate, hw);
++	const struct clk_hw *parents[2];
+ 	int ret;
+ 
+-	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
+-		return -ENOMEM;
+-	test->priv = ctx;
+-
+-	ctx->parents_ctx[0].hw.init = CLK_HW_INIT_NO_PARENT("parent-0",
++	ctx->parents_ctx[0].hw.init = CLK_HW_INIT_NO_PARENT(parent0_name,
+ 							    &clk_dummy_rate_ops,
+ 							    0);
+-	ctx->parents_ctx[0].rate = DUMMY_CLOCK_RATE_1;
++	ctx->parents_ctx[0].rate = parent0_rate;
+ 	ret = clk_hw_register_kunit(test, NULL, &ctx->parents_ctx[0].hw);
+ 	if (ret)
+ 		return ret;
+ 
+-	ctx->parents_ctx[1].hw.init = CLK_HW_INIT_NO_PARENT("parent-1",
++	ctx->parents_ctx[1].hw.init = CLK_HW_INIT_NO_PARENT(parent1_name,
+ 							    &clk_dummy_rate_ops,
+ 							    0);
+-	ctx->parents_ctx[1].rate = DUMMY_CLOCK_RATE_2;
++	ctx->parents_ctx[1].rate = parent1_rate;
+ 	ret = clk_hw_register_kunit(test, NULL, &ctx->parents_ctx[1].hw);
+ 	if (ret)
+ 		return ret;
+ 
+-	ctx->current_parent = 0;
+-	ctx->hw.init = CLK_HW_INIT_PARENTS("test-mux", parents,
+-					   &clk_multiple_parents_mux_ops,
+-					   CLK_SET_RATE_PARENT);
++	parents[0] = &ctx->parents_ctx[0].hw;
++	parents[1] = &ctx->parents_ctx[1].hw;
++	ctx->hw.init = CLK_HW_INIT_PARENTS_HW(mux_name, parents,
++					      mux_ops, mux_flags);
+ 	ret = clk_hw_register_kunit(test, NULL, &ctx->hw);
+ 	if (ret)
+ 		return ret;
+ 
++	ctx->current_parent = 0;
 +
-+	gate->enabled = true;
+ 	return 0;
+ }
+ 
++static int
++clk_multiple_parents_mux_test_init(struct kunit *test)
++{
++	struct clk_multiple_parent_ctx *ctx;
 +
-+	return 0;
++	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++	test->priv = ctx;
++
++	return clk_init_multiple_parent_ctx(test, ctx,
++					    "parent-0", DUMMY_CLOCK_RATE_1,
++					    "parent-1", DUMMY_CLOCK_RATE_2,
++					    "test-mux", CLK_SET_RATE_PARENT,
++					    &clk_multiple_parents_mux_ops);
 +}
 +
-+static void clk_dummy_gate_disable(struct clk_hw *hw)
-+{
-+	struct clk_dummy_gate *gate = container_of(hw, struct clk_dummy_gate, hw);
-+
-+	gate->enabled = false;
-+}
-+
-+static int clk_dummy_gate_is_enabled(struct clk_hw *hw)
-+{
-+	struct clk_dummy_gate *gate = container_of(hw, struct clk_dummy_gate, hw);
-+
-+	return gate->enabled;
-+}
-+
-+static const struct clk_ops clk_dummy_gate_ops = {
-+	.enable = clk_dummy_gate_enable,
-+	.disable = clk_dummy_gate_disable,
-+	.is_enabled = clk_dummy_gate_is_enabled,
-+};
-+
- struct clk_multiple_parent_ctx {
- 	struct clk_dummy_context parents_ctx[2];
- 	struct clk_hw hw;
+ /*
+  * Test that for a clock with multiple parents, clk_get_parent()
+  * actually returns the current one.
+@@ -2541,7 +2560,6 @@ static int
+ clk_leaf_mux_set_rate_parent_test_init(struct kunit *test)
+ {
+ 	struct clk_leaf_mux_ctx *ctx;
+-	const char *top_parents[2] = { "parent-0", "parent-1" };
+ 	int ret;
+ 
+ 	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+@@ -2549,27 +2567,11 @@ clk_leaf_mux_set_rate_parent_test_init(struct kunit *test)
+ 		return -ENOMEM;
+ 	test->priv = ctx;
+ 
+-	ctx->mux_ctx.parents_ctx[0].hw.init = CLK_HW_INIT_NO_PARENT("parent-0",
+-								    &clk_dummy_rate_ops,
+-								    0);
+-	ctx->mux_ctx.parents_ctx[0].rate = DUMMY_CLOCK_RATE_1;
+-	ret = clk_hw_register(NULL, &ctx->mux_ctx.parents_ctx[0].hw);
+-	if (ret)
+-		return ret;
+-
+-	ctx->mux_ctx.parents_ctx[1].hw.init = CLK_HW_INIT_NO_PARENT("parent-1",
+-								    &clk_dummy_rate_ops,
+-								    0);
+-	ctx->mux_ctx.parents_ctx[1].rate = DUMMY_CLOCK_RATE_2;
+-	ret = clk_hw_register(NULL, &ctx->mux_ctx.parents_ctx[1].hw);
+-	if (ret)
+-		return ret;
+-
+-	ctx->mux_ctx.current_parent = 0;
+-	ctx->mux_ctx.hw.init = CLK_HW_INIT_PARENTS("test-mux", top_parents,
+-						   &clk_multiple_parents_mux_ops,
+-						   0);
+-	ret = clk_hw_register(NULL, &ctx->mux_ctx.hw);
++	ret = clk_init_multiple_parent_ctx(test, &ctx->mux_ctx,
++					   "parent-0", DUMMY_CLOCK_RATE_1,
++					   "parent-1", DUMMY_CLOCK_RATE_2,
++					   "test-mux", 0,
++					   &clk_multiple_parents_mux_ops);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2757,7 +2759,6 @@ static int clk_mux_notifier_callback(struct notifier_block *nb,
+ static int clk_mux_notifier_test_init(struct kunit *test)
+ {
+ 	struct clk_mux_notifier_ctx *ctx;
+-	const char *top_parents[2] = { "parent-0", "parent-1" };
+ 	int ret;
+ 
+ 	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+@@ -2768,27 +2769,11 @@ static int clk_mux_notifier_test_init(struct kunit *test)
+ 	init_waitqueue_head(&ctx->pre_rate_change.wq);
+ 	init_waitqueue_head(&ctx->post_rate_change.wq);
+ 
+-	ctx->mux_ctx.parents_ctx[0].hw.init = CLK_HW_INIT_NO_PARENT("parent-0",
+-								    &clk_dummy_rate_ops,
+-								    0);
+-	ctx->mux_ctx.parents_ctx[0].rate = DUMMY_CLOCK_RATE_1;
+-	ret = clk_hw_register(NULL, &ctx->mux_ctx.parents_ctx[0].hw);
+-	if (ret)
+-		return ret;
+-
+-	ctx->mux_ctx.parents_ctx[1].hw.init = CLK_HW_INIT_NO_PARENT("parent-1",
+-								    &clk_dummy_rate_ops,
+-								    0);
+-	ctx->mux_ctx.parents_ctx[1].rate = DUMMY_CLOCK_RATE_2;
+-	ret = clk_hw_register(NULL, &ctx->mux_ctx.parents_ctx[1].hw);
+-	if (ret)
+-		return ret;
+-
+-	ctx->mux_ctx.current_parent = 0;
+-	ctx->mux_ctx.hw.init = CLK_HW_INIT_PARENTS("test-mux", top_parents,
+-						   &clk_multiple_parents_mux_ops,
+-						   0);
+-	ret = clk_hw_register(NULL, &ctx->mux_ctx.hw);
++	ret = clk_init_multiple_parent_ctx(test, &ctx->mux_ctx,
++					   "parent-0", DUMMY_CLOCK_RATE_1,
++					   "parent-1", DUMMY_CLOCK_RATE_2,
++					   "test-mux", 0,
++					   &clk_multiple_parents_mux_ops);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2871,39 +2856,17 @@ static int
+ clk_mux_no_reparent_test_init(struct kunit *test)
+ {
+ 	struct clk_multiple_parent_ctx *ctx;
+-	const char *parents[2] = { "parent-0", "parent-1"};
+-	int ret;
+ 
+ 	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+ 		return -ENOMEM;
+ 	test->priv = ctx;
+ 
+-	ctx->parents_ctx[0].hw.init = CLK_HW_INIT_NO_PARENT("parent-0",
+-							    &clk_dummy_rate_ops,
+-							    0);
+-	ctx->parents_ctx[0].rate = DUMMY_CLOCK_RATE_1;
+-	ret = clk_hw_register(NULL, &ctx->parents_ctx[0].hw);
+-	if (ret)
+-		return ret;
+-
+-	ctx->parents_ctx[1].hw.init = CLK_HW_INIT_NO_PARENT("parent-1",
+-							    &clk_dummy_rate_ops,
+-							    0);
+-	ctx->parents_ctx[1].rate = DUMMY_CLOCK_RATE_2;
+-	ret = clk_hw_register(NULL, &ctx->parents_ctx[1].hw);
+-	if (ret)
+-		return ret;
+-
+-	ctx->current_parent = 0;
+-	ctx->hw.init = CLK_HW_INIT_PARENTS("test-mux", parents,
+-					   &clk_multiple_parents_no_reparent_mux_ops,
+-					   0);
+-	ret = clk_hw_register(NULL, &ctx->hw);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++	return clk_init_multiple_parent_ctx(test, ctx,
++					    "parent-0", DUMMY_CLOCK_RATE_1,
++					    "parent-1", DUMMY_CLOCK_RATE_2,
++					    "test-mux", 0,
++					    &clk_multiple_parents_no_reparent_mux_ops);
+ }
+ 
+ static void
 
 -- 
 2.51.0
