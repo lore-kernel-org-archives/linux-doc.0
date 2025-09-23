@@ -1,419 +1,107 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A822F2F7ABE
-	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 11:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5DC322A38
+	for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 11:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758627430; cv=none; b=ZrzTCe2xnHab3up2zDfZKt9XGKOZy9IbHp6a2P+XvmQXlS+dfMth/WJHJt/ktztrbXEAsq5NpIGX41ZT16uysOrdlU+bOrJ1ElJhkrQEIcOPIpAkuWDtHFvFF/unVyRj8phuOyMVvjSmOW5Cm+M+xv+LI52csW2iSr/M1dS6dS0=
+	t=1758627875; cv=none; b=SX0Kag25iEUsP7FlMmdqw4m9RXu3VfBbJa+n8taexivp6NqD1WYFUNOIi1PrxDdc4XyqW8sZNnlKsxFYCNJAT1uQ7Bwbbdk42aeTqIUqp2yXmpH6Abumc5XyEAR87A3SOW+jjAE0gdnuSB/a+mvQPf2Pe+6Lx8x7R0An7SNiWas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758627430; c=relaxed/simple;
-	bh=bz8zEXS2kno28udwQn9LqphaG+T7ar/NReFOwH0CHYE=;
+	s=arc-20240116; t=1758627875; c=relaxed/simple;
+	bh=IrwBtr41Ejbc9u6SFXsWNUvjyVGHc3eeq1h2neY22mQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Yb25bpiK82ZEOn48gowhU2rb9DPVok2uYFmARsez4ymwdYus2awftghSdlxp66/IKRaf2F8Y3AYffA0Jz/VOQ6AGE8zY5xUfQFXEE3USXamAIjf2mU5qvCk9RemA72Ha+cbQN4Ici3Vi01hkOBLBez++/PDQ2qOpwTey6TbtY7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JgAhI4VM; arc=none smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=akhoPs2CLy9t7gWikrttdivGjj3AoAMpvR65J30PPofDM35jFreMvUcEmnkk+x+HUKr2cd0hJH9bn2ClFhKFgDz5ihwspvL48BlK2DOgtu0L9NFI0SuRCD3JpTIOZS0kRH/mFDZ+WVrYaCoykqxTM5byPgR8u825sL4PTnxWdFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J+ZVJ6EZ; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JgAhI4VM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J+ZVJ6EZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758627426;
+	s=mimecast20190719; t=1758627872;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSSiJLHsqCjUDHZKhvMchuN/CKX3ll1xMRDAkpH/lBI=;
-	b=JgAhI4VMaDeT9pMGytgiwMtfId799s80kPgrBnEwzZ5Dw8HnpWpNt+pXcqstreKVDbXGOd
-	trcN1MOwd5Y8zj/dPWqdd/OoYkjut6AR3ztXkdiIr6I+hkKJ3m/1bUBOP1pydSDS0aiAet
-	4Hwt1ZfFKJR0d635ct1msmtPlwavNNE=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=IrwBtr41Ejbc9u6SFXsWNUvjyVGHc3eeq1h2neY22mQ=;
+	b=J+ZVJ6EZk1KU1FPzRJDxh41L5HoprE7Yob0Cc40Ss3rdV54UvxwXyY7+QPE0jP1QBRBJ0y
+	cmPG2v+wy37ubWAdTSahePq7YdlynSem2lbYa1oux4qD62agSO3Okn7VA5RVJpn2gMJjoX
+	/QGY9QcvLGbz/yAy2qGFBejOJSxiYII=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-53-TpjKEy7YMqSCGozinNua9g-1; Tue, 23 Sep 2025 07:37:05 -0400
-X-MC-Unique: TpjKEy7YMqSCGozinNua9g-1
-X-Mimecast-MFC-AGG-ID: TpjKEy7YMqSCGozinNua9g_1758627424
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-36c0f8f1095so7251031fa.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 04:37:04 -0700 (PDT)
+ us-mta-663-Gg7XWs06PdC2S655ag8CBQ-1; Tue, 23 Sep 2025 07:44:31 -0400
+X-MC-Unique: Gg7XWs06PdC2S655ag8CBQ-1
+X-Mimecast-MFC-AGG-ID: Gg7XWs06PdC2S655ag8CBQ_1758627870
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-248d9301475so74535715ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 04:44:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758627423; x=1759232223;
+        d=1e100.net; s=20230601; t=1758627870; x=1759232670;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xSSiJLHsqCjUDHZKhvMchuN/CKX3ll1xMRDAkpH/lBI=;
-        b=JByu1CjnR+59TUTPU8wnPuzV2cLl9mh46njvWakkaLFB93tIND020MyGjbIn8X4cwV
-         as7nCHSAqUxe6qJsx2gFw3pm9afDRgfMqsZiXjYiv8it3I5ePEQ4W+5Tmzx7aMR5V9uT
-         iCSVhnORjmMXc9QbFyOS8LNMk3JpTU4T/alnQLT9ulLxKNadYM8CjvU+VoxavlnfoEBi
-         u5fsuYP/Pc2vw7th6b6ylFBd4NICMKVSkyz2ml6YpNtlFhj5GYtgUpMITLrztchUShBr
-         TGRSr9l9Ol8b0ypOfrx/X8mImGRV6g1qYd7byokBYXJGtz5ZmeX7uRx13NInkoNJcqi/
-         Ni5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCULc+gqs255/aknQtFje5QM3I+gDHPEY///o5tDJbceH4GVfsBS6n33jQ4yYT8tB845v08HTNZa9tM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1bdghFSVtP7ScSsO3qrMRyuv7lZppp+YcgDUIoTM7ZAmEuqp4
-	EfCVPYoUtNjTMdUjO6U5Q+RAm3dTE9VSJYP/Y1NcCThsTzgHyRB7GmcWE6WRC9J4/9PMiJDQ8yh
-	1FTqCof6p/wwBxDt34h7zu2M5AubAodLdFXLfX+Dz9sAqykxqse829WNz04YpSoPBn74YcY/DyN
-	F4ClubzxaggVLrmU3Gv0quH4HUOb+ne/ZMLSvo
-X-Gm-Gg: ASbGncuTESxEqdw7J4zTQTShx0NtswKqTpLp4clmQVSXRWns/JCF2VJDXHENXFpV4lC
-	DfLMpXnG9dHdPRMlaArkLoDHdsFzUmx+w+WNCHI0h8yaLPG9GEEBwXzCZWuLEPiDugXk38tGuFn
-	9KBKxHc0eXQDf3AuV+Dose6A==
-X-Received: by 2002:a2e:989a:0:b0:350:8cfc:7129 with SMTP id 38308e7fff4ca-36d187f0b74mr4768171fa.13.1758627423324;
-        Tue, 23 Sep 2025 04:37:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEP3jS1XE+/gQE241YLqISlCQKgxH5HIGjLN038fnWAM2xez41PawWm+eZSgubVPdVcFcAn91mYJ+cFBh0jXB4=
-X-Received: by 2002:a2e:989a:0:b0:350:8cfc:7129 with SMTP id
- 38308e7fff4ca-36d187f0b74mr4768071fa.13.1758627422796; Tue, 23 Sep 2025
- 04:37:02 -0700 (PDT)
+        bh=IrwBtr41Ejbc9u6SFXsWNUvjyVGHc3eeq1h2neY22mQ=;
+        b=bobnjPECGNyINtUK6yR6YE6I9AU57/gE/u3Rea8eCcaCV61i+2KnbH9qtoQgVutCcs
+         b1g02vCeGAW0Xg24aqbvkpvwAG8ZgUR8W9/gyrI8/Yh5bXon+N1plGlkBUfHcg1HHOPJ
+         l/yn2uFBV2B8p/CqoDn36NYAeXZRf/awUhe6Kd6EJVrEJ+JiS0eGHAkcFUIugYvwZmNT
+         mQt59eCP8YKLBrzTYsofnIJS6Xv31bld3mBpfh1HVooKq5mYbIIaUIXT0NjlNVmNGJDp
+         YBikdezjqeXnYS8pqAPKfqek81w/QaQvrmm/xPkWA+yKgQRdGGlqg9pQSZeVekDsFyd+
+         hEIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ8Ui16gwyMbCog7zBsLznmCq57U0b2AhIGADDFX4x9W0FOmKJGZxPQebptiwaTJeC2e4aufuDpLw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9OYR6uMW867BP4Ik/is557X5SkC+qIaiZF5ZGKGwmBLT8sXMw
+	NsEhUDjIOyWF2C1d3qkRQ9qNZ14qvvzWRyL/l0ej2yI+Qzf7rVp1MXPL9OCGsG931yi8oK70au2
+	KL+Arw48Ml03eB+G1kBDGE+yR0bkVSzTGiSWHHolkKEHppDjcaAdZwerGqGStm+HEYUZV1nX/1X
+	e5ntolG8NKHpJ6VNm5XCfTytKycrb0muawlUVR
+X-Gm-Gg: ASbGnctwvINl4ZulKwA6f8LYZnnnIiHquNn8uehDiSwOCt5J5QQS27K4r/BStPrFgEc
+	/c3CHYT4SEfmwLUS8/Agdo6LGcY/Sip8SW1//IHnn+peZZOU03v28EdjYdawmeBaRwutdt60szR
+	dYZrSS5j49BVOvG5NnoIU=
+X-Received: by 2002:a17:902:db12:b0:269:b2ff:5c0e with SMTP id d9443c01a7336-27cc836bddfmr30428275ad.46.1758627870529;
+        Tue, 23 Sep 2025 04:44:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH1Cwvw/2PZwtxl8crg/RvgpXu5cRzWVpQOiAlxqRp7folePTOl9sm88fsN+QGl4BwCYWwIjf0V3FoMcSkSUdA=
+X-Received: by 2002:a17:902:db12:b0:269:b2ff:5c0e with SMTP id
+ d9443c01a7336-27cc836bddfmr30428055ad.46.1758627870158; Tue, 23 Sep 2025
+ 04:44:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918115759.334067-1-linan666@huaweicloud.com> <20250918115759.334067-3-linan666@huaweicloud.com>
-In-Reply-To: <20250918115759.334067-3-linan666@huaweicloud.com>
-From: Xiao Ni <xni@redhat.com>
-Date: Tue, 23 Sep 2025 19:36:50 +0800
-X-Gm-Features: AS18NWCHLpFrxCHiUGLHcZLQBtF_JvVHrNjfp_zdj57VsxNqTT5PvQaD9Clr2vw
-Message-ID: <CALTww2_4rEb9SojpVbwFy=ZEjUc0-4ECYZKYKgsay9XzDTs-cg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] md: allow configuring logical block size
-To: linan666@huaweicloud.com
-Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, linan122@huawei.com, 
-	hare@suse.de, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-raid@vger.kernel.org, martin.petersen@oracle.com, yangerkun@huawei.com, 
-	yi.zhang@huawei.com
+References: <20250911004416.8663-2-bagasdotme@gmail.com> <aNJ9yJ7XT4Pnsl9E@archie.me>
+In-Reply-To: <aNJ9yJ7XT4Pnsl9E@archie.me>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Tue, 23 Sep 2025 13:44:18 +0200
+X-Gm-Features: AS18NWBFz-QDudfkmwzdBEDlcV6uLY5XJ2s6wSqGZELeCos4n-LXvCn8eGBJ-fE
+Message-ID: <CAHc6FU7aGJZZzN8zhtnwDgXX9gVMh_fbi+sUpJ7tg1MWMa8XVA@mail.gmail.com>
+Subject: Re: [PATCH v4] Documentation: gfs2: Consolidate GFS2 docs into its
+ own subdirectory
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux GFS2 <gfs2@lists.linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jan Kara <jack@suse.cz>, 
+	Christian Brauner <brauner@kernel.org>, Miklos Szeredi <mszeredi@redhat.com>, 
+	Jeff Layton <jlayton@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	James Morse <james.morse@arm.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, Matthew Wilcox <willy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Li Nan
+On Tue, Sep 23, 2025 at 1:00=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+> On Thu, Sep 11, 2025 at 07:44:17AM +0700, Bagas Sanjaya wrote:
+> > Documentation for GFS2 is scattered in three docs that are in
+> > Documentation/filesystems/ directory. As these docs are standing out as
+> > a group, move them into separate gfs2/ subdirectory.
+>
+> Hi Andreas,
+>
+> It looks like this patch isn't in 6.18 PR [1]. Should I resend it after
+> merge window (and for 6.19 instead)?
 
-On Thu, Sep 18, 2025 at 8:08=E2=80=AFPM <linan666@huaweicloud.com> wrote:
->
-> From: Li Nan <linan122@huawei.com>
->
-> Previously, raid array used the maximum logical block size (LBS)
-> of all member disks. Adding a larger LBS disk at runtime could
-> unexpectedly increase RAID's LBS, risking corruption of existing
-> partitions. This can be reproduced by:
->
-> ```
->   # LBS of sd[de] is 512 bytes, sdf is 4096 bytes.
->   mdadm -CRq /dev/md0 -l1 -n3 /dev/sd[de] missing --assume-clean
->
->   # LBS is 512
->   cat /sys/block/md0/queue/logical_block_size
->
->   # create partition md0p1
->   parted -s /dev/md0 mklabel gpt mkpart primary 1MiB 100%
->   lsblk | grep md0p1
->
->   # LBS becomes 4096 after adding sdf
->   mdadm --add -q /dev/md0 /dev/sdf
->   cat /sys/block/md0/queue/logical_block_size
->
->   # partition lost
->   partprobe /dev/md0
->   lsblk | grep md0p1
-> ```
+Ah, I was already wondering what had happened to that patch.
 
-Thanks for the reproducer. I can reproduce it myself.
+Can we just put this into the next (6.20?) merge window?
 
->
-> Simply restricting larger-LBS disks is inflexible. In some scenarios,
-> only disks with 512 bytes LBS are available currently, but later, disks
-> with 4KB LBS may be added to the array.
-
-If we add a disk with 4KB LBS and configure it to 4KB by the sysfs
-interface, how can we make the partition table readable and avoid the
-problem mentioned above?
-
->
-> Making LBS configurable is the best way to solve this scenario.
-> After this patch, the raid will:
->   - store LBS in disk metadata
->   - add a read-write sysfs 'mdX/logical_block_size'
->
-> Future mdadm should support setting LBS via metadata field during RAID
-> creation and the new sysfs. Though the kernel allows runtime LBS changes,
-> users should avoid modifying it after creating partitions or filesystems
-> to prevent compatibility issues.
->
-> Only 1.x metadata supports configurable LBS. 0.90 metadata inits all
-> fields to default values at auto-detect. Supporting 0.90 would require
-> more extensive changes and no such use case has been observed.
->
-> Note that many RAID paths rely on PAGE_SIZE alignment, including for
-> metadata I/O. A larger LBS than PAGE_SIZE will result in metadata
-> read/write failures. So this config should be prevented.
->
-> Signed-off-by: Li Nan <linan122@huawei.com>
-> ---
->  Documentation/admin-guide/md.rst |  7 +++
->  drivers/md/md.h                  |  1 +
->  include/uapi/linux/raid/md_p.h   |  3 +-
->  drivers/md/md-linear.c           |  1 +
->  drivers/md/md.c                  | 75 ++++++++++++++++++++++++++++++++
->  drivers/md/raid0.c               |  1 +
->  drivers/md/raid1.c               |  1 +
->  drivers/md/raid10.c              |  1 +
->  drivers/md/raid5.c               |  1 +
->  9 files changed, 90 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide=
-/md.rst
-> index 1c2eacc94758..f5c81fad034a 100644
-> --- a/Documentation/admin-guide/md.rst
-> +++ b/Documentation/admin-guide/md.rst
-> @@ -238,6 +238,13 @@ All md devices contain:
->       the number of devices in a raid4/5/6, or to support external
->       metadata formats which mandate such clipping.
->
-> +  logical_block_size
-> +     Configures the array's logical block size in bytes. This attribute
-> +     is only supported for RAID1, RAID5, RAID10 with 1.x meta. The value
-
-s/RAID5/RAID456/g
-
-> +     should be written before starting the array. The final array LBS
-> +     will use the max value between this configuration and all rdev's LB=
-S.
-> +     Note that LBS cannot exceed PAGE_SIZE.
-> +
->    reshape_position
->       This is either ``none`` or a sector number within the devices of
->       the array where ``reshape`` is up to.  If this is set, the three
-> diff --git a/drivers/md/md.h b/drivers/md/md.h
-> index afb25f727409..b0147b98c8d3 100644
-> --- a/drivers/md/md.h
-> +++ b/drivers/md/md.h
-> @@ -432,6 +432,7 @@ struct mddev {
->         sector_t                        array_sectors; /* exported array =
-size */
->         int                             external_size; /* size managed
->                                                         * externally */
-> +       unsigned int                    logical_block_size;
->         __u64                           events;
->         /* If the last 'event' was simply a clean->dirty transition, and
->          * we didn't write it to the spares, then it is safe and simple
-> diff --git a/include/uapi/linux/raid/md_p.h b/include/uapi/linux/raid/md_=
-p.h
-> index ac74133a4768..310068bb2a1d 100644
-> --- a/include/uapi/linux/raid/md_p.h
-> +++ b/include/uapi/linux/raid/md_p.h
-> @@ -291,7 +291,8 @@ struct mdp_superblock_1 {
->         __le64  resync_offset;  /* data before this offset (from data_off=
-set) known to be in sync */
->         __le32  sb_csum;        /* checksum up to devs[max_dev] */
->         __le32  max_dev;        /* size of devs[] array to consider */
-> -       __u8    pad3[64-32];    /* set to 0 when writing */
-> +       __le32  logical_block_size;     /* same as q->limits->logical_blo=
-ck_size */
-> +       __u8    pad3[64-36];    /* set to 0 when writing */
->
->         /* device state information. Indexed by dev_number.
->          * 2 bytes per device
-> diff --git a/drivers/md/md-linear.c b/drivers/md/md-linear.c
-> index 5d9b08115375..da8babb8da59 100644
-> --- a/drivers/md/md-linear.c
-> +++ b/drivers/md/md-linear.c
-> @@ -72,6 +72,7 @@ static int linear_set_limits(struct mddev *mddev)
->
->         md_init_stacking_limits(&lim);
->         lim.max_hw_sectors =3D mddev->chunk_sectors;
-> +       lim.logical_block_size =3D mddev->logical_block_size;
->         lim.max_write_zeroes_sectors =3D mddev->chunk_sectors;
->         lim.io_min =3D mddev->chunk_sectors << 9;
->         err =3D mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRIT=
-Y);
-> diff --git a/drivers/md/md.c b/drivers/md/md.c
-> index 40f56183c744..e0184942c8ec 100644
-> --- a/drivers/md/md.c
-> +++ b/drivers/md/md.c
-> @@ -1963,6 +1963,7 @@ static int super_1_validate(struct mddev *mddev, st=
-ruct md_rdev *freshest, struc
->                 mddev->layout =3D le32_to_cpu(sb->layout);
->                 mddev->raid_disks =3D le32_to_cpu(sb->raid_disks);
->                 mddev->dev_sectors =3D le64_to_cpu(sb->size);
-> +               mddev->logical_block_size =3D le32_to_cpu(sb->logical_blo=
-ck_size);
->                 mddev->events =3D ev1;
->                 mddev->bitmap_info.offset =3D 0;
->                 mddev->bitmap_info.space =3D 0;
-> @@ -2172,6 +2173,7 @@ static void super_1_sync(struct mddev *mddev, struc=
-t md_rdev *rdev)
->         sb->chunksize =3D cpu_to_le32(mddev->chunk_sectors);
->         sb->level =3D cpu_to_le32(mddev->level);
->         sb->layout =3D cpu_to_le32(mddev->layout);
-> +       sb->logical_block_size =3D cpu_to_le32(mddev->logical_block_size)=
-;
->         if (test_bit(FailFast, &rdev->flags))
->                 sb->devflags |=3D FailFast1;
->         else
-> @@ -5900,6 +5902,66 @@ static struct md_sysfs_entry md_serialize_policy =
-=3D
->  __ATTR(serialize_policy, S_IRUGO | S_IWUSR, serialize_policy_show,
->         serialize_policy_store);
->
-> +static int mddev_set_logical_block_size(struct mddev *mddev,
-> +                               unsigned int lbs)
-> +{
-> +       int err =3D 0;
-> +       struct queue_limits lim;
-> +
-> +       if (queue_logical_block_size(mddev->gendisk->queue) >=3D lbs) {
-> +               pr_err("%s: incompatible logical_block_size %u, can not s=
-et\n",
-> +                      mdname(mddev), lbs);
-
-Is it better to print the mddev's LBS and give the message "it can't
-set lbs smaller than mddev logical block size"?
-
-> +               return -EINVAL;
-> +       }
-> +
-> +       lim =3D queue_limits_start_update(mddev->gendisk->queue);
-> +       lim.logical_block_size =3D lbs;
-> +       pr_info("%s: logical_block_size is changed, data may be lost\n",
-> +               mdname(mddev));
-> +       err =3D queue_limits_commit_update(mddev->gendisk->queue, &lim);
-> +       if (err)
-> +               return err;
-> +
-> +       mddev->logical_block_size =3D lbs;
-> +       return 0;
-> +}
-> +
-> +static ssize_t
-> +lbs_show(struct mddev *mddev, char *page)
-> +{
-> +       return sprintf(page, "%u\n", mddev->logical_block_size);
-> +}
-> +
-> +static ssize_t
-> +lbs_store(struct mddev *mddev, const char *buf, size_t len)
-> +{
-> +       unsigned int lbs;
-> +       int err =3D -EBUSY;
-> +
-> +       /* Only 1.x meta supports configurable LBS */
-> +       if (mddev->major_version =3D=3D 0)
-> +               return -EINVAL;
-
-It looks like it should check raid level here as doc mentioned above, right=
-?
-> +
-> +       if (mddev->pers)
-> +               return -EBUSY;
-> +
-> +       err =3D kstrtouint(buf, 10, &lbs);
-> +       if (err < 0)
-> +               return -EINVAL;
-> +
-> +       err =3D mddev_lock(mddev);
-> +       if (err)
-> +               goto unlock;
-> +
-> +       err =3D mddev_set_logical_block_size(mddev, lbs);
-> +
-> +unlock:
-> +       mddev_unlock(mddev);
-> +       return err ?: len;
-> +}
-> +
-> +static struct md_sysfs_entry md_logical_block_size =3D
-> +__ATTR(logical_block_size, S_IRUGO|S_IWUSR, lbs_show, lbs_store);
->
->  static struct attribute *md_default_attrs[] =3D {
->         &md_level.attr,
-> @@ -5933,6 +5995,7 @@ static struct attribute *md_redundancy_attrs[] =3D =
-{
->         &md_scan_mode.attr,
->         &md_last_scan_mode.attr,
->         &md_mismatches.attr,
-> +       &md_logical_block_size.attr,
->         &md_sync_min.attr,
->         &md_sync_max.attr,
->         &md_sync_io_depth.attr,
-> @@ -6052,6 +6115,17 @@ int mddev_stack_rdev_limits(struct mddev *mddev, s=
-truct queue_limits *lim,
->                         return -EINVAL;
->         }
->
-> +       /*
-> +        * Before RAID adding folio support, the logical_block_size
-> +        * should be smaller than the page size.
-> +        */
-> +       if (lim->logical_block_size > PAGE_SIZE) {
-> +               pr_err("%s: logical_block_size must not larger than PAGE_=
-SIZE\n",
-> +                       mdname(mddev));
-> +               return -EINVAL;
-> +       }
-> +       mddev->logical_block_size =3D lim->logical_block_size;
-> +
->         return 0;
->  }
->  EXPORT_SYMBOL_GPL(mddev_stack_rdev_limits);
-> @@ -6690,6 +6764,7 @@ static void md_clean(struct mddev *mddev)
->         mddev->chunk_sectors =3D 0;
->         mddev->ctime =3D mddev->utime =3D 0;
->         mddev->layout =3D 0;
-> +       mddev->logical_block_size =3D 0;
->         mddev->max_disks =3D 0;
->         mddev->events =3D 0;
->         mddev->can_decrease_events =3D 0;
-> diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
-> index f1d8811a542a..705889a09fc1 100644
-> --- a/drivers/md/raid0.c
-> +++ b/drivers/md/raid0.c
-> @@ -382,6 +382,7 @@ static int raid0_set_limits(struct mddev *mddev)
->         md_init_stacking_limits(&lim);
->         lim.max_hw_sectors =3D mddev->chunk_sectors;
->         lim.max_write_zeroes_sectors =3D mddev->chunk_sectors;
-> +       lim.logical_block_size =3D mddev->logical_block_size;
->         lim.io_min =3D mddev->chunk_sectors << 9;
->         lim.io_opt =3D lim.io_min * mddev->raid_disks;
->         lim.chunk_sectors =3D mddev->chunk_sectors;
-> diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-> index d0f6afd2f988..de0c843067dc 100644
-> --- a/drivers/md/raid1.c
-> +++ b/drivers/md/raid1.c
-> @@ -3223,6 +3223,7 @@ static int raid1_set_limits(struct mddev *mddev)
->
->         md_init_stacking_limits(&lim);
->         lim.max_write_zeroes_sectors =3D 0;
-> +       lim.logical_block_size =3D mddev->logical_block_size;
->         lim.features |=3D BLK_FEAT_ATOMIC_WRITES;
->         err =3D mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRIT=
-Y);
->         if (err)
-> diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
-> index c3cfbb0347e7..68c8148386b0 100644
-> --- a/drivers/md/raid10.c
-> +++ b/drivers/md/raid10.c
-> @@ -4005,6 +4005,7 @@ static int raid10_set_queue_limits(struct mddev *md=
-dev)
->
->         md_init_stacking_limits(&lim);
->         lim.max_write_zeroes_sectors =3D 0;
-> +       lim.logical_block_size =3D mddev->logical_block_size;
->         lim.io_min =3D mddev->chunk_sectors << 9;
->         lim.chunk_sectors =3D mddev->chunk_sectors;
->         lim.io_opt =3D lim.io_min * raid10_nr_stripes(conf);
-> diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
-> index c32ffd9cffce..ff0daa22df65 100644
-> --- a/drivers/md/raid5.c
-> +++ b/drivers/md/raid5.c
-> @@ -7747,6 +7747,7 @@ static int raid5_set_limits(struct mddev *mddev)
->         stripe =3D roundup_pow_of_two(data_disks * (mddev->chunk_sectors =
-<< 9));
->
->         md_init_stacking_limits(&lim);
-> +       lim.logical_block_size =3D mddev->logical_block_size;
->         lim.io_min =3D mddev->chunk_sectors << 9;
->         lim.io_opt =3D lim.io_min * (conf->raid_disks - conf->max_degrade=
-d);
->         lim.features |=3D BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE;
-> --
-> 2.39.2
->
-
-Best Regards
-Xiao
+Thanks,
+Andreas
 
