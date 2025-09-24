@@ -1,73 +1,197 @@
-Received: from sender4-g3-154.zohomail360.com (sender4-g3-154.zohomail360.com [136.143.188.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C70CC2E0
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 00:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758674621; cv=pass; b=dkmIWpV1x3LjEuySYwKHfL8yuBJWIIfPJvZIWQOKOBXcIRbTMetEz33W2pvD/2LAMHB2+eIIIcTw8MeJZwSrTqqmuLahEjjXc/clnR316EmDYtnlrq0aZ0YA746mflqPI0A4VoAu0p4FniSbktogl0ePDQJTsIGzYJInVhlMGCI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758674621; c=relaxed/simple;
-	bh=jVC0f54KxIaXPohvxMBE4QoFJdeV8vR0/DlR6lS19qY=;
-	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=SIgXJI7f6PpswjfHREVDLxqwlA3Th5dzy+KQqTJN/r6K90rkHOKY1265rB5XIJNAZm02MAOW+2JlYAYXRP2bt4JjtzDJ7/EiVbtBFhoMccEavosMdrPvKltHk+Lz7qiqEKZgKVhBC4+p1Ds+yRlpmZWvaT3OYAUdEApCCcmW3Ec=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=maguitec.com.mx; spf=pass smtp.mailfrom=bounce-zem.maguitec.com.mx; dkim=pass (1024-bit key) header.d=maguitec.com.mx header.i=@maguitec.com.mx header.b=MFjZ188Y; arc=pass smtp.client-ip=136.143.188.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=maguitec.com.mx
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bounce-zem.maguitec.com.mx
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2A918B0A
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 00:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758674683; cv=none; b=mQ9Ff5uhNOPDXrO5SKYicE8ZNnbUjp7+kA5I41Nw61TiumbRbxWjq028Ps2N/k/Gi36Ja136NtBnE6CV77OQMXncQ3UZxd4BxJSWBjqo0r3JYYTBAjDppOFH8UBgdAYXNCE1qiAMLCMqeh7wSpeYOqoM8ltDTpQB3dK2FbgVFo4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758674683; c=relaxed/simple;
+	bh=hTQr85kA0S/LcGQ2RwxI7Wl9/Jj+qgPic2qJeDq6syY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qT4E2FtJUnEhw2b3lMDFADZymELdDC98BaiOj/V3nNpvTeZEx0gRsLqCIXhZ2ROv2sdI1Mhf/Vy++Vfzzjm6vzDIZFbb4oZIt3fiiXtUky4YErAv+WXk+VR6SI8PJh2fvu3Vo7p1MURNbmAyN1RGzgxHImiP46REsuOfl/BYhN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nTfEFEyV; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=maguitec.com.mx header.i=@maguitec.com.mx header.b="MFjZ188Y"
-ARC-Seal: i=1; a=rsa-sha256; t=1758674618; cv=none; 
-	d=us.zohomail360.com; s=zohoarc; 
-	b=BYLlbu3LG3NWZl0YImJy7tc+BBt31Gmluxl/EK962T4+spr6fLf5XBBngX18qILt+xCabDGJ2hmFXCG1DI3mSEeenWay9ockmo5C7PfrMCiapZ8RPbCh75ZubRIjkbG64eAfYzk24Cle/dZlCFjljDGuf59F3GOnCpgOod46D8g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=us.zohomail360.com; s=zohoarc; 
-	t=1758674618; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Reply-To:Reply-To:Subject:Subject:To:To:Message-Id:Cc; 
-	bh=jVC0f54KxIaXPohvxMBE4QoFJdeV8vR0/DlR6lS19qY=; 
-	b=LeAHiVuz4tVoSj2obbJJ/0AdkhDEB9c0qp5vSxC4Bfli7C9KBk36RoV/60rkf3zNRVqGSOyluCb0Sl7tWWhJk2uL5DTcmuSCkUAJ1+zyNpqvfD5sYBOcYGRynB0zj+U7MhVFfW3nBb7H5+rUTyC4d4tprYy9XV5ekg8P9s6Hm1c=
-ARC-Authentication-Results: i=1; mx.us.zohomail360.com;
-	dkim=pass  header.i=maguitec.com.mx;
-	spf=pass  smtp.mailfrom=investorrelations+9a671490-98d8-11f0-9ce0-52540088df93_vt1@bounce-zem.maguitec.com.mx;
-	dmarc=pass header.from=<investorrelations@maguitec.com.mx>
-Received: by mx.zohomail.com with SMTPS id 1758671652882815.4961298202282;
-	Tue, 23 Sep 2025 16:54:12 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; b=MFjZ188YoQbqs8Nag56ps8YzfkMcscoiyR0MW9BcdWP00bhSz39u7CPqJ3RMX//IJMDdGBEf/owve2pi5UiOY18vQAdlpEQRC1TCtYGS1SX29nBGDw7b+IsYqTzIizXDI6e/7abqw01H8Ir1WAlaEVISOD9+5FK8taMKRGpwFK0=; c=relaxed/relaxed; s=15205840; d=maguitec.com.mx; v=1; bh=jVC0f54KxIaXPohvxMBE4QoFJdeV8vR0/DlR6lS19qY=; h=date:from:reply-to:to:message-id:subject:mime-version:content-type:content-transfer-encoding:date:from:reply-to:to:message-id:subject;
-Date: Tue, 23 Sep 2025 16:54:12 -0700 (PDT)
-From: Al Sayyid Sultan <investorrelations@maguitec.com.mx>
-Reply-To: investorrelations@alhaitham-investment.ae
-To: linux-doc@vger.kernel.org
-Message-ID: <2d6f.1aedd99b146bc1ac.m1.9a671490-98d8-11f0-9ce0-52540088df93.19978ffc459@bounce-zem.maguitec.com.mx>
-Subject: Thematic Funds Letter Of Intent
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nTfEFEyV"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2680cf68265so46072685ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 17:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758674681; x=1759279481; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WLtIHDcQkQtcLlEdHD9/cC+Edaj0vfwf0Q7QH/dx80A=;
+        b=nTfEFEyVoP/Dj+wW5yiHZBa0HBrVVmxKo50AeTGiMBh0ktODXrdv/6tA/H3Y8OoUAf
+         5D6OXqa7wkB2kQwWURVAZmpUPdr7koszZTllbxZBm9w6wbb+CNSje4jZOmoe6M/Np3UF
+         5GbdYTkG8QnV1dNraAaGt8SxlD79CcPjfIzoCFibe+ebX8MxKJeqP9TlvbJoJObDw7FN
+         pXkuzBdutG3UUIcz6RIB2pT+yyJQqMTdGtlWsUiFpyqU9HlOKLGGv0X15Ptlyev87T0v
+         +TQYbNfiyfpv/vKdcKoX8I7iLhSO3Q3xRrYN/JB4oErlMl+TsdezdUR8VWbkWE2H1eCB
+         LKZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758674681; x=1759279481;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WLtIHDcQkQtcLlEdHD9/cC+Edaj0vfwf0Q7QH/dx80A=;
+        b=IMsXmcOxdT5vNXJPP0ZVtNzfurkQRFEqGZGt15m/xtUJDzExiT1H5T4R2i6x6kVBVh
+         9C8kRVdUR5ZywCd1ZLzQABnYRVdzVZD3aJ90uCvWfqk4Ug2BtjCKD+p+D9qWijbh0H0h
+         Wm1vdEIGGszUuhTiKFdVpS0fJ+XO9lLhtz0J1i8S0/JP6fCC3HLXWOl2y2Q1a812G+j1
+         /EroincIEXFhN2ccaPhrNvzUikB97hiwVeTLH+tioXrDfCCUE2L/qQr9TNcI3HeftA5T
+         /t2Ef1Wmsq94ntSivFNQiw6bb2K7sCazrw0wshijpvxU81gUrqxrXOJ18HjjQgD6THdQ
+         ow0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUtGsJV6HR8MvAUed7dkP3n+yDeaIOyA2OBwsx/YS3yPseAW8P5hqOb/6hsocT/gvcj20CO1RY44Yg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtY+jvPlCl/AiruTlMUUCmpqcOU8nxBRHA46iWdOZpKdiANbjG
+	gMHnonFiuuk6ClHvADxr9Y+xDOyw9xLuZi+EedJ82xOznXfvLYO2Idxc
+X-Gm-Gg: ASbGncvzfwkjO0D+W4nF/S4U4H9nB812FysD14v3mjVKOsHQLUXLEb/QLn+BL4MqQ+2
+	KV1OD50iRaR19/2nOHlOCBdJ4lFcaNcUpjqW7ko/KR/t5zIUi8eqDrvDjjhhdNsoHZrYHo1i5sf
+	sMl76S/xVDbjxeatipg9Or5pFxdfSjUzaC/RMm7k+Y7bvnt10BpHICMImZuOLTABIV096jlm0fI
+	3UdHCPMGZegmiHoTCGSvxEwxTCg6WyikKmDe1xnz3/+c3sKhXruSRPs32tGKVITTbk3Gq7TvefV
+	lvEB3nqF5o7V24x5cSZDN/Rwo1P8WNxf+HqeaBi3qykAhlsLNz2wVtZNRH5SCerx/2sqwmRLiim
+	XxCfK/i2P1/2tczJGoCuJ8A==
+X-Google-Smtp-Source: AGHT+IEfy8cwUlwEqoTLvwbqDRFwZQ4ApyvIBg2trLwd2EtpSVJd0XNuI6VI+4IYR4D1mOyiYMVWqg==
+X-Received: by 2002:a17:903:3bce:b0:24a:fab6:d15a with SMTP id d9443c01a7336-27cc185851emr45338285ad.20.1758674680650;
+        Tue, 23 Sep 2025 17:44:40 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26980053090sm173462105ad.23.2025.09.23.17.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 17:44:39 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A2B9F4206928; Wed, 24 Sep 2025 07:44:37 +0700 (WIB)
+Date: Wed, 24 Sep 2025 07:44:37 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH net-next 2/3] net: dns_resolver: Move dns_query()
+ explanation out of code block
+Message-ID: <aNM-9aXWTXITUoDw@archie.me>
+References: <20250922095647.38390-2-bagasdotme@gmail.com>
+ <20250922095647.38390-4-bagasdotme@gmail.com>
+ <20250923101456.GI836419@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="e/SObf14umAK1Sg6"
+Content-Disposition: inline
+In-Reply-To: <20250923101456.GI836419@horms.kernel.org>
+
+
+--e/SObf14umAK1Sg6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-content-transfer-encoding-Orig: quoted-printable
-content-type-Orig: text/plain;\r\n\tcharset="utf-8"
-Original-Envelope-Id: 2d6f.1aedd99b146bc1ac.m1.9a671490-98d8-11f0-9ce0-52540088df93.19978ffc459
-X-JID: 2d6f.1aedd99b146bc1ac.s1.9a671490-98d8-11f0-9ce0-52540088df93.19978ffc459
-TM-MAIL-JID: 2d6f.1aedd99b146bc1ac.m1.9a671490-98d8-11f0-9ce0-52540088df93.19978ffc459
-X-App-Message-ID: 2d6f.1aedd99b146bc1ac.m1.9a671490-98d8-11f0-9ce0-52540088df93.19978ffc459
-X-Report-Abuse: <abuse+2d6f.1aedd99b146bc1ac.m1.9a671490-98d8-11f0-9ce0-52540088df93.19978ffc459@zeptomail.com>
-X-ZohoMailClient: External
 
-To: linux-doc@vger.kernel.org
-Date: 24-09-2025
-Thematic Funds Letter Of Intent
+On Tue, Sep 23, 2025 at 11:14:56AM +0100, Simon Horman wrote:
+> On Mon, Sep 22, 2025 at 04:56:47PM +0700, Bagas Sanjaya wrote:
+> > Documentation for dns_query() is placed in the function's literal code
+> > block snippet instead. Move it out of there.
+> >=20
+> > Fixes: 9dfe1361261b ("docs: networking: convert dns_resolver.txt to ReS=
+T")
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>=20
+> Thanks, this renders much better. In a browser at least.
+>=20
+> I've added a few comments below.
+>=20
+> > ---
+> >  Documentation/networking/dns_resolver.rst | 45 +++++++++++------------
+> >  1 file changed, 22 insertions(+), 23 deletions(-)
+> >=20
+> > diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/=
+networking/dns_resolver.rst
+> > index 5cec37bedf9950..329fb21d005ccd 100644
+> > --- a/Documentation/networking/dns_resolver.rst
+> > +++ b/Documentation/networking/dns_resolver.rst
+> > @@ -64,44 +64,43 @@ before the more general line given above as the fir=
+st match is the one taken::
+> >  Usage
+> >  =3D=3D=3D=3D=3D
+> > =20
+> > -To make use of this facility, one of the following functions that are
+> > -implemented in the module can be called after doing::
+> > +To make use of this facility, the appropriate header must be included =
+first::
+>=20
+> Maybe: ..., first linux/dns_resolver.h must be included.
+>=20
+> > =20
+> >  	#include <linux/dns_resolver.h>
+> > =20
+> > -     ::
+> > +Then you can make queries by calling::
+>=20
+> Please use imperative mood:
+>=20
+> Then queries may be made by calling::
+>=20
+> > =20
+> >  	int dns_query(const char *type, const char *name, size_t namelen,
+> >  		     const char *options, char **_result, time_t *_expiry);
+> > =20
+> > -     This is the basic access function.  It looks for a cached DNS que=
+ry and if
+> > -     it doesn't find it, it upcalls to userspace to make a new DNS que=
+ry, which
+> > -     may then be cached.  The key description is constructed as a stri=
+ng of the
+> > -     form::
+> > +This is the basic access function.  It looks for a cached DNS query an=
+d if
+> > +it doesn't find it, it upcalls to userspace to make a new DNS query, w=
+hich
+> > +may then be cached.  The key description is constructed as a string of=
+ the
+> > +form::
+> > =20
+> >  		[<type>:]<name>
+> > =20
+> > -     where <type> optionally specifies the particular upcall program t=
+o invoke,
+> > -     and thus the type of query to do, and <name> specifies the string=
+ to be
+> > -     looked up.  The default query type is a straight hostname to IP a=
+ddress
+> > -     set lookup.
+> > +where <type> optionally specifies the particular upcall program to inv=
+oke,
+> > +and thus the type of query to do, and <name> specifies the string to be
+>=20
+> I think while we are here "to do" could be removed.
+> But maybe that's just me.
+>=20
+> > +looked up.  The default query type is a straight hostname to IP address
+> > +set lookup.
+>=20
+> ...
 
-It's a pleasure to connect with you
+Thanks for the wording suggestions! I'll apply them in v2.
 
-Having been referred to your investment by my team, we would be=20
-honored to review your available investment projects for onward=20
-referral to my principal investors who can allocate capital for=20
-the financing of it.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-kindly advise at your convenience
+--e/SObf14umAK1Sg6
+Content-Type: application/pgp-signature; name=signature.asc
 
-Best Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Respectfully,
-Al Sayyid Sultan Yarub Al Busaidi
-Director
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaNM+8AAKCRD2uYlJVVFO
+o4HMAQDXuiy9uvRj/S1nF52q1p1aOvS1r/UzKDM1nsCmxInzHAD8Ci/ndAcRhr6y
+Ve14PdLZ8XDnj6wD7ILRGAAuaC7c3gA=
+=eWVB
+-----END PGP SIGNATURE-----
+
+--e/SObf14umAK1Sg6--
