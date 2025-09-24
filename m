@@ -1,75 +1,76 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6DA301477
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 14:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648EE3101D5
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 14:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758725322; cv=none; b=LpZHyxjk/uU8KPGrNUJPMZt2pccY3f560mDYrEqh9zFxvZCG5epi3cMFlDm0VMrga6XI02WyBYJMamSl5DWgM3dg0u3kBO88AN/o8GQE3X1ol9vIDNlp1wYimYujQXQnqNeEv3iFam5wku6Omj36KJLVgYvH88aw//xzuquud3g=
+	t=1758725613; cv=none; b=hZInHD3GNC+3Tw9luNDDrngO01P5hXXAFrrsmQfpmop/pEDYvECd8Uus+KHHV3m2MzCCaSzJBrRAQa82GpyFcT4qMB2qqCD9xikfb3zlguowzqLJxCeo9jcRFjKMC1VlYPM5lTftnEngVtffpjUxlP6jwxH7XpTwSsmofZddxHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758725322; c=relaxed/simple;
-	bh=4IsV7Jk2i0IjnsnSne3q7Zle+vqi25l8etXE7cYgRQs=;
+	s=arc-20240116; t=1758725613; c=relaxed/simple;
+	bh=yM/Q+X92fTlkNYlGxigRsIYhUdkygT31tNqbJqR8rLk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rei7vpx5vBTVPQSk3FPsgpjSGc4kkFY7HoBJyWJx5WZ1Ygkwb7yglNpxiHVW3YnP7Mgesu4oiz0cCQ8H5BurjLNhLdD+Nt5JtAAPMLAw/tvtlTZMBvOu26c8JVMKqWGFo57XWTR61fgVXujs7HZWXWA7rindNPcbBdISNAArt5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PYRf7YPO; arc=none smtp.client-ip=209.85.210.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=o5qvxzJes7cKuCyZ0IwP83Y7lcEzruNwGbGvOrs1pJkluq2DpwU8jzPERrVmUAwwRThKlkUAaAtbpfbQNj9fcXhrikraFPXLNyitW0EmAJMT4rmbyq+QO9qn1rjswqbzePG0iu9HNi7V9z3N0S4bEzl2DkaeCymzUYrcxwNuB5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EGMXIV9t; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PYRf7YPO"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7704f3c46ceso6492614b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 07:48:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EGMXIV9t"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-26f0c5455e2so35643495ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 07:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758725320; x=1759330120; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758725612; x=1759330412; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GJWIOp92/VBWQGa84CQUa//9ShSJrAl7Jpy8tRSqKX0=;
-        b=PYRf7YPOpDp+Sp5XALPzKko5U4BXuoL05ILooC3GS51tbK885v5nGFdf2ZPZa/5nTH
-         zskN+1o+I+VcFJeWv+N+ar9a70fg1A0WT5y25LqgaxhiwAXaipuF3SNK6RTHBySnREmK
-         S1khNGvqshtsEqzeCjU6qtlO3gvPaf4PMDrx6NSZesHzcLNc1cIzPjOnsKIBYy4n6L7V
-         2/taPo+kCzzydBkdfSYsOfyKyr5Q5p/m0ZAz7QBOZe1PRyGWzTqeX1Dje0VlUakEyrDc
-         2kZjsGFRmAlTJXFPfb/TxO9ulbkNTyKMvTxPvQMOjPZFrSRN8cxeuuX7O4vRe1fESSeo
-         I2eQ==
+        bh=/3NJ6x5Kdp89Akvi+2hnn1AXNw69P1zSYTXvdA/OXZA=;
+        b=EGMXIV9tUKUdZlTJ7F6/RmTACuQtSD3XNPEO2xf7cCTaKRIFdsGMsqMgTfpX1GlgX1
+         XrvyyfuecHlK/V0Rd5OwOMYOwJTQ2aoCS+TaqyQK1b2wc6leWzSqnwAmBTzTazsoatbg
+         o/zF9QBrGQ9CCca/sGOXFP+B7j7SjnTIdokeNXfp+0VbBdfjgdkd+5xURshJPe7qG6dM
+         luI2YDyPt7EdDbrS7c/N/psTJ4rf6iKZAq0oxq9IrZROhffIds7euXJigCkjvpj6+YOD
+         GhnurF9vgZsfUBdVVVyXjYPnrWzJDwfdORjC8BpdcwGJxvwT8XRbXEkn5+PiuXC2ojD5
+         B/EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758725320; x=1759330120;
+        d=1e100.net; s=20230601; t=1758725612; x=1759330412;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GJWIOp92/VBWQGa84CQUa//9ShSJrAl7Jpy8tRSqKX0=;
-        b=vcpDFflDHytCOOk2UgFa7sfz886k0nuWAfdCbS9oDIiAhHj2Z9pYkoY09SSiAeMdjx
-         BO0nBEZmoxoVSLUer6NoSiXjWTngfZILwVp3J8uIJoXwiVIwxn7tMMVZOgRo9LUivweE
-         3gc9R+7atpj0U9+ywmBGO4DzGMIuK4SGWY08lWEq7NqHJ06yNhAbWCa/3oTQrdur9A/h
-         IYxLBH6oEDhdGi6txiugYres7b2mUWsD/ecyCUd00mn+f+F9hohi6f6N3DnHRGzdWdS8
-         pAsnlKLL9TvdHvDuKEyw1VXctGasiRue+yh/+dcc/jDs+j/rQaYHneRm82fAtZpuS4OJ
-         Xmjg==
-X-Forwarded-Encrypted: i=1; AJvYcCW03huhgR7XiR5MkX11Qxv3wGlSKZOcMvUGNrAsNsca6ZtEaELZcEBPfsAy3VoPakEALdmkS2TvscI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTXOyBdbAKfgbX/2ne/l21yB8XhvPi5tRCXGVs8U5BkVTmzhHk
-	obyBIXgaY5F/5MC/8KYGG0M0rPkhkNWGlm89L+4DcChscfJ9VJyybKUQ
-X-Gm-Gg: ASbGncueAyFWsu3VUs3+Ge6mujUxjxYivrP3oKcc7CAPBMNVnVHkpdeEpfkVKl1XYAn
-	aGSJk+wn9pr+/VR+A4Q9LsugBjpdsJMGC6MhhHYmWFNMaRZbSPwYDs9JATsARLoR5sv7eopGUJB
-	4Hcp55yoNLmWKhCrnjWeAZ+XN0nKyndY0Br2anC3DnuZszVhjHWfi3L22ba663u2dcr+DJUQwv7
-	cFYFpFM2dMfE9A6J/JJ1oUhP3LtHplRDuARTN4aI377b0v5PQPRWm3NaH7cCmce7lUlXRc0HxjY
-	7msMOB5OZq8PP9tcpOptdsQqphVvxZ7OtPe61T1kq96qHmC05bfxRlmfT5/e5/EYDMlPQzaWEPq
-	eVRjaMxQQelGNF9GIRWKYhFCrNUNtPhIfrnU=
-X-Google-Smtp-Source: AGHT+IEMIvzVH3zVBoShxM3FTiWizXcSgelVZEcdTmdAc04uIJbP7xXcGfh18a6UZkI4nte1tsvgBQ==
-X-Received: by 2002:a05:6a20:431b:b0:249:3006:7567 with SMTP id adf61e73a8af0-2cfe97e9b8amr8934175637.35.1758725320273;
-        Wed, 24 Sep 2025 07:48:40 -0700 (PDT)
+        bh=/3NJ6x5Kdp89Akvi+2hnn1AXNw69P1zSYTXvdA/OXZA=;
+        b=q9fX4RaeIZhltv1/2XwTLmuSs9wCcGk5/lSlS+1tY+fDM1TEiKdMdT3zD9NN6tlSs/
+         XMeW60orE1F8tvtr0ZYu8YP/vnkO6ku5EwfbFRdim7fk/7BhYHaLFyABKNSaG5vllnRE
+         Yr2n3qRS9rBm1vcHexyaDfvCH91/KvvsWtQwDM2F75wIQpX+QZwx6ekC9TJcORX+NzYT
+         GedIfmwmyJCOvuboe8Ykb5c5MzI7fddC8wiKX8sVV587zqj2MSi57nPCDJsftXz0AhVg
+         2Qk1oS/sRVia+mAcnA4vDpuVARJsfd0PCAG0AYyUQIEbVEYGUVO02I52QQgFDN20cFjI
+         SX2A==
+X-Forwarded-Encrypted: i=1; AJvYcCX0PWjwjuGnObW9mmcImT8ul0Ad6vuvZmk+HK5xIqakK4zhSW2cLk6yij0xuGg64JOrkDAXIffUvNI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEgAea+rTRwtP4y2Jbj1reFAC1XR2/VUKGbXl6QAvHKns6wbQf
+	0bhgsxFoOLJIg5ezk8DuIJkJDlvK2KrLO9mLTkus1FVdiw6KVJpgD8Xl
+X-Gm-Gg: ASbGncvmCwpoaoc+Ef57CKYZ+4+RVzQbU+bflEQBiuOvxSZK5Jf17mPg8yQ3Puzw3aO
+	WXmanLCx9GctgehoTcZcL5J8Q5GKIKbHcKHXPDsPe6Ix/vI9vlNVkDiT4qXcy5Jljh64p1P5PdM
+	ywvK7xqnBQWUSV7Iw/7vNgmbcZkAm6vTJ6ujJ7VCcXTK/EYERLi18Aa7zTW44qUax7ljc3WUZRo
+	LRuVz5uwubUe7lzoDi3PWudLZ46Azw1ELJw80hZGW5lek0xx+ul/CYQO0s9A+tTRoo6/g2QS839
+	gLzUT3g93O1FpMvyCk1d/PTxueU7ZXXhAras+YDZRaWd2WPxwYGMHfAZzID4Mo1paeu9vqarN5p
+	+ej8bhSSNOl9CAAqXzkUdnsqmpNmQ8AZHzj0=
+X-Google-Smtp-Source: AGHT+IHwdBjJXGvCWrYxZfTaJY8CaOaLZ3+d2LVxSNcLp40JjFPUdhB/JhjXkWgZBBL3x2RWHHNt/Q==
+X-Received: by 2002:a17:903:3d06:b0:275:7ee4:83bc with SMTP id d9443c01a7336-27ed49b8694mr315435ad.2.1758725611709;
+        Wed, 24 Sep 2025 07:53:31 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b551f3ee095sm14195440a12.34.2025.09.24.07.48.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26afe6385afsm155848085ad.39.2025.09.24.07.53.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 07:48:39 -0700 (PDT)
+        Wed, 24 Sep 2025 07:53:31 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 24 Sep 2025 07:48:39 -0700
+Date: Wed, 24 Sep 2025 07:53:30 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Ben Copeland <ben.copeland@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (asus-ec-sensors) increase timeout for
- locking ACPI mutex
-Message-ID: <6a9bee4b-58b4-465f-b386-533bb2787cc7@roeck-us.net>
-References: <20250923192935.11339-1-eugene.shalygin@gmail.com>
- <20250923192935.11339-3-eugene.shalygin@gmail.com>
+To: wenswang@yeah.net
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	jdelvare@suse.com, corbet@lwn.net, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add MPS mp2925 and mp2929
+Message-ID: <03adf64f-e583-4de2-97bc-0a4a9778d5a6@roeck-us.net>
+References: <20250918080349.1154140-1-wenswang@yeah.net>
+ <20250918080603.1154497-1-wenswang@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,17 +79,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923192935.11339-3-eugene.shalygin@gmail.com>
+In-Reply-To: <20250918080603.1154497-1-wenswang@yeah.net>
 
-On Tue, Sep 23, 2025 at 09:26:56PM +0200, Eugene Shalygin wrote:
-> From: Ben Copeland <ben.copeland@linaro.org>
+On Thu, Sep 18, 2025 at 04:06:02PM +0800, wenswang@yeah.net wrote:
+> From: Wensheng Wang <wenswang@yeah.net>
 > 
-> Some motherboards require more time to acquire the ACPI mutex,
-> causing "Failed to acquire mutex" messages to appear in the kernel log.
-> Increase the timeout from 500ms to 800ms to accommodate these cases.
+> Add support for MPS mp2925 and mp2929 controller.
 > 
-> Signed-off-by: Ben Copeland <ben.copeland@linaro.org>
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
 
 Applied.
 
