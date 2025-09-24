@@ -1,209 +1,253 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EEB15624D;
-	Wed, 24 Sep 2025 09:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FB215624D;
+	Wed, 24 Sep 2025 09:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758707434; cv=none; b=P9pMK1wJY/3K/bobH+q9zj7qcXcvj8AJsNwAYmLIIVuV0qGHuyR8HIsQ5y4Y5JqJEcZ4NRj2WkZwXj8GJxVbwB4PVZsTiz4SplxV0QgKJ8oZp+7ah4P+YXE0Ar2VIqsbEYNsQWEZlU//g5FK7F+XzujZ/8qZL1oXf+YNsUlVSwU=
+	t=1758707748; cv=none; b=GpcG2sHHmESDZzMd3TEhf/QSH8Exr4pnvZ6LkBBP9J6ixSC849GvaRtibP4ySyYVAjmuXNkVvA9B7aJeP6pjt93UulCKQy/3Ste5yIeTfbn0hyAje8QP8Gqcx1Q/6iJMldSQvH1TZUuMqxGpsitMK0mtVK9eeihnb9hEH9Hgkck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758707434; c=relaxed/simple;
-	bh=M27GQZgq+H2Ogvn7201UWaor2G51R6HZ5rOLNQvNruk=;
+	s=arc-20240116; t=1758707748; c=relaxed/simple;
+	bh=UUAu91fqE7Xy+Ic5qqO/lBwhANClBj2Kose+b7QgGXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dw3tc3bdn4wbRUAiplbUTTBiVFdtubxbx4vXcobI3Q6w2PSVnUD2j/7Y8D2COZZDhn1qwdyP7UjyABt4GdHAcvcuXgO+EpAfPU/OPYYgGC5H1YTChihiHGFGgFTVlv3p0o7ERXrWIHleED9sqbAbZ6ad3IIo3RPBQ77ZuxGIcbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=URWEmomo; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 MIME-Version:Content-Type; b=B9B29jlnhjbk13HFraqNR8cjPUDDvCH/rNnx+8RgHLSp2pFaTPA3x8VYJjUN86GGCMvsKkVP4aUWneKDKpVb0O3m7jVdu0oNvsSGzXS9Jh+r1Tv/lfFV5ZkD9rSn1DiKts7z+PCBfjNEz6ibrrZH6B/ZNeGmBUv9BVSz8D6c4PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WiAxhADm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="URWEmomo"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58NNVKNh010289;
-	Wed, 24 Sep 2025 09:50:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=lMXgsO
-	bamqkAXxqsbpwU6QaASBM7CFQRyYuBRmQ0KLM=; b=URWEmomo76yRO5YAbteJGo
-	EmXXF2EOAdMk3KL51B8z3Ljl5D8KD1fQlppB1SmwH8nvNwc2VjJoOafRMRvIvqfB
-	nYzqx+RPtdNXoC3M+5It5n0CL3Xu7zQgMGJR8YYbaJWmxv1tLbS6WeGkxmPFgfmo
-	tadg+2MO7DvIbdJBetkxXr3MMua0Xciz5zCObpouIR1o54Yn4SUJUEJVckz+99m7
-	KsodJg1Q0Wiar9DpkhNyI/teVVKQdJ3k9UKHhC4YRro6sdUH/peV3fwmBk7LGg6F
-	swjZ6iF3xngL70s0EeX6ROofjMXWkLX6c0oMIkvBA5Cf75VjXgvmfDkJ/REFNAug
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 499ky66pr3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Sep 2025 09:50:19 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58O9aNvl024359;
-	Wed, 24 Sep 2025 09:50:19 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 499ky66pqx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Sep 2025 09:50:18 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58O9EgK0019743;
-	Wed, 24 Sep 2025 09:50:17 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49a83k7uht-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Sep 2025 09:50:17 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58O9oDLd31850790
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 24 Sep 2025 09:50:13 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7F7E120043;
-	Wed, 24 Sep 2025 09:50:13 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9F4EF20040;
-	Wed, 24 Sep 2025 09:50:12 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.111.44.102])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Wed, 24 Sep 2025 09:50:12 +0000 (GMT)
-Date: Wed, 24 Sep 2025 11:50:10 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Guangguan Wang <guangguan.wang@linux.alibaba.com>
-Cc: Dust Li <dust.li@linux.alibaba.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        "D.
- Wythe" <alibuda@linux.alibaba.com>,
-        Sidraya Jayagond
- <sidraya@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Mahanta
- Jambigi <mjambigi@linux.ibm.com>,
-        Tony Lu <tonylu@linux.alibaba.com>, Wen
- Gu <guwen@linux.alibaba.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-s390@vger.kernel.org, Halil Pasic
- <pasic@linux.ibm.com>
-Subject: Re: [PATCH net-next v2 1/2] net/smc: make wr buffer count
- configurable
-Message-ID: <20250924115010.38d2f3cb.pasic@linux.ibm.com>
-In-Reply-To: <06a87a92-6cce-4a63-99d0-463a1d035478@linux.alibaba.com>
-References: <20250908220150.3329433-1-pasic@linux.ibm.com>
-	<20250908220150.3329433-2-pasic@linux.ibm.com>
-	<aL-YYoYRsFiajiPW@linux.alibaba.com>
-	<20250909121850.2635894a.pasic@linux.ibm.com>
-	<20250919165549.7bebfbc3.pasic@linux.ibm.com>
-	<06a87a92-6cce-4a63-99d0-463a1d035478@linux.alibaba.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WiAxhADm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E06BC113CF;
+	Wed, 24 Sep 2025 09:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758707747;
+	bh=UUAu91fqE7Xy+Ic5qqO/lBwhANClBj2Kose+b7QgGXU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WiAxhADmRH5h6BxFh77wdClx1nAYWa2Jdr+NzS98WMD5E0pWckUTqUCJHkAsnSvWK
+	 jHp6NnXGexxytU1U2mnWEHGKGoZJYq7no7w4nOUuLgoUldL6PnuF5u2MHEM/LYRew/
+	 M99S0zbiwkaNf/1C6ZDqlrXbxuUKsj69kKzzNvA9ZbXHU0ahY21SZyE14a+bOjae5D
+	 HvQKalVI6+KW+UHPMVw0oloHL5UqGmHJqYcO0bjuJbngBVwQQjOZFr6M/hUAONlXsy
+	 iGXy6fPeY3EUWicIubcS2wDHQzfF0HyaoLXgciU3iPtmqufBuCOOMvD9x7LnZy50Jw
+	 BYdsF9jQF7Hng==
+Date: Wed, 24 Sep 2025 11:55:43 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 0/1] sphinx-build-wrapper: add support for skipping
+ sphinx-build
+Message-ID: <20250924115543.49433321@foz.lan>
+In-Reply-To: <e76e4f31-dc95-4d79-a922-7f7d1b68417f@gmail.com>
+References: <cover.1758444913.git.mchehab+huawei@kernel.org>
+	<f31c2169-cd0e-438a-9e59-d6ebd8eaea6e@gmail.com>
+	<20250922142330.7a654919@foz.lan>
+	<e76e4f31-dc95-4d79-a922-7f7d1b68417f@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BcH40_KyCP9ayG1dBlqF9yqqOm_j9uEp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyMCBTYWx0ZWRfX+8dat0XeZkWX
- SWPq5+2Gyvpg8HLdSsPp0klTW+gqpM1ulWcvJFct99xQe3Svh+0iaAQ+pS4nA+c0/IrfTbh4uY8
- pvMTg2j4BsislxtcFC77IYmBOPTz+KOIobNvr9KYI7upLTSof+YT6rTWgT2lkigyAAq0UCAZTr1
- D/7vIL1eT1iibJxGjd6nEx3gt6AoOrWUHnMta3CBr4ilI8fPdJJtpvsVOYaVdqgSqyexjBA74J1
- dKWKw2btDnCLRXs2uTzuWwQVVYNwqNJAx7kK76LkhrOO86Ix2XkoipIv9uy53MmdXdQs1q4gRjT
- 0VYZ4VOFwDbj4+rqzke6hzGVzMOTnf0Dg3f7nJ7SvAYqq5rSEnZ9KvZbCGEX/roZH3n/38BUIei
- 1yuepwZd
-X-Authority-Analysis: v=2.4 cv=XYGJzJ55 c=1 sm=1 tr=0 ts=68d3bedb cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=SRrdq9N9AAAA:8 a=VnNF1IyMAAAA:8
- a=Fd28zW55FITmtQHuAhYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: jEBrHji86dlxFlrZwn0xIePAVyfHtCK1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_02,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 clxscore=1015 adultscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200020
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 24 Sep 2025 11:13:05 +0800
-Guangguan Wang <guangguan.wang@linux.alibaba.com> wrote:
+Em Wed, 24 Sep 2025 16:03:59 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> 在 2025/9/19 22:55, Halil Pasic 写道:
-> > On Tue, 9 Sep 2025 12:18:50 +0200
-> > Halil Pasic <pasic@linux.ibm.com> wrote:
-> > 
-> > 
-> > Can maybe Wen Gu and  Guangguan Wang chime in. From what I read
-> > link->wr_rx_buflen can be either SMC_WR_BUF_SIZE that is 48 in which
-> > case it does not matter, or SMC_WR_BUF_V2_SIZE that is 8192, if
-> > !smc_link_shared_v2_rxbuf(lnk) i.e. max_recv_sge == 1. So we talk
-> > about roughly a factor of 170 here. For a large pref_recv_wr the
-> > back of logic is still there to save us but I really would not say that
-> > this is how this is intended to work.
+> On Mon, 22 Sep 2025 14:23:30 +0200, Mauro Carvalho Chehab wrote:
+> > Em Mon, 22 Sep 2025 20:30:40 +0900
+> > Akira Yokosawa <akiyks@gmail.com> escreveu:
 > >   
-> 
-> Hi Halil,
-> 
-> I think the root cause of the problem this patchset try to solve is a mismatch
-> between SMC_WR_BUF_CNT and the max_conns per lgr(which value is 255). Furthermore,
-> I believe that value 255 of the max_conns per lgr is not an optimal value, as too
-> few connections lead to a waste of memory and too many connections lead to I/O queuing
-> within a single QP(every WR post_send to a single QP will initiate and complete in sequence).
-> 
-> We actually identified this problem long ago. In Alibaba Cloud Linux distribution, we have
-> changed SMC_WR_BUF_CNT to 64 and reduced max_conns per lgr to 32(for SMC-R V2.1). This
-> configuration has worked well under various workflow for a long time.
-> 
-> SMC-R V2.1 already support negotiation of the max_conns per lgr. Simply change the value of
-> the macro SMC_CONN_PER_LGR_PREFER can influence the negotiation result. But SMC-R V1.0 and SMC-R
-> v2.0 do not support the negotiation of the max_conns per lgr.
-> I think it is better to reduce SMC_CONN_PER_LGR_PREFER for SMC-R V2.1. But for SMC-R V1.0 and
-> SMC-R V2.0, I do not have any good idea.
-> 
-
-I agree, the number of WR buffers and the max number of connections per
-lgr can an should be tuned in concert.
-
-> > Maybe not supporting V2 on devices with max_recv_sge is a better choice,
-> > assuming that a maximal V2 LLC msg needs to fit each and every receive
-> > WR buffer. Which seems to be the case based on 27ef6a9981fe ("net/smc:
-> > support SMC-R V2 for rdma devices with max_recv_sge equals to 1").
-> >  
-> 
-> For rdma dev whose max_recv_sge is 1, as metioned in the commit log in the related patch,
-> it is better to support than SMC_CLC_DECL_INTERR fallback, as SMC_CLC_DECL_INTERR fallback
-> is not a fast fallback, and may heavily influence the efficiency of the connecting process
-> in both the server and client side.
-
-I mean another possible mitigation of the problem can be the following,
-if there is a device in the mix with max_recv_sge < 2 the don't propose/
-accept SMCR-V2. 
-
-Do you know how prevalent and relevant are max_recv_sge < 2 RDMA
-devices, and how likely is it that somebody would like to use SMC-R with
-such devices?
-
-> 
->  
-> > For me the best course of action seems to be to send a V3 using
-> > link->wr_rx_buflen. I'm really not that knowledgeable about RDMA or
-> > the SMC-R protocol, but I'm happy to be part of the discussion on this
-> > matter.
+> >> On Sun, 21 Sep 2025 11:13:24 +0200, Mauro Carvalho Chehab wrote:  
+> >>> Hi Jon,
+> >>>
+> >>> This patch adds support for not running sphinx-build at the wrapper
+> >>> tool. It was requested by Akira, who wanted to be able to ignore
+> >>> Sphinx errors during latex build and still try to build PDF.    
+> >>
+> >> Thank you for trying to figure out my intention.
+> >> However, you failed to see the point.
+> >>  
+> >>>
+> >>> This patch is against docs/build-script and applies after the 3 patch
+> >>> series I sent yesterday:
+> >>>
+> >>>     https://lore.kernel.org/linux-doc/cover.1758361087.git.mchehab+huawei@kernel.org/
+> >>>
+> >>>
+> >>> While Akira's original intention is to have pdfdocs target depend on
+> >>> latexdocs, IMO, this is overkill, as probably only Akira and a couple
+> >>> of other developers might want to have such behavior.    
+> >>
+> >> I think it is only you who don't want such behavior.  
 > > 
-> > Regards,
-> > Halil  
->
-> And a tiny suggestion for the risk you mentioned in commit log
-> ("Addressing this by simply bumping SMC_WR_BUF_CNT to 256 was deemed
-> risky, because the large-ish physically continuous allocation could fail
-> and lead to TCP fall-backs."). Non-physically continuous allocation (vmalloc/vzalloc .etc.) is
-> also supported for wr buffers. SMC-R snd_buf and rmb have already supported for non-physically
-> continuous memory, when sysctl_smcr_buf_type is set to SMCR_VIRT_CONT_BUFS or SMCR_MIXED_BUFS.
-> It can be an example of using non-physically continuous memory.
+> > Whom else wants to use "make -i" to skip failed latexdocs build and
+> > still do pdf builds? For what reason?  
+> 
+> Hmm, looks like you were suffered from context mismatch.
+> 
+> My message you tried to understand (archived at:
+> 
+>     https://lore.kernel.org/5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com/
+> 
+> ) started this way:
+> 
+>     Hi, (just got v8, but sending anyway ...),
+> 
+> , and the message assumed the "make pdfdocs" behavior of v7.
+> 
+> At the time, I thought it was what you had intended and it looked as though
+> you wanted latexmk/xelatex to continue running as much as possible ignoring
+> any intermediate errors.
+
+No, this was a bug, as I answered you already and sent the fix:
+if sphinx-build fails, the script shall bail out.
+
+> You have since fixed the missed exception handling at the latexdocs phase,
+> but your rapid respins of this series simply overwhelmed me and I have
+> failed to see "make pdfdocs" now gives up at latexdocs error.
+> 
+> My intention of mentioning GNU Make's options of -i, -k, etc. in the message
+> was to show you that the make--sub-make scheme is so flexible and it can
+> even emulate the buggy behavior of then sphinx-build-wrapper.
+> 
+> In normal cases, I won't use any of those options.
+> But as a human developer, I sometimes use them when I observe build errors
+> somewhere in "make pdfdocs".
+...
+> >> All I want is to restore the current behavior, without any need to
+> >> use such an ad-hoc script.  
+> > 
+> > Huh?
+> > 
+> > You said you want to be able to do just the reverse: to ignore
+> > failures at latex build ("make -i").  
+> 
+> No, as I said above, I don't want it in most cases.
+> But in rare occasions, I might want it.  That depends on the situation
+> at hand.
+
+There is exactly the usecase where running directly via makefile
+may not be enough, as you may want to play with different scenarios.
+
+On such cases, you'll be better served by calling the script directly, 
+as it provides more flexibility without requiring to pass parameters via
+env vars nor nor enable/disable different venvs to test with different
+versions of docutils/spinx packages.
+
+On an hypothetical scenario where pdfdocs is not working fine, calling
+the script directly allows to easily test different scenarios, and it is
+faster, as you won't do anything else but running directly the doc build
+logic:
+
+	# equivalent to "make pdfdocs":
+	# build tex. If sphinx-build succeeds, build pdf for each tex
+	./tools/docs/sphinx-build-wrapper pdfdocs
+
+	# equivalent to "make latexdocs"
+	./tools/docs/sphinx-build-wrapper latexdocs
+
+	# generate latex with Sphinx 3.4.3 in verbose mode
+	# equivalent to:
+	#	. Sphinx_3.4.3/bin/activate
+	#	make V=1 latexdocs
+	#	deactivate
+	./tools/docs/sphinx-build-wrapper latexdocs -V Sphinx_3.4.3 -v
+
+	# build only translations.tex with Sphinx 5.2.0 in verbose mode
+	./tools/docs/sphinx-build-wrapper latexdocs -V Sphinx_5.2.0 -v --sphinxdirs translations
+
+Once you're happy with the above, you could proceed with the pdf build step,
+forcing the script to skip sphinx-build step with:
+
+	# Run just PDF build step, producing a summary at the end
+	$ ./tools/docs/sphinx-build-wrapper pdfdocs  -s -v
+	...
+	Summary
+	=======
+	...
+	translations/pdf/translations.pdf: FAILED
+	...
+
+	# After building latexdocs for translations.tex and core-api.tex
+	# run the run test PDF build, producing a single line
+	# with all failures for each generated .tex file:
+	$ ./tools/docs/sphinx-build-wrapper pdfdocs  -s  --sphinxdirs translations core-api
+	...
+	Error: Can't build 1 PDF file(s): translations/pdf/translations.pdf
+
+	# Use a different variable font deny configuration directory
+	$ ./tools/docs/sphinx-build-wrapper pdfdocs  -s  --sphinxdirs translations --deny-vf ~/new-deny-vf/
+	
+> >> Furthermore, your "cleanup" is obfuscating the very fact that "pdfdocs"
+> >> needs a successful "latexdocs" stage.
+> >>
+> >> I believe Documentation/Makefile is the right place to describe it.  
+> > 
+> > If you want to propose such change, be my guest. As I said, *I* won't propose
+> > it, as IMO it is a bad idea, but if you want, feel free to submit a patch 
+> > after this one similar to:
+> > 
+> > 	-htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+> > 	+htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs linkcheckdocs:
+> > 	+
+> > 	+pdfdocs: latexdocs
+> > 	+        +$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ -s \
+> > 	+                --sphinxdirs="$(SPHINXDIRS)" \
+> > 	+                --builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
+> > 	+                --paper=$(PAPER)
+> > 
+> > and let's discuss its pros/cons in separate.  
+> 
+> OK. This looks like the way forward to me.
+> 
+> I'll prepare a patch (set) and submit it after v6.18-rc1.
+
+Ok, but as I said, IMO we're better served running the script
+directly while debugging issues.
+
+> In the meantime, I think we might be better off if we could root-cause
+> the "latexmk bug" you repeatedly claimed you had observed, without providing
+> any steps to reproduce.
+
+This is on my todo list. 
+
+With regards to the steps to reproduce you need to remove this from make:
+
+	|| sh $(srctree)/scripts/check-variable-fonts.sh || exit
+
+to ensure that errors will be handled by make.
+
+As we depend on error handling logic, it means that you may need to build docs
+with different configurations, different types of latex errors produced by
+sphinx-build, and test with different versions of docutils, sphinx, xelatex and
+latexmk, and hope to have a .tex file that has errors but still generate .pdf. 
+
+Getting such issues is time consuming and it needs a certain amount of luck
+to catch it, as you depend on changes at the *.rst files that will produce
+a .tex file with the exact amount of spicy to produce such behavior.
+
+With me, it only happens when I don't want it to happen ;-)
+
+-
+
+Another option would be to try to manually generate a defective *.tex file
+that doesn't produce a critical error but still generates a.pdf output when
+xelatex is called by hand.
+
+Anyway, this requires a calm week where you don't have anything else
+to do, and you're prepared to waste several hours trying to pick the
+hot spot on away that it would be reproducible by others.
+
+So, this has low priority.
+
+> Let me continue in another thread.
+> It would be far more interesting for me to (try to) figure out what you
+> had observed.
+> 
+> Thanks,
+> Akira
 > 
 
-I think we can put this on the list of possible enhancements. I would
-perfer to not add this to the scope of this series. But I would be happy to
-see this happen. Don't know know if somebody form Alibaba, or maybe
-Mahanta or Sid would like to pick this up as an enhancement on top.
 
-Thank you very much for for your comments!
 
-Regards,
-Halil 
+Thanks,
+Mauro
