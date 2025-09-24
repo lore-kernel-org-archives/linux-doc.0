@@ -1,212 +1,170 @@
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+Received: from eastern.birch.relay.mailchannels.net (eastern.birch.relay.mailchannels.net [23.83.209.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEA31C8603;
-	Wed, 24 Sep 2025 19:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C3A1C8603;
+	Wed, 24 Sep 2025 19:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758741886; cv=pass; b=iuDApX9H8Ik3CZPS83IB8w/NCHSMxGGII3XJtHW67tDJTPeZY0/MhYoM6yC9dkvyGUrCOsvPsu5eVtGhY4Twm/sdfOqkqLFSBwkzZJJ7iOvNNTUv48CledDs+o6++lYAXMqIU+RpWOA1XOUVrBDGhY/O8m+O9aiM5oXlcvMXtZw=
+	t=1758741976; cv=pass; b=QqwhKov7zOBNob91ZIKleb+x94NIUDCPaN7BZF9uLkBt4kE5xramulnCLAdSdiW0cyVJnFkfObRmVW+2NaPKT+aaJFXgTmWdiNSNwH4hOtb3uGsMVl8mDk1BpbbJvDdvvabhxDwk1NimvAx+JyJdqdQVC0c7wjU8JPNz/YyGJ6c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758741886; c=relaxed/simple;
-	bh=heESk4oHqAuXRn33U0ViCuV3zVQBKzbyLAkSWgCK09o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sDFsiNjYoyBE9d0c8XIMYLkHp0QiT66TRWOzxxEUYzsE7WhoIuziJXqaE6VTyTW0kLTi+chCfXzjywcFxWS6oHQV4xPSajhYYvgLcp7MDUYUCr02ofnaFOChrc/yc8UNfVkxhT5HFPdfrUIYKRjl3E5b3ELOF/zX21bKYCIOVMg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=TyT9uK8m; arc=pass smtp.client-ip=157.107.129.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	s=arc-20240116; t=1758741976; c=relaxed/simple;
+	bh=BHsTkzdWZajDNDK+ioNil3t9QVIX4IumG9TxYgK95/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EkBWl7S0eZencH7xz9rP5NLYMH3a5x6ctyim2l14bTBbgE/n98yRgcXErmafAn+2jL6RCklgG7CtUkdaWspVo86kuwH0b/6PF+vk44y7fFgu6xQD8K1CGTzLHKUHHPcFcwC6B6nwx4gqzzmoyiOG4U4cGPQxxGZydr1sO2adL+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=qP7ktGKp; arc=pass smtp.client-ip=23.83.209.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="TyT9uK8m"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 0A5F3101C8635;
-	Thu, 25 Sep 2025 04:24:34 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id YQ4Lfu_r75o5; Thu, 25 Sep 2025 04:24:28 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id C0768101C8441; Thu, 25 Sep 2025 04:24:28 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758741868;
-	cv=none; b=ZupupkXhJiUL7K5Zb04EQmzag7d4eDS6EV//uUTxUAN0dLqcnjCPtDQefPDZos2TsDhowsuUBA2Inu3ThD3gIJ8hrGRRZMmBnupnQouH/NTcJGFWALe3ZITpvqNA0bqCxqH7uLphDoL6A+HA7jE0AA4Ixlem0wNYyqVLSvikEaY=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758741868; c=relaxed/relaxed;
-	bh=b3PFU9BpTy364X6+cV+ReTpHMpe0gUd/ubx4lz7SF3g=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding; b=SW0qExqqWowD49+fzCkMjaKKWoVRuzzNDPhpaD2bAdWKtQMvlVA4jEfBzSm0Xooaf2XViLumYviwVPN+nPK9gdITcNSR4YLIU/dRX0fiYIRWqxMPBYfmBdu6EnxAr1ICZx43f6zGG+QBuqHsadxveTmrgo3og/Vsvt0rKYyv3Ok=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org C0768101C8441
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758741868;
-	bh=b3PFU9BpTy364X6+cV+ReTpHMpe0gUd/ubx4lz7SF3g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TyT9uK8mPbzPY16aPTaZe9AZhiVaqWmpZVSIHLQxKmz2v91TO5Ih0uqgqpZc/Wkoh
-	 S87Sd+yCJ+qA2LDvMkqJGQO14madXYcgBMRLz5mYgHKBybR6/Q6aSv/8JY29QXZDOv
-	 dPjjwYcPO4d+FA6tQj9muf/hy6Ri4hYgdqlUtrgI=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net,
-	akiyks@gmail.com,
-	linux-kernel@vger.kernel.org,
-	weibu@redadmin.org
-Subject: [PATCH v5] docs: ja_JP: SubmittingPatches: describe the 'Fixes:' tag
-Date: Thu, 25 Sep 2025 04:24:26 +0900
-Message-ID: <20250924192426.2743495-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250909022502.119560-1-weibu@redadmin.org>
-References: <20250909022502.119560-1-weibu@redadmin.org>
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="qP7ktGKp"
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id D68F56C2CDF;
+	Wed, 24 Sep 2025 19:20:52 +0000 (UTC)
+Received: from pdx1-sub0-mail-a233.dreamhost.com (trex-blue-5.trex.outbound.svc.cluster.local [100.108.153.55])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 4D82F6C092A;
+	Wed, 24 Sep 2025 19:20:51 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1758741652; a=rsa-sha256;
+	cv=none;
+	b=FIelBRpKbw4XRCXREIY6GrcomZxyh5mPLsvXc2d6FGp/peq6EwuUT5C41+2LA0F+ggX9yV
+	8sDI+KYqBxmckQrPVNV7rWra63fWqq+o5yLlx5MZRnuTdHQZEQgAmgblFxuGyjaNVrHFDk
+	wPn+M2/WQfSpmZ0IkQEEN3MHnMtbF5yhytJwedRo1ogyg8SQR/ZRrsw9DI3lHGj/2mLKAm
+	dj8jGFwnS4OjNKQjH2R6mDLZ7tlU8MommvaAha7o+UWIylY5K2nv2k5iepHunaoM660neK
+	8apwlyJbofcRsA4DvFw4pkrtRAv7P9DWllpqqR+qR+EGkoSllD3i7IkmAH8Mog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1758741652;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=2+5k4o1pMixQXt5VsjL/MYZwcVCEyggOqRD9o8b/qSc=;
+	b=ChRw8wSjyogd2do/v/H6TxZGH/WsiQerw/hid5S8KViit0lwA1gMH0+6UMTmJNQMMIezrz
+	gsCOkeBMJedUyPmRdN0+x/Ibzn4kOtJ+sG57y0ioHbgMKfWThGzPdrmcr4dMMVSyyUw2rk
+	dVBBOmfhJTtYNtYRTDWhwp+mpqmWhEqvL9C8FrlKqiY59ItiMJEd3l6YkcBc//9Lzk6+Fh
+	mvjXUWAyzYxp+VnxExIXavdSHQcTxa/FAQIzz9fgRHT07mtFGrsyWRfq7ZmdI4pGoAxOfN
+	0MoQjrfyn0a4j6aLMBwkDQq4B0YTsphgd54S7yxIuOYwH85l63FNfS25ErSZgQ==
+ARC-Authentication-Results: i=1;
+	rspamd-55b8bfbc7f-nnn52;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Callous-Spill: 350181bf214e86d3_1758741652308_3044232165
+X-MC-Loop-Signature: 1758741652308:255498347
+X-MC-Ingress-Time: 1758741652308
+Received: from pdx1-sub0-mail-a233.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.108.153.55 (trex/7.1.3);
+	Wed, 24 Sep 2025 19:20:52 +0000
+Received: from [192.168.88.7] (unknown [209.81.127.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a233.dreamhost.com (Postfix) with ESMTPSA id 4cX6Bm0dnXzJl;
+	Wed, 24 Sep 2025 12:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1758741651;
+	bh=2+5k4o1pMixQXt5VsjL/MYZwcVCEyggOqRD9o8b/qSc=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=qP7ktGKps9suFLn+SvwXNJfmXIq5m7DqxjIn++FPW06rQGLdyFrasnCUUBtJnzZ2L
+	 032Pr1ux0M59Obr3XwUHOtHtLFaEBxNmmkXxqPxYnCt1Q6ZqoWdAD9Q0W04+4gmjQl
+	 ds3vnt+/qY5ti8rpHJ46bodAbnhitDUyLxlQ0tRxKsiwmL7TThWSclVniorsogf6MJ
+	 gohNW1AXGJyGgriupkN0gkhVYK+ork7/6bPtZBHhvaB43HB07jP863XLDHcc31YH0+
+	 wfQhtcquMUPSEA+sEb7jFLcwMpbQdjW0Rd1EFegx855pG/OiLXxmVQR1JAWLIYES88
+	 kVFfZokS8hZqg==
+Message-ID: <de56cabd-05a9-4528-8150-9ad97209640e@landley.net>
+Date: Wed, 24 Sep 2025 14:20:47 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Alexander Patrakov <patrakov@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Aleksa Sarai <cyphar@cyphar.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>,
+ Alexander Graf <graf@amazon.com>, Lennart Poettering <mzxreary@0pointer.de>,
+ linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, x86@kernel.org, Ingo Molnar
+ <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
+ "Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org,
+ Michal Simek <monstr@monstr.eu>, devicetree@vger.kernel.org,
+ Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>,
+ Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>,
+ patches@lists.linux.dev
+References: <20250913003842.41944-1-safinaskar@gmail.com>
+ <ffbf1a04-047d-4787-ac1e-f5362e1ca600@csgroup.eu>
+ <CAN_LGv3Opj9RW0atfXODy-Epn++5mt_DLEi-ewxR9Me5x46Bkg@mail.gmail.com>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <CAN_LGv3Opj9RW0atfXODy-Epn++5mt_DLEi-ewxR9Me5x46Bkg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sync the ja_JP translation with the following upstream commits:
+On 9/24/25 11:17, Alexander Patrakov wrote:
+>> Therefore is it really initrd you are removing or just some corner case
+>> ? If it is really initrd, then how does QEMU still work with that
+>> -initrd parameter ?
+> 
+> The QEMU -initrd parameter is a misnomer. It can be used to pass an
+> initrd or an initramfs, and the kernel automatically figures out what
+> it is.
 
-commit 8401aa1f5997 ("Documentation/SubmittingPatches: describe the Fixes: =
-tag")
-commit 19c3fe285cba ("docs: Explicitly state that the 'Fixes:' tag shouldn'=
-t split lines")
-commit 5b5bbb8cc51b ("docs: process: Add an example for creating a fixes ta=
-g")
-commit 6356f18f09dc ("Align git commit ID abbreviation guidelines and check=
-s")
+It's not a misnomer, initrams has always been able to make use of the 
+existing initrd loading mechanism to read images externally supplied by 
+the bootloader. It's what grub calls it too. I documented it in the 
+"External initramfs images" section of 
+https://kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt 
+back in 2005. The mechanism itself is 30 years old 
+(Documentation/initrd.txt was written by Werner Almsberger in linux 
+1.3.73 from March 7, 1996, ala 
+https://github.com/mpe/linux-fullhistory/commit/afc106342783 ).
 
-The mix of plain text and reST markup for ``git bisect`` is intentional to
-align with the eventual reST conversion.
+Since initrd contents could always be in a bunch of different 
+autodetected formats (and optionally compressed just like the kernel), 
+initramfs just hooked in to the staircase and said "if the format is 
+cpio, call this function to handle it". The patch series proposes 
+removing all the other formats, but not otherwise changing the existing 
+external image loader mechanism. (Personally I think removing the 
+architecture-specific hacks but leaving the generic support under init/ 
+would probably have made more sense as a first step.)
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
-v5:
- - whole rewrite
----
- .../translations/ja_JP/SubmittingPatches      | 28 ++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+The bootloader hands off an initrd image, initramfs is the boot-time 
+cpio extraction plumbing that's _init tagged and gets freed, and rootfs 
+is the persistent mounted instance of ramfs or tmpfs that's always there 
+and is analogous to the init task (PID 1) except for the mount tree. 
+(And is often overmounted so it's not visible, but it's still there. And 
+is NOT SPECIAL: overmounts aren't a new concept, nor is hiding them in 
+things like "df".)
 
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documenta=
-tion/translations/ja_JP/SubmittingPatches
-index 5334db471744..b950347b5993 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/SubmittingPatches
-@@ -132,6 +132,25 @@ http://savannah.nongnu.org/projects/quilt
-        platform_set_drvdata(), but left the variable "dev" unused,
-        delete it.
-=20
-+=E7=89=B9=E5=AE=9A=E3=81=AE=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=81=A7=
-=E5=B0=8E=E5=85=A5=E3=81=95=E3=82=8C=E3=81=9F=E4=B8=8D=E5=85=B7=E5=90=88=E3=
-=82=92=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=EF=BC=88=E4=BE=
-=8B=E3=81=88=E3=81=B0 ``git bisect`` =E3=81=A7=E5=8E=9F=E5=9B=A0=E3=81=A8=
-=E3=81=AA=E3=81=A3=E3=81=9F
-+=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=82=92=E7=89=B9=E5=AE=9A=E3=81=97=
-=E3=81=9F=E3=81=A8=E3=81=8D=E3=81=AA=E3=81=A9=EF=BC=89=E3=81=AF=E3=80=81=E3=
-=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=81=AE SHA-1 =E3=81=AE=E5=85=88=E9=A0=
-=AD12=E6=96=87=E5=AD=97=E3=81=A81=E8=A1=8C=E3=81=AE=E8=A6=81=E7=B4=84=E3=82=
-=92=E6=B7=BB=E3=81=88=E3=81=9F
-+=E3=80=8CFixes:=E3=80=8D=E3=82=BF=E3=82=B0=E3=82=92=E4=BB=98=E3=81=91=E3=
-=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AE=E8=A1=
-=8C=E3=81=AF75=E6=96=87=E5=AD=97=E3=82=92=E8=B6=85=E3=81=88=E3=81=A6=E3=82=
-=82=E6=A7=8B=E3=81=84=E3=81=BE=E3=81=9B=E3=82=93=E3=81=8C=E3=80=81=E9=80=94=
-=E4=B8=AD=E3=81=A7
-+=E6=94=B9=E8=A1=8C=E3=81=9B=E3=81=9A=E3=80=81=E5=BF=85=E3=81=9A1=E8=A1=8C=
-=E3=81=A7=E8=A8=98=E8=BF=B0=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=
-=81=84=E3=80=82
-+=E4=BE=8B:
-+        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the=
- number of pages it actually freed")
-+
-+=E4=BB=A5=E4=B8=8B=E3=81=AE git =E3=81=AE=E8=A8=AD=E5=AE=9A=E3=82=92=E4=BD=
-=BF=E3=81=86=E3=81=A8=E3=80=81git log =E3=82=84 git show =E3=81=A7=E4=B8=8A=
-=E8=A8=98=E5=BD=A2=E5=BC=8F=E3=82=92=E5=87=BA=E5=8A=9B=E3=81=99=E3=82=8B=E3=
-=81=9F=E3=82=81=E3=81=AE
-+=E5=B0=82=E7=94=A8=E3=81=AE=E5=87=BA=E5=8A=9B=E5=BD=A2=E5=BC=8F=E3=82=92=
-=E8=BF=BD=E5=8A=A0=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99::
-+
-+        [core]
-+                abbrev =3D 12
-+        [pretty]
-+                fixes =3D Fixes: %h (\"%s\")
-+
-+=E4=BD=BF=E7=94=A8=E4=BE=8B::
-+
-+        $ git log -1 --pretty=3Dfixes 54a4f0239f2e
-+        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the=
- number of pages it actually freed")
-=20
- 3) =E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=88=86=E5=89=B2
-=20
-@@ -409,7 +428,7 @@ Acked-by: =E3=81=8C=E5=BF=85=E3=81=9A=E3=81=97=E3=82=82=
-=E3=83=91=E3=83=83=E3=83=81=E5=85=A8=E4=BD=93=E3=81=AE=E6=89=BF=E8=AA=8D=E3=
-=82=92=E7=A4=BA=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E3=82=8F=E3=81=91=E3=81=
-=A7=E3=81=AF
- =E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=83=91=E3=83=83=E3=83=81=
-=E3=81=AB=E9=96=A2=E5=BF=83=E3=81=8C=E3=81=82=E3=82=8B=E3=81=A8=E6=80=9D=E3=
-=82=8F=E3=82=8C=E3=82=8B=E4=BA=BA=E9=81=94=E3=81=8C=E3=81=9D=E3=81=AE=E3=83=
-=91=E3=83=83=E3=83=81=E3=81=AE=E8=AD=B0=E8=AB=96=E3=81=AB=E5=90=AB=E3=81=BE=
-=E3=82=8C=E3=81=A6=E3=81=84=E3=81=9F=E3=81=93=E3=81=A8
- =E3=82=92=E6=98=8E=E6=96=87=E5=8C=96=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
-=20
--14) Reported-by:, Tested-by:, Reviewed-by: =E3=81=8A=E3=82=88=E3=81=B3 Sug=
-gested-by: =E3=81=AE=E5=88=A9=E7=94=A8
-+14) Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: =E3=81=8A=E3=82=
-=88=E3=81=B3 Fixes: =E3=81=AE=E5=88=A9=E7=94=A8
-=20
- =E4=BB=96=E3=81=AE=E8=AA=B0=E3=81=8B=E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=
-=E5=A0=B1=E5=91=8A=E3=81=95=E3=82=8C=E3=81=9F=E5=95=8F=E9=A1=8C=E3=82=92=E4=
-=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=E3=81=
-=82=E3=82=8C=E3=81=B0=E3=80=81=E5=95=8F=E9=A1=8C=E5=A0=B1=E5=91=8A=E8=80=85=
-=E3=81=A8=E3=81=84=E3=81=86=E5=AF=84=E4=B8=8E=E3=82=92
- =E3=82=AF=E3=83=AC=E3=82=B8=E3=83=83=E3=83=88=E3=81=99=E3=82=8B=E3=81=9F=
-=E3=82=81=E3=81=AB=E3=80=81Reported-by: =E3=82=BF=E3=82=B0=E3=82=92=E8=BF=
-=BD=E5=8A=A0=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E6=A4=9C=E8=A8=8E=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-@@ -465,6 +484,13 @@ Suggested-by: =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=
-=83=91=E3=83=83=E3=83=81=E3=81=AE=E3=82=A2=E3=82=A4=E3=83=87=E3=82=A2=E3=81=
-=8C=E3=81=9D=E3=81=AE=E4=BA=BA=E3=81=8B=E3=82=89=E3=81=AE=E6=8F=90=E6=A1=88=
-=E3=81=AB
- =E3=82=AF=E3=83=AC=E3=82=B8=E3=83=83=E3=83=88=E3=81=97=E3=81=A6=E3=81=84=
-=E3=81=91=E3=81=B0=E3=80=81=E6=9C=9B=E3=82=80=E3=82=89=E3=81=8F=E3=81=AF=E3=
-=81=9D=E3=81=AE=E4=BA=BA=E3=81=9F=E3=81=A1=E3=81=8C=E5=B0=86=E6=9D=A5=E5=88=
-=A5=E3=81=AE=E6=A9=9F=E4=BC=9A=E3=81=AB=E5=86=8D=E5=BA=A6=E5=8A=9B=E3=82=92=
-=E8=B2=B8=E3=81=99=E6=B0=97=E3=81=AB
- =E3=81=AA=E3=81=A3=E3=81=A6=E3=81=8F=E3=82=8C=E3=82=8B=E3=81=8B=E3=82=82=
-=E3=81=97=E3=82=8C=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-=20
-+Fixes: =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=81=9D=E3=81=AE=E3=83=91=E3=
-=83=83=E3=83=81=E3=81=8C=E4=BB=A5=E5=89=8D=E3=81=AE=E3=82=B3=E3=83=9F=E3=83=
-=83=E3=83=88=E3=81=AB=E3=81=82=E3=81=A3=E3=81=9F=E5=95=8F=E9=A1=8C=E3=82=92=
-=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=
-=81=97=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E3=83=90=E3=82=B0=E3=81=8C=E3=81=A9=
-=E3=81=93=E3=81=A7=E7=99=BA=E7=94=9F=E3=81=97=E3=81=9F=E3=81=8B=E3=82=92=E7=
-=89=B9=E5=AE=9A=E3=81=97=E3=82=84=E3=81=99=E3=81=8F=E3=81=97=E3=80=81=E3=83=
-=90=E3=82=B0=E4=BF=AE=E6=AD=A3=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=
-=E3=81=AB=E5=BD=B9=E7=AB=8B=E3=81=A1=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=BE=E3=81=9F=E3=80=81=E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AFst=
-able=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=81=E3=83=BC=E3=83=A0=E3=81=
-=8C=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E4=BF=AE=E6=AD=A3=E3=82=92=
-=E3=81=A9=E3=81=AEstable=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB
-+=E3=83=90=E3=83=BC=E3=82=B8=E3=83=A7=E3=83=B3=E3=81=AB=E9=81=A9=E7=94=A8=
-=E3=81=99=E3=81=B9=E3=81=8D=E3=81=8B=E5=88=A4=E6=96=AD=E3=81=99=E3=82=8B=E6=
-=89=8B=E5=8A=A9=E3=81=91=E3=81=AB=E3=82=82=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=
-=99=E3=80=82=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=
-=E4=BF=AE=E6=AD=A3=E3=81=95=E3=82=8C=E3=81=9F
-+=E3=83=90=E3=82=B0=E3=82=92=E7=A4=BA=E3=81=99=E3=81=AB=E3=81=AF=E3=80=81=
-=E3=81=93=E3=81=AE=E6=96=B9=E6=B3=95=E3=81=8C=E6=8E=A8=E5=A5=A8=E3=81=95=E3=
-=82=8C=E3=81=BE=E3=81=99=E3=80=82=E5=89=8D=E8=BF=B0=E3=81=AE=E3=80=81=E3=80=
-=8C2) =E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E8=AA=
-=AC=E6=98=8E=E3=80=8D=E3=81=AE
-+=E3=82=BB=E3=82=AF=E3=82=B7=E3=83=A7=E3=83=B3=E3=82=92=E5=8F=82=E7=85=A7=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
- 15) =E6=A8=99=E6=BA=96=E7=9A=84=E3=81=AA=E3=83=91=E3=83=83=E3=83=81=E3=81=
-=AE=E3=83=95=E3=82=A9=E3=83=BC=E3=83=9E=E3=83=83=E3=83=88
-=20
- =E6=A8=99=E6=BA=96=E7=9A=84=E3=81=AA=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=
-=E3=82=B5=E3=83=96=E3=82=B8=E3=82=A7=E3=82=AF=E3=83=88=E3=81=AF=E4=BB=A5=E4=
-=B8=8B=E3=81=AE=E3=81=A8=E3=81=8A=E3=82=8A=E3=81=A7=E3=81=99=E3=80=82
---=20
-2.47.3
+There's a REASON my documentation file was called 
+ramfs-rootfs-initramfs.txt: the naming's always been a bit... layered. 
+(And yes, I have always spelled initmpfs with only one t.)
 
+Rob
