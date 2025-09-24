@@ -1,75 +1,74 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BD523504B
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 14:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20BD1B21BD
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 14:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758724974; cv=none; b=mYzPipybbLc4mKa/62zX2VQ6M1oswDEeDRVusvijBqz50HLcMBE3iQvw6nt+CDTmiS6B/Vj+abWFTJkcz1dCp7uZkEBQA7FJ2g4oQxkrjYNsjoRxbuAzhTxSbyTjjR5Ln8/I4beg28yOq0IvqqXfSmJLkKx5ED0F4oCQxVs039U=
+	t=1758725023; cv=none; b=nLmNRDdZezHRjz9Fl3NRdAE2RVdoe/I46B0+iX6Xhuenn81XoJJ9qx7bhp0YkxExyuUNSjzK/5nC/K0KlYcnLXy3zZWT5lx6OM+oP9qEZ6gStSkg/RaeSAmGjUf9ga3O09ig+IIDaRfXn7BnKl92CjhYEOW7XB2m/g/2vkFS3/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758724974; c=relaxed/simple;
-	bh=Qi99wGIzKeaUad3sDiEcjysh7dML+0H6SlWCfVtNMOQ=;
+	s=arc-20240116; t=1758725023; c=relaxed/simple;
+	bh=9DMfrgjN4rnqyaeNGDI+SNpIuhRxBA9gdwSamu1Ca1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A9v3ros02gizm6hlOfnYfan3cYTEtXMDVLw/ihPN48ISEGarU2+WsH1yDAqZAbW4ezeNWrCGirOoz6Y+jpvOc+1MTbJmI6gmoHMTCPfxZkSJOlfPWgertLKPv9seW8PaDvo4VZHOmZqbIrcyVub3r2/j9SGQjbebaVW6HaEWDK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PTVQnFUU; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBkaXmdoVLJiQj5NlD+lqq7c0k1pjVCTBBzp1eZ/HbFbQVYO2JdS906GkJWagHprQmDw/0B9znK26IDsUDuJRWy0J+Qn9ZgNeV4hZiFQ+BkLFY0UvacsP75vknSl6v0D7kcQvMPo5LBDNqNExtub1EcgyFDlDhE2DRf/WNNLU8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KOo+Gpt/; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PTVQnFUU"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-77f1f8a114bso1026825b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 07:42:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KOo+Gpt/"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-25669596921so73974935ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 07:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758724972; x=1759329772; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758725021; x=1759329821; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Qi99wGIzKeaUad3sDiEcjysh7dML+0H6SlWCfVtNMOQ=;
-        b=PTVQnFUU79O8vzgqZhmtnLZh5W+Pt0eadQ4Fi8HeB4uItw4NdFzlljwmzYjmsKgXI6
-         WTgCJj88wWhKOQ2XbFxeVvb3onp87FKVMSZ+JcSs4IQ6/eQEwlE6bds3Lrl+Kp0SFnmb
-         ZMAbEvESwCROzyLqD2AQtWSBg+Op/MaZoIkU3Gp5GSM3aKSuVWm8d8y5nOclV8/gJY+b
-         W+C9uQIe3B0tPsjt9gfFcUHUcu5qAtqGyKrAHGUv4SCSQZnFaZ01Qj83wX0Q40DKixif
-         l4G5DSXEALcIIL9sdDAsGIWHk8Y7Ot51SDcGMhF/4ElwxCbAg5vrcZOlFNnm6nwIqVBz
-         yKdQ==
+        bh=qoQIwHnAedYHW2ZwTiTqd0HfpwsJi7a/PfALZCLVmnI=;
+        b=KOo+Gpt/Ro6bOAO5JM8VRHLhBTB6kJBuhy2kYGwwoM/gHsTBdte2+MUIbHj2tv0YuT
+         Ym0TpHtBS1oWaRO8Xho5sPTQsiSQS/vB851JPOlJ4uNbjxEXkSDTTuxnD5mumDsw3gHS
+         s0tdmjy/z/G8zQBvTKkGUUhvK1pZ8l7WNq2gAYNPMfhtvd/bep23wc9vF6T2aJ2+EgNg
+         iezq3un2hgZibhc0RDbmM8WZE6rO5jCLdsWUed2K745I3IfAnInp0qAr9wY45wQ6QXiF
+         FDs2kgLdOP97Cy8bkM6Owem1Z+tqSWxsm2FRKw2jI06lrhcCNUQU4QmrEQoyk5C800VJ
+         9FJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758724972; x=1759329772;
+        d=1e100.net; s=20230601; t=1758725021; x=1759329821;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Qi99wGIzKeaUad3sDiEcjysh7dML+0H6SlWCfVtNMOQ=;
-        b=jfImjiV26bMmPf9KFBHk8fnoB8rMga9B8WQZeiHGHS3XgMkqi6nqROG2gnznOzVtik
-         CrO+7pBdBEFc2X4DAEaCP6jkGsAO/s8ZbluNkuVQxgmuxmkUyXWzNgKEziO56/RwF1+V
-         6NlTvQTtK82/MoITv2ttYxNy7RNVOKiS5N3HxsfTrsSl1M6At0+7eqWADEoqAdbHduUU
-         0nb2sTVga2K2rfXTpB2uhIIofwFhDipKrMW9WMlqGpuc5uwBq8zvBpVg88LLnwK7N+fe
-         lk3KsS6xjadtsqrfRQoPNezXGJiPdKtiboPdAER7fUeorISHyxe7JJ20Npw6lNy3sSyP
-         pZIA==
-X-Forwarded-Encrypted: i=1; AJvYcCXoESDTTaWK2kMomlGLKu/ITugdu+b8+NIzVgJFDsLGViLeszWuBbZ4c/r/iXUApO/f7ZsIxuGx5gk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybpMgIng/GL7BxuNJT27IgnGQ61rNxC+ijkk1/6ytmtjUdrZ5y
-	j9XbwZYjYtzGyh4CxdrmupP7zFSq0vdTHCkgI8vqKYUC120VZRZv3Ad6
-X-Gm-Gg: ASbGnctOZlvlfrYgcUg4MIazwgODeBotk5e0Z//ifUwci7AY1pgQkSp3rtkVYCv52N/
-	CC8hWANPpYyAN13cVKZ3CbcVgYyY7Oa6KqGO5H7XRVa+bEqVFQPjXKmLaoGC0qOTI3K5wGFUEnF
-	GXrgmcRmx3lIK5jLWiRD8VvN5Jv54+HiTSrlhuoCbvxWQE+bz3BHqbjDwQbexv83IDW5xW5KUuW
-	UJXL7eXYyp/vt9H6tZFbTqWS9jp26R1NVshE0/cQvFEWoPopcpTer5lhMzKsXCijdBQ52f1MjLO
-	Y9WuaA8/X3yfuR1pUO8T9tnfo9rOUqBElXVANA2a2rjXPQKHkla17txGe+521waBGQwVYxlkRVM
-	0eFmJGqIdKMQMoMlXXpx6BCRes/0OJPdipdo=
-X-Google-Smtp-Source: AGHT+IGh3h0E81Q1ukwkM0pUlfPxVBz9FgZBOD0oJJn4La63+Ve2DMvTsoHX/t4ygfBSH0SK7iio+Q==
-X-Received: by 2002:a05:6a00:2344:b0:77e:eb28:c59d with SMTP id d2e1a72fcca58-77f697803ecmr2756206b3a.5.1758724971968;
-        Wed, 24 Sep 2025 07:42:51 -0700 (PDT)
+        bh=qoQIwHnAedYHW2ZwTiTqd0HfpwsJi7a/PfALZCLVmnI=;
+        b=mWhCGolltDENtMUPd/ganKKOKnobzsuWRXwYl8edDXEWNdTEUp/3TxIBEhOu3MTNbo
+         3pn6RyS42TdutcNtwPerVmaRq+SgX9cDUjFgvLr/o9v64KxqjtJz7JzVt2Fe9AOf+4Rw
+         7oW9X4ZGusuHVhd99XaAAJNVHLI7AmyTe6IfdOvY1i9NCD8NPd646Jc3SleF5Sed3cBq
+         uCzocafmG5wrab8M4dC9K6DZPN62GPpTMqPLy8l5u44d1czWF8h3hkGMplS/5uN1qncO
+         x+lVgPJdAIVQi0vPaUurJ8ZN28IWO6DQJswX3Sxk1ktAW5MruqZHvi+wsYSzAKJdbNy9
+         dC1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXzo1znu8J+N0cyteL2Tltl7GzmgA6skV9ruC+dOVYQFRI4EsvMphV4AvysST3erE5TIH9AW99/S1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0Htk9m0b+fNP3Zl0/34RcgnWIZLZ6L1GdPT7RlBD9EVjSqvwu
+	em7ug8OEukALwqQHL590VWA6rOz0vRqTBA5vKUgVNQbw6FiJDS1YpavP
+X-Gm-Gg: ASbGnctGwPEF07eXfGJNh/gmoWk1SnErVJehZnbHEc7udfdEZRthxF/HWm9MO4gDC8F
+	qYVczyhhHl9tiDqCAI9HAZcMbhtPhCLt/8M7YuRQIUyA+gMdH8Das43SwJAzgg5tGD4qrSt1Epw
+	WaQXK7+kido7Lq5gnEt0WGGLiaB8JzkGYqZVl1WpGrweeXrehlkrH99VxIFd2JqpodDqvvgJe0j
+	LKix67Hg9rXRqGvJCadY1UcoDrpU6ThDhAqq14tS9AJWeJHKI0rSuK6h44KkpdrEGEti8JlUWAO
+	7kkxvFTi/g4gdLTRhRes9pxwvmEr0BYG6ZVbg+FYGnOK0N43qVEVaw9WcWwbVQObm/RUJQOFKPo
+	uDU4PCrUZ4iI6BRV3Q+wWhvmE8oftOCuHH4A=
+X-Google-Smtp-Source: AGHT+IG1t9g+PyWBTNNv9NJLqG0nvrC6oN7qO1dddwsct7J5ksa0J4Ge5ZLfMucYl6Syn9hATvxiLw==
+X-Received: by 2002:a17:903:3bc8:b0:273:7d52:e510 with SMTP id d9443c01a7336-27cc79ca30cmr79439065ad.58.1758725021176;
+        Wed, 24 Sep 2025 07:43:41 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f61ce72ecsm3233549b3a.23.2025.09.24.07.42.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bdbf1c5sm2665309a91.19.2025.09.24.07.43.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 07:42:51 -0700 (PDT)
+        Wed, 24 Sep 2025 07:43:40 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 24 Sep 2025 07:42:50 -0700
+Date: Wed, 24 Sep 2025 07:43:40 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-Cc: corbet@lwn.net, jdelvare@suse.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, wyx137120466@gmail.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: add mp5998 driver
-Message-ID: <5f651f3e-202b-4406-b438-421489b874db@roeck-us.net>
-References: <20250923090926.619-1-Yuxi.Wang@monolithicpower.com>
- <20250923090926.619-3-Yuxi.Wang@monolithicpower.com>
+To: Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc: Shane Fagan <mail@shanefagan.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X670E-E GAMING
+ WIFI
+Message-ID: <12ab9197-8894-48e5-9d4b-4e516c3ae972@roeck-us.net>
+References: <20250914074125.135656-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,13 +77,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923090926.619-3-Yuxi.Wang@monolithicpower.com>
+In-Reply-To: <20250914074125.135656-1-eugene.shalygin@gmail.com>
 
-On Tue, Sep 23, 2025 at 05:09:25PM +0800, Yuxi Wang wrote:
-> Add support for MPS mp5998.
-> Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+On Sun, Sep 14, 2025 at 09:41:14AM +0200, Eugene Shalygin wrote:
+> From: Shane Fagan <mail@shanefagan.com>
+> 
+> Add support for ROG STRIX X670E-E GAMING WIFI
+> 
+> Signed-off-by: Shane Fagan <mail@shanefagan.com>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-A separate patch was submitted adding support for this chip
-to the mp5990 driver. I applied that patch instead.
-
+Applied.
 Guenter
