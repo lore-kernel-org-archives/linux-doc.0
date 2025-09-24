@@ -1,235 +1,408 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49237.qiye.163.com (mail-m49237.qiye.163.com [45.254.49.237])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA6F158874
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 07:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB4926F2AB;
+	Wed, 24 Sep 2025 07:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758697445; cv=none; b=Z9YjwKBbQjHiEe1fk7wNWnCp4anfmlP3IBwEQfxRD3WmtcncRizS3+hu9lZopGrkZytfIlIjwr3CykcrJYKVZ9TqG/z5qRYnU5uAzH2Ib5dpvRDYWOgXmQcsiVOZnnRhmDA6HkEWhx0zeYVBonqIAuNlai/aK43LxljN1bkI2vM=
+	t=1758698942; cv=none; b=QQ4viaGQcl4eUTodPmGRd05zNn1iUIE0hzTZIJiGS5rMTaC5ODmFBVU5tQnzDhiD88uJ8CEDsKXW52bcEcFvKzRIwGS0SrgDXNmkfHkDbM01Vk5wgv0jLy6kMVye4M2Hwlvt0swoPlDCS6WYBMwtmnsgQlK+LHhLVXGGIM67uZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758697445; c=relaxed/simple;
-	bh=vHInUFA/21jXeXYB0pBvWcx8+QtN1a9JKfe+GJENm5w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oGnGUFqSHeqEh/umCNIGYAnLSfWFk2XMJFkwFllPKeFbrll6Cc+Mme0iGZzCzOxXzB727qycz5kOQFOv5mRd1bbdCFJaMf7WeEg9c0e1zhhQjN4hSDSR0S8mu2NcljZ7QWc8O0mccQrNzeZiQQXtZyHmJ/ZZ9e0rWnmM5/Pu4O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFFIwC8S; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758698942; c=relaxed/simple;
+	bh=2qEHXDzPT9qrmqk4Ves/ciw0FxQMRKfQxPG4APWn/Sk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hyfDNl9Osd2zgXoGGkb2nEBtgSHOIqBr2ne1IvG+LSBgP/LOrTmIBO9U0aKfVdEnWz8HI0HwGkpILkuYowwfk37Su0DRNlgoMDxN3rhrUxiAPXmauI0DhUGfLF54wtIqOKkK/Ygkjz7o/PZA1SutXL6lYEk7TiL9mEOFmhR4TRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=BWnT8uaE; arc=none smtp.client-ip=45.254.49.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFFIwC8S"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7704f3c46ceso6064369b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 00:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758697443; x=1759302243; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=80/y7kJeYyFtHNuChSDuRM+MtquT8UzkqNHwK0gZjcc=;
-        b=MFFIwC8SxpopQl4XqtF8kAkmWSX25N/bznjW/hKUn88/VasFzKNDuavf3QCVsJsAmU
-         jtmrGhNGclHzQMlX2zEcwFgaCak9T5GnALrLm3+wjXvDiHc0wH1XXGZjKQCDyc4Q+Dq3
-         fY9GK3CY6fRzeYVjbJ6/AUy/341kqVWqhQM+WXfjSuP544GlYzSkW9z3vRI1QqS2YmeA
-         OeBdSrY93W9ZCmJ3ltDChFisTSnYy/17NLO8Qfz5y9CRrPz8D+P3C8U0OyiiM9X56IKj
-         Ks69VwpJpgVpOd4V9IBMm+LIC9vtNdxf+rhWMJ1A2HD9d8CDc/jLbQ3q4K6knDdFsIt1
-         SpWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758697443; x=1759302243;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=80/y7kJeYyFtHNuChSDuRM+MtquT8UzkqNHwK0gZjcc=;
-        b=HaEw4NFVql+O1nNwyapFJpC6AlOZfEuRHJnZI5Cg1e8JofZK61/cKwYW06lMoRyCrQ
-         w8PPt5XmD4a2xJNzod7ctqY36th3OEy950LOWnDXrPhv3OB58YfCT+i57pNjgPOLKccy
-         m2mbCGMzDCh1rWEtVVPk2ejmHGu83wdeKxy7Yu3Aqaf9Z089MwDyq/qYHhPMehDut3wF
-         3wN6dQM8EBGVoWzrH5Shyhg/83Vudt4MSZ+W3CSdx+SSLWQ9QDCMUjPYYYDIFrmzRaxB
-         y4fffr029PFK++8pzhjiZDYd+wGRDiQJkvnrPWHcml7w3F74/ROMDVAxe0coJQUCT0F5
-         D/JQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWU85kTx5Zk/YxPDccTDgHu+vuqED6s5GnaMdAUZOlGZt5J8F2Wb5Y4XwTuPp++O8avWc8mDHbV8M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzlyC+a3OigVgaJQNQ/OFK8YOQypqrQjWu1xn5KJpqW3H3HLep
-	LSrP8NxPmTd8eBssoBj6WwTuFpGTVQWdTjorOcnZhhWIMLZF0EtxJeGD
-X-Gm-Gg: ASbGncsUDqWgWVZFMBvr4XeU/n50mdOFOC5jOo/MkzMzCsFEutZ/xQLYJO/60SHgRj1
-	AKS6wIT1xObx/KiE3JRUkVjISk1utUKjYXCuDK8XYXPNAz4I5A/V7v2K0aJFgwNhsLwvdrEE6I0
-	q1ydssBbhT3Zc56pW0bmt1XCFA5b7zt+6v98hlYpZqhNyT5QS/+jmLnqQtxdCnq0M0NvJ01pJLX
-	b5DVB6EQgE3WMP4pQnjkv9WsrbrMXv41RZnkjkaZ2mxlCQvS+3ze+Ia0eEdE7HFdcSbKfdSndAR
-	w5dI2fUloGrEclHcje2Yxs0uDuDHxe2vs0Xot/XlZhxbRyU2y9ApwMyE4b7stohaOYu7Ba8zquU
-	6WSaSG5MHoV/l018XzTQNkiNJSP0Be05s5dyNC1RnlabnSc4vVCc/2r5bImwz3D4UBRLx
-X-Google-Smtp-Source: AGHT+IE7b4+4P900FBrAt2skoZSZdAzj79wCaQaJINFRZmRqunjKNgCONWtya/Kc9Ic5+xoc1SOr0g==
-X-Received: by 2002:a05:6a00:1990:b0:77f:1a7e:7bc0 with SMTP id d2e1a72fcca58-77f53acfa71mr6433020b3a.31.1758697442807;
-        Wed, 24 Sep 2025 00:04:02 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f2f02c15bsm9071133b3a.95.2025.09.24.00.04.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 00:04:02 -0700 (PDT)
-Message-ID: <e76e4f31-dc95-4d79-a922-7f7d1b68417f@gmail.com>
-Date: Wed, 24 Sep 2025 16:03:59 +0900
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="BWnT8uaE"
+Received: from fedora.localdomain (unknown [123.53.39.124])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 23e307047;
+	Wed, 24 Sep 2025 15:28:48 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: dzm91@hust.edu.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Subject: [PATCH] docs/zh_CN: Add security SCTP Chinese translation
+Date: Wed, 24 Sep 2025 15:28:44 +0800
+Message-ID: <20250924072845.22400-1-zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/1] sphinx-build-wrapper: add support for skipping
- sphinx-build
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
-References: <cover.1758444913.git.mchehab+huawei@kernel.org>
- <f31c2169-cd0e-438a-9e59-d6ebd8eaea6e@gmail.com>
- <20250922142330.7a654919@foz.lan>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250922142330.7a654919@foz.lan>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a997a9ff72709d0kunmc4b635355aa385
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQ0MZVhlMSEIdQx4dSEtJQ1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSEJVSklPWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=BWnT8uaEyxpxMyCPF18w4ky6lR0PId+CXmYOVkRKjF/fjUNPMo4vy2soMjbGxeGLkshQOBRZ3LqxRzdyezTjcv2QjpF8SzZG+PXOgKF0mI5Z1PgS5EQswjzLlBHCCuZWsgrEYJ93nm+cm1tkdOi3DJLrh3CgQQgSL1FrzsCvC8M=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=N49VdJ1ADCD1z+UquPKviFYAgL1zACR7yKTOrUlwp4s=;
+	h=date:mime-version:subject:message-id:from;
 
-On Mon, 22 Sep 2025 14:23:30 +0200, Mauro Carvalho Chehab wrote:
-> Em Mon, 22 Sep 2025 20:30:40 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> On Sun, 21 Sep 2025 11:13:24 +0200, Mauro Carvalho Chehab wrote:
->>> Hi Jon,
->>>
->>> This patch adds support for not running sphinx-build at the wrapper
->>> tool. It was requested by Akira, who wanted to be able to ignore
->>> Sphinx errors during latex build and still try to build PDF.  
->>
->> Thank you for trying to figure out my intention.
->> However, you failed to see the point.
->>
->>>
->>> This patch is against docs/build-script and applies after the 3 patch
->>> series I sent yesterday:
->>>
->>>     https://lore.kernel.org/linux-doc/cover.1758361087.git.mchehab+huawei@kernel.org/
->>>
->>>
->>> While Akira's original intention is to have pdfdocs target depend on
->>> latexdocs, IMO, this is overkill, as probably only Akira and a couple
->>> of other developers might want to have such behavior.  
->>
->> I think it is only you who don't want such behavior.
-> 
-> Whom else wants to use "make -i" to skip failed latexdocs build and
-> still do pdf builds? For what reason?
+Translate .../security/SCTP.rst into Chinese.
 
-Hmm, looks like you were suffered from context mismatch.
+Update the translation through commit da51bbcdbace
+("Docs: typos/spelling")
 
-My message you tried to understand (archived at:
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+---
+ .../translations/zh_CN/security/SCTP.rst      | 317 ++++++++++++++++++
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ 2 files changed, 318 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/SCTP.rst
 
-    https://lore.kernel.org/5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com/
-
-) started this way:
-
-    Hi, (just got v8, but sending anyway ...),
-
-, and the message assumed the "make pdfdocs" behavior of v7.
-
-At the time, I thought it was what you had intended and it looked as though
-you wanted latexmk/xelatex to continue running as much as possible ignoring
-any intermediate errors.
-
-You have since fixed the missed exception handling at the latexdocs phase,
-but your rapid respins of this series simply overwhelmed me and I have
-failed to see "make pdfdocs" now gives up at latexdocs error.
-
-My intention of mentioning GNU Make's options of -i, -k, etc. in the message
-was to show you that the make--sub-make scheme is so flexible and it can
-even emulate the buggy behavior of then sphinx-build-wrapper.
-
-In normal cases, I won't use any of those options.
-But as a human developer, I sometimes use them when I observe build errors
-somewhere in "make pdfdocs".
-
-> 
->>> See, after all changes, the makefile rule for *all* doc build targets
->>> is simple:
->>>
->>>         $(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
->>>         +$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
->>>                 --sphinxdirs="$(SPHINXDIRS)" $(RUSTDOC) \
->>>                 --builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
->>>                 --theme=$(DOCS_THEME) --css=$(DOCS_CSS) --paper=$(PAPER)
->>>
->>> After applying patch 1 from this series, it is really easy to replicate 
->>> "make -i" by writing a small script that does:
->>>
->>> 	tools/docs/sphinx-pre-install --version-check	
->>> 	tools/docs/sphinx-build-wrapper latexdocs || echo "LaTeX build failed, but we'll try build PDF anyway"
->>> 	tools/docs/sphinx-build-wrapper -s pdfdocs
->>>   
->>
->> Hello?
->>
->> You are the one who is changing the way "make pdfdocs" behaves.
-> 
-> It doesn't change. if latex is not built, it won't try to build
-> PDF files, just like before.
-
-Didn't you mean "if latexdocs is not build"?
-Yes, I now see this is the current behavior.
-
-> 
-> See, for almost all targets, docs build is a two-step procedure. That
-> includes htmldocs as well, as it requires a post-build step to copy
-> css and static files. Right now, the logic is hidden inside complex
-> make macros.
-> 
-> The new logic place the target-dependent extra steps on separate functions
-> which are now properly documented, executing them only if the first
-> step works.
-> 
-> With the "-s" parameter, one can skip the first step, running only
-> the second one.
-> 
->> All I want is to restore the current behavior, without any need to
->> use such an ad-hoc script.
-> 
-> Huh?
-> 
-> You said you want to be able to do just the reverse: to ignore
-> failures at latex build ("make -i").
-
-No, as I said above, I don't want it in most cases.
-But in rare occasions, I might want it.  That depends on the situation
-at hand.
-
->                                       If you want to have exactly
-> the same behavior, you don't need anything.
-> 
->> Sorry, but I think I have to NAK this.
->>
->> Furthermore, your "cleanup" is obfuscating the very fact that "pdfdocs"
->> needs a successful "latexdocs" stage.
->>
->> I believe Documentation/Makefile is the right place to describe it.
-> 
-> If you want to propose such change, be my guest. As I said, *I* won't propose
-> it, as IMO it is a bad idea, but if you want, feel free to submit a patch 
-> after this one similar to:
-> 
-> 	-htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> 	+htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs linkcheckdocs:
-> 	+
-> 	+pdfdocs: latexdocs
-> 	+        +$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ -s \
-> 	+                --sphinxdirs="$(SPHINXDIRS)" \
-> 	+                --builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
-> 	+                --paper=$(PAPER)
-> 
-> and let's discuss its pros/cons in separate.
-
-OK. This looks like the way forward to me.
-
-I'll prepare a patch (set) and submit it after v6.18-rc1.
-
-In the meantime, I think we might be better off if we could root-cause
-the "latexmk bug" you repeatedly claimed you had observed, without providing
-any steps to reproduce.
-
-Let me continue in another thread.
-It would be far more interesting for me to (try to) figure out what you
-had observed.
-
-Thanks,
-Akira
+diff --git a/Documentation/translations/zh_CN/security/SCTP.rst b/Documentation/translations/zh_CN/security/SCTP.rst
+new file mode 100644
+index 000000000000..f2774b0d66b5
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/SCTP.rst
+@@ -0,0 +1,317 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/SCTP.rst
++
++:翻译:
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++====
++SCTP
++====
++
++SCTP的LSM支持
++=============
++
++安全钩子
++--------
++
++对于安全模块支持，已经实现了三个特定于SCTP的钩子::
++
++	security_sctp_assoc_request()
++	security_sctp_bind_connect()
++	security_sctp_sk_clone()
++	security_sctp_assoc_established()
++
++这些钩子的用法在下面的 `SCTP的SELinux支持`_ 一章中描述SELinux的实现。
++
++
++security_sctp_assoc_request()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
++成功时返回 0，失败时返回错误。
++::
++
++	@asoc - 指向sctp关联结构的指针。
++	@skb - 指向包含关联数据包skbuff的指针。
++
++
++security_sctp_bind_connect()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++将一个或多个IPv4/IPv6地址传递给安全模块进行基于 ``@optname`` 的验证，
++这将导致是绑定还是连接服务，如下面的权限检查表所示。成功时返回 0，失败
++时返回错误。
++::
++
++	@sk      - 指向sock结构的指针。
++	@optname - 需要验证的选项名称。
++	@address - 一个或多个IPv4 / IPv6地址。
++	@addrlen - 地址的总长度。使用sizeof(struct sockaddr_in)或
++			   sizeof(struct sockaddr_in6)来计算每个ipv4或ipv6地址。
++
++  ------------------------------------------------------------------
++  |                     BIND 类型检查                               |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_BINDX_ADD     | 一个或多个 ipv4 / ipv6 地址         |
++  | SCTP_PRIMARY_ADDR          | 单个 ipv4 or ipv6 地址             |
++  | SCTP_SET_PEER_PRIMARY_ADDR | 单个 ipv4 or ipv6 地址             |
++  ------------------------------------------------------------------
++
++  ------------------------------------------------------------------
++  |                   CONNECT 类型检查                              |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_CONNECTX      | 一个或多个 ipv4 / ipv6 地址         |
++  | SCTP_PARAM_ADD_IP          | 一个或多个 ipv4 / ipv6 地址         |
++  | SCTP_SENDMSG_CONNECT       | 单个 ipv4 or ipv6 地址             |
++  | SCTP_PARAM_SET_PRIMARY     | 单个 ipv4 or ipv6 地址             |
++  ------------------------------------------------------------------
++
++条目 ``@optname`` 的摘要如下::
++
++	SCTP_SOCKOPT_BINDX_ADD - 允许在（可选地）调用 bind(3) 后，关联额外
++							 的绑定地址。
++							 sctp_bindx(3) 用于在套接字上添加一组绑定地址。
++
++	SCTP_SOCKOPT_CONNECTX - 允许分配多个地址以连接到对端（多宿主）。
++							sctp_connectx(3) 使用多个目标地址在SCTP
++							套接字上发起连接。
++
++	SCTP_SENDMSG_CONNECT  - 通过sendmsg(2)或sctp_sendmsg(3)在新关联上
++							发起连接。
++
++	SCTP_PRIMARY_ADDR     - 设置本地主地址。
++
++	SCTP_SET_PEER_PRIMARY_ADDR - 请求远程对端将某个地址设置为其主地址。
++
++	SCTP_PARAM_ADD_IP          - 在启用动态地址重配置时使用。
++	SCTP_PARAM_SET_PRIMARY     - 如下所述，启用重新配置功能。
++
++
++为了支持动态地址重新配置，必须在两个端点上启用以下
++参数（或使用适当的 **setsockopt**\(2)）::
++
++	/proc/sys/net/sctp/addip_enable
++	/proc/sys/net/sctp/addip_noauth_enable
++
++当相应的 ``@optname`` 存在时，以下的 *_PARAM_* 参数会
++通过ASCONF块发送到对端::
++
++		  @optname                      ASCONF Parameter
++		 ----------                    ------------------
++	SCTP_SOCKOPT_BINDX_ADD     ->   SCTP_PARAM_ADD_IP
++	SCTP_SET_PEER_PRIMARY_ADDR ->   SCTP_PARAM_SET_PRIMARY
++
++
++security_sctp_sk_clone()
++~~~~~~~~~~~~~~~~~~~~~~~~
++每当通过 **accept**\(2)创建一个新的套接字（即TCP类型的套接字），或者当
++一个套接字被‘剥离’时如用户空间调用 **sctp_peeloff**\(3)，会调用此函数。
++::
++
++	@asoc -  指向当前sctp关联结构的指针。
++	@sk - 指向当前套接字结构的指针。
++	@newsk - 指向新的套接字结构的指针。
++
++
++security_sctp_assoc_established()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++当收到COOKIE ACK时调用，对于客户端，对端的secid将被保存
++到 ``@asoc->peer_secid`` 中::
++
++	@asoc - 指向sctp关联结构的指针。
++	@skb - 指向COOKIE ACK数据包的skbuff指针。
++
++
++用于关联建立的安全钩子
++----------------------
++
++下图展示了在建立关联时 ``security_sctp_bind_connect()``、 ``security_sctp_assoc_request()``
++和 ``security_sctp_assoc_established()`` 的使用。
++::
++
++      SCTP 端点 "A"                                 SCTP 端点 "Z"
++      =============                                 =============
++    sctp_sf_do_prm_asoc()
++ 关联的设置可以通过connect(2),
++ sctp_connectx(3),sendmsg(2)
++ or sctp_sendmsg(3)来发起。
++ 这将导致调用security_sctp_bind_connect()
++ 发起与SCTP对端端点"Z"的关联。
++         INIT --------------------------------------------->
++                                                   sctp_sf_do_5_1B_init()
++                                                 响应一个INIT数据块。
++                                             SCTP对端端点"A"正在请求一个临时关联。
++                                             如果是首次关联，调用security_sctp_assoc_request()
++                                             来设置对等方标签。
++                                             如果不是首次关联，检查是否被允许。
++                                             如果允许，则发送:
++          <----------------------------------------------- INIT ACK
++          |
++          |                                  否则，生成审计事件并默默丢弃该数据包。
++          |
++    COOKIE ECHO ------------------------------------------>
++                                                  sctp_sf_do_5_1D_ce()
++                                             响应一个COOKIE ECHO数据块。
++                                             确认该cookie并创建一个永久关联。
++                                             调用security_sctp_assoc_request()
++                                             执行与INIT数据块响应相同的操作。
++          <------------------------------------------- COOKIE ACK
++          |                                               |
++    sctp_sf_do_5_1E_ca                                    |
++ 调用security_sctp_assoc_established()                    |
++ 来设置对方标签                                           |
++          |                                               |
++          |                               如果是SCTP_SOCKET_TCP或是剥离的套接
++          |                               字，会调用 security_sctp_sk_clone()
++          |                               来克隆新的套接字。
++          |                                               |
++         建立                                            建立
++          |                                               |
++    ------------------------------------------------------------------
++    |                            关联建立                            |
++    ------------------------------------------------------------------
++
++
++SCTP的SELinux支持
++=================
++
++安全钩子
++--------
++
++上面的 `SCTP的LSM支持`_ 章节描述了以下SCTP安全钩子，SELinux的细节
++说明如下::
++
++	security_sctp_assoc_request()
++	security_sctp_bind_connect()
++	security_sctp_sk_clone()
++	security_sctp_assoc_established()
++
++
++security_sctp_assoc_request()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
++成功时返回 0，失败时返回错误。
++::
++
++    @asoc - 指向sctp关联结构的指针。
++    @skb - 指向关联数据包skbuff的指针。
++
++安全模块执行以下操作:
++	 如果这是 ``@asoc->base.sk`` 上的首次关联，则将对端的sid设置
++	 为 ``@skb`` 中的值。这将确保只有一个对端sid分配给可能支持多个
++	 关联的 ``@asoc->base.sk``。
++
++	 否则验证 ``@asoc->base.sk peer sid`` 是否与 ``@skb peer sid``
++	 匹配，以确定该关联是否应被允许或拒绝。
++
++	 将sctp的 ``@asoc sid`` 设置为套接字的sid（来自 ``asoc->base.sk``）
++	 并从 ``@skb peer sid`` 中提取MLS部分。这将在SCTP的TCP类型套接字及
++	 剥离连接中使用，因为它们会导致生成一个新的套接字。
++
++	 如果配置了IP安全选项（CIPSO/CALIPSO），则会在套接字上设置IP选项。
++
++
++security_sctp_bind_connect()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++根据 ``@optname`` 检查ipv4/ipv6地址所需的权限，具体如下::
++
++  ------------------------------------------------------------------
++  |                      BIND 权限检查                              |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_BINDX_ADD     | 一个或多个 ipv4 / ipv6 地址        |
++  | SCTP_PRIMARY_ADDR          | 单个 ipv4 or ipv6 地址            |
++  | SCTP_SET_PEER_PRIMARY_ADDR | 单个 ipv4 or ipv6 地址            |
++  ------------------------------------------------------------------
++
++  ------------------------------------------------------------------
++  |                   CONNECT 权限检查                              |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_CONNECTX      | 一个或多个 ipv4 / ipv6 地址        |
++  | SCTP_PARAM_ADD_IP          | 一个或多个 ipv4 / ipv6 地址        |
++  | SCTP_SENDMSG_CONNECT       | 单个 ipv4 or ipv6 地址            |
++  | SCTP_PARAM_SET_PRIMARY     | 单个 ipv4 or ipv6 地址            |
++  ------------------------------------------------------------------
++
++
++`SCTP的LSM支持`_ 提供了 ``@optname`` 摘要，并且还描述了当启用动态地址重新
++配置时，ASCONF块的处理过程。
++
++
++security_sctp_sk_clone()
++~~~~~~~~~~~~~~~~~~~~~~~~
++每当通过 **accept**\(2)（即TCP类型的套接字）创建一个新的套接字，或者
++当一个套接字被“剥离”如用户空间调用 **sctp_peeloff**\(3)时，
++``security_sctp_sk_clone()`` 将会分别将新套接字的sid和对端sid设置为
++``@asoc sid`` 和 ``@asoc peer sid`` 中包含的值。
++::
++
++	@asoc - 指向当前sctp关联结构的指针。
++	@sk - 指向当前sock结构的指针。
++	@newsk - 指向新sock结构的指针。
++
++
++security_sctp_assoc_established()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++当接收到COOKIE ACK时调用，它将连接的对端sid设置为 ``@skb`` 中的值::
++
++	@asoc - 指向sctp关联结构的指针。
++	@skb - 指向COOKIE ACK包skbuff的指针。
++
++
++策略声明
++--------
++以下支持SCTP的类和权限在内核中是可用的::
++
++	class sctp_socket inherits socket { node_bind }
++
++当启用以下策略功能时::
++
++	policycap extended_socket_class;
++
++SELinux对SCTP的支持添加了用于连接特定端口类型 ``name_connect`` 权限
++以及在下面的章节中进行解释的 ``association`` 权限。
++
++如果用户空间工具已更新，SCTP将支持如下所示的 ``portcon`` 声明::
++
++	portcon sctp 1024-1036 system_u:object_r:sctp_ports_t:s0
++
++
++SCTP对端标签
++------------
++每个SCTP套接字仅分配一个对端标签。这个标签将在建立第一个关联时分配。
++任何后续在该套接字上的关联都会将它们的数据包对端标签与套接字的对端标
++签进行比较，只有在它们不同的情况下 ``association`` 权限才会被验证。
++这是通过检查套接字的对端sid与接收到的数据包中的对端sid来验证的，以决
++定是否允许或拒绝该关联。
++
++注:
++   1) 如果对端标签未启用，则对端上下文将始终是 ``SECINITSID_UNLABELED``
++      （在策略声明中为 ``unlabeled_t`` ）。
++
++   2) 由于SCTP可以在单个套接字上支持每个端点（多宿主）的多个传输地址，因此
++      可以配置策略和NetLabel为每个端点提供不同的对端标签。由于套接字的对端
++      标签是由第一个关联的传输地址决定的，因此建议所有的对端标签保持一致。
++
++   3) 用户空间可以使用 **getpeercon**\(3) 来检索套接字的对端上下文。
++
++   4) 虽然这不是SCTP特有的，但在使用NetLabel时要注意，如果标签分配给特定的接
++      口，而该接口‘goes down’，则NetLabel服务会移除该条目。因此，请确保网络启
++      动脚本调用 **netlabelctl**\(8) 来设置所需的标签（详细信息，
++      请参阅 **netlabel-config**\(8) 辅助脚本）。
++
++   5) NetLabel SCTP对端标签规则应用如下所述标签为“netlabel”的一组帖子：
++      https://www.paul-moore.com/blog/t.
++
++   6) CIPSO仅支持IPv4地址： ``socket(AF_INET, ...)``
++      CALIPSO仅支持IPv6地址： ``socket(AF_INET6, ...)``
++
++      测试CIPSO/CALIPSO时请注意以下事项：
++         a) 如果SCTP数据包由于无效标签无法送达，CIPSO会发送一个ICMP包。
++         b) CALIPSO不会发送ICMP包，只会默默丢弃数据包。
++
++   7) RFC 3554不支持IPSEC —— SCTP/IPSEC支持尚未在用户空间实现(**racoon**\(8)
++      或 **ipsec_pluto**\(8))，尽管内核支持 SCTP/IPSEC。
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index 05d24e3acc11..d33b107405c7 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -20,6 +20,7 @@
+    lsm
+    lsm-development
+    sak
++   SCTP
+    self-protection
+    siphash
+    tpm/index
+@@ -29,6 +30,5 @@
+ TODOLIST:
+ * IMA-templates
+ * keys/index
+-* SCTP
+ * secrets/index
+ * ipe
+-- 
+2.49.0
 
