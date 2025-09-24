@@ -1,31 +1,37 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC00224225;
-	Wed, 24 Sep 2025 03:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14CCC141;
+	Wed, 24 Sep 2025 04:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758683593; cv=none; b=NZ6eXiPDsVru829VTULKoVdHLOpk/y/giPCmq1WMEd2iGJ9L2n749RwbWQ5Tx3MdePUAZcfuMn4MM8YaBmswo4OT0NKHxIyBCe4nzW61ZM9NyntJ1ZJj6knowqZA0hWM9nIxxMIFLe00XFP1mop+osVm8ktazgw5Tdxzjdj/FQQ=
+	t=1758689206; cv=none; b=UY1Ky31zy5gWnFQ/fcPNZxnZtPh1hnJs+9fltR+3Z6IEzGngGNItWICtrBkvmCv+bOf+bXtc5/Vvg6kG7YHQUg11Nx17zbwSGo0CGZ56B/mLTsqY1j5zvzAJis7bXVaSaL5SlPy3yjdZzSk6TS1ZfeR3C+zJrgM2twsDoLso1/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758683593; c=relaxed/simple;
-	bh=Iu8F7B89dEF/lT14VXPako98TSEnjF2DviQJuVNcmWE=;
+	s=arc-20240116; t=1758689206; c=relaxed/simple;
+	bh=aPDi6HfLDo8HixHLXGDjIDTg9tbdmzQ0sDAanigPmtg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XouL+AUD8FFdTtmme37lwhUFVnaTDtIAqePJF4amhSyFvkig+tpBNxzGsqhOioBcPwq+XpH7r4gCFivlt1kiQyaYsjg438MRgzsbxvEpfe+f8W585W9lZYQ4CWFlByqnFb2vzFtzS282onAf0tJYBAzua+0D5ZPd8Am+rnZs600=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=DLZOdXdj; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 In-Reply-To:Content-Type; b=rB6+ke0iE8N6EzqPH0J1JmHuos3PGYQiGEBeCg+YFwCs/wy5c1+5ASDCqGNM4OaZVoSPIkifyYUczHlCLj3+3eSDuYvJQ2UYXkYvuYuKeaDRTMrmLKCJwBa7sWAexktOc6DPN9txcRI2205bs64Ocbxyd53i1I81ori34JSmeJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FOBIri9F; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="DLZOdXdj"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1758683587; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=b+CiZ/ws2vTrRYAbVi6irLmhLVkR3R52CUsAsqU0XPU=;
-	b=DLZOdXdjjr1rehl9zQlckhtD4hRbBaI7qbNYKrllJTHy+vJGr43UXpNZPzDmm7fjLnYH4K6kq/wg9kcnvondiF8GxhYGawj2b4SFuDleKAg5ySmlEfvClhLoA1F7Wjod3b5ifu4isknBS57B2/K6ps7oyq4Q+EiEpuBZ0iRVLHs=
-Received: from 30.221.114.81(mailfrom:guangguan.wang@linux.alibaba.com fp:SMTPD_---0WohxFPm_1758683586 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 24 Sep 2025 11:13:07 +0800
-Message-ID: <06a87a92-6cce-4a63-99d0-463a1d035478@linux.alibaba.com>
-Date: Wed, 24 Sep 2025 11:13:05 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FOBIri9F"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=RkLRvQZ1pJDjFKqcdEOfms3PU7vhy75lRDym+uqbBoo=; b=FOBIri9FzEVTxXv+9fYoq3Z2rE
+	vpR6JxZVT2mJB1V0GJywPZ+IMgRZceH1KpgGp/vSh4DJbCL3nbqd4K+XM+nqx3IA3T6i/ZWdM2wVj
+	VbJToi3h+KFb4BAVyvoy2Jk1MsXsJ0y4Ji3sQw0HihX1VlION4UmmvOWdMJIK1JzR3cBuP5Kilis8
+	5gwVqscMJYAghnELwq7ZtWZopuhT08CJczWJMvD7FcTV0Xw2gaM7G62vs66nKqSls74vhdeOIKlb7
+	ccz+x9HkJ2ik62nTHHDHy/UTUY9TSsaR437nqgA5Svr2feR4ZknOXntgHzfI1Ib3NB7WmxoReIEXy
+	MJRk30vw==;
+Received: from [50.53.25.54] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v1HOr-0000000FWW9-1Egc;
+	Wed, 24 Sep 2025 04:46:41 +0000
+Message-ID: <e233370f-f23b-47b4-a31e-25c2df99a0f5@infradead.org>
+Date: Tue, 23 Sep 2025 21:46:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,88 +39,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 1/2] net/smc: make wr buffer count
- configurable
-To: Halil Pasic <pasic@linux.ibm.com>, Dust Li <dust.li@linux.alibaba.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, "D. Wythe" <alibuda@linux.alibaba.com>,
- Sidraya Jayagond <sidraya@linux.ibm.com>, Wenjia Zhang
- <wenjia@linux.ibm.com>, Mahanta Jambigi <mjambigi@linux.ibm.com>,
- Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-s390@vger.kernel.org
-References: <20250908220150.3329433-1-pasic@linux.ibm.com>
- <20250908220150.3329433-2-pasic@linux.ibm.com>
- <aL-YYoYRsFiajiPW@linux.alibaba.com>
- <20250909121850.2635894a.pasic@linux.ibm.com>
- <20250919165549.7bebfbc3.pasic@linux.ibm.com>
-From: Guangguan Wang <guangguan.wang@linux.alibaba.com>
-In-Reply-To: <20250919165549.7bebfbc3.pasic@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] Documentation: iio: ade9000, adis*, adx*: Convert IIO
+ subsystem cross-references
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux IIO <linux-iio@vger.kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20250922063754.21190-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250922063754.21190-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-在 2025/9/19 22:55, Halil Pasic 写道:
-> On Tue, 9 Sep 2025 12:18:50 +0200
-> Halil Pasic <pasic@linux.ibm.com> wrote:
+On 9/21/25 11:37 PM, Bagas Sanjaya wrote:
+> Cross-references to iio_tools.rst (IIO Interfacing Tools) and
+> iio_devbuf.rst (Industrial IIO device buffers) are shown in inline
+> code instead. Convert them to proper cross-references.
 > 
-> 
-> Can maybe Wen Gu and  Guangguan Wang chime in. From what I read
-> link->wr_rx_buflen can be either SMC_WR_BUF_SIZE that is 48 in which
-> case it does not matter, or SMC_WR_BUF_V2_SIZE that is 8192, if
-> !smc_link_shared_v2_rxbuf(lnk) i.e. max_recv_sge == 1. So we talk
-> about roughly a factor of 170 here. For a large pref_recv_wr the
-> back of logic is still there to save us but I really would not say that
-> this is how this is intended to work.
-> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>   Documentation/iio/ade9000.rst   | 2 +-
+>   Documentation/iio/adis16475.rst | 4 ++--
+>   Documentation/iio/adis16480.rst | 4 ++--
+>   Documentation/iio/adis16550.rst | 4 ++--
+>   Documentation/iio/adxl345.rst   | 4 ++--
+>   Documentation/iio/adxl380.rst   | 4 ++--
+>   6 files changed, 11 insertions(+), 11 deletions(-)
 
-Hi Halil,
+Much better. Thanks.
 
-I think the root cause of the problem this patchset try to solve is a mismatch
-between SMC_WR_BUF_CNT and the max_conns per lgr(which value is 255). Furthermore,
-I believe that value 255 of the max_conns per lgr is not an optimal value, as too
-few connections lead to a waste of memory and too many connections lead to I/O queuing
-within a single QP(every WR post_send to a single QP will initiate and complete in sequence).
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-We actually identified this problem long ago. In Alibaba Cloud Linux distribution, we have
-changed SMC_WR_BUF_CNT to 64 and reduced max_conns per lgr to 32(for SMC-R V2.1). This
-configuration has worked well under various workflow for a long time.
-
-SMC-R V2.1 already support negotiation of the max_conns per lgr. Simply change the value of
-the macro SMC_CONN_PER_LGR_PREFER can influence the negotiation result. But SMC-R V1.0 and SMC-R
-v2.0 do not support the negotiation of the max_conns per lgr.
-I think it is better to reduce SMC_CONN_PER_LGR_PREFER for SMC-R V2.1. But for SMC-R V1.0 and
-SMC-R V2.0, I do not have any good idea.
-
-> Maybe not supporting V2 on devices with max_recv_sge is a better choice,
-> assuming that a maximal V2 LLC msg needs to fit each and every receive
-> WR buffer. Which seems to be the case based on 27ef6a9981fe ("net/smc:
-> support SMC-R V2 for rdma devices with max_recv_sge equals to 1").
->
-
-For rdma dev whose max_recv_sge is 1, as metioned in the commit log in the related patch,
-it is better to support than SMC_CLC_DECL_INTERR fallback, as SMC_CLC_DECL_INTERR fallback
-is not a fast fallback, and may heavily influence the efficiency of the connecting process
-in both the server and client side.
-
- 
-> For me the best course of action seems to be to send a V3 using
-> link->wr_rx_buflen. I'm really not that knowledgeable about RDMA or
-> the SMC-R protocol, but I'm happy to be part of the discussion on this
-> matter.
-> 
-> Regards,
-> Halil
-And a tiny suggestion for the risk you mentioned in commit log
-("Addressing this by simply bumping SMC_WR_BUF_CNT to 256 was deemed
-risky, because the large-ish physically continuous allocation could fail
-and lead to TCP fall-backs."). Non-physically continuous allocation (vmalloc/vzalloc .etc.) is
-also supported for wr buffers. SMC-R snd_buf and rmb have already supported for non-physically
-continuous memory, when sysctl_smcr_buf_type is set to SMCR_VIRT_CONT_BUFS or SMCR_MIXED_BUFS.
-It can be an example of using non-physically continuous memory.
-
-Regards,
-Guangguan Wang
+-- 
+~Randy
 
