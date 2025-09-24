@@ -1,128 +1,192 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF7C1B423C
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 22:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1147B1F91D6
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 23:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758754596; cv=none; b=nBoS93XMxX5u4t6l69CENpiqtvqvdv2hyU4MRD+FCoSLUdhEO5acSZZvmT+QxtXz6PeqYzmGqnh3BgRlzETM/NPnAzGgFpcwufS2XZNtsqgOjwckKXXefUTCqm5jyJNybbjSYLwXnZCKDZwa/Zo9WUEOqr+0Jt7E0oka1xzjHug=
+	t=1758755556; cv=none; b=ljyYd0BrAMal1zd7SX9+r/d2Hqjr0kgZmd7UME0M231h0vsoMM3uvAZQJPRW54FMmDA2iW5FHEduNP5hnP2QfmUtQd6SleX/altjXQVOFmPn11YgfgG52ZmVm0UQyeQVl+ACYrGq5jdMoAUCY1PM1TDGPCCynFVzSDWukS/fFIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758754596; c=relaxed/simple;
-	bh=Op6DNkPC6eHPtYfufa74RLj648Tv43squgVRXyUVfnc=;
+	s=arc-20240116; t=1758755556; c=relaxed/simple;
+	bh=V3NpRvW9bDS8Px6ewZhXBsJXI4FZyxfkPen8qdeBDls=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LhvJbCdzQ8cnDI2WOyNkC+aXjHH6L2wEvn3jVCaxDxI33hvI6ScpjmUgezWVPcnuffcYU5KbtL2ogX0lppq20Bj22KrkV9A5WH3jlr8tTighYbnZx4iN4HCAgqsaY5p7uh03Zwq/cdlIEzWhbIkbZGhAwpxkpc57y/EGvXtQiBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DwoJgO5e; arc=none smtp.client-ip=209.85.222.175
+	 To:Cc:Content-Type; b=t4in50Y+JrpwJ9znnyI3hcmqOLxg87qF2pVbZ/cfGd7tIV/Id7dvS4UQqNIswhLQGImsna8IZ3Jo7vVeBmLuwkM4Rtu0HASyyyRqCnIwOhZwHuMCvHasNNLgLTKriPSZb5JdSyE1ASSmuHYonusyc9XZK2Eke6paa/tIAT2U/o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lT6ohyE6; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DwoJgO5e"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-85322d9c606so44730085a.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 15:56:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lT6ohyE6"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b38d4de61aso4983821cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 16:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758754593; x=1759359393; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758755554; x=1759360354; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5B+Zh9yFHo6Xolwu3opD/Diih25AjkCAs1FmMFIzwVU=;
-        b=DwoJgO5e+q5F7FSQnVw9LAiWfS+IXaWOsio72wK7KbLl4ISRKjUKWy07k+nXoumPzQ
-         XwUR1iAMvEtLk9bXe93Z0nYUkHLmCeDwoL7XZz7cbG9D1N+pIlemQb9QtmMtB1nt5u77
-         Mh+V1jxeFH6GolL4b2keHNi6ezr5sqDw8BzVnAQOvzOc/T3F7rIXDoLGlnOx/nsEQi1z
-         Etu0CMs2UtkLIf/vkt10+TVLDSuApGXSQOLfQyFUjfSTEfuDW10lmLYhJQQ9kAZYeecH
-         LZeaUgCX4+dWu8NOJEdOJRge+zg4VTTPusdvjvQNo8tmcc3V53XSbytmrpulQML49EBs
-         ENGQ==
+        bh=9wgF3EXW2n5jzxxpEDCh3f6sbRv5p5MtrNgzg6BXcr4=;
+        b=lT6ohyE60JBfvPm+x6zX4Oex9jlt/EI6qns2Iqpn1JwjHEXXObAAY78PNGnR+NXbMe
+         /Hf4IotQ6YE4hJFpspnzk7GCskHp+dxcI8S2fTgvg2UcmQf6G24ZMQaYWu9cH5ArKe00
+         ibjC0sp2Cohb9/DTLxjQYbGj4gSFOfIrKvrMESKsZS60Xv/eLFh9eIyVQPtvROkTvBnX
+         Q9MPNgpDvoPBD/YjhSCfwP8a+L93J9JHaM55qOlXaCyzdC0j2h579M4UFrFMfPaIgGSt
+         UIpMGbczytjJAG4Hal80IZx0QVwEeYnMxM4RKtRC/ngmgwnim2K367GrclTW1kGUNw8H
+         08ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758754593; x=1759359393;
+        d=1e100.net; s=20230601; t=1758755554; x=1759360354;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5B+Zh9yFHo6Xolwu3opD/Diih25AjkCAs1FmMFIzwVU=;
-        b=OD4GS0xqm4+JlcMNZZbYDamO+jcQAUYvMMnk1OXq2stnnUlbL9cza5y2GuWK/C1Zz9
-         Ek6yt83y0cCZoJ/IL9XjIXLTLwKCqCJZ+kebti4uNUwrrkxRmyEKtK+XTPpUCLQ7FBic
-         G0t5tKSo3KD32TT2qDD4eXkvePfzvv0j9ZkmkMXBwvmm7OLM6KF6NCT5s5QEUgkjtRjb
-         lpnDZ4e9LdtxVYaQVvPF6tL+UPGms7aN8BSujYvCBeg9zvh3nIuZ2WnN5wh3EzNH9qwW
-         8pSqv/3OyzdctKQ+oXTC/537k02kf+6NfomR6nqLnND9KduzO3SjofmXHfSbunbTVlYw
-         5NkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0R4m4JhYspTBDHNxDKpzyPtG1qXmrs5GMFyQLwBZBSs7BRQ0hvhtTyAdFu+HmvhKl90QNBywIYwE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzidFhywTxnZh3i4UZHCo8jLYDTwhvt8R61VU36MLaCEcuYofxW
-	jgKrGPe0YlnEok+TXxWqHUINLGyIxzRFSIBIp5BoxIlIaxBgP8F44DWw0mmy+eds5mg/ikY8gfI
-	5w8QdP1TXx4FDm/nT25O8215NX0VSKf0=
-X-Gm-Gg: ASbGnctj/uDCw+mFuZnit5c2f6qQzQam+XMpTGWXTIdCac1f0YJNWdDwVCDboc5kskD
-	myvv9CMk8gZUl1y376S6cEhrz6TNomx/MBCigIQCnQQvx4yjSxPKwtG19DYGIT+eoVMjaPkyXoe
-	M1Ab4w3V47dm2eJzTBhZaEMfQoOEEHQ6vIXAJJ53/8tOFe0zd+noBSPaTgGXgcS/mTQ9wGgptAp
-	W8wlTPw2unUJjl76zyKEkJ8jZPQXL82zGgYtKaK
-X-Google-Smtp-Source: AGHT+IGzPzKs0y65h3LIZE6940gB4vV72Qyi3WZ6TBql4rL2B63TcdhnpA6Y4/6LPYw9/CuHLQab903G3U6TadwRTxg=
-X-Received: by 2002:a05:620a:394f:b0:82a:5c45:c625 with SMTP id
- af79cd13be357-85adec4234emr191180885a.12.1758754593415; Wed, 24 Sep 2025
- 15:56:33 -0700 (PDT)
+        bh=9wgF3EXW2n5jzxxpEDCh3f6sbRv5p5MtrNgzg6BXcr4=;
+        b=aSirMpQM+i+GoHHGIyb8FRI5a8GZvjQQZmhDMPW7QHv88v7TPkt7XlKH+hVZDgYCqS
+         XE6X/BLDWxparPrrqBJuyZ7cJcKsYMafhiNKKy3IczS7/2elbIxvX6JjtEUj3K7a+yhN
+         o1l2qc1HNbpiEjfABUjQ9YA9z/fJKshXFds1QXhtII+vR9Lr4FT86u7gxO3wx4PYlXMd
+         BuJcf83L6ozqELK2hHdMWzjI/gyMfKcVBa+PTjTipqvv7gI483ph15nIsJPnu+49KV8Y
+         M3GvTzLtF+6n4JQPJllUVkfu8uycaibfsH7XPXtxfVeHKbaHCPXD1qnPGYd+KsJuWMQ+
+         RVkw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5FYIX8ThELBWbnQ02Ha5S0DiN2aTumjAdIlzF77j60BAK25qOSdlHn/D2vyiPswUBOtX8DccNT/U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwokVi5+6u+pvaicqcKvX0fWA08esmXdlhLaqxDumq+shuPwF91
+	vYYff78bJvVAKyqDA0wLV+7Z9EBC5zwk3PBsq/bD4Vjc1ByDdEJAKBerHtxUJXh7cIEnzEj0sji
+	gZ61CKK17xskuLB/VxKmKzYGg3CdCPVyJV29U/+w=
+X-Gm-Gg: ASbGncvwhuTRwWCZz9tyCsCAviUnaF8msZ31EWJsY+PS14GKNFjhN8TK7ML57m4VNoW
+	mIA+blZLH2G5oAdiJfkJw2AcR2BHxIEMN7bomiXTCb0ydMHKbb/WQZ+VJLDTWarDKH9J/8ScQKp
+	hEbR1XO0EbWRJ5j1XIcXoQR2+okxMxN4BnJFDu05Eh0/kvf+haARzPMtV2ZoMgtiqppf+xRFMnn
+	g6BEiFiU9wv23fcOhkPdjzQT1dJ+rfMPsjsyAPh
+X-Google-Smtp-Source: AGHT+IFI3JXzb4wb/FLOXlNqpgywkoeH7/aGkNbo/vnp3lU+rvvw0QDL0p6Eu/GxfgLHprie/Bfe3B2N/aliflsdlAQ=
+X-Received: by 2002:ac8:5852:0:b0:4d9:5ce:3742 with SMTP id
+ d75a77b69052e-4da4cd4aaabmr19919071cf.67.1758755553864; Wed, 24 Sep 2025
+ 16:12:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250916234425.1274735-1-joannelkoong@gmail.com>
- <20250916234425.1274735-11-joannelkoong@gmail.com> <20250918223018.GY1587915@frogsfrogsfrogs>
- <aNGWkujhJ7I4SJoT@infradead.org> <aNG3fnlbJhv1cenS@casper.infradead.org>
-In-Reply-To: <aNG3fnlbJhv1cenS@casper.infradead.org>
+References: <20250829235627.4053234-1-joannelkoong@gmail.com>
+ <20250829235627.4053234-6-joannelkoong@gmail.com> <aLktHFhtV_4seMDN@infradead.org>
+ <aLoA6nkQKGqG04pW@casper.infradead.org> <CAJnrk1ZxQt0RmYnoi3bcDCLn1=Zgk9uJEcFNMH59ZXV7T6c2Fg@mail.gmail.com>
+ <20250923183417.GE1587915@frogsfrogsfrogs>
+In-Reply-To: <20250923183417.GE1587915@frogsfrogsfrogs>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 24 Sep 2025 15:56:21 -0700
-X-Gm-Features: AS18NWAkh7IUvbVhGBD_bsGuTPZgO9EW5ULTCeoQsEee5-TykTnYOZdbSiLkTe8
-Message-ID: <CAJnrk1ZoZqnX8YOBJBnNpr65FpMO_wNJBg42NCAiB1_c+Zr-ww@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] iomap: add bias for async read requests
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christoph Hellwig <hch@infradead.org>, "Darrick J. Wong" <djwong@kernel.org>, brauner@kernel.org, 
-	miklos@szeredi.hu, hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Ritesh Harjani <ritesh.list@gmail.com>
+Date: Wed, 24 Sep 2025 16:12:22 -0700
+X-Gm-Features: AS18NWA4HpZiLWRRef-i6KCQzuvd8AAyFsAqQlriSVtFgrbOhCHtzlyVTDl3KTo
+Message-ID: <CAJnrk1Y=S5eP4nZ6nXKDWA646+q6gR4sXBSE732-aMa5uJnSaQ@mail.gmail.com>
+Subject: Re: [PATCH v1 05/16] iomap: propagate iomap_read_folio() error to caller
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>, brauner@kernel.org, 
+	miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 22, 2025 at 1:54=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+On Tue, Sep 23, 2025 at 11:34=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
 > wrote:
 >
-> On Mon, Sep 22, 2025 at 11:33:54AM -0700, Christoph Hellwig wrote:
-> > On Thu, Sep 18, 2025 at 03:30:18PM -0700, Darrick J. Wong wrote:
-> > > > + iomap_start_folio_read(folio, 1);
+> On Mon, Sep 22, 2025 at 09:49:50AM -0700, Joanne Koong wrote:
+> > On Thu, Sep 4, 2025 at 2:13=E2=80=AFPM Matthew Wilcox <willy@infradead.=
+org> wrote:
 > > >
-> > > I wonder, could you achieve the same effect by elevating
-> > > read_bytes_pending by the number of bytes that we think we have to re=
-ad,
-> > > and subtracting from it as the completions come in or we decide that =
-no
-> > > read is necessary?
+> > > On Wed, Sep 03, 2025 at 11:09:32PM -0700, Christoph Hellwig wrote:
+> > > > On Fri, Aug 29, 2025 at 04:56:16PM -0700, Joanne Koong wrote:
+> > > > > Propagate any error encountered in iomap_read_folio() back up to =
+its
+> > > > > caller (otherwise a default -EIO will be passed up by
+> > > > > filemap_read_folio() to callers). This is standard behavior for h=
+ow
+> > > > > other filesystems handle their ->read_folio() errors as well.
+> > > >
+> > > > Is it?  As far as I remember we, or willy in particular has been
+> > > > trying to kill this error return - it isn't very hepful when the
+> > > > actually interesting real errors only happen on async completion
+> > > > anyway.
+> > >
+> > > I killed the error return from ->readahead (formerly readpages).
+> > > By definition, nobody is interested in the error of readahead
+> > > since nobody asked for the data in those pages.
+> > >
+> > > I designed an error reporting mechanism a while back that allowed the
+> > > errno to propagate from completion context to whoever was waiting
+> > > on the folio(s) that were part of a read request.  I can dig that
+> > > patchset up again if there's interest.
 > >
-> > Weren't we going to look into something like that anyway to stop
-> > the read code from building bios larger than the map to support the
-> > extN boundary conditions?  I'm trying to find the details of that,
-
-Doesn't the iomap code already currently do this when it uses the
-trimmed iomap length (eg "loff_t length =3D iomap_length(iter)") in
-iomap_readpage_iter() for how much to read in?
-
-> > IIRC willy suggested it.  Because once we touch this area for
-> > non-trivial changes it might be a good idea to get that done, or at
-> > least do the prep work.
+> > Could you describe a bit how your design works?
 >
-> Yes, I did suggest it.  Basically, we would initialise read_bytes_pending
-> to folio_size(), then subtract from it either when a request comes in
-> or we decide to memset a hole.  When it reaches zero, we have decided
-> on the fate of every byte in the folio.
+> I'm not really sure how you'd propagate specific errnos to callers, so
+> I'm also curious to hear about this.  The least inefficient (and most
+> gross) way I can think of would be to save read(ahead) errnos in the
+> mapping or the folio (or maybe the ifs) and have the callers access
+> that?
+
+That's what came to my mind too. It'd be great to have a way to do
+this though, which maybe could let us skip having to update the bitmap
+for every folio range read in, which was discussed a little in [1]
+
+[1] https://lore.kernel.org/linux-fsdevel/20250908185122.3199171-1-joannelk=
+oong@gmail.com/T/#mffb6436544e9be84aa0ac85da0e8743884729ee4
+
 >
-> It's fewer atomics for folios which contain no holes, which is the case
-> we should be optimising for anyway.
+> I wrote a somewhat similar thing as part of the autonomous self healing
+> XFS project:
+> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
+it/?h=3Dhealth-monitoring&id=3D32cade9599ad951720804379381abb68575356b6
+>
+> Obviously the events bubble up to a daemon, not necessarily the caller
+> who's waiting on the folio.
+>
+> --D
+>
+> > Thanks,
+> > Joanne
+> > >
+> >
 
-I think we can even skip subtracting when we encounter a hole and just
-tally it all up at the end if we just keep track of how many bytes the
-caller asynchronously reads in, and then just do read_bytes_pending -=3D
-folio_size() - bytes_read_in to offset it. Actually, looking at this
-more, I think it must be done this way otherwise handling errors gets
-tricky.
-
-I had missed that this approach leads to fewer atomics since now this
-gets rid of the caller having to increment it for every range read in.
-This approach does seem better. I'll make this change for v5. We
-should probably do the same thing for writeback.
-
-Thanks,
-Joanne
+On Tue, Sep 23, 2025 at 11:34=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
+>
+> On Mon, Sep 22, 2025 at 09:49:50AM -0700, Joanne Koong wrote:
+> > On Thu, Sep 4, 2025 at 2:13=E2=80=AFPM Matthew Wilcox <willy@infradead.=
+org> wrote:
+> > >
+> > > On Wed, Sep 03, 2025 at 11:09:32PM -0700, Christoph Hellwig wrote:
+> > > > On Fri, Aug 29, 2025 at 04:56:16PM -0700, Joanne Koong wrote:
+> > > > > Propagate any error encountered in iomap_read_folio() back up to =
+its
+> > > > > caller (otherwise a default -EIO will be passed up by
+> > > > > filemap_read_folio() to callers). This is standard behavior for h=
+ow
+> > > > > other filesystems handle their ->read_folio() errors as well.
+> > > >
+> > > > Is it?  As far as I remember we, or willy in particular has been
+> > > > trying to kill this error return - it isn't very hepful when the
+> > > > actually interesting real errors only happen on async completion
+> > > > anyway.
+> > >
+> > > I killed the error return from ->readahead (formerly readpages).
+> > > By definition, nobody is interested in the error of readahead
+> > > since nobody asked for the data in those pages.
+> > >
+> > > I designed an error reporting mechanism a while back that allowed the
+> > > errno to propagate from completion context to whoever was waiting
+> > > on the folio(s) that were part of a read request.  I can dig that
+> > > patchset up again if there's interest.
+> >
+> > Could you describe a bit how your design works?
+>
+> I'm not really sure how you'd propagate specific errnos to callers, so
+> I'm also curious to hear about this.  The least inefficient (and most
+> gross) way I can think of would be to save read(ahead) errnos in the
+> mapping or the folio (or maybe the ifs) and have the callers access
+> that?
+>
+> I wrote a somewhat similar thing as part of the autonomous self healing
+> XFS project:
+> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
+it/?h=3Dhealth-monitoring&id=3D32cade9599ad951720804379381abb68575356b6
+>
+> Obviously the events bubble up to a daemon, not necessarily the caller
+> who's waiting on the folio.
+>
+> --D
+>
+> > Thanks,
+> > Joanne
+> > >
+> >
