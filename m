@@ -1,260 +1,212 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592EF314B73
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 18:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758739222; cv=none; b=j5X0bTYiy2YN1tKM0qYn764UIdgLFr5t2Fj56jgPiWIARswyENdbxxO5gPjlMAVypETtw1FwjotqNKDcdZBKZMSKS4VRNnkJIl2F+k3ZuJsGQkRfh/FwCv6PD+0gWz6DmnzzUGZdta3lpC5MXw9epGN5qpHsNCuRati3cUerplw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758739222; c=relaxed/simple;
-	bh=Lz5nNPc99WsglaCwylBBNPoIg34qFlQe9Q2dS/0RE9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SNj7deHIn4U+rVh0olHp/C6dRh3bpr2vAPRogwFKKu4juZDolACLfZ8zd887s2m1w7MA6y/zLrtHB/gVjDnhn8UQozGGlYm3dAPfCquMalM9IBSKRRcVr9PNDTMIn7C1+eM161eBDGa8FqlCIoBLo4Ex1CDq5WXFTirSyjuDtfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=VsuONNpA; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEA31C8603;
+	Wed, 24 Sep 2025 19:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758741886; cv=pass; b=iuDApX9H8Ik3CZPS83IB8w/NCHSMxGGII3XJtHW67tDJTPeZY0/MhYoM6yC9dkvyGUrCOsvPsu5eVtGhY4Twm/sdfOqkqLFSBwkzZJJ7iOvNNTUv48CledDs+o6++lYAXMqIU+RpWOA1XOUVrBDGhY/O8m+O9aiM5oXlcvMXtZw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758741886; c=relaxed/simple;
+	bh=heESk4oHqAuXRn33U0ViCuV3zVQBKzbyLAkSWgCK09o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sDFsiNjYoyBE9d0c8XIMYLkHp0QiT66TRWOzxxEUYzsE7WhoIuziJXqaE6VTyTW0kLTi+chCfXzjywcFxWS6oHQV4xPSajhYYvgLcp7MDUYUCr02ofnaFOChrc/yc8UNfVkxhT5HFPdfrUIYKRjl3E5b3ELOF/zX21bKYCIOVMg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=TyT9uK8m; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="VsuONNpA"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24456ce0b96so1375315ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 11:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1758739219; x=1759344019; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CmJ3vOxzWTYE+jCZQu9PTb3XdXqCFWVRNB5Wst4HaN8=;
-        b=VsuONNpAqu0JaeJsXkucyiqb9txr3bCS6eMsNg+mtgnll/4/do/YTAXwbIyojoI4KP
-         j+aJOz3rEKSSRpgmZHUVnZKCi9/XhkAV3j0BiTPTsZtuprVpmd1yMXMQlSZ52aFNxqtE
-         q8/GtB++wZ8Tct12HaAs2r/ncjI2DHX5o0WrnmMeYden8OXB2DVC3QC3vF05elVIYlOd
-         nphQIBnz0WEHObPM71Jhk5FzNnASKuXbPc7gKdEfwgkkrtelMCo1/DZvIf+unmXbbiaL
-         xat7KaZeSKCHYyaxZ0iOqqxQvjgvj04bmbAoaU4xe4e5NdegVdtXsbtNGoiDdbv2ERBO
-         iESQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758739219; x=1759344019;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CmJ3vOxzWTYE+jCZQu9PTb3XdXqCFWVRNB5Wst4HaN8=;
-        b=sZ87E17XVZ0TdqSRdegHcmnGLdw9lJZ0+Rj9vKiyBiyv24qd8pmZB9J5dEjXeC/Lvt
-         14C12XzUHJUQcG+TYCVM8eGXbn67hYasvw+KrEcSfcYRuK647RxFjeOqbZJm8wTiMEUF
-         u4snQ4Q0d28yYhWtw+65OmxRWYLd/lJujwUWTU0NGJ0eov+024MvPOGrf9CRr5Jl+z47
-         sC7Z6opZmWmF54qj57NY2SfzXkeWu4WjjS3e/p3yD8rwxUQe2TBdBBbrkEsogHIkugvD
-         jFSWVkkyLj7dUYKrDoBTopo8nfSsp0UjfnNGIxcbds++QwD929Cgmh6HPryTas6CrwWS
-         2Tjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWtXWG2hvsWeto/F5hhN5PskMi55xVe7yJsN+L4ciDw3SZoELCjTnJNlDf/AAGtP/UMO+vIiM5eR64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQy7LB/h6g5SnPX75/y/ynfEN/Te4hPsmCWMI8I4lEpbfmWAbS
-	dheJ56mPR30Ls67hMHNPMsTsIS6quVPf1M+EkjdlyIThLIk8IHmY+58V552SyLryMNU=
-X-Gm-Gg: ASbGncvTEhy5OoL2YStJbyGrxq+aRew7OY7BvfnelWQODNiehuyCjncYvJjlBo7w2Yw
-	481UQSMuXsdBN9auAW4w8OB6AXM/gljl3xX1smk8LhQwZ6e0JGnby9V4y0pK9K6icZ9MBUE2UBJ
-	se4eCHqxpaCxL52BWK8cz6/jTdN0wAj6zha+53vK8eBiqbzahcjr0btCFtzmiZbDXUzdPWp4Aew
-	4MNHetLmNuzwqqLQxYhg8h09kHZf7Mh+jbhjs1Xoh+BiKaG0eJ+ooCodU4x8RE+GzVtLgTSSKra
-	dTUPZ3sCWn/MfmZOkTx+gWy/UUuvIaHqF3DHofp2/ZTeZaOAasNbDgry/UwDNK1VUuIaKBMb7lC
-	ac4EHncwM3bwRzfEtH52Jp6pFCEIE3MdN
-X-Google-Smtp-Source: AGHT+IGXuHXHBWPf+oE+Ln4Jp/4CaKr0teMjK8nrYhSg666HYgvhIXatAPi5gWQsQGiN1OujHcfx1A==
-X-Received: by 2002:a17:902:e790:b0:24b:270e:56d4 with SMTP id d9443c01a7336-27ed4c67b42mr6992845ad.4.1758739219414;
-        Wed, 24 Sep 2025 11:40:19 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698035ddcasm198787335ad.142.2025.09.24.11.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 11:40:18 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:40:15 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Paul Walmsley <pjw@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
-	richard.henderson@linaro.org, jim.shu@sifive.com,
-	Andy Chiu <andybnac@gmail.com>, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
-	Zong Li <zong.li@sifive.com>, David Hildenbrand <david@redhat.com>,
-	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-	Florian Weimer <fweimer@redhat.com>, bharrington@redhat.com,
-	Aurelien Jarno <aurel32@debian.org>
-Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
-Message-ID: <aNQ7D6_ZYMhCdkmL@debug.ba.rivosinc.com>
-References: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
- <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="TyT9uK8m"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 0A5F3101C8635;
+	Thu, 25 Sep 2025 04:24:34 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id YQ4Lfu_r75o5; Thu, 25 Sep 2025 04:24:28 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id C0768101C8441; Thu, 25 Sep 2025 04:24:28 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758741868;
+	cv=none; b=ZupupkXhJiUL7K5Zb04EQmzag7d4eDS6EV//uUTxUAN0dLqcnjCPtDQefPDZos2TsDhowsuUBA2Inu3ThD3gIJ8hrGRRZMmBnupnQouH/NTcJGFWALe3ZITpvqNA0bqCxqH7uLphDoL6A+HA7jE0AA4Ixlem0wNYyqVLSvikEaY=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1758741868; c=relaxed/relaxed;
+	bh=b3PFU9BpTy364X6+cV+ReTpHMpe0gUd/ubx4lz7SF3g=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding; b=SW0qExqqWowD49+fzCkMjaKKWoVRuzzNDPhpaD2bAdWKtQMvlVA4jEfBzSm0Xooaf2XViLumYviwVPN+nPK9gdITcNSR4YLIU/dRX0fiYIRWqxMPBYfmBdu6EnxAr1ICZx43f6zGG+QBuqHsadxveTmrgo3og/Vsvt0rKYyv3Ok=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org C0768101C8441
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1758741868;
+	bh=b3PFU9BpTy364X6+cV+ReTpHMpe0gUd/ubx4lz7SF3g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TyT9uK8mPbzPY16aPTaZe9AZhiVaqWmpZVSIHLQxKmz2v91TO5Ih0uqgqpZc/Wkoh
+	 S87Sd+yCJ+qA2LDvMkqJGQO14madXYcgBMRLz5mYgHKBybR6/Q6aSv/8JY29QXZDOv
+	 dPjjwYcPO4d+FA6tQj9muf/hy6Ri4hYgdqlUtrgI=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	akiyks@gmail.com,
+	linux-kernel@vger.kernel.org,
+	weibu@redadmin.org
+Subject: [PATCH v5] docs: ja_JP: SubmittingPatches: describe the 'Fixes:' tag
+Date: Thu, 25 Sep 2025 04:24:26 +0900
+Message-ID: <20250924192426.2743495-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250909022502.119560-1-weibu@redadmin.org>
+References: <20250909022502.119560-1-weibu@redadmin.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 24, 2025 at 08:36:11AM -0600, Paul Walmsley wrote:
->Hi,
->
->On Thu, 31 Jul 2025, Deepak Gupta wrote:
->
->[ ... ]
->
->> vDSO related Opens (in the flux)
->> =================================
->>
->> I am listing these opens for laying out plan and what to expect in future
->> patch sets. And of course for the sake of discussion.
->>
->
->[ ... ]
->
->> How many vDSOs
->> ---------------
->> Shadow stack instructions are carved out of zimop (may be operations) and if CPU
->> doesn't implement zimop, they're illegal instructions. Kernel could be running on
->> a CPU which may or may not implement zimop. And thus kernel will have to carry 2
->> different vDSOs and expose the appropriate one depending on whether CPU implements
->> zimop or not.
->
->If we merge this series without this, then when CFI is enabled in the
->Kconfig, we'll wind up with a non-portable kernel that won't run on older
->hardware.  We go to great lengths to enable kernel binary portability
->across the presence or absence of other RISC-V extensions, and I think
->these CFI extensions should be no different.
->
->So before considering this for merging, I'd like to see at least an
->attempt to implement the dual-vDSO approach (or something equivalent)
->where the same kernel binary with CFI enabled can run on both pre-Zimop
->and post-Zimop hardware, with the existing userspaces that are common
->today.
+Sync the ja_JP translation with the following upstream commits:
 
-Added some distro folks in this email chain.
+commit 8401aa1f5997 ("Documentation/SubmittingPatches: describe the Fixes: =
+tag")
+commit 19c3fe285cba ("docs: Explicitly state that the 'Fixes:' tag shouldn'=
+t split lines")
+commit 5b5bbb8cc51b ("docs: process: Add an example for creating a fixes ta=
+g")
+commit 6356f18f09dc ("Align git commit ID abbreviation guidelines and check=
+s")
 
-After patchwork meeting today, I wanted to continue discussion here. So thanks
-Paul for looking into it and initiating a discussion here.
+The mix of plain text and reST markup for ``git bisect`` is intentional to
+align with the eventual reST conversion.
 
-This patch series has been in the queue for quite a long time and we have had
-deliberations on vDSO topic earlier as well and after those deliberations it
-was decided to go ahead with merge and it indeed was sent for 6.17 merge
-window. Unfortunatley due to other unforeseen reasons, entirety of riscv
-changes were not picked. So it's a bit disappointing to see back-paddling on
-this topic.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+v5:
+ - whole rewrite
+---
+ .../translations/ja_JP/SubmittingPatches      | 28 ++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-Anyways, we are here. So I'll provide a bit of context for the list about
-deliberations and discussions we have been having for so many merge windows.
-This so that a holistic discussion can happen on this before we make a
-decision.
+diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documenta=
+tion/translations/ja_JP/SubmittingPatches
+index 5334db471744..b950347b5993 100644
+--- a/Documentation/translations/ja_JP/SubmittingPatches
++++ b/Documentation/translations/ja_JP/SubmittingPatches
+@@ -132,6 +132,25 @@ http://savannah.nongnu.org/projects/quilt
+        platform_set_drvdata(), but left the variable "dev" unused,
+        delete it.
+=20
++=E7=89=B9=E5=AE=9A=E3=81=AE=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=81=A7=
+=E5=B0=8E=E5=85=A5=E3=81=95=E3=82=8C=E3=81=9F=E4=B8=8D=E5=85=B7=E5=90=88=E3=
+=82=92=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=EF=BC=88=E4=BE=
+=8B=E3=81=88=E3=81=B0 ``git bisect`` =E3=81=A7=E5=8E=9F=E5=9B=A0=E3=81=A8=
+=E3=81=AA=E3=81=A3=E3=81=9F
++=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=82=92=E7=89=B9=E5=AE=9A=E3=81=97=
+=E3=81=9F=E3=81=A8=E3=81=8D=E3=81=AA=E3=81=A9=EF=BC=89=E3=81=AF=E3=80=81=E3=
+=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=81=AE SHA-1 =E3=81=AE=E5=85=88=E9=A0=
+=AD12=E6=96=87=E5=AD=97=E3=81=A81=E8=A1=8C=E3=81=AE=E8=A6=81=E7=B4=84=E3=82=
+=92=E6=B7=BB=E3=81=88=E3=81=9F
++=E3=80=8CFixes:=E3=80=8D=E3=82=BF=E3=82=B0=E3=82=92=E4=BB=98=E3=81=91=E3=
+=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AE=E8=A1=
+=8C=E3=81=AF75=E6=96=87=E5=AD=97=E3=82=92=E8=B6=85=E3=81=88=E3=81=A6=E3=82=
+=82=E6=A7=8B=E3=81=84=E3=81=BE=E3=81=9B=E3=82=93=E3=81=8C=E3=80=81=E9=80=94=
+=E4=B8=AD=E3=81=A7
++=E6=94=B9=E8=A1=8C=E3=81=9B=E3=81=9A=E3=80=81=E5=BF=85=E3=81=9A1=E8=A1=8C=
+=E3=81=A7=E8=A8=98=E8=BF=B0=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=
+=81=84=E3=80=82
++=E4=BE=8B:
++        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the=
+ number of pages it actually freed")
++
++=E4=BB=A5=E4=B8=8B=E3=81=AE git =E3=81=AE=E8=A8=AD=E5=AE=9A=E3=82=92=E4=BD=
+=BF=E3=81=86=E3=81=A8=E3=80=81git log =E3=82=84 git show =E3=81=A7=E4=B8=8A=
+=E8=A8=98=E5=BD=A2=E5=BC=8F=E3=82=92=E5=87=BA=E5=8A=9B=E3=81=99=E3=82=8B=E3=
+=81=9F=E3=82=81=E3=81=AE
++=E5=B0=82=E7=94=A8=E3=81=AE=E5=87=BA=E5=8A=9B=E5=BD=A2=E5=BC=8F=E3=82=92=
+=E8=BF=BD=E5=8A=A0=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99::
++
++        [core]
++                abbrev =3D 12
++        [pretty]
++                fixes =3D Fixes: %h (\"%s\")
++
++=E4=BD=BF=E7=94=A8=E4=BE=8B::
++
++        $ git log -1 --pretty=3Dfixes 54a4f0239f2e
++        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the=
+ number of pages it actually freed")
+=20
+ 3) =E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=88=86=E5=89=B2
+=20
+@@ -409,7 +428,7 @@ Acked-by: =E3=81=8C=E5=BF=85=E3=81=9A=E3=81=97=E3=82=82=
+=E3=83=91=E3=83=83=E3=83=81=E5=85=A8=E4=BD=93=E3=81=AE=E6=89=BF=E8=AA=8D=E3=
+=82=92=E7=A4=BA=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E3=82=8F=E3=81=91=E3=81=
+=A7=E3=81=AF
+ =E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=83=91=E3=83=83=E3=83=81=
+=E3=81=AB=E9=96=A2=E5=BF=83=E3=81=8C=E3=81=82=E3=82=8B=E3=81=A8=E6=80=9D=E3=
+=82=8F=E3=82=8C=E3=82=8B=E4=BA=BA=E9=81=94=E3=81=8C=E3=81=9D=E3=81=AE=E3=83=
+=91=E3=83=83=E3=83=81=E3=81=AE=E8=AD=B0=E8=AB=96=E3=81=AB=E5=90=AB=E3=81=BE=
+=E3=82=8C=E3=81=A6=E3=81=84=E3=81=9F=E3=81=93=E3=81=A8
+ =E3=82=92=E6=98=8E=E6=96=87=E5=8C=96=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
+=20
+-14) Reported-by:, Tested-by:, Reviewed-by: =E3=81=8A=E3=82=88=E3=81=B3 Sug=
+gested-by: =E3=81=AE=E5=88=A9=E7=94=A8
++14) Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: =E3=81=8A=E3=82=
+=88=E3=81=B3 Fixes: =E3=81=AE=E5=88=A9=E7=94=A8
+=20
+ =E4=BB=96=E3=81=AE=E8=AA=B0=E3=81=8B=E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=
+=E5=A0=B1=E5=91=8A=E3=81=95=E3=82=8C=E3=81=9F=E5=95=8F=E9=A1=8C=E3=82=92=E4=
+=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=E3=81=
+=82=E3=82=8C=E3=81=B0=E3=80=81=E5=95=8F=E9=A1=8C=E5=A0=B1=E5=91=8A=E8=80=85=
+=E3=81=A8=E3=81=84=E3=81=86=E5=AF=84=E4=B8=8E=E3=82=92
+ =E3=82=AF=E3=83=AC=E3=82=B8=E3=83=83=E3=83=88=E3=81=99=E3=82=8B=E3=81=9F=
+=E3=82=81=E3=81=AB=E3=80=81Reported-by: =E3=82=BF=E3=82=B0=E3=82=92=E8=BF=
+=BD=E5=8A=A0=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E6=A4=9C=E8=A8=8E=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+@@ -465,6 +484,13 @@ Suggested-by: =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=
+=83=91=E3=83=83=E3=83=81=E3=81=AE=E3=82=A2=E3=82=A4=E3=83=87=E3=82=A2=E3=81=
+=8C=E3=81=9D=E3=81=AE=E4=BA=BA=E3=81=8B=E3=82=89=E3=81=AE=E6=8F=90=E6=A1=88=
+=E3=81=AB
+ =E3=82=AF=E3=83=AC=E3=82=B8=E3=83=83=E3=83=88=E3=81=97=E3=81=A6=E3=81=84=
+=E3=81=91=E3=81=B0=E3=80=81=E6=9C=9B=E3=82=80=E3=82=89=E3=81=8F=E3=81=AF=E3=
+=81=9D=E3=81=AE=E4=BA=BA=E3=81=9F=E3=81=A1=E3=81=8C=E5=B0=86=E6=9D=A5=E5=88=
+=A5=E3=81=AE=E6=A9=9F=E4=BC=9A=E3=81=AB=E5=86=8D=E5=BA=A6=E5=8A=9B=E3=82=92=
+=E8=B2=B8=E3=81=99=E6=B0=97=E3=81=AB
+ =E3=81=AA=E3=81=A3=E3=81=A6=E3=81=8F=E3=82=8C=E3=82=8B=E3=81=8B=E3=82=82=
+=E3=81=97=E3=82=8C=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
+=20
++Fixes: =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E3=81=9D=E3=81=AE=E3=83=91=E3=
+=83=83=E3=83=81=E3=81=8C=E4=BB=A5=E5=89=8D=E3=81=AE=E3=82=B3=E3=83=9F=E3=83=
+=83=E3=83=88=E3=81=AB=E3=81=82=E3=81=A3=E3=81=9F=E5=95=8F=E9=A1=8C=E3=82=92=
+=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=
+=81=97=E3=81=BE=E3=81=99=E3=80=82
++=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E3=83=90=E3=82=B0=E3=81=8C=E3=81=A9=
+=E3=81=93=E3=81=A7=E7=99=BA=E7=94=9F=E3=81=97=E3=81=9F=E3=81=8B=E3=82=92=E7=
+=89=B9=E5=AE=9A=E3=81=97=E3=82=84=E3=81=99=E3=81=8F=E3=81=97=E3=80=81=E3=83=
+=90=E3=82=B0=E4=BF=AE=E6=AD=A3=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=
+=E3=81=AB=E5=BD=B9=E7=AB=8B=E3=81=A1=E3=81=BE=E3=81=99=E3=80=82
++=E3=81=BE=E3=81=9F=E3=80=81=E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AFst=
+able=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=81=E3=83=BC=E3=83=A0=E3=81=
+=8C=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E4=BF=AE=E6=AD=A3=E3=82=92=
+=E3=81=A9=E3=81=AEstable=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB
++=E3=83=90=E3=83=BC=E3=82=B8=E3=83=A7=E3=83=B3=E3=81=AB=E9=81=A9=E7=94=A8=
+=E3=81=99=E3=81=B9=E3=81=8D=E3=81=8B=E5=88=A4=E6=96=AD=E3=81=99=E3=82=8B=E6=
+=89=8B=E5=8A=A9=E3=81=91=E3=81=AB=E3=82=82=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=
+=99=E3=80=82=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=
+=E4=BF=AE=E6=AD=A3=E3=81=95=E3=82=8C=E3=81=9F
++=E3=83=90=E3=82=B0=E3=82=92=E7=A4=BA=E3=81=99=E3=81=AB=E3=81=AF=E3=80=81=
+=E3=81=93=E3=81=AE=E6=96=B9=E6=B3=95=E3=81=8C=E6=8E=A8=E5=A5=A8=E3=81=95=E3=
+=82=8C=E3=81=BE=E3=81=99=E3=80=82=E5=89=8D=E8=BF=B0=E3=81=AE=E3=80=81=E3=80=
+=8C2) =E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E8=AA=
+=AC=E6=98=8E=E3=80=8D=E3=81=AE
++=E3=82=BB=E3=82=AF=E3=82=B7=E3=83=A7=E3=83=B3=E3=82=92=E5=8F=82=E7=85=A7=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
+ 15) =E6=A8=99=E6=BA=96=E7=9A=84=E3=81=AA=E3=83=91=E3=83=83=E3=83=81=E3=81=
+=AE=E3=83=95=E3=82=A9=E3=83=BC=E3=83=9E=E3=83=83=E3=83=88
+=20
+ =E6=A8=99=E6=BA=96=E7=9A=84=E3=81=AA=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=
+=E3=82=B5=E3=83=96=E3=82=B8=E3=82=A7=E3=82=AF=E3=83=88=E3=81=AF=E4=BB=A5=E4=
+=B8=8B=E3=81=AE=E3=81=A8=E3=81=8A=E3=82=8A=E3=81=A7=E3=81=99=E3=80=82
+--=20
+2.47.3
 
-Issue
-======
-
-Instructions in RISC-V shadow stack extension (zicfiss - [1]) are carved out of
-"may be ops" aka zimop extension [2]. "may be ops" are illegal on non-RVA23
-hardware. This means any existing riscv CPU or future CPU which isn't RVA23
-compliant and not implementing zimop will treat these encodings as illegal.
-
-Current kernel patches enable shadow stack and landing pad support for
-userspace using config `CONFIG_RISCV_USER_CFI`. If this config is selected then
-vDSO that will be exposed to user space will also have shadow stack
-instructions in them. Kernel compiled with `CONFIG_RISCV_USER_CFI`, for sake of
-this discussion lets call it RVA23 compiled kernel.
-
-Issue that we discussed earlier and even today is "This RVA23 compiled kernel
-won't be able to support non-RVA23 userspace on non-RVA23 hardware because".
-Please note that issue exists only on non-RVA23 hardware (which is existing
-hardware and future hardware which is not implementing zimop). RVA23 compiled
-kernel can support any sort of userspace on RVA23 hardware.
-
-
-Discussion
-===========
-
-So the issue is not really shadow stack instructions but rather may be op
-instructions in codegen (binaries and vDSO) which aren't hidden behind any
-flag (to hide them if hardware doesn't support). And if I can narrow down
-further, primary issue we are discussing is that if cfi is enabled during
-kernel compile, it is bringing in a piece of code (vDSO) which won't work
-on existing hardware. But the counter point is if someone were to deploy
-RVA23 compiled kernel on non-RVA23 hardware, they must have compiled
-rest of the userspace without shadow stack instructions in them for such
-a hardware. And thus at this point they could simply choose *not* to turn on
-`CONFIG_RISCV_USER_CFI` when compiling such kernel. It's not that difficult to
-do so.
-
-Any distro who is shipping userspace (which all of them are) along with kernel
-will not be shipping two different userspaces (one with shadow stack and one
-without them). If distro are shipping two different userspaces, then they might
-as well ship two different kernels. Tagging some distro folks here to get their
-take on shipping different userspace depending on whether hardware is RVA23 or
-not. @Heinrich, @Florian, @redbeard and @Aurelien.
-
-Major distro's have already drawn a distinction here that they will drop
-support for hardware which isn't RVA23 for the sake of keeping binary
-distribution simple.
-
-Only other use case that was discussed of a powerful linux user who just wants
-to use a single kernel on all kinds of riscv hardware. I am imagining such a
-user knows enough about kernel and if is really dear to them, they can develop
-their own patches and send it upstream to support their own usecase and we can
-discuss them out. Current patchset don't prevent such a developer to send such
-patches upstream.
-
-I heard the argument in meeting today that "Zbb" enabling works similar for
-kernel today. I looked at "Zbb" enabling. It's for kernel usage and it's
-surgically placed in kernel using asm hidden behind alternatives. vDSO isn't
-compiled with Zbb. Shadow stack instructions are part of codegen for C files
-compiled into vDSO.
-
-Furthermore,
-
-Kernel control flow integrity will introduce shadow stack instructions all
-over the kernel binary. Such kernel won't be deployable on non-RVA23 hardware.
-How to deal with this problem for a savvy kernel developer who wants to run
-same cfi enabled kernel binary on multiple hardware?
-
-Coming from engineering and hacker point of view, I understand the desire here
-but I still see that it's complexity enforced on rest of the kernel from a user
-base which anyways can achieve such goals. For majority of usecases, I don't
-see a reason to increase complexity in the kernel for build, possibly runtime
-patching and thus possibly introduce more issues and errors just for the sake
-of a science project.
-
-Being said that, re-iterating that currently default for `CONFIG_RISCV_USER_CFI`
-is "n" which means it won't be breaking anything unless a user opts "Y". So even
-though I really don't see a reason and usability to have complexity in kernel to
-carry multiple vDSOs, current patchsets are not a hinderance for such future
-capability (because current default is No) and motivated developer is welcome
-to build on top of it. Bottomline is I don't see a reason to block current
-patchset from merging in v6.18.
-
-
-[1] - https://github.com/riscv/riscv-isa-manual/blob/main/src/unpriv-cfi.adoc#shadow-stack-zicfiss
-[2] - https://github.com/riscv/riscv-isa-manual/blob/main/src/zimop.adoc
-
->
->thanks Deepak,
->
->- Paul
