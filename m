@@ -1,63 +1,63 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400E53043D7
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 12:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145FE3054C4
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 12:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758715243; cv=none; b=HdGWTPymMHlpC+ZIxnwm08nz/24dEzPQrIzL9pheQu8HNUChC+BbxAOUByUMlMKtH/6c0Z97yJ/R/8kbMD74ETcpHcpoINFNm+stDl8gT2yKe/W76n3uMt6eelgKIFN76k8oWfY+Y2rPeImjeHAtxwTHwcmblPql0WSe6jpqkrE=
+	t=1758715255; cv=none; b=lVQTeR/ki4GYkE5zSvgI7NfPg4Ncut14nKNQRimP/Awv3xabRmdI3ZUAIOqj1dBAozWamkUMvJCo7jaxH6rEyvQJiFfaW2RUNrBPfJnnm+n6CrEOHnVa1VWFeAMEvu3JTei7VEMFamJBV3pgi2TMW/PLDhdT5nKgphbQfdyQkfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758715243; c=relaxed/simple;
-	bh=+T+aPb2vGauRNGojB13OG2g6M5SIRQLwY2pYS1UkpTU=;
+	s=arc-20240116; t=1758715255; c=relaxed/simple;
+	bh=ceqMPO/CCLxptz7Kcmz7UHHum+IA7F5szQ405xxeOe0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q3LXF4ad9YJ7Nbya53x668j/eXAFmhZoMQHleUfrxr9gV18/FPJpvjLLBCw2lF3R3FGq4mjp9FgO+DTX6n8h8Hzhh1QfvCSFviAeUwSplmecwtr7jz5FoGPUy4Q2UHTzYtDVvNDihjLIZitYXm2HTyOl8gsLmXg1tHWIYB/ER0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m3G3J3ON; arc=none smtp.client-ip=209.85.215.181
+	 MIME-Version; b=rm9UR3Gn1IVAouQ41wKLNPAXR6hXLgh1Jpj6ylGe3YtMa5ojXz1H67DiCXnlBT1MrQT4X41uX14k5axFNnfxTkOGWKJoHMVmi5pCH7eLQXhtmhuKv8ReHthdokFWcRVOvhW7/yDVOdCjSUCSphYV1OrWfcvzVBfST1hHv4vB2Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mMK6c+X0; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m3G3J3ON"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b550eff972eso4120604a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 05:00:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mMK6c+X0"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-77716518125so3572754b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 05:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758715241; x=1759320041; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758715248; x=1759320048; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1NT8+IPFZig8CTJZJveFgxRKV2ZOTWE6XU6N/gZkl8A=;
-        b=m3G3J3ON05VGsulF3HRshN6dLwGHwOK/doCEDRhg3drjl+M7bIoLfDbt7jDLDzBQfh
-         IQzJ292RxOvjS5V7R+pdGqpH5SLbB6tTpPFTygUMzkCtqysP6C+odI209ugwEkDc7F7Q
-         lNkHSBnp+Q9ompj9OIGUEpzak5XvjtR9SZnEbFZtNwvBq1EuhTxbcWh256+2l/qvaae7
-         zYuQ+GNMHb/aG39PHRWvUoWnB+2Pi1EdRNFzaVBLnpUeQZQhxLH0yyPxR8t+9hq22y2V
-         ohwuSjGP8tQ/mDiPv3qYy1xVdb2IyOTH1JCqfg55tu9qw7U7JgTRAp3QmzPbN9o5teHz
-         tLvA==
+        bh=l3XGYZ1mTVo1cX+yb2z67UYPJCwM1YcVlAKDPd0GQ2Q=;
+        b=mMK6c+X0TOD2/Kz5n4yFXoa5kkTOYqEhREejrcY+07hXLZCU0BFXc4GSKlowPnOV64
+         jDjnVerSJtIyfiGHAb4V/uzAQ+k2k7qndGTk0uPA1H6cirwjxYTwVd+gJFahtr3f4s9P
+         DO68o62wDOnvbCkGBfPoTbq292nXZDDHQAHUwiPbcBjDa7wUekymMoq+rpkRH/DLaLrm
+         e5mC/8dCFX7LI8bAPLZawbxmq5JkZQrDqD7V0cK26sm4SGrBaPAr8T8NEZPvWYRgbjlI
+         XP4LjMfkghHeuEqWg9mLqCk91Cv85LeBHjl5lS7jmg/WD+Da9sxf/qng9t2RuwvxhKqh
+         x8hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758715241; x=1759320041;
+        d=1e100.net; s=20230601; t=1758715248; x=1759320048;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1NT8+IPFZig8CTJZJveFgxRKV2ZOTWE6XU6N/gZkl8A=;
-        b=ZNXy6vW+X2qgBGVKDGVxfGTtoCoVuj6Tgug9krKLbZR/UlF+BiZDpK7Gug+tn71nAS
-         uhKWT5Mgbmd89dFuJmZQ405Bp7Cf4FDp1Otoje2SImke+JLCZe8Bl3vLY/Dn03ykOXQV
-         ndFRC9RoiLPUihXW5MgxUpw3w5aHWKfaOA4xkNKigjYqLoaiPyw3+SXy7YK6sICQYcy1
-         iYWfXGqC20QKY/HSPzMRI7jiTuMG7/Hr3odzNndxFWeDAsTavTWqegnowSW/UrJEXMwn
-         +fA0WdD6iYLZIyxJ0H8x6pY/GB2oT3GiJYeHnGq1+WE6emGJHK2TTq5ZTR9MVh7CN0Zk
-         yyTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWXhMi2sWuFm1xmQZJspkPzWqa6rEhS2cGerImH9MXt6ssppJCDp/NzOxVI9sGTJXf1s49LJVQq0Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR7UaqB7fTd9SXow5neRYTiYHWKTGN8yk6nwleXo+WQtLuiU6a
-	tWaWlwPWHdny6eW8F/Hl3uS+h38sC2uw58YDviH8W6jClzv8ypsAb4B3
-X-Gm-Gg: ASbGncva/E92zc7TUztnSQrTwx0qOElAZeey19imYVK8YIMpVG1xuXdL8hU8eSJ9BcA
-	wG1oNlqGdo6bzHHNQTvWwUby5qDTpjZtsXBzFm3rmjk2ZC77vnas2vNhyhXJj3+6bcsyEnMdaUJ
-	6vnep3xo6W2spf6XIzfpobqiNdYVCYqXaT1xnWmGAMXXdqgg5tHYp2FV18D5udlcVbovUkJt7G3
-	JsqyaprvPctNuyUH/0ADp5GX0kpIo1thgZontJ/BcpU/UuYpOXoNNF8kyl3FS4cssZgtgTx0fsl
-	4EdT6fQk/gXDfdXqiNri92f0evq2FGaVWqWMYHSdslNstl4pIWFBQg6+bd9G0b0sZLDFlCUzb9/
-	J2PDXAlCIOImtLYB0ZOW4Fjk=
-X-Google-Smtp-Source: AGHT+IGJCq+xdBPSr2vtJBFYvbOJmXpJTBrhRvUSRvlU56ancTzpxVdVezOYXQvlboR8hlHSETgwdw==
-X-Received: by 2002:a17:902:e5d0:b0:267:a231:34d0 with SMTP id d9443c01a7336-27cc5623567mr72404795ad.42.1758715239864;
-        Wed, 24 Sep 2025 05:00:39 -0700 (PDT)
+        bh=l3XGYZ1mTVo1cX+yb2z67UYPJCwM1YcVlAKDPd0GQ2Q=;
+        b=fUDXmvmdaE55cUWPXvg48WbJ964xUJIhNAuAj+JvpOHAXwlMzvTx5XbZik2wc29ZG1
+         juQg1CYg2QHfHZWrhjlezq7VgH8bqNw1o+MHOSZqsGqaIF97TKa6HLVr/jBeiPAt6f1E
+         Bif9hQPwzbLniFqz5DN5HJo1CGgZwFDCEss+T3PzpPudpkX5LFz1h987RwxdpIKw2OMC
+         K0icjNwcl3YA/NbhbzsAzfHW/xlljIAPVEPAD55BCsJmPFEYzD1UFmXq/ews6YZkTj3w
+         YNugf0g7/VZ46juBnaiH1V8raURl3Q5vjQ9Sx+/gkd/JdtLB3xEVb7pgSYck8LYZtXzi
+         CpFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOGyhCq1pFRu628Xfte3Fo06G2hfpBljOse2OsiewJ+PlHc2+e5qyUv6P3KoWoOCay9CgzVzfUoq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0XtBtxVvyHk1PQfBeV/kaMVW/zCwdRSso00w9Z1Q4tpbh20IU
+	LAowmchEG7BYUZE15DrblatiF43un78A+WT80643h4Rqyz2wlE40GeZv
+X-Gm-Gg: ASbGnctFkahsMjckUJ0mjE59j7PTMY7s7d8JmjhilOMEh1PzBpN4iTvUH4mQGY9IUzq
+	uBTuBYEPMHwTV/DFueWtjxtfZ/LmaLaRKqs0idtzqra2VMgLjdRluq/lBF4KwqI2GU9+D65fd0c
+	S6MDJiowZ8XSZiOcCs6aVlQEBsXywB40fq5Qm7I7I271glCEw0QZExE+CmtSDIUUmx56rGfXsYK
+	xqeo0yF4EnZZdw06xUl/ULZt0IPsoZFSB0yUvrN7OITU2uwo2H/6TGaxJXRKHaZ1miR/NQH3Um/
+	r/XT7+gJpACdqrtsxZKJrccFLcB2WzZcHb5ePb42nhm078jZP5xJPP7d8EPuE8V5BO7dgu0fOxA
+	TtieYaR6FMURRS2RlwMnfXXI=
+X-Google-Smtp-Source: AGHT+IFjwxI+PhtV7jgjoa1gOIc2i5iuKeq4ASvkc/Bz/cNSIoBtm/vDSyxk5EpYVIU5WEV3bOsalQ==
+X-Received: by 2002:a17:902:d113:b0:269:82a5:f9e9 with SMTP id d9443c01a7336-27cc79cb20bmr41740315ad.29.1758715248144;
+        Wed, 24 Sep 2025 05:00:48 -0700 (PDT)
 Received: from localhost ([103.88.46.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-269800531e8sm191473635ad.29.2025.09.24.05.00.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ec0d14344sm19610475ad.126.2025.09.24.05.00.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 05:00:39 -0700 (PDT)
+        Wed, 24 Sep 2025 05:00:47 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -123,9 +123,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-trace-kernel@vger.kernel.org
 Cc: Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH v5 20/23] mm/ksw: add multi-thread corruption test cases
-Date: Wed, 24 Sep 2025 19:59:26 +0800
-Message-ID: <20250924115931.197077-5-wangjinchao600@gmail.com>
+Subject: [PATCH v5 21/23] tools/ksw: add test script
+Date: Wed, 24 Sep 2025 19:59:27 +0800
+Message-ID: <20250924115931.197077-6-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250924115931.197077-1-wangjinchao600@gmail.com>
 References: <20250924115124.194940-1-wangjinchao600@gmail.com>
@@ -138,253 +138,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These tests share a common structure and are grouped together.
-
-- buggy():
-  exposes the stack address to corrupting(); may omit waiting
-- corrupting():
-  reads the exposed pointer and modifies memory;
-  if buggy() omits waiting, victim()'s buffer is corrupted
-- victim():
-  initializes a local buffer and later verifies it;
-  reports an error if the buffer was unexpectedly modified
-
-buggy() and victim() run in worker() thread, with similar stack frame sizes
-to simplify testing. By adjusting fence_size in corrupting(), the test can
-trigger either silent corruption or overflow across threads.
-
-- Test 3: one worker, 20 loops, silent corruption
-- Test 4: 20 workers, one loop each, silent corruption
-- Test 5: one worker, one loop, overflow corruption
-
-Test 4 also exercises multiple watchpoint instances.
+Provide a shell script to trigger test cases.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- mm/kstackwatch/test.c | 178 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 176 insertions(+), 2 deletions(-)
+ tools/kstackwatch/kstackwatch_test.sh | 52 +++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+ create mode 100755 tools/kstackwatch/kstackwatch_test.sh
 
-diff --git a/mm/kstackwatch/test.c b/mm/kstackwatch/test.c
-index 08e3d37c4c04..859122bbbdeb 100644
---- a/mm/kstackwatch/test.c
-+++ b/mm/kstackwatch/test.c
-@@ -17,11 +17,12 @@
- 
- static struct proc_dir_entry *test_proc;
- 
--#define BUFFER_SIZE 16
-+#define BUFFER_SIZE 32
- #define MAX_DEPTH 6
- 
- struct work_node {
- 	ulong *ptr;
-+	u64 start_ns;
- 	struct completion done;
- 	struct list_head list;
- };
-@@ -30,6 +31,9 @@ static DECLARE_COMPLETION(work_res);
- static DEFINE_MUTEX(work_mutex);
- static LIST_HEAD(work_list);
- 
-+static int global_fence_size;
-+static int global_loop_count;
+diff --git a/tools/kstackwatch/kstackwatch_test.sh b/tools/kstackwatch/kstackwatch_test.sh
+new file mode 100755
+index 000000000000..aede35dcb8b6
+--- /dev/null
++++ b/tools/kstackwatch/kstackwatch_test.sh
+@@ -0,0 +1,52 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
 +
- static void test_watch_fire(void)
- {
- 	u64 buffer[BUFFER_SIZE] = { 0 };
-@@ -72,6 +76,164 @@ static void test_recursive_depth(int depth)
- 	pr_info("exit of %s depth:%d\n", __func__, depth);
- }
- 
-+static struct work_node *test_mthread_buggy(int thread_id, int seq_id)
-+{
-+	ulong buf[BUFFER_SIZE];
-+	struct work_node *node;
-+	bool trigger;
++echo "IMPORTANT: Before running, make sure you have updated the config values!"
 +
-+	node = kmalloc(sizeof(*node), GFP_KERNEL);
-+	if (!node)
-+		return NULL;
-+
-+	init_completion(&node->done);
-+	node->ptr = buf;
-+	node->start_ns = ktime_get_ns();
-+	mutex_lock(&work_mutex);
-+	list_add(&node->list, &work_list);
-+	mutex_unlock(&work_mutex);
-+	complete(&work_res);
-+
-+	trigger = (get_random_u32() % 100) < 10;
-+	if (trigger)
-+		return node; /* let the caller handle cleanup */
-+
-+	wait_for_completion(&node->done);
-+	kfree(node);
-+	return NULL;
++usage() {
++	echo "Usage: $0 [0-5]"
++	echo "  0  - test watch fire"
++	echo "  1  - test canary overflow"
++	echo "  2  - test recursive depth"
++	echo "  3  - test silent corruption"
++	echo "  4  - test multi-threaded silent corruption"
++	echo "  5  - test multi-threaded overflow"
 +}
 +
-+#define CORRUPTING_MINIOR_WAIT_NS (100000)
-+#define VICTIM_MINIOR_WAIT_NS (300000)
-+
-+static inline void silent_wait_us(u64 start_ns, u64 min_wait_us)
-+{
-+	u64 diff_ns, remain_us;
-+
-+	diff_ns = ktime_get_ns() - start_ns;
-+	if (diff_ns < min_wait_us * 1000ULL) {
-+		remain_us = min_wait_us - (diff_ns >> 10);
-+		usleep_range(remain_us, remain_us + 200);
-+	}
++run_test() {
++	local test_num=$1
++	case "$test_num" in
++	0) echo fn=test_watch_fire fo=0x29 wl=8 >/proc/kstackwatch
++	   echo test0 > /proc/kstackwatch_test
++	   ;;
++	1) echo fn=test_canary_overflow fo=0x14 >/proc/kstackwatch
++	   echo test1 >/proc/kstackwatch_test
++	   ;;
++	2) echo fn=test_recursive_depth fo=0x2f dp=3 wl=8 so=0 >/proc/kstackwatch
++	   echo test2 >/proc/kstackwatch_test
++	   ;;
++	3) echo fn=test_mthread_victim fo=0x4c so=64 wl=8 >/proc/kstackwatch
++	   echo test3 >/proc/kstackwatch_test
++	   ;;
++	4) echo fn=test_mthread_victim fo=0x4c so=64 wl=8 >/proc/kstackwatch
++	   echo test4 >/proc/kstackwatch_test
++	   ;;
++	5) echo fn=test_mthread_buggy fo=0x16 so=0x100 wl=8 >/proc/kstackwatch
++	   echo test5 >/proc/kstackwatch_test
++	   ;;
++	*) usage
++	   exit 1 ;;
++	esac
++	# Reset watch after test
++	echo >/proc/kstackwatch
 +}
 +
-+static void test_mthread_victim(int thread_id, int seq_id, u64 start_ns)
-+{
-+	ulong buf[BUFFER_SIZE];
++# Check root and module
++[ "$EUID" -ne 0 ] && echo "Run as root" && exit 1
++for f in /proc/kstackwatch /proc/kstackwatch_test; do
++	[ ! -f "$f" ] && echo "$f not found" && exit 1
++done
 +
-+	for (int j = 0; j < BUFFER_SIZE; j++)
-+		buf[j] = 0xdeadbeef + seq_id;
-+	if (start_ns)
-+		silent_wait_us(start_ns, VICTIM_MINIOR_WAIT_NS);
-+
-+	for (int j = 0; j < BUFFER_SIZE; j++) {
-+		if (buf[j] != (0xdeadbeef + seq_id)) {
-+			pr_warn("victim[%d][%d]: unhappy buf[%d]=0x%lx\n",
-+				thread_id, seq_id, j, buf[j]);
-+			return;
-+		}
-+	}
-+
-+	pr_info("victim[%d][%d]: happy\n", thread_id, seq_id);
-+}
-+
-+static int test_mthread_corrupting(void *data)
-+{
-+	struct work_node *node;
-+	int fence_size;
-+
-+	while (!kthread_should_stop()) {
-+		if (!wait_for_completion_timeout(&work_res, HZ))
-+			continue;
-+		while (true) {
-+			mutex_lock(&work_mutex);
-+			node = list_first_entry_or_null(&work_list,
-+							struct work_node, list);
-+			if (node)
-+				list_del(&node->list);
-+			mutex_unlock(&work_mutex);
-+
-+			if (!node)
-+				break; /* no more nodes, exit inner loop */
-+			silent_wait_us(node->start_ns,
-+				       CORRUPTING_MINIOR_WAIT_NS);
-+
-+			fence_size = READ_ONCE(global_fence_size);
-+			for (int i = fence_size; i < BUFFER_SIZE - fence_size;
-+			     i++)
-+				node->ptr[i] = 0xabcdabcd;
-+
-+			complete(&node->done);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int test_mthread_worker(void *data)
-+{
-+	int thread_id = (long)data;
-+	int loop_count;
-+	struct work_node *node;
-+
-+	loop_count = READ_ONCE(global_loop_count);
-+
-+	for (int i = 0; i < loop_count; i++) {
-+		node = test_mthread_buggy(thread_id, i);
-+
-+		if (node)
-+			test_mthread_victim(thread_id, i, node->start_ns);
-+		else
-+			test_mthread_victim(thread_id, i, 0);
-+		if (node) {
-+			wait_for_completion(&node->done);
-+			kfree(node);
-+		}
-+	}
-+	return 0;
-+}
-+
-+static void test_mthread_case(int num_workers, int loop_count, int fence_size)
-+{
-+	static struct task_struct *corrupting;
-+	static struct task_struct **workers;
-+
-+	WRITE_ONCE(global_loop_count, loop_count);
-+	WRITE_ONCE(global_fence_size, fence_size);
-+
-+	init_completion(&work_res);
-+	workers = kmalloc_array(num_workers, sizeof(void *), GFP_KERNEL);
-+	memset(workers, 0, sizeof(struct task_struct *) * num_workers);
-+
-+	corrupting = kthread_run(test_mthread_corrupting, NULL, "corrupting");
-+	if (IS_ERR(corrupting)) {
-+		pr_err("failed to create corrupting thread\n");
-+		return;
-+	}
-+
-+	for (ulong i = 0; i < num_workers; i++) {
-+		workers[i] = kthread_run(test_mthread_worker, (void *)i,
-+					 "worker_%ld", i);
-+		if (IS_ERR(workers[i])) {
-+			pr_err("failto create worker thread %ld", i);
-+			workers[i] = NULL;
-+		}
-+	}
-+
-+	for (ulong i = 0; i < num_workers; i++) {
-+		if (workers[i] && workers[i]->__state != TASK_DEAD) {
-+			usleep_range(1000, 2000);
-+			i--;
-+		}
-+	}
-+	kfree(workers);
-+
-+	if (corrupting && !IS_ERR(corrupting)) {
-+		kthread_stop(corrupting);
-+		corrupting = NULL;
-+	}
-+}
-+
- static ssize_t test_proc_write(struct file *file, const char __user *buffer,
- 			       size_t count, loff_t *pos)
- {
-@@ -100,6 +262,15 @@ static ssize_t test_proc_write(struct file *file, const char __user *buffer,
- 		case 2:
- 			test_recursive_depth(0);
- 			break;
-+		case 3:
-+			test_mthread_case(1, 20, BUFFER_SIZE / 4);
-+			break;
-+		case 4:
-+			test_mthread_case(20, 1, BUFFER_SIZE / 4);
-+			break;
-+		case 5:
-+			test_mthread_case(1, 1, -3);
-+			break;
- 		default:
- 			pr_err("Unknown test number %d\n", test_num);
- 			return -EINVAL;
-@@ -121,7 +292,10 @@ static ssize_t test_proc_read(struct file *file, char __user *buffer,
- 				    "echo test{i} > /proc/kstackwatch_test\n"
- 				    " test0 - test watch fire\n"
- 				    " test1 - test canary overflow\n"
--				    " test2 - test recursive func\n";
-+				    " test2 - test recursive func\n"
-+				    " test3 - test silent corruption\n"
-+				    " test4 - test multiple silent corruption\n"
-+				    " test5 - test prologue corruption\n";
- 
- 	return simple_read_from_buffer(buffer, count, pos, usage,
- 				       strlen(usage));
++# Run
++[ -z "$1" ] && { usage; exit 0; }
++run_test "$1"
 -- 
 2.43.0
 
