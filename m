@@ -1,129 +1,89 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D70F522F;
-	Wed, 24 Sep 2025 05:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EF31A9FB4
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 05:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758690316; cv=none; b=IF1IHYCCSG/gyd8rbAC+wemtKkg0XuD6yQ2R7m8e+0QqJx3f7DnMjOaFdqL0tKRvnBCKW+bzwoMxy8v9mZyTU5rXR/dT7nDIFyWybk1gzGyt9aPZd2afOc9amk2MAQ6Nc5TZ9UUosidW2Wlh7IlaaEARQTzQdAQHjMjAZ8Mdqc4=
+	t=1758691221; cv=none; b=N/d4rXV8w4mscjtet0ytYf2Dwx1+61tiepN7LngMxi7YOZMaAKkxvHlt8BxF0cEnHKv7tsty9IiDqfdcnycNRModYZJ+w7tkxT6ZuRAP641ylzCnm6R0JvKxV0BrvAFg34wHgtIyjkEgI2fUpjsfmzd9zQeTiiVzIJbMlOlnAck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758690316; c=relaxed/simple;
-	bh=sLmhtRQP7GQDhCWl7UZ6oi03sg5FgjiKwA6kol8YD7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z1MWLghvZ1XmBj9Vs+ETSdikCOOSarYONokYHkDEQK6DTWEGItIcL5gRGXWZgzQnP1ix1ktUhGl2V5eQLBER1G2sP2/TyrEXHcVm9RoTpxdB9CI3hvInXYPcyOrCYJO+e7JpwyAJTOh/qMxygMX6x+EW8EJXiJgJ0EcelkryqWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rnkriZIn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1758691221; c=relaxed/simple;
+	bh=bkPNPHg5wn+CVYmGCoUuNHLV7A1kmCwF1w7iFA4I5Rw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oWVJst9cLJIEM28pl4K9p6FZ4FVXP1N9aXTu6qqOoPme2Ew3y4IkLMgxxesR5inkMz+X4tu67DQwj6kVUtQTPqwMuzTf4D/kNXKT3OEVPaJSRoMH5H8Ppbulwd2cTn4FIbWfkn4r31RFKtYMI+aa0SFwfz3U6ZLw0IVo+yG8jD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcs8LDJ7; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rnkriZIn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=urtHR0z1VzQlpKReQ1o/C+ijhSas54nWI+6GsBrYqFI=; b=rnkriZIn+Ras1aPuOvTzZYKsBN
-	vcBukWawVPPq6CSWVED5o56MVfKkMi/XW9rrxvzq7irLKtX2AzEBE12JKIiEhOVxJmUiFJaJjy5uv
-	kGTnVYUsvVJGhqbyYIBoweRx0flsDHIlAst9/nqIZnlw9lQJEeslkcbz6Y2G0HjBoUjKHFwgBL1jK
-	MGvwvnFG+Zl7y49wTfGHPQGwP+aM1lNjUQJZIXQFUFRRyhxTfRsqgy83UKIKhfm1sotPzTkRdkcLN
-	fncQcKwmBMp4IFw2rPx36xRdBvaP3Gmz76LRI28UYcjeLrDgPzdvLcjtAct2KqO/86tzFdGGcVfvV
-	3TZ1Owcw==;
-Received: from [50.53.25.54] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1Hgo-0000000FXuv-2XtN;
-	Wed, 24 Sep 2025 05:05:14 +0000
-Message-ID: <4d5757ff-5d63-4bb2-84e9-fb5618a696b3@infradead.org>
-Date: Tue, 23 Sep 2025 22:05:14 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcs8LDJ7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758691220; x=1790227220;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bkPNPHg5wn+CVYmGCoUuNHLV7A1kmCwF1w7iFA4I5Rw=;
+  b=gcs8LDJ7RozhHaPTCKotoerk6YPHN47GHZDjAlu8Aouz1mUAs0hB/rUI
+   +0gOSZ3/GdCDoNnID9SgtNKTs6+irV2b+hBYbIItY3yzxThPpRj4ClHpI
+   w+CAuecvLsKN530NYH/EoW6k8v2GmjJUExJ1LQJ95YEd7b+x2FoSkPjg0
+   8a0XaI+8cEiN0iKegxK+KRR6yg/D1TBiZld7bNv2VDaR4zUqsjPPoK25L
+   LfaZYR07I686nXE9T1jxqBScyYwDjRgrOdlTMsSzuTzCRktOwcx+6Wmiy
+   4BQIyOkvmzbT3J1n+q5WRMg2hIcqw6xVo1ado303KJEjRcWCZ4Zd+tTmL
+   g==;
+X-CSE-ConnectionGUID: QLVaodTmROmmqaJq3F8ulQ==
+X-CSE-MsgGUID: ncWKxeL8QRWvwnruTI/8zQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60870554"
+X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
+   d="scan'208";a="60870554"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 22:20:19 -0700
+X-CSE-ConnectionGUID: 3Q2emHnYT1218jGsX9qw4Q==
+X-CSE-MsgGUID: liqkk8K6ShKEXfJYjPwcKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
+   d="scan'208";a="176064200"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa006.jf.intel.com with ESMTP; 23 Sep 2025 22:20:17 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v1HvL-000000004PB-0vKi;
+	Wed, 24 Sep 2025 05:20:15 +0000
+Date: Wed, 24 Sep 2025 07:19:39 +0200
+From: kernel test robot <lkp@intel.com>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-doc@vger.kernel.org
+Subject: [robh:for-next 69/71] htmldocs: Warning:
+ Documentation/devicetree/bindings/media/mediatek-mdp.txt references a file
+ that doesn't exist: Documentation/devicetree/bindings/media/mediatek-vpu.txt
+Message-ID: <202509240722.Mo8pMeFA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] tools/docs: sphinx-build-wrapper: fix compat with
- recent Tumbleweed
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org
-References: <cover.1758539031.git.mchehab+huawei@kernel.org>
- <8917f862e0b8484c68408c274129c9f37a7aefb4.1758539031.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <8917f862e0b8484c68408c274129c9f37a7aefb4.1758539031.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Mauro,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+head:   8682e2221ee075c28a63071e03be66d3bd2df5e6
+commit: 7614aef620a93e3e113fff27dd4760b0e56f88b3 [69/71] dt-bindings: media: Convert MediaTek mt8173-vpu bindings to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20250924/202509240722.Mo8pMeFA-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509240722.Mo8pMeFA-lkp@intel.com/
 
-On 9/22/25 4:27 AM, Mauro Carvalho Chehab wrote:
-> On recent versions of openSUSE Tumbleweed, sphinx-buildis is no longer
-> a Python script, but something else. Such change is due to how
-> it now handles alternatives:
-> 
->      https://en.opensuse.org/openSUSE:Migrating_to_libalternatives_with_alts
-> 
-> The most common approach that distros use for alternatives is via
-> symlinks:
-> 
->      lrwxrwxrwx 1 root root 22 out 31  2024 /usr/bin/java -> /etc/alternatives/java
->      lrwxrwxrwx 1 root root 37 mar  5  2025 /etc/alternatives/java -> /usr/lib/jvm/java-21-openjdk/bin/java
-> 
-> With such approach, one can sun the script with either:
-> 
->      <sphinx>
->      python3 <script>
-> 
-> However, openSUSE's implementation uses an ELF binary (/usr/bin/alts),
-> which breaks the latter format.
-> 
-> It is needed to allow users to specify the Python version to be
-> used while building docs, as some distros like Leap 15.x are
-> shipped with:
-> 
-> - older, unsupported python3/python3-sphinx packages;
-> - more modern python3xx/python3xx-sphinx packages that work
->    properly.
-> 
-> On such distros, building docs require running make with:
-> 
->      make PYTHON3=python3.11 htmldocs
-> 
-> Heh, even on more moderen distros where python3-sphinx
-> is supported, one may still want to use a newer package,
-> for instance, due to performance issues, as:
-> 
->      - with Python < 3.11, kernel-doc is 3 times slower;
->      - while building htmldocs with Python 3.13/Sphinx 8.x
->        takes about 3 minutes on a modern machine, using
->        Sphinx < 8.0 can take up to 16 minutes to build docs
->        (7.x are the worse ones and require lots of RAM).
-> 
-> So, even with not too old distros, one still may want to use
-> for instance PYTHON3=python3.11.
-> 
-> To acommodate using PYTHON3 without breaking on Tumbleweed,
-> add a workaround that will only use:
-> 
->      $(PYTHON3) sphinx-build
-> 
-> if PYTHON3 env var is not default.
-> 
-> While here, drop the special check for venv, as, with venv,
-> we can just call sphinx-build directly without any extra
-> checks.
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Link: https://lore.kernel.org/all/883df949-0281-4a39-8745-bcdcce3a5594@infradead.org/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   tools/docs/sphinx-build-wrapper | 25 ++++++++++++++++++++++---
->   1 file changed, 22 insertions(+), 3 deletions(-)
+All warnings (new ones prefixed by >>):
 
-Works for me. Thanks.
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+>> Warning: Documentation/devicetree/bindings/media/mediatek-mdp.txt references a file that doesn't exist: Documentation/devicetree/bindings/media/mediatek-vpu.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/trace/rv/da_monitor_instrumentation.rst references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
