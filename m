@@ -1,253 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FB215624D;
-	Wed, 24 Sep 2025 09:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D062DF71F
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 10:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758707748; cv=none; b=GpcG2sHHmESDZzMd3TEhf/QSH8Exr4pnvZ6LkBBP9J6ixSC849GvaRtibP4ySyYVAjmuXNkVvA9B7aJeP6pjt93UulCKQy/3Ste5yIeTfbn0hyAje8QP8Gqcx1Q/6iJMldSQvH1TZUuMqxGpsitMK0mtVK9eeihnb9hEH9Hgkck=
+	t=1758710391; cv=none; b=Ge3r8UHlDP7LsaerUDJI/gt/wWT0ewXW71Sg6WY+o78o8ZCuU8MXDX/xdaX6if7u6DDQCABVUudzCW6zGXHNSg9JCMjWgEKERtUR6ldyox9HaifomGv5B3cGFDS9Gye/WI+dlSNr0WxTtNvYQ1xoHNyiQqLCfZzfglayDyFNoDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758707748; c=relaxed/simple;
-	bh=UUAu91fqE7Xy+Ic5qqO/lBwhANClBj2Kose+b7QgGXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B9B29jlnhjbk13HFraqNR8cjPUDDvCH/rNnx+8RgHLSp2pFaTPA3x8VYJjUN86GGCMvsKkVP4aUWneKDKpVb0O3m7jVdu0oNvsSGzXS9Jh+r1Tv/lfFV5ZkD9rSn1DiKts7z+PCBfjNEz6ibrrZH6B/ZNeGmBUv9BVSz8D6c4PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WiAxhADm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758710391; c=relaxed/simple;
+	bh=RD2bDCnokvBr2io7nj34I0+bX53THU9utJYuo/5mwBU=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=cm+qiH/mvGu61K8EfZRN2Hg86g68cWHx642BuAwI9rVMpUwePd14JYF/QeQtSYf4Dn/K77iXn9lforxuafnvPcmmypujdirWXzP9wrkHQCurK+XnSOL8+k10AIYLPaxgf/aaVed1LqHLyEHvKrSAzGtOvtmG0QtvxqaIc1ulPRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jTJFJBDD; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WiAxhADm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E06BC113CF;
-	Wed, 24 Sep 2025 09:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758707747;
-	bh=UUAu91fqE7Xy+Ic5qqO/lBwhANClBj2Kose+b7QgGXU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WiAxhADmRH5h6BxFh77wdClx1nAYWa2Jdr+NzS98WMD5E0pWckUTqUCJHkAsnSvWK
-	 jHp6NnXGexxytU1U2mnWEHGKGoZJYq7no7w4nOUuLgoUldL6PnuF5u2MHEM/LYRew/
-	 M99S0zbiwkaNf/1C6ZDqlrXbxuUKsj69kKzzNvA9ZbXHU0ahY21SZyE14a+bOjae5D
-	 HvQKalVI6+KW+UHPMVw0oloHL5UqGmHJqYcO0bjuJbngBVwQQjOZFr6M/hUAONlXsy
-	 iGXy6fPeY3EUWicIubcS2wDHQzfF0HyaoLXgciU3iPtmqufBuCOOMvD9x7LnZy50Jw
-	 BYdsF9jQF7Hng==
-Date: Wed, 24 Sep 2025 11:55:43 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 0/1] sphinx-build-wrapper: add support for skipping
- sphinx-build
-Message-ID: <20250924115543.49433321@foz.lan>
-In-Reply-To: <e76e4f31-dc95-4d79-a922-7f7d1b68417f@gmail.com>
-References: <cover.1758444913.git.mchehab+huawei@kernel.org>
-	<f31c2169-cd0e-438a-9e59-d6ebd8eaea6e@gmail.com>
-	<20250922142330.7a654919@foz.lan>
-	<e76e4f31-dc95-4d79-a922-7f7d1b68417f@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jTJFJBDD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758710383;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hF4kiLf7HaqY1/LkvQINP3t8+3I60jrbQmSIFL8i6mM=;
+	b=jTJFJBDDmyyW/SLfPm9FG2f9l1flp9QbVGuAN1TODAI6Jx6g0hlJzYRd0NT8VogXzXrwRF
+	NOB19vqRswVXP5qzXVdQZ3ZYkNOxMt2tskpM4kp4uZyJLrVFgFux1KGH5/VtsWAi5FZqxp
+	iSe0EwN90JRK7bOpZMaUxiAoZMOzEzM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-586-8jgRHihsNYSXYhc0c7zGRA-1; Wed,
+ 24 Sep 2025 06:39:39 -0400
+X-MC-Unique: 8jgRHihsNYSXYhc0c7zGRA-1
+X-Mimecast-MFC-AGG-ID: 8jgRHihsNYSXYhc0c7zGRA_1758710378
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 962B31800366;
+	Wed, 24 Sep 2025 10:39:35 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.155])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7862419560B1;
+	Wed, 24 Sep 2025 10:39:30 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20250922124137.5266-1-bagasdotme@gmail.com>
+References: <20250922124137.5266-1-bagasdotme@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: dhowells@redhat.com,
+    Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+    Linux Documentation <linux-doc@vger.kernel.org>,
+    Linux Networking <netdev@vger.kernel.org>,
+    Linux AFS <linux-afs@lists.infradead.org>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+    Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH net-next RESEND] Documentation: rxrpc: Demote three sections
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <721546.1758710369.1@warthog.procyon.org.uk>
+Date: Wed, 24 Sep 2025 11:39:29 +0100
+Message-ID: <721547.1758710369@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Em Wed, 24 Sep 2025 16:03:59 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-> On Mon, 22 Sep 2025 14:23:30 +0200, Mauro Carvalho Chehab wrote:
-> > Em Mon, 22 Sep 2025 20:30:40 +0900
-> > Akira Yokosawa <akiyks@gmail.com> escreveu:
-> >   
-> >> On Sun, 21 Sep 2025 11:13:24 +0200, Mauro Carvalho Chehab wrote:  
-> >>> Hi Jon,
-> >>>
-> >>> This patch adds support for not running sphinx-build at the wrapper
-> >>> tool. It was requested by Akira, who wanted to be able to ignore
-> >>> Sphinx errors during latex build and still try to build PDF.    
-> >>
-> >> Thank you for trying to figure out my intention.
-> >> However, you failed to see the point.
-> >>  
-> >>>
-> >>> This patch is against docs/build-script and applies after the 3 patch
-> >>> series I sent yesterday:
-> >>>
-> >>>     https://lore.kernel.org/linux-doc/cover.1758361087.git.mchehab+huawei@kernel.org/
-> >>>
-> >>>
-> >>> While Akira's original intention is to have pdfdocs target depend on
-> >>> latexdocs, IMO, this is overkill, as probably only Akira and a couple
-> >>> of other developers might want to have such behavior.    
-> >>
-> >> I think it is only you who don't want such behavior.  
-> > 
-> > Whom else wants to use "make -i" to skip failed latexdocs build and
-> > still do pdf builds? For what reason?  
+> Three sections ("Socket Options", "Security", and "Example Client Usage")
+> use title headings, which increase number of entries in the networking
+> docs toctree by three, and also make the rest of sections headed under
+> "Example Client Usage".
 > 
-> Hmm, looks like you were suffered from context mismatch.
+> Demote these sections back to section headings.
 > 
-> My message you tried to understand (archived at:
-> 
->     https://lore.kernel.org/5031e0c4-f17e-41b8-8955-959989e797f2@gmail.com/
-> 
-> ) started this way:
-> 
->     Hi, (just got v8, but sending anyway ...),
-> 
-> , and the message assumed the "make pdfdocs" behavior of v7.
-> 
-> At the time, I thought it was what you had intended and it looked as though
-> you wanted latexmk/xelatex to continue running as much as possible ignoring
-> any intermediate errors.
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-No, this was a bug, as I answered you already and sent the fix:
-if sphinx-build fails, the script shall bail out.
+Acked-by: David Howells <dhowells@redhat.com>
 
-> You have since fixed the missed exception handling at the latexdocs phase,
-> but your rapid respins of this series simply overwhelmed me and I have
-> failed to see "make pdfdocs" now gives up at latexdocs error.
-> 
-> My intention of mentioning GNU Make's options of -i, -k, etc. in the message
-> was to show you that the make--sub-make scheme is so flexible and it can
-> even emulate the buggy behavior of then sphinx-build-wrapper.
-> 
-> In normal cases, I won't use any of those options.
-> But as a human developer, I sometimes use them when I observe build errors
-> somewhere in "make pdfdocs".
-...
-> >> All I want is to restore the current behavior, without any need to
-> >> use such an ad-hoc script.  
-> > 
-> > Huh?
-> > 
-> > You said you want to be able to do just the reverse: to ignore
-> > failures at latex build ("make -i").  
-> 
-> No, as I said above, I don't want it in most cases.
-> But in rare occasions, I might want it.  That depends on the situation
-> at hand.
-
-There is exactly the usecase where running directly via makefile
-may not be enough, as you may want to play with different scenarios.
-
-On such cases, you'll be better served by calling the script directly, 
-as it provides more flexibility without requiring to pass parameters via
-env vars nor nor enable/disable different venvs to test with different
-versions of docutils/spinx packages.
-
-On an hypothetical scenario where pdfdocs is not working fine, calling
-the script directly allows to easily test different scenarios, and it is
-faster, as you won't do anything else but running directly the doc build
-logic:
-
-	# equivalent to "make pdfdocs":
-	# build tex. If sphinx-build succeeds, build pdf for each tex
-	./tools/docs/sphinx-build-wrapper pdfdocs
-
-	# equivalent to "make latexdocs"
-	./tools/docs/sphinx-build-wrapper latexdocs
-
-	# generate latex with Sphinx 3.4.3 in verbose mode
-	# equivalent to:
-	#	. Sphinx_3.4.3/bin/activate
-	#	make V=1 latexdocs
-	#	deactivate
-	./tools/docs/sphinx-build-wrapper latexdocs -V Sphinx_3.4.3 -v
-
-	# build only translations.tex with Sphinx 5.2.0 in verbose mode
-	./tools/docs/sphinx-build-wrapper latexdocs -V Sphinx_5.2.0 -v --sphinxdirs translations
-
-Once you're happy with the above, you could proceed with the pdf build step,
-forcing the script to skip sphinx-build step with:
-
-	# Run just PDF build step, producing a summary at the end
-	$ ./tools/docs/sphinx-build-wrapper pdfdocs  -s -v
-	...
-	Summary
-	=======
-	...
-	translations/pdf/translations.pdf: FAILED
-	...
-
-	# After building latexdocs for translations.tex and core-api.tex
-	# run the run test PDF build, producing a single line
-	# with all failures for each generated .tex file:
-	$ ./tools/docs/sphinx-build-wrapper pdfdocs  -s  --sphinxdirs translations core-api
-	...
-	Error: Can't build 1 PDF file(s): translations/pdf/translations.pdf
-
-	# Use a different variable font deny configuration directory
-	$ ./tools/docs/sphinx-build-wrapper pdfdocs  -s  --sphinxdirs translations --deny-vf ~/new-deny-vf/
-	
-> >> Furthermore, your "cleanup" is obfuscating the very fact that "pdfdocs"
-> >> needs a successful "latexdocs" stage.
-> >>
-> >> I believe Documentation/Makefile is the right place to describe it.  
-> > 
-> > If you want to propose such change, be my guest. As I said, *I* won't propose
-> > it, as IMO it is a bad idea, but if you want, feel free to submit a patch 
-> > after this one similar to:
-> > 
-> > 	-htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> > 	+htmldocs mandocs infodocs texinfodocs latexdocs epubdocs xmldocs linkcheckdocs:
-> > 	+
-> > 	+pdfdocs: latexdocs
-> > 	+        +$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ -s \
-> > 	+                --sphinxdirs="$(SPHINXDIRS)" \
-> > 	+                --builddir="$(BUILDDIR)" --deny-vf=$(FONTS_CONF_DENY_VF) \
-> > 	+                --paper=$(PAPER)
-> > 
-> > and let's discuss its pros/cons in separate.  
-> 
-> OK. This looks like the way forward to me.
-> 
-> I'll prepare a patch (set) and submit it after v6.18-rc1.
-
-Ok, but as I said, IMO we're better served running the script
-directly while debugging issues.
-
-> In the meantime, I think we might be better off if we could root-cause
-> the "latexmk bug" you repeatedly claimed you had observed, without providing
-> any steps to reproduce.
-
-This is on my todo list. 
-
-With regards to the steps to reproduce you need to remove this from make:
-
-	|| sh $(srctree)/scripts/check-variable-fonts.sh || exit
-
-to ensure that errors will be handled by make.
-
-As we depend on error handling logic, it means that you may need to build docs
-with different configurations, different types of latex errors produced by
-sphinx-build, and test with different versions of docutils, sphinx, xelatex and
-latexmk, and hope to have a .tex file that has errors but still generate .pdf. 
-
-Getting such issues is time consuming and it needs a certain amount of luck
-to catch it, as you depend on changes at the *.rst files that will produce
-a .tex file with the exact amount of spicy to produce such behavior.
-
-With me, it only happens when I don't want it to happen ;-)
-
--
-
-Another option would be to try to manually generate a defective *.tex file
-that doesn't produce a critical error but still generates a.pdf output when
-xelatex is called by hand.
-
-Anyway, this requires a calm week where you don't have anything else
-to do, and you're prepared to waste several hours trying to pick the
-hot spot on away that it would be reproducible by others.
-
-So, this has low priority.
-
-> Let me continue in another thread.
-> It would be far more interesting for me to (try to) figure out what you
-> had observed.
-> 
-> Thanks,
-> Akira
-> 
-
-
-
-Thanks,
-Mauro
