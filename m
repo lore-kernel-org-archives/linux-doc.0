@@ -1,90 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4C617C21B;
-	Wed, 24 Sep 2025 01:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416D1218596
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 02:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758676601; cv=none; b=i2h52M6e+ZLQL2PD+r9b+jYcmNaEsgHHYaxTSjZJuMsESXn2z4qMUXK0VVEu00tFSzoxk7peTHxVc0h6dRvSSTcXXJw7ggJCqpPGn0mJ2g52/tm8rHUtmEvKfwoA3EjNyEPdOxnbMkftR9bz7XhWNfHOQ+UORrcGvMbpoDSsQzU=
+	t=1758679604; cv=none; b=sqBE5BJq6V4y+dONjEj7nhsT5jQFcuvSogJWYNff0TYBXGqixsAp0eY8t2egiVc2SyUKjharheBp7R1aM8/rtrFt8zAXRweTvHrwKFJ3Pbv4EDfnJwJHseVRuBfmzcmzBvpnSg3e2B3akGtiH7Q8n5mN9QHJj+s3pmththCJpQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758676601; c=relaxed/simple;
-	bh=8ePn7JLIUJhkEG1cge46lu2Tibuofo60ASXiwv4beHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VXeMvYd1q33W6Z/N5+Qski7QfAeevyvbtlHidN40gR6uPu670eQK7VqZ1SeiCSWjb+NgPKj7l/pnaklZOdaUq5bnKEPJNkstxAmldt3vb1MYZ8MIpaMTYkR0b4Dgg1HcTtBpTmDZH1RiN4OAdjLYr1kv4N3J5eM39SeITXeCrNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pgUSeSfy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758679604; c=relaxed/simple;
+	bh=zKlZGWoOmkq/pBFpjZDZhK0vM9ul0Y8n1dGY0HTd8EM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bpP3x1Ew1eliv7Zo1snhli47g/pFO48K3KaFTRuVhubXvxB7K5QlYHxDSdrDr29Y9U14KCrFBwHF+MUTDoWNrKBIAjxp8RmFbCaWYLHP1OIypRl0BFAx6IE7bMHHr2vGc8J+8dylMYdToGaDw86+ALxemEjekLBF1hg7pXQTIQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H7NFvb7/; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pgUSeSfy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20FFAC4CEF5;
-	Wed, 24 Sep 2025 01:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758676601;
-	bh=8ePn7JLIUJhkEG1cge46lu2Tibuofo60ASXiwv4beHc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pgUSeSfy4qTNW1wzGNQ7A1uIyj4oHbxQMPINBfaiGF7/SAWYKc0yBGSInBGo8JYYW
-	 orpOLNMItg3EenItCqQOiYmFzkk68nvMvY6a9bMP+qwIOGdjRlmX8QGPbikVHCHyb0
-	 yBhmhgmIFNqxCC6VXHRS7AbgtAgr3A71i6z0cTaoa1wRLjuHHhwcrySVyen6ZFf2gM
-	 jb6kRLTYmr5uUJ0XVrM4NLRS8Lx/bkelQma+ZtDqspkvtQB360ic8yE9DztK94obfL
-	 LMUPu4nEyltMFjId7HOmYQ5yENY8IUbAlWDDnZ8+aPigzyMzlYDUdiWHhBQ7F4vNFT
-	 66anFEe6NvLqw==
-Date: Tue, 23 Sep 2025 18:16:39 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Dong Yibo <dong100@mucse.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, gur.stavi@huawei.com,
- maddy@linux.ibm.com, mpe@ellerman.id.au, danishanwar@ti.com, lee@trager.us,
- gongfan1@huawei.com, lorenzo@kernel.org, geert+renesas@glider.be,
- Parthiban.Veerasooran@microchip.com, lukas.bulwahn@redhat.com,
- alexanderduyck@fb.com, richardcochran@gmail.com, kees@kernel.org,
- gustavoars@kernel.org, rdunlap@infradead.org, vadim.fedorenko@linux.dev,
- joerg@jo-so.de, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH net-next v13 5/5] net: rnpgbe: Add register_netdev
-Message-ID: <20250923181639.6755cca4@kernel.org>
-In-Reply-To: <20250922014111.225155-6-dong100@mucse.com>
-References: <20250922014111.225155-1-dong100@mucse.com>
-	<20250922014111.225155-6-dong100@mucse.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H7NFvb7/"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3307de086d8so5578688a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Sep 2025 19:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758679602; x=1759284402; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TTpEMsMEIs3fjA8nsBcCzWer07tvcAO2S5Gxt6Xbj7g=;
+        b=H7NFvb7/twYqyOncBE0BVVPwxw6fjLRta8iNaSk9Hm+QyB5LR8O8TLPwzPYa4Wgn1A
+         PgActhJGw1mgTHUeDlNiGtRYAZx7tiGnEl1F8VMhCbNrzrapXFuqkrQ6Fd1ycM2XXmM7
+         JAGSv9DK0vQYo6eTzTZ69iadX6qmgSRqprb5rFAPRs9XiG3l6W6fGE7hUeSWTg/bqHWq
+         5BvYH0Z7kFqMjv6XWvuCqcU/HSjqPvjxbG9bG8MkvQ0XoK6+sFDY7XbiRx6IrNGu/HjW
+         NJ9DtgaMmZjagePBwh9zzk1JRxPqwmqorNRd5Sw+QdBxeCz5Iv/s6MSBLRv12xzNrOgN
+         JKkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758679602; x=1759284402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TTpEMsMEIs3fjA8nsBcCzWer07tvcAO2S5Gxt6Xbj7g=;
+        b=WA92fD8tUoU4ixwYWIJ41xlJlIeDZEqHpu1DWMrXN6F8gS7BxaCzisNOmjNDeoNCZu
+         2rDabvWKCvXxTn5eAliSdee4YbGuIpfn3GUykjaA0IEGxpH5kP85T/3KU5nwuaUJX8Us
+         lObf3PuWKGn7wf/gIr3sVcdXoJzEMMhLZHSEsLWAxDFLOoFAVWqQYjyJObNhHErmu4tU
+         lOq8Nhwhb3mqc/2T+bTCKnwCgX0OVMGRxbF3jCRCKhog2ae1ftURb+94tOwWpuUfu99m
+         LkDuXCT5qPt/0/WnxlzVXev3zB+NTVuCjKzeC6lastKrD0usSlYrha0NVBoFeVSyUd9r
+         Di0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU1goa4RT4pcfQBXT019H5JMF36YbdvjAt1kpVVfx4a13mS+hcfKL2FYM42+Z4LDeXg1Iz/KGEcW20=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTb5pXAeKQ0aUtYqiBg7nGg4wAdjJRU8exoerGmcjJpW5LK+/Z
+	OiQ+UUqk3rqVWHMuthhyBJVw1EjQge4weiu7JcGrfLqoxdU6KcaKkZMq
+X-Gm-Gg: ASbGncsRg504KPLx3evvSU8i42QHMIq4dGT9Zc9r8LWYPxeqhWwUTOsPNJqJkCDNUGM
+	3IflDBpHTiY2BSuahpAQ9Ilws4syB6RauIOeAfI8g+OrqKpAH5jxX0GWr/CeKrLj1XmftUhE/4u
+	yhqsdUqLUjqLoXZbZfmMDhn51nLYk7PrM6R7TQv1bm1BxRIBpqgLJqoyXKl6IWCePj2rAfWex8B
+	khsaE5eF6hDds5YE3mTjypR/ZYpJ/UzVpW7XvUX1nNJk+l0aGSQEYrawkNZrBu8ivzKyVoXJDwV
+	yy6Th5irX9nUZJ8IuGQkHSVpIdkTxLTHeFy9Xq/cmlq/QkMsfmEM5lwidsQOvv9kGgMU4mGIC0y
+	zo+dAyR73p8ypsn39FOk0Tw==
+X-Google-Smtp-Source: AGHT+IF+tyYKZIXuXEet4Qn27ecJRbXmLmmKIAg+V0vsKXZxS07Fv8voBpsRFqNeRMVZK0GpM0AM8w==
+X-Received: by 2002:a17:90b:2e8d:b0:32e:d015:777b with SMTP id 98e67ed59e1d1-332a96fd52fmr5444528a91.18.1758679602327;
+        Tue, 23 Sep 2025 19:06:42 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd90327sm542825a91.3.2025.09.23.19.06.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 19:06:41 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 57CDA4206928; Wed, 24 Sep 2025 09:06:39 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH net-next v2 0/3] dns_resolver docs formatting cleanup
+Date: Wed, 24 Sep 2025 09:06:22 +0700
+Message-ID: <20250924020626.17073-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1013; i=bagasdotme@gmail.com; h=from:subject; bh=zKlZGWoOmkq/pBFpjZDZhK0vM9ul0Y8n1dGY0HTd8EM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmXAxPEa4J6WdkPl4VO3MDBwF/7Lj3S5qnLnWbFBwG9G +60W7p0lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCKzDRn+WWV5O6XO2La9yjnL 5OLPG/dcbRJC3572XSrc6906Xy6ghZFhzyXe6aeEl6+X0jaf1Nqa2XS8eqrX2ulPtQ3dwj5uZOb iAAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Mon, 22 Sep 2025 09:41:11 +0800 Dong Yibo wrote:
-> +static const struct mucse_hw_operations rnpgbe_hw_ops = {
-> +	.reset_hw = rnpgbe_reset,
-> +	.get_perm_mac = rnpgbe_get_permanent_mac,
-> +	.mbx_send_notify = rnpgbe_mbx_send_notify,
+Hi,
 
-Please don't add abstraction layers, you only have one set of ops right
-now call them directly. The abstractions layers make the code harder to
-follow.
+Here are reST cleanups for DNS Resolver Module documentation. The shortlog
+below should be self-explanatory.
 
-> +static netdev_tx_t rnpgbe_xmit_frame(struct sk_buff *skb,
-> +				     struct net_device *netdev)
-> +{
-> +	dev_kfree_skb_any(skb);
-> +	netdev->stats.tx_dropped++;
+Enjoy!
 
-Please add your own stats, the stats in struct net_device
-are deprecated and should not be used by new drivers.
+netdev maintainers: Given the tight timeline before 6.17 release is cut
+next week, is it still feasible to merge this series to net-next (targeting
+6.18) before it is closed, or should I repost it once net-next reopens for
+6.19?
 
->  	err = rnpgbe_init_hw(hw, board_type);
->  	if (err) {
->  		dev_err(&pdev->dev, "Init hw err %d\n", err);
->  		goto err_free_net;
->  	}
-> +	/* Step 1: Send power-up notification to firmware (no response expected)
-> +	 * This informs firmware to initialize hardware power state, but
-> +	 * firmware only acknowledges receipt without returning data. Must be
-> +	 * done before synchronization as firmware may be in low-power idle
-> +	 * state initially.
-> +	 */
-> +	err = hw->ops->mbx_send_notify(hw, true, mucse_fw_powerup);
-> +	if (err) {
+Changes since v1 [1]:
 
-Don't you have to power it down on errors later in this function?
+  * Apply proofreading suggestions (Simon, [2/3])
+  * Collect review tags (Simon)
+
+[1]: https://lore.kernel.org/linux-doc/20250922095647.38390-2-bagasdotme@gmail.com/
+
+Bagas Sanjaya (3):
+  net: dns_resolver: Use reST bullet list for features list
+  net: dns_resolver: Move dns_query() explanation out of code block
+  net: dns_resolver: Fix request-key cross-reference
+
+ Documentation/networking/dns_resolver.rst | 52 +++++++++++------------
+ 1 file changed, 25 insertions(+), 27 deletions(-)
+
+
+base-commit: 312e6f7676e63bbb9b81e5c68e580a9f776cc6f0
 -- 
-pw-bot: cr
+An old man doll... just what I always wanted! - Clara
+
