@@ -1,84 +1,169 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEC632ED27
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 18:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBEF32ED3B;
+	Wed, 24 Sep 2025 18:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758737289; cv=none; b=IO+63+bNGskYSYhwxZCvM8lL/eSfvNHa66tru+W3IfT/cX3YlGclYKxIWwf7m5BrtZoZzH68ke6LGOK96RQrBWGuEZuPZzkJbdAPcX1YMiV23w4ft/faurOmGGDyo1UU8Z1NBuZJAHgrAQZkubSlTddOM7C8FpCN2IrzahsOomM=
+	t=1758737289; cv=none; b=tweDffNOFEzZYnBSyP3uUIFMXxFntvjtuK5oQ1ZFjSozG0dqbd/xU3Qu9GMhioAtlpl9OYAxueoy0d9ly285Onlesaej3bMWGb92RNrEWOUL/XZx5jcxdr1HDiNB5gKy2OIPD5xPD9kyy/tz2zEk1jXS0Zjtsp5Q7gd3MCI4LS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758737289; c=relaxed/simple;
-	bh=WbrpXw7uGEedja6sryJIlijHjH7y3h6T6Btd6J3NpBU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GqBUJYjLn/FXj7s5UW1cVDQYbCqwnSVCjZep6cd5nI7lZ4YgaCwZQqN0+492BewGca5lmRjTXXjirk9JXXatYh2YDp6q/uCb7+oyDLBJZhzHsgP/39MfM0kAvvVM9N6lX3fVv7oJhK5JqyENbuGcMv/HzDlZxE6tfq39x/kG/UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P9Qzs41f; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	bh=y8mQUt4ubFTAVWBVPJkBIXoCbxxWsnY4tR7mdmIz2dw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VWr/2xqAHqcU+r0XXU2+EA5y09usaa/4zn0gYHGPjqoZPjWIV6Y5vNi4ubfqfY8eFsNfAGjU2jlct8pI4SgS+zc+x8HI2xFnSg/QZQoq028vLXql3OonE/zr7s5byDDTWRLDUR7mGgqfcGe85p7itgU/Olr2Q1V9vo1Eojnuu/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5ugq89D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P9Qzs41f"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-272b7bdf41fso987495ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 11:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1758737287; x=1759342087; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E114FBK/ER4h0NxFE7k/vJ0RM740rgem63GVoGqlxQY=;
-        b=P9Qzs41f4GlAS7183jz4uMCIJvODeIMvmUOmndRh6UUmC1XtwsvY3yKiHdFwpVclQN
-         aNAfs0850cw1CZolYC1NMLwj3TBgWakDt9Z0QBA6H0dPLR8k7sPYk3OVZaCfAulQojfi
-         AZo+Kgoul7689SieZwLjrBAus3emb3sSjCAk192K+IJppNxQaVcCwSG5Rf6k2eH4VJkx
-         2Tg8oZzao7V4pE75TheHddNI/2lbwF0Jxy8nzAFQV0j3tZo+elsAwigV+S5bSVKOD7TS
-         Nk7WKkt1e0ILdYeNOSYmGhQMwaagBZ70RNot6SrnjjBfNamHkZr4ChyKgWfXbY/mNVeV
-         KhDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758737287; x=1759342087;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E114FBK/ER4h0NxFE7k/vJ0RM740rgem63GVoGqlxQY=;
-        b=cnjMUO7xVvKvTXKjCDI4XrIvn5N9yjP42xFgzIarwEacLBdblD8PYCJPldds+Rqu9Y
-         9W1GXDXAI0gPwthQaNSbGMvXGfDw6U9zD0KhYayGftgGwXcDbEVsPaUjNhnNXHbTqNTP
-         MLN8xxL2kDqK8h7XqRlO3zPuZPk6GcpKorgCECNmSfovmqd5+BAmrx2dTWeEUObBI9mn
-         Icvz+VQq+wbqAVYZOvJKw1DKYBQgxdnuY23wc83NkbhgBxKEvRa5ciW6lI2iohIKbEZW
-         4kEd4XBJKyYrS1Vf+MiZosQ19qeJTfvmN3BQpwN2kIaCIZQMdJJWJ/t1xkfnS8HDHRoM
-         pF3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW4ncjXl7eHJl/CvrnxfqEyGz8RFViGvtngzf6WYpXQp2zLfHqlKx2Q9oxcQj8g5yoIyggcDsrC+cA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQECZSbt15UrMFTRLY0u4fvmVAqKLVec8qDdCr0d3IjDKh9VbL
-	Pm5LKYcw58UiCU7BHKTlHPUuP3Q33DY0uQuxv7MRmakKQeqf+zYSO9vRySFV4MkKYokdQGfZzQn
-	Z8mw6DQ==
-X-Google-Smtp-Source: AGHT+IEQILa7qWwOhEOCXJrBhALpzVM3hyQ7cpSMcpqaqrRIUDlUUT4XRCks8JQbnx6Az52uCL5tJS7hm04=
-X-Received: from plxe12.prod.google.com ([2002:a17:902:ef4c:b0:267:dbc3:f98d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e548:b0:272:1320:121f
- with SMTP id d9443c01a7336-27ed49ed435mr6197535ad.27.1758737287040; Wed, 24
- Sep 2025 11:08:07 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:07:30 -0700
-In-Reply-To: <20250909003952.10314-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5ugq89D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40352C116C6;
+	Wed, 24 Sep 2025 18:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758737289;
+	bh=y8mQUt4ubFTAVWBVPJkBIXoCbxxWsnY4tR7mdmIz2dw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=k5ugq89DFkIZmTD+MpdsVYZv2uT7V36QDH7Q6PjEktbZdu6C5rzxvWwn4vhPpBx6R
+	 dANpB7fpxZu9xI04BTXLxwSH/QfKewruITyXxQzQplMkCb++e0U1GcLVbtvl2sh2pb
+	 5P1zyyCcKDXGjRKBNwLrwfgVcxOJZVj+RA57J9IHTNik598Q3+diZgmb6Fa8AgwMpI
+	 UR3g2sU35vR9I5MBr9y52Oti4ILikQBUCY0agKsxtGQitc2cX/bpJXaoqeustSai6P
+	 /w14ciTAQGZQP3IQj2lCznMU8P+8m9PmeU8jGNuCBemrHgffj0YHzElKhVjh29iA2h
+	 /KxtrDappDyqw==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Wed, 24 Sep 2025 14:06:19 -0400
+Subject: [PATCH v3 33/38] nfsd: allow encoding a filehandle into fattr4
+ without a svc_fh
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250909003952.10314-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.0.536.g15c5d4f767-goog
-Message-ID: <175873635915.2146060.11822371958338127087.b4-ty@google.com>
-Subject: Re: [PATCH] KVM: x86: Fix hypercalls docs section number order
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux KVM <kvm@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Wanpeng Li <wanpengli@tencent.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250924-dir-deleg-v3-33-9f3af8bc5c40@kernel.org>
+References: <20250924-dir-deleg-v3-0-9f3af8bc5c40@kernel.org>
+In-Reply-To: <20250924-dir-deleg-v3-0-9f3af8bc5c40@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Chuck Lever <chuck.lever@oracle.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Steve French <sfrench@samba.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+ Bharath SM <bharathsm@microsoft.com>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Amir Goldstein <amir73il@gmail.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Paulo Alcantara <pc@manguebit.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
+ Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Carlos Maiolino <cem@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Paulo Alcantara <pc@manguebit.org>
+Cc: Rick Macklem <rick.macklem@gmail.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+ linux-doc@vger.kernel.org, netfs@lists.linux.dev, ecryptfs@vger.kernel.org, 
+ linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2682; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=y8mQUt4ubFTAVWBVPJkBIXoCbxxWsnY4tR7mdmIz2dw=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBo1DMRFMBL+ANAxN5ItGjhz42F8p5Mc2UeHG9yU
+ Wit4EpL5P+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaNQzEQAKCRAADmhBGVaC
+ FV+FEADQSdYQLXkEmAWO3LOSqlsKm339R0KT6cgxDOQrWGJZErkbBMdhPj4djM0yExQpnuvEOef
+ s2Z8xgcOKTQOXUxVDricbqkOZDclGm0dElZSQHwz5XbQLjT072t7g+K+ik39fGL5flzG2MvNg6o
+ jXZD+4GQkkdBcriP3/1psugz/kaiLc+R4OEI8NrV5Em+vYPT3GgHUS14w/IBVqJO4QAH7YFUsRA
+ dXDpvA7B6PPZRWCHbmfUwFGdVyRQSheV8FlnsNVdupcEKUWvHGN9GJeLaWrO+vPX3RYDZZ9OKgH
+ hrlazePROVsoSqb2YGhttR79VTm+ihUem+GuyS1PM/CO6wz61dvV2p0UyE2l5vxpV6e9g5q5Rro
+ Q/ObliBTbeQBSl9oluq50IFm5hbQj0uNd+BsEmniwFlKCi4v1/kT16KHKc2gRqy2SyLwSINdviT
+ dzk13dXEBOq7/ScehuvnCWG13mvRDw7LsdboScW9FXraTZ/Hh61vbhxP5YHhK/0jdBLp9gaGhWz
+ sCXmo1kdT6GeBrwagmZDT8Pbpk8UoVeEIj6K9RICqn1B4OkHrAgxyq39N+SiHZxJSTFYGSrrweH
+ rEQ0bSiXHHeRK7ycSZa1ylYIemvAJVQP6XbugW93x4R7hM4E9VE+fXNkHvxlnf0qNIaqqKkjvjz
+ VFOdITkXPU44SqQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Tue, 09 Sep 2025 07:39:52 +0700, Bagas Sanjaya wrote:
-> Commit 4180bf1b655a79 ("KVM: X86: Implement "send IPI" hypercall")
-> documents KVM_HC_SEND_IPI hypercall, yet its section number duplicates
-> KVM_HC_CLOCK_PAIRING one (which both are 6th). Fix the numbering order
-> so that the former should be 7th.
+The current fattr4 encoder requires a svc_fh in order to encode the
+filehandle. This is not available in a CB_NOTIFY callback. Add a a new
+"fhandle" field to struct nfsd4_fattr_args and copy the filehandle into
+there from the svc_fh. CB_NOTIFY will populate it via other means.
 
-Applied to kvm-x86 misc, thanks!
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+ fs/nfsd/nfs4xdr.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
-[1/1] KVM: x86: Fix hypercalls docs section number order
-      https://github.com/kvm-x86/linux/commit/86bcd23df9ce
+diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
+index 1db2bd974bfa9d899f590f4b4e869115ab73aff6..822a9d47dd88df579e4f57f04dd6737653f71c94 100644
+--- a/fs/nfsd/nfs4xdr.c
++++ b/fs/nfsd/nfs4xdr.c
+@@ -2561,7 +2561,7 @@ nfsd4_decode_compound(struct nfsd4_compoundargs *argp)
+ }
+ 
+ static __be32 nfsd4_encode_nfs_fh4(struct xdr_stream *xdr,
+-				   struct knfsd_fh *fh_handle)
++				   const struct knfsd_fh *fh_handle)
+ {
+ 	return nfsd4_encode_opaque(xdr, fh_handle->fh_raw, fh_handle->fh_size);
+ }
+@@ -2924,6 +2924,7 @@ struct nfsd4_fattr_args {
+ 	struct svc_fh		*fhp;
+ 	struct svc_export	*exp;
+ 	struct dentry		*dentry;
++	struct knfsd_fh		fhandle;
+ 	struct kstat		stat;
+ 	struct kstatfs		statfs;
+ 	struct nfs4_acl		*acl;
+@@ -3129,7 +3130,7 @@ static __be32 nfsd4_encode_fattr4_acl(struct xdr_stream *xdr,
+ static __be32 nfsd4_encode_fattr4_filehandle(struct xdr_stream *xdr,
+ 					     const struct nfsd4_fattr_args *args)
+ {
+-	return nfsd4_encode_nfs_fh4(xdr, &args->fhp->fh_handle);
++	return nfsd4_encode_nfs_fh4(xdr, &args->fhandle);
+ }
+ 
+ static __be32 nfsd4_encode_fattr4_fileid(struct xdr_stream *xdr,
+@@ -3678,19 +3679,23 @@ nfsd4_encode_fattr4(struct svc_rqst *rqstp, struct xdr_stream *xdr,
+ 		if (err)
+ 			goto out_nfserr;
+ 	}
+-	if ((attrmask[0] & (FATTR4_WORD0_FILEHANDLE | FATTR4_WORD0_FSID)) &&
+-	    !fhp) {
+-		tempfh = kmalloc(sizeof(struct svc_fh), GFP_KERNEL);
+-		status = nfserr_jukebox;
+-		if (!tempfh)
+-			goto out;
+-		fh_init(tempfh, NFS4_FHSIZE);
+-		status = fh_compose(tempfh, exp, dentry, NULL);
+-		if (status)
+-			goto out;
+-		args.fhp = tempfh;
+-	} else
+-		args.fhp = fhp;
++
++	args.fhp = fhp;
++	if ((attrmask[0] & (FATTR4_WORD0_FILEHANDLE | FATTR4_WORD0_FSID))) {
++		if (!args.fhp) {
++			tempfh = kmalloc(sizeof(struct svc_fh), GFP_KERNEL);
++			status = nfserr_jukebox;
++			if (!tempfh)
++				goto out;
++			fh_init(tempfh, NFS4_FHSIZE);
++			status = fh_compose(tempfh, exp, dentry, NULL);
++			if (status)
++				goto out;
++			args.fhp = tempfh;
++		}
++		if (args.fhp)
++			fh_copy_shallow(&args.fhandle, &args.fhp->fh_handle);
++	}
+ 
+ 	if (attrmask[0] & FATTR4_WORD0_ACL) {
+ 		err = nfsd4_get_nfs4_acl(rqstp, dentry, &args.acl);
 
---
-https://github.com/kvm-x86/linux/tree/next
+-- 
+2.51.0
+
