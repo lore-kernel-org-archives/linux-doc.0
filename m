@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1123522F;
-	Wed, 24 Sep 2025 05:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D70F522F;
+	Wed, 24 Sep 2025 05:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758690059; cv=none; b=eFrxTp1hZZYr10EvO5KZpRftyyIEKNGkhsoPZXRzrE5rNBmyj67FOjtGHkbD/uifg7goYQxRPDOJT+5QubZ6ydsL+54kIDORKuSqYGIpq5BzpFhCw9MRM8/w5a0//1QhiDNcXC5a81gYkOev1E3q9IVqO9A22u/gvlLVWa9XJJk=
+	t=1758690316; cv=none; b=IF1IHYCCSG/gyd8rbAC+wemtKkg0XuD6yQ2R7m8e+0QqJx3f7DnMjOaFdqL0tKRvnBCKW+bzwoMxy8v9mZyTU5rXR/dT7nDIFyWybk1gzGyt9aPZd2afOc9amk2MAQ6Nc5TZ9UUosidW2Wlh7IlaaEARQTzQdAQHjMjAZ8Mdqc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758690059; c=relaxed/simple;
-	bh=3rjszu95LwE1fRgsGcOebfpTkAPj0WS3Rp15mrOWNo0=;
+	s=arc-20240116; t=1758690316; c=relaxed/simple;
+	bh=sLmhtRQP7GQDhCWl7UZ6oi03sg5FgjiKwA6kol8YD7g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VP1kxDGW+OcQZQuXZ2zMgMpvI7JasRjnPUvXoMfDhVeS/zgYCK0YiupFFECPZflMNNNznal0XnvTYEgpO6I44hj0XE1YVgvxeZ2Y3jSGxpPwen5q00GIMeocMXDlZPkegktAtVPPBak+x4V1np0OghpEMAdysUAe477gtEwLs2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hbwESf0L; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=Z1MWLghvZ1XmBj9Vs+ETSdikCOOSarYONokYHkDEQK6DTWEGItIcL5gRGXWZgzQnP1ix1ktUhGl2V5eQLBER1G2sP2/TyrEXHcVm9RoTpxdB9CI3hvInXYPcyOrCYJO+e7JpwyAJTOh/qMxygMX6x+EW8EJXiJgJ0EcelkryqWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rnkriZIn; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hbwESf0L"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rnkriZIn"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=V7nPlFqhwMN0z70WSRfK8sING9u+ehvo4/FrG+GyYT0=; b=hbwESf0LT/VXAMNqIXcv777z5a
-	v9Vo4isG94dyNq/jtJAVRzM0drD1nqISA7sNa49eq+uhecER9HAMTZ9XUcKBRBaBEqfZP4KXNrQ/2
-	zjGK2+ErmoxiDQxob9oEjUkt4eupBHg2RWbJW8zrw5lvxxfOkTuSbPE7oCJdvjzz5xemo9dZrtwJ7
-	Y04Yoa8gNZHdxxibdTTGdMuKm3ZARFjo5LW2QWkI1Cg0jxzp+8Z7iS3SKm+QfX/JAGfPd9XOwTV4C
-	AFPbJ6EDVcYcietX9/YuQFKk84Jet/QSF2SPyLTIO0OWA2goTEfph2sQ8bwcze3ggq8Nnd3XnmQPU
-	KnR2TS1A==;
+	bh=urtHR0z1VzQlpKReQ1o/C+ijhSas54nWI+6GsBrYqFI=; b=rnkriZIn+Ras1aPuOvTzZYKsBN
+	vcBukWawVPPq6CSWVED5o56MVfKkMi/XW9rrxvzq7irLKtX2AzEBE12JKIiEhOVxJmUiFJaJjy5uv
+	kGTnVYUsvVJGhqbyYIBoweRx0flsDHIlAst9/nqIZnlw9lQJEeslkcbz6Y2G0HjBoUjKHFwgBL1jK
+	MGvwvnFG+Zl7y49wTfGHPQGwP+aM1lNjUQJZIXQFUFRRyhxTfRsqgy83UKIKhfm1sotPzTkRdkcLN
+	fncQcKwmBMp4IFw2rPx36xRdBvaP3Gmz76LRI28UYcjeLrDgPzdvLcjtAct2KqO/86tzFdGGcVfvV
+	3TZ1Owcw==;
 Received: from [50.53.25.54] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1Hcd-0000000FXdn-2pb0;
-	Wed, 24 Sep 2025 05:00:55 +0000
-Message-ID: <f41e4063-ac88-4444-b932-cc1c7cabbd7c@infradead.org>
-Date: Tue, 23 Sep 2025 22:00:55 -0700
+	id 1v1Hgo-0000000FXuv-2XtN;
+	Wed, 24 Sep 2025 05:05:14 +0000
+Message-ID: <4d5757ff-5d63-4bb2-84e9-fb5618a696b3@infradead.org>
+Date: Tue, 23 Sep 2025 22:05:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,75 +39,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/3] net: dns_resolver: Move dns_query()
- explanation out of code block
-To: Simon Horman <horms@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+Subject: Re: [PATCH v2 1/3] tools/docs: sphinx-build-wrapper: fix compat with
+ recent Tumbleweed
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Kees Cook <kees@kernel.org>
-References: <20250922095647.38390-2-bagasdotme@gmail.com>
- <20250922095647.38390-4-bagasdotme@gmail.com>
- <20250923101456.GI836419@horms.kernel.org>
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: linux-kernel@vger.kernel.org
+References: <cover.1758539031.git.mchehab+huawei@kernel.org>
+ <8917f862e0b8484c68408c274129c9f37a7aefb4.1758539031.git.mchehab+huawei@kernel.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250923101456.GI836419@horms.kernel.org>
+In-Reply-To: <8917f862e0b8484c68408c274129c9f37a7aefb4.1758539031.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Mauro,
 
-On 9/23/25 3:14 AM, Simon Horman wrote:
-> On Mon, Sep 22, 2025 at 04:56:47PM +0700, Bagas Sanjaya wrote:
->> Documentation for dns_query() is placed in the function's literal code
->> block snippet instead. Move it out of there.
->>
->> Fixes: 9dfe1361261b ("docs: networking: convert dns_resolver.txt to ReST")
->> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> 
-> Thanks, this renders much better. In a browser at least.Hi
-> 
-> I've added a few comments below.
-> 
->> ---
->>   Documentation/networking/dns_resolver.rst | 45 +++++++++++------------
->>   1 file changed, 22 insertions(+), 23 deletions(-)
->>
->> diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
->> index 5cec37bedf9950..329fb21d005ccd 100644
->> --- a/Documentation/networking/dns_resolver.rst
->> +++ b/Documentation/networking/dns_resolver.rst
->> @@ -64,44 +64,43 @@ before the more general line given above as the first match is the one taken::
->>   Usage
->>   =====
->>   
->> -To make use of this facility, one of the following functions that are
->> -implemented in the module can be called after doing::
->> +To make use of this facility, the appropriate header must be included first::
-> 
-> Maybe: ..., first linux/dns_resolver.h must be included.
-> 
->>   
->>   	#include <linux/dns_resolver.h>
->>   
->> -     ::
->> +Then you can make queries by calling::
-> 
-> Please use imperative mood:
-> 
-> Then queries may be made by calling::
-> 
 
-I think imperative mood would be more like:
+On 9/22/25 4:27 AM, Mauro Carvalho Chehab wrote:
+> On recent versions of openSUSE Tumbleweed, sphinx-buildis is no longer
+> a Python script, but something else. Such change is due to how
+> it now handles alternatives:
+> 
+>      https://en.opensuse.org/openSUSE:Migrating_to_libalternatives_with_alts
+> 
+> The most common approach that distros use for alternatives is via
+> symlinks:
+> 
+>      lrwxrwxrwx 1 root root 22 out 31  2024 /usr/bin/java -> /etc/alternatives/java
+>      lrwxrwxrwx 1 root root 37 mar  5  2025 /etc/alternatives/java -> /usr/lib/jvm/java-21-openjdk/bin/java
+> 
+> With such approach, one can sun the script with either:
+> 
+>      <sphinx>
+>      python3 <script>
+> 
+> However, openSUSE's implementation uses an ELF binary (/usr/bin/alts),
+> which breaks the latter format.
+> 
+> It is needed to allow users to specify the Python version to be
+> used while building docs, as some distros like Leap 15.x are
+> shipped with:
+> 
+> - older, unsupported python3/python3-sphinx packages;
+> - more modern python3xx/python3xx-sphinx packages that work
+>    properly.
+> 
+> On such distros, building docs require running make with:
+> 
+>      make PYTHON3=python3.11 htmldocs
+> 
+> Heh, even on more moderen distros where python3-sphinx
+> is supported, one may still want to use a newer package,
+> for instance, due to performance issues, as:
+> 
+>      - with Python < 3.11, kernel-doc is 3 times slower;
+>      - while building htmldocs with Python 3.13/Sphinx 8.x
+>        takes about 3 minutes on a modern machine, using
+>        Sphinx < 8.0 can take up to 16 minutes to build docs
+>        (7.x are the worse ones and require lots of RAM).
+> 
+> So, even with not too old distros, one still may want to use
+> for instance PYTHON3=python3.11.
+> 
+> To acommodate using PYTHON3 without breaking on Tumbleweed,
+> add a workaround that will only use:
+> 
+>      $(PYTHON3) sphinx-build
+> 
+> if PYTHON3 env var is not default.
+> 
+> While here, drop the special check for venv, as, with venv,
+> we can just call sphinx-build directly without any extra
+> checks.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Link: https://lore.kernel.org/all/883df949-0281-4a39-8745-bcdcce3a5594@infradead.org/
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   tools/docs/sphinx-build-wrapper | 25 ++++++++++++++++++++++---
+>   1 file changed, 22 insertions(+), 3 deletions(-)
 
-   Then make queries by calling::
+Works for me. Thanks.
 
-but I'm not asking for a v3 patch.
-
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
 -- 
 ~Randy
