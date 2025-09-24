@@ -1,95 +1,178 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from postout2.mail.lrz.de (postout2.mail.lrz.de [129.187.255.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB202DAFBA
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 14:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB9D30BF76;
+	Wed, 24 Sep 2025 15:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.187.255.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758725752; cv=none; b=po4HSi6f1TDZK/UEI7ZuLSo1eZIJ7uytuKmx2JcUEa0FiKuP6afl0nckxcETBjgyrrR9NyGOu9XlCcXsA7dM7f5Zq+nXufHDi2FpA+xjRUDEdVj2VrTL0ggUVOs6fBgbzgs/H7VKrU1dpZdKuASRXfIQld8l4FItTXnVfbjnoXE=
+	t=1758726700; cv=none; b=SqRWkjHMq5ZoxtS7VagP22Ha8gpfkmAhHyXwE4F00sdcXircsFUf50OXXup/eAdHDWQ5mIw9UfyjOeVgUTzNHkJvSsO2Xn6PE7jcPABnJ5V+gd2IIicexTNG/DmMoSFFbJF9JZYBxOSYPjrZoGt9g/lg6dWyysAveQvSrBKoe5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758725752; c=relaxed/simple;
-	bh=1bdm4ZwS+vnY4SEljyRMQtCEmwu0wpVnwkmS35goyks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yhyw0CStGbPduZxK0ELA8++Q+5D3chCJ/rAFj4rrqdTUKTaMHnN3tHzh6rn60HGyGFa++nYSgzwy61bwqfVZ/qjOsvAY3v+puSlXTek4BR5+vRgz/ykl0lQiA7d6m3bv5cJKOKUnSuy+H/yj2NUrAI7fNPDDstmlI+cm9o1kE9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pk3XV05/; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758726700; c=relaxed/simple;
+	bh=Jm4TOb5za1zdWiB64CehdYksvd0hcBd/a5OjGHq8lgs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c1RWwz8HuuOSfa5LPhl5x5+iJlSVzKgfScXHourIfTFKhsYJ3NDLdiT5oqFPzsfUOmm1QEMM5kBo5Q8iZjhZZIiyABF6rqmQSxghwUBmDEWUzpt6CPUDm3ElBQ8kWihOUKcEOqMoHfZTd+/i7o+MlKYKYAI6uI3Uwp9JKsRDPHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=campus.lmu.de; spf=pass smtp.mailfrom=campus.lmu.de; dkim=pass (2048-bit key) header.d=lmu.de header.i=@campus.lmu.de header.b=ODVVf16t; arc=none smtp.client-ip=129.187.255.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=campus.lmu.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=campus.lmu.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pk3XV05/"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-27d2c35c459so16401025ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 07:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758725750; x=1759330550; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jtg/RW/ZQ2hPIrm+uMAg0L2Wfe97VEQrXZv2YdHCE9I=;
-        b=Pk3XV05/0gZsasKG5lxzY1piM6pfZCiNjiSkFyEWgkvMDWWpBOJYPW9R/pZt/5JxuU
-         jsCN3GHXD7notX9VVHXVUtUCgNma6nnSZxEaYUTJEYnTeXux5vOxC6nMniBNapo0/rf4
-         r529bjHzHQK4FCcgTSPVQ6gf/NfNwdlCc9LdI5XSvetU2gP2NQrVu/j+B/gWImVbG6V7
-         yIeT1Wp8ZW9rzXwt7foEfDKq8IHpa4/eghupT+r1nesa+3yThnJVKubA/j+oioE0ODJm
-         GqDnI4vtC7bYTBynRMoLLwVsO7IzOKE4aH1bnEYz/XyvSW2FMRBp1FkNOExoVMUh5spI
-         mH5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758725750; x=1759330550;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jtg/RW/ZQ2hPIrm+uMAg0L2Wfe97VEQrXZv2YdHCE9I=;
-        b=RHWNyzplZJoBDwJ982J6s7DHH9WBVEn9x/DHwQgZswgH0aGx6OnLeWU9pE8yRncxRP
-         g511efuA3zNczbUR/e50rfK7dXO1eXUrP6fHOzS6hIzxGv7v2ZEdNhxPF1U3oIH54Bjp
-         M2YLeQ+cMt54CdK2xWJdLImM8QI4yuNhHXmxn2vlO/c9RVzEr5CVsKFg4i35ZgFsJJIb
-         /AyBBJLxWLtCm2+8D9pPlj6FYWnW9YqNWvk+JIpaDm+dODZ3VXahpQrR6bviummeYyku
-         YXzZKtfpn9eXZLLfCJxPg6B8AASGFc/Bom/Saify8FNW/1DKLe9regznKJsDweVPHEik
-         jE5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWVkBer0ZpVqhGPotBDlIUMNETNux2+zAZCUXK3Q01AsqCOD7jd9LoGhG44GzHDJIAX31BccitRkRQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMBNEM6C6PrUBkaByRzm2S/0xUMHE6yYeiIOprDuO6NBiuyRek
-	PuAsdjo6jyJaavqHsydCzQP1dhIrxaXj/SbgOQK+/FLcMZddIVoyHGJN
-X-Gm-Gg: ASbGncvayW4EX7a4Fhjp3Azz1+ejDAO8hlZ6PhZLFmx1zy7N1sbPega/9pA8hesVs2X
-	m2Crhz75y4DluyheLQBchMxZaIYHNz2z4HghDW/BB7f0qP3BfH1eHBJ59VIJVovsDP8lgMDs9TZ
-	TFyjz84eb5RAPJ0V0mBzQCg/m626eULkM2ROOw/PX8Y945LDBYADpQyU7bwn+Iam22zqN9U4lil
-	9XYJkvpghhWHiC51ZKKa5y8SgO3/heSGlZ9Eegbco7yuYGlunZg0+YYa5K90jmvDNjbTS0l5V6n
-	wY36bRc3dhNYpWfAphFEsmPeeEf8e7rF9D6cQsRHHtRivPZRkp0Q/Hf7m98bJOXIK3C4acYjX5L
-	rcpfWF4tPgn6lkwVaaAPo37mEHiFqtFKdbDA=
-X-Google-Smtp-Source: AGHT+IGnenyE6frrx61hpk2H1dyCzynS+vL3sXDmbZJarOVCZ/cfik7xdg7mftRkCokyhtVFgoFyZA==
-X-Received: by 2002:a17:902:c94f:b0:24c:7b94:2f87 with SMTP id d9443c01a7336-27ed49d0885mr199075ad.14.1758725750379;
-        Wed, 24 Sep 2025 07:55:50 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26980053248sm194608665ad.15.2025.09.24.07.55.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 07:55:49 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 24 Sep 2025 07:55:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: wenswang@yeah.net
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	jdelvare@suse.com, corbet@lwn.net, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hwmon: add MP2925 and MP2929 driver
-Message-ID: <360d3c4a-79ca-4482-a020-2cd477dccc54@roeck-us.net>
-References: <20250918080349.1154140-1-wenswang@yeah.net>
- <20250918080603.1154497-1-wenswang@yeah.net>
- <20250918080603.1154497-2-wenswang@yeah.net>
+	dkim=pass (2048-bit key) header.d=lmu.de header.i=@campus.lmu.de header.b="ODVVf16t"
+Received: from lxmhs52.srv.lrz.de (localhost [127.0.0.1])
+	by postout2.mail.lrz.de (Postfix) with ESMTP id 4cX0gC2JbmzyXw;
+	Wed, 24 Sep 2025 17:11:35 +0200 (CEST)
+Authentication-Results: postout.lrz.de (amavis); dkim=pass (2048-bit key)
+ reason="pass (just generated, assumed good)" header.d=lmu.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmu.de; h=
+	content-transfer-encoding:mime-version:references:in-reply-to
+	:x-mailer:message-id:date:date:subject:subject:from:from
+	:received:received; s=lm-postout21; i=@campus.lmu.de; t=
+	1758726694; bh=PniUGv6KoWbLzxsjGhaF2BGkvfN+PIVzF8ZJsy2VjBA=; b=O
+	DVVf16tZeBkXRSEs6iGwxx6zvctrHP/AC9H8er/qVLBHLuRg9EsPYFGS6Bm0q0Ko
+	xrIDIInKp/Vg9CF6EQWrcMmJyBIGN/AMaHx2eciRriASoNydsugm9L1ekQkk83Jg
+	6Db40+b9eoQdOUvkN4MCa/pjZycSZNi2aW7GXxY8Omk2+ARuVZAaYj5lTyV6TlaF
+	ygoKE/C4K7l0DOq28xRAdHrG6/BSVJwcdvaZQkrm0hWYNhxYxPoD/IEGb6RyaVUF
+	BCHdmnhCuhu53AxwYSL9MXKT/pf4IoUWmfvm7/IJRj7+osaXVq0BVKEStckCWu3u
+	nbrgR6tiUZxLTlFCEQ3Cw==
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs52.srv.lrz.de
+X-Spam-Flag: NO
+X-Spam-Score: -2.887
+X-Spam-Level:
+Received: from postout2.mail.lrz.de ([127.0.0.1])
+ by lxmhs52.srv.lrz.de (lxmhs52.srv.lrz.de [127.0.0.1]) (amavis, port 20024)
+ with LMTP id GcnblPIRe1mz; Wed, 24 Sep 2025 17:11:34 +0200 (CEST)
+Received: from spacestation.cable.virginm.net (oxfd-27-b2-v4wan-164230-cust474.vm42.cable.virginm.net [86.22.133.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by postout2.mail.lrz.de (Postfix) with ESMTPSA id 4cX0g74qG5zyY6;
+	Wed, 24 Sep 2025 17:11:31 +0200 (CEST)
+From: Patrick Roy <patrick.roy@campus.lmu.de>
+To: 
+Cc: Patrick Roy <roypat@amazon.co.uk>,
+	pbonzini@redhat.com,
+	corbet@lwn.net,
+	maz@kernel.org,
+	oliver.upton@linux.dev,
+	joey.gouly@arm.com,
+	suzuki.poulose@arm.com,
+	yuzenghui@huawei.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	luto@kernel.org,
+	peterz@infradead.org,
+	willy@infradead.org,
+	akpm@linux-foundation.org,
+	david@redhat.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	vbabka@suse.cz,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	song@kernel.org,
+	jolsa@kernel.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	martin.lau@linux.dev,
+	eddyz87@gmail.com,
+	yonghong.song@linux.dev,
+	john.fastabend@gmail.com,
+	kpsingh@kernel.org,
+	sdf@fomichev.me,
+	haoluo@google.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	shuah@kernel.org,
+	seanjc@google.com,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	xmarcalx@amazon.co.uk,
+	kalyazin@amazon.co.uk,
+	jackabt@amazon.co.uk,
+	derekmn@amazon.co.uk,
+	tabba@google.com,
+	ackerleytng@google.com
+Subject: [PATCH v7 02/12] x86/tlb: export flush_tlb_kernel_range to KVM module
+Date: Wed, 24 Sep 2025 16:10:42 +0100
+Message-ID: <20250924151101.2225820-3-patrick.roy@campus.lmu.de>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250924151101.2225820-1-patrick.roy@campus.lmu.de>
+References: <20250924151101.2225820-1-patrick.roy@campus.lmu.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250918080603.1154497-2-wenswang@yeah.net>
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 18, 2025 at 04:06:03PM +0800, wenswang@yeah.net wrote:
-> From: Wensheng Wang <wenswang@yeah.net>
-> 
-> Add support for MPS VR mp2925 and mp2929 controller. This driver exposes
-> telemetry and limit value readings and writtings.
-> 
-> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
+From: Patrick Roy <roypat@amazon.co.uk>
 
-Applied.
+After direct map removal, a TLB flush can be done to ensure that the
+just-unmapped memory cannot be accessed through stale TLB entries. This
+is particularly useful on modern hardware, where one can not rely on
+timely TLB-eviction to ensure these entries go away.
 
-Thanks,
-Guenter
+This export is only needed on x86, as arm64 (the only other architecture
+supporting guest_memfd currently) does not allow building KVM as a
+module.
+
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+---
+ arch/x86/include/asm/tlbflush.h | 3 ++-
+ arch/x86/mm/tlb.c               | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
+index 00daedfefc1b..6f57f7eb621b 100644
+--- a/arch/x86/include/asm/tlbflush.h
++++ b/arch/x86/include/asm/tlbflush.h
+@@ -317,7 +317,6 @@ extern void flush_tlb_all(void);
+ extern void flush_tlb_mm_range(struct mm_struct *mm, unsigned long start,
+ 				unsigned long end, unsigned int stride_shift,
+ 				bool freed_tables);
+-extern void flush_tlb_kernel_range(unsigned long start, unsigned long end);
+ 
+ static inline void flush_tlb_page(struct vm_area_struct *vma, unsigned long a)
+ {
+@@ -483,6 +482,8 @@ static inline void cpu_tlbstate_update_lam(unsigned long lam, u64 untag_mask)
+ #endif
+ #endif /* !MODULE */
+ 
++extern void flush_tlb_kernel_range(unsigned long start, unsigned long end);
++
+ static inline void __native_tlb_flush_global(unsigned long cr4)
+ {
+ 	native_write_cr4(cr4 ^ X86_CR4_PGE);
+diff --git a/arch/x86/mm/tlb.c b/arch/x86/mm/tlb.c
+index 39f80111e6f1..dee5018bceeb 100644
+--- a/arch/x86/mm/tlb.c
++++ b/arch/x86/mm/tlb.c
+@@ -1541,6 +1541,7 @@ void flush_tlb_kernel_range(unsigned long start, unsigned long end)
+ 
+ 	put_flush_tlb_info();
+ }
++EXPORT_SYMBOL_FOR_MODULES(flush_tlb_kernel_range, "kvm");
+ 
+ /*
+  * This can be used from process context to figure out what the value of
+-- 
+2.51.0
+
