@@ -1,103 +1,114 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD0B2FD1D5
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 12:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1611A9FA7;
+	Wed, 24 Sep 2025 14:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758718498; cv=none; b=Ad7CneXSGnS6NXa6zv6UabvMVUinpillmWUtV24VsG4WGpmIztXwKnUuBI1lN2tCrrGwgLBfhQ7mTPd+Hr8MfamaYt8wA9B2ddUoP1lh3AVHAbuXyUvhkVM8bt9dOB5zejBycuypFTVheMefsKJ+pw6fs/L70+bw2o1K6txbzpA=
+	t=1758724585; cv=none; b=mP1N2OvJpCaBKc70UX3oNtuDa93h9IISP3W2rPYrCK+rWvQg9RXQfPWzp2u7HIy+HGuC1QCZ1UyOPHmgS5YE15RxiCIDFGASHm8boJJYibC+n2LRPjDt7Y8bU1nkyjkbPD2JRrEdI9j9fz8+1ZUHrNTmaMOh6oDJhvJhe/88Vxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758718498; c=relaxed/simple;
-	bh=/h+BV5SZD7obtHJsFz12bUq2UapBcOsDzpiy6TIVFrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WJ+m9r5eF6jwwAB2LzcRflEUO4pun0Dw0LYyaj7yJEAyCIPpP+6DMlpVznIyf+oasahBoGltsfaMvQHd/aHE69Xp0uVKFt+vUNkPbT6ZpTmErfNa/5VmTC9qqwZ/RGnFr0s0mxphGcYE1sMecnU87IlVfpd6dzI4aDqoQNFwGdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ty8rWSqm; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758724585; c=relaxed/simple;
+	bh=dtMyGOLRj3HY14tPCzeUn90iQCDhGJqxqhE3t2ov7aU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=H7oe+o0hGlCZor2JhJ44f/qqNbSJ+8me/8dG/ciBpOR8tXzzHn8Hj+FOJQCaNmLl6u02xVOhxyUTDcsq3Lq5LTwVqYqLUaXorJ4rXZljz1JRQADtNymT7O/PBPC2/EEw2flU3FEqcc+DBnx1HNEC3VsC423ZNLIRAwkf3K/1mBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sU4qbKHf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ty8rWSqm"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77f22902b46so4318462b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 05:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758718496; x=1759323296; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xZjHL9JfxozniuHLv+c05c9n0ugGpAkyMCt7s6XaE3Y=;
-        b=Ty8rWSqmdgH3p2FB09aux6lR/zhKkTDN0pfiMI0kcyDD3jDqQP/nUOQ4GxwXIVpiVY
-         MjanAjFb/dZwXYlCpyTemxFIf2LWQ6SlfvGRb0f9eDlecEvmfiqnVP8t6ZsXWuR/dtli
-         zZwGJpo3QYUNJ4iYPefwe8ryyV/5/5+hSCNj6bpqL4FOUDRGbvh04GG8Vr/SOkFAaFc5
-         kZdpXWSYCFDOEdWpksWGssrJF17K0oi0B1V7y26O5roiAOEAS76iJwv0tgGaPr84uH7u
-         SazWpeYQAT8XrggM2dgKQXDk3Ff1RkZIXWKvAvehtv+ukhhlN7N8jaY98/F4/T/Y7xDL
-         vFWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758718496; x=1759323296;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xZjHL9JfxozniuHLv+c05c9n0ugGpAkyMCt7s6XaE3Y=;
-        b=uE9WkmqBjm5hmUUAPImUDTgD1QBLDXE7SCOMy1bIBDCeX/THBdIDue3bN2ReYewX3H
-         8g+EXE4yIt8hYZdEWJPBBGo1hmwU0ewMV4hvFZcSw2uYWTExIWEi5EWVfnqdXDwx0nQw
-         HsLYfXJKoAz8WnRP0KBsA34I0JtxgzkZHKpxqdIwc1ywIQjP2iq5OmloHfaFmwpvI1eL
-         UsVk1tQHfN6AU++b6z8BwiEPrsxvBbErgO7+fP4+hESvEdMSQWQHPqSem82zSJ7GcdHZ
-         9ShonJcgQ89CtOEQ+v1aesGrCN+SRsKag/KiX+CMd+h8vE2Nd7VIl3haWpeNCYUC7N3M
-         n2kA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQlhRyYnA4eXEiIf5Rq6kKcv7NiLpXkirb5wwd4rtsi+0plwxksrtgKptcRUpu+W/BGtDXr6/N04Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx79yBsjhQOmfDbec+dqS1wOvP1N5rZbtv5N3M1yfSnb+zoJ4xV
-	ttODI9pHz2anSGO6ye/m001ZPd8S8WqGd3Mmq4BKOYXW1FYm495Zhkon
-X-Gm-Gg: ASbGncvj5q+MrMSazHcGjz+geOdO743borGJzP5nGe69dGhQvIICvi/DF59sBbYwIGr
-	xNpCF0UvXakVJsimSsN2sCF3xLkI1SzFZvGEGq/fn2Fe5DOwxYmstZg36aO5JtFR4hpXuu25apx
-	vlDWWYfb6ok+44igJXvKlVrgXVrrD58mZ4koBZvK6tRxFbHrRYy05OqeMVF2iT4JqUq/LpcBZn6
-	6Lw3uQlGFIjlC0leiduZrumO0WoHH0YXwv1aLdSg8oVm6E0H+cme3EPLcJp/EGr2PDpV8dyGtKv
-	HCoKIc6r1BI8hd3SmwtHsGwbjZXUGzgR5ab4u5/2lhalUQE64eFSzuTO4JPzyrVD4+o+u/W09i4
-	Xmi/tDyQAYTX2o3vdd6mxfUFNqcxL4g==
-X-Google-Smtp-Source: AGHT+IGyGR44p/+wkNNs71UbKfXtXoZY6CV/4Rk+INIgJ/j15iDcF/I+YEMWdZ3PmvfPa1HYYhTQ8A==
-X-Received: by 2002:a05:6a00:998:b0:770:73ed:e6e8 with SMTP id d2e1a72fcca58-77f53a7a63emr7216256b3a.22.1758718496302;
-        Wed, 24 Sep 2025 05:54:56 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-780fc88c823sm13374b3a.54.2025.09.24.05.54.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 05:54:55 -0700 (PDT)
-Message-ID: <5cbca9f9-b8f5-467b-8602-3e0c927348ab@gmail.com>
-Date: Wed, 24 Sep 2025 19:54:47 +0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sU4qbKHf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F373C4CEE7;
+	Wed, 24 Sep 2025 14:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758724584;
+	bh=dtMyGOLRj3HY14tPCzeUn90iQCDhGJqxqhE3t2ov7aU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=sU4qbKHfWJn/GVEqOSKG90PR7kq8un4mmh2XnGkYWYj96nm0vP3t0kpMc9qgQDF/r
+	 Njj8+x9+98clpezx9Qbexhjiiqb9LgGf2zO7zaasjP6Aw3ZwagcAIEE8M1xw+MaWmu
+	 YUaMY0p/KqRd8zFg6n7QJyC9wlkAy1COyRWfXsjDCyXLlLAmMW+OOVMT0stiJlFThR
+	 pSjukkkFK4og3+n0QfVwwodCBFQYwRR1q0tdqFB+L5GUbegS/N6BCgBwxdv/nKP85r
+	 1KUsbDv30oxCq+omuKsOLciS1wr91DsaxnZLhDWTt7/0uf59+4ZuwoESQ7BQmcDgr0
+	 wKP3Ex22F2I6w==
+Date: Wed, 24 Sep 2025 08:36:11 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: Deepak Gupta <debug@rivosinc.com>
+cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+    Vlastimil Babka <vbabka@suse.cz>, 
+    Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+    Paul Walmsley <paul.walmsley@sifive.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+    Christian Brauner <brauner@kernel.org>, 
+    Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
+    Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+    Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
+    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+    =?ISO-8859-15?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+    Andreas Hindborg <a.hindborg@kernel.org>, 
+    Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+    Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+    linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+    richard.henderson@linaro.org, jim.shu@sifive.com, 
+    Andy Chiu <andybnac@gmail.com>, kito.cheng@sifive.com, 
+    charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com, 
+    cleger@rivosinc.com, alexghiti@rivosinc.com, samitolvanen@google.com, 
+    broonie@kernel.org, rick.p.edgecombe@intel.com, 
+    rust-for-linux@vger.kernel.org, Zong Li <zong.li@sifive.com>, 
+    David Hildenbrand <david@redhat.com>, Andy Chiu <andybnac@gmail.com>
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+In-Reply-To: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
+Message-ID: <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
+References: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] Documentation: gfs2: Consolidate GFS2 docs into its
- own subdirectory
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux GFS2 <gfs2@lists.linux.dev>, Jonathan Corbet <corbet@lwn.net>,
- Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
- Miklos Szeredi <mszeredi@redhat.com>, Jeff Layton <jlayton@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, James Morse <james.morse@arm.com>,
- Bernd Schubert <bschubert@ddn.com>, Chen Linxuan
- <chenlinxuan@uniontech.com>, Matthew Wilcox <willy@infradead.org>
-References: <20250911004416.8663-2-bagasdotme@gmail.com>
- <aNJ9yJ7XT4Pnsl9E@archie.me>
- <CAHc6FU7aGJZZzN8zhtnwDgXX9gVMh_fbi+sUpJ7tg1MWMa8XVA@mail.gmail.com>
- <aNMnSapfyfwga0Oz@archie.me>
- <CAHc6FU69a-R-u-Cr90aQMjb_75SChUa9BTSjL4AZKjuo_QVJQw@mail.gmail.com>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAHc6FU69a-R-u-Cr90aQMjb_75SChUa9BTSjL4AZKjuo_QVJQw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 9/24/25 19:17, Andreas Gruenbacher wrote:
-> On Wed, Sep 24, 2025 at 1:03 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->> OK, I will resend after 6.18-rc1 is out.
+Hi,
+
+On Thu, 31 Jul 2025, Deepak Gupta wrote:
+
+[ ... ]
+
+> vDSO related Opens (in the flux)
+> =================================
 > 
-> I have added the patch to branch for-later. There is no need to resend.
+> I am listing these opens for laying out plan and what to expect in future
+> patch sets. And of course for the sake of discussion.
 > 
 
-OK, thanks!
+[ ... ]
 
--- 
-An old man doll... just what I always wanted! - Clara
+> How many vDSOs
+> ---------------
+> Shadow stack instructions are carved out of zimop (may be operations) and if CPU
+> doesn't implement zimop, they're illegal instructions. Kernel could be running on
+> a CPU which may or may not implement zimop. And thus kernel will have to carry 2
+> different vDSOs and expose the appropriate one depending on whether CPU implements
+> zimop or not.
+
+If we merge this series without this, then when CFI is enabled in the 
+Kconfig, we'll wind up with a non-portable kernel that won't run on older 
+hardware.  We go to great lengths to enable kernel binary portability 
+across the presence or absence of other RISC-V extensions, and I think 
+these CFI extensions should be no different.
+
+So before considering this for merging, I'd like to see at least an 
+attempt to implement the dual-vDSO approach (or something equivalent) 
+where the same kernel binary with CFI enabled can run on both pre-Zimop 
+and post-Zimop hardware, with the existing userspaces that are common 
+today.
+
+thanks Deepak,
+
+- Paul
