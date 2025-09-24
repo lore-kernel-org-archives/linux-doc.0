@@ -1,91 +1,143 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35E03128D4
-	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 15:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C713B313558
+	for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 16:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758729427; cv=none; b=mQQn9cxdbJ7By42k7bzyOoq0sKXrBuEho7M9CYqxjAklqq3JgNCPFurGklDqPQU6CzGLok7038p1/Lx1TwdKT0ty8X9nkqTmhIy5LMMcsRJ2yDB9XaJCDFMsXFbTA8iwlz14885Ro6+TB4ThIJ7pQOSM6oiYUwB2ci1csURL488=
+	t=1758730691; cv=none; b=KPEByVvSDt6MmTPCqIWsEFHuCM/9AtDmMXXDdSTbkRg/Dv/PWfZvRkk/dxCOWfvn+qtY8u6/iJJd2O5soqvwTp9+/S/5Dw/dTCiNVsKDtG0HOaqAm2W8XBIXoaW0E9hOt9QdxZ1RE7AjdrID4aT1JWapNarXdHnLGRI7vgd61MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758729427; c=relaxed/simple;
-	bh=W0TpT8Re8zEvNdcOFlrSerjKhi4ru5BnujJu72RiUyo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r65xWjgxZW/boiBa+iaR7gV+HmV14X5d0uGqB1McJuA952U+1X3rmDcCOPqPUZdFGBjO+zIqbcc9QlVRGQiF+MHA8B0HQBfT6GO0UQy5K+bASi/hUqEZ3LchmYnSrQMSk2aJm8Q9MKWs3Zy6Xw/n2pBcNEjTVEm77p/UaS3xQag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7B9H7dw; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1758730691; c=relaxed/simple;
+	bh=+elp/mgEwQHUPO2/veHl6cFeD7QMzkxV3mT27B/vMe0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g8m2ou13+c99qNmI0i2wW6baPPqJDiE4e4IVbiWsqVvPDt9UBtVZ8NcN8BzNjHy1iBeQD85BXCb6XYuC79IwOG/n1D7NjkoGIBrguQlohgzgYKWRmCYH4a4E0ox3bEP3ufZhtOItk7+zrfKVND4HMOZJCbH0cHlhiOJvM1T1+sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jJ9fR/G/; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7B9H7dw"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-77f198bd8eeso3407824b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 08:57:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jJ9fR/G/"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4d41154079aso213191cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 09:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758729425; x=1759334225; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q0NQpLAHxIcZklHB5SuD326usfKg/QXFllwVnvOnGGs=;
-        b=D7B9H7dwLYDywWYpVnoKzixWI5VJvO2UIpjcFHu8Hpv1rGSx5+TmTXWHls+DtCxnsG
-         Fmw4CwVQB4gEGuQaoFyvFv2Mq0OSW3OvteCafq8mYPS8y3PupOt+wBUyEtxmQ6Zaj0rE
-         EqT0HzoXmcM4pweoG/IEJ3uVP8AjvtbleXGbi4orHsOwwKH50Qzw2xk/qJer/qajeYQi
-         ULmhH2hkyoVS/DEYUKwtD++j6swIpUn/ZpK4Nw/wPdBerBxjs1Ul4EQf73zFVRMS9Vdg
-         j2UDWm6IIArXQjs+IEPM+s9SkiGZd903DU+4sAvtqhQjg2Q44rumCl6Md6jA3MZXLRPr
-         kQJg==
+        d=gmail.com; s=20230601; t=1758730685; x=1759335485; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+elp/mgEwQHUPO2/veHl6cFeD7QMzkxV3mT27B/vMe0=;
+        b=jJ9fR/G/uQOoGU1zjzeq+kEGJH0FGPF6hyv+BRd11txZaP6jykJx7KYV+Fy89/hm3r
+         Fj1jHTTr1k3gSZ9YbnsYf7t/+Y1cgcUQRaozim9bYqDxSSoV25zr5djoCo2k+XVY+9XH
+         hZwrqWm/lkHBVgotX1/VMNfSLp5gX19VCA2QcSKMUDXlmxsoFrDA/aUnalMiOUk6S4Dm
+         ApxpBGputpqRfa7MY3pOnEuQUef0R7OKBgerb0vkMv3dzWiW0+dXhhizmvnjoU/shLfI
+         pMehbr68Tb60E0EQMTVNp25KF0WY4uOSvx5h0SUZ0kqikDM0hjKYe9piKoNpkOCmD6s4
+         fVZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758729425; x=1759334225;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1758730685; x=1759335485;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q0NQpLAHxIcZklHB5SuD326usfKg/QXFllwVnvOnGGs=;
-        b=uKZ09K3NwmL9HBvmn8MQXKXNMa5bMiO9Yo99735s7OvFahRtIX5nVvUo+OnTDdCV+z
-         q12obznPUGSFnZMsekVxIAEGuMjMDjjB76DndRKhe8XQBsbhiNK0nmbisQpX581Bi8Pc
-         2qdQJU1HZ4NVhvkAh8MxpBSiabN5awX/DeG69VgwhiIAugQyUBbWlVI09CJRRkX3Pu2g
-         afm+mN5cG+dBjTm8XuLLfoA+KOs5Dc83S4cNXa6l2YKdrAgGYnxln75OPYqDGUwm7cJN
-         BtDb4GfsxxzkhZZ6/q1DyN/LKtn+wu/ZPqFwBSi3YniLazeDxulBvbpVlzkdnUdcsAVb
-         o64w==
-X-Forwarded-Encrypted: i=1; AJvYcCWeEvj1t2lBuUetQReOJlnpZLd1bOgTNxabi8fyFh1djwJ0J9eZ85jL0f6bT9WApcd6KPpsZXrG35g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkOvXtYqXXUplMVAiAfMuraW1FtJmkv1enkTl2rw3Hgz1dJFHb
-	yF+DlHCcSSM+Vo3cajbLCVNVV6G6ZfKvW+lOqlU5rjCRE7wDjYe+3fvz52RgcsXb
-X-Gm-Gg: ASbGncu1BmryEwOfb2VPoDK+1X+2kBVM45fmZ4VASRwWwqxAgebH9bneg6l0q0KbATE
-	8nYzLG0k1MyV5GIrSU2bh+ZdB5wS55YH5pfaljce4N7gnLkEU5tiZVmg5ge3r2XeiDTw8fNxaS3
-	zYzoxvwViVHKElFCjl7V9d4xX8KnbLCjbUCAh9tXhIccz66gGt0aRT3s05inhZF3n6nZCbQ1Vme
-	J8DsjrrBH/K5lW/XznYxGG7Y739h1urBejPrNEPC2OyVf4lgdTRcnuoC3pKcM0w/iqpZfKIDepz
-	kRcqstdustmE/QJEDFbOmmig9ZrVpWGKppX/Go40WhfFbPNMsEHGDqVFyrAX836yyBaANauVd9x
-	6SvTbrBUSzT1cNtB9QBI4X8DcCWm++3N4Vks=
-X-Google-Smtp-Source: AGHT+IH2mynAyO0z3pd5SH7iz3XlqDdNIzCuXVUVABS5OUSwkQYfwep+60Yy8aTy35z0xTBi39gWAA==
-X-Received: by 2002:a05:6a21:99a5:b0:2e0:9b1a:6429 with SMTP id adf61e73a8af0-2e7c508fe00mr160845637.8.1758729424848;
-        Wed, 24 Sep 2025 08:57:04 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f0fc4cfbcsm14373088b3a.61.2025.09.24.08.57.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 08:57:04 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 24 Sep 2025 08:57:03 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Mohamad Kamal <mohamad.kamal.85@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS WIFI
-Message-ID: <bd032e11-1da8-4555-bdd7-39ed9e818650@roeck-us.net>
-References: <20250914084019.1108941-1-eugene.shalygin@gmail.com>
+        bh=+elp/mgEwQHUPO2/veHl6cFeD7QMzkxV3mT27B/vMe0=;
+        b=Fp3JoyaJsrmNq6GfTT5BYYNKHy8Stogzg+Igizf4lbF3wG5r4NW9cY6zizHuHHvBUR
+         tZ3Yb+9Nqdv8o/kpBnB3CUZJP6Px0MHRcs50iNp5Cq6MB2XO6f33iYpAJXEKLDzOhbk/
+         910rFIO6BBeIhOoNH+fP5M6JAC/CllqP02yEQko1ly2DxVcRgRbwzBqDQvjhS1Yvsq9p
+         o0d7OAYOfBrxaj6sI5wPXopIxTcil+WvCto9udgvHruDlhPCqvnXc9mmV/jJEN5tcRiI
+         fPu0B5YykqIM9o2xtgL6y/GuJH2u9TWgqE/XLlxXvRRB44VCpIWq7yHLfQOZsW5uV++s
+         AqIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVCobVGzIKfSfw1oYBFWdQ7QEcZImNBKQ/n/STxm5OZHtOwlmymYuyHyuJzNYa3YkW+kC1Y9TSUxLI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8cDVn2UWdRhE3hTkwHJHV0t6CGYbnI0PnKNsC4siw63CCPQ+R
+	OBTbrPC15Kvdq1xWqqmsto64j/ZI+6IzEMLEgJTJqZFEzWI12JurdRYczdNBZcMTcwQ52JcGJh8
+	roPWFadu9A/TppnpfcUHLCgYb+wZmYC0=
+X-Gm-Gg: ASbGncvk5WwZ0mmwk5VWezBZU2+wi8yK9iPTH+Lg5EKD7sbiut5o70yrQW/jpHaEqq5
+	b/cOEsnK+RUFqqJUe/+bRuv3ct/74ZGb5I9RqoMXBnXjieQdHJs5qSCIp5/jTyZUdCMC9khbaGS
+	YKyqIsEeUbXRX+VjrbUeZXkVHLc6GUxZg5VJU6bigSC6CQweE6gjk9iFfnJD3LsLWCMMIpWUboF
+	9eadSzAPfJDCIAm+ODJDm5xWHGzlpN+5sRbes85
+X-Google-Smtp-Source: AGHT+IHrjx0XfB3NQHdqBt66Ox1dwY4oj3I0wMxztSwqqFAAkQnhEkK0QBLdnresO+RuCvDJitimjmBRn2YZHsgZxpk=
+X-Received: by 2002:a05:622a:3d2:b0:4d9:ea03:74f8 with SMTP id
+ d75a77b69052e-4da473535b8mr6186491cf.16.1758730685377; Wed, 24 Sep 2025
+ 09:18:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250914084019.1108941-1-eugene.shalygin@gmail.com>
+References: <20250913003842.41944-1-safinaskar@gmail.com> <ffbf1a04-047d-4787-ac1e-f5362e1ca600@csgroup.eu>
+In-Reply-To: <ffbf1a04-047d-4787-ac1e-f5362e1ca600@csgroup.eu>
+From: Alexander Patrakov <patrakov@gmail.com>
+Date: Thu, 25 Sep 2025 00:17:39 +0800
+X-Gm-Features: AS18NWB-xeGoRDKYPj3kUYXUnKXLhFMFvvc0QyoLpOeKcP1DsD-enKeBhlulfsI
+Message-ID: <CAN_LGv3Opj9RW0atfXODy-Epn++5mt_DLEi-ewxR9Me5x46Bkg@mail.gmail.com>
+Subject: Re: [PATCH RESEND 00/62] initrd: remove classic initrd support
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
+	Jens Axboe <axboe@kernel.dk>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>, 
+	Gao Xiang <hsiangkao@linux.alibaba.com>, Art Nikpal <email2tema@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Eric Curtin <ecurtin@redhat.com>, 
+	Alexander Graf <graf@amazon.com>, Rob Landley <rob@landley.net>, 
+	Lennart Poettering <mzxreary@0pointer.de>, linux-arch@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, x86@kernel.org, 
+	Ingo Molnar <mingo@redhat.com>, linux-block@vger.kernel.org, initramfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	"Theodore Y . Ts'o" <tytso@mit.edu>, linux-acpi@vger.kernel.org, Michal Simek <monstr@monstr.eu>, 
+	devicetree@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 14, 2025 at 10:40:10AM +0200, Eugene Shalygin wrote:
-> From: Mohamad Kamal <mohamad.kamal.85@gmail.com>
-> 
-> Add support for TUF GAMING X670E PLUS WIFI
-> 
-> Signed-off-by: Mohamad Kamal <mohamad.kamal.85@gmail.com>
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+On Tue, Sep 23, 2025 at 8:22=E2=80=AFPM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+>
+>
+> Le 13/09/2025 =C3=A0 02:37, Askar Safin a =C3=A9crit :
+> > [Vous ne recevez pas souvent de courriers de safinaskar@gmail.com. D=C3=
+=A9couvrez pourquoi ceci est important =C3=A0 https://aka.ms/LearnAboutSend=
+erIdentification ]
+> >
+> > Intro
+> > =3D=3D=3D=3D
+> > This patchset removes classic initrd (initial RAM disk) support,
+> > which was deprecated in 2020.
+> > Initramfs still stays, and RAM disk itself (brd) still stays, too.
+> > init/do_mounts* and init/*initramfs* are listed in VFS entry in
+> > MAINTAINERS, so I think this patchset should go through VFS tree.
+> > This patchset touchs every subdirectory in arch/, so I tested it
+> > on 8 (!!!) archs in Qemu (see details below).
+> > Warning: this patchset renames CONFIG_BLK_DEV_INITRD (!!!) to CONFIG_IN=
+ITRAMFS
+> > and CONFIG_RD_* to CONFIG_INITRAMFS_DECOMPRESS_* (for example,
+> > CONFIG_RD_GZIP to CONFIG_INITRAMFS_DECOMPRESS_GZIP).
+> > If you still use initrd, see below for workaround.
+>
+> Apologise if my question looks stupid, but I'm using QEMU for various
+> tests, and the way QEMU is started is something like:
+>
+> qemu-system-ppc -kernel ./vmlinux -cpu g4 -M mac99 -initrd
+> ./qemu/rootfs.cpio.gz
+>
+> I was therefore expecting (and fearing) it to fail with your series
+> applied, but surprisingly it still works.
+>
+> Therefore is it really initrd you are removing or just some corner case
+> ? If it is really initrd, then how does QEMU still work with that
+> -initrd parameter ?
 
-Applied.
+The QEMU -initrd parameter is a misnomer. It can be used to pass an
+initrd or an initramfs, and the kernel automatically figures out what
+it is. What you are passing is an initramfs (a gzipped cpio archive
+with all the files), which is a modern and supported use case.
 
-Guenter
+--=20
+Alexander Patrakov
