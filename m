@@ -1,142 +1,180 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFAE2DEA99
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 01:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77F02DF706
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 02:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758765100; cv=none; b=pCIeIF9HVDRLss7yFzBXPPozIAOVCFAUPQaxMRRYL6HVmGDsv98iRue7klaVvFpLcXiBnP8u9kodKFXEKOWyOK5F4j7WYA9q8u4cFkzTj3PQG8vkfyiKXJNdSbMrt03zX9JDqZymVe9ksNJqXZbyGNS87hBt64hKT7fEI6zXUHc=
+	t=1758765937; cv=none; b=dhtftnBuP0NQBxiQUTwFNie09fjynXf+UkTcq6oafk4aTWhAbwJaPHX7OFNja+tvwsQuh1QEQO+65GJlN0GJXyoWGlR3Pk1m/PL9anrdIuUHj+Z40diKwKtBrl/mJREbgkP8P2nQf9HdzYRRYdRhay4uvtet8eQlh3iVR0fcqFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758765100; c=relaxed/simple;
-	bh=qWisjqzAzLapzP18lcgOkOsr63awJhoc1WFtffJ1YQ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LsV8tJUgq/JbPNvIttPJOqimtmcgfMf1BMs+IXl+s8Go7qo51gX5e3yu7clLfhgrhU33hsGcfV389/yY55HGrntDPaDyHYzT2UsT9+xii/xSrdyyh9Diu5bEuVZn6cDVNnDxy76Q1aR9AA9WvguC86rZQiRY5C8lcCLAoNuVjMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lKOaJ3SB; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1758765937; c=relaxed/simple;
+	bh=c7OOe7lcw1oi9g6/DwjJWKSlU0/KgpD3/2hH1JCaeIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ma7LtUc7F0OyBNF/Kl1DIRGuGiP5QSkQBNhlkGh6KYKEgaIioqJVIzuiL3aCN0ZkUBHKW4Xun1J1CNdhbKxhUIyvl9qprcBymXZ1mSeHeLO7ucUDx/XZktmOqV+tDxOVtW3MyM9wv0nUfNDfIRfYmzjTF/gy7b43ZuSdFjAQ1j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imZee1bp; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lKOaJ3SB"
-Message-ID: <82c7e76c-326f-45c9-bff7-1f27bf0c689c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758765095;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7HUVTfySCPpJobw6VEmN77jlwIzcnV4lJ/T+C7o0eaw=;
-	b=lKOaJ3SBuqZIZ+s+JaUif+AcgaS20/Ih8fQqOOxB7WPlflnEnXunJXwwaZCGcv/2uy/LX+
-	IR0coaNv4bP+O7+y8eUj7iGCAXR7HhmyNh6NxL4IdtkJt+MdOeD3W6vjSpW9PQOLEAQW0t
-	UYGjEev+j3RWd0slDPPOOsDoi2xTp/8=
-Date: Thu, 25 Sep 2025 09:51:25 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imZee1bp"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b5526b7c54eso290621a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 19:05:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758765934; x=1759370734; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JHHL33LsFFZTfiqVPHubJTFh9Ll2HmMvlyBTNdInq0Y=;
+        b=imZee1bppeV7lQeuJ63deUwCVif2AxKlwsUK8w6ovlwZ13BKv6xN5dzPtekCjtwSnL
+         n0dPq0n84+Hi9ehqzipvh8a2WuGxBHkeNIXCmgN4+c7E6+RB8SXYehwaZDbdUZXRnHt+
+         lTOb8heTuyOMaVoEFex4hTVpfiy82YYnXuwKz3yODJWQuPqehf+xbFTVPsRx54qqgRLf
+         V8qprIzqmu4ViwChP1OHEPFwWYQhST9tg79FGDrux6R3zUJNvS/34S+d5kRqdHMXC41u
+         VcnI0CJnGSAxbo6FZLFKlYYPYDO6dRWO6SqlFlmaOqw7PKlmT0Eql0ErzVPMHdSu0ohJ
+         g2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758765934; x=1759370734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JHHL33LsFFZTfiqVPHubJTFh9Ll2HmMvlyBTNdInq0Y=;
+        b=EZuRQTrox9npi6MPvSSgGE8dFNltKFAjOATfZnRAOqnFrAQUkQV7yYa5SSgiXaJECL
+         ZB7YAcOZ0Brv0gYe4xrdknOLRpxlV4r5Z6dBkRUBFsqy3JuoKfkT6JIq/48nGoqbxefW
+         7rZz5s8RvI9njFKlgcWExr8g4zdsVuuXnLqtKrJAW4EGtlcMMQxJ3O3KWNW1Dn6QZLUy
+         NJb2tVyHshZUvZ5AzkAXCiZVFBkVOcPT5Kllfj8NQ8MBG6cHwNPxlnficG5/UA1z39+F
+         fGFQ1S9xSBNKg7ul4Uc4zMlZEiimG81h5q5pq1nDuS944VZXDRUDHmD/Op40ttuGRzdz
+         57YA==
+X-Forwarded-Encrypted: i=1; AJvYcCX1xEcwp2WFmL8o+pUUuKJIf/aaD1iqKi0tcEg35s8c/+q6c+rD5BuI1bx54XM1JYgoNGH75tvi8no=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdsG2msTtWNPblpX/jCC1zm8MTb6mScq//qpdJd7HdwnhFGAMz
+	LJWeLtc6/x5Q4RYuK0sgtS3xWcWs5ce1Ikqj/H49pHSo85QxFdIlo6cS
+X-Gm-Gg: ASbGncsooeZK99ZT/B4P+ab0HJNs06J8mhEUxaMveIfmqvv2K4MmiIGgmO3Zv+4s6ke
+	07NIDV6dKYWSekAASmUnNIbGEAaSWjyJmOISs1Tp/qste5w7OoEdTs48ywkqDOICEfeZLi5dyKF
+	v+vAOni6YNRC1ZFcRriVFjONIASb796OmmwMrFH5TByN6vu+2gJ7OkCCmrK9dCv2BXKDAJt7wnA
+	+qnYLk9yorTIbBM2VWikT52OOXANpITYvATVzhyl5AsxVwzaCFHmmKkyk3vsQxCktnAcxwB9jtk
+	ymXweMAyDSDv2vmtcmM4+6qAZr9lUTKkJXHU+1i1PlcO1uYH7phIwOacC+Tb/8aIHCmr8xfGukO
+	lnYw9YMv+JSgEurHcFld5mkzQ0hEdQcNg6g==
+X-Google-Smtp-Source: AGHT+IH7ui9TJXKQ2pJIcwuIZvxvX8PqduYqo+2cQ68cM5ywCGeSLrO3GT6IefQ6CqCfyu2awBs3nA==
+X-Received: by 2002:a17:902:d50a:b0:267:da75:e0f with SMTP id d9443c01a7336-27ed4a06dd7mr20974665ad.11.1758765934070;
+        Wed, 24 Sep 2025 19:05:34 -0700 (PDT)
+Received: from localhost ([103.88.46.62])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78102c26faasm387777b3a.93.2025.09.24.19.05.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 19:05:33 -0700 (PDT)
+Date: Thu, 25 Sep 2025 10:05:22 +0800
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	"Liang, Kan" <kan.liang@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
+	Naveen N Rao <naveen@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-mm@kvack.org, llvm@lists.linux.dev,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 04/23] mm/ksw: add build system support
+Message-ID: <aNSjYrXXO2BjYA87@mdev>
+References: <20250924115124.194940-1-wangjinchao600@gmail.com>
+ <20250924115124.194940-5-wangjinchao600@gmail.com>
+ <3504b378-4360-4e55-b28d-74aabd4308d7@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: Update Rust index translation and add
- reference label
-To: Ben Guo <benx.guo@gmail.com>, alexs@kernel.org, dzm91@hust.edu.cn,
- corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, dakr@kernel.org
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-References: <20250924235114.209967-1-benx.guo@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250924235114.209967-1-benx.guo@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3504b378-4360-4e55-b28d-74aabd4308d7@infradead.org>
 
+On Wed, Sep 24, 2025 at 10:06:10AM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 9/24/25 4:50 AM, Jinchao Wang wrote:
+> > Add Kconfig and Makefile infrastructure.
+> > 
+> > The implementation is located under `mm/kstackwatch/`.
+> > 
+> > Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> > ---
+> >  mm/Kconfig.debug             |  8 ++++++++
+> >  mm/Makefile                  |  1 +
+> >  mm/kstackwatch/Makefile      |  2 ++
+> >  mm/kstackwatch/kernel.c      | 23 +++++++++++++++++++++++
+> >  mm/kstackwatch/kstackwatch.h |  5 +++++
+> >  mm/kstackwatch/stack.c       |  1 +
+> >  mm/kstackwatch/watch.c       |  1 +
+> >  7 files changed, 41 insertions(+)
+> >  create mode 100644 mm/kstackwatch/Makefile
+> >  create mode 100644 mm/kstackwatch/kernel.c
+> >  create mode 100644 mm/kstackwatch/kstackwatch.h
+> >  create mode 100644 mm/kstackwatch/stack.c
+> >  create mode 100644 mm/kstackwatch/watch.c
+> > 
+> > diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+> > index 32b65073d0cc..89be351c0be5 100644
+> > --- a/mm/Kconfig.debug
+> > +++ b/mm/Kconfig.debug
+> > @@ -309,3 +309,11 @@ config PER_VMA_LOCK_STATS
+> >  	  overhead in the page fault path.
+> >  
+> >  	  If in doubt, say N.
+> > +
+> > +config KSTACK_WATCH
+> > +	bool "Kernel Stack Watch"
+> > +	depends on HAVE_HW_BREAKPOINT && KPROBES && FPROBE && STACKTRACE
+> > +	help
+> > +	  A lightweight real-time debugging tool to detect stack corrupting.
+> 
+> 	                                                         corruption.
+Thanks, will fix in next version.
+> 
+> > +
+> > +	  If unsure, say N.
+> 
+> 
+> -- 
+> ~Randy
+> 
 
-在 9/25/25 7:51 AM, Ben Guo 写道:
-> Update the translated rust/index.rst with new contents,
-> and add a reference label in rust/general-information.rst so
-> that index.rst can link to it properly.
->
-> Fixes in rust/index.rst:
-> - Fixed broken quick-start.rst cross-reference
->
-> Update the translation through commit d0b343605f1b
-> ("kernel-docs: Add new section for Rust learning materials")
->
-> Signed-off-by: Ben Guo <benx.guo@gmail.com>
-
-Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
-
-
-Thanks,
-
-Yanteng
-
-> ---
->   .../zh_CN/rust/general-information.rst        |  1 +
->   .../translations/zh_CN/rust/index.rst         | 32 ++++++++++++++++++-
->   2 files changed, 32 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/translations/zh_CN/rust/general-information.rst b/Documentation/translations/zh_CN/rust/general-information.rst
-> index 251f6ee2bb44..9b5e37e13f38 100644
-> --- a/Documentation/translations/zh_CN/rust/general-information.rst
-> +++ b/Documentation/translations/zh_CN/rust/general-information.rst
-> @@ -13,6 +13,7 @@
->   
->   本文档包含了在内核中使用Rust支持时需要了解的有用信息。
->   
-> +.. _rust_code_documentation_zh_cn:
->   
->   代码文档
->   --------
-> diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
-> index b01f887e7167..10413b0c17c0 100644
-> --- a/Documentation/translations/zh_CN/rust/index.rst
-> +++ b/Documentation/translations/zh_CN/rust/index.rst
-> @@ -10,7 +10,35 @@
->   Rust
->   ====
->   
-> -与内核中的Rust有关的文档。若要开始在内核中使用Rust，请阅读quick-start.rst指南。
-> +与内核中的Rust有关的文档。若要开始在内核中使用Rust，请阅读 quick-start.rst 指南。
-> +
-> +Rust 实验
-> +---------
-> +Rust 支持在 v6.1 版本中合并到主线，以帮助确定 Rust 作为一种语言是否适合内核，
-> +即是否值得进行权衡。
-> +
-> +目前，Rust 支持主要面向对 Rust 支持感兴趣的内核开发人员和维护者，
-> +以便他们可以开始处理抽象和驱动程序，并帮助开发基础设施和工具。
-> +
-> +如果您是终端用户，请注意，目前没有适合或旨在生产使用的内置驱动程序或模块，
-> +并且 Rust 支持仍处于开发/实验阶段，尤其是对于特定内核配置。
-> +
-> +代码文档
-> +--------
-> +
-> +给定一个内核配置，内核可能会生成 Rust 代码文档，即由 ``rustdoc`` 工具呈现的 HTML。
-> +
-> +.. only:: rustdoc and html
-> +
-> +   该内核文档使用 `Rust 代码文档 <rustdoc/kernel/index.html>`_ 构建。
-> +
-> +.. only:: not rustdoc and html
-> +
-> +   该内核文档不使用 Rust 代码文档构建。
-> +
-> +预生成版本提供在：https://rust.docs.kernel.org。
-> +
-> +请参阅 :ref:`代码文档 <rust_code_documentation_zh_cn>` 部分以获取更多详细信息。
->   
->   .. toctree::
->       :maxdepth: 1
-> @@ -20,6 +48,8 @@ Rust
->       coding-guidelines
->       arch-support
->   
-> +你还可以在 :doc:`../../../process/kernel-docs` 中找到 Rust 的学习材料。
-> +
->   .. only::  subproject and html
->   
->      Indices
+-- 
+Jinchao
