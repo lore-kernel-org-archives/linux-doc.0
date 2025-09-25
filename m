@@ -1,147 +1,217 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B4C3009FF
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 15:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD513009E7
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 15:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758815199; cv=none; b=kJxRxwJcelwXbCdmROiHmCj/ZgaEHLms3MZ0e8nAXTVbo7Um5lYNeFIhm/HrjKIyfb0LLsm2n3Bi4zjnH48wF6RaSPC9l/q/pO3P7WnttmtpeWTTYDB4XWhtPdz01P5b6y1XQ3VYb4miQlR8CcC6QI4KRnWYPyZBBWtMVeWaunA=
+	t=1758815416; cv=none; b=Im9eXZQMXc/nBXRWKcDiTAL0BAGNDPe4DqCdsgwawTg5/7d34ecEGEBimDqutoANpWPR2Ulh/XyxJEdTttMaKz+X2FZWTXNgHPeBETW4aUZo6fPUbkIuujltJOYE7YGtouLLc5zloZnNyUPRs0dVnWTod1+5V4ubiUYr3z21v+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758815199; c=relaxed/simple;
-	bh=5CJLjTtW546J8tpkufLvEmsJirZuPDW94Wu+LVkFf3I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=f9VXt07NLbjns0Ry5EkYX9hvJ08JHkIJOE02/m6Hrwocmi0ZVS8Rdr6nf8l8ev4n4mMm7ZZGVP/NXB3ivARWS+54/VSEyiFgd5KX/kXWohvii1U8MqlJyFdWD3/PoyJi5goIsXf51Sw1uX0qmAo/8CqgqiHyy62dqoRN0bCdkbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y484IEMM; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758815416; c=relaxed/simple;
+	bh=m6QpFkawOmNhd7oWD+5jM7932immcIjNUJPNoGbbhJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DdinlalJ115LygmSdcFm0A1VTbVI6WAAu6qee2WeaPjySaAkKUSElbLpmFMA/dHSEh5WzkNteGXr3CH+kle7AedDw2kRCfK1sGbyJtbxda8oKeKnTZPOYjleuwtLhsvyNLsSFgPdEiFq8LZuI2KgE0QDAJn7zGtDa+ImhDCBdXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cpgEc8qK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IkI9+abl; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cpgEc8qK; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IkI9+abl; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y484IEMM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758815196;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cpgEc8qK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IkI9+abl";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cpgEc8qK";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IkI9+abl"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A007F6C201;
+	Thu, 25 Sep 2025 15:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1758815411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qxessgCFqOIjkxN8E3V+AacX2DwtplcyNFIAKPJSduY=;
-	b=Y484IEMMqth/JEbEiL0j+BJFy4JptX07yOHZ5ZoqbPDdY1t7Hex+DTi8vb52gqv1vV0Dmg
-	w91h6bIlli5vWnC+B4LvxVDrE/Laq02N5zytXr/IGm3OAljXW2sPdurLb377Pzubp3m/DX
-	7WuPb6XsYx5PZFy1AxpcUlsmfwvS7lo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-cX_qaAuGNsOouOk32w4_vg-1; Thu, 25 Sep 2025 11:46:35 -0400
-X-MC-Unique: cX_qaAuGNsOouOk32w4_vg-1
-X-Mimecast-MFC-AGG-ID: cX_qaAuGNsOouOk32w4_vg_1758815194
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3f7b5c27d41so630963f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 08:46:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758815194; x=1759419994;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qxessgCFqOIjkxN8E3V+AacX2DwtplcyNFIAKPJSduY=;
-        b=ZHgdPG76Nw+pDuC2cOBDTkY8UlsFPZko+Y88lo2k+e+O3Gnq+rEe+M4cAcdfXQYDd1
-         1NDIIvWwSCTUO5MWdY4Qh08jkdsbN58O+e6rNsq7p417AGQFXcfdUiVIu7INqIx+yrXP
-         zMNDqiVgvUokPLGsCnNa3gom2VDI2DZ+KCgV8+B8TLynQIYlnaJvk25bstpYqqPXRJiy
-         OaJWO/Ts9yRtBjR7l9yzJFCLk9+2wD9VMzHCJt/7OTRQY8V92vL/WJHnqMX0oQpYp3Dw
-         R83q98f+v1XIXmA3scp6bYStzIDfXQiwW8W/7NQkxpxI/JQkq4bKislsv6URfsOzMTRS
-         YGcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXv/cxKl3vu2mhNPxplGti5VKjzIumm5jTKbH4mOJyw3am/Xz/NS4vNNgS9YDeI8tWmisENMRHc0cc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxq9MuR56FwBlROAxFOWrB9+ZgBCWLlu1pK1YSxJXY0wsuDbDT3
-	OtgW5rdQh5oR1UZ9XTDz2S76i+8lqgJmOoYa1uNMRRgRMMVx5skEjvkHiFjZHwLPskeXzfa9Tms
-	cVNn626wgcKdtn1DuHdsMFVm9Hsz6taNsL97WiD7x7unSpWJxQ8EFvSYK+K5l1ytmaNtDSg==
-X-Gm-Gg: ASbGncuHfQR9rQuc78P7QeW6TgM4wRWtMY0qPM3ERqDbIGGBbFctyHYO+XNW2gRzYrq
-	O6trteuAw4HQnvMJpnMewdf6GFgu5exm170v+7Rw/GJAOY7A6jTfENhlkxO8+I3Od2JdBvkJVEq
-	ViaqH+7LEmq6QoLZpQm+JSVoYu9iHgVlDRlLtDtt6FXaIEL2SRUQHMhTBEPYfx7wsovNYqAPOnP
-	JuDIySq7WLWHyNILEzUMHdcdgz/oxdVT3ta06+0hIBoBEUQz0J1OLyy+nsDiQkw+7kevN0QuRZI
-	hOseY1N5P1VioZNz8itknt6fpAC2C7Ud07Lf1vYQpfmCB4i5KnmjQV+LC26m98zDW1GArOKZZP6
-	uPCKr1m8H7whw
-X-Received: by 2002:a05:6000:4305:b0:3ea:63d:44a8 with SMTP id ffacd0b85a97d-40f625fb96amr3794190f8f.15.1758815193831;
-        Thu, 25 Sep 2025 08:46:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG/k0nNfesW/BrVX/GL2okFEQbeth/drP6MINltdb5SEkxjqx61LbE6DaCG/45opkpod6jG0w==
-X-Received: by 2002:a05:6000:4305:b0:3ea:63d:44a8 with SMTP id ffacd0b85a97d-40f625fb96amr3794161f8f.15.1758815193392;
-        Thu, 25 Sep 2025 08:46:33 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc5602f15sm3410601f8f.39.2025.09.25.08.46.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 08:46:32 -0700 (PDT)
-Message-ID: <b2a0cbdc-776a-42c8-8e19-051a12a1a7bc@redhat.com>
-Date: Thu, 25 Sep 2025 17:46:30 +0200
+	bh=npyjLIAhWT4lA3Ad1zBxTWNYe7yHm1djiA0bY7sYY5w=;
+	b=cpgEc8qKjm4aPAoxXDmt6+/5y5ekg+AORLSL8Xp9cK0Pasex+iS5bWwE2iolNf4lbBz7Wy
+	Q8f95/u4Inv2doM1sA69HerhXnG7T2k48vJuIHZodQvT82TfWkugTfOFFAlgZ5l/H0BwUx
+	dbv5OD/2rTfaPuzfLRPwbBOUL1M9V9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1758815411;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=npyjLIAhWT4lA3Ad1zBxTWNYe7yHm1djiA0bY7sYY5w=;
+	b=IkI9+ablHR65/GBROEZLxndPdM5+1dZOUgcGiyb07mj/bP+pwkQC9/aHFbN54Kl8zfujot
+	G1I/49D7EmRNhRBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1758815411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=npyjLIAhWT4lA3Ad1zBxTWNYe7yHm1djiA0bY7sYY5w=;
+	b=cpgEc8qKjm4aPAoxXDmt6+/5y5ekg+AORLSL8Xp9cK0Pasex+iS5bWwE2iolNf4lbBz7Wy
+	Q8f95/u4Inv2doM1sA69HerhXnG7T2k48vJuIHZodQvT82TfWkugTfOFFAlgZ5l/H0BwUx
+	dbv5OD/2rTfaPuzfLRPwbBOUL1M9V9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1758815411;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=npyjLIAhWT4lA3Ad1zBxTWNYe7yHm1djiA0bY7sYY5w=;
+	b=IkI9+ablHR65/GBROEZLxndPdM5+1dZOUgcGiyb07mj/bP+pwkQC9/aHFbN54Kl8zfujot
+	G1I/49D7EmRNhRBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C3A413869;
+	Thu, 25 Sep 2025 15:50:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id U1njIbNk1WgwWwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 25 Sep 2025 15:50:11 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1D429A0AA0; Thu, 25 Sep 2025 17:50:07 +0200 (CEST)
+Date: Thu, 25 Sep 2025 17:50:07 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Paulo Alcantara <pc@manguebit.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	David Howells <dhowells@redhat.com>, Tyler Hicks <code@tyhicks.com>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Carlos Maiolino <cem@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Rick Macklem <rick.macklem@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, linux-doc@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 22/38] vfs: add fsnotify_modify_mark_mask()
+Message-ID: <mr6lfsrdp77g7ndnhignxby6fniku2fb3u5yykvwng67sneo7o@d6dozubh4t4c>
+References: <20250924-dir-deleg-v3-0-9f3af8bc5c40@kernel.org>
+ <20250924-dir-deleg-v3-22-9f3af8bc5c40@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 net-next 13/14] tcp: accecn: stop sending AccECN opt
- when loss ACK w/ option
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
- "edumazet@google.com" <edumazet@google.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
- "dsahern@kernel.org" <dsahern@kernel.org>,
- "kuniyu@amazon.com" <kuniyu@amazon.com>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dave.taht@gmail.com" <dave.taht@gmail.com>,
- "jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "stephen@networkplumber.org" <stephen@networkplumber.org>,
- "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
- "jiri@resnulli.us" <jiri@resnulli.us>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
- "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
- "ast@fiberby.net" <ast@fiberby.net>,
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "ij@kernel.org" <ij@kernel.org>, "ncardwell@google.com"
- <ncardwell@google.com>,
- "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
- "g.white@cablelabs.com" <g.white@cablelabs.com>,
- "ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
- "mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
- "cheshire@apple.com" <cheshire@apple.com>, "rs.ietf@gmx.at"
- <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
- <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-References: <20250918162133.111922-1-chia-yu.chang@nokia-bell-labs.com>
- <20250918162133.111922-14-chia-yu.chang@nokia-bell-labs.com>
- <03d6dba8-2586-4ae9-8a16-26b84cf206eb@redhat.com>
- <PAXPR07MB7984B98035A3D3A1570F4AF4A31FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <PAXPR07MB7984B98035A3D3A1570F4AF4A31FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250924-dir-deleg-v3-22-9f3af8bc5c40@kernel.org>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[44];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,samba.org,microsoft.com,talpey.com,brown.name,redhat.com,lwn.net,szeredi.hu,manguebit.org,linuxfoundation.org,tyhicks.com,chromium.org,goodmis.org,efficios.com,vger.kernel.org,lists.samba.org,lists.linux.dev];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
 
-On 9/25/25 4:46 PM, Chia-Yu Chang (Nokia) wrote:
->From: Paolo Abeni <pabeni@redhat.com> Sent: Tuesday, September 23, 2025 12:52 PM
->> On 9/18/25 6:21 PM, chia-yu.chang@nokia-bell-labs.com wrote:
->>> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
->>>
->>> Detect spurious retransmission of a previously sent ACK carrying the 
->>> AccECN option after the second retransmission. Since this might be 
->>> caused by the middlebox dropping ACK with options it does not 
->>> recognize, disable the sending of the AccECN option in all subsequent 
->>> ACKs. This patch follows Section 3.2.3.2.2 of AccECN spec (RFC9768).
->>
->> Is this really useful/triggers in practice?
->>
->> AFAICS it will take effect only it the retransmission happens just after an egress AccECN packet, i.e. will not trigger if the there are more later non AccECN packets pending.
+On Wed 24-09-25 14:06:08, Jeff Layton wrote:
+> nfsd needs to be able to modify the mask on an existing mark when new
+> directory delegations are set or unset. Add an exported function that
+> allows the caller to set and clear bits in the mark->mask, and does
+> the recalculation if something changed.
 > 
-> Hi Paolo,
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+Looks good. Feel free to add:
+
+Acked-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/notify/mark.c                 | 29 +++++++++++++++++++++++++++++
+>  include/linux/fsnotify_backend.h |  1 +
+>  2 files changed, 30 insertions(+)
 > 
-> This is a simplied implementation than what is mentieond in the RFC9768: 
-> "Such a host detect loss of ACKs carrying the AccECN Option by detecting whether the acknowledged data alwaysreappears as a retransmission. In such cases, the host disable the sending of the AccECN Option for this half-connection."
+> diff --git a/fs/notify/mark.c b/fs/notify/mark.c
+> index 798340db69d761dd05c1b361c251818dee89b9cf..5ed42b24df7f6aa3812a7069b4c37f0c6b3414fa 100644
+> --- a/fs/notify/mark.c
+> +++ b/fs/notify/mark.c
+> @@ -309,6 +309,35 @@ void fsnotify_recalc_mask(struct fsnotify_mark_connector *conn)
+>  		fsnotify_conn_set_children_dentry_flags(conn);
+>  }
+>  
+> +/**
+> + * fsnotify_modify_mark_mask - set and/or clear flags in a mark's mask
+> + * @mark: mark to be modified
+> + * @set: bits to be set in mask
+> + * @clear: bits to be cleared in mask
+> + *
+> + * Modify a fsnotify_mark mask as directed, and update its associated conn.
+> + * The caller is expected to hold a reference to the mark.
+> + */
+> +void fsnotify_modify_mark_mask(struct fsnotify_mark *mark, u32 set, u32 clear)
+> +{
+> +	bool recalc = false;
+> +	u32 mask;
+> +
+> +	WARN_ON_ONCE(clear & set);
+> +
+> +	spin_lock(&mark->lock);
+> +	mask = mark->mask;
+> +	mark->mask |= set;
+> +	mark->mask &= ~clear;
+> +	if (mark->mask != mask)
+> +		recalc = true;
+> +	spin_unlock(&mark->lock);
+> +
+> +	if (recalc)
+> +		fsnotify_recalc_mask(mark->connector);
+> +}
+> +EXPORT_SYMBOL_GPL(fsnotify_modify_mark_mask);
+> +
+>  /* Free all connectors queued for freeing once SRCU period ends */
+>  static void fsnotify_connector_destroy_workfn(struct work_struct *work)
+>  {
+> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+> index d4034ddaf3926bf98d8801997e50ba7ddf776292..8d50e6aad3c62c67a9bf73a8d9aab78565668c5f 100644
+> --- a/include/linux/fsnotify_backend.h
+> +++ b/include/linux/fsnotify_backend.h
+> @@ -912,6 +912,7 @@ extern void fsnotify_get_mark(struct fsnotify_mark *mark);
+>  extern void fsnotify_put_mark(struct fsnotify_mark *mark);
+>  extern void fsnotify_finish_user_wait(struct fsnotify_iter_info *iter_info);
+>  extern bool fsnotify_prepare_user_wait(struct fsnotify_iter_info *iter_info);
+> +extern void fsnotify_modify_mark_mask(struct fsnotify_mark *mark, u32 set, u32 clear);
+>  
+>  static inline void fsnotify_init_event(struct fsnotify_event *event)
+>  {
 > 
-> However, to implement the case that not that just after egressing the ACK with AccECN, I was thinking to modify struct tcp_sack_block but that maybe an over engineering.
-
-I agree touching tcp_sack_block looks overkill. I think that the
-simplified implementation is a bit too far from the RFC specification
-and too simplistic to be effective. I suggest dropping this change.
-
-Thanks,
-
-Paolo
-
+> -- 
+> 2.51.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
