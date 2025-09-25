@@ -1,155 +1,333 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5208B1A2541
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 07:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A1328F4;
+	Thu, 25 Sep 2025 08:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758786270; cv=none; b=rbjX0D+WmjptaMwGAr632b/TkjxVS5nphPb+X1Lu2tE/7yICp97LROTikYQFvLHdJHPOjt3LuECsso+jVUUjG2TM7QIOC0Ip4cMmAMzKM3f8KxgSoFDCf2nnHxugLwl7Cv7VUFn7RPbYWMW65PraCPijz43cGTzPtjV8frNK9yk=
+	t=1758789264; cv=none; b=u379o/rD+FOalC88fL/1TYbRk/sJ2AmUXzNycLEbhUm3ysDi0+yH4STA7cBuhDY3Ih+XFVN9HhPUwkL3XrK39m6axkE4VmSuHpmkcx6taPnDZ+wlaKvU93OKnhxv6lf/t9wMbiBo1CRay9D+xnE/ytcUY8OYhy2u9bdmPRmlKEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758786270; c=relaxed/simple;
-	bh=ugLehOMIQJ+Et15CIYTCGD2MzcB90KpcWiFwRf+O/xI=;
+	s=arc-20240116; t=1758789264; c=relaxed/simple;
+	bh=zvjYf8P1ctuEgkHrm07eWDWbYIkTGkp/TUoxkYCfdRE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AFPq4jpqd27tH8i/fN31SH1tPWGU3y81MlxDiQFOR+mdSy33tOCGt1M6Fr6DSXFXZHxgGOEBKLt+64k8nWXOyw2oM7dA5FHyJ4zWFFWKVaplYgDg3MXqAzqXhOISCcTIdulfqzirNs+ZeRXN6N2n3nr6X1uPFV0xVMblHIiJtL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Uf2tRVHz; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Uf2tRVHz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758786267;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eEtIyjQBQWhfMNa18kEW2ePRbLcIzRH3NXOv/vzbj6M=;
-	b=Uf2tRVHzVz5Vi98CCrtmAis0WlsJfO7MmL8ybjjSsJEXWmCgF6ck+vgeNNAvegP6iaaYye
-	ASPFARFzBiAxh8x/9PoV0PMz+pprXQYJei9ixR6S0JBoJXqBttWv12352HfA2L8LUhSgtH
-	fiEt8r+LfaS1Dmym/k2jyysVFxNbY8o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-TaTIiXg5OFWHABJ1CWFJJw-1; Thu, 25 Sep 2025 03:44:25 -0400
-X-MC-Unique: TaTIiXg5OFWHABJ1CWFJJw-1
-X-Mimecast-MFC-AGG-ID: TaTIiXg5OFWHABJ1CWFJJw_1758786265
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-46e31191379so3958715e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 00:44:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758786264; x=1759391064;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eEtIyjQBQWhfMNa18kEW2ePRbLcIzRH3NXOv/vzbj6M=;
-        b=GNtN+K6n1YlHqyBm2zdOdA83byMK9MwsUCqxFSt/oHACvY20uXg2UWP9GwpD5rsMxw
-         vRXSAt8UmSkR7l2YQV0Dwy0x7x6VIeCFvOmTpzEKkmq92TJ9X73eDo1QScOKYvRaJvR6
-         s11wVStDEZ4ltiTvBvi6anPKvPY3JRCE833fkBNda+KVBj5jq1maZmHe+ybp/J7QtfKz
-         5Io+qCrJx8cSELkmUABuwv/ED++VCrIpHOpaXkE26/9hf4Nq06uy/qIC7C4wHcxTXf55
-         Rg41NwNwb9H2XAgUvF6qO2syaAphaAiZtstNIwq1coG6m+Ajlnpl2dv1G1YomFrf1/1y
-         2JDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWpMvQEcOhM31g7mSW2MNbbcFECvQcxlPPH5HtJ3DCx7g0cXNvFkiGFpcljRPiwL+vwiSLSLuMtdBU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypESohqV4cJGuqnfSqn7u5K2atvJqrkBZojRs1rl7MbjzNjO+3
-	LIIFWhgNO3yyOXe3eOvirSsBBAxoEd3sYQ9dxKmQLnuaS2XIiPJcGnPmSlISJUyeBoRz+Mg8Vse
-	ilpQt0+U6XcdpQ2/uckPveZfuENGSPay0shk4KGXBCRFzhB46ki947jPflyAtpA==
-X-Gm-Gg: ASbGncu9KSuHtquD3j75FZMUAdySKCM5BXfdxdy53MJ0Yih3UW7Cpznv+YIsOjSRsDs
-	xnOvVjvp4UnfCje7S6auSHymGSN00Em2j/QobJeZkWS8g8mDJTaXnyLb5JjqMNNeQ7Ck9CN3VG1
-	1tz0cuqfygQSA7MO2RKX1XI0pKMZ3umlZGa7WApeHy/swk+wpBNj6obVck2uN5l9cxWbMfksDcL
-	mpVHTrcpfE/0+poarFY0Ws5t8T2eGZOzWPnU+M9qQ/DDzeBVw6Jnhz1Uqc51kA/xq/OElcv4sIy
-	9+BAhyupLHqtlN6fJzk7pTRZZmrvEmmmZF3/7ohCFaVgw0RFBrQUtc56IX5EQJtIAShnlXP60A+
-	7jwvSRgvdj1pg
-X-Received: by 2002:a05:600c:8484:b0:46e:1abc:1811 with SMTP id 5b1f17b1804b1-46e329f653emr17736435e9.27.1758786264601;
-        Thu, 25 Sep 2025 00:44:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFt7+vuVFRubxJxrOllWmSQM91xay34blZgLFJjzErhlGB9fkTHJc47Tm6tJsYcxZXKKZ/Mjg==
-X-Received: by 2002:a05:600c:8484:b0:46e:1abc:1811 with SMTP id 5b1f17b1804b1-46e329f653emr17736175e9.27.1758786264164;
-        Thu, 25 Sep 2025 00:44:24 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e33baa625sm21917375e9.7.2025.09.25.00.44.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 00:44:23 -0700 (PDT)
-Message-ID: <ce0f60b5-858e-4d88-904f-5f77bbe82643@redhat.com>
-Date: Thu, 25 Sep 2025 09:44:21 +0200
+	 In-Reply-To:Content-Type; b=ApMQHIo+KCfx0vEpLfkJx18aFDajDJuf3ZqaLkO93vU6cMzXFPjgyq3+c/AFcfwgl4hJxhNvxTATSjQ6pw2SBE2B9SRa2VwCcsqz8/XusHfKjOR0toUqMq9wGFbSyokz5d8Qr83ASx+4NoVGyz4DlN3xiVxcP3pFmeDlBKGqf6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cXRpB43TpzKHMVC;
+	Thu, 25 Sep 2025 16:34:10 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 6B98D1A0F63;
+	Thu, 25 Sep 2025 16:34:18 +0800 (CST)
+Received: from [10.174.179.247] (unknown [10.174.179.247])
+	by APP4 (Coremail) with SMTP id gCh0CgDX6GCI_tRom+MIAw--.53216S3;
+	Thu, 25 Sep 2025 16:34:18 +0800 (CST)
+Message-ID: <6b6acb6c-7ad8-ae71-b56a-9129d4bb4bd6@huaweicloud.com>
+Date: Thu, 25 Sep 2025 16:34:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 net-next 03/14] tcp: accecn: Add ece_delta to
- rate_sample
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
- "edumazet@google.com" <edumazet@google.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
- "dsahern@kernel.org" <dsahern@kernel.org>,
- "kuniyu@amazon.com" <kuniyu@amazon.com>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dave.taht@gmail.com" <dave.taht@gmail.com>,
- "jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "stephen@networkplumber.org" <stephen@networkplumber.org>,
- "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
- "jiri@resnulli.us" <jiri@resnulli.us>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
- "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
- "ast@fiberby.net" <ast@fiberby.net>,
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "ij@kernel.org" <ij@kernel.org>, "ncardwell@google.com"
- <ncardwell@google.com>,
- "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
- "g.white@cablelabs.com" <g.white@cablelabs.com>,
- "ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
- "mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
- "cheshire@apple.com" <cheshire@apple.com>, "rs.ietf@gmx.at"
- <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
- <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Cc: "Olivier Tilmans (Nokia)" <olivier.tilmans@nokia.com>
-References: <20250918162133.111922-1-chia-yu.chang@nokia-bell-labs.com>
- <20250918162133.111922-4-chia-yu.chang@nokia-bell-labs.com>
- <161c09cc-9982-4046-9aa0-d0ec194daba0@redhat.com>
- <PAXPR07MB7984DC6C693DAED54AC14161A31FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <PAXPR07MB7984DC6C693DAED54AC14161A31FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 2/2] md: allow configuring logical block size
+To: Xiao Ni <xni@redhat.com>, Li Nan <linan666@huaweicloud.com>
+Cc: corbet@lwn.net, song@kernel.org, yukuai3@huawei.com, hare@suse.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, martin.petersen@oracle.com,
+ yangerkun@huawei.com, yi.zhang@huawei.com
+References: <20250918115759.334067-1-linan666@huaweicloud.com>
+ <20250918115759.334067-3-linan666@huaweicloud.com>
+ <CALTww2_4rEb9SojpVbwFy=ZEjUc0-4ECYZKYKgsay9XzDTs-cg@mail.gmail.com>
+ <b7fc02d2-7643-4bf1-1b15-c1ecdf883c87@huaweicloud.com>
+ <CALTww2_knuDVWLtVzrqcuLH5dmiyMqkAaZr2DB_ZpCYPQsYH0A@mail.gmail.com>
+From: Li Nan <linan666@huaweicloud.com>
+In-Reply-To: <CALTww2_knuDVWLtVzrqcuLH5dmiyMqkAaZr2DB_ZpCYPQsYH0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDX6GCI_tRom+MIAw--.53216S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw4ruryxKr4kWFy8CryrXrb_yoWftrW7pF
+	Z7JF1Ykw4DXryjywnFq3ZYgFnIqw48KFWqqry3Gw1UZr90kFnrCF4xGFW5uFyvqrn5Ar17
+	Zr4DKrW3uFySkFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v
+	4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7
+	AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQ
+	vtAUUUUU=
+X-CM-SenderInfo: polqt0awwwqx5xdzvxpfor3voofrz/
 
-On 9/25/25 9:40 AM, Chia-Yu Chang (Nokia) wrote:
->> -----Original Message-----
->> From: Paolo Abeni <pabeni@redhat.com> 
->> Sent: Tuesday, September 23, 2025 11:48 AM
->> To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>; edumazet@google.com; linux-doc@vger.kernel.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kuniyu@amazon.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.org; stephen@networkplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us; davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.kernel.org; ij@kernel.org; ncardwell@google.com; Koen De Schepper (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com; ingemar.s.johansson@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire@apple.com; rs.ietf@gmx.at; Jason_Livingood@comcast.com; vidhi_goel@apple.com
->> Cc: Olivier Tilmans (Nokia) <olivier.tilmans@nokia.com>
->> Subject: Re: [PATCH v2 net-next 03/14] tcp: accecn: Add ece_delta to rate_sample
->>
->>
->> CAUTION: This is an external email. Please be very careful when clicking links or opening attachments. See the URL nok.it/ext for additional information.
+
+
+在 2025/9/23 22:06, Xiao Ni 写道:
+> On Tue, Sep 23, 2025 at 9:37 PM Li Nan <linan666@huaweicloud.com> wrote:
 >>
 >>
 >>
->> On 9/18/25 6:21 PM, chia-yu.chang@nokia-bell-labs.com wrote:
->>> From: Ilpo Järvinen <ij@kernel.org>
+>> 在 2025/9/23 19:36, Xiao Ni 写道:
+>>> Hi Li Nan
 >>>
->>> Include echoed CE count into rate_sample. Replace local ecn_count 
->>> variable with it.
+>>> On Thu, Sep 18, 2025 at 8:08 PM <linan666@huaweicloud.com> wrote:
+>>>>
+>>>> From: Li Nan <linan122@huawei.com>
+>>>>
+>>>> Previously, raid array used the maximum logical block size (LBS)
+>>>> of all member disks. Adding a larger LBS disk at runtime could
+>>>> unexpectedly increase RAID's LBS, risking corruption of existing
+>>>> partitions. This can be reproduced by:
+>>>>
+>>>> ```
+>>>>     # LBS of sd[de] is 512 bytes, sdf is 4096 bytes.
+>>>>     mdadm -CRq /dev/md0 -l1 -n3 /dev/sd[de] missing --assume-clean
+>>>>
+>>>>     # LBS is 512
+>>>>     cat /sys/block/md0/queue/logical_block_size
+>>>>
+>>>>     # create partition md0p1
+>>>>     parted -s /dev/md0 mklabel gpt mkpart primary 1MiB 100%
+>>>>     lsblk | grep md0p1
+>>>>
+>>>>     # LBS becomes 4096 after adding sdf
+>>>>     mdadm --add -q /dev/md0 /dev/sdf
+>>>>     cat /sys/block/md0/queue/logical_block_size
+>>>>
+>>>>     # partition lost
+>>>>     partprobe /dev/md0
+>>>>     lsblk | grep md0p1
+>>>> ```
+>>>
+>>> Thanks for the reproducer. I can reproduce it myself.
+>>>
+>>>>
+>>>> Simply restricting larger-LBS disks is inflexible. In some scenarios,
+>>>> only disks with 512 bytes LBS are available currently, but later, disks
+>>>> with 4KB LBS may be added to the array.
+>>>
+>>> If we add a disk with 4KB LBS and configure it to 4KB by the sysfs
+>>> interface, how can we make the partition table readable and avoid the
+>>> problem mentioned above?
+>>>
 >>
->> Why? skimming over the next few patches it's not clear to me which is the goal here.
->>
->> Expanding the commit message would help, thanks!
->>
->> Paolo
 > 
-> Hi Paolo,
+> Hi
 > 
-> Sorry for my late reply.
-> Here, ece_delata will be used in the next patch series by tcp_prague (or other congestion control algorithm) that support Prague requirement to adjust the congestion window accordingly.
-> I will elaborate more on the patch notes, or you think this shall stay in the tcp_prague patch series?
+>> Thanks for your review.
+>>
+>> The main cause of partition loss is LBS changes. Therefore, we should
+>> specify a 4K LBS at creation time, instead of modifying LBS after the RAID
+>> is already in use. For example:
+>>
+>> mdadm -C --logical-block-size=4096 ...
+>>
+>> In this way, even if all underlying disks are 512-byte, the RAID will be
+>> created with a 4096 LBS. Adding 4096-byte disks later will not cause any
+>> issues.
+> 
+> It can work. But it looks strange to me to set LBS to 4096 but all
+> devices' LBS is 512 bytes. I don't reject it anyway :)
+> 
+>>
+>>>>
+>>>> Making LBS configurable is the best way to solve this scenario.
+>>>> After this patch, the raid will:
+>>>>     - store LBS in disk metadata
+>>>>     - add a read-write sysfs 'mdX/logical_block_size'
+>>>>
+>>>> Future mdadm should support setting LBS via metadata field during RAID
+>>>> creation and the new sysfs. Though the kernel allows runtime LBS changes,
+>>>> users should avoid modifying it after creating partitions or filesystems
+>>>> to prevent compatibility issues.
+>>>>
+>>>> Only 1.x metadata supports configurable LBS. 0.90 metadata inits all
+>>>> fields to default values at auto-detect. Supporting 0.90 would require
+>>>> more extensive changes and no such use case has been observed.
+>>>>
+>>>> Note that many RAID paths rely on PAGE_SIZE alignment, including for
+>>>> metadata I/O. A larger LBS than PAGE_SIZE will result in metadata
+>>>> read/write failures. So this config should be prevented.
+>>>>
+>>>> Signed-off-by: Li Nan <linan122@huawei.com>
+>>>> ---
+>>>>    Documentation/admin-guide/md.rst |  7 +++
+>>>>    drivers/md/md.h                  |  1 +
+>>>>    include/uapi/linux/raid/md_p.h   |  3 +-
+>>>>    drivers/md/md-linear.c           |  1 +
+>>>>    drivers/md/md.c                  | 75 ++++++++++++++++++++++++++++++++
+>>>>    drivers/md/raid0.c               |  1 +
+>>>>    drivers/md/raid1.c               |  1 +
+>>>>    drivers/md/raid10.c              |  1 +
+>>>>    drivers/md/raid5.c               |  1 +
+>>>>    9 files changed, 90 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/admin-guide/md.rst b/Documentation/admin-guide/md.rst
+>>>> index 1c2eacc94758..f5c81fad034a 100644
+>>>> --- a/Documentation/admin-guide/md.rst
+>>>> +++ b/Documentation/admin-guide/md.rst
+>>>> @@ -238,6 +238,13 @@ All md devices contain:
+>>>>         the number of devices in a raid4/5/6, or to support external
+>>>>         metadata formats which mandate such clipping.
+>>>>
+>>>> +  logical_block_size
+>>>> +     Configures the array's logical block size in bytes. This attribute
+>>>> +     is only supported for RAID1, RAID5, RAID10 with 1.x meta. The value
+>>>
+>>> s/RAID5/RAID456/g
+>>>
+>>
+>> I will fix it later. Thanks.
+>>
+>>>> +     should be written before starting the array. The final array LBS
+>>>> +     will use the max value between this configuration and all rdev's LBS.
+>>>> +     Note that LBS cannot exceed PAGE_SIZE.
+>>>> +
+>>>>      reshape_position
+>>>>         This is either ``none`` or a sector number within the devices of
+>>>>         the array where ``reshape`` is up to.  If this is set, the three
+>>>> diff --git a/drivers/md/md.h b/drivers/md/md.h
+>>>> index afb25f727409..b0147b98c8d3 100644
+>>>> --- a/drivers/md/md.h
+>>>> +++ b/drivers/md/md.h
+>>>> @@ -432,6 +432,7 @@ struct mddev {
+>>>>           sector_t                        array_sectors; /* exported array size */
+>>>>           int                             external_size; /* size managed
+>>>>                                                           * externally */
+>>>> +       unsigned int                    logical_block_size;
+>>>>           __u64                           events;
+>>>>           /* If the last 'event' was simply a clean->dirty transition, and
+>>>>            * we didn't write it to the spares, then it is safe and simple
+>>>> diff --git a/include/uapi/linux/raid/md_p.h b/include/uapi/linux/raid/md_p.h
+>>>> index ac74133a4768..310068bb2a1d 100644
+>>>> --- a/include/uapi/linux/raid/md_p.h
+>>>> +++ b/include/uapi/linux/raid/md_p.h
+>>>> @@ -291,7 +291,8 @@ struct mdp_superblock_1 {
+>>>>           __le64  resync_offset;  /* data before this offset (from data_offset) known to be in sync */
+>>>>           __le32  sb_csum;        /* checksum up to devs[max_dev] */
+>>>>           __le32  max_dev;        /* size of devs[] array to consider */
+>>>> -       __u8    pad3[64-32];    /* set to 0 when writing */
+>>>> +       __le32  logical_block_size;     /* same as q->limits->logical_block_size */
+>>>> +       __u8    pad3[64-36];    /* set to 0 when writing */
+>>>>
+>>>>           /* device state information. Indexed by dev_number.
+>>>>            * 2 bytes per device
+>>>> diff --git a/drivers/md/md-linear.c b/drivers/md/md-linear.c
+>>>> index 5d9b08115375..da8babb8da59 100644
+>>>> --- a/drivers/md/md-linear.c
+>>>> +++ b/drivers/md/md-linear.c
+>>>> @@ -72,6 +72,7 @@ static int linear_set_limits(struct mddev *mddev)
+>>>>
+>>>>           md_init_stacking_limits(&lim);
+>>>>           lim.max_hw_sectors = mddev->chunk_sectors;
+>>>> +       lim.logical_block_size = mddev->logical_block_size;
+>>>>           lim.max_write_zeroes_sectors = mddev->chunk_sectors;
+>>>>           lim.io_min = mddev->chunk_sectors << 9;
+>>>>           err = mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRITY);
+>>>> diff --git a/drivers/md/md.c b/drivers/md/md.c
+>>>> index 40f56183c744..e0184942c8ec 100644
+>>>> --- a/drivers/md/md.c
+>>>> +++ b/drivers/md/md.c
+>>>> @@ -1963,6 +1963,7 @@ static int super_1_validate(struct mddev *mddev, struct md_rdev *freshest, struc
+>>>>                   mddev->layout = le32_to_cpu(sb->layout);
+>>>>                   mddev->raid_disks = le32_to_cpu(sb->raid_disks);
+>>>>                   mddev->dev_sectors = le64_to_cpu(sb->size);
+>>>> +               mddev->logical_block_size = le32_to_cpu(sb->logical_block_size);
+>>>>                   mddev->events = ev1;
+>>>>                   mddev->bitmap_info.offset = 0;
+>>>>                   mddev->bitmap_info.space = 0;
+>>>> @@ -2172,6 +2173,7 @@ static void super_1_sync(struct mddev *mddev, struct md_rdev *rdev)
+>>>>           sb->chunksize = cpu_to_le32(mddev->chunk_sectors);
+>>>>           sb->level = cpu_to_le32(mddev->level);
+>>>>           sb->layout = cpu_to_le32(mddev->layout);
+>>>> +       sb->logical_block_size = cpu_to_le32(mddev->logical_block_size);
+>>>>           if (test_bit(FailFast, &rdev->flags))
+>>>>                   sb->devflags |= FailFast1;
+>>>>           else
+>>>> @@ -5900,6 +5902,66 @@ static struct md_sysfs_entry md_serialize_policy =
+>>>>    __ATTR(serialize_policy, S_IRUGO | S_IWUSR, serialize_policy_show,
+>>>>           serialize_policy_store);
+>>>>
+>>>> +static int mddev_set_logical_block_size(struct mddev *mddev,
+>>>> +                               unsigned int lbs)
+>>>> +{
+>>>> +       int err = 0;
+>>>> +       struct queue_limits lim;
+>>>> +
+>>>> +       if (queue_logical_block_size(mddev->gendisk->queue) >= lbs) {
+>>>> +               pr_err("%s: incompatible logical_block_size %u, can not set\n",
+>>>> +                      mdname(mddev), lbs);
+>>>
+>>> Is it better to print the mddev's LBS and give the message "it can't
+>>> set lbs smaller than mddev logical block size"?
+>>>
+>>
+>> I agree. Let me improve this.
+>>
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       lim = queue_limits_start_update(mddev->gendisk->queue);
+>>>> +       lim.logical_block_size = lbs;
+>>>> +       pr_info("%s: logical_block_size is changed, data may be lost\n",
+>>>> +               mdname(mddev));
+>>>> +       err = queue_limits_commit_update(mddev->gendisk->queue, &lim);
+>>>> +       if (err)
+>>>> +               return err;
+>>>> +
+>>>> +       mddev->logical_block_size = lbs;
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +static ssize_t
+>>>> +lbs_show(struct mddev *mddev, char *page)
+>>>> +{
+>>>> +       return sprintf(page, "%u\n", mddev->logical_block_size);
+>>>> +}
+>>>> +
+>>>> +static ssize_t
+>>>> +lbs_store(struct mddev *mddev, const char *buf, size_t len)
+>>>> +{
+>>>> +       unsigned int lbs;
+>>>> +       int err = -EBUSY;
+>>>> +
+>>>> +       /* Only 1.x meta supports configurable LBS */
+>>>> +       if (mddev->major_version == 0)
+>>>> +               return -EINVAL;
+>>>
+>>> It looks like it should check raid level here as doc mentioned above, right?
+>>
+>> Yeah, kuai suggests supporting this feature only in 1.x meta.
+> 
+> I mean it should check if raid is raid0 here, right? As doc mentioned,
+> it should return error if raid is level 0.
+> 
+> Regards
+> Xiao
 
-I think the latter would be the better option.
+Apologies — I misunderstood. I will add check in v6.
 
+>>
+>>
+>> --
+>> Thanks,
+>> Nan
+>>
+>>
+> 
+> 
+> 
+> .
+
+-- 
 Thanks,
-
-Paolo
+Nan
 
