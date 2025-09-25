@@ -1,107 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C7F2B9BA;
-	Thu, 25 Sep 2025 22:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEDD86353;
+	Thu, 25 Sep 2025 22:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758838740; cv=fail; b=XsVIAQMU3U0dB6CbQlAhM2d6hS4ellscpbRKnITc1zxySetkXX6N4CZ0EnsQrFwC4q3+ayUvy2/1yS+5LdsBSdpeMywuBJoHuU0xnsxpyqwLVxmD/PByCX8NA4Wn6KcmlzSJf95yLZLQ9pwP62exxotg5CR03rCRwKiTkVz4MCw=
+	t=1758841124; cv=fail; b=s7U4pMDSzXyYm2NEzoBL10MgTUIw91dkTFvmAHARHPergM9n/pJ3I7F1rGKd/BHrthua3TueR+qGmrqVoIiFeLpHyTb/zbYOtgjof2qpshvccTeZ/sOJ8hUWSFwN2d8IaDLGu07Eni1vL5feOFujUheN8gw7GmEeZnvdHsQVlxE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758838740; c=relaxed/simple;
-	bh=2CevwIu2bvwWz84KDqpHcqMObsdU8o8r3dKDhwxy11g=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=F/wKNUYvxdsOGHZLbtaLa789jp8FDCcygtimPOTNnVr7p+50aHMBSdtFD75/kRmzr/LHi2g1u4JZ9+sQNF3VJSkGM4T9k32VAospZGG1XlpV82jDzGdA1gBX/ac5+ks+SAtDKuatYZEHsMWO1zW2VmoMnN9ySNFiyPIKrmgMorw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vq/Mt3Bt; arc=fail smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1758841124; c=relaxed/simple;
+	bh=eW9zsknpzWN+Ff8eiD358VKZjTbFqwT7wH+tEaMa/zc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=HvioVFc1wxUQ1WnJsgL35eu+NxS27BWBZ83CgEOGDbbME6lkqLGfkAhiJET2nuEUGmjGYC/45kAn6RAHe25hfnJVSl6L+vNf1xIj0y1fZX5rPsQb+uzjA/SkfTWAVtdGj6xrO7B95yolxHKUC9syMTjNVzULcyS4flKHu0o7yFQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTjOzdSw; arc=fail smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vq/Mt3Bt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTjOzdSw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758838737; x=1790374737;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=2CevwIu2bvwWz84KDqpHcqMObsdU8o8r3dKDhwxy11g=;
-  b=Vq/Mt3Bts6CEs4o6zIU+wyM8YB0EDBQP1sJKUqxodw7kcVuiDZcl/a25
-   yhFSdfdnbJrmOIpRJytOK3tZnaKeA8VYrAaihTX4YV7B4bzZYhYex7tSS
-   yMlD4NBJGwYghSKcBQLXbEDePPC+mykPcxmKDfNhqxJfXyZEiFd3Z5LIo
-   cmSJjE0NGOx1Q5rG1WfWii9OFEld2CqSoVhM0WdsIuzhG1k3W3FD3YabY
-   CZSnAWLg4N6uSSrR4wa/xy1+6Mf9JKuWThlfsABJwfPTVPCGqcyC4/aMQ
-   u9HfE4BKZFZLMNWsmh+YnSus0J/3ew2vDA4SANvEEP1Y9l2DLp98hp5Zi
-   g==;
-X-CSE-ConnectionGUID: 5nxpWxbsTTmiw0Qcw1KRog==
-X-CSE-MsgGUID: kJIEfveNS7e5GyqOaTVIjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64983155"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64983155"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 15:18:56 -0700
-X-CSE-ConnectionGUID: qx+Te/vgQC+4Mghc9JPmWA==
-X-CSE-MsgGUID: u276dcGwSu+mr3ymY+9M5A==
+  t=1758841122; x=1790377122;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=eW9zsknpzWN+Ff8eiD358VKZjTbFqwT7wH+tEaMa/zc=;
+  b=fTjOzdSwIJm3lC7esJvhomxp82AHKeckp6KFTGSC2UugNimUzWmZkB/C
+   O8N6cjogtyb4peCOB84ZAiUpZ272L4f2e6qmweJOv+oXiRBhQiY4uhDKY
+   9YiulYHtouVYvbjwOanJDsodKjO85qliyKmpnBgoPCumHFfknb9lMEVBG
+   BDNa/NGlbM9zIeBNchfbyi4Zloi0/ATTyZk4KU4k/I/vrHkdoeHAqDRkp
+   PxcUD1ZMgpzGt7lmBHN3PGhMxBh1DkzDpNBD8Xi1Rxv8FWSe1IbBl47Z8
+   PvWTYSLqWt3azv981Cez9A4JqsjcDlAcwiGwNGM9/LUIS/iy+9Quvhfln
+   A==;
+X-CSE-ConnectionGUID: cVTItLhfSDyIMMjl2t5g2A==
+X-CSE-MsgGUID: 7MfhxON6SYycjp2eIgGJTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="71420610"
+X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
+   d="scan'208";a="71420610"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 15:58:42 -0700
+X-CSE-ConnectionGUID: uWJRJco7Tc6+XwKW12FtiA==
+X-CSE-MsgGUID: +YB1k9xGSk27/ZQKyMhfuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="176579744"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 15:18:56 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+   d="scan'208";a="177911014"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 15:58:42 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 25 Sep 2025 15:18:55 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.2.2562.27; Thu, 25 Sep 2025 15:58:41 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 25 Sep 2025 15:18:55 -0700
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.18) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Thu, 25 Sep 2025 15:58:41 -0700
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.6) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 25 Sep 2025 15:18:54 -0700
+ 15.2.2562.27; Thu, 25 Sep 2025 15:58:41 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=up82c433py0LBOe/JKn3hreAzEmm8tL6S9v2kmLpAIDxARq9Tx9frwbnpWOWrGWjohg3NdFsrvEztElX+0yxieA7kBNDFFB5/8c6zCva2lMolRcYlbZ5LAAJlu59oWdGqsX2yD5AkIi2gt8Ky7v+po4cNkILrq0sAbk+ZVFc/7cJeGjlMC/iFrtXOm6NaDDrGN0DkEQXxQsVsvou136Gdmovfqq267yF/0/iGeBOI7AiGfrOeV0De3s0HrB8cxzaF+I8fd/WNI2zahBeLrAq6uVamlOPnptLfn5hboFfmOki0QLuwESsO9+t0THH8Mv9ndxnMHK7QoE9TXELboUa2w==
+ b=v1dumepwmz/2FZ38RrLz6CBlFl14a2ItxctsdSMzUf1OII1LZmG5yBqb7y3rpMwBgmWbAGFZcttp7+KkTZIbQPaEOkCO9I6TZDg6ZlXsNexsKqzJmyP2qDwWa7wU/NcMqfZljgGk+u4P+z5FrPgCOQAyrGB+nxBU9pDEDBmgxj9ow9uQ+rQGaVvwu68OG09+RM1Lu4u5zFM35MWagONEHvT6Plmom55NsJY6nstxzE3P7e2ssCm4YUmldJv55Gy9vGOCbg+1lGW00nSwIROauJqnqFuKElkexAbIotSe/PmnoHg3cWx7Ea7GBtVjVxhNK06KmjR1dNkt6gs4G36SMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dIp1g2tVDFQZZEjpDqx6eM8SAghx3azT+MrTbXCBRts=;
- b=Mbv26wsS6/OXRTWTH3DBWINfvFBQ8BNi+4XrXpBxvjQy46iApCZhrysE/XDI4eF3Hf/smFnQC93jrAM+3tTdWJn5o6wUHw7Uy5upmnaUILRKKGhC59v2UNEq0q9JN9xSC1wgRRYnW4eMilCxSBAIrDvzW/3SvuWuw+jke7mlq4TZ4FslX9Pp3sDanoklpXSTTGuX2ehsAzOuef1koIhVGBHk3GeZHmUiMrnntBFhiepq6R8lc2jlU5HdMwDsI7OAO/GgtF9PU8mi9gamr+F3DCK8x57PTkfsrnBu5CKEAWEhT+DNEGIzLAw/SuXQj0eUI9kSJwSF2nfn1dBkAbCe+A==
+ bh=pAzAPpLcVrBtWx/LGS4QQF3kZnPahOb5eskKXbZyCtw=;
+ b=ZFO8iYeug2v5XDSSNaRmEIclQSQ7CPeA0BRGHfVT5mYFFTCj9xHs+gefccmjAijgUyFIUkDUp52njxPlFH/rltoHmGdm5ltzbPeTAGdKq/AiMo+ZmJFcwNjp4+NrgA/FpfukPFBZbb8Y1jEN8yKzEptsw8Uh52oposnsEuFf7zUvme2doyPTB1jXh4skbEViRad7Emz3fXovi5VRlj/gjhKkxLw3QSxdMkTkVfctS2eOO8Ir0HUTednmilLehZ5pG/nxzgZqHRv6Q5jwOCLNKc1uso8xAazBLDcsB6XGL9khZ54DzoaotdIffKZJ069dlyIXmaPkC2XVWnEqrY/N2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SN7PR11MB7512.namprd11.prod.outlook.com (2603:10b6:806:345::9) with
+Received: from DS7PR11MB6077.namprd11.prod.outlook.com (2603:10b6:8:87::16) by
+ PH7PR11MB7052.namprd11.prod.outlook.com (2603:10b6:510:20f::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
- 2025 22:18:53 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.9160.010; Thu, 25 Sep 2025
- 22:18:52 +0000
-Message-ID: <1c7cc78f-c5ba-4fbc-9b17-61e5b72415ad@intel.com>
-Date: Thu, 25 Sep 2025 15:18:51 -0700
-User-Agent: Mozilla Thunderbird
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Thu, 25 Sep
+ 2025 22:58:39 +0000
+Received: from DS7PR11MB6077.namprd11.prod.outlook.com
+ ([fe80::5502:19f9:650b:99d1]) by DS7PR11MB6077.namprd11.prod.outlook.com
+ ([fe80::5502:19f9:650b:99d1%5]) with mapi id 15.20.9137.021; Thu, 25 Sep 2025
+ 22:58:39 +0000
+Date: Thu, 25 Sep 2025 15:58:35 -0700
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Dave Martin <Dave.Martin@arm.com>
+CC: <linux-kernel@vger.kernel.org>, Reinette Chatre
+	<reinette.chatre@intel.com>, James Morse <james.morse@arm.com>, "Thomas
+ Gleixner" <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "Borislav
+ Petkov" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter
+ Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>
 Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
  per-arch
-To: "Luck, Tony" <tony.luck@intel.com>
-CC: Dave Martin <Dave.Martin@arm.com>, <linux-kernel@vger.kernel.org>, "James
- Morse" <james.morse@arm.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
- Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, "Jonathan
- Corbet" <corbet@lwn.net>, <x86@kernel.org>, <linux-doc@vger.kernel.org>
+Message-ID: <aNXJGw9r_k3BB4Xk@agluck-desk3>
 References: <20250902162507.18520-1-Dave.Martin@arm.com>
- <b38f0459-1373-42d3-8526-e8ef9ac4d2e7@intel.com>
- <aNFfs43UBp6tjqPM@e133380.arm.com>
- <5be54a14-a7ba-49ba-8ddc-db532f2cf318@intel.com>
- <aNU5nCklRhuc4u3X@e133380.arm.com>
- <9dba03c5-cf45-4510-ab6c-2a945e73fd1c@intel.com>
- <aNW1vAd6Jhq6IkyJ@agluck-desk3>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <aNW1vAd6Jhq6IkyJ@agluck-desk3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW2PR2101CA0015.namprd21.prod.outlook.com
- (2603:10b6:302:1::28) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+ <aNFliMZTTUiXyZzd@e133380.arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <aNFliMZTTUiXyZzd@e133380.arm.com>
+X-ClientProxiedBy: SJ0PR03CA0137.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::22) To DS7PR11MB6077.namprd11.prod.outlook.com
+ (2603:10b6:8:87::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -109,233 +103,279 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SN7PR11MB7512:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba9e6d49-149a-4ff0-0fda-08ddfc818282
+X-MS-TrafficTypeDiagnostic: DS7PR11MB6077:EE_|PH7PR11MB7052:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2003d101-6aef-4df1-ee4e-08ddfc8710cd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N2FqNkF2QkdTeHBscG5XL3J2Z2ROKzBOUkZCMldzWlZlMGJGbTdKWi82TWpn?=
- =?utf-8?B?TlFqdGlKSzlCenNObVRqOWh5ak1FNzNkNXJyejR5RnM3MExnSVI4YmtVbi9H?=
- =?utf-8?B?TGNPOE1Tc1dibGsyNXUvQXhabnVUNWRuU3hEdWtHUHdZNkxMRm0wT2FYSTVr?=
- =?utf-8?B?THhycXBWeEFsK0JDR3BQUzdncXVOT3BOTDdLYWZndEZZdjRWR0VoL1ZvcDFO?=
- =?utf-8?B?ZkNQRW1CdEFCS0JkYlowMVZBc0hnc2tNdXdPd2RsMm5pdVZndjFkYlI5b1Ji?=
- =?utf-8?B?QXVLS2dFdlJDOHM5VVFxV1EvUkkzSnVNQjNUL3VvTVEwYTVkM1ozdk5FWmZz?=
- =?utf-8?B?RVN2bG1QbUVvd090QmNxMjNPVVpRcVdpc0kveDlvTXRKNE5UVEpGais2Y2N6?=
- =?utf-8?B?TkJtcXRNZmIyRlFIenVPOE9SbyszZjhYd2tMbTR2aG9hOTVkcHBML3YxL29a?=
- =?utf-8?B?Tm8wVll3b3doVVFQSmxVR2RyeWViZFZ3ZHFQUElab3BxNVlPc1AzQXRnbG9h?=
- =?utf-8?B?U1dFYjc0ZnZpQUlyT3ZUZTRBZkxVSXF2K3J6SFpPTXNWVDNrWkd4dDg3bWVm?=
- =?utf-8?B?UldRODVycEh4SXQrZ01HaUlCaUpCekxjK0ZRQ1pVSTVoaS8yRnFMYks3amdX?=
- =?utf-8?B?c0RsNGp5ZFYxRDFzOTZjRmx3N0tFTnUzMTYwYUpSc1F1VGR2NnpCNEN3RHNN?=
- =?utf-8?B?RXplRGhtRnRyQkwwREZDK2J0Yk1aTlhjUkpIb2wxeWhyRW9GRlNsTEpMVnVX?=
- =?utf-8?B?NExsbkx2VThsMjFzd0FGVE5KV0xVODlHcitteDJyL09QdDV2UVFEaStsVFNY?=
- =?utf-8?B?WWsxZW1Wb0Z1VnlDWSs2Z3hFVUZnMTNtRTRlMEl2NXRPL1RValNJMG5qTXlz?=
- =?utf-8?B?cmFIbTFZQUVjVjRHRFdWdU84SXhQcmJ0bmFEWS90M0QvZmo0SGlkbVRqbkRu?=
- =?utf-8?B?VlVmMklybFJqYSt5Y1ZHSGRJbEUzcmN0Y0RrNFdrZnFzQU4zQkI3eEVleTl3?=
- =?utf-8?B?Tmt0SlowK2QzUWFwdU5aM2o0Q0xHR1ZnQWRwelJvMU1ZQ2xzRlN5ZGVZdS9o?=
- =?utf-8?B?L084d2ErUFdrd09uWW9Kclh1Z3hUQU9VMUhkOE43N0czTnBZSTA4MmZWdmlV?=
- =?utf-8?B?RWRCMUxsUHNpZWcydnY4RHZPUVdYVzVFV282aWdORGd6MDF2RWlBM0FGK2xF?=
- =?utf-8?B?eEFFenkyTVVlRFgyWjZlNEl2WjE1bE5lNjI5WEcyck8vbm1YYXQwa0VNTFBa?=
- =?utf-8?B?azFmSWIwZlJOQWw0eEpZb3ZFdmZkSDd0M0YwVmwrOThEWFZ0dHR4YmFEMVdR?=
- =?utf-8?B?YzZkNUpFd3VaVzRpS3QxUE5QUEhiVjErSUxxSFlZSVlxZEFhdnRLTEk3bUJa?=
- =?utf-8?B?emVhSXVmWmNpUytqai9HYjM1UWpLbkN0S0lzaEVwSEE5WFRlUmZVQ2sxUEdQ?=
- =?utf-8?B?aTRJN3RZSzMzakFYSWNUUVc3OTV6b2NwYW5OL3JGR3Bnb1Y1dkg1ZDAzWitw?=
- =?utf-8?B?UU5QbVR2RDMvSFdVU1dHSDdJemZVbzJZajRrNDdOMmdoSmlaVXdKZUNzd3E2?=
- =?utf-8?B?Ry9kZHo3MENmbkhSTHJpVEh5MnBGOTdhWFB1RGgxeS9ZU3dUcVV2WlhtcU15?=
- =?utf-8?B?dVhiWDZ6T1dTR212SlhVNUl4MGI5ZDQ4eXFxTGJoY0laWFlqdG5odHRFQ1BY?=
- =?utf-8?B?WUs5RytBMUVDdlVLZGdMYUtnL1grSnN5SVJ5R0dHWVpXR3lZZnBQTTFZMVVa?=
- =?utf-8?B?QnQxQ0RnZnpyQ3FSOEY1SmdPWXRyUTZtUjNPS3E0QkFXRStaOGttOWJlbmhh?=
- =?utf-8?B?SThxZHd0QVU3QVl1RW83NlJxd1NNV2pSRXJEZjFmQ3ZXZTdCUlo4c2tRaVpi?=
- =?utf-8?Q?htVmTZaijVFpt?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FmjMO44dM4LD2NlPnWzKGgTMGWZF+1MdMop4IG7HAcZhh57x2B4Q6Ew8rQNz?=
+ =?us-ascii?Q?QfpNMu/XFvNlsRmgxVNAHUgtwW8Bi44S0mS/MpypoTWQ3/ngrGSobl+ri15H?=
+ =?us-ascii?Q?PP4wyeeyBbPTk9YBawcM10dAXZZDfkOhWl1qLOkctYnBIGlWcM5BhHl3fm5n?=
+ =?us-ascii?Q?/lEq+tWm2nVfnSow+FNZGYll+vaIuQUV59CQwP1PRHCgDTIw/uwKg+VrFaSi?=
+ =?us-ascii?Q?lh5I6Cab+Kp6FErx8pIGuT3amvuIAi6i+/6DFOws2omn2duaLOUs61x4u7ty?=
+ =?us-ascii?Q?PfUTwYIwhpzKjo6XNPTGJc3gVQx0Ytg7eEWfmB732UlZYAEbMvYp2+LJpCaM?=
+ =?us-ascii?Q?oOc3j5Lni1V/UnGELzac1bqsVXLBzx1Tq9Rv3ggeVsf5Ow3ZTklcRrMpkl0l?=
+ =?us-ascii?Q?o7QQP3enAjQxz/xvC7pzANOMHusQxRhcN7+6Aw8rjC1IL9KDoRv0PUuqHJwa?=
+ =?us-ascii?Q?jzzvBO59vFI5vuv3cA1bRtg7N8CuHkTUK/U0KiBZBkgj8TMMUMyYtrQl7iBY?=
+ =?us-ascii?Q?NHGq8nd6Z/sR2pyqK44OLXfTQqFNUxicFccvz7+TMkiHCM+YDhOAAGyT3f3a?=
+ =?us-ascii?Q?nwAue7HQxlDrNeSkvJvmeCjNseZjLh5N3WJi2gvADtXk1kCilUM4q6IIQuzy?=
+ =?us-ascii?Q?zGY869ALdNXwDJnFbs9/ylaKdu7qYaBFWxDtFL7C8UddBYU/B8Tq0C5wiks6?=
+ =?us-ascii?Q?nVNe66OMt3RQ707rphxjZxCb0n89IVuwqi0Y8Qch1aQ6aSk5u9wGY9JUB8qI?=
+ =?us-ascii?Q?GQeEPRCD3DYwdnEtGCZhxMkTDG5VuYkqu2FXr+efZkEFbbgS0cAwIYL0bgY1?=
+ =?us-ascii?Q?oI3hUoInNhC0tzoxEDEW0DM//XIOujNxeQY8S84cU+vB2SaIqTschtm0OiBT?=
+ =?us-ascii?Q?CD/aOQ3cJs29H2l3EYbybbJX12CiDCUH3pR1h2fiso7nrJshPCdFGpKh8Bjx?=
+ =?us-ascii?Q?7zSnBbiAQB0rgN5nwAZ7PObd2bCeOTHE+wZHDXIzxKwU6rC4Bek/X744WUxP?=
+ =?us-ascii?Q?zYwbRetu/7GgneCAcsfmeSrZQ0j09BuDIdzzNcgB7eE6FnT1Y/7IpU2/FHwS?=
+ =?us-ascii?Q?OdUIh//OWQPcZFTMSIOBi34eXtPgI+C6aRQ6CQLsIfg+N7U7VuMs85JK+NBC?=
+ =?us-ascii?Q?N6XuypKK6tgiTmRJnJ6zLHTfVvcwwSYxrrxIe7AjN1wpggL4d5fodgg6Hi/r?=
+ =?us-ascii?Q?dEynQ8Ir04kMlpOZYg55+ysCrcbMGwMX859wdh/4sjHCiNzOsjCj1+QJm3rb?=
+ =?us-ascii?Q?anvny4TFd483QPfX9SccOimmUfThduA+zatESdQRiLz2TSxWti5d1o19EYXu?=
+ =?us-ascii?Q?O4U/llVAwAYxgvAH+JrBnY+ktH11nXXOX28cs1u6CDMtiP4pWWHCTan9wSMX?=
+ =?us-ascii?Q?m6RLgTi9qNEEyt1SbfCP/NI4hUDeOMcJHOkWuskWg2m4375qc90Xrt5qaxNV?=
+ =?us-ascii?Q?3ketUtS7wmdD8X4nj/U35gEAmZtxwtUa?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB6077.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVc2SzFYWDREajZnY29HUXNEUmpCVXJqMUhkcG9BUlJBekhBc2ExMk5IRU05?=
- =?utf-8?B?VDJQSGxHZG50UkRnZDQ1c0FFcks4K3U0bm5GNjFlZEVDOXRFaFY0SE5JbHNJ?=
- =?utf-8?B?emk4Qzl2bHR3NHpoUlF4RkEyOVg4TDhGa0N3dmNZclc1SWdObFN2emJvL05N?=
- =?utf-8?B?bzIzT3QwR285eWVoYnlaZDkwMmIrTHhXZnZ2OEp0OUd0Q1VrQjF2ajlkak5q?=
- =?utf-8?B?bWludTU0K01rTmh5aE1KOS9vVnNJQnQxK1lpbE95d042OVg2RUdRWmlSRzNm?=
- =?utf-8?B?cEJYRExFRlQzeDNjeGpJRW9XWmZwdjRhRUp4UWI4d3VoVllQNDl5eEVadnY3?=
- =?utf-8?B?QU95TG9najM2aGtEUnNTaEtMTm1JYnhYajEydmdZbFpjY1Z3dkIxYmJ0Rm5B?=
- =?utf-8?B?MWp3VVgzWnFZRER4b2NURnM5amxOQStnVjlReXRESnBBSGtJNHVWY0x6WFJV?=
- =?utf-8?B?dHI5R2FJTkN6Qis2MVZPTWRHZENrdCtkU1RLSDdSMEVINW5aZWRrU1l4b1Z6?=
- =?utf-8?B?M0p6OTdCM0FGZDZNeVI1MXAwdFhTSTdxSG5yckVBTmI2NlN5RU13WHdWNkcz?=
- =?utf-8?B?eUlRQmJtSkRiNWVyQndYU2dBYTFHb3N5SmNlZUtKSFFXSkVHOVJ5OC84c29W?=
- =?utf-8?B?b1JNNE1SOERpUnJGV1doaXFwb29WRTVqT3RLWC8wYXJ5WmVwaVBOUm5iWlQx?=
- =?utf-8?B?VXZRbXFFcitHWUQ4dU9GZERNNThuNklJSmxJeTRSMnpmTlM3YTJWVisrYWx3?=
- =?utf-8?B?MnFFcWVZYWNyUXBVVldUOXZ4SHl6NUMwUkZQNFFEaDI0c01EUEtUc3RRSXIr?=
- =?utf-8?B?bkhUSGNTeWNjV2cydDc4dWFhS2tCdFQvQnhiUERQaG42NG5ZY1JhNTJ5ZnFL?=
- =?utf-8?B?OWhJSzB4bkJtU3BlSzdwcXU4OTJjODhCbWxZcjVrVE5OUEZxbVhvUHl1OG5N?=
- =?utf-8?B?eXNiam5CWEdRaW83dDNJaytxWEdvV2dUaE1oSmlJeHV6VThQc0hwQndLam9n?=
- =?utf-8?B?ZW0wbVNKRzBSWHRYTDZIZm9zZGtKN0VyUHA3NVZaZWtuOGwyd3dPUUJvMGto?=
- =?utf-8?B?VFQzOThuUWFoV3VpZitzTlRsTTgxOURTa1g4YlJYWVpNMExhRktnRFovRmZm?=
- =?utf-8?B?cFFodEM5c2c5V0xkSVU0eE1pNDFDa0xlcXpCbmVNd0Y0UmNqeVB2cklWbHBI?=
- =?utf-8?B?Lzd4blg4Q0lVRUlMQ1hKdUQrbWxzQTFhc290ejk5SFVNaWZncGo0Zmh6STZQ?=
- =?utf-8?B?ZTc1Znd0eVpNVHd2R0xpQ2I5VDZsbFhFVHhWbnloQTNpaUc5OTRoWGJzWCtU?=
- =?utf-8?B?T2dKV2dnU3k1aE9nbDZvVmNBNTAxUm51aFIwZUsxREpxclZVTWV2TzQ0bnE2?=
- =?utf-8?B?TDhDeEVCajVuMSswWGlpcXZ2UnU4MHV6QVJCMjN0MkU4RHRTTStyVWxZeGxO?=
- =?utf-8?B?bGg5bVZOYzFUaUV4UG9RcC9hMzNoZzMrcTBsRyszMVRwV1pqWE4rci9rSTRW?=
- =?utf-8?B?NVNXRmhCSElwTzJnemUrRllDNlF3QUJ1RTBKY1RneFM0VVFrN1hrNmVibjVp?=
- =?utf-8?B?d3hCcDZ5Q0M3SDFwOHNTTmY3VHRkV2hLc3hMSmlJN1M2RitUM0lQQU9JMkFL?=
- =?utf-8?B?SURvNG5haUhaVWxPWjRINEpoVk14TEp5YjV4UTBGWXJrVENwZ3RhSlJZaGpX?=
- =?utf-8?B?UWJtNlNpS1c5Q3o2K0tlMGlrU1ZPcm15VGZVZWJaUFg2Rzh1OUdvQXhjc0FZ?=
- =?utf-8?B?NUdpSGwxYnJSR0REWU5WYzNWajJ3VzZzckhVWFZXVTVwVHpyNGpOSGFyby8z?=
- =?utf-8?B?QmFJTkVFOXBDZ29sK3RlTm53QWtwSXZFTlRMSEpEKyt4MGhOcnY4SERaWGRL?=
- =?utf-8?B?TWt3WXdKbmdQaVlqVytuZk02K3dqcWhPMTRSc0hKOCttU29xZWg2WW5kMFFa?=
- =?utf-8?B?Vm5pZy96eElZTkN4eHJXKzBNQjRBaGpKOVVhM0dyeUFvbEVBSzlUTlVIdjFz?=
- =?utf-8?B?SkkwN0laQ2RsMWQ4K1MvYUFZS2lSYzhZU1R2MDhRbUp4bTFGQloxRnhVd0dW?=
- =?utf-8?B?Ly84bDVLR1dEN05HOXdxU1dIOTRMTjJDR1Uvc2d4cnpTVHladm9ObS9Eb0pF?=
- =?utf-8?B?Q2tKbTMwNWZpaTFnaXlNUG9MQVd6ZW9TMk01RGRUZjdBazFuUFdRMHk4eFMr?=
- =?utf-8?B?Z1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba9e6d49-149a-4ff0-0fda-08ddfc818282
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fyDoze1HnQoNe/B5/yCpBaYZTO+/4UWhRgosCebVYxgg7xLrKSRG8CgOGMCl?=
+ =?us-ascii?Q?mKZGD03PL3Q5DrNfQLB/lHi2bUhy9UocHScE00ois2BLQaI5IRQzhHLUvcIE?=
+ =?us-ascii?Q?UDVmKVzz/7uQ8To4NSkUy30c3cE100qJkaTBidEkYpbiWLmtgAJesAzqIWgP?=
+ =?us-ascii?Q?Wsh+t2yr7N3f9MvdXQBZV9Vb/1+GoYpzqO9CYw+1PpeE9vfSkHonTkbdQUjy?=
+ =?us-ascii?Q?vh498O8OFMVpq9320oDzL7enNojkCgsXmHaEOSfWA+MKnxDQATjntta57mAW?=
+ =?us-ascii?Q?BrkyaMbmNPc4/6IzFjpDGy46G5zvlGNKt12iScJAaoBOc4caby6Bvg0vSEY6?=
+ =?us-ascii?Q?illQKLLIdYaKZd2OxiMdndOX1dJKjmUgfM7zbfjQ8xB/acNC8S8cz2XhBFlN?=
+ =?us-ascii?Q?lwPiLFJiWvDqabEHGMJz0cdR/SKTUmapuemMDos8ogVzhrPlg/OVOgJJsWMn?=
+ =?us-ascii?Q?3HR1JnwJioh91jLfNBHCfnIcfR3T5liylT4ns+RyeY62oij2lofTaGPpQSoB?=
+ =?us-ascii?Q?F46KqhOp6FhGyIR2w7IWe0gLwEBBoi8khC5gPB0gi4X5dl+y2khd4DAUH6Rk?=
+ =?us-ascii?Q?xXyHH1oz6Benfe70HxNKqLfxnx1H5LXexZDCnpdXuXcDUKfMvSqc3zew5wSq?=
+ =?us-ascii?Q?3odSKMx4GQF6OAAVm3R/alcKM1jT+eYzOoKLM7MoIKSyPe6oeeWiS3icFgFT?=
+ =?us-ascii?Q?yauW1DMGsKzm/5qm2+hMplR6BMotgCRbOaVzo9M8Rtlct5gpHrFFd/YFb1RD?=
+ =?us-ascii?Q?BxwgYPiJi5Rdg6duzyJzAI61SvkVMc3+s9t6nvkN5FFz4E/B/wgPe7ZETtuL?=
+ =?us-ascii?Q?atIoiXGXNuQVPT9iUeOBr5jI8Be32nn/TM+egkEqv0Sfwe11mYEdtch5EH+0?=
+ =?us-ascii?Q?5ayG70RUmTVV8+QNagdNiwJ39JPshxD9s0/uy7bjJpZVUgTFueMEDFqloQHx?=
+ =?us-ascii?Q?8Xqg18Z0Kmhgyz4rlYsNZ07YciGMujXt5GXrmlNDcKogvxTTn3e6oplih3Qc?=
+ =?us-ascii?Q?u0GBqkuq7V3GGSEnqOK6wmt7mtErXYqkQZyGE5YW93eas83QaPIg/kxMJFNN?=
+ =?us-ascii?Q?3rLqLXctPGcyNQZ7XmtExP49ov1H603ltW5REMHidHU68lGrmJzij1hiDE2t?=
+ =?us-ascii?Q?HGZusmPkconI30vDy8VsdVqaVkEYm7AH5IY7e/NAPHE0Ua6YvneAnE2vSRVw?=
+ =?us-ascii?Q?ky+WAHOCX2UXDY5RuX+lNeGoDCcM0I/m1WWBEpKVOo5AsBHXsKI7Oa6SPetN?=
+ =?us-ascii?Q?OWVUe8JMJBcZEVdZ5ZW+nLYPhOZSH8EUxFwkJnRnzMrmkWDCGDHIGQnU4HD2?=
+ =?us-ascii?Q?arNpocPEoNhydp/7rxa4IWoElc6ig3lhJIXcivtTKF6qoTyUg00GGTSzCC5d?=
+ =?us-ascii?Q?ndStcF73blGpMuYcu/JTnZBPP63pvnUOJg6loNjuMYzl09hBRyj474YqTQBq?=
+ =?us-ascii?Q?1Udcz1HpTPa11Va6gS2gmCbmbSe5lRgXhImAvNR1p2+R0oQGTy2iWnr6KJpc?=
+ =?us-ascii?Q?XuYA7Ms4ZV9mWEOMdoD3VoSTF+Jtg+AMHNiF+4eyLhP4BJ5p+a0Ocd1gaP3x?=
+ =?us-ascii?Q?yEsIibY4FrEl2nakZMuPA0o9qoliGRX6CrklHhiC?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2003d101-6aef-4df1-ee4e-08ddfc8710cd
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB6077.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 22:18:52.8450
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 22:58:39.0585
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hd5bxbCPRvArP55qQ2P0cbHXvZZajjsSxBqFudNSrXh0Hn82qEialfOeZkRuFqJb+3Rju+6Q6Nt0tu8iWSPitxn6h3jmktMjchyTAy+IVU4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7512
+X-MS-Exchange-CrossTenant-UserPrincipalName: lmyOw94xW8DAEp0SDYVtBRz2DjfynYZxVypPhq+QyedTnkJh5F5yvHua+eApgEpd5SoiSCqNsFEIyZgm6xCowg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7052
 X-OriginatorOrg: intel.com
 
-Hi Tony,
-
-On 9/25/25 2:35 PM, Luck, Tony wrote:
-> On Thu, Sep 25, 2025 at 01:53:37PM -0700, Reinette Chatre wrote:
->> On 9/25/25 5:46 AM, Dave Martin wrote:
->>> On Tue, Sep 23, 2025 at 10:27:40AM -0700, Reinette Chatre wrote:
->>>> On 9/22/25 7:39 AM, Dave Martin wrote:
->>>>> On Fri, Sep 12, 2025 at 03:19:04PM -0700, Reinette Chatre wrote:
-
-...
-
-
->>>>> for which writing "MB: 0=x" and "MB: 0=y" yield different
->>>>> configurations for every in-range x and where y = x + g and y is also
->>>>> in-range.
->>>>>
->>>>> That's a bit of a mouthful, though.  If you can think of a more
->>>>> succinct way of putting it, I'm open to suggestions!
->>>>>
->>>>>> Please note that the documentation has a section "Memory bandwidth Allocation
->>>>>> and monitoring" that also contains these exact promises.
->>>>>
->>>>> Hmmm, somehow I completely missed that.
->>>>>
->>>>> Does the following make sense?  Ideally, there would be a simpler way
->>>>> to describe the discrepancy between the reported and actual values of
->>>>> bw_gran...
->>>>>
->>>>>  |  Memory bandwidth Allocation and monitoring
->>>>>  |  ==========================================
->>>>>  |
->>>>>  |  [...]
->>>>>  |
->>>>>  |  The minimum bandwidth percentage value for each cpu model is predefined
->>>>>  |  and can be looked up through "info/MB/min_bandwidth". The bandwidth
->>>>>  |  granularity that is allocated is also dependent on the cpu model and can
->>>>>  |  be looked up at "info/MB/bandwidth_gran". The available bandwidth
->>>>>  | -control steps are: min_bw + N * bw_gran. Intermediate values are rounded
->>>>>  | -to the next control step available on the hardware.
->>>>>  | +control steps are: min_bw + N * (bw_gran - e), where e is a
->>>>>  | +non-negative, hardware-defined real constant that is less than 1.
->>>>>  | +Intermediate values are rounded to the next control step available on
->>>>>  | +the hardware.
->>>>>  | +
->>>>>  | +At the time of writing, the constant e referred to in the preceding
->>>>>  | +paragraph is always zero on Intel and AMD platforms (i.e., bw_gran
->>>>>  | +describes the step size exactly), but this may not be the case on other
->>>>>  | +hardware when the actual granularity is not an exact divisor of 100.
->>>>
->>>> Have you considered how to share the value of "e" with users?
->>>
->>> Perhaps introducing this "e" as an explicit parameter is a bad idea and
->>> overly formal.  In practice, there are likely to various sources of
->>> skid and approximation in the hardware, so exposing an actual value may
->>> be counterproductive -- i.e., what usable guarantee is this providing
->>> to userspace, if this is likely to be swamped by approximations
->>> elsewhere?
->>>
->>> Instead, maybe we can just say something like:
->>>
->>>  | The available steps are spaced at roughly equal intervals between the
->>>  | value reported by info/MB/min_bandwidth and 100%, inclusive.  Reading
->>>  | info/MB/bandwidth_gran gives the worst-case precision of these
->>>  | interval steps, in per cent.
->>>
->>> What do you think?
->>
->> I find "worst-case precision" a bit confusing, consider for example, what
->> would "best-case precision" be? What do you think of "info/MB/bandwidth_gran gives
->> the upper limit of these interval steps"? I believe this matches what you
->> mentioned a couple of messages ago: "The available steps are no larger than this
->> value."
->>
->> (and "per cent" -> "percent")
->>
->>>
->>> If that's adequate, then the wording under the definition of
->>> "bandwidth_gran" could be aligned with this.
->>
->> I think putting together a couple of your proposals and statements while making the
->> text more accurate may work:
->>
->> 	 "bandwidth_gran":
->> 		The approximate granularity in which the memory bandwidth
->>  		percentage is allocated. The allocated bandwidth percentage
->> 		is rounded up to the next control step available on the
->> 		hardware. The available hardware steps are no larger than
->> 		this value.
->>
->> I assume "available" is needed because, even though the steps are not larger
->> than "bandwidth_gran", the steps may not be consistent across the "min_bandwidth"
->> to 100% range?
+On Mon, Sep 22, 2025 at 04:04:40PM +0100, Dave Martin wrote:
+> Hi again,
 > 
-> What values are allowed for "bandwidth_gran"? The "Intel® Resource
-
-This is a property of the MB resource where the ABI is to express allocations
-as a percentage. Current doc:
-	"bandwidth_gran":                                                               
-		The granularity in which the memory bandwidth                   
-		percentage is allocated. The allocated                          
-		b/w percentage is rounded off to the next                       
-		control step available on the hardware. The                     
-		available bandwidth control steps are:                          
-		min_bandwidth + N * bandwidth_gran.
-
-I do not expect we can switch it to fractions so I would say that
-integer values are allowed, starting at 1.
-
-I understand that the MB resource on AMD supports different ranges and
-I find that ABI discrepancy unfortunate. I do not think this should be
-seen as an opportunity that "anything goes" when it comes to MB and used as
-an excuse to pile on another range of hardware dependent inputs. Instead I
-believe we should keep MB interface as-is and instead work on a generic
-interface that enables user space to interact with resctrl to have benefit
-of all hardware capabilities without needing to know which hardware is
-underneath.
-
-> Director Technology (Intel® RDT) Architecture Specification"
+> On Fri, Sep 12, 2025 at 03:19:04PM -0700, Reinette Chatre wrote:
 > 
-> 	https://cdrdv2.intel.com/v1/dl/getContent/789566
+> [...]
 > 
-> describes the upcoming region aware memory bandwidth allocation
-> controls as being a number from "1" to "Q" (enumerated in an ACPI
-> table). First implementation looks like Q == 255 which means a
-> granularity of 0.392% The spec has headroom to allow Q == 511.
+> > > Clamping to bw_min and bw_max still feels generic: leave it in the core
+> > > code, for now.
+> > 
+> > Sounds like MPAM may be ready to start the schema parsing discussion again?
+> > I understand that MPAM has a few more ways to describe memory bandwidth as
+> > well as cache portion partitioning. Previously ([1] [2]) James mused about exposing
+> > schema format to user space, which seems like a good idea for new schema.
 > 
-> I don't expect users to need that granularity at the high bandwidth
-> end of the range, but I do expect them to care for highly throttled
-> background/batch jobs to make sure they can't affect performance of
-> the high priority jobs.
+> On this topic, specifically:
 > 
-> I'd hate to have to round all low bandwidth controls to 1% steps.
+> 
+> My own ideas in this area are a little different, though I agree with
+> the general idea.
+> 
+> Bitmap controls are distinct from numeric values, but for numbers, I'm
+> not sure that distinguishing percentages from other values is required,
+> since this is really just a specific case of a linear scale.
+> 
+> I imagined a generic numeric schema, described by a set of files like
+> the following in a schema's info directory:
+> 
+> 	min: minimum value, e.g., 1
+> 	max: maximum value, e.g., 1023
+> 	scale: value that corresponds to one unit
+> 	unit: quantified base unit, e.g., "100pc", "64MBps"
+> 	map: mapping function name
+> 
+> If s is the value written in a schemata entry and p is the
+> corresponding physical amount of resource, then
+> 
+> 	min <= s <= max
+> 
+> and
+> 
+> 	p = map(s / scale) * unit
+> 
+> One reason why I prefer this scaling scheme over the floating-point
+> approach is that it can be exact (at least for currently known
+> platforms), and it doesn't require a new floating-point parser/
+> formatter to be written for this one thing in the kernel (which I
+> suspect is likely to be error-prone and poorly defined around
+> subtleties such as rounding behaviour).
+> 
+> "map" anticipates non-linear ramps, but this is only really here as a
+> forwards compatibility get-out.  For now, this might just be set to
+> "none", meaning the identity mapping (i.e., a no-op).  This may shadow
+> the existing the "delay_linear" parameter, but with more general
+> applicabillity if we need it.
+> 
+> 
+> The idea is that userspace reads the info files and then does the
+> appropriate conversions itself.  This might or might not be seen as a
+> burden, but would give exact control over the hardware configuration
+> with a generic interface, with possibly greater precision than the
+> existing schemata allow (when the hardware supports it), and without
+> having to second-guess the rounding that the kernel may or may not do
+> on the values.
+> 
+> For RDT MBA, we might have
+> 
+> 	min: 10
+> 	max: 100
+> 	scale: 100
+> 	unit: 100pc
+> 	map: none
+> 
+> The schemata entry
+> 
+> 	MB: 0=10, 1=100
+> 
+> would allocate the minimum possible bandwidth to domain 0, and 100%
+> bandwidth to domain 1.
+> 
+> 
+> For AMD SMBA, we might have:
+> 
+> 	min: 1
+> 	max: 100
+> 	scale: 8
+> 	unit: 1GBps
+> 
+> (if I've understood this correctly from resctrl.rst.)
+> 
+> 
+> For MPAM MBW_MAX with, say, 6 bits of resolution, we might have:
+> 
+> 	min: 1
+> 	max: 64
+> 	scale: 64
+> 	unit: 100pc
+> 	map: none
+> 
+> The schemata entry
+> 
+> 	MB: 0=1,1=64
+> 
+> would allocate the minimum possible bandwidth to domain 0, and 100%
+> bandwidth to domain 1.  This would probably need to be a new schema,
+> since we already have "MB" mimicking x86.
+> 
+> Exposing the hardware scale in this way would give userspace precise
+> control (including in sub-1% increments on capable hardware), without
+> having to second-guess the way the kernel will round the values.
+> 
+> 
+> > Is this something MPAM is still considering? For example, the minimum
+> > and maximum ranges that can be specified, is this something you already
+> > have some ideas for? Have you perhaps considered Tony's RFD [3] that includes
+> > discussion on how to handle min/max ranges for bandwidth? 
+> 
+> This seems to be a different thing.  I think James had some thoughts on
+> this already -- I haven't checked on his current idea, but one option
+> would be simply to expose this as two distinct schemata, say MB_MIN,
+> MB_MAX.
+> 
+> There's a question of how to cope with multiple different schemata
+> entries that shadow each other (i.e., control the same hardware
+> resource).
+> 
+> 
+> Would something like the following work?  A read from schemata might
+> produce something like this:
+> 
+> MB: 0=50, 1=50
+> # MB_HW: 0=32, 1=32
+> # MB_MIN: 0=31, 1=31
+> # MB_MAX: 0=32, 1=32
+> 
+> (Where MB_HW is the MPAM schema with 6-bit resolution that I
+> illustrated above, and MB_MIN and MB_MAX are similar schemata for the
+> specific MIN and MAX controls in the hardware.)
+> 
+> Userspace that does not understand the new entries would need to ignore
+> the commented lines, but can otherwise safely alter and write back the
+> schemata with the expected results.  The kernel would in turn ignore
+> the commented lines on write.  The commented lines are meaningful but
+> "inactive": they describe the current hardware configuration on read,
+> but (unless explicitly uncommented) won't change anything on write.
+> 
+> Software that understands the new entries can uncomment the conflicting
+> entries and write them back instead of (or in addition to) the
+> conflicting entries.  For example, userspace might write the following:
+> 
+> MB_MIN: 0=16, 1=16
+> MB_MAX: 0=32, 1=32
+> 
+> Which might then read back as follows:
+> 
+> MB: 0=50, 1=50
+> # MB_HW: 0=32, 1=32
+> # MB_MIN: 0=16, 1=16
+> # MB_MAX: 0=32, 1=32
+> 
+> 
+> I haven't tried to develop this idea further, for now.
+> 
+> I'd be interested in people's thoughts on it, though.
 
-This is the limitation if choosing to expose this feature as an MB resource
-and seems to be the same problem that Dave is facing. For finer granularity
-allocations I expect that we would need a new schema/resource backed by new
-properties as proposed by Dave in
-	https://lore.kernel.org/lkml/aNFliMZTTUiXyZzd@e133380.arm.com/
-This will require updates to user space (that will anyway be needed if wedging
-another non-ABI input into MB).
+Applying this to Intel upcoming region aware memory bandwidth
+that supports 255 steps and h/w min/max limits.
+We would have info files with "min = 1, max = 255" and a schemata
+file that looks like this to legacy apps:
 
-Reinette
+MB: 0=50;1=75
+#MB_HW: 0=128;1=191
+#MB_MIN: 0=128;1=191
+#MB_MAX: 0=128;1=191
+
+But a newer app that is aware of the extensions can write:
+
+# cat > schemata << 'EOF'
+MB_HW: 0=10
+MB_MIN: 0=10
+MB_MAX: 0=64
+EOF
+
+which then reads back as:
+MB: 0=4;1=75
+#MB_HW: 0=10;1=191
+#MB_MIN: 0=10;1=191
+#MB_MAX: 0=64;1=191
+
+with the legacy line updated with the rounded value of the MB_HW
+supplied by the user. 10/255 = 3.921% ... so call it "4".
+
+The region aware h/w supports separate bandwidth controls for each
+region. We could hope (or perhaps update the spec to define) that
+region0 is always node-local DDR memory and keep the "MB" tag for
+that.
+
+Then use some other tag naming for other regions. Remote DDR,
+local CXL, remote CXL are the ones we think are next in the h/w
+memory sequence. But the "region" concept would allow for other
+options as other memory technologies come into use.
+
+> 
+> Cheers
+> ---Dave
