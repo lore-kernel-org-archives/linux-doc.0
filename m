@@ -1,139 +1,165 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ABE28468C
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 09:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1814F286D73
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 09:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758793248; cv=none; b=SCVtvbJOEJSS74TRce9vTqrReX6bn8UpZ4VVSHUZGhzd3vfQqEq2jaafpzG5SfrQnj8ClsIXq03/HEe5zhLAZHRBAV9SStCu26ce9Rp3dsR281ZzWflVIYsZFN+VGnLwHRc0x9x7wOGDIZLA+jeWXtC0FepmqGuWF0dGM+fYLFU=
+	t=1758793527; cv=none; b=PZSqoXwOSBu4BT6Ld1K8TGGYO2g4uf8V3KdZ0lNgFjlerEwsP8iwEpYHWCyO9Tohbaw2O3zybqtDvarnXij84oZwTzaGafN9Fzy1EI/fpbi2iw2kh92z9U85lqOpQUKwNcIRiQXFnwVSsD4tEY3DMlw4IOGBVqupF0qnkETowFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758793248; c=relaxed/simple;
-	bh=Ismx6yKHMCrWAtzO1V+zHu5cuIvgP8WRaG1URDkbiUY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=g3iWmtQqwD/8DSAymE8lJSD3FO7txQEt9Y25U+mXH4NEkac7BbHMf5pi2yu292DVnQZMRHoK69xhQiUdQKI3i7Xr5jvYfyEBydyPqdqYuZ4a1lK5tCBW1l5/ayOwoWZq96u6N/1v8AQOZYaHSvxI3DG0wlXCfFnizx6GzrVSTaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VM7nNPhU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758793527; c=relaxed/simple;
+	bh=0UPkTJzu+xpPSoLvtfA66Lp8HS0jDIUoDPpfDWw96Nc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cJgwfFSoD8ZJWlgGq/HnUvyXjTsxbZHoelJq1qZK5HGOZDsXWSA6NGDAjG/z+jFAbo1UkhgYqgj8z+Y+vmwPHsRkjLY8O9uY7UWbqXJAFGUytJy2G0r1iR5AgaXrb04iXP0dXA52R1c7j29nBJ5zxkZU707XMJ+410Df67J7pko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=eu6DNhgE; arc=none smtp.client-ip=209.85.218.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VM7nNPhU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758793246;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2OC7o0y5NqDwPgeMke0PyEOvsv7ZIPwi/d2lkMqYclw=;
-	b=VM7nNPhUVAk4Qs0rVVAmraMhV5ziteRXcRsjBOLHaOMjjc4E87QalvmqJGk16mNJNiamkI
-	G0nfyRFDqsYqlKa7KOo9/qpKA6HpgANVOxoXFUzqXx9DPlTy1Ly+Zj4v/b+iTGEGTtGxKA
-	T8tqfyY1zfmDcaab4okpd6icCpps9dk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-423-UDDLhS3mMhe3T3-PT9Fr5w-1; Thu, 25 Sep 2025 05:40:44 -0400
-X-MC-Unique: UDDLhS3mMhe3T3-PT9Fr5w-1
-X-Mimecast-MFC-AGG-ID: UDDLhS3mMhe3T3-PT9Fr5w_1758793243
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3f3c118cbb3so513158f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 02:40:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="eu6DNhgE"
+Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-b07883a5feeso165038066b.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 02:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1758793523; x=1759398323; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qfQ3xpZOFcBsKrmvFU2XnI63cQlgGSOJ/cthMQKwOjU=;
+        b=eu6DNhgE8ynJ56uSY0ax/zc0ZN7g8qlVOthfSMLkEti52G6W1RWc6KyKnwpUffb+SF
+         Uy2LKuKPZeF/c/w/FOh3+qVOLtpM4oA1fgFAg+Q3WzJ2sJ+BXzyT/f0XQrmyorPT8WJ+
+         HTXFoAjQls7GZka4KspiwVRwvYtfSsGWI57Y4rdCJNextxYfH5AibqQPPkbC+4pyY1Qi
+         IM34rduo8oWLz5wzpU7t1by4U8Cpk0TWmkrcIRLlXIAEes8P0ybm0gKiZpOuHBLgjAXn
+         KnZdfEKRhqlrzo28JsQI3jWP0Sxmt0Zve+1XZ+cDAlAh8nhw4TBykqwCOtDm4wJxTas1
+         pLGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758793243; x=1759398043;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2OC7o0y5NqDwPgeMke0PyEOvsv7ZIPwi/d2lkMqYclw=;
-        b=QAgdapc+aCDgyNnzWZvn5WTSqIzN4d27CGpggwAplYOG67mvpQMzSv3Wx3Ly0AG2q3
-         LtHDkatI3J/6EOQKw1StQvi37A2PY+wGLcPCFk7AGWZ2fbbVWQwSwG9hgrnsirWLVc6x
-         Fg4jro4Acmcvbv0WBou82wE5Q02kKFBqnSGPZ3Ge/ResQGg6zqhxtXap8PKqewufGzzj
-         pRXZ3hieVET0hHp1yXin1c9Xmz9ubotIcsdRtfke1HyL+oLuNpiefGcmJX/VCLRbFHhP
-         SHpB4gMLP2SYu91x70H84VMo4kBPY1sp8Lvr7Y80Z+jK+cZPRzj6161OV+5m0VVW3bZ5
-         P50g==
-X-Forwarded-Encrypted: i=1; AJvYcCWyDEVjb3zxx1vxEF0Ps7DumQ2EXESgBTLXK2vsTzYcGEHt5Z9Yx6KqhqFJnIJn2u9vTi9aPfLXHgM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM1Iv8nj5znbZzmtnx0aL2Gu8JBaaxRhCBbLCgrJs6heUdhhIe
-	JSJcsu/JINagxLAzAvgOW2y68WbT28qToajHqrFkDJyAaM7lFzQITnysxqVxmsuHeRRiy1fjfWl
-	H5FA2jb+3qrUrP2nTkEtHiT5Sjd9fJLTAs1n7ymWFx/nsGAssPJUb4uOnkHZCdg==
-X-Gm-Gg: ASbGncshVF4NzEq3xRCAFXStynUrB6CwQZd2u57RPiaSUqoWHO7OdGv6r8S7DKXy40J
-	MeOxlg/M+nbvgjbwh2TchXkYie61tNXKOSo6yRpfuBbPZstcJO+sor7vUabuKi1WZiN98Abfi1E
-	0+njt5zzMelUiW/fJbQTDz7K63+2pefb4T6shEQlEspiSqHprTp0TWPwgPOJUndl8sqx2gNOTtc
-	AD/38US5Ir0BDF+gj3yyQaclmDyEY+gNrjZOy3RDpRwnAzAZYs2acuwQdR9HlBaW/fyJWUAAWF7
-	oryzK8rI29Hz7300dVbbxcMcseVJqXH85Yi0Dg1XMkgH3G4d9Mdi5Cp75An+mavxftGSAP6N+4W
-	bAjhVXfPqsZUx
-X-Received: by 2002:a05:6000:3102:b0:405:3028:1bce with SMTP id ffacd0b85a97d-40e4886dea7mr2786413f8f.32.1758793243373;
-        Thu, 25 Sep 2025 02:40:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFrxeBRnYoMGSl0W8MRr9kJ35noutUmBpUjFhjol2reKWsJgQ/uDYSHftZAJXtiFbd/sSnPig==
-X-Received: by 2002:a05:6000:3102:b0:405:3028:1bce with SMTP id ffacd0b85a97d-40e4886dea7mr2786379f8f.32.1758793242960;
-        Thu, 25 Sep 2025 02:40:42 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e33b9e902sm25724495e9.5.2025.09.25.02.40.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 02:40:42 -0700 (PDT)
-Message-ID: <cd1c6040-0a8f-45fb-91aa-2df2c5ae085a@redhat.com>
-Date: Thu, 25 Sep 2025 11:40:40 +0200
+        d=1e100.net; s=20230601; t=1758793523; x=1759398323;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qfQ3xpZOFcBsKrmvFU2XnI63cQlgGSOJ/cthMQKwOjU=;
+        b=sBLNebiBM6yek0wxkuVKtLWkNM/UzCAGbB8L4Z1Oh7WIy+XYUY4gQzXP9pGEAWOfaH
+         0M4X9JIiSBRR9OJnucwhUydeOxwTXJoQuamXPYDB7lXUVE8xy8xR1Mk+hyeV5qfAAcw5
+         jDp7Klyk5s9BSXhjZGxDY5bQj3x7+m7Q0FzPDTXBqdDXvRS7qJMX0ZOUBH9uFBjis+cv
+         woonsoatA0+nr4KjED8oPiKumfd53M7LkDPB2YD6nC8fV8JlfAgUNds7d7Mecmwx0/pC
+         garEg+5li2iismGnn3j484wGKRotXawXdX4tlZvaCNVGyRGELwqDB39aUHJDOApuSxKu
+         XNVg==
+X-Gm-Message-State: AOJu0Ywn4xEFQTfLXlkfUh9wJMXEbR5EHqX0a0+4ATSGPpkd9uQFD1AN
+	Jj5p0nJHyg7GEfVssUIpeWBI/uYmH+d0d8KHx6/HGFTGbFU3MRRT4YksLn/T62LT1OcN8uUnKCN
+	HxSJCy2Cw7w==
+X-Gm-Gg: ASbGnctO7efyhuVCtiwTFPRwOHSe+/6a+rqhPm5xt9j5cA03w6M5/Brc2z7NHKqTr6W
+	HZMly0A05+AFh9K+bzbLFMIMVpHtV3hwAx0ltP2vkF0iRt9FxZV4k9oB6nMydBILVNEQrpP/uWD
+	RN8CWCw6OnsfV12mK1kVAUxPwl8GWhl4VsODAlG/ELzjM1Mx3qLkHsJqkTnLTDLOfiwuOnHUqun
+	zDh3i4IsQYAgtyY/+WWTrobV30RVWBjVlr1qs1v5tPv8jIkJbjyStZr676iFscrzCO+xmy7WPEo
+	Rm3AjlHfQyC4lNqHvKs3WH+Swox5EaS/9cSpL13LspL463VcBWpCp7lZNMDWIt8i2ETNaspAfxs
+	Dy5g/wacD8GsE36RUvKuX6Krjog==
+X-Google-Smtp-Source: AGHT+IFgG9PTeLMxm+LlBPXd8oXWWMhKhlIHbEafRrBxDZ9w/ENCeHWx/ya1Hg/iBwAst6L+EmkZWA==
+X-Received: by 2002:a17:907:944e:b0:b04:b435:fc6b with SMTP id a640c23a62f3a-b34bbebea0cmr291265466b.60.1758793522929;
+        Thu, 25 Sep 2025 02:45:22 -0700 (PDT)
+Received: from hex.suse.cz ([47.63.113.151])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634a3b052d4sm906469a12.48.2025.09.25.02.45.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 02:45:22 -0700 (PDT)
+From: Daniel Garcia Moreno <daniel.garcia@suse.com>
+To: linux-doc@vger.kernel.org
+Cc: Daniel Garcia Moreno <daniel.garcia@suse.com>
+Subject: [PATCH] docs: extensions: don't use deprecated ErrorString, SafeString
+Date: Thu, 25 Sep 2025 11:45:08 +0200
+Message-ID: <20250925094508.43174-1-daniel.garcia@suse.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 2/2] net/smc: handle -ENOMEM from
- smc_wr_alloc_link_mem gracefully
-To: Halil Pasic <pasic@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>, "D. Wythe" <alibuda@linux.alibaba.com>,
- Dust Li <dust.li@linux.alibaba.com>, Sidraya Jayagond
- <sidraya@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>,
- Mahanta Jambigi <mjambigi@linux.ibm.com>, Tony Lu
- <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-s390@vger.kernel.org
-References: <20250921214440.325325-1-pasic@linux.ibm.com>
- <20250921214440.325325-3-pasic@linux.ibm.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250921214440.325325-3-pasic@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/21/25 11:44 PM, Halil Pasic wrote:
-> @@ -836,27 +838,39 @@ int smcr_link_init(struct smc_link_group *lgr, struct smc_link *lnk,
->  	rc = smc_llc_link_init(lnk);
->  	if (rc)
->  		goto out;
-> -	rc = smc_wr_alloc_link_mem(lnk);
-> -	if (rc)
-> -		goto clear_llc_lnk;
->  	rc = smc_ib_create_protection_domain(lnk);
->  	if (rc)
-> -		goto free_link_mem;
-> -	rc = smc_ib_create_queue_pair(lnk);
-> -	if (rc)
-> -		goto dealloc_pd;
-> +		goto clear_llc_lnk;
-> +	do {
-> +		rc = smc_ib_create_queue_pair(lnk);
-> +		if (rc)
-> +			goto dealloc_pd;
-> +		rc = smc_wr_alloc_link_mem(lnk);
-> +		if (!rc)
-> +			break;
-> +		else if (rc != -ENOMEM) /* give up */
-> +			goto destroy_qp;
-> +		/* retry with smaller ... */
-> +		lnk->max_send_wr /= 2;
-> +		lnk->max_recv_wr /= 2;
-> +		/* ... unless droping below old SMC_WR_BUF_SIZE */
-> +		if (lnk->max_send_wr < 16 || lnk->max_recv_wr < 48)
-> +			goto destroy_qp;
+This patch replaces the usage of deprecated docutils ErrorString and
+SafeString.
 
-If i.e. smc.sysctl_smcr_max_recv_wr == 2048, and
-smc.sysctl_smcr_max_send_wr == 16, the above loop can give-up a little
-too early - after the first failure. What about changing the termination
-condition to:
+docutils.utils.error_reporting module was removed in the lastest release
+0.22. In the previous release the usage of ErrorString and SafeString
+was deprecated and the recomendation is to replace the usage with:
 
-	lnk->max_send_wr < 16 && lnk->max_recv_wr < 48
+   Replacements:
+     | SafeString  -> str
+     | ErrorString -> docutils.io.error_string()
+     | ErrorOutput -> docutils.io.ErrorOutput
 
-and use 2 as a lower bound for both lnk->max_send_wr and lnk->max_recv_wr?
+https://sourceforge.net/p/docutils/code/HEAD/tree/tags/docutils-0.21.2/docutils/utils/error_reporting.py
 
-Thanks,
+Signed-off-by: Daniel Garcia Moreno <daniel.garcia@suse.com>
+---
+ Documentation/sphinx/kernel_feat.py         | 1 -
+ Documentation/sphinx/kernel_include.py      | 8 ++++----
+ Documentation/sphinx/maintainers_include.py | 4 ++--
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-Paolo
+diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
+index e3a51867f27b..82600e045fe6 100644
+--- a/Documentation/sphinx/kernel_feat.py
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -40,7 +40,6 @@ import sys
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+-from docutils.utils.error_reporting import ErrorString
+ from sphinx.util.docutils import switch_source_input
+ 
+ __version__  = '1.0'
+diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
+index 1e566e87ebcd..42945b1779eb 100755
+--- a/Documentation/sphinx/kernel_include.py
++++ b/Documentation/sphinx/kernel_include.py
+@@ -35,7 +35,7 @@
+ import os.path
+ 
+ from docutils import io, nodes, statemachine
+-from docutils.utils.error_reporting import SafeString, ErrorString
++from docutils.io import error_string
+ from docutils.parsers.rst import directives
+ from docutils.parsers.rst.directives.body import CodeBlock, NumberLines
+ from docutils.parsers.rst.directives.misc import Include
+@@ -112,10 +112,10 @@ class KernelInclude(Include):
+             raise self.severe('Problems with "%s" directive path:\n'
+                               'Cannot encode input file path "%s" '
+                               '(wrong locale?).' %
+-                              (self.name, SafeString(path)))
++                              (self.name, str(path)))
+         except IOError as error:
+             raise self.severe('Problems with "%s" directive path:\n%s.' %
+-                      (self.name, ErrorString(error)))
++                      (self.name, error_string(error)))
+         startline = self.options.get('start-line', None)
+         endline = self.options.get('end-line', None)
+         try:
+@@ -126,7 +126,7 @@ class KernelInclude(Include):
+                 rawtext = include_file.read()
+         except UnicodeError as error:
+             raise self.severe('Problem with "%s" directive:\n%s' %
+-                              (self.name, ErrorString(error)))
++                              (self.name, error_string(error)))
+         # start-after/end-before: no restrictions on newlines in match-text,
+         # and no restrictions on matching inside lines vs. line boundaries
+         after_text = self.options.get('start-after', None)
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index d31cff867436..9414bdf7bfc0 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -22,7 +22,7 @@ import re
+ import os.path
+ 
+ from docutils import statemachine
+-from docutils.utils.error_reporting import ErrorString
++from docutils.io import error_string
+ from docutils.parsers.rst import Directive
+ from docutils.parsers.rst.directives.misc import Include
+ 
+@@ -190,6 +190,6 @@ class MaintainersInclude(Include):
+             lines = self.parse_maintainers(path)
+         except IOError as error:
+             raise self.severe('Problems with "%s" directive path:\n%s.' %
+-                      (self.name, ErrorString(error)))
++                      (self.name, error_string(error)))
+ 
+         return []
+-- 
+2.51.0
 
