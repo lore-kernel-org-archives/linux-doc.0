@@ -1,289 +1,152 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C96225487A
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 02:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6C7DF49;
+	Thu, 25 Sep 2025 03:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758766052; cv=none; b=qkXEAXzwrQfVeg0i/0NYQyPLKnUVlXQw3XLvdAjP4oAbz2QiTr67Zouly15vXbT8yYQIEuuVT+ARTuoKR9r1LDdBy1mz/PfxhY8WEt3VGS9RNJHk1QinVJXCGbxnVQwqXH3ckMuBanFuT5bGYQ2u/MB9kJrMK9vP+5kYWHuXZY8=
+	t=1758772464; cv=none; b=t2ZAIHwORIayvdxJepiqtxjr3WBgaJe6TduxkkMXk1Fr7PbLEf8DxVCs8+rGLaHD2Ugy2T6SOqm4NkPbObGF9Y2OJjVl44l6P7dAkPR4nzk+kCRsh4x0aE9Qbw1O8oJ2Ag3juRhkeZ5k7DCV8sTntiJMg78Hzn2lqtQI8SdCuuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758766052; c=relaxed/simple;
-	bh=COJ0vkNmeocbk8Pusq+tkqxDVCs9BpOKYM5zjdAFf64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TqkY9/0onfUnw4Y8cGS7DiH+mI/fpjCkz+OMPHvZqGVkVzZk06feR+6hT+ipGPOJJTQQmekI9stM6qqcptSy04yFBK1U3/SwTGUJpDEWBIVTLEdyhDlgUpvw3SwXuDTRZNIXULRCC6Wddy5zg8LtlxBrBf4mIoW727YVzUm8JVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABYxGmlB; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758772464; c=relaxed/simple;
+	bh=nGIho2dwWkohzWHCgUzJMDybe+bcnDzqaHkwa/e4A9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TWESuRnUOCSMWdH7FqKggE9j3i1Y0AZn5UXmAqg7lW2V9AgwhlJNaa7y3etjGzZIA2qZPHM1HXtUcrVyJDg0nhlkXB8An506/EmuXoNnVEe2Is8Vf9Bhwirb5RKY26MG6QWbz78Xv4frUgeS/uAH7Vb4Qx24VS/oPrkUUk6r4jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=sOV4m1lm; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABYxGmlB"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b5526b7c54eso291344a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Sep 2025 19:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758766050; x=1759370850; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z3v0KAw/a5VLZK8q/426U2Svx1Ly/zqTFJD1qMEvdMs=;
-        b=ABYxGmlB/DxpvZ+pISqHsz1jz0STOZR7FJR6Ttg+95ZVmHJYgW7VCwJs3OWgD6AmR9
-         SZuv0iuvPO3HIDkjjVY/oxqd2+xcb5Y1EnBMwIZfiBVDiBSpclEOH3o17051pmVqHMG/
-         VD/DYp2C6uXixgOOl9nBtZ9AszvFQo76Ys3duGUce1PsY6xGEImC2ZKPvyUjAQmAlUso
-         RSlS+WI7E38gMDsUqsRtU4OD+Ys4ZjJglddmej7u+/TgIlRdwYVbpeP9MipeXIk5qaL8
-         5/qSPpf56WsVm3A67bWCEMA7mT5Tn06jIepyF3j2aE13uxMiSCdtdpMjMw2xmQi8ro1I
-         GlZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758766050; x=1759370850;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z3v0KAw/a5VLZK8q/426U2Svx1Ly/zqTFJD1qMEvdMs=;
-        b=khMJuOUrIlNvE5m0a4yR4CjHh9zWZffnqEuX3d3E5N0mvhOUFT+llPV/GSN/Yh6zBM
-         taZMDxVDgw4e1WfUdhwRR92WHjinZd5XGQYaedJWjwTKH88rcgo8xcF++qq9MZ3GB1Nh
-         EEA+aLYtc7Fp9IBuaPRM40ZKMo2Cw4pS8IFDi6Z6wLUHqUhErgt62NsGmNl3kKnhJM1x
-         eE8AbNUblS2DHbC5c2wwLA53LWIwuWWO6NHeFn3iaCAM7LqeNUTtgGPx4cnIJ82yOqqd
-         E16vW5yZPkjvkqGhgsYGb5eEUOHVSIpBRaGaRo/SMgIIQVRciPiNIHMlQgLs0Ok7do20
-         hL8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUavoJJY8OWAYwt3URMWoY8Eu/MrDiLoQPgGAZrK/4La3xzN/H8smafKmF8RxHdUf0sh5p3oAAxXVU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxahcaNKkx5Y8ZQvVFycGuf3PodWY6h2i4+Cc/W5j/rwDuj+4aM
-	2X5Utxg6ycNuO/xKy5pgTXoj+TTRibbBx9mrBVKWS0sJfAyw+3/LdYpx
-X-Gm-Gg: ASbGncuVYkspKmSofRQS0E3ZPYyQ/Y1s3pybF4JlfbrHyRdVw8SjlEVbyaD4rOZzvze
-	G/K3ziqTX93gjg5Dz+7eaC+nFRY4Tv/j4zgIeAoeHUSyGM2dhc7YmdbAuUrkQNVA+B/haDGuddx
-	inExGGYkbqPErt68SULos1amOuCiAd4cXXQVpIFrTWz66mg5UfEj/0nfWNPpqHF0bqFz7XDffDY
-	OQfB2L0ohCtAJwLee485G308XYUbBhREjSkftGoFnqMEyNu8Yv3OtkzQEdOAd4SlGq4JhrZqQYE
-	uB/QNt6lC0jcR9cDD+3dCafJLbTswn8TJ5ABFmzT1ZcvwoheMOyenFjVGK0oO82SFeTQja2nPdP
-	7bGEK3I1cUoHwUpKEdcnGzOkXak0ocuE6aA==
-X-Google-Smtp-Source: AGHT+IHZwY+E9Zl/mOnS/wW2XcXo5Et3bKXZYRlw/VXukF+oo1CmX+XrzU+9/LJydGwruFBdmu625g==
-X-Received: by 2002:a17:902:fccf:b0:273:31fb:a872 with SMTP id d9443c01a7336-27ed4a06cefmr13125795ad.6.1758766049602;
-        Wed, 24 Sep 2025 19:07:29 -0700 (PDT)
-Received: from localhost ([103.88.46.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6abff9fsm6469775ad.133.2025.09.24.19.07.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 19:07:28 -0700 (PDT)
-Date: Thu, 25 Sep 2025 10:07:26 +0800
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, Rong Xu <xur@google.com>,
-	Naveen N Rao <naveen@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>, Nam Cao <namcao@linutronix.de>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-mm@kvack.org, llvm@lists.linux.dev,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com, "David S. Miller" <davem@davemloft.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 06/23] mm/ksw: add singleton /proc/kstackwatch
- interface
-Message-ID: <aNSj3j1P9O-XWbRE@mdev>
-References: <20250924115124.194940-1-wangjinchao600@gmail.com>
- <20250924115124.194940-7-wangjinchao600@gmail.com>
- <CANpmjNOuA3q3BweB9kTUpAX4CX1U25Pqa0Hiyt__=7zio81=Uw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="sOV4m1lm"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1758772452; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=wsAuT+Pm1Q6WqoYdsP5p4PwG0In8tq3ybZz3jyVwdSY=;
+	b=sOV4m1lmNcVYY39ybrDgVqE1HUTpFS/XIZFBra2nuz+VWmqI/fMQwWKR4PXBZXrwaVSSp0r2kU/sCd22ZAHE5pcWZERf4DTrzQNr8NUQ1C7vKFvNzfWpo1ZOIS2X9Roi56SFbCNOzu97aety7vsI0oRcDtnFeYxzxKVDNBdN6wA=
+Received: from 30.221.116.42(mailfrom:guangguan.wang@linux.alibaba.com fp:SMTPD_---0Wom3gRQ_1758772127 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 25 Sep 2025 11:48:47 +0800
+Message-ID: <2aced457-5f1e-4c1a-b5ea-035240f73aaf@linux.alibaba.com>
+Date: Thu, 25 Sep 2025 11:48:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNOuA3q3BweB9kTUpAX4CX1U25Pqa0Hiyt__=7zio81=Uw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 1/2] net/smc: make wr buffer count
+ configurable
+To: Halil Pasic <pasic@linux.ibm.com>
+Cc: Dust Li <dust.li@linux.alibaba.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ "D. Wythe" <alibuda@linux.alibaba.com>,
+ Sidraya Jayagond <sidraya@linux.ibm.com>, Wenjia Zhang
+ <wenjia@linux.ibm.com>, Mahanta Jambigi <mjambigi@linux.ibm.com>,
+ Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-s390@vger.kernel.org
+References: <20250908220150.3329433-1-pasic@linux.ibm.com>
+ <20250908220150.3329433-2-pasic@linux.ibm.com>
+ <aL-YYoYRsFiajiPW@linux.alibaba.com>
+ <20250909121850.2635894a.pasic@linux.ibm.com>
+ <20250919165549.7bebfbc3.pasic@linux.ibm.com>
+ <06a87a92-6cce-4a63-99d0-463a1d035478@linux.alibaba.com>
+ <20250924115010.38d2f3cb.pasic@linux.ibm.com>
+From: Guangguan Wang <guangguan.wang@linux.alibaba.com>
+In-Reply-To: <20250924115010.38d2f3cb.pasic@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 24, 2025 at 10:49:35PM +0200, Marco Elver wrote:
-> On Wed, 24 Sept 2025 at 13:51, Jinchao Wang <wangjinchao600@gmail.com> wrote:
-> >
-> > Provide the /proc/kstackwatch file to read or update the configuration.
-> > Only a single process can open this file at a time, enforced using atomic
-> > config_file_busy, to prevent concurrent access.
-> 
-> Why is this in /proc and not debugfs?
-Thanks, will fix in next version.
-> 
-> > ksw_get_config() exposes the configuration pointer as const.
-> >
-> > Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
-> > ---
-> >  mm/kstackwatch/kernel.c      | 77 +++++++++++++++++++++++++++++++++++-
-> >  mm/kstackwatch/kstackwatch.h |  3 ++
-> >  2 files changed, 79 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/mm/kstackwatch/kernel.c b/mm/kstackwatch/kernel.c
-> > index 3b7009033dd4..4a06ddadd9c7 100644
-> > --- a/mm/kstackwatch/kernel.c
-> > +++ b/mm/kstackwatch/kernel.c
-> > @@ -3,11 +3,15 @@
-> >
-> >  #include <linux/kstrtox.h>
-> >  #include <linux/module.h>
-> > +#include <linux/proc_fs.h>
-> > +#include <linux/seq_file.h>
-> >  #include <linux/string.h>
-> > +#include <linux/uaccess.h>
-> >
-> >  #include "kstackwatch.h"
-> >
-> >  static struct ksw_config *ksw_config;
-> > +static atomic_t config_file_busy = ATOMIC_INIT(0);
-> >
-> >  struct param_map {
-> >         const char *name;       /* long name */
-> > @@ -74,7 +78,7 @@ static int ksw_parse_param(struct ksw_config *config, const char *key,
-> >   * - sp_offset  |so (u16) : offset from stack pointer at func_offset
-> >   * - watch_len  |wl (u16) : watch length (1,2,4,8)
-> >   */
-> > -static int __maybe_unused ksw_parse_config(char *buf, struct ksw_config *config)
-> > +static int ksw_parse_config(char *buf, struct ksw_config *config)
-> >  {
-> >         char *part, *key, *val;
-> >         int ret;
-> > @@ -109,18 +113,89 @@ static int __maybe_unused ksw_parse_config(char *buf, struct ksw_config *config)
-> >         return 0;
-> >  }
-> >
-> > +static ssize_t kstackwatch_proc_write(struct file *file,
-> > +                                     const char __user *buffer, size_t count,
-> > +                                     loff_t *pos)
-> > +{
-> > +       char input[MAX_CONFIG_STR_LEN];
-> > +       int ret;
-> > +
-> > +       if (count == 0 || count >= sizeof(input))
-> > +               return -EINVAL;
-> > +
-> > +       if (copy_from_user(input, buffer, count))
-> > +               return -EFAULT;
-> > +
-> > +       input[count] = '\0';
-> > +       strim(input);
-> > +
-> > +       if (!strlen(input)) {
-> > +               pr_info("config cleared\n");
-> > +               return count;
-> > +       }
-> > +
-> > +       ret = ksw_parse_config(input, ksw_config);
-> > +       if (ret) {
-> > +               pr_err("Failed to parse config %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       return count;
-> > +}
-> > +
-> > +static int kstackwatch_proc_show(struct seq_file *m, void *v)
-> > +{
-> > +       seq_printf(m, "%s\n", ksw_config->user_input);
-> > +       return 0;
-> > +}
-> > +
-> > +static int kstackwatch_proc_open(struct inode *inode, struct file *file)
-> > +{
-> > +       if (atomic_cmpxchg(&config_file_busy, 0, 1))
-> > +               return -EBUSY;
-> > +
-> > +       return single_open(file, kstackwatch_proc_show, NULL);
-> > +}
-> > +
-> > +static int kstackwatch_proc_release(struct inode *inode, struct file *file)
-> > +{
-> > +       atomic_set(&config_file_busy, 0);
-> > +       return single_release(inode, file);
-> > +}
-> > +
-> > +static const struct proc_ops kstackwatch_proc_ops = {
-> > +       .proc_open = kstackwatch_proc_open,
-> > +       .proc_read = seq_read,
-> > +       .proc_write = kstackwatch_proc_write,
-> > +       .proc_lseek = seq_lseek,
-> > +       .proc_release = kstackwatch_proc_release,
-> > +};
-> > +
-> > +const struct ksw_config *ksw_get_config(void)
-> > +{
-> > +       return ksw_config;
-> > +}
-> >  static int __init kstackwatch_init(void)
-> >  {
-> >         ksw_config = kzalloc(sizeof(*ksw_config), GFP_KERNEL);
-> >         if (!ksw_config)
-> >                 return -ENOMEM;
-> >
-> > +       if (!proc_create("kstackwatch", 0600, NULL, &kstackwatch_proc_ops)) {
-> > +               pr_err("create proc kstackwatch fail");
-> > +               kfree(ksw_config);
-> > +               return -ENOMEM;
-> > +       }
-> > +
-> >         pr_info("module loaded\n");
-> >         return 0;
-> >  }
-> >
-> >  static void __exit kstackwatch_exit(void)
-> >  {
-> > +       remove_proc_entry("kstackwatch", NULL);
-> > +       kfree(ksw_config->func_name);
-> > +       kfree(ksw_config->user_input);
-> >         kfree(ksw_config);
-> >
-> >         pr_info("module unloaded\n");
-> > diff --git a/mm/kstackwatch/kstackwatch.h b/mm/kstackwatch/kstackwatch.h
-> > index a7bad207f863..983125d5cf18 100644
-> > --- a/mm/kstackwatch/kstackwatch.h
-> > +++ b/mm/kstackwatch/kstackwatch.h
-> > @@ -29,4 +29,7 @@ struct ksw_config {
-> >         char *user_input;
-> >  };
-> >
-> > +// singleton, only modified in kernel.c
-> > +const struct ksw_config *ksw_get_config(void);
-> > +
-> >  #endif /* _KSTACKWATCH_H */
-> > --
-> > 2.43.0
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250924115124.194940-7-wangjinchao600%40gmail.com.
 
--- 
-Jinchao
+
+在 2025/9/24 17:50, Halil Pasic 写道:
+> On Wed, 24 Sep 2025 11:13:05 +0800
+> Guangguan Wang <guangguan.wang@linux.alibaba.com> wrote:
+> 
+>> 在 2025/9/19 22:55, Halil Pasic 写道:
+>>> On Tue, 9 Sep 2025 12:18:50 +0200
+>>> Halil Pasic <pasic@linux.ibm.com> wrote:
+>>>
+>>>
+>>> Can maybe Wen Gu and  Guangguan Wang chime in. From what I read
+>>> link->wr_rx_buflen can be either SMC_WR_BUF_SIZE that is 48 in which
+>>> case it does not matter, or SMC_WR_BUF_V2_SIZE that is 8192, if
+>>> !smc_link_shared_v2_rxbuf(lnk) i.e. max_recv_sge == 1. So we talk
+>>> about roughly a factor of 170 here. For a large pref_recv_wr the
+>>> back of logic is still there to save us but I really would not say that
+>>> this is how this is intended to work.
+>>>   
+>>
+>> Hi Halil,
+>>
+>> I think the root cause of the problem this patchset try to solve is a mismatch
+>> between SMC_WR_BUF_CNT and the max_conns per lgr(which value is 255). Furthermore,
+>> I believe that value 255 of the max_conns per lgr is not an optimal value, as too
+>> few connections lead to a waste of memory and too many connections lead to I/O queuing
+>> within a single QP(every WR post_send to a single QP will initiate and complete in sequence).
+>>
+>> We actually identified this problem long ago. In Alibaba Cloud Linux distribution, we have
+>> changed SMC_WR_BUF_CNT to 64 and reduced max_conns per lgr to 32(for SMC-R V2.1). This
+>> configuration has worked well under various workflow for a long time.
+>>
+>> SMC-R V2.1 already support negotiation of the max_conns per lgr. Simply change the value of
+>> the macro SMC_CONN_PER_LGR_PREFER can influence the negotiation result. But SMC-R V1.0 and SMC-R
+>> v2.0 do not support the negotiation of the max_conns per lgr.
+>> I think it is better to reduce SMC_CONN_PER_LGR_PREFER for SMC-R V2.1. But for SMC-R V1.0 and
+>> SMC-R V2.0, I do not have any good idea.
+>>
+> 
+> I agree, the number of WR buffers and the max number of connections per
+> lgr can an should be tuned in concert.
+> 
+>>> Maybe not supporting V2 on devices with max_recv_sge is a better choice,
+>>> assuming that a maximal V2 LLC msg needs to fit each and every receive
+>>> WR buffer. Which seems to be the case based on 27ef6a9981fe ("net/smc:
+>>> support SMC-R V2 for rdma devices with max_recv_sge equals to 1").
+>>>  
+>>
+>> For rdma dev whose max_recv_sge is 1, as metioned in the commit log in the related patch,
+>> it is better to support than SMC_CLC_DECL_INTERR fallback, as SMC_CLC_DECL_INTERR fallback
+>> is not a fast fallback, and may heavily influence the efficiency of the connecting process
+>> in both the server and client side.
+> 
+> I mean another possible mitigation of the problem can be the following,
+> if there is a device in the mix with max_recv_sge < 2 the don't propose/
+> accept SMCR-V2. 
+> 
+> Do you know how prevalent and relevant are max_recv_sge < 2 RDMA
+> devices, and how likely is it that somebody would like to use SMC-R with
+> such devices?
+> 
+
+eRDMA in Alibaba Cloud is max_recv_sge < 2, and it is the RDMA device we are primarily focusing on.
+eRDMA prefer works on SMC-R V2.1, is it possible that supported in SMC-R V2.1 but not in V2.0? 
+
+>>
+>>  
+>>> For me the best course of action seems to be to send a V3 using
+>>> link->wr_rx_buflen. I'm really not that knowledgeable about RDMA or
+>>> the SMC-R protocol, but I'm happy to be part of the discussion on this
+>>> matter.
+>>>
+>>> Regards,
+>>> Halil  
+>>
+>> And a tiny suggestion for the risk you mentioned in commit log
+>> ("Addressing this by simply bumping SMC_WR_BUF_CNT to 256 was deemed
+>> risky, because the large-ish physically continuous allocation could fail
+>> and lead to TCP fall-backs."). Non-physically continuous allocation (vmalloc/vzalloc .etc.) is
+>> also supported for wr buffers. SMC-R snd_buf and rmb have already supported for non-physically
+>> continuous memory, when sysctl_smcr_buf_type is set to SMCR_VIRT_CONT_BUFS or SMCR_MIXED_BUFS.
+>> It can be an example of using non-physically continuous memory.
+>>
+> 
+> I think we can put this on the list of possible enhancements. I would
+> perfer to not add this to the scope of this series. But I would be happy to
+> see this happen. Don't know know if somebody form Alibaba, or maybe
+> Mahanta or Sid would like to pick this up as an enhancement on top.
+> > Thank you very much for for your comments!
+> 
+> Regards,
+> Halil 
+
