@@ -1,209 +1,146 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9D72EA741
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 10:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E2F2EA729
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 10:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758795943; cv=none; b=PBI/+hwWF6L3hj7KrKjDVvziEEpmyG936HF071tMXT/J9zPj/WxfT6FAj7pI+13kO5rT6XEgYQ3smJhO4pdF9SGuhn44N3S3sSKDV52k+ft+gFob9VL8yMKj3qrQIyEdzGEIdvdseNND1an4f43yH7723VQz7F5BXLFzH+nkpk8=
+	t=1758795986; cv=none; b=MvxmQ1AVMnUKk7NqhqCpg8p3WRJEptaZQ2iUGLiahRZwSok5pV/jqEhsYv0JwyE3SDrttAUTd6GeUczBiCbybq3wr7jpZvEfkbpe2H1SerIfou/Se19964xuik/yO30+plLBpwlVj6yPfrlwO4MiNGnPeH7yZtfQmlrI4+Rk4dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758795943; c=relaxed/simple;
-	bh=GYQJoM3ZAazrBQGynd1dKgzd+tbmzy64EH8nekL+uZo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rQz8MwYmuLAd54Lc//LFoyOhX6Q7cKB0OjaXAFw4zOCQT+fdrra0Q2hLFI/8qd4oUvCqJqi4NH4Bh6V/rWN9IeU61aSeTEBrjcMP4j0dMr8QEvrGx3eEDpZjTi30CjF1EqZ1Vf0iRuIoB7+er1HyqQRrnyuaN+F6zWK9TRwhqmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G/ShVimb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758795986; c=relaxed/simple;
+	bh=HR307Ikujc4g3Jw+JvXIwj64igIG4jHBJVOXhXUZ7Ck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=m0HE0yIviqWYRzC44KbQE/rRD/PAmYG+so48v+IJfj2FsrtSKDRqp7NoHmN88kaXLKTU47Y3hZsqPIVDXJXEEE5j5rC32Yv8g5fILQCxatCHYQhH0yKbK53TP0TcHdVl2HAXvZ9T/8TsXkH8zkc9IkEFq2nJZtC9J5D6axd73ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FGVvuqMw; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G/ShVimb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758795940;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FGVvuqMw"
+Message-ID: <8c4cd66c-9c3f-411a-82df-0130b78e889c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758795968;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Yn7KtJOI+OoVL/g0bXoboAmrO1BBc45RKDhcTRih648=;
-	b=G/ShVimba/c52dY+NgvHeOhf8y/cIb4k+bjYOgi89SZvuAkCjDd5iCt+SFI1saYVjcLKJB
-	evZ8qCkdMaIW3t0+vSv3UEB6Mr8I5uY5CAe1llTYKv2wZMgiO7TX3T5UoQHf3GNnF/x6DS
-	4LLPMgOG1D949AGGILnTQemjkFzAhaQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-w0sDk6jTN_O9zVLVHE3q4g-1; Thu, 25 Sep 2025 06:25:39 -0400
-X-MC-Unique: w0sDk6jTN_O9zVLVHE3q4g-1
-X-Mimecast-MFC-AGG-ID: w0sDk6jTN_O9zVLVHE3q4g_1758795938
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3ee888281c3so649983f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 03:25:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758795938; x=1759400738;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yn7KtJOI+OoVL/g0bXoboAmrO1BBc45RKDhcTRih648=;
-        b=hwmLtFRd4DZ1fy3VisMhUaoqqgJG6lYiSt0gni2Ej192dE0OQK5jtNXPERkrec7H3d
-         Dc1YfN5nxxXeHcQP3kZyG1tCz/ohBXRS3LHatSm8ZFNPC8VHAK19AW6LQF2ci4dmzmbJ
-         oKJBqrBaS9Vb0NlbD6u6dwGJJLgKeUFiQnNoyjrR8gaOl8MJBjDW64GvQobh+TAge5y6
-         kNpVh08JSm3fbm7OfnZamn++0eDOnoG14E4DGUj2NeTR/uEOzMvAWH0+wjs8S5gacFfm
-         em818RdKXceIKvL4s6XxGuXEycvwSyrshmNyfGkLzFQeInfiIKWPm8QbotscwXpR5nTg
-         v0iw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmVLlQHJc2/R62kYJMkJGG0P9Hf2suO9kbWL4Szc17FGjfifQuUOyR3ZRfY7QFC220eQQ8HqOlgqo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2lCNSaA4ICJSVmV4ERgwS0T0Cz2e4iUFshlC6eFkJ5fYcwb3K
-	aqCXwwB/N9E4fxKOrU3aV6P5WOYuELPH9tjoBRQO2wVbHmhtoGyIWckh7H00L9Y7iLAmtfukvly
-	yL0hjG65VLyJlwvCbtKpMzXPsri071g8VLipS0nctsOhLUkcdAaf0EiWAmWNnUQ==
-X-Gm-Gg: ASbGnctnOJJFnFIBeE1Q4Uw2RT5VT4S+ZvNGRl3vEn3NEdyvSLa5Pb+wJt9YXV4UFOu
-	J4M5stfWbcE4HQsyjQKn24rPbfNhLE1M4exOOYDOBl5mCT2QNGnzrkovQVU3q9qOGOPJus/Oi+m
-	suqkm+Ey05OHBwpr93VYGuGNjULxBPKxzq7owDyGwAn6n2ui+Ub95/QQdAaasRXQlQeDOK0h6eC
-	cwSFrfBwwRroeXSBKYarI+4ZjExiNvjgFhLrWLFuvMcoO5acufo/CEzZXjpf99cNu/twDAXlqta
-	sqpXxqtSXf/V8fhmD4hz+lfXZgIFG4zKlvVgMsFVBqsygIbHlFGnostfVpOD2k5r7kAlBXoRAnP
-	lbb8XJB0w/ndCKiyF3Mbu0g8p2sYyv6YMkp4Om2BBxFM/2hptJg2s4tZDbjwpH6iOuf4k
-X-Received: by 2002:a05:6000:22c2:b0:3d0:b3cc:c1ff with SMTP id ffacd0b85a97d-40e4b85109emr2653246f8f.39.1758795937430;
-        Thu, 25 Sep 2025 03:25:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMY43SbBeTDqux7xNDlX/ZIG3DX+wQZ2EsWj+CndB3u6o8VAseXEawq3c7JdiIGuveFjJLZA==
-X-Received: by 2002:a05:6000:22c2:b0:3d0:b3cc:c1ff with SMTP id ffacd0b85a97d-40e4b85109emr2653200f8f.39.1758795936721;
-        Thu, 25 Sep 2025 03:25:36 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08? (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de. [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e330d1d2fsm14556705e9.3.2025.09.25.03.25.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 03:25:36 -0700 (PDT)
-Message-ID: <c8259ec7-e31d-4771-96f9-e2fb6b573e85@redhat.com>
-Date: Thu, 25 Sep 2025 12:25:33 +0200
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZSBp7mwd6IegmizNUgNJ2Rdv3+ICK9Hl1UxkDAxxj/Q=;
+	b=FGVvuqMwIZ/H+tNl4SgRd2rEOY7gTr4pUbdred2iBj0q8AjRHqW2wVBhu/26PKDz6rneE8
+	YQIll6RfW3ZtqGJEmLA9LiOtFiprSpLRTVdcZwCvrPusUujzedD/JtaUAFV01zf3K4f9Z3
+	RKAkbUVchSuJ/BGLvv66v3dutGqbBUo=
+Date: Thu, 25 Sep 2025 18:26:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/12] mm: introduce AS_NO_DIRECT_MAP
-To: Patrick Roy <patrick.roy@campus.lmu.de>
-Cc: Patrick Roy <roypat@amazon.co.uk>, pbonzini@redhat.com, corbet@lwn.net,
- maz@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com,
- suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com,
- will@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- peterz@infradead.org, willy@infradead.org, akpm@linux-foundation.org,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, song@kernel.org,
- jolsa@kernel.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com,
- jannh@google.com, pfalcato@suse.de, shuah@kernel.org, seanjc@google.com,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, xmarcalx@amazon.co.uk,
- kalyazin@amazon.co.uk, jackabt@amazon.co.uk, derekmn@amazon.co.uk,
- tabba@google.com, ackerleytng@google.com
-References: <20250924151101.2225820-1-patrick.roy@campus.lmu.de>
- <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] hung_task: Panic after fixed number of hung tasks
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+To: lirongqing <lirongqing@baidu.com>
+References: <20250925060605.2659-1-lirongqing@baidu.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, arnd@arndb.de,
+ feng.tang@linux.alibaba.com, joel.granados@kernel.org, kees@kernel.org,
+ rostedt@goodmis.org, pauld@redhat.com, pawan.kumar.gupta@linux.intel.com,
+ mhiramat@kernel.org, dave.hansen@linux.intel.com, corbet@lwn.net,
+ akpm@linux-foundation.org, paulmck@kernel.org, mingo@kernel.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20250925060605.2659-1-lirongqing@baidu.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On 24.09.25 17:10, Patrick Roy wrote:
-> From: Patrick Roy <roypat@amazon.co.uk>
+
+Thanks for the patch!
+
+On 2025/9/25 14:06, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 > 
-> Add AS_NO_DIRECT_MAP for mappings where direct map entries of folios are
-> set to not present . Currently, mappings that match this description are
-> secretmem mappings (memfd_secret()). Later, some guest_memfd
-> configurations will also fall into this category.
+> Currently, when hung_task_panic is enabled, kernel will panic immediately
+> upon detecting the first hung task. However, some hung tasks are transient
+> and the system can recover fully, while others are unrecoverable and
+> trigger consecutive hung task reports, and a panic is expected.
+
+The new hung_task_count_to_panic relies on an absolute count, but I
+assume the real indicator you're trying to capture is the trend or
+rate of increase over a time window (e.g., "panic if count increases
+by 5 in 10 minutes").
+
+IMHO, this kind of time-windowed, trend-based logic seems much more
+flexible and better suited for a userspace monitoring agent :)
+
+In other words, why is this the right place for this feature?
+
+Please sell it to us ;)
+Lance
+
 > 
-> Reject this new type of mappings in all locations that currently reject
-> secretmem mappings, on the assumption that if secretmem mappings are
-> rejected somewhere, it is precisely because of an inability to deal with
-> folios without direct map entries, and then make memfd_secret() use
-> AS_NO_DIRECT_MAP on its address_space to drop its special
-> vma_is_secretmem()/secretmem_mapping() checks.
+> This commit adds a new sysctl parameter hung_task_count_to_panic to allows
+> specifying the number of consecutive hung tasks that must be detected
+> before triggering a kernel panic. This provides finer control for
+> environments where transient hangs maybe happen but persistent hangs should
+> still be fatal.
 > 
-> This drops a optimization in gup_fast_folio_allowed() where
-> secretmem_mapping() was only called if CONFIG_SECRETMEM=y. secretmem is
-> enabled by default since commit b758fe6df50d ("mm/secretmem: make it on
-> by default"), so the secretmem check did not actually end up elided in
-> most cases anymore anyway.
-> 
-> Use a new flag instead of overloading AS_INACCESSIBLE (which is already
-> set by guest_memfd) because not all guest_memfd mappings will end up
-> being direct map removed (e.g. in pKVM setups, parts of guest_memfd that
-> can be mapped to userspace should also be GUP-able, and generally not
-> have restrictions on who can access it).
-> 
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
 > ---
-
-I enjoy seeing secretmem special-casing in common code go away.
-
-[...]
-
+>   Documentation/admin-guide/sysctl/kernel.rst |  6 ++++++
+>   kernel/hung_task.c                          | 14 +++++++++++++-
+>   2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 8b49eab..4240e7b 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -405,6 +405,12 @@ This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
+>   1 Panic immediately.
+>   = =================================================
 >   
->   	/*
-> @@ -2763,18 +2761,10 @@ static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
->   		reject_file_backed = true;
+> +hung_task_count_to_panic
+> +=====================
+> +
+> +When set to a non-zero value, after the number of consecutive hung task
+> +occur, the kernel will triggers a panic
+> +
 >   
->   	/* We hold a folio reference, so we can safely access folio fields. */
-> -
-> -	/* secretmem folios are always order-0 folios. */
-> -	if (IS_ENABLED(CONFIG_SECRETMEM) && !folio_test_large(folio))
-> -		check_secretmem = true;
-> -
-> -	if (!reject_file_backed && !check_secretmem)
-> -		return true;
-> -
-
-Losing that optimization is not too bad I guess.
-
-Acked-by: David Hildenbrand <david@redhat.com>
-
--- 
-Cheers
-
-David / dhildenb
+>   hung_task_check_count
+>   =====================
+> diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+> index 8708a12..87a6421 100644
+> --- a/kernel/hung_task.c
+> +++ b/kernel/hung_task.c
+> @@ -83,6 +83,8 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
+>   static unsigned int __read_mostly sysctl_hung_task_panic =
+>   	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
+>   
+> +static unsigned int __read_mostly sysctl_hung_task_count_to_panic;
+> +
+>   static int
+>   hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
+>   {
+> @@ -219,7 +221,9 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+>   
+>   	trace_sched_process_hang(t);
+>   
+> -	if (sysctl_hung_task_panic) {
+> +	if (sysctl_hung_task_panic ||
+> +	    (sysctl_hung_task_count_to_panic &&
+> +	     (sysctl_hung_task_detect_count >= sysctl_hung_task_count_to_panic))) {
+>   		console_verbose();
+>   		hung_task_show_lock = true;
+>   		hung_task_call_panic = true;
+> @@ -388,6 +392,14 @@ static const struct ctl_table hung_task_sysctls[] = {
+>   		.extra2		= SYSCTL_ONE,
+>   	},
+>   	{
+> +		.procname	= "hung_task_count_to_panic",
+> +		.data		= &sysctl_hung_task_count_to_panic,
+> +		.maxlen		= sizeof(int),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_dointvec_minmax,
+> +		.extra1		= SYSCTL_ZERO,
+> +	},
+> +	{
+>   		.procname	= "hung_task_check_count",
+>   		.data		= &sysctl_hung_task_check_count,
+>   		.maxlen		= sizeof(int),
 
