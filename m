@@ -1,152 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38F42EA16A;
-	Thu, 25 Sep 2025 09:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EE12EA165
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 09:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758792320; cv=none; b=bPGqpm/tBpFMHBFoXAGUFPV6p9Yc0JjYDZX3/8v+hMbRnhmYt+CaMloCN26dd1J4tGPWxkWxscaDsref19ecaV5tMEde0k/pTGGl6y6hHpzFlwkvIfQDypZ0s/DNJvpzU0Xv/GYutqCkKL5zLNuGDxLR0odYitzIjfMNKD3MnEw=
+	t=1758792466; cv=none; b=Fnj/ysluZpCyROlbuzyNaB7dslThkpx1qKyx1yr9waCfYvCVUAI/0FavkAyY5uQi/pv4hiHqIhXdwLcjM5+n5InW36Wr8zDOcc8wRDeZOS1uUPN0pIpZDE9hfr9AaZMAIAHzL3xM6kTG5on2MkTO4uCXtuw2+qi4JY2KPBlX8bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758792320; c=relaxed/simple;
-	bh=7MwQ+OHF3IXIra8rFsg12YiPv+kcsvqrMZnkT2skwU0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OqvyFmvwkYWqbudqU156vW5xLYQNsP7ldRVusuMgRgTMh3Eeq1s2OEnCz2SjD6+xchzO4MGJdnQKZKejMh1WnLR7oI6nyBc1ZJ7hvdsuSqyuAU1TZG6JSO12kufCspHo19VDZNWclPPuZbES46xwD5ECRRNVaWrfde2btalxOtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdrJ04PB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758792466; c=relaxed/simple;
+	bh=4Yv3Q5cOmyZVTHyUxtyXh72sHLtXQN/FSgzj4obRUDY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=G0mto8G9p69zsg71rD7gQ0nbDBO/HAR8tKijRNTumKJw/RiAivdc0NrnF1D+5vbpTXaU8E95Hy8XUlWaqd+X8+aspo20Z0YPYY2OrY75VMVrWSfavdkHB/AkjjcxM0++3jwzZYI+lO5Kp17km4RvgFdMDdyJLrr95lFpW778lCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ahLQOEsu; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdrJ04PB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4282DC4CEF4;
-	Thu, 25 Sep 2025 09:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758792320;
-	bh=7MwQ+OHF3IXIra8rFsg12YiPv+kcsvqrMZnkT2skwU0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=PdrJ04PBVit9OiW4hGREjBDJJxM+kHVG3qQ+p7+MZEqZbxF8u2iw+LEDwTJlwl1lc
-	 oLpplJsO0sWJfdgC/8MU4eDLobx/EOXySdFyUUEzCpHtaYLEQrkN9o1FsTU08J6mLY
-	 UKSbypQ0xU/z60qoEDFn0LcRdPy0IV7g4GSPpBRQdZZaKXM3mU8kcCExMFrjVVbHaL
-	 B6TQK/P2vjGcI46cLyhNRY501zbMtH3HTddBtdtVTgOuwWLAE2/w62+6gPvyZr5mHj
-	 syp0O9wZuzp5BjgYbXn6SgXDKI0D1vLc3oI/XDZtpRl+ZEiP4ygIUIvQcxd8+0GnQt
-	 QijZ9lNc8OpqA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3889BCAC5B0;
-	Thu, 25 Sep 2025 09:25:20 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Thu, 25 Sep 2025 17:25:18 +0800
-Subject: [PATCH v5 3/4] ALSA: usb-audio: make param quirk_flags change-able
- in runtime
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ahLQOEsu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758792463;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UWFAvZzxsmjhh9q6bJ5VMROTWJuLviIpjPx87FL9KGM=;
+	b=ahLQOEsuJAlRSGpN3nTznj1ZHQrtDjFUWHtgM2wtYfMtM5wFFspBNzCM9INFVmy6xJ+fEx
+	Aj+l1m2baFTS88wMNjSmMaYxQkGHkrodxyhROiTQfTywA+PKT3iqzmIUBitVQx/kdy1knp
+	BVRBU/PtHf/mJVR6fIYpcMPCf9Oz24o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-648-zYz5DUuGOlKEjp0Zvn2EHw-1; Thu, 25 Sep 2025 05:27:41 -0400
+X-MC-Unique: zYz5DUuGOlKEjp0Zvn2EHw-1
+X-Mimecast-MFC-AGG-ID: zYz5DUuGOlKEjp0Zvn2EHw_1758792461
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3ece0cb7c9cso597631f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 02:27:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758792460; x=1759397260;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UWFAvZzxsmjhh9q6bJ5VMROTWJuLviIpjPx87FL9KGM=;
+        b=JPPBJGKsDlGPEut5vD4mH69KJ9nzW/KcsiB0D5+TM27v9MCnJK0dNloWo0ifgMataB
+         yTv8eQq1HeWMGXJltmN/HLns6gY40Q10Slrt1WEiPdIpW2Uw2BTfICjN0oS07rlenyir
+         tca30yqnk87wLbblr8J5ALC0Jwc3cGT7eS80nwxN/95h2u5255HhtpIfibPf5h9SSfK8
+         HrlL03zBbmhHTBgGZF1ZraU5XTowOtm3Yi7LQjfJ/hUr/XZ0yoIHSF8xiemz1zeqpdRW
+         P+Cp+07iztn/5oKjVodPexz6RMZvHd/cXrUrjmXF97Ht8iTny07OAUU/xjgJWdGar3FW
+         gH+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWowklNf+Fc99DPDH4+vrOya8UjcocF4jp486rE9IOhnjJnlUndNO1clNfzDcrV1oTeLiVYlz13tpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWArs5gS3HD1CXWBld2O1/8vevuL0O99XxzjMpoupWB9l/jV4y
+	YCS8vHCn/miMx3zUd8TrYocZfDWDCzVxUju9w919hsJIawgB1TpvbNRiU/d3qHHL5sGMe0JXd98
+	0LkcGuPyYIAiUX5OfZmT5Nwzod1TmyR8N9wqiwu0kXSfOA90UoZHn1Mlv3smc0g==
+X-Gm-Gg: ASbGncvfLcqn+pvwQkn+4/oNe6rMOv77An/2ewccTKOMs+yqBsK1kuZM7i2gqUdrNMv
+	1Ktj2TcFeasA9jimiLiZPUQ42Vpgpi99Q+Ftyhojm+ALRPjfe3u7t7RDSGc7QrbMjNx+wfgKqim
+	Ix6J+joXnhEcTfSl98mhAmm+i/Jf8u0IESVgJ+ahcDM6nYmVifVUEDPnbkrB/l9Vb/RZ88GQtjP
+	pm66+Qp/X/W1+z4iOyhkX1SBnd3VFca18Q1ru79+lpTmwM4bxZcFxw1sUhCanFihbfeD8McOkF8
+	24nqLIMyjG6y4KwVcaYn3qjRd6xP2C/RJvyNszO+1FKis6pQslmzYMRkMiGGZtug52gv/LfyC+n
+	OHcHpE+vMTcw7
+X-Received: by 2002:a05:6000:2306:b0:3ec:dd19:5ab with SMTP id ffacd0b85a97d-40e4dabf4bcmr2260619f8f.61.1758792460434;
+        Thu, 25 Sep 2025 02:27:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH4KO3m6UVzFQeKSl0okBGg5bJ0PBmfh3JJWmV5i+8yo09g9ZgqQZzl0ahuXJF36hdJNUY9+g==
+X-Received: by 2002:a05:6000:2306:b0:3ec:dd19:5ab with SMTP id ffacd0b85a97d-40e4dabf4bcmr2260602f8f.61.1758792459988;
+        Thu, 25 Sep 2025 02:27:39 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2ab61eecsm69224455e9.20.2025.09.25.02.27.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Sep 2025 02:27:39 -0700 (PDT)
+Message-ID: <7cc2df09-0230-40cb-ad4f-656b0d1d785b@redhat.com>
+Date: Thu, 25 Sep 2025 11:27:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 1/2] net/smc: make wr buffer count
+ configurable
+To: Halil Pasic <pasic@linux.ibm.com>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, "D. Wythe" <alibuda@linux.alibaba.com>,
+ Dust Li <dust.li@linux.alibaba.com>, Sidraya Jayagond
+ <sidraya@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>,
+ Mahanta Jambigi <mjambigi@linux.ibm.com>, Tony Lu
+ <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-s390@vger.kernel.org
+References: <20250921214440.325325-1-pasic@linux.ibm.com>
+ <20250921214440.325325-2-pasic@linux.ibm.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250921214440.325325-2-pasic@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-sound-v5-3-2593586ff350@uniontech.com>
-References: <20250925-sound-v5-0-2593586ff350@uniontech.com>
-In-Reply-To: <20250925-sound-v5-0-2593586ff350@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
- kernel@uniontech.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Cryolitia PukNgae <cryolitia@uniontech.com>, Takashi Iwai <tiwai@suse.de>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758792317; l=2885;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=yg0nraJKqEiHsTts0EQa1+T1J1+t0kLWXGBFQYtmL50=;
- b=5Z1wWHv2L8JGIs27buBuWW33B7eHGIGNr8unJzL8j/uiglLDxgB8BNHX3hjVRIPF9zV1P2hs8
- cKBUrVYdezEAUfHdpA9XlJRo5U2x7j8jaYvUEvdUt2n529n6SxhWeZ4
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On 9/21/25 11:44 PM, Halil Pasic wrote:
+> diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
+> index a874d007f2db..c94d750c7c84 100644
+> --- a/Documentation/networking/smc-sysctl.rst
+> +++ b/Documentation/networking/smc-sysctl.rst
+> @@ -71,3 +71,39 @@ smcr_max_conns_per_lgr - INTEGER
+>  	acceptable value ranges from 16 to 255. Only for SMC-R v2.1 and later.
+>  
+>  	Default: 255
+> +
+> +smcr_max_send_wr - INTEGER
+> +	So called work request buffers are SMCR link (and RDMA queue pair) level
+> +	resources necessary for performing RDMA operations. Since up to 255
+> +	connections can share a link group and thus also a link and the number
+> +	of the work request buffers is decided when the link is allocated,
+> +	depending on the workload it can a bottleneck in a sense that threads
 
-Developers now can change it during sysfs, without rebooting, for
-debugging new buggy devices.
+missing 'be' or 'become'           here^^
 
-Co-developed-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- sound/usb/card.c | 36 ++++++++++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 8 deletions(-)
+> +	have to wait for work request buffers to become available. Before the
+> +	introduction of this control the maximal number of work request buffers
+> +	available on the send path used to be hard coded to 16. With this control
+> +	it becomes configurable. The acceptable range is between 2 and 2048.
+> +
+> +	Please be aware that all the buffers need to be allocated as a physically
+> +	continuous array in which each element is a single buffer and has the size
+> +	of SMC_WR_BUF_SIZE (48) bytes. If the allocation fails we give up much
+> +	like before having this control.
+> +
+> +	Default: 16
+> +
+> +smcr_max_recv_wr - INTEGER
+> +	So called work request buffers are SMCR link (and RDMA queue pair) level
+> +	resources necessary for performing RDMA operations. Since up to 255
+> +	connections can share a link group and thus also a link and the number
+> +	of the work request buffers is decided when the link is allocated,
+> +	depending on the workload it can a bottleneck in a sense that threads
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 68d8324fef3747c48d01088e7d1deb61e870db5c..4001a4d0ad2b30ccc03b11fc7a1ebb63efb6ab1f 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -103,13 +103,32 @@ module_param_array(delayed_register, charp, NULL, 0444);
- MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
- module_param_array(implicit_fb, bool, NULL, 0444);
- MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
--module_param_array(quirk_flags, charp, NULL, 0444);
--MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
- module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
- MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
- 
-+/* protects quirk_flags */
-+DEFINE_MUTEX(quirk_flags_mutex);
-+
-+static int param_set_quirkp(const char *val,
-+			    const struct kernel_param *kp)
-+{
-+	guard(mutex)(&quirk_flags_mutex);
-+	return param_set_charp(val, kp);
-+}
-+
-+static const struct kernel_param_ops param_ops_quirkp = {
-+	.set = param_set_quirkp,
-+	.get = param_get_charp,
-+	.free = param_free_charp,
-+};
-+
-+#define param_check_quirkp param_check_charp
-+
-+module_param_array(quirk_flags, quirkp, NULL, 0644);
-+MODULE_PARM_DESC(quirk_flags, "Add/modify USB audio quirks");
-+
- /*
-  * we keep the snd_usb_audio_t instances by ourselves for merging
-  * the all interfaces on the same card as one sound device.
-@@ -697,15 +716,13 @@ static void snd_usb_init_quirk_flags(int idx, struct snd_usb_audio *chip)
- 	char *val;
- 	size_t i;
- 
-+	mutex_lock(&quirk_flags_mutex);
-+
- 	/* old style option found: the position-based integer value */
- 	if (quirk_flags[idx] &&
- 	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags)) {
--		usb_audio_dbg(chip,
--			      "Set quirk flags 0x%x from param based on position %d for device %04x:%04x\n",
--			      chip->quirk_flags, idx,
--			      USB_ID_VENDOR(chip->usb_id),
--			      USB_ID_PRODUCT(chip->usb_id));
--		return;
-+		snd_usb_apply_flag_dbg("module param", chip, chip->quirk_flags);
-+		goto unlock;
- 	}
- 
- 	/* take the default quirk from the quirk table */
-@@ -725,6 +742,9 @@ static void snd_usb_init_quirk_flags(int idx, struct snd_usb_audio *chip)
- 
- 		kfree(val);
- 	}
-+
-+unlock:
-+	mutex_unlock(&quirk_flags_mutex);
- }
- 
- /*
+same                               here^^
 
--- 
-2.51.0
+[...]
+> @@ -683,6 +678,8 @@ int smc_ib_create_queue_pair(struct smc_link *lnk)
+>  	};
+>  	int rc;
+>  
+> +	qp_attr.cap.max_send_wr = 3 * lnk->lgr->max_send_wr;
+> +	qp_attr.cap.max_recv_wr = lnk->lgr->max_recv_wr;
 
+Possibly:
+
+	cap = max(3 * lnk->lgr->max_send_wr, lnk->lgr->max_recv_wr);
+	qp_attr.cap.max_send_wr = cap;
+	qp_attr.cap.max_recv_wr = cap
+
+to avoid assumption on `max_send_wr`, `max_recv_wr` relative values.
+
+[...]
+> diff --git a/net/smc/smc_sysctl.h b/net/smc/smc_sysctl.h
+> index eb2465ae1e15..8538915af7af 100644
+> --- a/net/smc/smc_sysctl.h
+> +++ b/net/smc/smc_sysctl.h
+> @@ -25,6 +25,8 @@ static inline int smc_sysctl_net_init(struct net *net)
+>  	net->smc.sysctl_autocorking_size = SMC_AUTOCORKING_DEFAULT_SIZE;
+>  	net->smc.sysctl_max_links_per_lgr = SMC_LINKS_PER_LGR_MAX_PREFER;
+>  	net->smc.sysctl_max_conns_per_lgr = SMC_CONN_PER_LGR_PREFER;
+> +	net->smc.sysctl_smcr_max_send_wr = SMCR_MAX_SEND_WR_DEF;
+> +	net->smc.sysctl_smcr_max_recv_wr = SMCR_MAX_RECV_WR_DEF;
+>  	return 0;
+>  }
+>  
+> diff --git a/net/smc/smc_wr.c b/net/smc/smc_wr.c
+> index b04a21b8c511..f5b2772414fd 100644
+> --- a/net/smc/smc_wr.c
+> +++ b/net/smc/smc_wr.c
+> @@ -34,6 +34,7 @@
+>  #define SMC_WR_MAX_POLL_CQE 10	/* max. # of compl. queue elements in 1 poll */
+>  
+>  #define SMC_WR_RX_HASH_BITS 4
+> +
+
+Please avoid unrelated whitespace only changes.
+
+Thanks,
+
+Paolo
 
