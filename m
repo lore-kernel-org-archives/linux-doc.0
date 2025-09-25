@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3FC3128D7
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 20:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346CC2512FF
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 20:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758831120; cv=none; b=k3EkeNqAPWILqV6wYwPzDdYyMaQ6Ph70K0MkjczPVK7utI7SqM3j7rMRU7hGPRzQwZ3ZDgd+CkmqS0UYuL34VU/+R7rmHRvh2hQbQ7OSOEu2l9voLgnuRjbu01Vshhs8PP7/TrrvQJr9/g0qkMj22WtvFtB5EohErnMa/TnFj7o=
+	t=1758831236; cv=none; b=O78yM48kzt/CocLKqhCYtjcQSqV6YDqor2AmUTV7V59JkrFpmJlRHyk75hZv1PBRziVCeauuhZBqAsbiuf8/Tavn00HadhCdkO3H3dhGQetxcgSlBqWFIyfqxlsaWtW82wMzAwegtMwTw4uHdt+f8dRl5c8lh6S7ageZ29/KxFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758831120; c=relaxed/simple;
-	bh=h3RwPtc4sBXiMR1giqI+uaroN4r1V3AkFS5O//etA6o=;
+	s=arc-20240116; t=1758831236; c=relaxed/simple;
+	bh=VRNU/SIeWDAUnJXorg9z/v07pFFZ+5txlBQH4Ycxe7w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oCxUaGmB6YiYT4I/jbZiIaLw+BZXHDmzpmjsXoQHe4ryNeLLVLwvfWkEd4DLbkx9XhdVM8JFzvntWtWrizxhUafRxNaIL5uGSLY7GGroWiuER266gGX6FVxwJ6p7gkiPpCItC05JEy1GCxmmG8t+/6qk7Wo0pQ3ADfXEwGv3abk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A9aFDeTF; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=ZdZTSNqgOXAi7qzPTm23iBvV+DktO4lj4Pq+Re+b9580fHuerSNCQxItAC7l5kXAfrRA5y1tppYsafcBzLUwKzDRRFglx48QzjIRrqmskCI9bPXDZ1YcuVkt959PQMQyxGral/ipomM3vWxaNaiKBZzNawfZpdOzsq2LYS3MXSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EKrLCKJQ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A9aFDeTF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EKrLCKJQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758831117;
+	s=mimecast20190719; t=1758831234;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=BbdNHkZwL7Xvs1kb7Vz3lIvaavTg0vqw+U34Fq/laSM=;
-	b=A9aFDeTF4npcu3ZRqZTy+613499S5WTNvy4nASQbRz+C515ohjB3lRK4JD9k3sQsW5cOIU
-	bptpvS272pJMryW0WAasO91XCw1hdQEhxwEkN9zednC3ahmFBFi8ykBDccaOdssqdg12wi
-	cNapLtxhMEjxwgl7dLd1GSHAGFyHi+I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Jt934pWl+waL11DifZ1ogJABhsR0QZuMWPNAUgnNLvs=;
+	b=EKrLCKJQ12cjXaEl/zjPnLr56NfKlt/k/dIUyFWINoUIsJOr8wH8ozHk2SZHA35jsVHxQj
+	9y9a6e1ZVKVYtmZgCl+mKgX6K/j5gq4PEwh6zZ5gctQ0FKJQTYE3BwZV1itr39BQupI5NG
+	9ag7/LIRC9cWuQg2afPhCgfR0crTGYM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-77XBNXXZNHG9qgig6kHsUA-1; Thu, 25 Sep 2025 16:11:56 -0400
-X-MC-Unique: 77XBNXXZNHG9qgig6kHsUA-1
-X-Mimecast-MFC-AGG-ID: 77XBNXXZNHG9qgig6kHsUA_1758831115
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b990eb77cso8698985e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 13:11:55 -0700 (PDT)
+ us-mta-658-Ux5XLm1iNKaOwDCIoQrfBg-1; Thu, 25 Sep 2025 16:13:52 -0400
+X-MC-Unique: Ux5XLm1iNKaOwDCIoQrfBg-1
+X-Mimecast-MFC-AGG-ID: Ux5XLm1iNKaOwDCIoQrfBg_1758831232
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3f93db57449so694401f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 13:13:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758831115; x=1759435915;
+        d=1e100.net; s=20230601; t=1758831232; x=1759436032;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BbdNHkZwL7Xvs1kb7Vz3lIvaavTg0vqw+U34Fq/laSM=;
-        b=t9z6LLYptnJxk38HLf0GdMn87zJ+sVL1SFZ52ZxEP/n9qEt1BJt2JKLb1iWez8tIsp
-         xGMut4qN/7NhD9EjOrsEWE8yWFfnnGyHluzI3crymLP8KUHZb4yrvcJZcpeXJjayXRql
-         g6fQHZWCPyw9tCCsd95noenf1QM+/gXNKrMzLXzh4RdVLJm2WNQf1+V+UPP6yXByD61f
-         bg+zgGcBeNRWLOTDCSr/SwAHlU59O8X2rq2JNzwypCwwU0WZEjtJIifSJnjE/4nVzni+
-         AcTTeBCQSa+WtpKKIRqw9JWxJb9E7XtfHOZ4aLebynl5fu/GI4AnNX3Rte/rwyOdSAJs
-         /RRw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgSfjN0CdV3DYah7hcdKR6dINzWY3u1K7TKyVUQWnhJpKD30D9neUoWK4jdiec5qN4yWgFfWrY+qo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztO/O9ig9Udlt/5C9NC8MMczWDh4KULj9NLHqGcEXHgVvATmMr
-	zR6S83Z7P63Y3VAw7qA4KEEjuGHOR6Xub3wqctDJ09sQ+ueTX/7W4lx7ums6wm+L13r96uUx2Fi
-	roKFaYLsKebOaNf76Z1g+fKDpmiaJ0maS9/YQJFGOgLDTBVGrTo7ef9zkq8NO5A==
-X-Gm-Gg: ASbGncv9daIOXMjJOyCMILf1D3SYsSpmqenuBm+gpnNJGS5nyqXqnU7BqXEpCyllYEc
-	Kx5VIR29l6Bcw+OnXP25E30OWmvXvxgKvYvwRydib5X/lziP+iJBGGi2q8ZeuqEvXskrv3IEM8V
-	Y0xASuj+Q0EpjsQloBud129aEsbhQXpTfzqQIidfb362xnqNGGqWcOIWYOyg3HsZhZCi+i10/qT
-	2Y9Z1ygXtgn0MCvHU3o+BNyHrwLDCLggjGCx1cvHhhWf7+WYmyUbrvBmmamLzQ8/Hr1wdX1q3f7
-	oxUxnMRw1NUyx3ThivQ639DRf27MHiJ+dHhVjO2DW3eZh1zdEwe3VsBnlZQ/37NBi6c8QN08n3u
-	K8eK0EPGXDAEn21fCNLM7FgCvBLnjqBHmqZOIGO49jl1U3rD+HzZbLKQDwWbif+4bLpeH
-X-Received: by 2002:a05:600c:4ecc:b0:46e:33ed:bca4 with SMTP id 5b1f17b1804b1-46e33edbe6fmr36930125e9.15.1758831114655;
-        Thu, 25 Sep 2025 13:11:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGEhVhCGcgmO1k+G3XLxgUOwBHZ0rAO9DXf37klvFdy0hgaj1Ui37fjLWrqz9lgbSvmF4VzUg==
-X-Received: by 2002:a05:600c:4ecc:b0:46e:33ed:bca4 with SMTP id 5b1f17b1804b1-46e33edbe6fmr36929885e9.15.1758831114203;
-        Thu, 25 Sep 2025 13:11:54 -0700 (PDT)
+        bh=Jt934pWl+waL11DifZ1ogJABhsR0QZuMWPNAUgnNLvs=;
+        b=SeU13QNsLx0N5uzTbI+o44d40hf8lhVeJUO64nPpzF+tcZf0JLjtrsfL9LlS12kIhi
+         5D4iR6JdsCgfUtkhcJa+mEccq67h4IumlUIcZc8Y0EWedt4aAvcfmnorAUCwHmzNY+fO
+         Cj8vAsneuCmafnw4K+/MiEM2GJF7Pjw6oQWJ+ZV1AmSziSf1xe/TXU2gmoUPaHD3QlYC
+         UYyCMlwX6wUxMF789jq8We5WmpNZ52gYB0n0742jd7+EidxWVThAsUknlFlKMkR8cNek
+         imBLl2vf9MYYiCNiMCDex4RmFhu6dYv3AdsMmwA6BjxXAO7g1N0g/lWpkswR+G/JArrS
+         gg/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXtcrklPQknRERsaXs26hB7LmvpgqpVitc0s45Hu99YXVpueo5mIZbBqPwUh+ery+HjsHCn9YgJElM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi3+CaDvy6a2DIRJ7PwWy+z+mx09vYkij0QBeNgScwDIbN8KDs
+	MWeU7Om2GGGnqNb0oRgFtkPLOadknpaPi/k0rnf3QZ6K3HPDqeP+SunovhEUGbgDJYKyC+WYBxM
+	BWaj26pB9Wbq0GTAyyQsSe0OFv49PiwOowohIUBXD1++Iijr7MxBG4pXa2gOUOg==
+X-Gm-Gg: ASbGncu/cXhecpAfvPrBR0YeGTEHQuOzt6WyKhMUxeQRSpHAWZgxLZws3vLm6aj9A8H
+	wsdVdG+bE9TkqthZ2IsJM6kQ3wwjwb/YM2Rl6vwSzwa6F/gaPZ6ztzW7nU0cfwnyylw1/bO/ddd
+	61gkw0PHLezMW5xcGwTgmBMai1OWWT4Y1oi3dRVzJObjtAN0Jqv3o8f34beqL5iDSukKS0bT2er
+	pj6xRfKQgPR2y86T9QUxiSV1LcNcUIO8tdGwKg8Dx4MC0DvWOrWrCt12F+KDcirdSeNdBZWBUhn
+	M2zX0IUuwAmpkObFnIljSKCC8H7UiziEjiFFfh8qHdFQiJnEuXiOD9QFYBKrLPAcVA1eulT7R/9
+	JIeDYQAWjD90nw9TjpVG/p9Ka4PLv33Nn4qCUkBBNcaqy/ATO26AdlhclSqYZIXsp170A
+X-Received: by 2002:a05:6000:2304:b0:3ea:bed8:7040 with SMTP id ffacd0b85a97d-40e46ad00b9mr4712244f8f.25.1758831231699;
+        Thu, 25 Sep 2025 13:13:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGFVVNLdXy4p/tTQ+NT/ePAfr5Q0kgcDHv5gQvTT3sYR20nows4MCsqZEQWfZcFoJRiSMKYvg==
+X-Received: by 2002:a05:6000:2304:b0:3ea:bed8:7040 with SMTP id ffacd0b85a97d-40e46ad00b9mr4712175f8f.25.1758831231212;
+        Thu, 25 Sep 2025 13:13:51 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08? (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de. [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2a996bf1sm90335925e9.1.2025.09.25.13.11.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc82f2ff6sm4094888f8f.56.2025.09.25.13.13.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 13:11:53 -0700 (PDT)
-Message-ID: <1497a41d-3e43-4654-a28a-2049ab4c4c0b@redhat.com>
-Date: Thu, 25 Sep 2025 22:11:51 +0200
+        Thu, 25 Sep 2025 13:13:50 -0700 (PDT)
+Message-ID: <c79173d8-6f18-40fa-9621-e691990501e4@redhat.com>
+Date: Thu, 25 Sep 2025 22:13:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,24 +75,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
-To: Eugen Hristev <eugen.hristev@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
- <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
- <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
- <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
- <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
- <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
- <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com> <87segk9az5.ffs@tglx>
- <f8d3c2d4-8399-4169-8527-3c87922f2ef1@redhat.com> <87jz1w88zq.ffs@tglx>
- <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
+Subject: Re: [PATCH v7 06/12] KVM: guest_memfd: add module param for disabling
+ TLB flushing
+To: Dave Hansen <dave.hansen@intel.com>, "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+ "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+ "surenb@google.com" <surenb@google.com>, "mhocko@suse.com"
+ <mhocko@suse.com>, "song@kernel.org" <song@kernel.org>,
+ "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "andrii@kernel.org" <andrii@kernel.org>,
+ "martin.lau@linux.dev" <martin.lau@linux.dev>,
+ "eddyz87@gmail.com" <eddyz87@gmail.com>,
+ "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+ "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+ <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
+ "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
+ <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+ "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "Cali, Marco" <xmarcalx@amazon.co.uk>,
+ "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+ "Thomson, Jack" <jackabt@amazon.co.uk>,
+ "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
+ "tabba@google.com" <tabba@google.com>,
+ "ackerleytng@google.com" <ackerleytng@google.com>
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk>
+ <20250924152214.7292-3-roypat@amazon.co.uk>
+ <e25867b6-ffc0-4c7c-9635-9b3f47b186ca@intel.com>
+ <c1875a54-0c87-450f-9370-29e7ec4fea3d@redhat.com>
+ <82bff1c4-987f-46cb-833c-bd99eaa46e7a@intel.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -139,128 +180,40 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
+In-Reply-To: <82bff1c4-987f-46cb-833c-bd99eaa46e7a@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 18.09.25 15:53, Eugen Hristev wrote:
-> 
-> 
-> On 9/18/25 11:23, Thomas Gleixner wrote:
->> On Wed, Sep 17 2025 at 21:03, David Hildenbrand wrote:
->>>> As this is specific for the compiled kernel version you can define an
->>>> extensible struct format for the table.
->>>>
->>>> struct inspect_entry {
->>>> 	unsigned long	properties;
->>>>           unsigned int	type;
->>>>           unsigned int	id;
->>>>           const char	name[$MAX_NAME_LEN];
->>>> 	unsigned long	address;
->>>>           unsigned long	length;
->>>>           ....
->>>> };
->>>>
->>>> @type
->>>>          refers either to a table with type information, which describes
->>>>          the struct in some way or just generate a detached compile time
->>>>          description.
->>>>
->>>> @id
->>>>          a unique id created at compile time or via registration at
->>>>          runtime. Might not be required
+On 25.09.25 21:59, Dave Hansen wrote:
+> On 9/25/25 12:20, David Hildenbrand wrote:
+>> On 25.09.25 20:27, Dave Hansen wrote:
+>>> On 9/24/25 08:22, Roy, Patrick wrote:
+>>>> Add an option to not perform TLB flushes after direct map manipulations.
 >>>
->>> We discussed that maybe one would want some kind of a "class"
->>> description. For example we might have to register one pgdat area per
->>> node. Giving each one a unique name might be impractical / unreasonable.
->>>
->>> Still, someone would want to select / filter out all entries of the same
->>> "class".
->>>
->>> Just a thought.
+>>> I'd really prefer this be left out for now. It's a massive can of worms.
+>>> Let's agree on something that works and has well-defined behavior before
+>>> we go breaking it on purpose.
 >>
->> Right. As I said this was mostly a insta brain dump to start a
->> discussion. Seems it worked :)
->>
->>>> @properties:
->>>>
->>>>           A "bitfield", which allows to mark this entry as (in)valid for a
->>>>           particular consumer.
->>>>
->>>>           That obviously requires to modify these properties when the
->>>>           requirements of a consumer change, new consumers arrive or new
->>>>           producers are added, but I think it's easier to do that at the
->>>>           producer side than maintaining filters on all consumer ends
->>>>           forever.
->>>
->>> Question would be if that is not up to a consumer to decide ("allowlist"
->>> / filter) by class or id, stored elsewhere.
->>
->> Yes, I looked at it the wrong way round. We should leave the filtering
->> to the consumers. If you use allow lists, then a newly introduced class
->> won't be automatically exposed everywhere.
->>
->> Thanks,
->>
->>          tglx
+>> May I ask what the big concern here is?
 > 
+> It's not a _big_ concern. 
+
+Oh, I read "can of worms" and thought there is something seriously 
+problematic :)
+
+> I just think we want to start on something
+> like this as simple, secure, and deterministic as possible.
+
+Yes, I agree. And it should be the default. Less secure would have to be 
+opt-in and documented thoroughly.
+
 > 
-> So, one direction to follow from this discussion is to have the
-> inspection entry and inspection table for all these entries.
-> Now, one burning question open for debate, is, should this reside into mm ?
-> mm/inspect.h would have to define the inspection entry struct, and some
-> macros to help everyone add an inspection entry.
-> E.g. INSPECTION_ENTRY(my ptr, my size);
-> and this would be used all over the kernel wherever folks want to
-> register something.
+> Let's say that with all the unmaps that load_unaligned_zeropad() faults
+> start to bite us. It'll take longer to find them if the TLB isn't flushed.
+> 
+> Basically, it'll make the bad things happen sooner rather than later.
 
-If we're moving this to kernel/ or similar I'd suggest to not call this 
-only "inspect" but something that somehow contains the term "mem".
-
-"mem-inspect.h" ?
-
-
-> Now the second part is, where to keep all the inspection drivers ?
-> Would it make sense to have mm/inspection/inspection_helpers.h which
-> would keep the table start/end, some macros to traverse the tables, and
-> this would be included by the inspection drivers.
-> inspection drivers would then probe via any mechanism, and tap into the
-> inspection table.
-
-Good question. I think some examples of alternatives might help to 
-driver that discussion.
-
-> I am thinking that my model with a single backend can be enhanced by
-> allowing any inspection driver to access it. And further on, each
-> inspection driver would register a notifier to be called when an entry
-> is being created or not. This would mean N possible drivers connected to
-> the table at the same time. ( if that would make sense...)
-
-Yeah, I think some notifier mechanism is what we want.
-
-> Would it make sense for pstore to have an inspection driver that would
-> be connected here to get different kinds of stuff ?
-
-Something for the pstore folks to answer :)
-
-> Would it make sense to have some debugfs driver that would just expose
-> to user space different regions ? Perhaps something similar with
-> /proc/kcore but not the whole kernel memory rather only the exposed
-> inspection entries.
-
-Definetly, this is what I previously mentioned. Maybe we would only 
-indicate region metadata and actual access to regions would simply 
-happen through /proc/kcore if someone wants to dump data from user space.
-
-> Now, for the dynamic memory, e.g. memblock_alloc and friends ,
-> would it be interesting to have a flag e.g. MEMBLOCK_INSPECT, that would
-> be used when calling it, and in the background, this would request an
-> inspection_entry being created ? Or it makes more sense to call some
-> function like inspect_register as a different call directly at the
-> allocation point ?
-
-We'd probably want some interface to define the metadata 
-(name/class/whatever), a simple flag likely will not do, right?
+Agreed.
 
 -- 
 Cheers
