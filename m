@@ -1,176 +1,308 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34EE29ACF0
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 14:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBDB2D73B4
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 14:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758810032; cv=none; b=XYAqJ/93wMkyXCO1zp7GN+KATFymNxlqex807h2wUkIUw2jiEiDC/8IZsKjXpMm3Frp6OjbeHWQYwl0TUjxeqTmgzl1eK20U/uhA7ZkShPsOQswjUQR/AubcMY3LtCP2zuv4Ts7FK+u3LOrpYjRZIwgJ8Oct+Us/R65wTOXygEM=
+	t=1758810632; cv=none; b=gQyOYXmXnEiH6jIBjH5Y4Wpq67/VG06Z0PWZXkIIC4ucewoXISNwaLNbmZAcYa4AB+A5td7zU6riEGIFW2Ripo6wROdRJTrmHmd5BHG1F0gXGku7HPwj7ghlBETOecOvGBuOGb87H4rYVfEsGoQGn4MqW6h//SEWHTBt8P5acHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758810032; c=relaxed/simple;
-	bh=9S5P/Bdj720bk805Gz5LUXF0wAlaDIZ4nUN2ksl9Ab0=;
+	s=arc-20240116; t=1758810632; c=relaxed/simple;
+	bh=C0GfpwF7RY7Xo4qa0YBZdMNr7838kNVWqEk+4k+STrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hoHPp2HAicDkMvP0kwwAeTfbONzdAd0CYRWVwQ0vSAGbhF5Fi9PAhwsHIsyPhjSSOB1oW4Rr08cMweyA6RYDCP4b1AJ6ueDjUfv8y6r3yc9YkkTG+7y0BfCGNdpxTcFWY7CAWMeKPgdfZr3fA236HHNar1st0yw8h/QGENELr7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aKU7gyTm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EsLpTC3InxRtygN7cP+1aK5qiw7IqqWLc/scAZ8mN3RtwcWv+WluxzYQ3+yypGeax4n+IxjuTkiUNPU9MspJi06FQWEctDO9FPJ8CXGWc5iF3rbzkKqHqP8WgtDEouhszve9BFRe3sfMCN9dRI3/0HfvXtacMraE+egl1zMdLq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=LhWRuoRl; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aKU7gyTm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758810029;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jOKkbCQdz4s7kFS4NyoQHb7rePtHYRhLO7DwNkxy16c=;
-	b=aKU7gyTmsyEz6o5P8GwtqJIQ4YvAc82jlDU5QZ43dcPRnAvvgUC6aZpEE78DL9XiGCwyF3
-	GjNTNeNNqf7RfZx1hK9WqQUbYow+n1/FulGifs3nn4tGvQjKpVCJpXXytKbiO2wj0h8x6G
-	/9m6vuiDeyjepvfXSQSAkegz6GBs/rs=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-283-1-4LSFLMM2el1DcS4oXF8Q-1; Thu, 25 Sep 2025 10:20:28 -0400
-X-MC-Unique: 1-4LSFLMM2el1DcS4oXF8Q-1
-X-Mimecast-MFC-AGG-ID: 1-4LSFLMM2el1DcS4oXF8Q_1758810027
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4d413127749so21633521cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 07:20:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="LhWRuoRl"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-279e2554b5fso9137005ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 07:30:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc.com; s=google; t=1758810629; x=1759415429; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=B/ScXH9deltQU9YLRjtGdHjjN9goLEMoCpX6Ad5jX+g=;
+        b=LhWRuoRlIOpX0Eb7orLG7HINPKL4NxpLqV8UjVFVXQ6JGBZ+/MnLWcKx2FCPuUdYWg
+         CUdKHZPhEtgBtAZRCDM4zK/wr2UYfEXXPH5SSvy6cvn6qgfvQwZhi9gWjDRO0D6LXna1
+         rj3aK27ZJ2GaUVaQVqmCyjouwM4nTJR7NcdU7lN5tIQ08Ch9x6FuWfpzVonhRtiUMi8R
+         7fv4IjYWywwHz+MshJnPKPrc4HiLahN62o7z/GrztqVydi3bMEG9crneIqkG71vU3i/O
+         AvdiVMLQAkKMhtZcSA3UmVkr8LciY1LYWdSedWs7yWj/2c+2aRjpvufIVvEBNC7LdqLv
+         d6kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758810027; x=1759414827;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jOKkbCQdz4s7kFS4NyoQHb7rePtHYRhLO7DwNkxy16c=;
-        b=XDwoAmY0ijVxeNEKCm1HQOZu6dhpLKiXSVtjNWcaTtIv5Ux1v7AOEsb2RfgO8APQpf
-         f3/DBLVdlO98HPMUgUOZhuUGeugvhUqFw63qJrb4i9lKM4J2AvPV0OS9e4+rq0CGd8nz
-         4i6nX7sd28WA/XM6IiarTiKULJl6cAQNwrxhV/12rB7A6UzkusZLJEsa5AzpaIHPj502
-         w3U+FW69T9GPkTktox6HiLbE1pfo+GfiyVyw42Mqo7vj679zwDC/aXM8XCrB6b57l7TR
-         8Kv3iKyXOI6TLWmqhLGkts9VXxp+umVKT5dGb0DerJEdHyrHWu5mqbzV3Naw7yGoditV
-         ozxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAmnxfPYn9Fy/C7x2LoP0xIHbjBr7+Np2SiDAYdwFLWG3rgkO236gjJ5WSYJitSxrwFdJuuAflITc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8us6PlalTddTUPxUhRrxPzxwX2jghx7y25ySsCi61B/xz/j6g
-	zsMFEGsX0nLqy5vYHwhQ6jD8bk5Jhy1t3I1jijOvk1WIStdtrbFMaFhczdyn3jV0ko63t3lZhbQ
-	Lt4NxzrskI5jUD2uYpz0awLqaLo3XYIwyXfmCptfDZyNnD+Qz0SMh7AqPyMG8rA==
-X-Gm-Gg: ASbGncsfs2PpYazEd0DYp/dJFOyWMIDDsR7Mz+ecRZoE0yqcMTv3fddCry4/EPOw9t9
-	rf6Whp/bTF5PhDFm8zkMSCF3kdwlL/mzUx9VLXzz4d0VhfnB0fkpMi83j2XTAzCR20MfEgJd+pa
-	CUbqFoj1UaOXfxKdtN3iH0mTbpQHvGdrjlt+6C4jxac/i2LKH3AWN0GKC2JKfcl9ERaz2yrzWtP
-	efUHiUOWLu5CEKW4WO7XHpSCrz7SrmL4XqDEjB47EABxAgaYVszCknNBGe2rksZR6g9jTlUOWJT
-	6AeVczRu5CUcF2FOTGVbctSaS7f4ZxcPh3tHWL/GVoNzh5bWTc9hMvfAQNciJBqGeSPpSIfTydi
-	/rRtyhVVwrBVAu5GT7pJ5nwymjFvrriQ=
-X-Received: by 2002:a05:622a:5e07:b0:4da:7d53:c01f with SMTP id d75a77b69052e-4da7d53c586mr25949791cf.28.1758810027222;
-        Thu, 25 Sep 2025 07:20:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGzAMws7Y35IXPj3ULsxxU+kNGPjPFIvTWHEyCz1nsMPS1pfVod6yEtRsWbHOX7yetDXHZs8A==
-X-Received: by 2002:a05:622a:5e07:b0:4da:7d53:c01f with SMTP id d75a77b69052e-4da7d53c586mr25949321cf.28.1758810026700;
-        Thu, 25 Sep 2025 07:20:26 -0700 (PDT)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db1087267csm10756031cf.26.2025.09.25.07.20.24
+        d=1e100.net; s=20230601; t=1758810629; x=1759415429;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B/ScXH9deltQU9YLRjtGdHjjN9goLEMoCpX6Ad5jX+g=;
+        b=aseIyg9fzjPYT5xy70H0SR/z8vCa9z4WvavrCG2Xbbhou8HLZR4pr+xLH/vSjE415X
+         9H/8/oevz0GvG/+bQX6YCgwUJK3/lNSPC2GIn3B3J+QNSZhGkYipkNsQa/LXKIuNZsxa
+         vCkuAfcl9I51mGQKq6QX4bFgckqk1VaAuHs/H0wQsQTXuShU2AjeZmkZomquQfJdL3VX
+         996FaV7trzgJOfM5H8M8yx9vu6AGMUMkiFgffJfYYMuKWtuhiPyUXiTrIgeWdYR3saC/
+         rgAB15WY/I82nQ2BnSvTcnpY6kBp2uQrbJFJHV/Jl14El12DRxtKfCTo3un5+Zd0LLKJ
+         Kpqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWS3oSx1ooNX0Yf3wfE18O7wfyasugxBpr05ZvvWfx3G6Pkrh3dVG3o2Sfr/Q/2sQY2HsOGYKeegP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJSC8R65zOiqW5ZjTVdjV4bFpzp4k2J8oZPmY72LcMCMsrPHdA
+	mlarkaFEFbagNU3AqGXHIo3FnCQWyoB/n5dpnkEHGcHf8yZtHPmydNNh0MZXAA7cSF0=
+X-Gm-Gg: ASbGncsQViSDBm8UZvBn+SsEjt8i4ut4eJsZfD8/ibJpmrB6vpAhTVRiJrPRcgAFKeb
+	h1zk3vEdwvyD7HM90PpVkyY39MTHa4TQkqmADiJkHX5ZxC9c0iC7RfoQBaTtNsVrDEi2WFjq9Kz
+	Ki+U1onnCfdp8jc55ERNkLnfiCC+DSLRfrS114R0eD9H0vv7ygYpNno8CgJQ0KE9CA2D1xuyeHD
+	sm4jkecaSPKo4qOmUfQzbki/uU5YVWdxBgfxvv7IuMav+mIREuHdEF0tbjHwx78TpzLEc7eiVPM
+	hl17jIP18IdVCDg2k6csekxzVEaAyB1A9glLQEk3YdnzVICIj88FvARlV4nbLGMV6qY6jhNuJRX
+	UmuD7ohgydHowvI/vqSGjcoZIO57oMnRj
+X-Google-Smtp-Source: AGHT+IGw4nlcyMj0x1ophUEj8Naebsm2dV8OM2R6VcoSoV/iVH85aly4v8pa48kMi8x3QmjHpu5KEw==
+X-Received: by 2002:a17:903:3845:b0:26e:7ac9:9d3 with SMTP id d9443c01a7336-27ed722bb71mr33822815ad.18.1758810628859;
+        Thu, 25 Sep 2025 07:30:28 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed670f748sm27032895ad.42.2025.09.25.07.30.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 07:20:25 -0700 (PDT)
-Date: Thu, 25 Sep 2025 10:20:24 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v4 00/12] clk: add support for v1 / v2 clock rate
- negotiation and kunit tests
-Message-ID: <aNVPqHldkVzbyvix@redhat.com>
-References: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
- <20250925-eager-delectable-frog-fcbb5d@penduick>
+        Thu, 25 Sep 2025 07:30:28 -0700 (PDT)
+Date: Thu, 25 Sep 2025 07:30:24 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Andy Chiu <andybnac@gmail.com>
+Cc: Paul Walmsley <pjw@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
+	richard.henderson@linaro.org, jim.shu@sifive.com,
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com,
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+	Zong Li <zong.li@sifive.com>, David Hildenbrand <david@redhat.com>,
+	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+	Florian Weimer <fweimer@redhat.com>, bharrington@redhat.com,
+	Aurelien Jarno <aurel32@debian.org>
+Subject: Re: [PATCH v19 00/27] riscv control-flow integrity for usermode
+Message-ID: <aNVSAD4Og23rNTms@debug.ba.rivosinc.com>
+References: <20250731-v5_user_cfi_series-v19-0-09b468d7beab@rivosinc.com>
+ <f953ee7b-91b3-f6f5-6955-b4a138f16dbc@kernel.org>
+ <aNQ7D6_ZYMhCdkmL@debug.ba.rivosinc.com>
+ <CAFTtA3Nxq0UmXcuN7jmQOiuTbrenKbR4ihH027ya1WWybgLq4Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250925-eager-delectable-frog-fcbb5d@penduick>
-User-Agent: Mutt/2.2.14 (2025-02-20)
+In-Reply-To: <CAFTtA3Nxq0UmXcuN7jmQOiuTbrenKbR4ihH027ya1WWybgLq4Q@mail.gmail.com>
 
-On Thu, Sep 25, 2025 at 02:14:14PM +0200, Maxime Ripard wrote:
-> On Tue, Sep 23, 2025 at 10:39:19AM -0400, Brian Masney wrote:
-> > The Common Clock Framework is expected to keep a clock’s rate stable
-> > after setting a new rate with:
-> > 
-> >     clk_set_rate(clk, NEW_RATE);
-> > 
-> > Clock consumers do not know about the clock hierarchy, sibling clocks,
-> > or the type of clocks involved. However, several longstanding issues
-> > affect how rate changes propagate through the clock tree when
-> > CLK_SET_RATE_PARENT is involved, and the parent's clock rate is changed:
-> > 
-> > - A clock in some cases can unknowingly change a sibling clock's rate.
-> >   More details about this particular case are documented at:
-> >   https://lore.kernel.org/linux-clk/20250528-clk-wip-v2-v2-2-0d2c2f220442@redhat.com/
-> > 
-> > - No negotiation is done with the sibling clocks, so an inappropriate
-> >   or less than ideal parent rate can be selected.
-> > 
-> > A selection of some real world examples of where this shows up is at
-> > [1]. DRM needs to run at precise clock rates, and this issue shows up
-> > there, however will also show up in other subsystems that require
-> > precise clock rates, such as sound.
-> > 
-> > An unknown subset of existing boards are unknowingly dependent on the
-> > existing behavior, so it's risky to change the way the rate negotiation
-> > logic is done in the clk core.
-> > 
-> > This series adds support for v1 and v2 rate negotiation logic to the clk
-> > core. When a child determines that a parent rate change needs to occur
-> > when the v2 logic is used, the parent negotiates with all nodes in that
-> > part of the clk subtree and picks the first rate that's acceptable to
-> > all nodes.
-> > 
-> > Kunit tests are introduced to illustrate the problem, and are updated
-> > later in the series to illustrate that the v2 negotiation logic works
-> > as expected, while keeping compatibility with v1.
-> > 
-> > I marked this as a RFC since Stephen asked me in a video call to not
-> > add a new member to struct clk_core, however I don't see how to do this
-> > any other way.
-> > 
-> > - The clk core doesn’t, and shouldn’t, know about the internal state the
-> >   various clk providers.
-> > - Child clks shouldn’t have to know the internal state of the parent clks.
-> > - Currently this information is not exposed in any way to the clk core.
-> 
-> I recall from that video call that Stephen asked:
-> 
-> - to indeed not introduce a new op
-> - to evaluate the change from top to bottom, but to set it bottom to top
-> - to evaluate the rate by letting child clocks expose an array of the
->   parent rates they would like, and to intersect all of them to figure
->   out the best parent rate.
-> 
-> It looks like you followed none of these suggestions, so explaining why
-> you couldn't implement them would be a great first step.
-> 
-> Also, you sent an RFC, on what would you like a comment exactly?
+On Thu, Sep 25, 2025 at 07:30:08AM -0500, Andy Chiu wrote:
+>Hi Deepak,
+>
+>On Wed, Sep 24, 2025 at 1:40 PM Deepak Gupta <debug@rivosinc.com> wrote:
+>>
+>> On Wed, Sep 24, 2025 at 08:36:11AM -0600, Paul Walmsley wrote:
+>> >Hi,
+>> >
+>> >On Thu, 31 Jul 2025, Deepak Gupta wrote:
+>> >
+>> >[ ... ]
+>> >
+>> >> vDSO related Opens (in the flux)
+>> >> =================================
+>> >>
+>> >> I am listing these opens for laying out plan and what to expect in future
+>> >> patch sets. And of course for the sake of discussion.
+>> >>
+>> >
+>> >[ ... ]
+>> >
+>> >> How many vDSOs
+>> >> ---------------
+>> >> Shadow stack instructions are carved out of zimop (may be operations) and if CPU
+>> >> doesn't implement zimop, they're illegal instructions. Kernel could be running on
+>> >> a CPU which may or may not implement zimop. And thus kernel will have to carry 2
+>> >> different vDSOs and expose the appropriate one depending on whether CPU implements
+>> >> zimop or not.
+>> >
+>> >If we merge this series without this, then when CFI is enabled in the
+>> >Kconfig, we'll wind up with a non-portable kernel that won't run on older
+>> >hardware.  We go to great lengths to enable kernel binary portability
+>> >across the presence or absence of other RISC-V extensions, and I think
+>> >these CFI extensions should be no different.
+>> >
+>> >So before considering this for merging, I'd like to see at least an
+>> >attempt to implement the dual-vDSO approach (or something equivalent)
+>> >where the same kernel binary with CFI enabled can run on both pre-Zimop
+>> >and post-Zimop hardware, with the existing userspaces that are common
+>> >today.
+>>
+>> Added some distro folks in this email chain.
+>>
+>> After patchwork meeting today, I wanted to continue discussion here. So thanks
+>> Paul for looking into it and initiating a discussion here.
+>>
+>> This patch series has been in the queue for quite a long time and we have had
+>> deliberations on vDSO topic earlier as well and after those deliberations it
+>> was decided to go ahead with merge and it indeed was sent for 6.17 merge
+>> window. Unfortunatley due to other unforeseen reasons, entirety of riscv
+>> changes were not picked. So it's a bit disappointing to see back-paddling on
+>> this topic.
+>>
+>> Anyways, we are here. So I'll provide a bit of context for the list about
+>> deliberations and discussions we have been having for so many merge windows.
+>> This so that a holistic discussion can happen on this before we make a
+>> decision.
+>>
+>> Issue
+>> ======
+>>
+>> Instructions in RISC-V shadow stack extension (zicfiss - [1]) are carved out of
+>> "may be ops" aka zimop extension [2]. "may be ops" are illegal on non-RVA23
+>> hardware. This means any existing riscv CPU or future CPU which isn't RVA23
+>> compliant and not implementing zimop will treat these encodings as illegal.
+>>
+>> Current kernel patches enable shadow stack and landing pad support for
+>> userspace using config `CONFIG_RISCV_USER_CFI`. If this config is selected then
+>> vDSO that will be exposed to user space will also have shadow stack
+>> instructions in them. Kernel compiled with `CONFIG_RISCV_USER_CFI`, for sake of
+>> this discussion lets call it RVA23 compiled kernel.
+>>
+>> Issue that we discussed earlier and even today is "This RVA23 compiled kernel
+>> won't be able to support non-RVA23 userspace on non-RVA23 hardware because".
+>> Please note that issue exists only on non-RVA23 hardware (which is existing
+>> hardware and future hardware which is not implementing zimop). RVA23 compiled
+>> kernel can support any sort of userspace on RVA23 hardware.
+>>
+>>
+>> Discussion
+>> ===========
+>>
+>> So the issue is not really shadow stack instructions but rather may be op
+>> instructions in codegen (binaries and vDSO) which aren't hidden behind any
+>> flag (to hide them if hardware doesn't support). And if I can narrow down
+>> further, primary issue we are discussing is that if cfi is enabled during
+>> kernel compile, it is bringing in a piece of code (vDSO) which won't work
+>> on existing hardware. But the counter point is if someone were to deploy
+>> RVA23 compiled kernel on non-RVA23 hardware, they must have compiled
+>> rest of the userspace without shadow stack instructions in them for such
+>> a hardware. And thus at this point they could simply choose *not* to turn on
+>> `CONFIG_RISCV_USER_CFI` when compiling such kernel. It's not that difficult to
+>> do so.
+>>
+>> Any distro who is shipping userspace (which all of them are) along with kernel
+>> will not be shipping two different userspaces (one with shadow stack and one
+>> without them). If distro are shipping two different userspaces, then they might
+>> as well ship two different kernels. Tagging some distro folks here to get their
+>> take on shipping different userspace depending on whether hardware is RVA23 or
+>> not. @Heinrich, @Florian, @redbeard and @Aurelien.
+>>
+>> Major distro's have already drawn a distinction here that they will drop
+>> support for hardware which isn't RVA23 for the sake of keeping binary
+>> distribution simple.
+>>
+>> Only other use case that was discussed of a powerful linux user who just wants
+>> to use a single kernel on all kinds of riscv hardware. I am imagining such a
+>> user knows enough about kernel and if is really dear to them, they can develop
+>> their own patches and send it upstream to support their own usecase and we can
+>> discuss them out. Current patchset don't prevent such a developer to send such
+>> patches upstream.
+>>
+>> I heard the argument in meeting today that "Zbb" enabling works similar for
+>> kernel today. I looked at "Zbb" enabling. It's for kernel usage and it's
+>> surgically placed in kernel using asm hidden behind alternatives. vDSO isn't
+>> compiled with Zbb. Shadow stack instructions are part of codegen for C files
+>> compiled into vDSO.
+>>
+>> Furthermore,
+>>
+>> Kernel control flow integrity will introduce shadow stack instructions all
+>> over the kernel binary. Such kernel won't be deployable on non-RVA23 hardware.
+>> How to deal with this problem for a savvy kernel developer who wants to run
+>> same cfi enabled kernel binary on multiple hardware?
+>>
+>> Coming from engineering and hacker point of view, I understand the desire here
+>> but I still see that it's complexity enforced on rest of the kernel from a user
+>> base which anyways can achieve such goals. For majority of usecases, I don't
+>> see a reason to increase complexity in the kernel for build, possibly runtime
+>> patching and thus possibly introduce more issues and errors just for the sake
+>> of a science project.
+>>
+>> Being said that, re-iterating that currently default for `CONFIG_RISCV_USER_CFI`
+>> is "n" which means it won't be breaking anything unless a user opts "Y". So even
+>> though I really don't see a reason and usability to have complexity in kernel to
+>> carry multiple vDSOs, current patchsets are not a hinderance for such future
+>> capability (because current default is No) and motivated developer is welcome
+>> to build on top of it. Bottomline is I don't see a reason to block current
+>> patchset from merging in v6.18.
+>
+>Sorry for reiterating, I have been gone for a while, so maybe I lost a
+>bit of context.
+>
+>In that case, should we add a comment in the Kconfig that says "it
+>breaks userspace on older-than RVA23 platforms"?
 
-Stephen asked me to not introduce a new clk op, however I don't see a
-clean way to do this any other way. Personally, I think that we need a
-new clk op for this use case for the reasons I outlined on the cover
-letter. I am open for suggestions about alternative ways, and will
-gladly make modifications. This is why I marked this series as RFC.
-Patch 10 in this series is the main change of note here.
+Its quite apparant for whoever is compiling userspace for non-RVA23 hardware.
+First sspush/sspopchk instruction in ld/libc will do illegal instruction. It
+won't even come to vDSO's sspush/sspopchk.
 
-Additionally, the presence of the new op is a convenient way to also
-signal to the clk core that these providers can use the v2 negotiation
-logic. Otherwise, we'll need to introduce a flag somewhere else if we
-want to support a v1/v2 negotiation logic across the clk tree.
+But sure if that's what get these patches merged in, I can add that comment.
 
-As for 2), I negotiate the rate change from the top down. The new_rate
-is propagated in the same manner as what's done today in the clk core
-when a parent rate change occurs. I let it reuse the existing rate
-change code that's currently in the clk core to minimize the change
-that was introduced.
+>
+>Perhaps a very ugly way to make RVA23-compiled kernel compatible with
+>pre-RVA23 platforms is to decode maybe-ops in the illegal exception
+>handler...
 
-Regarding the clock table in 3), it could be done with what's there,
-but there's the issue of the new clk_op. I posted this to get feedback
-about that since I think we should settle on the core changes.
+Yes that can be done but that shouldn't gate current patchset from merging in.
 
-Brian
+>
+>Btw, I don't think kenrel-level shadow stack should be an argument
 
+Argument to block current patches is below
+"Kernel should be binary portable". That's why I gave that argument.
+A kernel compiled with shadow stack (kcfi) is not portable on non-RVA23
+hardware.
+
+Yes we can try making kernel portable by carrying two different vDSO.
+One that is for non-RVA23 (actually non-zimop) hardware and one for
+RVA23 hardware. But I don't imagine a distro shipping two different
+userspaces (ld/glibc, everything) once they start compiling their
+userspace with RVA23. If for an instance they start compiling two
+userspaces, its not that big of an effort to compile kernel differently
+as well. If for an instance they choose to only support rv64gc for
+userspace then they are not opting anyways for CFI then just not select
+that option in kernel compile. I just don't see a scenario where kernel
+is forced to carry two different libraries while rest of the userspace
+will not distribute two different binaries for same release.
+
+>here, as kernel-level APIs are more flexible by nature.
+
+I didn't get it. How kernel level APIs help with binary portability
+of a kernel compiled in with shadow stack instructions to run on hardware
+where these instructions are illegal?
+
+>
+>Thanks,
+>Andy
