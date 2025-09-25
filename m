@@ -1,162 +1,469 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011010.outbound.protection.outlook.com [52.101.57.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A9415E5BB;
-	Thu, 25 Sep 2025 12:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758803977; cv=fail; b=Qx2Dom6mxHapWcNOodQ+5H8VN1bfoCZA8D/nBDoG07LavaXx18M8kfe23XKZmTMeoiBRed/FiuPMF5tJ1Kt4qvKLGdRxrOg5pYkuIyq8+kZrstHwk9vF5NlAO0fmIVPjSJzzXPE5Swsot9QzmZG+V0jDa6zLo8RBdvud4wEbZIA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758803977; c=relaxed/simple;
-	bh=E3J9oqZfs5/0A6atndvtkyaaFD8ssUI45xoXeXTtqWo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a8NXqbC6S7rhIVLm+sURx88wF/6Yc3uZGK36N4IskNv7JS/Ww+1AWhuck7SmkNC3EvjPAjJO/iM9a0ANSMw7vBTyex/X1VGdG4/TgN54R5milHAcXznoAw2QW9RzgXudvcVm3Vx53De4PyeZoP5A3Ut8tCvTari5HI/I6IPoe0w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HXrTxb4B; arc=fail smtp.client-ip=52.101.57.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HXrTxb4B"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nnah3tX2lmkqGS2zVx5sMGRE+b0uPDQcICTrjMuiMQyX8UyroJ6N44XLizT6BG/MFU2PYyqLwzRJ4+LFnYXQN4YCWbvCioSLn3h7iZI2yzIiDvFsKMa/BsTzkC98EiNpoh8JMkRJXqxT0WepEpDreskmduZKIxjhB94YtPgkrPIpbngTlB6HcmA93P6Ws0z7qu5w0kQcFzqbYY9SYxbFTPwkI2AWw9puFBfNaF9KXjdIVQzMQqGsTooWzcOjHWaYq+FMimZmvLHK41jOsgQfB7/SNXZJYZTha/0jQzyRwi7F/nx1CdXQA7BAfDcm+B4lsJ1rpXhcNIO0vUoeCmiiag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qTpzPwm5c3bHh+setJx8pU1z5s6OaV6Da/LLeL0UjC8=;
- b=LRQrMbEoOJUdJ37HG8Jo/vPcYsXmLEVkyRy6f6aWvw9Jb0/mzGeco+Qh4avHiZbwy8F5t4R/DTcwE4sBHFy0LfVnivogu2uafHY/4TZNX2BzNmyLvuG0b2SeubfD48wESDZUwlulA/7jRBCtNh0DUEbV6IaArHRH/wy9GiV6Vrlr0b3BXTG59zM0R9gLqEWyE79XmjZzZjD5lCYNYLMcvAY0p5GCfwNrLqlRuiwX/31XR9b8wBsNqX6aIJOAl367xRqQJRilXJWf5oUj5SSdXAJOtVtzdwV0b3O2Qjn4Vt7Q9BEIS9Pb+Ei+L75gMrmQPXbwF2tGECHGM8e0mh98qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qTpzPwm5c3bHh+setJx8pU1z5s6OaV6Da/LLeL0UjC8=;
- b=HXrTxb4Bla9169gKSi3H3qJXnXZ5Pxa/hUTiR/jckgPdzs+VHgkv9y99bHb69wZGV2N5TN76bfi8zJZUmfY319ObI24L5QEzxCBCoJD/pccfLCJ3evqnR8ga/oEMSiV/jB634gYTYys7q85m2IgF+d51EwXErj21sICTMzV0ldM=
-Received: from DM5PR07CA0070.namprd07.prod.outlook.com (2603:10b6:4:ad::35) by
- IA1PR12MB6410.namprd12.prod.outlook.com (2603:10b6:208:38a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Thu, 25 Sep
- 2025 12:39:31 +0000
-Received: from CY4PEPF0000E9D4.namprd03.prod.outlook.com
- (2603:10b6:4:ad:cafe::46) by DM5PR07CA0070.outlook.office365.com
- (2603:10b6:4:ad::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.22 via Frontend Transport; Thu,
- 25 Sep 2025 12:39:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000E9D4.mail.protection.outlook.com (10.167.241.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.9 via Frontend Transport; Thu, 25 Sep 2025 12:39:30 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Thu, 25 Sep
- 2025 05:39:20 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 25 Sep
- 2025 07:39:20 -0500
-Received: from amd.com (10.180.168.240) by satlexmb07.amd.com (10.181.42.216)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17 via Frontend
- Transport; Thu, 25 Sep 2025 05:39:12 -0700
-Date: Thu, 25 Sep 2025 12:39:07 +0000
-From: Ankit Soni <Ankit.Soni@amd.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
-	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
-	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
- Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
-	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v5 13/15] iommu/amd: Use the generic iommu page table
-Message-ID: <myrht6aea2jzaapbojl2gg64p43dufpgzqbmrpyydgfonw6ejg@i4kqafgtmmux>
-References: <0-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
- <13-v5-116c4948af3d+68091-iommu_pt_jgg@nvidia.com>
- <3e7mfy2s535w47z2cafeugv6qcy55wtijnzxeqozjbzhbeto4m@g4hamtjzg7bm>
- <20250925123227.GX2617119@nvidia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 553DE1D5151;
+	Thu, 25 Sep 2025 12:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758804405; cv=none; b=H5LzxwmIzBG0I2Y9cJBZE1Zs7kLnQhcNPOuUScIUiq1K0zcCy15JTDapLQtG995yxZJ9tBjrBYdfULEzPudGBgqZssgOq3phhlwPyCjbHs8lKahjvIkVEzbPkAIBaOd/RgMSppZNvzDua8Yz/dhq7OWaQiC/CkQW6aIpL8uWRt0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758804405; c=relaxed/simple;
+	bh=oXlMMXrECXHevbgLEjibGUnRCSA77iRKd7qP29W81po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGX/rmYXZ9sSwRk9vMIwsbtk68XcZwNrXSlOkDkkPLIOlr+qW3DuLg5jFg4dfRaWMLknGs51aom8fJSbYl+bI2sbSaQOdrIjBWVP1vDRzJ6ytau83yPmvGuiFnDRIZ8PK1gFI2Y0G/ljNTkCNMq3eqD4Q7ME0FuYir1A9jJkHOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FF611692;
+	Thu, 25 Sep 2025 05:46:34 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A12423F694;
+	Thu, 25 Sep 2025 05:46:40 -0700 (PDT)
+Date: Thu, 25 Sep 2025 13:46:20 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs/resctrl,x86/resctrl: Factor mba rounding to be
+ per-arch
+Message-ID: <aNU5nCklRhuc4u3X@e133380.arm.com>
+References: <20250902162507.18520-1-Dave.Martin@arm.com>
+ <b38f0459-1373-42d3-8526-e8ef9ac4d2e7@intel.com>
+ <aNFfs43UBp6tjqPM@e133380.arm.com>
+ <5be54a14-a7ba-49ba-8ddc-db532f2cf318@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925123227.GX2617119@nvidia.com>
-Received-SPF: None (SATLEXMB03.amd.com: Ankit.Soni@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D4:EE_|IA1PR12MB6410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99a15968-ac9c-4a13-1d5d-08ddfc3092a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?i86K6PDHwIddN405f0ni/gVwIx3KHEYWwMWCveCF7Ikm/dc/CKFa1UbKv9fk?=
- =?us-ascii?Q?bosOAsiZWFDwggE3xOrK6NlTnsdJ/N8TTf66T8/3ekD7jn2v1no76eeuBUoY?=
- =?us-ascii?Q?6LdCj4kit0wMVe7AOvdETGRUxR5tSz2jd/9UNU67yElDQpY+ohQQ0xjpz+HR?=
- =?us-ascii?Q?PclgYilTyXyviiyhmmjtWAKE7OnL5+Cg9Qs8RxXGbS+/nzZXJT398FytlArI?=
- =?us-ascii?Q?DcPNMJ+unAGl7mEFVPivwWzSKwiHblcQgaFg3Vw9XCA82eNE5XFvyY7GBG35?=
- =?us-ascii?Q?Fvf0EmiuG1ikIUK2kLGlULP9oWSdHni7zqxj2jUvgyK9ntuAjyQHUMw82kjG?=
- =?us-ascii?Q?jYgxyC21RATylgm0Bujxmtt0GmkWFUkCOBFzrcP7/CwdB5i/sFY4bN1iPeVM?=
- =?us-ascii?Q?nGsHAKVAjJPlaU6WHhwQgo6rhJwMwbQ7XXPfuLziA66TmzvshDdPJD/UZBwV?=
- =?us-ascii?Q?i8sHce0P4YJXOSh4C/D0EGPzYOkHxUg5NSiw+LhtXwbz8rqXCdUgrHU6qFPW?=
- =?us-ascii?Q?uGNA8e/b0R/meYPLG8VQbnGUljEZqBKbJ59LR1h1PQEd6E4vK5NLgbViIekb?=
- =?us-ascii?Q?DNn5eXKzLLM8eIVy9mkmP7lv3zOYeJEySPF1cAAPlKopDV3ZXjxFEPSApBoH?=
- =?us-ascii?Q?Ov5SM9iXJWt+qRTlxwgRXRWX+CwykZKcY332qrrMiNATy1h/u3aRdku780GR?=
- =?us-ascii?Q?1Ji0CBrdiGc7uN475bYz3VnCPAHcEvBfIWrpMXTkT35j9IqloaHycCpfauEu?=
- =?us-ascii?Q?eIOxWsXaoE71Cx/0SbIRHjvlsSymZPN+e2vMd58ReIBl0sxpqGLrerYs0cUT?=
- =?us-ascii?Q?4V0i9g3KnWldVeywWr/Ufh+sATXLPl3DlaR4At7g/q/RWpKeDpNWcvat3UFX?=
- =?us-ascii?Q?hcmLeEHnYjGAZg4O9zl92L7xPlQb6lg2eUgRSFjQBPAgWJySIlorR+zOfmwL?=
- =?us-ascii?Q?ncsrCCKQ/iXmYN27Tj4YTWL5WX2KHHz0oOZJMWzuOARLrM+zJ+/FF92Xz4Ll?=
- =?us-ascii?Q?fy88xdLgjTpCbNFqFfq1GLawO83YGogCQvyLm5zn/TaeWjCNebD7OJhjJgTJ?=
- =?us-ascii?Q?ocLRV8sakF5bRhxo2iVkKBBYNl9xOZ0tkcGYTl6u4QTUcx3C+96JEnMqXYCm?=
- =?us-ascii?Q?7HX+qYZaKtfndkUY48HlVIxLrQJo5Vvc/KYBMK4NvP3eJcJtMmQQTbSNZ0bO?=
- =?us-ascii?Q?sDLLKX3obgG6vZ7qB/I1oaeqBqAhIgo4KB2iySPJER1f/GM/M2FwAj+mjUpX?=
- =?us-ascii?Q?vH1IHgIRoLmBQYWnvKI1GTU96Fonv/t97CUJH1/c9cmAgCeMr0UK9Kouq0UB?=
- =?us-ascii?Q?dcR1duRkLMgf6dP2iLneNpiO/NTfkxuiXo2uek+nClzdA3mXqA/PNhIvFhZu?=
- =?us-ascii?Q?eniVreDjDaxqvPEqV8A40Xq96WxWEKaMgLBpEEcxUPZaODE4nSA1hG6KQTVQ?=
- =?us-ascii?Q?+lkBN2kKwaJyLMCkV2YmkvTbsgXVl/Mh4fqWwVTQyPy+vz/APbsl1Kh+unnr?=
- =?us-ascii?Q?ePMCD0/JQVeroqC+hUF+QpXGyt9I8EO/zDZi?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 12:39:30.4464
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99a15968-ac9c-4a13-1d5d-08ddfc3092a4
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D4.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6410
+In-Reply-To: <5be54a14-a7ba-49ba-8ddc-db532f2cf318@intel.com>
 
-On Thu, Sep 25, 2025 at 09:32:27AM -0300, Jason Gunthorpe wrote:
-> On Thu, Sep 25, 2025 at 12:07:04PM +0000, Ankit Soni wrote:
-> > > +
-> > > +	cfg.common.hw_max_vasz_lg2 =
-> > > +		max(64, (amd_iommu_hpt_level - 1) * 9 + 21);
+Hi Reinette,
+
+On Tue, Sep 23, 2025 at 10:27:40AM -0700, Reinette Chatre wrote:
+> Hi Dave,
 > 
-> > s/max/min
-> > with 6 level page table max will be 66 and i am seeing boot failure with
-> > this. Please refer below fail log.
+> On 9/22/25 7:39 AM, Dave Martin wrote:
+> > Hi Reinette,
+> > 
+> > Thanks for the review.
+> > 
+> > On Fri, Sep 12, 2025 at 03:19:04PM -0700, Reinette Chatre wrote:
+> >> Hi Dave,
+> >>
+> >> nits:
+> >> Please use the subject prefix "x86,fs/resctrl" to be consistent with other
+> >> resctrl code (and was established by Arm :)).
+> >> Also please use upper case for acronym mba->MBA.
+> > 
+> > Ack (the local custom in the MPAM code is to use "mba", but arguably,
+> > the meaning is not quite the same -- I'll change it.)
 > 
-> Oops, I added this when rebasing, thanks. Just to be clear the max/min
-> fixes the oops?
+> I am curious what the motivation is for the custom? Knowing this will help
+> me to keep things consistent when the two worlds meet.
 
-Yes, System is booting fine with this change.
+I think this has just evolved over time.  On the x86 side, MBA is a
+specific architectural feature, but on the MPAM side the architecture
+doesn't really have a name for the same thing.  Memory bandwidth is a
+concept, but a few different types of control are defined for it, with
+different names.
 
--Ankit
+So, for the MPAM driver "mba" is more of a software concept than
+something in a published spec: it's the glue that attaches to "MB"
+resource as seen through resctrl.
+
+(This isn't official though; it's just the mental model that I have
+formed.)
+
+> 
+> >>> The control value parser for the MB resource currently coerces the
+> >>> memory bandwidth percentage value from userspace to be an exact
+> >>> multiple of the bw_gran parameter.
+> >>
+> >> (to help be specific)
+> >> "the bw_gran parameter" -> "rdt_resource::resctrl_membw::bw_gran"?
+> > 
+> > "bw_gran" was intended as an informal shorthand for the abstract
+> > parameter (exposed both in the field you mention and through the
+> > bandiwidth_gran file in resctrl).
+> 
+> I do not see a need for being abstract since the bandwidth_gran file exposes
+> the field verbatim.
+
+Sure; that was just my thought process.
+
+> > I can rewrite it as per your suggestion, but this could be read as
+> > excluding the bandwidth_gran file.  Would it make sense just to write
+> > it out longhand?  For now, I've rewritten it as follows:
+> 
+> Since the bandwidth_gran file exposes rdt_resource::resctrl_membw::bw_gran
+> it is not clear to me how being specific excludes the bandwidth_gran file. 
+> 
+> > 
+> >  | The control value parser for the MB resource currently coerces the
+> >  | memory bandwidth percentage value from userspace to be an exact
+> >  | multiple of the bandwidth granularity parameter.
+> 
+> If you want to include the bandwidth_gran file then the above could be
+> something like:
+> 
+> 	The control value parser for the MB resource coerces the memory
+> 	bandwidth percentage value from userspace to be an exact multiple
+> 	of the bandwidth granularity parameter that is exposed by the
+> 	bandwidth_gran resctrl file.
+> 
+> I still think that replacing "the bandwidth granularity parameter" with
+> "rdt_resource::resctrl_membw::bw_gran" will help to be more specific.
+
+That's fine.  I'll change as per your original suggestion.
+
+> >  |
+> >  | On MPAM systems, this results in somewhat worse-than-worst-case
+> >  | rounding, since the bandwidth granularity advertised to resctrl by the
+> >  | MPAM driver is in general only an approximation [...]
+> > 
+> > (I'm happy to go with your suggestion if you're not keen on this,
+> > though.)
+> > 
+> >>> On MPAM systems, this results in somewhat worse-than-worst-case
+> >>> rounding, since bw_gran is in general only an approximation to the
+> >>> actual hardware granularity on these systems, and the hardware
+> >>> bandwidth allocation control value is not natively a percentage --
+> >>> necessitating a further conversion in the resctrl_arch_update_domains()
+> >>> path, regardless of the conversion done at parse time.
+> >>>
+> >>> Allow the arch to provide its own parse-time conversion that is
+> >>> appropriate for the hardware, and move the existing conversion to x86.
+> >>> This will avoid accumulated error from rounding the value twice on MPAM
+> >>> systems.
+> >>>
+> >>> Clarify the documentation, but avoid overly exact promises.
+> >>>
+> >>> Clamping to bw_min and bw_max still feels generic: leave it in the core
+> >>> code, for now.
+> >>
+> >> Sounds like MPAM may be ready to start the schema parsing discussion again?
+> >> I understand that MPAM has a few more ways to describe memory bandwidth as
+> >> well as cache portion partitioning. Previously ([1] [2]) James mused about exposing
+> >> schema format to user space, which seems like a good idea for new schema.
+> > 
+> > My own ideas in this area are a little different, though I agree with
+> > the general idea.
+> 
+> Should we expect a separate proposal from James?
+
+At some point, yes.  We still need to have a chat about it.
+
+Right now, I was just throwing an idea out there.
+
+> > I'll respond separately on that, to avoid this thread getting off-topic.
+> 
+> Much appreciated.
+> 
+> > 
+> > For this patch, my aim was to avoid changing anything unnecessarily.
+> 
+> Understood. More below as I try to understand the details but it does not
+> really sound as though the current interface works that great for MPAM. If I
+> understand correctly this patch enables MPAM to use existing interface for
+> its memory bandwidth allocations but doing so does not enable users to 
+> obtain benefit of hardware capabilities. For that users would want to use
+> the new interface?
+
+In ideal world, probably, yes.
+
+Since not all use cases will care about full precision, the MB resource
+(approximated for MPAM) should be fine for a lot of people, but I
+expect that sooner or later somebody will want more exact control.
+
+> >>> Testing: the resctrl MBA and MBM tests pass on a random x86 machine (+
+> >>> the other tests except for the NONCONT_CAT tests, which do not seem to
+> >>> be supported in my configuration -- and have nothing to do with the
+> >>> code touched by this patch).
+> >>
+> >> Is the NONCONT_CAT test failing (i.e printing "not ok")?
+> >>
+> >> The NONCONT_CAT tests may print error messages as debug information as part of
+> >> running, but these errors are expected as part of the test. The test should accurately
+> >> state whether it passed or failed though. For example, below attempts to write
+> >> a non-contiguous CBM to a system that does not support non-contiguous masks.
+> >> This fails as expected, error messages printed as debugging and thus the test passes
+> >> with an "ok".
+> >>
+> >> # Write schema "L3:0=ff0ff" to resctrl FS # write() failed : Invalid argument                                      
+> >> # Non-contiguous CBMs not supported and write of non-contiguous CBM failed as expected                             
+> >> ok 5 L3_NONCONT_CAT: test                             
+> > 
+> > I don't think that this was anything to do with my changes, but I don't
+> > still seem to have the test output.  (Since this test has to do with
+> > bitmap schemata (?), it seemed unlikely to be affected by changes to
+> > bw_validate().)
+> 
+> I agree that this should not have anything to do with this patch. My concern
+> is that I understood that the test failed for a feature that is not supported.
+> If this is the case then there may be a problem with the test. The test should
+> not fail if the feature is not supported but instead skip the test.
+
+I'll try to capture more output from this when I re-run it, so that we
+can figure out what this is.
+
+> >>> Notes:
+> >>>
+> >>> I put the x86 version out of line in order to avoid having to move
+> >>> struct rdt_resource and its dependencies into resctrl_types.h -- which
+> >>> would create a lot of diff noise.  Schemata writes from userspace have
+> >>> a high overhead in any case.
+> >>
+> >> Sounds good, I expect compiler will inline.
+> > 
+> > The function and caller are in separate translation units, so unless
+> > LTO is used, I don't think the function will be inlined.
+> 
+> Thanks, yes, indeed.
+> 
+> > 
+> >>>
+> >>> For MPAM the conversion will be a no-op, because the incoming
+> >>> percentage from the core resctrl code needs to be converted to hardware
+> >>> representation in the driver anyway.
+> >>
+> >> (addressed below)
+> >>
+> >>>
+> >>> Perhaps _all_ the types should move to resctrl_types.h.
+> >>
+> >> Can surely consider when there is a good motivation.
+> >>
+> >>>
+> >>> For now, I went for the smallest diffstat...
+> > 
+> > I'll assume the motivation is not strong enough for now, but shout if
+> > you disagree.
+> 
+> I agree.
+
+OK, I'll leave that as-is for now, then.
+
+> > 
+> > [...]
+> > 
+> >>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+> >>> index c7949dd44f2f..a1d0469d6dfb 100644
+> >>> --- a/Documentation/filesystems/resctrl.rst
+> >>> +++ b/Documentation/filesystems/resctrl.rst
+> >>> @@ -143,12 +143,11 @@ with respect to allocation:
+> >>>  		user can request.
+> >>>  
+> >>>  "bandwidth_gran":
+> >>> -		The granularity in which the memory bandwidth
+> >>> +		The approximate granularity in which the memory bandwidth
+> >>>  		percentage is allocated. The allocated
+> >>>  		b/w percentage is rounded off to the next
+> >>> -		control step available on the hardware. The
+> >>> -		available bandwidth control steps are:
+> >>> -		min_bandwidth + N * bandwidth_gran.
+> >>> +		control step available on the hardware. The available
+> >>> +		steps are at least as small as this value.
+> >>
+> >> A bit difficult to parse for me. 
+> >> Is "at least as small as" same as "at least"?
+> > 
+> > It was supposed to mean: "The available steps are no larger than this
+> > value."
+> 
+> This is clear to me, especially when compared with the planned addition to
+> "Memory bandwidth Allocation and monitoring" ... but I do find it contradicting
+> the paragraph below (more below).
+> 
+> > 
+> > Formally My expectation is that this value is the smallest integer
+> > number of percent which is not smaller than the apparent size of any
+> > individual rounding step.  Equivalently, this is the smallest number g
+> 
+> Considering the two statements:
+> - "The available steps are no larger than this value."
+> - "this value ... is not smaller than the apparent size of any individual rounding step"
+> 
+> The "not larger" and "not smaller" sounds like all these words just end up saying that
+> this is the step size?
+
+They are intended to be the same statement: A <= B versus
+B >= A respectively.
+
+But I'd be the first to admit that the wording is a bit twisted!
+(I wouldn't be astonshed if I got something wrong somewhere.)
+
+See below for an alternative way of describing this that might be more
+intuitive.
+
+> 
+> > for which writing "MB: 0=x" and "MB: 0=y" yield different
+> > configurations for every in-range x and where y = x + g and y is also
+> > in-range.
+> > 
+> > That's a bit of a mouthful, though.  If you can think of a more
+> > succinct way of putting it, I'm open to suggestions!
+> > 
+> >> Please note that the documentation has a section "Memory bandwidth Allocation
+> >> and monitoring" that also contains these exact promises.
+> > 
+> > Hmmm, somehow I completely missed that.
+> > 
+> > Does the following make sense?  Ideally, there would be a simpler way
+> > to describe the discrepancy between the reported and actual values of
+> > bw_gran...
+> > 
+> >  |  Memory bandwidth Allocation and monitoring
+> >  |  ==========================================
+> >  |
+> >  |  [...]
+> >  |
+> >  |  The minimum bandwidth percentage value for each cpu model is predefined
+> >  |  and can be looked up through "info/MB/min_bandwidth". The bandwidth
+> >  |  granularity that is allocated is also dependent on the cpu model and can
+> >  |  be looked up at "info/MB/bandwidth_gran". The available bandwidth
+> >  | -control steps are: min_bw + N * bw_gran. Intermediate values are rounded
+> >  | -to the next control step available on the hardware.
+> >  | +control steps are: min_bw + N * (bw_gran - e), where e is a
+> >  | +non-negative, hardware-defined real constant that is less than 1.
+> >  | +Intermediate values are rounded to the next control step available on
+> >  | +the hardware.
+> >  | +
+> >  | +At the time of writing, the constant e referred to in the preceding
+> >  | +paragraph is always zero on Intel and AMD platforms (i.e., bw_gran
+> >  | +describes the step size exactly), but this may not be the case on other
+> >  | +hardware when the actual granularity is not an exact divisor of 100.
+> 
+> Have you considered how to share the value of "e" with users?
+
+Perhaps introducing this "e" as an explicit parameter is a bad idea and
+overly formal.  In practice, there are likely to various sources of
+skid and approximation in the hardware, so exposing an actual value may
+be counterproductive -- i.e., what usable guarantee is this providing
+to userspace, if this is likely to be swamped by approximations
+elsewhere?
+
+Instead, maybe we can just say something like:
+
+ | The available steps are spaced at roughly equal intervals between the
+ | value reported by info/MB/min_bandwidth and 100%, inclusive.  Reading
+ | info/MB/bandwidth_gran gives the worst-case precision of these
+ | interval steps, in per cent.
+
+What do you think?
+
+If that's adequate, then the wording under the definition of
+"bandwidth_gran" could be aligned with this.
+
+> >>> diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
+> >>> index d98e0d2de09f..c5e73b75aaa0 100644
+> >>> --- a/fs/resctrl/ctrlmondata.c
+> >>> +++ b/fs/resctrl/ctrlmondata.c
+> >>> @@ -69,7 +69,7 @@ static bool bw_validate(char *buf, u32 *data, struct rdt_resource *r)
+> >>>  		return false;
+> >>>  	}
+> >>>  
+> >>> -	*data = roundup(bw, (unsigned long)r->membw.bw_gran);
+> >>> +	*data = resctrl_arch_round_bw(bw, r);
+> >>
+> >> Please check that function comments remain accurate after changes (specifically
+> >> if making the conversion more generic as proposed below).
+> > 
+> > I hoped that the comment for this function was still applicable, though
+> > it can probably be improved.  How about the following?
+> > 
+> >  | - * hardware. The allocated bandwidth percentage is rounded to the next
+> >  | - * control step available on the hardware.
+> >  | + * hardware. The allocated bandwidth percentage is converted as
+> >  | + * appropriate for consumption by the specific hardware driver.
+> >  
+> > [...]
+> 
+> Looks good to me.
+
+OK.
+
+> > 
+> >>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+> >>> index 6fb4894b8cfd..5b2a555cf2dd 100644
+> >>> --- a/include/linux/resctrl.h
+> >>> +++ b/include/linux/resctrl.h
+> >>> @@ -416,6 +416,12 @@ static inline u32 resctrl_get_config_index(u32 closid,
+> >>>  bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level l);
+> >>>  int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
+> >>>  
+> >>> +/*
+> >>> + * Round a bandwidth control value to the nearest value acceptable to
+> >>> + * the arch code for resource r:
+> >>> + */
+> >>> +u32 resctrl_arch_round_bw(u32 val, const struct rdt_resource *r);
+> >>> +
+> >>
+> >> I do not think that resctrl should make any assumptions on what the
+> >> architecture's conversion does (i.e "round"). That architecture needs to be
+> >> asked to "round a bandwidth control value" also sounds strange since resctrl really
+> >> should be able to do something like rounding itself. As I understand from
+> >> the notes this will be a no-op for MPAM making this even more confusing.
+> >>
+> >> How about naming the helper something like resctrl_arch_convert_bw()?
+> >> (Open to other ideas of course).
+> >>
+> >> If you make such a change, please check that subject of patch still fits.
+> > 
+> > I struggled a bit with the name.  Really, this is converting the value
+> > to an intermediate form (which might or might not involve rounding).
+> > For historical reasons, this is a value suitable for writing directly
+> > to the relevant x86 MSR without any further interpretation.
+> > 
+> > For MPAM, it is convenient to do this conversion later, rather than
+> > during parsing of the value.
+> > 
+> > 
+> > Would a name like resctrl_arch_preconvert_bw() be acceptable?
+> 
+> Yes.
+> 
+> > 
+> > This isn't more informative than your suggestion regarding what the
+> > conversion is expected to do, but may convey the expectation that the
+> > output value may still not be in its final (i.e., hardware) form.
+> 
+> Sounds good, yes. 
+
+OK, I'll hack that in.
+
+> 
+> > 
+> >> I think that using const to pass data to architecture is great, thanks.
+> >>
+> >> Reinette
+> > 
+> > I try to constify by default when straightforward to do so, since the
+> > compiler can then find which cases need to change; the reverse
+> > direction is harder to automate...
+> 
+> Could you please elaborate what you mean with "reverse direction"?
+
+I just meant that over-consting tends to result in violations of the
+language that the compiler will detect, but under-consting doesn't:
+
+static void foo(int *nonconstp, const int *constp)
+{
+	*constp = 0; // compiler error
+	(*nonconstp); // silently accpeted, though it could have been const
+}
+
+So, the compiler will tell you places where const needs to be removed
+(or something else needs to change), but to find places where const
+could be _added_, you have to hunt them down yourself, or use some
+other tool that is probably not part of the usual workflow.
+
+Cheers
+---Dave
