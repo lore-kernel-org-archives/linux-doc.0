@@ -1,61 +1,73 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB2831E10D
-	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 20:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3FC3128D7
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 20:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758830779; cv=none; b=qjJ+VvqPWLxLACTGCgEnijvnpb+vd/pUIKWmAlQgpYH10dGtTsQOzE44Kv8jNAWzzcMqNh1b2oC8GF/9xFkh74fx514y8OmuOOurppCxuYEkvBt7E2oDnQ8biAhVvJbmn64P8uqJ6IF8+JRF7M0E3X1EHY3H2j9tPaNLSHqVBl4=
+	t=1758831120; cv=none; b=k3EkeNqAPWILqV6wYwPzDdYyMaQ6Ph70K0MkjczPVK7utI7SqM3j7rMRU7hGPRzQwZ3ZDgd+CkmqS0UYuL34VU/+R7rmHRvh2hQbQ7OSOEu2l9voLgnuRjbu01Vshhs8PP7/TrrvQJr9/g0qkMj22WtvFtB5EohErnMa/TnFj7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758830779; c=relaxed/simple;
-	bh=Xx1KeRMb8qASSXQQi6oPfzSHjtino2Erc6qXBCGf8kE=;
+	s=arc-20240116; t=1758831120; c=relaxed/simple;
+	bh=h3RwPtc4sBXiMR1giqI+uaroN4r1V3AkFS5O//etA6o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PsP1Rj5nbxI8fqD+T+UPZ9QH/Q5V0o+ZF501jcO5dHFMdbCRUTW67sfZx2r0pXh1GCTUispgBvoAylPlHZ58V7fg4pqi51hOfF125NlVRi4CmSQjhWu0YQI4I41LGRzkJS4FSdnoxJ78VdY8QZJOlsA2UdN4lzaGHqQLmTB1NcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Q0hnIkrV; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 In-Reply-To:Content-Type; b=oCxUaGmB6YiYT4I/jbZiIaLw+BZXHDmzpmjsXoQHe4ryNeLLVLwvfWkEd4DLbkx9XhdVM8JFzvntWtWrizxhUafRxNaIL5uGSLY7GGroWiuER266gGX6FVxwJ6p7gkiPpCItC05JEy1GCxmmG8t+/6qk7Wo0pQ3ADfXEwGv3abk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A9aFDeTF; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Q0hnIkrV"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-424d3c1256fso8477275ab.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 13:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1758830775; x=1759435575; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NZ4J+q8Jl9uXHJWsnYE6h3kFUoOp3/nCTgLQNbxMPJA=;
-        b=Q0hnIkrV6h3MtwHvFdc6EgugqVJ0mjjALtcl+To9m9yTQZwpcsBmoI6j66jQY75sAB
-         w3VVp8KAAhQIIqIXhAZcpFmAO3dUJQJlzHMDOz4asW4BPBvfYLyGqS62b1VYT4WHuqaD
-         daEIAv1Fs84+IJL3zu/FcnzWglxJPMIGDXMeY=
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A9aFDeTF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758831117;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=BbdNHkZwL7Xvs1kb7Vz3lIvaavTg0vqw+U34Fq/laSM=;
+	b=A9aFDeTF4npcu3ZRqZTy+613499S5WTNvy4nASQbRz+C515ohjB3lRK4JD9k3sQsW5cOIU
+	bptpvS272pJMryW0WAasO91XCw1hdQEhxwEkN9zednC3ahmFBFi8ykBDccaOdssqdg12wi
+	cNapLtxhMEjxwgl7dLd1GSHAGFyHi+I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-84-77XBNXXZNHG9qgig6kHsUA-1; Thu, 25 Sep 2025 16:11:56 -0400
+X-MC-Unique: 77XBNXXZNHG9qgig6kHsUA-1
+X-Mimecast-MFC-AGG-ID: 77XBNXXZNHG9qgig6kHsUA_1758831115
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45b990eb77cso8698985e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 13:11:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758830775; x=1759435575;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZ4J+q8Jl9uXHJWsnYE6h3kFUoOp3/nCTgLQNbxMPJA=;
-        b=O5JxTBAENdToBUhohA1aoqhboipqXBklOrU5JFg3gK392G/9wkOPcpCS1Yr6kDEs5h
-         Lyhub5R60IcK9DrqfFfC509eldis4+MajFXvajNlUFF5Re7TfBWNpFpLfq6+w+HwiquR
-         IIRn3/sn+wGKjG9+6i6Rfz8zXtVtM2PbuYE02UKvKq5l5r7onfob0vmN9BkNG7vVylgx
-         3QaWj6RJ54/eAFW+DSJoqSTm2FBKMrow68sr83xLinZfoEexhfK5DUv2YPA6ZAdScX2O
-         vf8UYl1/1jFZewi7ts+FQFylAG2zWzetGTebHFKVGAN585XV0mhErqQRJue91qomakAe
-         1NrQ==
-X-Gm-Message-State: AOJu0YyHO7jmEF8PazqinxoJP1lQ6I4uqUoJ1UEBaEunug7Rzonkma+g
-	yeBPFYNdgD3eGtYToiUDjdo9fRImZ0FRmTjyPE/b4YIoSChx38gGcf7+3rbAVLBxfnA=
-X-Gm-Gg: ASbGncu+piD2wCy7tVBKZlXNaU3QZkeClZ13TcFg2w51ySLSdBO+iCUcyUSq3G2pqCT
-	ZBpR/hNLNvcv7avQi48438dM3af7SdAvoFVTSFpj1jmA7OUMKdBCnF3P2g+3a5Y4YB9EjfIBuyY
-	NggPODBKBobL4vlKDaYsqFJ3yctIrm4qOjRsvw5RQfiI+Q/uM9vnIOPYRN9SxuuXkqFQulWQgot
-	ZbTokuYDNCeuWcJJCZtRduRgRDKujzlk15Mq/B7Dh11e81CPQjw1gG/j+trYSXr60nZmRCVQ73O
-	SnlcMTX5E4MKJZsvKWx/cryZn8hBiHvcQNasSx3qd4HPtisOK86zvi3O+RF9T9b5xcquscR0F4U
-	UqIhcSdVtcVV7S9rJQUpbx3cKVPO0sS0zfss=
-X-Google-Smtp-Source: AGHT+IGgoqo4FexGR81T+2V+UyC7F009+mx6SQ2pBJCOPIpWzVqCjsnAHekbeNq05hlbCiQ/ymxj7A==
-X-Received: by 2002:a05:6e02:441a:20b0:427:5aa:4570 with SMTP id e9e14a558f8ab-42705aa4687mr13249845ab.3.1758830775392;
-        Thu, 25 Sep 2025 13:06:15 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-56a648d1aeesm1082556173.8.2025.09.25.13.06.14
+        d=1e100.net; s=20230601; t=1758831115; x=1759435915;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BbdNHkZwL7Xvs1kb7Vz3lIvaavTg0vqw+U34Fq/laSM=;
+        b=t9z6LLYptnJxk38HLf0GdMn87zJ+sVL1SFZ52ZxEP/n9qEt1BJt2JKLb1iWez8tIsp
+         xGMut4qN/7NhD9EjOrsEWE8yWFfnnGyHluzI3crymLP8KUHZb4yrvcJZcpeXJjayXRql
+         g6fQHZWCPyw9tCCsd95noenf1QM+/gXNKrMzLXzh4RdVLJm2WNQf1+V+UPP6yXByD61f
+         bg+zgGcBeNRWLOTDCSr/SwAHlU59O8X2rq2JNzwypCwwU0WZEjtJIifSJnjE/4nVzni+
+         AcTTeBCQSa+WtpKKIRqw9JWxJb9E7XtfHOZ4aLebynl5fu/GI4AnNX3Rte/rwyOdSAJs
+         /RRw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgSfjN0CdV3DYah7hcdKR6dINzWY3u1K7TKyVUQWnhJpKD30D9neUoWK4jdiec5qN4yWgFfWrY+qo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztO/O9ig9Udlt/5C9NC8MMczWDh4KULj9NLHqGcEXHgVvATmMr
+	zR6S83Z7P63Y3VAw7qA4KEEjuGHOR6Xub3wqctDJ09sQ+ueTX/7W4lx7ums6wm+L13r96uUx2Fi
+	roKFaYLsKebOaNf76Z1g+fKDpmiaJ0maS9/YQJFGOgLDTBVGrTo7ef9zkq8NO5A==
+X-Gm-Gg: ASbGncv9daIOXMjJOyCMILf1D3SYsSpmqenuBm+gpnNJGS5nyqXqnU7BqXEpCyllYEc
+	Kx5VIR29l6Bcw+OnXP25E30OWmvXvxgKvYvwRydib5X/lziP+iJBGGi2q8ZeuqEvXskrv3IEM8V
+	Y0xASuj+Q0EpjsQloBud129aEsbhQXpTfzqQIidfb362xnqNGGqWcOIWYOyg3HsZhZCi+i10/qT
+	2Y9Z1ygXtgn0MCvHU3o+BNyHrwLDCLggjGCx1cvHhhWf7+WYmyUbrvBmmamLzQ8/Hr1wdX1q3f7
+	oxUxnMRw1NUyx3ThivQ639DRf27MHiJ+dHhVjO2DW3eZh1zdEwe3VsBnlZQ/37NBi6c8QN08n3u
+	K8eK0EPGXDAEn21fCNLM7FgCvBLnjqBHmqZOIGO49jl1U3rD+HzZbLKQDwWbif+4bLpeH
+X-Received: by 2002:a05:600c:4ecc:b0:46e:33ed:bca4 with SMTP id 5b1f17b1804b1-46e33edbe6fmr36930125e9.15.1758831114655;
+        Thu, 25 Sep 2025 13:11:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGEhVhCGcgmO1k+G3XLxgUOwBHZ0rAO9DXf37klvFdy0hgaj1Ui37fjLWrqz9lgbSvmF4VzUg==
+X-Received: by 2002:a05:600c:4ecc:b0:46e:33ed:bca4 with SMTP id 5b1f17b1804b1-46e33edbe6fmr36929885e9.15.1758831114203;
+        Thu, 25 Sep 2025 13:11:54 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08? (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de. [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2a996bf1sm90335925e9.1.2025.09.25.13.11.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 13:06:14 -0700 (PDT)
-Message-ID: <650a4711-1d33-4582-be84-19ab99ff7f82@linuxfoundation.org>
-Date: Thu, 25 Sep 2025 14:06:14 -0600
+        Thu, 25 Sep 2025 13:11:53 -0700 (PDT)
+Message-ID: <1497a41d-3e43-4654-a28a-2049ab4c4c0b@redhat.com>
+Date: Thu, 25 Sep 2025 22:11:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,45 +75,195 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: perf: cleanup fujitsu_uncore_pmu.rst and fix
- htmldocs warnings/errors
-To: Gopi Krishna Menon <krishnagopi487@gmail.com>, corbet@lwn.net,
- fj2767dz@fujitsu.com, will@kernel.org, yangyicong@hisilicon.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20250925195442.71997-1-krishnagopi487@gmail.com>
+Subject: Re: [RFC][PATCH v3 09/16] genirq/irqdesc: Have nr_irqs as non-static
+To: Eugen Hristev <eugen.hristev@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250912150855.2901211-1-eugen.hristev@linaro.org>
+ <20250912150855.2901211-10-eugen.hristev@linaro.org> <87cy7q9k8y.ffs@tglx>
+ <87a52u9jyl.ffs@tglx> <8df2cf28-c15e-4692-a127-6a5c966a965e@linaro.org>
+ <2bd45749-e483-45ea-9c55-74c5ba15b012@redhat.com> <87v7lh891c.ffs@tglx>
+ <95ff36c2-284a-46ba-984b-a3286402ebf8@redhat.com>
+ <24d6a51d-f5f8-44d7-94cb-58b71ebf473a@linaro.org>
+ <7f4aa4c6-7b77-422b-9f7a-d01530c54bff@redhat.com> <87segk9az5.ffs@tglx>
+ <f8d3c2d4-8399-4169-8527-3c87922f2ef1@redhat.com> <87jz1w88zq.ffs@tglx>
+ <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20250925195442.71997-1-krishnagopi487@gmail.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <c3ab4a21-183f-495a-b3b5-cc74b392eebc@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/25/25 13:54, Gopi Krishna Menon wrote:
-> - Adjust spacing around list and sections for better readability.
-> - Use definition lists for defining events.
-> - Replace block quotes with code blocks where appropriate.
-
-The bullet list type format used above isn't right format for
-change log. Refer to a few change logs and also check submitting
-patches documentation.
-
-Sounds like you are combining formatting changes and warning
-fixes. These are better done as separate patches.
+On 18.09.25 15:53, Eugen Hristev wrote:
 > 
-> Fixes the following htmldocs errors/warnings:
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:20: ERROR: Unexpected indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:23: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:28: ERROR: Unexpected indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:81: ERROR: Unexpected indentation.
-> Documentation/admin-guide/perf/fujitsu_uncore_pmu.rst:82: WARNING: Block quote ends without a blank line; unexpected unindent.
 > 
-> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
-> ---
->   .../admin-guide/perf/fujitsu_uncore_pmu.rst   | 130 ++++++++++++------
->   1 file changed, 87 insertions(+), 43 deletions(-)
+> On 9/18/25 11:23, Thomas Gleixner wrote:
+>> On Wed, Sep 17 2025 at 21:03, David Hildenbrand wrote:
+>>>> As this is specific for the compiled kernel version you can define an
+>>>> extensible struct format for the table.
+>>>>
+>>>> struct inspect_entry {
+>>>> 	unsigned long	properties;
+>>>>           unsigned int	type;
+>>>>           unsigned int	id;
+>>>>           const char	name[$MAX_NAME_LEN];
+>>>> 	unsigned long	address;
+>>>>           unsigned long	length;
+>>>>           ....
+>>>> };
+>>>>
+>>>> @type
+>>>>          refers either to a table with type information, which describes
+>>>>          the struct in some way or just generate a detached compile time
+>>>>          description.
+>>>>
+>>>> @id
+>>>>          a unique id created at compile time or via registration at
+>>>>          runtime. Might not be required
+>>>
+>>> We discussed that maybe one would want some kind of a "class"
+>>> description. For example we might have to register one pgdat area per
+>>> node. Giving each one a unique name might be impractical / unreasonable.
+>>>
+>>> Still, someone would want to select / filter out all entries of the same
+>>> "class".
+>>>
+>>> Just a thought.
+>>
+>> Right. As I said this was mostly a insta brain dump to start a
+>> discussion. Seems it worked :)
+>>
+>>>> @properties:
+>>>>
+>>>>           A "bitfield", which allows to mark this entry as (in)valid for a
+>>>>           particular consumer.
+>>>>
+>>>>           That obviously requires to modify these properties when the
+>>>>           requirements of a consumer change, new consumers arrive or new
+>>>>           producers are added, but I think it's easier to do that at the
+>>>>           producer side than maintaining filters on all consumer ends
+>>>>           forever.
+>>>
+>>> Question would be if that is not up to a consumer to decide ("allowlist"
+>>> / filter) by class or id, stored elsewhere.
+>>
+>> Yes, I looked at it the wrong way round. We should leave the filtering
+>> to the consumers. If you use allow lists, then a newly introduced class
+>> won't be automatically exposed everywhere.
+>>
+>> Thanks,
+>>
+>>          tglx
 > 
+> 
+> So, one direction to follow from this discussion is to have the
+> inspection entry and inspection table for all these entries.
+> Now, one burning question open for debate, is, should this reside into mm ?
+> mm/inspect.h would have to define the inspection entry struct, and some
+> macros to help everyone add an inspection entry.
+> E.g. INSPECTION_ENTRY(my ptr, my size);
+> and this would be used all over the kernel wherever folks want to
+> register something.
 
-thanks,
--- Shuah
+If we're moving this to kernel/ or similar I'd suggest to not call this 
+only "inspect" but something that somehow contains the term "mem".
+
+"mem-inspect.h" ?
+
+
+> Now the second part is, where to keep all the inspection drivers ?
+> Would it make sense to have mm/inspection/inspection_helpers.h which
+> would keep the table start/end, some macros to traverse the tables, and
+> this would be included by the inspection drivers.
+> inspection drivers would then probe via any mechanism, and tap into the
+> inspection table.
+
+Good question. I think some examples of alternatives might help to 
+driver that discussion.
+
+> I am thinking that my model with a single backend can be enhanced by
+> allowing any inspection driver to access it. And further on, each
+> inspection driver would register a notifier to be called when an entry
+> is being created or not. This would mean N possible drivers connected to
+> the table at the same time. ( if that would make sense...)
+
+Yeah, I think some notifier mechanism is what we want.
+
+> Would it make sense for pstore to have an inspection driver that would
+> be connected here to get different kinds of stuff ?
+
+Something for the pstore folks to answer :)
+
+> Would it make sense to have some debugfs driver that would just expose
+> to user space different regions ? Perhaps something similar with
+> /proc/kcore but not the whole kernel memory rather only the exposed
+> inspection entries.
+
+Definetly, this is what I previously mentioned. Maybe we would only 
+indicate region metadata and actual access to regions would simply 
+happen through /proc/kcore if someone wants to dump data from user space.
+
+> Now, for the dynamic memory, e.g. memblock_alloc and friends ,
+> would it be interesting to have a flag e.g. MEMBLOCK_INSPECT, that would
+> be used when calling it, and in the background, this would request an
+> inspection_entry being created ? Or it makes more sense to call some
+> function like inspect_register as a different call directly at the
+> allocation point ?
+
+We'd probably want some interface to define the metadata 
+(name/class/whatever), a simple flag likely will not do, right?
+
+-- 
+Cheers
+
+David / dhildenb
+
