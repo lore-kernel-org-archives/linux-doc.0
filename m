@@ -1,210 +1,452 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013042.outbound.protection.outlook.com [40.93.196.42])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B922EDD4C;
-	Thu, 25 Sep 2025 10:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758797185; cv=fail; b=WgYH1Z65tMaRVeWA1B8Jlnq6Wy8hisDbKSohoJYubC0YPTLBRh+9R99X/ebChr+j5EhHIuQ17DLYTUCOOK3FYeZEB4p5Gz3yLU0BgIYf/5zjedQ2fCX8lQqVbmw2+9IETwp2MIujJZEdfiHRAaBTRlziWdkAfsPyIYY20hLWvao=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758797185; c=relaxed/simple;
-	bh=RKNpbtWgisuaIbhKaRosIe5M1vWKNd0RW99AMJYaLG0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZOyr6e26u5AsdmD48wcMdFb2XNfzF7/mkKiBvXLy+MPaAko/0kVXAcomLywJNLGWeSsaZYqcyZaaPRlPsInrnft5XMkRzgt+L4CBrWxJvzMFG/fOMAgIicIU84Z41+o+73yEAgBV5nvjd8vMh89+mfX6R940WVbHf2NwYhWz3bM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=F3dNbmOj; arc=fail smtp.client-ip=40.93.196.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FACA2EBBAF
+	for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 11:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758798056; cv=none; b=GkcfROKeV/iDv83WWjHrwbNDyau1hh3ovZKvgx3zTAtzQgPvBdl2qrswaIDFPkwVmFNOz8e9ZjrBgT2+v6Wu4sDkoX8L2C36j+cVzlk0spNN5IiZey9kRRbN2gpYytPhu6ZmLbAGDqXOK0bSSnkNdMcZOLqK91atG76tzh5mi0A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758798056; c=relaxed/simple;
+	bh=WNLFrvOskwWENrF4CXX4Z4D7EhOVVB95cs7xFI3xkw0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g0RiMp8qrtlpRRpxuHBBHO7O2kVPsBOZvFjOnAsW/93+oQqI22y561TkFpyxdeD2ApFizocCHSDI3g3Nc/x/Fef3gTlPPm7nVQ4oVD9ToETnk30iwhFeQf5Y6Dlz64gSddT7gxwjiAF2oErRZtLKkyMeMRRmBs60RmmOqqYR9E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YSBVZ+3y; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="F3dNbmOj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i2FXi01F9lhvqkC91NL8m/2r5ls8wuGllkd/kVKTSzA1OSp9qCkfSX+KaoARoLaVbkrZeeqehotdgbdLpPRUVRwhSVQSvXZhN/COcTPQmiJjcKQe/ZiprKt00q5nmIDr1SjRAr1ebRpQ1DxpWLZVqjHF7WIng2F0mIkMKOd7iQru5apHdUTFqjdJ2BjC/kfRIuyO/3vUavz3H9Nb7K64CGp3sj+WnOVA3igT+1jIm2T4yGoICJ8fUSFaM3d8gK84AH8WbYFN1CLEZhi7g57FutHlj3Z52O4Ftp96Ky+L9eL6QurY2LCjQqQfhzj5vElwSlYC3JX5MOIxNtc19J02Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3nQDlgiDAytdd+lSxsQjQzcQyOev/zMJtjKwYo6JUUs=;
- b=wJdmsYUxh2WvdGzvwfdg8+C7Uh1soSc/li5nPTLh18FD76gc0xfLTJ5ENRR2KDc8jjZjjBEDrsBTsVw18QpTcROoFby3jQTCuJHM+bxonLj1BUu6CM6usIJbs6W/DaOvHT413U8hVuV+2Ty4V6f5a45M3Kd+rpXUCvlEncuEhDaRCDWnOTTuRbxEtvR49sapnDlq3mpqcGSOZH0/sxMSQagRYPEi3y5w3tbSh5547PBpKNyKLgDFUl6X8cUBJz8jwwr2fORoM7kvUbPHbpr3K7BNuMXL69Wz3/cwh/3N5+anjZJwSvmE2pv8rHoul9XahaBCqe63FwGPKDBoX/gtzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3nQDlgiDAytdd+lSxsQjQzcQyOev/zMJtjKwYo6JUUs=;
- b=F3dNbmOj2LRWDT5PeBK6BmZ0XVEOSx3QnBnXRAMt6Ni+uSpVTB1RdcnqoDV7h0MqKMBIyiEEm0UoRqcQAbFGijHPjA24+ZA8Yr3bIEMPuIQunN6Gfhfz9+dQBdWNEfFqG2IKaGyHItgqZkqJExxyNjAVU8npkW65k+UWdSBHXdZEKmFdkfptdT+zWQj4h6HaFXSQUUEF0mncdCms1JkpMjNZaAFG33utCjTzKvnWZVaGUq2yq43aeY45EJ7OgIvjpkT7WcMqFyQ5AGMhONUsSlWE90HndAN2FOpF3vRRKKM9yDYINQiMDfbbWgscYnfs3wGCw2PykvyQePLw/kfepA==
-Received: from CY5PR15CA0231.namprd15.prod.outlook.com (2603:10b6:930:88::16)
- by PH7PR12MB8778.namprd12.prod.outlook.com (2603:10b6:510:26b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
- 2025 10:46:20 +0000
-Received: from CY4PEPF0000EDD3.namprd03.prod.outlook.com
- (2603:10b6:930:88:cafe::e9) by CY5PR15CA0231.outlook.office365.com
- (2603:10b6:930:88::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.22 via Frontend Transport; Thu,
- 25 Sep 2025 10:46:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EDD3.mail.protection.outlook.com (10.167.241.199) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.9 via Frontend Transport; Thu, 25 Sep 2025 10:46:19 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 25 Sep
- 2025 03:46:04 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 25 Sep
- 2025 03:46:03 -0700
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Thu, 25
- Sep 2025 03:45:58 -0700
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, "Saeed
- Mahameed" <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq
- Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Gal Pressman
-	<gal@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Moshe Shemesh
-	<moshe@nvidia.com>, Akiva Goldberger <agoldberger@nvidia.com>
-Subject: [PATCH net-next] net/mlx5: Expose uar access and odp page fault counters
-Date: Thu, 25 Sep 2025 13:45:30 +0300
-Message-ID: <1758797130-829564-1-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YSBVZ+3y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758798053;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=LsFjckaZRSZSgvIBBGozNR9QSfDm9ZdOZyuvNGkLoik=;
+	b=YSBVZ+3ynHMzQ6isRHnb4Cw32CrMrNNX9jfwnVxUuYVjnX35B23Syw1LwBikenmr1GXUWi
+	xRzBtVMh9joA7LMSInPL7YMAk6xAY/mY+AitvBgt0no0KsonJMLBhwn/Rli/JcDabcUrcY
+	n/qdjlWV+ERchNoZA0mikQ5ZDu1i36Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-691-r3jzuDvsPT6ENL_u2p8-hw-1; Thu, 25 Sep 2025 07:00:51 -0400
+X-MC-Unique: r3jzuDvsPT6ENL_u2p8-hw-1
+X-Mimecast-MFC-AGG-ID: r3jzuDvsPT6ENL_u2p8-hw_1758798051
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45e037fd142so6242265e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Sep 2025 04:00:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758798050; x=1759402850;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LsFjckaZRSZSgvIBBGozNR9QSfDm9ZdOZyuvNGkLoik=;
+        b=GQnfArHJ4mIIrHO4mTEg6B0+y56DttoF2eAojM/+SkR9D/1FWediaZ3zhLHSfxJrYN
+         cZFB7ES5S0B8d+w2AbBleGYbC9kNUCYrVxJG+cmdi8gSxpzS0mOYfhYljLiNBQV6KH+Z
+         S1Kr51qtgn66XyPwTaYOtkDMGlXIFU8XKJtu8qUgMLDvvVx1G06+uwpUcUWLA7gXUYwE
+         2Dsx0bBJJzeqCBMr0rPPLv1py6AFQ9EHPYxHiPx9/ZQPsAawsehQUQBrZYFGn4VmZq1C
+         zMGsGq73DuzH2eJe3IYDMTtPf0oX6TSg8xXKtZxRVG+N9le5GwhBxceVND0aQaqb37Re
+         WSYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnVVUHRA6e9n2dfd5ewiPQ3cAIEQYbvlByzfBhGZpYBJYK0ZMHjFAmmoTpvVbGDBLQ7wj3r5kzk8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlU82aPHca8VyaCXA8ghPp9zOKsUrfU1QluscJm7LDp0o0inEe
+	UQNBE2RCtJCQTu6W+Dm8xtR5paUxtx9s+m04aDpgmV4QN2RMB9kddllssnV14d39lPSMJE1zvxz
+	4fVqNJNSAoFm1tzJLCkHflEe5pKi5hTTnKeKglbfkLXelw28rr3DOU/r5bpf2Gg==
+X-Gm-Gg: ASbGncswZtA4qKT0NlJmTjr5wzSt82NHh+5+KHqGNAsCP8quDwDP1b0/1XVCwHdrpZ3
+	I8stJGk2hyXWG4V7QyiGjzt6/dL5WPwhdw8gs0O2Kjg4+JcusIB+kHyle+6J01udkJFOvlsXiWD
+	7WvKDOqAB4T6q+WIB8JIOy31G69nJ09rMFLJl/DrGyVWRTKel/2OppIjqaibwapQGr3K1IqwgJe
+	w4HlRTJsCsk/e6Q7NCAdn879rmOU8RsZkVQMIXWavnwJLb3/vH1fzUBtHlllUxEmdenr1rFG1be
+	4KssA9Xx/G/4JgzgPJ5tZxNY9mfax//5rx/o0Yis0i2lC1AKJCEgiKihzIpWeWM4+tnbiaK/aVg
+	1d5jC8hFcLoWKaItWYl6DtA7ZiUJWthxNOPqq9aZiLz3/YEJWa5X0v5+7ptu6AQpKCPHW
+X-Received: by 2002:a05:600c:1554:b0:45d:d6fc:24f7 with SMTP id 5b1f17b1804b1-46e32a158camr31228365e9.32.1758798050129;
+        Thu, 25 Sep 2025 04:00:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBJES16mG0dvjX/+8YEMFt/mXYaxImgtqz08XZYHmHVSOGfz52OI8Lf1kSYhL10lrl8HbeQA==
+X-Received: by 2002:a05:600c:1554:b0:45d:d6fc:24f7 with SMTP id 5b1f17b1804b1-46e32a158camr31227445e9.32.1758798049427;
+        Thu, 25 Sep 2025 04:00:49 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08? (p200300d82f3ff800c1015c9f3bc93d08.dip0.t-ipconnect.de. [2003:d8:2f3f:f800:c101:5c9f:3bc9:3d08])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc6de90desm2659224f8f.47.2025.09.25.04.00.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Sep 2025 04:00:48 -0700 (PDT)
+Message-ID: <a02996f3-fdf4-4b5f-85b6-d79b948b3237@redhat.com>
+Date: Thu, 25 Sep 2025 13:00:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD3:EE_|PH7PR12MB8778:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c244a9f-9767-4e9e-c0d1-08ddfc20c329
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Eeo8KwECGrym9oJffGi3i1lMqbrkQIHhnYGsYG7UpYf2zUSq44/u++90yuF/?=
- =?us-ascii?Q?cIvbCvzHmsBG5n4ic8RBTuBDN6GMAQSfzPbUHPxS2RcSBNYo6tro0+d0y4ON?=
- =?us-ascii?Q?WeQHfWWO6pAQ/dWj6kC8X2Dtc/TuVT89bqvazy/DG0CdcZPC9lMRDaUmVcvo?=
- =?us-ascii?Q?TVoXq0w1KskfYEfGUYZbZMKAfQwR//sIQ51D+hP2FwpWlL+OAKAtpuvh8d6L?=
- =?us-ascii?Q?69vusZ6PdeFKbLbBMe8431Wah63FuYbV56Jm+QHB62IPOXdjnGBYSAf8/w6R?=
- =?us-ascii?Q?v+B/4FYT8KKY98s4i4KxF6Y1DjgiaYvVi3AnSnXeGyU0JVI6nqP+SPZvQLgE?=
- =?us-ascii?Q?dHNpE3D4U9ElvBeWAZVomSkU46nlUTuSIOqHiM+Vc803Ptskckxyc63yGOqH?=
- =?us-ascii?Q?FKPRSjvtqVAO5WabPRzukYrpAIxsEGAeu7138iybgwF/G0mGdXYqRWe7gaRG?=
- =?us-ascii?Q?QbEy9NzgrdqDw3V2tRbAuy2wSzAiZzEm7mKrFbklqXxsDrJKktxaD51yQ7xc?=
- =?us-ascii?Q?KgtUDLsbx6SwWNJd9LxjBb8sEFf0u7ErjkRMi6dIeK6a8fb3WhPi+Nrjp+Ce?=
- =?us-ascii?Q?U4VSwCqniQ4z9FLhziGX2mib3p8DihTfNQk52iyAgcZyeaV/NkBcDBj4yw5q?=
- =?us-ascii?Q?xpA8tWebmV44IIvTPDnTTSwHccDIVBbnrpgVxvBrNDAAdI4wYzaf8xoxDJqt?=
- =?us-ascii?Q?NeBhcOkpzyG7w0CtSHXiQsl4zrocqO8AlbV/cprlotNNFkITyKeLWHrnnCYp?=
- =?us-ascii?Q?k+pT7/9qVcCDG2YTXnddK8K+ubz3eVoVDTNC2eNbZ6FarXZYQU8p5/pnc4bo?=
- =?us-ascii?Q?wYuxKc/bmw92gEytJh9jaO4wYkfdSCvgIoGxbwRdd56dvNWPFTzABRbKfVrQ?=
- =?us-ascii?Q?KpoRx93VYl9D/4mDxbclUqc+eEaHX8x7Ro+NYLuqFyJ7N0TiTJZpW+IwEvaS?=
- =?us-ascii?Q?lhXDB18oxbG/Lvb/J6cTCx8igWaQ4Fgs0JJaOMgLR+St9Swoeg1wp4xTNygy?=
- =?us-ascii?Q?5WzZ8qrKutR3/2Ma4fRpKBlGSM+gisEbu1MQ1oXEelc2o/Kk3hR1S1Ii/t1U?=
- =?us-ascii?Q?3onnXabZTj1SIjejwfQD37ZS0SLEQ9ZS3GjXN28vFh0NlAUpTm76eDxdViws?=
- =?us-ascii?Q?sNspsm3xSRJvXV8IoSY5hHemEVWTAdYEEXSzWiVvuugUHrL6jKPMwDpXd946?=
- =?us-ascii?Q?4dqQnTxGxK8S+iCUv23NpeTOnejHrTeP/PViw0ZBiPNTqcEN7DD/dWpQGYD8?=
- =?us-ascii?Q?HH+PXJq6gxuyfsA5UKfQO+oSN9LqMySuQrUCh1pLkDmAYKiGbO4Ex4Xxjybu?=
- =?us-ascii?Q?D+0N6IapggEUhbM7n65OO3oN+kt5uH6tEjgrJ/J6f4qNjd5uWnVwnXr3Vje+?=
- =?us-ascii?Q?TBNUFne1OcKNVLfyqpdvj+R0vxsOw3svyizGzcC8MtzaQ3yqfMIuoNfjqfMP?=
- =?us-ascii?Q?Hbx48Dmv9jfXhHwqMnw1m4BicRkv2kfUg5uSZ00CVRTWLIDnI/Ih95NtMEvI?=
- =?us-ascii?Q?/WQP1x3O7kTOHpmjhY4iKcrK9KVgin864nud?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:46:19.8639
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c244a9f-9767-4e9e-c0d1-08ddfc20c329
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EDD3.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8778
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 05/12] KVM: guest_memfd: Add flag to remove from direct
+ map
+To: "Roy, Patrick" <roypat@amazon.co.uk>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+ "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+ "surenb@google.com" <surenb@google.com>, "mhocko@suse.com"
+ <mhocko@suse.com>, "song@kernel.org" <song@kernel.org>,
+ "jolsa@kernel.org" <jolsa@kernel.org>, "ast@kernel.org" <ast@kernel.org>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "andrii@kernel.org" <andrii@kernel.org>,
+ "martin.lau@linux.dev" <martin.lau@linux.dev>,
+ "eddyz87@gmail.com" <eddyz87@gmail.com>,
+ "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+ "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+ "kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+ <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
+ "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "jannh@google.com"
+ <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+ "shuah@kernel.org" <shuah@kernel.org>, "seanjc@google.com"
+ <seanjc@google.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "Cali, Marco" <xmarcalx@amazon.co.uk>,
+ "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+ "Thomson, Jack" <jackabt@amazon.co.uk>,
+ "derekmn@amazon.co.uk" <derekmn@amazon.co.uk>,
+ "tabba@google.com" <tabba@google.com>,
+ "ackerleytng@google.com" <ackerleytng@google.com>
+References: <20250924151101.2225820-4-patrick.roy@campus.lmu.de>
+ <20250924152214.7292-1-roypat@amazon.co.uk>
+ <20250924152214.7292-2-roypat@amazon.co.uk>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20250924152214.7292-2-roypat@amazon.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Akiva Goldberger <agoldberger@nvidia.com>
+On 24.09.25 17:22, Roy, Patrick wrote:
+> Add GUEST_MEMFD_FLAG_NO_DIRECT_MAP flag for KVM_CREATE_GUEST_MEMFD()
+> ioctl. When set, guest_memfd folios will be removed from the direct map
+> after preparation, with direct map entries only restored when the folios
+> are freed.
+> 
+> To ensure these folios do not end up in places where the kernel cannot
+> deal with them, set AS_NO_DIRECT_MAP on the guest_memfd's struct
+> address_space if GUEST_MEMFD_FLAG_NO_DIRECT_MAP is requested.
+> 
+> Add KVM_CAP_GUEST_MEMFD_NO_DIRECT_MAP to let userspace discover whether
+> guest_memfd supports GUEST_MEMFD_FLAG_NO_DIRECT_MAP. Support depends on
+> guest_memfd itself being supported, but also on whether linux supports
+> manipulatomg the direct map at page granularity at all (possible most of
+> the time, outliers being arm64 where its impossible if the direct map
+> has been setup using hugepages, as arm64 cannot break these apart due to
+> break-before-make semantics, and powerpc, which does not select
+> ARCH_HAS_SET_DIRECT_MAP, though also doesn't support guest_memfd
+> anyway).
+> 
+> Note that this flag causes removal of direct map entries for all
+> guest_memfd folios independent of whether they are "shared" or "private"
+> (although current guest_memfd only supports either all folios in the
+> "shared" state, or all folios in the "private" state if
+> GUEST_MEMFD_FLAG_MMAP is not set). The usecase for removing direct map
+> entries of also the shared parts of guest_memfd are a special type of
+> non-CoCo VM where, host userspace is trusted to have access to all of
+> guest memory, but where Spectre-style transient execution attacks
+> through the host kernel's direct map should still be mitigated.  In this
+> setup, KVM retains access to guest memory via userspace mappings of
+> guest_memfd, which are reflected back into KVM's memslots via
+> userspace_addr. This is needed for things like MMIO emulation on x86_64
+> to work.
+> 
+> Direct map entries are zapped right before guest or userspace mappings
+> of gmem folios are set up, e.g. in kvm_gmem_fault_user_mapping() or
+> kvm_gmem_get_pfn() [called from the KVM MMU code]. The only place where
+> a gmem folio can be allocated without being mapped anywhere is
+> kvm_gmem_populate(), where handling potential failures of direct map
+> removal is not possible (by the time direct map removal is attempted,
+> the folio is already marked as prepared, meaning attempting to re-try
+> kvm_gmem_populate() would just result in -EEXIST without fixing up the
+> direct map state). These folios are then removed form the direct map
+> upon kvm_gmem_get_pfn(), e.g. when they are mapped into the guest later.
+> 
+> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+> ---
+>   Documentation/virt/kvm/api.rst    |  5 +++
+>   arch/arm64/include/asm/kvm_host.h | 12 ++++++
+>   include/linux/kvm_host.h          |  6 +++
+>   include/uapi/linux/kvm.h          |  2 +
+>   virt/kvm/guest_memfd.c            | 61 ++++++++++++++++++++++++++++++-
+>   virt/kvm/kvm_main.c               |  5 +++
+>   6 files changed, 90 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index c17a87a0a5ac..b52c14d58798 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6418,6 +6418,11 @@ When the capability KVM_CAP_GUEST_MEMFD_MMAP is supported, the 'flags' field
+>   supports GUEST_MEMFD_FLAG_MMAP.  Setting this flag on guest_memfd creation
+>   enables mmap() and faulting of guest_memfd memory to host userspace.
+>   
+> +When the capability KVM_CAP_GMEM_NO_DIRECT_MAP is supported, the 'flags' field
+> +supports GUEST_MEMFG_FLAG_NO_DIRECT_MAP. Setting this flag makes the guest_memfd
+> +instance behave similarly to memfd_secret, and unmaps the memory backing it from
+> +the kernel's address space after allocation.
+> +
 
-Add three counters to vnic health reporter:
-bar_uar_access, odp_local_triggered_page_fault, and
-odp_remote_triggered_page_fault.
+Do we want to document what the implication of that is? Meaning, 
+limitations etc. I recall that we would need the user mapping for gmem 
+slots to be properly set up.
 
-- bar_uar_access
-    number of WRITE or READ access operations to the UAR on the PCIe
-    BAR.
-- odp_local_triggered_page_fault
-    number of locally-triggered page-faults due to ODP.
-- odp_remote_triggered_page_fault
-    number of remotly-triggered page-faults due to ODP.
+Is that still the case in this patch set?
 
-Example access:
-    $ devlink health diagnose pci/0000:08:00.0 reporter vnic
-	vNIC env counters:
-	total_error_queues: 0 send_queue_priority_update_flow: 0
-	comp_eq_overrun: 0 async_eq_overrun: 0 cq_overrun: 0
-	invalid_command: 0 quota_exceeded_command: 0
-	nic_receive_steering_discard: 0 icm_consumption: 1032
-	bar_uar_access: 1279 odp_local_triggered_page_fault: 20
-	odp_remote_triggered_page_fault: 34
+>   When the KVM MMU performs a PFN lookup to service a guest fault and the backing
+>   guest_memfd has the GUEST_MEMFD_FLAG_MMAP set, then the fault will always be
+>   consumed from guest_memfd, regardless of whether it is a shared or a private
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 2f2394cce24e..0bfd8e5fd9de 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -19,6 +19,7 @@
+>   #include <linux/maple_tree.h>
+>   #include <linux/percpu.h>
+>   #include <linux/psci.h>
+> +#include <linux/set_memory.h>
+>   #include <asm/arch_gicv3.h>
+>   #include <asm/barrier.h>
+>   #include <asm/cpufeature.h>
+> @@ -1706,5 +1707,16 @@ void compute_fgu(struct kvm *kvm, enum fgt_group_id fgt);
+>   void get_reg_fixed_bits(struct kvm *kvm, enum vcpu_sysreg reg, u64 *res0, u64 *res1);
+>   void check_feature_map(void);
+>   
+> +#ifdef CONFIG_KVM_GUEST_MEMFD
+> +static inline bool kvm_arch_gmem_supports_no_direct_map(void)
+> +{
+> +	/*
+> +	 * Without FWB, direct map access is needed in kvm_pgtable_stage2_map(),
+> +	 * as it calls dcache_clean_inval_poc().
+> +	 */
+> +	return can_set_direct_map() && cpus_have_final_cap(ARM64_HAS_STAGE2_FWB);
+> +}
+> +#define kvm_arch_gmem_supports_no_direct_map kvm_arch_gmem_supports_no_direct_map
+> +#endif /* CONFIG_KVM_GUEST_MEMFD */
+>   
 
-Signed-off-by: Akiva Goldberger <agoldberger@nvidia.com>
-Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- Documentation/networking/devlink/mlx5.rst                | 6 ++++++
- .../net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c | 9 +++++++++
- 2 files changed, 15 insertions(+)
+I strongly assume that the aarch64 support should be moved to a separate 
+patch -- if possible, see below.
 
-diff --git a/Documentation/networking/devlink/mlx5.rst b/Documentation/networking/devlink/mlx5.rst
-index 41c9b716699e..0e5f9c76e514 100644
---- a/Documentation/networking/devlink/mlx5.rst
-+++ b/Documentation/networking/devlink/mlx5.rst
-@@ -385,6 +385,12 @@ Description of the vnic counters:
-         amount of Interconnect Host Memory (ICM) consumed by the vnic in
-         granularity of 4KB. ICM is host memory allocated by SW upon HCA request
-         and is used for storing data structures that control HCA operation.
-+- bar_uar_access
-+        number of WRITE or READ access operations to the UAR on the PCIe BAR.
-+- odp_local_triggered_page_fault
-+        number of locally-triggered page-faults due to ODP.
-+- odp_remote_triggered_page_fault
-+        number of remotly-triggered page-faults due to ODP.
- 
- User commands examples:
- 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c b/drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c
-index 73f5b62b8c7f..172344734b8c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.c
-@@ -107,6 +107,15 @@ void mlx5_reporter_vnic_diagnose_counters(struct mlx5_core_dev *dev,
- 	}
- 	if (MLX5_CAP_GEN(dev, nic_cap_reg))
- 		mlx5_reporter_vnic_diagnose_counter_icm(dev, fmsg, vport_num, other_vport);
-+	if (MLX5_CAP_GEN(dev, vnic_env_cnt_bar_uar_access))
-+		devlink_fmsg_u32_pair_put(fmsg, "bar_uar_access",
-+					  VNIC_ENV_GET(&vnic, bar_uar_access));
-+	if (MLX5_CAP_GEN(dev, vnic_env_cnt_odp_page_fault)) {
-+		devlink_fmsg_u32_pair_put(fmsg, "odp_local_triggered_page_fault",
-+					  VNIC_ENV_GET(&vnic, odp_local_triggered_page_fault));
-+		devlink_fmsg_u32_pair_put(fmsg, "odp_remote_triggered_page_fault",
-+					  VNIC_ENV_GET(&vnic, odp_remote_triggered_page_fault));
-+	}
- 
- 	devlink_fmsg_obj_nest_end(fmsg);
- 	devlink_fmsg_pair_nest_end(fmsg);
+>   #endif /* __ARM64_KVM_HOST_H__ */
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 1d0585616aa3..73a15cade54a 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -731,6 +731,12 @@ static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+>   bool kvm_arch_supports_gmem_mmap(struct kvm *kvm);
+>   #endif
+>   
+> +#ifdef CONFIG_KVM_GUEST_MEMFD
+> +#ifndef kvm_arch_gmem_supports_no_direct_map
+> +#define kvm_arch_gmem_supports_no_direct_map can_set_direct_map
+> +#endif
 
-base-commit: a1f1f2422e098485b09e55a492de05cf97f9954d
+Hm, wouldn't it be better to have an opt-in per arch, and really only 
+unlock the ones we know work (tested etc), explicitly in separate patches.
+
+
+[...]
+
+>   
+>   #include "kvm_mm.h"
+>   
+> @@ -42,6 +45,44 @@ static int __kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slo
+>   	return 0;
+>   }
+>   
+> +#define KVM_GMEM_FOLIO_NO_DIRECT_MAP BIT(0)
+> +
+> +static bool kvm_gmem_folio_no_direct_map(struct folio *folio)
+> +{
+> +	return ((u64) folio->private) & KVM_GMEM_FOLIO_NO_DIRECT_MAP;
+> +}
+> +
+> +static int kvm_gmem_folio_zap_direct_map(struct folio *folio)
+> +{
+> +	if (kvm_gmem_folio_no_direct_map(folio))
+> +		return 0;
+> +
+> +	int r = set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio),
+> +					 false);
+> +
+> +	if (!r) {
+> +		unsigned long addr = (unsigned long) folio_address(folio);
+
+empty line missing.
+
+> +		folio->private = (void *) ((u64) folio->private & KVM_GMEM_FOLIO_NO_DIRECT_MAP);
+> +		flush_tlb_kernel_range(addr, addr + folio_size(folio));
+> +	}
+> +
+> +	return r;
+> +}
+> +
+> +static void kvm_gmem_folio_restore_direct_map(struct folio *folio)
+> +{
+> +	/*
+> +	 * Direct map restoration cannot fail, as the only error condition
+> +	 * for direct map manipulation is failure to allocate page tables
+> +	 * when splitting huge pages, but this split would have already
+> +	 * happened in set_direct_map_invalid_noflush() in kvm_gmem_folio_zap_direct_map().
+> +	 * Thus set_direct_map_valid_noflush() here only updates prot bits.
+> +	 */
+> +	if (kvm_gmem_folio_no_direct_map(folio))
+> +		set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio),
+> +					 true);
+> +}
+> +
+>   static inline void kvm_gmem_mark_prepared(struct folio *folio)
+>   {
+>   	folio_mark_uptodate(folio);
+> @@ -324,13 +365,14 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+>   	struct inode *inode = file_inode(vmf->vma->vm_file);
+>   	struct folio *folio;
+>   	vm_fault_t ret = VM_FAULT_LOCKED;
+> +	int err;
+>   
+>   	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
+>   		return VM_FAULT_SIGBUS;
+>   
+>   	folio = kvm_gmem_get_folio(inode, vmf->pgoff);
+>   	if (IS_ERR(folio)) {
+> -		int err = PTR_ERR(folio);
+> +		err = PTR_ERR(folio);
+>   
+>   		if (err == -EAGAIN)
+>   			return VM_FAULT_RETRY;
+> @@ -348,6 +390,13 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+>   		kvm_gmem_mark_prepared(folio);
+>   	}
+>   
+> +	err = kvm_gmem_folio_zap_direct_map(folio);
+> +
+
+I'd drop this empty line here.
+
+> +	if (err) {
+> +		ret = vmf_error(err);
+> +		goto out_folio;
+> +	}
+> +
+>   	vmf->page = folio_file_page(folio, vmf->pgoff);
+>   
+>   out_folio:
+> @@ -435,6 +484,8 @@ static void kvm_gmem_free_folio(struct folio *folio)
+>   	kvm_pfn_t pfn = page_to_pfn(page);
+>   	int order = folio_order(folio);
+>   
+> +	kvm_gmem_folio_restore_direct_map(folio);
+> +
+>   	kvm_arch_gmem_invalidate(pfn, pfn + (1ul << order));
+>   }
+>   
+> @@ -499,6 +550,9 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>   	/* Unmovable mappings are supposed to be marked unevictable as well. */
+>   	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+>   
+> +	if (flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP)
+> +		mapping_set_no_direct_map(inode->i_mapping);
+> +
+>   	kvm_get_kvm(kvm);
+>   	gmem->kvm = kvm;
+>   	xa_init(&gmem->bindings);
+> @@ -523,6 +577,9 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
+>   	if (kvm_arch_supports_gmem_mmap(kvm))
+>   		valid_flags |= GUEST_MEMFD_FLAG_MMAP;
+>   
+> +	if (kvm_arch_gmem_supports_no_direct_map())
+> +		valid_flags |= GUEST_MEMFD_FLAG_NO_DIRECT_MAP;
+> +
+>   	if (flags & ~valid_flags)
+>   		return -EINVAL;
+>   
+> @@ -687,6 +744,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>   	if (!is_prepared)
+>   		r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>   
+> +	kvm_gmem_folio_zap_direct_map(folio);
+> +
+>   	folio_unlock(folio);
+>   
+>   	if (!r)
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 18f29ef93543..b5e702d95230 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -65,6 +65,7 @@
+>   #include <trace/events/kvm.h>
+>   
+>   #include <linux/kvm_dirty_ring.h>
+> +#include <linux/set_memory.h>
+
+Likely not required here.
+
 -- 
-2.31.1
+Cheers
+
+David / dhildenb
 
